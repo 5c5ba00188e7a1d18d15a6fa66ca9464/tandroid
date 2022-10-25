@@ -8124,8 +8124,12 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onAnimationEnd$0() {
-            PhotoViewer.this.videoTextureView.setOutlineProvider(null);
-            PhotoViewer.this.textureImageView.setOutlineProvider(null);
+            if (PhotoViewer.this.videoTextureView != null) {
+                PhotoViewer.this.videoTextureView.setOutlineProvider(null);
+            }
+            if (PhotoViewer.this.textureImageView != null) {
+                PhotoViewer.this.textureImageView.setOutlineProvider(null);
+            }
             if (PhotoViewer.this.firstFrameView != null) {
                 PhotoViewer.this.firstFrameView.setOutlineProvider(null);
             }

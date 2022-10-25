@@ -767,74 +767,74 @@ public class DialogCell extends BaseCell {
         return Emoji.replaceEmoji(spannableStringBuilder, Theme.dialogs_messagePaint[this.paintIndex].getFontMetricsInt(), AndroidUtilities.dp(17.0f), false);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:1445:0x0546, code lost:
-        if (r2.post_messages == false) goto L640;
+    /* JADX WARN: Code restructure failed: missing block: B:1457:0x0546, code lost:
+        if (r2.post_messages == false) goto L652;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1451:0x0552, code lost:
-        if (r2.kicked != false) goto L640;
+    /* JADX WARN: Code restructure failed: missing block: B:1463:0x0552, code lost:
+        if (r2.kicked != false) goto L652;
      */
     /* JADX WARN: Removed duplicated region for block: B:102:0x17cc  */
-    /* JADX WARN: Removed duplicated region for block: B:1048:0x0f7b  */
-    /* JADX WARN: Removed duplicated region for block: B:1053:0x0f8c  */
-    /* JADX WARN: Removed duplicated region for block: B:105:0x17d5 A[Catch: Exception -> 0x1874, TryCatch #5 {Exception -> 0x1874, blocks: (B:90:0x1780, B:93:0x178a, B:95:0x1796, B:98:0x17b0, B:100:0x17b9, B:103:0x17cf, B:105:0x17d5, B:106:0x17e1, B:108:0x17f8, B:110:0x17fe, B:113:0x180f, B:115:0x1813, B:116:0x1851, B:118:0x1855, B:120:0x185e, B:121:0x1868, B:509:0x1834), top: B:89:0x1780 }] */
-    /* JADX WARN: Removed duplicated region for block: B:115:0x1813 A[Catch: Exception -> 0x1874, TryCatch #5 {Exception -> 0x1874, blocks: (B:90:0x1780, B:93:0x178a, B:95:0x1796, B:98:0x17b0, B:100:0x17b9, B:103:0x17cf, B:105:0x17d5, B:106:0x17e1, B:108:0x17f8, B:110:0x17fe, B:113:0x180f, B:115:0x1813, B:116:0x1851, B:118:0x1855, B:120:0x185e, B:121:0x1868, B:509:0x1834), top: B:89:0x1780 }] */
-    /* JADX WARN: Removed duplicated region for block: B:1438:0x0536  */
-    /* JADX WARN: Removed duplicated region for block: B:143:0x1a38  */
-    /* JADX WARN: Removed duplicated region for block: B:1448:0x054c  */
-    /* JADX WARN: Removed duplicated region for block: B:1452:0x04f9  */
-    /* JADX WARN: Removed duplicated region for block: B:146:0x1a47  */
-    /* JADX WARN: Removed duplicated region for block: B:1481:0x047f  */
-    /* JADX WARN: Removed duplicated region for block: B:152:0x1a6c  */
-    /* JADX WARN: Removed duplicated region for block: B:156:0x1c36  */
-    /* JADX WARN: Removed duplicated region for block: B:185:0x1d46  */
-    /* JADX WARN: Removed duplicated region for block: B:202:0x1dc8 A[Catch: Exception -> 0x1e98, TryCatch #1 {Exception -> 0x1e98, blocks: (B:188:0x1d5f, B:190:0x1d63, B:193:0x1d7b, B:195:0x1d81, B:197:0x1d94, B:199:0x1da7, B:200:0x1dc3, B:202:0x1dc8, B:204:0x1ddc, B:206:0x1de2, B:208:0x1de6, B:211:0x1df3, B:213:0x1df0, B:216:0x1df6, B:218:0x1dfa, B:221:0x1dff, B:223:0x1e03, B:225:0x1e15, B:226:0x1e27, B:227:0x1e72, B:367:0x1e3f, B:370:0x1e45, B:371:0x1e4c, B:374:0x1e62, B:378:0x1d67, B:380:0x1d6b, B:382:0x1d70), top: B:187:0x1d5f }] */
-    /* JADX WARN: Removed duplicated region for block: B:223:0x1e03 A[Catch: Exception -> 0x1e98, TryCatch #1 {Exception -> 0x1e98, blocks: (B:188:0x1d5f, B:190:0x1d63, B:193:0x1d7b, B:195:0x1d81, B:197:0x1d94, B:199:0x1da7, B:200:0x1dc3, B:202:0x1dc8, B:204:0x1ddc, B:206:0x1de2, B:208:0x1de6, B:211:0x1df3, B:213:0x1df0, B:216:0x1df6, B:218:0x1dfa, B:221:0x1dff, B:223:0x1e03, B:225:0x1e15, B:226:0x1e27, B:227:0x1e72, B:367:0x1e3f, B:370:0x1e45, B:371:0x1e4c, B:374:0x1e62, B:378:0x1d67, B:380:0x1d6b, B:382:0x1d70), top: B:187:0x1d5f }] */
-    /* JADX WARN: Removed duplicated region for block: B:230:0x1ea3  */
-    /* JADX WARN: Removed duplicated region for block: B:290:0x20d5  */
-    /* JADX WARN: Removed duplicated region for block: B:295:0x20e4 A[Catch: Exception -> 0x2123, TryCatch #6 {Exception -> 0x2123, blocks: (B:293:0x20d9, B:295:0x20e4, B:296:0x20e6, B:298:0x20ff, B:300:0x2107, B:302:0x210b), top: B:292:0x20d9 }] */
-    /* JADX WARN: Removed duplicated region for block: B:298:0x20ff A[Catch: Exception -> 0x2123, TryCatch #6 {Exception -> 0x2123, blocks: (B:293:0x20d9, B:295:0x20e4, B:296:0x20e6, B:298:0x20ff, B:300:0x2107, B:302:0x210b), top: B:292:0x20d9 }] */
-    /* JADX WARN: Removed duplicated region for block: B:302:0x210b A[Catch: Exception -> 0x2123, TRY_LEAVE, TryCatch #6 {Exception -> 0x2123, blocks: (B:293:0x20d9, B:295:0x20e4, B:296:0x20e6, B:298:0x20ff, B:300:0x2107, B:302:0x210b), top: B:292:0x20d9 }] */
-    /* JADX WARN: Removed duplicated region for block: B:310:0x212b  */
-    /* JADX WARN: Removed duplicated region for block: B:325:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:326:0x2023  */
-    /* JADX WARN: Removed duplicated region for block: B:373:0x1e5d  */
-    /* JADX WARN: Removed duplicated region for block: B:375:0x1e60  */
-    /* JADX WARN: Removed duplicated region for block: B:418:0x1cef A[LOOP:8: B:416:0x1cea->B:418:0x1cef, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:419:0x1d42 A[EDGE_INSN: B:419:0x1d42->B:183:0x1d42 ?: BREAK  , SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:425:0x1a9a  */
-    /* JADX WARN: Removed duplicated region for block: B:499:0x19b7  */
-    /* JADX WARN: Removed duplicated region for block: B:503:0x1a0c A[LOOP:9: B:501:0x1a07->B:503:0x1a0c, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:504:0x1a30 A[EDGE_INSN: B:504:0x1a30->B:505:0x1a30 ?: BREAK  , SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:506:0x19d5  */
-    /* JADX WARN: Removed duplicated region for block: B:509:0x1834 A[Catch: Exception -> 0x1874, TryCatch #5 {Exception -> 0x1874, blocks: (B:90:0x1780, B:93:0x178a, B:95:0x1796, B:98:0x17b0, B:100:0x17b9, B:103:0x17cf, B:105:0x17d5, B:106:0x17e1, B:108:0x17f8, B:110:0x17fe, B:113:0x180f, B:115:0x1813, B:116:0x1851, B:118:0x1855, B:120:0x185e, B:121:0x1868, B:509:0x1834), top: B:89:0x1780 }] */
-    /* JADX WARN: Removed duplicated region for block: B:511:0x17ce  */
-    /* JADX WARN: Removed duplicated region for block: B:543:0x171c  */
-    /* JADX WARN: Removed duplicated region for block: B:545:0x1652  */
-    /* JADX WARN: Removed duplicated region for block: B:557:0x15ea  */
-    /* JADX WARN: Removed duplicated region for block: B:559:0x15d2  */
-    /* JADX WARN: Removed duplicated region for block: B:561:0x1591  */
+    /* JADX WARN: Removed duplicated region for block: B:105:0x17d5 A[Catch: Exception -> 0x1874, TryCatch #6 {Exception -> 0x1874, blocks: (B:90:0x1780, B:93:0x178a, B:95:0x1796, B:98:0x17b0, B:100:0x17b9, B:103:0x17cf, B:105:0x17d5, B:106:0x17e1, B:108:0x17f8, B:110:0x17fe, B:113:0x180f, B:115:0x1813, B:116:0x1851, B:118:0x1855, B:120:0x185e, B:121:0x1868, B:521:0x1834), top: B:89:0x1780 }] */
+    /* JADX WARN: Removed duplicated region for block: B:1060:0x0f7b  */
+    /* JADX WARN: Removed duplicated region for block: B:1065:0x0f8c  */
+    /* JADX WARN: Removed duplicated region for block: B:115:0x1813 A[Catch: Exception -> 0x1874, TryCatch #6 {Exception -> 0x1874, blocks: (B:90:0x1780, B:93:0x178a, B:95:0x1796, B:98:0x17b0, B:100:0x17b9, B:103:0x17cf, B:105:0x17d5, B:106:0x17e1, B:108:0x17f8, B:110:0x17fe, B:113:0x180f, B:115:0x1813, B:116:0x1851, B:118:0x1855, B:120:0x185e, B:121:0x1868, B:521:0x1834), top: B:89:0x1780 }] */
+    /* JADX WARN: Removed duplicated region for block: B:1450:0x0536  */
+    /* JADX WARN: Removed duplicated region for block: B:1460:0x054c  */
+    /* JADX WARN: Removed duplicated region for block: B:1464:0x04f9  */
+    /* JADX WARN: Removed duplicated region for block: B:1493:0x047f  */
+    /* JADX WARN: Removed duplicated region for block: B:149:0x1a4e  */
+    /* JADX WARN: Removed duplicated region for block: B:152:0x1a5d  */
+    /* JADX WARN: Removed duplicated region for block: B:158:0x1a82  */
+    /* JADX WARN: Removed duplicated region for block: B:162:0x1c4c  */
+    /* JADX WARN: Removed duplicated region for block: B:191:0x1d5c  */
+    /* JADX WARN: Removed duplicated region for block: B:208:0x1dde A[Catch: Exception -> 0x1eae, TryCatch #0 {Exception -> 0x1eae, blocks: (B:194:0x1d75, B:196:0x1d79, B:199:0x1d91, B:201:0x1d97, B:203:0x1daa, B:205:0x1dbd, B:206:0x1dd9, B:208:0x1dde, B:210:0x1df2, B:212:0x1df8, B:214:0x1dfc, B:217:0x1e09, B:219:0x1e06, B:222:0x1e0c, B:224:0x1e10, B:227:0x1e15, B:229:0x1e19, B:231:0x1e2b, B:232:0x1e3d, B:233:0x1e88, B:373:0x1e55, B:376:0x1e5b, B:377:0x1e62, B:380:0x1e78, B:384:0x1d7d, B:386:0x1d81, B:388:0x1d86), top: B:193:0x1d75 }] */
+    /* JADX WARN: Removed duplicated region for block: B:229:0x1e19 A[Catch: Exception -> 0x1eae, TryCatch #0 {Exception -> 0x1eae, blocks: (B:194:0x1d75, B:196:0x1d79, B:199:0x1d91, B:201:0x1d97, B:203:0x1daa, B:205:0x1dbd, B:206:0x1dd9, B:208:0x1dde, B:210:0x1df2, B:212:0x1df8, B:214:0x1dfc, B:217:0x1e09, B:219:0x1e06, B:222:0x1e0c, B:224:0x1e10, B:227:0x1e15, B:229:0x1e19, B:231:0x1e2b, B:232:0x1e3d, B:233:0x1e88, B:373:0x1e55, B:376:0x1e5b, B:377:0x1e62, B:380:0x1e78, B:384:0x1d7d, B:386:0x1d81, B:388:0x1d86), top: B:193:0x1d75 }] */
+    /* JADX WARN: Removed duplicated region for block: B:236:0x1eb9  */
+    /* JADX WARN: Removed duplicated region for block: B:296:0x20eb  */
+    /* JADX WARN: Removed duplicated region for block: B:301:0x20fa A[Catch: Exception -> 0x2139, TryCatch #1 {Exception -> 0x2139, blocks: (B:299:0x20ef, B:301:0x20fa, B:302:0x20fc, B:304:0x2115, B:306:0x211d, B:308:0x2121), top: B:298:0x20ef }] */
+    /* JADX WARN: Removed duplicated region for block: B:304:0x2115 A[Catch: Exception -> 0x2139, TryCatch #1 {Exception -> 0x2139, blocks: (B:299:0x20ef, B:301:0x20fa, B:302:0x20fc, B:304:0x2115, B:306:0x211d, B:308:0x2121), top: B:298:0x20ef }] */
+    /* JADX WARN: Removed duplicated region for block: B:308:0x2121 A[Catch: Exception -> 0x2139, TRY_LEAVE, TryCatch #1 {Exception -> 0x2139, blocks: (B:299:0x20ef, B:301:0x20fa, B:302:0x20fc, B:304:0x2115, B:306:0x211d, B:308:0x2121), top: B:298:0x20ef }] */
+    /* JADX WARN: Removed duplicated region for block: B:316:0x2141  */
+    /* JADX WARN: Removed duplicated region for block: B:331:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:332:0x2039  */
+    /* JADX WARN: Removed duplicated region for block: B:379:0x1e73  */
+    /* JADX WARN: Removed duplicated region for block: B:381:0x1e76  */
+    /* JADX WARN: Removed duplicated region for block: B:424:0x1d05 A[LOOP:8: B:422:0x1d00->B:424:0x1d05, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:425:0x1d58 A[EDGE_INSN: B:425:0x1d58->B:189:0x1d58 ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:431:0x1ab0  */
+    /* JADX WARN: Removed duplicated region for block: B:505:0x19c2  */
+    /* JADX WARN: Removed duplicated region for block: B:509:0x1a17  */
+    /* JADX WARN: Removed duplicated region for block: B:516:0x1a46 A[EDGE_INSN: B:516:0x1a46->B:517:0x1a46 ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:518:0x19e0  */
+    /* JADX WARN: Removed duplicated region for block: B:521:0x1834 A[Catch: Exception -> 0x1874, TryCatch #6 {Exception -> 0x1874, blocks: (B:90:0x1780, B:93:0x178a, B:95:0x1796, B:98:0x17b0, B:100:0x17b9, B:103:0x17cf, B:105:0x17d5, B:106:0x17e1, B:108:0x17f8, B:110:0x17fe, B:113:0x180f, B:115:0x1813, B:116:0x1851, B:118:0x1855, B:120:0x185e, B:121:0x1868, B:521:0x1834), top: B:89:0x1780 }] */
+    /* JADX WARN: Removed duplicated region for block: B:523:0x17ce  */
+    /* JADX WARN: Removed duplicated region for block: B:555:0x171c  */
+    /* JADX WARN: Removed duplicated region for block: B:557:0x1652  */
+    /* JADX WARN: Removed duplicated region for block: B:569:0x15ea  */
+    /* JADX WARN: Removed duplicated region for block: B:571:0x15d2  */
+    /* JADX WARN: Removed duplicated region for block: B:573:0x1591  */
     /* JADX WARN: Removed duplicated region for block: B:61:0x1552  */
-    /* JADX WARN: Removed duplicated region for block: B:624:0x04cd  */
-    /* JADX WARN: Removed duplicated region for block: B:629:0x04d9  */
-    /* JADX WARN: Removed duplicated region for block: B:636:0x0513  */
-    /* JADX WARN: Removed duplicated region for block: B:643:0x0559  */
-    /* JADX WARN: Removed duplicated region for block: B:654:0x1322  */
-    /* JADX WARN: Removed duplicated region for block: B:657:0x1347  */
-    /* JADX WARN: Removed duplicated region for block: B:660:0x1482  */
+    /* JADX WARN: Removed duplicated region for block: B:636:0x04cd  */
+    /* JADX WARN: Removed duplicated region for block: B:641:0x04d9  */
+    /* JADX WARN: Removed duplicated region for block: B:648:0x0513  */
+    /* JADX WARN: Removed duplicated region for block: B:655:0x0559  */
+    /* JADX WARN: Removed duplicated region for block: B:666:0x1322  */
+    /* JADX WARN: Removed duplicated region for block: B:669:0x1347  */
     /* JADX WARN: Removed duplicated region for block: B:66:0x159e  */
-    /* JADX WARN: Removed duplicated region for block: B:675:0x14d7  */
-    /* JADX WARN: Removed duplicated region for block: B:677:0x14ee  */
-    /* JADX WARN: Removed duplicated region for block: B:704:0x135b  */
+    /* JADX WARN: Removed duplicated region for block: B:672:0x1482  */
+    /* JADX WARN: Removed duplicated region for block: B:687:0x14d7  */
+    /* JADX WARN: Removed duplicated region for block: B:689:0x14ee  */
+    /* JADX WARN: Removed duplicated region for block: B:716:0x135b  */
     /* JADX WARN: Removed duplicated region for block: B:72:0x15d7  */
     /* JADX WARN: Removed duplicated region for block: B:75:0x160b  */
-    /* JADX WARN: Removed duplicated region for block: B:772:0x132a  */
-    /* JADX WARN: Removed duplicated region for block: B:782:0x05de  */
+    /* JADX WARN: Removed duplicated region for block: B:784:0x132a  */
     /* JADX WARN: Removed duplicated region for block: B:78:0x1624  */
-    /* JADX WARN: Removed duplicated region for block: B:870:0x082f  */
-    /* JADX WARN: Removed duplicated region for block: B:875:0x130f  */
-    /* JADX WARN: Removed duplicated region for block: B:877:0x0836  */
+    /* JADX WARN: Removed duplicated region for block: B:794:0x05de  */
+    /* JADX WARN: Removed duplicated region for block: B:882:0x082f  */
+    /* JADX WARN: Removed duplicated region for block: B:887:0x130f  */
+    /* JADX WARN: Removed duplicated region for block: B:889:0x0836  */
     /* JADX WARN: Removed duplicated region for block: B:92:0x1789  */
-    /* JADX WARN: Removed duplicated region for block: B:95:0x1796 A[Catch: Exception -> 0x1874, TryCatch #5 {Exception -> 0x1874, blocks: (B:90:0x1780, B:93:0x178a, B:95:0x1796, B:98:0x17b0, B:100:0x17b9, B:103:0x17cf, B:105:0x17d5, B:106:0x17e1, B:108:0x17f8, B:110:0x17fe, B:113:0x180f, B:115:0x1813, B:116:0x1851, B:118:0x1855, B:120:0x185e, B:121:0x1868, B:509:0x1834), top: B:89:0x1780 }] */
+    /* JADX WARN: Removed duplicated region for block: B:95:0x1796 A[Catch: Exception -> 0x1874, TryCatch #6 {Exception -> 0x1874, blocks: (B:90:0x1780, B:93:0x178a, B:95:0x1796, B:98:0x17b0, B:100:0x17b9, B:103:0x17cf, B:105:0x17d5, B:106:0x17e1, B:108:0x17f8, B:110:0x17fe, B:113:0x180f, B:115:0x1813, B:116:0x1851, B:118:0x1855, B:120:0x185e, B:121:0x1868, B:521:0x1834), top: B:89:0x1780 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1737,7 +1737,7 @@ public class DialogCell extends BaseCell {
                                                                                                                 imageReceiverArr = this.thumbImage;
                                                                                                                 if (i15 < imageReceiverArr.length) {
                                                                                                                 }
-                                                                                                                imageReceiverArr[i15].setImageCoords(((i12 + 2) * i15) + dp3, AndroidUtilities.dp(31.0f) + dp, AndroidUtilities.dp(18.0f), AndroidUtilities.dp(18.0f));
+                                                                                                                imageReceiverArr[i15].setImageCoords(((i12 + 2) * i15) + dp3, AndroidUtilities.dp(31.0f) + dp + (this.twoLinesForName ? AndroidUtilities.dp(20.0f) : 0), AndroidUtilities.dp(18.0f), AndroidUtilities.dp(18.0f));
                                                                                                                 i15++;
                                                                                                                 dp = dp;
                                                                                                             }
@@ -2661,7 +2661,7 @@ public class DialogCell extends BaseCell {
                 if (i15 < imageReceiverArr.length) {
                     break;
                 }
-                imageReceiverArr[i15].setImageCoords(((i12 + 2) * i15) + dp3, AndroidUtilities.dp(31.0f) + dp, AndroidUtilities.dp(18.0f), AndroidUtilities.dp(18.0f));
+                imageReceiverArr[i15].setImageCoords(((i12 + 2) * i15) + dp3, AndroidUtilities.dp(31.0f) + dp + (this.twoLinesForName ? AndroidUtilities.dp(20.0f) : 0), AndroidUtilities.dp(18.0f), AndroidUtilities.dp(18.0f));
                 i15++;
                 dp = dp;
             }
@@ -2697,9 +2697,12 @@ public class DialogCell extends BaseCell {
                 if (i38 >= imageReceiverArr3.length) {
                     break;
                 }
+                ImageReceiver imageReceiver = imageReceiverArr3[i38];
+                float f3 = ((i3 + 2) * i38) + dp6;
+                int dp19 = AndroidUtilities.dp(30.0f) + dp16;
                 int i39 = dp16;
-                float f3 = i3;
-                imageReceiverArr3[i38].setImageCoords(((i3 + 2) * i38) + dp6, AndroidUtilities.dp(30.0f) + dp16, AndroidUtilities.dp(f3), AndroidUtilities.dp(f3));
+                float f4 = i3;
+                imageReceiver.setImageCoords(f3, dp19 + (this.twoLinesForName ? AndroidUtilities.dp(20.0f) : 0), AndroidUtilities.dp(f4), AndroidUtilities.dp(f4));
                 i38++;
                 dp16 = i39;
                 dp6 = dp6;
@@ -2720,27 +2723,27 @@ public class DialogCell extends BaseCell {
             }
         }
         if (!this.drawError) {
-            int dp19 = AndroidUtilities.dp(31.0f);
-            i302 -= dp19;
+            int dp20 = AndroidUtilities.dp(31.0f);
+            i302 -= dp20;
             if (!LocaleController.isRTL) {
                 this.errorLeft = getMeasuredWidth() - AndroidUtilities.dp(34.0f);
             } else {
                 this.errorLeft = AndroidUtilities.dp(11.0f);
-                this.messageLeft += dp19;
-                this.messageNameLeft += dp19;
+                this.messageLeft += dp20;
+                this.messageNameLeft += dp20;
             }
         } else if (str11 != null || str10 != null || this.drawReactionMention) {
             if (str11 != null) {
                 this.countWidth = Math.max(AndroidUtilities.dp(12.0f), (int) Math.ceil(Theme.dialogs_countTextPaint.measureText(str11)));
                 this.countLayout = new StaticLayout(str11, Theme.dialogs_countTextPaint, this.countWidth, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
-                int dp20 = this.countWidth + AndroidUtilities.dp(18.0f);
-                i302 -= dp20;
+                int dp21 = this.countWidth + AndroidUtilities.dp(18.0f);
+                i302 -= dp21;
                 if (!LocaleController.isRTL) {
                     this.countLeft = (getMeasuredWidth() - this.countWidth) - AndroidUtilities.dp(20.0f);
                 } else {
                     this.countLeft = AndroidUtilities.dp(20.0f);
-                    this.messageLeft += dp20;
-                    this.messageNameLeft += dp20;
+                    this.messageLeft += dp21;
+                    this.messageNameLeft += dp21;
                 }
                 this.drawCount = true;
             } else {
@@ -2753,26 +2756,26 @@ public class DialogCell extends BaseCell {
                 } else {
                     this.mentionWidth = AndroidUtilities.dp(12.0f);
                 }
-                int dp21 = this.mentionWidth + AndroidUtilities.dp(18.0f);
-                i302 -= dp21;
+                int dp22 = this.mentionWidth + AndroidUtilities.dp(18.0f);
+                i302 -= dp22;
                 if (!LocaleController.isRTL) {
                     int measuredWidth6 = (getMeasuredWidth() - this.mentionWidth) - AndroidUtilities.dp(20.0f);
                     int i40 = this.countWidth;
                     this.mentionLeft = measuredWidth6 - (i40 != 0 ? i40 + AndroidUtilities.dp(18.0f) : 0);
                 } else {
-                    int dp22 = AndroidUtilities.dp(20.0f);
+                    int dp23 = AndroidUtilities.dp(20.0f);
                     int i41 = this.countWidth;
-                    this.mentionLeft = dp22 + (i41 != 0 ? i41 + AndroidUtilities.dp(18.0f) : 0);
-                    this.messageLeft += dp21;
-                    this.messageNameLeft += dp21;
+                    this.mentionLeft = dp23 + (i41 != 0 ? i41 + AndroidUtilities.dp(18.0f) : 0);
+                    this.messageLeft += dp22;
+                    this.messageNameLeft += dp22;
                 }
                 this.drawMention = true;
             } else {
                 this.mentionWidth = 0;
             }
             if (this.drawReactionMention) {
-                int dp23 = AndroidUtilities.dp(24.0f);
-                i302 -= dp23;
+                int dp24 = AndroidUtilities.dp(24.0f);
+                i302 -= dp24;
                 if (!LocaleController.isRTL) {
                     int measuredWidth7 = getMeasuredWidth() - AndroidUtilities.dp(32.0f);
                     this.reactionMentionLeft = measuredWidth7;
@@ -2786,19 +2789,19 @@ public class DialogCell extends BaseCell {
                         this.reactionMentionLeft = i43 - (i44 != 0 ? i44 + AndroidUtilities.dp(18.0f) : 0);
                     }
                 } else {
-                    int dp24 = AndroidUtilities.dp(20.0f);
-                    this.reactionMentionLeft = dp24;
+                    int dp25 = AndroidUtilities.dp(20.0f);
+                    this.reactionMentionLeft = dp25;
                     if (this.drawMention) {
                         int i45 = this.mentionWidth;
-                        this.reactionMentionLeft = dp24 + (i45 != 0 ? i45 + AndroidUtilities.dp(18.0f) : 0);
+                        this.reactionMentionLeft = dp25 + (i45 != 0 ? i45 + AndroidUtilities.dp(18.0f) : 0);
                     }
                     if (this.drawCount) {
                         int i46 = this.reactionMentionLeft;
                         int i47 = this.countWidth;
                         this.reactionMentionLeft = i46 + (i47 != 0 ? i47 + AndroidUtilities.dp(18.0f) : 0);
                     }
-                    this.messageLeft += dp23;
-                    this.messageNameLeft += dp23;
+                    this.messageLeft += dp24;
+                    this.messageNameLeft += dp24;
                 }
             }
         } else {
@@ -2852,14 +2855,14 @@ public class DialogCell extends BaseCell {
             this.messageNameLayout = null;
             if (z13 || SharedConfig.useThreeLinesLayout) {
                 this.messageTop = AndroidUtilities.dp(32.0f);
-                int dp25 = (!this.nameIsEllipsized || !this.isTopic) ? 0 : AndroidUtilities.dp(20.0f);
+                int dp26 = (!this.nameIsEllipsized || !this.isTopic) ? 0 : AndroidUtilities.dp(20.0f);
                 int i48 = 0;
                 while (true) {
                     ImageReceiver[] imageReceiverArr4 = this.thumbImage;
                     if (i48 >= imageReceiverArr4.length) {
                         break;
                     }
-                    imageReceiverArr4[i48].setImageY(i16 + dp25 + AndroidUtilities.dp(21.0f));
+                    imageReceiverArr4[i48].setImageY(i16 + dp26 + AndroidUtilities.dp(21.0f));
                     i48++;
                 }
             } else {
@@ -2910,10 +2913,10 @@ public class DialogCell extends BaseCell {
                 if (staticLayout3 != null && staticLayout3.getLineCount() > 0) {
                     float lineLeft = this.nameLayout.getLineLeft(0);
                     double ceil2 = Math.ceil(this.nameLayout.getLineWidth(0));
-                    int dp26 = this.nameWidth + AndroidUtilities.dp(12.0f);
-                    this.nameWidth = dp26;
+                    int dp27 = this.nameWidth + AndroidUtilities.dp(12.0f);
+                    this.nameWidth = dp27;
                     if (this.nameLayoutEllipsizeByGradient) {
-                        ceil2 = Math.min(dp26, ceil2);
+                        ceil2 = Math.min(dp27, ceil2);
                     }
                     if ((this.dialogMuted || this.drawUnmute) && !this.drawVerified && this.drawScam == 0) {
                         double d = this.nameLeft;
@@ -2921,9 +2924,9 @@ public class DialogCell extends BaseCell {
                         Double.isNaN(d2);
                         Double.isNaN(d);
                         double d3 = d + (d2 - ceil2);
-                        double dp27 = AndroidUtilities.dp(6.0f);
-                        Double.isNaN(dp27);
-                        double d4 = d3 - dp27;
+                        double dp28 = AndroidUtilities.dp(6.0f);
+                        Double.isNaN(dp28);
+                        double d4 = d3 - dp28;
                         double intrinsicWidth5 = Theme.dialogs_muteDrawable.getIntrinsicWidth();
                         Double.isNaN(intrinsicWidth5);
                         this.nameMuteLeft = (int) (d4 - intrinsicWidth5);
@@ -2933,9 +2936,9 @@ public class DialogCell extends BaseCell {
                         Double.isNaN(d6);
                         Double.isNaN(d5);
                         double d7 = d5 + (d6 - ceil2);
-                        double dp28 = AndroidUtilities.dp(6.0f);
-                        Double.isNaN(dp28);
-                        double d8 = d7 - dp28;
+                        double dp29 = AndroidUtilities.dp(6.0f);
+                        Double.isNaN(dp29);
+                        double d8 = d7 - dp29;
                         double intrinsicWidth6 = Theme.dialogs_verifiedDrawable.getIntrinsicWidth();
                         Double.isNaN(intrinsicWidth6);
                         this.nameMuteLeft = (int) (d8 - intrinsicWidth6);
@@ -2947,18 +2950,18 @@ public class DialogCell extends BaseCell {
                         Double.isNaN(d11);
                         Double.isNaN(d9);
                         double d12 = d9 + ((d10 - ceil2) - d11);
-                        double dp29 = AndroidUtilities.dp(24.0f);
-                        Double.isNaN(dp29);
-                        this.nameMuteLeft = (int) (d12 - dp29);
+                        double dp30 = AndroidUtilities.dp(24.0f);
+                        Double.isNaN(dp30);
+                        this.nameMuteLeft = (int) (d12 - dp30);
                     } else if (this.drawScam != 0) {
                         double d13 = this.nameLeft;
                         double d14 = this.nameWidth;
                         Double.isNaN(d14);
                         Double.isNaN(d13);
                         double d15 = d13 + (d14 - ceil2);
-                        double dp30 = AndroidUtilities.dp(6.0f);
-                        Double.isNaN(dp30);
-                        double d16 = d15 - dp30;
+                        double dp31 = AndroidUtilities.dp(6.0f);
+                        Double.isNaN(dp31);
+                        double d16 = d15 - dp31;
                         double intrinsicWidth7 = (this.drawScam == 1 ? Theme.dialogs_scamDrawable : Theme.dialogs_fakeDrawable).getIntrinsicWidth();
                         Double.isNaN(intrinsicWidth7);
                         this.nameMuteLeft = (int) (d16 - intrinsicWidth7);
@@ -3034,11 +3037,11 @@ public class DialogCell extends BaseCell {
                 }
                 StaticLayout staticLayout7 = this.messageLayout;
                 if (staticLayout7 != null && (lineCount = staticLayout7.getLineCount()) > 0) {
-                    float f4 = 2.14748365E9f;
+                    float f5 = 2.14748365E9f;
                     for (int i54 = 0; i54 < lineCount; i54++) {
-                        f4 = Math.min(f4, this.messageLayout.getLineLeft(i54));
+                        f5 = Math.min(f5, this.messageLayout.getLineLeft(i54));
                     }
-                    this.messageLeft = (int) (this.messageLeft - f4);
+                    this.messageLeft = (int) (this.messageLeft - f5);
                 }
                 StaticLayout staticLayout8 = this.messageNameLayout;
                 if (staticLayout8 != null && staticLayout8.getLineCount() > 0) {
@@ -3321,18 +3324,24 @@ public class DialogCell extends BaseCell {
         update(i, true);
     }
 
+    /* JADX WARN: Code restructure failed: missing block: B:270:0x0559, code lost:
+        if ((java.lang.System.currentTimeMillis() - r26.lastDialogChangedTime) > 100) goto L299;
+     */
     /* JADX WARN: Removed duplicated region for block: B:148:0x0291  */
     /* JADX WARN: Removed duplicated region for block: B:175:0x02c8  */
     /* JADX WARN: Removed duplicated region for block: B:218:0x0380  */
     /* JADX WARN: Removed duplicated region for block: B:220:0x0385  */
+    /* JADX WARN: Removed duplicated region for block: B:274:0x06a6  */
+    /* JADX WARN: Removed duplicated region for block: B:298:0x06a8  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void update(int i, boolean z) {
         long j;
+        boolean z2;
         TLRPC$Chat tLRPC$Chat;
         TLRPC$Chat chat;
-        boolean z2;
+        boolean z3;
         MessageObject messageObject;
         int i2;
         int i3;
@@ -3342,14 +3351,14 @@ public class DialogCell extends BaseCell {
         TLRPC$Chat chat2;
         MessageObject messageObject2;
         CustomDialog customDialog = this.customDialog;
-        boolean z3 = true;
+        boolean z4 = true;
         if (customDialog != null) {
             this.lastMessageDate = customDialog.date;
             int i7 = customDialog.unread_count;
             if (i7 == 0) {
-                z3 = false;
+                z4 = false;
             }
-            this.lastUnreadState = z3;
+            this.lastUnreadState = z4;
             this.unreadCount = i7;
             this.drawPin = customDialog.pinned;
             this.dialogMuted = customDialog.muted;
@@ -3369,8 +3378,8 @@ public class DialogCell extends BaseCell {
             this.drawUnmute = false;
         } else {
             int i9 = this.unreadCount;
-            boolean z4 = this.reactionMentionCount != 0;
-            boolean z5 = this.markUnread;
+            boolean z5 = this.reactionMentionCount != 0;
+            boolean z6 = this.markUnread;
             this.hasUnmutedTopics = false;
             if (this.isDialogCell) {
                 TLRPC$Dialog tLRPC$Dialog = MessagesController.getInstance(this.currentAccount).dialogs_dict.get(this.currentDialogId);
@@ -3460,33 +3469,33 @@ public class DialogCell extends BaseCell {
                     CharSequence printingString = MessagesController.getInstance(this.currentAccount).getPrintingString(this.currentDialogId, 0, true);
                     CharSequence charSequence = this.lastPrintString;
                     if ((charSequence != null && printingString == null) || ((charSequence == null && printingString != null) || (charSequence != null && !charSequence.equals(printingString)))) {
-                        z2 = true;
-                        if (!z2 && (i & MessagesController.UPDATE_MASK_MESSAGE_TEXT) != 0 && (messageObject2 = this.message) != null && messageObject2.messageText != this.lastMessageString) {
-                            z2 = true;
+                        z3 = true;
+                        if (!z3 && (i & MessagesController.UPDATE_MASK_MESSAGE_TEXT) != 0 && (messageObject2 = this.message) != null && messageObject2.messageText != this.lastMessageString) {
+                            z3 = true;
                         }
-                        if (!z2 && (i & MessagesController.UPDATE_MASK_CHAT) != 0 && this.chat != null) {
+                        if (!z3 && (i & MessagesController.UPDATE_MASK_CHAT) != 0 && this.chat != null) {
                             chat2 = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(this.chat.id));
                             if ((!chat2.call_active && chat2.call_not_empty) != this.hasCall) {
-                                z2 = true;
+                                z3 = true;
                             }
                         }
-                        if (!z2 && (i & MessagesController.UPDATE_MASK_AVATAR) != 0 && this.chat == null) {
-                            z2 = true;
+                        if (!z3 && (i & MessagesController.UPDATE_MASK_AVATAR) != 0 && this.chat == null) {
+                            z3 = true;
                         }
-                        if (!z2 && (i & MessagesController.UPDATE_MASK_NAME) != 0 && this.chat == null) {
-                            z2 = true;
+                        if (!z3 && (i & MessagesController.UPDATE_MASK_NAME) != 0 && this.chat == null) {
+                            z3 = true;
                         }
-                        if (!z2 && (i & MessagesController.UPDATE_MASK_CHAT_AVATAR) != 0 && this.user == null) {
-                            z2 = true;
+                        if (!z3 && (i & MessagesController.UPDATE_MASK_CHAT_AVATAR) != 0 && this.user == null) {
+                            z3 = true;
                         }
-                        if (!z2 && (i & MessagesController.UPDATE_MASK_CHAT_NAME) != 0 && this.user == null) {
-                            z2 = true;
+                        if (!z3 && (i & MessagesController.UPDATE_MASK_CHAT_NAME) != 0 && this.user == null) {
+                            z3 = true;
                         }
-                        if (!z2) {
+                        if (!z3) {
                             MessageObject messageObject6 = this.message;
                             if (messageObject6 != null && this.lastUnreadState != messageObject6.isUnread()) {
                                 this.lastUnreadState = this.message.isUnread();
-                                z2 = true;
+                                z3 = true;
                             }
                             if (this.isDialogCell) {
                                 TLRPC$Dialog tLRPC$Dialog2 = MessagesController.getInstance(this.currentAccount).dialogs_dict.get(this.currentDialogId);
@@ -3517,54 +3526,54 @@ public class DialogCell extends BaseCell {
                                     this.mentionCount = i6;
                                     this.markUnread = tLRPC$Dialog2.unread_mark;
                                     this.reactionMentionCount = i4;
-                                    z2 = true;
+                                    z3 = true;
                                 }
                             }
                         }
-                        if (!z2 && (i & MessagesController.UPDATE_MASK_SEND_STATE) != 0 && (messageObject = this.message) != null) {
+                        if (!z3 && (i & MessagesController.UPDATE_MASK_SEND_STATE) != 0 && (messageObject = this.message) != null) {
                             i2 = this.lastSendState;
                             i3 = messageObject.messageOwner.send_state;
                             if (i2 != i3) {
                                 this.lastSendState = i3;
-                                z2 = true;
+                                z3 = true;
                             }
                         }
-                        if (!z2) {
+                        if (!z3) {
                             invalidate();
                             return;
                         }
                     }
                 }
-                z2 = false;
-                if (!z2) {
-                    z2 = true;
+                z3 = false;
+                if (!z3) {
+                    z3 = true;
                 }
-                if (!z2) {
+                if (!z3) {
                     chat2 = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(this.chat.id));
                     if ((!chat2.call_active && chat2.call_not_empty) != this.hasCall) {
                     }
                 }
-                if (!z2) {
-                    z2 = true;
+                if (!z3) {
+                    z3 = true;
                 }
-                if (!z2) {
-                    z2 = true;
+                if (!z3) {
+                    z3 = true;
                 }
-                if (!z2) {
-                    z2 = true;
+                if (!z3) {
+                    z3 = true;
                 }
-                if (!z2) {
-                    z2 = true;
+                if (!z3) {
+                    z3 = true;
                 }
-                if (!z2) {
+                if (!z3) {
                 }
-                if (!z2) {
+                if (!z3) {
                     i2 = this.lastSendState;
                     i3 = messageObject.messageOwner.send_state;
                     if (i2 != i3) {
                     }
                 }
-                if (!z2) {
+                if (!z3) {
                 }
             }
             this.user = null;
@@ -3639,7 +3648,14 @@ public class DialogCell extends BaseCell {
                     }
                 }
             }
-            if (z && ((i9 != this.unreadCount || z5 != this.markUnread) && (!this.isDialogCell || System.currentTimeMillis() - this.lastDialogChangedTime > 100))) {
+            if (!z || (i9 == this.unreadCount && z6 == this.markUnread)) {
+                z2 = z5;
+            } else {
+                if (this.isDialogCell) {
+                    z2 = z5;
+                } else {
+                    z2 = z5;
+                }
                 ValueAnimator valueAnimator = this.countAnimator;
                 if (valueAnimator != null) {
                     valueAnimator.cancel();
@@ -3662,7 +3678,7 @@ public class DialogCell extends BaseCell {
                         DialogCell.this.invalidate();
                     }
                 });
-                if ((i9 == 0 || this.markUnread) && (this.markUnread || !z5)) {
+                if ((i9 == 0 || this.markUnread) && (this.markUnread || !z6)) {
                     this.countAnimator.setDuration(220L);
                     this.countAnimator.setInterpolator(new OvershootInterpolator());
                 } else if (this.unreadCount == 0) {
@@ -3673,14 +3689,14 @@ public class DialogCell extends BaseCell {
                     this.countAnimator.setInterpolator(CubicBezierInterpolator.DEFAULT);
                 }
                 if (this.drawCount && this.drawCount2 && this.countLayout != null) {
-                    String valueOf = String.valueOf(i9);
-                    String valueOf2 = String.valueOf(this.unreadCount);
-                    if (valueOf.length() == valueOf2.length()) {
-                        SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(valueOf);
-                        SpannableStringBuilder spannableStringBuilder2 = new SpannableStringBuilder(valueOf2);
-                        SpannableStringBuilder spannableStringBuilder3 = new SpannableStringBuilder(valueOf2);
-                        for (int i12 = 0; i12 < valueOf.length(); i12++) {
-                            if (valueOf.charAt(i12) == valueOf2.charAt(i12)) {
+                    String format = String.format("%d", Integer.valueOf(i9));
+                    String format2 = String.format("%d", Integer.valueOf(this.unreadCount));
+                    if (format.length() == format2.length()) {
+                        SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(format);
+                        SpannableStringBuilder spannableStringBuilder2 = new SpannableStringBuilder(format2);
+                        SpannableStringBuilder spannableStringBuilder3 = new SpannableStringBuilder(format2);
+                        for (int i12 = 0; i12 < format.length(); i12++) {
+                            if (format.charAt(i12) == format2.charAt(i12)) {
                                 int i13 = i12 + 1;
                                 spannableStringBuilder.setSpan(new EmptyStubSpan(), i12, i13, 0);
                                 spannableStringBuilder2.setSpan(new EmptyStubSpan(), i12, i13, 0);
@@ -3688,7 +3704,7 @@ public class DialogCell extends BaseCell {
                                 spannableStringBuilder3.setSpan(new EmptyStubSpan(), i12, i12 + 1, 0);
                             }
                         }
-                        int max = Math.max(AndroidUtilities.dp(12.0f), (int) Math.ceil(Theme.dialogs_countTextPaint.measureText(valueOf)));
+                        int max = Math.max(AndroidUtilities.dp(12.0f), (int) Math.ceil(Theme.dialogs_countTextPaint.measureText(format)));
                         this.countOldLayout = new StaticLayout(spannableStringBuilder, Theme.dialogs_countTextPaint, max, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
                         this.countAnimationStableLayout = new StaticLayout(spannableStringBuilder3, Theme.dialogs_countTextPaint, max, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
                         this.countAnimationInLayout = new StaticLayout(spannableStringBuilder2, Theme.dialogs_countTextPaint, max, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
@@ -3700,39 +3716,44 @@ public class DialogCell extends BaseCell {
                 this.countLeftOld = this.countLeft;
                 this.countAnimationIncrement = this.unreadCount > i9;
                 this.countAnimator.start();
-            }
-            boolean z6 = this.reactionMentionCount != 0;
-            if (z && z6 != z4) {
-                ValueAnimator valueAnimator2 = this.reactionsMentionsAnimator;
-                if (valueAnimator2 != null) {
-                    valueAnimator2.cancel();
-                }
-                this.reactionsMentionsChangeProgress = 0.0f;
-                ValueAnimator ofFloat2 = ValueAnimator.ofFloat(0.0f, 1.0f);
-                this.reactionsMentionsAnimator = ofFloat2;
-                ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Cells.DialogCell$$ExternalSyntheticLambda2
-                    @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                    public final void onAnimationUpdate(ValueAnimator valueAnimator3) {
-                        DialogCell.this.lambda$update$2(valueAnimator3);
+                boolean z7 = this.reactionMentionCount == 0;
+                if (!z && z7 != z2) {
+                    ValueAnimator valueAnimator2 = this.reactionsMentionsAnimator;
+                    if (valueAnimator2 != null) {
+                        valueAnimator2.cancel();
                     }
-                });
-                this.reactionsMentionsAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.DialogCell.2
-                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                    public void onAnimationEnd(Animator animator) {
-                        DialogCell.this.reactionsMentionsChangeProgress = 1.0f;
-                        DialogCell.this.invalidate();
+                    this.reactionsMentionsChangeProgress = 0.0f;
+                    ValueAnimator ofFloat2 = ValueAnimator.ofFloat(0.0f, 1.0f);
+                    this.reactionsMentionsAnimator = ofFloat2;
+                    ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Cells.DialogCell$$ExternalSyntheticLambda2
+                        @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                        public final void onAnimationUpdate(ValueAnimator valueAnimator3) {
+                            DialogCell.this.lambda$update$2(valueAnimator3);
+                        }
+                    });
+                    this.reactionsMentionsAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.DialogCell.2
+                        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                        public void onAnimationEnd(Animator animator) {
+                            DialogCell.this.reactionsMentionsChangeProgress = 1.0f;
+                            DialogCell.this.invalidate();
+                        }
+                    });
+                    if (z7) {
+                        this.reactionsMentionsAnimator.setDuration(220L);
+                        this.reactionsMentionsAnimator.setInterpolator(new OvershootInterpolator());
+                    } else {
+                        this.reactionsMentionsAnimator.setDuration(150L);
+                        this.reactionsMentionsAnimator.setInterpolator(CubicBezierInterpolator.DEFAULT);
                     }
-                });
-                if (z6) {
-                    this.reactionsMentionsAnimator.setDuration(220L);
-                    this.reactionsMentionsAnimator.setInterpolator(new OvershootInterpolator());
-                } else {
-                    this.reactionsMentionsAnimator.setDuration(150L);
-                    this.reactionsMentionsAnimator.setInterpolator(CubicBezierInterpolator.DEFAULT);
+                    this.reactionsMentionsAnimator.start();
                 }
-                this.reactionsMentionsAnimator.start();
+                this.avatarImage.setRoundRadius(AndroidUtilities.dp((this.isDialogCell || (tLRPC$Chat = this.chat) == null || !tLRPC$Chat.forum || this.currentDialogFolderId != 0) ? 28.0f : 16.0f));
             }
-            this.avatarImage.setRoundRadius(AndroidUtilities.dp((!this.isDialogCell || (tLRPC$Chat = this.chat) == null || !tLRPC$Chat.forum || this.currentDialogFolderId != 0) ? 28.0f : 16.0f));
+            if (this.reactionMentionCount == 0) {
+            }
+            if (!z) {
+            }
+            this.avatarImage.setRoundRadius(AndroidUtilities.dp((this.isDialogCell || (tLRPC$Chat = this.chat) == null || !tLRPC$Chat.forum || this.currentDialogFolderId != 0) ? 28.0f : 16.0f));
         }
         if (!this.isTopic && (getMeasuredWidth() != 0 || getMeasuredHeight() != 0)) {
             buildLayout();

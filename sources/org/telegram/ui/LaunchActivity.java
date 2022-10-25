@@ -1829,10 +1829,10 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:1081:0x1686, code lost:
-        if (r2 == 0) goto L1092;
+    /* JADX WARN: Code restructure failed: missing block: B:1090:0x16ae, code lost:
+        if (r2 == 0) goto L1105;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:140:0x1efe, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:140:0x1f4c, code lost:
         if (r1.checkCanOpenChat(r0, r2.get(r2.size() - r3)) != false) goto L141;
      */
     /* JADX WARN: Code restructure failed: missing block: B:389:0x0330, code lost:
@@ -1842,46 +1842,50 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         if (r1.equals(r0) != false) goto L48;
      */
     /* JADX WARN: Code restructure failed: missing block: B:714:0x09bf, code lost:
-        if (r7 == 0) goto L719;
+        if (r7 == 0) goto L724;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:733:0x0a51, code lost:
-        if (r7 == 0) goto L746;
+    /* JADX WARN: Code restructure failed: missing block: B:738:0x0a66, code lost:
+        if (r7 == 0) goto L755;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:83:0x1e83, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:83:0x1ed1, code lost:
         if (r1.checkCanOpenChat(r0, r2.get(r2.size() - r3)) != false) goto L123;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:1037:0x15ee A[Catch: Exception -> 0x15fc, TRY_LEAVE, TryCatch #18 {Exception -> 0x15fc, blocks: (B:1035:0x15e2, B:1037:0x15ee), top: B:1034:0x15e2 }] */
-    /* JADX WARN: Removed duplicated region for block: B:104:0x2384  */
-    /* JADX WARN: Removed duplicated region for block: B:114:0x23dd  */
-    /* JADX WARN: Removed duplicated region for block: B:116:0x23e5  */
-    /* JADX WARN: Removed duplicated region for block: B:1197:0x03f6  */
-    /* JADX WARN: Removed duplicated region for block: B:1217:0x0521  */
-    /* JADX WARN: Removed duplicated region for block: B:132:0x1ec9  */
-    /* JADX WARN: Removed duplicated region for block: B:208:0x20b8  */
-    /* JADX WARN: Removed duplicated region for block: B:211:0x20d5  */
-    /* JADX WARN: Removed duplicated region for block: B:214:0x20e6  */
-    /* JADX WARN: Removed duplicated region for block: B:215:0x20c7  */
+    /* JADX WARN: Removed duplicated region for block: B:1046:0x1616 A[Catch: Exception -> 0x1624, TRY_LEAVE, TryCatch #13 {Exception -> 0x1624, blocks: (B:1044:0x160a, B:1046:0x1616), top: B:1043:0x160a }] */
+    /* JADX WARN: Removed duplicated region for block: B:104:0x23d2  */
+    /* JADX WARN: Removed duplicated region for block: B:1138:0x18f4  */
+    /* JADX WARN: Removed duplicated region for block: B:1140:0x192c  */
+    /* JADX WARN: Removed duplicated region for block: B:114:0x242b  */
+    /* JADX WARN: Removed duplicated region for block: B:116:0x2433  */
+    /* JADX WARN: Removed duplicated region for block: B:1214:0x03f6  */
+    /* JADX WARN: Removed duplicated region for block: B:1234:0x0521  */
+    /* JADX WARN: Removed duplicated region for block: B:132:0x1f17  */
+    /* JADX WARN: Removed duplicated region for block: B:208:0x2106  */
+    /* JADX WARN: Removed duplicated region for block: B:211:0x2123  */
+    /* JADX WARN: Removed duplicated region for block: B:214:0x2134  */
+    /* JADX WARN: Removed duplicated region for block: B:215:0x2115  */
     /* JADX WARN: Removed duplicated region for block: B:306:0x01c5  */
     /* JADX WARN: Removed duplicated region for block: B:313:0x01fe  */
     /* JADX WARN: Removed duplicated region for block: B:388:0x032e  */
     /* JADX WARN: Removed duplicated region for block: B:393:0x01f0  */
-    /* JADX WARN: Removed duplicated region for block: B:464:0x199b  */
+    /* JADX WARN: Removed duplicated region for block: B:464:0x19e9  */
     /* JADX WARN: Removed duplicated region for block: B:46:0x0157  */
-    /* JADX WARN: Removed duplicated region for block: B:505:0x1ac2 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:563:0x1b96  */
-    /* JADX WARN: Removed duplicated region for block: B:565:0x1ba6  */
-    /* JADX WARN: Removed duplicated region for block: B:568:0x19dd  */
+    /* JADX WARN: Removed duplicated region for block: B:505:0x1b10 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:563:0x1be4  */
+    /* JADX WARN: Removed duplicated region for block: B:565:0x1bf4  */
+    /* JADX WARN: Removed duplicated region for block: B:568:0x1a2b  */
     /* JADX WARN: Removed duplicated region for block: B:582:0x073c  */
     /* JADX WARN: Removed duplicated region for block: B:61:0x0337  */
-    /* JADX WARN: Removed duplicated region for block: B:624:0x0828 A[Catch: Exception -> 0x0836, TRY_LEAVE, TryCatch #1 {Exception -> 0x0836, blocks: (B:622:0x081c, B:624:0x0828), top: B:621:0x081c }] */
+    /* JADX WARN: Removed duplicated region for block: B:624:0x0828 A[Catch: Exception -> 0x0836, TRY_LEAVE, TryCatch #5 {Exception -> 0x0836, blocks: (B:622:0x081c, B:624:0x0828), top: B:621:0x081c }] */
     /* JADX WARN: Removed duplicated region for block: B:637:0x0835  */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x1e20  */
-    /* JADX WARN: Removed duplicated region for block: B:75:0x1e4f  */
-    /* JADX WARN: Removed duplicated region for block: B:87:0x232d A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:90:0x2335  */
-    /* JADX WARN: Removed duplicated region for block: B:939:0x1223 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:97:0x23d1  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x1e6e  */
+    /* JADX WARN: Removed duplicated region for block: B:750:0x0af8  */
+    /* JADX WARN: Removed duplicated region for block: B:752:0x0b15  */
+    /* JADX WARN: Removed duplicated region for block: B:75:0x1e9d  */
+    /* JADX WARN: Removed duplicated region for block: B:87:0x237b A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:90:0x2383  */
+    /* JADX WARN: Removed duplicated region for block: B:948:0x124b A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:97:0x241f  */
     /* JADX WARN: Type inference failed for: r0v19, types: [org.telegram.ui.ActionBar.DrawerLayoutContainer] */
     /* JADX WARN: Type inference failed for: r0v24, types: [org.telegram.ui.ActionBar.INavigationLayout] */
     /* JADX WARN: Type inference failed for: r0v25, types: [org.telegram.ui.ActionBar.INavigationLayout] */
@@ -1889,7 +1893,6 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     /* JADX WARN: Type inference failed for: r0v311, types: [java.lang.Integer] */
     /* JADX WARN: Type inference failed for: r0v33, types: [org.telegram.ui.ActionBar.DrawerLayoutContainer] */
     /* JADX WARN: Type inference failed for: r0v491, types: [java.lang.Integer] */
-    /* JADX WARN: Type inference failed for: r0v499, types: [java.lang.Integer] */
     /* JADX WARN: Type inference failed for: r0v58, types: [org.telegram.ui.ActionBar.DrawerLayoutContainer] */
     /* JADX WARN: Type inference failed for: r0v60, types: [org.telegram.ui.ActionBar.INavigationLayout] */
     /* JADX WARN: Type inference failed for: r0v65, types: [org.telegram.ui.ActionBar.DrawerLayoutContainer] */
@@ -1908,17 +1911,14 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     /* JADX WARN: Type inference failed for: r0v94, types: [org.telegram.ui.ActionBar.INavigationLayout] */
     /* JADX WARN: Type inference failed for: r11v7, types: [android.content.Intent] */
     /* JADX WARN: Type inference failed for: r1v180, types: [java.lang.Integer] */
-    /* JADX WARN: Type inference failed for: r1v183, types: [java.lang.Integer] */
-    /* JADX WARN: Type inference failed for: r1v189, types: [java.util.HashMap] */
-    /* JADX WARN: Type inference failed for: r1v204, types: [java.lang.Long] */
-    /* JADX WARN: Type inference failed for: r1v211, types: [org.telegram.tgnet.TLRPC$TL_wallPaper, org.telegram.tgnet.TLRPC$WallPaper] */
-    /* JADX WARN: Type inference failed for: r1v272, types: [java.util.HashMap] */
-    /* JADX WARN: Type inference failed for: r1v393, types: [java.lang.Integer] */
-    /* JADX WARN: Type inference failed for: r1v402, types: [java.lang.Integer] */
-    /* JADX WARN: Type inference failed for: r1v409, types: [java.lang.Integer] */
-    /* JADX WARN: Type inference failed for: r1v421, types: [org.telegram.tgnet.TLRPC$TL_wallPaper, org.telegram.tgnet.TLRPC$WallPaper] */
-    /* JADX WARN: Type inference failed for: r2v131, types: [java.lang.Integer] */
-    /* JADX WARN: Type inference failed for: r2v239, types: [java.lang.Long] */
+    /* JADX WARN: Type inference failed for: r1v195, types: [java.util.HashMap] */
+    /* JADX WARN: Type inference failed for: r1v210, types: [java.lang.Long] */
+    /* JADX WARN: Type inference failed for: r1v217, types: [org.telegram.tgnet.TLRPC$TL_wallPaper, org.telegram.tgnet.TLRPC$WallPaper] */
+    /* JADX WARN: Type inference failed for: r1v278, types: [java.util.HashMap] */
+    /* JADX WARN: Type inference failed for: r1v414, types: [java.lang.Integer] */
+    /* JADX WARN: Type inference failed for: r1v421, types: [java.lang.Integer] */
+    /* JADX WARN: Type inference failed for: r1v433, types: [org.telegram.tgnet.TLRPC$TL_wallPaper, org.telegram.tgnet.TLRPC$WallPaper] */
+    /* JADX WARN: Type inference failed for: r2v244, types: [java.lang.Long] */
     /* JADX WARN: Type inference failed for: r2v25, types: [org.telegram.ui.ActionBar.INavigationLayout$NavigationParams] */
     /* JADX WARN: Type inference failed for: r2v31, types: [org.telegram.ui.ActionBar.INavigationLayout$NavigationParams] */
     /* JADX WARN: Type inference failed for: r2v34, types: [org.telegram.ui.ActionBar.INavigationLayout$NavigationParams] */
@@ -1926,11 +1926,17 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     /* JADX WARN: Type inference failed for: r2v50, types: [org.telegram.ui.ActionBar.INavigationLayout$NavigationParams] */
     /* JADX WARN: Type inference failed for: r2v52, types: [org.telegram.ui.ActionBar.INavigationLayout$NavigationParams] */
     /* JADX WARN: Type inference failed for: r2v62, types: [org.telegram.ui.ActionBar.INavigationLayout$NavigationParams] */
+    /* JADX WARN: Type inference failed for: r30v56 */
+    /* JADX WARN: Type inference failed for: r30v57 */
+    /* JADX WARN: Type inference failed for: r30v60 */
     /* JADX WARN: Type inference failed for: r3v0 */
     /* JADX WARN: Type inference failed for: r3v1, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r3v10 */
     /* JADX WARN: Type inference failed for: r3v13 */
     /* JADX WARN: Type inference failed for: r3v14 */
+    /* JADX WARN: Type inference failed for: r40v38 */
+    /* JADX WARN: Type inference failed for: r40v39 */
+    /* JADX WARN: Type inference failed for: r40v43 */
     /* JADX WARN: Type inference failed for: r7v57, types: [java.lang.Integer] */
     /* JADX WARN: Type inference failed for: r8v13, types: [android.os.Bundle, java.lang.String] */
     /* JADX WARN: Type inference failed for: r8v21 */
@@ -1938,9 +1944,9 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     /* JADX WARN: Type inference failed for: r8v39 */
     /* JADX WARN: Type inference failed for: r8v46 */
     /* JADX WARN: Type inference failed for: r9v12 */
-    /* JADX WARN: Type inference failed for: r9v210 */
-    /* JADX WARN: Type inference failed for: r9v218 */
+    /* JADX WARN: Type inference failed for: r9v211 */
     /* JADX WARN: Type inference failed for: r9v219 */
+    /* JADX WARN: Type inference failed for: r9v220 */
     /* JADX WARN: Type inference failed for: r9v4, types: [boolean, int] */
     @SuppressLint({"Range"})
     /*
@@ -2042,9 +2048,10 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         boolean z31;
         String str22;
         String str23;
-        String str24;
+        Integer num;
         int i10;
         char c5;
+        String str24;
         String str25;
         String str26;
         String str27;
@@ -2056,19 +2063,22 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         String str33;
         String str34;
         String str35;
-        String str36;
         int i11;
+        String str36;
         String str37;
         String str38;
         String str39;
-        String str40;
         final TLRPC$TL_account_sendConfirmPhoneCode tLRPC$TL_account_sendConfirmPhoneCode;
         Cursor query;
         boolean z32;
         char c6;
         long j11;
+        Integer num2;
+        ?? parseInt;
+        Integer num3;
+        String str40;
         String str41;
-        String str42;
+        Integer num4;
         boolean z33;
         String queryParameter;
         String queryParameter2;
@@ -2077,12 +2087,13 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         int i12;
         long j12;
         long j13;
-        int parseInt;
+        int parseInt2;
         boolean z35;
         long j14;
         boolean z36;
         boolean z37;
         boolean z38;
+        String str42;
         String str43;
         String str44;
         String str45;
@@ -2097,28 +2108,31 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         String str54;
         String str55;
         String str56;
-        String str57;
         int i13;
-        String str58;
+        String str57;
         boolean z39;
+        String str58;
         String str59;
         String str60;
         String str61;
         String str62;
         String str63;
         String str64;
+        Integer num5;
         String str65;
         String str66;
-        String str67;
-        String str68;
+        ?? r40;
         int i14;
         int i15;
+        String str67;
+        ?? r30;
+        ?? parseInt3;
+        Integer num6;
+        Integer num7;
+        String str68;
         String str69;
         String str70;
         String str71;
-        String str72;
-        String str73;
-        String str74;
         boolean z40;
         String queryParameter3;
         String queryParameter4;
@@ -2131,8 +2145,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         boolean z41;
         Pattern compile2;
         CharSequence charSequenceExtra;
-        String str75;
-        String str76;
+        String str72;
+        String str73;
         if (AndroidUtilities.handleProxyIntent(this, intent)) {
             this.actionBarLayout.rebuildFragments(1);
             if (AndroidUtilities.isTablet()) {
@@ -2172,9 +2186,9 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         this.importingStickers = null;
         this.importingStickersEmoji = null;
         this.importingStickersSoftware = null;
-        String str77 = "message_id";
+        String str74 = "message_id";
         if ((1048576 & flags) == 0 && intent.getAction() != null && !z2) {
-            String str78 = "";
+            String str75 = "";
             if ("android.intent.action.SEND".equals(intent.getAction())) {
                 if (SharedConfig.directShare && intent.getExtras() != null) {
                     j15 = intent.getExtras().getLong("dialogId", 0L);
@@ -2190,16 +2204,16 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                         Bundle extras = shortcutInfoCompat.getIntent().getExtras();
                                         long j16 = extras.getLong("dialogId", 0L);
                                         try {
-                                            str75 = extras.getString("hash", null);
+                                            str72 = extras.getString("hash", null);
                                             j15 = j16;
                                             break;
                                         } catch (Throwable th) {
                                             th = th;
                                             j15 = j16;
                                             FileLog.e(th);
-                                            str75 = null;
-                                            str76 = SharedConfig.directShareHash;
-                                            if (str76 != null) {
+                                            str72 = null;
+                                            str73 = SharedConfig.directShareHash;
+                                            if (str73 != null) {
                                             }
                                             j15 = 0;
                                             type2 = intent.getType();
@@ -2222,12 +2236,12 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         } catch (Throwable th2) {
                             th = th2;
                         }
-                        str75 = null;
+                        str72 = null;
                     } else {
-                        str75 = intent.getExtras().getString("hash", null);
+                        str72 = intent.getExtras().getString("hash", null);
                     }
-                    str76 = SharedConfig.directShareHash;
-                    if (str76 != null) {
+                    str73 = SharedConfig.directShareHash;
+                    if (str73 != null) {
                     }
                 }
                 j15 = 0;
@@ -2322,9 +2336,9 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                     }
                                     Set<String> set = MessagesController.getInstance(iArr3[0]).exportUri;
                                     String fixFileName = FileLoader.fixFileName(MediaController.getFileName(uri3));
-                                    for (String str79 : set) {
+                                    for (String str76 : set) {
                                         try {
-                                            compile2 = Pattern.compile(str79);
+                                            compile2 = Pattern.compile(str76);
                                         } catch (Exception e2) {
                                             FileLog.e(e2);
                                         }
@@ -2344,7 +2358,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                     }
                                     if (path != null) {
                                         if (path.startsWith("file:")) {
-                                            path = path.replace("file://", str78);
+                                            path = path.replace("file://", str75);
                                         }
                                         if (type2 != null && type2.startsWith("video/")) {
                                             this.videoPath = path;
@@ -2497,19 +2511,19 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                         Uri uri9 = (Uri) obj;
                                         String path2 = AndroidUtilities.getPath(uri9);
                                         String obj2 = obj.toString();
-                                        String str80 = obj2 == null ? path2 : obj2;
+                                        String str77 = obj2 == null ? path2 : obj2;
                                         if (BuildVars.LOGS_ENABLED) {
-                                            FileLog.d("export path = " + str80);
+                                            FileLog.d("export path = " + str77);
                                         }
-                                        if (str80 != null && this.exportingChatUri == null) {
+                                        if (str77 != null && this.exportingChatUri == null) {
                                             String fixFileName2 = FileLoader.fixFileName(MediaController.getFileName(uri9));
-                                            for (String str81 : set2) {
+                                            for (String str78 : set2) {
                                                 try {
-                                                    compile = Pattern.compile(str81);
+                                                    compile = Pattern.compile(str78);
                                                 } catch (Exception e4) {
                                                     FileLog.e(e4);
                                                 }
-                                                if (compile.matcher(str80).find() || compile.matcher(fixFileName2).find()) {
+                                                if (compile.matcher(str77).find() || compile.matcher(fixFileName2).find()) {
                                                     this.exportingChatUri = uri9;
                                                     z29 = true;
                                                     break;
@@ -2517,21 +2531,21 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                             }
                                             z29 = false;
                                             if (!z29) {
-                                                if (str80.startsWith("content://com.kakao.talk") && str80.endsWith("KakaoTalkChats.txt")) {
+                                                if (str77.startsWith("content://com.kakao.talk") && str77.endsWith("KakaoTalkChats.txt")) {
                                                     this.exportingChatUri = uri9;
                                                 }
                                             }
                                         }
                                         if (path2 != null) {
                                             if (path2.startsWith("file:")) {
-                                                path2 = path2.replace("file://", str78);
+                                                path2 = path2.replace("file://", str75);
                                             }
                                             if (this.documentsPathsArray == null) {
                                                 this.documentsPathsArray = new ArrayList<>();
                                                 this.documentsOriginalPathsArray = new ArrayList<>();
                                             }
                                             this.documentsPathsArray.add(path2);
-                                            this.documentsOriginalPathsArray.add(str80);
+                                            this.documentsOriginalPathsArray.add(str77);
                                         } else {
                                             if (this.documentsUrisArray == null) {
                                                 this.documentsUrisArray = new ArrayList<>();
@@ -2607,7 +2621,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                         str15 = null;
                                         str16 = null;
                                         str17 = null;
-                                        str78 = null;
+                                        str75 = null;
                                         str18 = null;
                                         str19 = null;
                                         str20 = null;
@@ -2615,7 +2629,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                         z31 = false;
                                         str22 = null;
                                         str23 = null;
-                                        str24 = null;
+                                        num = null;
                                         i10 = 0;
                                         c5 = 0;
                                         z10 = false;
@@ -2629,22 +2643,22 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                         str9 = null;
                                         str10 = null;
                                         str11 = null;
-                                        str28 = null;
                                         str27 = null;
                                         str26 = null;
                                         str25 = null;
-                                        str29 = null;
-                                        str34 = null;
+                                        str24 = null;
+                                        str28 = null;
                                         str33 = null;
                                         str32 = null;
                                         str31 = null;
                                         str30 = null;
+                                        str29 = null;
+                                        str34 = null;
                                         str35 = null;
-                                        str36 = null;
                                         i11 = -1;
+                                        str36 = null;
                                         str37 = null;
                                         str38 = null;
-                                        str39 = null;
                                         break;
                                     } else {
                                         if (uri10.startsWith("tg:resolve") || uri10.startsWith("tg://resolve")) {
@@ -2667,27 +2681,27 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 hashMap.put("scope", queryParameter6);
                                                 hashMap.put("public_key", parse.getQueryParameter("public_key"));
                                                 hashMap.put("callback_url", parse.getQueryParameter("callback_url"));
-                                                str26 = hashMap;
+                                                str25 = hashMap;
                                                 str12 = null;
                                                 str13 = null;
                                                 str14 = null;
                                                 str15 = null;
                                                 str16 = null;
-                                                str78 = null;
+                                                str75 = null;
                                                 str18 = null;
                                                 str19 = null;
                                                 str20 = null;
                                                 str21 = null;
                                                 str22 = null;
                                                 str23 = null;
-                                                str24 = null;
+                                                num3 = null;
                                                 str8 = null;
                                                 str9 = null;
                                                 str10 = null;
                                                 str11 = null;
-                                                str28 = null;
                                                 str27 = null;
-                                                str25 = null;
+                                                str26 = null;
+                                                str24 = null;
                                             } else {
                                                 String queryParameter7 = parse.getQueryParameter("start");
                                                 String queryParameter8 = parse.getQueryParameter("startgroup");
@@ -2695,86 +2709,116 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 String queryParameter10 = parse.getQueryParameter("admin");
                                                 String queryParameter11 = parse.getQueryParameter("game");
                                                 String queryParameter12 = parse.getQueryParameter("voicechat");
-                                                String str82 = queryParameter5;
+                                                String str79 = queryParameter5;
                                                 String queryParameter13 = parse.getQueryParameter("livestream");
                                                 String queryParameter14 = parse.getQueryParameter("startattach");
                                                 String queryParameter15 = parse.getQueryParameter("choose");
                                                 String queryParameter16 = parse.getQueryParameter("attach");
-                                                ?? parseInt2 = Utilities.parseInt((CharSequence) parse.getQueryParameter("post"));
-                                                String str83 = parseInt2.intValue() == 0 ? null : parseInt2;
-                                                ?? parseInt3 = Utilities.parseInt((CharSequence) parse.getQueryParameter("thread"));
-                                                String str84 = parseInt3.intValue() == 0 ? null : parseInt3;
-                                                ?? parseInt4 = Utilities.parseInt((CharSequence) parse.getQueryParameter("comment"));
-                                                str36 = queryParameter13;
-                                                if (parseInt4.intValue() == 0) {
-                                                    str27 = queryParameter11;
-                                                    str35 = queryParameter12;
-                                                    j10 = 0;
-                                                    j8 = 0;
-                                                    str17 = str82;
-                                                    str37 = queryParameter14;
-                                                    str39 = queryParameter15;
-                                                    str38 = queryParameter16;
-                                                    str22 = str83;
-                                                    str24 = str84;
-                                                    str12 = null;
-                                                    str13 = null;
-                                                    str78 = null;
-                                                    z31 = false;
-                                                    str23 = null;
-                                                    i10 = 0;
-                                                    c5 = 0;
-                                                    z10 = false;
-                                                    z11 = false;
-                                                    z30 = false;
-                                                    z12 = false;
-                                                    z13 = false;
-                                                    z14 = false;
-                                                    z15 = false;
-                                                    str8 = null;
-                                                    str9 = null;
-                                                    str10 = null;
-                                                    str11 = null;
-                                                    str28 = null;
-                                                } else {
-                                                    str28 = parseInt4;
-                                                    str27 = queryParameter11;
-                                                    str35 = queryParameter12;
-                                                    j10 = 0;
-                                                    j8 = 0;
-                                                    str17 = str82;
-                                                    str37 = queryParameter14;
-                                                    str39 = queryParameter15;
-                                                    str38 = queryParameter16;
-                                                    str22 = str83;
-                                                    str24 = str84;
-                                                    str12 = null;
-                                                    str13 = null;
-                                                    str78 = null;
-                                                    z31 = false;
-                                                    str23 = null;
-                                                    i10 = 0;
-                                                    c5 = 0;
-                                                    z10 = false;
-                                                    z11 = false;
-                                                    z30 = false;
-                                                    z12 = false;
-                                                    z13 = false;
-                                                    z14 = false;
-                                                    z15 = false;
-                                                    str8 = null;
-                                                    str9 = null;
-                                                    str10 = null;
-                                                    str11 = null;
+                                                ?? parseInt4 = Utilities.parseInt((CharSequence) parse.getQueryParameter("post"));
+                                                String str80 = parseInt4.intValue() == 0 ? null : parseInt4;
+                                                Integer parseInt5 = Utilities.parseInt((CharSequence) parse.getQueryParameter("thread"));
+                                                if (parseInt5.intValue() == 0) {
+                                                    parseInt5 = null;
                                                 }
-                                                str26 = null;
+                                                if (parseInt5 == null) {
+                                                    parseInt5 = Utilities.parseInt((CharSequence) parse.getQueryParameter("topic"));
+                                                    if (parseInt5.intValue() == 0) {
+                                                        num2 = null;
+                                                        parseInt = Utilities.parseInt((CharSequence) parse.getQueryParameter("comment"));
+                                                        str35 = queryParameter13;
+                                                        if (parseInt.intValue() != 0) {
+                                                            str26 = queryParameter11;
+                                                            str34 = queryParameter12;
+                                                            j10 = 0;
+                                                            j8 = 0;
+                                                            str17 = str79;
+                                                            str36 = queryParameter14;
+                                                            str38 = queryParameter15;
+                                                            str37 = queryParameter16;
+                                                            str22 = str80;
+                                                            num = num2;
+                                                            str12 = null;
+                                                            str13 = null;
+                                                            str75 = null;
+                                                            z31 = false;
+                                                            str23 = null;
+                                                            i10 = 0;
+                                                            c5 = 0;
+                                                            z10 = false;
+                                                            z11 = false;
+                                                            z30 = false;
+                                                            z12 = false;
+                                                            z13 = false;
+                                                            z14 = false;
+                                                            z15 = false;
+                                                            str8 = null;
+                                                            str9 = null;
+                                                            str10 = null;
+                                                            str11 = null;
+                                                            str27 = null;
+                                                        } else {
+                                                            str27 = parseInt;
+                                                            str26 = queryParameter11;
+                                                            str34 = queryParameter12;
+                                                            j10 = 0;
+                                                            j8 = 0;
+                                                            str17 = str79;
+                                                            str36 = queryParameter14;
+                                                            str38 = queryParameter15;
+                                                            str37 = queryParameter16;
+                                                            str22 = str80;
+                                                            num = num2;
+                                                            str12 = null;
+                                                            str13 = null;
+                                                            str75 = null;
+                                                            z31 = false;
+                                                            str23 = null;
+                                                            i10 = 0;
+                                                            c5 = 0;
+                                                            z10 = false;
+                                                            z11 = false;
+                                                            z30 = false;
+                                                            z12 = false;
+                                                            z13 = false;
+                                                            z14 = false;
+                                                            z15 = false;
+                                                            str8 = null;
+                                                            str9 = null;
+                                                            str10 = null;
+                                                            str11 = null;
+                                                        }
+                                                        str25 = null;
+                                                        str24 = null;
+                                                        str28 = null;
+                                                        str33 = null;
+                                                        str32 = null;
+                                                        str31 = null;
+                                                        str30 = null;
+                                                        str29 = null;
+                                                        i11 = -1;
+                                                        str18 = queryParameter7;
+                                                        str19 = queryParameter8;
+                                                        str20 = queryParameter9;
+                                                        str21 = queryParameter10;
+                                                        str14 = null;
+                                                        str15 = null;
+                                                        str16 = null;
+                                                        break;
+                                                    }
+                                                }
+                                                num2 = parseInt5;
+                                                parseInt = Utilities.parseInt((CharSequence) parse.getQueryParameter("comment"));
+                                                str35 = queryParameter13;
+                                                if (parseInt.intValue() != 0) {
+                                                }
                                                 str25 = null;
-                                                str29 = null;
-                                                str34 = null;
+                                                str24 = null;
+                                                str28 = null;
                                                 str33 = null;
                                                 str32 = null;
                                                 str31 = null;
                                                 str30 = null;
+                                                str29 = null;
                                                 i11 = -1;
                                                 str18 = queryParameter7;
                                                 str19 = queryParameter8;
@@ -2783,43 +2827,42 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 str14 = null;
                                                 str15 = null;
                                                 str16 = null;
-                                                break;
                                             }
                                         } else if (uri10.startsWith("tg:invoice") || uri10.startsWith("tg://invoice")) {
                                             str17 = null;
                                             j11 = 0;
-                                            str31 = Uri.parse(uri10.replace("tg:invoice", "tg://invoice")).getQueryParameter("slug");
+                                            str30 = Uri.parse(uri10.replace("tg:invoice", "tg://invoice")).getQueryParameter("slug");
                                             str12 = null;
                                             str13 = null;
                                             str14 = null;
                                             str15 = null;
                                             str16 = null;
-                                            str78 = null;
+                                            str75 = null;
                                             str18 = null;
                                             str19 = null;
                                             str20 = null;
                                             str21 = null;
                                             str22 = null;
                                             str23 = null;
-                                            str24 = null;
+                                            num3 = null;
                                             str8 = null;
                                             str9 = null;
                                             str10 = null;
                                             str11 = null;
-                                            str28 = null;
                                             str27 = null;
                                             str26 = null;
                                             str25 = null;
-                                            str29 = null;
-                                            str34 = null;
+                                            str24 = null;
+                                            str28 = null;
                                             str33 = null;
                                             str32 = null;
-                                            str30 = null;
-                                            str35 = str30;
+                                            str31 = null;
+                                            str29 = null;
+                                            str34 = str29;
+                                            str35 = str34;
                                             str36 = str35;
                                             str37 = str36;
                                             str38 = str37;
-                                            str39 = str38;
                                             j10 = j11;
                                             j8 = j10;
                                             z31 = false;
@@ -2832,74 +2875,80 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                             z13 = false;
                                             z14 = false;
                                             z15 = false;
+                                            num = num3;
                                             i11 = -1;
                                             break;
                                         } else if (uri10.startsWith("tg:privatepost") || uri10.startsWith("tg://privatepost")) {
                                             str17 = null;
                                             Uri parse2 = Uri.parse(uri10.replace("tg:privatepost", "tg://telegram.org").replace("tg://privatepost", "tg://telegram.org"));
-                                            ?? parseInt5 = Utilities.parseInt((CharSequence) parse2.getQueryParameter("post"));
+                                            ?? parseInt6 = Utilities.parseInt((CharSequence) parse2.getQueryParameter("post"));
                                             ?? parseLong = Utilities.parseLong(parse2.getQueryParameter("channel"));
-                                            if (parseInt5.intValue() != 0) {
+                                            if (parseInt6.intValue() != 0) {
                                                 j11 = 0;
                                                 int i20 = (parseLong.longValue() > 0L ? 1 : (parseLong.longValue() == 0L ? 0 : -1));
-                                                str41 = parseLong;
-                                                str42 = parseInt5;
+                                                str40 = parseLong;
+                                                str41 = parseInt6;
                                                 break;
                                             } else {
                                                 j11 = 0;
                                             }
+                                            str40 = null;
                                             str41 = null;
-                                            str42 = null;
-                                            ?? parseInt6 = Utilities.parseInt((CharSequence) parse2.getQueryParameter("thread"));
-                                            int intValue = parseInt6.intValue();
-                                            String str85 = parseInt6;
-                                            if (intValue == 0) {
-                                                str85 = null;
-                                            }
-                                            ?? parseInt7 = Utilities.parseInt((CharSequence) parse2.getQueryParameter("comment"));
+                                            Integer parseInt7 = Utilities.parseInt((CharSequence) parse2.getQueryParameter("thread"));
                                             if (parseInt7.intValue() == 0) {
-                                                str23 = str41;
-                                                str24 = str85;
-                                                str22 = str42;
-                                                str12 = null;
-                                                str13 = null;
-                                                str14 = null;
-                                                str15 = null;
-                                                str16 = null;
-                                                str78 = null;
-                                                str18 = null;
-                                                str19 = null;
-                                                str20 = null;
-                                                str21 = null;
-                                                str8 = null;
-                                                str9 = null;
-                                                str10 = null;
-                                                str11 = null;
-                                                str28 = null;
-                                                str27 = null;
-                                            } else {
-                                                str28 = parseInt7;
-                                                str23 = str41;
-                                                str24 = str85;
-                                                str22 = str42;
-                                                str12 = null;
-                                                str13 = null;
-                                                str14 = null;
-                                                str15 = null;
-                                                str16 = null;
-                                                str78 = null;
-                                                str18 = null;
-                                                str19 = null;
-                                                str20 = null;
-                                                str21 = null;
-                                                str8 = null;
-                                                str9 = null;
-                                                str10 = null;
-                                                str11 = null;
-                                                str27 = null;
+                                                parseInt7 = null;
                                             }
-                                            str26 = str27;
+                                            if (parseInt7 == null) {
+                                                parseInt7 = Utilities.parseInt((CharSequence) parse2.getQueryParameter("topic"));
+                                                if (parseInt7.intValue() == 0) {
+                                                    parseInt7 = null;
+                                                }
+                                            }
+                                            ?? parseInt8 = Utilities.parseInt((CharSequence) parse2.getQueryParameter("comment"));
+                                            if (parseInt8.intValue() == 0) {
+                                                str23 = str40;
+                                                num4 = parseInt7;
+                                                str22 = str41;
+                                                str12 = null;
+                                                str13 = null;
+                                                str14 = null;
+                                                str15 = null;
+                                                str16 = null;
+                                                str75 = null;
+                                                str18 = null;
+                                                str19 = null;
+                                                str20 = null;
+                                                str21 = null;
+                                                str8 = null;
+                                                str9 = null;
+                                                str10 = null;
+                                                str11 = null;
+                                                str27 = null;
+                                                str26 = null;
+                                            } else {
+                                                str27 = parseInt8;
+                                                str23 = str40;
+                                                num4 = parseInt7;
+                                                str22 = str41;
+                                                str12 = null;
+                                                str13 = null;
+                                                str14 = null;
+                                                str15 = null;
+                                                str16 = null;
+                                                str75 = null;
+                                                str18 = null;
+                                                str19 = null;
+                                                str20 = null;
+                                                str21 = null;
+                                                str8 = null;
+                                                str9 = null;
+                                                str10 = null;
+                                                str11 = null;
+                                                str26 = null;
+                                            }
                                             str25 = str26;
+                                            str24 = str25;
+                                            num3 = num4;
                                         } else if (uri10.startsWith("tg:bg") || uri10.startsWith("tg://bg")) {
                                             Uri parse3 = Uri.parse(uri10.replace("tg:bg", "tg://telegram.org").replace("tg://bg", "tg://telegram.org"));
                                             ?? tLRPC$TL_wallPaper = new TLRPC$TL_wallPaper();
@@ -2909,15 +2958,15 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                             if (queryParameter17 == null) {
                                                 tLRPC$TL_wallPaper.slug = parse3.getQueryParameter("color");
                                             }
-                                            String str86 = tLRPC$TL_wallPaper.slug;
-                                            if (str86 != null && str86.length() == 6) {
+                                            String str81 = tLRPC$TL_wallPaper.slug;
+                                            if (str81 != null && str81.length() == 6) {
                                                 tLRPC$TL_wallPaper.settings.background_color = Integer.parseInt(tLRPC$TL_wallPaper.slug, 16) | (-16777216);
                                                 tLRPC$TL_wallPaper.slug = null;
                                                 z33 = true;
                                                 str17 = null;
                                             } else {
-                                                String str87 = tLRPC$TL_wallPaper.slug;
-                                                if (str87 != null && str87.length() >= 13 && AndroidUtilities.isValidWallChar(tLRPC$TL_wallPaper.slug.charAt(6))) {
+                                                String str82 = tLRPC$TL_wallPaper.slug;
+                                                if (str82 != null && str82.length() >= 13 && AndroidUtilities.isValidWallChar(tLRPC$TL_wallPaper.slug.charAt(6))) {
                                                     tLRPC$TL_wallPaper.settings.background_color = Integer.parseInt(tLRPC$TL_wallPaper.slug.substring(0, 6), 16) | (-16777216);
                                                     tLRPC$TL_wallPaper.settings.second_background_color = Integer.parseInt(tLRPC$TL_wallPaper.slug.substring(7, 13), 16) | (-16777216);
                                                     if (tLRPC$TL_wallPaper.slug.length() >= 20 && AndroidUtilities.isValidWallChar(tLRPC$TL_wallPaper.slug.charAt(13))) {
@@ -2985,38 +3034,38 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 } catch (Exception unused5) {
                                                 }
                                             }
-                                            str32 = tLRPC$TL_wallPaper;
+                                            str31 = tLRPC$TL_wallPaper;
                                             str12 = str17;
                                             str13 = str12;
                                             str14 = str13;
                                             str15 = str14;
                                             str16 = str15;
-                                            str78 = str16;
-                                            str18 = str78;
+                                            str75 = str16;
+                                            str18 = str75;
                                             str19 = str18;
                                             str20 = str19;
                                             str21 = str20;
                                             str22 = str21;
                                             str23 = str22;
-                                            str24 = str23;
-                                            str8 = str24;
+                                            String str83 = str23;
+                                            str8 = str83;
                                             str9 = str8;
                                             str10 = str9;
                                             str11 = str10;
-                                            str28 = str11;
-                                            str27 = str28;
+                                            str27 = str11;
                                             str26 = str27;
                                             str25 = str26;
-                                            str29 = str25;
+                                            str24 = str25;
+                                            str28 = str24;
+                                            str33 = str28;
+                                            str32 = str33;
+                                            str30 = str32;
+                                            str29 = str30;
                                             str34 = str29;
-                                            str33 = str34;
-                                            str31 = str33;
-                                            str30 = str31;
-                                            str35 = str30;
+                                            str35 = str34;
                                             str36 = str35;
                                             str37 = str36;
                                             str38 = str37;
-                                            str39 = str38;
                                             z31 = false;
                                             i10 = 0;
                                             c5 = 0;
@@ -3029,6 +3078,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                             z15 = false;
                                             j10 = 0;
                                             j8 = 0;
+                                            num = str83;
                                             i11 = -1;
                                         } else {
                                             if (uri10.startsWith("tg:join") || uri10.startsWith("tg://join")) {
@@ -3042,7 +3092,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 str14 = null;
                                                 str16 = null;
                                                 str17 = null;
-                                                str78 = null;
+                                                str75 = null;
                                                 str18 = null;
                                                 str19 = null;
                                                 str20 = null;
@@ -3050,7 +3100,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 z31 = false;
                                                 str22 = null;
                                                 str23 = null;
-                                                str24 = null;
+                                                num = null;
                                                 i10 = 0;
                                                 c5 = 0;
                                                 z10 = false;
@@ -3066,22 +3116,22 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 j10 = 0;
                                                 j8 = 0;
                                                 str11 = null;
-                                                str28 = null;
                                                 str27 = null;
                                                 str26 = null;
                                                 str25 = null;
-                                                str29 = null;
-                                                str34 = null;
+                                                str24 = null;
+                                                str28 = null;
                                                 str33 = null;
                                                 str32 = null;
                                                 str31 = null;
                                                 str30 = null;
+                                                str29 = null;
+                                                str34 = null;
                                                 str35 = null;
-                                                str36 = null;
                                                 i11 = -1;
+                                                str36 = null;
                                                 str37 = null;
                                                 str38 = null;
-                                                str39 = null;
                                             } else if (uri10.startsWith("tg:addemoji") || uri10.startsWith("tg://addemoji")) {
                                                 str16 = Uri.parse(uri10.replace("tg:addemoji", "tg://telegram.org").replace("tg://addemoji", "tg://telegram.org")).getQueryParameter("set");
                                                 str12 = null;
@@ -3089,7 +3139,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 str14 = null;
                                                 str15 = null;
                                                 str17 = null;
-                                                str78 = null;
+                                                str75 = null;
                                                 str18 = null;
                                                 str19 = null;
                                                 str20 = null;
@@ -3097,7 +3147,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 z31 = false;
                                                 str22 = null;
                                                 str23 = null;
-                                                str24 = null;
+                                                num = null;
                                                 i10 = 0;
                                                 c5 = 0;
                                                 z10 = false;
@@ -3113,47 +3163,47 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 j10 = 0;
                                                 j8 = 0;
                                                 str11 = null;
-                                                str28 = null;
                                                 str27 = null;
                                                 str26 = null;
                                                 str25 = null;
-                                                str29 = null;
-                                                str34 = null;
+                                                str24 = null;
+                                                str28 = null;
                                                 str33 = null;
                                                 str32 = null;
                                                 str31 = null;
                                                 str30 = null;
+                                                str29 = null;
+                                                str34 = null;
                                                 str35 = null;
-                                                str36 = null;
                                                 i11 = -1;
+                                                str36 = null;
                                                 str37 = null;
                                                 str38 = null;
-                                                str39 = null;
                                             } else if (uri10.startsWith("tg:msg") || uri10.startsWith("tg://msg") || uri10.startsWith("tg://share") || uri10.startsWith("tg:share")) {
                                                 Uri parse4 = Uri.parse(uri10.replace("tg:msg", "tg://telegram.org").replace("tg://msg", "tg://telegram.org").replace("tg://share", "tg://telegram.org").replace("tg:share", "tg://telegram.org"));
                                                 String queryParameter20 = parse4.getQueryParameter("url");
                                                 if (queryParameter20 != null) {
-                                                    str78 = queryParameter20;
+                                                    str75 = queryParameter20;
                                                 }
                                                 if (parse4.getQueryParameter("text") != null) {
-                                                    if (str78.length() > 0) {
-                                                        str78 = str78 + "\n";
+                                                    if (str75.length() > 0) {
+                                                        str75 = str75 + "\n";
                                                         z34 = true;
                                                     } else {
                                                         z34 = false;
                                                     }
-                                                    str78 = str78 + parse4.getQueryParameter("text");
+                                                    str75 = str75 + parse4.getQueryParameter("text");
                                                 } else {
                                                     z34 = false;
                                                 }
-                                                if (str78.length() > 16384) {
+                                                if (str75.length() > 16384) {
                                                     i12 = 0;
-                                                    str78 = str78.substring(0, 16384);
+                                                    str75 = str75.substring(0, 16384);
                                                 } else {
                                                     i12 = 0;
                                                 }
-                                                while (str78.endsWith("\n")) {
-                                                    str78 = str78.substring(i12, str78.length() - 1);
+                                                while (str75.endsWith("\n")) {
+                                                    str75 = str75.substring(i12, str75.length() - 1);
                                                 }
                                                 z31 = z34;
                                                 str12 = null;
@@ -3168,7 +3218,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 str21 = null;
                                                 str22 = null;
                                                 str23 = null;
-                                                str24 = null;
+                                                num = null;
                                                 i10 = 0;
                                                 c5 = 0;
                                                 z10 = false;
@@ -3184,22 +3234,22 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 j10 = 0;
                                                 j8 = 0;
                                                 str11 = null;
-                                                str28 = null;
                                                 str27 = null;
                                                 str26 = null;
                                                 str25 = null;
-                                                str29 = null;
-                                                str34 = null;
+                                                str24 = null;
+                                                str28 = null;
                                                 str33 = null;
                                                 str32 = null;
                                                 str31 = null;
                                                 str30 = null;
+                                                str29 = null;
+                                                str34 = null;
                                                 str35 = null;
-                                                str36 = null;
                                                 i11 = -1;
+                                                str36 = null;
                                                 str37 = null;
                                                 str38 = null;
-                                                str39 = null;
                                             } else if (uri10.startsWith("tg:confirmphone") || uri10.startsWith("tg://confirmphone")) {
                                                 Uri parse5 = Uri.parse(uri10.replace("tg:confirmphone", "tg://telegram.org").replace("tg://confirmphone", "tg://telegram.org"));
                                                 String queryParameter21 = parse5.getQueryParameter("phone");
@@ -3209,16 +3259,16 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                             } else if (uri10.startsWith("tg:login") || uri10.startsWith("tg://login")) {
                                                 Uri parse6 = Uri.parse(uri10.replace("tg:login", "tg://telegram.org").replace("tg://login", "tg://telegram.org"));
                                                 String queryParameter22 = parse6.getQueryParameter("token");
-                                                int intValue2 = Utilities.parseInt((CharSequence) parse6.getQueryParameter("code")).intValue();
-                                                str34 = intValue2 != 0 ? str78 + intValue2 : null;
-                                                str33 = queryParameter22;
+                                                int intValue = Utilities.parseInt((CharSequence) parse6.getQueryParameter("code")).intValue();
+                                                str33 = intValue != 0 ? str75 + intValue : null;
+                                                str32 = queryParameter22;
                                                 str12 = null;
                                                 str13 = null;
                                                 str14 = null;
                                                 str15 = null;
                                                 str16 = null;
                                                 str17 = null;
-                                                str78 = null;
+                                                str75 = null;
                                                 str18 = null;
                                                 str19 = null;
                                                 str20 = null;
@@ -3226,7 +3276,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 z31 = false;
                                                 str22 = null;
                                                 str23 = null;
-                                                str24 = null;
+                                                num = null;
                                                 i10 = 0;
                                                 c5 = 0;
                                                 z10 = false;
@@ -3242,34 +3292,34 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 j10 = 0;
                                                 j8 = 0;
                                                 str11 = null;
-                                                str28 = null;
                                                 str27 = null;
                                                 str26 = null;
                                                 str25 = null;
-                                                str29 = null;
-                                                str32 = null;
+                                                str24 = null;
+                                                str28 = null;
                                                 str31 = null;
                                                 str30 = null;
+                                                str29 = null;
+                                                str34 = null;
                                                 str35 = null;
-                                                str36 = null;
                                                 i11 = -1;
+                                                str36 = null;
                                                 str37 = null;
                                                 str38 = null;
-                                                str39 = null;
                                             } else if (uri10.startsWith("tg:openmessage") || uri10.startsWith("tg://openmessage")) {
                                                 Uri parse7 = Uri.parse(uri10.replace("tg:openmessage", "tg://telegram.org").replace("tg://openmessage", "tg://telegram.org"));
                                                 String queryParameter23 = parse7.getQueryParameter("user_id");
                                                 String queryParameter24 = parse7.getQueryParameter("chat_id");
-                                                String queryParameter25 = parse7.getQueryParameter(str77);
+                                                String queryParameter25 = parse7.getQueryParameter(str74);
                                                 if (queryParameter23 != null) {
                                                     j13 = Long.parseLong(queryParameter23);
                                                     j12 = 0;
                                                     if (queryParameter25 != null) {
                                                         try {
-                                                            parseInt = Integer.parseInt(queryParameter25);
+                                                            parseInt2 = Integer.parseInt(queryParameter25);
                                                         } catch (NumberFormatException unused6) {
                                                         }
-                                                        i10 = parseInt;
+                                                        i10 = parseInt2;
                                                         j8 = j12;
                                                         j10 = j13;
                                                         str12 = null;
@@ -3278,7 +3328,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                         str15 = null;
                                                         str16 = null;
                                                         str17 = null;
-                                                        str78 = null;
+                                                        str75 = null;
                                                         str18 = null;
                                                         str19 = null;
                                                         str20 = null;
@@ -3286,7 +3336,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                         z31 = false;
                                                         str22 = null;
                                                         str23 = null;
-                                                        str24 = null;
+                                                        num = null;
                                                         c5 = 0;
                                                         z10 = false;
                                                         z11 = false;
@@ -3299,25 +3349,25 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                         str9 = null;
                                                         str10 = null;
                                                         str11 = null;
-                                                        str28 = null;
                                                         str27 = null;
                                                         str26 = null;
                                                         str25 = null;
-                                                        str29 = null;
-                                                        str34 = null;
+                                                        str24 = null;
+                                                        str28 = null;
                                                         str33 = null;
                                                         str32 = null;
                                                         str31 = null;
                                                         str30 = null;
+                                                        str29 = null;
+                                                        str34 = null;
                                                         str35 = null;
-                                                        str36 = null;
                                                         i11 = -1;
+                                                        str36 = null;
                                                         str37 = null;
                                                         str38 = null;
-                                                        str39 = null;
                                                     }
-                                                    parseInt = 0;
-                                                    i10 = parseInt;
+                                                    parseInt2 = 0;
+                                                    i10 = parseInt2;
                                                     j8 = j12;
                                                     j10 = j13;
                                                     str12 = null;
@@ -3326,7 +3376,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     str15 = null;
                                                     str16 = null;
                                                     str17 = null;
-                                                    str78 = null;
+                                                    str75 = null;
                                                     str18 = null;
                                                     str19 = null;
                                                     str20 = null;
@@ -3334,7 +3384,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     z31 = false;
                                                     str22 = null;
                                                     str23 = null;
-                                                    str24 = null;
+                                                    num = null;
                                                     c5 = 0;
                                                     z10 = false;
                                                     z11 = false;
@@ -3347,30 +3397,30 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     str9 = null;
                                                     str10 = null;
                                                     str11 = null;
-                                                    str28 = null;
                                                     str27 = null;
                                                     str26 = null;
                                                     str25 = null;
-                                                    str29 = null;
-                                                    str34 = null;
+                                                    str24 = null;
+                                                    str28 = null;
                                                     str33 = null;
                                                     str32 = null;
                                                     str31 = null;
                                                     str30 = null;
+                                                    str29 = null;
+                                                    str34 = null;
                                                     str35 = null;
-                                                    str36 = null;
                                                     i11 = -1;
+                                                    str36 = null;
                                                     str37 = null;
                                                     str38 = null;
-                                                    str39 = null;
                                                 } else {
                                                     if (queryParameter24 != null) {
                                                         j12 = Long.parseLong(queryParameter24);
                                                         j13 = 0;
                                                         if (queryParameter25 != null) {
                                                         }
-                                                        parseInt = 0;
-                                                        i10 = parseInt;
+                                                        parseInt2 = 0;
+                                                        i10 = parseInt2;
                                                         j8 = j12;
                                                         j10 = j13;
                                                         str12 = null;
@@ -3379,7 +3429,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                         str15 = null;
                                                         str16 = null;
                                                         str17 = null;
-                                                        str78 = null;
+                                                        str75 = null;
                                                         str18 = null;
                                                         str19 = null;
                                                         str20 = null;
@@ -3387,7 +3437,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                         z31 = false;
                                                         str22 = null;
                                                         str23 = null;
-                                                        str24 = null;
+                                                        num = null;
                                                         c5 = 0;
                                                         z10 = false;
                                                         z11 = false;
@@ -3400,29 +3450,29 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                         str9 = null;
                                                         str10 = null;
                                                         str11 = null;
-                                                        str28 = null;
                                                         str27 = null;
                                                         str26 = null;
                                                         str25 = null;
-                                                        str29 = null;
-                                                        str34 = null;
+                                                        str24 = null;
+                                                        str28 = null;
                                                         str33 = null;
                                                         str32 = null;
                                                         str31 = null;
                                                         str30 = null;
+                                                        str29 = null;
+                                                        str34 = null;
                                                         str35 = null;
-                                                        str36 = null;
                                                         i11 = -1;
+                                                        str36 = null;
                                                         str37 = null;
                                                         str38 = null;
-                                                        str39 = null;
                                                     }
                                                     j12 = 0;
                                                     j13 = 0;
                                                     if (queryParameter25 != null) {
                                                     }
-                                                    parseInt = 0;
-                                                    i10 = parseInt;
+                                                    parseInt2 = 0;
+                                                    i10 = parseInt2;
                                                     j8 = j12;
                                                     j10 = j13;
                                                     str12 = null;
@@ -3431,7 +3481,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     str15 = null;
                                                     str16 = null;
                                                     str17 = null;
-                                                    str78 = null;
+                                                    str75 = null;
                                                     str18 = null;
                                                     str19 = null;
                                                     str20 = null;
@@ -3439,7 +3489,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     z31 = false;
                                                     str22 = null;
                                                     str23 = null;
-                                                    str24 = null;
+                                                    num = null;
                                                     c5 = 0;
                                                     z10 = false;
                                                     z11 = false;
@@ -3452,22 +3502,22 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     str9 = null;
                                                     str10 = null;
                                                     str11 = null;
-                                                    str28 = null;
                                                     str27 = null;
                                                     str26 = null;
                                                     str25 = null;
-                                                    str29 = null;
-                                                    str34 = null;
+                                                    str24 = null;
+                                                    str28 = null;
                                                     str33 = null;
                                                     str32 = null;
                                                     str31 = null;
                                                     str30 = null;
+                                                    str29 = null;
+                                                    str34 = null;
                                                     str35 = null;
-                                                    str36 = null;
                                                     i11 = -1;
+                                                    str36 = null;
                                                     str37 = null;
                                                     str38 = null;
-                                                    str39 = null;
                                                 }
                                             } else if (uri10.startsWith("tg:passport") || uri10.startsWith("tg://passport") || uri10.startsWith("tg:secureid")) {
                                                 Uri parse8 = Uri.parse(uri10.replace("tg:passport", "tg://telegram.org").replace("tg://passport", "tg://telegram.org").replace("tg:secureid", "tg://telegram.org"));
@@ -3482,14 +3532,14 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 hashMap2.put("scope", queryParameter26);
                                                 hashMap2.put("public_key", parse8.getQueryParameter("public_key"));
                                                 hashMap2.put("callback_url", parse8.getQueryParameter("callback_url"));
-                                                str26 = hashMap2;
+                                                str25 = hashMap2;
                                                 str12 = null;
                                                 str13 = null;
                                                 str14 = null;
                                                 str15 = null;
                                                 str16 = null;
                                                 str17 = null;
-                                                str78 = null;
+                                                str75 = null;
                                                 str18 = null;
                                                 str19 = null;
                                                 str20 = null;
@@ -3497,7 +3547,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 z31 = false;
                                                 str22 = null;
                                                 str23 = null;
-                                                str24 = null;
+                                                num = null;
                                                 i10 = 0;
                                                 c5 = 0;
                                                 z10 = false;
@@ -3513,30 +3563,30 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 j10 = 0;
                                                 j8 = 0;
                                                 str11 = null;
-                                                str28 = null;
                                                 str27 = null;
-                                                str25 = null;
-                                                str29 = null;
-                                                str34 = null;
+                                                str26 = null;
+                                                str24 = null;
+                                                str28 = null;
                                                 str33 = null;
                                                 str32 = null;
                                                 str31 = null;
                                                 str30 = null;
+                                                str29 = null;
+                                                str34 = null;
                                                 str35 = null;
-                                                str36 = null;
                                                 i11 = -1;
+                                                str36 = null;
                                                 str37 = null;
                                                 str38 = null;
-                                                str39 = null;
                                             } else if (uri10.startsWith("tg:setlanguage") || uri10.startsWith("tg://setlanguage")) {
-                                                str25 = Uri.parse(uri10.replace("tg:setlanguage", "tg://telegram.org").replace("tg://setlanguage", "tg://telegram.org")).getQueryParameter("lang");
+                                                str24 = Uri.parse(uri10.replace("tg:setlanguage", "tg://telegram.org").replace("tg://setlanguage", "tg://telegram.org")).getQueryParameter("lang");
                                                 str12 = null;
                                                 str13 = null;
                                                 str14 = null;
                                                 str15 = null;
                                                 str16 = null;
                                                 str17 = null;
-                                                str78 = null;
+                                                str75 = null;
                                                 str18 = null;
                                                 str19 = null;
                                                 str20 = null;
@@ -3544,7 +3594,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 z31 = false;
                                                 str22 = null;
                                                 str23 = null;
-                                                str24 = null;
+                                                num = null;
                                                 i10 = 0;
                                                 c5 = 0;
                                                 z10 = false;
@@ -3560,30 +3610,30 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 j10 = 0;
                                                 j8 = 0;
                                                 str11 = null;
-                                                str28 = null;
                                                 str27 = null;
                                                 str26 = null;
-                                                str29 = null;
-                                                str34 = null;
+                                                str25 = null;
+                                                str28 = null;
                                                 str33 = null;
                                                 str32 = null;
                                                 str31 = null;
                                                 str30 = null;
+                                                str29 = null;
+                                                str34 = null;
                                                 str35 = null;
-                                                str36 = null;
                                                 i11 = -1;
+                                                str36 = null;
                                                 str37 = null;
                                                 str38 = null;
-                                                str39 = null;
                                             } else if (uri10.startsWith("tg:addtheme") || uri10.startsWith("tg://addtheme")) {
-                                                str30 = Uri.parse(uri10.replace("tg:addtheme", "tg://telegram.org").replace("tg://addtheme", "tg://telegram.org")).getQueryParameter("slug");
+                                                str29 = Uri.parse(uri10.replace("tg:addtheme", "tg://telegram.org").replace("tg://addtheme", "tg://telegram.org")).getQueryParameter("slug");
                                                 str12 = null;
                                                 str13 = null;
                                                 str14 = null;
                                                 str15 = null;
                                                 str16 = null;
                                                 str17 = null;
-                                                str78 = null;
+                                                str75 = null;
                                                 str18 = null;
                                                 str19 = null;
                                                 str20 = null;
@@ -3591,7 +3641,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 z31 = false;
                                                 str22 = null;
                                                 str23 = null;
-                                                str24 = null;
+                                                num = null;
                                                 i10 = 0;
                                                 c5 = 0;
                                                 z10 = false;
@@ -3607,21 +3657,21 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 j10 = 0;
                                                 j8 = 0;
                                                 str11 = null;
-                                                str28 = null;
                                                 str27 = null;
                                                 str26 = null;
                                                 str25 = null;
-                                                str29 = null;
-                                                str34 = null;
+                                                str24 = null;
+                                                str28 = null;
                                                 str33 = null;
                                                 str32 = null;
                                                 str31 = null;
+                                                str30 = null;
+                                                str34 = null;
                                                 str35 = null;
-                                                str36 = null;
                                                 i11 = -1;
+                                                str36 = null;
                                                 str37 = null;
                                                 str38 = null;
-                                                str39 = null;
                                             } else if (uri10.startsWith("tg:settings") || uri10.startsWith("tg://settings")) {
                                                 if (uri10.contains("themes")) {
                                                     str12 = null;
@@ -3630,7 +3680,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     str15 = null;
                                                     str16 = null;
                                                     str17 = null;
-                                                    str78 = null;
+                                                    str75 = null;
                                                     str18 = null;
                                                     str19 = null;
                                                     str20 = null;
@@ -3638,7 +3688,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     z31 = false;
                                                     str22 = null;
                                                     str23 = null;
-                                                    str24 = null;
+                                                    num = null;
                                                     i10 = 0;
                                                     c5 = 2;
                                                 } else if (uri10.contains("devices")) {
@@ -3648,7 +3698,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     str15 = null;
                                                     str16 = null;
                                                     str17 = null;
-                                                    str78 = null;
+                                                    str75 = null;
                                                     str18 = null;
                                                     str19 = null;
                                                     str20 = null;
@@ -3656,7 +3706,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     z31 = false;
                                                     str22 = null;
                                                     str23 = null;
-                                                    str24 = null;
+                                                    num = null;
                                                     i10 = 0;
                                                     c5 = 3;
                                                 } else if (uri10.contains("folders")) {
@@ -3666,7 +3716,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     str15 = null;
                                                     str16 = null;
                                                     str17 = null;
-                                                    str78 = null;
+                                                    str75 = null;
                                                     str18 = null;
                                                     str19 = null;
                                                     str20 = null;
@@ -3674,7 +3724,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     z31 = false;
                                                     str22 = null;
                                                     str23 = null;
-                                                    str24 = null;
+                                                    num = null;
                                                     i10 = 0;
                                                     c5 = 4;
                                                 } else if (uri10.contains("change_number")) {
@@ -3684,7 +3734,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     str15 = null;
                                                     str16 = null;
                                                     str17 = null;
-                                                    str78 = null;
+                                                    str75 = null;
                                                     str18 = null;
                                                     str19 = null;
                                                     str20 = null;
@@ -3692,7 +3742,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     z31 = false;
                                                     str22 = null;
                                                     str23 = null;
-                                                    str24 = null;
+                                                    num = null;
                                                     i10 = 0;
                                                     c5 = 5;
                                                 } else {
@@ -3702,7 +3752,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     str15 = null;
                                                     str16 = null;
                                                     str17 = null;
-                                                    str78 = null;
+                                                    str75 = null;
                                                     str18 = null;
                                                     str19 = null;
                                                     str20 = null;
@@ -3710,7 +3760,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     z31 = false;
                                                     str22 = null;
                                                     str23 = null;
-                                                    str24 = null;
+                                                    num = null;
                                                     i10 = 0;
                                                     c5 = 1;
                                                 }
@@ -3727,35 +3777,35 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 j10 = 0;
                                                 j8 = 0;
                                                 str11 = null;
-                                                str28 = null;
                                                 str27 = null;
                                                 str26 = null;
                                                 str25 = null;
-                                                str29 = null;
-                                                str34 = null;
+                                                str24 = null;
+                                                str28 = null;
                                                 str33 = null;
                                                 str32 = null;
                                                 str31 = null;
                                                 str30 = null;
+                                                str29 = null;
+                                                str34 = null;
                                                 str35 = null;
-                                                str36 = null;
                                                 i11 = -1;
+                                                str36 = null;
                                                 str37 = null;
                                                 str38 = null;
-                                                str39 = null;
                                             } else if (uri10.startsWith("tg:search") || uri10.startsWith("tg://search")) {
                                                 String queryParameter27 = Uri.parse(uri10.replace("tg:search", "tg://telegram.org").replace("tg://search", "tg://telegram.org")).getQueryParameter("query");
                                                 if (queryParameter27 != null) {
-                                                    str78 = queryParameter27.trim();
+                                                    str75 = queryParameter27.trim();
                                                 }
-                                                str11 = str78;
+                                                str11 = str75;
                                                 str12 = null;
                                                 str13 = null;
                                                 str14 = null;
                                                 str15 = null;
                                                 str16 = null;
                                                 str17 = null;
-                                                str78 = null;
+                                                str75 = null;
                                                 str18 = null;
                                                 str19 = null;
                                                 str20 = null;
@@ -3763,7 +3813,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 z31 = false;
                                                 str22 = null;
                                                 str23 = null;
-                                                str24 = null;
+                                                num = null;
                                                 i10 = 0;
                                                 c5 = 0;
                                                 z10 = false;
@@ -3778,22 +3828,22 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 str10 = null;
                                                 j10 = 0;
                                                 j8 = 0;
-                                                str28 = null;
                                                 str27 = null;
                                                 str26 = null;
                                                 str25 = null;
-                                                str29 = null;
-                                                str34 = null;
+                                                str24 = null;
+                                                str28 = null;
                                                 str33 = null;
                                                 str32 = null;
                                                 str31 = null;
                                                 str30 = null;
+                                                str29 = null;
+                                                str34 = null;
                                                 str35 = null;
-                                                str36 = null;
                                                 i11 = -1;
+                                                str36 = null;
                                                 str37 = null;
                                                 str38 = null;
-                                                str39 = null;
                                             } else if (uri10.startsWith("tg:calllog") || uri10.startsWith("tg://calllog")) {
                                                 str12 = null;
                                                 str13 = null;
@@ -3801,7 +3851,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 str15 = null;
                                                 str16 = null;
                                                 str17 = null;
-                                                str78 = null;
+                                                str75 = null;
                                                 str18 = null;
                                                 str19 = null;
                                                 str20 = null;
@@ -3809,7 +3859,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 z31 = false;
                                                 str22 = null;
                                                 str23 = null;
-                                                str24 = null;
+                                                num = null;
                                                 i10 = 0;
                                                 c5 = 0;
                                                 z10 = true;
@@ -3825,22 +3875,22 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 j10 = 0;
                                                 j8 = 0;
                                                 str11 = null;
-                                                str28 = null;
                                                 str27 = null;
                                                 str26 = null;
                                                 str25 = null;
-                                                str29 = null;
-                                                str34 = null;
+                                                str24 = null;
+                                                str28 = null;
                                                 str33 = null;
                                                 str32 = null;
                                                 str31 = null;
                                                 str30 = null;
+                                                str29 = null;
+                                                str34 = null;
                                                 str35 = null;
-                                                str36 = null;
                                                 i11 = -1;
+                                                str36 = null;
                                                 str37 = null;
                                                 str38 = null;
-                                                str39 = null;
                                             } else if (uri10.startsWith("tg:call") || uri10.startsWith("tg://call")) {
                                                 if (UserConfig.getInstance(this.currentAccount).isClientActivated()) {
                                                     if (ContactsController.getInstance(this.currentAccount).contactsLoaded || intent.hasExtra("extra_force_call")) {
@@ -3852,39 +3902,39 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                         if (!findContacts.isEmpty() || queryParameter30 == null) {
                                                             j14 = findContacts.size() == 1 ? findContacts.get(0).user_id : 0L;
                                                             if (j14 != 0) {
-                                                                str78 = null;
+                                                                str75 = null;
                                                             } else if (queryParameter29 != null) {
-                                                                str78 = queryParameter29;
+                                                                str75 = queryParameter29;
                                                             }
                                                             boolean equalsIgnoreCase = MediaStreamTrack.VIDEO_TRACK_KIND.equalsIgnoreCase(queryParameter28);
                                                             z36 = !equalsIgnoreCase;
                                                             z37 = equalsIgnoreCase;
                                                             z38 = false;
                                                             z35 = true;
-                                                            str43 = null;
+                                                            str42 = null;
                                                         } else {
-                                                            str44 = queryParameter30;
-                                                            str43 = queryParameter29;
+                                                            str43 = queryParameter30;
+                                                            str42 = queryParameter29;
                                                             z38 = true;
                                                             z36 = false;
                                                             z37 = false;
                                                             j14 = 0;
-                                                            str78 = null;
+                                                            str75 = null;
                                                             z14 = z38;
                                                             z11 = z36;
                                                             z30 = z37;
                                                             z12 = z35;
                                                             j10 = j14;
-                                                            str9 = str43;
-                                                            str8 = str78;
-                                                            str10 = str44;
+                                                            str9 = str42;
+                                                            str8 = str75;
+                                                            str10 = str43;
                                                             str12 = null;
                                                             str13 = null;
                                                             str14 = null;
                                                             str15 = null;
                                                             str16 = null;
                                                             str17 = null;
-                                                            str78 = null;
+                                                            str75 = null;
                                                             str18 = null;
                                                             str19 = null;
                                                             str20 = null;
@@ -3892,7 +3942,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                             z31 = false;
                                                             str22 = null;
                                                             str23 = null;
-                                                            str24 = null;
+                                                            num = null;
                                                             i10 = 0;
                                                             c5 = 0;
                                                             z10 = false;
@@ -3900,22 +3950,22 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                             z15 = false;
                                                             j8 = 0;
                                                             str11 = null;
-                                                            str28 = null;
                                                             str27 = null;
                                                             str26 = null;
                                                             str25 = null;
-                                                            str29 = null;
-                                                            str34 = null;
+                                                            str24 = null;
+                                                            str28 = null;
                                                             str33 = null;
                                                             str32 = null;
                                                             str31 = null;
                                                             str30 = null;
+                                                            str29 = null;
+                                                            str34 = null;
                                                             str35 = null;
-                                                            str36 = null;
                                                             i11 = -1;
+                                                            str36 = null;
                                                             str37 = null;
                                                             str38 = null;
-                                                            str39 = null;
                                                         }
                                                     } else {
                                                         final Intent intent8 = new Intent(intent);
@@ -3932,25 +3982,25 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                         z37 = false;
                                                         z35 = false;
                                                         j14 = 0;
-                                                        str43 = null;
-                                                        str78 = null;
+                                                        str42 = null;
+                                                        str75 = null;
                                                     }
-                                                    str44 = null;
+                                                    str43 = null;
                                                     z14 = z38;
                                                     z11 = z36;
                                                     z30 = z37;
                                                     z12 = z35;
                                                     j10 = j14;
-                                                    str9 = str43;
-                                                    str8 = str78;
-                                                    str10 = str44;
+                                                    str9 = str42;
+                                                    str8 = str75;
+                                                    str10 = str43;
                                                     str12 = null;
                                                     str13 = null;
                                                     str14 = null;
                                                     str15 = null;
                                                     str16 = null;
                                                     str17 = null;
-                                                    str78 = null;
+                                                    str75 = null;
                                                     str18 = null;
                                                     str19 = null;
                                                     str20 = null;
@@ -3958,7 +4008,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     z31 = false;
                                                     str22 = null;
                                                     str23 = null;
-                                                    str24 = null;
+                                                    num = null;
                                                     i10 = 0;
                                                     c5 = 0;
                                                     z10 = false;
@@ -3966,22 +4016,22 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     z15 = false;
                                                     j8 = 0;
                                                     str11 = null;
-                                                    str28 = null;
                                                     str27 = null;
                                                     str26 = null;
                                                     str25 = null;
-                                                    str29 = null;
-                                                    str34 = null;
+                                                    str24 = null;
+                                                    str28 = null;
                                                     str33 = null;
                                                     str32 = null;
                                                     str31 = null;
                                                     str30 = null;
+                                                    str29 = null;
+                                                    str34 = null;
                                                     str35 = null;
-                                                    str36 = null;
                                                     i11 = -1;
+                                                    str36 = null;
                                                     str37 = null;
                                                     str38 = null;
-                                                    str39 = null;
                                                 }
                                             } else if (uri10.startsWith("tg:scanqr") || uri10.startsWith("tg://scanqr")) {
                                                 str12 = null;
@@ -3990,7 +4040,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 str15 = null;
                                                 str16 = null;
                                                 str17 = null;
-                                                str78 = null;
+                                                str75 = null;
                                                 str18 = null;
                                                 str19 = null;
                                                 str20 = null;
@@ -3998,7 +4048,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 z31 = false;
                                                 str22 = null;
                                                 str23 = null;
-                                                str24 = null;
+                                                num = null;
                                                 i10 = 0;
                                                 c5 = 0;
                                                 z10 = false;
@@ -4014,22 +4064,22 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 j10 = 0;
                                                 j8 = 0;
                                                 str11 = null;
-                                                str28 = null;
                                                 str27 = null;
                                                 str26 = null;
                                                 str25 = null;
-                                                str29 = null;
-                                                str34 = null;
+                                                str24 = null;
+                                                str28 = null;
                                                 str33 = null;
                                                 str32 = null;
                                                 str31 = null;
                                                 str30 = null;
+                                                str29 = null;
+                                                str34 = null;
                                                 str35 = null;
-                                                str36 = null;
                                                 i11 = -1;
+                                                str36 = null;
                                                 str37 = null;
                                                 str38 = null;
-                                                str39 = null;
                                             } else if (uri10.startsWith("tg:addcontact") || uri10.startsWith("tg://addcontact")) {
                                                 Uri parse9 = Uri.parse(uri10.replace("tg:addcontact", "tg://telegram.org").replace("tg://addcontact", "tg://telegram.org"));
                                                 String queryParameter31 = parse9.getQueryParameter("name");
@@ -4041,7 +4091,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 str15 = null;
                                                 str16 = null;
                                                 str17 = null;
-                                                str78 = null;
+                                                str75 = null;
                                                 str18 = null;
                                                 str19 = null;
                                                 str20 = null;
@@ -4049,7 +4099,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 z31 = false;
                                                 str22 = null;
                                                 str23 = null;
-                                                str24 = null;
+                                                num = null;
                                                 i10 = 0;
                                                 c5 = 0;
                                                 z10 = false;
@@ -4063,36 +4113,36 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 j10 = 0;
                                                 j8 = 0;
                                                 str11 = null;
-                                                str28 = null;
                                                 str27 = null;
                                                 str26 = null;
                                                 str25 = null;
-                                                str29 = null;
-                                                str34 = null;
+                                                str24 = null;
+                                                str28 = null;
                                                 str33 = null;
                                                 str32 = null;
                                                 str31 = null;
                                                 str30 = null;
+                                                str29 = null;
+                                                str34 = null;
                                                 str35 = null;
-                                                str36 = null;
                                                 i11 = -1;
+                                                str36 = null;
                                                 str37 = null;
                                                 str38 = null;
-                                                str39 = null;
                                             } else {
-                                                String replace = uri10.replace("tg://", str78).replace("tg:", str78);
+                                                String replace = uri10.replace("tg://", str75).replace("tg:", str75);
                                                 int indexOf = replace.indexOf(63);
                                                 if (indexOf >= 0) {
                                                     replace = replace.substring(0, indexOf);
                                                 }
-                                                str29 = replace;
+                                                str28 = replace;
                                                 str12 = null;
                                                 str13 = null;
                                                 str14 = null;
                                                 str15 = null;
                                                 str16 = null;
                                                 str17 = null;
-                                                str78 = null;
+                                                str75 = null;
                                                 str18 = null;
                                                 str19 = null;
                                                 str20 = null;
@@ -4100,7 +4150,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 z31 = false;
                                                 str22 = null;
                                                 str23 = null;
-                                                str24 = null;
+                                                num = null;
                                                 i10 = 0;
                                                 c5 = 0;
                                                 z10 = false;
@@ -4116,26 +4166,26 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 j10 = 0;
                                                 j8 = 0;
                                                 str11 = null;
-                                                str28 = null;
                                                 str27 = null;
                                                 str26 = null;
                                                 str25 = null;
-                                                str34 = null;
+                                                str24 = null;
                                                 str33 = null;
                                                 str32 = null;
                                                 str31 = null;
                                                 str30 = null;
+                                                str29 = null;
+                                                str34 = null;
                                                 str35 = null;
-                                                str36 = null;
                                                 i11 = -1;
+                                                str36 = null;
                                                 str37 = null;
                                                 str38 = null;
-                                                str39 = null;
                                             }
                                             str15 = null;
                                             str16 = null;
                                             str17 = null;
-                                            str78 = null;
+                                            str75 = null;
                                             str18 = null;
                                             str19 = null;
                                             str20 = null;
@@ -4143,7 +4193,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                             z31 = false;
                                             str22 = null;
                                             str23 = null;
-                                            str24 = null;
+                                            num = null;
                                             i10 = 0;
                                             c5 = 0;
                                             z10 = false;
@@ -4159,34 +4209,34 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                             j10 = 0;
                                             j8 = 0;
                                             str11 = null;
-                                            str28 = null;
                                             str27 = null;
                                             str26 = null;
                                             str25 = null;
-                                            str29 = null;
-                                            str34 = null;
+                                            str24 = null;
+                                            str28 = null;
                                             str33 = null;
                                             str32 = null;
                                             str31 = null;
                                             str30 = null;
+                                            str29 = null;
+                                            str34 = null;
                                             str35 = null;
-                                            str36 = null;
                                             i11 = -1;
+                                            str36 = null;
                                             str37 = null;
                                             str38 = null;
-                                            str39 = null;
                                         }
-                                        str29 = str25;
-                                        str34 = str29;
-                                        str33 = str34;
+                                        str28 = str24;
+                                        str33 = str28;
                                         str32 = str33;
                                         str31 = str32;
                                         str30 = str31;
-                                        str35 = str30;
+                                        str29 = str30;
+                                        str34 = str29;
+                                        str35 = str34;
                                         str36 = str35;
                                         str37 = str36;
                                         str38 = str37;
-                                        str39 = str38;
                                         j10 = j11;
                                         j8 = j10;
                                         z31 = false;
@@ -4199,6 +4249,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                         z13 = false;
                                         z14 = false;
                                         z15 = false;
+                                        num = num3;
                                         i11 = -1;
                                     }
                                     break;
@@ -4212,8 +4263,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                             StringBuilder sb = new StringBuilder();
                                             sb.append("https://t.me/");
                                             sb.append(matcher.group(1));
-                                            sb.append(TextUtils.isEmpty(data.getPath()) ? str78 : data.getPath());
-                                            sb.append(TextUtils.isEmpty(data.getQuery()) ? str78 : "?" + data.getQuery());
+                                            sb.append(TextUtils.isEmpty(data.getPath()) ? str75 : data.getPath());
+                                            sb.append(TextUtils.isEmpty(data.getQuery()) ? str75 : "?" + data.getQuery());
                                             data = Uri.parse(sb.toString());
                                         }
                                         String path3 = data.getPath();
@@ -4226,14 +4277,14 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                             } else if (substring2.startsWith("bg/")) {
                                                 ?? tLRPC$TL_wallPaper2 = new TLRPC$TL_wallPaper();
                                                 tLRPC$TL_wallPaper2.settings = new TLRPC$TL_wallPaperSettings();
-                                                String replace2 = substring2.replace("bg/", str78);
+                                                String replace2 = substring2.replace("bg/", str75);
                                                 tLRPC$TL_wallPaper2.slug = replace2;
                                                 if (replace2 != null && replace2.length() == 6) {
                                                     tLRPC$TL_wallPaper2.settings.background_color = Integer.parseInt(tLRPC$TL_wallPaper2.slug, 16) | (-16777216);
                                                     tLRPC$TL_wallPaper2.slug = null;
                                                 } else {
-                                                    String str88 = tLRPC$TL_wallPaper2.slug;
-                                                    if (str88 != null && str88.length() >= 13 && AndroidUtilities.isValidWallChar(tLRPC$TL_wallPaper2.slug.charAt(6))) {
+                                                    String str84 = tLRPC$TL_wallPaper2.slug;
+                                                    if (str84 != null && str84.length() >= 13 && AndroidUtilities.isValidWallChar(tLRPC$TL_wallPaper2.slug.charAt(6))) {
                                                         tLRPC$TL_wallPaper2.settings.background_color = Integer.parseInt(tLRPC$TL_wallPaper2.slug.substring(0, 6), 16) | (-16777216);
                                                         tLRPC$TL_wallPaper2.settings.second_background_color = Integer.parseInt(tLRPC$TL_wallPaper2.slug.substring(7, 13), 16) | (-16777216);
                                                         if (tLRPC$TL_wallPaper2.slug.length() >= 20 && AndroidUtilities.isValidWallChar(tLRPC$TL_wallPaper2.slug.charAt(13))) {
@@ -4301,14 +4352,13 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                             }
                                                         }
                                                     }
-                                                    str60 = tLRPC$TL_wallPaper2;
-                                                    str45 = null;
+                                                    str59 = tLRPC$TL_wallPaper2;
+                                                    str44 = null;
                                                     z39 = false;
-                                                    str58 = null;
+                                                    str57 = null;
                                                     i13 = -1;
                                                     str15 = null;
                                                     str16 = null;
-                                                    str57 = null;
                                                     str56 = null;
                                                     str55 = null;
                                                     str54 = null;
@@ -4320,32 +4370,34 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     str48 = null;
                                                     str47 = null;
                                                     str46 = null;
-                                                    str59 = null;
-                                                    str61 = null;
-                                                    str68 = null;
-                                                    str67 = null;
+                                                    str45 = null;
+                                                    str58 = null;
+                                                    str60 = null;
                                                     str66 = null;
                                                     str65 = null;
+                                                    r40 = null;
                                                     str64 = null;
                                                     str63 = null;
                                                     str62 = null;
+                                                    str61 = null;
+                                                    num5 = r40;
                                                     i11 = i13;
-                                                    str19 = str57;
-                                                    str20 = str55;
-                                                    str27 = str51;
-                                                    str35 = str50;
-                                                    str36 = str49;
-                                                    str25 = str47;
-                                                    str30 = str46;
-                                                    str34 = str59;
-                                                    str32 = str60;
-                                                    str31 = str61;
-                                                    str22 = str68;
-                                                    str24 = str66;
-                                                    str28 = str65;
-                                                    str37 = str64;
-                                                    str38 = str63;
-                                                    str39 = str62;
+                                                    str19 = str56;
+                                                    str20 = str54;
+                                                    str26 = str50;
+                                                    str34 = str49;
+                                                    str35 = str48;
+                                                    str24 = str46;
+                                                    str29 = str45;
+                                                    str33 = str58;
+                                                    str31 = str59;
+                                                    str30 = str60;
+                                                    str22 = str66;
+                                                    num = num5;
+                                                    str27 = str64;
+                                                    str36 = str63;
+                                                    str37 = str62;
+                                                    str38 = str61;
                                                     i10 = 0;
                                                     c5 = 0;
                                                     z10 = false;
@@ -4360,33 +4412,32 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     j10 = 0;
                                                     j8 = 0;
                                                     str11 = null;
-                                                    str26 = null;
-                                                    str29 = null;
-                                                    str33 = null;
-                                                    str14 = str45;
+                                                    str25 = null;
+                                                    str28 = null;
+                                                    str32 = null;
+                                                    str14 = str44;
                                                     z31 = z39;
-                                                    str17 = str58;
-                                                    str12 = str52;
-                                                    str13 = str48;
-                                                    str23 = str67;
+                                                    str17 = str57;
+                                                    str12 = str51;
+                                                    str13 = str47;
+                                                    str23 = str65;
                                                     z12 = false;
-                                                    str21 = str54;
-                                                    String str89 = str53;
-                                                    str18 = str56;
-                                                    str78 = str89;
+                                                    str21 = str53;
+                                                    String str85 = str52;
+                                                    str18 = str55;
+                                                    str75 = str85;
                                                     break;
                                                 }
                                                 z40 = true;
                                                 if (!z40) {
                                                 }
-                                                str60 = tLRPC$TL_wallPaper2;
-                                                str45 = null;
+                                                str59 = tLRPC$TL_wallPaper2;
+                                                str44 = null;
                                                 z39 = false;
-                                                str58 = null;
+                                                str57 = null;
                                                 i13 = -1;
                                                 str15 = null;
                                                 str16 = null;
-                                                str57 = null;
                                                 str56 = null;
                                                 str55 = null;
                                                 str54 = null;
@@ -4398,107 +4449,34 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 str48 = null;
                                                 str47 = null;
                                                 str46 = null;
-                                                str59 = null;
-                                                str61 = null;
-                                                str68 = null;
-                                                str67 = null;
-                                                str66 = null;
-                                                str65 = null;
-                                                str64 = null;
-                                                str63 = null;
-                                                str62 = null;
-                                                i11 = i13;
-                                                str19 = str57;
-                                                str20 = str55;
-                                                str27 = str51;
-                                                str35 = str50;
-                                                str36 = str49;
-                                                str25 = str47;
-                                                str30 = str46;
-                                                str34 = str59;
-                                                str32 = str60;
-                                                str31 = str61;
-                                                str22 = str68;
-                                                str24 = str66;
-                                                str28 = str65;
-                                                str37 = str64;
-                                                str38 = str63;
-                                                str39 = str62;
-                                                i10 = 0;
-                                                c5 = 0;
-                                                z10 = false;
-                                                z11 = false;
-                                                z30 = false;
-                                                z13 = false;
-                                                z14 = false;
-                                                z15 = false;
-                                                str8 = null;
-                                                str9 = null;
-                                                str10 = null;
-                                                j10 = 0;
-                                                j8 = 0;
-                                                str11 = null;
-                                                str26 = null;
-                                                str29 = null;
-                                                str33 = null;
-                                                str14 = str45;
-                                                z31 = z39;
-                                                str17 = str58;
-                                                str12 = str52;
-                                                str13 = str48;
-                                                str23 = str67;
-                                                z12 = false;
-                                                str21 = str54;
-                                                String str892 = str53;
-                                                str18 = str56;
-                                                str78 = str892;
-                                            } else if (substring2.startsWith("login/")) {
-                                                int intValue3 = Utilities.parseInt((CharSequence) substring2.replace("login/", str78)).intValue();
-                                                str59 = intValue3 != 0 ? str78 + intValue3 : null;
                                                 str45 = null;
-                                                z39 = false;
                                                 str58 = null;
-                                                i13 = -1;
-                                                str15 = null;
-                                                str16 = null;
-                                                str57 = null;
-                                                str56 = null;
-                                                str55 = null;
-                                                str54 = null;
-                                                str53 = null;
-                                                str52 = null;
-                                                str51 = null;
-                                                str50 = null;
-                                                str49 = null;
-                                                str48 = null;
-                                                str47 = null;
-                                                str46 = null;
                                                 str60 = null;
-                                                str61 = null;
-                                                str68 = null;
-                                                str67 = null;
                                                 str66 = null;
                                                 str65 = null;
+                                                r40 = null;
                                                 str64 = null;
                                                 str63 = null;
                                                 str62 = null;
+                                                str61 = null;
+                                                num5 = r40;
                                                 i11 = i13;
-                                                str19 = str57;
-                                                str20 = str55;
-                                                str27 = str51;
-                                                str35 = str50;
-                                                str36 = str49;
-                                                str25 = str47;
-                                                str30 = str46;
-                                                str34 = str59;
-                                                str32 = str60;
-                                                str31 = str61;
-                                                str22 = str68;
-                                                str24 = str66;
-                                                str28 = str65;
-                                                str37 = str64;
-                                                str38 = str63;
-                                                str39 = str62;
+                                                str19 = str56;
+                                                str20 = str54;
+                                                str26 = str50;
+                                                str34 = str49;
+                                                str35 = str48;
+                                                str24 = str46;
+                                                str29 = str45;
+                                                str33 = str58;
+                                                str31 = str59;
+                                                str30 = str60;
+                                                str22 = str66;
+                                                num = num5;
+                                                str27 = str64;
+                                                str36 = str63;
+                                                str37 = str62;
+                                                str38 = str61;
                                                 i10 = 0;
                                                 c5 = 0;
                                                 z10 = false;
@@ -4513,33 +4491,108 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 j10 = 0;
                                                 j8 = 0;
                                                 str11 = null;
-                                                str26 = null;
-                                                str29 = null;
-                                                str33 = null;
-                                                str14 = str45;
+                                                str25 = null;
+                                                str28 = null;
+                                                str32 = null;
+                                                str14 = str44;
                                                 z31 = z39;
-                                                str17 = str58;
-                                                str12 = str52;
-                                                str13 = str48;
-                                                str23 = str67;
+                                                str17 = str57;
+                                                str12 = str51;
+                                                str13 = str47;
+                                                str23 = str65;
                                                 z12 = false;
-                                                str21 = str54;
-                                                String str8922 = str53;
-                                                str18 = str56;
-                                                str78 = str8922;
+                                                str21 = str53;
+                                                String str852 = str52;
+                                                str18 = str55;
+                                                str75 = str852;
+                                            } else if (substring2.startsWith("login/")) {
+                                                int intValue2 = Utilities.parseInt((CharSequence) substring2.replace("login/", str75)).intValue();
+                                                str58 = intValue2 != 0 ? str75 + intValue2 : null;
+                                                str44 = null;
+                                                z39 = false;
+                                                str57 = null;
+                                                i13 = -1;
+                                                str15 = null;
+                                                str16 = null;
+                                                str56 = null;
+                                                str55 = null;
+                                                str54 = null;
+                                                str53 = null;
+                                                str52 = null;
+                                                str51 = null;
+                                                str50 = null;
+                                                str49 = null;
+                                                str48 = null;
+                                                str47 = null;
+                                                str46 = null;
+                                                str45 = null;
+                                                str59 = null;
+                                                str60 = null;
+                                                str66 = null;
+                                                str65 = null;
+                                                r40 = null;
+                                                str64 = null;
+                                                str63 = null;
+                                                str62 = null;
+                                                str61 = null;
+                                                num5 = r40;
+                                                i11 = i13;
+                                                str19 = str56;
+                                                str20 = str54;
+                                                str26 = str50;
+                                                str34 = str49;
+                                                str35 = str48;
+                                                str24 = str46;
+                                                str29 = str45;
+                                                str33 = str58;
+                                                str31 = str59;
+                                                str30 = str60;
+                                                str22 = str66;
+                                                num = num5;
+                                                str27 = str64;
+                                                str36 = str63;
+                                                str37 = str62;
+                                                str38 = str61;
+                                                i10 = 0;
+                                                c5 = 0;
+                                                z10 = false;
+                                                z11 = false;
+                                                z30 = false;
+                                                z13 = false;
+                                                z14 = false;
+                                                z15 = false;
+                                                str8 = null;
+                                                str9 = null;
+                                                str10 = null;
+                                                j10 = 0;
+                                                j8 = 0;
+                                                str11 = null;
+                                                str25 = null;
+                                                str28 = null;
+                                                str32 = null;
+                                                str14 = str44;
+                                                z31 = z39;
+                                                str17 = str57;
+                                                str12 = str51;
+                                                str13 = str47;
+                                                str23 = str65;
+                                                z12 = false;
+                                                str21 = str53;
+                                                String str8522 = str52;
+                                                str18 = str55;
+                                                str75 = str8522;
                                             } else {
                                                 if (substring2.startsWith("joinchat/")) {
-                                                    str45 = substring2.replace("joinchat/", str78);
+                                                    str44 = substring2.replace("joinchat/", str75);
                                                 } else if (substring2.startsWith("+")) {
-                                                    str45 = substring2.replace("+", str78);
-                                                    if (AndroidUtilities.isNumeric(str45)) {
-                                                        str58 = str45;
-                                                        str45 = null;
+                                                    str44 = substring2.replace("+", str75);
+                                                    if (AndroidUtilities.isNumeric(str44)) {
+                                                        str57 = str44;
+                                                        str44 = null;
                                                         z39 = false;
                                                         i13 = -1;
                                                         str15 = null;
                                                         str16 = null;
-                                                        str57 = null;
                                                         str56 = null;
                                                         str55 = null;
                                                         str54 = null;
@@ -4551,33 +4604,35 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                         str48 = null;
                                                         str47 = null;
                                                         str46 = null;
+                                                        str45 = null;
+                                                        str58 = null;
                                                         str59 = null;
                                                         str60 = null;
-                                                        str61 = null;
-                                                        str68 = null;
-                                                        str67 = null;
                                                         str66 = null;
                                                         str65 = null;
+                                                        r40 = null;
                                                         str64 = null;
                                                         str63 = null;
                                                         str62 = null;
+                                                        str61 = null;
+                                                        num5 = r40;
                                                         i11 = i13;
-                                                        str19 = str57;
-                                                        str20 = str55;
-                                                        str27 = str51;
-                                                        str35 = str50;
-                                                        str36 = str49;
-                                                        str25 = str47;
-                                                        str30 = str46;
-                                                        str34 = str59;
-                                                        str32 = str60;
-                                                        str31 = str61;
-                                                        str22 = str68;
-                                                        str24 = str66;
-                                                        str28 = str65;
-                                                        str37 = str64;
-                                                        str38 = str63;
-                                                        str39 = str62;
+                                                        str19 = str56;
+                                                        str20 = str54;
+                                                        str26 = str50;
+                                                        str34 = str49;
+                                                        str35 = str48;
+                                                        str24 = str46;
+                                                        str29 = str45;
+                                                        str33 = str58;
+                                                        str31 = str59;
+                                                        str30 = str60;
+                                                        str22 = str66;
+                                                        num = num5;
+                                                        str27 = str64;
+                                                        str36 = str63;
+                                                        str37 = str62;
+                                                        str38 = str61;
                                                         i10 = 0;
                                                         c5 = 0;
                                                         z10 = false;
@@ -4592,29 +4647,28 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                         j10 = 0;
                                                         j8 = 0;
                                                         str11 = null;
-                                                        str26 = null;
-                                                        str29 = null;
-                                                        str33 = null;
-                                                        str14 = str45;
+                                                        str25 = null;
+                                                        str28 = null;
+                                                        str32 = null;
+                                                        str14 = str44;
                                                         z31 = z39;
-                                                        str17 = str58;
-                                                        str12 = str52;
-                                                        str13 = str48;
-                                                        str23 = str67;
+                                                        str17 = str57;
+                                                        str12 = str51;
+                                                        str13 = str47;
+                                                        str23 = str65;
                                                         z12 = false;
-                                                        str21 = str54;
-                                                        String str89222 = str53;
-                                                        str18 = str56;
-                                                        str78 = str89222;
+                                                        str21 = str53;
+                                                        String str85222 = str52;
+                                                        str18 = str55;
+                                                        str75 = str85222;
                                                     }
                                                 } else if (substring2.startsWith("addstickers/")) {
-                                                    str15 = substring2.replace("addstickers/", str78);
-                                                    str45 = null;
+                                                    str15 = substring2.replace("addstickers/", str75);
+                                                    str44 = null;
                                                     z39 = false;
-                                                    str58 = null;
+                                                    str57 = null;
                                                     i13 = -1;
                                                     str16 = null;
-                                                    str57 = null;
                                                     str56 = null;
                                                     str55 = null;
                                                     str54 = null;
@@ -4626,33 +4680,35 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     str48 = null;
                                                     str47 = null;
                                                     str46 = null;
+                                                    str45 = null;
+                                                    str58 = null;
                                                     str59 = null;
                                                     str60 = null;
-                                                    str61 = null;
-                                                    str68 = null;
-                                                    str67 = null;
                                                     str66 = null;
                                                     str65 = null;
+                                                    r40 = null;
                                                     str64 = null;
                                                     str63 = null;
                                                     str62 = null;
+                                                    str61 = null;
+                                                    num5 = r40;
                                                     i11 = i13;
-                                                    str19 = str57;
-                                                    str20 = str55;
-                                                    str27 = str51;
-                                                    str35 = str50;
-                                                    str36 = str49;
-                                                    str25 = str47;
-                                                    str30 = str46;
-                                                    str34 = str59;
-                                                    str32 = str60;
-                                                    str31 = str61;
-                                                    str22 = str68;
-                                                    str24 = str66;
-                                                    str28 = str65;
-                                                    str37 = str64;
-                                                    str38 = str63;
-                                                    str39 = str62;
+                                                    str19 = str56;
+                                                    str20 = str54;
+                                                    str26 = str50;
+                                                    str34 = str49;
+                                                    str35 = str48;
+                                                    str24 = str46;
+                                                    str29 = str45;
+                                                    str33 = str58;
+                                                    str31 = str59;
+                                                    str30 = str60;
+                                                    str22 = str66;
+                                                    num = num5;
+                                                    str27 = str64;
+                                                    str36 = str63;
+                                                    str37 = str62;
+                                                    str38 = str61;
                                                     i10 = 0;
                                                     c5 = 0;
                                                     z10 = false;
@@ -4667,28 +4723,27 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     j10 = 0;
                                                     j8 = 0;
                                                     str11 = null;
-                                                    str26 = null;
-                                                    str29 = null;
-                                                    str33 = null;
-                                                    str14 = str45;
+                                                    str25 = null;
+                                                    str28 = null;
+                                                    str32 = null;
+                                                    str14 = str44;
                                                     z31 = z39;
-                                                    str17 = str58;
-                                                    str12 = str52;
-                                                    str13 = str48;
-                                                    str23 = str67;
+                                                    str17 = str57;
+                                                    str12 = str51;
+                                                    str13 = str47;
+                                                    str23 = str65;
                                                     z12 = false;
-                                                    str21 = str54;
-                                                    String str892222 = str53;
-                                                    str18 = str56;
-                                                    str78 = str892222;
+                                                    str21 = str53;
+                                                    String str852222 = str52;
+                                                    str18 = str55;
+                                                    str75 = str852222;
                                                 } else if (substring2.startsWith("addemoji/")) {
-                                                    str16 = substring2.replace("addemoji/", str78);
-                                                    str45 = null;
+                                                    str16 = substring2.replace("addemoji/", str75);
+                                                    str44 = null;
                                                     z39 = false;
-                                                    str58 = null;
+                                                    str57 = null;
                                                     i13 = -1;
                                                     str15 = null;
-                                                    str57 = null;
                                                     str56 = null;
                                                     str55 = null;
                                                     str54 = null;
@@ -4700,33 +4755,35 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     str48 = null;
                                                     str47 = null;
                                                     str46 = null;
+                                                    str45 = null;
+                                                    str58 = null;
                                                     str59 = null;
                                                     str60 = null;
-                                                    str61 = null;
-                                                    str68 = null;
-                                                    str67 = null;
                                                     str66 = null;
                                                     str65 = null;
+                                                    r40 = null;
                                                     str64 = null;
                                                     str63 = null;
                                                     str62 = null;
+                                                    str61 = null;
+                                                    num5 = r40;
                                                     i11 = i13;
-                                                    str19 = str57;
-                                                    str20 = str55;
-                                                    str27 = str51;
-                                                    str35 = str50;
-                                                    str36 = str49;
-                                                    str25 = str47;
-                                                    str30 = str46;
-                                                    str34 = str59;
-                                                    str32 = str60;
-                                                    str31 = str61;
-                                                    str22 = str68;
-                                                    str24 = str66;
-                                                    str28 = str65;
-                                                    str37 = str64;
-                                                    str38 = str63;
-                                                    str39 = str62;
+                                                    str19 = str56;
+                                                    str20 = str54;
+                                                    str26 = str50;
+                                                    str34 = str49;
+                                                    str35 = str48;
+                                                    str24 = str46;
+                                                    str29 = str45;
+                                                    str33 = str58;
+                                                    str31 = str59;
+                                                    str30 = str60;
+                                                    str22 = str66;
+                                                    num = num5;
+                                                    str27 = str64;
+                                                    str36 = str63;
+                                                    str37 = str62;
+                                                    str38 = str61;
                                                     i10 = 0;
                                                     c5 = 0;
                                                     z10 = false;
@@ -4741,89 +4798,90 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     j10 = 0;
                                                     j8 = 0;
                                                     str11 = null;
-                                                    str26 = null;
-                                                    str29 = null;
-                                                    str33 = null;
-                                                    str14 = str45;
+                                                    str25 = null;
+                                                    str28 = null;
+                                                    str32 = null;
+                                                    str14 = str44;
                                                     z31 = z39;
-                                                    str17 = str58;
-                                                    str12 = str52;
-                                                    str13 = str48;
-                                                    str23 = str67;
+                                                    str17 = str57;
+                                                    str12 = str51;
+                                                    str13 = str47;
+                                                    str23 = str65;
                                                     z12 = false;
-                                                    str21 = str54;
-                                                    String str8922222 = str53;
-                                                    str18 = str56;
-                                                    str78 = str8922222;
+                                                    str21 = str53;
+                                                    String str8522222 = str52;
+                                                    str18 = str55;
+                                                    str75 = str8522222;
                                                 } else if (substring2.startsWith("msg/") || substring2.startsWith("share/")) {
                                                     String queryParameter35 = data.getQueryParameter("url");
                                                     if (queryParameter35 != null) {
-                                                        str78 = queryParameter35;
+                                                        str75 = queryParameter35;
                                                     }
                                                     if (data.getQueryParameter("text") != null) {
-                                                        if (str78.length() > 0) {
-                                                            str78 = str78 + "\n";
+                                                        if (str75.length() > 0) {
+                                                            str75 = str75 + "\n";
                                                             z39 = true;
                                                         } else {
                                                             z39 = false;
                                                         }
-                                                        str78 = str78 + data.getQueryParameter("text");
+                                                        str75 = str75 + data.getQueryParameter("text");
                                                     } else {
                                                         z39 = false;
                                                     }
-                                                    if (str78.length() > 16384) {
+                                                    if (str75.length() > 16384) {
                                                         i14 = 0;
-                                                        str78 = str78.substring(0, 16384);
+                                                        str75 = str75.substring(0, 16384);
                                                     } else {
                                                         i14 = 0;
                                                     }
-                                                    while (str78.endsWith("\n")) {
-                                                        str78 = str78.substring(i14, str78.length() - 1);
+                                                    while (str75.endsWith("\n")) {
+                                                        str75 = str75.substring(i14, str75.length() - 1);
                                                     }
-                                                    str53 = str78;
-                                                    str45 = null;
-                                                    str58 = null;
+                                                    str52 = str75;
+                                                    str44 = null;
+                                                    str57 = null;
                                                     i13 = -1;
                                                     str15 = null;
                                                     str16 = null;
-                                                    str57 = null;
                                                     str56 = null;
                                                     str55 = null;
                                                     str54 = null;
-                                                    str52 = null;
+                                                    str53 = null;
                                                     str51 = null;
                                                     str50 = null;
                                                     str49 = null;
                                                     str48 = null;
                                                     str47 = null;
                                                     str46 = null;
+                                                    str45 = null;
+                                                    str58 = null;
                                                     str59 = null;
                                                     str60 = null;
-                                                    str61 = null;
-                                                    str68 = null;
-                                                    str67 = null;
                                                     str66 = null;
                                                     str65 = null;
+                                                    r40 = null;
                                                     str64 = null;
                                                     str63 = null;
                                                     str62 = null;
+                                                    str61 = null;
+                                                    num5 = r40;
                                                     i11 = i13;
-                                                    str19 = str57;
-                                                    str20 = str55;
-                                                    str27 = str51;
-                                                    str35 = str50;
-                                                    str36 = str49;
-                                                    str25 = str47;
-                                                    str30 = str46;
-                                                    str34 = str59;
-                                                    str32 = str60;
-                                                    str31 = str61;
-                                                    str22 = str68;
-                                                    str24 = str66;
-                                                    str28 = str65;
-                                                    str37 = str64;
-                                                    str38 = str63;
-                                                    str39 = str62;
+                                                    str19 = str56;
+                                                    str20 = str54;
+                                                    str26 = str50;
+                                                    str34 = str49;
+                                                    str35 = str48;
+                                                    str24 = str46;
+                                                    str29 = str45;
+                                                    str33 = str58;
+                                                    str31 = str59;
+                                                    str30 = str60;
+                                                    str22 = str66;
+                                                    num = num5;
+                                                    str27 = str64;
+                                                    str36 = str63;
+                                                    str37 = str62;
+                                                    str38 = str61;
                                                     i10 = 0;
                                                     c5 = 0;
                                                     z10 = false;
@@ -4838,67 +4896,68 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     j10 = 0;
                                                     j8 = 0;
                                                     str11 = null;
-                                                    str26 = null;
-                                                    str29 = null;
-                                                    str33 = null;
-                                                    str14 = str45;
+                                                    str25 = null;
+                                                    str28 = null;
+                                                    str32 = null;
+                                                    str14 = str44;
                                                     z31 = z39;
-                                                    str17 = str58;
-                                                    str12 = str52;
-                                                    str13 = str48;
-                                                    str23 = str67;
+                                                    str17 = str57;
+                                                    str12 = str51;
+                                                    str13 = str47;
+                                                    str23 = str65;
                                                     z12 = false;
-                                                    str21 = str54;
-                                                    String str89222222 = str53;
-                                                    str18 = str56;
-                                                    str78 = str89222222;
+                                                    str21 = str53;
+                                                    String str85222222 = str52;
+                                                    str18 = str55;
+                                                    str75 = str85222222;
                                                 } else if (substring2.startsWith("confirmphone")) {
                                                     String queryParameter36 = data.getQueryParameter("phone");
-                                                    str48 = data.getQueryParameter("hash");
-                                                    str52 = queryParameter36;
-                                                    str45 = null;
+                                                    str47 = data.getQueryParameter("hash");
+                                                    str51 = queryParameter36;
+                                                    str44 = null;
                                                     z39 = false;
-                                                    str58 = null;
+                                                    str57 = null;
                                                     i13 = -1;
                                                     str15 = null;
                                                     str16 = null;
-                                                    str57 = null;
                                                     str56 = null;
                                                     str55 = null;
                                                     str54 = null;
                                                     str53 = null;
-                                                    str51 = null;
+                                                    str52 = null;
                                                     str50 = null;
                                                     str49 = null;
-                                                    str47 = null;
+                                                    str48 = null;
                                                     str46 = null;
+                                                    str45 = null;
+                                                    str58 = null;
                                                     str59 = null;
                                                     str60 = null;
-                                                    str61 = null;
-                                                    str68 = null;
-                                                    str67 = null;
                                                     str66 = null;
                                                     str65 = null;
+                                                    r40 = null;
                                                     str64 = null;
                                                     str63 = null;
                                                     str62 = null;
+                                                    str61 = null;
+                                                    num5 = r40;
                                                     i11 = i13;
-                                                    str19 = str57;
-                                                    str20 = str55;
-                                                    str27 = str51;
-                                                    str35 = str50;
-                                                    str36 = str49;
-                                                    str25 = str47;
-                                                    str30 = str46;
-                                                    str34 = str59;
-                                                    str32 = str60;
-                                                    str31 = str61;
-                                                    str22 = str68;
-                                                    str24 = str66;
-                                                    str28 = str65;
-                                                    str37 = str64;
-                                                    str38 = str63;
-                                                    str39 = str62;
+                                                    str19 = str56;
+                                                    str20 = str54;
+                                                    str26 = str50;
+                                                    str34 = str49;
+                                                    str35 = str48;
+                                                    str24 = str46;
+                                                    str29 = str45;
+                                                    str33 = str58;
+                                                    str31 = str59;
+                                                    str30 = str60;
+                                                    str22 = str66;
+                                                    num = num5;
+                                                    str27 = str64;
+                                                    str36 = str63;
+                                                    str37 = str62;
+                                                    str38 = str61;
                                                     i10 = 0;
                                                     c5 = 0;
                                                     z10 = false;
@@ -4913,103 +4972,28 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     j10 = 0;
                                                     j8 = 0;
                                                     str11 = null;
-                                                    str26 = null;
-                                                    str29 = null;
-                                                    str33 = null;
-                                                    str14 = str45;
+                                                    str25 = null;
+                                                    str28 = null;
+                                                    str32 = null;
+                                                    str14 = str44;
                                                     z31 = z39;
-                                                    str17 = str58;
-                                                    str12 = str52;
-                                                    str13 = str48;
-                                                    str23 = str67;
+                                                    str17 = str57;
+                                                    str12 = str51;
+                                                    str13 = str47;
+                                                    str23 = str65;
                                                     z12 = false;
-                                                    str21 = str54;
-                                                    String str892222222 = str53;
-                                                    str18 = str56;
-                                                    str78 = str892222222;
+                                                    str21 = str53;
+                                                    String str852222222 = str52;
+                                                    str18 = str55;
+                                                    str75 = str852222222;
                                                 } else if (substring2.startsWith("setlanguage/")) {
-                                                    str47 = substring2.substring(12);
-                                                    str45 = null;
+                                                    str46 = substring2.substring(12);
+                                                    str44 = null;
                                                     z39 = false;
-                                                    str58 = null;
+                                                    str57 = null;
                                                     i13 = -1;
                                                     str15 = null;
                                                     str16 = null;
-                                                    str57 = null;
-                                                    str56 = null;
-                                                    str55 = null;
-                                                    str54 = null;
-                                                    str53 = null;
-                                                    str52 = null;
-                                                    str51 = null;
-                                                    str50 = null;
-                                                    str49 = null;
-                                                    str48 = null;
-                                                    str46 = null;
-                                                    str59 = null;
-                                                    str60 = null;
-                                                    str61 = null;
-                                                    str68 = null;
-                                                    str67 = null;
-                                                    str66 = null;
-                                                    str65 = null;
-                                                    str64 = null;
-                                                    str63 = null;
-                                                    str62 = null;
-                                                    i11 = i13;
-                                                    str19 = str57;
-                                                    str20 = str55;
-                                                    str27 = str51;
-                                                    str35 = str50;
-                                                    str36 = str49;
-                                                    str25 = str47;
-                                                    str30 = str46;
-                                                    str34 = str59;
-                                                    str32 = str60;
-                                                    str31 = str61;
-                                                    str22 = str68;
-                                                    str24 = str66;
-                                                    str28 = str65;
-                                                    str37 = str64;
-                                                    str38 = str63;
-                                                    str39 = str62;
-                                                    i10 = 0;
-                                                    c5 = 0;
-                                                    z10 = false;
-                                                    z11 = false;
-                                                    z30 = false;
-                                                    z13 = false;
-                                                    z14 = false;
-                                                    z15 = false;
-                                                    str8 = null;
-                                                    str9 = null;
-                                                    str10 = null;
-                                                    j10 = 0;
-                                                    j8 = 0;
-                                                    str11 = null;
-                                                    str26 = null;
-                                                    str29 = null;
-                                                    str33 = null;
-                                                    str14 = str45;
-                                                    z31 = z39;
-                                                    str17 = str58;
-                                                    str12 = str52;
-                                                    str13 = str48;
-                                                    str23 = str67;
-                                                    z12 = false;
-                                                    str21 = str54;
-                                                    String str8922222222 = str53;
-                                                    str18 = str56;
-                                                    str78 = str8922222222;
-                                                } else if (substring2.startsWith("addtheme/")) {
-                                                    str46 = substring2.substring(9);
-                                                    str45 = null;
-                                                    z39 = false;
-                                                    str58 = null;
-                                                    i13 = -1;
-                                                    str15 = null;
-                                                    str16 = null;
-                                                    str57 = null;
                                                     str56 = null;
                                                     str55 = null;
                                                     str54 = null;
@@ -5020,33 +5004,35 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     str49 = null;
                                                     str48 = null;
                                                     str47 = null;
+                                                    str45 = null;
+                                                    str58 = null;
                                                     str59 = null;
                                                     str60 = null;
-                                                    str61 = null;
-                                                    str68 = null;
-                                                    str67 = null;
                                                     str66 = null;
                                                     str65 = null;
+                                                    r40 = null;
                                                     str64 = null;
                                                     str63 = null;
                                                     str62 = null;
+                                                    str61 = null;
+                                                    num5 = r40;
                                                     i11 = i13;
-                                                    str19 = str57;
-                                                    str20 = str55;
-                                                    str27 = str51;
-                                                    str35 = str50;
-                                                    str36 = str49;
-                                                    str25 = str47;
-                                                    str30 = str46;
-                                                    str34 = str59;
-                                                    str32 = str60;
-                                                    str31 = str61;
-                                                    str22 = str68;
-                                                    str24 = str66;
-                                                    str28 = str65;
-                                                    str37 = str64;
-                                                    str38 = str63;
-                                                    str39 = str62;
+                                                    str19 = str56;
+                                                    str20 = str54;
+                                                    str26 = str50;
+                                                    str34 = str49;
+                                                    str35 = str48;
+                                                    str24 = str46;
+                                                    str29 = str45;
+                                                    str33 = str58;
+                                                    str31 = str59;
+                                                    str30 = str60;
+                                                    str22 = str66;
+                                                    num = num5;
+                                                    str27 = str64;
+                                                    str36 = str63;
+                                                    str37 = str62;
+                                                    str38 = str61;
                                                     i10 = 0;
                                                     c5 = 0;
                                                     z10 = false;
@@ -5061,58 +5047,140 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     j10 = 0;
                                                     j8 = 0;
                                                     str11 = null;
-                                                    str26 = null;
-                                                    str29 = null;
-                                                    str33 = null;
-                                                    str14 = str45;
+                                                    str25 = null;
+                                                    str28 = null;
+                                                    str32 = null;
+                                                    str14 = str44;
                                                     z31 = z39;
-                                                    str17 = str58;
-                                                    str12 = str52;
-                                                    str13 = str48;
-                                                    str23 = str67;
+                                                    str17 = str57;
+                                                    str12 = str51;
+                                                    str13 = str47;
+                                                    str23 = str65;
                                                     z12 = false;
-                                                    str21 = str54;
-                                                    String str89222222222 = str53;
-                                                    str18 = str56;
-                                                    str78 = str89222222222;
+                                                    str21 = str53;
+                                                    String str8522222222 = str52;
+                                                    str18 = str55;
+                                                    str75 = str8522222222;
+                                                } else if (substring2.startsWith("addtheme/")) {
+                                                    str45 = substring2.substring(9);
+                                                    str44 = null;
+                                                    z39 = false;
+                                                    str57 = null;
+                                                    i13 = -1;
+                                                    str15 = null;
+                                                    str16 = null;
+                                                    str56 = null;
+                                                    str55 = null;
+                                                    str54 = null;
+                                                    str53 = null;
+                                                    str52 = null;
+                                                    str51 = null;
+                                                    str50 = null;
+                                                    str49 = null;
+                                                    str48 = null;
+                                                    str47 = null;
+                                                    str46 = null;
+                                                    str58 = null;
+                                                    str59 = null;
+                                                    str60 = null;
+                                                    str66 = null;
+                                                    str65 = null;
+                                                    r40 = null;
+                                                    str64 = null;
+                                                    str63 = null;
+                                                    str62 = null;
+                                                    str61 = null;
+                                                    num5 = r40;
+                                                    i11 = i13;
+                                                    str19 = str56;
+                                                    str20 = str54;
+                                                    str26 = str50;
+                                                    str34 = str49;
+                                                    str35 = str48;
+                                                    str24 = str46;
+                                                    str29 = str45;
+                                                    str33 = str58;
+                                                    str31 = str59;
+                                                    str30 = str60;
+                                                    str22 = str66;
+                                                    num = num5;
+                                                    str27 = str64;
+                                                    str36 = str63;
+                                                    str37 = str62;
+                                                    str38 = str61;
+                                                    i10 = 0;
+                                                    c5 = 0;
+                                                    z10 = false;
+                                                    z11 = false;
+                                                    z30 = false;
+                                                    z13 = false;
+                                                    z14 = false;
+                                                    z15 = false;
+                                                    str8 = null;
+                                                    str9 = null;
+                                                    str10 = null;
+                                                    j10 = 0;
+                                                    j8 = 0;
+                                                    str11 = null;
+                                                    str25 = null;
+                                                    str28 = null;
+                                                    str32 = null;
+                                                    str14 = str44;
+                                                    z31 = z39;
+                                                    str17 = str57;
+                                                    str12 = str51;
+                                                    str13 = str47;
+                                                    str23 = str65;
+                                                    z12 = false;
+                                                    str21 = str53;
+                                                    String str85222222222 = str52;
+                                                    str18 = str55;
+                                                    str75 = str85222222222;
                                                 } else if (substring2.startsWith("c/")) {
                                                     List<String> pathSegments = data.getPathSegments();
                                                     if (pathSegments.size() == 3) {
                                                         ?? parseLong2 = Utilities.parseLong(pathSegments.get(1));
-                                                        ?? parseInt8 = Utilities.parseInt((CharSequence) pathSegments.get(2));
-                                                        if (parseInt8.intValue() != 0) {
+                                                        ?? parseInt9 = Utilities.parseInt((CharSequence) pathSegments.get(2));
+                                                        if (parseInt9.intValue() != 0) {
                                                             int i23 = (parseLong2.longValue() > 0L ? 1 : (parseLong2.longValue() == 0L ? 0 : -1));
-                                                            str73 = parseInt8;
-                                                            str74 = parseLong2;
+                                                            str70 = parseInt9;
+                                                            str71 = parseLong2;
                                                             break;
                                                         }
-                                                        str73 = null;
-                                                        str74 = null;
-                                                        ?? parseInt9 = Utilities.parseInt((CharSequence) data.getQueryParameter("thread"));
-                                                        int intValue4 = parseInt9.intValue();
-                                                        str70 = parseInt9;
-                                                        str71 = str73;
-                                                        str72 = str74;
-                                                        if (intValue4 == 0) {
-                                                            str70 = null;
-                                                            str71 = str73;
-                                                            str72 = str74;
-                                                        }
-                                                    } else {
                                                         str70 = null;
                                                         str71 = null;
-                                                        str72 = null;
+                                                        Integer parseInt10 = Utilities.parseInt((CharSequence) data.getQueryParameter("thread"));
+                                                        if (parseInt10.intValue() == 0) {
+                                                            parseInt10 = null;
+                                                        }
+                                                        if (parseInt10 == null) {
+                                                            num7 = Utilities.parseInt((CharSequence) data.getQueryParameter("topic"));
+                                                            str68 = str70;
+                                                            str69 = str71;
+                                                            if (num7.intValue() == 0) {
+                                                                num7 = null;
+                                                                str68 = str70;
+                                                                str69 = str71;
+                                                            }
+                                                        } else {
+                                                            num7 = parseInt10;
+                                                            str68 = str70;
+                                                            str69 = str71;
+                                                        }
+                                                    } else {
+                                                        num7 = null;
+                                                        str68 = null;
+                                                        str69 = null;
                                                     }
-                                                    str66 = str70;
-                                                    str68 = str71;
-                                                    str67 = str72;
-                                                    str45 = null;
+                                                    r40 = num7;
+                                                    str66 = str68;
+                                                    str65 = str69;
+                                                    str44 = null;
                                                     z39 = false;
-                                                    str58 = null;
+                                                    str57 = null;
                                                     i13 = -1;
                                                     str15 = null;
                                                     str16 = null;
-                                                    str57 = null;
                                                     str56 = null;
                                                     str55 = null;
                                                     str54 = null;
@@ -5124,30 +5192,32 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     str48 = null;
                                                     str47 = null;
                                                     str46 = null;
+                                                    str45 = null;
+                                                    str58 = null;
                                                     str59 = null;
                                                     str60 = null;
-                                                    str61 = null;
-                                                    str65 = null;
                                                     str64 = null;
                                                     str63 = null;
                                                     str62 = null;
+                                                    str61 = null;
+                                                    num5 = r40;
                                                     i11 = i13;
-                                                    str19 = str57;
-                                                    str20 = str55;
-                                                    str27 = str51;
-                                                    str35 = str50;
-                                                    str36 = str49;
-                                                    str25 = str47;
-                                                    str30 = str46;
-                                                    str34 = str59;
-                                                    str32 = str60;
-                                                    str31 = str61;
-                                                    str22 = str68;
-                                                    str24 = str66;
-                                                    str28 = str65;
-                                                    str37 = str64;
-                                                    str38 = str63;
-                                                    str39 = str62;
+                                                    str19 = str56;
+                                                    str20 = str54;
+                                                    str26 = str50;
+                                                    str34 = str49;
+                                                    str35 = str48;
+                                                    str24 = str46;
+                                                    str29 = str45;
+                                                    str33 = str58;
+                                                    str31 = str59;
+                                                    str30 = str60;
+                                                    str22 = str66;
+                                                    num = num5;
+                                                    str27 = str64;
+                                                    str36 = str63;
+                                                    str37 = str62;
+                                                    str38 = str61;
                                                     i10 = 0;
                                                     c5 = 0;
                                                     z10 = false;
@@ -5162,20 +5232,20 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     j10 = 0;
                                                     j8 = 0;
                                                     str11 = null;
-                                                    str26 = null;
-                                                    str29 = null;
-                                                    str33 = null;
-                                                    str14 = str45;
+                                                    str25 = null;
+                                                    str28 = null;
+                                                    str32 = null;
+                                                    str14 = str44;
                                                     z31 = z39;
-                                                    str17 = str58;
-                                                    str12 = str52;
-                                                    str13 = str48;
-                                                    str23 = str67;
+                                                    str17 = str57;
+                                                    str12 = str51;
+                                                    str13 = str47;
+                                                    str23 = str65;
                                                     z12 = false;
-                                                    str21 = str54;
-                                                    String str892222222222 = str53;
-                                                    str18 = str56;
-                                                    str78 = str892222222222;
+                                                    str21 = str53;
+                                                    String str852222222222 = str52;
+                                                    str18 = str55;
+                                                    str75 = str852222222222;
                                                 } else if (substring2.length() >= 1) {
                                                     ArrayList arrayList3 = new ArrayList(data.getPathSegments());
                                                     if (arrayList3.size() > 0) {
@@ -5187,93 +5257,162 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                         i15 = 0;
                                                     }
                                                     if (arrayList3.size() > 0) {
-                                                        str58 = (String) arrayList3.get(i15);
+                                                        str57 = (String) arrayList3.get(i15);
                                                         if (arrayList3.size() > 1) {
-                                                            ?? parseInt10 = Utilities.parseInt((CharSequence) arrayList3.get(1));
-                                                            int intValue5 = parseInt10.intValue();
-                                                            str69 = parseInt10;
+                                                            ?? parseInt11 = Utilities.parseInt((CharSequence) arrayList3.get(1));
+                                                            int intValue3 = parseInt11.intValue();
+                                                            str67 = parseInt11;
                                                             break;
                                                         }
-                                                        str69 = null;
+                                                        str67 = null;
                                                     } else {
-                                                        str69 = null;
-                                                        str58 = null;
+                                                        str67 = null;
+                                                        str57 = null;
                                                     }
-                                                    i13 = str69 != null ? getTimestampFromLink(data) : -1;
-                                                    str56 = data.getQueryParameter("start");
+                                                    i13 = str67 != null ? getTimestampFromLink(data) : -1;
+                                                    str55 = data.getQueryParameter("start");
                                                     String queryParameter37 = data.getQueryParameter("startgroup");
                                                     String queryParameter38 = data.getQueryParameter("startchannel");
                                                     String queryParameter39 = data.getQueryParameter("admin");
-                                                    String str90 = str69;
+                                                    String str86 = str67;
                                                     String queryParameter40 = data.getQueryParameter("game");
                                                     String queryParameter41 = data.getQueryParameter("voicechat");
                                                     String queryParameter42 = data.getQueryParameter("livestream");
                                                     String queryParameter43 = data.getQueryParameter("startattach");
                                                     String queryParameter44 = data.getQueryParameter("choose");
                                                     String queryParameter45 = data.getQueryParameter("attach");
-                                                    ?? parseInt11 = Utilities.parseInt((CharSequence) data.getQueryParameter("thread"));
-                                                    String str91 = parseInt11.intValue() == 0 ? null : parseInt11;
-                                                    ?? parseInt12 = Utilities.parseInt((CharSequence) data.getQueryParameter("comment"));
-                                                    str68 = str90;
+                                                    Integer parseInt12 = Utilities.parseInt((CharSequence) data.getQueryParameter("thread"));
                                                     if (parseInt12.intValue() == 0) {
-                                                        str64 = queryParameter43;
-                                                        str62 = queryParameter44;
-                                                        str63 = queryParameter45;
-                                                        str66 = str91;
-                                                        str45 = null;
-                                                        z39 = false;
-                                                        str52 = null;
-                                                        str48 = null;
-                                                        str47 = null;
-                                                        str46 = null;
-                                                        str59 = null;
-                                                        str60 = null;
-                                                        str61 = null;
-                                                        str67 = null;
-                                                        str65 = null;
-                                                    } else {
-                                                        str65 = parseInt12;
-                                                        str64 = queryParameter43;
-                                                        str62 = queryParameter44;
-                                                        str63 = queryParameter45;
-                                                        str66 = str91;
-                                                        str45 = null;
-                                                        z39 = false;
-                                                        str52 = null;
-                                                        str48 = null;
-                                                        str47 = null;
-                                                        str46 = null;
-                                                        str59 = null;
-                                                        str60 = null;
-                                                        str61 = null;
-                                                        str67 = null;
+                                                        parseInt12 = null;
                                                     }
-                                                    str51 = queryParameter40;
-                                                    str50 = queryParameter41;
-                                                    str49 = queryParameter42;
-                                                    str53 = null;
-                                                    str55 = queryParameter38;
-                                                    str54 = queryParameter39;
+                                                    if (parseInt12 == null) {
+                                                        parseInt12 = Utilities.parseInt((CharSequence) data.getQueryParameter("topic"));
+                                                        if (parseInt12.intValue() == 0) {
+                                                            r30 = null;
+                                                            parseInt3 = Utilities.parseInt((CharSequence) data.getQueryParameter("comment"));
+                                                            str66 = str86;
+                                                            if (parseInt3.intValue() != 0) {
+                                                                str63 = queryParameter43;
+                                                                str61 = queryParameter44;
+                                                                str62 = queryParameter45;
+                                                                num6 = r30;
+                                                                str44 = null;
+                                                                z39 = false;
+                                                                str51 = null;
+                                                                str47 = null;
+                                                                str46 = null;
+                                                                str45 = null;
+                                                                str58 = null;
+                                                                str59 = null;
+                                                                str60 = null;
+                                                                str65 = null;
+                                                                str64 = null;
+                                                            } else {
+                                                                str64 = parseInt3;
+                                                                str63 = queryParameter43;
+                                                                str61 = queryParameter44;
+                                                                str62 = queryParameter45;
+                                                                num6 = r30;
+                                                                str44 = null;
+                                                                z39 = false;
+                                                                str51 = null;
+                                                                str47 = null;
+                                                                str46 = null;
+                                                                str45 = null;
+                                                                str58 = null;
+                                                                str59 = null;
+                                                                str60 = null;
+                                                                str65 = null;
+                                                            }
+                                                            str50 = queryParameter40;
+                                                            str49 = queryParameter41;
+                                                            str48 = queryParameter42;
+                                                            str52 = null;
+                                                            str54 = queryParameter38;
+                                                            str53 = queryParameter39;
+                                                            str16 = null;
+                                                            str56 = queryParameter37;
+                                                            str15 = null;
+                                                            num5 = num6;
+                                                            i11 = i13;
+                                                            str19 = str56;
+                                                            str20 = str54;
+                                                            str26 = str50;
+                                                            str34 = str49;
+                                                            str35 = str48;
+                                                            str24 = str46;
+                                                            str29 = str45;
+                                                            str33 = str58;
+                                                            str31 = str59;
+                                                            str30 = str60;
+                                                            str22 = str66;
+                                                            num = num5;
+                                                            str27 = str64;
+                                                            str36 = str63;
+                                                            str37 = str62;
+                                                            str38 = str61;
+                                                            i10 = 0;
+                                                            c5 = 0;
+                                                            z10 = false;
+                                                            z11 = false;
+                                                            z30 = false;
+                                                            z13 = false;
+                                                            z14 = false;
+                                                            z15 = false;
+                                                            str8 = null;
+                                                            str9 = null;
+                                                            str10 = null;
+                                                            j10 = 0;
+                                                            j8 = 0;
+                                                            str11 = null;
+                                                            str25 = null;
+                                                            str28 = null;
+                                                            str32 = null;
+                                                            str14 = str44;
+                                                            z31 = z39;
+                                                            str17 = str57;
+                                                            str12 = str51;
+                                                            str13 = str47;
+                                                            str23 = str65;
+                                                            z12 = false;
+                                                            str21 = str53;
+                                                            String str8522222222222 = str52;
+                                                            str18 = str55;
+                                                            str75 = str8522222222222;
+                                                        }
+                                                    }
+                                                    r30 = parseInt12;
+                                                    parseInt3 = Utilities.parseInt((CharSequence) data.getQueryParameter("comment"));
+                                                    str66 = str86;
+                                                    if (parseInt3.intValue() != 0) {
+                                                    }
+                                                    str50 = queryParameter40;
+                                                    str49 = queryParameter41;
+                                                    str48 = queryParameter42;
+                                                    str52 = null;
+                                                    str54 = queryParameter38;
+                                                    str53 = queryParameter39;
                                                     str16 = null;
-                                                    str57 = queryParameter37;
+                                                    str56 = queryParameter37;
                                                     str15 = null;
+                                                    num5 = num6;
                                                     i11 = i13;
-                                                    str19 = str57;
-                                                    str20 = str55;
-                                                    str27 = str51;
-                                                    str35 = str50;
-                                                    str36 = str49;
-                                                    str25 = str47;
-                                                    str30 = str46;
-                                                    str34 = str59;
-                                                    str32 = str60;
-                                                    str31 = str61;
-                                                    str22 = str68;
-                                                    str24 = str66;
-                                                    str28 = str65;
-                                                    str37 = str64;
-                                                    str38 = str63;
-                                                    str39 = str62;
+                                                    str19 = str56;
+                                                    str20 = str54;
+                                                    str26 = str50;
+                                                    str34 = str49;
+                                                    str35 = str48;
+                                                    str24 = str46;
+                                                    str29 = str45;
+                                                    str33 = str58;
+                                                    str31 = str59;
+                                                    str30 = str60;
+                                                    str22 = str66;
+                                                    num = num5;
+                                                    str27 = str64;
+                                                    str36 = str63;
+                                                    str37 = str62;
+                                                    str38 = str61;
                                                     i10 = 0;
                                                     c5 = 0;
                                                     z10 = false;
@@ -5288,27 +5427,26 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     j10 = 0;
                                                     j8 = 0;
                                                     str11 = null;
-                                                    str26 = null;
-                                                    str29 = null;
-                                                    str33 = null;
-                                                    str14 = str45;
+                                                    str25 = null;
+                                                    str28 = null;
+                                                    str32 = null;
+                                                    str14 = str44;
                                                     z31 = z39;
-                                                    str17 = str58;
-                                                    str12 = str52;
-                                                    str13 = str48;
-                                                    str23 = str67;
+                                                    str17 = str57;
+                                                    str12 = str51;
+                                                    str13 = str47;
+                                                    str23 = str65;
                                                     z12 = false;
-                                                    str21 = str54;
-                                                    String str8922222222222 = str53;
-                                                    str18 = str56;
-                                                    str78 = str8922222222222;
+                                                    str21 = str53;
+                                                    String str85222222222222 = str52;
+                                                    str18 = str55;
+                                                    str75 = str85222222222222;
                                                 }
                                                 z39 = false;
-                                                str58 = null;
+                                                str57 = null;
                                                 i13 = -1;
                                                 str15 = null;
                                                 str16 = null;
-                                                str57 = null;
                                                 str56 = null;
                                                 str55 = null;
                                                 str54 = null;
@@ -5320,33 +5458,35 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 str48 = null;
                                                 str47 = null;
                                                 str46 = null;
+                                                str45 = null;
+                                                str58 = null;
                                                 str59 = null;
                                                 str60 = null;
-                                                str61 = null;
-                                                str68 = null;
-                                                str67 = null;
                                                 str66 = null;
                                                 str65 = null;
+                                                r40 = null;
                                                 str64 = null;
                                                 str63 = null;
                                                 str62 = null;
+                                                str61 = null;
+                                                num5 = r40;
                                                 i11 = i13;
-                                                str19 = str57;
-                                                str20 = str55;
-                                                str27 = str51;
-                                                str35 = str50;
-                                                str36 = str49;
-                                                str25 = str47;
-                                                str30 = str46;
-                                                str34 = str59;
-                                                str32 = str60;
-                                                str31 = str61;
-                                                str22 = str68;
-                                                str24 = str66;
-                                                str28 = str65;
-                                                str37 = str64;
-                                                str38 = str63;
-                                                str39 = str62;
+                                                str19 = str56;
+                                                str20 = str54;
+                                                str26 = str50;
+                                                str34 = str49;
+                                                str35 = str48;
+                                                str24 = str46;
+                                                str29 = str45;
+                                                str33 = str58;
+                                                str31 = str59;
+                                                str30 = str60;
+                                                str22 = str66;
+                                                num = num5;
+                                                str27 = str64;
+                                                str36 = str63;
+                                                str37 = str62;
+                                                str38 = str61;
                                                 i10 = 0;
                                                 c5 = 0;
                                                 z10 = false;
@@ -5361,29 +5501,28 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 j10 = 0;
                                                 j8 = 0;
                                                 str11 = null;
-                                                str26 = null;
-                                                str29 = null;
-                                                str33 = null;
-                                                str14 = str45;
+                                                str25 = null;
+                                                str28 = null;
+                                                str32 = null;
+                                                str14 = str44;
                                                 z31 = z39;
-                                                str17 = str58;
-                                                str12 = str52;
-                                                str13 = str48;
-                                                str23 = str67;
+                                                str17 = str57;
+                                                str12 = str51;
+                                                str13 = str47;
+                                                str23 = str65;
                                                 z12 = false;
-                                                str21 = str54;
-                                                String str89222222222222 = str53;
-                                                str18 = str56;
-                                                str78 = str89222222222222;
+                                                str21 = str53;
+                                                String str852222222222222 = str52;
+                                                str18 = str55;
+                                                str75 = str852222222222222;
                                             }
-                                            str61 = substring;
-                                            str45 = null;
+                                            str60 = substring;
+                                            str44 = null;
                                             z39 = false;
-                                            str58 = null;
+                                            str57 = null;
                                             i13 = -1;
                                             str15 = null;
                                             str16 = null;
-                                            str57 = null;
                                             str56 = null;
                                             str55 = null;
                                             str54 = null;
@@ -5395,32 +5534,34 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                             str48 = null;
                                             str47 = null;
                                             str46 = null;
+                                            str45 = null;
+                                            str58 = null;
                                             str59 = null;
-                                            str60 = null;
-                                            str68 = null;
-                                            str67 = null;
                                             str66 = null;
                                             str65 = null;
+                                            r40 = null;
                                             str64 = null;
                                             str63 = null;
                                             str62 = null;
+                                            str61 = null;
+                                            num5 = r40;
                                             i11 = i13;
-                                            str19 = str57;
-                                            str20 = str55;
-                                            str27 = str51;
-                                            str35 = str50;
-                                            str36 = str49;
-                                            str25 = str47;
-                                            str30 = str46;
-                                            str34 = str59;
-                                            str32 = str60;
-                                            str31 = str61;
-                                            str22 = str68;
-                                            str24 = str66;
-                                            str28 = str65;
-                                            str37 = str64;
-                                            str38 = str63;
-                                            str39 = str62;
+                                            str19 = str56;
+                                            str20 = str54;
+                                            str26 = str50;
+                                            str34 = str49;
+                                            str35 = str48;
+                                            str24 = str46;
+                                            str29 = str45;
+                                            str33 = str58;
+                                            str31 = str59;
+                                            str30 = str60;
+                                            str22 = str66;
+                                            num = num5;
+                                            str27 = str64;
+                                            str36 = str63;
+                                            str37 = str62;
+                                            str38 = str61;
                                             i10 = 0;
                                             c5 = 0;
                                             z10 = false;
@@ -5435,28 +5576,27 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                             j10 = 0;
                                             j8 = 0;
                                             str11 = null;
-                                            str26 = null;
-                                            str29 = null;
-                                            str33 = null;
-                                            str14 = str45;
+                                            str25 = null;
+                                            str28 = null;
+                                            str32 = null;
+                                            str14 = str44;
                                             z31 = z39;
-                                            str17 = str58;
-                                            str12 = str52;
-                                            str13 = str48;
-                                            str23 = str67;
+                                            str17 = str57;
+                                            str12 = str51;
+                                            str13 = str47;
+                                            str23 = str65;
                                             z12 = false;
-                                            str21 = str54;
-                                            String str892222222222222 = str53;
-                                            str18 = str56;
-                                            str78 = str892222222222222;
+                                            str21 = str53;
+                                            String str8522222222222222 = str52;
+                                            str18 = str55;
+                                            str75 = str8522222222222222;
                                         }
-                                        str45 = null;
+                                        str44 = null;
                                         z39 = false;
-                                        str58 = null;
+                                        str57 = null;
                                         i13 = -1;
                                         str15 = null;
                                         str16 = null;
-                                        str57 = null;
                                         str56 = null;
                                         str55 = null;
                                         str54 = null;
@@ -5468,33 +5608,35 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                         str48 = null;
                                         str47 = null;
                                         str46 = null;
+                                        str45 = null;
+                                        str58 = null;
                                         str59 = null;
                                         str60 = null;
-                                        str61 = null;
-                                        str68 = null;
-                                        str67 = null;
                                         str66 = null;
                                         str65 = null;
+                                        r40 = null;
                                         str64 = null;
                                         str63 = null;
                                         str62 = null;
+                                        str61 = null;
+                                        num5 = r40;
                                         i11 = i13;
-                                        str19 = str57;
-                                        str20 = str55;
-                                        str27 = str51;
-                                        str35 = str50;
-                                        str36 = str49;
-                                        str25 = str47;
-                                        str30 = str46;
-                                        str34 = str59;
-                                        str32 = str60;
-                                        str31 = str61;
-                                        str22 = str68;
-                                        str24 = str66;
-                                        str28 = str65;
-                                        str37 = str64;
-                                        str38 = str63;
-                                        str39 = str62;
+                                        str19 = str56;
+                                        str20 = str54;
+                                        str26 = str50;
+                                        str34 = str49;
+                                        str35 = str48;
+                                        str24 = str46;
+                                        str29 = str45;
+                                        str33 = str58;
+                                        str31 = str59;
+                                        str30 = str60;
+                                        str22 = str66;
+                                        num = num5;
+                                        str27 = str64;
+                                        str36 = str63;
+                                        str37 = str62;
+                                        str38 = str61;
                                         i10 = 0;
                                         c5 = 0;
                                         z10 = false;
@@ -5509,39 +5651,39 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                         j10 = 0;
                                         j8 = 0;
                                         str11 = null;
-                                        str26 = null;
-                                        str29 = null;
-                                        str33 = null;
-                                        str14 = str45;
+                                        str25 = null;
+                                        str28 = null;
+                                        str32 = null;
+                                        str14 = str44;
                                         z31 = z39;
-                                        str17 = str58;
-                                        str12 = str52;
-                                        str13 = str48;
-                                        str23 = str67;
+                                        str17 = str57;
+                                        str12 = str51;
+                                        str13 = str47;
+                                        str23 = str65;
                                         z12 = false;
-                                        str21 = str54;
-                                        String str8922222222222222 = str53;
-                                        str18 = str56;
-                                        str78 = str8922222222222222;
+                                        str21 = str53;
+                                        String str85222222222222222 = str52;
+                                        str18 = str55;
+                                        str75 = str85222222222222222;
                                     }
                                     break;
                             }
                             if (!intent.hasExtra("actions.fulfillment.extra.ACTION_TOKEN")) {
-                                str40 = str77;
-                                FirebaseUserActions.getInstance(this).end(new AssistActionBuilder().setActionToken(intent.getStringExtra("actions.fulfillment.extra.ACTION_TOKEN")).setActionStatus(UserConfig.getInstance(this.currentAccount).isClientActivated() && "tg".equals(scheme) && str29 == null ? "http://schema.org/CompletedActionStatus" : "http://schema.org/FailedActionStatus").build());
+                                str39 = str74;
+                                FirebaseUserActions.getInstance(this).end(new AssistActionBuilder().setActionToken(intent.getStringExtra("actions.fulfillment.extra.ACTION_TOKEN")).setActionStatus(UserConfig.getInstance(this.currentAccount).isClientActivated() && "tg".equals(scheme) && str28 == null ? "http://schema.org/CompletedActionStatus" : "http://schema.org/FailedActionStatus").build());
                                 intent.removeExtra("actions.fulfillment.extra.ACTION_TOKEN");
                             } else {
-                                str40 = str77;
+                                str39 = str74;
                             }
-                            if (str34 != null && !UserConfig.getInstance(this.currentAccount).isClientActivated()) {
+                            if (str33 != null && !UserConfig.getInstance(this.currentAccount).isClientActivated()) {
                                 str = " ";
                                 iArr2 = iArr3;
                                 launchActivity = this;
-                                str7 = str40;
+                                str7 = str39;
                             } else if (str12 == null || str13 != null) {
                                 str = " ";
                                 iArr2 = iArr3;
-                                str7 = str40;
+                                str7 = str39;
                                 launchActivity = this;
                                 final AlertDialog alertDialog = new AlertDialog(launchActivity, 3);
                                 alertDialog.setCanCancel(false);
@@ -5560,21 +5702,21 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                 }
                                 final Bundle bundle = new Bundle();
                                 bundle.putString("phone", str12);
-                                final String str92 = str12;
+                                final String str87 = str12;
                                 ConnectionsManager.getInstance(launchActivity.currentAccount).sendRequest(tLRPC$TL_account_sendConfirmPhoneCode, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda91
                                     @Override // org.telegram.tgnet.RequestDelegate
                                     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                                        LaunchActivity.this.lambda$handleIntent$14(alertDialog, str92, bundle, tLRPC$TL_account_sendConfirmPhoneCode, tLObject, tLRPC$TL_error);
+                                        LaunchActivity.this.lambda$handleIntent$14(alertDialog, str87, bundle, tLRPC$TL_account_sendConfirmPhoneCode, tLObject, tLRPC$TL_error);
                                     }
                                 }, 2);
-                            } else if (str17 != null || str14 != null || str15 != null || str16 != null || str78 != null || str27 != null || str35 != null || str26 != null || str29 != null || str25 != null || str34 != null || str32 != null || str31 != null || str23 != null || str30 != null || str33 != null) {
-                                if (str78 != null && str78.startsWith("@")) {
-                                    str78 = " " + str78;
+                            } else if (str17 != null || str14 != null || str15 != null || str16 != null || str75 != null || str26 != null || str34 != null || str25 != null || str28 != null || str24 != null || str33 != null || str31 != null || str30 != null || str23 != null || str29 != null || str32 != null) {
+                                if (str75 != null && str75.startsWith("@")) {
+                                    str75 = " " + str75;
                                 }
                                 str = " ";
-                                str7 = str40;
+                                str7 = str39;
                                 iArr2 = iArr3;
-                                runLinkRequest(iArr3[0], str17, str14, str15, str16, str18, str19, str20, str21, str78, z31, str22, str23, str24, str28, str27, str26, str25, str29, str34, str33, str32, str31, str30, str35, str36, 0, i11, str37, str38, str39);
+                                runLinkRequest(iArr3[0], str17, str14, str15, str16, str18, str19, str20, str21, str75, z31, str22, str23, num, str27, str26, str25, str24, str28, str33, str32, str31, str30, str29, str34, str35, 0, i11, str36, str37, str38);
                                 launchActivity = this;
                             } else {
                                 try {
@@ -5585,11 +5727,11 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                 if (query != null) {
                                     try {
                                         if (query.moveToFirst()) {
-                                            int intValue6 = Utilities.parseInt((CharSequence) query.getString(query.getColumnIndex("account_name"))).intValue();
+                                            int intValue4 = Utilities.parseInt((CharSequence) query.getString(query.getColumnIndex("account_name"))).intValue();
                                             int i24 = 0;
                                             while (true) {
                                                 if (i24 < 4) {
-                                                    if (UserConfig.getInstance(i24).getClientUserId() != intValue6) {
+                                                    if (UserConfig.getInstance(i24).getClientUserId() != intValue4) {
                                                         try {
                                                             i24++;
                                                         } catch (Throwable th4) {
@@ -5609,7 +5751,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                                 i9 = i10;
                                                                 c4 = c5;
                                                                 j7 = j10;
-                                                                str7 = str40;
+                                                                str7 = str39;
                                                                 intent7 = intent;
                                                                 i2 = i9;
                                                                 c = c4;
@@ -5618,7 +5760,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                                 str5 = str10;
                                                                 j2 = j8;
                                                                 str3 = str11;
-                                                                str77 = str7;
+                                                                str74 = str7;
                                                                 iArr = iArr2;
                                                                 i = -1;
                                                                 z5 = false;
@@ -5686,7 +5828,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                         i9 = i10;
                                                         c4 = c5;
                                                         j7 = j10;
-                                                        str7 = str40;
+                                                        str7 = str39;
                                                         intent7 = intent;
                                                         i2 = i9;
                                                         c = c4;
@@ -5695,7 +5837,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                         str5 = str10;
                                                         j2 = j8;
                                                         str3 = str11;
-                                                        str77 = str7;
+                                                        str74 = str7;
                                                         iArr = iArr2;
                                                         i = -1;
                                                         z5 = false;
@@ -5737,7 +5879,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 i9 = i10;
                                                 c4 = c5;
                                                 j7 = j10;
-                                                str7 = str40;
+                                                str7 = str39;
                                             } catch (Throwable th5) {
                                                 th = th5;
                                                 j10 = j17;
@@ -5759,7 +5901,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                 i9 = i10;
                                 c4 = c5;
                                 j7 = j10;
-                                str7 = str40;
+                                str7 = str39;
                             }
                             i9 = i10;
                             c4 = c5;
@@ -5774,7 +5916,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         str15 = null;
                         str16 = null;
                         str17 = null;
-                        str78 = null;
+                        str75 = null;
                         str18 = null;
                         str19 = null;
                         str20 = null;
@@ -5782,7 +5924,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         z31 = false;
                         str22 = null;
                         str23 = null;
-                        str24 = null;
+                        num = null;
                         i10 = 0;
                         c5 = 0;
                         z10 = false;
@@ -5796,31 +5938,31 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         str9 = null;
                         str10 = null;
                         str11 = null;
-                        str28 = null;
                         str27 = null;
                         str26 = null;
                         str25 = null;
-                        str29 = null;
-                        str34 = null;
+                        str24 = null;
+                        str28 = null;
                         str33 = null;
                         str32 = null;
                         str31 = null;
                         str30 = null;
+                        str29 = null;
+                        str34 = null;
                         str35 = null;
-                        str36 = null;
                         i11 = -1;
+                        str36 = null;
                         str37 = null;
                         str38 = null;
-                        str39 = null;
                         if (!intent.hasExtra("actions.fulfillment.extra.ACTION_TOKEN")) {
                         }
-                        if (str34 != null) {
+                        if (str33 != null) {
                         }
                         if (str12 == null) {
                         }
                         str = " ";
                         iArr2 = iArr3;
-                        str7 = str40;
+                        str7 = str39;
                         launchActivity = this;
                         final AlertDialog alertDialog2 = new AlertDialog(launchActivity, 3);
                         alertDialog2.setCanCancel(false);
@@ -5836,18 +5978,18 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         }
                         final Bundle bundle2 = new Bundle();
                         bundle2.putString("phone", str12);
-                        final String str922 = str12;
+                        final String str872 = str12;
                         ConnectionsManager.getInstance(launchActivity.currentAccount).sendRequest(tLRPC$TL_account_sendConfirmPhoneCode, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda91
                             @Override // org.telegram.tgnet.RequestDelegate
                             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                                LaunchActivity.this.lambda$handleIntent$14(alertDialog2, str922, bundle2, tLRPC$TL_account_sendConfirmPhoneCode, tLObject, tLRPC$TL_error);
+                                LaunchActivity.this.lambda$handleIntent$14(alertDialog2, str872, bundle2, tLRPC$TL_account_sendConfirmPhoneCode, tLObject, tLRPC$TL_error);
                             }
                         }, 2);
                         i9 = i10;
                         c4 = c5;
                         j7 = j10;
                     } else {
-                        str7 = str77;
+                        str7 = str74;
                         str = " ";
                         iArr2 = iArr3;
                         launchActivity = this;
@@ -5875,7 +6017,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     str5 = str10;
                     j2 = j8;
                     str3 = str11;
-                    str77 = str7;
+                    str74 = str7;
                     iArr = iArr2;
                     i = -1;
                     z5 = false;
@@ -5896,7 +6038,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     int i25 = -1;
                     if (intent.getAction().equals("org.telegram.messenger.OPEN_ACCOUNT")) {
                         intent7 = intent;
-                        str77 = str77;
+                        str74 = str74;
                         iArr = iArr3;
                         i = -1;
                         i2 = 0;
@@ -5924,7 +6066,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         c = 1;
                     } else if (intent.getAction().equals("new_dialog")) {
                         intent6 = intent;
-                        str77 = str77;
+                        str74 = str74;
                         iArr = iArr3;
                         i = -1;
                         i2 = 0;
@@ -5963,7 +6105,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                             j5 = 0;
                             j6 = 0;
                             i7 = intExtra2;
-                            str77 = str77;
+                            str74 = str74;
                             iArr = iArr3;
                             intExtra3 = 0;
                             i8 = 0;
@@ -5971,8 +6113,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                             z5 = false;
                             c3 = 6;
                         } else {
-                            str77 = str77;
-                            int intExtra4 = intent9.getIntExtra(str77, 0);
+                            str74 = str74;
+                            int intExtra4 = intent9.getIntExtra(str74, 0);
                             if (longExtra != 0) {
                                 iArr = iArr3;
                                 NotificationCenter.getInstance(iArr[0]).postNotificationName(NotificationCenter.closeChats, new Object[0]);
@@ -6043,7 +6185,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         intent7 = intent9;
                     } else {
                         intent2 = intent;
-                        str77 = str77;
+                        str74 = str74;
                         iArr = iArr3;
                         j = 0;
                         if (intent.getAction().equals("com.tmessages.openplayer")) {
@@ -6194,7 +6336,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                             Bundle bundle3 = new Bundle();
                             bundle3.putLong("user_id", j3);
                             if (i2 != 0) {
-                                bundle3.putInt(str77, i2);
+                                bundle3.putInt(str74, i2);
                             }
                             if (!mainFragmentsStack.isEmpty()) {
                                 MessagesController messagesController = MessagesController.getInstance(iArr[0]);
@@ -6217,7 +6359,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         Bundle bundle4 = new Bundle();
                         bundle4.putLong("chat_id", j2);
                         if (i2 != 0) {
-                            bundle4.putInt(str77, i2);
+                            bundle4.putInt(str74, i2);
                         }
                         if (!mainFragmentsStack.isEmpty()) {
                             MessagesController messagesController2 = MessagesController.getInstance(iArr[0]);
@@ -6427,8 +6569,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     contactsActivity.setInitialSearchString(str2);
                                                     contactsActivity.setDelegate(new ContactsActivity.ContactsActivityDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda105
                                                         @Override // org.telegram.ui.ContactsActivity.ContactsActivityDelegate
-                                                        public final void didSelectContact(TLRPC$User tLRPC$User, String str93, ContactsActivity contactsActivity2) {
-                                                            LaunchActivity.this.lambda$handleIntent$19(z4, iArr, tLRPC$User, str93, contactsActivity2);
+                                                        public final void didSelectContact(TLRPC$User tLRPC$User, String str88, ContactsActivity contactsActivity2) {
+                                                            LaunchActivity.this.lambda$handleIntent$19(z4, iArr, tLRPC$User, str88, contactsActivity2);
                                                         }
                                                     });
                                                     launchActivity.actionBarLayout.presentFragment(new INavigationLayout.NavigationParams(contactsActivity).setRemoveLast(launchActivity.actionBarLayout.getLastFragment() instanceof ContactsActivity));
@@ -6443,8 +6585,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     final ActionIntroActivity actionIntroActivity = new ActionIntroActivity(5);
                                                     actionIntroActivity.setQrLoginDelegate(new ActionIntroActivity.ActionIntroQRLoginDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda98
                                                         @Override // org.telegram.ui.ActionIntroActivity.ActionIntroQRLoginDelegate
-                                                        public final void didFindQRCode(String str93) {
-                                                            LaunchActivity.this.lambda$handleIntent$23(actionIntroActivity, str93);
+                                                        public final void didFindQRCode(String str88) {
+                                                            LaunchActivity.this.lambda$handleIntent$23(actionIntroActivity, str88);
                                                         }
                                                     });
                                                     launchActivity.actionBarLayout.presentFragment(new INavigationLayout.NavigationParams(actionIntroActivity).setNoAnimation(r3));
@@ -6457,10 +6599,10 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     }
                                                 } else if (z13) {
                                                     NewContactActivity newContactActivity = new NewContactActivity();
-                                                    String str93 = str4;
-                                                    if (str93 != null) {
-                                                        String[] split3 = str93.split(str, 2);
-                                                        String str94 = split3[0];
+                                                    String str88 = str4;
+                                                    if (str88 != null) {
+                                                        String[] split3 = str88.split(str, 2);
+                                                        String str89 = split3[0];
                                                         if (split3.length > r3) {
                                                             char c8 = r3 == true ? 1 : 0;
                                                             char c9 = r3 == true ? 1 : 0;
@@ -6470,11 +6612,11 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                         } else {
                                                             str6 = null;
                                                         }
-                                                        newContactActivity.setInitialName(str94, str6);
+                                                        newContactActivity.setInitialName(str89, str6);
                                                     }
-                                                    String str95 = str5;
-                                                    if (str95 != null) {
-                                                        newContactActivity.setInitialPhoneNumber(PhoneFormat.stripExceptNumbers(str95, r3), false);
+                                                    String str90 = str5;
+                                                    if (str90 != null) {
+                                                        newContactActivity.setInitialPhoneNumber(PhoneFormat.stripExceptNumbers(str90, r3), false);
                                                     }
                                                     launchActivity.actionBarLayout.presentFragment(new INavigationLayout.NavigationParams(newContactActivity).setNoAnimation(r3));
                                                     if (AndroidUtilities.isTablet()) {
@@ -6490,8 +6632,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                         launchActivity.drawerLayoutContainer.setAllowOpenDrawer(r3, false);
                                                     }
                                                 } else {
-                                                    final String str96 = str4;
-                                                    String str97 = str5;
+                                                    final String str91 = str4;
+                                                    String str92 = str5;
                                                     if (z7) {
                                                         z17 = true;
                                                         z17 = true;
@@ -6509,11 +6651,11 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                             if (lastFragment3 == null || lastFragment3.getParentActivity() == null) {
                                                                 z22 = false;
                                                             } else {
-                                                                final String phoneNumber = NewContactActivity.getPhoneNumber(launchActivity, UserConfig.getInstance(launchActivity.currentAccount).getCurrentUser(), str97, false);
+                                                                final String phoneNumber = NewContactActivity.getPhoneNumber(launchActivity, UserConfig.getInstance(launchActivity.currentAccount).getCurrentUser(), str92, false);
                                                                 lastFragment3.showDialog(new AlertDialog.Builder(lastFragment3.getParentActivity()).setTitle(LocaleController.getString("NewContactAlertTitle", R.string.NewContactAlertTitle)).setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("NewContactAlertMessage", R.string.NewContactAlertMessage, PhoneFormat.getInstance().format(phoneNumber)))).setPositiveButton(LocaleController.getString("NewContactAlertButton", R.string.NewContactAlertButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda8
                                                                     @Override // android.content.DialogInterface.OnClickListener
                                                                     public final void onClick(DialogInterface dialogInterface, int i38) {
-                                                                        LaunchActivity.lambda$handleIntent$24(phoneNumber, str96, lastFragment3, dialogInterface, i38);
+                                                                        LaunchActivity.lambda$handleIntent$24(phoneNumber, str91, lastFragment3, dialogInterface, i38);
                                                                     }
                                                                 }).setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null).create());
                                                                 z22 = true;
@@ -7238,7 +7380,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:26:0x04e1  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x04e3  */
     /* JADX WARN: Removed duplicated region for block: B:33:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:96:0x03b2  */
     /*
@@ -7530,7 +7672,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda39
                                                 @Override // java.lang.Runnable
                                                 public final void run() {
-                                                    LaunchActivity.this.lambda$runLinkRequest$75(bundle2, l, iArr, alertDialog, num, baseFragment4, i);
+                                                    LaunchActivity.this.lambda$runLinkRequest$75(bundle2, l, iArr, alertDialog, num2, num, baseFragment4, i);
                                                 }
                                             });
                                         }
@@ -8913,7 +9055,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$runLinkRequest$75(final Bundle bundle, final Long l, int[] iArr, final AlertDialog alertDialog, final Integer num, final BaseFragment baseFragment, final int i) {
+    public /* synthetic */ void lambda$runLinkRequest$75(final Bundle bundle, final Long l, int[] iArr, final AlertDialog alertDialog, final Integer num, final Integer num2, final BaseFragment baseFragment, final int i) {
         if (!this.actionBarLayout.presentFragment(new ChatActivity(bundle))) {
             TLRPC$TL_channels_getChannels tLRPC$TL_channels_getChannels = new TLRPC$TL_channels_getChannels();
             TLRPC$TL_inputChannel tLRPC$TL_inputChannel = new TLRPC$TL_inputChannel();
@@ -8922,24 +9064,24 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             iArr[0] = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_channels_getChannels, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda90
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    LaunchActivity.this.lambda$runLinkRequest$74(alertDialog, l, num, baseFragment, i, bundle, tLObject, tLRPC$TL_error);
+                    LaunchActivity.this.lambda$runLinkRequest$74(alertDialog, num, l, num2, baseFragment, i, bundle, tLObject, tLRPC$TL_error);
                 }
             });
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$runLinkRequest$74(final AlertDialog alertDialog, final Long l, final Integer num, final BaseFragment baseFragment, final int i, final Bundle bundle, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$runLinkRequest$74(final AlertDialog alertDialog, final Integer num, final Long l, final Integer num2, final BaseFragment baseFragment, final int i, final Bundle bundle, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda60
             @Override // java.lang.Runnable
             public final void run() {
-                LaunchActivity.this.lambda$runLinkRequest$73(alertDialog, tLObject, l, num, baseFragment, i, bundle);
+                LaunchActivity.this.lambda$runLinkRequest$73(alertDialog, tLObject, num, l, num2, baseFragment, i, bundle);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$runLinkRequest$73(AlertDialog alertDialog, TLObject tLObject, Long l, Integer num, BaseFragment baseFragment, int i, Bundle bundle) {
+    public /* synthetic */ void lambda$runLinkRequest$73(AlertDialog alertDialog, TLObject tLObject, Integer num, Long l, Integer num2, BaseFragment baseFragment, int i, Bundle bundle) {
         try {
             alertDialog.dismiss();
         } catch (Exception e) {
@@ -8952,7 +9094,11 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 MessagesController.getInstance(this.currentAccount).putChats(tLRPC$TL_messages_chats.chats, false);
                 TLRPC$Chat tLRPC$Chat = tLRPC$TL_messages_chats.chats.get(0);
                 if (tLRPC$Chat != null && tLRPC$Chat.forum) {
-                    openForumFromLink(-l.longValue(), num.intValue(), null, null);
+                    if (num != null) {
+                        openForumFromLink(-l.longValue(), num.intValue(), num2, null);
+                    } else {
+                        openForumFromLink(-l.longValue(), num2.intValue(), null, null);
+                    }
                 }
                 if (baseFragment == null || MessagesController.getInstance(i).checkCanOpenChat(bundle, baseFragment)) {
                     this.actionBarLayout.presentFragment(new ChatActivity(bundle));

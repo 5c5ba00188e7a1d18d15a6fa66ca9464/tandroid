@@ -1076,7 +1076,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                         if (i14 < sharedMediaDataArr4.length) {
                             MessageObject deleteMessage = sharedMediaDataArr4[i14].deleteMessage(((Integer) arrayList3.get(i13)).intValue(), 0);
                             if (deleteMessage != null) {
-                                if (deleteMessage.getDialogId() == this.dialogId) {
+                                if (deleteMessage.getDialogId() == this.dialogId && (this.topicId == 0 || MessageObject.getTopicId(deleteMessage.messageOwner) == this.topicId)) {
                                     int[] iArr7 = this.mediaCount;
                                     if (iArr7[i14] > 0) {
                                         iArr7[i14] = iArr7[i14] - 1;
@@ -1326,7 +1326,11 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                 this.sectionArrays.remove(messageObject.monthKey);
                 this.sections.remove(messageObject.monthKey);
             }
-            this.totalCount--;
+            int i3 = this.totalCount - 1;
+            this.totalCount = i3;
+            if (i3 < 0) {
+                this.totalCount = 0;
+            }
             return messageObject;
         }
 

@@ -1268,12 +1268,12 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
      */
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Removed duplicated region for block: B:150:0x0361  */
-    /* JADX WARN: Removed duplicated region for block: B:195:0x042d  */
-    /* JADX WARN: Removed duplicated region for block: B:196:0x0438  */
-    /* JADX WARN: Removed duplicated region for block: B:201:0x0455  */
-    /* JADX WARN: Removed duplicated region for block: B:204:0x0472  */
-    /* JADX WARN: Removed duplicated region for block: B:207:0x0474  */
-    /* JADX WARN: Removed duplicated region for block: B:208:0x0457  */
+    /* JADX WARN: Removed duplicated region for block: B:195:0x0429  */
+    /* JADX WARN: Removed duplicated region for block: B:196:0x0434  */
+    /* JADX WARN: Removed duplicated region for block: B:201:0x0451  */
+    /* JADX WARN: Removed duplicated region for block: B:204:0x046e  */
+    /* JADX WARN: Removed duplicated region for block: B:207:0x0470  */
+    /* JADX WARN: Removed duplicated region for block: B:208:0x0453  */
     /* JADX WARN: Type inference failed for: r2v20, types: [android.text.SpannableStringBuilder] */
     /* JADX WARN: Type inference failed for: r2v23, types: [java.lang.CharSequence] */
     /* JADX WARN: Type inference failed for: r2v24 */
@@ -1297,7 +1297,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         String str3;
         boolean z3;
         String str4;
-        CharSequence formatPluralString;
+        CharSequence formatPluralStringComma;
         String str5;
         int indexOfIgnoreCase;
         String str6;
@@ -1567,17 +1567,17 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
             }
             if (tLRPC$Chat != null && tLRPC$Chat.participants_count != 0) {
                 if (!ChatObject.isChannel(tLRPC$Chat) && !tLRPC$Chat.megagroup) {
-                    formatPluralString = LocaleController.formatPluralString("Subscribers", tLRPC$Chat.participants_count, new Object[0]);
+                    formatPluralStringComma = LocaleController.formatPluralStringComma("Subscribers", tLRPC$Chat.participants_count, ' ');
                 } else {
-                    formatPluralString = LocaleController.formatPluralString("Members", tLRPC$Chat.participants_count, new Object[0]);
+                    formatPluralStringComma = LocaleController.formatPluralStringComma("Members", tLRPC$Chat.participants_count, ' ');
                 }
                 if (!(str3 instanceof SpannableStringBuilder)) {
-                    ((SpannableStringBuilder) str3).append((CharSequence) ", ").append(formatPluralString);
+                    ((SpannableStringBuilder) str3).append((CharSequence) ", ").append(formatPluralStringComma);
                 } else {
                     if (!TextUtils.isEmpty(str3)) {
-                        formatPluralString = TextUtils.concat(str3, ", ", formatPluralString);
+                        formatPluralStringComma = TextUtils.concat(str3, ", ", formatPluralStringComma);
                     }
-                    str4 = formatPluralString;
+                    str4 = formatPluralStringComma;
                     profileSearchCell.setData(tLRPC$User != null ? tLRPC$User : tLRPC$Chat, tLRPC$EncryptedChat, str2, str4, true, z3);
                     profileSearchCell.setChecked(this.delegate.isSelected(profileSearchCell.getDialogId()), dialogId == profileSearchCell.getDialogId());
                 }
@@ -1601,7 +1601,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         if (tLRPC$Chat != null) {
             if (!ChatObject.isChannel(tLRPC$Chat)) {
             }
-            formatPluralString = LocaleController.formatPluralString("Members", tLRPC$Chat.participants_count, new Object[0]);
+            formatPluralStringComma = LocaleController.formatPluralStringComma("Members", tLRPC$Chat.participants_count, ' ');
             if (!(str3 instanceof SpannableStringBuilder)) {
             }
         }

@@ -19,9 +19,11 @@ import android.widget.LinearLayout;
 import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.R;
 import org.telegram.messenger.TopicsController;
+import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
@@ -34,6 +36,7 @@ import org.telegram.tgnet.TLRPC$TL_error;
 import org.telegram.tgnet.TLRPC$TL_forumTopic;
 import org.telegram.tgnet.TLRPC$TL_messageActionTopicCreate;
 import org.telegram.tgnet.TLRPC$TL_messageService;
+import org.telegram.tgnet.TLRPC$TL_messages_stickerSet;
 import org.telegram.tgnet.TLRPC$TL_peerNotifySettings;
 import org.telegram.tgnet.TLRPC$TL_updateMessageID;
 import org.telegram.tgnet.TLRPC$Updates;
@@ -192,7 +195,14 @@ public class TopicCreateFragment extends BaseFragment {
 
             @Override // org.telegram.ui.SelectAnimatedEmojiDialog
             protected void onEmojiSelected(View view, Long l, TLRPC$Document tLRPC$Document, Integer num) {
-                TopicCreateFragment.this.selectEmoji(l);
+                boolean z = false;
+                if (!TextUtils.isEmpty(UserConfig.getInstance(((BaseFragment) TopicCreateFragment.this).currentAccount).defaultTopicIcons)) {
+                    TLRPC$TL_messages_stickerSet stickerSetByEmojiOrName = TopicCreateFragment.this.getMediaDataController().getStickerSetByEmojiOrName(UserConfig.getInstance(((BaseFragment) TopicCreateFragment.this).currentAccount).defaultTopicIcons);
+                    if ((stickerSetByEmojiOrName == null ? 0L : stickerSetByEmojiOrName.set.id) == MediaDataController.getStickerSetId(tLRPC$Document)) {
+                        z = true;
+                    }
+                }
+                TopicCreateFragment.this.selectEmoji(l, z);
             }
         };
         this.selectAnimatedEmojiDialog = selectAnimatedEmojiDialog;
@@ -217,7 +227,7 @@ public class TopicCreateFragment extends BaseFragment {
         TLRPC$TL_forumTopic tLRPC$TL_forumTopic = this.topicForEdit;
         if (tLRPC$TL_forumTopic != null) {
             this.editTextBoldCursor.setText(tLRPC$TL_forumTopic.title);
-            selectEmoji(Long.valueOf(this.topicForEdit.icon_emoji_id));
+            selectEmoji(Long.valueOf(this.topicForEdit.icon_emoji_id), true);
         }
         return this.fragmentView;
     }
@@ -468,12 +478,12 @@ public class TopicCreateFragment extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public void selectEmoji(Long l) {
+    public void selectEmoji(Long l, boolean z) {
         long longValue = l == null ? 0L : l.longValue();
         if (this.selectedEmojiDocumentId == longValue) {
             return;
         }
-        if (longValue != 0 && !getUserConfig().isPremium()) {
+        if (!z && longValue != 0 && !getUserConfig().isPremium()) {
             TLRPC$Document findDocument = AnimatedEmojiDrawable.findDocument(this.currentAccount, l.longValue());
             if (findDocument == null) {
                 return;

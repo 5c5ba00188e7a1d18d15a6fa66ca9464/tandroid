@@ -95,12 +95,29 @@ public class NotificationsSettingsFacade {
         return MessagesController.getNotificationsSettings(this.currentAccount);
     }
 
-    public void applyDialogNotificationsSettings(long j, int i, TLRPC$PeerNotifySettings tLRPC$PeerNotifySettings) {
-        int i2;
-        int i3;
+    public void applyDialogNotificationsSettings(final long j, final int i, final TLRPC$PeerNotifySettings tLRPC$PeerNotifySettings) {
         if (tLRPC$PeerNotifySettings == null) {
             return;
         }
+        Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.NotificationsSettingsFacade$$ExternalSyntheticLambda1
+            @Override // java.lang.Runnable
+            public final void run() {
+                NotificationsSettingsFacade.this.lambda$applyDialogNotificationsSettings$1(j, i, tLRPC$PeerNotifySettings);
+            }
+        });
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x0192  */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x019d  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public /* synthetic */ void lambda$applyDialogNotificationsSettings$1(long j, int i, TLRPC$PeerNotifySettings tLRPC$PeerNotifySettings) {
+        boolean z;
+        boolean z2;
+        int i2;
+        int i3;
         String sharedPrefKey = NotificationsController.getSharedPrefKey(j, i);
         MessagesController messagesController = MessagesController.getInstance(this.currentAccount);
         ConnectionsManager connectionsManager = ConnectionsManager.getInstance(this.currentAccount);
@@ -123,13 +140,13 @@ public class NotificationsSettingsFacade {
         if (tLRPC$Dialog != null) {
             tLRPC$Dialog.notify_settings = tLRPC$PeerNotifySettings;
         }
-        boolean z = true;
         if ((tLRPC$PeerNotifySettings.flags & 4) == 0) {
             if (i4 != -1) {
                 if (tLRPC$Dialog != null) {
                     tLRPC$Dialog.notify_settings.mute_until = 0;
                 }
                 edit.remove(PROPERTY_NOTIFY + sharedPrefKey);
+                z = true;
             } else {
                 z = false;
             }
@@ -139,13 +156,14 @@ public class NotificationsSettingsFacade {
         } else if (tLRPC$PeerNotifySettings.mute_until > connectionsManager.getCurrentTime()) {
             if (tLRPC$PeerNotifySettings.mute_until <= connectionsManager.getCurrentTime() + 31536000) {
                 if (i4 == 3 && i5 == tLRPC$PeerNotifySettings.mute_until) {
-                    z = false;
+                    z2 = false;
                 } else {
                     edit.putInt(PROPERTY_NOTIFY + sharedPrefKey, 3);
                     edit.putInt(PROPERTY_NOTIFY_UNTIL + sharedPrefKey, tLRPC$PeerNotifySettings.mute_until);
                     if (tLRPC$Dialog != null) {
                         tLRPC$Dialog.notify_settings.mute_until = 0;
                     }
+                    z2 = true;
                 }
                 i3 = tLRPC$PeerNotifySettings.mute_until;
             } else if (i4 != 2) {
@@ -154,14 +172,27 @@ public class NotificationsSettingsFacade {
                     tLRPC$Dialog.notify_settings.mute_until = ConnectionsManager.DEFAULT_DATACENTER_ID;
                 }
                 i3 = 0;
+                z2 = true;
             } else {
                 i3 = 0;
-                z = false;
+                z2 = false;
             }
             if (i == 0) {
                 messagesStorage.setDialogFlags(j, (i3 << 32) | 1);
                 notificationsController.removeNotificationsForDialog(j);
             }
+            applySoundSettings(tLRPC$PeerNotifySettings.android_sound, edit, j, i, 0, false);
+            edit.apply();
+            if (z2) {
+                return;
+            }
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.NotificationsSettingsFacade$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    NotificationsSettingsFacade.this.lambda$applyDialogNotificationsSettings$0();
+                }
+            });
+            return;
         } else {
             if (i4 == 0 || i4 == 1) {
                 z = false;
@@ -173,17 +204,21 @@ public class NotificationsSettingsFacade {
                     i2 = 0;
                 }
                 edit.putInt(PROPERTY_NOTIFY + sharedPrefKey, i2);
+                z = true;
             }
             if (i == 0) {
                 messagesStorage.setDialogFlags(j, 0L);
             }
         }
-        boolean z2 = z;
+        z2 = z;
         applySoundSettings(tLRPC$PeerNotifySettings.android_sound, edit, j, i, 0, false);
         edit.apply();
-        if (!z2) {
-            return;
+        if (z2) {
         }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$applyDialogNotificationsSettings$0() {
         NotificationCenter.getInstance(this.currentAccount).postNotificationName(NotificationCenter.notificationsSettingsUpdated, new Object[0]);
     }
 
