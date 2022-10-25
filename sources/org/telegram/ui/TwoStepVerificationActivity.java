@@ -200,32 +200,30 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         AndroidUtilities.removeAdjustResize(getParentActivity(), this.classGuid);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:11:0x0213  */
-    /* JADX WARN: Removed duplicated region for block: B:14:0x0232  */
-    /* JADX WARN: Removed duplicated region for block: B:17:0x0261  */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x02c1  */
-    /* JADX WARN: Removed duplicated region for block: B:23:0x0327  */
-    /* JADX WARN: Removed duplicated region for block: B:26:0x0355  */
-    /* JADX WARN: Removed duplicated region for block: B:29:0x0400  */
-    /* JADX WARN: Removed duplicated region for block: B:31:0x0407  */
-    /* JADX WARN: Removed duplicated region for block: B:34:0x0429  */
-    /* JADX WARN: Removed duplicated region for block: B:37:0x045f  */
-    /* JADX WARN: Removed duplicated region for block: B:39:0x046a  */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x051a  */
-    /* JADX WARN: Removed duplicated region for block: B:45:0x0532  */
-    /* JADX WARN: Removed duplicated region for block: B:48:0x055f  */
-    /* JADX WARN: Removed duplicated region for block: B:52:0x0572  */
-    /* JADX WARN: Removed duplicated region for block: B:53:0x0540  */
-    /* JADX WARN: Removed duplicated region for block: B:54:0x0528  */
-    /* JADX WARN: Removed duplicated region for block: B:55:0x046d  */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x0464  */
-    /* JADX WARN: Removed duplicated region for block: B:57:0x040a  */
-    /* JADX WARN: Removed duplicated region for block: B:58:0x0403  */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x032a  */
-    /* JADX WARN: Removed duplicated region for block: B:60:0x02c4  */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x0263  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x0234  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x0215  */
+    /* JADX WARN: Removed duplicated region for block: B:12:0x0217  */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x0236  */
+    /* JADX WARN: Removed duplicated region for block: B:18:0x0265  */
+    /* JADX WARN: Removed duplicated region for block: B:21:0x02c5  */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x032b  */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x0359  */
+    /* JADX WARN: Removed duplicated region for block: B:30:0x0404  */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x040b  */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x042d  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x0463  */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x046e  */
+    /* JADX WARN: Removed duplicated region for block: B:48:0x053a  */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x0575  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x0588  */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x0556  */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x0471  */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x0468  */
+    /* JADX WARN: Removed duplicated region for block: B:60:0x040e  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x0407  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x032e  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x02c8  */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x0267  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x0238  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x0219  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -235,7 +233,7 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         int i2;
         this.actionBar.setBackButtonImage(R.drawable.ic_ab_back);
         this.actionBar.setAllowOverlayTitle(false);
-        if (!this.passwordEntered) {
+        if (!this.passwordEntered || this.delegate != null) {
             this.actionBar.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
             this.actionBar.setTitleColor(Theme.getColor("windowBackgroundWhiteBlackText"));
             this.actionBar.setItemsColor(Theme.getColor("windowBackgroundWhiteBlackText"), false);
@@ -469,13 +467,15 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
                 this.radialProgressView.setProgressColor(Theme.getColor("windowBackgroundWhiteInputFieldActivated"));
                 this.actionBar.addView(this.radialProgressView, LayoutHelper.createFrame(32, 32.0f, 21, 0.0f, 0.0f, 12.0f, 0.0f));
                 updateRows();
-                if (!this.passwordEntered) {
+                if (!this.passwordEntered && this.delegate == null) {
                     this.actionBar.setTitle(LocaleController.getString("TwoStepVerificationTitle", R.string.TwoStepVerificationTitle));
                 } else {
                     this.actionBar.setTitle(null);
                 }
                 if (this.delegate == null) {
-                    this.titleTextView.setText(LocaleController.getString("PleaseEnterCurrentPasswordTransfer", R.string.PleaseEnterCurrentPasswordTransfer));
+                    this.titleTextView.setText(LocaleController.getString(R.string.YourPassword));
+                    this.subtitleTextView.setText(LocaleController.getString(R.string.PleaseEnterCurrentPasswordTransfer));
+                    this.subtitleTextView.setVisibility(0);
                 } else {
                     this.titleTextView.setText(LocaleController.getString(R.string.YourPassword));
                     this.subtitleTextView.setVisibility(0);
@@ -671,6 +671,7 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         updateRows();
         if (!this.passwordEntered) {
         }
+        this.actionBar.setTitle(null);
         if (this.delegate == null) {
         }
         if (!this.passwordEntered) {

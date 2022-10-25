@@ -19864,7 +19864,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     public void didReceivedNotification(int r58, int r59, java.lang.Object... r60) {
         /*
-            Method dump skipped, instructions count: 14533
+            Method dump skipped, instructions count: 14540
             To view this dump add '--comments-level debug' option
         */
         throw new UnsupportedOperationException("Method not decompiled: org.telegram.ui.ChatActivity.didReceivedNotification(int, int, java.lang.Object[]):void");
@@ -30585,15 +30585,26 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         chatActivityAdapter.notifyItemRemoved(chatActivityAdapter.messagesStartRow + indexOf);
     }
 
-    public void openVCard(TLRPC$User tLRPC$User, String str, String str2, String str3) {
+    public void openVCard(TLRPC$User tLRPC$User, String str, String str2, String str3, String str4) {
+        if (tLRPC$User != null) {
+            Bundle bundle = new Bundle();
+            bundle.putLong("user_id", tLRPC$User.id);
+            bundle.putBoolean("show_add_to_contacts", true);
+            bundle.putString("vcard", str2);
+            bundle.putString("vcard_phone", str);
+            bundle.putString("vcard_first_name", str3);
+            bundle.putString("vcard_last_name", str4);
+            presentFragment(new ProfileActivity(bundle));
+            return;
+        }
         try {
             File sharingDirectory = AndroidUtilities.getSharingDirectory();
             sharingDirectory.mkdirs();
             File file = new File(sharingDirectory, "vcard.vcf");
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));
-            bufferedWriter.write(str);
+            bufferedWriter.write(str2);
             bufferedWriter.close();
-            showDialog(new PhonebookShareAlert(this, null, tLRPC$User, null, file, str2, str3, this.themeDelegate));
+            showDialog(new PhonebookShareAlert(this, null, tLRPC$User, null, file, str3, str4, this.themeDelegate));
         } catch (Exception e) {
             FileLog.e(e);
         }
@@ -32511,7 +32522,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     }
                     ChatActivity chatActivity = ChatActivity.this;
                     TLRPC$MessageMedia tLRPC$MessageMedia2 = messageObject.messageOwner.media;
-                    chatActivity.openVCard(tLRPC$User, tLRPC$MessageMedia2.vcard, tLRPC$MessageMedia2.first_name, tLRPC$MessageMedia2.last_name);
+                    chatActivity.openVCard(tLRPC$User, tLRPC$MessageMedia2.phone_number, tLRPC$MessageMedia2.vcard, tLRPC$MessageMedia2.first_name, tLRPC$MessageMedia2.last_name);
                 } else if (messageObject.isSponsored()) {
                     Bundle bundle = new Bundle();
                     if (messageObject.sponsoredChatInvite != null) {
@@ -33399,15 +33410,15 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             return null;
         }
 
-        /* JADX WARN: Can't wrap try/catch for region: R(13:1|(1:3)|(2:5|(10:7|(1:9)|10|11|12|13|(2:14|(2:16|(1:18)(3:19|20|(2:22|(1:26)(0))(0)))(1:44))|43|27|(1:42)(4:33|(1:40)|37|38)))|48|10|11|12|13|(3:14|(0)(0)|18)|43|27|(2:29|31)|42) */
-        /* JADX WARN: Code restructure failed: missing block: B:46:0x0055, code lost:
-            r0 = move-exception;
+        /* JADX WARN: Can't wrap try/catch for region: R(13:1|(1:3)|(2:5|(10:7|(1:9)|10|11|12|13|(2:14|(2:16|(1:18)(3:19|20|(2:22|(1:26)(0))(0)))(1:39))|38|27|(1:37)(2:33|34)))|43|10|11|12|13|(3:14|(0)(0)|18)|38|27|(2:29|31)|37) */
+        /* JADX WARN: Code restructure failed: missing block: B:41:0x0055, code lost:
+            r7 = move-exception;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:47:0x0056, code lost:
-            org.telegram.messenger.FileLog.e(r0);
+        /* JADX WARN: Code restructure failed: missing block: B:42:0x0056, code lost:
+            org.telegram.messenger.FileLog.e(r7);
          */
         /* JADX WARN: Removed duplicated region for block: B:16:0x0066  */
-        /* JADX WARN: Removed duplicated region for block: B:44:0x0087 A[EDGE_INSN: B:44:0x0087->B:43:0x0087 ?: BREAK  , SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:39:0x0087 A[EDGE_INSN: B:39:0x0087->B:38:0x0087 ?: BREAK  , SYNTHETIC] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -33425,7 +33436,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     }
                     updateRowsInternal();
                     super.notifyDataSetChanged();
-                    boolean z3 = true;
                     size = ChatActivity.this.messages.size() - 1;
                     while (true) {
                         if (size >= 0) {
@@ -33448,17 +33458,13 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     if ((ChatActivity.this.endReached[0] || (ChatActivity.this.mergeDialogId != 0 && !ChatActivity.this.endReached[1])) && !z2) {
                     }
                     ChatActivity chatActivity2 = ChatActivity.this;
-                    if (!z || !chatActivity2.fragmentOpened) {
-                        z3 = false;
-                    }
-                    chatActivity2.checkDispatchHideSkeletons(z3);
+                    chatActivity2.checkDispatchHideSkeletons(((BaseFragment) chatActivity2).fragmentBeginToShow);
                     return;
                 }
             }
             ChatActivity.this.chatListView.setItemAnimator(null);
             updateRowsInternal();
             super.notifyDataSetChanged();
-            boolean z32 = true;
             size = ChatActivity.this.messages.size() - 1;
             while (true) {
                 if (size >= 0) {
