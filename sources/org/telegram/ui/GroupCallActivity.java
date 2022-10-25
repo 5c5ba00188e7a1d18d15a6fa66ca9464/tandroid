@@ -4747,7 +4747,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
             if (groupCallInvitedCell.hasAvatarSet()) {
                 bundle.putBoolean("expandPhoto", true);
             }
-            this.parentActivity.lambda$runLinkRequest$66(new ProfileActivity(bundle));
+            this.parentActivity.lambda$runLinkRequest$65(new ProfileActivity(bundle));
             dismiss();
         } else if (i != this.listAdapter.addMemberRow) {
         } else {
@@ -8458,7 +8458,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
             } else {
                 bundle.putLong("chat_id", -j);
             }
-            this.parentActivity.lambda$runLinkRequest$66(new ChatActivity(bundle));
+            this.parentActivity.lambda$runLinkRequest$65(new ChatActivity(bundle));
             dismiss();
         } else if (i == 8) {
             this.parentActivity.switchToAccount(this.currentAccount, true);
@@ -8473,7 +8473,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
             } else {
                 bundle2.putLong("chat_id", -j);
             }
-            this.parentActivity.lambda$runLinkRequest$66(new ChatActivity(bundle2));
+            this.parentActivity.lambda$runLinkRequest$65(new ChatActivity(bundle2));
             dismiss();
         } else if (i == 7) {
             sharedInstance.editCallMember(tLObject, Boolean.TRUE, null, null, Boolean.FALSE, null);

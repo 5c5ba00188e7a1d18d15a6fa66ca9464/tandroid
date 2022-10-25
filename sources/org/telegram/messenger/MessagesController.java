@@ -21589,7 +21589,7 @@ public class MessagesController extends BaseController implements NotificationCe
                                         ArrayList<TLRPC$TL_forumTopic> topics = getTopicsController().getTopics(tLRPC$TL_updateChannelPinnedTopic.channel_id);
                                         if (topics != null) {
                                             for (int i29 = 0; i29 < topics.size(); i29++) {
-                                                topics.get(i29).closed = tLRPC$TL_updateChannelPinnedTopic.topic_id == topics.get(i29).id;
+                                                topics.get(i29).pinned = tLRPC$TL_updateChannelPinnedTopic.topic_id == topics.get(i29).id;
                                             }
                                         }
                                         i3 |= UPDATE_MASK_SELECT_DIALOG;
@@ -23664,6 +23664,9 @@ public class MessagesController extends BaseController implements NotificationCe
         } else if (baseFragment.getParentActivity() == null) {
         } else {
             try {
+                if (baseFragment instanceof ChatActivity) {
+                    ((ChatActivity) baseFragment).shakeContent();
+                }
                 BulletinFactory.of(baseFragment).createErrorBulletin(LocaleController.getString("NoUsernameFound", R.string.NoUsernameFound)).show();
             } catch (Exception e) {
                 FileLog.e(e);

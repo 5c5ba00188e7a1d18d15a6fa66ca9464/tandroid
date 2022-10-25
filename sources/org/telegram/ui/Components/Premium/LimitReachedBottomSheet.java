@@ -785,6 +785,9 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView {
         if (this.headerRow >= 0 && i != 0) {
             ((LinearLayoutManager) this.recyclerListView.getLayoutManager()).scrollToPositionWithOffset(this.headerRow + 1, i);
         }
+        if (this.limitParams == null) {
+            this.limitParams = getLimitParams(this.type, this.currentAccount);
+        }
         int max = Math.max(this.inactiveChats.size(), this.limitParams.defaultLimit);
         this.limitPreviewView.setIconValue(max);
         this.limitPreviewView.setBagePosition(max / this.limitParams.premiumLimit);

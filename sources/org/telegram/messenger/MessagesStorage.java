@@ -16669,7 +16669,7 @@ public class MessagesStorage extends BaseController {
                     try {
                         if (queryFinalized.next()) {
                             try {
-                                if (i2 > queryFinalized.intValue(0)) {
+                                if (i2 >= queryFinalized.intValue(0)) {
                                     z = true;
                                     queryFinalized.dispose();
                                     this.database.executeFast(String.format(locale, "UPDATE messages_topics SET read_state = read_state | 1 WHERE uid = %d AND topic_id = %d AND mid <= %d AND read_state IN(0,2) AND out = 0", Long.valueOf(j2), Integer.valueOf(i), Integer.valueOf(i2))).stepThis().dispose();

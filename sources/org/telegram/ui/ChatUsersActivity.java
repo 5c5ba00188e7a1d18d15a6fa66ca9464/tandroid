@@ -480,14 +480,14 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
         this.isForum = ChatObject.isForum(this.currentChat);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:78:0x0105, code lost:
-        if (org.telegram.messenger.ChatObject.canBlockUsers(r0) != false) goto L25;
+    /* JADX WARN: Code restructure failed: missing block: B:81:0x0109, code lost:
+        if (org.telegram.messenger.ChatObject.canBlockUsers(r0) != false) goto L28;
      */
-    /* JADX WARN: Removed duplicated region for block: B:31:0x012f  */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x015f  */
-    /* JADX WARN: Removed duplicated region for block: B:49:0x0179  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x0199  */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x01ac  */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x0133  */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x0163  */
+    /* JADX WARN: Removed duplicated region for block: B:52:0x017d  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x019d  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x01b0  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -573,9 +573,11 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
             this.pinMessagesRow = i10;
             int i12 = i11 + 1;
             this.rowCount = i12;
-            this.manageTopicsRow = i11;
-            this.rowCount = i12 + 1;
-            this.changeInfoRow = i12;
+            this.changeInfoRow = i11;
+            if (this.isForum) {
+                this.rowCount = i12 + 1;
+                this.manageTopicsRow = i12;
+            }
             if (ChatObject.isChannel(chat)) {
                 TLRPC$Chat tLRPC$Chat = this.currentChat;
                 if (tLRPC$Chat.creator && tLRPC$Chat.megagroup && !tLRPC$Chat.gigagroup) {
@@ -1124,8 +1126,8 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:242:0x0514 A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:243:0x0515  */
+    /* JADX WARN: Removed duplicated region for block: B:242:0x051a A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:243:0x051b  */
     /* JADX WARN: Type inference failed for: r21v1 */
     /* JADX WARN: Type inference failed for: r31v0, types: [org.telegram.ui.ActionBar.BaseFragment, org.telegram.ui.ChatUsersActivity] */
     /*
@@ -1265,7 +1267,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                 manageLinksActivity.setInfo(tLRPC$ChatFull, tLRPC$ChatFull.exported_invite);
                 presentFragment(manageLinksActivity);
                 return;
-            } else if (i > this.permissionsSectionRow && i <= this.changeInfoRow) {
+            } else if (i > this.permissionsSectionRow && i <= Math.max(this.manageTopicsRow, this.changeInfoRow)) {
                 TextCheckCell2 textCheckCell2 = (TextCheckCell2) view;
                 if (!textCheckCell2.isEnabled()) {
                     return;
@@ -4204,17 +4206,17 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
             return new RecyclerListView.Holder(flickerLoadingView);
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:307:0x0690, code lost:
-            if (r20.this$0.currentChat.megagroup == false) goto L308;
+        /* JADX WARN: Code restructure failed: missing block: B:315:0x06af, code lost:
+            if (r20.this$0.currentChat.megagroup == false) goto L316;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:308:0x0692, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:316:0x06b1, code lost:
             r10 = true;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:384:0x06be, code lost:
-            if (r20.this$0.currentChat.megagroup == false) goto L308;
+        /* JADX WARN: Code restructure failed: missing block: B:392:0x06dd, code lost:
+            if (r20.this$0.currentChat.megagroup == false) goto L316;
          */
-        /* JADX WARN: Removed duplicated region for block: B:345:0x07d6  */
-        /* JADX WARN: Removed duplicated region for block: B:348:0x07d9  */
+        /* JADX WARN: Removed duplicated region for block: B:353:0x07f5  */
+        /* JADX WARN: Removed duplicated region for block: B:356:0x07f8  */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -4543,7 +4545,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
             } else {
                 TextCheckCell2 textCheckCell2 = (TextCheckCell2) viewHolder.itemView;
                 if (i == ChatUsersActivity.this.changeInfoRow) {
-                    textCheckCell2.setTextAndCheck(LocaleController.getString("UserRestrictionsChangeInfo", R.string.UserRestrictionsChangeInfo), !ChatUsersActivity.this.defaultBannedRights.change_info && !ChatObject.isPublic(ChatUsersActivity.this.currentChat), false);
+                    textCheckCell2.setTextAndCheck(LocaleController.getString("UserRestrictionsChangeInfo", R.string.UserRestrictionsChangeInfo), !ChatUsersActivity.this.defaultBannedRights.change_info && !ChatObject.isPublic(ChatUsersActivity.this.currentChat), ChatUsersActivity.this.manageTopicsRow != -1);
                 } else if (i == ChatUsersActivity.this.addUsersRow) {
                     textCheckCell2.setTextAndCheck(LocaleController.getString("UserRestrictionsInviteUsers", R.string.UserRestrictionsInviteUsers), !ChatUsersActivity.this.defaultBannedRights.invite_users, true);
                 } else if (i == ChatUsersActivity.this.pinMessagesRow) {
@@ -4559,7 +4561,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                 } else if (i == ChatUsersActivity.this.sendPollsRow) {
                     textCheckCell2.setTextAndCheck(LocaleController.getString("UserRestrictionsSendPolls", R.string.UserRestrictionsSendPolls), !ChatUsersActivity.this.defaultBannedRights.send_polls, true);
                 } else if (i == ChatUsersActivity.this.manageTopicsRow) {
-                    textCheckCell2.setTextAndCheck(LocaleController.getString("ManageTopicsPermission", R.string.ManageTopicsPermission), !ChatUsersActivity.this.defaultBannedRights.manage_topics, true);
+                    textCheckCell2.setTextAndCheck(LocaleController.getString("CreateTopicsPermission", R.string.CreateTopicsPermission), !ChatUsersActivity.this.defaultBannedRights.manage_topics, false);
                 }
                 if (i == ChatUsersActivity.this.sendMediaRow || i == ChatUsersActivity.this.sendStickersRow || i == ChatUsersActivity.this.embedLinksRow || i == ChatUsersActivity.this.sendPollsRow) {
                     textCheckCell2.setEnabled(!ChatUsersActivity.this.defaultBannedRights.send_messages && !ChatUsersActivity.this.defaultBannedRights.view_messages);
@@ -4567,7 +4569,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                     textCheckCell2.setEnabled(!ChatUsersActivity.this.defaultBannedRights.view_messages);
                 }
                 if (ChatObject.canBlockUsers(ChatUsersActivity.this.currentChat)) {
-                    if ((i == ChatUsersActivity.this.addUsersRow && !ChatObject.canUserDoAdminAction(ChatUsersActivity.this.currentChat, 3)) || ((i == ChatUsersActivity.this.pinMessagesRow && !ChatObject.canUserDoAdminAction(ChatUsersActivity.this.currentChat, 0)) || ((i == ChatUsersActivity.this.changeInfoRow && !ChatObject.canUserDoAdminAction(ChatUsersActivity.this.currentChat, 1)) || (ChatObject.isPublic(ChatUsersActivity.this.currentChat) && (i == ChatUsersActivity.this.pinMessagesRow || i == ChatUsersActivity.this.changeInfoRow))))) {
+                    if ((i == ChatUsersActivity.this.addUsersRow && !ChatObject.canUserDoAdminAction(ChatUsersActivity.this.currentChat, 3)) || ((i == ChatUsersActivity.this.pinMessagesRow && !ChatObject.canUserDoAdminAction(ChatUsersActivity.this.currentChat, 0)) || ((i == ChatUsersActivity.this.changeInfoRow && !ChatObject.canUserDoAdminAction(ChatUsersActivity.this.currentChat, 1)) || ((i == ChatUsersActivity.this.manageTopicsRow && !ChatObject.canManageTopics(ChatUsersActivity.this.currentChat)) || (ChatObject.isPublic(ChatUsersActivity.this.currentChat) && (i == ChatUsersActivity.this.pinMessagesRow || i == ChatUsersActivity.this.changeInfoRow)))))) {
                         textCheckCell2.setIcon(R.drawable.permission_locked);
                         return;
                     } else {

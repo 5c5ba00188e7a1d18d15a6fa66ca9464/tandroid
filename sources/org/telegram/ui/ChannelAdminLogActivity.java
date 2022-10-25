@@ -2656,6 +2656,11 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         /* loaded from: classes3.dex */
         public class 3 implements ChatActionCell.ChatActionCellDelegate {
             @Override // org.telegram.ui.Cells.ChatActionCell.ChatActionCellDelegate
+            public /* synthetic */ boolean canDrawOutboundsContent() {
+                return ChatActionCell.ChatActionCellDelegate.-CC.$default$canDrawOutboundsContent(this);
+            }
+
+            @Override // org.telegram.ui.Cells.ChatActionCell.ChatActionCellDelegate
             public /* synthetic */ void didOpenPremiumGift(ChatActionCell chatActionCell, TLRPC$TL_premiumGiftOption tLRPC$TL_premiumGiftOption, boolean z) {
                 ChatActionCell.ChatActionCellDelegate.-CC.$default$didOpenPremiumGift(this, chatActionCell, tLRPC$TL_premiumGiftOption, z);
             }

@@ -5489,6 +5489,11 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 ChatActionCell chatActionCell = new ChatActionCell(this.mContext);
                 chatActionCell.setDelegate(new ChatActionCell.ChatActionCellDelegate(this) { // from class: org.telegram.ui.ThemePreviewActivity.MessagesAdapter.3
                     @Override // org.telegram.ui.Cells.ChatActionCell.ChatActionCellDelegate
+                    public /* synthetic */ boolean canDrawOutboundsContent() {
+                        return ChatActionCell.ChatActionCellDelegate.-CC.$default$canDrawOutboundsContent(this);
+                    }
+
+                    @Override // org.telegram.ui.Cells.ChatActionCell.ChatActionCellDelegate
                     public /* synthetic */ void didClickImage(ChatActionCell chatActionCell2) {
                         ChatActionCell.ChatActionCellDelegate.-CC.$default$didClickImage(this, chatActionCell2);
                     }
