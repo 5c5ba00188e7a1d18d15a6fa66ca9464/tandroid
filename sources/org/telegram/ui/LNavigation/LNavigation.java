@@ -814,6 +814,7 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$presentFragment$7(BaseFragment baseFragment, BaseFragment baseFragment2, Runnable runnable) {
+        this.customAnimation = null;
         baseFragment.onTransitionAnimationEnd(true, false);
         this.swipeProgress = 0.0f;
         invalidateTranslation();
@@ -824,7 +825,6 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
             baseFragment2.onBecomeFullyHidden();
         }
         runnable.run();
-        this.customAnimation = null;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1155,9 +1155,17 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
             boolean z = (i & 1) != 0;
             boolean z2 = (i & 2) == 0 || (z && (!(getBackgroundView() == null || getBackgroundView().fragment == getBackgroundFragment()) || (getForegroundView() != null && getForegroundView().fragment == getLastFragment())));
             if (z2 && getChildCount() >= 3) {
+                View childAt = getChildAt(0);
+                if (childAt instanceof FragmentHolderView) {
+                    ((FragmentHolderView) childAt).fragment.setPaused(true);
+                }
                 removeViewAt(0);
             }
             if (z && getChildCount() >= 2) {
+                View childAt2 = getChildAt(0);
+                if (childAt2 instanceof FragmentHolderView) {
+                    ((FragmentHolderView) childAt2).fragment.setPaused(true);
+                }
                 removeViewAt(0);
             }
             for (int size = z2 ? 0 : this.fragmentStack.size() - 1; size < this.fragmentStack.size() - (!z ? 1 : 0); size++) {
@@ -1844,6 +1852,7 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$expandPreviewFragment$21(BaseFragment baseFragment, DynamicAnimation dynamicAnimation, boolean z, float f, float f2) {
         if (dynamicAnimation == this.currentSpringAnimation) {
+            this.currentSpringAnimation = null;
             baseFragment.onPreviewOpenAnimationEnd();
             this.previewFragmentSnapshot.recycle();
             this.previewFragmentSnapshot = null;
@@ -1859,10 +1868,10 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
             this.previewMenu = null;
             this.previewOpenCallback = null;
             this.previewExpandProgress = 0.0f;
-            if (getBackgroundView() != null) {
-                getBackgroundView().setVisibility(8);
+            if (getBackgroundView() == null) {
+                return;
             }
-            this.currentSpringAnimation = null;
+            getBackgroundView().setVisibility(8);
         }
     }
 

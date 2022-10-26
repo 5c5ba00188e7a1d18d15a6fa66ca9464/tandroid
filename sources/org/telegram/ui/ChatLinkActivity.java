@@ -37,6 +37,7 @@ import org.telegram.tgnet.TLRPC$TL_chatAdminRights;
 import org.telegram.tgnet.TLRPC$TL_error;
 import org.telegram.tgnet.TLRPC$TL_inputChannelEmpty;
 import org.telegram.tgnet.TLRPC$TL_messages_stickerSet;
+import org.telegram.tgnet.TLRPC$TL_username;
 import org.telegram.tgnet.TLRPC$messages_Chats;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
@@ -917,15 +918,16 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* JADX WARN: Code restructure failed: missing block: B:32:0x00af, code lost:
-            if (r12.contains(" " + r15) != false) goto L47;
+        /* JADX WARN: Code restructure failed: missing block: B:32:0x00b2, code lost:
+            if (r12.contains(" " + r3) != false) goto L67;
          */
-        /* JADX WARN: Removed duplicated region for block: B:39:0x00fd A[LOOP:1: B:23:0x0073->B:39:0x00fd, LOOP_END] */
-        /* JADX WARN: Removed duplicated region for block: B:40:0x00c1 A[SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:40:0x0139 A[LOOP:1: B:23:0x0074->B:40:0x0139, LOOP_END] */
+        /* JADX WARN: Removed duplicated region for block: B:41:0x00fe A[SYNTHETIC] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public /* synthetic */ void lambda$processSearch$1(String str, ArrayList arrayList) {
+            int i;
             String lowerCase = str.trim().toLowerCase();
             if (lowerCase.length() == 0) {
                 updateSearchResults(new ArrayList<>(), new ArrayList<>());
@@ -935,53 +937,81 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
             if (lowerCase.equals(translitString) || translitString.length() == 0) {
                 translitString = null;
             }
-            int i = (translitString != null ? 1 : 0) + 1;
-            String[] strArr = new String[i];
+            int i2 = (translitString != null ? 1 : 0) + 1;
+            String[] strArr = new String[i2];
             strArr[0] = lowerCase;
             if (translitString != null) {
                 strArr[1] = translitString;
             }
             ArrayList<TLRPC$Chat> arrayList2 = new ArrayList<>();
             ArrayList<CharSequence> arrayList3 = new ArrayList<>();
-            for (int i2 = 0; i2 < arrayList.size(); i2++) {
-                TLRPC$Chat tLRPC$Chat = (TLRPC$Chat) arrayList.get(i2);
+            int i3 = 0;
+            while (i3 < arrayList.size()) {
+                TLRPC$Chat tLRPC$Chat = (TLRPC$Chat) arrayList.get(i3);
                 String lowerCase2 = tLRPC$Chat.title.toLowerCase();
                 String translitString2 = LocaleController.getInstance().getTranslitString(lowerCase2);
                 if (lowerCase2.equals(translitString2)) {
                     translitString2 = null;
                 }
-                int i3 = 0;
+                int i4 = 0;
+                String str2 = null;
                 char c = 0;
                 while (true) {
-                    if (i3 < i) {
-                        String str2 = strArr[i3];
-                        if (!lowerCase2.startsWith(str2)) {
-                            if (!lowerCase2.contains(" " + str2)) {
-                                if (translitString2 != null) {
-                                    if (!translitString2.startsWith(str2)) {
+                    if (i4 >= i2) {
+                        i = i2;
+                        break;
+                    }
+                    String str3 = strArr[i4];
+                    if (!lowerCase2.startsWith(str3)) {
+                        if (!lowerCase2.contains(" " + str3)) {
+                            if (translitString2 != null) {
+                                if (!translitString2.startsWith(str3)) {
+                                }
+                            }
+                            String str4 = tLRPC$Chat.username;
+                            if (str4 != null && str4.startsWith(str3)) {
+                                str2 = tLRPC$Chat.username;
+                                i = i2;
+                            } else {
+                                ArrayList<TLRPC$TL_username> arrayList4 = tLRPC$Chat.usernames;
+                                if (arrayList4 != null && !arrayList4.isEmpty()) {
+                                    int i5 = 0;
+                                    while (i5 < tLRPC$Chat.usernames.size()) {
+                                        TLRPC$TL_username tLRPC$TL_username = tLRPC$Chat.usernames.get(i5);
+                                        i = i2;
+                                        if (!tLRPC$TL_username.active || !tLRPC$TL_username.username.startsWith(str3)) {
+                                            i5++;
+                                            i2 = i;
+                                        } else {
+                                            str2 = tLRPC$TL_username.username;
+                                        }
                                     }
                                 }
-                                String str3 = tLRPC$Chat.username;
-                                if (str3 != null && str3.startsWith(str2)) {
-                                    c = 2;
-                                }
-                                if (c == 0) {
+                                i = i2;
+                                if (c != 0) {
                                     if (c == 1) {
-                                        arrayList3.add(AndroidUtilities.generateSearchName(tLRPC$Chat.title, null, str2));
+                                        arrayList3.add(AndroidUtilities.generateSearchName(tLRPC$Chat.title, null, str3));
                                     } else {
-                                        arrayList3.add(AndroidUtilities.generateSearchName("@" + tLRPC$Chat.username, null, "@" + str2));
+                                        arrayList3.add(AndroidUtilities.generateSearchName("@" + str2, null, "@" + str3));
                                     }
                                     arrayList2.add(tLRPC$Chat);
                                 } else {
-                                    i3++;
+                                    i4++;
+                                    i2 = i;
                                 }
                             }
-                        }
-                        c = 1;
-                        if (c == 0) {
+                            c = 2;
+                            if (c != 0) {
+                            }
                         }
                     }
+                    i = i2;
+                    c = 1;
+                    if (c != 0) {
+                    }
                 }
+                i3++;
+                i2 = i;
             }
             updateSearchResults(arrayList2, arrayList3);
         }
@@ -1037,11 +1067,11 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
             TLRPC$Chat tLRPC$Chat = this.searchResult.get(i);
-            String str = tLRPC$Chat.username;
+            String publicUsername = ChatObject.getPublicUsername(tLRPC$Chat);
             CharSequence charSequence = this.searchResultNames.get(i);
             CharSequence charSequence2 = null;
-            if (charSequence != null && !TextUtils.isEmpty(str)) {
-                if (charSequence.toString().startsWith("@" + str)) {
+            if (charSequence != null && !TextUtils.isEmpty(publicUsername)) {
+                if (charSequence.toString().startsWith("@" + publicUsername)) {
                     charSequence2 = charSequence;
                     charSequence = null;
                 }

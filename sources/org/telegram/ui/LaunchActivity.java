@@ -8579,10 +8579,10 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:18:0x0031, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:18:0x002f, code lost:
         if (r10.chat.has_geo != false) goto L19;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:22:0x0079, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:22:0x0077, code lost:
         if (r14.checkCanOpenChat(r7, r0.get(r0.size() - 1)) != false) goto L33;
      */
     /*
@@ -8599,7 +8599,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     if (ChatObject.isLeftFromChat(tLRPC$Chat)) {
                         TLRPC$Chat tLRPC$Chat2 = tLRPC$ChatInvite.chat;
                         if (!tLRPC$Chat2.kicked) {
-                            if (TextUtils.isEmpty(tLRPC$Chat2.username)) {
+                            if (!ChatObject.isPublic(tLRPC$Chat2)) {
                                 if (!(tLRPC$ChatInvite instanceof TLRPC$TL_chatInvitePeek)) {
                                 }
                             }
@@ -10467,7 +10467,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                             LaunchActivity.this.lambda$didReceivedNotification$90(dialogInterface, i5);
                         }
                     });
-                } else if (str3.startsWith("PREMIUM_PAYMENTS_REGION_NA_")) {
+                } else if (str3.startsWith("PREMIUM_")) {
                     builder.setTitle(LocaleController.getString(R.string.TelegramPremium));
                     builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
                 } else {

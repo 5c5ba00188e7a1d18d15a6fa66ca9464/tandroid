@@ -217,14 +217,14 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
                     chatActivity.getParentLayout().addFragmentToStack(new TopicsFragment(bundle), chatActivity.getParentLayout().getFragmentStack().size() - 1);
                 }
                 chatActivity.setSwitchFromTopics(true);
-                chatActivity.lambda$onBackPressed$226();
+                chatActivity.finishFragment();
             }
         }
         z = true;
         if (z) {
         }
         chatActivity.setSwitchFromTopics(true);
-        chatActivity.lambda$onBackPressed$226();
+        chatActivity.finishFragment();
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -327,13 +327,13 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
         RecyclerItemsEnterAnimator recyclerItemsEnterAnimator = new RecyclerItemsEnterAnimator(recyclerListView2, true);
         this.itemsEnterAnimator = recyclerItemsEnterAnimator;
         recyclerListView2.setItemsEnterAnimator(recyclerItemsEnterAnimator);
-        this.recyclerListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.TopicsFragment$$ExternalSyntheticLambda12
+        this.recyclerListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.TopicsFragment$$ExternalSyntheticLambda13
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i4) {
                 TopicsFragment.this.lambda$createView$1(view, i4);
             }
         });
-        this.recyclerListView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListenerExtended() { // from class: org.telegram.ui.TopicsFragment$$ExternalSyntheticLambda13
+        this.recyclerListView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListenerExtended() { // from class: org.telegram.ui.TopicsFragment$$ExternalSyntheticLambda14
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemLongClickListenerExtended
             public final boolean onItemClick(View view, int i4, float f, float f2) {
                 boolean lambda$createView$2;
@@ -542,134 +542,126 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
 
         @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
         public void onItemClick(int i) {
-            if (i == -1) {
-                if (TopicsFragment.this.selectedTopics.size() > 0) {
-                    TopicsFragment.this.clearSelectedTopics();
-                    return;
-                } else {
-                    TopicsFragment.this.finishFragment();
-                    return;
-                }
-            }
-            boolean z = false;
-            switch (i) {
-                case 1:
-                    Bundle bundle = new Bundle();
-                    bundle.putLong("chat_id", TopicsFragment.this.chatId);
-                    ChatActivity chatActivity = new ChatActivity(bundle);
-                    TopicsFragment.this.removeFragmentOnTransitionEnd = true;
-                    chatActivity.setSwitchFromTopics(true);
-                    TopicsFragment.this.presentFragment(chatActivity);
-                    break;
-                case 2:
-                    TLRPC$ChatFull tLRPC$ChatFull = TopicsFragment.this.chatFull;
-                    if (tLRPC$ChatFull != null && tLRPC$ChatFull.participants != null) {
-                        LongSparseArray longSparseArray = new LongSparseArray();
-                        for (int i2 = 0; i2 < TopicsFragment.this.chatFull.participants.participants.size(); i2++) {
-                            longSparseArray.put(TopicsFragment.this.chatFull.participants.participants.get(i2).user_id, null);
-                        }
-                        final long j = TopicsFragment.this.chatFull.id;
-                        Context context = this.val$context;
-                        int i3 = ((BaseFragment) TopicsFragment.this).currentAccount;
-                        TopicsFragment topicsFragment = TopicsFragment.this;
-                        InviteMembersBottomSheet inviteMembersBottomSheet = new InviteMembersBottomSheet(context, i3, longSparseArray, topicsFragment.chatFull.id, topicsFragment, topicsFragment.themeDelegate) { // from class: org.telegram.ui.TopicsFragment.2.1
-                            @Override // org.telegram.ui.Components.InviteMembersBottomSheet
-                            protected boolean canGenerateLink() {
-                                TLRPC$Chat chat = TopicsFragment.this.getMessagesController().getChat(Long.valueOf(j));
-                                return chat != null && ChatObject.canUserDoAdminAction(chat, 3);
+            if (i != -1) {
+                boolean z = false;
+                switch (i) {
+                    case 1:
+                        TopicsFragment.this.switchToChat();
+                        break;
+                    case 2:
+                        TLRPC$ChatFull tLRPC$ChatFull = TopicsFragment.this.chatFull;
+                        if (tLRPC$ChatFull != null && tLRPC$ChatFull.participants != null) {
+                            LongSparseArray longSparseArray = new LongSparseArray();
+                            for (int i2 = 0; i2 < TopicsFragment.this.chatFull.participants.participants.size(); i2++) {
+                                longSparseArray.put(TopicsFragment.this.chatFull.participants.participants.get(i2).user_id, null);
                             }
-                        };
-                        inviteMembersBottomSheet.setDelegate(new GroupCreateActivity.ContactsAddActivityDelegate() { // from class: org.telegram.ui.TopicsFragment$2$$ExternalSyntheticLambda4
-                            @Override // org.telegram.ui.GroupCreateActivity.ContactsAddActivityDelegate
-                            public final void didSelectUsers(ArrayList arrayList, int i4) {
-                                TopicsFragment.2.this.lambda$onItemClick$1(j, arrayList, i4);
-                            }
+                            final long j = TopicsFragment.this.chatFull.id;
+                            Context context = this.val$context;
+                            int i3 = ((BaseFragment) TopicsFragment.this).currentAccount;
+                            TopicsFragment topicsFragment = TopicsFragment.this;
+                            InviteMembersBottomSheet inviteMembersBottomSheet = new InviteMembersBottomSheet(context, i3, longSparseArray, topicsFragment.chatFull.id, topicsFragment, topicsFragment.themeDelegate) { // from class: org.telegram.ui.TopicsFragment.2.1
+                                @Override // org.telegram.ui.Components.InviteMembersBottomSheet
+                                protected boolean canGenerateLink() {
+                                    TLRPC$Chat chat = TopicsFragment.this.getMessagesController().getChat(Long.valueOf(j));
+                                    return chat != null && ChatObject.canUserDoAdminAction(chat, 3);
+                                }
+                            };
+                            inviteMembersBottomSheet.setDelegate(new GroupCreateActivity.ContactsAddActivityDelegate() { // from class: org.telegram.ui.TopicsFragment$2$$ExternalSyntheticLambda4
+                                @Override // org.telegram.ui.GroupCreateActivity.ContactsAddActivityDelegate
+                                public final void didSelectUsers(ArrayList arrayList, int i4) {
+                                    TopicsFragment.2.this.lambda$onItemClick$1(j, arrayList, i4);
+                                }
 
-                            @Override // org.telegram.ui.GroupCreateActivity.ContactsAddActivityDelegate
-                            public /* synthetic */ void needAddBot(TLRPC$User tLRPC$User) {
-                                GroupCreateActivity.ContactsAddActivityDelegate.-CC.$default$needAddBot(this, tLRPC$User);
+                                @Override // org.telegram.ui.GroupCreateActivity.ContactsAddActivityDelegate
+                                public /* synthetic */ void needAddBot(TLRPC$User tLRPC$User) {
+                                    GroupCreateActivity.ContactsAddActivityDelegate.-CC.$default$needAddBot(this, tLRPC$User);
+                                }
+                            });
+                            inviteMembersBottomSheet.show();
+                            break;
+                        }
+                        break;
+                    case 3:
+                        final TopicCreateFragment create = TopicCreateFragment.create(TopicsFragment.this.chatId, 0);
+                        TopicsFragment.this.presentFragment(create);
+                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.TopicsFragment$2$$ExternalSyntheticLambda0
+                            @Override // java.lang.Runnable
+                            public final void run() {
+                                TopicCreateFragment.this.showKeyboard();
+                            }
+                        }, 200L);
+                        break;
+                    case 4:
+                    case 5:
+                        if (TopicsFragment.this.selectedTopics.size() > 0) {
+                            TopicsFragment.this.scrollToTop = true;
+                            TopicsFragment.this.updateAnimated = true;
+                            TopicsController topicsController = TopicsFragment.this.topicsController;
+                            TopicsFragment topicsFragment2 = TopicsFragment.this;
+                            long j2 = topicsFragment2.chatId;
+                            int intValue = topicsFragment2.selectedTopics.iterator().next().intValue();
+                            if (i == 4) {
+                                z = true;
+                            }
+                            topicsController.pinTopic(j2, intValue, z);
+                        }
+                        TopicsFragment.this.clearSelectedTopics();
+                        break;
+                    case 6:
+                        Iterator<Integer> it = TopicsFragment.this.selectedTopics.iterator();
+                        while (it.hasNext()) {
+                            int intValue2 = it.next().intValue();
+                            NotificationsController notificationsController = TopicsFragment.this.getNotificationsController();
+                            TopicsFragment topicsFragment3 = TopicsFragment.this;
+                            notificationsController.muteDialog(-topicsFragment3.chatId, intValue2, topicsFragment3.mute);
+                        }
+                        TopicsFragment.this.clearSelectedTopics();
+                        break;
+                    case 7:
+                        TopicsFragment topicsFragment4 = TopicsFragment.this;
+                        topicsFragment4.deleteTopics(topicsFragment4.selectedTopics, new Runnable() { // from class: org.telegram.ui.TopicsFragment$2$$ExternalSyntheticLambda1
+                            @Override // java.lang.Runnable
+                            public final void run() {
+                                TopicsFragment.2.this.lambda$onItemClick$4();
                             }
                         });
-                        inviteMembersBottomSheet.show();
                         break;
-                    }
-                    break;
-                case 3:
-                    final TopicCreateFragment create = TopicCreateFragment.create(TopicsFragment.this.chatId, 0);
-                    TopicsFragment.this.presentFragment(create);
-                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.TopicsFragment$2$$ExternalSyntheticLambda0
-                        @Override // java.lang.Runnable
-                        public final void run() {
-                            TopicCreateFragment.this.showKeyboard();
+                    case 8:
+                        ArrayList arrayList = new ArrayList(TopicsFragment.this.selectedTopics);
+                        for (int i4 = 0; i4 < arrayList.size(); i4++) {
+                            TLRPC$TL_forumTopic findTopic = TopicsFragment.this.topicsController.findTopic(TopicsFragment.this.chatId, ((Integer) arrayList.get(i4)).intValue());
+                            if (findTopic != null) {
+                                TopicsFragment.this.getMessagesController().markMentionsAsRead(-TopicsFragment.this.chatId, findTopic.id);
+                                TopicsFragment.this.getMessagesController().markDialogAsRead(-TopicsFragment.this.chatId, findTopic.top_message, 0, findTopic.topMessage.date, false, findTopic.id, 0, true, 0);
+                                TopicsFragment.this.getMessagesStorage().updateRepliesMaxReadId(TopicsFragment.this.chatId, findTopic.id, findTopic.top_message, 0, true);
+                            }
                         }
-                    }, 200L);
-                    break;
-                case 4:
-                case 5:
-                    if (TopicsFragment.this.selectedTopics.size() > 0) {
-                        TopicsFragment.this.scrollToTop = true;
+                        TopicsFragment.this.clearSelectedTopics();
+                        break;
+                    case 9:
+                    case 10:
                         TopicsFragment.this.updateAnimated = true;
-                        TopicsController topicsController = TopicsFragment.this.topicsController;
-                        TopicsFragment topicsFragment2 = TopicsFragment.this;
-                        long j2 = topicsFragment2.chatId;
-                        int intValue = topicsFragment2.selectedTopics.iterator().next().intValue();
-                        if (i == 4) {
-                            z = true;
+                        ArrayList arrayList2 = new ArrayList(TopicsFragment.this.selectedTopics);
+                        for (int i5 = 0; i5 < arrayList2.size(); i5++) {
+                            TopicsFragment.this.topicsController.toggleCloseTopic(TopicsFragment.this.chatId, ((Integer) arrayList2.get(i5)).intValue(), i == 9);
                         }
-                        topicsController.pinTopic(j2, intValue, z);
-                    }
-                    TopicsFragment.this.clearSelectedTopics();
-                    break;
-                case 6:
-                    Iterator<Integer> it = TopicsFragment.this.selectedTopics.iterator();
-                    while (it.hasNext()) {
-                        int intValue2 = it.next().intValue();
-                        NotificationsController notificationsController = TopicsFragment.this.getNotificationsController();
-                        TopicsFragment topicsFragment3 = TopicsFragment.this;
-                        notificationsController.muteDialog(-topicsFragment3.chatId, intValue2, topicsFragment3.mute);
-                    }
-                    TopicsFragment.this.clearSelectedTopics();
-                    break;
-                case 7:
-                    TopicsFragment topicsFragment4 = TopicsFragment.this;
-                    topicsFragment4.deleteTopics(topicsFragment4.selectedTopics, new Runnable() { // from class: org.telegram.ui.TopicsFragment$2$$ExternalSyntheticLambda1
-                        @Override // java.lang.Runnable
-                        public final void run() {
-                            TopicsFragment.2.this.lambda$onItemClick$4();
-                        }
-                    });
-                    break;
-                case 8:
-                    ArrayList arrayList = new ArrayList(TopicsFragment.this.selectedTopics);
-                    for (int i4 = 0; i4 < arrayList.size(); i4++) {
-                        TLRPC$TL_forumTopic findTopic = TopicsFragment.this.topicsController.findTopic(TopicsFragment.this.chatId, ((Integer) arrayList.get(i4)).intValue());
-                        if (findTopic != null) {
-                            TopicsFragment.this.getMessagesController().markMentionsAsRead(-TopicsFragment.this.chatId, findTopic.id);
-                            TopicsFragment.this.getMessagesController().markDialogAsRead(-TopicsFragment.this.chatId, findTopic.top_message, 0, findTopic.topMessage.date, false, findTopic.id, 0, true, 0);
-                            TopicsFragment.this.getMessagesStorage().updateRepliesMaxReadId(TopicsFragment.this.chatId, findTopic.id, findTopic.top_message, 0, true);
-                        }
-                    }
-                    TopicsFragment.this.clearSelectedTopics();
-                    break;
-                case 9:
-                case 10:
-                    TopicsFragment.this.updateAnimated = true;
-                    ArrayList arrayList2 = new ArrayList(TopicsFragment.this.selectedTopics);
-                    for (int i5 = 0; i5 < arrayList2.size(); i5++) {
-                        TopicsFragment.this.topicsController.toggleCloseTopic(TopicsFragment.this.chatId, ((Integer) arrayList2.get(i5)).intValue(), i == 9);
-                    }
-                    TopicsFragment.this.clearSelectedTopics();
-                    break;
-                case 11:
-                    AlertsCreator.createClearOrDeleteDialogAlert(TopicsFragment.this, false, TopicsFragment.this.getMessagesController().getChat(Long.valueOf(TopicsFragment.this.chatId)), null, false, true, false, new MessagesStorage.BooleanCallback() { // from class: org.telegram.ui.TopicsFragment$2$$ExternalSyntheticLambda3
-                        @Override // org.telegram.messenger.MessagesStorage.BooleanCallback
-                        public final void run(boolean z2) {
-                            TopicsFragment.2.this.lambda$onItemClick$3(z2);
-                        }
-                    }, TopicsFragment.this.themeDelegate);
-                    break;
+                        TopicsFragment.this.clearSelectedTopics();
+                        break;
+                    case 11:
+                        AlertsCreator.createClearOrDeleteDialogAlert(TopicsFragment.this, false, TopicsFragment.this.getMessagesController().getChat(Long.valueOf(TopicsFragment.this.chatId)), null, false, true, false, new MessagesStorage.BooleanCallback() { // from class: org.telegram.ui.TopicsFragment$2$$ExternalSyntheticLambda3
+                            @Override // org.telegram.messenger.MessagesStorage.BooleanCallback
+                            public final void run(boolean z2) {
+                                TopicsFragment.2.this.lambda$onItemClick$3(z2);
+                            }
+                        }, TopicsFragment.this.themeDelegate);
+                        break;
+                }
+                super.onItemClick(i);
+            } else if (TopicsFragment.this.selectedTopics.size() > 0) {
+                TopicsFragment.this.clearSelectedTopics();
+            } else {
+                TopicsFragment.this.finishFragment();
             }
-            super.onItemClick(i);
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -753,6 +745,15 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$3(View view) {
         presentFragment(TopicCreateFragment.create(this.chatId, 0));
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void switchToChat() {
+        Bundle bundle = new Bundle();
+        bundle.putLong("chat_id", this.chatId);
+        ChatActivity chatActivity = new ChatActivity(bundle);
+        chatActivity.setSwitchFromTopics(true);
+        presentFragment(chatActivity);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1056,7 +1057,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
         this.searchAnimator = ValueAnimator.ofFloat(fArr);
         AndroidUtilities.updateViewVisibilityAnimated(this.searchContainer, false, 1.0f, true);
         this.animateSearchWithScale = !z && this.searchContainer.getVisibility() == 0 && this.searchContainer.getAlpha() == 1.0f;
-        this.searchAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.TopicsFragment$$ExternalSyntheticLambda1
+        this.searchAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.TopicsFragment$$ExternalSyntheticLambda0
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                 TopicsFragment.this.lambda$animateToSearchView$9(valueAnimator2);
@@ -1378,6 +1379,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
         NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.dialogsNeedReload);
         NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.groupCallUpdated);
         NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.notificationsSettingsUpdated);
+        NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.chatSwithcedToForum);
         updateTopicsList(false, false);
         SelectAnimatedEmojiDialog.preload(this.currentAccount);
         TLRPC$Chat chat = getMessagesController().getChat(Long.valueOf(this.chatId));
@@ -1391,7 +1393,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
             tLRPC$TL_account_getNotifyExceptions.peer = tLRPC$TL_inputNotifyPeer;
             tLRPC$TL_account_getNotifyExceptions.flags |= 1;
             tLRPC$TL_inputNotifyPeer.peer = getMessagesController().getInputPeer(-this.chatId);
-            getConnectionsManager().sendRequest(tLRPC$TL_account_getNotifyExceptions, new RequestDelegate() { // from class: org.telegram.ui.TopicsFragment$$ExternalSyntheticLambda11
+            getConnectionsManager().sendRequest(tLRPC$TL_account_getNotifyExceptions, new RequestDelegate() { // from class: org.telegram.ui.TopicsFragment$$ExternalSyntheticLambda12
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     TopicsFragment.this.lambda$onFragmentCreate$12(tLObject, tLRPC$TL_error);
@@ -1403,7 +1405,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onFragmentCreate$12(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.TopicsFragment$$ExternalSyntheticLambda10
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.TopicsFragment$$ExternalSyntheticLambda11
             @Override // java.lang.Runnable
             public final void run() {
                 TopicsFragment.this.lambda$onFragmentCreate$11(tLObject);
@@ -1428,6 +1430,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
         NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.dialogsNeedReload);
         NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.groupCallUpdated);
         NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.notificationsSettingsUpdated);
+        NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.chatSwithcedToForum);
         TLRPC$Chat chat = getMessagesController().getChat(Long.valueOf(this.chatId));
         if (ChatObject.isChannel(chat)) {
             getMessagesController().startShortPoll(chat, this.classGuid, true);
@@ -1538,10 +1541,31 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
                 return;
             }
             fragmentContextView.checkCall(true);
-        } else if (i != NotificationCenter.notificationsSettingsUpdated) {
-        } else {
+        } else if (i == NotificationCenter.notificationsSettingsUpdated) {
             updateTopicsList(false, false);
+        } else if (i != NotificationCenter.chatSwithcedToForum) {
+        } else {
+            if (this.chatId != ((Long) objArr[0]).longValue() || getMessagesController().getChat(Long.valueOf(this.chatId)).forum) {
+                return;
+            }
+            if (getParentLayout() != null && getParentLayout().checkTransitionAnimation()) {
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.TopicsFragment$$ExternalSyntheticLambda10
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        TopicsFragment.this.lambda$didReceivedNotification$13();
+                    }
+                }, 500L);
+                return;
+            }
+            this.removeFragmentOnTransitionEnd = true;
+            switchToChat();
         }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$didReceivedNotification$13() {
+        this.removeFragmentOnTransitionEnd = true;
+        switchToChat();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1810,10 +1834,10 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
             }
             fArr[1] = f;
             ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.TopicsFragment$$ExternalSyntheticLambda0
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.TopicsFragment$$ExternalSyntheticLambda1
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                    TopicsFragment.this.lambda$hideFloatingButton$13(valueAnimator);
+                    TopicsFragment.this.lambda$hideFloatingButton$14(valueAnimator);
                 }
             });
             animatorSet.playTogether(ofFloat);
@@ -1832,7 +1856,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$hideFloatingButton$13(ValueAnimator valueAnimator) {
+    public /* synthetic */ void lambda$hideFloatingButton$14(ValueAnimator valueAnimator) {
         this.floatingButtonHideProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         this.floatingButtonTranslation = AndroidUtilities.dp(100.0f) * this.floatingButtonHideProgress;
         updateFloatingButtonOffset();
@@ -2268,16 +2292,17 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
         super.onTransitionAnimationEnd(z, z2);
         getNotificationCenter().onAnimationFinish(this.transitionAnimationIndex);
         NotificationCenter.getGlobalInstance().onAnimationFinish(this.transitionAnimationGlobalIndex);
-        if (z || !this.opnendForSelect || !this.removeFragmentOnTransitionEnd) {
-            return;
+        if (!z) {
+            if (!this.opnendForSelect && !this.removeFragmentOnTransitionEnd) {
+                return;
+            }
+            removeSelfFromStack();
+            DialogsActivity dialogsActivity = this.dialogsActivity;
+            if (dialogsActivity == null) {
+                return;
+            }
+            dialogsActivity.removeSelfFromStack();
         }
-        finishFragment();
-        DialogsActivity dialogsActivity = this.dialogsActivity;
-        if (dialogsActivity == null) {
-            return;
-        }
-        dialogsActivity.finishFragment();
-        this.dialogsActivity.removeSelfFromStack();
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment

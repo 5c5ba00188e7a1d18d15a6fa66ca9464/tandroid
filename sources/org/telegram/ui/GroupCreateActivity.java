@@ -1665,17 +1665,17 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* JADX WARN: Code restructure failed: missing block: B:35:0x00c8, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:35:0x00ca, code lost:
             if (r13.contains(" " + r3) != false) goto L53;
          */
-        /* JADX WARN: Removed duplicated region for block: B:41:0x0128 A[LOOP:1: B:26:0x008c->B:41:0x0128, LOOP_END] */
-        /* JADX WARN: Removed duplicated region for block: B:42:0x00d8 A[SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:41:0x012a A[LOOP:1: B:26:0x008e->B:41:0x012a, LOOP_END] */
+        /* JADX WARN: Removed duplicated region for block: B:42:0x00da A[SYNTHETIC] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public /* synthetic */ void lambda$searchDialogs$1(String str) {
             String str2;
-            String str3;
+            String publicUsername;
             Object obj;
             String lowerCase = str.trim().toLowerCase();
             if (lowerCase.length() == 0) {
@@ -1700,11 +1700,11 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
                 if (z) {
                     TLRPC$User tLRPC$User = (TLRPC$User) tLObject;
                     str2 = ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name).toLowerCase();
-                    str3 = tLRPC$User.username;
+                    publicUsername = tLRPC$User.username;
                 } else {
                     TLRPC$Chat tLRPC$Chat = (TLRPC$Chat) tLObject;
                     str2 = tLRPC$Chat.title;
-                    str3 = tLRPC$Chat.username;
+                    publicUsername = ChatObject.getPublicUsername(tLRPC$Chat);
                 }
                 String translitString2 = LocaleController.getInstance().getTranslitString(str2);
                 if (str2.equals(translitString2)) {
@@ -1714,28 +1714,28 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
                 char c = 0;
                 while (true) {
                     if (i3 < i) {
-                        String str4 = strArr[i3];
-                        if (!str2.startsWith(str4)) {
-                            if (!str2.contains(" " + str4)) {
+                        String str3 = strArr[i3];
+                        if (!str2.startsWith(str3)) {
+                            if (!str2.contains(" " + str3)) {
                                 if (translitString2 != null) {
-                                    if (!translitString2.startsWith(str4)) {
+                                    if (!translitString2.startsWith(str3)) {
                                     }
                                 }
-                                if (str3 != null && str3.startsWith(str4)) {
+                                if (publicUsername != null && publicUsername.startsWith(str3)) {
                                     c = 2;
                                 }
                                 if (c == 0) {
                                     if (c == 1) {
                                         if (z) {
                                             TLRPC$User tLRPC$User2 = (TLRPC$User) tLObject;
-                                            arrayList2.add(AndroidUtilities.generateSearchName(tLRPC$User2.first_name, tLRPC$User2.last_name, str4));
+                                            arrayList2.add(AndroidUtilities.generateSearchName(tLRPC$User2.first_name, tLRPC$User2.last_name, str3));
                                         } else {
-                                            arrayList2.add(AndroidUtilities.generateSearchName(((TLRPC$Chat) tLObject).title, null, str4));
+                                            arrayList2.add(AndroidUtilities.generateSearchName(((TLRPC$Chat) tLObject).title, null, str3));
                                         }
                                         obj = null;
                                     } else {
                                         obj = null;
-                                        arrayList2.add(AndroidUtilities.generateSearchName("@" + str3, null, "@" + str4));
+                                        arrayList2.add(AndroidUtilities.generateSearchName("@" + publicUsername, null, "@" + str3));
                                     }
                                     arrayList.add(tLObject);
                                 } else {

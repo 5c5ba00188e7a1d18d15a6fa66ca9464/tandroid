@@ -4029,7 +4029,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 lastNonListPageBlock = ((TL_pageBlockDetailsChild) lastNonListPageBlock).block;
             }
             if (lastNonListPageBlock instanceof TLRPC$TL_pageBlockChannel) {
-                MessagesController.getInstance(this.currentAccount).openByUserName(((TLRPC$TL_pageBlockChannel) lastNonListPageBlock).channel.username, this.parentFragment, 2);
+                MessagesController.getInstance(this.currentAccount).openByUserName(ChatObject.getPublicUsername(((TLRPC$TL_pageBlockChannel) lastNonListPageBlock).channel), this.parentFragment, 2);
                 close(false, true);
             } else if (lastNonListPageBlock instanceof TL_pageBlockRelatedArticlesChild) {
                 TL_pageBlockRelatedArticlesChild tL_pageBlockRelatedArticlesChild = (TL_pageBlockRelatedArticlesChild) lastNonListPageBlock;
@@ -6775,7 +6775,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             this.channelCell.setVisibility(0);
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:30:0x00a3, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:30:0x00a5, code lost:
             if (r2 <= (r0 + org.telegram.messenger.AndroidUtilities.dp(48.0f))) goto L31;
          */
         @Override // android.view.View
@@ -6790,7 +6790,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             float y = motionEvent.getY();
             if (this.channelCell.getVisibility() == 0 && y > this.channelCell.getTranslationY() && y < this.channelCell.getTranslationY() + AndroidUtilities.dp(39.0f)) {
                 if (this.parentAdapter.channelBlock != null && motionEvent.getAction() == 1) {
-                    MessagesController.getInstance(ArticleViewer.this.currentAccount).openByUserName(this.parentAdapter.channelBlock.channel.username, ArticleViewer.this.parentFragment, 2);
+                    MessagesController.getInstance(ArticleViewer.this.currentAccount).openByUserName(ChatObject.getPublicUsername(this.parentAdapter.channelBlock.channel), ArticleViewer.this.parentFragment, 2);
                     ArticleViewer.this.close(false, true);
                 }
                 return true;
@@ -11246,7 +11246,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             this.channelCell.setVisibility(0);
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:30:0x00a3, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:30:0x00a5, code lost:
             if (r2 <= (r0 + org.telegram.messenger.AndroidUtilities.dp(48.0f))) goto L31;
          */
         @Override // android.view.View
@@ -11261,7 +11261,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             float y = motionEvent.getY();
             if (this.channelCell.getVisibility() == 0 && y > this.channelCell.getTranslationY() && y < this.channelCell.getTranslationY() + AndroidUtilities.dp(39.0f)) {
                 if (this.parentAdapter.channelBlock != null && motionEvent.getAction() == 1) {
-                    MessagesController.getInstance(ArticleViewer.this.currentAccount).openByUserName(this.parentAdapter.channelBlock.channel.username, ArticleViewer.this.parentFragment, 2);
+                    MessagesController.getInstance(ArticleViewer.this.currentAccount).openByUserName(ChatObject.getPublicUsername(this.parentAdapter.channelBlock.channel), ArticleViewer.this.parentFragment, 2);
                     ArticleViewer.this.close(false, true);
                 }
                 return true;

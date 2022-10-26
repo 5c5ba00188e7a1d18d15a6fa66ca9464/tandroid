@@ -7019,7 +7019,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
         }
         String[] strArr2 = this.invites;
         if (strArr2[0] == null && strArr2[1] == null && ChatObject.isPublic(this.currentChat)) {
-            openShareAlert(true, null, this.accountInstance.getMessagesController().linkPrefix + "/" + this.currentChat.username, z);
+            openShareAlert(true, null, this.accountInstance.getMessagesController().linkPrefix + "/" + ChatObject.getPublicUsername(this.currentChat), z);
             return;
         }
         String[] strArr3 = this.invites;

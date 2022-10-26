@@ -1482,7 +1482,7 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
                                 longSparseArray = longSparseArray2;
                             } else {
                                 String str11 = chat.title;
-                                str8 = chat.username;
+                                str8 = ChatObject.getPublicUsername(chat);
                                 longSparseArray = longSparseArray2;
                                 j = -chat.id;
                                 str6 = str11;

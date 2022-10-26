@@ -284,8 +284,8 @@ public class SharedConfig {
     /* JADX WARN: Removed duplicated region for block: B:44:0x0245  */
     /* JADX WARN: Removed duplicated region for block: B:58:0x0247  */
     /* JADX WARN: Removed duplicated region for block: B:59:0x0235  */
-    /* JADX WARN: Removed duplicated region for block: B:67:0x016a A[Catch: Exception -> 0x0188, all -> 0x03fa, TryCatch #1 {Exception -> 0x0188, blocks: (B:22:0x011b, B:24:0x0123, B:26:0x0133, B:27:0x0147, B:67:0x016a, B:69:0x016e, B:70:0x0170, B:72:0x0174, B:74:0x017a, B:76:0x0180, B:80:0x0164), top: B:21:0x011b, outer: #2 }] */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x016e A[Catch: Exception -> 0x0188, all -> 0x03fa, TryCatch #1 {Exception -> 0x0188, blocks: (B:22:0x011b, B:24:0x0123, B:26:0x0133, B:27:0x0147, B:67:0x016a, B:69:0x016e, B:70:0x0170, B:72:0x0174, B:74:0x017a, B:76:0x0180, B:80:0x0164), top: B:21:0x011b, outer: #2 }] */
+    /* JADX WARN: Removed duplicated region for block: B:67:0x016a A[Catch: Exception -> 0x0188, all -> 0x03fc, TryCatch #1 {Exception -> 0x0188, blocks: (B:22:0x011b, B:24:0x0123, B:26:0x0133, B:27:0x0147, B:67:0x016a, B:69:0x016e, B:70:0x0170, B:72:0x0174, B:74:0x017a, B:76:0x0180, B:80:0x0164), top: B:21:0x011b, outer: #3 }] */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x016e A[Catch: Exception -> 0x0188, all -> 0x03fc, TryCatch #1 {Exception -> 0x0188, blocks: (B:22:0x011b, B:24:0x0123, B:26:0x0133, B:27:0x0147, B:67:0x016a, B:69:0x016e, B:70:0x0170, B:72:0x0174, B:74:0x017a, B:76:0x0180, B:80:0x0164), top: B:21:0x011b, outer: #3 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -426,7 +426,7 @@ public class SharedConfig {
                                 fastScrollHintCount = sharedPreferences.getInt("fastScrollHintCount", 3);
                                 dontAskManageStorage = sharedPreferences.getBoolean("dontAskManageStorage", false);
                                 hasEmailLogin = sharedPreferences.getBoolean("hasEmailLogin", false);
-                                useLNavigation = sharedPreferences.getBoolean("useLNavigation", true);
+                                useLNavigation = sharedPreferences.getBoolean("useLNavigation", BuildVars.DEBUG_VERSION);
                                 isFloatingDebugActive = sharedPreferences.getBoolean("floatingDebugActive", false);
                                 showNotificationsForAllAccounts = ApplicationLoader.applicationContext.getSharedPreferences("Notifications", 0).getBoolean("AllAccounts", true);
                                 configLoaded = true;
@@ -521,7 +521,7 @@ public class SharedConfig {
                 fastScrollHintCount = sharedPreferences.getInt("fastScrollHintCount", 3);
                 dontAskManageStorage = sharedPreferences.getBoolean("dontAskManageStorage", false);
                 hasEmailLogin = sharedPreferences.getBoolean("hasEmailLogin", false);
-                useLNavigation = sharedPreferences.getBoolean("useLNavigation", true);
+                useLNavigation = sharedPreferences.getBoolean("useLNavigation", BuildVars.DEBUG_VERSION);
                 isFloatingDebugActive = sharedPreferences.getBoolean("floatingDebugActive", false);
                 showNotificationsForAllAccounts = ApplicationLoader.applicationContext.getSharedPreferences("Notifications", 0).getBoolean("AllAccounts", true);
                 configLoaded = true;

@@ -1046,7 +1046,7 @@ public class ManageLinksActivity extends BaseFragment {
                     linkActionView.loadUsers(null, ManageLinksActivity.this.currentChatId);
                 } else if (ManageLinksActivity.this.info == null) {
                 } else {
-                    linkActionView.setLink("https://t.me/" + ManageLinksActivity.this.currentChat.username);
+                    linkActionView.setLink("https://t.me/" + ChatObject.getPublicUsername(ManageLinksActivity.this.currentChat));
                     linkActionView.setUsers(0, null);
                     linkActionView.hideRevokeOption(true);
                 }

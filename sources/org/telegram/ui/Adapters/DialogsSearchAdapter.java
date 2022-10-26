@@ -1263,17 +1263,17 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         return new RecyclerListView.Holder(recyclerListView);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:147:0x0357, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:147:0x0359, code lost:
         if (r6.startsWith("@" + r4.username) != false) goto L148;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:150:0x0361  */
-    /* JADX WARN: Removed duplicated region for block: B:195:0x0429  */
-    /* JADX WARN: Removed duplicated region for block: B:196:0x0434  */
-    /* JADX WARN: Removed duplicated region for block: B:201:0x0451  */
-    /* JADX WARN: Removed duplicated region for block: B:204:0x046e  */
-    /* JADX WARN: Removed duplicated region for block: B:207:0x0470  */
-    /* JADX WARN: Removed duplicated region for block: B:208:0x0453  */
+    /* JADX WARN: Removed duplicated region for block: B:150:0x0363  */
+    /* JADX WARN: Removed duplicated region for block: B:195:0x042b  */
+    /* JADX WARN: Removed duplicated region for block: B:196:0x0436  */
+    /* JADX WARN: Removed duplicated region for block: B:201:0x0453  */
+    /* JADX WARN: Removed duplicated region for block: B:204:0x0470  */
+    /* JADX WARN: Removed duplicated region for block: B:207:0x0472  */
+    /* JADX WARN: Removed duplicated region for block: B:208:0x0455  */
     /* JADX WARN: Type inference failed for: r2v20, types: [android.text.SpannableStringBuilder] */
     /* JADX WARN: Type inference failed for: r2v23, types: [java.lang.CharSequence] */
     /* JADX WARN: Type inference failed for: r2v24 */
@@ -1465,7 +1465,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
                 tLRPC$Chat2 = chat;
             }
             tLRPC$Chat = tLRPC$Chat2;
-            str = tLRPC$Chat2.username;
+            str = ChatObject.getPublicUsername(tLRPC$Chat2);
             tLRPC$User = null;
             tLRPC$EncryptedChat = null;
         } else if (item instanceof TLRPC$EncryptedChat) {

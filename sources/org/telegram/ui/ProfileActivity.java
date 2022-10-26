@@ -4746,7 +4746,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     }
 
     private int getSmallAvatarRoundRadius() {
-        if (getCurrentChat() != null && getCurrentChat().forum) {
+        TLRPC$Chat chat;
+        if (this.chatId != 0 && (chat = getMessagesController().getChat(Long.valueOf(this.chatId))) != null && chat.forum) {
             return AndroidUtilities.dp(16.0f);
         }
         return AndroidUtilities.dp(21.0f);
@@ -8962,17 +8963,17 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         showDialog(premiumPreviewBottomSheet);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:16:0x039c  */
-    /* JADX WARN: Removed duplicated region for block: B:19:0x03f0  */
-    /* JADX WARN: Removed duplicated region for block: B:21:0x03f7  */
-    /* JADX WARN: Removed duplicated region for block: B:24:0x040c  */
-    /* JADX WARN: Removed duplicated region for block: B:27:0x042f  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x04e5  */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x04fc  */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x0513  */
-    /* JADX WARN: Removed duplicated region for block: B:72:0x052a  */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x03a0  */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x03f4  */
+    /* JADX WARN: Removed duplicated region for block: B:21:0x03fb  */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x0410  */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x0433  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x04e9  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x0500  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x0517  */
+    /* JADX WARN: Removed duplicated region for block: B:72:0x052e  */
     /* JADX WARN: Removed duplicated region for block: B:74:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:75:0x03d7  */
+    /* JADX WARN: Removed duplicated region for block: B:75:0x03db  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -9171,7 +9172,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             String str3 = "StartVoipChat";
             if (ChatObject.isChannel(chat)) {
                 if (this.isTopic) {
-                    if ((ChatObject.hasAdminRights(chat) || chat.megagroup) && ChatObject.canPinMessages(chat)) {
+                    if ((ChatObject.hasAdminRights(chat) || chat.megagroup) && ChatObject.canManageTopic(this.currentAccount, chat, this.topicId)) {
                         this.editItemVisible = true;
                     }
                 } else if ((ChatObject.hasAdminRights(chat) || chat.megagroup) && ChatObject.canChangeChatInfo(chat)) {

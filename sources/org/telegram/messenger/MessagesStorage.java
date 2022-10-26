@@ -10,6 +10,7 @@ import android.util.SparseIntArray;
 import androidx.collection.LongSparseArray;
 import j$.util.function.Consumer;
 import java.io.File;
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -133,6 +134,7 @@ import org.telegram.tgnet.TLRPC$TL_updates_channelDifferenceTooLong;
 import org.telegram.tgnet.TLRPC$TL_userStatusLastMonth;
 import org.telegram.tgnet.TLRPC$TL_userStatusLastWeek;
 import org.telegram.tgnet.TLRPC$TL_userStatusRecently;
+import org.telegram.tgnet.TLRPC$TL_username;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.tgnet.TLRPC$UserFull;
 import org.telegram.tgnet.TLRPC$UserProfilePhoto;
@@ -1821,7 +1823,7 @@ public class MessagesStorage extends BaseController {
     }
 
     public void cleanup(final boolean z) {
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda193
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda194
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$cleanup$6(z);
@@ -2007,7 +2009,7 @@ public class MessagesStorage extends BaseController {
                             case 0:
                                 final TLRPC$Chat TLdeserialize = TLRPC$Chat.TLdeserialize(byteBufferValue, byteBufferValue.readInt32(false), false);
                                 if (TLdeserialize != null) {
-                                    Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda167
+                                    Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda168
                                         @Override // java.lang.Runnable
                                         public final void run() {
                                             MessagesStorage.this.lambda$loadPendingTasks$11(TLdeserialize, longValue);
@@ -2054,7 +2056,7 @@ public class MessagesStorage extends BaseController {
                                     tLRPC$TL_dialog.folder_id = byteBufferValue.readInt32(false);
                                 }
                                 final TLRPC$InputPeer TLdeserialize2 = TLRPC$InputPeer.TLdeserialize(byteBufferValue, byteBufferValue.readInt32(false), false);
-                                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda172
+                                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda173
                                     @Override // java.lang.Runnable
                                     public final void run() {
                                         MessagesStorage.this.lambda$loadPendingTasks$13(tLRPC$TL_dialog, TLdeserialize2, longValue);
@@ -2146,7 +2148,7 @@ public class MessagesStorage extends BaseController {
                                 break;
                             case 15:
                                 final TLRPC$InputPeer TLdeserialize10 = TLRPC$InputPeer.TLdeserialize(byteBufferValue, byteBufferValue.readInt32(false), false);
-                                Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda179
+                                Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda180
                                     @Override // java.lang.Runnable
                                     public final void run() {
                                         MessagesStorage.this.lambda$loadPendingTasks$24(TLdeserialize10, longValue);
@@ -2209,7 +2211,7 @@ public class MessagesStorage extends BaseController {
                                 final boolean readBool4 = byteBufferValue.readBool(false);
                                 overrideWallpaperInfo.slug = byteBufferValue.readString(false);
                                 overrideWallpaperInfo.originalFileName = byteBufferValue.readString(false);
-                                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda192
+                                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda193
                                     @Override // java.lang.Runnable
                                     public final void run() {
                                         MessagesStorage.this.lambda$loadPendingTasks$22(overrideWallpaperInfo, readBool4, longValue);
@@ -2218,7 +2220,7 @@ public class MessagesStorage extends BaseController {
                                 break;
                             case 22:
                                 final TLRPC$InputPeer TLdeserialize12 = TLRPC$InputPeer.TLdeserialize(byteBufferValue, byteBufferValue.readInt32(false), false);
-                                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda180
+                                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda181
                                     @Override // java.lang.Runnable
                                     public final void run() {
                                         MessagesStorage.this.lambda$loadPendingTasks$28(TLdeserialize12, longValue);
@@ -4192,7 +4194,7 @@ public class MessagesStorage extends BaseController {
                     throw th;
                 }
             }
-            Collections.sort(this.dialogFilters, MessagesStorage$$ExternalSyntheticLambda208.INSTANCE);
+            Collections.sort(this.dialogFilters, MessagesStorage$$ExternalSyntheticLambda209.INSTANCE);
             if (z2) {
                 calcUnreadCounters(true);
             }
@@ -4971,7 +4973,7 @@ public class MessagesStorage extends BaseController {
     }
 
     public void checkLoadedRemoteFilters(final TLRPC$Vector tLRPC$Vector) {
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda187
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda188
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$checkLoadedRemoteFilters$49(tLRPC$Vector);
@@ -5141,7 +5143,7 @@ public class MessagesStorage extends BaseController {
                                 linkedHashMap = new LinkedHashMap();
                                 final LongSparseIntArray longSparseIntArray = dialogFilter2.pinnedDialogs;
                                 arrayList5 = arrayList18;
-                                Collections.sort(arrayList19, new Comparator() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda207
+                                Collections.sort(arrayList19, new Comparator() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda208
                                     @Override // java.util.Comparator
                                     public final int compare(Object obj, Object obj2) {
                                         int lambda$checkLoadedRemoteFilters$48;
@@ -5666,7 +5668,7 @@ public class MessagesStorage extends BaseController {
             }
         }
         if (z2) {
-            Collections.sort(this.dialogFilters, MessagesStorage$$ExternalSyntheticLambda209.INSTANCE);
+            Collections.sort(this.dialogFilters, MessagesStorage$$ExternalSyntheticLambda210.INSTANCE);
             saveDialogFiltersOrderInternal();
         }
         int i4 = z ? 1 : 2;
@@ -5686,7 +5688,7 @@ public class MessagesStorage extends BaseController {
 
     /* JADX INFO: Access modifiers changed from: protected */
     public void processLoadedFilterPeers(final TLRPC$messages_Dialogs tLRPC$messages_Dialogs, final TLRPC$messages_Dialogs tLRPC$messages_Dialogs2, final ArrayList<TLRPC$User> arrayList, final ArrayList<TLRPC$Chat> arrayList2, final ArrayList<MessagesController.DialogFilter> arrayList3, final SparseArray<MessagesController.DialogFilter> sparseArray, final ArrayList<Integer> arrayList4, final HashMap<Integer, HashSet<Long>> hashMap, final HashMap<Integer, HashSet<Long>> hashMap2, final HashSet<Integer> hashSet) {
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda190
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda191
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$processLoadedFilterPeers$51(tLRPC$messages_Dialogs, tLRPC$messages_Dialogs2, arrayList, arrayList2, arrayList3, sparseArray, arrayList4, hashMap, hashMap2, hashSet);
@@ -5712,7 +5714,7 @@ public class MessagesStorage extends BaseController {
     }
 
     public void deleteDialogFilter(final MessagesController.DialogFilter dialogFilter) {
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda162
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda163
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$deleteDialogFilter$52(dialogFilter);
@@ -5721,7 +5723,7 @@ public class MessagesStorage extends BaseController {
     }
 
     public void saveDialogFilter(final MessagesController.DialogFilter dialogFilter, final boolean z, final boolean z2) {
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda163
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda164
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$saveDialogFilter$54(dialogFilter, z, z2);
@@ -6466,7 +6468,7 @@ public class MessagesStorage extends BaseController {
         if ((str2 == null || str2.length() == 0) && tLRPC$Document == null) {
             return;
         }
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda173
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda174
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$addRecentLocalFile$62(tLRPC$Document, str, str2);
@@ -7570,7 +7572,7 @@ public class MessagesStorage extends BaseController {
                 }
             }
             sQLiteCursor.dispose();
-            Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda191
+            Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda192
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesStorage.this.lambda$getDialogPhotos$70(tLRPC$TL_photos_photos, arrayList, j, i2, i, i3);
@@ -7638,7 +7640,7 @@ public class MessagesStorage extends BaseController {
     }
 
     public void resetDialogs(final TLRPC$messages_Dialogs tLRPC$messages_Dialogs, final int i, final int i2, final int i3, final int i4, final int i5, final LongSparseArray<TLRPC$Dialog> longSparseArray, final LongSparseArray<ArrayList<MessageObject>> longSparseArray2, final TLRPC$Message tLRPC$Message, final int i6) {
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda189
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda190
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$resetDialogs$75(tLRPC$messages_Dialogs, i6, i2, i3, i4, i5, tLRPC$Message, i, longSparseArray, longSparseArray2);
@@ -7725,7 +7727,7 @@ public class MessagesStorage extends BaseController {
                     throw th;
                 }
             }
-            Collections.sort(arrayList2, new Comparator() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda206
+            Collections.sort(arrayList2, new Comparator() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda207
                 @Override // java.util.Comparator
                 public final int compare(Object obj, Object obj2) {
                     int lambda$resetDialogs$74;
@@ -8675,7 +8677,7 @@ public class MessagesStorage extends BaseController {
     }
 
     public void updateMessageCustomParams(final long j, final TLRPC$Message tLRPC$Message) {
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda181
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda182
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$updateMessageCustomParams$85(tLRPC$Message, j);
@@ -9104,7 +9106,7 @@ public class MessagesStorage extends BaseController {
                 final ArrayList<Integer> arrayList = new ArrayList<>();
                 arrayList.add(Integer.valueOf(i4));
                 sparseArray.put(max, arrayList);
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda197
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda198
                     @Override // java.lang.Runnable
                     public final void run() {
                         MessagesStorage.this.lambda$createTaskForMid$90(z, j, arrayList);
@@ -10596,7 +10598,7 @@ public class MessagesStorage extends BaseController {
     public void updateDialogsWithReadMessages(final LongSparseIntArray longSparseIntArray, final LongSparseIntArray longSparseIntArray2, final LongSparseArray<ArrayList<Integer>> longSparseArray, final LongSparseIntArray longSparseIntArray3, boolean z) {
         if (!isEmpty(longSparseIntArray) || !isEmpty(longSparseIntArray2) || !isEmpty(longSparseArray) || !isEmpty(longSparseIntArray3)) {
             if (z) {
-                this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda165
+                this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda166
                     @Override // java.lang.Runnable
                     public final void run() {
                         MessagesStorage.this.lambda$updateDialogsWithReadMessages$95(longSparseIntArray, longSparseIntArray2, longSparseArray, longSparseIntArray3);
@@ -10617,7 +10619,7 @@ public class MessagesStorage extends BaseController {
         if (tLRPC$ChatParticipants == null) {
             return;
         }
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda171
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda172
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$updateChatParticipants$97(tLRPC$ChatParticipants);
@@ -10656,7 +10658,7 @@ public class MessagesStorage extends BaseController {
                 return;
             }
             tLRPC$ChatFull.participants = tLRPC$ChatParticipants;
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda168
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda169
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesStorage.this.lambda$updateChatParticipants$96(tLRPC$ChatFull);
@@ -10903,7 +10905,7 @@ public class MessagesStorage extends BaseController {
         if (tLObject == null || TextUtils.isEmpty(str)) {
             return;
         }
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda166
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda167
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$saveBotCache$101(tLObject, str);
@@ -11077,7 +11079,7 @@ public class MessagesStorage extends BaseController {
         if (tLRPC$User == null) {
             return;
         }
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda186
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda187
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$loadUserInfo$103(tLRPC$User, z, i);
@@ -11281,7 +11283,7 @@ public class MessagesStorage extends BaseController {
     }
 
     public void updateUserInfo(final TLRPC$UserFull tLRPC$UserFull, final boolean z) {
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda202
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda203
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$updateUserInfo$104(z, tLRPC$UserFull);
@@ -11458,7 +11460,7 @@ public class MessagesStorage extends BaseController {
     }
 
     public void updateChatInfo(final TLRPC$ChatFull tLRPC$ChatFull, final boolean z) {
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda170
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda171
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$updateChatInfo$107(tLRPC$ChatFull, z);
@@ -11677,7 +11679,7 @@ public class MessagesStorage extends BaseController {
     }
 
     public void updatePinnedMessages(final long j, final ArrayList<Integer> arrayList, final boolean z, final int i, final int i2, final boolean z2, final HashMap<Integer, MessageObject> hashMap) {
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda201
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda202
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$updatePinnedMessages$111(z, hashMap, i2, j, arrayList, i, z2);
@@ -12067,7 +12069,7 @@ public class MessagesStorage extends BaseController {
                 }
             }
             tLRPC$ChatFull.participants.version = i2;
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda169
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda170
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesStorage.this.lambda$updateChatInfo$112(tLRPC$ChatFull);
@@ -12879,7 +12881,7 @@ public class MessagesStorage extends BaseController {
 
     public TLRPC$ChatFull loadChatInfo(final long j, final boolean z, final CountDownLatch countDownLatch, final boolean z2, final boolean z3, final int i) {
         final TLRPC$ChatFull[] tLRPC$ChatFullArr = new TLRPC$ChatFull[1];
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda204
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda205
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$loadChatInfo$117(tLRPC$ChatFullArr, j, z, z2, z3, i, countDownLatch);
@@ -13283,7 +13285,7 @@ public class MessagesStorage extends BaseController {
     public void putContacts(ArrayList<TLRPC$TL_contact> arrayList, final boolean z) {
         if (!arrayList.isEmpty() || z) {
             final ArrayList arrayList2 = new ArrayList(arrayList);
-            this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda200
+            this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda201
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesStorage.this.lambda$putContacts$119(z, arrayList2);
@@ -13565,7 +13567,7 @@ public class MessagesStorage extends BaseController {
     }
 
     public void getCachedPhoneBook(final boolean z) {
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda194
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda195
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$getCachedPhoneBook$123(z);
@@ -14215,14 +14217,14 @@ public class MessagesStorage extends BaseController {
     }
 
     /*  JADX ERROR: JadxRuntimeException in pass: BlockProcessor
-        jadx.core.utils.exceptions.JadxRuntimeException: Unreachable block: B:881:0x0471
+        jadx.core.utils.exceptions.JadxRuntimeException: Unreachable block: B:867:0x047c
         	at jadx.core.dex.visitors.blocks.BlockProcessor.checkForUnreachableBlocks(BlockProcessor.java:82)
         	at jadx.core.dex.visitors.blocks.BlockProcessor.processBlocksTree(BlockProcessor.java:48)
         	at jadx.core.dex.visitors.blocks.BlockProcessor.visit(BlockProcessor.java:40)
         */
-    public java.lang.Runnable getMessagesInternal(long r53, long r55, int r57, int r58, int r59, int r60, int r61, int r62, boolean r63, int r64, int r65, boolean r66, boolean r67) {
+    public java.lang.Runnable getMessagesInternal(long r52, long r54, int r56, int r57, int r58, int r59, int r60, int r61, boolean r62, int r63, int r64, boolean r65, boolean r66) {
         /*
-            Method dump skipped, instructions count: 8437
+            Method dump skipped, instructions count: 8363
             To view this dump add '--comments-level debug' option
         */
         throw new UnsupportedOperationException("Method not decompiled: org.telegram.messenger.MessagesStorage.getMessagesInternal(long, long, int, int, int, int, int, int, boolean, int, int, boolean, boolean):java.lang.Runnable");
@@ -14782,7 +14784,7 @@ public class MessagesStorage extends BaseController {
         if (tLRPC$EncryptedChat == null) {
             return;
         }
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda178
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda179
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$updateEncryptedChatSeq$143(tLRPC$EncryptedChat, z);
@@ -14826,7 +14828,7 @@ public class MessagesStorage extends BaseController {
         if (tLRPC$EncryptedChat == null) {
             return;
         }
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda175
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda176
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$updateEncryptedChatTTL$144(tLRPC$EncryptedChat);
@@ -14862,7 +14864,7 @@ public class MessagesStorage extends BaseController {
         if (tLRPC$EncryptedChat == null) {
             return;
         }
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda176
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda177
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$updateEncryptedChatLayer$145(tLRPC$EncryptedChat);
@@ -14898,7 +14900,7 @@ public class MessagesStorage extends BaseController {
         if (tLRPC$EncryptedChat == null) {
             return;
         }
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda174
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda175
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$updateEncryptedChat$146(tLRPC$EncryptedChat);
@@ -15107,7 +15109,7 @@ public class MessagesStorage extends BaseController {
         if (tLRPC$EncryptedChat == null) {
             return;
         }
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda177
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda178
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$putEncryptedChat$150(tLRPC$EncryptedChat, tLRPC$User, tLRPC$Dialog);
@@ -15254,6 +15256,17 @@ public class MessagesStorage extends BaseController {
         String str3 = tLRPC$User.username;
         if (str3 != null && str3.length() > 0) {
             sb.append(tLRPC$User.username);
+        } else {
+            ArrayList<TLRPC$TL_username> arrayList = tLRPC$User.usernames;
+            if (arrayList != null && arrayList.size() > 0) {
+                for (int i = 0; i < tLRPC$User.usernames.size(); i++) {
+                    TLRPC$TL_username tLRPC$TL_username = tLRPC$User.usernames.get(i);
+                    if (tLRPC$TL_username != null && tLRPC$TL_username.active) {
+                        sb.append(tLRPC$TL_username.username);
+                        sb.append(";;");
+                    }
+                }
+            }
         }
         return sb.toString().toLowerCase();
     }
@@ -15643,7 +15656,7 @@ public class MessagesStorage extends BaseController {
     }
 
     public void removeFromDownloadQueue(final long j, final int i, final boolean z) {
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda195
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda196
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$removeFromDownloadQueue$153(z, i, j);
@@ -16659,249 +16672,185 @@ public class MessagesStorage extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:25:0x011b  */
-    /* JADX WARN: Removed duplicated region for block: B:27:0x011f A[Catch: all -> 0x01ce, Exception -> 0x01d2, TRY_ENTER, TRY_LEAVE, TryCatch #11 {Exception -> 0x01d2, all -> 0x01ce, blocks: (B:3:0x0007, B:17:0x0081, B:23:0x00b9, B:27:0x011f), top: B:2:0x0007 }] */
-    /* JADX WARN: Removed duplicated region for block: B:41:0x01da  */
-    /* JADX WARN: Removed duplicated region for block: B:43:0x01df  */
-    /* JADX WARN: Removed duplicated region for block: B:46:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x01e6  */
-    /* JADX WARN: Removed duplicated region for block: B:52:0x01eb  */
-    /* JADX WARN: Removed duplicated region for block: B:74:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:75:0x00e2 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:48:0x0173  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x0178  */
+    /* JADX WARN: Removed duplicated region for block: B:52:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x017f  */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x0184  */
     /* renamed from: updateRepliesMaxReadIdInternal */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void lambda$updateRepliesMaxReadId$164(final long j, final int i, final int i2, int i3) {
-        SQLiteCursor sQLiteCursor;
         SQLitePreparedStatement sQLitePreparedStatement;
+        SQLiteCursor sQLiteCursor;
+        SQLitePreparedStatement executeFast;
         TLRPC$MessageReplies tLRPC$MessageReplies;
         SQLiteCursor sQLiteCursor2;
         SQLiteCursor sQLiteCursor3;
-        boolean z;
-        SQLiteCursor sQLiteCursor4;
-        SQLiteCursor sQLiteCursor5;
         int i4;
-        LongSparseIntArray longSparseIntArray;
         NativeByteBuffer byteBufferValue;
         long j2 = -j;
         try {
-            SQLitePreparedStatement executeFast = this.database.executeFast("UPDATE messages_v2 SET replies_data = ? WHERE mid = ? AND uid = ?");
+            executeFast = this.database.executeFast("UPDATE messages_v2 SET replies_data = ? WHERE mid = ? AND uid = ?");
+        } catch (Exception e) {
+            e = e;
+            sQLitePreparedStatement = null;
+        } catch (Throwable th) {
+            th = th;
+            sQLitePreparedStatement = null;
+        }
+        try {
+            SQLiteDatabase sQLiteDatabase = this.database;
+            Locale locale = Locale.US;
+            SQLiteCursor queryFinalized = sQLiteDatabase.queryFinalized(String.format(locale, "SELECT replies_data FROM messages_v2 WHERE mid = %d AND uid = %d", Integer.valueOf(i), Long.valueOf(j2)), new Object[0]);
             try {
-                SQLiteDatabase sQLiteDatabase = this.database;
-                Locale locale = Locale.US;
-                sQLiteCursor = sQLiteDatabase.queryFinalized(String.format(locale, "SELECT replies_data FROM messages_v2 WHERE mid = %d AND uid = %d", Integer.valueOf(i), Long.valueOf(j2)), new Object[0]);
+                if (!queryFinalized.next() || (byteBufferValue = queryFinalized.byteBufferValue(0)) == null) {
+                    tLRPC$MessageReplies = null;
+                } else {
+                    tLRPC$MessageReplies = TLRPC$MessageReplies.TLdeserialize(byteBufferValue, byteBufferValue.readInt32(false), false);
+                    byteBufferValue.reuse();
+                }
+                queryFinalized.dispose();
+                if (tLRPC$MessageReplies != null) {
+                    tLRPC$MessageReplies.read_max_id = i2;
+                    executeFast.requery();
+                    NativeByteBuffer nativeByteBuffer = new NativeByteBuffer(tLRPC$MessageReplies.getObjectSize());
+                    tLRPC$MessageReplies.serializeToStream(nativeByteBuffer);
+                    executeFast.bindByteBuffer(1, nativeByteBuffer);
+                    executeFast.bindInteger(2, i);
+                    executeFast.bindLong(3, j2);
+                    executeFast.step();
+                    nativeByteBuffer.reuse();
+                }
+                executeFast.dispose();
+                SQLiteCursor queryFinalized2 = this.database.queryFinalized(String.format(locale, "SELECT max_read_id FROM topics WHERE did = %d AND topic_id = %d", Long.valueOf(j2), Integer.valueOf(i)), new Object[0]);
                 try {
-                    if (!sQLiteCursor.next() || (byteBufferValue = sQLiteCursor.byteBufferValue(0)) == null) {
-                        tLRPC$MessageReplies = null;
+                    boolean z = queryFinalized2.next() && i2 >= queryFinalized2.intValue(0);
+                    queryFinalized2.dispose();
+                    this.database.executeFast(String.format(locale, "UPDATE messages_topics SET read_state = read_state | 1 WHERE uid = %d AND topic_id = %d AND mid <= %d AND read_state IN(0,2) AND out = 0", Long.valueOf(j2), Integer.valueOf(i), Integer.valueOf(i2))).stepThis().dispose();
+                    if (i3 < 0) {
+                        SQLiteCursor queryFinalized3 = this.database.queryFinalized(String.format(locale, "SELECT count(mid) FROM  messages_topics WHERE uid = %d AND topic_id = %d AND mid > %d AND read_state IN(0,2) AND out = 0", Long.valueOf(j2), Integer.valueOf(i), Integer.valueOf(i2)), new Object[0]);
+                        int intValue = queryFinalized3.next() ? queryFinalized3.intValue(0) : 0;
+                        queryFinalized3.dispose();
+                        i4 = intValue;
                     } else {
-                        tLRPC$MessageReplies = TLRPC$MessageReplies.TLdeserialize(byteBufferValue, byteBufferValue.readInt32(false), false);
-                        byteBufferValue.reuse();
+                        i4 = i3;
                     }
-                    sQLiteCursor.dispose();
-                    if (tLRPC$MessageReplies != null) {
-                        try {
-                            tLRPC$MessageReplies.read_max_id = i2;
-                            executeFast.requery();
-                            NativeByteBuffer nativeByteBuffer = new NativeByteBuffer(tLRPC$MessageReplies.getObjectSize());
-                            tLRPC$MessageReplies.serializeToStream(nativeByteBuffer);
-                            executeFast.bindByteBuffer(1, nativeByteBuffer);
-                            executeFast.bindInteger(2, i);
-                            executeFast.bindLong(3, j2);
-                            executeFast.step();
-                            nativeByteBuffer.reuse();
-                        } catch (Exception e) {
-                            e = e;
-                            sQLitePreparedStatement = executeFast;
-                            sQLiteCursor = null;
-                            try {
-                                FileLog.e(e);
-                                if (sQLitePreparedStatement != 0) {
-                                }
-                                if (sQLiteCursor == null) {
-                                }
-                            } catch (Throwable th) {
-                                th = th;
-                                if (sQLitePreparedStatement != 0) {
-                                    sQLitePreparedStatement.dispose();
-                                }
-                                if (sQLiteCursor != null) {
-                                    sQLiteCursor.dispose();
-                                }
-                                throw th;
-                            }
-                        } catch (Throwable th2) {
-                            th = th2;
-                            sQLitePreparedStatement = executeFast;
-                            sQLiteCursor = null;
-                            if (sQLitePreparedStatement != 0) {
-                            }
-                            if (sQLiteCursor != null) {
-                            }
-                            throw th;
+                    if (!z) {
+                        return;
+                    }
+                    this.database.executeFast(String.format(Locale.ENGLISH, "UPDATE topics SET max_read_id = %d, unread_count = %d WHERE did = %d AND topic_id = %d", Integer.valueOf(i2), Integer.valueOf(i4), Long.valueOf(j2), Integer.valueOf(i))).stepThis().dispose();
+                    final int i5 = i4;
+                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda74
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            MessagesStorage.this.lambda$updateRepliesMaxReadIdInternal$163(j, i, i2, i5);
                         }
-                    }
-                    executeFast.dispose();
-                    SQLiteCursor queryFinalized = this.database.queryFinalized(String.format(locale, "SELECT max_read_id FROM topics WHERE did = %d AND topic_id = %d", Long.valueOf(j2), Integer.valueOf(i)), new Object[0]);
+                    });
+                    resetForumBadgeIfNeed(j2);
+                } catch (Exception e2) {
+                    e = e2;
+                    sQLiteCursor = sQLiteCursor3;
+                    sQLitePreparedStatement = null;
                     try {
-                        if (queryFinalized.next()) {
-                            try {
-                                if (i2 >= queryFinalized.intValue(0)) {
-                                    z = true;
-                                    queryFinalized.dispose();
-                                    this.database.executeFast(String.format(locale, "UPDATE messages_topics SET read_state = read_state | 1 WHERE uid = %d AND topic_id = %d AND mid <= %d AND read_state IN(0,2) AND out = 0", Long.valueOf(j2), Integer.valueOf(i), Integer.valueOf(i2))).stepThis().dispose();
-                                    if (i3 >= 0) {
-                                        try {
-                                            SQLiteCursor queryFinalized2 = this.database.queryFinalized(String.format(locale, "SELECT count(mid) FROM  messages_topics WHERE uid = %d AND topic_id = %d AND mid > %d AND read_state IN(0,2) AND out = 0", Long.valueOf(j2), Integer.valueOf(i), Integer.valueOf(i2)), new Object[0]);
-                                            int intValue = queryFinalized2.next() ? queryFinalized2.intValue(0) : 0;
-                                            queryFinalized2.dispose();
-                                            i4 = intValue;
-                                        } catch (Exception e2) {
-                                            e = e2;
-                                            sQLiteCursor = null;
-                                            sQLitePreparedStatement = 0;
-                                            FileLog.e(e);
-                                            if (sQLitePreparedStatement != 0) {
-                                            }
-                                            if (sQLiteCursor == null) {
-                                            }
-                                        } catch (Throwable th3) {
-                                            th = th3;
-                                            sQLiteCursor = null;
-                                            sQLitePreparedStatement = 0;
-                                            if (sQLitePreparedStatement != 0) {
-                                            }
-                                            if (sQLiteCursor != null) {
-                                            }
-                                            throw th;
-                                        }
-                                    } else {
-                                        i4 = i3;
-                                    }
-                                    if (z) {
-                                        return;
-                                    }
-                                    SQLiteDatabase sQLiteDatabase2 = this.database;
-                                    Locale locale2 = Locale.ENGLISH;
-                                    sQLiteDatabase2.executeFast(String.format(locale2, "UPDATE topics SET max_read_id = %d, unread_count = %d WHERE did = %d AND topic_id = %d", Integer.valueOf(i2), Integer.valueOf(i4), Long.valueOf(j2), Integer.valueOf(i))).stepThis().dispose();
-                                    final int i5 = i4;
-                                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda74
-                                        @Override // java.lang.Runnable
-                                        public final void run() {
-                                            MessagesStorage.this.lambda$updateRepliesMaxReadIdInternal$163(j, i, i2, i5);
-                                        }
-                                    });
-                                    SQLiteCursor queryFinalized3 = this.database.queryFinalized(String.format(locale2, "SELECT topic_id FROM topics WHERE did = %d AND unread_count > 0", Long.valueOf(j2)), new Object[0]);
-                                    if (!queryFinalized3.next()) {
-                                        longSparseIntArray = new LongSparseIntArray();
-                                        longSparseIntArray.put(j2, 0);
-                                    } else {
-                                        longSparseIntArray = null;
-                                    }
-                                    queryFinalized3.dispose();
-                                    if (longSparseIntArray != null) {
-                                        this.database.executeFast(String.format(locale2, "UPDATE dialogs SET unread_count = 0 WHERE did = %d", Long.valueOf(j2))).stepThis().dispose();
-                                    }
-                                    sQLiteCursor = null;
-                                    try {
-                                        updateFiltersReadCounter(longSparseIntArray, null, true);
-                                        getMessagesController().processDialogsUpdateRead(longSparseIntArray, null);
-                                        return;
-                                    } catch (Exception e3) {
-                                        e = e3;
-                                        sQLitePreparedStatement = sQLiteCursor;
-                                        FileLog.e(e);
-                                        if (sQLitePreparedStatement != 0) {
-                                        }
-                                        if (sQLiteCursor == null) {
-                                        }
-                                    } catch (Throwable th4) {
-                                        th = th4;
-                                        sQLitePreparedStatement = sQLiteCursor;
-                                        if (sQLitePreparedStatement != 0) {
-                                        }
-                                        if (sQLiteCursor != null) {
-                                        }
-                                        throw th;
-                                    }
-                                }
-                            } catch (Exception e4) {
-                                e = e4;
-                                sQLiteCursor = sQLiteCursor5;
-                                sQLitePreparedStatement = 0;
-                                FileLog.e(e);
-                                if (sQLitePreparedStatement != 0) {
-                                    sQLitePreparedStatement.dispose();
-                                }
-                                if (sQLiteCursor == null) {
-                                    return;
-                                }
-                                sQLiteCursor.dispose();
-                                return;
-                            } catch (Throwable th5) {
-                                th = th5;
-                                sQLiteCursor = sQLiteCursor4;
-                                sQLitePreparedStatement = 0;
-                                if (sQLitePreparedStatement != 0) {
-                                }
-                                if (sQLiteCursor != null) {
-                                }
-                                throw th;
-                            }
+                        FileLog.e(e);
+                        if (sQLitePreparedStatement != null) {
+                            sQLitePreparedStatement.dispose();
                         }
-                        z = false;
-                        queryFinalized.dispose();
-                        this.database.executeFast(String.format(locale, "UPDATE messages_topics SET read_state = read_state | 1 WHERE uid = %d AND topic_id = %d AND mid <= %d AND read_state IN(0,2) AND out = 0", Long.valueOf(j2), Integer.valueOf(i), Integer.valueOf(i2))).stepThis().dispose();
-                        if (i3 >= 0) {
+                        if (sQLiteCursor != null) {
+                            return;
                         }
-                        if (z) {
+                        sQLiteCursor.dispose();
+                    } catch (Throwable th2) {
+                        th = th2;
+                        if (sQLitePreparedStatement != null) {
+                            sQLitePreparedStatement.dispose();
                         }
-                    } catch (Exception e5) {
-                        e = e5;
-                        sQLitePreparedStatement = 0;
-                        sQLiteCursor = sQLiteCursor3;
-                    } catch (Throwable th6) {
-                        th = th6;
-                        sQLitePreparedStatement = 0;
-                        sQLiteCursor = sQLiteCursor2;
+                        if (sQLiteCursor != null) {
+                            sQLiteCursor.dispose();
+                        }
+                        throw th;
                     }
-                } catch (Exception e6) {
-                    e = e6;
-                    sQLitePreparedStatement = executeFast;
-                    FileLog.e(e);
-                    if (sQLitePreparedStatement != 0) {
-                    }
-                    if (sQLiteCursor == null) {
-                    }
-                } catch (Throwable th7) {
-                    th = th7;
-                    sQLitePreparedStatement = executeFast;
-                    if (sQLitePreparedStatement != 0) {
+                } catch (Throwable th3) {
+                    th = th3;
+                    sQLiteCursor = sQLiteCursor2;
+                    sQLitePreparedStatement = null;
+                    if (sQLitePreparedStatement != null) {
                     }
                     if (sQLiteCursor != null) {
                     }
                     throw th;
                 }
-            } catch (Exception e7) {
-                e = e7;
-                sQLiteCursor = null;
-            } catch (Throwable th8) {
-                th = th8;
-                sQLiteCursor = null;
+            } catch (Exception e3) {
+                e = e3;
+                sQLitePreparedStatement = executeFast;
+                sQLiteCursor = queryFinalized;
+            } catch (Throwable th4) {
+                th = th4;
+                sQLitePreparedStatement = executeFast;
+                sQLiteCursor = queryFinalized;
             }
-        } catch (Exception e8) {
-            e = e8;
+        } catch (Exception e4) {
+            e = e4;
+            sQLitePreparedStatement = executeFast;
             sQLiteCursor = null;
-        } catch (Throwable th9) {
-            th = th9;
+            FileLog.e(e);
+            if (sQLitePreparedStatement != null) {
+            }
+            if (sQLiteCursor != null) {
+            }
+        } catch (Throwable th5) {
+            th = th5;
+            sQLitePreparedStatement = executeFast;
             sQLiteCursor = null;
+            if (sQLitePreparedStatement != null) {
+            }
+            if (sQLiteCursor != null) {
+            }
+            throw th;
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$updateRepliesMaxReadIdInternal$163(long j, int i, int i2, int i3) {
         getMessagesController().getTopicsController().updateMaxReadId(j, i, i2, i3);
+    }
+
+    private void resetForumBadgeIfNeed(long j) {
+        LongSparseIntArray longSparseIntArray;
+        SQLiteCursor sQLiteCursor = null;
+        try {
+            SQLiteDatabase sQLiteDatabase = this.database;
+            Locale locale = Locale.ENGLISH;
+            SQLiteCursor queryFinalized = sQLiteDatabase.queryFinalized(String.format(locale, "SELECT topic_id FROM topics WHERE did = %d AND unread_count > 0", Long.valueOf(j)), new Object[0]);
+            try {
+                if (!queryFinalized.next()) {
+                    longSparseIntArray = new LongSparseIntArray();
+                    longSparseIntArray.put(j, 0);
+                } else {
+                    longSparseIntArray = null;
+                }
+                queryFinalized.dispose();
+                if (longSparseIntArray != null) {
+                    this.database.executeFast(String.format(locale, "UPDATE dialogs SET unread_count = 0 WHERE did = %d", Long.valueOf(j))).stepThis().dispose();
+                }
+                updateFiltersReadCounter(longSparseIntArray, null, true);
+                getMessagesController().processDialogsUpdateRead(longSparseIntArray, null);
+            } catch (Throwable th) {
+                th = th;
+                sQLiteCursor = queryFinalized;
+                try {
+                    FileLog.e(th);
+                } finally {
+                    if (sQLiteCursor != null) {
+                        sQLiteCursor.dispose();
+                    }
+                }
+            }
+        } catch (Throwable th2) {
+            th = th2;
+        }
     }
 
     public void updateRepliesMaxReadId(final long j, final int i, final int i2, final int i3, boolean z) {
@@ -22056,7 +22005,7 @@ public class MessagesStorage extends BaseController {
     }
 
     public void markMessageAsSendError(final TLRPC$Message tLRPC$Message, final boolean z) {
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda182
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda183
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$markMessageAsSendError$171(tLRPC$Message, z);
@@ -22733,7 +22682,7 @@ public class MessagesStorage extends BaseController {
             }
             final TLRPC$TL_updates tLRPC$TL_updates = new TLRPC$TL_updates();
             tLRPC$TL_updates.updates.add(tLRPC$TL_updateDeleteScheduledMessages);
-            Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda185
+            Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda186
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesStorage.this.lambda$updateMessageStateAndIdInternal$173(tLRPC$TL_updates);
@@ -23118,7 +23067,7 @@ public class MessagesStorage extends BaseController {
 
     public void markMessagesAsRead(final LongSparseIntArray longSparseIntArray, final LongSparseIntArray longSparseIntArray2, final SparseIntArray sparseIntArray, boolean z) {
         if (z) {
-            this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda164
+            this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda165
                 @Override // java.lang.Runnable
                 public final void run() {
                     MessagesStorage.this.lambda$markMessagesAsRead$177(longSparseIntArray, longSparseIntArray2, sparseIntArray);
@@ -23263,1802 +23212,20 @@ public class MessagesStorage extends BaseController {
         getNotificationCenter().postNotificationName(NotificationCenter.scheduledMessagesUpdated, l, Integer.valueOf(i));
     }
 
+    /*  JADX ERROR: JadxRuntimeException in pass: BlockProcessor
+        jadx.core.utils.exceptions.JadxRuntimeException: Unreachable block: B:378:0x0679
+        	at jadx.core.dex.visitors.blocks.BlockProcessor.checkForUnreachableBlocks(BlockProcessor.java:82)
+        	at jadx.core.dex.visitors.blocks.BlockProcessor.processBlocksTree(BlockProcessor.java:48)
+        	at jadx.core.dex.visitors.blocks.BlockProcessor.visit(BlockProcessor.java:40)
+        */
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Can't wrap try/catch for region: R(20:(2:46|(8:47|48|49|50|51|(2:552|553)|53|54))|(3:56|57|(14:59|(3:61|62|63)(1:550)|64|(1:66)|(1:545)|70|71|(7:78|79|80|81|82|83|84)(1:74)|75|41|42|43|44|(28:563|90|91|(6:93|94|(9:98|99|100|101|(10:496|497|498|499|500|501|502|503|(2:(1:506)|507)|508)(1:103)|(9:108|109|110|111|112|113|114|115|(7:117|118|119|(1:121)|122|(1:124)|(2:129|130)(1:128))(2:481|482))(2:105|106)|107|95|96)|527|528|136)(1:534)|137|(8:(2:140|(1:142)(1:175))(2:176|(2:178|(1:180)(1:181))(2:182|(3:184|185|150)(1:186)))|143|144|(1:146)|147|148|149|150)|187|188|(9:191|192|(1:194)(1:205)|195|196|197|198|199|189)|206|207|208|(4:210|(12:213|214|215|(1:217)(1:233)|218|219|220|221|222|(2:224|225)(1:227)|226|211)|241|242)(1:477)|243|244|(18:246|247|248|(2:250|(7:252|253|254|255|256|257|258)(1:441))(1:442)|259|260|261|(1:263)(1:424)|264|(5:405|406|407|(4:409|410|411|412)|418)|266|(6:268|269|(7:272|(1:274)|275|(1:277)(1:283)|(2:279|280)(1:282)|281|270)|284|285|(13:287|288|289|(6:291|292|293|(9:295|296|297|298|299|(1:301)(1:308)|302|(2:304|305)(1:307)|306)|319|320)|326|327|328|329|330|331|(5:333|(7:336|(1:338)|339|(1:341)(1:347)|(2:343|344)(1:346)|345|334)|348|349|(5:351|352|(5:354|355|(11:359|360|361|362|363|(1:365)(1:373)|366|(2:368|369)(2:371|372)|370|356|357)|381|382)|393|394)(1:398))(1:399)|395|396))|404|330|331|(0)(0)|395|396)|448|449|450|(2:452|(1:454)(1:455))|456|(2:458|(1:460)(1:461))|462|(1:464)|465|(4:467|(2:470|468)|471|472)|(1:474)|476)(0)))|551|70|71|(0)|76|78|79|80|81|82|83|84|75|41|42|43|44|(0)(0)) */
-    /* JADX WARN: Code restructure failed: missing block: B:542:0x0229, code lost:
-        r0 = e;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:543:0x022a, code lost:
-        r25 = r42;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:544:0x0232, code lost:
-        r42 = r3;
-        r18 = r6;
-        r28 = r24;
-        r24 = r25;
-        r13 = 0;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:86:0x0216, code lost:
-        r0 = e;
-     */
-    /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Not initialized variable reg: 1, insn: 0x0c4d: MOVE  (r16 I:??[OBJECT, ARRAY]) = (r1 I:??[OBJECT, ARRAY]), block:B:576:0x0c4d */
-    /* JADX WARN: Not initialized variable reg: 3, insn: 0x0053: MOVE  (r11 I:??[OBJECT, ARRAY]) = (r3 I:??[OBJECT, ARRAY]), block:B:574:0x0052 */
-    /* JADX WARN: Not initialized variable reg: 3, insn: 0x0c4f: MOVE  (r11 I:??[OBJECT, ARRAY]) = (r3 I:??[OBJECT, ARRAY]), block:B:576:0x0c4d */
-    /* JADX WARN: Removed duplicated region for block: B:139:0x03d1  */
-    /* JADX WARN: Removed duplicated region for block: B:157:0x0c3d  */
-    /* JADX WARN: Removed duplicated region for block: B:159:0x0c42  */
-    /* JADX WARN: Removed duplicated region for block: B:161:0x0c47  */
-    /* JADX WARN: Removed duplicated region for block: B:163:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:169:0x0c55  */
-    /* JADX WARN: Removed duplicated region for block: B:171:0x0c5a  */
-    /* JADX WARN: Removed duplicated region for block: B:173:0x0c5f  */
-    /* JADX WARN: Removed duplicated region for block: B:191:0x049b A[Catch: all -> 0x0c2c, Exception -> 0x0c32, TRY_LEAVE, TryCatch #60 {Exception -> 0x0c32, all -> 0x0c2c, blocks: (B:3:0x0006, B:7:0x0012, B:20:0x005e, B:22:0x0083, B:38:0x009a, B:40:0x00d8, B:93:0x0279, B:137:0x03c9, B:142:0x03d9, B:148:0x0462, B:150:0x046a, B:175:0x03e8, B:180:0x0400, B:181:0x040f, B:186:0x0427, B:188:0x047a, B:189:0x0495, B:191:0x049b, B:196:0x04d6, B:208:0x0534, B:210:0x053a, B:211:0x0543, B:213:0x0549, B:219:0x058c, B:222:0x05c8, B:224:0x05dc, B:226:0x05e1, B:243:0x0603, B:569:0x00fd), top: B:2:0x0006 }] */
-    /* JADX WARN: Removed duplicated region for block: B:210:0x053a A[Catch: all -> 0x0c2c, Exception -> 0x0c32, TryCatch #60 {Exception -> 0x0c32, all -> 0x0c2c, blocks: (B:3:0x0006, B:7:0x0012, B:20:0x005e, B:22:0x0083, B:38:0x009a, B:40:0x00d8, B:93:0x0279, B:137:0x03c9, B:142:0x03d9, B:148:0x0462, B:150:0x046a, B:175:0x03e8, B:180:0x0400, B:181:0x040f, B:186:0x0427, B:188:0x047a, B:189:0x0495, B:191:0x049b, B:196:0x04d6, B:208:0x0534, B:210:0x053a, B:211:0x0543, B:213:0x0549, B:219:0x058c, B:222:0x05c8, B:224:0x05dc, B:226:0x05e1, B:243:0x0603, B:569:0x00fd), top: B:2:0x0006 }] */
-    /* JADX WARN: Removed duplicated region for block: B:246:0x060c  */
-    /* JADX WARN: Removed duplicated region for block: B:27:0x0c0b  */
-    /* JADX WARN: Removed duplicated region for block: B:29:0x0c10  */
-    /* JADX WARN: Removed duplicated region for block: B:31:0x0c15  */
-    /* JADX WARN: Removed duplicated region for block: B:333:0x091c A[Catch: Exception -> 0x0ad0, all -> 0x0c4c, TryCatch #22 {all -> 0x0c4c, blocks: (B:154:0x0c36, B:331:0x0916, B:333:0x091c, B:334:0x093a, B:336:0x0940, B:338:0x0954, B:339:0x0959, B:341:0x0961, B:343:0x0978, B:345:0x097d, B:347:0x096f, B:349:0x098c), top: B:2:0x0006 }] */
-    /* JADX WARN: Removed duplicated region for block: B:399:0x0a70  */
-    /* JADX WARN: Removed duplicated region for block: B:452:0x0b23  */
-    /* JADX WARN: Removed duplicated region for block: B:458:0x0b5c  */
-    /* JADX WARN: Removed duplicated region for block: B:464:0x0ba0 A[Catch: all -> 0x0c19, Exception -> 0x0c20, TryCatch #47 {Exception -> 0x0c20, all -> 0x0c19, blocks: (B:258:0x0634, B:259:0x0695, B:441:0x065e, B:450:0x0b02, B:454:0x0b29, B:455:0x0b39, B:456:0x0b56, B:460:0x0b62, B:461:0x0b72, B:462:0x0b8f, B:464:0x0ba0, B:465:0x0ba4, B:468:0x0bac, B:470:0x0bb2, B:472:0x0be9, B:474:0x0bf8), top: B:257:0x0634 }] */
-    /* JADX WARN: Removed duplicated region for block: B:467:0x0bab  */
-    /* JADX WARN: Removed duplicated region for block: B:46:0x011f  */
-    /* JADX WARN: Removed duplicated region for block: B:474:0x0bf8 A[Catch: all -> 0x0c19, Exception -> 0x0c20, TRY_LEAVE, TryCatch #47 {Exception -> 0x0c20, all -> 0x0c19, blocks: (B:258:0x0634, B:259:0x0695, B:441:0x065e, B:450:0x0b02, B:454:0x0b29, B:455:0x0b39, B:456:0x0b56, B:460:0x0b62, B:461:0x0b72, B:462:0x0b8f, B:464:0x0ba0, B:465:0x0ba4, B:468:0x0bac, B:470:0x0bb2, B:472:0x0be9, B:474:0x0bf8), top: B:257:0x0634 }] */
-    /* JADX WARN: Removed duplicated region for block: B:477:0x0600  */
-    /* JADX WARN: Removed duplicated region for block: B:534:0x03bf  */
-    /* JADX WARN: Removed duplicated region for block: B:563:0x024b  */
-    /* JADX WARN: Removed duplicated region for block: B:93:0x0279 A[Catch: all -> 0x0c2c, Exception -> 0x0c32, TRY_ENTER, TRY_LEAVE, TryCatch #60 {Exception -> 0x0c32, all -> 0x0c2c, blocks: (B:3:0x0006, B:7:0x0012, B:20:0x005e, B:22:0x0083, B:38:0x009a, B:40:0x00d8, B:93:0x0279, B:137:0x03c9, B:142:0x03d9, B:148:0x0462, B:150:0x046a, B:175:0x03e8, B:180:0x0400, B:181:0x040f, B:186:0x0427, B:188:0x047a, B:189:0x0495, B:191:0x049b, B:196:0x04d6, B:208:0x0534, B:210:0x053a, B:211:0x0543, B:213:0x0549, B:219:0x058c, B:222:0x05c8, B:224:0x05dc, B:226:0x05e1, B:243:0x0603, B:569:0x00fd), top: B:2:0x0006 }] */
-    /* JADX WARN: Type inference failed for: r13v37, types: [boolean, int] */
-    /* JADX WARN: Type inference failed for: r13v40 */
-    /* JADX WARN: Type inference failed for: r13v56 */
-    /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:69:0x021b -> B:35:0x00fb). Please submit an issue!!! */
     /* renamed from: markMessagesAsDeletedInternal */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
-    public ArrayList<Long> lambda$markMessagesAsDeleted$183(long j, ArrayList<Integer> arrayList, boolean z, boolean z2) {
-        Throwable th;
-        SQLiteCursor sQLiteCursor;
-        Exception exc;
-        SQLitePreparedStatement sQLitePreparedStatement;
-        SQLitePreparedStatement sQLitePreparedStatement2;
-        SQLitePreparedStatement sQLitePreparedStatement3;
-        SQLiteCursor sQLiteCursor2;
-        SQLiteDatabase sQLiteDatabase;
-        SQLiteCursor sQLiteCursor3;
-        SQLiteDatabase sQLiteDatabase2;
-        SQLiteCursor sQLiteCursor4;
-        HashMap hashMap;
-        ArrayList arrayList2;
-        int i;
-        SQLiteCursor queryFinalized;
-        HashMap hashMap2;
-        LongSparseArray longSparseArray;
-        LongSparseArray longSparseArray2;
-        ArrayList<String> arrayList3;
-        ArrayList arrayList4;
-        int i2;
-        ArrayList arrayList5;
-        int i3;
-        ArrayList<Pair<Long, Integer>> arrayList6;
-        HashMap hashMap3;
-        ArrayList arrayList7;
-        int i4;
-        String str;
-        ArrayList<TopicKey> arrayList8;
-        Exception e;
-        int i5;
-        int i6;
-        ArrayList<TopicKey> arrayList9;
-        ArrayList<Long> arrayList10;
-        List<TopicsController.TopicUpdate> list;
-        int size;
-        int i7;
-        LongSparseArray longSparseArray3;
-        SQLitePreparedStatement sQLitePreparedStatement4;
-        SQLiteCursor sQLiteCursor5;
-        List<TopicsController.TopicUpdate> list2;
-        ArrayList<Long> arrayList11;
-        SQLiteCursor sQLiteCursor6;
-        Throwable th2;
-        Exception e2;
-        int i8;
-        CharSequence charSequence;
-        LongSparseArray longSparseArray4;
-        List<TopicsController.TopicUpdate> list3;
-        int i9;
-        long j2;
-        SQLiteCursor sQLiteCursor7;
-        SQLiteDatabase sQLiteDatabase3;
-        Locale locale;
-        int i10;
-        Object[] objArr;
-        SparseArray sparseArray;
-        int i11;
-        int i12;
-        Integer num;
-        int i13;
-        int i14;
-        Integer num2;
-        int i15;
-        int i16;
-        SQLitePreparedStatement sQLitePreparedStatement5;
-        SQLitePreparedStatement sQLitePreparedStatement6;
-        int i17;
-        int i18;
-        String str2;
-        SQLiteCursor sQLiteCursor8;
-        Exception exc2;
-        SQLiteCursor sQLiteCursor9;
-        TLRPC$Message TLdeserialize;
-        int topicId;
-        int i19;
-        Exception exc3;
-        ArrayList arrayList12;
-        long longValue;
-        NativeByteBuffer byteBufferValue;
-        SQLiteDatabase sQLiteDatabase4;
-        try {
-            try {
-                ArrayList<Long> arrayList13 = new ArrayList<>();
-                try {
-                    try {
-                        if (z2) {
-                            String join = TextUtils.join(",", arrayList);
-                            ArrayList arrayList14 = new ArrayList();
-                            SQLiteCursor queryFinalized2 = this.database.queryFinalized(String.format(Locale.US, "SELECT uid FROM scheduled_messages_v2 WHERE mid IN(%s) AND uid = %d", join, Long.valueOf(j)), new Object[0]);
-                            while (queryFinalized2.next()) {
-                                try {
-                                    long longValue2 = queryFinalized2.longValue(0);
-                                    if (!arrayList14.contains(Long.valueOf(longValue2))) {
-                                        arrayList14.add(Long.valueOf(longValue2));
-                                    }
-                                } catch (Exception e3) {
-                                    FileLog.e(e3);
-                                }
-                            }
-                            queryFinalized2.dispose();
-                            this.database.executeFast(String.format(Locale.US, "DELETE FROM scheduled_messages_v2 WHERE mid IN(%s) AND uid = %d", join, Long.valueOf(j))).stepThis().dispose();
-                            int size2 = arrayList14.size();
-                            for (int i20 = 0; i20 < size2; i20++) {
-                                broadcastScheduledMessagesChange((Long) arrayList14.get(i20));
-                            }
-                            arrayList11 = arrayList13;
-                            sQLiteCursor6 = null;
-                            sQLitePreparedStatement4 = null;
-                        } else {
-                            ArrayList arrayList15 = new ArrayList(arrayList);
-                            ArrayList arrayList16 = new ArrayList(arrayList);
-                            LongSparseArray longSparseArray5 = new LongSparseArray();
-                            HashMap hashMap4 = new HashMap();
-                            LongSparseArray longSparseArray6 = new LongSparseArray();
-                            String join2 = TextUtils.join(",", arrayList);
-                            ArrayList<File> arrayList17 = new ArrayList<>();
-                            ArrayList<String> arrayList18 = new ArrayList<>();
-                            ArrayList<Pair<Long, Integer>> arrayList19 = new ArrayList<>();
-                            long clientUserId = getUserConfig().getClientUserId();
-                            ArrayList<Long> arrayList20 = arrayList13;
-                            CharSequence charSequence2 = ",";
-                            if (j != 0) {
-                                hashMap = hashMap4;
-                                arrayList2 = arrayList16;
-                                queryFinalized = this.database.queryFinalized(String.format(Locale.US, "SELECT uid, data, read_state, out, mention, mid FROM messages_v2 WHERE mid IN(%s) AND uid = %d", join2, Long.valueOf(j)), new Object[0]);
-                                try {
-                                    try {
-                                        i = 0;
-                                    } catch (Exception e4) {
-                                        e = e4;
-                                        hashMap2 = hashMap;
-                                        longSparseArray = longSparseArray6;
-                                        longSparseArray2 = longSparseArray5;
-                                        arrayList3 = arrayList18;
-                                        arrayList4 = arrayList2;
-                                        i2 = 0;
-                                        arrayList5 = arrayList15;
-                                    }
-                                    if (!queryFinalized.next()) {
-                                        try {
-                                            arrayList12 = arrayList15;
-                                            try {
-                                                try {
-                                                    longValue = queryFinalized.longValue(i);
-                                                    int intValue = queryFinalized.intValue(5);
-                                                    arrayList12.remove(Integer.valueOf(intValue));
-                                                    ArrayList arrayList21 = (ArrayList) longSparseArray6.get(longValue);
-                                                    if (arrayList21 == null) {
-                                                        try {
-                                                            arrayList21 = new ArrayList();
-                                                            longSparseArray6.put(longValue, arrayList21);
-                                                        } catch (Exception e5) {
-                                                            hashMap2 = hashMap;
-                                                            longSparseArray = longSparseArray6;
-                                                            longSparseArray2 = longSparseArray5;
-                                                            arrayList3 = arrayList18;
-                                                            arrayList4 = arrayList2;
-                                                            exc3 = e5;
-                                                            arrayList5 = arrayList12;
-                                                            i19 = 0;
-                                                            try {
-                                                                FileLog.e(exc3);
-                                                                i3 = i19;
-                                                                queryFinalized.dispose();
-                                                                if (j >= 0) {
-                                                                }
-                                                                this.database.beginTransaction();
-                                                                i5 = 0;
-                                                                while (i5 < i4) {
-                                                                }
-                                                                String str3 = str;
-                                                                deleteFromDownloadQueue(arrayList6, true);
-                                                                final ArrayList<String> arrayList22 = arrayList3;
-                                                                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda140
-                                                                    @Override // java.lang.Runnable
-                                                                    public final void run() {
-                                                                        MessagesStorage.this.lambda$markMessagesAsDeletedInternal$181(arrayList22);
-                                                                    }
-                                                                });
-                                                                getFileLoader().deleteFiles(arrayList17, 0);
-                                                                i6 = 0;
-                                                                while (i6 < longSparseArray2.size()) {
-                                                                }
-                                                                LongSparseArray longSparseArray7 = longSparseArray2;
-                                                                arrayList9 = arrayList8;
-                                                                ArrayList<Long> arrayList23 = arrayList20;
-                                                                if (hashMap3.isEmpty()) {
-                                                                }
-                                                                size = longSparseArray.size();
-                                                                SQLitePreparedStatement sQLitePreparedStatement7 = null;
-                                                                SQLiteCursor sQLiteCursor10 = null;
-                                                                i7 = 0;
-                                                                while (i7 < size) {
-                                                                }
-                                                                longSparseArray3 = longSparseArray7;
-                                                                sQLitePreparedStatement4 = sQLitePreparedStatement7;
-                                                                sQLiteCursor5 = sQLiteCursor10;
-                                                                list2 = list;
-                                                                SQLiteDatabase sQLiteDatabase5 = this.database;
-                                                                Locale locale2 = Locale.US;
-                                                                sQLiteDatabase5.executeFast(String.format(locale2, "DELETE FROM messages_seq WHERE mid IN(%s)", str3)).stepThis().dispose();
-                                                                if (!arrayList5.isEmpty()) {
-                                                                }
-                                                                if (!arrayList7.isEmpty()) {
-                                                                }
-                                                                getMediaDataController().clearBotKeyboard(0L, arrayList);
-                                                                if (longSparseArray3.size() != 0) {
-                                                                }
-                                                                arrayList11 = arrayList10;
-                                                                updateWidgets(arrayList11);
-                                                                if (arrayList9 != null) {
-                                                                }
-                                                                if (list2 != null) {
-                                                                }
-                                                                sQLiteCursor6 = sQLiteCursor5;
-                                                                sQLiteDatabase4 = this.database;
-                                                                if (sQLiteDatabase4 != null) {
-                                                                }
-                                                                if (sQLiteCursor6 != null) {
-                                                                }
-                                                                if (sQLitePreparedStatement4 != null) {
-                                                                }
-                                                                return arrayList11;
-                                                            } catch (Exception e6) {
-                                                                exc = e6;
-                                                                sQLiteCursor3 = queryFinalized;
-                                                                sQLitePreparedStatement = null;
-                                                                FileLog.e(exc);
-                                                                sQLiteDatabase2 = this.database;
-                                                                if (sQLiteDatabase2 != null) {
-                                                                    sQLiteDatabase2.commitTransaction();
-                                                                }
-                                                                if (sQLiteCursor3 != null) {
-                                                                    sQLiteCursor3.dispose();
-                                                                }
-                                                                if (sQLitePreparedStatement == null) {
-                                                                    return null;
-                                                                }
-                                                                sQLitePreparedStatement.dispose();
-                                                                return null;
-                                                            }
-                                                        }
-                                                    }
-                                                    arrayList21.add(Integer.valueOf(intValue));
-                                                } catch (Exception e7) {
-                                                    e = e7;
-                                                    hashMap2 = hashMap;
-                                                    longSparseArray = longSparseArray6;
-                                                }
-                                            } catch (Exception e8) {
-                                                e = e8;
-                                                longSparseArray = longSparseArray6;
-                                            }
-                                        } catch (Exception e9) {
-                                            e = e9;
-                                            arrayList3 = arrayList18;
-                                            arrayList4 = arrayList2;
-                                            arrayList5 = arrayList12;
-                                            i2 = 0;
-                                            hashMap2 = hashMap;
-                                            longSparseArray2 = longSparseArray5;
-                                            exc3 = e;
-                                            i19 = i2;
-                                            FileLog.e(exc3);
-                                            i3 = i19;
-                                            queryFinalized.dispose();
-                                            if (j >= 0) {
-                                            }
-                                            this.database.beginTransaction();
-                                            i5 = 0;
-                                            while (i5 < i4) {
-                                            }
-                                            String str32 = str;
-                                            deleteFromDownloadQueue(arrayList6, true);
-                                            final ArrayList arrayList222 = arrayList3;
-                                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda140
-                                                @Override // java.lang.Runnable
-                                                public final void run() {
-                                                    MessagesStorage.this.lambda$markMessagesAsDeletedInternal$181(arrayList222);
-                                                }
-                                            });
-                                            getFileLoader().deleteFiles(arrayList17, 0);
-                                            i6 = 0;
-                                            while (i6 < longSparseArray2.size()) {
-                                            }
-                                            LongSparseArray longSparseArray72 = longSparseArray2;
-                                            arrayList9 = arrayList8;
-                                            ArrayList<Long> arrayList232 = arrayList20;
-                                            if (hashMap3.isEmpty()) {
-                                            }
-                                            size = longSparseArray.size();
-                                            SQLitePreparedStatement sQLitePreparedStatement72 = null;
-                                            SQLiteCursor sQLiteCursor102 = null;
-                                            i7 = 0;
-                                            while (i7 < size) {
-                                            }
-                                            longSparseArray3 = longSparseArray72;
-                                            sQLitePreparedStatement4 = sQLitePreparedStatement72;
-                                            sQLiteCursor5 = sQLiteCursor102;
-                                            list2 = list;
-                                            SQLiteDatabase sQLiteDatabase52 = this.database;
-                                            Locale locale22 = Locale.US;
-                                            sQLiteDatabase52.executeFast(String.format(locale22, "DELETE FROM messages_seq WHERE mid IN(%s)", str32)).stepThis().dispose();
-                                            if (!arrayList5.isEmpty()) {
-                                            }
-                                            if (!arrayList7.isEmpty()) {
-                                            }
-                                            getMediaDataController().clearBotKeyboard(0L, arrayList);
-                                            if (longSparseArray3.size() != 0) {
-                                            }
-                                            arrayList11 = arrayList10;
-                                            updateWidgets(arrayList11);
-                                            if (arrayList9 != null) {
-                                            }
-                                            if (list2 != null) {
-                                            }
-                                            sQLiteCursor6 = sQLiteCursor5;
-                                            sQLiteDatabase4 = this.database;
-                                            if (sQLiteDatabase4 != null) {
-                                            }
-                                            if (sQLiteCursor6 != null) {
-                                            }
-                                            if (sQLitePreparedStatement4 != null) {
-                                            }
-                                            return arrayList11;
-                                        }
-                                        if (longValue != clientUserId) {
-                                            int intValue2 = queryFinalized.intValue(2);
-                                            if (queryFinalized.intValue(3) == 0) {
-                                                Integer[] numArr = (Integer[]) longSparseArray5.get(longValue);
-                                                if (numArr == null) {
-                                                    longSparseArray = longSparseArray6;
-                                                    try {
-                                                        Integer[] numArr2 = {0, 0};
-                                                        longSparseArray5.put(longValue, numArr2);
-                                                        numArr = numArr2;
-                                                    } catch (Exception e10) {
-                                                        hashMap2 = hashMap;
-                                                        exc3 = e10;
-                                                        longSparseArray2 = longSparseArray5;
-                                                        arrayList3 = arrayList18;
-                                                        arrayList4 = arrayList2;
-                                                        arrayList5 = arrayList12;
-                                                        i19 = 0;
-                                                        FileLog.e(exc3);
-                                                        i3 = i19;
-                                                        queryFinalized.dispose();
-                                                        if (j >= 0) {
-                                                        }
-                                                        this.database.beginTransaction();
-                                                        i5 = 0;
-                                                        while (i5 < i4) {
-                                                        }
-                                                        String str322 = str;
-                                                        deleteFromDownloadQueue(arrayList6, true);
-                                                        final ArrayList arrayList2222 = arrayList3;
-                                                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda140
-                                                            @Override // java.lang.Runnable
-                                                            public final void run() {
-                                                                MessagesStorage.this.lambda$markMessagesAsDeletedInternal$181(arrayList2222);
-                                                            }
-                                                        });
-                                                        getFileLoader().deleteFiles(arrayList17, 0);
-                                                        i6 = 0;
-                                                        while (i6 < longSparseArray2.size()) {
-                                                        }
-                                                        LongSparseArray longSparseArray722 = longSparseArray2;
-                                                        arrayList9 = arrayList8;
-                                                        ArrayList<Long> arrayList2322 = arrayList20;
-                                                        if (hashMap3.isEmpty()) {
-                                                        }
-                                                        size = longSparseArray.size();
-                                                        SQLitePreparedStatement sQLitePreparedStatement722 = null;
-                                                        SQLiteCursor sQLiteCursor1022 = null;
-                                                        i7 = 0;
-                                                        while (i7 < size) {
-                                                        }
-                                                        longSparseArray3 = longSparseArray722;
-                                                        sQLitePreparedStatement4 = sQLitePreparedStatement722;
-                                                        sQLiteCursor5 = sQLiteCursor1022;
-                                                        list2 = list;
-                                                        SQLiteDatabase sQLiteDatabase522 = this.database;
-                                                        Locale locale222 = Locale.US;
-                                                        sQLiteDatabase522.executeFast(String.format(locale222, "DELETE FROM messages_seq WHERE mid IN(%s)", str322)).stepThis().dispose();
-                                                        if (!arrayList5.isEmpty()) {
-                                                        }
-                                                        if (!arrayList7.isEmpty()) {
-                                                        }
-                                                        getMediaDataController().clearBotKeyboard(0L, arrayList);
-                                                        if (longSparseArray3.size() != 0) {
-                                                        }
-                                                        arrayList11 = arrayList10;
-                                                        updateWidgets(arrayList11);
-                                                        if (arrayList9 != null) {
-                                                        }
-                                                        if (list2 != null) {
-                                                        }
-                                                        sQLiteCursor6 = sQLiteCursor5;
-                                                        sQLiteDatabase4 = this.database;
-                                                        if (sQLiteDatabase4 != null) {
-                                                        }
-                                                        if (sQLiteCursor6 != null) {
-                                                        }
-                                                        if (sQLitePreparedStatement4 != null) {
-                                                        }
-                                                        return arrayList11;
-                                                    }
-                                                } else {
-                                                    longSparseArray = longSparseArray6;
-                                                }
-                                                if (intValue2 < 2) {
-                                                    Integer num3 = numArr[1];
-                                                    numArr[1] = Integer.valueOf(numArr[1].intValue() + 1);
-                                                }
-                                                if (intValue2 == 0 || intValue2 == 2) {
-                                                    Integer num4 = numArr[0];
-                                                    numArr[0] = Integer.valueOf(numArr[0].intValue() + 1);
-                                                }
-                                                if ((!DialogObject.isEncryptedDialog(longValue) || z) && (byteBufferValue = queryFinalized.byteBufferValue(1)) != null) {
-                                                    TLRPC$Message TLdeserialize2 = TLRPC$Message.TLdeserialize(byteBufferValue, byteBufferValue.readInt32(false), false);
-                                                    arrayList12 = arrayList12;
-                                                    TLdeserialize2.readAttachPath(byteBufferValue, getUserConfig().clientUserId);
-                                                    byteBufferValue.reuse();
-                                                    HashMap hashMap5 = hashMap;
-                                                    longSparseArray2 = longSparseArray5;
-                                                    arrayList4 = arrayList2;
-                                                    arrayList5 = arrayList12;
-                                                    arrayList3 = arrayList18;
-                                                    hashMap2 = hashMap5;
-                                                    i2 = 0;
-                                                    addFilesToDelete(TLdeserialize2, arrayList17, arrayList19, arrayList18, false);
-                                                } else {
-                                                    hashMap2 = hashMap;
-                                                    longSparseArray2 = longSparseArray5;
-                                                    arrayList3 = arrayList18;
-                                                    arrayList4 = arrayList2;
-                                                    arrayList5 = arrayList12;
-                                                }
-                                                longSparseArray5 = longSparseArray2;
-                                                arrayList18 = arrayList3;
-                                                arrayList15 = arrayList5;
-                                                hashMap = hashMap2;
-                                                longSparseArray6 = longSparseArray;
-                                                arrayList2 = arrayList4;
-                                                i = 0;
-                                                if (!queryFinalized.next()) {
-                                                    hashMap2 = hashMap;
-                                                    longSparseArray = longSparseArray6;
-                                                    longSparseArray2 = longSparseArray5;
-                                                    arrayList3 = arrayList18;
-                                                    arrayList4 = arrayList2;
-                                                    i3 = 0;
-                                                    arrayList5 = arrayList15;
-                                                    queryFinalized.dispose();
-                                                    if (j >= 0) {
-                                                        SQLiteDatabase sQLiteDatabase6 = this.database;
-                                                        Locale locale3 = Locale.US;
-                                                        Object[] objArr2 = new Object[2];
-                                                        objArr2[i3] = join2;
-                                                        objArr2[1] = Long.valueOf(j);
-                                                        SQLiteCursor queryFinalized3 = sQLiteDatabase6.queryFinalized(String.format(locale3, "SELECT uid, data, read_state, out, mention, mid FROM messages_topics WHERE mid IN(%s) AND uid = %d", objArr2), new Object[i3]);
-                                                        arrayList8 = null;
-                                                        ?? r13 = i3;
-                                                        while (queryFinalized3.next()) {
-                                                            try {
-                                                                try {
-                                                                    long longValue3 = queryFinalized3.longValue(r13);
-                                                                    ArrayList arrayList24 = arrayList4;
-                                                                    try {
-                                                                        arrayList24.remove(Integer.valueOf(queryFinalized3.intValue(5)));
-                                                                        NativeByteBuffer byteBufferValue2 = queryFinalized3.byteBufferValue(1);
-                                                                        if (byteBufferValue2 != 0) {
-                                                                            try {
-                                                                                try {
-                                                                                    TLdeserialize = TLRPC$Message.TLdeserialize(byteBufferValue2, byteBufferValue2.readInt32(r13), r13);
-                                                                                    arrayList6 = arrayList19;
-                                                                                } catch (Exception e11) {
-                                                                                    e = e11;
-                                                                                    arrayList7 = arrayList24;
-                                                                                    str = join2;
-                                                                                    arrayList6 = arrayList19;
-                                                                                }
-                                                                                try {
-                                                                                    TLdeserialize.readAttachPath(byteBufferValue2, getUserConfig().clientUserId);
-                                                                                    byteBufferValue2.reuse();
-                                                                                    arrayList7 = arrayList24;
-                                                                                    sQLiteCursor9 = queryFinalized3;
-                                                                                    str = join2;
-                                                                                } catch (Exception e12) {
-                                                                                    e = e12;
-                                                                                    arrayList7 = arrayList24;
-                                                                                    str = join2;
-                                                                                    exc2 = e;
-                                                                                    sQLiteCursor8 = queryFinalized3;
-                                                                                    hashMap3 = hashMap2;
-                                                                                    i4 = 3;
-                                                                                    try {
-                                                                                        FileLog.e(exc2);
-                                                                                        sQLiteCursor8.dispose();
-                                                                                        this.database.beginTransaction();
-                                                                                        i5 = 0;
-                                                                                        while (i5 < i4) {
-                                                                                        }
-                                                                                        String str3222 = str;
-                                                                                        deleteFromDownloadQueue(arrayList6, true);
-                                                                                        final ArrayList arrayList22222 = arrayList3;
-                                                                                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda140
-                                                                                            @Override // java.lang.Runnable
-                                                                                            public final void run() {
-                                                                                                MessagesStorage.this.lambda$markMessagesAsDeletedInternal$181(arrayList22222);
-                                                                                            }
-                                                                                        });
-                                                                                        getFileLoader().deleteFiles(arrayList17, 0);
-                                                                                        i6 = 0;
-                                                                                        while (i6 < longSparseArray2.size()) {
-                                                                                        }
-                                                                                        LongSparseArray longSparseArray7222 = longSparseArray2;
-                                                                                        arrayList9 = arrayList8;
-                                                                                        ArrayList<Long> arrayList23222 = arrayList20;
-                                                                                        if (hashMap3.isEmpty()) {
-                                                                                        }
-                                                                                        size = longSparseArray.size();
-                                                                                        SQLitePreparedStatement sQLitePreparedStatement7222 = null;
-                                                                                        SQLiteCursor sQLiteCursor10222 = null;
-                                                                                        i7 = 0;
-                                                                                        while (i7 < size) {
-                                                                                        }
-                                                                                        longSparseArray3 = longSparseArray7222;
-                                                                                        sQLitePreparedStatement4 = sQLitePreparedStatement7222;
-                                                                                        sQLiteCursor5 = sQLiteCursor10222;
-                                                                                        list2 = list;
-                                                                                        SQLiteDatabase sQLiteDatabase5222 = this.database;
-                                                                                        Locale locale2222 = Locale.US;
-                                                                                        sQLiteDatabase5222.executeFast(String.format(locale2222, "DELETE FROM messages_seq WHERE mid IN(%s)", str3222)).stepThis().dispose();
-                                                                                        if (!arrayList5.isEmpty()) {
-                                                                                        }
-                                                                                        if (!arrayList7.isEmpty()) {
-                                                                                        }
-                                                                                        getMediaDataController().clearBotKeyboard(0L, arrayList);
-                                                                                        if (longSparseArray3.size() != 0) {
-                                                                                        }
-                                                                                        arrayList11 = arrayList10;
-                                                                                        updateWidgets(arrayList11);
-                                                                                        if (arrayList9 != null) {
-                                                                                        }
-                                                                                        if (list2 != null) {
-                                                                                        }
-                                                                                        sQLiteCursor6 = sQLiteCursor5;
-                                                                                        sQLiteDatabase4 = this.database;
-                                                                                        if (sQLiteDatabase4 != null) {
-                                                                                        }
-                                                                                        if (sQLiteCursor6 != null) {
-                                                                                        }
-                                                                                        if (sQLitePreparedStatement4 != null) {
-                                                                                        }
-                                                                                        return arrayList11;
-                                                                                    } catch (Exception e13) {
-                                                                                        e = e13;
-                                                                                        sQLiteCursor3 = sQLiteCursor8;
-                                                                                        sQLitePreparedStatement = null;
-                                                                                        exc = e;
-                                                                                        FileLog.e(exc);
-                                                                                        sQLiteDatabase2 = this.database;
-                                                                                        if (sQLiteDatabase2 != null) {
-                                                                                        }
-                                                                                        if (sQLiteCursor3 != null) {
-                                                                                        }
-                                                                                        if (sQLitePreparedStatement == null) {
-                                                                                        }
-                                                                                    }
-                                                                                }
-                                                                            } catch (Throwable th3) {
-                                                                                th = th3;
-                                                                                sQLiteCursor9 = queryFinalized3;
-                                                                            }
-                                                                            try {
-                                                                                addFilesToDelete(TLdeserialize, arrayList17, arrayList6, arrayList3, false);
-                                                                                if (TLdeserialize.action instanceof TLRPC$TL_messageActionTopicCreate) {
-                                                                                    if (arrayList8 == null) {
-                                                                                        arrayList8 = new ArrayList<>();
-                                                                                    }
-                                                                                    arrayList8.add(TopicKey.of(longValue3, TLdeserialize.id));
-                                                                                }
-                                                                                topicId = MessageObject.getTopicId(TLdeserialize);
-                                                                            } catch (Exception e14) {
-                                                                                sQLiteCursor8 = sQLiteCursor9;
-                                                                                exc2 = e14;
-                                                                                hashMap3 = hashMap2;
-                                                                                i4 = 3;
-                                                                                FileLog.e(exc2);
-                                                                                sQLiteCursor8.dispose();
-                                                                                this.database.beginTransaction();
-                                                                                i5 = 0;
-                                                                                while (i5 < i4) {
-                                                                                }
-                                                                                String str32222 = str;
-                                                                                deleteFromDownloadQueue(arrayList6, true);
-                                                                                final ArrayList arrayList222222 = arrayList3;
-                                                                                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda140
-                                                                                    @Override // java.lang.Runnable
-                                                                                    public final void run() {
-                                                                                        MessagesStorage.this.lambda$markMessagesAsDeletedInternal$181(arrayList222222);
-                                                                                    }
-                                                                                });
-                                                                                getFileLoader().deleteFiles(arrayList17, 0);
-                                                                                i6 = 0;
-                                                                                while (i6 < longSparseArray2.size()) {
-                                                                                }
-                                                                                LongSparseArray longSparseArray72222 = longSparseArray2;
-                                                                                arrayList9 = arrayList8;
-                                                                                ArrayList<Long> arrayList232222 = arrayList20;
-                                                                                if (hashMap3.isEmpty()) {
-                                                                                }
-                                                                                size = longSparseArray.size();
-                                                                                SQLitePreparedStatement sQLitePreparedStatement72222 = null;
-                                                                                SQLiteCursor sQLiteCursor102222 = null;
-                                                                                i7 = 0;
-                                                                                while (i7 < size) {
-                                                                                }
-                                                                                longSparseArray3 = longSparseArray72222;
-                                                                                sQLitePreparedStatement4 = sQLitePreparedStatement72222;
-                                                                                sQLiteCursor5 = sQLiteCursor102222;
-                                                                                list2 = list;
-                                                                                SQLiteDatabase sQLiteDatabase52222 = this.database;
-                                                                                Locale locale22222 = Locale.US;
-                                                                                sQLiteDatabase52222.executeFast(String.format(locale22222, "DELETE FROM messages_seq WHERE mid IN(%s)", str32222)).stepThis().dispose();
-                                                                                if (!arrayList5.isEmpty()) {
-                                                                                }
-                                                                                if (!arrayList7.isEmpty()) {
-                                                                                }
-                                                                                getMediaDataController().clearBotKeyboard(0L, arrayList);
-                                                                                if (longSparseArray3.size() != 0) {
-                                                                                }
-                                                                                arrayList11 = arrayList10;
-                                                                                updateWidgets(arrayList11);
-                                                                                if (arrayList9 != null) {
-                                                                                }
-                                                                                if (list2 != null) {
-                                                                                }
-                                                                                sQLiteCursor6 = sQLiteCursor5;
-                                                                                sQLiteDatabase4 = this.database;
-                                                                                if (sQLiteDatabase4 != null) {
-                                                                                }
-                                                                                if (sQLiteCursor6 != null) {
-                                                                                }
-                                                                                if (sQLitePreparedStatement4 != null) {
-                                                                                }
-                                                                                return arrayList11;
-                                                                            } catch (Throwable th4) {
-                                                                                th = th4;
-                                                                                sQLiteCursor = sQLiteCursor9;
-                                                                                th = th;
-                                                                                sQLitePreparedStatement3 = null;
-                                                                                sQLiteDatabase = this.database;
-                                                                                if (sQLiteDatabase != null) {
-                                                                                }
-                                                                                if (sQLiteCursor != null) {
-                                                                                }
-                                                                                if (sQLitePreparedStatement3 != null) {
-                                                                                }
-                                                                                throw th;
-                                                                            }
-                                                                        } else {
-                                                                            arrayList7 = arrayList24;
-                                                                            sQLiteCursor9 = queryFinalized3;
-                                                                            str = join2;
-                                                                            arrayList6 = arrayList19;
-                                                                            topicId = 0;
-                                                                        }
-                                                                        if (topicId != 0) {
-                                                                            try {
-                                                                                TopicKey of = TopicKey.of(j, topicId);
-                                                                                sQLiteCursor8 = sQLiteCursor9;
-                                                                                try {
-                                                                                    try {
-                                                                                        int intValue3 = sQLiteCursor8.intValue(2);
-                                                                                        i4 = 3;
-                                                                                        try {
-                                                                                            if (sQLiteCursor8.intValue(3) == 0) {
-                                                                                                hashMap3 = hashMap2;
-                                                                                                try {
-                                                                                                    int[] iArr = (int[]) hashMap3.get(of);
-                                                                                                    if (iArr == null) {
-                                                                                                        iArr = new int[2];
-                                                                                                        hashMap3.put(of, iArr);
-                                                                                                    }
-                                                                                                    if (intValue3 < 2) {
-                                                                                                        iArr[1] = iArr[1] + 1;
-                                                                                                    }
-                                                                                                    if (intValue3 == 0 || intValue3 == 2) {
-                                                                                                        iArr[0] = iArr[0] + 1;
-                                                                                                    }
-                                                                                                } catch (Exception e15) {
-                                                                                                    e = e15;
-                                                                                                    exc2 = e;
-                                                                                                    FileLog.e(exc2);
-                                                                                                    sQLiteCursor8.dispose();
-                                                                                                    this.database.beginTransaction();
-                                                                                                    i5 = 0;
-                                                                                                    while (i5 < i4) {
-                                                                                                    }
-                                                                                                    String str322222 = str;
-                                                                                                    deleteFromDownloadQueue(arrayList6, true);
-                                                                                                    final ArrayList arrayList2222222 = arrayList3;
-                                                                                                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda140
-                                                                                                        @Override // java.lang.Runnable
-                                                                                                        public final void run() {
-                                                                                                            MessagesStorage.this.lambda$markMessagesAsDeletedInternal$181(arrayList2222222);
-                                                                                                        }
-                                                                                                    });
-                                                                                                    getFileLoader().deleteFiles(arrayList17, 0);
-                                                                                                    i6 = 0;
-                                                                                                    while (i6 < longSparseArray2.size()) {
-                                                                                                    }
-                                                                                                    LongSparseArray longSparseArray722222 = longSparseArray2;
-                                                                                                    arrayList9 = arrayList8;
-                                                                                                    ArrayList<Long> arrayList2322222 = arrayList20;
-                                                                                                    if (hashMap3.isEmpty()) {
-                                                                                                    }
-                                                                                                    size = longSparseArray.size();
-                                                                                                    SQLitePreparedStatement sQLitePreparedStatement722222 = null;
-                                                                                                    SQLiteCursor sQLiteCursor1022222 = null;
-                                                                                                    i7 = 0;
-                                                                                                    while (i7 < size) {
-                                                                                                    }
-                                                                                                    longSparseArray3 = longSparseArray722222;
-                                                                                                    sQLitePreparedStatement4 = sQLitePreparedStatement722222;
-                                                                                                    sQLiteCursor5 = sQLiteCursor1022222;
-                                                                                                    list2 = list;
-                                                                                                    SQLiteDatabase sQLiteDatabase522222 = this.database;
-                                                                                                    Locale locale222222 = Locale.US;
-                                                                                                    sQLiteDatabase522222.executeFast(String.format(locale222222, "DELETE FROM messages_seq WHERE mid IN(%s)", str322222)).stepThis().dispose();
-                                                                                                    if (!arrayList5.isEmpty()) {
-                                                                                                    }
-                                                                                                    if (!arrayList7.isEmpty()) {
-                                                                                                    }
-                                                                                                    getMediaDataController().clearBotKeyboard(0L, arrayList);
-                                                                                                    if (longSparseArray3.size() != 0) {
-                                                                                                    }
-                                                                                                    arrayList11 = arrayList10;
-                                                                                                    updateWidgets(arrayList11);
-                                                                                                    if (arrayList9 != null) {
-                                                                                                    }
-                                                                                                    if (list2 != null) {
-                                                                                                    }
-                                                                                                    sQLiteCursor6 = sQLiteCursor5;
-                                                                                                    sQLiteDatabase4 = this.database;
-                                                                                                    if (sQLiteDatabase4 != null) {
-                                                                                                    }
-                                                                                                    if (sQLiteCursor6 != null) {
-                                                                                                    }
-                                                                                                    if (sQLitePreparedStatement4 != null) {
-                                                                                                    }
-                                                                                                    return arrayList11;
-                                                                                                }
-                                                                                            } else {
-                                                                                                hashMap3 = hashMap2;
-                                                                                            }
-                                                                                        } catch (Exception e16) {
-                                                                                            e = e16;
-                                                                                            hashMap3 = hashMap2;
-                                                                                        }
-                                                                                    } catch (Exception e17) {
-                                                                                        e = e17;
-                                                                                        hashMap3 = hashMap2;
-                                                                                        i4 = 3;
-                                                                                        exc2 = e;
-                                                                                        FileLog.e(exc2);
-                                                                                        sQLiteCursor8.dispose();
-                                                                                        this.database.beginTransaction();
-                                                                                        i5 = 0;
-                                                                                        while (i5 < i4) {
-                                                                                        }
-                                                                                        String str3222222 = str;
-                                                                                        deleteFromDownloadQueue(arrayList6, true);
-                                                                                        final ArrayList arrayList22222222 = arrayList3;
-                                                                                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda140
-                                                                                            @Override // java.lang.Runnable
-                                                                                            public final void run() {
-                                                                                                MessagesStorage.this.lambda$markMessagesAsDeletedInternal$181(arrayList22222222);
-                                                                                            }
-                                                                                        });
-                                                                                        getFileLoader().deleteFiles(arrayList17, 0);
-                                                                                        i6 = 0;
-                                                                                        while (i6 < longSparseArray2.size()) {
-                                                                                        }
-                                                                                        LongSparseArray longSparseArray7222222 = longSparseArray2;
-                                                                                        arrayList9 = arrayList8;
-                                                                                        ArrayList<Long> arrayList23222222 = arrayList20;
-                                                                                        if (hashMap3.isEmpty()) {
-                                                                                        }
-                                                                                        size = longSparseArray.size();
-                                                                                        SQLitePreparedStatement sQLitePreparedStatement7222222 = null;
-                                                                                        SQLiteCursor sQLiteCursor10222222 = null;
-                                                                                        i7 = 0;
-                                                                                        while (i7 < size) {
-                                                                                        }
-                                                                                        longSparseArray3 = longSparseArray7222222;
-                                                                                        sQLitePreparedStatement4 = sQLitePreparedStatement7222222;
-                                                                                        sQLiteCursor5 = sQLiteCursor10222222;
-                                                                                        list2 = list;
-                                                                                        SQLiteDatabase sQLiteDatabase5222222 = this.database;
-                                                                                        Locale locale2222222 = Locale.US;
-                                                                                        sQLiteDatabase5222222.executeFast(String.format(locale2222222, "DELETE FROM messages_seq WHERE mid IN(%s)", str3222222)).stepThis().dispose();
-                                                                                        if (!arrayList5.isEmpty()) {
-                                                                                        }
-                                                                                        if (!arrayList7.isEmpty()) {
-                                                                                        }
-                                                                                        getMediaDataController().clearBotKeyboard(0L, arrayList);
-                                                                                        if (longSparseArray3.size() != 0) {
-                                                                                        }
-                                                                                        arrayList11 = arrayList10;
-                                                                                        updateWidgets(arrayList11);
-                                                                                        if (arrayList9 != null) {
-                                                                                        }
-                                                                                        if (list2 != null) {
-                                                                                        }
-                                                                                        sQLiteCursor6 = sQLiteCursor5;
-                                                                                        sQLiteDatabase4 = this.database;
-                                                                                        if (sQLiteDatabase4 != null) {
-                                                                                        }
-                                                                                        if (sQLiteCursor6 != null) {
-                                                                                        }
-                                                                                        if (sQLitePreparedStatement4 != null) {
-                                                                                        }
-                                                                                        return arrayList11;
-                                                                                    }
-                                                                                } catch (Throwable th5) {
-                                                                                    th = th5;
-                                                                                    th = th;
-                                                                                    sQLiteCursor = sQLiteCursor8;
-                                                                                    sQLitePreparedStatement3 = null;
-                                                                                    sQLiteDatabase = this.database;
-                                                                                    if (sQLiteDatabase != null) {
-                                                                                        sQLiteDatabase.commitTransaction();
-                                                                                    }
-                                                                                    if (sQLiteCursor != null) {
-                                                                                        sQLiteCursor.dispose();
-                                                                                    }
-                                                                                    if (sQLitePreparedStatement3 != null) {
-                                                                                        sQLitePreparedStatement3.dispose();
-                                                                                    }
-                                                                                    throw th;
-                                                                                }
-                                                                            } catch (Exception e18) {
-                                                                                e = e18;
-                                                                                sQLiteCursor8 = sQLiteCursor9;
-                                                                            } catch (Throwable th6) {
-                                                                                th = th6;
-                                                                                sQLiteCursor8 = sQLiteCursor9;
-                                                                                th = th;
-                                                                                sQLiteCursor = sQLiteCursor8;
-                                                                                sQLitePreparedStatement3 = null;
-                                                                                sQLiteDatabase = this.database;
-                                                                                if (sQLiteDatabase != null) {
-                                                                                }
-                                                                                if (sQLiteCursor != null) {
-                                                                                }
-                                                                                if (sQLitePreparedStatement3 != null) {
-                                                                                }
-                                                                                throw th;
-                                                                            }
-                                                                        } else {
-                                                                            sQLiteCursor8 = sQLiteCursor9;
-                                                                            hashMap3 = hashMap2;
-                                                                        }
-                                                                        queryFinalized3 = sQLiteCursor8;
-                                                                        hashMap2 = hashMap3;
-                                                                        arrayList19 = arrayList6;
-                                                                        join2 = str;
-                                                                        r13 = 0;
-                                                                        arrayList4 = arrayList7;
-                                                                    } catch (Exception e19) {
-                                                                        e = e19;
-                                                                        arrayList7 = arrayList24;
-                                                                        sQLiteCursor8 = queryFinalized3;
-                                                                        str = join2;
-                                                                        arrayList6 = arrayList19;
-                                                                    }
-                                                                } catch (Exception e20) {
-                                                                    e = e20;
-                                                                    sQLiteCursor8 = queryFinalized3;
-                                                                    arrayList6 = arrayList19;
-                                                                    hashMap3 = hashMap2;
-                                                                    arrayList7 = arrayList4;
-                                                                    i4 = 3;
-                                                                    str = join2;
-                                                                }
-                                                            } catch (Throwable th7) {
-                                                                th = th7;
-                                                                sQLiteCursor8 = queryFinalized3;
-                                                            }
-                                                        }
-                                                        sQLiteCursor8 = queryFinalized3;
-                                                        arrayList6 = arrayList19;
-                                                        hashMap3 = hashMap2;
-                                                        arrayList7 = arrayList4;
-                                                        i4 = 3;
-                                                        str = join2;
-                                                        sQLiteCursor8.dispose();
-                                                    } else {
-                                                        arrayList6 = arrayList19;
-                                                        hashMap3 = hashMap2;
-                                                        arrayList7 = arrayList4;
-                                                        i4 = 3;
-                                                        str = join2;
-                                                        arrayList8 = null;
-                                                    }
-                                                    this.database.beginTransaction();
-                                                    i5 = 0;
-                                                    while (i5 < i4) {
-                                                        try {
-                                                            if (i5 == 0) {
-                                                                if (j != 0) {
-                                                                    sQLitePreparedStatement = getMessagesStorage().getDatabase().executeFast("UPDATE messages_v2 SET replydata = ? WHERE reply_to_message_id IN(?) AND uid = ?");
-                                                                } else {
-                                                                    sQLitePreparedStatement = getMessagesStorage().getDatabase().executeFast("UPDATE messages_v2 SET replydata = ? WHERE reply_to_message_id IN(?) AND is_channel = 0");
-                                                                }
-                                                            } else if (i5 == 1) {
-                                                                if (j != 0) {
-                                                                    sQLitePreparedStatement = getMessagesStorage().getDatabase().executeFast("UPDATE scheduled_messages_v2 SET replydata = ? WHERE reply_to_message_id IN(?) AND uid = ?");
-                                                                } else {
-                                                                    sQLitePreparedStatement = getMessagesStorage().getDatabase().executeFast("UPDATE scheduled_messages_v2 SET replydata = ? WHERE reply_to_message_id IN(?)");
-                                                                }
-                                                            } else if (j == 0) {
-                                                                str2 = str;
-                                                                i5++;
-                                                                str = str2;
-                                                            } else {
-                                                                sQLitePreparedStatement = getMessagesStorage().getDatabase().executeFast("UPDATE messages_topics SET replydata = ? WHERE reply_to_message_id IN(?) AND uid = ?");
-                                                            }
-                                                            TLRPC$TL_messageEmpty tLRPC$TL_messageEmpty = new TLRPC$TL_messageEmpty();
-                                                            NativeByteBuffer nativeByteBuffer = new NativeByteBuffer(tLRPC$TL_messageEmpty.getObjectSize());
-                                                            tLRPC$TL_messageEmpty.serializeToStream(nativeByteBuffer);
-                                                            sQLitePreparedStatement.requery();
-                                                            sQLitePreparedStatement.bindByteBuffer(1, nativeByteBuffer);
-                                                            str2 = str;
-                                                            sQLitePreparedStatement.bindString(2, str2);
-                                                            if (j != 0) {
-                                                                sQLitePreparedStatement.bindLong(i4, j);
-                                                            }
-                                                            sQLitePreparedStatement.step();
-                                                            sQLitePreparedStatement.dispose();
-                                                            this.database.commitTransaction();
-                                                            nativeByteBuffer.reuse();
-                                                            i5++;
-                                                            str = str2;
-                                                        } catch (Exception e21) {
-                                                            exc = e21;
-                                                            sQLiteCursor3 = null;
-                                                            FileLog.e(exc);
-                                                            sQLiteDatabase2 = this.database;
-                                                            if (sQLiteDatabase2 != null) {
-                                                            }
-                                                            if (sQLiteCursor3 != null) {
-                                                            }
-                                                            if (sQLitePreparedStatement == null) {
-                                                            }
-                                                        } catch (Throwable th8) {
-                                                            th = th8;
-                                                            sQLitePreparedStatement3 = sQLitePreparedStatement;
-                                                            sQLiteCursor = null;
-                                                            th = th;
-                                                            sQLiteDatabase = this.database;
-                                                            if (sQLiteDatabase != null) {
-                                                            }
-                                                            if (sQLiteCursor != null) {
-                                                            }
-                                                            if (sQLitePreparedStatement3 != null) {
-                                                            }
-                                                            throw th;
-                                                        }
-                                                    }
-                                                    String str32222222 = str;
-                                                    deleteFromDownloadQueue(arrayList6, true);
-                                                    final ArrayList arrayList222222222 = arrayList3;
-                                                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda140
-                                                        @Override // java.lang.Runnable
-                                                        public final void run() {
-                                                            MessagesStorage.this.lambda$markMessagesAsDeletedInternal$181(arrayList222222222);
-                                                        }
-                                                    });
-                                                    getFileLoader().deleteFiles(arrayList17, 0);
-                                                    i6 = 0;
-                                                    while (i6 < longSparseArray2.size()) {
-                                                        LongSparseArray longSparseArray8 = longSparseArray2;
-                                                        long keyAt = longSparseArray8.keyAt(i6);
-                                                        Integer[] numArr3 = (Integer[]) longSparseArray8.valueAt(i6);
-                                                        SQLiteDatabase sQLiteDatabase7 = this.database;
-                                                        SQLiteCursor queryFinalized4 = sQLiteDatabase7.queryFinalized("SELECT unread_count, unread_count_i FROM dialogs WHERE did = " + keyAt, new Object[0]);
-                                                        if (queryFinalized4.next()) {
-                                                            i17 = queryFinalized4.intValue(0);
-                                                            i18 = queryFinalized4.intValue(1);
-                                                        } else {
-                                                            i17 = 0;
-                                                            i18 = 0;
-                                                        }
-                                                        queryFinalized4.dispose();
-                                                        ArrayList<Long> arrayList25 = arrayList20;
-                                                        arrayList25.add(Long.valueOf(keyAt));
-                                                        ArrayList<TopicKey> arrayList26 = arrayList8;
-                                                        SQLitePreparedStatement executeFast = this.database.executeFast("UPDATE dialogs SET unread_count = ?, unread_count_i = ? WHERE did = ?");
-                                                        try {
-                                                            executeFast.requery();
-                                                            executeFast.bindInteger(1, Math.max(0, i17 - numArr3[0].intValue()));
-                                                            executeFast.bindInteger(2, Math.max(0, i18 - numArr3[1].intValue()));
-                                                            executeFast.bindLong(3, keyAt);
-                                                            executeFast.step();
-                                                            executeFast.dispose();
-                                                            i6++;
-                                                            arrayList8 = arrayList26;
-                                                            longSparseArray2 = longSparseArray8;
-                                                            arrayList20 = arrayList25;
-                                                        } catch (Exception e22) {
-                                                            exc = e22;
-                                                            sQLitePreparedStatement = sQLitePreparedStatement6;
-                                                            sQLiteCursor3 = null;
-                                                            FileLog.e(exc);
-                                                            sQLiteDatabase2 = this.database;
-                                                            if (sQLiteDatabase2 != null) {
-                                                            }
-                                                            if (sQLiteCursor3 != null) {
-                                                            }
-                                                            if (sQLitePreparedStatement == null) {
-                                                            }
-                                                        } catch (Throwable th9) {
-                                                            th = th9;
-                                                            sQLitePreparedStatement3 = sQLitePreparedStatement5;
-                                                            sQLiteCursor = null;
-                                                            sQLiteDatabase = this.database;
-                                                            if (sQLiteDatabase != null) {
-                                                            }
-                                                            if (sQLiteCursor != null) {
-                                                            }
-                                                            if (sQLitePreparedStatement3 != null) {
-                                                            }
-                                                            throw th;
-                                                        }
-                                                    }
-                                                    LongSparseArray longSparseArray72222222 = longSparseArray2;
-                                                    arrayList9 = arrayList8;
-                                                    ArrayList<Long> arrayList232222222 = arrayList20;
-                                                    if (hashMap3.isEmpty()) {
-                                                        list = null;
-                                                        for (TopicKey topicKey : hashMap3.keySet()) {
-                                                            ArrayList<Long> arrayList27 = arrayList232222222;
-                                                            SQLiteCursor queryFinalized5 = this.database.queryFinalized(String.format(Locale.US, "SELECT unread_count, unread_mentions FROM topics WHERE did = %d AND topic_id = %d", Long.valueOf(topicKey.dialogId), Integer.valueOf(topicKey.topicId)), new Object[0]);
-                                                            try {
-                                                                if (queryFinalized5.next()) {
-                                                                    i15 = queryFinalized5.intValue(0);
-                                                                    i16 = queryFinalized5.intValue(1);
-                                                                } else {
-                                                                    i15 = 0;
-                                                                    i16 = 0;
-                                                                }
-                                                                queryFinalized5.dispose();
-                                                                int[] iArr2 = (int[]) hashMap3.get(topicKey);
-                                                                int max = Math.max(0, i15 - iArr2[0]);
-                                                                int max2 = Math.max(0, i16 - iArr2[1]);
-                                                                SQLitePreparedStatement executeFast2 = this.database.executeFast("UPDATE topics SET unread_count = ?, unread_mentions = ? WHERE did = ? AND topic_id = ?");
-                                                                try {
-                                                                    executeFast2.requery();
-                                                                    executeFast2.bindInteger(1, max);
-                                                                    executeFast2.bindInteger(2, max2);
-                                                                    executeFast2.bindLong(3, topicKey.dialogId);
-                                                                    executeFast2.bindLong(4, topicKey.topicId);
-                                                                    executeFast2.step();
-                                                                    executeFast2.dispose();
-                                                                    TopicsController.TopicUpdate topicUpdate = new TopicsController.TopicUpdate();
-                                                                    topicUpdate.dialogId = topicKey.dialogId;
-                                                                    topicUpdate.topicId = topicKey.topicId;
-                                                                    topicUpdate.unreadCount = max;
-                                                                    topicUpdate.onlyCounters = true;
-                                                                    if (list == null) {
-                                                                        list = new ArrayList<>();
-                                                                    }
-                                                                    list.add(topicUpdate);
-                                                                    arrayList232222222 = arrayList27;
-                                                                } catch (Exception e23) {
-                                                                    exc = e23;
-                                                                    sQLitePreparedStatement = executeFast2;
-                                                                    sQLiteCursor3 = null;
-                                                                    FileLog.e(exc);
-                                                                    sQLiteDatabase2 = this.database;
-                                                                    if (sQLiteDatabase2 != null) {
-                                                                    }
-                                                                    if (sQLiteCursor3 != null) {
-                                                                    }
-                                                                    if (sQLitePreparedStatement == null) {
-                                                                    }
-                                                                } catch (Throwable th10) {
-                                                                    th = th10;
-                                                                    sQLitePreparedStatement3 = executeFast2;
-                                                                    sQLiteCursor = null;
-                                                                    sQLiteDatabase = this.database;
-                                                                    if (sQLiteDatabase != null) {
-                                                                    }
-                                                                    if (sQLiteCursor != null) {
-                                                                    }
-                                                                    if (sQLitePreparedStatement3 != null) {
-                                                                    }
-                                                                    throw th;
-                                                                }
-                                                            } catch (Exception e24) {
-                                                                exc = e24;
-                                                                sQLiteCursor3 = queryFinalized5;
-                                                                sQLitePreparedStatement = null;
-                                                                FileLog.e(exc);
-                                                                sQLiteDatabase2 = this.database;
-                                                                if (sQLiteDatabase2 != null) {
-                                                                }
-                                                                if (sQLiteCursor3 != null) {
-                                                                }
-                                                                if (sQLitePreparedStatement == null) {
-                                                                }
-                                                            } catch (Throwable th11) {
-                                                                th = th11;
-                                                                sQLiteCursor = queryFinalized5;
-                                                                sQLitePreparedStatement3 = null;
-                                                                sQLiteDatabase = this.database;
-                                                                if (sQLiteDatabase != null) {
-                                                                }
-                                                                if (sQLiteCursor != null) {
-                                                                }
-                                                                if (sQLitePreparedStatement3 != null) {
-                                                                }
-                                                                throw th;
-                                                            }
-                                                        }
-                                                        arrayList10 = arrayList232222222;
-                                                    } else {
-                                                        arrayList10 = arrayList232222222;
-                                                        list = null;
-                                                    }
-                                                    size = longSparseArray.size();
-                                                    SQLitePreparedStatement sQLitePreparedStatement72222222 = null;
-                                                    SQLiteCursor sQLiteCursor102222222 = null;
-                                                    i7 = 0;
-                                                    while (i7 < size) {
-                                                        LongSparseArray longSparseArray9 = longSparseArray;
-                                                        try {
-                                                            long keyAt2 = longSparseArray9.keyAt(i7);
-                                                            CharSequence charSequence3 = charSequence2;
-                                                            String join3 = TextUtils.join(charSequence3, (ArrayList) longSparseArray9.valueAt(i7));
-                                                            if (DialogObject.isEncryptedDialog(keyAt2)) {
-                                                                i8 = size;
-                                                                sQLitePreparedStatement4 = sQLitePreparedStatement72222222;
-                                                                longSparseArray = longSparseArray9;
-                                                                charSequence = charSequence3;
-                                                            } else if (DialogObject.isChatDialog(keyAt2)) {
-                                                                i8 = size;
-                                                                sQLitePreparedStatement4 = sQLitePreparedStatement72222222;
-                                                                try {
-                                                                    sQLiteCursor5 = sQLiteCursor102222222;
-                                                                } catch (Exception e25) {
-                                                                    e2 = e25;
-                                                                    sQLiteCursor5 = sQLiteCursor102222222;
-                                                                    exc = e2;
-                                                                    sQLitePreparedStatement = sQLitePreparedStatement4;
-                                                                    sQLiteCursor3 = sQLiteCursor5;
-                                                                    FileLog.e(exc);
-                                                                    sQLiteDatabase2 = this.database;
-                                                                    if (sQLiteDatabase2 != null) {
-                                                                    }
-                                                                    if (sQLiteCursor3 != null) {
-                                                                    }
-                                                                    if (sQLitePreparedStatement == null) {
-                                                                    }
-                                                                } catch (Throwable th12) {
-                                                                    th2 = th12;
-                                                                    sQLiteCursor5 = sQLiteCursor102222222;
-                                                                    th = th2;
-                                                                    sQLitePreparedStatement3 = sQLitePreparedStatement4;
-                                                                    sQLiteCursor = sQLiteCursor5;
-                                                                    sQLiteDatabase = this.database;
-                                                                    if (sQLiteDatabase != null) {
-                                                                    }
-                                                                    if (sQLiteCursor != null) {
-                                                                    }
-                                                                    if (sQLitePreparedStatement3 != null) {
-                                                                    }
-                                                                    throw th;
-                                                                }
-                                                                try {
-                                                                    longSparseArray = longSparseArray9;
-                                                                    charSequence = charSequence3;
-                                                                    this.database.executeFast(String.format(Locale.US, "UPDATE chat_settings_v2 SET pinned = 0 WHERE uid = %d AND pinned IN (%s)", Long.valueOf(-keyAt2), join3)).stepThis().dispose();
-                                                                } catch (Exception e26) {
-                                                                    e2 = e26;
-                                                                    exc = e2;
-                                                                    sQLitePreparedStatement = sQLitePreparedStatement4;
-                                                                    sQLiteCursor3 = sQLiteCursor5;
-                                                                    FileLog.e(exc);
-                                                                    sQLiteDatabase2 = this.database;
-                                                                    if (sQLiteDatabase2 != null) {
-                                                                    }
-                                                                    if (sQLiteCursor3 != null) {
-                                                                    }
-                                                                    if (sQLitePreparedStatement == null) {
-                                                                    }
-                                                                } catch (Throwable th13) {
-                                                                    th2 = th13;
-                                                                    th = th2;
-                                                                    sQLitePreparedStatement3 = sQLitePreparedStatement4;
-                                                                    sQLiteCursor = sQLiteCursor5;
-                                                                    sQLiteDatabase = this.database;
-                                                                    if (sQLiteDatabase != null) {
-                                                                    }
-                                                                    if (sQLiteCursor != null) {
-                                                                    }
-                                                                    if (sQLitePreparedStatement3 != null) {
-                                                                    }
-                                                                    throw th;
-                                                                }
-                                                            } else {
-                                                                i8 = size;
-                                                                sQLitePreparedStatement4 = sQLitePreparedStatement72222222;
-                                                                longSparseArray = longSparseArray9;
-                                                                charSequence = charSequence3;
-                                                                this.database.executeFast(String.format(Locale.US, "UPDATE user_settings SET pinned = 0 WHERE uid = %d AND pinned IN (%s)", Long.valueOf(keyAt2), join3)).stepThis().dispose();
-                                                            }
-                                                            SQLiteDatabase sQLiteDatabase8 = this.database;
-                                                            Locale locale4 = Locale.US;
-                                                            sQLiteDatabase8.executeFast(String.format(locale4, "DELETE FROM chat_pinned_v2 WHERE uid = %d AND mid IN(%s)", Long.valueOf(keyAt2), join3)).stepThis().dispose();
-                                                            sQLiteCursor3 = this.database.queryFinalized("SELECT changes()", new Object[0]);
-                                                            try {
-                                                                int intValue4 = sQLiteCursor3.next() ? sQLiteCursor3.intValue(0) : 0;
-                                                                sQLiteCursor3.dispose();
-                                                                if (intValue4 > 0) {
-                                                                    try {
-                                                                        sQLiteCursor3 = this.database.queryFinalized(String.format(locale4, "SELECT count FROM chat_pinned_count WHERE uid = %d", Long.valueOf(keyAt2)), new Object[0]);
-                                                                        if (sQLiteCursor3.next()) {
-                                                                            int intValue5 = sQLiteCursor3.intValue(0);
-                                                                            SQLitePreparedStatement executeFast3 = this.database.executeFast("UPDATE chat_pinned_count SET count = ? WHERE uid = ?");
-                                                                            try {
-                                                                                executeFast3.requery();
-                                                                                executeFast3.bindInteger(1, Math.max(0, intValue5 - intValue4));
-                                                                                executeFast3.bindLong(2, keyAt2);
-                                                                                executeFast3.step();
-                                                                                executeFast3.dispose();
-                                                                                sQLitePreparedStatement4 = executeFast3;
-                                                                            } catch (Exception e27) {
-                                                                                exc = e27;
-                                                                                sQLitePreparedStatement = executeFast3;
-                                                                                FileLog.e(exc);
-                                                                                sQLiteDatabase2 = this.database;
-                                                                                if (sQLiteDatabase2 != null) {
-                                                                                }
-                                                                                if (sQLiteCursor3 != null) {
-                                                                                }
-                                                                                if (sQLitePreparedStatement == null) {
-                                                                                }
-                                                                            } catch (Throwable th14) {
-                                                                                th = th14;
-                                                                                sQLiteCursor = sQLiteCursor3;
-                                                                                sQLitePreparedStatement3 = executeFast3;
-                                                                                sQLiteDatabase = this.database;
-                                                                                if (sQLiteDatabase != null) {
-                                                                                }
-                                                                                if (sQLiteCursor != null) {
-                                                                                }
-                                                                                if (sQLitePreparedStatement3 != null) {
-                                                                                }
-                                                                                throw th;
-                                                                            }
-                                                                        }
-                                                                        sQLiteCursor3.dispose();
-                                                                    } catch (Exception e28) {
-                                                                        exc = e28;
-                                                                        sQLitePreparedStatement = sQLitePreparedStatement4;
-                                                                        sQLiteCursor3 = null;
-                                                                        FileLog.e(exc);
-                                                                        sQLiteDatabase2 = this.database;
-                                                                        if (sQLiteDatabase2 != null) {
-                                                                        }
-                                                                        if (sQLiteCursor3 != null) {
-                                                                        }
-                                                                        if (sQLitePreparedStatement == null) {
-                                                                        }
-                                                                    } catch (Throwable th15) {
-                                                                        th = th15;
-                                                                        sQLitePreparedStatement3 = sQLitePreparedStatement4;
-                                                                        sQLiteCursor = null;
-                                                                        sQLiteDatabase = this.database;
-                                                                        if (sQLiteDatabase != null) {
-                                                                        }
-                                                                        if (sQLiteCursor != null) {
-                                                                        }
-                                                                        if (sQLitePreparedStatement3 != null) {
-                                                                        }
-                                                                        throw th;
-                                                                    }
-                                                                }
-                                                                this.database.executeFast(String.format(locale4, "DELETE FROM messages_v2 WHERE mid IN(%s) AND uid = %d", str32222222, Long.valueOf(keyAt2))).stepThis().dispose();
-                                                                this.database.executeFast(String.format(locale4, "DELETE FROM messages_topics WHERE mid IN(%s) AND uid = %d", str32222222, Long.valueOf(keyAt2))).stepThis().dispose();
-                                                                this.database.executeFast(String.format(locale4, "DELETE FROM polls_v2 WHERE mid IN(%s) AND uid = %d", str32222222, Long.valueOf(keyAt2))).stepThis().dispose();
-                                                                this.database.executeFast(String.format(locale4, "DELETE FROM bot_keyboard WHERE mid IN(%s) AND uid = %d", str32222222, Long.valueOf(keyAt2))).stepThis().dispose();
-                                                                try {
-                                                                    if (arrayList5.isEmpty()) {
-                                                                        int i21 = 0;
-                                                                        SQLiteCursor queryFinalized6 = this.database.queryFinalized(String.format(locale4, "SELECT uid, type FROM media_v4 WHERE mid IN(%s) AND uid = %d", str32222222, Long.valueOf(keyAt2)), new Object[0]);
-                                                                        SparseArray sparseArray2 = null;
-                                                                        while (queryFinalized6.next()) {
-                                                                            long longValue4 = queryFinalized6.longValue(i21);
-                                                                            int intValue6 = queryFinalized6.intValue(1);
-                                                                            if (sparseArray2 == null) {
-                                                                                sparseArray2 = new SparseArray();
-                                                                            }
-                                                                            LongSparseArray longSparseArray10 = (LongSparseArray) sparseArray2.get(intValue6);
-                                                                            if (longSparseArray10 == null) {
-                                                                                longSparseArray10 = new LongSparseArray();
-                                                                                num2 = 0;
-                                                                                sparseArray2.put(intValue6, longSparseArray10);
-                                                                            } else {
-                                                                                num2 = (Integer) longSparseArray10.get(longValue4);
-                                                                            }
-                                                                            if (num2 == null) {
-                                                                                num2 = 0;
-                                                                            }
-                                                                            longSparseArray10.put(longValue4, Integer.valueOf(num2.intValue() + 1));
-                                                                            i21 = 0;
-                                                                        }
-                                                                        queryFinalized6.dispose();
-                                                                        if (sparseArray2 != null) {
-                                                                            SQLitePreparedStatement executeFast4 = this.database.executeFast("REPLACE INTO media_counts_v2 VALUES(?, ?, ?, ?)");
-                                                                            int size3 = sparseArray2.size();
-                                                                            SQLiteCursor sQLiteCursor11 = null;
-                                                                            int i22 = 0;
-                                                                            while (i22 < size3) {
-                                                                                try {
-                                                                                    int keyAt3 = sparseArray2.keyAt(i22);
-                                                                                    LongSparseArray longSparseArray11 = (LongSparseArray) sparseArray2.valueAt(i22);
-                                                                                    int size4 = longSparseArray11.size();
-                                                                                    SQLiteCursor sQLiteCursor12 = sQLiteCursor11;
-                                                                                    int i23 = 0;
-                                                                                    while (i23 < size4) {
-                                                                                        SparseArray sparseArray3 = sparseArray2;
-                                                                                        int i24 = size4;
-                                                                                        try {
-                                                                                            long keyAt4 = longSparseArray11.keyAt(i23);
-                                                                                            int i25 = size3;
-                                                                                            List<TopicsController.TopicUpdate> list4 = list;
-                                                                                            LongSparseArray longSparseArray12 = longSparseArray72222222;
-                                                                                            int i26 = i7;
-                                                                                            long j3 = keyAt2;
-                                                                                            SQLiteCursor queryFinalized7 = this.database.queryFinalized(String.format(Locale.US, "SELECT count, old FROM media_counts_v2 WHERE uid = %d AND type = %d LIMIT 1", Long.valueOf(keyAt4), Integer.valueOf(keyAt3)), new Object[0]);
-                                                                                            try {
-                                                                                                if (queryFinalized7.next()) {
-                                                                                                    i13 = queryFinalized7.intValue(0);
-                                                                                                    i14 = queryFinalized7.intValue(1);
-                                                                                                } else {
-                                                                                                    i13 = -1;
-                                                                                                    i14 = 0;
-                                                                                                }
-                                                                                                queryFinalized7.dispose();
-                                                                                                if (i13 != -1) {
-                                                                                                    executeFast4.requery();
-                                                                                                    int max3 = Math.max(0, i13 - ((Integer) longSparseArray11.valueAt(i23)).intValue());
-                                                                                                    executeFast4.bindLong(1, keyAt4);
-                                                                                                    executeFast4.bindInteger(2, keyAt3);
-                                                                                                    executeFast4.bindInteger(3, max3);
-                                                                                                    executeFast4.bindInteger(4, i14);
-                                                                                                    executeFast4.step();
-                                                                                                }
-                                                                                                i23++;
-                                                                                                sQLiteCursor12 = queryFinalized7;
-                                                                                                sparseArray2 = sparseArray3;
-                                                                                                size4 = i24;
-                                                                                                size3 = i25;
-                                                                                                list = list4;
-                                                                                                longSparseArray72222222 = longSparseArray12;
-                                                                                                i7 = i26;
-                                                                                                keyAt2 = j3;
-                                                                                            } catch (Exception e29) {
-                                                                                                exc = e29;
-                                                                                                sQLiteCursor3 = queryFinalized7;
-                                                                                                sQLitePreparedStatement = executeFast4;
-                                                                                                FileLog.e(exc);
-                                                                                                sQLiteDatabase2 = this.database;
-                                                                                                if (sQLiteDatabase2 != null) {
-                                                                                                }
-                                                                                                if (sQLiteCursor3 != null) {
-                                                                                                }
-                                                                                                if (sQLitePreparedStatement == null) {
-                                                                                                }
-                                                                                            } catch (Throwable th16) {
-                                                                                                th = th16;
-                                                                                                sQLiteCursor = queryFinalized7;
-                                                                                                sQLitePreparedStatement3 = executeFast4;
-                                                                                                th = th;
-                                                                                                sQLiteDatabase = this.database;
-                                                                                                if (sQLiteDatabase != null) {
-                                                                                                }
-                                                                                                if (sQLiteCursor != null) {
-                                                                                                }
-                                                                                                if (sQLitePreparedStatement3 != null) {
-                                                                                                }
-                                                                                                throw th;
-                                                                                            }
-                                                                                        } catch (Exception e30) {
-                                                                                            exc = e30;
-                                                                                            sQLitePreparedStatement = executeFast4;
-                                                                                            sQLiteCursor3 = sQLiteCursor12;
-                                                                                        } catch (Throwable th17) {
-                                                                                            th = th17;
-                                                                                            sQLitePreparedStatement3 = executeFast4;
-                                                                                            sQLiteCursor = sQLiteCursor12;
-                                                                                            sQLiteDatabase = this.database;
-                                                                                            if (sQLiteDatabase != null) {
-                                                                                            }
-                                                                                            if (sQLiteCursor != null) {
-                                                                                            }
-                                                                                            if (sQLitePreparedStatement3 != null) {
-                                                                                            }
-                                                                                            throw th;
-                                                                                        }
-                                                                                    }
-                                                                                    i22++;
-                                                                                    sQLiteCursor11 = sQLiteCursor12;
-                                                                                } catch (Exception e31) {
-                                                                                    exc = e31;
-                                                                                    sQLitePreparedStatement = executeFast4;
-                                                                                    sQLiteCursor3 = sQLiteCursor11;
-                                                                                } catch (Throwable th18) {
-                                                                                    th = th18;
-                                                                                    sQLitePreparedStatement3 = executeFast4;
-                                                                                    sQLiteCursor = sQLiteCursor11;
-                                                                                }
-                                                                            }
-                                                                            longSparseArray4 = longSparseArray72222222;
-                                                                            list3 = list;
-                                                                            i9 = i7;
-                                                                            j2 = keyAt2;
-                                                                            executeFast4.dispose();
-                                                                            sQLiteCursor3 = sQLiteCursor11;
-                                                                            sQLitePreparedStatement = null;
-                                                                            if (!arrayList7.isEmpty()) {
-                                                                                int i27 = 0;
-                                                                                SQLiteCursor queryFinalized8 = this.database.queryFinalized(String.format(Locale.US, "SELECT uid, topic_id, type FROM media_topics WHERE mid IN(%s) AND uid = %d", str32222222, Long.valueOf(j2)), new Object[0]);
-                                                                                SparseArray sparseArray4 = null;
-                                                                                while (queryFinalized8.next()) {
-                                                                                    long longValue5 = queryFinalized8.longValue(i27);
-                                                                                    int intValue7 = queryFinalized8.intValue(1);
-                                                                                    int intValue8 = queryFinalized8.intValue(2);
-                                                                                    TopicKey of2 = TopicKey.of(longValue5, intValue7);
-                                                                                    if (sparseArray4 == null) {
-                                                                                        sparseArray4 = new SparseArray();
-                                                                                    }
-                                                                                    HashMap hashMap6 = (HashMap) sparseArray4.get(intValue8);
-                                                                                    if (hashMap6 == null) {
-                                                                                        hashMap6 = new HashMap();
-                                                                                        num = 0;
-                                                                                        sparseArray4.put(intValue8, hashMap6);
-                                                                                    } else {
-                                                                                        num = (Integer) hashMap6.get(of2);
-                                                                                    }
-                                                                                    if (num == null) {
-                                                                                        num = 0;
-                                                                                    }
-                                                                                    hashMap6.put(of2, Integer.valueOf(num.intValue() + 1));
-                                                                                    i27 = 0;
-                                                                                }
-                                                                                queryFinalized8.dispose();
-                                                                                if (sparseArray4 != null) {
-                                                                                    sQLitePreparedStatement = this.database.executeFast("REPLACE INTO media_counts_topics VALUES(?, ?, ?, ?, ?)");
-                                                                                    int size5 = sparseArray4.size();
-                                                                                    sQLiteCursor102222222 = null;
-                                                                                    int i28 = 0;
-                                                                                    while (i28 < size5) {
-                                                                                        try {
-                                                                                            int keyAt5 = sparseArray4.keyAt(i28);
-                                                                                            HashMap hashMap7 = (HashMap) sparseArray4.valueAt(i28);
-                                                                                            for (TopicKey topicKey2 : hashMap7.keySet()) {
-                                                                                                try {
-                                                                                                    sQLiteDatabase3 = this.database;
-                                                                                                    locale = Locale.US;
-                                                                                                    i10 = size5;
-                                                                                                    objArr = new Object[3];
-                                                                                                    sparseArray = sparseArray4;
-                                                                                                    sQLiteCursor7 = sQLiteCursor102222222;
-                                                                                                } catch (Exception e32) {
-                                                                                                    e = e32;
-                                                                                                    sQLiteCursor7 = sQLiteCursor102222222;
-                                                                                                } catch (Throwable th19) {
-                                                                                                    th = th19;
-                                                                                                    sQLiteCursor7 = sQLiteCursor102222222;
-                                                                                                }
-                                                                                                try {
-                                                                                                    objArr[0] = Long.valueOf(topicKey2.dialogId);
-                                                                                                    objArr[1] = Integer.valueOf(topicKey2.topicId);
-                                                                                                    objArr[2] = Integer.valueOf(keyAt5);
-                                                                                                    sQLiteCursor102222222 = sQLiteDatabase3.queryFinalized(String.format(locale, "SELECT count, old FROM media_counts_topics WHERE uid = %d AND topic_id = %d AND type = %d LIMIT 1", objArr), new Object[0]);
-                                                                                                    if (sQLiteCursor102222222.next()) {
-                                                                                                        i11 = sQLiteCursor102222222.intValue(0);
-                                                                                                        i12 = sQLiteCursor102222222.intValue(1);
-                                                                                                    } else {
-                                                                                                        i11 = -1;
-                                                                                                        i12 = 0;
-                                                                                                    }
-                                                                                                    sQLiteCursor102222222.dispose();
-                                                                                                    if (i11 != -1) {
-                                                                                                        sQLitePreparedStatement.requery();
-                                                                                                        int max4 = Math.max(0, i11 - ((Integer) hashMap7.get(topicKey2)).intValue());
-                                                                                                        sQLitePreparedStatement.bindLong(1, topicKey2.dialogId);
-                                                                                                        sQLitePreparedStatement.bindLong(2, topicKey2.topicId);
-                                                                                                        sQLitePreparedStatement.bindInteger(3, keyAt5);
-                                                                                                        sQLitePreparedStatement.bindInteger(4, max4);
-                                                                                                        sQLitePreparedStatement.bindInteger(5, i12);
-                                                                                                        sQLitePreparedStatement.step();
-                                                                                                    }
-                                                                                                    sparseArray4 = sparseArray;
-                                                                                                    size5 = i10;
-                                                                                                } catch (Exception e33) {
-                                                                                                    e = e33;
-                                                                                                    exc = e;
-                                                                                                    sQLiteCursor3 = sQLiteCursor7;
-                                                                                                    FileLog.e(exc);
-                                                                                                    sQLiteDatabase2 = this.database;
-                                                                                                    if (sQLiteDatabase2 != null) {
-                                                                                                    }
-                                                                                                    if (sQLiteCursor3 != null) {
-                                                                                                    }
-                                                                                                    if (sQLitePreparedStatement == null) {
-                                                                                                    }
-                                                                                                } catch (Throwable th20) {
-                                                                                                    th = th20;
-                                                                                                    sQLitePreparedStatement3 = sQLitePreparedStatement;
-                                                                                                    sQLiteCursor = sQLiteCursor7;
-                                                                                                    th = th;
-                                                                                                    sQLiteDatabase = this.database;
-                                                                                                    if (sQLiteDatabase != null) {
-                                                                                                    }
-                                                                                                    if (sQLiteCursor != null) {
-                                                                                                    }
-                                                                                                    if (sQLitePreparedStatement3 != null) {
-                                                                                                    }
-                                                                                                    throw th;
-                                                                                                }
-                                                                                            }
-                                                                                            i28++;
-                                                                                            sparseArray4 = sparseArray4;
-                                                                                        } catch (Exception e34) {
-                                                                                            exc = e34;
-                                                                                            sQLiteCursor3 = sQLiteCursor102222222;
-                                                                                        } catch (Throwable th21) {
-                                                                                            th = th21;
-                                                                                            sQLitePreparedStatement3 = sQLitePreparedStatement;
-                                                                                            sQLiteCursor = sQLiteCursor102222222;
-                                                                                        }
-                                                                                    }
-                                                                                    sQLitePreparedStatement.dispose();
-                                                                                    sQLitePreparedStatement = null;
-                                                                                } else {
-                                                                                    sQLiteCursor102222222 = null;
-                                                                                }
-                                                                            } else {
-                                                                                sQLiteCursor102222222 = sQLiteCursor3;
-                                                                            }
-                                                                            SQLiteDatabase sQLiteDatabase9 = this.database;
-                                                                            Locale locale5 = Locale.US;
-                                                                            sQLiteDatabase9.executeFast(String.format(locale5, "DELETE FROM media_v4 WHERE mid IN(%s) AND uid = %d", str32222222, Long.valueOf(j2))).stepThis().dispose();
-                                                                            this.database.executeFast(String.format(locale5, "DELETE FROM media_topics WHERE mid IN(%s) AND uid = %d", str32222222, Long.valueOf(j2))).stepThis().dispose();
-                                                                            i7 = i9 + 1;
-                                                                            sQLitePreparedStatement72222222 = sQLitePreparedStatement;
-                                                                            size = i8;
-                                                                            charSequence2 = charSequence;
-                                                                            list = list3;
-                                                                            longSparseArray72222222 = longSparseArray4;
-                                                                        }
-                                                                    }
-                                                                    if (!arrayList7.isEmpty()) {
-                                                                    }
-                                                                    SQLiteDatabase sQLiteDatabase92 = this.database;
-                                                                    Locale locale52 = Locale.US;
-                                                                    sQLiteDatabase92.executeFast(String.format(locale52, "DELETE FROM media_v4 WHERE mid IN(%s) AND uid = %d", str32222222, Long.valueOf(j2))).stepThis().dispose();
-                                                                    this.database.executeFast(String.format(locale52, "DELETE FROM media_topics WHERE mid IN(%s) AND uid = %d", str32222222, Long.valueOf(j2))).stepThis().dispose();
-                                                                    i7 = i9 + 1;
-                                                                    sQLitePreparedStatement72222222 = sQLitePreparedStatement;
-                                                                    size = i8;
-                                                                    charSequence2 = charSequence;
-                                                                    list = list3;
-                                                                    longSparseArray72222222 = longSparseArray4;
-                                                                } catch (Exception e35) {
-                                                                    e = e35;
-                                                                    exc = e;
-                                                                    FileLog.e(exc);
-                                                                    sQLiteDatabase2 = this.database;
-                                                                    if (sQLiteDatabase2 != null) {
-                                                                    }
-                                                                    if (sQLiteCursor3 != null) {
-                                                                    }
-                                                                    if (sQLitePreparedStatement == null) {
-                                                                    }
-                                                                }
-                                                                longSparseArray4 = longSparseArray72222222;
-                                                                list3 = list;
-                                                                i9 = i7;
-                                                                j2 = keyAt2;
-                                                                sQLitePreparedStatement = sQLitePreparedStatement4;
-                                                                sQLiteCursor3 = null;
-                                                            } catch (Exception e36) {
-                                                                exc = e36;
-                                                                sQLitePreparedStatement = sQLitePreparedStatement4;
-                                                            } catch (Throwable th22) {
-                                                                th = th22;
-                                                                sQLiteCursor = sQLiteCursor3;
-                                                                sQLitePreparedStatement3 = sQLitePreparedStatement4;
-                                                            }
-                                                        } catch (Exception e37) {
-                                                            e2 = e37;
-                                                            sQLitePreparedStatement4 = sQLitePreparedStatement72222222;
-                                                        } catch (Throwable th23) {
-                                                            th2 = th23;
-                                                            sQLitePreparedStatement4 = sQLitePreparedStatement72222222;
-                                                        }
-                                                    }
-                                                    longSparseArray3 = longSparseArray72222222;
-                                                    sQLitePreparedStatement4 = sQLitePreparedStatement72222222;
-                                                    sQLiteCursor5 = sQLiteCursor102222222;
-                                                    list2 = list;
-                                                    SQLiteDatabase sQLiteDatabase52222222 = this.database;
-                                                    Locale locale22222222 = Locale.US;
-                                                    sQLiteDatabase52222222.executeFast(String.format(locale22222222, "DELETE FROM messages_seq WHERE mid IN(%s)", str32222222)).stepThis().dispose();
-                                                    if (!arrayList5.isEmpty()) {
-                                                        if (j == 0) {
-                                                            this.database.executeFast("UPDATE media_counts_v2 SET old = 1 WHERE 1").stepThis().dispose();
-                                                        } else {
-                                                            this.database.executeFast(String.format(locale22222222, "UPDATE media_counts_v2 SET old = 1 WHERE uid = %d", Long.valueOf(j))).stepThis().dispose();
-                                                        }
-                                                    }
-                                                    if (!arrayList7.isEmpty()) {
-                                                        if (j == 0) {
-                                                            this.database.executeFast("UPDATE media_counts_topics SET old = 1 WHERE 1").stepThis().dispose();
-                                                        } else {
-                                                            this.database.executeFast(String.format(locale22222222, "UPDATE media_counts_topics SET old = 1 WHERE uid = %d", Long.valueOf(j))).stepThis().dispose();
-                                                        }
-                                                    }
-                                                    getMediaDataController().clearBotKeyboard(0L, arrayList);
-                                                    if (longSparseArray3.size() != 0) {
-                                                        resetAllUnreadCounters(false);
-                                                    }
-                                                    arrayList11 = arrayList10;
-                                                    updateWidgets(arrayList11);
-                                                    if (arrayList9 != null) {
-                                                        int i29 = 0;
-                                                        while (i29 < arrayList9.size()) {
-                                                            ArrayList<TopicKey> arrayList28 = arrayList9;
-                                                            TopicKey topicKey3 = arrayList28.get(i29);
-                                                            this.database.executeFast(String.format(Locale.US, "DELETE FROM topics WHERE did = %d AND topic_id = %d", Long.valueOf(topicKey3.dialogId), Integer.valueOf(topicKey3.topicId))).stepThis().dispose();
-                                                            i29++;
-                                                            arrayList9 = arrayList28;
-                                                        }
-                                                        getMessagesController().getTopicsController().onTopicsDeletedServerSide(arrayList9);
-                                                    }
-                                                    if (list2 != null) {
-                                                        getMessagesController().getTopicsController().processUpdate(list2);
-                                                    }
-                                                    sQLiteCursor6 = sQLiteCursor5;
-                                                }
-                                            }
-                                        }
-                                        longSparseArray = longSparseArray6;
-                                        if (!DialogObject.isEncryptedDialog(longValue)) {
-                                        }
-                                        TLRPC$Message TLdeserialize22 = TLRPC$Message.TLdeserialize(byteBufferValue, byteBufferValue.readInt32(false), false);
-                                        arrayList12 = arrayList12;
-                                        TLdeserialize22.readAttachPath(byteBufferValue, getUserConfig().clientUserId);
-                                        byteBufferValue.reuse();
-                                        HashMap hashMap52 = hashMap;
-                                        longSparseArray2 = longSparseArray5;
-                                        arrayList4 = arrayList2;
-                                        arrayList5 = arrayList12;
-                                        arrayList3 = arrayList18;
-                                        hashMap2 = hashMap52;
-                                        i2 = 0;
-                                        addFilesToDelete(TLdeserialize22, arrayList17, arrayList19, arrayList18, false);
-                                        longSparseArray5 = longSparseArray2;
-                                        arrayList18 = arrayList3;
-                                        arrayList15 = arrayList5;
-                                        hashMap = hashMap2;
-                                        longSparseArray6 = longSparseArray;
-                                        arrayList2 = arrayList4;
-                                        i = 0;
-                                        if (!queryFinalized.next()) {
-                                        }
-                                    }
-                                } catch (Throwable th24) {
-                                    th = th24;
-                                    sQLiteCursor = queryFinalized;
-                                    sQLitePreparedStatement3 = null;
-                                    sQLiteDatabase = this.database;
-                                    if (sQLiteDatabase != null) {
-                                    }
-                                    if (sQLiteCursor != null) {
-                                    }
-                                    if (sQLitePreparedStatement3 != null) {
-                                    }
-                                    throw th;
-                                }
-                            } else {
-                                hashMap = hashMap4;
-                                arrayList2 = arrayList16;
-                                i = 0;
-                                queryFinalized = this.database.queryFinalized(String.format(Locale.US, "SELECT uid, data, read_state, out, mention, mid FROM messages_v2 WHERE mid IN(%s) AND is_channel = 0", join2), new Object[0]);
-                                if (!queryFinalized.next()) {
-                                }
-                            }
-                        }
-                        sQLiteDatabase4 = this.database;
-                        if (sQLiteDatabase4 != null) {
-                            sQLiteDatabase4.commitTransaction();
-                        }
-                        if (sQLiteCursor6 != null) {
-                            sQLiteCursor6.dispose();
-                        }
-                        if (sQLitePreparedStatement4 != null) {
-                            sQLitePreparedStatement4.dispose();
-                        }
-                        return arrayList11;
-                    } catch (Exception e38) {
-                        exc = e38;
-                    }
-                } catch (Throwable th25) {
-                    th = th25;
-                    sQLiteCursor = sQLiteCursor4;
-                }
-            } catch (Throwable th26) {
-                th = th26;
-                sQLitePreparedStatement3 = sQLitePreparedStatement2;
-                sQLiteCursor = sQLiteCursor2;
-            }
-        } catch (Exception e39) {
-            exc = e39;
-            sQLitePreparedStatement = null;
-        } catch (Throwable th27) {
-            th = th27;
-            sQLiteCursor = null;
-        }
+    public java.util.ArrayList<java.lang.Long> lambda$markMessagesAsDeleted$183(long r39, java.util.ArrayList<java.lang.Integer> r41, boolean r42, boolean r43) {
+        /*
+            Method dump skipped, instructions count: 3240
+            To view this dump add '--comments-level debug' option
+        */
+        throw new UnsupportedOperationException("Method not decompiled: org.telegram.messenger.MessagesStorage.lambda$markMessagesAsDeleted$183(long, java.util.ArrayList, boolean, boolean):java.util.ArrayList");
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -26542,7 +24709,7 @@ public class MessagesStorage extends BaseController {
         if (tLRPC$Message == null) {
             return;
         }
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda183
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda184
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$replaceMessageIfExists$187(tLRPC$Message, z, arrayList, arrayList2);
@@ -26551,369 +24718,330 @@ public class MessagesStorage extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:100:0x023a  */
-    /* JADX WARN: Removed duplicated region for block: B:102:0x023f  */
-    /* JADX WARN: Removed duplicated region for block: B:104:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:109:0x0248  */
-    /* JADX WARN: Removed duplicated region for block: B:111:0x024d  */
-    /* JADX WARN: Removed duplicated region for block: B:113:0x0252  */
-    /* JADX WARN: Removed duplicated region for block: B:119:0x01a9 A[EDGE_INSN: B:119:0x01a9->B:120:0x01a9 ?: BREAK  , SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:122:0x01af  */
-    /* JADX WARN: Removed duplicated region for block: B:153:0x0212 A[Catch: all -> 0x005d, Exception -> 0x0062, TRY_ENTER, TRY_LEAVE, TryCatch #11 {Exception -> 0x0062, all -> 0x005d, blocks: (B:8:0x0031, B:19:0x0044, B:24:0x0075, B:31:0x0091, B:38:0x009d, B:77:0x0196, B:117:0x00a6, B:127:0x01b8, B:134:0x01c4, B:149:0x01cd, B:153:0x0212, B:169:0x0059), top: B:3:0x0007 }] */
-    /* JADX WARN: Removed duplicated region for block: B:169:0x0059 A[Catch: all -> 0x005d, Exception -> 0x0062, TRY_ENTER, TRY_LEAVE, TryCatch #11 {Exception -> 0x0062, all -> 0x005d, blocks: (B:8:0x0031, B:19:0x0044, B:24:0x0075, B:31:0x0091, B:38:0x009d, B:77:0x0196, B:117:0x00a6, B:127:0x01b8, B:134:0x01c4, B:149:0x01cd, B:153:0x0212, B:169:0x0059), top: B:3:0x0007 }] */
-    /* JADX WARN: Removed duplicated region for block: B:177:0x0226 A[Catch: all -> 0x022a, Exception -> 0x022c, TryCatch #16 {Exception -> 0x022c, all -> 0x022a, blocks: (B:156:0x0219, B:177:0x0226, B:178:0x0229), top: B:2:0x0007 }] */
-    /* JADX WARN: Removed duplicated region for block: B:24:0x0075 A[Catch: all -> 0x005d, Exception -> 0x0062, TRY_ENTER, TRY_LEAVE, TryCatch #11 {Exception -> 0x0062, all -> 0x005d, blocks: (B:8:0x0031, B:19:0x0044, B:24:0x0075, B:31:0x0091, B:38:0x009d, B:77:0x0196, B:117:0x00a6, B:127:0x01b8, B:134:0x01c4, B:149:0x01cd, B:153:0x0212, B:169:0x0059), top: B:3:0x0007 }] */
-    /* JADX WARN: Removed duplicated region for block: B:29:0x008c  */
-    /* JADX WARN: Removed duplicated region for block: B:51:0x00fa A[Catch: all -> 0x019f, Exception -> 0x01a4, TryCatch #12 {Exception -> 0x01a4, all -> 0x019f, blocks: (B:40:0x00ae, B:42:0x00bd, B:43:0x00c2, B:45:0x00e2, B:49:0x00ea, B:51:0x00fa, B:52:0x010b, B:55:0x0116, B:58:0x0124, B:60:0x0132, B:61:0x014e, B:63:0x0152, B:66:0x015b, B:67:0x0166, B:69:0x0171, B:71:0x017e, B:73:0x0185, B:74:0x018b, B:75:0x018e, B:80:0x0177, B:81:0x0159, B:82:0x0160, B:83:0x0148, B:88:0x0102), top: B:39:0x00ae }] */
-    /* JADX WARN: Removed duplicated region for block: B:54:0x010f  */
-    /* JADX WARN: Removed duplicated region for block: B:57:0x0121  */
-    /* JADX WARN: Removed duplicated region for block: B:60:0x0132 A[Catch: all -> 0x019f, Exception -> 0x01a4, TryCatch #12 {Exception -> 0x01a4, all -> 0x019f, blocks: (B:40:0x00ae, B:42:0x00bd, B:43:0x00c2, B:45:0x00e2, B:49:0x00ea, B:51:0x00fa, B:52:0x010b, B:55:0x0116, B:58:0x0124, B:60:0x0132, B:61:0x014e, B:63:0x0152, B:66:0x015b, B:67:0x0166, B:69:0x0171, B:71:0x017e, B:73:0x0185, B:74:0x018b, B:75:0x018e, B:80:0x0177, B:81:0x0159, B:82:0x0160, B:83:0x0148, B:88:0x0102), top: B:39:0x00ae }] */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x0152 A[Catch: all -> 0x019f, Exception -> 0x01a4, TryCatch #12 {Exception -> 0x01a4, all -> 0x019f, blocks: (B:40:0x00ae, B:42:0x00bd, B:43:0x00c2, B:45:0x00e2, B:49:0x00ea, B:51:0x00fa, B:52:0x010b, B:55:0x0116, B:58:0x0124, B:60:0x0132, B:61:0x014e, B:63:0x0152, B:66:0x015b, B:67:0x0166, B:69:0x0171, B:71:0x017e, B:73:0x0185, B:74:0x018b, B:75:0x018e, B:80:0x0177, B:81:0x0159, B:82:0x0160, B:83:0x0148, B:88:0x0102), top: B:39:0x00ae }] */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x0171 A[Catch: all -> 0x019f, Exception -> 0x01a4, TryCatch #12 {Exception -> 0x01a4, all -> 0x019f, blocks: (B:40:0x00ae, B:42:0x00bd, B:43:0x00c2, B:45:0x00e2, B:49:0x00ea, B:51:0x00fa, B:52:0x010b, B:55:0x0116, B:58:0x0124, B:60:0x0132, B:61:0x014e, B:63:0x0152, B:66:0x015b, B:67:0x0166, B:69:0x0171, B:71:0x017e, B:73:0x0185, B:74:0x018b, B:75:0x018e, B:80:0x0177, B:81:0x0159, B:82:0x0160, B:83:0x0148, B:88:0x0102), top: B:39:0x00ae }] */
-    /* JADX WARN: Removed duplicated region for block: B:71:0x017e A[Catch: all -> 0x019f, Exception -> 0x01a4, TryCatch #12 {Exception -> 0x01a4, all -> 0x019f, blocks: (B:40:0x00ae, B:42:0x00bd, B:43:0x00c2, B:45:0x00e2, B:49:0x00ea, B:51:0x00fa, B:52:0x010b, B:55:0x0116, B:58:0x0124, B:60:0x0132, B:61:0x014e, B:63:0x0152, B:66:0x015b, B:67:0x0166, B:69:0x0171, B:71:0x017e, B:73:0x0185, B:74:0x018b, B:75:0x018e, B:80:0x0177, B:81:0x0159, B:82:0x0160, B:83:0x0148, B:88:0x0102), top: B:39:0x00ae }] */
-    /* JADX WARN: Removed duplicated region for block: B:77:0x0196 A[Catch: all -> 0x005d, Exception -> 0x0062, TRY_ENTER, TRY_LEAVE, TryCatch #11 {Exception -> 0x0062, all -> 0x005d, blocks: (B:8:0x0031, B:19:0x0044, B:24:0x0075, B:31:0x0091, B:38:0x009d, B:77:0x0196, B:117:0x00a6, B:127:0x01b8, B:134:0x01c4, B:149:0x01cd, B:153:0x0212, B:169:0x0059), top: B:3:0x0007 }] */
-    /* JADX WARN: Removed duplicated region for block: B:79:0x0199 A[SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x0177 A[Catch: all -> 0x019f, Exception -> 0x01a4, TryCatch #12 {Exception -> 0x01a4, all -> 0x019f, blocks: (B:40:0x00ae, B:42:0x00bd, B:43:0x00c2, B:45:0x00e2, B:49:0x00ea, B:51:0x00fa, B:52:0x010b, B:55:0x0116, B:58:0x0124, B:60:0x0132, B:61:0x014e, B:63:0x0152, B:66:0x015b, B:67:0x0166, B:69:0x0171, B:71:0x017e, B:73:0x0185, B:74:0x018b, B:75:0x018e, B:80:0x0177, B:81:0x0159, B:82:0x0160, B:83:0x0148, B:88:0x0102), top: B:39:0x00ae }] */
-    /* JADX WARN: Removed duplicated region for block: B:82:0x0160 A[Catch: all -> 0x019f, Exception -> 0x01a4, TryCatch #12 {Exception -> 0x01a4, all -> 0x019f, blocks: (B:40:0x00ae, B:42:0x00bd, B:43:0x00c2, B:45:0x00e2, B:49:0x00ea, B:51:0x00fa, B:52:0x010b, B:55:0x0116, B:58:0x0124, B:60:0x0132, B:61:0x014e, B:63:0x0152, B:66:0x015b, B:67:0x0166, B:69:0x0171, B:71:0x017e, B:73:0x0185, B:74:0x018b, B:75:0x018e, B:80:0x0177, B:81:0x0159, B:82:0x0160, B:83:0x0148, B:88:0x0102), top: B:39:0x00ae }] */
-    /* JADX WARN: Removed duplicated region for block: B:83:0x0148 A[Catch: all -> 0x019f, Exception -> 0x01a4, TryCatch #12 {Exception -> 0x01a4, all -> 0x019f, blocks: (B:40:0x00ae, B:42:0x00bd, B:43:0x00c2, B:45:0x00e2, B:49:0x00ea, B:51:0x00fa, B:52:0x010b, B:55:0x0116, B:58:0x0124, B:60:0x0132, B:61:0x014e, B:63:0x0152, B:66:0x015b, B:67:0x0166, B:69:0x0171, B:71:0x017e, B:73:0x0185, B:74:0x018b, B:75:0x018e, B:80:0x0177, B:81:0x0159, B:82:0x0160, B:83:0x0148, B:88:0x0102), top: B:39:0x00ae }] */
-    /* JADX WARN: Removed duplicated region for block: B:84:0x0123  */
-    /* JADX WARN: Removed duplicated region for block: B:85:0x0111  */
-    /* JADX WARN: Removed duplicated region for block: B:88:0x0102 A[Catch: all -> 0x019f, Exception -> 0x01a4, TryCatch #12 {Exception -> 0x01a4, all -> 0x019f, blocks: (B:40:0x00ae, B:42:0x00bd, B:43:0x00c2, B:45:0x00e2, B:49:0x00ea, B:51:0x00fa, B:52:0x010b, B:55:0x0116, B:58:0x0124, B:60:0x0132, B:61:0x014e, B:63:0x0152, B:66:0x015b, B:67:0x0166, B:69:0x0171, B:71:0x017e, B:73:0x0185, B:74:0x018b, B:75:0x018e, B:80:0x0177, B:81:0x0159, B:82:0x0160, B:83:0x0148, B:88:0x0102), top: B:39:0x00ae }] */
-    /* JADX WARN: Removed duplicated region for block: B:98:0x0235  */
-    /* JADX WARN: Type inference failed for: r2v1 */
-    /* JADX WARN: Type inference failed for: r2v11 */
-    /* JADX WARN: Type inference failed for: r2v12 */
-    /* JADX WARN: Type inference failed for: r2v16 */
-    /* JADX WARN: Type inference failed for: r2v17 */
-    /* JADX WARN: Type inference failed for: r2v2 */
-    /* JADX WARN: Type inference failed for: r2v3, types: [org.telegram.SQLite.SQLitePreparedStatement] */
-    /* JADX WARN: Type inference failed for: r2v4, types: [org.telegram.SQLite.SQLitePreparedStatement] */
-    /* JADX WARN: Type inference failed for: r2v5 */
-    /* JADX WARN: Type inference failed for: r2v9 */
-    /* JADX WARN: Type inference failed for: r7v6, types: [org.telegram.SQLite.SQLiteDatabase] */
+    /* JADX WARN: Removed duplicated region for block: B:100:0x02a7  */
+    /* JADX WARN: Removed duplicated region for block: B:102:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:107:0x02b0  */
+    /* JADX WARN: Removed duplicated region for block: B:109:0x02b5  */
+    /* JADX WARN: Removed duplicated region for block: B:111:0x02ba  */
+    /* JADX WARN: Removed duplicated region for block: B:121:0x01a6  */
+    /* JADX WARN: Removed duplicated region for block: B:151:0x0215 A[Catch: all -> 0x0285, Exception -> 0x028a, TRY_ENTER, TryCatch #10 {Exception -> 0x028a, all -> 0x0285, blocks: (B:8:0x0031, B:19:0x0044, B:20:0x005c, B:22:0x0069, B:23:0x006c, B:28:0x0084, B:33:0x018f, B:35:0x0092, B:74:0x018c, B:116:0x009b, B:119:0x019e, B:126:0x01af, B:133:0x01bd, B:146:0x01c6, B:151:0x0215, B:152:0x0218, B:154:0x0222, B:155:0x022d, B:157:0x0233, B:159:0x0247, B:161:0x024d, B:163:0x0261, B:173:0x0058, B:180:0x0292, B:181:0x0295), top: B:2:0x0007 }] */
+    /* JADX WARN: Removed duplicated region for block: B:154:0x0222 A[Catch: all -> 0x0285, Exception -> 0x028a, TryCatch #10 {Exception -> 0x028a, all -> 0x0285, blocks: (B:8:0x0031, B:19:0x0044, B:20:0x005c, B:22:0x0069, B:23:0x006c, B:28:0x0084, B:33:0x018f, B:35:0x0092, B:74:0x018c, B:116:0x009b, B:119:0x019e, B:126:0x01af, B:133:0x01bd, B:146:0x01c6, B:151:0x0215, B:152:0x0218, B:154:0x0222, B:155:0x022d, B:157:0x0233, B:159:0x0247, B:161:0x024d, B:163:0x0261, B:173:0x0058, B:180:0x0292, B:181:0x0295), top: B:2:0x0007 }] */
+    /* JADX WARN: Removed duplicated region for block: B:166:0x0281  */
+    /* JADX WARN: Removed duplicated region for block: B:168:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:173:0x0058 A[Catch: all -> 0x0285, Exception -> 0x028a, TRY_ENTER, TryCatch #10 {Exception -> 0x028a, all -> 0x0285, blocks: (B:8:0x0031, B:19:0x0044, B:20:0x005c, B:22:0x0069, B:23:0x006c, B:28:0x0084, B:33:0x018f, B:35:0x0092, B:74:0x018c, B:116:0x009b, B:119:0x019e, B:126:0x01af, B:133:0x01bd, B:146:0x01c6, B:151:0x0215, B:152:0x0218, B:154:0x0222, B:155:0x022d, B:157:0x0233, B:159:0x0247, B:161:0x024d, B:163:0x0261, B:173:0x0058, B:180:0x0292, B:181:0x0295), top: B:2:0x0007 }] */
+    /* JADX WARN: Removed duplicated region for block: B:180:0x0292 A[Catch: all -> 0x0285, Exception -> 0x028a, TRY_ENTER, TryCatch #10 {Exception -> 0x028a, all -> 0x0285, blocks: (B:8:0x0031, B:19:0x0044, B:20:0x005c, B:22:0x0069, B:23:0x006c, B:28:0x0084, B:33:0x018f, B:35:0x0092, B:74:0x018c, B:116:0x009b, B:119:0x019e, B:126:0x01af, B:133:0x01bd, B:146:0x01c6, B:151:0x0215, B:152:0x0218, B:154:0x0222, B:155:0x022d, B:157:0x0233, B:159:0x0247, B:161:0x024d, B:163:0x0261, B:173:0x0058, B:180:0x0292, B:181:0x0295), top: B:2:0x0007 }] */
+    /* JADX WARN: Removed duplicated region for block: B:22:0x0069 A[Catch: all -> 0x0285, Exception -> 0x028a, TryCatch #10 {Exception -> 0x028a, all -> 0x0285, blocks: (B:8:0x0031, B:19:0x0044, B:20:0x005c, B:22:0x0069, B:23:0x006c, B:28:0x0084, B:33:0x018f, B:35:0x0092, B:74:0x018c, B:116:0x009b, B:119:0x019e, B:126:0x01af, B:133:0x01bd, B:146:0x01c6, B:151:0x0215, B:152:0x0218, B:154:0x0222, B:155:0x022d, B:157:0x0233, B:159:0x0247, B:161:0x024d, B:163:0x0261, B:173:0x0058, B:180:0x0292, B:181:0x0295), top: B:2:0x0007 }] */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x007f  */
+    /* JADX WARN: Removed duplicated region for block: B:48:0x00f0 A[Catch: all -> 0x0196, Exception -> 0x019a, TryCatch #9 {Exception -> 0x019a, all -> 0x0196, blocks: (B:37:0x00a3, B:39:0x00b2, B:40:0x00b8, B:42:0x00d8, B:46:0x00e0, B:48:0x00f0, B:49:0x0101, B:52:0x010c, B:55:0x011a, B:57:0x0128, B:58:0x0144, B:60:0x0148, B:63:0x0151, B:64:0x015a, B:66:0x0167, B:68:0x0174, B:70:0x017b, B:71:0x0181, B:72:0x0184, B:77:0x016d, B:78:0x014f, B:79:0x0155, B:80:0x013e, B:85:0x00f8), top: B:36:0x00a3 }] */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x0105  */
+    /* JADX WARN: Removed duplicated region for block: B:54:0x0117  */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x0128 A[Catch: all -> 0x0196, Exception -> 0x019a, TryCatch #9 {Exception -> 0x019a, all -> 0x0196, blocks: (B:37:0x00a3, B:39:0x00b2, B:40:0x00b8, B:42:0x00d8, B:46:0x00e0, B:48:0x00f0, B:49:0x0101, B:52:0x010c, B:55:0x011a, B:57:0x0128, B:58:0x0144, B:60:0x0148, B:63:0x0151, B:64:0x015a, B:66:0x0167, B:68:0x0174, B:70:0x017b, B:71:0x0181, B:72:0x0184, B:77:0x016d, B:78:0x014f, B:79:0x0155, B:80:0x013e, B:85:0x00f8), top: B:36:0x00a3 }] */
+    /* JADX WARN: Removed duplicated region for block: B:60:0x0148 A[Catch: all -> 0x0196, Exception -> 0x019a, TryCatch #9 {Exception -> 0x019a, all -> 0x0196, blocks: (B:37:0x00a3, B:39:0x00b2, B:40:0x00b8, B:42:0x00d8, B:46:0x00e0, B:48:0x00f0, B:49:0x0101, B:52:0x010c, B:55:0x011a, B:57:0x0128, B:58:0x0144, B:60:0x0148, B:63:0x0151, B:64:0x015a, B:66:0x0167, B:68:0x0174, B:70:0x017b, B:71:0x0181, B:72:0x0184, B:77:0x016d, B:78:0x014f, B:79:0x0155, B:80:0x013e, B:85:0x00f8), top: B:36:0x00a3 }] */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x0167 A[Catch: all -> 0x0196, Exception -> 0x019a, TryCatch #9 {Exception -> 0x019a, all -> 0x0196, blocks: (B:37:0x00a3, B:39:0x00b2, B:40:0x00b8, B:42:0x00d8, B:46:0x00e0, B:48:0x00f0, B:49:0x0101, B:52:0x010c, B:55:0x011a, B:57:0x0128, B:58:0x0144, B:60:0x0148, B:63:0x0151, B:64:0x015a, B:66:0x0167, B:68:0x0174, B:70:0x017b, B:71:0x0181, B:72:0x0184, B:77:0x016d, B:78:0x014f, B:79:0x0155, B:80:0x013e, B:85:0x00f8), top: B:36:0x00a3 }] */
+    /* JADX WARN: Removed duplicated region for block: B:68:0x0174 A[Catch: all -> 0x0196, Exception -> 0x019a, TryCatch #9 {Exception -> 0x019a, all -> 0x0196, blocks: (B:37:0x00a3, B:39:0x00b2, B:40:0x00b8, B:42:0x00d8, B:46:0x00e0, B:48:0x00f0, B:49:0x0101, B:52:0x010c, B:55:0x011a, B:57:0x0128, B:58:0x0144, B:60:0x0148, B:63:0x0151, B:64:0x015a, B:66:0x0167, B:68:0x0174, B:70:0x017b, B:71:0x0181, B:72:0x0184, B:77:0x016d, B:78:0x014f, B:79:0x0155, B:80:0x013e, B:85:0x00f8), top: B:36:0x00a3 }] */
+    /* JADX WARN: Removed duplicated region for block: B:74:0x018c A[Catch: all -> 0x0285, Exception -> 0x028a, TRY_ENTER, TryCatch #10 {Exception -> 0x028a, all -> 0x0285, blocks: (B:8:0x0031, B:19:0x0044, B:20:0x005c, B:22:0x0069, B:23:0x006c, B:28:0x0084, B:33:0x018f, B:35:0x0092, B:74:0x018c, B:116:0x009b, B:119:0x019e, B:126:0x01af, B:133:0x01bd, B:146:0x01c6, B:151:0x0215, B:152:0x0218, B:154:0x0222, B:155:0x022d, B:157:0x0233, B:159:0x0247, B:161:0x024d, B:163:0x0261, B:173:0x0058, B:180:0x0292, B:181:0x0295), top: B:2:0x0007 }] */
+    /* JADX WARN: Removed duplicated region for block: B:76:0x018f A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:77:0x016d A[Catch: all -> 0x0196, Exception -> 0x019a, TryCatch #9 {Exception -> 0x019a, all -> 0x0196, blocks: (B:37:0x00a3, B:39:0x00b2, B:40:0x00b8, B:42:0x00d8, B:46:0x00e0, B:48:0x00f0, B:49:0x0101, B:52:0x010c, B:55:0x011a, B:57:0x0128, B:58:0x0144, B:60:0x0148, B:63:0x0151, B:64:0x015a, B:66:0x0167, B:68:0x0174, B:70:0x017b, B:71:0x0181, B:72:0x0184, B:77:0x016d, B:78:0x014f, B:79:0x0155, B:80:0x013e, B:85:0x00f8), top: B:36:0x00a3 }] */
+    /* JADX WARN: Removed duplicated region for block: B:79:0x0155 A[Catch: all -> 0x0196, Exception -> 0x019a, TryCatch #9 {Exception -> 0x019a, all -> 0x0196, blocks: (B:37:0x00a3, B:39:0x00b2, B:40:0x00b8, B:42:0x00d8, B:46:0x00e0, B:48:0x00f0, B:49:0x0101, B:52:0x010c, B:55:0x011a, B:57:0x0128, B:58:0x0144, B:60:0x0148, B:63:0x0151, B:64:0x015a, B:66:0x0167, B:68:0x0174, B:70:0x017b, B:71:0x0181, B:72:0x0184, B:77:0x016d, B:78:0x014f, B:79:0x0155, B:80:0x013e, B:85:0x00f8), top: B:36:0x00a3 }] */
+    /* JADX WARN: Removed duplicated region for block: B:80:0x013e A[Catch: all -> 0x0196, Exception -> 0x019a, TryCatch #9 {Exception -> 0x019a, all -> 0x0196, blocks: (B:37:0x00a3, B:39:0x00b2, B:40:0x00b8, B:42:0x00d8, B:46:0x00e0, B:48:0x00f0, B:49:0x0101, B:52:0x010c, B:55:0x011a, B:57:0x0128, B:58:0x0144, B:60:0x0148, B:63:0x0151, B:64:0x015a, B:66:0x0167, B:68:0x0174, B:70:0x017b, B:71:0x0181, B:72:0x0184, B:77:0x016d, B:78:0x014f, B:79:0x0155, B:80:0x013e, B:85:0x00f8), top: B:36:0x00a3 }] */
+    /* JADX WARN: Removed duplicated region for block: B:81:0x0119  */
+    /* JADX WARN: Removed duplicated region for block: B:82:0x0107  */
+    /* JADX WARN: Removed duplicated region for block: B:85:0x00f8 A[Catch: all -> 0x0196, Exception -> 0x019a, TryCatch #9 {Exception -> 0x019a, all -> 0x0196, blocks: (B:37:0x00a3, B:39:0x00b2, B:40:0x00b8, B:42:0x00d8, B:46:0x00e0, B:48:0x00f0, B:49:0x0101, B:52:0x010c, B:55:0x011a, B:57:0x0128, B:58:0x0144, B:60:0x0148, B:63:0x0151, B:64:0x015a, B:66:0x0167, B:68:0x0174, B:70:0x017b, B:71:0x0181, B:72:0x0184, B:77:0x016d, B:78:0x014f, B:79:0x0155, B:80:0x013e, B:85:0x00f8), top: B:36:0x00a3 }] */
+    /* JADX WARN: Removed duplicated region for block: B:96:0x029d  */
+    /* JADX WARN: Removed duplicated region for block: B:98:0x02a2  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public /* synthetic */ void lambda$replaceMessageIfExists$187(TLRPC$Message tLRPC$Message, boolean z, ArrayList arrayList, ArrayList arrayList2) {
         SQLitePreparedStatement sQLitePreparedStatement;
+        SQLitePreparedStatement sQLitePreparedStatement2;
         SQLiteDatabase sQLiteDatabase;
         SQLiteDatabase sQLiteDatabase2;
-        SQLitePreparedStatement sQLitePreparedStatement2;
         SQLiteCursor sQLiteCursor;
-        SQLiteCursor sQLiteCursor2;
         int i;
         NativeByteBuffer nativeByteBuffer;
-        ?? r7;
         int i2;
+        SQLiteDatabase sQLiteDatabase3;
         int i3;
+        NativeByteBuffer nativeByteBuffer2;
         int i4;
         int i5;
         int i6;
-        NativeByteBuffer nativeByteBuffer2;
-        TLRPC$TL_messageReplyHeader tLRPC$TL_messageReplyHeader;
         int i7;
+        NativeByteBuffer nativeByteBuffer3;
+        TLRPC$TL_messageReplyHeader tLRPC$TL_messageReplyHeader;
         int i8;
-        SQLitePreparedStatement sQLitePreparedStatement3 = tLRPC$Message;
-        int i9 = 1;
-        try {
-        } catch (Exception e) {
-            e = e;
-        } catch (Throwable th) {
-            th = th;
-        }
+        NativeByteBuffer nativeByteBuffer4;
+        int i9;
+        int i10 = 1;
         try {
             try {
+                sQLiteCursor = this.database.queryFinalized(String.format(Locale.US, "SELECT uid, read_state, custom_params FROM messages_v2 WHERE mid = %d AND uid = %d LIMIT 1", Integer.valueOf(tLRPC$Message.id), Long.valueOf(MessageObject.getDialogId(tLRPC$Message))), new Object[0]);
                 try {
-                    sQLiteCursor2 = this.database.queryFinalized(String.format(Locale.US, "SELECT uid, read_state, custom_params FROM messages_v2 WHERE mid = %d AND uid = %d LIMIT 1", Integer.valueOf(sQLitePreparedStatement3.id), Long.valueOf(MessageObject.getDialogId(tLRPC$Message))), new Object[0]);
                     try {
-                    } catch (Exception e2) {
-                        e = e2;
+                    } catch (Exception e) {
+                        e = e;
                         i = 0;
                         FileLog.e(e);
-                        if (sQLiteCursor2 != null) {
-                            sQLiteCursor2.dispose();
+                        if (sQLiteCursor != null) {
+                            sQLiteCursor.dispose();
                         }
                         nativeByteBuffer = null;
-                        try {
-                            r7 = this.database;
-                            r7.beginTransaction();
-                            if (sQLitePreparedStatement3.dialog_id == 0) {
-                            }
-                            fixUnsupportedMedia(tLRPC$Message);
-                            NativeByteBuffer nativeByteBuffer3 = new NativeByteBuffer(tLRPC$Message.getObjectSize());
-                            sQLitePreparedStatement3.serializeToStream(nativeByteBuffer3);
-                            i2 = 0;
-                            while (true) {
-                                int i10 = 4;
-                                if (i2 >= 2) {
-                                }
-                                i2++;
-                                i9 = 1;
-                            }
-                            if (MediaDataController.canAddMessageToMedia(tLRPC$Message)) {
-                            }
-                            if (nativeByteBuffer != null) {
-                            }
-                            nativeByteBuffer3.reuse();
-                            throw null;
-                        } catch (Exception e3) {
-                            e = e3;
-                            sQLitePreparedStatement3 = 0;
-                            sQLitePreparedStatement = sQLitePreparedStatement3;
-                            sQLitePreparedStatement3 = sQLitePreparedStatement3;
-                            try {
-                                FileLog.e(e);
-                                sQLiteDatabase2 = this.database;
-                                if (sQLiteDatabase2 != null) {
-                                }
-                                if (sQLitePreparedStatement != null) {
-                                }
-                                if (sQLitePreparedStatement3 != 0) {
-                                }
-                            } catch (Throwable th2) {
-                                th = th2;
-                                sQLiteDatabase = this.database;
-                                if (sQLiteDatabase != null) {
-                                    sQLiteDatabase.commitTransaction();
-                                }
-                                if (sQLitePreparedStatement != null) {
-                                    sQLitePreparedStatement.dispose();
-                                }
-                                if (sQLitePreparedStatement3 != 0) {
-                                    sQLitePreparedStatement3.dispose();
-                                }
-                                throw th;
-                            }
-                        } catch (Throwable th3) {
-                            th = th3;
-                            sQLitePreparedStatement3 = 0;
-                            sQLitePreparedStatement = sQLitePreparedStatement3;
-                            sQLiteDatabase = this.database;
-                            if (sQLiteDatabase != null) {
-                            }
-                            if (sQLitePreparedStatement != null) {
-                            }
-                            if (sQLitePreparedStatement3 != 0) {
-                            }
-                            throw th;
+                        this.database.beginTransaction();
+                        if (tLRPC$Message.dialog_id == 0) {
+                        }
+                        fixUnsupportedMedia(tLRPC$Message);
+                        NativeByteBuffer nativeByteBuffer5 = new NativeByteBuffer(tLRPC$Message.getObjectSize());
+                        tLRPC$Message.serializeToStream(nativeByteBuffer5);
+                        i2 = 0;
+                        while (i2 < 2) {
+                        }
+                        NativeByteBuffer nativeByteBuffer6 = nativeByteBuffer5;
+                        if (MediaDataController.canAddMessageToMedia(tLRPC$Message)) {
+                        }
+                        NativeByteBuffer nativeByteBuffer7 = nativeByteBuffer6;
+                        if (nativeByteBuffer != null) {
+                        }
+                        nativeByteBuffer7.reuse();
+                        this.database.commitTransaction();
+                        if (z) {
+                        }
+                        sQLiteDatabase3 = this.database;
+                        if (sQLiteDatabase3 == null) {
                         }
                     }
-                } catch (Throwable th4) {
-                    th = th4;
-                    sQLiteCursor = r7;
+                } catch (Throwable th) {
+                    th = th;
                     if (sQLiteCursor != null) {
                         sQLiteCursor.dispose();
                     }
                     throw th;
                 }
-            } catch (Exception e4) {
-                e = e4;
-                sQLiteCursor2 = null;
-            } catch (Throwable th5) {
-                th = th5;
+            } catch (Exception e2) {
+                e = e2;
+                sQLiteCursor = null;
+            } catch (Throwable th2) {
+                th = th2;
                 sQLiteCursor = null;
                 if (sQLiteCursor != null) {
                 }
                 throw th;
             }
-            if (!sQLiteCursor2.next()) {
-                sQLiteCursor2.dispose();
-                SQLiteDatabase sQLiteDatabase3 = this.database;
-                if (sQLiteDatabase3 == null) {
+            if (!sQLiteCursor.next()) {
+                sQLiteCursor.dispose();
+                SQLiteDatabase sQLiteDatabase4 = this.database;
+                if (sQLiteDatabase4 == null) {
                     return;
                 }
-                sQLiteDatabase3.commitTransaction();
+                sQLiteDatabase4.commitTransaction();
                 return;
             }
-            i = sQLiteCursor2.intValue(1);
+            i = sQLiteCursor.intValue(1);
             try {
-                nativeByteBuffer = sQLiteCursor2.byteBufferValue(2);
-                sQLiteCursor2.dispose();
-            } catch (Exception e5) {
-                e = e5;
+                nativeByteBuffer = sQLiteCursor.byteBufferValue(2);
+                sQLiteCursor.dispose();
+            } catch (Exception e3) {
+                e = e3;
                 FileLog.e(e);
-                if (sQLiteCursor2 != null) {
+                if (sQLiteCursor != null) {
                 }
                 nativeByteBuffer = null;
-                r7 = this.database;
-                r7.beginTransaction();
-                if (sQLitePreparedStatement3.dialog_id == 0) {
+                this.database.beginTransaction();
+                if (tLRPC$Message.dialog_id == 0) {
                 }
                 fixUnsupportedMedia(tLRPC$Message);
-                NativeByteBuffer nativeByteBuffer32 = new NativeByteBuffer(tLRPC$Message.getObjectSize());
-                sQLitePreparedStatement3.serializeToStream(nativeByteBuffer32);
+                NativeByteBuffer nativeByteBuffer52 = new NativeByteBuffer(tLRPC$Message.getObjectSize());
+                tLRPC$Message.serializeToStream(nativeByteBuffer52);
                 i2 = 0;
-                while (true) {
-                    int i102 = 4;
-                    if (i2 >= 2) {
-                    }
-                    i2++;
-                    i9 = 1;
+                while (i2 < 2) {
                 }
+                NativeByteBuffer nativeByteBuffer62 = nativeByteBuffer52;
                 if (MediaDataController.canAddMessageToMedia(tLRPC$Message)) {
                 }
+                NativeByteBuffer nativeByteBuffer72 = nativeByteBuffer62;
                 if (nativeByteBuffer != null) {
                 }
-                nativeByteBuffer32.reuse();
-                throw null;
+                nativeByteBuffer72.reuse();
+                this.database.commitTransaction();
+                if (z) {
+                }
+                sQLiteDatabase3 = this.database;
+                if (sQLiteDatabase3 == null) {
+                }
             }
-            r7 = this.database;
-            r7.beginTransaction();
-            if (sQLitePreparedStatement3.dialog_id == 0) {
+            this.database.beginTransaction();
+            if (tLRPC$Message.dialog_id == 0) {
                 MessageObject.getDialogId(tLRPC$Message);
             }
             fixUnsupportedMedia(tLRPC$Message);
-            NativeByteBuffer nativeByteBuffer322 = new NativeByteBuffer(tLRPC$Message.getObjectSize());
-            sQLitePreparedStatement3.serializeToStream(nativeByteBuffer322);
+            NativeByteBuffer nativeByteBuffer522 = new NativeByteBuffer(tLRPC$Message.getObjectSize());
+            tLRPC$Message.serializeToStream(nativeByteBuffer522);
             i2 = 0;
-            while (true) {
-                int i1022 = 4;
-                if (i2 >= 2) {
-                    break;
-                }
-                boolean z2 = i2 == i9;
+            while (i2 < 2) {
+                boolean z2 = i2 == i10;
                 int topicId = MessageObject.getTopicId(tLRPC$Message);
                 if (!z2 || topicId != 0) {
                     SQLitePreparedStatement executeFast = z2 ? this.database.executeFast("REPLACE INTO messages_topics VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL, ?, ?, ?, ?, ?, ?, 0, ?)") : this.database.executeFast("REPLACE INTO messages_v2 VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, NULL, ?, ?, ?, ?, ?, ?, 0, ?, ?)");
                     try {
                         executeFast.requery();
-                        executeFast.bindInteger(i9, sQLitePreparedStatement3.id);
-                        executeFast.bindLong(2, sQLitePreparedStatement3.dialog_id);
+                        executeFast.bindInteger(i10, tLRPC$Message.id);
+                        executeFast.bindLong(2, tLRPC$Message.dialog_id);
                         if (z2) {
                             executeFast.bindInteger(3, topicId);
+                            i4 = 4;
                         } else {
-                            i1022 = 3;
+                            i4 = 3;
                         }
-                        int i11 = i1022 + 1;
-                        executeFast.bindInteger(i1022, i);
+                        int i11 = i4 + 1;
+                        executeFast.bindInteger(i4, i);
                         int i12 = i11 + 1;
-                        executeFast.bindInteger(i11, sQLitePreparedStatement3.send_state);
+                        executeFast.bindInteger(i11, tLRPC$Message.send_state);
                         int i13 = i12 + 1;
-                        executeFast.bindInteger(i12, sQLitePreparedStatement3.date);
+                        executeFast.bindInteger(i12, tLRPC$Message.date);
                         int i14 = i13 + 1;
-                        executeFast.bindByteBuffer(i13, nativeByteBuffer322);
+                        executeFast.bindByteBuffer(i13, nativeByteBuffer522);
                         int i15 = i14 + 1;
-                        if (!MessageObject.isOut(tLRPC$Message) && !sQLitePreparedStatement3.from_scheduled) {
-                            i4 = 0;
-                            executeFast.bindInteger(i14, i4);
+                        if (!MessageObject.isOut(tLRPC$Message) && !tLRPC$Message.from_scheduled) {
+                            i5 = 0;
+                            executeFast.bindInteger(i14, i5);
                             int i16 = i15 + 1;
-                            executeFast.bindInteger(i15, sQLitePreparedStatement3.ttl);
-                            if ((sQLitePreparedStatement3.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) == 0) {
-                                i5 = i16 + 1;
-                                executeFast.bindInteger(i16, sQLitePreparedStatement3.views);
+                            executeFast.bindInteger(i15, tLRPC$Message.ttl);
+                            if ((tLRPC$Message.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) == 0) {
+                                i6 = i16 + 1;
+                                executeFast.bindInteger(i16, tLRPC$Message.views);
                             } else {
-                                i5 = i16 + 1;
+                                i6 = i16 + 1;
                                 executeFast.bindInteger(i16, getMessageMediaType(tLRPC$Message));
                             }
-                            int i17 = sQLitePreparedStatement3.stickerVerified;
-                            int i18 = i5 + 1;
-                            executeFast.bindInteger(i5, i17 != 0 ? 1 : i17 == 2 ? 2 : 0);
+                            int i17 = tLRPC$Message.stickerVerified;
+                            int i18 = i6 + 1;
+                            executeFast.bindInteger(i6, i17 != 0 ? 1 : i17 == 2 ? 2 : 0);
                             int i19 = i18 + 1;
-                            executeFast.bindInteger(i18, !sQLitePreparedStatement3.mentioned ? 1 : 0);
+                            executeFast.bindInteger(i18, !tLRPC$Message.mentioned ? 1 : 0);
                             int i20 = i19 + 1;
-                            executeFast.bindInteger(i19, sQLitePreparedStatement3.forwards);
-                            if (sQLitePreparedStatement3.replies == null) {
-                                nativeByteBuffer2 = new NativeByteBuffer(sQLitePreparedStatement3.replies.getObjectSize());
-                                sQLitePreparedStatement3.replies.serializeToStream(nativeByteBuffer2);
-                                i6 = i20 + 1;
-                                executeFast.bindByteBuffer(i20, nativeByteBuffer2);
+                            executeFast.bindInteger(i19, tLRPC$Message.forwards);
+                            if (tLRPC$Message.replies == null) {
+                                nativeByteBuffer3 = new NativeByteBuffer(tLRPC$Message.replies.getObjectSize());
+                                tLRPC$Message.replies.serializeToStream(nativeByteBuffer3);
+                                i7 = i20 + 1;
+                                executeFast.bindByteBuffer(i20, nativeByteBuffer3);
                             } else {
-                                i6 = i20 + 1;
+                                i7 = i20 + 1;
                                 executeFast.bindNull(i20);
-                                nativeByteBuffer2 = null;
+                                nativeByteBuffer3 = null;
                             }
-                            tLRPC$TL_messageReplyHeader = sQLitePreparedStatement3.reply_to;
+                            tLRPC$TL_messageReplyHeader = tLRPC$Message.reply_to;
                             if (tLRPC$TL_messageReplyHeader == null) {
-                                i7 = i6 + 1;
+                                i8 = i7 + 1;
                                 int i21 = tLRPC$TL_messageReplyHeader.reply_to_top_id;
                                 if (i21 == 0) {
                                     i21 = tLRPC$TL_messageReplyHeader.reply_to_msg_id;
                                 }
-                                executeFast.bindInteger(i6, i21);
+                                executeFast.bindInteger(i7, i21);
                             } else {
-                                i7 = i6 + 1;
-                                executeFast.bindInteger(i6, 0);
+                                i8 = i7 + 1;
+                                executeFast.bindInteger(i7, 0);
                             }
-                            int i22 = i7 + 1;
-                            executeFast.bindLong(i7, MessageObject.getChannelId(tLRPC$Message));
+                            int i22 = i8 + 1;
+                            nativeByteBuffer4 = nativeByteBuffer522;
+                            executeFast.bindLong(i8, MessageObject.getChannelId(tLRPC$Message));
                             if (nativeByteBuffer == null) {
-                                i8 = i22 + 1;
+                                i9 = i22 + 1;
                                 executeFast.bindByteBuffer(i22, nativeByteBuffer);
                             } else {
-                                i8 = i22 + 1;
+                                i9 = i22 + 1;
                                 executeFast.bindNull(i22);
                             }
                             if (!z2) {
-                                if ((sQLitePreparedStatement3.flags & 131072) != 0) {
-                                    executeFast.bindLong(i8, sQLitePreparedStatement3.grouped_id);
+                                if ((tLRPC$Message.flags & 131072) != 0) {
+                                    executeFast.bindLong(i9, tLRPC$Message.grouped_id);
                                 } else {
-                                    executeFast.bindNull(i8);
+                                    executeFast.bindNull(i9);
                                 }
                             }
                             executeFast.step();
                             executeFast.dispose();
-                            if (nativeByteBuffer2 == null) {
-                                nativeByteBuffer2.reuse();
+                            if (nativeByteBuffer3 == null) {
+                                nativeByteBuffer3.reuse();
                             }
                         }
-                        i4 = 1;
-                        executeFast.bindInteger(i14, i4);
+                        i5 = 1;
+                        executeFast.bindInteger(i14, i5);
                         int i162 = i15 + 1;
-                        executeFast.bindInteger(i15, sQLitePreparedStatement3.ttl);
-                        if ((sQLitePreparedStatement3.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) == 0) {
+                        executeFast.bindInteger(i15, tLRPC$Message.ttl);
+                        if ((tLRPC$Message.flags & ConnectionsManager.RequestFlagDoNotWaitFloodWait) == 0) {
                         }
-                        int i172 = sQLitePreparedStatement3.stickerVerified;
-                        int i182 = i5 + 1;
-                        executeFast.bindInteger(i5, i172 != 0 ? 1 : i172 == 2 ? 2 : 0);
+                        int i172 = tLRPC$Message.stickerVerified;
+                        int i182 = i6 + 1;
+                        executeFast.bindInteger(i6, i172 != 0 ? 1 : i172 == 2 ? 2 : 0);
                         int i192 = i182 + 1;
-                        executeFast.bindInteger(i182, !sQLitePreparedStatement3.mentioned ? 1 : 0);
+                        executeFast.bindInteger(i182, !tLRPC$Message.mentioned ? 1 : 0);
                         int i202 = i192 + 1;
-                        executeFast.bindInteger(i192, sQLitePreparedStatement3.forwards);
-                        if (sQLitePreparedStatement3.replies == null) {
+                        executeFast.bindInteger(i192, tLRPC$Message.forwards);
+                        if (tLRPC$Message.replies == null) {
                         }
-                        tLRPC$TL_messageReplyHeader = sQLitePreparedStatement3.reply_to;
+                        tLRPC$TL_messageReplyHeader = tLRPC$Message.reply_to;
                         if (tLRPC$TL_messageReplyHeader == null) {
                         }
-                        int i222 = i7 + 1;
-                        executeFast.bindLong(i7, MessageObject.getChannelId(tLRPC$Message));
+                        int i222 = i8 + 1;
+                        nativeByteBuffer4 = nativeByteBuffer522;
+                        executeFast.bindLong(i8, MessageObject.getChannelId(tLRPC$Message));
                         if (nativeByteBuffer == null) {
                         }
                         if (!z2) {
                         }
                         executeFast.step();
                         executeFast.dispose();
-                        if (nativeByteBuffer2 == null) {
+                        if (nativeByteBuffer3 == null) {
                         }
-                    } catch (Exception e6) {
-                        e = e6;
+                    } catch (Exception e4) {
+                        e = e4;
                         sQLitePreparedStatement = executeFast;
-                        sQLitePreparedStatement3 = 0;
-                        FileLog.e(e);
-                        sQLiteDatabase2 = this.database;
-                        if (sQLiteDatabase2 != null) {
+                        sQLitePreparedStatement2 = null;
+                        try {
+                            FileLog.e(e);
+                            sQLiteDatabase2 = this.database;
+                            if (sQLiteDatabase2 != null) {
+                            }
+                            if (sQLitePreparedStatement != null) {
+                            }
+                            if (sQLitePreparedStatement2 != null) {
+                            }
+                        } catch (Throwable th3) {
+                            th = th3;
+                            sQLiteDatabase = this.database;
+                            if (sQLiteDatabase != null) {
+                                sQLiteDatabase.commitTransaction();
+                            }
+                            if (sQLitePreparedStatement != null) {
+                                sQLitePreparedStatement.dispose();
+                            }
+                            if (sQLitePreparedStatement2 != null) {
+                                sQLitePreparedStatement2.dispose();
+                            }
+                            throw th;
                         }
-                        if (sQLitePreparedStatement != null) {
-                        }
-                        if (sQLitePreparedStatement3 != 0) {
-                        }
-                    } catch (Throwable th6) {
-                        th = th6;
+                    } catch (Throwable th4) {
+                        th = th4;
                         sQLitePreparedStatement = executeFast;
-                        sQLitePreparedStatement3 = 0;
+                        sQLitePreparedStatement2 = null;
                         sQLiteDatabase = this.database;
                         if (sQLiteDatabase != null) {
                         }
                         if (sQLitePreparedStatement != null) {
                         }
-                        if (sQLitePreparedStatement3 != 0) {
+                        if (sQLitePreparedStatement2 != null) {
                         }
                         throw th;
                     }
+                } else {
+                    nativeByteBuffer4 = nativeByteBuffer522;
                 }
                 i2++;
-                i9 = 1;
+                nativeByteBuffer522 = nativeByteBuffer4;
+                i10 = 1;
             }
+            NativeByteBuffer nativeByteBuffer622 = nativeByteBuffer522;
             if (MediaDataController.canAddMessageToMedia(tLRPC$Message)) {
                 int i23 = 0;
                 while (i23 < 2) {
@@ -26923,8 +25051,8 @@ public class MessagesStorage extends BaseController {
                         SQLitePreparedStatement executeFast2 = i23 == 0 ? this.database.executeFast("REPLACE INTO media_v4 VALUES(?, ?, ?, ?, ?)") : this.database.executeFast("REPLACE INTO media_topics VALUES(?, ?, ?, ?, ?, ?)");
                         try {
                             executeFast2.requery();
-                            executeFast2.bindInteger(1, sQLitePreparedStatement3.id);
-                            executeFast2.bindLong(2, sQLitePreparedStatement3.dialog_id);
+                            executeFast2.bindInteger(1, tLRPC$Message.id);
+                            executeFast2.bindLong(2, tLRPC$Message.dialog_id);
                             if (i23 != 0) {
                                 executeFast2.bindLong(3, topicId2);
                                 i3 = 4;
@@ -26932,16 +25060,17 @@ public class MessagesStorage extends BaseController {
                                 i3 = 3;
                             }
                             int i24 = i3 + 1;
-                            executeFast2.bindInteger(i3, sQLitePreparedStatement3.date);
+                            executeFast2.bindInteger(i3, tLRPC$Message.date);
+                            int i25 = i24 + 1;
                             executeFast2.bindInteger(i24, MediaDataController.getMediaType(tLRPC$Message));
-                            executeFast2.bindByteBuffer(i24 + 1, nativeByteBuffer322);
+                            nativeByteBuffer2 = nativeByteBuffer622;
+                            executeFast2.bindByteBuffer(i25, nativeByteBuffer2);
                             executeFast2.step();
                             executeFast2.dispose();
-                        } catch (Exception e7) {
-                            e = e7;
+                        } catch (Exception e5) {
+                            e = e5;
                             sQLitePreparedStatement2 = executeFast2;
                             sQLitePreparedStatement = null;
-                            sQLitePreparedStatement3 = sQLitePreparedStatement2;
                             FileLog.e(e);
                             sQLiteDatabase2 = this.database;
                             if (sQLiteDatabase2 != null) {
@@ -26950,67 +25079,79 @@ public class MessagesStorage extends BaseController {
                             if (sQLitePreparedStatement != null) {
                                 sQLitePreparedStatement.dispose();
                             }
-                            if (sQLitePreparedStatement3 != 0) {
+                            if (sQLitePreparedStatement2 != null) {
                                 return;
                             }
-                            sQLitePreparedStatement3.dispose();
+                            sQLitePreparedStatement2.dispose();
                             return;
-                        } catch (Throwable th7) {
-                            th = th7;
-                            sQLitePreparedStatement3 = executeFast2;
+                        } catch (Throwable th5) {
+                            th = th5;
+                            sQLitePreparedStatement2 = executeFast2;
                             sQLitePreparedStatement = null;
                             sQLiteDatabase = this.database;
                             if (sQLiteDatabase != null) {
                             }
                             if (sQLitePreparedStatement != null) {
                             }
-                            if (sQLitePreparedStatement3 != 0) {
+                            if (sQLitePreparedStatement2 != null) {
                             }
                             throw th;
                         }
+                    } else {
+                        nativeByteBuffer2 = nativeByteBuffer622;
                     }
                     i23++;
+                    nativeByteBuffer622 = nativeByteBuffer2;
                 }
             }
+            NativeByteBuffer nativeByteBuffer722 = nativeByteBuffer622;
             if (nativeByteBuffer != null) {
                 nativeByteBuffer.reuse();
             }
-            nativeByteBuffer322.reuse();
-            throw null;
-        } catch (Exception e8) {
-            e = e8;
-            sQLitePreparedStatement2 = null;
+            nativeByteBuffer722.reuse();
+            this.database.commitTransaction();
+            if (z) {
+                HashMap hashMap = new HashMap();
+                HashMap hashMap2 = new HashMap();
+                for (int i26 = 0; i26 < arrayList.size(); i26++) {
+                    TLRPC$User tLRPC$User = (TLRPC$User) arrayList.get(i26);
+                    hashMap.put(Long.valueOf(tLRPC$User.id), tLRPC$User);
+                }
+                for (int i27 = 0; i27 < arrayList2.size(); i27++) {
+                    TLRPC$Chat tLRPC$Chat = (TLRPC$Chat) arrayList2.get(i27);
+                    hashMap2.put(Long.valueOf(tLRPC$Chat.id), tLRPC$Chat);
+                }
+                final MessageObject messageObject = new MessageObject(this.currentAccount, tLRPC$Message, (AbstractMap<Long, TLRPC$User>) hashMap, (AbstractMap<Long, TLRPC$Chat>) hashMap2, true, true);
+                final ArrayList arrayList3 = new ArrayList();
+                arrayList3.add(messageObject);
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda162
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        MessagesStorage.this.lambda$replaceMessageIfExists$186(messageObject, arrayList3);
+                    }
+                });
+            }
+            sQLiteDatabase3 = this.database;
+            if (sQLiteDatabase3 == null) {
+                return;
+            }
+            sQLiteDatabase3.commitTransaction();
+        } catch (Exception e6) {
+            e = e6;
             sQLitePreparedStatement = null;
-            sQLitePreparedStatement3 = sQLitePreparedStatement2;
-            FileLog.e(e);
-            sQLiteDatabase2 = this.database;
-            if (sQLiteDatabase2 != null) {
-            }
-            if (sQLitePreparedStatement != null) {
-            }
-            if (sQLitePreparedStatement3 != 0) {
-            }
-        } catch (Throwable th8) {
-            th = th8;
-            sQLitePreparedStatement3 = 0;
+        } catch (Throwable th6) {
+            th = th6;
             sQLitePreparedStatement = null;
-            sQLiteDatabase = this.database;
-            if (sQLiteDatabase != null) {
-            }
-            if (sQLitePreparedStatement != null) {
-            }
-            if (sQLitePreparedStatement3 != 0) {
-            }
-            throw th;
         }
     }
 
-    private /* synthetic */ void lambda$replaceMessageIfExists$186(MessageObject messageObject, ArrayList arrayList) {
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$replaceMessageIfExists$186(MessageObject messageObject, ArrayList arrayList) {
         getNotificationCenter().postNotificationName(NotificationCenter.replaceMessagesObjects, Long.valueOf(messageObject.getDialogId()), arrayList);
     }
 
     public void putMessages(final TLRPC$messages_Messages tLRPC$messages_Messages, final long j, final int i, final int i2, final boolean z, final boolean z2, final int i3) {
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda198
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda199
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$putMessages$189(z2, j, tLRPC$messages_Messages, i3, i, i2, z);
@@ -33633,7 +31774,7 @@ public class MessagesStorage extends BaseController {
         if (tLRPC$messages_Dialogs.dialogs.isEmpty()) {
             return;
         }
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda188
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda189
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$putDialogs$202(tLRPC$messages_Dialogs, i);
@@ -33703,7 +31844,7 @@ public class MessagesStorage extends BaseController {
     public int getDialogReadMax(final boolean z, final long j) {
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         final Integer[] numArr = {0};
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda199
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda200
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$getDialogReadMax$205(z, j, numArr, countDownLatch);
@@ -33813,7 +31954,7 @@ public class MessagesStorage extends BaseController {
     public TLRPC$User getUserSync(final long j) {
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         final TLRPC$User[] tLRPC$UserArr = new TLRPC$User[1];
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda205
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda206
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$getUserSync$207(tLRPC$UserArr, j, countDownLatch);
@@ -33836,7 +31977,7 @@ public class MessagesStorage extends BaseController {
     public TLRPC$Chat getChatSync(final long j) {
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         final TLRPC$Chat[] tLRPC$ChatArr = new TLRPC$Chat[1];
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda203
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda204
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$getChatSync$208(tLRPC$ChatArr, j, countDownLatch);
@@ -34315,7 +32456,7 @@ public class MessagesStorage extends BaseController {
                     arrayList9.add(dialogSearchResult7);
                 }
             }
-            Collections.sort(arrayList9, MessagesStorage$$ExternalSyntheticLambda211.INSTANCE);
+            Collections.sort(arrayList9, MessagesStorage$$ExternalSyntheticLambda212.INSTANCE);
             for (int i13 = 0; i13 < arrayList9.size(); i13++) {
                 DialogsSearchAdapter.DialogSearchResult dialogSearchResult8 = (DialogsSearchAdapter.DialogSearchResult) arrayList9.get(i13);
                 arrayList.add(dialogSearchResult8.object);
@@ -34701,7 +32842,7 @@ public class MessagesStorage extends BaseController {
     }
 
     public void updateDialogUnreadReactions(final long j, final int i, final int i2, final boolean z) {
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda196
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda197
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$updateDialogUnreadReactions$212(z, j, i2, i);

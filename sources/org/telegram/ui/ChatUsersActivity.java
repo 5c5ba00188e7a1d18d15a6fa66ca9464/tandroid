@@ -3811,34 +3811,34 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
         }
 
         /* JADX WARN: Multi-variable type inference failed */
-        /* JADX WARN: Removed duplicated region for block: B:36:0x00f0  */
-        /* JADX WARN: Removed duplicated region for block: B:41:0x0102  */
-        /* JADX WARN: Removed duplicated region for block: B:45:0x010d  */
-        /* JADX WARN: Removed duplicated region for block: B:55:0x014b A[ADDED_TO_REGION] */
-        /* JADX WARN: Removed duplicated region for block: B:58:0x0159  */
-        /* JADX WARN: Removed duplicated region for block: B:75:0x019d A[ADDED_TO_REGION] */
-        /* JADX WARN: Removed duplicated region for block: B:78:0x01aa  */
-        /* JADX WARN: Removed duplicated region for block: B:82:0x013f  */
+        /* JADX WARN: Removed duplicated region for block: B:36:0x00f2  */
+        /* JADX WARN: Removed duplicated region for block: B:41:0x0104  */
+        /* JADX WARN: Removed duplicated region for block: B:45:0x010f  */
+        /* JADX WARN: Removed duplicated region for block: B:55:0x014d A[ADDED_TO_REGION] */
+        /* JADX WARN: Removed duplicated region for block: B:58:0x015b  */
+        /* JADX WARN: Removed duplicated region for block: B:75:0x019f A[ADDED_TO_REGION] */
+        /* JADX WARN: Removed duplicated region for block: B:78:0x01ac  */
+        /* JADX WARN: Removed duplicated region for block: B:82:0x0141  */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
-            String str;
+            String publicUsername;
             TLRPC$User tLRPC$User;
             int size;
-            String str2;
+            String str;
             boolean z;
             SpannableStringBuilder spannableStringBuilder;
             int i2;
             boolean z2;
+            String str2;
             String str3;
-            String str4;
             int indexOfIgnoreCase;
             int size2;
             int size3;
             int i3;
-            String str5;
+            String str4;
             int i4 = i;
             int itemViewType = viewHolder.getItemViewType();
             if (itemViewType != 0) {
@@ -3882,32 +3882,32 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                         TLRPC$User user = ChatUsersActivity.this.getMessagesController().getUser(Long.valueOf(peerId));
                         tLRPC$User2 = user;
                         if (user != null) {
-                            str = user.username;
+                            publicUsername = user.username;
                             tLRPC$User = user;
                             size = this.searchAdapterHelper.getGroupSearch().size();
                             if (size != 0) {
                                 int i5 = size + 1;
                                 if (i5 > i4) {
-                                    str2 = this.searchAdapterHelper.getLastFoundChannel();
+                                    str = this.searchAdapterHelper.getLastFoundChannel();
                                     z = true;
                                     if (!z && (size3 = this.searchResult.size()) != 0) {
                                         i3 = size3 + 1;
                                         if (i3 <= i4) {
                                             CharSequence charSequence = this.searchResultNames.get(i4 - 1);
-                                            if (charSequence != 0 && !TextUtils.isEmpty(str)) {
-                                                if (charSequence.toString().startsWith("@" + str)) {
+                                            if (charSequence != 0 && !TextUtils.isEmpty(publicUsername)) {
+                                                if (charSequence.toString().startsWith("@" + publicUsername)) {
                                                     spannableStringBuilder = null;
-                                                    str5 = charSequence;
+                                                    str4 = charSequence;
                                                     i2 = i4;
                                                     z2 = true;
-                                                    str3 = str5;
-                                                    str4 = str3;
-                                                    str4 = str3;
-                                                    if (!z2 && str != null) {
+                                                    str2 = str4;
+                                                    str3 = str2;
+                                                    str3 = str2;
+                                                    if (!z2 && publicUsername != null) {
                                                         size2 = this.searchAdapterHelper.getGlobalSearch().size();
-                                                        str4 = str3;
+                                                        str3 = str2;
                                                         if (size2 != 0) {
-                                                            str4 = str3;
+                                                            str3 = str2;
                                                             if (size2 + 1 > i2) {
                                                                 String lastFoundUsername = this.searchAdapterHelper.getLastFoundUsername();
                                                                 if (lastFoundUsername.startsWith("@")) {
@@ -3916,9 +3916,9 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                                                                 try {
                                                                     SpannableStringBuilder spannableStringBuilder2 = new SpannableStringBuilder();
                                                                     spannableStringBuilder2.append((CharSequence) "@");
-                                                                    spannableStringBuilder2.append((CharSequence) str);
-                                                                    int indexOfIgnoreCase2 = AndroidUtilities.indexOfIgnoreCase(str, lastFoundUsername);
-                                                                    str4 = spannableStringBuilder2;
+                                                                    spannableStringBuilder2.append((CharSequence) publicUsername);
+                                                                    int indexOfIgnoreCase2 = AndroidUtilities.indexOfIgnoreCase(publicUsername, lastFoundUsername);
+                                                                    str3 = spannableStringBuilder2;
                                                                     if (indexOfIgnoreCase2 != -1) {
                                                                         int length = lastFoundUsername.length();
                                                                         if (indexOfIgnoreCase2 == 0) {
@@ -3927,69 +3927,69 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                                                                             indexOfIgnoreCase2++;
                                                                         }
                                                                         spannableStringBuilder2.setSpan(new ForegroundColorSpan(Theme.getColor("windowBackgroundWhiteBlueText4")), indexOfIgnoreCase2, length + indexOfIgnoreCase2, 33);
-                                                                        str4 = spannableStringBuilder2;
+                                                                        str3 = spannableStringBuilder2;
                                                                     }
                                                                 } catch (Exception e) {
                                                                     FileLog.e(e);
-                                                                    str4 = str;
+                                                                    str3 = publicUsername;
                                                                 }
                                                             }
                                                         }
                                                     }
-                                                    if (str2 != null && str != null) {
-                                                        spannableStringBuilder = new SpannableStringBuilder(str);
-                                                        indexOfIgnoreCase = AndroidUtilities.indexOfIgnoreCase(str, str2);
+                                                    if (str != null && publicUsername != null) {
+                                                        spannableStringBuilder = new SpannableStringBuilder(publicUsername);
+                                                        indexOfIgnoreCase = AndroidUtilities.indexOfIgnoreCase(publicUsername, str);
                                                         if (indexOfIgnoreCase != -1) {
-                                                            spannableStringBuilder.setSpan(new ForegroundColorSpan(Theme.getColor("windowBackgroundWhiteBlueText4")), indexOfIgnoreCase, str2.length() + indexOfIgnoreCase, 33);
+                                                            spannableStringBuilder.setSpan(new ForegroundColorSpan(Theme.getColor("windowBackgroundWhiteBlueText4")), indexOfIgnoreCase, str.length() + indexOfIgnoreCase, 33);
                                                         }
                                                     }
                                                     ManageChatUserCell manageChatUserCell = (ManageChatUserCell) viewHolder.itemView;
                                                     manageChatUserCell.setTag(Integer.valueOf(i2));
-                                                    manageChatUserCell.setData(tLRPC$User, spannableStringBuilder, str4, false);
+                                                    manageChatUserCell.setData(tLRPC$User, spannableStringBuilder, str3, false);
                                                 }
                                             }
                                             spannableStringBuilder = charSequence;
-                                            str5 = null;
+                                            str4 = null;
                                             i2 = i4;
                                             z2 = true;
-                                            str3 = str5;
-                                            str4 = str3;
-                                            str4 = str3;
+                                            str2 = str4;
+                                            str3 = str2;
+                                            str3 = str2;
                                             if (!z2) {
                                                 size2 = this.searchAdapterHelper.getGlobalSearch().size();
-                                                str4 = str3;
+                                                str3 = str2;
                                                 if (size2 != 0) {
                                                 }
                                             }
-                                            if (str2 != null) {
-                                                spannableStringBuilder = new SpannableStringBuilder(str);
-                                                indexOfIgnoreCase = AndroidUtilities.indexOfIgnoreCase(str, str2);
+                                            if (str != null) {
+                                                spannableStringBuilder = new SpannableStringBuilder(publicUsername);
+                                                indexOfIgnoreCase = AndroidUtilities.indexOfIgnoreCase(publicUsername, str);
                                                 if (indexOfIgnoreCase != -1) {
                                                 }
                                             }
                                             ManageChatUserCell manageChatUserCell2 = (ManageChatUserCell) viewHolder.itemView;
                                             manageChatUserCell2.setTag(Integer.valueOf(i2));
-                                            manageChatUserCell2.setData(tLRPC$User, spannableStringBuilder, str4, false);
+                                            manageChatUserCell2.setData(tLRPC$User, spannableStringBuilder, str3, false);
                                         }
                                         i4 -= i3;
                                     }
                                     spannableStringBuilder = null;
                                     i2 = i4;
                                     z2 = z;
-                                    str3 = null;
-                                    str4 = str3;
-                                    str4 = str3;
+                                    str2 = null;
+                                    str3 = str2;
+                                    str3 = str2;
                                     if (!z2) {
                                     }
-                                    if (str2 != null) {
+                                    if (str != null) {
                                     }
                                     ManageChatUserCell manageChatUserCell22 = (ManageChatUserCell) viewHolder.itemView;
                                     manageChatUserCell22.setTag(Integer.valueOf(i2));
-                                    manageChatUserCell22.setData(tLRPC$User, spannableStringBuilder, str4, false);
+                                    manageChatUserCell22.setData(tLRPC$User, spannableStringBuilder, str3, false);
                                 }
                                 i4 -= i5;
                             }
-                            str2 = null;
+                            str = null;
                             z = false;
                             if (!z) {
                                 i3 = size3 + 1;
@@ -3999,43 +3999,43 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                             spannableStringBuilder = null;
                             i2 = i4;
                             z2 = z;
-                            str3 = null;
-                            str4 = str3;
-                            str4 = str3;
+                            str2 = null;
+                            str3 = str2;
+                            str3 = str2;
                             if (!z2) {
                             }
-                            if (str2 != null) {
+                            if (str != null) {
                             }
                             ManageChatUserCell manageChatUserCell222 = (ManageChatUserCell) viewHolder.itemView;
                             manageChatUserCell222.setTag(Integer.valueOf(i2));
-                            manageChatUserCell222.setData(tLRPC$User, spannableStringBuilder, str4, false);
+                            manageChatUserCell222.setData(tLRPC$User, spannableStringBuilder, str3, false);
                         }
                     } else {
                         TLRPC$Chat chat = ChatUsersActivity.this.getMessagesController().getChat(Long.valueOf(-peerId));
                         tLRPC$User2 = chat;
                         if (chat != null) {
-                            str = chat.username;
+                            publicUsername = ChatObject.getPublicUsername(chat);
                             tLRPC$User = chat;
                             size = this.searchAdapterHelper.getGroupSearch().size();
                             if (size != 0) {
                             }
-                            str2 = null;
+                            str = null;
                             z = false;
                             if (!z) {
                             }
                             spannableStringBuilder = null;
                             i2 = i4;
                             z2 = z;
-                            str3 = null;
-                            str4 = str3;
-                            str4 = str3;
+                            str2 = null;
+                            str3 = str2;
+                            str3 = str2;
                             if (!z2) {
                             }
-                            if (str2 != null) {
+                            if (str != null) {
                             }
                             ManageChatUserCell manageChatUserCell2222 = (ManageChatUserCell) viewHolder.itemView;
                             manageChatUserCell2222.setTag(Integer.valueOf(i2));
-                            manageChatUserCell2222.setData(tLRPC$User, spannableStringBuilder, str4, false);
+                            manageChatUserCell2222.setData(tLRPC$User, spannableStringBuilder, str3, false);
                         }
                     }
                 } else if (!(item instanceof TLRPC$ChatParticipant)) {
@@ -4044,28 +4044,28 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                     tLRPC$User2 = ChatUsersActivity.this.getMessagesController().getUser(Long.valueOf(((TLRPC$ChatParticipant) item).user_id));
                 }
             }
-            str = null;
+            publicUsername = null;
             tLRPC$User = tLRPC$User2;
             size = this.searchAdapterHelper.getGroupSearch().size();
             if (size != 0) {
             }
-            str2 = null;
+            str = null;
             z = false;
             if (!z) {
             }
             spannableStringBuilder = null;
             i2 = i4;
             z2 = z;
-            str3 = null;
-            str4 = str3;
-            str4 = str3;
+            str2 = null;
+            str3 = str2;
+            str3 = str2;
             if (!z2) {
             }
-            if (str2 != null) {
+            if (str != null) {
             }
             ManageChatUserCell manageChatUserCell22222 = (ManageChatUserCell) viewHolder.itemView;
             manageChatUserCell22222.setTag(Integer.valueOf(i2));
-            manageChatUserCell22222.setData(tLRPC$User, spannableStringBuilder, str4, false);
+            manageChatUserCell22222.setData(tLRPC$User, spannableStringBuilder, str3, false);
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter

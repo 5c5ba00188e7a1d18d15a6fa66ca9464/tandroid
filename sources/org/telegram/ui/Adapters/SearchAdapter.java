@@ -13,6 +13,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import org.telegram.PhoneFormat.PhoneFormat;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.ContactsController;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
@@ -401,7 +402,7 @@ public class SearchAdapter extends RecyclerListView.SelectionAdapter {
         } else {
             if (tLObject instanceof TLRPC$Chat) {
                 TLRPC$Chat tLRPC$Chat = (TLRPC$Chat) tLObject;
-                str = tLRPC$Chat.username;
+                str = ChatObject.getPublicUsername(tLRPC$Chat);
                 j = tLRPC$Chat.id;
             } else {
                 str = null;
