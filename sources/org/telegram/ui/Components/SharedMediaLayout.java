@@ -798,11 +798,11 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
 
         public SharedMediaPreloader(BaseFragment baseFragment) {
             this.parentFragment = baseFragment;
-            if (baseFragment instanceof ChatActivity) {
-                ChatActivity chatActivity = (ChatActivity) baseFragment;
-                this.dialogId = chatActivity.getDialogId();
-                this.mergeDialogId = chatActivity.getMergeDialogId();
-                this.topicId = chatActivity.getTopicId();
+            if (baseFragment instanceof FragmentContextView.ChatActivityInterface) {
+                FragmentContextView.ChatActivityInterface chatActivityInterface = (FragmentContextView.ChatActivityInterface) baseFragment;
+                this.dialogId = chatActivityInterface.getDialogId();
+                this.mergeDialogId = chatActivityInterface.getMergeDialogId();
+                this.topicId = chatActivityInterface.getTopicId();
             } else if (baseFragment instanceof ProfileActivity) {
                 ProfileActivity profileActivity = (ProfileActivity) baseFragment;
                 this.dialogId = profileActivity.getDialogId();
@@ -2810,6 +2810,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         if (!z || getY() == 0.0f || this.viewType != 1) {
             Bundle bundle = new Bundle();
             bundle.putLong("dialog_id", this.dialog_id);
+            bundle.putInt("topic_id", this.topicId);
             if (z && (mediaPage = getMediaPage(0)) != null) {
                 ArrayList<Period> arrayList = this.sharedMediaData[0].fastScrollPeriods;
                 Period period = null;

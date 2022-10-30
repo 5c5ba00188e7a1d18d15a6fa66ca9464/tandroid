@@ -1849,13 +1849,19 @@ public class FilterTabsView extends FrameLayout {
 
         @Override // androidx.recyclerview.widget.ItemTouchHelper.Callback
         public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+            if (MessagesController.getInstance(UserConfig.selectedAccount).premiumLocked && (!FilterTabsView.this.isEditing || (viewHolder.getAdapterPosition() == 0 && ((Tab) FilterTabsView.this.tabs.get(0)).isDefault && !UserConfig.getInstance(UserConfig.selectedAccount).isPremium()))) {
+                return ItemTouchHelper.Callback.makeMovementFlags(0, 0);
+            }
             return ItemTouchHelper.Callback.makeMovementFlags(12, 0);
         }
 
         @Override // androidx.recyclerview.widget.ItemTouchHelper.Callback
         public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder viewHolder2) {
-            FilterTabsView.this.adapter.swapElements(viewHolder.getAdapterPosition(), viewHolder2.getAdapterPosition());
-            return true;
+            if (!MessagesController.getInstance(UserConfig.selectedAccount).premiumLocked || (!(viewHolder.getAdapterPosition() == 0 || viewHolder2.getAdapterPosition() == 0) || UserConfig.getInstance(UserConfig.selectedAccount).isPremium())) {
+                FilterTabsView.this.adapter.swapElements(viewHolder.getAdapterPosition(), viewHolder2.getAdapterPosition());
+                return true;
+            }
+            return false;
         }
 
         /* JADX INFO: Access modifiers changed from: private */

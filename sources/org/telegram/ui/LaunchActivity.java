@@ -29,7 +29,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.os.PersistableBundle;
 import android.os.StatFs;
 import android.os.StrictMode;
 import android.os.SystemClock;
@@ -227,6 +226,7 @@ import org.telegram.ui.Components.EmbedBottomSheet;
 import org.telegram.ui.Components.EmojiPacksAlert;
 import org.telegram.ui.Components.FireworksOverlay;
 import org.telegram.ui.Components.FloatingDebug.FloatingDebugController;
+import org.telegram.ui.Components.Forum.ForumUtilities;
 import org.telegram.ui.Components.GroupCallPip;
 import org.telegram.ui.Components.JoinGroupAlert;
 import org.telegram.ui.Components.LayoutHelper;
@@ -1601,6 +1601,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.stickersImportComplete);
             NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.newSuggestionsAvailable);
             NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.currentUserPremiumStatusChanged);
+            NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.chatSwithcedToForum);
         }
         int i2 = UserConfig.selectedAccount;
         this.currentAccount = i2;
@@ -1621,6 +1622,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.newSuggestionsAvailable);
         NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.currentUserShowLimitReachedDialog);
         NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.currentUserPremiumStatusChanged);
+        NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.chatSwithcedToForum);
     }
 
     private void checkLayout() {
@@ -10033,8 +10035,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     }
 
     @Override // android.app.Activity
-    public void onRestoreInstanceState(Bundle bundle, PersistableBundle persistableBundle) {
-        super.onRestoreInstanceState(bundle, persistableBundle);
+    public void onRestoreInstanceState(Bundle bundle) {
+        super.onRestoreInstanceState(bundle);
         INavigationLayout iNavigationLayout = this.actionBarLayout;
         if (iNavigationLayout != null) {
             iNavigationLayout.rebuildFragments(1);
@@ -10956,6 +10958,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 this.requsetPermissionsPointer = i9;
                 this.requestedPermissions.put(i9, intValue5);
                 ActivityCompat.requestPermissions(this, strArr, this.requsetPermissionsPointer);
+            } else if (i == NotificationCenter.chatSwithcedToForum) {
+                ForumUtilities.switchAllFragmentsInStackToForum(((Long) objArr[0]).longValue(), this.actionBarLayout);
             }
         }
     }

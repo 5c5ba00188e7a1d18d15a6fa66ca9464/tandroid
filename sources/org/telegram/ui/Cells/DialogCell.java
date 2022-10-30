@@ -369,6 +369,9 @@ public class DialogCell extends BaseCell {
         if (!z) {
             this.lastStatusDrawableParams = -1;
         }
+        if (tLRPC$TL_forumTopic != null) {
+            this.groupMessages = tLRPC$TL_forumTopic.groupedMessages;
+        }
         update(0, z);
     }
 
@@ -720,7 +723,9 @@ public class DialogCell extends BaseCell {
 
     public void setPinForced(boolean z) {
         this.drawPinForced = z;
-        buildLayout();
+        if (getMeasuredWidth() > 0 && getMeasuredHeight() > 0) {
+            buildLayout();
+        }
         invalidate();
     }
 
@@ -768,74 +773,74 @@ public class DialogCell extends BaseCell {
         return Emoji.replaceEmoji(spannableStringBuilder, Theme.dialogs_messagePaint[this.paintIndex].getFontMetricsInt(), AndroidUtilities.dp(17.0f), false);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:1461:0x0546, code lost:
-        if (r2.post_messages == false) goto L652;
+    /* JADX WARN: Code restructure failed: missing block: B:1465:0x054f, code lost:
+        if (r2.post_messages == false) goto L654;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1467:0x0552, code lost:
-        if (r2.kicked != false) goto L652;
+    /* JADX WARN: Code restructure failed: missing block: B:1471:0x055b, code lost:
+        if (r2.kicked != false) goto L654;
      */
-    /* JADX WARN: Removed duplicated region for block: B:102:0x17de  */
-    /* JADX WARN: Removed duplicated region for block: B:105:0x17e7 A[Catch: Exception -> 0x1886, TryCatch #6 {Exception -> 0x1886, blocks: (B:90:0x1792, B:93:0x179c, B:95:0x17a8, B:98:0x17c2, B:100:0x17cb, B:103:0x17e1, B:105:0x17e7, B:106:0x17f3, B:108:0x180a, B:110:0x1810, B:113:0x1821, B:115:0x1825, B:116:0x1863, B:118:0x1867, B:120:0x1870, B:121:0x187a, B:521:0x1846), top: B:89:0x1792 }] */
-    /* JADX WARN: Removed duplicated region for block: B:1064:0x0f8d  */
-    /* JADX WARN: Removed duplicated region for block: B:1069:0x0f9e  */
-    /* JADX WARN: Removed duplicated region for block: B:115:0x1825 A[Catch: Exception -> 0x1886, TryCatch #6 {Exception -> 0x1886, blocks: (B:90:0x1792, B:93:0x179c, B:95:0x17a8, B:98:0x17c2, B:100:0x17cb, B:103:0x17e1, B:105:0x17e7, B:106:0x17f3, B:108:0x180a, B:110:0x1810, B:113:0x1821, B:115:0x1825, B:116:0x1863, B:118:0x1867, B:120:0x1870, B:121:0x187a, B:521:0x1846), top: B:89:0x1792 }] */
-    /* JADX WARN: Removed duplicated region for block: B:1454:0x0536  */
-    /* JADX WARN: Removed duplicated region for block: B:1464:0x054c  */
-    /* JADX WARN: Removed duplicated region for block: B:1468:0x04f9  */
-    /* JADX WARN: Removed duplicated region for block: B:1497:0x047f  */
-    /* JADX WARN: Removed duplicated region for block: B:149:0x1a60  */
-    /* JADX WARN: Removed duplicated region for block: B:152:0x1a6f  */
-    /* JADX WARN: Removed duplicated region for block: B:158:0x1a94  */
-    /* JADX WARN: Removed duplicated region for block: B:162:0x1c5e  */
-    /* JADX WARN: Removed duplicated region for block: B:191:0x1d6e  */
-    /* JADX WARN: Removed duplicated region for block: B:208:0x1df0 A[Catch: Exception -> 0x1ec0, TryCatch #0 {Exception -> 0x1ec0, blocks: (B:194:0x1d87, B:196:0x1d8b, B:199:0x1da3, B:201:0x1da9, B:203:0x1dbc, B:205:0x1dcf, B:206:0x1deb, B:208:0x1df0, B:210:0x1e04, B:212:0x1e0a, B:214:0x1e0e, B:217:0x1e1b, B:219:0x1e18, B:222:0x1e1e, B:224:0x1e22, B:227:0x1e27, B:229:0x1e2b, B:231:0x1e3d, B:232:0x1e4f, B:233:0x1e9a, B:373:0x1e67, B:376:0x1e6d, B:377:0x1e74, B:380:0x1e8a, B:384:0x1d8f, B:386:0x1d93, B:388:0x1d98), top: B:193:0x1d87 }] */
-    /* JADX WARN: Removed duplicated region for block: B:229:0x1e2b A[Catch: Exception -> 0x1ec0, TryCatch #0 {Exception -> 0x1ec0, blocks: (B:194:0x1d87, B:196:0x1d8b, B:199:0x1da3, B:201:0x1da9, B:203:0x1dbc, B:205:0x1dcf, B:206:0x1deb, B:208:0x1df0, B:210:0x1e04, B:212:0x1e0a, B:214:0x1e0e, B:217:0x1e1b, B:219:0x1e18, B:222:0x1e1e, B:224:0x1e22, B:227:0x1e27, B:229:0x1e2b, B:231:0x1e3d, B:232:0x1e4f, B:233:0x1e9a, B:373:0x1e67, B:376:0x1e6d, B:377:0x1e74, B:380:0x1e8a, B:384:0x1d8f, B:386:0x1d93, B:388:0x1d98), top: B:193:0x1d87 }] */
-    /* JADX WARN: Removed duplicated region for block: B:236:0x1ecb  */
-    /* JADX WARN: Removed duplicated region for block: B:296:0x20fd  */
-    /* JADX WARN: Removed duplicated region for block: B:301:0x210c A[Catch: Exception -> 0x214b, TryCatch #1 {Exception -> 0x214b, blocks: (B:299:0x2101, B:301:0x210c, B:302:0x210e, B:304:0x2127, B:306:0x212f, B:308:0x2133), top: B:298:0x2101 }] */
-    /* JADX WARN: Removed duplicated region for block: B:304:0x2127 A[Catch: Exception -> 0x214b, TryCatch #1 {Exception -> 0x214b, blocks: (B:299:0x2101, B:301:0x210c, B:302:0x210e, B:304:0x2127, B:306:0x212f, B:308:0x2133), top: B:298:0x2101 }] */
-    /* JADX WARN: Removed duplicated region for block: B:308:0x2133 A[Catch: Exception -> 0x214b, TRY_LEAVE, TryCatch #1 {Exception -> 0x214b, blocks: (B:299:0x2101, B:301:0x210c, B:302:0x210e, B:304:0x2127, B:306:0x212f, B:308:0x2133), top: B:298:0x2101 }] */
-    /* JADX WARN: Removed duplicated region for block: B:316:0x2153  */
-    /* JADX WARN: Removed duplicated region for block: B:331:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:332:0x204b  */
-    /* JADX WARN: Removed duplicated region for block: B:379:0x1e85  */
-    /* JADX WARN: Removed duplicated region for block: B:381:0x1e88  */
-    /* JADX WARN: Removed duplicated region for block: B:424:0x1d17 A[LOOP:8: B:422:0x1d12->B:424:0x1d17, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:425:0x1d6a A[EDGE_INSN: B:425:0x1d6a->B:189:0x1d6a ?: BREAK  , SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:431:0x1ac2  */
-    /* JADX WARN: Removed duplicated region for block: B:505:0x19d4  */
-    /* JADX WARN: Removed duplicated region for block: B:509:0x1a29  */
-    /* JADX WARN: Removed duplicated region for block: B:516:0x1a58 A[EDGE_INSN: B:516:0x1a58->B:517:0x1a58 ?: BREAK  , SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:518:0x19f2  */
-    /* JADX WARN: Removed duplicated region for block: B:521:0x1846 A[Catch: Exception -> 0x1886, TryCatch #6 {Exception -> 0x1886, blocks: (B:90:0x1792, B:93:0x179c, B:95:0x17a8, B:98:0x17c2, B:100:0x17cb, B:103:0x17e1, B:105:0x17e7, B:106:0x17f3, B:108:0x180a, B:110:0x1810, B:113:0x1821, B:115:0x1825, B:116:0x1863, B:118:0x1867, B:120:0x1870, B:121:0x187a, B:521:0x1846), top: B:89:0x1792 }] */
-    /* JADX WARN: Removed duplicated region for block: B:523:0x17e0  */
-    /* JADX WARN: Removed duplicated region for block: B:555:0x172e  */
-    /* JADX WARN: Removed duplicated region for block: B:557:0x1664  */
-    /* JADX WARN: Removed duplicated region for block: B:569:0x15fc  */
-    /* JADX WARN: Removed duplicated region for block: B:571:0x15e4  */
-    /* JADX WARN: Removed duplicated region for block: B:573:0x15a3  */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x1564  */
-    /* JADX WARN: Removed duplicated region for block: B:636:0x04cd  */
-    /* JADX WARN: Removed duplicated region for block: B:641:0x04d9  */
-    /* JADX WARN: Removed duplicated region for block: B:648:0x0513  */
-    /* JADX WARN: Removed duplicated region for block: B:655:0x0559  */
-    /* JADX WARN: Removed duplicated region for block: B:666:0x1334  */
-    /* JADX WARN: Removed duplicated region for block: B:669:0x1359  */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x15b0  */
-    /* JADX WARN: Removed duplicated region for block: B:672:0x1494  */
-    /* JADX WARN: Removed duplicated region for block: B:687:0x14e9  */
-    /* JADX WARN: Removed duplicated region for block: B:689:0x1500  */
-    /* JADX WARN: Removed duplicated region for block: B:716:0x136d  */
-    /* JADX WARN: Removed duplicated region for block: B:72:0x15e9  */
-    /* JADX WARN: Removed duplicated region for block: B:75:0x161d  */
-    /* JADX WARN: Removed duplicated region for block: B:784:0x133c  */
-    /* JADX WARN: Removed duplicated region for block: B:78:0x1636  */
-    /* JADX WARN: Removed duplicated region for block: B:794:0x05de  */
-    /* JADX WARN: Removed duplicated region for block: B:882:0x082f  */
-    /* JADX WARN: Removed duplicated region for block: B:887:0x1321  */
-    /* JADX WARN: Removed duplicated region for block: B:889:0x0836  */
-    /* JADX WARN: Removed duplicated region for block: B:92:0x179b  */
-    /* JADX WARN: Removed duplicated region for block: B:95:0x17a8 A[Catch: Exception -> 0x1886, TryCatch #6 {Exception -> 0x1886, blocks: (B:90:0x1792, B:93:0x179c, B:95:0x17a8, B:98:0x17c2, B:100:0x17cb, B:103:0x17e1, B:105:0x17e7, B:106:0x17f3, B:108:0x180a, B:110:0x1810, B:113:0x1821, B:115:0x1825, B:116:0x1863, B:118:0x1867, B:120:0x1870, B:121:0x187a, B:521:0x1846), top: B:89:0x1792 }] */
+    /* JADX WARN: Removed duplicated region for block: B:104:0x17f1  */
+    /* JADX WARN: Removed duplicated region for block: B:1068:0x0fa0  */
+    /* JADX WARN: Removed duplicated region for block: B:1073:0x0fb1  */
+    /* JADX WARN: Removed duplicated region for block: B:107:0x17fa A[Catch: Exception -> 0x1899, TryCatch #5 {Exception -> 0x1899, blocks: (B:92:0x17a5, B:95:0x17af, B:97:0x17bb, B:100:0x17d5, B:102:0x17de, B:105:0x17f4, B:107:0x17fa, B:108:0x1806, B:110:0x181d, B:112:0x1823, B:115:0x1834, B:117:0x1838, B:118:0x1876, B:120:0x187a, B:122:0x1883, B:123:0x188d, B:523:0x1859), top: B:91:0x17a5 }] */
+    /* JADX WARN: Removed duplicated region for block: B:117:0x1838 A[Catch: Exception -> 0x1899, TryCatch #5 {Exception -> 0x1899, blocks: (B:92:0x17a5, B:95:0x17af, B:97:0x17bb, B:100:0x17d5, B:102:0x17de, B:105:0x17f4, B:107:0x17fa, B:108:0x1806, B:110:0x181d, B:112:0x1823, B:115:0x1834, B:117:0x1838, B:118:0x1876, B:120:0x187a, B:122:0x1883, B:123:0x188d, B:523:0x1859), top: B:91:0x17a5 }] */
+    /* JADX WARN: Removed duplicated region for block: B:1458:0x053f  */
+    /* JADX WARN: Removed duplicated region for block: B:1468:0x0555  */
+    /* JADX WARN: Removed duplicated region for block: B:1472:0x0502  */
+    /* JADX WARN: Removed duplicated region for block: B:1501:0x0488  */
+    /* JADX WARN: Removed duplicated region for block: B:151:0x1a73  */
+    /* JADX WARN: Removed duplicated region for block: B:154:0x1a82  */
+    /* JADX WARN: Removed duplicated region for block: B:160:0x1aa7  */
+    /* JADX WARN: Removed duplicated region for block: B:164:0x1c71  */
+    /* JADX WARN: Removed duplicated region for block: B:193:0x1d81  */
+    /* JADX WARN: Removed duplicated region for block: B:210:0x1e03 A[Catch: Exception -> 0x1ed3, TryCatch #6 {Exception -> 0x1ed3, blocks: (B:196:0x1d9a, B:198:0x1d9e, B:201:0x1db6, B:203:0x1dbc, B:205:0x1dcf, B:207:0x1de2, B:208:0x1dfe, B:210:0x1e03, B:212:0x1e17, B:214:0x1e1d, B:216:0x1e21, B:219:0x1e2e, B:221:0x1e2b, B:224:0x1e31, B:226:0x1e35, B:229:0x1e3a, B:231:0x1e3e, B:233:0x1e50, B:234:0x1e62, B:235:0x1ead, B:375:0x1e7a, B:378:0x1e80, B:379:0x1e87, B:382:0x1e9d, B:386:0x1da2, B:388:0x1da6, B:390:0x1dab), top: B:195:0x1d9a }] */
+    /* JADX WARN: Removed duplicated region for block: B:231:0x1e3e A[Catch: Exception -> 0x1ed3, TryCatch #6 {Exception -> 0x1ed3, blocks: (B:196:0x1d9a, B:198:0x1d9e, B:201:0x1db6, B:203:0x1dbc, B:205:0x1dcf, B:207:0x1de2, B:208:0x1dfe, B:210:0x1e03, B:212:0x1e17, B:214:0x1e1d, B:216:0x1e21, B:219:0x1e2e, B:221:0x1e2b, B:224:0x1e31, B:226:0x1e35, B:229:0x1e3a, B:231:0x1e3e, B:233:0x1e50, B:234:0x1e62, B:235:0x1ead, B:375:0x1e7a, B:378:0x1e80, B:379:0x1e87, B:382:0x1e9d, B:386:0x1da2, B:388:0x1da6, B:390:0x1dab), top: B:195:0x1d9a }] */
+    /* JADX WARN: Removed duplicated region for block: B:238:0x1ede  */
+    /* JADX WARN: Removed duplicated region for block: B:298:0x2110  */
+    /* JADX WARN: Removed duplicated region for block: B:303:0x211f A[Catch: Exception -> 0x215e, TryCatch #0 {Exception -> 0x215e, blocks: (B:301:0x2114, B:303:0x211f, B:304:0x2121, B:306:0x213a, B:308:0x2142, B:310:0x2146), top: B:300:0x2114 }] */
+    /* JADX WARN: Removed duplicated region for block: B:306:0x213a A[Catch: Exception -> 0x215e, TryCatch #0 {Exception -> 0x215e, blocks: (B:301:0x2114, B:303:0x211f, B:304:0x2121, B:306:0x213a, B:308:0x2142, B:310:0x2146), top: B:300:0x2114 }] */
+    /* JADX WARN: Removed duplicated region for block: B:310:0x2146 A[Catch: Exception -> 0x215e, TRY_LEAVE, TryCatch #0 {Exception -> 0x215e, blocks: (B:301:0x2114, B:303:0x211f, B:304:0x2121, B:306:0x213a, B:308:0x2142, B:310:0x2146), top: B:300:0x2114 }] */
+    /* JADX WARN: Removed duplicated region for block: B:318:0x2166  */
+    /* JADX WARN: Removed duplicated region for block: B:333:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:334:0x205e  */
+    /* JADX WARN: Removed duplicated region for block: B:381:0x1e98  */
+    /* JADX WARN: Removed duplicated region for block: B:383:0x1e9b  */
+    /* JADX WARN: Removed duplicated region for block: B:426:0x1d2a A[LOOP:8: B:424:0x1d25->B:426:0x1d2a, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:427:0x1d7d A[EDGE_INSN: B:427:0x1d7d->B:191:0x1d7d ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:433:0x1ad5  */
+    /* JADX WARN: Removed duplicated region for block: B:507:0x19e7  */
+    /* JADX WARN: Removed duplicated region for block: B:511:0x1a3c  */
+    /* JADX WARN: Removed duplicated region for block: B:518:0x1a6b A[EDGE_INSN: B:518:0x1a6b->B:519:0x1a6b ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:520:0x1a05  */
+    /* JADX WARN: Removed duplicated region for block: B:523:0x1859 A[Catch: Exception -> 0x1899, TryCatch #5 {Exception -> 0x1899, blocks: (B:92:0x17a5, B:95:0x17af, B:97:0x17bb, B:100:0x17d5, B:102:0x17de, B:105:0x17f4, B:107:0x17fa, B:108:0x1806, B:110:0x181d, B:112:0x1823, B:115:0x1834, B:117:0x1838, B:118:0x1876, B:120:0x187a, B:122:0x1883, B:123:0x188d, B:523:0x1859), top: B:91:0x17a5 }] */
+    /* JADX WARN: Removed duplicated region for block: B:525:0x17f3  */
+    /* JADX WARN: Removed duplicated region for block: B:557:0x1741  */
+    /* JADX WARN: Removed duplicated region for block: B:559:0x1677  */
+    /* JADX WARN: Removed duplicated region for block: B:571:0x160f  */
+    /* JADX WARN: Removed duplicated region for block: B:573:0x15f7  */
+    /* JADX WARN: Removed duplicated region for block: B:575:0x15b6  */
+    /* JADX WARN: Removed duplicated region for block: B:638:0x04d6  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x1577  */
+    /* JADX WARN: Removed duplicated region for block: B:643:0x04e2  */
+    /* JADX WARN: Removed duplicated region for block: B:650:0x051c  */
+    /* JADX WARN: Removed duplicated region for block: B:657:0x0562  */
+    /* JADX WARN: Removed duplicated region for block: B:668:0x1347  */
+    /* JADX WARN: Removed duplicated region for block: B:671:0x136c  */
+    /* JADX WARN: Removed duplicated region for block: B:674:0x14a7  */
+    /* JADX WARN: Removed duplicated region for block: B:689:0x14fc  */
+    /* JADX WARN: Removed duplicated region for block: B:68:0x15c3  */
+    /* JADX WARN: Removed duplicated region for block: B:691:0x1513  */
+    /* JADX WARN: Removed duplicated region for block: B:718:0x1380  */
+    /* JADX WARN: Removed duplicated region for block: B:74:0x15fc  */
+    /* JADX WARN: Removed duplicated region for block: B:77:0x1630  */
+    /* JADX WARN: Removed duplicated region for block: B:786:0x134f  */
+    /* JADX WARN: Removed duplicated region for block: B:796:0x05eb  */
+    /* JADX WARN: Removed duplicated region for block: B:80:0x1649  */
+    /* JADX WARN: Removed duplicated region for block: B:884:0x083c  */
+    /* JADX WARN: Removed duplicated region for block: B:889:0x1334  */
+    /* JADX WARN: Removed duplicated region for block: B:891:0x0843  */
+    /* JADX WARN: Removed duplicated region for block: B:94:0x17ae  */
+    /* JADX WARN: Removed duplicated region for block: B:97:0x17bb A[Catch: Exception -> 0x1899, TryCatch #5 {Exception -> 0x1899, blocks: (B:92:0x17a5, B:95:0x17af, B:97:0x17bb, B:100:0x17d5, B:102:0x17de, B:105:0x17f4, B:107:0x17fa, B:108:0x1806, B:110:0x181d, B:112:0x1823, B:115:0x1834, B:117:0x1838, B:118:0x1876, B:120:0x187a, B:122:0x1883, B:123:0x188d, B:523:0x1859), top: B:91:0x17a5 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -991,7 +996,7 @@ public class DialogCell extends BaseCell {
             i = 19;
         }
         this.currentDialogFolderDialogsCount = 0;
-        CharSequence printingString = this.isDialogCell ? MessagesController.getInstance(this.currentAccount).getPrintingString(this.currentDialogId, 0, true) : null;
+        CharSequence printingString = (this.isDialogCell || this.isTopic) ? MessagesController.getInstance(this.currentAccount).getPrintingString(this.currentDialogId, getTopicId(), true) : null;
         TextPaint textPaint5 = Theme.dialogs_messagePaint[this.paintIndex];
         this.drawNameLock = false;
         this.drawVerified = false;
@@ -1248,7 +1253,7 @@ public class DialogCell extends BaseCell {
                                     }
                                     if (printingString == null) {
                                         this.lastPrintString = printingString;
-                                        int intValue = MessagesController.getInstance(this.currentAccount).getPrintingStringType(this.currentDialogId, 0).intValue();
+                                        int intValue = MessagesController.getInstance(this.currentAccount).getPrintingStringType(this.currentDialogId, getTopicId()).intValue();
                                         this.printingStringType = intValue;
                                         StatusDrawable chatStatusDrawable = Theme.getChatStatusDrawable(intValue);
                                         int intrinsicWidth = chatStatusDrawable != null ? chatStatusDrawable.getIntrinsicWidth() + AndroidUtilities.dp(3.0f) : 0;
@@ -1427,7 +1432,8 @@ public class DialogCell extends BaseCell {
                                                                                     textPaint5 = Theme.dialogs_messagePrintingPaint[this.paintIndex];
                                                                                     charSequence2 = charSequence26;
                                                                                 } else {
-                                                                                    if (this.groupMessages != null && TextUtils.isEmpty(restrictionReason) && this.currentDialogFolderId == 0 && this.encryptedChat == null) {
+                                                                                    ArrayList<MessageObject> arrayList3 = this.groupMessages;
+                                                                                    if (arrayList3 != null && arrayList3.size() > 1 && TextUtils.isEmpty(restrictionReason) && this.currentDialogFolderId == 0 && this.encryptedChat == null) {
                                                                                         this.thumbsCount = 0;
                                                                                         this.hasVideoThumb = false;
                                                                                         Collections.sort(this.groupMessages, DialogCell$$ExternalSyntheticLambda3.INSTANCE);
@@ -1602,11 +1608,11 @@ public class DialogCell extends BaseCell {
                                                                                                         charSequence7 = Build.VERSION.SDK_INT >= 18 ? String.format("🎧 \u2068%s - %s\u2069", messageObject14.getMusicAuthor(), this.message.getMusicTitle()) : String.format("🎧 %s - %s", messageObject14.getMusicAuthor(), this.message.getMusicTitle());
                                                                                                     } else if (this.thumbsCount > 1) {
                                                                                                         if (this.hasVideoThumb) {
-                                                                                                            ArrayList<MessageObject> arrayList3 = this.groupMessages;
-                                                                                                            charSequence7 = LocaleController.formatPluralString("Media", arrayList3 == null ? 0 : arrayList3.size(), new Object[0]);
-                                                                                                        } else {
                                                                                                             ArrayList<MessageObject> arrayList4 = this.groupMessages;
-                                                                                                            charSequence7 = LocaleController.formatPluralString("Photos", arrayList4 == null ? 0 : arrayList4.size(), new Object[0]);
+                                                                                                            charSequence7 = LocaleController.formatPluralString("Media", arrayList4 == null ? 0 : arrayList4.size(), new Object[0]);
+                                                                                                        } else {
+                                                                                                            ArrayList<MessageObject> arrayList5 = this.groupMessages;
+                                                                                                            charSequence7 = LocaleController.formatPluralString("Photos", arrayList5 == null ? 0 : arrayList5.size(), new Object[0]);
                                                                                                         }
                                                                                                         str21 = "chats_actionMessage";
                                                                                                     } else {
@@ -1981,11 +1987,11 @@ public class DialogCell extends BaseCell {
                                                                                                     }
                                                                                                 } else if (this.thumbsCount > 1) {
                                                                                                     if (this.hasVideoThumb) {
-                                                                                                        ArrayList<MessageObject> arrayList5 = this.groupMessages;
-                                                                                                        formatPluralString = LocaleController.formatPluralString("Media", arrayList5 == null ? 0 : arrayList5.size(), new Object[0]);
-                                                                                                    } else {
                                                                                                         ArrayList<MessageObject> arrayList6 = this.groupMessages;
-                                                                                                        formatPluralString = LocaleController.formatPluralString("Photos", arrayList6 == null ? 0 : arrayList6.size(), new Object[0]);
+                                                                                                        formatPluralString = LocaleController.formatPluralString("Media", arrayList6 == null ? 0 : arrayList6.size(), new Object[0]);
+                                                                                                    } else {
+                                                                                                        ArrayList<MessageObject> arrayList7 = this.groupMessages;
+                                                                                                        formatPluralString = LocaleController.formatPluralString("Photos", arrayList7 == null ? 0 : arrayList7.size(), new Object[0]);
                                                                                                     }
                                                                                                     textPaint5 = Theme.dialogs_messagePrintingPaint[this.paintIndex];
                                                                                                     charSequence35 = formatPluralString;
@@ -3325,15 +3331,15 @@ public class DialogCell extends BaseCell {
         update(i, true);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:270:0x0559, code lost:
-        if ((java.lang.System.currentTimeMillis() - r26.lastDialogChangedTime) > 100) goto L299;
+    /* JADX WARN: Code restructure failed: missing block: B:272:0x0561, code lost:
+        if ((java.lang.System.currentTimeMillis() - r26.lastDialogChangedTime) > 100) goto L301;
      */
-    /* JADX WARN: Removed duplicated region for block: B:148:0x0291  */
-    /* JADX WARN: Removed duplicated region for block: B:175:0x02c8  */
-    /* JADX WARN: Removed duplicated region for block: B:218:0x0380  */
-    /* JADX WARN: Removed duplicated region for block: B:220:0x0385  */
-    /* JADX WARN: Removed duplicated region for block: B:274:0x06a6  */
-    /* JADX WARN: Removed duplicated region for block: B:298:0x06a8  */
+    /* JADX WARN: Removed duplicated region for block: B:145:0x0299  */
+    /* JADX WARN: Removed duplicated region for block: B:172:0x02d0  */
+    /* JADX WARN: Removed duplicated region for block: B:215:0x0388  */
+    /* JADX WARN: Removed duplicated region for block: B:217:0x038d  */
+    /* JADX WARN: Removed duplicated region for block: B:276:0x06ae  */
+    /* JADX WARN: Removed duplicated region for block: B:300:0x06b0  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -3466,8 +3472,8 @@ public class DialogCell extends BaseCell {
                     }
                     invalidate();
                 }
-                if (this.isDialogCell && (i & MessagesController.UPDATE_MASK_USER_PRINT) != 0) {
-                    CharSequence printingString = MessagesController.getInstance(this.currentAccount).getPrintingString(this.currentDialogId, 0, true);
+                if ((this.isDialogCell || this.isTopic) && (i & MessagesController.UPDATE_MASK_USER_PRINT) != 0) {
+                    CharSequence printingString = MessagesController.getInstance(this.currentAccount).getPrintingString(this.currentDialogId, getTopicId(), true);
                     CharSequence charSequence = this.lastPrintString;
                     if ((charSequence != null && printingString == null) || ((charSequence == null && printingString != null) || (charSequence != null && !charSequence.equals(printingString)))) {
                         z3 = true;

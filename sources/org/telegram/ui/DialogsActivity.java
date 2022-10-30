@@ -287,6 +287,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     private RadialProgressView floatingProgressView;
     private boolean floatingProgressVisible;
     private int folderId;
+    private int forumCount;
     private FragmentContextView fragmentContextView;
     private FragmentContextView fragmentLocationContextView;
     private ArrayList<TLRPC$Dialog> frozenDialogsList;
@@ -3691,13 +3692,15 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
         @Override // org.telegram.ui.Components.FilterTabsView
         protected void onDefaultTabMoved() {
-            DialogsActivity dialogsActivity = DialogsActivity.this;
-            dialogsActivity.topBulletin = BulletinFactory.of(dialogsActivity).createSimpleBulletin(R.raw.filter_reorder, AndroidUtilities.replaceTags(LocaleController.formatString("LimitReachedReorderFolder", R.string.LimitReachedReorderFolder, LocaleController.getString(R.string.FilterAllChats))), LocaleController.getString("PremiumMore", R.string.PremiumMore), 5000, new Runnable() { // from class: org.telegram.ui.DialogsActivity$6$$ExternalSyntheticLambda0
-                @Override // java.lang.Runnable
-                public final void run() {
-                    DialogsActivity.6.this.lambda$onDefaultTabMoved$0();
-                }
-            }).show(true);
+            if (!DialogsActivity.this.getMessagesController().premiumLocked) {
+                DialogsActivity dialogsActivity = DialogsActivity.this;
+                dialogsActivity.topBulletin = BulletinFactory.of(dialogsActivity).createSimpleBulletin(R.raw.filter_reorder, AndroidUtilities.replaceTags(LocaleController.formatString("LimitReachedReorderFolder", R.string.LimitReachedReorderFolder, LocaleController.getString(R.string.FilterAllChats))), LocaleController.getString("PremiumMore", R.string.PremiumMore), 5000, new Runnable() { // from class: org.telegram.ui.DialogsActivity$6$$ExternalSyntheticLambda0
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        DialogsActivity.6.this.lambda$onDefaultTabMoved$0();
+                    }
+                }).show(true);
+            }
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -7717,8 +7720,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         hideActionMode(true);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:33:0x00b1  */
-    /* JADX WARN: Removed duplicated region for block: B:36:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:33:0x009e  */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x00c2  */
+    /* JADX WARN: Removed duplicated region for block: B:39:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -7749,6 +7753,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     setDialogsListFrozen(false, false);
                 }
                 i = i2;
+                if (getMessagesController().isForum(j)) {
+                    getMessagesController().markAllTopicsAsRead(j);
+                }
                 getMessagesController().markMentionsAsRead(j, 0);
                 MessagesController messagesController = getMessagesController();
                 int i4 = tLRPC$Dialog.top_message;
@@ -7764,6 +7771,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             }
         }
         i = -1;
+        if (getMessagesController().isForum(j)) {
+        }
         getMessagesController().markMentionsAsRead(j, 0);
         MessagesController messagesController2 = getMessagesController();
         int i42 = tLRPC$Dialog.top_message;
@@ -7934,6 +7943,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         this.canMuteCount = 0;
         this.canPinCount = 0;
         this.canReadCount = 0;
+        this.forumCount = 0;
         this.canClearCacheCount = 0;
         this.canReportSpamCount = 0;
         if (z) {
@@ -7958,7 +7968,12 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 boolean isDialogPinned = isDialogPinned(tLRPC$Dialog);
                 i2 = size;
                 boolean z2 = tLRPC$Dialog.unread_count != 0 || tLRPC$Dialog.unread_mark;
-                i3 = i5;
+                if (getMessagesController().isForum(j)) {
+                    i3 = i5;
+                    this.forumCount++;
+                } else {
+                    i3 = i5;
+                }
                 if (getMessagesController().isDialogMuted(j, 0)) {
                     i4 = 1;
                     this.canUnmuteCount++;
@@ -8126,8 +8141,12 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         }
         if (this.canReadCount != 0) {
             this.readItem.setTextAndIcon(LocaleController.getString("MarkAsRead", R.string.MarkAsRead), R.drawable.msg_markread);
-        } else {
+            this.readItem.setVisibility(0);
+        } else if (this.forumCount == 0) {
             this.readItem.setTextAndIcon(LocaleController.getString("MarkAsUnread", R.string.MarkAsUnread), R.drawable.msg_markunread);
+            this.readItem.setVisibility(0);
+        } else {
+            this.readItem.setVisibility(8);
         }
         if (this.canPinCount != 0) {
             this.pinItem.setIcon(R.drawable.msg_pin);

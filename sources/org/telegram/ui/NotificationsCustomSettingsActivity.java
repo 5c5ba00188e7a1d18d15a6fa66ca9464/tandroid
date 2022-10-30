@@ -1309,16 +1309,16 @@ public class NotificationsCustomSettingsActivity extends BaseFragment implements
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* JADX WARN: Code restructure failed: missing block: B:39:0x0169, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:39:0x016b, code lost:
             if (r10[r5].contains(" " + r15) == false) goto L40;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:44:0x0189, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:44:0x018b, code lost:
             if (r6.contains(" " + r15) != false) goto L63;
          */
-        /* JADX WARN: Removed duplicated region for block: B:29:0x0130  */
-        /* JADX WARN: Removed duplicated region for block: B:34:0x0140  */
-        /* JADX WARN: Removed duplicated region for block: B:51:0x01e0 A[LOOP:1: B:33:0x013e->B:51:0x01e0, LOOP_END] */
-        /* JADX WARN: Removed duplicated region for block: B:52:0x01a1 A[SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:29:0x0132  */
+        /* JADX WARN: Removed duplicated region for block: B:34:0x0142  */
+        /* JADX WARN: Removed duplicated region for block: B:51:0x01e2 A[LOOP:1: B:33:0x0140->B:51:0x01e2, LOOP_END] */
+        /* JADX WARN: Removed duplicated region for block: B:52:0x01a3 A[SYNTHETIC] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -1438,7 +1438,7 @@ public class NotificationsCustomSettingsActivity extends BaseFragment implements
                             if (!chat.left && !chat.kicked && chat.migrated_to == null) {
                                 c = 0;
                                 strArr3[0] = chat.title;
-                                strArr3[1] = chat.username;
+                                strArr3[1] = ChatObject.getPublicUsername(chat);
                                 tLRPC$User = chat;
                                 String str22 = strArr3[c];
                                 strArr3[c] = strArr3[c].toLowerCase();

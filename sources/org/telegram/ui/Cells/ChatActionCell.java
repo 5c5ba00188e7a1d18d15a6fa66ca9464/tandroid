@@ -586,6 +586,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
                 i = 8;
             }
             view.setVisibility(i);
+            ForumUtilities.applyTopicToMessage(messageObject);
             requestLayout();
         }
     }

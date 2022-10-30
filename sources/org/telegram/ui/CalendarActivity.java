@@ -141,6 +141,7 @@ public class CalendarActivity extends BaseFragment {
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public boolean onFragmentCreate() {
         this.dialogId = getArguments().getLong("dialog_id");
+        getArguments().getInt("topic_id");
         this.calendarType = getArguments().getInt("type");
         if (this.dialogId >= 0) {
             this.canClearHistory = true;
@@ -657,6 +658,9 @@ public class CalendarActivity extends BaseFragment {
                 PeriodDay dayAtCoord;
                 MessageObject messageObject;
                 Callback callback;
+                if (((BaseFragment) CalendarActivity.this).parentLayout == null) {
+                    return false;
+                }
                 if (CalendarActivity.this.calendarType == 1 && MonthView.this.messagesByDays != null && (dayAtCoord = getDayAtCoord(motionEvent.getX(), motionEvent.getY())) != null && (messageObject = dayAtCoord.messageObject) != null && (callback = CalendarActivity.this.callback) != null) {
                     callback.onDateSelected(messageObject.getId(), dayAtCoord.startOffset);
                     CalendarActivity.this.finishFragment();

@@ -17423,7 +17423,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                         }
                                     }
                                     if (chatActivity2 != null) {
-                                        chatActivity2.lambda$openDiscussionMessageChat$235(PhotoViewer.this.animationEndRunnable);
+                                        chatActivity2.lambda$openDiscussionMessageChat$234(PhotoViewer.this.animationEndRunnable);
                                         return;
                                     }
                                     PhotoViewer.this.animationEndRunnable.run();
