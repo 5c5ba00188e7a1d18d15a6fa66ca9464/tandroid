@@ -10709,9 +10709,9 @@ public class MessagesStorage extends BaseController {
                 SQLitePreparedStatement executeFast4 = this.database.executeFast("UPDATE dialogs SET unread_count_i = ? WHERE did = ?");
                 int i16 = 0;
                 while (i16 < longSparseIntArray7.size()) {
-                    long keyAt4 = longSparseIntArray6.keyAt(i16);
+                    long keyAt4 = longSparseIntArray7.keyAt(i16);
                     if (isForum(keyAt4)) {
-                        longSparseIntArray6.removeAt(i16);
+                        longSparseIntArray7.removeAt(i16);
                         i16--;
                         i2 = 1;
                     } else {
