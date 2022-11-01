@@ -2,7 +2,6 @@ package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_messageActionTopicCreate extends TLRPC$MessageAction {
     public static int constructor = 228168278;
-    public int flags;
     public int icon_color;
     public long icon_emoji_id;
 

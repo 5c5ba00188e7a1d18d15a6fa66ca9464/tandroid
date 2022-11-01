@@ -21,6 +21,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
+import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.TopicsController;
 import org.telegram.messenger.UserConfig;
@@ -56,6 +57,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.LetterDrawable;
 import org.telegram.ui.Components.Premium.PremiumFeatureBottomSheet;
 import org.telegram.ui.Components.ReplaceableIconDrawable;
+import org.telegram.ui.Components.SizeNotifierFrameLayout;
 import org.telegram.ui.TopicCreateFragment;
 /* loaded from: classes3.dex */
 public class TopicCreateFragment extends BaseFragment {
@@ -118,14 +120,30 @@ public class TopicCreateFragment extends BaseFragment {
         } else {
             this.actionBar.createMenu().addItem(2, R.drawable.ic_ab_done);
         }
-        FrameLayout frameLayout = new FrameLayout(context);
-        this.fragmentView = frameLayout;
+        SizeNotifierFrameLayout sizeNotifierFrameLayout = new SizeNotifierFrameLayout(this, context) { // from class: org.telegram.ui.TopicCreateFragment.2
+            boolean keyboardWasShown;
+
+            @Override // android.widget.FrameLayout, android.view.View
+            protected void onMeasure(int i, int i2) {
+                measureKeyboardHeight();
+                if (getKeyboardHeight() == 0 && !this.keyboardWasShown) {
+                    int i3 = MessagesController.getGlobalEmojiSettings().getInt("kbd_height", AndroidUtilities.dp(200.0f));
+                    this.keyboardHeight = i3;
+                    setPadding(0, 0, 0, i3);
+                } else {
+                    this.keyboardWasShown = true;
+                    setPadding(0, 0, 0, 0);
+                }
+                super.onMeasure(i, i2);
+            }
+        };
+        this.fragmentView = sizeNotifierFrameLayout;
         LinearLayout linearLayout = new LinearLayout(context);
         linearLayout.setOrientation(1);
-        frameLayout.addView(linearLayout);
+        sizeNotifierFrameLayout.addView(linearLayout);
         HeaderCell headerCell = new HeaderCell(context);
         headerCell.setText(LocaleController.getString("CreateTopicTitle", R.string.CreateTopicTitle));
-        FrameLayout frameLayout2 = new FrameLayout(context);
+        FrameLayout frameLayout = new FrameLayout(context);
         EditTextBoldCursor editTextBoldCursor = new EditTextBoldCursor(context);
         this.editTextBoldCursor = editTextBoldCursor;
         editTextBoldCursor.setHintText(LocaleController.getString("EnterTopicName", R.string.EnterTopicName));
@@ -136,8 +154,8 @@ public class TopicCreateFragment extends BaseFragment {
         this.editTextBoldCursor.setSingleLine(true);
         EditTextBoldCursor editTextBoldCursor2 = this.editTextBoldCursor;
         editTextBoldCursor2.setInputType(editTextBoldCursor2.getInputType() | 16384);
-        frameLayout2.addView(this.editTextBoldCursor, LayoutHelper.createFrame(-1, -1.0f, 0, 51.0f, 4.0f, 21.0f, 4.0f));
-        this.editTextBoldCursor.addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.TopicCreateFragment.2
+        frameLayout.addView(this.editTextBoldCursor, LayoutHelper.createFrame(-1, -1.0f, 0, 51.0f, 4.0f, 21.0f, 4.0f));
+        this.editTextBoldCursor.addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.TopicCreateFragment.3
             @Override // android.text.TextWatcher
             public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
             }
@@ -162,7 +180,7 @@ public class TopicCreateFragment extends BaseFragment {
                 }
             }
         });
-        3 r3 = new 3(this, context);
+        4 r3 = new 4(this, context);
         r3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.TopicCreateFragment$$ExternalSyntheticLambda0
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
@@ -173,15 +191,15 @@ public class TopicCreateFragment extends BaseFragment {
             this.backupImageView[i] = new BackupImageView(context);
             r3.addView(this.backupImageView[i], LayoutHelper.createFrame(28, 28, 17));
         }
-        frameLayout2.addView(r3, LayoutHelper.createFrame(40, 40.0f, 16, 10.0f, 0.0f, 0.0f, 0.0f));
+        frameLayout.addView(r3, LayoutHelper.createFrame(40, 40.0f, 16, 10.0f, 0.0f, 0.0f, 0.0f));
         linearLayout.addView(headerCell);
-        linearLayout.addView(frameLayout2);
-        FrameLayout frameLayout3 = new FrameLayout(context);
+        linearLayout.addView(frameLayout);
+        FrameLayout frameLayout2 = new FrameLayout(context);
         CombinedDrawable combinedDrawable = new CombinedDrawable(new ColorDrawable(Theme.getColor("windowBackgroundGray")), Theme.getThemedDrawable(context, R.drawable.greydivider_top, Theme.getColor("windowBackgroundGrayShadow")), 0, 0);
         combinedDrawable.setFullsize(true);
-        frameLayout3.setBackgroundDrawable(combinedDrawable);
-        frameLayout3.setClipChildren(false);
-        SelectAnimatedEmojiDialog selectAnimatedEmojiDialog = new SelectAnimatedEmojiDialog(this, getContext(), false, null, 3, null) { // from class: org.telegram.ui.TopicCreateFragment.4
+        frameLayout2.setBackgroundDrawable(combinedDrawable);
+        frameLayout2.setClipChildren(false);
+        SelectAnimatedEmojiDialog selectAnimatedEmojiDialog = new SelectAnimatedEmojiDialog(this, getContext(), false, null, 3, null) { // from class: org.telegram.ui.TopicCreateFragment.5
             private boolean firstLayout = true;
 
             @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
@@ -208,8 +226,8 @@ public class TopicCreateFragment extends BaseFragment {
         this.selectAnimatedEmojiDialog = selectAnimatedEmojiDialog;
         selectAnimatedEmojiDialog.setAnimationsEnabled(this.fragmentBeginToShow);
         this.selectAnimatedEmojiDialog.setClipChildren(false);
-        frameLayout3.addView(this.selectAnimatedEmojiDialog, LayoutHelper.createFrame(-1, -1.0f, 0, 12.0f, 12.0f, 12.0f, 12.0f));
-        linearLayout.addView(frameLayout3, LayoutHelper.createFrame(-1, -1.0f));
+        frameLayout2.addView(this.selectAnimatedEmojiDialog, LayoutHelper.createFrame(-1, -1.0f, 0, 12.0f, 12.0f, 12.0f, 12.0f));
+        linearLayout.addView(frameLayout2, LayoutHelper.createFrame(-1, -1.0f));
         Drawable createTopicDrawable = ForumUtilities.createTopicDrawable("", this.iconColor);
         this.forumBubbleDrawable = (ForumBubbleDrawable) ((CombinedDrawable) createTopicDrawable).getBackgroundDrawable();
         this.replaceableIconDrawable = new ReplaceableIconDrawable(context);
@@ -402,12 +420,12 @@ public class TopicCreateFragment extends BaseFragment {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes3.dex */
-    public class 3 extends FrameLayout {
+    public class 4 extends FrameLayout {
         ValueAnimator backAnimator;
         boolean pressed;
         float pressedProgress;
 
-        3(TopicCreateFragment topicCreateFragment, Context context) {
+        4(TopicCreateFragment topicCreateFragment, Context context) {
             super(context);
         }
 
@@ -441,17 +459,17 @@ public class TopicCreateFragment extends BaseFragment {
                 }
                 ValueAnimator ofFloat = ValueAnimator.ofFloat(f, 0.0f);
                 this.backAnimator = ofFloat;
-                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.TopicCreateFragment$3$$ExternalSyntheticLambda0
+                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.TopicCreateFragment$4$$ExternalSyntheticLambda0
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                     public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                        TopicCreateFragment.3.this.lambda$setPressed$0(valueAnimator2);
+                        TopicCreateFragment.4.this.lambda$setPressed$0(valueAnimator2);
                     }
                 });
-                this.backAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.TopicCreateFragment.3.1
+                this.backAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.TopicCreateFragment.4.1
                     @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                     public void onAnimationEnd(Animator animator) {
                         super.onAnimationEnd(animator);
-                        3.this.backAnimator = null;
+                        4.this.backAnimator = null;
                     }
                 });
                 this.backAnimator.setInterpolator(new OvershootInterpolator(5.0f));

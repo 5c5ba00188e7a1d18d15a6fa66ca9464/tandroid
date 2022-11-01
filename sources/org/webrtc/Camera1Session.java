@@ -13,7 +13,7 @@ import org.webrtc.CameraEnumerationAndroid;
 import org.webrtc.CameraSession;
 import org.webrtc.VideoSink;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public class Camera1Session implements CameraSession {
     private static final int NUMBER_OF_CAPTURE_BUFFERS = 3;
     private static final String TAG = "Camera1Session";
@@ -35,7 +35,7 @@ public class Camera1Session implements CameraSession {
     private OrientationHelper orientationHelper = new OrientationHelper();
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public enum SessionState {
         RUNNING,
         STOPPED
@@ -232,7 +232,7 @@ public class Camera1Session implements CameraSession {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public class 2 implements Camera.PreviewCallback {
         2() {
         }

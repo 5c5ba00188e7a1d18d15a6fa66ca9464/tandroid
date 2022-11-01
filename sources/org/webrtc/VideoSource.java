@@ -2,7 +2,7 @@ package org.webrtc;
 
 import org.webrtc.VideoProcessor;
 import org.webrtc.VideoSink;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public class VideoSource extends MediaSource {
     private boolean isCapturerRunning;
     private final NativeAndroidVideoTrackSource nativeAndroidVideoTrackSource;
@@ -49,7 +49,7 @@ public class VideoSource extends MediaSource {
         }
     };
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public static class AspectRatio {
         public static final AspectRatio UNDEFINED = new AspectRatio(0, 0);
         public final int height;

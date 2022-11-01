@@ -50,6 +50,7 @@ import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.SvgHelper;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
+import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$ChatFull;
 import org.telegram.tgnet.TLRPC$ChatReactions;
@@ -156,7 +157,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         this.resourcesProvider = resourcesProvider;
         this.currentAccount = i;
         this.fragment = baseFragment;
-        ReactionHolderView reactionHolderView = new ReactionHolderView(context);
+        ReactionHolderView reactionHolderView = new ReactionHolderView(context, false);
         this.nextRecentReaction = reactionHolderView;
         reactionHolderView.setVisibility(8);
         ReactionHolderView reactionHolderView2 = this.nextRecentReaction;
@@ -384,7 +385,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                 });
                 view = ReactionsContainerLayout.this.premiumLockContainer;
             } else if (i != 2) {
-                view = new ReactionHolderView(this.val$context);
+                view = new ReactionHolderView(this.val$context, true);
             } else {
                 ReactionsContainerLayout.this.customReactionsContainer = new CustomReactionsContainer(this.val$context);
                 ReactionsContainerLayout.this.customEmojiReactionsIconView = new InternalImageView(this.val$context);
@@ -1230,6 +1231,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         public BackupImageView pressedBackupImageView;
         float pressedX;
         float pressedY;
+        private final boolean recyclerReaction;
         public boolean selected;
         public boolean shouldSwitchToLoopView;
         public boolean switchedToLoopView;
@@ -1273,8 +1275,9 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
             }
         }
 
-        ReactionHolderView(Context context) {
+        ReactionHolderView(Context context, boolean z) {
             super(context);
+            this.recyclerReaction = z;
             this.enterImageView = new 2(context, ReactionsContainerLayout.this);
             this.loopImageView = new BackupImageView(context);
             this.enterImageView.getImageReceiver().setAutoRepeat(0);
@@ -1350,6 +1353,9 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                 if (this.currentReaction.emojicon != null) {
                     TLRPC$TL_availableReaction tLRPC$TL_availableReaction = MediaDataController.getInstance(ReactionsContainerLayout.this.currentAccount).getReactionsMap().get(this.currentReaction.emojicon);
                     if (tLRPC$TL_availableReaction != null) {
+                        if (this.recyclerReaction) {
+                            this.loopImageView.getImageReceiver().setUniqKeyPrefix("r");
+                        }
                         SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(tLRPC$TL_availableReaction.activate_animation, "windowBackgroundGray", 1.0f);
                         this.enterImageView.getImageReceiver().setImage(ImageLocation.getForDocument(tLRPC$TL_availableReaction.appear_animation), "30_30_nolimit_pcache", null, null, svgThumb, 0L, "tgs", visibleReaction, 0);
                         this.pressedBackupImageView.getImageReceiver().setImage(ImageLocation.getForDocument(tLRPC$TL_availableReaction.select_animation), "60_60_pcache", null, null, svgThumb, 0L, "tgs", visibleReaction, 0);
@@ -1366,6 +1372,8 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                     this.pressedBackupImageView.setAnimatedEmojiDrawable(new AnimatedEmojiDrawable(4, ReactionsContainerLayout.this.currentAccount, this.currentReaction.documentId));
                     this.loopImageView.setAnimatedEmojiDrawable(new AnimatedEmojiDrawable(3, ReactionsContainerLayout.this.currentAccount, this.currentReaction.documentId));
                 }
+                this.enterImageView.setLayerNum(ConnectionsManager.DEFAULT_DATACENTER_ID);
+                this.loopImageView.setLayerNum(ConnectionsManager.DEFAULT_DATACENTER_ID);
                 setFocusable(true);
                 this.shouldSwitchToLoopView = this.hasEnterAnimation && ReactionsContainerLayout.this.showCustomEmojiReaction();
                 if (!this.hasEnterAnimation) {
@@ -1663,8 +1671,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
             float measuredHeight = getMeasuredHeight() / 2.0f;
             float measuredWidth = getMeasuredWidth() / 2.0f;
             View childAt = getChildAt(0);
-            float measuredWidth2 = (getMeasuredWidth() - AndroidUtilities.dp(6.0f)) / 2.0f;
-            ReactionsContainerLayout.this.getPullingLeftProgress();
+            float measuredWidth2 = (getMeasuredWidth() - AndroidUtilities.dpf2(6.0f)) / 2.0f;
             float expandSize = ReactionsContainerLayout.this.expandSize();
             RectF rectF = AndroidUtilities.rectTmp;
             rectF.set(measuredWidth - measuredWidth2, (measuredHeight - measuredWidth2) - expandSize, measuredWidth + measuredWidth2, measuredHeight + measuredWidth2 + expandSize);

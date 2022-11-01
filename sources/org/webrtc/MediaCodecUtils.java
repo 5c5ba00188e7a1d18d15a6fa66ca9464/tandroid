@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import org.telegram.messenger.FileLog;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 class MediaCodecUtils {
     static final String EXYNOS_PREFIX = "OMX.Exynos.";
     static final String HISI_PREFIX = "OMX.hisi.";
@@ -76,7 +76,7 @@ class MediaCodecUtils {
         return false;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     static /* synthetic */ class 1 {
         static final /* synthetic */ int[] $SwitchMap$org$webrtc$VideoCodecMimeType;
 

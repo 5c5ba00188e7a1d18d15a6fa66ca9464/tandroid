@@ -99,6 +99,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.Components.RadialProgressView;
 import org.telegram.ui.Components.SizeNotifierFrameLayout;
+import org.telegram.ui.Components.Switch;
 import org.telegram.ui.Components.UndoView;
 import org.telegram.ui.LocationActivity;
 import org.telegram.ui.PhotoViewer;
@@ -1462,6 +1463,43 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         PhotoViewer.getInstance().checkCurrentImageVisibility();
     }
 
+    /* JADX WARN: Code restructure failed: missing block: B:7:0x001b, code lost:
+        if (java.lang.Math.max(r0 == null ? 0 : r0.participants_count, r6.currentChat.participants_count) >= getMessagesController().forumUpgradeParticipantsMin) goto L19;
+     */
+    /* JADX WARN: Removed duplicated region for block: B:11:0x0033  */
+    /* JADX WARN: Removed duplicated region for block: B:17:? A[RETURN, SYNTHETIC] */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    private void updateCanForum() {
+        boolean z;
+        TextCell textCell;
+        int i = 0;
+        if (!this.forum) {
+            TLRPC$ChatFull tLRPC$ChatFull = this.info;
+        }
+        TLRPC$ChatFull tLRPC$ChatFull2 = this.info;
+        if (tLRPC$ChatFull2 == null || tLRPC$ChatFull2.linked_chat_id == 0) {
+            z = true;
+            this.canForum = z;
+            textCell = this.forumsCell;
+            if (textCell != null) {
+                return;
+            }
+            Switch checkBox = textCell.getCheckBox();
+            if (!this.canForum) {
+                i = R.drawable.permission_locked;
+            }
+            checkBox.setIcon(i);
+            return;
+        }
+        z = false;
+        this.canForum = z;
+        textCell = this.forumsCell;
+        if (textCell != null) {
+        }
+    }
+
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     public void didReceivedNotification(int i, int i2, Object... objArr) {
         EditTextBoldCursor editTextBoldCursor;
@@ -1476,6 +1514,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
             }
             boolean z2 = this.info == null;
             this.info = tLRPC$ChatFull;
+            updateCanForum();
             if (ChatObject.isChannel(this.currentChat) && !this.info.hidden_prehistory) {
                 z = false;
             }

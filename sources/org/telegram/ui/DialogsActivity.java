@@ -2857,7 +2857,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             int i19 = i12;
             ContentView contentView2 = contentView;
             String str2 = str;
-            viewPage.dialogsAdapter = new DialogsAdapter(this, this, context, viewPage.dialogsType, this.folderId, this.onlySelect, this.selectedDialogs, this.currentAccount) { // from class: org.telegram.ui.DialogsActivity.15
+            viewPage.dialogsAdapter = new DialogsAdapter(this, context, viewPage.dialogsType, this.folderId, this.onlySelect, this.selectedDialogs, this.currentAccount) { // from class: org.telegram.ui.DialogsActivity.15
                 @Override // org.telegram.ui.Adapters.DialogsAdapter, androidx.recyclerview.widget.RecyclerView.Adapter
                 public void notifyDataSetChanged() {
                     viewPage.lastItemsCount = getItemCount();
@@ -2865,6 +2865,42 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                         super.notifyDataSetChanged();
                     } catch (Exception e) {
                         FileLog.e(e);
+                    }
+                }
+
+                @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+                public void notifyItemChanged(int i20) {
+                    if (DialogsActivity.this.dialogsListFrozen) {
+                        notifyDataSetChanged();
+                    } else {
+                        super.notifyItemChanged(i20);
+                    }
+                }
+
+                @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+                public void notifyItemRemoved(int i20) {
+                    if (DialogsActivity.this.dialogsListFrozen) {
+                        notifyDataSetChanged();
+                    } else {
+                        super.notifyItemRemoved(i20);
+                    }
+                }
+
+                @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+                public void notifyItemInserted(int i20) {
+                    if (DialogsActivity.this.dialogsListFrozen) {
+                        notifyDataSetChanged();
+                    } else {
+                        super.notifyItemInserted(i20);
+                    }
+                }
+
+                @Override // org.telegram.ui.Adapters.DialogsAdapter, androidx.recyclerview.widget.RecyclerView.Adapter
+                public void notifyItemMoved(int i20, int i21) {
+                    if (DialogsActivity.this.dialogsListFrozen) {
+                        notifyDataSetChanged();
+                    } else {
+                        super.notifyItemMoved(i20, i21);
                     }
                 }
             };
@@ -5592,6 +5628,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     }
 
     public boolean addOrRemoveSelectedDialog(long j, View view) {
+        if (getMessagesController().isForum(j)) {
+            return false;
+        }
         if (this.selectedDialogs.contains(Long.valueOf(j))) {
             this.selectedDialogs.remove(Long.valueOf(j));
             if (view instanceof DialogCell) {

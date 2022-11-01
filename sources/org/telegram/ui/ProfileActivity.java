@@ -1787,7 +1787,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
     /* JADX INFO: Access modifiers changed from: private */
     public void updateExceptions() {
-        if (this.isTopic || !this.currentChat.forum) {
+        TLRPC$Chat tLRPC$Chat;
+        if (this.isTopic || (tLRPC$Chat = this.currentChat) == null || !tLRPC$Chat.forum) {
             return;
         }
         getNotificationsController().loadTopicsNotificationsExceptions(-this.chatId, new Consumer() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda36
@@ -6790,7 +6791,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             TLRPC$UserFull tLRPC$UserFull = (TLRPC$UserFull) objArr[1];
             this.userInfo = tLRPC$UserFull;
             if (this.imageUpdater != null) {
-                if (!TextUtils.equals(tLRPC$UserFull.about, this.currentBio)) {
+                if (this.listAdapter != null && !TextUtils.equals(tLRPC$UserFull.about, this.currentBio)) {
                     this.listAdapter.notifyItemChanged(this.bioRow);
                 }
             } else {
@@ -7477,7 +7478,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             if (z && this.listAdapter != null && this.membersStartRow > 0) {
                 AndroidUtilities.updateVisibleRows(this.listView);
             }
-            if (this.isTopic || this.sharedMediaLayout == null || this.sharedMediaRow == -1) {
+            if (this.sharedMediaLayout == null || this.sharedMediaRow == -1) {
                 return;
             }
             if ((this.sortedUsers.size() <= 5 && this.usersForceShowingIn != 2) || this.usersForceShowingIn == 1) {
@@ -8106,6 +8107,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                             this.sharedMediaLayout.setChatUsers(this.sortedUsers, this.chatInfo);
                         }
                     }
+                } else {
+                    SharedMediaLayout sharedMediaLayout2 = this.sharedMediaLayout;
+                    if (sharedMediaLayout2 != null) {
+                        sharedMediaLayout2.updateAdapters();
+                    }
                 }
                 if (this.lastSectionRow == -1) {
                     TLRPC$Chat tLRPC$Chat2 = this.currentChat;
@@ -8120,43 +8126,50 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 }
             } else {
                 TLRPC$ChatFull tLRPC$ChatFull6 = this.chatInfo;
-                if (tLRPC$ChatFull6 != null && !this.isTopic && (tLRPC$ChatParticipants = tLRPC$ChatFull6.participants) != null && !(tLRPC$ChatParticipants instanceof TLRPC$TL_chatParticipantsForbidden)) {
-                    if (ChatObject.canAddUsers(this.currentChat) || (tLRPC$TL_chatBannedRights = this.currentChat.default_banned_rights) == null || !tLRPC$TL_chatBannedRights.invite_users) {
-                        int i87 = this.rowCount;
-                        this.rowCount = i87 + 1;
-                        this.addMemberRow = i87;
-                    }
-                    if (this.chatInfo.participants.participants.size() <= 5 || !z) {
-                        if (this.addMemberRow == -1) {
-                            int i88 = this.rowCount;
-                            this.rowCount = i88 + 1;
-                            this.membersHeaderRow = i88;
+                if (tLRPC$ChatFull6 != null) {
+                    if (!this.isTopic && (tLRPC$ChatParticipants = tLRPC$ChatFull6.participants) != null && !(tLRPC$ChatParticipants instanceof TLRPC$TL_chatParticipantsForbidden)) {
+                        if (ChatObject.canAddUsers(this.currentChat) || (tLRPC$TL_chatBannedRights = this.currentChat.default_banned_rights) == null || !tLRPC$TL_chatBannedRights.invite_users) {
+                            int i87 = this.rowCount;
+                            this.rowCount = i87 + 1;
+                            this.addMemberRow = i87;
                         }
-                        int i89 = this.rowCount;
-                        this.membersStartRow = i89;
-                        int size2 = i89 + this.chatInfo.participants.participants.size();
-                        this.rowCount = size2;
-                        this.membersEndRow = size2;
-                        this.rowCount = size2 + 1;
-                        this.membersSectionRow = size2;
-                        this.visibleChatParticipants.addAll(this.chatInfo.participants.participants);
-                        ArrayList<Integer> arrayList2 = this.sortedUsers;
-                        if (arrayList2 != null) {
-                            this.visibleSortedUsers.addAll(arrayList2);
-                        }
-                        SharedMediaLayout sharedMediaLayout2 = this.sharedMediaLayout;
-                        if (sharedMediaLayout2 != null) {
-                            sharedMediaLayout2.setChatUsers(null, null);
+                        if (this.chatInfo.participants.participants.size() <= 5 || !z) {
+                            if (this.addMemberRow == -1) {
+                                int i88 = this.rowCount;
+                                this.rowCount = i88 + 1;
+                                this.membersHeaderRow = i88;
+                            }
+                            int i89 = this.rowCount;
+                            this.membersStartRow = i89;
+                            int size2 = i89 + this.chatInfo.participants.participants.size();
+                            this.rowCount = size2;
+                            this.membersEndRow = size2;
+                            this.rowCount = size2 + 1;
+                            this.membersSectionRow = size2;
+                            this.visibleChatParticipants.addAll(this.chatInfo.participants.participants);
+                            ArrayList<Integer> arrayList2 = this.sortedUsers;
+                            if (arrayList2 != null) {
+                                this.visibleSortedUsers.addAll(arrayList2);
+                            }
+                            SharedMediaLayout sharedMediaLayout3 = this.sharedMediaLayout;
+                            if (sharedMediaLayout3 != null) {
+                                sharedMediaLayout3.setChatUsers(null, null);
+                            }
+                        } else {
+                            if (this.addMemberRow != -1) {
+                                int i90 = this.rowCount;
+                                this.rowCount = i90 + 1;
+                                this.membersSectionRow = i90;
+                            }
+                            SharedMediaLayout sharedMediaLayout4 = this.sharedMediaLayout;
+                            if (sharedMediaLayout4 != null) {
+                                sharedMediaLayout4.setChatUsers(this.sortedUsers, this.chatInfo);
+                            }
                         }
                     } else {
-                        if (this.addMemberRow != -1) {
-                            int i90 = this.rowCount;
-                            this.rowCount = i90 + 1;
-                            this.membersSectionRow = i90;
-                        }
-                        SharedMediaLayout sharedMediaLayout3 = this.sharedMediaLayout;
-                        if (sharedMediaLayout3 != null) {
-                            sharedMediaLayout3.setChatUsers(this.sortedUsers, this.chatInfo);
+                        SharedMediaLayout sharedMediaLayout5 = this.sharedMediaLayout;
+                        if (sharedMediaLayout5 != null) {
+                            sharedMediaLayout5.updateAdapters();
                         }
                     }
                 }

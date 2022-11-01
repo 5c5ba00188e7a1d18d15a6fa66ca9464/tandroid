@@ -1,8 +1,8 @@
 package org.webrtc;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public interface VideoSink {
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public final /* synthetic */ class -CC {
         public static void $default$setParentSink(VideoSink videoSink, VideoSink videoSink2) {
         }
