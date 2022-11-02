@@ -18635,7 +18635,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             if (f50 != 0.0f) {
                 abs += (1.0f - abs) * f50;
             }
-            float clamp = ((1.0f - Utilities.clamp(abs, 0.0f, 1.0f)) * 0.1f) + 1.0f;
+            float clamp = ((1.0f - Utilities.clamp(abs, 1.0f, 0.0f)) * 0.1f) + 1.0f;
             View fragmentView = this.parentFragment.getFragmentView();
             fragmentView.setPivotX(fragmentView.getWidth() / 2.0f);
             fragmentView.setPivotY(fragmentView.getHeight() / 2.0f);
