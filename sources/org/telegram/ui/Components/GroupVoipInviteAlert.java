@@ -662,8 +662,8 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
         /* JADX WARN: Code restructure failed: missing block: B:36:0x00db, code lost:
             if (r14.contains(" " + r4) != false) goto L48;
          */
-        /* JADX WARN: Removed duplicated region for block: B:43:0x00f3 A[LOOP:1: B:27:0x009f->B:43:0x00f3, LOOP_END] */
-        /* JADX WARN: Removed duplicated region for block: B:44:0x00ef A[SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:43:0x00f5 A[LOOP:1: B:27:0x009f->B:43:0x00f5, LOOP_END] */
+        /* JADX WARN: Removed duplicated region for block: B:44:0x00f1 A[SYNTHETIC] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -711,8 +711,8 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
                                         if (!translitString2.startsWith(str2)) {
                                         }
                                     }
-                                    String str3 = user.username;
-                                    if (str3 != null && str3.startsWith(str2)) {
+                                    String publicUsername = UserObject.getPublicUsername(user);
+                                    if (publicUsername != null && publicUsername.startsWith(str2)) {
                                         c = 2;
                                     }
                                     if (c == 0) {
@@ -845,7 +845,7 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
         }
 
         /* JADX WARN: Multi-variable type inference failed */
-        /* JADX WARN: Removed duplicated region for block: B:44:0x00f0  */
+        /* JADX WARN: Removed duplicated region for block: B:44:0x00f2  */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -881,7 +881,7 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
             } else {
                 user = MessagesController.getInstance(((BottomSheet) GroupVoipInviteAlert.this).currentAccount).getUser(Long.valueOf(((TLRPC$ChatParticipant) item).user_id));
             }
-            String str2 = user.username;
+            String publicUsername = UserObject.getPublicUsername(user);
             int size2 = this.searchAdapterHelper.getGroupSearch().size();
             SpannableStringBuilder spannableStringBuilder = null;
             if (size2 != 0) {
@@ -889,8 +889,8 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
                 if (i2 > i) {
                     str = this.searchAdapterHelper.getLastFoundChannel();
                     z = true;
-                    if (!z || str2 == null || (size = this.searchAdapterHelper.getGlobalSearch().size()) == 0 || size + 1 <= i) {
-                        str2 = null;
+                    if (!z || publicUsername == null || (size = this.searchAdapterHelper.getGlobalSearch().size()) == 0 || size + 1 <= i) {
+                        publicUsername = null;
                     } else {
                         String lastFoundUsername = this.searchAdapterHelper.getLastFoundUsername();
                         if (lastFoundUsername.startsWith("@")) {
@@ -899,8 +899,8 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
                         try {
                             SpannableStringBuilder spannableStringBuilder2 = new SpannableStringBuilder();
                             spannableStringBuilder2.append((CharSequence) "@");
-                            spannableStringBuilder2.append((CharSequence) str2);
-                            int indexOfIgnoreCase = AndroidUtilities.indexOfIgnoreCase(str2, lastFoundUsername);
+                            spannableStringBuilder2.append((CharSequence) publicUsername);
+                            int indexOfIgnoreCase = AndroidUtilities.indexOfIgnoreCase(publicUsername, lastFoundUsername);
                             if (indexOfIgnoreCase != -1) {
                                 int length = lastFoundUsername.length();
                                 if (indexOfIgnoreCase == 0) {
@@ -910,7 +910,7 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
                                 }
                                 spannableStringBuilder2.setSpan(new ForegroundColorSpan(Theme.getColor("voipgroup_listeningText")), indexOfIgnoreCase, length + indexOfIgnoreCase, 33);
                             }
-                            str2 = spannableStringBuilder2;
+                            publicUsername = spannableStringBuilder2;
                         } catch (Exception e) {
                             FileLog.e(e);
                         }
@@ -926,7 +926,7 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
                     ManageChatUserCell manageChatUserCell = (ManageChatUserCell) viewHolder.itemView;
                     manageChatUserCell.setTag(Integer.valueOf(i));
                     manageChatUserCell.setCustomImageVisible(GroupVoipInviteAlert.this.invitedUsers.contains(Long.valueOf(user.id)));
-                    manageChatUserCell.setData(user, spannableStringBuilder, str2, false);
+                    manageChatUserCell.setData(user, spannableStringBuilder, publicUsername, false);
                 }
                 i -= i2;
             }
@@ -934,13 +934,13 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
             z = false;
             if (!z) {
             }
-            str2 = null;
+            publicUsername = null;
             if (str != null) {
             }
             ManageChatUserCell manageChatUserCell2 = (ManageChatUserCell) viewHolder.itemView;
             manageChatUserCell2.setTag(Integer.valueOf(i));
             manageChatUserCell2.setCustomImageVisible(GroupVoipInviteAlert.this.invitedUsers.contains(Long.valueOf(user.id)));
-            manageChatUserCell2.setData(user, spannableStringBuilder, str2, false);
+            manageChatUserCell2.setData(user, spannableStringBuilder, publicUsername, false);
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter

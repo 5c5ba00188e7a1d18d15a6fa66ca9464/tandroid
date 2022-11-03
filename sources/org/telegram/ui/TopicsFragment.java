@@ -2578,10 +2578,10 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
 
             @Override // org.telegram.ui.Components.Bulletin.Delegate
             public int getBottomOffset(int i) {
-                if (TopicsFragment.this.bottomOverlayChatText == null || TopicsFragment.this.bottomOverlayChatText.getVisibility() != 0) {
+                if (TopicsFragment.this.bottomOverlayContainer == null || TopicsFragment.this.bottomOverlayContainer.getVisibility() != 0) {
                     return 0;
                 }
-                return TopicsFragment.this.bottomOverlayChatText.getMeasuredHeight();
+                return TopicsFragment.this.bottomOverlayContainer.getMeasuredHeight();
             }
         });
     }

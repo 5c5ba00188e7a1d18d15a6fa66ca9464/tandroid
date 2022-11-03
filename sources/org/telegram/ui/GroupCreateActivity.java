@@ -1665,11 +1665,11 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* JADX WARN: Code restructure failed: missing block: B:35:0x00ca, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:35:0x00cc, code lost:
             if (r13.contains(" " + r3) != false) goto L53;
          */
-        /* JADX WARN: Removed duplicated region for block: B:41:0x012a A[LOOP:1: B:26:0x008e->B:41:0x012a, LOOP_END] */
-        /* JADX WARN: Removed duplicated region for block: B:42:0x00da A[SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:41:0x012c A[LOOP:1: B:26:0x0090->B:41:0x012c, LOOP_END] */
+        /* JADX WARN: Removed duplicated region for block: B:42:0x00dc A[SYNTHETIC] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -1700,7 +1700,7 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
                 if (z) {
                     TLRPC$User tLRPC$User = (TLRPC$User) tLObject;
                     str2 = ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name).toLowerCase();
-                    publicUsername = tLRPC$User.username;
+                    publicUsername = UserObject.getPublicUsername(tLRPC$User);
                 } else {
                     TLRPC$Chat tLRPC$Chat = (TLRPC$Chat) tLObject;
                     str2 = tLRPC$Chat.title;

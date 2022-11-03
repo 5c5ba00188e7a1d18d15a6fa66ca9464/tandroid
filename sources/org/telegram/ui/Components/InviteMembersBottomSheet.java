@@ -45,6 +45,7 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
+import org.telegram.messenger.UserObject;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
@@ -1069,11 +1070,11 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* JADX WARN: Code restructure failed: missing block: B:35:0x00d2, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:35:0x00d4, code lost:
             if (r13.contains(" " + r3) != false) goto L53;
          */
-        /* JADX WARN: Removed duplicated region for block: B:41:0x0132 A[LOOP:1: B:26:0x0096->B:41:0x0132, LOOP_END] */
-        /* JADX WARN: Removed duplicated region for block: B:42:0x00e2 A[SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:41:0x0134 A[LOOP:1: B:26:0x0098->B:41:0x0134, LOOP_END] */
+        /* JADX WARN: Removed duplicated region for block: B:42:0x00e4 A[SYNTHETIC] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -1104,7 +1105,7 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
                 if (z) {
                     TLRPC$User tLRPC$User = (TLRPC$User) tLObject;
                     str2 = ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name).toLowerCase();
-                    publicUsername = tLRPC$User.username;
+                    publicUsername = UserObject.getPublicUsername(tLRPC$User);
                 } else {
                     TLRPC$Chat tLRPC$Chat = (TLRPC$Chat) tLObject;
                     str2 = tLRPC$Chat.title;

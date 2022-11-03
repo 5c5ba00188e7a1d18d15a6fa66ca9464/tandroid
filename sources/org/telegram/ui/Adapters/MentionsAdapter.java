@@ -1452,7 +1452,8 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
                     for (int i26 = 0; i26 < arrayList11.size(); i26++) {
                         TLRPC$User user2 = messagesController.getUser(Long.valueOf(arrayList11.get(i26).peer.user_id));
                         if (user2 != null) {
-                            if (!TextUtils.isEmpty(user2.username) && (lowerCase3.length() == 0 || user2.username.toLowerCase().startsWith(lowerCase3))) {
+                            String publicUsername = UserObject.getPublicUsername(user2);
+                            if (!TextUtils.isEmpty(publicUsername) && (lowerCase3.length() == 0 || publicUsername.toLowerCase().startsWith(lowerCase3))) {
                                 arrayList10.add(user2);
                                 longSparseArray2.put(user2.id, user2);
                                 longSparseArray3.put(user2.id, user2);
@@ -1501,11 +1502,11 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
                                 } else {
                                     str6 = user.first_name;
                                     String str12 = user.last_name;
-                                    String str13 = user.username;
+                                    String publicUsername2 = UserObject.getPublicUsername(user);
                                     longSparseArray = longSparseArray2;
                                     j = user.id;
                                     str7 = str12;
-                                    str8 = str13;
+                                    str8 = publicUsername2;
                                     if (!TextUtils.isEmpty(str8)) {
                                         arrayList10.add(user);
                                         longSparseArray3.put(j, user);

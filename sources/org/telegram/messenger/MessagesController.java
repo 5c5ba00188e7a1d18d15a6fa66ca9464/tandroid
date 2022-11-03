@@ -3584,6 +3584,7 @@ public class MessagesController extends BaseController implements NotificationCe
                             FileLog.e(e);
                             break;
                         }
+                        break;
                     case 24:
                         tLRPC$TL_jsonObject = tLRPC$TL_jsonObject5;
                         i = size;
@@ -5566,9 +5567,11 @@ public class MessagesController extends BaseController implements NotificationCe
         return putUser(tLRPC$User, z, false);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:22:0x004d  */
-    /* JADX WARN: Removed duplicated region for block: B:25:0x0064  */
-    /* JADX WARN: Removed duplicated region for block: B:41:0x00aa  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x0054  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x0076  */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x0085  */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x00b8  */
+    /* JADX WARN: Removed duplicated region for block: B:75:0x00fe  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -5577,6 +5580,9 @@ public class MessagesController extends BaseController implements NotificationCe
         TLRPC$User tLRPC$User2;
         TLRPC$UserStatus tLRPC$UserStatus;
         TLRPC$UserStatus tLRPC$UserStatus2;
+        String str;
+        int i;
+        String str2;
         if (tLRPC$User == null) {
             return false;
         }
@@ -5591,8 +5597,24 @@ public class MessagesController extends BaseController implements NotificationCe
                 if (tLRPC$User2 != null && !TextUtils.isEmpty(tLRPC$User2.username)) {
                     this.objectsByUsernames.remove(tLRPC$User2.username.toLowerCase());
                 }
+                if (tLRPC$User2 != null && tLRPC$User2.usernames != null) {
+                    for (i = 0; i < tLRPC$User2.usernames.size(); i++) {
+                        TLRPC$TL_username tLRPC$TL_username = tLRPC$User2.usernames.get(i);
+                        if (tLRPC$TL_username != null && (str2 = tLRPC$TL_username.username) != null) {
+                            this.objectsByUsernames.remove(str2.toLowerCase());
+                        }
+                    }
+                }
                 if (!TextUtils.isEmpty(tLRPC$User.username)) {
                     this.objectsByUsernames.put(tLRPC$User.username.toLowerCase(), tLRPC$User);
+                }
+                if (tLRPC$User.usernames != null) {
+                    for (int i2 = 0; i2 < tLRPC$User.usernames.size(); i2++) {
+                        TLRPC$TL_username tLRPC$TL_username2 = tLRPC$User.usernames.get(i2);
+                        if (tLRPC$TL_username2 != null && (str = tLRPC$TL_username2.username) != null && tLRPC$TL_username2.active) {
+                            this.objectsByUsernames.put(str.toLowerCase(), tLRPC$User);
+                        }
+                    }
                 }
                 updateEmojiStatusUntilUpdate(tLRPC$User.id, tLRPC$User.emoji_status);
                 if (!tLRPC$User.min) {
@@ -5600,9 +5622,9 @@ public class MessagesController extends BaseController implements NotificationCe
                         this.users.put(Long.valueOf(tLRPC$User.id), tLRPC$User);
                     } else if (!z3) {
                         if (tLRPC$User.bot) {
-                            String str = tLRPC$User.username;
-                            if (str != null) {
-                                tLRPC$User2.username = str;
+                            String str3 = tLRPC$User.username;
+                            if (str3 != null) {
+                                tLRPC$User2.username = str3;
                                 tLRPC$User2.flags |= 8;
                             } else {
                                 tLRPC$User2.flags &= -9;
@@ -5633,9 +5655,9 @@ public class MessagesController extends BaseController implements NotificationCe
                     this.users.put(Long.valueOf(tLRPC$User.id), tLRPC$User);
                 } else if (tLRPC$User2.min) {
                     if (tLRPC$User2.bot) {
-                        String str2 = tLRPC$User2.username;
-                        if (str2 != null) {
-                            tLRPC$User.username = str2;
+                        String str4 = tLRPC$User2.username;
+                        if (str4 != null) {
+                            tLRPC$User.username = str4;
                             tLRPC$User.flags |= 8;
                         } else {
                             tLRPC$User.flags &= -9;
@@ -5664,7 +5686,13 @@ public class MessagesController extends BaseController implements NotificationCe
         if (tLRPC$User2 != null) {
             this.objectsByUsernames.remove(tLRPC$User2.username.toLowerCase());
         }
+        if (tLRPC$User2 != null) {
+            while (i < tLRPC$User2.usernames.size()) {
+            }
+        }
         if (!TextUtils.isEmpty(tLRPC$User.username)) {
+        }
+        if (tLRPC$User.usernames != null) {
         }
         updateEmojiStatusUntilUpdate(tLRPC$User.id, tLRPC$User.emoji_status);
         if (!tLRPC$User.min) {
@@ -5720,7 +5748,7 @@ public class MessagesController extends BaseController implements NotificationCe
         if (tLRPC$Chat.usernames != null) {
             for (int i2 = 0; i2 < tLRPC$Chat.usernames.size(); i2++) {
                 TLRPC$TL_username tLRPC$TL_username2 = tLRPC$Chat.usernames.get(i2);
-                if (tLRPC$TL_username2 != null && !TextUtils.isEmpty(tLRPC$TL_username2.username)) {
+                if (tLRPC$TL_username2 != null && !TextUtils.isEmpty(tLRPC$TL_username2.username) && tLRPC$TL_username2.active) {
                     this.objectsByUsernames.put(tLRPC$TL_username2.username.toLowerCase(), tLRPC$Chat);
                 }
             }
@@ -6408,12 +6436,12 @@ public class MessagesController extends BaseController implements NotificationCe
         this.fullUsers.put(tLRPC$User.id, tLRPC$UserFull);
         this.loadingFullUsers.remove(Long.valueOf(tLRPC$User.id));
         this.loadedFullUsers.add(Long.valueOf(tLRPC$User.id));
-        String str = tLRPC$User.first_name + tLRPC$User.last_name + tLRPC$User.username;
+        String str = tLRPC$User.first_name + tLRPC$User.last_name + UserObject.getPublicUsername(tLRPC$User);
         ArrayList<TLRPC$User> arrayList = new ArrayList<>();
         arrayList.add(tLRPC$UserFull.user);
         putUsers(arrayList, false);
         getMessagesStorage().putUsersAndChats(arrayList, null, false, true);
-        if (!str.equals(tLRPC$UserFull.user.first_name + tLRPC$UserFull.user.last_name + tLRPC$UserFull.user.username)) {
+        if (!str.equals(tLRPC$UserFull.user.first_name + tLRPC$UserFull.user.last_name + UserObject.getPublicUsername(tLRPC$UserFull.user))) {
             getNotificationCenter().postNotificationName(NotificationCenter.updateInterfaces, Integer.valueOf(UPDATE_MASK_NAME));
         }
         TLRPC$UserProfilePhoto tLRPC$UserProfilePhoto = tLRPC$UserFull.user.photo;
@@ -8409,7 +8437,7 @@ public class MessagesController extends BaseController implements NotificationCe
     /* JADX WARN: Removed duplicated region for block: B:131:0x03e0  */
     /* JADX WARN: Removed duplicated region for block: B:142:0x0419  */
     /* JADX WARN: Type inference failed for: r2v11 */
-    /* JADX WARN: Type inference failed for: r2v12, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r2v12, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r2v59 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -8900,6 +8928,17 @@ public class MessagesController extends BaseController implements NotificationCe
 
     public void loadUserInfo(TLRPC$User tLRPC$User, boolean z, int i, int i2) {
         getMessagesStorage().loadUserInfo(tLRPC$User, z, i, i2);
+    }
+
+    public void updateUsernameActiveness(TLObject tLObject, String str, boolean z) {
+        if (TextUtils.isEmpty(str)) {
+            return;
+        }
+        this.objectsByUsernames.remove(str);
+        if (!z) {
+            return;
+        }
+        this.objectsByUsernames.put(str.toLowerCase(), tLObject);
     }
 
     public void processUserInfo(final TLRPC$User tLRPC$User, final TLRPC$UserFull tLRPC$UserFull, final boolean z, final boolean z2, final int i, final ArrayList<Integer> arrayList, final HashMap<Integer, MessageObject> hashMap, final int i2, final boolean z3) {
@@ -21168,15 +21207,15 @@ public class MessagesController extends BaseController implements NotificationCe
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:711:0x0f4a  */
-    /* JADX WARN: Removed duplicated region for block: B:717:0x0f66  */
-    /* JADX WARN: Removed duplicated region for block: B:776:0x106b  */
-    /* JADX WARN: Removed duplicated region for block: B:778:0x1079  */
-    /* JADX WARN: Removed duplicated region for block: B:780:0x107f  */
+    /* JADX WARN: Removed duplicated region for block: B:714:0x0f56  */
+    /* JADX WARN: Removed duplicated region for block: B:720:0x0f72  */
+    /* JADX WARN: Removed duplicated region for block: B:779:0x1077  */
+    /* JADX WARN: Removed duplicated region for block: B:781:0x1085  */
     /* JADX WARN: Removed duplicated region for block: B:783:0x108b  */
-    /* JADX WARN: Removed duplicated region for block: B:792:0x10c7  */
-    /* JADX WARN: Removed duplicated region for block: B:795:0x10dd  */
-    /* JADX WARN: Removed duplicated region for block: B:798:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:786:0x1097  */
+    /* JADX WARN: Removed duplicated region for block: B:795:0x10d3  */
+    /* JADX WARN: Removed duplicated region for block: B:798:0x10e9  */
+    /* JADX WARN: Removed duplicated region for block: B:801:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -21326,7 +21365,7 @@ public class MessagesController extends BaseController implements NotificationCe
                                 }
                                 for (int i20 = 0; i20 < tLRPC$TL_updateUserName.usernames.size(); i20++) {
                                     String str3 = tLRPC$TL_updateUserName.usernames.get(i20).username;
-                                    if (!TextUtils.isEmpty(str3)) {
+                                    if (!TextUtils.isEmpty(str3) && tLRPC$TL_updateUserName.usernames.get(i20).active) {
                                         this.objectsByUsernames.put(str3, user3);
                                     }
                                 }

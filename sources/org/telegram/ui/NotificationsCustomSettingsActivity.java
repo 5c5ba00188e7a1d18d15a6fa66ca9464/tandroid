@@ -42,6 +42,7 @@ import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.NotificationsController;
 import org.telegram.messenger.NotificationsSettingsFacade;
 import org.telegram.messenger.R;
+import org.telegram.messenger.UserObject;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Chat;
@@ -1309,16 +1310,16 @@ public class NotificationsCustomSettingsActivity extends BaseFragment implements
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* JADX WARN: Code restructure failed: missing block: B:39:0x016b, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:39:0x0170, code lost:
             if (r10[r5].contains(" " + r15) == false) goto L40;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:44:0x018b, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:44:0x0190, code lost:
             if (r6.contains(" " + r15) != false) goto L63;
          */
-        /* JADX WARN: Removed duplicated region for block: B:29:0x0132  */
-        /* JADX WARN: Removed duplicated region for block: B:34:0x0142  */
-        /* JADX WARN: Removed duplicated region for block: B:51:0x01e2 A[LOOP:1: B:33:0x0140->B:51:0x01e2, LOOP_END] */
-        /* JADX WARN: Removed duplicated region for block: B:52:0x01a3 A[SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:29:0x0137  */
+        /* JADX WARN: Removed duplicated region for block: B:34:0x0147  */
+        /* JADX WARN: Removed duplicated region for block: B:51:0x01e7 A[LOOP:1: B:33:0x0145->B:51:0x01e7, LOOP_END] */
+        /* JADX WARN: Removed duplicated region for block: B:52:0x01a8 A[SYNTHETIC] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -1362,7 +1363,7 @@ public class NotificationsCustomSettingsActivity extends BaseFragment implements
                         TLRPC$User user = NotificationsCustomSettingsActivity.this.getMessagesController().getUser(Long.valueOf(encryptedChat.user_id));
                         if (user != null) {
                             strArr3[0] = ContactsController.formatName(user.first_name, user.last_name);
-                            strArr3[1] = user.username;
+                            strArr3[1] = UserObject.getPublicUsername(user);
                         }
                     } else {
                         i = i5;
@@ -1373,7 +1374,7 @@ public class NotificationsCustomSettingsActivity extends BaseFragment implements
                         TLRPC$User user2 = NotificationsCustomSettingsActivity.this.getMessagesController().getUser(Long.valueOf(notificationException.did));
                         if (user2 != null && !user2.deleted) {
                             strArr3[0] = ContactsController.formatName(user2.first_name, user2.last_name);
-                            strArr3[1] = user2.username;
+                            strArr3[1] = UserObject.getPublicUsername(user2);
                             c = 0;
                             tLRPC$User = user2;
                             String str2 = strArr3[c];

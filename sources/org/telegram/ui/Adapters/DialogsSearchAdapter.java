@@ -1263,17 +1263,17 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         return new RecyclerListView.Holder(recyclerListView);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:147:0x0359, code lost:
-        if (r6.startsWith("@" + r4.username) != false) goto L148;
+    /* JADX WARN: Code restructure failed: missing block: B:144:0x0355, code lost:
+        if (r7.startsWith("@" + r6) != false) goto L145;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:150:0x0363  */
-    /* JADX WARN: Removed duplicated region for block: B:195:0x042b  */
-    /* JADX WARN: Removed duplicated region for block: B:196:0x0436  */
-    /* JADX WARN: Removed duplicated region for block: B:201:0x0453  */
-    /* JADX WARN: Removed duplicated region for block: B:204:0x0470  */
-    /* JADX WARN: Removed duplicated region for block: B:207:0x0472  */
-    /* JADX WARN: Removed duplicated region for block: B:208:0x0455  */
+    /* JADX WARN: Removed duplicated region for block: B:147:0x035f  */
+    /* JADX WARN: Removed duplicated region for block: B:192:0x0427  */
+    /* JADX WARN: Removed duplicated region for block: B:193:0x0432  */
+    /* JADX WARN: Removed duplicated region for block: B:198:0x044f  */
+    /* JADX WARN: Removed duplicated region for block: B:201:0x046c  */
+    /* JADX WARN: Removed duplicated region for block: B:204:0x046e  */
+    /* JADX WARN: Removed duplicated region for block: B:205:0x0451  */
     /* JADX WARN: Type inference failed for: r2v20, types: [android.text.SpannableStringBuilder] */
     /* JADX WARN: Type inference failed for: r2v23, types: [java.lang.CharSequence] */
     /* JADX WARN: Type inference failed for: r2v24 */
@@ -1300,11 +1300,10 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         CharSequence formatPluralStringComma;
         String str5;
         int indexOfIgnoreCase;
-        String str6;
         int i2;
         String string;
         int i3;
-        String str7;
+        String str6;
         final int i4 = i;
         int itemViewType = viewHolder.getItemViewType();
         int i5 = 4;
@@ -1435,12 +1434,12 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
             }
             if (z4) {
                 i3 = R.string.ShowMore;
-                str7 = "ShowMore";
+                str6 = "ShowMore";
             } else {
                 i3 = R.string.ShowLess;
-                str7 = "ShowLess";
+                str6 = "ShowLess";
             }
-            graySectionCell.setText(string, LocaleController.getString(str7, i3), new View.OnClickListener() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda0
+            graySectionCell.setText(string, LocaleController.getString(str6, i3), new View.OnClickListener() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda0
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     runnable.run();
@@ -1454,7 +1453,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         Object item = getItem(i4);
         if (item instanceof TLRPC$User) {
             TLRPC$User tLRPC$User2 = (TLRPC$User) item;
-            str = tLRPC$User2.username;
+            str = UserObject.getPublicUsername(tLRPC$User2);
             tLRPC$Chat = null;
             tLRPC$EncryptedChat = null;
             tLRPC$User = tLRPC$User2;
@@ -1512,7 +1511,8 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         }
         if (i4 >= 0 && i4 < this.searchResult.size() && tLRPC$User == null) {
             CharSequence charSequence = this.searchResultNames.get(i4);
-            if (charSequence != 0 && tLRPC$User != null && (str6 = tLRPC$User.username) != null && str6.length() > 0) {
+            String publicUsername = UserObject.getPublicUsername(tLRPC$User);
+            if (charSequence != 0 && tLRPC$User != null && publicUsername != null) {
                 String charSequence2 = charSequence.toString();
                 z2 = charSequence;
             }

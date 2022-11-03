@@ -3111,7 +3111,7 @@ public class MessageObject {
                     formatName = ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name);
                 }
                 str = formatName;
-                publicUsername = tLRPC$User.username;
+                publicUsername = UserObject.getPublicUsername(tLRPC$User);
                 j = tLRPC$User.id;
             } else {
                 TLRPC$Chat tLRPC$Chat = (TLRPC$Chat) tLObject;

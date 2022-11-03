@@ -958,8 +958,8 @@ public class SecretChatHelper extends BaseController {
         getNotificationCenter().postNotificationName(NotificationCenter.encryptedChatUpdated, tLRPC$EncryptedChat);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:296:0x07d9  */
-    /* JADX WARN: Removed duplicated region for block: B:297:0x07e9  */
+    /* JADX WARN: Removed duplicated region for block: B:296:0x07da  */
+    /* JADX WARN: Removed duplicated region for block: B:297:0x07ea  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

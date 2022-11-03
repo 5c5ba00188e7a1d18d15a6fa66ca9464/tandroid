@@ -1932,7 +1932,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     /* JADX WARN: Type inference failed for: r30v57 */
     /* JADX WARN: Type inference failed for: r30v60 */
     /* JADX WARN: Type inference failed for: r3v0 */
-    /* JADX WARN: Type inference failed for: r3v1, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r3v1, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r3v10 */
     /* JADX WARN: Type inference failed for: r3v13 */
     /* JADX WARN: Type inference failed for: r3v14 */
@@ -1949,7 +1949,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     /* JADX WARN: Type inference failed for: r9v211 */
     /* JADX WARN: Type inference failed for: r9v219 */
     /* JADX WARN: Type inference failed for: r9v220 */
-    /* JADX WARN: Type inference failed for: r9v4, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r9v4, types: [int, boolean] */
     @SuppressLint({"Range"})
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -8095,7 +8095,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         } else {
             bundle.putLong("chat_id", -j);
         }
-        bundle.putString("attach_bot", tLRPC$User.username);
+        bundle.putString("attach_bot", UserObject.getPublicUsername(tLRPC$User));
         if (str != null) {
             bundle.putString("attach_bot_start_command", str);
         }
@@ -9190,12 +9190,11 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         String str3;
         String lowerCase;
         TLRPC$User user;
-        String str4;
         MessagesController messagesController = MessagesController.getInstance(this.currentAccount);
         ContactsController contactsController = ContactsController.getInstance(this.currentAccount);
         ArrayList arrayList = new ArrayList(contactsController.contacts);
         ArrayList arrayList2 = new ArrayList();
-        String str5 = null;
+        String str4 = null;
         int i = 0;
         if (str2 != null) {
             String stripExceptNumbers = PhoneFormat.stripExceptNumbers(str2);
@@ -9228,7 +9227,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                     strArr2[i] = ContactsController.formatName(user.first_name, user.last_name).toLowerCase();
                                     strArr2[c] = LocaleController.getInstance().getTranslitString(strArr2[i]);
                                     if (strArr2[i].equals(strArr2[c])) {
-                                        strArr2[c] = str5;
+                                        strArr2[c] = str4;
                                     }
                                     if (UserObject.isReplyUser(user)) {
                                         strArr2[i2] = LocaleController.getString("RepliesTitle", R.string.RepliesTitle).toLowerCase();
@@ -9241,13 +9240,13 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                         if (i4 >= i2) {
                                             break;
                                         }
-                                        String str6 = strArr[i4];
-                                        if (str6 != null) {
+                                        String str5 = strArr[i4];
+                                        if (str5 != null) {
                                             for (int i5 = 3; i < i5; i5 = 3) {
-                                                String str7 = strArr2[i];
-                                                if (str7 != null) {
-                                                    if (!str7.startsWith(str6)) {
-                                                        if (str7.contains(" " + str6)) {
+                                                String str6 = strArr2[i];
+                                                if (str6 != null) {
+                                                    if (!str6.startsWith(str5)) {
+                                                        if (str6.contains(" " + str5)) {
                                                         }
                                                     }
                                                     z2 = true;
@@ -9255,7 +9254,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 }
                                                 i++;
                                             }
-                                            if (!z2 && (str4 = user.username) != null && str4.startsWith(str6)) {
+                                            String publicUsername = UserObject.getPublicUsername(user);
+                                            if (!z2 && publicUsername != null && publicUsername.startsWith(str5)) {
                                                 z2 = true;
                                             }
                                             if (z2) {
@@ -9270,7 +9270,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                 }
                                 i3++;
                                 c = 1;
-                                str5 = null;
+                                str4 = null;
                                 i = 0;
                                 i2 = 2;
                             }

@@ -2013,7 +2013,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
                     searchImage.params = hashMap;
                     hashMap.put("id", tLRPC$BotInlineResult.id);
                     searchImage.params.put("query_id", "" + tLRPC$messages_BotResults.query_id);
-                    searchImage.params.put("bot_name", tLRPC$User.username);
+                    searchImage.params.put("bot_name", UserObject.getPublicUsername(tLRPC$User));
                     this.searchResult.add(searchImage);
                     this.searchResultKeys.put(searchImage.id, searchImage);
                     i2++;

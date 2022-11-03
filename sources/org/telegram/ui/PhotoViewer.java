@@ -1447,8 +1447,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 }
             } else {
                 TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(dialogId));
-                if (user != null && user.username != null) {
-                    url = "https://t.me/" + user.username + "/" + id + "?t=" + i;
+                String publicUsername2 = UserObject.getPublicUsername(user);
+                if (user != null && publicUsername2 != null) {
+                    url = "https://t.me/" + publicUsername2 + "/" + id + "?t=" + i;
                 }
             }
         }
@@ -7355,9 +7356,10 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         int resultLength = this.mentionsAdapter.getResultLength();
         if (item instanceof TLRPC$User) {
             TLRPC$User tLRPC$User = (TLRPC$User) item;
-            if (tLRPC$User.username != null) {
+            String publicUsername = UserObject.getPublicUsername(tLRPC$User);
+            if (publicUsername != null) {
                 PhotoViewerCaptionEnterView photoViewerCaptionEnterView = this.captionEditText;
-                photoViewerCaptionEnterView.replaceWithText(resultStartPosition, resultLength, "@" + tLRPC$User.username + " ", false);
+                photoViewerCaptionEnterView.replaceWithText(resultStartPosition, resultLength, "@" + publicUsername + " ", false);
                 return;
             }
             String firstName = UserObject.getFirstName(tLRPC$User);
@@ -17423,7 +17425,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                         }
                                     }
                                     if (chatActivity2 != null) {
-                                        chatActivity2.lambda$openDiscussionMessageChat$234(PhotoViewer.this.animationEndRunnable);
+                                        chatActivity2.lambda$openDiscussionMessageChat$235(PhotoViewer.this.animationEndRunnable);
                                         return;
                                     }
                                     PhotoViewer.this.animationEndRunnable.run();
@@ -18500,7 +18502,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     /* JADX WARN: Type inference failed for: r15v28 */
     /* JADX WARN: Type inference failed for: r15v3 */
     /* JADX WARN: Type inference failed for: r15v37 */
-    /* JADX WARN: Type inference failed for: r15v4, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r15v4, types: [int, boolean] */
     @SuppressLint({"NewApi", "DrawAllocation"})
     /*
         Code decompiled incorrectly, please refer to instructions dump.

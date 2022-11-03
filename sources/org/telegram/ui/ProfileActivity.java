@@ -2956,9 +2956,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                             return;
                         }
                         if (ProfileActivity.this.botInfo != null && ProfileActivity.this.userInfo != null && !TextUtils.isEmpty(ProfileActivity.this.userInfo.about)) {
-                            format = String.format("%s https://" + ProfileActivity.this.getMessagesController().linkPrefix + "/%s", ProfileActivity.this.userInfo.about, user5.username);
+                            format = String.format("%s https://" + ProfileActivity.this.getMessagesController().linkPrefix + "/%s", ProfileActivity.this.userInfo.about, UserObject.getPublicUsername(user5));
                         } else {
-                            format = String.format("https://" + ProfileActivity.this.getMessagesController().linkPrefix + "/%s", user5.username);
+                            format = String.format("https://" + ProfileActivity.this.getMessagesController().linkPrefix + "/%s", UserObject.getPublicUsername(user5));
                         }
                         str = format;
                     } else if (ProfileActivity.this.chatId != 0) {
@@ -2967,9 +2967,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                             return;
                         }
                         if (ProfileActivity.this.chatInfo != null && !TextUtils.isEmpty(ProfileActivity.this.chatInfo.about)) {
-                            str = String.format("%s\nhttps://" + ProfileActivity.this.getMessagesController().linkPrefix + "/%s", ProfileActivity.this.chatInfo.about, chat.username);
+                            str = String.format("%s\nhttps://" + ProfileActivity.this.getMessagesController().linkPrefix + "/%s", ProfileActivity.this.chatInfo.about, ChatObject.getPublicUsername(chat));
                         } else {
-                            str = String.format("https://" + ProfileActivity.this.getMessagesController().linkPrefix + "/%s", chat.username);
+                            str = String.format("https://" + ProfileActivity.this.getMessagesController().linkPrefix + "/%s", ChatObject.getPublicUsername(chat));
                         }
                     }
                     if (TextUtils.isEmpty(str)) {
@@ -5338,7 +5338,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         if (i == this.usernameRow || i == this.setUsernameRow) {
             if (this.userId != 0) {
                 TLRPC$User user = getMessagesController().getUser(Long.valueOf(this.userId));
-                if (user == null || (str = user.username) == null) {
+                str = UserObject.getPublicUsername(user);
+                if (user == null || str == null) {
                     return false;
                 }
             } else if (this.chatId == 0 || (chat = getMessagesController().getChat(Long.valueOf(this.chatId))) == null || !ChatObject.isPublic(chat)) {
@@ -7878,8 +7879,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 this.rowCount = i38 + 1;
                 this.versionRow = i38;
             } else {
+                String publicUsername = UserObject.getPublicUsername(user);
                 TLRPC$UserFull tLRPC$UserFull2 = this.userInfo;
-                boolean z3 = (tLRPC$UserFull2 != null && !TextUtils.isEmpty(tLRPC$UserFull2.about)) || (user != null && !TextUtils.isEmpty(user.username));
+                boolean z3 = (tLRPC$UserFull2 != null && !TextUtils.isEmpty(tLRPC$UserFull2.about)) || (user != null && !TextUtils.isEmpty(publicUsername));
                 if (user == null || (TextUtils.isEmpty(user.phone) && TextUtils.isEmpty(this.vcardPhone))) {
                     z2 = false;
                 }
@@ -7897,7 +7899,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     this.rowCount = i41 + 1;
                     this.userInfoRow = i41;
                 }
-                if (user != null && !TextUtils.isEmpty(user.username)) {
+                if (user != null && publicUsername != null) {
                     int i42 = this.rowCount;
                     this.rowCount = i42 + 1;
                     this.usernameRow = i42;
@@ -8995,17 +8997,17 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         showDialog(premiumPreviewBottomSheet);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:16:0x03b4  */
-    /* JADX WARN: Removed duplicated region for block: B:19:0x0408  */
-    /* JADX WARN: Removed duplicated region for block: B:21:0x040f  */
-    /* JADX WARN: Removed duplicated region for block: B:24:0x0424  */
-    /* JADX WARN: Removed duplicated region for block: B:27:0x0447  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x04fd  */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x0514  */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x052b  */
-    /* JADX WARN: Removed duplicated region for block: B:72:0x0542  */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x03aa  */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x03fe  */
+    /* JADX WARN: Removed duplicated region for block: B:21:0x0405  */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x041a  */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x043d  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x04f3  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x050a  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x0521  */
+    /* JADX WARN: Removed duplicated region for block: B:72:0x0538  */
     /* JADX WARN: Removed duplicated region for block: B:74:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:75:0x03ef  */
+    /* JADX WARN: Removed duplicated region for block: B:75:0x03e5  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -9183,10 +9185,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             String str2 = "StartVoipChat";
             if (ChatObject.isChannel(chat)) {
                 if (this.isTopic) {
-                    if ((ChatObject.hasAdminRights(chat) || chat.megagroup) && ChatObject.canManageTopic(this.currentAccount, chat, this.topicId)) {
+                    if (ChatObject.canManageTopic(this.currentAccount, chat, this.topicId)) {
                         this.editItemVisible = true;
                     }
-                } else if ((ChatObject.hasAdminRights(chat) || chat.megagroup) && ChatObject.canChangeChatInfo(chat)) {
+                } else if (ChatObject.hasAdminRights(chat) || (chat.megagroup && ChatObject.canChangeChatInfo(chat))) {
                     this.editItemVisible = true;
                 }
                 if (this.chatInfo != null) {
@@ -10756,12 +10758,19 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         if (str2 == null) {
                             str2 = currentUser2.username;
                         }
-                        string = "@" + str2;
+                        if (str2 == null || TextUtils.isEmpty(str2)) {
+                            string = LocaleController.getString("UsernameEmpty", R.string.UsernameEmpty);
+                        } else {
+                            string = "@" + str2;
+                        }
                         string19 = alsoUsernamesString(str2, currentUser2.usernames, string19);
-                    } else if (currentUser2 != null && !TextUtils.isEmpty(currentUser2.username)) {
-                        string = "@" + currentUser2.username;
                     } else {
-                        string = LocaleController.getString("UsernameEmpty", R.string.UsernameEmpty);
+                        String publicUsername = UserObject.getPublicUsername(currentUser2);
+                        if (currentUser2 != null && !TextUtils.isEmpty(publicUsername)) {
+                            string = "@" + publicUsername;
+                        } else {
+                            string = LocaleController.getString("UsernameEmpty", R.string.UsernameEmpty);
+                        }
                     }
                     textDetailCell.setTextAndValue(string, string19, true);
                     textDetailCell.setContentDescriptionValueFirst(true);

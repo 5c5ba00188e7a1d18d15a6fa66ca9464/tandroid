@@ -7147,8 +7147,8 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         /* JADX WARN: Code restructure failed: missing block: B:36:0x00f1, code lost:
             if (r14.contains(" " + r3) != false) goto L53;
          */
-        /* JADX WARN: Removed duplicated region for block: B:43:0x0147 A[LOOP:1: B:27:0x00b5->B:43:0x0147, LOOP_END] */
-        /* JADX WARN: Removed duplicated region for block: B:44:0x0108 A[SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:43:0x014b A[LOOP:1: B:27:0x00b5->B:43:0x014b, LOOP_END] */
+        /* JADX WARN: Removed duplicated region for block: B:44:0x010a A[SYNTHETIC] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -7200,15 +7200,15 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                                     if (!translitString2.startsWith(str2)) {
                                     }
                                 }
-                                String str3 = user.username;
-                                c = (str3 == null || !str3.startsWith(str2)) ? c2 : (char) 2;
+                                String publicUsername = UserObject.getPublicUsername(user);
+                                c = (publicUsername == null || !publicUsername.startsWith(str2)) ? c2 : (char) 2;
                                 if (c == 0) {
                                     if (c == 1) {
                                         arrayList2.add(AndroidUtilities.generateSearchName(user.first_name, user.last_name, str2));
                                         obj = null;
                                     } else {
                                         obj = null;
-                                        arrayList2.add(AndroidUtilities.generateSearchName("@" + user.username, null, "@" + str2));
+                                        arrayList2.add(AndroidUtilities.generateSearchName("@" + UserObject.getPublicUsername(user), null, "@" + str2));
                                     }
                                     arrayList3.add(tLObject);
                                 } else {
@@ -7326,7 +7326,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
             } else {
                 user = SharedMediaLayout.this.profileActivity.getMessagesController().getUser(Long.valueOf(((TLRPC$ChatParticipant) item).user_id));
             }
-            String str = user.username;
+            UserObject.getPublicUsername(user);
             this.searchAdapterHelper.getGroupSearch().size();
             String lastFoundChannel = this.searchAdapterHelper.getLastFoundChannel();
             if (lastFoundChannel != null) {

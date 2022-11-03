@@ -3433,17 +3433,17 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* JADX WARN: Code restructure failed: missing block: B:42:0x013e, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:42:0x0142, code lost:
             if (r15.contains(" " + r4) != false) goto L58;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:94:0x0247, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:94:0x024b, code lost:
             if (r5.contains(" " + r9) != false) goto L109;
          */
         /* JADX WARN: Multi-variable type inference failed */
-        /* JADX WARN: Removed duplicated region for block: B:101:0x02a1 A[LOOP:3: B:85:0x020d->B:101:0x02a1, LOOP_END] */
-        /* JADX WARN: Removed duplicated region for block: B:102:0x0259 A[SYNTHETIC] */
-        /* JADX WARN: Removed duplicated region for block: B:48:0x0188 A[LOOP:1: B:32:0x0100->B:48:0x0188, LOOP_END] */
-        /* JADX WARN: Removed duplicated region for block: B:49:0x0153 A[SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:101:0x02a9 A[LOOP:3: B:85:0x0211->B:101:0x02a9, LOOP_END] */
+        /* JADX WARN: Removed duplicated region for block: B:102:0x025f A[SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:48:0x018c A[LOOP:1: B:32:0x0104->B:48:0x018c, LOOP_END] */
+        /* JADX WARN: Removed duplicated region for block: B:49:0x0157 A[SYNTHETIC] */
         /* JADX WARN: Type inference failed for: r15v3, types: [java.util.ArrayList] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -3459,10 +3459,10 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
             String[] strArr;
             int i3;
             int i4;
+            String publicUsername;
             String str2;
             String str3;
             String str4;
-            String str5;
             char c;
             ArrayList arrayList5 = arrayList;
             String lowerCase = str.trim().toLowerCase();
@@ -3513,10 +3513,10 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                     if (peerId > 0) {
                         TLRPC$User user = ChatUsersActivity.this.getMessagesController().getUser(Long.valueOf(peerId));
                         if (user.id != ChatUsersActivity.this.getUserConfig().getClientUserId()) {
-                            str4 = UserObject.getUserName(user).toLowerCase();
-                            str2 = user.username;
-                            str3 = user.first_name;
-                            str5 = user.last_name;
+                            str3 = UserObject.getUserName(user).toLowerCase();
+                            publicUsername = UserObject.getPublicUsername(user);
+                            str2 = user.first_name;
+                            str4 = user.last_name;
                             i3 = size;
                         }
                         arrayList4 = arrayList6;
@@ -3534,14 +3534,14 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                     } else {
                         TLRPC$Chat chat = ChatUsersActivity.this.getMessagesController().getChat(Long.valueOf(-peerId));
                         String lowerCase2 = chat.title.toLowerCase();
-                        str2 = chat.username;
-                        str3 = chat.title;
-                        str4 = lowerCase2;
+                        publicUsername = ChatObject.getPublicUsername(chat);
+                        str2 = chat.title;
+                        str3 = lowerCase2;
                         i3 = size;
-                        str5 = null;
+                        str4 = null;
                     }
-                    String translitString2 = LocaleController.getInstance().getTranslitString(str4);
-                    if (str4.equals(translitString2)) {
+                    String translitString2 = LocaleController.getInstance().getTranslitString(str3);
+                    if (str3.equals(translitString2)) {
                         translitString2 = null;
                     }
                     arrayList4 = arrayList6;
@@ -3555,20 +3555,20 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                             strArr = strArr2;
                             break;
                         }
-                        String str6 = strArr2[i8];
-                        if (!str4.startsWith(str6)) {
+                        String str5 = strArr2[i8];
+                        if (!str3.startsWith(str5)) {
                             strArr = strArr2;
-                            if (!str4.contains(" " + str6)) {
+                            if (!str3.contains(" " + str5)) {
                                 if (translitString2 != null) {
-                                    if (!translitString2.startsWith(str6)) {
+                                    if (!translitString2.startsWith(str5)) {
                                     }
                                 }
-                                c = (str2 == null || !str2.startsWith(str6)) ? c2 : (char) 2;
+                                c = (publicUsername == null || !publicUsername.startsWith(str5)) ? c2 : (char) 2;
                                 if (c == 0) {
                                     if (c == 1) {
-                                        arrayList7.add(AndroidUtilities.generateSearchName(str3, str5, str6));
+                                        arrayList7.add(AndroidUtilities.generateSearchName(str2, str4, str5));
                                     } else {
-                                        arrayList7.add(AndroidUtilities.generateSearchName("@" + str2, null, "@" + str6));
+                                        arrayList7.add(AndroidUtilities.generateSearchName("@" + publicUsername, null, "@" + str5));
                                     }
                                     arrayList8.add(tLObject);
                                 } else {
@@ -3615,23 +3615,23 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                         i = i9;
                         char c3 = 0;
                         for (int i11 = 0; i11 < i; i11++) {
-                            String str7 = strArr3[i11];
-                            if (!lowerCase3.startsWith(str7)) {
-                                if (!lowerCase3.contains(" " + str7)) {
+                            String str6 = strArr3[i11];
+                            if (!lowerCase3.startsWith(str6)) {
+                                if (!lowerCase3.contains(" " + str6)) {
                                     if (translitString3 != null) {
-                                        if (!translitString3.startsWith(str7)) {
+                                        if (!translitString3.startsWith(str6)) {
                                         }
                                     }
-                                    String str8 = user2.username;
-                                    if (str8 != null && str8.startsWith(str7)) {
+                                    String publicUsername2 = UserObject.getPublicUsername(user2);
+                                    if (publicUsername2 != null && publicUsername2.startsWith(str6)) {
                                         c3 = 2;
                                     }
                                     if (c3 == 0) {
                                         if (c3 == 1) {
-                                            arrayList7.add(AndroidUtilities.generateSearchName(user2.first_name, user2.last_name, str7));
+                                            arrayList7.add(AndroidUtilities.generateSearchName(user2.first_name, user2.last_name, str6));
                                             arrayList3 = arrayList9;
                                         } else {
-                                            arrayList7.add(AndroidUtilities.generateSearchName("@" + user2.username, null, "@" + str7));
+                                            arrayList7.add(AndroidUtilities.generateSearchName("@" + UserObject.getPublicUsername(user2), null, "@" + str6));
                                             arrayList3 = arrayList9;
                                         }
                                         arrayList3.add(user2);
@@ -3811,14 +3811,14 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
         }
 
         /* JADX WARN: Multi-variable type inference failed */
-        /* JADX WARN: Removed duplicated region for block: B:36:0x00f2  */
-        /* JADX WARN: Removed duplicated region for block: B:41:0x0104  */
-        /* JADX WARN: Removed duplicated region for block: B:45:0x010f  */
-        /* JADX WARN: Removed duplicated region for block: B:55:0x014d A[ADDED_TO_REGION] */
-        /* JADX WARN: Removed duplicated region for block: B:58:0x015b  */
-        /* JADX WARN: Removed duplicated region for block: B:75:0x019f A[ADDED_TO_REGION] */
-        /* JADX WARN: Removed duplicated region for block: B:78:0x01ac  */
-        /* JADX WARN: Removed duplicated region for block: B:82:0x0141  */
+        /* JADX WARN: Removed duplicated region for block: B:36:0x00f4  */
+        /* JADX WARN: Removed duplicated region for block: B:41:0x0106  */
+        /* JADX WARN: Removed duplicated region for block: B:45:0x0111  */
+        /* JADX WARN: Removed duplicated region for block: B:55:0x014f A[ADDED_TO_REGION] */
+        /* JADX WARN: Removed duplicated region for block: B:58:0x015d  */
+        /* JADX WARN: Removed duplicated region for block: B:75:0x01a1 A[ADDED_TO_REGION] */
+        /* JADX WARN: Removed duplicated region for block: B:78:0x01ae  */
+        /* JADX WARN: Removed duplicated region for block: B:82:0x0143  */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -3882,7 +3882,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                         TLRPC$User user = ChatUsersActivity.this.getMessagesController().getUser(Long.valueOf(peerId));
                         tLRPC$User2 = user;
                         if (user != null) {
-                            publicUsername = user.username;
+                            publicUsername = UserObject.getPublicUsername(user);
                             tLRPC$User = user;
                             size = this.searchAdapterHelper.getGroupSearch().size();
                             if (size != 0) {

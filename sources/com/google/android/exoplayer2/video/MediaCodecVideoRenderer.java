@@ -1021,7 +1021,7 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
         return "NVIDIA".equals(Util.MANUFACTURER);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:36:0x0653 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x0655 A[ADDED_TO_REGION] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
