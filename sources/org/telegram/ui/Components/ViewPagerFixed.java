@@ -116,6 +116,9 @@ public class ViewPagerFixed extends FrameLayout {
     protected void onItemSelected(View view, View view2, int i, int i2) {
     }
 
+    protected void onTabPageSelected(int i) {
+    }
+
     public ViewPagerFixed(Context context) {
         super(context);
         this.maximumVelocity = ViewConfiguration.get(context).getScaledMaximumFlingVelocity();
@@ -133,9 +136,19 @@ public class ViewPagerFixed extends FrameLayout {
     }
 
     public TabsView createTabsView() {
-        TabsView tabsView = new TabsView(getContext());
+        TabsView tabsView = new TabsView(getContext()) { // from class: org.telegram.ui.Components.ViewPagerFixed.2
+            @Override // org.telegram.ui.Components.ViewPagerFixed.TabsView
+            public void selectTab(int i, int i2, float f) {
+                super.selectTab(i, i2, f);
+                ViewPagerFixed viewPagerFixed = ViewPagerFixed.this;
+                if (f > 0.5f) {
+                    i = i2;
+                }
+                viewPagerFixed.onTabPageSelected(i);
+            }
+        };
         this.tabsView = tabsView;
-        tabsView.setDelegate(new TabsView.TabsViewDelegate() { // from class: org.telegram.ui.Components.ViewPagerFixed.2
+        tabsView.setDelegate(new TabsView.TabsViewDelegate() { // from class: org.telegram.ui.Components.ViewPagerFixed.3
             @Override // org.telegram.ui.Components.ViewPagerFixed.TabsView.TabsViewDelegate
             public void onSamePageSelected() {
             }
@@ -146,6 +159,7 @@ public class ViewPagerFixed extends FrameLayout {
                 ViewPagerFixed viewPagerFixed = ViewPagerFixed.this;
                 viewPagerFixed.nextPosition = i;
                 viewPagerFixed.updateViewForIndex(1);
+                ViewPagerFixed.this.onTabPageSelected(i);
                 if (z) {
                     View[] viewArr = ViewPagerFixed.this.viewPages;
                     viewArr[1].setTranslationX(viewArr[0].getMeasuredWidth());
@@ -453,7 +467,7 @@ public class ViewPagerFixed extends FrameLayout {
                         measuredWidth2 = (int) (((measuredWidth / getMeasuredWidth()) + 1.0f) * 100.0f);
                     }
                     this.tabsAnimation.setDuration(Math.max((int) ImageReceiver.DEFAULT_CROSSFADE_DURATION, Math.min(measuredWidth2, 600)));
-                    this.tabsAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ViewPagerFixed.3
+                    this.tabsAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ViewPagerFixed.4
                         @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                         public void onAnimationEnd(Animator animator) {
                             ViewPagerFixed.this.tabsAnimation = null;
@@ -1026,6 +1040,18 @@ public class ViewPagerFixed extends FrameLayout {
 
         public boolean isAnimatingIndicator() {
             return this.animatingIndicator;
+        }
+
+        public int getCurrentPosition() {
+            return this.currentPosition;
+        }
+
+        public int getPreviousPosition() {
+            return this.previousPosition;
+        }
+
+        public float getAnimatingIndicatorProgress() {
+            return this.animatingIndicatorProgress;
         }
 
         public void scrollToTab(int i, int i2) {

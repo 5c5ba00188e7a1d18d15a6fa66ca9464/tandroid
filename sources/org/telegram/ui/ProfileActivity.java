@@ -257,6 +257,7 @@ import org.telegram.ui.Components.AutoDeletePopupWrapper;
 import org.telegram.ui.Components.AvatarDrawable;
 import org.telegram.ui.Components.BackButtonMenu;
 import org.telegram.ui.Components.BackupImageView;
+import org.telegram.ui.Components.Bulletin;
 import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.Components.ChatAvatarContainer;
 import org.telegram.ui.Components.ChatNotificationsPopupWrapper;
@@ -548,11 +549,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static /* synthetic */ void access$27400(ProfileActivity profileActivity, View view) {
+    public static /* synthetic */ void access$27900(ProfileActivity profileActivity, View view) {
         profileActivity.onTextDetailCellImageClicked(view);
     }
 
-    static /* synthetic */ int access$7712(ProfileActivity profileActivity, int i) {
+    static /* synthetic */ int access$8212(ProfileActivity profileActivity, int i) {
         int i2 = profileActivity.listContentHeight + i;
         profileActivity.listContentHeight = i2;
         return i2;
@@ -2919,6 +2920,47 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 textView2.setTextColor(ProfileActivity.this.getThemedColor("dialogTextRed2"));
             } else if (i == 7) {
                 ProfileActivity.this.leaveChatPressed();
+            } else if (i == 23) {
+                AlertDialog.Builder builder3 = new AlertDialog.Builder(ProfileActivity.this.getContext());
+                builder3.setTitle(LocaleController.getPluralString("DeleteTopics", 1));
+                TLRPC$TL_forumTopic findTopic = MessagesController.getInstance(((BaseFragment) ProfileActivity.this).currentAccount).getTopicsController().findTopic(ProfileActivity.this.chatId, ProfileActivity.this.topicId);
+                int i2 = R.string.DeleteSelectedTopic;
+                Object[] objArr = new Object[1];
+                objArr[0] = findTopic == null ? "topic" : findTopic.title;
+                builder3.setMessage(LocaleController.formatString("DeleteSelectedTopic", i2, objArr));
+                builder3.setPositiveButton(LocaleController.getString("Delete", R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ProfileActivity.5.1
+                    @Override // android.content.DialogInterface.OnClickListener
+                    public void onClick(DialogInterface dialogInterface, int i3) {
+                        ArrayList<Integer> arrayList = new ArrayList<>();
+                        arrayList.add(Integer.valueOf(ProfileActivity.this.topicId));
+                        ProfileActivity.this.getMessagesController().getTopicsController().deleteTopics(ProfileActivity.this.chatId, arrayList);
+                        ProfileActivity.this.playProfileAnimation = 0;
+                        if (((BaseFragment) ProfileActivity.this).parentLayout != null && ((BaseFragment) ProfileActivity.this).parentLayout.getFragmentStack() != null) {
+                            for (int i4 = 0; i4 < ((BaseFragment) ProfileActivity.this).parentLayout.getFragmentStack().size(); i4++) {
+                                BaseFragment baseFragment = ((BaseFragment) ProfileActivity.this).parentLayout.getFragmentStack().get(i4);
+                                if ((baseFragment instanceof ChatActivity) && ((ChatActivity) baseFragment).getTopicId() == ProfileActivity.this.topicId) {
+                                    baseFragment.removeSelfFromStack();
+                                }
+                            }
+                        }
+                        ProfileActivity.this.finishFragment();
+                        BulletinFactory.of(Bulletin.BulletinWindow.make(ProfileActivity.this.getContext()), ProfileActivity.this.resourcesProvider).createSimpleBulletin(R.raw.ic_delete, LocaleController.getPluralString("TopicsDeleted", 1)).show();
+                        dialogInterface.dismiss();
+                    }
+                });
+                builder3.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), new DialogInterface.OnClickListener(this) { // from class: org.telegram.ui.ProfileActivity.5.2
+                    @Override // android.content.DialogInterface.OnClickListener
+                    public void onClick(DialogInterface dialogInterface, int i3) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                AlertDialog create3 = builder3.create();
+                create3.show();
+                TextView textView3 = (TextView) create3.getButton(-1);
+                if (textView3 == null) {
+                    return;
+                }
+                textView3.setTextColor(Theme.getColor("dialogTextRed2"));
             } else if (i == 12) {
                 if (ProfileActivity.this.isTopic) {
                     new Bundle().putLong("chat_id", ProfileActivity.this.chatId);
@@ -3039,23 +3081,23 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 ProfileActivity profileActivity7 = ProfileActivity.this;
                 profileActivity6.showDialog(new GiftPremiumBottomSheet(profileActivity7, profileActivity7.getMessagesController().getUser(Long.valueOf(ProfileActivity.this.userId))));
             } else if (i == 20) {
-                AlertDialog.Builder builder3 = new AlertDialog.Builder(ProfileActivity.this.getParentActivity(), ProfileActivity.this.resourcesProvider);
-                builder3.setTitle(LocaleController.getString("AreYouSureSecretChatTitle", R.string.AreYouSureSecretChatTitle));
-                builder3.setMessage(LocaleController.getString("AreYouSureSecretChat", R.string.AreYouSureSecretChat));
-                builder3.setPositiveButton(LocaleController.getString("Start", R.string.Start), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$5$$ExternalSyntheticLambda2
+                AlertDialog.Builder builder4 = new AlertDialog.Builder(ProfileActivity.this.getParentActivity(), ProfileActivity.this.resourcesProvider);
+                builder4.setTitle(LocaleController.getString("AreYouSureSecretChatTitle", R.string.AreYouSureSecretChatTitle));
+                builder4.setMessage(LocaleController.getString("AreYouSureSecretChat", R.string.AreYouSureSecretChat));
+                builder4.setPositiveButton(LocaleController.getString("Start", R.string.Start), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$5$$ExternalSyntheticLambda2
                     @Override // android.content.DialogInterface.OnClickListener
-                    public final void onClick(DialogInterface dialogInterface, int i2) {
-                        ProfileActivity.5.this.lambda$onItemClick$7(dialogInterface, i2);
+                    public final void onClick(DialogInterface dialogInterface, int i3) {
+                        ProfileActivity.5.this.lambda$onItemClick$7(dialogInterface, i3);
                     }
                 });
-                builder3.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-                ProfileActivity.this.showDialog(builder3.create());
+                builder4.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+                ProfileActivity.this.showDialog(builder4.create());
             } else if (i == 21) {
                 if (ProfileActivity.this.getParentActivity() == null) {
                     return;
                 }
-                int i2 = Build.VERSION.SDK_INT;
-                if (i2 < 23 || ((i2 > 28 && !BuildVars.NO_SCOPED_STORAGE) || ProfileActivity.this.getParentActivity().checkSelfPermission("android.permission.WRITE_EXTERNAL_STORAGE") == 0)) {
+                int i3 = Build.VERSION.SDK_INT;
+                if (i3 < 23 || ((i3 > 28 && !BuildVars.NO_SCOPED_STORAGE) || ProfileActivity.this.getParentActivity().checkSelfPermission("android.permission.WRITE_EXTERNAL_STORAGE") == 0)) {
                     ImageLocation imageLocation = ProfileActivity.this.avatarsViewPager.getImageLocation(ProfileActivity.this.avatarsViewPager.getRealPosition());
                     if (imageLocation == null) {
                         return;
@@ -3150,32 +3192,32 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     ProfileActivity.this.presentFragment(new QrActivity(bundle8));
                 }
             } else {
-                AlertDialog.Builder builder4 = new AlertDialog.Builder(ProfileActivity.this.getParentActivity(), ProfileActivity.this.resourcesProvider);
+                AlertDialog.Builder builder5 = new AlertDialog.Builder(ProfileActivity.this.getParentActivity(), ProfileActivity.this.resourcesProvider);
                 ImageLocation imageLocation3 = ProfileActivity.this.avatarsViewPager.getImageLocation(ProfileActivity.this.avatarsViewPager.getRealPosition());
                 if (imageLocation3 == null) {
                     return;
                 }
                 if (imageLocation3.imageType == 2) {
-                    builder4.setTitle(LocaleController.getString("AreYouSureDeleteVideoTitle", R.string.AreYouSureDeleteVideoTitle));
-                    builder4.setMessage(LocaleController.formatString("AreYouSureDeleteVideo", R.string.AreYouSureDeleteVideo, new Object[0]));
+                    builder5.setTitle(LocaleController.getString("AreYouSureDeleteVideoTitle", R.string.AreYouSureDeleteVideoTitle));
+                    builder5.setMessage(LocaleController.formatString("AreYouSureDeleteVideo", R.string.AreYouSureDeleteVideo, new Object[0]));
                 } else {
-                    builder4.setTitle(LocaleController.getString("AreYouSureDeletePhotoTitle", R.string.AreYouSureDeletePhotoTitle));
-                    builder4.setMessage(LocaleController.formatString("AreYouSureDeletePhoto", R.string.AreYouSureDeletePhoto, new Object[0]));
+                    builder5.setTitle(LocaleController.getString("AreYouSureDeletePhotoTitle", R.string.AreYouSureDeletePhotoTitle));
+                    builder5.setMessage(LocaleController.formatString("AreYouSureDeletePhoto", R.string.AreYouSureDeletePhoto, new Object[0]));
                 }
-                builder4.setPositiveButton(LocaleController.getString("Delete", R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$5$$ExternalSyntheticLambda1
+                builder5.setPositiveButton(LocaleController.getString("Delete", R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$5$$ExternalSyntheticLambda1
                     @Override // android.content.DialogInterface.OnClickListener
-                    public final void onClick(DialogInterface dialogInterface, int i3) {
-                        ProfileActivity.5.this.lambda$onItemClick$11(dialogInterface, i3);
+                    public final void onClick(DialogInterface dialogInterface, int i4) {
+                        ProfileActivity.5.this.lambda$onItemClick$11(dialogInterface, i4);
                     }
                 });
-                builder4.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-                AlertDialog create3 = builder4.create();
-                ProfileActivity.this.showDialog(create3);
-                TextView textView3 = (TextView) create3.getButton(-1);
-                if (textView3 == null) {
+                builder5.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+                AlertDialog create4 = builder5.create();
+                ProfileActivity.this.showDialog(create4);
+                TextView textView4 = (TextView) create4.getButton(-1);
+                if (textView4 == null) {
                     return;
                 }
-                textView3.setTextColor(ProfileActivity.this.getThemedColor("dialogTextRed2"));
+                textView4.setTextColor(ProfileActivity.this.getThemedColor("dialogTextRed2"));
             }
         }
 
@@ -3250,7 +3292,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onItemClick$3(long j, TLRPC$TL_chatAdminRights tLRPC$TL_chatAdminRights, String str, boolean z, final DialogsActivity dialogsActivity) {
             ChatRightsEditActivity chatRightsEditActivity = new ChatRightsEditActivity(ProfileActivity.this.userId, -j, tLRPC$TL_chatAdminRights, null, null, str, 2, true, !z, null);
-            chatRightsEditActivity.setDelegate(new ChatRightsEditActivity.ChatRightsEditActivityDelegate() { // from class: org.telegram.ui.ProfileActivity.5.1
+            chatRightsEditActivity.setDelegate(new ChatRightsEditActivity.ChatRightsEditActivityDelegate() { // from class: org.telegram.ui.ProfileActivity.5.3
                 @Override // org.telegram.ui.ChatRightsEditActivity.ChatRightsEditActivityDelegate
                 public void didChangeOwner(TLRPC$User tLRPC$User) {
                 }
@@ -3455,10 +3497,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         RecyclerView.ViewHolder createViewHolder = ProfileActivity.this.listAdapter.createViewHolder(null, itemViewType);
                         ProfileActivity.this.listAdapter.onBindViewHolder(createViewHolder, i6);
                         createViewHolder.itemView.measure(makeMeasureSpec, makeMeasureSpec2);
-                        ProfileActivity.access$7712(ProfileActivity.this, createViewHolder.itemView.getMeasuredHeight());
+                        ProfileActivity.access$8212(ProfileActivity.this, createViewHolder.itemView.getMeasuredHeight());
                     } else {
                         ProfileActivity profileActivity = ProfileActivity.this;
-                        ProfileActivity.access$7712(profileActivity, profileActivity.listView.getMeasuredHeight());
+                        ProfileActivity.access$8212(profileActivity, profileActivity.listView.getMeasuredHeight());
                     }
                 }
                 if (ProfileActivity.this.emptyView != null) {
@@ -8275,26 +8317,26 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Code restructure failed: missing block: B:208:0x0416, code lost:
-        if (r28.chatInfo.can_view_participants != false) goto L390;
+        if (r28.chatInfo.can_view_participants != false) goto L392;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:234:0x05f5, code lost:
-        if (r28.nameTextView[r4].setText(r13) != false) goto L315;
+    /* JADX WARN: Code restructure failed: missing block: B:235:0x05fa, code lost:
+        if (r28.nameTextView[r4].setText(r13) != false) goto L316;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:315:0x0621, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:316:0x0626, code lost:
         r8 = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:328:0x061f, code lost:
-        if (r28.nameTextView[r4].setText(r1) != false) goto L315;
+    /* JADX WARN: Code restructure failed: missing block: B:330:0x0624, code lost:
+        if (r28.nameTextView[r4].setText(r1) != false) goto L316;
      */
     /* JADX WARN: Removed duplicated region for block: B:100:0x0394 A[ADDED_TO_REGION, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:122:0x02f1  */
     /* JADX WARN: Removed duplicated region for block: B:141:0x0248  */
     /* JADX WARN: Removed duplicated region for block: B:142:0x023f  */
-    /* JADX WARN: Removed duplicated region for block: B:154:0x08d0  */
+    /* JADX WARN: Removed duplicated region for block: B:154:0x08d5  */
     /* JADX WARN: Removed duplicated region for block: B:217:0x05af  */
-    /* JADX WARN: Removed duplicated region for block: B:333:0x081a  */
-    /* JADX WARN: Removed duplicated region for block: B:341:0x082e  */
-    /* JADX WARN: Removed duplicated region for block: B:367:0x0838  */
+    /* JADX WARN: Removed duplicated region for block: B:335:0x081f  */
+    /* JADX WARN: Removed duplicated region for block: B:343:0x0833  */
+    /* JADX WARN: Removed duplicated region for block: B:369:0x083d  */
     /* JADX WARN: Removed duplicated region for block: B:67:0x023a  */
     /* JADX WARN: Removed duplicated region for block: B:70:0x0246  */
     /* JADX WARN: Removed duplicated region for block: B:73:0x024e  */
@@ -8694,13 +8736,13 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                             str14 = str;
                             str10 = str18;
                         } else if (this.isTopic) {
-                            CharSequence charSequence = findTopic.title;
+                            String str24 = findTopic == null ? "" : findTopic.title;
                             try {
                                 str5 = formatPluralString;
                                 try {
                                     str6 = str3;
                                     try {
-                                        charSequence = Emoji.replaceEmoji(charSequence, simpleTextViewArr4[i].getPaint().getFontMetricsInt(), AndroidUtilities.dp(24.0f), false);
+                                        str24 = Emoji.replaceEmoji(str24, simpleTextViewArr4[i].getPaint().getFontMetricsInt(), AndroidUtilities.dp(24.0f), false);
                                     } catch (Exception unused2) {
                                     }
                                 } catch (Exception unused3) {
@@ -8712,10 +8754,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         } else {
                             str5 = formatPluralString;
                             str6 = str3;
-                            CharSequence charSequence2 = chat.title;
-                            if (charSequence2 != null) {
+                            CharSequence charSequence = chat.title;
+                            if (charSequence != null) {
                                 try {
-                                    charSequence2 = Emoji.replaceEmoji(charSequence2, simpleTextViewArr4[i].getPaint().getFontMetricsInt(), AndroidUtilities.dp(24.0f), false);
+                                    charSequence = Emoji.replaceEmoji(charSequence, simpleTextViewArr4[i].getPaint().getFontMetricsInt(), AndroidUtilities.dp(24.0f), false);
                                 } catch (Exception unused5) {
                                 }
                             }
@@ -8997,17 +9039,17 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         showDialog(premiumPreviewBottomSheet);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:16:0x03aa  */
-    /* JADX WARN: Removed duplicated region for block: B:19:0x03fe  */
-    /* JADX WARN: Removed duplicated region for block: B:21:0x0405  */
-    /* JADX WARN: Removed duplicated region for block: B:24:0x041a  */
-    /* JADX WARN: Removed duplicated region for block: B:27:0x043d  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x04f3  */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x050a  */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x0521  */
-    /* JADX WARN: Removed duplicated region for block: B:72:0x0538  */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x03cb  */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x041f  */
+    /* JADX WARN: Removed duplicated region for block: B:21:0x0426  */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x043b  */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x045e  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x0514  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x052b  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x0542  */
+    /* JADX WARN: Removed duplicated region for block: B:72:0x0559  */
     /* JADX WARN: Removed duplicated region for block: B:74:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:75:0x03e5  */
+    /* JADX WARN: Removed duplicated region for block: B:75:0x0406  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -9212,8 +9254,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 if (chat.megagroup) {
                     this.canSearchMembers = true;
                     this.otherItem.addSubItem(17, R.drawable.msg_search, LocaleController.getString("SearchMembers", R.string.SearchMembers));
-                    if (!chat.creator && !chat.left && !chat.kicked) {
+                    if (!chat.creator && !chat.left && !chat.kicked && !this.isTopic) {
                         this.otherItem.addSubItem(7, R.drawable.msg_leave, LocaleController.getString("LeaveMegaMenu", R.string.LeaveMegaMenu));
+                    }
+                    if (this.isTopic && ChatObject.canDeleteTopic(this.currentAccount, chat, this.topicId)) {
+                        this.otherItem.addSubItem(23, R.drawable.msg_delete, LocaleController.getPluralString("DeleteTopics", 1));
                     }
                 } else {
                     if (ChatObject.isPublic(chat)) {
@@ -10004,7 +10049,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     textDetailCell2.setImageClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$ListAdapter$$ExternalSyntheticLambda0
                         @Override // android.view.View.OnClickListener
                         public final void onClick(View view) {
-                            ProfileActivity.access$27400(ProfileActivity.this, view);
+                            ProfileActivity.access$27900(ProfileActivity.this, view);
                         }
                     });
                     textDetailCell = textDetailCell2;
