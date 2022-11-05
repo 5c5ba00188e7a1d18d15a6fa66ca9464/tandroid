@@ -950,6 +950,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
     public void updateTopView() {
         float f;
         FragmentContextView fragmentContextView = this.fragmentContextView;
+        float f2 = 0.0f;
         if (fragmentContextView != null) {
             f = Math.max(0.0f, fragmentContextView.getTopPadding()) + 0.0f;
             this.fragmentContextView.setTranslationY(f);
@@ -963,6 +964,12 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
             f += this.pendingRequestsDelegate.getViewEnterOffset() + this.pendingRequestsDelegate.getViewHeight();
         }
         this.recyclerListView.setTranslationY(Math.max(0.0f, f));
+        RecyclerListView recyclerListView = this.recyclerListView;
+        int dp = AndroidUtilities.dp(100.0f);
+        if (this.bottomPannelVisible) {
+            f2 = 51.0f;
+        }
+        recyclerListView.setPadding(0, dp, 0, AndroidUtilities.dp(f2) + ((int) f));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1520,11 +1527,11 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
         updateChatInfo(false);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:26:0x0171  */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x01bf  */
-    /* JADX WARN: Removed duplicated region for block: B:45:0x01ce  */
-    /* JADX WARN: Removed duplicated region for block: B:55:0x01d0  */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x01c2  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x0149  */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x019a  */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x01a9  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x01ab  */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x019d  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1559,13 +1566,11 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
         boolean z4 = this.fragmentBeginToShow || z;
         long j = MessagesController.getNotificationsSettings(this.currentAccount).getLong("dialog_join_requested_time_" + (-this.chatId), -1L);
         if (chat != null && ChatObject.isNotInChat(chat) && j > 0 && System.currentTimeMillis() - j < 120000) {
-            this.recyclerListView.setPadding(0, AndroidUtilities.dp(100.0f), 0, AndroidUtilities.dp(51.0f));
             this.bottomOverlayChatText.setText(LocaleController.getString("ChannelJoinRequestSent", R.string.ChannelJoinRequestSent), z4);
             this.bottomOverlayChatText.setEnabled(false);
             AndroidUtilities.updateViewVisibilityAnimated(this.bottomOverlayProgress, false, 0.5f, z4);
             AndroidUtilities.updateViewVisibilityAnimated(this.bottomOverlayChatText, true, 0.5f, z4);
         } else if (chat != null && !this.opnendForSelect && (ChatObject.isNotInChat(chat) || getMessagesController().isJoiningChannel(chat.id))) {
-            this.recyclerListView.setPadding(0, AndroidUtilities.dp(100.0f), 0, AndroidUtilities.dp(51.0f));
             if (getMessagesController().isJoiningChannel(chat.id)) {
                 z3 = true;
             } else {
@@ -1581,7 +1586,6 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
             AndroidUtilities.updateViewVisibilityAnimated(this.bottomOverlayProgress, z3, 0.5f, z4);
             AndroidUtilities.updateViewVisibilityAnimated(this.bottomOverlayChatText, !z3, 0.5f, z4);
         } else {
-            this.recyclerListView.setPadding(0, AndroidUtilities.dp(100.0f), 0, 0);
             z2 = false;
             if (this.bottomPannelVisible != z2) {
                 this.bottomPannelVisible = z2;
@@ -1609,6 +1613,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
                     });
                 }
             }
+            updateTopView();
             this.other.setVisibility(!this.opnendForSelect ? 8 : 0);
             this.addMemberSubMenu.setVisibility(!ChatObject.canAddUsers(chat) ? 0 : 8);
             ActionBarMenuSubItem actionBarMenuSubItem = this.deleteChatSubmenu;
@@ -1622,6 +1627,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
         z2 = true;
         if (this.bottomPannelVisible != z2) {
         }
+        updateTopView();
         this.other.setVisibility(!this.opnendForSelect ? 8 : 0);
         this.addMemberSubMenu.setVisibility(!ChatObject.canAddUsers(chat) ? 0 : 8);
         ActionBarMenuSubItem actionBarMenuSubItem2 = this.deleteChatSubmenu;

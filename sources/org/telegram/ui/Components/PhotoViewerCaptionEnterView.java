@@ -340,6 +340,7 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes3.dex */
     public class 2 implements TextWatcher {
+        boolean heightShouldBeChanged;
         boolean processChange = false;
         final /* synthetic */ SizeNotifierFrameLayoutPhoto val$parent;
         final /* synthetic */ PhotoViewer val$photoViewer;
@@ -355,13 +356,20 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
 
         @Override // android.text.TextWatcher
         public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+            boolean z = false;
             if (PhotoViewerCaptionEnterView.this.lineCount != PhotoViewerCaptionEnterView.this.messageEditText.getLineCount()) {
+                if ((PhotoViewerCaptionEnterView.this.messageEditText.getLineCount() >= 4) != (PhotoViewerCaptionEnterView.this.lineCount >= 4)) {
+                    z = true;
+                }
+                this.heightShouldBeChanged = z;
                 if (!PhotoViewerCaptionEnterView.this.isInitLineCount && PhotoViewerCaptionEnterView.this.messageEditText.getMeasuredWidth() > 0) {
                     PhotoViewerCaptionEnterView photoViewerCaptionEnterView = PhotoViewerCaptionEnterView.this;
                     photoViewerCaptionEnterView.onLineCountChanged(photoViewerCaptionEnterView.lineCount, PhotoViewerCaptionEnterView.this.messageEditText.getLineCount());
                 }
                 PhotoViewerCaptionEnterView photoViewerCaptionEnterView2 = PhotoViewerCaptionEnterView.this;
                 photoViewerCaptionEnterView2.lineCount = photoViewerCaptionEnterView2.messageEditText.getLineCount();
+            } else {
+                this.heightShouldBeChanged = false;
             }
             if (PhotoViewerCaptionEnterView.this.innerTextChange) {
                 return;
@@ -450,6 +458,17 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
                         return;
                     }
                     this.val$photoViewer.getParentAlert().captionLimitBulletinShown = true;
+                    if (this.heightShouldBeChanged) {
+                        final PhotoViewer photoViewer = this.val$photoViewer;
+                        final SizeNotifierFrameLayoutPhoto sizeNotifierFrameLayoutPhoto = this.val$parent;
+                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.PhotoViewerCaptionEnterView$2$$ExternalSyntheticLambda1
+                            @Override // java.lang.Runnable
+                            public final void run() {
+                                PhotoViewer.this.showCaptionLimitBulletin(sizeNotifierFrameLayoutPhoto);
+                            }
+                        }, 300L);
+                        return;
+                    }
                     this.val$photoViewer.showCaptionLimitBulletin(this.val$parent);
                     return;
                 }

@@ -2863,7 +2863,6 @@ public class ImageLoader {
         return str != null && str.endsWith("avatar");
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     public BitmapDrawable getFromMemCache(String str) {
         BitmapDrawable bitmapDrawable = this.memCache.get(str);
         if (bitmapDrawable == null) {

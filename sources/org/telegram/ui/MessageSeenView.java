@@ -79,6 +79,7 @@ public class MessageSeenView extends FrameLayout {
         AvatarsImageView avatarsImageView = new AvatarsImageView(context, false);
         this.avatarsImageView = avatarsImageView;
         avatarsImageView.setStyle(11);
+        this.avatarsImageView.setAvatarsTextSize(AndroidUtilities.dp(22.0f));
         addView(this.avatarsImageView, LayoutHelper.createFrame(56, -1.0f, 21, 0.0f, 0.0f, 0.0f, 0.0f));
         this.titleView.setTextColor(Theme.getColor("actionBarDefaultSubmenuItem"));
         TLRPC$TL_messages_getMessageReadParticipants tLRPC$TL_messages_getMessageReadParticipants = new TLRPC$TL_messages_getMessageReadParticipants();
