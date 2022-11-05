@@ -781,68 +781,68 @@ public class DialogCell extends BaseCell {
     /* JADX WARN: Code restructure failed: missing block: B:1489:0x055b, code lost:
         if (r2.kicked != false) goto L657;
      */
-    /* JADX WARN: Removed duplicated region for block: B:104:0x1820  */
-    /* JADX WARN: Removed duplicated region for block: B:107:0x1829 A[Catch: Exception -> 0x18c8, TryCatch #5 {Exception -> 0x18c8, blocks: (B:92:0x17d4, B:95:0x17de, B:97:0x17ea, B:100:0x1804, B:102:0x180d, B:105:0x1823, B:107:0x1829, B:108:0x1835, B:110:0x184c, B:112:0x1852, B:115:0x1863, B:117:0x1867, B:118:0x18a5, B:120:0x18a9, B:122:0x18b2, B:123:0x18bc, B:526:0x1888), top: B:91:0x17d4 }] */
-    /* JADX WARN: Removed duplicated region for block: B:1086:0x0fa0  */
-    /* JADX WARN: Removed duplicated region for block: B:1091:0x0fb1  */
-    /* JADX WARN: Removed duplicated region for block: B:117:0x1867 A[Catch: Exception -> 0x18c8, TryCatch #5 {Exception -> 0x18c8, blocks: (B:92:0x17d4, B:95:0x17de, B:97:0x17ea, B:100:0x1804, B:102:0x180d, B:105:0x1823, B:107:0x1829, B:108:0x1835, B:110:0x184c, B:112:0x1852, B:115:0x1863, B:117:0x1867, B:118:0x18a5, B:120:0x18a9, B:122:0x18b2, B:123:0x18bc, B:526:0x1888), top: B:91:0x17d4 }] */
+    /* JADX WARN: Removed duplicated region for block: B:104:0x181f  */
+    /* JADX WARN: Removed duplicated region for block: B:107:0x1828 A[Catch: Exception -> 0x18c7, TryCatch #5 {Exception -> 0x18c7, blocks: (B:92:0x17d3, B:95:0x17dd, B:97:0x17e9, B:100:0x1803, B:102:0x180c, B:105:0x1822, B:107:0x1828, B:108:0x1834, B:110:0x184b, B:112:0x1851, B:115:0x1862, B:117:0x1866, B:118:0x18a4, B:120:0x18a8, B:122:0x18b1, B:123:0x18bb, B:526:0x1887), top: B:91:0x17d3 }] */
+    /* JADX WARN: Removed duplicated region for block: B:1086:0x0f9f  */
+    /* JADX WARN: Removed duplicated region for block: B:1091:0x0fb0  */
+    /* JADX WARN: Removed duplicated region for block: B:117:0x1866 A[Catch: Exception -> 0x18c7, TryCatch #5 {Exception -> 0x18c7, blocks: (B:92:0x17d3, B:95:0x17dd, B:97:0x17e9, B:100:0x1803, B:102:0x180c, B:105:0x1822, B:107:0x1828, B:108:0x1834, B:110:0x184b, B:112:0x1851, B:115:0x1862, B:117:0x1866, B:118:0x18a4, B:120:0x18a8, B:122:0x18b1, B:123:0x18bb, B:526:0x1887), top: B:91:0x17d3 }] */
     /* JADX WARN: Removed duplicated region for block: B:1476:0x053f  */
     /* JADX WARN: Removed duplicated region for block: B:1486:0x0555  */
     /* JADX WARN: Removed duplicated region for block: B:1490:0x0502  */
     /* JADX WARN: Removed duplicated region for block: B:1519:0x0488  */
-    /* JADX WARN: Removed duplicated region for block: B:151:0x1aa2  */
-    /* JADX WARN: Removed duplicated region for block: B:154:0x1ab1  */
-    /* JADX WARN: Removed duplicated region for block: B:160:0x1ad6  */
-    /* JADX WARN: Removed duplicated region for block: B:164:0x1ca0  */
-    /* JADX WARN: Removed duplicated region for block: B:193:0x1db0  */
-    /* JADX WARN: Removed duplicated region for block: B:210:0x1e32 A[Catch: Exception -> 0x1f02, TryCatch #6 {Exception -> 0x1f02, blocks: (B:196:0x1dc9, B:198:0x1dcd, B:201:0x1de5, B:203:0x1deb, B:205:0x1dfe, B:207:0x1e11, B:208:0x1e2d, B:210:0x1e32, B:212:0x1e46, B:214:0x1e4c, B:216:0x1e50, B:219:0x1e5d, B:221:0x1e5a, B:224:0x1e60, B:226:0x1e64, B:229:0x1e69, B:231:0x1e6d, B:233:0x1e7f, B:234:0x1e91, B:235:0x1edc, B:378:0x1ea9, B:381:0x1eaf, B:382:0x1eb6, B:385:0x1ecc, B:389:0x1dd1, B:391:0x1dd5, B:393:0x1dda), top: B:195:0x1dc9 }] */
-    /* JADX WARN: Removed duplicated region for block: B:231:0x1e6d A[Catch: Exception -> 0x1f02, TryCatch #6 {Exception -> 0x1f02, blocks: (B:196:0x1dc9, B:198:0x1dcd, B:201:0x1de5, B:203:0x1deb, B:205:0x1dfe, B:207:0x1e11, B:208:0x1e2d, B:210:0x1e32, B:212:0x1e46, B:214:0x1e4c, B:216:0x1e50, B:219:0x1e5d, B:221:0x1e5a, B:224:0x1e60, B:226:0x1e64, B:229:0x1e69, B:231:0x1e6d, B:233:0x1e7f, B:234:0x1e91, B:235:0x1edc, B:378:0x1ea9, B:381:0x1eaf, B:382:0x1eb6, B:385:0x1ecc, B:389:0x1dd1, B:391:0x1dd5, B:393:0x1dda), top: B:195:0x1dc9 }] */
-    /* JADX WARN: Removed duplicated region for block: B:238:0x1f0d  */
-    /* JADX WARN: Removed duplicated region for block: B:298:0x213f  */
-    /* JADX WARN: Removed duplicated region for block: B:303:0x214e A[Catch: Exception -> 0x218d, TryCatch #0 {Exception -> 0x218d, blocks: (B:301:0x2143, B:303:0x214e, B:304:0x2150, B:306:0x2169, B:308:0x2171, B:310:0x2175), top: B:300:0x2143 }] */
-    /* JADX WARN: Removed duplicated region for block: B:306:0x2169 A[Catch: Exception -> 0x218d, TryCatch #0 {Exception -> 0x218d, blocks: (B:301:0x2143, B:303:0x214e, B:304:0x2150, B:306:0x2169, B:308:0x2171, B:310:0x2175), top: B:300:0x2143 }] */
-    /* JADX WARN: Removed duplicated region for block: B:310:0x2175 A[Catch: Exception -> 0x218d, TRY_LEAVE, TryCatch #0 {Exception -> 0x218d, blocks: (B:301:0x2143, B:303:0x214e, B:304:0x2150, B:306:0x2169, B:308:0x2171, B:310:0x2175), top: B:300:0x2143 }] */
-    /* JADX WARN: Removed duplicated region for block: B:318:0x2195  */
+    /* JADX WARN: Removed duplicated region for block: B:151:0x1aa1  */
+    /* JADX WARN: Removed duplicated region for block: B:154:0x1ab0  */
+    /* JADX WARN: Removed duplicated region for block: B:160:0x1ad5  */
+    /* JADX WARN: Removed duplicated region for block: B:164:0x1c9f  */
+    /* JADX WARN: Removed duplicated region for block: B:193:0x1daf  */
+    /* JADX WARN: Removed duplicated region for block: B:210:0x1e31 A[Catch: Exception -> 0x1f01, TryCatch #6 {Exception -> 0x1f01, blocks: (B:196:0x1dc8, B:198:0x1dcc, B:201:0x1de4, B:203:0x1dea, B:205:0x1dfd, B:207:0x1e10, B:208:0x1e2c, B:210:0x1e31, B:212:0x1e45, B:214:0x1e4b, B:216:0x1e4f, B:219:0x1e5c, B:221:0x1e59, B:224:0x1e5f, B:226:0x1e63, B:229:0x1e68, B:231:0x1e6c, B:233:0x1e7e, B:234:0x1e90, B:235:0x1edb, B:378:0x1ea8, B:381:0x1eae, B:382:0x1eb5, B:385:0x1ecb, B:389:0x1dd0, B:391:0x1dd4, B:393:0x1dd9), top: B:195:0x1dc8 }] */
+    /* JADX WARN: Removed duplicated region for block: B:231:0x1e6c A[Catch: Exception -> 0x1f01, TryCatch #6 {Exception -> 0x1f01, blocks: (B:196:0x1dc8, B:198:0x1dcc, B:201:0x1de4, B:203:0x1dea, B:205:0x1dfd, B:207:0x1e10, B:208:0x1e2c, B:210:0x1e31, B:212:0x1e45, B:214:0x1e4b, B:216:0x1e4f, B:219:0x1e5c, B:221:0x1e59, B:224:0x1e5f, B:226:0x1e63, B:229:0x1e68, B:231:0x1e6c, B:233:0x1e7e, B:234:0x1e90, B:235:0x1edb, B:378:0x1ea8, B:381:0x1eae, B:382:0x1eb5, B:385:0x1ecb, B:389:0x1dd0, B:391:0x1dd4, B:393:0x1dd9), top: B:195:0x1dc8 }] */
+    /* JADX WARN: Removed duplicated region for block: B:238:0x1f0c  */
+    /* JADX WARN: Removed duplicated region for block: B:298:0x213e  */
+    /* JADX WARN: Removed duplicated region for block: B:303:0x214d A[Catch: Exception -> 0x218c, TryCatch #0 {Exception -> 0x218c, blocks: (B:301:0x2142, B:303:0x214d, B:304:0x214f, B:306:0x2168, B:308:0x2170, B:310:0x2174), top: B:300:0x2142 }] */
+    /* JADX WARN: Removed duplicated region for block: B:306:0x2168 A[Catch: Exception -> 0x218c, TryCatch #0 {Exception -> 0x218c, blocks: (B:301:0x2142, B:303:0x214d, B:304:0x214f, B:306:0x2168, B:308:0x2170, B:310:0x2174), top: B:300:0x2142 }] */
+    /* JADX WARN: Removed duplicated region for block: B:310:0x2174 A[Catch: Exception -> 0x218c, TRY_LEAVE, TryCatch #0 {Exception -> 0x218c, blocks: (B:301:0x2142, B:303:0x214d, B:304:0x214f, B:306:0x2168, B:308:0x2170, B:310:0x2174), top: B:300:0x2142 }] */
+    /* JADX WARN: Removed duplicated region for block: B:318:0x2194  */
     /* JADX WARN: Removed duplicated region for block: B:336:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:337:0x208d  */
-    /* JADX WARN: Removed duplicated region for block: B:384:0x1ec7  */
-    /* JADX WARN: Removed duplicated region for block: B:386:0x1eca  */
-    /* JADX WARN: Removed duplicated region for block: B:429:0x1d59 A[LOOP:8: B:427:0x1d54->B:429:0x1d59, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:430:0x1dac A[EDGE_INSN: B:430:0x1dac->B:191:0x1dac ?: BREAK  , SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:436:0x1b04  */
-    /* JADX WARN: Removed duplicated region for block: B:510:0x1a16  */
-    /* JADX WARN: Removed duplicated region for block: B:514:0x1a6b  */
-    /* JADX WARN: Removed duplicated region for block: B:521:0x1a9a A[EDGE_INSN: B:521:0x1a9a->B:522:0x1a9a ?: BREAK  , SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:523:0x1a34  */
-    /* JADX WARN: Removed duplicated region for block: B:526:0x1888 A[Catch: Exception -> 0x18c8, TryCatch #5 {Exception -> 0x18c8, blocks: (B:92:0x17d4, B:95:0x17de, B:97:0x17ea, B:100:0x1804, B:102:0x180d, B:105:0x1823, B:107:0x1829, B:108:0x1835, B:110:0x184c, B:112:0x1852, B:115:0x1863, B:117:0x1867, B:118:0x18a5, B:120:0x18a9, B:122:0x18b2, B:123:0x18bc, B:526:0x1888), top: B:91:0x17d4 }] */
-    /* JADX WARN: Removed duplicated region for block: B:528:0x1822  */
-    /* JADX WARN: Removed duplicated region for block: B:560:0x1770  */
-    /* JADX WARN: Removed duplicated region for block: B:562:0x16a6  */
-    /* JADX WARN: Removed duplicated region for block: B:574:0x163e  */
-    /* JADX WARN: Removed duplicated region for block: B:576:0x1626  */
-    /* JADX WARN: Removed duplicated region for block: B:578:0x15e5  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x15a6  */
+    /* JADX WARN: Removed duplicated region for block: B:337:0x208c  */
+    /* JADX WARN: Removed duplicated region for block: B:384:0x1ec6  */
+    /* JADX WARN: Removed duplicated region for block: B:386:0x1ec9  */
+    /* JADX WARN: Removed duplicated region for block: B:429:0x1d58 A[LOOP:8: B:427:0x1d53->B:429:0x1d58, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:430:0x1dab A[EDGE_INSN: B:430:0x1dab->B:191:0x1dab ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:436:0x1b03  */
+    /* JADX WARN: Removed duplicated region for block: B:510:0x1a15  */
+    /* JADX WARN: Removed duplicated region for block: B:514:0x1a6a  */
+    /* JADX WARN: Removed duplicated region for block: B:521:0x1a99 A[EDGE_INSN: B:521:0x1a99->B:522:0x1a99 ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:523:0x1a33  */
+    /* JADX WARN: Removed duplicated region for block: B:526:0x1887 A[Catch: Exception -> 0x18c7, TryCatch #5 {Exception -> 0x18c7, blocks: (B:92:0x17d3, B:95:0x17dd, B:97:0x17e9, B:100:0x1803, B:102:0x180c, B:105:0x1822, B:107:0x1828, B:108:0x1834, B:110:0x184b, B:112:0x1851, B:115:0x1862, B:117:0x1866, B:118:0x18a4, B:120:0x18a8, B:122:0x18b1, B:123:0x18bb, B:526:0x1887), top: B:91:0x17d3 }] */
+    /* JADX WARN: Removed duplicated region for block: B:528:0x1821  */
+    /* JADX WARN: Removed duplicated region for block: B:560:0x176f  */
+    /* JADX WARN: Removed duplicated region for block: B:562:0x16a5  */
+    /* JADX WARN: Removed duplicated region for block: B:574:0x163d  */
+    /* JADX WARN: Removed duplicated region for block: B:576:0x1625  */
+    /* JADX WARN: Removed duplicated region for block: B:578:0x15e4  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x15a5  */
     /* JADX WARN: Removed duplicated region for block: B:641:0x04d6  */
     /* JADX WARN: Removed duplicated region for block: B:646:0x04e2  */
     /* JADX WARN: Removed duplicated region for block: B:653:0x051c  */
     /* JADX WARN: Removed duplicated region for block: B:660:0x0562  */
-    /* JADX WARN: Removed duplicated region for block: B:671:0x1347  */
-    /* JADX WARN: Removed duplicated region for block: B:674:0x136c  */
-    /* JADX WARN: Removed duplicated region for block: B:677:0x14d6  */
-    /* JADX WARN: Removed duplicated region for block: B:68:0x15f2  */
-    /* JADX WARN: Removed duplicated region for block: B:692:0x152b  */
-    /* JADX WARN: Removed duplicated region for block: B:694:0x1542  */
-    /* JADX WARN: Removed duplicated region for block: B:721:0x1380  */
-    /* JADX WARN: Removed duplicated region for block: B:74:0x162b  */
-    /* JADX WARN: Removed duplicated region for block: B:77:0x165f  */
-    /* JADX WARN: Removed duplicated region for block: B:804:0x134f  */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x1678  */
+    /* JADX WARN: Removed duplicated region for block: B:671:0x1346  */
+    /* JADX WARN: Removed duplicated region for block: B:674:0x136b  */
+    /* JADX WARN: Removed duplicated region for block: B:677:0x14d5  */
+    /* JADX WARN: Removed duplicated region for block: B:68:0x15f1  */
+    /* JADX WARN: Removed duplicated region for block: B:692:0x152a  */
+    /* JADX WARN: Removed duplicated region for block: B:694:0x1541  */
+    /* JADX WARN: Removed duplicated region for block: B:721:0x137f  */
+    /* JADX WARN: Removed duplicated region for block: B:74:0x162a  */
+    /* JADX WARN: Removed duplicated region for block: B:77:0x165e  */
+    /* JADX WARN: Removed duplicated region for block: B:804:0x134e  */
+    /* JADX WARN: Removed duplicated region for block: B:80:0x1677  */
     /* JADX WARN: Removed duplicated region for block: B:814:0x05eb  */
     /* JADX WARN: Removed duplicated region for block: B:902:0x083c  */
-    /* JADX WARN: Removed duplicated region for block: B:907:0x1334  */
+    /* JADX WARN: Removed duplicated region for block: B:907:0x1333  */
     /* JADX WARN: Removed duplicated region for block: B:909:0x0843  */
-    /* JADX WARN: Removed duplicated region for block: B:94:0x17dd  */
-    /* JADX WARN: Removed duplicated region for block: B:97:0x17ea A[Catch: Exception -> 0x18c8, TryCatch #5 {Exception -> 0x18c8, blocks: (B:92:0x17d4, B:95:0x17de, B:97:0x17ea, B:100:0x1804, B:102:0x180d, B:105:0x1823, B:107:0x1829, B:108:0x1835, B:110:0x184c, B:112:0x1852, B:115:0x1863, B:117:0x1867, B:118:0x18a5, B:120:0x18a9, B:122:0x18b2, B:123:0x18bc, B:526:0x1888), top: B:91:0x17d4 }] */
+    /* JADX WARN: Removed duplicated region for block: B:94:0x17dc  */
+    /* JADX WARN: Removed duplicated region for block: B:97:0x17e9 A[Catch: Exception -> 0x18c7, TryCatch #5 {Exception -> 0x18c7, blocks: (B:92:0x17d3, B:95:0x17dd, B:97:0x17e9, B:100:0x1803, B:102:0x180c, B:105:0x1822, B:107:0x1828, B:108:0x1834, B:110:0x184b, B:112:0x1851, B:115:0x1862, B:117:0x1866, B:118:0x18a4, B:120:0x18a8, B:122:0x18b1, B:123:0x18bb, B:526:0x1887), top: B:91:0x17d3 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1452,9 +1452,8 @@ public class DialogCell extends BaseCell {
                                                                                                     }
                                                                                                     if (closestPhotoSizeWithSize != null) {
                                                                                                         this.hasVideoThumb = this.hasVideoThumb || messageObject8.isVideo() || messageObject8.isRoundVideo();
-                                                                                                        int i27 = this.thumbsCount;
-                                                                                                        if (i27 < 2) {
-                                                                                                            this.thumbsCount = i27 + 1;
+                                                                                                        if (i26 < 2) {
+                                                                                                            this.thumbsCount++;
                                                                                                             this.drawPlay[i26] = messageObject8.isVideo() || messageObject8.isRoundVideo();
                                                                                                             this.thumbImage[i26].setImage(ImageLocation.getForObject(closestPhotoSizeWithSize2, messageObject8.photoThumbsObject), "20_20", ImageLocation.getForObject(closestPhotoSizeWithSize, messageObject8.photoThumbsObject), "20_20", (messageObject8.type != 1 || closestPhotoSizeWithSize2 == null) ? 0 : closestPhotoSizeWithSize2.size, null, messageObject8, 0);
                                                                                                             this.thumbImage[i26].setRoundRadius(messageObject8.isRoundVideo() ? AndroidUtilities.dp(18.0f) : AndroidUtilities.dp(2.0f));
@@ -1479,9 +1478,9 @@ public class DialogCell extends BaseCell {
                                                                                                     }
                                                                                                     if (closestPhotoSizeWithSize3 != null) {
                                                                                                         this.hasVideoThumb = this.hasVideoThumb || this.message.isVideo() || this.message.isRoundVideo();
-                                                                                                        int i28 = this.thumbsCount;
-                                                                                                        if (i28 < 3) {
-                                                                                                            this.thumbsCount = i28 + 1;
+                                                                                                        int i27 = this.thumbsCount;
+                                                                                                        if (i27 < 3) {
+                                                                                                            this.thumbsCount = i27 + 1;
                                                                                                             boolean[] zArr = this.drawPlay;
                                                                                                             if (this.message.isVideo() || this.message.isRoundVideo()) {
                                                                                                                 c = 0;
@@ -1662,9 +1661,9 @@ public class DialogCell extends BaseCell {
                                                                                                             CharSequence charSequence31 = charSequence11;
                                                                                                             z8 = z6;
                                                                                                             charSequence12 = charSequence31;
-                                                                                                            int i29 = i6;
+                                                                                                            int i28 = i6;
                                                                                                             z15 = z7;
-                                                                                                            i8 = i29;
+                                                                                                            i8 = i28;
                                                                                                             charSequence19 = charSequence10;
                                                                                                             if (this.draftMessage != null) {
                                                                                                             }
@@ -1751,7 +1750,7 @@ public class DialogCell extends BaseCell {
                                                                                                                 dp = dp;
                                                                                                             }
                                                                                                             i16 = dp;
-                                                                                                            int i30 = i13;
+                                                                                                            int i29 = i13;
                                                                                                             if (this.twoLinesForName) {
                                                                                                             }
                                                                                                             if (getIsPinned()) {
@@ -1760,7 +1759,7 @@ public class DialogCell extends BaseCell {
                                                                                                             }
                                                                                                             if (z11) {
                                                                                                             }
-                                                                                                            max = Math.max(AndroidUtilities.dp(12.0f), i30);
+                                                                                                            max = Math.max(AndroidUtilities.dp(12.0f), i29);
                                                                                                             z13 = this.useForceThreeLines;
                                                                                                             if (!z13) {
                                                                                                             }
@@ -1863,9 +1862,9 @@ public class DialogCell extends BaseCell {
                                                                                                     CharSequence charSequence312 = charSequence11;
                                                                                                     z8 = z6;
                                                                                                     charSequence12 = charSequence312;
-                                                                                                    int i292 = i6;
+                                                                                                    int i282 = i6;
                                                                                                     z15 = z7;
-                                                                                                    i8 = i292;
+                                                                                                    i8 = i282;
                                                                                                     charSequence19 = charSequence10;
                                                                                                 } else {
                                                                                                     MessageObject messageObject16 = this.message;
@@ -1928,9 +1927,9 @@ public class DialogCell extends BaseCell {
                                                                                         CharSequence charSequence3122 = charSequence11;
                                                                                         z8 = z6;
                                                                                         charSequence12 = charSequence3122;
-                                                                                        int i2922 = i6;
+                                                                                        int i2822 = i6;
                                                                                         z15 = z7;
-                                                                                        i8 = i2922;
+                                                                                        i8 = i2822;
                                                                                         charSequence19 = charSequence10;
                                                                                     } else {
                                                                                         boolean isEmpty = TextUtils.isEmpty(restrictionReason);
@@ -2072,9 +2071,9 @@ public class DialogCell extends BaseCell {
                                                                                                 CharSequence charSequence31222 = charSequence11;
                                                                                                 z8 = z6;
                                                                                                 charSequence12 = charSequence31222;
-                                                                                                int i29222 = i6;
+                                                                                                int i28222 = i6;
                                                                                                 z15 = z7;
-                                                                                                i8 = i29222;
+                                                                                                i8 = i28222;
                                                                                                 charSequence19 = charSequence10;
                                                                                             }
                                                                                         } else {
@@ -2097,9 +2096,9 @@ public class DialogCell extends BaseCell {
                                                                             CharSequence charSequence312222 = charSequence11;
                                                                             z8 = z6;
                                                                             charSequence12 = charSequence312222;
-                                                                            int i292222 = i6;
+                                                                            int i282222 = i6;
                                                                             z15 = z7;
-                                                                            i8 = i292222;
+                                                                            i8 = i282222;
                                                                             charSequence19 = charSequence10;
                                                                         }
                                                                         charSequence10 = string;
@@ -2114,9 +2113,9 @@ public class DialogCell extends BaseCell {
                                                                         CharSequence charSequence3122222 = charSequence11;
                                                                         z8 = z6;
                                                                         charSequence12 = charSequence3122222;
-                                                                        int i2922222 = i6;
+                                                                        int i2822222 = i6;
                                                                         z15 = z7;
-                                                                        i8 = i2922222;
+                                                                        i8 = i2822222;
                                                                         charSequence19 = charSequence10;
                                                                     }
                                                                     z6 = true;
@@ -2132,9 +2131,9 @@ public class DialogCell extends BaseCell {
                                                                     CharSequence charSequence31222222 = charSequence11;
                                                                     z8 = z6;
                                                                     charSequence12 = charSequence31222222;
-                                                                    int i29222222 = i6;
+                                                                    int i28222222 = i6;
                                                                     z15 = z7;
-                                                                    i8 = i29222222;
+                                                                    i8 = i28222222;
                                                                     charSequence19 = charSequence10;
                                                                 }
                                                             } else {
@@ -2157,9 +2156,9 @@ public class DialogCell extends BaseCell {
                                                             CharSequence charSequence312222222 = charSequence11;
                                                             z8 = z6;
                                                             charSequence12 = charSequence312222222;
-                                                            int i292222222 = i6;
+                                                            int i282222222 = i6;
                                                             z15 = z7;
-                                                            i8 = i292222222;
+                                                            i8 = i282222222;
                                                             charSequence19 = charSequence10;
                                                         }
                                                     }
@@ -2182,9 +2181,9 @@ public class DialogCell extends BaseCell {
                                                     CharSequence charSequence3122222222 = charSequence11;
                                                     z8 = z6;
                                                     charSequence12 = charSequence3122222222;
-                                                    int i2922222222 = i6;
+                                                    int i2822222222 = i6;
                                                     z15 = z7;
-                                                    i8 = i2922222222;
+                                                    i8 = i2822222222;
                                                     charSequence19 = charSequence10;
                                                 }
                                             }
@@ -2202,9 +2201,9 @@ public class DialogCell extends BaseCell {
                                     if (this.draftMessage != null) {
                                         stringForMessageListDate = LocaleController.stringForMessageListDate(tLRPC$DraftMessage2.date);
                                     } else {
-                                        int i31 = this.lastMessageDate;
-                                        if (i31 != 0) {
-                                            stringForMessageListDate = LocaleController.stringForMessageListDate(i31);
+                                        int i30 = this.lastMessageDate;
+                                        if (i30 != 0) {
+                                            stringForMessageListDate = LocaleController.stringForMessageListDate(i30);
                                         } else {
                                             stringForMessageListDate = this.message != null ? LocaleController.stringForMessageListDate(messageObject.messageOwner.date) : "";
                                         }
@@ -2223,20 +2222,20 @@ public class DialogCell extends BaseCell {
                                         str7 = null;
                                     } else {
                                         if (this.currentDialogFolderId != 0) {
-                                            int i32 = this.unreadCount;
-                                            int i33 = this.mentionCount;
-                                            if (i32 + i33 <= 0) {
+                                            int i31 = this.unreadCount;
+                                            int i32 = this.mentionCount;
+                                            if (i31 + i32 <= 0) {
                                                 this.drawCount = false;
                                                 this.drawMention = false;
                                                 str6 = null;
-                                            } else if (i32 > i33) {
+                                            } else if (i31 > i32) {
                                                 this.drawCount = true;
                                                 this.drawMention = false;
-                                                str6 = String.format("%d", Integer.valueOf(i32 + i33));
+                                                str6 = String.format("%d", Integer.valueOf(i31 + i32));
                                             } else {
                                                 this.drawCount = false;
                                                 this.drawMention = true;
-                                                str8 = String.format("%d", Integer.valueOf(i32 + i33));
+                                                str8 = String.format("%d", Integer.valueOf(i31 + i32));
                                                 str6 = null;
                                                 this.drawReactionMention = false;
                                                 str7 = str8;
@@ -2251,11 +2250,11 @@ public class DialogCell extends BaseCell {
                                                 str6 = null;
                                                 z9 = false;
                                             } else {
-                                                int i34 = this.unreadCount;
-                                                if (i34 != 0 && (i34 != 1 || i34 != this.mentionCount || messageObject2 == null || !messageObject2.messageOwner.mentioned)) {
+                                                int i33 = this.unreadCount;
+                                                if (i33 != 0 && (i33 != 1 || i33 != this.mentionCount || messageObject2 == null || !messageObject2.messageOwner.mentioned)) {
                                                     this.drawCount = true;
                                                     z9 = false;
-                                                    str6 = String.format("%d", Integer.valueOf(i34));
+                                                    str6 = String.format("%d", Integer.valueOf(i33));
                                                 } else {
                                                     z9 = false;
                                                     if (this.markUnread) {
@@ -2303,8 +2302,8 @@ public class DialogCell extends BaseCell {
                                                         if (tLRPC$TL_forumTopic != null) {
                                                             this.drawCheck1 = tLRPC$TL_forumTopic.read_outbox_max_id >= this.message.getId();
                                                         } else if (this.isDialogCell) {
-                                                            int i35 = this.readOutboxMaxId;
-                                                            this.drawCheck1 = (i35 > 0 && i35 >= this.message.getId()) || !this.message.isUnread() || (ChatObject.isChannel(this.chat) && !this.chat.megagroup);
+                                                            int i34 = this.readOutboxMaxId;
+                                                            this.drawCheck1 = (i34 > 0 && i34 >= this.message.getId()) || !this.message.isUnread() || (ChatObject.isChannel(this.chat) && !this.chat.megagroup);
                                                         } else {
                                                             this.drawCheck1 = !this.message.isUnread() || (ChatObject.isChannel(this.chat) && !this.chat.megagroup);
                                                         }
@@ -2332,13 +2331,13 @@ public class DialogCell extends BaseCell {
                                         if (messagesController2.isPromoDialog(this.currentDialogId, true)) {
                                             this.drawPinBackground = true;
                                             this.promoDialog = true;
-                                            int i36 = messagesController2.promoDialogType;
-                                            if (i36 == MessagesController.PROMO_TYPE_PROXY) {
+                                            int i35 = messagesController2.promoDialogType;
+                                            if (i35 == MessagesController.PROMO_TYPE_PROXY) {
                                                 stringForMessageListDate = LocaleController.getString("UseProxySponsor", R.string.UseProxySponsor);
                                                 charSequence322 = charSequence19;
                                             } else {
                                                 charSequence322 = charSequence19;
-                                                if (i36 == MessagesController.PROMO_TYPE_PSA) {
+                                                if (i35 == MessagesController.PROMO_TYPE_PSA) {
                                                     stringForMessageListDate = LocaleController.getString("PsaType_" + messagesController2.promoPsaType);
                                                     if (TextUtils.isEmpty(stringForMessageListDate)) {
                                                         stringForMessageListDate = LocaleController.getString("PsaTypeDefault", R.string.PsaTypeDefault);
@@ -2560,14 +2559,14 @@ public class DialogCell extends BaseCell {
             }
         } else if (this.drawCheck2) {
             int intrinsicWidth3 = Theme.dialogs_checkDrawable.getIntrinsicWidth() + AndroidUtilities.dp(5.0f);
-            int i37 = this.nameWidth - intrinsicWidth3;
-            this.nameWidth = i37;
+            int i36 = this.nameWidth - intrinsicWidth3;
+            this.nameWidth = i36;
             if (this.drawCheck1) {
-                this.nameWidth = i37 - (Theme.dialogs_halfCheckDrawable.getIntrinsicWidth() - AndroidUtilities.dp(8.0f));
+                this.nameWidth = i36 - (Theme.dialogs_halfCheckDrawable.getIntrinsicWidth() - AndroidUtilities.dp(8.0f));
                 if (!LocaleController.isRTL) {
-                    int i38 = (this.timeLeft - i11) - intrinsicWidth3;
-                    this.halfCheckDrawLeft = i38;
-                    this.checkDrawLeft = i38 - AndroidUtilities.dp(5.5f);
+                    int i37 = (this.timeLeft - i11) - intrinsicWidth3;
+                    this.halfCheckDrawLeft = i37;
+                    this.checkDrawLeft = i37 - AndroidUtilities.dp(5.5f);
                 } else {
                     int dp9 = this.timeLeft + i10 + AndroidUtilities.dp(5.0f);
                     this.checkDrawLeft = dp9;
@@ -2703,27 +2702,27 @@ public class DialogCell extends BaseCell {
             i13 = measuredWidth5;
             charSequence22 = "";
             this.avatarImage.setImageCoords(dp5, dp16, AndroidUtilities.dp(54.0f), AndroidUtilities.dp(54.0f));
-            int i39 = 0;
+            int i38 = 0;
             while (true) {
                 ImageReceiver[] imageReceiverArr3 = this.thumbImage;
-                if (i39 >= imageReceiverArr3.length) {
+                if (i38 >= imageReceiverArr3.length) {
                     break;
                 }
-                ImageReceiver imageReceiver = imageReceiverArr3[i39];
-                float f3 = ((i3 + 2) * i39) + dp6;
+                ImageReceiver imageReceiver = imageReceiverArr3[i38];
+                float f3 = ((i3 + 2) * i38) + dp6;
                 int dp19 = AndroidUtilities.dp(30.0f) + dp16;
-                int i40 = dp16;
+                int i39 = dp16;
                 float f4 = i3;
                 imageReceiver.setImageCoords(f3, dp19 + (this.twoLinesForName ? AndroidUtilities.dp(20.0f) : 0), AndroidUtilities.dp(f4), AndroidUtilities.dp(f4));
-                i39++;
-                dp16 = i40;
+                i38++;
+                dp16 = i39;
                 dp6 = dp6;
             }
             i16 = dp16;
             i12 = i3;
             i14 = i7;
         }
-        int i302 = i13;
+        int i292 = i13;
         if (this.twoLinesForName) {
             this.messageNameTop += AndroidUtilities.dp(20.0f);
         }
@@ -2736,7 +2735,7 @@ public class DialogCell extends BaseCell {
         }
         if (!this.drawError) {
             int dp20 = AndroidUtilities.dp(31.0f);
-            i302 -= dp20;
+            i292 -= dp20;
             if (!LocaleController.isRTL) {
                 this.errorLeft = getMeasuredWidth() - AndroidUtilities.dp(34.0f);
             } else {
@@ -2749,7 +2748,7 @@ public class DialogCell extends BaseCell {
                 this.countWidth = Math.max(AndroidUtilities.dp(12.0f), (int) Math.ceil(Theme.dialogs_countTextPaint.measureText(str11)));
                 this.countLayout = new StaticLayout(str11, Theme.dialogs_countTextPaint, this.countWidth, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
                 int dp21 = this.countWidth + AndroidUtilities.dp(18.0f);
-                i302 -= dp21;
+                i292 -= dp21;
                 if (!LocaleController.isRTL) {
                     this.countLeft = (getMeasuredWidth() - this.countWidth) - AndroidUtilities.dp(20.0f);
                 } else {
@@ -2769,15 +2768,15 @@ public class DialogCell extends BaseCell {
                     this.mentionWidth = AndroidUtilities.dp(12.0f);
                 }
                 int dp22 = this.mentionWidth + AndroidUtilities.dp(18.0f);
-                i302 -= dp22;
+                i292 -= dp22;
                 if (!LocaleController.isRTL) {
                     int measuredWidth6 = (getMeasuredWidth() - this.mentionWidth) - AndroidUtilities.dp(20.0f);
-                    int i41 = this.countWidth;
-                    this.mentionLeft = measuredWidth6 - (i41 != 0 ? i41 + AndroidUtilities.dp(18.0f) : 0);
+                    int i40 = this.countWidth;
+                    this.mentionLeft = measuredWidth6 - (i40 != 0 ? i40 + AndroidUtilities.dp(18.0f) : 0);
                 } else {
                     int dp23 = AndroidUtilities.dp(20.0f);
-                    int i42 = this.countWidth;
-                    this.mentionLeft = dp23 + (i42 != 0 ? i42 + AndroidUtilities.dp(18.0f) : 0);
+                    int i41 = this.countWidth;
+                    this.mentionLeft = dp23 + (i41 != 0 ? i41 + AndroidUtilities.dp(18.0f) : 0);
                     this.messageLeft += dp22;
                     this.messageNameLeft += dp22;
                 }
@@ -2787,30 +2786,30 @@ public class DialogCell extends BaseCell {
             }
             if (this.drawReactionMention) {
                 int dp24 = AndroidUtilities.dp(24.0f);
-                i302 -= dp24;
+                i292 -= dp24;
                 if (!LocaleController.isRTL) {
                     int measuredWidth7 = getMeasuredWidth() - AndroidUtilities.dp(32.0f);
                     this.reactionMentionLeft = measuredWidth7;
                     if (this.drawMention) {
-                        int i43 = this.mentionWidth;
-                        this.reactionMentionLeft = measuredWidth7 - (i43 != 0 ? i43 + AndroidUtilities.dp(18.0f) : 0);
+                        int i42 = this.mentionWidth;
+                        this.reactionMentionLeft = measuredWidth7 - (i42 != 0 ? i42 + AndroidUtilities.dp(18.0f) : 0);
                     }
                     if (this.drawCount) {
-                        int i44 = this.reactionMentionLeft;
-                        int i45 = this.countWidth;
-                        this.reactionMentionLeft = i44 - (i45 != 0 ? i45 + AndroidUtilities.dp(18.0f) : 0);
+                        int i43 = this.reactionMentionLeft;
+                        int i44 = this.countWidth;
+                        this.reactionMentionLeft = i43 - (i44 != 0 ? i44 + AndroidUtilities.dp(18.0f) : 0);
                     }
                 } else {
                     int dp25 = AndroidUtilities.dp(20.0f);
                     this.reactionMentionLeft = dp25;
                     if (this.drawMention) {
-                        int i46 = this.mentionWidth;
-                        this.reactionMentionLeft = dp25 + (i46 != 0 ? i46 + AndroidUtilities.dp(18.0f) : 0);
+                        int i45 = this.mentionWidth;
+                        this.reactionMentionLeft = dp25 + (i45 != 0 ? i45 + AndroidUtilities.dp(18.0f) : 0);
                     }
                     if (this.drawCount) {
-                        int i47 = this.reactionMentionLeft;
-                        int i48 = this.countWidth;
-                        this.reactionMentionLeft = i47 + (i48 != 0 ? i48 + AndroidUtilities.dp(18.0f) : 0);
+                        int i46 = this.reactionMentionLeft;
+                        int i47 = this.countWidth;
+                        this.reactionMentionLeft = i46 + (i47 != 0 ? i47 + AndroidUtilities.dp(18.0f) : 0);
                     }
                     this.messageLeft += dp24;
                     this.messageNameLeft += dp24;
@@ -2819,7 +2818,7 @@ public class DialogCell extends BaseCell {
         } else {
             if (getIsPinned()) {
                 int intrinsicWidth4 = Theme.dialogs_pinnedDrawable.getIntrinsicWidth() + AndroidUtilities.dp(8.0f);
-                i302 -= intrinsicWidth4;
+                i292 -= intrinsicWidth4;
                 if (LocaleController.isRTL) {
                     this.messageLeft += intrinsicWidth4;
                     this.messageNameLeft += intrinsicWidth4;
@@ -2844,7 +2843,7 @@ public class DialogCell extends BaseCell {
                 charSequence21 = highlightText4;
             }
         }
-        max = Math.max(AndroidUtilities.dp(12.0f), i302);
+        max = Math.max(AndroidUtilities.dp(12.0f), i292);
         z13 = this.useForceThreeLines;
         if ((!z13 || SharedConfig.useThreeLinesLayout) && charSequence20 != null && (this.currentDialogFolderId == 0 || this.currentDialogFolderDialogsCount == 1)) {
             messageObject4 = this.message;
@@ -2868,14 +2867,14 @@ public class DialogCell extends BaseCell {
             if (z13 || SharedConfig.useThreeLinesLayout) {
                 this.messageTop = AndroidUtilities.dp(32.0f);
                 int dp26 = (!this.nameIsEllipsized || !this.isTopic) ? 0 : AndroidUtilities.dp(20.0f);
-                int i49 = 0;
+                int i48 = 0;
                 while (true) {
                     ImageReceiver[] imageReceiverArr4 = this.thumbImage;
-                    if (i49 >= imageReceiverArr4.length) {
+                    if (i48 >= imageReceiverArr4.length) {
                         break;
                     }
-                    imageReceiverArr4[i49].setImageY(i16 + dp26 + AndroidUtilities.dp(21.0f));
-                    i49++;
+                    imageReceiverArr4[i48].setImageY(i16 + dp26 + AndroidUtilities.dp(21.0f));
+                    i48++;
                 }
             } else {
                 this.messageTop = AndroidUtilities.dp(39.0f);
@@ -2909,10 +2908,10 @@ public class DialogCell extends BaseCell {
         }
         if (!this.useForceThreeLines && !SharedConfig.useThreeLinesLayout) {
             if (this.thumbsCount > 0) {
-                int i50 = i12 + 2;
-                max += AndroidUtilities.dp(((i20 * i50) - 2) + 5);
+                int i49 = i12 + 2;
+                max += AndroidUtilities.dp(((i20 * i49) - 2) + 5);
                 if (LocaleController.isRTL) {
-                    this.messageLeft -= AndroidUtilities.dp(((this.thumbsCount * i50) - 2) + 5);
+                    this.messageLeft -= AndroidUtilities.dp(((this.thumbsCount * i49) - 2) + 5);
                 }
             }
             this.messageLayout = new StaticLayout(charSequence21, textPaint5, max, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
@@ -2979,10 +2978,10 @@ public class DialogCell extends BaseCell {
                         this.nameMuteLeft = (int) (d16 - intrinsicWidth7);
                     }
                     if (lineLeft == 0.0f) {
-                        int i51 = this.nameWidth;
-                        if (ceil2 < i51) {
+                        int i50 = this.nameWidth;
+                        if (ceil2 < i50) {
                             double d17 = this.nameLeft;
-                            double d18 = i51;
+                            double d18 = i50;
                             Double.isNaN(d18);
                             Double.isNaN(d17);
                             this.nameLeft = (int) (d17 + (d18 - ceil2));
@@ -2991,24 +2990,24 @@ public class DialogCell extends BaseCell {
                 }
                 StaticLayout staticLayout4 = this.messageLayout;
                 if (staticLayout4 != null && (lineCount2 = staticLayout4.getLineCount()) > 0) {
-                    int i52 = 0;
-                    int i53 = ConnectionsManager.DEFAULT_DATACENTER_ID;
+                    int i51 = 0;
+                    int i52 = ConnectionsManager.DEFAULT_DATACENTER_ID;
                     while (true) {
-                        if (i52 >= lineCount2) {
+                        if (i51 >= lineCount2) {
                             break;
                         }
-                        if (this.messageLayout.getLineLeft(i52) != 0.0f) {
-                            i53 = 0;
+                        if (this.messageLayout.getLineLeft(i51) != 0.0f) {
+                            i52 = 0;
                             break;
                         }
-                        double ceil3 = Math.ceil(this.messageLayout.getLineWidth(i52));
+                        double ceil3 = Math.ceil(this.messageLayout.getLineWidth(i51));
                         double d19 = max;
                         Double.isNaN(d19);
-                        i53 = Math.min(i53, (int) (d19 - ceil3));
-                        i52++;
+                        i52 = Math.min(i52, (int) (d19 - ceil3));
+                        i51++;
                     }
-                    if (i53 != Integer.MAX_VALUE) {
-                        this.messageLeft += i53;
+                    if (i52 != Integer.MAX_VALUE) {
+                        this.messageLeft += i52;
                     }
                 }
                 StaticLayout staticLayout5 = this.messageNameLayout;
@@ -3034,10 +3033,10 @@ public class DialogCell extends BaseCell {
                         if (this.nameLayoutEllipsizeByGradient) {
                             ceil5 = Math.min(this.nameWidth, ceil5);
                         }
-                        int i54 = this.nameWidth;
-                        if (ceil5 < i54) {
+                        int i53 = this.nameWidth;
+                        if (ceil5 < i53) {
                             double d22 = this.nameLeft;
-                            double d23 = i54;
+                            double d23 = i53;
                             Double.isNaN(d23);
                             Double.isNaN(d22);
                             this.nameLeft = (int) (d22 - (d23 - ceil5));
@@ -3050,8 +3049,8 @@ public class DialogCell extends BaseCell {
                 StaticLayout staticLayout7 = this.messageLayout;
                 if (staticLayout7 != null && (lineCount = staticLayout7.getLineCount()) > 0) {
                     float f5 = 2.14748365E9f;
-                    for (int i55 = 0; i55 < lineCount; i55++) {
-                        f5 = Math.min(f5, this.messageLayout.getLineLeft(i55));
+                    for (int i54 = 0; i54 < lineCount; i54++) {
+                        f5 = Math.min(f5, this.messageLayout.getLineLeft(i54));
                     }
                     this.messageLeft = (int) (this.messageLeft - f5);
                 }

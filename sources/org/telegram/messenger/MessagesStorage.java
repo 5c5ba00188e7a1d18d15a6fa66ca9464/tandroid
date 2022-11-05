@@ -150,7 +150,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Adapters.DialogsSearchAdapter;
 /* loaded from: classes.dex */
 public class MessagesStorage extends BaseController {
-    private static final int LAST_DB_VERSION = 106;
+    private static final int LAST_DB_VERSION = 107;
     private int archiveUnreadCount;
     private File cacheFile;
     private SQLiteDatabase database;
@@ -513,26 +513,29 @@ public class MessagesStorage extends BaseController {
                 this.database.executeFast("CREATE TABLE messages_holes_topics(uid INTEGER, topic_id INTEGER, start INTEGER, end INTEGER, PRIMARY KEY(uid, topic_id, start));").stepThis().dispose();
                 this.database.executeFast("CREATE INDEX IF NOT EXISTS uid_end_messages_holes ON messages_holes_topics(uid, topic_id, end);").stepThis().dispose();
                 this.database.executeFast("CREATE TABLE messages_topics(mid INTEGER, uid INTEGER, topic_id INTEGER, read_state INTEGER, send_state INTEGER, date INTEGER, data BLOB, out INTEGER, ttl INTEGER, media INTEGER, replydata BLOB, imp INTEGER, mention INTEGER, forwards INTEGER, replies_data BLOB, thread_reply_id INTEGER, is_channel INTEGER, reply_to_message_id INTEGER, custom_params BLOB, PRIMARY KEY(mid, topic_id, uid))").stepThis().dispose();
-                this.database.executeFast("CREATE INDEX IF NOT EXISTS uid_mid_read_out_idx_messages_topics ON messages_topics(uid, mid, read_state, out);").stepThis().dispose();
                 this.database.executeFast("CREATE INDEX IF NOT EXISTS uid_date_mid_idx_messages_topics ON messages_topics(uid, date, mid);").stepThis().dispose();
                 this.database.executeFast("CREATE INDEX IF NOT EXISTS mid_out_idx_messages_topics ON messages_topics(mid, out);").stepThis().dispose();
                 this.database.executeFast("CREATE INDEX IF NOT EXISTS task_idx_messages_topics ON messages_topics(uid, out, read_state, ttl, date, send_state);").stepThis().dispose();
                 this.database.executeFast("CREATE INDEX IF NOT EXISTS send_state_idx_messages_topics ON messages_topics(mid, send_state, date);").stepThis().dispose();
-                this.database.executeFast("CREATE INDEX IF NOT EXISTS uid_mention_idx_messages_topics ON messages_topics(uid, mention, read_state);").stepThis().dispose();
                 this.database.executeFast("CREATE INDEX IF NOT EXISTS is_channel_idx_messages_topics ON messages_topics(mid, is_channel);").stepThis().dispose();
                 this.database.executeFast("CREATE INDEX IF NOT EXISTS reply_to_idx_messages_topics ON messages_topics(mid, reply_to_message_id);").stepThis().dispose();
                 this.database.executeFast("CREATE INDEX IF NOT EXISTS mid_uid_messages_topics ON messages_topics(mid, uid);").stepThis().dispose();
-                this.database.executeFast("CREATE INDEX IF NOT EXISTS mid_uid_messages_topics ON messages_topics(mid, topic_id, uid);").stepThis().dispose();
+                this.database.executeFast("CREATE INDEX IF NOT EXISTS uid_mid_read_out_idx_messages_topics ON messages_topics(uid, topic_id, mid, read_state, out);").stepThis().dispose();
+                this.database.executeFast("CREATE INDEX IF NOT EXISTS uid_mention_idx_messages_topics ON messages_topics(uid, topic_id, mention, read_state);").stepThis().dispose();
+                this.database.executeFast("CREATE INDEX IF NOT EXISTS uid_topic_id_messages_topics ON messages_topics(uid, topic_id);").stepThis().dispose();
+                this.database.executeFast("CREATE INDEX IF NOT EXISTS uid_topic_id_date_mid_messages_topics ON messages_topics(uid, topic_id, date, mid);").stepThis().dispose();
+                this.database.executeFast("CREATE INDEX IF NOT EXISTS uid_topic_id_mid_messages_topics ON messages_topics(uid, topic_id, mid);").stepThis().dispose();
                 this.database.executeFast("CREATE TABLE media_topics(mid INTEGER, uid INTEGER, topic_id INTEGER, date INTEGER, type INTEGER, data BLOB, PRIMARY KEY(mid, uid, topic_id, type))").stepThis().dispose();
                 this.database.executeFast("CREATE INDEX IF NOT EXISTS uid_mid_type_date_idx_media_topics ON media_topics(uid, topic_id, mid, type, date);").stepThis().dispose();
                 this.database.executeFast("CREATE TABLE media_holes_topics(uid INTEGER, topic_id INTEGER, type INTEGER, start INTEGER, end INTEGER, PRIMARY KEY(uid, topic_id, type, start));").stepThis().dispose();
                 this.database.executeFast("CREATE INDEX IF NOT EXISTS uid_end_media_holes_topics ON media_holes_topics(uid, topic_id, type, end);").stepThis().dispose();
                 this.database.executeFast("CREATE TABLE topics(did INTEGER, topic_id INTEGER, data BLOB, top_message INTEGER, topic_message BLOB, unread_count INTEGER, max_read_id INTEGER, unread_mentions INTEGER, unread_reactions INTEGER, read_outbox INTEGER, pinned INTEGER, PRIMARY KEY(did, topic_id));").stepThis().dispose();
                 this.database.executeFast("CREATE INDEX IF NOT EXISTS did_top_message_topics ON topics(did, top_message);").stepThis().dispose();
+                this.database.executeFast("CREATE INDEX IF NOT EXISTS did_topics ON topics(did);").stepThis().dispose();
                 this.database.executeFast("CREATE TABLE media_counts_topics(uid INTEGER, topic_id INTEGER, type INTEGER, count INTEGER, old INTEGER, PRIMARY KEY(uid, topic_id, type))").stepThis().dispose();
                 this.database.executeFast("CREATE TABLE reaction_mentions_topics(message_id INTEGER, state INTEGER, dialog_id INTEGER, topic_id INTEGER, PRIMARY KEY(message_id, dialog_id, topic_id))").stepThis().dispose();
                 this.database.executeFast("CREATE INDEX IF NOT EXISTS reaction_mentions_topics_did ON reaction_mentions_topics(dialog_id, topic_id);").stepThis().dispose();
-                this.database.executeFast("PRAGMA user_version = 106").stepThis().dispose();
+                this.database.executeFast("PRAGMA user_version = 107").stepThis().dispose();
             } else {
                 int intValue = this.database.executeInt("PRAGMA user_version", new Object[0]).intValue();
                 if (BuildVars.LOGS_ENABLED) {
@@ -1723,7 +1726,7 @@ public class MessagesStorage extends BaseController {
             messagesStorage.database.executeFast("CREATE INDEX IF NOT EXISTS is_channel_idx_messages_topics ON messages_topics(mid, is_channel);").stepThis().dispose();
             messagesStorage.database.executeFast("CREATE INDEX IF NOT EXISTS reply_to_idx_messages_topics ON messages_topics(mid, reply_to_message_id);").stepThis().dispose();
             messagesStorage.database.executeFast("CREATE INDEX IF NOT EXISTS mid_uid_messages_topics ON messages_topics(mid, uid);").stepThis().dispose();
-            messagesStorage.database.executeFast("CREATE INDEX IF NOT EXISTS mid_uid_messages_topics ON messages_topics(mid, topic_id, uid);").stepThis().dispose();
+            messagesStorage.database.executeFast("CREATE INDEX IF NOT EXISTS mid_uid_topic_id_messages_topics ON messages_topics(mid, topic_id, uid);").stepThis().dispose();
             messagesStorage.database.executeFast("CREATE TABLE media_topics(mid INTEGER, uid INTEGER, topic_id INTEGER, date INTEGER, type INTEGER, data BLOB, PRIMARY KEY(mid, uid, topic_id, type))").stepThis().dispose();
             messagesStorage.database.executeFast("CREATE INDEX IF NOT EXISTS uid_mid_type_date_idx_media_topics ON media_topics(uid, topic_id, mid, type, date);").stepThis().dispose();
             messagesStorage.database.executeFast("CREATE TABLE media_holes_topics(uid INTEGER, topic_id INTEGER, type INTEGER, start INTEGER, end INTEGER, PRIMARY KEY(uid, topic_id, type, start));").stepThis().dispose();
@@ -1748,6 +1751,18 @@ public class MessagesStorage extends BaseController {
         if (i4 == 105) {
             messagesStorage.database.executeFast("ALTER TABLE topics ADD COLUMN pinned INTEGER default 0").stepThis().dispose();
             messagesStorage.database.executeFast("PRAGMA user_version = 106").stepThis().dispose();
+            i4 = 106;
+        }
+        if (i4 == 106) {
+            messagesStorage.database.executeFast("DROP INDEX IF EXISTS uid_mid_read_out_idx_messages_topics").stepThis().dispose();
+            messagesStorage.database.executeFast("DROP INDEX IF EXISTS uid_mention_idx_messages_topics").stepThis().dispose();
+            messagesStorage.database.executeFast("CREATE INDEX IF NOT EXISTS uid_mid_read_out_idx_messages_topics ON messages_topics(uid, topic_id, mid, read_state, out);").stepThis().dispose();
+            messagesStorage.database.executeFast("CREATE INDEX IF NOT EXISTS uid_mention_idx_messages_topics ON messages_topics(uid, topic_id, mention, read_state);").stepThis().dispose();
+            messagesStorage.database.executeFast("CREATE INDEX IF NOT EXISTS uid_topic_id_messages_topics ON messages_topics(uid, topic_id);").stepThis().dispose();
+            messagesStorage.database.executeFast("CREATE INDEX IF NOT EXISTS uid_topic_id_date_mid_messages_topics ON messages_topics(uid, topic_id, date, mid);").stepThis().dispose();
+            messagesStorage.database.executeFast("CREATE INDEX IF NOT EXISTS uid_topic_id_mid_messages_topics ON messages_topics(uid, topic_id, mid);").stepThis().dispose();
+            messagesStorage.database.executeFast("CREATE INDEX IF NOT EXISTS did_topics ON topics(did);").stepThis().dispose();
+            messagesStorage.database.executeFast("PRAGMA user_version = 107").stepThis().dispose();
         }
         FileLog.d("MessagesStorage db migration finished");
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda8
@@ -3007,73 +3022,91 @@ public class MessagesStorage extends BaseController {
         saveTopicsInternal(j, list, z, true);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:19:0x00b0, code lost:
-        if (r0 != null) goto L23;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:20:0x00be, code lost:
-        r7.database.commitTransaction();
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:21:0x00c3, code lost:
-        return;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:23:0x00bb, code lost:
-        r0.dispose();
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:27:0x00b9, code lost:
-        if (r0 == null) goto L20;
-     */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x00e6  */
+    /* JADX WARN: Removed duplicated region for block: B:31:0x00f1  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private void saveTopicsInternal(long j, List<TLRPC$TL_forumTopic> list, boolean z, boolean z2) {
+        Throwable th;
         SQLitePreparedStatement sQLitePreparedStatement = null;
-        try {
-            if (z) {
+        if (z) {
+            try {
                 try {
                     SQLiteDatabase sQLiteDatabase = this.database;
                     sQLiteDatabase.executeFast("DELETE FROM topics WHERE did = " + j).stepThis().dispose();
                 } catch (Exception e) {
+                    e = e;
                     FileLog.e(e);
+                    if (sQLitePreparedStatement != null) {
+                        sQLitePreparedStatement.dispose();
+                    }
+                    this.database.commitTransaction();
                 }
-            }
-            sQLitePreparedStatement = this.database.executeFast("REPLACE INTO topics VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            if (z2) {
-                this.database.beginTransaction();
-            }
-            for (int i = 0; i < list.size(); i++) {
-                TLRPC$TL_forumTopic tLRPC$TL_forumTopic = list.get(i);
-                sQLitePreparedStatement.requery();
-                int i2 = 1;
-                sQLitePreparedStatement.bindLong(1, j);
-                sQLitePreparedStatement.bindInteger(2, tLRPC$TL_forumTopic.id);
-                NativeByteBuffer nativeByteBuffer = new NativeByteBuffer(tLRPC$TL_forumTopic.getObjectSize());
-                tLRPC$TL_forumTopic.serializeToStream(nativeByteBuffer);
-                sQLitePreparedStatement.bindByteBuffer(3, nativeByteBuffer);
-                sQLitePreparedStatement.bindInteger(4, tLRPC$TL_forumTopic.top_message);
-                NativeByteBuffer nativeByteBuffer2 = new NativeByteBuffer(tLRPC$TL_forumTopic.topicStartMessage.getObjectSize());
-                tLRPC$TL_forumTopic.topicStartMessage.serializeToStream(nativeByteBuffer2);
-                sQLitePreparedStatement.bindByteBuffer(5, nativeByteBuffer2);
-                sQLitePreparedStatement.bindInteger(6, tLRPC$TL_forumTopic.unread_count);
-                sQLitePreparedStatement.bindInteger(7, tLRPC$TL_forumTopic.read_inbox_max_id);
-                sQLitePreparedStatement.bindInteger(8, tLRPC$TL_forumTopic.unread_mentions_count);
-                sQLitePreparedStatement.bindInteger(9, tLRPC$TL_forumTopic.unread_reactions_count);
-                sQLitePreparedStatement.bindInteger(10, tLRPC$TL_forumTopic.read_outbox_max_id);
-                if (!tLRPC$TL_forumTopic.pinned) {
-                    i2 = 0;
+            } catch (Throwable th2) {
+                th = th2;
+                if (sQLitePreparedStatement != null) {
+                    sQLitePreparedStatement.dispose();
                 }
-                sQLitePreparedStatement.bindInteger(11, i2);
-                sQLitePreparedStatement.step();
-                nativeByteBuffer2.reuse();
-                nativeByteBuffer.reuse();
+                this.database.commitTransaction();
+                throw th;
             }
-            resetAllUnreadCounters(false);
-        } catch (Throwable th) {
-            if (sQLitePreparedStatement != null) {
-                sQLitePreparedStatement.dispose();
-            }
-            this.database.commitTransaction();
-            throw th;
         }
+        SQLitePreparedStatement executeFast = this.database.executeFast("REPLACE INTO topics VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        if (z2) {
+            try {
+                this.database.beginTransaction();
+            } catch (Exception e2) {
+                e = e2;
+                sQLitePreparedStatement = executeFast;
+                FileLog.e(e);
+                if (sQLitePreparedStatement != null) {
+                }
+                this.database.commitTransaction();
+            } catch (Throwable th3) {
+                th = th3;
+                sQLitePreparedStatement = executeFast;
+                if (sQLitePreparedStatement != null) {
+                }
+                this.database.commitTransaction();
+                throw th;
+            }
+        }
+        for (int i = 0; i < list.size(); i++) {
+            TLRPC$TL_forumTopic tLRPC$TL_forumTopic = list.get(i);
+            executeFast.requery();
+            int i2 = 1;
+            executeFast.bindLong(1, j);
+            executeFast.bindInteger(2, tLRPC$TL_forumTopic.id);
+            NativeByteBuffer nativeByteBuffer = new NativeByteBuffer(tLRPC$TL_forumTopic.getObjectSize());
+            tLRPC$TL_forumTopic.serializeToStream(nativeByteBuffer);
+            executeFast.bindByteBuffer(3, nativeByteBuffer);
+            executeFast.bindInteger(4, tLRPC$TL_forumTopic.top_message);
+            NativeByteBuffer nativeByteBuffer2 = new NativeByteBuffer(tLRPC$TL_forumTopic.topicStartMessage.getObjectSize());
+            tLRPC$TL_forumTopic.topicStartMessage.serializeToStream(nativeByteBuffer2);
+            executeFast.bindByteBuffer(5, nativeByteBuffer2);
+            executeFast.bindInteger(6, tLRPC$TL_forumTopic.unread_count);
+            executeFast.bindInteger(7, tLRPC$TL_forumTopic.read_inbox_max_id);
+            executeFast.bindInteger(8, tLRPC$TL_forumTopic.unread_mentions_count);
+            executeFast.bindInteger(9, tLRPC$TL_forumTopic.unread_reactions_count);
+            executeFast.bindInteger(10, tLRPC$TL_forumTopic.read_outbox_max_id);
+            if (!tLRPC$TL_forumTopic.pinned) {
+                i2 = 0;
+            }
+            executeFast.bindInteger(11, i2);
+            executeFast.step();
+            nativeByteBuffer2.reuse();
+            nativeByteBuffer.reuse();
+            int i3 = tLRPC$TL_forumTopic.top_message;
+            closeHolesInTable("messages_holes_topics", j, i3, i3, tLRPC$TL_forumTopic.id);
+            int i4 = tLRPC$TL_forumTopic.top_message;
+            closeHolesInMedia(j, i4, i4, -1, 0);
+        }
+        resetAllUnreadCounters(false);
+        if (executeFast != null) {
+            executeFast.dispose();
+        }
+        this.database.commitTransaction();
     }
 
     public void updateTopicData(final long j, final TLRPC$TL_forumTopic tLRPC$TL_forumTopic, final int i) {
@@ -16367,166 +16400,169 @@ public class MessagesStorage extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:13:0x01ed  */
-    /* JADX WARN: Removed duplicated region for block: B:16:0x021c  */
-    /* JADX WARN: Removed duplicated region for block: B:23:0x01ef  */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x0251  */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x020b  */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x023a  */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x020d  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x026f  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public /* synthetic */ void lambda$overwriteChannel$161(long j, int i, final TLRPC$TL_updates_channelDifferenceTooLong tLRPC$TL_updates_channelDifferenceTooLong) {
         SQLiteCursor sQLiteCursor;
-        SQLiteCursor queryFinalized;
         int intValue;
         boolean z;
         final long j2 = -j;
         try {
             SQLiteDatabase sQLiteDatabase = this.database;
-            queryFinalized = sQLiteDatabase.queryFinalized("SELECT pinned FROM dialogs WHERE did = " + j2, new Object[0]);
-        } catch (Exception e) {
-            e = e;
-            sQLiteCursor = null;
-        } catch (Throwable th) {
-            th = th;
-            sQLiteCursor = null;
-        }
-        try {
-            if (!queryFinalized.next()) {
-                intValue = 0;
-                if (i != 0) {
-                    z = true;
-                    queryFinalized.dispose();
-                    SQLiteDatabase sQLiteDatabase2 = this.database;
-                    sQLiteDatabase2.executeFast("DELETE FROM chat_pinned_count WHERE uid = " + j2).stepThis().dispose();
-                    SQLiteDatabase sQLiteDatabase3 = this.database;
-                    sQLiteDatabase3.executeFast("DELETE FROM chat_pinned_v2 WHERE uid = " + j2).stepThis().dispose();
-                    SQLiteDatabase sQLiteDatabase4 = this.database;
-                    sQLiteDatabase4.executeFast("DELETE FROM messages_v2 WHERE uid = " + j2).stepThis().dispose();
-                    SQLiteDatabase sQLiteDatabase5 = this.database;
-                    sQLiteDatabase5.executeFast("DELETE FROM bot_keyboard WHERE uid = " + j2).stepThis().dispose();
-                    SQLiteDatabase sQLiteDatabase6 = this.database;
-                    sQLiteDatabase6.executeFast("UPDATE media_counts_v2 SET old = 1 WHERE uid = " + j2).stepThis().dispose();
-                    SQLiteDatabase sQLiteDatabase7 = this.database;
-                    sQLiteDatabase7.executeFast("DELETE FROM media_v4 WHERE uid = " + j2).stepThis().dispose();
-                    SQLiteDatabase sQLiteDatabase8 = this.database;
-                    sQLiteDatabase8.executeFast("DELETE FROM messages_holes WHERE uid = " + j2).stepThis().dispose();
-                    SQLiteDatabase sQLiteDatabase9 = this.database;
-                    sQLiteDatabase9.executeFast("DELETE FROM media_holes_v2 WHERE uid = " + j2).stepThis().dispose();
-                    SQLiteDatabase sQLiteDatabase10 = this.database;
-                    sQLiteDatabase10.executeFast("DELETE FROM media_topics WHERE uid = " + j2).stepThis().dispose();
-                    SQLiteDatabase sQLiteDatabase11 = this.database;
-                    sQLiteDatabase11.executeFast("DELETE FROM media_holes_topics WHERE uid = " + j2).stepThis().dispose();
-                    SQLiteDatabase sQLiteDatabase12 = this.database;
-                    sQLiteDatabase12.executeFast("UPDATE media_counts_topics SET old = 1 WHERE uid = " + j2).stepThis().dispose();
-                    SQLiteDatabase sQLiteDatabase13 = this.database;
-                    sQLiteDatabase13.executeFast("DELETE FROM messages_topics WHERE uid = " + j2).stepThis().dispose();
-                    SQLiteDatabase sQLiteDatabase14 = this.database;
-                    sQLiteDatabase14.executeFast("DELETE FROM messages_holes_topics WHERE uid = " + j2).stepThis().dispose();
-                    getMediaDataController().clearBotKeyboard(j2, null);
-                    TLRPC$TL_messages_dialogs tLRPC$TL_messages_dialogs = new TLRPC$TL_messages_dialogs();
-                    tLRPC$TL_messages_dialogs.chats.addAll(tLRPC$TL_updates_channelDifferenceTooLong.chats);
-                    tLRPC$TL_messages_dialogs.users.addAll(tLRPC$TL_updates_channelDifferenceTooLong.users);
-                    tLRPC$TL_messages_dialogs.messages.addAll(tLRPC$TL_updates_channelDifferenceTooLong.messages);
-                    TLRPC$Dialog tLRPC$Dialog = tLRPC$TL_updates_channelDifferenceTooLong.dialog;
-                    tLRPC$Dialog.id = j2;
-                    tLRPC$Dialog.flags = 1;
-                    tLRPC$Dialog.notify_settings = null;
-                    tLRPC$Dialog.pinned = intValue == 0;
-                    tLRPC$Dialog.pinnedNum = intValue;
-                    tLRPC$TL_messages_dialogs.dialogs.add(tLRPC$Dialog);
-                    putDialogsInternal(tLRPC$TL_messages_dialogs, 0);
-                    updateDialogsWithDeletedMessages(j2, j, new ArrayList<>(), null, false);
-                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda117
-                        @Override // java.lang.Runnable
-                        public final void run() {
-                            MessagesStorage.this.lambda$overwriteChannel$160(j2, tLRPC$TL_updates_channelDifferenceTooLong);
-                        }
-                    });
-                    if (z) {
-                        if (i == 1) {
-                            getMessagesController().checkChatInviter(j, true);
-                        } else {
-                            getMessagesController().generateJoinMessage(j, false);
-                        }
-                    }
-                    getMessagesController().getTopicsController().reloadTopics(j);
-                }
-            } else {
-                intValue = queryFinalized.intValue(0);
-            }
-            z = false;
-            queryFinalized.dispose();
-            SQLiteDatabase sQLiteDatabase22 = this.database;
-            sQLiteDatabase22.executeFast("DELETE FROM chat_pinned_count WHERE uid = " + j2).stepThis().dispose();
-            SQLiteDatabase sQLiteDatabase32 = this.database;
-            sQLiteDatabase32.executeFast("DELETE FROM chat_pinned_v2 WHERE uid = " + j2).stepThis().dispose();
-            SQLiteDatabase sQLiteDatabase42 = this.database;
-            sQLiteDatabase42.executeFast("DELETE FROM messages_v2 WHERE uid = " + j2).stepThis().dispose();
-            SQLiteDatabase sQLiteDatabase52 = this.database;
-            sQLiteDatabase52.executeFast("DELETE FROM bot_keyboard WHERE uid = " + j2).stepThis().dispose();
-            SQLiteDatabase sQLiteDatabase62 = this.database;
-            sQLiteDatabase62.executeFast("UPDATE media_counts_v2 SET old = 1 WHERE uid = " + j2).stepThis().dispose();
-            SQLiteDatabase sQLiteDatabase72 = this.database;
-            sQLiteDatabase72.executeFast("DELETE FROM media_v4 WHERE uid = " + j2).stepThis().dispose();
-            SQLiteDatabase sQLiteDatabase82 = this.database;
-            sQLiteDatabase82.executeFast("DELETE FROM messages_holes WHERE uid = " + j2).stepThis().dispose();
-            SQLiteDatabase sQLiteDatabase92 = this.database;
-            sQLiteDatabase92.executeFast("DELETE FROM media_holes_v2 WHERE uid = " + j2).stepThis().dispose();
-            SQLiteDatabase sQLiteDatabase102 = this.database;
-            sQLiteDatabase102.executeFast("DELETE FROM media_topics WHERE uid = " + j2).stepThis().dispose();
-            SQLiteDatabase sQLiteDatabase112 = this.database;
-            sQLiteDatabase112.executeFast("DELETE FROM media_holes_topics WHERE uid = " + j2).stepThis().dispose();
-            SQLiteDatabase sQLiteDatabase122 = this.database;
-            sQLiteDatabase122.executeFast("UPDATE media_counts_topics SET old = 1 WHERE uid = " + j2).stepThis().dispose();
-            SQLiteDatabase sQLiteDatabase132 = this.database;
-            sQLiteDatabase132.executeFast("DELETE FROM messages_topics WHERE uid = " + j2).stepThis().dispose();
-            SQLiteDatabase sQLiteDatabase142 = this.database;
-            sQLiteDatabase142.executeFast("DELETE FROM messages_holes_topics WHERE uid = " + j2).stepThis().dispose();
-            getMediaDataController().clearBotKeyboard(j2, null);
-            TLRPC$TL_messages_dialogs tLRPC$TL_messages_dialogs2 = new TLRPC$TL_messages_dialogs();
-            tLRPC$TL_messages_dialogs2.chats.addAll(tLRPC$TL_updates_channelDifferenceTooLong.chats);
-            tLRPC$TL_messages_dialogs2.users.addAll(tLRPC$TL_updates_channelDifferenceTooLong.users);
-            tLRPC$TL_messages_dialogs2.messages.addAll(tLRPC$TL_updates_channelDifferenceTooLong.messages);
-            TLRPC$Dialog tLRPC$Dialog2 = tLRPC$TL_updates_channelDifferenceTooLong.dialog;
-            tLRPC$Dialog2.id = j2;
-            tLRPC$Dialog2.flags = 1;
-            tLRPC$Dialog2.notify_settings = null;
-            tLRPC$Dialog2.pinned = intValue == 0;
-            tLRPC$Dialog2.pinnedNum = intValue;
-            tLRPC$TL_messages_dialogs2.dialogs.add(tLRPC$Dialog2);
-            putDialogsInternal(tLRPC$TL_messages_dialogs2, 0);
-            updateDialogsWithDeletedMessages(j2, j, new ArrayList<>(), null, false);
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda117
-                @Override // java.lang.Runnable
-                public final void run() {
-                    MessagesStorage.this.lambda$overwriteChannel$160(j2, tLRPC$TL_updates_channelDifferenceTooLong);
-                }
-            });
-            if (z) {
-            }
-            getMessagesController().getTopicsController().reloadTopics(j);
-        } catch (Exception e2) {
-            e = e2;
-            sQLiteCursor = queryFinalized;
+            SQLiteCursor queryFinalized = sQLiteDatabase.queryFinalized("SELECT pinned FROM dialogs WHERE did = " + j2, new Object[0]);
             try {
-                FileLog.e(e);
-                if (sQLiteCursor == null) {
-                    return;
+                if (!queryFinalized.next()) {
+                    intValue = 0;
+                    if (i != 0) {
+                        z = true;
+                        queryFinalized.dispose();
+                        SQLiteDatabase sQLiteDatabase2 = this.database;
+                        sQLiteDatabase2.executeFast("DELETE FROM chat_pinned_count WHERE uid = " + j2).stepThis().dispose();
+                        SQLiteDatabase sQLiteDatabase3 = this.database;
+                        sQLiteDatabase3.executeFast("DELETE FROM chat_pinned_v2 WHERE uid = " + j2).stepThis().dispose();
+                        SQLiteDatabase sQLiteDatabase4 = this.database;
+                        sQLiteDatabase4.executeFast("DELETE FROM messages_v2 WHERE uid = " + j2).stepThis().dispose();
+                        SQLiteDatabase sQLiteDatabase5 = this.database;
+                        sQLiteDatabase5.executeFast("DELETE FROM bot_keyboard WHERE uid = " + j2).stepThis().dispose();
+                        SQLiteDatabase sQLiteDatabase6 = this.database;
+                        sQLiteDatabase6.executeFast("UPDATE media_counts_v2 SET old = 1 WHERE uid = " + j2).stepThis().dispose();
+                        SQLiteDatabase sQLiteDatabase7 = this.database;
+                        sQLiteDatabase7.executeFast("DELETE FROM media_v4 WHERE uid = " + j2).stepThis().dispose();
+                        SQLiteDatabase sQLiteDatabase8 = this.database;
+                        sQLiteDatabase8.executeFast("DELETE FROM messages_holes WHERE uid = " + j2).stepThis().dispose();
+                        SQLiteDatabase sQLiteDatabase9 = this.database;
+                        sQLiteDatabase9.executeFast("DELETE FROM media_holes_v2 WHERE uid = " + j2).stepThis().dispose();
+                        SQLiteDatabase sQLiteDatabase10 = this.database;
+                        sQLiteDatabase10.executeFast("DELETE FROM topics WHERE did = " + j2).stepThis().dispose();
+                        SQLiteDatabase sQLiteDatabase11 = this.database;
+                        sQLiteDatabase11.executeFast("DELETE FROM media_topics WHERE uid = " + j2).stepThis().dispose();
+                        SQLiteDatabase sQLiteDatabase12 = this.database;
+                        sQLiteDatabase12.executeFast("DELETE FROM media_holes_topics WHERE uid = " + j2).stepThis().dispose();
+                        SQLiteDatabase sQLiteDatabase13 = this.database;
+                        sQLiteDatabase13.executeFast("UPDATE media_counts_topics SET old = 1 WHERE uid = " + j2).stepThis().dispose();
+                        SQLiteDatabase sQLiteDatabase14 = this.database;
+                        sQLiteDatabase14.executeFast("DELETE FROM messages_topics WHERE uid = " + j2).stepThis().dispose();
+                        SQLiteDatabase sQLiteDatabase15 = this.database;
+                        sQLiteDatabase15.executeFast("DELETE FROM messages_holes_topics WHERE uid = " + j2).stepThis().dispose();
+                        getMediaDataController().clearBotKeyboard(j2, null);
+                        TLRPC$TL_messages_dialogs tLRPC$TL_messages_dialogs = new TLRPC$TL_messages_dialogs();
+                        tLRPC$TL_messages_dialogs.chats.addAll(tLRPC$TL_updates_channelDifferenceTooLong.chats);
+                        tLRPC$TL_messages_dialogs.users.addAll(tLRPC$TL_updates_channelDifferenceTooLong.users);
+                        tLRPC$TL_messages_dialogs.messages.addAll(tLRPC$TL_updates_channelDifferenceTooLong.messages);
+                        TLRPC$Dialog tLRPC$Dialog = tLRPC$TL_updates_channelDifferenceTooLong.dialog;
+                        tLRPC$Dialog.id = j2;
+                        tLRPC$Dialog.flags = 1;
+                        tLRPC$Dialog.notify_settings = null;
+                        tLRPC$Dialog.pinned = intValue == 0;
+                        tLRPC$Dialog.pinnedNum = intValue;
+                        tLRPC$TL_messages_dialogs.dialogs.add(tLRPC$Dialog);
+                        putDialogsInternal(tLRPC$TL_messages_dialogs, 0);
+                        updateDialogsWithDeletedMessages(j2, j, new ArrayList<>(), null, false);
+                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda117
+                            @Override // java.lang.Runnable
+                            public final void run() {
+                                MessagesStorage.this.lambda$overwriteChannel$160(j2, tLRPC$TL_updates_channelDifferenceTooLong);
+                            }
+                        });
+                        if (z) {
+                            if (i == 1) {
+                                getMessagesController().checkChatInviter(j, true);
+                            } else {
+                                getMessagesController().generateJoinMessage(j, false);
+                            }
+                        }
+                        getMessagesController().getTopicsController().reloadTopics(j);
+                    }
+                } else {
+                    intValue = queryFinalized.intValue(0);
                 }
-                sQLiteCursor.dispose();
+                z = false;
+                queryFinalized.dispose();
+                SQLiteDatabase sQLiteDatabase22 = this.database;
+                sQLiteDatabase22.executeFast("DELETE FROM chat_pinned_count WHERE uid = " + j2).stepThis().dispose();
+                SQLiteDatabase sQLiteDatabase32 = this.database;
+                sQLiteDatabase32.executeFast("DELETE FROM chat_pinned_v2 WHERE uid = " + j2).stepThis().dispose();
+                SQLiteDatabase sQLiteDatabase42 = this.database;
+                sQLiteDatabase42.executeFast("DELETE FROM messages_v2 WHERE uid = " + j2).stepThis().dispose();
+                SQLiteDatabase sQLiteDatabase52 = this.database;
+                sQLiteDatabase52.executeFast("DELETE FROM bot_keyboard WHERE uid = " + j2).stepThis().dispose();
+                SQLiteDatabase sQLiteDatabase62 = this.database;
+                sQLiteDatabase62.executeFast("UPDATE media_counts_v2 SET old = 1 WHERE uid = " + j2).stepThis().dispose();
+                SQLiteDatabase sQLiteDatabase72 = this.database;
+                sQLiteDatabase72.executeFast("DELETE FROM media_v4 WHERE uid = " + j2).stepThis().dispose();
+                SQLiteDatabase sQLiteDatabase82 = this.database;
+                sQLiteDatabase82.executeFast("DELETE FROM messages_holes WHERE uid = " + j2).stepThis().dispose();
+                SQLiteDatabase sQLiteDatabase92 = this.database;
+                sQLiteDatabase92.executeFast("DELETE FROM media_holes_v2 WHERE uid = " + j2).stepThis().dispose();
+                SQLiteDatabase sQLiteDatabase102 = this.database;
+                sQLiteDatabase102.executeFast("DELETE FROM topics WHERE did = " + j2).stepThis().dispose();
+                SQLiteDatabase sQLiteDatabase112 = this.database;
+                sQLiteDatabase112.executeFast("DELETE FROM media_topics WHERE uid = " + j2).stepThis().dispose();
+                SQLiteDatabase sQLiteDatabase122 = this.database;
+                sQLiteDatabase122.executeFast("DELETE FROM media_holes_topics WHERE uid = " + j2).stepThis().dispose();
+                SQLiteDatabase sQLiteDatabase132 = this.database;
+                sQLiteDatabase132.executeFast("UPDATE media_counts_topics SET old = 1 WHERE uid = " + j2).stepThis().dispose();
+                SQLiteDatabase sQLiteDatabase142 = this.database;
+                sQLiteDatabase142.executeFast("DELETE FROM messages_topics WHERE uid = " + j2).stepThis().dispose();
+                SQLiteDatabase sQLiteDatabase152 = this.database;
+                sQLiteDatabase152.executeFast("DELETE FROM messages_holes_topics WHERE uid = " + j2).stepThis().dispose();
+                getMediaDataController().clearBotKeyboard(j2, null);
+                TLRPC$TL_messages_dialogs tLRPC$TL_messages_dialogs2 = new TLRPC$TL_messages_dialogs();
+                tLRPC$TL_messages_dialogs2.chats.addAll(tLRPC$TL_updates_channelDifferenceTooLong.chats);
+                tLRPC$TL_messages_dialogs2.users.addAll(tLRPC$TL_updates_channelDifferenceTooLong.users);
+                tLRPC$TL_messages_dialogs2.messages.addAll(tLRPC$TL_updates_channelDifferenceTooLong.messages);
+                TLRPC$Dialog tLRPC$Dialog2 = tLRPC$TL_updates_channelDifferenceTooLong.dialog;
+                tLRPC$Dialog2.id = j2;
+                tLRPC$Dialog2.flags = 1;
+                tLRPC$Dialog2.notify_settings = null;
+                tLRPC$Dialog2.pinned = intValue == 0;
+                tLRPC$Dialog2.pinnedNum = intValue;
+                tLRPC$TL_messages_dialogs2.dialogs.add(tLRPC$Dialog2);
+                putDialogsInternal(tLRPC$TL_messages_dialogs2, 0);
+                updateDialogsWithDeletedMessages(j2, j, new ArrayList<>(), null, false);
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda117
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        MessagesStorage.this.lambda$overwriteChannel$160(j2, tLRPC$TL_updates_channelDifferenceTooLong);
+                    }
+                });
+                if (z) {
+                }
+                getMessagesController().getTopicsController().reloadTopics(j);
+            } catch (Exception e) {
+                e = e;
+                sQLiteCursor = queryFinalized;
+                try {
+                    FileLog.e(e);
+                    if (sQLiteCursor == null) {
+                        return;
+                    }
+                    sQLiteCursor.dispose();
+                } catch (Throwable th) {
+                    th = th;
+                    if (sQLiteCursor != null) {
+                        sQLiteCursor.dispose();
+                    }
+                    throw th;
+                }
             } catch (Throwable th2) {
                 th = th2;
+                sQLiteCursor = queryFinalized;
                 if (sQLiteCursor != null) {
-                    sQLiteCursor.dispose();
                 }
                 throw th;
             }
+        } catch (Exception e2) {
+            e = e2;
+            sQLiteCursor = null;
         } catch (Throwable th3) {
             th = th3;
-            sQLiteCursor = queryFinalized;
-            if (sQLiteCursor != null) {
-            }
-            throw th;
+            sQLiteCursor = null;
         }
     }
 

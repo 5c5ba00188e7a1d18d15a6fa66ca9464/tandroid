@@ -22364,7 +22364,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:151:0x01ed  */
+    /* JADX WARN: Removed duplicated region for block: B:151:0x0218  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -22428,6 +22428,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 edit.putLong("dialog_join_requested_time_" + this.dialog_id, -1L).commit();
                             }
                         }
+                    } else if (ChatObject.isForum(this.currentChat) && !this.isTopic && (this.replyingMessageObject == null || z3)) {
+                        this.bottomOverlayChatWaitsReply = true;
+                        showBottomOverlayProgress(false, false);
+                        this.bottomOverlayChatText.setTextInfo(LocaleController.getString("ForumReplyToMessagesInTopic", R.string.ForumReplyToMessagesInTopic));
+                        this.bottomOverlayChatText.setEnabled(false);
                     } else if (!isThreadChat()) {
                         if (!getMessagesController().isDialogMuted(this.dialog_id, getTopicId())) {
                             this.bottomOverlayChatText.setText(LocaleController.getString("ChannelMute", R.string.ChannelMute), false);
@@ -22456,7 +22461,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     }
                 }
             }
-            if (this.currentChat.forum && !this.isTopic && (this.replyingMessageObject == null || z3)) {
+            if (ChatObject.isForum(this.currentChat) && !this.isTopic && (this.replyingMessageObject == null || z3)) {
                 this.bottomOverlayChatWaitsReply = true;
                 showBottomOverlayProgress(false, false);
                 this.bottomOverlayChatText.setTextInfo(LocaleController.getString("ForumReplyToMessagesInTopic", R.string.ForumReplyToMessagesInTopic));
@@ -24175,21 +24180,25 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Code restructure failed: missing block: B:29:0x017e, code lost:
-        if (((org.telegram.tgnet.TLRPC$TL_emojiStatusUntil) r1).until > ((int) (java.lang.System.currentTimeMillis() / 1000))) goto L209;
+        if (((org.telegram.tgnet.TLRPC$TL_emojiStatusUntil) r1).until > ((int) (java.lang.System.currentTimeMillis() / 1000))) goto L214;
      */
-    /* JADX WARN: Removed duplicated region for block: B:108:0x0603  */
-    /* JADX WARN: Removed duplicated region for block: B:123:0x0672  */
-    /* JADX WARN: Removed duplicated region for block: B:141:0x05e2  */
-    /* JADX WARN: Removed duplicated region for block: B:146:0x02c3  */
-    /* JADX WARN: Removed duplicated region for block: B:154:0x0309  */
-    /* JADX WARN: Removed duplicated region for block: B:203:0x01fe  */
-    /* JADX WARN: Removed duplicated region for block: B:204:0x01e5  */
+    /* JADX WARN: Removed duplicated region for block: B:109:0x0608  */
+    /* JADX WARN: Removed duplicated region for block: B:124:0x0677  */
+    /* JADX WARN: Removed duplicated region for block: B:142:0x05e7  */
+    /* JADX WARN: Removed duplicated region for block: B:147:0x02c8  */
+    /* JADX WARN: Removed duplicated region for block: B:155:0x030e  */
+    /* JADX WARN: Removed duplicated region for block: B:204:0x0203  */
+    /* JADX WARN: Removed duplicated region for block: B:205:0x01ea  */
+    /* JADX WARN: Removed duplicated region for block: B:206:0x01dd  */
+    /* JADX WARN: Removed duplicated region for block: B:207:0x01d1  */
     /* JADX WARN: Removed duplicated region for block: B:41:0x01a7  */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x01df  */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x01e3  */
-    /* JADX WARN: Removed duplicated region for block: B:64:0x01ec  */
-    /* JADX WARN: Removed duplicated region for block: B:76:0x04cd  */
-    /* JADX WARN: Removed duplicated region for block: B:93:0x04ff  */
+    /* JADX WARN: Removed duplicated region for block: B:54:0x01cf  */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x01da  */
+    /* JADX WARN: Removed duplicated region for block: B:60:0x01e4  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x01e8  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x01f1  */
+    /* JADX WARN: Removed duplicated region for block: B:77:0x04d2  */
+    /* JADX WARN: Removed duplicated region for block: B:94:0x0504  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -24254,8 +24263,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 this.shownRestartTopic = true;
             }
             this.reportSpamButton.setVisibility((!z3 || z10 || z13) ? 0 : 8);
-            this.restartTopicButton.setVisibility((!z4 || this.shownRestartTopic) ? 0 : 8);
-            this.closeReportSpam.setVisibility((!z4 || this.shownRestartTopic) ? 8 : 0);
+            boolean z16 = (!z4 || this.shownRestartTopic) && !z3 && !z10 && !z13;
+            this.restartTopicButton.setVisibility(!z16 ? 0 : 8);
+            this.closeReportSpam.setVisibility(!z16 ? 8 : 0);
             if (!z4) {
                 this.shownRestartTopic = false;
             }
@@ -24280,8 +24290,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     if (UserObject.isReplyUser(user)) {
                         this.addToContactsButton.setVisibility(8);
                     } else {
-                        boolean z16 = user.contact;
-                        if (!z16 && !user.self && z11) {
+                        boolean z17 = user.contact;
+                        if (!z17 && !user.self && z11) {
                             this.addContactItem.setVisibility(0);
                             this.addContactItem.setText(LocaleController.getString("AddToContacts", R.string.AddToContacts));
                             this.addToContactsButton.setVisibility(0);
@@ -24308,7 +24318,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             this.addToContactsButton.setTag(1);
                             this.addToContactsButton.setVisibility(0);
                         } else {
-                            if (!z16 && !user.self && !z5) {
+                            if (!z17 && !user.self && !z5) {
                                 this.addContactItem.setVisibility(0);
                                 this.addContactItem.setText(LocaleController.getString("ShareMyContactInfo", R.string.ShareMyContactInfo));
                                 this.addToContactsButton.setTag(2);
@@ -24540,8 +24550,10 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         if (z4) {
         }
         this.reportSpamButton.setVisibility((!z3 || z10 || z13) ? 0 : 8);
-        this.restartTopicButton.setVisibility((!z4 || this.shownRestartTopic) ? 0 : 8);
-        this.closeReportSpam.setVisibility((!z4 || this.shownRestartTopic) ? 8 : 0);
+        if (!z4) {
+        }
+        this.restartTopicButton.setVisibility(!z16 ? 0 : 8);
+        this.closeReportSpam.setVisibility(!z16 ? 8 : 0);
         if (!z4) {
         }
         if (!z4) {
