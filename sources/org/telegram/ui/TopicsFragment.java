@@ -173,6 +173,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
     Adapter adapter = new Adapter();
     private boolean floatingHidden = false;
     private final AccelerateDecelerateInterpolator floatingInterpolator = new AccelerateDecelerateInterpolator();
+    boolean animatedUpdateEnabled = true;
     private boolean bottomPannelVisible = true;
     private float searchAnimationProgress = 0.0f;
     HashSet<Integer> selectedTopics = new HashSet<>();
@@ -1756,16 +1757,10 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
             if (this.forumTopics.size() == 1 && this.forumTopics.get(0).id == 1) {
                 this.forumTopics.clear();
             }
-            int i2 = 0;
-            while (true) {
-                if (i2 >= this.forumTopics.size()) {
-                    break;
-                } else if (this.forumTopics.get(i2).pinned) {
+            for (int size2 = this.forumTopics.size() - 1; size2 >= 0; size2--) {
+                if (this.forumTopics.get(size2).pinned) {
                     ArrayList<TLRPC$TL_forumTopic> arrayList = this.forumTopics;
-                    arrayList.add(0, arrayList.remove(i2));
-                    break;
-                } else {
-                    i2++;
+                    arrayList.add(0, arrayList.remove(size2));
                 }
             }
             RecyclerListView recyclerListView = this.recyclerListView;
@@ -1783,8 +1778,8 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
             if (adapter != null) {
                 adapter.notifyDataSetChanged(true);
             }
-            int size2 = this.forumTopics.size();
-            if (this.fragmentBeginToShow && z2 && size2 > size) {
+            int size3 = this.forumTopics.size();
+            if (this.fragmentBeginToShow && z2 && size3 > size) {
                 this.itemsEnterAnimator.showItemsAnimated(size + 1);
             }
             if (this.scrollToTop && (linearLayoutManager = this.layoutManager) != null) {
@@ -1921,7 +1916,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
             boolean z = false;
             int i3 = tLRPC$TL_forumTopic3 == null ? 0 : tLRPC$TL_forumTopic3.id;
             int i4 = tLRPC$TL_forumTopic.id;
-            boolean z2 = i3 == i4 && topicDialogCell.position == i;
+            boolean z2 = i3 == i4 && topicDialogCell.position == i && TopicsFragment.this.animatedUpdateEnabled;
             if (tLRPC$Message != null) {
                 topicDialogCell.setForumTopic(tLRPC$TL_forumTopic, -TopicsFragment.this.chatId, new MessageObject(((BaseFragment) TopicsFragment.this).currentAccount, tLRPC$Message, false, false), z2);
                 topicDialogCell.drawDivider = i != TopicsFragment.this.forumTopics.size() - 1;
@@ -2091,7 +2086,10 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
             this.closed = tLRPC$TL_forumTopic != null && tLRPC$TL_forumTopic.closed;
             if (tLRPC$TL_forumTopic != null && tLRPC$TL_forumTopic.icon_emoji_id != 0) {
                 setForumIcon(null);
-                setAnimatedEmojiDrawable(new AnimatedEmojiDrawable(10, ((BaseFragment) TopicsFragment.this).currentAccount, tLRPC$TL_forumTopic.icon_emoji_id));
+                AnimatedEmojiDrawable animatedEmojiDrawable = this.animatedEmojiDrawable;
+                if (animatedEmojiDrawable == null || animatedEmojiDrawable.getDocumentId() != tLRPC$TL_forumTopic.icon_emoji_id) {
+                    setAnimatedEmojiDrawable(new AnimatedEmojiDrawable(10, ((BaseFragment) TopicsFragment.this).currentAccount, tLRPC$TL_forumTopic.icon_emoji_id));
+                }
             } else {
                 setAnimatedEmojiDrawable(null);
                 setForumIcon(ForumUtilities.createTopicDrawable(tLRPC$TL_forumTopic));
@@ -2566,10 +2564,9 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
     public void onResume() {
         super.onResume();
         getMessagesController().getTopicsController().onTopicFragmentResume(this.chatId);
-        Adapter adapter = this.adapter;
-        if (adapter != null) {
-            adapter.notifyDataSetChanged();
-        }
+        this.animatedUpdateEnabled = false;
+        AndroidUtilities.updateVisibleRows(this.recyclerListView);
+        this.animatedUpdateEnabled = true;
         Bulletin.addDelegate(this, new Bulletin.Delegate() { // from class: org.telegram.ui.TopicsFragment.19
             @Override // org.telegram.ui.Components.Bulletin.Delegate
             public /* synthetic */ int getTopOffset(int i) {

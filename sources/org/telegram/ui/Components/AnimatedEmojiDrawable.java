@@ -467,11 +467,11 @@ public class AnimatedEmojiDrawable extends Drawable {
 
     /* JADX WARN: Removed duplicated region for block: B:38:0x0189  */
     /* JADX WARN: Removed duplicated region for block: B:41:0x0192  */
-    /* JADX WARN: Removed duplicated region for block: B:55:0x020f  */
-    /* JADX WARN: Removed duplicated region for block: B:58:0x021f  */
-    /* JADX WARN: Removed duplicated region for block: B:68:0x0230  */
-    /* JADX WARN: Removed duplicated region for block: B:71:0x01b2  */
-    /* JADX WARN: Removed duplicated region for block: B:72:0x018c  */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x021a  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x022a  */
+    /* JADX WARN: Removed duplicated region for block: B:71:0x023b  */
+    /* JADX WARN: Removed duplicated region for block: B:74:0x01b2  */
+    /* JADX WARN: Removed duplicated region for block: B:75:0x018c  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -565,6 +565,8 @@ public class AnimatedEmojiDrawable extends Drawable {
             i = this.cacheType;
             if (i != 7 || i == 9 || i == 10) {
                 this.imageReceiver.setAutoRepeatCount(2);
+            } else if (i == 11) {
+                this.imageReceiver.setAutoRepeatCount(1);
             }
             i2 = this.cacheType;
             if (i2 != 3 || i2 == 5 || i2 == 4) {
@@ -950,6 +952,8 @@ public class AnimatedEmojiDrawable extends Drawable {
             }
             if (animatedEmojiDrawable.cacheType == 7 || animatedEmojiDrawable.cacheType == 9 || animatedEmojiDrawable.cacheType == 10) {
                 imageReceiver.setAutoRepeatCount(2);
+            } else if (this.cacheType == 11) {
+                imageReceiver.setAutoRepeatCount(1);
             }
             imageReceiver.startAnimation();
         }

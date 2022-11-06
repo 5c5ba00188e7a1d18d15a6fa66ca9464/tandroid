@@ -377,7 +377,11 @@ public class Browser {
             }
             intent3.putExtra("create_new_tab", true);
             intent3.putExtra("com.android.browser.application_id", context.getPackageName());
-            context.startActivity(intent3);
+            if (isInternalUri && (context instanceof LaunchActivity)) {
+                ((LaunchActivity) context).onNewIntent(intent3);
+            } else {
+                context.startActivity(intent3);
+            }
         } catch (Exception e3) {
             FileLog.e(e3);
         }

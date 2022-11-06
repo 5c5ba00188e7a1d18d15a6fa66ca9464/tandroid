@@ -3416,6 +3416,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
 
     /* loaded from: classes3.dex */
     public class 15 implements TextWatcher {
+        boolean heightShouldBeChanged;
         private boolean ignorePrevTextChange;
         private boolean nextChangeIsSend;
         private CharSequence prevText;
@@ -3449,12 +3450,15 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                 ChatActivityEnterView.this.setEmojiButtonImage(false, true);
             }
             if (ChatActivityEnterView.this.lineCount != ChatActivityEnterView.this.messageEditText.getLineCount()) {
+                this.heightShouldBeChanged = (ChatActivityEnterView.this.messageEditText.getLineCount() >= 4) != (ChatActivityEnterView.this.lineCount >= 4);
                 if (!ChatActivityEnterView.this.isInitLineCount && ChatActivityEnterView.this.messageEditText.getMeasuredWidth() > 0) {
                     ChatActivityEnterView chatActivityEnterView = ChatActivityEnterView.this;
                     chatActivityEnterView.onLineCountChanged(chatActivityEnterView.lineCount, ChatActivityEnterView.this.messageEditText.getLineCount());
                 }
                 ChatActivityEnterView chatActivityEnterView2 = ChatActivityEnterView.this;
                 chatActivityEnterView2.lineCount = chatActivityEnterView2.messageEditText.getLineCount();
+            } else {
+                this.heightShouldBeChanged = false;
             }
             if (ChatActivityEnterView.this.innerTextChange == 1) {
                 return;
@@ -3578,8 +3582,18 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                             return;
                         }
                         ChatActivityEnterView.this.captionLimitBulletinShown = true;
-                        ChatActivityEnterView.this.showCaptionLimitBulletin();
-                        return;
+                        if (!this.heightShouldBeChanged) {
+                            ChatActivityEnterView.this.showCaptionLimitBulletin();
+                            return;
+                        } else {
+                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ChatActivityEnterView$15$$ExternalSyntheticLambda1
+                                @Override // java.lang.Runnable
+                                public final void run() {
+                                    ChatActivityEnterView.15.this.lambda$afterTextChanged$1();
+                                }
+                            }, 300L);
+                            return;
+                        }
                     }
                     ChatActivityEnterView.this.captionLimitView.setTextColor(ChatActivityEnterView.this.getThemedColor("windowBackgroundWhiteGrayText"));
                 }
@@ -3608,6 +3622,10 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             ChatActivityEnterView.this.doneButtonEnabledProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
             ChatActivityEnterView.this.doneCheckDrawable.setColorFilter(new PorterDuffColorFilter(ColorUtils.setAlphaComponent(themedColor, (int) (alpha * ((ChatActivityEnterView.this.doneButtonEnabledProgress * 0.42f) + 0.58f))), PorterDuff.Mode.MULTIPLY));
             ChatActivityEnterView.this.doneButtonImage.invalidate();
+        }
+
+        public /* synthetic */ void lambda$afterTextChanged$1() {
+            ChatActivityEnterView.this.showCaptionLimitBulletin();
         }
     }
 
