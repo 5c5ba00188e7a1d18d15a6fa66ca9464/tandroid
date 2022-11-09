@@ -8464,7 +8464,7 @@ public class MessagesController extends BaseController implements NotificationCe
     /* JADX WARN: Removed duplicated region for block: B:131:0x03e0  */
     /* JADX WARN: Removed duplicated region for block: B:142:0x0419  */
     /* JADX WARN: Type inference failed for: r2v11 */
-    /* JADX WARN: Type inference failed for: r2v12, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r2v12, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r2v59 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -21250,14 +21250,14 @@ public class MessagesController extends BaseController implements NotificationCe
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:710:0x0f74  */
-    /* JADX WARN: Removed duplicated region for block: B:716:0x0f90  */
-    /* JADX WARN: Removed duplicated region for block: B:775:0x1095  */
-    /* JADX WARN: Removed duplicated region for block: B:777:0x10a3  */
-    /* JADX WARN: Removed duplicated region for block: B:779:0x10a9  */
-    /* JADX WARN: Removed duplicated region for block: B:782:0x10b5  */
-    /* JADX WARN: Removed duplicated region for block: B:791:0x10f1  */
-    /* JADX WARN: Removed duplicated region for block: B:794:0x1107  */
+    /* JADX WARN: Removed duplicated region for block: B:710:0x0f72  */
+    /* JADX WARN: Removed duplicated region for block: B:716:0x0f8e  */
+    /* JADX WARN: Removed duplicated region for block: B:775:0x1093  */
+    /* JADX WARN: Removed duplicated region for block: B:777:0x10a1  */
+    /* JADX WARN: Removed duplicated region for block: B:779:0x10a7  */
+    /* JADX WARN: Removed duplicated region for block: B:782:0x10b3  */
+    /* JADX WARN: Removed duplicated region for block: B:791:0x10ef  */
+    /* JADX WARN: Removed duplicated region for block: B:794:0x1105  */
     /* JADX WARN: Removed duplicated region for block: B:797:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -21755,11 +21755,11 @@ public class MessagesController extends BaseController implements NotificationCe
                                         if (tLRPC$TL_updateChannelPinnedTopic.pinned) {
                                             currentPinnedOrder.add(0, Integer.valueOf(tLRPC$TL_updateChannelPinnedTopic.topic_id));
                                         }
-                                        getTopicsController().applyPinnedOrder(-tLRPC$TL_updateChannelPinnedTopic.channel_id, currentPinnedOrder);
+                                        getTopicsController().applyPinnedOrder(tLRPC$TL_updateChannelPinnedTopic.channel_id, currentPinnedOrder);
                                     } else if (tLRPC$Update instanceof TLRPC$TL_updateChannelPinnedTopics) {
                                         TLRPC$TL_updateChannelPinnedTopics tLRPC$TL_updateChannelPinnedTopics = (TLRPC$TL_updateChannelPinnedTopics) tLRPC$Update;
                                         if ((tLRPC$TL_updateChannelPinnedTopics.flags & 1) > 0) {
-                                            getTopicsController().applyPinnedOrder(-tLRPC$TL_updateChannelPinnedTopics.channel_id, tLRPC$TL_updateChannelPinnedTopics.order);
+                                            getTopicsController().applyPinnedOrder(tLRPC$TL_updateChannelPinnedTopics.channel_id, tLRPC$TL_updateChannelPinnedTopics.order);
                                         } else {
                                             getTopicsController().reloadTopics(tLRPC$TL_updateChannelPinnedTopics.channel_id, false);
                                         }
