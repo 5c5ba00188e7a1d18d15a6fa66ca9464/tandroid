@@ -4150,6 +4150,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
 
                 @Override // org.telegram.ui.Components.Bulletin.Delegate
                 public int getBottomOffset(int i2) {
+                    if (PhotoViewer.this.captionEditText.getVisibility() == 8) {
+                        return 0;
+                    }
                     return getHeight() - PhotoViewer.this.captionEditText.getTop();
                 }
             };

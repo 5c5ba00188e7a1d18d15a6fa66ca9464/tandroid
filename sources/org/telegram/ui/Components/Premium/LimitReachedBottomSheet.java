@@ -123,10 +123,10 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView {
         updateRows();
         if (i == 2) {
             loadAdminedChannels();
-        } else if (i != 5) {
-        } else {
+        } else if (i == 5) {
             loadInactiveChannels();
         }
+        updatePremiumButtonText();
     }
 
     @Override // org.telegram.ui.Components.BottomSheetWithRecyclerListView
@@ -134,7 +134,6 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView {
         super.onViewCreated(frameLayout);
         Context context = frameLayout.getContext();
         this.premiumButtonView = new PremiumButtonView(context, true);
-        updatePremiumButtonText();
         if (!this.hasFixedSize) {
             View view = new View(this, context) { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet.1
                 @Override // android.view.View

@@ -851,9 +851,8 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public class InternalObserver extends ContentObserver {
+    private class InternalObserver extends ContentObserver {
         public InternalObserver() {
             super(null);
         }
@@ -865,9 +864,8 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public class ExternalObserver extends ContentObserver {
+    private class ExternalObserver extends ContentObserver {
         public ExternalObserver() {
             super(null);
         }
@@ -1042,9 +1040,8 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public final class StopMediaObserverRunnable implements Runnable {
+    private final class StopMediaObserverRunnable implements Runnable {
         public int currentObserverToken;
 
         private StopMediaObserverRunnable() {
@@ -5514,7 +5511,8 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:64:0x00c3 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x00c4 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:76:0x00be -> B:58:0x00c1). Please submit an issue!!! */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -5532,8 +5530,8 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             throw th;
         }
         try {
-            if (fileInputStream == null) {
-                try {
+            try {
+                if (fileInputStream == null) {
                     try {
                         File file = new File(uri.getPath());
                         if (file.exists()) {
@@ -5545,50 +5543,50 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                             fileInputStream.close();
                         }
                     }
-                } catch (Throwable th2) {
-                    th = th2;
-                    inputStream = fileInputStream;
-                    if (inputStream != null) {
+                }
+                byte[] bArr = new byte[12];
+                if (fileInputStream.read(bArr, 0, 12) == 12) {
+                    if (bArr[0] == -119 && bArr[1] == 80 && bArr[2] == 78 && bArr[3] == 71 && bArr[4] == 13 && bArr[5] == 10 && bArr[6] == 26 && bArr[7] == 10) {
                         try {
-                            inputStream.close();
+                            fileInputStream.close();
                         } catch (Exception e2) {
                             FileLog.e(e2);
                         }
-                    }
-                    throw th;
-                }
-            }
-            byte[] bArr = new byte[12];
-            if (fileInputStream.read(bArr, 0, 12) == 12) {
-                if (bArr[0] == -119 && bArr[1] == 80 && bArr[2] == 78 && bArr[3] == 71 && bArr[4] == 13 && bArr[5] == 10 && bArr[6] == 26 && bArr[7] == 10) {
-                    try {
-                        fileInputStream.close();
-                    } catch (Exception e3) {
-                        FileLog.e(e3);
-                    }
-                    return "png";
-                } else if (bArr[0] == 31 && bArr[1] == -117) {
-                    try {
-                        fileInputStream.close();
-                    } catch (Exception e4) {
-                        FileLog.e(e4);
-                    }
-                    return "tgs";
-                } else {
-                    String lowerCase = new String(bArr).toLowerCase();
-                    if (lowerCase.startsWith("riff")) {
-                        if (lowerCase.endsWith("webp")) {
-                            try {
-                                fileInputStream.close();
-                            } catch (Exception e5) {
-                                FileLog.e(e5);
+                        return "png";
+                    } else if (bArr[0] == 31 && bArr[1] == -117) {
+                        try {
+                            fileInputStream.close();
+                        } catch (Exception e3) {
+                            FileLog.e(e3);
+                        }
+                        return "tgs";
+                    } else {
+                        String lowerCase = new String(bArr).toLowerCase();
+                        if (lowerCase.startsWith("riff")) {
+                            if (lowerCase.endsWith("webp")) {
+                                try {
+                                    fileInputStream.close();
+                                } catch (Exception e4) {
+                                    FileLog.e(e4);
+                                }
+                                return "webp";
                             }
-                            return "webp";
                         }
                     }
                 }
+                fileInputStream.close();
+            } catch (Throwable th2) {
+                th = th2;
+                inputStream = fileInputStream;
+                if (inputStream != null) {
+                    try {
+                        inputStream.close();
+                    } catch (Exception e5) {
+                        FileLog.e(e5);
+                    }
+                }
+                throw th;
             }
-            fileInputStream.close();
         } catch (Exception e6) {
             FileLog.e(e6);
         }

@@ -430,6 +430,7 @@ public class MessageObject {
     public boolean reactionsChanged;
     public long reactionsLastCheckTime;
     public MessageObject replyMessageObject;
+    public TLRPC$TL_forumTopic replyToForumTopic;
     public boolean resendAsIs;
     public boolean scheduled;
     public SendAnimationData sendAnimationData;
@@ -3225,8 +3226,11 @@ public class MessageObject {
         MessageObject messageObject = this.replyMessageObject;
         if (messageObject != null) {
             TLRPC$Message tLRPC$Message = messageObject.messageOwner;
-            if (!(tLRPC$Message instanceof TLRPC$TL_messageEmpty) && !(tLRPC$Message.action instanceof TLRPC$TL_messageActionHistoryClear)) {
-                return true;
+            if (!(tLRPC$Message instanceof TLRPC$TL_messageEmpty)) {
+                TLRPC$MessageAction tLRPC$MessageAction = tLRPC$Message.action;
+                if (!(tLRPC$MessageAction instanceof TLRPC$TL_messageActionHistoryClear) && !(tLRPC$MessageAction instanceof TLRPC$TL_messageActionTopicCreate)) {
+                    return true;
+                }
             }
         }
         return false;
@@ -3927,7 +3931,7 @@ public class MessageObject {
         return tLRPC$Chat == null ? MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(j)) : tLRPC$Chat;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:138:0x1148  */
+    /* JADX WARN: Removed duplicated region for block: B:138:0x1146  */
     /* JADX WARN: Removed duplicated region for block: B:141:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:205:0x05b1  */
     /* JADX WARN: Removed duplicated region for block: B:209:0x05cf  */
@@ -3937,7 +3941,7 @@ public class MessageObject {
     /* JADX WARN: Removed duplicated region for block: B:246:0x069f  */
     /* JADX WARN: Removed duplicated region for block: B:276:0x076c  */
     /* JADX WARN: Removed duplicated region for block: B:280:0x07a6  */
-    /* JADX WARN: Removed duplicated region for block: B:548:0x0ebc  */
+    /* JADX WARN: Removed duplicated region for block: B:548:0x0eba  */
     /* JADX WARN: Removed duplicated region for block: B:649:0x002c  */
     /* JADX WARN: Removed duplicated region for block: B:6:0x002a  */
     /* JADX WARN: Removed duplicated region for block: B:9:0x0037  */
@@ -4375,18 +4379,22 @@ public class MessageObject {
                                     TLRPC$TL_messageActionTopicEdit tLRPC$TL_messageActionTopicEdit = (TLRPC$TL_messageActionTopicEdit) tLRPC$MessageAction;
                                     if (tLRPC$User != null) {
                                         str3 = ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name);
+                                    } else if (chat != null) {
+                                        str3 = chat.title;
+                                        tLRPC$User = chat;
                                     } else {
-                                        str3 = chat != null ? chat.title : null;
+                                        str3 = null;
+                                        tLRPC$User = null;
                                     }
                                     String trim = str3 != null ? str3.trim() : "DELETED";
                                     TLRPC$MessageAction tLRPC$MessageAction4 = this.messageOwner.action;
                                     int i7 = tLRPC$MessageAction4.flags;
                                     if ((i7 & 4) > 0) {
                                         if (((TLRPC$TL_messageActionTopicEdit) tLRPC$MessageAction4).closed) {
-                                            this.messageText = LocaleController.formatString("TopicClosed2", R.string.TopicClosed2, trim);
+                                            this.messageText = replaceWithLink(LocaleController.getString("TopicClosed2", R.string.TopicClosed2), "%s", tLRPC$User);
                                             this.messageTextShort = LocaleController.getString("TopicClosed", R.string.TopicClosed);
                                         } else {
-                                            this.messageText = LocaleController.formatString("TopicRestarted2", R.string.TopicRestarted2, trim);
+                                            this.messageText = replaceWithLink(LocaleController.getString("TopicRestarted2", R.string.TopicRestarted2), "%s", tLRPC$User);
                                             this.messageTextShort = LocaleController.getString("TopicRestarted", R.string.TopicRestarted);
                                         }
                                     } else if ((i7 & 2) != 0 && (i7 & 1) != 0) {
@@ -5769,6 +5777,10 @@ public class MessageObject {
     }
 
     public static Spannable replaceAnimatedEmoji(CharSequence charSequence, ArrayList<TLRPC$MessageEntity> arrayList, Paint.FontMetricsInt fontMetricsInt) {
+        return replaceAnimatedEmoji(charSequence, arrayList, fontMetricsInt, false);
+    }
+
+    public static Spannable replaceAnimatedEmoji(CharSequence charSequence, ArrayList<TLRPC$MessageEntity> arrayList, Paint.FontMetricsInt fontMetricsInt, boolean z) {
         AnimatedEmojiSpan animatedEmojiSpan;
         Spannable spannableString = charSequence instanceof Spannable ? (Spannable) charSequence : new SpannableString(charSequence);
         if (arrayList == null) {
@@ -5803,6 +5815,7 @@ public class MessageObject {
                     } else {
                         animatedEmojiSpan = new AnimatedEmojiSpan(tLRPC$TL_messageEntityCustomEmoji.document_id, fontMetricsInt);
                     }
+                    animatedEmojiSpan.top = z;
                     int i4 = tLRPC$MessageEntity.offset;
                     spannableString.setSpan(animatedEmojiSpan, i4, tLRPC$MessageEntity.length + i4, 33);
                 }
@@ -7010,6 +7023,16 @@ public class MessageObject {
         }
         if (tLRPC$Peer != null && tLRPC$Peer2 != null) {
             return (!(tLRPC$Peer instanceof TLRPC$TL_peerChat) || !(tLRPC$Peer2 instanceof TLRPC$TL_peerChat)) ? (!(tLRPC$Peer instanceof TLRPC$TL_peerChannel) || !(tLRPC$Peer2 instanceof TLRPC$TL_peerChannel)) ? (tLRPC$Peer instanceof TLRPC$TL_peerUser) && (tLRPC$Peer2 instanceof TLRPC$TL_peerUser) && tLRPC$Peer.user_id == tLRPC$Peer2.user_id : tLRPC$Peer.channel_id == tLRPC$Peer2.channel_id : tLRPC$Peer.chat_id == tLRPC$Peer2.chat_id;
+        }
+        return false;
+    }
+
+    public static boolean peersEqual(TLRPC$Chat tLRPC$Chat, TLRPC$Peer tLRPC$Peer) {
+        if (tLRPC$Chat == null && tLRPC$Peer == null) {
+            return true;
+        }
+        if (tLRPC$Chat != null && tLRPC$Peer != null) {
+            return (!ChatObject.isChannel(tLRPC$Chat) || !(tLRPC$Peer instanceof TLRPC$TL_peerChannel)) ? !ChatObject.isChannel(tLRPC$Chat) && (tLRPC$Peer instanceof TLRPC$TL_peerChat) && tLRPC$Chat.id == tLRPC$Peer.chat_id : tLRPC$Chat.id == tLRPC$Peer.channel_id;
         }
         return false;
     }

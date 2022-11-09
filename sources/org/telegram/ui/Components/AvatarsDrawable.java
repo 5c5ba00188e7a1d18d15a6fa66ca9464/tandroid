@@ -28,7 +28,7 @@ import org.telegram.tgnet.TLRPC$User;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.GroupCallUserCell;
 /* loaded from: classes3.dex */
-public class AvatarsDarawable {
+public class AvatarsDrawable {
     boolean centered;
     public int count;
     int currentStyle;
@@ -132,30 +132,30 @@ public class AvatarsDarawable {
         if (z2) {
             ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
             this.transitionProgressAnimator = ofFloat;
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.AvatarsDarawable$$ExternalSyntheticLambda0
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.AvatarsDrawable$$ExternalSyntheticLambda0
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                    AvatarsDarawable.this.lambda$commitTransition$0(valueAnimator2);
+                    AvatarsDrawable.this.lambda$commitTransition$0(valueAnimator2);
                 }
             });
-            this.transitionProgressAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.AvatarsDarawable.1
+            this.transitionProgressAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.AvatarsDrawable.1
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                 public void onAnimationEnd(Animator animator) {
-                    AvatarsDarawable avatarsDarawable = AvatarsDarawable.this;
-                    if (avatarsDarawable.transitionProgressAnimator != null) {
-                        avatarsDarawable.transitionProgress = 1.0f;
-                        avatarsDarawable.swapStates();
-                        AvatarsDarawable avatarsDarawable2 = AvatarsDarawable.this;
-                        if (avatarsDarawable2.updateAfterTransition) {
-                            avatarsDarawable2.updateAfterTransition = false;
-                            Runnable runnable = avatarsDarawable2.updateDelegate;
+                    AvatarsDrawable avatarsDrawable = AvatarsDrawable.this;
+                    if (avatarsDrawable.transitionProgressAnimator != null) {
+                        avatarsDrawable.transitionProgress = 1.0f;
+                        avatarsDrawable.swapStates();
+                        AvatarsDrawable avatarsDrawable2 = AvatarsDrawable.this;
+                        if (avatarsDrawable2.updateAfterTransition) {
+                            avatarsDrawable2.updateAfterTransition = false;
+                            Runnable runnable = avatarsDrawable2.updateDelegate;
                             if (runnable != null) {
                                 runnable.run();
                             }
                         }
-                        AvatarsDarawable.this.invalidate();
+                        AvatarsDrawable.this.invalidate();
                     }
-                    AvatarsDarawable.this.transitionProgressAnimator = null;
+                    AvatarsDrawable.this.transitionProgressAnimator = null;
                 }
             });
             this.transitionProgressAnimator.setDuration(this.transitionDuration);
@@ -209,8 +209,8 @@ public class AvatarsDarawable {
         this.overrideSize = i;
     }
 
-    public void animateFromState(AvatarsDarawable avatarsDarawable, int i, boolean z) {
-        ValueAnimator valueAnimator = avatarsDarawable.transitionProgressAnimator;
+    public void animateFromState(AvatarsDrawable avatarsDrawable, int i, boolean z) {
+        ValueAnimator valueAnimator = avatarsDrawable.transitionProgressAnimator;
         if (valueAnimator != null) {
             valueAnimator.cancel();
             if (this.transitionInProgress) {
@@ -221,7 +221,7 @@ public class AvatarsDarawable {
         TLObject[] tLObjectArr = new TLObject[3];
         for (int i2 = 0; i2 < 3; i2++) {
             tLObjectArr[i2] = this.currentStates[i2].object;
-            setObject(i2, i, avatarsDarawable.currentStates[i2].object);
+            setObject(i2, i, avatarsDrawable.currentStates[i2].object);
         }
         commitTransition(false);
         for (int i3 = 0; i3 < 3; i3++) {
@@ -253,7 +253,7 @@ public class AvatarsDarawable {
         }
     }
 
-    public AvatarsDarawable(View view, boolean z) {
+    public AvatarsDrawable(View view, boolean z) {
         CubicBezierInterpolator cubicBezierInterpolator = CubicBezierInterpolator.DEFAULT;
         this.parent = view;
         for (int i = 0; i < 3; i++) {

@@ -60,7 +60,7 @@ import org.telegram.ui.Components.PullForegroundDrawable;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.DialogsActivity;
 /* loaded from: classes3.dex */
-public class DialogsAdapter extends RecyclerListView.SelectionAdapter {
+public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements DialogCell.DialogCellDelegate {
     private ArchiveHintCell archiveHintCell;
     private Drawable arrowDrawable;
     private int currentAccount;
@@ -86,6 +86,10 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter {
     private PullForegroundDrawable pullForegroundDrawable;
     private ArrayList<Long> selectedDialogs;
     private boolean showArchiveHint;
+
+    @Override // org.telegram.ui.Cells.DialogCell.DialogCellDelegate
+    public void onButtonClicked(DialogCell dialogCell) {
+    }
 
     public DialogsAdapter(DialogsActivity dialogsActivity, Context context, int i, int i2, boolean z, ArrayList<Long> arrayList, int i3) {
         this.mContext = context;
@@ -463,6 +467,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter {
                     dialogCell = new DialogCell(this.parentFragment, this.mContext, true, false, this.currentAccount, null);
                     dialogCell.setArchivedPullAnimation(this.pullForegroundDrawable);
                     dialogCell.setPreloader(this.preloader);
+                    dialogCell.setDialogCellDelegate(this);
                     break;
                 }
             case 1:

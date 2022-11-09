@@ -91,7 +91,7 @@ public class ActionBar extends FrameLayout {
     private Runnable lastRunnable;
     private CharSequence lastTitle;
     private boolean manualStart;
-    private ActionBarMenu menu;
+    public ActionBarMenu menu;
     private boolean occupyStatusBar;
     private boolean overlayTitleAnimation;
     boolean overlayTitleAnimationInProgress;
@@ -720,8 +720,9 @@ public class ActionBar extends FrameLayout {
                     if (ActionBar.this.subtitleTextView != null && !TextUtils.isEmpty(ActionBar.this.subtitle)) {
                         ActionBar.this.subtitleTextView.setVisibility(4);
                     }
-                    if (ActionBar.this.menu != null) {
-                        ActionBar.this.menu.setVisibility(4);
+                    ActionBarMenu actionBarMenu2 = ActionBar.this.menu;
+                    if (actionBarMenu2 != null) {
+                        actionBarMenu2.setVisibility(4);
                     }
                     if (ActionBar.this.actionModeHidingViews == null) {
                         return;

@@ -10970,10 +10970,10 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 baseFragment4.showDialog(new LimitReachedBottomSheet(baseFragment4, baseFragment4.getParentActivity(), ((Integer) objArr[0]).intValue(), this.currentAccount));
             } else if (i == NotificationCenter.currentUserPremiumStatusChanged) {
                 DrawerLayoutAdapter drawerLayoutAdapter = this.drawerLayoutAdapter;
-                if (drawerLayoutAdapter == null) {
-                    return;
+                if (drawerLayoutAdapter != null) {
+                    drawerLayoutAdapter.notifyDataSetChanged();
                 }
-                drawerLayoutAdapter.notifyDataSetChanged();
+                MessagesController.getMainSettings(this.currentAccount).edit().remove("transcribeButtonPressed").apply();
             } else if (i == NotificationCenter.requestPermissions) {
                 int intValue5 = ((Integer) objArr[0]).intValue();
                 if (intValue5 == 0 && Build.VERSION.SDK_INT >= 31) {

@@ -1247,6 +1247,7 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
                                         if (!PrivacySettingsActivity.this.getUserConfig().isPremium()) {
                                             valueImageView.setVisibility(0);
                                             valueImageView.setImageResource(R.drawable.msg_mini_premiumlock);
+                                            valueImageView.setTranslationY(AndroidUtilities.dp(1.0f));
                                             valueImageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor("windowBackgroundWhiteValueText"), PorterDuff.Mode.MULTIPLY));
                                         } else {
                                             valueImageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor("windowBackgroundWhiteGrayIcon"), PorterDuff.Mode.MULTIPLY));

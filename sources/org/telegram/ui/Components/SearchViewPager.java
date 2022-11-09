@@ -442,7 +442,7 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
     private boolean isSpeedItemVisible() {
         if (!UserConfig.getInstance(this.currentAccount).isPremium() && !MessagesController.getInstance(this.currentAccount).premiumLocked) {
             for (MessageObject messageObject : this.selectedFiles.values()) {
-                if (messageObject.getDocument() != null && messageObject.getDocument().size >= 524288000) {
+                if (messageObject.getDocument() != null && messageObject.getDocument().size >= 314572800) {
                     return true;
                 }
             }

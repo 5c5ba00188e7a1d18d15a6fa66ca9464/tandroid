@@ -1068,7 +1068,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
     /* loaded from: classes3.dex */
     public class ImageViewEmoji extends ImageView {
         ValueAnimator backAnimator;
-        private ImageReceiver.BackgroundThreadDrawHolder backgroundThreadDrawHolder;
+        private ImageReceiver.BackgroundThreadDrawHolder[] backgroundThreadDrawHolder = new ImageReceiver.BackgroundThreadDrawHolder[2];
         public AnimatedEmojiDrawable drawable;
         public boolean ignoring;
         private boolean isRecent;
@@ -3176,14 +3176,19 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                     ImageViewEmoji imageViewEmoji = this.imageViewEmojis.get(i);
                     if (imageViewEmoji.getSpan() != null && (animatedEmojiDrawable = (AnimatedEmojiDrawable) EmojiView.this.animatedEmojiDrawables.get(imageViewEmoji.span.getDocumentId())) != null && animatedEmojiDrawable.getImageReceiver() != null) {
                         animatedEmojiDrawable.update(j);
-                        imageViewEmoji.backgroundThreadDrawHolder = animatedEmojiDrawable.getImageReceiver().setDrawInBackgroundThread(imageViewEmoji.backgroundThreadDrawHolder);
-                        imageViewEmoji.backgroundThreadDrawHolder.time = j;
-                        imageViewEmoji.backgroundThreadDrawHolder.overrideAlpha = 1.0f;
+                        ImageReceiver.BackgroundThreadDrawHolder[] backgroundThreadDrawHolderArr = imageViewEmoji.backgroundThreadDrawHolder;
+                        int i2 = this.threadIndex;
+                        ImageReceiver imageReceiver = animatedEmojiDrawable.getImageReceiver();
+                        ImageReceiver.BackgroundThreadDrawHolder[] backgroundThreadDrawHolderArr2 = imageViewEmoji.backgroundThreadDrawHolder;
+                        int i3 = this.threadIndex;
+                        backgroundThreadDrawHolderArr[i2] = imageReceiver.setDrawInBackgroundThread(backgroundThreadDrawHolderArr2[i3], i3);
+                        imageViewEmoji.backgroundThreadDrawHolder[this.threadIndex].time = j;
+                        imageViewEmoji.backgroundThreadDrawHolder[this.threadIndex].overrideAlpha = 1.0f;
                         animatedEmojiDrawable.setAlpha(255);
                         int height = (int) (imageViewEmoji.getHeight() * 0.03f);
                         android.graphics.Rect rect = AndroidUtilities.rectTmp2;
                         rect.set((imageViewEmoji.getLeft() + imageViewEmoji.getPaddingLeft()) - this.startOffset, height, (imageViewEmoji.getRight() - imageViewEmoji.getPaddingRight()) - this.startOffset, ((imageViewEmoji.getMeasuredHeight() + height) - imageViewEmoji.getPaddingTop()) - imageViewEmoji.getPaddingBottom());
-                        imageViewEmoji.backgroundThreadDrawHolder.setBounds(rect);
+                        imageViewEmoji.backgroundThreadDrawHolder[this.threadIndex].setBounds(rect);
                         imageViewEmoji.drawable = animatedEmojiDrawable;
                         animatedEmojiDrawable.getImageReceiver();
                         this.drawInBackgroundViews.add(imageViewEmoji);
@@ -3197,7 +3202,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                     ImageViewEmoji imageViewEmoji = this.drawInBackgroundViews.get(i);
                     AnimatedEmojiDrawable animatedEmojiDrawable = imageViewEmoji.drawable;
                     if (animatedEmojiDrawable != null) {
-                        animatedEmojiDrawable.draw(canvas, imageViewEmoji.backgroundThreadDrawHolder, false);
+                        animatedEmojiDrawable.draw(canvas, imageViewEmoji.backgroundThreadDrawHolder[this.threadIndex], false);
                     }
                 }
             }
@@ -3269,7 +3274,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                 for (int i = 0; i < this.drawInBackgroundViews.size(); i++) {
                     ImageViewEmoji imageViewEmoji = this.drawInBackgroundViews.get(i);
                     if (imageViewEmoji.backgroundThreadDrawHolder != null) {
-                        imageViewEmoji.backgroundThreadDrawHolder.release();
+                        imageViewEmoji.backgroundThreadDrawHolder[this.threadIndex].release();
                     }
                 }
                 EmojiView.this.emojiGridView.invalidate();

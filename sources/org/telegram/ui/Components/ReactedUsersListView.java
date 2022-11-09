@@ -192,7 +192,8 @@ public class ReactedUsersListView extends FrameLayout {
             }
         };
         this.loadingView = flickerLoadingView;
-        flickerLoadingView.setIsSingleCell(true);
+        flickerLoadingView.setColors("actionBarDefaultSubmenuBackground", "listSelectorSDK21", null);
+        this.loadingView.setIsSingleCell(true);
         this.loadingView.setItemsCount(this.predictiveCount);
         addView(this.loadingView, LayoutHelper.createFrame(-1, -1.0f));
         if (!z && (tLRPC$Reaction = this.filter) != null && (tLRPC$Reaction instanceof TLRPC$TL_reactionCustomEmoji) && !MessagesController.getInstance(i).premiumLocked) {

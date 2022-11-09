@@ -88,7 +88,7 @@ import org.telegram.messenger.MediaController;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
-import org.telegram.messenger.MessagesController$$ExternalSyntheticLambda224;
+import org.telegram.messenger.MessagesController$$ExternalSyntheticLambda226;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
@@ -301,6 +301,7 @@ public class Theme {
     public static Paint chat_textSearchSelectionPaint = null;
     public static Paint chat_timeBackgroundPaint = null;
     public static TextPaint chat_timePaint = null;
+    public static TextPaint chat_topicTextPaint = null;
     public static TextPaint chat_unlockExtendedMediaTextPaint = null;
     public static Paint chat_urlPaint = null;
     public static Paint checkboxSquare_backgroundPaint = null;
@@ -326,6 +327,7 @@ public class Theme {
     public static Drawable dialogs_errorDrawable = null;
     public static Paint dialogs_errorPaint = null;
     public static ScamDrawable dialogs_fakeDrawable = null;
+    public static Drawable dialogs_forum_arrowDrawable = null;
     public static Drawable dialogs_halfCheckDrawable = null;
     public static RLottieDrawable dialogs_hidePsaDrawable = null;
     public static boolean dialogs_hidePsaDrawableRecolored = false;
@@ -455,6 +457,7 @@ public class Theme {
     public static Path[] chat_filePath = new Path[2];
     public static Path[] chat_updatePath = new Path[3];
     public static String[] keys_avatar_background = {"avatar_backgroundRed", "avatar_backgroundOrange", "avatar_backgroundViolet", "avatar_backgroundGreen", "avatar_backgroundCyan", "avatar_backgroundBlue", "avatar_backgroundPink"};
+    public static String[] keys_avatar_background2 = {"avatar_background2Red", "avatar_background2Orange", "avatar_background2Violet", "avatar_background2Green", "avatar_background2Cyan", "avatar_background2Blue", "avatar_background2Pink"};
     public static String[] keys_avatar_nameInMessage = {"avatar_nameInMessageRed", "avatar_nameInMessageOrange", "avatar_nameInMessageViolet", "avatar_nameInMessageGreen", "avatar_nameInMessageCyan", "avatar_nameInMessageBlue", "avatar_nameInMessagePink"};
     private static final HashMap<String, Drawable> defaultChatDrawables = new HashMap<>();
     private static final HashMap<String, String> defaultChatDrawableColorKeys = new HashMap<>();
@@ -3346,14 +3349,14 @@ public class Theme {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:109:0x37e6 A[Catch: Exception -> 0x39d0, TryCatch #3 {Exception -> 0x39d0, blocks: (B:35:0x3492, B:37:0x34ab, B:38:0x34ec, B:40:0x34fb, B:41:0x3527, B:43:0x352b, B:45:0x3533, B:46:0x3545, B:47:0x3551, B:49:0x3557, B:51:0x3561, B:53:0x3565, B:55:0x3594, B:56:0x3598, B:107:0x37e0, B:109:0x37e6, B:110:0x37ef, B:112:0x37f3, B:114:0x37fb, B:116:0x37ff, B:117:0x3803, B:119:0x3805, B:121:0x380f, B:125:0x36cc, B:128:0x36ef, B:129:0x36fa, B:131:0x3706, B:135:0x3712, B:137:0x371e, B:138:0x37c5, B:133:0x3718, B:149:0x3827, B:150:0x382d, B:153:0x3838, B:155:0x388f, B:156:0x389d, B:158:0x38ab, B:159:0x38b9, B:196:0x38b2, B:197:0x3896, B:199:0x350a, B:201:0x3512, B:203:0x351b, B:205:0x3525, B:206:0x34ba, B:208:0x34c2, B:210:0x34ca, B:212:0x34d4, B:214:0x34dc, B:58:0x35a9, B:61:0x35bf, B:63:0x35d4, B:64:0x35da, B:66:0x35ec, B:69:0x35fc, B:72:0x3608, B:75:0x361f, B:78:0x3630, B:80:0x363f, B:83:0x3648, B:85:0x365b, B:88:0x3664, B:90:0x366b, B:91:0x367b, B:93:0x367f, B:94:0x3683, B:96:0x368e, B:97:0x369a, B:100:0x3626, B:101:0x3612), top: B:34:0x3492 }] */
-    /* JADX WARN: Removed duplicated region for block: B:116:0x37ff A[Catch: Exception -> 0x39d0, TryCatch #3 {Exception -> 0x39d0, blocks: (B:35:0x3492, B:37:0x34ab, B:38:0x34ec, B:40:0x34fb, B:41:0x3527, B:43:0x352b, B:45:0x3533, B:46:0x3545, B:47:0x3551, B:49:0x3557, B:51:0x3561, B:53:0x3565, B:55:0x3594, B:56:0x3598, B:107:0x37e0, B:109:0x37e6, B:110:0x37ef, B:112:0x37f3, B:114:0x37fb, B:116:0x37ff, B:117:0x3803, B:119:0x3805, B:121:0x380f, B:125:0x36cc, B:128:0x36ef, B:129:0x36fa, B:131:0x3706, B:135:0x3712, B:137:0x371e, B:138:0x37c5, B:133:0x3718, B:149:0x3827, B:150:0x382d, B:153:0x3838, B:155:0x388f, B:156:0x389d, B:158:0x38ab, B:159:0x38b9, B:196:0x38b2, B:197:0x3896, B:199:0x350a, B:201:0x3512, B:203:0x351b, B:205:0x3525, B:206:0x34ba, B:208:0x34c2, B:210:0x34ca, B:212:0x34d4, B:214:0x34dc, B:58:0x35a9, B:61:0x35bf, B:63:0x35d4, B:64:0x35da, B:66:0x35ec, B:69:0x35fc, B:72:0x3608, B:75:0x361f, B:78:0x3630, B:80:0x363f, B:83:0x3648, B:85:0x365b, B:88:0x3664, B:90:0x366b, B:91:0x367b, B:93:0x367f, B:94:0x3683, B:96:0x368e, B:97:0x369a, B:100:0x3626, B:101:0x3612), top: B:34:0x3492 }] */
-    /* JADX WARN: Removed duplicated region for block: B:118:0x3802  */
-    /* JADX WARN: Removed duplicated region for block: B:121:0x380f A[Catch: Exception -> 0x39d0, TryCatch #3 {Exception -> 0x39d0, blocks: (B:35:0x3492, B:37:0x34ab, B:38:0x34ec, B:40:0x34fb, B:41:0x3527, B:43:0x352b, B:45:0x3533, B:46:0x3545, B:47:0x3551, B:49:0x3557, B:51:0x3561, B:53:0x3565, B:55:0x3594, B:56:0x3598, B:107:0x37e0, B:109:0x37e6, B:110:0x37ef, B:112:0x37f3, B:114:0x37fb, B:116:0x37ff, B:117:0x3803, B:119:0x3805, B:121:0x380f, B:125:0x36cc, B:128:0x36ef, B:129:0x36fa, B:131:0x3706, B:135:0x3712, B:137:0x371e, B:138:0x37c5, B:133:0x3718, B:149:0x3827, B:150:0x382d, B:153:0x3838, B:155:0x388f, B:156:0x389d, B:158:0x38ab, B:159:0x38b9, B:196:0x38b2, B:197:0x3896, B:199:0x350a, B:201:0x3512, B:203:0x351b, B:205:0x3525, B:206:0x34ba, B:208:0x34c2, B:210:0x34ca, B:212:0x34d4, B:214:0x34dc, B:58:0x35a9, B:61:0x35bf, B:63:0x35d4, B:64:0x35da, B:66:0x35ec, B:69:0x35fc, B:72:0x3608, B:75:0x361f, B:78:0x3630, B:80:0x363f, B:83:0x3648, B:85:0x365b, B:88:0x3664, B:90:0x366b, B:91:0x367b, B:93:0x367f, B:94:0x3683, B:96:0x368e, B:97:0x369a, B:100:0x3626, B:101:0x3612), top: B:34:0x3492 }] */
-    /* JADX WARN: Removed duplicated region for block: B:124:0x381d A[SYNTHETIC] */
-    /* JADX WARN: Type inference failed for: r1v75, types: [boolean] */
-    /* JADX WARN: Type inference failed for: r1v81 */
-    /* JADX WARN: Type inference failed for: r1v84 */
+    /* JADX WARN: Removed duplicated region for block: B:115:0x3903 A[Catch: Exception -> 0x3aed, TryCatch #1 {Exception -> 0x3aed, blocks: (B:35:0x35af, B:37:0x35c8, B:38:0x3609, B:40:0x3618, B:41:0x3644, B:43:0x3648, B:45:0x3650, B:46:0x3662, B:47:0x366e, B:49:0x3674, B:51:0x367e, B:53:0x3682, B:55:0x36b1, B:56:0x36b5, B:113:0x38fd, B:115:0x3903, B:116:0x390c, B:118:0x3910, B:120:0x3918, B:122:0x391c, B:123:0x3920, B:125:0x3922, B:127:0x392c, B:131:0x37e9, B:134:0x380c, B:135:0x3817, B:137:0x3823, B:141:0x382f, B:143:0x383b, B:144:0x38e2, B:139:0x3835, B:155:0x3944, B:156:0x394a, B:159:0x3955, B:161:0x39ac, B:162:0x39ba, B:164:0x39c8, B:165:0x39d6, B:200:0x39cf, B:201:0x39b3, B:203:0x3627, B:205:0x362f, B:207:0x3638, B:209:0x3642, B:210:0x35d7, B:212:0x35df, B:214:0x35e7, B:216:0x35f1, B:218:0x35f9, B:58:0x36c6, B:106:0x37d0, B:107:0x37d5), top: B:34:0x35af }] */
+    /* JADX WARN: Removed duplicated region for block: B:122:0x391c A[Catch: Exception -> 0x3aed, TryCatch #1 {Exception -> 0x3aed, blocks: (B:35:0x35af, B:37:0x35c8, B:38:0x3609, B:40:0x3618, B:41:0x3644, B:43:0x3648, B:45:0x3650, B:46:0x3662, B:47:0x366e, B:49:0x3674, B:51:0x367e, B:53:0x3682, B:55:0x36b1, B:56:0x36b5, B:113:0x38fd, B:115:0x3903, B:116:0x390c, B:118:0x3910, B:120:0x3918, B:122:0x391c, B:123:0x3920, B:125:0x3922, B:127:0x392c, B:131:0x37e9, B:134:0x380c, B:135:0x3817, B:137:0x3823, B:141:0x382f, B:143:0x383b, B:144:0x38e2, B:139:0x3835, B:155:0x3944, B:156:0x394a, B:159:0x3955, B:161:0x39ac, B:162:0x39ba, B:164:0x39c8, B:165:0x39d6, B:200:0x39cf, B:201:0x39b3, B:203:0x3627, B:205:0x362f, B:207:0x3638, B:209:0x3642, B:210:0x35d7, B:212:0x35df, B:214:0x35e7, B:216:0x35f1, B:218:0x35f9, B:58:0x36c6, B:106:0x37d0, B:107:0x37d5), top: B:34:0x35af }] */
+    /* JADX WARN: Removed duplicated region for block: B:124:0x391f  */
+    /* JADX WARN: Removed duplicated region for block: B:127:0x392c A[Catch: Exception -> 0x3aed, TryCatch #1 {Exception -> 0x3aed, blocks: (B:35:0x35af, B:37:0x35c8, B:38:0x3609, B:40:0x3618, B:41:0x3644, B:43:0x3648, B:45:0x3650, B:46:0x3662, B:47:0x366e, B:49:0x3674, B:51:0x367e, B:53:0x3682, B:55:0x36b1, B:56:0x36b5, B:113:0x38fd, B:115:0x3903, B:116:0x390c, B:118:0x3910, B:120:0x3918, B:122:0x391c, B:123:0x3920, B:125:0x3922, B:127:0x392c, B:131:0x37e9, B:134:0x380c, B:135:0x3817, B:137:0x3823, B:141:0x382f, B:143:0x383b, B:144:0x38e2, B:139:0x3835, B:155:0x3944, B:156:0x394a, B:159:0x3955, B:161:0x39ac, B:162:0x39ba, B:164:0x39c8, B:165:0x39d6, B:200:0x39cf, B:201:0x39b3, B:203:0x3627, B:205:0x362f, B:207:0x3638, B:209:0x3642, B:210:0x35d7, B:212:0x35df, B:214:0x35e7, B:216:0x35f1, B:218:0x35f9, B:58:0x36c6, B:106:0x37d0, B:107:0x37d5), top: B:34:0x35af }] */
+    /* JADX WARN: Removed duplicated region for block: B:130:0x393a A[SYNTHETIC] */
+    /* JADX WARN: Type inference failed for: r1v76, types: [boolean] */
+    /* JADX WARN: Type inference failed for: r1v82 */
+    /* JADX WARN: Type inference failed for: r1v85 */
     static {
         ThemeInfo themeInfo;
         boolean z;
@@ -3455,6 +3458,7 @@ public class Theme {
         defaultColors.put("windowBackgroundWhiteRedText4", -3198928);
         defaultColors.put("windowBackgroundWhiteRedText5", -1230535);
         defaultColors.put("windowBackgroundWhiteRedText6", -39322);
+        defaultColors.put("windowBackgroundWhiteYellowText", -2589911);
         defaultColors.put("windowBackgroundWhiteGrayText", -8156010);
         defaultColors.put("windowBackgroundWhiteGrayText2", -8223094);
         defaultColors.put("windowBackgroundWhiteGrayText3", -6710887);
@@ -3507,16 +3511,24 @@ public class Theme {
         defaultColors.put("fastScrollInactive", -3551791);
         defaultColors.put("fastScrollText", -1);
         defaultColors.put("avatar_text", -1);
-        defaultColors.put("avatar_backgroundSaved", -10043398);
-        defaultColors.put("avatar_backgroundArchived", -5654847);
+        defaultColors.put("avatar_backgroundSaved", -9846790);
+        defaultColors.put("avatar_background2Saved", -12739104);
+        defaultColors.put("avatar_backgroundArchived", -4668724);
         defaultColors.put("avatar_backgroundArchivedHidden", -10043398);
-        defaultColors.put("avatar_backgroundRed", -1743531);
-        defaultColors.put("avatar_backgroundOrange", -881592);
-        defaultColors.put("avatar_backgroundViolet", -7436818);
-        defaultColors.put("avatar_backgroundGreen", -8992691);
-        defaultColors.put("avatar_backgroundCyan", -10502443);
-        defaultColors.put("avatar_backgroundBlue", -11232035);
-        defaultColors.put("avatar_backgroundPink", -887654);
+        defaultColors.put("avatar_backgroundRed", -31650);
+        defaultColors.put("avatar_backgroundOrange", -83109);
+        defaultColors.put("avatar_backgroundViolet", -4811527);
+        defaultColors.put("avatar_backgroundGreen", -6631068);
+        defaultColors.put("avatar_backgroundCyan", -10761245);
+        defaultColors.put("avatar_backgroundBlue", -10702854);
+        defaultColors.put("avatar_backgroundPink", -30036);
+        defaultColors.put("avatar_background2Red", -2862522);
+        defaultColors.put("avatar_background2Orange", -622282);
+        defaultColors.put("avatar_background2Violet", -9674273);
+        defaultColors.put("avatar_background2Green", -12142013);
+        defaultColors.put("avatar_background2Cyan", -13264172);
+        defaultColors.put("avatar_background2Blue", -12547377);
+        defaultColors.put("avatar_background2Pink", -2534028);
         defaultColors.put("avatar_backgroundInProfileBlue", -11500111);
         defaultColors.put("avatar_backgroundActionBarBlue", -10907718);
         defaultColors.put("avatar_subtitleInProfileBlue", -2626822);
@@ -3524,11 +3536,11 @@ public class Theme {
         defaultColors.put("avatar_actionBarIconBlue", -1);
         defaultColors.put("avatar_nameInMessageRed", -3516848);
         defaultColors.put("avatar_nameInMessageOrange", -2589911);
-        defaultColors.put("avatar_nameInMessageViolet", -11627828);
+        defaultColors.put("avatar_nameInMessageViolet", -6592804);
         defaultColors.put("avatar_nameInMessageGreen", -11488718);
         defaultColors.put("avatar_nameInMessageCyan", -13132104);
         defaultColors.put("avatar_nameInMessageBlue", -11627828);
-        defaultColors.put("avatar_nameInMessagePink", -11627828);
+        defaultColors.put("avatar_nameInMessagePink", -3187563);
         defaultColors.put("actionBarDefault", -11371101);
         defaultColors.put("actionBarDefaultIcon", -1);
         defaultColors.put("actionBarActionModeDefault", -1);
@@ -4140,6 +4152,8 @@ public class Theme {
         defaultColors.put("premiumGradientBottomSheet1", -10773017);
         defaultColors.put("premiumGradientBottomSheet2", -5535779);
         defaultColors.put("premiumGradientBottomSheet3", -1600322);
+        defaultColors.put("topics_unreadCounter", -11613090);
+        defaultColors.put("topics_unreadCounterMuted", -7631473);
         fallbackKeys.put("chat_adminText", "chat_inTimeText");
         fallbackKeys.put("chat_adminSelectedText", "chat_inTimeSelectedText");
         fallbackKeys.put("key_player_progressCachedBackground", "player_progressBackground");
@@ -4254,6 +4268,7 @@ public class Theme {
         fallbackKeys.put("chat_outPollCorrectAnswer", "chat_attachLocationBackground");
         fallbackKeys.put("chat_inPollWrongAnswer", "chat_attachAudioBackground");
         fallbackKeys.put("chat_outPollWrongAnswer", "chat_attachAudioBackground");
+        fallbackKeys.put("windowBackgroundWhiteYellowText", "avatar_nameInMessageOrange");
         fallbackKeys.put("profile_tabText", "windowBackgroundWhiteGrayText");
         fallbackKeys.put("profile_tabSelectedText", "windowBackgroundWhiteBlueHeader");
         fallbackKeys.put("profile_tabSelectedLine", "windowBackgroundWhiteBlueHeader");
@@ -4278,7 +4293,17 @@ public class Theme {
         fallbackKeys.put("chat_inReactionButtonTextSelected", "windowBackgroundWhite");
         fallbackKeys.put("chat_outReactionButtonTextSelected", "windowBackgroundWhite");
         fallbackKeys.put("dialogReactionMentionBackground", "voipgroup_mutedByAdminGradient2");
+        fallbackKeys.put("topics_unreadCounter", "chats_unreadCounter");
+        fallbackKeys.put("topics_unreadCounterMuted", "chats_message");
+        fallbackKeys.put("avatar_background2Red", "avatar_backgroundRed");
+        fallbackKeys.put("avatar_background2Orange", "avatar_backgroundOrange");
+        fallbackKeys.put("avatar_background2Violet", "avatar_backgroundViolet");
+        fallbackKeys.put("avatar_background2Green", "avatar_backgroundGreen");
+        fallbackKeys.put("avatar_background2Cyan", "avatar_backgroundCyan");
+        fallbackKeys.put("avatar_background2Blue", "avatar_backgroundBlue");
+        fallbackKeys.put("avatar_background2Pink", "avatar_backgroundPink");
         themeAccentExclusionKeys.addAll(Arrays.asList(keys_avatar_background));
+        themeAccentExclusionKeys.addAll(Arrays.asList(keys_avatar_background2));
         themeAccentExclusionKeys.addAll(Arrays.asList(keys_avatar_nameInMessage));
         themeAccentExclusionKeys.add("chat_attachFileBackground");
         themeAccentExclusionKeys.add("chat_attachGalleryBackground");
@@ -4597,79 +4622,83 @@ public class Theme {
                         int readInt322 = serializedData.readInt32(true);
                         int i3 = 0;
                         while (i3 < readInt322) {
-                            ThemeAccent themeAccent = new ThemeAccent();
-                            themeAccent.id = serializedData.readInt32(z5);
-                            themeAccent.accentColor = serializedData.readInt32(z5);
-                            if (readInt32 >= 9) {
-                                themeAccent.accentColor2 = serializedData.readInt32(z5);
-                            }
-                            themeAccent.parentTheme = next;
-                            themeAccent.myMessagesAccentColor = serializedData.readInt32(true);
-                            themeAccent.myMessagesGradientAccentColor1 = serializedData.readInt32(true);
-                            if (readInt32 >= 7) {
-                                themeAccent.myMessagesGradientAccentColor2 = serializedData.readInt32(true);
-                                themeAccent.myMessagesGradientAccentColor3 = serializedData.readInt32(true);
-                            }
-                            if (readInt32 >= 8) {
-                                z4 = true;
-                                themeAccent.myMessagesAnimated = serializedData.readBool(true);
-                            } else {
-                                z4 = true;
-                            }
-                            if (readInt32 >= 3) {
-                                editor2 = editor4;
-                                it2 = it3;
-                                themeAccent.backgroundOverrideColor = serializedData.readInt64(z4);
-                            } else {
-                                editor2 = editor4;
-                                it2 = it3;
-                                themeAccent.backgroundOverrideColor = serializedData.readInt32(z4);
-                            }
-                            if (readInt32 >= 2) {
-                                themeAccent.backgroundGradientOverrideColor1 = serializedData.readInt64(z4);
-                            } else {
-                                themeAccent.backgroundGradientOverrideColor1 = serializedData.readInt32(z4);
-                            }
-                            ?? r1 = z4;
-                            if (readInt32 >= 6) {
-                                themeAccent.backgroundGradientOverrideColor2 = serializedData.readInt64(z4);
-                                themeAccent.backgroundGradientOverrideColor3 = serializedData.readInt64(z4);
-                                r1 = 1;
-                            }
-                            if (readInt32 >= r1) {
-                                themeAccent.backgroundRotation = serializedData.readInt32(r1);
-                            }
-                            if (readInt32 >= 4) {
-                                serializedData.readInt64(r1);
-                                themeAccent.patternIntensity = (float) serializedData.readDouble(r1);
-                                themeAccent.patternMotion = serializedData.readBool(r1);
-                                if (readInt32 >= 5) {
-                                    themeAccent.patternSlug = serializedData.readString(r1);
+                            try {
+                                ThemeAccent themeAccent = new ThemeAccent();
+                                themeAccent.id = serializedData.readInt32(z5);
+                                themeAccent.accentColor = serializedData.readInt32(z5);
+                                if (readInt32 >= 9) {
+                                    themeAccent.accentColor2 = serializedData.readInt32(z5);
                                 }
+                                themeAccent.parentTheme = next;
+                                themeAccent.myMessagesAccentColor = serializedData.readInt32(true);
+                                themeAccent.myMessagesGradientAccentColor1 = serializedData.readInt32(true);
+                                if (readInt32 >= 7) {
+                                    themeAccent.myMessagesGradientAccentColor2 = serializedData.readInt32(true);
+                                    themeAccent.myMessagesGradientAccentColor3 = serializedData.readInt32(true);
+                                }
+                                if (readInt32 >= 8) {
+                                    z4 = true;
+                                    themeAccent.myMessagesAnimated = serializedData.readBool(true);
+                                } else {
+                                    z4 = true;
+                                }
+                                if (readInt32 >= 3) {
+                                    editor2 = editor4;
+                                    it2 = it3;
+                                    themeAccent.backgroundOverrideColor = serializedData.readInt64(z4);
+                                } else {
+                                    editor2 = editor4;
+                                    it2 = it3;
+                                    themeAccent.backgroundOverrideColor = serializedData.readInt32(z4);
+                                }
+                                if (readInt32 >= 2) {
+                                    themeAccent.backgroundGradientOverrideColor1 = serializedData.readInt64(z4);
+                                } else {
+                                    themeAccent.backgroundGradientOverrideColor1 = serializedData.readInt32(z4);
+                                }
+                                ?? r1 = z4;
+                                if (readInt32 >= 6) {
+                                    themeAccent.backgroundGradientOverrideColor2 = serializedData.readInt64(z4);
+                                    themeAccent.backgroundGradientOverrideColor3 = serializedData.readInt64(z4);
+                                    r1 = 1;
+                                }
+                                if (readInt32 >= r1) {
+                                    themeAccent.backgroundRotation = serializedData.readInt32(r1);
+                                }
+                                if (readInt32 >= 4) {
+                                    serializedData.readInt64(r1);
+                                    themeAccent.patternIntensity = (float) serializedData.readDouble(r1);
+                                    themeAccent.patternMotion = serializedData.readBool(r1);
+                                    if (readInt32 >= 5) {
+                                        themeAccent.patternSlug = serializedData.readString(r1);
+                                    }
+                                }
+                                if (readInt32 >= 5 && serializedData.readBool(true)) {
+                                    themeAccent.account = serializedData.readInt32(true);
+                                    themeAccent.info = TLRPC$Theme.TLdeserialize(serializedData, serializedData.readInt32(true), true);
+                                }
+                                TLRPC$TL_theme tLRPC$TL_theme = themeAccent.info;
+                                if (tLRPC$TL_theme != null) {
+                                    themeAccent.isDefault = tLRPC$TL_theme.isDefault;
+                                }
+                                next.themeAccentsMap.put(themeAccent.id, themeAccent);
+                                TLRPC$TL_theme tLRPC$TL_theme2 = themeAccent.info;
+                                if (tLRPC$TL_theme2 != null) {
+                                    sharedPreferences = globalMainSettings;
+                                    next.accentsByThemeId.put(tLRPC$TL_theme2.id, themeAccent);
+                                } else {
+                                    sharedPreferences = globalMainSettings;
+                                }
+                                arrayList2.add(themeAccent);
+                                next.lastAccentId = Math.max(next.lastAccentId, themeAccent.id);
+                                i3++;
+                                it3 = it2;
+                                globalMainSettings = sharedPreferences;
+                                editor4 = editor2;
+                                z5 = true;
+                            } finally {
+                                RuntimeException runtimeException = new RuntimeException(th);
                             }
-                            if (readInt32 >= 5 && serializedData.readBool(true)) {
-                                themeAccent.account = serializedData.readInt32(true);
-                                themeAccent.info = TLRPC$Theme.TLdeserialize(serializedData, serializedData.readInt32(true), true);
-                            }
-                            TLRPC$TL_theme tLRPC$TL_theme = themeAccent.info;
-                            if (tLRPC$TL_theme != null) {
-                                themeAccent.isDefault = tLRPC$TL_theme.isDefault;
-                            }
-                            next.themeAccentsMap.put(themeAccent.id, themeAccent);
-                            TLRPC$TL_theme tLRPC$TL_theme2 = themeAccent.info;
-                            if (tLRPC$TL_theme2 != null) {
-                                sharedPreferences = globalMainSettings;
-                                next.accentsByThemeId.put(tLRPC$TL_theme2.id, themeAccent);
-                            } else {
-                                sharedPreferences = globalMainSettings;
-                            }
-                            arrayList2.add(themeAccent);
-                            next.lastAccentId = Math.max(next.lastAccentId, themeAccent.id);
-                            i3++;
-                            it3 = it2;
-                            globalMainSettings = sharedPreferences;
-                            editor4 = editor2;
-                            z5 = true;
                         }
                         editor = editor4;
                         it = it3;
@@ -4835,7 +4864,7 @@ public class Theme {
                 z2 = false;
             }
             applyTheme(themeInfo7, z, z, z2);
-            AndroidUtilities.runOnUIThread(MessagesController$$ExternalSyntheticLambda224.INSTANCE);
+            AndroidUtilities.runOnUIThread(MessagesController$$ExternalSyntheticLambda226.INSTANCE);
             ambientSensorListener = new SensorEventListener() { // from class: org.telegram.ui.ActionBar.Theme.9
                 @Override // android.hardware.SensorEventListener
                 public void onAccuracyChanged(Sensor sensor, int i6) {
@@ -6042,7 +6071,7 @@ public class Theme {
                 if (isCurrentThemeNight()) {
                     switchNightThemeDelay = 2000;
                     lastDelayUpdateTime = SystemClock.elapsedRealtime();
-                    AndroidUtilities.runOnUIThread(MessagesController$$ExternalSyntheticLambda224.INSTANCE, 2100L);
+                    AndroidUtilities.runOnUIThread(MessagesController$$ExternalSyntheticLambda226.INSTANCE, 2100L);
                 }
             }
             currentTheme = themeInfo;
@@ -6175,7 +6204,7 @@ public class Theme {
                 if (isCurrentThemeNight()) {
                     switchNightThemeDelay = 2000;
                     lastDelayUpdateTime = SystemClock.elapsedRealtime();
-                    AndroidUtilities.runOnUIThread(MessagesController$$ExternalSyntheticLambda224.INSTANCE, 2100L);
+                    AndroidUtilities.runOnUIThread(MessagesController$$ExternalSyntheticLambda226.INSTANCE, 2100L);
                 }
             }
             currentTheme = themeInfo;
@@ -6284,7 +6313,7 @@ public class Theme {
                 if (isCurrentThemeNight()) {
                     switchNightThemeDelay = 2000;
                     lastDelayUpdateTime = SystemClock.elapsedRealtime();
-                    AndroidUtilities.runOnUIThread(MessagesController$$ExternalSyntheticLambda224.INSTANCE, 2100L);
+                    AndroidUtilities.runOnUIThread(MessagesController$$ExternalSyntheticLambda226.INSTANCE, 2100L);
                 }
             }
             currentTheme = themeInfo;
@@ -8867,6 +8896,7 @@ public class Theme {
             dialogs_mentionDrawable = resources.getDrawable(R.drawable.mentionchatslist);
             dialogs_reactionsMentionDrawable = resources.getDrawable(R.drawable.reactionchatslist);
             dialogs_pinnedDrawable = resources.getDrawable(R.drawable.list_pin);
+            dialogs_forum_arrowDrawable = resources.getDrawable(R.drawable.msg_mini_forumarrow);
             moveUpDrawable = resources.getDrawable(R.drawable.preview_arrow);
             RectF rectF = new RectF();
             chat_updatePath[0] = new Path();
@@ -8942,6 +8972,7 @@ public class Theme {
         setDrawableColorByKey(dialogs_muteDrawable, "chats_muteIcon");
         setDrawableColorByKey(dialogs_unmuteDrawable, "chats_muteIcon");
         setDrawableColorByKey(dialogs_mentionDrawable, "chats_mentionIcon");
+        setDrawableColorByKey(dialogs_forum_arrowDrawable, "chats_message");
         setDrawableColorByKey(dialogs_reactionsMentionDrawable, "chats_mentionIcon");
         setDrawableColorByKey(dialogs_verifiedDrawable, "chats_verifiedBackground");
         setDrawableColorByKey(dialogs_verifiedCheckDrawable, "chats_verifiedCheck");
@@ -8985,6 +9016,9 @@ public class Theme {
                 chat_replyNamePaint = textPaint3;
                 textPaint3.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
                 chat_replyTextPaint = new TextPaint(1);
+                TextPaint textPaint4 = new TextPaint(1);
+                chat_topicTextPaint = textPaint4;
+                textPaint4.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
                 chat_forwardNamePaint = new TextPaint(1);
                 chat_adminPaint = new TextPaint(1);
                 chat_timePaint = new TextPaint(1);
@@ -9008,8 +9042,10 @@ public class Theme {
                     chat_namePaint.setTextSize(AndroidUtilities.dp(f));
                     chat_replyNamePaint.setTextSize(AndroidUtilities.dp(f));
                     chat_replyTextPaint.setTextSize(AndroidUtilities.dp(f));
+                    float f2 = f - 1.0f;
+                    chat_topicTextPaint.setTextSize(AndroidUtilities.dp(f2));
                     chat_forwardNamePaint.setTextSize(AndroidUtilities.dp(f));
-                    chat_adminPaint.setTextSize(AndroidUtilities.dp(f - 1.0f));
+                    chat_adminPaint.setTextSize(AndroidUtilities.dp(f2));
                 }
             }
         }
@@ -9083,10 +9119,13 @@ public class Theme {
             chat_replyNamePaint = textPaint10;
             textPaint10.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
             chat_replyTextPaint = new TextPaint(1);
-            chat_commentTextPaint = new TextPaint(1);
             TextPaint textPaint11 = new TextPaint(1);
-            chat_instantViewPaint = textPaint11;
+            chat_topicTextPaint = textPaint11;
             textPaint11.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            chat_commentTextPaint = new TextPaint(1);
+            TextPaint textPaint12 = new TextPaint(1);
+            chat_instantViewPaint = textPaint12;
+            textPaint12.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
             Paint paint7 = new Paint(1);
             chat_instantViewRectPaint = paint7;
             paint7.setStyle(Paint.Style.STROKE);
@@ -9102,19 +9141,19 @@ public class Theme {
             chat_statusRecordPaint = paint9;
             paint9.setStyle(Paint.Style.STROKE);
             chat_statusRecordPaint.setStrokeCap(Paint.Cap.ROUND);
-            TextPaint textPaint12 = new TextPaint(1);
-            chat_actionTextPaint = textPaint12;
-            textPaint12.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
             TextPaint textPaint13 = new TextPaint(1);
-            chat_unlockExtendedMediaTextPaint = textPaint13;
+            chat_actionTextPaint = textPaint13;
             textPaint13.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            TextPaint textPaint14 = new TextPaint(1);
+            chat_unlockExtendedMediaTextPaint = textPaint14;
+            textPaint14.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
             Paint paint10 = new Paint(1);
             chat_actionBackgroundGradientDarkenPaint = paint10;
             paint10.setColor(704643072);
             chat_timeBackgroundPaint = new Paint(1);
-            TextPaint textPaint14 = new TextPaint(1);
-            chat_contextResult_titleTextPaint = textPaint14;
-            textPaint14.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            TextPaint textPaint15 = new TextPaint(1);
+            chat_contextResult_titleTextPaint = textPaint15;
+            textPaint15.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
             chat_contextResult_descriptionTextPaint = new TextPaint(1);
             chat_composeBackgroundPaint = new Paint();
             new Paint(1);
@@ -9457,8 +9496,10 @@ public class Theme {
         chat_namePaint.setTextSize(AndroidUtilities.dp(f));
         chat_replyNamePaint.setTextSize(AndroidUtilities.dp(f));
         chat_replyTextPaint.setTextSize(AndroidUtilities.dp(f));
+        float f2 = f - 1.0f;
+        chat_topicTextPaint.setTextSize(AndroidUtilities.dp(f2));
         chat_forwardNamePaint.setTextSize(AndroidUtilities.dp(f));
-        chat_adminPaint.setTextSize(AndroidUtilities.dp(f - 1.0f));
+        chat_adminPaint.setTextSize(AndroidUtilities.dp(f2));
         int i27 = SharedConfig.fontSize;
         chat_timePaint.setTextSize(AndroidUtilities.dp(12.0f));
         chat_gamePaint.setTextSize(AndroidUtilities.dp(13.0f));

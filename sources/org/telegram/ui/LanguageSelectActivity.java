@@ -521,6 +521,7 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$new$0(View view) {
             this.preferences.edit().putBoolean("translate_button", !getValue()).apply();
+            NotificationCenter.getInstance(((BaseFragment) LanguageSelectActivity.this).currentAccount).postNotificationName(NotificationCenter.updateSearchSettings, new Object[0]);
         }
 
         /* JADX INFO: Access modifiers changed from: private */

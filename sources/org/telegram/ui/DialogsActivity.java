@@ -115,6 +115,7 @@ import org.telegram.tgnet.TLRPC$TL_emojiStatus;
 import org.telegram.tgnet.TLRPC$TL_emojiStatusEmpty;
 import org.telegram.tgnet.TLRPC$TL_emojiStatusUntil;
 import org.telegram.tgnet.TLRPC$TL_error;
+import org.telegram.tgnet.TLRPC$TL_forumTopic;
 import org.telegram.tgnet.TLRPC$TL_help_premiumPromo;
 import org.telegram.tgnet.TLRPC$TL_inputStickerSetID;
 import org.telegram.tgnet.TLRPC$TL_messages_checkHistoryImportPeer;
@@ -184,6 +185,7 @@ import org.telegram.ui.Components.FiltersListBottomSheet;
 import org.telegram.ui.Components.FlickerLoadingView;
 import org.telegram.ui.Components.FloatingDebug.FloatingDebugController;
 import org.telegram.ui.Components.FloatingDebug.FloatingDebugProvider;
+import org.telegram.ui.Components.Forum.ForumUtilities;
 import org.telegram.ui.Components.FragmentContextView;
 import org.telegram.ui.Components.JoinGroupAlert;
 import org.telegram.ui.Components.LayoutHelper;
@@ -2884,7 +2886,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             int i20 = i15;
             int i21 = i14;
             ContentView contentView2 = contentView;
-            viewPage.dialogsAdapter = new DialogsAdapter(this, this, context, viewPage.dialogsType, this.folderId, this.onlySelect, this.selectedDialogs, this.currentAccount) { // from class: org.telegram.ui.DialogsActivity.15
+            viewPage.dialogsAdapter = new DialogsAdapter(this, context, viewPage.dialogsType, this.folderId, this.onlySelect, this.selectedDialogs, this.currentAccount) { // from class: org.telegram.ui.DialogsActivity.15
                 @Override // org.telegram.ui.Adapters.DialogsAdapter, androidx.recyclerview.widget.RecyclerView.Adapter
                 public void notifyDataSetChanged() {
                     viewPage.lastItemsCount = getItemCount();
@@ -2893,6 +2895,15 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     } catch (Exception e) {
                         FileLog.e(e);
                     }
+                }
+
+                @Override // org.telegram.ui.Adapters.DialogsAdapter, org.telegram.ui.Cells.DialogCell.DialogCellDelegate
+                public void onButtonClicked(DialogCell dialogCell) {
+                    TLRPC$TL_forumTopic findTopic;
+                    if (dialogCell.getMessage() == null || (findTopic = DialogsActivity.this.getMessagesController().getTopicsController().findTopic(-dialogCell.getDialogId(), MessageObject.getTopicId(dialogCell.getMessage().messageOwner))) == null) {
+                        return;
+                    }
+                    ForumUtilities.openTopic(DialogsActivity.this, -dialogCell.getDialogId(), findTopic, 0);
                 }
             };
             viewPage.dialogsAdapter.setForceShowEmptyCell(this.afterSignup);
@@ -4918,7 +4929,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 break;
             }
             MessageObject next = it.next();
-            if (next.getDocument() != null && next.getDocument().size >= 524288000) {
+            if (next.getDocument() != null && next.getDocument().size >= 314572800) {
                 z2 = true;
                 break;
             }
@@ -4929,7 +4940,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 break;
             }
             MessageObject next2 = it2.next();
-            if (next2.getDocument() != null && next2.getDocument().size >= 524288000) {
+            if (next2.getDocument() != null && next2.getDocument().size >= 314572800) {
                 z2 = true;
                 break;
             }
@@ -9669,7 +9680,12 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         updateVisibleRows(i, true);
     }
 
+    /* JADX WARN: Removed duplicated region for block: B:58:0x00fe  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     private void updateVisibleRows(int i, boolean z) {
+        ArrayList<Long> arrayList;
         if ((!this.dialogsListFrozen || (MessagesController.UPDATE_MASK_REORDER & i) != 0) && !this.isPaused) {
             for (int i2 = 0; i2 < 3; i2++) {
                 RecyclerView recyclerView = null;
@@ -9688,67 +9704,80 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                         }
                     }
                 }
-                if (recyclerView != null) {
+                if (recyclerView != null && recyclerView.getAdapter() != null) {
                     int childCount = recyclerView.getChildCount();
-                    for (int i3 = 0; i3 < childCount; i3++) {
-                        View childAt = recyclerView.getChildAt(i3);
-                        if ((childAt instanceof DialogCell) && recyclerView.getAdapter() != this.searchViewPager.dialogsSearchAdapter) {
-                            DialogCell dialogCell = (DialogCell) childAt;
-                            boolean z2 = true;
-                            if ((MessagesController.UPDATE_MASK_REORDER & i) != 0) {
-                                dialogCell.onReorderStateChanged(this.actionBar.isActionModeShowed(), true);
-                                if (this.dialogsListFrozen) {
+                    int i3 = 0;
+                    while (true) {
+                        if (i3 < childCount) {
+                            View childAt = recyclerView.getChildAt(i3);
+                            if ((childAt instanceof DialogCell) && recyclerView.getAdapter() != this.searchViewPager.dialogsSearchAdapter) {
+                                DialogCell dialogCell = (DialogCell) childAt;
+                                boolean z2 = true;
+                                if ((MessagesController.UPDATE_MASK_REORDER & i) != 0) {
+                                    dialogCell.onReorderStateChanged(this.actionBar.isActionModeShowed(), true);
+                                    if (this.dialogsListFrozen) {
+                                        continue;
+                                        i3++;
+                                    }
                                 }
-                            }
-                            if ((MessagesController.UPDATE_MASK_CHECK & i) != 0) {
-                                if ((MessagesController.UPDATE_MASK_CHAT & i) == 0) {
-                                    z2 = false;
-                                }
-                                dialogCell.setChecked(false, z2);
-                            } else {
-                                if ((MessagesController.UPDATE_MASK_NEW_MESSAGE & i) != 0) {
-                                    dialogCell.checkCurrentDialogIndex(this.dialogsListFrozen);
+                                if ((MessagesController.UPDATE_MASK_CHECK & i) != 0) {
+                                    if ((MessagesController.UPDATE_MASK_CHAT & i) == 0) {
+                                        z2 = false;
+                                    }
+                                    dialogCell.setChecked(false, z2);
+                                } else if ((MessagesController.UPDATE_MASK_NEW_MESSAGE & i) != 0) {
+                                    if (dialogCell.checkCurrentDialogIndex(this.dialogsListFrozen) && recyclerView.getAdapter() != null) {
+                                        recyclerView.getAdapter().notifyDataSetChanged();
+                                        break;
+                                    }
                                     if (this.viewPages[i2].isDefaultDialogType() && AndroidUtilities.isTablet()) {
                                         if (dialogCell.getDialogId() != this.openedDialogId) {
                                             z2 = false;
                                         }
                                         dialogCell.setDialogSelected(z2);
                                     }
-                                } else if ((MessagesController.UPDATE_MASK_SELECT_DIALOG & i) != 0) {
-                                    if (this.viewPages[i2].isDefaultDialogType() && AndroidUtilities.isTablet()) {
-                                        if (dialogCell.getDialogId() != this.openedDialogId) {
-                                            z2 = false;
-                                        }
-                                        dialogCell.setDialogSelected(z2);
+                                    arrayList = this.selectedDialogs;
+                                    if (arrayList != null) {
+                                        dialogCell.setChecked(arrayList.contains(Long.valueOf(dialogCell.getDialogId())), false);
                                     }
                                 } else {
-                                    dialogCell.update(i, z);
-                                }
-                                ArrayList<Long> arrayList = this.selectedDialogs;
-                                if (arrayList != null) {
-                                    dialogCell.setChecked(arrayList.contains(Long.valueOf(dialogCell.getDialogId())), false);
-                                }
-                            }
-                        }
-                        if (childAt instanceof UserCell) {
-                            ((UserCell) childAt).update(i);
-                        } else if (childAt instanceof ProfileSearchCell) {
-                            ProfileSearchCell profileSearchCell = (ProfileSearchCell) childAt;
-                            profileSearchCell.update(i);
-                            ArrayList<Long> arrayList2 = this.selectedDialogs;
-                            if (arrayList2 != null) {
-                                profileSearchCell.setChecked(arrayList2.contains(Long.valueOf(profileSearchCell.getDialogId())), false);
-                            }
-                        }
-                        if (!this.dialogsListFrozen && (childAt instanceof RecyclerListView)) {
-                            RecyclerListView recyclerListView = (RecyclerListView) childAt;
-                            int childCount2 = recyclerListView.getChildCount();
-                            for (int i4 = 0; i4 < childCount2; i4++) {
-                                View childAt2 = recyclerListView.getChildAt(i4);
-                                if (childAt2 instanceof HintDialogCell) {
-                                    ((HintDialogCell) childAt2).update(i);
+                                    if ((MessagesController.UPDATE_MASK_SELECT_DIALOG & i) != 0) {
+                                        if (this.viewPages[i2].isDefaultDialogType() && AndroidUtilities.isTablet()) {
+                                            if (dialogCell.getDialogId() != this.openedDialogId) {
+                                                z2 = false;
+                                            }
+                                            dialogCell.setDialogSelected(z2);
+                                        }
+                                    } else if (dialogCell.update(i, z) && recyclerView.getAdapter() != null) {
+                                        recyclerView.getAdapter().notifyDataSetChanged();
+                                        break;
+                                    }
+                                    arrayList = this.selectedDialogs;
+                                    if (arrayList != null) {
+                                    }
                                 }
                             }
+                            if (childAt instanceof UserCell) {
+                                ((UserCell) childAt).update(i);
+                            } else if (childAt instanceof ProfileSearchCell) {
+                                ProfileSearchCell profileSearchCell = (ProfileSearchCell) childAt;
+                                profileSearchCell.update(i);
+                                ArrayList<Long> arrayList2 = this.selectedDialogs;
+                                if (arrayList2 != null) {
+                                    profileSearchCell.setChecked(arrayList2.contains(Long.valueOf(profileSearchCell.getDialogId())), false);
+                                }
+                            }
+                            if (!this.dialogsListFrozen && (childAt instanceof RecyclerListView)) {
+                                RecyclerListView recyclerListView = (RecyclerListView) childAt;
+                                int childCount2 = recyclerListView.getChildCount();
+                                for (int i4 = 0; i4 < childCount2; i4++) {
+                                    View childAt2 = recyclerListView.getChildAt(i4);
+                                    if (childAt2 instanceof HintDialogCell) {
+                                        ((HintDialogCell) childAt2).update(i);
+                                    }
+                                }
+                            }
+                            i3++;
                         }
                     }
                 }

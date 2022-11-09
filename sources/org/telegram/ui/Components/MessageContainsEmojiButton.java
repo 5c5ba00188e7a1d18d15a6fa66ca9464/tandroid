@@ -69,12 +69,6 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:53:0x0107, code lost:
-        r4 = null;
-     */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
     public MessageContainsEmojiButton(int i, Context context, Theme.ResourcesProvider resourcesProvider, ArrayList<TLRPC$InputStickerSet> arrayList, int i2) {
         super(context);
         String string;
@@ -137,6 +131,7 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
                         i4++;
                     }
                 }
+                tLRPC$Document = null;
                 if (tLRPC$Document == null && (arrayList2 = stickerSet.documents) != null && arrayList2.size() > 0) {
                     tLRPC$Document = stickerSet.documents.get(0);
                 }
@@ -165,6 +160,8 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
             this.endText = split[1];
             LoadingDrawable loadingDrawable = new LoadingDrawable(resourcesProvider);
             this.loadingDrawable = loadingDrawable;
+            loadingDrawable.colorKey1 = "actionBarDefaultSubmenuBackground";
+            loadingDrawable.colorKey2 = "listSelectorSDK21";
             loadingDrawable.paint.setPathEffect(new CornerPathEffect(AndroidUtilities.dp(4.0f)));
         }
     }
