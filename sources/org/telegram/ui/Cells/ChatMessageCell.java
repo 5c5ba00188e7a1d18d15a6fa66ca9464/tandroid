@@ -29265,34 +29265,34 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:330:0x0a2f, code lost:
-        if (r1[0] == 3) goto L331;
+    /* JADX WARN: Code restructure failed: missing block: B:332:0x0a31, code lost:
+        if (r1[0] == 3) goto L333;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:610:0x1188, code lost:
-        if (r3 == 2) goto L662;
+    /* JADX WARN: Code restructure failed: missing block: B:612:0x118a, code lost:
+        if (r3 == 2) goto L664;
      */
-    /* JADX WARN: Removed duplicated region for block: B:1016:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1028:0x1820  */
-    /* JADX WARN: Removed duplicated region for block: B:1033:0x174c  */
-    /* JADX WARN: Removed duplicated region for block: B:380:0x0e2c  */
-    /* JADX WARN: Removed duplicated region for block: B:383:0x0e35 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1018:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1030:0x1822  */
+    /* JADX WARN: Removed duplicated region for block: B:1035:0x174e  */
+    /* JADX WARN: Removed duplicated region for block: B:382:0x0e2e  */
+    /* JADX WARN: Removed duplicated region for block: B:385:0x0e37 A[SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:58:0x02e8  */
-    /* JADX WARN: Removed duplicated region for block: B:614:0x1478  */
-    /* JADX WARN: Removed duplicated region for block: B:620:0x14b2  */
-    /* JADX WARN: Removed duplicated region for block: B:637:0x1507  */
-    /* JADX WARN: Removed duplicated region for block: B:641:0x1518  */
-    /* JADX WARN: Removed duplicated region for block: B:64:0x02eb  */
-    /* JADX WARN: Removed duplicated region for block: B:650:0x14c9  */
-    /* JADX WARN: Removed duplicated region for block: B:656:0x1491  */
-    /* JADX WARN: Removed duplicated region for block: B:842:0x168c  */
-    /* JADX WARN: Removed duplicated region for block: B:849:0x1668  */
-    /* JADX WARN: Removed duplicated region for block: B:852:0x1684  */
-    /* JADX WARN: Removed duplicated region for block: B:881:0x1738  */
-    /* JADX WARN: Removed duplicated region for block: B:885:0x175a  */
-    /* JADX WARN: Removed duplicated region for block: B:910:0x1827  */
-    /* JADX WARN: Removed duplicated region for block: B:969:0x1a05  */
-    /* JADX WARN: Removed duplicated region for block: B:976:0x1a24  */
-    /* JADX WARN: Removed duplicated region for block: B:979:0x1a78  */
+    /* JADX WARN: Removed duplicated region for block: B:616:0x147a  */
+    /* JADX WARN: Removed duplicated region for block: B:622:0x14b4  */
+    /* JADX WARN: Removed duplicated region for block: B:639:0x1509  */
+    /* JADX WARN: Removed duplicated region for block: B:643:0x151a  */
+    /* JADX WARN: Removed duplicated region for block: B:652:0x14cb  */
+    /* JADX WARN: Removed duplicated region for block: B:658:0x1493  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x02eb  */
+    /* JADX WARN: Removed duplicated region for block: B:844:0x168e  */
+    /* JADX WARN: Removed duplicated region for block: B:851:0x166a  */
+    /* JADX WARN: Removed duplicated region for block: B:854:0x1686  */
+    /* JADX WARN: Removed duplicated region for block: B:883:0x173a  */
+    /* JADX WARN: Removed duplicated region for block: B:887:0x175c  */
+    /* JADX WARN: Removed duplicated region for block: B:912:0x1829  */
+    /* JADX WARN: Removed duplicated region for block: B:971:0x1a07  */
+    /* JADX WARN: Removed duplicated region for block: B:978:0x1a26  */
+    /* JADX WARN: Removed duplicated region for block: B:981:0x1a7a  */
     /* JADX WARN: Type inference failed for: r2v480, types: [boolean] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -29587,8 +29587,8 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                     transitionParams.lastDrawDocTitleLayout = null;
                                     transitionParams.lastDrawInfoLayout = null;
                                     currentAlpha = !this.photoImage.isCrossfadingWithOldImage() ? 1.0f : this.photoImage.getCurrentAlpha();
-                                    if (currentAlpha > 0.0f && this.photoImage.hasNotThumb()) {
-                                        BaseCell.setDrawableBounds(Theme.chat_msgAvatarLiveLocationDrawable, (int) ((this.photoImage.getImageX() + (this.photoImage.getImageWidth() / 2.0f)) - AndroidUtilities.dp(31.0f)), (int) (((this.photoImage.getImageY() + (this.photoImage.getImageHeight() / 2.0f)) - AndroidUtilities.dp(38.0f)) - (AndroidUtilities.dp(16.0f) * (1.0f - CubicBezierInterpolator.EASE_OUT_BACK.getInterpolation(this.photoImage.getCurrentAlpha())))));
+                                    if (currentAlpha > 0.0f && (this.photoImage.hasNotThumb() || this.photoImage.isCrossfadingWithOldImage())) {
+                                        BaseCell.setDrawableBounds(Theme.chat_msgAvatarLiveLocationDrawable, (int) ((this.photoImage.getImageX() + (this.photoImage.getImageWidth() / 2.0f)) - AndroidUtilities.dp(31.0f)), (int) (((this.photoImage.getImageY() + (this.photoImage.getImageHeight() / 2.0f)) - AndroidUtilities.dp(38.0f)) - (AndroidUtilities.dp(16.0f) * (1.0f - CubicBezierInterpolator.EASE_OUT_BACK.getInterpolation(currentAlpha)))));
                                         float f25 = currentAlpha * 5.0f;
                                         Theme.chat_msgAvatarLiveLocationDrawable.setAlpha((int) (Math.min(1.0f, f25) * 255.0f));
                                         Theme.chat_msgAvatarLiveLocationDrawable.draw(canvas);
@@ -29666,7 +29666,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                             if (!this.photoImage.isCrossfadingWithOldImage()) {
                             }
                             if (currentAlpha > 0.0f) {
-                                BaseCell.setDrawableBounds(Theme.chat_msgAvatarLiveLocationDrawable, (int) ((this.photoImage.getImageX() + (this.photoImage.getImageWidth() / 2.0f)) - AndroidUtilities.dp(31.0f)), (int) (((this.photoImage.getImageY() + (this.photoImage.getImageHeight() / 2.0f)) - AndroidUtilities.dp(38.0f)) - (AndroidUtilities.dp(16.0f) * (1.0f - CubicBezierInterpolator.EASE_OUT_BACK.getInterpolation(this.photoImage.getCurrentAlpha())))));
+                                BaseCell.setDrawableBounds(Theme.chat_msgAvatarLiveLocationDrawable, (int) ((this.photoImage.getImageX() + (this.photoImage.getImageWidth() / 2.0f)) - AndroidUtilities.dp(31.0f)), (int) (((this.photoImage.getImageY() + (this.photoImage.getImageHeight() / 2.0f)) - AndroidUtilities.dp(38.0f)) - (AndroidUtilities.dp(16.0f) * (1.0f - CubicBezierInterpolator.EASE_OUT_BACK.getInterpolation(currentAlpha)))));
                                 float f252 = currentAlpha * 5.0f;
                                 Theme.chat_msgAvatarLiveLocationDrawable.setAlpha((int) (Math.min(1.0f, f252) * 255.0f));
                                 Theme.chat_msgAvatarLiveLocationDrawable.draw(canvas);

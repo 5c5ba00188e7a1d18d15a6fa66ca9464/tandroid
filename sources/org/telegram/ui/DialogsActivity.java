@@ -6354,19 +6354,32 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         }
     }
 
+    /* JADX WARN: Removed duplicated region for block: B:109:0x02cd  */
+    /* JADX WARN: Removed duplicated region for block: B:191:0x01c8  */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x01f6 A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:21:0x01f7  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x02c7  */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x02f4  */
+    /* JADX WARN: Removed duplicated region for block: B:85:0x0373  */
+    /* JADX WARN: Removed duplicated region for block: B:88:0x037c  */
+    /* JADX WARN: Removed duplicated region for block: B:93:0x039a  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     private void onItemClick(View view, int i, RecyclerView.Adapter adapter) {
-        long j;
         boolean z;
         int i2;
         int i3;
         int i4;
-        long j2;
-        long j3;
-        TLRPC$Chat chat;
-        TLRPC$Document greetingsSticker;
         int i5;
-        long j4;
+        long j;
+        long j2;
+        int id;
+        long j3;
         int i6;
+        long j4;
+        TLRPC$Document greetingsSticker;
+        long j5;
         if (getParentActivity() == null) {
             return;
         }
@@ -6384,7 +6397,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 j = ((TLRPC$User) item).id;
             } else if (item instanceof TLRPC$Dialog) {
                 TLRPC$Dialog tLRPC$Dialog = (TLRPC$Dialog) item;
-                i6 = tLRPC$Dialog.folder_id;
+                i4 = tLRPC$Dialog.folder_id;
                 if (tLRPC$Dialog instanceof TLRPC$TL_dialogFolder) {
                     if (this.actionBar.isActionModeShowed(null)) {
                         return;
@@ -6399,13 +6412,12 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     showOrUpdateActionMode(j, view);
                     return;
                 }
-                i4 = i5;
                 z = false;
-                i3 = i6;
                 i2 = 0;
+                i3 = 0;
             } else {
                 if (item instanceof TLRPC$TL_recentMeUrlChat) {
-                    j4 = ((TLRPC$TL_recentMeUrlChat) item).chat_id;
+                    j5 = ((TLRPC$TL_recentMeUrlChat) item).chat_id;
                 } else if (item instanceof TLRPC$TL_recentMeUrlUser) {
                     j = ((TLRPC$TL_recentMeUrlUser) item).user_id;
                 } else if (item instanceof TLRPC$TL_recentMeUrlChatInvite) {
@@ -6425,7 +6437,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     if (tLRPC$Chat2 == null) {
                         return;
                     }
-                    j4 = tLRPC$Chat2.id;
+                    j5 = tLRPC$Chat2.id;
                 } else if (item instanceof TLRPC$TL_recentMeUrlStickerSet) {
                     TLRPC$StickerSet tLRPC$StickerSet = ((TLRPC$TL_recentMeUrlStickerSet) item).set.set;
                     TLRPC$TL_inputStickerSetID tLRPC$TL_inputStickerSetID = new TLRPC$TL_inputStickerSetID();
@@ -6437,13 +6449,12 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     boolean z3 = item instanceof TLRPC$TL_recentMeUrlUnknown;
                     return;
                 }
-                j = -j4;
+                j = -j5;
             }
-            i6 = 0;
-            i4 = i5;
+            i4 = 0;
             z = false;
-            i3 = i6;
             i2 = 0;
+            i3 = 0;
         } else {
             DialogsSearchAdapter dialogsSearchAdapter = this.searchViewPager.dialogsSearchAdapter;
             if (adapter == dialogsSearchAdapter) {
@@ -6473,17 +6484,157 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 } else if (item2 instanceof MessageObject) {
                     MessageObject messageObject = (MessageObject) item2;
                     j2 = messageObject.getDialogId();
-                    i2 = messageObject.getId();
+                    id = messageObject.getId();
+                    i2 = ChatObject.isForum(getMessagesController().getChat(Long.valueOf(-j2))) ? MessageObject.getTopicId(messageObject.messageOwner) : 0;
                     DialogsSearchAdapter dialogsSearchAdapter2 = this.searchViewPager.dialogsSearchAdapter;
                     dialogsSearchAdapter2.addHashtagsFromMessage(dialogsSearchAdapter2.getLastSearchString());
                     if (j2 == 0 && this.actionBar.isActionModeShowed()) {
-                        if (!this.actionBar.isActionModeShowed("search_dialogs_action_mode") || i2 != 0 || z) {
+                        if (!this.actionBar.isActionModeShowed("search_dialogs_action_mode") || id != 0 || z) {
                             return;
                         }
                         showOrUpdateActionMode(j2, view);
                         return;
                     }
+                    i3 = id;
+                    i4 = 0;
+                    j3 = 0;
                     j = j2;
+                    i5 = 0;
+                    if (j != j3) {
+                        return;
+                    }
+                    if (this.onlySelect) {
+                        if (!validateSlowModeDialog(j)) {
+                            return;
+                        }
+                        if (!this.selectedDialogs.isEmpty() || (this.initialDialogsType == 3 && this.selectAlertString != null)) {
+                            if (!this.selectedDialogs.contains(Long.valueOf(j)) && !checkCanWrite(j)) {
+                                return;
+                            }
+                            boolean addOrRemoveSelectedDialog = addOrRemoveSelectedDialog(j, view);
+                            if (adapter == this.searchViewPager.dialogsSearchAdapter) {
+                                this.actionBar.closeSearchField();
+                                findAndUpdateCheckBox(j, addOrRemoveSelectedDialog);
+                            }
+                            updateSelectedCount();
+                            return;
+                        } else if (this.canSelectTopics && getMessagesController().isForum(j)) {
+                            Bundle bundle2 = new Bundle();
+                            bundle2.putLong("chat_id", -j);
+                            bundle2.putBoolean("for_select", true);
+                            bundle2.putBoolean("forward_to", true);
+                            TopicsFragment topicsFragment = new TopicsFragment(bundle2);
+                            topicsFragment.setForwardFromDialogFragment(this);
+                            presentFragment(topicsFragment);
+                            return;
+                        } else {
+                            didSelectResult(j, 0, true, false);
+                            return;
+                        }
+                    }
+                    Bundle bundle3 = new Bundle();
+                    if (DialogObject.isEncryptedDialog(j)) {
+                        bundle3.putInt("enc_id", DialogObject.getEncryptedChatId(j));
+                    } else if (DialogObject.isUserDialog(j)) {
+                        bundle3.putLong("user_id", j);
+                    } else {
+                        if (i3 != 0) {
+                            i6 = i4;
+                            TLRPC$Chat chat = getMessagesController().getChat(Long.valueOf(-j));
+                            if (chat != null && chat.migrated_to != null) {
+                                bundle3.putLong("migrated_to", j);
+                                j4 = -chat.migrated_to.channel_id;
+                                bundle3.putLong("chat_id", -j4);
+                                if (i3 != 0) {
+                                    bundle3.putInt("message_id", i3);
+                                } else if (!z) {
+                                    closeSearch();
+                                } else {
+                                    TLObject tLObject = this.searchObject;
+                                    if (tLObject != null) {
+                                        this.searchViewPager.dialogsSearchAdapter.putRecentSearch(this.searchDialogId, tLObject);
+                                        this.searchObject = null;
+                                    }
+                                }
+                                bundle3.putInt("dialog_folder_id", i6);
+                                bundle3.putInt("dialog_filter_id", i5);
+                                if (!AndroidUtilities.isTablet() && this.openedDialogId == j && adapter != this.searchViewPager.dialogsSearchAdapter) {
+                                    if (!(getParentActivity() instanceof LaunchActivity)) {
+                                        return;
+                                    }
+                                    LaunchActivity launchActivity = (LaunchActivity) getParentActivity();
+                                    List<BaseFragment> fragmentStack = launchActivity.getRightActionBarLayout().getFragmentStack();
+                                    if (fragmentStack.isEmpty()) {
+                                        return;
+                                    }
+                                    if (fragmentStack.size() == 1 && (fragmentStack.get(fragmentStack.size() - 1) instanceof ChatActivity)) {
+                                        ((ChatActivity) fragmentStack.get(fragmentStack.size() - 1)).onPageDownClicked();
+                                        return;
+                                    } else if (fragmentStack.size() == 2) {
+                                        launchActivity.getRightActionBarLayout().closeLastFragment();
+                                        return;
+                                    } else if (!(getParentActivity() instanceof LaunchActivity)) {
+                                        return;
+                                    } else {
+                                        fragmentStack.clear();
+                                        fragmentStack.add(fragmentStack.get(0));
+                                        launchActivity.getRightActionBarLayout().rebuildFragments(1);
+                                        return;
+                                    }
+                                }
+                                if (this.searchViewPager.actionModeShowing()) {
+                                    this.searchViewPager.hideActionMode();
+                                }
+                                if (this.searchString != null) {
+                                    if (!getMessagesController().checkCanOpenChat(bundle3, this)) {
+                                        return;
+                                    }
+                                    getNotificationCenter().postNotificationName(NotificationCenter.closeChats, new Object[0]);
+                                    presentFragment(new ChatActivity(bundle3));
+                                    return;
+                                }
+                                this.slowedReloadAfterDialogClick = true;
+                                if (!getMessagesController().checkCanOpenChat(bundle3, this)) {
+                                    return;
+                                }
+                                getMessagesController().getChat(Long.valueOf(-j));
+                                ChatActivity chatActivity = new ChatActivity(bundle3);
+                                if (i2 != 0) {
+                                    ForumUtilities.applyTopic(chatActivity, MessagesStorage.TopicKey.of(j, i2));
+                                }
+                                if (z2 && DialogObject.isUserDialog(j) && getMessagesController().dialogs_dict.get(j) == null && (greetingsSticker = getMediaDataController().getGreetingsSticker()) != null) {
+                                    chatActivity.setPreloadedSticker(greetingsSticker, true);
+                                }
+                                presentFragment(chatActivity);
+                                return;
+                            }
+                        } else {
+                            i6 = i4;
+                        }
+                        j4 = j;
+                        bundle3.putLong("chat_id", -j4);
+                        if (i3 != 0) {
+                        }
+                        bundle3.putInt("dialog_folder_id", i6);
+                        bundle3.putInt("dialog_filter_id", i5);
+                        if (!AndroidUtilities.isTablet()) {
+                        }
+                        if (this.searchViewPager.actionModeShowing()) {
+                        }
+                        if (this.searchString != null) {
+                        }
+                    }
+                    i6 = i4;
+                    if (i3 != 0) {
+                    }
+                    bundle3.putInt("dialog_folder_id", i6);
+                    bundle3.putInt("dialog_filter_id", i5);
+                    if (!AndroidUtilities.isTablet()) {
+                    }
+                    if (this.searchViewPager.actionModeShowing()) {
+                    }
+                    if (this.searchString != null) {
+                    }
                 } else {
                     if (item2 instanceof String) {
                         String str2 = (String) item2;
@@ -6495,128 +6646,42 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                             presentFragment(newContactActivity);
                         }
                     }
+                    i2 = 0;
                     j2 = 0;
+                    id = 0;
+                    if (j2 == 0) {
+                    }
+                    i3 = id;
+                    i4 = 0;
+                    j3 = 0;
+                    j = j2;
+                    i5 = 0;
+                    if (j != j3) {
+                    }
                 }
                 i2 = 0;
+                id = 0;
                 if (j2 == 0) {
                 }
+                i3 = id;
+                i4 = 0;
+                j3 = 0;
                 j = j2;
+                i5 = 0;
+                if (j != j3) {
+                }
             } else {
-                j = 0;
                 z = false;
                 i2 = 0;
-            }
-            i3 = 0;
-            i4 = 0;
-        }
-        if (j == 0) {
-            return;
-        }
-        if (this.onlySelect) {
-            if (!validateSlowModeDialog(j)) {
-                return;
-            }
-            if (!this.selectedDialogs.isEmpty() || (this.initialDialogsType == 3 && this.selectAlertString != null)) {
-                if (!this.selectedDialogs.contains(Long.valueOf(j)) && !checkCanWrite(j)) {
-                    return;
-                }
-                boolean addOrRemoveSelectedDialog = addOrRemoveSelectedDialog(j, view);
-                if (adapter == this.searchViewPager.dialogsSearchAdapter) {
-                    this.actionBar.closeSearchField();
-                    findAndUpdateCheckBox(j, addOrRemoveSelectedDialog);
-                }
-                updateSelectedCount();
-                return;
-            } else if (this.canSelectTopics && getMessagesController().isForum(j)) {
-                Bundle bundle2 = new Bundle();
-                bundle2.putLong("chat_id", -j);
-                bundle2.putBoolean("for_select", true);
-                bundle2.putBoolean("forward_to", true);
-                TopicsFragment topicsFragment = new TopicsFragment(bundle2);
-                topicsFragment.setForwardFromDialogFragment(this);
-                presentFragment(topicsFragment);
-                return;
-            } else {
-                didSelectResult(j, 0, true, false);
-                return;
+                i3 = 0;
+                i4 = 0;
+                i5 = 0;
+                j = 0;
             }
         }
-        Bundle bundle3 = new Bundle();
-        if (DialogObject.isEncryptedDialog(j)) {
-            bundle3.putInt("enc_id", DialogObject.getEncryptedChatId(j));
-        } else if (DialogObject.isUserDialog(j)) {
-            bundle3.putLong("user_id", j);
-        } else {
-            if (i2 == 0 || (chat = getMessagesController().getChat(Long.valueOf(-j))) == null || chat.migrated_to == null) {
-                j3 = j;
-            } else {
-                bundle3.putLong("migrated_to", j);
-                j3 = -chat.migrated_to.channel_id;
-            }
-            bundle3.putLong("chat_id", -j3);
+        j3 = 0;
+        if (j != j3) {
         }
-        if (i2 != 0) {
-            bundle3.putInt("message_id", i2);
-        } else if (!z) {
-            closeSearch();
-        } else {
-            TLObject tLObject = this.searchObject;
-            if (tLObject != null) {
-                this.searchViewPager.dialogsSearchAdapter.putRecentSearch(this.searchDialogId, tLObject);
-                this.searchObject = null;
-            }
-        }
-        bundle3.putInt("dialog_folder_id", i3);
-        bundle3.putInt("dialog_filter_id", i4);
-        if (AndroidUtilities.isTablet() && this.openedDialogId == j && adapter != this.searchViewPager.dialogsSearchAdapter) {
-            if (!(getParentActivity() instanceof LaunchActivity)) {
-                return;
-            }
-            LaunchActivity launchActivity = (LaunchActivity) getParentActivity();
-            List<BaseFragment> fragmentStack = launchActivity.getRightActionBarLayout().getFragmentStack();
-            if (fragmentStack.isEmpty()) {
-                return;
-            }
-            if (fragmentStack.size() == 1 && (fragmentStack.get(fragmentStack.size() - 1) instanceof ChatActivity)) {
-                ((ChatActivity) fragmentStack.get(fragmentStack.size() - 1)).onPageDownClicked();
-                return;
-            } else if (fragmentStack.size() == 2) {
-                launchActivity.getRightActionBarLayout().closeLastFragment();
-                return;
-            } else if (!(getParentActivity() instanceof LaunchActivity)) {
-                return;
-            } else {
-                fragmentStack.clear();
-                fragmentStack.add(fragmentStack.get(0));
-                launchActivity.getRightActionBarLayout().rebuildFragments(1);
-                return;
-            }
-        }
-        if (this.searchViewPager.actionModeShowing()) {
-            this.searchViewPager.hideActionMode();
-        }
-        if (this.searchString != null) {
-            if (!getMessagesController().checkCanOpenChat(bundle3, this)) {
-                return;
-            }
-            getNotificationCenter().postNotificationName(NotificationCenter.closeChats, new Object[0]);
-            presentFragment(new ChatActivity(bundle3));
-            return;
-        }
-        this.slowedReloadAfterDialogClick = true;
-        if (!getMessagesController().checkCanOpenChat(bundle3, this)) {
-            return;
-        }
-        TLRPC$Chat chat2 = getMessagesController().getChat(Long.valueOf(-j));
-        if (chat2 != null && chat2.forum) {
-            presentFragment(new TopicsFragment(bundle3));
-            return;
-        }
-        ChatActivity chatActivity = new ChatActivity(bundle3);
-        if (z2 && DialogObject.isUserDialog(j) && getMessagesController().dialogs_dict.get(j) == null && (greetingsSticker = getMediaDataController().getGreetingsSticker()) != null) {
-            chatActivity.setPreloadedSticker(greetingsSticker, true);
-        }
-        presentFragment(chatActivity);
     }
 
     public void setOpenedDialogId(long j) {

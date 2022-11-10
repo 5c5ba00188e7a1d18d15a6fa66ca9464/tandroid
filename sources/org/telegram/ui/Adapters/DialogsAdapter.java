@@ -939,6 +939,11 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
         }
     }
 
+    @Override // org.telegram.ui.Cells.DialogCell.DialogCellDelegate
+    public boolean canClickButtonInside() {
+        return this.selectedDialogs.isEmpty();
+    }
+
     /* loaded from: classes3.dex */
     public static class DialogsPreloader {
         int currentRequestCount;

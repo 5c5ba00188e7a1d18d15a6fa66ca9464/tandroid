@@ -100,6 +100,11 @@ public class GestureDetector2 {
         }
     }
 
+    @Deprecated
+    public GestureDetector2(OnGestureListener onGestureListener) {
+        this(null, onGestureListener, null);
+    }
+
     public GestureDetector2(Context context, OnGestureListener onGestureListener) {
         this(context, onGestureListener, null);
     }

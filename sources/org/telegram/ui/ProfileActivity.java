@@ -7726,6 +7726,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         TLRPC$TL_chatBannedRights tLRPC$TL_chatBannedRights;
         TLRPC$ChatFull tLRPC$ChatFull;
         TLRPC$ChatParticipants tLRPC$ChatParticipants2;
+        ArrayList<TLRPC$ChatParticipant> arrayList;
         TLRPC$ChatFull tLRPC$ChatFull2;
         TLRPC$ChatFull tLRPC$ChatFull3;
         int i;
@@ -8138,7 +8139,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 }
             }
             if (ChatObject.isChannel(this.currentChat)) {
-                if (!this.isTopic && (tLRPC$ChatFull = this.chatInfo) != null && this.currentChat.megagroup && (tLRPC$ChatParticipants2 = tLRPC$ChatFull.participants) != null && !tLRPC$ChatParticipants2.participants.isEmpty()) {
+                if (!this.isTopic && (tLRPC$ChatFull = this.chatInfo) != null && this.currentChat.megagroup && (tLRPC$ChatParticipants2 = tLRPC$ChatFull.participants) != null && (arrayList = tLRPC$ChatParticipants2.participants) != null && !arrayList.isEmpty()) {
                     if (!ChatObject.isNotInChat(this.currentChat) && ChatObject.canAddUsers(this.currentChat) && this.chatInfo.participants_count < getMessagesController().maxMegagroupCount) {
                         int i80 = this.rowCount;
                         this.rowCount = i80 + 1;
@@ -8159,9 +8160,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         this.rowCount = i83 + 1;
                         this.membersSectionRow = i83;
                         this.visibleChatParticipants.addAll(this.chatInfo.participants.participants);
-                        ArrayList<Integer> arrayList = this.sortedUsers;
-                        if (arrayList != null) {
-                            this.visibleSortedUsers.addAll(arrayList);
+                        ArrayList<Integer> arrayList2 = this.sortedUsers;
+                        if (arrayList2 != null) {
+                            this.visibleSortedUsers.addAll(arrayList2);
                         }
                         this.usersForceShowingIn = 1;
                         SharedMediaLayout sharedMediaLayout = this.sharedMediaLayout;
@@ -8201,7 +8202,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             } else {
                 TLRPC$ChatFull tLRPC$ChatFull6 = this.chatInfo;
                 if (tLRPC$ChatFull6 != null) {
-                    if (!this.isTopic && (tLRPC$ChatParticipants = tLRPC$ChatFull6.participants) != null && !(tLRPC$ChatParticipants instanceof TLRPC$TL_chatParticipantsForbidden)) {
+                    if (!this.isTopic && (tLRPC$ChatParticipants = tLRPC$ChatFull6.participants) != null && tLRPC$ChatParticipants.participants != null && !(tLRPC$ChatParticipants instanceof TLRPC$TL_chatParticipantsForbidden)) {
                         if (ChatObject.canAddUsers(this.currentChat) || (tLRPC$TL_chatBannedRights = this.currentChat.default_banned_rights) == null || !tLRPC$TL_chatBannedRights.invite_users) {
                             int i87 = this.rowCount;
                             this.rowCount = i87 + 1;
@@ -8221,9 +8222,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                             this.rowCount = size2 + 1;
                             this.membersSectionRow = size2;
                             this.visibleChatParticipants.addAll(this.chatInfo.participants.participants);
-                            ArrayList<Integer> arrayList2 = this.sortedUsers;
-                            if (arrayList2 != null) {
-                                this.visibleSortedUsers.addAll(arrayList2);
+                            ArrayList<Integer> arrayList3 = this.sortedUsers;
+                            if (arrayList3 != null) {
+                                this.visibleSortedUsers.addAll(arrayList3);
                             }
                             SharedMediaLayout sharedMediaLayout3 = this.sharedMediaLayout;
                             if (sharedMediaLayout3 != null) {

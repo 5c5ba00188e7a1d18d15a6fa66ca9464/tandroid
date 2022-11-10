@@ -2015,6 +2015,10 @@ public class RecyclerListView extends RecyclerView {
         return true;
     }
 
+    public void checkIfEmpty() {
+        checkIfEmpty(updateEmptyViewAnimated());
+    }
+
     /* JADX INFO: Access modifiers changed from: private */
     public void checkIfEmpty(boolean z) {
         if (this.isHidden) {
