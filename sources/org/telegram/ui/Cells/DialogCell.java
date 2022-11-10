@@ -3337,10 +3337,10 @@ public class DialogCell extends BaseCell {
     /* JADX WARN: Removed duplicated region for block: B:285:0x06b5  */
     /* JADX WARN: Removed duplicated region for block: B:287:0x06b7  */
     /* JADX WARN: Removed duplicated region for block: B:295:0x06c3  */
-    /* JADX WARN: Removed duplicated region for block: B:318:0x06c5  */
-    /* JADX WARN: Removed duplicated region for block: B:319:0x04f0  */
-    /* JADX WARN: Removed duplicated region for block: B:334:0x03d2  */
-    /* JADX WARN: Removed duplicated region for block: B:359:0x03b2  */
+    /* JADX WARN: Removed duplicated region for block: B:316:0x06c5  */
+    /* JADX WARN: Removed duplicated region for block: B:317:0x04f0  */
+    /* JADX WARN: Removed duplicated region for block: B:332:0x03d2  */
+    /* JADX WARN: Removed duplicated region for block: B:357:0x03b2  */
     /* JADX WARN: Removed duplicated region for block: B:85:0x01a8  */
     /* JADX WARN: Removed duplicated region for block: B:88:0x01b9  */
     /* JADX WARN: Removed duplicated region for block: B:90:0x01bd  */
@@ -3355,7 +3355,6 @@ public class DialogCell extends BaseCell {
         TLRPC$TL_forumTopic tLRPC$TL_forumTopic;
         ?? r3;
         long j;
-        TLRPC$Chat tLRPC$Chat;
         ValueAnimator valueAnimator;
         String format;
         String format2;
@@ -3658,9 +3657,9 @@ public class DialogCell extends BaseCell {
                                     this.avatarImage.setForUserOrChat(this.user, this.avatarDrawable, null, true);
                                 }
                             } else {
-                                TLRPC$Chat tLRPC$Chat2 = this.chat;
-                                if (tLRPC$Chat2 != null) {
-                                    this.avatarDrawable.setInfo(tLRPC$Chat2);
+                                TLRPC$Chat tLRPC$Chat = this.chat;
+                                if (tLRPC$Chat != null) {
+                                    this.avatarDrawable.setInfo(tLRPC$Chat);
                                     this.avatarImage.setForUserOrChat(this.chat, this.avatarDrawable);
                                 }
                             }
@@ -3758,7 +3757,9 @@ public class DialogCell extends BaseCell {
                             }
                             this.reactionsMentionsAnimator.start();
                         }
-                        this.avatarImage.setRoundRadius(AndroidUtilities.dp((this.isDialogCell || (tLRPC$Chat = this.chat) == null || !tLRPC$Chat.forum || this.currentDialogFolderId != 0) ? 28.0f : 16.0f));
+                        ImageReceiver imageReceiver = this.avatarImage;
+                        TLRPC$Chat tLRPC$Chat2 = this.chat;
+                        imageReceiver.setRoundRadius(AndroidUtilities.dp((tLRPC$Chat2 == null && tLRPC$Chat2.forum && this.currentDialogFolderId == 0) ? 16.0f : 28.0f));
                         z5 = z2;
                     }
                 } else {
@@ -3830,7 +3831,9 @@ public class DialogCell extends BaseCell {
             }
             if (!z) {
             }
-            this.avatarImage.setRoundRadius(AndroidUtilities.dp((this.isDialogCell || (tLRPC$Chat = this.chat) == null || !tLRPC$Chat.forum || this.currentDialogFolderId != 0) ? 28.0f : 16.0f));
+            ImageReceiver imageReceiver2 = this.avatarImage;
+            TLRPC$Chat tLRPC$Chat22 = this.chat;
+            imageReceiver2.setRoundRadius(AndroidUtilities.dp((tLRPC$Chat22 == null && tLRPC$Chat22.forum && this.currentDialogFolderId == 0) ? 16.0f : 28.0f));
             z5 = z2;
         }
         if (!this.isTopic && (getMeasuredWidth() != 0 || getMeasuredHeight() != 0)) {

@@ -6354,8 +6354,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:109:0x02cd  */
-    /* JADX WARN: Removed duplicated region for block: B:191:0x01c8  */
+    /* JADX WARN: Removed duplicated region for block: B:116:0x02cd  */
+    /* JADX WARN: Removed duplicated region for block: B:198:0x01c8  */
     /* JADX WARN: Removed duplicated region for block: B:20:0x01f6 A[RETURN] */
     /* JADX WARN: Removed duplicated region for block: B:21:0x01f7  */
     /* JADX WARN: Removed duplicated region for block: B:55:0x02c7  */
@@ -6597,7 +6597,11 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                                 if (!getMessagesController().checkCanOpenChat(bundle3, this)) {
                                     return;
                                 }
-                                getMessagesController().getChat(Long.valueOf(-j));
+                                TLRPC$Chat chat2 = getMessagesController().getChat(Long.valueOf(-j));
+                                if (chat2 != null && chat2.forum && i2 == 0) {
+                                    presentFragment(new TopicsFragment(bundle3));
+                                    return;
+                                }
                                 ChatActivity chatActivity = new ChatActivity(bundle3);
                                 if (i2 != 0) {
                                     ForumUtilities.applyTopic(chatActivity, MessagesStorage.TopicKey.of(j, i2));
