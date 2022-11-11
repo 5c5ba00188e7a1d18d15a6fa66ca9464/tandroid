@@ -49,8 +49,8 @@ public class BackButtonMenu {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:32:0x01e1  */
-    /* JADX WARN: Removed duplicated region for block: B:35:0x0202 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x01ee  */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x020f A[SYNTHETIC] */
     /* JADX WARN: Type inference failed for: r13v0, types: [android.widget.FrameLayout, android.view.View] */
     /* JADX WARN: Type inference failed for: r15v3, types: [android.graphics.drawable.BitmapDrawable] */
     /* JADX WARN: Type inference failed for: r2v1, types: [org.telegram.ui.ActionBar.ActionBarPopupWindow$ActionBarPopupWindowLayout, android.widget.FrameLayout, android.view.View] */
@@ -154,7 +154,8 @@ public class BackButtonMenu {
                     textView.setText(str);
                 } else {
                     i2 = i3;
-                    backupImageView.setImageDrawable(ContextCompat.getDrawable(parentActivity, R.drawable.msg_discussion).mutate());
+                    backupImageView.setImageDrawable(ContextCompat.getDrawable(parentActivity, R.drawable.msg_viewchats).mutate());
+                    backupImageView.setSize(AndroidUtilities.dp(24.0f), AndroidUtilities.dp(24.0f));
                     backupImageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor("actionBarDefaultSubmenuItemIcon", resourcesProvider), PorterDuff.Mode.MULTIPLY));
                     textView.setText(LocaleController.getString("AllChats", R.string.AllChats));
                     z = true;

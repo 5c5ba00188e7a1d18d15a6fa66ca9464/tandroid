@@ -9924,93 +9924,96 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$sendLogs$45(boolean z, final AlertDialog alertDialog) {
+        BufferedInputStream bufferedInputStream;
+        File file;
+        final File file2;
         ZipOutputStream zipOutputStream;
         try {
-            BufferedInputStream bufferedInputStream = null;
+            bufferedInputStream = null;
             File externalFilesDir = ApplicationLoader.applicationContext.getExternalFilesDir(null);
-            File file = new File(externalFilesDir.getAbsolutePath() + "/logs");
-            final File file2 = new File(file, "logs.zip");
+            file = new File(externalFilesDir.getAbsolutePath() + "/logs");
+            file2 = new File(file, "logs.zip");
             if (file2.exists()) {
                 file2.delete();
             }
+        } catch (Exception e) {
+            e = e;
+        }
+        try {
+            File[] listFiles = file.listFiles();
+            final boolean[] zArr = new boolean[1];
+            long currentTimeMillis = System.currentTimeMillis();
             try {
+                zipOutputStream = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(file2)));
                 try {
-                    File[] listFiles = file.listFiles();
-                    final boolean[] zArr = new boolean[1];
-                    long currentTimeMillis = System.currentTimeMillis();
                     try {
-                        zipOutputStream = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(file2)));
-                        try {
-                            byte[] bArr = new byte[CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT];
-                            for (int i = 0; i < listFiles.length; i++) {
-                                if (!z || currentTimeMillis - listFiles[i].lastModified() <= 86400000) {
-                                    BufferedInputStream bufferedInputStream2 = new BufferedInputStream(new FileInputStream(listFiles[i]), CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT);
-                                    try {
-                                        zipOutputStream.putNextEntry(new ZipEntry(listFiles[i].getName()));
-                                        while (true) {
-                                            int read = bufferedInputStream2.read(bArr, 0, CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT);
-                                            if (read == -1) {
-                                                break;
-                                            }
-                                            zipOutputStream.write(bArr, 0, read);
+                        byte[] bArr = new byte[CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT];
+                        for (int i = 0; i < listFiles.length; i++) {
+                            if ((!z && !listFiles[i].getName().contains("_mtproto")) || currentTimeMillis - listFiles[i].lastModified() <= 86400000) {
+                                BufferedInputStream bufferedInputStream2 = new BufferedInputStream(new FileInputStream(listFiles[i]), CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT);
+                                try {
+                                    zipOutputStream.putNextEntry(new ZipEntry(listFiles[i].getName()));
+                                    while (true) {
+                                        int read = bufferedInputStream2.read(bArr, 0, CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT);
+                                        if (read == -1) {
+                                            break;
                                         }
-                                        bufferedInputStream2.close();
-                                    } catch (Exception e) {
-                                        e = e;
-                                        bufferedInputStream = bufferedInputStream2;
-                                        e.printStackTrace();
-                                        if (bufferedInputStream != null) {
-                                            bufferedInputStream.close();
-                                        }
-                                        if (zipOutputStream != null) {
-                                            zipOutputStream.close();
-                                        }
-                                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda30
-                                            @Override // java.lang.Runnable
-                                            public final void run() {
-                                                ProfileActivity.this.lambda$sendLogs$44(alertDialog, zArr, file2);
-                                            }
-                                        });
-                                    } catch (Throwable th) {
-                                        th = th;
-                                        bufferedInputStream = bufferedInputStream2;
-                                        if (bufferedInputStream != null) {
-                                            bufferedInputStream.close();
-                                        }
-                                        if (zipOutputStream != null) {
-                                            zipOutputStream.close();
-                                        }
-                                        throw th;
+                                        zipOutputStream.write(bArr, 0, read);
                                     }
+                                    bufferedInputStream2.close();
+                                } catch (Exception e2) {
+                                    e = e2;
+                                    bufferedInputStream = bufferedInputStream2;
+                                    e.printStackTrace();
+                                    if (bufferedInputStream != null) {
+                                        bufferedInputStream.close();
+                                    }
+                                    if (zipOutputStream != null) {
+                                        zipOutputStream.close();
+                                    }
+                                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda30
+                                        @Override // java.lang.Runnable
+                                        public final void run() {
+                                            ProfileActivity.this.lambda$sendLogs$44(alertDialog, zArr, file2);
+                                        }
+                                    });
+                                } catch (Throwable th) {
+                                    th = th;
+                                    bufferedInputStream = bufferedInputStream2;
+                                    if (bufferedInputStream != null) {
+                                        bufferedInputStream.close();
+                                    }
+                                    if (zipOutputStream != null) {
+                                        zipOutputStream.close();
+                                    }
+                                    throw th;
                                 }
                             }
-                            zArr[0] = true;
-                        } catch (Exception e2) {
-                            e = e2;
                         }
+                        zArr[0] = true;
                     } catch (Exception e3) {
                         e = e3;
-                        zipOutputStream = null;
-                    } catch (Throwable th2) {
-                        th = th2;
-                        zipOutputStream = null;
                     }
-                    zipOutputStream.close();
-                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda30
-                        @Override // java.lang.Runnable
-                        public final void run() {
-                            ProfileActivity.this.lambda$sendLogs$44(alertDialog, zArr, file2);
-                        }
-                    });
-                } catch (Throwable th3) {
-                    th = th3;
+                } catch (Throwable th2) {
+                    th = th2;
                 }
             } catch (Exception e4) {
                 e = e4;
-                e.printStackTrace();
+                zipOutputStream = null;
+            } catch (Throwable th3) {
+                th = th3;
+                zipOutputStream = null;
             }
+            zipOutputStream.close();
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda30
+                @Override // java.lang.Runnable
+                public final void run() {
+                    ProfileActivity.this.lambda$sendLogs$44(alertDialog, zArr, file2);
+                }
+            });
         } catch (Exception e5) {
             e = e5;
+            e.printStackTrace();
         }
     }
 

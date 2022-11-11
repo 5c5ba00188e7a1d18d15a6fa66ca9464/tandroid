@@ -264,10 +264,6 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
     public void setPressed(boolean z) {
     }
 
-    public void putAnimatedEmojiToCache(AnimatedEmojiDrawable animatedEmojiDrawable) {
-        this.emojiGridView.animatedEmojiDrawables.put(animatedEmojiDrawable.getDocumentId(), animatedEmojiDrawable);
-    }
-
     public void setSelectedReactions(HashSet<ReactionsLayoutInBubble.VisibleReaction> hashSet) {
         this.selectedReactions = hashSet;
         this.selectedDocumentIds.clear();

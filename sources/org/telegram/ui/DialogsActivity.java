@@ -2903,7 +2903,16 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     if (dialogCell.getMessage() == null || (findTopic = DialogsActivity.this.getMessagesController().getTopicsController().findTopic(-dialogCell.getDialogId(), MessageObject.getTopicId(dialogCell.getMessage().messageOwner))) == null) {
                         return;
                     }
-                    ForumUtilities.openTopic(DialogsActivity.this, -dialogCell.getDialogId(), findTopic, 0);
+                    if (DialogsActivity.this.onlySelect) {
+                        DialogsActivity.this.didSelectResult(dialogCell.getDialogId(), findTopic.id, false, false);
+                    } else {
+                        ForumUtilities.openTopic(DialogsActivity.this, -dialogCell.getDialogId(), findTopic, 0);
+                    }
+                }
+
+                @Override // org.telegram.ui.Adapters.DialogsAdapter, org.telegram.ui.Cells.DialogCell.DialogCellDelegate
+                public void onButtonLongPress(DialogCell dialogCell) {
+                    DialogsActivity.this.onItemLongClick(viewPage.listView, dialogCell, viewPage.listView.getChildAdapterPosition(dialogCell), 0.0f, 0.0f, viewPage.dialogsType, viewPage.dialogsAdapter);
                 }
             };
             viewPage.dialogsAdapter.setForceShowEmptyCell(this.afterSignup);
@@ -5014,7 +5023,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                         if (i2 == -1) {
                             return;
                         }
-                        FileLoader.getInstance(((BaseFragment) DialogsActivity.this).currentAccount).loadFile(premiumPromo.videos.get(i2), null, 3, 0);
+                        FileLoader.getInstance(((BaseFragment) DialogsActivity.this).currentAccount).loadFile(premiumPromo.videos.get(i2), premiumPromo, 3, 0);
                     }
                 }
             });
