@@ -11544,7 +11544,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
         @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
         public void onMessageSend(CharSequence charSequence, boolean z, int i) {
-            int topicId;
             TLRPC$Message tLRPC$Message;
             if (ChatActivity.this.chatListItemAnimator != null) {
                 ChatActivity chatActivity = ChatActivity.this;
@@ -11593,8 +11592,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             }
             if (ChatObject.isForum(ChatActivity.this.currentChat)) {
                 ChatActivity chatActivity3 = ChatActivity.this;
-                if (!chatActivity3.isTopic && chatActivity3.replyingMessageObject != null && (topicId = MessageObject.getTopicId(ChatActivity.this.replyingMessageObject.messageOwner)) != 0) {
-                    ChatActivity.this.getMediaDataController().cleanDraft(ChatActivity.this.dialog_id, topicId, false);
+                if (!chatActivity3.isTopic && chatActivity3.replyingMessageObject != null) {
+                    int topicId = ChatActivity.this.replyingMessageObject.replyToForumTopic != null ? ChatActivity.this.replyingMessageObject.replyToForumTopic.id : MessageObject.getTopicId(ChatActivity.this.replyingMessageObject.messageOwner);
+                    if (topicId != 0) {
+                        ChatActivity.this.getMediaDataController().cleanDraft(ChatActivity.this.dialog_id, topicId, false);
+                    }
                 }
             }
             ChatActivity.this.hideFieldPanel(z, i, true);
@@ -17422,7 +17424,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             hideFloatingDateView(true);
             this.floatingDateViewOffset = 0.0f;
         }
-        if (isThreadChat()) {
+        if (isThreadChat() && !this.isTopic) {
             if (z15 != this.threadMessageVisible) {
                 updatePinnedMessageView(this.openAnimationStartTime != 0 && SystemClock.elapsedRealtime() >= this.openAnimationStartTime + 150);
             }
@@ -17447,7 +17449,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             }
             boolean z16 = (this.fromPullingDownTransition && this.fragmentView.getVisibility() == 0) || (this.openAnimationStartTime != 0 && SystemClock.elapsedRealtime() >= this.openAnimationStartTime + 150);
             int i41 = this.currentPinnedMessageId;
-            if (i != i41) {
+            if (i != i41 || (this.isTopic && z15 != this.threadMessageVisible)) {
                 updatePinnedMessageView(z16, i == 0 ? 0 : i > i41 ? 1 : 2);
             } else {
                 updatePinnedListButton(z16);

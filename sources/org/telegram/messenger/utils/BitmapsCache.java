@@ -21,10 +21,10 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import org.telegram.messenger.AndroidUtilities;
-import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.DispatchQueuePoolBackground;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
+import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.utils.BitmapsCache;
 import org.telegram.tgnet.ConnectionsManager;
@@ -42,7 +42,7 @@ public class BitmapsCache {
     int compressQuality;
     boolean error;
     final File file;
-    boolean fileExist;
+    volatile boolean fileExist;
     String fileName;
     private int frameIndex;
     int h;
@@ -53,7 +53,7 @@ public class BitmapsCache {
     final boolean useSharedBuffers;
     int w;
     static ConcurrentHashMap<Thread, byte[]> sharedBuffers = new ConcurrentHashMap<>();
-    private static final int N = Utilities.clamp(Runtime.getRuntime().availableProcessors(), 8, 1);
+    private static final int N = Utilities.clamp(Runtime.getRuntime().availableProcessors() - 2, 8, 1);
     ArrayList<FrameOffset> frameOffsets = new ArrayList<>();
     private final Object mutex = new Object();
     public AtomicBoolean cancelled = new AtomicBoolean(false);
@@ -96,7 +96,7 @@ public class BitmapsCache {
     public void cancelCreate() {
     }
 
-    /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:49:0x00ed -> B:28:0x00fd). Please submit an issue!!! */
+    /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:60:0x010c -> B:35:0x0124). Please submit an issue!!! */
     public BitmapsCache(File file, Cacheable cacheable, CacheOptions cacheOptions, int i, int i2, boolean z) {
         RandomAccessFile randomAccessFile;
         Throwable th;
@@ -121,9 +121,11 @@ public class BitmapsCache {
         File file3 = new File(file2, sb.toString());
         this.file = file3;
         this.useSharedBuffers = i < AndroidUtilities.dp(60.0f) && i2 < AndroidUtilities.dp(60.0f);
-        boolean exists = file3.exists();
-        this.fileExist = exists;
-        if (exists) {
+        if (SharedConfig.getDevicePerformanceClass() >= 2) {
+            this.fileExist = file3.exists();
+            if (!this.fileExist) {
+                return;
+            }
             try {
                 try {
                     randomAccessFile = new RandomAccessFile(file3, "r");
@@ -132,31 +134,35 @@ public class BitmapsCache {
                         if (this.cacheCreated && this.frameOffsets.isEmpty()) {
                             randomAccessFile.seek(randomAccessFile.readInt());
                             int readInt = randomAccessFile.readInt();
-                            fillFrames(randomAccessFile, readInt);
-                            if (readInt == 0) {
+                            fillFrames(randomAccessFile, readInt > 10000 ? 0 : readInt);
+                            if (this.frameOffsets.size() == 0) {
                                 file3.delete();
                                 this.cacheCreated = false;
                                 this.fileExist = false;
+                            } else {
+                                this.cachedFile = randomAccessFile;
                             }
                         }
-                        randomAccessFile.close();
+                        if (this.cachedFile != randomAccessFile) {
+                            randomAccessFile.close();
+                        }
                     } catch (Throwable th2) {
                         th = th2;
                         try {
                             th.printStackTrace();
                             this.file.delete();
                             this.fileExist = false;
-                            if (randomAccessFile == null) {
-                                return;
+                            if (this.cachedFile != randomAccessFile && randomAccessFile != null) {
+                                randomAccessFile.close();
                             }
-                            randomAccessFile.close();
+                            return;
                         } catch (Throwable th3) {
-                            if (randomAccessFile != null) {
-                                try {
+                            try {
+                                if (this.cachedFile != randomAccessFile && randomAccessFile != null) {
                                     randomAccessFile.close();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
                                 }
+                            } catch (IOException e) {
+                                e.printStackTrace();
                             }
                             throw th3;
                         }
@@ -168,7 +174,10 @@ public class BitmapsCache {
             } catch (IOException e2) {
                 e2.printStackTrace();
             }
+            return;
         }
+        this.fileExist = false;
+        this.cacheCreated = false;
     }
 
     public static void incrementTaskCounter() {
@@ -194,18 +203,63 @@ public class BitmapsCache {
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:106:0x005e, code lost:
-        if (r0 == null) goto L6;
+        if (r24.cachedFile != r0) goto L107;
      */
+    /* JADX WARN: Code restructure failed: missing block: B:52:0x01b3, code lost:
+        r13 = r5;
+        r20 = r7;
+        r22 = r9;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:53:0x01bc, code lost:
+        if (org.telegram.messenger.BuildVars.DEBUG_VERSION == false) goto L55;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:54:0x01be, code lost:
+        org.telegram.messenger.FileLog.d("cancelled cache generation");
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:55:0x01c3, code lost:
+        r13.set(true);
+        r10 = 0;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:57:0x01c9, code lost:
+        if (r10 >= org.telegram.messenger.utils.BitmapsCache.N) goto L74;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:59:0x01cd, code lost:
+        if (r20[r10] == null) goto L60;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:70:0x01cf, code lost:
+        r20[r10].await();
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:72:0x01d5, code lost:
+        r0 = move-exception;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:73:0x01d6, code lost:
+        r0.printStackTrace();
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:75:0x01e5, code lost:
+        r22.close();
+        r24.source.releaseForGenerateCache();
+     */
+    /* JADX WARN: Removed duplicated region for block: B:18:0x016b A[Catch: all -> 0x01ef, IOException -> 0x01f1, FileNotFoundException -> 0x01f6, TryCatch #12 {FileNotFoundException -> 0x01f6, IOException -> 0x01f1, blocks: (B:3:0x0002, B:95:0x0044, B:105:0x005c, B:114:0x006a, B:6:0x0071, B:8:0x007e, B:9:0x0085, B:10:0x00b5, B:80:0x00b9, B:12:0x00c3, B:14:0x00cb, B:16:0x00d3, B:27:0x00de, B:29:0x00e2, B:32:0x00e6, B:35:0x00f0, B:37:0x00ed, B:41:0x00f3, B:42:0x0110, B:44:0x0116, B:46:0x0133, B:18:0x016b, B:52:0x01b3, B:54:0x01be, B:55:0x01c3, B:56:0x01c7, B:58:0x01cb, B:70:0x01cf, B:60:0x01d9, B:73:0x01d6, B:75:0x01e5, B:83:0x00c0), top: B:2:0x0002, outer: #11 }] */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x00dd A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:79:0x00b9 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:8:0x007e A[Catch: all -> 0x01ef, IOException -> 0x01f1, FileNotFoundException -> 0x01f6, TryCatch #12 {FileNotFoundException -> 0x01f6, IOException -> 0x01f1, blocks: (B:3:0x0002, B:95:0x0044, B:105:0x005c, B:114:0x006a, B:6:0x0071, B:8:0x007e, B:9:0x0085, B:10:0x00b5, B:80:0x00b9, B:12:0x00c3, B:14:0x00cb, B:16:0x00d3, B:27:0x00de, B:29:0x00e2, B:32:0x00e6, B:35:0x00f0, B:37:0x00ed, B:41:0x00f3, B:42:0x0110, B:44:0x0116, B:46:0x0133, B:18:0x016b, B:52:0x01b3, B:54:0x01be, B:55:0x01c3, B:56:0x01c7, B:58:0x01cb, B:70:0x01cf, B:60:0x01d9, B:73:0x01d6, B:75:0x01e5, B:83:0x00c0), top: B:2:0x0002, outer: #11 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void createCache() {
         RandomAccessFile randomAccessFile;
+        RandomAccessFile randomAccessFile2;
+        final Bitmap[] bitmapArr;
+        ByteArrayOutputStream[] byteArrayOutputStreamArr;
+        CountDownLatch[] countDownLatchArr;
+        ArrayList arrayList;
+        AtomicBoolean atomicBoolean;
+        int i;
+        int i2;
         try {
             try {
-                System.currentTimeMillis();
-                boolean z = true;
-                int i = 0;
+                long j = 0;
+                int i3 = 0;
                 if (this.file.exists()) {
                     try {
                         randomAccessFile = new RandomAccessFile(this.file, "r");
@@ -214,92 +268,133 @@ public class BitmapsCache {
                     }
                     try {
                         this.cacheCreated = randomAccessFile.readBoolean();
-                        if (randomAccessFile.readInt() == 0) {
-                            this.cacheCreated = false;
-                        }
                     } catch (Throwable unused2) {
                         try {
                             this.file.delete();
                         } catch (Throwable unused3) {
                         }
+                        if (this.cachedFile != randomAccessFile && randomAccessFile != null) {
+                            try {
+                                randomAccessFile.close();
+                            } catch (Throwable unused4) {
+                            }
+                        }
+                        randomAccessFile2 = new RandomAccessFile(this.file, "rw");
+                        if (sharedTools == null) {
+                        }
+                        sharedTools.allocate(this.h, this.w);
+                        bitmapArr = sharedTools.bitmap;
+                        byteArrayOutputStreamArr = sharedTools.byteArrayOutputStream;
+                        countDownLatchArr = new CountDownLatch[N];
+                        arrayList = new ArrayList();
+                        randomAccessFile2.writeBoolean(false);
+                        randomAccessFile2.writeInt(0);
+                        atomicBoolean = new AtomicBoolean(false);
+                        this.source.prepareForGenerateCache();
+                        i = 0;
+                        int i4 = 0;
+                        while (true) {
+                            if (countDownLatchArr[i] != null) {
+                            }
+                            if (!this.cancelled.get()) {
+                                break;
+                            } else if (this.source.getNextFrame(bitmapArr[i]) != 1) {
+                            }
+                            atomicBoolean = r13;
+                            arrayList = r19;
+                            countDownLatchArr = r20;
+                            byteArrayOutputStreamArr = r21;
+                            randomAccessFile2 = r22;
+                            i3 = 0;
+                            j = 0;
+                        }
+                        return;
                     }
                     if (this.cacheCreated) {
                         this.frameOffsets.clear();
                         randomAccessFile.seek(randomAccessFile.readInt());
-                        fillFrames(randomAccessFile, randomAccessFile.readInt());
-                        randomAccessFile.close();
-                        this.fileExist = true;
-                        try {
-                            randomAccessFile.close();
-                        } catch (Throwable unused4) {
+                        int readInt = randomAccessFile.readInt();
+                        if (readInt > 10000) {
+                            readInt = 0;
                         }
+                        if (readInt > 0) {
+                            fillFrames(randomAccessFile, readInt);
+                            randomAccessFile.seek(0L);
+                            this.cachedFile = randomAccessFile;
+                            this.fileExist = true;
+                            if (this.cachedFile != randomAccessFile) {
+                                try {
+                                    randomAccessFile.close();
+                                } catch (Throwable unused5) {
+                                }
+                            }
+                            return;
+                        }
+                        this.cacheCreated = false;
                     }
-                    this.file.delete();
-                    try {
-                        randomAccessFile.close();
-                    } catch (Throwable unused5) {
+                    if (!this.cacheCreated) {
+                        this.file.delete();
                     }
                 }
-                final RandomAccessFile randomAccessFile2 = new RandomAccessFile(this.file, "rw");
+                randomAccessFile2 = new RandomAccessFile(this.file, "rw");
                 if (sharedTools == null) {
                     sharedTools = new CacheGeneratorSharedTools();
                 }
                 sharedTools.allocate(this.h, this.w);
-                final Bitmap[] bitmapArr = sharedTools.bitmap;
-                ByteArrayOutputStream[] byteArrayOutputStreamArr = sharedTools.byteArrayOutputStream;
-                CountDownLatch[] countDownLatchArr = new CountDownLatch[N];
-                ArrayList arrayList = new ArrayList();
+                bitmapArr = sharedTools.bitmap;
+                byteArrayOutputStreamArr = sharedTools.byteArrayOutputStream;
+                countDownLatchArr = new CountDownLatch[N];
+                arrayList = new ArrayList();
                 randomAccessFile2.writeBoolean(false);
                 randomAccessFile2.writeInt(0);
-                AtomicBoolean atomicBoolean = new AtomicBoolean(false);
+                atomicBoolean = new AtomicBoolean(false);
                 this.source.prepareForGenerateCache();
-                int i2 = 0;
-                int i3 = 0;
+                i = 0;
+                int i42 = 0;
                 while (true) {
-                    if (countDownLatchArr[i2] != null) {
+                    if (countDownLatchArr[i] != null) {
                         try {
-                            countDownLatchArr[i2].await();
+                            countDownLatchArr[i].await();
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
                     }
-                    if (this.cancelled.get() || atomicBoolean.get()) {
+                    if (!this.cancelled.get() || atomicBoolean.get()) {
                         break;
-                    }
-                    System.currentTimeMillis();
-                    if (this.source.getNextFrame(bitmapArr[i2]) == z) {
-                        System.currentTimeMillis();
-                        int i4 = z ? 1 : 0;
-                        int i5 = z ? 1 : 0;
-                        countDownLatchArr[i2] = new CountDownLatch(i4);
+                        break;
+                    } else if (this.source.getNextFrame(bitmapArr[i]) != 1) {
+                        countDownLatchArr[i] = new CountDownLatch(1);
                         final AtomicBoolean atomicBoolean2 = atomicBoolean;
-                        final int i6 = i2;
-                        final ByteArrayOutputStream[] byteArrayOutputStreamArr2 = byteArrayOutputStreamArr;
                         AtomicBoolean atomicBoolean3 = atomicBoolean;
-                        final int i7 = i3;
+                        final int i5 = i;
                         final ArrayList arrayList2 = arrayList;
+                        final ByteArrayOutputStream[] byteArrayOutputStreamArr2 = byteArrayOutputStreamArr;
                         final CountDownLatch[] countDownLatchArr2 = countDownLatchArr;
+                        final int i6 = i42;
                         ByteArrayOutputStream[] byteArrayOutputStreamArr3 = byteArrayOutputStreamArr;
+                        final RandomAccessFile randomAccessFile3 = randomAccessFile2;
+                        RandomAccessFile randomAccessFile4 = randomAccessFile2;
                         bitmapCompressExecutor.execute(new Runnable() { // from class: org.telegram.messenger.utils.BitmapsCache$$ExternalSyntheticLambda0
                             @Override // java.lang.Runnable
                             public final void run() {
-                                BitmapsCache.this.lambda$createCache$1(atomicBoolean2, bitmapArr, i6, byteArrayOutputStreamArr2, i7, randomAccessFile2, arrayList2, countDownLatchArr2);
+                                BitmapsCache.this.lambda$createCache$1(atomicBoolean2, bitmapArr, i5, byteArrayOutputStreamArr2, i6, randomAccessFile3, arrayList2, countDownLatchArr2);
                             }
                         });
-                        int i8 = i2 + 1;
-                        i3++;
-                        i2 = i8 >= N ? 0 : i8;
+                        int i7 = i + 1;
+                        i42++;
+                        i = i7 >= N ? 0 : i7;
                         atomicBoolean = atomicBoolean3;
                         arrayList = arrayList2;
                         countDownLatchArr = countDownLatchArr2;
                         byteArrayOutputStreamArr = byteArrayOutputStreamArr3;
-                        z = true;
-                        i = 0;
+                        randomAccessFile2 = randomAccessFile4;
+                        i3 = 0;
+                        j = 0;
                     } else {
-                        for (int i9 = 0; i9 < N; i9++) {
-                            if (countDownLatchArr[i9] != null) {
+                        for (int i8 = 0; i8 < N; i8++) {
+                            if (countDownLatchArr[i8] != null) {
                                 try {
-                                    countDownLatchArr[i9].await();
+                                    countDownLatchArr[i8].await();
                                 } catch (InterruptedException e2) {
                                     e2.printStackTrace();
                                 }
@@ -307,54 +402,43 @@ public class BitmapsCache {
                         }
                         int length = (int) randomAccessFile2.length();
                         Collections.sort(arrayList, Comparator$-CC.comparingInt(BitmapsCache$$ExternalSyntheticLambda2.INSTANCE));
-                        byteArrayOutputStreamArr[i].reset();
+                        byteArrayOutputStreamArr[i3].reset();
                         int size = arrayList.size();
-                        byteArrayOutputStreamArr[i].writeInt(size);
-                        for (int i10 = 0; i10 < arrayList.size(); i10++) {
-                            byteArrayOutputStreamArr[i].writeInt(((FrameOffset) arrayList.get(i10)).frameOffset);
-                            byteArrayOutputStreamArr[i].writeInt(((FrameOffset) arrayList.get(i10)).frameSize);
+                        byteArrayOutputStreamArr[i3].writeInt(size);
+                        for (int i9 = 0; i9 < arrayList.size(); i9++) {
+                            byteArrayOutputStreamArr[i3].writeInt(((FrameOffset) arrayList.get(i9)).frameOffset);
+                            byteArrayOutputStreamArr[i3].writeInt(((FrameOffset) arrayList.get(i9)).frameSize);
                         }
-                        randomAccessFile2.write(byteArrayOutputStreamArr[i].buf, i, (size * 8) + 4);
-                        byteArrayOutputStreamArr[i].reset();
-                        randomAccessFile2.seek(0L);
-                        randomAccessFile2.writeBoolean(z);
+                        randomAccessFile2.write(byteArrayOutputStreamArr[i3].buf, i3, (size * 8) + 4);
+                        byteArrayOutputStreamArr[i3].reset();
+                        randomAccessFile2.seek(j);
+                        randomAccessFile2.writeBoolean(true);
                         randomAccessFile2.writeInt(length);
-                        atomicBoolean.set(z);
+                        atomicBoolean.set(true);
                         randomAccessFile2.close();
                         this.frameOffsets.clear();
-                        this.fileExist = z;
+                        this.frameOffsets.addAll(arrayList);
+                        this.cachedFile = new RandomAccessFile(this.file, "r");
+                        this.cacheCreated = true;
+                        this.fileExist = true;
                     }
                 }
-                AtomicBoolean atomicBoolean4 = atomicBoolean;
-                CountDownLatch[] countDownLatchArr3 = countDownLatchArr;
-                if (BuildVars.DEBUG_VERSION) {
-                    FileLog.d("cancelled cache generation");
-                }
-                atomicBoolean4.set(true);
-                for (int i11 = 0; i11 < N; i11++) {
-                    if (countDownLatchArr3[i11] != null) {
-                        try {
-                            countDownLatchArr3[i11].await();
-                        } catch (InterruptedException e3) {
-                            e3.printStackTrace();
-                        }
-                    }
-                    if (bitmapArr[i11] != null) {
-                        try {
-                            bitmapArr[i11].recycle();
-                        } catch (Exception unused6) {
-                        }
-                    }
-                }
-                randomAccessFile2.close();
-                this.source.releaseForGenerateCache();
-            } finally {
-                this.source.releaseForGenerateCache();
+            } catch (FileNotFoundException e3) {
+                e3.printStackTrace();
+            } catch (IOException e4) {
+                e4.printStackTrace();
             }
-        } catch (FileNotFoundException e4) {
-            e4.printStackTrace();
-        } catch (IOException e5) {
-            e5.printStackTrace();
+            return;
+            i2++;
+            if (bitmapArr[i2] != null) {
+                try {
+                    bitmapArr[i2].recycle();
+                } catch (Exception unused6) {
+                }
+            }
+            i2++;
+        } finally {
+            this.source.releaseForGenerateCache();
         }
     }
 

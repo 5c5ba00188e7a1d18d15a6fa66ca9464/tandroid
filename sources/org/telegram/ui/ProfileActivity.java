@@ -6094,9 +6094,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     public /* synthetic */ void lambda$openAddMember$33(int[] iArr, int i, ArrayList arrayList) {
         int i2 = iArr[0] + 1;
         iArr[0] = i2;
-        if (i2 == i) {
-            BulletinFactory.of(this).createUsersAddedBulletin(arrayList, this.currentChat).show();
+        if (i2 != i || this.fragmentView == null || getParentActivity() == null) {
+            return;
         }
+        BulletinFactory.of(this).createUsersAddedBulletin(arrayList, this.currentChat).show();
     }
 
     /* JADX INFO: Access modifiers changed from: private */

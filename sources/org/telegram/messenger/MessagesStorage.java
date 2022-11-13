@@ -15728,11 +15728,11 @@ public class MessagesStorage extends BaseController {
     }
 
     public void checkMalformed(Exception exc) {
-        int i;
-        if (exc == null || exc.getMessage() == null || !exc.getMessage().contains("malformed") || (i = this.malformedCleanupCount) >= 3) {
+        if (exc == null || exc.getMessage() == null || !exc.getMessage().contains("malformed") || this.malformedCleanupCount >= 3) {
             return;
         }
-        this.malformedCleanupCount = i + 1;
+        FileLog.e("detected database malformed error, cleaning up...");
+        this.malformedCleanupCount++;
         cleanup(false);
     }
 
@@ -15780,6 +15780,7 @@ public class MessagesStorage extends BaseController {
                 }
             } catch (Exception e) {
                 FileLog.e(e);
+                checkMalformed(e);
             }
         }
         queryFinalized.dispose();
@@ -27873,150 +27874,130 @@ public class MessagesStorage extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Can't wrap try/catch for region: R(11:221|(3:257|258|(1:260))|223|224|(3:243|244|(2:246|(8:248|249|250|227|228|(3:230|231|232)(1:239)|233|234)))|226|227|228|(0)(0)|233|234) */
+    /* JADX WARN: Can't wrap try/catch for region: R(11:222|(3:258|259|(1:261))|224|225|(3:244|245|(2:247|(8:249|250|251|228|229|(3:231|232|233)(1:240)|234|235)))|227|228|229|(0)(0)|234|235) */
     /* JADX WARN: Code restructure failed: missing block: B:151:0x0224, code lost:
         if ((r1 instanceof org.telegram.tgnet.TLRPC$TL_messageActionGameScore) == false) goto L155;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:241:0x046d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:242:0x0470, code lost:
         r0 = e;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:242:0x046e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:243:0x0471, code lost:
         r3 = r26;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:261:0x041f, code lost:
-        if ((r3 instanceof org.telegram.tgnet.TLRPC$TL_messageActionGameScore) == false) goto L265;
+    /* JADX WARN: Code restructure failed: missing block: B:262:0x0422, code lost:
+        if ((r3 instanceof org.telegram.tgnet.TLRPC$TL_messageActionGameScore) == false) goto L266;
      */
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Removed duplicated region for block: B:102:0x02a5 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:112:0x067d  */
+    /* JADX WARN: Removed duplicated region for block: B:112:0x06c4  */
     /* JADX WARN: Removed duplicated region for block: B:115:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:120:0x0685  */
+    /* JADX WARN: Removed duplicated region for block: B:120:0x06cc  */
     /* JADX WARN: Removed duplicated region for block: B:160:0x0296  */
     /* JADX WARN: Removed duplicated region for block: B:161:0x01c2  */
     /* JADX WARN: Removed duplicated region for block: B:162:0x015f  */
     /* JADX WARN: Removed duplicated region for block: B:163:0x0148  */
-    /* JADX WARN: Removed duplicated region for block: B:230:0x0462  */
-    /* JADX WARN: Removed duplicated region for block: B:239:0x046a  */
+    /* JADX WARN: Removed duplicated region for block: B:231:0x0465  */
+    /* JADX WARN: Removed duplicated region for block: B:240:0x046d  */
     /* JADX WARN: Removed duplicated region for block: B:37:0x0146  */
     /* JADX WARN: Removed duplicated region for block: B:40:0x015d  */
-    /* JADX WARN: Removed duplicated region for block: B:43:0x0178 A[Catch: all -> 0x04d9, Exception -> 0x04de, TryCatch #10 {Exception -> 0x04de, blocks: (B:17:0x00a6, B:19:0x00ac, B:21:0x00b9, B:23:0x00c6, B:25:0x00cc, B:26:0x00db, B:28:0x00ea, B:29:0x00fb, B:31:0x011c, B:35:0x012a, B:38:0x0149, B:41:0x0160, B:43:0x0178, B:45:0x0180, B:46:0x0185, B:48:0x019d, B:49:0x01b1, B:51:0x01b8, B:52:0x01c4, B:54:0x01cb, B:56:0x01d6, B:58:0x01fb, B:59:0x01fd, B:166:0x00f6), top: B:16:0x00a6 }] */
-    /* JADX WARN: Removed duplicated region for block: B:48:0x019d A[Catch: all -> 0x04d9, Exception -> 0x04de, TryCatch #10 {Exception -> 0x04de, blocks: (B:17:0x00a6, B:19:0x00ac, B:21:0x00b9, B:23:0x00c6, B:25:0x00cc, B:26:0x00db, B:28:0x00ea, B:29:0x00fb, B:31:0x011c, B:35:0x012a, B:38:0x0149, B:41:0x0160, B:43:0x0178, B:45:0x0180, B:46:0x0185, B:48:0x019d, B:49:0x01b1, B:51:0x01b8, B:52:0x01c4, B:54:0x01cb, B:56:0x01d6, B:58:0x01fb, B:59:0x01fd, B:166:0x00f6), top: B:16:0x00a6 }] */
-    /* JADX WARN: Removed duplicated region for block: B:51:0x01b8 A[Catch: all -> 0x04d9, Exception -> 0x04de, TryCatch #10 {Exception -> 0x04de, blocks: (B:17:0x00a6, B:19:0x00ac, B:21:0x00b9, B:23:0x00c6, B:25:0x00cc, B:26:0x00db, B:28:0x00ea, B:29:0x00fb, B:31:0x011c, B:35:0x012a, B:38:0x0149, B:41:0x0160, B:43:0x0178, B:45:0x0180, B:46:0x0185, B:48:0x019d, B:49:0x01b1, B:51:0x01b8, B:52:0x01c4, B:54:0x01cb, B:56:0x01d6, B:58:0x01fb, B:59:0x01fd, B:166:0x00f6), top: B:16:0x00a6 }] */
-    /* JADX WARN: Removed duplicated region for block: B:54:0x01cb A[Catch: all -> 0x04d9, Exception -> 0x04de, TryCatch #10 {Exception -> 0x04de, blocks: (B:17:0x00a6, B:19:0x00ac, B:21:0x00b9, B:23:0x00c6, B:25:0x00cc, B:26:0x00db, B:28:0x00ea, B:29:0x00fb, B:31:0x011c, B:35:0x012a, B:38:0x0149, B:41:0x0160, B:43:0x0178, B:45:0x0180, B:46:0x0185, B:48:0x019d, B:49:0x01b1, B:51:0x01b8, B:52:0x01c4, B:54:0x01cb, B:56:0x01d6, B:58:0x01fb, B:59:0x01fd, B:166:0x00f6), top: B:16:0x00a6 }] */
+    /* JADX WARN: Removed duplicated region for block: B:43:0x0178 A[Catch: all -> 0x04f1, Exception -> 0x04f8, TryCatch #7 {Exception -> 0x04f8, blocks: (B:17:0x00a6, B:19:0x00ac, B:21:0x00b9, B:23:0x00c6, B:25:0x00cc, B:26:0x00db, B:28:0x00ea, B:29:0x00fb, B:31:0x011c, B:35:0x012a, B:38:0x0149, B:41:0x0160, B:43:0x0178, B:45:0x0180, B:46:0x0185, B:48:0x019d, B:49:0x01b1, B:51:0x01b8, B:52:0x01c4, B:54:0x01cb, B:56:0x01d6, B:58:0x01fb, B:59:0x01fd, B:166:0x00f6), top: B:16:0x00a6 }] */
+    /* JADX WARN: Removed duplicated region for block: B:48:0x019d A[Catch: all -> 0x04f1, Exception -> 0x04f8, TryCatch #7 {Exception -> 0x04f8, blocks: (B:17:0x00a6, B:19:0x00ac, B:21:0x00b9, B:23:0x00c6, B:25:0x00cc, B:26:0x00db, B:28:0x00ea, B:29:0x00fb, B:31:0x011c, B:35:0x012a, B:38:0x0149, B:41:0x0160, B:43:0x0178, B:45:0x0180, B:46:0x0185, B:48:0x019d, B:49:0x01b1, B:51:0x01b8, B:52:0x01c4, B:54:0x01cb, B:56:0x01d6, B:58:0x01fb, B:59:0x01fd, B:166:0x00f6), top: B:16:0x00a6 }] */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x01b8 A[Catch: all -> 0x04f1, Exception -> 0x04f8, TryCatch #7 {Exception -> 0x04f8, blocks: (B:17:0x00a6, B:19:0x00ac, B:21:0x00b9, B:23:0x00c6, B:25:0x00cc, B:26:0x00db, B:28:0x00ea, B:29:0x00fb, B:31:0x011c, B:35:0x012a, B:38:0x0149, B:41:0x0160, B:43:0x0178, B:45:0x0180, B:46:0x0185, B:48:0x019d, B:49:0x01b1, B:51:0x01b8, B:52:0x01c4, B:54:0x01cb, B:56:0x01d6, B:58:0x01fb, B:59:0x01fd, B:166:0x00f6), top: B:16:0x00a6 }] */
+    /* JADX WARN: Removed duplicated region for block: B:54:0x01cb A[Catch: all -> 0x04f1, Exception -> 0x04f8, TryCatch #7 {Exception -> 0x04f8, blocks: (B:17:0x00a6, B:19:0x00ac, B:21:0x00b9, B:23:0x00c6, B:25:0x00cc, B:26:0x00db, B:28:0x00ea, B:29:0x00fb, B:31:0x011c, B:35:0x012a, B:38:0x0149, B:41:0x0160, B:43:0x0178, B:45:0x0180, B:46:0x0185, B:48:0x019d, B:49:0x01b1, B:51:0x01b8, B:52:0x01c4, B:54:0x01cb, B:56:0x01d6, B:58:0x01fb, B:59:0x01fd, B:166:0x00f6), top: B:16:0x00a6 }] */
     /* JADX WARN: Removed duplicated region for block: B:74:0x0270  */
-    /* JADX WARN: Removed duplicated region for block: B:81:0x02b4 A[Catch: Exception -> 0x04d0, all -> 0x04d9, TryCatch #26 {Exception -> 0x04d0, blocks: (B:77:0x029f, B:103:0x02a5, B:105:0x02ab, B:79:0x02ae, B:81:0x02b4, B:83:0x02c4, B:87:0x02cc, B:89:0x02d4, B:91:0x02de, B:94:0x02e6, B:96:0x02ec, B:98:0x02f7, B:126:0x0285, B:159:0x0289, B:168:0x0311), top: B:102:0x02a5 }] */
-    /* JADX WARN: Removed duplicated region for block: B:87:0x02cc A[Catch: Exception -> 0x04d0, all -> 0x04d9, TryCatch #26 {Exception -> 0x04d0, blocks: (B:77:0x029f, B:103:0x02a5, B:105:0x02ab, B:79:0x02ae, B:81:0x02b4, B:83:0x02c4, B:87:0x02cc, B:89:0x02d4, B:91:0x02de, B:94:0x02e6, B:96:0x02ec, B:98:0x02f7, B:126:0x0285, B:159:0x0289, B:168:0x0311), top: B:102:0x02a5 }] */
-    /* JADX WARN: Type inference failed for: r5v31, types: [org.telegram.tgnet.TLRPC$TL_dialog] */
-    /* JADX WARN: Type inference failed for: r5v32, types: [java.lang.Object, org.telegram.tgnet.TLRPC$Dialog] */
-    /* JADX WARN: Type inference failed for: r5v33, types: [org.telegram.tgnet.TLRPC$TL_dialogFolder] */
+    /* JADX WARN: Removed duplicated region for block: B:81:0x02b4 A[Catch: Exception -> 0x04e6, all -> 0x04f1, TryCatch #13 {all -> 0x04f1, blocks: (B:17:0x00a6, B:19:0x00ac, B:21:0x00b9, B:23:0x00c6, B:25:0x00cc, B:26:0x00db, B:28:0x00ea, B:29:0x00fb, B:31:0x011c, B:35:0x012a, B:38:0x0149, B:41:0x0160, B:43:0x0178, B:45:0x0180, B:46:0x0185, B:48:0x019d, B:49:0x01b1, B:51:0x01b8, B:52:0x01c4, B:54:0x01cb, B:56:0x01d6, B:58:0x01fb, B:59:0x01fd, B:61:0x0210, B:63:0x0214, B:65:0x0218, B:148:0x021e, B:150:0x0222, B:68:0x0233, B:132:0x0239, B:134:0x023f, B:137:0x0251, B:139:0x025d, B:72:0x026c, B:76:0x0274, B:77:0x029f, B:103:0x02a5, B:105:0x02ab, B:79:0x02ae, B:81:0x02b4, B:83:0x02c4, B:87:0x02cc, B:89:0x02d4, B:91:0x02de, B:94:0x02e6, B:96:0x02ec, B:98:0x02f7, B:126:0x0285, B:159:0x0289, B:166:0x00f6, B:168:0x0311), top: B:16:0x00a6 }] */
+    /* JADX WARN: Removed duplicated region for block: B:87:0x02cc A[Catch: Exception -> 0x04e6, all -> 0x04f1, TryCatch #13 {all -> 0x04f1, blocks: (B:17:0x00a6, B:19:0x00ac, B:21:0x00b9, B:23:0x00c6, B:25:0x00cc, B:26:0x00db, B:28:0x00ea, B:29:0x00fb, B:31:0x011c, B:35:0x012a, B:38:0x0149, B:41:0x0160, B:43:0x0178, B:45:0x0180, B:46:0x0185, B:48:0x019d, B:49:0x01b1, B:51:0x01b8, B:52:0x01c4, B:54:0x01cb, B:56:0x01d6, B:58:0x01fb, B:59:0x01fd, B:61:0x0210, B:63:0x0214, B:65:0x0218, B:148:0x021e, B:150:0x0222, B:68:0x0233, B:132:0x0239, B:134:0x023f, B:137:0x0251, B:139:0x025d, B:72:0x026c, B:76:0x0274, B:77:0x029f, B:103:0x02a5, B:105:0x02ab, B:79:0x02ae, B:81:0x02b4, B:83:0x02c4, B:87:0x02cc, B:89:0x02d4, B:91:0x02de, B:94:0x02e6, B:96:0x02ec, B:98:0x02f7, B:126:0x0285, B:159:0x0289, B:166:0x00f6, B:168:0x0311), top: B:16:0x00a6 }] */
+    /* JADX WARN: Type inference failed for: r5v34, types: [org.telegram.tgnet.TLRPC$TL_dialog] */
+    /* JADX WARN: Type inference failed for: r5v35, types: [java.lang.Object, org.telegram.tgnet.TLRPC$Dialog] */
+    /* JADX WARN: Type inference failed for: r5v36, types: [org.telegram.tgnet.TLRPC$TL_dialogFolder] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public /* synthetic */ void lambda$getDialogs$191(int i, int i2, int i3, long[] jArr) {
         SQLiteCursor sQLiteCursor;
+        MessagesStorage messagesStorage;
         ArrayList<TLRPC$EncryptedChat> arrayList;
         TLRPC$TL_messages_dialogs tLRPC$TL_messages_dialogs;
         Exception exc;
         SQLiteCursor sQLiteCursor2;
         Throwable th;
         ArrayList<TLRPC$EncryptedChat> arrayList2;
-        TLRPC$TL_messages_dialogs tLRPC$TL_messages_dialogs2;
-        final MessagesStorage messagesStorage;
+        final MessagesStorage messagesStorage2;
         final LongSparseArray longSparseArray;
         SQLiteCursor sQLiteCursor3;
         ArrayList<TLRPC$EncryptedChat> arrayList3;
-        SQLiteCursor sQLiteCursor4;
-        int intValue;
         int i4;
         int i5;
         ArrayList arrayList4;
-        TLRPC$TL_messages_dialogs tLRPC$TL_messages_dialogs3;
         ArrayList arrayList5;
         ArrayList arrayList6;
-        TLRPC$TL_messages_dialogs tLRPC$TL_messages_dialogs4;
+        int i6;
         ArrayList arrayList7;
-        TLRPC$Dialog tLRPC$Dialog;
+        TLRPC$TL_messages_dialogs tLRPC$TL_messages_dialogs2;
         ArrayList arrayList8;
         LongSparseArray<ArrayList<Integer>> longSparseArray2;
+        ArrayList arrayList9;
+        ArrayList arrayList10;
+        TLRPC$TL_messages_dialogs tLRPC$TL_messages_dialogs3;
+        ArrayList arrayList11;
+        TLRPC$Dialog tLRPC$Dialog;
+        ArrayList arrayList12;
+        LongSparseArray<ArrayList<Integer>> longSparseArray3;
         Exception exc2;
         TLRPC$TL_messageReplyHeader tLRPC$TL_messageReplyHeader;
         NativeByteBuffer byteBufferValue;
         ?? tLRPC$TL_dialog;
-        ArrayList arrayList9;
-        int i6;
-        long longValue;
-        ArrayList arrayList10;
-        NativeByteBuffer byteBufferValue2;
+        ArrayList arrayList13;
         int i7;
-        ArrayList arrayList11;
-        LongSparseArray<SparseArray<ArrayList<TLRPC$Message>>> longSparseArray3;
-        LongSparseArray<ArrayList<Integer>> longSparseArray4;
-        ArrayList arrayList12;
+        long longValue;
+        ArrayList arrayList14;
+        NativeByteBuffer byteBufferValue2;
+        int i8;
+        ArrayList arrayList15;
+        LongSparseArray<SparseArray<ArrayList<TLRPC$Message>>> longSparseArray4;
+        LongSparseArray<ArrayList<Integer>> longSparseArray5;
+        ArrayList arrayList16;
         Exception exc3;
-        MessagesStorage messagesStorage2 = this;
+        MessagesStorage messagesStorage3 = this;
         long[] jArr2 = jArr;
-        TLRPC$TL_messages_dialogs tLRPC$TL_messages_dialogs5 = new TLRPC$TL_messages_dialogs();
-        ArrayList<TLRPC$EncryptedChat> arrayList13 = new ArrayList<>();
+        TLRPC$TL_messages_dialogs tLRPC$TL_messages_dialogs4 = new TLRPC$TL_messages_dialogs();
+        ArrayList<TLRPC$EncryptedChat> arrayList17 = new ArrayList<>();
         try {
-            try {
-                ArrayList<Long> arrayList14 = new ArrayList<>();
-                arrayList14.add(Long.valueOf(getUserConfig().getClientUserId()));
-                ArrayList<Long> arrayList15 = new ArrayList<>();
-                ArrayList arrayList16 = new ArrayList();
-                ArrayList arrayList17 = new ArrayList();
-                ArrayList arrayList18 = new ArrayList();
-                LongSparseArray<SparseArray<ArrayList<TLRPC$Message>>> longSparseArray5 = new LongSparseArray<>();
-                LongSparseArray<ArrayList<Integer>> longSparseArray6 = new LongSparseArray<>();
-                ArrayList arrayList19 = new ArrayList(2);
-                arrayList19.add(Integer.valueOf(i));
-                int i8 = 0;
-                SQLiteCursor sQLiteCursor5 = null;
-                while (i8 < arrayList19.size()) {
+            ArrayList<Long> arrayList18 = new ArrayList<>();
+            arrayList18.add(Long.valueOf(getUserConfig().getClientUserId()));
+            ArrayList<Long> arrayList19 = new ArrayList<>();
+            ArrayList arrayList20 = new ArrayList();
+            ArrayList arrayList21 = new ArrayList();
+            ArrayList arrayList22 = new ArrayList();
+            LongSparseArray<SparseArray<ArrayList<TLRPC$Message>>> longSparseArray6 = new LongSparseArray<>();
+            LongSparseArray<ArrayList<Integer>> longSparseArray7 = new LongSparseArray<>();
+            ArrayList arrayList23 = new ArrayList(2);
+            arrayList23.add(Integer.valueOf(i));
+            int i9 = 0;
+            SQLiteCursor sQLiteCursor4 = null;
+            while (i9 < arrayList23.size()) {
+                try {
                     try {
                         try {
-                            try {
-                                intValue = ((Integer) arrayList19.get(i8)).intValue();
-                                if (i8 == 0) {
-                                    i4 = i2;
-                                    i5 = i3;
-                                } else {
-                                    i4 = 0;
-                                    i5 = 100;
-                                }
-                                arrayList4 = new ArrayList();
-                                arrayList2 = arrayList13;
-                            } catch (Exception e) {
-                                exc = e;
-                                arrayList = arrayList13;
-                                tLRPC$TL_messages_dialogs = tLRPC$TL_messages_dialogs5;
-                                sQLiteCursor = sQLiteCursor5;
-                                try {
-                                    tLRPC$TL_messages_dialogs.dialogs.clear();
-                                    tLRPC$TL_messages_dialogs.users.clear();
-                                    tLRPC$TL_messages_dialogs.chats.clear();
-                                    arrayList.clear();
-                                    FileLog.e(exc);
-                                    getMessagesController().processLoadedDialogs(tLRPC$TL_messages_dialogs, arrayList, i, 0, 100, 1, true, false, true);
-                                    if (sQLiteCursor == null) {
-                                    }
-                                } catch (Throwable th2) {
-                                    th = th2;
-                                    th = th;
-                                    sQLiteCursor2 = sQLiteCursor;
-                                    if (sQLiteCursor2 != null) {
-                                    }
-                                    throw th;
-                                }
+                            int intValue = ((Integer) arrayList23.get(i9)).intValue();
+                            if (i9 == 0) {
+                                i4 = i2;
+                                i5 = i3;
+                            } else {
+                                i4 = 0;
+                                i5 = 100;
                             }
+                            arrayList4 = new ArrayList();
+                            arrayList2 = arrayList17;
                             try {
-                                ArrayList arrayList20 = arrayList16;
-                                LongSparseArray<SparseArray<ArrayList<TLRPC$Message>>> longSparseArray7 = longSparseArray5;
-                                LongSparseArray<ArrayList<Integer>> longSparseArray8 = longSparseArray6;
-                                SQLiteCursor queryFinalized = messagesStorage2.database.queryFinalized(String.format(Locale.US, "SELECT d.did, d.last_mid, d.unread_count, d.date, m.data, m.read_state, m.mid, m.send_state, s.flags, m.date, d.pts, d.inbox_max, d.outbox_max, m.replydata, d.pinned, d.unread_count_i, d.flags, d.folder_id, d.data, d.unread_reactions, d.last_mid_group FROM dialogs as d LEFT JOIN messages_v2 as m ON d.last_mid = m.mid AND d.did = m.uid AND d.last_mid_group IS NULL LEFT JOIN dialog_settings as s ON d.did = s.did WHERE d.folder_id = %d ORDER BY d.pinned DESC, d.date DESC LIMIT %d,%d", Integer.valueOf(intValue), Integer.valueOf(i4), Integer.valueOf(i5)), new Object[0]);
+                                ArrayList arrayList24 = arrayList20;
+                                LongSparseArray<SparseArray<ArrayList<TLRPC$Message>>> longSparseArray8 = longSparseArray6;
+                                LongSparseArray<ArrayList<Integer>> longSparseArray9 = longSparseArray7;
+                                SQLiteCursor queryFinalized = messagesStorage3.database.queryFinalized(String.format(Locale.US, "SELECT d.did, d.last_mid, d.unread_count, d.date, m.data, m.read_state, m.mid, m.send_state, s.flags, m.date, d.pts, d.inbox_max, d.outbox_max, m.replydata, d.pinned, d.unread_count_i, d.flags, d.folder_id, d.data, d.unread_reactions, d.last_mid_group FROM dialogs as d LEFT JOIN messages_v2 as m ON d.last_mid = m.mid AND d.did = m.uid AND d.last_mid_group IS NULL LEFT JOIN dialog_settings as s ON d.did = s.did WHERE d.folder_id = %d ORDER BY d.pinned DESC, d.date DESC LIMIT %d,%d", Integer.valueOf(intValue), Integer.valueOf(i4), Integer.valueOf(i5)), new Object[0]);
                                 while (queryFinalized.next()) {
                                     try {
                                         try {
-                                            ArrayList arrayList21 = arrayList17;
+                                            ArrayList arrayList25 = arrayList21;
                                             long longValue2 = queryFinalized.longValue(0);
                                             if (DialogObject.isFolderDialogId(longValue2)) {
                                                 tLRPC$TL_dialog = new TLRPC$TL_dialogFolder();
@@ -28031,8 +28012,8 @@ public class MessagesStorage extends BaseController {
                                                         tLRPC$TL_folder.id = DialogObject.getFolderId(longValue2);
                                                     }
                                                 }
-                                                if (i8 == 0) {
-                                                    arrayList19.add(Integer.valueOf(tLRPC$TL_dialog.folder.id));
+                                                if (i9 == 0) {
+                                                    arrayList23.add(Integer.valueOf(tLRPC$TL_dialog.folder.id));
                                                 }
                                             } else {
                                                 tLRPC$TL_dialog = new TLRPC$TL_dialog();
@@ -28044,10 +28025,10 @@ public class MessagesStorage extends BaseController {
                                             int intValue2 = queryFinalized.intValue(10);
                                             tLRPC$TL_dialog.pts = intValue2;
                                             if (intValue2 != 0) {
-                                                arrayList9 = arrayList18;
+                                                arrayList13 = arrayList22;
                                                 if (!DialogObject.isUserDialog(tLRPC$TL_dialog.id)) {
-                                                    i6 = 1;
-                                                    tLRPC$TL_dialog.flags = i6;
+                                                    i7 = 1;
+                                                    tLRPC$TL_dialog.flags = i7;
                                                     tLRPC$TL_dialog.read_inbox_max_id = queryFinalized.intValue(11);
                                                     tLRPC$TL_dialog.read_outbox_max_id = queryFinalized.intValue(12);
                                                     int intValue3 = queryFinalized.intValue(14);
@@ -28056,13 +28037,13 @@ public class MessagesStorage extends BaseController {
                                                     tLRPC$TL_dialog.unread_mentions_count = queryFinalized.intValue(15);
                                                     tLRPC$TL_dialog.unread_mark = (queryFinalized.intValue(16) & 1) == 0;
                                                     longValue = queryFinalized.longValue(8);
-                                                    ArrayList arrayList22 = arrayList19;
+                                                    ArrayList arrayList26 = arrayList23;
                                                     TLRPC$TL_peerNotifySettings tLRPC$TL_peerNotifySettings = new TLRPC$TL_peerNotifySettings();
                                                     tLRPC$TL_dialog.notify_settings = tLRPC$TL_peerNotifySettings;
                                                     if ((((int) longValue) & 1) != 0) {
-                                                        int i9 = (int) (longValue >> 32);
-                                                        tLRPC$TL_peerNotifySettings.mute_until = i9;
-                                                        if (i9 == 0) {
+                                                        int i10 = (int) (longValue >> 32);
+                                                        tLRPC$TL_peerNotifySettings.mute_until = i10;
+                                                        if (i10 == 0) {
                                                             tLRPC$TL_peerNotifySettings.mute_until = ConnectionsManager.DEFAULT_DATACENTER_ID;
                                                         }
                                                     }
@@ -28071,18 +28052,18 @@ public class MessagesStorage extends BaseController {
                                                     if (!queryFinalized.isNull(20)) {
                                                         arrayList4.add(new Pair(Long.valueOf(longValue2), Long.valueOf(queryFinalized.longValue(20))));
                                                     }
-                                                    tLRPC$TL_messages_dialogs5.dialogs.add(tLRPC$TL_dialog);
+                                                    tLRPC$TL_messages_dialogs4.dialogs.add(tLRPC$TL_dialog);
                                                     if (jArr2 == null) {
-                                                        arrayList10 = arrayList21;
-                                                        arrayList10.add(Long.valueOf(longValue2));
+                                                        arrayList14 = arrayList25;
+                                                        arrayList14.add(Long.valueOf(longValue2));
                                                     } else {
-                                                        arrayList10 = arrayList21;
+                                                        arrayList14 = arrayList25;
                                                     }
                                                     byteBufferValue2 = queryFinalized.byteBufferValue(4);
                                                     if (byteBufferValue2 == null) {
                                                         TLRPC$Message TLdeserialize = TLRPC$Message.TLdeserialize(byteBufferValue2, byteBufferValue2.readInt32(false), false);
                                                         if (TLdeserialize != null) {
-                                                            i7 = i8;
+                                                            i8 = i9;
                                                             TLdeserialize.readAttachPath(byteBufferValue2, getUserConfig().clientUserId);
                                                             byteBufferValue2.reuse();
                                                             MessageObject.setUnreadFlags(TLdeserialize, queryFinalized.intValue(5));
@@ -28093,8 +28074,8 @@ public class MessagesStorage extends BaseController {
                                                             }
                                                             TLdeserialize.send_state = queryFinalized.intValue(7);
                                                             TLdeserialize.dialog_id = tLRPC$TL_dialog.id;
-                                                            tLRPC$TL_messages_dialogs5.messages.add(TLdeserialize);
-                                                            addUsersAndChatsFromMessage(TLdeserialize, arrayList14, arrayList15, arrayList9);
+                                                            tLRPC$TL_messages_dialogs4.messages.add(TLdeserialize);
+                                                            addUsersAndChatsFromMessage(TLdeserialize, arrayList18, arrayList19, arrayList13);
                                                             try {
                                                                 TLRPC$TL_messageReplyHeader tLRPC$TL_messageReplyHeader2 = TLdeserialize.reply_to;
                                                                 if (tLRPC$TL_messageReplyHeader2 != null && tLRPC$TL_messageReplyHeader2.reply_to_msg_id != 0) {
@@ -28103,25 +28084,25 @@ public class MessagesStorage extends BaseController {
                                                                         try {
                                                                             if (!(tLRPC$MessageAction instanceof TLRPC$TL_messageActionPaymentSent)) {
                                                                             }
-                                                                        } catch (Exception e2) {
-                                                                            exc3 = e2;
-                                                                            arrayList11 = arrayList10;
-                                                                            tLRPC$TL_messages_dialogs3 = tLRPC$TL_messages_dialogs5;
-                                                                            longSparseArray3 = longSparseArray7;
+                                                                        } catch (Exception e) {
+                                                                            exc3 = e;
+                                                                            arrayList15 = arrayList14;
+                                                                            tLRPC$TL_messages_dialogs2 = tLRPC$TL_messages_dialogs4;
                                                                             longSparseArray4 = longSparseArray8;
+                                                                            longSparseArray5 = longSparseArray9;
                                                                             FileLog.e(exc3);
                                                                             if (!DialogObject.isEncryptedDialog(longValue2)) {
                                                                             }
                                                                             if (DialogObject.isEncryptedDialog(longValue2)) {
                                                                             }
-                                                                            longSparseArray7 = longSparseArray3;
-                                                                            arrayList18 = arrayList9;
                                                                             longSparseArray8 = longSparseArray4;
-                                                                            arrayList17 = arrayList11;
-                                                                            arrayList20 = arrayList12;
-                                                                            i8 = i7;
-                                                                            arrayList19 = arrayList22;
-                                                                            tLRPC$TL_messages_dialogs5 = tLRPC$TL_messages_dialogs3;
+                                                                            arrayList22 = arrayList13;
+                                                                            longSparseArray9 = longSparseArray5;
+                                                                            arrayList21 = arrayList15;
+                                                                            arrayList24 = arrayList16;
+                                                                            i9 = i8;
+                                                                            arrayList23 = arrayList26;
+                                                                            tLRPC$TL_messages_dialogs4 = tLRPC$TL_messages_dialogs2;
                                                                             jArr2 = jArr;
                                                                         }
                                                                     }
@@ -28132,106 +28113,106 @@ public class MessagesStorage extends BaseController {
                                                                                 if (byteBufferValue4 != null) {
                                                                                     TLRPC$Message TLdeserialize2 = TLRPC$Message.TLdeserialize(byteBufferValue4, byteBufferValue4.readInt32(false), false);
                                                                                     TLdeserialize.replyMessage = TLdeserialize2;
-                                                                                    arrayList11 = arrayList10;
-                                                                                    tLRPC$TL_messages_dialogs3 = tLRPC$TL_messages_dialogs5;
+                                                                                    arrayList15 = arrayList14;
+                                                                                    tLRPC$TL_messages_dialogs2 = tLRPC$TL_messages_dialogs4;
                                                                                     try {
                                                                                         TLdeserialize2.readAttachPath(byteBufferValue4, getUserConfig().clientUserId);
                                                                                         byteBufferValue4.reuse();
                                                                                         TLRPC$Message tLRPC$Message = TLdeserialize.replyMessage;
                                                                                         if (tLRPC$Message != null) {
-                                                                                            addUsersAndChatsFromMessage(tLRPC$Message, arrayList14, arrayList15, arrayList9);
+                                                                                            addUsersAndChatsFromMessage(tLRPC$Message, arrayList18, arrayList19, arrayList13);
                                                                                         }
                                                                                         if (TLdeserialize.replyMessage == null) {
-                                                                                            longSparseArray3 = longSparseArray7;
                                                                                             longSparseArray4 = longSparseArray8;
+                                                                                            longSparseArray5 = longSparseArray9;
                                                                                             try {
-                                                                                                addReplyMessages(TLdeserialize, longSparseArray3, longSparseArray4);
-                                                                                            } catch (Exception e3) {
-                                                                                                e = e3;
+                                                                                                addReplyMessages(TLdeserialize, longSparseArray4, longSparseArray5);
+                                                                                            } catch (Exception e2) {
+                                                                                                e = e2;
                                                                                                 exc3 = e;
                                                                                                 FileLog.e(exc3);
                                                                                                 if (!DialogObject.isEncryptedDialog(longValue2)) {
                                                                                                 }
                                                                                                 if (DialogObject.isEncryptedDialog(longValue2)) {
                                                                                                 }
-                                                                                                longSparseArray7 = longSparseArray3;
-                                                                                                arrayList18 = arrayList9;
                                                                                                 longSparseArray8 = longSparseArray4;
-                                                                                                arrayList17 = arrayList11;
-                                                                                                arrayList20 = arrayList12;
-                                                                                                i8 = i7;
-                                                                                                arrayList19 = arrayList22;
-                                                                                                tLRPC$TL_messages_dialogs5 = tLRPC$TL_messages_dialogs3;
+                                                                                                arrayList22 = arrayList13;
+                                                                                                longSparseArray9 = longSparseArray5;
+                                                                                                arrayList21 = arrayList15;
+                                                                                                arrayList24 = arrayList16;
+                                                                                                i9 = i8;
+                                                                                                arrayList23 = arrayList26;
+                                                                                                tLRPC$TL_messages_dialogs4 = tLRPC$TL_messages_dialogs2;
                                                                                                 jArr2 = jArr;
                                                                                             }
                                                                                         }
-                                                                                        longSparseArray3 = longSparseArray7;
                                                                                         longSparseArray4 = longSparseArray8;
-                                                                                    } catch (Exception e4) {
-                                                                                        e = e4;
+                                                                                        longSparseArray5 = longSparseArray9;
+                                                                                    } catch (Exception e3) {
+                                                                                        e = e3;
                                                                                         exc3 = e;
-                                                                                        longSparseArray3 = longSparseArray7;
                                                                                         longSparseArray4 = longSparseArray8;
+                                                                                        longSparseArray5 = longSparseArray9;
                                                                                         FileLog.e(exc3);
                                                                                         if (!DialogObject.isEncryptedDialog(longValue2)) {
                                                                                         }
                                                                                         if (DialogObject.isEncryptedDialog(longValue2)) {
                                                                                         }
-                                                                                        longSparseArray7 = longSparseArray3;
-                                                                                        arrayList18 = arrayList9;
                                                                                         longSparseArray8 = longSparseArray4;
-                                                                                        arrayList17 = arrayList11;
-                                                                                        arrayList20 = arrayList12;
-                                                                                        i8 = i7;
-                                                                                        arrayList19 = arrayList22;
-                                                                                        tLRPC$TL_messages_dialogs5 = tLRPC$TL_messages_dialogs3;
+                                                                                        arrayList22 = arrayList13;
+                                                                                        longSparseArray9 = longSparseArray5;
+                                                                                        arrayList21 = arrayList15;
+                                                                                        arrayList24 = arrayList16;
+                                                                                        i9 = i8;
+                                                                                        arrayList23 = arrayList26;
+                                                                                        tLRPC$TL_messages_dialogs4 = tLRPC$TL_messages_dialogs2;
                                                                                         jArr2 = jArr;
                                                                                     }
                                                                                 }
-                                                                            } catch (Exception e5) {
-                                                                                e = e5;
-                                                                                arrayList11 = arrayList10;
-                                                                                tLRPC$TL_messages_dialogs3 = tLRPC$TL_messages_dialogs5;
+                                                                            } catch (Exception e4) {
+                                                                                e = e4;
+                                                                                arrayList15 = arrayList14;
+                                                                                tLRPC$TL_messages_dialogs2 = tLRPC$TL_messages_dialogs4;
                                                                             }
                                                                         }
                                                                         if (TLdeserialize.replyMessage == null) {
                                                                         }
-                                                                        longSparseArray3 = longSparseArray7;
                                                                         longSparseArray4 = longSparseArray8;
-                                                                    } catch (Exception e6) {
-                                                                        e = e6;
-                                                                        longSparseArray3 = longSparseArray7;
+                                                                        longSparseArray5 = longSparseArray9;
+                                                                    } catch (Exception e5) {
+                                                                        e = e5;
                                                                         longSparseArray4 = longSparseArray8;
+                                                                        longSparseArray5 = longSparseArray9;
                                                                         exc3 = e;
                                                                         FileLog.e(exc3);
                                                                         if (!DialogObject.isEncryptedDialog(longValue2)) {
                                                                         }
                                                                         if (DialogObject.isEncryptedDialog(longValue2)) {
                                                                         }
-                                                                        longSparseArray7 = longSparseArray3;
-                                                                        arrayList18 = arrayList9;
                                                                         longSparseArray8 = longSparseArray4;
-                                                                        arrayList17 = arrayList11;
-                                                                        arrayList20 = arrayList12;
-                                                                        i8 = i7;
-                                                                        arrayList19 = arrayList22;
-                                                                        tLRPC$TL_messages_dialogs5 = tLRPC$TL_messages_dialogs3;
+                                                                        arrayList22 = arrayList13;
+                                                                        longSparseArray9 = longSparseArray5;
+                                                                        arrayList21 = arrayList15;
+                                                                        arrayList24 = arrayList16;
+                                                                        i9 = i8;
+                                                                        arrayList23 = arrayList26;
+                                                                        tLRPC$TL_messages_dialogs4 = tLRPC$TL_messages_dialogs2;
                                                                         jArr2 = jArr;
                                                                     }
-                                                                    arrayList11 = arrayList10;
-                                                                    tLRPC$TL_messages_dialogs3 = tLRPC$TL_messages_dialogs5;
+                                                                    arrayList15 = arrayList14;
+                                                                    tLRPC$TL_messages_dialogs2 = tLRPC$TL_messages_dialogs4;
                                                                 }
-                                                            } catch (Exception e7) {
-                                                                e = e7;
-                                                                arrayList11 = arrayList10;
-                                                                tLRPC$TL_messages_dialogs3 = tLRPC$TL_messages_dialogs5;
+                                                            } catch (Exception e6) {
+                                                                e = e6;
+                                                                arrayList15 = arrayList14;
+                                                                tLRPC$TL_messages_dialogs2 = tLRPC$TL_messages_dialogs4;
                                                             }
                                                         } else {
-                                                            i7 = i8;
-                                                            arrayList11 = arrayList10;
-                                                            tLRPC$TL_messages_dialogs3 = tLRPC$TL_messages_dialogs5;
-                                                            longSparseArray3 = longSparseArray7;
+                                                            i8 = i9;
+                                                            arrayList15 = arrayList14;
+                                                            tLRPC$TL_messages_dialogs2 = tLRPC$TL_messages_dialogs4;
                                                             longSparseArray4 = longSparseArray8;
+                                                            longSparseArray5 = longSparseArray9;
                                                             byteBufferValue2.reuse();
                                                         }
                                                         if (!DialogObject.isEncryptedDialog(longValue2)) {
@@ -28239,75 +28220,86 @@ public class MessagesStorage extends BaseController {
                                                                 if (tLRPC$TL_dialog.read_inbox_max_id > tLRPC$TL_dialog.top_message) {
                                                                     tLRPC$TL_dialog.read_inbox_max_id = 0;
                                                                 }
-                                                            } catch (Exception e8) {
-                                                                exc = e8;
+                                                            } catch (Exception e7) {
+                                                                messagesStorage = this;
+                                                                exc = e7;
                                                                 sQLiteCursor = queryFinalized;
                                                                 arrayList = arrayList2;
-                                                                tLRPC$TL_messages_dialogs = tLRPC$TL_messages_dialogs3;
-                                                                tLRPC$TL_messages_dialogs.dialogs.clear();
-                                                                tLRPC$TL_messages_dialogs.users.clear();
-                                                                tLRPC$TL_messages_dialogs.chats.clear();
-                                                                arrayList.clear();
-                                                                FileLog.e(exc);
-                                                                getMessagesController().processLoadedDialogs(tLRPC$TL_messages_dialogs, arrayList, i, 0, 100, 1, true, false, true);
-                                                                if (sQLiteCursor == null) {
+                                                                tLRPC$TL_messages_dialogs = tLRPC$TL_messages_dialogs2;
+                                                                try {
+                                                                    tLRPC$TL_messages_dialogs.dialogs.clear();
+                                                                    tLRPC$TL_messages_dialogs.users.clear();
+                                                                    tLRPC$TL_messages_dialogs.chats.clear();
+                                                                    arrayList.clear();
+                                                                    FileLog.e(exc);
+                                                                    getMessagesController().processLoadedDialogs(tLRPC$TL_messages_dialogs, arrayList, i, 0, 100, 1, true, false, true);
+                                                                    messagesStorage.checkMalformed(exc);
+                                                                    if (sQLiteCursor == null) {
+                                                                    }
+                                                                } catch (Throwable th2) {
+                                                                    th = th2;
+                                                                    th = th;
+                                                                    sQLiteCursor2 = sQLiteCursor;
+                                                                    if (sQLiteCursor2 != null) {
+                                                                    }
+                                                                    throw th;
                                                                 }
                                                             }
                                                         }
                                                         if (DialogObject.isEncryptedDialog(longValue2)) {
                                                             int encryptedChatId = DialogObject.getEncryptedChatId(longValue2);
-                                                            arrayList12 = arrayList20;
-                                                            if (!arrayList12.contains(Integer.valueOf(encryptedChatId))) {
-                                                                arrayList12.add(Integer.valueOf(encryptedChatId));
+                                                            arrayList16 = arrayList24;
+                                                            if (!arrayList16.contains(Integer.valueOf(encryptedChatId))) {
+                                                                arrayList16.add(Integer.valueOf(encryptedChatId));
                                                             }
                                                         } else {
-                                                            arrayList12 = arrayList20;
+                                                            arrayList16 = arrayList24;
                                                             if (DialogObject.isUserDialog(longValue2)) {
-                                                                if (!arrayList14.contains(Long.valueOf(longValue2))) {
-                                                                    arrayList14.add(Long.valueOf(longValue2));
+                                                                if (!arrayList18.contains(Long.valueOf(longValue2))) {
+                                                                    arrayList18.add(Long.valueOf(longValue2));
                                                                 }
                                                             } else if (DialogObject.isChatDialog(longValue2)) {
                                                                 long j = -longValue2;
-                                                                if (!arrayList15.contains(Long.valueOf(j))) {
-                                                                    arrayList15.add(Long.valueOf(j));
+                                                                if (!arrayList19.contains(Long.valueOf(j))) {
+                                                                    arrayList19.add(Long.valueOf(j));
                                                                 }
                                                             }
                                                         }
-                                                        longSparseArray7 = longSparseArray3;
-                                                        arrayList18 = arrayList9;
                                                         longSparseArray8 = longSparseArray4;
-                                                        arrayList17 = arrayList11;
-                                                        arrayList20 = arrayList12;
-                                                        i8 = i7;
-                                                        arrayList19 = arrayList22;
-                                                        tLRPC$TL_messages_dialogs5 = tLRPC$TL_messages_dialogs3;
+                                                        arrayList22 = arrayList13;
+                                                        longSparseArray9 = longSparseArray5;
+                                                        arrayList21 = arrayList15;
+                                                        arrayList24 = arrayList16;
+                                                        i9 = i8;
+                                                        arrayList23 = arrayList26;
+                                                        tLRPC$TL_messages_dialogs4 = tLRPC$TL_messages_dialogs2;
                                                         jArr2 = jArr;
                                                     } else {
-                                                        i7 = i8;
+                                                        i8 = i9;
                                                     }
-                                                    arrayList11 = arrayList10;
-                                                    tLRPC$TL_messages_dialogs3 = tLRPC$TL_messages_dialogs5;
-                                                    longSparseArray3 = longSparseArray7;
+                                                    arrayList15 = arrayList14;
+                                                    tLRPC$TL_messages_dialogs2 = tLRPC$TL_messages_dialogs4;
                                                     longSparseArray4 = longSparseArray8;
+                                                    longSparseArray5 = longSparseArray9;
                                                     if (!DialogObject.isEncryptedDialog(longValue2)) {
                                                     }
                                                     if (DialogObject.isEncryptedDialog(longValue2)) {
                                                     }
-                                                    longSparseArray7 = longSparseArray3;
-                                                    arrayList18 = arrayList9;
                                                     longSparseArray8 = longSparseArray4;
-                                                    arrayList17 = arrayList11;
-                                                    arrayList20 = arrayList12;
-                                                    i8 = i7;
-                                                    arrayList19 = arrayList22;
-                                                    tLRPC$TL_messages_dialogs5 = tLRPC$TL_messages_dialogs3;
+                                                    arrayList22 = arrayList13;
+                                                    longSparseArray9 = longSparseArray5;
+                                                    arrayList21 = arrayList15;
+                                                    arrayList24 = arrayList16;
+                                                    i9 = i8;
+                                                    arrayList23 = arrayList26;
+                                                    tLRPC$TL_messages_dialogs4 = tLRPC$TL_messages_dialogs2;
                                                     jArr2 = jArr;
                                                 }
                                             } else {
-                                                arrayList9 = arrayList18;
+                                                arrayList13 = arrayList22;
                                             }
-                                            i6 = 0;
-                                            tLRPC$TL_dialog.flags = i6;
+                                            i7 = 0;
+                                            tLRPC$TL_dialog.flags = i7;
                                             tLRPC$TL_dialog.read_inbox_max_id = queryFinalized.intValue(11);
                                             tLRPC$TL_dialog.read_outbox_max_id = queryFinalized.intValue(12);
                                             int intValue32 = queryFinalized.intValue(14);
@@ -28316,7 +28308,7 @@ public class MessagesStorage extends BaseController {
                                             tLRPC$TL_dialog.unread_mentions_count = queryFinalized.intValue(15);
                                             tLRPC$TL_dialog.unread_mark = (queryFinalized.intValue(16) & 1) == 0;
                                             longValue = queryFinalized.longValue(8);
-                                            ArrayList arrayList222 = arrayList19;
+                                            ArrayList arrayList262 = arrayList23;
                                             TLRPC$TL_peerNotifySettings tLRPC$TL_peerNotifySettings2 = new TLRPC$TL_peerNotifySettings();
                                             tLRPC$TL_dialog.notify_settings = tLRPC$TL_peerNotifySettings2;
                                             if ((((int) longValue) & 1) != 0) {
@@ -28325,33 +28317,34 @@ public class MessagesStorage extends BaseController {
                                             tLRPC$TL_dialog.unread_reactions_count = queryFinalized.intValue(19);
                                             if (!queryFinalized.isNull(20)) {
                                             }
-                                            tLRPC$TL_messages_dialogs5.dialogs.add(tLRPC$TL_dialog);
+                                            tLRPC$TL_messages_dialogs4.dialogs.add(tLRPC$TL_dialog);
                                             if (jArr2 == null) {
                                             }
                                             byteBufferValue2 = queryFinalized.byteBufferValue(4);
                                             if (byteBufferValue2 == null) {
                                             }
-                                            arrayList11 = arrayList10;
-                                            tLRPC$TL_messages_dialogs3 = tLRPC$TL_messages_dialogs5;
-                                            longSparseArray3 = longSparseArray7;
+                                            arrayList15 = arrayList14;
+                                            tLRPC$TL_messages_dialogs2 = tLRPC$TL_messages_dialogs4;
                                             longSparseArray4 = longSparseArray8;
+                                            longSparseArray5 = longSparseArray9;
                                             if (!DialogObject.isEncryptedDialog(longValue2)) {
                                             }
                                             if (DialogObject.isEncryptedDialog(longValue2)) {
                                             }
-                                            longSparseArray7 = longSparseArray3;
-                                            arrayList18 = arrayList9;
                                             longSparseArray8 = longSparseArray4;
-                                            arrayList17 = arrayList11;
-                                            arrayList20 = arrayList12;
-                                            i8 = i7;
-                                            arrayList19 = arrayList222;
-                                            tLRPC$TL_messages_dialogs5 = tLRPC$TL_messages_dialogs3;
+                                            arrayList22 = arrayList13;
+                                            longSparseArray9 = longSparseArray5;
+                                            arrayList21 = arrayList15;
+                                            arrayList24 = arrayList16;
+                                            i9 = i8;
+                                            arrayList23 = arrayList262;
+                                            tLRPC$TL_messages_dialogs4 = tLRPC$TL_messages_dialogs2;
                                             jArr2 = jArr;
-                                        } catch (Exception e9) {
-                                            exc = e9;
+                                        } catch (Exception e8) {
+                                            messagesStorage = this;
+                                            exc = e8;
                                             sQLiteCursor = queryFinalized;
-                                            tLRPC$TL_messages_dialogs = tLRPC$TL_messages_dialogs5;
+                                            tLRPC$TL_messages_dialogs = tLRPC$TL_messages_dialogs4;
                                             arrayList = arrayList2;
                                             tLRPC$TL_messages_dialogs.dialogs.clear();
                                             tLRPC$TL_messages_dialogs.users.clear();
@@ -28359,265 +28352,32 @@ public class MessagesStorage extends BaseController {
                                             arrayList.clear();
                                             FileLog.e(exc);
                                             getMessagesController().processLoadedDialogs(tLRPC$TL_messages_dialogs, arrayList, i, 0, 100, 1, true, false, true);
+                                            messagesStorage.checkMalformed(exc);
                                             if (sQLiteCursor == null) {
+                                                return;
                                             }
+                                            sQLiteCursor.dispose();
+                                            return;
                                         }
                                     } catch (Throwable th3) {
                                         th = th3;
-                                        sQLiteCursor2 = sQLiteCursor4;
+                                        sQLiteCursor2 = queryFinalized;
                                     }
                                 }
-                                ArrayList arrayList23 = arrayList18;
-                                ArrayList arrayList24 = arrayList19;
-                                int i10 = i8;
-                                ArrayList arrayList25 = arrayList17;
-                                tLRPC$TL_messages_dialogs3 = tLRPC$TL_messages_dialogs5;
-                                ArrayList arrayList26 = arrayList20;
-                                longSparseArray5 = longSparseArray7;
-                                LongSparseArray<ArrayList<Integer>> longSparseArray9 = longSparseArray8;
+                                arrayList5 = arrayList22;
+                                arrayList6 = arrayList23;
+                                i6 = i9;
+                                arrayList7 = arrayList21;
+                                tLRPC$TL_messages_dialogs2 = tLRPC$TL_messages_dialogs4;
+                                arrayList8 = arrayList24;
+                                longSparseArray6 = longSparseArray8;
+                                longSparseArray2 = longSparseArray9;
                                 queryFinalized.dispose();
-                                try {
-                                    if (!arrayList4.isEmpty()) {
-                                        StringBuilder sb = new StringBuilder();
-                                        int i11 = 0;
-                                        while (i11 < arrayList4.size()) {
-                                            try {
-                                                Pair pair = (Pair) arrayList4.get(i11);
-                                                sb.append("uid = ");
-                                                sb.append(pair.first);
-                                                sb.append(" AND group_id = ");
-                                                sb.append(pair.second);
-                                                i11++;
-                                                if (i11 < arrayList4.size()) {
-                                                    sb.append(" OR ");
-                                                }
-                                            } catch (Exception e10) {
-                                                exc = e10;
-                                                arrayList = arrayList2;
-                                                tLRPC$TL_messages_dialogs = tLRPC$TL_messages_dialogs3;
-                                                sQLiteCursor = null;
-                                                tLRPC$TL_messages_dialogs.dialogs.clear();
-                                                tLRPC$TL_messages_dialogs.users.clear();
-                                                tLRPC$TL_messages_dialogs.chats.clear();
-                                                arrayList.clear();
-                                                FileLog.e(exc);
-                                                getMessagesController().processLoadedDialogs(tLRPC$TL_messages_dialogs, arrayList, i, 0, 100, 1, true, false, true);
-                                                if (sQLiteCursor == null) {
-                                                }
-                                            } catch (Throwable th4) {
-                                                th = th4;
-                                                sQLiteCursor2 = null;
-                                                if (sQLiteCursor2 != null) {
-                                                }
-                                                throw th;
-                                            }
-                                        }
-                                        int i12 = 0;
-                                        SQLiteCursor queryFinalized2 = this.database.queryFinalized(String.format(Locale.US, "SELECT uid, data, read_state, mid, send_state, date, replydata, group_id FROM messages_v2 WHERE %s ORDER BY date DESC", sb), new Object[0]);
-                                        while (queryFinalized2.next()) {
-                                            try {
-                                                try {
-                                                    long longValue3 = queryFinalized2.longValue(i12);
-                                                    NativeByteBuffer byteBufferValue5 = queryFinalized2.byteBufferValue(1);
-                                                    tLRPC$TL_messages_dialogs2 = tLRPC$TL_messages_dialogs3;
-                                                    int i13 = 0;
-                                                    while (true) {
-                                                        try {
-                                                            if (i13 >= tLRPC$TL_messages_dialogs2.dialogs.size()) {
-                                                                arrayList7 = arrayList26;
-                                                                tLRPC$Dialog = null;
-                                                                break;
-                                                            }
-                                                            tLRPC$Dialog = tLRPC$TL_messages_dialogs2.dialogs.get(i13);
-                                                            if (tLRPC$Dialog != null) {
-                                                                arrayList7 = arrayList26;
-                                                                if (tLRPC$Dialog.id == longValue3) {
-                                                                    break;
-                                                                }
-                                                            } else {
-                                                                arrayList7 = arrayList26;
-                                                            }
-                                                            i13++;
-                                                            arrayList26 = arrayList7;
-                                                        } catch (Exception e11) {
-                                                            exc = e11;
-                                                            sQLiteCursor = queryFinalized2;
-                                                            tLRPC$TL_messages_dialogs = tLRPC$TL_messages_dialogs2;
-                                                            arrayList = arrayList2;
-                                                            tLRPC$TL_messages_dialogs.dialogs.clear();
-                                                            tLRPC$TL_messages_dialogs.users.clear();
-                                                            tLRPC$TL_messages_dialogs.chats.clear();
-                                                            arrayList.clear();
-                                                            FileLog.e(exc);
-                                                            getMessagesController().processLoadedDialogs(tLRPC$TL_messages_dialogs, arrayList, i, 0, 100, 1, true, false, true);
-                                                            if (sQLiteCursor == null) {
-                                                            }
-                                                        }
-                                                    }
-                                                    if (tLRPC$Dialog == null || byteBufferValue5 == null) {
-                                                        arrayList8 = arrayList23;
-                                                        longSparseArray2 = longSparseArray9;
-                                                        i12 = 0;
-                                                    } else {
-                                                        TLRPC$Message TLdeserialize3 = TLRPC$Message.TLdeserialize(byteBufferValue5, byteBufferValue5.readInt32(false), false);
-                                                        if (TLdeserialize3 != null) {
-                                                            arrayList8 = arrayList23;
-                                                            LongSparseArray<ArrayList<Integer>> longSparseArray10 = longSparseArray9;
-                                                            TLdeserialize3.readAttachPath(byteBufferValue5, getUserConfig().clientUserId);
-                                                            byteBufferValue5.reuse();
-                                                            MessageObject.setUnreadFlags(TLdeserialize3, queryFinalized2.intValue(2));
-                                                            TLdeserialize3.id = queryFinalized2.intValue(3);
-                                                            int intValue5 = queryFinalized2.intValue(5);
-                                                            if (intValue5 != 0) {
-                                                                tLRPC$Dialog.last_message_date = intValue5;
-                                                            }
-                                                            TLdeserialize3.send_state = queryFinalized2.intValue(4);
-                                                            TLdeserialize3.dialog_id = longValue3;
-                                                            tLRPC$TL_messages_dialogs2.messages.add(TLdeserialize3);
-                                                            addUsersAndChatsFromMessage(TLdeserialize3, arrayList14, arrayList15, null);
-                                                            try {
-                                                                tLRPC$TL_messageReplyHeader = TLdeserialize3.reply_to;
-                                                            } catch (Exception e12) {
-                                                                e = e12;
-                                                                longSparseArray2 = longSparseArray10;
-                                                            }
-                                                            if (tLRPC$TL_messageReplyHeader != null && tLRPC$TL_messageReplyHeader.reply_to_msg_id != 0) {
-                                                                TLRPC$MessageAction tLRPC$MessageAction2 = TLdeserialize3.action;
-                                                                if (!(tLRPC$MessageAction2 instanceof TLRPC$TL_messageActionPinMessage)) {
-                                                                    try {
-                                                                        if (!(tLRPC$MessageAction2 instanceof TLRPC$TL_messageActionPaymentSent)) {
-                                                                        }
-                                                                    } catch (Exception e13) {
-                                                                        exc2 = e13;
-                                                                        longSparseArray2 = longSparseArray10;
-                                                                        FileLog.e(exc2);
-                                                                        i12 = 0;
-                                                                        longSparseArray9 = longSparseArray2;
-                                                                        tLRPC$TL_messages_dialogs3 = tLRPC$TL_messages_dialogs2;
-                                                                        arrayList23 = arrayList8;
-                                                                        arrayList26 = arrayList7;
-                                                                    }
-                                                                }
-                                                                if (!queryFinalized2.isNull(7)) {
-                                                                    try {
-                                                                        byteBufferValue = queryFinalized2.byteBufferValue(7);
-                                                                    } catch (Exception e14) {
-                                                                        e = e14;
-                                                                    }
-                                                                    if (byteBufferValue != null) {
-                                                                        TLRPC$Message TLdeserialize4 = TLRPC$Message.TLdeserialize(byteBufferValue, byteBufferValue.readInt32(false), false);
-                                                                        TLdeserialize3.replyMessage = TLdeserialize4;
-                                                                        TLdeserialize4.readAttachPath(byteBufferValue, getUserConfig().clientUserId);
-                                                                        byteBufferValue.reuse();
-                                                                        TLRPC$Message tLRPC$Message2 = TLdeserialize3.replyMessage;
-                                                                        if (tLRPC$Message2 != null) {
-                                                                            try {
-                                                                                addUsersAndChatsFromMessage(tLRPC$Message2, arrayList14, arrayList15, null);
-                                                                                if (TLdeserialize3.replyMessage != null) {
-                                                                                    longSparseArray2 = longSparseArray10;
-                                                                                    try {
-                                                                                        addReplyMessages(TLdeserialize3, longSparseArray5, longSparseArray2);
-                                                                                    } catch (Exception e15) {
-                                                                                        e = e15;
-                                                                                        exc2 = e;
-                                                                                        FileLog.e(exc2);
-                                                                                        i12 = 0;
-                                                                                        longSparseArray9 = longSparseArray2;
-                                                                                        tLRPC$TL_messages_dialogs3 = tLRPC$TL_messages_dialogs2;
-                                                                                        arrayList23 = arrayList8;
-                                                                                        arrayList26 = arrayList7;
-                                                                                    }
-                                                                                } else {
-                                                                                    longSparseArray2 = longSparseArray10;
-                                                                                }
-                                                                            } catch (Exception e16) {
-                                                                                e = e16;
-                                                                                exc2 = e;
-                                                                                longSparseArray2 = longSparseArray10;
-                                                                                FileLog.e(exc2);
-                                                                                i12 = 0;
-                                                                                longSparseArray9 = longSparseArray2;
-                                                                                tLRPC$TL_messages_dialogs3 = tLRPC$TL_messages_dialogs2;
-                                                                                arrayList23 = arrayList8;
-                                                                                arrayList26 = arrayList7;
-                                                                            }
-                                                                            i12 = 0;
-                                                                        }
-                                                                    }
-                                                                }
-                                                                if (TLdeserialize3.replyMessage != null) {
-                                                                }
-                                                                i12 = 0;
-                                                            }
-                                                            longSparseArray2 = longSparseArray10;
-                                                            i12 = 0;
-                                                        } else {
-                                                            arrayList8 = arrayList23;
-                                                            longSparseArray2 = longSparseArray9;
-                                                            i12 = 0;
-                                                            byteBufferValue5.reuse();
-                                                        }
-                                                    }
-                                                    longSparseArray9 = longSparseArray2;
-                                                    tLRPC$TL_messages_dialogs3 = tLRPC$TL_messages_dialogs2;
-                                                    arrayList23 = arrayList8;
-                                                    arrayList26 = arrayList7;
-                                                } catch (Throwable th5) {
-                                                    sQLiteCursor2 = queryFinalized2;
-                                                    th = th5;
-                                                    if (sQLiteCursor2 != null) {
-                                                        sQLiteCursor2.dispose();
-                                                    }
-                                                    throw th;
-                                                }
-                                            } catch (Exception e17) {
-                                                exc = e17;
-                                                sQLiteCursor = queryFinalized2;
-                                                arrayList = arrayList2;
-                                                tLRPC$TL_messages_dialogs = tLRPC$TL_messages_dialogs3;
-                                                tLRPC$TL_messages_dialogs.dialogs.clear();
-                                                tLRPC$TL_messages_dialogs.users.clear();
-                                                tLRPC$TL_messages_dialogs.chats.clear();
-                                                arrayList.clear();
-                                                FileLog.e(exc);
-                                                getMessagesController().processLoadedDialogs(tLRPC$TL_messages_dialogs, arrayList, i, 0, 100, 1, true, false, true);
-                                                if (sQLiteCursor == null) {
-                                                    return;
-                                                }
-                                                sQLiteCursor.dispose();
-                                                return;
-                                            }
-                                        }
-                                        arrayList5 = arrayList23;
-                                        longSparseArray6 = longSparseArray9;
-                                        arrayList6 = arrayList26;
-                                        tLRPC$TL_messages_dialogs4 = tLRPC$TL_messages_dialogs3;
-                                        queryFinalized2.dispose();
-                                        sQLiteCursor5 = queryFinalized2;
-                                    } else {
-                                        arrayList5 = arrayList23;
-                                        longSparseArray6 = longSparseArray9;
-                                        arrayList6 = arrayList26;
-                                        tLRPC$TL_messages_dialogs4 = tLRPC$TL_messages_dialogs3;
-                                        sQLiteCursor5 = null;
-                                    }
-                                    messagesStorage2 = this;
-                                    jArr2 = jArr;
-                                    arrayList13 = arrayList2;
-                                    arrayList16 = arrayList6;
-                                    arrayList19 = arrayList24;
-                                    i8 = i10 + 1;
-                                    arrayList18 = arrayList5;
-                                    tLRPC$TL_messages_dialogs5 = tLRPC$TL_messages_dialogs4;
-                                    arrayList17 = arrayList25;
-                                } catch (Exception e18) {
-                                    sQLiteCursor = null;
-                                    exc = e18;
-                                }
-                            } catch (Exception e19) {
-                                exc = e19;
-                                tLRPC$TL_messages_dialogs = tLRPC$TL_messages_dialogs5;
-                                sQLiteCursor = sQLiteCursor5;
+                            } catch (Exception e9) {
+                                messagesStorage = this;
+                                exc = e9;
+                                tLRPC$TL_messages_dialogs = tLRPC$TL_messages_dialogs4;
+                                sQLiteCursor = sQLiteCursor4;
                                 arrayList = arrayList2;
                                 tLRPC$TL_messages_dialogs.dialogs.clear();
                                 tLRPC$TL_messages_dialogs.users.clear();
@@ -28625,72 +28385,335 @@ public class MessagesStorage extends BaseController {
                                 arrayList.clear();
                                 FileLog.e(exc);
                                 getMessagesController().processLoadedDialogs(tLRPC$TL_messages_dialogs, arrayList, i, 0, 100, 1, true, false, true);
+                                messagesStorage.checkMalformed(exc);
                                 if (sQLiteCursor == null) {
                                 }
                             }
-                        } catch (Throwable th6) {
-                            th = th6;
+                        } catch (Throwable th4) {
+                            th = th4;
+                            th = th;
+                            sQLiteCursor2 = sQLiteCursor4;
+                            if (sQLiteCursor2 != null) {
+                            }
+                            throw th;
                         }
-                    } catch (Exception e20) {
-                        e = e20;
-                        arrayList = arrayList13;
-                        tLRPC$TL_messages_dialogs = tLRPC$TL_messages_dialogs5;
+                    } catch (Exception e10) {
+                        messagesStorage = this;
+                        exc = e10;
+                        arrayList = arrayList17;
+                        tLRPC$TL_messages_dialogs = tLRPC$TL_messages_dialogs4;
+                        sQLiteCursor = sQLiteCursor4;
+                        tLRPC$TL_messages_dialogs.dialogs.clear();
+                        tLRPC$TL_messages_dialogs.users.clear();
+                        tLRPC$TL_messages_dialogs.chats.clear();
+                        arrayList.clear();
+                        FileLog.e(exc);
+                        getMessagesController().processLoadedDialogs(tLRPC$TL_messages_dialogs, arrayList, i, 0, 100, 1, true, false, true);
+                        messagesStorage.checkMalformed(exc);
+                        if (sQLiteCursor == null) {
+                        }
                     }
-                }
-                ArrayList arrayList27 = arrayList16;
-                ArrayList arrayList28 = arrayList17;
-                arrayList2 = arrayList13;
-                tLRPC$TL_messages_dialogs2 = tLRPC$TL_messages_dialogs5;
-                try {
-                    loadReplyMessages(longSparseArray5, longSparseArray6, arrayList14, arrayList15, false);
-                    if (jArr != null) {
-                        try {
-                            ArrayList arrayList29 = new ArrayList();
-                            for (int i14 = 0; i14 < jArr.length; i14++) {
+                    try {
+                        if (!arrayList4.isEmpty()) {
+                            StringBuilder sb = new StringBuilder();
+                            int i11 = 0;
+                            while (i11 < arrayList4.size()) {
                                 try {
-                                    long j2 = jArr[i14];
-                                    if (!DialogObject.isEncryptedDialog(j2)) {
-                                        if (j2 > 0) {
-                                            if (!arrayList14.contains(Long.valueOf(j2))) {
-                                                arrayList14.add(Long.valueOf(j2));
-                                            }
-                                        } else {
-                                            long j3 = -j2;
-                                            if (!arrayList15.contains(Long.valueOf(j3))) {
-                                                arrayList15.add(Long.valueOf(j3));
-                                            }
-                                        }
-                                        if (!arrayList28.contains(Long.valueOf(jArr[i14]))) {
-                                            arrayList29.add(Long.valueOf(jArr[i14]));
-                                        }
+                                    Pair pair = (Pair) arrayList4.get(i11);
+                                    sb.append("uid = ");
+                                    sb.append(pair.first);
+                                    sb.append(" AND group_id = ");
+                                    sb.append(pair.second);
+                                    i11++;
+                                    if (i11 < arrayList4.size()) {
+                                        sb.append(" OR ");
                                     }
-                                } catch (Exception e21) {
-                                    e = e21;
-                                    exc = e;
-                                    tLRPC$TL_messages_dialogs = tLRPC$TL_messages_dialogs2;
-                                    sQLiteCursor = sQLiteCursor5;
+                                } catch (Exception e11) {
+                                    messagesStorage = this;
+                                    exc = e11;
                                     arrayList = arrayList2;
+                                    tLRPC$TL_messages_dialogs = tLRPC$TL_messages_dialogs2;
+                                    sQLiteCursor = null;
                                     tLRPC$TL_messages_dialogs.dialogs.clear();
                                     tLRPC$TL_messages_dialogs.users.clear();
                                     tLRPC$TL_messages_dialogs.chats.clear();
                                     arrayList.clear();
                                     FileLog.e(exc);
                                     getMessagesController().processLoadedDialogs(tLRPC$TL_messages_dialogs, arrayList, i, 0, 100, 1, true, false, true);
+                                    messagesStorage.checkMalformed(exc);
                                     if (sQLiteCursor == null) {
                                     }
+                                } catch (Throwable th5) {
+                                    th = th5;
+                                    sQLiteCursor2 = null;
+                                    th = th;
+                                    if (sQLiteCursor2 != null) {
+                                    }
+                                    throw th;
                                 }
                             }
-                            if (!arrayList29.isEmpty()) {
-                                LongSparseArray longSparseArray11 = new LongSparseArray(arrayList29.size());
-                                messagesStorage = this;
-                                SQLiteCursor queryFinalized3 = messagesStorage.database.queryFinalized(String.format(Locale.US, "SELECT did, folder_id FROM dialogs WHERE did IN(%s)", TextUtils.join(",", arrayList29)), new Object[0]);
+                            int i12 = 0;
+                            SQLiteCursor queryFinalized2 = this.database.queryFinalized(String.format(Locale.US, "SELECT uid, data, read_state, mid, send_state, date, replydata, group_id FROM messages_v2 WHERE %s ORDER BY date DESC", sb), new Object[0]);
+                            while (queryFinalized2.next()) {
+                                try {
+                                    try {
+                                        long longValue3 = queryFinalized2.longValue(i12);
+                                        NativeByteBuffer byteBufferValue5 = queryFinalized2.byteBufferValue(1);
+                                        TLRPC$TL_messages_dialogs tLRPC$TL_messages_dialogs5 = tLRPC$TL_messages_dialogs2;
+                                        int i13 = 0;
+                                        while (true) {
+                                            try {
+                                                if (i13 >= tLRPC$TL_messages_dialogs5.dialogs.size()) {
+                                                    arrayList11 = arrayList8;
+                                                    tLRPC$Dialog = null;
+                                                    break;
+                                                }
+                                                tLRPC$Dialog = tLRPC$TL_messages_dialogs5.dialogs.get(i13);
+                                                if (tLRPC$Dialog != null) {
+                                                    arrayList11 = arrayList8;
+                                                    if (tLRPC$Dialog.id == longValue3) {
+                                                        break;
+                                                    }
+                                                } else {
+                                                    arrayList11 = arrayList8;
+                                                }
+                                                i13++;
+                                                arrayList8 = arrayList11;
+                                            } catch (Exception e12) {
+                                                exc = e12;
+                                                sQLiteCursor = queryFinalized2;
+                                                tLRPC$TL_messages_dialogs = tLRPC$TL_messages_dialogs5;
+                                                arrayList = arrayList2;
+                                                messagesStorage = this;
+                                                tLRPC$TL_messages_dialogs.dialogs.clear();
+                                                tLRPC$TL_messages_dialogs.users.clear();
+                                                tLRPC$TL_messages_dialogs.chats.clear();
+                                                arrayList.clear();
+                                                FileLog.e(exc);
+                                                getMessagesController().processLoadedDialogs(tLRPC$TL_messages_dialogs, arrayList, i, 0, 100, 1, true, false, true);
+                                                messagesStorage.checkMalformed(exc);
+                                                if (sQLiteCursor == null) {
+                                                }
+                                            }
+                                        }
+                                        if (tLRPC$Dialog == null || byteBufferValue5 == null) {
+                                            arrayList12 = arrayList5;
+                                            longSparseArray3 = longSparseArray2;
+                                            i12 = 0;
+                                        } else {
+                                            TLRPC$Message TLdeserialize3 = TLRPC$Message.TLdeserialize(byteBufferValue5, byteBufferValue5.readInt32(false), false);
+                                            if (TLdeserialize3 != null) {
+                                                arrayList12 = arrayList5;
+                                                LongSparseArray<ArrayList<Integer>> longSparseArray10 = longSparseArray2;
+                                                TLdeserialize3.readAttachPath(byteBufferValue5, getUserConfig().clientUserId);
+                                                byteBufferValue5.reuse();
+                                                MessageObject.setUnreadFlags(TLdeserialize3, queryFinalized2.intValue(2));
+                                                TLdeserialize3.id = queryFinalized2.intValue(3);
+                                                int intValue5 = queryFinalized2.intValue(5);
+                                                if (intValue5 != 0) {
+                                                    tLRPC$Dialog.last_message_date = intValue5;
+                                                }
+                                                TLdeserialize3.send_state = queryFinalized2.intValue(4);
+                                                TLdeserialize3.dialog_id = longValue3;
+                                                tLRPC$TL_messages_dialogs5.messages.add(TLdeserialize3);
+                                                addUsersAndChatsFromMessage(TLdeserialize3, arrayList18, arrayList19, null);
+                                                try {
+                                                    tLRPC$TL_messageReplyHeader = TLdeserialize3.reply_to;
+                                                } catch (Exception e13) {
+                                                    e = e13;
+                                                    longSparseArray3 = longSparseArray10;
+                                                }
+                                                if (tLRPC$TL_messageReplyHeader != null && tLRPC$TL_messageReplyHeader.reply_to_msg_id != 0) {
+                                                    TLRPC$MessageAction tLRPC$MessageAction2 = TLdeserialize3.action;
+                                                    if (!(tLRPC$MessageAction2 instanceof TLRPC$TL_messageActionPinMessage)) {
+                                                        try {
+                                                            if (!(tLRPC$MessageAction2 instanceof TLRPC$TL_messageActionPaymentSent)) {
+                                                            }
+                                                        } catch (Exception e14) {
+                                                            exc2 = e14;
+                                                            longSparseArray3 = longSparseArray10;
+                                                            FileLog.e(exc2);
+                                                            i12 = 0;
+                                                            longSparseArray2 = longSparseArray3;
+                                                            tLRPC$TL_messages_dialogs2 = tLRPC$TL_messages_dialogs5;
+                                                            arrayList5 = arrayList12;
+                                                            arrayList8 = arrayList11;
+                                                        }
+                                                    }
+                                                    if (!queryFinalized2.isNull(7)) {
+                                                        try {
+                                                            byteBufferValue = queryFinalized2.byteBufferValue(7);
+                                                        } catch (Exception e15) {
+                                                            e = e15;
+                                                        }
+                                                        if (byteBufferValue != null) {
+                                                            TLRPC$Message TLdeserialize4 = TLRPC$Message.TLdeserialize(byteBufferValue, byteBufferValue.readInt32(false), false);
+                                                            TLdeserialize3.replyMessage = TLdeserialize4;
+                                                            TLdeserialize4.readAttachPath(byteBufferValue, getUserConfig().clientUserId);
+                                                            byteBufferValue.reuse();
+                                                            TLRPC$Message tLRPC$Message2 = TLdeserialize3.replyMessage;
+                                                            if (tLRPC$Message2 != null) {
+                                                                try {
+                                                                    addUsersAndChatsFromMessage(tLRPC$Message2, arrayList18, arrayList19, null);
+                                                                    if (TLdeserialize3.replyMessage != null) {
+                                                                        longSparseArray3 = longSparseArray10;
+                                                                        try {
+                                                                            addReplyMessages(TLdeserialize3, longSparseArray6, longSparseArray3);
+                                                                        } catch (Exception e16) {
+                                                                            e = e16;
+                                                                            exc2 = e;
+                                                                            FileLog.e(exc2);
+                                                                            i12 = 0;
+                                                                            longSparseArray2 = longSparseArray3;
+                                                                            tLRPC$TL_messages_dialogs2 = tLRPC$TL_messages_dialogs5;
+                                                                            arrayList5 = arrayList12;
+                                                                            arrayList8 = arrayList11;
+                                                                        }
+                                                                    } else {
+                                                                        longSparseArray3 = longSparseArray10;
+                                                                    }
+                                                                } catch (Exception e17) {
+                                                                    e = e17;
+                                                                    exc2 = e;
+                                                                    longSparseArray3 = longSparseArray10;
+                                                                    FileLog.e(exc2);
+                                                                    i12 = 0;
+                                                                    longSparseArray2 = longSparseArray3;
+                                                                    tLRPC$TL_messages_dialogs2 = tLRPC$TL_messages_dialogs5;
+                                                                    arrayList5 = arrayList12;
+                                                                    arrayList8 = arrayList11;
+                                                                }
+                                                                i12 = 0;
+                                                            }
+                                                        }
+                                                    }
+                                                    if (TLdeserialize3.replyMessage != null) {
+                                                    }
+                                                    i12 = 0;
+                                                }
+                                                longSparseArray3 = longSparseArray10;
+                                                i12 = 0;
+                                            } else {
+                                                arrayList12 = arrayList5;
+                                                longSparseArray3 = longSparseArray2;
+                                                i12 = 0;
+                                                byteBufferValue5.reuse();
+                                            }
+                                        }
+                                        longSparseArray2 = longSparseArray3;
+                                        tLRPC$TL_messages_dialogs2 = tLRPC$TL_messages_dialogs5;
+                                        arrayList5 = arrayList12;
+                                        arrayList8 = arrayList11;
+                                    } catch (Exception e18) {
+                                        exc = e18;
+                                        sQLiteCursor = queryFinalized2;
+                                        arrayList = arrayList2;
+                                        tLRPC$TL_messages_dialogs = tLRPC$TL_messages_dialogs2;
+                                    }
+                                } catch (Throwable th6) {
+                                    th = th6;
+                                    sQLiteCursor2 = queryFinalized2;
+                                    if (sQLiteCursor2 != null) {
+                                        sQLiteCursor2.dispose();
+                                    }
+                                    throw th;
+                                }
+                            }
+                            arrayList9 = arrayList5;
+                            longSparseArray7 = longSparseArray2;
+                            arrayList10 = arrayList8;
+                            tLRPC$TL_messages_dialogs3 = tLRPC$TL_messages_dialogs2;
+                            queryFinalized2.dispose();
+                            sQLiteCursor4 = queryFinalized2;
+                        } else {
+                            arrayList9 = arrayList5;
+                            longSparseArray7 = longSparseArray2;
+                            arrayList10 = arrayList8;
+                            tLRPC$TL_messages_dialogs3 = tLRPC$TL_messages_dialogs2;
+                            sQLiteCursor4 = null;
+                        }
+                        messagesStorage3 = this;
+                        jArr2 = jArr;
+                        arrayList17 = arrayList2;
+                        arrayList20 = arrayList10;
+                        arrayList23 = arrayList6;
+                        i9 = i6 + 1;
+                        arrayList22 = arrayList9;
+                        tLRPC$TL_messages_dialogs4 = tLRPC$TL_messages_dialogs3;
+                        arrayList21 = arrayList7;
+                    } catch (Exception e19) {
+                        sQLiteCursor = null;
+                        messagesStorage = this;
+                        exc = e19;
+                        arrayList = arrayList2;
+                        tLRPC$TL_messages_dialogs = tLRPC$TL_messages_dialogs2;
+                        tLRPC$TL_messages_dialogs.dialogs.clear();
+                        tLRPC$TL_messages_dialogs.users.clear();
+                        tLRPC$TL_messages_dialogs.chats.clear();
+                        arrayList.clear();
+                        FileLog.e(exc);
+                        getMessagesController().processLoadedDialogs(tLRPC$TL_messages_dialogs, arrayList, i, 0, 100, 1, true, false, true);
+                        messagesStorage.checkMalformed(exc);
+                        if (sQLiteCursor == null) {
+                        }
+                    } catch (Throwable th7) {
+                        th = th7;
+                        sQLiteCursor = null;
+                        th = th;
+                        sQLiteCursor2 = sQLiteCursor;
+                        if (sQLiteCursor2 != null) {
+                        }
+                        throw th;
+                    }
+                } catch (Exception e20) {
+                    e = e20;
+                    messagesStorage = messagesStorage3;
+                    arrayList = arrayList17;
+                    tLRPC$TL_messages_dialogs = tLRPC$TL_messages_dialogs4;
+                } catch (Throwable th8) {
+                    th = th8;
+                }
+            }
+            ArrayList arrayList27 = arrayList20;
+            ArrayList arrayList28 = arrayList21;
+            arrayList2 = arrayList17;
+            TLRPC$TL_messages_dialogs tLRPC$TL_messages_dialogs6 = tLRPC$TL_messages_dialogs4;
+            try {
+                loadReplyMessages(longSparseArray6, longSparseArray7, arrayList18, arrayList19, false);
+                if (jArr != null) {
+                    try {
+                        ArrayList arrayList29 = new ArrayList();
+                        for (int i14 = 0; i14 < jArr.length; i14++) {
+                            long j2 = jArr[i14];
+                            if (!DialogObject.isEncryptedDialog(j2)) {
+                                if (j2 > 0) {
+                                    if (!arrayList18.contains(Long.valueOf(j2))) {
+                                        arrayList18.add(Long.valueOf(j2));
+                                    }
+                                } else {
+                                    long j3 = -j2;
+                                    if (!arrayList19.contains(Long.valueOf(j3))) {
+                                        arrayList19.add(Long.valueOf(j3));
+                                    }
+                                }
+                                if (!arrayList28.contains(Long.valueOf(jArr[i14]))) {
+                                    arrayList29.add(Long.valueOf(jArr[i14]));
+                                }
+                            }
+                        }
+                        if (!arrayList29.isEmpty()) {
+                            LongSparseArray longSparseArray11 = new LongSparseArray(arrayList29.size());
+                            messagesStorage2 = this;
+                            try {
+                                SQLiteCursor queryFinalized3 = messagesStorage2.database.queryFinalized(String.format(Locale.US, "SELECT did, folder_id FROM dialogs WHERE did IN(%s)", TextUtils.join(",", arrayList29)), new Object[0]);
                                 while (queryFinalized3.next()) {
                                     try {
                                         longSparseArray11.put(queryFinalized3.longValue(0), Integer.valueOf(queryFinalized3.intValue(1)));
-                                    } catch (Exception e22) {
-                                        exc = e22;
+                                    } catch (Exception e21) {
+                                        exc = e21;
                                         sQLiteCursor = queryFinalized3;
-                                        tLRPC$TL_messages_dialogs = tLRPC$TL_messages_dialogs2;
+                                        messagesStorage = messagesStorage2;
+                                        tLRPC$TL_messages_dialogs = tLRPC$TL_messages_dialogs6;
                                         arrayList = arrayList2;
                                         tLRPC$TL_messages_dialogs.dialogs.clear();
                                         tLRPC$TL_messages_dialogs.users.clear();
@@ -28698,63 +28721,71 @@ public class MessagesStorage extends BaseController {
                                         arrayList.clear();
                                         FileLog.e(exc);
                                         getMessagesController().processLoadedDialogs(tLRPC$TL_messages_dialogs, arrayList, i, 0, 100, 1, true, false, true);
+                                        messagesStorage.checkMalformed(exc);
                                         if (sQLiteCursor == null) {
                                         }
+                                    } catch (Throwable th9) {
+                                        th = th9;
+                                        sQLiteCursor2 = queryFinalized3;
+                                        if (sQLiteCursor2 != null) {
+                                        }
+                                        throw th;
                                     }
                                 }
                                 queryFinalized3.dispose();
                                 longSparseArray = longSparseArray11;
-                                sQLiteCursor5 = null;
-                            } else {
-                                messagesStorage = this;
-                                longSparseArray = null;
-                            }
-                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda127
-                                @Override // java.lang.Runnable
-                                public final void run() {
-                                    MessagesStorage.this.lambda$getDialogs$190(longSparseArray);
+                                sQLiteCursor4 = null;
+                            } catch (Exception e22) {
+                                exc = e22;
+                                messagesStorage = messagesStorage2;
+                                tLRPC$TL_messages_dialogs = tLRPC$TL_messages_dialogs6;
+                                sQLiteCursor = sQLiteCursor4;
+                                arrayList = arrayList2;
+                                tLRPC$TL_messages_dialogs.dialogs.clear();
+                                tLRPC$TL_messages_dialogs.users.clear();
+                                tLRPC$TL_messages_dialogs.chats.clear();
+                                arrayList.clear();
+                                FileLog.e(exc);
+                                getMessagesController().processLoadedDialogs(tLRPC$TL_messages_dialogs, arrayList, i, 0, 100, 1, true, false, true);
+                                messagesStorage.checkMalformed(exc);
+                                if (sQLiteCursor == null) {
                                 }
-                            });
-                        } catch (Exception e23) {
-                            e = e23;
-                        } catch (Throwable th7) {
-                            th = th7;
-                            th = th;
-                            sQLiteCursor2 = sQLiteCursor5;
-                            if (sQLiteCursor2 != null) {
+                            } catch (Throwable th10) {
+                                th = th10;
+                                sQLiteCursor2 = sQLiteCursor4;
+                                if (sQLiteCursor2 != null) {
+                                }
+                                throw th;
                             }
-                            throw th;
+                        } else {
+                            messagesStorage2 = this;
+                            longSparseArray = null;
                         }
-                    } else {
+                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda127
+                            @Override // java.lang.Runnable
+                            public final void run() {
+                                MessagesStorage.this.lambda$getDialogs$190(longSparseArray);
+                            }
+                        });
+                    } catch (Exception e23) {
                         messagesStorage = this;
+                        exc = e23;
                     }
-                    sQLiteCursor3 = sQLiteCursor5;
+                } else {
+                    messagesStorage2 = this;
+                }
+                sQLiteCursor3 = sQLiteCursor4;
+                try {
                     try {
-                        try {
-                            if (!arrayList27.isEmpty()) {
+                        if (!arrayList27.isEmpty()) {
+                            try {
                                 try {
                                     arrayList3 = arrayList2;
-                                    try {
-                                        messagesStorage.getEncryptedChatsInternal(TextUtils.join(",", arrayList27), arrayList3, arrayList14);
-                                    } catch (Exception e24) {
-                                        e = e24;
-                                        sQLiteCursor = sQLiteCursor3;
-                                        arrayList = arrayList3;
-                                        tLRPC$TL_messages_dialogs = tLRPC$TL_messages_dialogs2;
-                                        exc = e;
-                                        tLRPC$TL_messages_dialogs.dialogs.clear();
-                                        tLRPC$TL_messages_dialogs.users.clear();
-                                        tLRPC$TL_messages_dialogs.chats.clear();
-                                        arrayList.clear();
-                                        FileLog.e(exc);
-                                        getMessagesController().processLoadedDialogs(tLRPC$TL_messages_dialogs, arrayList, i, 0, 100, 1, true, false, true);
-                                        if (sQLiteCursor == null) {
-                                        }
-                                    }
-                                } catch (Exception e25) {
-                                    e = e25;
+                                } catch (Exception e24) {
+                                    e = e24;
                                     sQLiteCursor = sQLiteCursor3;
-                                    tLRPC$TL_messages_dialogs = tLRPC$TL_messages_dialogs2;
+                                    messagesStorage = messagesStorage2;
+                                    tLRPC$TL_messages_dialogs = tLRPC$TL_messages_dialogs6;
                                     arrayList = arrayList2;
                                     exc = e;
                                     tLRPC$TL_messages_dialogs.dialogs.clear();
@@ -28763,86 +28794,119 @@ public class MessagesStorage extends BaseController {
                                     arrayList.clear();
                                     FileLog.e(exc);
                                     getMessagesController().processLoadedDialogs(tLRPC$TL_messages_dialogs, arrayList, i, 0, 100, 1, true, false, true);
+                                    messagesStorage.checkMalformed(exc);
                                     if (sQLiteCursor == null) {
                                     }
                                 }
-                            } else {
-                                arrayList3 = arrayList2;
-                            }
-                            try {
-                                if (!arrayList15.isEmpty()) {
-                                    messagesStorage.getChatsInternal(TextUtils.join(",", arrayList15), tLRPC$TL_messages_dialogs2.chats);
+                                try {
+                                    messagesStorage2.getEncryptedChatsInternal(TextUtils.join(",", arrayList27), arrayList3, arrayList18);
+                                } catch (Exception e25) {
+                                    e = e25;
+                                    sQLiteCursor = sQLiteCursor3;
+                                    messagesStorage = messagesStorage2;
+                                    arrayList = arrayList3;
+                                    tLRPC$TL_messages_dialogs = tLRPC$TL_messages_dialogs6;
+                                    exc = e;
+                                    tLRPC$TL_messages_dialogs.dialogs.clear();
+                                    tLRPC$TL_messages_dialogs.users.clear();
+                                    tLRPC$TL_messages_dialogs.chats.clear();
+                                    arrayList.clear();
+                                    FileLog.e(exc);
+                                    getMessagesController().processLoadedDialogs(tLRPC$TL_messages_dialogs, arrayList, i, 0, 100, 1, true, false, true);
+                                    messagesStorage.checkMalformed(exc);
+                                    if (sQLiteCursor == null) {
+                                    }
                                 }
-                                if (!arrayList14.isEmpty()) {
-                                    messagesStorage.getUsersInternal(TextUtils.join(",", arrayList14), tLRPC$TL_messages_dialogs2.users);
+                            } catch (Throwable th11) {
+                                th = th11;
+                                sQLiteCursor2 = sQLiteCursor3;
+                                th = th;
+                                if (sQLiteCursor2 != null) {
                                 }
-                                tLRPC$TL_messages_dialogs = tLRPC$TL_messages_dialogs2;
-                                arrayList = arrayList3;
-                            } catch (Exception e26) {
-                                e = e26;
-                                arrayList = arrayList3;
-                                tLRPC$TL_messages_dialogs = tLRPC$TL_messages_dialogs2;
+                                throw th;
                             }
-                        } catch (Throwable th8) {
-                            th = th8;
-                            sQLiteCursor2 = sQLiteCursor3;
-                            if (sQLiteCursor2 != null) {
-                            }
-                            throw th;
+                        } else {
+                            arrayList3 = arrayList2;
                         }
-                    } catch (Exception e27) {
-                        e = e27;
-                        tLRPC$TL_messages_dialogs = tLRPC$TL_messages_dialogs2;
-                        arrayList = arrayList2;
+                        try {
+                            if (!arrayList19.isEmpty()) {
+                                messagesStorage2.getChatsInternal(TextUtils.join(",", arrayList19), tLRPC$TL_messages_dialogs6.chats);
+                            }
+                            if (!arrayList18.isEmpty()) {
+                                messagesStorage2.getUsersInternal(TextUtils.join(",", arrayList18), tLRPC$TL_messages_dialogs6.users);
+                            }
+                            arrayList = arrayList3;
+                            MessagesStorage messagesStorage4 = messagesStorage2;
+                            tLRPC$TL_messages_dialogs = tLRPC$TL_messages_dialogs6;
+                            messagesStorage = messagesStorage4;
+                        } catch (Exception e26) {
+                            e = e26;
+                            messagesStorage = messagesStorage2;
+                            arrayList = arrayList3;
+                            tLRPC$TL_messages_dialogs = tLRPC$TL_messages_dialogs6;
+                        }
+                    } catch (Throwable th12) {
+                        th = th12;
                     }
-                } catch (Exception e28) {
-                    e = e28;
-                    tLRPC$TL_messages_dialogs = tLRPC$TL_messages_dialogs2;
+                } catch (Exception e27) {
+                    e = e27;
+                    messagesStorage = messagesStorage2;
+                    tLRPC$TL_messages_dialogs = tLRPC$TL_messages_dialogs6;
                     arrayList = arrayList2;
-                    exc = e;
-                    sQLiteCursor = sQLiteCursor5;
-                    tLRPC$TL_messages_dialogs.dialogs.clear();
-                    tLRPC$TL_messages_dialogs.users.clear();
-                    tLRPC$TL_messages_dialogs.chats.clear();
-                    arrayList.clear();
-                    FileLog.e(exc);
-                    getMessagesController().processLoadedDialogs(tLRPC$TL_messages_dialogs, arrayList, i, 0, 100, 1, true, false, true);
-                    if (sQLiteCursor == null) {
-                    }
                 }
-                try {
-                    getMessagesController().processLoadedDialogs(tLRPC$TL_messages_dialogs2, arrayList3, i, i2, i3, 1, false, false, true);
-                    if (sQLiteCursor3 == null) {
-                        return;
-                    }
-                    sQLiteCursor3.dispose();
-                } catch (Exception e29) {
-                    e = e29;
-                    sQLiteCursor = sQLiteCursor3;
-                    exc = e;
-                    tLRPC$TL_messages_dialogs.dialogs.clear();
-                    tLRPC$TL_messages_dialogs.users.clear();
-                    tLRPC$TL_messages_dialogs.chats.clear();
-                    arrayList.clear();
-                    FileLog.e(exc);
-                    getMessagesController().processLoadedDialogs(tLRPC$TL_messages_dialogs, arrayList, i, 0, 100, 1, true, false, true);
-                    if (sQLiteCursor == null) {
-                    }
+            } catch (Exception e28) {
+                e = e28;
+                messagesStorage = this;
+                tLRPC$TL_messages_dialogs = tLRPC$TL_messages_dialogs6;
+                arrayList = arrayList2;
+                exc = e;
+                sQLiteCursor = sQLiteCursor4;
+                tLRPC$TL_messages_dialogs.dialogs.clear();
+                tLRPC$TL_messages_dialogs.users.clear();
+                tLRPC$TL_messages_dialogs.chats.clear();
+                arrayList.clear();
+                FileLog.e(exc);
+                getMessagesController().processLoadedDialogs(tLRPC$TL_messages_dialogs, arrayList, i, 0, 100, 1, true, false, true);
+                messagesStorage.checkMalformed(exc);
+                if (sQLiteCursor == null) {
                 }
-            } catch (Exception e30) {
-                e = e30;
-                arrayList = arrayList13;
-                tLRPC$TL_messages_dialogs = tLRPC$TL_messages_dialogs5;
-                sQLiteCursor = null;
             }
-        } catch (Throwable th9) {
-            th = th9;
+            try {
+                getMessagesController().processLoadedDialogs(tLRPC$TL_messages_dialogs6, arrayList3, i, i2, i3, 1, false, false, true);
+                if (sQLiteCursor3 == null) {
+                    return;
+                }
+                sQLiteCursor3.dispose();
+            } catch (Exception e29) {
+                e = e29;
+                sQLiteCursor = sQLiteCursor3;
+                exc = e;
+                tLRPC$TL_messages_dialogs.dialogs.clear();
+                tLRPC$TL_messages_dialogs.users.clear();
+                tLRPC$TL_messages_dialogs.chats.clear();
+                arrayList.clear();
+                FileLog.e(exc);
+                getMessagesController().processLoadedDialogs(tLRPC$TL_messages_dialogs, arrayList, i, 0, 100, 1, true, false, true);
+                messagesStorage.checkMalformed(exc);
+                if (sQLiteCursor == null) {
+                }
+            } catch (Throwable th13) {
+                th = th13;
+                sQLiteCursor2 = sQLiteCursor3;
+                th = th;
+                if (sQLiteCursor2 != null) {
+                }
+                throw th;
+            }
+        } catch (Exception e30) {
+            e = e30;
+            messagesStorage = messagesStorage3;
+            arrayList = arrayList17;
+            tLRPC$TL_messages_dialogs = tLRPC$TL_messages_dialogs4;
             sQLiteCursor = null;
-            th = th;
-            sQLiteCursor2 = sQLiteCursor;
-            if (sQLiteCursor2 != null) {
-            }
-            throw th;
+        } catch (Throwable th14) {
+            th = th14;
+            sQLiteCursor = null;
         }
     }
 
