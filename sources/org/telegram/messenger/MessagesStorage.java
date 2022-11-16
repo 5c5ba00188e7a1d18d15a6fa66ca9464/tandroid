@@ -13130,7 +13130,7 @@ public class MessagesStorage extends BaseController {
 
     public void processPendingRead(final long j, final int i, final int i2, final int i3) {
         final int i4 = this.lastSavedDate;
-        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda75
+        this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda74
             @Override // java.lang.Runnable
             public final void run() {
                 MessagesStorage.this.lambda$processPendingRead$118(j, i, i3, i4, i2);
@@ -16908,11 +16908,13 @@ public class MessagesStorage extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:48:0x0181  */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x0186  */
-    /* JADX WARN: Removed duplicated region for block: B:52:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x018d  */
-    /* JADX WARN: Removed duplicated region for block: B:58:0x0192  */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x018a  */
+    /* JADX WARN: Removed duplicated region for block: B:48:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x0224  */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x0229  */
+    /* JADX WARN: Removed duplicated region for block: B:66:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x0230  */
+    /* JADX WARN: Removed duplicated region for block: B:72:0x0235  */
     /* renamed from: updateRepliesMaxReadIdInternal */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -16920,10 +16922,13 @@ public class MessagesStorage extends BaseController {
     public void lambda$updateRepliesMaxReadId$164(final long j, final int i, final int i2, int i3) {
         SQLitePreparedStatement sQLitePreparedStatement;
         SQLiteCursor sQLiteCursor;
+        Locale locale;
+        SQLiteCursor queryFinalized;
         SQLiteCursor sQLiteCursor2;
         SQLiteCursor sQLiteCursor3;
         int i4;
-        SQLiteCursor queryFinalized;
+        final int i5;
+        SQLiteCursor queryFinalized2;
         TLRPC$MessageReplies tLRPC$MessageReplies;
         NativeByteBuffer byteBufferValue;
         long j2 = -j;
@@ -16931,7 +16936,7 @@ public class MessagesStorage extends BaseController {
             if (!isForum(j2)) {
                 SQLitePreparedStatement executeFast = this.database.executeFast("UPDATE messages_v2 SET replies_data = ? WHERE mid = ? AND uid = ?");
                 try {
-                    queryFinalized = this.database.queryFinalized(String.format(Locale.US, "SELECT replies_data FROM messages_v2 WHERE mid = %d AND uid = %d", Integer.valueOf(i), Long.valueOf(j2)), new Object[0]);
+                    queryFinalized2 = this.database.queryFinalized(String.format(Locale.US, "SELECT replies_data FROM messages_v2 WHERE mid = %d AND uid = %d", Integer.valueOf(i), Long.valueOf(j2)), new Object[0]);
                 } catch (Exception e) {
                     e = e;
                     sQLitePreparedStatement = executeFast;
@@ -16939,9 +16944,13 @@ public class MessagesStorage extends BaseController {
                     try {
                         FileLog.e(e);
                         if (sQLitePreparedStatement != null) {
+                            sQLitePreparedStatement.dispose();
                         }
                         if (sQLiteCursor == null) {
+                            return;
                         }
+                        sQLiteCursor.dispose();
+                        return;
                     } catch (Throwable th) {
                         th = th;
                         if (sQLitePreparedStatement != null) {
@@ -16963,13 +16972,13 @@ public class MessagesStorage extends BaseController {
                     throw th;
                 }
                 try {
-                    if (!queryFinalized.next() || (byteBufferValue = queryFinalized.byteBufferValue(0)) == null) {
+                    if (!queryFinalized2.next() || (byteBufferValue = queryFinalized2.byteBufferValue(0)) == null) {
                         tLRPC$MessageReplies = null;
                     } else {
                         tLRPC$MessageReplies = TLRPC$MessageReplies.TLdeserialize(byteBufferValue, byteBufferValue.readInt32(false), false);
                         byteBufferValue.reuse();
                     }
-                    queryFinalized.dispose();
+                    queryFinalized2.dispose();
                     if (tLRPC$MessageReplies != null) {
                         tLRPC$MessageReplies.read_max_id = i2;
                         executeFast.requery();
@@ -16985,7 +16994,7 @@ public class MessagesStorage extends BaseController {
                 } catch (Exception e2) {
                     e = e2;
                     sQLitePreparedStatement = executeFast;
-                    sQLiteCursor = queryFinalized;
+                    sQLiteCursor = queryFinalized2;
                     FileLog.e(e);
                     if (sQLitePreparedStatement != null) {
                     }
@@ -16994,7 +17003,7 @@ public class MessagesStorage extends BaseController {
                 } catch (Throwable th3) {
                     th = th3;
                     sQLitePreparedStatement = executeFast;
-                    sQLiteCursor = queryFinalized;
+                    sQLiteCursor = queryFinalized2;
                     if (sQLitePreparedStatement != null) {
                     }
                     if (sQLiteCursor != null) {
@@ -17003,65 +17012,85 @@ public class MessagesStorage extends BaseController {
                 }
             }
             SQLiteDatabase sQLiteDatabase = this.database;
-            Locale locale = Locale.US;
-            SQLiteCursor queryFinalized2 = sQLiteDatabase.queryFinalized(String.format(locale, "SELECT max_read_id FROM topics WHERE did = %d AND topic_id = %d", Long.valueOf(j2), Integer.valueOf(i)), new Object[0]);
-            try {
-                boolean z = queryFinalized2.next() && i2 >= queryFinalized2.intValue(0);
-                queryFinalized2.dispose();
-                this.database.executeFast(String.format(locale, "UPDATE messages_topics SET read_state = read_state | 1 WHERE uid = %d AND topic_id = %d AND mid <= %d AND read_state IN(0,2) AND out = 0", Long.valueOf(j2), Integer.valueOf(i), Integer.valueOf(i2))).stepThis().dispose();
-                if (i3 < 0) {
-                    SQLiteCursor queryFinalized3 = this.database.queryFinalized(String.format(locale, "SELECT count(mid) FROM  messages_topics WHERE uid = %d AND topic_id = %d AND mid > %d AND read_state IN(0,2) AND out = 0", Long.valueOf(j2), Integer.valueOf(i), Integer.valueOf(i2)), new Object[0]);
-                    i4 = queryFinalized3.next() ? queryFinalized3.intValue(0) : 0;
-                    queryFinalized3.dispose();
-                } else {
-                    i4 = i3;
-                }
-                if (!z) {
-                    return;
-                }
-                this.database.executeFast(String.format(Locale.ENGLISH, "UPDATE topics SET max_read_id = %d, unread_count = %d WHERE did = %d AND topic_id = %d", Integer.valueOf(i2), Integer.valueOf(i4), Long.valueOf(j2), Integer.valueOf(i))).stepThis().dispose();
-                final int i5 = i4;
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda74
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        MessagesStorage.this.lambda$updateRepliesMaxReadIdInternal$163(j, i, i2, i5);
+            locale = Locale.US;
+            queryFinalized = sQLiteDatabase.queryFinalized(String.format(locale, "SELECT max_read_id FROM topics WHERE did = %d AND topic_id = %d", Long.valueOf(j2), Integer.valueOf(i)), new Object[0]);
+        } catch (Exception e3) {
+            e = e3;
+            sQLitePreparedStatement = null;
+        } catch (Throwable th4) {
+            th = th4;
+            sQLitePreparedStatement = null;
+        }
+        try {
+            boolean z = queryFinalized.next() && i2 >= queryFinalized.intValue(0);
+            queryFinalized.dispose();
+            this.database.executeFast(String.format(locale, "UPDATE messages_topics SET read_state = read_state | 1 WHERE uid = %d AND topic_id = %d AND mid <= %d AND read_state IN(0,2) AND out = 0", Long.valueOf(j2), Integer.valueOf(i), Integer.valueOf(i2))).stepThis().dispose();
+            this.database.executeFast(String.format(locale, "UPDATE messages_topics SET read_state = read_state | 2 WHERE uid = %d AND topic_id = %d AND mid <= %d AND read_state IN(0,1) AND out = 0", Long.valueOf(j2), Integer.valueOf(i), Integer.valueOf(i2))).stepThis().dispose();
+            if (i3 < 0) {
+                SQLiteCursor queryFinalized3 = this.database.queryFinalized(String.format(locale, "SELECT count(mid) FROM messages_topics WHERE uid = %d AND topic_id = %d AND mid > %d AND read_state IN(0,2) AND out = 0", Long.valueOf(j2), Integer.valueOf(i), Integer.valueOf(i2)), new Object[0]);
+                i4 = queryFinalized3.next() ? queryFinalized3.intValue(0) : 0;
+                queryFinalized3.dispose();
+                if (i4 != 0) {
+                    SQLiteCursor queryFinalized4 = this.database.queryFinalized(String.format(locale, "SELECT count(mid) FROM messages_topics WHERE uid = %d AND topic_id = %d AND mid > %d AND read_state < 2 AND out = 0", Long.valueOf(j2), Integer.valueOf(i), Integer.valueOf(i2)), new Object[0]);
+                    int intValue = queryFinalized4.next() ? queryFinalized4.intValue(0) : -1;
+                    queryFinalized4.dispose();
+                    i5 = intValue;
+                    if (z) {
+                        return;
                     }
-                });
-                resetForumBadgeIfNeed(j2);
-            } catch (Exception e3) {
-                e = e3;
-                sQLiteCursor = sQLiteCursor3;
-                sQLitePreparedStatement = null;
-                FileLog.e(e);
-                if (sQLitePreparedStatement != null) {
-                    sQLitePreparedStatement.dispose();
-                }
-                if (sQLiteCursor == null) {
+                    if (i5 >= 0) {
+                        this.database.executeFast(String.format(Locale.ENGLISH, "UPDATE topics SET max_read_id = %d, unread_count = %d, unread_mentions = %d WHERE did = %d AND topic_id = %d", Integer.valueOf(i2), Integer.valueOf(i4), Integer.valueOf(i5), Long.valueOf(j2), Integer.valueOf(i))).stepThis().dispose();
+                    } else {
+                        this.database.executeFast(String.format(Locale.ENGLISH, "UPDATE topics SET max_read_id = %d, unread_count = %d WHERE did = %d AND topic_id = %d", Integer.valueOf(i2), Integer.valueOf(i4), Long.valueOf(j2), Integer.valueOf(i))).stepThis().dispose();
+                    }
+                    final int i6 = i4;
+                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda75
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            MessagesStorage.this.lambda$updateRepliesMaxReadIdInternal$163(j, i, i2, i6, i5);
+                        }
+                    });
+                    resetForumBadgeIfNeed(j2);
                     return;
                 }
-                sQLiteCursor.dispose();
-            } catch (Throwable th4) {
-                th = th4;
-                sQLiteCursor = sQLiteCursor2;
-                sQLitePreparedStatement = null;
-                if (sQLitePreparedStatement != null) {
+                i5 = 0;
+                if (z) {
                 }
-                if (sQLiteCursor != null) {
+            } else {
+                i4 = i3;
+                if (i3 != 0) {
+                    i5 = -1;
+                    if (z) {
+                    }
                 }
-                throw th;
+                i5 = 0;
+                if (z) {
+                }
             }
         } catch (Exception e4) {
             e = e4;
+            sQLiteCursor = sQLiteCursor3;
             sQLitePreparedStatement = null;
+            FileLog.e(e);
+            if (sQLitePreparedStatement != null) {
+            }
+            if (sQLiteCursor == null) {
+            }
         } catch (Throwable th5) {
             th = th5;
+            sQLiteCursor = sQLiteCursor2;
             sQLitePreparedStatement = null;
+            if (sQLitePreparedStatement != null) {
+            }
+            if (sQLiteCursor != null) {
+            }
+            throw th;
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$updateRepliesMaxReadIdInternal$163(long j, int i, int i2, int i3) {
-        getMessagesController().getTopicsController().updateMaxReadId(j, i, i2, i3);
+    public /* synthetic */ void lambda$updateRepliesMaxReadIdInternal$163(long j, int i, int i2, int i3, int i4) {
+        getMessagesController().getTopicsController().updateMaxReadId(j, i, i2, i3, i4);
     }
 
     private void resetForumBadgeIfNeed(long j) {

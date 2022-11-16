@@ -21033,8 +21033,8 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     /* JADX WARN: Code restructure failed: missing block: B:8:0x0017, code lost:
         if ((r1 & 1) != 0) goto L9;
      */
-    /* JADX WARN: Removed duplicated region for block: B:78:0x0194  */
-    /* JADX WARN: Removed duplicated region for block: B:82:0x01b0  */
+    /* JADX WARN: Removed duplicated region for block: B:84:0x01a1  */
+    /* JADX WARN: Removed duplicated region for block: B:88:0x01bd  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -21083,7 +21083,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 ReactionsLayoutInBubble reactionsLayoutInBubble5 = this.reactionsLayoutInBubble;
                 reactionsLayoutInBubble4.y = backgroundDrawableBottom - reactionsLayoutInBubble5.height;
                 reactionsLayoutInBubble5.y -= this.drawCommentButton ? AndroidUtilities.dp(43.0f) : 0;
-                if (this.hasNewLineForTime) {
+                if (this.hasNewLineForTime && (!this.drawForwardedName || !this.hasLinkPreview || this.documentAttachType != 3)) {
                     this.reactionsLayoutInBubble.y -= AndroidUtilities.dp(16.0f);
                 }
                 if (this.captionLayout != null) {

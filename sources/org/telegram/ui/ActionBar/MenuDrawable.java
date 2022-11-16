@@ -111,17 +111,17 @@ public class MenuDrawable extends Drawable {
     }
 
     /* JADX WARN: Removed duplicated region for block: B:33:0x0101  */
-    /* JADX WARN: Removed duplicated region for block: B:47:0x0379  */
-    /* JADX WARN: Removed duplicated region for block: B:54:0x03ec  */
-    /* JADX WARN: Removed duplicated region for block: B:57:0x0409  */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x0458  */
-    /* JADX WARN: Removed duplicated region for block: B:68:0x046c  */
-    /* JADX WARN: Removed duplicated region for block: B:71:0x04d7  */
-    /* JADX WARN: Removed duplicated region for block: B:76:0x047b  */
-    /* JADX WARN: Removed duplicated region for block: B:79:0x041f  */
-    /* JADX WARN: Removed duplicated region for block: B:81:0x042f  */
-    /* JADX WARN: Removed duplicated region for block: B:86:0x0398  */
-    /* JADX WARN: Removed duplicated region for block: B:90:0x0215  */
+    /* JADX WARN: Removed duplicated region for block: B:47:0x037b  */
+    /* JADX WARN: Removed duplicated region for block: B:54:0x03ee  */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x040b  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x045a  */
+    /* JADX WARN: Removed duplicated region for block: B:68:0x046e  */
+    /* JADX WARN: Removed duplicated region for block: B:71:0x04d9  */
+    /* JADX WARN: Removed duplicated region for block: B:76:0x047d  */
+    /* JADX WARN: Removed duplicated region for block: B:79:0x0421  */
+    /* JADX WARN: Removed duplicated region for block: B:81:0x0431  */
+    /* JADX WARN: Removed duplicated region for block: B:86:0x039a  */
+    /* JADX WARN: Removed duplicated region for block: B:90:0x0217  */
     @Override // android.graphics.drawable.Drawable
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -207,7 +207,7 @@ public class MenuDrawable extends Drawable {
                         dp6 += (this.paint.getStrokeWidth() / 2.0f) * (1.0f - this.currentRotation);
                         float dp7 = dp3 + (AndroidUtilities.dp(0.5f) * this.currentRotation);
                         dp4 -= (AndroidUtilities.dp(0.5f) * this.currentRotation) + ((this.paint.getStrokeWidth() / 2.0f) * (1.0f - this.currentRotation));
-                        dp5 -= AndroidUtilities.dp(0.25f) * this.currentRotation;
+                        dp5 -= AndroidUtilities.dp(0.75f) * this.currentRotation;
                         dp3 = dp7 + (AndroidUtilities.dp(0.25f) * this.currentRotation);
                     }
                 } else {

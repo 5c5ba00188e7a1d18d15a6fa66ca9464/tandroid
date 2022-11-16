@@ -1181,21 +1181,35 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                 setChatInfo(tLRPC$ChatFull);
             } else if (i == NotificationCenter.fileLoaded) {
                 final ArrayList arrayList5 = new ArrayList();
+                int i20 = 0;
                 while (true) {
                     SharedMediaData[] sharedMediaDataArr6 = this.sharedMediaData;
-                    if (i7 < sharedMediaDataArr6.length) {
-                        arrayList5.addAll(sharedMediaDataArr6[i7].messages);
-                        i7++;
-                    } else {
-                        Utilities.globalQueue.postRunnable(new Runnable(this) { // from class: org.telegram.ui.Components.SharedMediaLayout.SharedMediaPreloader.1
-                            @Override // java.lang.Runnable
-                            public void run() {
-                                FileLoader.getInstance(i2).checkMediaExistance(arrayList5);
-                            }
-                        });
-                        return;
+                    if (i20 >= sharedMediaDataArr6.length) {
+                        break;
                     }
+                    arrayList5.addAll(sharedMediaDataArr6[i20].messages);
+                    i20++;
                 }
+                final String str = (String) objArr[0];
+                if (str == null) {
+                    return;
+                }
+                Utilities.globalQueue.postRunnable(new Runnable(this) { // from class: org.telegram.ui.Components.SharedMediaLayout.SharedMediaPreloader.1
+                    @Override // java.lang.Runnable
+                    public void run() {
+                        int i21 = 0;
+                        while (i21 < arrayList5.size()) {
+                            if (!str.equals(((MessageObject) arrayList5.get(i21)).getFileName())) {
+                                arrayList5.remove(i21);
+                                i21--;
+                            }
+                            i21++;
+                        }
+                        if (arrayList5.size() > 0) {
+                            FileLoader.getInstance(i2).checkMediaExistance(arrayList5);
+                        }
+                    }
+                });
             }
         }
 

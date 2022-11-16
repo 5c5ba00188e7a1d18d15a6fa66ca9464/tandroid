@@ -37,6 +37,7 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -53,6 +54,7 @@ import org.telegram.ui.Components.RecyclerListView;
 public class RecyclerListView extends RecyclerView {
     private static int[] attributes;
     private static boolean gotAttributes;
+    private static final Method initializeScrollbars;
     private View.AccessibilityDelegate accessibilityDelegate;
     private boolean accessibilityEnabled;
     private boolean allowItemsInteractionDuringAnimation;
@@ -230,6 +232,16 @@ public class RecyclerListView extends RecyclerView {
     @Override // android.view.View
     public boolean hasOverlappingRendering() {
         return false;
+    }
+
+    static {
+        Method method;
+        try {
+            method = View.class.getDeclaredMethod("initializeScrollbars", TypedArray.class);
+        } catch (Exception unused) {
+            method = null;
+        }
+        initializeScrollbars = method;
     }
 
     public void setSelectorTransformer(Consumer<Canvas> consumer) {
@@ -1484,8 +1496,10 @@ public class RecyclerListView extends RecyclerView {
                 gotAttributes = true;
             }
             TypedArray obtainStyledAttributes = context.getTheme().obtainStyledAttributes(attributes);
-            View.class.getDeclaredMethod("initializeScrollbars", TypedArray.class).invoke(this, obtainStyledAttributes);
-            obtainStyledAttributes.recycle();
+            Method method = initializeScrollbars;
+            if (method != null) {
+                method.invoke(this, obtainStyledAttributes);
+            }
         } catch (Throwable th) {
             FileLog.e(th);
         }

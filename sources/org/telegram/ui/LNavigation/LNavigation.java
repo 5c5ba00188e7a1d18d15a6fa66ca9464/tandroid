@@ -56,6 +56,7 @@ import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.ActionBar.DrawerLayoutContainer;
 import org.telegram.ui.ActionBar.INavigationLayout;
+import org.telegram.ui.ActionBar.MenuDrawable;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ActionBar.ThemeDescription;
 import org.telegram.ui.Cells.CheckBoxCell;
@@ -94,6 +95,7 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
     private boolean isSwipeDisallowed;
     private boolean isSwipeInProgress;
     private Drawable layerShadowDrawable;
+    private MenuDrawable menuDrawable;
     private Theme.MessageDrawable messageDrawableOutMediaStart;
     private Theme.MessageDrawable messageDrawableOutStart;
     private Runnable onFragmentStackChangedListener;
@@ -186,6 +188,11 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
     }
 
     @Override // org.telegram.ui.ActionBar.INavigationLayout
+    public boolean isActionBarInCrossfade() {
+        return false;
+    }
+
+    @Override // org.telegram.ui.ActionBar.INavigationLayout
     public /* synthetic */ boolean presentFragment(BaseFragment baseFragment) {
         boolean presentFragment;
         presentFragment = presentFragment(new INavigationLayout.NavigationParams(baseFragment));
@@ -263,6 +270,7 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
         this.highlightActionButtons = false;
         this.previewFragmentRect = new Rect();
         this.blurPaint = new Paint(5);
+        this.menuDrawable = new MenuDrawable(MenuDrawable.TYPE_DEFAULT);
         this.startColorsProvider = new INavigationLayout.StartColorsProvider();
         this.themeAnimatorDelegate = new ArrayList<>();
         this.themeAnimatorDescriptions = new ArrayList<>();
@@ -275,6 +283,7 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
         this.layerShadowDrawable = getResources().getDrawable(R.drawable.layer_shadow).mutate();
         this.dimmPaint.setColor(2046820352);
         setWillNotDraw(false);
+        this.menuDrawable.setRoundCap();
         final int scaledTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
         GestureDetectorCompat gestureDetectorCompat = new GestureDetectorCompat(context, new GestureDetector.SimpleOnGestureListener() { // from class: org.telegram.ui.LNavigation.LNavigation.1
             @Override // android.view.GestureDetector.SimpleOnGestureListener, android.view.GestureDetector.OnGestureListener
@@ -333,6 +342,7 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
                                 LNavigation.this.getChildAt(i2).dispatchTouchEvent(obtain);
                             }
                             obtain.recycle();
+                            LNavigation.this.invalidateActionBars();
                         }
                     }
                     LNavigation.this.isSwipeDisallowed = true;
@@ -484,15 +494,12 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
             return;
         }
         lastFragment.onTransitionAnimationStart(true, true);
-        if (backgroundFragment != null) {
-            backgroundFragment.onTransitionAnimationStart(false, true);
-        }
         SpringAnimation spring = new SpringAnimation(new FloatValueHolder(this.swipeProgress * 1000.0f)).setSpring(new SpringForce(0.0f).setStiffness(SPRING_STIFFNESS).setDampingRatio(SPRING_DAMPING_RATIO));
         this.currentSpringAnimation = spring;
         spring.addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() { // from class: org.telegram.ui.LNavigation.LNavigation$$ExternalSyntheticLambda10
             @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationUpdateListener
             public final void onAnimationUpdate(DynamicAnimation dynamicAnimation, float f, float f2) {
-                LNavigation.this.lambda$animateReset$1(lastFragment, backgroundFragment, dynamicAnimation, f, f2);
+                LNavigation.this.lambda$animateReset$1(lastFragment, dynamicAnimation, f, f2);
             }
         });
         final Runnable runnable = new Runnable() { // from class: org.telegram.ui.LNavigation.LNavigation$$ExternalSyntheticLambda17
@@ -515,22 +522,16 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$animateReset$1(BaseFragment baseFragment, BaseFragment baseFragment2, DynamicAnimation dynamicAnimation, float f, float f2) {
+    public /* synthetic */ void lambda$animateReset$1(BaseFragment baseFragment, DynamicAnimation dynamicAnimation, float f, float f2) {
         this.swipeProgress = f / 1000.0f;
         invalidateTranslation();
         baseFragment.onTransitionAnimationProgress(true, 1.0f - this.swipeProgress);
-        if (baseFragment2 != null) {
-            baseFragment2.onTransitionAnimationProgress(false, 1.0f - this.swipeProgress);
-        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$animateReset$2(BaseFragment baseFragment, BaseFragment baseFragment2) {
         baseFragment.onTransitionAnimationEnd(true, true);
         baseFragment.prepareFragmentToSlide(true, false);
-        if (baseFragment2 != null) {
-            baseFragment2.onTransitionAnimationEnd(false, true);
-        }
         this.swipeProgress = 0.0f;
         invalidateTranslation();
         if (getBackgroundView() != null) {
@@ -543,6 +544,7 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
             baseFragment2.prepareFragmentToSlide(false, false);
         }
         this.currentSpringAnimation = null;
+        invalidateActionBars();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -550,6 +552,17 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
         if (dynamicAnimation == this.currentSpringAnimation) {
             runnable.run();
         }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void invalidateActionBars() {
+        if (getLastFragment() != null && getLastFragment().getActionBar() != null) {
+            getLastFragment().getActionBar().invalidate();
+        }
+        if (getBackgroundFragment() == null || getBackgroundFragment().getActionBar() == null) {
+            return;
+        }
+        getBackgroundFragment().getActionBar().invalidate();
     }
 
     private boolean processTouchEvent(MotionEvent motionEvent) {
@@ -741,9 +754,6 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
                     return true;
                 }
                 baseFragment.onTransitionAnimationStart(true, false);
-                if (backgroundFragment != null) {
-                    backgroundFragment.onTransitionAnimationStart(false, true);
-                }
                 AnimatorSet onCustomTransitionAnimation = baseFragment.onCustomTransitionAnimation(true, new Runnable() { // from class: org.telegram.ui.LNavigation.LNavigation$$ExternalSyntheticLambda18
                     @Override // java.lang.Runnable
                     public final void run() {
@@ -755,6 +765,7 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
                     getForegroundView().setTranslationX(0.0f);
                     return true;
                 }
+                invalidateActionBars();
                 SpringAnimation spring = new SpringAnimation(new FloatValueHolder(1000.0f)).setSpring(new SpringForce(0.0f).setStiffness(navigationParams.preview ? 650.0f : SPRING_STIFFNESS).setDampingRatio(navigationParams.preview ? 0.6f : SPRING_DAMPING_RATIO));
                 this.currentSpringAnimation = spring;
                 spring.addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() { // from class: org.telegram.ui.LNavigation.LNavigation$$ExternalSyntheticLambda9
@@ -792,10 +803,10 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$presentFragment$4(INavigationLayout.NavigationParams navigationParams, BaseFragment baseFragment) {
-        if (!navigationParams.removeLast || baseFragment == null) {
-            return;
+        if (navigationParams.removeLast && baseFragment != null) {
+            removeFragmentFromStack(baseFragment);
         }
-        removeFragmentFromStack(baseFragment);
+        invalidateActionBars();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -822,7 +833,6 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
         }
         baseFragment.onBecomeFullyVisible();
         if (baseFragment2 != null) {
-            baseFragment2.onTransitionAnimationEnd(false, true);
             baseFragment2.onBecomeFullyHidden();
         }
         runnable.run();
@@ -847,7 +857,6 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
             }
             baseFragment.onBecomeFullyVisible();
             if (baseFragment2 != null) {
-                baseFragment2.onTransitionAnimationEnd(false, true);
                 baseFragment2.onBecomeFullyHidden();
                 baseFragment2.setPaused(true);
             }
@@ -1242,8 +1251,14 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
         this.delegate = iNavigationLayoutDelegate;
     }
 
+    /* JADX WARN: Removed duplicated region for block: B:33:0x023e  */
     @Override // android.view.View
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public void draw(Canvas canvas) {
+        boolean z;
+        boolean z2;
         Drawable drawable;
         if (this.useAlphaAnimations) {
             canvas.save();
@@ -1258,7 +1273,7 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
             int width = (getWidth() - getPaddingLeft()) - getPaddingRight();
             this.dimmPaint.setAlpha((int) ((1.0f - this.swipeProgress) * 122.0f));
             float f = width;
-            canvas.drawRect(getPaddingLeft(), getPaddingTop(), (this.swipeProgress * f) + getPaddingLeft(), getHeight() - getPaddingBottom(), this.dimmPaint);
+            canvas.drawRect(getPaddingLeft(), getPaddingTop(), getPaddingLeft() + (this.swipeProgress * f), getHeight() - getPaddingBottom(), this.dimmPaint);
             this.layerShadowDrawable.setAlpha((int) ((1.0f - this.swipeProgress) * 255.0f));
             this.layerShadowDrawable.setBounds(((int) ((this.swipeProgress * f) - drawable.getIntrinsicWidth())) + getPaddingLeft(), getPaddingTop(), ((int) (f * this.swipeProgress)) + getPaddingLeft(), getHeight() - getPaddingBottom());
             this.layerShadowDrawable.draw(canvas);
@@ -1281,6 +1296,103 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
             canvas.scale(AndroidUtilities.lerp(1.0f, getWidth() / this.previewFragmentRect.width(), this.previewExpandProgress), AndroidUtilities.lerp(1.0f, getHeight() / this.previewFragmentRect.height(), this.previewExpandProgress));
             this.blurPaint.setAlpha((int) ((1.0f - Math.min(1.0f, this.previewExpandProgress)) * 255.0f));
             canvas.drawBitmap(this.previewFragmentSnapshot, 0.0f, 0.0f, this.blurPaint);
+            canvas.restore();
+        }
+        if (isActionBarInCrossfade()) {
+            BaseFragment lastFragment = getLastFragment();
+            BaseFragment backgroundFragment = getBackgroundFragment();
+            ActionBar actionBar = lastFragment.getActionBar();
+            ActionBar actionBar2 = backgroundFragment.getActionBar();
+            Float f4 = null;
+            INavigationLayout.BackButtonState backButtonState = backgroundFragment.getBackButtonState();
+            INavigationLayout.BackButtonState backButtonState2 = INavigationLayout.BackButtonState.MENU;
+            if (backButtonState != backButtonState2 || lastFragment.getBackButtonState() != INavigationLayout.BackButtonState.BACK) {
+                INavigationLayout.BackButtonState backButtonState3 = backgroundFragment.getBackButtonState();
+                INavigationLayout.BackButtonState backButtonState4 = INavigationLayout.BackButtonState.BACK;
+                if (backButtonState3 != backButtonState4 || lastFragment.getBackButtonState() != backButtonState2) {
+                    if (backgroundFragment.getBackButtonState() == backButtonState4 && lastFragment.getBackButtonState() == backButtonState4) {
+                        f4 = Float.valueOf(0.0f);
+                    } else if (backgroundFragment.getBackButtonState() == backButtonState2 && lastFragment.getBackButtonState() == backButtonState2) {
+                        f4 = Float.valueOf(1.0f);
+                    } else {
+                        z = false;
+                        z2 = false;
+                        RectF rectF3 = AndroidUtilities.rectTmp;
+                        rectF3.set(0.0f, 0.0f, getWidth(), actionBar2.getHeight());
+                        canvas.saveLayerAlpha(rectF3, (int) (this.swipeProgress * 255.0f), 31);
+                        actionBar2.onDrawCrossfadeBackground(canvas);
+                        canvas.restore();
+                        canvas.saveLayerAlpha(rectF3, (int) ((1.0f - this.swipeProgress) * 255.0f), 31);
+                        actionBar.onDrawCrossfadeBackground(canvas);
+                        canvas.restore();
+                        if (z) {
+                            rectF3.set(0.0f, 0.0f, getWidth(), actionBar2.getHeight());
+                            float floatValue = f4 != null ? f4.floatValue() : this.swipeProgress;
+                            canvas.saveLayerAlpha(rectF3, (int) (AndroidUtilities.lerp(1.0f - (actionBar2.getY() / (-(actionBar2.getHeight() - AndroidUtilities.statusBarHeight))), 1.0f - (actionBar.getY() / (-(actionBar.getHeight() - AndroidUtilities.statusBarHeight))), 1.0f - this.swipeProgress) * 255.0f), 31);
+                            float f5 = 1.0f - floatValue;
+                            canvas.translate(AndroidUtilities.dp(16.0f) - (AndroidUtilities.dp(2.0f) * f5), AndroidUtilities.dp(16.0f) + (actionBar.getOccupyStatusBar() ? AndroidUtilities.statusBarHeight : 0));
+                            MenuDrawable menuDrawable = this.menuDrawable;
+                            if (!z2) {
+                                floatValue = f5;
+                            }
+                            menuDrawable.setRotation(floatValue, false);
+                            this.menuDrawable.draw(canvas);
+                            canvas.restore();
+                        }
+                        rectF3.set(0.0f, AndroidUtilities.statusBarHeight, getWidth(), actionBar2.getHeight());
+                        canvas.saveLayerAlpha(rectF3, (int) (this.swipeProgress * 255.0f), 31);
+                        canvas.translate(0.0f, actionBar2.getY());
+                        actionBar2.onDrawCrossfadeContent(canvas, false, z, this.swipeProgress);
+                        canvas.restore();
+                        canvas.saveLayerAlpha(rectF3, (int) ((1.0f - this.swipeProgress) * 255.0f), 31);
+                        canvas.translate(0.0f, actionBar.getY());
+                        actionBar.onDrawCrossfadeContent(canvas, true, z, this.swipeProgress);
+                        canvas.restore();
+                    }
+                } else {
+                    z = true;
+                    z2 = true;
+                    RectF rectF32 = AndroidUtilities.rectTmp;
+                    rectF32.set(0.0f, 0.0f, getWidth(), actionBar2.getHeight());
+                    canvas.saveLayerAlpha(rectF32, (int) (this.swipeProgress * 255.0f), 31);
+                    actionBar2.onDrawCrossfadeBackground(canvas);
+                    canvas.restore();
+                    canvas.saveLayerAlpha(rectF32, (int) ((1.0f - this.swipeProgress) * 255.0f), 31);
+                    actionBar.onDrawCrossfadeBackground(canvas);
+                    canvas.restore();
+                    if (z) {
+                    }
+                    rectF32.set(0.0f, AndroidUtilities.statusBarHeight, getWidth(), actionBar2.getHeight());
+                    canvas.saveLayerAlpha(rectF32, (int) (this.swipeProgress * 255.0f), 31);
+                    canvas.translate(0.0f, actionBar2.getY());
+                    actionBar2.onDrawCrossfadeContent(canvas, false, z, this.swipeProgress);
+                    canvas.restore();
+                    canvas.saveLayerAlpha(rectF32, (int) ((1.0f - this.swipeProgress) * 255.0f), 31);
+                    canvas.translate(0.0f, actionBar.getY());
+                    actionBar.onDrawCrossfadeContent(canvas, true, z, this.swipeProgress);
+                    canvas.restore();
+                }
+            }
+            z = true;
+            z2 = false;
+            RectF rectF322 = AndroidUtilities.rectTmp;
+            rectF322.set(0.0f, 0.0f, getWidth(), actionBar2.getHeight());
+            canvas.saveLayerAlpha(rectF322, (int) (this.swipeProgress * 255.0f), 31);
+            actionBar2.onDrawCrossfadeBackground(canvas);
+            canvas.restore();
+            canvas.saveLayerAlpha(rectF322, (int) ((1.0f - this.swipeProgress) * 255.0f), 31);
+            actionBar.onDrawCrossfadeBackground(canvas);
+            canvas.restore();
+            if (z) {
+            }
+            rectF322.set(0.0f, AndroidUtilities.statusBarHeight, getWidth(), actionBar2.getHeight());
+            canvas.saveLayerAlpha(rectF322, (int) (this.swipeProgress * 255.0f), 31);
+            canvas.translate(0.0f, actionBar2.getY());
+            actionBar2.onDrawCrossfadeContent(canvas, false, z, this.swipeProgress);
+            canvas.restore();
+            canvas.saveLayerAlpha(rectF322, (int) ((1.0f - this.swipeProgress) * 255.0f), 31);
+            canvas.translate(0.0f, actionBar.getY());
+            actionBar.onDrawCrossfadeContent(canvas, true, z, this.swipeProgress);
             canvas.restore();
         }
     }
@@ -1327,7 +1439,6 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
             lastFragment.onTransitionAnimationStart(false, true);
             if (backgroundFragment != null) {
                 backgroundFragment.setPaused(false);
-                backgroundFragment.onTransitionAnimationStart(true, false);
             }
             if (this.swipeProgress == 0.0f) {
                 AnimatorSet onCustomTransitionAnimation = lastFragment.onCustomTransitionAnimation(false, new Runnable() { // from class: org.telegram.ui.LNavigation.LNavigation$$ExternalSyntheticLambda16
@@ -1372,7 +1483,6 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$closeLastFragment$14(BaseFragment baseFragment, BaseFragment baseFragment2) {
-        baseFragment.onTransitionAnimationEnd(false, true);
         onCloseAnimationEnd(baseFragment, baseFragment2);
         this.customAnimation = null;
     }
@@ -1411,7 +1521,6 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
         resetViewProperties(foregroundView);
         if (baseFragment2 != null) {
             baseFragment2.prepareFragmentToSlide(false, false);
-            baseFragment2.onTransitionAnimationEnd(true, true);
             baseFragment2.onBecomeFullyVisible();
         }
         if (this.fragmentStack.size() >= 2) {
@@ -1430,6 +1539,7 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
             this.blurredBackFragmentForPreview = null;
         }
         this.previewOpenCallback = null;
+        invalidateActionBars();
     }
 
     @Override // org.telegram.ui.ActionBar.INavigationLayout

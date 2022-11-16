@@ -590,9 +590,15 @@ public class NotificationsController extends BaseController {
                             num = valueOf;
                         }
                         if (!num.equals(num2)) {
-                            int intValue2 = this.total_unread_count - num2.intValue();
-                            this.total_unread_count = intValue2;
-                            this.total_unread_count = intValue2 + num.intValue();
+                            if (getMessagesController().isForum(dialogId)) {
+                                int i4 = this.total_unread_count - (num2.intValue() > 0 ? 1 : 0);
+                                this.total_unread_count = i4;
+                                this.total_unread_count = i4 + (num.intValue() > 0 ? 1 : 0);
+                            } else {
+                                int intValue2 = this.total_unread_count - num2.intValue();
+                                this.total_unread_count = intValue2;
+                                this.total_unread_count = intValue2 + num.intValue();
+                            }
                             this.pushDialogs.put(dialogId, num);
                         }
                         if (num.intValue() == 0) {
@@ -682,6 +688,7 @@ public class NotificationsController extends BaseController {
         int i2 = 0;
         while (true) {
             z = true;
+            int i3 = 1;
             if (i2 >= longSparseIntArray.size()) {
                 break;
             }
@@ -693,9 +700,9 @@ public class NotificationsController extends BaseController {
                 num3 = num2;
             }
             Integer num4 = num3;
-            int i3 = 0;
-            while (i3 < this.pushMessages.size()) {
-                MessageObject messageObject = this.pushMessages.get(i3);
+            int i4 = 0;
+            while (i4 < this.pushMessages.size()) {
+                MessageObject messageObject = this.pushMessages.get(i4);
                 if (messageObject.getDialogId() == j) {
                     num = num2;
                     if (messageObject.getId() <= j2) {
@@ -708,7 +715,7 @@ public class NotificationsController extends BaseController {
                         }
                         this.delayedPushMessages.remove(messageObject);
                         this.pushMessages.remove(messageObject);
-                        i3--;
+                        i4--;
                         if (isPersonalMessage(messageObject)) {
                             this.personalCount--;
                         }
@@ -718,7 +725,7 @@ public class NotificationsController extends BaseController {
                 } else {
                     num = num2;
                 }
-                i3++;
+                i4++;
                 num2 = num;
             }
             Integer num5 = num2;
@@ -727,9 +734,18 @@ public class NotificationsController extends BaseController {
                 num4 = num5;
             }
             if (!num4.equals(num3)) {
-                int intValue = this.total_unread_count - num3.intValue();
-                this.total_unread_count = intValue;
-                this.total_unread_count = intValue + num4.intValue();
+                if (getMessagesController().isForum(j)) {
+                    int i5 = this.total_unread_count - (num3.intValue() > 0 ? 1 : 0);
+                    this.total_unread_count = i5;
+                    if (num4.intValue() <= 0) {
+                        i3 = 0;
+                    }
+                    this.total_unread_count = i5 + i3;
+                } else {
+                    int intValue = this.total_unread_count - num3.intValue();
+                    this.total_unread_count = intValue;
+                    this.total_unread_count = intValue + num4.intValue();
+                }
                 this.pushDialogs.put(j, num4);
             }
             if (num4.intValue() == 0) {
@@ -1013,18 +1029,17 @@ public class NotificationsController extends BaseController {
     */
     public /* synthetic */ void lambda$processNewMessages$18(ArrayList arrayList, final ArrayList arrayList2, boolean z, boolean z2, CountDownLatch countDownLatch) {
         boolean z3;
-        boolean z4;
         Integer num;
         int i;
         long j;
+        boolean z4;
         boolean z5;
-        boolean z6;
         int i2;
         MessageObject messageObject;
         long j2;
         MessageObject messageObject2;
         long j3;
-        boolean z7;
+        boolean z6;
         int i3;
         LongSparseArray longSparseArray;
         SparseArray<MessageObject> sparseArray;
@@ -1034,12 +1049,12 @@ public class NotificationsController extends BaseController {
         ArrayList arrayList3 = arrayList;
         LongSparseArray longSparseArray2 = new LongSparseArray();
         SharedPreferences notificationsSettings = getAccountInstance().getNotificationsSettings();
-        boolean z8 = notificationsSettings.getBoolean("PinnedMessages", true);
+        boolean z7 = notificationsSettings.getBoolean("PinnedMessages", true);
         int i4 = 0;
         int i5 = 0;
+        boolean z8 = false;
         boolean z9 = false;
         boolean z10 = false;
-        boolean z11 = false;
         while (i5 < arrayList.size()) {
             MessageObject messageObject4 = (MessageObject) arrayList3.get(i5);
             if (messageObject4.messageOwner != null) {
@@ -1054,14 +1069,14 @@ public class NotificationsController extends BaseController {
                     }
                 }
                 i2 = i4;
-                z5 = z8;
+                z4 = z7;
                 i = i5;
                 longSparseArray = longSparseArray2;
                 i4 = i2;
                 i5 = i + 1;
                 arrayList3 = arrayList;
                 longSparseArray2 = longSparseArray;
-                z8 = z5;
+                z7 = z4;
             }
             if (!MessageObject.isTopicActionMessage(messageObject4)) {
                 int id = messageObject4.getId();
@@ -1074,15 +1089,15 @@ public class NotificationsController extends BaseController {
                 }
                 long dialogId = messageObject4.getDialogId();
                 if (messageObject4.isFcmMessage()) {
-                    z6 = messageObject4.localChannel;
-                    z5 = z8;
+                    z5 = messageObject4.localChannel;
+                    z4 = z7;
                 } else if (DialogObject.isChatDialog(dialogId)) {
-                    z5 = z8;
+                    z4 = z7;
                     TLRPC$Chat chat = getMessagesController().getChat(Long.valueOf(-dialogId));
-                    z6 = ChatObject.isChannel(chat) && !chat.megagroup;
+                    z5 = ChatObject.isChannel(chat) && !chat.megagroup;
                 } else {
-                    z5 = z8;
-                    z6 = false;
+                    z4 = z7;
+                    z5 = false;
                 }
                 long j5 = messageObject4.messageOwner.peer_id.channel_id;
                 long j6 = j5 != 0 ? -j5 : 0L;
@@ -1111,32 +1126,32 @@ public class NotificationsController extends BaseController {
                                 if (indexOf >= 0) {
                                     this.pushMessages.set(indexOf, messageObject4);
                                     messageObject3 = messageObject4;
-                                    i4 = addToPopupMessages(arrayList2, messageObject4, dialogId, z6, notificationsSettings);
+                                    i4 = addToPopupMessages(arrayList2, messageObject4, dialogId, z5, notificationsSettings);
                                 } else {
                                     messageObject3 = messageObject4;
                                     i4 = i2;
                                 }
                                 if (z) {
-                                    boolean z12 = messageObject3.localEdit;
-                                    if (z12) {
+                                    boolean z11 = messageObject3.localEdit;
+                                    if (z11) {
                                         getMessagesStorage().putPushMessage(messageObject3);
                                     }
-                                    z10 = z12;
+                                    z9 = z11;
                                 }
                                 longSparseArray = longSparseArray2;
                                 i5 = i + 1;
                                 arrayList3 = arrayList;
                                 longSparseArray2 = longSparseArray;
-                                z8 = z5;
+                                z7 = z4;
                             }
                             longSparseArray = longSparseArray2;
                             i4 = i2;
                             i5 = i + 1;
                             arrayList3 = arrayList;
                             longSparseArray2 = longSparseArray;
-                            z8 = z5;
+                            z7 = z4;
                         } else {
-                            if (!z10) {
+                            if (!z9) {
                                 if (z) {
                                     getMessagesStorage().putPushMessage(messageObject4);
                                 }
@@ -1145,7 +1160,7 @@ public class NotificationsController extends BaseController {
                                     TLRPC$Message tLRPC$Message2 = messageObject4.messageOwner;
                                     if (!tLRPC$Message2.mentioned) {
                                         j3 = dialogId;
-                                    } else if (z5 || !(tLRPC$Message2.action instanceof TLRPC$TL_messageActionPinMessage)) {
+                                    } else if (z4 || !(tLRPC$Message2.action instanceof TLRPC$TL_messageActionPinMessage)) {
                                         j3 = messageObject4.getFromChatId();
                                     }
                                     if (isPersonalMessage(messageObject4)) {
@@ -1154,24 +1169,24 @@ public class NotificationsController extends BaseController {
                                     DialogObject.isChatDialog(j3);
                                     int indexOfKey = longSparseArray2.indexOfKey(j3);
                                     if (indexOfKey >= 0 && topicId == 0) {
-                                        z7 = ((Boolean) longSparseArray2.valueAt(indexOfKey)).booleanValue();
+                                        z6 = ((Boolean) longSparseArray2.valueAt(indexOfKey)).booleanValue();
                                     } else {
                                         int notifyOverride = getNotifyOverride(notificationsSettings, j3, topicId);
                                         if (notifyOverride == -1) {
-                                            z7 = isGlobalNotificationsEnabled(j3, Boolean.valueOf(z6));
+                                            z6 = isGlobalNotificationsEnabled(j3, Boolean.valueOf(z5));
                                         } else {
-                                            z7 = notifyOverride != 2;
+                                            z6 = notifyOverride != 2;
                                         }
-                                        longSparseArray2.put(j3, Boolean.valueOf(z7));
+                                        longSparseArray2.put(j3, Boolean.valueOf(z6));
                                     }
-                                    if (z7) {
+                                    if (z6) {
                                         if (!z) {
                                             sparseArray = sparseArray3;
                                             longSparseArray = longSparseArray2;
                                             j4 = j6;
-                                            boolean z13 = z6;
+                                            boolean z12 = z5;
                                             i3 = id;
-                                            i4 = addToPopupMessages(arrayList2, messageObject4, j3, z13, notificationsSettings);
+                                            i4 = addToPopupMessages(arrayList2, messageObject4, j3, z12, notificationsSettings);
                                         } else {
                                             sparseArray = sparseArray3;
                                             i3 = id;
@@ -1179,8 +1194,8 @@ public class NotificationsController extends BaseController {
                                             j4 = j6;
                                             i4 = i2;
                                         }
-                                        if (!z11) {
-                                            z11 = messageObject4.messageOwner.from_scheduled;
+                                        if (!z10) {
+                                            z10 = messageObject4.messageOwner.from_scheduled;
                                         }
                                         this.delayedPushMessages.add(messageObject4);
                                         this.pushMessages.add(0, messageObject4);
@@ -1209,11 +1224,11 @@ public class NotificationsController extends BaseController {
                                         sparseBooleanArray.put(i3, true);
                                         getMessagesController().checkUnreadReactions(j3, MessageObject.getTopicId(messageObject4.messageOwner), sparseBooleanArray);
                                     }
-                                    z9 = true;
+                                    z8 = true;
                                     i5 = i + 1;
                                     arrayList3 = arrayList;
                                     longSparseArray2 = longSparseArray;
-                                    z8 = z5;
+                                    z7 = z4;
                                 } else if (!z) {
                                     playInChatSound();
                                 }
@@ -1223,7 +1238,7 @@ public class NotificationsController extends BaseController {
                             i5 = i + 1;
                             arrayList3 = arrayList;
                             longSparseArray2 = longSparseArray;
-                            z8 = z5;
+                            z7 = z4;
                         }
                     }
                 } else {
@@ -1236,17 +1251,17 @@ public class NotificationsController extends BaseController {
                 }
             }
             i2 = i4;
-            z5 = z8;
+            z4 = z7;
             i = i5;
             longSparseArray = longSparseArray2;
             i4 = i2;
             i5 = i + 1;
             arrayList3 = arrayList;
             longSparseArray2 = longSparseArray;
-            z8 = z5;
+            z7 = z4;
         }
         final int i6 = i4;
-        if (z9) {
+        if (z8) {
             this.notifyCheck = z2;
         }
         if (!arrayList2.isEmpty() && !AndroidUtilities.needShowPasscode() && !SharedConfig.isWaitingForPasscodeEnter) {
@@ -1257,11 +1272,11 @@ public class NotificationsController extends BaseController {
                 }
             });
         }
-        if (z || z11) {
-            if (z10) {
+        if (z || z10) {
+            if (z9) {
                 this.delayedPushMessages.clear();
                 showOrUpdateNotification(this.notifyCheck);
-            } else if (z9) {
+            } else if (z8) {
                 MessageObject messageObject6 = (MessageObject) arrayList.get(0);
                 long dialogId2 = messageObject6.getDialogId();
                 int topicId2 = MessageObject.getTopicId(messageObject6.messageOwner);
@@ -1275,17 +1290,21 @@ public class NotificationsController extends BaseController {
                 }
                 Integer num3 = this.pushDialogs.get(dialogId2);
                 int intValue = num3 != null ? num3.intValue() + 1 : 1;
-                if (!this.notifyCheck || z3 || (num = this.pushDialogsOverrideMention.get(dialogId2)) == null || num.intValue() == 0) {
-                    z4 = z3;
-                } else {
+                if (this.notifyCheck && !z3 && (num = this.pushDialogsOverrideMention.get(dialogId2)) != null && num.intValue() != 0) {
                     intValue = num.intValue();
-                    z4 = true;
+                    z3 = true;
                 }
-                if (z4) {
-                    if (num3 != null) {
-                        this.total_unread_count -= num3.intValue();
+                if (z3) {
+                    if (getMessagesController().isForum(dialogId2)) {
+                        int i8 = this.total_unread_count - ((num3 == null || num3.intValue() <= 0) ? 0 : 1);
+                        this.total_unread_count = i8;
+                        this.total_unread_count = i8 + (intValue > 0 ? 1 : 0);
+                    } else {
+                        if (num3 != null) {
+                            this.total_unread_count -= num3.intValue();
+                        }
+                        this.total_unread_count += intValue;
                     }
-                    this.total_unread_count += intValue;
                     this.pushDialogs.put(dialogId2, Integer.valueOf(intValue));
                 }
                 if (i7 != this.total_unread_count) {
@@ -1352,8 +1371,10 @@ public class NotificationsController extends BaseController {
     /* JADX WARN: Removed duplicated region for block: B:27:0x0081  */
     /* JADX WARN: Removed duplicated region for block: B:29:0x0088  */
     /* JADX WARN: Removed duplicated region for block: B:34:0x0093 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:36:0x00a2  */
-    /* JADX WARN: Removed duplicated region for block: B:60:0x0110  */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x00bb  */
+    /* JADX WARN: Removed duplicated region for block: B:60:0x0129  */
+    /* JADX WARN: Removed duplicated region for block: B:74:0x00a1  */
+    /* JADX WARN: Removed duplicated region for block: B:79:0x00b0  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1367,16 +1388,17 @@ public class NotificationsController extends BaseController {
         int i2 = 0;
         while (true) {
             z = true;
+            int i3 = 1;
             if (i2 >= longSparseIntArray.size()) {
                 break;
             }
             long keyAt = longSparseIntArray.keyAt(i2);
             Integer num2 = this.pushDialogs.get(keyAt);
-            int i3 = longSparseIntArray.get(keyAt);
+            int i4 = longSparseIntArray.get(keyAt);
             if (DialogObject.isChatDialog(keyAt)) {
                 TLRPC$Chat chat = getMessagesController().getChat(Long.valueOf(-keyAt));
                 if (chat == null || chat.min || ChatObject.isNotInChat(chat)) {
-                    i3 = 0;
+                    i4 = 0;
                 }
                 if (chat != null) {
                     z2 = chat.forum;
@@ -1388,34 +1410,38 @@ public class NotificationsController extends BaseController {
                             z3 = false;
                         }
                         if (this.notifyCheck && !z3 && (num = this.pushDialogsOverrideMention.get(keyAt)) != null && num.intValue() != 0) {
-                            i3 = num.intValue();
+                            i4 = num.intValue();
                             z3 = true;
                         }
-                        if (i3 == 0) {
+                        if (i4 == 0) {
                             this.smartNotificationsDialogs.remove(keyAt);
                         }
-                        if (i3 < 0) {
+                        if (i4 < 0) {
                             if (num2 == null) {
                                 i2++;
                             } else {
-                                i3 += num2.intValue();
+                                i4 += num2.intValue();
                             }
                         }
-                        if ((!z3 || i3 == 0) && num2 != null) {
-                            this.total_unread_count -= num2.intValue();
+                        if ((!z3 || i4 == 0) && num2 != null) {
+                            if (getMessagesController().isForum(keyAt)) {
+                                this.total_unread_count -= num2.intValue() > 0 ? 1 : 0;
+                            } else {
+                                this.total_unread_count -= num2.intValue();
+                            }
                         }
-                        if (i3 == 0) {
+                        if (i4 == 0) {
                             this.pushDialogs.remove(keyAt);
                             this.pushDialogsOverrideMention.remove(keyAt);
-                            int i4 = 0;
-                            while (i4 < this.pushMessages.size()) {
-                                MessageObject messageObject = this.pushMessages.get(i4);
+                            int i5 = 0;
+                            while (i5 < this.pushMessages.size()) {
+                                MessageObject messageObject = this.pushMessages.get(i5);
                                 if (!messageObject.messageOwner.from_scheduled && messageObject.getDialogId() == keyAt) {
                                     if (isPersonalMessage(messageObject)) {
                                         this.personalCount--;
                                     }
-                                    this.pushMessages.remove(i4);
-                                    i4--;
+                                    this.pushMessages.remove(i5);
+                                    i5--;
                                     this.delayedPushMessages.remove(messageObject);
                                     long j = messageObject.messageOwner.peer_id.channel_id;
                                     long j2 = 0;
@@ -1431,27 +1457,36 @@ public class NotificationsController extends BaseController {
                                     }
                                     arrayList.add(messageObject);
                                 }
-                                i4++;
+                                i5++;
                             }
                         } else if (z3) {
-                            this.total_unread_count += i3;
-                            this.pushDialogs.put(keyAt, Integer.valueOf(i3));
+                            if (getMessagesController().isForum(keyAt)) {
+                                int i6 = this.total_unread_count;
+                                if (i4 <= 0) {
+                                    i3 = 0;
+                                }
+                                this.total_unread_count = i6 + i3;
+                            } else {
+                                this.total_unread_count += i4;
+                            }
+                            this.pushDialogs.put(keyAt, Integer.valueOf(i4));
                         }
                         i2++;
                     }
                     z3 = true;
                     if (this.notifyCheck) {
-                        i3 = num.intValue();
+                        i4 = num.intValue();
                         z3 = true;
                     }
-                    if (i3 == 0) {
+                    if (i4 == 0) {
                     }
-                    if (i3 < 0) {
+                    if (i4 < 0) {
                     }
                     if (!z3) {
                     }
-                    this.total_unread_count -= num2.intValue();
-                    if (i3 == 0) {
+                    if (getMessagesController().isForum(keyAt)) {
+                    }
+                    if (i4 == 0) {
                     }
                     i2++;
                 }
@@ -1462,14 +1497,15 @@ public class NotificationsController extends BaseController {
             z3 = true;
             if (this.notifyCheck) {
             }
-            if (i3 == 0) {
+            if (i4 == 0) {
             }
-            if (i3 < 0) {
+            if (i4 < 0) {
             }
             if (!z3) {
             }
-            this.total_unread_count -= num2.intValue();
-            if (i3 == 0) {
+            if (getMessagesController().isForum(keyAt)) {
+            }
+            if (i4 == 0) {
             }
             i2++;
         }
@@ -1639,7 +1675,11 @@ public class NotificationsController extends BaseController {
             if (z2) {
                 int intValue = ((Integer) longSparseArray.valueAt(i5)).intValue();
                 this.pushDialogs.put(keyAt, Integer.valueOf(intValue));
-                this.total_unread_count += intValue;
+                if (getMessagesController().isForum(keyAt)) {
+                    this.total_unread_count += intValue > 0 ? 1 : 0;
+                } else {
+                    this.total_unread_count += intValue;
+                }
             }
         }
         if (arrayList2 != null) {
@@ -1698,10 +1738,17 @@ public class NotificationsController extends BaseController {
                             }
                             Integer num3 = this.pushDialogs.get(j);
                             int intValue2 = num3 != null ? num3.intValue() + 1 : 1;
-                            if (num3 != null) {
-                                this.total_unread_count -= num3.intValue();
+                            if (getMessagesController().isForum(j)) {
+                                if (num3 != null) {
+                                    this.total_unread_count -= num3.intValue() > 0 ? 1 : 0;
+                                }
+                                this.total_unread_count += intValue2 > 0 ? 1 : 0;
+                            } else {
+                                if (num3 != null) {
+                                    this.total_unread_count -= num3.intValue();
+                                }
+                                this.total_unread_count += intValue2;
                             }
-                            this.total_unread_count += intValue2;
                             this.pushDialogs.put(j, Integer.valueOf(intValue2));
                             i6++;
                             notificationsSettings = sharedPreferences;
@@ -1739,21 +1786,20 @@ public class NotificationsController extends BaseController {
 
     private int getTotalAllUnreadCount() {
         int size;
-        int i;
-        int i2 = 0;
-        for (int i3 = 0; i3 < 4; i3++) {
-            if (UserConfig.getInstance(i3).isClientActivated()) {
-                NotificationsController notificationsController = getInstance(i3);
+        int i = 0;
+        for (int i2 = 0; i2 < 4; i2++) {
+            if (UserConfig.getInstance(i2).isClientActivated()) {
+                NotificationsController notificationsController = getInstance(i2);
                 if (notificationsController.showBadgeNumber) {
                     if (notificationsController.showBadgeMessages) {
                         if (notificationsController.showBadgeMuted) {
                             try {
-                                ArrayList arrayList = new ArrayList(MessagesController.getInstance(i3).allDialogs);
+                                ArrayList arrayList = new ArrayList(MessagesController.getInstance(i2).allDialogs);
                                 int size2 = arrayList.size();
-                                for (int i4 = 0; i4 < size2; i4++) {
-                                    TLRPC$Dialog tLRPC$Dialog = (TLRPC$Dialog) arrayList.get(i4);
-                                    if ((tLRPC$Dialog == null || !DialogObject.isChatDialog(tLRPC$Dialog.id) || !ChatObject.isNotInChat(getMessagesController().getChat(Long.valueOf(-tLRPC$Dialog.id)))) && tLRPC$Dialog != null && (i = tLRPC$Dialog.unread_count) != 0) {
-                                        i2 += i;
+                                for (int i3 = 0; i3 < size2; i3++) {
+                                    TLRPC$Dialog tLRPC$Dialog = (TLRPC$Dialog) arrayList.get(i3);
+                                    if ((tLRPC$Dialog == null || !DialogObject.isChatDialog(tLRPC$Dialog.id) || !ChatObject.isNotInChat(getMessagesController().getChat(Long.valueOf(-tLRPC$Dialog.id)))) && tLRPC$Dialog != null) {
+                                        i += MessagesController.getInstance(i2).getDialogUnreadCount(tLRPC$Dialog);
                                     }
                                 }
                             } catch (Exception e) {
@@ -1764,11 +1810,11 @@ public class NotificationsController extends BaseController {
                         }
                     } else if (notificationsController.showBadgeMuted) {
                         try {
-                            int size3 = MessagesController.getInstance(i3).allDialogs.size();
-                            for (int i5 = 0; i5 < size3; i5++) {
-                                TLRPC$Dialog tLRPC$Dialog2 = MessagesController.getInstance(i3).allDialogs.get(i5);
-                                if ((!DialogObject.isChatDialog(tLRPC$Dialog2.id) || !ChatObject.isNotInChat(getMessagesController().getChat(Long.valueOf(-tLRPC$Dialog2.id)))) && tLRPC$Dialog2.unread_count != 0) {
-                                    i2++;
+                            int size3 = MessagesController.getInstance(i2).allDialogs.size();
+                            for (int i4 = 0; i4 < size3; i4++) {
+                                TLRPC$Dialog tLRPC$Dialog2 = MessagesController.getInstance(i2).allDialogs.get(i4);
+                                if ((!DialogObject.isChatDialog(tLRPC$Dialog2.id) || !ChatObject.isNotInChat(getMessagesController().getChat(Long.valueOf(-tLRPC$Dialog2.id)))) && MessagesController.getInstance(i2).getDialogUnreadCount(tLRPC$Dialog2) != 0) {
+                                    i++;
                                 }
                             }
                         } catch (Exception e2) {
@@ -1777,11 +1823,11 @@ public class NotificationsController extends BaseController {
                     } else {
                         size = notificationsController.pushDialogs.size();
                     }
-                    i2 += size;
+                    i += size;
                 }
             }
         }
-        return i2;
+        return i;
     }
 
     /* JADX INFO: Access modifiers changed from: private */

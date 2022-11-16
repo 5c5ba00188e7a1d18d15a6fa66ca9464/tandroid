@@ -11,6 +11,8 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.os.Bundle;
+import android.text.TextPaint;
 import android.util.DisplayMetrics;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -18,6 +20,7 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -34,7 +37,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
@@ -42,10 +47,13 @@ import org.telegram.messenger.SharedConfig;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.INavigationLayout;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.Cells.HeaderCell;
+import org.telegram.ui.Components.AnimationProperties;
 import org.telegram.ui.Components.CombinedDrawable;
 import org.telegram.ui.Components.FloatingDebug.FloatingDebugController;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
+import org.telegram.ui.Components.SeekBarView;
 import org.telegram.ui.LaunchActivity;
 /* loaded from: classes3.dex */
 public class FloatingDebugView extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
@@ -64,7 +72,7 @@ public class FloatingDebugView extends FrameLayout implements NotificationCenter
     private TextView titleView;
     private int touchSlop;
     private int wasStatusBar;
-    private Runnable onLongPress = new Runnable() { // from class: org.telegram.ui.Components.FloatingDebug.FloatingDebugView$$ExternalSyntheticLambda3
+    private Runnable onLongPress = new Runnable() { // from class: org.telegram.ui.Components.FloatingDebug.FloatingDebugView$$ExternalSyntheticLambda4
         @Override // java.lang.Runnable
         public final void run() {
             FloatingDebugView.this.lambda$new$0();
@@ -234,21 +242,41 @@ public class FloatingDebugView extends FrameLayout implements NotificationCenter
 
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
             public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+                View headerCell;
                 int i2 = 4.$SwitchMap$org$telegram$ui$Components$FloatingDebug$FloatingDebugController$DebugItemType[FloatingDebugController.DebugItemType.values()[i].ordinal()];
-                AlertDialog.AlertDialogCell alertDialogCell = new AlertDialog.AlertDialogCell(context, null);
-                alertDialogCell.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
-                return new RecyclerListView.Holder(alertDialogCell);
+                if (i2 == 2) {
+                    headerCell = new HeaderCell(context);
+                } else if (i2 != 3) {
+                    headerCell = new AlertDialog.AlertDialogCell(context, null);
+                } else {
+                    headerCell = new SeekBarCell(FloatingDebugView.this, context);
+                }
+                headerCell.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
+                return new RecyclerListView.Holder(headerCell);
             }
 
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
             public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
                 FloatingDebugController.DebugItem debugItem = (FloatingDebugController.DebugItem) FloatingDebugView.this.debugItems.get(i);
-                if (4.$SwitchMap$org$telegram$ui$Components$FloatingDebug$FloatingDebugController$DebugItemType[debugItem.type.ordinal()] != 1) {
-                    return;
+                int i2 = 4.$SwitchMap$org$telegram$ui$Components$FloatingDebug$FloatingDebugController$DebugItemType[debugItem.type.ordinal()];
+                if (i2 == 1) {
+                    AlertDialog.AlertDialogCell alertDialogCell = (AlertDialog.AlertDialogCell) viewHolder.itemView;
+                    alertDialogCell.setTextColor(Theme.getColor("dialogTextBlack"));
+                    alertDialogCell.setTextAndIcon(debugItem.title, 0);
+                } else if (i2 == 2) {
+                    HeaderCell headerCell = (HeaderCell) viewHolder.itemView;
+                    headerCell.setTextColor(Theme.getColor("windowBackgroundWhiteBlueHeader"));
+                    headerCell.setText(debugItem.title);
+                } else if (i2 != 3) {
+                } else {
+                    SeekBarCell seekBarCell = (SeekBarCell) viewHolder.itemView;
+                    seekBarCell.title = debugItem.title.toString();
+                    seekBarCell.value = debugItem.floatProperty.get(null).floatValue();
+                    seekBarCell.min = debugItem.from;
+                    seekBarCell.max = debugItem.to;
+                    seekBarCell.callback = debugItem.floatProperty;
+                    seekBarCell.invalidate();
                 }
-                AlertDialog.AlertDialogCell alertDialogCell = (AlertDialog.AlertDialogCell) viewHolder.itemView;
-                alertDialogCell.setTextColor(Theme.getColor("dialogTextBlack"));
-                alertDialogCell.setTextAndIcon(debugItem.title, 0);
             }
 
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -261,7 +289,7 @@ public class FloatingDebugView extends FrameLayout implements NotificationCenter
                 return FloatingDebugView.this.debugItems.size();
             }
         });
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.FloatingDebug.FloatingDebugView$$ExternalSyntheticLambda6
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.FloatingDebug.FloatingDebugView$$ExternalSyntheticLambda8
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i) {
                 FloatingDebugView.this.lambda$new$1(view, i);
@@ -284,6 +312,14 @@ public class FloatingDebugView extends FrameLayout implements NotificationCenter
             try {
                 iArr[FloatingDebugController.DebugItemType.SIMPLE.ordinal()] = 1;
             } catch (NoSuchFieldError unused) {
+            }
+            try {
+                $SwitchMap$org$telegram$ui$Components$FloatingDebug$FloatingDebugController$DebugItemType[FloatingDebugController.DebugItemType.HEADER.ordinal()] = 2;
+            } catch (NoSuchFieldError unused2) {
+            }
+            try {
+                $SwitchMap$org$telegram$ui$Components$FloatingDebug$FloatingDebugController$DebugItemType[FloatingDebugController.DebugItemType.SEEKBAR.ordinal()] = 3;
+            } catch (NoSuchFieldError unused3) {
             }
         }
     }
@@ -469,20 +505,22 @@ public class FloatingDebugView extends FrameLayout implements NotificationCenter
 
     private List<FloatingDebugController.DebugItem> getBuiltInDebugItems() {
         ArrayList arrayList = new ArrayList();
+        arrayList.add(new FloatingDebugController.DebugItem(LocaleController.getString(R.string.DebugGeneral)));
         if (Build.VERSION.SDK_INT >= 19) {
-            arrayList.add(new FloatingDebugController.DebugItem(LocaleController.getString(SharedConfig.debugWebView ? R.string.DebugMenuDisableWebViewDebug : R.string.DebugMenuEnableWebViewDebug), new Runnable() { // from class: org.telegram.ui.Components.FloatingDebug.FloatingDebugView$$ExternalSyntheticLambda5
+            arrayList.add(new FloatingDebugController.DebugItem(LocaleController.getString(SharedConfig.debugWebView ? R.string.DebugMenuDisableWebViewDebug : R.string.DebugMenuEnableWebViewDebug), new Runnable() { // from class: org.telegram.ui.Components.FloatingDebug.FloatingDebugView$$ExternalSyntheticLambda6
                 @Override // java.lang.Runnable
                 public final void run() {
                     FloatingDebugView.this.lambda$getBuiltInDebugItems$4();
                 }
             }));
         }
-        arrayList.add(new FloatingDebugController.DebugItem(LocaleController.getString(SharedConfig.useLNavigation ? R.string.AltNavigationDisable : R.string.AltNavigationEnable), new Runnable() { // from class: org.telegram.ui.Components.FloatingDebug.FloatingDebugView$$ExternalSyntheticLambda4
+        arrayList.add(new FloatingDebugController.DebugItem(LocaleController.getString(SharedConfig.useLNavigation ? R.string.AltNavigationDisable : R.string.AltNavigationEnable), new Runnable() { // from class: org.telegram.ui.Components.FloatingDebug.FloatingDebugView$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
                 FloatingDebugView.this.lambda$getBuiltInDebugItems$5();
             }
         }));
+        arrayList.add(new FloatingDebugController.DebugItem(Theme.isCurrentThemeDark() ? "Switch to day theme" : "Switch to dark theme", FloatingDebugView$$ExternalSyntheticLambda7.INSTANCE));
         return arrayList;
     }
 
@@ -499,6 +537,58 @@ public class FloatingDebugView extends FrameLayout implements NotificationCenter
         if (getContext() instanceof Activity) {
             ((Activity) getContext()).recreate();
         }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x0063  */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x0068  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public static /* synthetic */ void lambda$getBuiltInDebugItems$7() {
+        final Theme.ThemeInfo theme;
+        SharedPreferences sharedPreferences = ApplicationLoader.applicationContext.getSharedPreferences("themeconfig", 0);
+        String str = "Blue";
+        String string = sharedPreferences.getString("lastDayTheme", str);
+        if (Theme.getTheme(string) == null || Theme.getTheme(string).isDark()) {
+            string = str;
+        }
+        String str2 = "Dark Blue";
+        String string2 = sharedPreferences.getString("lastDarkTheme", str2);
+        if (Theme.getTheme(string2) == null || !Theme.getTheme(string2).isDark()) {
+            string2 = str2;
+        }
+        Theme.ThemeInfo activeTheme = Theme.getActiveTheme();
+        if (!string.equals(string2)) {
+            str2 = string2;
+        } else if (activeTheme.isDark() || string.equals(str2) || string.equals("Night")) {
+            str2 = string2;
+            if (Theme.isCurrentThemeDark()) {
+                theme = Theme.getTheme(str2);
+            } else {
+                theme = Theme.getTheme(str);
+            }
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.FloatingDebug.FloatingDebugView$$ExternalSyntheticLambda3
+                @Override // java.lang.Runnable
+                public final void run() {
+                    FloatingDebugView.lambda$getBuiltInDebugItems$6(Theme.ThemeInfo.this);
+                }
+            }, 200L);
+        }
+        str = string;
+        if (Theme.isCurrentThemeDark()) {
+        }
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.FloatingDebug.FloatingDebugView$$ExternalSyntheticLambda3
+            @Override // java.lang.Runnable
+            public final void run() {
+                FloatingDebugView.lambda$getBuiltInDebugItems$6(Theme.ThemeInfo.this);
+            }
+        }, 200L);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$getBuiltInDebugItems$6(Theme.ThemeInfo themeInfo) {
+        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.needSetDayNightTheme, themeInfo, Boolean.TRUE, null, -1);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -528,13 +618,13 @@ public class FloatingDebugView extends FrameLayout implements NotificationCenter
         new SpringAnimation(new FloatValueHolder(0.0f)).setSpring(new SpringForce(1000.0f).setStiffness(750.0f).setDampingRatio(0.75f)).addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() { // from class: org.telegram.ui.Components.FloatingDebug.FloatingDebugView$$ExternalSyntheticLambda1
             @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationUpdateListener
             public final void onAnimationUpdate(DynamicAnimation dynamicAnimation, float f, float f2) {
-                FloatingDebugView.this.lambda$showFab$6(dynamicAnimation, f, f2);
+                FloatingDebugView.this.lambda$showFab$8(dynamicAnimation, f, f2);
             }
         }).start();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$showFab$6(DynamicAnimation dynamicAnimation, float f, float f2) {
+    public /* synthetic */ void lambda$showFab$8(DynamicAnimation dynamicAnimation, float f, float f2) {
         float f3 = f / 1000.0f;
         this.floatingButtonContainer.setPivotX(AndroidUtilities.dp(28.0f));
         this.floatingButtonContainer.setPivotY(AndroidUtilities.dp(28.0f));
@@ -546,5 +636,94 @@ public class FloatingDebugView extends FrameLayout implements NotificationCenter
 
     public void dismiss(Runnable runnable) {
         runnable.run();
+    }
+
+    /* loaded from: classes3.dex */
+    private class SeekBarCell extends FrameLayout {
+        private AnimationProperties.FloatProperty callback;
+        private int lastWidth;
+        private float max;
+        private float min;
+        private SeekBarView seekBar;
+        private TextPaint textPaint;
+        private String title;
+        private float value;
+
+        public SeekBarCell(FloatingDebugView floatingDebugView, Context context) {
+            super(context);
+            setWillNotDraw(false);
+            TextPaint textPaint = new TextPaint(1);
+            this.textPaint = textPaint;
+            textPaint.setTextSize(AndroidUtilities.dp(16.0f));
+            SeekBarView seekBarView = new SeekBarView(context);
+            this.seekBar = seekBarView;
+            seekBarView.setReportChanges(true);
+            this.seekBar.setDelegate(new SeekBarView.SeekBarViewDelegate(floatingDebugView) { // from class: org.telegram.ui.Components.FloatingDebug.FloatingDebugView.SeekBarCell.1
+                @Override // org.telegram.ui.Components.SeekBarView.SeekBarViewDelegate
+                public /* synthetic */ int getStepsCount() {
+                    return SeekBarView.SeekBarViewDelegate.-CC.$default$getStepsCount(this);
+                }
+
+                @Override // org.telegram.ui.Components.SeekBarView.SeekBarViewDelegate
+                public void onSeekBarPressed(boolean z) {
+                }
+
+                @Override // org.telegram.ui.Components.SeekBarView.SeekBarViewDelegate
+                public void onSeekBarDrag(boolean z, float f) {
+                    SeekBarCell seekBarCell = SeekBarCell.this;
+                    seekBarCell.value = seekBarCell.min + ((SeekBarCell.this.max - SeekBarCell.this.min) * f);
+                    if (z) {
+                        SeekBarCell.this.callback.set((AnimationProperties.FloatProperty) null, Float.valueOf(SeekBarCell.this.value));
+                    }
+                    SeekBarCell.this.invalidate();
+                }
+
+                @Override // org.telegram.ui.Components.SeekBarView.SeekBarViewDelegate
+                public CharSequence getContentDescription() {
+                    return String.valueOf(Math.round(SeekBarCell.this.min + ((SeekBarCell.this.max - SeekBarCell.this.min) * SeekBarCell.this.seekBar.getProgress())));
+                }
+            });
+            this.seekBar.setImportantForAccessibility(2);
+            addView(this.seekBar, LayoutHelper.createFrame(-1, 38.0f, 83, 5.0f, 29.0f, 47.0f, 0.0f));
+        }
+
+        @Override // android.view.View
+        protected void onDraw(Canvas canvas) {
+            this.textPaint.setColor(Theme.getColor("windowBackgroundWhiteBlackText"));
+            canvas.drawText(this.title, AndroidUtilities.dp(24.0f), AndroidUtilities.dp(24.0f), this.textPaint);
+            this.textPaint.setColor(Theme.getColor("windowBackgroundWhiteValueText"));
+            String format = String.format(Locale.ROOT, "%.2f", Float.valueOf(this.value));
+            canvas.drawText(format, (getMeasuredWidth() - AndroidUtilities.dp(8.0f)) - this.textPaint.measureText(format), AndroidUtilities.dp(23.0f) + this.seekBar.getY(), this.textPaint);
+        }
+
+        @Override // android.widget.FrameLayout, android.view.View
+        protected void onMeasure(int i, int i2) {
+            super.onMeasure(i, i2);
+            int size = View.MeasureSpec.getSize(i);
+            if (this.lastWidth != size) {
+                SeekBarView seekBarView = this.seekBar;
+                float floatValue = this.callback.get(null).floatValue();
+                float f = this.min;
+                seekBarView.setProgress((floatValue - f) / (this.max - f));
+                this.lastWidth = size;
+            }
+        }
+
+        @Override // android.view.View
+        public void invalidate() {
+            super.invalidate();
+            this.seekBar.invalidate();
+        }
+
+        @Override // android.view.View
+        public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
+            super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
+            this.seekBar.getSeekBarAccessibilityDelegate().onInitializeAccessibilityNodeInfoInternal(this, accessibilityNodeInfo);
+        }
+
+        @Override // android.view.View
+        public boolean performAccessibilityAction(int i, Bundle bundle) {
+            return super.performAccessibilityAction(i, bundle) || this.seekBar.getSeekBarAccessibilityDelegate().performAccessibilityActionInternal(this, i, bundle);
+        }
     }
 }
