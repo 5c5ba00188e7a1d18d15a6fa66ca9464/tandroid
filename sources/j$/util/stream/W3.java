@@ -4,6 +4,7 @@ import j$.util.function.Consumer;
 import j$.util.u;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.Objects;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public class W3 extends Z3 implements j$.util.function.l {
@@ -54,7 +55,7 @@ public class W3 extends Z3 implements j$.util.function.l {
 
     @Override // j$.util.function.l
     public j$.util.function.l l(j$.util.function.l lVar) {
-        lVar.getClass();
+        Objects.requireNonNull(lVar);
         return new j$.util.function.k(this, lVar);
     }
 

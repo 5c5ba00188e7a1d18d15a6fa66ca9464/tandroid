@@ -1,4 +1,6 @@
 package j$.util.stream;
+
+import java.util.Objects;
 /* loaded from: classes2.dex */
 abstract class c extends y2 implements g {
     private final c a;
@@ -154,7 +156,7 @@ abstract class c extends y2 implements g {
     /* JADX INFO: Access modifiers changed from: package-private */
     @Override // j$.util.stream.y2
     public final void n0(m3 m3Var, j$.util.u uVar) {
-        m3Var.getClass();
+        Objects.requireNonNull(m3Var);
         if (d4.SHORT_CIRCUIT.d(this.f)) {
             o0(m3Var, uVar);
             return;
@@ -194,7 +196,7 @@ abstract class c extends y2 implements g {
             return z0(this, uVar, z, mVar);
         }
         s1 t0 = t0(q0(uVar), mVar);
-        t0.getClass();
+        Objects.requireNonNull(t0);
         n0(v0(t0), uVar);
         return t0.a();
     }
@@ -254,7 +256,7 @@ abstract class c extends y2 implements g {
     /* JADX INFO: Access modifiers changed from: package-private */
     @Override // j$.util.stream.y2
     public final m3 u0(m3 m3Var, j$.util.u uVar) {
-        m3Var.getClass();
+        Objects.requireNonNull(m3Var);
         n0(v0(m3Var), uVar);
         return m3Var;
     }
@@ -262,7 +264,7 @@ abstract class c extends y2 implements g {
     /* JADX INFO: Access modifiers changed from: package-private */
     @Override // j$.util.stream.y2
     public final m3 v0(m3 m3Var) {
-        m3Var.getClass();
+        Objects.requireNonNull(m3Var);
         for (c cVar = this; cVar.e > 0; cVar = cVar.b) {
             m3Var = cVar.H0(cVar.b.f, m3Var);
         }

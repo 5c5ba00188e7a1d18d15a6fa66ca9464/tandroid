@@ -5201,7 +5201,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     /* JADX WARN: Type inference failed for: r0v624, types: [org.telegram.messenger.ImageReceiver] */
     /* JADX WARN: Type inference failed for: r13v0 */
     /* JADX WARN: Type inference failed for: r13v1 */
-    /* JADX WARN: Type inference failed for: r13v102, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r13v102, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r13v151 */
     /* JADX WARN: Type inference failed for: r13v161 */
     /* JADX WARN: Type inference failed for: r13v2 */

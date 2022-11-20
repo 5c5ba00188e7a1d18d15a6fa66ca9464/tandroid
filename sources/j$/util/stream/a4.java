@@ -4,6 +4,7 @@ import j$.util.function.Consumer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.Spliterator;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
@@ -43,7 +44,7 @@ public class a4 extends e implements Consumer, Iterable, j$.lang.e {
 
     @Override // j$.util.function.Consumer
     public /* synthetic */ Consumer andThen(Consumer consumer) {
-        return consumer.getClass();
+        return Objects.requireNonNull(consumer);
     }
 
     @Override // j$.util.stream.e

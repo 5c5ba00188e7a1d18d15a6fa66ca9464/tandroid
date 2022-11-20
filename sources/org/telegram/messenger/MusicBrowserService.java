@@ -83,7 +83,7 @@ public class MusicBrowserService extends MediaBrowserService implements Notifica
         this.mediaSession.setCallback(new MediaSessionCallback());
         this.mediaSession.setFlags(3);
         Context applicationContext = getApplicationContext();
-        this.mediaSession.setSessionActivity(PendingIntent.getActivity(applicationContext, 99, new Intent(applicationContext, LaunchActivity.class), 134217728));
+        this.mediaSession.setSessionActivity(PendingIntent.getActivity(applicationContext, 99, new Intent(applicationContext, LaunchActivity.class), 167772160));
         Bundle bundle = new Bundle();
         bundle.putBoolean(SLOT_RESERVATION_QUEUE, true);
         bundle.putBoolean(SLOT_RESERVATION_SKIP_TO_PREV, true);

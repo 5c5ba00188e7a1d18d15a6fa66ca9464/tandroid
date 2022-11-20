@@ -1,6 +1,5 @@
 package com.google.android.gms.internal.vision;
 
-import com.google.android.gms.internal.mlkit_language_id.zzdp$$ExternalSyntheticBackport0;
 import java.util.Comparator;
 /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
@@ -16,11 +15,11 @@ final class zzhv implements Comparator<zzht> {
         while (zzhyVar.hasNext() && zzhyVar2.hasNext()) {
             zzb = zzht.zzb(zzhyVar.zza());
             zzb2 = zzht.zzb(zzhyVar2.zza());
-            int m = zzdp$$ExternalSyntheticBackport0.m(zzb, zzb2);
-            if (m != 0) {
-                return m;
+            int compare = Integer.compare(zzb, zzb2);
+            if (compare != 0) {
+                return compare;
             }
         }
-        return zzdp$$ExternalSyntheticBackport0.m(zzhtVar3.zza(), zzhtVar4.zza());
+        return Integer.compare(zzhtVar3.zza(), zzhtVar4.zza());
     }
 }

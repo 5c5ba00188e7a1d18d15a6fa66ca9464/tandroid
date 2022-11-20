@@ -1,6 +1,7 @@
 package j$.util.stream;
 
 import j$.util.function.Consumer;
+import java.util.Objects;
 /* loaded from: classes2.dex */
 class N2 implements S2, k3 {
     private boolean a;
@@ -36,7 +37,7 @@ class N2 implements S2, k3 {
 
     @Override // j$.util.function.Consumer
     public /* synthetic */ Consumer andThen(Consumer consumer) {
-        return consumer.getClass();
+        return Objects.requireNonNull(consumer);
     }
 
     @Override // j$.util.function.Consumer
@@ -60,7 +61,7 @@ class N2 implements S2, k3 {
 
     @Override // j$.util.function.l
     public j$.util.function.l l(j$.util.function.l lVar) {
-        lVar.getClass();
+        Objects.requireNonNull(lVar);
         return new j$.util.function.k(this, lVar);
     }
 

@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 import androidx.collection.LongSparseArray;
+import com.google.android.exoplayer2.util.Log;
 import java.util.ArrayList;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$ChatPhoto;
@@ -116,13 +117,14 @@ class ContactsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactor
         } else {
             RemoteViews remoteViews3 = new RemoteViews(this.mContext.getPackageName(), R.layout.contacts_widget_item);
             int i3 = 0;
-            while (i3 < 2) {
-                int i4 = (i * 2) + i3;
-                if (i4 >= this.dids.size()) {
-                    remoteViews3.setViewVisibility(i3 == 0 ? R.id.contacts_widget_item1 : R.id.contacts_widget_item2, 4);
+            int i4 = 0;
+            while (i4 < 2) {
+                int i5 = (i * 2) + i4;
+                if (i5 >= this.dids.size()) {
+                    remoteViews3.setViewVisibility(i4 == 0 ? R.id.contacts_widget_item1 : R.id.contacts_widget_item2, 4);
                 } else {
-                    remoteViews3.setViewVisibility(i3 == 0 ? R.id.contacts_widget_item1 : R.id.contacts_widget_item2, 0);
-                    Long l = this.dids.get(i4);
+                    remoteViews3.setViewVisibility(i4 == 0 ? R.id.contacts_widget_item1 : R.id.contacts_widget_item2, i3);
+                    Long l = this.dids.get(i5);
                     if (DialogObject.isUserDialog(l.longValue())) {
                         tLRPC$User = this.accountInstance.getMessagesController().getUser(l);
                         if (UserObject.isUserSelf(tLRPC$User)) {
@@ -156,7 +158,7 @@ class ContactsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactor
                         tLRPC$User = null;
                         tLRPC$FileLocation = null;
                     }
-                    remoteViews3.setTextViewText(i3 == 0 ? R.id.contacts_widget_item_text1 : R.id.contacts_widget_item_text2, str);
+                    remoteViews3.setTextViewText(i4 == 0 ? R.id.contacts_widget_item_text1 : R.id.contacts_widget_item_text2, str);
                     if (tLRPC$FileLocation != null) {
                         try {
                             decodeFile = BitmapFactory.decodeFile(FileLoader.getInstance(UserConfig.selectedAccount).getPathToAttach(tLRPC$FileLocation, true).toString());
@@ -168,7 +170,7 @@ class ContactsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactor
                     }
                     int dp = AndroidUtilities.dp(48.0f);
                     Bitmap createBitmap = Bitmap.createBitmap(dp, dp, Bitmap.Config.ARGB_8888);
-                    createBitmap.eraseColor(0);
+                    createBitmap.eraseColor(i3);
                     Canvas canvas = new Canvas(createBitmap);
                     if (decodeFile == null) {
                         if (tLRPC$User != null) {
@@ -181,7 +183,7 @@ class ContactsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactor
                         } else {
                             avatarDrawable = new AvatarDrawable(tLRPC$Chat);
                         }
-                        avatarDrawable.setBounds(0, 0, dp, dp);
+                        avatarDrawable.setBounds(i3, i3, dp, dp);
                         avatarDrawable.draw(canvas);
                     } else {
                         Shader.TileMode tileMode = Shader.TileMode.CLAMP;
@@ -199,13 +201,15 @@ class ContactsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactor
                         canvas.restore();
                     }
                     canvas.setBitmap(null);
-                    remoteViews3.setImageViewBitmap(i3 == 0 ? R.id.contacts_widget_item_avatar1 : R.id.contacts_widget_item_avatar2, createBitmap);
+                    remoteViews3.setImageViewBitmap(i4 == 0 ? R.id.contacts_widget_item_avatar1 : R.id.contacts_widget_item_avatar2, createBitmap);
                     TLRPC$Dialog tLRPC$Dialog = this.dialogs.get(l.longValue());
                     if (tLRPC$Dialog != null && (i2 = tLRPC$Dialog.unread_count) > 0) {
-                        remoteViews3.setTextViewText(i3 == 0 ? R.id.contacts_widget_item_badge1 : R.id.contacts_widget_item_badge2, i2 > 99 ? String.format("%d+", 99) : String.format("%d", Integer.valueOf(i2)));
-                        remoteViews3.setViewVisibility(i3 == 0 ? R.id.contacts_widget_item_badge_bg1 : R.id.contacts_widget_item_badge_bg2, 0);
+                        remoteViews3.setTextViewText(i4 == 0 ? R.id.contacts_widget_item_badge1 : R.id.contacts_widget_item_badge2, i2 > 99 ? String.format("%d+", 99) : String.format("%d", Integer.valueOf(i2)));
+                        i3 = 0;
+                        remoteViews3.setViewVisibility(i4 == 0 ? R.id.contacts_widget_item_badge_bg1 : R.id.contacts_widget_item_badge_bg2, 0);
                     } else {
-                        remoteViews3.setViewVisibility(i3 == 0 ? R.id.contacts_widget_item_badge_bg1 : R.id.contacts_widget_item_badge_bg2, 8);
+                        i3 = 0;
+                        remoteViews3.setViewVisibility(i4 == 0 ? R.id.contacts_widget_item_badge_bg1 : R.id.contacts_widget_item_badge_bg2, 8);
                     }
                     Bundle bundle2 = new Bundle();
                     if (DialogObject.isUserDialog(l.longValue())) {
@@ -214,11 +218,12 @@ class ContactsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactor
                         bundle2.putLong("chatId", -l.longValue());
                     }
                     bundle2.putInt("currentAccount", this.accountInstance.getCurrentAccount());
+                    Log.d("kek", "kek " + str);
                     Intent intent2 = new Intent();
                     intent2.putExtras(bundle2);
-                    remoteViews3.setOnClickFillInIntent(i3 == 0 ? R.id.contacts_widget_item1 : R.id.contacts_widget_item2, intent2);
+                    remoteViews3.setOnClickFillInIntent(i4 == 0 ? R.id.contacts_widget_item1 : R.id.contacts_widget_item2, intent2);
                 }
-                i3++;
+                i4++;
             }
             return remoteViews3;
         }

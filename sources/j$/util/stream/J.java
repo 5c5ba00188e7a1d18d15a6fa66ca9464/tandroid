@@ -30,16 +30,19 @@ class J extends f3 {
                 if (u != null) {
                     try {
                         u.sequential().j(new F(this));
-                    } finally {
+                    } catch (Throwable th) {
                         try {
                             u.close();
-                        } catch (Throwable unused) {
+                        } catch (Throwable th2) {
+                            th.addSuppressed(th2);
                         }
+                        throw th;
                     }
                 }
                 if (u == null) {
                     return;
                 }
+                u.close();
                 return;
             case 5:
                 if (!((j$.wrappers.E) ((K) this.c).m).b(d)) {

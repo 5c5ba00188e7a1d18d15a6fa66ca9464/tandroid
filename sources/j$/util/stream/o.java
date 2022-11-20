@@ -4,6 +4,7 @@ import j$.util.concurrent.ConcurrentHashMap;
 import j$.util.function.BiConsumer;
 import j$.util.function.Consumer;
 import j$.util.function.Predicate;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 /* loaded from: classes2.dex */
 public final /* synthetic */ class o implements Consumer, j$.util.function.y {
@@ -42,11 +43,11 @@ public final /* synthetic */ class o implements Consumer, j$.util.function.y {
     public /* synthetic */ Consumer andThen(Consumer consumer) {
         switch (this.a) {
             case 0:
-                return consumer.getClass();
+                return Objects.requireNonNull(consumer);
             case 5:
-                return consumer.getClass();
+                return Objects.requireNonNull(consumer);
             default:
-                return consumer.getClass();
+                return Objects.requireNonNull(consumer);
         }
     }
 

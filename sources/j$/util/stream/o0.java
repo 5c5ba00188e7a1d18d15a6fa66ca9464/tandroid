@@ -1,6 +1,7 @@
 package j$.util.stream;
 
 import j$.util.function.Consumer;
+import java.util.Objects;
 /* loaded from: classes2.dex */
 abstract class o0 implements N4, O4 {
     private final boolean a;
@@ -27,7 +28,7 @@ abstract class o0 implements N4, O4 {
 
     @Override // j$.util.function.Consumer
     public /* synthetic */ Consumer andThen(Consumer consumer) {
-        return consumer.getClass();
+        return Objects.requireNonNull(consumer);
     }
 
     @Override // j$.util.stream.N4

@@ -18,7 +18,11 @@ class M4 implements Runnable {
         } catch (Throwable th) {
             try {
                 this.b.run();
-            } catch (Throwable unused) {
+            } catch (Throwable th2) {
+                try {
+                    th.addSuppressed(th2);
+                } catch (Throwable unused) {
+                }
             }
             throw th;
         }

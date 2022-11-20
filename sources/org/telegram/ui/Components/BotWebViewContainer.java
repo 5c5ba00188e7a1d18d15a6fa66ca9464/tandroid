@@ -35,7 +35,6 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import androidx.core.graphics.ColorUtils;
 import androidx.core.util.Consumer;
-import androidx.core.util.ObjectsCompat$$ExternalSyntheticBackport0;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -43,6 +42,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -323,7 +323,7 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
             public boolean shouldOverrideUrlLoading(WebView webView3, String str) {
                 Uri parse = Uri.parse(BotWebViewContainer.this.mUrl);
                 Uri parse2 = Uri.parse(str);
-                if (!BotWebViewContainer.this.isPageLoaded || (ObjectsCompat$$ExternalSyntheticBackport0.m(parse.getHost(), parse2.getHost()) && ObjectsCompat$$ExternalSyntheticBackport0.m(parse.getPath(), parse2.getPath()))) {
+                if (!BotWebViewContainer.this.isPageLoaded || (Objects.equals(parse.getHost(), parse2.getHost()) && Objects.equals(parse.getPath(), parse2.getPath()))) {
                     return false;
                 }
                 if (!BotWebViewContainer.WHITELISTED_SCHEMES.contains(parse2.getScheme())) {
@@ -706,7 +706,7 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
             jSONObject.put("slug", str);
             jSONObject.put("status", str2);
             notifyEvent("invoice_closed", jSONObject);
-            if (z || !ObjectsCompat$$ExternalSyntheticBackport0.m(this.currentPaymentSlug, str)) {
+            if (z || !Objects.equals(this.currentPaymentSlug, str)) {
                 return;
             }
             this.currentPaymentSlug = null;
@@ -824,7 +824,7 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
         boolean z;
         String publicUsername = UserObject.getPublicUsername(MessagesController.getInstance(i).getUser(Long.valueOf(j)));
         int i2 = 0;
-        if (publicUsername != null && ObjectsCompat$$ExternalSyntheticBackport0.m(publicUsername, "DurgerKingBot")) {
+        if (publicUsername != null && publicUsername.equals("DurgerKingBot")) {
             this.flickerView.setVisibility(0);
             this.flickerView.setAlpha(1.0f);
             this.flickerView.setImageDrawable(SvgHelper.getDrawable(R.raw.durgerking_placeholder, getColor("windowBackgroundGray")));

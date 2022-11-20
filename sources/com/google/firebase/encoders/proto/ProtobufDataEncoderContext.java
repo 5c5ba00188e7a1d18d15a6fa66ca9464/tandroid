@@ -241,7 +241,8 @@ final class ProtobufDataEncoderContext implements ObjectEncoderContext {
         } catch (Throwable th) {
             try {
                 lengthCountingOutputStream.close();
-            } catch (Throwable unused) {
+            } catch (Throwable th2) {
+                th.addSuppressed(th2);
             }
             throw th;
         }

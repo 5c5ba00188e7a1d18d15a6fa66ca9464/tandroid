@@ -27,7 +27,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import androidx.core.util.ObjectsCompat$$ExternalSyntheticBackport0;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
@@ -38,6 +37,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.ChatThemeController;
@@ -758,7 +758,7 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
         if (!TextUtils.isEmpty(str)) {
             str2 = str;
         }
-        return !ObjectsCompat$$ExternalSyntheticBackport0.m(emoticon, str2);
+        return !Objects.equals(emoticon, str2);
     }
 
     @SuppressLint({"NotifyDataSetChanged"})
@@ -810,11 +810,12 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
 
         private boolean parseTheme(final Theme.ThemeInfo themeInfo) {
             FileInputStream fileInputStream;
+            Throwable th;
             boolean z;
             int i;
+            String[] split;
             int intValue;
             char c;
-            String[] split;
             if (themeInfo == null || themeInfo.pathToFile == null) {
                 return false;
             }
@@ -837,55 +838,62 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
                                         int i7 = (i5 - i6) + i2;
                                         String str = new String(bArr, i6, i7 - 1, "UTF-8");
                                         if (str.startsWith("WLS=")) {
-                                            String substring = str.substring(4);
-                                            Uri parse = Uri.parse(substring);
-                                            themeInfo.slug = parse.getQueryParameter("slug");
-                                            File filesDirFixed = ApplicationLoader.getFilesDirFixed();
-                                            themeInfo.pathToWallpaper = new File(filesDirFixed, Utilities.MD5(substring) + ".wp").getAbsolutePath();
-                                            String queryParameter = parse.getQueryParameter("mode");
-                                            if (queryParameter != null && (split = queryParameter.toLowerCase().split(" ")) != null && split.length > 0) {
-                                                int i8 = 0;
-                                                while (true) {
-                                                    if (i8 < split.length) {
-                                                        if ("blur".equals(split[i8])) {
-                                                            themeInfo.isBlured = true;
-                                                        } else {
-                                                            i8++;
+                                            try {
+                                                String substring = str.substring(4);
+                                                Uri parse = Uri.parse(substring);
+                                                themeInfo.slug = parse.getQueryParameter("slug");
+                                                File filesDirFixed = ApplicationLoader.getFilesDirFixed();
+                                                themeInfo.pathToWallpaper = new File(filesDirFixed, Utilities.MD5(substring) + ".wp").getAbsolutePath();
+                                                String queryParameter = parse.getQueryParameter("mode");
+                                                if (queryParameter != null && (split = queryParameter.toLowerCase().split(" ")) != null && split.length > 0) {
+                                                    int i8 = 0;
+                                                    while (true) {
+                                                        if (i8 < split.length) {
+                                                            if ("blur".equals(split[i8])) {
+                                                                themeInfo.isBlured = true;
+                                                            } else {
+                                                                i8++;
+                                                            }
                                                         }
                                                     }
                                                 }
-                                            }
-                                            if (!TextUtils.isEmpty(parse.getQueryParameter("pattern"))) {
-                                                try {
-                                                    String queryParameter2 = parse.getQueryParameter("bg_color");
-                                                    if (!TextUtils.isEmpty(queryParameter2)) {
-                                                        themeInfo.patternBgColor = Integer.parseInt(queryParameter2.substring(0, 6), 16) | (-16777216);
-                                                        if (queryParameter2.length() >= 13 && AndroidUtilities.isValidWallChar(queryParameter2.charAt(6))) {
-                                                            themeInfo.patternBgGradientColor1 = Integer.parseInt(queryParameter2.substring(7, 13), 16) | (-16777216);
+                                                if (!TextUtils.isEmpty(parse.getQueryParameter("pattern"))) {
+                                                    try {
+                                                        String queryParameter2 = parse.getQueryParameter("bg_color");
+                                                        if (!TextUtils.isEmpty(queryParameter2)) {
+                                                            themeInfo.patternBgColor = Integer.parseInt(queryParameter2.substring(0, 6), 16) | (-16777216);
+                                                            if (queryParameter2.length() >= 13 && AndroidUtilities.isValidWallChar(queryParameter2.charAt(6))) {
+                                                                themeInfo.patternBgGradientColor1 = Integer.parseInt(queryParameter2.substring(7, 13), 16) | (-16777216);
+                                                            }
+                                                            if (queryParameter2.length() >= 20 && AndroidUtilities.isValidWallChar(queryParameter2.charAt(13))) {
+                                                                themeInfo.patternBgGradientColor2 = Integer.parseInt(queryParameter2.substring(14, 20), 16) | (-16777216);
+                                                            }
+                                                            if (queryParameter2.length() == 27 && AndroidUtilities.isValidWallChar(queryParameter2.charAt(20))) {
+                                                                themeInfo.patternBgGradientColor3 = Integer.parseInt(queryParameter2.substring(21), 16) | (-16777216);
+                                                            }
                                                         }
-                                                        if (queryParameter2.length() >= 20 && AndroidUtilities.isValidWallChar(queryParameter2.charAt(13))) {
-                                                            themeInfo.patternBgGradientColor2 = Integer.parseInt(queryParameter2.substring(14, 20), 16) | (-16777216);
-                                                        }
-                                                        if (queryParameter2.length() == 27 && AndroidUtilities.isValidWallChar(queryParameter2.charAt(20))) {
-                                                            themeInfo.patternBgGradientColor3 = Integer.parseInt(queryParameter2.substring(21), 16) | (-16777216);
-                                                        }
+                                                    } catch (Exception unused) {
                                                     }
-                                                } catch (Exception unused) {
-                                                }
-                                                try {
-                                                    String queryParameter3 = parse.getQueryParameter("rotation");
-                                                    if (!TextUtils.isEmpty(queryParameter3)) {
-                                                        themeInfo.patternBgGradientRotation = Utilities.parseInt((CharSequence) queryParameter3).intValue();
+                                                    try {
+                                                        String queryParameter3 = parse.getQueryParameter("rotation");
+                                                        if (!TextUtils.isEmpty(queryParameter3)) {
+                                                            themeInfo.patternBgGradientRotation = Utilities.parseInt((CharSequence) queryParameter3).intValue();
+                                                        }
+                                                    } catch (Exception unused2) {
                                                     }
-                                                } catch (Exception unused2) {
+                                                    String queryParameter4 = parse.getQueryParameter("intensity");
+                                                    if (!TextUtils.isEmpty(queryParameter4)) {
+                                                        themeInfo.patternIntensity = Utilities.parseInt((CharSequence) queryParameter4).intValue();
+                                                    }
+                                                    if (themeInfo.patternIntensity == 0) {
+                                                        themeInfo.patternIntensity = 50;
+                                                    }
                                                 }
-                                                String queryParameter4 = parse.getQueryParameter("intensity");
-                                                if (!TextUtils.isEmpty(queryParameter4)) {
-                                                    themeInfo.patternIntensity = Utilities.parseInt((CharSequence) queryParameter4).intValue();
-                                                }
-                                                if (themeInfo.patternIntensity == 0) {
-                                                    themeInfo.patternIntensity = 50;
-                                                }
+                                            } catch (Throwable th2) {
+                                                th = th2;
+                                                fileInputStream = fileInputStream2;
+                                                fileInputStream.close();
+                                                throw th;
                                             }
                                         } else if (str.startsWith("WPS")) {
                                             themeInfo.previewWallpaperOffset = i7 + i4;
@@ -1002,26 +1010,24 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
                                     i3 = i4;
                                     fileInputStream2 = fileInputStream;
                                     i2 = 1;
-                                } catch (Throwable th) {
+                                } catch (Throwable th3) {
+                                    th = th3;
                                     th = th;
-                                    try {
-                                        fileInputStream.close();
-                                    } catch (Throwable unused4) {
-                                    }
+                                    fileInputStream.close();
                                     throw th;
                                 }
                             }
                         } else {
                             fileInputStream = fileInputStream2;
                         }
-                    } catch (Throwable th2) {
-                        th = th2;
+                    } catch (Throwable th4) {
+                        th = th4;
                         fileInputStream = fileInputStream2;
                     }
                 }
                 fileInputStream.close();
-            } catch (Throwable th3) {
-                FileLog.e(th3);
+            } catch (Throwable th5) {
+                FileLog.e(th5);
             }
             if (themeInfo.pathToWallpaper != null && !themeInfo.badWallpaper && !new File(themeInfo.pathToWallpaper).exists()) {
                 if (this.loadingWallpapers.containsKey(themeInfo)) {

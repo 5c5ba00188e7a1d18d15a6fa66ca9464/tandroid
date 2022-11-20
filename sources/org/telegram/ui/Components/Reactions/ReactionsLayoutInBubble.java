@@ -11,13 +11,12 @@ import android.view.MotionEvent;
 import android.view.ViewConfiguration;
 import android.view.animation.Interpolator;
 import androidx.core.graphics.ColorUtils;
-import androidx.core.util.ObjectsCompat$$ExternalSyntheticBackport0;
 import androidx.recyclerview.widget.ChatListItemAnimator;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Objects;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.DocumentObject;
@@ -988,11 +987,11 @@ public class ReactionsLayoutInBubble {
                 return false;
             }
             VisibleReaction visibleReaction = (VisibleReaction) obj;
-            return this.documentId == visibleReaction.documentId && ObjectsCompat$$ExternalSyntheticBackport0.m(this.emojicon, visibleReaction.emojicon);
+            return this.documentId == visibleReaction.documentId && Objects.equals(this.emojicon, visibleReaction.emojicon);
         }
 
         public int hashCode() {
-            return Arrays.hashCode(new Object[]{this.emojicon, Long.valueOf(this.documentId)});
+            return Objects.hash(this.emojicon, Long.valueOf(this.documentId));
         }
     }
 }

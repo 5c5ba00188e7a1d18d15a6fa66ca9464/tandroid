@@ -4,23 +4,23 @@ class j implements g {
     final j$.time.temporal.k a;
     final int b;
     final int c;
-    private final s d;
+    private final t d;
     final int e;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public j(j$.time.temporal.k kVar, int i, int i2, s sVar) {
+    public j(j$.time.temporal.k kVar, int i, int i2, t tVar) {
         this.a = kVar;
         this.b = i;
         this.c = i2;
-        this.d = sVar;
+        this.d = tVar;
         this.e = 0;
     }
 
-    protected j(j$.time.temporal.k kVar, int i, int i2, s sVar, int i3) {
+    protected j(j$.time.temporal.k kVar, int i, int i2, t tVar, int i3) {
         this.a = kVar;
         this.b = i;
         this.c = i2;
-        this.d = sVar;
+        this.d = tVar;
         this.e = i3;
     }
 
@@ -38,11 +38,11 @@ class j implements g {
         StringBuilder sb;
         Object obj;
         int i = this.b;
-        if (i == 1 && this.c == 19 && this.d == s.NORMAL) {
+        if (i == 1 && this.c == 19 && this.d == t.NORMAL) {
             sb = new StringBuilder();
             sb.append("Value(");
             obj = this.a;
-        } else if (i == this.c && this.d == s.NOT_NEGATIVE) {
+        } else if (i == this.c && this.d == t.NOT_NEGATIVE) {
             sb = new StringBuilder();
             sb.append("Value(");
             sb.append(this.a);

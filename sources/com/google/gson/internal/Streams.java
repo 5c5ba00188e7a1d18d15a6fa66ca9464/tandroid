@@ -5,6 +5,7 @@ import com.google.gson.internal.bind.TypeAdapters;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.Objects;
 /* loaded from: classes.dex */
 public final class Streams {
     public static void write(JsonElement jsonElement, JsonWriter jsonWriter) throws IOException {
@@ -45,7 +46,7 @@ public final class Streams {
 
         @Override // java.io.Writer
         public void write(String str, int i, int i2) throws IOException {
-            str.getClass();
+            Objects.requireNonNull(str);
             this.appendable.append(str, i, i2 + i);
         }
 

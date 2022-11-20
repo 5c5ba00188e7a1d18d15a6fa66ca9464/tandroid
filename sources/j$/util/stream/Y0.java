@@ -1,4 +1,6 @@
 package j$.util.stream;
+
+import java.util.Objects;
 /* loaded from: classes2.dex */
 public final /* synthetic */ class Y0 implements j$.util.function.t {
     public static final /* synthetic */ Y0 a = new Y0();
@@ -8,7 +10,7 @@ public final /* synthetic */ class Y0 implements j$.util.function.t {
 
     @Override // j$.util.function.t
     public j$.util.function.t a(j$.util.function.t tVar) {
-        tVar.getClass();
+        Objects.requireNonNull(tVar);
         return new j$.util.function.s(this, tVar, 0);
     }
 
@@ -19,7 +21,7 @@ public final /* synthetic */ class Y0 implements j$.util.function.t {
 
     @Override // j$.util.function.t
     public j$.util.function.t b(j$.util.function.t tVar) {
-        tVar.getClass();
+        Objects.requireNonNull(tVar);
         return new j$.util.function.s(this, tVar, 1);
     }
 }

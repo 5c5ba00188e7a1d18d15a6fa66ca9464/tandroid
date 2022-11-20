@@ -10,6 +10,7 @@ import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.util.HashSet;
 import java.util.Locale;
+import org.telegram.SQLite.SQLiteException;
 import org.telegram.messenger.time.FastDateFormat;
 import org.telegram.messenger.video.MediaCodecVideoConvertor;
 import org.telegram.tgnet.TLObject;
@@ -316,6 +317,9 @@ public class FileLog {
         }
         if (BuildVars.DEBUG_VERSION && needSent(th) && z) {
             AndroidUtilities.appCenterLog(th);
+        }
+        if (BuildVars.DEBUG_VERSION && (th instanceof SQLiteException) && th.getMessage() != null) {
+            th.getMessage().contains("disk image is malformed");
         }
         ensureInitied();
         th.printStackTrace();

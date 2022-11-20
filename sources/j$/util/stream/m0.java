@@ -1,4 +1,6 @@
 package j$.util.stream;
+
+import java.util.Objects;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public final class m0 extends o0 implements l3 {
@@ -23,7 +25,7 @@ public final class m0 extends o0 implements l3 {
 
     @Override // j$.util.function.q
     public j$.util.function.q f(j$.util.function.q qVar) {
-        qVar.getClass();
+        Objects.requireNonNull(qVar);
         return new j$.util.function.p(this, qVar);
     }
 }

@@ -1,6 +1,7 @@
 package j$.util.stream;
 
 import j$.util.function.Consumer;
+import java.util.Objects;
 /* loaded from: classes2.dex */
 public final /* synthetic */ class n4 implements j3 {
     public final /* synthetic */ int a = 0;
@@ -26,9 +27,9 @@ public final /* synthetic */ class n4 implements j3 {
     public /* synthetic */ Consumer andThen(Consumer consumer) {
         switch (this.a) {
             case 0:
-                return consumer.getClass();
+                return Objects.requireNonNull(consumer);
             default:
-                return consumer.getClass();
+                return Objects.requireNonNull(consumer);
         }
     }
 
@@ -47,10 +48,10 @@ public final /* synthetic */ class n4 implements j3 {
     public j$.util.function.f j(j$.util.function.f fVar) {
         switch (this.a) {
             case 0:
-                fVar.getClass();
+                Objects.requireNonNull(fVar);
                 return new j$.util.function.e(this, fVar);
             default:
-                fVar.getClass();
+                Objects.requireNonNull(fVar);
                 return new j$.util.function.e(this, fVar);
         }
     }

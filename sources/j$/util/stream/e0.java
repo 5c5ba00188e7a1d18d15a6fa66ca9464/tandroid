@@ -1,4 +1,6 @@
 package j$.util.stream;
+
+import java.util.Objects;
 /* loaded from: classes2.dex */
 final class e0 extends i0 implements j3 {
     @Override // j$.util.stream.i0, j$.util.stream.m3
@@ -16,7 +18,7 @@ final class e0 extends i0 implements j3 {
 
     @Override // j$.util.function.f
     public j$.util.function.f j(j$.util.function.f fVar) {
-        fVar.getClass();
+        Objects.requireNonNull(fVar);
         return new j$.util.function.e(this, fVar);
     }
 }

@@ -23,6 +23,7 @@ import com.google.android.datatransport.runtime.time.Clock;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.Executor;
 /* loaded from: classes.dex */
 public class Uploader {
@@ -68,7 +69,7 @@ public class Uploader {
             try {
                 SynchronizationGuard synchronizationGuard = this.guard;
                 final EventStore eventStore = this.eventStore;
-                eventStore.getClass();
+                Objects.requireNonNull(eventStore);
                 synchronizationGuard.runCriticalSection(new SynchronizationGuard.CriticalSection() { // from class: com.google.android.datatransport.runtime.scheduling.jobscheduling.Uploader$$ExternalSyntheticLambda8
                     @Override // com.google.android.datatransport.runtime.synchronization.SynchronizationGuard.CriticalSection
                     public final Object execute() {
@@ -137,7 +138,7 @@ public class Uploader {
                     if (transportContext.shouldUploadClientHealthMetrics()) {
                         SynchronizationGuard synchronizationGuard = this.guard;
                         final ClientHealthMetricsStore clientHealthMetricsStore = this.clientHealthMetricsStore;
-                        clientHealthMetricsStore.getClass();
+                        Objects.requireNonNull(clientHealthMetricsStore);
                         arrayList.add(transportBackend.decorate(EventInternal.builder().setEventMillis(this.clock.getTime()).setUptimeMillis(this.uptimeClock.getTime()).setTransportName("GDT_CLIENT_METRICS").setEncodedPayload(new EncodedPayload(Encoding.of("proto"), ((ClientMetrics) synchronizationGuard.runCriticalSection(new SynchronizationGuard.CriticalSection() { // from class: com.google.android.datatransport.runtime.scheduling.jobscheduling.Uploader$$ExternalSyntheticLambda7
                             @Override // com.google.android.datatransport.runtime.synchronization.SynchronizationGuard.CriticalSection
                             public final Object execute() {

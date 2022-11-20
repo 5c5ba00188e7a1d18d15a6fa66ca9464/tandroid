@@ -4604,7 +4604,7 @@ public class NotificationsController extends BaseController {
         try {
             Intent intent = new Intent(ApplicationLoader.applicationContext, NotificationRepeat.class);
             intent.putExtra("currentAccount", this.currentAccount);
-            PendingIntent service = PendingIntent.getService(ApplicationLoader.applicationContext, 0, intent, 0);
+            PendingIntent service = PendingIntent.getService(ApplicationLoader.applicationContext, 0, intent, ConnectionsManager.FileTypeVideo);
             int i = getAccountInstance().getNotificationsSettings().getInt("repeat_messages", 60);
             if (i > 0 && this.personalCount > 0) {
                 this.alarmManager.set(2, SystemClock.elapsedRealtime() + (i * 60 * 1000), service);
@@ -5018,7 +5018,7 @@ public class NotificationsController extends BaseController {
                         } else {
                             createWithResource = IconCompat.createWithResource(ApplicationLoader.applicationContext, R.drawable.book_group);
                         }
-                        NotificationCompat.BubbleMetadata.Builder builder2 = new NotificationCompat.BubbleMetadata.Builder(PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent2, 134217728), createWithResource);
+                        NotificationCompat.BubbleMetadata.Builder builder2 = new NotificationCompat.BubbleMetadata.Builder(PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent2, 167772160), createWithResource);
                         builder2.setSuppressNotification(this.openedDialogId != j);
                         builder2.setAutoExpandBubble(false);
                         builder2.setDesiredHeight(AndroidUtilities.dp(640.0f));
@@ -5037,7 +5037,7 @@ public class NotificationsController extends BaseController {
                 intent22.putExtra("currentAccount", this.currentAccount);
                 if (bitmap == null) {
                 }
-                NotificationCompat.BubbleMetadata.Builder builder22 = new NotificationCompat.BubbleMetadata.Builder(PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent22, 134217728), createWithResource);
+                NotificationCompat.BubbleMetadata.Builder builder22 = new NotificationCompat.BubbleMetadata.Builder(PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent22, 167772160), createWithResource);
                 builder22.setSuppressNotification(this.openedDialogId != j);
                 builder22.setAutoExpandBubble(false);
                 builder22.setDesiredHeight(AndroidUtilities.dp(640.0f));
@@ -6114,7 +6114,7 @@ public class NotificationsController extends BaseController {
                                                                         long j16 = j8;
                                                                         MessageObject messageObject10 = messageObject4;
                                                                         int i26 = i5;
-                                                                        builder3.setContentTitle(charSequence).setSmallIcon(R.drawable.notification).setAutoCancel(true).setNumber(this.total_unread_count).setContentIntent(PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent, 1073741824)).setGroup(this.notificationGroup).setGroupSummary(true).setShowWhen(true).setWhen(messageObject10.messageOwner.date * 1000).setColor(-15618822);
+                                                                        builder3.setContentTitle(charSequence).setSmallIcon(R.drawable.notification).setAutoCancel(true).setNumber(this.total_unread_count).setContentIntent(PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent, 1107296256)).setGroup(this.notificationGroup).setGroupSummary(true).setShowWhen(true).setWhen(messageObject10.messageOwner.date * 1000).setColor(-15618822);
                                                                         builder3.setCategory("msg");
                                                                         if (tLRPC$Chat3 == null && tLRPC$User2 != null && (str8 = tLRPC$User2.phone) != null && str8.length() > 0) {
                                                                             builder3.addPerson("tel:+" + tLRPC$User2.phone);
@@ -6122,7 +6122,7 @@ public class NotificationsController extends BaseController {
                                                                         Intent intent2 = new Intent(ApplicationLoader.applicationContext, NotificationDismissReceiver.class);
                                                                         intent2.putExtra("messageDate", messageObject10.messageOwner.date);
                                                                         intent2.putExtra("currentAccount", this.currentAccount);
-                                                                        builder3.setDeleteIntent(PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 1, intent2, 134217728));
+                                                                        builder3.setDeleteIntent(PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 1, intent2, 167772160));
                                                                         if (tLRPC$FileLocation != null) {
                                                                             BitmapDrawable imageFromMemory = ImageLoader.getInstance().getImageFromMemory(tLRPC$FileLocation, null, "50_50");
                                                                             if (imageFromMemory != null) {
@@ -6300,7 +6300,7 @@ public class NotificationsController extends BaseController {
                                                                                         int i31 = this.lastButtonId;
                                                                                         messageObject5 = messageObject10;
                                                                                         this.lastButtonId = i31 + 1;
-                                                                                        builder3.addAction(0, str14, PendingIntent.getBroadcast(context, i31, intent3, 134217728));
+                                                                                        builder3.addAction(0, str14, PendingIntent.getBroadcast(context, i31, intent3, 167772160));
                                                                                         z25 = true;
                                                                                     } else {
                                                                                         arrayList = arrayList2;
@@ -6328,9 +6328,9 @@ public class NotificationsController extends BaseController {
                                                                             Intent intent4 = new Intent(ApplicationLoader.applicationContext, PopupReplyReceiver.class);
                                                                             intent4.putExtra("currentAccount", this.currentAccount);
                                                                             if (i15 <= 19) {
-                                                                                builder3.addAction(R.drawable.ic_ab_reply2, LocaleController.getString("Reply", R.string.Reply), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 2, intent4, 134217728));
+                                                                                builder3.addAction(R.drawable.ic_ab_reply2, LocaleController.getString("Reply", R.string.Reply), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 2, intent4, 167772160));
                                                                             } else {
-                                                                                builder3.addAction(R.drawable.ic_ab_reply, LocaleController.getString("Reply", R.string.Reply), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 2, intent4, 134217728));
+                                                                                builder3.addAction(R.drawable.ic_ab_reply, LocaleController.getString("Reply", R.string.Reply), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 2, intent4, 167772160));
                                                                             }
                                                                         }
                                                                         showExtraNotifications(builder3, str4, j9, i4, str10, jArr, i14, uri, i13, z24, z10, z9, i8);
@@ -6354,7 +6354,7 @@ public class NotificationsController extends BaseController {
                                                                 long j162 = j8;
                                                                 MessageObject messageObject102 = messageObject4;
                                                                 int i262 = i5;
-                                                                builder3.setContentTitle(charSequence).setSmallIcon(R.drawable.notification).setAutoCancel(true).setNumber(this.total_unread_count).setContentIntent(PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent, 1073741824)).setGroup(this.notificationGroup).setGroupSummary(true).setShowWhen(true).setWhen(messageObject102.messageOwner.date * 1000).setColor(-15618822);
+                                                                builder3.setContentTitle(charSequence).setSmallIcon(R.drawable.notification).setAutoCancel(true).setNumber(this.total_unread_count).setContentIntent(PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent, 1107296256)).setGroup(this.notificationGroup).setGroupSummary(true).setShowWhen(true).setWhen(messageObject102.messageOwner.date * 1000).setColor(-15618822);
                                                                 builder3.setCategory("msg");
                                                                 if (tLRPC$Chat3 == null) {
                                                                     builder3.addPerson("tel:+" + tLRPC$User2.phone);
@@ -6362,7 +6362,7 @@ public class NotificationsController extends BaseController {
                                                                 Intent intent22 = new Intent(ApplicationLoader.applicationContext, NotificationDismissReceiver.class);
                                                                 intent22.putExtra("messageDate", messageObject102.messageOwner.date);
                                                                 intent22.putExtra("currentAccount", this.currentAccount);
-                                                                builder3.setDeleteIntent(PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 1, intent22, 134217728));
+                                                                builder3.setDeleteIntent(PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 1, intent22, 167772160));
                                                                 if (tLRPC$FileLocation != null) {
                                                                 }
                                                                 if (z) {
@@ -6378,14 +6378,14 @@ public class NotificationsController extends BaseController {
                                                         long j1622 = j8;
                                                         MessageObject messageObject1022 = messageObject4;
                                                         int i2622 = i5;
-                                                        builder3.setContentTitle(charSequence).setSmallIcon(R.drawable.notification).setAutoCancel(true).setNumber(this.total_unread_count).setContentIntent(PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent, 1073741824)).setGroup(this.notificationGroup).setGroupSummary(true).setShowWhen(true).setWhen(messageObject1022.messageOwner.date * 1000).setColor(-15618822);
+                                                        builder3.setContentTitle(charSequence).setSmallIcon(R.drawable.notification).setAutoCancel(true).setNumber(this.total_unread_count).setContentIntent(PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent, 1107296256)).setGroup(this.notificationGroup).setGroupSummary(true).setShowWhen(true).setWhen(messageObject1022.messageOwner.date * 1000).setColor(-15618822);
                                                         builder3.setCategory("msg");
                                                         if (tLRPC$Chat3 == null) {
                                                         }
                                                         Intent intent222 = new Intent(ApplicationLoader.applicationContext, NotificationDismissReceiver.class);
                                                         intent222.putExtra("messageDate", messageObject1022.messageOwner.date);
                                                         intent222.putExtra("currentAccount", this.currentAccount);
-                                                        builder3.setDeleteIntent(PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 1, intent222, 134217728));
+                                                        builder3.setDeleteIntent(PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 1, intent222, 167772160));
                                                         if (tLRPC$FileLocation != null) {
                                                         }
                                                         if (z) {
@@ -6420,14 +6420,14 @@ public class NotificationsController extends BaseController {
                                                     long j16222 = j8;
                                                     MessageObject messageObject10222 = messageObject4;
                                                     int i26222 = i5;
-                                                    builder3.setContentTitle(charSequence).setSmallIcon(R.drawable.notification).setAutoCancel(true).setNumber(this.total_unread_count).setContentIntent(PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent5, 1073741824)).setGroup(this.notificationGroup).setGroupSummary(true).setShowWhen(true).setWhen(messageObject10222.messageOwner.date * 1000).setColor(-15618822);
+                                                    builder3.setContentTitle(charSequence).setSmallIcon(R.drawable.notification).setAutoCancel(true).setNumber(this.total_unread_count).setContentIntent(PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent5, 1107296256)).setGroup(this.notificationGroup).setGroupSummary(true).setShowWhen(true).setWhen(messageObject10222.messageOwner.date * 1000).setColor(-15618822);
                                                     builder3.setCategory("msg");
                                                     if (tLRPC$Chat3 == null) {
                                                     }
                                                     Intent intent2222 = new Intent(ApplicationLoader.applicationContext, NotificationDismissReceiver.class);
                                                     intent2222.putExtra("messageDate", messageObject10222.messageOwner.date);
                                                     intent2222.putExtra("currentAccount", this.currentAccount);
-                                                    builder3.setDeleteIntent(PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 1, intent2222, 134217728));
+                                                    builder3.setDeleteIntent(PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 1, intent2222, 167772160));
                                                     if (tLRPC$FileLocation != null) {
                                                     }
                                                     if (z) {
@@ -6512,14 +6512,14 @@ public class NotificationsController extends BaseController {
                                             long j162222 = j8;
                                             MessageObject messageObject102222 = messageObject4;
                                             int i262222 = i5;
-                                            builder3.setContentTitle(charSequence).setSmallIcon(R.drawable.notification).setAutoCancel(true).setNumber(this.total_unread_count).setContentIntent(PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent52, 1073741824)).setGroup(this.notificationGroup).setGroupSummary(true).setShowWhen(true).setWhen(messageObject102222.messageOwner.date * 1000).setColor(-15618822);
+                                            builder3.setContentTitle(charSequence).setSmallIcon(R.drawable.notification).setAutoCancel(true).setNumber(this.total_unread_count).setContentIntent(PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent52, 1107296256)).setGroup(this.notificationGroup).setGroupSummary(true).setShowWhen(true).setWhen(messageObject102222.messageOwner.date * 1000).setColor(-15618822);
                                             builder3.setCategory("msg");
                                             if (tLRPC$Chat3 == null) {
                                             }
                                             Intent intent22222 = new Intent(ApplicationLoader.applicationContext, NotificationDismissReceiver.class);
                                             intent22222.putExtra("messageDate", messageObject102222.messageOwner.date);
                                             intent22222.putExtra("currentAccount", this.currentAccount);
-                                            builder3.setDeleteIntent(PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 1, intent22222, 134217728));
+                                            builder3.setDeleteIntent(PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 1, intent22222, 167772160));
                                             if (tLRPC$FileLocation != null) {
                                             }
                                             if (z) {
@@ -6591,14 +6591,14 @@ public class NotificationsController extends BaseController {
                                 long j1622222 = j8;
                                 MessageObject messageObject1022222 = messageObject4;
                                 int i2622222 = i5;
-                                builder32.setContentTitle(charSequence).setSmallIcon(R.drawable.notification).setAutoCancel(true).setNumber(this.total_unread_count).setContentIntent(PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent522, 1073741824)).setGroup(this.notificationGroup).setGroupSummary(true).setShowWhen(true).setWhen(messageObject1022222.messageOwner.date * 1000).setColor(-15618822);
+                                builder32.setContentTitle(charSequence).setSmallIcon(R.drawable.notification).setAutoCancel(true).setNumber(this.total_unread_count).setContentIntent(PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent522, 1107296256)).setGroup(this.notificationGroup).setGroupSummary(true).setShowWhen(true).setWhen(messageObject1022222.messageOwner.date * 1000).setColor(-15618822);
                                 builder32.setCategory("msg");
                                 if (tLRPC$Chat3 == null) {
                                 }
                                 Intent intent222222 = new Intent(ApplicationLoader.applicationContext, NotificationDismissReceiver.class);
                                 intent222222.putExtra("messageDate", messageObject1022222.messageOwner.date);
                                 intent222222.putExtra("currentAccount", this.currentAccount);
-                                builder32.setDeleteIntent(PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 1, intent222222, 134217728));
+                                builder32.setDeleteIntent(PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 1, intent222222, 167772160));
                                 if (tLRPC$FileLocation != null) {
                                 }
                                 if (z) {
@@ -6673,14 +6673,14 @@ public class NotificationsController extends BaseController {
                             long j16222222 = j8;
                             MessageObject messageObject10222222 = messageObject4;
                             int i26222222 = i5;
-                            builder322.setContentTitle(charSequence).setSmallIcon(R.drawable.notification).setAutoCancel(true).setNumber(this.total_unread_count).setContentIntent(PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent5222, 1073741824)).setGroup(this.notificationGroup).setGroupSummary(true).setShowWhen(true).setWhen(messageObject10222222.messageOwner.date * 1000).setColor(-15618822);
+                            builder322.setContentTitle(charSequence).setSmallIcon(R.drawable.notification).setAutoCancel(true).setNumber(this.total_unread_count).setContentIntent(PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent5222, 1107296256)).setGroup(this.notificationGroup).setGroupSummary(true).setShowWhen(true).setWhen(messageObject10222222.messageOwner.date * 1000).setColor(-15618822);
                             builder322.setCategory("msg");
                             if (tLRPC$Chat3 == null) {
                             }
                             Intent intent2222222 = new Intent(ApplicationLoader.applicationContext, NotificationDismissReceiver.class);
                             intent2222222.putExtra("messageDate", messageObject10222222.messageOwner.date);
                             intent2222222.putExtra("currentAccount", this.currentAccount);
-                            builder322.setDeleteIntent(PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 1, intent2222222, 134217728));
+                            builder322.setDeleteIntent(PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 1, intent2222222, 167772160));
                             if (tLRPC$FileLocation != null) {
                             }
                             if (z) {
@@ -6775,14 +6775,14 @@ public class NotificationsController extends BaseController {
                             long j162222222 = j8;
                             MessageObject messageObject102222222 = messageObject4;
                             int i262222222 = i5;
-                            builder3222.setContentTitle(charSequence).setSmallIcon(R.drawable.notification).setAutoCancel(true).setNumber(this.total_unread_count).setContentIntent(PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent52222, 1073741824)).setGroup(this.notificationGroup).setGroupSummary(true).setShowWhen(true).setWhen(messageObject102222222.messageOwner.date * 1000).setColor(-15618822);
+                            builder3222.setContentTitle(charSequence).setSmallIcon(R.drawable.notification).setAutoCancel(true).setNumber(this.total_unread_count).setContentIntent(PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent52222, 1107296256)).setGroup(this.notificationGroup).setGroupSummary(true).setShowWhen(true).setWhen(messageObject102222222.messageOwner.date * 1000).setColor(-15618822);
                             builder3222.setCategory("msg");
                             if (tLRPC$Chat3 == null) {
                             }
                             Intent intent22222222 = new Intent(ApplicationLoader.applicationContext, NotificationDismissReceiver.class);
                             intent22222222.putExtra("messageDate", messageObject102222222.messageOwner.date);
                             intent22222222.putExtra("currentAccount", this.currentAccount);
-                            builder3222.setDeleteIntent(PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 1, intent22222222, 134217728));
+                            builder3222.setDeleteIntent(PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 1, intent22222222, 167772160));
                             if (tLRPC$FileLocation != null) {
                             }
                             if (z) {
@@ -6857,14 +6857,14 @@ public class NotificationsController extends BaseController {
                         long j1622222222 = j8;
                         MessageObject messageObject1022222222 = messageObject4;
                         int i2622222222 = i5;
-                        builder32222.setContentTitle(charSequence).setSmallIcon(R.drawable.notification).setAutoCancel(true).setNumber(this.total_unread_count).setContentIntent(PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent522222, 1073741824)).setGroup(this.notificationGroup).setGroupSummary(true).setShowWhen(true).setWhen(messageObject1022222222.messageOwner.date * 1000).setColor(-15618822);
+                        builder32222.setContentTitle(charSequence).setSmallIcon(R.drawable.notification).setAutoCancel(true).setNumber(this.total_unread_count).setContentIntent(PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent522222, 1107296256)).setGroup(this.notificationGroup).setGroupSummary(true).setShowWhen(true).setWhen(messageObject1022222222.messageOwner.date * 1000).setColor(-15618822);
                         builder32222.setCategory("msg");
                         if (tLRPC$Chat3 == null) {
                         }
                         Intent intent222222222 = new Intent(ApplicationLoader.applicationContext, NotificationDismissReceiver.class);
                         intent222222222.putExtra("messageDate", messageObject1022222222.messageOwner.date);
                         intent222222222.putExtra("currentAccount", this.currentAccount);
-                        builder32222.setDeleteIntent(PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 1, intent222222222, 134217728));
+                        builder32222.setDeleteIntent(PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 1, intent222222222, 167772160));
                         if (tLRPC$FileLocation != null) {
                         }
                         if (z) {
@@ -6958,14 +6958,14 @@ public class NotificationsController extends BaseController {
                     long j16222222222 = j8;
                     MessageObject messageObject10222222222 = messageObject4;
                     int i26222222222 = i5;
-                    builder322222.setContentTitle(charSequence).setSmallIcon(R.drawable.notification).setAutoCancel(true).setNumber(this.total_unread_count).setContentIntent(PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent5222222, 1073741824)).setGroup(this.notificationGroup).setGroupSummary(true).setShowWhen(true).setWhen(messageObject10222222222.messageOwner.date * 1000).setColor(-15618822);
+                    builder322222.setContentTitle(charSequence).setSmallIcon(R.drawable.notification).setAutoCancel(true).setNumber(this.total_unread_count).setContentIntent(PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent5222222, 1107296256)).setGroup(this.notificationGroup).setGroupSummary(true).setShowWhen(true).setWhen(messageObject10222222222.messageOwner.date * 1000).setColor(-15618822);
                     builder322222.setCategory("msg");
                     if (tLRPC$Chat3 == null) {
                     }
                     Intent intent2222222222 = new Intent(ApplicationLoader.applicationContext, NotificationDismissReceiver.class);
                     intent2222222222.putExtra("messageDate", messageObject10222222222.messageOwner.date);
                     intent2222222222.putExtra("currentAccount", this.currentAccount);
-                    builder322222.setDeleteIntent(PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 1, intent2222222222, 134217728));
+                    builder322222.setDeleteIntent(PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 1, intent2222222222, 167772160));
                     if (tLRPC$FileLocation != null) {
                     }
                     if (z) {
@@ -7048,14 +7048,14 @@ public class NotificationsController extends BaseController {
                 long j162222222222 = j8;
                 MessageObject messageObject102222222222 = messageObject4;
                 int i262222222222 = i5;
-                builder3222222.setContentTitle(charSequence).setSmallIcon(R.drawable.notification).setAutoCancel(true).setNumber(this.total_unread_count).setContentIntent(PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent52222222, 1073741824)).setGroup(this.notificationGroup).setGroupSummary(true).setShowWhen(true).setWhen(messageObject102222222222.messageOwner.date * 1000).setColor(-15618822);
+                builder3222222.setContentTitle(charSequence).setSmallIcon(R.drawable.notification).setAutoCancel(true).setNumber(this.total_unread_count).setContentIntent(PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent52222222, 1107296256)).setGroup(this.notificationGroup).setGroupSummary(true).setShowWhen(true).setWhen(messageObject102222222222.messageOwner.date * 1000).setColor(-15618822);
                 builder3222222.setCategory("msg");
                 if (tLRPC$Chat3 == null) {
                 }
                 Intent intent22222222222 = new Intent(ApplicationLoader.applicationContext, NotificationDismissReceiver.class);
                 intent22222222222.putExtra("messageDate", messageObject102222222222.messageOwner.date);
                 intent22222222222.putExtra("currentAccount", this.currentAccount);
-                builder3222222.setDeleteIntent(PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 1, intent22222222222, 134217728));
+                builder3222222.setDeleteIntent(PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 1, intent22222222222, 167772160));
                 if (tLRPC$FileLocation != null) {
                 }
                 if (z) {
@@ -7148,14 +7148,14 @@ public class NotificationsController extends BaseController {
             long j1622222222222 = j8;
             MessageObject messageObject1022222222222 = messageObject4;
             int i2622222222222 = i5;
-            builder32222222.setContentTitle(charSequence).setSmallIcon(R.drawable.notification).setAutoCancel(true).setNumber(this.total_unread_count).setContentIntent(PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent522222222, 1073741824)).setGroup(this.notificationGroup).setGroupSummary(true).setShowWhen(true).setWhen(messageObject1022222222222.messageOwner.date * 1000).setColor(-15618822);
+            builder32222222.setContentTitle(charSequence).setSmallIcon(R.drawable.notification).setAutoCancel(true).setNumber(this.total_unread_count).setContentIntent(PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent522222222, 1107296256)).setGroup(this.notificationGroup).setGroupSummary(true).setShowWhen(true).setWhen(messageObject1022222222222.messageOwner.date * 1000).setColor(-15618822);
             builder32222222.setCategory("msg");
             if (tLRPC$Chat3 == null) {
             }
             Intent intent222222222222 = new Intent(ApplicationLoader.applicationContext, NotificationDismissReceiver.class);
             intent222222222222.putExtra("messageDate", messageObject1022222222222.messageOwner.date);
             intent222222222222.putExtra("currentAccount", this.currentAccount);
-            builder32222222.setDeleteIntent(PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 1, intent222222222222, 134217728));
+            builder32222222.setDeleteIntent(PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 1, intent222222222222, 167772160));
             if (tLRPC$FileLocation != null) {
             }
             if (z) {
@@ -7640,7 +7640,7 @@ public class NotificationsController extends BaseController {
                     intent.putExtra(str5, notificationsController3.currentAccount);
                     bitmap2 = bitmap;
                     num2 = num;
-                    PendingIntent broadcast = PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num.intValue(), intent, 134217728);
+                    PendingIntent broadcast = PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num.intValue(), intent, 167772160);
                     RemoteInput build3 = new RemoteInput.Builder(EXTRA_VOICE_REPLY).setLabel(LocaleController.getString("Reply", R.string.Reply)).build();
                     if (!DialogObject.isChatDialog(j5)) {
                         str7 = "max_id";
@@ -7729,7 +7729,7 @@ public class NotificationsController extends BaseController {
                                         }
                                         String str22 = str21;
                                         intent2.putExtra(str22, notificationsController3.currentAccount);
-                                        PendingIntent activity = PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent2, 1073741824);
+                                        PendingIntent activity = PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent2, 1107296256);
                                         NotificationCompat.WearableExtender wearableExtender = new NotificationCompat.WearableExtender();
                                         action2 = action;
                                         if (action != null) {
@@ -7740,7 +7740,7 @@ public class NotificationsController extends BaseController {
                                         intent3.putExtra(str8, j5);
                                         intent3.putExtra(str7, i27);
                                         intent3.putExtra(str22, notificationsController3.currentAccount);
-                                        NotificationCompat.Action build5 = new NotificationCompat.Action.Builder(R.drawable.msg_markread, LocaleController.getString("MarkAsRead", R.string.MarkAsRead), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num2.intValue(), intent3, 134217728)).setSemanticAction(2).setShowsUserInterface(false).build();
+                                        NotificationCompat.Action build5 = new NotificationCompat.Action.Builder(R.drawable.msg_markread, LocaleController.getString("MarkAsRead", R.string.MarkAsRead), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num2.intValue(), intent3, 167772160)).setSemanticAction(2).setShowsUserInterface(false).build();
                                         if (DialogObject.isEncryptedDialog(j5)) {
                                         }
                                         if (str10 == null) {
@@ -7754,7 +7754,7 @@ public class NotificationsController extends BaseController {
                                         intent4.putExtra("messageDate", i6);
                                         intent4.putExtra("dialogId", j5);
                                         intent4.putExtra(str22, notificationsController3.currentAccount);
-                                        category.setDeleteIntent(PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num2.intValue(), intent4, 134217728));
+                                        category.setDeleteIntent(PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num2.intValue(), intent4, 167772160));
                                         if (z4) {
                                         }
                                         if (action2 != null) {
@@ -8102,7 +8102,7 @@ public class NotificationsController extends BaseController {
                             }
                             String str222 = str212;
                             intent22.putExtra(str222, notificationsController3.currentAccount);
-                            PendingIntent activity2 = PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent22, 1073741824);
+                            PendingIntent activity2 = PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent22, 1107296256);
                             NotificationCompat.WearableExtender wearableExtender2 = new NotificationCompat.WearableExtender();
                             action2 = action;
                             if (action != null) {
@@ -8114,7 +8114,7 @@ public class NotificationsController extends BaseController {
                             intent32.putExtra(str8, j5);
                             intent32.putExtra(str7, i272);
                             intent32.putExtra(str222, notificationsController3.currentAccount);
-                            NotificationCompat.Action build52 = new NotificationCompat.Action.Builder(R.drawable.msg_markread, LocaleController.getString("MarkAsRead", R.string.MarkAsRead), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num2.intValue(), intent32, 134217728)).setSemanticAction(2).setShowsUserInterface(false).build();
+                            NotificationCompat.Action build52 = new NotificationCompat.Action.Builder(R.drawable.msg_markread, LocaleController.getString("MarkAsRead", R.string.MarkAsRead), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num2.intValue(), intent32, 167772160)).setSemanticAction(2).setShowsUserInterface(false).build();
                             if (DialogObject.isEncryptedDialog(j5)) {
                                 if (DialogObject.isUserDialog(j5)) {
                                     str10 = "tguser" + j5 + "_" + i272;
@@ -8147,7 +8147,7 @@ public class NotificationsController extends BaseController {
                             intent42.putExtra("messageDate", i6);
                             intent42.putExtra("dialogId", j5);
                             intent42.putExtra(str222, notificationsController3.currentAccount);
-                            category2.setDeleteIntent(PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num2.intValue(), intent42, 134217728));
+                            category2.setDeleteIntent(PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num2.intValue(), intent42, 167772160));
                             if (z4) {
                                 category2.setGroup(notificationsController3.notificationGroup);
                                 category2.setGroupAlertBehavior(1);
@@ -8194,7 +8194,7 @@ public class NotificationsController extends BaseController {
                                             int i31 = notificationsController3.lastButtonId;
                                             str11 = str222;
                                             notificationsController3.lastButtonId = i31 + 1;
-                                            category2.addAction(0, str28, PendingIntent.getBroadcast(context, i31, intent5, 134217728));
+                                            category2.addAction(0, str28, PendingIntent.getBroadcast(context, i31, intent5, 167772160));
                                         } else {
                                             i14 = size2;
                                             arrayList6 = arrayList5;
@@ -8277,7 +8277,7 @@ public class NotificationsController extends BaseController {
                 }
                 String str2222 = str2122;
                 intent222.putExtra(str2222, notificationsController3.currentAccount);
-                PendingIntent activity22 = PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent222, 1073741824);
+                PendingIntent activity22 = PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent222, 1107296256);
                 NotificationCompat.WearableExtender wearableExtender22 = new NotificationCompat.WearableExtender();
                 action2 = action;
                 if (action != null) {
@@ -8288,7 +8288,7 @@ public class NotificationsController extends BaseController {
                 intent322.putExtra(str8, j5);
                 intent322.putExtra(str7, i2722);
                 intent322.putExtra(str2222, notificationsController3.currentAccount);
-                NotificationCompat.Action build522 = new NotificationCompat.Action.Builder(R.drawable.msg_markread, LocaleController.getString("MarkAsRead", R.string.MarkAsRead), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num2.intValue(), intent322, 134217728)).setSemanticAction(2).setShowsUserInterface(false).build();
+                NotificationCompat.Action build522 = new NotificationCompat.Action.Builder(R.drawable.msg_markread, LocaleController.getString("MarkAsRead", R.string.MarkAsRead), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num2.intValue(), intent322, 167772160)).setSemanticAction(2).setShowsUserInterface(false).build();
                 if (DialogObject.isEncryptedDialog(j5)) {
                 }
                 if (str10 == null) {
@@ -8302,7 +8302,7 @@ public class NotificationsController extends BaseController {
                 intent422.putExtra("messageDate", i6);
                 intent422.putExtra("dialogId", j5);
                 intent422.putExtra(str2222, notificationsController3.currentAccount);
-                category22.setDeleteIntent(PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num2.intValue(), intent422, 134217728));
+                category22.setDeleteIntent(PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num2.intValue(), intent422, 167772160));
                 if (z4) {
                 }
                 if (action2 != null) {
@@ -8402,7 +8402,7 @@ public class NotificationsController extends BaseController {
                 intent6.putExtra(str5, notificationsController3.currentAccount);
                 bitmap2 = bitmap;
                 num2 = num;
-                PendingIntent broadcast2 = PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num.intValue(), intent6, 134217728);
+                PendingIntent broadcast2 = PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num.intValue(), intent6, 167772160);
                 RemoteInput build32 = new RemoteInput.Builder(EXTRA_VOICE_REPLY).setLabel(LocaleController.getString("Reply", R.string.Reply)).build();
                 if (!DialogObject.isChatDialog(j5)) {
                 }
@@ -8458,7 +8458,7 @@ public class NotificationsController extends BaseController {
                 }
                 String str22222 = str21222;
                 intent2222.putExtra(str22222, notificationsController3.currentAccount);
-                PendingIntent activity222 = PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent2222, 1073741824);
+                PendingIntent activity222 = PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent2222, 1107296256);
                 NotificationCompat.WearableExtender wearableExtender222 = new NotificationCompat.WearableExtender();
                 action2 = action;
                 if (action != null) {
@@ -8469,7 +8469,7 @@ public class NotificationsController extends BaseController {
                 intent3222.putExtra(str8, j5);
                 intent3222.putExtra(str7, i27222);
                 intent3222.putExtra(str22222, notificationsController3.currentAccount);
-                NotificationCompat.Action build5222 = new NotificationCompat.Action.Builder(R.drawable.msg_markread, LocaleController.getString("MarkAsRead", R.string.MarkAsRead), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num2.intValue(), intent3222, 134217728)).setSemanticAction(2).setShowsUserInterface(false).build();
+                NotificationCompat.Action build5222 = new NotificationCompat.Action.Builder(R.drawable.msg_markread, LocaleController.getString("MarkAsRead", R.string.MarkAsRead), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num2.intValue(), intent3222, 167772160)).setSemanticAction(2).setShowsUserInterface(false).build();
                 if (DialogObject.isEncryptedDialog(j5)) {
                 }
                 if (str10 == null) {
@@ -8483,7 +8483,7 @@ public class NotificationsController extends BaseController {
                 intent4222.putExtra("messageDate", i6);
                 intent4222.putExtra("dialogId", j5);
                 intent4222.putExtra(str22222, notificationsController3.currentAccount);
-                category222.setDeleteIntent(PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num2.intValue(), intent4222, 134217728));
+                category222.setDeleteIntent(PendingIntent.getBroadcast(ApplicationLoader.applicationContext, num2.intValue(), intent4222, 167772160));
                 if (z4) {
                 }
                 if (action2 != null) {

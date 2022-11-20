@@ -1,4 +1,6 @@
 package j$.util.stream;
+
+import java.util.Objects;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public abstract class U2 implements N4 {
@@ -25,7 +27,7 @@ public abstract class U2 implements N4 {
     public Object d(y2 y2Var, j$.util.u uVar) {
         S2 a = a();
         c cVar = (c) y2Var;
-        a.getClass();
+        Objects.requireNonNull(a);
         cVar.n0(cVar.v0(a), uVar);
         return a.get();
     }

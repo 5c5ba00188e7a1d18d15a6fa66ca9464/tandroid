@@ -8,7 +8,6 @@ import android.os.Build;
 import android.os.SystemClock;
 import android.text.TextUtils;
 import android.util.Base64;
-import androidx.core.util.ObjectsCompat$$ExternalSyntheticBackport0;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
@@ -27,6 +26,7 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.TimeZone;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executor;
@@ -411,7 +411,7 @@ public class ConnectionsManager extends BaseController {
                 tLRPC$TL_error = null;
                 tLObject2 = null;
             }
-            if (BuildVars.DEBUG_PRIVATE_VERSION && !getUserConfig().isClientActivated() && tLRPC$TL_error != null && tLRPC$TL_error.code == 400 && ObjectsCompat$$ExternalSyntheticBackport0.m(tLRPC$TL_error.text, "CONNECTION_NOT_INITED")) {
+            if (BuildVars.DEBUG_PRIVATE_VERSION && !getUserConfig().isClientActivated() && tLRPC$TL_error != null && tLRPC$TL_error.code == 400 && Objects.equals(tLRPC$TL_error.text, "CONNECTION_NOT_INITED")) {
                 if (BuildVars.LOGS_ENABLED) {
                     FileLog.d("Cleanup keys for " + this.currentAccount + " because of CONNECTION_NOT_INITED");
                 }

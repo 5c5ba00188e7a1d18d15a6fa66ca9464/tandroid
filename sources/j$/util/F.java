@@ -2,6 +2,7 @@ package j$.util;
 
 import j$.util.function.Consumer;
 import java.util.Comparator;
+import java.util.Objects;
 /* loaded from: classes2.dex */
 final class F extends H implements v {
     @Override // j$.util.v, j$.util.u
@@ -11,7 +12,7 @@ final class F extends H implements v {
 
     @Override // j$.util.v
     public void d(j$.util.function.q qVar) {
-        qVar.getClass();
+        Objects.requireNonNull(qVar);
     }
 
     @Override // j$.util.v, j$.util.u
@@ -36,7 +37,7 @@ final class F extends H implements v {
 
     @Override // j$.util.v
     public boolean i(j$.util.function.q qVar) {
-        qVar.getClass();
+        Objects.requireNonNull(qVar);
         return false;
     }
 

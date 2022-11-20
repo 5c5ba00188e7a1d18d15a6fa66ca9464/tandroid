@@ -1,6 +1,7 @@
 package j$.util;
 
 import j$.util.function.Consumer;
+import java.util.Objects;
 /* loaded from: classes2.dex */
 public final /* synthetic */ class m implements j$.util.function.f {
     public final /* synthetic */ Consumer a;
@@ -12,7 +13,7 @@ public final /* synthetic */ class m implements j$.util.function.f {
 
     @Override // j$.util.function.f
     public j$.util.function.f j(j$.util.function.f fVar) {
-        fVar.getClass();
+        Objects.requireNonNull(fVar);
         return new j$.util.function.e(this, fVar);
     }
 }

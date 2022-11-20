@@ -1,4 +1,6 @@
 package j$.util.stream;
+
+import java.util.Objects;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public class P extends T {
@@ -33,7 +35,7 @@ public class P extends T {
             T.L0(J0()).e(fVar);
             return;
         }
-        fVar.getClass();
+        Objects.requireNonNull(fVar);
         x0(new k0(fVar, true));
     }
 

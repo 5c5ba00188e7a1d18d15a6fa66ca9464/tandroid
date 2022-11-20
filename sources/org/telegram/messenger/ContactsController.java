@@ -3281,8 +3281,8 @@ public class ContactsController extends BaseController {
             Cursor query = contentResolver.query(build, new String[]{"_id"}, "title=? AND account_type=? AND account_name=?", new String[]{"TelegramConnectionService", account.type, account.name}, null);
             if (query != null && query.moveToFirst()) {
                 parseInt = query.getInt(0);
-                str3 = "account_type";
                 str4 = "account_name";
+                str3 = "account_type";
             } else {
                 ContentValues contentValues = new ContentValues();
                 contentValues.put("account_type", this.systemAccount.type);
@@ -3297,9 +3297,9 @@ public class ContactsController extends BaseController {
             if (query != null) {
                 query.close();
             }
+            String[] strArr = {"vnd.android.cursor.item/group_membership", parseInt + ""};
             String str5 = str3;
-            String str6 = str4;
-            Cursor query2 = contentResolver.query(ContactsContract.Data.CONTENT_URI, new String[]{"raw_contact_id"}, "mimetype=? AND data1=?", new String[]{"vnd.android.cursor.item/group_membership", parseInt + ""}, null);
+            Cursor query2 = contentResolver.query(ContactsContract.Data.CONTENT_URI, new String[]{"raw_contact_id"}, "mimetype=? AND data1=?", strArr, null);
             int size = arrayList2.size();
             int i = parseInt;
             if (query2 != null && query2.moveToFirst()) {
@@ -3316,7 +3316,7 @@ public class ContactsController extends BaseController {
             } else {
                 cursor = query2;
                 arrayList = arrayList2;
-                arrayList.add(ContentProviderOperation.newInsert(build2).withValue(str5, this.systemAccount.type).withValue(str6, this.systemAccount.name).withValue("raw_contact_is_read_only", 1).withValue("aggregation_mode", 3).build());
+                arrayList.add(ContentProviderOperation.newInsert(build2).withValue(str5, this.systemAccount.type).withValue(str4, this.systemAccount.name).withValue("raw_contact_is_read_only", 1).withValue("aggregation_mode", 3).build());
                 arrayList.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI).withValueBackReference("raw_contact_id", size).withValue("mimetype", "vnd.android.cursor.item/name").withValue("data2", str).withValue("data3", str2).build());
                 ContentProviderOperation.Builder withValue = ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI).withValueBackReference("raw_contact_id", size).withValue("mimetype", "vnd.android.cursor.item/phone_v2");
                 arrayList.add(withValue.withValue("data1", "+99084" + j).build());

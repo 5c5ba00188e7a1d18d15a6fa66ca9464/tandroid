@@ -3,6 +3,7 @@ package j$.util.stream;
 import j$.util.Comparator$-CC;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Objects;
 /* loaded from: classes2.dex */
 final class M3 extends c3 {
     private final boolean l;
@@ -19,7 +20,7 @@ final class M3 extends c3 {
     public M3(c cVar, Comparator comparator) {
         super(cVar, e4.REFERENCE, d4.q | d4.p);
         this.l = false;
-        comparator.getClass();
+        Objects.requireNonNull(comparator);
         this.m = comparator;
     }
 
@@ -35,7 +36,7 @@ final class M3 extends c3 {
 
     @Override // j$.util.stream.c
     public m3 H0(int i, m3 m3Var) {
-        m3Var.getClass();
+        Objects.requireNonNull(m3Var);
         return (!d4.SORTED.d(i) || !this.l) ? d4.SIZED.d(i) ? new R3(m3Var, this.m) : new N3(m3Var, this.m) : m3Var;
     }
 }

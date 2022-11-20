@@ -3,6 +3,7 @@ package j$.util.concurrent;
 import j$.util.function.Consumer;
 import j$.util.t;
 import java.util.Comparator;
+import java.util.Objects;
 /* loaded from: classes2.dex */
 final class f implements t {
     long a;
@@ -43,7 +44,7 @@ final class f implements t {
     @Override // j$.util.w
     /* renamed from: e */
     public void forEachRemaining(j$.util.function.f fVar) {
-        fVar.getClass();
+        Objects.requireNonNull(fVar);
         long j = this.a;
         long j2 = this.b;
         if (j < j2) {
@@ -86,7 +87,7 @@ final class f implements t {
     @Override // j$.util.w
     /* renamed from: k */
     public boolean tryAdvance(j$.util.function.f fVar) {
-        fVar.getClass();
+        Objects.requireNonNull(fVar);
         long j = this.a;
         if (j < this.b) {
             fVar.accept(i.b().d(this.c, this.d));

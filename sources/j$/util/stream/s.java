@@ -3,6 +3,7 @@ package j$.util.stream;
 import j$.util.concurrent.ConcurrentHashMap;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 /* loaded from: classes2.dex */
 class s extends c3 {
@@ -39,7 +40,7 @@ class s extends c3 {
     /* JADX INFO: Access modifiers changed from: package-private */
     @Override // j$.util.stream.c
     public m3 H0(int i, m3 m3Var) {
-        m3Var.getClass();
+        Objects.requireNonNull(m3Var);
         return d4.DISTINCT.d(i) ? m3Var : d4.SORTED.d(i) ? new q(this, m3Var) : new r(this, m3Var);
     }
 

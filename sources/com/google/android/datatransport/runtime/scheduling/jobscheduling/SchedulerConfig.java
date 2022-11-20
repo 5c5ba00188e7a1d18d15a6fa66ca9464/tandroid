@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 @AutoValue
 /* loaded from: classes.dex */
@@ -86,9 +87,7 @@ public abstract class SchedulerConfig {
         }
 
         public SchedulerConfig build() {
-            if (this.clock == null) {
-                throw new NullPointerException("missing required property: clock");
-            }
+            Objects.requireNonNull(this.clock, "missing required property: clock");
             if (this.values.keySet().size() < Priority.values().length) {
                 throw new IllegalStateException("Not all priorities have been configured");
             }

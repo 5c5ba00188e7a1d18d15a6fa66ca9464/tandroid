@@ -4,6 +4,7 @@ import com.google.android.datatransport.Priority;
 import com.google.android.datatransport.runtime.scheduling.jobscheduling.SchedulerConfig;
 import com.google.android.datatransport.runtime.time.Clock;
 import java.util.Map;
+import java.util.Objects;
 /* loaded from: classes.dex */
 final class AutoValue_SchedulerConfig extends SchedulerConfig {
     private final Clock clock;
@@ -11,13 +12,9 @@ final class AutoValue_SchedulerConfig extends SchedulerConfig {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public AutoValue_SchedulerConfig(Clock clock, Map<Priority, SchedulerConfig.ConfigValue> map) {
-        if (clock == null) {
-            throw new NullPointerException("Null clock");
-        }
+        Objects.requireNonNull(clock, "Null clock");
         this.clock = clock;
-        if (map == null) {
-            throw new NullPointerException("Null values");
-        }
+        Objects.requireNonNull(map, "Null values");
         this.values = map;
     }
 

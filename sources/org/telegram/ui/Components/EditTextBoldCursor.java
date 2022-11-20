@@ -36,6 +36,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.FileLog;
@@ -370,7 +371,7 @@ public class EditTextBoldCursor extends EditTextEffects {
                     this.listenerFixer = (ViewTreeObserver.OnPreDrawListener) declaredMethod.invoke(this.editor, new Object[0]);
                 }
                 final ViewTreeObserver.OnPreDrawListener onPreDrawListener = this.listenerFixer;
-                onPreDrawListener.getClass();
+                Objects.requireNonNull(onPreDrawListener);
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.EditTextBoldCursor$$ExternalSyntheticLambda1
                     @Override // java.lang.Runnable
                     public final void run() {

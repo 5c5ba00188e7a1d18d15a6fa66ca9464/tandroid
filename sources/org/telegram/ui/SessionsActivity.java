@@ -21,7 +21,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Objects;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.DocumentObject;
@@ -1101,68 +1101,68 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public long getItemId(int i) {
-            int hashCode;
+            int hash;
             if (i == SessionsActivity.this.terminateAllSessionsRow) {
-                hashCode = Arrays.hashCode(new Object[]{0, 0});
+                hash = Objects.hash(0, 0);
             } else if (i != SessionsActivity.this.terminateAllSessionsDetailRow) {
                 if (i != SessionsActivity.this.otherSessionsTerminateDetail) {
                     if (i == SessionsActivity.this.passwordSessionsDetailRow) {
-                        hashCode = Arrays.hashCode(new Object[]{0, 3});
+                        hash = Objects.hash(0, 3);
                     } else if (i == SessionsActivity.this.qrCodeDividerRow) {
-                        hashCode = Arrays.hashCode(new Object[]{0, 4});
+                        hash = Objects.hash(0, 4);
                     } else if (i == SessionsActivity.this.ttlDivideRow) {
-                        hashCode = Arrays.hashCode(new Object[]{0, 5});
+                        hash = Objects.hash(0, 5);
                     } else if (i == SessionsActivity.this.noOtherSessionsRow) {
-                        hashCode = Arrays.hashCode(new Object[]{0, 6});
+                        hash = Objects.hash(0, 6);
                     } else if (i == SessionsActivity.this.currentSessionSectionRow) {
-                        hashCode = Arrays.hashCode(new Object[]{0, 7});
+                        hash = Objects.hash(0, 7);
                     } else if (i == SessionsActivity.this.otherSessionsSectionRow) {
-                        hashCode = Arrays.hashCode(new Object[]{0, 8});
+                        hash = Objects.hash(0, 8);
                     } else if (i == SessionsActivity.this.passwordSessionsSectionRow) {
-                        hashCode = Arrays.hashCode(new Object[]{0, 9});
+                        hash = Objects.hash(0, 9);
                     } else if (i == SessionsActivity.this.ttlHeaderRow) {
-                        hashCode = Arrays.hashCode(new Object[]{0, 10});
+                        hash = Objects.hash(0, 10);
                     } else if (i == SessionsActivity.this.currentSessionRow) {
-                        hashCode = Arrays.hashCode(new Object[]{0, 11});
+                        hash = Objects.hash(0, 11);
                     } else if (i < SessionsActivity.this.otherSessionsStartRow || i >= SessionsActivity.this.otherSessionsEndRow) {
                         if (i < SessionsActivity.this.passwordSessionsStartRow || i >= SessionsActivity.this.passwordSessionsEndRow) {
                             if (i == SessionsActivity.this.qrCodeRow) {
-                                hashCode = Arrays.hashCode(new Object[]{0, 12});
+                                hash = Objects.hash(0, 12);
                             } else {
                                 if (i == SessionsActivity.this.ttlRow) {
-                                    hashCode = Arrays.hashCode(new Object[]{0, 13});
+                                    hash = Objects.hash(0, 13);
                                 }
-                                hashCode = Arrays.hashCode(new Object[]{0, -1});
+                                hash = Objects.hash(0, -1);
                             }
                         } else {
                             TLObject tLObject = (TLObject) SessionsActivity.this.passwordSessions.get(i - SessionsActivity.this.passwordSessionsStartRow);
                             if (tLObject instanceof TLRPC$TL_authorization) {
-                                hashCode = Arrays.hashCode(new Object[]{2, Long.valueOf(((TLRPC$TL_authorization) tLObject).hash)});
+                                hash = Objects.hash(2, Long.valueOf(((TLRPC$TL_authorization) tLObject).hash));
                             } else {
                                 if (tLObject instanceof TLRPC$TL_webAuthorization) {
-                                    hashCode = Arrays.hashCode(new Object[]{2, Long.valueOf(((TLRPC$TL_webAuthorization) tLObject).hash)});
+                                    hash = Objects.hash(2, Long.valueOf(((TLRPC$TL_webAuthorization) tLObject).hash));
                                 }
-                                hashCode = Arrays.hashCode(new Object[]{0, -1});
+                                hash = Objects.hash(0, -1);
                             }
                         }
                     } else {
                         TLObject tLObject2 = (TLObject) SessionsActivity.this.sessions.get(i - SessionsActivity.this.otherSessionsStartRow);
                         if (tLObject2 instanceof TLRPC$TL_authorization) {
-                            hashCode = Arrays.hashCode(new Object[]{1, Long.valueOf(((TLRPC$TL_authorization) tLObject2).hash)});
+                            hash = Objects.hash(1, Long.valueOf(((TLRPC$TL_authorization) tLObject2).hash));
                         } else {
                             if (tLObject2 instanceof TLRPC$TL_webAuthorization) {
-                                hashCode = Arrays.hashCode(new Object[]{1, Long.valueOf(((TLRPC$TL_webAuthorization) tLObject2).hash)});
+                                hash = Objects.hash(1, Long.valueOf(((TLRPC$TL_webAuthorization) tLObject2).hash));
                             }
-                            hashCode = Arrays.hashCode(new Object[]{0, -1});
+                            hash = Objects.hash(0, -1);
                         }
                     }
                 } else {
-                    hashCode = Arrays.hashCode(new Object[]{0, 2});
+                    hash = Objects.hash(0, 2);
                 }
             } else {
-                hashCode = Arrays.hashCode(new Object[]{0, 1});
+                hash = Objects.hash(0, 1);
             }
-            return hashCode;
+            return hash;
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter

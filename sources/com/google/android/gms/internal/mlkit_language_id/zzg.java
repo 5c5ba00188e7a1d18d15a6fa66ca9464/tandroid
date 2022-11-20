@@ -1,5 +1,6 @@
 package com.google.android.gms.internal.mlkit_language_id;
 
+import java.util.Objects;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
@@ -7,7 +8,7 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 public final class zzg {
     @NonNullDecl
     public static <T> T zza(@NonNullDecl T t) {
-        t.getClass();
+        Objects.requireNonNull(t);
         return t;
     }
 

@@ -1,6 +1,5 @@
 package com.google.gson.stream;
 
-import com.google.gson.Gson$$ExternalSyntheticBackport0;
 import java.io.Closeable;
 import java.io.Flushable;
 import java.io.IOException;
@@ -8,6 +7,7 @@ import java.io.Writer;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.regex.Pattern;
@@ -50,7 +50,8 @@ public class JsonWriter implements Closeable, Flushable {
 
     public JsonWriter(Writer writer) {
         push(6);
-        this.out = (Writer) Gson$$ExternalSyntheticBackport0.m(writer, "out == null");
+        Objects.requireNonNull(writer, "out == null");
+        this.out = writer;
     }
 
     public final void setIndent(String str) {
@@ -153,7 +154,7 @@ public class JsonWriter implements Closeable, Flushable {
     }
 
     public JsonWriter name(String str) throws IOException {
-        Gson$$ExternalSyntheticBackport0.m(str, "name == null");
+        Objects.requireNonNull(str, "name == null");
         if (this.deferredName != null) {
             throw new IllegalStateException();
         }

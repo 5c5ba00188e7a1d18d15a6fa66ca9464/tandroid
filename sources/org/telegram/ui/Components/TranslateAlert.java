@@ -1203,91 +1203,91 @@ public class TranslateAlert extends Dialog {
         final boolean z = false;
         try {
             httpURLConnection = (HttpURLConnection) new URI((((("https://translate.googleapis.com/translate_a/single?client=gtx&sl=" + Uri.encode(this.fromLanguage)) + "&tl=") + Uri.encode(this.toLanguage)) + "&dt=t&ie=UTF-8&oe=UTF-8&otf=1&ssel=0&tsel=0&kc=7&dt=at&dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&q=") + Uri.encode(charSequence.toString())).toURL().openConnection();
+        } catch (Exception e) {
+            exc = e;
+            httpURLConnection = null;
+        }
+        try {
+            httpURLConnection.setRequestMethod("GET");
+            httpURLConnection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36");
+            httpURLConnection.setRequestProperty("Content-Type", "application/json");
+            StringBuilder sb = new StringBuilder();
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream(), Charset.forName("UTF-8")));
+            while (true) {
+                int read = bufferedReader.read();
+                if (read == -1) {
+                    break;
+                }
+                sb.append((char) read);
+            }
+            bufferedReader.close();
+            JSONArray jSONArray = new JSONArray(new JSONTokener(sb.toString()));
+            JSONArray jSONArray2 = jSONArray.getJSONArray(0);
             try {
-                httpURLConnection.setRequestMethod("GET");
-                httpURLConnection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36");
-                httpURLConnection.setRequestProperty("Content-Type", "application/json");
-                StringBuilder sb = new StringBuilder();
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream(), Charset.forName("UTF-8")));
-                while (true) {
-                    int read = bufferedReader.read();
-                    if (read == -1) {
-                        break;
-                    }
-                    sb.append((char) read);
+                str = jSONArray.getString(2);
+            } catch (Exception unused) {
+                str = null;
+            }
+            if (str != null && str.contains("-")) {
+                str = str.substring(0, str.indexOf("-"));
+            }
+            StringBuilder sb2 = new StringBuilder();
+            for (int i = 0; i < jSONArray2.length(); i++) {
+                String string = jSONArray2.getJSONArray(i).getString(0);
+                if (string != null && !string.equals("null")) {
+                    sb2.append(string);
                 }
-                bufferedReader.close();
-                JSONArray jSONArray = new JSONArray(new JSONTokener(sb.toString()));
-                JSONArray jSONArray2 = jSONArray.getJSONArray(0);
+            }
+            if (charSequence.length() > 0 && charSequence.charAt(0) == '\n') {
+                sb2.insert(0, "\n");
+            }
+            final String sb3 = sb2.toString();
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.TranslateAlert$$ExternalSyntheticLambda6
+                @Override // java.lang.Runnable
+                public final void run() {
+                    TranslateAlert.lambda$fetchTranslation$9(TranslateAlert.OnTranslationSuccess.this, sb3, str);
+                }
+            }, Math.max(0L, j - (SystemClock.elapsedRealtime() - elapsedRealtime)));
+        } catch (Exception e2) {
+            exc = e2;
+            try {
+                StringBuilder sb4 = new StringBuilder();
+                sb4.append("failed to translate a text ");
+                sb4.append(httpURLConnection != null ? Integer.valueOf(httpURLConnection.getResponseCode()) : null);
+                sb4.append(" ");
+                if (httpURLConnection != null) {
+                    str2 = httpURLConnection.getResponseMessage();
+                }
+                sb4.append(str2);
+                Log.e("translate", sb4.toString());
+            } catch (IOException e3) {
+                e3.printStackTrace();
+            }
+            exc.printStackTrace();
+            if (onTranslationFail == null || this.dismissed) {
+                return;
+            }
+            if (httpURLConnection != null) {
                 try {
-                    str = jSONArray.getString(2);
-                } catch (Exception unused) {
-                    str = null;
-                }
-                if (str != null && str.contains("-")) {
-                    str = str.substring(0, str.indexOf("-"));
-                }
-                StringBuilder sb2 = new StringBuilder();
-                for (int i = 0; i < jSONArray2.length(); i++) {
-                    String string = jSONArray2.getJSONArray(i).getString(0);
-                    if (string != null && !string.equals("null")) {
-                        sb2.append(string);
+                    if (httpURLConnection.getResponseCode() == 429) {
+                        z = true;
                     }
-                }
-                if (charSequence.length() > 0 && charSequence.charAt(0) == '\n') {
-                    sb2.insert(0, "\n");
-                }
-                final String sb3 = sb2.toString();
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.TranslateAlert$$ExternalSyntheticLambda6
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        TranslateAlert.lambda$fetchTranslation$9(TranslateAlert.OnTranslationSuccess.this, sb3, str);
-                    }
-                }, Math.max(0L, j - (SystemClock.elapsedRealtime() - elapsedRealtime)));
-            } catch (Exception e) {
-                exc = e;
-                try {
-                    StringBuilder sb4 = new StringBuilder();
-                    sb4.append("failed to translate a text ");
-                    sb4.append(httpURLConnection != null ? Integer.valueOf(httpURLConnection.getResponseCode()) : null);
-                    sb4.append(" ");
-                    if (httpURLConnection != null) {
-                        str2 = httpURLConnection.getResponseMessage();
-                    }
-                    sb4.append(str2);
-                    Log.e("translate", sb4.toString());
-                } catch (IOException e2) {
-                    e2.printStackTrace();
-                }
-                exc.printStackTrace();
-                if (onTranslationFail == null || this.dismissed) {
+                } catch (Exception unused2) {
+                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.TranslateAlert$$ExternalSyntheticLambda4
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            TranslateAlert.OnTranslationFail.this.run(false);
+                        }
+                    });
                     return;
                 }
-                if (httpURLConnection != null) {
-                    try {
-                        if (httpURLConnection.getResponseCode() == 429) {
-                            z = true;
-                        }
-                    } catch (Exception unused2) {
-                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.TranslateAlert$$ExternalSyntheticLambda4
-                            @Override // java.lang.Runnable
-                            public final void run() {
-                                TranslateAlert.OnTranslationFail.this.run(false);
-                            }
-                        });
-                        return;
-                    }
-                }
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.TranslateAlert$$ExternalSyntheticLambda5
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        TranslateAlert.OnTranslationFail.this.run(z);
-                    }
-                });
             }
-        } catch (Exception e3) {
-            exc = e3;
-            httpURLConnection = null;
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.TranslateAlert$$ExternalSyntheticLambda5
+                @Override // java.lang.Runnable
+                public final void run() {
+                    TranslateAlert.OnTranslationFail.this.run(z);
+                }
+            });
         }
     }
 

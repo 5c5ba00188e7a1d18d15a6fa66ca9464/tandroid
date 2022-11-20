@@ -5,6 +5,7 @@ import j$.util.function.Consumer;
 import j$.util.p;
 import j$.util.u;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 /* loaded from: classes2.dex */
 class y implements p.a, j$.util.function.l, Iterator {
     boolean a = false;
@@ -25,7 +26,7 @@ class y implements p.a, j$.util.function.l, Iterator {
     @Override // j$.util.p
     /* renamed from: c */
     public void forEachRemaining(j$.util.function.l lVar) {
-        lVar.getClass();
+        Objects.requireNonNull(lVar);
         while (hasNext()) {
             lVar.accept(nextInt());
         }
@@ -37,13 +38,15 @@ class y implements p.a, j$.util.function.l, Iterator {
             forEachRemaining((j$.util.function.l) consumer);
             return;
         }
-        consumer.getClass();
+        Objects.requireNonNull(consumer);
         if (!N.a) {
-            forEachRemaining(new o(consumer));
-        } else {
-            N.a(y.class, "{0} calling PrimitiveIterator.OfInt.forEachRemainingInt(action::accept)");
-            throw null;
+            while (hasNext()) {
+                consumer.accept(Integer.valueOf(nextInt()));
+            }
+            return;
         }
+        N.a(y.class, "{0} calling PrimitiveIterator.OfInt.forEachRemainingInt(action::accept)");
+        throw null;
     }
 
     @Override // java.util.Iterator, j$.util.Iterator
@@ -56,7 +59,7 @@ class y implements p.a, j$.util.function.l, Iterator {
 
     @Override // j$.util.function.l
     public j$.util.function.l l(j$.util.function.l lVar) {
-        lVar.getClass();
+        Objects.requireNonNull(lVar);
         return new j$.util.function.k(this, lVar);
     }
 

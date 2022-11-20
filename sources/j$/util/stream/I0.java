@@ -1,4 +1,6 @@
 package j$.util.stream;
+
+import java.util.Objects;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public class I0 extends L0 {
@@ -24,7 +26,7 @@ public class I0 extends L0 {
             L0.L0(J0()).c(lVar);
             return;
         }
-        lVar.getClass();
+        Objects.requireNonNull(lVar);
         x0(new l0(lVar, true));
     }
 

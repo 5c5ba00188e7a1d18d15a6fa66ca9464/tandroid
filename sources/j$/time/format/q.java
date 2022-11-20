@@ -24,7 +24,7 @@ public final class q {
             ArrayList arrayList2 = new ArrayList(hashMap2.values());
             comparator2 = c.a;
             Collections.sort(arrayList2, comparator2);
-            hashMap.put((t) entry.getKey(), arrayList2);
+            hashMap.put((u) entry.getKey(), arrayList2);
             arrayList.addAll(arrayList2);
             hashMap.put(null, arrayList);
         }

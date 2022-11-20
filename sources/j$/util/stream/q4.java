@@ -2,6 +2,7 @@ package j$.util.stream;
 
 import j$.util.function.Consumer;
 import j$.util.u;
+import java.util.Objects;
 /* loaded from: classes2.dex */
 final class q4 extends f4 implements u.a {
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -26,7 +27,7 @@ final class q4 extends f4 implements u.a {
             } while (tryAdvance(lVar));
             return;
         }
-        lVar.getClass();
+        Objects.requireNonNull(lVar);
         h();
         this.b.u0(new p4(lVar), this.d);
         this.i = true;
@@ -40,7 +41,7 @@ final class q4 extends f4 implements u.a {
     @Override // j$.util.w
     /* renamed from: g */
     public boolean tryAdvance(j$.util.function.l lVar) {
-        lVar.getClass();
+        Objects.requireNonNull(lVar);
         boolean a = a();
         if (a) {
             W3 w3 = (W3) this.h;

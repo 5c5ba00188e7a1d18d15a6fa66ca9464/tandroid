@@ -27,6 +27,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.zip.CRC32;
@@ -634,9 +635,7 @@ public class ExifInterface {
         this.mAttributes = new HashMap[exifTagArr.length];
         this.mAttributesOffsets = new HashSet(exifTagArr.length);
         this.mExifByteOrder = ByteOrder.BIG_ENDIAN;
-        if (str == null) {
-            throw new NullPointerException("filename cannot be null");
-        }
+        Objects.requireNonNull(str, "filename cannot be null");
         initForFilename(str);
     }
 
@@ -649,9 +648,7 @@ public class ExifInterface {
         this.mAttributes = new HashMap[exifTagArr.length];
         this.mAttributesOffsets = new HashSet(exifTagArr.length);
         this.mExifByteOrder = ByteOrder.BIG_ENDIAN;
-        if (inputStream == null) {
-            throw new NullPointerException("inputStream cannot be null");
-        }
+        Objects.requireNonNull(inputStream, "inputStream cannot be null");
         this.mFilename = null;
         if (i == 1) {
             BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream, IDENTIFIER_EXIF_APP1.length);
@@ -681,9 +678,7 @@ public class ExifInterface {
     }
 
     private ExifAttribute getExifAttribute(String str) {
-        if (str == null) {
-            throw new NullPointerException("tag shouldn't be null");
-        }
+        Objects.requireNonNull(str, "tag shouldn't be null");
         if ("ISOSpeedRatings".equals(str)) {
             if (DEBUG) {
                 Log.d("ExifInterface", "getExifAttribute: Replacing TAG_ISO_SPEED_RATINGS with TAG_PHOTOGRAPHIC_SENSITIVITY.");
@@ -700,9 +695,7 @@ public class ExifInterface {
     }
 
     public String getAttribute(String str) {
-        if (str == null) {
-            throw new NullPointerException("tag shouldn't be null");
-        }
+        Objects.requireNonNull(str, "tag shouldn't be null");
         ExifAttribute exifAttribute = getExifAttribute(str);
         if (exifAttribute != null) {
             if (!sTagSetForCompatibility.contains(str)) {
@@ -730,9 +723,7 @@ public class ExifInterface {
     }
 
     public int getAttributeInt(String str, int i) {
-        if (str == null) {
-            throw new NullPointerException("tag shouldn't be null");
-        }
+        Objects.requireNonNull(str, "tag shouldn't be null");
         ExifAttribute exifAttribute = getExifAttribute(str);
         if (exifAttribute == null) {
             return i;
@@ -745,9 +736,7 @@ public class ExifInterface {
     }
 
     private void loadAttributes(InputStream inputStream) {
-        if (inputStream == null) {
-            throw new NullPointerException("inputstream shouldn't be null");
-        }
+        Objects.requireNonNull(inputStream, "inputstream shouldn't be null");
         for (int i = 0; i < EXIF_TAGS.length; i++) {
             try {
                 try {
@@ -832,9 +821,7 @@ public class ExifInterface {
     }
 
     private void initForFilename(String str) throws IOException {
-        if (str == null) {
-            throw new NullPointerException("filename cannot be null");
-        }
+        Objects.requireNonNull(str, "filename cannot be null");
         FileInputStream fileInputStream = null;
         this.mAssetInputStream = null;
         this.mFilename = str;

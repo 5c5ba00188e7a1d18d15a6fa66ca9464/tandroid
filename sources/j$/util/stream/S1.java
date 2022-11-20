@@ -1,6 +1,7 @@
 package j$.util.stream;
 
 import j$.util.function.Consumer;
+import java.util.Objects;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public final class S1 extends C1 {
@@ -17,7 +18,7 @@ public final class S1 extends C1 {
 
     @Override // j$.util.stream.A1
     public void i(Object[] objArr, int i) {
-        objArr.getClass();
+        Objects.requireNonNull(objArr);
         this.a.i(objArr, i);
         this.b.i(objArr, i + ((int) this.a.count()));
     }

@@ -408,16 +408,16 @@ public final class BulletinFactory {
         return createMuteBulletin(baseFragment, i, 0, null);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:11:0x0083  */
-    /* JADX WARN: Removed duplicated region for block: B:15:0x008b  */
+    /* JADX WARN: Removed duplicated region for block: B:14:0x0082  */
+    /* JADX WARN: Removed duplicated region for block: B:18:0x008a  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public static Bulletin createMuteBulletin(BaseFragment baseFragment, int i, int i2, Theme.ResourcesProvider resourcesProvider) {
         String formatString;
         boolean z;
-        boolean z2;
         Bulletin.LottieLayout lottieLayout = new Bulletin.LottieLayout(baseFragment.getParentActivity(), resourcesProvider);
+        boolean z2 = true;
         if (i == 0) {
             formatString = LocaleController.formatString("NotificationsMutedForHint", R.string.NotificationsMutedForHint, LocaleController.formatPluralString("Hours", 1, new Object[0]));
         } else if (i == 1) {
@@ -429,17 +429,16 @@ public final class BulletinFactory {
                 formatString = LocaleController.getString("NotificationsUnmutedHint", R.string.NotificationsUnmutedHint);
                 z = false;
                 z2 = false;
-                if (z) {
+                if (z2) {
                 }
                 lottieLayout.textView.setText(formatString);
                 return Bulletin.make(baseFragment, lottieLayout, 1500);
             } else if (i == 5) {
                 formatString = LocaleController.formatString("NotificationsMutedForHint", R.string.NotificationsMutedForHint, LocaleController.formatTTLString(i2));
                 z = true;
-                z2 = true;
-                if (z) {
+                if (z2) {
                     lottieLayout.setAnimation(R.raw.mute_for, new String[0]);
-                } else if (z2) {
+                } else if (z) {
                     lottieLayout.setAnimation(R.raw.ic_mute, "Body Main", "Body Top", "Line", "Curve Big", "Curve Small");
                 } else {
                     lottieLayout.setAnimation(R.raw.ic_unmute, "BODY", "Wibe Big", "Wibe Big 3", "Wibe Small");
@@ -452,9 +451,9 @@ public final class BulletinFactory {
         } else {
             formatString = LocaleController.getString("NotificationsMutedHint", R.string.NotificationsMutedHint);
         }
-        z = false;
-        z2 = true;
-        if (z) {
+        z = true;
+        z2 = false;
+        if (z2) {
         }
         lottieLayout.textView.setText(formatString);
         return Bulletin.make(baseFragment, lottieLayout, 1500);

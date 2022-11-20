@@ -3,6 +3,7 @@ package j$.util.stream;
 import j$.util.function.Consumer;
 import j$.util.function.Predicate;
 import j$.util.u;
+import java.util.Objects;
 /* loaded from: classes2.dex */
 public abstract /* synthetic */ class o1 {
     public static void a(j3 j3Var, Double d) {
@@ -200,31 +201,31 @@ public abstract /* synthetic */ class o1 {
     }
 
     public static N4 u(j$.wrappers.E e, k1 k1Var) {
-        e.getClass();
-        k1Var.getClass();
+        Objects.requireNonNull(e);
+        Objects.requireNonNull(k1Var);
         return new l1(e4.DOUBLE_VALUE, k1Var, new o(k1Var, e));
     }
 
     public static N4 v(j$.wrappers.V v, k1 k1Var) {
-        v.getClass();
-        k1Var.getClass();
+        Objects.requireNonNull(v);
+        Objects.requireNonNull(k1Var);
         return new l1(e4.INT_VALUE, k1Var, new o(k1Var, v));
     }
 
     public static N4 w(j$.wrappers.j0 j0Var, k1 k1Var) {
-        j0Var.getClass();
-        k1Var.getClass();
+        Objects.requireNonNull(j0Var);
+        Objects.requireNonNull(k1Var);
         return new l1(e4.LONG_VALUE, k1Var, new o(k1Var, j0Var));
     }
 
     public static N4 x(Predicate predicate, k1 k1Var) {
-        predicate.getClass();
-        k1Var.getClass();
+        Objects.requireNonNull(predicate);
+        Objects.requireNonNull(k1Var);
         return new l1(e4.REFERENCE, k1Var, new o(k1Var, predicate));
     }
 
     public static Stream y(j$.util.u uVar, boolean z) {
-        uVar.getClass();
+        Objects.requireNonNull(uVar);
         return new b3(uVar, d4.c(uVar), z);
     }
 }

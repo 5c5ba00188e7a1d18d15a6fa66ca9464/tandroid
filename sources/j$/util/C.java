@@ -2,6 +2,7 @@ package j$.util;
 
 import j$.util.function.Consumer;
 import java.util.Comparator;
+import java.util.Objects;
 /* loaded from: classes2.dex */
 final class C implements t {
     private final double[] a;
@@ -30,7 +31,7 @@ final class C implements t {
     /* renamed from: e */
     public void forEachRemaining(j$.util.function.f fVar) {
         int i;
-        fVar.getClass();
+        Objects.requireNonNull(fVar);
         double[] dArr = this.a;
         int length = dArr.length;
         int i2 = this.c;
@@ -78,7 +79,7 @@ final class C implements t {
     @Override // j$.util.w
     /* renamed from: k */
     public boolean tryAdvance(j$.util.function.f fVar) {
-        fVar.getClass();
+        Objects.requireNonNull(fVar);
         int i = this.b;
         if (i < 0 || i >= this.c) {
             return false;

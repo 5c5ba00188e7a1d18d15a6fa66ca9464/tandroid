@@ -86,6 +86,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import org.telegram.messenger.AccountInstance;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
@@ -3053,7 +3054,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         if (adjustPanLayoutHelper == null || !adjustPanLayoutHelper.animationInProgress()) {
             if (hasBotWebView() && botCommandsMenuIsShowing()) {
                 BotWebViewMenuContainer botWebViewMenuContainer = this.botWebViewMenuContainer;
-                view.getClass();
+                Objects.requireNonNull(view);
                 botWebViewMenuContainer.dismiss(new ChatActivityEnterView$$ExternalSyntheticLambda33(view));
                 return;
             }
@@ -3720,7 +3721,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
     public /* synthetic */ void lambda$new$6(View view) {
         if (hasBotWebView() && botCommandsMenuIsShowing()) {
             BotWebViewMenuContainer botWebViewMenuContainer = this.botWebViewMenuContainer;
-            view.getClass();
+            Objects.requireNonNull(view);
             botWebViewMenuContainer.dismiss(new ChatActivityEnterView$$ExternalSyntheticLambda33(view));
             return;
         }
@@ -4070,7 +4071,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                     ChatActivityEnterView.this.senderSelectView.getViewTreeObserver().removeOnPreDrawListener(this);
                     SenderSelectView senderSelectView = ChatActivityEnterView.this.senderSelectView;
                     Dialog dialog2 = dialog;
-                    dialog2.getClass();
+                    Objects.requireNonNull(dialog2);
                     senderSelectView.postDelayed(new ChatActivityEnterView$23$$ExternalSyntheticLambda0(dialog2), 100L);
                     return true;
                 }
@@ -4096,7 +4097,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                     ChatActivityEnterView.this.senderSelectView.getViewTreeObserver().removeOnPreDrawListener(this);
                     SenderSelectView senderSelectView = ChatActivityEnterView.this.senderSelectView;
                     Dialog dialog2 = dialog;
-                    dialog2.getClass();
+                    Objects.requireNonNull(dialog2);
                     senderSelectView.postDelayed(new ChatActivityEnterView$23$$ExternalSyntheticLambda0(dialog2), 100L);
                     return true;
                 }

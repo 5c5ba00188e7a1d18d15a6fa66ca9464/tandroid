@@ -8,6 +8,7 @@ import j$.util.function.Function;
 import j$.util.function.Predicate;
 import j$.wrappers.M;
 import j$.wrappers.P0;
+import j$.wrappers.T;
 import j$.wrappers.w;
 import j$.wrappers.x0;
 import java.io.ObjectInputStream;
@@ -25,11 +26,13 @@ import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.Set;
 import java.util.Spliterator;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.locks.LockSupport;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.function.IntFunction;
 import java.util.stream.Stream;
 import org.telegram.tgnet.ConnectionsManager;
 import sun.misc.Unsafe;
@@ -170,7 +173,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
         @Override // j$.util.b, j$.lang.e
         public void forEach(Consumer consumer) {
-            consumer.getClass();
+            Objects.requireNonNull(consumer);
             l[] lVarArr = this.a.a;
             if (lVarArr != null) {
                 p pVar = new p(lVarArr, lVarArr.length, 0, lVarArr.length);
@@ -264,6 +267,10 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
         public /* synthetic */ Stream stream() {
             return P0.n0(j$.util.a.i(this));
         }
+
+        public Object[] toArray(IntFunction intFunction) {
+            return toArray((Object[]) T.a(intFunction).apply(0));
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -280,7 +287,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
         @Override // j$.util.u
         public boolean b(Consumer consumer) {
-            consumer.getClass();
+            Objects.requireNonNull(consumer);
             l a = a();
             if (a == null) {
                 return false;
@@ -301,7 +308,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
         @Override // j$.util.u
         public void forEachRemaining(Consumer consumer) {
-            consumer.getClass();
+            Objects.requireNonNull(consumer);
             while (true) {
                 l a = a();
                 if (a != null) {
@@ -456,7 +463,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
         @Override // j$.util.b, j$.lang.e
         public void forEach(Consumer consumer) {
-            consumer.getClass();
+            Objects.requireNonNull(consumer);
             l[] lVarArr = this.a.a;
             if (lVarArr != null) {
                 p pVar = new p(lVarArr, lVarArr.length, 0, lVarArr.length);
@@ -540,6 +547,10 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
         public /* synthetic */ Stream stream() {
             return P0.n0(j$.util.a.i(this));
         }
+
+        public Object[] toArray(IntFunction intFunction) {
+            return toArray((Object[]) T.a(intFunction).apply(0));
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -554,7 +565,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
         @Override // j$.util.u
         public boolean b(Consumer consumer) {
-            consumer.getClass();
+            Objects.requireNonNull(consumer);
             l a = a();
             if (a == null) {
                 return false;
@@ -575,7 +586,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
         @Override // j$.util.u
         public void forEachRemaining(Consumer consumer) {
-            consumer.getClass();
+            Objects.requireNonNull(consumer);
             while (true) {
                 l a = a();
                 if (a != null) {
@@ -659,7 +670,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
         /* JADX WARN: Multi-variable type inference failed */
         @Override // java.util.Map.Entry
         public Object setValue(Object obj) {
-            obj.getClass();
+            Objects.requireNonNull(obj);
             Object obj2 = this.b;
             this.b = obj;
             this.c.put(this.a, obj);
@@ -1535,7 +1546,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
         @Override // j$.util.u
         public boolean b(Consumer consumer) {
-            consumer.getClass();
+            Objects.requireNonNull(consumer);
             l a = a();
             if (a == null) {
                 return false;
@@ -1556,7 +1567,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
         @Override // j$.util.u
         public void forEachRemaining(Consumer consumer) {
-            consumer.getClass();
+            Objects.requireNonNull(consumer);
             while (true) {
                 l a = a();
                 if (a != null) {
@@ -1622,7 +1633,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
         @Override // j$.util.b, j$.lang.e
         public void forEach(Consumer consumer) {
-            consumer.getClass();
+            Objects.requireNonNull(consumer);
             l[] lVarArr = this.a.a;
             if (lVarArr != null) {
                 p pVar = new p(lVarArr, lVarArr.length, 0, lVarArr.length);
@@ -1707,6 +1718,10 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
         @Override // java.util.Collection, j$.util.b
         public /* synthetic */ Stream stream() {
             return P0.n0(j$.util.a.i(this));
+        }
+
+        public Object[] toArray(IntFunction intFunction) {
+            return toArray((Object[]) T.a(intFunction).apply(0));
         }
     }
 
@@ -2856,7 +2871,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
     @Override // java.util.AbstractMap, java.util.Map, j$.util.Map
     public boolean containsValue(Object obj) {
-        obj.getClass();
+        Objects.requireNonNull(obj);
         l[] lVarArr = this.a;
         if (lVarArr != null) {
             p pVar = new p(lVarArr, lVarArr.length, 0, lVarArr.length);
@@ -2942,7 +2957,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
     @Override // j$.util.concurrent.b, j$.util.Map
     public void forEach(BiConsumer biConsumer) {
-        biConsumer.getClass();
+        Objects.requireNonNull(biConsumer);
         l[] lVarArr = this.a;
         if (lVarArr != null) {
             p pVar = new p(lVarArr, lVarArr.length, 0, lVarArr.length);
@@ -3346,7 +3361,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
     @Override // java.util.Map, java.util.concurrent.ConcurrentMap, j$.util.Map
     public boolean remove(Object obj, Object obj2) {
-        obj.getClass();
+        Objects.requireNonNull(obj);
         return (obj2 == null || i(obj, null, obj2) == null) ? false : true;
     }
 
@@ -3368,7 +3383,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
     @Override // j$.util.Map
     public void replaceAll(BiFunction biFunction) {
-        biFunction.getClass();
+        Objects.requireNonNull(biFunction);
         l[] lVarArr = this.a;
         if (lVarArr != null) {
             p pVar = new p(lVarArr, lVarArr.length, 0, lVarArr.length);
@@ -3381,7 +3396,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
                 Object obj2 = a2.b;
                 do {
                     Object apply = biFunction.apply(obj2, obj);
-                    apply.getClass();
+                    Objects.requireNonNull(apply);
                     if (i(obj2, apply, obj) == null) {
                         obj = get(obj2);
                     }
@@ -3494,7 +3509,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
         @Override // java.util.Collection
         public final boolean removeAll(Collection collection) {
-            collection.getClass();
+            Objects.requireNonNull(collection);
             java.util.Iterator it = iterator();
             boolean z = false;
             while (it.hasNext()) {
@@ -3508,7 +3523,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
         @Override // java.util.Collection
         public final boolean retainAll(Collection collection) {
-            collection.getClass();
+            Objects.requireNonNull(collection);
             java.util.Iterator it = iterator();
             boolean z = false;
             while (it.hasNext()) {

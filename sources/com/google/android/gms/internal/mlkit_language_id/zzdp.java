@@ -15,11 +15,11 @@ final class zzdp implements Comparator<zzdn> {
         while (zzdsVar.hasNext() && zzdsVar2.hasNext()) {
             zzb = zzdn.zzb(zzdsVar.zza());
             zzb2 = zzdn.zzb(zzdsVar2.zza());
-            int m = zzdp$$ExternalSyntheticBackport0.m(zzb, zzb2);
-            if (m != 0) {
-                return m;
+            int compare = Integer.compare(zzb, zzb2);
+            if (compare != 0) {
+                return compare;
             }
         }
-        return zzdp$$ExternalSyntheticBackport0.m(zzdnVar3.zza(), zzdnVar4.zza());
+        return Integer.compare(zzdnVar3.zza(), zzdnVar4.zza());
     }
 }

@@ -2,6 +2,7 @@ package j$.util.stream;
 
 import j$.util.function.Consumer;
 import j$.util.u;
+import java.util.Objects;
 /* loaded from: classes2.dex */
 final class F4 extends H4 implements u.a, j$.util.function.l {
     int e;
@@ -32,7 +33,7 @@ final class F4 extends H4 implements u.a, j$.util.function.l {
 
     @Override // j$.util.function.l
     public j$.util.function.l l(j$.util.function.l lVar) {
-        lVar.getClass();
+        Objects.requireNonNull(lVar);
         return new j$.util.function.k(this, lVar);
     }
 

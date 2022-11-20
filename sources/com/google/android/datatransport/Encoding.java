@@ -1,4 +1,6 @@
 package com.google.android.datatransport;
+
+import java.util.Objects;
 /* loaded from: classes.dex */
 public final class Encoding {
     private final String name;
@@ -12,9 +14,7 @@ public final class Encoding {
     }
 
     private Encoding(String str) {
-        if (str == null) {
-            throw new NullPointerException("name is null");
-        }
+        Objects.requireNonNull(str, "name is null");
         this.name = str;
     }
 

@@ -4,6 +4,7 @@ import j$.util.function.BiConsumer;
 import j$.util.p;
 import j$.util.u;
 import java.util.Iterator;
+import java.util.Objects;
 /* loaded from: classes2.dex */
 public abstract class L0 extends c implements IntStream {
     public L0(c cVar, int i) {
@@ -31,7 +32,7 @@ public abstract class L0 extends c implements IntStream {
 
     @Override // j$.util.stream.IntStream
     public final U A(j$.wrappers.X x) {
-        x.getClass();
+        Objects.requireNonNull(x);
         return new K(this, this, e4.INT_VALUE, d4.p | d4.n, x);
     }
 
@@ -67,13 +68,13 @@ public abstract class L0 extends c implements IntStream {
     }
 
     public void I(j$.util.function.l lVar) {
-        lVar.getClass();
+        Objects.requireNonNull(lVar);
         x0(new l0(lVar, true));
     }
 
     @Override // j$.util.stream.IntStream
     public final Stream J(j$.util.function.m mVar) {
-        mVar.getClass();
+        Objects.requireNonNull(mVar);
         return new L(this, this, e4.INT_VALUE, d4.p | d4.n, mVar);
     }
 
@@ -84,7 +85,7 @@ public abstract class L0 extends c implements IntStream {
 
     @Override // j$.util.stream.IntStream
     public final int N(int i, j$.util.function.j jVar) {
-        jVar.getClass();
+        Objects.requireNonNull(jVar);
         return ((Integer) x0(new L2(e4.INT_VALUE, jVar, i))).intValue();
     }
 
@@ -94,13 +95,13 @@ public abstract class L0 extends c implements IntStream {
     }
 
     public void U(j$.util.function.l lVar) {
-        lVar.getClass();
+        Objects.requireNonNull(lVar);
         x0(new l0(lVar, false));
     }
 
     @Override // j$.util.stream.IntStream
     public final j$.util.k a0(j$.util.function.j jVar) {
-        jVar.getClass();
+        Objects.requireNonNull(jVar);
         return (j$.util.k) x0(new D2(e4.INT_VALUE, jVar));
     }
 
@@ -134,7 +135,7 @@ public abstract class L0 extends c implements IntStream {
 
     @Override // j$.util.stream.IntStream
     public final IntStream c0(j$.util.function.l lVar) {
-        lVar.getClass();
+        Objects.requireNonNull(lVar);
         return new M(this, this, e4.INT_VALUE, 0, lVar);
     }
 
@@ -150,7 +151,7 @@ public abstract class L0 extends c implements IntStream {
 
     @Override // j$.util.stream.IntStream
     public final e1 f(j$.util.function.n nVar) {
-        nVar.getClass();
+        Objects.requireNonNull(nVar);
         return new N(this, this, e4.INT_VALUE, d4.p | d4.n, nVar);
     }
 
@@ -166,7 +167,7 @@ public abstract class L0 extends c implements IntStream {
 
     @Override // j$.util.stream.IntStream
     public final IntStream h(j$.wrappers.V v) {
-        v.getClass();
+        Objects.requireNonNull(v);
         return new M(this, this, e4.INT_VALUE, d4.t, v);
     }
 
@@ -183,8 +184,8 @@ public abstract class L0 extends c implements IntStream {
     @Override // j$.util.stream.IntStream
     public final Object k0(j$.util.function.y yVar, j$.util.function.v vVar, BiConsumer biConsumer) {
         C c = new C(biConsumer, 1);
-        yVar.getClass();
-        vVar.getClass();
+        Objects.requireNonNull(yVar);
+        Objects.requireNonNull(vVar);
         return x0(new z2(e4.INT_VALUE, c, vVar, yVar));
     }
 
@@ -208,7 +209,7 @@ public abstract class L0 extends c implements IntStream {
 
     @Override // j$.util.stream.IntStream
     public final IntStream q(j$.wrappers.b0 b0Var) {
-        b0Var.getClass();
+        Objects.requireNonNull(b0Var);
         return new M(this, this, e4.INT_VALUE, d4.p | d4.n, b0Var);
     }
 

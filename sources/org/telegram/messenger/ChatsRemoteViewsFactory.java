@@ -16,6 +16,7 @@ import android.text.SpannableStringBuilder;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 import androidx.collection.LongSparseArray;
+import com.google.android.exoplayer2.util.Log;
 import java.util.ArrayList;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$ChatPhoto;
@@ -121,18 +122,20 @@ class ChatsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         TLRPC$Chat chat;
         TLRPC$User tLRPC$User2;
         CharSequence charSequence2;
+        int color;
+        CharSequence charSequence3;
         String replace;
         SpannableStringBuilder valueOf;
         char c;
         char c2;
         int i4;
+        String charSequence4;
         char c3;
-        String charSequence3;
         char c4;
         String format;
         SpannableStringBuilder spannableStringBuilder;
-        CharSequence charSequence4;
         CharSequence charSequence5;
+        CharSequence charSequence6;
         AvatarDrawable avatarDrawable;
         TLRPC$UserProfilePhoto tLRPC$UserProfilePhoto;
         if (this.deleted) {
@@ -152,7 +155,7 @@ class ChatsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
             return remoteViews2;
         } else {
             Long l = this.dids.get(i);
-            CharSequence charSequence6 = "";
+            CharSequence charSequence7 = "";
             if (DialogObject.isUserDialog(l.longValue())) {
                 tLRPC$User = this.accountInstance.getMessagesController().getUser(l);
                 if (tLRPC$User != null) {
@@ -169,7 +172,7 @@ class ChatsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
                         tLRPC$Chat = null;
                     }
                 } else {
-                    charSequence = charSequence6;
+                    charSequence = charSequence7;
                 }
                 tLRPC$Chat = null;
                 tLRPC$FileLocation = null;
@@ -186,7 +189,7 @@ class ChatsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
                     }
                 } else {
                     tLRPC$Chat = chat2;
-                    charSequence = charSequence6;
+                    charSequence = charSequence7;
                 }
                 tLRPC$User = null;
                 tLRPC$FileLocation = null;
@@ -247,35 +250,35 @@ class ChatsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
                     chat = this.accountInstance.getMessagesController().getChat(Long.valueOf(-fromChatId));
                     tLRPC$User2 = null;
                 }
-                int color = this.mContext.getResources().getColor(R.color.widget_text);
+                int color2 = this.mContext.getResources().getColor(R.color.widget_text);
                 if (messageObject.messageOwner instanceof TLRPC$TL_messageService) {
                     if (ChatObject.isChannel(tLRPC$Chat)) {
                         TLRPC$MessageAction tLRPC$MessageAction = messageObject.messageOwner.action;
-                        charSequence5 = charSequence6;
+                        charSequence6 = charSequence7;
                         if (!(tLRPC$MessageAction instanceof TLRPC$TL_messageActionHistoryClear)) {
-                            charSequence5 = charSequence6;
+                            charSequence6 = charSequence7;
                         }
                         color = this.mContext.getResources().getColor(R.color.widget_action_text);
-                        charSequence4 = charSequence5;
+                        charSequence5 = charSequence6;
                     }
-                    charSequence5 = messageObject.messageText;
+                    charSequence6 = messageObject.messageText;
                     color = this.mContext.getResources().getColor(R.color.widget_action_text);
-                    charSequence4 = charSequence5;
+                    charSequence5 = charSequence6;
                 } else {
                     String str = "🖼 ";
                     if (tLRPC$Chat != null && chat == null && (!ChatObject.isChannel(tLRPC$Chat) || ChatObject.isMegagroup(tLRPC$Chat))) {
                         if (messageObject.isOutOwner()) {
                             replace = LocaleController.getString("FromYou", R.string.FromYou);
                         } else {
-                            replace = tLRPC$User2 != null ? UserObject.getFirstName(tLRPC$User2).replace("\n", charSequence6) : "DELETED";
+                            replace = tLRPC$User2 != null ? UserObject.getFirstName(tLRPC$User2).replace("\n", charSequence7) : "DELETED";
                         }
                         String str2 = replace;
-                        CharSequence charSequence7 = messageObject.caption;
+                        CharSequence charSequence8 = messageObject.caption;
                         try {
-                            if (charSequence7 != null) {
-                                String charSequence8 = charSequence7.toString();
-                                if (charSequence8.length() > 150) {
-                                    charSequence8 = charSequence8.substring(0, ImageReceiver.DEFAULT_CROSSFADE_DURATION);
+                            if (charSequence8 != null) {
+                                String charSequence9 = charSequence8.toString();
+                                if (charSequence9.length() > 150) {
+                                    charSequence9 = charSequence9.substring(0, ImageReceiver.DEFAULT_CROSSFADE_DURATION);
                                 }
                                 if (messageObject.isVideo()) {
                                     str = "📹 ";
@@ -286,62 +289,60 @@ class ChatsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
                                 } else if (!messageObject.isPhoto()) {
                                     str = "📎 ";
                                 }
-                                valueOf = SpannableStringBuilder.valueOf(String.format("%2$s: \u2068%1$s\u2069", str + charSequence8.replace('\n', ' '), str2));
+                                valueOf = SpannableStringBuilder.valueOf(String.format("%2$s: \u2068%1$s\u2069", str + charSequence9.replace('\n', ' '), str2));
                             } else if (messageObject.messageOwner.media != null && !messageObject.isMediaEmpty()) {
-                                int color2 = this.mContext.getResources().getColor(R.color.widget_action_text);
+                                int color3 = this.mContext.getResources().getColor(R.color.widget_action_text);
                                 TLRPC$MessageMedia tLRPC$MessageMedia = messageObject.messageOwner.media;
                                 if (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaPoll) {
                                     TLRPC$TL_messageMediaPoll tLRPC$TL_messageMediaPoll = (TLRPC$TL_messageMediaPoll) tLRPC$MessageMedia;
-                                    charSequence3 = Build.VERSION.SDK_INT >= 18 ? String.format("📊 \u2068%s\u2069", tLRPC$TL_messageMediaPoll.poll.question) : String.format("📊 %s", tLRPC$TL_messageMediaPoll.poll.question);
+                                    charSequence4 = Build.VERSION.SDK_INT >= 18 ? String.format("📊 \u2068%s\u2069", tLRPC$TL_messageMediaPoll.poll.question) : String.format("📊 %s", tLRPC$TL_messageMediaPoll.poll.question);
                                     i4 = 2;
-                                    c4 = ' ';
-                                    c3 = 1;
+                                    c3 = ' ';
+                                    c4 = '\n';
                                     c2 = 0;
-                                } else if (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaGame) {
-                                    if (Build.VERSION.SDK_INT >= 18) {
-                                        c2 = 0;
-                                        format = String.format("🎮 \u2068%s\u2069", tLRPC$MessageMedia.game.title);
+                                } else {
+                                    if (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaGame) {
+                                        if (Build.VERSION.SDK_INT >= 18) {
+                                            c2 = 0;
+                                            format = String.format("🎮 \u2068%s\u2069", tLRPC$MessageMedia.game.title);
+                                        } else {
+                                            c2 = 0;
+                                            format = String.format("🎮 %s", tLRPC$MessageMedia.game.title);
+                                        }
+                                        charSequence4 = format;
+                                        i4 = 2;
                                     } else {
                                         c2 = 0;
-                                        format = String.format("🎮 %s", tLRPC$MessageMedia.game.title);
-                                    }
-                                    charSequence3 = format;
-                                    i4 = 2;
-                                    c4 = ' ';
-                                    c3 = 1;
-                                } else {
-                                    c2 = 0;
-                                    if (messageObject.type == 14) {
-                                        if (Build.VERSION.SDK_INT >= 18) {
-                                            i4 = 2;
-                                            c3 = 1;
-                                            charSequence3 = String.format("🎧 \u2068%s - %s\u2069", messageObject.getMusicAuthor(), messageObject.getMusicTitle());
+                                        if (messageObject.type == 14) {
+                                            if (Build.VERSION.SDK_INT >= 18) {
+                                                i4 = 2;
+                                                charSequence4 = String.format("🎧 \u2068%s - %s\u2069", messageObject.getMusicAuthor(), messageObject.getMusicTitle());
+                                            } else {
+                                                i4 = 2;
+                                                charSequence4 = String.format("🎧 %s - %s", messageObject.getMusicAuthor(), messageObject.getMusicTitle());
+                                            }
                                         } else {
                                             i4 = 2;
-                                            c3 = 1;
-                                            charSequence3 = String.format("🎧 %s - %s", messageObject.getMusicAuthor(), messageObject.getMusicTitle());
+                                            charSequence4 = messageObject.messageText.toString();
                                         }
-                                    } else {
-                                        i4 = 2;
-                                        c3 = 1;
-                                        charSequence3 = messageObject.messageText.toString();
                                     }
-                                    c4 = ' ';
+                                    c3 = ' ';
+                                    c4 = '\n';
                                 }
-                                String replace2 = charSequence3.replace('\n', c4);
+                                String replace2 = charSequence4.replace(c4, c3);
                                 Object[] objArr = new Object[i4];
                                 objArr[c2] = replace2;
-                                objArr[c3] = str2;
+                                objArr[1] = str2;
                                 SpannableStringBuilder valueOf2 = SpannableStringBuilder.valueOf(String.format("%2$s: \u2068%1$s\u2069", objArr));
                                 try {
                                     valueOf2.setSpan(new ForegroundColorSpanThemable("chats_attachMessage"), str2.length() + 2, valueOf2.length(), 33);
                                 } catch (Exception e) {
                                     FileLog.e(e);
                                 }
-                                color = color2;
+                                color = color3;
                                 spannableStringBuilder = valueOf2;
                                 spannableStringBuilder.setSpan(new ForegroundColorSpanThemable("chats_nameMessage"), 0, str2.length() + 1, 33);
-                                charSequence4 = spannableStringBuilder;
+                                charSequence5 = spannableStringBuilder;
                             } else {
                                 String str3 = messageObject.messageOwner.message;
                                 if (str3 != null) {
@@ -356,22 +357,23 @@ class ChatsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
                                     objArr2[1] = str2;
                                     valueOf = SpannableStringBuilder.valueOf(String.format("%2$s: \u2068%1$s\u2069", objArr2));
                                 } else {
-                                    valueOf = SpannableStringBuilder.valueOf(charSequence6);
+                                    valueOf = SpannableStringBuilder.valueOf(charSequence7);
                                 }
                             }
                             spannableStringBuilder.setSpan(new ForegroundColorSpanThemable("chats_nameMessage"), 0, str2.length() + 1, 33);
-                            charSequence4 = spannableStringBuilder;
+                            charSequence5 = spannableStringBuilder;
                         } catch (Exception e2) {
                             FileLog.e(e2);
-                            charSequence4 = spannableStringBuilder;
+                            charSequence5 = spannableStringBuilder;
                         }
                         spannableStringBuilder = valueOf;
+                        color = color2;
                     } else {
                         TLRPC$MessageMedia tLRPC$MessageMedia2 = messageObject.messageOwner.media;
                         if ((tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaPhoto) && (tLRPC$MessageMedia2.photo instanceof TLRPC$TL_photoEmpty) && tLRPC$MessageMedia2.ttl_seconds != 0) {
-                            charSequence4 = LocaleController.getString("AttachPhotoExpired", R.string.AttachPhotoExpired);
+                            charSequence3 = LocaleController.getString("AttachPhotoExpired", R.string.AttachPhotoExpired);
                         } else if ((tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaDocument) && (tLRPC$MessageMedia2.document instanceof TLRPC$TL_documentEmpty) && tLRPC$MessageMedia2.ttl_seconds != 0) {
-                            charSequence4 = LocaleController.getString("AttachVideoExpired", R.string.AttachVideoExpired);
+                            charSequence3 = LocaleController.getString("AttachVideoExpired", R.string.AttachVideoExpired);
                         } else if (messageObject.caption != null) {
                             if (messageObject.isVideo()) {
                                 str = "📹 ";
@@ -382,7 +384,7 @@ class ChatsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
                             } else if (!messageObject.isPhoto()) {
                                 str = "📎 ";
                             }
-                            charSequence4 = str + ((Object) messageObject.caption);
+                            charSequence3 = str + ((Object) messageObject.caption);
                         } else {
                             if (tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaPoll) {
                                 charSequence2 = "📊 " + ((TLRPC$TL_messageMediaPoll) tLRPC$MessageMedia2).poll.question;
@@ -394,29 +396,31 @@ class ChatsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
                                 charSequence2 = messageObject.messageText;
                                 AndroidUtilities.highlightText(charSequence2, messageObject.highlightedWords, (Theme.ResourcesProvider) null);
                             }
-                            CharSequence charSequence9 = charSequence2;
-                            charSequence4 = charSequence9;
+                            CharSequence charSequence10 = charSequence2;
+                            charSequence3 = charSequence10;
                             if (messageObject.messageOwner.media != null) {
-                                charSequence4 = charSequence9;
+                                charSequence3 = charSequence10;
                                 if (!messageObject.isMediaEmpty()) {
                                     color = this.mContext.getResources().getColor(R.color.widget_action_text);
-                                    charSequence4 = charSequence9;
+                                    charSequence5 = charSequence10;
                                 }
                             }
                         }
+                        color = color2;
+                        charSequence5 = charSequence3;
                     }
                 }
                 remoteViews3.setTextViewText(R.id.shortcut_widget_item_time, LocaleController.stringForMessageListDate(messageObject.messageOwner.date));
                 int i5 = R.id.shortcut_widget_item_message;
-                remoteViews3.setTextViewText(i5, charSequence4.toString());
+                remoteViews3.setTextViewText(i5, charSequence5.toString());
                 remoteViews3.setTextColor(i5, color);
             } else {
                 if (tLRPC$Dialog != null && (i2 = tLRPC$Dialog.last_message_date) != 0) {
                     remoteViews3.setTextViewText(R.id.shortcut_widget_item_time, LocaleController.stringForMessageListDate(i2));
                 } else {
-                    remoteViews3.setTextViewText(R.id.shortcut_widget_item_time, charSequence6);
+                    remoteViews3.setTextViewText(R.id.shortcut_widget_item_time, charSequence7);
                 }
-                remoteViews3.setTextViewText(R.id.shortcut_widget_item_message, charSequence6);
+                remoteViews3.setTextViewText(R.id.shortcut_widget_item_message, charSequence7);
             }
             if (tLRPC$Dialog != null && (i3 = tLRPC$Dialog.unread_count) > 0) {
                 int i6 = R.id.shortcut_widget_item_badge;
@@ -442,6 +446,7 @@ class ChatsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
             Intent intent2 = new Intent();
             intent2.putExtras(bundle2);
             remoteViews3.setOnClickFillInIntent(R.id.shortcut_widget_item, intent2);
+            Log.d("kek", "kek " + charSequence);
             remoteViews3.setViewVisibility(R.id.shortcut_widget_item_divider, i == getCount() ? 8 : 0);
             return remoteViews3;
         }

@@ -45,7 +45,6 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
-import androidx.core.util.ObjectsCompat$$ExternalSyntheticBackport0;
 import androidx.dynamicanimation.animation.DynamicAnimation;
 import androidx.dynamicanimation.animation.FloatValueHolder;
 import androidx.dynamicanimation.animation.SpringAnimation;
@@ -83,6 +82,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Scanner;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -3164,7 +3164,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                 i = 0;
             }
             if (i == 2 && !tLRPC$TL_payments_paymentForm.additional_methods.isEmpty()) {
-                view.getClass();
+                Objects.requireNonNull(view);
                 showChoosePaymentMethod(new ChatActivityEnterView$$ExternalSyntheticLambda33(view));
                 return;
             }
@@ -3325,7 +3325,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
         while (it.hasNext()) {
             TLRPC$TL_paymentSavedCredentialsCard next = it.next();
             TLRPC$TL_paymentSavedCredentialsCard tLRPC$TL_paymentSavedCredentialsCard2 = this.savedCredentialsCard;
-            if (tLRPC$TL_paymentSavedCredentialsCard2 == null || !ObjectsCompat$$ExternalSyntheticBackport0.m(next.id, tLRPC$TL_paymentSavedCredentialsCard2.id)) {
+            if (tLRPC$TL_paymentSavedCredentialsCard2 == null || !Objects.equals(next.id, tLRPC$TL_paymentSavedCredentialsCard2.id)) {
                 arrayList.add(next.title);
                 arrayList2.add(Integer.valueOf(R.drawable.msg_payment_card));
                 arrayList3.add(next);
@@ -4214,7 +4214,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
 
     private boolean onCheckoutSuccess(INavigationLayout iNavigationLayout, Activity activity) {
         String str = this.botUser.username;
-        if (((str == null || !str.equalsIgnoreCase(getMessagesController().premiumBotUsername) || this.invoiceSlug != null) && (this.invoiceSlug == null || getMessagesController().premiumInvoiceSlug == null || !ObjectsCompat$$ExternalSyntheticBackport0.m(this.invoiceSlug, getMessagesController().premiumInvoiceSlug))) || iNavigationLayout == null) {
+        if (((str == null || !str.equalsIgnoreCase(getMessagesController().premiumBotUsername) || this.invoiceSlug != null) && (this.invoiceSlug == null || getMessagesController().premiumInvoiceSlug == null || !Objects.equals(this.invoiceSlug, getMessagesController().premiumInvoiceSlug))) || iNavigationLayout == null) {
             return false;
         }
         Iterator it = new ArrayList(iNavigationLayout.getFragmentStack()).iterator();
@@ -4627,11 +4627,11 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                 } else if ("smartglocal".equals(this.paymentForm.native_provider)) {
                     new AsyncTask<Object, Object, String>() { // from class: org.telegram.ui.PaymentFormActivity.26
                         /* JADX INFO: Access modifiers changed from: protected */
-                        /* JADX WARN: Code restructure failed: missing block: B:35:0x0130, code lost:
+                        /* JADX WARN: Code restructure failed: missing block: B:36:0x0135, code lost:
                             if (r4 == null) goto L24;
                          */
-                        /* JADX WARN: Not initialized variable reg: 4, insn: 0x0137: MOVE  (r2 I:??[OBJECT, ARRAY]) = (r4 I:??[OBJECT, ARRAY]), block:B:39:0x0137 */
-                        /* JADX WARN: Removed duplicated region for block: B:41:0x013a  */
+                        /* JADX WARN: Not initialized variable reg: 4, insn: 0x013c: MOVE  (r2 I:??[OBJECT, ARRAY]) = (r4 I:??[OBJECT, ARRAY]), block:B:40:0x013c */
+                        /* JADX WARN: Removed duplicated region for block: B:42:0x013f  */
                         @Override // android.os.AsyncTask
                         /*
                             Code decompiled incorrectly, please refer to instructions dump.
@@ -4674,7 +4674,8 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                                             if (outputStream != null) {
                                                 try {
                                                     outputStream.close();
-                                                } catch (Throwable unused) {
+                                                } catch (Throwable th2) {
+                                                    th.addSuppressed(th2);
                                                 }
                                             }
                                             throw th;
@@ -4683,8 +4684,8 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                                         e = e;
                                         FileLog.e(e);
                                     }
-                                } catch (Throwable th2) {
-                                    th = th2;
+                                } catch (Throwable th3) {
+                                    th = th3;
                                     httpURLConnection3 = httpURLConnection2;
                                     if (httpURLConnection3 != null) {
                                         httpURLConnection3.disconnect();
@@ -4694,8 +4695,8 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                             } catch (Exception e2) {
                                 e = e2;
                                 httpURLConnection = null;
-                            } catch (Throwable th3) {
-                                th = th3;
+                            } catch (Throwable th4) {
+                                th = th4;
                                 if (httpURLConnection3 != null) {
                                 }
                                 throw th;

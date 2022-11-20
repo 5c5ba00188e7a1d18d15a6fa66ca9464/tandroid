@@ -11,12 +11,12 @@ import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import androidx.annotation.Keep;
-import androidx.core.util.ObjectsCompat$$ExternalSyntheticBackport0;
 import androidx.dynamicanimation.animation.FloatPropertyCompat;
 import androidx.dynamicanimation.animation.SpringAnimation;
 import androidx.dynamicanimation.animation.SpringForce;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 /* loaded from: classes3.dex */
 public class AnimatedPhoneNumberEditText extends HintEditText {
     private ObjectAnimator animator;
@@ -99,7 +99,7 @@ public class AnimatedPhoneNumberEditText extends HintEditText {
             final SpringAnimation startValue = new SpringAnimation(Integer.valueOf(i2), this.hintFadeProperty).setSpring(new SpringForce(f3).setStiffness(500.0f).setDampingRatio(1.0f).setFinalPosition(f3)).setStartValue(100.0f * f2);
             this.hintAnimations.add(startValue);
             this.hintAnimationValues.add(Float.valueOf(f2));
-            startValue.getClass();
+            Objects.requireNonNull(startValue);
             postDelayed(new Runnable() { // from class: org.telegram.ui.Components.AnimatedPhoneNumberEditText$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
@@ -136,7 +136,7 @@ public class AnimatedPhoneNumberEditText extends HintEditText {
     }
 
     public void setNewText(String str) {
-        if (this.oldLetters == null || this.letters == null || ObjectsCompat$$ExternalSyntheticBackport0.m(this.oldText, str)) {
+        if (this.oldLetters == null || this.letters == null || Objects.equals(this.oldText, str)) {
             return;
         }
         ObjectAnimator objectAnimator = this.animator;

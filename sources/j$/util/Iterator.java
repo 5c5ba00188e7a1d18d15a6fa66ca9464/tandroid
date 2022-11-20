@@ -1,13 +1,14 @@
 package j$.util;
 
 import j$.util.function.Consumer;
+import java.util.Objects;
 /* loaded from: classes2.dex */
 public interface Iterator<E> {
 
     /* loaded from: classes2.dex */
     public final /* synthetic */ class -CC {
         public static void $default$forEachRemaining(java.util.Iterator it, Consumer consumer) {
-            consumer.getClass();
+            Objects.requireNonNull(consumer);
             while (it.hasNext()) {
                 consumer.accept(it.next());
             }

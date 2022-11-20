@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.mlkit_language_id;
 
 import java.io.IOException;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.telegram.tgnet.ConnectionsManager;
@@ -179,9 +180,7 @@ public abstract class zzea extends zzdk {
 
         zza(byte[] bArr, int i, int i2) {
             super();
-            if (bArr == null) {
-                throw new NullPointerException("buffer");
-            }
+            Objects.requireNonNull(bArr, "buffer");
             if ((i2 | 0 | (bArr.length - i2)) < 0) {
                 throw new IllegalArgumentException(String.format("Array range is invalid. Buffer.length=%d, offset=%d, length=%d", Integer.valueOf(bArr.length), 0, Integer.valueOf(i2)));
             }

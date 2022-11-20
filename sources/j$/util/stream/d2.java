@@ -2,6 +2,7 @@ package j$.util.stream;
 
 import j$.util.function.Consumer;
 import java.util.Arrays;
+import java.util.Objects;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public final class d2 extends c2 implements q1 {
@@ -50,7 +51,7 @@ public final class d2 extends c2 implements q1 {
 
     @Override // j$.util.function.Consumer
     public /* synthetic */ Consumer andThen(Consumer consumer) {
-        return consumer.getClass();
+        return Objects.requireNonNull(consumer);
     }
 
     @Override // j$.util.function.Consumer
@@ -61,7 +62,7 @@ public final class d2 extends c2 implements q1 {
 
     @Override // j$.util.function.l
     public j$.util.function.l l(j$.util.function.l lVar) {
-        lVar.getClass();
+        Objects.requireNonNull(lVar);
         return new j$.util.function.k(this, lVar);
     }
 

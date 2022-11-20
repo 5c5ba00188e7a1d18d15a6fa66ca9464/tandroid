@@ -1,4 +1,6 @@
 package j$.util.stream;
+
+import java.util.Objects;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public class a1 extends d1 {
@@ -24,7 +26,7 @@ public class a1 extends d1 {
             d1.L0(J0()).d(qVar);
             return;
         }
-        qVar.getClass();
+        Objects.requireNonNull(qVar);
         x0(new m0(qVar, true));
     }
 

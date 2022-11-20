@@ -13,6 +13,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.Properties;
 /* loaded from: classes.dex */
 public final class $Gson$Types {
@@ -337,7 +338,7 @@ public final class $Gson$Types {
         private final Type[] typeArguments;
 
         public ParameterizedTypeImpl(Type type, Type type2, Type... typeArr) {
-            type2.getClass();
+            Objects.requireNonNull(type2);
             if (type2 instanceof Class) {
                 Class cls = (Class) type2;
                 boolean z = true;
@@ -353,7 +354,7 @@ public final class $Gson$Types {
             this.typeArguments = typeArr2;
             int length = typeArr2.length;
             for (int i = 0; i < length; i++) {
-                this.typeArguments[i].getClass();
+                Objects.requireNonNull(this.typeArguments[i]);
                 $Gson$Types.checkNotPrimitive(this.typeArguments[i]);
                 Type[] typeArr3 = this.typeArguments;
                 typeArr3[i] = $Gson$Types.canonicalize(typeArr3[i]);
@@ -415,7 +416,7 @@ public final class $Gson$Types {
         private final Type componentType;
 
         public GenericArrayTypeImpl(Type type) {
-            type.getClass();
+            Objects.requireNonNull(type);
             this.componentType = $Gson$Types.canonicalize(type);
         }
 
@@ -449,14 +450,14 @@ public final class $Gson$Types {
             $Gson$Preconditions.checkArgument(typeArr2.length <= 1);
             $Gson$Preconditions.checkArgument(typeArr.length == 1);
             if (typeArr2.length == 1) {
-                typeArr2[0].getClass();
+                Objects.requireNonNull(typeArr2[0]);
                 $Gson$Types.checkNotPrimitive(typeArr2[0]);
                 $Gson$Preconditions.checkArgument(typeArr[0] != Object.class ? false : z);
                 this.lowerBound = $Gson$Types.canonicalize(typeArr2[0]);
                 this.upperBound = Object.class;
                 return;
             }
-            typeArr[0].getClass();
+            Objects.requireNonNull(typeArr[0]);
             $Gson$Types.checkNotPrimitive(typeArr[0]);
             this.lowerBound = null;
             this.upperBound = $Gson$Types.canonicalize(typeArr[0]);

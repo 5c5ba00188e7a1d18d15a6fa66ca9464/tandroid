@@ -3,6 +3,7 @@ package j$.util;
 import j$.util.Iterator;
 import j$.util.function.Consumer;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 /* loaded from: classes2.dex */
 class A implements n, j$.util.function.f, Iterator {
     boolean a = false;
@@ -23,7 +24,7 @@ class A implements n, j$.util.function.f, Iterator {
     @Override // j$.util.p
     /* renamed from: e */
     public void forEachRemaining(j$.util.function.f fVar) {
-        fVar.getClass();
+        Objects.requireNonNull(fVar);
         while (hasNext()) {
             fVar.accept(nextDouble());
         }
@@ -35,13 +36,15 @@ class A implements n, j$.util.function.f, Iterator {
             forEachRemaining((j$.util.function.f) consumer);
             return;
         }
-        consumer.getClass();
+        Objects.requireNonNull(consumer);
         if (!N.a) {
-            forEachRemaining(new m(consumer));
-        } else {
-            N.a(A.class, "{0} calling PrimitiveIterator.OfDouble.forEachRemainingDouble(action::accept)");
-            throw null;
+            while (hasNext()) {
+                consumer.accept(Double.valueOf(nextDouble()));
+            }
+            return;
         }
+        N.a(A.class, "{0} calling PrimitiveIterator.OfDouble.forEachRemainingDouble(action::accept)");
+        throw null;
     }
 
     @Override // java.util.Iterator, j$.util.Iterator
@@ -54,7 +57,7 @@ class A implements n, j$.util.function.f, Iterator {
 
     @Override // j$.util.function.f
     public j$.util.function.f j(j$.util.function.f fVar) {
-        fVar.getClass();
+        Objects.requireNonNull(fVar);
         return new j$.util.function.e(this, fVar);
     }
 

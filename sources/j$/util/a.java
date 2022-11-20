@@ -14,6 +14,7 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Objects;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
@@ -26,8 +27,8 @@ public abstract /* synthetic */ class a {
         }
         if (map instanceof ConcurrentMap) {
             ConcurrentMap concurrentMap = (ConcurrentMap) map;
-            biFunction.getClass();
-            obj2.getClass();
+            Objects.requireNonNull(biFunction);
+            Objects.requireNonNull(obj2);
             while (true) {
                 Object obj3 = concurrentMap.get(obj);
                 while (obj3 == null) {
@@ -71,7 +72,7 @@ public abstract /* synthetic */ class a {
             ((Map) map).replaceAll(biFunction);
         } else if (map instanceof ConcurrentMap) {
             ConcurrentMap concurrentMap = (ConcurrentMap) map;
-            biFunction.getClass();
+            Objects.requireNonNull(biFunction);
             j$.util.concurrent.a aVar = new j$.util.concurrent.a(concurrentMap, biFunction);
             if (concurrentMap instanceof j$.util.concurrent.b) {
                 ((j$.util.concurrent.b) concurrentMap).forEach(aVar);
@@ -101,12 +102,12 @@ public abstract /* synthetic */ class a {
         if (comparator instanceof e) {
             return ((f) ((e) comparator)).thenComparing(comparator2);
         }
-        comparator2.getClass();
+        Objects.requireNonNull(comparator2);
         return new c(comparator, comparator2);
     }
 
     public static void a(Collection collection, Consumer consumer) {
-        consumer.getClass();
+        Objects.requireNonNull(consumer);
         for (Object obj : collection) {
             consumer.accept(obj);
         }
@@ -119,7 +120,7 @@ public abstract /* synthetic */ class a {
             N.a(tVar.getClass(), "{0} calling Spliterator.OfDouble.forEachRemaining((DoubleConsumer) action::accept)");
             throw null;
         } else {
-            consumer.getClass();
+            Objects.requireNonNull(consumer);
             tVar.e(new m(consumer));
         }
     }
@@ -131,7 +132,7 @@ public abstract /* synthetic */ class a {
             N.a(aVar.getClass(), "{0} calling Spliterator.OfInt.forEachRemaining((IntConsumer) action::accept)");
             throw null;
         } else {
-            consumer.getClass();
+            Objects.requireNonNull(consumer);
             aVar.c(new o(consumer));
         }
     }
@@ -143,7 +144,7 @@ public abstract /* synthetic */ class a {
             N.a(vVar.getClass(), "{0} calling Spliterator.OfLong.forEachRemaining((LongConsumer) action::accept)");
             throw null;
         } else {
-            consumer.getClass();
+            Objects.requireNonNull(consumer);
             vVar.d(new q(consumer));
         }
     }
@@ -167,7 +168,7 @@ public abstract /* synthetic */ class a {
         if (DesugarCollections.a.isInstance(collection)) {
             return DesugarCollections.c(collection, predicate);
         }
-        predicate.getClass();
+        Objects.requireNonNull(predicate);
         boolean z = false;
         java.util.Iterator it = collection.iterator();
         while (it.hasNext()) {
@@ -188,7 +189,7 @@ public abstract /* synthetic */ class a {
             return tVar.k((j$.util.function.f) consumer);
         }
         if (!N.a) {
-            consumer.getClass();
+            Objects.requireNonNull(consumer);
             return tVar.k(new m(consumer));
         }
         N.a(tVar.getClass(), "{0} calling Spliterator.OfDouble.tryAdvance((DoubleConsumer) action::accept)");
@@ -200,7 +201,7 @@ public abstract /* synthetic */ class a {
             return aVar.g((j$.util.function.l) consumer);
         }
         if (!N.a) {
-            consumer.getClass();
+            Objects.requireNonNull(consumer);
             return aVar.g(new o(consumer));
         }
         N.a(aVar.getClass(), "{0} calling Spliterator.OfInt.tryAdvance((IntConsumer) action::accept)");
@@ -212,7 +213,7 @@ public abstract /* synthetic */ class a {
             return vVar.i((j$.util.function.q) consumer);
         }
         if (!N.a) {
-            consumer.getClass();
+            Objects.requireNonNull(consumer);
             return vVar.i(new q(consumer));
         }
         N.a(vVar.getClass(), "{0} calling Spliterator.OfLong.tryAdvance((LongConsumer) action::accept)");
@@ -226,7 +227,7 @@ public abstract /* synthetic */ class a {
         }
         if (map instanceof ConcurrentMap) {
             ConcurrentMap concurrentMap = (ConcurrentMap) map;
-            biFunction.getClass();
+            Objects.requireNonNull(biFunction);
             loop0: while (true) {
                 Object obj2 = concurrentMap.get(obj);
                 while (true) {
@@ -260,7 +261,7 @@ public abstract /* synthetic */ class a {
         }
         if (map instanceof ConcurrentMap) {
             ConcurrentMap concurrentMap = (ConcurrentMap) map;
-            function.getClass();
+            Objects.requireNonNull(function);
             Object obj2 = concurrentMap.get(obj);
             return (obj2 == null && (apply = function.apply(obj)) != null && (obj2 = concurrentMap.putIfAbsent(obj, apply)) == null) ? apply : obj2;
         }
@@ -273,7 +274,7 @@ public abstract /* synthetic */ class a {
         }
         if (map instanceof ConcurrentMap) {
             ConcurrentMap concurrentMap = (ConcurrentMap) map;
-            biFunction.getClass();
+            Objects.requireNonNull(biFunction);
             while (true) {
                 Object obj2 = concurrentMap.get(obj);
                 if (obj2 == null) {

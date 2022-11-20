@@ -4,6 +4,7 @@ import com.google.android.datatransport.Encoding;
 import com.google.android.datatransport.Event;
 import com.google.android.datatransport.Transformer;
 import com.google.android.datatransport.runtime.SendRequest;
+import java.util.Objects;
 /* loaded from: classes.dex */
 final class AutoValue_SendRequest extends SendRequest {
     private final Encoding encoding;
@@ -74,45 +75,35 @@ final class AutoValue_SendRequest extends SendRequest {
 
         @Override // com.google.android.datatransport.runtime.SendRequest.Builder
         public SendRequest.Builder setTransportContext(TransportContext transportContext) {
-            if (transportContext == null) {
-                throw new NullPointerException("Null transportContext");
-            }
+            Objects.requireNonNull(transportContext, "Null transportContext");
             this.transportContext = transportContext;
             return this;
         }
 
         @Override // com.google.android.datatransport.runtime.SendRequest.Builder
         public SendRequest.Builder setTransportName(String str) {
-            if (str == null) {
-                throw new NullPointerException("Null transportName");
-            }
+            Objects.requireNonNull(str, "Null transportName");
             this.transportName = str;
             return this;
         }
 
         @Override // com.google.android.datatransport.runtime.SendRequest.Builder
         SendRequest.Builder setEvent(Event<?> event) {
-            if (event == null) {
-                throw new NullPointerException("Null event");
-            }
+            Objects.requireNonNull(event, "Null event");
             this.event = event;
             return this;
         }
 
         @Override // com.google.android.datatransport.runtime.SendRequest.Builder
         SendRequest.Builder setTransformer(Transformer<?, byte[]> transformer) {
-            if (transformer == null) {
-                throw new NullPointerException("Null transformer");
-            }
+            Objects.requireNonNull(transformer, "Null transformer");
             this.transformer = transformer;
             return this;
         }
 
         @Override // com.google.android.datatransport.runtime.SendRequest.Builder
         SendRequest.Builder setEncoding(Encoding encoding) {
-            if (encoding == null) {
-                throw new NullPointerException("Null encoding");
-            }
+            Objects.requireNonNull(encoding, "Null encoding");
             this.encoding = encoding;
             return this;
         }

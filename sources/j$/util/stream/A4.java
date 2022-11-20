@@ -1,6 +1,7 @@
 package j$.util.stream;
 
 import j$.util.function.Consumer;
+import java.util.Objects;
 /* loaded from: classes2.dex */
 public final /* synthetic */ class A4 implements Consumer {
     public static final /* synthetic */ A4 a = new A4();
@@ -14,6 +15,6 @@ public final /* synthetic */ class A4 implements Consumer {
 
     @Override // j$.util.function.Consumer
     public /* synthetic */ Consumer andThen(Consumer consumer) {
-        return consumer.getClass();
+        return Objects.requireNonNull(consumer);
     }
 }

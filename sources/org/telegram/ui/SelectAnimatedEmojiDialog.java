@@ -62,6 +62,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.DocumentObject;
@@ -1925,7 +1926,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
             if (SelectAnimatedEmojiDialog.this.searchResult != null) {
                 for (int i = 0; i < SelectAnimatedEmojiDialog.this.searchResult.size(); i++) {
                     this.count++;
-                    this.rowHashCodes.add(Integer.valueOf(Arrays.hashCode(new Object[]{-4342, SelectAnimatedEmojiDialog.this.searchResult.get(i)})));
+                    this.rowHashCodes.add(Integer.valueOf(Objects.hash(-4342, SelectAnimatedEmojiDialog.this.searchResult.get(i))));
                 }
             }
             if (z) {
@@ -3031,7 +3032,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                     }
                 }
                 for (int i9 = 0; i9 < this.recent.size(); i9++) {
-                    this.rowHashCodes.add(Integer.valueOf(Arrays.hashCode(new Object[]{43223, Long.valueOf(this.recent.get(i9).getDocumentId())})));
+                    this.rowHashCodes.add(Integer.valueOf(Objects.hash(43223, Long.valueOf(this.recent.get(i9).getDocumentId()))));
                     this.totalCount++;
                 }
             }
@@ -3052,7 +3053,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                 }
             }
             for (int i12 = 0; i12 < this.topReactions.size(); i12++) {
-                this.rowHashCodes.add(Integer.valueOf(Arrays.hashCode(new Object[]{-5632, Integer.valueOf(this.topReactions.get(i12).hashCode())})));
+                this.rowHashCodes.add(Integer.valueOf(Objects.hash(-5632, Integer.valueOf(this.topReactions.get(i12).hashCode()))));
             }
             int size = this.totalCount + this.topReactions.size();
             this.totalCount = size;
@@ -3090,7 +3091,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                     Object[] objArr = new Object[2];
                     objArr[0] = Integer.valueOf(z6 ? 4235 : -3142);
                     objArr[1] = Integer.valueOf(this.recentReactions.get(i16).hashCode());
-                    arrayList6.add(Integer.valueOf(Arrays.hashCode(objArr)));
+                    arrayList6.add(Integer.valueOf(Objects.hash(objArr)));
                 }
                 int size2 = this.totalCount + this.recentReactions.size();
                 this.totalCount = size2;
@@ -3193,10 +3194,10 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                 int i20 = spanCount2 - (this.includeEmpty ? 1 : 0);
                 if (this.recent.size() > i20 && !this.recentExpanded) {
                     for (int i21 = 0; i21 < i20 - 1; i21++) {
-                        this.rowHashCodes.add(Integer.valueOf(Arrays.hashCode(new Object[]{43223, Long.valueOf(this.recent.get(i21).getDocumentId())})));
+                        this.rowHashCodes.add(Integer.valueOf(Objects.hash(43223, Long.valueOf(this.recent.get(i21).getDocumentId()))));
                         this.totalCount++;
                     }
-                    this.rowHashCodes.add(Integer.valueOf(Arrays.hashCode(new Object[]{-5531, -1, Integer.valueOf((this.recent.size() - spanCount2) + (this.includeEmpty ? 1 : 0) + 1)})));
+                    this.rowHashCodes.add(Integer.valueOf(Objects.hash(-5531, -1, Integer.valueOf((this.recent.size() - spanCount2) + (this.includeEmpty ? 1 : 0) + 1))));
                     EmojiPackExpand emojiPackExpand = this.recentExpandButton;
                     if (emojiPackExpand != null) {
                         TextView textView = emojiPackExpand.textView;
@@ -3213,7 +3214,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                     this.totalCount += i;
                 } else {
                     for (int i22 = 0; i22 < this.recent.size(); i22++) {
-                        this.rowHashCodes.add(Integer.valueOf(Arrays.hashCode(new Object[]{43223, Long.valueOf(this.recent.get(i22).getDocumentId())})));
+                        this.rowHashCodes.add(Integer.valueOf(Objects.hash(43223, Long.valueOf(this.recent.get(i22).getDocumentId()))));
                         this.totalCount++;
                     }
                 }
@@ -3231,7 +3232,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                 this.positionToSection.put(this.totalCount, this.packs.size());
                 this.sectionToPosition.put(this.packs.size(), this.totalCount);
                 this.totalCount++;
-                this.rowHashCodes.add(Integer.valueOf(Arrays.hashCode(new Object[]{9211, Long.valueOf(tLRPC$TL_messages_stickerSet2.set.id)})));
+                this.rowHashCodes.add(Integer.valueOf(Objects.hash(9211, Long.valueOf(tLRPC$TL_messages_stickerSet2.set.id))));
                 EmojiView.EmojiPack emojiPack = new EmojiView.EmojiPack();
                 emojiPack.installed = true;
                 emojiPack.featured = false;
@@ -3243,7 +3244,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                 this.packs.add(emojiPack);
                 this.totalCount += emojiPack.documents.size();
                 for (int i24 = 0; i24 < emojiPack.documents.size(); i24++) {
-                    this.rowHashCodes.add(Integer.valueOf(Arrays.hashCode(new Object[]{3212, Long.valueOf(emojiPack.documents.get(i24).id)})));
+                    this.rowHashCodes.add(Integer.valueOf(Objects.hash(3212, Long.valueOf(emojiPack.documents.get(i24).id))));
                 }
             }
             i23++;
@@ -3270,7 +3271,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                     this.positionToSection.put(this.totalCount, this.packs.size());
                     this.sectionToPosition.put(this.packs.size(), this.totalCount);
                     this.totalCount++;
-                    this.rowHashCodes.add(Integer.valueOf(Arrays.hashCode(new Object[]{Integer.valueOf(i2), Long.valueOf(tLRPC$TL_stickerSetFullCovered.set.id)})));
+                    this.rowHashCodes.add(Integer.valueOf(Objects.hash(Integer.valueOf(i2), Long.valueOf(tLRPC$TL_stickerSetFullCovered.set.id))));
                     EmojiView.EmojiPack emojiPack2 = new EmojiView.EmojiPack();
                     emojiPack2.installed = this.installedEmojiSets.contains(Long.valueOf(tLRPC$TL_stickerSetFullCovered.set.id));
                     emojiPack2.featured = true;
@@ -3282,15 +3283,15 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                     if (emojiPack2.documents.size() > spanCount3 && !emojiPack2.expanded) {
                         this.totalCount += spanCount3;
                         for (int i27 = 0; i27 < spanCount3 - 1; i27++) {
-                            this.rowHashCodes.add(Integer.valueOf(Arrays.hashCode(new Object[]{Integer.valueOf(i3), Long.valueOf(emojiPack2.documents.get(i27).id)})));
+                            this.rowHashCodes.add(Integer.valueOf(Objects.hash(Integer.valueOf(i3), Long.valueOf(emojiPack2.documents.get(i27).id))));
                         }
-                        this.rowHashCodes.add(Integer.valueOf(Arrays.hashCode(new Object[]{-5531, Long.valueOf(tLRPC$TL_stickerSetFullCovered.set.id), Integer.valueOf((emojiPack2.documents.size() - spanCount3) + 1)})));
+                        this.rowHashCodes.add(Integer.valueOf(Objects.hash(-5531, Long.valueOf(tLRPC$TL_stickerSetFullCovered.set.id), Integer.valueOf((emojiPack2.documents.size() - spanCount3) + 1))));
                         this.positionToExpand.put(this.totalCount - 1, this.packs.size());
                     } else {
                         this.totalCount += emojiPack2.documents.size();
                         int i28 = 0;
                         while (i28 < emojiPack2.documents.size()) {
-                            this.rowHashCodes.add(Integer.valueOf(Arrays.hashCode(new Object[]{Integer.valueOf(i3), Long.valueOf(emojiPack2.documents.get(i28).id)})));
+                            this.rowHashCodes.add(Integer.valueOf(Objects.hash(Integer.valueOf(i3), Long.valueOf(emojiPack2.documents.get(i28).id))));
                             i28++;
                             i3 = 3212;
                         }
@@ -3298,7 +3299,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                     if (!emojiPack2.installed) {
                         this.positionToButton.put(this.totalCount, this.packs.size());
                         this.totalCount++;
-                        this.rowHashCodes.add(Integer.valueOf(Arrays.hashCode(new Object[]{3321, Long.valueOf(tLRPC$TL_stickerSetFullCovered.set.id)})));
+                        this.rowHashCodes.add(Integer.valueOf(Objects.hash(3321, Long.valueOf(tLRPC$TL_stickerSetFullCovered.set.id))));
                     }
                     this.packs.add(emojiPack2);
                     i25++;

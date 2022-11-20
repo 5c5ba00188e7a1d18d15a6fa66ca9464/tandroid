@@ -10,15 +10,15 @@ class ShareTargetCompat {
         final String mMimeType;
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        public TargetData(String scheme, String host, String port, String path, String pathPattern, String pathPrefix, String mimeType) {
-            this.mMimeType = mimeType;
+        public TargetData(String str, String str2, String str3, String str4, String str5, String str6, String str7) {
+            this.mMimeType = str7;
         }
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public ShareTargetCompat(TargetData[] data, String targetClass, String[] categories) {
-        this.mTargetData = data;
-        this.mTargetClass = targetClass;
-        this.mCategories = categories;
+    public ShareTargetCompat(TargetData[] targetDataArr, String str, String[] strArr) {
+        this.mTargetData = targetDataArr;
+        this.mTargetClass = str;
+        this.mCategories = strArr;
     }
 }

@@ -2,6 +2,7 @@ package j$.util.stream;
 
 import j$.util.function.Consumer;
 import java.util.List;
+import java.util.Objects;
 /* loaded from: classes2.dex */
 public final /* synthetic */ class b implements j$.util.function.y, j$.util.function.r, Consumer, j$.util.function.c {
     public final /* synthetic */ int a = 2;
@@ -27,9 +28,9 @@ public final /* synthetic */ class b implements j$.util.function.y, j$.util.func
     public /* synthetic */ Consumer andThen(Consumer consumer) {
         switch (this.a) {
             case 3:
-                return consumer.getClass();
+                return Objects.requireNonNull(consumer);
             default:
-                return consumer.getClass();
+                return Objects.requireNonNull(consumer);
         }
     }
 

@@ -4,6 +4,7 @@ import j$.util.Iterator;
 import j$.util.function.Consumer;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.Objects;
 import org.telegram.tgnet.ConnectionsManager;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
@@ -21,7 +22,7 @@ public class J implements u {
 
     @Override // j$.util.u
     public boolean b(Consumer consumer) {
-        consumer.getClass();
+        Objects.requireNonNull(consumer);
         if (this.b == null) {
             this.b = this.a.iterator();
             this.d = this.a.size();
@@ -51,7 +52,7 @@ public class J implements u {
 
     @Override // j$.util.u
     public void forEachRemaining(Consumer consumer) {
-        consumer.getClass();
+        Objects.requireNonNull(consumer);
         java.util.Iterator it = this.b;
         if (it == null) {
             it = this.a.iterator();

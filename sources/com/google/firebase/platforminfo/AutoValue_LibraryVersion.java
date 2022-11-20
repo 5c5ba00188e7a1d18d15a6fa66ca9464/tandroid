@@ -1,5 +1,6 @@
 package com.google.firebase.platforminfo;
 
+import java.util.Objects;
 import javax.annotation.Nonnull;
 /* loaded from: classes.dex */
 final class AutoValue_LibraryVersion extends LibraryVersion {
@@ -8,13 +9,9 @@ final class AutoValue_LibraryVersion extends LibraryVersion {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public AutoValue_LibraryVersion(String str, String str2) {
-        if (str == null) {
-            throw new NullPointerException("Null libraryName");
-        }
+        Objects.requireNonNull(str, "Null libraryName");
         this.libraryName = str;
-        if (str2 == null) {
-            throw new NullPointerException("Null version");
-        }
+        Objects.requireNonNull(str2, "Null version");
         this.version = str2;
     }
 

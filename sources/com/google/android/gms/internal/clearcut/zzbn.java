@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.BufferOverflowException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.telegram.tgnet.ConnectionsManager;
@@ -22,18 +23,16 @@ public abstract class zzbn extends zzba {
 
         zza(byte[] bArr, int i, int i2) {
             super();
-            if (bArr != null) {
-                int i3 = i + i2;
-                if ((i | i2 | (bArr.length - i3)) < 0) {
-                    throw new IllegalArgumentException(String.format("Array range is invalid. Buffer.length=%d, offset=%d, length=%d", Integer.valueOf(bArr.length), Integer.valueOf(i), Integer.valueOf(i2)));
-                }
+            Objects.requireNonNull(bArr, "buffer");
+            int i3 = i + i2;
+            if ((i | i2 | (bArr.length - i3)) >= 0) {
                 this.buffer = bArr;
                 this.offset = i;
                 this.position = i;
                 this.limit = i3;
                 return;
             }
-            throw new NullPointerException("buffer");
+            throw new IllegalArgumentException(String.format("Array range is invalid. Buffer.length=%d, offset=%d, length=%d", Integer.valueOf(bArr.length), Integer.valueOf(i), Integer.valueOf(i2)));
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
@@ -672,9 +671,7 @@ public abstract class zzbn extends zzba {
                     return;
                 }
             }
-            if (bArr == null) {
-                throw new NullPointerException("value");
-            }
+            Objects.requireNonNull(bArr, "value");
             throw new zzc(String.format("Pos: %d, limit: %d, len: %d", Long.valueOf(this.zzgi), Long.valueOf(this.zzgg), Integer.valueOf(i2)));
         }
 

@@ -67,30 +67,30 @@ class ShareTargetXmlParser {
         return arrayList;
     }
 
-    private static XmlResourceParser getXmlResourceParser(Context context, ActivityInfo info) {
-        XmlResourceParser loadXmlMetaData = info.loadXmlMetaData(context.getPackageManager(), "android.app.shortcuts");
+    private static XmlResourceParser getXmlResourceParser(Context context, ActivityInfo activityInfo) {
+        XmlResourceParser loadXmlMetaData = activityInfo.loadXmlMetaData(context.getPackageManager(), "android.app.shortcuts");
         if (loadXmlMetaData != null) {
             return loadXmlMetaData;
         }
-        throw new IllegalArgumentException("Failed to open android.app.shortcuts meta-data resource of " + info.name);
+        throw new IllegalArgumentException("Failed to open android.app.shortcuts meta-data resource of " + activityInfo.name);
     }
 
-    private static ShareTargetCompat parseShareTarget(XmlResourceParser parser) throws Exception {
-        String attributeValue = getAttributeValue(parser, "targetClass");
+    private static ShareTargetCompat parseShareTarget(XmlResourceParser xmlResourceParser) throws Exception {
+        String attributeValue = getAttributeValue(xmlResourceParser, "targetClass");
         ArrayList arrayList = new ArrayList();
         ArrayList arrayList2 = new ArrayList();
         while (true) {
-            int next = parser.next();
+            int next = xmlResourceParser.next();
             if (next != 1) {
                 if (next == 2) {
-                    String name = parser.getName();
+                    String name = xmlResourceParser.getName();
                     name.hashCode();
                     if (name.equals("data")) {
-                        arrayList.add(parseTargetData(parser));
+                        arrayList.add(parseTargetData(xmlResourceParser));
                     } else if (name.equals("category")) {
-                        arrayList2.add(getAttributeValue(parser, "name"));
+                        arrayList2.add(getAttributeValue(xmlResourceParser, "name"));
                     }
-                } else if (next == 3 && parser.getName().equals("share-target")) {
+                } else if (next == 3 && xmlResourceParser.getName().equals("share-target")) {
                     break;
                 }
             } else {
@@ -103,12 +103,12 @@ class ShareTargetXmlParser {
         return new ShareTargetCompat((ShareTargetCompat.TargetData[]) arrayList.toArray(new ShareTargetCompat.TargetData[arrayList.size()]), attributeValue, (String[]) arrayList2.toArray(new String[arrayList2.size()]));
     }
 
-    private static ShareTargetCompat.TargetData parseTargetData(XmlResourceParser parser) {
-        return new ShareTargetCompat.TargetData(getAttributeValue(parser, "scheme"), getAttributeValue(parser, "host"), getAttributeValue(parser, "port"), getAttributeValue(parser, "path"), getAttributeValue(parser, "pathPattern"), getAttributeValue(parser, "pathPrefix"), getAttributeValue(parser, "mimeType"));
+    private static ShareTargetCompat.TargetData parseTargetData(XmlResourceParser xmlResourceParser) {
+        return new ShareTargetCompat.TargetData(getAttributeValue(xmlResourceParser, "scheme"), getAttributeValue(xmlResourceParser, "host"), getAttributeValue(xmlResourceParser, "port"), getAttributeValue(xmlResourceParser, "path"), getAttributeValue(xmlResourceParser, "pathPattern"), getAttributeValue(xmlResourceParser, "pathPrefix"), getAttributeValue(xmlResourceParser, "mimeType"));
     }
 
-    private static String getAttributeValue(XmlResourceParser parser, String attribute) {
-        String attributeValue = parser.getAttributeValue("http://schemas.android.com/apk/res/android", attribute);
-        return attributeValue == null ? parser.getAttributeValue(null, attribute) : attributeValue;
+    private static String getAttributeValue(XmlResourceParser xmlResourceParser, String str) {
+        String attributeValue = xmlResourceParser.getAttributeValue("http://schemas.android.com/apk/res/android", str);
+        return attributeValue == null ? xmlResourceParser.getAttributeValue(null, str) : attributeValue;
     }
 }

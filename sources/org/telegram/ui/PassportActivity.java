@@ -6455,54 +6455,51 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:180:0x0243 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:199:0x0290 A[Catch: Exception -> 0x03e1, TryCatch #5 {Exception -> 0x03e1, blocks: (B:286:0x0218, B:195:0x0289, B:197:0x028d, B:199:0x0290, B:202:0x029a, B:294:0x0235), top: B:285:0x0218 }] */
-    /* JADX WARN: Removed duplicated region for block: B:238:0x0341  */
-    /* JADX WARN: Removed duplicated region for block: B:254:0x037e A[Catch: Exception -> 0x0393, TRY_LEAVE, TryCatch #3 {Exception -> 0x0393, blocks: (B:205:0x02a6, B:207:0x02ae, B:209:0x02b4, B:211:0x02be, B:213:0x02c6, B:216:0x02d0, B:218:0x02d6, B:220:0x02de, B:222:0x02e6, B:224:0x02ee, B:227:0x02f7, B:228:0x02fd, B:229:0x0302, B:242:0x0347, B:246:0x034b, B:248:0x0353, B:249:0x035f, B:251:0x0367, B:252:0x0373, B:254:0x037e, B:255:0x0320, B:258:0x032a, B:261:0x0334), top: B:204:0x02a6 }] */
+    /* JADX WARN: Removed duplicated region for block: B:172:0x01a6 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:175:0x01b2  */
+    /* JADX WARN: Removed duplicated region for block: B:179:0x01e4 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:183:0x01f2 A[Catch: all -> 0x0212, TryCatch #6 {Exception -> 0x0357, blocks: (B:193:0x0217, B:195:0x021a, B:198:0x0224, B:180:0x01e8, B:181:0x01ec, B:183:0x01f2, B:185:0x01fe, B:188:0x0206), top: B:192:0x0217 }] */
+    /* JADX WARN: Removed duplicated region for block: B:195:0x021a A[Catch: Exception -> 0x0357, TryCatch #6 {Exception -> 0x0357, blocks: (B:193:0x0217, B:195:0x021a, B:198:0x0224, B:180:0x01e8, B:181:0x01ec, B:183:0x01f2, B:185:0x01fe, B:188:0x0206), top: B:192:0x0217 }] */
+    /* JADX WARN: Removed duplicated region for block: B:238:0x02d1  */
+    /* JADX WARN: Removed duplicated region for block: B:251:0x030e A[Catch: Exception -> 0x031c, TRY_LEAVE, TryCatch #3 {Exception -> 0x031c, blocks: (B:201:0x0230, B:203:0x0238, B:205:0x023e, B:207:0x024c, B:209:0x0254, B:216:0x0262, B:218:0x0268, B:220:0x0272, B:222:0x027a, B:224:0x0284, B:227:0x028d, B:228:0x0293, B:229:0x0298, B:242:0x02d7, B:243:0x02db, B:245:0x02e3, B:246:0x02ef, B:248:0x02f7, B:249:0x0303, B:251:0x030e, B:252:0x02b0, B:255:0x02ba, B:258:0x02c4), top: B:200:0x0230 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void setTypeValue(TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType, String str, String str2, TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType2, String str3, boolean z, int i) {
+        String str4;
         boolean z2;
+        TextDetailSecureCell textDetailSecureCell;
         TLRPC$TL_secureValue tLRPC$TL_secureValue;
         StringBuilder sb;
         StringBuilder sb2;
-        TLRPC$TL_secureValue tLRPC$TL_secureValue2;
-        TextDetailSecureCell textDetailSecureCell;
-        String str4;
-        Object obj;
         String[] strArr;
         String[] strArr2;
         int i2;
-        JSONObject jSONObject;
-        String[] strArr3;
-        String str5;
-        String str6;
-        HashMap<String, String> hashMap;
-        Object obj2;
-        String[] strArr4;
-        HashMap<String, String> hashMap2;
-        JSONObject jSONObject2;
         int i3;
-        String str7;
-        String str8;
-        HashMap<String, String> hashMap3;
-        JSONObject jSONObject3;
-        Object obj3;
-        StringBuilder sb3;
-        char c;
-        String str9;
         int i4;
-        String sb4;
-        TLRPC$TL_secureRequiredType tLRPC$TL_secureRequiredType3;
+        StringBuilder sb3;
+        JSONObject jSONObject;
+        HashMap<String, String> hashMap;
+        HashMap<String, String> hashMap2;
+        String str5;
+        Iterator<String> keys;
+        int i5;
+        JSONObject jSONObject2;
+        HashMap<String, String> hashMap3;
         HashMap<String, String> hashMap4;
+        String str6;
+        StringBuilder sb4;
+        char c;
+        String str7;
+        String sb5;
         TextDetailSecureCell textDetailSecureCell2;
         boolean z3;
         BufferedReader bufferedReader;
-        String str10 = str2;
-        String str11 = str3;
+        String str8 = str2;
+        String str9 = str3;
         TextDetailSecureCell textDetailSecureCell3 = this.typesViews.get(tLRPC$TL_secureRequiredType);
         if (textDetailSecureCell3 != null) {
+            str4 = "last_name_native";
             z2 = true;
         } else if (this.currentActivityType != 8) {
             return;
@@ -6516,6 +6513,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             if (childAt instanceof TextDetailSecureCell) {
                 ((TextDetailSecureCell) childAt).setNeedDivider(true);
             }
+            str4 = "last_name_native";
             z2 = true;
             textDetailSecureCell3 = addField(getParentActivity(), tLRPC$TL_secureRequiredType, arrayList, true, true);
             updateManageVisibility();
@@ -6525,12 +6523,19 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         HashMap<String, String> hashMap6 = tLRPC$TL_secureRequiredType2 != null ? this.typesValues.get(tLRPC$TL_secureRequiredType2) : null;
         TLRPC$TL_secureValue valueByType = getValueByType(tLRPC$TL_secureRequiredType, z2);
         TLRPC$TL_secureValue valueByType2 = getValueByType(tLRPC$TL_secureRequiredType2, z2);
-        if (str10 != null && this.languageMap == null) {
+        if (str8 != null && this.languageMap == null) {
             this.languageMap = new HashMap<>();
             try {
-                bufferedReader = new BufferedReader(new InputStreamReader(ApplicationLoader.applicationContext.getResources().getAssets().open("countries.txt")));
-            } catch (Exception e) {
-                e = e;
+                tLRPC$TL_secureValue = valueByType;
+                try {
+                    bufferedReader = new BufferedReader(new InputStreamReader(ApplicationLoader.applicationContext.getResources().getAssets().open("countries.txt")));
+                } catch (Exception e) {
+                    e = e;
+                    textDetailSecureCell = textDetailSecureCell4;
+                }
+            } catch (Exception e2) {
+                e = e2;
+                textDetailSecureCell = textDetailSecureCell4;
                 tLRPC$TL_secureValue = valueByType;
             }
             while (true) {
@@ -6539,21 +6544,22 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                     break;
                 }
                 String[] split = readLine.split(";");
-                tLRPC$TL_secureValue = valueByType;
+                textDetailSecureCell = textDetailSecureCell4;
                 try {
                     this.languageMap.put(split[1], split[2]);
-                    valueByType = tLRPC$TL_secureValue;
-                } catch (Exception e2) {
-                    e = e2;
+                    textDetailSecureCell4 = textDetailSecureCell;
+                } catch (Exception e3) {
+                    e = e3;
                 }
-                e = e2;
+                e = e3;
                 FileLog.e(e);
                 sb = null;
             }
-            tLRPC$TL_secureValue = valueByType;
+            textDetailSecureCell = textDetailSecureCell4;
             bufferedReader.close();
             sb = null;
         } else {
+            textDetailSecureCell = textDetailSecureCell4;
             tLRPC$TL_secureValue = valueByType;
             sb = null;
             this.languageMap = null;
@@ -6562,19 +6568,12 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             TLRPC$SecureValueType tLRPC$SecureValueType = tLRPC$TL_secureRequiredType.type;
             if (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypePhone) {
                 PhoneFormat phoneFormat = PhoneFormat.getInstance();
-                sb4 = phoneFormat.format("+" + str);
-                textDetailSecureCell = textDetailSecureCell4;
-                str4 = "PassportDocuments";
-                tLRPC$TL_secureValue2 = valueByType2;
+                sb5 = phoneFormat.format("+" + str);
             } else {
-                textDetailSecureCell = textDetailSecureCell4;
-                str4 = "PassportDocuments";
-                tLRPC$TL_secureValue2 = valueByType2;
                 if (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeEmail) {
-                    sb4 = str;
-                } else {
-                    sb4 = null;
+                    sb5 = str;
                 }
+                sb5 = null;
             }
         } else {
             if (this.currentActivityType == 8 || tLRPC$TL_secureRequiredType2 == null || (TextUtils.isEmpty(str3) && valueByType2 == null)) {
@@ -6587,343 +6586,304 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                     sb2.append(LocaleController.getString("PassportDocuments", R.string.PassportDocuments));
                 }
             }
-            if (str10 == null && str11 == null) {
-                textDetailSecureCell = textDetailSecureCell4;
-                str4 = "PassportDocuments";
-                tLRPC$TL_secureValue2 = valueByType2;
-            } else if (hashMap5 == null) {
-                return;
-            } else {
+            if (str8 != null || str9 != null) {
+                if (hashMap5 == null) {
+                    return;
+                }
                 hashMap5.clear();
                 TLRPC$SecureValueType tLRPC$SecureValueType2 = tLRPC$TL_secureRequiredType.type;
-                tLRPC$TL_secureValue2 = valueByType2;
-                textDetailSecureCell = textDetailSecureCell4;
-                String str12 = "last_name";
-                str4 = "PassportDocuments";
-                HashMap<String, String> hashMap7 = hashMap5;
-                String str13 = "middle_name_native";
                 if (tLRPC$SecureValueType2 instanceof TLRPC$TL_secureValueTypePersonalDetails) {
-                    int i5 = this.currentActivityType;
-                    if ((i5 != 0 || z) && !(i5 == 8 && tLRPC$TL_secureRequiredType2 == null)) {
-                        obj = "gender";
-                        i4 = 8;
-                        strArr2 = null;
-                    } else {
-                        obj = "gender";
-                        i4 = 8;
-                        strArr2 = new String[]{"first_name", "middle_name", str12, "first_name_native", str13, "last_name_native", "birth_date", "gender", "country_code", "residence_country_code"};
-                    }
-                    strArr = (i5 == 0 || (i5 == i4 && tLRPC$TL_secureRequiredType2 != null)) ? new String[]{"document_no", "expiry_date"} : null;
-                } else {
-                    obj = "gender";
-                    if (!(tLRPC$SecureValueType2 instanceof TLRPC$TL_secureValueTypeAddress) || (((i2 = this.currentActivityType) != 0 || z) && !(i2 == 8 && tLRPC$TL_secureRequiredType2 == null))) {
-                        strArr = null;
-                        strArr2 = null;
-                    } else {
-                        strArr2 = new String[]{"street_line1", "street_line2", "post_code", "city", "state", "country_code"};
-                        strArr = null;
-                    }
-                }
-                if (strArr2 != null || strArr != null) {
-                    StringBuilder sb5 = sb2;
-                    String[] strArr5 = strArr;
-                    JSONObject jSONObject4 = null;
-                    int i6 = 0;
-                    int i7 = 2;
-                    String[] strArr6 = null;
-                    while (i6 < i7) {
-                        if (i6 == 0) {
-                            if (str10 != null) {
-                                try {
-                                    jSONObject = new JSONObject(str10);
-                                    strArr3 = strArr2;
-                                    if (strArr3 != null || jSONObject == null) {
-                                        str5 = str12;
-                                        str6 = str13;
-                                        hashMap = hashMap6;
-                                        strArr4 = strArr2;
-                                        hashMap2 = hashMap7;
-                                        obj2 = obj;
-                                        jSONObject2 = jSONObject;
-                                        i7 = 2;
-                                    } else {
+                    int i6 = this.currentActivityType;
+                    strArr2 = ((i6 != 0 || z) && !(i6 == 8 && tLRPC$TL_secureRequiredType2 == null)) ? null : new String[]{"first_name", "middle_name", "last_name", "first_name_native", "middle_name_native", "last_name_native", "birth_date", "gender", "country_code", "residence_country_code"};
+                    if (i6 == 0 || (i6 == 8 && tLRPC$TL_secureRequiredType2 != null)) {
+                        strArr = new String[]{"document_no", "expiry_date"};
+                        if (strArr2 == null || strArr != null) {
+                            String[] strArr3 = sb2;
+                            String[] strArr4 = strArr;
+                            JSONObject jSONObject3 = null;
+                            i4 = 0;
+                            String[] strArr5 = null;
+                            for (i3 = 2; i4 < i3; i3 = 2) {
+                                if (i4 == 0) {
+                                    if (str8 != null) {
                                         try {
-                                            Iterator<String> keys = jSONObject.keys();
-                                            while (keys.hasNext()) {
-                                                Iterator<String> it = keys;
-                                                String next = keys.next();
-                                                if (i6 == 0) {
-                                                    strArr4 = strArr2;
-                                                    hashMap2 = hashMap7;
-                                                    try {
-                                                        hashMap2.put(next, jSONObject.getString(next));
-                                                    } catch (Throwable th) {
-                                                        th = th;
-                                                        FileLog.e(th);
-                                                        i3 = 0;
-                                                        while (i3 < strArr3.length) {
-                                                        }
-                                                        str5 = str12;
-                                                        str6 = str13;
-                                                        hashMap = hashMap6;
-                                                        jSONObject2 = jSONObject;
-                                                        i7 = 2;
-                                                        obj2 = obj;
-                                                        jSONObject4 = jSONObject2;
-                                                        i6++;
-                                                        str11 = str3;
-                                                        obj = obj2;
-                                                        hashMap7 = hashMap2;
-                                                        strArr2 = strArr4;
-                                                        hashMap6 = hashMap;
-                                                        str12 = str5;
-                                                        str13 = str6;
-                                                        strArr6 = strArr3;
-                                                        str10 = str2;
-                                                    }
-                                                } else {
-                                                    strArr4 = strArr2;
-                                                    hashMap2 = hashMap7;
-                                                    hashMap6.put(next, jSONObject.getString(next));
-                                                }
-                                                hashMap7 = hashMap2;
-                                                strArr2 = strArr4;
-                                                keys = it;
-                                            }
-                                            strArr4 = strArr2;
-                                            hashMap2 = hashMap7;
-                                        } catch (Throwable th2) {
-                                            th = th2;
-                                            strArr4 = strArr2;
-                                            hashMap2 = hashMap7;
-                                        }
-                                        i3 = 0;
-                                        while (i3 < strArr3.length) {
-                                            if (jSONObject.has(strArr3[i3])) {
-                                                if (sb5 == null) {
-                                                    sb3 = new StringBuilder();
-                                                    hashMap3 = hashMap6;
-                                                } else {
-                                                    hashMap3 = hashMap6;
-                                                    sb3 = sb5;
-                                                }
-                                                try {
-                                                    String string = jSONObject.getString(strArr3[i3]);
-                                                    if (string == null || TextUtils.isEmpty(string)) {
-                                                        str7 = str12;
-                                                        str8 = str13;
-                                                        jSONObject3 = jSONObject;
+                                            jSONObject = new JSONObject(str8);
+                                            sb3 = strArr3;
+                                            strArr3 = strArr2;
+                                            if (strArr3 != null && jSONObject != null) {
+                                                keys = jSONObject.keys();
+                                                while (keys.hasNext()) {
+                                                    Iterator<String> it = keys;
+                                                    String next = keys.next();
+                                                    if (i4 == 0) {
+                                                        hashMap5.put(next, jSONObject.getString(next));
                                                     } else {
-                                                        jSONObject3 = jSONObject;
-                                                        if (!"first_name_native".equals(strArr3[i3]) && !str13.equals(strArr3[i3]) && !"last_name_native".equals(strArr3[i3])) {
-                                                            if (sb3.length() > 0) {
-                                                                if (!str12.equals(strArr3[i3]) && !"last_name_native".equals(strArr3[i3]) && !"middle_name".equals(strArr3[i3]) && !str13.equals(strArr3[i3])) {
-                                                                    sb3.append(", ");
-                                                                }
-                                                                sb3.append(" ");
-                                                            }
-                                                            String str14 = strArr3[i3];
-                                                            str7 = str12;
-                                                            int hashCode = str14.hashCode();
-                                                            str8 = str13;
-                                                            if (hashCode == -2006252145) {
-                                                                obj3 = obj;
-                                                                if (str14.equals("residence_country_code")) {
-                                                                    c = 1;
-                                                                    if (c != 0) {
-                                                                    }
-                                                                    str9 = this.languageMap.get(string);
-                                                                    if (str9 != null) {
-                                                                    }
-                                                                }
-                                                                c = 65535;
-                                                                if (c != 0) {
-                                                                }
-                                                                str9 = this.languageMap.get(string);
-                                                                if (str9 != null) {
-                                                                }
-                                                            } else if (hashCode == -1249512767) {
-                                                                obj3 = obj;
-                                                                if (str14.equals(obj3)) {
-                                                                    c = 2;
-                                                                    if (c != 0) {
-                                                                    }
-                                                                    str9 = this.languageMap.get(string);
-                                                                    if (str9 != null) {
-                                                                    }
-                                                                }
-                                                                c = 65535;
-                                                                if (c != 0) {
-                                                                }
-                                                                str9 = this.languageMap.get(string);
-                                                                if (str9 != null) {
-                                                                }
-                                                            } else if (hashCode == 1481071862 && str14.equals("country_code")) {
-                                                                obj3 = obj;
-                                                                c = 0;
-                                                                if (c != 0 || c == 1) {
-                                                                    str9 = this.languageMap.get(string);
-                                                                    if (str9 != null) {
-                                                                        sb3.append(str9);
-                                                                    }
-                                                                } else if (c == 2) {
-                                                                    if ("male".equals(string)) {
-                                                                        sb3.append(LocaleController.getString("PassportMale", R.string.PassportMale));
-                                                                    } else if ("female".equals(string)) {
-                                                                        sb3.append(LocaleController.getString("PassportFemale", R.string.PassportFemale));
-                                                                    }
-                                                                } else {
-                                                                    sb3.append(string);
-                                                                }
-                                                            } else {
-                                                                obj3 = obj;
-                                                                c = 65535;
-                                                                if (c != 0) {
-                                                                }
-                                                                str9 = this.languageMap.get(string);
-                                                                if (str9 != null) {
-                                                                }
-                                                            }
-                                                            sb5 = sb3;
-                                                        }
-                                                        str7 = str12;
-                                                        str8 = str13;
+                                                        hashMap6.put(next, jSONObject.getString(next));
                                                     }
-                                                    obj3 = obj;
-                                                    sb5 = sb3;
-                                                } catch (Exception unused) {
-                                                    sb2 = sb3;
+                                                    keys = it;
                                                 }
-                                            } else {
-                                                str7 = str12;
-                                                str8 = str13;
-                                                hashMap3 = hashMap6;
-                                                jSONObject3 = jSONObject;
-                                                obj3 = obj;
+                                                i5 = 0;
+                                                while (i5 < strArr3.length) {
+                                                    try {
+                                                        if (jSONObject.has(strArr3[i5])) {
+                                                            if (sb3 == null) {
+                                                                sb4 = new StringBuilder();
+                                                                hashMap3 = hashMap5;
+                                                            } else {
+                                                                hashMap3 = hashMap5;
+                                                                sb4 = sb3;
+                                                            }
+                                                            try {
+                                                                String string = jSONObject.getString(strArr3[i5]);
+                                                                if (string == null || TextUtils.isEmpty(string)) {
+                                                                    jSONObject2 = jSONObject;
+                                                                    hashMap4 = hashMap6;
+                                                                } else {
+                                                                    jSONObject2 = jSONObject;
+                                                                    hashMap4 = hashMap6;
+                                                                    if (!"first_name_native".equals(strArr3[i5]) && !"middle_name_native".equals(strArr3[i5])) {
+                                                                        String str10 = str4;
+                                                                        if (str10.equals(strArr3[i5])) {
+                                                                            str6 = str10;
+                                                                            sb3 = sb4;
+                                                                        } else {
+                                                                            if (sb4.length() > 0) {
+                                                                                if (!"last_name".equals(strArr3[i5]) && !str10.equals(strArr3[i5]) && !"middle_name".equals(strArr3[i5]) && !"middle_name_native".equals(strArr3[i5])) {
+                                                                                    sb4.append(", ");
+                                                                                }
+                                                                                sb4.append(" ");
+                                                                            }
+                                                                            String str11 = strArr3[i5];
+                                                                            int hashCode = str11.hashCode();
+                                                                            str6 = str10;
+                                                                            if (hashCode == -2006252145) {
+                                                                                if (str11.equals("residence_country_code")) {
+                                                                                    c = 1;
+                                                                                    if (c != 0) {
+                                                                                    }
+                                                                                    str7 = this.languageMap.get(string);
+                                                                                    if (str7 != null) {
+                                                                                    }
+                                                                                }
+                                                                                c = 65535;
+                                                                                if (c != 0) {
+                                                                                }
+                                                                                str7 = this.languageMap.get(string);
+                                                                                if (str7 != null) {
+                                                                                }
+                                                                            } else if (hashCode != -1249512767) {
+                                                                                if (hashCode == 1481071862 && str11.equals("country_code")) {
+                                                                                    c = 0;
+                                                                                    if (c != 0 || c == 1) {
+                                                                                        str7 = this.languageMap.get(string);
+                                                                                        if (str7 != null) {
+                                                                                            sb4.append(str7);
+                                                                                        }
+                                                                                    } else if (c == 2) {
+                                                                                        if ("male".equals(string)) {
+                                                                                            sb4.append(LocaleController.getString("PassportMale", R.string.PassportMale));
+                                                                                        } else if ("female".equals(string)) {
+                                                                                            sb4.append(LocaleController.getString("PassportFemale", R.string.PassportFemale));
+                                                                                        }
+                                                                                    } else {
+                                                                                        sb4.append(string);
+                                                                                    }
+                                                                                }
+                                                                                c = 65535;
+                                                                                if (c != 0) {
+                                                                                }
+                                                                                str7 = this.languageMap.get(string);
+                                                                                if (str7 != null) {
+                                                                                }
+                                                                            } else {
+                                                                                if (str11.equals("gender")) {
+                                                                                    c = 2;
+                                                                                    if (c != 0) {
+                                                                                    }
+                                                                                    str7 = this.languageMap.get(string);
+                                                                                    if (str7 != null) {
+                                                                                    }
+                                                                                }
+                                                                                c = 65535;
+                                                                                if (c != 0) {
+                                                                                }
+                                                                                str7 = this.languageMap.get(string);
+                                                                                if (str7 != null) {
+                                                                                }
+                                                                            }
+                                                                            sb3 = sb4;
+                                                                        }
+                                                                    }
+                                                                }
+                                                                str6 = str4;
+                                                                sb3 = sb4;
+                                                            } catch (Exception unused) {
+                                                                sb2 = sb4;
+                                                            }
+                                                        } else {
+                                                            jSONObject2 = jSONObject;
+                                                            hashMap3 = hashMap5;
+                                                            hashMap4 = hashMap6;
+                                                            str6 = str4;
+                                                        }
+                                                        i5++;
+                                                        hashMap5 = hashMap3;
+                                                        jSONObject = jSONObject2;
+                                                        hashMap6 = hashMap4;
+                                                        str4 = str6;
+                                                    } catch (Exception unused2) {
+                                                    }
+                                                }
                                             }
-                                            i3++;
-                                            obj = obj3;
-                                            hashMap6 = hashMap3;
-                                            jSONObject = jSONObject3;
-                                            str12 = str7;
-                                            str13 = str8;
+                                            hashMap = hashMap5;
+                                            hashMap2 = hashMap6;
+                                            str5 = str4;
+                                            jSONObject3 = jSONObject;
+                                            StringBuilder sb6 = sb3;
+                                            strArr5 = strArr3;
+                                            strArr3 = sb6;
+                                        } catch (Exception unused3) {
+                                            sb2 = strArr3;
                                         }
-                                        str5 = str12;
-                                        str6 = str13;
-                                        hashMap = hashMap6;
-                                        jSONObject2 = jSONObject;
-                                        i7 = 2;
-                                        obj2 = obj;
                                     }
-                                    jSONObject4 = jSONObject2;
-                                } catch (Exception unused2) {
+                                    jSONObject = jSONObject3;
+                                    String[] strArr6 = strArr5;
+                                    sb3 = strArr3;
+                                    strArr3 = strArr6;
+                                    if (strArr3 != null) {
+                                        keys = jSONObject.keys();
+                                        while (keys.hasNext()) {
+                                        }
+                                        i5 = 0;
+                                        while (i5 < strArr3.length) {
+                                        }
+                                    }
+                                    hashMap = hashMap5;
+                                    hashMap2 = hashMap6;
+                                    str5 = str4;
+                                    jSONObject3 = jSONObject;
+                                    StringBuilder sb62 = sb3;
+                                    strArr5 = strArr3;
+                                    strArr3 = sb62;
+                                } else if (hashMap6 == null) {
+                                    hashMap = hashMap5;
+                                    hashMap2 = hashMap6;
+                                    str5 = str4;
+                                } else {
+                                    if (str9 != null) {
+                                        jSONObject = new JSONObject(str9);
+                                        sb3 = strArr3;
+                                        strArr3 = strArr4;
+                                        if (strArr3 != null) {
+                                        }
+                                        hashMap = hashMap5;
+                                        hashMap2 = hashMap6;
+                                        str5 = str4;
+                                        jSONObject3 = jSONObject;
+                                        StringBuilder sb622 = sb3;
+                                        strArr5 = strArr3;
+                                        strArr3 = sb622;
+                                    }
+                                    jSONObject = jSONObject3;
+                                    String[] strArr62 = strArr5;
+                                    sb3 = strArr3;
+                                    strArr3 = strArr62;
+                                    if (strArr3 != null) {
+                                    }
+                                    hashMap = hashMap5;
+                                    hashMap2 = hashMap6;
+                                    str5 = str4;
+                                    jSONObject3 = jSONObject;
+                                    StringBuilder sb6222 = sb3;
+                                    strArr5 = strArr3;
+                                    strArr3 = sb6222;
                                 }
+                                i4++;
+                                str8 = str2;
+                                str9 = str3;
+                                hashMap5 = hashMap;
+                                hashMap6 = hashMap2;
+                                str4 = str5;
                             }
-                            jSONObject = jSONObject4;
-                            strArr3 = strArr6;
-                            if (strArr3 != null) {
-                            }
-                            str5 = str12;
-                            str6 = str13;
-                            hashMap = hashMap6;
-                            strArr4 = strArr2;
-                            hashMap2 = hashMap7;
-                            obj2 = obj;
-                            jSONObject2 = jSONObject;
-                            i7 = 2;
-                            jSONObject4 = jSONObject2;
-                        } else if (hashMap6 == null) {
-                            str5 = str12;
-                            str6 = str13;
-                            hashMap = hashMap6;
-                            strArr3 = strArr6;
-                            i7 = 2;
-                            obj2 = obj;
-                            strArr4 = strArr2;
-                            hashMap2 = hashMap7;
-                        } else {
-                            if (str11 != null) {
-                                jSONObject = new JSONObject(str11);
-                                strArr3 = strArr5;
-                                if (strArr3 != null) {
-                                }
-                                str5 = str12;
-                                str6 = str13;
-                                hashMap = hashMap6;
-                                strArr4 = strArr2;
-                                hashMap2 = hashMap7;
-                                obj2 = obj;
-                                jSONObject2 = jSONObject;
-                                i7 = 2;
-                                jSONObject4 = jSONObject2;
-                            }
-                            jSONObject = jSONObject4;
-                            strArr3 = strArr6;
-                            if (strArr3 != null) {
-                            }
-                            str5 = str12;
-                            str6 = str13;
-                            hashMap = hashMap6;
-                            strArr4 = strArr2;
-                            hashMap2 = hashMap7;
-                            obj2 = obj;
-                            jSONObject2 = jSONObject;
-                            i7 = 2;
-                            jSONObject4 = jSONObject2;
+                            sb3 = strArr3;
+                            sb2 = sb3;
                         }
-                        i6++;
-                        str11 = str3;
-                        obj = obj2;
-                        hashMap7 = hashMap2;
-                        strArr2 = strArr4;
-                        hashMap6 = hashMap;
-                        str12 = str5;
-                        str13 = str6;
-                        strArr6 = strArr3;
-                        str10 = str2;
                     }
-                    sb2 = sb5;
+                    strArr = null;
+                    if (strArr2 == null) {
+                    }
+                    String[] strArr32 = sb2;
+                    String[] strArr42 = strArr;
+                    JSONObject jSONObject32 = null;
+                    i4 = 0;
+                    String[] strArr52 = null;
+                    while (i4 < i3) {
+                    }
+                    sb3 = strArr32;
+                    sb2 = sb3;
+                } else if (!(tLRPC$SecureValueType2 instanceof TLRPC$TL_secureValueTypeAddress) || (((i2 = this.currentActivityType) != 0 || z) && !(i2 == 8 && tLRPC$TL_secureRequiredType2 == null))) {
+                    strArr = null;
+                    strArr2 = null;
+                    if (strArr2 == null) {
+                    }
+                    String[] strArr322 = sb2;
+                    String[] strArr422 = strArr;
+                    JSONObject jSONObject322 = null;
+                    i4 = 0;
+                    String[] strArr522 = null;
+                    while (i4 < i3) {
+                    }
+                    sb3 = strArr322;
+                    sb2 = sb3;
+                } else {
+                    strArr2 = new String[]{"street_line1", "street_line2", "post_code", "city", "state", "country_code"};
+                    strArr = null;
+                    if (strArr2 == null) {
+                    }
+                    String[] strArr3222 = sb2;
+                    String[] strArr4222 = strArr;
+                    JSONObject jSONObject3222 = null;
+                    i4 = 0;
+                    String[] strArr5222 = null;
+                    while (i4 < i3) {
+                    }
+                    sb3 = strArr3222;
+                    sb2 = sb3;
                 }
             }
             if (sb2 != null) {
-                sb4 = sb2.toString();
+                sb5 = sb2.toString();
             }
-            sb4 = null;
+            sb5 = null;
         }
-        if (!z) {
-            tLRPC$TL_secureRequiredType3 = tLRPC$TL_secureRequiredType;
-            hashMap4 = this.errorsMap.get(getNameForType(tLRPC$TL_secureRequiredType3.type));
-        } else {
-            tLRPC$TL_secureRequiredType3 = tLRPC$TL_secureRequiredType;
-            hashMap4 = null;
-        }
+        HashMap<String, String> hashMap7 = !z ? this.errorsMap.get(getNameForType(tLRPC$TL_secureRequiredType.type)) : null;
         HashMap<String, String> hashMap8 = tLRPC$TL_secureRequiredType2 != null ? this.errorsMap.get(getNameForType(tLRPC$TL_secureRequiredType2.type)) : null;
-        if ((hashMap4 != null && hashMap4.size() > 0) || (hashMap8 != null && hashMap8.size() > 0)) {
-            String str15 = !z ? this.mainErrorsMap.get(getNameForType(tLRPC$TL_secureRequiredType3.type)) : null;
-            sb4 = str15 == null ? this.mainErrorsMap.get(getNameForType(tLRPC$TL_secureRequiredType2.type)) : str15;
+        if ((hashMap7 != null && hashMap7.size() > 0) || (hashMap8 != null && hashMap8.size() > 0)) {
+            String str12 = !z ? this.mainErrorsMap.get(getNameForType(tLRPC$TL_secureRequiredType.type)) : null;
+            sb5 = str12 == null ? this.mainErrorsMap.get(getNameForType(tLRPC$TL_secureRequiredType2.type)) : str12;
             textDetailSecureCell2 = textDetailSecureCell;
             z3 = true;
         } else {
-            TLRPC$SecureValueType tLRPC$SecureValueType3 = tLRPC$TL_secureRequiredType3.type;
+            TLRPC$SecureValueType tLRPC$SecureValueType3 = tLRPC$TL_secureRequiredType.type;
             if (tLRPC$SecureValueType3 instanceof TLRPC$TL_secureValueTypePersonalDetails) {
-                if (TextUtils.isEmpty(sb4)) {
+                if (TextUtils.isEmpty(sb5)) {
                     if (tLRPC$TL_secureRequiredType2 == null) {
-                        sb4 = LocaleController.getString("PassportPersonalDetailsInfo", R.string.PassportPersonalDetailsInfo);
+                        sb5 = LocaleController.getString("PassportPersonalDetailsInfo", R.string.PassportPersonalDetailsInfo);
                     } else if (this.currentActivityType == 8) {
-                        sb4 = LocaleController.getString(str4, R.string.PassportDocuments);
+                        sb5 = LocaleController.getString("PassportDocuments", R.string.PassportDocuments);
                     } else if (i == 1) {
                         TLRPC$SecureValueType tLRPC$SecureValueType4 = tLRPC$TL_secureRequiredType2.type;
                         if (tLRPC$SecureValueType4 instanceof TLRPC$TL_secureValueTypePassport) {
-                            sb4 = LocaleController.getString("PassportIdentityPassport", R.string.PassportIdentityPassport);
+                            sb5 = LocaleController.getString("PassportIdentityPassport", R.string.PassportIdentityPassport);
                         } else if (tLRPC$SecureValueType4 instanceof TLRPC$TL_secureValueTypeInternalPassport) {
-                            sb4 = LocaleController.getString("PassportIdentityInternalPassport", R.string.PassportIdentityInternalPassport);
+                            sb5 = LocaleController.getString("PassportIdentityInternalPassport", R.string.PassportIdentityInternalPassport);
                         } else if (tLRPC$SecureValueType4 instanceof TLRPC$TL_secureValueTypeDriverLicense) {
-                            sb4 = LocaleController.getString("PassportIdentityDriverLicence", R.string.PassportIdentityDriverLicence);
+                            sb5 = LocaleController.getString("PassportIdentityDriverLicence", R.string.PassportIdentityDriverLicence);
                         } else if (tLRPC$SecureValueType4 instanceof TLRPC$TL_secureValueTypeIdentityCard) {
-                            sb4 = LocaleController.getString("PassportIdentityID", R.string.PassportIdentityID);
+                            sb5 = LocaleController.getString("PassportIdentityID", R.string.PassportIdentityID);
                         }
                     } else {
-                        sb4 = LocaleController.getString("PassportIdentityDocumentInfo", R.string.PassportIdentityDocumentInfo);
+                        sb5 = LocaleController.getString("PassportIdentityDocumentInfo", R.string.PassportIdentityDocumentInfo);
                     }
                     textDetailSecureCell2 = textDetailSecureCell;
                     z3 = false;
@@ -6931,46 +6891,45 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 textDetailSecureCell2 = textDetailSecureCell;
                 z3 = false;
             } else {
-                String str16 = str4;
                 if (tLRPC$SecureValueType3 instanceof TLRPC$TL_secureValueTypeAddress) {
-                    if (TextUtils.isEmpty(sb4)) {
+                    if (TextUtils.isEmpty(sb5)) {
                         if (tLRPC$TL_secureRequiredType2 == null) {
-                            sb4 = LocaleController.getString("PassportAddressNoUploadInfo", R.string.PassportAddressNoUploadInfo);
+                            sb5 = LocaleController.getString("PassportAddressNoUploadInfo", R.string.PassportAddressNoUploadInfo);
                         } else if (this.currentActivityType == 8) {
-                            sb4 = LocaleController.getString(str16, R.string.PassportDocuments);
+                            sb5 = LocaleController.getString("PassportDocuments", R.string.PassportDocuments);
                         } else if (i == 1) {
                             TLRPC$SecureValueType tLRPC$SecureValueType5 = tLRPC$TL_secureRequiredType2.type;
                             if (tLRPC$SecureValueType5 instanceof TLRPC$TL_secureValueTypeRentalAgreement) {
-                                sb4 = LocaleController.getString("PassportAddAgreementInfo", R.string.PassportAddAgreementInfo);
+                                sb5 = LocaleController.getString("PassportAddAgreementInfo", R.string.PassportAddAgreementInfo);
                             } else if (tLRPC$SecureValueType5 instanceof TLRPC$TL_secureValueTypeUtilityBill) {
-                                sb4 = LocaleController.getString("PassportAddBillInfo", R.string.PassportAddBillInfo);
+                                sb5 = LocaleController.getString("PassportAddBillInfo", R.string.PassportAddBillInfo);
                             } else if (tLRPC$SecureValueType5 instanceof TLRPC$TL_secureValueTypePassportRegistration) {
-                                sb4 = LocaleController.getString("PassportAddPassportRegistrationInfo", R.string.PassportAddPassportRegistrationInfo);
+                                sb5 = LocaleController.getString("PassportAddPassportRegistrationInfo", R.string.PassportAddPassportRegistrationInfo);
                             } else if (tLRPC$SecureValueType5 instanceof TLRPC$TL_secureValueTypeTemporaryRegistration) {
-                                sb4 = LocaleController.getString("PassportAddTemporaryRegistrationInfo", R.string.PassportAddTemporaryRegistrationInfo);
+                                sb5 = LocaleController.getString("PassportAddTemporaryRegistrationInfo", R.string.PassportAddTemporaryRegistrationInfo);
                             } else if (tLRPC$SecureValueType5 instanceof TLRPC$TL_secureValueTypeBankStatement) {
-                                sb4 = LocaleController.getString("PassportAddBankInfo", R.string.PassportAddBankInfo);
+                                sb5 = LocaleController.getString("PassportAddBankInfo", R.string.PassportAddBankInfo);
                             }
                         } else {
-                            sb4 = LocaleController.getString("PassportAddressInfo", R.string.PassportAddressInfo);
+                            sb5 = LocaleController.getString("PassportAddressInfo", R.string.PassportAddressInfo);
                         }
                         textDetailSecureCell2 = textDetailSecureCell;
                         z3 = false;
                     }
                 } else if (tLRPC$SecureValueType3 instanceof TLRPC$TL_secureValueTypePhone) {
-                    if (TextUtils.isEmpty(sb4)) {
-                        sb4 = LocaleController.getString("PassportPhoneInfo", R.string.PassportPhoneInfo);
+                    if (TextUtils.isEmpty(sb5)) {
+                        sb5 = LocaleController.getString("PassportPhoneInfo", R.string.PassportPhoneInfo);
                     }
-                } else if ((tLRPC$SecureValueType3 instanceof TLRPC$TL_secureValueTypeEmail) && TextUtils.isEmpty(sb4)) {
-                    sb4 = LocaleController.getString("PassportEmailInfo", R.string.PassportEmailInfo);
+                } else if ((tLRPC$SecureValueType3 instanceof TLRPC$TL_secureValueTypeEmail) && TextUtils.isEmpty(sb5)) {
+                    sb5 = LocaleController.getString("PassportEmailInfo", R.string.PassportEmailInfo);
                 }
                 textDetailSecureCell2 = textDetailSecureCell;
                 z3 = false;
             }
         }
-        textDetailSecureCell2.setValue(sb4);
+        textDetailSecureCell2.setValue(sb5);
         textDetailSecureCell2.valueTextView.setTextColor(Theme.getColor(z3 ? "windowBackgroundWhiteRedText3" : "windowBackgroundWhiteGrayText2"));
-        textDetailSecureCell2.setChecked(!z3 && this.currentActivityType != 8 && ((z && tLRPC$TL_secureRequiredType2 != null) || (!z && tLRPC$TL_secureValue != null)) && (tLRPC$TL_secureRequiredType2 == null || tLRPC$TL_secureValue2 != null));
+        textDetailSecureCell2.setChecked(!z3 && this.currentActivityType != 8 && ((z && tLRPC$TL_secureRequiredType2 != null) || (!z && tLRPC$TL_secureValue != null)) && (tLRPC$TL_secureRequiredType2 == null || valueByType2 != null));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -7112,7 +7071,11 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                     }
                     if ((tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypePersonalDetails) || (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypeAddress)) {
                         if (tLRPC$SecureValueType instanceof TLRPC$TL_secureValueTypePersonalDetails) {
-                            strArr = tLRPC$TL_secureRequiredType.native_names ? new String[]{"first_name_native", "last_name_native", "birth_date", "gender", "country_code", "residence_country_code"} : new String[]{"first_name", "last_name", "birth_date", "gender", "country_code", "residence_country_code"};
+                            if (tLRPC$TL_secureRequiredType.native_names) {
+                                strArr = new String[]{"first_name_native", "last_name_native", "birth_date", "gender", "country_code", "residence_country_code"};
+                            } else {
+                                strArr = new String[]{"first_name", "last_name", "birth_date", "gender", "country_code", "residence_country_code"};
+                            }
                         } else {
                             strArr = new String[]{"street_line1", "street_line2", "post_code", "city", "state", "country_code"};
                         }

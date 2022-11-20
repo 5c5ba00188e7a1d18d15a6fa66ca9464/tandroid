@@ -10,6 +10,7 @@ import androidx.core.app.NotificationManagerCompat;
 import java.util.ArrayList;
 import org.telegram.messenger.LocationController;
 import org.telegram.messenger.NotificationCenter;
+import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.ui.LaunchActivity;
 /* loaded from: classes.dex */
@@ -141,7 +142,7 @@ public class LocationSharingService extends Service implements NotificationCente
             Intent intent2 = new Intent(ApplicationLoader.applicationContext, LaunchActivity.class);
             intent2.setAction("org.tmessages.openlocations");
             intent2.addCategory("android.intent.category.LAUNCHER");
-            PendingIntent activity = PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent2, 0);
+            PendingIntent activity = PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent2, ConnectionsManager.FileTypeVideo);
             NotificationCompat.Builder builder = new NotificationCompat.Builder(ApplicationLoader.applicationContext);
             this.builder = builder;
             builder.setWhen(System.currentTimeMillis());
@@ -150,7 +151,7 @@ public class LocationSharingService extends Service implements NotificationCente
             NotificationsController.checkOtherNotificationsChannel();
             this.builder.setChannelId(NotificationsController.OTHER_NOTIFICATIONS_CHANNEL);
             this.builder.setContentTitle(LocaleController.getString("AppName", R.string.AppName));
-            this.builder.addAction(0, LocaleController.getString("StopLiveLocation", R.string.StopLiveLocation), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 2, new Intent(ApplicationLoader.applicationContext, StopLiveLocationReceiver.class), 134217728));
+            this.builder.addAction(0, LocaleController.getString("StopLiveLocation", R.string.StopLiveLocation), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 2, new Intent(ApplicationLoader.applicationContext, StopLiveLocationReceiver.class), 167772160));
         }
         updateNotification(false);
         startForeground(6, this.builder.build());

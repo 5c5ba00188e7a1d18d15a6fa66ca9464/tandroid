@@ -2,6 +2,7 @@ package j$.util.stream;
 
 import j$.util.function.BiConsumer;
 import java.util.Iterator;
+import java.util.Objects;
 /* loaded from: classes2.dex */
 public abstract class T extends c implements U {
     public T(c cVar, int i) {
@@ -50,21 +51,21 @@ public abstract class T extends c implements U {
 
     @Override // j$.util.stream.U
     public final j$.util.j G(j$.util.function.d dVar) {
-        dVar.getClass();
+        Objects.requireNonNull(dVar);
         return (j$.util.j) x0(new D2(e4.DOUBLE_VALUE, dVar));
     }
 
     @Override // j$.util.stream.U
     public final Object H(j$.util.function.y yVar, j$.util.function.u uVar, BiConsumer biConsumer) {
         C c = new C(biConsumer, 0);
-        yVar.getClass();
-        uVar.getClass();
+        Objects.requireNonNull(yVar);
+        Objects.requireNonNull(uVar);
         return x0(new z2(e4.DOUBLE_VALUE, c, uVar, yVar));
     }
 
     @Override // j$.util.stream.U
     public final double K(double d, j$.util.function.d dVar) {
-        dVar.getClass();
+        Objects.requireNonNull(dVar);
         return ((Double) x0(new B2(e4.DOUBLE_VALUE, dVar, d))).doubleValue();
     }
 
@@ -75,13 +76,13 @@ public abstract class T extends c implements U {
 
     @Override // j$.util.stream.U
     public final Stream M(j$.util.function.g gVar) {
-        gVar.getClass();
+        Objects.requireNonNull(gVar);
         return new L(this, this, e4.DOUBLE_VALUE, d4.p | d4.n, gVar);
     }
 
     @Override // j$.util.stream.U
     public final IntStream R(j$.wrappers.G g) {
-        g.getClass();
+        Objects.requireNonNull(g);
         return new M(this, this, e4.DOUBLE_VALUE, d4.p | d4.n, g);
     }
 
@@ -98,7 +99,7 @@ public abstract class T extends c implements U {
 
     @Override // j$.util.stream.U
     public final U b(j$.util.function.f fVar) {
-        fVar.getClass();
+        Objects.requireNonNull(fVar);
         return new K(this, this, e4.DOUBLE_VALUE, 0, fVar);
     }
 
@@ -148,12 +149,12 @@ public abstract class T extends c implements U {
     }
 
     public void j(j$.util.function.f fVar) {
-        fVar.getClass();
+        Objects.requireNonNull(fVar);
         x0(new k0(fVar, false));
     }
 
     public void l0(j$.util.function.f fVar) {
-        fVar.getClass();
+        Objects.requireNonNull(fVar);
         x0(new k0(fVar, true));
     }
 
@@ -177,7 +178,7 @@ public abstract class T extends c implements U {
 
     @Override // j$.util.stream.U
     public final U r(j$.wrappers.E e) {
-        e.getClass();
+        Objects.requireNonNull(e);
         return new K(this, this, e4.DOUBLE_VALUE, d4.t, e);
     }
 
@@ -232,13 +233,13 @@ public abstract class T extends c implements U {
 
     @Override // j$.util.stream.U
     public final e1 x(j$.util.function.h hVar) {
-        hVar.getClass();
+        Objects.requireNonNull(hVar);
         return new N(this, this, e4.DOUBLE_VALUE, d4.p | d4.n, hVar);
     }
 
     @Override // j$.util.stream.U
     public final U y(j$.wrappers.K k) {
-        k.getClass();
+        Objects.requireNonNull(k);
         return new K(this, this, e4.DOUBLE_VALUE, d4.p | d4.n, k);
     }
 

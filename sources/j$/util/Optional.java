@@ -1,6 +1,7 @@
 package j$.util;
 
 import java.util.NoSuchElementException;
+import java.util.Objects;
 /* loaded from: classes2.dex */
 public final class Optional<T> {
     private static final Optional b = new Optional();
@@ -11,7 +12,7 @@ public final class Optional<T> {
     }
 
     private Optional(Object obj) {
-        obj.getClass();
+        Objects.requireNonNull(obj);
         this.a = obj;
     }
 

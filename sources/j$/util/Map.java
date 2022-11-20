@@ -6,6 +6,7 @@ import j$.util.function.Function;
 import java.util.Collection;
 import java.util.ConcurrentModificationException;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 /* loaded from: classes2.dex */
 public interface Map<K, V> {
@@ -14,7 +15,7 @@ public interface Map<K, V> {
     public final /* synthetic */ class -CC {
         /* JADX WARN: Multi-variable type inference failed */
         public static Object $default$compute(java.util.Map map, Object obj, BiFunction biFunction) {
-            biFunction.getClass();
+            Objects.requireNonNull(biFunction);
             Object obj2 = map.get(obj);
             Object apply = biFunction.apply(obj, obj2);
             if (apply != null) {
@@ -31,7 +32,7 @@ public interface Map<K, V> {
         /* JADX WARN: Multi-variable type inference failed */
         public static Object $default$computeIfAbsent(java.util.Map map, Object obj, Function function) {
             Object apply;
-            function.getClass();
+            Objects.requireNonNull(function);
             Object obj2 = map.get(obj);
             if (obj2 != null || (apply = function.apply(obj)) == null) {
                 return obj2;
@@ -42,7 +43,7 @@ public interface Map<K, V> {
 
         /* JADX WARN: Multi-variable type inference failed */
         public static Object $default$computeIfPresent(java.util.Map map, Object obj, BiFunction biFunction) {
-            biFunction.getClass();
+            Objects.requireNonNull(biFunction);
             Object obj2 = map.get(obj);
             if (obj2 != null) {
                 Object apply = biFunction.apply(obj, obj2);
@@ -56,7 +57,7 @@ public interface Map<K, V> {
         }
 
         public static void $default$forEach(java.util.Map map, BiConsumer biConsumer) {
-            biConsumer.getClass();
+            Objects.requireNonNull(biConsumer);
             for (Map.Entry<K, V> entry : map.entrySet()) {
                 try {
                     biConsumer.accept(entry.getKey(), entry.getValue());
@@ -68,8 +69,8 @@ public interface Map<K, V> {
 
         /* JADX WARN: Multi-variable type inference failed */
         public static Object $default$merge(java.util.Map map, Object obj, Object obj2, BiFunction biFunction) {
-            biFunction.getClass();
-            obj2.getClass();
+            Objects.requireNonNull(biFunction);
+            Objects.requireNonNull(obj2);
             Object obj3 = map.get(obj);
             if (obj3 != null) {
                 obj2 = biFunction.apply(obj3, obj2);
@@ -107,7 +108,7 @@ public interface Map<K, V> {
         }
 
         public static void $default$replaceAll(java.util.Map map, BiFunction biFunction) {
-            biFunction.getClass();
+            Objects.requireNonNull(biFunction);
             for (Map.Entry<K, V> entry : map.entrySet()) {
                 try {
                     try {

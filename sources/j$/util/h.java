@@ -1,5 +1,6 @@
 package j$.util;
 
+import java.util.Objects;
 import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes2.dex */
 public class h implements j$.util.function.l {
@@ -25,7 +26,7 @@ public class h implements j$.util.function.l {
 
     @Override // j$.util.function.l
     public j$.util.function.l l(j$.util.function.l lVar) {
-        lVar.getClass();
+        Objects.requireNonNull(lVar);
         return new j$.util.function.k(this, lVar);
     }
 

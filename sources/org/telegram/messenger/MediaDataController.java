@@ -30,7 +30,6 @@ import androidx.collection.LongSparseArray;
 import androidx.core.content.pm.ShortcutInfoCompat;
 import androidx.core.content.pm.ShortcutManagerCompat;
 import androidx.core.graphics.drawable.IconCompat;
-import androidx.core.util.ObjectsCompat$$ExternalSyntheticBackport0;
 import j$.util.concurrent.ConcurrentHashMap;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -41,6 +40,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 import java.util.regex.Matcher;
@@ -3295,7 +3295,7 @@ public class MediaDataController extends BaseController {
                 return;
             }
             TLRPC$TL_messages_getStickerSet tLRPC$TL_messages_getStickerSet = new TLRPC$TL_messages_getStickerSet();
-            if (ObjectsCompat$$ExternalSyntheticBackport0.m(getUserConfig().premiumGiftsStickerPack, str)) {
+            if (Objects.equals(getUserConfig().premiumGiftsStickerPack, str)) {
                 tLRPC$TL_messages_getStickerSet.stickerset = new TLRPC$TL_inputStickerSetPremiumGifts();
             } else if (z) {
                 TLRPC$TL_inputStickerSetDice tLRPC$TL_inputStickerSetDice = new TLRPC$TL_inputStickerSetDice();
@@ -4200,7 +4200,7 @@ public class MediaDataController extends BaseController {
             stickerSetBulletinLayout.setButton(delayedAction);
             LongSparseArray<Runnable> longSparseArray = this.removingStickerSetsUndos;
             long j = tLRPC$StickerSet.id;
-            delayedAction.getClass();
+            Objects.requireNonNull(delayedAction);
             longSparseArray.put(j, new MediaDataController$$ExternalSyntheticLambda146(delayedAction));
             Bulletin.make(baseFragment, stickerSetBulletinLayout, 2750).show();
         }
@@ -4306,7 +4306,7 @@ public class MediaDataController extends BaseController {
         for (int i9 = 0; i9 < arrayList.size(); i9++) {
             LongSparseArray<Runnable> longSparseArray = this.removingStickerSetsUndos;
             long j = arrayList.get(i9).set.id;
-            delayedAction.getClass();
+            Objects.requireNonNull(delayedAction);
             longSparseArray.put(j, new MediaDataController$$ExternalSyntheticLambda146(delayedAction));
         }
         Bulletin.make(baseFragment, stickerSetBulletinLayout, 2750).show();

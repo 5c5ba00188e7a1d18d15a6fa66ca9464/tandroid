@@ -5,6 +5,7 @@ import j$.util.function.Predicate;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.SortedSet;
 /* loaded from: classes2.dex */
@@ -23,21 +24,21 @@ public final /* synthetic */ class Collection$-EL {
         }
         if (collection instanceof LinkedHashSet) {
             LinkedHashSet linkedHashSet = (LinkedHashSet) collection;
-            linkedHashSet.getClass();
+            Objects.requireNonNull(linkedHashSet);
             return new J(linkedHashSet, 17);
         } else if (collection instanceof SortedSet) {
             SortedSet sortedSet = (SortedSet) collection;
             return new s(sortedSet, sortedSet, 21);
         } else if (collection instanceof Set) {
             Set set = (Set) collection;
-            set.getClass();
+            Objects.requireNonNull(set);
             return new J(set, 1);
         } else if (collection instanceof List) {
             List list = (List) collection;
-            list.getClass();
+            Objects.requireNonNull(list);
             return new J(list, 16);
         } else {
-            collection.getClass();
+            Objects.requireNonNull(collection);
             return new J(collection, 0);
         }
     }

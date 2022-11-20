@@ -1,6 +1,7 @@
 package com.google.firebase.installations;
 
 import com.google.firebase.installations.InstallationTokenResult;
+import java.util.Objects;
 /* loaded from: classes.dex */
 final class AutoValue_InstallationTokenResult extends InstallationTokenResult {
     private final String token;
@@ -57,9 +58,7 @@ final class AutoValue_InstallationTokenResult extends InstallationTokenResult {
 
         @Override // com.google.firebase.installations.InstallationTokenResult.Builder
         public InstallationTokenResult.Builder setToken(String str) {
-            if (str == null) {
-                throw new NullPointerException("Null token");
-            }
+            Objects.requireNonNull(str, "Null token");
             this.token = str;
             return this;
         }

@@ -1,6 +1,7 @@
 package j$.util.stream;
 
 import java.util.Comparator;
+import java.util.Objects;
 import org.telegram.tgnet.ConnectionsManager;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
@@ -18,7 +19,7 @@ public abstract class H4 extends J4 implements j$.util.w {
     @Override // j$.util.w
     /* renamed from: forEachRemaining */
     public void e(Object obj) {
-        obj.getClass();
+        Objects.requireNonNull(obj);
         j4 j4Var = null;
         while (true) {
             int r = r();
@@ -71,7 +72,7 @@ public abstract class H4 extends J4 implements j$.util.w {
     @Override // j$.util.w
     /* renamed from: tryAdvance */
     public boolean k(Object obj) {
-        obj.getClass();
+        Objects.requireNonNull(obj);
         while (r() != 1 && ((j$.util.w) this.a).tryAdvance(this)) {
             if (p(1L) == 1) {
                 s(obj);

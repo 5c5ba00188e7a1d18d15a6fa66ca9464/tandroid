@@ -1,4 +1,6 @@
 package j$.util.function;
+
+import java.util.Objects;
 /* loaded from: classes2.dex */
 public final /* synthetic */ class k implements l {
     public final /* synthetic */ l a;
@@ -19,7 +21,7 @@ public final /* synthetic */ class k implements l {
 
     @Override // j$.util.function.l
     public l l(l lVar) {
-        lVar.getClass();
+        Objects.requireNonNull(lVar);
         return new k(this, lVar);
     }
 }

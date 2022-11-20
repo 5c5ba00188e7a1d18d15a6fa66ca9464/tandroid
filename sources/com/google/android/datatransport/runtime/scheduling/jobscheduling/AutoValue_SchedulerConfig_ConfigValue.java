@@ -1,6 +1,7 @@
 package com.google.android.datatransport.runtime.scheduling.jobscheduling;
 
 import com.google.android.datatransport.runtime.scheduling.jobscheduling.SchedulerConfig;
+import java.util.Objects;
 import java.util.Set;
 /* loaded from: classes.dex */
 final class AutoValue_SchedulerConfig_ConfigValue extends SchedulerConfig.ConfigValue {
@@ -70,9 +71,7 @@ final class AutoValue_SchedulerConfig_ConfigValue extends SchedulerConfig.Config
 
         @Override // com.google.android.datatransport.runtime.scheduling.jobscheduling.SchedulerConfig.ConfigValue.Builder
         public SchedulerConfig.ConfigValue.Builder setFlags(Set<SchedulerConfig.Flag> set) {
-            if (set == null) {
-                throw new NullPointerException("Null flags");
-            }
+            Objects.requireNonNull(set, "Null flags");
             this.flags = set;
             return this;
         }

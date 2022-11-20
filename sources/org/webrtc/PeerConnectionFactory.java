@@ -3,6 +3,7 @@ package org.webrtc;
 import android.content.Context;
 import android.os.Process;
 import java.util.List;
+import java.util.Objects;
 import org.webrtc.Logging;
 import org.webrtc.PeerConnection;
 import org.webrtc.audio.AudioDeviceModule;
@@ -231,9 +232,7 @@ public class PeerConnectionFactory {
         }
 
         public Builder setAudioProcessingFactory(AudioProcessingFactory audioProcessingFactory) {
-            if (audioProcessingFactory == null) {
-                throw new NullPointerException("PeerConnectionFactory builder does not accept a null AudioProcessingFactory.");
-            }
+            Objects.requireNonNull(audioProcessingFactory, "PeerConnectionFactory builder does not accept a null AudioProcessingFactory.");
             this.audioProcessingFactory = audioProcessingFactory;
             return this;
         }

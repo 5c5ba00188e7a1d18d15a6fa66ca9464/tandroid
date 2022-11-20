@@ -2,6 +2,7 @@ package com.google.android.gms.internal.mlkit_language_id;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
+import java.util.Objects;
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
 public final class zzeq {
@@ -18,16 +19,14 @@ public final class zzeq {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static <T> T zza(T t) {
-        t.getClass();
+        Objects.requireNonNull(t);
         return t;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static <T> T zza(T t, String str) {
-        if (t != null) {
-            return t;
-        }
-        throw new NullPointerException(str);
+        Objects.requireNonNull(t, str);
+        return t;
     }
 
     public static boolean zza(byte[] bArr) {

@@ -1,4 +1,6 @@
 package j$.util.stream;
+
+import java.util.Objects;
 /* loaded from: classes2.dex */
 class h1 extends j1 implements l3 {
     final /* synthetic */ k1 c;
@@ -36,7 +38,7 @@ class h1 extends j1 implements l3 {
 
     @Override // j$.util.function.q
     public j$.util.function.q f(j$.util.function.q qVar) {
-        qVar.getClass();
+        Objects.requireNonNull(qVar);
         return new j$.util.function.p(this, qVar);
     }
 }

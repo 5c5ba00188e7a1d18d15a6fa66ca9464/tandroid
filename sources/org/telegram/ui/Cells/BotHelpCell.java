@@ -15,8 +15,8 @@ import android.text.style.URLSpan;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.accessibility.AccessibilityNodeInfo;
-import androidx.core.util.ObjectsCompat$$ExternalSyntheticBackport0;
 import java.util.Iterator;
+import java.util.Objects;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.Emoji;
 import org.telegram.messenger.FileLoader;
@@ -106,7 +106,7 @@ public class BotHelpCell extends View {
         this.isTextVisible = z3;
         if (z2) {
             String keyForParentObject = FileRefController.getKeyForParentObject(tLRPC$BotInfo);
-            if (!ObjectsCompat$$ExternalSyntheticBackport0.m(this.currentPhotoKey, keyForParentObject)) {
+            if (!Objects.equals(this.currentPhotoKey, keyForParentObject)) {
                 this.currentPhotoKey = keyForParentObject;
                 if (tLObject instanceof TLRPC$TL_photo) {
                     TLRPC$Photo tLRPC$Photo = (TLRPC$Photo) tLObject;

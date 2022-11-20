@@ -39,6 +39,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Objects;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.Emoji;
 import org.telegram.messenger.LocaleController;
@@ -1169,7 +1170,7 @@ public class PollVotesAlert extends BottomSheet {
             int i4 = i - 1;
             if (i2 != 0) {
                 if (i4 >= 0 && i4 < PollVotesAlert.this.voters.size() && (i3 = i2 - 1) < ((VotesList) PollVotesAlert.this.voters.get(i4)).getCount()) {
-                    return Integer.valueOf(Arrays.hashCode(new Object[]{Long.valueOf(((VotesList) PollVotesAlert.this.voters.get(i4)).votes.get(i3).user_id)}));
+                    return Integer.valueOf(Objects.hash(Long.valueOf(((VotesList) PollVotesAlert.this.voters.get(i4)).votes.get(i3).user_id)));
                 }
                 return -182734;
             }

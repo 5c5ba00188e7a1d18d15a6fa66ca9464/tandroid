@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CountDownLatch;
@@ -190,9 +191,7 @@ public final class Tasks {
             return forResult(null);
         }
         for (Task<?> task : collection) {
-            if (task == null) {
-                throw new NullPointerException("null tasks are not accepted");
-            }
+            Objects.requireNonNull(task, "null tasks are not accepted");
         }
         zzu zzuVar = new zzu();
         zzc zzcVar = new zzc(collection.size(), zzuVar);

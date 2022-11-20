@@ -88,6 +88,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicReference;
@@ -1816,7 +1817,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
             @Override // j$.util.function.Consumer
             public /* synthetic */ Consumer andThen(Consumer consumer) {
-                return consumer.getClass();
+                return Objects.requireNonNull(consumer);
             }
         });
     }

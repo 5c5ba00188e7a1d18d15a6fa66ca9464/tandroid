@@ -3,18 +3,18 @@ package j$.time.format;
 /* loaded from: classes2.dex */
 public final class n implements g {
     private final j$.time.temporal.k a;
-    private final t b;
+    private final u b;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public n(j$.time.temporal.k kVar, t tVar, c cVar) {
+    public n(j$.time.temporal.k kVar, u uVar, c cVar) {
         this.a = kVar;
-        this.b = tVar;
+        this.b = uVar;
     }
 
     public String toString() {
         StringBuilder sb;
         Object obj;
-        if (this.b == t.FULL) {
+        if (this.b == u.FULL) {
             sb = new StringBuilder();
             sb.append("Text(");
             obj = this.a;

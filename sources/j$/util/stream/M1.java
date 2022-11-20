@@ -2,6 +2,7 @@ package j$.util.stream;
 
 import j$.util.function.BiFunction;
 import j$.util.function.Function;
+import java.util.Objects;
 /* loaded from: classes2.dex */
 public final /* synthetic */ class M1 implements j$.util.function.b {
     public static final /* synthetic */ M1 a = new M1();
@@ -11,7 +12,7 @@ public final /* synthetic */ class M1 implements j$.util.function.b {
 
     @Override // j$.util.function.BiFunction
     public BiFunction andThen(Function function) {
-        function.getClass();
+        Objects.requireNonNull(function);
         return new j$.util.concurrent.a(this, function);
     }
 

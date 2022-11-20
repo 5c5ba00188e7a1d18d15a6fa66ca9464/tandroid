@@ -2,6 +2,7 @@ package j$.time.format;
 
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Set;
 /* loaded from: classes2.dex */
 public final class a {
@@ -10,8 +11,8 @@ public final class a {
     static {
         p pVar = new p();
         j$.time.temporal.a aVar = j$.time.temporal.a.YEAR;
-        s sVar = s.EXCEEDS_PAD;
-        p l = pVar.l(aVar, 4, 10, sVar);
+        t tVar = t.EXCEEDS_PAD;
+        p l = pVar.l(aVar, 4, 10, tVar);
         l.e('-');
         j$.time.temporal.a aVar2 = j$.time.temporal.a.MONTH_OF_YEAR;
         l.k(aVar2, 2);
@@ -86,7 +87,7 @@ public final class a {
         pVar10.u(1, cVar);
         p pVar11 = new p();
         pVar11.p();
-        p l2 = pVar11.l(aVar, 4, 10, sVar);
+        p l2 = pVar11.l(aVar, 4, 10, tVar);
         l2.e('-');
         l2.k(j$.time.temporal.a.DAY_OF_YEAR, 3);
         l2.o();
@@ -94,7 +95,7 @@ public final class a {
         l2.u(1, cVar);
         p pVar12 = new p();
         pVar12.p();
-        p l3 = pVar12.l(j$.time.temporal.j.c, 4, 10, sVar);
+        p l3 = pVar12.l(j$.time.temporal.j.c, 4, 10, tVar);
         l3.f("-W");
         l3.k(j$.time.temporal.j.b, 2);
         l3.e('-');
@@ -143,7 +144,7 @@ public final class a {
         pVar15.i(aVar7, hashMap);
         pVar15.f(", ");
         pVar15.n();
-        p l4 = pVar15.l(aVar3, 1, 2, s.NOT_NEGATIVE);
+        p l4 = pVar15.l(aVar3, 1, 2, t.NOT_NEGATIVE);
         l4.e(' ');
         l4.i(aVar2, hashMap2);
         l4.e(' ');
@@ -163,20 +164,11 @@ public final class a {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public a(f fVar, Locale locale, r rVar, int i, Set set, j$.time.chrono.b bVar) {
-        if (fVar != null) {
-            this.a = fVar;
-            if (locale == null) {
-                throw new NullPointerException("locale");
-            }
-            if (rVar == null) {
-                throw new NullPointerException("decimalStyle");
-            }
-            if (i == 0) {
-                throw new NullPointerException("resolverStyle");
-            }
-            return;
-        }
-        throw new NullPointerException("printerParser");
+        Objects.requireNonNull(fVar, "printerParser");
+        this.a = fVar;
+        Objects.requireNonNull(locale, "locale");
+        Objects.requireNonNull(rVar, "decimalStyle");
+        s.a(i, "resolverStyle");
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

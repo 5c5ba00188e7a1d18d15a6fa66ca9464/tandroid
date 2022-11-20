@@ -3,6 +3,7 @@ package j$.util.stream;
 import j$.util.function.BiConsumer;
 import j$.util.function.BiFunction;
 import j$.util.function.Function;
+import java.util.Objects;
 /* loaded from: classes2.dex */
 public final /* synthetic */ class C implements j$.util.function.b {
     public final /* synthetic */ int a;
@@ -23,13 +24,13 @@ public final /* synthetic */ class C implements j$.util.function.b {
     public BiFunction andThen(Function function) {
         switch (this.a) {
             case 0:
-                function.getClass();
+                Objects.requireNonNull(function);
                 return new j$.util.concurrent.a(this, function);
             case 1:
-                function.getClass();
+                Objects.requireNonNull(function);
                 return new j$.util.concurrent.a(this, function);
             default:
-                function.getClass();
+                Objects.requireNonNull(function);
                 return new j$.util.concurrent.a(this, function);
         }
     }

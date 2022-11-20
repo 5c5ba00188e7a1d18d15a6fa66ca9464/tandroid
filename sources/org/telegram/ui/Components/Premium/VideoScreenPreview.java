@@ -98,10 +98,10 @@ public class VideoScreenPreview extends FrameLayout implements PagerHeaderView, 
                 }
                 MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
                 mediaMetadataRetriever.setDataSource(ApplicationLoader.applicationContext, Uri.fromFile(this.file));
-                int intValue = Integer.valueOf(mediaMetadataRetriever.extractMetadata(18)).intValue();
-                int intValue2 = Integer.valueOf(mediaMetadataRetriever.extractMetadata(19)).intValue();
+                int parseInt = Integer.parseInt(mediaMetadataRetriever.extractMetadata(18));
+                int parseInt2 = Integer.parseInt(mediaMetadataRetriever.extractMetadata(19));
                 mediaMetadataRetriever.release();
-                this.aspectRatio = intValue / intValue2;
+                this.aspectRatio = parseInt / parseInt2;
             } else {
                 this.aspectRatio = 0.671f;
             }

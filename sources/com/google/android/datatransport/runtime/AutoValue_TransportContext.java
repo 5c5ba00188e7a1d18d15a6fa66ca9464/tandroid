@@ -3,6 +3,7 @@ package com.google.android.datatransport.runtime;
 import com.google.android.datatransport.Priority;
 import com.google.android.datatransport.runtime.TransportContext;
 import java.util.Arrays;
+import java.util.Objects;
 /* loaded from: classes.dex */
 final class AutoValue_TransportContext extends TransportContext {
     private final String backendName;
@@ -58,9 +59,7 @@ final class AutoValue_TransportContext extends TransportContext {
 
         @Override // com.google.android.datatransport.runtime.TransportContext.Builder
         public TransportContext.Builder setBackendName(String str) {
-            if (str == null) {
-                throw new NullPointerException("Null backendName");
-            }
+            Objects.requireNonNull(str, "Null backendName");
             this.backendName = str;
             return this;
         }
@@ -73,9 +72,7 @@ final class AutoValue_TransportContext extends TransportContext {
 
         @Override // com.google.android.datatransport.runtime.TransportContext.Builder
         public TransportContext.Builder setPriority(Priority priority) {
-            if (priority == null) {
-                throw new NullPointerException("Null priority");
-            }
+            Objects.requireNonNull(priority, "Null priority");
             this.priority = priority;
             return this;
         }

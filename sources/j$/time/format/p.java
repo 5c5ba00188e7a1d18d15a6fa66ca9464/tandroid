@@ -7,6 +7,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 /* loaded from: classes2.dex */
 public final class p {
     private p a;
@@ -64,27 +65,25 @@ public final class p {
     }
 
     private int d(g gVar) {
-        if (gVar != null) {
-            p pVar = this.a;
-            pVar.getClass();
-            pVar.c.add(gVar);
-            p pVar2 = this.a;
-            pVar2.e = -1;
-            return pVar2.c.size() - 1;
-        }
-        throw new NullPointerException("pp");
+        Objects.requireNonNull(gVar, "pp");
+        p pVar = this.a;
+        Objects.requireNonNull(pVar);
+        pVar.c.add(gVar);
+        p pVar2 = this.a;
+        pVar2.e = -1;
+        return pVar2.c.size() - 1;
     }
 
     private p j(j jVar) {
         j b;
-        s sVar;
+        t tVar;
         p pVar = this.a;
         int i = pVar.e;
         if (i >= 0) {
             j jVar2 = (j) pVar.c.get(i);
             if (jVar.b == jVar.c) {
-                sVar = jVar.d;
-                if (sVar == s.NOT_NEGATIVE) {
+                tVar = jVar.d;
+                if (tVar == t.NOT_NEGATIVE) {
                     b = jVar2.c(jVar.c);
                     d(jVar.b());
                     this.a.e = i;
@@ -101,21 +100,17 @@ public final class p {
     }
 
     private a t(Locale locale, int i, j$.time.chrono.b bVar) {
-        if (locale != null) {
-            while (this.a.b != null) {
-                n();
-            }
-            return new a(new f(this.c, false), locale, r.a, i, null, bVar);
+        Objects.requireNonNull(locale, "locale");
+        while (this.a.b != null) {
+            n();
         }
-        throw new NullPointerException("locale");
+        return new a(new f(this.c, false), locale, r.a, i, null, bVar);
     }
 
     public p a(a aVar) {
-        if (aVar != null) {
-            d(aVar.a(false));
-            return this;
-        }
-        throw new NullPointerException("formatter");
+        Objects.requireNonNull(aVar, "formatter");
+        d(aVar.a(false));
+        return this;
     }
 
     public p b(j$.time.temporal.k kVar, int i, int i2, boolean z) {
@@ -151,46 +146,38 @@ public final class p {
     }
 
     public p i(j$.time.temporal.k kVar, Map map) {
-        if (kVar != null) {
-            LinkedHashMap linkedHashMap = new LinkedHashMap(map);
-            t tVar = t.FULL;
-            d(new n(kVar, tVar, new c(this, new q(Collections.singletonMap(tVar, linkedHashMap)))));
-            return this;
-        }
-        throw new NullPointerException("field");
+        Objects.requireNonNull(kVar, "field");
+        LinkedHashMap linkedHashMap = new LinkedHashMap(map);
+        u uVar = u.FULL;
+        d(new n(kVar, uVar, new c(this, new q(Collections.singletonMap(uVar, linkedHashMap)))));
+        return this;
     }
 
     public p k(j$.time.temporal.k kVar, int i) {
-        if (kVar != null) {
-            if (i >= 1 && i <= 19) {
-                j(new j(kVar, i, i, s.NOT_NEGATIVE));
-                return this;
-            }
-            throw new IllegalArgumentException("The width must be from 1 to 19 inclusive but was " + i);
+        Objects.requireNonNull(kVar, "field");
+        if (i >= 1 && i <= 19) {
+            j(new j(kVar, i, i, t.NOT_NEGATIVE));
+            return this;
         }
-        throw new NullPointerException("field");
+        throw new IllegalArgumentException("The width must be from 1 to 19 inclusive but was " + i);
     }
 
-    public p l(j$.time.temporal.k kVar, int i, int i2, s sVar) {
-        if (i == i2 && sVar == s.NOT_NEGATIVE) {
+    public p l(j$.time.temporal.k kVar, int i, int i2, t tVar) {
+        if (i == i2 && tVar == t.NOT_NEGATIVE) {
             k(kVar, i2);
             return this;
-        } else if (kVar == null) {
-            throw new NullPointerException("field");
+        }
+        Objects.requireNonNull(kVar, "field");
+        Objects.requireNonNull(tVar, "signStyle");
+        if (i < 1 || i > 19) {
+            throw new IllegalArgumentException("The minimum width must be from 1 to 19 inclusive but was " + i);
+        } else if (i2 < 1 || i2 > 19) {
+            throw new IllegalArgumentException("The maximum width must be from 1 to 19 inclusive but was " + i2);
+        } else if (i2 >= i) {
+            j(new j(kVar, i, i2, tVar));
+            return this;
         } else {
-            if (sVar == null) {
-                throw new NullPointerException("signStyle");
-            }
-            if (i < 1 || i > 19) {
-                throw new IllegalArgumentException("The minimum width must be from 1 to 19 inclusive but was " + i);
-            } else if (i2 < 1 || i2 > 19) {
-                throw new IllegalArgumentException("The maximum width must be from 1 to 19 inclusive but was " + i2);
-            } else if (i2 >= i) {
-                j(new j(kVar, i, i2, sVar));
-                return this;
-            } else {
-                throw new IllegalArgumentException("The maximum width must exceed or equal the minimum width but " + i2 + " < " + i);
-            }
+            throw new IllegalArgumentException("The maximum width must exceed or equal the minimum width but " + i2 + " < " + i);
         }
     }
 

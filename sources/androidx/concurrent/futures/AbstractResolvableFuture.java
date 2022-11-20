@@ -2,6 +2,7 @@ package androidx.concurrent.futures;
 
 import com.google.common.util.concurrent.ListenableFuture;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
@@ -741,7 +742,7 @@ public abstract class AbstractResolvableFuture<V> implements ListenableFuture<V>
     }
 
     static <T> T checkNotNull(T t) {
-        t.getClass();
+        Objects.requireNonNull(t);
         return t;
     }
 }

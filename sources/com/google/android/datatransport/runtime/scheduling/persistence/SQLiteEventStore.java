@@ -30,6 +30,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 /* loaded from: classes.dex */
 public class SQLiteEventStore implements EventStore, SynchronizationGuard, ClientHealthMetricsStore {
@@ -63,7 +64,7 @@ public class SQLiteEventStore implements EventStore, SynchronizationGuard, Clien
 
     SQLiteDatabase getDb() {
         final SchemaManager schemaManager = this.schemaManager;
-        schemaManager.getClass();
+        Objects.requireNonNull(schemaManager);
         return (SQLiteDatabase) retryIfDbLocked(new Producer() { // from class: com.google.android.datatransport.runtime.scheduling.persistence.SQLiteEventStore$$ExternalSyntheticLambda25
             @Override // com.google.android.datatransport.runtime.scheduling.persistence.SQLiteEventStore.Producer
             public final Object produce() {

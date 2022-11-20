@@ -1,4 +1,6 @@
 package j$.util;
+
+import java.util.Objects;
 /* loaded from: classes2.dex */
 abstract class H {
     public int characteristics() {
@@ -10,11 +12,11 @@ abstract class H {
     }
 
     public void forEachRemaining(Object obj) {
-        obj.getClass();
+        Objects.requireNonNull(obj);
     }
 
     public boolean tryAdvance(Object obj) {
-        obj.getClass();
+        Objects.requireNonNull(obj);
         return false;
     }
 

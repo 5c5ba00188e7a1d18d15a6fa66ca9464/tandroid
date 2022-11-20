@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.Objects;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LanguageDetector;
@@ -205,7 +206,7 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
                     Collection$-EL.removeIf(hashSet, new Predicate() { // from class: org.telegram.ui.LanguageSelectActivity$$ExternalSyntheticLambda5
                         @Override // j$.util.function.Predicate
                         public /* synthetic */ Predicate and(Predicate predicate) {
-                            return predicate.getClass();
+                            return Objects.requireNonNull(predicate);
                         }
 
                         @Override // j$.util.function.Predicate
@@ -215,7 +216,7 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
 
                         @Override // j$.util.function.Predicate
                         public /* synthetic */ Predicate or(Predicate predicate) {
-                            return predicate.getClass();
+                            return Objects.requireNonNull(predicate);
                         }
 
                         @Override // j$.util.function.Predicate

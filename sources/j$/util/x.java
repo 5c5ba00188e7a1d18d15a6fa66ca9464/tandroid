@@ -2,6 +2,7 @@ package j$.util;
 
 import j$.util.function.Consumer;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 /* loaded from: classes2.dex */
 class x implements java.util.Iterator, Consumer {
     boolean a = false;
@@ -21,7 +22,7 @@ class x implements java.util.Iterator, Consumer {
 
     @Override // j$.util.function.Consumer
     public /* synthetic */ Consumer andThen(Consumer consumer) {
-        return consumer.getClass();
+        return Objects.requireNonNull(consumer);
     }
 
     @Override // java.util.Iterator

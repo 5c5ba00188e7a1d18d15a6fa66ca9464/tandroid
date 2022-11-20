@@ -2,6 +2,7 @@ package com.google.android.gms.internal.clearcut;
 
 import com.google.android.gms.internal.clearcut.zzcg;
 import java.util.List;
+import java.util.Objects;
 /* loaded from: classes.dex */
 public final class zzgw$zza extends zzcg<zzgw$zza, zza> implements zzdq {
     private static volatile zzdz<zzgw$zza> zzbg;
@@ -73,7 +74,7 @@ public final class zzgw$zza extends zzcg<zzgw$zza, zza> implements zzdq {
 
         /* JADX INFO: Access modifiers changed from: private */
         public final void zzm(String str) {
-            str.getClass();
+            Objects.requireNonNull(str);
             this.zzbb |= 2;
             this.zzbis = str;
         }

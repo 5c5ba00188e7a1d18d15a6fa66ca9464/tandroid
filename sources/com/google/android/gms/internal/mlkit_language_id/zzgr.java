@@ -2,10 +2,9 @@ package com.google.android.gms.internal.mlkit_language_id;
 
 import java.io.IOException;
 import java.util.List;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
-public final class zzgr {
+final class zzgr {
     private static final Class<?> zza = zzd();
     private static final zzhh<?, ?> zzb = zza(false);
     private static final zzhh<?, ?> zzc = zza(true);

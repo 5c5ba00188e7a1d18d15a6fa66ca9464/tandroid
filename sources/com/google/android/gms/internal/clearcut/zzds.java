@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import org.telegram.messenger.voip.VoIPService;
 import org.telegram.tgnet.ConnectionsManager;
 import sun.misc.Unsafe;
@@ -3994,7 +3995,7 @@ final class zzds<T> implements zzef<T> {
 
     @Override // com.google.android.gms.internal.clearcut.zzef
     public final void zzc(T t, T t2) {
-        t2.getClass();
+        Objects.requireNonNull(t2);
         for (int i = 0; i < this.zzmi.length; i += 4) {
             int zzag = zzag(i);
             long j = 1048575 & zzag;

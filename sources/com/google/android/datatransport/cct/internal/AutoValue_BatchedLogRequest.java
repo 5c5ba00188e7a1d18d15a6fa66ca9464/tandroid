@@ -1,15 +1,14 @@
 package com.google.android.datatransport.cct.internal;
 
 import java.util.List;
+import java.util.Objects;
 /* loaded from: classes.dex */
 final class AutoValue_BatchedLogRequest extends BatchedLogRequest {
     private final List<LogRequest> logRequests;
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public AutoValue_BatchedLogRequest(List<LogRequest> list) {
-        if (list == null) {
-            throw new NullPointerException("Null logRequests");
-        }
+        Objects.requireNonNull(list, "Null logRequests");
         this.logRequests = list;
     }
 

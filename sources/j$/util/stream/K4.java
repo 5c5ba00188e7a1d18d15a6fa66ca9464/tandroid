@@ -1,6 +1,7 @@
 package j$.util.stream;
 
 import j$.util.function.Consumer;
+import java.util.Objects;
 /* loaded from: classes2.dex */
 public final /* synthetic */ class K4 implements m3 {
     public final /* synthetic */ int a = 0;
@@ -22,9 +23,9 @@ public final /* synthetic */ class K4 implements m3 {
     public /* synthetic */ Consumer andThen(Consumer consumer) {
         switch (this.a) {
             case 0:
-                return consumer.getClass();
+                return Objects.requireNonNull(consumer);
             default:
-                return consumer.getClass();
+                return Objects.requireNonNull(consumer);
         }
     }
 

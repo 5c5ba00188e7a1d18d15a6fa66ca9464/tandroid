@@ -2,6 +2,7 @@ package com.google.android.gms.internal.mlkit_common;
 
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;
+import java.util.Objects;
 /* compiled from: com.google.mlkit:common@@17.0.0 */
 /* loaded from: classes.dex */
 final class zzas extends WeakReference<Throwable> {
@@ -9,9 +10,7 @@ final class zzas extends WeakReference<Throwable> {
 
     public zzas(Throwable th, ReferenceQueue<Throwable> referenceQueue) {
         super(th, referenceQueue);
-        if (th == null) {
-            throw new NullPointerException("The referent cannot be null");
-        }
+        Objects.requireNonNull(th, "The referent cannot be null");
         this.zza = System.identityHashCode(th);
     }
 

@@ -1,6 +1,7 @@
 package j$.util.stream;
 
 import j$.util.function.Predicate;
+import java.util.Objects;
 /* loaded from: classes2.dex */
 public final /* synthetic */ class X implements Predicate {
     public static final /* synthetic */ X a = new X();
@@ -10,7 +11,7 @@ public final /* synthetic */ class X implements Predicate {
 
     @Override // j$.util.function.Predicate
     public /* synthetic */ Predicate and(Predicate predicate) {
-        return predicate.getClass();
+        return Objects.requireNonNull(predicate);
     }
 
     @Override // j$.util.function.Predicate
@@ -20,7 +21,7 @@ public final /* synthetic */ class X implements Predicate {
 
     @Override // j$.util.function.Predicate
     public /* synthetic */ Predicate or(Predicate predicate) {
-        return predicate.getClass();
+        return Objects.requireNonNull(predicate);
     }
 
     @Override // j$.util.function.Predicate

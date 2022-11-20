@@ -3,6 +3,7 @@ package com.google.android.gms.internal.firebase_messaging;
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Objects;
 /* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
 /* loaded from: classes.dex */
 final class zzk extends FilterInputStream {
@@ -12,7 +13,7 @@ final class zzk extends FilterInputStream {
     /* JADX INFO: Access modifiers changed from: package-private */
     public zzk(InputStream inputStream, long j) {
         super(inputStream);
-        inputStream.getClass();
+        Objects.requireNonNull(inputStream);
     }
 
     @Override // java.io.FilterInputStream, java.io.InputStream

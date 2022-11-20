@@ -6,7 +6,6 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -52,7 +51,6 @@ import java.util.regex.Pattern;
 import java.util.zip.GZIPInputStream;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.json.JSONTokener;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.Bitmaps;
@@ -611,292 +609,391 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
         }
 
         /* JADX INFO: Access modifiers changed from: protected */
+        /* JADX WARN: Code restructure failed: missing block: B:126:0x0269, code lost:
+            r2 = r23.result;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:127:0x026e, code lost:
+            if (r2[0] != null) goto L130;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:128:0x0270, code lost:
+            if (r11 == null) goto L130;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:129:0x0272, code lost:
+            r2[0] = r11;
+            r2[1] = "other";
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:131:0x027b, code lost:
+            if (r2[0] == null) goto L211;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:132:0x027d, code lost:
+            if (r0 != false) goto L135;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:134:0x0285, code lost:
+            if (r2[0].contains("/s/") == false) goto L211;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:135:0x0287, code lost:
+            if (r3 == null) goto L211;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:136:0x0289, code lost:
+            r0 = r23.result[0].indexOf("/s/");
+            r2 = r23.result[0].indexOf(47, r0 + 10);
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:137:0x029e, code lost:
+            if (r0 == (-1)) goto L210;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:138:0x02a0, code lost:
+            if (r2 != (-1)) goto L140;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:139:0x02a2, code lost:
+            r2 = r23.result[0].length();
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:140:0x02aa, code lost:
+            r23.sig = r23.result[0].substring(r0, r2);
+            r0 = org.telegram.ui.Components.WebPlayerView.jsPattern.matcher(r3);
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:141:0x02c0, code lost:
+            if (r0.find() == false) goto L142;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:142:0x02de, code lost:
+            r2 = null;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:143:0x02df, code lost:
+            if (r2 != null) goto L144;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:145:0x02ed, code lost:
+            if (org.telegram.ui.Components.WebPlayerView.playerIdPattern.matcher(r2).find() != false) goto L146;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:146:0x02ef, code lost:
+            r0 = r0.group(1) + r0.group(2);
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:147:0x030a, code lost:
+            r3 = org.telegram.messenger.ApplicationLoader.applicationContext.getSharedPreferences("youtubecode", 0);
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:148:0x0315, code lost:
+            if (r0 != null) goto L149;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:149:0x0317, code lost:
+            r7 = r3.getString(r0, null);
+            r8 = r3.getString(r0 + "n", null);
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:150:0x0332, code lost:
+            if (r7 == null) goto L151;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:152:0x033a, code lost:
+            if (r2.startsWith("//") != false) goto L153;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:153:0x033c, code lost:
+            r2 = "https:" + r2;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:154:0x0367, code lost:
+            r2 = r23.this$0.downloadUrlContent(r23, r2);
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:155:0x0371, code lost:
+            if (isCancelled() != false) goto L156;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:156:0x0373, code lost:
+            return null;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:157:0x0375, code lost:
+            r6 = null;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:158:0x0376, code lost:
+            if (r2 != null) goto L159;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:159:0x0378, code lost:
+            r9 = org.telegram.ui.Components.WebPlayerView.sigPattern.matcher(r2);
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:160:0x0384, code lost:
+            if (r9.find() != false) goto L161;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:161:0x0386, code lost:
+            r8 = r9.group(1);
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:162:0x039f, code lost:
+            if (r8 != null) goto L183;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:164:0x03dc, code lost:
+            if (android.text.TextUtils.isEmpty(r7) == false) goto L165;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:166:0x03e5, code lost:
+            if (android.os.Build.VERSION.SDK_INT >= 21) goto L167;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:167:0x03e7, code lost:
+            r0 = r7 + r8 + "('" + r23.sig.substring(3) + "');";
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:169:0x043b, code lost:
+            org.telegram.messenger.AndroidUtilities.runOnUIThread(new org.telegram.ui.Components.WebPlayerView$YoutubeVideoTask$$ExternalSyntheticLambda1(r23, r0));
+            r23.countDownLatch.await();
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:170:0x0448, code lost:
+            r7 = false;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:172:0x0459, code lost:
+            if (isCancelled() == false) goto L173;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:175:?, code lost:
+            return r23.result;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:177:0x0462, code lost:
+            return r6;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:179:0x044a, code lost:
+            r0 = move-exception;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:180:0x044b, code lost:
+            org.telegram.messenger.FileLog.e(r0);
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:181:0x0408, code lost:
+            r0 = r7 + "window." + r23.this$0.interfaceName + ".returnResultToJava(" + r8 + "('" + r23.sig.substring(3) + "'));";
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:182:0x0451, code lost:
+            r7 = true;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:184:0x03a1, code lost:
+            r7 = new org.telegram.ui.Components.WebPlayerView.JSExtractor(r2).extractFunction(r8);
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:185:0x03ae, code lost:
+            if (android.text.TextUtils.isEmpty(r7) == false) goto L186;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:187:0x03b2, code lost:
+            r3.edit().putString(r0, r7).putString(r0 + "n", r8).commit();
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:189:0x03d1, code lost:
+            r0 = move-exception;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:190:0x03d2, code lost:
+            org.telegram.messenger.FileLog.e(r0);
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:191:0x038c, code lost:
+            r9 = org.telegram.ui.Components.WebPlayerView.sigPattern2.matcher(r2);
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:192:0x0399, code lost:
+            if (r9.find() != false) goto L193;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:193:0x039b, code lost:
+            r8 = r9.group(1);
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:196:0x0354, code lost:
+            if (r2.startsWith("/") != false) goto L197;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:197:0x0356, code lost:
+            r2 = "https://www.youtube.com" + r2;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:198:0x03d6, code lost:
+            r6 = null;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:199:0x0330, code lost:
+            r7 = null;
+            r8 = null;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:200:0x0309, code lost:
+            r0 = null;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:202:0x02c2, code lost:
+            r0 = new org.json.JSONTokener(r0.group(1)).nextValue();
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:203:0x02d2, code lost:
+            if ((r0 instanceof java.lang.String) == false) goto L207;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:204:0x02d4, code lost:
+            r0 = (java.lang.String) r0;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:205:0x02d8, code lost:
+            r2 = r0;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:207:0x02d7, code lost:
+            r0 = null;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:208:0x02da, code lost:
+            r0 = move-exception;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:209:0x02db, code lost:
+            org.telegram.messenger.FileLog.e(r0);
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:210:0x044f, code lost:
+            r6 = null;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:211:0x0453, code lost:
+            r6 = null;
+            r7 = r0;
+         */
         /* JADX WARN: Multi-variable type inference failed */
-        /* JADX WARN: Removed duplicated region for block: B:144:0x02eb  */
-        /* JADX WARN: Removed duplicated region for block: B:165:0x03e8  */
+        /* JADX WARN: Removed duplicated region for block: B:165:0x03de  */
+        /* JADX WARN: Removed duplicated region for block: B:173:0x045b A[ADDED_TO_REGION] */
         @Override // android.os.AsyncTask
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public String[] doInBackground(Void... voidArr) {
-            String[] strArr;
-            boolean z;
             String str;
-            Matcher matcher;
             String str2;
-            String str3;
-            String str4;
-            final String str5;
-            String str6;
-            String str7;
+            boolean z;
             boolean z2;
-            boolean z3;
-            String str8;
-            Matcher matcher2;
+            String str3;
+            Matcher matcher;
             String downloadUrlContent = WebPlayerView.this.downloadUrlContent(this, "https://www.youtube.com/embed/" + this.videoId);
-            String[] strArr2 = null;
-            if (isCancelled()) {
+            String[] strArr = null;
+            if (!isCancelled()) {
+                String str4 = "video_id=" + this.videoId + "&ps=default&gl=US&hl=en";
+                try {
+                    StringBuilder sb = new StringBuilder();
+                    sb.append(str4);
+                    sb.append("&eurl=");
+                    sb.append(URLEncoder.encode("https://youtube.googleapis.com/v/" + this.videoId, "UTF-8"));
+                    str4 = sb.toString();
+                } catch (Exception e) {
+                    FileLog.e(e);
+                }
+                if (downloadUrlContent != null) {
+                    if (WebPlayerView.stsPattern.matcher(downloadUrlContent).find()) {
+                        str4 = str4 + "&sts=" + downloadUrlContent.substring(matcher.start() + 6, matcher.end());
+                    } else {
+                        str4 = str4 + "&sts=";
+                    }
+                }
+                char c = 1;
+                this.result[1] = "dash";
+                int i = 5;
+                String[] strArr2 = {"", "&el=leanback", "&el=embedded", "&el=detailpage", "&el=vevo"};
+                char c2 = 0;
+                String str5 = null;
+                boolean z3 = false;
+                int i2 = 0;
+                while (true) {
+                    int i3 = 2;
+                    if (i2 >= i) {
+                        break;
+                    }
+                    String downloadUrlContent2 = WebPlayerView.this.downloadUrlContent(this, "https://www.youtube.com/get_video_info?" + str4 + strArr2[i2]);
+                    if (isCancelled()) {
+                        return strArr;
+                    }
+                    if (downloadUrlContent2 != null) {
+                        String[] split = downloadUrlContent2.split("&");
+                        Object obj = strArr;
+                        String str6 = str5;
+                        int i4 = 0;
+                        z = false;
+                        z2 = false;
+                        boolean z4 = z3;
+                        while (i4 < split.length) {
+                            if (split[i4].startsWith("dashmpd")) {
+                                String[] split2 = split[i4].split("=");
+                                if (split2.length == i3) {
+                                    try {
+                                        this.result[c2] = URLDecoder.decode(split2[c], "UTF-8");
+                                    } catch (Exception e2) {
+                                        FileLog.e(e2);
+                                    }
+                                }
+                                str3 = str4;
+                                z2 = true;
+                            } else if (split[i4].startsWith("url_encoded_fmt_stream_map")) {
+                                String[] split3 = split[i4].split("=");
+                                if (split3.length == i3) {
+                                    try {
+                                        String[] split4 = URLDecoder.decode(split3[c], "UTF-8").split("[&,]");
+                                        String str7 = null;
+                                        int i5 = 0;
+                                        boolean z5 = false;
+                                        while (i5 < split4.length) {
+                                            String[] split5 = split4[i5].split("=");
+                                            String[] strArr3 = split4;
+                                            str3 = str4;
+                                            try {
+                                                if (split5[0].startsWith("type")) {
+                                                    if (URLDecoder.decode(split5[1], "UTF-8").contains("video/mp4")) {
+                                                        z5 = true;
+                                                    }
+                                                } else if (split5[0].startsWith("url")) {
+                                                    str7 = URLDecoder.decode(split5[1], "UTF-8");
+                                                } else if (split5[0].startsWith("itag")) {
+                                                    str7 = null;
+                                                    z5 = false;
+                                                }
+                                                if (z5 && str7 != null) {
+                                                    str6 = str7;
+                                                    break;
+                                                }
+                                                i5++;
+                                                split4 = strArr3;
+                                                str4 = str3;
+                                            } catch (Exception e3) {
+                                                e = e3;
+                                                FileLog.e(e);
+                                                i4++;
+                                                str4 = str3;
+                                                c = 1;
+                                                c2 = 0;
+                                                i3 = 2;
+                                            }
+                                        }
+                                    } catch (Exception e4) {
+                                        e = e4;
+                                        str3 = str4;
+                                    }
+                                }
+                                str3 = str4;
+                            } else {
+                                str3 = str4;
+                                if (split[i4].startsWith("use_cipher_signature")) {
+                                    String[] split6 = split[i4].split("=");
+                                    if (split6.length == 2 && split6[1].toLowerCase().equals("true")) {
+                                        z4 = true;
+                                    }
+                                } else if (split[i4].startsWith("hlsvp")) {
+                                    String[] split7 = split[i4].split("=");
+                                    if (split7.length == 2) {
+                                        try {
+                                            obj = URLDecoder.decode(split7[1], "UTF-8");
+                                        } catch (Exception e5) {
+                                            FileLog.e(e5);
+                                        }
+                                    }
+                                } else if (split[i4].startsWith("livestream")) {
+                                    String[] split8 = split[i4].split("=");
+                                    if (split8.length == 2 && split8[1].toLowerCase().equals("1")) {
+                                        z = true;
+                                    }
+                                }
+                            }
+                            i4++;
+                            str4 = str3;
+                            c = 1;
+                            c2 = 0;
+                            i3 = 2;
+                        }
+                        str = str4;
+                        z3 = z4;
+                        str5 = str6;
+                        str2 = obj;
+                    } else {
+                        str = str4;
+                        str2 = 0;
+                        z = false;
+                        z2 = false;
+                    }
+                    if (z) {
+                        if (str2 == 0 || z3 || str2.contains("/s/")) {
+                            return null;
+                        }
+                        String[] strArr4 = this.result;
+                        strArr4[0] = str2;
+                        strArr4[1] = "hls";
+                    }
+                    if (z2) {
+                        break;
+                    }
+                    i2++;
+                    str4 = str;
+                    strArr = null;
+                    i = 5;
+                    c = 1;
+                    c2 = 0;
+                }
+            } else {
                 return null;
             }
-            String str9 = "video_id=" + this.videoId + "&ps=default&gl=US&hl=en";
-            try {
-                StringBuilder sb = new StringBuilder();
-                sb.append(str9);
-                sb.append("&eurl=");
-                sb.append(URLEncoder.encode("https://youtube.googleapis.com/v/" + this.videoId, "UTF-8"));
-                str9 = sb.toString();
-            } catch (Exception e) {
-                FileLog.e(e);
-            }
-            if (downloadUrlContent != null) {
-                if (WebPlayerView.stsPattern.matcher(downloadUrlContent).find()) {
-                    str9 = str9 + "&sts=" + downloadUrlContent.substring(matcher2.start() + 6, matcher2.end());
-                } else {
-                    str9 = str9 + "&sts=";
-                }
-            }
-            char c = 1;
-            this.result[1] = "dash";
-            int i = 5;
-            char c2 = 0;
-            int i2 = 2;
-            String[] strArr3 = {"", "&el=leanback", "&el=embedded", "&el=detailpage", "&el=vevo"};
-            String str10 = null;
-            boolean z4 = false;
-            int i3 = 0;
-            while (i3 < i) {
-                String downloadUrlContent2 = WebPlayerView.this.downloadUrlContent(this, "https://www.youtube.com/get_video_info?" + str9 + strArr3[i3]);
-                if (isCancelled()) {
-                    return strArr2;
-                }
-                if (downloadUrlContent2 != null) {
-                    String[] split = downloadUrlContent2.split("&");
-                    boolean z5 = z4;
-                    Object obj = strArr2;
-                    int i4 = 0;
-                    z2 = false;
-                    z3 = false;
-                    while (i4 < split.length) {
-                        if (split[i4].startsWith("dashmpd")) {
-                            String[] split2 = split[i4].split("=");
-                            if (split2.length == i2) {
-                                try {
-                                    this.result[c2] = URLDecoder.decode(split2[c], "UTF-8");
-                                } catch (Exception e2) {
-                                    FileLog.e(e2);
-                                }
-                            }
-                            str8 = str9;
-                            z3 = true;
-                        } else if (split[i4].startsWith("url_encoded_fmt_stream_map")) {
-                            String[] split3 = split[i4].split("=");
-                            if (split3.length == i2) {
-                                try {
-                                    String[] split4 = URLDecoder.decode(split3[c], "UTF-8").split("[&,]");
-                                    String str11 = null;
-                                    int i5 = 0;
-                                    boolean z6 = false;
-                                    while (i5 < split4.length) {
-                                        String[] split5 = split4[i5].split("=");
-                                        String[] strArr4 = split4;
-                                        str8 = str9;
-                                        try {
-                                            if (split5[0].startsWith("type")) {
-                                                if (URLDecoder.decode(split5[1], "UTF-8").contains("video/mp4")) {
-                                                    z6 = true;
-                                                }
-                                            } else if (split5[0].startsWith("url")) {
-                                                str11 = URLDecoder.decode(split5[1], "UTF-8");
-                                            } else if (split5[0].startsWith("itag")) {
-                                                str11 = null;
-                                                z6 = false;
-                                            }
-                                            if (z6 && str11 != null) {
-                                                str10 = str11;
-                                                break;
-                                            }
-                                            i5++;
-                                            split4 = strArr4;
-                                            str9 = str8;
-                                        } catch (Exception e3) {
-                                            e = e3;
-                                            FileLog.e(e);
-                                            i4++;
-                                            str9 = str8;
-                                            c = 1;
-                                            c2 = 0;
-                                            i2 = 2;
-                                        }
-                                    }
-                                } catch (Exception e4) {
-                                    e = e4;
-                                    str8 = str9;
-                                }
-                            }
-                            str8 = str9;
-                        } else {
-                            str8 = str9;
-                            if (split[i4].startsWith("use_cipher_signature")) {
-                                String[] split6 = split[i4].split("=");
-                                if (split6.length == 2 && split6[1].toLowerCase().equals("true")) {
-                                    z5 = true;
-                                }
-                            } else if (split[i4].startsWith("hlsvp")) {
-                                String[] split7 = split[i4].split("=");
-                                if (split7.length == 2) {
-                                    try {
-                                        obj = URLDecoder.decode(split7[1], "UTF-8");
-                                    } catch (Exception e5) {
-                                        FileLog.e(e5);
-                                    }
-                                }
-                            } else if (split[i4].startsWith("livestream")) {
-                                String[] split8 = split[i4].split("=");
-                                if (split8.length == 2 && split8[1].toLowerCase().equals("1")) {
-                                    z2 = true;
-                                }
-                            }
-                        }
-                        i4++;
-                        str9 = str8;
-                        c = 1;
-                        c2 = 0;
-                        i2 = 2;
-                    }
-                    str6 = str9;
-                    z4 = z5;
-                    str7 = obj;
-                } else {
-                    str6 = str9;
-                    str7 = 0;
-                    z2 = false;
-                    z3 = false;
-                }
-                if (z2) {
-                    if (str7 == 0 || z4 || str7.contains("/s/")) {
-                        return null;
-                    }
-                    String[] strArr5 = this.result;
-                    strArr5[0] = str7;
-                    strArr5[1] = "hls";
-                }
-                if (z3) {
-                    break;
-                }
-                i3++;
-                str9 = str6;
-                strArr2 = null;
-                i = 5;
-                c = 1;
-                c2 = 0;
-                i2 = 2;
-            }
-            String[] strArr6 = this.result;
-            if (strArr6[0] == null && str10 != null) {
-                strArr6[0] = str10;
-                strArr6[1] = "other";
-            }
-            if (strArr6[0] == null || ((!z4 && !strArr6[0].contains("/s/")) || downloadUrlContent == null)) {
-                strArr = null;
-                z = z4;
-            } else {
-                int indexOf = this.result[0].indexOf("/s/");
-                int indexOf2 = this.result[0].indexOf(47, indexOf + 10);
-                if (indexOf != -1) {
-                    if (indexOf2 == -1) {
-                        indexOf2 = this.result[0].length();
-                    }
-                    this.sig = this.result[0].substring(indexOf, indexOf2);
-                    Matcher matcher3 = WebPlayerView.jsPattern.matcher(downloadUrlContent);
-                    if (matcher3.find()) {
-                        try {
-                            Object nextValue = new JSONTokener(matcher3.group(1)).nextValue();
-                            str = nextValue instanceof String ? (String) nextValue : null;
-                        } catch (Exception e6) {
-                            FileLog.e(e6);
-                        }
-                        if (str != null) {
-                            if (WebPlayerView.playerIdPattern.matcher(str).find()) {
-                                str2 = matcher.group(1) + matcher.group(2);
-                            } else {
-                                str2 = null;
-                            }
-                            SharedPreferences sharedPreferences = ApplicationLoader.applicationContext.getSharedPreferences("youtubecode", 0);
-                            if (str2 != null) {
-                                str3 = sharedPreferences.getString(str2, null);
-                                str4 = sharedPreferences.getString(str2 + "n", null);
-                            } else {
-                                str3 = null;
-                                str4 = null;
-                            }
-                            if (str3 == null) {
-                                if (str.startsWith("//")) {
-                                    str = "https:" + str;
-                                } else if (str.startsWith("/")) {
-                                    str = "https://www.youtube.com" + str;
-                                }
-                                String downloadUrlContent3 = WebPlayerView.this.downloadUrlContent(this, str);
-                                if (isCancelled()) {
-                                    return null;
-                                }
-                                strArr = null;
-                                if (downloadUrlContent3 != null) {
-                                    Matcher matcher4 = WebPlayerView.sigPattern.matcher(downloadUrlContent3);
-                                    if (!matcher4.find()) {
-                                        Matcher matcher5 = WebPlayerView.sigPattern2.matcher(downloadUrlContent3);
-                                        if (matcher5.find()) {
-                                            str4 = matcher5.group(1);
-                                        }
-                                    } else {
-                                        str4 = matcher4.group(1);
-                                    }
-                                    if (str4 != null) {
-                                        try {
-                                            str3 = new JSExtractor(downloadUrlContent3).extractFunction(str4);
-                                            if (!TextUtils.isEmpty(str3) && str2 != null) {
-                                                sharedPreferences.edit().putString(str2, str3).putString(str2 + "n", str4).commit();
-                                            }
-                                        } catch (Exception e7) {
-                                            FileLog.e(e7);
-                                        }
-                                    }
-                                    if (!TextUtils.isEmpty(str3)) {
-                                        if (Build.VERSION.SDK_INT >= 21) {
-                                            str5 = str3 + str4 + "('" + this.sig.substring(3) + "');";
-                                        } else {
-                                            str5 = str3 + "window." + WebPlayerView.this.interfaceName + ".returnResultToJava(" + str4 + "('" + this.sig.substring(3) + "'));";
-                                        }
-                                        try {
-                                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.WebPlayerView$YoutubeVideoTask$$ExternalSyntheticLambda1
-                                                @Override // java.lang.Runnable
-                                                public final void run() {
-                                                    WebPlayerView.YoutubeVideoTask.this.lambda$doInBackground$1(str5);
-                                                }
-                                            });
-                                            this.countDownLatch.await();
-                                            z = false;
-                                        } catch (Exception e8) {
-                                            FileLog.e(e8);
-                                        }
-                                    }
-                                    z = true;
-                                }
-                            } else {
-                                strArr = null;
-                            }
-                            if (!TextUtils.isEmpty(str3)) {
-                            }
-                            z = true;
-                        }
-                    }
-                    str = null;
-                    if (str != null) {
-                    }
-                }
-                strArr = null;
-                z = true;
-            }
-            return (isCancelled() || z) ? strArr : this.result;
         }
 
         /* JADX INFO: Access modifiers changed from: private */

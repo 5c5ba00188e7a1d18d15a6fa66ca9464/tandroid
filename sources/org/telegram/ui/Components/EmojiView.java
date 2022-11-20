@@ -70,6 +70,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import org.telegram.messenger.AccountInstance;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ChatObject;
@@ -7452,7 +7453,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
             }
             this.itemCount += recentEmoji.size();
             for (int i = 0; i < recentEmoji.size(); i++) {
-                this.rowHashCodes.add(Integer.valueOf(Arrays.hashCode(new Object[]{-43263, recentEmoji.get(i)})));
+                this.rowHashCodes.add(Integer.valueOf(Objects.hash(-43263, recentEmoji.get(i))));
             }
             int i2 = 0;
             int i3 = 0;
@@ -7464,7 +7465,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                 this.positionToSection.put(this.itemCount, i3);
                 this.sectionToPosition.put(i3, this.itemCount);
                 this.itemCount += strArr[i2].length + 1;
-                this.rowHashCodes.add(Integer.valueOf(Arrays.hashCode(new Object[]{43245, Integer.valueOf(i2)})));
+                this.rowHashCodes.add(Integer.valueOf(Objects.hash(43245, Integer.valueOf(i2))));
                 int i4 = 0;
                 while (true) {
                     String[][] strArr2 = EmojiData.dataColored;
@@ -7500,18 +7501,18 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                     objArr[0] = Integer.valueOf(emojiPack.featured ? 56345 : -645231);
                     TLRPC$StickerSet tLRPC$StickerSet = emojiPack.set;
                     objArr[1] = Long.valueOf(tLRPC$StickerSet == null ? i5 : tLRPC$StickerSet.id);
-                    arrayList.add(Integer.valueOf(Arrays.hashCode(objArr)));
+                    arrayList.add(Integer.valueOf(Objects.hash(objArr)));
                     for (int i6 = 1; i6 < min; i6++) {
                         ArrayList<Integer> arrayList2 = this.rowHashCodes;
                         Object[] objArr2 = new Object[2];
                         objArr2[0] = Integer.valueOf(emojiPack.featured ? 3442 : 3213);
                         objArr2[1] = Long.valueOf(emojiPack.documents.get(i6 - 1).id);
-                        arrayList2.add(Integer.valueOf(Arrays.hashCode(objArr2)));
+                        arrayList2.add(Integer.valueOf(Objects.hash(objArr2)));
                     }
                     this.itemCount += min;
                     if (!emojiPack.expanded && emojiPack.documents.size() > spanCount) {
                         this.positionToExpand.put(this.itemCount, i5);
-                        this.rowHashCodes.add(Integer.valueOf(Arrays.hashCode(new Object[]{-65174, Long.valueOf(emojiPack.set.id)})));
+                        this.rowHashCodes.add(Integer.valueOf(Objects.hash(-65174, Long.valueOf(emojiPack.set.id))));
                         this.itemCount++;
                     }
                     i5++;

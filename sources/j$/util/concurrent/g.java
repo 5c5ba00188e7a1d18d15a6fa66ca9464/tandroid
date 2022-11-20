@@ -4,6 +4,7 @@ import j$.util.function.Consumer;
 import j$.util.function.l;
 import j$.util.u;
 import java.util.Comparator;
+import java.util.Objects;
 /* loaded from: classes2.dex */
 final class g implements u.a {
     long a;
@@ -39,7 +40,7 @@ final class g implements u.a {
     @Override // j$.util.w
     /* renamed from: c */
     public void forEachRemaining(l lVar) {
-        lVar.getClass();
+        Objects.requireNonNull(lVar);
         long j = this.a;
         long j2 = this.b;
         if (j < j2) {
@@ -72,7 +73,7 @@ final class g implements u.a {
     @Override // j$.util.w
     /* renamed from: g */
     public boolean tryAdvance(l lVar) {
-        lVar.getClass();
+        Objects.requireNonNull(lVar);
         long j = this.a;
         if (j < this.b) {
             lVar.accept(i.b().e(this.c, this.d));

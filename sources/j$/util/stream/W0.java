@@ -1,4 +1,6 @@
 package j$.util.stream;
+
+import java.util.Objects;
 /* loaded from: classes2.dex */
 public final /* synthetic */ class W0 implements j$.util.function.q {
     public final /* synthetic */ int a = 1;
@@ -20,10 +22,10 @@ public final /* synthetic */ class W0 implements j$.util.function.q {
     public j$.util.function.q f(j$.util.function.q qVar) {
         switch (this.a) {
             case 0:
-                qVar.getClass();
+                Objects.requireNonNull(qVar);
                 return new j$.util.function.p(this, qVar);
             default:
-                qVar.getClass();
+                Objects.requireNonNull(qVar);
                 return new j$.util.function.p(this, qVar);
         }
     }

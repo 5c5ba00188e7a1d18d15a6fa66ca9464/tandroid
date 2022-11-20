@@ -1,4 +1,6 @@
 package j$.util;
+
+import java.util.Objects;
 /* loaded from: classes2.dex */
 public class i implements j$.util.function.q, j$.util.function.l {
     private long count;
@@ -28,13 +30,13 @@ public class i implements j$.util.function.q, j$.util.function.l {
 
     @Override // j$.util.function.q
     public j$.util.function.q f(j$.util.function.q qVar) {
-        qVar.getClass();
+        Objects.requireNonNull(qVar);
         return new j$.util.function.p(this, qVar);
     }
 
     @Override // j$.util.function.l
     public j$.util.function.l l(j$.util.function.l lVar) {
-        lVar.getClass();
+        Objects.requireNonNull(lVar);
         return new j$.util.function.k(this, lVar);
     }
 

@@ -2,17 +2,18 @@ package j$.util;
 
 import j$.util.function.Consumer;
 import java.util.Comparator;
+import java.util.Objects;
 /* loaded from: classes2.dex */
 final class G extends H implements u {
     @Override // j$.util.u
     public boolean b(Consumer consumer) {
-        consumer.getClass();
+        Objects.requireNonNull(consumer);
         return false;
     }
 
     @Override // j$.util.u
     public void forEachRemaining(Consumer consumer) {
-        consumer.getClass();
+        Objects.requireNonNull(consumer);
     }
 
     @Override // j$.util.u

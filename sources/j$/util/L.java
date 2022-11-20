@@ -2,6 +2,7 @@ package j$.util;
 
 import j$.util.p;
 import j$.util.u;
+import java.util.Objects;
 /* loaded from: classes2.dex */
 public abstract class L {
     private static final u a = new G();
@@ -39,45 +40,45 @@ public abstract class L {
     }
 
     public static n f(t tVar) {
-        tVar.getClass();
+        Objects.requireNonNull(tVar);
         return new A(tVar);
     }
 
     public static p.a g(u.a aVar) {
-        aVar.getClass();
+        Objects.requireNonNull(aVar);
         return new y(aVar);
     }
 
     public static r h(v vVar) {
-        vVar.getClass();
+        Objects.requireNonNull(vVar);
         return new z(vVar);
     }
 
     public static java.util.Iterator i(u uVar) {
-        uVar.getClass();
+        Objects.requireNonNull(uVar);
         return new x(uVar);
     }
 
     public static t j(double[] dArr, int i, int i2, int i3) {
-        dArr.getClass();
+        Objects.requireNonNull(dArr);
         a(dArr.length, i, i2);
         return new C(dArr, i, i2, i3);
     }
 
     public static u.a k(int[] iArr, int i, int i2, int i3) {
-        iArr.getClass();
+        Objects.requireNonNull(iArr);
         a(iArr.length, i, i2);
         return new I(iArr, i, i2, i3);
     }
 
     public static v l(long[] jArr, int i, int i2, int i3) {
-        jArr.getClass();
+        Objects.requireNonNull(jArr);
         a(jArr.length, i, i2);
         return new K(jArr, i, i2, i3);
     }
 
     public static u m(Object[] objArr, int i, int i2, int i3) {
-        objArr.getClass();
+        Objects.requireNonNull(objArr);
         a(objArr.length, i, i2);
         return new B(objArr, i, i2, i3);
     }

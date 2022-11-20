@@ -15,6 +15,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import org.telegram.SQLite.SQLiteCursor;
 import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.support.LongSparseIntArray;
@@ -107,7 +108,7 @@ public class TopicsController extends BaseController {
 
                 @Override // j$.util.function.Consumer
                 public /* synthetic */ Consumer andThen(Consumer consumer) {
-                    return consumer.getClass();
+                    return Objects.requireNonNull(consumer);
                 }
             });
             return;
@@ -194,6 +195,7 @@ public class TopicsController extends BaseController {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadTopics$2(TLObject tLObject, long j, TLRPC$TL_messages_forumTopics tLRPC$TL_messages_forumTopics, SparseArray sparseArray, int i) {
         TLRPC$TL_messages_forumTopics tLRPC$TL_messages_forumTopics2 = (TLRPC$TL_messages_forumTopics) tLObject;
+        getMessagesStorage().putUsersAndChats(tLRPC$TL_messages_forumTopics2.users, tLRPC$TL_messages_forumTopics2.chats, true, false);
         getMessagesController().putUsers(tLRPC$TL_messages_forumTopics2.users, false);
         getMessagesController().putChats(tLRPC$TL_messages_forumTopics2.chats, false);
         this.topicsIsLoading.put(j, 0);

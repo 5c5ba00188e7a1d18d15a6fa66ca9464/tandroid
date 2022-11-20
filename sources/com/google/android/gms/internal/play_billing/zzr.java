@@ -5,6 +5,7 @@ import java.lang.reflect.Array;
 import java.util.AbstractCollection;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Objects;
 import javax.annotation.CheckForNull;
 /* compiled from: com.android.billingclient:billing@@5.0.0 */
 /* loaded from: classes.dex */
@@ -88,7 +89,7 @@ public abstract class zzr extends AbstractCollection implements Serializable {
 
     @Override // java.util.AbstractCollection, java.util.Collection
     public final Object[] toArray(Object[] objArr) {
-        objArr.getClass();
+        Objects.requireNonNull(objArr);
         int size = size();
         int length = objArr.length;
         if (length < size) {

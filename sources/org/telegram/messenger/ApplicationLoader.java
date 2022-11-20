@@ -265,7 +265,7 @@ public class ApplicationLoader extends Application {
             }
         }
         applicationContext.stopService(new Intent(applicationContext, NotificationsService.class));
-        ((AlarmManager) applicationContext.getSystemService("alarm")).cancel(PendingIntent.getService(applicationContext, 0, new Intent(applicationContext, NotificationsService.class), 0));
+        ((AlarmManager) applicationContext.getSystemService("alarm")).cancel(PendingIntent.getService(applicationContext, 0, new Intent(applicationContext, NotificationsService.class), ConnectionsManager.FileTypeVideo));
     }
 
     @Override // android.app.Application, android.content.ComponentCallbacks

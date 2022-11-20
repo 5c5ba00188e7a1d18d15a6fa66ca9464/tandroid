@@ -64,7 +64,6 @@ import android.widget.TextView;
 import android.widget.ViewSwitcher;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.ColorUtils;
-import androidx.core.util.ObjectsCompat$$ExternalSyntheticBackport0;
 import androidx.dynamicanimation.animation.DynamicAnimation;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -82,6 +81,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicReference;
@@ -2666,7 +2666,7 @@ public class LoginActivity extends BaseFragment {
             loadAnimation.setInterpolator(Easings.easeInOutQuad);
             this.countryButton.setOutAnimation(loadAnimation);
             CharSequence text = this.countryButton.getCurrentView().getText();
-            this.countryButton.setText(charSequence, (!TextUtils.isEmpty(charSequence) || !TextUtils.isEmpty(text)) && !ObjectsCompat$$ExternalSyntheticBackport0.m(text, charSequence));
+            this.countryButton.setText(charSequence, (!TextUtils.isEmpty(charSequence) || !TextUtils.isEmpty(text)) && !Objects.equals(text, charSequence));
             this.countryOutlineView.animateSelection(charSequence != null ? 1.0f : 0.0f);
         }
 

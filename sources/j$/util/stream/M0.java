@@ -1,6 +1,7 @@
 package j$.util.stream;
 
 import j$.util.function.BiConsumer;
+import java.util.Objects;
 /* loaded from: classes2.dex */
 public final /* synthetic */ class M0 implements BiConsumer {
     public static final /* synthetic */ M0 a = new M0();
@@ -15,7 +16,7 @@ public final /* synthetic */ class M0 implements BiConsumer {
 
     @Override // j$.util.function.BiConsumer
     public BiConsumer b(BiConsumer biConsumer) {
-        biConsumer.getClass();
+        Objects.requireNonNull(biConsumer);
         return new j$.util.concurrent.a(this, biConsumer);
     }
 }

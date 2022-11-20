@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 /* loaded from: classes.dex */
 public final class DefaultDateTypeAdapter<T extends Date> extends TypeAdapter<T> {
     private final List<DateFormat> dateFormats;
@@ -43,7 +44,7 @@ public final class DefaultDateTypeAdapter<T extends Date> extends TypeAdapter<T>
     private DefaultDateTypeAdapter(DateType<T> dateType, String str) {
         ArrayList arrayList = new ArrayList();
         this.dateFormats = arrayList;
-        dateType.getClass();
+        Objects.requireNonNull(dateType);
         Locale locale = Locale.US;
         arrayList.add(new SimpleDateFormat(str, locale));
         if (!Locale.getDefault().equals(locale)) {
@@ -54,7 +55,7 @@ public final class DefaultDateTypeAdapter<T extends Date> extends TypeAdapter<T>
     private DefaultDateTypeAdapter(DateType<T> dateType, int i, int i2) {
         ArrayList arrayList = new ArrayList();
         this.dateFormats = arrayList;
-        dateType.getClass();
+        Objects.requireNonNull(dateType);
         Locale locale = Locale.US;
         arrayList.add(DateFormat.getDateTimeInstance(i, i2, locale));
         if (!Locale.getDefault().equals(locale)) {

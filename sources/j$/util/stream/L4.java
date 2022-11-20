@@ -1,6 +1,7 @@
 package j$.util.stream;
 
 import j$.util.function.Consumer;
+import java.util.Objects;
 /* loaded from: classes2.dex */
 final class L4 extends f4 {
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -15,7 +16,7 @@ final class L4 extends f4 {
     @Override // j$.util.u
     public boolean b(Consumer consumer) {
         Object obj;
-        consumer.getClass();
+        Objects.requireNonNull(consumer);
         boolean a = a();
         if (a) {
             a4 a4Var = (a4) this.h;
@@ -50,7 +51,7 @@ final class L4 extends f4 {
             } while (b(consumer));
             return;
         }
-        consumer.getClass();
+        Objects.requireNonNull(consumer);
         h();
         this.b.u0(new K4(consumer), this.d);
         this.i = true;

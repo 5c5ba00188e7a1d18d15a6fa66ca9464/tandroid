@@ -220,19 +220,21 @@ public final class CctTransportBackend implements TransportBackend {
                     if (inputStream != null) {
                         try {
                             inputStream.close();
-                        } catch (Throwable unused) {
+                        } catch (Throwable th2) {
+                            th.addSuppressed(th2);
                         }
                     }
                     throw th;
                 }
-            } catch (Throwable th2) {
+            } catch (Throwable th3) {
                 if (outputStream != null) {
                     try {
                         outputStream.close();
-                    } catch (Throwable unused2) {
+                    } catch (Throwable th4) {
+                        th3.addSuppressed(th4);
                     }
                 }
-                throw th2;
+                throw th3;
             }
         } catch (EncodingException e) {
             e = e;

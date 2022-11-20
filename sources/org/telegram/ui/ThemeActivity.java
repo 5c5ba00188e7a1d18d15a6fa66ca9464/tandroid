@@ -35,7 +35,6 @@ import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.google.android.gms.internal.mlkit_language_id.zzdp$$ExternalSyntheticBackport0;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
@@ -870,7 +869,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ int lambda$updateRows$0(Theme.ThemeInfo themeInfo, Theme.ThemeInfo themeInfo2) {
-        return zzdp$$ExternalSyntheticBackport0.m(themeInfo.sortIndex, themeInfo2.sortIndex);
+        return Integer.compare(themeInfo.sortIndex, themeInfo2.sortIndex);
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment

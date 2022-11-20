@@ -1,6 +1,7 @@
 package j$.util.stream;
 
 import j$.util.function.Consumer;
+import java.util.Objects;
 import java.util.concurrent.CountedCompleter;
 /* loaded from: classes2.dex */
 abstract class s2 extends CountedCompleter implements m3 {
@@ -51,7 +52,7 @@ abstract class s2 extends CountedCompleter implements m3 {
 
     @Override // j$.util.function.Consumer
     public /* synthetic */ Consumer andThen(Consumer consumer) {
-        return consumer.getClass();
+        return Objects.requireNonNull(consumer);
     }
 
     abstract s2 b(j$.util.u uVar, long j, long j2);
@@ -68,7 +69,7 @@ abstract class s2 extends CountedCompleter implements m3 {
             s2Var = s2Var.b(uVar, s2Var.d + estimateSize, s2Var.e - estimateSize);
         }
         c cVar = (c) s2Var.b;
-        cVar.getClass();
+        Objects.requireNonNull(cVar);
         cVar.n0(cVar.v0(s2Var), uVar);
         s2Var.propagateCompletion();
     }

@@ -2,6 +2,7 @@ package j$.time.chrono;
 
 import j$.util.concurrent.ConcurrentHashMap;
 import java.util.Locale;
+import java.util.Objects;
 /* loaded from: classes2.dex */
 public abstract class a implements b {
     static {
@@ -12,7 +13,7 @@ public abstract class a implements b {
 
     @Override // java.lang.Comparable
     public int compareTo(Object obj) {
-        ((b) obj).getClass();
+        Objects.requireNonNull((b) obj);
         return 0;
     }
 
@@ -23,7 +24,7 @@ public abstract class a implements b {
         if (!(obj instanceof a)) {
             return false;
         }
-        ((a) obj).getClass();
+        Objects.requireNonNull((a) obj);
         return true;
     }
 

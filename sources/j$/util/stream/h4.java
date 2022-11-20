@@ -1,4 +1,6 @@
 package j$.util.stream;
+
+import java.util.Objects;
 /* loaded from: classes2.dex */
 final class h4 extends j4 implements j$.util.function.l {
     final int[] c;
@@ -26,7 +28,7 @@ final class h4 extends j4 implements j$.util.function.l {
 
     @Override // j$.util.function.l
     public j$.util.function.l l(j$.util.function.l lVar) {
-        lVar.getClass();
+        Objects.requireNonNull(lVar);
         return new j$.util.function.k(this, lVar);
     }
 }

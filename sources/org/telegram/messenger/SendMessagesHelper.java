@@ -14677,7 +14677,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
             } finally {
                 try {
                     mediaMetadataRetriever.release();
-                } catch (RuntimeException unused3) {
+                } catch (Throwable unused3) {
                 }
             }
         }

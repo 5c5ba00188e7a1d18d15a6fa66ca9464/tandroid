@@ -79,6 +79,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import org.json.JSONObject;
 import org.telegram.messenger.AccountInstance;
@@ -1992,7 +1993,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 
     private void startRatingActivity() {
         try {
-            PendingIntent.getActivity(this, 0, new Intent(this, VoIPFeedbackActivity.class).putExtra("call_id", this.privateCall.id).putExtra("call_access_hash", this.privateCall.access_hash).putExtra("call_video", this.privateCall.video).putExtra("account", this.currentAccount).addFlags(805306368), 0).send();
+            PendingIntent.getActivity(this, 0, new Intent(this, VoIPFeedbackActivity.class).putExtra("call_id", this.privateCall.id).putExtra("call_access_hash", this.privateCall.access_hash).putExtra("call_video", this.privateCall.video).putExtra("account", this.currentAccount).addFlags(805306368), ConnectionsManager.FileTypeVideo).send();
         } catch (Exception e) {
             if (!BuildVars.LOGS_ENABLED) {
                 return;
@@ -4407,7 +4408,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
         if (this.groupCall != null) {
             action.putExtra("currentAccount", this.currentAccount);
         }
-        Notification.Builder contentIntent = new Notification.Builder(this).setContentText(str).setContentIntent(PendingIntent.getActivity(this, 50, action, 0));
+        Notification.Builder contentIntent = new Notification.Builder(this).setContentText(str).setContentIntent(PendingIntent.getActivity(this, 50, action, ConnectionsManager.FileTypeVideo));
         if (this.groupCall != null) {
             if (ChatObject.isChannelOrGiga(this.chat)) {
                 i2 = R.string.VoipLiveStream;
@@ -4435,9 +4436,9 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
                     i = R.string.VoipGroupLeaveAlertTitle;
                     str2 = "VoipGroupLeaveAlertTitle";
                 }
-                contentIntent.addAction(i4, LocaleController.getString(str2, i), PendingIntent.getBroadcast(this, 0, intent, 134217728));
+                contentIntent.addAction(i4, LocaleController.getString(str2, i), PendingIntent.getBroadcast(this, 0, intent, 167772160));
             } else {
-                contentIntent.addAction(R.drawable.ic_call_end_white_24dp, LocaleController.getString("VoipEndCall", R.string.VoipEndCall), PendingIntent.getBroadcast(this, 0, intent, 134217728));
+                contentIntent.addAction(R.drawable.ic_call_end_white_24dp, LocaleController.getString("VoipEndCall", R.string.VoipEndCall), PendingIntent.getBroadcast(this, 0, intent, 167772160));
             }
             contentIntent.setPriority(2);
         }
@@ -4582,7 +4583,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
             if (this.tgVoip[0].isGroup()) {
                 NativeInstance nativeInstance = this.tgVoip[0];
                 DispatchQueue dispatchQueue = Utilities.globalQueue;
-                nativeInstance.getClass();
+                Objects.requireNonNull(nativeInstance);
                 dispatchQueue.postRunnable(new VoIPService$$ExternalSyntheticLambda4(nativeInstance));
                 for (Map.Entry<String, Integer> entry : this.currentStreamRequestTimestamp.entrySet()) {
                     AccountInstance.getInstance(this.currentAccount).getConnectionsManager().cancelRequest(entry.getValue().intValue(), true);
@@ -4602,7 +4603,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
         if (nativeInstanceArr[1] != null) {
             NativeInstance nativeInstance2 = nativeInstanceArr[1];
             DispatchQueue dispatchQueue2 = Utilities.globalQueue;
-            nativeInstance2.getClass();
+            Objects.requireNonNull(nativeInstance2);
             dispatchQueue2.postRunnable(new VoIPService$$ExternalSyntheticLambda4(nativeInstance2));
             this.tgVoip[1] = null;
         }
@@ -5000,7 +5001,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
             FileLog.d("Starting incall activity for incoming call");
         }
         try {
-            PendingIntent.getActivity(this, 12345, new Intent(this, LaunchActivity.class).setAction("voip"), 0).send();
+            PendingIntent.getActivity(this, 12345, new Intent(this, LaunchActivity.class).setAction("voip"), ConnectionsManager.FileTypeVideo).send();
         } catch (Exception e) {
             if (!BuildVars.LOGS_ENABLED) {
                 return;
@@ -5642,10 +5643,10 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:21:0x00ff  */
-    /* JADX WARN: Removed duplicated region for block: B:76:0x014e  */
-    /* JADX WARN: Type inference failed for: r12v1 */
-    /* JADX WARN: Type inference failed for: r12v14 */
+    /* JADX WARN: Removed duplicated region for block: B:21:0x0101  */
+    /* JADX WARN: Removed duplicated region for block: B:76:0x0150  */
+    /* JADX WARN: Type inference failed for: r12v15 */
+    /* JADX WARN: Type inference failed for: r12v2 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -5659,7 +5660,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
         boolean z2;
         Intent intent = new Intent(this, LaunchActivity.class);
         intent.setAction("voip");
-        Notification.Builder contentIntent = new Notification.Builder(this).setContentTitle(z ? LocaleController.getString("VoipInVideoCallBranding", R.string.VoipInVideoCallBranding) : LocaleController.getString("VoipInCallBranding", R.string.VoipInCallBranding)).setContentText(str).setSmallIcon(R.drawable.notification).setSubText(charSequence).setContentIntent(PendingIntent.getActivity(this, 0, intent, 0));
+        Notification.Builder contentIntent = new Notification.Builder(this).setContentTitle(z ? LocaleController.getString("VoipInVideoCallBranding", R.string.VoipInVideoCallBranding) : LocaleController.getString("VoipInCallBranding", R.string.VoipInCallBranding)).setContentText(str).setSmallIcon(R.drawable.notification).setSubText(charSequence).setContentIntent(PendingIntent.getActivity(this, 0, intent, ConnectionsManager.FileTypeVideo));
         Uri parse = Uri.parse("content://" + ApplicationLoader.getApplicationId() + ".call_sound_provider/start_ringing");
         int i5 = Build.VERSION.SDK_INT;
         if (i5 >= 26) {
@@ -5727,7 +5728,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
         } else {
             i2 = 0;
         }
-        PendingIntent broadcast = PendingIntent.getBroadcast(this, i2, intent2, 268435456);
+        PendingIntent broadcast = PendingIntent.getBroadcast(this, i2, intent2, 301989888);
         contentIntent.addAction(R.drawable.ic_call_end_white_24dp, string, broadcast);
         Intent intent3 = new Intent(this, VoIPActionsReceiver.class);
         intent3.setAction(getPackageName() + ".ANSWER_CALL");
@@ -5742,7 +5743,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
         } else {
             i3 = 0;
         }
-        PendingIntent broadcast2 = PendingIntent.getBroadcast(this, i3, intent3, 268435456);
+        PendingIntent broadcast2 = PendingIntent.getBroadcast(this, i3, intent3, 301989888);
         contentIntent.addAction(R.drawable.ic_call, string2, broadcast2);
         contentIntent.setPriority(2);
         if (i5 >= 17) {
@@ -5752,7 +5753,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
             contentIntent.setColor(-13851168);
             contentIntent.setVibrate(new long[i3]);
             contentIntent.setCategory("call");
-            contentIntent.setFullScreenIntent(PendingIntent.getActivity(this, i3, intent, i3), true);
+            contentIntent.setFullScreenIntent(PendingIntent.getActivity(this, i3, intent, ConnectionsManager.FileTypeVideo), true);
             if (tLObject instanceof TLRPC$User) {
                 TLRPC$User tLRPC$User = (TLRPC$User) tLObject;
                 if (!TextUtils.isEmpty(tLRPC$User.phone)) {
@@ -6177,7 +6178,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
         int i = Build.VERSION.SDK_INT;
         if (i >= 23 && i < 30 && (checkSelfPermission("android.permission.RECORD_AUDIO") != 0 || (this.privateCall.video && checkSelfPermission("android.permission.CAMERA") != 0))) {
             try {
-                PendingIntent.getActivity(this, 0, new Intent(this, VoIPPermissionActivity.class).addFlags(268435456), 1073741824).send();
+                PendingIntent.getActivity(this, 0, new Intent(this, VoIPPermissionActivity.class).addFlags(268435456), 1107296256).send();
                 return;
             } catch (Exception e) {
                 if (!BuildVars.LOGS_ENABLED) {
@@ -6189,7 +6190,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
         }
         acceptIncomingCall();
         try {
-            PendingIntent.getActivity(this, 0, new Intent(this, getUIActivityClass()).setAction("voip"), 0).send();
+            PendingIntent.getActivity(this, 0, new Intent(this, getUIActivityClass()).setAction("voip"), ConnectionsManager.FileTypeVideo).send();
         } catch (Exception e2) {
             if (!BuildVars.LOGS_ENABLED) {
                 return;

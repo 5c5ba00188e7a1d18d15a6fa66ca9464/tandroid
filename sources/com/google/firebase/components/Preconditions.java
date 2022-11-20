@@ -1,4 +1,6 @@
 package com.google.firebase.components;
+
+import java.util.Objects;
 /* loaded from: classes.dex */
 public final class Preconditions {
     public static void checkArgument(boolean z, String str) {
@@ -9,15 +11,13 @@ public final class Preconditions {
     }
 
     public static <T> T checkNotNull(T t) {
-        t.getClass();
+        Objects.requireNonNull(t);
         return t;
     }
 
     public static <T> T checkNotNull(T t, String str) {
-        if (t != null) {
-            return t;
-        }
-        throw new NullPointerException(str);
+        Objects.requireNonNull(t, str);
+        return t;
     }
 
     public static void checkState(boolean z, String str) {

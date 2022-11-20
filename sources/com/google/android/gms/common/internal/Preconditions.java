@@ -10,10 +10,8 @@ import org.checkerframework.checker.nullness.qual.EnsuresNonNull;
 public final class Preconditions {
     @EnsuresNonNull({"#1"})
     public static <T> T checkNotNull(T t) {
-        if (t != null) {
-            return t;
-        }
-        throw new NullPointerException("null reference");
+        java.util.Objects.requireNonNull(t, "null reference");
+        return t;
     }
 
     @RecentlyNonNull

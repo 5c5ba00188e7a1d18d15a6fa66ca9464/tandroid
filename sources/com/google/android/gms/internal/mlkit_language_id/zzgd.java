@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import org.telegram.messenger.CharacterCompat;
 import org.telegram.messenger.voip.VoIPService;
 import org.telegram.tgnet.ConnectionsManager;
@@ -1156,7 +1157,7 @@ final class zzgd<T> implements zzgp<T> {
 
     @Override // com.google.android.gms.internal.mlkit_language_id.zzgp
     public final void zzb(T t, T t2) {
-        t2.getClass();
+        Objects.requireNonNull(t2);
         for (int i = 0; i < this.zzc.length; i += 3) {
             int zzc = zzc(i);
             long j = 1048575 & zzc;

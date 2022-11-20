@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.Locale;
+import java.util.Objects;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.MessagesController;
@@ -238,9 +239,7 @@ public class VoIPController {
 
     public void getStats(Stats stats) {
         ensureNativeInstance();
-        if (stats == null) {
-            throw new NullPointerException("You're not supposed to pass null here");
-        }
+        Objects.requireNonNull(stats, "You're not supposed to pass null here");
         nativeGetStats(this.nativeInst, stats);
     }
 
@@ -280,9 +279,7 @@ public class VoIPController {
 
     public void setProxy(String str, int i, String str2, String str3) {
         ensureNativeInstance();
-        if (str == null) {
-            throw new NullPointerException("address can't be null");
-        }
+        Objects.requireNonNull(str, "address can't be null");
         nativeSetProxy(this.nativeInst, str, i, str2, str3);
     }
 

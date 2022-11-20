@@ -2,6 +2,7 @@ package j$.util.stream;
 
 import j$.util.function.BiConsumer;
 import java.util.Iterator;
+import java.util.Objects;
 /* loaded from: classes2.dex */
 public abstract class d1 extends c implements e1 {
     public d1(c cVar, int i) {
@@ -50,7 +51,7 @@ public abstract class d1 extends c implements e1 {
 
     @Override // j$.util.stream.e1
     public final long D(long j, j$.util.function.o oVar) {
-        oVar.getClass();
+        Objects.requireNonNull(oVar);
         return ((Long) x0(new P2(e4.LONG_VALUE, oVar, j))).longValue();
     }
 
@@ -66,13 +67,13 @@ public abstract class d1 extends c implements e1 {
 
     @Override // j$.util.stream.e1
     public final U O(j$.wrappers.l0 l0Var) {
-        l0Var.getClass();
+        Objects.requireNonNull(l0Var);
         return new K(this, this, e4.LONG_VALUE, d4.p | d4.n, l0Var);
     }
 
     @Override // j$.util.stream.e1
     public final Stream Q(j$.util.function.r rVar) {
-        rVar.getClass();
+        Objects.requireNonNull(rVar);
         return new L(this, this, e4.LONG_VALUE, d4.p | d4.n, rVar);
     }
 
@@ -82,7 +83,7 @@ public abstract class d1 extends c implements e1 {
     }
 
     public void Z(j$.util.function.q qVar) {
-        qVar.getClass();
+        Objects.requireNonNull(qVar);
         x0(new m0(qVar, true));
     }
 
@@ -115,7 +116,7 @@ public abstract class d1 extends c implements e1 {
     }
 
     public void d(j$.util.function.q qVar) {
-        qVar.getClass();
+        Objects.requireNonNull(qVar);
         x0(new m0(qVar, false));
     }
 
@@ -126,15 +127,15 @@ public abstract class d1 extends c implements e1 {
 
     @Override // j$.util.stream.e1
     public final IntStream e0(j$.wrappers.n0 n0Var) {
-        n0Var.getClass();
+        Objects.requireNonNull(n0Var);
         return new M(this, this, e4.LONG_VALUE, d4.p | d4.n, n0Var);
     }
 
     @Override // j$.util.stream.e1
     public final Object f0(j$.util.function.y yVar, j$.util.function.w wVar, BiConsumer biConsumer) {
         C c = new C(biConsumer, 2);
-        yVar.getClass();
-        wVar.getClass();
+        Objects.requireNonNull(yVar);
+        Objects.requireNonNull(wVar);
         return x0(new z2(e4.LONG_VALUE, c, wVar, yVar));
     }
 
@@ -150,7 +151,7 @@ public abstract class d1 extends c implements e1 {
 
     @Override // j$.util.stream.e1
     public final j$.util.l g(j$.util.function.o oVar) {
-        oVar.getClass();
+        Objects.requireNonNull(oVar);
         return (j$.util.l) x0(new D2(e4.LONG_VALUE, oVar));
     }
 
@@ -189,7 +190,7 @@ public abstract class d1 extends c implements e1 {
 
     @Override // j$.util.stream.e1
     public final e1 p(j$.util.function.q qVar) {
-        qVar.getClass();
+        Objects.requireNonNull(qVar);
         return new N(this, this, e4.LONG_VALUE, 0, qVar);
     }
 
@@ -239,7 +240,7 @@ public abstract class d1 extends c implements e1 {
 
     @Override // j$.util.stream.e1
     public final e1 u(j$.wrappers.j0 j0Var) {
-        j0Var.getClass();
+        Objects.requireNonNull(j0Var);
         return new N(this, this, e4.LONG_VALUE, d4.t, j0Var);
     }
 
@@ -250,7 +251,7 @@ public abstract class d1 extends c implements e1 {
 
     @Override // j$.util.stream.e1
     public final e1 z(j$.util.function.t tVar) {
-        tVar.getClass();
+        Objects.requireNonNull(tVar);
         return new N(this, this, e4.LONG_VALUE, d4.p | d4.n, tVar);
     }
 

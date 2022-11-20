@@ -11,10 +11,10 @@ import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.OvershootInterpolator;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
+import java.util.Objects;
 import org.telegram.SQLite.SQLiteCursor;
 import org.telegram.SQLite.SQLiteDatabase;
 import org.telegram.SQLite.SQLiteException;
@@ -82,11 +82,11 @@ public class AnimatedEmojiDrawable extends Drawable {
         if (globalEmojiCache == null) {
             globalEmojiCache = new HashMap<>();
         }
-        int hashCode = Arrays.hashCode(new Object[]{Integer.valueOf(i), Integer.valueOf(i2)});
-        HashMap<Long, AnimatedEmojiDrawable> hashMap = globalEmojiCache.get(Integer.valueOf(hashCode));
+        int hash = Objects.hash(Integer.valueOf(i), Integer.valueOf(i2));
+        HashMap<Long, AnimatedEmojiDrawable> hashMap = globalEmojiCache.get(Integer.valueOf(hash));
         if (hashMap == null) {
             HashMap<Integer, HashMap<Long, AnimatedEmojiDrawable>> hashMap2 = globalEmojiCache;
-            Integer valueOf = Integer.valueOf(hashCode);
+            Integer valueOf = Integer.valueOf(hash);
             HashMap<Long, AnimatedEmojiDrawable> hashMap3 = new HashMap<>();
             hashMap2.put(valueOf, hashMap3);
             hashMap = hashMap3;
@@ -105,11 +105,11 @@ public class AnimatedEmojiDrawable extends Drawable {
         if (globalEmojiCache == null) {
             globalEmojiCache = new HashMap<>();
         }
-        int hashCode = Arrays.hashCode(new Object[]{Integer.valueOf(i), Integer.valueOf(i2)});
-        HashMap<Long, AnimatedEmojiDrawable> hashMap = globalEmojiCache.get(Integer.valueOf(hashCode));
+        int hash = Objects.hash(Integer.valueOf(i), Integer.valueOf(i2));
+        HashMap<Long, AnimatedEmojiDrawable> hashMap = globalEmojiCache.get(Integer.valueOf(hash));
         if (hashMap == null) {
             HashMap<Integer, HashMap<Long, AnimatedEmojiDrawable>> hashMap2 = globalEmojiCache;
-            Integer valueOf = Integer.valueOf(hashCode);
+            Integer valueOf = Integer.valueOf(hash);
             HashMap<Long, AnimatedEmojiDrawable> hashMap3 = new HashMap<>();
             hashMap2.put(valueOf, hashMap3);
             hashMap = hashMap3;

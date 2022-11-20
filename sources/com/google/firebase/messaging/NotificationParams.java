@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import java.util.Arrays;
 import java.util.MissingFormatArgumentException;
+import java.util.Objects;
 import org.json.JSONArray;
 import org.json.JSONException;
 /* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
@@ -16,9 +17,7 @@ public class NotificationParams {
     private final Bundle data;
 
     public NotificationParams(Bundle bundle) {
-        if (bundle == null) {
-            throw new NullPointerException("data");
-        }
+        Objects.requireNonNull(bundle, "data");
         this.data = new Bundle(bundle);
     }
 

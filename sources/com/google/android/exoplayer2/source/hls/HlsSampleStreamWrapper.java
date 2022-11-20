@@ -46,6 +46,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import org.checkerframework.checker.nullness.qual.EnsuresNonNull;
 import org.checkerframework.checker.nullness.qual.RequiresNonNull;
@@ -172,7 +173,7 @@ public final class HlsSampleStreamWrapper implements Loader.Callback<Chunk>, Loa
         this.primaryTrackGroupIndex = i;
         Handler handler = this.handler;
         final Callback callback = this.callback;
-        callback.getClass();
+        Objects.requireNonNull(callback);
         handler.post(new Runnable() { // from class: com.google.android.exoplayer2.source.hls.HlsSampleStreamWrapper$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {

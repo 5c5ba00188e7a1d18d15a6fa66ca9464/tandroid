@@ -1,6 +1,7 @@
 package j$.util.stream;
 
 import java.util.Arrays;
+import java.util.Objects;
 /* loaded from: classes2.dex */
 final class K3 extends J0 {
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -20,7 +21,7 @@ final class K3 extends J0 {
 
     @Override // j$.util.stream.c
     public m3 H0(int i, m3 m3Var) {
-        m3Var.getClass();
+        Objects.requireNonNull(m3Var);
         return d4.SORTED.d(i) ? m3Var : d4.SIZED.d(i) ? new P3(m3Var) : new H3(m3Var);
     }
 }

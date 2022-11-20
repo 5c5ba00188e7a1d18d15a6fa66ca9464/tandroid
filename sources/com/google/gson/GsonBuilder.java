@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 /* loaded from: classes.dex */
 public final class GsonBuilder {
     private Excluder excluder = Excluder.DEFAULT;
@@ -34,7 +35,7 @@ public final class GsonBuilder {
     private final LinkedList<ReflectionAccessFilter> reflectionFilters = new LinkedList<>();
 
     public GsonBuilder addSerializationExclusionStrategy(ExclusionStrategy exclusionStrategy) {
-        exclusionStrategy.getClass();
+        Objects.requireNonNull(exclusionStrategy);
         this.excluder = this.excluder.withExclusionStrategy(exclusionStrategy, true, false);
         return this;
     }

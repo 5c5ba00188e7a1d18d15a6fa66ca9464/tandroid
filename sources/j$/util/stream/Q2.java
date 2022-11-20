@@ -1,6 +1,7 @@
 package j$.util.stream;
 
 import j$.util.function.Consumer;
+import java.util.Objects;
 /* loaded from: classes2.dex */
 class Q2 implements S2, l3 {
     private long a;
@@ -32,7 +33,7 @@ class Q2 implements S2, l3 {
 
     @Override // j$.util.function.Consumer
     public /* synthetic */ Consumer andThen(Consumer consumer) {
-        return consumer.getClass();
+        return Objects.requireNonNull(consumer);
     }
 
     @Override // j$.util.function.Consumer
@@ -43,7 +44,7 @@ class Q2 implements S2, l3 {
 
     @Override // j$.util.function.q
     public j$.util.function.q f(j$.util.function.q qVar) {
-        qVar.getClass();
+        Objects.requireNonNull(qVar);
         return new j$.util.function.p(this, qVar);
     }
 

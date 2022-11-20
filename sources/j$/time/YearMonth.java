@@ -1,15 +1,16 @@
 package j$.time;
 
 import j$.time.format.p;
-import j$.time.format.s;
+import j$.time.format.t;
 import java.io.Serializable;
+import java.util.Objects;
 /* loaded from: classes2.dex */
 public final class YearMonth implements Comparable<YearMonth>, Serializable {
     private final int a;
     private final int b;
 
     static {
-        p l = new p().l(j$.time.temporal.a.YEAR, 4, 10, s.EXCEEDS_PAD);
+        p l = new p().l(j$.time.temporal.a.YEAR, 4, 10, t.EXCEEDS_PAD);
         l.e('-');
         l.k(j$.time.temporal.a.MONTH_OF_YEAR, 2);
         l.s();
@@ -53,7 +54,7 @@ public final class YearMonth implements Comparable<YearMonth>, Serializable {
         j$.time.chrono.c cVar = j$.time.chrono.c.a;
         long j = this.a;
         boolean z = (3 & j) == 0 && (j % 100 != 0 || j % 400 == 0);
-        a.getClass();
+        Objects.requireNonNull(a);
         int i = c.a[a.ordinal()];
         return i != 1 ? (i == 2 || i == 3 || i == 4 || i == 5) ? 30 : 31 : z ? 29 : 28;
     }

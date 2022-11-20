@@ -56,6 +56,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.zip.GZIPInputStream;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -1195,12 +1196,13 @@ public class ImageLoader {
                 } catch (Throwable th) {
                     try {
                         bufferedReader.close();
-                    } catch (Throwable unused) {
+                    } catch (Throwable th2) {
+                        th.addSuppressed(th2);
                     }
                     throw th;
                 }
             }
-        } catch (Exception unused2) {
+        } catch (Exception unused) {
             return "";
         }
     }
@@ -3486,7 +3488,7 @@ public class ImageLoader {
 
                     @Override // j$.util.function.Consumer
                     public /* synthetic */ Consumer andThen(Consumer consumer) {
-                        return consumer.getClass();
+                        return Objects.requireNonNull(consumer);
                     }
                 });
                 convert.close();
@@ -5831,9 +5833,9 @@ public class ImageLoader {
         return f / f2 > 10.0f || f2 / f > 10.0f;
     }
 
-    /* JADX WARN: Can't wrap try/catch for region: R(23:1|(2:6|(1:8)(2:9|(2:13|14)))|18|(1:20)(1:(19:155|156|22|(1:24)(1:153)|25|(1:27)|28|(3:30|(2:31|(1:33)(1:34))|35)|36|(1:38)(1:152)|39|(2:149|150)(1:(4:142|143|144|(1:146)))|42|43|(2:45|(6:47|(3:130|131|132)|49|50|(2:(1:53)|54)|(3:94|95|(4:97|(1:99)|100|(3:102|103|104)(1:106))(1:107))(2:56|(7:58|59|(5:67|68|(1:70)|71|(5:73|74|62|63|64))|61|62|63|64)(1:91)))(3:135|136|137))(3:138|139|140)|133|50|(0)|(0)(0)))|21|22|(0)(0)|25|(0)|28|(0)|36|(0)(0)|39|(0)(0)|42|43|(0)(0)|133|50|(0)|(0)(0)|(1:(0))) */
+    /* JADX WARN: Can't wrap try/catch for region: R(23:1|(2:6|(1:8)(2:9|(2:13|14)))|18|(1:20)(1:(19:155|156|22|(1:24)(1:153)|25|(1:27)|28|(3:30|(2:31|(1:33)(1:34))|35)|36|(1:38)(1:152)|39|(2:149|150)(1:(4:142|143|144|(1:146)))|42|43|(2:45|(6:47|(3:130|131|132)|49|50|(2:(1:53)|54)|(3:56|57|(4:59|(1:61)|62|(3:64|65|66)(1:69))(1:70))(2:93|(7:95|96|(5:103|104|(1:106)|107|(5:109|110|99|100|101))|98|99|100|101)(1:127)))(3:135|136|137))(3:138|139|140)|133|50|(0)|(0)(0)))|21|22|(0)(0)|25|(0)|28|(0)|36|(0)(0)|39|(0)(0)|42|43|(0)(0)|133|50|(0)|(0)(0)|(1:(0))) */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:138:0x00f5 A[Catch: all -> 0x00dd, TRY_ENTER, TRY_LEAVE, TryCatch #12 {all -> 0x00dd, blocks: (B:150:0x00a7, B:130:0x00df, B:135:0x00ea, B:138:0x00f5), top: B:149:0x00a7 }] */
+    /* JADX WARN: Removed duplicated region for block: B:138:0x00fa A[Catch: all -> 0x00e2, TRY_ENTER, TRY_LEAVE, TryCatch #2 {all -> 0x00e2, blocks: (B:150:0x00a7, B:130:0x00e4, B:135:0x00ef, B:138:0x00fa), top: B:149:0x00a7 }] */
     /* JADX WARN: Removed duplicated region for block: B:149:0x00a7 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:152:0x00a0  */
     /* JADX WARN: Removed duplicated region for block: B:153:0x0077  */
@@ -5842,15 +5844,15 @@ public class ImageLoader {
     /* JADX WARN: Removed duplicated region for block: B:30:0x008d  */
     /* JADX WARN: Removed duplicated region for block: B:38:0x009e  */
     /* JADX WARN: Removed duplicated region for block: B:41:0x00b1  */
-    /* JADX WARN: Removed duplicated region for block: B:45:0x00d6  */
-    /* JADX WARN: Removed duplicated region for block: B:52:0x0109  */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x0177 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:94:0x0116 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x00db  */
+    /* JADX WARN: Removed duplicated region for block: B:52:0x010e  */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x011b A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:93:0x017c A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Type inference failed for: r15v10 */
     /* JADX WARN: Type inference failed for: r15v11 */
     /* JADX WARN: Type inference failed for: r15v18 */
     /* JADX WARN: Type inference failed for: r15v2 */
-    /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:91:0x01a7 -> B:64:0x01bd). Please submit an issue!!! */
+    /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:120:0x01ac -> B:93:0x01c2). Please submit an issue!!! */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

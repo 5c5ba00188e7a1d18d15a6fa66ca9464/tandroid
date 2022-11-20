@@ -1,6 +1,7 @@
 package j$.util.stream;
 
 import java.util.Comparator;
+import java.util.Objects;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public abstract class z4 extends D4 implements j$.util.w {
@@ -14,7 +15,7 @@ public abstract class z4 extends D4 implements j$.util.w {
     @Override // j$.util.w
     /* renamed from: forEachRemaining */
     public void e(Object obj) {
-        obj.getClass();
+        Objects.requireNonNull(obj);
         long j = this.a;
         long j2 = this.e;
         if (j >= j2) {
@@ -58,7 +59,7 @@ public abstract class z4 extends D4 implements j$.util.w {
     /* renamed from: tryAdvance */
     public boolean k(Object obj) {
         long j;
-        obj.getClass();
+        Objects.requireNonNull(obj);
         if (this.a >= this.e) {
             return false;
         }

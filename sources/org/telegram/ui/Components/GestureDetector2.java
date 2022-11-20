@@ -7,6 +7,7 @@ import android.os.Message;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.ViewConfiguration;
+import java.util.Objects;
 /* loaded from: classes3.dex */
 public class GestureDetector2 {
     private boolean mAlwaysInBiggerTapRegion;
@@ -126,9 +127,7 @@ public class GestureDetector2 {
         int scaledTouchSlop;
         int i;
         int i2;
-        if (this.mListener == null) {
-            throw new NullPointerException("OnGestureListener must not be null");
-        }
+        Objects.requireNonNull(this.mListener, "OnGestureListener must not be null");
         this.mIsLongpressEnabled = true;
         if (context == null) {
             i = ViewConfiguration.getTouchSlop();

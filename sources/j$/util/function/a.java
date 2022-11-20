@@ -2,6 +2,7 @@ package j$.util.function;
 
 import j$.util.function.Predicate;
 import java.util.Comparator;
+import java.util.Objects;
 /* loaded from: classes2.dex */
 public final /* synthetic */ class a implements b, Predicate {
     public final /* synthetic */ int a;
@@ -14,17 +15,17 @@ public final /* synthetic */ class a implements b, Predicate {
 
     @Override // j$.util.function.Predicate
     public /* synthetic */ Predicate and(Predicate predicate) {
-        return predicate.getClass();
+        return Objects.requireNonNull(predicate);
     }
 
     @Override // j$.util.function.BiFunction
     public BiFunction andThen(Function function) {
         switch (this.a) {
             case 0:
-                function.getClass();
+                Objects.requireNonNull(function);
                 return new j$.util.concurrent.a(this, function);
             default:
-                function.getClass();
+                Objects.requireNonNull(function);
                 return new j$.util.concurrent.a(this, function);
         }
     }
@@ -46,7 +47,7 @@ public final /* synthetic */ class a implements b, Predicate {
 
     @Override // j$.util.function.Predicate
     public /* synthetic */ Predicate or(Predicate predicate) {
-        return predicate.getClass();
+        return Objects.requireNonNull(predicate);
     }
 
     @Override // j$.util.function.Predicate

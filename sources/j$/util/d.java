@@ -20,15 +20,10 @@ public final /* synthetic */ class d implements Comparator, Serializable {
                 return Double.compare(zVar.applyAsDouble(obj), zVar.applyAsDouble(obj2));
             case 2:
                 ToIntFunction toIntFunction = (ToIntFunction) this.b;
-                int applyAsInt = toIntFunction.applyAsInt(obj);
-                int applyAsInt2 = toIntFunction.applyAsInt(obj2);
-                if (applyAsInt == applyAsInt2) {
-                    return 0;
-                }
-                return applyAsInt < applyAsInt2 ? -1 : 1;
+                return Integer.compare(toIntFunction.applyAsInt(obj), toIntFunction.applyAsInt(obj2));
             default:
                 j$.util.function.A a = (j$.util.function.A) this.b;
-                return (a.applyAsLong(obj) > a.applyAsLong(obj2) ? 1 : (a.applyAsLong(obj) == a.applyAsLong(obj2) ? 0 : -1));
+                return Long.compare(a.applyAsLong(obj), a.applyAsLong(obj2));
         }
     }
 }

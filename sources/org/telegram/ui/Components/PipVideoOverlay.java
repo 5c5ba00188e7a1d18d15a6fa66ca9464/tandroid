@@ -36,6 +36,7 @@ import androidx.dynamicanimation.animation.SpringAnimation;
 import androidx.dynamicanimation.animation.SpringForce;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.R;
@@ -1229,7 +1230,7 @@ public class PipVideoOverlay {
             z2 = false;
         }
         if (!z && (!z2 || !LaunchActivity.isResumed)) {
-            view.getClass();
+            Objects.requireNonNull(view);
             LaunchActivity.onResumeStaticCallback = new ChatActivityEnterView$$ExternalSyntheticLambda33(view);
             Context context = ApplicationLoader.applicationContext;
             Intent intent = new Intent(context, LaunchActivity.class);

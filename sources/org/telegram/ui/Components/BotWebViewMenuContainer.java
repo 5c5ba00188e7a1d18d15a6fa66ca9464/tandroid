@@ -17,12 +17,12 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import androidx.core.graphics.ColorUtils;
 import androidx.core.util.Consumer;
-import androidx.core.util.ObjectsCompat$$ExternalSyntheticBackport0;
 import androidx.dynamicanimation.animation.DynamicAnimation;
 import androidx.dynamicanimation.animation.SpringAnimation;
 import androidx.dynamicanimation.animation.SpringForce;
 import androidx.recyclerview.widget.ChatListItemAnimator;
 import java.util.Locale;
+import java.util.Objects;
 import org.json.JSONObject;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ContactsController;
@@ -780,7 +780,7 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
 
     public void show(int i, long j, String str) {
         this.dismissed = false;
-        if (this.currentAccount != i || this.botId != j || !ObjectsCompat$$ExternalSyntheticBackport0.m(this.botUrl, str)) {
+        if (this.currentAccount != i || this.botId != j || !Objects.equals(this.botUrl, str)) {
             this.isLoaded = false;
         }
         this.currentAccount = i;

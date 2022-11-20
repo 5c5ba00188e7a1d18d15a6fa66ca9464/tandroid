@@ -8,11 +8,11 @@ import android.view.View;
 import android.view.WindowInsets;
 import androidx.core.graphics.Insets;
 import androidx.core.util.ObjectsCompat;
-import androidx.core.util.ObjectsCompat$$ExternalSyntheticBackport0;
 import androidx.core.util.Preconditions;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.Objects;
 /* loaded from: classes.dex */
 public class WindowInsetsCompat {
     private final Impl mImpl;
@@ -465,7 +465,7 @@ public class WindowInsetsCompat {
             if (!super.equals(o)) {
                 return false;
             }
-            return ObjectsCompat$$ExternalSyntheticBackport0.m(this.mRootViewVisibleInsets, ((Impl20) o).mRootViewVisibleInsets);
+            return Objects.equals(this.mRootViewVisibleInsets, ((Impl20) o).mRootViewVisibleInsets);
         }
     }
 
@@ -542,7 +542,7 @@ public class WindowInsetsCompat {
                 return false;
             }
             Impl28 impl28 = (Impl28) o;
-            return ObjectsCompat$$ExternalSyntheticBackport0.m(this.mPlatformInsets, impl28.mPlatformInsets) && ObjectsCompat$$ExternalSyntheticBackport0.m(this.mRootViewVisibleInsets, impl28.mRootViewVisibleInsets);
+            return Objects.equals(this.mPlatformInsets, impl28.mPlatformInsets) && Objects.equals(this.mRootViewVisibleInsets, impl28.mRootViewVisibleInsets);
         }
 
         @Override // androidx.core.view.WindowInsetsCompat.Impl

@@ -9,6 +9,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
@@ -88,7 +89,7 @@ public class ConfigCacheClient {
         if (task == null || (task.isComplete() && !this.cachedContainerTask.isSuccessful())) {
             ExecutorService executorService = this.executorService;
             final ConfigStorageClient configStorageClient = this.storageClient;
-            configStorageClient.getClass();
+            Objects.requireNonNull(configStorageClient);
             this.cachedContainerTask = Tasks.call(executorService, new Callable() { // from class: com.google.firebase.remoteconfig.internal.ConfigCacheClient$$ExternalSyntheticLambda2
                 @Override // java.util.concurrent.Callable
                 public final Object call() {

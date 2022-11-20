@@ -7,6 +7,7 @@ import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.FlacStreamMetadata;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.util.Objects;
 /* loaded from: classes.dex */
 final class FlacBinarySearchSeeker extends BinarySearchSeeker {
     private final FlacDecoderJni decoderJni;
@@ -24,7 +25,7 @@ final class FlacBinarySearchSeeker extends BinarySearchSeeker {
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
     public FlacBinarySearchSeeker(FlacStreamMetadata flacStreamMetadata, long j, long j2, FlacDecoderJni flacDecoderJni, OutputFrameHolder outputFrameHolder) {
         super(new FlacBinarySearchSeeker$$ExternalSyntheticLambda0(flacStreamMetadata), new FlacTimestampSeeker(flacDecoderJni, outputFrameHolder), flacStreamMetadata.getDurationUs(), 0L, flacStreamMetadata.totalSamples, j, j2, flacStreamMetadata.getApproxBytesPerFrame(), Math.max(6, flacStreamMetadata.minFrameSize));
-        flacStreamMetadata.getClass();
+        Objects.requireNonNull(flacStreamMetadata);
         this.decoderJni = (FlacDecoderJni) Assertions.checkNotNull(flacDecoderJni);
     }
 

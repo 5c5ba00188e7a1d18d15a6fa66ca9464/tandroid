@@ -40,16 +40,19 @@ class F0 extends g3 {
                 if (intStream != null) {
                     try {
                         intStream.sequential().U(new B0(this));
-                    } finally {
+                    } catch (Throwable th) {
                         try {
                             intStream.close();
-                        } catch (Throwable unused) {
+                        } catch (Throwable th2) {
+                            th.addSuppressed(th2);
                         }
+                        throw th;
                     }
                 }
                 if (intStream == null) {
                     return;
                 }
+                intStream.close();
                 return;
             default:
                 if (!((j$.wrappers.V) ((M) this.c).m).b(i)) {

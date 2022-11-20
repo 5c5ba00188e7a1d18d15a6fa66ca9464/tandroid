@@ -1,6 +1,5 @@
 package com.google.gson.internal.bind;
 
-import com.google.gson.Gson$$ExternalSyntheticBackport0;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonNull;
@@ -11,6 +10,7 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 /* loaded from: classes.dex */
 public final class JsonTreeWriter extends JsonWriter {
     private String pendingName;
@@ -116,7 +116,7 @@ public final class JsonTreeWriter extends JsonWriter {
 
     @Override // com.google.gson.stream.JsonWriter
     public JsonWriter name(String str) throws IOException {
-        Gson$$ExternalSyntheticBackport0.m(str, "name == null");
+        Objects.requireNonNull(str, "name == null");
         if (this.stack.isEmpty() || this.pendingName != null) {
             throw new IllegalStateException();
         }

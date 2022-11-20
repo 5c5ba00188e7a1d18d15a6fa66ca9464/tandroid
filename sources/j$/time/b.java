@@ -65,8 +65,8 @@ public final class b implements Comparable, Serializable {
     @Override // java.lang.Comparable
     public int compareTo(Object obj) {
         b bVar = (b) obj;
-        int i = (this.a > bVar.a ? 1 : (this.a == bVar.a ? 0 : -1));
-        return i != 0 ? i : this.b - bVar.b;
+        int compare = Long.compare(this.a, bVar.a);
+        return compare != 0 ? compare : this.b - bVar.b;
     }
 
     public boolean equals(Object obj) {

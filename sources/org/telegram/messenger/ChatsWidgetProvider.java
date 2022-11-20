@@ -98,7 +98,7 @@ public class ChatsWidgetProvider extends AppWidgetProvider {
         intent2.setAction("com.tmessages.openchat" + Math.random() + ConnectionsManager.DEFAULT_DATACENTER_ID);
         intent2.addFlags(ConnectionsManager.FileTypeFile);
         intent2.addCategory("android.intent.category.LAUNCHER");
-        remoteViews.setPendingIntentTemplate(i4, PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent2, 134217728));
+        remoteViews.setPendingIntentTemplate(i4, PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent2, 167772160));
         appWidgetManager.updateAppWidget(i, remoteViews);
         appWidgetManager.notifyAppWidgetViewDataChanged(i, i4);
     }

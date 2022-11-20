@@ -3,6 +3,7 @@ package j$.util;
 import j$.util.function.Consumer;
 import j$.util.u;
 import java.util.Comparator;
+import java.util.Objects;
 /* loaded from: classes2.dex */
 final class E extends H implements u.a {
     @Override // j$.util.u.a, j$.util.u
@@ -12,7 +13,7 @@ final class E extends H implements u.a {
 
     @Override // j$.util.u.a
     public void c(j$.util.function.l lVar) {
-        lVar.getClass();
+        Objects.requireNonNull(lVar);
     }
 
     @Override // j$.util.u.a, j$.util.u
@@ -22,7 +23,7 @@ final class E extends H implements u.a {
 
     @Override // j$.util.u.a
     public boolean g(j$.util.function.l lVar) {
-        lVar.getClass();
+        Objects.requireNonNull(lVar);
         return false;
     }
 

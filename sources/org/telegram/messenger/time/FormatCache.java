@@ -6,6 +6,7 @@ import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.TimeZone;
 import java.util.concurrent.ConcurrentMap;
 /* JADX INFO: Access modifiers changed from: package-private */
@@ -22,9 +23,7 @@ public abstract class FormatCache<F extends Format> {
     }
 
     public F getInstance(String str, TimeZone timeZone, Locale locale) {
-        if (str == null) {
-            throw new NullPointerException("pattern must not be null");
-        }
+        Objects.requireNonNull(str, "pattern must not be null");
         if (timeZone == null) {
             timeZone = TimeZone.getDefault();
         }
@@ -33,12 +32,12 @@ public abstract class FormatCache<F extends Format> {
         }
         MultipartKey multipartKey = new MultipartKey(str, timeZone, locale);
         F f = this.cInstanceCache.get(multipartKey);
-        if (f != null) {
-            return f;
+        if (f == null) {
+            F createInstance = createInstance(str, timeZone, locale);
+            F putIfAbsent = this.cInstanceCache.putIfAbsent(multipartKey, createInstance);
+            return putIfAbsent != null ? putIfAbsent : createInstance;
         }
-        F createInstance = createInstance(str, timeZone, locale);
-        F putIfAbsent = this.cInstanceCache.putIfAbsent(multipartKey, createInstance);
-        return putIfAbsent != null ? putIfAbsent : createInstance;
+        return f;
     }
 
     private F getDateTimeInstance(Integer num, Integer num2, TimeZone timeZone, Locale locale) {

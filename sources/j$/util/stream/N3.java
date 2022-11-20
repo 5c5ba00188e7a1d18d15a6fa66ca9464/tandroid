@@ -4,6 +4,7 @@ import j$.util.Collection$-EL;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.Objects;
 /* loaded from: classes2.dex */
 final class N3 extends F3 {
     private ArrayList d;
@@ -25,7 +26,7 @@ final class N3 extends F3 {
         if (!this.c) {
             ArrayList arrayList = this.d;
             m3 m3Var = this.a;
-            m3Var.getClass();
+            Objects.requireNonNull(m3Var);
             Collection$-EL.a(arrayList, new b(m3Var));
         } else {
             Iterator it = this.d.iterator();

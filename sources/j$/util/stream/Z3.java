@@ -3,6 +3,7 @@ package j$.util.stream;
 import j$.util.u;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Objects;
 import java.util.Spliterator;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
@@ -53,7 +54,7 @@ public abstract class Z3 extends e implements Iterable, j$.lang.e {
         /* renamed from: forEachRemaining */
         public void e(Object obj) {
             int i;
-            obj.getClass();
+            Objects.requireNonNull(obj);
             int i2 = this.a;
             int i3 = this.b;
             if (i2 < i3 || (i2 == i3 && this.c < this.d)) {
@@ -95,7 +96,7 @@ public abstract class Z3 extends e implements Iterable, j$.lang.e {
         @Override // j$.util.w
         /* renamed from: tryAdvance */
         public boolean k(Object obj) {
-            obj.getClass();
+            Objects.requireNonNull(obj);
             int i = this.a;
             int i2 = this.b;
             if (i < i2 || (i == i2 && this.c < this.d)) {

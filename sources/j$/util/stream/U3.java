@@ -3,6 +3,7 @@ package j$.util.stream;
 import j$.util.function.Consumer;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.Objects;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public class U3 extends Z3 implements j$.util.function.f {
@@ -53,7 +54,7 @@ public class U3 extends Z3 implements j$.util.function.f {
 
     @Override // j$.util.function.f
     public j$.util.function.f j(j$.util.function.f fVar) {
-        fVar.getClass();
+        Objects.requireNonNull(fVar);
         return new j$.util.function.e(this, fVar);
     }
 

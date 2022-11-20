@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import androidx.core.util.ObjectsCompat$$ExternalSyntheticBackport0;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import java.io.BufferedReader;
@@ -24,6 +23,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 import org.telegram.messenger.AndroidUtilities;
@@ -239,11 +239,11 @@ public class CountrySelectActivity extends BaseFragment {
                 return false;
             }
             Country country = (Country) obj;
-            return ObjectsCompat$$ExternalSyntheticBackport0.m(this.name, country.name) && ObjectsCompat$$ExternalSyntheticBackport0.m(this.code, country.code);
+            return Objects.equals(this.name, country.name) && Objects.equals(this.code, country.code);
         }
 
         public int hashCode() {
-            return Arrays.hashCode(new Object[]{this.name, this.code});
+            return Objects.hash(this.name, this.code);
         }
     }
 

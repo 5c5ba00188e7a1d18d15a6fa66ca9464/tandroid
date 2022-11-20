@@ -3,6 +3,7 @@ package j$.util;
 import j$.util.Iterator;
 import j$.util.function.Consumer;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 /* loaded from: classes2.dex */
 class z implements r, j$.util.function.q, Iterator {
     boolean a = false;
@@ -23,7 +24,7 @@ class z implements r, j$.util.function.q, Iterator {
     @Override // j$.util.p
     /* renamed from: d */
     public void forEachRemaining(j$.util.function.q qVar) {
-        qVar.getClass();
+        Objects.requireNonNull(qVar);
         while (hasNext()) {
             qVar.accept(nextLong());
         }
@@ -31,7 +32,7 @@ class z implements r, j$.util.function.q, Iterator {
 
     @Override // j$.util.function.q
     public j$.util.function.q f(j$.util.function.q qVar) {
-        qVar.getClass();
+        Objects.requireNonNull(qVar);
         return new j$.util.function.p(this, qVar);
     }
 
@@ -41,13 +42,15 @@ class z implements r, j$.util.function.q, Iterator {
             forEachRemaining((j$.util.function.q) consumer);
             return;
         }
-        consumer.getClass();
+        Objects.requireNonNull(consumer);
         if (!N.a) {
-            forEachRemaining(new q(consumer));
-        } else {
-            N.a(z.class, "{0} calling PrimitiveIterator.OfLong.forEachRemainingLong(action::accept)");
-            throw null;
+            while (hasNext()) {
+                consumer.accept(Long.valueOf(nextLong()));
+            }
+            return;
         }
+        N.a(z.class, "{0} calling PrimitiveIterator.OfLong.forEachRemainingLong(action::accept)");
+        throw null;
     }
 
     @Override // java.util.Iterator, j$.util.Iterator

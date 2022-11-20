@@ -2,6 +2,7 @@ package j$.util.stream;
 
 import j$.util.function.Consumer;
 import java.util.Comparator;
+import java.util.Objects;
 import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes2.dex */
 final class I4 extends J4 implements j$.util.u, Consumer {
@@ -23,12 +24,12 @@ final class I4 extends J4 implements j$.util.u, Consumer {
 
     @Override // j$.util.function.Consumer
     public /* synthetic */ Consumer andThen(Consumer consumer) {
-        return consumer.getClass();
+        return Objects.requireNonNull(consumer);
     }
 
     @Override // j$.util.u
     public boolean b(Consumer consumer) {
-        consumer.getClass();
+        Objects.requireNonNull(consumer);
         while (r() != 1 && this.a.b(this)) {
             if (p(1L) == 1) {
                 consumer.accept(this.e);
@@ -41,7 +42,7 @@ final class I4 extends J4 implements j$.util.u, Consumer {
 
     @Override // j$.util.u
     public void forEachRemaining(Consumer consumer) {
-        consumer.getClass();
+        Objects.requireNonNull(consumer);
         k4 k4Var = null;
         while (true) {
             int r = r();

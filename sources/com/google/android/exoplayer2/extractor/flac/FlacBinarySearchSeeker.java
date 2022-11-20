@@ -6,12 +6,13 @@ import com.google.android.exoplayer2.extractor.ExtractorInput;
 import com.google.android.exoplayer2.extractor.FlacFrameReader;
 import com.google.android.exoplayer2.util.FlacStreamMetadata;
 import java.io.IOException;
+import java.util.Objects;
 /* loaded from: classes.dex */
 final class FlacBinarySearchSeeker extends BinarySearchSeeker {
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
     public FlacBinarySearchSeeker(FlacStreamMetadata flacStreamMetadata, int i, long j, long j2) {
         super(new FlacBinarySearchSeeker$$ExternalSyntheticLambda0(flacStreamMetadata), new FlacTimestampSeeker(flacStreamMetadata, i), flacStreamMetadata.getDurationUs(), 0L, flacStreamMetadata.totalSamples, j, j2, flacStreamMetadata.getApproxBytesPerFrame(), Math.max(6, flacStreamMetadata.minFrameSize));
-        flacStreamMetadata.getClass();
+        Objects.requireNonNull(flacStreamMetadata);
     }
 
     /* loaded from: classes.dex */

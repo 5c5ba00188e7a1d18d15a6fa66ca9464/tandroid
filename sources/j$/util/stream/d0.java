@@ -1,6 +1,7 @@
 package j$.util.stream;
 
 import j$.util.function.Predicate;
+import java.util.Objects;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public final class d0 implements N4 {
@@ -33,7 +34,7 @@ public final class d0 implements N4 {
     public Object d(y2 y2Var, j$.util.u uVar) {
         O4 o4 = (O4) this.e.get();
         c cVar = (c) y2Var;
-        o4.getClass();
+        Objects.requireNonNull(o4);
         cVar.n0(cVar.v0(o4), uVar);
         Object obj = o4.get();
         return obj != null ? obj : this.c;

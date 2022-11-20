@@ -2,6 +2,7 @@ package com.google.android.datatransport.runtime.scheduling.persistence;
 
 import com.google.android.datatransport.runtime.EventInternal;
 import com.google.android.datatransport.runtime.TransportContext;
+import java.util.Objects;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class AutoValue_PersistedEvent extends PersistedEvent {
@@ -12,13 +13,9 @@ public final class AutoValue_PersistedEvent extends PersistedEvent {
     /* JADX INFO: Access modifiers changed from: package-private */
     public AutoValue_PersistedEvent(long j, TransportContext transportContext, EventInternal eventInternal) {
         this.id = j;
-        if (transportContext == null) {
-            throw new NullPointerException("Null transportContext");
-        }
+        Objects.requireNonNull(transportContext, "Null transportContext");
         this.transportContext = transportContext;
-        if (eventInternal == null) {
-            throw new NullPointerException("Null event");
-        }
+        Objects.requireNonNull(eventInternal, "Null event");
         this.event = eventInternal;
     }
 

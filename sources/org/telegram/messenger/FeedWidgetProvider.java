@@ -41,13 +41,13 @@ public class FeedWidgetProvider extends AppWidgetProvider {
         intent.setData(Uri.parse(intent.toUri(1)));
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.feed_widget_layout);
         int i2 = R.id.list_view;
-        remoteViews.setRemoteAdapter(i, i2, intent);
+        remoteViews.setRemoteAdapter(i2, intent);
         remoteViews.setEmptyView(i2, R.id.empty_view);
         Intent intent2 = new Intent(ApplicationLoader.applicationContext, LaunchActivity.class);
         intent2.setAction("com.tmessages.openchat" + Math.random() + ConnectionsManager.DEFAULT_DATACENTER_ID);
         intent2.addFlags(ConnectionsManager.FileTypeFile);
         intent2.addCategory("android.intent.category.LAUNCHER");
-        remoteViews.setPendingIntentTemplate(i2, PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent2, 134217728));
+        remoteViews.setPendingIntentTemplate(i2, PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent2, 167772160));
         appWidgetManager.updateAppWidget(i, remoteViews);
     }
 }

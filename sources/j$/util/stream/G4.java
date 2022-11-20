@@ -1,6 +1,7 @@
 package j$.util.stream;
 
 import j$.util.function.Consumer;
+import java.util.Objects;
 /* loaded from: classes2.dex */
 final class G4 extends H4 implements j$.util.v, j$.util.function.q {
     long e;
@@ -26,7 +27,7 @@ final class G4 extends H4 implements j$.util.v, j$.util.function.q {
 
     @Override // j$.util.function.q
     public j$.util.function.q f(j$.util.function.q qVar) {
-        qVar.getClass();
+        Objects.requireNonNull(qVar);
         return new j$.util.function.p(this, qVar);
     }
 

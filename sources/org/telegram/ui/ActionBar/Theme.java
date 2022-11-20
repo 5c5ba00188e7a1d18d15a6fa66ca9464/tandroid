@@ -1755,10 +1755,10 @@ public class Theme {
         }
 
         /* JADX WARN: Code restructure failed: missing block: B:151:0x01d1, code lost:
-            r12 = (java.lang.Integer) org.telegram.ui.ActionBar.Theme.defaultColors.get(r8);
+            r11 = (java.lang.Integer) org.telegram.ui.ActionBar.Theme.defaultColors.get(r7);
          */
         /* JADX WARN: Code restructure failed: missing block: B:206:0x0082, code lost:
-            r10 = (java.lang.Integer) org.telegram.ui.ActionBar.Theme.defaultColors.get(r9);
+            r9 = (java.lang.Integer) org.telegram.ui.ActionBar.Theme.defaultColors.get(r8);
          */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -3350,28 +3350,28 @@ public class Theme {
         }
     }
 
-    /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:115:0x390c A[Catch: Exception -> 0x3af6, TryCatch #1 {Exception -> 0x3af6, blocks: (B:35:0x35b8, B:37:0x35d1, B:38:0x3612, B:40:0x3621, B:41:0x364d, B:43:0x3651, B:45:0x3659, B:46:0x366b, B:47:0x3677, B:49:0x367d, B:51:0x3687, B:53:0x368b, B:55:0x36ba, B:56:0x36be, B:113:0x3906, B:115:0x390c, B:116:0x3915, B:118:0x3919, B:120:0x3921, B:122:0x3925, B:123:0x3929, B:125:0x392b, B:127:0x3935, B:131:0x37f2, B:134:0x3815, B:135:0x3820, B:137:0x382c, B:141:0x3838, B:143:0x3844, B:144:0x38eb, B:139:0x383e, B:155:0x394d, B:156:0x3953, B:159:0x395e, B:161:0x39b5, B:162:0x39c3, B:164:0x39d1, B:165:0x39df, B:200:0x39d8, B:201:0x39bc, B:203:0x3630, B:205:0x3638, B:207:0x3641, B:209:0x364b, B:210:0x35e0, B:212:0x35e8, B:214:0x35f0, B:216:0x35fa, B:218:0x3602, B:58:0x36cf, B:106:0x37d9, B:107:0x37de), top: B:34:0x35b8 }] */
-    /* JADX WARN: Removed duplicated region for block: B:122:0x3925 A[Catch: Exception -> 0x3af6, TryCatch #1 {Exception -> 0x3af6, blocks: (B:35:0x35b8, B:37:0x35d1, B:38:0x3612, B:40:0x3621, B:41:0x364d, B:43:0x3651, B:45:0x3659, B:46:0x366b, B:47:0x3677, B:49:0x367d, B:51:0x3687, B:53:0x368b, B:55:0x36ba, B:56:0x36be, B:113:0x3906, B:115:0x390c, B:116:0x3915, B:118:0x3919, B:120:0x3921, B:122:0x3925, B:123:0x3929, B:125:0x392b, B:127:0x3935, B:131:0x37f2, B:134:0x3815, B:135:0x3820, B:137:0x382c, B:141:0x3838, B:143:0x3844, B:144:0x38eb, B:139:0x383e, B:155:0x394d, B:156:0x3953, B:159:0x395e, B:161:0x39b5, B:162:0x39c3, B:164:0x39d1, B:165:0x39df, B:200:0x39d8, B:201:0x39bc, B:203:0x3630, B:205:0x3638, B:207:0x3641, B:209:0x364b, B:210:0x35e0, B:212:0x35e8, B:214:0x35f0, B:216:0x35fa, B:218:0x3602, B:58:0x36cf, B:106:0x37d9, B:107:0x37de), top: B:34:0x35b8 }] */
-    /* JADX WARN: Removed duplicated region for block: B:124:0x3928  */
-    /* JADX WARN: Removed duplicated region for block: B:127:0x3935 A[Catch: Exception -> 0x3af6, TryCatch #1 {Exception -> 0x3af6, blocks: (B:35:0x35b8, B:37:0x35d1, B:38:0x3612, B:40:0x3621, B:41:0x364d, B:43:0x3651, B:45:0x3659, B:46:0x366b, B:47:0x3677, B:49:0x367d, B:51:0x3687, B:53:0x368b, B:55:0x36ba, B:56:0x36be, B:113:0x3906, B:115:0x390c, B:116:0x3915, B:118:0x3919, B:120:0x3921, B:122:0x3925, B:123:0x3929, B:125:0x392b, B:127:0x3935, B:131:0x37f2, B:134:0x3815, B:135:0x3820, B:137:0x382c, B:141:0x3838, B:143:0x3844, B:144:0x38eb, B:139:0x383e, B:155:0x394d, B:156:0x3953, B:159:0x395e, B:161:0x39b5, B:162:0x39c3, B:164:0x39d1, B:165:0x39df, B:200:0x39d8, B:201:0x39bc, B:203:0x3630, B:205:0x3638, B:207:0x3641, B:209:0x364b, B:210:0x35e0, B:212:0x35e8, B:214:0x35f0, B:216:0x35fa, B:218:0x3602, B:58:0x36cf, B:106:0x37d9, B:107:0x37de), top: B:34:0x35b8 }] */
-    /* JADX WARN: Removed duplicated region for block: B:130:0x3943 A[SYNTHETIC] */
-    /* JADX WARN: Type inference failed for: r1v76, types: [boolean] */
-    /* JADX WARN: Type inference failed for: r1v82 */
-    /* JADX WARN: Type inference failed for: r1v85 */
+    /* JADX WARN: Removed duplicated region for block: B:114:0x376c A[Catch: Exception -> 0x3953, TryCatch #1 {Exception -> 0x3953, blocks: (B:35:0x3422, B:37:0x343a, B:38:0x347d, B:40:0x348b, B:41:0x34b8, B:43:0x34bc, B:45:0x34c4, B:46:0x34d6, B:47:0x34e2, B:49:0x34e8, B:51:0x34f2, B:53:0x34f6, B:55:0x3524, B:56:0x3528, B:112:0x3766, B:114:0x376c, B:115:0x3775, B:117:0x3779, B:119:0x3781, B:121:0x3785, B:122:0x3789, B:124:0x378b, B:126:0x3795, B:130:0x365e, B:133:0x367d, B:134:0x3685, B:136:0x3691, B:140:0x369d, B:142:0x36a9, B:143:0x374e, B:138:0x36a3, B:153:0x37ab, B:154:0x37b1, B:157:0x37bc, B:159:0x3813, B:160:0x3821, B:162:0x382f, B:163:0x383d, B:198:0x3836, B:199:0x381a, B:201:0x349b, B:203:0x34a3, B:205:0x34ac, B:207:0x34b6, B:208:0x3449, B:210:0x3451, B:212:0x3459, B:214:0x3463, B:216:0x346b, B:58:0x3539, B:106:0x3647, B:107:0x364c), top: B:34:0x3422 }] */
+    /* JADX WARN: Removed duplicated region for block: B:121:0x3785 A[Catch: Exception -> 0x3953, TryCatch #1 {Exception -> 0x3953, blocks: (B:35:0x3422, B:37:0x343a, B:38:0x347d, B:40:0x348b, B:41:0x34b8, B:43:0x34bc, B:45:0x34c4, B:46:0x34d6, B:47:0x34e2, B:49:0x34e8, B:51:0x34f2, B:53:0x34f6, B:55:0x3524, B:56:0x3528, B:112:0x3766, B:114:0x376c, B:115:0x3775, B:117:0x3779, B:119:0x3781, B:121:0x3785, B:122:0x3789, B:124:0x378b, B:126:0x3795, B:130:0x365e, B:133:0x367d, B:134:0x3685, B:136:0x3691, B:140:0x369d, B:142:0x36a9, B:143:0x374e, B:138:0x36a3, B:153:0x37ab, B:154:0x37b1, B:157:0x37bc, B:159:0x3813, B:160:0x3821, B:162:0x382f, B:163:0x383d, B:198:0x3836, B:199:0x381a, B:201:0x349b, B:203:0x34a3, B:205:0x34ac, B:207:0x34b6, B:208:0x3449, B:210:0x3451, B:212:0x3459, B:214:0x3463, B:216:0x346b, B:58:0x3539, B:106:0x3647, B:107:0x364c), top: B:34:0x3422 }] */
+    /* JADX WARN: Removed duplicated region for block: B:123:0x3788  */
+    /* JADX WARN: Removed duplicated region for block: B:126:0x3795 A[Catch: Exception -> 0x3953, TryCatch #1 {Exception -> 0x3953, blocks: (B:35:0x3422, B:37:0x343a, B:38:0x347d, B:40:0x348b, B:41:0x34b8, B:43:0x34bc, B:45:0x34c4, B:46:0x34d6, B:47:0x34e2, B:49:0x34e8, B:51:0x34f2, B:53:0x34f6, B:55:0x3524, B:56:0x3528, B:112:0x3766, B:114:0x376c, B:115:0x3775, B:117:0x3779, B:119:0x3781, B:121:0x3785, B:122:0x3789, B:124:0x378b, B:126:0x3795, B:130:0x365e, B:133:0x367d, B:134:0x3685, B:136:0x3691, B:140:0x369d, B:142:0x36a9, B:143:0x374e, B:138:0x36a3, B:153:0x37ab, B:154:0x37b1, B:157:0x37bc, B:159:0x3813, B:160:0x3821, B:162:0x382f, B:163:0x383d, B:198:0x3836, B:199:0x381a, B:201:0x349b, B:203:0x34a3, B:205:0x34ac, B:207:0x34b6, B:208:0x3449, B:210:0x3451, B:212:0x3459, B:214:0x3463, B:216:0x346b, B:58:0x3539, B:106:0x3647, B:107:0x364c), top: B:34:0x3422 }] */
+    /* JADX WARN: Removed duplicated region for block: B:129:0x379f A[SYNTHETIC] */
+    /* JADX WARN: Type inference failed for: r2v73, types: [boolean] */
+    /* JADX WARN: Type inference failed for: r2v83 */
+    /* JADX WARN: Type inference failed for: r2v86 */
     static {
         ThemeInfo themeInfo;
-        boolean z;
-        boolean z2;
+        ThemeInfo themeInfo2;
+        ThemeInfo themeInfo3;
         Iterator<ThemeInfo> it;
-        SharedPreferences.Editor editor;
-        boolean z3;
+        ThemeInfo themeInfo4;
+        boolean z;
         SparseArray<ThemeAccent> sparseArray;
         ThemeAccent accent;
-        boolean z4;
-        SharedPreferences.Editor editor2;
+        boolean z2;
         Iterator<ThemeInfo> it2;
-        SharedPreferences sharedPreferences;
+        ThemeInfo themeInfo5;
+        SerializedData serializedData;
+        int i;
         selectedAutoNightType = 0;
         autoNightBrighnessThreshold = 0.25f;
         autoNightDayStartTime = 1320;
@@ -3415,7 +3415,9 @@ public class Theme {
         defaultColors.put("dialogLineProgress", -11371101);
         defaultColors.put("dialogLineProgressBackground", -2368549);
         defaultColors.put("dialogButton", -11955764);
-        defaultColors.put("dialogButtonSelector", Integer.valueOf((int) AndroidUtilities.LIGHT_STATUS_BAR_OVERLAY));
+        HashMap<String, Integer> hashMap = defaultColors;
+        Integer valueOf = Integer.valueOf((int) AndroidUtilities.LIGHT_STATUS_BAR_OVERLAY);
+        hashMap.put("dialogButtonSelector", valueOf);
         defaultColors.put("dialogScrollGlow", -657673);
         defaultColors.put("dialogRoundCheckBox", -11750155);
         defaultColors.put("dialogRoundCheckBoxCheck", -1);
@@ -3429,7 +3431,7 @@ public class Theme {
         defaultColors.put("dialogSearchIcon", -6182737);
         defaultColors.put("dialogSearchText", -14540254);
         defaultColors.put("dialogFloatingButton", -11750155);
-        defaultColors.put("dialogFloatingButtonPressed", Integer.valueOf((int) AndroidUtilities.LIGHT_STATUS_BAR_OVERLAY));
+        defaultColors.put("dialogFloatingButtonPressed", valueOf);
         defaultColors.put("dialogFloatingIcon", -1);
         defaultColors.put("dialogShadowLine", 301989888);
         defaultColors.put("dialogEmptyImage", -6314840);
@@ -3492,7 +3494,7 @@ public class Theme {
         defaultColors.put("checkboxSquareCheck", -1);
         defaultColors.put("checkboxSquareUnchecked", -9211021);
         defaultColors.put("checkboxSquareDisabled", -5197648);
-        defaultColors.put("listSelectorSDK21", Integer.valueOf((int) AndroidUtilities.LIGHT_STATUS_BAR_OVERLAY));
+        defaultColors.put("listSelectorSDK21", valueOf);
         defaultColors.put("radioBackground", -5000269);
         defaultColors.put("radioBackgroundChecked", -13129232);
         defaultColors.put("windowBackgroundGray", -986896);
@@ -3596,7 +3598,7 @@ public class Theme {
         defaultColors.put("chats_actionMessage", -12812624);
         defaultColors.put("chats_date", -6973028);
         defaultColors.put("chats_pinnedOverlay", 134217728);
-        defaultColors.put("chats_tabletSelectedOverlay", Integer.valueOf((int) AndroidUtilities.LIGHT_STATUS_BAR_OVERLAY));
+        defaultColors.put("chats_tabletSelectedOverlay", valueOf);
         defaultColors.put("chats_sentCheck", -12146122);
         defaultColors.put("chats_sentReadCheck", -12146122);
         defaultColors.put("chats_sentClock", -9061026);
@@ -3928,9 +3930,9 @@ public class Theme {
         defaultColors.put("profile_tabText", -7893872);
         defaultColors.put("profile_tabSelectedText", -12937771);
         defaultColors.put("profile_tabSelectedLine", -11557143);
-        defaultColors.put("profile_tabSelector", Integer.valueOf((int) AndroidUtilities.LIGHT_STATUS_BAR_OVERLAY));
+        defaultColors.put("profile_tabSelector", valueOf);
         defaultColors.put("player_actionBar", -1);
-        defaultColors.put("player_actionBarSelector", Integer.valueOf((int) AndroidUtilities.LIGHT_STATUS_BAR_OVERLAY));
+        defaultColors.put("player_actionBarSelector", valueOf);
         defaultColors.put("player_actionBarTitle", -13683656);
         defaultColors.put("player_actionBarTop", -1728053248);
         defaultColors.put("player_actionBarSubtitle", -7697782);
@@ -3991,7 +3993,7 @@ public class Theme {
         defaultColors.put("checkboxCheck", -1);
         defaultColors.put("checkboxDisabled", -5195326);
         defaultColors.put("stickers_menu", -4801083);
-        defaultColors.put("stickers_menuSelector", Integer.valueOf((int) AndroidUtilities.LIGHT_STATUS_BAR_OVERLAY));
+        defaultColors.put("stickers_menuSelector", valueOf);
         defaultColors.put("changephoneinfo_image", -4669499);
         defaultColors.put("changephoneinfo_image2", -11491350);
         defaultColors.put("groupcreate_hintText", -6182221);
@@ -4462,108 +4464,109 @@ public class Theme {
         myMessagesColorKeys.add("chat_outBroadcast");
         myMessagesColorKeys.add("chat_messageTextOut");
         myMessagesColorKeys.add("chat_messageLinkOut");
-        SharedPreferences sharedPreferences2 = ApplicationLoader.applicationContext.getSharedPreferences("themeconfig", 0);
-        ThemeInfo themeInfo2 = new ThemeInfo();
-        themeInfo2.name = "Blue";
-        themeInfo2.assetName = "bluebubbles.attheme";
-        themeInfo2.previewBackgroundColor = -6963476;
-        themeInfo2.previewInColor = -1;
-        themeInfo2.previewOutColor = -3086593;
-        themeInfo2.firstAccentIsDefault = true;
-        themeInfo2.currentAccentId = DEFALT_THEME_ACCENT_ID;
-        themeInfo2.sortIndex = 1;
-        themeInfo2.setAccentColorOptions(new int[]{-10972987, -14444461, -3252606, -8428605, -14380627, -14050257, -7842636, -13464881, -12342073, -11359164, -3317869, -2981834, -8165684, -3256745, -2904512, -8681301}, new int[]{-4660851, -328756, -1572, -4108434, -3031781, -1335, -198952, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{0, -853047, -264993, 0, 0, -135756, -198730, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{0, -2104672, -937328, -2637335, -2639714, -1270157, -3428124, -6570777, -7223828, -6567550, -1793599, -1855875, -4674838, -1336199, -2900876, -6247730}, new int[]{0, -4532067, -1257580, -1524266, -1646910, -1519483, -1324823, -4138509, -4202516, -2040429, -1458474, -1256030, -3814930, -1000039, -1450082, -3485987}, new int[]{0, -1909081, -1592444, -2969879, -2439762, -1137033, -2119471, -6962197, -4857383, -4270699, -3364639, -2117514, -5000734, -1598028, -2045813, -5853742}, new int[]{0, -6371440, -1319256, -1258616, -1712961, -1186647, -1193816, -4467224, -4203544, -3023977, -1061929, -1255788, -2113811, -806526, -1715305, -3485976}, new int[]{99, 9, 10, 11, 12, 13, 14, 0, 1, 2, 3, 4, 5, 6, 7, 8}, new String[]{"", "p-pXcflrmFIBAAAAvXYQk-mCwZU", "JqSUrO0-mFIBAAAAWwTvLzoWGQI", "O-wmAfBPSFADAAAA4zINVfD_bro", "RepJ5uE_SVABAAAAr4d0YhgB850", "-Xc-np9y2VMCAAAARKr0yNNPYW0", "fqv01SQemVIBAAAApND8LDRUhRU", "fqv01SQemVIBAAAApND8LDRUhRU", "RepJ5uE_SVABAAAAr4d0YhgB850", "lp0prF8ISFAEAAAA_p385_CvG0w", "heptcj-hSVACAAAAC9RrMzOa-cs", "PllZ-bf_SFAEAAAA8crRfwZiDNg", "dhf9pceaQVACAAAAbzdVo4SCiZA", "Ujx2TFcJSVACAAAARJ4vLa50MkM", "p-pXcflrmFIBAAAAvXYQk-mCwZU", "dk_wwlghOFACAAAAfz9xrxi6euw"}, new int[]{0, 180, 45, 0, 45, 180, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{0, 52, 46, 57, 45, 64, 52, 35, 36, 41, 50, 50, 35, 38, 37, 30});
-        sortAccents(themeInfo2);
-        ArrayList<ThemeInfo> arrayList = themes;
-        defaultTheme = themeInfo2;
-        currentTheme = themeInfo2;
-        currentDayTheme = themeInfo2;
-        arrayList.add(themeInfo2);
-        themesDict.put("Blue", themeInfo2);
-        ThemeInfo themeInfo3 = new ThemeInfo();
-        themeInfo3.name = "Dark Blue";
-        themeInfo3.assetName = "darkblue.attheme";
-        themeInfo3.previewBackgroundColor = -10523006;
-        themeInfo3.previewInColor = -9009508;
-        themeInfo3.previewOutColor = -8214301;
-        themeInfo3.sortIndex = 3;
-        themeInfo3.setAccentColorOptions(new int[]{-7177260, -9860357, -14440464, -8687151, -9848491, -14053142, -9403671, -10044691, -13203974, -12138259, -10179489, -1344335, -1142742, -6127120, -2931932, -1131212, -8417365, -13270557}, new int[]{-6464359, -10267323, -13532789, -5413850, -11898828, -13410942, -13215889, -10914461, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{-10465880, -9937588, -14983040, -6736562, -14197445, -13534568, -13144441, -10587280, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{-14213586, -15263198, -16310753, -15724781, -15853551, -16051428, -14868183, -14668758, -15854566, -15326427, -15327979, -14411490, -14345453, -14738135, -14543346, -14212843, -15263205, -15854566}, new int[]{-15659501, -14277074, -15459034, -14542297, -14735336, -15129808, -15591910, -15459810, -15260623, -15853800, -15259879, -14477540, -14674936, -15461604, -13820650, -15067635, -14605528, -15260623}, new int[]{-13951445, -15395557, -15985382, -15855853, -16050417, -15525854, -15260627, -15327189, -15788258, -14799314, -15458796, -13952727, -13754603, -14081231, -14478324, -14081004, -15197667, -15788258}, new int[]{-15330777, -15066858, -15915220, -14213847, -15262439, -15260879, -15657695, -16443625, -15459285, -15589601, -14932454, -14740451, -15002870, -15264997, -13821660, -14805234, -14605784, -15459285}, new int[]{11, 12, 13, 14, 15, 16, 17, 18, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9}, new String[]{"O-wmAfBPSFADAAAA4zINVfD_bro", "RepJ5uE_SVABAAAAr4d0YhgB850", "dk_wwlghOFACAAAAfz9xrxi6euw", "9LW_RcoOSVACAAAAFTk3DTyXN-M", "PllZ-bf_SFAEAAAA8crRfwZiDNg", "-Xc-np9y2VMCAAAARKr0yNNPYW0", "kO4jyq55SFABAAAA0WEpcLfahXk", "CJNyxPMgSVAEAAAAvW9sMwc51cw", "fqv01SQemVIBAAAApND8LDRUhRU", "RepJ5uE_SVABAAAAr4d0YhgB850", "CJNyxPMgSVAEAAAAvW9sMwc51cw", "9LW_RcoOSVACAAAAFTk3DTyXN-M", "9GcNVISdSVADAAAAUcw5BYjELW4", "F5oWoCs7QFACAAAAgf2bD_mg8Bw", "9ShF73d1MFIIAAAAjWnm8_ZMe8Q", "3rX-PaKbSFACAAAAEiHNvcEm6X4", "dk_wwlghOFACAAAAfz9xrxi6euw", "fqv01SQemVIBAAAApND8LDRUhRU"}, new int[]{225, 45, 225, 135, 45, 225, 45, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{40, 40, 31, 50, 25, 34, 35, 35, 38, 29, 24, 34, 34, 31, 29, 37, 21, 38});
-        sortAccents(themeInfo3);
-        themes.add(themeInfo3);
-        HashMap<String, ThemeInfo> hashMap = themesDict;
-        currentNightTheme = themeInfo3;
-        hashMap.put("Dark Blue", themeInfo3);
-        ThemeInfo themeInfo4 = new ThemeInfo();
-        themeInfo4.name = "Arctic Blue";
-        themeInfo4.assetName = "arctic.attheme";
-        themeInfo4.previewBackgroundColor = -1971728;
-        themeInfo4.previewInColor = -1;
-        themeInfo4.previewOutColor = -9657877;
-        themeInfo4.sortIndex = 5;
-        themeInfo4.setAccentColorOptions(new int[]{-12537374, -12472227, -3240928, -11033621, -2194124, -3382903, -13332245, -12342073, -11359164, -3317869, -2981834, -8165684, -3256745, -2904512, -8681301}, new int[]{-13525046, -14113959, -7579073, -13597229, -3581840, -8883763, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{-11616542, -9716647, -6400452, -12008744, -2592697, -4297041, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{-3808528, -2433367, -2700891, -1838093, -1120848, -1712148, -2037779, -4202261, -4005713, -1058332, -925763, -1975316, -1189672, -1318451, -2302235}, new int[]{-1510157, -4398164, -1647697, -3610898, -1130838, -1980692, -4270093, -4202261, -3415654, -1259815, -1521765, -4341268, -1127744, -1318219, -3945761}, new int[]{-4924688, -3283031, -1523567, -2494477, -1126510, -595210, -2037517, -3478548, -4661623, -927514, -796762, -2696971, -1188403, -1319735, -1577487}, new int[]{-3149585, -5714021, -1978209, -4925720, -1134713, -1718833, -3613709, -5317397, -3218014, -999207, -2116466, -4343054, -931397, -1583186, -3815718}, new int[]{9, 10, 11, 12, 13, 14, 0, 1, 2, 3, 4, 5, 6, 7, 8}, new String[]{"MIo6r0qGSFAFAAAAtL8TsDzNX60", "dhf9pceaQVACAAAAbzdVo4SCiZA", "fqv01SQemVIBAAAApND8LDRUhRU", "p-pXcflrmFIBAAAAvXYQk-mCwZU", "JqSUrO0-mFIBAAAAWwTvLzoWGQI", "F5oWoCs7QFACAAAAgf2bD_mg8Bw", "fqv01SQemVIBAAAApND8LDRUhRU", "RepJ5uE_SVABAAAAr4d0YhgB850", "PllZ-bf_SFAEAAAA8crRfwZiDNg", "pgJfpFNRSFABAAAACDT8s5sEjfc", "ptuUd96JSFACAAAATobI23sPpz0", "dhf9pceaQVACAAAAbzdVo4SCiZA", "JqSUrO0-mFIBAAAAWwTvLzoWGQI", "9iklpvIPQVABAAAAORQXKur_Eyc", "F5oWoCs7QFACAAAAgf2bD_mg8Bw"}, new int[]{315, 315, 225, 315, 0, 180, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{50, 50, 58, 47, 46, 50, 49, 46, 51, 50, 49, 34, 54, 50, 40});
-        sortAccents(themeInfo4);
-        themes.add(themeInfo4);
-        themesDict.put("Arctic Blue", themeInfo4);
-        ThemeInfo themeInfo5 = new ThemeInfo();
-        themeInfo5.name = "Day";
-        themeInfo5.assetName = "day.attheme";
-        themeInfo5.previewBackgroundColor = -1;
-        themeInfo5.previewInColor = -1315084;
-        themeInfo5.previewOutColor = -8604930;
-        themeInfo5.sortIndex = 2;
-        themeInfo5.setAccentColorOptions(new int[]{-11099447, -3379581, -3109305, -3382174, -7963438, -11759137, -11029287, -11226775, -2506945, -3382174, -3379581, -6587438, -2649788, -8681301}, new int[]{-10125092, -9671214, -3451775, -3978678, -10711329, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{-12664362, -3642988, -2383569, -3109317, -11422261, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, null, null, new int[]{9, 10, 11, 12, 13, 0, 1, 2, 3, 4, 5, 6, 7, 8}, new String[]{"", "", "", "", "", "", "", "", "", "", "", "", "", ""}, new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
-        sortAccents(themeInfo5);
-        themes.add(themeInfo5);
-        themesDict.put("Day", themeInfo5);
+        SharedPreferences sharedPreferences = ApplicationLoader.applicationContext.getSharedPreferences("themeconfig", 0);
         ThemeInfo themeInfo6 = new ThemeInfo();
-        themeInfo6.name = "Night";
-        themeInfo6.assetName = "night.attheme";
-        themeInfo6.previewBackgroundColor = -11315623;
-        themeInfo6.previewInColor = -9143676;
-        themeInfo6.previewOutColor = -9067802;
-        themeInfo6.sortIndex = 4;
-        themeInfo6.setAccentColorOptions(new int[]{-9781697, -7505693, -2204034, -10913816, -2375398, -12678921, -11881005, -11880383, -2534026, -1934037, -7115558, -3128522, -1528292, -8812381}, new int[]{-7712108, -4953061, -5288081, -14258547, -9154889, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{-9939525, -5948598, -10335844, -13659747, -14054507, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{-15330532, -14806760, -15791344, -16184308, -16313063, -15921641, -15656164, -15986420, -15856883, -14871025, -16185078, -14937584, -14869736, -15855598}, new int[]{-14673881, -15724781, -15002342, -15458526, -15987697, -16184820, -16118258, -16250616, -15067624, -15527923, -14804447, -15790836, -15987960, -16316665}, new int[]{-15856877, -14608861, -15528430, -15921391, -15722209, -15197144, -15458015, -15591406, -15528431, -15068401, -16053749, -15594229, -15395825, -15724012}, new int[]{-14804694, -15658986, -14609382, -15656421, -16118509, -15855854, -16315381, -16052981, -14544354, -15791092, -15659241, -16316922, -15988214, -16185077}, new int[]{9, 10, 11, 12, 13, 0, 1, 2, 3, 4, 5, 6, 7, 8}, new String[]{"YIxYGEALQVADAAAAA3QbEH0AowY", "9LW_RcoOSVACAAAAFTk3DTyXN-M", "O-wmAfBPSFADAAAA4zINVfD_bro", "F5oWoCs7QFACAAAAgf2bD_mg8Bw", "-Xc-np9y2VMCAAAARKr0yNNPYW0", "fqv01SQemVIBAAAApND8LDRUhRU", "F5oWoCs7QFACAAAAgf2bD_mg8Bw", "ptuUd96JSFACAAAATobI23sPpz0", "p-pXcflrmFIBAAAAvXYQk-mCwZU", "Nl8Pg2rBQVACAAAA25Lxtb8SDp0", "dhf9pceaQVACAAAAbzdVo4SCiZA", "9GcNVISdSVADAAAAUcw5BYjELW4", "9LW_RcoOSVACAAAAFTk3DTyXN-M", "dk_wwlghOFACAAAAfz9xrxi6euw"}, new int[]{45, 135, 0, 180, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{34, 47, 52, 48, 54, 50, 37, 56, 48, 49, 40, 64, 38, 48});
+        themeInfo6.name = "Blue";
+        themeInfo6.assetName = "bluebubbles.attheme";
+        themeInfo6.previewBackgroundColor = -6963476;
+        themeInfo6.previewInColor = -1;
+        themeInfo6.previewOutColor = -3086593;
+        themeInfo6.firstAccentIsDefault = true;
+        themeInfo6.currentAccentId = DEFALT_THEME_ACCENT_ID;
+        themeInfo6.sortIndex = 1;
+        themeInfo6.setAccentColorOptions(new int[]{-10972987, -14444461, -3252606, -8428605, -14380627, -14050257, -7842636, -13464881, -12342073, -11359164, -3317869, -2981834, -8165684, -3256745, -2904512, -8681301}, new int[]{-4660851, -328756, -1572, -4108434, -3031781, -1335, -198952, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{0, -853047, -264993, 0, 0, -135756, -198730, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{0, -2104672, -937328, -2637335, -2639714, -1270157, -3428124, -6570777, -7223828, -6567550, -1793599, -1855875, -4674838, -1336199, -2900876, -6247730}, new int[]{0, -4532067, -1257580, -1524266, -1646910, -1519483, -1324823, -4138509, -4202516, -2040429, -1458474, -1256030, -3814930, -1000039, -1450082, -3485987}, new int[]{0, -1909081, -1592444, -2969879, -2439762, -1137033, -2119471, -6962197, -4857383, -4270699, -3364639, -2117514, -5000734, -1598028, -2045813, -5853742}, new int[]{0, -6371440, -1319256, -1258616, -1712961, -1186647, -1193816, -4467224, -4203544, -3023977, -1061929, -1255788, -2113811, -806526, -1715305, -3485976}, new int[]{99, 9, 10, 11, 12, 13, 14, 0, 1, 2, 3, 4, 5, 6, 7, 8}, new String[]{"", "p-pXcflrmFIBAAAAvXYQk-mCwZU", "JqSUrO0-mFIBAAAAWwTvLzoWGQI", "O-wmAfBPSFADAAAA4zINVfD_bro", "RepJ5uE_SVABAAAAr4d0YhgB850", "-Xc-np9y2VMCAAAARKr0yNNPYW0", "fqv01SQemVIBAAAApND8LDRUhRU", "fqv01SQemVIBAAAApND8LDRUhRU", "RepJ5uE_SVABAAAAr4d0YhgB850", "lp0prF8ISFAEAAAA_p385_CvG0w", "heptcj-hSVACAAAAC9RrMzOa-cs", "PllZ-bf_SFAEAAAA8crRfwZiDNg", "dhf9pceaQVACAAAAbzdVo4SCiZA", "Ujx2TFcJSVACAAAARJ4vLa50MkM", "p-pXcflrmFIBAAAAvXYQk-mCwZU", "dk_wwlghOFACAAAAfz9xrxi6euw"}, new int[]{0, 180, 45, 0, 45, 180, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{0, 52, 46, 57, 45, 64, 52, 35, 36, 41, 50, 50, 35, 38, 37, 30});
         sortAccents(themeInfo6);
-        themes.add(themeInfo6);
-        themesDict.put("Night", themeInfo6);
-        String string = sharedPreferences2.getString("themes2", null);
-        if (sharedPreferences2.getInt("remote_version", 0) == 1) {
-            int i = 0;
-            while (i < 4) {
+        ArrayList<ThemeInfo> arrayList = themes;
+        defaultTheme = themeInfo6;
+        currentTheme = themeInfo6;
+        currentDayTheme = themeInfo6;
+        arrayList.add(themeInfo6);
+        themesDict.put("Blue", themeInfo6);
+        ThemeInfo themeInfo7 = new ThemeInfo();
+        themeInfo7.name = "Dark Blue";
+        themeInfo7.assetName = "darkblue.attheme";
+        themeInfo7.previewBackgroundColor = -10523006;
+        themeInfo7.previewInColor = -9009508;
+        themeInfo7.previewOutColor = -8214301;
+        themeInfo7.sortIndex = 3;
+        themeInfo7.setAccentColorOptions(new int[]{-7177260, -9860357, -14440464, -8687151, -9848491, -14053142, -9403671, -10044691, -13203974, -12138259, -10179489, -1344335, -1142742, -6127120, -2931932, -1131212, -8417365, -13270557}, new int[]{-6464359, -10267323, -13532789, -5413850, -11898828, -13410942, -13215889, -10914461, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{-10465880, -9937588, -14983040, -6736562, -14197445, -13534568, -13144441, -10587280, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{-14213586, -15263198, -16310753, -15724781, -15853551, -16051428, -14868183, -14668758, -15854566, -15326427, -15327979, -14411490, -14345453, -14738135, -14543346, -14212843, -15263205, -15854566}, new int[]{-15659501, -14277074, -15459034, -14542297, -14735336, -15129808, -15591910, -15459810, -15260623, -15853800, -15259879, -14477540, -14674936, -15461604, -13820650, -15067635, -14605528, -15260623}, new int[]{-13951445, -15395557, -15985382, -15855853, -16050417, -15525854, -15260627, -15327189, -15788258, -14799314, -15458796, -13952727, -13754603, -14081231, -14478324, -14081004, -15197667, -15788258}, new int[]{-15330777, -15066858, -15915220, -14213847, -15262439, -15260879, -15657695, -16443625, -15459285, -15589601, -14932454, -14740451, -15002870, -15264997, -13821660, -14805234, -14605784, -15459285}, new int[]{11, 12, 13, 14, 15, 16, 17, 18, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9}, new String[]{"O-wmAfBPSFADAAAA4zINVfD_bro", "RepJ5uE_SVABAAAAr4d0YhgB850", "dk_wwlghOFACAAAAfz9xrxi6euw", "9LW_RcoOSVACAAAAFTk3DTyXN-M", "PllZ-bf_SFAEAAAA8crRfwZiDNg", "-Xc-np9y2VMCAAAARKr0yNNPYW0", "kO4jyq55SFABAAAA0WEpcLfahXk", "CJNyxPMgSVAEAAAAvW9sMwc51cw", "fqv01SQemVIBAAAApND8LDRUhRU", "RepJ5uE_SVABAAAAr4d0YhgB850", "CJNyxPMgSVAEAAAAvW9sMwc51cw", "9LW_RcoOSVACAAAAFTk3DTyXN-M", "9GcNVISdSVADAAAAUcw5BYjELW4", "F5oWoCs7QFACAAAAgf2bD_mg8Bw", "9ShF73d1MFIIAAAAjWnm8_ZMe8Q", "3rX-PaKbSFACAAAAEiHNvcEm6X4", "dk_wwlghOFACAAAAfz9xrxi6euw", "fqv01SQemVIBAAAApND8LDRUhRU"}, new int[]{225, 45, 225, 135, 45, 225, 45, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{40, 40, 31, 50, 25, 34, 35, 35, 38, 29, 24, 34, 34, 31, 29, 37, 21, 38});
+        sortAccents(themeInfo7);
+        themes.add(themeInfo7);
+        HashMap<String, ThemeInfo> hashMap2 = themesDict;
+        currentNightTheme = themeInfo7;
+        hashMap2.put("Dark Blue", themeInfo7);
+        ThemeInfo themeInfo8 = new ThemeInfo();
+        themeInfo8.name = "Arctic Blue";
+        themeInfo8.assetName = "arctic.attheme";
+        themeInfo8.previewBackgroundColor = -1971728;
+        themeInfo8.previewInColor = -1;
+        themeInfo8.previewOutColor = -9657877;
+        themeInfo8.sortIndex = 5;
+        themeInfo8.setAccentColorOptions(new int[]{-12537374, -12472227, -3240928, -11033621, -2194124, -3382903, -13332245, -12342073, -11359164, -3317869, -2981834, -8165684, -3256745, -2904512, -8681301}, new int[]{-13525046, -14113959, -7579073, -13597229, -3581840, -8883763, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{-11616542, -9716647, -6400452, -12008744, -2592697, -4297041, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{-3808528, -2433367, -2700891, -1838093, -1120848, -1712148, -2037779, -4202261, -4005713, -1058332, -925763, -1975316, -1189672, -1318451, -2302235}, new int[]{-1510157, -4398164, -1647697, -3610898, -1130838, -1980692, -4270093, -4202261, -3415654, -1259815, -1521765, -4341268, -1127744, -1318219, -3945761}, new int[]{-4924688, -3283031, -1523567, -2494477, -1126510, -595210, -2037517, -3478548, -4661623, -927514, -796762, -2696971, -1188403, -1319735, -1577487}, new int[]{-3149585, -5714021, -1978209, -4925720, -1134713, -1718833, -3613709, -5317397, -3218014, -999207, -2116466, -4343054, -931397, -1583186, -3815718}, new int[]{9, 10, 11, 12, 13, 14, 0, 1, 2, 3, 4, 5, 6, 7, 8}, new String[]{"MIo6r0qGSFAFAAAAtL8TsDzNX60", "dhf9pceaQVACAAAAbzdVo4SCiZA", "fqv01SQemVIBAAAApND8LDRUhRU", "p-pXcflrmFIBAAAAvXYQk-mCwZU", "JqSUrO0-mFIBAAAAWwTvLzoWGQI", "F5oWoCs7QFACAAAAgf2bD_mg8Bw", "fqv01SQemVIBAAAApND8LDRUhRU", "RepJ5uE_SVABAAAAr4d0YhgB850", "PllZ-bf_SFAEAAAA8crRfwZiDNg", "pgJfpFNRSFABAAAACDT8s5sEjfc", "ptuUd96JSFACAAAATobI23sPpz0", "dhf9pceaQVACAAAAbzdVo4SCiZA", "JqSUrO0-mFIBAAAAWwTvLzoWGQI", "9iklpvIPQVABAAAAORQXKur_Eyc", "F5oWoCs7QFACAAAAgf2bD_mg8Bw"}, new int[]{315, 315, 225, 315, 0, 180, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{50, 50, 58, 47, 46, 50, 49, 46, 51, 50, 49, 34, 54, 50, 40});
+        sortAccents(themeInfo8);
+        themes.add(themeInfo8);
+        themesDict.put("Arctic Blue", themeInfo8);
+        ThemeInfo themeInfo9 = new ThemeInfo();
+        themeInfo9.name = "Day";
+        themeInfo9.assetName = "day.attheme";
+        themeInfo9.previewBackgroundColor = -1;
+        themeInfo9.previewInColor = -1315084;
+        themeInfo9.previewOutColor = -8604930;
+        themeInfo9.sortIndex = 2;
+        themeInfo9.setAccentColorOptions(new int[]{-11099447, -3379581, -3109305, -3382174, -7963438, -11759137, -11029287, -11226775, -2506945, -3382174, -3379581, -6587438, -2649788, -8681301}, new int[]{-10125092, -9671214, -3451775, -3978678, -10711329, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{-12664362, -3642988, -2383569, -3109317, -11422261, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, null, null, new int[]{9, 10, 11, 12, 13, 0, 1, 2, 3, 4, 5, 6, 7, 8}, new String[]{"", "", "", "", "", "", "", "", "", "", "", "", "", ""}, new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
+        sortAccents(themeInfo9);
+        themes.add(themeInfo9);
+        themesDict.put("Day", themeInfo9);
+        ThemeInfo themeInfo10 = new ThemeInfo();
+        themeInfo10.name = "Night";
+        themeInfo10.assetName = "night.attheme";
+        themeInfo10.previewBackgroundColor = -11315623;
+        themeInfo10.previewInColor = -9143676;
+        themeInfo10.previewOutColor = -9067802;
+        themeInfo10.sortIndex = 4;
+        themeInfo10.setAccentColorOptions(new int[]{-9781697, -7505693, -2204034, -10913816, -2375398, -12678921, -11881005, -11880383, -2534026, -1934037, -7115558, -3128522, -1528292, -8812381}, new int[]{-7712108, -4953061, -5288081, -14258547, -9154889, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{-9939525, -5948598, -10335844, -13659747, -14054507, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{-15330532, -14806760, -15791344, -16184308, -16313063, -15921641, -15656164, -15986420, -15856883, -14871025, -16185078, -14937584, -14869736, -15855598}, new int[]{-14673881, -15724781, -15002342, -15458526, -15987697, -16184820, -16118258, -16250616, -15067624, -15527923, -14804447, -15790836, -15987960, -16316665}, new int[]{-15856877, -14608861, -15528430, -15921391, -15722209, -15197144, -15458015, -15591406, -15528431, -15068401, -16053749, -15594229, -15395825, -15724012}, new int[]{-14804694, -15658986, -14609382, -15656421, -16118509, -15855854, -16315381, -16052981, -14544354, -15791092, -15659241, -16316922, -15988214, -16185077}, new int[]{9, 10, 11, 12, 13, 0, 1, 2, 3, 4, 5, 6, 7, 8}, new String[]{"YIxYGEALQVADAAAAA3QbEH0AowY", "9LW_RcoOSVACAAAAFTk3DTyXN-M", "O-wmAfBPSFADAAAA4zINVfD_bro", "F5oWoCs7QFACAAAAgf2bD_mg8Bw", "-Xc-np9y2VMCAAAARKr0yNNPYW0", "fqv01SQemVIBAAAApND8LDRUhRU", "F5oWoCs7QFACAAAAgf2bD_mg8Bw", "ptuUd96JSFACAAAATobI23sPpz0", "p-pXcflrmFIBAAAAvXYQk-mCwZU", "Nl8Pg2rBQVACAAAA25Lxtb8SDp0", "dhf9pceaQVACAAAAbzdVo4SCiZA", "9GcNVISdSVADAAAAUcw5BYjELW4", "9LW_RcoOSVACAAAAFTk3DTyXN-M", "dk_wwlghOFACAAAAfz9xrxi6euw"}, new int[]{45, 135, 0, 180, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new int[]{34, 47, 52, 48, 54, 50, 37, 56, 48, 49, 40, 64, 38, 48});
+        sortAccents(themeInfo10);
+        themes.add(themeInfo10);
+        themesDict.put("Night", themeInfo10);
+        String str = null;
+        String string = sharedPreferences.getString("themes2", null);
+        if (sharedPreferences.getInt("remote_version", 0) == 1) {
+            int i2 = 0;
+            while (i2 < 4) {
                 long[] jArr = remoteThemesHash;
                 StringBuilder sb = new StringBuilder();
                 sb.append("2remoteThemesHash");
-                sb.append(i != 0 ? Integer.valueOf(i) : "");
-                jArr[i] = sharedPreferences2.getLong(sb.toString(), 0L);
+                sb.append(i2 != 0 ? Integer.valueOf(i2) : "");
+                jArr[i2] = sharedPreferences.getLong(sb.toString(), 0L);
                 int[] iArr = lastLoadingThemesTime;
                 StringBuilder sb2 = new StringBuilder();
                 sb2.append("lastLoadingThemesTime");
-                sb2.append(i != 0 ? Integer.valueOf(i) : "");
-                iArr[i] = sharedPreferences2.getInt(sb2.toString(), 0);
-                i++;
+                sb2.append(i2 != 0 ? Integer.valueOf(i2) : "");
+                iArr[i2] = sharedPreferences.getInt(sb2.toString(), 0);
+                i2++;
             }
         }
-        sharedPreferences2.edit().putInt("remote_version", 1).apply();
+        sharedPreferences.edit().putInt("remote_version", 1).apply();
         if (!TextUtils.isEmpty(string)) {
             try {
                 JSONArray jSONArray = new JSONArray(string);
-                for (int i2 = 0; i2 < jSONArray.length(); i2++) {
-                    ThemeInfo createWithJson = ThemeInfo.createWithJson(jSONArray.getJSONObject(i2));
+                for (int i3 = 0; i3 < jSONArray.length(); i3++) {
+                    ThemeInfo createWithJson = ThemeInfo.createWithJson(jSONArray.getJSONObject(i3));
                     if (createWithJson != null) {
                         otherThemes.add(createWithJson);
                         themes.add(createWithJson);
                         themesDict.put(createWithJson.getKey(), createWithJson);
-                        createWithJson.loadWallpapers(sharedPreferences2);
+                        createWithJson.loadWallpapers(sharedPreferences);
                     }
                 }
             } catch (Exception e) {
                 FileLog.e(e);
             }
         } else {
-            String string2 = sharedPreferences2.getString("themes", null);
+            String string2 = sharedPreferences.getString("themes", null);
             if (!TextUtils.isEmpty(string2)) {
-                for (String str : string2.split("&")) {
-                    ThemeInfo createWithString = ThemeInfo.createWithString(str);
+                for (String str2 : string2.split("&")) {
+                    ThemeInfo createWithString = ThemeInfo.createWithString(str2);
                     if (createWithString != null) {
                         otherThemes.add(createWithString);
                         themes.add(createWithString);
@@ -4571,114 +4574,119 @@ public class Theme {
                     }
                 }
                 saveOtherThemes(true, true);
-                sharedPreferences2.edit().remove("themes").commit();
+                sharedPreferences.edit().remove("themes").commit();
             }
         }
         sortThemes();
-        ThemeInfo themeInfo7 = null;
         SharedPreferences globalMainSettings = MessagesController.getGlobalMainSettings();
         try {
-            ThemeInfo themeInfo8 = themesDict.get("Dark Blue");
+            ThemeInfo themeInfo11 = themesDict.get("Dark Blue");
             String string3 = globalMainSettings.getString("theme", null);
             if ("Default".equals(string3)) {
-                themeInfo7 = themesDict.get("Blue");
-                themeInfo7.currentAccentId = DEFALT_THEME_ACCENT_ID;
+                themeInfo = themesDict.get("Blue");
+                themeInfo.currentAccentId = DEFALT_THEME_ACCENT_ID;
             } else if ("Dark".equals(string3)) {
-                themeInfo8.currentAccentId = 9;
-                themeInfo7 = themeInfo8;
-            } else if (string3 != null && (themeInfo7 = themesDict.get(string3)) != null && !sharedPreferences2.contains("lastDayTheme")) {
-                SharedPreferences.Editor edit = sharedPreferences2.edit();
-                edit.putString("lastDayTheme", themeInfo7.getKey());
-                edit.commit();
+                themeInfo11.currentAccentId = 9;
+                themeInfo = themeInfo11;
+            } else if (string3 != null) {
+                themeInfo = themesDict.get(string3);
+                if (themeInfo != null && !sharedPreferences.contains("lastDayTheme")) {
+                    SharedPreferences.Editor edit = sharedPreferences.edit();
+                    edit.putString("lastDayTheme", themeInfo.getKey());
+                    edit.commit();
+                }
+            } else {
+                themeInfo = null;
             }
             String string4 = globalMainSettings.getString("nighttheme", null);
             if ("Default".equals(string4)) {
-                themeInfo7 = themesDict.get("Blue");
-                themeInfo7.currentAccentId = DEFALT_THEME_ACCENT_ID;
+                themeInfo = themesDict.get("Blue");
+                themeInfo.currentAccentId = DEFALT_THEME_ACCENT_ID;
             } else if ("Dark".equals(string4)) {
-                currentNightTheme = themeInfo8;
-                themeInfo8.currentAccentId = 9;
-            } else if (string4 != null && (themeInfo = themesDict.get(string4)) != null) {
-                currentNightTheme = themeInfo;
+                currentNightTheme = themeInfo11;
+                themeInfo11.currentAccentId = 9;
+            } else if (string4 != null && (themeInfo2 = themesDict.get(string4)) != null) {
+                currentNightTheme = themeInfo2;
             }
-            if (currentNightTheme != null && !sharedPreferences2.contains("lastDarkTheme")) {
-                SharedPreferences.Editor edit2 = sharedPreferences2.edit();
+            if (currentNightTheme != null && !sharedPreferences.contains("lastDarkTheme")) {
+                SharedPreferences.Editor edit2 = sharedPreferences.edit();
                 edit2.putString("lastDarkTheme", currentNightTheme.getKey());
                 edit2.commit();
             }
-            SharedPreferences.Editor editor3 = null;
-            SharedPreferences.Editor editor4 = null;
             Iterator<ThemeInfo> it3 = themesDict.values().iterator();
+            SharedPreferences.Editor editor = null;
+            SharedPreferences.Editor editor2 = null;
             while (it3.hasNext()) {
                 ThemeInfo next = it3.next();
                 if (next.assetName == null || next.accentBaseColor == 0) {
                     it = it3;
-                    editor4 = editor4;
+                    themeInfo4 = themeInfo;
                 } else {
-                    String string5 = sharedPreferences2.getString("accents_" + next.assetName, null);
-                    next.currentAccentId = sharedPreferences2.getInt("accent_current_" + next.assetName, next.firstAccentIsDefault ? DEFALT_THEME_ACCENT_ID : 0);
+                    String string5 = sharedPreferences.getString("accents_" + next.assetName, str);
+                    next.currentAccentId = sharedPreferences.getInt("accent_current_" + next.assetName, next.firstAccentIsDefault ? DEFALT_THEME_ACCENT_ID : 0);
                     ArrayList arrayList2 = new ArrayList();
                     if (!TextUtils.isEmpty(string5)) {
-                        SerializedData serializedData = new SerializedData(Base64.decode(string5, 3));
-                        boolean z5 = true;
-                        int readInt32 = serializedData.readInt32(true);
-                        int readInt322 = serializedData.readInt32(true);
-                        int i3 = 0;
-                        while (i3 < readInt322) {
+                        SerializedData serializedData2 = new SerializedData(Base64.decode(string5, 3));
+                        boolean z3 = true;
+                        int readInt32 = serializedData2.readInt32(true);
+                        int readInt322 = serializedData2.readInt32(true);
+                        int i4 = 0;
+                        SerializedData serializedData3 = serializedData2;
+                        while (i4 < readInt322) {
                             try {
                                 ThemeAccent themeAccent = new ThemeAccent();
-                                themeAccent.id = serializedData.readInt32(z5);
-                                themeAccent.accentColor = serializedData.readInt32(z5);
+                                themeAccent.id = serializedData3.readInt32(z3);
+                                themeAccent.accentColor = serializedData3.readInt32(z3);
                                 if (readInt32 >= 9) {
-                                    themeAccent.accentColor2 = serializedData.readInt32(z5);
+                                    themeAccent.accentColor2 = serializedData3.readInt32(z3);
                                 }
                                 themeAccent.parentTheme = next;
-                                themeAccent.myMessagesAccentColor = serializedData.readInt32(true);
-                                themeAccent.myMessagesGradientAccentColor1 = serializedData.readInt32(true);
+                                themeAccent.myMessagesAccentColor = serializedData3.readInt32(true);
+                                themeAccent.myMessagesGradientAccentColor1 = serializedData3.readInt32(true);
                                 if (readInt32 >= 7) {
-                                    themeAccent.myMessagesGradientAccentColor2 = serializedData.readInt32(true);
-                                    themeAccent.myMessagesGradientAccentColor3 = serializedData.readInt32(true);
+                                    themeAccent.myMessagesGradientAccentColor2 = serializedData3.readInt32(true);
+                                    themeAccent.myMessagesGradientAccentColor3 = serializedData3.readInt32(true);
                                 }
                                 if (readInt32 >= 8) {
-                                    z4 = true;
-                                    themeAccent.myMessagesAnimated = serializedData.readBool(true);
+                                    z2 = true;
+                                    themeAccent.myMessagesAnimated = serializedData3.readBool(true);
                                 } else {
-                                    z4 = true;
+                                    z2 = true;
                                 }
                                 if (readInt32 >= 3) {
-                                    editor2 = editor4;
                                     it2 = it3;
-                                    themeAccent.backgroundOverrideColor = serializedData.readInt64(z4);
+                                    themeInfo5 = themeInfo;
+                                    themeAccent.backgroundOverrideColor = serializedData3.readInt64(z2);
                                 } else {
-                                    editor2 = editor4;
                                     it2 = it3;
-                                    themeAccent.backgroundOverrideColor = serializedData.readInt32(z4);
+                                    themeInfo5 = themeInfo;
+                                    themeAccent.backgroundOverrideColor = serializedData3.readInt32(z2);
                                 }
                                 if (readInt32 >= 2) {
-                                    themeAccent.backgroundGradientOverrideColor1 = serializedData.readInt64(z4);
+                                    themeAccent.backgroundGradientOverrideColor1 = serializedData3.readInt64(z2);
                                 } else {
-                                    themeAccent.backgroundGradientOverrideColor1 = serializedData.readInt32(z4);
+                                    themeAccent.backgroundGradientOverrideColor1 = serializedData3.readInt32(z2);
                                 }
-                                ?? r1 = z4;
+                                ?? r2 = z2;
                                 if (readInt32 >= 6) {
-                                    themeAccent.backgroundGradientOverrideColor2 = serializedData.readInt64(z4);
-                                    themeAccent.backgroundGradientOverrideColor3 = serializedData.readInt64(z4);
-                                    r1 = 1;
+                                    themeAccent.backgroundGradientOverrideColor2 = serializedData3.readInt64(z2);
+                                    themeAccent.backgroundGradientOverrideColor3 = serializedData3.readInt64(z2);
+                                    r2 = 1;
                                 }
-                                if (readInt32 >= r1) {
-                                    themeAccent.backgroundRotation = serializedData.readInt32(r1);
+                                if (readInt32 >= r2) {
+                                    themeAccent.backgroundRotation = serializedData3.readInt32(r2);
                                 }
                                 if (readInt32 >= 4) {
-                                    serializedData.readInt64(r1);
-                                    themeAccent.patternIntensity = (float) serializedData.readDouble(r1);
-                                    themeAccent.patternMotion = serializedData.readBool(r1);
+                                    serializedData3.readInt64(r2);
+                                    themeAccent.patternIntensity = (float) serializedData3.readDouble(r2);
+                                    themeAccent.patternMotion = serializedData3.readBool(r2);
                                     if (readInt32 >= 5) {
-                                        themeAccent.patternSlug = serializedData.readString(r1);
+                                        themeAccent.patternSlug = serializedData3.readString(r2);
                                     }
                                 }
-                                if (readInt32 >= 5 && serializedData.readBool(true)) {
-                                    themeAccent.account = serializedData.readInt32(true);
-                                    themeAccent.info = TLRPC$Theme.TLdeserialize(serializedData, serializedData.readInt32(true), true);
+                                if (readInt32 >= 5 && serializedData3.readBool(true)) {
+                                    themeAccent.account = serializedData3.readInt32(true);
+                                    themeAccent.info = TLRPC$Theme.TLdeserialize(serializedData3, serializedData3.readInt32(true), true);
                                 }
                                 TLRPC$TL_theme tLRPC$TL_theme = themeAccent.info;
                                 if (tLRPC$TL_theme != null) {
@@ -4687,85 +4695,85 @@ public class Theme {
                                 next.themeAccentsMap.put(themeAccent.id, themeAccent);
                                 TLRPC$TL_theme tLRPC$TL_theme2 = themeAccent.info;
                                 if (tLRPC$TL_theme2 != null) {
-                                    sharedPreferences = globalMainSettings;
+                                    serializedData = serializedData3;
+                                    i = readInt32;
                                     next.accentsByThemeId.put(tLRPC$TL_theme2.id, themeAccent);
                                 } else {
-                                    sharedPreferences = globalMainSettings;
+                                    serializedData = serializedData3;
+                                    i = readInt32;
                                 }
                                 arrayList2.add(themeAccent);
                                 next.lastAccentId = Math.max(next.lastAccentId, themeAccent.id);
-                                i3++;
+                                i4++;
+                                serializedData3 = serializedData;
+                                themeInfo = themeInfo5;
                                 it3 = it2;
-                                globalMainSettings = sharedPreferences;
-                                editor4 = editor2;
-                                z5 = true;
+                                readInt32 = i;
+                                z3 = true;
                             } finally {
                                 RuntimeException runtimeException = new RuntimeException(th);
                             }
                         }
-                        editor = editor4;
                         it = it3;
+                        themeInfo4 = themeInfo;
                     } else {
-                        editor = editor4;
                         it = it3;
-                        String str2 = "accent_for_" + next.assetName;
-                        globalMainSettings = globalMainSettings;
-                        int i4 = globalMainSettings.getInt(str2, 0);
-                        if (i4 != 0) {
-                            if (editor3 == null) {
-                                editor3 = globalMainSettings.edit();
-                                editor4 = sharedPreferences2.edit();
-                            } else {
-                                editor4 = editor;
+                        themeInfo4 = themeInfo;
+                        String str3 = "accent_for_" + next.assetName;
+                        int i5 = globalMainSettings.getInt(str3, 0);
+                        if (i5 != 0) {
+                            if (editor == null) {
+                                editor = globalMainSettings.edit();
+                                editor2 = sharedPreferences.edit();
                             }
-                            editor3.remove(str2);
+                            editor.remove(str3);
                             int size = next.themeAccents.size();
-                            int i5 = 0;
+                            int i6 = 0;
                             while (true) {
-                                if (i5 >= size) {
-                                    z3 = false;
+                                if (i6 >= size) {
+                                    z = false;
                                     break;
                                 }
-                                ThemeAccent themeAccent2 = next.themeAccents.get(i5);
-                                if (themeAccent2.accentColor == i4) {
+                                ThemeAccent themeAccent2 = next.themeAccents.get(i6);
+                                if (themeAccent2.accentColor == i5) {
                                     next.currentAccentId = themeAccent2.id;
-                                    z3 = true;
+                                    z = true;
                                     break;
                                 }
-                                i5++;
+                                i6++;
                             }
-                            if (!z3) {
+                            if (!z) {
                                 ThemeAccent themeAccent3 = new ThemeAccent();
                                 themeAccent3.id = 100;
-                                themeAccent3.accentColor = i4;
+                                themeAccent3.accentColor = i5;
                                 themeAccent3.parentTheme = next;
                                 next.themeAccentsMap.put(100, themeAccent3);
                                 arrayList2.add(0, themeAccent3);
                                 next.currentAccentId = 100;
                                 next.lastAccentId = FileLoader.MEDIA_DIR_VIDEO_PUBLIC;
-                                SerializedData serializedData2 = new SerializedData(72);
-                                serializedData2.writeInt32(9);
-                                serializedData2.writeInt32(1);
-                                serializedData2.writeInt32(themeAccent3.id);
-                                serializedData2.writeInt32(themeAccent3.accentColor);
-                                serializedData2.writeInt32(themeAccent3.myMessagesAccentColor);
-                                serializedData2.writeInt32(themeAccent3.myMessagesGradientAccentColor1);
-                                serializedData2.writeInt32(themeAccent3.myMessagesGradientAccentColor2);
-                                serializedData2.writeInt32(themeAccent3.myMessagesGradientAccentColor3);
-                                serializedData2.writeBool(themeAccent3.myMessagesAnimated);
-                                serializedData2.writeInt64(themeAccent3.backgroundOverrideColor);
-                                serializedData2.writeInt64(themeAccent3.backgroundGradientOverrideColor1);
-                                serializedData2.writeInt64(themeAccent3.backgroundGradientOverrideColor2);
-                                serializedData2.writeInt64(themeAccent3.backgroundGradientOverrideColor3);
-                                serializedData2.writeInt32(themeAccent3.backgroundRotation);
-                                serializedData2.writeInt64(0L);
-                                serializedData2.writeDouble(themeAccent3.patternIntensity);
-                                serializedData2.writeBool(themeAccent3.patternMotion);
-                                serializedData2.writeString(themeAccent3.patternSlug);
-                                serializedData2.writeBool(false);
-                                editor4.putString("accents_" + next.assetName, Base64.encodeToString(serializedData2.toByteArray(), 3));
+                                SerializedData serializedData4 = new SerializedData(72);
+                                serializedData4.writeInt32(9);
+                                serializedData4.writeInt32(1);
+                                serializedData4.writeInt32(themeAccent3.id);
+                                serializedData4.writeInt32(themeAccent3.accentColor);
+                                serializedData4.writeInt32(themeAccent3.myMessagesAccentColor);
+                                serializedData4.writeInt32(themeAccent3.myMessagesGradientAccentColor1);
+                                serializedData4.writeInt32(themeAccent3.myMessagesGradientAccentColor2);
+                                serializedData4.writeInt32(themeAccent3.myMessagesGradientAccentColor3);
+                                serializedData4.writeBool(themeAccent3.myMessagesAnimated);
+                                serializedData4.writeInt64(themeAccent3.backgroundOverrideColor);
+                                serializedData4.writeInt64(themeAccent3.backgroundGradientOverrideColor1);
+                                serializedData4.writeInt64(themeAccent3.backgroundGradientOverrideColor2);
+                                serializedData4.writeInt64(themeAccent3.backgroundGradientOverrideColor3);
+                                serializedData4.writeInt32(themeAccent3.backgroundRotation);
+                                serializedData4.writeInt64(0L);
+                                serializedData4.writeDouble(themeAccent3.patternIntensity);
+                                serializedData4.writeBool(themeAccent3.patternMotion);
+                                serializedData4.writeString(themeAccent3.patternSlug);
+                                serializedData4.writeBool(false);
+                                editor2.putString("accents_" + next.assetName, Base64.encodeToString(serializedData4.toByteArray(), 3));
                             }
-                            editor4.putInt("accent_current_" + next.assetName, next.currentAccentId);
+                            editor2.putInt("accent_current_" + next.assetName, next.currentAccentId);
                             if (!arrayList2.isEmpty()) {
                                 next.themeAccents.addAll(0, arrayList2);
                                 sortAccents(next);
@@ -4774,31 +4782,33 @@ public class Theme {
                             if (sparseArray != null && sparseArray.get(next.currentAccentId) == null) {
                                 next.currentAccentId = !next.firstAccentIsDefault ? DEFALT_THEME_ACCENT_ID : 0;
                             }
-                            next.loadWallpapers(sharedPreferences2);
+                            next.loadWallpapers(sharedPreferences);
                             accent = next.getAccent(false);
                             if (accent == null) {
                                 next.overrideWallpaper = accent.overrideWallpaper;
                             }
                         }
                     }
-                    editor4 = editor;
                     if (!arrayList2.isEmpty()) {
                     }
                     sparseArray = next.themeAccentsMap;
                     if (sparseArray != null) {
                         next.currentAccentId = !next.firstAccentIsDefault ? DEFALT_THEME_ACCENT_ID : 0;
                     }
-                    next.loadWallpapers(sharedPreferences2);
+                    next.loadWallpapers(sharedPreferences);
                     accent = next.getAccent(false);
                     if (accent == null) {
                     }
                 }
+                themeInfo = themeInfo4;
                 it3 = it;
+                str = null;
             }
-            SharedPreferences.Editor editor5 = editor4;
-            if (editor3 != null) {
-                editor3.commit();
-                editor5.commit();
+            ThemeInfo themeInfo12 = themeInfo;
+            boolean z4 = true;
+            if (editor != null) {
+                editor.commit();
+                editor2.commit();
             }
             selectedAutoNightType = globalMainSettings.getInt("selectedAutoNightType", Build.VERSION.SDK_INT >= 29 ? 3 : 0);
             autoNightScheduleByLocation = globalMainSettings.getBoolean("autoNightScheduleByLocation", false);
@@ -4821,15 +4831,16 @@ public class Theme {
                 autoNightLocationLongitude = 10000.0d;
             }
             autoNightLastSunCheckDay = globalMainSettings.getInt("autoNightLastSunCheckDay", -1);
-            if (themeInfo7 == null) {
-                themeInfo7 = defaultTheme;
+            if (themeInfo12 == null) {
+                themeInfo3 = defaultTheme;
             } else {
-                currentDayTheme = themeInfo7;
+                currentDayTheme = themeInfo12;
+                themeInfo3 = themeInfo12;
             }
             if (globalMainSettings.contains("overrideThemeWallpaper") || globalMainSettings.contains("selectedBackground2")) {
-                boolean z6 = globalMainSettings.getBoolean("overrideThemeWallpaper", false);
+                boolean z5 = globalMainSettings.getBoolean("overrideThemeWallpaper", false);
                 long j3 = globalMainSettings.getLong("selectedBackground2", 1000001L);
-                if (j3 == -1 || (z6 && j3 != -2 && j3 != 1000001)) {
+                if (j3 == -1 || (z5 && j3 != -2 && j3 != 1000001)) {
                     OverrideWallpaperInfo overrideWallpaperInfo = new OverrideWallpaperInfo();
                     overrideWallpaperInfo.color = globalMainSettings.getInt("selectedColor", 0);
                     overrideWallpaperInfo.slug = globalMainSettings.getString("selectedBackgroundSlug", "");
@@ -4857,20 +4868,16 @@ public class Theme {
             }
             int needSwitchToTheme = needSwitchToTheme();
             if (needSwitchToTheme == 2) {
-                themeInfo7 = currentNightTheme;
+                themeInfo3 = currentNightTheme;
             }
-            if (needSwitchToTheme == 2) {
-                z = false;
-                z2 = true;
-            } else {
-                z = false;
-                z2 = false;
+            if (needSwitchToTheme != 2) {
+                z4 = false;
             }
-            applyTheme(themeInfo7, z, z, z2);
+            applyTheme(themeInfo3, false, false, z4);
             AndroidUtilities.runOnUIThread(MessagesController$$ExternalSyntheticLambda226.INSTANCE);
             ambientSensorListener = new SensorEventListener() { // from class: org.telegram.ui.ActionBar.Theme.9
                 @Override // android.hardware.SensorEventListener
-                public void onAccuracyChanged(Sensor sensor, int i6) {
+                public void onAccuracyChanged(Sensor sensor, int i7) {
                 }
 
                 @Override // android.hardware.SensorEventListener

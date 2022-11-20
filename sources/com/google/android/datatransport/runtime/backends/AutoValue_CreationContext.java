@@ -2,6 +2,7 @@ package com.google.android.datatransport.runtime.backends;
 
 import android.content.Context;
 import com.google.android.datatransport.runtime.time.Clock;
+import java.util.Objects;
 /* loaded from: classes.dex */
 final class AutoValue_CreationContext extends CreationContext {
     private final Context applicationContext;
@@ -11,21 +12,13 @@ final class AutoValue_CreationContext extends CreationContext {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public AutoValue_CreationContext(Context context, Clock clock, Clock clock2, String str) {
-        if (context == null) {
-            throw new NullPointerException("Null applicationContext");
-        }
+        Objects.requireNonNull(context, "Null applicationContext");
         this.applicationContext = context;
-        if (clock == null) {
-            throw new NullPointerException("Null wallClock");
-        }
+        Objects.requireNonNull(clock, "Null wallClock");
         this.wallClock = clock;
-        if (clock2 == null) {
-            throw new NullPointerException("Null monotonicClock");
-        }
+        Objects.requireNonNull(clock2, "Null monotonicClock");
         this.monotonicClock = clock2;
-        if (str == null) {
-            throw new NullPointerException("Null backendName");
-        }
+        Objects.requireNonNull(str, "Null backendName");
         this.backendName = str;
     }
 

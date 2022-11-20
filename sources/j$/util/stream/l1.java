@@ -1,4 +1,6 @@
 package j$.util.stream;
+
+import java.util.Objects;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public final class l1 implements N4 {
@@ -27,7 +29,7 @@ public final class l1 implements N4 {
     public Object d(y2 y2Var, j$.util.u uVar) {
         j1 j1Var = (j1) this.c.get();
         c cVar = (c) y2Var;
-        j1Var.getClass();
+        Objects.requireNonNull(j1Var);
         cVar.n0(cVar.v0(j1Var), uVar);
         return Boolean.valueOf(j1Var.b);
     }

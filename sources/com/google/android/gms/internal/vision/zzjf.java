@@ -2,6 +2,7 @@ package com.google.android.gms.internal.vision;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
+import java.util.Objects;
 /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
 public final class zzjf {
@@ -18,16 +19,14 @@ public final class zzjf {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static <T> T zza(T t) {
-        t.getClass();
+        Objects.requireNonNull(t);
         return t;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static <T> T zza(T t, String str) {
-        if (t != null) {
-            return t;
-        }
-        throw new NullPointerException(str);
+        Objects.requireNonNull(t, str);
+        return t;
     }
 
     public static boolean zza(byte[] bArr) {

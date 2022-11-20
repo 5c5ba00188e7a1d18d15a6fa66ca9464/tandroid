@@ -928,32 +928,23 @@ public class Emoji {
         SharedPreferences globalEmojiSettings = MessagesController.getGlobalEmojiSettings();
         try {
             emojiUseHistory.clear();
-            int i = 4;
             if (globalEmojiSettings.contains("emojis")) {
                 String string = globalEmojiSettings.getString("emojis", "");
                 if (string != null && string.length() > 0) {
-                    String[] split = string.split(",");
-                    int length = split.length;
-                    int i2 = 0;
-                    while (i2 < length) {
-                        String[] split2 = split[i2].split("=");
-                        long longValue = Utilities.parseLong(split2[0]).longValue();
+                    for (String str : string.split(",")) {
+                        String[] split = str.split("=");
+                        long longValue = Utilities.parseLong(split[0]).longValue();
                         StringBuilder sb = new StringBuilder();
-                        int i3 = 0;
-                        while (i3 < i) {
+                        for (int i = 0; i < 4; i++) {
                             sb.insert(0, (char) longValue);
                             longValue >>= 16;
                             if (longValue == 0) {
                                 break;
                             }
-                            i3++;
-                            i = 4;
                         }
                         if (sb.length() > 0) {
-                            emojiUseHistory.put(sb.toString(), Utilities.parseInt((CharSequence) split2[1]));
+                            emojiUseHistory.put(sb.toString(), Utilities.parseInt((CharSequence) split[1]));
                         }
-                        i2++;
-                        i = 4;
                     }
                 }
                 globalEmojiSettings.edit().remove("emojis").commit();
@@ -961,16 +952,16 @@ public class Emoji {
             } else {
                 String string2 = globalEmojiSettings.getString("emojis2", "");
                 if (string2 != null && string2.length() > 0) {
-                    for (String str : string2.split(",")) {
-                        String[] split3 = str.split("=");
-                        emojiUseHistory.put(split3[0], Utilities.parseInt((CharSequence) split3[1]));
+                    for (String str2 : string2.split(",")) {
+                        String[] split2 = str2.split("=");
+                        emojiUseHistory.put(split2[0], Utilities.parseInt((CharSequence) split2[1]));
                     }
                 }
             }
             if (emojiUseHistory.isEmpty() && !globalEmojiSettings.getBoolean("filled_default", false)) {
                 String[] strArr = {"😂", "😘", "❤", "😍", "😊", "😁", "👍", "☺", "😔", "😄", "😭", "💋", "😒", "😳", "😜", "🙈", "😉", "😃", "😢", "😝", "😱", "😡", "😏", "😞", "😅", "😚", "🙊", "😌", "😀", "😋", "😆", "👌", "😐", "😕"};
-                for (int i4 = 0; i4 < 34; i4++) {
-                    emojiUseHistory.put(strArr[i4], Integer.valueOf(34 - i4));
+                for (int i2 = 0; i2 < 34; i2++) {
+                    emojiUseHistory.put(strArr[i2], Integer.valueOf(34 - i2));
                 }
                 globalEmojiSettings.edit().putBoolean("filled_default", true).commit();
                 saveRecentEmoji();
@@ -984,9 +975,9 @@ public class Emoji {
             if (string3 == null || string3.length() <= 0) {
                 return;
             }
-            for (String str2 : string3.split(",")) {
-                String[] split4 = str2.split("=");
-                emojiColor.put(split4[0], split4[1]);
+            for (String str3 : string3.split(",")) {
+                String[] split3 = str3.split("=");
+                emojiColor.put(split3[0], split3[1]);
             }
         } catch (Exception e2) {
             FileLog.e(e2);

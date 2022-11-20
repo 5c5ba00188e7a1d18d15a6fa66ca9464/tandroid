@@ -2,22 +2,23 @@ package com.google.gson;
 
 import com.google.gson.internal.LazilyParsedNumber;
 import java.math.BigInteger;
+import java.util.Objects;
 /* loaded from: classes.dex */
 public final class JsonPrimitive extends JsonElement {
     private final Object value;
 
     public JsonPrimitive(Boolean bool) {
-        bool.getClass();
+        Objects.requireNonNull(bool);
         this.value = bool;
     }
 
     public JsonPrimitive(Number number) {
-        number.getClass();
+        Objects.requireNonNull(number);
         this.value = number;
     }
 
     public JsonPrimitive(String str) {
-        str.getClass();
+        Objects.requireNonNull(str);
         this.value = str;
     }
 

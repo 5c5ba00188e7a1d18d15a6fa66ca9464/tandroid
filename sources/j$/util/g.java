@@ -1,4 +1,6 @@
 package j$.util;
+
+import java.util.Objects;
 /* loaded from: classes2.dex */
 public class g implements j$.util.function.f {
     private double a;
@@ -41,7 +43,7 @@ public class g implements j$.util.function.f {
 
     @Override // j$.util.function.f
     public j$.util.function.f j(j$.util.function.f fVar) {
-        fVar.getClass();
+        Objects.requireNonNull(fVar);
         return new j$.util.function.e(this, fVar);
     }
 

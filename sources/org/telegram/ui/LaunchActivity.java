@@ -1833,10 +1833,10 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:1087:0x1699, code lost:
-        if (r2 == 0) goto L1102;
+    /* JADX WARN: Code restructure failed: missing block: B:1085:0x1699, code lost:
+        if (r2 == 0) goto L1100;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:137:0x1f37, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:137:0x1f3e, code lost:
         if (r1.checkCanOpenChat(r0, r2.get(r2.size() - r3)) != false) goto L138;
      */
     /* JADX WARN: Code restructure failed: missing block: B:386:0x031b, code lost:
@@ -1845,58 +1845,58 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     /* JADX WARN: Code restructure failed: missing block: B:44:0x0146, code lost:
         if (r1.equals(r0) != false) goto L45;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:711:0x09aa, code lost:
-        if (r7 == 0) goto L721;
+    /* JADX WARN: Code restructure failed: missing block: B:709:0x09aa, code lost:
+        if (r7 == 0) goto L719;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:735:0x0a51, code lost:
-        if (r7 == 0) goto L752;
+    /* JADX WARN: Code restructure failed: missing block: B:733:0x0a51, code lost:
+        if (r7 == 0) goto L750;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:80:0x1ebc, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:80:0x1ec3, code lost:
         if (r1.checkCanOpenChat(r0, r2.get(r2.size() - r3)) != false) goto L120;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:101:0x23bd  */
-    /* JADX WARN: Removed duplicated region for block: B:1043:0x1601 A[Catch: Exception -> 0x160f, TRY_LEAVE, TryCatch #17 {Exception -> 0x160f, blocks: (B:1041:0x15f5, B:1043:0x1601), top: B:1040:0x15f5 }] */
-    /* JADX WARN: Removed duplicated region for block: B:111:0x2416  */
-    /* JADX WARN: Removed duplicated region for block: B:1135:0x18df  */
-    /* JADX WARN: Removed duplicated region for block: B:1137:0x1917  */
-    /* JADX WARN: Removed duplicated region for block: B:113:0x241e  */
-    /* JADX WARN: Removed duplicated region for block: B:1211:0x03e1  */
-    /* JADX WARN: Removed duplicated region for block: B:1231:0x050c  */
-    /* JADX WARN: Removed duplicated region for block: B:129:0x1f02  */
-    /* JADX WARN: Removed duplicated region for block: B:205:0x20f1  */
-    /* JADX WARN: Removed duplicated region for block: B:208:0x210e  */
-    /* JADX WARN: Removed duplicated region for block: B:211:0x211f  */
-    /* JADX WARN: Removed duplicated region for block: B:212:0x2100  */
+    /* JADX WARN: Removed duplicated region for block: B:101:0x23c4  */
+    /* JADX WARN: Removed duplicated region for block: B:1041:0x1601 A[Catch: Exception -> 0x160f, TRY_LEAVE, TryCatch #16 {Exception -> 0x160f, blocks: (B:1039:0x15f5, B:1041:0x1601), top: B:1038:0x15f5 }] */
+    /* JADX WARN: Removed duplicated region for block: B:111:0x241d  */
+    /* JADX WARN: Removed duplicated region for block: B:1133:0x18df  */
+    /* JADX WARN: Removed duplicated region for block: B:1135:0x1917  */
+    /* JADX WARN: Removed duplicated region for block: B:113:0x2425  */
+    /* JADX WARN: Removed duplicated region for block: B:1209:0x03e1  */
+    /* JADX WARN: Removed duplicated region for block: B:1229:0x050c  */
+    /* JADX WARN: Removed duplicated region for block: B:129:0x1f09  */
+    /* JADX WARN: Removed duplicated region for block: B:205:0x20f8  */
+    /* JADX WARN: Removed duplicated region for block: B:208:0x2115  */
+    /* JADX WARN: Removed duplicated region for block: B:211:0x2126  */
+    /* JADX WARN: Removed duplicated region for block: B:212:0x2107  */
     /* JADX WARN: Removed duplicated region for block: B:303:0x01b0  */
     /* JADX WARN: Removed duplicated region for block: B:310:0x01e9  */
     /* JADX WARN: Removed duplicated region for block: B:385:0x0319  */
     /* JADX WARN: Removed duplicated region for block: B:390:0x01db  */
     /* JADX WARN: Removed duplicated region for block: B:43:0x0142  */
     /* JADX WARN: Removed duplicated region for block: B:461:0x19d4  */
-    /* JADX WARN: Removed duplicated region for block: B:502:0x1afb A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:560:0x1bcf  */
-    /* JADX WARN: Removed duplicated region for block: B:562:0x1bdf  */
-    /* JADX WARN: Removed duplicated region for block: B:565:0x1a16  */
-    /* JADX WARN: Removed duplicated region for block: B:579:0x0727  */
+    /* JADX WARN: Removed duplicated region for block: B:502:0x1b02 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:558:0x1bd6  */
+    /* JADX WARN: Removed duplicated region for block: B:560:0x1be6  */
+    /* JADX WARN: Removed duplicated region for block: B:563:0x1a16  */
+    /* JADX WARN: Removed duplicated region for block: B:577:0x0727  */
     /* JADX WARN: Removed duplicated region for block: B:58:0x0322  */
-    /* JADX WARN: Removed duplicated region for block: B:621:0x0813 A[Catch: Exception -> 0x0821, TRY_LEAVE, TryCatch #16 {Exception -> 0x0821, blocks: (B:619:0x0807, B:621:0x0813), top: B:618:0x0807 }] */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x1e59  */
-    /* JADX WARN: Removed duplicated region for block: B:634:0x0820  */
-    /* JADX WARN: Removed duplicated region for block: B:72:0x1e88  */
-    /* JADX WARN: Removed duplicated region for block: B:747:0x0ae3  */
-    /* JADX WARN: Removed duplicated region for block: B:749:0x0b00  */
-    /* JADX WARN: Removed duplicated region for block: B:84:0x2366 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:87:0x236e  */
-    /* JADX WARN: Removed duplicated region for block: B:945:0x1236 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:94:0x240a  */
+    /* JADX WARN: Removed duplicated region for block: B:619:0x0813 A[Catch: Exception -> 0x0821, TRY_LEAVE, TryCatch #15 {Exception -> 0x0821, blocks: (B:617:0x0807, B:619:0x0813), top: B:616:0x0807 }] */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x1e60  */
+    /* JADX WARN: Removed duplicated region for block: B:632:0x0820  */
+    /* JADX WARN: Removed duplicated region for block: B:72:0x1e8f  */
+    /* JADX WARN: Removed duplicated region for block: B:745:0x0ae3  */
+    /* JADX WARN: Removed duplicated region for block: B:747:0x0b00  */
+    /* JADX WARN: Removed duplicated region for block: B:84:0x236d A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:87:0x2375  */
+    /* JADX WARN: Removed duplicated region for block: B:943:0x1236 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:94:0x2411  */
     /* JADX WARN: Type inference failed for: r0v19, types: [org.telegram.ui.ActionBar.DrawerLayoutContainer] */
     /* JADX WARN: Type inference failed for: r0v24, types: [org.telegram.ui.ActionBar.INavigationLayout] */
     /* JADX WARN: Type inference failed for: r0v25, types: [org.telegram.ui.ActionBar.INavigationLayout] */
-    /* JADX WARN: Type inference failed for: r0v292, types: [java.lang.Integer] */
-    /* JADX WARN: Type inference failed for: r0v311, types: [java.lang.Integer] */
+    /* JADX WARN: Type inference failed for: r0v291, types: [java.lang.Integer] */
+    /* JADX WARN: Type inference failed for: r0v310, types: [java.lang.Integer] */
     /* JADX WARN: Type inference failed for: r0v33, types: [org.telegram.ui.ActionBar.DrawerLayoutContainer] */
-    /* JADX WARN: Type inference failed for: r0v491, types: [java.lang.Integer] */
+    /* JADX WARN: Type inference failed for: r0v490, types: [java.lang.Integer] */
     /* JADX WARN: Type inference failed for: r0v58, types: [org.telegram.ui.ActionBar.DrawerLayoutContainer] */
     /* JADX WARN: Type inference failed for: r0v60, types: [org.telegram.ui.ActionBar.INavigationLayout] */
     /* JADX WARN: Type inference failed for: r0v65, types: [org.telegram.ui.ActionBar.DrawerLayoutContainer] */
@@ -1922,7 +1922,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     /* JADX WARN: Type inference failed for: r1v414, types: [java.lang.Integer] */
     /* JADX WARN: Type inference failed for: r1v421, types: [java.lang.Integer] */
     /* JADX WARN: Type inference failed for: r1v433, types: [org.telegram.tgnet.TLRPC$TL_wallPaper, org.telegram.tgnet.TLRPC$WallPaper] */
-    /* JADX WARN: Type inference failed for: r2v244, types: [java.lang.Long] */
+    /* JADX WARN: Type inference failed for: r2v245, types: [java.lang.Long] */
     /* JADX WARN: Type inference failed for: r2v25, types: [org.telegram.ui.ActionBar.INavigationLayout$NavigationParams] */
     /* JADX WARN: Type inference failed for: r2v31, types: [org.telegram.ui.ActionBar.INavigationLayout$NavigationParams] */
     /* JADX WARN: Type inference failed for: r2v34, types: [org.telegram.ui.ActionBar.INavigationLayout$NavigationParams] */
@@ -5735,63 +5735,10 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                             i24++;
                                                         } catch (Throwable th4) {
                                                             th = th4;
+                                                            Throwable th5 = th;
                                                             try {
                                                                 query.close();
-                                                            } catch (Throwable unused11) {
-                                                            }
-                                                            try {
-                                                                throw th;
-                                                            } catch (Exception e6) {
-                                                                e = e6;
-                                                                FileLog.e(e);
-                                                                str = " ";
-                                                                iArr2 = iArr3;
-                                                                launchActivity = this;
-                                                                i9 = i10;
-                                                                c4 = c5;
-                                                                j7 = j10;
-                                                                str7 = str39;
-                                                                intent7 = intent;
-                                                                i2 = i9;
-                                                                c = c4;
-                                                                z4 = z30;
-                                                                str4 = str9;
-                                                                str5 = str10;
-                                                                j2 = j8;
-                                                                str3 = str11;
-                                                                str74 = str7;
-                                                                iArr = iArr2;
-                                                                i = -1;
-                                                                z5 = false;
-                                                                z6 = false;
-                                                                z9 = false;
-                                                                z8 = false;
-                                                                z7 = false;
-                                                                j4 = 0;
-                                                                i4 = 0;
-                                                                i5 = 0;
-                                                                j3 = j7;
-                                                                str2 = str8;
-                                                                i3 = -1;
-                                                                if (UserConfig.getInstance(launchActivity.currentAccount).isClientActivated()) {
-                                                                }
-                                                                z16 = false;
-                                                                z17 = true;
-                                                                z18 = z16;
-                                                                z19 = z;
-                                                                z21 = z18;
-                                                                z20 = z17;
-                                                                z22 = false;
-                                                                r8 = z21;
-                                                                r9 = z20;
-                                                                if (!z22) {
-                                                                }
-                                                                if (z42) {
-                                                                }
-                                                                if (!z7) {
-                                                                }
-                                                                intent7.setAction(r8);
-                                                                return z22;
+                                                                throw th5;
                                                             }
                                                         }
                                                     } else {
@@ -5817,8 +5764,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 if (query != null) {
                                                     try {
                                                         query.close();
-                                                    } catch (Exception e7) {
-                                                        e = e7;
+                                                    } catch (Exception e6) {
+                                                        e = e6;
                                                         z11 = z32;
                                                         FileLog.e(e);
                                                         str = " ";
@@ -5879,15 +5826,15 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                 c4 = c5;
                                                 j7 = j10;
                                                 str7 = str39;
-                                            } catch (Throwable th5) {
-                                                th = th5;
-                                                j10 = j17;
+                                            } catch (Throwable th6) {
+                                                th = th6;
+                                                Throwable th52 = th;
                                                 query.close();
-                                                throw th;
+                                                throw th52;
                                             }
                                         }
-                                    } catch (Throwable th6) {
-                                        th = th6;
+                                    } catch (Throwable th7) {
+                                        th = th7;
                                     }
                                 }
                                 z32 = z11;

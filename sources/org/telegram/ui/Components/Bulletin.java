@@ -43,6 +43,7 @@ import androidx.dynamicanimation.animation.SpringForce;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
@@ -332,7 +333,7 @@ public class Bulletin {
                     Layout.Transition transition = Bulletin.this.layoutTransition;
                     Layout layout = Bulletin.this.layout;
                     final Layout layout2 = Bulletin.this.layout;
-                    layout2.getClass();
+                    Objects.requireNonNull(layout2);
                     Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.Bulletin$2$$ExternalSyntheticLambda2
                         @Override // java.lang.Runnable
                         public final void run() {
@@ -432,7 +433,7 @@ public class Bulletin {
                     }
                     Layout.Transition transition = this.layoutTransition;
                     final Layout layout3 = this.layout;
-                    layout3.getClass();
+                    Objects.requireNonNull(layout3);
                     transition.animateExit(layout3, new Runnable() { // from class: org.telegram.ui.Components.Bulletin$$ExternalSyntheticLambda4
                         @Override // java.lang.Runnable
                         public final void run() {

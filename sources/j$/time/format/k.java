@@ -1,4 +1,6 @@
 package j$.time.format;
+
+import java.util.Objects;
 /* loaded from: classes2.dex */
 final class k implements g {
     static final String[] c = {"+HH", "+HHmm", "+HH:mm", "+HHMM", "+HH:MM", "+HHMMss", "+HH:MM:ss", "+HHMMSS", "+HH:MM:SS"};
@@ -12,25 +14,20 @@ final class k implements g {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public k(String str, String str2) {
-        if (str != null) {
-            if (str2 == null) {
-                throw new NullPointerException("noOffsetText");
+        Objects.requireNonNull(str, "pattern");
+        Objects.requireNonNull(str2, "noOffsetText");
+        int i = 0;
+        while (true) {
+            String[] strArr = c;
+            if (i >= strArr.length) {
+                throw new IllegalArgumentException("Invalid zone offset pattern: " + str);
+            } else if (strArr[i].equals(str)) {
+                this.b = i;
+                this.a = str2;
+                return;
+            } else {
+                i++;
             }
-            int i = 0;
-            while (true) {
-                String[] strArr = c;
-                if (i >= strArr.length) {
-                    throw new IllegalArgumentException("Invalid zone offset pattern: " + str);
-                } else if (strArr[i].equals(str)) {
-                    this.b = i;
-                    this.a = str2;
-                    return;
-                } else {
-                    i++;
-                }
-            }
-        } else {
-            throw new NullPointerException("pattern");
         }
     }
 

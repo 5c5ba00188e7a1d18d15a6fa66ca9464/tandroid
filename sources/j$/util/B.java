@@ -2,6 +2,7 @@ package j$.util;
 
 import j$.util.function.Consumer;
 import java.util.Comparator;
+import java.util.Objects;
 /* loaded from: classes2.dex */
 final class B implements u {
     private final Object[] a;
@@ -18,7 +19,7 @@ final class B implements u {
 
     @Override // j$.util.u
     public boolean b(Consumer consumer) {
-        consumer.getClass();
+        Objects.requireNonNull(consumer);
         int i = this.b;
         if (i < 0 || i >= this.c) {
             return false;
@@ -42,7 +43,7 @@ final class B implements u {
     @Override // j$.util.u
     public void forEachRemaining(Consumer consumer) {
         int i;
-        consumer.getClass();
+        Objects.requireNonNull(consumer);
         Object[] objArr = this.a;
         int length = objArr.length;
         int i2 = this.c;

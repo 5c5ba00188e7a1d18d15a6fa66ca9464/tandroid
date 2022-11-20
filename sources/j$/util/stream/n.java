@@ -2,6 +2,7 @@ package j$.util.stream;
 
 import j$.util.function.BiConsumer;
 import java.util.LinkedHashSet;
+import java.util.Objects;
 /* loaded from: classes2.dex */
 public final /* synthetic */ class n implements BiConsumer {
     public static final /* synthetic */ n a = new n();
@@ -16,7 +17,7 @@ public final /* synthetic */ class n implements BiConsumer {
 
     @Override // j$.util.function.BiConsumer
     public BiConsumer b(BiConsumer biConsumer) {
-        biConsumer.getClass();
+        Objects.requireNonNull(biConsumer);
         return new j$.util.concurrent.a(this, biConsumer);
     }
 }

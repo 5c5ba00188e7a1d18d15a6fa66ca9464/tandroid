@@ -10218,8 +10218,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         this.delegate.didSelectDialogs(this, arrayList, this.commentView.getFieldText(), false);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:31:0x03f1  */
-    /* JADX WARN: Removed duplicated region for block: B:34:0x088a A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x03eb  */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x087a A[SYNTHETIC] */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -10246,6 +10246,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         if (this.doneItem != null) {
             arrayList.add(new ThemeDescription(this.doneItem, ThemeDescription.FLAG_BACKGROUNDFILTER, null, null, null, null, "actionBarDefaultSelector"));
         }
+        char c = 0;
         if (this.folderId == 0) {
             if (this.onlySelect) {
                 arrayList.add(new ThemeDescription(this.actionBar, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, "actionBarDefault"));
@@ -10418,47 +10419,172 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 } else {
                     arrayList.add(new ThemeDescription(this.viewPages[i2].listView, ThemeDescription.FLAG_LISTGLOWCOLOR, null, null, null, null, "actionBarDefaultArchived"));
                 }
-                arrayList.add(new ThemeDescription(this.viewPages[i2].listView, ThemeDescription.FLAG_TEXTCOLOR, new Class[]{DialogsEmptyCell.class}, new String[]{"emptyTextView1"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "chats_nameMessage_threeLines"));
-                arrayList.add(new ThemeDescription(this.viewPages[i2].listView, ThemeDescription.FLAG_TEXTCOLOR, new Class[]{DialogsEmptyCell.class}, new String[]{"emptyTextView2"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "chats_message"));
+                DialogsRecyclerView dialogsRecyclerView = this.viewPages[i2].listView;
+                int i3 = ThemeDescription.FLAG_TEXTCOLOR;
+                Class[] clsArr = new Class[1];
+                clsArr[c] = DialogsEmptyCell.class;
+                arrayList.add(new ThemeDescription(dialogsRecyclerView, i3, clsArr, new String[]{"emptyTextView1"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "chats_nameMessage_threeLines"));
+                DialogsRecyclerView dialogsRecyclerView2 = this.viewPages[i2].listView;
+                int i4 = ThemeDescription.FLAG_TEXTCOLOR;
+                Class[] clsArr2 = new Class[1];
+                clsArr2[c] = DialogsEmptyCell.class;
+                arrayList.add(new ThemeDescription(dialogsRecyclerView2, i4, clsArr2, new String[]{"emptyTextView2"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "chats_message"));
                 if (SharedConfig.archiveHidden) {
-                    arrayList.add(new ThemeDescription(this.viewPages[i2].listView, 0, new Class[]{DialogCell.class}, new RLottieDrawable[]{Theme.dialogs_archiveAvatarDrawable}, "Arrow1", "avatar_backgroundArchivedHidden"));
-                    arrayList.add(new ThemeDescription(this.viewPages[i2].listView, 0, new Class[]{DialogCell.class}, new RLottieDrawable[]{Theme.dialogs_archiveAvatarDrawable}, "Arrow2", "avatar_backgroundArchivedHidden"));
+                    DialogsRecyclerView dialogsRecyclerView3 = this.viewPages[i2].listView;
+                    Class[] clsArr3 = new Class[1];
+                    clsArr3[c] = DialogCell.class;
+                    RLottieDrawable[] rLottieDrawableArr = new RLottieDrawable[1];
+                    rLottieDrawableArr[c] = Theme.dialogs_archiveAvatarDrawable;
+                    arrayList.add(new ThemeDescription(dialogsRecyclerView3, 0, clsArr3, rLottieDrawableArr, "Arrow1", "avatar_backgroundArchivedHidden"));
+                    DialogsRecyclerView dialogsRecyclerView4 = this.viewPages[i2].listView;
+                    Class[] clsArr4 = new Class[1];
+                    clsArr4[c] = DialogCell.class;
+                    RLottieDrawable[] rLottieDrawableArr2 = new RLottieDrawable[1];
+                    rLottieDrawableArr2[c] = Theme.dialogs_archiveAvatarDrawable;
+                    arrayList.add(new ThemeDescription(dialogsRecyclerView4, 0, clsArr4, rLottieDrawableArr2, "Arrow2", "avatar_backgroundArchivedHidden"));
                 } else {
-                    arrayList.add(new ThemeDescription(this.viewPages[i2].listView, 0, new Class[]{DialogCell.class}, new RLottieDrawable[]{Theme.dialogs_archiveAvatarDrawable}, "Arrow1", "avatar_backgroundArchived"));
-                    arrayList.add(new ThemeDescription(this.viewPages[i2].listView, 0, new Class[]{DialogCell.class}, new RLottieDrawable[]{Theme.dialogs_archiveAvatarDrawable}, "Arrow2", "avatar_backgroundArchived"));
+                    DialogsRecyclerView dialogsRecyclerView5 = this.viewPages[i2].listView;
+                    Class[] clsArr5 = new Class[1];
+                    clsArr5[c] = DialogCell.class;
+                    RLottieDrawable[] rLottieDrawableArr3 = new RLottieDrawable[1];
+                    rLottieDrawableArr3[c] = Theme.dialogs_archiveAvatarDrawable;
+                    arrayList.add(new ThemeDescription(dialogsRecyclerView5, 0, clsArr5, rLottieDrawableArr3, "Arrow1", "avatar_backgroundArchived"));
+                    DialogsRecyclerView dialogsRecyclerView6 = this.viewPages[i2].listView;
+                    Class[] clsArr6 = new Class[1];
+                    clsArr6[c] = DialogCell.class;
+                    RLottieDrawable[] rLottieDrawableArr4 = new RLottieDrawable[1];
+                    rLottieDrawableArr4[c] = Theme.dialogs_archiveAvatarDrawable;
+                    arrayList.add(new ThemeDescription(dialogsRecyclerView6, 0, clsArr6, rLottieDrawableArr4, "Arrow2", "avatar_backgroundArchived"));
                 }
-                arrayList.add(new ThemeDescription(this.viewPages[i2].listView, 0, new Class[]{DialogCell.class}, new RLottieDrawable[]{Theme.dialogs_archiveAvatarDrawable}, "Box2", "avatar_text"));
-                arrayList.add(new ThemeDescription(this.viewPages[i2].listView, 0, new Class[]{DialogCell.class}, new RLottieDrawable[]{Theme.dialogs_archiveAvatarDrawable}, "Box1", "avatar_text"));
-                arrayList.add(new ThemeDescription(this.viewPages[i2].listView, 0, new Class[]{DialogCell.class}, new RLottieDrawable[]{Theme.dialogs_pinArchiveDrawable}, "Arrow", "chats_archiveIcon"));
-                arrayList.add(new ThemeDescription(this.viewPages[i2].listView, 0, new Class[]{DialogCell.class}, new RLottieDrawable[]{Theme.dialogs_pinArchiveDrawable}, "Line", "chats_archiveIcon"));
-                arrayList.add(new ThemeDescription(this.viewPages[i2].listView, 0, new Class[]{DialogCell.class}, new RLottieDrawable[]{Theme.dialogs_unpinArchiveDrawable}, "Arrow", "chats_archiveIcon"));
-                arrayList.add(new ThemeDescription(this.viewPages[i2].listView, 0, new Class[]{DialogCell.class}, new RLottieDrawable[]{Theme.dialogs_unpinArchiveDrawable}, "Line", "chats_archiveIcon"));
-                arrayList.add(new ThemeDescription(this.viewPages[i2].listView, 0, new Class[]{DialogCell.class}, new RLottieDrawable[]{Theme.dialogs_archiveDrawable}, "Arrow", "chats_archiveBackground"));
-                arrayList.add(new ThemeDescription(this.viewPages[i2].listView, 0, new Class[]{DialogCell.class}, new RLottieDrawable[]{Theme.dialogs_archiveDrawable}, "Box2", "chats_archiveIcon"));
-                arrayList.add(new ThemeDescription(this.viewPages[i2].listView, 0, new Class[]{DialogCell.class}, new RLottieDrawable[]{Theme.dialogs_archiveDrawable}, "Box1", "chats_archiveIcon"));
-                arrayList.add(new ThemeDescription(this.viewPages[i2].listView, 0, new Class[]{DialogCell.class}, new RLottieDrawable[]{Theme.dialogs_hidePsaDrawable}, "Line 1", "chats_archiveBackground"));
-                arrayList.add(new ThemeDescription(this.viewPages[i2].listView, 0, new Class[]{DialogCell.class}, new RLottieDrawable[]{Theme.dialogs_hidePsaDrawable}, "Line 2", "chats_archiveBackground"));
-                arrayList.add(new ThemeDescription(this.viewPages[i2].listView, 0, new Class[]{DialogCell.class}, new RLottieDrawable[]{Theme.dialogs_hidePsaDrawable}, "Line 3", "chats_archiveBackground"));
-                arrayList.add(new ThemeDescription(this.viewPages[i2].listView, 0, new Class[]{DialogCell.class}, new RLottieDrawable[]{Theme.dialogs_hidePsaDrawable}, "Cup Red", "chats_archiveIcon"));
-                arrayList.add(new ThemeDescription(this.viewPages[i2].listView, 0, new Class[]{DialogCell.class}, new RLottieDrawable[]{Theme.dialogs_hidePsaDrawable}, "Box", "chats_archiveIcon"));
-                arrayList.add(new ThemeDescription(this.viewPages[i2].listView, 0, new Class[]{DialogCell.class}, new RLottieDrawable[]{Theme.dialogs_unarchiveDrawable}, "Arrow1", "chats_archiveIcon"));
-                arrayList.add(new ThemeDescription(this.viewPages[i2].listView, 0, new Class[]{DialogCell.class}, new RLottieDrawable[]{Theme.dialogs_unarchiveDrawable}, "Arrow2", "chats_archivePinBackground"));
-                arrayList.add(new ThemeDescription(this.viewPages[i2].listView, 0, new Class[]{DialogCell.class}, new RLottieDrawable[]{Theme.dialogs_unarchiveDrawable}, "Box2", "chats_archiveIcon"));
-                arrayList.add(new ThemeDescription(this.viewPages[i2].listView, 0, new Class[]{DialogCell.class}, new RLottieDrawable[]{Theme.dialogs_unarchiveDrawable}, "Box1", "chats_archiveIcon"));
-                arrayList.add(new ThemeDescription(this.viewPages[i2].listView, 0, new Class[]{UserCell.class}, new String[]{"nameTextView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "windowBackgroundWhiteBlackText"));
-                int i3 = i2;
-                arrayList.add(new ThemeDescription(this.viewPages[i2].listView, 0, new Class[]{UserCell.class}, new String[]{"statusColor"}, (Paint[]) null, (Drawable[]) null, themeDescriptionDelegate, "windowBackgroundWhiteGrayText"));
-                arrayList.add(new ThemeDescription(this.viewPages[i3].listView, 0, new Class[]{UserCell.class}, new String[]{"statusOnlineColor"}, (Paint[]) null, (Drawable[]) null, themeDescriptionDelegate, "windowBackgroundWhiteBlueText"));
-                arrayList.add(new ThemeDescription(this.viewPages[i3].listView, 0, new Class[]{TextCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "windowBackgroundWhiteBlueText4"));
-                arrayList.add(new ThemeDescription(this.viewPages[i3].listView, 0, new Class[]{TextCell.class}, new String[]{"imageView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "windowBackgroundWhiteBlueText4"));
-                arrayList.add(new ThemeDescription(this.viewPages[i3].progressView, ThemeDescription.FLAG_PROGRESSBAR, null, null, null, null, "progressCircle"));
-                ViewPager archiveHintCellPager = this.viewPages[i3].dialogsAdapter.getArchiveHintCellPager();
+                DialogsRecyclerView dialogsRecyclerView7 = this.viewPages[i2].listView;
+                Class[] clsArr7 = new Class[1];
+                clsArr7[c] = DialogCell.class;
+                RLottieDrawable[] rLottieDrawableArr5 = new RLottieDrawable[1];
+                rLottieDrawableArr5[c] = Theme.dialogs_archiveAvatarDrawable;
+                arrayList.add(new ThemeDescription(dialogsRecyclerView7, 0, clsArr7, rLottieDrawableArr5, "Box2", "avatar_text"));
+                DialogsRecyclerView dialogsRecyclerView8 = this.viewPages[i2].listView;
+                Class[] clsArr8 = new Class[1];
+                clsArr8[c] = DialogCell.class;
+                RLottieDrawable[] rLottieDrawableArr6 = new RLottieDrawable[1];
+                rLottieDrawableArr6[c] = Theme.dialogs_archiveAvatarDrawable;
+                arrayList.add(new ThemeDescription(dialogsRecyclerView8, 0, clsArr8, rLottieDrawableArr6, "Box1", "avatar_text"));
+                DialogsRecyclerView dialogsRecyclerView9 = this.viewPages[i2].listView;
+                Class[] clsArr9 = new Class[1];
+                clsArr9[c] = DialogCell.class;
+                RLottieDrawable[] rLottieDrawableArr7 = new RLottieDrawable[1];
+                rLottieDrawableArr7[c] = Theme.dialogs_pinArchiveDrawable;
+                arrayList.add(new ThemeDescription(dialogsRecyclerView9, 0, clsArr9, rLottieDrawableArr7, "Arrow", "chats_archiveIcon"));
+                DialogsRecyclerView dialogsRecyclerView10 = this.viewPages[i2].listView;
+                Class[] clsArr10 = new Class[1];
+                clsArr10[c] = DialogCell.class;
+                RLottieDrawable[] rLottieDrawableArr8 = new RLottieDrawable[1];
+                rLottieDrawableArr8[c] = Theme.dialogs_pinArchiveDrawable;
+                arrayList.add(new ThemeDescription(dialogsRecyclerView10, 0, clsArr10, rLottieDrawableArr8, "Line", "chats_archiveIcon"));
+                DialogsRecyclerView dialogsRecyclerView11 = this.viewPages[i2].listView;
+                Class[] clsArr11 = new Class[1];
+                clsArr11[c] = DialogCell.class;
+                RLottieDrawable[] rLottieDrawableArr9 = new RLottieDrawable[1];
+                rLottieDrawableArr9[c] = Theme.dialogs_unpinArchiveDrawable;
+                arrayList.add(new ThemeDescription(dialogsRecyclerView11, 0, clsArr11, rLottieDrawableArr9, "Arrow", "chats_archiveIcon"));
+                DialogsRecyclerView dialogsRecyclerView12 = this.viewPages[i2].listView;
+                Class[] clsArr12 = new Class[1];
+                clsArr12[c] = DialogCell.class;
+                RLottieDrawable[] rLottieDrawableArr10 = new RLottieDrawable[1];
+                rLottieDrawableArr10[c] = Theme.dialogs_unpinArchiveDrawable;
+                arrayList.add(new ThemeDescription(dialogsRecyclerView12, 0, clsArr12, rLottieDrawableArr10, "Line", "chats_archiveIcon"));
+                DialogsRecyclerView dialogsRecyclerView13 = this.viewPages[i2].listView;
+                Class[] clsArr13 = new Class[1];
+                clsArr13[c] = DialogCell.class;
+                RLottieDrawable[] rLottieDrawableArr11 = new RLottieDrawable[1];
+                rLottieDrawableArr11[c] = Theme.dialogs_archiveDrawable;
+                arrayList.add(new ThemeDescription(dialogsRecyclerView13, 0, clsArr13, rLottieDrawableArr11, "Arrow", "chats_archiveBackground"));
+                DialogsRecyclerView dialogsRecyclerView14 = this.viewPages[i2].listView;
+                Class[] clsArr14 = new Class[1];
+                clsArr14[c] = DialogCell.class;
+                RLottieDrawable[] rLottieDrawableArr12 = new RLottieDrawable[1];
+                rLottieDrawableArr12[c] = Theme.dialogs_archiveDrawable;
+                arrayList.add(new ThemeDescription(dialogsRecyclerView14, 0, clsArr14, rLottieDrawableArr12, "Box2", "chats_archiveIcon"));
+                DialogsRecyclerView dialogsRecyclerView15 = this.viewPages[i2].listView;
+                Class[] clsArr15 = new Class[1];
+                clsArr15[c] = DialogCell.class;
+                RLottieDrawable[] rLottieDrawableArr13 = new RLottieDrawable[1];
+                rLottieDrawableArr13[c] = Theme.dialogs_archiveDrawable;
+                arrayList.add(new ThemeDescription(dialogsRecyclerView15, 0, clsArr15, rLottieDrawableArr13, "Box1", "chats_archiveIcon"));
+                DialogsRecyclerView dialogsRecyclerView16 = this.viewPages[i2].listView;
+                Class[] clsArr16 = new Class[1];
+                clsArr16[c] = DialogCell.class;
+                RLottieDrawable[] rLottieDrawableArr14 = new RLottieDrawable[1];
+                rLottieDrawableArr14[c] = Theme.dialogs_hidePsaDrawable;
+                arrayList.add(new ThemeDescription(dialogsRecyclerView16, 0, clsArr16, rLottieDrawableArr14, "Line 1", "chats_archiveBackground"));
+                DialogsRecyclerView dialogsRecyclerView17 = this.viewPages[i2].listView;
+                Class[] clsArr17 = new Class[1];
+                clsArr17[c] = DialogCell.class;
+                RLottieDrawable[] rLottieDrawableArr15 = new RLottieDrawable[1];
+                rLottieDrawableArr15[c] = Theme.dialogs_hidePsaDrawable;
+                arrayList.add(new ThemeDescription(dialogsRecyclerView17, 0, clsArr17, rLottieDrawableArr15, "Line 2", "chats_archiveBackground"));
+                DialogsRecyclerView dialogsRecyclerView18 = this.viewPages[i2].listView;
+                Class[] clsArr18 = new Class[1];
+                clsArr18[c] = DialogCell.class;
+                RLottieDrawable[] rLottieDrawableArr16 = new RLottieDrawable[1];
+                rLottieDrawableArr16[c] = Theme.dialogs_hidePsaDrawable;
+                arrayList.add(new ThemeDescription(dialogsRecyclerView18, 0, clsArr18, rLottieDrawableArr16, "Line 3", "chats_archiveBackground"));
+                DialogsRecyclerView dialogsRecyclerView19 = this.viewPages[i2].listView;
+                Class[] clsArr19 = new Class[1];
+                clsArr19[c] = DialogCell.class;
+                RLottieDrawable[] rLottieDrawableArr17 = new RLottieDrawable[1];
+                rLottieDrawableArr17[c] = Theme.dialogs_hidePsaDrawable;
+                arrayList.add(new ThemeDescription(dialogsRecyclerView19, 0, clsArr19, rLottieDrawableArr17, "Cup Red", "chats_archiveIcon"));
+                DialogsRecyclerView dialogsRecyclerView20 = this.viewPages[i2].listView;
+                Class[] clsArr20 = new Class[1];
+                clsArr20[c] = DialogCell.class;
+                RLottieDrawable[] rLottieDrawableArr18 = new RLottieDrawable[1];
+                rLottieDrawableArr18[c] = Theme.dialogs_hidePsaDrawable;
+                arrayList.add(new ThemeDescription(dialogsRecyclerView20, 0, clsArr20, rLottieDrawableArr18, "Box", "chats_archiveIcon"));
+                DialogsRecyclerView dialogsRecyclerView21 = this.viewPages[i2].listView;
+                Class[] clsArr21 = new Class[1];
+                clsArr21[c] = DialogCell.class;
+                RLottieDrawable[] rLottieDrawableArr19 = new RLottieDrawable[1];
+                rLottieDrawableArr19[c] = Theme.dialogs_unarchiveDrawable;
+                arrayList.add(new ThemeDescription(dialogsRecyclerView21, 0, clsArr21, rLottieDrawableArr19, "Arrow1", "chats_archiveIcon"));
+                DialogsRecyclerView dialogsRecyclerView22 = this.viewPages[i2].listView;
+                Class[] clsArr22 = new Class[1];
+                clsArr22[c] = DialogCell.class;
+                RLottieDrawable[] rLottieDrawableArr20 = new RLottieDrawable[1];
+                rLottieDrawableArr20[c] = Theme.dialogs_unarchiveDrawable;
+                arrayList.add(new ThemeDescription(dialogsRecyclerView22, 0, clsArr22, rLottieDrawableArr20, "Arrow2", "chats_archivePinBackground"));
+                DialogsRecyclerView dialogsRecyclerView23 = this.viewPages[i2].listView;
+                Class[] clsArr23 = new Class[1];
+                clsArr23[c] = DialogCell.class;
+                RLottieDrawable[] rLottieDrawableArr21 = new RLottieDrawable[1];
+                rLottieDrawableArr21[c] = Theme.dialogs_unarchiveDrawable;
+                arrayList.add(new ThemeDescription(dialogsRecyclerView23, 0, clsArr23, rLottieDrawableArr21, "Box2", "chats_archiveIcon"));
+                DialogsRecyclerView dialogsRecyclerView24 = this.viewPages[i2].listView;
+                Class[] clsArr24 = new Class[1];
+                clsArr24[c] = DialogCell.class;
+                RLottieDrawable[] rLottieDrawableArr22 = new RLottieDrawable[1];
+                rLottieDrawableArr22[c] = Theme.dialogs_unarchiveDrawable;
+                arrayList.add(new ThemeDescription(dialogsRecyclerView24, 0, clsArr24, rLottieDrawableArr22, "Box1", "chats_archiveIcon"));
+                DialogsRecyclerView dialogsRecyclerView25 = this.viewPages[i2].listView;
+                Class[] clsArr25 = new Class[1];
+                clsArr25[c] = UserCell.class;
+                arrayList.add(new ThemeDescription(dialogsRecyclerView25, 0, clsArr25, new String[]{"nameTextView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "windowBackgroundWhiteBlackText"));
+                DialogsRecyclerView dialogsRecyclerView26 = this.viewPages[i2].listView;
+                Class[] clsArr26 = new Class[1];
+                clsArr26[c] = UserCell.class;
+                int i5 = i2;
+                arrayList.add(new ThemeDescription(dialogsRecyclerView26, 0, clsArr26, new String[]{"statusColor"}, (Paint[]) null, (Drawable[]) null, themeDescriptionDelegate, "windowBackgroundWhiteGrayText"));
+                arrayList.add(new ThemeDescription(this.viewPages[i5].listView, 0, new Class[]{UserCell.class}, new String[]{"statusOnlineColor"}, (Paint[]) null, (Drawable[]) null, themeDescriptionDelegate, "windowBackgroundWhiteBlueText"));
+                arrayList.add(new ThemeDescription(this.viewPages[i5].listView, 0, new Class[]{TextCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "windowBackgroundWhiteBlueText4"));
+                arrayList.add(new ThemeDescription(this.viewPages[i5].listView, 0, new Class[]{TextCell.class}, new String[]{"imageView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "windowBackgroundWhiteBlueText4"));
+                arrayList.add(new ThemeDescription(this.viewPages[i5].progressView, ThemeDescription.FLAG_PROGRESSBAR, null, null, null, null, "progressCircle"));
+                ViewPager archiveHintCellPager = this.viewPages[i5].dialogsAdapter.getArchiveHintCellPager();
                 arrayList.add(new ThemeDescription(archiveHintCellPager, 0, new Class[]{ArchiveHintInnerCell.class}, new String[]{"imageView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "chats_nameMessage_threeLines"));
                 arrayList.add(new ThemeDescription(archiveHintCellPager, 0, new Class[]{ArchiveHintInnerCell.class}, new String[]{"imageView2"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "chats_unreadCounter"));
                 arrayList.add(new ThemeDescription(archiveHintCellPager, 0, new Class[]{ArchiveHintInnerCell.class}, new String[]{"headerTextView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "chats_nameMessage_threeLines"));
                 arrayList.add(new ThemeDescription(archiveHintCellPager, 0, new Class[]{ArchiveHintInnerCell.class}, new String[]{"messageTextView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "chats_message"));
                 arrayList.add(new ThemeDescription(archiveHintCellPager, ThemeDescription.FLAG_LISTGLOWCOLOR, null, null, null, null, "actionBarDefaultArchived"));
-                i2 = i3 + 1;
+                i2 = i5 + 1;
+                c = 0;
             }
         }
         arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "chats_archivePullDownBackground"));
@@ -10507,29 +10633,29 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         arrayList.add(new ThemeDescription(this.fragmentView, ThemeDescription.FLAG_IMAGECOLOR, new Class[]{FragmentContextView.class}, new String[]{"closeButton"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "inappPlayerClose"));
         arrayList.add(new ThemeDescription(this.fragmentView, ThemeDescription.FLAG_BACKGROUND | ThemeDescription.FLAG_CHECKTAG, new Class[]{FragmentContextView.class}, new String[]{"frameLayout"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "returnToCallBackground"));
         arrayList.add(new ThemeDescription(this.fragmentView, ThemeDescription.FLAG_TEXTCOLOR | ThemeDescription.FLAG_CHECKTAG, new Class[]{FragmentContextView.class}, new String[]{"titleTextView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "returnToCallText"));
-        for (int i4 = 0; i4 < this.undoView.length; i4++) {
-            arrayList.add(new ThemeDescription(this.undoView[i4], ThemeDescription.FLAG_BACKGROUNDFILTER, null, null, null, null, "undo_background"));
-            arrayList.add(new ThemeDescription(this.undoView[i4], 0, new Class[]{UndoView.class}, new String[]{"undoImageView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "undo_cancelColor"));
-            arrayList.add(new ThemeDescription(this.undoView[i4], 0, new Class[]{UndoView.class}, new String[]{"undoTextView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "undo_cancelColor"));
-            arrayList.add(new ThemeDescription(this.undoView[i4], 0, new Class[]{UndoView.class}, new String[]{"infoTextView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "undo_infoColor"));
-            arrayList.add(new ThemeDescription(this.undoView[i4], 0, new Class[]{UndoView.class}, new String[]{"subinfoTextView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "undo_infoColor"));
-            arrayList.add(new ThemeDescription(this.undoView[i4], 0, new Class[]{UndoView.class}, new String[]{"textPaint"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "undo_infoColor"));
-            arrayList.add(new ThemeDescription(this.undoView[i4], 0, new Class[]{UndoView.class}, new String[]{"progressPaint"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "undo_infoColor"));
-            arrayList.add(new ThemeDescription(this.undoView[i4], 0, new Class[]{UndoView.class}, new String[]{"leftImageView"}, "info1", "undo_background"));
-            arrayList.add(new ThemeDescription(this.undoView[i4], 0, new Class[]{UndoView.class}, new String[]{"leftImageView"}, "info2", "undo_background"));
-            arrayList.add(new ThemeDescription(this.undoView[i4], 0, new Class[]{UndoView.class}, new String[]{"leftImageView"}, "luc12", "undo_infoColor"));
-            arrayList.add(new ThemeDescription(this.undoView[i4], 0, new Class[]{UndoView.class}, new String[]{"leftImageView"}, "luc11", "undo_infoColor"));
-            arrayList.add(new ThemeDescription(this.undoView[i4], 0, new Class[]{UndoView.class}, new String[]{"leftImageView"}, "luc10", "undo_infoColor"));
-            arrayList.add(new ThemeDescription(this.undoView[i4], 0, new Class[]{UndoView.class}, new String[]{"leftImageView"}, "luc9", "undo_infoColor"));
-            arrayList.add(new ThemeDescription(this.undoView[i4], 0, new Class[]{UndoView.class}, new String[]{"leftImageView"}, "luc8", "undo_infoColor"));
-            arrayList.add(new ThemeDescription(this.undoView[i4], 0, new Class[]{UndoView.class}, new String[]{"leftImageView"}, "luc7", "undo_infoColor"));
-            arrayList.add(new ThemeDescription(this.undoView[i4], 0, new Class[]{UndoView.class}, new String[]{"leftImageView"}, "luc6", "undo_infoColor"));
-            arrayList.add(new ThemeDescription(this.undoView[i4], 0, new Class[]{UndoView.class}, new String[]{"leftImageView"}, "luc5", "undo_infoColor"));
-            arrayList.add(new ThemeDescription(this.undoView[i4], 0, new Class[]{UndoView.class}, new String[]{"leftImageView"}, "luc4", "undo_infoColor"));
-            arrayList.add(new ThemeDescription(this.undoView[i4], 0, new Class[]{UndoView.class}, new String[]{"leftImageView"}, "luc3", "undo_infoColor"));
-            arrayList.add(new ThemeDescription(this.undoView[i4], 0, new Class[]{UndoView.class}, new String[]{"leftImageView"}, "luc2", "undo_infoColor"));
-            arrayList.add(new ThemeDescription(this.undoView[i4], 0, new Class[]{UndoView.class}, new String[]{"leftImageView"}, "luc1", "undo_infoColor"));
-            arrayList.add(new ThemeDescription(this.undoView[i4], 0, new Class[]{UndoView.class}, new String[]{"leftImageView"}, "Oval", "undo_infoColor"));
+        for (int i6 = 0; i6 < this.undoView.length; i6++) {
+            arrayList.add(new ThemeDescription(this.undoView[i6], ThemeDescription.FLAG_BACKGROUNDFILTER, null, null, null, null, "undo_background"));
+            arrayList.add(new ThemeDescription(this.undoView[i6], 0, new Class[]{UndoView.class}, new String[]{"undoImageView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "undo_cancelColor"));
+            arrayList.add(new ThemeDescription(this.undoView[i6], 0, new Class[]{UndoView.class}, new String[]{"undoTextView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "undo_cancelColor"));
+            arrayList.add(new ThemeDescription(this.undoView[i6], 0, new Class[]{UndoView.class}, new String[]{"infoTextView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "undo_infoColor"));
+            arrayList.add(new ThemeDescription(this.undoView[i6], 0, new Class[]{UndoView.class}, new String[]{"subinfoTextView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "undo_infoColor"));
+            arrayList.add(new ThemeDescription(this.undoView[i6], 0, new Class[]{UndoView.class}, new String[]{"textPaint"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "undo_infoColor"));
+            arrayList.add(new ThemeDescription(this.undoView[i6], 0, new Class[]{UndoView.class}, new String[]{"progressPaint"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "undo_infoColor"));
+            arrayList.add(new ThemeDescription(this.undoView[i6], 0, new Class[]{UndoView.class}, new String[]{"leftImageView"}, "info1", "undo_background"));
+            arrayList.add(new ThemeDescription(this.undoView[i6], 0, new Class[]{UndoView.class}, new String[]{"leftImageView"}, "info2", "undo_background"));
+            arrayList.add(new ThemeDescription(this.undoView[i6], 0, new Class[]{UndoView.class}, new String[]{"leftImageView"}, "luc12", "undo_infoColor"));
+            arrayList.add(new ThemeDescription(this.undoView[i6], 0, new Class[]{UndoView.class}, new String[]{"leftImageView"}, "luc11", "undo_infoColor"));
+            arrayList.add(new ThemeDescription(this.undoView[i6], 0, new Class[]{UndoView.class}, new String[]{"leftImageView"}, "luc10", "undo_infoColor"));
+            arrayList.add(new ThemeDescription(this.undoView[i6], 0, new Class[]{UndoView.class}, new String[]{"leftImageView"}, "luc9", "undo_infoColor"));
+            arrayList.add(new ThemeDescription(this.undoView[i6], 0, new Class[]{UndoView.class}, new String[]{"leftImageView"}, "luc8", "undo_infoColor"));
+            arrayList.add(new ThemeDescription(this.undoView[i6], 0, new Class[]{UndoView.class}, new String[]{"leftImageView"}, "luc7", "undo_infoColor"));
+            arrayList.add(new ThemeDescription(this.undoView[i6], 0, new Class[]{UndoView.class}, new String[]{"leftImageView"}, "luc6", "undo_infoColor"));
+            arrayList.add(new ThemeDescription(this.undoView[i6], 0, new Class[]{UndoView.class}, new String[]{"leftImageView"}, "luc5", "undo_infoColor"));
+            arrayList.add(new ThemeDescription(this.undoView[i6], 0, new Class[]{UndoView.class}, new String[]{"leftImageView"}, "luc4", "undo_infoColor"));
+            arrayList.add(new ThemeDescription(this.undoView[i6], 0, new Class[]{UndoView.class}, new String[]{"leftImageView"}, "luc3", "undo_infoColor"));
+            arrayList.add(new ThemeDescription(this.undoView[i6], 0, new Class[]{UndoView.class}, new String[]{"leftImageView"}, "luc2", "undo_infoColor"));
+            arrayList.add(new ThemeDescription(this.undoView[i6], 0, new Class[]{UndoView.class}, new String[]{"leftImageView"}, "luc1", "undo_infoColor"));
+            arrayList.add(new ThemeDescription(this.undoView[i6], 0, new Class[]{UndoView.class}, new String[]{"leftImageView"}, "Oval", "undo_infoColor"));
         }
         arrayList.add(new ThemeDescription(null, 0, null, null, null, null, "dialogBackground"));
         arrayList.add(new ThemeDescription(null, 0, null, null, null, null, "dialogBackgroundGray"));

@@ -4,6 +4,7 @@ import j$.util.function.BiConsumer;
 import j$.util.function.BiFunction;
 import j$.util.function.Consumer;
 import j$.util.function.Function;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentMap;
 /* loaded from: classes2.dex */
 public final /* synthetic */ class a implements BiConsumer, BiFunction, Consumer {
@@ -24,13 +25,13 @@ public final /* synthetic */ class a implements BiConsumer, BiFunction, Consumer
 
     @Override // j$.util.function.BiFunction
     public BiFunction andThen(Function function) {
-        function.getClass();
+        Objects.requireNonNull(function);
         return new a(this, function);
     }
 
     @Override // j$.util.function.Consumer
     public /* synthetic */ Consumer andThen(Consumer consumer) {
-        return consumer.getClass();
+        return Objects.requireNonNull(consumer);
     }
 
     @Override // j$.util.function.BiFunction
@@ -42,10 +43,10 @@ public final /* synthetic */ class a implements BiConsumer, BiFunction, Consumer
     public BiConsumer b(BiConsumer biConsumer) {
         switch (this.a) {
             case 0:
-                biConsumer.getClass();
+                Objects.requireNonNull(biConsumer);
                 return new a(this, biConsumer);
             default:
-                biConsumer.getClass();
+                Objects.requireNonNull(biConsumer);
                 return new a(this, biConsumer);
         }
     }

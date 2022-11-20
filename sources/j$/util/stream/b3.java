@@ -1,6 +1,7 @@
 package j$.util.stream;
 
 import j$.util.function.Consumer;
+import java.util.Objects;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public class b3 extends e3 {
@@ -26,7 +27,7 @@ public class b3 extends e3 {
             J0().forEachRemaining(consumer);
             return;
         }
-        consumer.getClass();
+        Objects.requireNonNull(consumer);
         x0(new n0(consumer, true));
     }
 

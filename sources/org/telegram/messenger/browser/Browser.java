@@ -334,12 +334,12 @@ public class Browser {
                     if (!zArr[0] || list == null || list.isEmpty()) {
                         Intent intent = new Intent(ApplicationLoader.applicationContext, ShareBroadcastReceiver.class);
                         intent.setAction("android.intent.action.SEND");
-                        PendingIntent broadcast = PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 0, new Intent(ApplicationLoader.applicationContext, CustomTabsCopyReceiver.class), 134217728);
+                        PendingIntent broadcast = PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 0, new Intent(ApplicationLoader.applicationContext, CustomTabsCopyReceiver.class), 167772160);
                         CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(getSession());
                         builder.addMenuItem(LocaleController.getString("CopyLink", R.string.CopyLink), broadcast);
                         builder.setToolbarColor(Theme.getColor("actionBarBrowser"));
                         builder.setShowTitle(true);
-                        builder.setActionButton(BitmapFactory.decodeResource(context.getResources(), R.drawable.msg_filled_shareout), LocaleController.getString("ShareFile", R.string.ShareFile), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 0, intent, 0), true);
+                        builder.setActionButton(BitmapFactory.decodeResource(context.getResources(), R.drawable.msg_filled_shareout), LocaleController.getString("ShareFile", R.string.ShareFile), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 0, intent, ConnectionsManager.FileTypeVideo), true);
                         CustomTabsIntent build = builder.build();
                         build.setUseNewTask();
                         build.launchUrl(context, uri2);
@@ -356,12 +356,12 @@ public class Browser {
                 }
                 Intent intent2 = new Intent(ApplicationLoader.applicationContext, ShareBroadcastReceiver.class);
                 intent2.setAction("android.intent.action.SEND");
-                PendingIntent broadcast2 = PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 0, new Intent(ApplicationLoader.applicationContext, CustomTabsCopyReceiver.class), 134217728);
+                PendingIntent broadcast2 = PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 0, new Intent(ApplicationLoader.applicationContext, CustomTabsCopyReceiver.class), 167772160);
                 CustomTabsIntent.Builder builder2 = new CustomTabsIntent.Builder(getSession());
                 builder2.addMenuItem(LocaleController.getString("CopyLink", R.string.CopyLink), broadcast2);
                 builder2.setToolbarColor(Theme.getColor("actionBarBrowser"));
                 builder2.setShowTitle(true);
-                builder2.setActionButton(BitmapFactory.decodeResource(context.getResources(), R.drawable.msg_filled_shareout), LocaleController.getString("ShareFile", R.string.ShareFile), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 0, intent2, 0), true);
+                builder2.setActionButton(BitmapFactory.decodeResource(context.getResources(), R.drawable.msg_filled_shareout), LocaleController.getString("ShareFile", R.string.ShareFile), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 0, intent2, ConnectionsManager.FileTypeVideo), true);
                 CustomTabsIntent build2 = builder2.build();
                 build2.setUseNewTask();
                 build2.launchUrl(context, uri2);

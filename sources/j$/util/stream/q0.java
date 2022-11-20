@@ -1,6 +1,7 @@
 package j$.util.stream;
 
 import j$.util.concurrent.ConcurrentHashMap;
+import java.util.Objects;
 import java.util.concurrent.CountedCompleter;
 /* loaded from: classes2.dex */
 final class q0 extends CountedCompleter {
@@ -70,8 +71,8 @@ final class q0 extends CountedCompleter {
             y2 y2Var = q0Var.a;
             s1 t0 = y2Var.t0(y2Var.q0(uVar), p0Var);
             c cVar = (c) q0Var.a;
-            cVar.getClass();
-            t0.getClass();
+            Objects.requireNonNull(cVar);
+            Objects.requireNonNull(t0);
             cVar.n0(cVar.v0(t0), uVar);
             q0Var.g = t0.a();
             q0Var.b = null;
@@ -91,8 +92,8 @@ final class q0 extends CountedCompleter {
                 y2 y2Var = this.a;
                 m3 m3Var = this.e;
                 c cVar = (c) y2Var;
-                cVar.getClass();
-                m3Var.getClass();
+                Objects.requireNonNull(cVar);
+                Objects.requireNonNull(m3Var);
                 cVar.n0(cVar.v0(m3Var), uVar);
                 this.b = null;
             }

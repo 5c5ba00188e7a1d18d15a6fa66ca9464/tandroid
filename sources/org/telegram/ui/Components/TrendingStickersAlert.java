@@ -14,6 +14,7 @@ import android.view.View;
 import androidx.core.graphics.ColorUtils;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
+import java.util.Objects;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.ui.ActionBar.BaseFragment;
@@ -103,7 +104,7 @@ public class TrendingStickersAlert extends BottomSheet {
     public ArrayList<ThemeDescription> getThemeDescriptions() {
         ArrayList<ThemeDescription> arrayList = new ArrayList<>();
         final TrendingStickersLayout trendingStickersLayout = this.layout;
-        trendingStickersLayout.getClass();
+        Objects.requireNonNull(trendingStickersLayout);
         trendingStickersLayout.getThemeDescriptions(arrayList, new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.Components.TrendingStickersAlert$$ExternalSyntheticLambda0
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public final void didSetColor() {

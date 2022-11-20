@@ -33,16 +33,19 @@ class Z0 extends h3 {
                 if (e1Var != null) {
                     try {
                         e1Var.sequential().d(new W0(this));
-                    } finally {
+                    } catch (Throwable th) {
                         try {
                             e1Var.close();
-                        } catch (Throwable unused) {
+                        } catch (Throwable th2) {
+                            th.addSuppressed(th2);
                         }
+                        throw th;
                     }
                 }
                 if (e1Var == null) {
                     return;
                 }
+                e1Var.close();
                 return;
             case 6:
                 if (!((j$.wrappers.j0) ((N) this.c).m).b(j)) {

@@ -22,12 +22,12 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityNodeInfo;
-import androidx.core.util.ObjectsCompat$$ExternalSyntheticBackport0;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Stack;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
@@ -249,7 +249,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
                 return;
             }
             setMessageObject(messageObject2, true);
-        } else if (i != NotificationCenter.diceStickersDidLoad || !ObjectsCompat$$ExternalSyntheticBackport0.m(objArr[0], UserConfig.getInstance(this.currentAccount).premiumGiftsStickerPack) || (messageObject = this.currentMessageObject) == null) {
+        } else if (i != NotificationCenter.diceStickersDidLoad || !Objects.equals(objArr[0], UserConfig.getInstance(this.currentAccount).premiumGiftsStickerPack) || (messageObject = this.currentMessageObject) == null) {
         } else {
             setMessageObject(messageObject, true);
         }
@@ -465,7 +465,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
                             break;
                         }
                         TLRPC$TL_stickerPack next = it.next();
-                        if (ObjectsCompat$$ExternalSyntheticBackport0.m(next.emoticon, str3)) {
+                        if (Objects.equals(next.emoticon, str3)) {
                             Iterator<Long> it2 = next.documents.iterator();
                             while (it2.hasNext()) {
                                 long longValue = it2.next().longValue();

@@ -9,6 +9,7 @@ import j$.util.function.Predicate;
 import j$.util.function.ToIntFunction;
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.Objects;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public abstract class e3 extends c implements Stream {
@@ -30,8 +31,8 @@ public abstract class e3 extends c implements Stream {
 
     @Override // j$.util.stream.Stream
     public final Object B(Object obj, BiFunction biFunction, j$.util.function.b bVar) {
-        biFunction.getClass();
-        bVar.getClass();
+        Objects.requireNonNull(biFunction);
+        Objects.requireNonNull(bVar);
         return x0(new z2(e4.REFERENCE, bVar, biFunction, obj));
     }
 
@@ -43,7 +44,7 @@ public abstract class e3 extends c implements Stream {
 
     @Override // j$.util.stream.Stream
     public final U E(Function function) {
-        function.getClass();
+        Objects.requireNonNull(function);
         return new K(this, this, e4.REFERENCE, d4.p | d4.n | d4.t, function);
     }
 
@@ -54,13 +55,13 @@ public abstract class e3 extends c implements Stream {
 
     @Override // j$.util.stream.Stream
     public final Stream T(Predicate predicate) {
-        predicate.getClass();
+        Objects.requireNonNull(predicate);
         return new L(this, this, e4.REFERENCE, d4.t, predicate);
     }
 
     @Override // j$.util.stream.Stream
     public final Stream V(Consumer consumer) {
-        consumer.getClass();
+        Objects.requireNonNull(consumer);
         return new L(this, this, e4.REFERENCE, 0, consumer);
     }
 
@@ -71,7 +72,7 @@ public abstract class e3 extends c implements Stream {
 
     @Override // j$.util.stream.Stream
     public final e1 X(Function function) {
-        function.getClass();
+        Objects.requireNonNull(function);
         return new N(this, this, e4.REFERENCE, d4.p | d4.n | d4.t, function);
     }
 
@@ -84,7 +85,7 @@ public abstract class e3 extends c implements Stream {
     public final Object b0(j$.wrappers.J0 j0) {
         Object x0;
         if (!isParallel() || !j0.b().contains(h.CONCURRENT) || (C0() && !j0.b().contains(h.UNORDERED))) {
-            j0.getClass();
+            Objects.requireNonNull(j0);
             j$.util.function.y f = j0.f();
             x0 = x0(new I2(e4.REFERENCE, j0.c(), j0.a(), f, j0));
         } else {
@@ -96,7 +97,7 @@ public abstract class e3 extends c implements Stream {
 
     @Override // j$.util.stream.Stream
     public final IntStream c(Function function) {
-        function.getClass();
+        Objects.requireNonNull(function);
         return new M(this, this, e4.REFERENCE, d4.p | d4.n | d4.t, function);
     }
 
@@ -116,7 +117,7 @@ public abstract class e3 extends c implements Stream {
     }
 
     public void e(Consumer consumer) {
-        consumer.getClass();
+        Objects.requireNonNull(consumer);
         x0(new n0(consumer, true));
     }
 
@@ -131,21 +132,21 @@ public abstract class e3 extends c implements Stream {
     }
 
     public void forEach(Consumer consumer) {
-        consumer.getClass();
+        Objects.requireNonNull(consumer);
         x0(new n0(consumer, false));
     }
 
     @Override // j$.util.stream.Stream
     public final e1 g0(j$.util.function.A a) {
-        a.getClass();
+        Objects.requireNonNull(a);
         return new N(this, this, e4.REFERENCE, d4.p | d4.n, a);
     }
 
     @Override // j$.util.stream.Stream
     public final Object i(j$.util.function.y yVar, BiConsumer biConsumer, BiConsumer biConsumer2) {
-        yVar.getClass();
-        biConsumer.getClass();
-        biConsumer2.getClass();
+        Objects.requireNonNull(yVar);
+        Objects.requireNonNull(biConsumer);
+        Objects.requireNonNull(biConsumer2);
         return x0(new z2(e4.REFERENCE, biConsumer2, biConsumer, yVar));
     }
 
@@ -156,7 +157,7 @@ public abstract class e3 extends c implements Stream {
 
     @Override // j$.util.stream.Stream
     public final U j0(j$.util.function.z zVar) {
-        zVar.getClass();
+        Objects.requireNonNull(zVar);
         return new K(this, this, e4.REFERENCE, d4.p | d4.n, zVar);
     }
 
@@ -175,37 +176,37 @@ public abstract class e3 extends c implements Stream {
 
     @Override // j$.util.stream.Stream
     public final IntStream m(ToIntFunction toIntFunction) {
-        toIntFunction.getClass();
+        Objects.requireNonNull(toIntFunction);
         return new M(this, this, e4.REFERENCE, d4.p | d4.n, toIntFunction);
     }
 
     @Override // j$.util.stream.Stream
     public final Object m0(Object obj, j$.util.function.b bVar) {
-        bVar.getClass();
+        Objects.requireNonNull(bVar);
         return x0(new z2(e4.REFERENCE, bVar, bVar, obj));
     }
 
     @Override // j$.util.stream.Stream
     public final Optional max(Comparator comparator) {
-        comparator.getClass();
+        Objects.requireNonNull(comparator);
         return t(new j$.util.function.a(comparator, 0));
     }
 
     @Override // j$.util.stream.Stream
     public final Optional min(Comparator comparator) {
-        comparator.getClass();
+        Objects.requireNonNull(comparator);
         return t(new j$.util.function.a(comparator, 1));
     }
 
     @Override // j$.util.stream.Stream
     public final Stream n(Function function) {
-        function.getClass();
+        Objects.requireNonNull(function);
         return new a3(this, this, e4.REFERENCE, d4.p | d4.n, function, 0);
     }
 
     @Override // j$.util.stream.Stream
     public final Stream o(Function function) {
-        function.getClass();
+        Objects.requireNonNull(function);
         return new a3(this, this, e4.REFERENCE, d4.p | d4.n | d4.t, function, 1);
     }
 
@@ -225,7 +226,7 @@ public abstract class e3 extends c implements Stream {
 
     @Override // j$.util.stream.Stream
     public final Optional t(j$.util.function.b bVar) {
-        bVar.getClass();
+        Objects.requireNonNull(bVar);
         return (Optional) x0(new D2(e4.REFERENCE, bVar));
     }
 

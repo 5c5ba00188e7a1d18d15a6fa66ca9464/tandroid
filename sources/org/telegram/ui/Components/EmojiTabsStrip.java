@@ -22,9 +22,9 @@ import android.widget.LinearLayout;
 import androidx.core.graphics.ColorUtils;
 import androidx.core.math.MathUtils;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.MediaDataController;
@@ -382,7 +382,7 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
             if (emojiTabButton2 != null && emojiTabButton2.id != null) {
                 for (int i4 = 0; i4 < arrayList.size(); i4++) {
                     emojiPack2 = arrayList.get(i4);
-                    if (Arrays.hashCode(new Object[]{Long.valueOf(emojiPack2.set.id), Boolean.valueOf(emojiPack2.featured)}) == emojiTabButton2.id.intValue()) {
+                    if (Objects.hash(Long.valueOf(emojiPack2.set.id), Boolean.valueOf(emojiPack2.featured)) == emojiTabButton2.id.intValue()) {
                         break;
                     }
                 }
@@ -421,7 +421,7 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
             Object[] objArr = new Object[i];
             objArr[c2] = Long.valueOf(emojiPack3.set.id);
             objArr[c] = Boolean.valueOf(emojiPack3.featured);
-            int hashCode = Arrays.hashCode(objArr);
+            int hash = Objects.hash(objArr);
             int i6 = 0;
             while (true) {
                 if (i6 >= this.emojipackTabs.size()) {
@@ -429,7 +429,7 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
                     break;
                 }
                 emojiTabButton = this.emojipackTabs.get(i6);
-                if (emojiTabButton != null && (num = emojiTabButton.id) != null && num.intValue() == hashCode) {
+                if (emojiTabButton != null && (num = emojiTabButton.id) != null && num.intValue() == hash) {
                     break;
                 }
                 i6++;
@@ -445,7 +445,7 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
                 emojiPack = emojiPack3;
                 i2 = i5;
                 EmojiTabButton emojiTabButton3 = new EmojiTabButton(getContext(), (Drawable) animatedEmojiDrawable2, isFreeEmojiPack, false, false);
-                emojiTabButton3.id = Integer.valueOf(hashCode);
+                emojiTabButton3.id = Integer.valueOf(hash);
                 if (animatedEmojiDrawable2 != null) {
                     animatedEmojiDrawable2.addView(emojiTabButton3.imageView);
                 }

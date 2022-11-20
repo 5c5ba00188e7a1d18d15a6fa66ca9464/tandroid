@@ -44,16 +44,19 @@ class Y2 extends i3 {
                 if (stream != null) {
                     try {
                         ((Stream) stream.sequential()).forEach(this.a);
-                    } finally {
+                    } catch (Throwable th) {
                         try {
                             stream.close();
-                        } catch (Throwable unused) {
+                        } catch (Throwable th2) {
+                            th.addSuppressed(th2);
                         }
+                        throw th;
                     }
                 }
                 if (stream == null) {
                     return;
                 }
+                stream.close();
                 return;
         }
     }

@@ -10,6 +10,7 @@ import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.Set;
 /* loaded from: classes.dex */
 public final class LinkedTreeMap<K, V> extends AbstractMap<K, V> implements Serializable {
@@ -65,9 +66,7 @@ public final class LinkedTreeMap<K, V> extends AbstractMap<K, V> implements Seri
 
     @Override // java.util.AbstractMap, java.util.Map
     public V put(K k, V v) {
-        if (k == null) {
-            throw new NullPointerException("key == null");
-        }
+        Objects.requireNonNull(k, "key == null");
         if (v == null && !this.allowNullValues) {
             throw new NullPointerException("value == null");
         }

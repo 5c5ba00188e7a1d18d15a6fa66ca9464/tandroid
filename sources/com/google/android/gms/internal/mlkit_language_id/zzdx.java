@@ -2,6 +2,7 @@ package com.google.android.gms.internal.mlkit_language_id;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.util.Objects;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
@@ -10,7 +11,7 @@ public class zzdx extends zzdu {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public zzdx(byte[] bArr) {
-        bArr.getClass();
+        Objects.requireNonNull(bArr);
         this.zzb = bArr;
     }
 

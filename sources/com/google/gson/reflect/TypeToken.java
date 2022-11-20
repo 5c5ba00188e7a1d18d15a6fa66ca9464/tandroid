@@ -3,6 +3,7 @@ package com.google.gson.reflect;
 import com.google.gson.internal.$Gson$Types;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.Objects;
 /* loaded from: classes.dex */
 public class TypeToken<T> {
     private final int hashCode;
@@ -17,7 +18,7 @@ public class TypeToken<T> {
     }
 
     private TypeToken(Type type) {
-        type.getClass();
+        Objects.requireNonNull(type);
         Type canonicalize = $Gson$Types.canonicalize(type);
         this.type = canonicalize;
         this.rawType = (Class<? super T>) $Gson$Types.getRawType(canonicalize);

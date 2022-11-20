@@ -6210,11 +6210,11 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$35(Context context, View view) {
         LaunchActivity launchActivity;
-        boolean z = false;
         if (Build.VERSION.SDK_INT >= 23 && (launchActivity = this.parentActivity) != null && launchActivity.checkSelfPermission("android.permission.CAMERA") != 0) {
             this.parentActivity.requestPermissions(new String[]{"android.permission.CAMERA"}, 104);
         } else if (VoIPService.getSharedInstance() == null) {
         } else {
+            boolean z = false;
             if (VoIPService.getSharedInstance().getVideoState(false) != 2) {
                 this.undoView[0].hide(false, 1);
                 if (this.previewDialog != null) {

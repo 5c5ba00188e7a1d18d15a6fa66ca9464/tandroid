@@ -1,4 +1,6 @@
 package j$.util.function;
+
+import java.util.Objects;
 /* loaded from: classes2.dex */
 public final /* synthetic */ class e implements f {
     public final /* synthetic */ f a;
@@ -19,7 +21,7 @@ public final /* synthetic */ class e implements f {
 
     @Override // j$.util.function.f
     public f j(f fVar) {
-        fVar.getClass();
+        Objects.requireNonNull(fVar);
         return new e(this, fVar);
     }
 }

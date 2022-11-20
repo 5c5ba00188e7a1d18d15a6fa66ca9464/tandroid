@@ -573,14 +573,15 @@ public class MrzRecognizer {
     }
 
     private static String cyrillicToLatin(String str) {
-        int i = 0;
         String[] strArr = {"A", "B", "V", "G", "D", "E", "E", "ZH", "Z", "I", "I", "K", "L", "M", "N", "O", "P", "R", "S", "T", "U", "F", "KH", "TS", "CH", "SH", "SHCH", "IE", "Y", "", "E", "IU", "IA"};
+        String str2 = str;
+        int i = 0;
         while (i < 33) {
             int i2 = i + 1;
-            str = str.replace("АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ".substring(i, i2), strArr[i]);
+            str2 = str2.replace("АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ".substring(i, i2), strArr[i]);
             i = i2;
         }
-        return str;
+        return str2;
     }
 
     private static HashMap<String, String> getCountriesMap() {

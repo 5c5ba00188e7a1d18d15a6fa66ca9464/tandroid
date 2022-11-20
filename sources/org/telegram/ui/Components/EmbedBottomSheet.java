@@ -38,6 +38,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Objects;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.BringAppForegroundService;
@@ -808,7 +809,7 @@ public class EmbedBottomSheet extends BottomSheet {
     public /* synthetic */ void lambda$new$3(View view) {
         if (PipVideoOverlay.isVisible()) {
             PipVideoOverlay.dismiss();
-            view.getClass();
+            Objects.requireNonNull(view);
             AndroidUtilities.runOnUIThread(new ChatActivityEnterView$$ExternalSyntheticLambda33(view), 300L);
             return;
         }

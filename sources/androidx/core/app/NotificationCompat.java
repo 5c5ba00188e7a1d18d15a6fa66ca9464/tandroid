@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 /* loaded from: classes.dex */
 public class NotificationCompat {
 
@@ -1031,9 +1032,10 @@ public class NotificationCompat {
             }
 
             private void checkContextualActionNullFields() {
-                if (this.mIsContextual && this.mIntent == null) {
-                    throw new NullPointerException("Contextual Actions must contain a valid PendingIntent");
+                if (!this.mIsContextual) {
+                    return;
                 }
+                Objects.requireNonNull(this.mIntent, "Contextual Actions must contain a valid PendingIntent");
             }
 
             public Action build() {
@@ -1304,15 +1306,10 @@ public class NotificationCompat {
             private String mShortcutId;
 
             public Builder(PendingIntent intent, IconCompat icon) {
-                if (intent != null) {
-                    if (icon == null) {
-                        throw new NullPointerException("Bubbles require non-null icon");
-                    }
-                    this.mPendingIntent = intent;
-                    this.mIcon = icon;
-                    return;
-                }
-                throw new NullPointerException("Bubble requires non-null pending intent");
+                Objects.requireNonNull(intent, "Bubble requires non-null pending intent");
+                Objects.requireNonNull(icon, "Bubbles require non-null icon");
+                this.mPendingIntent = intent;
+                this.mIcon = icon;
             }
 
             public Builder setDesiredHeight(int height) {
@@ -1334,11 +1331,11 @@ public class NotificationCompat {
             @SuppressLint({"SyntheticAccessor"})
             public BubbleMetadata build() {
                 String str = this.mShortcutId;
-                if (str == null && this.mPendingIntent == null) {
-                    throw new NullPointerException("Must supply pending intent or shortcut to bubble");
+                if (str == null) {
+                    Objects.requireNonNull(this.mPendingIntent, "Must supply pending intent or shortcut to bubble");
                 }
-                if (str == null && this.mIcon == null) {
-                    throw new NullPointerException("Must supply an icon or shortcut for the bubble");
+                if (str == null) {
+                    Objects.requireNonNull(this.mIcon, "Must supply an icon or shortcut for the bubble");
                 }
                 BubbleMetadata bubbleMetadata = new BubbleMetadata(this.mPendingIntent, this.mDeleteIntent, this.mIcon, this.mDesiredHeight, this.mDesiredHeightResId, this.mFlags, str);
                 bubbleMetadata.setFlags(this.mFlags);

@@ -772,6 +772,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         updateSubtitle(false);
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
     public void updateSubtitle(boolean z) {
         String string;
         TLRPC$ChatParticipants tLRPC$ChatParticipants;

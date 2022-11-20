@@ -32,15 +32,14 @@ import android.widget.FrameLayout;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.ColorUtils;
 import androidx.core.util.Consumer;
-import androidx.core.util.ObjectsCompat$$ExternalSyntheticBackport0;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Objects;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
@@ -434,7 +433,7 @@ public class RecyclerListView extends RecyclerView {
             for (int i = 0; i < internalGetSectionCount; i++) {
                 int internalGetCountForSection = internalGetCountForSection(i);
                 for (int i2 = 0; i2 < internalGetCountForSection; i2++) {
-                    this.hashes.add(Integer.valueOf(Arrays.hashCode(new Object[]{Integer.valueOf((-49612) * i), getItem(i, i2)})));
+                    this.hashes.add(Integer.valueOf(Objects.hash(Integer.valueOf((-49612) * i), getItem(i, i2))));
                 }
             }
             if (z) {
@@ -451,7 +450,7 @@ public class RecyclerListView extends RecyclerView {
 
                     @Override // androidx.recyclerview.widget.DiffUtil.Callback
                     public boolean areItemsTheSame(int i3, int i4) {
-                        return ObjectsCompat$$ExternalSyntheticBackport0.m(arrayList.get(i3), SectionsAdapter.this.hashes.get(i4));
+                        return Objects.equals(arrayList.get(i3), SectionsAdapter.this.hashes.get(i4));
                     }
 
                     @Override // androidx.recyclerview.widget.DiffUtil.Callback

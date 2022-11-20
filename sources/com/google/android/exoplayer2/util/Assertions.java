@@ -1,6 +1,7 @@
 package com.google.android.exoplayer2.util;
 
 import android.text.TextUtils;
+import java.util.Objects;
 import org.checkerframework.checker.nullness.qual.EnsuresNonNull;
 /* loaded from: classes.dex */
 public final class Assertions {
@@ -49,7 +50,7 @@ public final class Assertions {
 
     @EnsuresNonNull({"#1"})
     public static <T> T checkNotNull(T t) {
-        t.getClass();
+        Objects.requireNonNull(t);
         return t;
     }
 

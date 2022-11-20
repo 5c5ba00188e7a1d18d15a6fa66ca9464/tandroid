@@ -2,6 +2,7 @@ package j$.util.stream;
 
 import j$.util.function.Consumer;
 import java.util.Comparator;
+import java.util.Objects;
 /* loaded from: classes2.dex */
 final class C4 extends D4 implements j$.util.u {
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -21,7 +22,7 @@ final class C4 extends D4 implements j$.util.u {
     @Override // j$.util.u
     public boolean b(Consumer consumer) {
         long j;
-        consumer.getClass();
+        Objects.requireNonNull(consumer);
         if (this.a >= this.e) {
             return false;
         }
@@ -43,7 +44,7 @@ final class C4 extends D4 implements j$.util.u {
 
     @Override // j$.util.u
     public void forEachRemaining(Consumer consumer) {
-        consumer.getClass();
+        Objects.requireNonNull(consumer);
         long j = this.a;
         long j2 = this.e;
         if (j >= j2) {

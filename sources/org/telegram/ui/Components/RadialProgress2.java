@@ -8,6 +8,7 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.view.View;
 import java.util.Locale;
+import java.util.Objects;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.ImageReceiver;
@@ -74,7 +75,7 @@ public class RadialProgress2 {
         imageReceiver.setInvalidateAll(true);
         MediaActionDrawable mediaActionDrawable = new MediaActionDrawable();
         this.mediaActionDrawable = mediaActionDrawable;
-        view.getClass();
+        Objects.requireNonNull(view);
         mediaActionDrawable.setDelegate(new MediaActionDrawable.MediaActionDrawableDelegate() { // from class: org.telegram.ui.Components.RadialProgress2$$ExternalSyntheticLambda0
             @Override // org.telegram.ui.Components.MediaActionDrawable.MediaActionDrawableDelegate
             public final void invalidate() {

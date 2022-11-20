@@ -6,7 +6,6 @@ import android.text.TextUtils;
 import android.util.SparseArray;
 import androidx.collection.LongSparseArray;
 import com.google.android.exoplayer2.util.Log;
-import com.google.android.gms.internal.mlkit_language_id.zzdp$$ExternalSyntheticBackport0;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
@@ -1631,7 +1630,7 @@ public class ChatObject {
                 }
                 int i4 = tLRPC$TL_groupCallParticipant.active_date;
                 if (i4 != 0 && (i = tLRPC$TL_groupCallParticipant2.active_date) != 0) {
-                    return zzdp$$ExternalSyntheticBackport0.m(i, i4);
+                    return Integer.compare(i, i4);
                 }
                 if (i4 != 0) {
                     return -1;
@@ -1650,7 +1649,7 @@ public class ChatObject {
                     if (j2 != 0) {
                         long j3 = tLRPC$TL_groupCallParticipant2.raise_hand_rating;
                         if (j3 != 0) {
-                            return (j3 > j2 ? 1 : (j3 == j2 ? 0 : -1));
+                            return Long.compare(j3, j2);
                         }
                     }
                     if (j2 != 0) {
@@ -1661,9 +1660,9 @@ public class ChatObject {
                     }
                 }
                 if (this.call.join_date_asc) {
-                    return zzdp$$ExternalSyntheticBackport0.m(tLRPC$TL_groupCallParticipant.date, tLRPC$TL_groupCallParticipant2.date);
+                    return Integer.compare(tLRPC$TL_groupCallParticipant.date, tLRPC$TL_groupCallParticipant2.date);
                 }
-                return zzdp$$ExternalSyntheticBackport0.m(tLRPC$TL_groupCallParticipant2.date, tLRPC$TL_groupCallParticipant.date);
+                return Integer.compare(tLRPC$TL_groupCallParticipant2.date, tLRPC$TL_groupCallParticipant.date);
             }
             return i3 - i2;
         }

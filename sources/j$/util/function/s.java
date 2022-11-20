@@ -1,4 +1,6 @@
 package j$.util.function;
+
+import java.util.Objects;
 /* loaded from: classes2.dex */
 public final /* synthetic */ class s implements t {
     public final /* synthetic */ int a;
@@ -20,10 +22,10 @@ public final /* synthetic */ class s implements t {
     public t a(t tVar) {
         switch (this.a) {
             case 0:
-                tVar.getClass();
+                Objects.requireNonNull(tVar);
                 return new s(this, tVar, 0);
             default:
-                tVar.getClass();
+                Objects.requireNonNull(tVar);
                 return new s(this, tVar, 0);
         }
     }
@@ -42,10 +44,10 @@ public final /* synthetic */ class s implements t {
     public t b(t tVar) {
         switch (this.a) {
             case 0:
-                tVar.getClass();
+                Objects.requireNonNull(tVar);
                 return new s(this, tVar, 1);
             default:
-                tVar.getClass();
+                Objects.requireNonNull(tVar);
                 return new s(this, tVar, 1);
         }
     }

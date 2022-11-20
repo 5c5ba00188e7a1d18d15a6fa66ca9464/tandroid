@@ -559,117 +559,70 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Type inference failed for: r4v23 */
-    /* JADX WARN: Type inference failed for: r4v4 */
     public /* synthetic */ void lambda$loadAudio$4() {
-        final ArrayList arrayList;
-        int i = 2;
-        int i2 = 4;
-        int i3 = 5;
         String[] strArr = {"_id", "artist", "title", "_data", "duration", "album"};
-        ArrayList arrayList2 = new ArrayList();
+        final ArrayList arrayList = new ArrayList();
         try {
             Cursor query = ApplicationLoader.applicationContext.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, strArr, "is_music != 0", null, "title");
-            int i4 = -2000000000;
-            arrayList = strArr;
+            int i = -2000000000;
             while (query.moveToNext()) {
-                try {
-                    try {
-                        MediaController.AudioEntry audioEntry = new MediaController.AudioEntry();
-                        audioEntry.id = query.getInt(0);
-                        audioEntry.author = query.getString(1);
-                        audioEntry.title = query.getString(i);
-                        audioEntry.path = query.getString(3);
-                        audioEntry.duration = (int) (query.getLong(i2) / 1000);
-                        audioEntry.genre = query.getString(i3);
-                        File file = new File(audioEntry.path);
-                        TLRPC$TL_message tLRPC$TL_message = new TLRPC$TL_message();
-                        tLRPC$TL_message.out = true;
-                        tLRPC$TL_message.id = i4;
-                        tLRPC$TL_message.peer_id = new TLRPC$TL_peerUser();
-                        TLRPC$TL_peerUser tLRPC$TL_peerUser = new TLRPC$TL_peerUser();
-                        tLRPC$TL_message.from_id = tLRPC$TL_peerUser;
-                        TLRPC$Peer tLRPC$Peer = tLRPC$TL_message.peer_id;
-                        ArrayList arrayList3 = arrayList2;
-                        try {
-                            long clientUserId = UserConfig.getInstance(this.parentAlert.currentAccount).getClientUserId();
-                            tLRPC$TL_peerUser.user_id = clientUserId;
-                            tLRPC$Peer.user_id = clientUserId;
-                            tLRPC$TL_message.date = (int) (System.currentTimeMillis() / 1000);
-                            tLRPC$TL_message.message = "";
-                            tLRPC$TL_message.attachPath = audioEntry.path;
-                            TLRPC$TL_messageMediaDocument tLRPC$TL_messageMediaDocument = new TLRPC$TL_messageMediaDocument();
-                            tLRPC$TL_message.media = tLRPC$TL_messageMediaDocument;
-                            tLRPC$TL_messageMediaDocument.flags |= 3;
-                            tLRPC$TL_messageMediaDocument.document = new TLRPC$TL_document();
-                            tLRPC$TL_message.flags |= 768;
-                            String fileExtension = FileLoader.getFileExtension(file);
-                            TLRPC$Document tLRPC$Document = tLRPC$TL_message.media.document;
-                            tLRPC$Document.id = 0L;
-                            tLRPC$Document.access_hash = 0L;
-                            tLRPC$Document.file_reference = new byte[0];
-                            tLRPC$Document.date = tLRPC$TL_message.date;
-                            StringBuilder sb = new StringBuilder();
-                            sb.append("audio/");
-                            if (fileExtension.length() <= 0) {
-                                fileExtension = "mp3";
-                            }
-                            sb.append(fileExtension);
-                            tLRPC$Document.mime_type = sb.toString();
-                            tLRPC$TL_message.media.document.size = (int) file.length();
-                            tLRPC$TL_message.media.document.dc_id = 0;
-                            TLRPC$TL_documentAttributeAudio tLRPC$TL_documentAttributeAudio = new TLRPC$TL_documentAttributeAudio();
-                            tLRPC$TL_documentAttributeAudio.duration = audioEntry.duration;
-                            tLRPC$TL_documentAttributeAudio.title = audioEntry.title;
-                            tLRPC$TL_documentAttributeAudio.performer = audioEntry.author;
-                            tLRPC$TL_documentAttributeAudio.flags |= 3;
-                            tLRPC$TL_message.media.document.attributes.add(tLRPC$TL_documentAttributeAudio);
-                            TLRPC$TL_documentAttributeFilename tLRPC$TL_documentAttributeFilename = new TLRPC$TL_documentAttributeFilename();
-                            tLRPC$TL_documentAttributeFilename.file_name = file.getName();
-                            tLRPC$TL_message.media.document.attributes.add(tLRPC$TL_documentAttributeFilename);
-                            audioEntry.messageObject = new MessageObject(this.parentAlert.currentAccount, tLRPC$TL_message, false, true);
-                            ArrayList arrayList4 = arrayList3;
-                            try {
-                                arrayList4.add(audioEntry);
-                                i4--;
-                                arrayList2 = arrayList4;
-                                i = 2;
-                                i2 = 4;
-                                i3 = 5;
-                                arrayList = arrayList4;
-                            } catch (Throwable th) {
-                                th = th;
-                                if (query != null) {
-                                    try {
-                                        query.close();
-                                    } catch (Throwable unused) {
-                                    }
-                                }
-                                throw th;
-                            }
-                        } catch (Throwable th2) {
-                            th = th2;
-                        }
-                    } catch (Exception e) {
-                        e = e;
-                        FileLog.e(e);
-                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertAudioLayout$$ExternalSyntheticLambda2
-                            @Override // java.lang.Runnable
-                            public final void run() {
-                                ChatAttachAlertAudioLayout.this.lambda$loadAudio$3(arrayList);
-                            }
-                        });
-                    }
-                } catch (Throwable th3) {
-                    th = th3;
+                MediaController.AudioEntry audioEntry = new MediaController.AudioEntry();
+                audioEntry.id = query.getInt(0);
+                audioEntry.author = query.getString(1);
+                audioEntry.title = query.getString(2);
+                audioEntry.path = query.getString(3);
+                audioEntry.duration = (int) (query.getLong(4) / 1000);
+                audioEntry.genre = query.getString(5);
+                File file = new File(audioEntry.path);
+                TLRPC$TL_message tLRPC$TL_message = new TLRPC$TL_message();
+                tLRPC$TL_message.out = true;
+                tLRPC$TL_message.id = i;
+                tLRPC$TL_message.peer_id = new TLRPC$TL_peerUser();
+                TLRPC$TL_peerUser tLRPC$TL_peerUser = new TLRPC$TL_peerUser();
+                tLRPC$TL_message.from_id = tLRPC$TL_peerUser;
+                TLRPC$Peer tLRPC$Peer = tLRPC$TL_message.peer_id;
+                long clientUserId = UserConfig.getInstance(this.parentAlert.currentAccount).getClientUserId();
+                tLRPC$TL_peerUser.user_id = clientUserId;
+                tLRPC$Peer.user_id = clientUserId;
+                tLRPC$TL_message.date = (int) (System.currentTimeMillis() / 1000);
+                tLRPC$TL_message.message = "";
+                tLRPC$TL_message.attachPath = audioEntry.path;
+                TLRPC$TL_messageMediaDocument tLRPC$TL_messageMediaDocument = new TLRPC$TL_messageMediaDocument();
+                tLRPC$TL_message.media = tLRPC$TL_messageMediaDocument;
+                tLRPC$TL_messageMediaDocument.flags |= 3;
+                tLRPC$TL_messageMediaDocument.document = new TLRPC$TL_document();
+                tLRPC$TL_message.flags |= 768;
+                String fileExtension = FileLoader.getFileExtension(file);
+                TLRPC$Document tLRPC$Document = tLRPC$TL_message.media.document;
+                tLRPC$Document.id = 0L;
+                tLRPC$Document.access_hash = 0L;
+                tLRPC$Document.file_reference = new byte[0];
+                tLRPC$Document.date = tLRPC$TL_message.date;
+                StringBuilder sb = new StringBuilder();
+                sb.append("audio/");
+                if (fileExtension.length() <= 0) {
+                    fileExtension = "mp3";
                 }
+                sb.append(fileExtension);
+                tLRPC$Document.mime_type = sb.toString();
+                tLRPC$TL_message.media.document.size = (int) file.length();
+                tLRPC$TL_message.media.document.dc_id = 0;
+                TLRPC$TL_documentAttributeAudio tLRPC$TL_documentAttributeAudio = new TLRPC$TL_documentAttributeAudio();
+                tLRPC$TL_documentAttributeAudio.duration = audioEntry.duration;
+                tLRPC$TL_documentAttributeAudio.title = audioEntry.title;
+                tLRPC$TL_documentAttributeAudio.performer = audioEntry.author;
+                tLRPC$TL_documentAttributeAudio.flags = 3 | tLRPC$TL_documentAttributeAudio.flags;
+                tLRPC$TL_message.media.document.attributes.add(tLRPC$TL_documentAttributeAudio);
+                TLRPC$TL_documentAttributeFilename tLRPC$TL_documentAttributeFilename = new TLRPC$TL_documentAttributeFilename();
+                tLRPC$TL_documentAttributeFilename.file_name = file.getName();
+                tLRPC$TL_message.media.document.attributes.add(tLRPC$TL_documentAttributeFilename);
+                audioEntry.messageObject = new MessageObject(this.parentAlert.currentAccount, tLRPC$TL_message, false, true);
+                arrayList.add(audioEntry);
+                i--;
             }
-            arrayList = arrayList2;
             query.close();
-        } catch (Exception e2) {
-            e = e2;
-            arrayList = arrayList2;
+        } catch (Exception e) {
+            FileLog.e(e);
         }
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertAudioLayout$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable

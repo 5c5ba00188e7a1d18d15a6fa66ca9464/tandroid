@@ -1,6 +1,7 @@
 package org.telegram.ui;
 
 import j$.util.function.Function;
+import java.util.Objects;
 import org.telegram.ui.CountrySelectActivity;
 /* loaded from: classes3.dex */
 public final /* synthetic */ class LoginActivity$PhoneView$$ExternalSyntheticLambda17 implements Function {
@@ -11,7 +12,7 @@ public final /* synthetic */ class LoginActivity$PhoneView$$ExternalSyntheticLam
 
     @Override // j$.util.function.Function
     public /* synthetic */ Function andThen(Function function) {
-        return function.getClass();
+        return Objects.requireNonNull(function);
     }
 
     @Override // j$.util.function.Function
@@ -23,6 +24,6 @@ public final /* synthetic */ class LoginActivity$PhoneView$$ExternalSyntheticLam
 
     @Override // j$.util.function.Function
     public /* synthetic */ Function compose(Function function) {
-        return function.getClass();
+        return Objects.requireNonNull(function);
     }
 }
