@@ -3144,7 +3144,7 @@ public class DialogCell extends BaseCell {
                     }
                 }
                 if (i2 > 0) {
-                    spannableStringBuilder.setSpan(new TypefaceSpan(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM), 0, Theme.getColor("chats_name", this.resourcesProvider)), 0, Math.min(spannableStringBuilder.length(), i2 + 2), 0);
+                    spannableStringBuilder.setSpan(new TypefaceSpan(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM), 0, "chats_name", null), 0, Math.min(spannableStringBuilder.length(), i2 + 2), 0);
                 }
                 return spannableStringBuilder;
             } else if (MessagesController.getInstance(this.currentAccount).getTopicsController().endIsReached(this.chat.id)) {
@@ -6200,18 +6200,18 @@ public class DialogCell extends BaseCell {
             this.waitngNewMessageFroTypingAnimation = false;
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:24:0x00ec, code lost:
-            if (org.telegram.messenger.MessagesController.getInstance(r17.this$0.currentAccount).getTopicsController().endIsReached(-r17.this$0.currentDialogId) != false) goto L95;
+        /* JADX WARN: Code restructure failed: missing block: B:27:0x00f4, code lost:
+            if (org.telegram.messenger.MessagesController.getInstance(r17.this$0.currentAccount).getTopicsController().endIsReached(-r17.this$0.currentDialogId) != false) goto L98;
          */
-        /* JADX WARN: Removed duplicated region for block: B:27:0x00f7  */
-        /* JADX WARN: Removed duplicated region for block: B:32:0x013c  */
-        /* JADX WARN: Removed duplicated region for block: B:42:0x016b  */
-        /* JADX WARN: Removed duplicated region for block: B:63:0x01b7  */
-        /* JADX WARN: Removed duplicated region for block: B:67:0x01f8  */
-        /* JADX WARN: Removed duplicated region for block: B:71:0x01c2  */
-        /* JADX WARN: Removed duplicated region for block: B:87:0x01aa  */
-        /* JADX WARN: Removed duplicated region for block: B:89:0x013e  */
-        /* JADX WARN: Removed duplicated region for block: B:91:0x011e  */
+        /* JADX WARN: Removed duplicated region for block: B:30:0x00ff  */
+        /* JADX WARN: Removed duplicated region for block: B:35:0x0144  */
+        /* JADX WARN: Removed duplicated region for block: B:45:0x0173  */
+        /* JADX WARN: Removed duplicated region for block: B:66:0x01bf  */
+        /* JADX WARN: Removed duplicated region for block: B:70:0x0200  */
+        /* JADX WARN: Removed duplicated region for block: B:74:0x01ca  */
+        /* JADX WARN: Removed duplicated region for block: B:90:0x01b2  */
+        /* JADX WARN: Removed duplicated region for block: B:92:0x0146  */
+        /* JADX WARN: Removed duplicated region for block: B:94:0x0126  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -6223,7 +6223,7 @@ public class DialogCell extends BaseCell {
                 return false;
             }
             int id = DialogCell.this.message == null ? 0 : DialogCell.this.message.getId();
-            long j = tLRPC$Dialog.read_inbox_max_id + (tLRPC$Dialog.read_outbox_max_id << 8) + (tLRPC$Dialog.unread_count << 16);
+            long j = tLRPC$Dialog.read_inbox_max_id + (tLRPC$Dialog.read_outbox_max_id << 8) + ((tLRPC$Dialog.unread_count + (tLRPC$Dialog.unread_mark ? -1 : 0)) << 16);
             TLRPC$DraftMessage tLRPC$DraftMessage = null;
             Integer printingStringType = (DialogCell.this.isForumCell() || (!DialogCell.this.isDialogCell && !DialogCell.this.isTopic) || TextUtils.isEmpty(MessagesController.getInstance(DialogCell.this.currentAccount).getPrintingString(DialogCell.this.currentDialogId, DialogCell.this.getTopicId(), true))) ? null : MessagesController.getInstance(DialogCell.this.currentAccount).getPrintingStringType(DialogCell.this.currentDialogId, DialogCell.this.getTopicId());
             int measuredWidth = DialogCell.this.getMeasuredWidth() + (DialogCell.this.getMeasuredHeight() << 16);

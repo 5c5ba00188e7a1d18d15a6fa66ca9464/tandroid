@@ -23836,7 +23836,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     }
 
     /* JADX WARN: Can't wrap try/catch for region: R(27:21|(1:23)|24|(2:486|(25:493|(4:506|(1:508)(1:515)|509|(3:511|(1:513)|514))|497|34|(1:36)(1:(1:484)(1:485))|37|(1:39)(1:482)|40|(7:42|(1:44)|45|(1:47)(3:53|(1:55)(1:57)|56)|48|(1:50)(1:52)|51)|58|59|60|61|62|(3:64|(1:66)|67)(1:477)|68|(1:70)|(1:72)(1:476)|73|(1:75)|76|(1:78)(2:470|(1:472)(2:473|(1:475)))|79|(1:81)|82)(1:492))(1:32)|33|34|(0)(0)|37|(0)(0)|40|(0)|58|59|60|61|62|(0)(0)|68|(0)|(0)(0)|73|(0)|76|(0)(0)|79|(0)|82) */
-    /* JADX WARN: Code restructure failed: missing block: B:451:0x07d9, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:451:0x07cf, code lost:
         if ((r0.action instanceof org.telegram.tgnet.TLRPC$TL_messageActionTopicCreate) == false) goto L452;
      */
     /* JADX WARN: Code restructure failed: missing block: B:478:0x03bb, code lost:
@@ -24198,9 +24198,9 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             }
         }
         this.drawTopic = false;
-        if (!this.isThreadChat && (chatMessageCellDelegate = this.delegate) != null && chatMessageCellDelegate.shouldShowTopicButton() && !this.pinnedTop && ((MessageObject.getTopicId(messageObject.messageOwner, ChatObject.isForum(this.currentChat)) != 0 || messageObject.replyToForumTopic != null) && ((groupedMessagePosition = this.currentPosition) == null || groupedMessagePosition.minY == 0))) {
+        if (!this.isThreadChat && (chatMessageCellDelegate = this.delegate) != null && chatMessageCellDelegate.shouldShowTopicButton() && !this.pinnedTop && ((MessageObject.getTopicId(messageObject.messageOwner, true) != 0 || messageObject.replyToForumTopic != null) && ((groupedMessagePosition = this.currentPosition) == null || groupedMessagePosition.minY == 0))) {
             TLRPC$TL_forumTopic tLRPC$TL_forumTopic = messageObject.replyToForumTopic;
-            int topicId = tLRPC$TL_forumTopic == null ? MessageObject.getTopicId(messageObject.messageOwner, ChatObject.isForum(this.currentChat)) : tLRPC$TL_forumTopic.id;
+            int topicId = tLRPC$TL_forumTopic == null ? MessageObject.getTopicId(messageObject.messageOwner, true) : tLRPC$TL_forumTopic.id;
             TLRPC$TL_forumTopic tLRPC$TL_forumTopic2 = messageObject.replyToForumTopic;
             if (tLRPC$TL_forumTopic2 == null) {
                 tLRPC$TL_forumTopic2 = MessagesController.getInstance(this.currentAccount).getTopicsController().findTopic(-messageObject.getDialogId(), topicId);
@@ -26091,6 +26091,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     /* JADX WARN: Removed duplicated region for block: B:246:0x0889  */
     /* JADX WARN: Removed duplicated region for block: B:257:0x08e9  */
     /* JADX WARN: Removed duplicated region for block: B:260:0x08f0  */
+    /* JADX WARN: Removed duplicated region for block: B:318:0x0ab5  */
     /* JADX WARN: Removed duplicated region for block: B:84:0x04ac  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -26118,6 +26119,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         int i9;
         float dp2;
         float dp3;
+        TransitionParams transitionParams;
         int i10;
         int dp4;
         float f4;
@@ -26160,12 +26162,12 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 f2 = 1.0f;
             } else {
                 f2 = (1.0f - getVideoTranscriptionProgress()) * 1.0f;
-                TransitionParams transitionParams = this.transitionParams;
-                if (transitionParams.animatePlayingRound) {
+                TransitionParams transitionParams2 = this.transitionParams;
+                if (transitionParams2.animatePlayingRound) {
                     if (this.isPlayingRound) {
-                        f12 = 1.0f - transitionParams.animateChangeProgress;
+                        f12 = 1.0f - transitionParams2.animateChangeProgress;
                     } else {
-                        f12 = transitionParams.animateChangeProgress;
+                        f12 = transitionParams2.animateChangeProgress;
                     }
                     f2 *= f12;
                 } else if (this.isPlayingRound) {
@@ -26255,17 +26257,17 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 }
                 MessageObject.GroupedMessages groupedMessages2 = this.currentMessagesGroup;
                 if (groupedMessages2 != null) {
-                    MessageObject.GroupedMessages.TransitionParams transitionParams2 = groupedMessages2.transitionParams;
-                    if (transitionParams2.backgroundChangeBounds) {
-                        this.nameX += transitionParams2.offsetLeft;
-                        this.nameY += transitionParams2.offsetTop - getTranslationY();
+                    MessageObject.GroupedMessages.TransitionParams transitionParams3 = groupedMessages2.transitionParams;
+                    if (transitionParams3.backgroundChangeBounds) {
+                        this.nameX += transitionParams3.offsetLeft;
+                        this.nameY += transitionParams3.offsetTop - getTranslationY();
                     }
                 }
                 this.nameX += this.animationOffsetX;
                 float f15 = this.nameY;
-                TransitionParams transitionParams3 = this.transitionParams;
-                this.nameY = f15 + transitionParams3.deltaTop;
-                if (!transitionParams3.animateSign) {
+                TransitionParams transitionParams4 = this.transitionParams;
+                this.nameY = f15 + transitionParams4.deltaTop;
+                if (!transitionParams4.animateSign) {
                     f11 = this.nameX;
                 } else {
                     f11 = this.transitionParams.animateNameX + ((this.nameX - this.transitionParams.animateNameX) * this.transitionParams.animateChangeProgress);
@@ -26343,10 +26345,10 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             if (!this.transitionParams.animateForwardedLayout) {
                 f3 = 1.0f;
             } else if (!this.currentMessageObject.needDrawForwarded()) {
-                TransitionParams transitionParams4 = this.transitionParams;
-                staticLayoutArr = transitionParams4.animatingForwardedNameLayout;
-                f3 = 1.0f - transitionParams4.animateChangeProgress;
-                i15 = transitionParams4.animateForwardNameWidth;
+                TransitionParams transitionParams5 = this.transitionParams;
+                staticLayoutArr = transitionParams5.animatingForwardedNameLayout;
+                f3 = 1.0f - transitionParams5.animateChangeProgress;
+                i15 = transitionParams5.animateForwardNameWidth;
                 z4 = true;
             } else {
                 f3 = this.transitionParams.animateChangeProgress;
@@ -26595,6 +26597,10 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                         }
                         dp3 = AndroidUtilities.dp(12.0f);
                         dp2 = f4 - AndroidUtilities.dp(8.0f);
+                        transitionParams = this.transitionParams;
+                        if (transitionParams.animateBackgroundBoundsInner) {
+                            dp2 += transitionParams.deltaLeft;
+                        }
                         this.topicButton.draw(canvas, dp2, dp3, f3 * f2);
                     }
                 }
@@ -26612,6 +26618,9 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 }
                 dp2 = i9 - AndroidUtilities.dp(2.33f);
                 dp3 = AndroidUtilities.dp(12.0f) + ((!this.drawNameLayout || this.nameLayout == null) ? 0 : AndroidUtilities.dp(6.0f) + ((int) Theme.chat_namePaint.getTextSize()));
+                transitionParams = this.transitionParams;
+                if (transitionParams.animateBackgroundBoundsInner) {
+                }
                 this.topicButton.draw(canvas, dp2, dp3, f3 * f2);
             }
             if (z5) {
@@ -26619,21 +26628,21 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 float f22 = this.replyStartY;
                 MessageObject.GroupedMessages groupedMessages4 = this.currentMessagesGroup;
                 if (groupedMessages4 != null) {
-                    MessageObject.GroupedMessages.TransitionParams transitionParams5 = groupedMessages4.transitionParams;
-                    if (transitionParams5.backgroundChangeBounds) {
-                        f21 += transitionParams5.offsetLeft;
+                    MessageObject.GroupedMessages.TransitionParams transitionParams6 = groupedMessages4.transitionParams;
+                    if (transitionParams6.backgroundChangeBounds) {
+                        f21 += transitionParams6.offsetLeft;
                     }
                 }
-                TransitionParams transitionParams6 = this.transitionParams;
-                if (transitionParams6.animateBackgroundBoundsInner) {
+                TransitionParams transitionParams7 = this.transitionParams;
+                if (transitionParams7.animateBackgroundBoundsInner) {
                     if (this.isRoundVideo) {
                         f21 += (this.currentMessageObject.isOutOwner() ? 0.0f : this.transitionParams.deltaLeft) + this.transitionParams.deltaRight;
                     } else {
-                        f21 += transitionParams6.deltaLeft;
+                        f21 += transitionParams7.deltaLeft;
                     }
-                    TransitionParams transitionParams7 = this.transitionParams;
-                    float f23 = transitionParams7.animateChangeProgress;
-                    f22 = (this.replyStartY * f23) + (transitionParams7.animateFromReplyY * (1.0f - f23));
+                    TransitionParams transitionParams8 = this.transitionParams;
+                    float f23 = transitionParams8.animateChangeProgress;
+                    f22 = (this.replyStartY * f23) + (transitionParams8.animateFromReplyY * (1.0f - f23));
                 }
                 int themedColor3 = getThemedColor("listSelectorSDK21");
                 if (this.currentMessageObject.shouldDrawWithoutBackground()) {

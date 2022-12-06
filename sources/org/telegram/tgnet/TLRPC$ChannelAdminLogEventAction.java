@@ -177,6 +177,9 @@ public abstract class TLRPC$ChannelAdminLogEventAction extends TLObject {
             case 1599903217:
                 tLRPC$TL_channelAdminLogEventActionStopPoll = new TLRPC$TL_channelAdminLogEventActionTogglePreHistoryHidden();
                 break;
+            case 1693675004:
+                tLRPC$TL_channelAdminLogEventActionStopPoll = new TLRPC$TL_channelAdminLogEventActionToggleAntiSpam();
+                break;
             case 1783299128:
                 tLRPC$TL_channelAdminLogEventActionStopPoll = new TLRPC$TL_channelAdminLogEventActionChangeUsername();
                 break;

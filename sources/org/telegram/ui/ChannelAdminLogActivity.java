@@ -103,6 +103,7 @@ import org.telegram.tgnet.TLRPC$TL_channelAdminLogEventActionExportedInviteDelet
 import org.telegram.tgnet.TLRPC$TL_channelAdminLogEventActionExportedInviteEdit;
 import org.telegram.tgnet.TLRPC$TL_channelAdminLogEventActionExportedInviteRevoke;
 import org.telegram.tgnet.TLRPC$TL_channelAdminLogEventActionParticipantToggleAdmin;
+import org.telegram.tgnet.TLRPC$TL_channelAdminLogEventActionToggleAntiSpam;
 import org.telegram.tgnet.TLRPC$TL_channelAdminLogEventsFilter;
 import org.telegram.tgnet.TLRPC$TL_channelParticipantCreator;
 import org.telegram.tgnet.TLRPC$TL_channelParticipantsAdmins;
@@ -1254,7 +1255,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
             final ArrayList arrayList2 = new ArrayList();
             final ArrayList arrayList3 = new ArrayList();
             TLRPC$TL_channelAdminLogEvent tLRPC$TL_channelAdminLogEvent2 = messageObject.currentEvent;
-            if (tLRPC$TL_channelAdminLogEvent2 != null && (tLRPC$TL_channelAdminLogEvent2.action instanceof TLRPC$TL_channelAdminLogEventActionDeleteMessage) && tLRPC$TL_channelAdminLogEvent2.user_id == getMessagesController().telegramAntispamUserId) {
+            if (tLRPC$TL_channelAdminLogEvent2 != null && (((tLRPC$TL_channelAdminLogEvent2.action instanceof TLRPC$TL_channelAdminLogEventActionDeleteMessage) && tLRPC$TL_channelAdminLogEvent2.user_id == getMessagesController().telegramAntispamUserId) || (messageObject.currentEvent.action instanceof TLRPC$TL_channelAdminLogEventActionToggleAntiSpam))) {
                 if (view instanceof ChatActionCell) {
                     SpannableString spannableString = new SpannableString(">");
                     Drawable mutate = getContext().getResources().getDrawable(R.drawable.attach_arrow_right).mutate();

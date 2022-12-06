@@ -21253,6 +21253,7 @@ public class MessagesStorage extends BaseController {
             tLRPC$TL_forumTopic.icon_emoji_id = tLRPC$TL_messageActionTopicEdit.icon_emoji_id;
             tLRPC$TL_forumTopic.title = tLRPC$TL_messageActionTopicEdit.title;
             tLRPC$TL_forumTopic.closed = tLRPC$TL_messageActionTopicEdit.closed;
+            tLRPC$TL_forumTopic.hidden = tLRPC$TL_messageActionTopicEdit.hidden;
             int i2 = tLRPC$TL_messageActionTopicEdit.flags;
             if ((i2 & 1) != 0) {
                 i = 1;
@@ -21262,6 +21263,9 @@ public class MessagesStorage extends BaseController {
             }
             if ((i2 & 4) != 0) {
                 i += 8;
+            }
+            if ((i2 & 8) != 0) {
+                i += 32;
             }
             final int i3 = i;
             updateTopicData(j, tLRPC$TL_forumTopic, i3);

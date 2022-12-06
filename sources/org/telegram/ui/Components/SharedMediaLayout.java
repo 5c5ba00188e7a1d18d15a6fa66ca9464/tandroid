@@ -3733,6 +3733,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
             }
             Bundle bundle = new Bundle();
             bundle.putBoolean("onlySelect", true);
+            bundle.putBoolean("canSelectTopics", true);
             bundle.putInt("dialogsType", 3);
             DialogsActivity dialogsActivity = new DialogsActivity(bundle);
             dialogsActivity.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.Components.SharedMediaLayout$$ExternalSyntheticLambda17
@@ -3850,6 +3851,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         }
         this.profileActivity.getNotificationCenter().postNotificationName(NotificationCenter.closeChats, new Object[0]);
         ChatActivity chatActivity = new ChatActivity(bundle);
+        ForumUtilities.applyTopic(chatActivity, (MessagesStorage.TopicKey) arrayList.get(0));
         dialogsActivity.presentFragment(chatActivity, true);
         chatActivity.showFieldPanelForForward(true, arrayList2);
     }

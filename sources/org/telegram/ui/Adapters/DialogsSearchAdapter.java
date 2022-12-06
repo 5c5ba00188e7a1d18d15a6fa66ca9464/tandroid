@@ -839,6 +839,8 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         }
         this.recentSearchObjectsById.remove(j);
         this.recentSearchObjects.remove(recentSearchObject);
+        this.filtered2RecentSearchObjects.remove(recentSearchObject);
+        this.filteredRecentSearchObjects.remove(recentSearchObject);
         notifyDataSetChanged();
         MessagesStorage.getInstance(this.currentAccount).getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda12
             @Override // java.lang.Runnable

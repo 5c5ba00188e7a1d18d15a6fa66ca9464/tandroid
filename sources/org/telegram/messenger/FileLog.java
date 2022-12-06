@@ -61,7 +61,7 @@ public class FileLog {
         }
         String simpleName = tLObject.getClass().getSimpleName();
         checkGson();
-        if (excludeRequests.contains(simpleName)) {
+        if (excludeRequests.contains(simpleName) && tLRPC$TL_error == null) {
             return;
         }
         try {

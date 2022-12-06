@@ -485,7 +485,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
         };
         this.contentView = sizeNotifierFrameLayout;
         this.fragmentView = sizeNotifierFrameLayout;
-        sizeNotifierFrameLayout.needBlur = true;
+        sizeNotifierFrameLayout.needBlur = !this.inPreviewMode;
         this.actionBar.setAddToContainer(false);
         this.actionBar.setCastShadows(false);
         this.actionBar.setClipContent(true);

@@ -740,6 +740,10 @@ public class SizeNotifierFrameLayout extends FrameLayout {
         this.blurIsRunning = false;
     }
 
+    public boolean blurWasDrawn() {
+        return SharedConfig.chatBlurEnabled() && this.currentBitmap != null;
+    }
+
     public void drawBlurRect(Canvas canvas, float f, android.graphics.Rect rect, Paint paint, boolean z) {
         int alpha = Color.alpha(Theme.getColor("chat_BlurAlpha"));
         if (this.currentBitmap == null || !SharedConfig.chatBlurEnabled()) {

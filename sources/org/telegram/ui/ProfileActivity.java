@@ -728,7 +728,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 if (chatActivityInterface != null && chatActivityInterface.getContentView() != null) {
                     Rect rect = AndroidUtilities.rectTmp2;
                     rect.set(0, 0, getMeasuredWidth(), i);
-                    if (ProfileActivity.this.previousTransitionFragment.getActionBar() != null && ProfileActivity.this.previousTransitionFragment.getActionBar().getBackground() == null) {
+                    if (ProfileActivity.this.previousTransitionFragment.getActionBar() != null && !ProfileActivity.this.previousTransitionFragment.getContentView().blurWasDrawn() && ProfileActivity.this.previousTransitionFragment.getActionBar().getBackground() == null) {
                         this.paint.setColor(Theme.getColor("actionBarDefault", ProfileActivity.this.previousTransitionFragment.getResourceProvider()));
                         canvas.drawRect(rect, this.paint);
                     } else {

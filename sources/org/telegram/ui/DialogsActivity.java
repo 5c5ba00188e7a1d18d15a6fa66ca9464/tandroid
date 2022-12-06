@@ -510,11 +510,6 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 AndroidUtilities.runOnUIThread(this.updateListRunnable, 36L);
             }
         }
-
-        @Override // android.view.ViewGroup, android.view.View
-        protected void dispatchDraw(Canvas canvas) {
-            super.dispatchDraw(canvas);
-        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1858,7 +1853,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         public boolean onTouchEvent(MotionEvent motionEvent) {
             LinearLayoutManager linearLayoutManager;
             int findFirstVisibleItemPosition;
-            if (this.fastScrollAnimationRunning || DialogsActivity.this.waitingForScrollFinished || this.parentPage.dialogsItemAnimator.isRunning() || DialogsActivity.this.rightFragmentTransitionInProgress) {
+            if (this.fastScrollAnimationRunning || DialogsActivity.this.waitingForScrollFinished || DialogsActivity.this.rightFragmentTransitionInProgress) {
                 return false;
             }
             int action = motionEvent.getAction();
@@ -2129,8 +2124,10 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             if ((view instanceof DialogCell) && (tLRPC$Dialog = DialogsActivity.this.getMessagesController().dialogs_dict.get((dialogId = ((DialogCell) view).getDialogId()))) != null && DialogsActivity.this.isDialogPinned(tLRPC$Dialog) && !DialogObject.isFolderDialogId(dialogId)) {
                 int adapterPosition = viewHolder.getAdapterPosition();
                 int adapterPosition2 = viewHolder2.getAdapterPosition();
-                this.parentPage.listView.setItemAnimator(this.parentPage.dialogsItemAnimator);
-                this.parentPage.dialogsAdapter.notifyItemMoved(adapterPosition, adapterPosition2);
+                if (this.parentPage.listView.getItemAnimator() == null) {
+                    this.parentPage.listView.setItemAnimator(this.parentPage.dialogsItemAnimator);
+                }
+                this.parentPage.dialogsAdapter.moveDialogs(this.parentPage.listView, adapterPosition, adapterPosition2);
                 if (DialogsActivity.this.viewPages[0].dialogsType != 7 && DialogsActivity.this.viewPages[0].dialogsType != 8) {
                     DialogsActivity.this.movingWas = true;
                 } else {
@@ -5960,6 +5957,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             i2++;
         }
         viewPageArr[z ? 1 : 0].listView.getAdapter();
+        if (this.viewPages[z].selectedType < 0 || this.viewPages[z].selectedType >= getMessagesController().dialogFilters.size()) {
+            return;
+        }
         MessagesController.DialogFilter dialogFilter = getMessagesController().dialogFilters.get(this.viewPages[z].selectedType);
         if (dialogFilter.isDefault()) {
             this.viewPages[z].dialogsType = 0;

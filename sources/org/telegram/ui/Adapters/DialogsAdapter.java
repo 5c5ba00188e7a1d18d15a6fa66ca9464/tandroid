@@ -75,7 +75,6 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
     private int folderId;
     private boolean forceShowEmptyCell;
     private boolean forceUpdatingContacts;
-    private boolean fromDiffUtils;
     private boolean hasHints;
     private boolean isOnlySelect;
     private boolean isReordering;
@@ -413,7 +412,6 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
                 linearLayoutManager.scrollToPositionWithOffset(i2, view.getTop() - recyclerListView.getPaddingTop());
             }
         }
-        this.fromDiffUtils = true;
         DiffUtil.calculateDiff(new DiffUtil.Callback() { // from class: org.telegram.ui.Adapters.DialogsAdapter.1
             @Override // androidx.recyclerview.widget.DiffUtil.Callback
             public int getOldListSize() {
@@ -435,7 +433,6 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
                 return DialogsAdapter.this.oldItems.get(i4).viewType == DialogsAdapter.this.itemInternals.get(i5).viewType;
             }
         }).dispatchUpdatesTo(this);
-        this.fromDiffUtils = false;
     }
 
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -840,32 +837,34 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
         return this.itemInternals.get(i).viewType;
     }
 
+    public void moveDialogs(RecyclerListView recyclerListView, int i, int i2) {
+        char c = 0;
+        ArrayList<TLRPC$Dialog> dialogsArray = this.parentFragment.getDialogsArray(this.currentAccount, this.dialogsType, this.folderId, false);
+        int fixPosition = fixPosition(i);
+        int fixPosition2 = fixPosition(i2);
+        TLRPC$Dialog tLRPC$Dialog = dialogsArray.get(fixPosition);
+        TLRPC$Dialog tLRPC$Dialog2 = dialogsArray.get(fixPosition2);
+        int i3 = this.dialogsType;
+        if (i3 == 7 || i3 == 8) {
+            MessagesController.DialogFilter[] dialogFilterArr = MessagesController.getInstance(this.currentAccount).selectedDialogFilter;
+            if (this.dialogsType == 8) {
+                c = 1;
+            }
+            MessagesController.DialogFilter dialogFilter = dialogFilterArr[c];
+            int i4 = dialogFilter.pinnedDialogs.get(tLRPC$Dialog.id);
+            dialogFilter.pinnedDialogs.put(tLRPC$Dialog.id, dialogFilter.pinnedDialogs.get(tLRPC$Dialog2.id));
+            dialogFilter.pinnedDialogs.put(tLRPC$Dialog2.id, i4);
+        } else {
+            int i5 = tLRPC$Dialog.pinnedNum;
+            tLRPC$Dialog.pinnedNum = tLRPC$Dialog2.pinnedNum;
+            tLRPC$Dialog2.pinnedNum = i5;
+        }
+        Collections.swap(dialogsArray, fixPosition, fixPosition2);
+        updateList(recyclerListView);
+    }
+
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter
     public void notifyItemMoved(int i, int i2) {
-        if (!this.fromDiffUtils) {
-            char c = 0;
-            ArrayList<TLRPC$Dialog> dialogsArray = this.parentFragment.getDialogsArray(this.currentAccount, this.dialogsType, this.folderId, false);
-            int fixPosition = fixPosition(i);
-            int fixPosition2 = fixPosition(i2);
-            TLRPC$Dialog tLRPC$Dialog = dialogsArray.get(fixPosition);
-            TLRPC$Dialog tLRPC$Dialog2 = dialogsArray.get(fixPosition2);
-            int i3 = this.dialogsType;
-            if (i3 == 7 || i3 == 8) {
-                MessagesController.DialogFilter[] dialogFilterArr = MessagesController.getInstance(this.currentAccount).selectedDialogFilter;
-                if (this.dialogsType == 8) {
-                    c = 1;
-                }
-                MessagesController.DialogFilter dialogFilter = dialogFilterArr[c];
-                int i4 = dialogFilter.pinnedDialogs.get(tLRPC$Dialog.id);
-                dialogFilter.pinnedDialogs.put(tLRPC$Dialog.id, dialogFilter.pinnedDialogs.get(tLRPC$Dialog2.id));
-                dialogFilter.pinnedDialogs.put(tLRPC$Dialog2.id, i4);
-            } else {
-                int i5 = tLRPC$Dialog.pinnedNum;
-                tLRPC$Dialog.pinnedNum = tLRPC$Dialog2.pinnedNum;
-                tLRPC$Dialog2.pinnedNum = i5;
-            }
-            Collections.swap(dialogsArray, fixPosition, fixPosition2);
-        }
         super.notifyItemMoved(i, i2);
     }
 

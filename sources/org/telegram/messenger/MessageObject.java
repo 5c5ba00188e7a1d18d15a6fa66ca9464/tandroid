@@ -113,6 +113,7 @@ import org.telegram.tgnet.TLRPC$TL_channelAdminLogEventActionPinTopic;
 import org.telegram.tgnet.TLRPC$TL_channelAdminLogEventActionSendMessage;
 import org.telegram.tgnet.TLRPC$TL_channelAdminLogEventActionStartGroupCall;
 import org.telegram.tgnet.TLRPC$TL_channelAdminLogEventActionStopPoll;
+import org.telegram.tgnet.TLRPC$TL_channelAdminLogEventActionToggleAntiSpam;
 import org.telegram.tgnet.TLRPC$TL_channelAdminLogEventActionToggleForum;
 import org.telegram.tgnet.TLRPC$TL_channelAdminLogEventActionToggleGroupCallSetting;
 import org.telegram.tgnet.TLRPC$TL_channelAdminLogEventActionToggleInvites;
@@ -1716,17 +1717,17 @@ public class MessageObject {
         this.totalAnimatedEmojiCount = 0;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:14:0x1649  */
-    /* JADX WARN: Removed duplicated region for block: B:17:0x1697  */
-    /* JADX WARN: Removed duplicated region for block: B:19:0x169a  */
+    /* JADX WARN: Removed duplicated region for block: B:14:0x166c  */
+    /* JADX WARN: Removed duplicated region for block: B:17:0x16ba  */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x16bd  */
     /* JADX WARN: Removed duplicated region for block: B:224:0x04b9  */
     /* JADX WARN: Removed duplicated region for block: B:230:0x04d3 A[LOOP:0: B:217:0x0486->B:230:0x04d3, LOOP_END] */
     /* JADX WARN: Removed duplicated region for block: B:231:0x04ec A[EDGE_INSN: B:231:0x04ec->B:232:0x04ec ?: BREAK  , SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:31:0x1723  */
+    /* JADX WARN: Removed duplicated region for block: B:31:0x1746  */
     /* JADX WARN: Removed duplicated region for block: B:334:0x04cd  */
     /* JADX WARN: Removed duplicated region for block: B:506:0x0ccc  */
     /* JADX WARN: Removed duplicated region for block: B:56:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:60:0x171c  */
+    /* JADX WARN: Removed duplicated region for block: B:60:0x173f  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1741,6 +1742,7 @@ public class MessageObject {
         int i2;
         String str2;
         String str3;
+        String string2;
         int i3;
         String str4;
         TLRPC$Message tLRPC$Message;
@@ -1766,7 +1768,7 @@ public class MessageObject {
         String str8;
         TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader;
         TLObject chat4;
-        String string2;
+        String string3;
         StringBuilder sb2;
         boolean z2;
         char c4;
@@ -1887,8 +1889,8 @@ public class MessageObject {
                     user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(-peerId2));
                 }
                 if (!(tLRPC$ChannelParticipant instanceof TLRPC$TL_channelParticipantCreator) && (tLRPC$ChannelParticipant2 instanceof TLRPC$TL_channelParticipantCreator)) {
-                    String string3 = LocaleController.getString("EventLogChangedOwnership", R.string.EventLogChangedOwnership);
-                    sb = new StringBuilder(String.format(string3, getUserName(user, this.messageOwner.entities, string3.indexOf("%1$s"))));
+                    String string4 = LocaleController.getString("EventLogChangedOwnership", R.string.EventLogChangedOwnership);
+                    sb = new StringBuilder(String.format(string4, getUserName(user, this.messageOwner.entities, string4.indexOf("%1$s"))));
                 } else {
                     TLRPC$TL_chatAdminRights tLRPC$TL_chatAdminRights = tLRPC$ChannelParticipant.admin_rights;
                     TLRPC$TL_chatAdminRights tLRPC$TL_chatAdminRights2 = tLRPC$ChannelParticipant2.admin_rights;
@@ -2163,8 +2165,8 @@ public class MessageObject {
                             str3 = "";
                             sb2 = new StringBuilder(LocaleController.getString("UserRestrictionsUntilForever", R.string.UserRestrictionsUntilForever));
                         }
-                        String string4 = LocaleController.getString("EventLogRestrictedUntil", R.string.EventLogRestrictedUntil);
-                        StringBuilder sb5 = new StringBuilder(String.format(string4, getUserName(chat4, this.messageOwner.entities, string4.indexOf("%1$s")), sb2.toString()));
+                        String string5 = LocaleController.getString("EventLogRestrictedUntil", R.string.EventLogRestrictedUntil);
+                        StringBuilder sb5 = new StringBuilder(String.format(string5, getUserName(chat4, this.messageOwner.entities, string5.indexOf("%1$s")), sb2.toString()));
                         tLRPC$TL_chatBannedRights3 = tLRPC$TL_chatBannedRights3 == null ? new TLRPC$TL_chatBannedRights() : tLRPC$TL_chatBannedRights3;
                         tLRPC$TL_chatBannedRights4 = tLRPC$TL_chatBannedRights4 == null ? new TLRPC$TL_chatBannedRights() : tLRPC$TL_chatBannedRights4;
                         if (tLRPC$TL_chatBannedRights3.view_messages != tLRPC$TL_chatBannedRights4.view_messages) {
@@ -2263,11 +2265,11 @@ public class MessageObject {
                     } else {
                         str3 = "";
                         if (tLRPC$TL_chatBannedRights4 != null && (tLRPC$TL_chatBannedRights3 == null || tLRPC$TL_chatBannedRights4.view_messages)) {
-                            string2 = LocaleController.getString("EventLogChannelRestricted", R.string.EventLogChannelRestricted);
+                            string3 = LocaleController.getString("EventLogChannelRestricted", R.string.EventLogChannelRestricted);
                         } else {
-                            string2 = LocaleController.getString("EventLogChannelUnrestricted", R.string.EventLogChannelUnrestricted);
+                            string3 = LocaleController.getString("EventLogChannelUnrestricted", R.string.EventLogChannelUnrestricted);
                         }
-                        this.messageText = String.format(string2, getUserName(chat4, this.messageOwner.entities, string2.indexOf("%1$s")));
+                        this.messageText = String.format(string3, getUserName(chat4, this.messageOwner.entities, string3.indexOf("%1$s")));
                     }
                 } else {
                     str3 = "";
@@ -2945,6 +2947,13 @@ public class MessageObject {
                                         this.messageText = replaceWithLink20;
                                         this.messageText = replaceWithLink(replaceWithLink20, "un2", tLRPC$TL_channelAdminLogEventActionPinTopic.new_topic);
                                     }
+                                } else if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionToggleAntiSpam) {
+                                    if (((TLRPC$TL_channelAdminLogEventActionToggleAntiSpam) tLRPC$ChannelAdminLogEventAction).new_value) {
+                                        string2 = LocaleController.getString("EventLogEnabledAntiSpam", R.string.EventLogEnabledAntiSpam);
+                                    } else {
+                                        string2 = LocaleController.getString("EventLogDisabledAntiSpam", R.string.EventLogDisabledAntiSpam);
+                                    }
+                                    this.messageText = replaceWithLink(string2, "un1", user2);
                                 } else {
                                     this.messageText = "unsupported " + tLRPC$TL_channelAdminLogEvent2.action;
                                 }
@@ -3958,7 +3967,8 @@ public class MessageObject {
         return tLRPC$Chat == null ? MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(j)) : tLRPC$Chat;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:138:0x11eb  */
+    /* JADX WARN: Multi-variable type inference failed */
+    /* JADX WARN: Removed duplicated region for block: B:138:0x11ea  */
     /* JADX WARN: Removed duplicated region for block: B:141:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:205:0x05ad  */
     /* JADX WARN: Removed duplicated region for block: B:209:0x05cb  */
@@ -3967,11 +3977,15 @@ public class MessageObject {
     /* JADX WARN: Removed duplicated region for block: B:245:0x068f  */
     /* JADX WARN: Removed duplicated region for block: B:246:0x069b  */
     /* JADX WARN: Removed duplicated region for block: B:276:0x076c  */
-    /* JADX WARN: Removed duplicated region for block: B:283:0x07d1  */
-    /* JADX WARN: Removed duplicated region for block: B:562:0x0f5f  */
-    /* JADX WARN: Removed duplicated region for block: B:663:0x002c  */
+    /* JADX WARN: Removed duplicated region for block: B:284:0x07d0  */
+    /* JADX WARN: Removed duplicated region for block: B:563:0x0f5e  */
+    /* JADX WARN: Removed duplicated region for block: B:664:0x002c  */
     /* JADX WARN: Removed duplicated region for block: B:6:0x002a  */
     /* JADX WARN: Removed duplicated region for block: B:9:0x0039  */
+    /* JADX WARN: Type inference failed for: r8v1, types: [org.telegram.tgnet.TLObject] */
+    /* JADX WARN: Type inference failed for: r8v30, types: [org.telegram.tgnet.TLObject] */
+    /* JADX WARN: Type inference failed for: r8v32, types: [org.telegram.tgnet.TLObject] */
+    /* JADX WARN: Type inference failed for: r8v37 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -4189,7 +4203,7 @@ public class MessageObject {
                                     this.messageText = replaceWithLink(LocaleController.getString("ActionInviteUser", R.string.ActionInviteUser), "un1", tLRPC$Chat6);
                                 }
                             } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionGiftPremium) {
-                                if ((tLRPC$Chat6 instanceof TLRPC$User) && ((TLRPC$User) tLRPC$Chat6).self) {
+                                if ((tLRPC$Chat6 instanceof TLRPC$User) && tLRPC$Chat6.self) {
                                     this.messageText = replaceWithLink(AndroidUtilities.replaceTags(LocaleController.getString(R.string.ActionGiftOutbound)), "un1", getUser(abstractMap, longSparseArray, tLRPC$Message.peer_id.user_id));
                                 } else {
                                     this.messageText = replaceWithLink(AndroidUtilities.replaceTags(LocaleController.getString(R.string.ActionGiftInbound)), "un1", tLRPC$Chat6);
@@ -4303,11 +4317,13 @@ public class MessageObject {
                                                 if (j == UserConfig.getInstance(this.currentAccount).clientUserId) {
                                                     this.messageText = AndroidUtilities.replaceTags(LocaleController.formatString("AutoDeleteGlobalActionFromYou", R.string.AutoDeleteGlobalActionFromYou, LocaleController.formatTTLString(tLRPC$TL_messageActionSetMessagesTTL.period)));
                                                 } else {
-                                                    TLRPC$Chat tLRPC$Chat7 = tLRPC$Chat6;
-                                                    if (abstractMap.get(Long.valueOf(tLRPC$TL_messageActionSetMessagesTTL.auto_setting_from)) == null) {
-                                                        tLRPC$Chat7 = abstractMap2.get(Long.valueOf(tLRPC$TL_messageActionSetMessagesTTL.auto_setting_from));
+                                                    if (abstractMap != null) {
+                                                        abstractMap.get(Long.valueOf(tLRPC$TL_messageActionSetMessagesTTL.auto_setting_from));
                                                     }
-                                                    this.messageText = replaceWithLink(AndroidUtilities.replaceTags(LocaleController.formatString("AutoDeleteGlobalAction", R.string.AutoDeleteGlobalAction, LocaleController.formatTTLString(tLRPC$TL_messageActionSetMessagesTTL.period))), "un1", tLRPC$Chat7);
+                                                    if (abstractMap2 != null) {
+                                                        tLRPC$Chat6 = abstractMap2.get(Long.valueOf(tLRPC$TL_messageActionSetMessagesTTL.auto_setting_from));
+                                                    }
+                                                    this.messageText = replaceWithLink(AndroidUtilities.replaceTags(LocaleController.formatString("AutoDeleteGlobalAction", R.string.AutoDeleteGlobalAction, LocaleController.formatTTLString(tLRPC$TL_messageActionSetMessagesTTL.period))), "un1", tLRPC$Chat6);
                                                 }
                                             } else if (tLRPC$TL_messageActionSetMessagesTTL.period != 0) {
                                                 if (isOut()) {
@@ -9051,7 +9067,7 @@ public class MessageObject {
         }
         if (arrayList.isEmpty() || !arrayList.contains(tLRPC$ReactionCount) || !z) {
             int maxUserReactionsCount = MessagesController.getInstance(this.currentAccount).getMaxUserReactionsCount();
-            if (!arrayList.isEmpty() && (arrayList.contains(tLRPC$ReactionCount) || z2)) {
+            if (!arrayList.isEmpty() && arrayList.contains(tLRPC$ReactionCount)) {
                 if (tLRPC$ReactionCount != null) {
                     tLRPC$ReactionCount.chosen = false;
                     int i4 = tLRPC$ReactionCount.count - 1;

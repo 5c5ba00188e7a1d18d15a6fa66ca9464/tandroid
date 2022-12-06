@@ -11,8 +11,8 @@ public final /* synthetic */ class CacheControlActivity$$ExternalSyntheticLambda
 
     @Override // android.view.View.OnTouchListener
     public final boolean onTouch(View view, MotionEvent motionEvent) {
-        boolean lambda$checkActionMode$17;
-        lambda$checkActionMode$17 = CacheControlActivity.lambda$checkActionMode$17(view, motionEvent);
-        return lambda$checkActionMode$17;
+        boolean lambda$checkActionMode$16;
+        lambda$checkActionMode$16 = CacheControlActivity.lambda$checkActionMode$16(view, motionEvent);
+        return lambda$checkActionMode$16;
     }
 }

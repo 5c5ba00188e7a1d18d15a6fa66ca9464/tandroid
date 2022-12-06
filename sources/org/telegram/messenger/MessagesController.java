@@ -807,13 +807,13 @@ public class MessagesController extends BaseController implements NotificationCe
     private LongSparseArray<TLRPC$ChatFull> fullChats = new LongSparseArray<>();
     private LongSparseArray<ChatObject.Call> groupCalls = new LongSparseArray<>();
     private LongSparseArray<ChatObject.Call> groupCallsByChatId = new LongSparseArray<>();
-    private ArrayList<Long> loadingFullUsers = new ArrayList<>();
-    private ArrayList<Long> loadedFullUsers = new ArrayList<>();
-    private ArrayList<Long> loadingFullChats = new ArrayList<>();
-    private ArrayList<Long> loadingGroupCalls = new ArrayList<>();
-    private ArrayList<Long> loadingFullParticipants = new ArrayList<>();
-    private ArrayList<Long> loadedFullParticipants = new ArrayList<>();
-    private ArrayList<Long> loadedFullChats = new ArrayList<>();
+    private HashSet<Long> loadingFullUsers = new HashSet<>();
+    private LongSparseLongArray loadedFullUsers = new LongSparseLongArray();
+    private HashSet<Long> loadingFullChats = new HashSet<>();
+    private HashSet<Long> loadingGroupCalls = new HashSet<>();
+    private HashSet<Long> loadingFullParticipants = new HashSet<>();
+    private HashSet<Long> loadedFullParticipants = new HashSet<>();
+    public LongSparseLongArray loadedFullChats = new LongSparseLongArray();
     private LongSparseArray<LongSparseArray<TLRPC$ChannelParticipant>> channelAdmins = new LongSparseArray<>();
     private LongSparseIntArray loadingChannelAdmins = new LongSparseIntArray();
     private SparseIntArray migratedChats = new SparseIntArray();
@@ -5902,7 +5902,7 @@ public class MessagesController extends BaseController implements NotificationCe
             if (!z) {
                 if (tLRPC$Chat2 != null) {
                     if (tLRPC$Chat.version != tLRPC$Chat2.version) {
-                        this.loadedFullChats.remove(Long.valueOf(tLRPC$Chat.id));
+                        this.loadedFullChats.delete(tLRPC$Chat.id);
                     }
                     int i4 = tLRPC$Chat2.participants_count;
                     if (i4 != 0 && tLRPC$Chat.participants_count == 0) {
@@ -6385,8 +6385,8 @@ public class MessagesController extends BaseController implements NotificationCe
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:13:0x0050, code lost:
-        if (r10.dialogs_read_outbox_max.get(java.lang.Long.valueOf(r5)) == null) goto L14;
+    /* JADX WARN: Code restructure failed: missing block: B:21:0x0066, code lost:
+        if (r11.dialogs_read_outbox_max.get(java.lang.Long.valueOf(r6)) == null) goto L22;
      */
     /* JADX WARN: Multi-variable type inference failed */
     /*
@@ -6394,31 +6394,37 @@ public class MessagesController extends BaseController implements NotificationCe
     */
     public void loadFullChat(final long j, final int i, boolean z) {
         TLRPC$TL_messages_getFullChat tLRPC$TL_messages_getFullChat;
-        boolean contains = this.loadedFullChats.contains(Long.valueOf(j));
-        this.loadingFullChats.add(Long.valueOf(j));
-        final long j2 = -j;
-        final TLRPC$Chat chat = getChat(Long.valueOf(j));
-        if (ChatObject.isChannel(chat)) {
-            TLRPC$TL_channels_getFullChannel tLRPC$TL_channels_getFullChannel = new TLRPC$TL_channels_getFullChannel();
-            tLRPC$TL_channels_getFullChannel.channel = getInputChannel(chat);
-            loadChannelAdmins(j, !contains);
-            tLRPC$TL_messages_getFullChat = tLRPC$TL_channels_getFullChannel;
-        } else {
-            TLRPC$TL_messages_getFullChat tLRPC$TL_messages_getFullChat2 = new TLRPC$TL_messages_getFullChat();
-            tLRPC$TL_messages_getFullChat2.chat_id = j;
-            if (this.dialogs_read_inbox_max.get(Long.valueOf(j2)) != null) {
+        boolean z2 = this.loadedFullChats.get(j, 0L) > 0;
+        if (!this.loadingFullChats.contains(Long.valueOf(j))) {
+            if (!z && z2) {
+                return;
+            }
+            this.loadingFullChats.add(Long.valueOf(j));
+            final long j2 = -j;
+            final TLRPC$Chat chat = getChat(Long.valueOf(j));
+            if (ChatObject.isChannel(chat)) {
+                TLRPC$TL_channels_getFullChannel tLRPC$TL_channels_getFullChannel = new TLRPC$TL_channels_getFullChannel();
+                tLRPC$TL_channels_getFullChannel.channel = getInputChannel(chat);
+                loadChannelAdmins(j, true ^ z2);
+                tLRPC$TL_messages_getFullChat = tLRPC$TL_channels_getFullChannel;
+            } else {
+                TLRPC$TL_messages_getFullChat tLRPC$TL_messages_getFullChat2 = new TLRPC$TL_messages_getFullChat();
+                tLRPC$TL_messages_getFullChat2.chat_id = j;
+                if (this.dialogs_read_inbox_max.get(Long.valueOf(j2)) != null) {
+                    tLRPC$TL_messages_getFullChat = tLRPC$TL_messages_getFullChat2;
+                }
+                reloadDialogsReadValue(null, j2);
                 tLRPC$TL_messages_getFullChat = tLRPC$TL_messages_getFullChat2;
             }
-            reloadDialogsReadValue(null, j2);
-            tLRPC$TL_messages_getFullChat = tLRPC$TL_messages_getFullChat2;
-        }
-        int sendRequest = getConnectionsManager().sendRequest(tLRPC$TL_messages_getFullChat, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda334
-            @Override // org.telegram.tgnet.RequestDelegate
-            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                MessagesController.this.lambda$loadFullChat$53(chat, j2, j, i, tLObject, tLRPC$TL_error);
+            int sendRequest = getConnectionsManager().sendRequest(tLRPC$TL_messages_getFullChat, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda334
+                @Override // org.telegram.tgnet.RequestDelegate
+                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                    MessagesController.this.lambda$loadFullChat$53(chat, j2, j, i, tLObject, tLRPC$TL_error);
+                }
+            });
+            if (i == 0) {
+                return;
             }
-        });
-        if (i != 0) {
             getConnectionsManager().bindRequestToGuid(sendRequest, i);
         }
     }
@@ -6497,7 +6503,7 @@ public class MessagesController extends BaseController implements NotificationCe
         }
         this.exportedChats.put(j, tLRPC$TL_messages_chatFull.full_chat.exported_invite);
         this.loadingFullChats.remove(Long.valueOf(j));
-        this.loadedFullChats.add(Long.valueOf(j));
+        this.loadedFullChats.put(j, System.currentTimeMillis());
         putUsers(tLRPC$TL_messages_chatFull.users, false);
         putChats(tLRPC$TL_messages_chatFull.chats, false);
         if (tLRPC$TL_messages_chatFull.full_chat.stickerset != null) {
@@ -6535,7 +6541,7 @@ public class MessagesController extends BaseController implements NotificationCe
         if (tLRPC$User == null || this.loadingFullUsers.contains(Long.valueOf(tLRPC$User.id))) {
             return;
         }
-        if (!z && this.loadedFullUsers.contains(Long.valueOf(tLRPC$User.id))) {
+        if (!z && this.loadedFullUsers.get(tLRPC$User.id) > 0) {
             return;
         }
         this.loadingFullUsers.add(Long.valueOf(tLRPC$User.id));
@@ -6598,7 +6604,7 @@ public class MessagesController extends BaseController implements NotificationCe
         }
         this.fullUsers.put(tLRPC$User.id, tLRPC$UserFull);
         this.loadingFullUsers.remove(Long.valueOf(tLRPC$User.id));
-        this.loadedFullUsers.add(Long.valueOf(tLRPC$User.id));
+        this.loadedFullUsers.put(tLRPC$User.id, System.currentTimeMillis());
         String str = tLRPC$User.first_name + tLRPC$User.last_name + UserObject.getPublicUsername(tLRPC$User);
         ArrayList<TLRPC$User> arrayList = new ArrayList<>();
         arrayList.add(tLRPC$UserFull.user);
@@ -9084,7 +9090,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public /* synthetic */ void lambda$processChatInfo$125(boolean z, long j, boolean z2, boolean z3, TLRPC$ChatFull tLRPC$ChatFull, ArrayList arrayList, ArrayList arrayList2, HashMap hashMap, int i, boolean z4) {
-        if (z && j > 0 && !z2) {
+        if (z && j > 0 && !z2 && System.currentTimeMillis() - this.loadedFullChats.get(j, 0L) > 60000) {
             loadFullChat(j, 0, z3);
         }
         if (tLRPC$ChatFull != null) {
@@ -9131,7 +9137,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public /* synthetic */ void lambda$processUserInfo$126(boolean z, TLRPC$User tLRPC$User, int i, boolean z2, TLRPC$UserFull tLRPC$UserFull, ArrayList arrayList, HashMap hashMap, int i2, boolean z3) {
-        if (z) {
+        if (z && System.currentTimeMillis() - this.loadedFullUsers.get(tLRPC$User.id, 0L) > 60000) {
             loadFullUser(tLRPC$User, i, z2);
         }
         if (tLRPC$UserFull != null) {

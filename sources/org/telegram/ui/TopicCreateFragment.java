@@ -300,11 +300,15 @@ public class TopicCreateFragment extends BaseFragment {
         public static /* synthetic */ void lambda$onItemClick$2(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
+        public static /* synthetic */ void lambda$onItemClick$3(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        }
+
         1() {
         }
 
         /* JADX WARN: Code restructure failed: missing block: B:41:0x0100, code lost:
-            if (r13.topicForEdit.icon_emoji_id != r13.selectedEmojiDocumentId) goto L51;
+            if (r13.topicForEdit.icon_emoji_id != r13.selectedEmojiDocumentId) goto L58;
          */
         @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
         /*
@@ -313,6 +317,7 @@ public class TopicCreateFragment extends BaseFragment {
         public void onItemClick(int i) {
             TextCheckCell2 textCheckCell2;
             TextCheckCell2 textCheckCell22;
+            TopicCreateFragment topicCreateFragment;
             if (i == -1) {
                 TopicCreateFragment.this.finishFragment();
                 return;
@@ -342,10 +347,10 @@ public class TopicCreateFragment extends BaseFragment {
                         tLRPC$TL_channels_createForumTopic.flags |= 8;
                     }
                     tLRPC$TL_channels_createForumTopic.random_id = Utilities.random.nextLong();
-                    TopicCreateFragment topicCreateFragment = TopicCreateFragment.this;
-                    tLRPC$TL_channels_createForumTopic.icon_color = topicCreateFragment.iconColor;
+                    TopicCreateFragment topicCreateFragment2 = TopicCreateFragment.this;
+                    tLRPC$TL_channels_createForumTopic.icon_color = topicCreateFragment2.iconColor;
                     tLRPC$TL_channels_createForumTopic.flags |= 1;
-                    ConnectionsManager.getInstance(((BaseFragment) topicCreateFragment).currentAccount).sendRequest(tLRPC$TL_channels_createForumTopic, new RequestDelegate() { // from class: org.telegram.ui.TopicCreateFragment$1$$ExternalSyntheticLambda1
+                    ConnectionsManager.getInstance(((BaseFragment) topicCreateFragment2).currentAccount).sendRequest(tLRPC$TL_channels_createForumTopic, new RequestDelegate() { // from class: org.telegram.ui.TopicCreateFragment$1$$ExternalSyntheticLambda1
                         @Override // org.telegram.tgnet.RequestDelegate
                         public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                             TopicCreateFragment.1.this.lambda$onItemClick$1(str, alertDialog, tLObject, tLRPC$TL_error);
@@ -366,7 +371,7 @@ public class TopicCreateFragment extends BaseFragment {
                     return;
                 }
                 if (TopicCreateFragment.this.topicForEdit.title.equals(str)) {
-                    TopicCreateFragment topicCreateFragment2 = TopicCreateFragment.this;
+                    TopicCreateFragment topicCreateFragment3 = TopicCreateFragment.this;
                 }
                 TLRPC$TL_channels_editForumTopic tLRPC$TL_channels_editForumTopic = new TLRPC$TL_channels_editForumTopic();
                 tLRPC$TL_channels_editForumTopic.channel = TopicCreateFragment.this.getMessagesController().getInputChannel(TopicCreateFragment.this.chatId);
@@ -376,19 +381,24 @@ public class TopicCreateFragment extends BaseFragment {
                     tLRPC$TL_channels_editForumTopic.title = str;
                     tLRPC$TL_channels_editForumTopic.flags |= 1;
                 }
-                TopicCreateFragment topicCreateFragment3 = TopicCreateFragment.this;
-                if (topicCreateFragment3.topicForEdit.icon_emoji_id != tLRPC$TL_channels_editForumTopic.icon_emoji_id) {
-                    tLRPC$TL_channels_editForumTopic.icon_emoji_id = topicCreateFragment3.selectedEmojiDocumentId;
+                TopicCreateFragment topicCreateFragment4 = TopicCreateFragment.this;
+                if (topicCreateFragment4.topicForEdit.icon_emoji_id != tLRPC$TL_channels_editForumTopic.icon_emoji_id) {
+                    tLRPC$TL_channels_editForumTopic.icon_emoji_id = topicCreateFragment4.selectedEmojiDocumentId;
                     tLRPC$TL_channels_editForumTopic.flags |= 2;
                 }
-                if (topicCreateFragment3.checkBoxCell != null) {
-                    tLRPC$TL_channels_editForumTopic.hidden = !textCheckCell2.isChecked();
-                    tLRPC$TL_channels_editForumTopic.flags |= 8;
+                ConnectionsManager.getInstance(((BaseFragment) topicCreateFragment4).currentAccount).sendRequest(tLRPC$TL_channels_editForumTopic, TopicCreateFragment$1$$ExternalSyntheticLambda3.INSTANCE);
+                TopicCreateFragment topicCreateFragment5 = TopicCreateFragment.this;
+                if (topicCreateFragment5.checkBoxCell != null && topicCreateFragment5.topicForEdit.id == 1 && (!textCheckCell2.isChecked()) != TopicCreateFragment.this.topicForEdit.hidden) {
+                    TLRPC$TL_channels_editForumTopic tLRPC$TL_channels_editForumTopic2 = new TLRPC$TL_channels_editForumTopic();
+                    tLRPC$TL_channels_editForumTopic2.channel = TopicCreateFragment.this.getMessagesController().getInputChannel(TopicCreateFragment.this.chatId);
+                    tLRPC$TL_channels_editForumTopic2.topic_id = TopicCreateFragment.this.topicForEdit.id;
+                    tLRPC$TL_channels_editForumTopic2.hidden = !topicCreateFragment.checkBoxCell.isChecked();
+                    tLRPC$TL_channels_editForumTopic2.flags |= 8;
+                    ConnectionsManager.getInstance(((BaseFragment) TopicCreateFragment.this).currentAccount).sendRequest(tLRPC$TL_channels_editForumTopic2, TopicCreateFragment$1$$ExternalSyntheticLambda2.INSTANCE);
                 }
-                ConnectionsManager.getInstance(((BaseFragment) TopicCreateFragment.this).currentAccount).sendRequest(tLRPC$TL_channels_editForumTopic, TopicCreateFragment$1$$ExternalSyntheticLambda2.INSTANCE);
-                TopicCreateFragment topicCreateFragment4 = TopicCreateFragment.this;
-                TLRPC$TL_forumTopic tLRPC$TL_forumTopic2 = topicCreateFragment4.topicForEdit;
-                long j2 = topicCreateFragment4.selectedEmojiDocumentId;
+                TopicCreateFragment topicCreateFragment6 = TopicCreateFragment.this;
+                TLRPC$TL_forumTopic tLRPC$TL_forumTopic2 = topicCreateFragment6.topicForEdit;
+                long j2 = topicCreateFragment6.selectedEmojiDocumentId;
                 tLRPC$TL_forumTopic2.icon_emoji_id = j2;
                 if (j2 != 0) {
                     tLRPC$TL_forumTopic2.flags |= 1;
@@ -396,12 +406,12 @@ public class TopicCreateFragment extends BaseFragment {
                     tLRPC$TL_forumTopic2.flags &= -2;
                 }
                 tLRPC$TL_forumTopic2.title = str;
-                if (topicCreateFragment4.checkBoxCell != null) {
+                if (topicCreateFragment6.checkBoxCell != null) {
                     tLRPC$TL_forumTopic2.hidden = !textCheckCell22.isChecked();
                 }
                 TopicsController topicsController = TopicCreateFragment.this.getMessagesController().getTopicsController();
-                TopicCreateFragment topicCreateFragment5 = TopicCreateFragment.this;
-                topicsController.onTopicEdited(-topicCreateFragment5.chatId, topicCreateFragment5.topicForEdit);
+                TopicCreateFragment topicCreateFragment7 = TopicCreateFragment.this;
+                topicsController.onTopicEdited(-topicCreateFragment7.chatId, topicCreateFragment7.topicForEdit);
                 TopicCreateFragment.this.finishFragment();
             }
         }
