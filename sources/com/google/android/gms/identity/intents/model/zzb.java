@@ -3,10 +3,11 @@ package com.google.android.gms.identity.intents.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelReader;
+/* compiled from: com.google.android.gms:play-services-identity@@17.0.1 */
 /* loaded from: classes.dex */
 public final class zzb implements Parcelable.Creator<UserAddress> {
     @Override // android.os.Parcelable.Creator
-    public final /* synthetic */ UserAddress createFromParcel(Parcel parcel) {
+    public final /* bridge */ /* synthetic */ UserAddress createFromParcel(Parcel parcel) {
         int validateObjectHeader = SafeParcelReader.validateObjectHeader(parcel);
         String str = null;
         String str2 = null;
@@ -81,7 +82,7 @@ public final class zzb implements Parcelable.Creator<UserAddress> {
     }
 
     @Override // android.os.Parcelable.Creator
-    public final /* synthetic */ UserAddress[] newArray(int i) {
+    public final /* bridge */ /* synthetic */ UserAddress[] newArray(int i) {
         return new UserAddress[i];
     }
 }

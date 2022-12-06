@@ -386,7 +386,7 @@ public class SuggestEmojiView extends FrameLayout implements NotificationCenter.
     public /* synthetic */ void lambda$searchAnimated$4(final String str, final int i) {
         final ArrayList<MediaDataController.KeywordResult> arrayList = new ArrayList<>(1);
         arrayList.add(new MediaDataController.KeywordResult(str, null));
-        MediaDataController.getInstance(this.currentAccount).fillWithAnimatedEmoji(arrayList, 15, new Runnable() { // from class: org.telegram.ui.Components.SuggestEmojiView$$ExternalSyntheticLambda1
+        MediaDataController.getInstance(this.currentAccount).fillWithAnimatedEmoji(arrayList, 15, false, new Runnable() { // from class: org.telegram.ui.Components.SuggestEmojiView$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 SuggestEmojiView.this.lambda$searchAnimated$3(i, str, arrayList);
@@ -598,16 +598,16 @@ public class SuggestEmojiView extends FrameLayout implements NotificationCenter.
         float f4 = this.leftGradientAlpha.set(this.listView.canScrollHorizontally(-1) ? 1.0f : 0.0f);
         if (f4 > 0.0f) {
             int i = (int) paddingLeft;
-            Theme.chat_gradientLeftDrawable.setBounds(i, (int) top, AndroidUtilities.dp(32.0f) + i, (int) bottom);
-            Theme.chat_gradientLeftDrawable.setAlpha((int) (f4 * 255.0f));
-            Theme.chat_gradientLeftDrawable.draw(canvas);
+            Theme.chat_gradientRightDrawable.setBounds(i, (int) top, AndroidUtilities.dp(32.0f) + i, (int) bottom);
+            Theme.chat_gradientRightDrawable.setAlpha((int) (f4 * 255.0f));
+            Theme.chat_gradientRightDrawable.draw(canvas);
         }
         float f5 = this.rightGradientAlpha.set(this.listView.canScrollHorizontally(1) ? 1.0f : 0.0f);
         if (f5 > 0.0f) {
             int i2 = (int) min;
-            Theme.chat_gradientRightDrawable.setBounds(i2 - AndroidUtilities.dp(32.0f), (int) top, i2, (int) bottom);
-            Theme.chat_gradientRightDrawable.setAlpha((int) (f5 * 255.0f));
-            Theme.chat_gradientRightDrawable.draw(canvas);
+            Theme.chat_gradientLeftDrawable.setBounds(i2 - AndroidUtilities.dp(32.0f), (int) top, i2, (int) bottom);
+            Theme.chat_gradientLeftDrawable.setAlpha((int) (f5 * 255.0f));
+            Theme.chat_gradientLeftDrawable.draw(canvas);
         }
         canvas.restore();
         if (this.showFloat1.get() < 1.0f) {
@@ -723,16 +723,17 @@ public class SuggestEmojiView extends FrameLayout implements NotificationCenter.
             }
 
             @Override // android.view.View
+            public void setPressed(boolean z) {
+                super.setPressed(z);
+                invalidate();
+            }
+
+            @Override // android.view.View
             protected void dispatchDraw(Canvas canvas) {
                 float f = ((1.0f - this.pressed.set(isPressed() ? 1.0f : 0.0f)) * 0.2f) + 0.8f;
                 if (this.drawable != null) {
-                    int width = (getWidth() - getPaddingLeft()) - getPaddingRight();
-                    int height = (getHeight() - getPaddingTop()) - getPaddingBottom();
-                    float width2 = getWidth() / 2;
-                    float f2 = (width / 2) * f;
-                    float height2 = ((getHeight() - getPaddingBottom()) + getPaddingTop()) / 2;
-                    float f3 = (height / 2) * f;
-                    this.drawable.setBounds((int) (width2 - f2), (int) (height2 - f3), (int) (width2 + f2), (int) (height2 + f3));
+                    this.drawable.setBounds(getPaddingLeft(), getPaddingTop(), getWidth() - getPaddingRight(), getHeight() - getPaddingBottom());
+                    canvas.scale(f, f, getWidth() / 2, ((getHeight() - getPaddingBottom()) + getPaddingTop()) / 2);
                     Drawable drawable = this.drawable;
                     if (drawable instanceof AnimatedEmojiDrawable) {
                         ((AnimatedEmojiDrawable) drawable).setTime(System.currentTimeMillis());

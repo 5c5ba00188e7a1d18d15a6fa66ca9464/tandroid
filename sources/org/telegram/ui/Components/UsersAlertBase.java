@@ -133,7 +133,6 @@ public class UsersAlertBase extends BottomSheet {
                 getLocationInWindow(new int[2]);
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RecyclerListView
             public boolean emptyViewIsVisible() {
                 return getAdapter() != null && UsersAlertBase.this.isEmptyViewVisible && getAdapter().getItemCount() <= 2;

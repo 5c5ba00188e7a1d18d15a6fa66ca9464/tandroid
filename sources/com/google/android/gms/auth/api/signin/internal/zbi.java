@@ -1,13 +1,14 @@
 package com.google.android.gms.auth.api.signin.internal;
 
 import android.os.RemoteException;
+import com.google.android.gms.common.api.Api;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Result;
 import com.google.android.gms.common.api.Status;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.google.android.gms:play-services-auth@@19.2.0 */
+/* compiled from: com.google.android.gms:play-services-auth@@20.4.0 */
 /* loaded from: classes.dex */
-public final class zbi extends zbl<Status> {
+public final class zbi extends zbl {
     /* JADX INFO: Access modifiers changed from: package-private */
     public zbi(GoogleApiClient googleApiClient) {
         super(googleApiClient);
@@ -20,8 +21,8 @@ public final class zbi extends zbl<Status> {
     }
 
     @Override // com.google.android.gms.common.api.internal.BaseImplementation$ApiMethodImpl
-    protected final /* bridge */ /* synthetic */ void doExecute(zbe zbeVar) throws RemoteException {
-        zbe zbeVar2 = zbeVar;
-        ((zbs) zbeVar2.getService()).zbd(new zbh(this), zbeVar2.zba());
+    protected final /* bridge */ /* synthetic */ void doExecute(Api.AnyClient anyClient) throws RemoteException {
+        zbe zbeVar = (zbe) anyClient;
+        ((zbs) zbeVar.getService()).zbd(new zbh(this), zbeVar.zba());
     }
 }

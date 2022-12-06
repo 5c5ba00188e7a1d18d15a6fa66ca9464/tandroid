@@ -130,6 +130,7 @@ import org.telegram.tgnet.TLRPC$messages_BotResults;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.BottomSheet;
+import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.ContextLinkCell;
 import org.telegram.ui.Cells.EmptyCell;
@@ -1279,15 +1280,15 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
             if (isPressed()) {
                 float f = this.pressedProgress;
                 if (f != 1.0f) {
-                    float f2 = f + 0.16f;
-                    this.pressedProgress = f2;
-                    this.pressedProgress = Utilities.clamp(f2, 1.0f, 0.0f);
+                    float min = f + (Math.min(40.0f, 1000.0f / AndroidUtilities.screenRefreshRate) / 100.0f);
+                    this.pressedProgress = min;
+                    this.pressedProgress = Utilities.clamp(min, 1.0f, 0.0f);
                     invalidate();
                 }
             }
-            float f3 = ((1.0f - this.pressedProgress) * 0.2f) + 0.8f;
+            float f2 = ((1.0f - this.pressedProgress) * 0.2f) + 0.8f;
             canvas.save();
-            canvas.scale(f3, f3, getMeasuredWidth() / 2.0f, getMeasuredHeight() / 2.0f);
+            canvas.scale(f2, f2, getMeasuredWidth() / 2.0f, getMeasuredHeight() / 2.0f);
             super.onDraw(canvas);
             canvas.restore();
         }
@@ -3496,7 +3497,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
         private int currentButtonState;
         boolean divider;
         private Paint dividerPaint;
-        TextView headerView;
+        SimpleTextView headerView;
         RLottieImageView lockView;
         private EmojiPack pack;
         PremiumButtonView premiumButtonView;
@@ -3515,9 +3516,9 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
             rLottieImageView.setAnimation(i, 24, 24);
             this.lockView.setColorFilter(r17.getThemedColor("chat_emojiPanelStickerSetName"));
             addView(this.lockView, LayoutHelper.createFrameRelatively(20.0f, 20.0f, 8388611, 10.0f, 15.0f, 0.0f, 0.0f));
-            TextView textView = new TextView(context);
-            this.headerView = textView;
-            textView.setTextSize(1, 15.0f);
+            SimpleTextView simpleTextView = new SimpleTextView(context);
+            this.headerView = simpleTextView;
+            simpleTextView.setTextSize(15);
             this.headerView.setTextColor(r17.getThemedColor("chat_emojiPanelStickerSetName"));
             this.headerView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
             this.headerView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.EmojiView$EmojiPackHeader$$ExternalSyntheticLambda6
@@ -3526,7 +3527,8 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                     EmojiView.EmojiPackHeader.this.lambda$new$0(view);
                 }
             });
-            addView(this.headerView, LayoutHelper.createFrameRelatively(-2.0f, -1.0f, 8388611, 15.0f, 15.0f, 52.0f, 0.0f));
+            this.headerView.setEllipsizeByGradient(true);
+            addView(this.headerView, LayoutHelper.createFrameRelatively(-2.0f, -1.0f, 8388611, 15.0f, 15.0f, 0.0f, 0.0f));
             FrameLayout frameLayout = new FrameLayout(context);
             this.buttonsView = frameLayout;
             frameLayout.setPadding(AndroidUtilities.dp(11.0f), AndroidUtilities.dp(11.0f), AndroidUtilities.dp(11.0f), 0);
@@ -3538,9 +3540,9 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                 }
             });
             addView(this.buttonsView, LayoutHelper.createFrameRelatively(-2.0f, -1.0f, 8388725));
-            TextView textView2 = new TextView(context);
-            this.addButtonView = textView2;
-            textView2.setTextSize(1, 14.0f);
+            TextView textView = new TextView(context);
+            this.addButtonView = textView;
+            textView.setTextSize(1, 14.0f);
             this.addButtonView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
             this.addButtonView.setText(LocaleController.getString("Add", R.string.Add));
             this.addButtonView.setTextColor(r17.getThemedColor("featuredStickers_buttonText"));
@@ -3554,9 +3556,9 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                 }
             });
             this.buttonsView.addView(this.addButtonView, LayoutHelper.createFrameRelatively(-2.0f, 26.0f, 8388661));
-            TextView textView3 = new TextView(context);
-            this.removeButtonView = textView3;
-            textView3.setTextSize(1, 14.0f);
+            TextView textView2 = new TextView(context);
+            this.removeButtonView = textView2;
+            textView2.setTextSize(1, 14.0f);
             this.removeButtonView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
             this.removeButtonView.setText(LocaleController.getString("StickersRemove", R.string.StickersRemove));
             this.removeButtonView.setTextColor(r17.getThemedColor("featuredStickers_removeButtonText"));
@@ -3714,6 +3716,12 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
         protected void onMeasure(int i, int i2) {
             ((ViewGroup.MarginLayoutParams) this.headerView.getLayoutParams()).topMargin = AndroidUtilities.dp(this.currentButtonState == 0 ? 10.0f : 15.0f);
             super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(this.currentButtonState == 0 ? 32.0f : 42.0f), 1073741824));
+        }
+
+        @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
+        protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
+            super.onLayout(z, i, i2, i3, i4);
+            this.headerView.setRightPadding(this.buttonsView.getWidth() + AndroidUtilities.dp(11.0f));
         }
 
         public void setStickerSet(EmojiPack emojiPack, boolean z) {
@@ -3890,11 +3898,11 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                 float[] fArr2 = new float[1];
                 fArr2[0] = i == 1 ? 1.0f : 0.0f;
                 animatorArr[1] = ObjectAnimator.ofFloat(rLottieImageView2, property2, fArr2);
-                TextView textView = this.headerView;
+                SimpleTextView simpleTextView = this.headerView;
                 Property property3 = FrameLayout.TRANSLATION_X;
                 float[] fArr3 = new float[1];
                 fArr3[0] = i == 1 ? AndroidUtilities.dp(16.0f) : 0.0f;
-                animatorArr[2] = ObjectAnimator.ofFloat(textView, property3, fArr3);
+                animatorArr[2] = ObjectAnimator.ofFloat(simpleTextView, property3, fArr3);
                 PremiumButtonView premiumButtonView = this.premiumButtonView;
                 Property property4 = FrameLayout.ALPHA;
                 float[] fArr4 = new float[1];
@@ -3910,39 +3918,39 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                 float[] fArr6 = new float[1];
                 fArr6[0] = i == 1 ? 1.0f : 0.6f;
                 animatorArr[5] = ObjectAnimator.ofFloat(premiumButtonView3, property6, fArr6);
-                TextView textView2 = this.addButtonView;
+                TextView textView = this.addButtonView;
                 Property property7 = FrameLayout.ALPHA;
                 float[] fArr7 = new float[1];
                 fArr7[0] = i == 2 ? 1.0f : 0.0f;
-                animatorArr[6] = ObjectAnimator.ofFloat(textView2, property7, fArr7);
-                TextView textView3 = this.addButtonView;
+                animatorArr[6] = ObjectAnimator.ofFloat(textView, property7, fArr7);
+                TextView textView2 = this.addButtonView;
                 Property property8 = FrameLayout.SCALE_X;
                 float[] fArr8 = new float[1];
                 fArr8[0] = i == 2 ? 1.0f : 0.6f;
-                animatorArr[7] = ObjectAnimator.ofFloat(textView3, property8, fArr8);
-                TextView textView4 = this.addButtonView;
+                animatorArr[7] = ObjectAnimator.ofFloat(textView2, property8, fArr8);
+                TextView textView3 = this.addButtonView;
                 Property property9 = FrameLayout.SCALE_Y;
                 float[] fArr9 = new float[1];
                 fArr9[0] = i == 2 ? 1.0f : 0.6f;
-                animatorArr[8] = ObjectAnimator.ofFloat(textView4, property9, fArr9);
-                TextView textView5 = this.removeButtonView;
+                animatorArr[8] = ObjectAnimator.ofFloat(textView3, property9, fArr9);
+                TextView textView4 = this.removeButtonView;
                 Property property10 = FrameLayout.ALPHA;
                 float[] fArr10 = new float[1];
                 if (i == 3) {
                     f = 1.0f;
                 }
                 fArr10[0] = f;
-                animatorArr[9] = ObjectAnimator.ofFloat(textView5, property10, fArr10);
-                TextView textView6 = this.removeButtonView;
+                animatorArr[9] = ObjectAnimator.ofFloat(textView4, property10, fArr10);
+                TextView textView5 = this.removeButtonView;
                 Property property11 = FrameLayout.SCALE_X;
                 float[] fArr11 = new float[1];
                 fArr11[0] = i == 3 ? 1.0f : 0.6f;
-                animatorArr[10] = ObjectAnimator.ofFloat(textView6, property11, fArr11);
-                TextView textView7 = this.removeButtonView;
+                animatorArr[10] = ObjectAnimator.ofFloat(textView5, property11, fArr11);
+                TextView textView6 = this.removeButtonView;
                 Property property12 = FrameLayout.SCALE_Y;
                 float[] fArr12 = new float[1];
                 fArr12[0] = i == 3 ? 1.0f : 0.6f;
-                animatorArr[11] = ObjectAnimator.ofFloat(textView7, property12, fArr12);
+                animatorArr[11] = ObjectAnimator.ofFloat(textView6, property12, fArr12);
                 animatorSet2.playTogether(animatorArr);
                 this.stateAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.EmojiView.EmojiPackHeader.2
                     {
@@ -3961,11 +3969,11 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                         int i3 = 0;
                         EmojiPackHeader.this.premiumButtonView.setVisibility(i == 1 ? 0 : 8);
                         EmojiPackHeader.this.addButtonView.setVisibility(i == 2 ? 0 : 8);
-                        TextView textView8 = EmojiPackHeader.this.removeButtonView;
+                        TextView textView7 = EmojiPackHeader.this.removeButtonView;
                         if (i != 3) {
                             i3 = 8;
                         }
-                        textView8.setVisibility(i3);
+                        textView7.setVisibility(i3);
                     }
                 });
                 this.stateAnimator.setDuration(250L);
@@ -3984,18 +3992,18 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
             this.addButtonView.setScaleX(i == 2 ? 1.0f : 0.6f);
             this.addButtonView.setScaleY(i == 2 ? 1.0f : 0.6f);
             this.addButtonView.setVisibility(i == 2 ? 0 : 8);
-            TextView textView8 = this.removeButtonView;
+            TextView textView7 = this.removeButtonView;
             if (i == 3) {
                 f = 1.0f;
             }
-            textView8.setAlpha(f);
+            textView7.setAlpha(f);
             this.removeButtonView.setScaleX(i == 3 ? 1.0f : 0.6f);
             this.removeButtonView.setScaleY(i == 3 ? 1.0f : 0.6f);
-            TextView textView9 = this.removeButtonView;
+            TextView textView8 = this.removeButtonView;
             if (i != 3) {
                 i2 = 8;
             }
-            textView9.setVisibility(i2);
+            textView8.setVisibility(i2);
         }
     }
 
@@ -7189,9 +7197,13 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                         str = null;
                         break;
                     }
-                    int length2 = strArr[i5].length + 1 + size;
-                    if (i < length2) {
-                        String str7 = strArr[i5][(i - size) - 1];
+                    int length2 = strArr[i5].length + 1;
+                    int i6 = (i - size) - 1;
+                    if (i6 < 0 || i >= size + length2) {
+                        size += length2;
+                        i5++;
+                    } else {
+                        String str7 = strArr[i5][i6];
                         String str8 = Emoji.emojiColor.get(str7);
                         if (str8 != null) {
                             str = EmojiView.addColorToCode(str7, str8);
@@ -7199,21 +7211,18 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                         } else {
                             str = str7;
                         }
-                    } else {
-                        i5++;
-                        size = length2;
                     }
                 }
                 str2 = str;
                 if (str2 == null) {
                     boolean isPremium = UserConfig.getInstance(EmojiView.this.currentAccount).isPremium();
                     int spanCount2 = EmojiView.this.emojiLayoutManager.getSpanCount() * 3;
-                    for (int i6 = 0; i6 < this.packStartPosition.size(); i6++) {
-                        EmojiPack emojiPack3 = (EmojiPack) EmojiView.this.emojipacksProcessed.get(i6);
-                        int intValue = this.packStartPosition.get(i6).intValue() + 1;
+                    for (int i7 = 0; i7 < this.packStartPosition.size(); i7++) {
+                        EmojiPack emojiPack3 = (EmojiPack) EmojiView.this.emojipacksProcessed.get(i7);
+                        int intValue = this.packStartPosition.get(i7).intValue() + 1;
                         int min = ((!emojiPack3.installed || emojiPack3.featured || (!emojiPack3.free && !isPremium)) && !emojiPack3.expanded) ? Math.min(spanCount2, emojiPack3.documents.size()) : emojiPack3.documents.size();
-                        int i7 = imageViewEmoji.position;
-                        if (i7 >= intValue && i7 - intValue < min) {
+                        int i8 = imageViewEmoji.position;
+                        if (i8 >= intValue && i8 - intValue < min) {
                             imageViewEmoji.pack = emojiPack3;
                             TLRPC$Document tLRPC$Document3 = emojiPack3.documents.get(imageViewEmoji.position - intValue);
                             tLRPC$Document = tLRPC$Document3;

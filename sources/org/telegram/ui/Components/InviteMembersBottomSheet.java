@@ -330,11 +330,7 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
             return;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(findActivity);
-        if (this.selectedContacts.size() == 1) {
-            builder.setTitle(LocaleController.getString("AddOneMemberAlertTitle", R.string.AddOneMemberAlertTitle));
-        } else {
-            builder.setTitle(LocaleController.formatString("AddMembersAlertTitle", R.string.AddMembersAlertTitle, LocaleController.formatPluralString("Members", this.selectedContacts.size(), new Object[0])));
-        }
+        builder.setTitle(LocaleController.formatPluralString("AddManyMembersAlertTitle", this.selectedContacts.size(), new Object[0]));
         StringBuilder sb = new StringBuilder();
         for (int i2 = 0; i2 < this.selectedContacts.size(); i2++) {
             TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(this.selectedContacts.keyAt(i2)));
@@ -349,7 +345,7 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
         }
         TLRPC$Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(j));
         if (this.selectedContacts.size() > 5) {
-            SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(AndroidUtilities.replaceTags(LocaleController.formatString("AddMembersAlertNamesText", R.string.AddMembersAlertNamesText, LocaleController.formatPluralString("Members", this.selectedContacts.size(), new Object[0]), chat.title)));
+            SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(AndroidUtilities.replaceTags(LocaleController.formatPluralString("AddManyMembersAlertNamesText", this.selectedContacts.size(), chat.title)));
             String format = String.format("%d", Integer.valueOf(this.selectedContacts.size()));
             int indexOf = TextUtils.indexOf(spannableStringBuilder, format);
             if (indexOf >= 0) {

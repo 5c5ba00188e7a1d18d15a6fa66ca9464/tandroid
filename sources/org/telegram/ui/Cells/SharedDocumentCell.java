@@ -40,6 +40,7 @@ import org.telegram.tgnet.TLRPC$TL_documentAttributeAudio;
 import org.telegram.tgnet.TLRPC$TL_messageMediaPhoto;
 import org.telegram.tgnet.TLRPC$TL_photoSizeEmpty;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.Components.AnimatedEmojiSpan;
 import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.CheckBox2;
 import org.telegram.ui.Components.CombinedDrawable;
@@ -59,7 +60,7 @@ public class SharedDocumentCell extends FrameLayout implements DownloadControlle
     private TextView captionTextView;
     private CheckBox2 checkBox;
     private int currentAccount;
-    private TextView dateTextView;
+    private AnimatedEmojiSpan.TextViewEmojis dateTextView;
     private SpannableStringBuilder dotSpan;
     private long downloadedSize;
     private boolean drawDownloadIcon;
@@ -219,9 +220,9 @@ public class SharedDocumentCell extends FrameLayout implements DownloadControlle
             boolean z12 = LocaleController.isRTL;
             addView(view9, LayoutHelper.createFrame(14, 14.0f, (z12 ? 5 : 3) | 48, z12 ? 8.0f : 70.0f, 33.0f, z12 ? 72.0f : 8.0f, 0.0f));
         }
-        TextView textView5 = new TextView(context);
-        this.dateTextView = textView5;
-        textView5.setTextColor(getThemedColor("windowBackgroundWhiteGrayText3"));
+        AnimatedEmojiSpan.TextViewEmojis textViewEmojis = new AnimatedEmojiSpan.TextViewEmojis(context);
+        this.dateTextView = textViewEmojis;
+        textViewEmojis.setTextColor(getThemedColor("windowBackgroundWhiteGrayText3"));
         this.dateTextView.setLines(1);
         this.dateTextView.setMaxLines(1);
         this.dateTextView.setSingleLine(true);
@@ -678,8 +679,8 @@ public class SharedDocumentCell extends FrameLayout implements DownloadControlle
                 textView3.layout(textView3.getLeft(), this.captionTextView.getTop() + measuredHeight, this.captionTextView.getRight(), this.captionTextView.getBottom() + measuredHeight);
                 measuredHeight += this.captionTextView.getMeasuredHeight() + AndroidUtilities.dp(3.0f);
             }
-            TextView textView4 = this.dateTextView;
-            textView4.layout(textView4.getLeft(), this.dateTextView.getTop() + measuredHeight, this.dateTextView.getRight(), this.dateTextView.getBottom() + measuredHeight);
+            AnimatedEmojiSpan.TextViewEmojis textViewEmojis = this.dateTextView;
+            textViewEmojis.layout(textViewEmojis.getLeft(), this.dateTextView.getTop() + measuredHeight, this.dateTextView.getRight(), this.dateTextView.getBottom() + measuredHeight);
             RLottieImageView rLottieImageView = this.statusImageView;
             rLottieImageView.layout(rLottieImageView.getLeft(), this.statusImageView.getTop() + measuredHeight, this.statusImageView.getRight(), measuredHeight + this.statusImageView.getBottom());
             LineProgressView lineProgressView = this.progressView;

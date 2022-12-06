@@ -2,31 +2,28 @@ package com.google.android.gms.wallet;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import androidx.annotation.RecentlyNonNull;
 import com.google.android.gms.common.internal.Preconditions;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
 import java.util.ArrayList;
-/* compiled from: com.google.android.gms:play-services-wallet@@18.1.3 */
+/* compiled from: com.google.android.gms:play-services-wallet@@19.1.0 */
 /* loaded from: classes.dex */
 public final class IsReadyToPayRequest extends AbstractSafeParcelable {
-    @RecentlyNonNull
-    public static final Parcelable.Creator<IsReadyToPayRequest> CREATOR = new zzp();
-    ArrayList<Integer> zza;
+    public static final Parcelable.Creator<IsReadyToPayRequest> CREATOR = new zzq();
+    ArrayList zza;
     String zzb;
     String zzc;
-    ArrayList<Integer> zzd;
+    ArrayList zzd;
     boolean zze;
     String zzf;
 
-    /* compiled from: com.google.android.gms:play-services-wallet@@18.1.3 */
+    /* compiled from: com.google.android.gms:play-services-wallet@@19.1.0 */
     @Deprecated
     /* loaded from: classes.dex */
     public final class Builder {
-        /* synthetic */ Builder(zzo zzoVar) {
+        /* synthetic */ Builder(zzp zzpVar) {
         }
 
-        @RecentlyNonNull
         public IsReadyToPayRequest build() {
             return IsReadyToPayRequest.this;
         }
@@ -35,21 +32,19 @@ public final class IsReadyToPayRequest extends AbstractSafeParcelable {
     IsReadyToPayRequest() {
     }
 
-    @RecentlyNonNull
-    public static IsReadyToPayRequest fromJson(@RecentlyNonNull String str) {
+    public static IsReadyToPayRequest fromJson(String str) {
         Builder newBuilder = newBuilder();
         IsReadyToPayRequest.this.zzf = (String) Preconditions.checkNotNull(str, "isReadyToPayRequestJson cannot be null!");
         return newBuilder.build();
     }
 
-    @RecentlyNonNull
     @Deprecated
     public static Builder newBuilder() {
         return new Builder(null);
     }
 
     @Override // android.os.Parcelable
-    public final void writeToParcel(@RecentlyNonNull Parcel parcel, int i) {
+    public final void writeToParcel(Parcel parcel, int i) {
         int beginObjectHeader = SafeParcelWriter.beginObjectHeader(parcel);
         SafeParcelWriter.writeIntegerList(parcel, 2, this.zza, false);
         SafeParcelWriter.writeString(parcel, 4, this.zzb, false);
@@ -61,7 +56,7 @@ public final class IsReadyToPayRequest extends AbstractSafeParcelable {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public IsReadyToPayRequest(ArrayList<Integer> arrayList, String str, String str2, ArrayList<Integer> arrayList2, boolean z, String str3) {
+    public IsReadyToPayRequest(ArrayList arrayList, String str, String str2, ArrayList arrayList2, boolean z, String str3) {
         this.zza = arrayList;
         this.zzb = str;
         this.zzc = str2;

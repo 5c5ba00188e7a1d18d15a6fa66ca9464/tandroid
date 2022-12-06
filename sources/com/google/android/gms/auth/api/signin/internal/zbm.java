@@ -12,7 +12,7 @@ import com.google.android.gms.common.api.PendingResults;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.common.api.internal.GoogleApiManager;
 import com.google.android.gms.common.logging.Logger;
-/* compiled from: com.google.android.gms:play-services-auth@@19.2.0 */
+/* compiled from: com.google.android.gms:play-services-auth@@20.4.0 */
 /* loaded from: classes.dex */
 public final class zbm {
     private static final Logger zba = new Logger("GoogleSignInCommon", new String[0]);
@@ -58,7 +58,7 @@ public final class zbm {
         return new GoogleSignInResult(googleSignInAccount, Status.RESULT_SUCCESS);
     }
 
-    public static PendingResult<Status> zbf(GoogleApiClient googleApiClient, Context context, boolean z) {
+    public static PendingResult zbf(GoogleApiClient googleApiClient, Context context, boolean z) {
         zba.d("Revoking access", new Object[0]);
         String savedRefreshToken = Storage.getInstance(context).getSavedRefreshToken();
         zbh(context);
@@ -68,7 +68,7 @@ public final class zbm {
         return googleApiClient.execute(new zbk(googleApiClient));
     }
 
-    public static PendingResult<Status> zbg(GoogleApiClient googleApiClient, Context context, boolean z) {
+    public static PendingResult zbg(GoogleApiClient googleApiClient, Context context, boolean z) {
         zba.d("Signing out", new Object[0]);
         zbh(context);
         if (z) {

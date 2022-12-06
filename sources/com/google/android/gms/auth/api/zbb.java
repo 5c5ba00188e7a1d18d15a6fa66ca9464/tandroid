@@ -9,12 +9,12 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.internal.ClientSettings;
 import java.util.Collections;
 import java.util.List;
-/* compiled from: com.google.android.gms:play-services-auth@@19.2.0 */
+/* compiled from: com.google.android.gms:play-services-auth@@20.4.0 */
 /* loaded from: classes.dex */
-final class zbb extends Api.AbstractClientBuilder<zbe, GoogleSignInOptions> {
+final class zbb extends Api.AbstractClientBuilder {
     @Override // com.google.android.gms.common.api.Api.AbstractClientBuilder
-    public final /* bridge */ /* synthetic */ zbe buildClient(Context context, Looper looper, ClientSettings clientSettings, GoogleSignInOptions googleSignInOptions, GoogleApiClient.ConnectionCallbacks connectionCallbacks, GoogleApiClient.OnConnectionFailedListener onConnectionFailedListener) {
-        return new zbe(context, looper, clientSettings, googleSignInOptions, connectionCallbacks, onConnectionFailedListener);
+    public final /* synthetic */ Api.Client buildClient(Context context, Looper looper, ClientSettings clientSettings, Object obj, GoogleApiClient.ConnectionCallbacks connectionCallbacks, GoogleApiClient.OnConnectionFailedListener onConnectionFailedListener) {
+        return new zbe(context, looper, clientSettings, (GoogleSignInOptions) obj, connectionCallbacks, onConnectionFailedListener);
     }
 
     @Override // com.google.android.gms.common.api.Api.BaseClientBuilder

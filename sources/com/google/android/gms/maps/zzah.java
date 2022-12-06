@@ -8,19 +8,19 @@ import com.google.android.gms.dynamic.DeferredLifecycleHelper;
 import com.google.android.gms.dynamic.ObjectWrapper;
 import com.google.android.gms.dynamic.OnDelegateCreatedListener;
 import com.google.android.gms.maps.internal.IMapViewDelegate;
-import com.google.android.gms.maps.internal.zzca;
+import com.google.android.gms.maps.internal.zzcb;
 import com.google.android.gms.maps.model.RuntimeRemoteException;
 import java.util.ArrayList;
 import java.util.List;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.google.android.gms:play-services-maps@@17.0.1 */
+/* compiled from: com.google.android.gms:play-services-maps@@18.1.0 */
 /* loaded from: classes.dex */
-public final class zzah extends DeferredLifecycleHelper<zzag> {
-    protected OnDelegateCreatedListener<zzag> zza;
+public final class zzah extends DeferredLifecycleHelper {
+    protected OnDelegateCreatedListener zza;
     private final ViewGroup zzb;
     private final Context zzc;
     private final GoogleMapOptions zzd;
-    private final List<OnMapReadyCallback> zze = new ArrayList();
+    private final List zze = new ArrayList();
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public zzah(ViewGroup viewGroup, Context context, GoogleMapOptions googleMapOptions) {
@@ -30,37 +30,37 @@ public final class zzah extends DeferredLifecycleHelper<zzag> {
     }
 
     @Override // com.google.android.gms.dynamic.DeferredLifecycleHelper
-    protected final void createDelegate(OnDelegateCreatedListener<zzag> onDelegateCreatedListener) {
+    protected final void createDelegate(OnDelegateCreatedListener onDelegateCreatedListener) {
         this.zza = onDelegateCreatedListener;
-        zza();
+        zzb();
     }
 
-    public final void zza() {
+    public final void zza(OnMapReadyCallback onMapReadyCallback) {
+        if (getDelegate() != null) {
+            ((zzag) getDelegate()).getMapAsync(onMapReadyCallback);
+        } else {
+            this.zze.add(onMapReadyCallback);
+        }
+    }
+
+    public final void zzb() {
         if (this.zza == null || getDelegate() != null) {
             return;
         }
         try {
             MapsInitializer.initialize(this.zzc);
-            IMapViewDelegate zze = zzca.zza(this.zzc).zze(ObjectWrapper.wrap(this.zzc), this.zzd);
-            if (zze == null) {
+            IMapViewDelegate zzg = zzcb.zza(this.zzc, null).zzg(ObjectWrapper.wrap(this.zzc), this.zzd);
+            if (zzg == null) {
                 return;
             }
-            this.zza.onDelegateCreated(new zzag(this.zzb, zze));
+            this.zza.onDelegateCreated(new zzag(this.zzb, zzg));
             for (OnMapReadyCallback onMapReadyCallback : this.zze) {
-                getDelegate().getMapAsync(onMapReadyCallback);
+                ((zzag) getDelegate()).getMapAsync(onMapReadyCallback);
             }
             this.zze.clear();
         } catch (RemoteException e) {
             throw new RuntimeRemoteException(e);
         } catch (GooglePlayServicesNotAvailableException unused) {
-        }
-    }
-
-    public final void zzb(OnMapReadyCallback onMapReadyCallback) {
-        if (getDelegate() != null) {
-            getDelegate().getMapAsync(onMapReadyCallback);
-        } else {
-            this.zze.add(onMapReadyCallback);
         }
     }
 }

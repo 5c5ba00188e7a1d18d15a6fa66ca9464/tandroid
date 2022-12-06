@@ -1,5 +1,5 @@
 package com.google.android.gms.tasks;
-/* compiled from: com.google.android.gms:play-services-tasks@@17.2.0 */
+/* compiled from: com.google.android.gms:play-services-tasks@@18.0.2 */
 /* loaded from: classes.dex */
 public final class DuplicateTaskCompletionException extends IllegalStateException {
     private DuplicateTaskCompletionException(String str, Throwable th) {
@@ -15,15 +15,10 @@ public final class DuplicateTaskCompletionException extends IllegalStateExceptio
         if (exception != null) {
             str = "failure";
         } else if (task.isSuccessful()) {
-            String valueOf = String.valueOf(task.getResult());
-            StringBuilder sb = new StringBuilder(valueOf.length() + 7);
-            sb.append("result ");
-            sb.append(valueOf);
-            str = sb.toString();
+            str = "result ".concat(String.valueOf(task.getResult()));
         } else {
             str = task.isCanceled() ? "cancellation" : "unknown issue";
         }
-        String valueOf2 = String.valueOf(str);
-        return new DuplicateTaskCompletionException(valueOf2.length() != 0 ? "Complete with: ".concat(valueOf2) : new String("Complete with: "), exception);
+        return new DuplicateTaskCompletionException("Complete with: ".concat(str), exception);
     }
 }

@@ -2,16 +2,13 @@ package com.google.android.gms.maps.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import androidx.annotation.RecentlyNonNull;
-import androidx.annotation.RecentlyNullable;
 import com.google.android.gms.common.internal.Preconditions;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
 import java.util.List;
-/* compiled from: com.google.android.gms:play-services-maps@@17.0.1 */
+/* compiled from: com.google.android.gms:play-services-maps@@18.1.0 */
 /* loaded from: classes.dex */
 public final class CircleOptions extends AbstractSafeParcelable {
-    @RecentlyNonNull
     public static final Parcelable.Creator<CircleOptions> CREATOR = new zzc();
     private LatLng zza;
     private double zzb;
@@ -21,7 +18,7 @@ public final class CircleOptions extends AbstractSafeParcelable {
     private float zzf;
     private boolean zzg;
     private boolean zzh;
-    private List<PatternItem> zzi;
+    private List zzi;
 
     public CircleOptions() {
         this.zza = null;
@@ -35,20 +32,17 @@ public final class CircleOptions extends AbstractSafeParcelable {
         this.zzi = null;
     }
 
-    @RecentlyNonNull
-    public CircleOptions center(@RecentlyNonNull LatLng latLng) {
+    public CircleOptions center(LatLng latLng) {
         Preconditions.checkNotNull(latLng, "center must not be null.");
         this.zza = latLng;
         return this;
     }
 
-    @RecentlyNonNull
     public CircleOptions fillColor(int i) {
         this.zze = i;
         return this;
     }
 
-    @RecentlyNullable
     public LatLng getCenter() {
         return this.zza;
     }
@@ -65,7 +59,6 @@ public final class CircleOptions extends AbstractSafeParcelable {
         return this.zzd;
     }
 
-    @RecentlyNullable
     public List<PatternItem> getStrokePattern() {
         return this.zzi;
     }
@@ -86,32 +79,28 @@ public final class CircleOptions extends AbstractSafeParcelable {
         return this.zzg;
     }
 
-    @RecentlyNonNull
     public CircleOptions radius(double d) {
         this.zzb = d;
         return this;
     }
 
-    @RecentlyNonNull
     public CircleOptions strokeColor(int i) {
         this.zzd = i;
         return this;
     }
 
-    @RecentlyNonNull
     public CircleOptions strokePattern(List<PatternItem> list) {
         this.zzi = list;
         return this;
     }
 
-    @RecentlyNonNull
     public CircleOptions strokeWidth(float f) {
         this.zzc = f;
         return this;
     }
 
     @Override // android.os.Parcelable
-    public final void writeToParcel(@RecentlyNonNull Parcel parcel, int i) {
+    public final void writeToParcel(Parcel parcel, int i) {
         int beginObjectHeader = SafeParcelWriter.beginObjectHeader(parcel);
         SafeParcelWriter.writeParcelable(parcel, 2, getCenter(), i, false);
         SafeParcelWriter.writeDouble(parcel, 3, getRadius());
@@ -126,7 +115,7 @@ public final class CircleOptions extends AbstractSafeParcelable {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public CircleOptions(LatLng latLng, double d, float f, int i, int i2, float f2, boolean z, boolean z2, List<PatternItem> list) {
+    public CircleOptions(LatLng latLng, double d, float f, int i, int i2, float f2, boolean z, boolean z2, List list) {
         this.zza = latLng;
         this.zzb = d;
         this.zzc = f;

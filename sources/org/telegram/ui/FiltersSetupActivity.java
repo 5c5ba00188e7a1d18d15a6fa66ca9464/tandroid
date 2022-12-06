@@ -634,6 +634,13 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
         public /* synthetic */ void lambda$onTouchEvent$0() {
             FiltersSetupActivity.this.getMessagesController().lockFiltersInternal();
         }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        @Override // org.telegram.ui.Components.RecyclerListView, android.view.ViewGroup, android.view.View
+        public void dispatchDraw(Canvas canvas) {
+            drawSectionBackground(canvas, FiltersSetupActivity.this.filtersStartRow, FiltersSetupActivity.this.filtersEndRow, getThemedColor("windowBackgroundWhite"));
+            super.dispatchDraw(canvas);
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */

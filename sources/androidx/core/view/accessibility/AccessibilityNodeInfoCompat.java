@@ -39,7 +39,7 @@ public class AccessibilityNodeInfoCompat {
                     return "ACTION_CLEAR_SELECTION";
                 case 16:
                     return "ACTION_CLICK";
-                case ConnectionsManager.RequestFlagForceDownload /* 32 */:
+                case 32:
                     return "ACTION_LONG_CLICK";
                 case 64:
                     return "ACTION_ACCESSIBILITY_FOCUS";

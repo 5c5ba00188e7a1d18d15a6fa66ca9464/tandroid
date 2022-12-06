@@ -777,7 +777,7 @@ final class zzgd<T> implements zzgp<T> {
                     case 29:
                     case 30:
                     case 31:
-                    case ConnectionsManager.RequestFlagForceDownload /* 32 */:
+                    case 32:
                     case 33:
                     case 34:
                     case 35:
@@ -960,7 +960,7 @@ final class zzgd<T> implements zzgp<T> {
                 case 29:
                 case 30:
                 case 31:
-                case ConnectionsManager.RequestFlagForceDownload /* 32 */:
+                case 32:
                 case 33:
                 case 34:
                 case 35:
@@ -1311,7 +1311,7 @@ final class zzgd<T> implements zzgp<T> {
                 case 29:
                 case 30:
                 case 31:
-                case ConnectionsManager.RequestFlagForceDownload /* 32 */:
+                case 32:
                 case 33:
                 case 34:
                 case 35:
@@ -1656,7 +1656,7 @@ final class zzgd<T> implements zzgp<T> {
                     case 31:
                         zzb3 = zzgr.zzh(i8, zza(t, j2), false);
                         break;
-                    case ConnectionsManager.RequestFlagForceDownload /* 32 */:
+                    case 32:
                         zzb3 = zzgr.zzi(i8, zza(t, j2), false);
                         break;
                     case 33:
@@ -2302,7 +2302,7 @@ final class zzgd<T> implements zzgp<T> {
                     i10 += 3;
                     i3 = 1048575;
                     i4 = 1;
-                case ConnectionsManager.RequestFlagForceDownload /* 32 */:
+                case 32:
                     zzh = zzgr.zzi(i14, (List) unsafe2.getObject(t, j3), false);
                     i11 += zzh;
                     j = 0;
@@ -2905,7 +2905,7 @@ final class zzgd<T> implements zzgp<T> {
                             case 31:
                                 zzgr.zzl(this.zzc[length2], (List) zzhn.zzf(t, zzc & 1048575), zzibVar, false);
                                 break;
-                            case ConnectionsManager.RequestFlagForceDownload /* 32 */:
+                            case 32:
                                 zzgr.zzg(this.zzc[length2], (List) zzhn.zzf(t, zzc & 1048575), zzibVar, false);
                                 break;
                             case 33:
@@ -3285,7 +3285,7 @@ final class zzgd<T> implements zzgp<T> {
                             case 31:
                                 zzgr.zzl(this.zzc[i], (List) zzhn.zzf(t, zzc2 & 1048575), zzibVar, false);
                                 break;
-                            case ConnectionsManager.RequestFlagForceDownload /* 32 */:
+                            case 32:
                                 zzgr.zzg(this.zzc[i], (List) zzhn.zzf(t, zzc2 & 1048575), zzibVar, false);
                                 break;
                             case 33:
@@ -3681,7 +3681,7 @@ final class zzgd<T> implements zzgp<T> {
                         case 31:
                             zzgr.zzl(this.zzc[i], (List) unsafe.getObject(t, j), zzibVar, false);
                             break;
-                        case ConnectionsManager.RequestFlagForceDownload /* 32 */:
+                        case 32:
                             zzgr.zzg(this.zzc[i], (List) unsafe.getObject(t, j), zzibVar, false);
                             break;
                         case 33:

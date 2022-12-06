@@ -6,6 +6,7 @@ import org.telegram.messenger.CharacterCompat;
 public abstract class TLRPC$ChatFull extends TLObject {
     public String about;
     public int admins_count;
+    public boolean antispam;
     public int available_min_id;
     public TLRPC$ChatReactions available_reactions;
     public int banned_count;

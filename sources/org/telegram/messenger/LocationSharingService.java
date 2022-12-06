@@ -10,7 +10,6 @@ import androidx.core.app.NotificationManagerCompat;
 import java.util.ArrayList;
 import org.telegram.messenger.LocationController;
 import org.telegram.messenger.NotificationCenter;
-import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.ui.LaunchActivity;
 /* loaded from: classes.dex */
@@ -138,23 +137,27 @@ public class LocationSharingService extends Service implements NotificationCente
         if (getInfos().isEmpty()) {
             stopSelf();
         }
-        if (this.builder == null) {
-            Intent intent2 = new Intent(ApplicationLoader.applicationContext, LaunchActivity.class);
-            intent2.setAction("org.tmessages.openlocations");
-            intent2.addCategory("android.intent.category.LAUNCHER");
-            PendingIntent activity = PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent2, ConnectionsManager.FileTypeVideo);
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(ApplicationLoader.applicationContext);
-            this.builder = builder;
-            builder.setWhen(System.currentTimeMillis());
-            this.builder.setSmallIcon(R.drawable.live_loc);
-            this.builder.setContentIntent(activity);
-            NotificationsController.checkOtherNotificationsChannel();
-            this.builder.setChannelId(NotificationsController.OTHER_NOTIFICATIONS_CHANNEL);
-            this.builder.setContentTitle(LocaleController.getString("AppName", R.string.AppName));
-            this.builder.addAction(0, LocaleController.getString("StopLiveLocation", R.string.StopLiveLocation), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 2, new Intent(ApplicationLoader.applicationContext, StopLiveLocationReceiver.class), 167772160));
+        try {
+            if (this.builder == null) {
+                Intent intent2 = new Intent(ApplicationLoader.applicationContext, LaunchActivity.class);
+                intent2.setAction("org.tmessages.openlocations");
+                intent2.addCategory("android.intent.category.LAUNCHER");
+                PendingIntent activity = PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent2, 167772160);
+                NotificationCompat.Builder builder = new NotificationCompat.Builder(ApplicationLoader.applicationContext);
+                this.builder = builder;
+                builder.setWhen(System.currentTimeMillis());
+                this.builder.setSmallIcon(R.drawable.live_loc);
+                this.builder.setContentIntent(activity);
+                NotificationsController.checkOtherNotificationsChannel();
+                this.builder.setChannelId(NotificationsController.OTHER_NOTIFICATIONS_CHANNEL);
+                this.builder.setContentTitle(LocaleController.getString("AppName", R.string.AppName));
+                this.builder.addAction(0, LocaleController.getString("StopLiveLocation", R.string.StopLiveLocation), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 2, new Intent(ApplicationLoader.applicationContext, StopLiveLocationReceiver.class), 167772160));
+            }
+            updateNotification(false);
+            startForeground(6, this.builder.build());
+        } catch (Throwable th) {
+            FileLog.e(th);
         }
-        updateNotification(false);
-        startForeground(6, this.builder.build());
         return 2;
     }
 }

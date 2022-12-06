@@ -33,6 +33,7 @@ public class AnimatedTextView extends View {
 
     /* loaded from: classes3.dex */
     public static class AnimatedTextDrawable extends Drawable {
+        private boolean allowCancel;
         private ValueAnimator animator;
         private int currentHeight;
         private StaticLayout[] currentLayout;
@@ -82,6 +83,10 @@ public class AnimatedTextView extends View {
             this.startFromEnd = z3;
         }
 
+        public void setAllowCancel(boolean z) {
+            this.allowCancel = z;
+        }
+
         public void setOnAnimationFinishListener(Runnable runnable) {
             this.onAnimationFinishListener = runnable;
         }
@@ -101,109 +106,112 @@ public class AnimatedTextView extends View {
             int height = this.bounds.height();
             int i3 = 0;
             if (this.currentLayout != null && this.oldLayout != null) {
-                int lerp = AndroidUtilities.lerp(this.oldWidth, this.currentWidth, this.t);
-                canvas.translate(0.0f, (height - AndroidUtilities.lerp(this.oldHeight, this.currentHeight, this.t)) / 2.0f);
-                int i4 = 0;
-                while (true) {
-                    float f5 = -1.0f;
-                    if (i4 < this.currentLayout.length) {
-                        int intValue = this.currentLayoutToOldIndex[i4].intValue();
-                        float intValue2 = this.currentLayoutOffsets[i4].intValue();
-                        if (intValue >= 0) {
-                            intValue2 = AndroidUtilities.lerp(this.oldLayoutOffsets[intValue].intValue(), intValue2, this.t);
-                            this.textPaint.setAlpha(this.alpha);
-                            f3 = 0.0f;
-                        } else {
-                            float f6 = (-this.textPaint.getTextSize()) * this.moveAmplitude;
-                            float f7 = this.t;
-                            float f8 = f6 * (1.0f - f7);
-                            if (this.moveDown) {
-                                f5 = 1.0f;
-                            }
-                            f3 = f8 * f5;
-                            this.textPaint.setAlpha((int) (this.alpha * f7));
-                        }
-                        canvas.save();
-                        int i5 = intValue >= 0 ? lerp : this.currentWidth;
-                        if (this.isRTL) {
-                            intValue2 = (((-intValue2) + (i5 * 2)) - this.currentLayout[i4].getWidth()) - width;
-                        }
-                        int i6 = this.gravity;
-                        if ((i6 | (-4)) != -1) {
-                            if ((i6 | (-6)) != -1) {
-                                if ((i6 | (-2)) == -1) {
-                                    f4 = (width - i5) / 2.0f;
-                                    intValue2 += f4;
-                                } else if (!this.isRTL) {
+                float f5 = this.t;
+                if (f5 != 1.0f) {
+                    int lerp = AndroidUtilities.lerp(this.oldWidth, this.currentWidth, f5);
+                    canvas.translate(0.0f, (height - AndroidUtilities.lerp(this.oldHeight, this.currentHeight, this.t)) / 2.0f);
+                    int i4 = 0;
+                    while (true) {
+                        float f6 = -1.0f;
+                        if (i4 < this.currentLayout.length) {
+                            int intValue = this.currentLayoutToOldIndex[i4].intValue();
+                            float intValue2 = this.currentLayoutOffsets[i4].intValue();
+                            if (intValue >= 0) {
+                                intValue2 = AndroidUtilities.lerp(this.oldLayoutOffsets[intValue].intValue(), intValue2, this.t);
+                                this.textPaint.setAlpha(this.alpha);
+                                f3 = 0.0f;
+                            } else {
+                                float f7 = (-this.textPaint.getTextSize()) * this.moveAmplitude;
+                                float f8 = this.t;
+                                float f9 = f7 * (1.0f - f8);
+                                if (this.moveDown) {
+                                    f6 = 1.0f;
                                 }
+                                f3 = f9 * f6;
+                                this.textPaint.setAlpha((int) (this.alpha * f8));
                             }
-                            f4 = width - i5;
-                            intValue2 += f4;
+                            canvas.save();
+                            int i5 = intValue >= 0 ? lerp : this.currentWidth;
+                            if (this.isRTL) {
+                                intValue2 = (((-intValue2) + (i5 * 2)) - this.currentLayout[i4].getWidth()) - width;
+                            }
+                            int i6 = this.gravity;
+                            if ((i6 | (-4)) != -1) {
+                                if ((i6 | (-6)) != -1) {
+                                    if ((i6 | (-2)) == -1) {
+                                        f4 = (width - i5) / 2.0f;
+                                        intValue2 += f4;
+                                    } else if (!this.isRTL) {
+                                    }
+                                }
+                                f4 = width - i5;
+                                intValue2 += f4;
+                            }
+                            canvas.translate(Math.round(intValue2), Math.round(f3));
+                            this.currentLayout[i4].draw(canvas);
+                            canvas.restore();
+                            i4++;
                         }
-                        canvas.translate(intValue2, f3);
-                        this.currentLayout[i4].draw(canvas);
-                        canvas.restore();
-                        i4++;
                     }
-                }
-                while (i3 < this.oldLayout.length) {
-                    if (this.oldLayoutToCurrentIndex[i3].intValue() < 0) {
-                        float intValue3 = this.oldLayoutOffsets[i3].intValue();
-                        float textSize = this.textPaint.getTextSize() * this.moveAmplitude;
-                        float f9 = this.t;
-                        float f10 = textSize * f9 * (this.moveDown ? 1.0f : -1.0f);
-                        this.textPaint.setAlpha((int) (this.alpha * (1.0f - f9)));
-                        canvas.save();
-                        if (this.isRTL) {
-                            intValue3 = (((-intValue3) + (this.oldWidth * 2)) - this.oldLayout[i3].getWidth()) - width;
-                        }
-                        int i7 = this.gravity;
-                        if ((i7 | (-4)) != -1) {
-                            if ((i7 | (-6)) == -1) {
-                                i2 = this.oldWidth;
-                            } else if ((i7 | (-2)) == -1) {
-                                f2 = (width - this.oldWidth) / 2.0f;
+                    while (i3 < this.oldLayout.length) {
+                        if (this.oldLayoutToCurrentIndex[i3].intValue() < 0) {
+                            float intValue3 = this.oldLayoutOffsets[i3].intValue();
+                            float textSize = this.textPaint.getTextSize() * this.moveAmplitude;
+                            float f10 = this.t;
+                            float f11 = textSize * f10 * (this.moveDown ? 1.0f : -1.0f);
+                            this.textPaint.setAlpha((int) (this.alpha * (1.0f - f10)));
+                            canvas.save();
+                            if (this.isRTL) {
+                                intValue3 = (((-intValue3) + (this.oldWidth * 2)) - this.oldLayout[i3].getWidth()) - width;
+                            }
+                            int i7 = this.gravity;
+                            if ((i7 | (-4)) != -1) {
+                                if ((i7 | (-6)) == -1) {
+                                    i2 = this.oldWidth;
+                                } else if ((i7 | (-2)) == -1) {
+                                    f2 = (width - this.oldWidth) / 2.0f;
+                                    intValue3 += f2;
+                                } else if (this.isRTL) {
+                                    i2 = this.oldWidth;
+                                }
+                                f2 = width - i2;
                                 intValue3 += f2;
-                            } else if (this.isRTL) {
-                                i2 = this.oldWidth;
                             }
-                            f2 = width - i2;
-                            intValue3 += f2;
+                            canvas.translate(Math.round(intValue3), Math.round(f11));
+                            this.oldLayout[i3].draw(canvas);
+                            canvas.restore();
                         }
-                        canvas.translate(intValue3, f10);
-                        this.oldLayout[i3].draw(canvas);
-                        canvas.restore();
-                    }
-                    i3++;
-                }
-            } else {
-                canvas.translate(0.0f, (height - this.currentHeight) / 2.0f);
-                if (this.currentLayout != null) {
-                    while (i3 < this.currentLayout.length) {
-                        this.textPaint.setAlpha(this.alpha);
-                        canvas.save();
-                        float intValue4 = this.currentLayoutOffsets[i3].intValue();
-                        if (this.isRTL) {
-                            intValue4 = (((-intValue4) + (this.currentWidth * 2)) - this.currentLayout[i3].getWidth()) - width;
-                        }
-                        int i8 = this.gravity;
-                        if ((i8 | (-4)) != -1) {
-                            if ((i8 | (-6)) == -1) {
-                                i = this.currentWidth;
-                            } else if ((i8 | (-2)) == -1) {
-                                f = (width - this.currentWidth) / 2.0f;
-                                intValue4 += f;
-                            } else if (this.isRTL) {
-                                i = this.currentWidth;
-                            }
-                            f = width - i;
-                            intValue4 += f;
-                        }
-                        canvas.translate(intValue4, 0.0f);
-                        this.currentLayout[i3].draw(canvas);
-                        canvas.restore();
                         i3++;
                     }
+                    canvas.restore();
+                }
+            }
+            canvas.translate(0.0f, (height - this.currentHeight) / 2.0f);
+            if (this.currentLayout != null) {
+                while (i3 < this.currentLayout.length) {
+                    this.textPaint.setAlpha(this.alpha);
+                    canvas.save();
+                    float intValue4 = this.currentLayoutOffsets[i3].intValue();
+                    if (this.isRTL) {
+                        intValue4 = (((-intValue4) + (this.currentWidth * 2)) - this.currentLayout[i3].getWidth()) - width;
+                    }
+                    int i8 = this.gravity;
+                    if ((i8 | (-4)) != -1) {
+                        if ((i8 | (-6)) == -1) {
+                            i = this.currentWidth;
+                        } else if ((i8 | (-2)) == -1) {
+                            f = (width - this.currentWidth) / 2.0f;
+                            intValue4 += f;
+                        } else if (this.isRTL) {
+                            i = this.currentWidth;
+                        }
+                        f = width - i;
+                        intValue4 += f;
+                    }
+                    canvas.translate(Math.round(intValue4), 0.0f);
+                    this.currentLayout[i3].draw(canvas);
+                    canvas.restore();
+                    i3++;
                 }
             }
             canvas.restore();
@@ -221,135 +229,149 @@ public class AnimatedTextView extends View {
             return valueAnimator != null && valueAnimator.isRunning();
         }
 
+        public void setText(CharSequence charSequence) {
+            setText(charSequence, true);
+        }
+
+        public void setText(CharSequence charSequence, boolean z) {
+            setText(charSequence, z, true);
+        }
+
         public void setText(CharSequence charSequence, boolean z, boolean z2) {
             boolean z3 = (this.currentText == null || charSequence == null) ? false : z;
             String str = charSequence == null ? "" : charSequence;
             if (z3) {
-                if (isAnimating()) {
-                    this.toSetText = str;
-                    this.toSetTextMoveDown = z2;
-                    return;
-                } else if (str.equals(this.currentText)) {
-                    return;
-                } else {
-                    this.oldText = this.currentText;
-                    this.currentText = str;
-                    this.currentLayout = null;
-                    this.oldLayout = null;
-                    final ArrayList arrayList = new ArrayList();
-                    final ArrayList arrayList2 = new ArrayList();
-                    final ArrayList arrayList3 = new ArrayList();
-                    final ArrayList arrayList4 = new ArrayList();
-                    final ArrayList arrayList5 = new ArrayList();
-                    final ArrayList arrayList6 = new ArrayList();
-                    this.currentHeight = 0;
-                    this.currentWidth = 0;
-                    this.oldHeight = 0;
-                    this.oldWidth = 0;
-                    diff(this.splitByWords ? new WordSequence(this.oldText) : this.oldText, this.splitByWords ? new WordSequence(this.currentText) : this.currentText, new RegionCallback() { // from class: org.telegram.ui.Components.AnimatedTextView$AnimatedTextDrawable$$ExternalSyntheticLambda3
-                        @Override // org.telegram.ui.Components.AnimatedTextView.AnimatedTextDrawable.RegionCallback
-                        public final void run(CharSequence charSequence2, int i, int i2) {
-                            AnimatedTextView.AnimatedTextDrawable.this.lambda$setText$0(arrayList5, arrayList3, arrayList2, arrayList6, arrayList, arrayList4, charSequence2, i, i2);
-                        }
-                    }, new RegionCallback() { // from class: org.telegram.ui.Components.AnimatedTextView$AnimatedTextDrawable$$ExternalSyntheticLambda2
-                        @Override // org.telegram.ui.Components.AnimatedTextView.AnimatedTextDrawable.RegionCallback
-                        public final void run(CharSequence charSequence2, int i, int i2) {
-                            AnimatedTextView.AnimatedTextDrawable.this.lambda$setText$1(arrayList, arrayList3, arrayList2, charSequence2, i, i2);
-                        }
-                    }, new RegionCallback() { // from class: org.telegram.ui.Components.AnimatedTextView$AnimatedTextDrawable$$ExternalSyntheticLambda1
-                        @Override // org.telegram.ui.Components.AnimatedTextView.AnimatedTextDrawable.RegionCallback
-                        public final void run(CharSequence charSequence2, int i, int i2) {
-                            AnimatedTextView.AnimatedTextDrawable.this.lambda$setText$2(arrayList4, arrayList6, arrayList5, charSequence2, i, i2);
-                        }
-                    });
-                    StaticLayout[] staticLayoutArr = this.currentLayout;
-                    if (staticLayoutArr == null || staticLayoutArr.length != arrayList3.size()) {
-                        this.currentLayout = new StaticLayout[arrayList3.size()];
-                    }
-                    arrayList3.toArray(this.currentLayout);
-                    Integer[] numArr = this.currentLayoutOffsets;
-                    if (numArr == null || numArr.length != arrayList.size()) {
-                        this.currentLayoutOffsets = new Integer[arrayList.size()];
-                    }
-                    arrayList.toArray(this.currentLayoutOffsets);
-                    Integer[] numArr2 = this.currentLayoutToOldIndex;
-                    if (numArr2 == null || numArr2.length != arrayList2.size()) {
-                        this.currentLayoutToOldIndex = new Integer[arrayList2.size()];
-                    }
-                    arrayList2.toArray(this.currentLayoutToOldIndex);
-                    StaticLayout[] staticLayoutArr2 = this.oldLayout;
-                    if (staticLayoutArr2 == null || staticLayoutArr2.length != arrayList6.size()) {
-                        this.oldLayout = new StaticLayout[arrayList6.size()];
-                    }
-                    arrayList6.toArray(this.oldLayout);
-                    Integer[] numArr3 = this.oldLayoutOffsets;
-                    if (numArr3 == null || numArr3.length != arrayList4.size()) {
-                        this.oldLayoutOffsets = new Integer[arrayList4.size()];
-                    }
-                    arrayList4.toArray(this.oldLayoutOffsets);
-                    Integer[] numArr4 = this.oldLayoutToCurrentIndex;
-                    if (numArr4 == null || numArr4.length != arrayList5.size()) {
-                        this.oldLayoutToCurrentIndex = new Integer[arrayList5.size()];
-                    }
-                    arrayList5.toArray(this.oldLayoutToCurrentIndex);
-                    StaticLayout[] staticLayoutArr3 = this.currentLayout;
-                    if (staticLayoutArr3.length > 0) {
-                        this.isRTL = staticLayoutArr3[0].isRtlCharAt(0);
-                    } else {
-                        StaticLayout[] staticLayoutArr4 = this.oldLayout;
-                        if (staticLayoutArr4.length > 0) {
-                            this.isRTL = staticLayoutArr4[0].isRtlCharAt(0);
-                        }
-                    }
+                if (this.allowCancel) {
                     ValueAnimator valueAnimator = this.animator;
                     if (valueAnimator != null) {
                         valueAnimator.cancel();
+                        this.animator = null;
                     }
-                    this.moveDown = z2;
-                    this.t = 0.0f;
-                    ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
-                    this.animator = ofFloat;
-                    ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.AnimatedTextView$AnimatedTextDrawable$$ExternalSyntheticLambda0
-                        @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                        public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                            AnimatedTextView.AnimatedTextDrawable.this.lambda$setText$3(valueAnimator2);
-                        }
-                    });
-                    this.animator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.AnimatedTextView.AnimatedTextDrawable.1
-                        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                        public void onAnimationEnd(Animator animator) {
-                            super.onAnimationEnd(animator);
-                            AnimatedTextDrawable.this.oldLayout = null;
-                            AnimatedTextDrawable.this.oldLayoutOffsets = null;
-                            AnimatedTextDrawable.this.oldLayoutToCurrentIndex = null;
-                            AnimatedTextDrawable.this.oldText = null;
-                            AnimatedTextDrawable.this.oldWidth = 0;
-                            AnimatedTextDrawable.this.t = 0.0f;
-                            AnimatedTextDrawable.this.invalidateSelf();
-                            AnimatedTextDrawable.this.animator = null;
-                            if (AnimatedTextDrawable.this.toSetText == null) {
-                                if (AnimatedTextDrawable.this.onAnimationFinishListener == null) {
-                                    return;
-                                }
-                                AnimatedTextDrawable.this.onAnimationFinishListener.run();
-                                return;
-                            }
-                            AnimatedTextDrawable animatedTextDrawable = AnimatedTextDrawable.this;
-                            animatedTextDrawable.setText(animatedTextDrawable.toSetText, true, AnimatedTextDrawable.this.toSetTextMoveDown);
-                            AnimatedTextDrawable.this.toSetText = null;
-                            AnimatedTextDrawable.this.toSetTextMoveDown = false;
-                        }
-                    });
-                    this.animator.setStartDelay(this.animateDelay);
-                    this.animator.setDuration(this.animateDuration);
-                    this.animator.setInterpolator(this.animateInterpolator);
-                    this.animator.start();
+                } else if (isAnimating()) {
+                    this.toSetText = str;
+                    this.toSetTextMoveDown = z2;
                     return;
                 }
+                if (str.equals(this.currentText)) {
+                    return;
+                }
+                this.oldText = this.currentText;
+                this.currentText = str;
+                this.currentLayout = null;
+                this.oldLayout = null;
+                final ArrayList arrayList = new ArrayList();
+                final ArrayList arrayList2 = new ArrayList();
+                final ArrayList arrayList3 = new ArrayList();
+                final ArrayList arrayList4 = new ArrayList();
+                final ArrayList arrayList5 = new ArrayList();
+                final ArrayList arrayList6 = new ArrayList();
+                this.currentHeight = 0;
+                this.currentWidth = 0;
+                this.oldHeight = 0;
+                this.oldWidth = 0;
+                diff(this.splitByWords ? new WordSequence(this.oldText) : this.oldText, this.splitByWords ? new WordSequence(this.currentText) : this.currentText, new RegionCallback() { // from class: org.telegram.ui.Components.AnimatedTextView$AnimatedTextDrawable$$ExternalSyntheticLambda3
+                    @Override // org.telegram.ui.Components.AnimatedTextView.AnimatedTextDrawable.RegionCallback
+                    public final void run(CharSequence charSequence2, int i, int i2) {
+                        AnimatedTextView.AnimatedTextDrawable.this.lambda$setText$0(arrayList5, arrayList3, arrayList2, arrayList6, arrayList, arrayList4, charSequence2, i, i2);
+                    }
+                }, new RegionCallback() { // from class: org.telegram.ui.Components.AnimatedTextView$AnimatedTextDrawable$$ExternalSyntheticLambda2
+                    @Override // org.telegram.ui.Components.AnimatedTextView.AnimatedTextDrawable.RegionCallback
+                    public final void run(CharSequence charSequence2, int i, int i2) {
+                        AnimatedTextView.AnimatedTextDrawable.this.lambda$setText$1(arrayList, arrayList3, arrayList2, charSequence2, i, i2);
+                    }
+                }, new RegionCallback() { // from class: org.telegram.ui.Components.AnimatedTextView$AnimatedTextDrawable$$ExternalSyntheticLambda1
+                    @Override // org.telegram.ui.Components.AnimatedTextView.AnimatedTextDrawable.RegionCallback
+                    public final void run(CharSequence charSequence2, int i, int i2) {
+                        AnimatedTextView.AnimatedTextDrawable.this.lambda$setText$2(arrayList4, arrayList6, arrayList5, charSequence2, i, i2);
+                    }
+                });
+                StaticLayout[] staticLayoutArr = this.currentLayout;
+                if (staticLayoutArr == null || staticLayoutArr.length != arrayList3.size()) {
+                    this.currentLayout = new StaticLayout[arrayList3.size()];
+                }
+                arrayList3.toArray(this.currentLayout);
+                Integer[] numArr = this.currentLayoutOffsets;
+                if (numArr == null || numArr.length != arrayList.size()) {
+                    this.currentLayoutOffsets = new Integer[arrayList.size()];
+                }
+                arrayList.toArray(this.currentLayoutOffsets);
+                Integer[] numArr2 = this.currentLayoutToOldIndex;
+                if (numArr2 == null || numArr2.length != arrayList2.size()) {
+                    this.currentLayoutToOldIndex = new Integer[arrayList2.size()];
+                }
+                arrayList2.toArray(this.currentLayoutToOldIndex);
+                StaticLayout[] staticLayoutArr2 = this.oldLayout;
+                if (staticLayoutArr2 == null || staticLayoutArr2.length != arrayList6.size()) {
+                    this.oldLayout = new StaticLayout[arrayList6.size()];
+                }
+                arrayList6.toArray(this.oldLayout);
+                Integer[] numArr3 = this.oldLayoutOffsets;
+                if (numArr3 == null || numArr3.length != arrayList4.size()) {
+                    this.oldLayoutOffsets = new Integer[arrayList4.size()];
+                }
+                arrayList4.toArray(this.oldLayoutOffsets);
+                Integer[] numArr4 = this.oldLayoutToCurrentIndex;
+                if (numArr4 == null || numArr4.length != arrayList5.size()) {
+                    this.oldLayoutToCurrentIndex = new Integer[arrayList5.size()];
+                }
+                arrayList5.toArray(this.oldLayoutToCurrentIndex);
+                StaticLayout[] staticLayoutArr3 = this.currentLayout;
+                if (staticLayoutArr3.length > 0) {
+                    this.isRTL = staticLayoutArr3[0].isRtlCharAt(0);
+                } else {
+                    StaticLayout[] staticLayoutArr4 = this.oldLayout;
+                    if (staticLayoutArr4.length > 0) {
+                        this.isRTL = staticLayoutArr4[0].isRtlCharAt(0);
+                    }
+                }
+                ValueAnimator valueAnimator2 = this.animator;
+                if (valueAnimator2 != null) {
+                    valueAnimator2.cancel();
+                }
+                this.moveDown = z2;
+                this.t = 0.0f;
+                ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
+                this.animator = ofFloat;
+                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.AnimatedTextView$AnimatedTextDrawable$$ExternalSyntheticLambda0
+                    @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                    public final void onAnimationUpdate(ValueAnimator valueAnimator3) {
+                        AnimatedTextView.AnimatedTextDrawable.this.lambda$setText$3(valueAnimator3);
+                    }
+                });
+                this.animator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.AnimatedTextView.AnimatedTextDrawable.1
+                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                    public void onAnimationEnd(Animator animator) {
+                        super.onAnimationEnd(animator);
+                        AnimatedTextDrawable.this.oldLayout = null;
+                        AnimatedTextDrawable.this.oldLayoutOffsets = null;
+                        AnimatedTextDrawable.this.oldLayoutToCurrentIndex = null;
+                        AnimatedTextDrawable.this.oldText = null;
+                        AnimatedTextDrawable.this.oldWidth = 0;
+                        AnimatedTextDrawable.this.t = 0.0f;
+                        AnimatedTextDrawable.this.invalidateSelf();
+                        AnimatedTextDrawable.this.animator = null;
+                        if (AnimatedTextDrawable.this.toSetText == null) {
+                            if (AnimatedTextDrawable.this.onAnimationFinishListener == null) {
+                                return;
+                            }
+                            AnimatedTextDrawable.this.onAnimationFinishListener.run();
+                            return;
+                        }
+                        AnimatedTextDrawable animatedTextDrawable = AnimatedTextDrawable.this;
+                        animatedTextDrawable.setText(animatedTextDrawable.toSetText, true, AnimatedTextDrawable.this.toSetTextMoveDown);
+                        AnimatedTextDrawable.this.toSetText = null;
+                        AnimatedTextDrawable.this.toSetTextMoveDown = false;
+                    }
+                });
+                this.animator.setStartDelay(this.animateDelay);
+                this.animator.setDuration(this.animateDuration);
+                this.animator.setInterpolator(this.animateInterpolator);
+                this.animator.start();
+                return;
             }
-            ValueAnimator valueAnimator2 = this.animator;
-            if (valueAnimator2 != null) {
-                valueAnimator2.cancel();
+            ValueAnimator valueAnimator3 = this.animator;
+            if (valueAnimator3 != null) {
+                valueAnimator3.cancel();
             }
             this.animator = null;
             this.toSetText = null;
@@ -707,6 +729,10 @@ public class AnimatedTextView extends View {
             this.textPaint.setTextSize(f);
         }
 
+        public float getTextSize() {
+            return this.textPaint.getTextSize();
+        }
+
         public void setTextColor(int i) {
             this.textPaint.setColor(i);
         }
@@ -821,18 +847,24 @@ public class AnimatedTextView extends View {
     public void setText(CharSequence charSequence, boolean z, boolean z2) {
         boolean z3 = !this.first && z;
         this.first = false;
-        if (z3 && this.drawable.isAnimating()) {
-            this.toSetText = charSequence;
-            this.toSetMoveDown = z2;
-            return;
+        if (z3) {
+            if (this.drawable.allowCancel) {
+                if (this.drawable.animator != null) {
+                    this.drawable.animator.cancel();
+                    this.drawable.animator = null;
+                }
+            } else if (this.drawable.isAnimating()) {
+                this.toSetText = charSequence;
+                this.toSetMoveDown = z2;
+                return;
+            }
         }
         int width = this.drawable.getWidth();
         this.drawable.setBounds(getPaddingLeft(), getPaddingTop(), this.lastMaxWidth - getPaddingRight(), getMeasuredHeight() - getPaddingBottom());
         this.drawable.setText(charSequence, z3, z2);
-        if (width >= this.drawable.getWidth() && (z3 || width == this.drawable.getWidth())) {
-            return;
+        if (width < this.drawable.getWidth() || (!z3 && width != this.drawable.getWidth())) {
+            requestLayout();
         }
-        requestLayout();
     }
 
     public int width() {

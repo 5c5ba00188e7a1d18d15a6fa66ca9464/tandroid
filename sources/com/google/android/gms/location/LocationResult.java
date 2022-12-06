@@ -1,39 +1,48 @@
 package com.google.android.gms.location;
 
 import android.location.Location;
+import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
-import androidx.annotation.RecentlyNonNull;
+import com.google.android.gms.common.internal.Objects;
 import com.google.android.gms.common.internal.ReflectedParcelable;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-/* compiled from: com.google.android.gms:play-services-location@@18.0.0 */
+/* compiled from: com.google.android.gms:play-services-location@@21.0.1 */
 /* loaded from: classes.dex */
 public final class LocationResult extends AbstractSafeParcelable implements ReflectedParcelable {
-    private final List<Location> zzb;
-    static final List<Location> zza = Collections.emptyList();
-    @RecentlyNonNull
-    public static final Parcelable.Creator<LocationResult> CREATOR = new zzbg();
+    private final List zzb;
+    static final List zza = Collections.emptyList();
+    public static final Parcelable.Creator<LocationResult> CREATOR = new zzy();
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public LocationResult(List<Location> list) {
+    public LocationResult(List list) {
         this.zzb = list;
     }
 
-    public boolean equals(@RecentlyNonNull Object obj) {
+    /* JADX WARN: Removed duplicated region for block: B:14:0x0037  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public boolean equals(Object obj) {
         if (obj instanceof LocationResult) {
             LocationResult locationResult = (LocationResult) obj;
-            if (locationResult.zzb.size() != this.zzb.size()) {
+            if (Build.VERSION.SDK_INT >= 31) {
+                return this.zzb.equals(locationResult.zzb);
+            }
+            if (this.zzb.size() != locationResult.zzb.size()) {
                 return false;
             }
-            Iterator<Location> it = locationResult.zzb.iterator();
-            Iterator<Location> it2 = this.zzb.iterator();
-            while (it.hasNext()) {
-                if (it2.next().getTime() != it.next().getTime()) {
+            Iterator it = locationResult.zzb.iterator();
+            for (Location location : this.zzb) {
+                Location location2 = (Location) it.next();
+                if (Double.compare(location.getLatitude(), location2.getLatitude()) != 0 || Double.compare(location.getLongitude(), location2.getLongitude()) != 0 || location.getTime() != location2.getTime() || location.getElapsedRealtimeNanos() != location2.getElapsedRealtimeNanos() || !Objects.equal(location.getProvider(), location2.getProvider())) {
                     return false;
+                }
+                while (r0.hasNext()) {
                 }
             }
             return true;
@@ -41,41 +50,28 @@ public final class LocationResult extends AbstractSafeParcelable implements Refl
         return false;
     }
 
-    @RecentlyNonNull
     public Location getLastLocation() {
         int size = this.zzb.size();
         if (size == 0) {
             return null;
         }
-        return this.zzb.get(size - 1);
+        return (Location) this.zzb.get(size - 1);
     }
 
-    @RecentlyNonNull
     public List<Location> getLocations() {
         return this.zzb;
     }
 
     public int hashCode() {
-        int i = 17;
-        for (Location location : this.zzb) {
-            long time = location.getTime();
-            i = (i * 31) + ((int) (time ^ (time >>> 32)));
-        }
-        return i;
+        return Objects.hashCode(this.zzb);
     }
 
-    @RecentlyNonNull
     public String toString() {
-        String valueOf = String.valueOf(this.zzb);
-        StringBuilder sb = new StringBuilder(valueOf.length() + 27);
-        sb.append("LocationResult[locations: ");
-        sb.append(valueOf);
-        sb.append("]");
-        return sb.toString();
+        return "LocationResult".concat(String.valueOf(this.zzb));
     }
 
     @Override // android.os.Parcelable
-    public void writeToParcel(@RecentlyNonNull Parcel parcel, int i) {
+    public void writeToParcel(Parcel parcel, int i) {
         int beginObjectHeader = SafeParcelWriter.beginObjectHeader(parcel);
         SafeParcelWriter.writeTypedList(parcel, 1, getLocations(), false);
         SafeParcelWriter.finishObjectHeader(parcel, beginObjectHeader);

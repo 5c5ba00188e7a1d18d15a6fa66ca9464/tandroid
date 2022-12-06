@@ -11,6 +11,7 @@ import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
 import androidx.core.graphics.ColorUtils;
+import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.Emoji;
 import org.telegram.messenger.FileLog;
@@ -37,7 +38,7 @@ public class AvatarDrawable extends Drawable {
     private boolean needApplyColorAccent;
     private Theme.ResourcesProvider resourcesProvider;
     private int roundRadius;
-    private boolean smallSize;
+    private float scaleSize;
     private StringBuilder stringBuilder;
     private float textHeight;
     private StaticLayout textLayout;
@@ -71,6 +72,7 @@ public class AvatarDrawable extends Drawable {
     }
 
     public AvatarDrawable(Theme.ResourcesProvider resourcesProvider) {
+        this.scaleSize = 1.0f;
         this.stringBuilder = new StringBuilder(5);
         this.roundRadius = -1;
         this.alpha = 255;
@@ -150,8 +152,8 @@ public class AvatarDrawable extends Drawable {
         }
     }
 
-    public void setSmallSize(boolean z) {
-        this.smallSize = z;
+    public void setScaleSize(float f) {
+        this.scaleSize = f;
     }
 
     public void setAvatarType(int i) {
@@ -167,11 +169,7 @@ public class AvatarDrawable extends Drawable {
             int themedColor = getThemedColor("avatar_backgroundArchivedHidden");
             this.color2 = themedColor;
             this.color = themedColor;
-        } else if (i == 12) {
-            this.hasGradient = true;
-            this.color = getThemedColor("avatar_backgroundSaved");
-            this.color2 = getThemedColor("avatar_background2Saved");
-        } else if (i == 1) {
+        } else if (i == 12 || i == 1 || i == 14) {
             this.hasGradient = true;
             this.color = getThemedColor("avatar_backgroundSaved");
             this.color2 = getThemedColor("avatar_background2Saved");
@@ -213,7 +211,7 @@ public class AvatarDrawable extends Drawable {
             this.color2 = getThemedColor(Theme.keys_avatar_background2[getColorIndex(4L)]);
         }
         int i2 = this.avatarType;
-        if (i2 != 2 && i2 != 1 && i2 != 12) {
+        if (i2 != 2 && i2 != 1 && i2 != 12 && i2 != 14) {
             z = true;
         }
         this.needApplyColorAccent = z;
@@ -270,32 +268,11 @@ public class AvatarDrawable extends Drawable {
     }
 
     private String takeFirstCharacter(String str) {
-        StringBuilder sb = new StringBuilder(16);
-        int i = 0;
-        boolean z = false;
-        while (i < str.length()) {
-            int codePointAt = str.codePointAt(i);
-            if (codePointAt == 8205 || codePointAt == 127466) {
-                if (sb.length() == 0) {
-                    z = true;
-                    i = str.offsetByCodePoints(i, 1);
-                } else {
-                    z = true;
-                }
-            } else if (sb.length() > 0 && !z) {
-                break;
-            } else {
-                z = false;
-            }
-            sb.appendCodePoint(codePointAt);
-            i = str.offsetByCodePoints(i, 1);
+        ArrayList<Emoji.EmojiSpanRange> parseEmojis = Emoji.parseEmojis(str);
+        if (parseEmojis != null && !parseEmojis.isEmpty() && parseEmojis.get(0).start == 0) {
+            return str.substring(0, parseEmojis.get(0).end);
         }
-        if (z) {
-            for (int length = sb.length() - 1; length >= 0 && sb.charAt(length) == 8205; length--) {
-                sb.deleteCharAt(length);
-            }
-        }
-        return sb.toString();
+        return str.substring(0, str.offsetByCodePoints(0, Math.min(str.codePointCount(0, str.length()), 1)));
     }
 
     public void setInfo(long j, String str, String str2, String str3) {
@@ -426,12 +403,8 @@ public class AvatarDrawable extends Drawable {
             Theme.dialogs_archiveAvatarDrawable.draw(canvas);
             canvas.restore();
         } else if (i2 != 0) {
-            if (i2 == 12) {
-                drawable = Theme.avatarDrawables[11];
-            } else if (i2 == 1) {
+            if (i2 == 1) {
                 drawable = Theme.avatarDrawables[0];
-            } else if (i2 == 3) {
-                drawable = Theme.avatarDrawables[10];
             } else if (i2 == 4) {
                 drawable = Theme.avatarDrawables[2];
             } else if (i2 == 5) {
@@ -446,16 +419,18 @@ public class AvatarDrawable extends Drawable {
                 drawable = Theme.avatarDrawables[7];
             } else if (i2 == 10) {
                 drawable = Theme.avatarDrawables[8];
+            } else if (i2 == 3) {
+                drawable = Theme.avatarDrawables[10];
+            } else if (i2 == 12) {
+                drawable = Theme.avatarDrawables[11];
+            } else if (i2 == 14) {
+                drawable = Theme.avatarDrawables[12];
             } else {
                 drawable = Theme.avatarDrawables[9];
             }
             if (drawable != null) {
-                int intrinsicWidth2 = drawable.getIntrinsicWidth();
-                int intrinsicHeight2 = drawable.getIntrinsicHeight();
-                if (this.smallSize) {
-                    intrinsicWidth2 = (int) (intrinsicWidth2 * 0.8f);
-                    intrinsicHeight2 = (int) (intrinsicHeight2 * 0.8f);
-                }
+                int intrinsicWidth2 = (int) (drawable.getIntrinsicWidth() * this.scaleSize);
+                int intrinsicHeight2 = (int) (drawable.getIntrinsicHeight() * this.scaleSize);
                 int i5 = (width - intrinsicWidth2) / 2;
                 int i6 = (width - intrinsicHeight2) / 2;
                 drawable.setBounds(i5, i6, intrinsicWidth2 + i5, intrinsicHeight2 + i6);

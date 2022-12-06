@@ -68,7 +68,7 @@ public final class MediaCodecUtil {
         switch (i) {
             case 8:
             case 16:
-            case ConnectionsManager.RequestFlagForceDownload /* 32 */:
+            case 32:
                 return 101376;
             case 64:
                 return 202752;
@@ -331,7 +331,7 @@ public final class MediaCodecUtil {
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:43:0x0075, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:43:0x0077, code lost:
         if (r3.equals("av01") == false) goto L11;
      */
     /*

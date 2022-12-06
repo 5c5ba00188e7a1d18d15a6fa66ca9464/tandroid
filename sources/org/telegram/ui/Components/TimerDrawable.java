@@ -23,6 +23,7 @@ public class TimerDrawable extends Drawable {
     ColorFilter currentColorFilter;
     private Drawable currentTtlIcon;
     private int iconColor;
+    private boolean isDialog;
     private boolean isStaticIcon;
     private boolean overrideColor;
     Theme.ResourcesProvider resourcesProvider;
@@ -55,9 +56,13 @@ public class TimerDrawable extends Drawable {
         String str;
         if (this.time != i) {
             this.time = i;
-            Drawable mutate = ContextCompat.getDrawable(this.context, i == 0 ? R.drawable.msg_mini_autodelete : R.drawable.msg_mini_autodelete_empty).mutate();
-            this.currentTtlIcon = mutate;
-            mutate.setColorFilter(this.currentColorFilter);
+            if (this.isDialog) {
+                this.currentTtlIcon = ContextCompat.getDrawable(this.context, R.drawable.msg_autodelete_badge2).mutate();
+            } else {
+                Drawable mutate = ContextCompat.getDrawable(this.context, i == 0 ? R.drawable.msg_mini_autodelete : R.drawable.msg_mini_autodelete_empty).mutate();
+                this.currentTtlIcon = mutate;
+                mutate.setColorFilter(this.currentColorFilter);
+            }
             invalidateSelf();
             int i2 = this.time;
             if (i2 >= 1 && i2 < 60) {
@@ -129,12 +134,22 @@ public class TimerDrawable extends Drawable {
         return timerDrawable;
     }
 
+    public static TimerDrawable getTtlIconForDialogs(int i) {
+        TimerDrawable timerDrawable = new TimerDrawable(ApplicationLoader.applicationContext, null);
+        timerDrawable.isDialog = true;
+        timerDrawable.setTime(i);
+        return timerDrawable;
+    }
+
     @Override // android.graphics.drawable.Drawable
     public void draw(Canvas canvas) {
         double d;
         int intrinsicWidth = getIntrinsicWidth();
         int intrinsicHeight = getIntrinsicHeight();
-        if (!this.isStaticIcon) {
+        int i = -1;
+        if (this.isDialog) {
+            this.timePaint.setColor(-1);
+        } else if (!this.isStaticIcon) {
             if (!this.overrideColor) {
                 this.paint.setColor(Theme.getColor("actionBarDefault", this.resourcesProvider));
             }
@@ -143,7 +158,7 @@ public class TimerDrawable extends Drawable {
             this.timePaint.setColor(Theme.getColor("actionBarDefaultSubmenuItemIcon", this.resourcesProvider));
         }
         if (this.currentTtlIcon != null) {
-            if (!this.isStaticIcon) {
+            if (!this.isStaticIcon && !this.isDialog) {
                 canvas.drawCircle(getBounds().centerX(), getBounds().centerY(), getBounds().width() / 2.0f, this.paint);
                 int color = Theme.getColor("actionBarDefaultTitle", this.resourcesProvider);
                 if (this.iconColor != color) {
@@ -151,21 +166,36 @@ public class TimerDrawable extends Drawable {
                     this.currentTtlIcon.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.MULTIPLY));
                 }
             }
-            android.graphics.Rect rect = AndroidUtilities.rectTmp2;
-            rect.set(getBounds().centerX() - AndroidUtilities.dp(10.5f), getBounds().centerY() - AndroidUtilities.dp(10.5f), (getBounds().centerX() - AndroidUtilities.dp(10.5f)) + this.currentTtlIcon.getIntrinsicWidth(), (getBounds().centerY() - AndroidUtilities.dp(10.5f)) + this.currentTtlIcon.getIntrinsicHeight());
-            this.currentTtlIcon.setBounds(rect);
-            this.currentTtlIcon.draw(canvas);
+            if (this.isDialog) {
+                this.currentTtlIcon.setBounds(getBounds().left, getBounds().top, getBounds().left + this.currentTtlIcon.getIntrinsicWidth(), getBounds().top + this.currentTtlIcon.getIntrinsicHeight());
+                this.currentTtlIcon.draw(canvas);
+            } else {
+                android.graphics.Rect rect = AndroidUtilities.rectTmp2;
+                rect.set(getBounds().centerX() - AndroidUtilities.dp(10.5f), getBounds().centerY() - AndroidUtilities.dp(10.5f), (getBounds().centerX() - AndroidUtilities.dp(10.5f)) + this.currentTtlIcon.getIntrinsicWidth(), (getBounds().centerY() - AndroidUtilities.dp(10.5f)) + this.currentTtlIcon.getIntrinsicHeight());
+                this.currentTtlIcon.setBounds(rect);
+                this.currentTtlIcon.draw(canvas);
+            }
         }
         if (this.time == 0 || this.timeLayout == null) {
             return;
         }
-        int i = 0;
-        if (AndroidUtilities.density == 3.0f) {
-            i = -1;
+        if (AndroidUtilities.density != 3.0f) {
+            i = 0;
         }
-        double ceil = Math.ceil(this.timeWidth / 2.0f);
+        if (this.isDialog) {
+            double width = getBounds().width() / 2;
+            double ceil = Math.ceil(this.timeWidth / 2.0f);
+            Double.isNaN(width);
+            double d2 = width - ceil;
+            double d3 = i;
+            Double.isNaN(d3);
+            canvas.translate((float) (d2 + d3), (getBounds().height() - this.timeHeight) / 2.0f);
+            this.timeLayout.draw(canvas);
+            return;
+        }
+        double ceil2 = Math.ceil(this.timeWidth / 2.0f);
         Double.isNaN(intrinsicWidth / 2);
-        canvas.translate(((int) (d - ceil)) + i, (intrinsicHeight - this.timeHeight) / 2);
+        canvas.translate(((int) (d - ceil2)) + i, (intrinsicHeight - this.timeHeight) / 2.0f);
         this.timeLayout.draw(canvas);
     }
 
@@ -190,5 +220,9 @@ public class TimerDrawable extends Drawable {
     public void setBackgroundColor(int i) {
         this.overrideColor = true;
         this.paint.setColor(i);
+    }
+
+    public int getTime() {
+        return this.time;
     }
 }

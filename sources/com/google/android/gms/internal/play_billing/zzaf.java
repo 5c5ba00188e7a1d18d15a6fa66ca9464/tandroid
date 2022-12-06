@@ -3,7 +3,7 @@ package com.google.android.gms.internal.play_billing;
 import java.util.Arrays;
 import javax.annotation.CheckForNull;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.android.billingclient:billing@@5.0.0 */
+/* compiled from: com.android.billingclient:billing@@5.1.0 */
 /* loaded from: classes.dex */
 public final class zzaf extends zzx {
     static final zzx zza = new zzaf(null, new Object[0], 0);
@@ -74,11 +74,11 @@ public final class zzaf extends zzx {
                 Arrays.fill(bArr2, (byte) -1);
                 int i5 = 0;
                 for (int i6 = 0; i6 < i2; i6++) {
-                    int i7 = i6 + i6;
-                    int i8 = i5 + i5;
-                    Object obj6 = objArr3[i7];
+                    int i7 = i5 + i5;
+                    int i8 = i6 + i6;
+                    Object obj6 = objArr3[i8];
                     obj6.getClass();
-                    Object obj7 = objArr3[i7 ^ 1];
+                    Object obj7 = objArr3[i8 ^ 1];
                     obj7.getClass();
                     zzp.zza(obj6, obj7);
                     int zza2 = zzq.zza(obj6.hashCode());
@@ -97,10 +97,10 @@ public final class zzaf extends zzx {
                             }
                             zza2 = i9 + 1;
                         } else {
-                            bArr2[i9] = (byte) i8;
+                            bArr2[i9] = (byte) i7;
                             if (i5 < i6) {
-                                objArr3[i8] = obj6;
-                                objArr3[i8 ^ 1] = obj7;
+                                objArr3[i7] = obj6;
+                                objArr3[i7 ^ 1] = obj7;
                             }
                             i5++;
                         }
@@ -118,11 +118,11 @@ public final class zzaf extends zzx {
                 Arrays.fill(sArr, (short) -1);
                 int i12 = 0;
                 for (int i13 = 0; i13 < i2; i13++) {
-                    int i14 = i13 + i13;
-                    int i15 = i12 + i12;
-                    Object obj9 = objArr3[i14];
+                    int i14 = i12 + i12;
+                    int i15 = i13 + i13;
+                    Object obj9 = objArr3[i15];
                     obj9.getClass();
-                    Object obj10 = objArr3[i14 ^ 1];
+                    Object obj10 = objArr3[i15 ^ 1];
                     obj10.getClass();
                     zzp.zza(obj9, obj10);
                     int zza3 = zzq.zza(obj9.hashCode());
@@ -141,10 +141,10 @@ public final class zzaf extends zzx {
                             }
                             zza3 = i16 + 1;
                         } else {
-                            sArr[i16] = (short) i15;
+                            sArr[i16] = (short) i14;
                             if (i12 < i13) {
-                                objArr3[i15] = obj9;
-                                objArr3[i15 ^ 1] = obj10;
+                                objArr3[i14] = obj9;
+                                objArr3[i14 ^ 1] = obj10;
                             }
                             i12++;
                         }
@@ -161,11 +161,11 @@ public final class zzaf extends zzx {
                 int i18 = 0;
                 int i19 = 0;
                 while (i18 < i2) {
-                    int i20 = i18 + i18;
-                    int i21 = i19 + i19;
-                    Object obj12 = objArr3[i20];
+                    int i20 = i19 + i19;
+                    int i21 = i18 + i18;
+                    Object obj12 = objArr3[i21];
                     obj12.getClass();
-                    Object obj13 = objArr3[i20 ^ 1];
+                    Object obj13 = objArr3[i21 ^ 1];
                     obj13.getClass();
                     zzp.zza(obj12, obj13);
                     int zza4 = zzq.zza(obj12.hashCode());
@@ -185,10 +185,10 @@ public final class zzaf extends zzx {
                             zza4 = i22 + 1;
                             c2 = 65535;
                         } else {
-                            sArr[i22] = i21;
+                            sArr[i22] = i20;
                             if (i19 < i18) {
-                                objArr3[i21] = obj12;
-                                objArr3[i21 ^ 1] = obj13;
+                                objArr3[i20] = obj12;
+                                objArr3[i20 ^ 1] = obj13;
                             }
                             i19++;
                         }

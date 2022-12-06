@@ -8,8 +8,6 @@ import android.content.IntentSender;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.Log;
-import androidx.annotation.RecentlyNonNull;
-import androidx.annotation.RecentlyNullable;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.common.api.Status;
@@ -17,13 +15,12 @@ import com.google.android.gms.common.internal.ApiExceptionUtil;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
 import java.util.concurrent.TimeUnit;
-/* compiled from: com.google.android.gms:play-services-wallet@@18.1.3 */
+/* compiled from: com.google.android.gms:play-services-wallet@@19.1.0 */
 /* loaded from: classes.dex */
 public class AutoResolveHelper {
     private static final long zzb = TimeUnit.MINUTES.toMillis(10);
     static long zza = SystemClock.elapsedRealtime();
 
-    @RecentlyNullable
     public static Status getStatusFromIntent(Intent intent) {
         if (intent == null) {
             return null;
@@ -31,7 +28,7 @@ public class AutoResolveHelper {
         return (Status) intent.getParcelableExtra("com.google.android.gms.common.api.AutoResolveHelper.status");
     }
 
-    public static void putStatusIntoIntent(@RecentlyNonNull Intent intent, Status status) {
+    public static void putStatusIntoIntent(Intent intent, Status status) {
         if (status == null) {
             intent.removeExtra("com.google.android.gms.common.api.AutoResolveHelper.status");
         } else {
@@ -39,7 +36,7 @@ public class AutoResolveHelper {
         }
     }
 
-    public static <TResult extends AutoResolvableResult> void resolveTask(@RecentlyNonNull Task<TResult> task, @RecentlyNonNull Activity activity, int i) {
+    public static <TResult extends AutoResolvableResult> void resolveTask(Task<TResult> task, Activity activity, int i) {
         zzc zza2 = zzc.zza(task);
         FragmentTransaction beginTransaction = activity.getFragmentManager().beginTransaction();
         int i2 = zza2.zzc;
@@ -56,9 +53,9 @@ public class AutoResolveHelper {
         beginTransaction.add(zzdVar, sb.toString()).commit();
     }
 
-    public static <TResult> void zzd(@RecentlyNonNull Status status, TResult tresult, @RecentlyNonNull TaskCompletionSource<TResult> taskCompletionSource) {
+    public static void zzd(Status status, Object obj, TaskCompletionSource taskCompletionSource) {
         if (status.isSuccess()) {
-            taskCompletionSource.setResult(tresult);
+            taskCompletionSource.setResult(obj);
         } else {
             taskCompletionSource.setException(ApiExceptionUtil.fromStatus(status));
         }
@@ -85,7 +82,7 @@ public class AutoResolveHelper {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static void zzf(Activity activity, int i, Task<? extends AutoResolvableResult> task) {
+    public static void zzf(Activity activity, int i, Task task) {
         if (activity.isFinishing()) {
             if (!Log.isLoggable("AutoResolveHelper", 3)) {
                 return;
@@ -109,7 +106,7 @@ public class AutoResolveHelper {
         Intent intent = new Intent();
         int i2 = 1;
         if (task.isSuccessful()) {
-            task.getResult().putIntoIntent(intent);
+            ((AutoResolvableResult) task.getResult()).putIntoIntent(intent);
             i2 = -1;
         } else if (exception instanceof ApiException) {
             ApiException apiException = (ApiException) exception;

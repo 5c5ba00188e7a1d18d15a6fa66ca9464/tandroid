@@ -400,7 +400,7 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:158:0x010a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:164:0x010a, code lost:
         if (r7.equals("groups") == false) goto L44;
      */
     /* JADX WARN: Multi-variable type inference failed */
@@ -413,6 +413,7 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
         TLRPC$Chat tLRPC$Chat;
         TLRPC$FileLocation tLRPC$FileLocation;
         String str;
+        int i2;
         TLRPC$UserStatus tLRPC$UserStatus;
         TextView textView;
         TLRPC$FileLocation tLRPC$FileLocation2;
@@ -646,8 +647,10 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
                 }
             }
             this.nameTextView.setRightDrawableTopPadding(-AndroidUtilities.dp(0.5f));
+            i2 = 0;
         } else {
             this.nameTextView.setRightDrawable((Drawable) null);
+            i2 = 0;
             this.nameTextView.setRightDrawableTopPadding(0);
         }
         if (this.currentStatus != null) {
@@ -670,7 +673,11 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
             }
         }
         if ((this.imageView.getVisibility() == 0 && this.currentDrawable == 0) || (this.imageView.getVisibility() == 8 && this.currentDrawable != 0)) {
-            this.imageView.setVisibility(this.currentDrawable == 0 ? 8 : 0);
+            ImageView imageView = this.imageView;
+            if (this.currentDrawable == 0) {
+                i2 = 8;
+            }
+            imageView.setVisibility(i2);
             this.imageView.setImageResource(this.currentDrawable);
         }
         this.lastAvatar = tLRPC$FileLocation;
@@ -681,6 +688,7 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
         } else {
             this.avatarImageView.setImageDrawable(this.avatarDrawable);
         }
+        this.avatarImageView.setRoundRadius((tLRPC$Chat == null || !tLRPC$Chat.forum) ? AndroidUtilities.dp(24.0f) : AndroidUtilities.dp(14.0f));
         this.nameTextView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText", this.resourcesProvider));
         TextView textView2 = this.adminTextView;
         if (textView2 != null) {

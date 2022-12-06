@@ -265,7 +265,6 @@ public class Switch extends View {
     }
 
     public void setChecked(boolean z, int i, boolean z2) {
-        float f = 1.0f;
         if (z != this.isChecked) {
             this.isChecked = z;
             if (this.attachedToWindow && z2) {
@@ -280,18 +279,7 @@ public class Switch extends View {
                 onCheckedChangeListener.onCheckedChanged(this, z);
             }
         }
-        if (this.drawIconType != i) {
-            this.drawIconType = i;
-            if (this.attachedToWindow && z2) {
-                animateIcon(i == 0);
-                return;
-            }
-            cancelIconAnimator();
-            if (i != 0) {
-                f = 0.0f;
-            }
-            setIconProgress(f);
-        }
+        setDrawIconType(i, z2);
     }
 
     public void setIcon(int i) {
@@ -307,6 +295,18 @@ public class Switch extends View {
             this.iconDrawable = null;
         }
         invalidate();
+    }
+
+    public void setDrawIconType(int i, boolean z) {
+        if (this.drawIconType != i) {
+            this.drawIconType = i;
+            if (this.attachedToWindow && z) {
+                animateIcon(i == 0);
+                return;
+            }
+            cancelIconAnimator();
+            setIconProgress(i == 0 ? 1.0f : 0.0f);
+        }
     }
 
     public boolean hasIcon() {

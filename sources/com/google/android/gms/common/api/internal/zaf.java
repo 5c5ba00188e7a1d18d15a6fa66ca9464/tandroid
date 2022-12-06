@@ -1,58 +1,39 @@
 package com.google.android.gms.common.api.internal;
 
-import android.os.DeadObjectException;
-import android.util.Log;
-import com.google.android.gms.common.api.Api;
-import com.google.android.gms.common.api.Result;
-import com.google.android.gms.common.api.Status;
-import com.google.android.gms.common.api.internal.BaseImplementation$ApiMethodImpl;
-import com.google.android.gms.common.api.internal.GoogleApiManager;
-import com.google.android.gms.common.internal.Preconditions;
-/* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
+import android.os.RemoteException;
+import com.google.android.gms.common.Feature;
+import com.google.android.gms.common.api.internal.ListenerHolder;
+import com.google.android.gms.tasks.TaskCompletionSource;
+/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
-public final class zaf<A extends BaseImplementation$ApiMethodImpl<? extends Result, Api.AnyClient>> extends zab {
-    private final A zab;
+public final class zaf extends zad {
+    public final zaci zab;
 
-    public zaf(int i, A a) {
-        super(i);
-        this.zab = (A) Preconditions.checkNotNull(a, "Null methods are not runnable.");
+    public zaf(zaci zaciVar, TaskCompletionSource taskCompletionSource) {
+        super(3, taskCompletionSource);
+        this.zab = zaciVar;
     }
 
-    @Override // com.google.android.gms.common.api.internal.zab
-    public final void zaa(GoogleApiManager.zaa<?> zaaVar) throws DeadObjectException {
-        try {
-            this.zab.run(zaaVar.zab());
-        } catch (RuntimeException e) {
-            zaa(e);
+    @Override // com.google.android.gms.common.api.internal.zac
+    public final boolean zaa(zabq zabqVar) {
+        return this.zab.zaa.zab();
+    }
+
+    @Override // com.google.android.gms.common.api.internal.zac
+    public final Feature[] zab(zabq zabqVar) {
+        return this.zab.zaa.getRequiredFeatures();
+    }
+
+    @Override // com.google.android.gms.common.api.internal.zad
+    public final void zac(zabq zabqVar) throws RemoteException {
+        this.zab.zaa.registerListener(zabqVar.zaf(), this.zaa);
+        ListenerHolder.ListenerKey listenerKey = this.zab.zaa.getListenerKey();
+        if (listenerKey != null) {
+            zabqVar.zah().put(listenerKey, this.zab);
         }
     }
 
-    @Override // com.google.android.gms.common.api.internal.zab
-    public final void zaa(Status status) {
-        try {
-            this.zab.setFailedResult(status);
-        } catch (IllegalStateException e) {
-            Log.w("ApiCallRunner", "Exception reporting failure", e);
-        }
-    }
-
-    @Override // com.google.android.gms.common.api.internal.zab
-    public final void zaa(Exception exc) {
-        String simpleName = exc.getClass().getSimpleName();
-        String localizedMessage = exc.getLocalizedMessage();
-        StringBuilder sb = new StringBuilder(simpleName.length() + 2 + String.valueOf(localizedMessage).length());
-        sb.append(simpleName);
-        sb.append(": ");
-        sb.append(localizedMessage);
-        try {
-            this.zab.setFailedResult(new Status(10, sb.toString()));
-        } catch (IllegalStateException e) {
-            Log.w("ApiCallRunner", "Exception reporting failure", e);
-        }
-    }
-
-    @Override // com.google.android.gms.common.api.internal.zab
-    public final void zaa(zav zavVar, boolean z) {
-        zavVar.zaa(this.zab, z);
+    @Override // com.google.android.gms.common.api.internal.zai
+    public final /* bridge */ /* synthetic */ void zag(zaad zaadVar, boolean z) {
     }
 }

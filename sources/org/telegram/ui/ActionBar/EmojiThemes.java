@@ -205,6 +205,7 @@ public class EmojiThemes {
 
     public HashMap<String, Integer> getPreviewColors(int i, int i2) {
         Theme.ThemeAccent themeAccent;
+        Theme.ThemeInfo theme;
         HashMap<String, Integer> hashMap = this.items.get(i2).currentPreviewColors;
         if (hashMap != null) {
             return hashMap;
@@ -213,7 +214,12 @@ public class EmojiThemes {
         if (themeInfo == null) {
             int settingsIndex = getSettingsIndex(i2);
             TLRPC$TL_theme tlTheme = getTlTheme(i2);
-            Theme.ThemeInfo themeInfo2 = new Theme.ThemeInfo(Theme.getTheme(Theme.getBaseThemeKey(tlTheme.settings.get(settingsIndex))));
+            if (tlTheme != null) {
+                theme = Theme.getTheme(Theme.getBaseThemeKey(tlTheme.settings.get(settingsIndex)));
+            } else {
+                theme = Theme.getTheme("Blue");
+            }
+            Theme.ThemeInfo themeInfo2 = new Theme.ThemeInfo(theme);
             themeAccent = themeInfo2.createNewAccent(tlTheme, i, true, settingsIndex);
             themeInfo2.setCurrentAccentId(themeAccent.id);
             themeInfo = themeInfo2;

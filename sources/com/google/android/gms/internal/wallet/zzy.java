@@ -4,13 +4,13 @@ import android.os.Bundle;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.common.api.internal.TaskUtil;
 import com.google.android.gms.tasks.TaskCompletionSource;
-/* compiled from: com.google.android.gms:play-services-wallet@@18.1.3 */
+/* compiled from: com.google.android.gms:play-services-wallet@@19.1.0 */
 /* loaded from: classes.dex */
 final class zzy extends zzx {
-    private final TaskCompletionSource<Boolean> zza;
+    private final TaskCompletionSource zza;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public zzy(TaskCompletionSource<Boolean> taskCompletionSource) {
+    public zzy(TaskCompletionSource taskCompletionSource) {
         this.zza = taskCompletionSource;
     }
 
@@ -20,7 +20,7 @@ final class zzy extends zzx {
     }
 
     @Override // com.google.android.gms.internal.wallet.zzx, com.google.android.gms.internal.wallet.zzu
-    public final void zzf(int i, boolean z, Bundle bundle) {
+    public final void zzg(int i, boolean z, Bundle bundle) {
         TaskUtil.setResultOrApiException(new Status(i), Boolean.valueOf(z), this.zza);
     }
 }

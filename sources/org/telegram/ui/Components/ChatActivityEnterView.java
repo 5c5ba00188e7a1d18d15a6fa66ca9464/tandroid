@@ -113,6 +113,7 @@ import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.VideoEditedInfo;
+import org.telegram.messenger.browser.Browser;
 import org.telegram.messenger.camera.CameraController;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC$BotInfo;
@@ -3274,10 +3275,10 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         public boolean onTextContextMenuItem(int i) {
             if (i == 16908322) {
                 ChatActivityEnterView.this.isPaste = true;
-            }
-            ClipData primaryClip = ((ClipboardManager) getContext().getSystemService("clipboard")).getPrimaryClip();
-            if (primaryClip != null && primaryClip.getItemCount() == 1 && primaryClip.getDescription().hasMimeType("image/*")) {
-                editPhoto(primaryClip.getItemAt(0).getUri(), primaryClip.getDescription().getMimeType(0));
+                ClipData primaryClip = ((ClipboardManager) getContext().getSystemService("clipboard")).getPrimaryClip();
+                if (primaryClip != null && primaryClip.getItemCount() == 1 && primaryClip.getDescription().hasMimeType("image/*")) {
+                    editPhoto(primaryClip.getItemAt(0).getUri(), primaryClip.getDescription().getMimeType(0));
+                }
             }
             return super.onTextContextMenuItem(i);
         }
@@ -5353,6 +5354,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
     }
 
     public void onResume() {
+        ChatActivity chatActivity;
         this.isPaused = false;
         Runnable runnable = this.hideKeyboardRunnable;
         if (runnable != null) {
@@ -5361,7 +5363,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         }
         if (!hasBotWebView() || !botCommandsMenuIsShowing()) {
             getVisibility();
-            if (!this.showKeyboardOnResume || !this.parentFragment.isLastFragment()) {
+            if (!this.showKeyboardOnResume || (chatActivity = this.parentFragment) == null || !chatActivity.isLastFragment()) {
                 return;
             }
             this.showKeyboardOnResume = false;
@@ -5850,7 +5852,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             new PremiumFeatureBottomSheet(baseFragment, 11, false).show();
         } else if (!(baseFragment.getContext() instanceof LaunchActivity)) {
         } else {
-            ((LaunchActivity) baseFragment.getContext()).lambda$runLinkRequest$65(new PremiumPreviewFragment(null));
+            ((LaunchActivity) baseFragment.getContext()).lambda$runLinkRequest$67(new PremiumPreviewFragment(null));
         }
     }
 
@@ -8403,7 +8405,11 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         if (tLRPC$KeyboardButton instanceof TLRPC$TL_keyboardButton) {
             SendMessagesHelper.getInstance(this.currentAccount).sendMessage(tLRPC$KeyboardButton.text, this.dialog_id, messageObject, getThreadMessage(), null, false, null, null, null, true, 0, null, false);
         } else if (tLRPC$KeyboardButton instanceof TLRPC$TL_keyboardButtonUrl) {
-            AlertsCreator.showOpenUrlAlert(this.parentFragment, tLRPC$KeyboardButton.url, false, true, this.resourcesProvider);
+            if (Browser.urlMustNotHaveConfirmation(tLRPC$KeyboardButton.url)) {
+                Browser.openUrl(this.parentActivity, tLRPC$KeyboardButton.url);
+            } else {
+                AlertsCreator.showOpenUrlAlert(this.parentFragment, tLRPC$KeyboardButton.url, false, true, this.resourcesProvider);
+            }
         } else if (tLRPC$KeyboardButton instanceof TLRPC$TL_keyboardButtonRequestPhone) {
             this.parentFragment.shareMyContact(2, messageObject2);
         } else {

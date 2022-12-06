@@ -1,7 +1,13 @@
 package com.google.android.gms.internal.base;
-/* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
+
+import android.os.Build;
+import org.telegram.tgnet.ConnectionsManager;
+/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 public final class zap {
-    public static final int zaa = 1;
-    public static final int zab = 2;
+    public static final int zaa;
+
+    static {
+        zaa = Build.VERSION.SDK_INT >= 31 ? ConnectionsManager.FileTypeVideo : 0;
+    }
 }

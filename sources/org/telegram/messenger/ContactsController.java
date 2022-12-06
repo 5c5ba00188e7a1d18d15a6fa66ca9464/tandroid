@@ -686,9 +686,9 @@ public class ContactsController extends BaseController {
         return i > 3;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:105:0x032d A[Catch: all -> 0x0345, TRY_LEAVE, TryCatch #4 {all -> 0x0345, blocks: (B:103:0x0328, B:105:0x032d), top: B:102:0x0328 }] */
-    /* JADX WARN: Removed duplicated region for block: B:109:0x0332 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:30:0x033f  */
+    /* JADX WARN: Removed duplicated region for block: B:105:0x032e A[Catch: all -> 0x0346, TRY_LEAVE, TryCatch #5 {all -> 0x0346, blocks: (B:103:0x0329, B:105:0x032e), top: B:102:0x0329 }] */
+    /* JADX WARN: Removed duplicated region for block: B:109:0x0333 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:30:0x0340  */
     /* JADX WARN: Removed duplicated region for block: B:32:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Type inference failed for: r9v1 */
     /* JADX WARN: Type inference failed for: r9v2, types: [boolean, int] */

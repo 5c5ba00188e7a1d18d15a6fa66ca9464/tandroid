@@ -110,18 +110,18 @@ public class MenuDrawable extends Drawable {
         invalidateSelf();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:33:0x0101  */
-    /* JADX WARN: Removed duplicated region for block: B:47:0x037b  */
-    /* JADX WARN: Removed duplicated region for block: B:54:0x03ee  */
-    /* JADX WARN: Removed duplicated region for block: B:57:0x040b  */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x045a  */
-    /* JADX WARN: Removed duplicated region for block: B:68:0x046e  */
-    /* JADX WARN: Removed duplicated region for block: B:71:0x04d9  */
-    /* JADX WARN: Removed duplicated region for block: B:76:0x047d  */
-    /* JADX WARN: Removed duplicated region for block: B:79:0x0421  */
-    /* JADX WARN: Removed duplicated region for block: B:81:0x0431  */
-    /* JADX WARN: Removed duplicated region for block: B:86:0x039a  */
-    /* JADX WARN: Removed duplicated region for block: B:90:0x0217  */
+    /* JADX WARN: Removed duplicated region for block: B:33:0x010b  */
+    /* JADX WARN: Removed duplicated region for block: B:47:0x0385  */
+    /* JADX WARN: Removed duplicated region for block: B:54:0x03f8  */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x0415  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x0464  */
+    /* JADX WARN: Removed duplicated region for block: B:68:0x0478  */
+    /* JADX WARN: Removed duplicated region for block: B:71:0x04e3  */
+    /* JADX WARN: Removed duplicated region for block: B:76:0x0487  */
+    /* JADX WARN: Removed duplicated region for block: B:79:0x042b  */
+    /* JADX WARN: Removed duplicated region for block: B:81:0x043b  */
+    /* JADX WARN: Removed duplicated region for block: B:86:0x03a4  */
+    /* JADX WARN: Removed duplicated region for block: B:90:0x0221  */
     @Override // android.graphics.drawable.Drawable
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -174,7 +174,7 @@ public class MenuDrawable extends Drawable {
         }
         this.lastFrameTime = elapsedRealtime;
         canvas.save();
-        canvas.translate((getIntrinsicWidth() / 2) - AndroidUtilities.dp(9.0f), getIntrinsicHeight() / 2);
+        canvas.translate(((getIntrinsicWidth() / 2) - AndroidUtilities.dp(9.0f)) - (AndroidUtilities.dp(1.0f) * this.currentRotation), getIntrinsicHeight() / 2);
         int i9 = this.iconColor;
         if (i9 == 0) {
             i9 = Theme.getColor("actionBarDefaultIcon");

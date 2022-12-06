@@ -1,36 +1,29 @@
 package com.google.android.gms.tasks;
-
-import java.util.concurrent.Executor;
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.GuardedBy;
-/* compiled from: com.google.android.gms:play-services-tasks@@17.2.0 */
+/* compiled from: com.google.android.gms:play-services-tasks@@18.0.2 */
 /* loaded from: classes.dex */
-final class zzi<TResult> implements zzr<TResult> {
-    private final Executor zza;
-    private final Object zzb = new Object();
-    @GuardedBy("mLock")
-    @Nullable
-    private OnCompleteListener<TResult> zzc;
+final class zzi implements Runnable {
+    final /* synthetic */ Task zza;
+    final /* synthetic */ zzj zzb;
 
-    public zzi(Executor executor, OnCompleteListener<TResult> onCompleteListener) {
-        this.zza = executor;
-        this.zzc = onCompleteListener;
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public zzi(zzj zzjVar, Task task) {
+        this.zzb = zzjVar;
+        this.zza = task;
     }
 
-    @Override // com.google.android.gms.tasks.zzr
-    public final void zza(Task<TResult> task) {
-        synchronized (this.zzb) {
-            if (this.zzc == null) {
-                return;
+    @Override // java.lang.Runnable
+    public final void run() {
+        Object obj;
+        OnCompleteListener onCompleteListener;
+        OnCompleteListener onCompleteListener2;
+        obj = this.zzb.zzb;
+        synchronized (obj) {
+            zzj zzjVar = this.zzb;
+            onCompleteListener = zzjVar.zzc;
+            if (onCompleteListener != null) {
+                onCompleteListener2 = zzjVar.zzc;
+                onCompleteListener2.onComplete(this.zza);
             }
-            this.zza.execute(new zzj(this, task));
-        }
-    }
-
-    @Override // com.google.android.gms.tasks.zzr
-    public final void zza() {
-        synchronized (this.zzb) {
-            this.zzc = null;
         }
     }
 }

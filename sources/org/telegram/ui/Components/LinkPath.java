@@ -12,9 +12,10 @@ public class LinkPath extends Path {
     private int baselineShift;
     private Layout currentLayout;
     private int currentLine;
-    private float heightOffset;
     private int lineHeight;
     private boolean useRoundRect;
+    private float xOffset;
+    private float yOffset;
     private float lastTop = -1.0f;
     private boolean allowReset = true;
 
@@ -39,11 +40,24 @@ public class LinkPath extends Path {
     }
 
     public void setCurrentLayout(Layout layout, int i, float f) {
+        setCurrentLayout(layout, i, 0.0f, f);
+    }
+
+    public void setCurrentLayout(Layout layout, int i, float f, float f2) {
         int lineCount;
+        if (layout == null) {
+            this.currentLayout = null;
+            this.currentLine = 0;
+            this.lastTop = -1.0f;
+            this.xOffset = f;
+            this.yOffset = f2;
+            return;
+        }
         this.currentLayout = layout;
         this.currentLine = layout.getLineForOffset(i);
         this.lastTop = -1.0f;
-        this.heightOffset = f;
+        this.xOffset = f;
+        this.yOffset = f2;
         if (Build.VERSION.SDK_INT < 28 || (lineCount = layout.getLineCount()) <= 0) {
             return;
         }
@@ -55,50 +69,59 @@ public class LinkPath extends Path {
         this.allowReset = z;
     }
 
-    public void setUseRoundRect(boolean z) {
-        this.useRoundRect = z;
-    }
-
     public void setBaselineShift(int i) {
         this.baselineShift = i;
     }
 
     @Override // android.graphics.Path
     public void addRect(float f, float f2, float f3, float f4, Path.Direction direction) {
-        float f5 = this.heightOffset;
-        float f6 = f2 + f5;
-        float f7 = f5 + f4;
-        float f8 = this.lastTop;
-        if (f8 == -1.0f) {
-            this.lastTop = f6;
-        } else if (f8 != f6) {
-            this.lastTop = f6;
-            this.currentLine++;
+        Layout layout = this.currentLayout;
+        if (layout == null) {
+            super.addRect(f, f2, f3, f4, direction);
+            return;
         }
-        float lineRight = this.currentLayout.getLineRight(this.currentLine);
-        float lineLeft = this.currentLayout.getLineLeft(this.currentLine);
-        if (f < lineRight) {
+        try {
+            float f5 = this.yOffset;
+            float f6 = f2 + f5;
+            float f7 = f5 + f4;
+            float f8 = this.lastTop;
+            if (f8 == -1.0f) {
+                this.lastTop = f6;
+            } else if (f8 != f6) {
+                this.lastTop = f6;
+                this.currentLine++;
+            }
+            float lineRight = layout.getLineRight(this.currentLine);
+            float lineLeft = this.currentLayout.getLineLeft(this.currentLine);
+            if (f >= lineRight) {
+                return;
+            }
             if (f <= lineLeft && f3 <= lineLeft) {
                 return;
             }
-            float f9 = f3 > lineRight ? lineRight : f3;
+            if (f3 <= lineRight) {
+                lineRight = f3;
+            }
             if (f >= lineLeft) {
                 lineLeft = f;
             }
-            float f10 = 0.0f;
+            float f9 = this.xOffset;
+            float f10 = lineLeft + f9;
+            float f11 = f9 + lineRight;
+            float f12 = 0.0f;
             if (Build.VERSION.SDK_INT >= 28) {
                 if (f7 - f6 > this.lineHeight) {
-                    float f11 = this.heightOffset;
+                    float f13 = this.yOffset;
                     if (f7 != this.currentLayout.getHeight()) {
-                        f10 = this.currentLayout.getLineBottom(this.currentLine) - this.currentLayout.getSpacingAdd();
+                        f12 = this.currentLayout.getLineBottom(this.currentLine) - this.currentLayout.getSpacingAdd();
                     }
-                    f7 = f11 + f10;
+                    f7 = f13 + f12;
                 }
             } else {
                 if (f7 != this.currentLayout.getHeight()) {
-                    f10 = this.currentLayout.getSpacingAdd();
+                    f12 = this.currentLayout.getSpacingAdd();
                 }
-                f7 -= f10;
+                f7 -= f12;
             }
             int i = this.baselineShift;
             if (i < 0) {
@@ -106,13 +129,13 @@ public class LinkPath extends Path {
             } else if (i > 0) {
                 f6 += i;
             }
-            float f12 = f7;
-            float f13 = f6;
+            float f14 = f7;
             if (this.useRoundRect) {
-                super.addRect(lineLeft - (getRadius() / 2.0f), f13, f9 + (getRadius() / 2.0f), f12, direction);
+                super.addRect(f10 - (getRadius() / 2.0f), f6, f11 + (getRadius() / 2.0f), f14, direction);
             } else {
-                super.addRect(lineLeft, f13, f9, f12, direction);
+                super.addRect(f10, f6, f11, f14, direction);
             }
+        } catch (Exception unused) {
         }
     }
 

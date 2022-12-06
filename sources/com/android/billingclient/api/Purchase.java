@@ -6,7 +6,7 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-/* compiled from: com.android.billingclient:billing@@5.0.0 */
+/* compiled from: com.android.billingclient:billing@@5.1.0 */
 /* loaded from: classes.dex */
 public class Purchase {
     private final String zza;

@@ -114,11 +114,28 @@ public class SearchAdapterHelper {
     }
 
     public void queryServerSearch(String str, boolean z, boolean z2, boolean z3, boolean z4, boolean z5, long j, boolean z6, int i, int i2) {
-        queryServerSearch(str, z, z2, z3, z4, z5, j, z6, i, i2, null);
+        queryServerSearch(str, z, z2, z3, z4, z5, j, z6, i, i2, 0L, null);
     }
 
-    public void queryServerSearch(final String str, boolean z, final boolean z2, final boolean z3, final boolean z4, final boolean z5, long j, boolean z6, int i, final int i2, final Runnable runnable) {
+    public void queryServerSearch(String str, boolean z, boolean z2, boolean z3, boolean z4, boolean z5, long j, boolean z6, int i, int i2, long j2) {
+        queryServerSearch(str, z, z2, z3, z4, z5, j, z6, i, i2, j2, null);
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:33:0x0150  */
+    /* JADX WARN: Removed duplicated region for block: B:52:0x0195  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x01a4  */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x01c0 A[LOOP:2: B:57:0x01ba->B:59:0x01c0, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x01ac  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public void queryServerSearch(final String str, boolean z, final boolean z2, final boolean z3, final boolean z4, final boolean z5, long j, boolean z6, int i, final int i2, final long j2, final Runnable runnable) {
         boolean z7;
+        boolean z8;
+        int i3;
+        int size;
+        boolean z9;
+        int i4;
         String str2;
         Iterator<Integer> it = this.pendingRequestIds.iterator();
         while (it.hasNext()) {
@@ -151,8 +168,8 @@ public class SearchAdapterHelper {
                         public static int constructor = 106343499;
 
                         @Override // org.telegram.tgnet.TLObject
-                        public void readParams(AbstractSerializedData abstractSerializedData, boolean z8) {
-                            this.q = abstractSerializedData.readString(z8);
+                        public void readParams(AbstractSerializedData abstractSerializedData, boolean z10) {
+                            this.q = abstractSerializedData.readString(z10);
                         }
 
                         @Override // org.telegram.tgnet.TLObject
@@ -189,55 +206,75 @@ public class SearchAdapterHelper {
                 arrayList.add(new Pair(tLRPC$TL_contacts_search, new RequestDelegate() { // from class: org.telegram.ui.Adapters.SearchAdapterHelper$$ExternalSyntheticLambda6
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                        SearchAdapterHelper.this.lambda$queryServerSearch$1(i2, z2, z5, z3, z4, str, tLObject, tLRPC$TL_error);
+                        SearchAdapterHelper.this.lambda$queryServerSearch$1(i2, z2, z5, z3, z4, j2, str, tLObject, tLRPC$TL_error);
                     }
                 }));
             } else {
                 this.globalSearch.clear();
                 this.globalSearchMap.clear();
                 this.localServerSearch.clear();
-                z7 = false;
+                z8 = false;
+                if (!z5 && z6 && str.startsWith("+") && str.length() > 3) {
+                    this.phonesSearch.clear();
+                    this.phoneSearchMap.clear();
+                    String stripExceptNumbers = PhoneFormat.stripExceptNumbers(str);
+                    ArrayList<TLRPC$TL_contact> arrayList2 = ContactsController.getInstance(this.currentAccount).contacts;
+                    size = arrayList2.size();
+                    z9 = false;
+                    for (i4 = 0; i4 < size; i4++) {
+                        TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(arrayList2.get(i4).user_id));
+                        if (user != null && (str2 = user.phone) != null && str2.startsWith(stripExceptNumbers)) {
+                            if (!z9) {
+                                z9 = user.phone.length() == stripExceptNumbers.length();
+                            }
+                            this.phonesSearch.add(user);
+                            this.phoneSearchMap.put(user.id, user);
+                        }
+                    }
+                    if (!z9) {
+                        this.phonesSearch.add("section");
+                        this.phonesSearch.add(stripExceptNumbers);
+                    }
+                    z8 = false;
+                }
+                if (!z8) {
+                    this.delegate.onDataSetChanged(i2);
+                }
+                final AtomicInteger atomicInteger = new AtomicInteger(0);
+                final ArrayList arrayList3 = new ArrayList();
+                for (i3 = 0; i3 < arrayList.size(); i3++) {
+                    arrayList3.add(null);
+                    final AtomicInteger atomicInteger2 = new AtomicInteger();
+                    final int i5 = i3;
+                    atomicInteger2.set(ConnectionsManager.getInstance(this.currentAccount).sendRequest((TLObject) ((Pair) arrayList.get(i3)).first, new RequestDelegate() { // from class: org.telegram.ui.Adapters.SearchAdapterHelper$$ExternalSyntheticLambda8
+                        @Override // org.telegram.tgnet.RequestDelegate
+                        public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                            SearchAdapterHelper.this.lambda$queryServerSearch$3(arrayList3, i5, atomicInteger2, atomicInteger, arrayList, i2, runnable, tLObject, tLRPC$TL_error);
+                        }
+                    }));
+                    this.pendingRequestIds.add(Integer.valueOf(atomicInteger2.get()));
+                }
             }
         }
-        if (!z5 && z6 && str.startsWith("+") && str.length() > 3) {
+        z8 = z7;
+        if (!z5) {
             this.phonesSearch.clear();
             this.phoneSearchMap.clear();
-            String stripExceptNumbers = PhoneFormat.stripExceptNumbers(str);
-            ArrayList<TLRPC$TL_contact> arrayList2 = ContactsController.getInstance(this.currentAccount).contacts;
-            int size = arrayList2.size();
-            boolean z8 = false;
-            for (int i3 = 0; i3 < size; i3++) {
-                TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(arrayList2.get(i3).user_id));
-                if (user != null && (str2 = user.phone) != null && str2.startsWith(stripExceptNumbers)) {
-                    if (!z8) {
-                        z8 = user.phone.length() == stripExceptNumbers.length();
-                    }
-                    this.phonesSearch.add(user);
-                    this.phoneSearchMap.put(user.id, user);
-                }
+            String stripExceptNumbers2 = PhoneFormat.stripExceptNumbers(str);
+            ArrayList<TLRPC$TL_contact> arrayList22 = ContactsController.getInstance(this.currentAccount).contacts;
+            size = arrayList22.size();
+            z9 = false;
+            while (i4 < size) {
             }
-            if (!z8) {
-                this.phonesSearch.add("section");
-                this.phonesSearch.add(stripExceptNumbers);
+            if (!z9) {
             }
-            z7 = false;
+            z8 = false;
         }
-        if (z7) {
-            this.delegate.onDataSetChanged(i2);
+        if (!z8) {
         }
-        final AtomicInteger atomicInteger = new AtomicInteger(0);
-        final ArrayList arrayList3 = new ArrayList();
-        for (int i4 = 0; i4 < arrayList.size(); i4++) {
-            arrayList3.add(null);
-            final AtomicInteger atomicInteger2 = new AtomicInteger();
-            final int i5 = i4;
-            atomicInteger2.set(ConnectionsManager.getInstance(this.currentAccount).sendRequest((TLObject) ((Pair) arrayList.get(i4)).first, new RequestDelegate() { // from class: org.telegram.ui.Adapters.SearchAdapterHelper$$ExternalSyntheticLambda8
-                @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    SearchAdapterHelper.this.lambda$queryServerSearch$3(arrayList3, i5, atomicInteger2, atomicInteger, arrayList, i2, runnable, tLObject, tLRPC$TL_error);
-                }
-            }));
-            this.pendingRequestIds.add(Integer.valueOf(atomicInteger2.get()));
+        final AtomicInteger atomicInteger3 = new AtomicInteger(0);
+        final ArrayList arrayList32 = new ArrayList();
+        while (i3 < arrayList.size()) {
         }
     }
 
@@ -266,7 +303,7 @@ public class SearchAdapterHelper {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$queryServerSearch$1(int i, boolean z, boolean z2, boolean z3, boolean z4, String str, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$queryServerSearch$1(int i, boolean z, boolean z2, boolean z3, boolean z4, long j, String str, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         TLRPC$Chat tLRPC$Chat;
         TLRPC$User tLRPC$User;
         ArrayList<TLRPC$Peer> arrayList;
@@ -302,18 +339,18 @@ public class SearchAdapterHelper {
             }
             for (int i5 = 0; i5 < arrayList.size(); i5++) {
                 TLRPC$Peer tLRPC$Peer = arrayList.get(i5);
-                long j = tLRPC$Peer.user_id;
-                if (j != 0) {
-                    tLRPC$User2 = (TLRPC$User) longSparseArray2.get(j);
+                long j2 = tLRPC$Peer.user_id;
+                if (j2 != 0) {
+                    tLRPC$User2 = (TLRPC$User) longSparseArray2.get(j2);
                     tLRPC$Chat2 = null;
                 } else {
-                    long j2 = tLRPC$Peer.chat_id;
-                    if (j2 != 0) {
-                        tLRPC$Chat2 = (TLRPC$Chat) longSparseArray.get(j2);
+                    long j3 = tLRPC$Peer.chat_id;
+                    if (j3 != 0) {
+                        tLRPC$Chat2 = (TLRPC$Chat) longSparseArray.get(j3);
                     } else {
-                        long j3 = tLRPC$Peer.channel_id;
-                        if (j3 != 0) {
-                            tLRPC$Chat2 = (TLRPC$Chat) longSparseArray.get(j3);
+                        long j4 = tLRPC$Peer.channel_id;
+                        if (j4 != 0) {
+                            tLRPC$Chat2 = (TLRPC$Chat) longSparseArray.get(j4);
                         } else {
                             tLRPC$Chat2 = null;
                             tLRPC$User2 = null;
@@ -335,18 +372,18 @@ public class SearchAdapterHelper {
         if (!this.allResultsAreGlobal) {
             for (int i6 = 0; i6 < tLRPC$TL_contacts_found.my_results.size(); i6++) {
                 TLRPC$Peer tLRPC$Peer2 = tLRPC$TL_contacts_found.my_results.get(i6);
-                long j4 = tLRPC$Peer2.user_id;
-                if (j4 != 0) {
-                    tLRPC$User = (TLRPC$User) longSparseArray2.get(j4);
+                long j5 = tLRPC$Peer2.user_id;
+                if (j5 != 0) {
+                    tLRPC$User = (TLRPC$User) longSparseArray2.get(j5);
                     tLRPC$Chat = null;
                 } else {
-                    long j5 = tLRPC$Peer2.chat_id;
-                    if (j5 != 0) {
-                        tLRPC$Chat = (TLRPC$Chat) longSparseArray.get(j5);
+                    long j6 = tLRPC$Peer2.chat_id;
+                    if (j6 != 0) {
+                        tLRPC$Chat = (TLRPC$Chat) longSparseArray.get(j6);
                     } else {
-                        long j6 = tLRPC$Peer2.channel_id;
-                        if (j6 != 0) {
-                            tLRPC$Chat = (TLRPC$Chat) longSparseArray.get(j6);
+                        long j7 = tLRPC$Peer2.channel_id;
+                        if (j7 != 0) {
+                            tLRPC$Chat = (TLRPC$Chat) longSparseArray.get(j7);
                         } else {
                             tLRPC$Chat = null;
                             tLRPC$User = null;
@@ -355,11 +392,11 @@ public class SearchAdapterHelper {
                     tLRPC$User = null;
                 }
                 if (tLRPC$Chat != null) {
-                    if (z && (!z2 || ChatObject.canAddBotsToChat(tLRPC$Chat))) {
+                    if (z && ((!z2 || ChatObject.canAddBotsToChat(tLRPC$Chat)) && (-tLRPC$Chat.id) != j)) {
                         this.localServerSearch.add(tLRPC$Chat);
                         this.globalSearchMap.put(-tLRPC$Chat.id, tLRPC$Chat);
                     }
-                } else if (tLRPC$User != null && !z2 && ((z3 || !tLRPC$User.bot) && (z4 || !tLRPC$User.self))) {
+                } else if (tLRPC$User != null && !z2 && ((z3 || !tLRPC$User.bot) && ((z4 || !tLRPC$User.self) && tLRPC$User.id != j))) {
                     this.localServerSearch.add(tLRPC$User);
                     this.globalSearchMap.put(tLRPC$User.id, tLRPC$User);
                 }

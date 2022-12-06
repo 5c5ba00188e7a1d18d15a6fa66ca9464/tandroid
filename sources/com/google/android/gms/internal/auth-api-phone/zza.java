@@ -4,34 +4,34 @@ import android.os.IBinder;
 import android.os.IInterface;
 import android.os.Parcel;
 import android.os.RemoteException;
+/* compiled from: com.google.android.gms:play-services-auth-api-phone@@17.5.1 */
 /* loaded from: classes.dex */
 public class zza implements IInterface {
     private final IBinder zza;
-    private final String zzb;
+    private final String zzb = "com.google.android.gms.auth.api.phone.internal.ISmsRetrieverApiService";
 
     /* JADX INFO: Access modifiers changed from: protected */
     public zza(IBinder iBinder, String str) {
         this.zza = iBinder;
-        this.zzb = str;
     }
 
     @Override // android.os.IInterface
-    public IBinder asBinder() {
+    public final IBinder asBinder() {
         return this.zza;
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    public final Parcel obtainAndWriteInterfaceToken() {
+    public final Parcel zza() {
         Parcel obtain = Parcel.obtain();
         obtain.writeInterfaceToken(this.zzb);
         return obtain;
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    public final void transactAndReadExceptionReturnVoid(int i, Parcel parcel) throws RemoteException {
+    public final void zzb(int i, Parcel parcel) throws RemoteException {
         Parcel obtain = Parcel.obtain();
         try {
-            this.zza.transact(1, parcel, obtain, 0);
+            this.zza.transact(i, parcel, obtain, 0);
             obtain.readException();
         } finally {
             parcel.recycle();

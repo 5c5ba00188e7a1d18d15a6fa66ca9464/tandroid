@@ -2,6 +2,7 @@ package org.telegram.messenger;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -86,6 +87,7 @@ public class FileLoadOperation {
     private byte[] encryptIv;
     private byte[] encryptKey;
     private String ext;
+    private long fileDialogId;
     private String fileName;
     private RandomAccessFile fileOutputStream;
     private RandomAccessFile filePartsStream;
@@ -237,6 +239,7 @@ public class FileLoadOperation {
         this.state = 0;
         updateParams();
         this.parentObject = obj;
+        this.fileDialogId = FileLoader.getDialogIdFromParent(this.currentAccount, obj);
         this.isStream = imageLocation.imageType == 2;
         if (imageLocation.isEncrypted()) {
             TLRPC$InputFileLocation tLRPC$InputFileLocation = new TLRPC$InputFileLocation() { // from class: org.telegram.tgnet.TLRPC$TL_inputEncryptedFileLocation
@@ -433,10 +436,10 @@ public class FileLoadOperation {
         this.ext = ImageLoader.getHttpUrlExtension(webFile.url, mimeTypePart);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:26:0x00f9 A[Catch: Exception -> 0x0120, TryCatch #0 {Exception -> 0x0120, blocks: (B:3:0x0030, B:6:0x0038, B:7:0x009e, B:9:0x00a8, B:13:0x00b6, B:15:0x00c0, B:17:0x00ca, B:18:0x00d2, B:20:0x00da, B:23:0x00e4, B:24:0x00ef, B:26:0x00f9, B:27:0x010f, B:29:0x0117, B:34:0x00fe, B:36:0x0106, B:37:0x010b, B:38:0x00ed, B:40:0x005e, B:42:0x0062, B:44:0x0079, B:45:0x007d, B:47:0x008e, B:51:0x0098, B:49:0x009b), top: B:2:0x0030 }] */
-    /* JADX WARN: Removed duplicated region for block: B:29:0x0117 A[Catch: Exception -> 0x0120, TRY_LEAVE, TryCatch #0 {Exception -> 0x0120, blocks: (B:3:0x0030, B:6:0x0038, B:7:0x009e, B:9:0x00a8, B:13:0x00b6, B:15:0x00c0, B:17:0x00ca, B:18:0x00d2, B:20:0x00da, B:23:0x00e4, B:24:0x00ef, B:26:0x00f9, B:27:0x010f, B:29:0x0117, B:34:0x00fe, B:36:0x0106, B:37:0x010b, B:38:0x00ed, B:40:0x005e, B:42:0x0062, B:44:0x0079, B:45:0x007d, B:47:0x008e, B:51:0x0098, B:49:0x009b), top: B:2:0x0030 }] */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x0101 A[Catch: Exception -> 0x0128, TryCatch #0 {Exception -> 0x0128, blocks: (B:3:0x0030, B:6:0x0040, B:7:0x00a6, B:9:0x00b0, B:13:0x00be, B:15:0x00c8, B:17:0x00d2, B:18:0x00da, B:20:0x00e2, B:23:0x00ec, B:24:0x00f7, B:26:0x0101, B:27:0x0117, B:29:0x011f, B:34:0x0106, B:36:0x010e, B:37:0x0113, B:38:0x00f5, B:40:0x0066, B:42:0x006a, B:44:0x0081, B:45:0x0085, B:47:0x0096, B:51:0x00a0, B:49:0x00a3), top: B:2:0x0030 }] */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x011f A[Catch: Exception -> 0x0128, TRY_LEAVE, TryCatch #0 {Exception -> 0x0128, blocks: (B:3:0x0030, B:6:0x0040, B:7:0x00a6, B:9:0x00b0, B:13:0x00be, B:15:0x00c8, B:17:0x00d2, B:18:0x00da, B:20:0x00e2, B:23:0x00ec, B:24:0x00f7, B:26:0x0101, B:27:0x0117, B:29:0x011f, B:34:0x0106, B:36:0x010e, B:37:0x0113, B:38:0x00f5, B:40:0x0066, B:42:0x006a, B:44:0x0081, B:45:0x0085, B:47:0x0096, B:51:0x00a0, B:49:0x00a3), top: B:2:0x0030 }] */
     /* JADX WARN: Removed duplicated region for block: B:33:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:34:0x00fe A[Catch: Exception -> 0x0120, TryCatch #0 {Exception -> 0x0120, blocks: (B:3:0x0030, B:6:0x0038, B:7:0x009e, B:9:0x00a8, B:13:0x00b6, B:15:0x00c0, B:17:0x00ca, B:18:0x00d2, B:20:0x00da, B:23:0x00e4, B:24:0x00ef, B:26:0x00f9, B:27:0x010f, B:29:0x0117, B:34:0x00fe, B:36:0x0106, B:37:0x010b, B:38:0x00ed, B:40:0x005e, B:42:0x0062, B:44:0x0079, B:45:0x007d, B:47:0x008e, B:51:0x0098, B:49:0x009b), top: B:2:0x0030 }] */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x0106 A[Catch: Exception -> 0x0128, TryCatch #0 {Exception -> 0x0128, blocks: (B:3:0x0030, B:6:0x0040, B:7:0x00a6, B:9:0x00b0, B:13:0x00be, B:15:0x00c8, B:17:0x00d2, B:18:0x00da, B:20:0x00e2, B:23:0x00ec, B:24:0x00f7, B:26:0x0101, B:27:0x0117, B:29:0x011f, B:34:0x0106, B:36:0x010e, B:37:0x0113, B:38:0x00f5, B:40:0x0066, B:42:0x006a, B:44:0x0081, B:45:0x0085, B:47:0x0096, B:51:0x00a0, B:49:0x00a3), top: B:2:0x0030 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -459,6 +462,7 @@ public class FileLoadOperation {
         updateParams();
         try {
             this.parentObject = obj;
+            this.fileDialogId = FileLoader.getDialogIdFromParent(this.currentAccount, obj);
             if (tLRPC$Document instanceof TLRPC$TL_documentEncrypted) {
                 TLRPC$InputFileLocation tLRPC$InputFileLocation = new TLRPC$InputFileLocation() { // from class: org.telegram.tgnet.TLRPC$TL_inputEncryptedFileLocation
                     public static int constructor = -182231723;
@@ -908,16 +912,17 @@ public class FileLoadOperation {
     /* JADX WARN: Removed duplicated region for block: B:142:0x061c A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:152:0x063e  */
     /* JADX WARN: Removed duplicated region for block: B:168:0x06b1  */
-    /* JADX WARN: Removed duplicated region for block: B:172:0x0735  */
-    /* JADX WARN: Removed duplicated region for block: B:179:0x0761  */
-    /* JADX WARN: Removed duplicated region for block: B:184:0x079e  */
-    /* JADX WARN: Removed duplicated region for block: B:208:0x0802  */
-    /* JADX WARN: Removed duplicated region for block: B:217:0x0825 A[Catch: Exception -> 0x082b, TRY_LEAVE, TryCatch #0 {Exception -> 0x082b, blocks: (B:215:0x0814, B:217:0x0825), top: B:214:0x0814 }] */
-    /* JADX WARN: Removed duplicated region for block: B:222:0x0845  */
-    /* JADX WARN: Removed duplicated region for block: B:224:0x0849  */
-    /* JADX WARN: Removed duplicated region for block: B:251:0x070a  */
-    /* JADX WARN: Removed duplicated region for block: B:298:0x0856  */
-    /* JADX WARN: Removed duplicated region for block: B:312:0x03ba  */
+    /* JADX WARN: Removed duplicated region for block: B:171:0x06db  */
+    /* JADX WARN: Removed duplicated region for block: B:175:0x075f  */
+    /* JADX WARN: Removed duplicated region for block: B:182:0x078b  */
+    /* JADX WARN: Removed duplicated region for block: B:187:0x07c8  */
+    /* JADX WARN: Removed duplicated region for block: B:211:0x082c  */
+    /* JADX WARN: Removed duplicated region for block: B:220:0x084f A[Catch: Exception -> 0x0855, TRY_LEAVE, TryCatch #4 {Exception -> 0x0855, blocks: (B:218:0x083e, B:220:0x084f), top: B:217:0x083e }] */
+    /* JADX WARN: Removed duplicated region for block: B:225:0x086f  */
+    /* JADX WARN: Removed duplicated region for block: B:227:0x0873  */
+    /* JADX WARN: Removed duplicated region for block: B:254:0x0734  */
+    /* JADX WARN: Removed duplicated region for block: B:301:0x0880  */
+    /* JADX WARN: Removed duplicated region for block: B:315:0x03ba  */
     /* JADX WARN: Removed duplicated region for block: B:50:0x0394  */
     /* JADX WARN: Removed duplicated region for block: B:53:0x03db  */
     /* JADX WARN: Removed duplicated region for block: B:64:0x0409  */
@@ -1094,6 +1099,8 @@ public class FileLoadOperation {
                         str10 = str12;
                         if (str9 != null) {
                         }
+                        if (this.fileDialogId != 0) {
+                        }
                         if (!this.cacheFileTemp.exists()) {
                         }
                         arrayList = this.notLoadedBytesRanges;
@@ -1175,6 +1182,8 @@ public class FileLoadOperation {
                                                         }
                                                         if (str9 != null) {
                                                         }
+                                                        if (this.fileDialogId != 0) {
+                                                        }
                                                         if (!this.cacheFileTemp.exists()) {
                                                         }
                                                         arrayList = this.notLoadedBytesRanges;
@@ -1207,6 +1216,8 @@ public class FileLoadOperation {
                                                         if (!this.isPreloadVideoOperation) {
                                                         }
                                                         if (str9 != null) {
+                                                        }
+                                                        if (this.fileDialogId != 0) {
                                                         }
                                                         if (!this.cacheFileTemp.exists()) {
                                                         }
@@ -1282,6 +1293,8 @@ public class FileLoadOperation {
                                     }
                                     if (str9 != null) {
                                     }
+                                    if (this.fileDialogId != 0) {
+                                    }
                                     if (!this.cacheFileTemp.exists()) {
                                     }
                                     arrayList = this.notLoadedBytesRanges;
@@ -1293,7 +1306,6 @@ public class FileLoadOperation {
                                     }
                                     j2 = 0;
                                     if (!this.isPreloadVideoOperation) {
-                                        copyNotLoadedRanges();
                                     }
                                     updateProgress();
                                     RandomAccessFile randomAccessFile3222 = new RandomAccessFile(this.cacheFileTemp, str10);
@@ -1353,6 +1365,10 @@ public class FileLoadOperation {
                     } catch (Exception e10) {
                         FileLog.e(e10);
                     }
+                }
+                if (this.fileDialogId != 0) {
+                    FileLoader.getInstance(this.currentAccount).getFileDatabase().saveFileDialogId(this.cacheFileParts, this.fileDialogId);
+                    FileLoader.getInstance(this.currentAccount).getFileDatabase().saveFileDialogId(this.cacheFileTemp, this.fileDialogId);
                 }
                 if (!this.cacheFileTemp.exists()) {
                     ArrayList<Range> arrayList2 = this.notLoadedBytesRanges;
@@ -1427,6 +1443,7 @@ public class FileLoadOperation {
                                     FileLog.e(e);
                                 }
                                 if (!this.isPreloadVideoOperation) {
+                                    copyNotLoadedRanges();
                                 }
                                 updateProgress();
                                 RandomAccessFile randomAccessFile32222 = new RandomAccessFile(this.cacheFileTemp, str10);
@@ -1897,6 +1914,14 @@ public class FileLoadOperation {
             if (BuildVars.DEBUG_VERSION) {
                 FileLog.d("finished preloading file to " + this.cacheFileTemp + " loaded " + this.totalPreloadedBytes + " of " + this.totalBytesCount);
             }
+            if (this.fileDialogId != 0) {
+                if (this.cacheFileTemp != null) {
+                    FileLoader.getInstance(this.currentAccount).getFileDatabase().removeFiles(Collections.singletonList(this.cacheFileTemp));
+                }
+                if (this.cacheFileParts != null) {
+                    FileLoader.getInstance(this.currentAccount).getFileDatabase().removeFiles(Collections.singletonList(this.cacheFileParts));
+                }
+            }
             this.delegate.didFinishLoadingFile(this, this.cacheFileFinal);
             return;
         }
@@ -1916,8 +1941,8 @@ public class FileLoadOperation {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:12:0x0065  */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x015d  */
+    /* JADX WARN: Removed duplicated region for block: B:12:0x0069  */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x0160  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1943,27 +1968,27 @@ public class FileLoadOperation {
                     gZIPInputStream.close();
                     file4.delete();
                     file5 = this.cacheFileGzipTemp;
-                    try {
-                        this.ungzip = false;
-                    } catch (ZipException unused) {
-                        file4 = file5;
-                        this.ungzip = false;
-                        if (!this.ungzip) {
-                        }
-                    } catch (Throwable th) {
-                        th = th;
-                        FileLog.e(th);
-                        if (BuildVars.LOGS_ENABLED) {
-                            FileLog.e("unable to ungzip temp = " + file4 + " to final = " + this.cacheFileFinal);
-                        }
-                        file4 = file5;
-                        if (!this.ungzip) {
-                        }
-                    }
+                } catch (ZipException unused) {
+                } catch (Throwable th) {
+                    th = th;
+                    file5 = file4;
+                }
+                try {
+                    this.ungzip = false;
                 } catch (ZipException unused2) {
+                    file4 = file5;
+                    this.ungzip = false;
+                    if (!this.ungzip) {
+                    }
                 } catch (Throwable th2) {
                     th = th2;
-                    file5 = file4;
+                    FileLog.e(th, !(th instanceof FileNotFoundException));
+                    if (BuildVars.LOGS_ENABLED) {
+                        FileLog.e("unable to ungzip temp = " + file4 + " to final = " + this.cacheFileFinal);
+                    }
+                    file4 = file5;
+                    if (!this.ungzip) {
+                    }
                 }
                 file4 = file5;
             }

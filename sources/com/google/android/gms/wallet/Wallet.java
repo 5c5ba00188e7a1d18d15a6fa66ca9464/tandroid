@@ -2,40 +2,35 @@ package com.google.android.gms.wallet;
 
 import android.accounts.Account;
 import android.content.Context;
-import androidx.annotation.RecentlyNonNull;
 import com.google.android.gms.common.api.Api;
 import com.google.android.gms.common.internal.Objects;
 import java.util.Locale;
-/* compiled from: com.google.android.gms:play-services-wallet@@18.1.3 */
+/* compiled from: com.google.android.gms:play-services-wallet@@19.1.0 */
 /* loaded from: classes.dex */
 public final class Wallet {
-    @RecentlyNonNull
     public static final Api<WalletOptions> API;
-    private static final Api.ClientKey<com.google.android.gms.internal.wallet.zzab> zzd;
-    private static final Api.AbstractClientBuilder<com.google.android.gms.internal.wallet.zzab, WalletOptions> zze;
+    private static final Api.ClientKey zzd;
+    private static final Api.AbstractClientBuilder zze;
 
-    /* compiled from: com.google.android.gms:play-services-wallet@@18.1.3 */
+    /* compiled from: com.google.android.gms:play-services-wallet@@19.1.0 */
     /* loaded from: classes.dex */
     public static final class WalletOptions implements Api.ApiOptions.HasAccountOptions {
         public final int environment;
         public final int theme;
-        @RecentlyNonNull
         public final Account zza;
         final boolean zzb;
 
-        /* compiled from: com.google.android.gms:play-services-wallet@@18.1.3 */
+        /* compiled from: com.google.android.gms:play-services-wallet@@19.1.0 */
         /* loaded from: classes.dex */
         public static final class Builder {
             private int zza = 3;
             private int zzb = 1;
             private boolean zzc = true;
 
-            @RecentlyNonNull
             public WalletOptions build() {
-                return new WalletOptions(this, null);
+                return new WalletOptions(this);
             }
 
-            @RecentlyNonNull
             public Builder setEnvironment(int i) {
                 if (i != 0) {
                     if (i == 0) {
@@ -48,7 +43,6 @@ public final class Wallet {
                 return this;
             }
 
-            @RecentlyNonNull
             public Builder setTheme(int i) {
                 if (i == 0 || i == 1 || i == 2 || i == 3) {
                     this.zzb = i;
@@ -80,7 +74,6 @@ public final class Wallet {
         }
 
         @Override // com.google.android.gms.common.api.Api.ApiOptions.HasAccountOptions
-        @RecentlyNonNull
         public Account getAccount() {
             return null;
         }
@@ -88,30 +81,20 @@ public final class Wallet {
         public int hashCode() {
             return Objects.hashCode(Integer.valueOf(this.environment), Integer.valueOf(this.theme), null, Boolean.valueOf(this.zzb));
         }
-
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public /* synthetic */ WalletOptions(zzaj zzajVar) {
-            this(new Builder());
-        }
-
-        /* synthetic */ WalletOptions(Builder builder, zzaj zzajVar) {
-            this(builder);
-        }
     }
 
     static {
-        Api.ClientKey<com.google.android.gms.internal.wallet.zzab> clientKey = new Api.ClientKey<>();
+        Api.ClientKey clientKey = new Api.ClientKey();
         zzd = clientKey;
-        zzaj zzajVar = new zzaj();
-        zze = zzajVar;
-        API = new Api<>("Wallet.API", zzajVar, clientKey);
+        zzap zzapVar = new zzap();
+        zze = zzapVar;
+        API = new Api<>("Wallet.API", zzapVar, clientKey);
         new com.google.android.gms.internal.wallet.zzv();
-        new com.google.android.gms.internal.wallet.zzae();
-        new com.google.android.gms.internal.wallet.zzac();
+        new com.google.android.gms.internal.wallet.zzaf();
+        new com.google.android.gms.internal.wallet.zzad();
     }
 
-    @RecentlyNonNull
-    public static PaymentsClient getPaymentsClient(@RecentlyNonNull Context context, @RecentlyNonNull WalletOptions walletOptions) {
+    public static PaymentsClient getPaymentsClient(Context context, WalletOptions walletOptions) {
         return new PaymentsClient(context, walletOptions);
     }
 }

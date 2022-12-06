@@ -121,6 +121,10 @@ public class RadioCell extends FrameLayout {
         radioButton2.setAlpha(f);
     }
 
+    public void hideRadioButton() {
+        this.radioButton.setVisibility(8);
+    }
+
     @Override // android.view.View
     protected void onDraw(Canvas canvas) {
         if (this.needDivider) {

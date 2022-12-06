@@ -1,5 +1,6 @@
 package org.telegram.ui.Components;
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
 import android.graphics.Paint;
@@ -11,6 +12,7 @@ import android.text.style.CharacterStyle;
 import android.text.style.ReplacementSpan;
 import android.util.LongSparseArray;
 import android.view.View;
+import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -780,5 +782,44 @@ public class AnimatedEmojiSpan extends ReplacementSpan {
             }
         }
         return charSequence;
+    }
+
+    /* loaded from: classes3.dex */
+    public static class TextViewEmojis extends TextView {
+        EmojiGroupedSpans stack;
+
+        public TextViewEmojis(Context context) {
+            super(context);
+        }
+
+        @Override // android.widget.TextView
+        public void setText(CharSequence charSequence, TextView.BufferType bufferType) {
+            super.setText(charSequence, bufferType);
+            this.stack = AnimatedEmojiSpan.update(0, this, this.stack, getLayout());
+        }
+
+        @Override // android.widget.TextView, android.view.View
+        protected void onMeasure(int i, int i2) {
+            super.onMeasure(i, i2);
+            this.stack = AnimatedEmojiSpan.update(0, this, this.stack, getLayout());
+        }
+
+        @Override // android.widget.TextView, android.view.View
+        protected void onAttachedToWindow() {
+            super.onAttachedToWindow();
+            this.stack = AnimatedEmojiSpan.update(0, this, this.stack, getLayout());
+        }
+
+        @Override // android.view.View
+        protected void onDetachedFromWindow() {
+            super.onDetachedFromWindow();
+            AnimatedEmojiSpan.release(this, this.stack);
+        }
+
+        @Override // android.widget.TextView, android.view.View
+        protected void onDraw(Canvas canvas) {
+            super.onDraw(canvas);
+            AnimatedEmojiSpan.drawAnimatedEmojis(canvas, getLayout(), this.stack, 0.0f, null, 0.0f, 0.0f, 0.0f, 1.0f);
+        }
     }
 }

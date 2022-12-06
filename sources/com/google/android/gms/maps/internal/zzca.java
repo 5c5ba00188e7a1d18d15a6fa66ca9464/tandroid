@@ -1,86 +1,63 @@
 package com.google.android.gms.maps.internal;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.os.IBinder;
-import android.os.IInterface;
-import android.os.RemoteException;
-import android.util.Log;
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
-import com.google.android.gms.common.GooglePlayServicesUtil;
+import android.os.Bundle;
+import android.os.Parcelable;
 import com.google.android.gms.common.internal.Preconditions;
-import com.google.android.gms.dynamic.ObjectWrapper;
-import com.google.android.gms.dynamite.DynamiteModule;
-import com.google.android.gms.maps.model.RuntimeRemoteException;
-/* compiled from: com.google.android.gms:play-services-maps@@17.0.1 */
+/* compiled from: com.google.android.gms:play-services-maps@@18.1.0 */
 /* loaded from: classes.dex */
 public final class zzca {
-    private static final String zza = "zzca";
-    @SuppressLint({"StaticFieldLeak"})
-    private static Context zzb;
-    private static zzf zzc;
-
-    public static zzf zza(Context context) throws GooglePlayServicesNotAvailableException {
-        zzf zzeVar;
-        Preconditions.checkNotNull(context);
-        zzf zzfVar = zzc;
-        if (zzfVar == null) {
-            int isGooglePlayServicesAvailable = GooglePlayServicesUtil.isGooglePlayServicesAvailable(context, 13400000);
-            if (isGooglePlayServicesAvailable == 0) {
-                Log.i(zza, "Making Creator dynamically");
-                try {
-                    IBinder iBinder = (IBinder) zzc(((ClassLoader) Preconditions.checkNotNull(zzb(context).getClassLoader())).loadClass("com.google.android.gms.maps.internal.CreatorImpl"));
-                    if (iBinder == null) {
-                        zzeVar = null;
-                    } else {
-                        IInterface queryLocalInterface = iBinder.queryLocalInterface("com.google.android.gms.maps.internal.ICreator");
-                        if (queryLocalInterface instanceof zzf) {
-                            zzeVar = (zzf) queryLocalInterface;
-                        } else {
-                            zzeVar = new zze(iBinder);
-                        }
-                    }
-                    zzc = zzeVar;
-                    try {
-                        zzeVar.zzh(ObjectWrapper.wrap(zzb(context).getResources()), GooglePlayServicesUtil.GOOGLE_PLAY_SERVICES_VERSION_CODE);
-                        return zzc;
-                    } catch (RemoteException e) {
-                        throw new RuntimeRemoteException(e);
-                    }
-                } catch (ClassNotFoundException unused) {
-                    throw new IllegalStateException("Unable to find dynamic class com.google.android.gms.maps.internal.CreatorImpl");
-                }
-            }
-            throw new GooglePlayServicesNotAvailableException(isGooglePlayServicesAvailable);
-        }
-        return zzfVar;
+    private zzca() {
     }
 
-    private static Context zzb(Context context) {
-        Context remoteContext;
-        Context context2 = zzb;
-        if (context2 == null) {
-            try {
-                remoteContext = DynamiteModule.load(context, DynamiteModule.PREFER_REMOTE, "com.google.android.gms.maps_dynamite").getModuleContext();
-            } catch (Exception e) {
-                Log.e(zza, "Failed to load maps module, use legacy", e);
-                remoteContext = GooglePlayServicesUtil.getRemoteContext(context);
-            }
-            zzb = remoteContext;
-            return remoteContext;
+    public static Parcelable zza(Bundle bundle, String str) {
+        ClassLoader zzd = zzd();
+        bundle.setClassLoader(zzd);
+        Bundle bundle2 = bundle.getBundle("map_state");
+        if (bundle2 == null) {
+            return null;
         }
-        return context2;
+        bundle2.setClassLoader(zzd);
+        return bundle2.getParcelable(str);
     }
 
-    private static <T> T zzc(Class cls) {
-        try {
-            return (T) cls.newInstance();
-        } catch (IllegalAccessException unused) {
-            String name = cls.getName();
-            throw new IllegalStateException(name.length() != 0 ? "Unable to call the default constructor of ".concat(name) : new String("Unable to call the default constructor of "));
-        } catch (InstantiationException unused2) {
-            String name2 = cls.getName();
-            throw new IllegalStateException(name2.length() != 0 ? "Unable to instantiate the dynamic class ".concat(name2) : new String("Unable to instantiate the dynamic class "));
+    public static void zzb(Bundle bundle, Bundle bundle2) {
+        if (bundle == null || bundle2 == null) {
+            return;
         }
+        Parcelable zza = zza(bundle, "MapOptions");
+        if (zza != null) {
+            zzc(bundle2, "MapOptions", zza);
+        }
+        Parcelable zza2 = zza(bundle, "StreetViewPanoramaOptions");
+        if (zza2 != null) {
+            zzc(bundle2, "StreetViewPanoramaOptions", zza2);
+        }
+        Parcelable zza3 = zza(bundle, "camera");
+        if (zza3 != null) {
+            zzc(bundle2, "camera", zza3);
+        }
+        if (bundle.containsKey("position")) {
+            bundle2.putString("position", bundle.getString("position"));
+        }
+        if (!bundle.containsKey("com.google.android.wearable.compat.extra.LOWBIT_AMBIENT")) {
+            return;
+        }
+        bundle2.putBoolean("com.google.android.wearable.compat.extra.LOWBIT_AMBIENT", bundle.getBoolean("com.google.android.wearable.compat.extra.LOWBIT_AMBIENT", false));
+    }
+
+    public static void zzc(Bundle bundle, String str, Parcelable parcelable) {
+        ClassLoader zzd = zzd();
+        bundle.setClassLoader(zzd);
+        Bundle bundle2 = bundle.getBundle("map_state");
+        if (bundle2 == null) {
+            bundle2 = new Bundle();
+        }
+        bundle2.setClassLoader(zzd);
+        bundle2.putParcelable(str, parcelable);
+        bundle.putBundle("map_state", bundle2);
+    }
+
+    private static ClassLoader zzd() {
+        return (ClassLoader) Preconditions.checkNotNull(zzca.class.getClassLoader());
     }
 }

@@ -6,9 +6,10 @@ import android.os.RemoteException;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.wallet.FullWallet;
 import com.google.android.gms.wallet.MaskedWallet;
+import com.google.android.gms.wallet.PaymentCardRecognitionIntentResponse;
 import com.google.android.gms.wallet.PaymentData;
-import com.google.android.gms.wallet.zzan;
-/* compiled from: com.google.android.gms:play-services-wallet@@18.1.3 */
+import com.google.android.gms.wallet.zzau;
+/* compiled from: com.google.android.gms:play-services-wallet@@19.1.0 */
 /* loaded from: classes.dex */
 public abstract class zzt extends zzb implements zzu {
     public zzt() {
@@ -25,10 +26,10 @@ public abstract class zzt extends zzb implements zzu {
                 zzb(parcel.readInt(), (FullWallet) zzc.zza(parcel, FullWallet.CREATOR), (Bundle) zzc.zza(parcel, Bundle.CREATOR));
                 return true;
             case 3:
-                zzf(parcel.readInt(), zzc.zzd(parcel), (Bundle) zzc.zza(parcel, Bundle.CREATOR));
+                zzg(parcel.readInt(), zzc.zzd(parcel), (Bundle) zzc.zza(parcel, Bundle.CREATOR));
                 return true;
             case 4:
-                zzg(parcel.readInt(), (Bundle) zzc.zza(parcel, Bundle.CREATOR));
+                zzh(parcel.readInt(), (Bundle) zzc.zza(parcel, Bundle.CREATOR));
                 return true;
             case 5:
             default:
@@ -61,7 +62,7 @@ public abstract class zzt extends zzb implements zzu {
                 return true;
             case 12:
                 Status status5 = (Status) zzc.zza(parcel, Status.CREATOR);
-                zzan zzanVar = (zzan) zzc.zza(parcel, zzan.CREATOR);
+                zzau zzauVar = (zzau) zzc.zza(parcel, zzau.CREATOR);
                 Bundle bundle6 = (Bundle) zzc.zza(parcel, Bundle.CREATOR);
                 return true;
             case 13:
@@ -69,7 +70,7 @@ public abstract class zzt extends zzb implements zzu {
                 Bundle bundle7 = (Bundle) zzc.zza(parcel, Bundle.CREATOR);
                 return true;
             case 14:
-                zze((Status) zzc.zza(parcel, Status.CREATOR), (PaymentData) zzc.zza(parcel, PaymentData.CREATOR), (Bundle) zzc.zza(parcel, Bundle.CREATOR));
+                zzf((Status) zzc.zza(parcel, Status.CREATOR), (PaymentData) zzc.zza(parcel, PaymentData.CREATOR), (Bundle) zzc.zza(parcel, Bundle.CREATOR));
                 return true;
             case 15:
                 Status status7 = (Status) zzc.zza(parcel, Status.CREATOR);
@@ -89,6 +90,9 @@ public abstract class zzt extends zzb implements zzu {
             case 18:
                 parcel.readInt();
                 Bundle bundle11 = (Bundle) zzc.zza(parcel, Bundle.CREATOR);
+                return true;
+            case 19:
+                zze((Status) zzc.zza(parcel, Status.CREATOR), (PaymentCardRecognitionIntentResponse) zzc.zza(parcel, PaymentCardRecognitionIntentResponse.CREATOR), (Bundle) zzc.zza(parcel, Bundle.CREATOR));
                 return true;
         }
     }

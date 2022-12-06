@@ -3,6 +3,7 @@ package org.telegram.ui.Components;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -80,6 +81,7 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
                 }
             }
         });
+        this.actionBar.setColorFilterMode(PorterDuff.Mode.SRC_IN);
         final FrameLayout frameLayout = new FrameLayout(context);
         final SizeNotifierFrameLayout sizeNotifierFrameLayout = new SizeNotifierFrameLayout(context) { // from class: org.telegram.ui.Components.MediaActivity.2
             @Override // android.widget.FrameLayout, android.view.View
@@ -253,7 +255,7 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
                     if (user2.self) {
                         this.nameTextView.setText(LocaleController.getString("SavedMessages", R.string.SavedMessages));
                         avatarDrawable.setAvatarType(1);
-                        avatarDrawable.setSmallSize(true);
+                        avatarDrawable.setScaleSize(0.8f);
                     } else {
                         this.nameTextView.setText(ContactsController.formatName(user2.first_name, user2.last_name));
                         avatarDrawable.setInfo(user2);

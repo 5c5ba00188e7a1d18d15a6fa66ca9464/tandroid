@@ -179,6 +179,8 @@ public class ActionBarMenuItem extends FrameLayout {
         if (frameLayout != null) {
             ((ViewGroup.MarginLayoutParams) frameLayout.getLayoutParams()).leftMargin = AndroidUtilities.dp(i);
             this.searchContainer.setClipChildren(this.searchItemPaddingStart != 0);
+            FrameLayout frameLayout2 = this.searchContainer;
+            frameLayout2.setLayoutParams(frameLayout2.getLayoutParams());
         }
     }
 
@@ -2008,6 +2010,17 @@ public class ActionBarMenuItem extends FrameLayout {
         findViewWithTag.setAlpha(0.0f);
         findViewWithTag.animate().alpha(1.0f).setInterpolator(CubicBezierInterpolator.DEFAULT).setDuration(150L).start();
         findViewWithTag.setVisibility(0);
+    }
+
+    public int getVisibleSubItemsCount() {
+        int i = 0;
+        for (int i2 = 0; i2 < this.popupLayout.getItemsCount(); i2++) {
+            View itemAt = this.popupLayout.getItemAt(i2);
+            if (itemAt != null && itemAt.getVisibility() == 0) {
+                i++;
+            }
+        }
+        return i;
     }
 
     public void requestFocusOnSearchView() {

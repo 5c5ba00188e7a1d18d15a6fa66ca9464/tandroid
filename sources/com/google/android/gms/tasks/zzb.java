@@ -1,16 +1,21 @@
 package com.google.android.gms.tasks;
-/* compiled from: com.google.android.gms:play-services-tasks@@17.2.0 */
+/* compiled from: com.google.android.gms:play-services-tasks@@18.0.2 */
 /* loaded from: classes.dex */
-final class zzb implements OnSuccessListener<Void> {
-    private final /* synthetic */ OnTokenCanceledListener zza;
+final class zzb extends CancellationToken {
+    private final zzw zza = new zzw();
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzb(zza zzaVar, OnTokenCanceledListener onTokenCanceledListener) {
-        this.zza = onTokenCanceledListener;
+    @Override // com.google.android.gms.tasks.CancellationToken
+    public final boolean isCancellationRequested() {
+        return this.zza.isComplete();
     }
 
-    @Override // com.google.android.gms.tasks.OnSuccessListener
-    public final /* synthetic */ void onSuccess(Void r1) {
-        this.zza.onCanceled();
+    @Override // com.google.android.gms.tasks.CancellationToken
+    public final CancellationToken onCanceledRequested(OnTokenCanceledListener onTokenCanceledListener) {
+        this.zza.addOnSuccessListener(TaskExecutors.MAIN_THREAD, new zza(this, onTokenCanceledListener));
+        return this;
+    }
+
+    public final void zza() {
+        this.zza.zze(null);
     }
 }

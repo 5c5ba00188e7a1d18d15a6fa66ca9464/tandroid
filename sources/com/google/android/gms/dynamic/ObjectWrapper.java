@@ -1,28 +1,21 @@
 package com.google.android.gms.dynamic;
 
 import android.os.IBinder;
-import androidx.annotation.RecentlyNonNull;
 import com.google.android.gms.common.internal.Preconditions;
 import com.google.android.gms.dynamic.IObjectWrapper;
 import java.lang.reflect.Field;
-/* compiled from: com.google.android.gms:play-services-basement@@17.5.0 */
+/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
 public final class ObjectWrapper<T> extends IObjectWrapper.Stub {
-    private final T zza;
+    private final Object zza;
 
-    private ObjectWrapper(T t) {
-        this.zza = t;
+    private ObjectWrapper(Object obj) {
+        this.zza = obj;
     }
 
-    @RecentlyNonNull
-    public static <T> IObjectWrapper wrap(@RecentlyNonNull T t) {
-        return new ObjectWrapper(t);
-    }
-
-    @RecentlyNonNull
-    public static <T> T unwrap(@RecentlyNonNull IObjectWrapper iObjectWrapper) {
+    public static <T> T unwrap(IObjectWrapper iObjectWrapper) {
         if (iObjectWrapper instanceof ObjectWrapper) {
-            return ((ObjectWrapper) iObjectWrapper).zza;
+            return (T) ((ObjectWrapper) iObjectWrapper).zza;
         }
         IBinder asBinder = iObjectWrapper.asBinder();
         Field[] declaredFields = asBinder.getClass().getDeclaredFields();
@@ -35,7 +28,8 @@ public final class ObjectWrapper<T> extends IObjectWrapper.Stub {
             }
         }
         if (i == 1) {
-            if (!((Field) Preconditions.checkNotNull(field)).isAccessible()) {
+            Preconditions.checkNotNull(field);
+            if (!field.isAccessible()) {
                 field.setAccessible(true);
                 try {
                     return (T) field.get(asBinder);
@@ -47,10 +41,10 @@ public final class ObjectWrapper<T> extends IObjectWrapper.Stub {
             }
             throw new IllegalArgumentException("IObjectWrapper declared field not private!");
         }
-        int length = declaredFields.length;
-        StringBuilder sb = new StringBuilder(64);
-        sb.append("Unexpected number of IObjectWrapper declared fields: ");
-        sb.append(length);
-        throw new IllegalArgumentException(sb.toString());
+        throw new IllegalArgumentException("Unexpected number of IObjectWrapper declared fields: " + declaredFields.length);
+    }
+
+    public static <T> IObjectWrapper wrap(T t) {
+        return new ObjectWrapper(t);
     }
 }

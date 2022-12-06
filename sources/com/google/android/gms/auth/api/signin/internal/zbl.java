@@ -4,16 +4,15 @@ import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Result;
 import com.google.android.gms.common.api.internal.BaseImplementation$ApiMethodImpl;
-/* compiled from: com.google.android.gms:play-services-auth@@19.2.0 */
+/* compiled from: com.google.android.gms:play-services-auth@@20.4.0 */
 /* loaded from: classes.dex */
-abstract class zbl<R extends Result> extends BaseImplementation$ApiMethodImpl<R, zbe> {
+abstract class zbl extends BaseImplementation$ApiMethodImpl {
     public zbl(GoogleApiClient googleApiClient) {
         super(Auth.GOOGLE_SIGN_IN_API, googleApiClient);
     }
 
-    /* JADX WARN: Multi-variable type inference failed */
     @Override // com.google.android.gms.common.api.internal.BaseImplementation$ApiMethodImpl, com.google.android.gms.common.api.internal.BaseImplementation$ResultHolder
     public final /* bridge */ /* synthetic */ void setResult(Object obj) {
-        super.setResult((zbl<R>) ((Result) obj));
+        super.setResult((zbl) ((Result) obj));
     }
 }

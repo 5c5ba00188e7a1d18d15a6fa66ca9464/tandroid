@@ -1,24 +1,69 @@
 package com.google.android.gms.common.api.internal;
 
-import android.content.Context;
-import com.google.android.gms.common.GoogleApiAvailabilityLight;
-/* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
+import android.app.Activity;
+import androidx.collection.ArraySet;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.common.internal.Preconditions;
+/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
-public final class zaae implements Runnable {
-    private final /* synthetic */ zaaf zaa;
+public final class zaae extends zap {
+    private final ArraySet zad = new ArraySet();
+    private final GoogleApiManager zae;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zaae(zaaf zaafVar) {
-        this.zaa = zaafVar;
+    zaae(LifecycleFragment lifecycleFragment, GoogleApiManager googleApiManager, GoogleApiAvailability googleApiAvailability) {
+        super(lifecycleFragment, googleApiAvailability);
+        this.zae = googleApiManager;
+        this.mLifecycleFragment.addCallback("ConnectionlessLifecycleHelper", this);
     }
 
-    @Override // java.lang.Runnable
-    public final void run() {
-        GoogleApiAvailabilityLight googleApiAvailabilityLight;
-        Context context;
-        googleApiAvailabilityLight = this.zaa.zad;
-        context = this.zaa.zac;
-        googleApiAvailabilityLight.cancelAvailabilityErrorNotifications(context);
+    public static void zad(Activity activity, GoogleApiManager googleApiManager, ApiKey apiKey) {
+        LifecycleFragment fragment = LifecycleCallback.getFragment(activity);
+        zaae zaaeVar = (zaae) fragment.getCallbackOrNull("ConnectionlessLifecycleHelper", zaae.class);
+        if (zaaeVar == null) {
+            zaaeVar = new zaae(fragment, googleApiManager, GoogleApiAvailability.getInstance());
+        }
+        Preconditions.checkNotNull(apiKey, "ApiKey cannot be null");
+        zaaeVar.zad.add(apiKey);
+        googleApiManager.zaC(zaaeVar);
+    }
+
+    private final void zae() {
+        if (!this.zad.isEmpty()) {
+            this.zae.zaC(this);
+        }
+    }
+
+    @Override // com.google.android.gms.common.api.internal.LifecycleCallback
+    public final void onResume() {
+        super.onResume();
+        zae();
+    }
+
+    @Override // com.google.android.gms.common.api.internal.zap, com.google.android.gms.common.api.internal.LifecycleCallback
+    public final void onStart() {
+        super.onStart();
+        zae();
+    }
+
+    @Override // com.google.android.gms.common.api.internal.zap, com.google.android.gms.common.api.internal.LifecycleCallback
+    public final void onStop() {
+        super.onStop();
+        this.zae.zaD(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public final ArraySet zaa() {
+        return this.zad;
+    }
+
+    @Override // com.google.android.gms.common.api.internal.zap
+    protected final void zab(ConnectionResult connectionResult, int i) {
+        this.zae.zaz(connectionResult, i);
+    }
+
+    @Override // com.google.android.gms.common.api.internal.zap
+    protected final void zac() {
+        this.zae.zaA();
     }
 }

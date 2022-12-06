@@ -5,7 +5,7 @@ import android.os.IBinder;
 import android.os.Parcel;
 import android.os.RemoteException;
 import com.google.android.gms.dynamic.IObjectWrapper;
-/* compiled from: com.google.android.gms:play-services-maps@@17.0.1 */
+/* compiled from: com.google.android.gms:play-services-maps@@18.1.0 */
 /* loaded from: classes.dex */
 public final class zzl extends com.google.android.gms.internal.maps.zza implements IMapViewDelegate {
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -14,9 +14,9 @@ public final class zzl extends com.google.android.gms.internal.maps.zza implemen
     }
 
     @Override // com.google.android.gms.maps.internal.IMapViewDelegate
-    public final void getMapAsync(zzar zzarVar) throws RemoteException {
+    public final void getMapAsync(zzas zzasVar) throws RemoteException {
         Parcel zza = zza();
-        com.google.android.gms.internal.maps.zzc.zzf(zza, zzarVar);
+        com.google.android.gms.internal.maps.zzc.zzg(zza, zzasVar);
         zzc(9, zza);
     }
 
@@ -31,7 +31,7 @@ public final class zzl extends com.google.android.gms.internal.maps.zza implemen
     @Override // com.google.android.gms.maps.internal.IMapViewDelegate
     public final void onCreate(Bundle bundle) throws RemoteException {
         Parcel zza = zza();
-        com.google.android.gms.internal.maps.zzc.zzd(zza, bundle);
+        com.google.android.gms.internal.maps.zzc.zze(zza, bundle);
         zzc(2, zza);
     }
 
@@ -43,7 +43,7 @@ public final class zzl extends com.google.android.gms.internal.maps.zza implemen
     @Override // com.google.android.gms.maps.internal.IMapViewDelegate
     public final void onEnterAmbient(Bundle bundle) throws RemoteException {
         Parcel zza = zza();
-        com.google.android.gms.internal.maps.zzc.zzd(zza, bundle);
+        com.google.android.gms.internal.maps.zzc.zze(zza, bundle);
         zzc(10, zza);
     }
 
@@ -70,7 +70,7 @@ public final class zzl extends com.google.android.gms.internal.maps.zza implemen
     @Override // com.google.android.gms.maps.internal.IMapViewDelegate
     public final void onSaveInstanceState(Bundle bundle) throws RemoteException {
         Parcel zza = zza();
-        com.google.android.gms.internal.maps.zzc.zzd(zza, bundle);
+        com.google.android.gms.internal.maps.zzc.zze(zza, bundle);
         Parcel zzH = zzH(7, zza);
         if (zzH.readInt() != 0) {
             bundle.readFromParcel(zzH);

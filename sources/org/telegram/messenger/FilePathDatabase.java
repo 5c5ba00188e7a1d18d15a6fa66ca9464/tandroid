@@ -4,6 +4,7 @@ import android.os.Looper;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import org.telegram.SQLite.SQLiteCursor;
 import org.telegram.SQLite.SQLiteDatabase;
@@ -13,7 +14,7 @@ import org.telegram.SQLite.SQLitePreparedStatement;
 public class FilePathDatabase {
     private static final String DATABASE_BACKUP_NAME = "file_to_path_backup";
     private static final String DATABASE_NAME = "file_to_path";
-    private static final int LAST_DB_VERSION = 2;
+    private static final int LAST_DB_VERSION = 3;
     private File cacheFile;
     private final int currentAccount;
     private SQLiteDatabase database;
@@ -55,7 +56,8 @@ public class FilePathDatabase {
             if (z2) {
                 this.database.executeFast("CREATE TABLE paths(document_id INTEGER, dc_id INTEGER, type INTEGER, path TEXT, PRIMARY KEY(document_id, dc_id, type));").stepThis().dispose();
                 this.database.executeFast("CREATE INDEX IF NOT EXISTS path_in_paths ON paths(path);").stepThis().dispose();
-                this.database.executeFast("PRAGMA user_version = 2").stepThis().dispose();
+                this.database.executeFast("CREATE TABLE paths_by_dialog_id(path TEXT PRIMARY KEY, dialog_id INTEGER);").stepThis().dispose();
+                this.database.executeFast("PRAGMA user_version = 3").stepThis().dispose();
             } else {
                 int intValue = this.database.executeInt("PRAGMA user_version", new Object[0]).intValue();
                 if (BuildVars.LOGS_ENABLED) {
@@ -91,6 +93,11 @@ public class FilePathDatabase {
         if (i == 1) {
             this.database.executeFast("CREATE INDEX IF NOT EXISTS path_in_paths ON paths(path);").stepThis().dispose();
             this.database.executeFast("PRAGMA user_version = 2").stepThis().dispose();
+            i = 2;
+        }
+        if (i == 2) {
+            this.database.executeFast("CREATE TABLE paths_by_dialog_id(path TEXT PRIMARY KEY, dialog_id INTEGER);").stepThis().dispose();
+            this.database.executeFast("PRAGMA user_version = 3").stepThis().dispose();
         }
     }
 
@@ -377,6 +384,7 @@ public class FilePathDatabase {
     public /* synthetic */ void lambda$clear$4() {
         try {
             this.database.executeFast("DELETE FROM paths WHERE 1").stepThis().dispose();
+            this.database.executeFast("DELETE FROM paths_by_dialog_id WHERE 1").stepThis().dispose();
         } catch (Exception e) {
             FileLog.e(e);
         }
@@ -385,7 +393,7 @@ public class FilePathDatabase {
     public boolean hasAnotherRefOnFile(final String str) {
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         final boolean[] zArr = {false};
-        this.dispatchQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FilePathDatabase$$ExternalSyntheticLambda5
+        this.dispatchQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FilePathDatabase$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
             public final void run() {
                 FilePathDatabase.this.lambda$hasAnotherRefOnFile$5(str, zArr, countDownLatch);
@@ -410,6 +418,105 @@ public class FilePathDatabase {
             FileLog.e(e);
         }
         countDownLatch.countDown();
+    }
+
+    public void saveFileDialogId(final File file, final long j) {
+        if (file == null) {
+            return;
+        }
+        this.dispatchQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FilePathDatabase$$ExternalSyntheticLambda5
+            @Override // java.lang.Runnable
+            public final void run() {
+                FilePathDatabase.this.lambda$saveFileDialogId$6(file, j);
+            }
+        });
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$saveFileDialogId$6(File file, long j) {
+        SQLitePreparedStatement sQLitePreparedStatement = null;
+        try {
+            try {
+                sQLitePreparedStatement = this.database.executeFast("REPLACE INTO paths_by_dialog_id VALUES(?, ?)");
+                sQLitePreparedStatement.requery();
+                sQLitePreparedStatement.bindString(1, file.getPath());
+                sQLitePreparedStatement.bindLong(2, j);
+                sQLitePreparedStatement.step();
+            } catch (Exception e) {
+                FileLog.e(e);
+                if (sQLitePreparedStatement == null) {
+                    return;
+                }
+            }
+            sQLitePreparedStatement.dispose();
+        } catch (Throwable th) {
+            if (sQLitePreparedStatement != null) {
+                sQLitePreparedStatement.dispose();
+            }
+            throw th;
+        }
+    }
+
+    /* JADX WARN: Code restructure failed: missing block: B:15:0x003d, code lost:
+        if (r2 == null) goto L12;
+     */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public long getFileDialogId(File file) {
+        long j = 0;
+        if (file == null) {
+            return 0L;
+        }
+        SQLiteCursor sQLiteCursor = null;
+        try {
+            try {
+                SQLiteDatabase sQLiteDatabase = this.database;
+                sQLiteCursor = sQLiteDatabase.queryFinalized("SELECT dialog_id FROM paths_by_dialog_id WHERE path = '" + file.getPath() + "'", new Object[0]);
+                if (sQLiteCursor.next()) {
+                    j = sQLiteCursor.longValue(0);
+                }
+            } catch (Exception e) {
+                FileLog.e(e);
+            }
+            sQLiteCursor.dispose();
+            return j;
+        } catch (Throwable th) {
+            if (sQLiteCursor != null) {
+                sQLiteCursor.dispose();
+            }
+            throw th;
+        }
+    }
+
+    public DispatchQueue getQueue() {
+        return this.dispatchQueue;
+    }
+
+    public void removeFiles(final List<File> list) {
+        this.dispatchQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FilePathDatabase$$ExternalSyntheticLambda7
+            @Override // java.lang.Runnable
+            public final void run() {
+                FilePathDatabase.this.lambda$removeFiles$7(list);
+            }
+        });
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$removeFiles$7(List list) {
+        try {
+            try {
+                this.database.beginTransaction();
+                for (int i = 0; i < list.size(); i++) {
+                    SQLiteDatabase sQLiteDatabase = this.database;
+                    sQLiteDatabase.executeFast("DELETE FROM paths_by_dialog_id WHERE path = '" + ((File) list.get(i)).getPath() + "'").stepThis().dispose();
+                }
+            } catch (Exception e) {
+                FileLog.e(e);
+            }
+        } finally {
+            this.database.commitTransaction();
+        }
     }
 
     /* loaded from: classes.dex */

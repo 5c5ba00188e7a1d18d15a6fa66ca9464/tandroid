@@ -1,18 +1,72 @@
 package com.google.android.gms.common.api.internal;
-/* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
-/* loaded from: classes.dex */
-final class zaad extends zaay {
-    private final /* synthetic */ zaaa zaa;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public zaad(zaaa zaaaVar, zaaw zaawVar) {
-        super(zaawVar);
-        this.zaa = zaaaVar;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.tasks.TaskCompletionSource;
+import j$.util.DesugarCollections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.WeakHashMap;
+/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
+/* loaded from: classes.dex */
+public final class zaad {
+    private final Map zaa = DesugarCollections.synchronizedMap(new WeakHashMap());
+    private final Map zab = DesugarCollections.synchronizedMap(new WeakHashMap());
+
+    private final void zah(boolean z, Status status) {
+        HashMap hashMap;
+        HashMap hashMap2;
+        synchronized (this.zaa) {
+            hashMap = new HashMap(this.zaa);
+        }
+        synchronized (this.zab) {
+            hashMap2 = new HashMap(this.zab);
+        }
+        for (Map.Entry entry : hashMap.entrySet()) {
+            if (z || ((Boolean) entry.getValue()).booleanValue()) {
+                ((BasePendingResult) entry.getKey()).forceFailureUnlessReady(status);
+            }
+        }
+        for (Map.Entry entry2 : hashMap2.entrySet()) {
+            if (z || ((Boolean) entry2.getValue()).booleanValue()) {
+                ((TaskCompletionSource) entry2.getKey()).trySetException(new ApiException(status));
+            }
+        }
     }
 
-    @Override // com.google.android.gms.common.api.internal.zaay
-    public final void zaa() {
-        this.zaa.zaa(1);
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public final void zac(BasePendingResult basePendingResult, boolean z) {
+        this.zaa.put(basePendingResult, Boolean.valueOf(z));
+        basePendingResult.addStatusListener(new zaab(this, basePendingResult));
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public final void zad(TaskCompletionSource taskCompletionSource, boolean z) {
+        this.zab.put(taskCompletionSource, Boolean.valueOf(z));
+        taskCompletionSource.getTask().addOnCompleteListener(new zaac(this, taskCompletionSource));
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public final void zae(int i, String str) {
+        StringBuilder sb = new StringBuilder("The connection to Google Play services was lost");
+        if (i == 1) {
+            sb.append(" due to service disconnection.");
+        } else if (i == 3) {
+            sb.append(" due to dead object exception.");
+        }
+        if (str != null) {
+            sb.append(" Last reason for disconnect: ");
+            sb.append(str);
+        }
+        zah(true, new Status(20, sb.toString()));
+    }
+
+    public final void zaf() {
+        zah(false, GoogleApiManager.zaa);
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public final boolean zag() {
+        return !this.zaa.isEmpty() || !this.zab.isEmpty();
     }
 }

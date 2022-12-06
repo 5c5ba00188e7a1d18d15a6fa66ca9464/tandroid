@@ -6,15 +6,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import com.google.android.gms.tasks.Task;
-/* compiled from: com.google.android.gms:play-services-wallet@@18.1.3 */
+/* compiled from: com.google.android.gms:play-services-wallet@@19.1.0 */
 /* loaded from: classes.dex */
 public final class zzd extends Fragment {
     boolean zza;
     private int zzb;
-    private zzc<?> zzc;
+    private zzc zzc;
 
     /* JADX INFO: Access modifiers changed from: private */
-    public final void zzb(Task<? extends AutoResolvableResult> task) {
+    public final void zzb(Task task) {
         if (!this.zza) {
             this.zza = true;
             Activity activity = getActivity();
@@ -28,7 +28,7 @@ public final class zzd extends Fragment {
     }
 
     private final void zzc() {
-        zzc<?> zzcVar = this.zzc;
+        zzc zzcVar = this.zzc;
         if (zzcVar != null) {
             zzcVar.zzb(this);
         }
@@ -41,7 +41,7 @@ public final class zzd extends Fragment {
         if (AutoResolveHelper.zza != getArguments().getLong("initializationElapsedRealtime")) {
             this.zzc = null;
         } else {
-            this.zzc = zzc.zzb.get(getArguments().getInt("resolveCallId"));
+            this.zzc = (zzc) zzc.zzb.get(getArguments().getInt("resolveCallId"));
         }
         boolean z = false;
         if (bundle != null && bundle.getBoolean("delivered")) {
@@ -59,7 +59,7 @@ public final class zzd extends Fragment {
     @Override // android.app.Fragment
     public final void onResume() {
         super.onResume();
-        zzc<?> zzcVar = this.zzc;
+        zzc zzcVar = this.zzc;
         if (zzcVar != null) {
             zzcVar.zzc(this);
             return;

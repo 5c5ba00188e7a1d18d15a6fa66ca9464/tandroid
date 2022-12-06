@@ -1,42 +1,41 @@
 package com.google.android.gms.common.internal;
 
-import android.content.Context;
-import android.content.pm.PackageManager;
-import android.os.Bundle;
-import android.util.Log;
-import com.google.android.gms.common.wrappers.Wrappers;
-import javax.annotation.concurrent.GuardedBy;
-import org.telegram.tgnet.ConnectionsManager;
-/* compiled from: com.google.android.gms:play-services-basement@@17.5.0 */
+import android.content.Intent;
+import android.net.Uri;
+import android.text.TextUtils;
+/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
 public final class zzt {
-    private static Object zza = new Object();
-    @GuardedBy("sLock")
-    private static boolean zzb;
-    private static int zzd;
+    private static final Uri zza;
 
-    public static int zzb(Context context) {
-        zzc(context);
-        return zzd;
+    static {
+        Uri parse = Uri.parse("https://plus.google.com/");
+        zza = parse;
+        parse.buildUpon().appendPath("circles").appendPath("find").build();
     }
 
-    private static void zzc(Context context) {
-        Bundle bundle;
-        synchronized (zza) {
-            if (zzb) {
-                return;
-            }
-            zzb = true;
-            try {
-                bundle = Wrappers.packageManager(context).getApplicationInfo(context.getPackageName(), ConnectionsManager.RequestFlagNeedQuickAck).metaData;
-            } catch (PackageManager.NameNotFoundException e) {
-                Log.wtf("MetadataValueReader", "This should never happen.", e);
-            }
-            if (bundle == null) {
-                return;
-            }
-            bundle.getString("com.google.app.id");
-            zzd = bundle.getInt("com.google.android.gms.version");
+    public static Intent zza() {
+        Intent intent = new Intent("com.google.android.clockwork.home.UPDATE_ANDROID_WEAR_ACTION");
+        intent.setPackage("com.google.android.wearable.app");
+        return intent;
+    }
+
+    public static Intent zzb(String str, String str2) {
+        Intent intent = new Intent("android.intent.action.VIEW");
+        Uri.Builder appendQueryParameter = Uri.parse("market://details").buildUpon().appendQueryParameter("id", "com.google.android.gms");
+        if (!TextUtils.isEmpty(str2)) {
+            appendQueryParameter.appendQueryParameter("pcampaignid", str2);
         }
+        intent.setData(appendQueryParameter.build());
+        intent.setPackage("com.android.vending");
+        intent.addFlags(524288);
+        return intent;
+    }
+
+    public static Intent zzc(String str) {
+        Uri fromParts = Uri.fromParts("package", "com.google.android.gms", null);
+        Intent intent = new Intent("android.settings.APPLICATION_DETAILS_SETTINGS");
+        intent.setData(fromParts);
+        return intent;
     }
 }

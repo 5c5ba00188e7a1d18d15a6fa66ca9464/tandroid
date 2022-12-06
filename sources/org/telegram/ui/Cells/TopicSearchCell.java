@@ -50,6 +50,11 @@ public class TopicSearchCell extends FrameLayout {
             this.textView.setText(AndroidUtilities.highlightText(tLRPC$TL_forumTopic.title, tLRPC$TL_forumTopic.searchQuery, (Theme.ResourcesProvider) null));
         }
         ForumUtilities.setTopicIcon(this.backupImageView, tLRPC$TL_forumTopic);
+        BackupImageView backupImageView = this.backupImageView;
+        if (backupImageView == null || backupImageView.getImageReceiver() == null || !(this.backupImageView.getImageReceiver().getDrawable() instanceof ForumUtilities.GeneralTopicDrawable)) {
+            return;
+        }
+        ((ForumUtilities.GeneralTopicDrawable) this.backupImageView.getImageReceiver().getDrawable()).setColor(Theme.getColor("chats_archiveBackground"));
     }
 
     public TLRPC$TL_forumTopic getTopic() {

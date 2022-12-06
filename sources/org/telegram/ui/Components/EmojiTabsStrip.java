@@ -183,12 +183,14 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
             protected void dispatchDraw(Canvas canvas) {
                 for (Map.Entry entry : EmojiTabsStrip.this.removingViews.entrySet()) {
                     View view = (View) entry.getKey();
-                    android.graphics.Rect rect = (android.graphics.Rect) entry.getValue();
-                    canvas.save();
-                    canvas.translate(rect.left, rect.top);
-                    canvas.scale(view.getScaleX(), view.getScaleY(), rect.width() / 2.0f, rect.height() / 2.0f);
-                    view.draw(canvas);
-                    canvas.restore();
+                    if (view != null) {
+                        android.graphics.Rect rect = (android.graphics.Rect) entry.getValue();
+                        canvas.save();
+                        canvas.translate(rect.left, rect.top);
+                        canvas.scale(view.getScaleX(), view.getScaleY(), rect.width() / 2.0f, rect.height() / 2.0f);
+                        view.draw(canvas);
+                        canvas.restore();
+                    }
                 }
                 int floor = (int) Math.floor(EmojiTabsStrip.this.selectT);
                 int ceil = (int) Math.ceil(EmojiTabsStrip.this.selectT);

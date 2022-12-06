@@ -1,13 +1,16 @@
 package com.google.android.gms.common.api.internal;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.Scope;
-import com.google.android.gms.common.internal.IAccountAccessor;
-import java.util.Set;
-/* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
+import com.google.android.gms.common.api.GoogleApi;
+/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
-public interface zach {
-    void zaa(ConnectionResult connectionResult);
+public final class zach {
+    public final zai zaa;
+    public final int zab;
+    public final GoogleApi zac;
 
-    void zaa(IAccountAccessor iAccountAccessor, Set<Scope> set);
+    public zach(zai zaiVar, int i, GoogleApi googleApi) {
+        this.zaa = zaiVar;
+        this.zab = i;
+        this.zac = googleApi;
+    }
 }

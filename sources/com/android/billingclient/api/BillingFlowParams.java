@@ -1,10 +1,11 @@
 package com.android.billingclient.api;
 
 import android.text.TextUtils;
+import com.google.android.gms.internal.play_billing.zzm;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-/* compiled from: com.android.billingclient:billing@@5.0.0 */
+/* compiled from: com.android.billingclient:billing@@5.1.0 */
 /* loaded from: classes.dex */
 public class BillingFlowParams {
     private boolean zza;
@@ -15,7 +16,7 @@ public class BillingFlowParams {
     private ArrayList zzf;
     private boolean zzg;
 
-    /* compiled from: com.android.billingclient:billing@@5.0.0 */
+    /* compiled from: com.android.billingclient:billing@@5.1.0 */
     /* loaded from: classes.dex */
     public static class Builder {
         private String zza;
@@ -107,31 +108,31 @@ public class BillingFlowParams {
             return this;
         }
 
-        /* synthetic */ Builder(zzau zzauVar) {
+        /* synthetic */ Builder(zzav zzavVar) {
             SubscriptionUpdateParams.Builder newBuilder = SubscriptionUpdateParams.newBuilder();
             newBuilder.zzb = true;
             this.zzf = newBuilder;
         }
     }
 
-    /* compiled from: com.android.billingclient:billing@@5.0.0 */
+    /* compiled from: com.android.billingclient:billing@@5.1.0 */
     /* loaded from: classes.dex */
     public static final class ProductDetailsParams {
         private final ProductDetails zza;
         private final String zzb;
 
-        /* compiled from: com.android.billingclient:billing@@5.0.0 */
+        /* compiled from: com.android.billingclient:billing@@5.1.0 */
         /* loaded from: classes.dex */
         public static class Builder {
             private ProductDetails zza;
             private String zzb;
 
-            /* synthetic */ Builder(zzav zzavVar) {
+            /* synthetic */ Builder(zzaw zzawVar) {
             }
 
             public ProductDetailsParams build() {
-                com.google.android.gms.internal.play_billing.zzm.zzc(this.zza, "ProductDetails is required for constructing ProductDetailsParams.");
-                com.google.android.gms.internal.play_billing.zzm.zzc(this.zzb, "offerToken is required for constructing ProductDetailsParams.");
+                zzm.zzc(this.zza, "ProductDetails is required for constructing ProductDetailsParams.");
+                zzm.zzc(this.zzb, "offerToken is required for constructing ProductDetailsParams.");
                 return new ProductDetailsParams(this, null);
             }
 
@@ -150,7 +151,7 @@ public class BillingFlowParams {
             }
         }
 
-        /* synthetic */ ProductDetailsParams(Builder builder, zzaw zzawVar) {
+        /* synthetic */ ProductDetailsParams(Builder builder, zzax zzaxVar) {
             this.zza = builder.zza;
             this.zzb = builder.zzb;
         }
@@ -168,20 +169,20 @@ public class BillingFlowParams {
         }
     }
 
-    /* compiled from: com.android.billingclient:billing@@5.0.0 */
+    /* compiled from: com.android.billingclient:billing@@5.1.0 */
     /* loaded from: classes.dex */
     public static class SubscriptionUpdateParams {
         private String zza;
         private int zzb = 0;
 
-        /* compiled from: com.android.billingclient:billing@@5.0.0 */
+        /* compiled from: com.android.billingclient:billing@@5.1.0 */
         /* loaded from: classes.dex */
         public static class Builder {
             private String zza;
             private boolean zzb;
             private int zzc = 0;
 
-            /* synthetic */ Builder(zzax zzaxVar) {
+            /* synthetic */ Builder(zzay zzayVar) {
             }
 
             public SubscriptionUpdateParams build() {
@@ -200,7 +201,7 @@ public class BillingFlowParams {
             }
         }
 
-        /* synthetic */ SubscriptionUpdateParams(zzay zzayVar) {
+        /* synthetic */ SubscriptionUpdateParams(zzaz zzazVar) {
         }
 
         public static Builder newBuilder() {
@@ -216,7 +217,7 @@ public class BillingFlowParams {
         }
     }
 
-    /* synthetic */ BillingFlowParams(zzaz zzazVar) {
+    /* synthetic */ BillingFlowParams(zzba zzbaVar) {
     }
 
     public static Builder newBuilder() {

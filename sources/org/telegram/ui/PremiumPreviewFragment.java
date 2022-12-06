@@ -1611,6 +1611,7 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
         } else if (!BuildVars.useInvoiceBilling() && (!BillingController.getInstance().isReady() || this.subscriptionTiers.isEmpty() || this.subscriptionTiers.get(this.selectedTierIndex).googlePlayProductDetails == null)) {
             this.premiumButtonView.setButton(LocaleController.getString(R.string.Loading), PremiumPreviewFragment$$ExternalSyntheticLambda2.INSTANCE, z);
             this.premiumButtonView.setFlickerDisabled(true);
+        } else if (this.subscriptionTiers.isEmpty()) {
         } else {
             this.premiumButtonView.setButton(getPremiumButtonText(this.currentAccount, this.subscriptionTiers.get(this.selectedTierIndex)), new View.OnClickListener() { // from class: org.telegram.ui.PremiumPreviewFragment$$ExternalSyntheticLambda1
                 @Override // android.view.View.OnClickListener

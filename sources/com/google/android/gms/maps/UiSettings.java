@@ -3,7 +3,7 @@ package com.google.android.gms.maps;
 import android.os.RemoteException;
 import com.google.android.gms.maps.internal.IUiSettingsDelegate;
 import com.google.android.gms.maps.model.RuntimeRemoteException;
-/* compiled from: com.google.android.gms:play-services-maps@@17.0.1 */
+/* compiled from: com.google.android.gms:play-services-maps@@18.1.0 */
 /* loaded from: classes.dex */
 public final class UiSettings {
     private final IUiSettingsDelegate zza;

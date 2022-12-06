@@ -2,7 +2,7 @@ package com.google.android.gms.internal.play_billing;
 
 import java.util.Arrays;
 import org.telegram.tgnet.ConnectionsManager;
-/* compiled from: com.android.billingclient:billing@@5.0.0 */
+/* compiled from: com.android.billingclient:billing@@5.1.0 */
 /* loaded from: classes.dex */
 public final class zzw {
     Object[] zza = new Object[8];
@@ -11,9 +11,9 @@ public final class zzw {
 
     public final zzw zza(Object obj, Object obj2) {
         int i = this.zzb + 1;
-        int i2 = i + i;
         Object[] objArr = this.zza;
         int length = objArr.length;
+        int i2 = i + i;
         if (i2 > length) {
             int i3 = length + (length >> 1) + 1;
             if (i3 < i2) {

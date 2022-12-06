@@ -1,18 +1,30 @@
 package com.google.android.gms.internal.location;
 
-import android.os.DeadObjectException;
-/* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.google.android.gms:play-services-location@@18.0.0 */
+import android.os.Parcel;
+import android.os.Parcelable;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.common.internal.safeparcel.SafeParcelReader;
+/* compiled from: com.google.android.gms:play-services-location@@21.0.1 */
 /* loaded from: classes.dex */
-public final class zzh implements zzbg<zzam> {
-    final /* synthetic */ zzi zza;
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzh(zzi zziVar) {
-        this.zza = zziVar;
+public final class zzh implements Parcelable.Creator {
+    @Override // android.os.Parcelable.Creator
+    public final /* bridge */ /* synthetic */ Object createFromParcel(Parcel parcel) {
+        int validateObjectHeader = SafeParcelReader.validateObjectHeader(parcel);
+        Status status = null;
+        while (parcel.dataPosition() < validateObjectHeader) {
+            int readHeader = SafeParcelReader.readHeader(parcel);
+            if (SafeParcelReader.getFieldId(readHeader) == 1) {
+                status = (Status) SafeParcelReader.createParcelable(parcel, readHeader, Status.CREATOR);
+            } else {
+                SafeParcelReader.skipUnknownField(parcel, readHeader);
+            }
+        }
+        SafeParcelReader.ensureAtEnd(parcel, validateObjectHeader);
+        return new zzg(status);
     }
 
-    public final zzam zza() throws DeadObjectException {
-        return (zzam) this.zza.getService();
+    @Override // android.os.Parcelable.Creator
+    public final /* synthetic */ Object[] newArray(int i) {
+        return new zzg[i];
     }
 }

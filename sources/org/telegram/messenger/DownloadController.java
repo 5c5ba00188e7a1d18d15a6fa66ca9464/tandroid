@@ -409,7 +409,7 @@ public class DownloadController extends BaseController implements NotificationCe
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadAutoDownloadConfig$2(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.DownloadController$$ExternalSyntheticLambda10
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.DownloadController$$ExternalSyntheticLambda9
             @Override // java.lang.Runnable
             public final void run() {
                 DownloadController.this.lambda$loadAutoDownloadConfig$1(tLObject);
@@ -1270,37 +1270,45 @@ public class DownloadController extends BaseController implements NotificationCe
     }
 
     public void startDownloadFile(TLRPC$Document tLRPC$Document, final MessageObject messageObject) {
-        if (messageObject.getDocument() == null) {
+        final TLRPC$Document document;
+        if (messageObject == null || (document = messageObject.getDocument()) == null) {
             return;
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.DownloadController$$ExternalSyntheticLambda8
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.DownloadController$$ExternalSyntheticLambda10
             @Override // java.lang.Runnable
             public final void run() {
-                DownloadController.this.lambda$startDownloadFile$5(messageObject);
+                DownloadController.this.lambda$startDownloadFile$5(document, messageObject);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$startDownloadFile$5(final MessageObject messageObject) {
+    public /* synthetic */ void lambda$startDownloadFile$5(TLRPC$Document tLRPC$Document, final MessageObject messageObject) {
         boolean z;
         boolean z2;
+        TLRPC$Document document;
+        TLRPC$Document document2;
+        if (tLRPC$Document == null) {
+            return;
+        }
         int i = 0;
         while (true) {
             z = true;
             if (i >= this.recentDownloadingFiles.size()) {
                 z2 = false;
                 break;
-            } else if (this.recentDownloadingFiles.get(i).getDocument() != null && this.recentDownloadingFiles.get(i).getDocument().id == messageObject.getDocument().id) {
+            }
+            MessageObject messageObject2 = this.recentDownloadingFiles.get(i);
+            if (messageObject2 != null && (document2 = messageObject2.getDocument()) != null && document2.id == tLRPC$Document.id) {
                 z2 = true;
                 break;
-            } else {
-                i++;
             }
+            i++;
         }
         if (!z2) {
             for (int i2 = 0; i2 < this.downloadingFiles.size(); i2++) {
-                if (this.downloadingFiles.get(i2).getDocument() != null && this.downloadingFiles.get(i2).getDocument().id == messageObject.getDocument().id) {
+                MessageObject messageObject3 = this.downloadingFiles.get(i2);
+                if (messageObject3 != null && (document = messageObject3.getDocument()) != null && document.id == tLRPC$Document.id) {
                     break;
                 }
             }
@@ -1436,7 +1444,7 @@ public class DownloadController extends BaseController implements NotificationCe
         if (messageObject == null) {
             return;
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.DownloadController$$ExternalSyntheticLambda9
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.DownloadController$$ExternalSyntheticLambda8
             @Override // java.lang.Runnable
             public final void run() {
                 DownloadController.this.lambda$onDownloadFail$8(messageObject, i);

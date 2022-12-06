@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
-import androidx.annotation.RecentlyNonNull;
 import androidx.fragment.app.FragmentActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -13,7 +12,7 @@ import com.google.android.gms.auth.api.signin.SignInAccount;
 import com.google.android.gms.common.annotation.KeepName;
 import com.google.android.gms.common.api.Status;
 import java.util.Objects;
-/* compiled from: com.google.android.gms:play-services-auth@@19.2.0 */
+/* compiled from: com.google.android.gms:play-services-auth@@20.4.0 */
 @KeepName
 /* loaded from: classes.dex */
 public class SignInHubActivity extends FragmentActivity {
@@ -56,7 +55,7 @@ public class SignInHubActivity extends FragmentActivity {
     }
 
     @Override // android.app.Activity, android.view.Window.Callback
-    public final boolean dispatchPopulateAccessibilityEvent(@RecentlyNonNull AccessibilityEvent accessibilityEvent) {
+    public final boolean dispatchPopulateAccessibilityEvent(AccessibilityEvent accessibilityEvent) {
         return true;
     }
 
@@ -138,8 +137,7 @@ public class SignInHubActivity extends FragmentActivity {
             this.zbf = intent2;
             zbc();
         } else {
-            String valueOf = String.valueOf(intent.getAction());
-            Log.e("AuthSignInClient", valueOf.length() != 0 ? "Unknown action: ".concat(valueOf) : new String("Unknown action: "));
+            Log.e("AuthSignInClient", "Unknown action: ".concat(String.valueOf(intent.getAction())));
             finish();
         }
     }
@@ -151,7 +149,7 @@ public class SignInHubActivity extends FragmentActivity {
     }
 
     @Override // androidx.fragment.app.FragmentActivity, androidx.core.app.ComponentActivity, android.app.Activity
-    public final void onSaveInstanceState(@RecentlyNonNull Bundle bundle) {
+    public final void onSaveInstanceState(Bundle bundle) {
         super.onSaveInstanceState(bundle);
         bundle.putBoolean("signingInGoogleApiClients", this.zbd);
         if (this.zbd) {

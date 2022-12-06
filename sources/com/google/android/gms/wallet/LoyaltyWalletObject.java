@@ -2,23 +2,16 @@ package com.google.android.gms.wallet;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import androidx.annotation.RecentlyNonNull;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
 import com.google.android.gms.common.util.ArrayUtils;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.wallet.wobs.LabelValueRow;
 import com.google.android.gms.wallet.wobs.LoyaltyPoints;
-import com.google.android.gms.wallet.wobs.TextModuleData;
 import com.google.android.gms.wallet.wobs.TimeInterval;
-import com.google.android.gms.wallet.wobs.UriData;
-import com.google.android.gms.wallet.wobs.WalletObjectMessage;
 import java.util.ArrayList;
-/* compiled from: com.google.android.gms:play-services-wallet@@18.1.3 */
+/* compiled from: com.google.android.gms:play-services-wallet@@19.1.0 */
 /* loaded from: classes.dex */
 public final class LoyaltyWalletObject extends AbstractSafeParcelable {
-    @RecentlyNonNull
-    public static final Parcelable.Creator<LoyaltyWalletObject> CREATOR = new zzr();
+    public static final Parcelable.Creator<LoyaltyWalletObject> CREATOR = new zzs();
     String zza;
     String zzb;
     String zzc;
@@ -31,18 +24,18 @@ public final class LoyaltyWalletObject extends AbstractSafeParcelable {
     String zzi;
     String zzj;
     int zzk;
-    ArrayList<WalletObjectMessage> zzl;
+    ArrayList zzl;
     TimeInterval zzm;
-    ArrayList<LatLng> zzn;
+    ArrayList zzn;
     @Deprecated
     String zzo;
     @Deprecated
     String zzp;
-    ArrayList<LabelValueRow> zzq;
+    ArrayList zzq;
     boolean zzr;
-    ArrayList<UriData> zzs;
-    ArrayList<TextModuleData> zzt;
-    ArrayList<UriData> zzu;
+    ArrayList zzs;
+    ArrayList zzt;
+    ArrayList zzu;
     LoyaltyPoints zzv;
 
     LoyaltyWalletObject() {
@@ -55,7 +48,7 @@ public final class LoyaltyWalletObject extends AbstractSafeParcelable {
     }
 
     @Override // android.os.Parcelable
-    public void writeToParcel(@RecentlyNonNull Parcel parcel, int i) {
+    public void writeToParcel(Parcel parcel, int i) {
         int beginObjectHeader = SafeParcelWriter.beginObjectHeader(parcel);
         SafeParcelWriter.writeString(parcel, 2, this.zza, false);
         SafeParcelWriter.writeString(parcel, 3, this.zzb, false);
@@ -83,7 +76,7 @@ public final class LoyaltyWalletObject extends AbstractSafeParcelable {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public LoyaltyWalletObject(String str, String str2, String str3, String str4, String str5, String str6, String str7, String str8, String str9, String str10, int i, ArrayList<WalletObjectMessage> arrayList, TimeInterval timeInterval, ArrayList<LatLng> arrayList2, String str11, String str12, ArrayList<LabelValueRow> arrayList3, boolean z, ArrayList<UriData> arrayList4, ArrayList<TextModuleData> arrayList5, ArrayList<UriData> arrayList6, LoyaltyPoints loyaltyPoints) {
+    public LoyaltyWalletObject(String str, String str2, String str3, String str4, String str5, String str6, String str7, String str8, String str9, String str10, int i, ArrayList arrayList, TimeInterval timeInterval, ArrayList arrayList2, String str11, String str12, ArrayList arrayList3, boolean z, ArrayList arrayList4, ArrayList arrayList5, ArrayList arrayList6, LoyaltyPoints loyaltyPoints) {
         this.zza = str;
         this.zzb = str2;
         this.zzc = str3;

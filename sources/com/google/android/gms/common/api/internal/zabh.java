@@ -1,21 +1,30 @@
 package com.google.android.gms.common.api.internal;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.internal.GoogleApiManager;
-/* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
+import android.os.Looper;
+import android.os.Message;
+import android.util.Log;
+/* JADX INFO: Access modifiers changed from: package-private */
+/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
-final class zabh implements Runnable {
-    private final /* synthetic */ ConnectionResult zaa;
-    private final /* synthetic */ GoogleApiManager.zaa zab;
+public final class zabh extends com.google.android.gms.internal.base.zau {
+    final /* synthetic */ zabi zaa;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public zabh(GoogleApiManager.zaa zaaVar, ConnectionResult connectionResult) {
-        this.zab = zaaVar;
-        this.zaa = connectionResult;
+    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+    public zabh(zabi zabiVar, Looper looper) {
+        super(looper);
+        this.zaa = zabiVar;
     }
 
-    @Override // java.lang.Runnable
-    public final void run() {
-        this.zab.onConnectionFailed(this.zaa);
+    @Override // android.os.Handler
+    public final void handleMessage(Message message) {
+        int i = message.what;
+        if (i == 1) {
+            ((zabg) message.obj).zab(this.zaa);
+        } else if (i == 2) {
+            throw ((RuntimeException) message.obj);
+        } else {
+            Log.w("GACStateManager", "Unknown message id: " + i);
+        }
     }
 }

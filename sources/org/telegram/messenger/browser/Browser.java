@@ -515,7 +515,7 @@ public class Browser {
             try {
                 List<ResolveInfo> queryIntentActivities = ApplicationLoader.applicationContext.getPackageManager().queryIntentActivities(new Intent("android.intent.action.VIEW", uri), 0);
                 if (queryIntentActivities != null) {
-                    if (queryIntentActivities.size() > 1) {
+                    if (queryIntentActivities.size() >= 1) {
                         return false;
                     }
                 }

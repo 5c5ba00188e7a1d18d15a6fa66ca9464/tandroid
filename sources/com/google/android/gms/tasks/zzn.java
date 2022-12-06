@@ -1,27 +1,38 @@
 package com.google.android.gms.tasks;
-/* compiled from: com.google.android.gms:play-services-tasks@@17.2.0 */
-/* loaded from: classes.dex */
-final class zzn implements Runnable {
-    private final /* synthetic */ Task zza;
-    private final /* synthetic */ zzm zzb;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzn(zzm zzmVar, Task task) {
-        this.zzb = zzmVar;
-        this.zza = task;
+import java.util.concurrent.Executor;
+import javax.annotation.Nullable;
+import javax.annotation.concurrent.GuardedBy;
+/* JADX INFO: Access modifiers changed from: package-private */
+/* compiled from: com.google.android.gms:play-services-tasks@@18.0.2 */
+/* loaded from: classes.dex */
+public final class zzn implements zzq {
+    private final Executor zza;
+    private final Object zzb = new Object();
+    @GuardedBy("mLock")
+    @Nullable
+    private OnSuccessListener zzc;
+
+    public zzn(Executor executor, OnSuccessListener onSuccessListener) {
+        this.zza = executor;
+        this.zzc = onSuccessListener;
     }
 
-    @Override // java.lang.Runnable
-    public final void run() {
-        Object obj;
-        OnSuccessListener onSuccessListener;
-        OnSuccessListener onSuccessListener2;
-        obj = this.zzb.zzb;
-        synchronized (obj) {
-            onSuccessListener = this.zzb.zzc;
-            if (onSuccessListener != null) {
-                onSuccessListener2 = this.zzb.zzc;
-                onSuccessListener2.onSuccess(this.zza.getResult());
+    @Override // com.google.android.gms.tasks.zzq
+    public final void zzc() {
+        synchronized (this.zzb) {
+            this.zzc = null;
+        }
+    }
+
+    @Override // com.google.android.gms.tasks.zzq
+    public final void zzd(Task task) {
+        if (task.isSuccessful()) {
+            synchronized (this.zzb) {
+                if (this.zzc == null) {
+                    return;
+                }
+                this.zza.execute(new zzm(this, task));
             }
         }
     }

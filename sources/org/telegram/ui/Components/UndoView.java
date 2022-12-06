@@ -378,12 +378,12 @@ public class UndoView extends FrameLayout {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:48:0x1773  */
-    /* JADX WARN: Removed duplicated region for block: B:515:0x1753  */
-    /* JADX WARN: Removed duplicated region for block: B:51:0x179a  */
-    /* JADX WARN: Removed duplicated region for block: B:57:0x1891  */
+    /* JADX WARN: Removed duplicated region for block: B:48:0x175a  */
+    /* JADX WARN: Removed duplicated region for block: B:515:0x173a  */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x1781  */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x1878  */
     /* JADX WARN: Removed duplicated region for block: B:71:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:72:0x17df  */
+    /* JADX WARN: Removed duplicated region for block: B:72:0x17c6  */
     /* JADX WARN: Type inference failed for: r2v393, types: [java.lang.CharSequence] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -935,9 +935,9 @@ public class UndoView extends FrameLayout {
                                 } else {
                                     int intValue3 = ((Integer) obj2).intValue();
                                     if (num.intValue() == 1) {
-                                        this.infoTextView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("FwdMessageToChats", R.string.FwdMessageToChats, LocaleController.formatPluralString("Chats", intValue3, new Object[0]))));
+                                        this.infoTextView.setText(AndroidUtilities.replaceTags(LocaleController.formatPluralString("FwdMessageToManyChats", intValue3, new Object[0])));
                                     } else {
-                                        this.infoTextView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("FwdMessagesToChats", R.string.FwdMessagesToChats, LocaleController.formatPluralString("Chats", intValue3, new Object[0]))));
+                                        this.infoTextView.setText(AndroidUtilities.replaceTags(LocaleController.formatPluralString("FwdMessagesToManyChats", intValue3, new Object[0])));
                                     }
                                     this.leftImageView.setAnimation(R.raw.forward, 30, 30);
                                 }

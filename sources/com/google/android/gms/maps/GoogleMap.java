@@ -2,10 +2,7 @@ package com.google.android.gms.maps;
 
 import android.location.Location;
 import android.os.RemoteException;
-import androidx.annotation.RecentlyNonNull;
-import androidx.annotation.RecentlyNullable;
 import com.google.android.gms.common.internal.Preconditions;
-import com.google.android.gms.internal.maps.zzx;
 import com.google.android.gms.maps.internal.IGoogleMapDelegate;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.Circle;
@@ -14,13 +11,14 @@ import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.RuntimeRemoteException;
-/* compiled from: com.google.android.gms:play-services-maps@@17.0.1 */
+import java.util.HashMap;
+/* compiled from: com.google.android.gms:play-services-maps@@18.1.0 */
 /* loaded from: classes.dex */
 public class GoogleMap {
     private final IGoogleMapDelegate zza;
-    private UiSettings zzb;
+    private UiSettings zzc;
 
-    /* compiled from: com.google.android.gms:play-services-maps@@17.0.1 */
+    /* compiled from: com.google.android.gms:play-services-maps@@18.1.0 */
     /* loaded from: classes.dex */
     public interface CancelableCallback {
         void onCancel();
@@ -28,43 +26,43 @@ public class GoogleMap {
         void onFinish();
     }
 
-    /* compiled from: com.google.android.gms:play-services-maps@@17.0.1 */
+    /* compiled from: com.google.android.gms:play-services-maps@@18.1.0 */
     /* loaded from: classes.dex */
     public interface OnCameraMoveListener {
         void onCameraMove();
     }
 
-    /* compiled from: com.google.android.gms:play-services-maps@@17.0.1 */
+    /* compiled from: com.google.android.gms:play-services-maps@@18.1.0 */
     /* loaded from: classes.dex */
     public interface OnCameraMoveStartedListener {
         void onCameraMoveStarted(int i);
     }
 
-    /* compiled from: com.google.android.gms:play-services-maps@@17.0.1 */
+    /* compiled from: com.google.android.gms:play-services-maps@@18.1.0 */
     /* loaded from: classes.dex */
     public interface OnMapLoadedCallback {
         void onMapLoaded();
     }
 
-    /* compiled from: com.google.android.gms:play-services-maps@@17.0.1 */
+    /* compiled from: com.google.android.gms:play-services-maps@@18.1.0 */
     /* loaded from: classes.dex */
     public interface OnMarkerClickListener {
-        boolean onMarkerClick(@RecentlyNonNull Marker marker);
+        boolean onMarkerClick(Marker marker);
     }
 
-    /* compiled from: com.google.android.gms:play-services-maps@@17.0.1 */
+    /* compiled from: com.google.android.gms:play-services-maps@@18.1.0 */
     @Deprecated
     /* loaded from: classes.dex */
     public interface OnMyLocationChangeListener {
-        void onMyLocationChange(@RecentlyNonNull Location location);
+        void onMyLocationChange(Location location);
     }
 
-    public GoogleMap(@RecentlyNonNull IGoogleMapDelegate iGoogleMapDelegate) {
+    public GoogleMap(IGoogleMapDelegate iGoogleMapDelegate) {
+        new HashMap();
         this.zza = (IGoogleMapDelegate) Preconditions.checkNotNull(iGoogleMapDelegate);
     }
 
-    @RecentlyNonNull
-    public final Circle addCircle(@RecentlyNonNull CircleOptions circleOptions) {
+    public final Circle addCircle(CircleOptions circleOptions) {
         try {
             Preconditions.checkNotNull(circleOptions, "CircleOptions must not be null.");
             return new Circle(this.zza.addCircle(circleOptions));
@@ -73,11 +71,10 @@ public class GoogleMap {
         }
     }
 
-    @RecentlyNullable
-    public final Marker addMarker(@RecentlyNonNull MarkerOptions markerOptions) {
+    public final Marker addMarker(MarkerOptions markerOptions) {
         try {
             Preconditions.checkNotNull(markerOptions, "MarkerOptions must not be null.");
-            zzx addMarker = this.zza.addMarker(markerOptions);
+            com.google.android.gms.internal.maps.zzaa addMarker = this.zza.addMarker(markerOptions);
             if (addMarker == null) {
                 return null;
             }
@@ -87,7 +84,7 @@ public class GoogleMap {
         }
     }
 
-    public final void animateCamera(@RecentlyNonNull CameraUpdate cameraUpdate) {
+    public final void animateCamera(CameraUpdate cameraUpdate) {
         try {
             Preconditions.checkNotNull(cameraUpdate, "CameraUpdate must not be null.");
             this.zza.animateCamera(cameraUpdate.zza());
@@ -96,7 +93,6 @@ public class GoogleMap {
         }
     }
 
-    @RecentlyNonNull
     public final CameraPosition getCameraPosition() {
         try {
             return this.zza.getCameraPosition();
@@ -113,7 +109,6 @@ public class GoogleMap {
         }
     }
 
-    @RecentlyNonNull
     public final Projection getProjection() {
         try {
             return new Projection(this.zza.getProjection());
@@ -122,19 +117,18 @@ public class GoogleMap {
         }
     }
 
-    @RecentlyNonNull
     public final UiSettings getUiSettings() {
         try {
-            if (this.zzb == null) {
-                this.zzb = new UiSettings(this.zza.getUiSettings());
+            if (this.zzc == null) {
+                this.zzc = new UiSettings(this.zza.getUiSettings());
             }
-            return this.zzb;
+            return this.zzc;
         } catch (RemoteException e) {
             throw new RuntimeRemoteException(e);
         }
     }
 
-    public final void moveCamera(@RecentlyNonNull CameraUpdate cameraUpdate) {
+    public final void moveCamera(CameraUpdate cameraUpdate) {
         try {
             Preconditions.checkNotNull(cameraUpdate, "CameraUpdate must not be null.");
             this.zza.moveCamera(cameraUpdate.zza());
@@ -236,7 +230,7 @@ public class GoogleMap {
         }
     }
 
-    public final void animateCamera(@RecentlyNonNull CameraUpdate cameraUpdate, int i, CancelableCallback cancelableCallback) {
+    public final void animateCamera(CameraUpdate cameraUpdate, int i, CancelableCallback cancelableCallback) {
         try {
             Preconditions.checkNotNull(cameraUpdate, "CameraUpdate must not be null.");
             this.zza.animateCameraWithDurationAndCallback(cameraUpdate.zza(), i, cancelableCallback == null ? null : new zzaa(cancelableCallback));
@@ -245,7 +239,7 @@ public class GoogleMap {
         }
     }
 
-    public final void animateCamera(@RecentlyNonNull CameraUpdate cameraUpdate, CancelableCallback cancelableCallback) {
+    public final void animateCamera(CameraUpdate cameraUpdate, CancelableCallback cancelableCallback) {
         try {
             Preconditions.checkNotNull(cameraUpdate, "CameraUpdate must not be null.");
             this.zza.animateCameraWithCallback(cameraUpdate.zza(), cancelableCallback == null ? null : new zzaa(cancelableCallback));

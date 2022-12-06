@@ -27,6 +27,11 @@ public interface INavigationLayout {
         MENU
     }
 
+    /* loaded from: classes3.dex */
+    public interface IBackButtonDrawable {
+        BackButtonState getBackButtonState();
+    }
+
     boolean addFragmentToStack(BaseFragment baseFragment);
 
     boolean addFragmentToStack(BaseFragment baseFragment, int i);

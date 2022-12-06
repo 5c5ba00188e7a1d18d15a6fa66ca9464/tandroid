@@ -88,7 +88,7 @@ import org.telegram.messenger.MediaController;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
-import org.telegram.messenger.MessagesController$$ExternalSyntheticLambda226;
+import org.telegram.messenger.MessagesController$$ExternalSyntheticLambda229;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
@@ -176,6 +176,7 @@ public class Theme {
     public static Paint chat_actionBackgroundPaint2 = null;
     public static Paint chat_actionBackgroundSelectedPaint = null;
     public static TextPaint chat_actionTextPaint = null;
+    public static TextPaint chat_actionTextPaint2 = null;
     public static TextPaint chat_adminPaint = null;
     public static Drawable chat_attachEmptyDrawable = null;
     public static TextPaint chat_audioPerformerPaint = null;
@@ -441,7 +442,7 @@ public class Theme {
     private static boolean[] loadingRemoteThemes = new boolean[4];
     private static int[] lastLoadingThemesTime = new int[4];
     private static long[] remoteThemesHash = new long[4];
-    public static Drawable[] avatarDrawables = new Drawable[12];
+    public static Drawable[] avatarDrawables = new Drawable[13];
     private static StatusDrawable[] chat_status_drawables = new StatusDrawable[6];
     public static Drawable[] chat_msgInCallDrawable = new Drawable[2];
     public static Drawable[] chat_msgInCallSelectedDrawable = new Drawable[2];
@@ -4874,7 +4875,7 @@ public class Theme {
                 z4 = false;
             }
             applyTheme(themeInfo3, false, false, z4);
-            AndroidUtilities.runOnUIThread(MessagesController$$ExternalSyntheticLambda226.INSTANCE);
+            AndroidUtilities.runOnUIThread(MessagesController$$ExternalSyntheticLambda229.INSTANCE);
             ambientSensorListener = new SensorEventListener() { // from class: org.telegram.ui.ActionBar.Theme.9
                 @Override // android.hardware.SensorEventListener
                 public void onAccuracyChanged(Sensor sensor, int i7) {
@@ -5508,6 +5509,10 @@ public class Theme {
             return rect(Theme.getColor("windowBackgroundWhite"));
         }
 
+        public static Drawable rect(String str, float... fArr) {
+            return rect(Theme.getColor(str), fArr);
+        }
+
         public static Drawable rect(int i) {
             return rect(i, 0.0f);
         }
@@ -5518,10 +5523,6 @@ public class Theme {
 
         public static Drawable filledRect(String str, float... fArr) {
             return filledRect(Theme.getColor(str), fArr);
-        }
-
-        public static Drawable filledRect(int i) {
-            return createRect(i, calcRippleColor(i), new float[0]);
         }
 
         public static Drawable filledRect(int i, float... fArr) {
@@ -6081,7 +6082,7 @@ public class Theme {
                 if (isCurrentThemeNight()) {
                     switchNightThemeDelay = 2000;
                     lastDelayUpdateTime = SystemClock.elapsedRealtime();
-                    AndroidUtilities.runOnUIThread(MessagesController$$ExternalSyntheticLambda226.INSTANCE, 2100L);
+                    AndroidUtilities.runOnUIThread(MessagesController$$ExternalSyntheticLambda229.INSTANCE, 2100L);
                 }
             }
             currentTheme = themeInfo;
@@ -6214,7 +6215,7 @@ public class Theme {
                 if (isCurrentThemeNight()) {
                     switchNightThemeDelay = 2000;
                     lastDelayUpdateTime = SystemClock.elapsedRealtime();
-                    AndroidUtilities.runOnUIThread(MessagesController$$ExternalSyntheticLambda226.INSTANCE, 2100L);
+                    AndroidUtilities.runOnUIThread(MessagesController$$ExternalSyntheticLambda229.INSTANCE, 2100L);
                 }
             }
             currentTheme = themeInfo;
@@ -6323,7 +6324,7 @@ public class Theme {
                 if (isCurrentThemeNight()) {
                     switchNightThemeDelay = 2000;
                     lastDelayUpdateTime = SystemClock.elapsedRealtime();
-                    AndroidUtilities.runOnUIThread(MessagesController$$ExternalSyntheticLambda226.INSTANCE, 2100L);
+                    AndroidUtilities.runOnUIThread(MessagesController$$ExternalSyntheticLambda229.INSTANCE, 2100L);
                 }
             }
             currentTheme = themeInfo;
@@ -8737,6 +8738,7 @@ public class Theme {
             avatarDrawables[9] = resources.getDrawable(R.drawable.msg_folders_archive);
             avatarDrawables[10] = resources.getDrawable(i);
             avatarDrawables[11] = resources.getDrawable(R.drawable.chats_replies);
+            avatarDrawables[12] = resources.getDrawable(R.drawable.other_chats);
             RLottieDrawable rLottieDrawable = dialogs_archiveAvatarDrawable;
             if (rLottieDrawable != null) {
                 rLottieDrawable.setCallback(null);
@@ -9034,7 +9036,7 @@ public class Theme {
                 chat_timePaint = new TextPaint(1);
             }
             int i = 0;
-            float[] fArr = {0.7f, 0.52f, 0.37f, 0.28f, 0.25f, 0.19f};
+            float[] fArr = {0.68f, 0.46f, 0.34f, 0.28f, 0.22f, 0.19f};
             while (true) {
                 TextPaint[] textPaintArr = chat_msgTextPaintEmoji;
                 if (i < textPaintArr.length) {
@@ -9151,19 +9153,19 @@ public class Theme {
             chat_statusRecordPaint = paint9;
             paint9.setStyle(Paint.Style.STROKE);
             chat_statusRecordPaint.setStrokeCap(Paint.Cap.ROUND);
+            chat_actionTextPaint = new TextPaint(1);
+            chat_actionTextPaint2 = new TextPaint(1);
+            chat_actionTextPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
             TextPaint textPaint13 = new TextPaint(1);
-            chat_actionTextPaint = textPaint13;
+            chat_unlockExtendedMediaTextPaint = textPaint13;
             textPaint13.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
-            TextPaint textPaint14 = new TextPaint(1);
-            chat_unlockExtendedMediaTextPaint = textPaint14;
-            textPaint14.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
             Paint paint10 = new Paint(1);
             chat_actionBackgroundGradientDarkenPaint = paint10;
             paint10.setColor(704643072);
             chat_timeBackgroundPaint = new Paint(1);
-            TextPaint textPaint15 = new TextPaint(1);
-            chat_contextResult_titleTextPaint = textPaint15;
-            textPaint15.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            TextPaint textPaint14 = new TextPaint(1);
+            chat_contextResult_titleTextPaint = textPaint14;
+            textPaint14.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
             chat_contextResult_descriptionTextPaint = new TextPaint(1);
             chat_composeBackgroundPaint = new Paint();
             new Paint(1);
@@ -9177,6 +9179,7 @@ public class Theme {
             addChatPaint("paintChatActionBackground", chat_actionBackgroundPaint, "chat_serviceBackground");
             addChatPaint("paintChatActionBackgroundSelected", chat_actionBackgroundSelectedPaint, "chat_serviceBackgroundSelected");
             addChatPaint("paintChatActionText", chat_actionTextPaint, "chat_serviceText");
+            addChatPaint("paintChatActionText2", chat_actionTextPaint2, "chat_serviceText");
             addChatPaint("paintChatBotButton", chat_botButtonPaint, "chat_botButtonText");
             addChatPaint("paintChatComposeBackground", chat_composeBackgroundPaint, "chat_messagePanelBackground");
             addChatPaint("paintChatTimeBackground", chat_timeBackgroundPaint, "chat_mediaTimeBackground");
@@ -9520,6 +9523,7 @@ public class Theme {
         chat_instantViewRectPaint.setStrokeWidth(AndroidUtilities.dp(1.0f));
         chat_pollTimerPaint.setStrokeWidth(AndroidUtilities.dp(1.1f));
         chat_actionTextPaint.setTextSize(AndroidUtilities.dp(Math.max(16, SharedConfig.fontSize) - 2));
+        chat_actionTextPaint2.setTextSize(AndroidUtilities.dp(Math.max(16, SharedConfig.fontSize) - 2));
         chat_unlockExtendedMediaTextPaint.setTextSize(AndroidUtilities.dp(Math.max(16, SharedConfig.fontSize)));
         chat_contextResult_titleTextPaint.setTextSize(AndroidUtilities.dp(15.0f));
         chat_contextResult_descriptionTextPaint.setTextSize(AndroidUtilities.dp(13.0f));
@@ -9583,6 +9587,7 @@ public class Theme {
         chat_statusPaint.setColor(getColor("chat_status"));
         chat_statusRecordPaint.setColor(getColor("chat_status"));
         chat_actionTextPaint.setColor(getColor("chat_serviceText"));
+        chat_actionTextPaint2.setColor(getColor("chat_serviceText"));
         chat_actionTextPaint.linkColor = getColor("chat_serviceLink");
         chat_unlockExtendedMediaTextPaint.setColor(getColor("chat_serviceText"));
         chat_contextResult_titleTextPaint.setColor(getColor("windowBackgroundWhiteBlackText"));
@@ -9816,6 +9821,7 @@ public class Theme {
             setDrawableColor(chat_msgStickerViewsDrawable, -1);
             setDrawableColor(chat_msgStickerRepliesDrawable, -1);
             chat_actionTextPaint.setColor(-1);
+            chat_actionTextPaint2.setColor(-1);
             chat_actionTextPaint.linkColor = -1;
             chat_unlockExtendedMediaTextPaint.setColor(-1);
             chat_botButtonPaint.setColor(-1);
@@ -9836,6 +9842,7 @@ public class Theme {
             setDrawableColorByKey(chat_msgStickerViewsDrawable, "chat_serviceText");
             setDrawableColorByKey(chat_msgStickerRepliesDrawable, "chat_serviceText");
             chat_actionTextPaint.setColor(getColor("chat_serviceText"));
+            chat_actionTextPaint2.setColor(getColor("chat_serviceText"));
             chat_actionTextPaint.linkColor = getColor("chat_serviceLink");
             chat_unlockExtendedMediaTextPaint.setColor(getColor("chat_serviceText"));
             setDrawableColorByKey(chat_commentStickerDrawable, "chat_serviceIcon");
@@ -9925,6 +9932,10 @@ public class Theme {
         profile_aboutTextPaint.linkColor = getColor("windowBackgroundWhiteLinkText");
         setDrawableColorByKey(profile_verifiedDrawable, "profile_verifiedBackground");
         setDrawableColorByKey(profile_verifiedCheckDrawable, "profile_verifiedCheck");
+    }
+
+    public static Drawable getThemedDrawable(Context context, int i, String str, ResourcesProvider resourcesProvider) {
+        return getThemedDrawable(context, i, getColor(str, resourcesProvider));
     }
 
     public static Drawable getThemedDrawable(Context context, int i, String str) {

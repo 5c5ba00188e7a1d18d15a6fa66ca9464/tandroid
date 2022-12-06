@@ -1,10 +1,11 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_channels_editForumTopic extends TLObject {
-    public static int constructor = 1820868141;
+    public static int constructor = -186670715;
     public TLRPC$InputChannel channel;
     public boolean closed;
     public int flags;
+    public boolean hidden;
     public long icon_emoji_id;
     public String title;
     public int topic_id;
@@ -28,6 +29,9 @@ public class TLRPC$TL_channels_editForumTopic extends TLObject {
         }
         if ((this.flags & 4) != 0) {
             abstractSerializedData.writeBool(this.closed);
+        }
+        if ((this.flags & 8) != 0) {
+            abstractSerializedData.writeBool(this.hidden);
         }
     }
 }

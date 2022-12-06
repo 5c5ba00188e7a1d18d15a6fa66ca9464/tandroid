@@ -328,9 +328,9 @@ public class Emoji {
 
     /* loaded from: classes.dex */
     public static class EmojiSpanRange {
-        CharSequence code;
-        int end;
-        int start;
+        public CharSequence code;
+        public int end;
+        public int start;
 
         public EmojiSpanRange(int i, int i2, CharSequence charSequence) {
             this.start = i;
@@ -704,61 +704,60 @@ public class Emoji {
         return replaceEmoji(charSequence, fontMetricsInt, i, z, iArr, false);
     }
 
-    /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Type inference failed for: r6v0, types: [java.lang.CharSequence] */
-    /* JADX WARN: Type inference failed for: r6v1, types: [java.lang.CharSequence] */
-    /* JADX WARN: Type inference failed for: r6v4, types: [java.lang.CharSequence, android.text.Spannable] */
-    /* JADX WARN: Type inference failed for: r6v6 */
-    /* JADX WARN: Type inference failed for: r6v7 */
     public static CharSequence replaceEmoji(CharSequence charSequence, Paint.FontMetricsInt fontMetricsInt, int i, boolean z, int[] iArr, boolean z2) {
+        Spannable newSpannable;
         EmojiSpanRange emojiSpanRange;
         boolean z3;
-        if (!SharedConfig.useSystemEmoji && charSequence != 0 && charSequence.length() != 0) {
-            if (!z && (charSequence instanceof Spannable)) {
-                charSequence = (Spannable) charSequence;
-            } else {
-                charSequence = Spannable.Factory.getInstance().newSpannable(charSequence.toString());
+        if (SharedConfig.useSystemEmoji || charSequence == null || charSequence.length() == 0) {
+            return charSequence;
+        }
+        if (!z && (charSequence instanceof Spannable)) {
+            newSpannable = (Spannable) charSequence;
+        } else {
+            newSpannable = Spannable.Factory.getInstance().newSpannable(charSequence.toString());
+        }
+        ArrayList<EmojiSpanRange> parseEmojis = parseEmojis(newSpannable, iArr);
+        if (parseEmojis.isEmpty()) {
+            return charSequence;
+        }
+        AnimatedEmojiSpan[] animatedEmojiSpanArr = (AnimatedEmojiSpan[]) newSpannable.getSpans(0, newSpannable.length(), AnimatedEmojiSpan.class);
+        int i2 = SharedConfig.getDevicePerformanceClass() >= 2 ? 100 : 50;
+        for (int i3 = 0; i3 < parseEmojis.size(); i3++) {
+            try {
+                emojiSpanRange = parseEmojis.get(i3);
+            } catch (Exception e) {
+                FileLog.e(e);
             }
-            ArrayList<EmojiSpanRange> parseEmojis = parseEmojis(charSequence, iArr);
-            AnimatedEmojiSpan[] animatedEmojiSpanArr = (AnimatedEmojiSpan[]) charSequence.getSpans(0, charSequence.length(), AnimatedEmojiSpan.class);
-            for (int i2 = 0; i2 < parseEmojis.size(); i2++) {
-                try {
-                    emojiSpanRange = parseEmojis.get(i2);
-                } catch (Exception e) {
-                    FileLog.e(e);
-                }
-                if (animatedEmojiSpanArr != null) {
-                    int i3 = 0;
-                    while (true) {
-                        if (i3 >= animatedEmojiSpanArr.length) {
-                            z3 = false;
-                            break;
-                        }
-                        AnimatedEmojiSpan animatedEmojiSpan = animatedEmojiSpanArr[i3];
-                        if (animatedEmojiSpan != null && charSequence.getSpanStart(animatedEmojiSpan) == emojiSpanRange.start && charSequence.getSpanEnd(animatedEmojiSpan) == emojiSpanRange.end) {
-                            z3 = true;
-                            break;
-                        }
-                        i3++;
+            if (animatedEmojiSpanArr != null) {
+                int i4 = 0;
+                while (true) {
+                    if (i4 >= animatedEmojiSpanArr.length) {
+                        z3 = false;
+                        break;
                     }
-                    if (z3) {
+                    AnimatedEmojiSpan animatedEmojiSpan = animatedEmojiSpanArr[i4];
+                    if (animatedEmojiSpan != null && newSpannable.getSpanStart(animatedEmojiSpan) == emojiSpanRange.start && newSpannable.getSpanEnd(animatedEmojiSpan) == emojiSpanRange.end) {
+                        z3 = true;
+                        break;
                     }
+                    i4++;
                 }
-                EmojiDrawable emojiDrawable = getEmojiDrawable(emojiSpanRange.code);
-                if (emojiDrawable != null) {
-                    EmojiSpan emojiSpan = new EmojiSpan(emojiDrawable, 0, i, fontMetricsInt);
-                    CharSequence charSequence2 = emojiSpanRange.code;
-                    emojiSpan.emoji = charSequence2 == null ? null : charSequence2.toString();
-                    charSequence.setSpan(emojiSpan, emojiSpanRange.start, emojiSpanRange.end, 33);
+                if (z3) {
                 }
-                int i4 = SharedConfig.getDevicePerformanceClass() >= 2 ? 100 : 50;
-                int i5 = Build.VERSION.SDK_INT;
-                if ((i5 < 23 || i5 >= 29) && i2 + 1 >= i4) {
-                    break;
-                }
+            }
+            EmojiDrawable emojiDrawable = getEmojiDrawable(emojiSpanRange.code);
+            if (emojiDrawable != null) {
+                EmojiSpan emojiSpan = new EmojiSpan(emojiDrawable, 0, i, fontMetricsInt);
+                CharSequence charSequence2 = emojiSpanRange.code;
+                emojiSpan.emoji = charSequence2 == null ? null : charSequence2.toString();
+                newSpannable.setSpan(emojiSpan, emojiSpanRange.start, emojiSpanRange.end, 33);
+            }
+            int i5 = Build.VERSION.SDK_INT;
+            if ((i5 < 23 || i5 >= 29) && i3 + 1 >= i2) {
+                break;
             }
         }
-        return charSequence;
+        return newSpannable;
     }
 
     /* loaded from: classes.dex */

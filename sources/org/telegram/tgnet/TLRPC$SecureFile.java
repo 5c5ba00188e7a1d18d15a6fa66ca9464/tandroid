@@ -2,9 +2,9 @@ package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public abstract class TLRPC$SecureFile extends TLObject {
     public static TLRPC$SecureFile TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-        TLRPC$SecureFile tLRPC$TL_secureFile;
-        if (i != -534283678) {
-            tLRPC$TL_secureFile = i != 1679398724 ? null : new TLRPC$SecureFile() { // from class: org.telegram.tgnet.TLRPC$TL_secureFileEmpty
+        TLRPC$SecureFile tLRPC$SecureFile;
+        if (i == 1679398724) {
+            tLRPC$SecureFile = new TLRPC$SecureFile() { // from class: org.telegram.tgnet.TLRPC$TL_secureFileEmpty
                 public static int constructor = 1679398724;
 
                 @Override // org.telegram.tgnet.TLObject
@@ -13,13 +13,13 @@ public abstract class TLRPC$SecureFile extends TLObject {
                 }
             };
         } else {
-            tLRPC$TL_secureFile = new TLRPC$TL_secureFile();
+            tLRPC$SecureFile = i != 2097791614 ? null : new TLRPC$TL_secureFile();
         }
-        if (tLRPC$TL_secureFile != null || !z) {
-            if (tLRPC$TL_secureFile != null) {
-                tLRPC$TL_secureFile.readParams(abstractSerializedData, z);
+        if (tLRPC$SecureFile != null || !z) {
+            if (tLRPC$SecureFile != null) {
+                tLRPC$SecureFile.readParams(abstractSerializedData, z);
             }
-            return tLRPC$TL_secureFile;
+            return tLRPC$SecureFile;
         }
         throw new RuntimeException(String.format("can't parse magic %x in SecureFile", Integer.valueOf(i)));
     }

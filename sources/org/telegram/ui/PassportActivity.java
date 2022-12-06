@@ -51,6 +51,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.core.content.FileProvider;
+import androidx.core.graphics.ColorUtils;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
@@ -211,6 +212,7 @@ import org.telegram.ui.Components.EditTextBoldCursor;
 import org.telegram.ui.Components.EmptyTextProgressView;
 import org.telegram.ui.Components.HintEditText;
 import org.telegram.ui.Components.LayoutHelper;
+import org.telegram.ui.Components.LinkSpanDrawable;
 import org.telegram.ui.Components.RadialProgress;
 import org.telegram.ui.Components.SlideView;
 import org.telegram.ui.Components.URLSpanNoUnderline;
@@ -1559,7 +1561,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 if (PassportActivity.this.getParentActivity() == null) {
                     return;
                 }
-                TextView textView = new TextView(PassportActivity.this.getParentActivity());
+                LinkSpanDrawable.LinksTextView linksTextView = new LinkSpanDrawable.LinksTextView(PassportActivity.this.getParentActivity());
                 String string = LocaleController.getString("PassportInfo2", R.string.PassportInfo2);
                 SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(string);
                 int indexOf = string.indexOf(42);
@@ -1575,15 +1577,15 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                         }
                     }, indexOf, lastIndexOf - 1, 33);
                 }
-                textView.setText(spannableStringBuilder);
-                textView.setTextSize(1, 16.0f);
-                textView.setLinkTextColor(Theme.getColor("dialogTextLink"));
-                textView.setHighlightColor(Theme.getColor("dialogLinkSelection"));
-                textView.setPadding(AndroidUtilities.dp(23.0f), 0, AndroidUtilities.dp(23.0f), 0);
-                textView.setMovementMethod(new AndroidUtilities.LinkMovementMethodMy());
-                textView.setTextColor(Theme.getColor("dialogTextBlack"));
+                linksTextView.setText(spannableStringBuilder);
+                linksTextView.setTextSize(1, 16.0f);
+                linksTextView.setLinkTextColor(Theme.getColor("dialogTextLink"));
+                linksTextView.setHighlightColor(Theme.getColor("dialogLinkSelection"));
+                linksTextView.setPadding(AndroidUtilities.dp(23.0f), 0, AndroidUtilities.dp(23.0f), 0);
+                linksTextView.setMovementMethod(new AndroidUtilities.LinkMovementMethodMy());
+                linksTextView.setTextColor(Theme.getColor("dialogTextBlack"));
                 AlertDialog.Builder builder = new AlertDialog.Builder(PassportActivity.this.getParentActivity());
-                builder.setView(textView);
+                builder.setView(linksTextView);
                 builder.setTitle(LocaleController.getString("PassportInfoTitle", R.string.PassportInfoTitle));
                 builder.setNegativeButton(LocaleController.getString("Close", R.string.Close), null);
                 PassportActivity.this.showDialog(builder.create());
@@ -3312,8 +3314,8 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:12:0x02c2  */
-    /* JADX WARN: Removed duplicated region for block: B:15:0x02c4  */
+    /* JADX WARN: Removed duplicated region for block: B:12:0x02ef  */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x02f1  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -3399,12 +3401,14 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         TextView textView3 = new TextView(context);
         this.emptyTextView3 = textView3;
         textView3.setTextColor(Theme.getColor("windowBackgroundWhiteBlueText4"));
+        this.emptyTextView3.setPadding(AndroidUtilities.dp(12.0f), AndroidUtilities.dp(4.0f), AndroidUtilities.dp(12.0f), AndroidUtilities.dp(4.0f));
+        this.emptyTextView3.setBackground(Theme.createSelectorDrawable(ColorUtils.setAlphaComponent(Theme.getColor("windowBackgroundWhiteBlueText4"), 32), 7));
         this.emptyTextView3.setGravity(17);
         this.emptyTextView3.setTextSize(1, 15.0f);
         this.emptyTextView3.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.emptyTextView3.setGravity(17);
         this.emptyTextView3.setText(LocaleController.getString("PassportNoDocumentsAdd", i).toUpperCase());
-        this.emptyLayout.addView(this.emptyTextView3, LayoutHelper.createLinear(-2, 30, 17, 0, 16, 0, 0));
+        this.emptyLayout.addView(this.emptyTextView3, LayoutHelper.createLinear(-2, 30, 17, 0, 12, 0, 0));
         this.emptyTextView3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.PassportActivity$$ExternalSyntheticLambda16
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {

@@ -4,22 +4,22 @@ import android.os.IInterface;
 import android.os.RemoteException;
 import com.google.android.gms.maps.model.LatLng;
 import javax.annotation.Nullable;
-/* compiled from: com.google.android.gms:play-services-maps@@17.0.1 */
+/* compiled from: com.google.android.gms:play-services-maps@@18.1.0 */
 /* loaded from: classes.dex */
 public interface zzl extends IInterface {
-    void zzd() throws RemoteException;
+    double zzd() throws RemoteException;
 
-    void zzf(LatLng latLng) throws RemoteException;
+    int zzi() throws RemoteException;
 
-    void zzh(double d) throws RemoteException;
+    void zzn() throws RemoteException;
 
-    double zzi() throws RemoteException;
+    void zzo(LatLng latLng) throws RemoteException;
 
-    void zzl(int i) throws RemoteException;
+    void zzq(int i) throws RemoteException;
 
-    void zzn(int i) throws RemoteException;
+    void zzr(double d) throws RemoteException;
 
-    boolean zzt(@Nullable zzl zzlVar) throws RemoteException;
+    void zzs(int i) throws RemoteException;
 
-    int zzu() throws RemoteException;
+    boolean zzy(@Nullable zzl zzlVar) throws RemoteException;
 }

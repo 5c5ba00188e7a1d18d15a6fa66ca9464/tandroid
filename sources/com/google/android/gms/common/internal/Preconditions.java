@@ -3,18 +3,26 @@ package com.google.android.gms.common.internal;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
-import androidx.annotation.RecentlyNonNull;
 import org.checkerframework.checker.nullness.qual.EnsuresNonNull;
-/* compiled from: com.google.android.gms:play-services-basement@@17.5.0 */
+/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
 public final class Preconditions {
-    @EnsuresNonNull({"#1"})
-    public static <T> T checkNotNull(T t) {
-        java.util.Objects.requireNonNull(t, "null reference");
-        return t;
+    public static void checkArgument(boolean z) {
+        if (z) {
+            return;
+        }
+        throw new IllegalArgumentException();
     }
 
-    @RecentlyNonNull
+    public static void checkHandlerThread(Handler handler) {
+        Looper myLooper = Looper.myLooper();
+        if (myLooper != handler.getLooper()) {
+            String name = myLooper != null ? myLooper.getThread().getName() : "null current looper";
+            String name2 = handler.getLooper().getThread().getName();
+            throw new IllegalStateException("Must be called on " + name2 + " thread, but got " + name + ".");
+        }
+    }
+
     @EnsuresNonNull({"#1"})
     public static String checkNotEmpty(String str) {
         if (!TextUtils.isEmpty(str)) {
@@ -23,21 +31,14 @@ public final class Preconditions {
         throw new IllegalArgumentException("Given String is empty or null");
     }
 
-    @RecentlyNonNull
-    @EnsuresNonNull({"#1"})
-    public static String checkNotEmpty(String str, @RecentlyNonNull Object obj) {
-        if (!TextUtils.isEmpty(str)) {
-            return str;
-        }
-        throw new IllegalArgumentException(String.valueOf(obj));
+    public static void checkNotMainThread() {
+        checkNotMainThread("Must not be called on the main application thread");
     }
 
     @EnsuresNonNull({"#1"})
-    public static <T> T checkNotNull(@RecentlyNonNull T t, @RecentlyNonNull Object obj) {
-        if (t != null) {
-            return t;
-        }
-        throw new NullPointerException(String.valueOf(obj));
+    public static <T> T checkNotNull(T t) {
+        java.util.Objects.requireNonNull(t, "null reference");
+        return t;
     }
 
     public static void checkState(boolean z) {
@@ -47,75 +48,65 @@ public final class Preconditions {
         throw new IllegalStateException();
     }
 
-    public static void checkState(boolean z, @RecentlyNonNull Object obj) {
-        if (z) {
-            return;
-        }
-        throw new IllegalStateException(String.valueOf(obj));
-    }
-
-    public static void checkState(boolean z, @RecentlyNonNull String str, @RecentlyNonNull Object... objArr) {
-        if (z) {
-            return;
-        }
-        throw new IllegalStateException(String.format(str, objArr));
-    }
-
-    public static void checkArgument(boolean z, @RecentlyNonNull Object obj) {
+    public static void checkArgument(boolean z, Object obj) {
         if (z) {
             return;
         }
         throw new IllegalArgumentException(String.valueOf(obj));
     }
 
-    public static void checkArgument(boolean z, @RecentlyNonNull String str, @RecentlyNonNull Object... objArr) {
-        if (z) {
-            return;
-        }
-        throw new IllegalArgumentException(String.format(str, objArr));
-    }
-
-    public static void checkArgument(boolean z) {
-        if (z) {
-            return;
-        }
-        throw new IllegalArgumentException();
-    }
-
-    public static void checkMainThread(@RecentlyNonNull String str) {
+    public static void checkMainThread(String str) {
         if (com.google.android.gms.common.util.zzb.zza()) {
             return;
         }
         throw new IllegalStateException(str);
     }
 
-    public static void checkNotMainThread() {
-        checkNotMainThread("Must not be called on the main application thread");
-    }
-
-    public static void checkNotMainThread(@RecentlyNonNull String str) {
+    public static void checkNotMainThread(String str) {
         if (!com.google.android.gms.common.util.zzb.zza()) {
             return;
         }
         throw new IllegalStateException(str);
     }
 
-    public static void checkHandlerThread(@RecentlyNonNull Handler handler) {
-        Looper myLooper = Looper.myLooper();
-        if (myLooper != handler.getLooper()) {
-            String name = myLooper != null ? myLooper.getThread().getName() : "null current looper";
-            String name2 = handler.getLooper().getThread().getName();
-            StringBuilder sb = new StringBuilder(String.valueOf(name2).length() + 36 + String.valueOf(name).length());
-            sb.append("Must be called on ");
-            sb.append(name2);
-            sb.append(" thread, but got ");
-            sb.append(name);
-            sb.append(".");
-            throw new IllegalStateException(sb.toString());
+    @EnsuresNonNull({"#1"})
+    public static <T> T checkNotNull(T t, Object obj) {
+        if (t != null) {
+            return t;
         }
+        throw new NullPointerException(String.valueOf(obj));
     }
 
-    public static void checkHandlerThread(@RecentlyNonNull Handler handler, @RecentlyNonNull String str) {
+    public static void checkState(boolean z, Object obj) {
+        if (z) {
+            return;
+        }
+        throw new IllegalStateException(String.valueOf(obj));
+    }
+
+    public static void checkArgument(boolean z, String str, Object... objArr) {
+        if (z) {
+            return;
+        }
+        throw new IllegalArgumentException(String.format(str, objArr));
+    }
+
+    @EnsuresNonNull({"#1"})
+    public static String checkNotEmpty(String str, Object obj) {
+        if (!TextUtils.isEmpty(str)) {
+            return str;
+        }
+        throw new IllegalArgumentException(String.valueOf(obj));
+    }
+
+    public static void checkState(boolean z, String str, Object... objArr) {
+        if (z) {
+            return;
+        }
+        throw new IllegalStateException(String.format(str, objArr));
+    }
+
+    public static void checkHandlerThread(Handler handler, String str) {
         if (Looper.myLooper() == handler.getLooper()) {
             return;
         }

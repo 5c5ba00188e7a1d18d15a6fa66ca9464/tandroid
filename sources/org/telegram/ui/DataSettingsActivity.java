@@ -619,8 +619,8 @@ public class DataSettingsActivity extends BaseFragment {
                     return;
                 }
             }
-            boolean z2 = false;
-            boolean z3 = true;
+            boolean z2 = true;
+            boolean z3 = false;
             if (itemViewType == 1) {
                 TextSettingsCell textSettingsCell = (TextSettingsCell) viewHolder.itemView;
                 textSettingsCell.setCanDisable(false);
@@ -628,53 +628,60 @@ public class DataSettingsActivity extends BaseFragment {
                 if (i != DataSettingsActivity.this.storageUsageRow) {
                     if (i != DataSettingsActivity.this.useLessDataForCallsRow) {
                         if (i != DataSettingsActivity.this.dataUsageRow) {
-                            if (i == DataSettingsActivity.this.storageNumRow) {
-                                String absolutePath = ((File) DataSettingsActivity.this.storageDirs.get(0)).getAbsolutePath();
-                                if (!TextUtils.isEmpty(SharedConfig.storageCacheDir)) {
-                                    int size = DataSettingsActivity.this.storageDirs.size();
-                                    int i2 = 0;
-                                    while (true) {
-                                        if (i2 >= size) {
-                                            break;
-                                        }
-                                        String absolutePath2 = ((File) DataSettingsActivity.this.storageDirs.get(i2)).getAbsolutePath();
-                                        if (absolutePath2.startsWith(SharedConfig.storageCacheDir)) {
-                                            absolutePath = absolutePath2;
-                                            break;
-                                        }
-                                        i2++;
-                                    }
-                                }
-                                textSettingsCell.setTextAndValue(LocaleController.getString("StoragePath", R.string.StoragePath), absolutePath, false);
-                                return;
-                            } else if (i != DataSettingsActivity.this.proxyRow) {
-                                if (i != DataSettingsActivity.this.resetDownloadRow) {
-                                    if (i != DataSettingsActivity.this.quickRepliesRow) {
-                                        if (i != DataSettingsActivity.this.clearDraftsRow) {
+                            if (i != DataSettingsActivity.this.storageNumRow) {
+                                if (i != DataSettingsActivity.this.proxyRow) {
+                                    if (i != DataSettingsActivity.this.resetDownloadRow) {
+                                        if (i != DataSettingsActivity.this.quickRepliesRow) {
+                                            if (i != DataSettingsActivity.this.clearDraftsRow) {
+                                                return;
+                                            }
+                                            textSettingsCell.setIcon(0);
+                                            textSettingsCell.setText(LocaleController.getString("PrivacyDeleteCloudDrafts", R.string.PrivacyDeleteCloudDrafts), false);
                                             return;
                                         }
-                                        textSettingsCell.setText(LocaleController.getString("PrivacyDeleteCloudDrafts", R.string.PrivacyDeleteCloudDrafts), false);
+                                        textSettingsCell.setIcon(0);
+                                        textSettingsCell.setText(LocaleController.getString("VoipQuickReplies", R.string.VoipQuickReplies), false);
                                         return;
                                     }
-                                    textSettingsCell.setText(LocaleController.getString("VoipQuickReplies", R.string.VoipQuickReplies), false);
+                                    textSettingsCell.setIcon(0);
+                                    textSettingsCell.setCanDisable(true);
+                                    textSettingsCell.setTextColor(Theme.getColor("windowBackgroundWhiteRedText"));
+                                    textSettingsCell.setText(LocaleController.getString("ResetAutomaticMediaDownload", R.string.ResetAutomaticMediaDownload), false);
                                     return;
                                 }
-                                textSettingsCell.setCanDisable(true);
-                                textSettingsCell.setTextColor(Theme.getColor("windowBackgroundWhiteRedText"));
-                                textSettingsCell.setText(LocaleController.getString("ResetAutomaticMediaDownload", R.string.ResetAutomaticMediaDownload), false);
-                                return;
-                            } else {
+                                textSettingsCell.setIcon(0);
                                 textSettingsCell.setText(LocaleController.getString("ProxySettings", R.string.ProxySettings), false);
                                 return;
                             }
+                            textSettingsCell.setIcon(0);
+                            String absolutePath = ((File) DataSettingsActivity.this.storageDirs.get(0)).getAbsolutePath();
+                            if (!TextUtils.isEmpty(SharedConfig.storageCacheDir)) {
+                                int size = DataSettingsActivity.this.storageDirs.size();
+                                int i2 = 0;
+                                while (true) {
+                                    if (i2 >= size) {
+                                        break;
+                                    }
+                                    String absolutePath2 = ((File) DataSettingsActivity.this.storageDirs.get(i2)).getAbsolutePath();
+                                    if (absolutePath2.startsWith(SharedConfig.storageCacheDir)) {
+                                        absolutePath = absolutePath2;
+                                        break;
+                                    }
+                                    i2++;
+                                }
+                            }
+                            textSettingsCell.setTextAndValue(LocaleController.getString("StoragePath", R.string.StoragePath), absolutePath, false);
+                            return;
                         }
+                        textSettingsCell.setIcon(R.drawable.msg_data_usage);
                         String string2 = LocaleController.getString("NetworkUsage", R.string.NetworkUsage);
-                        if (DataSettingsActivity.this.storageNumRow != -1) {
-                            z2 = true;
+                        if (DataSettingsActivity.this.storageNumRow == -1) {
+                            z2 = false;
                         }
                         textSettingsCell.setText(string2, z2);
                         return;
                     }
+                    textSettingsCell.setIcon(0);
                     String str = null;
                     int i3 = MessagesController.getGlobalMainSettings().getInt("VoipDataSaving", VoIPHelper.getDataSavingDefault());
                     if (i3 == 0) {
@@ -690,6 +697,7 @@ public class DataSettingsActivity extends BaseFragment {
                     DataSettingsActivity.this.updateVoipUseLessData = false;
                     return;
                 }
+                textSettingsCell.setIcon(R.drawable.msg_storage_usage);
                 textSettingsCell.setText(LocaleController.getString("StorageUsage", R.string.StorageUsage), true);
             } else if (itemViewType == 2) {
                 HeaderCell headerCell = (HeaderCell) viewHolder.itemView;
@@ -738,23 +746,23 @@ public class DataSettingsActivity extends BaseFragment {
                                             }
                                             String string3 = LocaleController.getString("SaveToGalleryChannels", R.string.SaveToGalleryChannels);
                                             if ((SharedConfig.saveToGalleryFlags & 4) == 0) {
-                                                z3 = false;
+                                                z2 = false;
                                             }
-                                            textCheckCell.setTextAndCheck(string3, z3, false);
+                                            textCheckCell.setTextAndCheck(string3, z2, false);
                                             return;
                                         }
                                         String string4 = LocaleController.getString("SaveToGalleryGroups", R.string.SaveToGalleryGroups);
                                         if ((SharedConfig.saveToGalleryFlags & 2) != 0) {
-                                            z2 = true;
+                                            z3 = true;
                                         }
-                                        textCheckCell.setTextAndCheck(string4, z2, true);
+                                        textCheckCell.setTextAndCheck(string4, z3, true);
                                         return;
                                     }
                                     String string5 = LocaleController.getString("SaveToGalleryPrivate", R.string.SaveToGalleryPrivate);
                                     if ((SharedConfig.saveToGalleryFlags & 1) != 0) {
-                                        z2 = true;
+                                        z3 = true;
                                     }
-                                    textCheckCell.setTextAndCheck(string5, z2, true);
+                                    textCheckCell.setTextAndCheck(string5, z3, true);
                                     return;
                                 }
                                 textCheckCell.setTextAndCheck(LocaleController.getString("AutoplayVideo", R.string.AutoplayVideo), SharedConfig.autoplayVideo, false);
@@ -771,8 +779,8 @@ public class DataSettingsActivity extends BaseFragment {
                 }
                 String string6 = LocaleController.getString("EnableStreaming", R.string.EnableStreaming);
                 boolean z4 = SharedConfig.streamMedia;
-                if (DataSettingsActivity.this.enableAllStreamRow != -1) {
-                    z2 = true;
+                if (DataSettingsActivity.this.enableAllStreamRow == -1) {
+                    z2 = false;
                 }
                 textCheckCell.setTextAndCheck(string6, z4, z2);
             } else if (itemViewType == 4) {

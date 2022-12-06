@@ -6,7 +6,7 @@ import android.os.Parcel;
 import android.os.RemoteException;
 import com.google.android.gms.wallet.IsReadyToPayRequest;
 import com.google.android.gms.wallet.PaymentDataRequest;
-/* compiled from: com.google.android.gms:play-services-wallet@@18.1.3 */
+/* compiled from: com.google.android.gms:play-services-wallet@@19.1.0 */
 /* loaded from: classes.dex */
 public final class zzs extends zza {
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -14,7 +14,7 @@ public final class zzs extends zza {
         super(iBinder, "com.google.android.gms.wallet.internal.IOwService");
     }
 
-    public final void zzd(IsReadyToPayRequest isReadyToPayRequest, Bundle bundle, zzu zzuVar) throws RemoteException {
+    public final void zze(IsReadyToPayRequest isReadyToPayRequest, Bundle bundle, zzu zzuVar) throws RemoteException {
         Parcel zza = zza();
         zzc.zzb(zza, isReadyToPayRequest);
         zzc.zzb(zza, bundle);
@@ -22,7 +22,7 @@ public final class zzs extends zza {
         zzb(14, zza);
     }
 
-    public final void zze(PaymentDataRequest paymentDataRequest, Bundle bundle, zzu zzuVar) throws RemoteException {
+    public final void zzf(PaymentDataRequest paymentDataRequest, Bundle bundle, zzu zzuVar) throws RemoteException {
         Parcel zza = zza();
         zzc.zzb(zza, paymentDataRequest);
         zzc.zzb(zza, bundle);

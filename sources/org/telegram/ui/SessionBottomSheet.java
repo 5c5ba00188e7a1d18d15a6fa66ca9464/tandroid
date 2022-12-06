@@ -387,7 +387,8 @@ public class SessionBottomSheet extends BottomSheet {
             super(context);
             ImageView imageView = new ImageView(context);
             this.iconView = imageView;
-            addView(imageView, LayoutHelper.createFrame(28, 28.0f, 0, 16.0f, 8.0f, 0.0f, 0.0f));
+            imageView.setScaleType(ImageView.ScaleType.CENTER);
+            addView(this.iconView, LayoutHelper.createFrame(32, 32.0f, 0, 12.0f, 4.0f, 0.0f, 0.0f));
             LinearLayout linearLayout = new LinearLayout(context);
             linearLayout.setOrientation(1);
             addView(linearLayout, LayoutHelper.createFrame(-1, -2.0f, 0, 64.0f, 4.0f, 0.0f, 4.0f));

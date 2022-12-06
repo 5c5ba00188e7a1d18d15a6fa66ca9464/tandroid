@@ -2,17 +2,15 @@ package com.google.android.gms.common.api;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import androidx.annotation.RecentlyNonNull;
 import com.google.android.gms.common.internal.Preconditions;
 import com.google.android.gms.common.internal.ReflectedParcelable;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
-/* compiled from: com.google.android.gms:play-services-basement@@17.5.0 */
+/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
 public final class Scope extends AbstractSafeParcelable implements ReflectedParcelable {
-    @RecentlyNonNull
     public static final Parcelable.Creator<Scope> CREATOR = new zza();
-    private final int zza;
+    final int zza;
     private final String zzb;
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -22,16 +20,7 @@ public final class Scope extends AbstractSafeParcelable implements ReflectedParc
         this.zzb = str;
     }
 
-    public Scope(@RecentlyNonNull String str) {
-        this(1, str);
-    }
-
-    @RecentlyNonNull
-    public final String getScopeUri() {
-        return this.zzb;
-    }
-
-    public final boolean equals(Object obj) {
+    public boolean equals(Object obj) {
         if (this == obj) {
             return true;
         }
@@ -41,20 +30,27 @@ public final class Scope extends AbstractSafeParcelable implements ReflectedParc
         return false;
     }
 
-    public final int hashCode() {
+    public String getScopeUri() {
+        return this.zzb;
+    }
+
+    public int hashCode() {
         return this.zzb.hashCode();
     }
 
-    @RecentlyNonNull
-    public final String toString() {
+    public String toString() {
         return this.zzb;
     }
 
     @Override // android.os.Parcelable
-    public final void writeToParcel(@RecentlyNonNull Parcel parcel, int i) {
+    public void writeToParcel(Parcel parcel, int i) {
         int beginObjectHeader = SafeParcelWriter.beginObjectHeader(parcel);
         SafeParcelWriter.writeInt(parcel, 1, this.zza);
         SafeParcelWriter.writeString(parcel, 2, getScopeUri(), false);
         SafeParcelWriter.finishObjectHeader(parcel, beginObjectHeader);
+    }
+
+    public Scope(String str) {
+        this(1, str);
     }
 }

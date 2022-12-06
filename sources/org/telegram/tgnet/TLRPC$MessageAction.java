@@ -203,7 +203,20 @@ public abstract class TLRPC$MessageAction extends TLObject {
                 };
                 break;
             case -1441072131:
-                tLRPC$MessageAction = new TLRPC$TL_messageActionSetMessagesTTL();
+                tLRPC$MessageAction = new TLRPC$TL_messageActionSetMessagesTTL() { // from class: org.telegram.tgnet.TLRPC$TL_messageActionSetMessagesTTL_layer149
+                    public static int constructor = -1441072131;
+
+                    @Override // org.telegram.tgnet.TLRPC$TL_messageActionSetMessagesTTL, org.telegram.tgnet.TLObject
+                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
+                        this.period = abstractSerializedData2.readInt32(z2);
+                    }
+
+                    @Override // org.telegram.tgnet.TLRPC$TL_messageActionSetMessagesTTL, org.telegram.tgnet.TLObject
+                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
+                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(this.period);
+                    }
+                };
                 break;
             case -1434950843:
                 tLRPC$MessageAction = new TLRPC$TL_messageActionSetChatTheme();
@@ -250,7 +263,39 @@ public abstract class TLRPC$MessageAction extends TLObject {
                 };
                 break;
             case -1316338916:
-                tLRPC$MessageAction = new TLRPC$TL_messageActionTopicEdit();
+                tLRPC$MessageAction = new TLRPC$TL_messageActionTopicEdit() { // from class: org.telegram.tgnet.TLRPC$TL_messageActionTopicEdit_layer149
+                    public static int constructor = -1316338916;
+
+                    @Override // org.telegram.tgnet.TLRPC$TL_messageActionTopicEdit, org.telegram.tgnet.TLObject
+                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
+                        int readInt32 = abstractSerializedData2.readInt32(z2);
+                        this.flags = readInt32;
+                        if ((readInt32 & 1) != 0) {
+                            this.title = abstractSerializedData2.readString(z2);
+                        }
+                        if ((this.flags & 2) != 0) {
+                            this.icon_emoji_id = abstractSerializedData2.readInt64(z2);
+                        }
+                        if ((this.flags & 4) != 0) {
+                            this.closed = abstractSerializedData2.readBool(z2);
+                        }
+                    }
+
+                    @Override // org.telegram.tgnet.TLRPC$TL_messageActionTopicEdit, org.telegram.tgnet.TLObject
+                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
+                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(this.flags);
+                        if ((this.flags & 1) != 0) {
+                            abstractSerializedData2.writeString(this.title);
+                        }
+                        if ((this.flags & 2) != 0) {
+                            abstractSerializedData2.writeInt64(this.icon_emoji_id);
+                        }
+                        if ((this.flags & 4) != 0) {
+                            abstractSerializedData2.writeBool(this.closed);
+                        }
+                    }
+                };
                 break;
             case -1297179892:
                 tLRPC$MessageAction = new TLRPC$TL_messageActionChatDeleteUser() { // from class: org.telegram.tgnet.TLRPC$TL_messageActionChatDeleteUser_layer131
@@ -295,6 +340,9 @@ public abstract class TLRPC$MessageAction extends TLObject {
                 break;
             case -1119368275:
                 tLRPC$MessageAction = new TLRPC$TL_messageActionChatCreate();
+                break;
+            case -1064024032:
+                tLRPC$MessageAction = new TLRPC$TL_messageActionTopicEdit();
                 break;
             case -648257196:
                 tLRPC$MessageAction = new TLRPC$TL_messageActionSecureValuesSent();
@@ -368,6 +416,9 @@ public abstract class TLRPC$MessageAction extends TLObject {
                 break;
             case 365886720:
                 tLRPC$MessageAction = new TLRPC$TL_messageActionChatAddUser();
+                break;
+            case 1007897979:
+                tLRPC$MessageAction = new TLRPC$TL_messageActionSetMessagesTTL();
                 break;
             case 1080663248:
                 tLRPC$MessageAction = new TLRPC$TL_messageActionPaymentSent() { // from class: org.telegram.tgnet.TLRPC$TL_messageActionPaymentSent_layer140

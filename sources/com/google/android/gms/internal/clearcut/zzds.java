@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import org.telegram.messenger.voip.VoIPService;
-import org.telegram.tgnet.ConnectionsManager;
 import sun.misc.Unsafe;
 /* loaded from: classes.dex */
 final class zzds<T> implements zzef<T> {
@@ -476,7 +475,7 @@ final class zzds<T> implements zzef<T> {
                 }
                 return i8;
             case 23:
-            case ConnectionsManager.RequestFlagForceDownload /* 32 */:
+            case 32:
             case 40:
             case 46:
                 if (i5 == 2) {
@@ -2082,7 +2081,7 @@ final class zzds<T> implements zzef<T> {
                             zzeh.zzl(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, false);
                             continue;
                             i = i10 + 4;
-                        case ConnectionsManager.RequestFlagForceDownload /* 32 */:
+                        case 32:
                             zzeh.zzg(this.zzmi[i10], (List) unsafe.getObject(t, j), zzfrVar, false);
                             continue;
                             i = i10 + 4;
@@ -2532,7 +2531,7 @@ final class zzds<T> implements zzef<T> {
                 case 29:
                 case 30:
                 case 31:
-                case ConnectionsManager.RequestFlagForceDownload /* 32 */:
+                case 32:
                 case 33:
                 case 34:
                 case 35:
@@ -2681,7 +2680,7 @@ final class zzds<T> implements zzef<T> {
                 case 29:
                 case 30:
                 case 31:
-                case ConnectionsManager.RequestFlagForceDownload /* 32 */:
+                case 32:
                 case 33:
                 case 34:
                 case 35:
@@ -3115,7 +3114,7 @@ final class zzds<T> implements zzef<T> {
                             case 31:
                                 zzeh.zzl(this.zzmi[length2], (List) zzfd.zzo(t, zzag & 1048575), zzfrVar, false);
                                 break;
-                            case ConnectionsManager.RequestFlagForceDownload /* 32 */:
+                            case 32:
                                 zzeh.zzg(this.zzmi[length2], (List) zzfd.zzo(t, zzag & 1048575), zzfrVar, false);
                                 break;
                             case 33:
@@ -3517,7 +3516,7 @@ final class zzds<T> implements zzef<T> {
                             case 31:
                                 zzeh.zzl(this.zzmi[i], (List) zzfd.zzo(t, zzag2 & 1048575), zzfrVar, false);
                                 break;
-                            case ConnectionsManager.RequestFlagForceDownload /* 32 */:
+                            case 32:
                                 zzeh.zzg(this.zzmi[i], (List) zzfd.zzo(t, zzag2 & 1048575), zzfrVar, false);
                                 break;
                             case 33:
@@ -4134,7 +4133,7 @@ final class zzds<T> implements zzef<T> {
                 case 29:
                 case 30:
                 case 31:
-                case ConnectionsManager.RequestFlagForceDownload /* 32 */:
+                case 32:
                 case 33:
                 case 34:
                 case 35:
@@ -4527,7 +4526,7 @@ final class zzds<T> implements zzef<T> {
                         break;
                     case 18:
                     case 23:
-                    case ConnectionsManager.RequestFlagForceDownload /* 32 */:
+                    case 32:
                         zzw = zzeh.zzw(i11, (List) unsafe.getObject(t, j3), false);
                         i9 += zzw;
                         j = 0;
@@ -4983,7 +4982,7 @@ final class zzds<T> implements zzef<T> {
                     break;
                 case 18:
                 case 23:
-                case ConnectionsManager.RequestFlagForceDownload /* 32 */:
+                case 32:
                     zzw2 = zzeh.zzw(i18, zzd(t, j4), false);
                     break;
                 case 19:

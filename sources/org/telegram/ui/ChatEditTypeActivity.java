@@ -499,50 +499,14 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
         });
         this.permanentLinkView.setUsers(0, null);
         this.privateContainer.addView(this.permanentLinkView);
-        TextInfoPrivacyCell textInfoPrivacyCell = new TextInfoPrivacyCell(context) { // from class: org.telegram.ui.ChatEditTypeActivity.6
-            /* JADX WARN: Multi-variable type inference failed */
-            /* JADX WARN: Type inference failed for: r7v0, types: [org.telegram.ui.ChatEditTypeActivity$6, org.telegram.ui.Cells.TextInfoPrivacyCell] */
-            /* JADX WARN: Type inference failed for: r8v0, types: [java.lang.CharSequence] */
-            /* JADX WARN: Type inference failed for: r8v1, types: [java.lang.CharSequence] */
-            /* JADX WARN: Type inference failed for: r8v3, types: [android.text.SpannableStringBuilder] */
-            @Override // org.telegram.ui.Cells.TextInfoPrivacyCell
-            public void setText(CharSequence charSequence) {
-                if (charSequence != 0) {
-                    charSequence = AndroidUtilities.replaceTags(charSequence.toString());
-                    int indexOf = charSequence.toString().indexOf(10);
-                    if (indexOf >= 0) {
-                        charSequence.replace(indexOf, indexOf + 1, " ");
-                        charSequence.setSpan(new ForegroundColorSpan(ChatEditTypeActivity.this.getThemedColor("windowBackgroundWhiteRedText4")), 0, indexOf, 33);
-                    }
-                    TypefaceSpan[] typefaceSpanArr = (TypefaceSpan[]) charSequence.getSpans(0, charSequence.length(), TypefaceSpan.class);
-                    final String obj = (ChatEditTypeActivity.this.usernameTextView == null || ChatEditTypeActivity.this.usernameTextView.getText() == null) ? "" : ChatEditTypeActivity.this.usernameTextView.getText().toString();
-                    for (int i = 0; i < typefaceSpanArr.length; i++) {
-                        charSequence.setSpan(new ClickableSpan() { // from class: org.telegram.ui.ChatEditTypeActivity.6.1
-                            @Override // android.text.style.ClickableSpan
-                            public void onClick(View view) {
-                                Context context2 = getContext();
-                                Browser.openUrl(context2, "https://fragment.com/username/" + obj);
-                            }
-
-                            @Override // android.text.style.ClickableSpan, android.text.style.CharacterStyle
-                            public void updateDrawState(TextPaint textPaint) {
-                                super.updateDrawState(textPaint);
-                                textPaint.setUnderlineText(false);
-                            }
-                        }, charSequence.getSpanStart(typefaceSpanArr[i]), charSequence.getSpanEnd(typefaceSpanArr[i]), 33);
-                        charSequence.removeSpan(typefaceSpanArr[i]);
-                    }
-                }
-                super.setText(charSequence);
-            }
-        };
-        this.checkTextView = textInfoPrivacyCell;
-        textInfoPrivacyCell.setBackgroundDrawable(Theme.getThemedDrawable(context, R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
+        6 r0 = new 6(context);
+        this.checkTextView = r0;
+        r0.setBackgroundDrawable(Theme.getThemedDrawable(context, R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
         this.checkTextView.setBottomPadding(6);
         this.linearLayout.addView(this.checkTextView, LayoutHelper.createLinear(-2, -2));
-        TextInfoPrivacyCell textInfoPrivacyCell2 = new TextInfoPrivacyCell(context);
-        this.typeInfoCell = textInfoPrivacyCell2;
-        textInfoPrivacyCell2.setImportantForAccessibility(1);
+        TextInfoPrivacyCell textInfoPrivacyCell = new TextInfoPrivacyCell(context);
+        this.typeInfoCell = textInfoPrivacyCell;
+        textInfoPrivacyCell.setImportantForAccessibility(1);
         this.linearLayout.addView(this.typeInfoCell, LayoutHelper.createLinear(-1, -2));
         LoadingCell loadingCell = new LoadingCell(context);
         this.loadingAdminedCell = loadingCell;
@@ -571,9 +535,9 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
             }
         });
         this.linearLayout.addView(this.manageLinksTextView, LayoutHelper.createLinear(-1, -2));
-        TextInfoPrivacyCell textInfoPrivacyCell3 = new TextInfoPrivacyCell(context);
-        this.manageLinksInfoCell = textInfoPrivacyCell3;
-        this.linearLayout.addView(textInfoPrivacyCell3, LayoutHelper.createLinear(-1, -2));
+        TextInfoPrivacyCell textInfoPrivacyCell2 = new TextInfoPrivacyCell(context);
+        this.manageLinksInfoCell = textInfoPrivacyCell2;
+        this.linearLayout.addView(textInfoPrivacyCell2, LayoutHelper.createLinear(-1, -2));
         JoinToSendSettingsView joinToSendSettingsView = new JoinToSendSettingsView(context, this.currentChat);
         this.joinContainer = joinToSendSettingsView;
         TLRPC$ChatFull tLRPC$ChatFull = this.info;
@@ -638,6 +602,97 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
         }
         this.isPrivate = false;
         updatePrivatePublic();
+    }
+
+    /* loaded from: classes3.dex */
+    class 6 extends TextInfoPrivacyCell {
+        int prevHeight = -1;
+        ValueAnimator translateAnimator;
+
+        6(Context context) {
+            super(context);
+        }
+
+        /* JADX WARN: Multi-variable type inference failed */
+        /* JADX WARN: Type inference failed for: r7v0, types: [org.telegram.ui.ChatEditTypeActivity$6, org.telegram.ui.Cells.TextInfoPrivacyCell] */
+        /* JADX WARN: Type inference failed for: r8v0, types: [java.lang.CharSequence] */
+        /* JADX WARN: Type inference failed for: r8v1, types: [java.lang.CharSequence] */
+        /* JADX WARN: Type inference failed for: r8v3, types: [android.text.SpannableStringBuilder] */
+        @Override // org.telegram.ui.Cells.TextInfoPrivacyCell
+        public void setText(CharSequence charSequence) {
+            if (charSequence != 0) {
+                charSequence = AndroidUtilities.replaceTags(charSequence.toString());
+                int indexOf = charSequence.toString().indexOf(10);
+                if (indexOf >= 0) {
+                    charSequence.replace(indexOf, indexOf + 1, " ");
+                    charSequence.setSpan(new ForegroundColorSpan(ChatEditTypeActivity.this.getThemedColor("windowBackgroundWhiteRedText4")), 0, indexOf, 33);
+                }
+                TypefaceSpan[] typefaceSpanArr = (TypefaceSpan[]) charSequence.getSpans(0, charSequence.length(), TypefaceSpan.class);
+                final String obj = (ChatEditTypeActivity.this.usernameTextView == null || ChatEditTypeActivity.this.usernameTextView.getText() == null) ? "" : ChatEditTypeActivity.this.usernameTextView.getText().toString();
+                for (int i = 0; i < typefaceSpanArr.length; i++) {
+                    charSequence.setSpan(new ClickableSpan() { // from class: org.telegram.ui.ChatEditTypeActivity.6.1
+                        @Override // android.text.style.ClickableSpan
+                        public void onClick(View view) {
+                            Context context = 6.this.getContext();
+                            Browser.openUrl(context, "https://fragment.com/username/" + obj);
+                        }
+
+                        @Override // android.text.style.ClickableSpan, android.text.style.CharacterStyle
+                        public void updateDrawState(TextPaint textPaint) {
+                            super.updateDrawState(textPaint);
+                            textPaint.setUnderlineText(false);
+                        }
+                    }, charSequence.getSpanStart(typefaceSpanArr[i]), charSequence.getSpanEnd(typefaceSpanArr[i]), 33);
+                    charSequence.removeSpan(typefaceSpanArr[i]);
+                }
+            }
+            super.setText(charSequence);
+        }
+
+        @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
+        protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
+            super.onLayout(z, i, i2, i3, i4);
+            if (this.prevHeight != -1 && ChatEditTypeActivity.this.linearLayout != null) {
+                final ArrayList arrayList = new ArrayList();
+                boolean z2 = false;
+                for (int i5 = 0; i5 < ChatEditTypeActivity.this.linearLayout.getChildCount(); i5++) {
+                    View childAt = ChatEditTypeActivity.this.linearLayout.getChildAt(i5);
+                    if (z2) {
+                        arrayList.add(childAt);
+                    } else if (childAt == this) {
+                        z2 = true;
+                    }
+                }
+                final float height = this.prevHeight - getHeight();
+                ValueAnimator valueAnimator = this.translateAnimator;
+                if (valueAnimator != null) {
+                    valueAnimator.cancel();
+                }
+                ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
+                this.translateAnimator = ofFloat;
+                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ChatEditTypeActivity$6$$ExternalSyntheticLambda0
+                    @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                    public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
+                        ChatEditTypeActivity.6.lambda$onLayout$0(arrayList, height, valueAnimator2);
+                    }
+                });
+                this.translateAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
+                this.translateAnimator.setDuration(350L);
+                this.translateAnimator.start();
+            }
+            this.prevHeight = getHeight();
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public static /* synthetic */ void lambda$onLayout$0(ArrayList arrayList, float f, ValueAnimator valueAnimator) {
+            float floatValue = 1.0f - ((Float) valueAnimator.getAnimatedValue()).floatValue();
+            for (int i = 0; i < arrayList.size(); i++) {
+                View view = (View) arrayList.get(i);
+                if (view != null) {
+                    view.setTranslationY(f * floatValue);
+                }
+            }
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1053,7 +1108,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
         /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.View
         public void onMeasure(int i, int i2) {
-            super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(999999999, Integer.MIN_VALUE));
+            super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(9999999, Integer.MIN_VALUE));
         }
 
         /* loaded from: classes3.dex */

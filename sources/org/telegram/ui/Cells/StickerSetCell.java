@@ -28,10 +28,12 @@ import java.util.ArrayList;
 import java.util.Locale;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.DocumentObject;
+import org.telegram.messenger.Emoji;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SvgHelper;
 import org.telegram.tgnet.TLObject;
@@ -196,9 +198,15 @@ public class StickerSetCell extends FrameLayout {
                 StickerSetCell.this.lambda$new$3(view);
             }
         });
-        TextView textView3 = new TextView(context);
+        TextView textView3 = new TextView(this, context) { // from class: org.telegram.ui.Cells.StickerSetCell.1
+            @Override // android.widget.TextView
+            public void setText(CharSequence charSequence, TextView.BufferType bufferType) {
+                super.setText(Emoji.replaceEmoji(charSequence, getPaint().getFontMetricsInt(), AndroidUtilities.dp(14.0f), false), bufferType);
+            }
+        };
         this.textView = textView3;
-        textView3.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
+        NotificationCenter.listenEmojiLoading(textView3);
+        this.textView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
         this.textView.setTextSize(1, 16.0f);
         this.textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.textView.setLines(1);
@@ -398,7 +406,7 @@ public class StickerSetCell extends FrameLayout {
         if (this.emojis) {
             if (z2) {
                 this.sideButtons.animate().cancel();
-                ViewPropertyAnimator listener = this.sideButtons.animate().setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.StickerSetCell.1
+                ViewPropertyAnimator listener = this.sideButtons.animate().setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.StickerSetCell.2
                     @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                     public void onAnimationEnd(Animator animator) {
                         if (!z) {
@@ -437,7 +445,7 @@ public class StickerSetCell extends FrameLayout {
         } else {
             if (z2) {
                 this.optionsButton.animate().cancel();
-                ViewPropertyAnimator listener2 = this.optionsButton.animate().setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.StickerSetCell.2
+                ViewPropertyAnimator listener2 = this.optionsButton.animate().setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.StickerSetCell.3
                     @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                     public void onAnimationEnd(Animator animator) {
                         if (!z) {
@@ -711,7 +719,7 @@ public class StickerSetCell extends FrameLayout {
             fArr9[0] = f2;
             animatorArr[8] = ObjectAnimator.ofFloat(textView6, property9, fArr9);
             animatorSet2.playTogether(animatorArr);
-            this.stateAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.StickerSetCell.3
+            this.stateAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.StickerSetCell.4
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                 public void onAnimationStart(Animator animator) {
                     StickerSetCell.this.premiumButtonView.setVisibility(0);

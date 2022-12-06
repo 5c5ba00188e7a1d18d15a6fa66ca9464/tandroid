@@ -1,15 +1,14 @@
 package com.google.android.gms.internal.base;
 
-import com.google.android.gms.common.Feature;
-/* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Inherited;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
+@Inherited
+@Target({ElementType.TYPE})
+@Retention(RetentionPolicy.SOURCE)
 /* loaded from: classes.dex */
-public final class zae {
-    public static final Feature zaa;
-    public static final Feature[] zab;
-
-    static {
-        Feature feature = new Feature("CLIENT_TELEMETRY", 1L);
-        zaa = feature;
-        zab = new Feature[]{feature};
-    }
+public @interface zae {
 }

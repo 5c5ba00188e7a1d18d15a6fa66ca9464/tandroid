@@ -1,18 +1,22 @@
 package com.google.android.gms.common.api.internal;
 
-import com.google.android.gms.common.api.internal.GoogleApiManager;
-/* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
+import android.os.Bundle;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.Api;
+/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
-final class zabf implements Runnable {
-    private final /* synthetic */ GoogleApiManager.zaa zaa;
+public interface zabf {
+    BaseImplementation$ApiMethodImpl zab(BaseImplementation$ApiMethodImpl baseImplementation$ApiMethodImpl);
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zabf(GoogleApiManager.zaa zaaVar) {
-        this.zaa = zaaVar;
-    }
+    void zad();
 
-    @Override // java.lang.Runnable
-    public final void run() {
-        this.zaa.zao();
-    }
+    void zae();
+
+    void zag(Bundle bundle);
+
+    void zah(ConnectionResult connectionResult, Api api, boolean z);
+
+    void zai(int i);
+
+    boolean zaj();
 }

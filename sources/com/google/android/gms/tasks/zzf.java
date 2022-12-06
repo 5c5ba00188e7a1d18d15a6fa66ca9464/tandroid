@@ -1,46 +1,41 @@
 package com.google.android.gms.tasks;
 
 import java.util.concurrent.Executor;
-/* compiled from: com.google.android.gms:play-services-tasks@@17.2.0 */
+/* compiled from: com.google.android.gms:play-services-tasks@@18.0.2 */
 /* loaded from: classes.dex */
-final class zzf implements Runnable {
-    private final /* synthetic */ Task zza;
-    private final /* synthetic */ zzd zzb;
+final class zzf<TResult, TContinuationResult> implements OnSuccessListener<TContinuationResult>, OnFailureListener, OnCanceledListener, zzq {
+    private final Executor zza;
+    private final Continuation zzb;
+    private final zzw zzc;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzf(zzd zzdVar, Task task) {
-        this.zzb = zzdVar;
-        this.zza = task;
+    public zzf(Executor executor, Continuation continuation, zzw zzwVar) {
+        this.zza = executor;
+        this.zzb = continuation;
+        this.zzc = zzwVar;
     }
 
-    @Override // java.lang.Runnable
-    public final void run() {
-        zzu zzuVar;
-        zzu zzuVar2;
-        zzu zzuVar3;
-        Continuation continuation;
-        try {
-            continuation = this.zzb.zzb;
-            Task task = (Task) continuation.then(this.zza);
-            if (task == null) {
-                this.zzb.onFailure(new NullPointerException("Continuation returned null"));
-                return;
-            }
-            Executor executor = TaskExecutors.zza;
-            task.addOnSuccessListener(executor, this.zzb);
-            task.addOnFailureListener(executor, this.zzb);
-            task.addOnCanceledListener(executor, this.zzb);
-        } catch (RuntimeExecutionException e) {
-            if (e.getCause() instanceof Exception) {
-                zzuVar3 = this.zzb.zzc;
-                zzuVar3.zza((Exception) e.getCause());
-                return;
-            }
-            zzuVar2 = this.zzb.zzc;
-            zzuVar2.zza((Exception) e);
-        } catch (Exception e2) {
-            zzuVar = this.zzb.zzc;
-            zzuVar.zza(e2);
-        }
+    @Override // com.google.android.gms.tasks.OnCanceledListener
+    public final void onCanceled() {
+        this.zzc.zzc();
+    }
+
+    @Override // com.google.android.gms.tasks.OnFailureListener
+    public final void onFailure(Exception exc) {
+        this.zzc.zza(exc);
+    }
+
+    @Override // com.google.android.gms.tasks.OnSuccessListener
+    public final void onSuccess(TContinuationResult tcontinuationresult) {
+        this.zzc.zzb(tcontinuationresult);
+    }
+
+    @Override // com.google.android.gms.tasks.zzq
+    public final void zzc() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override // com.google.android.gms.tasks.zzq
+    public final void zzd(Task task) {
+        this.zza.execute(new zze(this, task));
     }
 }

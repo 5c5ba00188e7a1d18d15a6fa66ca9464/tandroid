@@ -1,11 +1,10 @@
 package com.google.android.gms.dynamic;
 
 import android.os.Bundle;
-import androidx.annotation.RecentlyNonNull;
-/* compiled from: com.google.android.gms:play-services-basement@@17.5.0 */
+/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
 public interface LifecycleDelegate {
-    void onCreate(@RecentlyNonNull Bundle bundle);
+    void onCreate(Bundle bundle);
 
     void onDestroy();
 
@@ -15,7 +14,7 @@ public interface LifecycleDelegate {
 
     void onResume();
 
-    void onSaveInstanceState(@RecentlyNonNull Bundle bundle);
+    void onSaveInstanceState(Bundle bundle);
 
     void onStart();
 

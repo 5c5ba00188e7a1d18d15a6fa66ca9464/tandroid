@@ -1,67 +1,46 @@
 package com.google.android.gms.common.api.internal;
 
-import android.os.DeadObjectException;
 import android.os.RemoteException;
 import com.google.android.gms.common.Feature;
-import com.google.android.gms.common.api.Api;
-import com.google.android.gms.common.api.Status;
-import com.google.android.gms.common.api.internal.GoogleApiManager;
+import com.google.android.gms.common.api.internal.ListenerHolder;
 import com.google.android.gms.tasks.TaskCompletionSource;
-/* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
+/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
-public final class zah<ResultT> extends zad {
-    private final TaskApiCall<Api.AnyClient, ResultT> zab;
-    private final TaskCompletionSource<ResultT> zac;
-    private final StatusExceptionMapper zad;
+public final class zah extends zad {
+    public final ListenerHolder.ListenerKey zab;
 
-    public zah(int i, TaskApiCall<Api.AnyClient, ResultT> taskApiCall, TaskCompletionSource<ResultT> taskCompletionSource, StatusExceptionMapper statusExceptionMapper) {
-        super(i);
-        this.zac = taskCompletionSource;
-        this.zab = taskApiCall;
-        this.zad = statusExceptionMapper;
-        if (i != 2 || !taskApiCall.shouldAutoResolveMissingFeatures()) {
+    public zah(ListenerHolder.ListenerKey listenerKey, TaskCompletionSource taskCompletionSource) {
+        super(4, taskCompletionSource);
+        this.zab = listenerKey;
+    }
+
+    @Override // com.google.android.gms.common.api.internal.zac
+    public final boolean zaa(zabq zabqVar) {
+        zaci zaciVar = (zaci) zabqVar.zah().get(this.zab);
+        return zaciVar != null && zaciVar.zaa.zab();
+    }
+
+    @Override // com.google.android.gms.common.api.internal.zac
+    public final Feature[] zab(zabq zabqVar) {
+        zaci zaciVar = (zaci) zabqVar.zah().get(this.zab);
+        if (zaciVar == null) {
+            return null;
+        }
+        return zaciVar.zaa.getRequiredFeatures();
+    }
+
+    @Override // com.google.android.gms.common.api.internal.zad
+    public final void zac(zabq zabqVar) throws RemoteException {
+        zaci zaciVar = (zaci) zabqVar.zah().remove(this.zab);
+        if (zaciVar != null) {
+            zaciVar.zab.unregisterListener(zabqVar.zaf(), this.zaa);
+            zaciVar.zaa.clearListener();
             return;
         }
-        throw new IllegalArgumentException("Best-effort write calls cannot pass methods that should auto-resolve missing features.");
+        this.zaa.trySetResult(Boolean.FALSE);
     }
 
-    @Override // com.google.android.gms.common.api.internal.zab
-    public final void zaa(GoogleApiManager.zaa<?> zaaVar) throws DeadObjectException {
-        Status zab;
-        try {
-            this.zab.doExecute(zaaVar.zab(), this.zac);
-        } catch (DeadObjectException e) {
-            throw e;
-        } catch (RemoteException e2) {
-            zab = zab.zab(e2);
-            zaa(zab);
-        } catch (RuntimeException e3) {
-            zaa(e3);
-        }
-    }
-
-    @Override // com.google.android.gms.common.api.internal.zab
-    public final void zaa(Status status) {
-        this.zac.trySetException(this.zad.getException(status));
-    }
-
-    @Override // com.google.android.gms.common.api.internal.zab
-    public final void zaa(Exception exc) {
-        this.zac.trySetException(exc);
-    }
-
-    @Override // com.google.android.gms.common.api.internal.zab
-    public final void zaa(zav zavVar, boolean z) {
-        zavVar.zaa(this.zac, z);
-    }
-
-    @Override // com.google.android.gms.common.api.internal.zad
-    public final Feature[] zac(GoogleApiManager.zaa<?> zaaVar) {
-        return this.zab.zaa();
-    }
-
-    @Override // com.google.android.gms.common.api.internal.zad
-    public final boolean zad(GoogleApiManager.zaa<?> zaaVar) {
-        return this.zab.shouldAutoResolveMissingFeatures();
+    @Override // com.google.android.gms.common.api.internal.zai
+    public final /* bridge */ /* synthetic */ void zag(zaad zaadVar, boolean z) {
     }
 }

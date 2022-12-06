@@ -2,70 +2,59 @@ package com.google.android.gms.common.util;
 
 import android.os.Process;
 import android.os.StrictMode;
-import androidx.annotation.RecentlyNullable;
 import com.google.android.gms.common.internal.Preconditions;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import javax.annotation.Nullable;
-/* compiled from: com.google.android.gms:play-services-basement@@17.5.0 */
+/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
 public class ProcessUtils {
     @Nullable
     private static String zza;
     private static int zzb;
 
-    @RecentlyNullable
     public static String getMyProcessName() {
+        BufferedReader bufferedReader;
         if (zza == null) {
-            if (zzb == 0) {
-                zzb = Process.myPid();
+            int i = zzb;
+            if (i == 0) {
+                i = Process.myPid();
+                zzb = i;
             }
-            zza = zza(zzb);
+            String str = null;
+            str = null;
+            str = null;
+            BufferedReader bufferedReader2 = null;
+            if (i > 0) {
+                try {
+                    String str2 = "/proc/" + i + "/cmdline";
+                    StrictMode.ThreadPolicy allowThreadDiskReads = StrictMode.allowThreadDiskReads();
+                    try {
+                        bufferedReader = new BufferedReader(new FileReader(str2));
+                        try {
+                            String readLine = bufferedReader.readLine();
+                            Preconditions.checkNotNull(readLine);
+                            str = readLine.trim();
+                        } catch (IOException unused) {
+                        } catch (Throwable th) {
+                            th = th;
+                            bufferedReader2 = bufferedReader;
+                            IOUtils.closeQuietly(bufferedReader2);
+                            throw th;
+                        }
+                    } finally {
+                        StrictMode.setThreadPolicy(allowThreadDiskReads);
+                    }
+                } catch (IOException unused2) {
+                    bufferedReader = null;
+                } catch (Throwable th2) {
+                    th = th2;
+                }
+                IOUtils.closeQuietly(bufferedReader);
+            }
+            zza = str;
         }
         return zza;
-    }
-
-    @Nullable
-    private static String zza(int i) {
-        Throwable th;
-        BufferedReader bufferedReader;
-        String str = null;
-        if (i <= 0) {
-            return null;
-        }
-        try {
-            StringBuilder sb = new StringBuilder(25);
-            sb.append("/proc/");
-            sb.append(i);
-            sb.append("/cmdline");
-            bufferedReader = zza(sb.toString());
-            try {
-                str = ((String) Preconditions.checkNotNull(bufferedReader.readLine())).trim();
-                IOUtils.closeQuietly(bufferedReader);
-            } catch (IOException unused) {
-                IOUtils.closeQuietly(bufferedReader);
-                return str;
-            } catch (Throwable th2) {
-                th = th2;
-                IOUtils.closeQuietly(bufferedReader);
-                throw th;
-            }
-        } catch (IOException unused2) {
-            bufferedReader = null;
-        } catch (Throwable th3) {
-            th = th3;
-            bufferedReader = null;
-        }
-        return str;
-    }
-
-    private static BufferedReader zza(String str) throws IOException {
-        StrictMode.ThreadPolicy allowThreadDiskReads = StrictMode.allowThreadDiskReads();
-        try {
-            return new BufferedReader(new FileReader(str));
-        } finally {
-            StrictMode.setThreadPolicy(allowThreadDiskReads);
-        }
     }
 }

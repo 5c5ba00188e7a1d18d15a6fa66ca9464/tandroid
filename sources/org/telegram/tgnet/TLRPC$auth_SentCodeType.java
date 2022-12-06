@@ -9,6 +9,7 @@ public abstract class TLRPC$auth_SentCodeType extends TLObject {
     public int next_phone_login_date;
     public String pattern;
     public String prefix;
+    public String url;
 
     public static TLRPC$auth_SentCodeType TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
         TLRPC$auth_SentCodeType tLRPC$auth_SentCodeType;
@@ -86,6 +87,24 @@ public abstract class TLRPC$auth_SentCodeType extends TLObject {
                     @Override // org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
                         abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeInt32(this.length);
+                    }
+                };
+                break;
+            case -648651719:
+                tLRPC$auth_SentCodeType = new TLRPC$auth_SentCodeType() { // from class: org.telegram.tgnet.TLRPC$TL_auth_sentCodeTypeFragmentSms
+                    public static int constructor = -648651719;
+
+                    @Override // org.telegram.tgnet.TLObject
+                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
+                        this.url = abstractSerializedData2.readString(z2);
+                        this.length = abstractSerializedData2.readInt32(z2);
+                    }
+
+                    @Override // org.telegram.tgnet.TLObject
+                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
+                        abstractSerializedData2.writeInt32(constructor);
+                        abstractSerializedData2.writeString(this.url);
                         abstractSerializedData2.writeInt32(this.length);
                     }
                 };

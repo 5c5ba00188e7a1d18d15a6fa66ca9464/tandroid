@@ -5,7 +5,6 @@ import android.os.Message;
 import android.os.RemoteException;
 import android.util.Log;
 import android.util.Pair;
-import androidx.annotation.RecentlyNonNull;
 import com.google.android.gms.common.annotation.KeepName;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
@@ -20,175 +19,159 @@ import java.util.ArrayList;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
-/* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
+/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 @KeepName
 /* loaded from: classes.dex */
 public abstract class BasePendingResult<R extends Result> extends PendingResult<R> {
-    static final ThreadLocal<Boolean> zaa = new zao();
+    static final ThreadLocal zaa = new zaq();
+    public static final /* synthetic */ int zad = 0;
     @KeepName
-    private zaa mResultGuardian;
-    private final Object zab;
-    private final CallbackHandler<R> zac;
-    private final WeakReference<GoogleApiClient> zad;
-    private final CountDownLatch zae;
-    private final ArrayList<PendingResult.StatusListener> zaf;
-    private ResultCallback<? super R> zag;
-    private final AtomicReference<zacq> zah;
-    private R zai;
-    private Status zaj;
-    private volatile boolean zak;
-    private boolean zal;
+    private zas mResultGuardian;
+    protected final CallbackHandler zab;
+    protected final WeakReference zac;
+    private final Object zae;
+    private final CountDownLatch zaf;
+    private final ArrayList zag;
+    private ResultCallback zah;
+    private final AtomicReference zai;
+    private Result zaj;
+    private Status zak;
+    private volatile boolean zal;
     private boolean zam;
-    private ICancelToken zan;
-    private volatile zacn<R> zao;
-    private boolean zap;
-
-    /* JADX INFO: Access modifiers changed from: private */
-    /* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
-    /* loaded from: classes.dex */
-    public final class zaa {
-        private zaa() {
-        }
-
-        protected final void finalize() throws Throwable {
-            BasePendingResult.zaa(BasePendingResult.this.zai);
-            super.finalize();
-        }
-
-        /* synthetic */ zaa(BasePendingResult basePendingResult, zao zaoVar) {
-            this();
-        }
-    }
+    private boolean zan;
+    private ICancelToken zao;
+    private volatile zada zap;
+    private boolean zaq;
 
     @Deprecated
     BasePendingResult() {
-        this.zab = new Object();
-        this.zae = new CountDownLatch(1);
-        this.zaf = new ArrayList<>();
-        this.zah = new AtomicReference<>();
-        this.zap = false;
-        this.zac = new CallbackHandler<>(Looper.getMainLooper());
-        this.zad = new WeakReference<>(null);
+        this.zae = new Object();
+        this.zaf = new CountDownLatch(1);
+        this.zag = new ArrayList();
+        this.zai = new AtomicReference();
+        this.zaq = false;
+        this.zab = new CallbackHandler(Looper.getMainLooper());
+        this.zac = new WeakReference(null);
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public static <R extends Result> ResultCallback<R> zab(ResultCallback<R> resultCallback) {
-        return resultCallback;
+    private final Result zaa() {
+        Result result;
+        synchronized (this.zae) {
+            Preconditions.checkState(!this.zal, "Result has already been consumed.");
+            Preconditions.checkState(isReady(), "Result is not ready.");
+            result = this.zaj;
+            this.zaj = null;
+            this.zah = null;
+            this.zal = true;
+        }
+        zadb zadbVar = (zadb) this.zai.getAndSet(null);
+        if (zadbVar != null) {
+            zadbVar.zaa.zab.remove(this);
+        }
+        return (Result) Preconditions.checkNotNull(result);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public abstract R createFailedResult(@RecentlyNonNull Status status);
-
-    /* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
-    /* loaded from: classes.dex */
-    public static class CallbackHandler<R extends Result> extends com.google.android.gms.internal.base.zas {
-        public CallbackHandler(@RecentlyNonNull Looper looper) {
-            super(looper);
-        }
-
-        public final void zaa(@RecentlyNonNull ResultCallback<? super R> resultCallback, @RecentlyNonNull R r) {
-            sendMessage(obtainMessage(1, new Pair((ResultCallback) Preconditions.checkNotNull(BasePendingResult.zab(resultCallback)), r)));
-        }
-
-        /* JADX WARN: Multi-variable type inference failed */
-        @Override // android.os.Handler
-        public void handleMessage(@RecentlyNonNull Message message) {
-            int i = message.what;
-            if (i != 1) {
-                if (i == 2) {
-                    ((BasePendingResult) message.obj).forceFailureUnlessReady(Status.RESULT_TIMEOUT);
-                    return;
+    private final void zab(Result result) {
+        this.zaj = result;
+        this.zak = result.getStatus();
+        this.zao = null;
+        this.zaf.countDown();
+        if (this.zam) {
+            this.zah = null;
+        } else {
+            ResultCallback resultCallback = this.zah;
+            if (resultCallback == null) {
+                if (this.zaj instanceof Releasable) {
+                    this.mResultGuardian = new zas(this, null);
                 }
-                StringBuilder sb = new StringBuilder(45);
-                sb.append("Don't know how to handle message: ");
-                sb.append(i);
-                Log.wtf("BasePendingResult", sb.toString(), new Exception());
-                return;
-            }
-            Pair pair = (Pair) message.obj;
-            ResultCallback resultCallback = (ResultCallback) pair.first;
-            Result result = (Result) pair.second;
-            try {
-                resultCallback.onResult(result);
-            } catch (RuntimeException e) {
-                BasePendingResult.zaa(result);
-                throw e;
-            }
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    public BasePendingResult(GoogleApiClient googleApiClient) {
-        this.zab = new Object();
-        this.zae = new CountDownLatch(1);
-        this.zaf = new ArrayList<>();
-        this.zah = new AtomicReference<>();
-        this.zap = false;
-        this.zac = new CallbackHandler<>(googleApiClient != null ? googleApiClient.getLooper() : Looper.getMainLooper());
-        this.zad = new WeakReference<>(googleApiClient);
-    }
-
-    public final boolean isReady() {
-        return this.zae.getCount() == 0;
-    }
-
-    @Override // com.google.android.gms.common.api.PendingResult
-    @RecentlyNonNull
-    public final R await(long j, @RecentlyNonNull TimeUnit timeUnit) {
-        if (j > 0) {
-            Preconditions.checkNotMainThread("await must not be called on the UI thread when time is greater than zero.");
-        }
-        boolean z = true;
-        Preconditions.checkState(!this.zak, "Result has already been consumed.");
-        if (this.zao != null) {
-            z = false;
-        }
-        Preconditions.checkState(z, "Cannot await if then() has been called.");
-        try {
-            if (!this.zae.await(j, timeUnit)) {
-                forceFailureUnlessReady(Status.RESULT_TIMEOUT);
-            }
-        } catch (InterruptedException unused) {
-            forceFailureUnlessReady(Status.RESULT_INTERRUPTED);
-        }
-        Preconditions.checkState(isReady(), "Result is not ready.");
-        return zac();
-    }
-
-    @Override // com.google.android.gms.common.api.PendingResult
-    public final void addStatusListener(@RecentlyNonNull PendingResult.StatusListener statusListener) {
-        Preconditions.checkArgument(statusListener != null, "Callback cannot be null.");
-        synchronized (this.zab) {
-            if (isReady()) {
-                statusListener.onComplete(this.zaj);
             } else {
-                this.zaf.add(statusListener);
+                this.zab.removeMessages(2);
+                this.zab.zaa(resultCallback, zaa());
+            }
+        }
+        ArrayList arrayList = this.zag;
+        int size = arrayList.size();
+        for (int i = 0; i < size; i++) {
+            ((PendingResult.StatusListener) arrayList.get(i)).onComplete(this.zak);
+        }
+        this.zag.clear();
+    }
+
+    public static void zal(Result result) {
+        if (result instanceof Releasable) {
+            try {
+                ((Releasable) result).release();
+            } catch (RuntimeException e) {
+                Log.w("BasePendingResult", "Unable to release ".concat(String.valueOf(result)), e);
             }
         }
     }
 
     @Override // com.google.android.gms.common.api.PendingResult
+    public final void addStatusListener(PendingResult.StatusListener statusListener) {
+        Preconditions.checkArgument(statusListener != null, "Callback cannot be null.");
+        synchronized (this.zae) {
+            if (!isReady()) {
+                this.zag.add(statusListener);
+            } else {
+                statusListener.onComplete(this.zak);
+            }
+        }
+    }
+
     public void cancel() {
-        synchronized (this.zab) {
-            if (!this.zal && !this.zak) {
-                ICancelToken iCancelToken = this.zan;
+        synchronized (this.zae) {
+            if (!this.zam && !this.zal) {
+                ICancelToken iCancelToken = this.zao;
                 if (iCancelToken != null) {
                     try {
                         iCancelToken.cancel();
                     } catch (RemoteException unused) {
                     }
                 }
-                zaa(this.zai);
-                this.zal = true;
-                zab((BasePendingResult<R>) createFailedResult(Status.RESULT_CANCELED));
+                zal(this.zaj);
+                this.zam = true;
+                zab(createFailedResult(Status.RESULT_CANCELED));
             }
         }
     }
 
-    public final boolean zaa() {
+    public abstract R createFailedResult(Status status);
+
+    @Deprecated
+    public final void forceFailureUnlessReady(Status status) {
+        synchronized (this.zae) {
+            if (!isReady()) {
+                setResult(createFailedResult(status));
+                this.zan = true;
+            }
+        }
+    }
+
+    public final boolean isCanceled() {
+        boolean z;
+        synchronized (this.zae) {
+            z = this.zam;
+        }
+        return z;
+    }
+
+    public final boolean isReady() {
+        return this.zaf.getCount() == 0;
+    }
+
+    public final void zak() {
+        boolean z = true;
+        if (!this.zaq && !((Boolean) zaa.get()).booleanValue()) {
+            z = false;
+        }
+        this.zaq = z;
+    }
+
+    public final boolean zam() {
         boolean isCanceled;
-        synchronized (this.zab) {
-            if (this.zad.get() == null || !this.zap) {
+        synchronized (this.zae) {
+            if (((GoogleApiClient) this.zac.get()) == null || !this.zaq) {
                 cancel();
             }
             isCanceled = isCanceled();
@@ -196,107 +179,86 @@ public abstract class BasePendingResult<R extends Result> extends PendingResult<
         return isCanceled;
     }
 
-    @Override // com.google.android.gms.common.api.PendingResult
-    public boolean isCanceled() {
-        boolean z;
-        synchronized (this.zab) {
-            z = this.zal;
-        }
-        return z;
+    public final void zan(zadb zadbVar) {
+        this.zai.set(zadbVar);
     }
 
-    public final void setResult(@RecentlyNonNull R r) {
-        synchronized (this.zab) {
-            if (this.zam || this.zal) {
-                zaa(r);
+    /* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
+    /* loaded from: classes.dex */
+    public static class CallbackHandler<R extends Result> extends com.google.android.gms.internal.base.zau {
+        /* JADX WARN: Multi-variable type inference failed */
+        @Override // android.os.Handler
+        public final void handleMessage(Message message) {
+            int i = message.what;
+            if (i == 1) {
+                Pair pair = (Pair) message.obj;
+                ResultCallback resultCallback = (ResultCallback) pair.first;
+                Result result = (Result) pair.second;
+                try {
+                    resultCallback.onResult(result);
+                } catch (RuntimeException e) {
+                    BasePendingResult.zal(result);
+                    throw e;
+                }
+            } else if (i == 2) {
+                ((BasePendingResult) message.obj).forceFailureUnlessReady(Status.RESULT_TIMEOUT);
+            } else {
+                Log.wtf("BasePendingResult", "Don't know how to handle message: " + i, new Exception());
+            }
+        }
+
+        public final void zaa(ResultCallback resultCallback, Result result) {
+            int i = BasePendingResult.zad;
+            sendMessage(obtainMessage(1, new Pair((ResultCallback) Preconditions.checkNotNull(resultCallback), result)));
+        }
+
+        public CallbackHandler(Looper looper) {
+            super(looper);
+        }
+    }
+
+    public final void setResult(R r) {
+        synchronized (this.zae) {
+            if (this.zan || this.zam) {
+                zal(r);
                 return;
             }
             isReady();
-            boolean z = true;
             Preconditions.checkState(!isReady(), "Results have already been set");
-            if (this.zak) {
-                z = false;
+            Preconditions.checkState(!this.zal, "Result has already been consumed");
+            zab(r);
+        }
+    }
+
+    @Override // com.google.android.gms.common.api.PendingResult
+    public final R await(long j, TimeUnit timeUnit) {
+        if (j > 0) {
+            Preconditions.checkNotMainThread("await must not be called on the UI thread when time is greater than zero.");
+        }
+        boolean z = true;
+        Preconditions.checkState(!this.zal, "Result has already been consumed.");
+        if (this.zap != null) {
+            z = false;
+        }
+        Preconditions.checkState(z, "Cannot await if then() has been called.");
+        try {
+            if (!this.zaf.await(j, timeUnit)) {
+                forceFailureUnlessReady(Status.RESULT_TIMEOUT);
             }
-            Preconditions.checkState(z, "Result has already been consumed");
-            zab((BasePendingResult<R>) r);
+        } catch (InterruptedException unused) {
+            forceFailureUnlessReady(Status.RESULT_INTERRUPTED);
         }
+        Preconditions.checkState(isReady(), "Result is not ready.");
+        return (R) zaa();
     }
 
-    @Deprecated
-    public final void forceFailureUnlessReady(@RecentlyNonNull Status status) {
-        synchronized (this.zab) {
-            if (!isReady()) {
-                setResult(createFailedResult(status));
-                this.zam = true;
-            }
-        }
-    }
-
-    public final void zaa(zacq zacqVar) {
-        this.zah.set(zacqVar);
-    }
-
-    public final void zab() {
-        this.zap = this.zap || zaa.get().booleanValue();
-    }
-
-    private final R zac() {
-        R r;
-        synchronized (this.zab) {
-            Preconditions.checkState(!this.zak, "Result has already been consumed.");
-            Preconditions.checkState(isReady(), "Result is not ready.");
-            r = this.zai;
-            this.zai = null;
-            this.zag = null;
-            this.zak = true;
-        }
-        zacq andSet = this.zah.getAndSet(null);
-        if (andSet != null) {
-            andSet.zaa(this);
-        }
-        return (R) Preconditions.checkNotNull(r);
-    }
-
-    private final void zab(R r) {
-        this.zai = r;
-        this.zaj = r.getStatus();
-        this.zan = null;
-        this.zae.countDown();
-        if (this.zal) {
-            this.zag = null;
-        } else {
-            ResultCallback<? super R> resultCallback = this.zag;
-            if (resultCallback == null) {
-                if (this.zai instanceof Releasable) {
-                    this.mResultGuardian = new zaa(this, null);
-                }
-            } else {
-                this.zac.removeMessages(2);
-                this.zac.zaa(resultCallback, zac());
-            }
-        }
-        ArrayList<PendingResult.StatusListener> arrayList = this.zaf;
-        int size = arrayList.size();
-        int i = 0;
-        while (i < size) {
-            PendingResult.StatusListener statusListener = arrayList.get(i);
-            i++;
-            statusListener.onComplete(this.zaj);
-        }
-        this.zaf.clear();
-    }
-
-    public static void zaa(Result result) {
-        if (result instanceof Releasable) {
-            try {
-                ((Releasable) result).release();
-            } catch (RuntimeException e) {
-                String valueOf = String.valueOf(result);
-                StringBuilder sb = new StringBuilder(valueOf.length() + 18);
-                sb.append("Unable to release ");
-                sb.append(valueOf);
-                Log.w("BasePendingResult", sb.toString(), e);
-            }
-        }
+    public BasePendingResult(GoogleApiClient googleApiClient) {
+        this.zae = new Object();
+        this.zaf = new CountDownLatch(1);
+        this.zag = new ArrayList();
+        this.zai = new AtomicReference();
+        this.zaq = false;
+        this.zab = new CallbackHandler(googleApiClient != null ? googleApiClient.getLooper() : Looper.getMainLooper());
+        this.zac = new WeakReference(googleApiClient);
     }
 }

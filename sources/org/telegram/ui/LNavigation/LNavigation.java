@@ -26,6 +26,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -754,6 +755,9 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
                     return true;
                 }
                 baseFragment.onTransitionAnimationStart(true, false);
+                if (backgroundFragment != null) {
+                    backgroundFragment.onTransitionAnimationStart(false, false);
+                }
                 AnimatorSet onCustomTransitionAnimation = baseFragment.onCustomTransitionAnimation(true, new Runnable() { // from class: org.telegram.ui.LNavigation.LNavigation$$ExternalSyntheticLambda18
                     @Override // java.lang.Runnable
                     public final void run() {
@@ -777,7 +781,7 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
                 this.currentSpringAnimation.addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.LNavigation.LNavigation$$ExternalSyntheticLambda7
                     @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationEndListener
                     public final void onAnimationEnd(DynamicAnimation dynamicAnimation, boolean z2, float f, float f2) {
-                        LNavigation.this.lambda$presentFragment$9(baseFragment, navigationParams, backgroundFragment, runnable, dynamicAnimation, z2, f, f2);
+                        LNavigation.this.lambda$presentFragment$9(baseFragment, backgroundFragment, navigationParams, runnable, dynamicAnimation, z2, f, f2);
                     }
                 });
                 this.currentSpringAnimation.start();
@@ -826,6 +830,9 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
     public /* synthetic */ void lambda$presentFragment$7(BaseFragment baseFragment, BaseFragment baseFragment2, Runnable runnable) {
         this.customAnimation = null;
         baseFragment.onTransitionAnimationEnd(true, false);
+        if (baseFragment2 != null) {
+            baseFragment2.onTransitionAnimationEnd(false, false);
+        }
         this.swipeProgress = 0.0f;
         invalidateTranslation();
         if (getBackgroundView() != null) {
@@ -846,10 +853,13 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$presentFragment$9(BaseFragment baseFragment, INavigationLayout.NavigationParams navigationParams, BaseFragment baseFragment2, Runnable runnable, DynamicAnimation dynamicAnimation, boolean z, float f, float f2) {
+    public /* synthetic */ void lambda$presentFragment$9(BaseFragment baseFragment, BaseFragment baseFragment2, INavigationLayout.NavigationParams navigationParams, Runnable runnable, DynamicAnimation dynamicAnimation, boolean z, float f, float f2) {
         Runnable runnable2;
         if (dynamicAnimation == this.currentSpringAnimation) {
             baseFragment.onTransitionAnimationEnd(true, false);
+            if (baseFragment2 != null) {
+                baseFragment2.onTransitionAnimationEnd(false, false);
+            }
             this.swipeProgress = 0.0f;
             invalidateTranslation();
             if (!navigationParams.preview && getBackgroundView() != null) {
@@ -879,6 +889,7 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
 
     /* JADX INFO: Access modifiers changed from: private */
     public void invalidateTranslation() {
+        boolean z = true;
         if (this.useAlphaAnimations && this.fragmentStack.size() == 1) {
             this.backgroundView.setAlpha(1.0f - this.swipeProgress);
             setAlpha(1.0f - this.swipeProgress);
@@ -917,10 +928,19 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
         if (backgroundView != null && foregroundView != null) {
             try {
                 if (Build.VERSION.SDK_INT >= 21) {
-                    getParentActivity().getWindow().setNavigationBarColor(ColorUtils.blendARGB(foregroundView.fragment.getNavigationBarColor(), backgroundView.fragment.getNavigationBarColor(), this.swipeProgress));
+                    int blendARGB = ColorUtils.blendARGB(foregroundView.fragment.getNavigationBarColor(), backgroundView.fragment.getNavigationBarColor(), this.swipeProgress);
+                    getParentActivity().getWindow().setNavigationBarColor(blendARGB);
+                    Window window = getParentActivity().getWindow();
+                    if (AndroidUtilities.computePerceivedBrightness(blendARGB) <= 0.721f) {
+                        z = false;
+                    }
+                    AndroidUtilities.setLightNavigationBar(window, z);
                 }
             } catch (Exception unused) {
             }
+        }
+        if (getLastFragment() != null) {
+            getLastFragment().onSlideProgressFront(false, this.swipeProgress);
         }
         if (getBackgroundFragment() == null) {
             return;
@@ -1251,7 +1271,7 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
         this.delegate = iNavigationLayoutDelegate;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:33:0x023e  */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x0263  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1260,6 +1280,7 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
         boolean z;
         boolean z2;
         Drawable drawable;
+        boolean isActionBarInCrossfade = isActionBarInCrossfade();
         if (this.useAlphaAnimations) {
             canvas.save();
             this.path.rewind();
@@ -1270,12 +1291,17 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
         }
         super.draw(canvas);
         if (!isInPreviewMode() && ((!this.useAlphaAnimations || this.fragmentStack.size() > 1) && ((isSwipeInProgress() || isTransitionAnimationInProgress()) && this.swipeProgress != 0.0f))) {
+            int paddingTop = getPaddingTop();
+            if (isActionBarInCrossfade) {
+                paddingTop += AndroidUtilities.lerp(getBackgroundFragment().getActionBar().getHeight(), getLastFragment().getActionBar().getHeight(), 1.0f - this.swipeProgress);
+            }
+            int i = paddingTop;
             int width = (getWidth() - getPaddingLeft()) - getPaddingRight();
             this.dimmPaint.setAlpha((int) ((1.0f - this.swipeProgress) * 122.0f));
             float f = width;
-            canvas.drawRect(getPaddingLeft(), getPaddingTop(), getPaddingLeft() + (this.swipeProgress * f), getHeight() - getPaddingBottom(), this.dimmPaint);
+            canvas.drawRect(getPaddingLeft(), i, getPaddingLeft() + (this.swipeProgress * f), getHeight() - getPaddingBottom(), this.dimmPaint);
             this.layerShadowDrawable.setAlpha((int) ((1.0f - this.swipeProgress) * 255.0f));
-            this.layerShadowDrawable.setBounds(((int) ((this.swipeProgress * f) - drawable.getIntrinsicWidth())) + getPaddingLeft(), getPaddingTop(), ((int) (f * this.swipeProgress)) + getPaddingLeft(), getHeight() - getPaddingBottom());
+            this.layerShadowDrawable.setBounds(((int) ((this.swipeProgress * f) - drawable.getIntrinsicWidth())) + getPaddingLeft(), i, ((int) (f * this.swipeProgress)) + getPaddingLeft(), getHeight() - getPaddingBottom());
             this.layerShadowDrawable.draw(canvas);
         }
         if (this.useAlphaAnimations) {
@@ -1298,7 +1324,7 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
             canvas.drawBitmap(this.previewFragmentSnapshot, 0.0f, 0.0f, this.blurPaint);
             canvas.restore();
         }
-        if (isActionBarInCrossfade()) {
+        if (isActionBarInCrossfade) {
             BaseFragment lastFragment = getLastFragment();
             BaseFragment backgroundFragment = getBackgroundFragment();
             ActionBar actionBar = lastFragment.getActionBar();
@@ -1318,7 +1344,7 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
                         z = false;
                         z2 = false;
                         RectF rectF3 = AndroidUtilities.rectTmp;
-                        rectF3.set(0.0f, 0.0f, getWidth(), actionBar2.getHeight());
+                        rectF3.set(0.0f, 0.0f, getWidth(), actionBar2.getY() + actionBar2.getHeight());
                         canvas.saveLayerAlpha(rectF3, (int) (this.swipeProgress * 255.0f), 31);
                         actionBar2.onDrawCrossfadeBackground(canvas);
                         canvas.restore();
@@ -1326,11 +1352,11 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
                         actionBar.onDrawCrossfadeBackground(canvas);
                         canvas.restore();
                         if (z) {
-                            rectF3.set(0.0f, 0.0f, getWidth(), actionBar2.getHeight());
+                            rectF3.set(0.0f, 0.0f, getWidth(), actionBar2.getY() + actionBar2.getHeight());
                             float floatValue = f4 != null ? f4.floatValue() : this.swipeProgress;
                             canvas.saveLayerAlpha(rectF3, (int) (AndroidUtilities.lerp(1.0f - (actionBar2.getY() / (-(actionBar2.getHeight() - AndroidUtilities.statusBarHeight))), 1.0f - (actionBar.getY() / (-(actionBar.getHeight() - AndroidUtilities.statusBarHeight))), 1.0f - this.swipeProgress) * 255.0f), 31);
                             float f5 = 1.0f - floatValue;
-                            canvas.translate(AndroidUtilities.dp(16.0f) - (AndroidUtilities.dp(2.0f) * f5), AndroidUtilities.dp(16.0f) + (actionBar.getOccupyStatusBar() ? AndroidUtilities.statusBarHeight : 0));
+                            canvas.translate(AndroidUtilities.dp(16.0f) - (AndroidUtilities.dp(1.0f) * f5), AndroidUtilities.dp(16.0f) + (actionBar.getOccupyStatusBar() ? AndroidUtilities.statusBarHeight : 0));
                             MenuDrawable menuDrawable = this.menuDrawable;
                             if (!z2) {
                                 floatValue = f5;
@@ -1339,7 +1365,7 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
                             this.menuDrawable.draw(canvas);
                             canvas.restore();
                         }
-                        rectF3.set(0.0f, AndroidUtilities.statusBarHeight, getWidth(), actionBar2.getHeight());
+                        rectF3.set(0.0f, AndroidUtilities.statusBarHeight, getWidth(), actionBar2.getY() + actionBar2.getHeight());
                         canvas.saveLayerAlpha(rectF3, (int) (this.swipeProgress * 255.0f), 31);
                         canvas.translate(0.0f, actionBar2.getY());
                         actionBar2.onDrawCrossfadeContent(canvas, false, z, this.swipeProgress);
@@ -1353,7 +1379,7 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
                     z = true;
                     z2 = true;
                     RectF rectF32 = AndroidUtilities.rectTmp;
-                    rectF32.set(0.0f, 0.0f, getWidth(), actionBar2.getHeight());
+                    rectF32.set(0.0f, 0.0f, getWidth(), actionBar2.getY() + actionBar2.getHeight());
                     canvas.saveLayerAlpha(rectF32, (int) (this.swipeProgress * 255.0f), 31);
                     actionBar2.onDrawCrossfadeBackground(canvas);
                     canvas.restore();
@@ -1362,7 +1388,7 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
                     canvas.restore();
                     if (z) {
                     }
-                    rectF32.set(0.0f, AndroidUtilities.statusBarHeight, getWidth(), actionBar2.getHeight());
+                    rectF32.set(0.0f, AndroidUtilities.statusBarHeight, getWidth(), actionBar2.getY() + actionBar2.getHeight());
                     canvas.saveLayerAlpha(rectF32, (int) (this.swipeProgress * 255.0f), 31);
                     canvas.translate(0.0f, actionBar2.getY());
                     actionBar2.onDrawCrossfadeContent(canvas, false, z, this.swipeProgress);
@@ -1376,7 +1402,7 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
             z = true;
             z2 = false;
             RectF rectF322 = AndroidUtilities.rectTmp;
-            rectF322.set(0.0f, 0.0f, getWidth(), actionBar2.getHeight());
+            rectF322.set(0.0f, 0.0f, getWidth(), actionBar2.getY() + actionBar2.getHeight());
             canvas.saveLayerAlpha(rectF322, (int) (this.swipeProgress * 255.0f), 31);
             actionBar2.onDrawCrossfadeBackground(canvas);
             canvas.restore();
@@ -1385,7 +1411,7 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
             canvas.restore();
             if (z) {
             }
-            rectF322.set(0.0f, AndroidUtilities.statusBarHeight, getWidth(), actionBar2.getHeight());
+            rectF322.set(0.0f, AndroidUtilities.statusBarHeight, getWidth(), actionBar2.getY() + actionBar2.getHeight());
             canvas.saveLayerAlpha(rectF322, (int) (this.swipeProgress * 255.0f), 31);
             canvas.translate(0.0f, actionBar2.getY());
             actionBar2.onDrawCrossfadeContent(canvas, false, z, this.swipeProgress);
@@ -1422,63 +1448,63 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
     }
 
     public void closeLastFragment(boolean z, boolean z2, float f) {
-        if (this.fragmentStack.isEmpty() || checkTransitionAnimation()) {
-            return;
-        }
-        INavigationLayout.INavigationLayoutDelegate iNavigationLayoutDelegate = this.delegate;
-        if (iNavigationLayoutDelegate != null && !iNavigationLayoutDelegate.needCloseLastFragment(this)) {
-            return;
-        }
-        if (z && !z2 && MessagesController.getGlobalMainSettings().getBoolean("view_animations", true) && (this.useAlphaAnimations || this.fragmentStack.size() >= 2)) {
-            AndroidUtilities.hideKeyboard(this);
-            final BaseFragment lastFragment = getLastFragment();
-            final BaseFragment backgroundFragment = getBackgroundFragment();
-            if (getBackgroundView() != null) {
-                getBackgroundView().setVisibility(0);
+        BaseFragment lastFragment = getLastFragment();
+        if ((lastFragment == null || !lastFragment.closeLastFragment()) && !this.fragmentStack.isEmpty() && !checkTransitionAnimation()) {
+            INavigationLayout.INavigationLayoutDelegate iNavigationLayoutDelegate = this.delegate;
+            if (iNavigationLayoutDelegate != null && !iNavigationLayoutDelegate.needCloseLastFragment(this)) {
+                return;
             }
-            lastFragment.onTransitionAnimationStart(false, true);
-            if (backgroundFragment != null) {
-                backgroundFragment.setPaused(false);
-            }
-            if (this.swipeProgress == 0.0f) {
-                AnimatorSet onCustomTransitionAnimation = lastFragment.onCustomTransitionAnimation(false, new Runnable() { // from class: org.telegram.ui.LNavigation.LNavigation$$ExternalSyntheticLambda16
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        LNavigation.this.lambda$closeLastFragment$14(lastFragment, backgroundFragment);
-                    }
-                });
-                this.customAnimation = onCustomTransitionAnimation;
-                if (onCustomTransitionAnimation != null) {
-                    getForegroundView().setTranslationX(0.0f);
-                    if (getBackgroundView() == null) {
+            if (z && !z2 && MessagesController.getGlobalMainSettings().getBoolean("view_animations", true) && (this.useAlphaAnimations || this.fragmentStack.size() >= 2)) {
+                AndroidUtilities.hideKeyboard(this);
+                final BaseFragment lastFragment2 = getLastFragment();
+                final BaseFragment backgroundFragment = getBackgroundFragment();
+                if (getBackgroundView() != null) {
+                    getBackgroundView().setVisibility(0);
+                }
+                lastFragment2.onTransitionAnimationStart(false, true);
+                if (backgroundFragment != null) {
+                    backgroundFragment.setPaused(false);
+                }
+                if (this.swipeProgress == 0.0f) {
+                    AnimatorSet onCustomTransitionAnimation = lastFragment2.onCustomTransitionAnimation(false, new Runnable() { // from class: org.telegram.ui.LNavigation.LNavigation$$ExternalSyntheticLambda16
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            LNavigation.this.lambda$closeLastFragment$14(lastFragment2, backgroundFragment);
+                        }
+                    });
+                    this.customAnimation = onCustomTransitionAnimation;
+                    if (onCustomTransitionAnimation != null) {
+                        getForegroundView().setTranslationX(0.0f);
+                        if (getBackgroundView() == null) {
+                            return;
+                        }
+                        getBackgroundView().setTranslationX(0.0f);
                         return;
                     }
-                    getBackgroundView().setTranslationX(0.0f);
-                    return;
                 }
+                SpringAnimation spring = new SpringAnimation(new FloatValueHolder(this.swipeProgress * 1000.0f)).setSpring(new SpringForce(1000.0f).setStiffness(isInPreviewMode() ? 800.0f : SPRING_STIFFNESS).setDampingRatio(SPRING_DAMPING_RATIO));
+                this.currentSpringAnimation = spring;
+                if (f != 0.0f) {
+                    spring.setStartVelocity(f);
+                }
+                this.currentSpringAnimation.addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() { // from class: org.telegram.ui.LNavigation.LNavigation$$ExternalSyntheticLambda11
+                    @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationUpdateListener
+                    public final void onAnimationUpdate(DynamicAnimation dynamicAnimation, float f2, float f3) {
+                        LNavigation.this.lambda$closeLastFragment$15(lastFragment2, backgroundFragment, dynamicAnimation, f2, f3);
+                    }
+                });
+                this.currentSpringAnimation.addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.LNavigation.LNavigation$$ExternalSyntheticLambda6
+                    @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationEndListener
+                    public final void onAnimationEnd(DynamicAnimation dynamicAnimation, boolean z3, float f2, float f3) {
+                        LNavigation.this.lambda$closeLastFragment$16(lastFragment2, backgroundFragment, dynamicAnimation, z3, f2, f3);
+                    }
+                });
+                this.currentSpringAnimation.start();
+                return;
             }
-            SpringAnimation spring = new SpringAnimation(new FloatValueHolder(this.swipeProgress * 1000.0f)).setSpring(new SpringForce(1000.0f).setStiffness(isInPreviewMode() ? 800.0f : SPRING_STIFFNESS).setDampingRatio(SPRING_DAMPING_RATIO));
-            this.currentSpringAnimation = spring;
-            if (f != 0.0f) {
-                spring.setStartVelocity(f);
-            }
-            this.currentSpringAnimation.addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() { // from class: org.telegram.ui.LNavigation.LNavigation$$ExternalSyntheticLambda11
-                @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationUpdateListener
-                public final void onAnimationUpdate(DynamicAnimation dynamicAnimation, float f2, float f3) {
-                    LNavigation.this.lambda$closeLastFragment$15(lastFragment, backgroundFragment, dynamicAnimation, f2, f3);
-                }
-            });
-            this.currentSpringAnimation.addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.LNavigation.LNavigation$$ExternalSyntheticLambda6
-                @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationEndListener
-                public final void onAnimationEnd(DynamicAnimation dynamicAnimation, boolean z3, float f2, float f3) {
-                    LNavigation.this.lambda$closeLastFragment$16(lastFragment, backgroundFragment, dynamicAnimation, z3, f2, f3);
-                }
-            });
-            this.currentSpringAnimation.start();
-            return;
+            this.swipeProgress = 0.0f;
+            removeFragmentFromStack(getLastFragment());
         }
-        this.swipeProgress = 0.0f;
-        removeFragmentFromStack(getLastFragment());
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1516,17 +1542,24 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
         this.fragmentStack.remove(baseFragment);
         notifyFragmentStackChanged();
         FragmentHolderView foregroundView = getForegroundView();
-        foregroundView.setFragment(null);
-        removeView(foregroundView);
-        resetViewProperties(foregroundView);
+        if (foregroundView != null) {
+            foregroundView.setFragment(null);
+            removeView(foregroundView);
+            resetViewProperties(foregroundView);
+        }
         if (baseFragment2 != null) {
             baseFragment2.prepareFragmentToSlide(false, false);
+            baseFragment2.onTransitionAnimationEnd(true, true);
             baseFragment2.onBecomeFullyVisible();
         }
         if (this.fragmentStack.size() >= 2) {
             BaseFragment backgroundFragment = getBackgroundFragment();
             backgroundFragment.setParentLayout(this);
-            foregroundView.setFragment(backgroundFragment);
+            if (foregroundView == null) {
+                foregroundView = onCreateHolderView(backgroundFragment);
+            } else {
+                foregroundView.setFragment(backgroundFragment);
+            }
             foregroundView.setVisibility(8);
             addView(foregroundView, getChildCount() - 2);
         }

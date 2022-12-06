@@ -2010,6 +2010,9 @@ public abstract class TextSelectionHelper<Cell extends SelectableView> {
                 staticLayout = textLayoutBlock.textLayout;
                 f = textLayoutBlock.textYOffset;
             }
+            if (staticLayout == null) {
+                return -1;
+            }
             if (i7 < 0) {
                 i7 = 1;
             }

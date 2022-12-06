@@ -764,7 +764,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
             new PremiumFeatureBottomSheet(baseFragment, 11, false).show();
         } else if (!(getContext() instanceof LaunchActivity)) {
         } else {
-            ((LaunchActivity) getContext()).lambda$runLinkRequest$65(new PremiumPreviewFragment(null));
+            ((LaunchActivity) getContext()).lambda$runLinkRequest$67(new PremiumPreviewFragment(null));
         }
     }
 
@@ -998,9 +998,9 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
                 this.addButtonView.setVisibility(0);
                 this.removeButtonView.setVisibility(8);
                 if (arrayList4.size() == 1) {
-                    this.addButtonView.setText(LocaleController.formatString("AddStickersCount", R.string.AddStickersCount, LocaleController.formatPluralString("EmojiCountButton", ((TLRPC$TL_messages_stickerSet) arrayList4.get(0)).documents.size(), new Object[0])));
+                    this.addButtonView.setText(LocaleController.formatPluralString("AddManyEmojiCount", ((TLRPC$TL_messages_stickerSet) arrayList4.get(0)).documents.size(), new Object[0]));
                 } else {
-                    this.addButtonView.setText(LocaleController.formatString("AddStickersCount", R.string.AddStickersCount, LocaleController.formatPluralString("EmojiPackCount", arrayList4.size(), new Object[0])));
+                    this.addButtonView.setText(LocaleController.formatPluralString("AddManyEmojiCount", arrayList4.size(), new Object[0]));
                 }
                 this.addButtonView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.EmojiPacksAlert$$ExternalSyntheticLambda3
                     @Override // android.view.View.OnClickListener
@@ -1013,9 +1013,9 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
                 this.addButtonView.setVisibility(8);
                 this.removeButtonView.setVisibility(0);
                 if (arrayList2.size() == 1) {
-                    this.removeButtonView.setText(LocaleController.formatString("RemoveStickersCount", R.string.RemoveStickersCount, LocaleController.formatPluralString("EmojiCountButton", ((TLRPC$TL_messages_stickerSet) arrayList2.get(0)).documents.size(), new Object[0])));
+                    this.removeButtonView.setText(LocaleController.formatPluralString("RemoveManyEmojiCount", ((TLRPC$TL_messages_stickerSet) arrayList2.get(0)).documents.size(), new Object[0]));
                 } else {
-                    this.removeButtonView.setText(LocaleController.formatString("RemoveStickersCount", R.string.RemoveStickersCount, LocaleController.formatPluralString("EmojiPackCount", arrayList2.size(), new Object[0])));
+                    this.removeButtonView.setText(LocaleController.formatPluralString("RemoveManyEmojiPacksCount", arrayList2.size(), new Object[0]));
                 }
                 this.removeButtonView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.EmojiPacksAlert$$ExternalSyntheticLambda2
                     @Override // android.view.View.OnClickListener
@@ -1890,10 +1890,10 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
             NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.groupStickersDidLoad);
             final boolean[] zArr = new boolean[1];
             for (int i = 0; i < this.data.length; i++) {
-                TLRPC$TL_messages_stickerSet stickerSet = MediaDataController.getInstance(this.currentAccount).getStickerSet(this.inputStickerSets.get(i), false, new Runnable() { // from class: org.telegram.ui.Components.EmojiPacksAlert$EmojiPacksLoader$$ExternalSyntheticLambda2
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        EmojiPacksAlert.EmojiPacksLoader.this.lambda$init$1(zArr);
+                TLRPC$TL_messages_stickerSet stickerSet = MediaDataController.getInstance(this.currentAccount).getStickerSet(this.inputStickerSets.get(i), false, new Utilities.Callback() { // from class: org.telegram.ui.Components.EmojiPacksAlert$EmojiPacksLoader$$ExternalSyntheticLambda2
+                    @Override // org.telegram.messenger.Utilities.Callback
+                    public final void run(Object obj) {
+                        EmojiPacksAlert.EmojiPacksLoader.this.lambda$init$1(zArr, (TLRPC$TL_messages_stickerSet) obj);
                     }
                 });
                 if (this.data.length == 1 && stickerSet != null && (tLRPC$StickerSet = stickerSet.set) != null && !tLRPC$StickerSet.emojis) {
@@ -1912,16 +1912,17 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$init$1(boolean[] zArr) {
-            if (!zArr[0]) {
-                zArr[0] = true;
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.EmojiPacksAlert$EmojiPacksLoader$$ExternalSyntheticLambda0
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        EmojiPacksAlert.EmojiPacksLoader.this.lambda$init$0();
-                    }
-                });
+        public /* synthetic */ void lambda$init$1(boolean[] zArr, TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet) {
+            if (tLRPC$TL_messages_stickerSet != null || zArr[0]) {
+                return;
             }
+            zArr[0] = true;
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.EmojiPacksAlert$EmojiPacksLoader$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    EmojiPacksAlert.EmojiPacksLoader.this.lambda$init$0();
+                }
+            });
         }
 
         /* JADX INFO: Access modifiers changed from: private */

@@ -2,31 +2,33 @@ package com.google.android.gms.signin.internal;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
-import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
+import com.google.android.gms.common.internal.safeparcel.SafeParcelReader;
 import com.google.android.gms.common.internal.zat;
-/* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
+/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
-public final class zaj extends AbstractSafeParcelable {
-    public static final Parcelable.Creator<zaj> CREATOR = new zal();
-    private final int zaa;
-    private final zat zab;
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zaj(int i, zat zatVar) {
-        this.zaa = i;
-        this.zab = zatVar;
+public final class zaj implements Parcelable.Creator {
+    @Override // android.os.Parcelable.Creator
+    public final /* bridge */ /* synthetic */ Object createFromParcel(Parcel parcel) {
+        int validateObjectHeader = SafeParcelReader.validateObjectHeader(parcel);
+        int i = 0;
+        zat zatVar = null;
+        while (parcel.dataPosition() < validateObjectHeader) {
+            int readHeader = SafeParcelReader.readHeader(parcel);
+            int fieldId = SafeParcelReader.getFieldId(readHeader);
+            if (fieldId == 1) {
+                i = SafeParcelReader.readInt(parcel, readHeader);
+            } else if (fieldId == 2) {
+                zatVar = (zat) SafeParcelReader.createParcelable(parcel, readHeader, zat.CREATOR);
+            } else {
+                SafeParcelReader.skipUnknownField(parcel, readHeader);
+            }
+        }
+        SafeParcelReader.ensureAtEnd(parcel, validateObjectHeader);
+        return new zai(i, zatVar);
     }
 
-    public zaj(zat zatVar) {
-        this(1, zatVar);
-    }
-
-    @Override // android.os.Parcelable
-    public final void writeToParcel(Parcel parcel, int i) {
-        int beginObjectHeader = SafeParcelWriter.beginObjectHeader(parcel);
-        SafeParcelWriter.writeInt(parcel, 1, this.zaa);
-        SafeParcelWriter.writeParcelable(parcel, 2, this.zab, i, false);
-        SafeParcelWriter.finishObjectHeader(parcel, beginObjectHeader);
+    @Override // android.os.Parcelable.Creator
+    public final /* synthetic */ Object[] newArray(int i) {
+        return new zai[i];
     }
 }

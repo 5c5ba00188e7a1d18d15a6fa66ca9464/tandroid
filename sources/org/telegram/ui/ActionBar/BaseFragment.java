@@ -58,6 +58,7 @@ public abstract class BaseFragment {
     private boolean isFinished;
     protected Dialog parentDialog;
     protected INavigationLayout parentLayout;
+    private PreviewDelegate previewDelegate;
     private boolean removingFromStack;
     protected Dialog visibleDialog;
     protected int currentAccount = UserConfig.selectedAccount;
@@ -65,12 +66,21 @@ public abstract class BaseFragment {
     protected boolean isPaused = true;
     protected int classGuid = ConnectionsManager.generateClassGuid();
 
+    /* loaded from: classes3.dex */
+    public interface PreviewDelegate {
+        void finishFragment();
+    }
+
     protected boolean allowPresentFragment() {
         return true;
     }
 
     public boolean canBeginSlide() {
         return true;
+    }
+
+    public boolean closeLastFragment() {
+        return false;
     }
 
     public View createView(Context context) {
@@ -158,6 +168,9 @@ public abstract class BaseFragment {
     public void onSlideProgress(boolean z, float f) {
     }
 
+    public void onSlideProgressFront(boolean z, float f) {
+    }
+
     public void onTransitionAnimationEnd(boolean z, boolean z2) {
     }
 
@@ -174,6 +187,12 @@ public abstract class BaseFragment {
     }
 
     public void saveSelfArgs(Bundle bundle) {
+    }
+
+    public void setPreviewOpenedProgress(float f) {
+    }
+
+    public void setPreviewReplaceProgress(float f) {
     }
 
     public void setProgressToDrawerOpened(float f) {
@@ -355,7 +374,6 @@ public abstract class BaseFragment {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     public ActionBar createActionBar(Context context) {
         ActionBar actionBar = new ActionBar(context, getResourceProvider());
         actionBar.setBackgroundColor(getThemedColor("actionBarDefault"));
@@ -381,9 +399,12 @@ public abstract class BaseFragment {
     }
 
     public void finishFragment() {
+        PreviewDelegate previewDelegate;
         Dialog dialog = this.parentDialog;
         if (dialog != null) {
             dialog.dismiss();
+        } else if (this.inPreviewMode && (previewDelegate = this.previewDelegate) != null) {
+            previewDelegate.finishFragment();
         } else {
             finishFragment(true);
         }
@@ -851,5 +872,9 @@ public abstract class BaseFragment {
             return ColorUtils.calculateLuminance(color) > 0.699999988079071d;
         }
         return true;
+    }
+
+    public void setPreviewDelegate(PreviewDelegate previewDelegate) {
+        this.previewDelegate = previewDelegate;
     }
 }

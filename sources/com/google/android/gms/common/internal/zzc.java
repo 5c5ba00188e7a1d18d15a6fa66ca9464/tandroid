@@ -1,38 +1,60 @@
 package com.google.android.gms.common.internal;
 
-import android.os.Bundle;
-import android.os.Parcel;
-import android.os.Parcelable;
-import com.google.android.gms.common.Feature;
-import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
-import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
-/* compiled from: com.google.android.gms:play-services-basement@@17.5.0 */
+import android.util.Log;
+import java.util.ArrayList;
+/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
-public final class zzc extends AbstractSafeParcelable {
-    public static final Parcelable.Creator<zzc> CREATOR = new zzb();
-    Bundle zza;
-    Feature[] zzb;
-    ConnectionTelemetryConfiguration zzc;
-    private int zzd;
+public abstract class zzc {
+    private Object zza;
+    private boolean zzb = false;
+    final /* synthetic */ BaseGmsClient zzd;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzc(Bundle bundle, Feature[] featureArr, int i, ConnectionTelemetryConfiguration connectionTelemetryConfiguration) {
-        this.zza = bundle;
-        this.zzb = featureArr;
-        this.zzd = i;
-        this.zzc = connectionTelemetryConfiguration;
+    public zzc(BaseGmsClient baseGmsClient, Object obj) {
+        this.zzd = baseGmsClient;
+        this.zza = obj;
     }
 
-    public zzc() {
+    protected abstract void zza(Object obj);
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public abstract void zzc();
+
+    public final void zze() {
+        Object obj;
+        synchronized (this) {
+            obj = this.zza;
+            if (this.zzb) {
+                String obj2 = toString();
+                Log.w("GmsClient", "Callback proxy " + obj2 + " being reused. This is not safe.");
+            }
+        }
+        if (obj != null) {
+            try {
+                zza(obj);
+            } catch (RuntimeException e) {
+                throw e;
+            }
+        }
+        synchronized (this) {
+            this.zzb = true;
+        }
+        zzg();
     }
 
-    @Override // android.os.Parcelable
-    public final void writeToParcel(Parcel parcel, int i) {
-        int beginObjectHeader = SafeParcelWriter.beginObjectHeader(parcel);
-        SafeParcelWriter.writeBundle(parcel, 1, this.zza, false);
-        SafeParcelWriter.writeTypedArray(parcel, 2, this.zzb, i, false);
-        SafeParcelWriter.writeInt(parcel, 3, this.zzd);
-        SafeParcelWriter.writeParcelable(parcel, 4, this.zzc, i, false);
-        SafeParcelWriter.finishObjectHeader(parcel, beginObjectHeader);
+    public final void zzf() {
+        synchronized (this) {
+            this.zza = null;
+        }
+    }
+
+    public final void zzg() {
+        ArrayList arrayList;
+        ArrayList arrayList2;
+        zzf();
+        arrayList = this.zzd.zzt;
+        synchronized (arrayList) {
+            arrayList2 = this.zzd.zzt;
+            arrayList2.remove(this);
+        }
     }
 }

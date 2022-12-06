@@ -6,7 +6,6 @@ import android.animation.TimeInterpolator;
 import android.animation.ValueAnimator;
 import android.os.Build;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ViewPropertyAnimator;
 import android.view.animation.Interpolator;
 import androidx.core.view.ViewCompat;
@@ -34,8 +33,14 @@ public class DefaultItemAnimator extends SimpleItemAnimator {
     ArrayList<RecyclerView.ViewHolder> mChangeAnimations = new ArrayList<>();
     protected boolean delayAnimations = true;
 
+    protected void afterAnimateMoveImpl(RecyclerView.ViewHolder viewHolder) {
+    }
+
     protected float animateByScale(View view) {
         return 0.0f;
+    }
+
+    protected void beforeAnimateMoveImpl(RecyclerView.ViewHolder viewHolder) {
     }
 
     public void checkIsRunning() {
@@ -210,7 +215,7 @@ public class DefaultItemAnimator extends SimpleItemAnimator {
         final ViewPropertyAnimator animate = view.animate();
         this.mRemoveAnimations.add(viewHolder);
         if (getRemoveDelay() > 0) {
-            ((ViewGroup) view.getParent()).bringChildToFront(view);
+            view.bringToFront();
         }
         animate.setDuration(getRemoveDuration()).setStartDelay(getRemoveDelay()).alpha(0.0f).scaleX(1.0f - animateByScale(view)).scaleY(1.0f - animateByScale(view)).setListener(new AnimatorListenerAdapter() { // from class: androidx.recyclerview.widget.DefaultItemAnimator.4
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -331,6 +336,7 @@ public class DefaultItemAnimator extends SimpleItemAnimator {
         if (interpolator != null) {
             animate.setInterpolator(interpolator);
         }
+        beforeAnimateMoveImpl(viewHolder);
         animate.setDuration(getMoveDuration()).setStartDelay(getMoveDelay()).setInterpolator(getMoveInterpolator()).setListener(new AnimatorListenerAdapter() { // from class: androidx.recyclerview.widget.DefaultItemAnimator.6
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             public void onAnimationStart(Animator animator) {
@@ -353,6 +359,7 @@ public class DefaultItemAnimator extends SimpleItemAnimator {
                 DefaultItemAnimator.this.dispatchMoveFinished(viewHolder);
                 DefaultItemAnimator.this.mMoveAnimations.remove(viewHolder);
                 DefaultItemAnimator.this.dispatchFinishedWhenDone();
+                DefaultItemAnimator.this.afterAnimateMoveImpl(viewHolder);
             }
         }).start();
     }

@@ -1,45 +1,46 @@
 package com.google.android.gms.tasks;
-/* compiled from: com.google.android.gms:play-services-tasks@@17.2.0 */
+
+import java.util.concurrent.Executor;
+/* compiled from: com.google.android.gms:play-services-tasks@@18.0.2 */
 /* loaded from: classes.dex */
 final class zze implements Runnable {
-    private final /* synthetic */ Task zza;
-    private final /* synthetic */ zzc zzb;
+    final /* synthetic */ Task zza;
+    final /* synthetic */ zzf zzb;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public zze(zzc zzcVar, Task task) {
-        this.zzb = zzcVar;
+    public zze(zzf zzfVar, Task task) {
+        this.zzb = zzfVar;
         this.zza = task;
     }
 
     @Override // java.lang.Runnable
     public final void run() {
-        zzu zzuVar;
-        zzu zzuVar2;
-        zzu zzuVar3;
+        zzw zzwVar;
+        zzw zzwVar2;
+        zzw zzwVar3;
         Continuation continuation;
-        zzu zzuVar4;
-        zzu zzuVar5;
-        if (this.zza.isCanceled()) {
-            zzuVar5 = this.zzb.zzc;
-            zzuVar5.zza();
-            return;
-        }
         try {
             continuation = this.zzb.zzb;
-            Object then = continuation.then(this.zza);
-            zzuVar4 = this.zzb.zzc;
-            zzuVar4.zza((zzu) then);
-        } catch (RuntimeExecutionException e) {
-            if (e.getCause() instanceof Exception) {
-                zzuVar3 = this.zzb.zzc;
-                zzuVar3.zza((Exception) e.getCause());
+            Task task = (Task) continuation.then(this.zza);
+            if (task == null) {
+                this.zzb.onFailure(new NullPointerException("Continuation returned null"));
                 return;
             }
-            zzuVar2 = this.zzb.zzc;
-            zzuVar2.zza((Exception) e);
+            Executor executor = TaskExecutors.zza;
+            task.addOnSuccessListener(executor, this.zzb);
+            task.addOnFailureListener(executor, this.zzb);
+            task.addOnCanceledListener(executor, this.zzb);
+        } catch (RuntimeExecutionException e) {
+            if (!(e.getCause() instanceof Exception)) {
+                zzwVar2 = this.zzb.zzc;
+                zzwVar2.zza(e);
+                return;
+            }
+            zzwVar3 = this.zzb.zzc;
+            zzwVar3.zza((Exception) e.getCause());
         } catch (Exception e2) {
-            zzuVar = this.zzb.zzc;
-            zzuVar.zza(e2);
+            zzwVar = this.zzb.zzc;
+            zzwVar.zza(e2);
         }
     }
 }

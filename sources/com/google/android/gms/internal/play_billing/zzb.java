@@ -14,7 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 import org.json.JSONException;
 import org.telegram.messenger.OneUIUtilities;
-/* compiled from: com.android.billingclient:billing@@5.0.0 */
+/* compiled from: com.android.billingclient:billing@@5.1.0 */
 /* loaded from: classes.dex */
 public final class zzb {
     public static final int zza = Runtime.getRuntime().availableProcessors();
@@ -97,15 +97,22 @@ public final class zzb {
         bundle.putBoolean("enablePendingPurchases", true);
         bundle.putString("SKU_DETAILS_RESPONSE_FORMAT", "PRODUCT_DETAILS");
         ArrayList<String> arrayList2 = new ArrayList<>();
+        ArrayList<String> arrayList3 = new ArrayList<>();
         int size = arrayList.size();
         boolean z = false;
         for (int i = 0; i < size; i++) {
-            QueryProductDetailsParams.Product product = (QueryProductDetailsParams.Product) arrayList.get(i);
             arrayList2.add(null);
             z |= !TextUtils.isEmpty(null);
+            if (((QueryProductDetailsParams.Product) arrayList.get(i)).zzb().equals("first_party")) {
+                zzm.zzc(null, "Serialized DocId is required for constructing ExtraParams to query ProductDetails for all first party products.");
+                arrayList3.add(null);
+            }
         }
         if (z) {
             bundle.putStringArrayList("SKU_OFFER_ID_TOKEN_LIST", arrayList2);
+        }
+        if (!arrayList3.isEmpty()) {
+            bundle.putStringArrayList("SKU_SERIALIZED_DOCID_LIST", arrayList3);
         }
         return bundle;
     }
@@ -155,9 +162,6 @@ public final class zzb {
     }
 
     public static List zzm(Bundle bundle) {
-        if (bundle == null) {
-            return null;
-        }
         ArrayList<String> stringArrayList = bundle.getStringArrayList("INAPP_PURCHASE_DATA_LIST");
         ArrayList<String> stringArrayList2 = bundle.getStringArrayList("INAPP_DATA_SIGNATURE_LIST");
         ArrayList arrayList = new ArrayList();

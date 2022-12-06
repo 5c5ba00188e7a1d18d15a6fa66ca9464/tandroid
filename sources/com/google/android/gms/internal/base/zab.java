@@ -1,51 +1,36 @@
 package com.google.android.gms.internal.base;
 
+import android.os.Binder;
 import android.os.IBinder;
 import android.os.IInterface;
 import android.os.Parcel;
 import android.os.RemoteException;
-/* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
+/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
-public class zab implements IInterface {
-    private final IBinder zaa;
-    private final String zab;
-
+public class zab extends Binder implements IInterface {
     /* JADX INFO: Access modifiers changed from: protected */
-    public zab(IBinder iBinder, String str) {
-        this.zaa = iBinder;
-        this.zab = str;
+    public zab(String str) {
+        attachInterface(this, str);
     }
 
     @Override // android.os.IInterface
-    public IBinder asBinder() {
-        return this.zaa;
+    public final IBinder asBinder() {
+        return this;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final Parcel zaa() {
-        Parcel obtain = Parcel.obtain();
-        obtain.writeInterfaceToken(this.zab);
-        return obtain;
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final void zab(int i, Parcel parcel) throws RemoteException {
-        Parcel obtain = Parcel.obtain();
-        try {
-            this.zaa.transact(i, parcel, obtain, 0);
-            obtain.readException();
-        } finally {
-            parcel.recycle();
-            obtain.recycle();
+    @Override // android.os.Binder
+    public final boolean onTransact(int i, Parcel parcel, Parcel parcel2, int i2) throws RemoteException {
+        if (i > 16777215) {
+            if (super.onTransact(i, parcel, parcel2, i2)) {
+                return true;
+            }
+        } else {
+            parcel.enforceInterface(getInterfaceDescriptor());
         }
+        return zaa(i, parcel, parcel2, i2);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final void zac(int i, Parcel parcel) throws RemoteException {
-        try {
-            this.zaa.transact(1, parcel, null, 1);
-        } finally {
-            parcel.recycle();
-        }
+    protected boolean zaa(int i, Parcel parcel, Parcel parcel2, int i2) throws RemoteException {
+        throw null;
     }
 }

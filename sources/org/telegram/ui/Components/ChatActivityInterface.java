@@ -4,6 +4,7 @@ import org.telegram.messenger.ChatObject;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.ui.ActionBar.ActionBar;
+import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
 public interface ChatActivityInterface {
 
@@ -53,6 +54,8 @@ public interface ChatActivityInterface {
     ChatObject.Call getGroupCall();
 
     long getMergeDialogId();
+
+    Theme.ResourcesProvider getResourceProvider();
 
     int getTopicId();
 

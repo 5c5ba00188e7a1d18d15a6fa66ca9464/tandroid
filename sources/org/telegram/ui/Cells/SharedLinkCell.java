@@ -3,8 +3,6 @@ package org.telegram.ui.Cells;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.CornerPathEffect;
-import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.Region;
@@ -48,10 +46,12 @@ import org.telegram.tgnet.TLRPC$TL_messageMediaWebPage;
 import org.telegram.tgnet.TLRPC$TL_webPage;
 import org.telegram.tgnet.TLRPC$WebPage;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.Components.AnimatedEmojiSpan;
 import org.telegram.ui.Components.CheckBox2;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.LetterDrawable;
 import org.telegram.ui.Components.LinkPath;
+import org.telegram.ui.Components.LinkSpanDrawable;
 import org.telegram.ui.Components.TextStyleSpan;
 import org.telegram.ui.Components.spoilers.SpoilerEffect;
 import org.telegram.ui.FilteredSearchView;
@@ -75,6 +75,7 @@ public class SharedLinkCell extends FrameLayout {
     private int descriptionY;
     private boolean drawLinkImageView;
     private StaticLayout fromInfoLayout;
+    private AnimatedEmojiSpan.EmojiGroupedSpans fromInfoLayoutEmojis;
     private int fromInfoLayoutY;
     private LetterDrawable letterDrawable;
     private ImageReceiver linkImageView;
@@ -83,6 +84,7 @@ public class SharedLinkCell extends FrameLayout {
     private SparseArray<List<SpoilerEffect>> linkSpoilers;
     private int linkY;
     ArrayList<CharSequence> links;
+    private LinkSpanDrawable.LinkCollector linksCollector;
     private MessageObject message;
     private boolean needDivider;
     private AtomicReference<Layout> patchedDescriptionLayout;
@@ -91,7 +93,8 @@ public class SharedLinkCell extends FrameLayout {
     private CheckForLongPress pendingCheckForLongPress;
     private CheckForTap pendingCheckForTap;
     private int pressCount;
-    private int pressedLink;
+    private LinkSpanDrawable pressedLink;
+    private int pressedLinkIndex;
     private Theme.ResourcesProvider resourcesProvider;
     private SpoilerEffect spoilerPressed;
     private int spoilerTypePressed;
@@ -99,8 +102,6 @@ public class SharedLinkCell extends FrameLayout {
     private StaticLayout titleLayout;
     private TextPaint titleTextPaint;
     private int titleY;
-    private Paint urlPaint;
-    private LinkPath urlPath;
     private int viewType;
 
     /* loaded from: classes3.dex */
@@ -151,10 +152,10 @@ public class SharedLinkCell extends FrameLayout {
             }
             SharedLinkCell.this.checkingForLongPress = false;
             SharedLinkCell.this.performHapticFeedback(0);
-            if (SharedLinkCell.this.pressedLink >= 0) {
+            if (SharedLinkCell.this.pressedLinkIndex >= 0) {
                 SharedLinkCellDelegate sharedLinkCellDelegate = SharedLinkCell.this.delegate;
                 SharedLinkCell sharedLinkCell = SharedLinkCell.this;
-                sharedLinkCellDelegate.onLinkPress(sharedLinkCell.links.get(sharedLinkCell.pressedLink).toString(), true);
+                sharedLinkCellDelegate.onLinkPress(sharedLinkCell.links.get(sharedLinkCell.pressedLinkIndex).toString(), true);
             }
             MotionEvent obtain = MotionEvent.obtain(0L, 0L, 3, 0.0f, 0.0f, 0);
             SharedLinkCell.this.onTouchEvent(obtain);
@@ -195,6 +196,7 @@ public class SharedLinkCell extends FrameLayout {
         this.pendingCheckForLongPress = null;
         this.pressCount = 0;
         this.pendingCheckForTap = null;
+        this.linksCollector = new LinkSpanDrawable.LinkCollector(this);
         this.links = new ArrayList<>();
         this.linkLayout = new ArrayList<>();
         this.linkSpoilers = new SparseArray<>();
@@ -213,9 +215,6 @@ public class SharedLinkCell extends FrameLayout {
         this.resourcesProvider = resourcesProvider;
         this.viewType = i;
         setFocusable(true);
-        LinkPath linkPath = new LinkPath();
-        this.urlPath = linkPath;
-        linkPath.setUseRoundRect(true);
         TextPaint textPaint = new TextPaint(1);
         this.titleTextPaint = textPaint;
         textPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
@@ -256,9 +255,9 @@ public class SharedLinkCell extends FrameLayout {
     /* JADX WARN: Removed duplicated region for block: B:208:0x056a  */
     /* JADX WARN: Removed duplicated region for block: B:211:0x058e  */
     /* JADX WARN: Removed duplicated region for block: B:220:0x0612  */
-    /* JADX WARN: Removed duplicated region for block: B:242:0x069e  */
-    /* JADX WARN: Removed duplicated region for block: B:246:0x06ac  */
-    /* JADX WARN: Removed duplicated region for block: B:255:0x06cd  */
+    /* JADX WARN: Removed duplicated region for block: B:242:0x06ac  */
+    /* JADX WARN: Removed duplicated region for block: B:246:0x06ba  */
+    /* JADX WARN: Removed duplicated region for block: B:255:0x06db  */
     /* JADX WARN: Removed duplicated region for block: B:260:0x060d  */
     /* JADX WARN: Removed duplicated region for block: B:261:0x0575  */
     /* JADX WARN: Removed duplicated region for block: B:263:0x03c3 A[EXC_TOP_SPLITTER, SYNTHETIC] */
@@ -635,7 +634,9 @@ public class SharedLinkCell extends FrameLayout {
                     i4 = 1;
                 }
                 if (this.viewType == i4) {
-                    this.fromInfoLayout = ChatMessageCell.generateStaticLayout(FilteredSearchView.createFromInfoString(this.message), this.description2TextPaint, size, size, 0, max);
+                    StaticLayout generateStaticLayout3 = ChatMessageCell.generateStaticLayout(FilteredSearchView.createFromInfoString(this.message), this.description2TextPaint, size, size, 0, max);
+                    this.fromInfoLayout = generateStaticLayout3;
+                    this.fromInfoLayoutEmojis = AnimatedEmojiSpan.update(0, this, this.fromInfoLayoutEmojis, generateStaticLayout3);
                 }
                 staticLayout2 = this.titleLayout;
                 if (staticLayout2 != null || staticLayout2.getLineCount() == 0) {
@@ -778,6 +779,7 @@ public class SharedLinkCell extends FrameLayout {
         if (this.drawLinkImageView) {
             this.linkImageView.onDetachedFromWindow();
         }
+        AnimatedEmojiSpan.release(this, this.fromInfoLayoutEmojis);
     }
 
     @Override // android.view.ViewGroup, android.view.View
@@ -786,9 +788,10 @@ public class SharedLinkCell extends FrameLayout {
         if (this.drawLinkImageView) {
             this.linkImageView.onAttachedToWindow();
         }
+        this.fromInfoLayoutEmojis = AnimatedEmojiSpan.update(0, this, this.fromInfoLayoutEmojis, this.fromInfoLayout);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:107:0x01f4  */
+    /* JADX WARN: Removed duplicated region for block: B:113:0x0222  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -796,7 +799,6 @@ public class SharedLinkCell extends FrameLayout {
     public boolean onTouchEvent(MotionEvent motionEvent) {
         boolean z;
         SharedLinkCellDelegate sharedLinkCellDelegate;
-        float f;
         boolean z2;
         int i;
         int i2;
@@ -809,7 +811,6 @@ public class SharedLinkCell extends FrameLayout {
                 int i3 = 0;
                 int i4 = 0;
                 while (true) {
-                    f = 8.0f;
                     if (i3 >= this.linkLayout.size()) {
                         z = false;
                         z2 = false;
@@ -819,14 +820,13 @@ public class SharedLinkCell extends FrameLayout {
                     if (staticLayout.getLineCount() > 0) {
                         int lineBottom = staticLayout.getLineBottom(staticLayout.getLineCount() - 1);
                         int dp = AndroidUtilities.dp(LocaleController.isRTL ? 8.0f : AndroidUtilities.leftBaseline);
-                        float f2 = x;
-                        float f3 = dp;
-                        if (f2 >= staticLayout.getLineLeft(0) + f3 && f2 <= f3 + staticLayout.getLineWidth(0)) {
+                        float f = x;
+                        float f2 = dp;
+                        if (f >= staticLayout.getLineLeft(0) + f2 && f <= staticLayout.getLineWidth(0) + f2) {
                             int i5 = this.linkY;
                             if (y >= i5 + i4 && y <= i5 + i4 + lineBottom) {
                                 TLRPC$WebPage tLRPC$WebPage = null;
                                 if (motionEvent.getAction() == 0) {
-                                    resetPressedLink();
                                     this.spoilerPressed = null;
                                     if (this.linkSpoilers.get(i3, null) != null) {
                                         Iterator<SpoilerEffect> it = this.linkSpoilers.get(i3).iterator();
@@ -836,32 +836,38 @@ public class SharedLinkCell extends FrameLayout {
                                             }
                                             SpoilerEffect next = it.next();
                                             if (next.getBounds().contains(x - dp, (y - this.linkY) - i4)) {
+                                                resetPressedLink();
                                                 this.spoilerPressed = next;
                                                 this.spoilerTypePressed = 0;
                                                 break;
                                             }
                                         }
                                     }
-                                    if (this.spoilerPressed == null) {
-                                        this.pressedLink = i3;
+                                    if (this.spoilerPressed == null && (this.pressedLinkIndex != i3 || this.pressedLink == null || !this.linkPreviewPressed)) {
+                                        resetPressedLink();
+                                        this.pressedLinkIndex = i3;
+                                        LinkSpanDrawable linkSpanDrawable = new LinkSpanDrawable(null, this.resourcesProvider, x - dp, (y - this.linkY) - i4);
+                                        this.pressedLink = linkSpanDrawable;
+                                        LinkPath obtainNewPath = linkSpanDrawable.obtainNewPath();
                                         this.linkPreviewPressed = true;
+                                        this.linksCollector.addLink(this.pressedLink);
                                         startCheckLongPress();
                                         try {
-                                            this.urlPath.setCurrentLayout(staticLayout, 0, 0.0f);
-                                            staticLayout.getSelectionPath(0, staticLayout.getText().length(), this.urlPath);
+                                            obtainNewPath.setCurrentLayout(staticLayout, 0, f2, this.linkY + i4);
+                                            staticLayout.getSelectionPath(0, staticLayout.getText().length(), obtainNewPath);
                                         } catch (Exception e) {
                                             FileLog.e(e);
                                         }
                                     }
                                 } else if (this.linkPreviewPressed) {
                                     try {
-                                        if (this.pressedLink == 0 && (tLRPC$MessageMedia = this.message.messageOwner.media) != null) {
+                                        if (this.pressedLinkIndex == 0 && (tLRPC$MessageMedia = this.message.messageOwner.media) != null) {
                                             tLRPC$WebPage = tLRPC$MessageMedia.webpage;
                                         }
                                         if (tLRPC$WebPage != null && (str = tLRPC$WebPage.embed_url) != null && str.length() != 0) {
                                             this.delegate.needOpenWebView(tLRPC$WebPage, this.message);
                                         } else {
-                                            this.delegate.onLinkPress(this.links.get(this.pressedLink).toString(), false);
+                                            this.delegate.onLinkPress(this.links.get(this.pressedLinkIndex).toString(), false);
                                         }
                                     } catch (Exception e2) {
                                         FileLog.e(e2);
@@ -882,10 +888,7 @@ public class SharedLinkCell extends FrameLayout {
                     i3++;
                 }
                 if (motionEvent.getAction() == 0) {
-                    if (!LocaleController.isRTL) {
-                        f = AndroidUtilities.leftBaseline;
-                    }
-                    int dp2 = AndroidUtilities.dp(f);
+                    int dp2 = AndroidUtilities.dp(LocaleController.isRTL ? 8.0f : AndroidUtilities.leftBaseline);
                     StaticLayout staticLayout2 = this.descriptionLayout;
                     if (staticLayout2 != null && x >= dp2 && x <= staticLayout2.getWidth() + dp2 && y >= (i2 = this.descriptionY) && y <= i2 + this.descriptionLayout.getHeight()) {
                         Iterator<SpoilerEffect> it2 = this.descriptionLayoutSpoilers.iterator();
@@ -1032,7 +1035,9 @@ public class SharedLinkCell extends FrameLayout {
     }
 
     protected void resetPressedLink() {
-        this.pressedLink = -1;
+        this.linksCollector.clear(true);
+        this.pressedLinkIndex = -1;
+        this.pressedLink = null;
         this.linkPreviewPressed = false;
         cancelCheckLongPress();
         invalidate();
@@ -1105,17 +1110,8 @@ public class SharedLinkCell extends FrameLayout {
                             this.path.addRect(bounds.left, bounds.top, bounds.right, bounds.bottom, Path.Direction.CW);
                         }
                     }
-                    if (this.urlPaint == null) {
-                        Paint paint = new Paint(1);
-                        this.urlPaint = paint;
-                        paint.setPathEffect(new CornerPathEffect(AndroidUtilities.dp(4.0f)));
-                    }
-                    this.urlPaint.setColor(Theme.getColor("chat_linkSelectBackground", this.resourcesProvider));
                     canvas.save();
                     canvas.clipPath(this.path, Region.Op.DIFFERENCE);
-                    if (this.pressedLink == i2) {
-                        canvas.drawPath(this.urlPath, this.urlPaint);
-                    }
                     staticLayout2.draw(canvas);
                     canvas.restore();
                     canvas.save();
@@ -1125,9 +1121,6 @@ public class SharedLinkCell extends FrameLayout {
                         list.get(0).getRipplePath(this.path);
                     }
                     canvas.clipPath(this.path);
-                    if (this.pressedLink == i2) {
-                        canvas.drawPath(this.urlPath, this.urlPaint);
-                    }
                     staticLayout2.draw(canvas);
                     canvas.restore();
                     if (list != null) {
@@ -1139,6 +1132,9 @@ public class SharedLinkCell extends FrameLayout {
                     i += staticLayout2.getLineBottom(staticLayout2.getLineCount() - 1);
                 }
             }
+            if (this.linksCollector.draw(canvas)) {
+                invalidate();
+            }
         }
         if (this.fromInfoLayout != null) {
             canvas.save();
@@ -1147,6 +1143,7 @@ public class SharedLinkCell extends FrameLayout {
             }
             canvas.translate(AndroidUtilities.dp(f), this.fromInfoLayoutY);
             this.fromInfoLayout.draw(canvas);
+            AnimatedEmojiSpan.drawAnimatedEmojis(canvas, this.fromInfoLayout, this.fromInfoLayoutEmojis, 0.0f, null, 0.0f, 0.0f, 0.0f, 1.0f);
             canvas.restore();
         }
         this.letterDrawable.draw(canvas);

@@ -100,6 +100,9 @@ public class TLRPC$TL_user extends TLRPC$User {
 
     @Override // org.telegram.tgnet.TLObject
     public void serializeToStream(AbstractSerializedData abstractSerializedData) {
+        if (this.username == null) {
+            this.flags &= -9;
+        }
         abstractSerializedData.writeInt32(constructor);
         int i = this.self ? this.flags | ConnectionsManager.RequestFlagDoNotWaitFloodWait : this.flags & (-1025);
         this.flags = i;

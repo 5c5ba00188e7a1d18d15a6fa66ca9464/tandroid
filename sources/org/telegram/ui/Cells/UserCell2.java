@@ -9,8 +9,10 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ChatObject;
+import org.telegram.messenger.Emoji;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
@@ -75,9 +77,15 @@ public class UserCell2 extends FrameLayout {
         View view = this.avatarImageView;
         boolean z = LocaleController.isRTL;
         addView(view, LayoutHelper.createFrame(48, 48.0f, (z ? 5 : 3) | 48, z ? 0.0f : i + 7, 11.0f, z ? i + 7 : 0.0f, 0.0f));
-        SimpleTextView simpleTextView = new SimpleTextView(context);
+        SimpleTextView simpleTextView = new SimpleTextView(this, context) { // from class: org.telegram.ui.Cells.UserCell2.1
+            @Override // org.telegram.ui.ActionBar.SimpleTextView
+            public boolean setText(CharSequence charSequence) {
+                return super.setText(Emoji.replaceEmoji(charSequence, getPaint().getFontMetricsInt(), AndroidUtilities.dp(15.0f), false));
+            }
+        };
         this.nameTextView = simpleTextView;
-        simpleTextView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText", resourcesProvider));
+        NotificationCenter.listenEmojiLoading(simpleTextView);
+        this.nameTextView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText", resourcesProvider));
         this.nameTextView.setTextSize(17);
         this.nameTextView.setGravity((LocaleController.isRTL ? 5 : 3) | 48);
         View view2 = this.nameTextView;
@@ -328,6 +336,7 @@ public class UserCell2 extends FrameLayout {
         } else {
             this.avatarImageView.setImageDrawable(this.avatarDrawable);
         }
+        this.avatarImageView.setRoundRadius(AndroidUtilities.dp((tLRPC$Chat == null || !tLRPC$Chat.forum) ? 24.0f : 14.0f));
         if (!(this.imageView.getVisibility() == 0 && this.currentDrawable == 0) && (this.imageView.getVisibility() != 8 || this.currentDrawable == 0)) {
             return;
         }

@@ -187,12 +187,21 @@ public class TextSettingsCell extends FrameLayout {
         ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams) this.textView.getLayoutParams();
         if (i == 0) {
             this.imageView.setVisibility(8);
-            marginLayoutParams.leftMargin = 0;
-            return;
+            if (LocaleController.isRTL) {
+                marginLayoutParams.rightMargin = AndroidUtilities.dp(this.padding);
+                return;
+            } else {
+                marginLayoutParams.leftMargin = AndroidUtilities.dp(this.padding);
+                return;
+            }
         }
         this.imageView.setImageResource(i);
         this.imageView.setVisibility(0);
-        marginLayoutParams.leftMargin = AndroidUtilities.dp(71.0f);
+        if (LocaleController.isRTL) {
+            marginLayoutParams.rightMargin = AndroidUtilities.dp(71.0f);
+        } else {
+            marginLayoutParams.leftMargin = AndroidUtilities.dp(71.0f);
+        }
     }
 
     public void setEnabled(boolean z, ArrayList<Animator> arrayList) {

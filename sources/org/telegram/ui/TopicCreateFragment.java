@@ -5,6 +5,8 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -15,6 +17,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
@@ -42,10 +45,13 @@ import org.telegram.tgnet.TLRPC$TL_peerNotifySettings;
 import org.telegram.tgnet.TLRPC$TL_updateMessageID;
 import org.telegram.tgnet.TLRPC$Updates;
 import org.telegram.ui.ActionBar.ActionBar;
+import org.telegram.ui.ActionBar.ActionBarPopupWindow;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.HeaderCell;
+import org.telegram.ui.Cells.TextCheckCell2;
+import org.telegram.ui.Cells.TextInfoPrivacyCell;
 import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.BulletinFactory;
@@ -62,6 +68,7 @@ import org.telegram.ui.TopicCreateFragment;
 /* loaded from: classes3.dex */
 public class TopicCreateFragment extends BaseFragment {
     long chatId;
+    TextCheckCell2 checkBoxCell;
     boolean created;
     Drawable defaultIconDrawable;
     EditTextBoldCursor editTextBoldCursor;
@@ -109,7 +116,7 @@ public class TopicCreateFragment extends BaseFragment {
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public View createView(Context context) {
         if (this.topicForEdit != null) {
-            this.actionBar.setTitle(LocaleController.getString("NewTopic", R.string.EditTopic));
+            this.actionBar.setTitle(LocaleController.getString("EditTopic", R.string.EditTopic));
         } else {
             this.actionBar.setTitle(LocaleController.getString("NewTopic", R.string.NewTopic));
         }
@@ -142,7 +149,12 @@ public class TopicCreateFragment extends BaseFragment {
         linearLayout.setOrientation(1);
         sizeNotifierFrameLayout.addView(linearLayout);
         HeaderCell headerCell = new HeaderCell(context);
-        headerCell.setText(LocaleController.getString("CreateTopicTitle", R.string.CreateTopicTitle));
+        TLRPC$TL_forumTopic tLRPC$TL_forumTopic = this.topicForEdit;
+        if (tLRPC$TL_forumTopic != null && tLRPC$TL_forumTopic.id == 1) {
+            headerCell.setText(LocaleController.getString("CreateGeneralTopicTitle", R.string.CreateGeneralTopicTitle));
+        } else {
+            headerCell.setText(LocaleController.getString("CreateTopicTitle", R.string.CreateTopicTitle));
+        }
         FrameLayout frameLayout = new FrameLayout(context);
         EditTextBoldCursor editTextBoldCursor = new EditTextBoldCursor(context);
         this.editTextBoldCursor = editTextBoldCursor;
@@ -176,7 +188,11 @@ public class TopicCreateFragment extends BaseFragment {
                 if (!str.equals(TopicCreateFragment.this.firstSymbol)) {
                     LetterDrawable letterDrawable = new LetterDrawable(null, 1);
                     letterDrawable.setTitle(TopicCreateFragment.this.firstSymbol);
-                    TopicCreateFragment.this.replaceableIconDrawable.setIcon((Drawable) letterDrawable, true);
+                    ReplaceableIconDrawable replaceableIconDrawable = TopicCreateFragment.this.replaceableIconDrawable;
+                    if (replaceableIconDrawable == null) {
+                        return;
+                    }
+                    replaceableIconDrawable.setIcon((Drawable) letterDrawable, true);
                 }
             }
         });
@@ -199,52 +215,77 @@ public class TopicCreateFragment extends BaseFragment {
         combinedDrawable.setFullsize(true);
         frameLayout2.setBackgroundDrawable(combinedDrawable);
         frameLayout2.setClipChildren(false);
-        SelectAnimatedEmojiDialog selectAnimatedEmojiDialog = new SelectAnimatedEmojiDialog(this, getContext(), false, null, 3, null) { // from class: org.telegram.ui.TopicCreateFragment.5
-            private boolean firstLayout = true;
+        TLRPC$TL_forumTopic tLRPC$TL_forumTopic2 = this.topicForEdit;
+        if (tLRPC$TL_forumTopic2 == null || tLRPC$TL_forumTopic2.id != 1) {
+            SelectAnimatedEmojiDialog selectAnimatedEmojiDialog = new SelectAnimatedEmojiDialog(this, getContext(), false, null, 3, null) { // from class: org.telegram.ui.TopicCreateFragment.5
+                private boolean firstLayout = true;
 
-            @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-            protected void onLayout(boolean z, int i2, int i3, int i4, int i5) {
-                super.onLayout(z, i2, i3, i4, i5);
-                if (this.firstLayout) {
-                    this.firstLayout = false;
-                    TopicCreateFragment.this.selectAnimatedEmojiDialog.onShow(null);
-                }
-            }
-
-            @Override // org.telegram.ui.SelectAnimatedEmojiDialog
-            protected void onEmojiSelected(View view, Long l, TLRPC$Document tLRPC$Document, Integer num) {
-                boolean z = false;
-                if (!TextUtils.isEmpty(UserConfig.getInstance(((BaseFragment) TopicCreateFragment.this).currentAccount).defaultTopicIcons)) {
-                    TLRPC$TL_messages_stickerSet stickerSetByEmojiOrName = TopicCreateFragment.this.getMediaDataController().getStickerSetByEmojiOrName(UserConfig.getInstance(((BaseFragment) TopicCreateFragment.this).currentAccount).defaultTopicIcons);
-                    if ((stickerSetByEmojiOrName == null ? 0L : stickerSetByEmojiOrName.set.id) == MediaDataController.getStickerSetId(tLRPC$Document)) {
-                        z = true;
+                @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
+                protected void onLayout(boolean z, int i2, int i3, int i4, int i5) {
+                    super.onLayout(z, i2, i3, i4, i5);
+                    if (this.firstLayout) {
+                        this.firstLayout = false;
+                        TopicCreateFragment.this.selectAnimatedEmojiDialog.onShow(null);
                     }
                 }
-                TopicCreateFragment.this.selectEmoji(l, z);
-            }
-        };
-        this.selectAnimatedEmojiDialog = selectAnimatedEmojiDialog;
-        selectAnimatedEmojiDialog.setAnimationsEnabled(this.fragmentBeginToShow);
-        this.selectAnimatedEmojiDialog.setClipChildren(false);
-        frameLayout2.addView(this.selectAnimatedEmojiDialog, LayoutHelper.createFrame(-1, -1.0f, 0, 12.0f, 12.0f, 12.0f, 12.0f));
+
+                @Override // org.telegram.ui.SelectAnimatedEmojiDialog
+                protected void onEmojiSelected(View view, Long l, TLRPC$Document tLRPC$Document, Integer num) {
+                    boolean z = false;
+                    if (!TextUtils.isEmpty(UserConfig.getInstance(((BaseFragment) TopicCreateFragment.this).currentAccount).defaultTopicIcons)) {
+                        TLRPC$TL_messages_stickerSet stickerSetByEmojiOrName = TopicCreateFragment.this.getMediaDataController().getStickerSetByEmojiOrName(UserConfig.getInstance(((BaseFragment) TopicCreateFragment.this).currentAccount).defaultTopicIcons);
+                        if ((stickerSetByEmojiOrName == null ? 0L : stickerSetByEmojiOrName.set.id) == MediaDataController.getStickerSetId(tLRPC$Document)) {
+                            z = true;
+                        }
+                    }
+                    TopicCreateFragment.this.selectEmoji(l, z);
+                }
+            };
+            this.selectAnimatedEmojiDialog = selectAnimatedEmojiDialog;
+            selectAnimatedEmojiDialog.setAnimationsEnabled(this.fragmentBeginToShow);
+            this.selectAnimatedEmojiDialog.setClipChildren(false);
+            frameLayout2.addView(this.selectAnimatedEmojiDialog, LayoutHelper.createFrame(-1, -1.0f, 0, 12.0f, 12.0f, 12.0f, 12.0f));
+            Drawable createTopicDrawable = ForumUtilities.createTopicDrawable("", this.iconColor);
+            this.forumBubbleDrawable = (ForumBubbleDrawable) ((CombinedDrawable) createTopicDrawable).getBackgroundDrawable();
+            this.replaceableIconDrawable = new ReplaceableIconDrawable(context);
+            CombinedDrawable combinedDrawable2 = new CombinedDrawable(createTopicDrawable, this.replaceableIconDrawable, 0, 0);
+            combinedDrawable2.setFullsize(true);
+            this.selectAnimatedEmojiDialog.setForumIconDrawable(combinedDrawable2);
+            this.defaultIconDrawable = combinedDrawable2;
+            this.replaceableIconDrawable.addView(this.backupImageView[0]);
+            this.replaceableIconDrawable.addView(this.backupImageView[1]);
+            this.backupImageView[0].setImageDrawable(this.defaultIconDrawable);
+            AndroidUtilities.updateViewVisibilityAnimated(this.backupImageView[0], true, 1.0f, false);
+            AndroidUtilities.updateViewVisibilityAnimated(this.backupImageView[1], false, 1.0f, false);
+            this.forumBubbleDrawable.addParent(this.backupImageView[0]);
+            this.forumBubbleDrawable.addParent(this.backupImageView[1]);
+        } else {
+            ImageView imageView = new ImageView(context);
+            imageView.setImageResource(R.drawable.msg_filled_general);
+            imageView.setColorFilter(new PorterDuffColorFilter(getThemedColor("chat_inMenu"), PorterDuff.Mode.MULTIPLY));
+            r3.addView(imageView, LayoutHelper.createFrame(22, 22, 17));
+            frameLayout2.addView(new ActionBarPopupWindow.GapView(context, getResourceProvider()), LayoutHelper.createFrame(-1, 8.0f));
+            TextCheckCell2 textCheckCell2 = new TextCheckCell2(context);
+            this.checkBoxCell = textCheckCell2;
+            textCheckCell2.getCheckBox().setDrawIconType(0);
+            this.checkBoxCell.setTextAndCheck(LocaleController.getString("EditTopicHide", R.string.EditTopicHide), !this.topicForEdit.hidden, false);
+            this.checkBoxCell.setBackground(Theme.createSelectorWithBackgroundDrawable(getThemedColor("windowBackgroundWhite"), getThemedColor("listSelectorSDK21")));
+            this.checkBoxCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.TopicCreateFragment$$ExternalSyntheticLambda1
+                @Override // android.view.View.OnClickListener
+                public final void onClick(View view) {
+                    TopicCreateFragment.this.lambda$createView$1(view);
+                }
+            });
+            frameLayout2.addView(this.checkBoxCell, LayoutHelper.createFrame(-1, 50.0f, 48, 0.0f, 8.0f, 0.0f, 0.0f));
+            TextInfoPrivacyCell textInfoPrivacyCell = new TextInfoPrivacyCell(context);
+            textInfoPrivacyCell.setText(LocaleController.getString("EditTopicHideInfo", R.string.EditTopicHideInfo));
+            textInfoPrivacyCell.setBackground(Theme.getThemedDrawable(getContext(), R.drawable.greydivider_bottom, "windowBackgroundGrayShadow", getResourceProvider()));
+            frameLayout2.addView(textInfoPrivacyCell, LayoutHelper.createFrame(-1, -2.0f, 48, 0.0f, 58.0f, 0.0f, 0.0f));
+        }
         linearLayout.addView(frameLayout2, LayoutHelper.createFrame(-1, -1.0f));
-        Drawable createTopicDrawable = ForumUtilities.createTopicDrawable("", this.iconColor);
-        this.forumBubbleDrawable = (ForumBubbleDrawable) ((CombinedDrawable) createTopicDrawable).getBackgroundDrawable();
-        this.replaceableIconDrawable = new ReplaceableIconDrawable(context);
-        CombinedDrawable combinedDrawable2 = new CombinedDrawable(createTopicDrawable, this.replaceableIconDrawable, 0, 0);
-        combinedDrawable2.setFullsize(true);
-        this.selectAnimatedEmojiDialog.setForumIconDrawable(combinedDrawable2);
-        this.defaultIconDrawable = combinedDrawable2;
-        this.replaceableIconDrawable.addView(this.backupImageView[0]);
-        this.replaceableIconDrawable.addView(this.backupImageView[1]);
-        this.backupImageView[0].setImageDrawable(this.defaultIconDrawable);
-        AndroidUtilities.updateViewVisibilityAnimated(this.backupImageView[0], true, 1.0f, false);
-        AndroidUtilities.updateViewVisibilityAnimated(this.backupImageView[1], false, 1.0f, false);
-        this.forumBubbleDrawable.addParent(this.backupImageView[0]);
-        this.forumBubbleDrawable.addParent(this.backupImageView[1]);
-        TLRPC$TL_forumTopic tLRPC$TL_forumTopic = this.topicForEdit;
-        if (tLRPC$TL_forumTopic != null) {
-            this.editTextBoldCursor.setText(tLRPC$TL_forumTopic.title);
+        TLRPC$TL_forumTopic tLRPC$TL_forumTopic3 = this.topicForEdit;
+        if (tLRPC$TL_forumTopic3 != null) {
+            this.editTextBoldCursor.setText(tLRPC$TL_forumTopic3.title);
             selectEmoji(Long.valueOf(this.topicForEdit.icon_emoji_id), true);
         } else {
             selectEmoji(0L, true);
@@ -263,13 +304,15 @@ public class TopicCreateFragment extends BaseFragment {
         }
 
         /* JADX WARN: Code restructure failed: missing block: B:41:0x0100, code lost:
-            if (r13.topicForEdit.icon_emoji_id != r13.selectedEmojiDocumentId) goto L48;
+            if (r13.topicForEdit.icon_emoji_id != r13.selectedEmojiDocumentId) goto L51;
          */
         @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public void onItemClick(int i) {
+            TextCheckCell2 textCheckCell2;
+            TextCheckCell2 textCheckCell22;
             if (i == -1) {
                 TopicCreateFragment.this.finishFragment();
                 return;
@@ -338,7 +381,11 @@ public class TopicCreateFragment extends BaseFragment {
                     tLRPC$TL_channels_editForumTopic.icon_emoji_id = topicCreateFragment3.selectedEmojiDocumentId;
                     tLRPC$TL_channels_editForumTopic.flags |= 2;
                 }
-                ConnectionsManager.getInstance(((BaseFragment) topicCreateFragment3).currentAccount).sendRequest(tLRPC$TL_channels_editForumTopic, TopicCreateFragment$1$$ExternalSyntheticLambda2.INSTANCE);
+                if (topicCreateFragment3.checkBoxCell != null) {
+                    tLRPC$TL_channels_editForumTopic.hidden = !textCheckCell2.isChecked();
+                    tLRPC$TL_channels_editForumTopic.flags |= 8;
+                }
+                ConnectionsManager.getInstance(((BaseFragment) TopicCreateFragment.this).currentAccount).sendRequest(tLRPC$TL_channels_editForumTopic, TopicCreateFragment$1$$ExternalSyntheticLambda2.INSTANCE);
                 TopicCreateFragment topicCreateFragment4 = TopicCreateFragment.this;
                 TLRPC$TL_forumTopic tLRPC$TL_forumTopic2 = topicCreateFragment4.topicForEdit;
                 long j2 = topicCreateFragment4.selectedEmojiDocumentId;
@@ -349,7 +396,10 @@ public class TopicCreateFragment extends BaseFragment {
                     tLRPC$TL_forumTopic2.flags &= -2;
                 }
                 tLRPC$TL_forumTopic2.title = str;
-                TopicsController topicsController = topicCreateFragment4.getMessagesController().getTopicsController();
+                if (topicCreateFragment4.checkBoxCell != null) {
+                    tLRPC$TL_forumTopic2.hidden = !textCheckCell22.isChecked();
+                }
+                TopicsController topicsController = TopicCreateFragment.this.getMessagesController().getTopicsController();
                 TopicCreateFragment topicCreateFragment5 = TopicCreateFragment.this;
                 topicsController.onTopicEdited(-topicCreateFragment5.chatId, topicCreateFragment5.topicForEdit);
                 TopicCreateFragment.this.finishFragment();
@@ -504,7 +554,16 @@ public class TopicCreateFragment extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$createView$1(View view) {
+        TextCheckCell2 textCheckCell2 = this.checkBoxCell;
+        textCheckCell2.setChecked(!textCheckCell2.isChecked());
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
     public void selectEmoji(Long l, boolean z) {
+        if (this.selectAnimatedEmojiDialog == null || this.replaceableIconDrawable == null) {
+            return;
+        }
         long longValue = l == null ? 0L : l.longValue();
         this.selectAnimatedEmojiDialog.setSelected(Long.valueOf(longValue));
         if (this.selectedEmojiDocumentId == longValue) {
@@ -515,10 +574,10 @@ public class TopicCreateFragment extends BaseFragment {
             if (findDocument == null) {
                 return;
             }
-            BulletinFactory.of(this).createEmojiBulletin(findDocument, AndroidUtilities.replaceTags(LocaleController.getString("UnlockPremiumEmojiHint", R.string.UnlockPremiumEmojiHint)), LocaleController.getString("PremiumMore", R.string.PremiumMore), new Runnable() { // from class: org.telegram.ui.TopicCreateFragment$$ExternalSyntheticLambda1
+            BulletinFactory.of(this).createEmojiBulletin(findDocument, AndroidUtilities.replaceTags(LocaleController.getString("UnlockPremiumEmojiHint", R.string.UnlockPremiumEmojiHint)), LocaleController.getString("PremiumMore", R.string.PremiumMore), new Runnable() { // from class: org.telegram.ui.TopicCreateFragment$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
-                    TopicCreateFragment.this.lambda$selectEmoji$1();
+                    TopicCreateFragment.this.lambda$selectEmoji$2();
                 }
             }).show();
             return;
@@ -543,7 +602,7 @@ public class TopicCreateFragment extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$selectEmoji$1() {
+    public /* synthetic */ void lambda$selectEmoji$2() {
         new PremiumFeatureBottomSheet(this, 11, false).show();
     }
 
@@ -562,7 +621,10 @@ public class TopicCreateFragment extends BaseFragment {
             removeSelfFromStack();
         }
         getNotificationCenter().onAnimationFinish(this.animationIndex);
-        this.selectAnimatedEmojiDialog.setAnimationsEnabled(this.fragmentBeginToShow);
+        SelectAnimatedEmojiDialog selectAnimatedEmojiDialog = this.selectAnimatedEmojiDialog;
+        if (selectAnimatedEmojiDialog != null) {
+            selectAnimatedEmojiDialog.setAnimationsEnabled(this.fragmentBeginToShow);
+        }
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment

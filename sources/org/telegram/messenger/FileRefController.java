@@ -230,11 +230,11 @@ public class FileRefController extends BaseController {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:59:0x0366, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:59:0x0367, code lost:
         if (r2.equals(r1) != false) goto L35;
      */
-    /* JADX WARN: Removed duplicated region for block: B:37:0x0373  */
-    /* JADX WARN: Removed duplicated region for block: B:43:0x0389  */
+    /* JADX WARN: Removed duplicated region for block: B:37:0x0374  */
+    /* JADX WARN: Removed duplicated region for block: B:43:0x038a  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -660,7 +660,7 @@ public class FileRefController extends BaseController {
                 });
             } else if (str3.startsWith("sent_")) {
                 String[] split = str3.split("_");
-                if (split.length == 3) {
+                if (split.length >= 3) {
                     long longValue2 = Utilities.parseLong(split[1]).longValue();
                     if (longValue2 != 0) {
                         TLRPC$TL_channels_getMessages tLRPC$TL_channels_getMessages2 = new TLRPC$TL_channels_getMessages();
@@ -1082,12 +1082,12 @@ public class FileRefController extends BaseController {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:32:0x0089 A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:34:0x008a  */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x0152 A[LOOP:2: B:51:0x00d6->B:59:0x0152, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:60:0x0141 A[SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x0586  */
-    /* JADX WARN: Removed duplicated region for block: B:79:0x059b  */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x008a A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x008b  */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x0153 A[LOOP:2: B:51:0x00d7->B:59:0x0153, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:60:0x0142 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x0587  */
+    /* JADX WARN: Removed duplicated region for block: B:79:0x059c  */
     /* JADX WARN: Type inference failed for: r13v0 */
     /* JADX WARN: Type inference failed for: r13v12 */
     /*

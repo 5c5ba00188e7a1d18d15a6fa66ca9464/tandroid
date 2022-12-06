@@ -8,6 +8,7 @@ public class CombinedDrawable extends Drawable implements Drawable.Callback {
     private int backHeight;
     private int backWidth;
     private Drawable background;
+    private boolean both;
     private boolean fullSize;
     private Drawable icon;
     private int iconHeight;
@@ -65,6 +66,9 @@ public class CombinedDrawable extends Drawable implements Drawable.Callback {
     @Override // android.graphics.drawable.Drawable
     public void setColorFilter(ColorFilter colorFilter) {
         this.icon.setColorFilter(colorFilter);
+        if (this.both) {
+            this.background.setColorFilter(colorFilter);
+        }
     }
 
     @Override // android.graphics.drawable.Drawable

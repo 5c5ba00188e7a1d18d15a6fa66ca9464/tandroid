@@ -1,73 +1,33 @@
 package com.google.android.gms.wallet;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-import com.google.android.gms.common.internal.safeparcel.SafeParcelReader;
-import com.google.android.gms.identity.intents.model.UserAddress;
-/* compiled from: com.google.android.gms:play-services-wallet@@18.1.3 */
+import com.google.android.gms.common.Feature;
+/* compiled from: com.google.android.gms:play-services-wallet@@19.1.0 */
 /* loaded from: classes.dex */
-public final class zzk implements Parcelable.Creator<FullWallet> {
-    @Override // android.os.Parcelable.Creator
-    public final /* bridge */ /* synthetic */ FullWallet createFromParcel(Parcel parcel) {
-        int validateObjectHeader = SafeParcelReader.validateObjectHeader(parcel);
-        String str = null;
-        String str2 = null;
-        zzad zzadVar = null;
-        String str3 = null;
-        zza zzaVar = null;
-        zza zzaVar2 = null;
-        String[] strArr = null;
-        UserAddress userAddress = null;
-        UserAddress userAddress2 = null;
-        InstrumentInfo[] instrumentInfoArr = null;
-        PaymentMethodToken paymentMethodToken = null;
-        while (parcel.dataPosition() < validateObjectHeader) {
-            int readHeader = SafeParcelReader.readHeader(parcel);
-            switch (SafeParcelReader.getFieldId(readHeader)) {
-                case 2:
-                    str = SafeParcelReader.createString(parcel, readHeader);
-                    break;
-                case 3:
-                    str2 = SafeParcelReader.createString(parcel, readHeader);
-                    break;
-                case 4:
-                    zzadVar = (zzad) SafeParcelReader.createParcelable(parcel, readHeader, zzad.CREATOR);
-                    break;
-                case 5:
-                    str3 = SafeParcelReader.createString(parcel, readHeader);
-                    break;
-                case 6:
-                    zzaVar = (zza) SafeParcelReader.createParcelable(parcel, readHeader, zza.CREATOR);
-                    break;
-                case 7:
-                    zzaVar2 = (zza) SafeParcelReader.createParcelable(parcel, readHeader, zza.CREATOR);
-                    break;
-                case 8:
-                    strArr = SafeParcelReader.createStringArray(parcel, readHeader);
-                    break;
-                case 9:
-                    userAddress = (UserAddress) SafeParcelReader.createParcelable(parcel, readHeader, UserAddress.CREATOR);
-                    break;
-                case 10:
-                    userAddress2 = (UserAddress) SafeParcelReader.createParcelable(parcel, readHeader, UserAddress.CREATOR);
-                    break;
-                case 11:
-                    instrumentInfoArr = (InstrumentInfo[]) SafeParcelReader.createTypedArray(parcel, readHeader, InstrumentInfo.CREATOR);
-                    break;
-                case 12:
-                    paymentMethodToken = (PaymentMethodToken) SafeParcelReader.createParcelable(parcel, readHeader, PaymentMethodToken.CREATOR);
-                    break;
-                default:
-                    SafeParcelReader.skipUnknownField(parcel, readHeader);
-                    break;
-            }
-        }
-        SafeParcelReader.ensureAtEnd(parcel, validateObjectHeader);
-        return new FullWallet(str, str2, zzadVar, str3, zzaVar, zzaVar2, strArr, userAddress, userAddress2, instrumentInfoArr, paymentMethodToken);
-    }
+public final class zzk {
+    public static final Feature zza;
+    public static final Feature zzb;
+    public static final Feature zzc;
+    public static final Feature zzd;
+    public static final Feature zze;
+    public static final Feature zzf;
+    public static final Feature zzg;
+    public static final Feature[] zzh;
 
-    @Override // android.os.Parcelable.Creator
-    public final /* bridge */ /* synthetic */ FullWallet[] newArray(int i) {
-        return new FullWallet[i];
+    static {
+        Feature feature = new Feature("wallet", 1L);
+        zza = feature;
+        Feature feature2 = new Feature("wallet_biometric_auth_keys", 1L);
+        zzb = feature2;
+        Feature feature3 = new Feature("wallet_payment_dynamic_update", 2L);
+        zzc = feature3;
+        Feature feature4 = new Feature("wallet_1p_initialize_buyflow", 1L);
+        zzd = feature4;
+        Feature feature5 = new Feature("wallet_warm_up_ui_process", 1L);
+        zze = feature5;
+        Feature feature6 = new Feature("wallet_get_setup_wizard_intent", 4L);
+        zzf = feature6;
+        Feature feature7 = new Feature("wallet_get_payment_card_recognition_intent", 1L);
+        zzg = feature7;
+        zzh = new Feature[]{feature, feature2, feature3, feature4, feature5, feature6, feature7};
     }
 }

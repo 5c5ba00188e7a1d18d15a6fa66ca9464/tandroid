@@ -1,7 +1,5 @@
 package com.google.android.gms.maps.model;
-
-import androidx.annotation.RecentlyNonNull;
-/* compiled from: com.google.android.gms:play-services-maps@@17.0.1 */
+/* compiled from: com.google.android.gms:play-services-maps@@18.1.0 */
 /* loaded from: classes.dex */
 public final class Gap extends PatternItem {
     public final float length;
@@ -12,13 +10,8 @@ public final class Gap extends PatternItem {
     }
 
     @Override // com.google.android.gms.maps.model.PatternItem
-    @RecentlyNonNull
     public String toString() {
         float f = this.length;
-        StringBuilder sb = new StringBuilder(29);
-        sb.append("[Gap: length=");
-        sb.append(f);
-        sb.append("]");
-        return sb.toString();
+        return "[Gap: length=" + f + "]";
     }
 }

@@ -2,16 +2,14 @@ package com.google.android.gms.wallet;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import androidx.annotation.RecentlyNonNull;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
 import java.util.ArrayList;
-/* compiled from: com.google.android.gms:play-services-wallet@@18.1.3 */
+/* compiled from: com.google.android.gms:play-services-wallet@@19.1.0 */
 /* loaded from: classes.dex */
 public final class CardRequirements extends AbstractSafeParcelable {
-    @RecentlyNonNull
     public static final Parcelable.Creator<CardRequirements> CREATOR = new zzg();
-    ArrayList<Integer> zza;
+    ArrayList zza;
     boolean zzb;
     boolean zzc;
     int zzd;
@@ -21,7 +19,7 @@ public final class CardRequirements extends AbstractSafeParcelable {
     }
 
     @Override // android.os.Parcelable
-    public void writeToParcel(@RecentlyNonNull Parcel parcel, int i) {
+    public void writeToParcel(Parcel parcel, int i) {
         int beginObjectHeader = SafeParcelWriter.beginObjectHeader(parcel);
         SafeParcelWriter.writeIntegerList(parcel, 1, this.zza, false);
         SafeParcelWriter.writeBoolean(parcel, 2, this.zzb);
@@ -31,7 +29,7 @@ public final class CardRequirements extends AbstractSafeParcelable {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public CardRequirements(ArrayList<Integer> arrayList, boolean z, boolean z2, int i) {
+    public CardRequirements(ArrayList arrayList, boolean z, boolean z2, int i) {
         this.zza = arrayList;
         this.zzb = z;
         this.zzc = z2;

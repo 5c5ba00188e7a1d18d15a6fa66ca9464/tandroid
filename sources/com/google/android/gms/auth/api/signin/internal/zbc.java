@@ -8,19 +8,19 @@ import com.google.android.gms.common.api.internal.SignInConnectionListener;
 import java.util.Set;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
-/* compiled from: com.google.android.gms:play-services-auth@@19.2.0 */
+/* compiled from: com.google.android.gms:play-services-auth@@20.4.0 */
 /* loaded from: classes.dex */
-public final class zbc extends AsyncTaskLoader<Void> implements SignInConnectionListener {
+public final class zbc extends AsyncTaskLoader implements SignInConnectionListener {
     private final Semaphore zba = new Semaphore(0);
-    private final Set<GoogleApiClient> zbb;
+    private final Set zbb;
 
-    public zbc(Context context, Set<GoogleApiClient> set) {
+    public zbc(Context context, Set set) {
         super(context);
         this.zbb = set;
     }
 
     @Override // androidx.loader.content.AsyncTaskLoader
-    public final /* bridge */ /* synthetic */ Void loadInBackground() {
+    public final /* bridge */ /* synthetic */ Object loadInBackground() {
         int i = 0;
         for (GoogleApiClient googleApiClient : this.zbb) {
             if (googleApiClient.maybeSignIn(this)) {

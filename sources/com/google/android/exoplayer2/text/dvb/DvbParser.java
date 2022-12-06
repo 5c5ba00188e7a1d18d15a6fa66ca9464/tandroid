@@ -516,7 +516,7 @@ final class DvbParser {
                         continue;
                     default:
                         switch (readBits) {
-                            case ConnectionsManager.RequestFlagForceDownload /* 32 */:
+                            case 32:
                                 bArr7 = buildClutMapTable(4, 4, parsableBitArray);
                                 continue;
                             case 33:

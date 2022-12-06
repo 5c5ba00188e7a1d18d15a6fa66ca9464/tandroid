@@ -2,13 +2,11 @@ package com.google.android.gms.wallet.wobs;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import androidx.annotation.RecentlyNonNull;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
-/* compiled from: com.google.android.gms:play-services-wallet@@18.1.3 */
+/* compiled from: com.google.android.gms:play-services-wallet@@19.1.0 */
 /* loaded from: classes.dex */
 public final class WalletObjectMessage extends AbstractSafeParcelable {
-    @RecentlyNonNull
     public static final Parcelable.Creator<WalletObjectMessage> CREATOR = new zzo();
     String zza;
     String zzb;
@@ -19,7 +17,7 @@ public final class WalletObjectMessage extends AbstractSafeParcelable {
     UriData zze;
 
     @Override // android.os.Parcelable
-    public void writeToParcel(@RecentlyNonNull Parcel parcel, int i) {
+    public void writeToParcel(Parcel parcel, int i) {
         int beginObjectHeader = SafeParcelWriter.beginObjectHeader(parcel);
         SafeParcelWriter.writeString(parcel, 2, this.zza, false);
         SafeParcelWriter.writeString(parcel, 3, this.zzb, false);

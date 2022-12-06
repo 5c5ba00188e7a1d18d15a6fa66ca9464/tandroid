@@ -1,6 +1,12 @@
 package org.telegram.ui.Components.Forum;
 
+import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.ColorFilter;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.SpannableStringBuilder;
@@ -8,6 +14,7 @@ import android.text.TextUtils;
 import android.text.style.ImageSpan;
 import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.ContactsController;
 import org.telegram.messenger.DialogObject;
 import org.telegram.messenger.LocaleController;
@@ -26,6 +33,7 @@ import org.telegram.tgnet.TLRPC$TL_messageActionTopicEdit;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.INavigationLayout;
+import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ChatActivity;
 import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.AnimatedEmojiSpan;
@@ -37,24 +45,80 @@ import org.telegram.ui.TopicsFragment;
 /* loaded from: classes3.dex */
 public class ForumUtilities {
     public static void setTopicIcon(BackupImageView backupImageView, TLRPC$TL_forumTopic tLRPC$TL_forumTopic) {
-        setTopicIcon(backupImageView, tLRPC$TL_forumTopic, false);
+        setTopicIcon(backupImageView, tLRPC$TL_forumTopic, false, null);
     }
 
-    public static void setTopicIcon(BackupImageView backupImageView, TLRPC$TL_forumTopic tLRPC$TL_forumTopic, boolean z) {
+    public static void setTopicIcon(BackupImageView backupImageView, TLRPC$TL_forumTopic tLRPC$TL_forumTopic, boolean z, Theme.ResourcesProvider resourcesProvider) {
         if (tLRPC$TL_forumTopic == null || backupImageView == null) {
             return;
         }
-        if (tLRPC$TL_forumTopic.icon_emoji_id != 0) {
+        if (tLRPC$TL_forumTopic.id == 1) {
+            backupImageView.setAnimatedEmojiDrawable(null);
+            backupImageView.setImageDrawable(createGeneralTopicDrawable(backupImageView.getContext(), 0.75f, Theme.getColor("actionBarDefaultIcon", resourcesProvider)));
+        } else if (tLRPC$TL_forumTopic.icon_emoji_id != 0) {
             backupImageView.setImageDrawable(null);
             AnimatedEmojiDrawable animatedEmojiDrawable = backupImageView.animatedEmojiDrawable;
             if (animatedEmojiDrawable != null && tLRPC$TL_forumTopic.icon_emoji_id == animatedEmojiDrawable.getDocumentId()) {
                 return;
             }
             backupImageView.setAnimatedEmojiDrawable(new AnimatedEmojiDrawable(z ? 11 : 10, UserConfig.selectedAccount, tLRPC$TL_forumTopic.icon_emoji_id));
-            return;
+        } else {
+            backupImageView.setAnimatedEmojiDrawable(null);
+            backupImageView.setImageDrawable(createTopicDrawable(tLRPC$TL_forumTopic));
         }
-        backupImageView.setAnimatedEmojiDrawable(null);
-        backupImageView.setImageDrawable(createTopicDrawable(tLRPC$TL_forumTopic));
+    }
+
+    public static GeneralTopicDrawable createGeneralTopicDrawable(Context context, float f, int i) {
+        if (context == null) {
+            return null;
+        }
+        return new GeneralTopicDrawable(context, f, i);
+    }
+
+    /* loaded from: classes3.dex */
+    public static class GeneralTopicDrawable extends Drawable {
+        int color;
+        Drawable icon;
+        float scale;
+
+        @Override // android.graphics.drawable.Drawable
+        public int getOpacity() {
+            return -2;
+        }
+
+        public GeneralTopicDrawable(Context context, float f, int i) {
+            this.icon = context.getResources().getDrawable(R.drawable.msg_filled_general).mutate();
+            this.scale = f;
+            setColor(i);
+        }
+
+        @Override // android.graphics.drawable.Drawable
+        public void draw(Canvas canvas) {
+            Rect bounds = getBounds();
+            if (this.scale == 1.0f) {
+                this.icon.setBounds(bounds);
+            } else {
+                this.icon.setBounds((int) (bounds.centerX() - ((bounds.width() / 2.0f) * this.scale)), (int) (bounds.centerY() - ((bounds.height() / 2.0f) * this.scale)), (int) (bounds.centerX() + ((bounds.width() / 2.0f) * this.scale)), (int) (bounds.centerY() + ((bounds.height() / 2.0f) * this.scale)));
+            }
+            this.icon.draw(canvas);
+        }
+
+        public void setColor(int i) {
+            if (this.color != i) {
+                this.color = i;
+                setColorFilter(new PorterDuffColorFilter(i, PorterDuff.Mode.MULTIPLY));
+            }
+        }
+
+        @Override // android.graphics.drawable.Drawable
+        public void setAlpha(int i) {
+            this.icon.setAlpha(i);
+        }
+
+        @Override // android.graphics.drawable.Drawable
+        public void setColorFilter(ColorFilter colorFilter) {
+            this.icon.setColorFilter(colorFilter);
+        }
     }
 
     public static Drawable createTopicDrawable(TLRPC$TL_forumTopic tLRPC$TL_forumTopic) {
@@ -124,11 +188,22 @@ public class ForumUtilities {
         return getTopicSpannedName(tLRPC$ForumTopic, paint, null);
     }
 
-    public static CharSequence getTopicSpannedName(TLRPC$ForumTopic tLRPC$ForumTopic, Paint paint, ForumBubbleDrawable[] forumBubbleDrawableArr) {
+    public static CharSequence getTopicSpannedName(TLRPC$ForumTopic tLRPC$ForumTopic, Paint paint, Drawable[] drawableArr) {
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
         if (tLRPC$ForumTopic instanceof TLRPC$TL_forumTopic) {
             TLRPC$TL_forumTopic tLRPC$TL_forumTopic = (TLRPC$TL_forumTopic) tLRPC$ForumTopic;
-            if (tLRPC$TL_forumTopic.icon_emoji_id != 0) {
+            if (tLRPC$TL_forumTopic.id == 1) {
+                try {
+                    GeneralTopicDrawable createGeneralTopicDrawable = createGeneralTopicDrawable(ApplicationLoader.applicationContext, 1.0f, paint == null ? Theme.getColor("chat_inMenu") : paint.getColor());
+                    createGeneralTopicDrawable.setBounds(0, 0, paint == null ? AndroidUtilities.dp(14.0f) : (int) paint.getTextSize(), paint == null ? AndroidUtilities.dp(14.0f) : (int) paint.getTextSize());
+                    spannableStringBuilder.append((CharSequence) " ");
+                    if (drawableArr != null) {
+                        drawableArr[0] = createGeneralTopicDrawable;
+                    }
+                    spannableStringBuilder.setSpan(new ImageSpan(createGeneralTopicDrawable, 2), 0, 1, 33);
+                } catch (Exception unused) {
+                }
+            } else if (tLRPC$TL_forumTopic.icon_emoji_id != 0) {
                 spannableStringBuilder.append((CharSequence) " ");
                 AnimatedEmojiSpan animatedEmojiSpan = new AnimatedEmojiSpan(tLRPC$TL_forumTopic.icon_emoji_id, 0.95f, paint == null ? null : paint.getFontMetricsInt());
                 spannableStringBuilder.setSpan(animatedEmojiSpan, 0, 1, 33);
@@ -137,8 +212,8 @@ public class ForumUtilities {
             } else {
                 spannableStringBuilder.append((CharSequence) " ");
                 Drawable createTopicDrawable = createTopicDrawable(tLRPC$TL_forumTopic);
-                if (forumBubbleDrawableArr != null) {
-                    forumBubbleDrawableArr[0] = (ForumBubbleDrawable) ((CombinedDrawable) createTopicDrawable).getBackgroundDrawable();
+                if (drawableArr != null) {
+                    drawableArr[0] = ((CombinedDrawable) createTopicDrawable).getBackgroundDrawable();
                 }
                 createTopicDrawable.setBounds(0, 0, (int) (createTopicDrawable.getIntrinsicWidth() * 0.65f), (int) (createTopicDrawable.getIntrinsicHeight() * 0.65f));
                 if (createTopicDrawable instanceof CombinedDrawable) {
@@ -229,12 +304,12 @@ public class ForumUtilities {
 
     public static void applyTopicToMessage(MessageObject messageObject) {
         TLRPC$TL_forumTopic findTopic;
-        if (messageObject.getDialogId() <= 0 && (findTopic = MessagesController.getInstance(messageObject.currentAccount).getTopicsController().findTopic(-messageObject.getDialogId(), MessageObject.getTopicId(messageObject.messageOwner))) != null) {
-            ForumBubbleDrawable[] forumBubbleDrawableArr = messageObject.topicIconDrawable;
-            if (forumBubbleDrawableArr[0] == null) {
+        if (messageObject.getDialogId() <= 0 && (findTopic = MessagesController.getInstance(messageObject.currentAccount).getTopicsController().findTopic(-messageObject.getDialogId(), MessageObject.getTopicId(messageObject.messageOwner, true))) != null) {
+            Drawable[] drawableArr = messageObject.topicIconDrawable;
+            if (!(drawableArr[0] instanceof ForumBubbleDrawable)) {
                 return;
             }
-            forumBubbleDrawableArr[0].setColor(findTopic.icon_color);
+            ((ForumBubbleDrawable) drawableArr[0]).setColor(findTopic.icon_color);
         }
     }
 

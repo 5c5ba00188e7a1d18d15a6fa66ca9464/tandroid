@@ -7,7 +7,6 @@ import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import org.telegram.tgnet.ConnectionsManager;
 @Descriptor(objectTypeIndication = 64, tags = {5})
 /* loaded from: classes.dex */
 public class AudioSpecificConfig extends BaseDescriptor {
@@ -194,7 +193,7 @@ public class AudioSpecificConfig extends BaseDescriptor {
             case 30:
                 this.sacPayloadEmbedding = bitReaderBuffer.readBits(1);
                 throw new UnsupportedOperationException("can't parse SpatialSpecificConfig yet");
-            case ConnectionsManager.RequestFlagForceDownload /* 32 */:
+            case 32:
             case 33:
             case 34:
                 throw new UnsupportedOperationException("can't parse MPEG_1_2_SpecificConfig yet");

@@ -2,27 +2,24 @@ package com.google.android.gms.maps.model;
 
 import android.graphics.Bitmap;
 import android.os.RemoteException;
-import androidx.annotation.RecentlyNonNull;
 import com.google.android.gms.common.internal.Preconditions;
-/* compiled from: com.google.android.gms:play-services-maps@@17.0.1 */
+/* compiled from: com.google.android.gms:play-services-maps@@18.1.0 */
 /* loaded from: classes.dex */
 public final class BitmapDescriptorFactory {
     private static com.google.android.gms.internal.maps.zzi zza;
 
-    @RecentlyNonNull
-    public static BitmapDescriptor fromBitmap(@RecentlyNonNull Bitmap bitmap) {
+    public static BitmapDescriptor fromBitmap(Bitmap bitmap) {
         Preconditions.checkNotNull(bitmap, "image must not be null");
         try {
-            return new BitmapDescriptor(zzb().zzi(bitmap));
+            return new BitmapDescriptor(zzb().zzg(bitmap));
         } catch (RemoteException e) {
             throw new RuntimeRemoteException(e);
         }
     }
 
-    @RecentlyNonNull
     public static BitmapDescriptor fromResource(int i) {
         try {
-            return new BitmapDescriptor(zzb().zzd(i));
+            return new BitmapDescriptor(zzb().zzj(i));
         } catch (RemoteException e) {
             throw new RuntimeRemoteException(e);
         }

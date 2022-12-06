@@ -19,6 +19,7 @@ import org.telegram.ui.LaunchActivity;
 /* loaded from: classes.dex */
 public class FileLog {
     private static volatile FileLog Instance = null;
+    public static boolean databaseIsMalformed = false;
     private static HashSet<String> excludeRequests = null;
     private static Gson gson = null;
     private static final String mtproto_tag = "MTProto";
@@ -318,8 +319,8 @@ public class FileLog {
         if (BuildVars.DEBUG_VERSION && needSent(th) && z) {
             AndroidUtilities.appCenterLog(th);
         }
-        if (BuildVars.DEBUG_VERSION && (th instanceof SQLiteException) && th.getMessage() != null) {
-            th.getMessage().contains("disk image is malformed");
+        if (BuildVars.DEBUG_VERSION && (th instanceof SQLiteException) && th.getMessage() != null && th.getMessage().contains("disk image is malformed")) {
+            databaseIsMalformed = true;
         }
         ensureInitied();
         th.printStackTrace();

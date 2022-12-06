@@ -1,23 +1,30 @@
 package com.google.android.gms.common.api.internal;
 
-import android.os.Handler;
-import java.util.concurrent.Executor;
-/* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
+import android.os.Looper;
+import android.os.Message;
+import android.util.Log;
+/* JADX INFO: Access modifiers changed from: package-private */
+/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
-final /* synthetic */ class zabc implements Executor {
-    private final Handler zaa;
-
-    private zabc(Handler handler) {
-        this.zaa = handler;
-    }
+public final class zabc extends com.google.android.gms.internal.base.zau {
+    final /* synthetic */ zabe zaa;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static Executor zaa(Handler handler) {
-        return new zabc(handler);
+    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+    public zabc(zabe zabeVar, Looper looper) {
+        super(looper);
+        this.zaa = zabeVar;
     }
 
-    @Override // java.util.concurrent.Executor
-    public final void execute(Runnable runnable) {
-        this.zaa.post(runnable);
+    @Override // android.os.Handler
+    public final void handleMessage(Message message) {
+        int i = message.what;
+        if (i == 1) {
+            zabe.zaj(this.zaa);
+        } else if (i == 2) {
+            zabe.zai(this.zaa);
+        } else {
+            Log.w("GoogleApiClientImpl", "Unknown message id: " + i);
+        }
     }
 }

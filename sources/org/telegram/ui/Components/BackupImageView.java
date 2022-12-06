@@ -17,6 +17,7 @@ import org.telegram.tgnet.TLObject;
 public class BackupImageView extends View {
     public AnimatedEmojiDrawable animatedEmojiDrawable;
     boolean attached;
+    private AvatarDrawable avatarDrawable;
     ValueAnimator roundRadiusAnimator;
     protected int width = -1;
     protected int height = -1;
@@ -147,6 +148,13 @@ public class BackupImageView extends View {
         this.width = i;
         this.height = i2;
         invalidate();
+    }
+
+    public AvatarDrawable getAvatarDrawable() {
+        if (this.avatarDrawable == null) {
+            this.avatarDrawable = new AvatarDrawable();
+        }
+        return this.avatarDrawable;
     }
 
     /* JADX INFO: Access modifiers changed from: protected */

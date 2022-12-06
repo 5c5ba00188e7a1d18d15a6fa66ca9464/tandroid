@@ -1950,7 +1950,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
 
     @Override // android.graphics.drawable.BitmapDrawable, android.graphics.drawable.Drawable
     public void draw(Canvas canvas) {
-        drawInternal(canvas, false, 0L, 0);
+        drawInternal(canvas, null, false, 0L, 0);
     }
 
     public void drawInBackground(Canvas canvas, float f, float f2, float f3, float f4, int i, ColorFilter colorFilter, int i2) {
@@ -1963,22 +1963,23 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
         this.backgroundPaint[i2].setAlpha(i);
         this.backgroundPaint[i2].setColorFilter(colorFilter);
         this.dstRectBackground[i2].set(f, f2, f3 + f, f4 + f2);
-        drawInternal(canvas, true, 0L, i2);
+        drawInternal(canvas, null, true, 0L, i2);
     }
 
-    public void drawInternal(Canvas canvas, boolean z, long j, int i) {
-        boolean z2;
+    public void drawInternal(Canvas canvas, Paint paint, boolean z, long j, int i) {
         float f;
         float f2;
         if (!canLoadFrames() || this.destroyWhenDone) {
             return;
         }
-        boolean z3 = false;
+        boolean z2 = false;
         if (!z) {
             updateCurrentFrame(j, false);
         }
         RectF rectF = z ? this.dstRectBackground[i] : this.dstRect;
-        Paint paint = z ? this.backgroundPaint[i] : getPaint();
+        if (paint == null) {
+            paint = z ? this.backgroundPaint[i] : getPaint();
+        }
         if (paint.getAlpha() == 0 || this.isInvalid || this.renderingBitmap == null) {
             return;
         }
@@ -1989,9 +1990,9 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
                 this.scaleY = rectF.height() / this.height;
                 this.applyTransformation = false;
                 if (Math.abs(rectF.width() - this.width) >= AndroidUtilities.dp(1.0f) || Math.abs(rectF.height() - this.height) >= AndroidUtilities.dp(1.0f)) {
-                    z3 = true;
+                    z2 = true;
                 }
-                this.needScale = z3;
+                this.needScale = z2;
             }
             f = this.scaleX;
             f2 = this.scaleY;
@@ -2000,9 +2001,8 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
             float width = rectF.width() / this.width;
             float height = rectF.height() / this.height;
             if (Math.abs(rectF.width() - this.width) >= AndroidUtilities.dp(1.0f) || Math.abs(rectF.height() - this.height) >= AndroidUtilities.dp(1.0f)) {
-                z3 = true;
+                z2 = true;
             }
-            z2 = z3;
             f = width;
             f2 = height;
         }
@@ -2157,7 +2157,6 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     public void setMasterParent(View view) {
         this.masterParent = view;
     }

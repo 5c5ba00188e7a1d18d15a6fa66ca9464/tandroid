@@ -2,18 +2,18 @@ package com.android.billingclient.api;
 
 import android.app.Activity;
 import android.content.Context;
-/* compiled from: com.android.billingclient:billing@@5.0.0 */
+/* compiled from: com.android.billingclient:billing@@5.1.0 */
 /* loaded from: classes.dex */
 public abstract class BillingClient {
 
-    /* compiled from: com.android.billingclient:billing@@5.0.0 */
+    /* compiled from: com.android.billingclient:billing@@5.1.0 */
     /* loaded from: classes.dex */
     public static final class Builder {
         private volatile boolean zzb;
         private final Context zzc;
         private volatile PurchasesUpdatedListener zzd;
 
-        /* synthetic */ Builder(Context context, zzp zzpVar) {
+        /* synthetic */ Builder(Context context, zzq zzqVar) {
             this.zzc = context;
         }
 

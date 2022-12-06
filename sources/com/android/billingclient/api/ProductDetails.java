@@ -6,7 +6,7 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-/* compiled from: com.android.billingclient:billing@@5.0.0 */
+/* compiled from: com.android.billingclient:billing@@5.1.0 */
 /* loaded from: classes.dex */
 public final class ProductDetails {
     private final String zza;
@@ -15,22 +15,32 @@ public final class ProductDetails {
     private final String zzd;
     private final String zze;
     private final String zzh;
-    private final List zzi;
+    private final String zzi;
+    private final List zzj;
+    private final List zzk;
 
-    /* compiled from: com.android.billingclient:billing@@5.0.0 */
+    /* compiled from: com.android.billingclient:billing@@5.1.0 */
     /* loaded from: classes.dex */
     public static final class OneTimePurchaseOfferDetails {
         private final long zzb;
         private final String zzc;
         private final String zzd;
 
-        OneTimePurchaseOfferDetails(JSONObject jSONObject) {
+        OneTimePurchaseOfferDetails(JSONObject jSONObject) throws JSONException {
             jSONObject.optString("formattedPrice");
             this.zzb = jSONObject.optLong("priceAmountMicros");
             this.zzc = jSONObject.optString("priceCurrencyCode");
             this.zzd = jSONObject.optString("offerIdToken");
             jSONObject.optString("offerId");
             jSONObject.optInt("offerType");
+            JSONArray optJSONArray = jSONObject.optJSONArray("offerTags");
+            ArrayList arrayList = new ArrayList();
+            if (optJSONArray != null) {
+                for (int i = 0; i < optJSONArray.length(); i++) {
+                    arrayList.add(optJSONArray.getString(i));
+                }
+            }
+            com.google.android.gms.internal.play_billing.zzu.zzk(arrayList);
         }
 
         public long getPriceAmountMicros() {
@@ -46,7 +56,7 @@ public final class ProductDetails {
         }
     }
 
-    /* compiled from: com.android.billingclient:billing@@5.0.0 */
+    /* compiled from: com.android.billingclient:billing@@5.1.0 */
     /* loaded from: classes.dex */
     public static final class PricingPhase {
         private final String billingPeriod;
@@ -80,7 +90,7 @@ public final class ProductDetails {
         }
     }
 
-    /* compiled from: com.android.billingclient:billing@@5.0.0 */
+    /* compiled from: com.android.billingclient:billing@@5.1.0 */
     /* loaded from: classes.dex */
     public static class PricingPhases {
         private final List<PricingPhase> pricingPhaseList;
@@ -103,18 +113,20 @@ public final class ProductDetails {
         }
     }
 
-    /* compiled from: com.android.billingclient:billing@@5.0.0 */
+    /* compiled from: com.android.billingclient:billing@@5.1.0 */
     /* loaded from: classes.dex */
     public static final class SubscriptionOfferDetails {
-        private final String offerToken;
-        private final PricingPhases pricingPhases;
+        private final String zzc;
+        private final PricingPhases zzd;
 
         SubscriptionOfferDetails(JSONObject jSONObject) throws JSONException {
-            this.offerToken = jSONObject.getString("offerIdToken");
-            this.pricingPhases = new PricingPhases(jSONObject.getJSONArray("pricingPhases"));
+            jSONObject.optString("basePlanId");
+            jSONObject.optString("offerId").isEmpty();
+            this.zzc = jSONObject.getString("offerIdToken");
+            this.zzd = new PricingPhases(jSONObject.getJSONArray("pricingPhases"));
             JSONObject optJSONObject = jSONObject.optJSONObject("installmentPlanDetails");
             if (optJSONObject != null) {
-                new zzbg(optJSONObject);
+                new zzbh(optJSONObject);
             }
             ArrayList arrayList = new ArrayList();
             JSONArray optJSONArray = jSONObject.optJSONArray("offerTags");
@@ -126,11 +138,11 @@ public final class ProductDetails {
         }
 
         public String getOfferToken() {
-            return this.offerToken;
+            return this.zzc;
         }
 
         public PricingPhases getPricingPhases() {
-            return this.pricingPhases;
+            return this.zzd;
         }
     }
 
@@ -153,21 +165,39 @@ public final class ProductDetails {
         jSONObject.optString("name");
         jSONObject.optString("description");
         this.zzh = jSONObject.optString("skuDetailsToken");
-        if (optString2.equals("inapp")) {
-            this.zzi = null;
-            return;
-        }
-        ArrayList arrayList = new ArrayList();
+        this.zzi = jSONObject.optString("serializedDocid");
         JSONArray optJSONArray = jSONObject.optJSONArray("subscriptionOfferDetails");
         if (optJSONArray != null) {
+            ArrayList arrayList = new ArrayList();
             for (int i = 0; i < optJSONArray.length(); i++) {
                 arrayList.add(new SubscriptionOfferDetails(optJSONArray.getJSONObject(i)));
             }
+            this.zzj = arrayList;
+        } else {
+            this.zzj = (optString2.equals("subs") || optString2.equals("play_pass_subs")) ? new ArrayList() : null;
         }
-        this.zzi = arrayList;
+        JSONObject optJSONObject = this.zzb.optJSONObject("oneTimePurchaseOfferDetails");
+        JSONArray optJSONArray2 = this.zzb.optJSONArray("oneTimePurchaseOfferDetailsList");
+        ArrayList arrayList2 = new ArrayList();
+        if (optJSONArray2 != null) {
+            for (int i2 = 0; i2 < optJSONArray2.length(); i2++) {
+                arrayList2.add(new OneTimePurchaseOfferDetails(optJSONArray2.getJSONObject(i2)));
+            }
+            this.zzk = arrayList2;
+        } else if (optJSONObject != null) {
+            arrayList2.add(new OneTimePurchaseOfferDetails(optJSONObject));
+            this.zzk = arrayList2;
+        } else {
+            this.zzk = null;
+        }
+        JSONObject optJSONObject2 = this.zzb.optJSONObject("limitedQuantityInfo");
+        if (optJSONObject2 == null) {
+            return;
+        }
+        new zzbi(optJSONObject2);
     }
 
-    public final boolean equals(Object obj) {
+    public boolean equals(Object obj) {
         if (this == obj) {
             return true;
         }
@@ -178,11 +208,11 @@ public final class ProductDetails {
     }
 
     public OneTimePurchaseOfferDetails getOneTimePurchaseOfferDetails() {
-        JSONObject optJSONObject = this.zzb.optJSONObject("oneTimePurchaseOfferDetails");
-        if (optJSONObject != null) {
-            return new OneTimePurchaseOfferDetails(optJSONObject);
+        List list = this.zzk;
+        if (list == null || list.isEmpty()) {
+            return null;
         }
-        return null;
+        return (OneTimePurchaseOfferDetails) this.zzk.get(0);
     }
 
     public String getProductId() {
@@ -194,21 +224,21 @@ public final class ProductDetails {
     }
 
     public List<SubscriptionOfferDetails> getSubscriptionOfferDetails() {
-        return this.zzi;
+        return this.zzj;
     }
 
-    public final int hashCode() {
+    public int hashCode() {
         return this.zza.hashCode();
     }
 
-    public final String toString() {
+    public String toString() {
         String str = this.zza;
         String obj = this.zzb.toString();
         String str2 = this.zzc;
         String str3 = this.zzd;
         String str4 = this.zze;
         String str5 = this.zzh;
-        String valueOf = String.valueOf(this.zzi);
+        String valueOf = String.valueOf(this.zzj);
         return "ProductDetails{jsonString='" + str + "', parsedJson=" + obj + ", productId='" + str2 + "', productType='" + str3 + "', title='" + str4 + "', productDetailsToken='" + str5 + "', subscriptionOfferDetails=" + valueOf + "}";
     }
 
@@ -219,5 +249,9 @@ public final class ProductDetails {
     /* JADX INFO: Access modifiers changed from: package-private */
     public final String zzb() {
         return this.zzh;
+    }
+
+    public String zzc() {
+        return this.zzi;
     }
 }

@@ -1,24 +1,25 @@
 package com.google.android.gms.common.api.internal;
 
-import java.lang.ref.WeakReference;
-/* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
+import android.content.Context;
+import com.google.android.gms.common.GoogleApiAvailabilityLight;
+/* JADX INFO: Access modifiers changed from: package-private */
+/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
-final class zaak extends com.google.android.gms.signin.internal.zab {
-    private final WeakReference<zaaf> zaa;
+public final class zaak implements Runnable {
+    final /* synthetic */ zaaw zaa;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public zaak(zaaf zaafVar) {
-        this.zaa = new WeakReference<>(zaafVar);
+    public zaak(zaaw zaawVar) {
+        this.zaa = zaawVar;
     }
 
-    @Override // com.google.android.gms.signin.internal.zae
-    public final void zaa(com.google.android.gms.signin.internal.zak zakVar) {
-        zaaz zaazVar;
-        zaaf zaafVar = this.zaa.get();
-        if (zaafVar == null) {
-            return;
-        }
-        zaazVar = zaafVar.zaa;
-        zaazVar.zaa(new zaan(this, zaafVar, zaafVar, zakVar));
+    @Override // java.lang.Runnable
+    public final void run() {
+        GoogleApiAvailabilityLight googleApiAvailabilityLight;
+        Context context;
+        zaaw zaawVar = this.zaa;
+        googleApiAvailabilityLight = zaawVar.zad;
+        context = zaawVar.zac;
+        googleApiAvailabilityLight.cancelAvailabilityErrorNotifications(context);
     }
 }

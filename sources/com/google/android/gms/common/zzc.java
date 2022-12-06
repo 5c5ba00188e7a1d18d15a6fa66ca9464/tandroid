@@ -1,22 +1,36 @@
 package com.google.android.gms.common;
 
-import android.content.Context;
-import android.util.Log;
-import javax.annotation.CheckReturnValue;
-/* compiled from: com.google.android.gms:play-services-basement@@17.5.0 */
-@CheckReturnValue
+import android.os.Parcel;
+import android.os.Parcelable;
+import com.google.android.gms.common.internal.safeparcel.SafeParcelReader;
+/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
-final class zzc {
-    private static Context zzc;
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static synchronized void zza(Context context) {
-        synchronized (zzc.class) {
-            if (zzc != null) {
-                Log.w("GoogleCertificates", "GoogleCertificates has been initialized already");
-            } else if (context != null) {
-                zzc = context.getApplicationContext();
+public final class zzc implements Parcelable.Creator {
+    @Override // android.os.Parcelable.Creator
+    public final /* bridge */ /* synthetic */ Object createFromParcel(Parcel parcel) {
+        int validateObjectHeader = SafeParcelReader.validateObjectHeader(parcel);
+        String str = null;
+        int i = 0;
+        long j = -1;
+        while (parcel.dataPosition() < validateObjectHeader) {
+            int readHeader = SafeParcelReader.readHeader(parcel);
+            int fieldId = SafeParcelReader.getFieldId(readHeader);
+            if (fieldId == 1) {
+                str = SafeParcelReader.createString(parcel, readHeader);
+            } else if (fieldId == 2) {
+                i = SafeParcelReader.readInt(parcel, readHeader);
+            } else if (fieldId == 3) {
+                j = SafeParcelReader.readLong(parcel, readHeader);
+            } else {
+                SafeParcelReader.skipUnknownField(parcel, readHeader);
             }
         }
+        SafeParcelReader.ensureAtEnd(parcel, validateObjectHeader);
+        return new Feature(str, i, j);
+    }
+
+    @Override // android.os.Parcelable.Creator
+    public final /* synthetic */ Object[] newArray(int i) {
+        return new Feature[i];
     }
 }

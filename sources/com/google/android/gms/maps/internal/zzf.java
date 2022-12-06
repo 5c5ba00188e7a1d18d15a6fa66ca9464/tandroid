@@ -6,14 +6,18 @@ import com.google.android.gms.dynamic.IObjectWrapper;
 import com.google.android.gms.internal.maps.zzi;
 import com.google.android.gms.maps.GoogleMapOptions;
 import javax.annotation.Nullable;
-/* compiled from: com.google.android.gms:play-services-maps@@17.0.1 */
+/* compiled from: com.google.android.gms:play-services-maps@@18.1.0 */
 /* loaded from: classes.dex */
 public interface zzf extends IInterface {
-    IMapViewDelegate zze(IObjectWrapper iObjectWrapper, @Nullable GoogleMapOptions googleMapOptions) throws RemoteException;
+    int zzd() throws RemoteException;
 
-    ICameraUpdateFactoryDelegate zzf() throws RemoteException;
+    ICameraUpdateFactoryDelegate zze() throws RemoteException;
 
-    zzi zzg() throws RemoteException;
+    IMapViewDelegate zzg(IObjectWrapper iObjectWrapper, @Nullable GoogleMapOptions googleMapOptions) throws RemoteException;
 
-    void zzh(IObjectWrapper iObjectWrapper, int i) throws RemoteException;
+    zzi zzj() throws RemoteException;
+
+    void zzk(IObjectWrapper iObjectWrapper, int i) throws RemoteException;
+
+    void zzl(IObjectWrapper iObjectWrapper, int i) throws RemoteException;
 }

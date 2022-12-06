@@ -79,7 +79,8 @@ public class SwipeGestureSettingsView extends FrameLayout {
             }
         };
         this.picker = numberPicker;
-        numberPicker.setMinValue(0);
+        numberPicker.setWrapSelectorWheel(true);
+        this.picker.setMinValue(0);
         this.picker.setDrawDividers(false);
         boolean z = !MessagesController.getInstance(i).dialogFilters.isEmpty();
         this.hasTabs = z;

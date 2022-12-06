@@ -1,64 +1,40 @@
 package com.google.android.gms.common;
 
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.Signature;
 import android.util.Log;
-import androidx.annotation.RecentlyNonNull;
 import com.google.android.gms.common.internal.Preconditions;
-import javax.annotation.CheckReturnValue;
+import com.google.errorprone.annotations.CheckReturnValue;
+import com.google.errorprone.annotations.RestrictedInheritance;
 import javax.annotation.Nullable;
-/* compiled from: com.google.android.gms:play-services-basement@@17.5.0 */
+/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 @CheckReturnValue
+@RestrictedInheritance(allowedOnPath = ".*java.*/com/google/android/gms/common/testing/.*", explanation = "Sub classing of GMS Core's APIs are restricted to testing fakes.", link = "go/gmscore-restrictedinheritance")
 /* loaded from: classes.dex */
 public class GoogleSignatureVerifier {
     @Nullable
     private static GoogleSignatureVerifier zza;
-    private final Context zzb;
+    private final Context zzc;
 
-    private GoogleSignatureVerifier(Context context) {
-        this.zzb = context.getApplicationContext();
+    public GoogleSignatureVerifier(Context context) {
+        this.zzc = context.getApplicationContext();
     }
 
-    @RecentlyNonNull
-    public static GoogleSignatureVerifier getInstance(@RecentlyNonNull Context context) {
+    public static GoogleSignatureVerifier getInstance(Context context) {
         Preconditions.checkNotNull(context);
         synchronized (GoogleSignatureVerifier.class) {
             if (zza == null) {
-                zzc.zza(context);
+                zzn.zze(context);
                 zza = new GoogleSignatureVerifier(context);
             }
         }
         return zza;
     }
 
-    public static boolean zza(@RecentlyNonNull PackageInfo packageInfo, boolean z) {
-        if (packageInfo != null && packageInfo.signatures != null) {
-            if ((z ? zza(packageInfo, zzi.zza) : zza(packageInfo, zzi.zza[0])) != null) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean isGooglePublicSignedPackage(@RecentlyNonNull PackageInfo packageInfo) {
-        if (packageInfo == null) {
-            return false;
-        }
-        if (zza(packageInfo, false)) {
-            return true;
-        }
-        if (zza(packageInfo, true)) {
-            if (GooglePlayServicesUtilLight.honorsDebugCertificates(this.zzb)) {
-                return true;
-            }
-            Log.w("GoogleSignatureVerifier", "Test-keys aren't accepted on this build.");
-        }
-        return false;
-    }
-
     @Nullable
-    private static zzd zza(PackageInfo packageInfo, zzd... zzdVarArr) {
+    static final zzj zza(PackageInfo packageInfo, zzj... zzjVarArr) {
         Signature[] signatureArr = packageInfo.signatures;
         if (signatureArr == null) {
             return null;
@@ -67,12 +43,41 @@ public class GoogleSignatureVerifier {
             Log.w("GoogleSignatureVerifier", "Package has more than one signature.");
             return null;
         }
-        zzg zzgVar = new zzg(packageInfo.signatures[0].toByteArray());
-        for (int i = 0; i < zzdVarArr.length; i++) {
-            if (zzdVarArr[i].equals(zzgVar)) {
-                return zzdVarArr[i];
+        zzk zzkVar = new zzk(packageInfo.signatures[0].toByteArray());
+        for (int i = 0; i < zzjVarArr.length; i++) {
+            if (zzjVarArr[i].equals(zzkVar)) {
+                return zzjVarArr[i];
             }
         }
         return null;
+    }
+
+    public static final boolean zzb(PackageInfo packageInfo, boolean z) {
+        if (z && packageInfo != null && ("com.android.vending".equals(packageInfo.packageName) || "com.google.android.gms".equals(packageInfo.packageName))) {
+            ApplicationInfo applicationInfo = packageInfo.applicationInfo;
+            z = (applicationInfo == null || (applicationInfo.flags & 129) == 0) ? false : true;
+        }
+        if (packageInfo != null && packageInfo.signatures != null) {
+            if ((z ? zza(packageInfo, zzm.zza) : zza(packageInfo, zzm.zza[0])) != null) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isGooglePublicSignedPackage(PackageInfo packageInfo) {
+        if (packageInfo == null) {
+            return false;
+        }
+        if (zzb(packageInfo, false)) {
+            return true;
+        }
+        if (zzb(packageInfo, true)) {
+            if (GooglePlayServicesUtilLight.honorsDebugCertificates(this.zzc)) {
+                return true;
+            }
+            Log.w("GoogleSignatureVerifier", "Test-keys aren't accepted on this build.");
+        }
+        return false;
     }
 }

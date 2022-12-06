@@ -3,7 +3,7 @@ package com.google.android.gms.maps;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.internal.zzc;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.google.android.gms:play-services-maps@@17.0.1 */
+/* compiled from: com.google.android.gms:play-services-maps@@18.1.0 */
 /* loaded from: classes.dex */
 public final class zzaa extends zzc {
     private final GoogleMap.CancelableCallback zza;
@@ -15,11 +15,11 @@ public final class zzaa extends zzc {
 
     @Override // com.google.android.gms.maps.internal.zzd
     public final void zzb() {
-        this.zza.onFinish();
+        this.zza.onCancel();
     }
 
     @Override // com.google.android.gms.maps.internal.zzd
     public final void zzc() {
-        this.zza.onCancel();
+        this.zza.onFinish();
     }
 }

@@ -383,15 +383,15 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         return checkDiscard();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:121:0x065e  */
-    /* JADX WARN: Removed duplicated region for block: B:133:0x06d1  */
-    /* JADX WARN: Removed duplicated region for block: B:143:0x070b  */
-    /* JADX WARN: Removed duplicated region for block: B:157:0x079f  */
-    /* JADX WARN: Removed duplicated region for block: B:160:0x07ad  */
-    /* JADX WARN: Removed duplicated region for block: B:170:0x07ea  */
-    /* JADX WARN: Removed duplicated region for block: B:177:0x0872  */
-    /* JADX WARN: Removed duplicated region for block: B:183:0x08d0  */
-    /* JADX WARN: Removed duplicated region for block: B:189:0x078c  */
+    /* JADX WARN: Removed duplicated region for block: B:121:0x066e  */
+    /* JADX WARN: Removed duplicated region for block: B:133:0x06e1  */
+    /* JADX WARN: Removed duplicated region for block: B:143:0x071b  */
+    /* JADX WARN: Removed duplicated region for block: B:157:0x07af  */
+    /* JADX WARN: Removed duplicated region for block: B:160:0x07bd  */
+    /* JADX WARN: Removed duplicated region for block: B:170:0x07fa  */
+    /* JADX WARN: Removed duplicated region for block: B:177:0x0882  */
+    /* JADX WARN: Removed duplicated region for block: B:183:0x08e0  */
+    /* JADX WARN: Removed duplicated region for block: B:189:0x079c  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -827,7 +827,9 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
             this.settingsSectionCell.setBackground(combinedDrawable);
             linearLayout.addView(this.settingsSectionCell, LayoutHelper.createLinear(-1, -2));
             if (this.forumsCell != null) {
-                this.settingsSectionCell.setText(LocaleController.getString(R.string.ForumToggleDescription));
+                this.settingsSectionCell.setText(LocaleController.getString("ForumToggleDescription", R.string.ForumToggleDescription));
+            } else {
+                this.settingsSectionCell.setText(LocaleController.getString("ChannelSignMessagesInfo", R.string.ChannelSignMessagesInfo));
             }
         }
         LinearLayout linearLayout5 = new LinearLayout(context);

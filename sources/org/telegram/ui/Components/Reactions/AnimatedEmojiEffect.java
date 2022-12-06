@@ -223,6 +223,7 @@ public class AnimatedEmojiEffect {
                 this.toY2 = randY + AnimatedEmojiEffect.this.bounds.height();
                 this.duration = 1800L;
             }
+            this.duration = ((float) this.duration) / 1.75f;
             this.mirror = Utilities.fastRandom.nextBoolean();
             this.randomRotation = ((Utilities.fastRandom.nextInt() % 100) / 100.0f) * 20.0f;
         }
@@ -239,26 +240,26 @@ public class AnimatedEmojiEffect {
             return animatedEmojiEffect.bounds.width() * (Math.abs(Utilities.fastRandom.nextInt() % 100) / 100.0f);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:11:0x008c  */
+        /* JADX WARN: Removed duplicated region for block: B:11:0x0096  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public void draw(Canvas canvas) {
             float lerp;
             float f;
-            float f2 = this.progress + (16.0f / ((float) this.duration));
-            this.progress = f2;
-            float clamp = Utilities.clamp(f2, 1.0f, 0.0f);
+            float min = this.progress + (Math.min(40.0f, 1000.0f / AndroidUtilities.screenRefreshRate) / ((float) this.duration));
+            this.progress = min;
+            float clamp = Utilities.clamp(min, 1.0f, 0.0f);
             this.progress = clamp;
             CubicBezierInterpolator cubicBezierInterpolator = CubicBezierInterpolator.EASE_OUT;
             float interpolation = cubicBezierInterpolator.getInterpolation(clamp);
             float lerp2 = AndroidUtilities.lerp(this.fromX, this.toX, interpolation);
             boolean z = AnimatedEmojiEffect.this.longAnimation;
-            float f3 = this.progress;
-            if (f3 < 0.3f) {
-                lerp = AndroidUtilities.lerp(this.fromY, this.toY1, cubicBezierInterpolator.getInterpolation(f3 / 0.3f));
+            float f2 = this.progress;
+            if (f2 < 0.3f) {
+                lerp = AndroidUtilities.lerp(this.fromY, this.toY1, cubicBezierInterpolator.getInterpolation(f2 / 0.3f));
             } else {
-                lerp = AndroidUtilities.lerp(this.toY1, this.toY2, CubicBezierInterpolator.EASE_IN.getInterpolation((f3 - 0.3f) / 0.7f));
+                lerp = AndroidUtilities.lerp(this.toY1, this.toY2, CubicBezierInterpolator.EASE_IN.getInterpolation((f2 - 0.3f) / 0.7f));
             }
             float lerp3 = AndroidUtilities.lerp(this.fromSize, this.toSize, interpolation);
             AnimatedEmojiEffect animatedEmojiEffect = AnimatedEmojiEffect.this;
@@ -266,27 +267,27 @@ public class AnimatedEmojiEffect {
                 float height = animatedEmojiEffect.bounds.height() * 0.8f;
                 if (lerp > height) {
                     f = 1.0f - Utilities.clamp((lerp - height) / AndroidUtilities.dp(16.0f), 1.0f, 0.0f);
-                    float f4 = (lerp3 / 2.0f) * f;
+                    float f3 = (lerp3 / 2.0f) * f;
                     canvas.save();
                     if (this.mirror) {
                         canvas.scale(-1.0f, 1.0f, lerp2, lerp);
                     }
                     canvas.rotate(this.randomRotation, lerp2, lerp);
                     AnimatedEmojiEffect.this.animatedEmojiDrawable.setAlpha((int) (f * 255.0f * Utilities.clamp(this.progress / 0.2f, 1.0f, 0.0f)));
-                    AnimatedEmojiEffect.this.animatedEmojiDrawable.setBounds((int) (lerp2 - f4), (int) (lerp - f4), (int) (lerp2 + f4), (int) (lerp + f4));
+                    AnimatedEmojiEffect.this.animatedEmojiDrawable.setBounds((int) (lerp2 - f3), (int) (lerp - f3), (int) (lerp2 + f3), (int) (lerp + f3));
                     AnimatedEmojiEffect.this.animatedEmojiDrawable.draw(canvas);
                     AnimatedEmojiEffect.this.animatedEmojiDrawable.setAlpha(255);
                     canvas.restore();
                 }
             }
             f = 1.0f;
-            float f42 = (lerp3 / 2.0f) * f;
+            float f32 = (lerp3 / 2.0f) * f;
             canvas.save();
             if (this.mirror) {
             }
             canvas.rotate(this.randomRotation, lerp2, lerp);
             AnimatedEmojiEffect.this.animatedEmojiDrawable.setAlpha((int) (f * 255.0f * Utilities.clamp(this.progress / 0.2f, 1.0f, 0.0f)));
-            AnimatedEmojiEffect.this.animatedEmojiDrawable.setBounds((int) (lerp2 - f42), (int) (lerp - f42), (int) (lerp2 + f42), (int) (lerp + f42));
+            AnimatedEmojiEffect.this.animatedEmojiDrawable.setBounds((int) (lerp2 - f32), (int) (lerp - f32), (int) (lerp2 + f32), (int) (lerp + f32));
             AnimatedEmojiEffect.this.animatedEmojiDrawable.draw(canvas);
             AnimatedEmojiEffect.this.animatedEmojiDrawable.setAlpha(255);
             canvas.restore();

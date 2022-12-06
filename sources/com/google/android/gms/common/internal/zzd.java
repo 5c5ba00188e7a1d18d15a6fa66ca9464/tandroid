@@ -1,42 +1,37 @@
 package com.google.android.gms.common.internal;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-import com.google.android.gms.common.internal.safeparcel.SafeParcelReader;
-/* compiled from: com.google.android.gms:play-services-basement@@17.5.0 */
+import android.os.Bundle;
+import android.os.IBinder;
+import android.util.Log;
+/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
-public final class zzd implements Parcelable.Creator<ConnectionTelemetryConfiguration> {
-    @Override // android.os.Parcelable.Creator
-    public final /* synthetic */ ConnectionTelemetryConfiguration[] newArray(int i) {
-        return new ConnectionTelemetryConfiguration[i];
+public final class zzd extends zzab {
+    private BaseGmsClient zza;
+    private final int zzb;
+
+    public zzd(BaseGmsClient baseGmsClient, int i) {
+        this.zza = baseGmsClient;
+        this.zzb = i;
     }
 
-    @Override // android.os.Parcelable.Creator
-    public final /* synthetic */ ConnectionTelemetryConfiguration createFromParcel(Parcel parcel) {
-        int validateObjectHeader = SafeParcelReader.validateObjectHeader(parcel);
-        RootTelemetryConfiguration rootTelemetryConfiguration = null;
-        int[] iArr = null;
-        boolean z = false;
-        boolean z2 = false;
-        int i = 0;
-        while (parcel.dataPosition() < validateObjectHeader) {
-            int readHeader = SafeParcelReader.readHeader(parcel);
-            int fieldId = SafeParcelReader.getFieldId(readHeader);
-            if (fieldId == 1) {
-                rootTelemetryConfiguration = (RootTelemetryConfiguration) SafeParcelReader.createParcelable(parcel, readHeader, RootTelemetryConfiguration.CREATOR);
-            } else if (fieldId == 2) {
-                z = SafeParcelReader.readBoolean(parcel, readHeader);
-            } else if (fieldId == 3) {
-                z2 = SafeParcelReader.readBoolean(parcel, readHeader);
-            } else if (fieldId == 4) {
-                iArr = SafeParcelReader.createIntArray(parcel, readHeader);
-            } else if (fieldId == 5) {
-                i = SafeParcelReader.readInt(parcel, readHeader);
-            } else {
-                SafeParcelReader.skipUnknownField(parcel, readHeader);
-            }
-        }
-        SafeParcelReader.ensureAtEnd(parcel, validateObjectHeader);
-        return new ConnectionTelemetryConfiguration(rootTelemetryConfiguration, z, z2, iArr, i);
+    @Override // com.google.android.gms.common.internal.IGmsCallbacks
+    public final void onPostInitComplete(int i, IBinder iBinder, Bundle bundle) {
+        Preconditions.checkNotNull(this.zza, "onPostInitComplete can be called only once per call to getRemoteService");
+        this.zza.onPostInitHandler(i, iBinder, bundle, this.zzb);
+        this.zza = null;
+    }
+
+    @Override // com.google.android.gms.common.internal.IGmsCallbacks
+    public final void zzb(int i, Bundle bundle) {
+        Log.wtf("GmsClient", "received deprecated onAccountValidationComplete callback, ignoring", new Exception());
+    }
+
+    @Override // com.google.android.gms.common.internal.IGmsCallbacks
+    public final void zzc(int i, IBinder iBinder, zzj zzjVar) {
+        BaseGmsClient baseGmsClient = this.zza;
+        Preconditions.checkNotNull(baseGmsClient, "onPostInitCompleteWithConnectionInfo can be called only once per call togetRemoteService");
+        Preconditions.checkNotNull(zzjVar);
+        BaseGmsClient.zzj(baseGmsClient, zzjVar);
+        onPostInitComplete(i, iBinder, zzjVar.zza);
     }
 }

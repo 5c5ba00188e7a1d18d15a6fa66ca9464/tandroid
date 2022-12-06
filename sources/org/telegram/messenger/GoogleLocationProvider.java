@@ -29,7 +29,7 @@ public class GoogleLocationProvider implements ILocationServiceProvider {
     @Override // org.telegram.messenger.ILocationServiceProvider
     public void init(Context context) {
         this.locationProviderClient = LocationServices.getFusedLocationProviderClient(context);
-        this.settingsClient = new SettingsClient(context);
+        this.settingsClient = LocationServices.getSettingsClient(context);
     }
 
     @Override // org.telegram.messenger.ILocationServiceProvider

@@ -60,7 +60,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RLottieImageView;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.FilterCreateActivity;
-import org.telegram.ui.FilterUsersActivity;
+import org.telegram.ui.UsersSelectActivity;
 /* loaded from: classes3.dex */
 public class FilterCreateActivity extends BaseFragment {
     private ListAdapter adapter;
@@ -406,14 +406,14 @@ public class FilterCreateActivity extends BaseFragment {
                 if (i != i2) {
                     z = false;
                 }
-                FilterUsersActivity filterUsersActivity = new FilterUsersActivity(z, arrayList, this.newFilterFlags);
-                filterUsersActivity.setDelegate(new FilterUsersActivity.FilterUsersActivityDelegate() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda14
-                    @Override // org.telegram.ui.FilterUsersActivity.FilterUsersActivityDelegate
+                UsersSelectActivity usersSelectActivity = new UsersSelectActivity(z, arrayList, this.newFilterFlags);
+                usersSelectActivity.setDelegate(new UsersSelectActivity.FilterUsersActivityDelegate() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda14
+                    @Override // org.telegram.ui.UsersSelectActivity.FilterUsersActivityDelegate
                     public final void didSelectChats(ArrayList arrayList2, int i3) {
                         FilterCreateActivity.this.lambda$createView$0(i, arrayList2, i3);
                     }
                 });
-                presentFragment(filterUsersActivity);
+                presentFragment(usersSelectActivity);
             } else if (i == this.removeRow) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
                 builder.setTitle(LocaleController.getString("FilterDelete", R.string.FilterDelete));

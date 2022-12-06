@@ -32,6 +32,7 @@ public class LinearLayoutManager extends RecyclerView.LayoutManager implements I
     boolean mShouldReverseLayout;
     private boolean mSmoothScrollbarEnabled;
     private boolean mStackFromEnd;
+    private boolean needFixEndGap;
     private boolean needFixGap;
 
     @Override // androidx.recyclerview.widget.RecyclerView.LayoutManager
@@ -64,6 +65,7 @@ public class LinearLayoutManager extends RecyclerView.LayoutManager implements I
         this.mInitialPrefetchItemCount = 2;
         this.mReusableIntPair = new int[2];
         this.needFixGap = true;
+        this.needFixEndGap = true;
         setOrientation(i);
         setReverseLayout(z);
     }
@@ -566,27 +568,27 @@ public class LinearLayoutManager extends RecyclerView.LayoutManager implements I
     private int fixLayoutEndGap(int i, RecyclerView.Recycler recycler, RecyclerView.State state, boolean z) {
         int endAfterPadding;
         int endAfterPadding2;
-        if (this.needFixGap && (endAfterPadding = this.mOrientationHelper.getEndAfterPadding() - i) > 0) {
-            int i2 = -scrollBy(-endAfterPadding, recycler, state);
-            int i3 = i + i2;
-            if (!z || (endAfterPadding2 = this.mOrientationHelper.getEndAfterPadding() - i3) <= 0) {
-                return i2;
-            }
-            this.mOrientationHelper.offsetChildren(endAfterPadding2);
-            return endAfterPadding2 + i2;
+        if (!this.needFixGap || !this.needFixEndGap || (endAfterPadding = this.mOrientationHelper.getEndAfterPadding() - i) <= 0) {
+            return 0;
         }
-        return 0;
+        int i2 = -scrollBy(-endAfterPadding, recycler, state);
+        int i3 = i + i2;
+        if (!z || (endAfterPadding2 = this.mOrientationHelper.getEndAfterPadding() - i3) <= 0) {
+            return i2;
+        }
+        this.mOrientationHelper.offsetChildren(endAfterPadding2);
+        return endAfterPadding2 + i2;
     }
 
-    public int getStarForFixGap() {
+    public int getStartForFixGap() {
         return this.mOrientationHelper.getStartAfterPadding();
     }
 
     private int fixLayoutStartGap(int i, RecyclerView.Recycler recycler, RecyclerView.State state, boolean z) {
-        int starForFixGap;
+        int startForFixGap;
         int startAfterPadding;
-        if (this.needFixGap && (starForFixGap = i - getStarForFixGap()) > 0) {
-            int i2 = -scrollBy(starForFixGap, recycler, state);
+        if (this.needFixGap && (startForFixGap = i - getStartForFixGap()) > 0) {
+            int i2 = -scrollBy(startForFixGap, recycler, state);
             int i3 = i + i2;
             if (!z || (startAfterPadding = i3 - this.mOrientationHelper.getStartAfterPadding()) <= 0) {
                 return i2;
@@ -1539,5 +1541,9 @@ public class LinearLayoutManager extends RecyclerView.LayoutManager implements I
 
     public void setNeedFixGap(boolean z) {
         this.needFixGap = z;
+    }
+
+    public void setNeedFixEndGap(boolean z) {
+        this.needFixEndGap = z;
     }
 }

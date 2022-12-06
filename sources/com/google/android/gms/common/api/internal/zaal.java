@@ -1,43 +1,61 @@
 package com.google.android.gms.common.api.internal;
 
+import android.os.Looper;
+import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.Api;
-import com.google.android.gms.common.api.Scope;
-import com.google.android.gms.common.internal.IAccountAccessor;
-import java.util.ArrayList;
-import java.util.Set;
-/* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
+import com.google.android.gms.common.internal.BaseGmsClient;
+import com.google.android.gms.common.internal.Preconditions;
+import java.lang.ref.WeakReference;
+import java.util.concurrent.locks.Lock;
+/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
-public final class zaal extends zaap {
-    private final ArrayList<Api.Client> zaa;
-    private final /* synthetic */ zaaf zab;
+final class zaal implements BaseGmsClient.ConnectionProgressReportCallbacks {
+    private final WeakReference zaa;
+    private final Api zab;
+    private final boolean zac;
 
-    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public zaal(zaaf zaafVar, ArrayList<Api.Client> arrayList) {
-        super(zaafVar, null);
-        this.zab = zaafVar;
-        this.zaa = arrayList;
+    public zaal(zaaw zaawVar, Api api, boolean z) {
+        this.zaa = new WeakReference(zaawVar);
+        this.zab = api;
+        this.zac = z;
     }
 
-    @Override // com.google.android.gms.common.api.internal.zaap
-    public final void zaa() {
-        zaaz zaazVar;
-        Set<Scope> zai;
-        IAccountAccessor iAccountAccessor;
-        zaaz zaazVar2;
-        zaazVar = this.zab.zaa;
-        zaar zaarVar = zaazVar.zad;
-        zai = this.zab.zai();
-        zaarVar.zac = zai;
-        ArrayList<Api.Client> arrayList = this.zaa;
-        int size = arrayList.size();
-        int i = 0;
-        while (i < size) {
-            Api.Client client = arrayList.get(i);
-            i++;
-            iAccountAccessor = this.zab.zao;
-            zaazVar2 = this.zab.zaa;
-            client.getRemoteService(iAccountAccessor, zaazVar2.zad.zac);
+    @Override // com.google.android.gms.common.internal.BaseGmsClient.ConnectionProgressReportCallbacks
+    public final void onReportServiceBinding(ConnectionResult connectionResult) {
+        zabi zabiVar;
+        Lock lock;
+        Lock lock2;
+        boolean zaG;
+        boolean zaH;
+        Lock lock3;
+        zaaw zaawVar = (zaaw) this.zaa.get();
+        if (zaawVar == null) {
+            return;
+        }
+        Looper myLooper = Looper.myLooper();
+        zabiVar = zaawVar.zaa;
+        Preconditions.checkState(myLooper == zabiVar.zag.getLooper(), "onReportServiceBinding must be called on the GoogleApiClient handler thread");
+        lock = zaawVar.zab;
+        lock.lock();
+        try {
+            zaG = zaawVar.zaG(0);
+            if (!zaG) {
+                lock3 = zaawVar.zab;
+            } else {
+                if (!connectionResult.isSuccess()) {
+                    zaawVar.zaE(connectionResult, this.zab, this.zac);
+                }
+                zaH = zaawVar.zaH();
+                if (zaH) {
+                    zaawVar.zaF();
+                }
+                lock3 = zaawVar.zab;
+            }
+            lock3.unlock();
+        } catch (Throwable th) {
+            lock2 = zaawVar.zab;
+            lock2.unlock();
+            throw th;
         }
     }
 }

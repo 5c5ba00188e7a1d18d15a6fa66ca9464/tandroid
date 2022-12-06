@@ -432,7 +432,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
                                 return;
                             }
                             ChannelCreateActivity channelCreateActivity2 = ChannelCreateActivity.this;
-                            channelCreateActivity2.doneRequestId = Integer.valueOf(MessagesController.getInstance(((BaseFragment) channelCreateActivity2).currentAccount).createChat(ChannelCreateActivity.this.nameTextView.getText().toString(), new ArrayList<>(), ChannelCreateActivity.this.descriptionTextView.getText().toString(), 2, false, null, null, ChannelCreateActivity.this));
+                            channelCreateActivity2.doneRequestId = Integer.valueOf(MessagesController.getInstance(((BaseFragment) channelCreateActivity2).currentAccount).createChat(ChannelCreateActivity.this.nameTextView.getText().toString(), new ArrayList<>(), ChannelCreateActivity.this.descriptionTextView.getText().toString(), 2, false, null, null, 0, ChannelCreateActivity.this));
                         } else {
                             Vibrator vibrator2 = (Vibrator) ChannelCreateActivity.this.getParentActivity().getSystemService("vibrator");
                             if (vibrator2 != null) {

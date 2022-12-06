@@ -4,11 +4,11 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelReader;
-/* compiled from: com.google.android.gms:play-services-auth@@19.2.0 */
+/* compiled from: com.google.android.gms:play-services-auth@@20.4.0 */
 /* loaded from: classes.dex */
-public final class zbu implements Parcelable.Creator<SignInConfiguration> {
+public final class zbu implements Parcelable.Creator {
     @Override // android.os.Parcelable.Creator
-    public final /* bridge */ /* synthetic */ SignInConfiguration createFromParcel(Parcel parcel) {
+    public final /* bridge */ /* synthetic */ Object createFromParcel(Parcel parcel) {
         int validateObjectHeader = SafeParcelReader.validateObjectHeader(parcel);
         String str = null;
         GoogleSignInOptions googleSignInOptions = null;
@@ -28,7 +28,7 @@ public final class zbu implements Parcelable.Creator<SignInConfiguration> {
     }
 
     @Override // android.os.Parcelable.Creator
-    public final /* bridge */ /* synthetic */ SignInConfiguration[] newArray(int i) {
+    public final /* synthetic */ Object[] newArray(int i) {
         return new SignInConfiguration[i];
     }
 }

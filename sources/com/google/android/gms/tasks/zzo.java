@@ -2,11 +2,11 @@ package com.google.android.gms.tasks;
 
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.Executor;
-/* compiled from: com.google.android.gms:play-services-tasks@@17.2.0 */
+/* compiled from: com.google.android.gms:play-services-tasks@@18.0.2 */
 /* loaded from: classes.dex */
 final class zzo implements Runnable {
-    private final /* synthetic */ Task zza;
-    private final /* synthetic */ zzp zzb;
+    final /* synthetic */ Task zza;
+    final /* synthetic */ zzp zzb;
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public zzo(zzp zzpVar, Task task) {

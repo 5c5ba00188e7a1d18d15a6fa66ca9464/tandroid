@@ -518,32 +518,32 @@ public class AndroidUtilities {
         return spannableStringBuilder;
     }
 
-    public static void recycleBitmaps(final ArrayList<Bitmap> arrayList) {
-        if (arrayList == null || arrayList.isEmpty()) {
+    public static void recycleBitmaps(final List<Bitmap> list) {
+        if (list == null || list.isEmpty()) {
             return;
         }
         runOnUIThread(new Runnable() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda11
             @Override // java.lang.Runnable
             public final void run() {
-                AndroidUtilities.lambda$recycleBitmaps$1(arrayList);
+                AndroidUtilities.lambda$recycleBitmaps$1(list);
             }
         }, 36L);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$recycleBitmaps$1(final ArrayList arrayList) {
-        Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda10
+    public static /* synthetic */ void lambda$recycleBitmaps$1(final List list) {
+        Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda12
             @Override // java.lang.Runnable
             public final void run() {
-                AndroidUtilities.lambda$recycleBitmaps$0(arrayList);
+                AndroidUtilities.lambda$recycleBitmaps$0(list);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$recycleBitmaps$0(ArrayList arrayList) {
-        for (int i = 0; i < arrayList.size(); i++) {
-            Bitmap bitmap = (Bitmap) arrayList.get(i);
+    public static /* synthetic */ void lambda$recycleBitmaps$0(List list) {
+        for (int i = 0; i < list.size(); i++) {
+            Bitmap bitmap = (Bitmap) list.get(i);
             if (bitmap != null && !bitmap.isRecycled()) {
                 try {
                     bitmap.recycle();
@@ -591,6 +591,10 @@ public class AndroidUtilities {
         } catch (Exception e) {
             FileLog.e(e);
         }
+    }
+
+    public static void recycleBitmap(Bitmap bitmap) {
+        recycleBitmaps(Collections.singletonList(bitmap));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -2658,7 +2662,8 @@ public class AndroidUtilities {
     }
 
     public static boolean shouldShowClipboardToast() {
-        return Build.VERSION.SDK_INT < 31 || !OneUIUtilities.hasBuiltInClipboardToasts();
+        int i = Build.VERSION.SDK_INT;
+        return (i < 31 || !OneUIUtilities.hasBuiltInClipboardToasts()) && i < 32;
     }
 
     public static boolean addToClipboard(CharSequence charSequence) {
@@ -2718,19 +2723,19 @@ public class AndroidUtilities {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:32:0x00b3, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:32:0x00b4, code lost:
         if (r2 == 1) goto L38;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:33:0x00b5, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:33:0x00b6, code lost:
         if (r2 == 2) goto L37;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:34:0x00b7, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:34:0x00b8, code lost:
         r1 = null;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:37:0x00b9, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:37:0x00ba, code lost:
         r1 = android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:38:0x00bc, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:38:0x00bd, code lost:
         r1 = android.provider.MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
      */
     @SuppressLint({"NewApi"})
@@ -4044,7 +4049,7 @@ public class AndroidUtilities {
         }
         arrayList.add(Long.valueOf(random));
         updateFlagSecure(window);
-        return new Runnable() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda12
+        return new Runnable() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda10
             @Override // java.lang.Runnable
             public final void run() {
                 AndroidUtilities.lambda$registerFlagSecure$13(arrayList, random, window);

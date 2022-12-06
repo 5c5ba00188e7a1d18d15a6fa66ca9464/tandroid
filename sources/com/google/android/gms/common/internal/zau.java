@@ -1,73 +1,41 @@
 package com.google.android.gms.common.internal;
 
-import android.os.IBinder;
+import android.accounts.Account;
 import android.os.Parcel;
 import android.os.Parcelable;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.internal.IAccountAccessor;
-import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
-import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
-/* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.common.internal.safeparcel.SafeParcelReader;
+/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
-public final class zau extends AbstractSafeParcelable {
-    public static final Parcelable.Creator<zau> CREATOR = new zax();
-    private final int zaa;
-    private IBinder zab;
-    private ConnectionResult zac;
-    private boolean zad;
-    private boolean zae;
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zau(int i, IBinder iBinder, ConnectionResult connectionResult, boolean z, boolean z2) {
-        this.zaa = i;
-        this.zab = iBinder;
-        this.zac = connectionResult;
-        this.zad = z;
-        this.zae = z2;
-    }
-
-    public final IAccountAccessor zaa() {
-        IBinder iBinder = this.zab;
-        if (iBinder == null) {
-            return null;
+public final class zau implements Parcelable.Creator {
+    @Override // android.os.Parcelable.Creator
+    public final /* bridge */ /* synthetic */ Object createFromParcel(Parcel parcel) {
+        int validateObjectHeader = SafeParcelReader.validateObjectHeader(parcel);
+        Account account = null;
+        GoogleSignInAccount googleSignInAccount = null;
+        int i = 0;
+        int i2 = 0;
+        while (parcel.dataPosition() < validateObjectHeader) {
+            int readHeader = SafeParcelReader.readHeader(parcel);
+            int fieldId = SafeParcelReader.getFieldId(readHeader);
+            if (fieldId == 1) {
+                i = SafeParcelReader.readInt(parcel, readHeader);
+            } else if (fieldId == 2) {
+                account = (Account) SafeParcelReader.createParcelable(parcel, readHeader, Account.CREATOR);
+            } else if (fieldId == 3) {
+                i2 = SafeParcelReader.readInt(parcel, readHeader);
+            } else if (fieldId == 4) {
+                googleSignInAccount = (GoogleSignInAccount) SafeParcelReader.createParcelable(parcel, readHeader, GoogleSignInAccount.CREATOR);
+            } else {
+                SafeParcelReader.skipUnknownField(parcel, readHeader);
+            }
         }
-        return IAccountAccessor.Stub.asInterface(iBinder);
+        SafeParcelReader.ensureAtEnd(parcel, validateObjectHeader);
+        return new zat(i, account, i2, googleSignInAccount);
     }
 
-    public final ConnectionResult zab() {
-        return this.zac;
-    }
-
-    public final boolean zac() {
-        return this.zad;
-    }
-
-    public final boolean zad() {
-        return this.zae;
-    }
-
-    @Override // android.os.Parcelable
-    public final void writeToParcel(Parcel parcel, int i) {
-        int beginObjectHeader = SafeParcelWriter.beginObjectHeader(parcel);
-        SafeParcelWriter.writeInt(parcel, 1, this.zaa);
-        SafeParcelWriter.writeIBinder(parcel, 2, this.zab, false);
-        SafeParcelWriter.writeParcelable(parcel, 3, this.zac, i, false);
-        SafeParcelWriter.writeBoolean(parcel, 4, this.zad);
-        SafeParcelWriter.writeBoolean(parcel, 5, this.zae);
-        SafeParcelWriter.finishObjectHeader(parcel, beginObjectHeader);
-    }
-
-    public final boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (this == obj) {
-            return true;
-        }
-        if (!(obj instanceof zau)) {
-            return false;
-        }
-        zau zauVar = (zau) obj;
-        return this.zac.equals(zauVar.zac) && Objects.equal(zaa(), zauVar.zaa());
+    @Override // android.os.Parcelable.Creator
+    public final /* synthetic */ Object[] newArray(int i) {
+        return new zat[i];
     }
 }

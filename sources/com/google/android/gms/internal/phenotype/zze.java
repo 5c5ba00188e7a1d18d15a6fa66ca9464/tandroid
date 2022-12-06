@@ -13,8 +13,9 @@ public final class zze extends GmsClient<zzb> {
         super(context, looper, 51, clientSettings, connectionCallbacks, onConnectionFailedListener);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.gms.common.internal.BaseGmsClient
-    protected final /* synthetic */ IInterface createServiceInterface(IBinder iBinder) {
+    public final /* synthetic */ IInterface createServiceInterface(IBinder iBinder) {
         if (iBinder == null) {
             return null;
         }
@@ -27,8 +28,9 @@ public final class zze extends GmsClient<zzb> {
         return 11925000;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.gms.common.internal.BaseGmsClient
-    protected final String getServiceDescriptor() {
+    public final String getServiceDescriptor() {
         return "com.google.android.gms.phenotype.internal.IPhenotypeService";
     }
 

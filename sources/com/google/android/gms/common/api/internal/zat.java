@@ -2,73 +2,42 @@ package com.google.android.gms.common.api.internal;
 
 import android.os.Bundle;
 import com.google.android.gms.common.ConnectionResult;
-import java.util.concurrent.locks.Lock;
-/* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
+import com.google.android.gms.common.api.Api;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.internal.Preconditions;
+/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
-public final class zat implements zabn {
-    private final /* synthetic */ zas zaa;
+public final class zat implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+    public final Api zaa;
+    private final boolean zab;
+    private zau zac;
 
-    private zat(zas zasVar) {
-        this.zaa = zasVar;
+    public zat(Api api, boolean z) {
+        this.zaa = api;
+        this.zab = z;
     }
 
-    @Override // com.google.android.gms.common.api.internal.zabn
-    public final void zaa(Bundle bundle) {
-        Lock lock;
-        Lock lock2;
-        lock = this.zaa.zam;
-        lock.lock();
-        try {
-            this.zaa.zak = ConnectionResult.RESULT_SUCCESS;
-            this.zaa.zah();
-        } finally {
-            lock2 = this.zaa.zam;
-            lock2.unlock();
-        }
+    private final zau zab() {
+        Preconditions.checkNotNull(this.zac, "Callbacks must be attached to a ClientConnectionHelper instance before connecting the client.");
+        return this.zac;
     }
 
-    @Override // com.google.android.gms.common.api.internal.zabn
-    public final void zaa(ConnectionResult connectionResult) {
-        Lock lock;
-        Lock lock2;
-        lock = this.zaa.zam;
-        lock.lock();
-        try {
-            this.zaa.zak = connectionResult;
-            this.zaa.zah();
-        } finally {
-            lock2 = this.zaa.zam;
-            lock2.unlock();
-        }
+    @Override // com.google.android.gms.common.api.internal.ConnectionCallbacks
+    public final void onConnected(Bundle bundle) {
+        zab().onConnected(bundle);
     }
 
-    @Override // com.google.android.gms.common.api.internal.zabn
-    public final void zaa(int i, boolean z) {
-        Lock lock;
-        Lock lock2;
-        boolean z2;
-        zaaz zaazVar;
-        lock = this.zaa.zam;
-        lock.lock();
-        try {
-            z2 = this.zaa.zal;
-            if (z2) {
-                this.zaa.zal = false;
-                this.zaa.zaa(i, z);
-                return;
-            }
-            this.zaa.zal = true;
-            zaazVar = this.zaa.zad;
-            zaazVar.onConnectionSuspended(i);
-        } finally {
-            lock2 = this.zaa.zam;
-            lock2.unlock();
-        }
+    @Override // com.google.android.gms.common.api.internal.OnConnectionFailedListener
+    public final void onConnectionFailed(ConnectionResult connectionResult) {
+        zab().zaa(connectionResult, this.zaa, this.zab);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zat(zas zasVar, zar zarVar) {
-        this(zasVar);
+    @Override // com.google.android.gms.common.api.internal.ConnectionCallbacks
+    public final void onConnectionSuspended(int i) {
+        zab().onConnectionSuspended(i);
+    }
+
+    public final void zaa(zau zauVar) {
+        this.zac = zauVar;
     }
 }

@@ -4,7 +4,7 @@ import android.os.IBinder;
 import android.os.IInterface;
 import android.os.Parcel;
 import android.os.RemoteException;
-/* compiled from: com.google.android.gms:play-services-location@@18.0.0 */
+/* compiled from: com.google.android.gms:play-services-location@@21.0.1 */
 /* loaded from: classes.dex */
 public class zza implements IInterface {
     private final IBinder zza;
@@ -29,7 +29,7 @@ public class zza implements IInterface {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    public final Parcel zzw(int i, Parcel parcel) throws RemoteException {
+    public final Parcel zzb(int i, Parcel parcel) throws RemoteException {
         parcel = Parcel.obtain();
         try {
             this.zza.transact(i, parcel, parcel, 0);
@@ -43,7 +43,7 @@ public class zza implements IInterface {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    public final void zzx(int i, Parcel parcel) throws RemoteException {
+    public final void zzc(int i, Parcel parcel) throws RemoteException {
         Parcel obtain = Parcel.obtain();
         try {
             this.zza.transact(i, parcel, obtain, 0);

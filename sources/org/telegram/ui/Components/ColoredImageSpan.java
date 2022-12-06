@@ -18,16 +18,28 @@ public class ColoredImageSpan extends ReplacementSpan {
     private int size;
     private int topOffset;
     boolean usePaintColor;
+    private final int verticalAlignment;
 
     public ColoredImageSpan(int i) {
-        this(ContextCompat.getDrawable(ApplicationLoader.applicationContext, i));
+        this(i, 0);
     }
 
     public ColoredImageSpan(Drawable drawable) {
+        this(drawable, 0);
+    }
+
+    public ColoredImageSpan(int i, int i2) {
+        this(ContextCompat.getDrawable(ApplicationLoader.applicationContext, i), i2);
+    }
+
+    public ColoredImageSpan(Drawable drawable, int i) {
         this.usePaintColor = true;
         this.topOffset = 0;
         this.drawable = drawable;
-        drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+        if (drawable != null) {
+            drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+        }
+        this.verticalAlignment = i;
     }
 
     public void setSize(int i) {
@@ -53,14 +65,29 @@ public class ColoredImageSpan extends ReplacementSpan {
             this.drawableColor = color;
             this.drawable.setColorFilter(new PorterDuffColorFilter(this.drawableColor, PorterDuff.Mode.MULTIPLY));
         }
-        int i6 = i5 - i3;
-        int i7 = this.size;
-        if (i7 == 0) {
-            i7 = this.drawable.getIntrinsicHeight();
-        }
         canvas.save();
-        canvas.translate(f, i3 + ((i6 - i7) / 2) + AndroidUtilities.dp(this.topOffset));
-        this.drawable.draw(canvas);
+        Drawable drawable = this.drawable;
+        int i6 = i5 - (drawable != null ? drawable.getBounds().bottom : i5);
+        int i7 = this.verticalAlignment;
+        if (i7 == 1) {
+            i6 -= paint.getFontMetricsInt().descent;
+        } else if (i7 == 2) {
+            int i8 = i3 + ((i5 - i3) / 2);
+            Drawable drawable2 = this.drawable;
+            i6 = i8 - (drawable2 != null ? drawable2.getBounds().height() / 2 : 0);
+        } else if (i7 == 0) {
+            int i9 = i5 - i3;
+            int i10 = this.size;
+            if (i10 == 0) {
+                i10 = this.drawable.getIntrinsicHeight();
+            }
+            i6 = AndroidUtilities.dp(this.topOffset) + i3 + ((i9 - i10) / 2);
+        }
+        canvas.translate(f, i6);
+        Drawable drawable3 = this.drawable;
+        if (drawable3 != null) {
+            drawable3.draw(canvas);
+        }
         canvas.restore();
     }
 

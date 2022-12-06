@@ -20,6 +20,15 @@ public class LoadingSpan extends ReplacementSpan {
         loadingDrawable.paint.setPathEffect(new CornerPathEffect(AndroidUtilities.dp(4.0f)));
     }
 
+    public void setColors(int i, int i2) {
+        this.drawable.color1 = Integer.valueOf(i);
+        this.drawable.color2 = Integer.valueOf(i2);
+    }
+
+    public void setView(View view) {
+        this.view = view;
+    }
+
     @Override // android.text.style.ReplacementSpan
     public int getSize(Paint paint, CharSequence charSequence, int i, int i2, Paint.FontMetricsInt fontMetricsInt) {
         return this.size;

@@ -1,13 +1,7 @@
 package org.telegram.tgnet;
-
-import org.telegram.messenger.MessagesController;
 /* loaded from: classes.dex */
 public class TLRPC$TL_dialog extends TLRPC$Dialog {
-    public static int constructor = -1460809483;
-
-    public TLRPC$TL_dialog() {
-        MessagesController.stableIdPointer++;
-    }
+    public static int constructor = -712374074;
 
     @Override // org.telegram.tgnet.TLObject
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
@@ -36,6 +30,9 @@ public class TLRPC$TL_dialog extends TLRPC$Dialog {
         if ((this.flags & 16) != 0) {
             this.folder_id = abstractSerializedData.readInt32(z);
         }
+        if ((this.flags & 32) != 0) {
+            this.ttl_period = abstractSerializedData.readInt32(z);
+        }
     }
 
     @Override // org.telegram.tgnet.TLObject
@@ -62,6 +59,9 @@ public class TLRPC$TL_dialog extends TLRPC$Dialog {
         }
         if ((this.flags & 16) != 0) {
             abstractSerializedData.writeInt32(this.folder_id);
+        }
+        if ((this.flags & 32) != 0) {
+            abstractSerializedData.writeInt32(this.ttl_period);
         }
     }
 }

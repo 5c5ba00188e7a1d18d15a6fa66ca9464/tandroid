@@ -1132,15 +1132,18 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setDim$6(ValueAnimator valueAnimator) {
-        this.contentViewForeground.setAlpha(((Float) valueAnimator.getAnimatedValue()).floatValue());
-        int blendOver = Theme.blendOver(Theme.getColor("actionBarDefaultSubmenuBackground", this.resourcesProvider), ColorUtils.setAlphaComponent(-16777216, (int) (((Float) valueAnimator.getAnimatedValue()).floatValue() * 255.0f)));
-        View view = this.bubble1View;
+        View view = this.contentViewForeground;
         if (view != null) {
-            view.getBackground().setColorFilter(new PorterDuffColorFilter(blendOver, PorterDuff.Mode.MULTIPLY));
+            view.setAlpha(((Float) valueAnimator.getAnimatedValue()).floatValue());
         }
-        View view2 = this.bubble2View;
+        int blendOver = Theme.blendOver(Theme.getColor("actionBarDefaultSubmenuBackground", this.resourcesProvider), ColorUtils.setAlphaComponent(-16777216, (int) (((Float) valueAnimator.getAnimatedValue()).floatValue() * 255.0f)));
+        View view2 = this.bubble1View;
         if (view2 != null) {
             view2.getBackground().setColorFilter(new PorterDuffColorFilter(blendOver, PorterDuff.Mode.MULTIPLY));
+        }
+        View view3 = this.bubble2View;
+        if (view3 != null) {
+            view3.getBackground().setColorFilter(new PorterDuffColorFilter(blendOver, PorterDuff.Mode.MULTIPLY));
         }
     }
 
@@ -1689,7 +1692,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
             public final void run(ArrayList arrayList6, String str2) {
                 SelectAnimatedEmojiDialog.this.lambda$search$12(str, arrayList5, reactionsMap, z, arrayList6, str2);
             }
-        }, null, true, 30);
+        }, null, true, this.type == 3, 30);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -2574,7 +2577,10 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$updateInstall$0(ValueAnimator valueAnimator) {
-            this.addButtonView.setAlpha(((Float) valueAnimator.getAnimatedValue()).floatValue());
+            FrameLayout frameLayout = this.addButtonView;
+            if (frameLayout != null) {
+                frameLayout.setAlpha(((Float) valueAnimator.getAnimatedValue()).floatValue());
+            }
         }
 
         private void updateLock(final boolean z, boolean z2) {
@@ -2638,8 +2644,14 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
         public /* synthetic */ void lambda$updateLock$1(ValueAnimator valueAnimator) {
             float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
             this.lockT = floatValue;
-            this.addButtonView.setAlpha(1.0f - floatValue);
-            this.premiumButtonView.setAlpha(this.lockT);
+            FrameLayout frameLayout = this.addButtonView;
+            if (frameLayout != null) {
+                frameLayout.setAlpha(1.0f - floatValue);
+            }
+            PremiumButtonView premiumButtonView = this.premiumButtonView;
+            if (premiumButtonView != null) {
+                premiumButtonView.setAlpha(this.lockT);
+            }
         }
     }
 
@@ -3392,7 +3404,6 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
             size = z2 ? this.recent.size() : Math.min((spanCount - r5) - 2, this.recent.size());
             size2 = this.recent.size();
             this.recentExpanded = true;
-            this.animateExpandFromButtonTranslate = AndroidUtilities.dp(8.0f);
             num = null;
             z = false;
             i2 = spanCount;

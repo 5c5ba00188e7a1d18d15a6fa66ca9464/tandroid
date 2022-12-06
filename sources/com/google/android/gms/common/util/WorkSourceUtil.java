@@ -1,88 +1,156 @@
 package com.google.android.gms.common.util;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Process;
 import android.os.WorkSource;
 import android.util.Log;
-import androidx.annotation.RecentlyNonNull;
-import androidx.annotation.RecentlyNullable;
 import com.google.android.gms.common.internal.Preconditions;
 import com.google.android.gms.common.wrappers.Wrappers;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-/* compiled from: com.google.android.gms:play-services-basement@@17.5.0 */
+/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
 public class WorkSourceUtil {
-    private static final Method zzb = zza();
-    private static final Method zzc = zzb();
-    private static final Method zzd = zzc();
-    private static final Method zzf = zze();
+    private static final Method zzb;
+    private static final Method zzc;
+    private static final Method zzd;
+    private static final Method zzf;
+    private static final Method zzi;
 
-    private static WorkSource zza(int i, String str) {
-        WorkSource workSource = new WorkSource();
-        zza(workSource, i, str);
-        return workSource;
-    }
-
-    @RecentlyNullable
-    public static WorkSource fromPackage(@RecentlyNonNull Context context, String str) {
-        if (context != null && context.getPackageManager() != null && str != null) {
-            try {
-                ApplicationInfo applicationInfo = Wrappers.packageManager(context).getApplicationInfo(str, 0);
-                if (applicationInfo == null) {
-                    Log.e("WorkSourceUtil", str.length() != 0 ? "Could not get applicationInfo from package: ".concat(str) : new String("Could not get applicationInfo from package: "));
-                    return null;
-                }
-                return zza(applicationInfo.uid, str);
-            } catch (PackageManager.NameNotFoundException unused) {
-                Log.e("WorkSourceUtil", str.length() != 0 ? "Could not find package: ".concat(str) : new String("Could not find package: "));
-            }
+    /* JADX WARN: Can't wrap try/catch for region: R(22:1|(2:2|3)|4|(19:47|48|7|8|9|10|11|12|13|(10:39|40|16|(2:34|35)|18|(2:29|30)|20|(2:25|26)|22|23)|15|16|(0)|18|(0)|20|(0)|22|23)|6|7|8|9|10|11|12|13|(0)|15|16|(0)|18|(0)|20|(0)|22|23) */
+    /* JADX WARN: Code restructure failed: missing block: B:46:0x003e, code lost:
+        r1 = null;
+     */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x00a6 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x0086 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x0070 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x0056 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    static {
+        Method method;
+        Method method2;
+        Method method3;
+        Process.myUid();
+        Method method4 = null;
+        try {
+            method = WorkSource.class.getMethod("add", Integer.TYPE);
+        } catch (Exception unused) {
+            method = null;
         }
-        return null;
+        zzb = method;
+        if (PlatformVersion.isAtLeastJellyBeanMR2()) {
+            try {
+                method2 = WorkSource.class.getMethod("add", Integer.TYPE, String.class);
+            } catch (Exception unused2) {
+            }
+            zzc = method2;
+            Method method5 = WorkSource.class.getMethod("size", new Class[0]);
+            zzd = method5;
+            WorkSource.class.getMethod("get", Integer.TYPE);
+            if (PlatformVersion.isAtLeastJellyBeanMR2()) {
+                try {
+                    method3 = WorkSource.class.getMethod("getName", Integer.TYPE);
+                } catch (Exception unused3) {
+                }
+                zzf = method3;
+                if (PlatformVersion.isAtLeastP()) {
+                    try {
+                        WorkSource.class.getMethod("createWorkChain", new Class[0]);
+                    } catch (Exception e) {
+                        Log.w("WorkSourceUtil", "Missing WorkChain API createWorkChain", e);
+                    }
+                }
+                if (PlatformVersion.isAtLeastP()) {
+                    try {
+                        Class.forName("android.os.WorkSource$WorkChain").getMethod("addNode", Integer.TYPE, String.class);
+                    } catch (Exception e2) {
+                        Log.w("WorkSourceUtil", "Missing WorkChain class", e2);
+                    }
+                }
+                if (PlatformVersion.isAtLeastP()) {
+                    try {
+                        method4 = WorkSource.class.getMethod("isEmpty", new Class[0]);
+                        method4.setAccessible(true);
+                    } catch (Exception unused4) {
+                    }
+                }
+                zzi = method4;
+            }
+            method3 = null;
+            zzf = method3;
+            if (PlatformVersion.isAtLeastP()) {
+            }
+            if (PlatformVersion.isAtLeastP()) {
+            }
+            if (PlatformVersion.isAtLeastP()) {
+            }
+            zzi = method4;
+        }
+        method2 = null;
+        zzc = method2;
+        Method method52 = WorkSource.class.getMethod("size", new Class[0]);
+        zzd = method52;
+        WorkSource.class.getMethod("get", Integer.TYPE);
+        if (PlatformVersion.isAtLeastJellyBeanMR2()) {
+        }
+        method3 = null;
+        zzf = method3;
+        if (PlatformVersion.isAtLeastP()) {
+        }
+        if (PlatformVersion.isAtLeastP()) {
+        }
+        if (PlatformVersion.isAtLeastP()) {
+        }
+        zzi = method4;
     }
 
-    private static void zza(WorkSource workSource, int i, String str) {
+    public static void add(WorkSource workSource, int i, String str) {
         Method method = zzc;
-        if (method != null) {
-            if (str == null) {
-                str = "";
+        if (method == null) {
+            Method method2 = zzb;
+            if (method2 == null) {
+                return;
             }
             try {
-                method.invoke(workSource, Integer.valueOf(i), str);
+                method2.invoke(workSource, Integer.valueOf(i));
                 return;
             } catch (Exception e) {
                 Log.wtf("WorkSourceUtil", "Unable to assign blame through WorkSource", e);
                 return;
             }
         }
-        Method method2 = zzb;
-        if (method2 == null) {
-            return;
+        if (str == null) {
+            str = "";
         }
         try {
-            method2.invoke(workSource, Integer.valueOf(i));
+            method.invoke(workSource, Integer.valueOf(i), str);
         } catch (Exception e2) {
             Log.wtf("WorkSourceUtil", "Unable to assign blame through WorkSource", e2);
         }
     }
 
-    private static int zza(WorkSource workSource) {
-        Method method = zzd;
-        if (method != null) {
+    public static WorkSource fromPackage(Context context, String str) {
+        if (context != null && context.getPackageManager() != null && str != null) {
             try {
-                return ((Integer) Preconditions.checkNotNull(method.invoke(workSource, new Object[0]))).intValue();
-            } catch (Exception e) {
-                Log.wtf("WorkSourceUtil", "Unable to assign blame through WorkSource", e);
+                ApplicationInfo applicationInfo = Wrappers.packageManager(context).getApplicationInfo(str, 0);
+                if (applicationInfo == null) {
+                    Log.e("WorkSourceUtil", "Could not get applicationInfo from package: ".concat(str));
+                    return null;
+                }
+                int i = applicationInfo.uid;
+                WorkSource workSource = new WorkSource();
+                add(workSource, i, str);
+                return workSource;
+            } catch (PackageManager.NameNotFoundException unused) {
+                Log.e("WorkSourceUtil", "Could not find package: ".concat(str));
             }
         }
-        return 0;
+        return null;
     }
 
-    private static String zza(WorkSource workSource, int i) {
+    public static String getName(WorkSource workSource, int i) {
         Method method = zzf;
         if (method != null) {
             try {
@@ -95,97 +163,50 @@ public class WorkSourceUtil {
         return null;
     }
 
-    @RecentlyNonNull
     public static List<String> getNames(WorkSource workSource) {
         ArrayList arrayList = new ArrayList();
-        int zza = workSource == null ? 0 : zza(workSource);
-        if (zza == 0) {
-            return arrayList;
-        }
-        for (int i = 0; i < zza; i++) {
-            String zza2 = zza(workSource, i);
-            if (!Strings.isEmptyOrWhitespace(zza2)) {
-                arrayList.add((String) Preconditions.checkNotNull(zza2));
+        int size = workSource == null ? 0 : size(workSource);
+        if (size != 0) {
+            for (int i = 0; i < size; i++) {
+                String name = getName(workSource, i);
+                if (!Strings.isEmptyOrWhitespace(name)) {
+                    Preconditions.checkNotNull(name);
+                    arrayList.add(name);
+                }
             }
         }
         return arrayList;
     }
 
-    public static boolean hasWorkSourcePermission(@RecentlyNonNull Context context) {
+    public static boolean hasWorkSourcePermission(Context context) {
         return (context == null || context.getPackageManager() == null || Wrappers.packageManager(context).checkPermission("android.permission.UPDATE_DEVICE_STATS", context.getPackageName()) != 0) ? false : true;
     }
 
-    private static Method zza() {
-        try {
-            return WorkSource.class.getMethod("add", Integer.TYPE);
-        } catch (Exception unused) {
-            return null;
-        }
-    }
-
-    private static Method zzb() {
-        if (PlatformVersion.isAtLeastJellyBeanMR2()) {
+    public static boolean isEmpty(WorkSource workSource) {
+        Method method = zzi;
+        if (method != null) {
             try {
-                return WorkSource.class.getMethod("add", Integer.TYPE, String.class);
-            } catch (Exception unused) {
-            }
-        }
-        return null;
-    }
-
-    private static Method zzc() {
-        try {
-            return WorkSource.class.getMethod("size", new Class[0]);
-        } catch (Exception unused) {
-            return null;
-        }
-    }
-
-    private static Method zzd() {
-        try {
-            return WorkSource.class.getMethod("get", Integer.TYPE);
-        } catch (Exception unused) {
-            return null;
-        }
-    }
-
-    private static Method zze() {
-        if (PlatformVersion.isAtLeastJellyBeanMR2()) {
-            try {
-                return WorkSource.class.getMethod("getName", Integer.TYPE);
-            } catch (Exception unused) {
-            }
-        }
-        return null;
-    }
-
-    private static final Method zzf() {
-        if (PlatformVersion.isAtLeastP()) {
-            try {
-                return WorkSource.class.getMethod("createWorkChain", new Class[0]);
+                Object invoke = method.invoke(workSource, new Object[0]);
+                Preconditions.checkNotNull(invoke);
+                return ((Boolean) invoke).booleanValue();
             } catch (Exception e) {
-                Log.w("WorkSourceUtil", "Missing WorkChain API createWorkChain", e);
+                Log.e("WorkSourceUtil", "Unable to check WorkSource emptiness", e);
             }
         }
-        return null;
+        return size(workSource) == 0;
     }
 
-    @SuppressLint({"PrivateApi"})
-    private static final Method zzg() {
-        if (PlatformVersion.isAtLeastP()) {
+    public static int size(WorkSource workSource) {
+        Method method = zzd;
+        if (method != null) {
             try {
-                return Class.forName("android.os.WorkSource$WorkChain").getMethod("addNode", Integer.TYPE, String.class);
+                Object invoke = method.invoke(workSource, new Object[0]);
+                Preconditions.checkNotNull(invoke);
+                return ((Integer) invoke).intValue();
             } catch (Exception e) {
-                Log.w("WorkSourceUtil", "Missing WorkChain class", e);
+                Log.wtf("WorkSourceUtil", "Unable to assign blame through WorkSource", e);
             }
         }
-        return null;
-    }
-
-    static {
-        Process.myUid();
-        zzd();
-        zzf();
-        zzg();
+        return 0;
     }
 }

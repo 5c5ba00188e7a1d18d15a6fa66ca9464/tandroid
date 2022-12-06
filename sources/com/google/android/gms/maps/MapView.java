@@ -5,24 +5,23 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
-import androidx.annotation.RecentlyNonNull;
 import com.google.android.gms.common.internal.Preconditions;
 import com.google.android.gms.dynamic.DeferredLifecycleHelper;
-/* compiled from: com.google.android.gms:play-services-maps@@17.0.1 */
+/* compiled from: com.google.android.gms:play-services-maps@@18.1.0 */
 /* loaded from: classes.dex */
 public class MapView extends FrameLayout {
     private final zzah zza;
 
-    public MapView(@RecentlyNonNull Context context) {
+    public MapView(Context context) {
         super(context);
         this.zza = new zzah(this, context, null);
         setClickable(true);
     }
 
-    public void getMapAsync(@RecentlyNonNull OnMapReadyCallback onMapReadyCallback) {
+    public void getMapAsync(OnMapReadyCallback onMapReadyCallback) {
         Preconditions.checkMainThread("getMapAsync() must be called on the main thread");
         Preconditions.checkNotNull(onMapReadyCallback, "callback must not be null.");
-        this.zza.zzb(onMapReadyCallback);
+        this.zza.zza(onMapReadyCallback);
     }
 
     public void onCreate(Bundle bundle) {
@@ -46,7 +45,7 @@ public class MapView extends FrameLayout {
         Preconditions.checkMainThread("onEnterAmbient() must be called on the main thread");
         zzah zzahVar = this.zza;
         if (zzahVar.getDelegate() != null) {
-            zzahVar.getDelegate().zza(bundle);
+            ((zzag) zzahVar.getDelegate()).zza(bundle);
         }
     }
 
@@ -54,7 +53,7 @@ public class MapView extends FrameLayout {
         Preconditions.checkMainThread("onExitAmbient() must be called on the main thread");
         zzah zzahVar = this.zza;
         if (zzahVar.getDelegate() != null) {
-            zzahVar.getDelegate().zzb();
+            ((zzag) zzahVar.getDelegate()).zzb();
         }
     }
 
@@ -70,7 +69,7 @@ public class MapView extends FrameLayout {
         this.zza.onResume();
     }
 
-    public void onSaveInstanceState(@RecentlyNonNull Bundle bundle) {
+    public void onSaveInstanceState(Bundle bundle) {
         this.zza.onSaveInstanceState(bundle);
     }
 
@@ -82,19 +81,19 @@ public class MapView extends FrameLayout {
         this.zza.onStop();
     }
 
-    public MapView(@RecentlyNonNull Context context, AttributeSet attributeSet) {
+    public MapView(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
         this.zza = new zzah(this, context, GoogleMapOptions.createFromAttributes(context, attributeSet));
         setClickable(true);
     }
 
-    public MapView(@RecentlyNonNull Context context, @RecentlyNonNull AttributeSet attributeSet, int i) {
+    public MapView(Context context, AttributeSet attributeSet, int i) {
         super(context, attributeSet, i);
         this.zza = new zzah(this, context, GoogleMapOptions.createFromAttributes(context, attributeSet));
         setClickable(true);
     }
 
-    public MapView(@RecentlyNonNull Context context, GoogleMapOptions googleMapOptions) {
+    public MapView(Context context, GoogleMapOptions googleMapOptions) {
         super(context);
         this.zza = new zzah(this, context, googleMapOptions);
         setClickable(true);

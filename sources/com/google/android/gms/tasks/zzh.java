@@ -3,9 +3,9 @@ package com.google.android.gms.tasks;
 import java.util.concurrent.Executor;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.GuardedBy;
-/* compiled from: com.google.android.gms:play-services-tasks@@17.2.0 */
+/* compiled from: com.google.android.gms:play-services-tasks@@18.0.2 */
 /* loaded from: classes.dex */
-final class zzh<TResult> implements zzr<TResult> {
+final class zzh implements zzq {
     private final Executor zza;
     private final Object zzb = new Object();
     @GuardedBy("mLock")
@@ -17,8 +17,15 @@ final class zzh<TResult> implements zzr<TResult> {
         this.zzc = onCanceledListener;
     }
 
-    @Override // com.google.android.gms.tasks.zzr
-    public final void zza(Task<TResult> task) {
+    @Override // com.google.android.gms.tasks.zzq
+    public final void zzc() {
+        synchronized (this.zzb) {
+            this.zzc = null;
+        }
+    }
+
+    @Override // com.google.android.gms.tasks.zzq
+    public final void zzd(Task task) {
         if (task.isCanceled()) {
             synchronized (this.zzb) {
                 if (this.zzc == null) {
@@ -26,13 +33,6 @@ final class zzh<TResult> implements zzr<TResult> {
                 }
                 this.zza.execute(new zzg(this));
             }
-        }
-    }
-
-    @Override // com.google.android.gms.tasks.zzr
-    public final void zza() {
-        synchronized (this.zzb) {
-            this.zzc = null;
         }
     }
 }

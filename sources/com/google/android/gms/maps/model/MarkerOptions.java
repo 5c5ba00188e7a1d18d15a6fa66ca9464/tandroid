@@ -3,15 +3,12 @@ package com.google.android.gms.maps.model;
 import android.os.IBinder;
 import android.os.Parcel;
 import android.os.Parcelable;
-import androidx.annotation.RecentlyNonNull;
-import androidx.annotation.RecentlyNullable;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
 import com.google.android.gms.dynamic.IObjectWrapper;
-/* compiled from: com.google.android.gms:play-services-maps@@17.0.1 */
+/* compiled from: com.google.android.gms:play-services-maps@@18.1.0 */
 /* loaded from: classes.dex */
 public final class MarkerOptions extends AbstractSafeParcelable {
-    @RecentlyNonNull
     public static final Parcelable.Creator<MarkerOptions> CREATOR = new zzi();
     private LatLng zza;
     private String zzb;
@@ -39,14 +36,12 @@ public final class MarkerOptions extends AbstractSafeParcelable {
         this.zzm = 1.0f;
     }
 
-    @RecentlyNonNull
     public MarkerOptions anchor(float f, float f2) {
         this.zze = f;
         this.zzf = f2;
         return this;
     }
 
-    @RecentlyNonNull
     public MarkerOptions flat(boolean z) {
         this.zzi = z;
         return this;
@@ -72,7 +67,6 @@ public final class MarkerOptions extends AbstractSafeParcelable {
         return this.zzl;
     }
 
-    @RecentlyNonNull
     public LatLng getPosition() {
         return this.zza;
     }
@@ -81,12 +75,10 @@ public final class MarkerOptions extends AbstractSafeParcelable {
         return this.zzj;
     }
 
-    @RecentlyNullable
     public String getSnippet() {
         return this.zzc;
     }
 
-    @RecentlyNullable
     public String getTitle() {
         return this.zzb;
     }
@@ -95,7 +87,6 @@ public final class MarkerOptions extends AbstractSafeParcelable {
         return this.zzn;
     }
 
-    @RecentlyNonNull
     public MarkerOptions icon(BitmapDescriptor bitmapDescriptor) {
         this.zzd = bitmapDescriptor;
         return this;
@@ -113,8 +104,7 @@ public final class MarkerOptions extends AbstractSafeParcelable {
         return this.zzh;
     }
 
-    @RecentlyNonNull
-    public MarkerOptions position(@RecentlyNonNull LatLng latLng) {
+    public MarkerOptions position(LatLng latLng) {
         if (latLng != null) {
             this.zza = latLng;
             return this;
@@ -122,20 +112,18 @@ public final class MarkerOptions extends AbstractSafeParcelable {
         throw new IllegalArgumentException("latlng cannot be null - a position is required.");
     }
 
-    @RecentlyNonNull
     public MarkerOptions snippet(String str) {
         this.zzc = str;
         return this;
     }
 
-    @RecentlyNonNull
     public MarkerOptions title(String str) {
         this.zzb = str;
         return this;
     }
 
     @Override // android.os.Parcelable
-    public void writeToParcel(@RecentlyNonNull Parcel parcel, int i) {
+    public void writeToParcel(Parcel parcel, int i) {
         int beginObjectHeader = SafeParcelWriter.beginObjectHeader(parcel);
         SafeParcelWriter.writeParcelable(parcel, 2, getPosition(), i, false);
         SafeParcelWriter.writeString(parcel, 3, getTitle(), false);

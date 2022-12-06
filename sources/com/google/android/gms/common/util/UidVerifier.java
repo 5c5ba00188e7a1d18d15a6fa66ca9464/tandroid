@@ -4,13 +4,12 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.util.Log;
-import androidx.annotation.RecentlyNonNull;
 import com.google.android.gms.common.GoogleSignatureVerifier;
 import com.google.android.gms.common.wrappers.Wrappers;
-/* compiled from: com.google.android.gms:play-services-basement@@17.5.0 */
+/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
 public final class UidVerifier {
-    public static boolean isGooglePlayServicesUid(@RecentlyNonNull Context context, int i) {
+    public static boolean isGooglePlayServicesUid(Context context, int i) {
         if (!uidHasPackageName(context, i, "com.google.android.gms")) {
             return false;
         }
@@ -25,7 +24,7 @@ public final class UidVerifier {
     }
 
     @TargetApi(19)
-    public static boolean uidHasPackageName(@RecentlyNonNull Context context, int i, @RecentlyNonNull String str) {
+    public static boolean uidHasPackageName(Context context, int i, String str) {
         return Wrappers.packageManager(context).zza(i, str);
     }
 }

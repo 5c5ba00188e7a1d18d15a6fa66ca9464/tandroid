@@ -18,7 +18,6 @@ import android.graphics.Region;
 import android.graphics.Shader;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -30,7 +29,6 @@ import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.URLSpan;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,16 +42,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.core.widget.NestedScrollView;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URI;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Iterator;
-import org.json.JSONArray;
-import org.json.JSONTokener;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.DispatchQueue;
@@ -62,11 +52,14 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.R;
+import org.telegram.messenger.Utilities;
 import org.telegram.messenger.XiaomiUtilities;
 import org.telegram.tgnet.ConnectionsManager;
+import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$InputPeer;
 import org.telegram.tgnet.TLRPC$TL_error;
+import org.telegram.tgnet.TLRPC$TL_messages_translateResultText;
 import org.telegram.tgnet.TLRPC$TL_messages_translateText;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
@@ -74,6 +67,7 @@ import org.telegram.ui.Components.LinkSpanDrawable;
 import org.telegram.ui.Components.TranslateAlert;
 /* loaded from: classes3.dex */
 public class TranslateAlert extends Dialog {
+    private static final int MOST_SPEC = View.MeasureSpec.makeMeasureSpec(999999, Integer.MIN_VALUE);
     private Spannable allTexts;
     private TextView allTextsView;
     private boolean allowScroll;
@@ -90,6 +84,7 @@ public class TranslateAlert extends Dialog {
     private float containerOpenAnimationT;
     private android.graphics.Rect containerRect;
     private FrameLayout contentView;
+    private int currentAccount;
     private boolean dismissed;
     private boolean fastHide;
     private int firstMinHeight;
@@ -107,6 +102,7 @@ public class TranslateAlert extends Dialog {
     private boolean loaded;
     private boolean loading;
     private boolean maybeScrolling;
+    private int msgId;
     private boolean noforwards;
     private Runnable onDismiss;
     private OnLinkPress onLinkPress;
@@ -115,6 +111,7 @@ public class TranslateAlert extends Dialog {
     private ValueAnimator openingAnimator;
     private boolean openingAnimatorPriority;
     private float openingT;
+    private TLRPC$InputPeer peer;
     private LinkSpanDrawable pressedLink;
     private boolean pressedOutside;
     private android.graphics.Rect scrollRect;
@@ -133,8 +130,6 @@ public class TranslateAlert extends Dialog {
     private FrameLayout.LayoutParams titleLayout;
     private TextView titleView;
     private String toLanguage;
-    public static volatile DispatchQueue translateQueue = new DispatchQueue("translateQueue", false);
-    private static final int MOST_SPEC = View.MeasureSpec.makeMeasureSpec(999999, Integer.MIN_VALUE);
 
     /* loaded from: classes3.dex */
     public interface OnLinkPress {
@@ -151,7 +146,8 @@ public class TranslateAlert extends Dialog {
         void run(String str, String str2);
     }
 
-    public static /* synthetic */ void lambda$translateText$13(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    static {
+        new DispatchQueue("translateQueue", false);
     }
 
     public void openAnimation(float f) {
@@ -286,12 +282,9 @@ public class TranslateAlert extends Dialog {
 
     public TranslateAlert(BaseFragment baseFragment, Context context, int i, TLRPC$InputPeer tLRPC$InputPeer, int i2, String str, String str2, CharSequence charSequence, boolean z, OnLinkPress onLinkPress, Runnable runnable) {
         super(context, R.style.TransparentDialog);
-        int i3;
-        int i4;
         this.blockIndex = 0;
         this.containerOpenAnimationT = 0.0f;
         this.openAnimationToAnimatorPriority = false;
-        String str3 = null;
         this.openAnimationToAnimator = null;
         this.firstMinHeight = -1;
         this.allowScroll = true;
@@ -316,8 +309,8 @@ public class TranslateAlert extends Dialog {
             }
 
             @Override // android.graphics.drawable.ColorDrawable, android.graphics.drawable.Drawable
-            public void setAlpha(int i5) {
-                super.setAlpha(i5);
+            public void setAlpha(int i3) {
+                super.setAlpha(i3);
                 TranslateAlert.this.container.invalidate();
             }
         };
@@ -327,28 +320,22 @@ public class TranslateAlert extends Dialog {
         this.openingAnimatorPriority = false;
         this.loading = false;
         this.loaded = false;
-        if (tLRPC$InputPeer != null) {
-            if (str == null || !str.equals("und")) {
-                i3 = i;
-                i4 = i2;
-                str3 = str;
-            } else {
-                i3 = i;
-                i4 = i2;
-            }
-            translateText(i3, tLRPC$InputPeer, i4, str3, str2);
-        }
         this.onLinkPress = onLinkPress;
         this.noforwards = z;
         this.fragment = baseFragment;
         this.fromLanguage = (str == null || !str.equals("und")) ? str : "auto";
         this.toLanguage = str2;
-        this.textBlocks = cutInBlocks(charSequence, ConnectionsManager.RequestFlagDoNotWaitFloodWait);
+        ArrayList<CharSequence> arrayList = new ArrayList<>();
+        this.textBlocks = arrayList;
+        arrayList.add(charSequence);
         this.onDismiss = runnable;
-        int i5 = Build.VERSION.SDK_INT;
-        if (i5 >= 30) {
+        this.currentAccount = i;
+        this.peer = tLRPC$InputPeer;
+        this.msgId = i2;
+        int i3 = Build.VERSION.SDK_INT;
+        if (i3 >= 30) {
             getWindow().addFlags(-2147483392);
-        } else if (i5 >= 21) {
+        } else if (i3 >= 21) {
             getWindow().addFlags(-2147417856);
         }
         if (z) {
@@ -359,9 +346,9 @@ public class TranslateAlert extends Dialog {
         frameLayout.setBackground(this.backDrawable);
         this.contentView.setClipChildren(false);
         this.contentView.setClipToPadding(false);
-        if (i5 >= 21) {
+        if (i3 >= 21) {
             this.contentView.setFitsSystemWindows(true);
-            if (i5 >= 30) {
+            if (i3 >= 30) {
                 this.contentView.setSystemUiVisibility(1792);
             } else {
                 this.contentView.setSystemUiVisibility(1280);
@@ -381,23 +368,23 @@ public class TranslateAlert extends Dialog {
             }
 
             @Override // android.widget.FrameLayout, android.view.View
-            protected void onMeasure(int i6, int i7) {
-                int size = View.MeasureSpec.getSize(i6);
-                View.MeasureSpec.getSize(i6);
-                int i8 = (int) (AndroidUtilities.displayMetrics.heightPixels * TranslateAlert.this.heightMaxPercent);
+            protected void onMeasure(int i4, int i5) {
+                int size = View.MeasureSpec.getSize(i4);
+                View.MeasureSpec.getSize(i4);
+                int i6 = (int) (AndroidUtilities.displayMetrics.heightPixels * TranslateAlert.this.heightMaxPercent);
                 if (TranslateAlert.this.textsView != null && TranslateAlert.this.textsView.getMeasuredHeight() <= 0) {
-                    TranslateAlert.this.textsView.measure(View.MeasureSpec.makeMeasureSpec((((View.MeasureSpec.getSize(i6) - TranslateAlert.this.textsView.getPaddingLeft()) - TranslateAlert.this.textsView.getPaddingRight()) - TranslateAlert.this.textsContainerView.getPaddingLeft()) - TranslateAlert.this.textsContainerView.getPaddingRight(), 1073741824), 0);
+                    TranslateAlert.this.textsView.measure(View.MeasureSpec.makeMeasureSpec((((View.MeasureSpec.getSize(i4) - TranslateAlert.this.textsView.getPaddingLeft()) - TranslateAlert.this.textsView.getPaddingRight()) - TranslateAlert.this.textsContainerView.getPaddingLeft()) - TranslateAlert.this.textsContainerView.getPaddingRight(), 1073741824), 0);
                 }
-                int min = Math.min(i8, TranslateAlert.this.minHeight());
-                int i9 = (int) (min + ((AndroidUtilities.displayMetrics.heightPixels - min) * TranslateAlert.this.containerOpenAnimationT));
+                int min = Math.min(i6, TranslateAlert.this.minHeight());
+                int i7 = (int) (min + ((AndroidUtilities.displayMetrics.heightPixels - min) * TranslateAlert.this.containerOpenAnimationT));
                 TranslateAlert.this.updateCanExpand();
-                super.onMeasure(View.MeasureSpec.makeMeasureSpec((int) Math.max(size * 0.8f, Math.min(AndroidUtilities.dp(480.0f), size)), View.MeasureSpec.getMode(i6)), View.MeasureSpec.makeMeasureSpec(i9, 1073741824));
+                super.onMeasure(View.MeasureSpec.makeMeasureSpec((int) Math.max(size * 0.8f, Math.min(AndroidUtilities.dp(480.0f), size)), View.MeasureSpec.getMode(i4)), View.MeasureSpec.makeMeasureSpec(i7, 1073741824));
             }
 
             @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-            protected void onLayout(boolean z2, int i6, int i7, int i8, int i9) {
-                super.onLayout(z2, i6, i7, i8, i9);
-                this.contentHeight = Math.min(this.contentHeight, i9 - i7);
+            protected void onLayout(boolean z2, int i4, int i5, int i6, int i7) {
+                super.onLayout(z2, i4, i5, i6, i7);
+                this.contentHeight = Math.min(this.contentHeight, i7 - i5);
             }
 
             @Override // android.view.View
@@ -431,7 +418,7 @@ public class TranslateAlert extends Dialog {
         FrameLayout.LayoutParams createFrame = LayoutHelper.createFrame(-1, -2.0f, 55, 22.0f, 22.0f, 22.0f, 0.0f);
         this.titleLayout = createFrame;
         frameLayout3.addView(view, createFrame);
-        this.titleView.post(new Runnable() { // from class: org.telegram.ui.Components.TranslateAlert$$ExternalSyntheticLambda8
+        this.titleView.post(new Runnable() { // from class: org.telegram.ui.Components.TranslateAlert$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
             public final void run() {
                 TranslateAlert.this.lambda$new$1();
@@ -440,7 +427,7 @@ public class TranslateAlert extends Dialog {
         LinearLayout linearLayout = new LinearLayout(context);
         this.subtitleView = linearLayout;
         linearLayout.setOrientation(0);
-        if (i5 >= 17) {
+        if (i3 >= 17) {
             this.subtitleView.setLayoutDirection(LocaleController.isRTL ? 1 : 0);
         }
         this.subtitleView.setGravity(LocaleController.isRTL ? 5 : 3);
@@ -494,10 +481,10 @@ public class TranslateAlert extends Dialog {
         }
         FrameLayout frameLayout4 = this.header;
         View view2 = this.subtitleView;
-        int i6 = LocaleController.isRTL ? 5 : 3;
-        int i7 = LoadingTextView2.paddingHorizontal;
+        int i4 = LocaleController.isRTL ? 5 : 3;
+        int i5 = LoadingTextView2.paddingHorizontal;
         float f = AndroidUtilities.density;
-        FrameLayout.LayoutParams createFrame2 = LayoutHelper.createFrame(-1, -2.0f, i6 | 48, 22.0f - (i7 / AndroidUtilities.density), 47.0f - (LoadingTextView2.paddingVertical / f), 22.0f - (i7 / f), 0.0f);
+        FrameLayout.LayoutParams createFrame2 = LayoutHelper.createFrame(-1, -2.0f, i4 | 48, 22.0f - (i5 / AndroidUtilities.density), 47.0f - (LoadingTextView2.paddingVertical / f), 22.0f - (i5 / f), 0.0f);
         this.subtitleLayout = createFrame2;
         frameLayout4.addView(view2, createFrame2);
         ImageView imageView2 = new ImageView(context);
@@ -538,14 +525,14 @@ public class TranslateAlert extends Dialog {
             }
 
             @Override // androidx.core.widget.NestedScrollView, android.view.ViewGroup, android.view.ViewParent, androidx.core.view.NestedScrollingParent
-            public void onNestedScroll(View view4, int i8, int i9, int i10, int i11) {
-                super.onNestedScroll(view4, i8, i9, i10, i11);
+            public void onNestedScroll(View view4, int i6, int i7, int i8, int i9) {
+                super.onNestedScroll(view4, i6, i7, i8, i9);
             }
 
             /* JADX INFO: Access modifiers changed from: protected */
             @Override // androidx.core.widget.NestedScrollView, android.view.View
-            public void onScrollChanged(int i8, int i9, int i10, int i11) {
-                super.onScrollChanged(i8, i9, i10, i11);
+            public void onScrollChanged(int i6, int i7, int i8, int i9) {
+                super.onScrollChanged(i6, i7, i8, i9);
                 if (TranslateAlert.this.checkForNextLoading()) {
                     TranslateAlert.this.openAnimationTo(1.0f, true);
                 }
@@ -559,8 +546,8 @@ public class TranslateAlert extends Dialog {
             }
 
             @Override // android.widget.TextView, android.view.View
-            protected void onMeasure(int i8, int i9) {
-                super.onMeasure(i8, TranslateAlert.MOST_SPEC);
+            protected void onMeasure(int i6, int i7) {
+                super.onMeasure(i6, TranslateAlert.MOST_SPEC);
             }
 
             @Override // android.widget.TextView, android.view.View
@@ -574,14 +561,14 @@ public class TranslateAlert extends Dialog {
             }
 
             @Override // android.widget.TextView
-            public boolean onTextContextMenuItem(int i8) {
-                if (i8 == 16908321 && isFocused()) {
+            public boolean onTextContextMenuItem(int i6) {
+                if (i6 == 16908321 && isFocused()) {
                     ((ClipboardManager) ApplicationLoader.applicationContext.getSystemService("clipboard")).setPrimaryClip(ClipData.newPlainText("label", getText().subSequence(Math.max(0, Math.min(getSelectionStart(), getSelectionEnd())), Math.max(0, Math.max(getSelectionStart(), getSelectionEnd())))));
                     BulletinFactory.of(TranslateAlert.this.bulletinContainer, null).createCopyBulletin(LocaleController.getString("TextCopied", R.string.TextCopied)).show();
                     clearFocus();
                     return true;
                 }
-                return super.onTextContextMenuItem(i8);
+                return super.onTextContextMenuItem(i6);
             }
         };
         this.allTextsView = textView3;
@@ -591,7 +578,7 @@ public class TranslateAlert extends Dialog {
         this.allTextsView.setTextIsSelectable(!z);
         this.allTextsView.setHighlightColor(Theme.getColor("chat_inTextSelectionHighlight"));
         int color = Theme.getColor("chat_TextSelectionCursor");
-        if (i5 >= 29) {
+        if (i3 >= 29) {
             try {
                 if (!XiaomiUtilities.isMIUI()) {
                     Drawable textSelectHandleLeft = this.allTextsView.getTextSelectHandleLeft();
@@ -609,10 +596,10 @@ public class TranslateAlert extends Dialog {
         TextBlocksLayout textBlocksLayout = new TextBlocksLayout(context, AndroidUtilities.dp(16.0f), Theme.getColor("dialogTextBlack"), this.allTextsView);
         this.textsView = textBlocksLayout;
         int dp = AndroidUtilities.dp(22.0f);
-        int i8 = LoadingTextView2.paddingHorizontal;
+        int i6 = LoadingTextView2.paddingHorizontal;
         int dp2 = AndroidUtilities.dp(12.0f);
-        int i9 = LoadingTextView2.paddingVertical;
-        textBlocksLayout.setPadding(dp - i8, dp2 - i9, AndroidUtilities.dp(22.0f) - i8, AndroidUtilities.dp(12.0f) - i9);
+        int i7 = LoadingTextView2.paddingVertical;
+        textBlocksLayout.setPadding(dp - i6, dp2 - i7, AndroidUtilities.dp(22.0f) - i6, AndroidUtilities.dp(12.0f) - i7);
         Iterator<CharSequence> it = this.textBlocks.iterator();
         while (it.hasNext()) {
             this.textsView.addBlock(it.next());
@@ -835,7 +822,7 @@ public class TranslateAlert extends Dialog {
                             } else {
                                 round = Math.round(this.fromScrollY);
                             }
-                            scrollYTo(round, new Runnable() { // from class: org.telegram.ui.Components.TranslateAlert$$ExternalSyntheticLambda7
+                            scrollYTo(round, new Runnable() { // from class: org.telegram.ui.Components.TranslateAlert$$ExternalSyntheticLambda5
                                 @Override // java.lang.Runnable
                                 public final void run() {
                                     TranslateAlert.this.lambda$dispatchTouchEvent$4();
@@ -861,7 +848,7 @@ public class TranslateAlert extends Dialog {
     }
 
     public /* synthetic */ void lambda$dispatchTouchEvent$4() {
-        this.contentView.post(new TranslateAlert$$ExternalSyntheticLambda10(this));
+        this.contentView.post(new TranslateAlert$$ExternalSyntheticLambda8(this));
     }
 
     @Override // android.app.Dialog
@@ -1004,33 +991,6 @@ public class TranslateAlert extends Dialog {
         }
     }
 
-    private ArrayList<CharSequence> cutInBlocks(CharSequence charSequence, int i) {
-        ArrayList<CharSequence> arrayList = new ArrayList<>();
-        if (charSequence == null) {
-            return arrayList;
-        }
-        while (charSequence.length() > i) {
-            String charSequence2 = charSequence.subSequence(0, i).toString();
-            int lastIndexOf = charSequence2.lastIndexOf("\n\n");
-            if (lastIndexOf == -1) {
-                lastIndexOf = charSequence2.lastIndexOf("\n");
-            }
-            if (lastIndexOf == -1) {
-                lastIndexOf = charSequence2.lastIndexOf(". ");
-            }
-            if (lastIndexOf == -1) {
-                lastIndexOf = Math.min(charSequence2.length(), i);
-            }
-            int i2 = lastIndexOf + 1;
-            arrayList.add(charSequence.subSequence(0, i2));
-            charSequence = charSequence.subSequence(i2, charSequence.length());
-        }
-        if (charSequence.length() > 0) {
-            arrayList.add(charSequence);
-        }
-        return arrayList;
-    }
-
     private boolean fetchNext() {
         if (this.loading) {
             return false;
@@ -1039,12 +999,12 @@ public class TranslateAlert extends Dialog {
         if (this.blockIndex >= this.textBlocks.size()) {
             return false;
         }
-        fetchTranslation(this.textBlocks.get(this.blockIndex), Math.min((this.blockIndex + 1) * 1000, 3500), new OnTranslationSuccess() { // from class: org.telegram.ui.Components.TranslateAlert$$ExternalSyntheticLambda14
+        fetchTranslation(this.textBlocks.get(this.blockIndex), Math.min((this.blockIndex + 1) * 1000, 3500), new OnTranslationSuccess() { // from class: org.telegram.ui.Components.TranslateAlert$$ExternalSyntheticLambda13
             @Override // org.telegram.ui.Components.TranslateAlert.OnTranslationSuccess
             public final void run(String str, String str2) {
                 TranslateAlert.this.lambda$fetchNext$7(str, str2);
             }
-        }, new OnTranslationFail() { // from class: org.telegram.ui.Components.TranslateAlert$$ExternalSyntheticLambda13
+        }, new OnTranslationFail() { // from class: org.telegram.ui.Components.TranslateAlert$$ExternalSyntheticLambda12
             @Override // org.telegram.ui.Components.TranslateAlert.OnTranslationFail
             public final void run(boolean z) {
                 TranslateAlert.this.lambda$fetchNext$8(z);
@@ -1141,7 +1101,7 @@ public class TranslateAlert extends Dialog {
         this.textsView.setWholeText(spannableStringBuilder2);
         LoadingTextView2 blockAt = this.textsView.getBlockAt(this.blockIndex);
         if (blockAt != null) {
-            blockAt.loaded(spannableStringBuilder, new Runnable() { // from class: org.telegram.ui.Components.TranslateAlert$$ExternalSyntheticLambda9
+            blockAt.loaded(spannableStringBuilder, new Runnable() { // from class: org.telegram.ui.Components.TranslateAlert$$ExternalSyntheticLambda7
                 @Override // java.lang.Runnable
                 public final void run() {
                     TranslateAlert.this.lambda$fetchNext$6();
@@ -1150,8 +1110,8 @@ public class TranslateAlert extends Dialog {
         }
         if (str2 != null) {
             this.fromLanguage = str2;
-            updateSourceLanguage();
         }
+        updateSourceLanguage();
         if (this.blockIndex == 0 && AndroidUtilities.isAccessibilityScreenReaderEnabled() && (textView = this.allTextsView) != null) {
             textView.requestFocus();
         }
@@ -1160,7 +1120,7 @@ public class TranslateAlert extends Dialog {
     }
 
     public /* synthetic */ void lambda$fetchNext$6() {
-        this.contentView.post(new TranslateAlert$$ExternalSyntheticLambda10(this));
+        this.contentView.post(new TranslateAlert$$ExternalSyntheticLambda8(this));
     }
 
     public /* synthetic */ void lambda$fetchNext$8(boolean z) {
@@ -1182,122 +1142,48 @@ public class TranslateAlert extends Dialog {
         return false;
     }
 
-    private void fetchTranslation(final CharSequence charSequence, final long j, final OnTranslationSuccess onTranslationSuccess, final OnTranslationFail onTranslationFail) {
-        if (!translateQueue.isAlive()) {
-            translateQueue.start();
+    private void fetchTranslation(CharSequence charSequence, final long j, final OnTranslationSuccess onTranslationSuccess, final OnTranslationFail onTranslationFail) {
+        final long currentTimeMillis = System.currentTimeMillis();
+        Utilities.Callback callback = new Utilities.Callback() { // from class: org.telegram.ui.Components.TranslateAlert$$ExternalSyntheticLambda9
+            @Override // org.telegram.messenger.Utilities.Callback
+            public final void run(Object obj) {
+                TranslateAlert.lambda$fetchTranslation$10(TranslateAlert.OnTranslationSuccess.this, onTranslationFail, currentTimeMillis, j, (String) obj);
+            }
+        };
+        TLRPC$InputPeer tLRPC$InputPeer = this.peer;
+        if (tLRPC$InputPeer != null) {
+            translateText(this.currentAccount, tLRPC$InputPeer, this.msgId, this.fromLanguage, this.toLanguage, callback);
+        } else if (charSequence != null) {
+            translateText(this.currentAccount, charSequence.toString(), this.fromLanguage, this.toLanguage, callback);
+        } else {
+            onTranslationFail.run(false);
         }
-        translateQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.TranslateAlert$$ExternalSyntheticLambda11
+    }
+
+    public static /* synthetic */ void lambda$fetchTranslation$10(final OnTranslationSuccess onTranslationSuccess, final OnTranslationFail onTranslationFail, long j, long j2, final String str) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.TranslateAlert$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
             public final void run() {
-                TranslateAlert.this.lambda$fetchTranslation$12(charSequence, onTranslationSuccess, j, onTranslationFail);
+                TranslateAlert.lambda$fetchTranslation$9(str, onTranslationSuccess, onTranslationFail);
             }
-        });
+        }, Math.max((System.currentTimeMillis() - j) - j2, 1L));
     }
 
-    public /* synthetic */ void lambda$fetchTranslation$12(CharSequence charSequence, final OnTranslationSuccess onTranslationSuccess, long j, final OnTranslationFail onTranslationFail) {
-        Exception exc;
-        HttpURLConnection httpURLConnection;
-        final String str;
-        long elapsedRealtime = SystemClock.elapsedRealtime();
-        String str2 = null;
-        final boolean z = false;
-        try {
-            httpURLConnection = (HttpURLConnection) new URI((((("https://translate.googleapis.com/translate_a/single?client=gtx&sl=" + Uri.encode(this.fromLanguage)) + "&tl=") + Uri.encode(this.toLanguage)) + "&dt=t&ie=UTF-8&oe=UTF-8&otf=1&ssel=0&tsel=0&kc=7&dt=at&dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&q=") + Uri.encode(charSequence.toString())).toURL().openConnection();
-        } catch (Exception e) {
-            exc = e;
-            httpURLConnection = null;
-        }
-        try {
-            httpURLConnection.setRequestMethod("GET");
-            httpURLConnection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36");
-            httpURLConnection.setRequestProperty("Content-Type", "application/json");
-            StringBuilder sb = new StringBuilder();
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream(), Charset.forName("UTF-8")));
-            while (true) {
-                int read = bufferedReader.read();
-                if (read == -1) {
-                    break;
-                }
-                sb.append((char) read);
-            }
-            bufferedReader.close();
-            JSONArray jSONArray = new JSONArray(new JSONTokener(sb.toString()));
-            JSONArray jSONArray2 = jSONArray.getJSONArray(0);
-            try {
-                str = jSONArray.getString(2);
-            } catch (Exception unused) {
-                str = null;
-            }
-            if (str != null && str.contains("-")) {
-                str = str.substring(0, str.indexOf("-"));
-            }
-            StringBuilder sb2 = new StringBuilder();
-            for (int i = 0; i < jSONArray2.length(); i++) {
-                String string = jSONArray2.getJSONArray(i).getString(0);
-                if (string != null && !string.equals("null")) {
-                    sb2.append(string);
-                }
-            }
-            if (charSequence.length() > 0 && charSequence.charAt(0) == '\n') {
-                sb2.insert(0, "\n");
-            }
-            final String sb3 = sb2.toString();
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.TranslateAlert$$ExternalSyntheticLambda6
-                @Override // java.lang.Runnable
-                public final void run() {
-                    TranslateAlert.lambda$fetchTranslation$9(TranslateAlert.OnTranslationSuccess.this, sb3, str);
-                }
-            }, Math.max(0L, j - (SystemClock.elapsedRealtime() - elapsedRealtime)));
-        } catch (Exception e2) {
-            exc = e2;
-            try {
-                StringBuilder sb4 = new StringBuilder();
-                sb4.append("failed to translate a text ");
-                sb4.append(httpURLConnection != null ? Integer.valueOf(httpURLConnection.getResponseCode()) : null);
-                sb4.append(" ");
-                if (httpURLConnection != null) {
-                    str2 = httpURLConnection.getResponseMessage();
-                }
-                sb4.append(str2);
-                Log.e("translate", sb4.toString());
-            } catch (IOException e3) {
-                e3.printStackTrace();
-            }
-            exc.printStackTrace();
-            if (onTranslationFail == null || this.dismissed) {
-                return;
-            }
-            if (httpURLConnection != null) {
-                try {
-                    if (httpURLConnection.getResponseCode() == 429) {
-                        z = true;
-                    }
-                } catch (Exception unused2) {
-                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.TranslateAlert$$ExternalSyntheticLambda4
-                        @Override // java.lang.Runnable
-                        public final void run() {
-                            TranslateAlert.OnTranslationFail.this.run(false);
-                        }
-                    });
-                    return;
-                }
-            }
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.TranslateAlert$$ExternalSyntheticLambda5
-                @Override // java.lang.Runnable
-                public final void run() {
-                    TranslateAlert.OnTranslationFail.this.run(z);
-                }
-            });
+    public static /* synthetic */ void lambda$fetchTranslation$9(String str, OnTranslationSuccess onTranslationSuccess, OnTranslationFail onTranslationFail) {
+        if (str != null) {
+            onTranslationSuccess.run(str, null);
+        } else {
+            onTranslationFail.run(false);
         }
     }
 
-    public static /* synthetic */ void lambda$fetchTranslation$9(OnTranslationSuccess onTranslationSuccess, String str, String str2) {
-        if (onTranslationSuccess != null) {
-            onTranslationSuccess.run(str, str2);
+    private static void translateText(int i, TLRPC$InputPeer tLRPC$InputPeer, int i2, String str, String str2, final Utilities.Callback<String> callback) {
+        if (callback == null) {
+            return;
         }
-    }
-
-    private static void translateText(int i, TLRPC$InputPeer tLRPC$InputPeer, int i2, String str, String str2) {
+        if (str == null || str.equals("und")) {
+            str = null;
+        }
         TLRPC$TL_messages_translateText tLRPC$TL_messages_translateText = new TLRPC$TL_messages_translateText();
         tLRPC$TL_messages_translateText.peer = tLRPC$InputPeer;
         tLRPC$TL_messages_translateText.msg_id = i2;
@@ -1309,9 +1195,58 @@ public class TranslateAlert extends Dialog {
         }
         tLRPC$TL_messages_translateText.to_lang = str2;
         try {
-            ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_messages_translateText, TranslateAlert$$ExternalSyntheticLambda12.INSTANCE);
+            ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_messages_translateText, new RequestDelegate() { // from class: org.telegram.ui.Components.TranslateAlert$$ExternalSyntheticLambda11
+                @Override // org.telegram.tgnet.RequestDelegate
+                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                    TranslateAlert.lambda$translateText$11(Utilities.Callback.this, tLObject, tLRPC$TL_error);
+                }
+            });
         } catch (Exception e) {
             FileLog.e(e);
+        }
+    }
+
+    public static /* synthetic */ void lambda$translateText$11(Utilities.Callback callback, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        if (tLObject instanceof TLRPC$TL_messages_translateResultText) {
+            callback.run(((TLRPC$TL_messages_translateResultText) tLObject).text);
+        } else {
+            callback.run(null);
+        }
+    }
+
+    private static void translateText(int i, String str, String str2, String str3, final Utilities.Callback<String> callback) {
+        if (callback == null) {
+            return;
+        }
+        if (str2 == null || str2.equals("und")) {
+            str2 = null;
+        }
+        TLRPC$TL_messages_translateText tLRPC$TL_messages_translateText = new TLRPC$TL_messages_translateText();
+        int i2 = tLRPC$TL_messages_translateText.flags | 2;
+        tLRPC$TL_messages_translateText.flags = i2;
+        tLRPC$TL_messages_translateText.text = str;
+        if (str2 != null) {
+            tLRPC$TL_messages_translateText.from_lang = str2;
+            tLRPC$TL_messages_translateText.flags = i2 | 4;
+        }
+        tLRPC$TL_messages_translateText.to_lang = str3;
+        try {
+            ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_messages_translateText, new RequestDelegate() { // from class: org.telegram.ui.Components.TranslateAlert$$ExternalSyntheticLambda10
+                @Override // org.telegram.tgnet.RequestDelegate
+                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                    TranslateAlert.lambda$translateText$12(Utilities.Callback.this, tLObject, tLRPC$TL_error);
+                }
+            });
+        } catch (Exception e) {
+            FileLog.e(e);
+        }
+    }
+
+    public static /* synthetic */ void lambda$translateText$12(Utilities.Callback callback, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        if (tLObject instanceof TLRPC$TL_messages_translateResultText) {
+            callback.run(((TLRPC$TL_messages_translateResultText) tLObject).text);
+        } else {
+            callback.run(null);
         }
     }
 

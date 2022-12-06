@@ -1,5 +1,5 @@
 package com.google.android.gms.common.api;
-/* compiled from: com.google.android.gms:play-services-basement@@17.5.0 */
+/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
 public class CommonStatusCodes {
     public static String getStatusCodeString(int i) {
@@ -13,10 +13,7 @@ public class CommonStatusCodes {
             case 11:
             case 12:
             default:
-                StringBuilder sb = new StringBuilder(32);
-                sb.append("unknown status code: ");
-                sb.append(i);
-                return sb.toString();
+                return "unknown status code: " + i;
             case 2:
                 return "SERVICE_VERSION_UPDATE_REQUIRED";
             case 3:

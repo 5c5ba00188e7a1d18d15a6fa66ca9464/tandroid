@@ -4,22 +4,21 @@ import android.accounts.Account;
 import android.content.Context;
 import android.os.Looper;
 import android.view.View;
-import androidx.annotation.RecentlyNonNull;
 import androidx.collection.ArrayMap;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.Api;
 import com.google.android.gms.common.api.internal.BaseImplementation$ApiMethodImpl;
 import com.google.android.gms.common.api.internal.LifecycleActivity;
 import com.google.android.gms.common.api.internal.SignInConnectionListener;
-import com.google.android.gms.common.api.internal.zaar;
-import com.google.android.gms.common.api.internal.zacn;
-import com.google.android.gms.common.api.internal.zai;
-import com.google.android.gms.common.api.internal.zaq;
+import com.google.android.gms.common.api.internal.zabe;
+import com.google.android.gms.common.api.internal.zada;
+import com.google.android.gms.common.api.internal.zak;
+import com.google.android.gms.common.api.internal.zat;
 import com.google.android.gms.common.internal.ClientSettings;
 import com.google.android.gms.common.internal.Preconditions;
 import com.google.android.gms.signin.SignInOptions;
-import com.google.android.gms.signin.zab;
-import com.google.android.gms.signin.zae;
+import com.google.android.gms.signin.zad;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.FileDescriptor;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -31,72 +30,14 @@ import java.util.Set;
 import java.util.WeakHashMap;
 import java.util.concurrent.locks.ReentrantLock;
 import javax.annotation.concurrent.GuardedBy;
-/* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
+/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 @Deprecated
 /* loaded from: classes.dex */
 public abstract class GoogleApiClient {
     @GuardedBy("sAllClients")
-    private static final Set<GoogleApiClient> zaa = Collections.newSetFromMap(new WeakHashMap());
+    private static final Set zaa = Collections.newSetFromMap(new WeakHashMap());
 
-    /* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
-    @Deprecated
-    /* loaded from: classes.dex */
-    public interface ConnectionCallbacks extends com.google.android.gms.common.api.internal.ConnectionCallbacks {
-    }
-
-    /* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
-    @Deprecated
-    /* loaded from: classes.dex */
-    public interface OnConnectionFailedListener extends com.google.android.gms.common.api.internal.OnConnectionFailedListener {
-    }
-
-    public abstract void connect();
-
-    public abstract void disconnect();
-
-    public abstract void dump(@RecentlyNonNull String str, @RecentlyNonNull FileDescriptor fileDescriptor, @RecentlyNonNull PrintWriter printWriter, @RecentlyNonNull String[] strArr);
-
-    public abstract boolean isConnected();
-
-    public abstract void registerConnectionFailedListener(@RecentlyNonNull OnConnectionFailedListener onConnectionFailedListener);
-
-    public abstract void unregisterConnectionFailedListener(@RecentlyNonNull OnConnectionFailedListener onConnectionFailedListener);
-
-    @RecentlyNonNull
-    public static Set<GoogleApiClient> getAllClients() {
-        Set<GoogleApiClient> set = zaa;
-        synchronized (set) {
-        }
-        return set;
-    }
-
-    @RecentlyNonNull
-    public <A extends Api.AnyClient, T extends BaseImplementation$ApiMethodImpl<? extends Result, A>> T execute(@RecentlyNonNull T t) {
-        throw new UnsupportedOperationException();
-    }
-
-    @RecentlyNonNull
-    public Looper getLooper() {
-        throw new UnsupportedOperationException();
-    }
-
-    public boolean maybeSignIn(@RecentlyNonNull SignInConnectionListener signInConnectionListener) {
-        throw new UnsupportedOperationException();
-    }
-
-    public void maybeSignOut() {
-        throw new UnsupportedOperationException();
-    }
-
-    public void connect(int i) {
-        throw new UnsupportedOperationException();
-    }
-
-    public void zab(zacn zacnVar) {
-        throw new UnsupportedOperationException();
-    }
-
-    /* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
+    /* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
     @Deprecated
     /* loaded from: classes.dex */
     public static final class Builder {
@@ -105,117 +46,153 @@ public abstract class GoogleApiClient {
         private View zae;
         private String zaf;
         private String zag;
-        private final Context zaj;
-        private LifecycleActivity zal;
-        private OnConnectionFailedListener zan;
-        private Looper zao;
-        private final Set<Scope> zab = new HashSet();
-        private final Set<Scope> zac = new HashSet();
-        private final Map<Api<?>, ClientSettings.zaa> zah = new ArrayMap();
-        private final Map<Api<?>, Api.ApiOptions> zak = new ArrayMap();
-        private int zam = -1;
-        private GoogleApiAvailability zap = GoogleApiAvailability.getInstance();
-        private Api.AbstractClientBuilder<? extends zae, SignInOptions> zaq = zab.zaa;
-        private final ArrayList<ConnectionCallbacks> zar = new ArrayList<>();
-        private final ArrayList<OnConnectionFailedListener> zas = new ArrayList<>();
+        private final Context zai;
+        private LifecycleActivity zak;
+        private OnConnectionFailedListener zam;
+        private Looper zan;
+        private final Set zab = new HashSet();
+        private final Set zac = new HashSet();
+        private final Map zah = new ArrayMap();
+        private final Map zaj = new ArrayMap();
+        private int zal = -1;
+        private GoogleApiAvailability zao = GoogleApiAvailability.getInstance();
+        private Api.AbstractClientBuilder zap = zad.zac;
+        private final ArrayList zaq = new ArrayList();
+        private final ArrayList zar = new ArrayList();
 
-        public Builder(@RecentlyNonNull Context context) {
-            this.zaj = context;
-            this.zao = context.getMainLooper();
+        public Builder(Context context) {
+            this.zai = context;
+            this.zan = context.getMainLooper();
             this.zaf = context.getPackageName();
             this.zag = context.getClass().getName();
         }
 
-        @RecentlyNonNull
-        public final Builder addConnectionCallbacks(@RecentlyNonNull ConnectionCallbacks connectionCallbacks) {
-            Preconditions.checkNotNull(connectionCallbacks, "Listener must not be null");
-            this.zar.add(connectionCallbacks);
-            return this;
-        }
-
-        @RecentlyNonNull
-        public final Builder addOnConnectionFailedListener(@RecentlyNonNull OnConnectionFailedListener onConnectionFailedListener) {
-            Preconditions.checkNotNull(onConnectionFailedListener, "Listener must not be null");
-            this.zas.add(onConnectionFailedListener);
-            return this;
-        }
-
-        @RecentlyNonNull
-        public final Builder addApi(@RecentlyNonNull Api<Object> api) {
+        @CanIgnoreReturnValue
+        public Builder addApi(Api<Object> api) {
             Preconditions.checkNotNull(api, "Api must not be null");
-            this.zak.put(api, null);
-            List<Scope> impliedScopes = ((Api.BaseClientBuilder) Preconditions.checkNotNull(api.zaa(), "Base client builder must not be null")).getImpliedScopes(null);
+            this.zaj.put(api, null);
+            List<Scope> impliedScopes = ((Api.BaseClientBuilder) Preconditions.checkNotNull(api.zac(), "Base client builder must not be null")).getImpliedScopes(null);
             this.zac.addAll(impliedScopes);
             this.zab.addAll(impliedScopes);
             return this;
         }
 
-        @RecentlyNonNull
-        public final ClientSettings buildClientSettings() {
-            SignInOptions signInOptions = SignInOptions.zaa;
-            Map<Api<?>, Api.ApiOptions> map = this.zak;
-            Api<SignInOptions> api = zab.zab;
-            if (map.containsKey(api)) {
-                signInOptions = (SignInOptions) this.zak.get(api);
-            }
-            return new ClientSettings(this.zaa, this.zab, this.zah, this.zad, this.zae, this.zaf, this.zag, signInOptions, false);
+        @CanIgnoreReturnValue
+        public Builder addConnectionCallbacks(ConnectionCallbacks connectionCallbacks) {
+            Preconditions.checkNotNull(connectionCallbacks, "Listener must not be null");
+            this.zaq.add(connectionCallbacks);
+            return this;
         }
 
-        @RecentlyNonNull
-        public final GoogleApiClient build() {
-            Preconditions.checkArgument(!this.zak.isEmpty(), "must call addApi() to add at least one API");
-            ClientSettings buildClientSettings = buildClientSettings();
-            Api<?> api = null;
-            Map<Api<?>, ClientSettings.zaa> zaa = buildClientSettings.zaa();
+        @CanIgnoreReturnValue
+        public Builder addOnConnectionFailedListener(OnConnectionFailedListener onConnectionFailedListener) {
+            Preconditions.checkNotNull(onConnectionFailedListener, "Listener must not be null");
+            this.zar.add(onConnectionFailedListener);
+            return this;
+        }
+
+        public GoogleApiClient build() {
+            Preconditions.checkArgument(!this.zaj.isEmpty(), "must call addApi() to add at least one API");
+            ClientSettings zaa = zaa();
+            Map zad = zaa.zad();
             ArrayMap arrayMap = new ArrayMap();
             ArrayMap arrayMap2 = new ArrayMap();
             ArrayList arrayList = new ArrayList();
+            Api api = null;
             boolean z = false;
-            for (Api<?> api2 : this.zak.keySet()) {
-                Api.ApiOptions apiOptions = this.zak.get(api2);
-                boolean z2 = zaa.get(api2) != null;
+            for (Api api2 : this.zaj.keySet()) {
+                Object obj = this.zaj.get(api2);
+                boolean z2 = zad.get(api2) != null;
                 arrayMap.put(api2, Boolean.valueOf(z2));
-                zaq zaqVar = new zaq(api2, z2);
-                arrayList.add(zaqVar);
-                Api.AbstractClientBuilder abstractClientBuilder = (Api.AbstractClientBuilder) Preconditions.checkNotNull(api2.zab());
-                Api.Client buildClient = abstractClientBuilder.buildClient(this.zaj, this.zao, buildClientSettings, (ClientSettings) apiOptions, (ConnectionCallbacks) zaqVar, (OnConnectionFailedListener) zaqVar);
-                arrayMap2.put(api2.zac(), buildClient);
+                zat zatVar = new zat(api2, z2);
+                arrayList.add(zatVar);
+                Api.AbstractClientBuilder abstractClientBuilder = (Api.AbstractClientBuilder) Preconditions.checkNotNull(api2.zaa());
+                Api.Client buildClient = abstractClientBuilder.buildClient(this.zai, this.zan, zaa, (ClientSettings) obj, (ConnectionCallbacks) zatVar, (OnConnectionFailedListener) zatVar);
+                arrayMap2.put(api2.zab(), buildClient);
                 if (abstractClientBuilder.getPriority() == 1) {
-                    z = apiOptions != null;
+                    z = obj != null;
                 }
                 if (buildClient.providesSignIn()) {
                     if (api != null) {
-                        String zad = api2.zad();
-                        String zad2 = api.zad();
-                        StringBuilder sb = new StringBuilder(String.valueOf(zad).length() + 21 + String.valueOf(zad2).length());
-                        sb.append(zad);
-                        sb.append(" cannot be used with ");
-                        sb.append(zad2);
-                        throw new IllegalStateException(sb.toString());
+                        throw new IllegalStateException(api2.zad() + " cannot be used with " + api.zad());
                     }
                     api = api2;
                 }
             }
             if (api != null) {
                 if (z) {
-                    String zad3 = api.zad();
-                    StringBuilder sb2 = new StringBuilder(String.valueOf(zad3).length() + 82);
-                    sb2.append("With using ");
-                    sb2.append(zad3);
-                    sb2.append(", GamesOptions can only be specified within GoogleSignInOptions.Builder");
-                    throw new IllegalStateException(sb2.toString());
+                    throw new IllegalStateException("With using " + api.zad() + ", GamesOptions can only be specified within GoogleSignInOptions.Builder");
                 }
                 Preconditions.checkState(this.zaa == null, "Must not set an account in GoogleApiClient.Builder when using %s. Set account in GoogleSignInOptions.Builder instead", api.zad());
                 Preconditions.checkState(this.zab.equals(this.zac), "Must not set scopes in GoogleApiClient.Builder when using %s. Set account in GoogleSignInOptions.Builder instead.", api.zad());
             }
-            zaar zaarVar = new zaar(this.zaj, new ReentrantLock(), this.zao, buildClientSettings, this.zap, this.zaq, arrayMap, this.zar, this.zas, arrayMap2, this.zam, zaar.zaa((Iterable<Api.Client>) arrayMap2.values(), true), arrayList);
+            zabe zabeVar = new zabe(this.zai, new ReentrantLock(), this.zan, zaa, this.zao, this.zap, arrayMap, this.zaq, this.zar, arrayMap2, this.zal, zabe.zad(arrayMap2.values(), true), arrayList);
             synchronized (GoogleApiClient.zaa) {
-                GoogleApiClient.zaa.add(zaarVar);
+                GoogleApiClient.zaa.add(zabeVar);
             }
-            if (this.zam >= 0) {
-                zai.zaa(this.zal).zaa(this.zam, zaarVar, this.zan);
+            if (this.zal >= 0) {
+                zak.zaa(this.zak).zad(this.zal, zabeVar, this.zam);
             }
-            return zaarVar;
+            return zabeVar;
         }
+
+        public final ClientSettings zaa() {
+            SignInOptions signInOptions = SignInOptions.zaa;
+            Map map = this.zaj;
+            Api api = zad.zag;
+            if (map.containsKey(api)) {
+                signInOptions = (SignInOptions) this.zaj.get(api);
+            }
+            return new ClientSettings(this.zaa, this.zab, this.zah, this.zad, this.zae, this.zaf, this.zag, signInOptions, false);
+        }
+    }
+
+    /* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
+    @Deprecated
+    /* loaded from: classes.dex */
+    public interface ConnectionCallbacks extends com.google.android.gms.common.api.internal.ConnectionCallbacks {
+    }
+
+    /* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
+    @Deprecated
+    /* loaded from: classes.dex */
+    public interface OnConnectionFailedListener extends com.google.android.gms.common.api.internal.OnConnectionFailedListener {
+    }
+
+    public static Set<GoogleApiClient> getAllClients() {
+        Set<GoogleApiClient> set = zaa;
+        synchronized (set) {
+        }
+        return set;
+    }
+
+    public abstract void connect();
+
+    public abstract void disconnect();
+
+    public abstract void dump(String str, FileDescriptor fileDescriptor, PrintWriter printWriter, String[] strArr);
+
+    public <A extends Api.AnyClient, T extends BaseImplementation$ApiMethodImpl<? extends Result, A>> T execute(T t) {
+        throw new UnsupportedOperationException();
+    }
+
+    public Looper getLooper() {
+        throw new UnsupportedOperationException();
+    }
+
+    public boolean maybeSignIn(SignInConnectionListener signInConnectionListener) {
+        throw new UnsupportedOperationException();
+    }
+
+    public void maybeSignOut() {
+        throw new UnsupportedOperationException();
+    }
+
+    public abstract void registerConnectionFailedListener(OnConnectionFailedListener onConnectionFailedListener);
+
+    public abstract void unregisterConnectionFailedListener(OnConnectionFailedListener onConnectionFailedListener);
+
+    public void zap(zada zadaVar) {
+        throw new UnsupportedOperationException();
     }
 }

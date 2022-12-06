@@ -2,53 +2,51 @@ package org.telegram.ui.Cells;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.text.TextUtils;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.TextView;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ContactsController;
 import org.telegram.messenger.LocaleController;
 import org.telegram.tgnet.TLRPC$User;
+import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AvatarDrawable;
 import org.telegram.ui.Components.BackupImageView;
-import org.telegram.ui.Components.CheckBoxSquare;
+import org.telegram.ui.Components.CombinedDrawable;
 import org.telegram.ui.Components.LayoutHelper;
+import org.telegram.ui.Components.Switch;
 /* loaded from: classes3.dex */
 public class CheckBoxUserCell extends FrameLayout {
+    private static Drawable verifiedDrawable;
     private AvatarDrawable avatarDrawable;
-    private CheckBoxSquare checkBox;
+    private Switch checkBox;
     private TLRPC$User currentUser;
     private BackupImageView imageView;
     private boolean needDivider;
-    private TextView textView;
+    private SimpleTextView textView;
 
     public CheckBoxUserCell(Context context, boolean z) {
         super(context);
-        TextView textView = new TextView(context);
-        this.textView = textView;
-        textView.setTextColor(Theme.getColor(z ? "dialogTextBlack" : "windowBackgroundWhiteBlackText"));
-        this.textView.setTextSize(1, 16.0f);
-        this.textView.setLines(1);
-        this.textView.setMaxLines(1);
-        this.textView.setSingleLine(true);
-        this.textView.setEllipsize(TextUtils.TruncateAt.END);
+        SimpleTextView simpleTextView = new SimpleTextView(context);
+        this.textView = simpleTextView;
+        simpleTextView.setTextColor(Theme.getColor(z ? "dialogTextBlack" : "windowBackgroundWhiteBlackText"));
+        this.textView.setTextSize(16);
+        this.textView.setEllipsizeByGradient(true);
         int i = 5;
         this.textView.setGravity((LocaleController.isRTL ? 5 : 3) | 16);
-        View view = this.textView;
+        SimpleTextView simpleTextView2 = this.textView;
         boolean z2 = LocaleController.isRTL;
-        int i2 = 21;
-        addView(view, LayoutHelper.createFrame(-1, -1.0f, (z2 ? 5 : 3) | 48, z2 ? 21 : 94, 0.0f, !z2 ? 21 : 94, 0.0f));
+        addView(simpleTextView2, LayoutHelper.createFrame(-1, -1.0f, (z2 ? 5 : 3) | 48, z2 ? 21 : 69, 0.0f, z2 ? 69 : 21, 0.0f));
         this.avatarDrawable = new AvatarDrawable();
         BackupImageView backupImageView = new BackupImageView(context);
         this.imageView = backupImageView;
         backupImageView.setRoundRadius(AndroidUtilities.dp(36.0f));
-        addView(this.imageView, LayoutHelper.createFrame(36, 36.0f, (LocaleController.isRTL ? 5 : 3) | 48, 48.0f, 7.0f, 48.0f, 0.0f));
-        CheckBoxSquare checkBoxSquare = new CheckBoxSquare(context, z, null);
-        this.checkBox = checkBoxSquare;
-        boolean z3 = LocaleController.isRTL;
-        addView(checkBoxSquare, LayoutHelper.createFrame(18, 18.0f, (!z3 ? 3 : i) | 48, z3 ? 0 : 21, 16.0f, !z3 ? 0 : i2, 0.0f));
+        addView(this.imageView, LayoutHelper.createFrame(36, 36.0f, (LocaleController.isRTL ? 5 : 3) | 48, 23.0f, 7.0f, 23.0f, 0.0f));
+        Switch r14 = new Switch(context, null);
+        this.checkBox = r14;
+        r14.setColors("switchTrack", "switchTrackChecked", "windowBackgroundWhite", "windowBackgroundWhite");
+        addView(this.checkBox, LayoutHelper.createFrame(37, 20.0f, (LocaleController.isRTL ? 3 : i) | 16, 22.0f, 0.0f, 22.0f, 0.0f));
     }
 
     @Override // android.widget.FrameLayout, android.view.View
@@ -64,9 +62,21 @@ public class CheckBoxUserCell extends FrameLayout {
         return this.currentUser;
     }
 
+    private Drawable getVerifiedDrawable() {
+        if (verifiedDrawable == null) {
+            verifiedDrawable = new CombinedDrawable(Theme.dialogs_verifiedDrawable, Theme.dialogs_verifiedCheckDrawable);
+        }
+        return verifiedDrawable;
+    }
+
     public void setUser(TLRPC$User tLRPC$User, boolean z, boolean z2) {
         this.currentUser = tLRPC$User;
-        this.textView.setText(ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name));
+        if (tLRPC$User != null) {
+            this.textView.setText(ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name));
+        } else {
+            this.textView.setText("");
+        }
+        this.textView.setRightDrawable((tLRPC$User == null || !tLRPC$User.verified) ? null : getVerifiedDrawable());
         this.checkBox.setChecked(z, false);
         this.avatarDrawable.setInfo(tLRPC$User);
         this.imageView.setForUserOrChat(tLRPC$User, this.avatarDrawable);
@@ -82,11 +92,11 @@ public class CheckBoxUserCell extends FrameLayout {
         return this.checkBox.isChecked();
     }
 
-    public TextView getTextView() {
+    public SimpleTextView getTextView() {
         return this.textView;
     }
 
-    public CheckBoxSquare getCheckBox() {
+    public Switch getCheckBox() {
         return this.checkBox;
     }
 

@@ -2,6 +2,7 @@ package org.telegram.messenger;
 
 import android.os.SystemClock;
 import android.util.SparseArray;
+import android.view.View;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -78,6 +79,7 @@ public class NotificationCenter {
     public static final int didStartedCall;
     public static final int didUpdateConnectionState;
     public static final int didUpdateExtendedMedia;
+    public static int didUpdateGlobalAutoDeleteTimer = 0;
     public static final int didUpdateMessagesViews;
     public static final int didUpdatePollResults;
     public static final int didUpdatePremiumGiftStickers;
@@ -932,8 +934,11 @@ public class NotificationCenter {
         int i223 = i222 + 1;
         totalEvents = i223;
         topicsDidLoaded = i222;
-        totalEvents = i223 + 1;
+        int i224 = i223 + 1;
+        totalEvents = i224;
         chatSwithcedToForum = i223;
+        totalEvents = i224 + 1;
+        didUpdateGlobalAutoDeleteTimer = i224;
     }
 
     /* loaded from: classes.dex */
@@ -1163,10 +1168,6 @@ public class NotificationCenter {
         }
         if (!z && isAnimationInProgress()) {
             this.delayedPosts.add(new DelayedPost(i, objArr));
-            if (!BuildVars.LOGS_ENABLED) {
-                return;
-            }
-            FileLog.e("delay post notification " + i + " with args count = " + objArr.length);
             return;
         }
         if (!this.postponeCallbackList.isEmpty()) {
@@ -1302,5 +1303,35 @@ public class NotificationCenter {
         private AllowedNotifications() {
             this.time = SystemClock.elapsedRealtime();
         }
+    }
+
+    public static void listenEmojiLoading(final View view) {
+        if (view == null) {
+            return;
+        }
+        final NotificationCenterDelegate notificationCenterDelegate = new NotificationCenterDelegate() { // from class: org.telegram.messenger.NotificationCenter$$ExternalSyntheticLambda2
+            @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
+            public final void didReceivedNotification(int i, int i2, Object[] objArr) {
+                NotificationCenter.lambda$listenEmojiLoading$1(view, i, i2, objArr);
+            }
+        };
+        view.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() { // from class: org.telegram.messenger.NotificationCenter.1
+            @Override // android.view.View.OnAttachStateChangeListener
+            public void onViewAttachedToWindow(View view2) {
+                NotificationCenter.getGlobalInstance().addObserver(notificationCenterDelegate, NotificationCenter.emojiLoaded);
+            }
+
+            @Override // android.view.View.OnAttachStateChangeListener
+            public void onViewDetachedFromWindow(View view2) {
+                NotificationCenter.getGlobalInstance().removeObserver(notificationCenterDelegate, NotificationCenter.emojiLoaded);
+            }
+        });
+    }
+
+    public static /* synthetic */ void lambda$listenEmojiLoading$1(View view, int i, int i2, Object[] objArr) {
+        if (i != emojiLoaded || view == null || !view.isAttachedToWindow()) {
+            return;
+        }
+        view.invalidate();
     }
 }

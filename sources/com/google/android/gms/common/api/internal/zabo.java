@@ -1,25 +1,23 @@
 package com.google.android.gms.common.api.internal;
 
 import com.google.android.gms.common.api.Api;
-import com.google.android.gms.common.api.Result;
-import java.io.FileDescriptor;
-import java.io.PrintWriter;
-/* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
+/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
-public interface zabo {
-    void zaa();
+final class zabo implements Runnable {
+    final /* synthetic */ zabp zaa;
 
-    void zaa(String str, FileDescriptor fileDescriptor, PrintWriter printWriter, String[] strArr);
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public zabo(zabp zabpVar) {
+        this.zaa = zabpVar;
+    }
 
-    boolean zaa(SignInConnectionListener signInConnectionListener);
-
-    <A extends Api.AnyClient, T extends BaseImplementation$ApiMethodImpl<? extends Result, A>> T zab(T t);
-
-    void zac();
-
-    boolean zad();
-
-    void zaf();
-
-    void zag();
+    @Override // java.lang.Runnable
+    public final void run() {
+        Api.Client client;
+        Api.Client client2;
+        zabq zabqVar = this.zaa.zaa;
+        client = zabqVar.zac;
+        client2 = zabqVar.zac;
+        client.disconnect(client2.getClass().getName().concat(" disconnecting because it was signed out."));
+    }
 }

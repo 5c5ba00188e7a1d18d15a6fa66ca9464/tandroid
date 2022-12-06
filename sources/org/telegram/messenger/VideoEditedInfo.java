@@ -16,6 +16,7 @@ import org.telegram.ui.Components.Point;
 public class VideoEditedInfo {
     public int bitrate;
     public boolean canceled;
+    public int compressQuality;
     public MediaController.CropState cropState;
     public TLRPC$InputEncryptedFile encryptedFile;
     public float end;

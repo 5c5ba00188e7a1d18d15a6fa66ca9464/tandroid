@@ -2,7 +2,7 @@ package com.android.billingclient.api;
 
 import android.text.TextUtils;
 import org.json.JSONObject;
-/* compiled from: com.android.billingclient:billing@@5.0.0 */
+/* compiled from: com.android.billingclient:billing@@5.1.0 */
 @Deprecated
 /* loaded from: classes.dex */
 public class SkuDetails {

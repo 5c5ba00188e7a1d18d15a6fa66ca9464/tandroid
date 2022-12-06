@@ -3,8 +3,10 @@ package org.telegram.ui.Cells;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
+import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
+import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.view.View;
@@ -22,13 +24,21 @@ import org.telegram.ui.Components.RLottieImageView;
 import org.telegram.ui.Components.Switch;
 /* loaded from: classes3.dex */
 public class TextCell extends FrameLayout {
+    private int changeProgressStartDelay;
     private Switch checkBox;
+    private boolean drawLoading;
+    private float drawLoadingProgress;
+    public int heightDp;
     public int imageLeft;
     public final RLottieImageView imageView;
     private boolean inDialogs;
+    private boolean incrementLoadingProgress;
     private int leftPadding;
+    private float loadingProgress;
+    private int loadingSize;
     private boolean needDivider;
     private int offsetFromImage;
+    Paint paint;
     private boolean prioritizeTitleOverValue;
     private Theme.ResourcesProvider resourcesProvider;
     public final SimpleTextView textView;
@@ -50,6 +60,7 @@ public class TextCell extends FrameLayout {
     public TextCell(Context context, int i, boolean z, boolean z2, Theme.ResourcesProvider resourcesProvider) {
         super(context);
         this.offsetFromImage = 71;
+        this.heightDp = 48;
         this.imageLeft = 21;
         this.resourcesProvider = resourcesProvider;
         this.leftPadding = i;
@@ -87,6 +98,11 @@ public class TextCell extends FrameLayout {
         setFocusable(true);
     }
 
+    public boolean isChecked() {
+        Switch r0 = this.checkBox;
+        return r0 != null && r0.isChecked();
+    }
+
     public Switch getCheckBox() {
         return this.checkBox;
     }
@@ -119,7 +135,7 @@ public class TextCell extends FrameLayout {
     @Override // android.widget.FrameLayout, android.view.View
     protected void onMeasure(int i, int i2) {
         int size = View.MeasureSpec.getSize(i);
-        int dp = AndroidUtilities.dp(48.0f);
+        int dp = AndroidUtilities.dp(this.heightDp);
         if (this.prioritizeTitleOverValue) {
             this.textView.measure(View.MeasureSpec.makeMeasureSpec(size - AndroidUtilities.dp(this.leftPadding + 71), Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(20.0f), 1073741824));
             this.valueTextView.measure(View.MeasureSpec.makeMeasureSpec((size - AndroidUtilities.dp(this.leftPadding + 103)) - this.textView.getTextWidth(), LocaleController.isRTL ? Integer.MIN_VALUE : 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(20.0f), 1073741824));
@@ -295,6 +311,22 @@ public class TextCell extends FrameLayout {
         }
     }
 
+    public void setTextAndCheck(String str, boolean z, boolean z2) {
+        this.imageLeft = 21;
+        this.offsetFromImage = 71;
+        this.textView.setText(str);
+        this.imageView.setVisibility(8);
+        this.valueImageView.setVisibility(8);
+        this.needDivider = z2;
+        Switch r2 = this.checkBox;
+        if (r2 != null) {
+            r2.setVisibility(0);
+            this.checkBox.setChecked(z, false);
+        }
+        this.needDivider = z2;
+        setWillNotDraw(!z2);
+    }
+
     public void setTextAndCheckAndIcon(String str, boolean z, int i, boolean z2) {
         this.imageLeft = 21;
         this.offsetFromImage = 71;
@@ -401,5 +433,79 @@ public class TextCell extends FrameLayout {
     @Override // android.view.ViewGroup, android.view.View
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
+    }
+
+    public void setDrawLoading(boolean z, int i, boolean z2) {
+        this.drawLoading = z;
+        this.loadingSize = i;
+        if (!z2) {
+            this.drawLoadingProgress = z ? 1.0f : 0.0f;
+        }
+        invalidate();
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // android.view.ViewGroup, android.view.View
+    public void dispatchDraw(Canvas canvas) {
+        if (this.drawLoading || this.drawLoadingProgress != 0.0f) {
+            if (this.paint == null) {
+                Paint paint = new Paint(1);
+                this.paint = paint;
+                paint.setColor(Theme.getColor("dialogSearchBackground", this.resourcesProvider));
+            }
+            if (this.incrementLoadingProgress) {
+                float f = this.loadingProgress + 0.016f;
+                this.loadingProgress = f;
+                if (f > 1.0f) {
+                    this.loadingProgress = 1.0f;
+                    this.incrementLoadingProgress = false;
+                }
+            } else {
+                float f2 = this.loadingProgress - 0.016f;
+                this.loadingProgress = f2;
+                if (f2 < 0.0f) {
+                    this.loadingProgress = 0.0f;
+                    this.incrementLoadingProgress = true;
+                }
+            }
+            int i = this.changeProgressStartDelay;
+            if (i > 0) {
+                this.changeProgressStartDelay = i - 15;
+            } else {
+                boolean z = this.drawLoading;
+                if (z) {
+                    float f3 = this.drawLoadingProgress;
+                    if (f3 != 1.0f) {
+                        float f4 = f3 + 0.10666667f;
+                        this.drawLoadingProgress = f4;
+                        if (f4 > 1.0f) {
+                            this.drawLoadingProgress = 1.0f;
+                        }
+                    }
+                }
+                if (!z) {
+                    float f5 = this.drawLoadingProgress;
+                    if (f5 != 0.0f) {
+                        float f6 = f5 - 0.10666667f;
+                        this.drawLoadingProgress = f6;
+                        if (f6 < 0.0f) {
+                            this.drawLoadingProgress = 0.0f;
+                        }
+                    }
+                }
+            }
+            this.paint.setAlpha((int) (((this.loadingProgress * 0.4f) + 0.6f) * this.drawLoadingProgress * 255.0f));
+            int measuredHeight = getMeasuredHeight() >> 1;
+            RectF rectF = AndroidUtilities.rectTmp;
+            rectF.set((getMeasuredWidth() - AndroidUtilities.dp(11.0f)) - AndroidUtilities.dp(this.loadingSize), measuredHeight - AndroidUtilities.dp(3.0f), getMeasuredWidth() - AndroidUtilities.dp(11.0f), measuredHeight + AndroidUtilities.dp(3.0f));
+            if (LocaleController.isRTL) {
+                rectF.left = getMeasuredWidth() - rectF.left;
+                rectF.right = getMeasuredWidth() - rectF.right;
+            }
+            canvas.drawRoundRect(rectF, AndroidUtilities.dp(3.0f), AndroidUtilities.dp(3.0f), this.paint);
+            invalidate();
+        }
+        this.valueTextView.setAlpha(1.0f - this.drawLoadingProgress);
+        super.dispatchDraw(canvas);
     }
 }

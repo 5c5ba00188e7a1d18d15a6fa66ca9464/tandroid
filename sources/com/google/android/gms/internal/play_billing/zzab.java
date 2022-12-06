@@ -1,7 +1,7 @@
 package com.google.android.gms.internal.play_billing;
 
 import java.util.AbstractMap;
-/* compiled from: com.android.billingclient:billing@@5.0.0 */
+/* compiled from: com.android.billingclient:billing@@5.1.0 */
 /* loaded from: classes.dex */
 final class zzab extends zzu {
     final /* synthetic */ zzac zza;
@@ -19,8 +19,8 @@ final class zzab extends zzu {
         i2 = this.zza.zzc;
         zzm.zza(i, i2, "index");
         zzac zzacVar = this.zza;
-        int i3 = i + i;
         objArr = zzacVar.zzb;
+        int i3 = i + i;
         Object obj = objArr[i3];
         obj.getClass();
         objArr2 = zzacVar.zzb;

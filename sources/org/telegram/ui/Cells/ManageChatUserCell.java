@@ -9,6 +9,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ChatObject;
+import org.telegram.messenger.Emoji;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.R;
@@ -250,7 +251,7 @@ public class ManageChatUserCell extends FrameLayout {
         this.dividerColor = str;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:103:0x018d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:103:0x019f, code lost:
         if (r12.equals(r6) == false) goto L105;
      */
     /* JADX WARN: Code restructure failed: missing block: B:35:0x0067, code lost:
@@ -310,7 +311,8 @@ public class ManageChatUserCell extends FrameLayout {
                     str2 = UserObject.getUserName(tLRPC$User);
                 }
                 this.lastName = str2;
-                this.nameTextView.setText(str2);
+                SimpleTextView simpleTextView = this.nameTextView;
+                simpleTextView.setText(Emoji.replaceEmoji(str2, simpleTextView.getPaint().getFontMetricsInt(), AndroidUtilities.dp(15.0f), false));
             }
             if (this.currrntStatus != null) {
                 this.statusTextView.setTextColor(this.statusColor);

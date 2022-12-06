@@ -6,25 +6,24 @@ import android.util.SparseArray;
 import com.google.android.gms.internal.wallet.zzh;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.gms.wallet.AutoResolvableResult;
 import java.util.concurrent.atomic.AtomicInteger;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.google.android.gms:play-services-wallet@@18.1.3 */
+/* compiled from: com.google.android.gms:play-services-wallet@@19.1.0 */
 /* loaded from: classes.dex */
-public final class zzc<TResult extends AutoResolvableResult> implements OnCompleteListener<TResult>, Runnable {
+public final class zzc implements OnCompleteListener, Runnable {
     static final Handler zza = new zzh(Looper.getMainLooper());
-    static final SparseArray<zzc<?>> zzb = new SparseArray<>(2);
+    static final SparseArray zzb = new SparseArray(2);
     private static final AtomicInteger zzd = new AtomicInteger();
     int zzc;
     private zzd zze;
-    private Task<TResult> zzf;
+    private Task zzf;
 
     zzc() {
     }
 
-    public static <TResult extends AutoResolvableResult> zzc<TResult> zza(Task<TResult> task) {
+    public static zzc zza(Task task) {
         long j;
-        zzc<TResult> zzcVar = new zzc<>();
+        zzc zzcVar = new zzc();
         int incrementAndGet = zzd.incrementAndGet();
         zzcVar.zzc = incrementAndGet;
         zzb.put(incrementAndGet, zzcVar);
@@ -49,7 +48,7 @@ public final class zzc<TResult extends AutoResolvableResult> implements OnComple
     }
 
     @Override // com.google.android.gms.tasks.OnCompleteListener
-    public final void onComplete(Task<TResult> task) {
+    public final void onComplete(Task task) {
         this.zzf = task;
         zzd();
     }

@@ -1,16 +1,10 @@
 package com.google.android.gms.internal.auth-api-phone;
 
-import android.content.Context;
-import com.google.android.gms.auth.api.phone.SmsRetrieverClient;
-import com.google.android.gms.tasks.Task;
+import android.os.IInterface;
+import android.os.RemoteException;
+import com.google.android.gms.common.api.Status;
+/* compiled from: com.google.android.gms:play-services-auth-api-phone@@17.5.1 */
 /* loaded from: classes.dex */
-public final class zzj extends SmsRetrieverClient {
-    public zzj(Context context) {
-        super(context);
-    }
-
-    @Override // com.google.android.gms.auth.api.phone.SmsRetrieverClient
-    public final Task<Void> startSmsRetriever() {
-        return doWrite(new zzk(this));
-    }
+public interface zzj extends IInterface {
+    void zzb(Status status) throws RemoteException;
 }

@@ -1,39 +1,44 @@
 package com.google.android.gms.internal.common;
 
-import android.os.Binder;
 import android.os.IBinder;
 import android.os.IInterface;
 import android.os.Parcel;
 import android.os.RemoteException;
-/* compiled from: com.google.android.gms:play-services-basement@@17.5.0 */
+/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
-public class zza extends Binder implements IInterface {
+public class zza implements IInterface {
+    private final IBinder zza;
+    private final String zzb;
+
     /* JADX INFO: Access modifiers changed from: protected */
-    public zza(String str) {
-        attachInterface(this, str);
+    public zza(IBinder iBinder, String str) {
+        this.zza = iBinder;
+        this.zzb = str;
     }
 
     @Override // android.os.IInterface
-    public IBinder asBinder() {
-        return this;
+    public final IBinder asBinder() {
+        return this.zza;
     }
 
-    protected boolean zza(int i, Parcel parcel, Parcel parcel2, int i2) throws RemoteException {
-        return false;
+    /* JADX INFO: Access modifiers changed from: protected */
+    public final Parcel zzB(int i, Parcel parcel) throws RemoteException {
+        parcel = Parcel.obtain();
+        try {
+            this.zza.transact(i, parcel, parcel, 0);
+            parcel.readException();
+            return parcel;
+        } catch (RuntimeException e) {
+            throw e;
+        } finally {
+            parcel.recycle();
+        }
     }
 
-    @Override // android.os.Binder
-    public boolean onTransact(int i, Parcel parcel, Parcel parcel2, int i2) throws RemoteException {
-        boolean z;
-        if (i > 16777215) {
-            z = super.onTransact(i, parcel, parcel2, i2);
-        } else {
-            parcel.enforceInterface(getInterfaceDescriptor());
-            z = false;
-        }
-        if (z) {
-            return true;
-        }
-        return zza(i, parcel, parcel2, i2);
+    /* JADX INFO: Access modifiers changed from: protected */
+    public final Parcel zza() {
+        Parcel obtain = Parcel.obtain();
+        obtain.writeInterfaceToken(this.zzb);
+        return obtain;
     }
 }

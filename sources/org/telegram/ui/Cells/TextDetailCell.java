@@ -144,6 +144,9 @@ public class TextDetailCell extends FrameLayout {
 
     public void setImageClickListener(View.OnClickListener onClickListener) {
         this.imageView.setOnClickListener(onClickListener);
+        if (onClickListener == null) {
+            this.imageView.setClickable(false);
+        }
     }
 
     public void setContentDescriptionValueFirst(boolean z) {

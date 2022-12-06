@@ -1,40 +1,37 @@
 package com.google.android.gms.common.api.internal;
 
-import java.util.concurrent.locks.Lock;
-/* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
+import com.google.android.gms.common.api.Api;
+import com.google.android.gms.common.internal.IAccountAccessor;
+import java.util.ArrayList;
+/* JADX INFO: Access modifiers changed from: package-private */
+/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
-abstract class zaap implements Runnable {
-    private final /* synthetic */ zaaf zaa;
+public final class zaap extends zaav {
+    final /* synthetic */ zaaw zaa;
+    private final ArrayList zac;
 
-    private zaap(zaaf zaafVar) {
-        this.zaa = zaafVar;
+    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+    public zaap(zaaw zaawVar, ArrayList arrayList) {
+        super(zaawVar, null);
+        this.zaa = zaawVar;
+        this.zac = arrayList;
     }
 
-    protected abstract void zaa();
-
-    @Override // java.lang.Runnable
-    public void run() {
-        Lock lock;
-        Lock lock2;
-        zaaz zaazVar;
-        lock = this.zaa.zab;
-        lock.lock();
-        try {
-            if (Thread.interrupted()) {
-                return;
-            }
-            zaa();
-        } catch (RuntimeException e) {
-            zaazVar = this.zaa.zaa;
-            zaazVar.zaa(e);
-        } finally {
-            lock2 = this.zaa.zab;
-            lock2.unlock();
+    @Override // com.google.android.gms.common.api.internal.zaav
+    public final void zaa() {
+        zabi zabiVar;
+        IAccountAccessor iAccountAccessor;
+        zabi zabiVar2;
+        zaaw zaawVar = this.zaa;
+        zabiVar = zaawVar.zaa;
+        zabiVar.zag.zad = zaaw.zao(zaawVar);
+        ArrayList arrayList = this.zac;
+        int size = arrayList.size();
+        for (int i = 0; i < size; i++) {
+            zaaw zaawVar2 = this.zaa;
+            iAccountAccessor = zaawVar2.zao;
+            zabiVar2 = zaawVar2.zaa;
+            ((Api.Client) arrayList.get(i)).getRemoteService(iAccountAccessor, zabiVar2.zag.zad);
         }
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zaap(zaaf zaafVar, zaae zaaeVar) {
-        this(zaafVar);
     }
 }

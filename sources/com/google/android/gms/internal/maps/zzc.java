@@ -1,9 +1,10 @@
 package com.google.android.gms.internal.maps;
 
+import android.os.BadParcelableException;
 import android.os.IInterface;
 import android.os.Parcel;
 import android.os.Parcelable;
-/* compiled from: com.google.android.gms:play-services-maps@@17.0.1 */
+/* compiled from: com.google.android.gms:play-services-maps@@18.1.0 */
 /* loaded from: classes.dex */
 public final class zzc {
     static {
@@ -13,22 +14,26 @@ public final class zzc {
     private zzc() {
     }
 
-    public static boolean zza(Parcel parcel) {
-        return parcel.readInt() != 0;
-    }
-
-    public static void zzb(Parcel parcel, boolean z) {
-        parcel.writeInt(z ? 1 : 0);
-    }
-
-    public static <T extends Parcelable> T zzc(Parcel parcel, Parcelable.Creator<T> creator) {
+    public static Parcelable zza(Parcel parcel, Parcelable.Creator creator) {
         if (parcel.readInt() == 0) {
             return null;
         }
-        return creator.createFromParcel(parcel);
+        return (Parcelable) creator.createFromParcel(parcel);
     }
 
-    public static void zzd(Parcel parcel, Parcelable parcelable) {
+    public static void zzc(Parcel parcel) {
+        int dataAvail = parcel.dataAvail();
+        if (dataAvail <= 0) {
+            return;
+        }
+        throw new BadParcelableException("Parcel data not fully consumed, unread size: " + dataAvail);
+    }
+
+    public static void zzd(Parcel parcel, boolean z) {
+        parcel.writeInt(z ? 1 : 0);
+    }
+
+    public static void zze(Parcel parcel, Parcelable parcelable) {
         if (parcelable == null) {
             parcel.writeInt(0);
             return;
@@ -37,11 +42,15 @@ public final class zzc {
         parcelable.writeToParcel(parcel, 0);
     }
 
-    public static void zzf(Parcel parcel, IInterface iInterface) {
+    public static void zzg(Parcel parcel, IInterface iInterface) {
         if (iInterface == null) {
             parcel.writeStrongBinder(null);
         } else {
             parcel.writeStrongBinder(iInterface.asBinder());
         }
+    }
+
+    public static boolean zzh(Parcel parcel) {
+        return parcel.readInt() != 0;
     }
 }

@@ -568,6 +568,9 @@ public class LocaleController {
         if (str.length() != 2 || str.equals("YL")) {
             return null;
         }
+        if (str.equals("FT")) {
+            return "🏴\u200d☠️";
+        }
         if (str.equals("XG")) {
             return "🛰";
         }
@@ -1289,10 +1292,11 @@ public class LocaleController {
         }
         String str2 = str + "_" + getInstance().stringForQuantity(getInstance().currentPluralRules.quantityForNumber(i));
         int identifier = ApplicationLoader.applicationContext.getResources().getIdentifier(str2, "string", ApplicationLoader.applicationContext.getPackageName());
+        int identifier2 = ApplicationLoader.applicationContext.getResources().getIdentifier(str + "_other", "string", ApplicationLoader.applicationContext.getPackageName());
         Object[] objArr2 = new Object[objArr.length + 1];
         objArr2[0] = Integer.valueOf(i);
         System.arraycopy(objArr, 0, objArr2, 1, objArr.length);
-        return formatString(str2, str + "_other", identifier, objArr2);
+        return formatString(str2, str + "_other", identifier, identifier2, objArr2);
     }
 
     public static String formatPluralStringComma(String str, int i) {
@@ -1343,10 +1347,10 @@ public class LocaleController {
     }
 
     public static String formatString(String str, int i, Object... objArr) {
-        return formatString(str, null, i, objArr);
+        return formatString(str, null, i, 0, objArr);
     }
 
-    public static String formatString(String str, String str2, int i, Object... objArr) {
+    public static String formatString(String str, String str2, int i, int i2, Object... objArr) {
         try {
             String str3 = BuildVars.USE_CLOUD_STRINGS ? getInstance().localeValues.get(str) : null;
             if (str3 == null) {
@@ -1354,7 +1358,16 @@ public class LocaleController {
                     str3 = getInstance().localeValues.get(str2);
                 }
                 if (str3 == null) {
-                    str3 = ApplicationLoader.applicationContext.getString(i);
+                    try {
+                        str3 = ApplicationLoader.applicationContext.getString(i);
+                    } catch (Exception unused) {
+                        if (i2 != 0) {
+                            try {
+                                str3 = ApplicationLoader.applicationContext.getString(i2);
+                            } catch (Exception unused2) {
+                            }
+                        }
+                    }
                 }
             }
             if (getInstance().currentLocale != null) {

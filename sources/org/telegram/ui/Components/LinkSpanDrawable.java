@@ -2,6 +2,7 @@ package org.telegram.ui.Components;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.CornerPathEffect;
 import android.graphics.Paint;
 import android.graphics.Path;
@@ -16,8 +17,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.TextView;
+import androidx.core.graphics.ColorUtils;
 import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ArticleViewer;
 import org.telegram.ui.Components.LinkSpanDrawable;
@@ -71,12 +74,12 @@ public class LinkSpanDrawable<S extends CharacterStyle> {
         Paint paint = this.mSelectionPaint;
         if (paint != null) {
             paint.setColor(i);
-            this.mSelectionAlpha = this.mSelectionPaint.getAlpha();
+            this.mSelectionAlpha = Color.alpha(i);
         }
         Paint paint2 = this.mRipplePaint;
         if (paint2 != null) {
             paint2.setColor(i);
-            this.mRippleAlpha = this.mRipplePaint.getAlpha();
+            this.mRippleAlpha = Color.alpha(i);
         }
     }
 
@@ -114,27 +117,24 @@ public class LinkSpanDrawable<S extends CharacterStyle> {
     public boolean draw(Canvas canvas) {
         float f;
         boolean z = this.cornerRadius != AndroidUtilities.dp(4.0f);
-        if (this.mSelectionPaint == null || z) {
+        if (this.mSelectionPaint == null) {
             Paint paint = new Paint(1);
             this.mSelectionPaint = paint;
             paint.setStyle(Paint.Style.FILL_AND_STROKE);
             this.mSelectionPaint.setColor(this.color);
-            this.mSelectionAlpha = this.mSelectionPaint.getAlpha();
-            Paint paint2 = this.mSelectionPaint;
-            int dp = AndroidUtilities.dp(4.0f);
-            this.cornerRadius = dp;
-            paint2.setPathEffect(new CornerPathEffect(dp));
+            this.mSelectionAlpha = Color.alpha(this.color);
         }
-        if (this.mRipplePaint == null || z) {
-            Paint paint3 = new Paint(1);
-            this.mRipplePaint = paint3;
-            paint3.setStyle(Paint.Style.FILL_AND_STROKE);
+        if (this.mRipplePaint == null) {
+            Paint paint2 = new Paint(1);
+            this.mRipplePaint = paint2;
+            paint2.setStyle(Paint.Style.FILL_AND_STROKE);
             this.mRipplePaint.setColor(this.color);
-            this.mRippleAlpha = this.mRipplePaint.getAlpha();
-            Paint paint4 = this.mRipplePaint;
-            int dp2 = AndroidUtilities.dp(4.0f);
-            this.cornerRadius = dp2;
-            paint4.setPathEffect(new CornerPathEffect(dp2));
+            this.mRippleAlpha = Color.alpha(this.color);
+        }
+        if (z) {
+            this.cornerRadius = AndroidUtilities.dp(4.0f);
+            this.mSelectionPaint.setPathEffect(new CornerPathEffect(this.cornerRadius));
+            this.mRipplePaint.setPathEffect(new CornerPathEffect(this.cornerRadius));
         }
         if (this.mBounds == null && this.mPathesCount > 0) {
             RectF rectF = AndroidUtilities.rectTmp;
@@ -379,6 +379,8 @@ public class LinkSpanDrawable<S extends CharacterStyle> {
     /* loaded from: classes3.dex */
     public static class LinksTextView extends TextView {
         private boolean disablePaddingsOffset;
+        private boolean disablePaddingsOffsetX;
+        private boolean disablePaddingsOffsetY;
         private boolean isCustomLinkCollector;
         private LinkCollector links;
         private OnLinkPress onLongPressListener;
@@ -411,6 +413,14 @@ public class LinkSpanDrawable<S extends CharacterStyle> {
 
         public void setDisablePaddingsOffset(boolean z) {
             this.disablePaddingsOffset = z;
+        }
+
+        public void setDisablePaddingsOffsetX(boolean z) {
+            this.disablePaddingsOffsetX = z;
+        }
+
+        public void setDisablePaddingsOffsetY(boolean z) {
+            this.disablePaddingsOffsetY = z;
         }
 
         public void setOnLinkPressListener(OnLinkPress onLinkPress) {
@@ -502,7 +512,12 @@ public class LinkSpanDrawable<S extends CharacterStyle> {
             if (!this.isCustomLinkCollector) {
                 canvas.save();
                 if (!this.disablePaddingsOffset) {
-                    canvas.translate(getPaddingLeft(), getPaddingTop());
+                    float f = 0.0f;
+                    float paddingLeft = this.disablePaddingsOffsetX ? 0.0f : getPaddingLeft();
+                    if (!this.disablePaddingsOffsetY) {
+                        f = getPaddingTop();
+                    }
+                    canvas.translate(paddingLeft, f);
                 }
                 if (this.links.draw(canvas)) {
                     invalidate();
@@ -510,6 +525,91 @@ public class LinkSpanDrawable<S extends CharacterStyle> {
                 canvas.restore();
             }
             super.onDraw(canvas);
+        }
+    }
+
+    /* loaded from: classes3.dex */
+    public static class ClickableSmallTextView extends SimpleTextView {
+        private Paint linkBackgroundPaint;
+        private LinkCollector links;
+        private LinkSpanDrawable pressedLink;
+        private Theme.ResourcesProvider resourcesProvider;
+
+        public ClickableSmallTextView(Context context) {
+            this(context, null);
+        }
+
+        public ClickableSmallTextView(Context context, Theme.ResourcesProvider resourcesProvider) {
+            super(context);
+            this.links = new LinkCollector(this);
+            this.linkBackgroundPaint = new Paint(1);
+            this.resourcesProvider = resourcesProvider;
+        }
+
+        private int getLinkColor() {
+            return ColorUtils.setAlphaComponent(getTextColor(), (int) (Color.alpha(getTextColor()) * 0.1175f));
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        @Override // org.telegram.ui.ActionBar.SimpleTextView, android.view.View
+        public void onDraw(Canvas canvas) {
+            if (isClickable()) {
+                RectF rectF = AndroidUtilities.rectTmp;
+                rectF.set(0.0f, 0.0f, getPaddingLeft() + getTextWidth() + getPaddingRight(), getHeight());
+                this.linkBackgroundPaint.setColor(getLinkColor());
+                canvas.drawRoundRect(rectF, AndroidUtilities.dp(4.0f), AndroidUtilities.dp(4.0f), this.linkBackgroundPaint);
+            }
+            super.onDraw(canvas);
+            if (!isClickable() || !this.links.draw(canvas)) {
+                return;
+            }
+            invalidate();
+        }
+
+        @Override // org.telegram.ui.ActionBar.SimpleTextView, android.view.View
+        public boolean onTouchEvent(MotionEvent motionEvent) {
+            if (!isClickable()) {
+                return super.onTouchEvent(motionEvent);
+            }
+            if (this.links != null) {
+                if (motionEvent.getAction() == 0) {
+                    final LinkSpanDrawable linkSpanDrawable = new LinkSpanDrawable(null, this.resourcesProvider, motionEvent.getX(), motionEvent.getY());
+                    linkSpanDrawable.setColor(getLinkColor());
+                    this.pressedLink = linkSpanDrawable;
+                    this.links.addLink(linkSpanDrawable);
+                    LinkPath obtainNewPath = this.pressedLink.obtainNewPath();
+                    obtainNewPath.setCurrentLayout(null, 0, 0.0f, 0.0f);
+                    obtainNewPath.addRect(0.0f, 0.0f, getPaddingLeft() + getTextWidth() + getPaddingRight(), getHeight(), Path.Direction.CW);
+                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.LinkSpanDrawable$ClickableSmallTextView$$ExternalSyntheticLambda0
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            LinkSpanDrawable.ClickableSmallTextView.this.lambda$onTouchEvent$0(linkSpanDrawable);
+                        }
+                    }, ViewConfiguration.getLongPressTimeout());
+                    return true;
+                } else if (motionEvent.getAction() == 1) {
+                    this.links.clear();
+                    if (this.pressedLink != null) {
+                        performClick();
+                    }
+                    this.pressedLink = null;
+                    return true;
+                } else if (motionEvent.getAction() == 3) {
+                    this.links.clear();
+                    this.pressedLink = null;
+                    return true;
+                }
+            }
+            return this.pressedLink != null || super.onTouchEvent(motionEvent);
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$onTouchEvent$0(LinkSpanDrawable linkSpanDrawable) {
+            if (this.pressedLink == linkSpanDrawable) {
+                performLongClick();
+                this.pressedLink = null;
+                this.links.clear();
+            }
         }
     }
 }

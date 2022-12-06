@@ -1,16 +1,28 @@
 package com.google.android.gms.signin;
 
-import android.content.Context;
-import android.os.Looper;
 import com.google.android.gms.common.api.Api;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.internal.ClientSettings;
-import com.google.android.gms.signin.internal.SignInClientImpl;
-/* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
+import com.google.android.gms.common.api.Scope;
+/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
-final class zad extends Api.AbstractClientBuilder<SignInClientImpl, zac> {
-    @Override // com.google.android.gms.common.api.Api.AbstractClientBuilder
-    public final /* synthetic */ SignInClientImpl buildClient(Context context, Looper looper, ClientSettings clientSettings, zac zacVar, GoogleApiClient.ConnectionCallbacks connectionCallbacks, GoogleApiClient.OnConnectionFailedListener onConnectionFailedListener) {
-        return new SignInClientImpl(context, looper, false, clientSettings, zac.zaa(), connectionCallbacks, onConnectionFailedListener);
+public final class zad {
+    public static final Api.ClientKey zaa;
+    public static final Api.ClientKey zab;
+    public static final Api.AbstractClientBuilder zac;
+    static final Api.AbstractClientBuilder zad;
+    public static final Api zag;
+
+    static {
+        Api.ClientKey clientKey = new Api.ClientKey();
+        zaa = clientKey;
+        Api.ClientKey clientKey2 = new Api.ClientKey();
+        zab = clientKey2;
+        zaa zaaVar = new zaa();
+        zac = zaaVar;
+        zab zabVar = new zab();
+        zad = zabVar;
+        new Scope("profile");
+        new Scope("email");
+        zag = new Api("SignIn.API", zaaVar, clientKey);
+        new Api("SignIn.INTERNAL_API", zabVar, clientKey2);
     }
 }

@@ -141,6 +141,10 @@ public class TextCheckCell2 extends FrameLayout {
         return this.checkBox.isChecked();
     }
 
+    public Switch getCheckBox() {
+        return this.checkBox;
+    }
+
     @Override // android.view.View
     protected void onDraw(Canvas canvas) {
         if (this.needDivider) {

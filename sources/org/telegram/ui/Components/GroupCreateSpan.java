@@ -18,9 +18,11 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import androidx.core.graphics.ColorUtils;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ContactsController;
+import org.telegram.messenger.Emoji;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserObject;
 import org.telegram.tgnet.TLRPC$Chat;
@@ -54,13 +56,13 @@ public class GroupCreateSpan extends View {
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:41:0x0096, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:41:0x0099, code lost:
         if (r1.equals("non_contacts") != false) goto L8;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:13:0x0210  */
-    /* JADX WARN: Removed duplicated region for block: B:16:0x0254  */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x0218  */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x0216  */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x026a  */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x021e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -78,12 +80,12 @@ public class GroupCreateSpan extends View {
         textPaint.setTextSize(AndroidUtilities.dp(14.0f));
         AvatarDrawable avatarDrawable = new AvatarDrawable();
         this.avatarDrawable = avatarDrawable;
-        avatarDrawable.setTextSize(AndroidUtilities.dp(12.0f));
+        avatarDrawable.setTextSize(AndroidUtilities.dp(20.0f));
         char c = 1;
         ImageLocation imageLocation = null;
         if (obj instanceof String) {
             String str2 = (String) obj;
-            this.avatarDrawable.setSmallSize(true);
+            this.avatarDrawable.setScaleSize(0.8f);
             switch (str2.hashCode()) {
                 case -1716307998:
                     if (str2.equals("archived")) {
@@ -188,11 +190,11 @@ public class GroupCreateSpan extends View {
                 this.uid = tLRPC$User3.id;
                 if (UserObject.isReplyUser(tLRPC$User3)) {
                     str = LocaleController.getString("RepliesTitle", R.string.RepliesTitle);
-                    this.avatarDrawable.setSmallSize(true);
+                    this.avatarDrawable.setScaleSize(0.8f);
                     this.avatarDrawable.setAvatarType(12);
                 } else if (UserObject.isUserSelf(tLRPC$User3)) {
                     str = LocaleController.getString("SavedMessages", R.string.SavedMessages);
-                    this.avatarDrawable.setSmallSize(true);
+                    this.avatarDrawable.setScaleSize(0.8f);
                     this.avatarDrawable.setAvatarType(1);
                 } else {
                     this.avatarDrawable.setInfo(tLRPC$User3);
@@ -232,7 +234,7 @@ public class GroupCreateSpan extends View {
                 android.graphics.Point point = AndroidUtilities.displaySize;
                 min = (Math.min(point.x, point.y) - AndroidUtilities.dp(164.0f)) / 2;
             }
-            staticLayout = new StaticLayout(TextUtils.ellipsize(str.replace('\n', ' '), textPaint, min, TextUtils.TruncateAt.END), textPaint, 1000, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+            staticLayout = new StaticLayout(TextUtils.ellipsize(Emoji.replaceEmoji(str.replace('\n', ' '), textPaint.getFontMetricsInt(), AndroidUtilities.dp(12.0f), false), textPaint, min, TextUtils.TruncateAt.END), textPaint, 1000, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
             this.nameLayout = staticLayout;
             if (staticLayout.getLineCount() > 0) {
                 this.textWidth = (int) Math.ceil(this.nameLayout.getLineWidth(0));
@@ -240,6 +242,7 @@ public class GroupCreateSpan extends View {
             }
             this.imageReceiver.setImage(imageLocation, "50_50", this.avatarDrawable, 0L, (String) null, tLRPC$User, 1);
             updateColors();
+            NotificationCenter.listenEmojiLoading(this);
         }
         tLRPC$User = null;
         ImageReceiver imageReceiver2 = new ImageReceiver();
@@ -249,12 +252,13 @@ public class GroupCreateSpan extends View {
         this.imageReceiver.setImageCoords(0.0f, 0.0f, AndroidUtilities.dp(32.0f), AndroidUtilities.dp(32.0f));
         if (!AndroidUtilities.isTablet()) {
         }
-        staticLayout = new StaticLayout(TextUtils.ellipsize(str.replace('\n', ' '), textPaint, min, TextUtils.TruncateAt.END), textPaint, 1000, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+        staticLayout = new StaticLayout(TextUtils.ellipsize(Emoji.replaceEmoji(str.replace('\n', ' '), textPaint.getFontMetricsInt(), AndroidUtilities.dp(12.0f), false), textPaint, min, TextUtils.TruncateAt.END), textPaint, 1000, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
         this.nameLayout = staticLayout;
         if (staticLayout.getLineCount() > 0) {
         }
         this.imageReceiver.setImage(imageLocation, "50_50", this.avatarDrawable, 0L, (String) null, tLRPC$User, 1);
         updateColors();
+        NotificationCenter.listenEmojiLoading(this);
     }
 
     public void updateColors() {

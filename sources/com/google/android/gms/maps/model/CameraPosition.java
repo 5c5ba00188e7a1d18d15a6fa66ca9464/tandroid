@@ -2,24 +2,21 @@ package com.google.android.gms.maps.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import androidx.annotation.RecentlyNonNull;
 import com.google.android.gms.common.internal.Objects;
 import com.google.android.gms.common.internal.Preconditions;
 import com.google.android.gms.common.internal.ReflectedParcelable;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
-/* compiled from: com.google.android.gms:play-services-maps@@17.0.1 */
+/* compiled from: com.google.android.gms:play-services-maps@@18.1.0 */
 /* loaded from: classes.dex */
 public final class CameraPosition extends AbstractSafeParcelable implements ReflectedParcelable {
-    @RecentlyNonNull
     public static final Parcelable.Creator<CameraPosition> CREATOR = new zza();
     public final float bearing;
-    @RecentlyNonNull
     public final LatLng target;
     public final float tilt;
     public final float zoom;
 
-    /* compiled from: com.google.android.gms:play-services-maps@@17.0.1 */
+    /* compiled from: com.google.android.gms:play-services-maps@@18.1.0 */
     /* loaded from: classes.dex */
     public static final class Builder {
         private LatLng zza;
@@ -27,37 +24,32 @@ public final class CameraPosition extends AbstractSafeParcelable implements Refl
         private float zzc;
         private float zzd;
 
-        @RecentlyNonNull
         public Builder bearing(float f) {
             this.zzd = f;
             return this;
         }
 
-        @RecentlyNonNull
         public CameraPosition build() {
             return new CameraPosition(this.zza, this.zzb, this.zzc, this.zzd);
         }
 
-        @RecentlyNonNull
-        public Builder target(@RecentlyNonNull LatLng latLng) {
+        public Builder target(LatLng latLng) {
             this.zza = (LatLng) Preconditions.checkNotNull(latLng, "location must not be null.");
             return this;
         }
 
-        @RecentlyNonNull
         public Builder tilt(float f) {
             this.zzc = f;
             return this;
         }
 
-        @RecentlyNonNull
         public Builder zoom(float f) {
             this.zzb = f;
             return this;
         }
     }
 
-    public CameraPosition(@RecentlyNonNull LatLng latLng, float f, float f2, float f3) {
+    public CameraPosition(LatLng latLng, float f, float f2, float f3) {
         Preconditions.checkNotNull(latLng, "camera target must not be null.");
         Preconditions.checkArgument(f2 >= 0.0f && f2 <= 90.0f, "Tilt needs to be between 0 and 90 inclusive: %s", Float.valueOf(f2));
         this.target = latLng;
@@ -66,7 +58,6 @@ public final class CameraPosition extends AbstractSafeParcelable implements Refl
         this.bearing = (((double) f3) <= 0.0d ? (f3 % 360.0f) + 360.0f : f3) % 360.0f;
     }
 
-    @RecentlyNonNull
     public static Builder builder() {
         return new Builder();
     }
@@ -86,13 +77,12 @@ public final class CameraPosition extends AbstractSafeParcelable implements Refl
         return Objects.hashCode(this.target, Float.valueOf(this.zoom), Float.valueOf(this.tilt), Float.valueOf(this.bearing));
     }
 
-    @RecentlyNonNull
     public String toString() {
         return Objects.toStringHelper(this).add("target", this.target).add("zoom", Float.valueOf(this.zoom)).add("tilt", Float.valueOf(this.tilt)).add("bearing", Float.valueOf(this.bearing)).toString();
     }
 
     @Override // android.os.Parcelable
-    public void writeToParcel(@RecentlyNonNull Parcel parcel, int i) {
+    public void writeToParcel(Parcel parcel, int i) {
         int beginObjectHeader = SafeParcelWriter.beginObjectHeader(parcel);
         SafeParcelWriter.writeParcelable(parcel, 2, this.target, i, false);
         SafeParcelWriter.writeFloat(parcel, 3, this.zoom);

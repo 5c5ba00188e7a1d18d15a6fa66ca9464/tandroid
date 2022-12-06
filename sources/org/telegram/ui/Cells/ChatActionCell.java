@@ -851,10 +851,17 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
     }
 
     private void createLayout(CharSequence charSequence, int i) {
+        TextPaint textPaint;
         ChatActionCellDelegate chatActionCellDelegate;
         int dp = i - AndroidUtilities.dp(30.0f);
         this.invalidatePath = true;
-        this.textLayout = new StaticLayout(charSequence, (TextPaint) getThemedPaint("paintChatActionText"), dp, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
+        MessageObject messageObject = this.currentMessageObject;
+        if (messageObject != null && messageObject.drawServiceWithDefaultTypeface) {
+            textPaint = (TextPaint) getThemedPaint("paintChatActionText2");
+        } else {
+            textPaint = (TextPaint) getThemedPaint("paintChatActionText");
+        }
+        this.textLayout = new StaticLayout(charSequence, textPaint, dp, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
         this.spoilersPool.addAll(this.spoilers);
         this.spoilers.clear();
         if (charSequence instanceof Spannable) {
@@ -942,7 +949,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         TLRPC$MessageMedia tLRPC$MessageMedia;
         MessageObject messageObject = this.currentMessageObject;
         if (messageObject != null) {
-            charSequence = (this.delegate.getTopicId() != 0 || !MessageObject.isTopicActionMessage(messageObject)) ? null : ForumUtilities.createActionTextWithTopic(MessagesController.getInstance(this.currentAccount).getTopicsController().findTopic(-messageObject.getDialogId(), MessageObject.getTopicId(messageObject.messageOwner)), messageObject);
+            charSequence = (this.delegate.getTopicId() != 0 || !MessageObject.isTopicActionMessage(messageObject)) ? null : ForumUtilities.createActionTextWithTopic(MessagesController.getInstance(this.currentAccount).getTopicsController().findTopic(-messageObject.getDialogId(), MessageObject.getTopicId(messageObject.messageOwner, true)), messageObject);
             if (charSequence == null) {
                 TLRPC$Message tLRPC$Message = messageObject.messageOwner;
                 if (tLRPC$Message != null && (tLRPC$MessageMedia = tLRPC$Message.media) != null && tLRPC$MessageMedia.ttl_seconds != 0) {

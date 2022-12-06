@@ -2,32 +2,32 @@ package com.google.android.gms.wallet;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
-import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
-/* compiled from: com.google.android.gms:play-services-wallet@@18.1.3 */
-@Deprecated
+import com.google.android.gms.common.internal.safeparcel.SafeParcelReader;
+/* compiled from: com.google.android.gms:play-services-wallet@@19.1.0 */
 /* loaded from: classes.dex */
-public final class zzad extends AbstractSafeParcelable {
-    public static final Parcelable.Creator<zzad> CREATOR = new zzae();
-    final String zza;
-    final String zzb;
-    final int zzc;
-    final int zzd;
-
-    public zzad(String str, String str2, int i, int i2) {
-        this.zza = str;
-        this.zzb = str2;
-        this.zzc = i;
-        this.zzd = i2;
+public final class zzad implements Parcelable.Creator {
+    @Override // android.os.Parcelable.Creator
+    public final /* bridge */ /* synthetic */ Object createFromParcel(Parcel parcel) {
+        int validateObjectHeader = SafeParcelReader.validateObjectHeader(parcel);
+        int i = 0;
+        String str = null;
+        while (parcel.dataPosition() < validateObjectHeader) {
+            int readHeader = SafeParcelReader.readHeader(parcel);
+            int fieldId = SafeParcelReader.getFieldId(readHeader);
+            if (fieldId == 2) {
+                i = SafeParcelReader.readInt(parcel, readHeader);
+            } else if (fieldId == 3) {
+                str = SafeParcelReader.createString(parcel, readHeader);
+            } else {
+                SafeParcelReader.skipUnknownField(parcel, readHeader);
+            }
+        }
+        SafeParcelReader.ensureAtEnd(parcel, validateObjectHeader);
+        return new PaymentMethodToken(i, str);
     }
 
-    @Override // android.os.Parcelable
-    public final void writeToParcel(Parcel parcel, int i) {
-        int beginObjectHeader = SafeParcelWriter.beginObjectHeader(parcel);
-        SafeParcelWriter.writeString(parcel, 2, this.zza, false);
-        SafeParcelWriter.writeString(parcel, 3, this.zzb, false);
-        SafeParcelWriter.writeInt(parcel, 4, this.zzc);
-        SafeParcelWriter.writeInt(parcel, 5, this.zzd);
-        SafeParcelWriter.finishObjectHeader(parcel, beginObjectHeader);
+    @Override // android.os.Parcelable.Creator
+    public final /* synthetic */ Object[] newArray(int i) {
+        return new PaymentMethodToken[i];
     }
 }

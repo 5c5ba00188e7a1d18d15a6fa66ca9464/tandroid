@@ -1,13 +1,19 @@
 package com.google.android.gms.common.api.internal;
-
-import android.os.Bundle;
-import com.google.android.gms.common.ConnectionResult;
-/* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
+/* JADX INFO: Access modifiers changed from: package-private */
+/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
-public interface zabn {
-    void zaa(int i, boolean z);
+public final class zabn implements Runnable {
+    final /* synthetic */ int zaa;
+    final /* synthetic */ zabq zab;
 
-    void zaa(Bundle bundle);
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public zabn(zabq zabqVar, int i) {
+        this.zab = zabqVar;
+        this.zaa = i;
+    }
 
-    void zaa(ConnectionResult connectionResult);
+    @Override // java.lang.Runnable
+    public final void run() {
+        this.zab.zaH(this.zaa);
+    }
 }

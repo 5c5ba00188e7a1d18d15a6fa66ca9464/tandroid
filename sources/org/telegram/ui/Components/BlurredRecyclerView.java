@@ -11,7 +11,7 @@ public class BlurredRecyclerView extends RecyclerListView {
     public int additionalClipBottom;
     public int blurTopPadding;
     boolean globalIgnoreLayout;
-    int topPadding;
+    public int topPadding;
 
     public BlurredRecyclerView(Context context) {
         super(context);

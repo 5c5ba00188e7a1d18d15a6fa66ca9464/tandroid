@@ -4,24 +4,19 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
-import androidx.annotation.RecentlyNonNull;
-import androidx.annotation.RecentlyNullable;
 import com.google.android.gms.auth.api.signin.internal.zbt;
-/* compiled from: com.google.android.gms:play-services-auth@@19.2.0 */
+/* compiled from: com.google.android.gms:play-services-auth@@20.4.0 */
 /* loaded from: classes.dex */
 public final class RevocationBoundService extends Service {
     @Override // android.app.Service
-    @RecentlyNullable
-    public IBinder onBind(@RecentlyNonNull Intent intent) {
+    public IBinder onBind(Intent intent) {
         if ("com.google.android.gms.auth.api.signin.RevocationBoundService.disconnect".equals(intent.getAction()) || "com.google.android.gms.auth.api.signin.RevocationBoundService.clearClientState".equals(intent.getAction())) {
             if (Log.isLoggable("RevocationService", 2)) {
-                String valueOf = String.valueOf(intent.getAction());
-                Log.v("RevocationService", valueOf.length() != 0 ? "RevocationBoundService handling ".concat(valueOf) : new String("RevocationBoundService handling "));
+                Log.v("RevocationService", "RevocationBoundService handling ".concat(String.valueOf(intent.getAction())));
             }
             return new zbt(this);
         }
-        String valueOf2 = String.valueOf(intent.getAction());
-        Log.w("RevocationService", valueOf2.length() != 0 ? "Unknown action sent to RevocationBoundService: ".concat(valueOf2) : new String("Unknown action sent to RevocationBoundService: "));
+        Log.w("RevocationService", "Unknown action sent to RevocationBoundService: ".concat(String.valueOf(intent.getAction())));
         return null;
     }
 }

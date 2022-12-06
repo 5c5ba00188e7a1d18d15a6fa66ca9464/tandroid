@@ -1,19 +1,23 @@
 package com.google.android.gms.common.api.internal;
 
-import com.google.android.gms.common.api.internal.BackgroundDetector;
+import java.lang.ref.WeakReference;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
+/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
-public final class zabd implements BackgroundDetector.BackgroundStateChangeListener {
-    private final /* synthetic */ GoogleApiManager zaa;
+public final class zabd extends zabw {
+    private final WeakReference zaa;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public zabd(GoogleApiManager googleApiManager) {
-        this.zaa = googleApiManager;
+    public zabd(zabe zabeVar) {
+        this.zaa = new WeakReference(zabeVar);
     }
 
-    @Override // com.google.android.gms.common.api.internal.BackgroundDetector.BackgroundStateChangeListener
-    public final void onBackgroundStateChanged(boolean z) {
-        this.zaa.zat.sendMessage(this.zaa.zat.obtainMessage(1, Boolean.valueOf(z)));
+    @Override // com.google.android.gms.common.api.internal.zabw
+    public final void zaa() {
+        zabe zabeVar = (zabe) this.zaa.get();
+        if (zabeVar == null) {
+            return;
+        }
+        zabe.zai(zabeVar);
     }
 }

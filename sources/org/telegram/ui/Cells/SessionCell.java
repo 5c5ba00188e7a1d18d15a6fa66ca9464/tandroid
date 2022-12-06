@@ -2,9 +2,13 @@ package org.telegram.ui.Cells;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.ColorFilter;
+import android.graphics.LinearGradient;
+import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.RectF;
+import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
@@ -35,6 +39,7 @@ import org.telegram.ui.Components.LayoutHelper;
 /* loaded from: classes3.dex */
 public class SessionCell extends FrameLayout {
     private AvatarDrawable avatarDrawable;
+    private int currentType;
     private TextView detailExTextView;
     private TextView detailTextView;
     FlickerLoadingView globalGradient;
@@ -48,13 +53,20 @@ public class SessionCell extends FrameLayout {
     private AnimatedFloat showStubValue = new AnimatedFloat(this);
     private int currentAccount = UserConfig.selectedAccount;
 
-    /* JADX WARN: Removed duplicated region for block: B:37:0x023d  */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x024e  */
-    /* JADX WARN: Removed duplicated region for block: B:43:0x0294  */
-    /* JADX WARN: Removed duplicated region for block: B:46:0x02a6  */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x0296  */
-    /* JADX WARN: Removed duplicated region for block: B:51:0x0250  */
-    /* JADX WARN: Removed duplicated region for block: B:52:0x023f  */
+    /* JADX WARN: Removed duplicated region for block: B:43:0x0231  */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x0255  */
+    /* JADX WARN: Removed duplicated region for block: B:49:0x0266  */
+    /* JADX WARN: Removed duplicated region for block: B:52:0x026e  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x0299  */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x02ba  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x02cc  */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x02d1  */
+    /* JADX WARN: Removed duplicated region for block: B:68:0x02d6  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x02bc  */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x0273  */
+    /* JADX WARN: Removed duplicated region for block: B:71:0x0268  */
+    /* JADX WARN: Removed duplicated region for block: B:72:0x0257  */
+    /* JADX WARN: Removed duplicated region for block: B:73:0x0234  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -66,6 +78,7 @@ public class SessionCell extends FrameLayout {
         int i3 = 0;
         linearLayout.setOrientation(0);
         this.linearLayout.setWeightSum(1.0f);
+        this.currentType = i;
         int i4 = 15;
         int i5 = 21;
         int i6 = 5;
@@ -88,21 +101,21 @@ public class SessionCell extends FrameLayout {
             backupImageView3.setRoundRadius(AndroidUtilities.dp(10.0f));
             BackupImageView backupImageView4 = this.placeholderImageView;
             boolean z3 = LocaleController.isRTL;
-            addView(backupImageView4, LayoutHelper.createFrame(42, 42.0f, (z3 ? 5 : 3) | 48, z3 ? 0 : 16, 13.0f, z3 ? 16 : 0, 0.0f));
+            addView(backupImageView4, LayoutHelper.createFrame(42, 42.0f, (z3 ? 5 : 3) | 48, z3 ? 0 : 16, 9.0f, z3 ? 16 : 0, 0.0f));
             BackupImageView backupImageView5 = new BackupImageView(context);
             this.imageView = backupImageView5;
             backupImageView5.setRoundRadius(AndroidUtilities.dp(10.0f));
             BackupImageView backupImageView6 = this.imageView;
             boolean z4 = LocaleController.isRTL;
-            addView(backupImageView6, LayoutHelper.createFrame(42, 42.0f, (z4 ? 5 : 3) | 48, z4 ? 0 : 16, 13.0f, z4 ? 16 : i3, 0.0f));
+            addView(backupImageView6, LayoutHelper.createFrame(42, 42.0f, (z4 ? 5 : 3) | 48, z4 ? 0 : 16, 9.0f, z4 ? 16 : i3, 0.0f));
             LinearLayout linearLayout3 = this.linearLayout;
             boolean z5 = LocaleController.isRTL;
-            addView(linearLayout3, LayoutHelper.createFrame(-1, 30.0f, (z5 ? 5 : 3) | 48, z5 ? 15 : 72, 11.0f, z5 ? 72 : i4, 0.0f));
+            addView(linearLayout3, LayoutHelper.createFrame(-1, 30.0f, (z5 ? 5 : 3) | 48, z5 ? 15 : 72, 7.333f, z5 ? 72 : i4, 0.0f));
         }
         TextView textView = new TextView(context);
         this.nameTextView = textView;
         textView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
-        this.nameTextView.setTextSize(1, 16.0f);
+        this.nameTextView.setTextSize(1, i == 0 ? 15.0f : 16.0f);
         this.nameTextView.setLines(1);
         this.nameTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.nameTextView.setMaxLines(1);
@@ -111,7 +124,8 @@ public class SessionCell extends FrameLayout {
         this.nameTextView.setGravity((LocaleController.isRTL ? 5 : 3) | 48);
         TextView textView2 = new TextView(context);
         this.onlineTextView = textView2;
-        textView2.setTextSize(1, 14.0f);
+        float f = 13.0f;
+        textView2.setTextSize(1, i == 0 ? 12.0f : 13.0f);
         this.onlineTextView.setGravity((LocaleController.isRTL ? 3 : 5) | 48);
         if (LocaleController.isRTL) {
             this.linearLayout.addView(this.onlineTextView, LayoutHelper.createLinear(-2, -1, 51, 0, 2, 0, 0));
@@ -127,49 +141,49 @@ public class SessionCell extends FrameLayout {
             TextView textView3 = new TextView(context);
             this.detailTextView = textView3;
             textView3.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
-            this.detailTextView.setTextSize(1, 14.0f);
+            this.detailTextView.setTextSize(1, i != 0 ? 13.0f : 14.0f);
             this.detailTextView.setLines(1);
             this.detailTextView.setMaxLines(1);
             this.detailTextView.setSingleLine(true);
             this.detailTextView.setEllipsize(TextUtils.TruncateAt.END);
             this.detailTextView.setGravity((!LocaleController.isRTL ? 5 : 3) | 48);
-            float f = i5;
-            float f2 = i2;
-            addView(this.detailTextView, LayoutHelper.createFrame(-1, -2.0f, (!LocaleController.isRTL ? 5 : 3) | 48, f, 36.0f, f2, 0.0f));
+            float f2 = i5;
+            float f3 = i2;
+            addView(this.detailTextView, LayoutHelper.createFrame(-1, -2.0f, (!LocaleController.isRTL ? 5 : 3) | 48, f2, i != 0 ? 28.0f : 36.0f, f3, 0.0f));
             TextView textView4 = new TextView(context);
             this.detailExTextView = textView4;
             textView4.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText3"));
-            this.detailExTextView.setTextSize(1, 14.0f);
+            this.detailExTextView.setTextSize(1, i != 0 ? 14.0f : f);
             this.detailExTextView.setLines(1);
             this.detailExTextView.setMaxLines(1);
             this.detailExTextView.setSingleLine(true);
             this.detailExTextView.setEllipsize(TextUtils.TruncateAt.END);
             this.detailExTextView.setGravity((!LocaleController.isRTL ? 5 : 3) | 48);
-            addView(this.detailExTextView, LayoutHelper.createFrame(-1, -2.0f, (!LocaleController.isRTL ? 3 : i6) | 48, f, 59.0f, f2, 0.0f));
+            addView(this.detailExTextView, LayoutHelper.createFrame(-1, -2.0f, (!LocaleController.isRTL ? 3 : i6) | 48, f2, i != 0 ? 46.0f : 59.0f, f3, 0.0f));
         }
         i2 = 21;
         TextView textView32 = new TextView(context);
         this.detailTextView = textView32;
         textView32.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
-        this.detailTextView.setTextSize(1, 14.0f);
+        this.detailTextView.setTextSize(1, i != 0 ? 13.0f : 14.0f);
         this.detailTextView.setLines(1);
         this.detailTextView.setMaxLines(1);
         this.detailTextView.setSingleLine(true);
         this.detailTextView.setEllipsize(TextUtils.TruncateAt.END);
         this.detailTextView.setGravity((!LocaleController.isRTL ? 5 : 3) | 48);
-        float f3 = i5;
-        float f22 = i2;
-        addView(this.detailTextView, LayoutHelper.createFrame(-1, -2.0f, (!LocaleController.isRTL ? 5 : 3) | 48, f3, 36.0f, f22, 0.0f));
+        float f22 = i5;
+        float f32 = i2;
+        addView(this.detailTextView, LayoutHelper.createFrame(-1, -2.0f, (!LocaleController.isRTL ? 5 : 3) | 48, f22, i != 0 ? 28.0f : 36.0f, f32, 0.0f));
         TextView textView42 = new TextView(context);
         this.detailExTextView = textView42;
         textView42.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText3"));
-        this.detailExTextView.setTextSize(1, 14.0f);
+        this.detailExTextView.setTextSize(1, i != 0 ? 14.0f : f);
         this.detailExTextView.setLines(1);
         this.detailExTextView.setMaxLines(1);
         this.detailExTextView.setSingleLine(true);
         this.detailExTextView.setEllipsize(TextUtils.TruncateAt.END);
         this.detailExTextView.setGravity((!LocaleController.isRTL ? 5 : 3) | 48);
-        addView(this.detailExTextView, LayoutHelper.createFrame(-1, -2.0f, (!LocaleController.isRTL ? 3 : i6) | 48, f3, 59.0f, f22, 0.0f));
+        addView(this.detailExTextView, LayoutHelper.createFrame(-1, -2.0f, (!LocaleController.isRTL ? 3 : i6) | 48, f22, i != 0 ? 46.0f : 59.0f, f32, 0.0f));
     }
 
     private void setContentAlpha(float f) {
@@ -205,7 +219,7 @@ public class SessionCell extends FrameLayout {
 
     @Override // android.widget.FrameLayout, android.view.View
     protected void onMeasure(int i, int i2) {
-        super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(90.0f) + (this.needDivider ? 1 : 0), 1073741824));
+        super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(this.currentType == 0 ? 70.0f : 90.0f) + (this.needDivider ? 1 : 0), 1073741824));
     }
 
     public void setSession(TLObject tLObject, boolean z) {
@@ -311,7 +325,8 @@ public class SessionCell extends FrameLayout {
             lowerCase = tLRPC$TL_authorization.system_version.toLowerCase();
         }
         String lowerCase2 = tLRPC$TL_authorization.device_model.toLowerCase();
-        String str = "avatar_backgroundCyan";
+        String str = "avatar_background2Cyan";
+        String str2 = "avatar_backgroundCyan";
         if (lowerCase2.contains("safari")) {
             i = R.drawable.device_web_safari;
         } else if (lowerCase2.contains("edge")) {
@@ -327,14 +342,16 @@ public class SessionCell extends FrameLayout {
         } else {
             if (lowerCase.contains("ios")) {
                 i = lowerCase2.contains("ipad") ? R.drawable.device_tablet_ios : R.drawable.device_phone_ios;
-                str = "avatar_backgroundBlue";
+                str2 = "avatar_backgroundBlue";
+                str = "avatar_background2Blue";
             } else if (lowerCase.contains("windows")) {
                 i = R.drawable.device_desktop_win;
             } else if (lowerCase.contains("macos")) {
                 i = R.drawable.device_desktop_osx;
             } else if (lowerCase.contains("android")) {
                 i = lowerCase2.contains("tab") ? R.drawable.device_tablet_android : R.drawable.device_phone_android;
-                str = "avatar_backgroundGreen";
+                str2 = "avatar_backgroundGreen";
+                str = "avatar_background2Green";
             } else if (tLRPC$TL_authorization.app_name.toLowerCase().contains("desktop")) {
                 i = R.drawable.device_desktop_other;
             } else {
@@ -342,12 +359,55 @@ public class SessionCell extends FrameLayout {
             }
             Drawable mutate = ContextCompat.getDrawable(ApplicationLoader.applicationContext, i).mutate();
             mutate.setColorFilter(new PorterDuffColorFilter(Theme.getColor("avatar_text"), PorterDuff.Mode.SRC_IN));
-            return new CombinedDrawable(Theme.createCircleDrawable(AndroidUtilities.dp(42.0f), Theme.getColor(str)), mutate);
+            return new CombinedDrawable(new CircleGradientDrawable(AndroidUtilities.dp(42.0f), Theme.getColor(str2), Theme.getColor(str)), mutate);
         }
-        str = "avatar_backgroundPink";
+        str = "avatar_background2Pink";
+        str2 = "avatar_backgroundPink";
         Drawable mutate2 = ContextCompat.getDrawable(ApplicationLoader.applicationContext, i).mutate();
         mutate2.setColorFilter(new PorterDuffColorFilter(Theme.getColor("avatar_text"), PorterDuff.Mode.SRC_IN));
-        return new CombinedDrawable(Theme.createCircleDrawable(AndroidUtilities.dp(42.0f), Theme.getColor(str)), mutate2);
+        return new CombinedDrawable(new CircleGradientDrawable(AndroidUtilities.dp(42.0f), Theme.getColor(str2), Theme.getColor(str)), mutate2);
+    }
+
+    /* loaded from: classes3.dex */
+    public static class CircleGradientDrawable extends Drawable {
+        private Paint paint;
+        private int size;
+
+        @Override // android.graphics.drawable.Drawable
+        public int getOpacity() {
+            return -2;
+        }
+
+        @Override // android.graphics.drawable.Drawable
+        public void setColorFilter(ColorFilter colorFilter) {
+        }
+
+        public CircleGradientDrawable(int i, int i2, int i3) {
+            this.size = i;
+            Paint paint = new Paint(1);
+            this.paint = paint;
+            paint.setShader(new LinearGradient(0.0f, 0.0f, 0.0f, i, new int[]{i2, i3}, new float[]{0.0f, 1.0f}, Shader.TileMode.CLAMP));
+        }
+
+        @Override // android.graphics.drawable.Drawable
+        public void draw(Canvas canvas) {
+            canvas.drawCircle(getBounds().centerX(), getBounds().centerY(), Math.min(getBounds().width(), getBounds().height()) / 2.0f, this.paint);
+        }
+
+        @Override // android.graphics.drawable.Drawable
+        public void setAlpha(int i) {
+            this.paint.setAlpha(i);
+        }
+
+        @Override // android.graphics.drawable.Drawable
+        public int getIntrinsicHeight() {
+            return this.size;
+        }
+
+        @Override // android.graphics.drawable.Drawable
+        public int getIntrinsicWidth() {
+            return this.size;
+        }
     }
 
     @Override // android.view.View

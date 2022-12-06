@@ -7,7 +7,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.util.UidVerifier;
-/* compiled from: com.google.android.gms:play-services-auth@@19.2.0 */
+/* compiled from: com.google.android.gms:play-services-auth@@20.4.0 */
 /* loaded from: classes.dex */
 public final class zbt extends zbo {
     private final Context zba;
@@ -21,11 +21,7 @@ public final class zbt extends zbo {
             return;
         }
         int callingUid = Binder.getCallingUid();
-        StringBuilder sb = new StringBuilder(52);
-        sb.append("Calling UID ");
-        sb.append(callingUid);
-        sb.append(" is not Google Play services.");
-        throw new SecurityException(sb.toString());
+        throw new SecurityException("Calling UID " + callingUid + " is not Google Play services.");
     }
 
     @Override // com.google.android.gms.auth.api.signin.internal.zbp

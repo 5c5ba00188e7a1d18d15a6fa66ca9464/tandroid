@@ -1,9 +1,25 @@
 package com.google.android.gms.dynamite;
-/* compiled from: com.google.android.gms:play-services-basement@@17.5.0 */
+
+import android.os.Process;
+/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
-final class zza extends ThreadLocal<Long> {
-    @Override // java.lang.ThreadLocal
-    protected final /* synthetic */ Long initialValue() {
-        return 0L;
+final class zza extends Thread {
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public zza(ThreadGroup threadGroup, String str) {
+        super(threadGroup, "GmsDynamite");
+    }
+
+    @Override // java.lang.Thread, java.lang.Runnable
+    public final void run() {
+        Process.setThreadPriority(19);
+        synchronized (this) {
+            while (true) {
+                try {
+                    wait();
+                } catch (InterruptedException unused) {
+                    return;
+                }
+            }
+        }
     }
 }

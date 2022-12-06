@@ -1,58 +1,47 @@
 package com.google.android.gms.auth.api;
 
 import android.os.Bundle;
-import androidx.annotation.RecentlyNonNull;
-import androidx.annotation.RecentlyNullable;
 import com.google.android.gms.auth.api.proxy.ProxyApi;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.internal.zbd;
-import com.google.android.gms.auth.api.signin.internal.zbe;
 import com.google.android.gms.common.api.Api;
 import com.google.android.gms.common.internal.Objects;
 import com.google.android.gms.internal.auth-api.zbl;
-import com.google.android.gms.internal.auth-api.zbo;
-/* compiled from: com.google.android.gms:play-services-auth@@19.2.0 */
+/* compiled from: com.google.android.gms:play-services-auth@@20.4.0 */
 /* loaded from: classes.dex */
 public final class Auth {
-    @RecentlyNonNull
     public static final Api<GoogleSignInOptions> GOOGLE_SIGN_IN_API;
-    @RecentlyNonNull
-    public static final Api.ClientKey<zbo> zba;
-    @RecentlyNonNull
-    public static final Api.ClientKey<zbe> zbb;
-    private static final Api.AbstractClientBuilder<zbo, AuthCredentialsOptions> zbc;
-    private static final Api.AbstractClientBuilder<zbe, GoogleSignInOptions> zbd;
+    public static final Api.ClientKey zba;
+    public static final Api.ClientKey zbb;
+    private static final Api.AbstractClientBuilder zbc;
+    private static final Api.AbstractClientBuilder zbd;
 
-    /* compiled from: com.google.android.gms:play-services-auth@@19.2.0 */
+    /* compiled from: com.google.android.gms:play-services-auth@@20.4.0 */
     @Deprecated
     /* loaded from: classes.dex */
     public static class AuthCredentialsOptions implements Api.ApiOptions {
-        @RecentlyNonNull
         public static final AuthCredentialsOptions zba = new AuthCredentialsOptions(new Builder());
         private final String zbb = null;
         private final boolean zbc;
         private final String zbd;
 
-        /* compiled from: com.google.android.gms:play-services-auth@@19.2.0 */
+        /* compiled from: com.google.android.gms:play-services-auth@@20.4.0 */
         @Deprecated
         /* loaded from: classes.dex */
         public static class Builder {
-            @RecentlyNonNull
             protected Boolean zba;
-            @RecentlyNullable
             protected String zbb;
 
             public Builder() {
                 this.zba = Boolean.FALSE;
             }
 
-            @RecentlyNonNull
-            public final Builder zba(@RecentlyNonNull String str) {
+            public final Builder zba(String str) {
                 this.zbb = str;
                 return this;
             }
 
-            public Builder(@RecentlyNonNull AuthCredentialsOptions authCredentialsOptions) {
+            public Builder(AuthCredentialsOptions authCredentialsOptions) {
                 this.zba = Boolean.FALSE;
                 String unused = authCredentialsOptions.zbb;
                 this.zba = Boolean.valueOf(authCredentialsOptions.zbc);
@@ -60,7 +49,7 @@ public final class Auth {
             }
         }
 
-        public AuthCredentialsOptions(@RecentlyNonNull Builder builder) {
+        public AuthCredentialsOptions(Builder builder) {
             this.zbc = builder.zba.booleanValue();
             this.zbd = builder.zbb;
         }
@@ -81,7 +70,6 @@ public final class Auth {
             return Objects.hashCode(null, Boolean.valueOf(this.zbc), this.zbd);
         }
 
-        @RecentlyNonNull
         public final Bundle zba() {
             Bundle bundle = new Bundle();
             bundle.putString("consumer_package", null);
@@ -92,9 +80,9 @@ public final class Auth {
     }
 
     static {
-        Api.ClientKey<zbo> clientKey = new Api.ClientKey<>();
+        Api.ClientKey clientKey = new Api.ClientKey();
         zba = clientKey;
-        Api.ClientKey<zbe> clientKey2 = new Api.ClientKey<>();
+        Api.ClientKey clientKey2 = new Api.ClientKey();
         zbb = clientKey2;
         zba zbaVar = new zba();
         zbc = zbaVar;

@@ -1,24 +1,20 @@
 package com.google.android.gms.common.api.internal;
-
-import android.os.Bundle;
-/* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
+/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
-public final class zaaq implements com.google.android.gms.common.internal.zak {
-    private final /* synthetic */ zaar zaa;
+final class zaaq extends zabg {
+    final /* synthetic */ zaaw zaa;
+    final /* synthetic */ com.google.android.gms.signin.internal.zak zab;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public zaaq(zaar zaarVar) {
-        this.zaa = zaarVar;
+    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+    public zaaq(zaar zaarVar, zabf zabfVar, zaaw zaawVar, com.google.android.gms.signin.internal.zak zakVar) {
+        super(zabfVar);
+        this.zaa = zaawVar;
+        this.zab = zakVar;
     }
 
-    @Override // com.google.android.gms.common.internal.zak
-    public final Bundle getConnectionHint() {
-        return null;
-    }
-
-    @Override // com.google.android.gms.common.internal.zak
-    public final boolean isConnected() {
-        return this.zaa.isConnected();
+    @Override // com.google.android.gms.common.api.internal.zabg
+    public final void zaa() {
+        zaaw.zar(this.zaa, this.zab);
     }
 }

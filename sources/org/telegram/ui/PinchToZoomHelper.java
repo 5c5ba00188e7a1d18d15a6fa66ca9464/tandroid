@@ -616,7 +616,7 @@ public class PinchToZoomHelper {
                     iArr[0] = -1;
                 }
             } else if (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaInvoice) {
-                return ImageLocation.getForWebFile(WebFile.createWithWebDocument(((TLRPC$TL_messageMediaInvoice) tLRPC$MessageMedia).photo));
+                return ImageLocation.getForWebFile(WebFile.createWithWebDocument(((TLRPC$TL_messageMediaInvoice) tLRPC$MessageMedia).webPhoto));
             } else {
                 if (messageObject.getDocument() != null) {
                     TLRPC$Document document = messageObject.getDocument();

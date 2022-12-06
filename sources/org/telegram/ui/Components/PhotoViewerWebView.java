@@ -1,5 +1,7 @@
 package org.telegram.ui.Components;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -18,6 +20,8 @@ import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -33,11 +37,14 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.BringAppForegroundService;
 import org.telegram.messenger.FileLog;
+import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
+import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.browser.Browser;
 import org.telegram.tgnet.TLRPC$WebPage;
+import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.PhotoViewerWebView;
 import org.telegram.ui.PhotoViewer;
 /* loaded from: classes3.dex */
@@ -46,6 +53,9 @@ public class PhotoViewerWebView extends FrameLayout {
     private int currentPosition;
     private TLRPC$WebPage currentWebpage;
     private String currentYoutubeId;
+    private TextView errorButton;
+    private LinearLayout errorLayout;
+    private TextView errorMessage;
     private boolean isPlaying;
     private boolean isTouchDisabled;
     private boolean isYouTube;
@@ -97,7 +107,7 @@ public class PhotoViewerWebView extends FrameLayout {
 
         @JavascriptInterface
         public void onPlayerLoaded() {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.PhotoViewerWebView$YoutubeProxy$$ExternalSyntheticLambda0
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.PhotoViewerWebView$YoutubeProxy$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
                     PhotoViewerWebView.YoutubeProxy.this.lambda$onPlayerLoaded$0();
@@ -118,6 +128,74 @@ public class PhotoViewerWebView extends FrameLayout {
             if (PhotoViewerWebView.this.photoViewer != null) {
                 PhotoViewerWebView.this.photoViewer.checkFullscreenButton();
             }
+        }
+
+        @JavascriptInterface
+        public void onPlayerError(String str) {
+            final int parseInt = Integer.parseInt(str);
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.PhotoViewerWebView$YoutubeProxy$$ExternalSyntheticLambda3
+                @Override // java.lang.Runnable
+                public final void run() {
+                    PhotoViewerWebView.YoutubeProxy.this.lambda$onPlayerError$2(parseInt);
+                }
+            });
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$onPlayerError$2(int i) {
+            PhotoViewerWebView.this.errorButton.setVisibility(8);
+            PhotoViewerWebView.this.webView.setVisibility(8);
+            if (PhotoViewerWebView.this.errorLayout.getVisibility() == 8) {
+                PhotoViewerWebView.this.errorLayout.setVisibility(0);
+                PhotoViewerWebView.this.errorLayout.animate().cancel();
+                PhotoViewerWebView.this.errorLayout.animate().alpha(1.0f).setDuration(150L).start();
+            }
+            if (PhotoViewerWebView.this.progressBar.getAlpha() == 1.0f) {
+                PhotoViewerWebView.this.progressBar.animate().cancel();
+                PhotoViewerWebView.this.progressBar.animate().alpha(0.0f).setDuration(150L).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.PhotoViewerWebView.YoutubeProxy.1
+                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                    public void onAnimationEnd(Animator animator) {
+                        PhotoViewerWebView.this.progressBar.setVisibility(8);
+                    }
+                });
+            }
+            if (PhotoViewerWebView.this.progressBarBlackBackground.getAlpha() == 1.0f) {
+                PhotoViewerWebView.this.progressBarBlackBackground.animate().cancel();
+                PhotoViewerWebView.this.progressBarBlackBackground.animate().alpha(0.0f).setDuration(150L).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.PhotoViewerWebView.YoutubeProxy.2
+                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                    public void onAnimationEnd(Animator animator) {
+                        PhotoViewerWebView.this.progressBarBlackBackground.setVisibility(8);
+                    }
+                });
+            }
+            if (i == 2) {
+                PhotoViewerWebView.this.errorMessage.setText(LocaleController.getString(R.string.YouTubeVideoErrorInvalid));
+            } else if (i != 5) {
+                if (i != 150) {
+                    if (i == 100) {
+                        PhotoViewerWebView.this.errorMessage.setText(LocaleController.getString(R.string.YouTubeVideoErrorNotFound));
+                        return;
+                    } else if (i != 101) {
+                        return;
+                    }
+                }
+                PhotoViewerWebView.this.errorMessage.setText(LocaleController.getString(R.string.YouTubeVideoErrorNotAvailableInApp));
+                PhotoViewerWebView.this.errorButton.setText(LocaleController.getString(R.string.YouTubeVideoErrorOpenExternal));
+                PhotoViewerWebView.this.errorButton.setVisibility(0);
+                PhotoViewerWebView.this.errorButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PhotoViewerWebView$YoutubeProxy$$ExternalSyntheticLambda0
+                    @Override // android.view.View.OnClickListener
+                    public final void onClick(View view) {
+                        PhotoViewerWebView.YoutubeProxy.this.lambda$onPlayerError$1(view);
+                    }
+                });
+            } else {
+                PhotoViewerWebView.this.errorMessage.setText(LocaleController.getString(R.string.YouTubeVideoErrorHTML));
+            }
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$onPlayerError$1(View view) {
+            view.getContext().startActivity(new Intent("android.intent.action.VIEW", Uri.parse(PhotoViewerWebView.this.currentWebpage.url)));
         }
 
         @JavascriptInterface
@@ -142,28 +220,28 @@ public class PhotoViewerWebView extends FrameLayout {
                 i = 4;
             }
             if (i == 3 && PhotoViewerWebView.this.progressBarBlackBackground.getVisibility() != 4) {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.PhotoViewerWebView$YoutubeProxy$$ExternalSyntheticLambda1
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.PhotoViewerWebView$YoutubeProxy$$ExternalSyntheticLambda2
                     @Override // java.lang.Runnable
                     public final void run() {
-                        PhotoViewerWebView.YoutubeProxy.this.lambda$onPlayerStateChange$1();
+                        PhotoViewerWebView.YoutubeProxy.this.lambda$onPlayerStateChange$3();
                     }
                 }, 300L);
             }
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.PhotoViewerWebView$YoutubeProxy$$ExternalSyntheticLambda2
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.PhotoViewerWebView$YoutubeProxy$$ExternalSyntheticLambda4
                 @Override // java.lang.Runnable
                 public final void run() {
-                    PhotoViewerWebView.YoutubeProxy.this.lambda$onPlayerStateChange$2(z2, i);
+                    PhotoViewerWebView.YoutubeProxy.this.lambda$onPlayerStateChange$4(z2, i);
                 }
             });
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onPlayerStateChange$1() {
+        public /* synthetic */ void lambda$onPlayerStateChange$3() {
             PhotoViewerWebView.this.progressBarBlackBackground.setVisibility(4);
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onPlayerStateChange$2(boolean z, int i) {
+        public /* synthetic */ void lambda$onPlayerStateChange$4(boolean z, int i) {
             PhotoViewerWebView.this.photoViewer.updateWebPlayerState(z, i);
         }
 
@@ -222,6 +300,26 @@ public class PhotoViewerWebView extends FrameLayout {
         }
         this.webView.setWebViewClient(new 2());
         addView(this.webView, LayoutHelper.createFrame(-1, -1, 51));
+        LinearLayout linearLayout = new LinearLayout(context);
+        this.errorLayout = linearLayout;
+        linearLayout.setOrientation(1);
+        this.errorLayout.setGravity(17);
+        this.errorLayout.setVisibility(8);
+        addView(this.errorLayout, LayoutHelper.createFrame(-2, -2, 17));
+        TextView textView = new TextView(context);
+        this.errorMessage = textView;
+        textView.setTextSize(1, 16.0f);
+        this.errorMessage.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText"));
+        this.errorMessage.setGravity(17);
+        this.errorLayout.addView(this.errorMessage, LayoutHelper.createLinear(-2, -2, 1));
+        TextView textView2 = new TextView(context);
+        this.errorButton = textView2;
+        textView2.setTextSize(1, 16.0f);
+        this.errorButton.setTextColor(Theme.getColor("windowBackgroundWhiteBlueText"));
+        this.errorButton.setPadding(AndroidUtilities.dp(12.0f), AndroidUtilities.dp(8.0f), AndroidUtilities.dp(12.0f), AndroidUtilities.dp(8.0f));
+        this.errorButton.setBackground(Theme.AdaptiveRipple.rect("windowBackgroundWhiteBlueText", 12.0f));
+        this.errorButton.setVisibility(8);
+        this.errorLayout.addView(this.errorButton, LayoutHelper.createLinear(-2, -2, 1, 0, 8, 0, 0));
         View view2 = new View(context) { // from class: org.telegram.ui.Components.PhotoViewerWebView.3
             @Override // android.view.View
             protected void onDraw(Canvas canvas) {

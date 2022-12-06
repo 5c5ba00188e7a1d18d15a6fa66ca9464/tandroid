@@ -5,14 +5,14 @@ import android.os.IInterface;
 import android.os.Parcel;
 import android.os.RemoteException;
 import com.google.android.gms.dynamic.IObjectWrapper;
+import com.google.android.gms.internal.maps.zzaa;
 import com.google.android.gms.internal.maps.zzk;
-import com.google.android.gms.internal.maps.zzw;
-import com.google.android.gms.internal.maps.zzx;
+import com.google.android.gms.internal.maps.zzz;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
-/* compiled from: com.google.android.gms:play-services-maps@@17.0.1 */
+/* compiled from: com.google.android.gms:play-services-maps@@18.1.0 */
 /* loaded from: classes.dex */
 public final class zzg extends com.google.android.gms.internal.maps.zza implements IGoogleMapDelegate {
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -23,7 +23,7 @@ public final class zzg extends com.google.android.gms.internal.maps.zza implemen
     @Override // com.google.android.gms.maps.internal.IGoogleMapDelegate
     public final com.google.android.gms.internal.maps.zzl addCircle(CircleOptions circleOptions) throws RemoteException {
         Parcel zza = zza();
-        com.google.android.gms.internal.maps.zzc.zzd(zza, circleOptions);
+        com.google.android.gms.internal.maps.zzc.zze(zza, circleOptions);
         Parcel zzH = zzH(35, zza);
         com.google.android.gms.internal.maps.zzl zzb = zzk.zzb(zzH.readStrongBinder());
         zzH.recycle();
@@ -31,11 +31,11 @@ public final class zzg extends com.google.android.gms.internal.maps.zza implemen
     }
 
     @Override // com.google.android.gms.maps.internal.IGoogleMapDelegate
-    public final zzx addMarker(MarkerOptions markerOptions) throws RemoteException {
+    public final zzaa addMarker(MarkerOptions markerOptions) throws RemoteException {
         Parcel zza = zza();
-        com.google.android.gms.internal.maps.zzc.zzd(zza, markerOptions);
+        com.google.android.gms.internal.maps.zzc.zze(zza, markerOptions);
         Parcel zzH = zzH(11, zza);
-        zzx zzb = zzw.zzb(zzH.readStrongBinder());
+        zzaa zzb = zzz.zzb(zzH.readStrongBinder());
         zzH.recycle();
         return zzb;
     }
@@ -43,31 +43,31 @@ public final class zzg extends com.google.android.gms.internal.maps.zza implemen
     @Override // com.google.android.gms.maps.internal.IGoogleMapDelegate
     public final void animateCamera(IObjectWrapper iObjectWrapper) throws RemoteException {
         Parcel zza = zza();
-        com.google.android.gms.internal.maps.zzc.zzf(zza, iObjectWrapper);
+        com.google.android.gms.internal.maps.zzc.zzg(zza, iObjectWrapper);
         zzc(5, zza);
     }
 
     @Override // com.google.android.gms.maps.internal.IGoogleMapDelegate
     public final void animateCameraWithCallback(IObjectWrapper iObjectWrapper, zzd zzdVar) throws RemoteException {
         Parcel zza = zza();
-        com.google.android.gms.internal.maps.zzc.zzf(zza, iObjectWrapper);
-        com.google.android.gms.internal.maps.zzc.zzf(zza, zzdVar);
+        com.google.android.gms.internal.maps.zzc.zzg(zza, iObjectWrapper);
+        com.google.android.gms.internal.maps.zzc.zzg(zza, zzdVar);
         zzc(6, zza);
     }
 
     @Override // com.google.android.gms.maps.internal.IGoogleMapDelegate
     public final void animateCameraWithDurationAndCallback(IObjectWrapper iObjectWrapper, int i, zzd zzdVar) throws RemoteException {
         Parcel zza = zza();
-        com.google.android.gms.internal.maps.zzc.zzf(zza, iObjectWrapper);
+        com.google.android.gms.internal.maps.zzc.zzg(zza, iObjectWrapper);
         zza.writeInt(i);
-        com.google.android.gms.internal.maps.zzc.zzf(zza, zzdVar);
+        com.google.android.gms.internal.maps.zzc.zzg(zza, zzdVar);
         zzc(7, zza);
     }
 
     @Override // com.google.android.gms.maps.internal.IGoogleMapDelegate
     public final CameraPosition getCameraPosition() throws RemoteException {
         Parcel zzH = zzH(1, zza());
-        CameraPosition cameraPosition = (CameraPosition) com.google.android.gms.internal.maps.zzc.zzc(zzH, CameraPosition.CREATOR);
+        CameraPosition cameraPosition = (CameraPosition) com.google.android.gms.internal.maps.zzc.zza(zzH, CameraPosition.CREATOR);
         zzH.recycle();
         return cameraPosition;
     }
@@ -82,57 +82,49 @@ public final class zzg extends com.google.android.gms.internal.maps.zza implemen
 
     @Override // com.google.android.gms.maps.internal.IGoogleMapDelegate
     public final IProjectionDelegate getProjection() throws RemoteException {
-        IProjectionDelegate zzbsVar;
+        IProjectionDelegate zzbtVar;
         Parcel zzH = zzH(26, zza());
         IBinder readStrongBinder = zzH.readStrongBinder();
         if (readStrongBinder == null) {
-            zzbsVar = null;
+            zzbtVar = null;
         } else {
             IInterface queryLocalInterface = readStrongBinder.queryLocalInterface("com.google.android.gms.maps.internal.IProjectionDelegate");
-            if (queryLocalInterface instanceof IProjectionDelegate) {
-                zzbsVar = (IProjectionDelegate) queryLocalInterface;
-            } else {
-                zzbsVar = new zzbs(readStrongBinder);
-            }
+            zzbtVar = queryLocalInterface instanceof IProjectionDelegate ? (IProjectionDelegate) queryLocalInterface : new zzbt(readStrongBinder);
         }
         zzH.recycle();
-        return zzbsVar;
+        return zzbtVar;
     }
 
     @Override // com.google.android.gms.maps.internal.IGoogleMapDelegate
     public final IUiSettingsDelegate getUiSettings() throws RemoteException {
-        IUiSettingsDelegate zzbyVar;
+        IUiSettingsDelegate zzbzVar;
         Parcel zzH = zzH(25, zza());
         IBinder readStrongBinder = zzH.readStrongBinder();
         if (readStrongBinder == null) {
-            zzbyVar = null;
+            zzbzVar = null;
         } else {
             IInterface queryLocalInterface = readStrongBinder.queryLocalInterface("com.google.android.gms.maps.internal.IUiSettingsDelegate");
-            if (queryLocalInterface instanceof IUiSettingsDelegate) {
-                zzbyVar = (IUiSettingsDelegate) queryLocalInterface;
-            } else {
-                zzbyVar = new zzby(readStrongBinder);
-            }
+            zzbzVar = queryLocalInterface instanceof IUiSettingsDelegate ? (IUiSettingsDelegate) queryLocalInterface : new zzbz(readStrongBinder);
         }
         zzH.recycle();
-        return zzbyVar;
+        return zzbzVar;
     }
 
     @Override // com.google.android.gms.maps.internal.IGoogleMapDelegate
     public final void moveCamera(IObjectWrapper iObjectWrapper) throws RemoteException {
         Parcel zza = zza();
-        com.google.android.gms.internal.maps.zzc.zzf(zza, iObjectWrapper);
+        com.google.android.gms.internal.maps.zzc.zzg(zza, iObjectWrapper);
         zzc(4, zza);
     }
 
     @Override // com.google.android.gms.maps.internal.IGoogleMapDelegate
     public final boolean setMapStyle(MapStyleOptions mapStyleOptions) throws RemoteException {
         Parcel zza = zza();
-        com.google.android.gms.internal.maps.zzc.zzd(zza, mapStyleOptions);
+        com.google.android.gms.internal.maps.zzc.zze(zza, mapStyleOptions);
         Parcel zzH = zzH(91, zza);
-        boolean zza2 = com.google.android.gms.internal.maps.zzc.zza(zzH);
+        boolean zzh = com.google.android.gms.internal.maps.zzc.zzh(zzH);
         zzH.recycle();
-        return zza2;
+        return zzh;
     }
 
     @Override // com.google.android.gms.maps.internal.IGoogleMapDelegate
@@ -145,42 +137,42 @@ public final class zzg extends com.google.android.gms.internal.maps.zza implemen
     @Override // com.google.android.gms.maps.internal.IGoogleMapDelegate
     public final void setMyLocationEnabled(boolean z) throws RemoteException {
         Parcel zza = zza();
-        com.google.android.gms.internal.maps.zzc.zzb(zza, z);
+        com.google.android.gms.internal.maps.zzc.zzd(zza, z);
         zzc(22, zza);
     }
 
     @Override // com.google.android.gms.maps.internal.IGoogleMapDelegate
     public final void setOnCameraMoveListener(zzt zztVar) throws RemoteException {
         Parcel zza = zza();
-        com.google.android.gms.internal.maps.zzc.zzf(zza, zztVar);
+        com.google.android.gms.internal.maps.zzc.zzg(zza, zztVar);
         zzc(97, zza);
     }
 
     @Override // com.google.android.gms.maps.internal.IGoogleMapDelegate
     public final void setOnCameraMoveStartedListener(zzv zzvVar) throws RemoteException {
         Parcel zza = zza();
-        com.google.android.gms.internal.maps.zzc.zzf(zza, zzvVar);
+        com.google.android.gms.internal.maps.zzc.zzg(zza, zzvVar);
         zzc(96, zza);
     }
 
     @Override // com.google.android.gms.maps.internal.IGoogleMapDelegate
-    public final void setOnMapLoadedCallback(zzan zzanVar) throws RemoteException {
+    public final void setOnMapLoadedCallback(zzao zzaoVar) throws RemoteException {
         Parcel zza = zza();
-        com.google.android.gms.internal.maps.zzc.zzf(zza, zzanVar);
+        com.google.android.gms.internal.maps.zzc.zzg(zza, zzaoVar);
         zzc(42, zza);
     }
 
     @Override // com.google.android.gms.maps.internal.IGoogleMapDelegate
-    public final void setOnMarkerClickListener(zzat zzatVar) throws RemoteException {
+    public final void setOnMarkerClickListener(zzau zzauVar) throws RemoteException {
         Parcel zza = zza();
-        com.google.android.gms.internal.maps.zzc.zzf(zza, zzatVar);
+        com.google.android.gms.internal.maps.zzc.zzg(zza, zzauVar);
         zzc(30, zza);
     }
 
     @Override // com.google.android.gms.maps.internal.IGoogleMapDelegate
-    public final void setOnMyLocationChangeListener(zzaz zzazVar) throws RemoteException {
+    public final void setOnMyLocationChangeListener(zzba zzbaVar) throws RemoteException {
         Parcel zza = zza();
-        com.google.android.gms.internal.maps.zzc.zzf(zza, zzazVar);
+        com.google.android.gms.internal.maps.zzc.zzg(zza, zzbaVar);
         zzc(36, zza);
     }
 

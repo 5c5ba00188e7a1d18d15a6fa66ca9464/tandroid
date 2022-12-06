@@ -2,9 +2,9 @@ package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public abstract class TLRPC$messages_TranslatedText extends TLObject {
     public static TLRPC$messages_TranslatedText TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-        TLRPC$messages_TranslatedText tLRPC$messages_TranslatedText;
+        TLRPC$messages_TranslatedText tLRPC$TL_messages_translateResultText;
         if (i != -1575684144) {
-            tLRPC$messages_TranslatedText = i != 1741309751 ? null : new TLRPC$messages_TranslatedText() { // from class: org.telegram.tgnet.TLRPC$TL_messages_translateNoResult
+            tLRPC$TL_messages_translateResultText = i != 1741309751 ? null : new TLRPC$messages_TranslatedText() { // from class: org.telegram.tgnet.TLRPC$TL_messages_translateNoResult
                 public static int constructor = 1741309751;
 
                 @Override // org.telegram.tgnet.TLObject
@@ -13,27 +13,13 @@ public abstract class TLRPC$messages_TranslatedText extends TLObject {
                 }
             };
         } else {
-            tLRPC$messages_TranslatedText = new TLRPC$messages_TranslatedText() { // from class: org.telegram.tgnet.TLRPC$TL_messages_translateResultText
-                public static int constructor = -1575684144;
-                public String text;
-
-                @Override // org.telegram.tgnet.TLObject
-                public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
-                    this.text = abstractSerializedData2.readString(z2);
-                }
-
-                @Override // org.telegram.tgnet.TLObject
-                public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
-                    abstractSerializedData2.writeInt32(constructor);
-                    abstractSerializedData2.writeString(this.text);
-                }
-            };
+            tLRPC$TL_messages_translateResultText = new TLRPC$TL_messages_translateResultText();
         }
-        if (tLRPC$messages_TranslatedText != null || !z) {
-            if (tLRPC$messages_TranslatedText != null) {
-                tLRPC$messages_TranslatedText.readParams(abstractSerializedData, z);
+        if (tLRPC$TL_messages_translateResultText != null || !z) {
+            if (tLRPC$TL_messages_translateResultText != null) {
+                tLRPC$TL_messages_translateResultText.readParams(abstractSerializedData, z);
             }
-            return tLRPC$messages_TranslatedText;
+            return tLRPC$TL_messages_translateResultText;
         }
         throw new RuntimeException(String.format("can't parse magic %x in messages_TranslatedText", Integer.valueOf(i)));
     }

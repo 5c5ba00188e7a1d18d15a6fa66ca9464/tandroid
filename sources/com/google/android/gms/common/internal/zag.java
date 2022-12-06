@@ -1,26 +1,37 @@
 package com.google.android.gms.common.internal;
 
-import android.os.Bundle;
-import com.google.android.gms.common.api.internal.ConnectionCallbacks;
-import com.google.android.gms.common.internal.BaseGmsClient;
-/* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
+import android.app.Activity;
+import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Build;
+import android.util.Log;
+import com.google.android.gms.common.api.internal.LifecycleFragment;
+/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
-public final class zag implements BaseGmsClient.BaseConnectionCallbacks {
-    private final /* synthetic */ ConnectionCallbacks zaa;
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zag(ConnectionCallbacks connectionCallbacks) {
-        this.zaa = connectionCallbacks;
+public abstract class zag implements DialogInterface.OnClickListener {
+    public static zag zab(Activity activity, Intent intent, int i) {
+        return new zad(intent, activity, i);
     }
 
-    @Override // com.google.android.gms.common.internal.BaseGmsClient.BaseConnectionCallbacks
-    public final void onConnected(Bundle bundle) {
-        this.zaa.onConnected(bundle);
+    public static zag zad(LifecycleFragment lifecycleFragment, Intent intent, int i) {
+        return new zaf(intent, lifecycleFragment, 2);
     }
 
-    @Override // com.google.android.gms.common.internal.BaseGmsClient.BaseConnectionCallbacks
-    public final void onConnectionSuspended(int i) {
-        this.zaa.onConnectionSuspended(i);
+    @Override // android.content.DialogInterface.OnClickListener
+    public final void onClick(DialogInterface dialogInterface, int i) {
+        try {
+            zaa();
+        } catch (ActivityNotFoundException e) {
+            String str = "Failed to start resolution intent.";
+            if (true == Build.FINGERPRINT.contains("generic")) {
+                str = "Failed to start resolution intent. This may occur when resolving Google Play services connection issues on emulators with Google APIs but not Google Play Store.";
+            }
+            Log.e("DialogRedirect", str, e);
+        } finally {
+            dialogInterface.dismiss();
+        }
     }
+
+    protected abstract void zaa();
 }

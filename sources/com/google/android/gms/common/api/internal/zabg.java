@@ -1,20 +1,38 @@
 package com.google.android.gms.common.api.internal;
 
-import com.google.android.gms.common.api.internal.GoogleApiManager;
-import com.google.android.gms.common.internal.BaseGmsClient;
-/* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
+import java.util.concurrent.locks.Lock;
+/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
-public final class zabg implements BaseGmsClient.SignOutCallbacks {
-    final /* synthetic */ GoogleApiManager.zaa zaa;
+abstract class zabg {
+    private final zabf zaa;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zabg(GoogleApiManager.zaa zaaVar) {
-        this.zaa = zaaVar;
+    /* JADX INFO: Access modifiers changed from: protected */
+    public zabg(zabf zabfVar) {
+        this.zaa = zabfVar;
     }
 
-    @Override // com.google.android.gms.common.internal.BaseGmsClient.SignOutCallbacks
-    public final void onSignOutComplete() {
-        GoogleApiManager.this.zat.post(new zabi(this));
+    protected abstract void zaa();
+
+    public final void zab(zabi zabiVar) {
+        Lock lock;
+        Lock lock2;
+        zabf zabfVar;
+        Lock lock3;
+        lock = zabiVar.zai;
+        lock.lock();
+        try {
+            zabfVar = zabiVar.zan;
+            if (zabfVar != this.zaa) {
+                lock3 = zabiVar.zai;
+            } else {
+                zaa();
+                lock3 = zabiVar.zai;
+            }
+            lock3.unlock();
+        } catch (Throwable th) {
+            lock2 = zabiVar.zai;
+            lock2.unlock();
+            throw th;
+        }
     }
 }

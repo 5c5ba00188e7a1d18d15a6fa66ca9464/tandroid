@@ -8,6 +8,7 @@ import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -35,7 +36,11 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import androidx.core.graphics.ColorUtils;
 import androidx.core.util.Consumer;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -623,6 +628,23 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
         if (this.isPageLoaded) {
             return;
         }
+        try {
+            InputStream open = getResources().getAssets().open("bot_clipboard_wrapper.js");
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(open));
+            StringBuilder sb = new StringBuilder();
+            while (true) {
+                String readLine = bufferedReader.readLine();
+                if (readLine == null) {
+                    break;
+                }
+                sb.append(readLine);
+                sb.append("\n");
+            }
+            open.close();
+            evaluateJs(sb.toString());
+        } catch (IOException e) {
+            FileLog.e(e);
+        }
         AnimatorSet animatorSet = new AnimatorSet();
         animatorSet.playTogether(ObjectAnimator.ofFloat(this.webView, View.ALPHA, 1.0f), ObjectAnimator.ofFloat(this.flickerView, View.ALPHA, 0.0f));
         animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.BotWebViewContainer.5
@@ -987,6 +1009,10 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
 
     public boolean isBackButtonVisible() {
         return this.isBackButtonVisible;
+    }
+
+    public void evaluateJs(String str) {
+        evaluateJs(str, true);
     }
 
     public void evaluateJs(String str, boolean z) {
@@ -1680,6 +1706,15 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
                     BotWebViewContainer.WebViewProxy.this.lambda$postEvent$0(str, str2);
                 }
             });
+        }
+
+        @JavascriptInterface
+        public String getClipboardText() {
+            CharSequence text = ((ClipboardManager) BotWebViewContainer.this.getContext().getSystemService("clipboard")).getText();
+            if (text != null) {
+                return text.toString();
+            }
+            return null;
         }
     }
 

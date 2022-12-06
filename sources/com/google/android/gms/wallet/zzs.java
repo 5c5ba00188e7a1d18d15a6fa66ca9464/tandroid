@@ -3,24 +3,46 @@ package com.google.android.gms.wallet;
 import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelReader;
-import com.google.android.gms.identity.intents.model.UserAddress;
-/* compiled from: com.google.android.gms:play-services-wallet@@18.1.3 */
+import com.google.android.gms.common.util.ArrayUtils;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.wallet.wobs.LabelValueRow;
+import com.google.android.gms.wallet.wobs.LoyaltyPoints;
+import com.google.android.gms.wallet.wobs.TextModuleData;
+import com.google.android.gms.wallet.wobs.TimeInterval;
+import com.google.android.gms.wallet.wobs.UriData;
+import com.google.android.gms.wallet.wobs.WalletObjectMessage;
+import java.util.ArrayList;
+/* compiled from: com.google.android.gms:play-services-wallet@@19.1.0 */
 /* loaded from: classes.dex */
-public final class zzs implements Parcelable.Creator<MaskedWallet> {
+public final class zzs implements Parcelable.Creator {
     @Override // android.os.Parcelable.Creator
-    public final /* bridge */ /* synthetic */ MaskedWallet createFromParcel(Parcel parcel) {
+    public final /* bridge */ /* synthetic */ Object createFromParcel(Parcel parcel) {
         int validateObjectHeader = SafeParcelReader.validateObjectHeader(parcel);
+        ArrayList newArrayList = ArrayUtils.newArrayList();
+        ArrayList newArrayList2 = ArrayUtils.newArrayList();
+        ArrayList newArrayList3 = ArrayUtils.newArrayList();
+        ArrayList arrayList = newArrayList;
+        ArrayList arrayList2 = newArrayList2;
+        ArrayList arrayList3 = newArrayList3;
+        ArrayList newArrayList4 = ArrayUtils.newArrayList();
+        ArrayList newArrayList5 = ArrayUtils.newArrayList();
+        ArrayList newArrayList6 = ArrayUtils.newArrayList();
         String str = null;
         String str2 = null;
-        String[] strArr = null;
         String str3 = null;
-        zza zzaVar = null;
-        zza zzaVar2 = null;
-        LoyaltyWalletObject[] loyaltyWalletObjectArr = null;
-        OfferWalletObject[] offerWalletObjectArr = null;
-        UserAddress userAddress = null;
-        UserAddress userAddress2 = null;
-        InstrumentInfo[] instrumentInfoArr = null;
+        String str4 = null;
+        String str5 = null;
+        String str6 = null;
+        String str7 = null;
+        String str8 = null;
+        String str9 = null;
+        String str10 = null;
+        TimeInterval timeInterval = null;
+        String str11 = null;
+        String str12 = null;
+        LoyaltyPoints loyaltyPoints = null;
+        int i = 0;
+        boolean z = false;
         while (parcel.dataPosition() < validateObjectHeader) {
             int readHeader = SafeParcelReader.readHeader(parcel);
             switch (SafeParcelReader.getFieldId(readHeader)) {
@@ -31,31 +53,64 @@ public final class zzs implements Parcelable.Creator<MaskedWallet> {
                     str2 = SafeParcelReader.createString(parcel, readHeader);
                     break;
                 case 4:
-                    strArr = SafeParcelReader.createStringArray(parcel, readHeader);
-                    break;
-                case 5:
                     str3 = SafeParcelReader.createString(parcel, readHeader);
                     break;
+                case 5:
+                    str4 = SafeParcelReader.createString(parcel, readHeader);
+                    break;
                 case 6:
-                    zzaVar = (zza) SafeParcelReader.createParcelable(parcel, readHeader, zza.CREATOR);
+                    str5 = SafeParcelReader.createString(parcel, readHeader);
                     break;
                 case 7:
-                    zzaVar2 = (zza) SafeParcelReader.createParcelable(parcel, readHeader, zza.CREATOR);
+                    str6 = SafeParcelReader.createString(parcel, readHeader);
                     break;
                 case 8:
-                    loyaltyWalletObjectArr = (LoyaltyWalletObject[]) SafeParcelReader.createTypedArray(parcel, readHeader, LoyaltyWalletObject.CREATOR);
+                    str7 = SafeParcelReader.createString(parcel, readHeader);
                     break;
                 case 9:
-                    offerWalletObjectArr = (OfferWalletObject[]) SafeParcelReader.createTypedArray(parcel, readHeader, OfferWalletObject.CREATOR);
+                    str8 = SafeParcelReader.createString(parcel, readHeader);
                     break;
                 case 10:
-                    userAddress = (UserAddress) SafeParcelReader.createParcelable(parcel, readHeader, UserAddress.CREATOR);
+                    str9 = SafeParcelReader.createString(parcel, readHeader);
                     break;
                 case 11:
-                    userAddress2 = (UserAddress) SafeParcelReader.createParcelable(parcel, readHeader, UserAddress.CREATOR);
+                    str10 = SafeParcelReader.createString(parcel, readHeader);
                     break;
                 case 12:
-                    instrumentInfoArr = (InstrumentInfo[]) SafeParcelReader.createTypedArray(parcel, readHeader, InstrumentInfo.CREATOR);
+                    i = SafeParcelReader.readInt(parcel, readHeader);
+                    break;
+                case 13:
+                    arrayList = SafeParcelReader.createTypedList(parcel, readHeader, WalletObjectMessage.CREATOR);
+                    break;
+                case 14:
+                    timeInterval = (TimeInterval) SafeParcelReader.createParcelable(parcel, readHeader, TimeInterval.CREATOR);
+                    break;
+                case 15:
+                    arrayList2 = SafeParcelReader.createTypedList(parcel, readHeader, LatLng.CREATOR);
+                    break;
+                case 16:
+                    str11 = SafeParcelReader.createString(parcel, readHeader);
+                    break;
+                case 17:
+                    str12 = SafeParcelReader.createString(parcel, readHeader);
+                    break;
+                case 18:
+                    arrayList3 = SafeParcelReader.createTypedList(parcel, readHeader, LabelValueRow.CREATOR);
+                    break;
+                case 19:
+                    z = SafeParcelReader.readBoolean(parcel, readHeader);
+                    break;
+                case 20:
+                    newArrayList4 = SafeParcelReader.createTypedList(parcel, readHeader, UriData.CREATOR);
+                    break;
+                case 21:
+                    newArrayList5 = SafeParcelReader.createTypedList(parcel, readHeader, TextModuleData.CREATOR);
+                    break;
+                case 22:
+                    newArrayList6 = SafeParcelReader.createTypedList(parcel, readHeader, UriData.CREATOR);
+                    break;
+                case 23:
+                    loyaltyPoints = (LoyaltyPoints) SafeParcelReader.createParcelable(parcel, readHeader, LoyaltyPoints.CREATOR);
                     break;
                 default:
                     SafeParcelReader.skipUnknownField(parcel, readHeader);
@@ -63,11 +118,11 @@ public final class zzs implements Parcelable.Creator<MaskedWallet> {
             }
         }
         SafeParcelReader.ensureAtEnd(parcel, validateObjectHeader);
-        return new MaskedWallet(str, str2, strArr, str3, zzaVar, zzaVar2, loyaltyWalletObjectArr, offerWalletObjectArr, userAddress, userAddress2, instrumentInfoArr);
+        return new LoyaltyWalletObject(str, str2, str3, str4, str5, str6, str7, str8, str9, str10, i, arrayList, timeInterval, arrayList2, str11, str12, arrayList3, z, newArrayList4, newArrayList5, newArrayList6, loyaltyPoints);
     }
 
     @Override // android.os.Parcelable.Creator
-    public final /* bridge */ /* synthetic */ MaskedWallet[] newArray(int i) {
-        return new MaskedWallet[i];
+    public final /* synthetic */ Object[] newArray(int i) {
+        return new LoyaltyWalletObject[i];
     }
 }

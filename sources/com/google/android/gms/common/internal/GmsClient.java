@@ -4,47 +4,23 @@ import android.accounts.Account;
 import android.content.Context;
 import android.os.IInterface;
 import android.os.Looper;
-import androidx.annotation.RecentlyNonNull;
-import androidx.annotation.RecentlyNullable;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.Api;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.common.api.internal.ConnectionCallbacks;
 import com.google.android.gms.common.api.internal.OnConnectionFailedListener;
-import com.google.android.gms.common.internal.BaseGmsClient;
 import java.util.Collections;
 import java.util.Set;
-/* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
+import java.util.concurrent.Executor;
+/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
-public abstract class GmsClient<T extends IInterface> extends BaseGmsClient<T> implements Api.Client, zak {
-    private final ClientSettings zaa;
-    private final Set<Scope> zab;
-    private final Account zac;
+public abstract class GmsClient<T extends IInterface> extends BaseGmsClient<T> implements Api.Client, zaj {
+    private final ClientSettings zab;
+    private final Set zac;
+    private final Account zad;
 
-    protected Set<Scope> validateScopes(@RecentlyNonNull Set<Scope> set) {
-        return set;
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    public GmsClient(@RecentlyNonNull Context context, @RecentlyNonNull Looper looper, int i, @RecentlyNonNull ClientSettings clientSettings, @RecentlyNonNull ConnectionCallbacks connectionCallbacks, @RecentlyNonNull OnConnectionFailedListener onConnectionFailedListener) {
-        this(context, looper, GmsClientSupervisor.getInstance(context), GoogleApiAvailability.getInstance(), i, clientSettings, (ConnectionCallbacks) Preconditions.checkNotNull(connectionCallbacks), (OnConnectionFailedListener) Preconditions.checkNotNull(onConnectionFailedListener));
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    @Deprecated
-    public GmsClient(@RecentlyNonNull Context context, @RecentlyNonNull Looper looper, int i, @RecentlyNonNull ClientSettings clientSettings, @RecentlyNonNull GoogleApiClient.ConnectionCallbacks connectionCallbacks, @RecentlyNonNull GoogleApiClient.OnConnectionFailedListener onConnectionFailedListener) {
-        this(context, looper, i, clientSettings, (ConnectionCallbacks) connectionCallbacks, (OnConnectionFailedListener) onConnectionFailedListener);
-    }
-
-    private GmsClient(Context context, Looper looper, GmsClientSupervisor gmsClientSupervisor, GoogleApiAvailability googleApiAvailability, int i, ClientSettings clientSettings, ConnectionCallbacks connectionCallbacks, OnConnectionFailedListener onConnectionFailedListener) {
-        super(context, looper, gmsClientSupervisor, googleApiAvailability, i, zaa(connectionCallbacks), zaa(onConnectionFailedListener), clientSettings.zab());
-        this.zaa = clientSettings;
-        this.zac = clientSettings.getAccount();
-        this.zab = zaa(clientSettings.getAllRequestedScopes());
-    }
-
-    private final Set<Scope> zaa(Set<Scope> set) {
+    private final Set zaa(Set set) {
         Set<Scope> validateScopes = validateScopes(set);
         for (Scope scope : validateScopes) {
             if (!set.contains(scope)) {
@@ -55,39 +31,49 @@ public abstract class GmsClient<T extends IInterface> extends BaseGmsClient<T> i
     }
 
     @Override // com.google.android.gms.common.internal.BaseGmsClient
-    @RecentlyNullable
     public final Account getAccount() {
-        return this.zac;
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    @RecentlyNonNull
-    public final ClientSettings getClientSettings() {
-        return this.zaa;
+        return this.zad;
     }
 
     @Override // com.google.android.gms.common.internal.BaseGmsClient
-    @RecentlyNonNull
-    protected final Set<Scope> getScopes() {
+    protected final Executor getBindServiceExecutor() {
+        return null;
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public final ClientSettings getClientSettings() {
         return this.zab;
+    }
+
+    @Override // com.google.android.gms.common.internal.BaseGmsClient
+    protected final Set<Scope> getScopes() {
+        return this.zac;
     }
 
     @Override // com.google.android.gms.common.api.Api.Client
     public Set<Scope> getScopesForConnectionlessNonSignIn() {
-        return requiresSignIn() ? this.zab : Collections.emptySet();
+        return requiresSignIn() ? this.zac : Collections.emptySet();
     }
 
-    private static BaseGmsClient.BaseConnectionCallbacks zaa(ConnectionCallbacks connectionCallbacks) {
-        if (connectionCallbacks == null) {
-            return null;
-        }
-        return new zag(connectionCallbacks);
+    protected Set<Scope> validateScopes(Set<Scope> set) {
+        return set;
     }
 
-    private static BaseGmsClient.BaseOnConnectionFailedListener zaa(OnConnectionFailedListener onConnectionFailedListener) {
-        if (onConnectionFailedListener == null) {
-            return null;
-        }
-        return new zai(onConnectionFailedListener);
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Deprecated
+    public GmsClient(Context context, Looper looper, int i, ClientSettings clientSettings, GoogleApiClient.ConnectionCallbacks connectionCallbacks, GoogleApiClient.OnConnectionFailedListener onConnectionFailedListener) {
+        this(context, looper, i, clientSettings, (ConnectionCallbacks) connectionCallbacks, (OnConnectionFailedListener) onConnectionFailedListener);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public GmsClient(Context context, Looper looper, int i, ClientSettings clientSettings, ConnectionCallbacks connectionCallbacks, OnConnectionFailedListener onConnectionFailedListener) {
+        this(context, looper, GmsClientSupervisor.getInstance(context), GoogleApiAvailability.getInstance(), i, clientSettings, (ConnectionCallbacks) Preconditions.checkNotNull(connectionCallbacks), (OnConnectionFailedListener) Preconditions.checkNotNull(onConnectionFailedListener));
+    }
+
+    protected GmsClient(Context context, Looper looper, GmsClientSupervisor gmsClientSupervisor, GoogleApiAvailability googleApiAvailability, int i, ClientSettings clientSettings, ConnectionCallbacks connectionCallbacks, OnConnectionFailedListener onConnectionFailedListener) {
+        super(context, looper, gmsClientSupervisor, googleApiAvailability, i, connectionCallbacks == null ? null : new zah(connectionCallbacks), onConnectionFailedListener == null ? null : new zai(onConnectionFailedListener), clientSettings.zac());
+        this.zab = clientSettings;
+        this.zad = clientSettings.getAccount();
+        this.zac = zaa(clientSettings.getAllRequestedScopes());
     }
 }

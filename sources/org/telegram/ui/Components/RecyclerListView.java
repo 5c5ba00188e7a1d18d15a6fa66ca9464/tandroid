@@ -43,6 +43,7 @@ import java.util.Objects;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.tgnet.ConnectionsManager;
@@ -57,7 +58,9 @@ public class RecyclerListView extends RecyclerView {
     private View.AccessibilityDelegate accessibilityDelegate;
     private boolean accessibilityEnabled;
     private boolean allowItemsInteractionDuringAnimation;
+    private boolean allowStopHeaveOperations;
     private boolean animateEmptyView;
+    private Paint backgroundPaint;
     private Runnable clickRunnable;
     private int currentChildPosition;
     private View currentChildView;
@@ -127,8 +130,10 @@ public class RecyclerListView extends RecyclerView {
     private boolean selfOnLayout;
     private int startSection;
     int startSelectionFrom;
+    private boolean stoppedAllHeavyOperations;
     private int topBottomSelectorRadius;
     private int touchSlop;
+    public boolean useLayoutPositionOnClick;
     boolean useRelativePositions;
 
     /* loaded from: classes3.dex */
@@ -1218,7 +1223,11 @@ public class RecyclerListView extends RecyclerView {
                 RecyclerListView.this.currentChildPosition = -1;
                 if (RecyclerListView.this.currentChildView != null) {
                     RecyclerListView recyclerListView = RecyclerListView.this;
-                    recyclerListView.currentChildPosition = recyclerView.getChildPosition(recyclerListView.currentChildView);
+                    if (recyclerListView.useLayoutPositionOnClick) {
+                        recyclerListView.currentChildPosition = recyclerView.getChildLayoutPosition(recyclerListView.currentChildView);
+                    } else {
+                        recyclerListView.currentChildPosition = recyclerView.getChildAdapterPosition(recyclerListView.currentChildView);
+                    }
                     MotionEvent obtain = MotionEvent.obtain(0L, 0L, motionEvent.getActionMasked(), motionEvent.getX() - RecyclerListView.this.currentChildView.getLeft(), motionEvent.getY() - RecyclerListView.this.currentChildView.getTop(), 0);
                     if (RecyclerListView.this.currentChildView.onTouchEvent(obtain)) {
                         RecyclerListView.this.interceptedByChild = true;
@@ -1505,6 +1514,7 @@ public class RecyclerListView extends RecyclerView {
         super.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.Components.RecyclerListView.3
             @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
             public void onScrollStateChanged(RecyclerView recyclerView, int i) {
+                RecyclerListView.this.checkStopHeavyOperations(i);
                 boolean z = false;
                 if (i != 0 && RecyclerListView.this.currentChildView != null) {
                     if (RecyclerListView.this.selectChildRunnable != null) {
@@ -1561,6 +1571,42 @@ public class RecyclerListView extends RecyclerView {
             }
         });
         addOnItemTouchListener(new RecyclerListViewItemClickListener(context));
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public void drawSectionBackground(Canvas canvas, int i, int i2, int i3) {
+        int childAdapterPosition;
+        int i4 = ConnectionsManager.DEFAULT_DATACENTER_ID;
+        int i5 = Integer.MIN_VALUE;
+        for (int i6 = 0; i6 < getChildCount(); i6++) {
+            View childAt = getChildAt(i6);
+            if (childAt != null && (childAdapterPosition = getChildAdapterPosition(childAt)) >= i && childAdapterPosition <= i2) {
+                i4 = Math.min(childAt.getTop(), i4);
+                i5 = Math.max(childAt.getBottom(), i5);
+            }
+        }
+        if (i4 < i5) {
+            if (this.backgroundPaint == null) {
+                this.backgroundPaint = new Paint(1);
+            }
+            this.backgroundPaint.setColor(i3);
+            canvas.drawRect(0.0f, i4, getWidth(), i5, this.backgroundPaint);
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void checkStopHeavyOperations(int i) {
+        if (i == 0) {
+            if (!this.stoppedAllHeavyOperations) {
+                return;
+            }
+            this.stoppedAllHeavyOperations = false;
+            NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.startAllHeavyOperations, 512);
+        } else if (this.stoppedAllHeavyOperations || !this.allowStopHeaveOperations) {
+        } else {
+            this.stoppedAllHeavyOperations = true;
+            NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.stopAllHeavyOperations, 512);
+        }
     }
 
     @Override // android.view.View
@@ -2097,7 +2143,6 @@ public class RecyclerListView extends RecyclerView {
         this.hiddenByEmptyView = true;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     public boolean emptyViewIsVisible() {
         return getAdapter() != null && !isFastScrollAnimationRunning() && getAdapter().getItemCount() == 0;
     }
@@ -2554,6 +2599,10 @@ public class RecyclerListView extends RecyclerView {
         if (recyclerItemsEnterAnimator != null) {
             recyclerItemsEnterAnimator.onDetached();
         }
+        if (this.stoppedAllHeavyOperations) {
+            this.stoppedAllHeavyOperations = false;
+            NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.startAllHeavyOperations, 512);
+        }
     }
 
     public void addOverlayView(View view, FrameLayout.LayoutParams layoutParams) {
@@ -2807,5 +2856,9 @@ public class RecyclerListView extends RecyclerView {
 
     public void setAccessibilityEnabled(boolean z) {
         this.accessibilityEnabled = z;
+    }
+
+    public void setAllowStopHeaveOperations(boolean z) {
+        this.allowStopHeaveOperations = z;
     }
 }

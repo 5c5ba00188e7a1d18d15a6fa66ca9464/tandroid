@@ -1,19 +1,17 @@
 package com.google.android.gms.maps;
 
 import android.os.RemoteException;
-import androidx.annotation.RecentlyNonNull;
 import com.google.android.gms.common.internal.Preconditions;
 import com.google.android.gms.maps.internal.ICameraUpdateFactoryDelegate;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.RuntimeRemoteException;
-/* compiled from: com.google.android.gms:play-services-maps@@17.0.1 */
+/* compiled from: com.google.android.gms:play-services-maps@@18.1.0 */
 /* loaded from: classes.dex */
 public final class CameraUpdateFactory {
     private static ICameraUpdateFactoryDelegate zza;
 
-    @RecentlyNonNull
-    public static CameraUpdate newLatLng(@RecentlyNonNull LatLng latLng) {
+    public static CameraUpdate newLatLng(LatLng latLng) {
         Preconditions.checkNotNull(latLng, "latLng must not be null");
         try {
             return new CameraUpdate(zzb().newLatLng(latLng));
@@ -22,8 +20,7 @@ public final class CameraUpdateFactory {
         }
     }
 
-    @RecentlyNonNull
-    public static CameraUpdate newLatLngBounds(@RecentlyNonNull LatLngBounds latLngBounds, int i) {
+    public static CameraUpdate newLatLngBounds(LatLngBounds latLngBounds, int i) {
         Preconditions.checkNotNull(latLngBounds, "bounds must not be null");
         try {
             return new CameraUpdate(zzb().newLatLngBounds(latLngBounds, i));
@@ -32,8 +29,7 @@ public final class CameraUpdateFactory {
         }
     }
 
-    @RecentlyNonNull
-    public static CameraUpdate newLatLngZoom(@RecentlyNonNull LatLng latLng, float f) {
+    public static CameraUpdate newLatLngZoom(LatLng latLng, float f) {
         Preconditions.checkNotNull(latLng, "latLng must not be null");
         try {
             return new CameraUpdate(zzb().newLatLngZoom(latLng, f));
@@ -42,7 +38,7 @@ public final class CameraUpdateFactory {
         }
     }
 
-    public static void zza(@RecentlyNonNull ICameraUpdateFactoryDelegate iCameraUpdateFactoryDelegate) {
+    public static void zza(ICameraUpdateFactoryDelegate iCameraUpdateFactoryDelegate) {
         zza = (ICameraUpdateFactoryDelegate) Preconditions.checkNotNull(iCameraUpdateFactoryDelegate);
     }
 

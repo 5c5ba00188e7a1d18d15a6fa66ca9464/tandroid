@@ -1,54 +1,20 @@
 package com.google.android.gms.common.api.internal;
 
 import android.os.Looper;
-import android.os.Message;
-import androidx.annotation.RecentlyNonNull;
-import androidx.annotation.RecentlyNullable;
 import com.google.android.gms.common.internal.Preconditions;
-/* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
+import com.google.android.gms.common.util.concurrent.HandlerExecutor;
+import java.util.concurrent.Executor;
+/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 public final class ListenerHolder<L> {
-    private final zaa zaa;
-    private volatile L zab;
-    private volatile ListenerKey<L> zac;
+    private final Executor zaa;
+    private volatile Object zab;
+    private volatile ListenerKey zac;
 
-    /* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
-    /* loaded from: classes.dex */
-    public interface Notifier<L> {
-        void notifyListener(@RecentlyNonNull L l);
-
-        void onNotifyListenerFailed();
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public ListenerHolder(Looper looper, L l, String str) {
-        this.zaa = new zaa(looper);
-        this.zab = (L) Preconditions.checkNotNull(l, "Listener must not be null");
-        this.zac = new ListenerKey<>(l, Preconditions.checkNotEmpty(str));
-    }
-
-    /* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
-    /* loaded from: classes.dex */
-    private final class zaa extends com.google.android.gms.internal.base.zas {
-        public zaa(Looper looper) {
-            super(looper);
-        }
-
-        @Override // android.os.Handler
-        public final void handleMessage(Message message) {
-            boolean z = true;
-            if (message.what != 1) {
-                z = false;
-            }
-            Preconditions.checkArgument(z);
-            ListenerHolder.this.notifyListenerInternal((Notifier) message.obj);
-        }
-    }
-
-    /* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
+    /* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
     /* loaded from: classes.dex */
     public static final class ListenerKey<L> {
-        private final L zaa;
+        private final Object zaa;
         private final String zab;
 
         /* JADX INFO: Access modifiers changed from: package-private */
@@ -57,7 +23,7 @@ public final class ListenerHolder<L> {
             this.zab = str;
         }
 
-        public final boolean equals(Object obj) {
+        public boolean equals(Object obj) {
             if (this == obj) {
                 return true;
             }
@@ -68,28 +34,55 @@ public final class ListenerHolder<L> {
             return this.zaa == listenerKey.zaa && this.zab.equals(listenerKey.zab);
         }
 
-        public final int hashCode() {
+        public int hashCode() {
             return (System.identityHashCode(this.zaa) * 31) + this.zab.hashCode();
+        }
+
+        public String toIdString() {
+            String str = this.zab;
+            int identityHashCode = System.identityHashCode(this.zaa);
+            return str + "@" + identityHashCode;
         }
     }
 
-    public final void notifyListener(@RecentlyNonNull Notifier<? super L> notifier) {
-        Preconditions.checkNotNull(notifier, "Notifier must not be null");
-        this.zaa.sendMessage(this.zaa.obtainMessage(1, notifier));
+    /* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
+    /* loaded from: classes.dex */
+    public interface Notifier<L> {
+        void notifyListener(L l);
+
+        void onNotifyListenerFailed();
     }
 
-    public final void clear() {
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public ListenerHolder(Looper looper, L l, String str) {
+        this.zaa = new HandlerExecutor(looper);
+        this.zab = Preconditions.checkNotNull(l, "Listener must not be null");
+        this.zac = new ListenerKey(l, Preconditions.checkNotEmpty(str));
+    }
+
+    public void clear() {
         this.zab = null;
         this.zac = null;
     }
 
-    @RecentlyNullable
-    public final ListenerKey<L> getListenerKey() {
+    public ListenerKey<L> getListenerKey() {
         return this.zac;
     }
 
-    final void notifyListenerInternal(Notifier<? super L> notifier) {
-        Object obj = (L) this.zab;
+    public void notifyListener(final Notifier<? super L> notifier) {
+        Preconditions.checkNotNull(notifier, "Notifier must not be null");
+        this.zaa.execute(new Runnable() { // from class: com.google.android.gms.common.api.internal.zacb
+            @Override // java.lang.Runnable
+            public final void run() {
+                ListenerHolder.this.zaa(notifier);
+            }
+        });
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* JADX WARN: Multi-variable type inference failed */
+    public final void zaa(Notifier notifier) {
+        Object obj = this.zab;
         if (obj == null) {
             notifier.onNotifyListenerFailed();
             return;

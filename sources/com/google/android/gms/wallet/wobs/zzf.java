@@ -5,11 +5,11 @@ import android.os.Parcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelReader;
 import com.google.android.gms.common.util.ArrayUtils;
 import java.util.ArrayList;
-/* compiled from: com.google.android.gms:play-services-wallet@@18.1.3 */
+/* compiled from: com.google.android.gms:play-services-wallet@@19.1.0 */
 /* loaded from: classes.dex */
-public final class zzf implements Parcelable.Creator<LabelValueRow> {
+public final class zzf implements Parcelable.Creator {
     @Override // android.os.Parcelable.Creator
-    public final /* bridge */ /* synthetic */ LabelValueRow createFromParcel(Parcel parcel) {
+    public final /* bridge */ /* synthetic */ Object createFromParcel(Parcel parcel) {
         int validateObjectHeader = SafeParcelReader.validateObjectHeader(parcel);
         ArrayList newArrayList = ArrayUtils.newArrayList();
         String str = null;
@@ -32,7 +32,7 @@ public final class zzf implements Parcelable.Creator<LabelValueRow> {
     }
 
     @Override // android.os.Parcelable.Creator
-    public final /* bridge */ /* synthetic */ LabelValueRow[] newArray(int i) {
+    public final /* synthetic */ Object[] newArray(int i) {
         return new LabelValueRow[i];
     }
 }

@@ -3,11 +3,11 @@ package com.google.android.gms.maps.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelReader;
-/* compiled from: com.google.android.gms:play-services-maps@@17.0.1 */
+/* compiled from: com.google.android.gms:play-services-maps@@18.1.0 */
 /* loaded from: classes.dex */
-public final class zzg implements Parcelable.Creator<LatLng> {
+public final class zzg implements Parcelable.Creator {
     @Override // android.os.Parcelable.Creator
-    public final /* bridge */ /* synthetic */ LatLng createFromParcel(Parcel parcel) {
+    public final /* bridge */ /* synthetic */ Object createFromParcel(Parcel parcel) {
         int validateObjectHeader = SafeParcelReader.validateObjectHeader(parcel);
         double d = 0.0d;
         double d2 = 0.0d;
@@ -27,7 +27,7 @@ public final class zzg implements Parcelable.Creator<LatLng> {
     }
 
     @Override // android.os.Parcelable.Creator
-    public final /* bridge */ /* synthetic */ LatLng[] newArray(int i) {
+    public final /* synthetic */ Object[] newArray(int i) {
         return new LatLng[i];
     }
 }

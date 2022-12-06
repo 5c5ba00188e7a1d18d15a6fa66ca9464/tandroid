@@ -50,11 +50,12 @@ import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.ViewPagerFixed;
 /* loaded from: classes3.dex */
 public class ViewPagerFixed extends FrameLayout {
-    private static final Interpolator interpolator = ViewPagerFixed$$ExternalSyntheticLambda0.INSTANCE;
+    private static final Interpolator interpolator = ViewPagerFixed$$ExternalSyntheticLambda1.INSTANCE;
     private Adapter adapter;
     private float additionalOffset;
     private boolean animatingForward;
     private boolean backAnimation;
+    private float backProgress;
     int currentPosition;
     private int maximumVelocity;
     private boolean maybeStartTracking;
@@ -111,6 +112,13 @@ public class ViewPagerFixed extends FrameLayout {
     }
 
     protected void invalidateBlur() {
+    }
+
+    protected void onBack() {
+    }
+
+    protected boolean onBackProgress(float f) {
+        return false;
     }
 
     protected void onItemSelected(View view, View view2, int i, int i2) {
@@ -219,6 +227,9 @@ public class ViewPagerFixed extends FrameLayout {
     /* JADX INFO: Access modifiers changed from: private */
     public void updateViewForIndex(int i) {
         int i2 = i == 0 ? this.currentPosition : this.nextPosition;
+        if (i2 < 0 || i2 >= this.adapter.getItemCount()) {
+            return;
+        }
         if (this.viewPages[i] == null) {
             this.viewTypes[i] = this.adapter.getItemViewType(i2);
             View view = this.viewsByType.get(this.viewTypes[i]);
@@ -258,7 +269,8 @@ public class ViewPagerFixed extends FrameLayout {
         }
     }
 
-    private void fillTabs() {
+    /* JADX INFO: Access modifiers changed from: protected */
+    public void fillTabs() {
         TabsView tabsView;
         if (this.adapter == null || (tabsView = this.tabsView) == null) {
             return;
@@ -269,8 +281,17 @@ public class ViewPagerFixed extends FrameLayout {
         }
     }
 
+    /* JADX WARN: Code restructure failed: missing block: B:6:0x000e, code lost:
+        if (onBackProgress(0.0f) != false) goto L9;
+     */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     private boolean prepareForMoving(MotionEvent motionEvent, boolean z) {
-        if ((z || this.currentPosition != 0) && (!z || this.currentPosition != this.adapter.getItemCount() - 1)) {
+        if (!z && this.currentPosition == 0) {
+            this.backProgress = 0.0f;
+        }
+        if (!z || this.currentPosition != this.adapter.getItemCount() - 1) {
             getParent().requestDisallowInterceptTouchEvent(true);
             this.maybeStartTracking = false;
             this.startedTracking = true;
@@ -282,12 +303,13 @@ public class ViewPagerFixed extends FrameLayout {
             this.animatingForward = z;
             this.nextPosition = this.currentPosition + (z ? 1 : -1);
             updateViewForIndex(1);
-            if (z) {
-                View[] viewArr = this.viewPages;
-                viewArr[1].setTranslationX(viewArr[0].getMeasuredWidth());
-            } else {
-                View[] viewArr2 = this.viewPages;
-                viewArr2[1].setTranslationX(-viewArr2[0].getMeasuredWidth());
+            View[] viewArr = this.viewPages;
+            if (viewArr[1] != null) {
+                if (z) {
+                    viewArr[1].setTranslationX(viewArr[0].getMeasuredWidth());
+                } else {
+                    viewArr[1].setTranslationX(-viewArr[0].getMeasuredWidth());
+                }
             }
             return true;
         }
@@ -315,7 +337,7 @@ public class ViewPagerFixed extends FrameLayout {
         super.requestDisallowInterceptTouchEvent(z);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:149:0x0284, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:175:0x0297, code lost:
         r6 = true;
      */
     @Override // android.view.View
@@ -325,17 +347,13 @@ public class ViewPagerFixed extends FrameLayout {
     public boolean onTouchEvent(MotionEvent motionEvent) {
         float f;
         float f2;
-        float measuredWidth;
+        float f3;
         View[] viewArr;
         View[] viewArr2;
-        int measuredWidth2;
-        View[] viewArr3;
-        View[] viewArr4;
-        View[] viewArr5;
-        View[] viewArr6;
+        int measuredWidth;
         boolean z;
-        View[] viewArr7;
         View findScrollingChild;
+        View[] viewArr3;
         TabsView tabsView = this.tabsView;
         if (tabsView == null || !tabsView.animatingIndicator) {
             if (motionEvent != null) {
@@ -357,12 +375,16 @@ public class ViewPagerFixed extends FrameLayout {
                         this.animatingForward = false;
                         this.additionalOffset = this.viewPages[0].getTranslationX();
                     }
-                } else if (x < this.viewPages[1].getMeasuredWidth() + this.viewPages[1].getTranslationX()) {
-                    swapViews();
-                    this.animatingForward = true;
-                    this.additionalOffset = this.viewPages[0].getTranslationX();
                 } else {
-                    this.additionalOffset = this.viewPages[0].getTranslationX();
+                    if (this.viewPages[1] != null) {
+                        if (x < viewArr3[1].getMeasuredWidth() + this.viewPages[1].getTranslationX()) {
+                            swapViews();
+                            this.animatingForward = true;
+                            this.additionalOffset = this.viewPages[0].getTranslationX();
+                        } else {
+                            this.additionalOffset = this.viewPages[0].getTranslationX();
+                        }
+                    }
                 }
                 this.tabsAnimation.removeAllListeners();
                 this.tabsAnimation.cancel();
@@ -386,7 +408,10 @@ public class ViewPagerFixed extends FrameLayout {
                         this.maybeStartTracking = true;
                         this.startedTracking = false;
                         this.viewPages[0].setTranslationX(0.0f);
-                        this.viewPages[1].setTranslationX(this.animatingForward ? viewArr7[0].getMeasuredWidth() : -viewArr7[0].getMeasuredWidth());
+                        View[] viewArr4 = this.viewPages;
+                        if (viewArr4[1] != null) {
+                            viewArr4[1].setTranslationX(this.animatingForward ? viewArr4[0].getMeasuredWidth() : -viewArr4[0].getMeasuredWidth());
+                        }
                         TabsView tabsView2 = this.tabsView;
                         if (tabsView2 != null) {
                             tabsView2.selectTab(this.currentPosition, 0, 0.0f);
@@ -399,13 +424,21 @@ public class ViewPagerFixed extends FrameLayout {
                         prepareForMoving(motionEvent, x2 < 0);
                     }
                 } else if (this.startedTracking) {
-                    this.viewPages[0].setTranslationX(x2);
-                    if (this.animatingForward) {
-                        this.viewPages[1].setTranslationX(viewArr6[0].getMeasuredWidth() + x2);
-                    } else {
-                        this.viewPages[1].setTranslationX(x2 - viewArr5[0].getMeasuredWidth());
-                    }
                     float abs2 = Math.abs(x2) / this.viewPages[0].getMeasuredWidth();
+                    if (this.nextPosition == -1) {
+                        this.backProgress = abs2;
+                        onBackProgress(abs2);
+                    } else {
+                        this.viewPages[0].setTranslationX(x2);
+                        View[] viewArr5 = this.viewPages;
+                        if (viewArr5[1] != null) {
+                            if (this.animatingForward) {
+                                viewArr5[1].setTranslationX(viewArr5[0].getMeasuredWidth() + x2);
+                            } else {
+                                viewArr5[1].setTranslationX(x2 - viewArr5[0].getMeasuredWidth());
+                            }
+                        }
+                    }
                     TabsView tabsView3 = this.tabsView;
                     if (tabsView3 != null) {
                         tabsView3.selectTab(this.nextPosition, this.currentPosition, 1.0f - abs2);
@@ -431,7 +464,12 @@ public class ViewPagerFixed extends FrameLayout {
                             boolean z2 = this.animatingForward ? false : false;
                             this.backAnimation = z2;
                         } else if (this.animatingForward) {
-                            this.backAnimation = this.viewPages[1].getX() > ((float) (this.viewPages[0].getMeasuredWidth() >> 1));
+                            View[] viewArr6 = this.viewPages;
+                            if (viewArr6[1] != null) {
+                                this.backAnimation = viewArr6[1].getX() > ((float) (this.viewPages[0].getMeasuredWidth() >> 1));
+                            } else {
+                                this.backAnimation = false;
+                            }
                         } else {
                             this.backAnimation = this.viewPages[0].getX() < ((float) (this.viewPages[0].getMeasuredWidth() >> 1));
                         }
@@ -439,47 +477,82 @@ public class ViewPagerFixed extends FrameLayout {
                         this.backAnimation = Math.abs(x4) < ((float) this.viewPages[0].getMeasuredWidth()) / 3.0f && (Math.abs(f) < 3500.0f || Math.abs(f) < Math.abs(f2));
                     }
                     if (this.backAnimation) {
-                        measuredWidth = Math.abs(x4);
+                        f3 = Math.abs(x4);
                         if (this.animatingForward) {
-                            this.tabsAnimation.playTogether(ObjectAnimator.ofFloat(this.viewPages[0], View.TRANSLATION_X, 0.0f), ObjectAnimator.ofFloat(this.viewPages[1], View.TRANSLATION_X, viewArr4[1].getMeasuredWidth()));
+                            this.tabsAnimation.playTogether(ObjectAnimator.ofFloat(this.viewPages[0], View.TRANSLATION_X, 0.0f));
+                            View[] viewArr7 = this.viewPages;
+                            if (viewArr7[1] != null) {
+                                this.tabsAnimation.playTogether(ObjectAnimator.ofFloat(viewArr7[1], View.TRANSLATION_X, viewArr7[1].getMeasuredWidth()));
+                            }
                         } else {
-                            this.tabsAnimation.playTogether(ObjectAnimator.ofFloat(this.viewPages[0], View.TRANSLATION_X, 0.0f), ObjectAnimator.ofFloat(this.viewPages[1], View.TRANSLATION_X, -viewArr3[1].getMeasuredWidth()));
+                            this.tabsAnimation.playTogether(ObjectAnimator.ofFloat(this.viewPages[0], View.TRANSLATION_X, 0.0f));
+                            View[] viewArr8 = this.viewPages;
+                            if (viewArr8[1] != null) {
+                                this.tabsAnimation.playTogether(ObjectAnimator.ofFloat(viewArr8[1], View.TRANSLATION_X, -viewArr8[1].getMeasuredWidth()));
+                            }
+                        }
+                    } else if (this.nextPosition >= 0) {
+                        f3 = this.viewPages[0].getMeasuredWidth() - Math.abs(x4);
+                        if (this.animatingForward) {
+                            this.tabsAnimation.playTogether(ObjectAnimator.ofFloat(this.viewPages[0], View.TRANSLATION_X, -viewArr2[0].getMeasuredWidth()));
+                            View[] viewArr9 = this.viewPages;
+                            if (viewArr9[1] != null) {
+                                this.tabsAnimation.playTogether(ObjectAnimator.ofFloat(viewArr9[1], View.TRANSLATION_X, 0.0f));
+                            }
+                        } else {
+                            this.tabsAnimation.playTogether(ObjectAnimator.ofFloat(this.viewPages[0], View.TRANSLATION_X, viewArr[0].getMeasuredWidth()));
+                            View[] viewArr10 = this.viewPages;
+                            if (viewArr10[1] != null) {
+                                this.tabsAnimation.playTogether(ObjectAnimator.ofFloat(viewArr10[1], View.TRANSLATION_X, 0.0f));
+                            }
                         }
                     } else {
-                        measuredWidth = this.viewPages[0].getMeasuredWidth() - Math.abs(x4);
-                        if (this.animatingForward) {
-                            this.tabsAnimation.playTogether(ObjectAnimator.ofFloat(this.viewPages[0], View.TRANSLATION_X, -viewArr2[0].getMeasuredWidth()), ObjectAnimator.ofFloat(this.viewPages[1], View.TRANSLATION_X, 0.0f));
-                        } else {
-                            this.tabsAnimation.playTogether(ObjectAnimator.ofFloat(this.viewPages[0], View.TRANSLATION_X, viewArr[0].getMeasuredWidth()), ObjectAnimator.ofFloat(this.viewPages[1], View.TRANSLATION_X, 0.0f));
-                        }
+                        f3 = 0.0f;
                     }
-                    ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
-                    ofFloat.addUpdateListener(this.updateTabProgress);
-                    this.tabsAnimation.playTogether(ofFloat);
+                    if (this.nextPosition < 0) {
+                        float[] fArr = new float[2];
+                        fArr[0] = this.backProgress;
+                        fArr[1] = this.backAnimation ? 0.0f : 1.0f;
+                        ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
+                        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.ViewPagerFixed$$ExternalSyntheticLambda0
+                            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                            public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                                ViewPagerFixed.this.lambda$onTouchEvent$1(valueAnimator);
+                            }
+                        });
+                        this.tabsAnimation.playTogether(ofFloat);
+                    }
+                    ValueAnimator ofFloat2 = ValueAnimator.ofFloat(0.0f, 1.0f);
+                    ofFloat2.addUpdateListener(this.updateTabProgress);
+                    this.tabsAnimation.playTogether(ofFloat2);
                     this.tabsAnimation.setInterpolator(interpolator);
-                    int measuredWidth3 = getMeasuredWidth();
-                    float f3 = measuredWidth3 / 2;
-                    float distanceInfluenceForSnapDuration = f3 + (distanceInfluenceForSnapDuration(Math.min(1.0f, (measuredWidth * 1.0f) / measuredWidth3)) * f3);
+                    int measuredWidth2 = getMeasuredWidth();
+                    float f4 = measuredWidth2 / 2;
+                    float distanceInfluenceForSnapDuration = f4 + (distanceInfluenceForSnapDuration(Math.min(1.0f, (f3 * 1.0f) / measuredWidth2)) * f4);
                     float abs3 = Math.abs(f);
                     if (abs3 > 0.0f) {
-                        measuredWidth2 = Math.round(Math.abs(distanceInfluenceForSnapDuration / abs3) * 1000.0f) * 4;
+                        measuredWidth = Math.round(Math.abs(distanceInfluenceForSnapDuration / abs3) * 1000.0f) * 4;
                     } else {
-                        measuredWidth2 = (int) (((measuredWidth / getMeasuredWidth()) + 1.0f) * 100.0f);
+                        measuredWidth = (int) (((f3 / getMeasuredWidth()) + 1.0f) * 100.0f);
                     }
-                    this.tabsAnimation.setDuration(Math.max((int) ImageReceiver.DEFAULT_CROSSFADE_DURATION, Math.min(measuredWidth2, 600)));
+                    this.tabsAnimation.setDuration(Math.max((int) ImageReceiver.DEFAULT_CROSSFADE_DURATION, Math.min(measuredWidth, 600)));
                     this.tabsAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ViewPagerFixed.4
                         @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                         public void onAnimationEnd(Animator animator) {
                             ViewPagerFixed.this.tabsAnimation = null;
                             ViewPagerFixed viewPagerFixed = ViewPagerFixed.this;
-                            if (viewPagerFixed.viewPages[1] != null) {
-                                if (!viewPagerFixed.backAnimation) {
+                            if (viewPagerFixed.nextPosition < 0) {
+                                viewPagerFixed.onBack();
+                            }
+                            ViewPagerFixed viewPagerFixed2 = ViewPagerFixed.this;
+                            if (viewPagerFixed2.viewPages[1] != null) {
+                                if (!viewPagerFixed2.backAnimation) {
                                     ViewPagerFixed.this.swapViews();
                                 }
-                                ViewPagerFixed viewPagerFixed2 = ViewPagerFixed.this;
-                                viewPagerFixed2.viewsByType.put(viewPagerFixed2.viewTypes[1], ViewPagerFixed.this.viewPages[1]);
                                 ViewPagerFixed viewPagerFixed3 = ViewPagerFixed.this;
-                                viewPagerFixed3.removeView(viewPagerFixed3.viewPages[1]);
+                                viewPagerFixed3.viewsByType.put(viewPagerFixed3.viewTypes[1], ViewPagerFixed.this.viewPages[1]);
+                                ViewPagerFixed viewPagerFixed4 = ViewPagerFixed.this;
+                                viewPagerFixed4.removeView(viewPagerFixed4.viewPages[1]);
                                 ViewPagerFixed.this.viewPages[1].setVisibility(8);
                                 ViewPagerFixed.this.viewPages[1] = null;
                             }
@@ -513,6 +586,13 @@ public class ViewPagerFixed extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$onTouchEvent$1(ValueAnimator valueAnimator) {
+        float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
+        this.backProgress = floatValue;
+        onBackProgress(floatValue);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
     public void swapViews() {
         View[] viewArr = this.viewPages;
         View view = viewArr[0];
@@ -537,12 +617,14 @@ public class ViewPagerFixed extends FrameLayout {
                 if (Math.abs(this.viewPages[0].getTranslationX()) < 1.0f) {
                     this.viewPages[0].setTranslationX(0.0f);
                     View[] viewArr = this.viewPages;
-                    View view = viewArr[1];
-                    int measuredWidth = viewArr[0].getMeasuredWidth();
-                    if (this.animatingForward) {
-                        i = 1;
+                    if (viewArr[1] != null) {
+                        View view = viewArr[1];
+                        int measuredWidth = viewArr[0].getMeasuredWidth();
+                        if (this.animatingForward) {
+                            i = 1;
+                        }
+                        view.setTranslationX(measuredWidth * i);
                     }
-                    view.setTranslationX(measuredWidth * i);
                 }
                 z = false;
             } else {
@@ -554,7 +636,10 @@ public class ViewPagerFixed extends FrameLayout {
                         i = 1;
                     }
                     view2.setTranslationX(measuredWidth2 * i);
-                    this.viewPages[1].setTranslationX(0.0f);
+                    View[] viewArr3 = this.viewPages;
+                    if (viewArr3[1] != null) {
+                        viewArr3[1].setTranslationX(0.0f);
+                    }
                 }
                 z = false;
             }
@@ -1147,6 +1232,10 @@ public class ViewPagerFixed extends FrameLayout {
             this.positionToWidth.clear();
             this.positionToX.clear();
             this.allTabsWidth = 0;
+        }
+
+        public void finishAddingTabs() {
+            this.adapter.notifyDataSetChanged();
         }
 
         public int getCurrentTabId() {

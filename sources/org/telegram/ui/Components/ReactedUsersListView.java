@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.List;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.DocumentObject;
+import org.telegram.messenger.Emoji;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaDataController;
@@ -445,9 +446,15 @@ public class ReactedUsersListView extends FrameLayout {
             this.avatarView = backupImageView;
             backupImageView.setRoundRadius(AndroidUtilities.dp(32.0f));
             addView(this.avatarView, LayoutHelper.createFrameRelatively(36.0f, 36.0f, 8388627, 8.0f, 0.0f, 0.0f, 0.0f));
-            SimpleTextView simpleTextView = new SimpleTextView(context);
+            SimpleTextView simpleTextView = new SimpleTextView(this, context, ReactedUsersListView.this) { // from class: org.telegram.ui.Components.ReactedUsersListView.ReactedUserHolderView.1
+                @Override // org.telegram.ui.ActionBar.SimpleTextView
+                public boolean setText(CharSequence charSequence) {
+                    return super.setText(Emoji.replaceEmoji(charSequence, getPaint().getFontMetricsInt(), AndroidUtilities.dp(14.0f), false));
+                }
+            };
             this.titleView = simpleTextView;
-            simpleTextView.setTextSize(16);
+            NotificationCenter.listenEmojiLoading(simpleTextView);
+            this.titleView.setTextSize(16);
             this.titleView.setTextColor(Theme.getColor("actionBarDefaultSubmenuItem"));
             this.titleView.setEllipsizeByGradient(true);
             this.titleView.setImportantForAccessibility(2);

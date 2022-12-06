@@ -19,10 +19,6 @@ public class GroupCreateDividerItemDecoration extends RecyclerView.ItemDecoratio
         this.single = z;
     }
 
-    public void setSkipRows(int i) {
-        this.skipRows = i;
-    }
-
     @Override // androidx.recyclerview.widget.RecyclerView.ItemDecoration
     public void onDraw(Canvas canvas, RecyclerView recyclerView, RecyclerView.State state) {
         int width = recyclerView.getWidth();

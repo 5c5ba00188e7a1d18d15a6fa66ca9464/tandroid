@@ -3,22 +3,22 @@ package com.google.android.gms.common;
 import android.app.PendingIntent;
 import android.os.Parcel;
 import android.os.Parcelable;
-import androidx.annotation.RecentlyNonNull;
-import androidx.annotation.RecentlyNullable;
 import com.google.android.gms.common.internal.Objects;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
-/* compiled from: com.google.android.gms:play-services-basement@@17.5.0 */
+/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
 public final class ConnectionResult extends AbstractSafeParcelable {
-    private final int zza;
+    final int zza;
     private final int zzb;
     private final PendingIntent zzc;
     private final String zzd;
-    @RecentlyNonNull
     public static final ConnectionResult RESULT_SUCCESS = new ConnectionResult(0);
-    @RecentlyNonNull
-    public static final Parcelable.Creator<ConnectionResult> CREATOR = new zza();
+    public static final Parcelable.Creator<ConnectionResult> CREATOR = new zzb();
+
+    public ConnectionResult(int i) {
+        this(i, null, null);
+    }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public ConnectionResult(int i, int i2, PendingIntent pendingIntent, String str) {
@@ -26,40 +26,6 @@ public final class ConnectionResult extends AbstractSafeParcelable {
         this.zzb = i2;
         this.zzc = pendingIntent;
         this.zzd = str;
-    }
-
-    public ConnectionResult(int i) {
-        this(i, null, null);
-    }
-
-    public ConnectionResult(int i, PendingIntent pendingIntent) {
-        this(i, pendingIntent, null);
-    }
-
-    public ConnectionResult(int i, PendingIntent pendingIntent, String str) {
-        this(1, i, pendingIntent, str);
-    }
-
-    public final boolean hasResolution() {
-        return (this.zzb == 0 || this.zzc == null) ? false : true;
-    }
-
-    public final boolean isSuccess() {
-        return this.zzb == 0;
-    }
-
-    public final int getErrorCode() {
-        return this.zzb;
-    }
-
-    @RecentlyNullable
-    public final PendingIntent getResolution() {
-        return this.zzc;
-    }
-
-    @RecentlyNullable
-    public final String getErrorMessage() {
-        return this.zzd;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -119,19 +85,17 @@ public final class ConnectionResult extends AbstractSafeParcelable {
                             return "RESOLUTION_ACTIVITY_NOT_FOUND";
                         case 23:
                             return "API_DISABLED";
+                        case 24:
+                            return "API_DISABLED_FOR_CONNECTION";
                         default:
-                            StringBuilder sb = new StringBuilder(31);
-                            sb.append("UNKNOWN_ERROR_CODE(");
-                            sb.append(i);
-                            sb.append(")");
-                            return sb.toString();
+                            return "UNKNOWN_ERROR_CODE(" + i + ")";
                     }
             }
         }
         return "UNFINISHED";
     }
 
-    public final boolean equals(Object obj) {
+    public boolean equals(Object obj) {
         if (obj == this) {
             return true;
         }
@@ -142,22 +106,53 @@ public final class ConnectionResult extends AbstractSafeParcelable {
         return this.zzb == connectionResult.zzb && Objects.equal(this.zzc, connectionResult.zzc) && Objects.equal(this.zzd, connectionResult.zzd);
     }
 
-    public final int hashCode() {
+    public int getErrorCode() {
+        return this.zzb;
+    }
+
+    public String getErrorMessage() {
+        return this.zzd;
+    }
+
+    public PendingIntent getResolution() {
+        return this.zzc;
+    }
+
+    public boolean hasResolution() {
+        return (this.zzb == 0 || this.zzc == null) ? false : true;
+    }
+
+    public int hashCode() {
         return Objects.hashCode(Integer.valueOf(this.zzb), this.zzc, this.zzd);
     }
 
-    @RecentlyNonNull
-    public final String toString() {
-        return Objects.toStringHelper(this).add("statusCode", zza(this.zzb)).add("resolution", this.zzc).add("message", this.zzd).toString();
+    public boolean isSuccess() {
+        return this.zzb == 0;
+    }
+
+    public String toString() {
+        Objects.ToStringHelper stringHelper = Objects.toStringHelper(this);
+        stringHelper.add("statusCode", zza(this.zzb));
+        stringHelper.add("resolution", this.zzc);
+        stringHelper.add("message", this.zzd);
+        return stringHelper.toString();
     }
 
     @Override // android.os.Parcelable
-    public final void writeToParcel(@RecentlyNonNull Parcel parcel, int i) {
+    public void writeToParcel(Parcel parcel, int i) {
         int beginObjectHeader = SafeParcelWriter.beginObjectHeader(parcel);
         SafeParcelWriter.writeInt(parcel, 1, this.zza);
         SafeParcelWriter.writeInt(parcel, 2, getErrorCode());
         SafeParcelWriter.writeParcelable(parcel, 3, getResolution(), i, false);
         SafeParcelWriter.writeString(parcel, 4, getErrorMessage(), false);
         SafeParcelWriter.finishObjectHeader(parcel, beginObjectHeader);
+    }
+
+    public ConnectionResult(int i, PendingIntent pendingIntent) {
+        this(i, pendingIntent, null);
+    }
+
+    public ConnectionResult(int i, PendingIntent pendingIntent, String str) {
+        this(1, i, pendingIntent, str);
     }
 }

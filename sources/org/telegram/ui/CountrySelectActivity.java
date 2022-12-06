@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import androidx.core.graphics.ColorUtils;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import java.io.BufferedReader;
@@ -63,11 +64,6 @@ public class CountrySelectActivity extends BaseFragment {
         void didSelectCountry(Country country);
     }
 
-    @Override // org.telegram.ui.ActionBar.BaseFragment
-    public boolean hasForceLightStatusBar() {
-        return true;
-    }
-
     public CountrySelectActivity(boolean z) {
         this(z, null);
     }
@@ -87,6 +83,11 @@ public class CountrySelectActivity extends BaseFragment {
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public void onFragmentDestroy() {
         super.onFragmentDestroy();
+    }
+
+    @Override // org.telegram.ui.ActionBar.BaseFragment
+    public boolean isLightStatusBar() {
+        return ColorUtils.calculateLuminance(Theme.getColor("windowBackgroundWhite", null, true)) > 0.699999988079071d;
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment

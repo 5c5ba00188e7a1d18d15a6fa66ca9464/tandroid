@@ -2,14 +2,12 @@ package com.google.android.gms.location;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import androidx.annotation.RecentlyNonNull;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
-/* compiled from: com.google.android.gms:play-services-location@@18.0.0 */
+/* compiled from: com.google.android.gms:play-services-location@@21.0.1 */
 /* loaded from: classes.dex */
 public final class LocationSettingsStates extends AbstractSafeParcelable {
-    @RecentlyNonNull
-    public static final Parcelable.Creator<LocationSettingsStates> CREATOR = new zzbn();
+    public static final Parcelable.Creator<LocationSettingsStates> CREATOR = new zzab();
     private final boolean zza;
     private final boolean zzb;
     private final boolean zzc;
@@ -51,7 +49,7 @@ public final class LocationSettingsStates extends AbstractSafeParcelable {
     }
 
     @Override // android.os.Parcelable
-    public void writeToParcel(@RecentlyNonNull Parcel parcel, int i) {
+    public void writeToParcel(Parcel parcel, int i) {
         int beginObjectHeader = SafeParcelWriter.beginObjectHeader(parcel);
         SafeParcelWriter.writeBoolean(parcel, 1, isGpsUsable());
         SafeParcelWriter.writeBoolean(parcel, 2, isNetworkLocationUsable());

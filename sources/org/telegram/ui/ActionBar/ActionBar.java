@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.TimeInterpolator;
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
@@ -41,6 +42,7 @@ import org.telegram.ui.ActionBar.INavigationLayout;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Adapters.FiltersView;
 import org.telegram.ui.Components.AnimatedEmojiDrawable;
+import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.EllipsizeSpanAnimator;
 import org.telegram.ui.Components.FireworksEffect;
@@ -64,15 +66,19 @@ public class ActionBar extends FrameLayout {
     private boolean addToContainer;
     private SimpleTextView additionalSubtitleTextView;
     private boolean allowOverlayTitle;
+    private BackupImageView avatarSearchImageView;
     private Drawable backButtonDrawable;
     private ImageView backButtonImageView;
     private INavigationLayout.BackButtonState backButtonState;
+    Runnable backgroundUpdateListener;
     public Paint blurScrimPaint;
     boolean blurredBackground;
     private boolean castShadows;
     private boolean centerScale;
     private boolean clipContent;
+    private PorterDuff.Mode colorFilterMode;
     SizeNotifierFrameLayout contentView;
+    private boolean drawBackButton;
     EllipsizeSpanAnimator ellipsizeSpanAnimator;
     private int extraHeight;
     private FireworksEffect fireworksEffect;
@@ -103,6 +109,7 @@ public class ActionBar extends FrameLayout {
     Rect rectTmp;
     private final Theme.ResourcesProvider resourcesProvider;
     private View.OnClickListener rightDrawableOnClickListener;
+    public float searchFieldVisibleAlpha;
     AnimatorSet searchVisibleAnimator;
     private SnowflakesEffect snowflakesEffect;
     private CharSequence subtitle;
@@ -130,12 +137,17 @@ public class ActionBar extends FrameLayout {
         return false;
     }
 
+    protected boolean onSearchChangedIgnoreTitles() {
+        return false;
+    }
+
     public ActionBar(Context context) {
         this(context, null);
     }
 
     public ActionBar(Context context, Theme.ResourcesProvider resourcesProvider) {
         super(context);
+        this.backButtonState = INavigationLayout.BackButtonState.BACK;
         this.titleTextView = new SimpleTextView[2];
         this.occupyStatusBar = Build.VERSION.SDK_INT >= 21;
         this.addToContainer = true;
@@ -143,11 +155,12 @@ public class ActionBar extends FrameLayout {
         this.overlayTitleToSet = new Object[3];
         this.castShadows = true;
         this.titleColorToSet = 0;
+        this.colorFilterMode = PorterDuff.Mode.MULTIPLY;
         this.blurScrimPaint = new Paint();
         this.rectTmp = new Rect();
         this.ellipsizeSpanAnimator = new EllipsizeSpanAnimator(this);
         this.resourcesProvider = resourcesProvider;
-        setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.ActionBar$$ExternalSyntheticLambda1
+        setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.ActionBar$$ExternalSyntheticLambda4
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 ActionBar.this.lambda$new$0(view);
@@ -163,7 +176,15 @@ public class ActionBar extends FrameLayout {
         }
     }
 
+    public void setColorFilterMode(PorterDuff.Mode mode) {
+        this.colorFilterMode = mode;
+    }
+
     public INavigationLayout.BackButtonState getBackButtonState() {
+        Drawable drawable = this.backButtonDrawable;
+        if (drawable instanceof INavigationLayout.IBackButtonDrawable) {
+            return ((INavigationLayout.IBackButtonDrawable) drawable).getBackButtonState();
+        }
         return this.backButtonState;
     }
 
@@ -176,11 +197,11 @@ public class ActionBar extends FrameLayout {
         imageView.setScaleType(ImageView.ScaleType.CENTER);
         this.backButtonImageView.setBackgroundDrawable(Theme.createSelectorDrawable(this.itemsBackgroundColor));
         if (this.itemsColor != 0) {
-            this.backButtonImageView.setColorFilter(new PorterDuffColorFilter(this.itemsColor, PorterDuff.Mode.MULTIPLY));
+            this.backButtonImageView.setColorFilter(new PorterDuffColorFilter(this.itemsColor, this.colorFilterMode));
         }
         this.backButtonImageView.setPadding(AndroidUtilities.dp(1.0f), 0, 0, 0);
         addView(this.backButtonImageView, LayoutHelper.createFrame(54, 54, 51));
-        this.backButtonImageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.ActionBar$$ExternalSyntheticLambda0
+        this.backButtonImageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.ActionBar$$ExternalSyntheticLambda3
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 ActionBar.this.lambda$createBackButtonImage$1(view);
@@ -243,6 +264,25 @@ public class ActionBar extends FrameLayout {
         invalidate();
     }
 
+    public BackupImageView getSearchAvatarImageView() {
+        return this.avatarSearchImageView;
+    }
+
+    public void setSearchAvatarImageView(BackupImageView backupImageView) {
+        BackupImageView backupImageView2 = this.avatarSearchImageView;
+        if (backupImageView2 == backupImageView) {
+            return;
+        }
+        if (backupImageView2 != null) {
+            removeView(backupImageView2);
+        }
+        this.avatarSearchImageView = backupImageView;
+        if (backupImageView == null) {
+            return;
+        }
+        addView(backupImageView);
+    }
+
     @Override // android.view.ViewGroup
     public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
         Drawable currentHolidayDrawable;
@@ -280,7 +320,10 @@ public class ActionBar extends FrameLayout {
     public boolean drawChild(Canvas canvas, View view, long j) {
         Drawable currentHolidayDrawable;
         BaseFragment baseFragment = this.parentFragment;
-        if (baseFragment == null || !baseFragment.getParentLayout().isActionBarInCrossfade()) {
+        if (baseFragment == null || baseFragment.getParentLayout() == null || !this.parentFragment.getParentLayout().isActionBarInCrossfade()) {
+            if (this.drawBackButton && view == this.backButtonImageView) {
+                return true;
+            }
             boolean shouldClipChild = shouldClipChild(view);
             if (shouldClipChild) {
                 canvas.save();
@@ -345,9 +388,6 @@ public class ActionBar extends FrameLayout {
         }
         this.backButtonImageView.setVisibility(i == 0 ? 8 : 0);
         this.backButtonImageView.setImageResource(i);
-        if (i == R.drawable.ic_ab_back) {
-            this.backButtonState = INavigationLayout.BackButtonState.BACK;
-        }
     }
 
     private void createSubtitleTextView() {
@@ -410,7 +450,12 @@ public class ActionBar extends FrameLayout {
         if (simpleTextViewArr[i] != null) {
             return;
         }
-        simpleTextViewArr[i] = new SimpleTextView(getContext());
+        simpleTextViewArr[i] = new SimpleTextView(this, getContext()) { // from class: org.telegram.ui.ActionBar.ActionBar.1
+            @Override // android.view.View
+            public void setAlpha(float f) {
+                super.setAlpha(f);
+            }
+        };
         this.titleTextView[i].setGravity(19);
         int i2 = this.titleColorToSet;
         if (i2 != 0) {
@@ -598,7 +643,7 @@ public class ActionBar extends FrameLayout {
             this.actionMode = null;
         }
         this.actionModeTag = str;
-        ActionBarMenu actionBarMenu2 = new ActionBarMenu(getContext(), this) { // from class: org.telegram.ui.ActionBar.ActionBar.1
+        ActionBarMenu actionBarMenu2 = new ActionBarMenu(getContext(), this) { // from class: org.telegram.ui.ActionBar.ActionBar.2
             @Override // android.view.View
             public void setBackgroundColor(int i) {
                 ActionBar.this.actionModeColor = i;
@@ -748,8 +793,18 @@ public class ActionBar extends FrameLayout {
             AnimatorSet animatorSet2 = new AnimatorSet();
             this.actionModeAnimation = animatorSet2;
             animatorSet2.playTogether(arrayList);
+            if (this.backgroundUpdateListener != null) {
+                ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
+                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ActionBar.ActionBar$$ExternalSyntheticLambda2
+                    @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                    public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                        ActionBar.this.lambda$showActionMode$2(valueAnimator);
+                    }
+                });
+                this.actionModeAnimation.playTogether(ofFloat);
+            }
             this.actionModeAnimation.setDuration(200L);
-            this.actionModeAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.ActionBar.2
+            this.actionModeAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.ActionBar.3
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                 public void onAnimationStart(Animator animator) {
                     ActionBar.this.actionMode.setVisibility(0);
@@ -873,6 +928,14 @@ public class ActionBar extends FrameLayout {
         this.backButtonImageView.setBackgroundDrawable(Theme.createSelectorDrawable(this.itemsActionModeBackgroundColor));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$showActionMode$2(ValueAnimator valueAnimator) {
+        Runnable runnable = this.backgroundUpdateListener;
+        if (runnable != null) {
+            runnable.run();
+        }
+    }
+
     public void hideActionMode() {
         View view;
         ActionBarMenu actionBarMenu = this.actionMode;
@@ -926,8 +989,18 @@ public class ActionBar extends FrameLayout {
         AnimatorSet animatorSet2 = new AnimatorSet();
         this.actionModeAnimation = animatorSet2;
         animatorSet2.playTogether(arrayList);
+        if (this.backgroundUpdateListener != null) {
+            ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ActionBar.ActionBar$$ExternalSyntheticLambda0
+                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                    ActionBar.this.lambda$hideActionMode$3(valueAnimator);
+                }
+            });
+            this.actionModeAnimation.playTogether(ofFloat);
+        }
         this.actionModeAnimation.setDuration(200L);
-        this.actionModeAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.ActionBar.3
+        this.actionModeAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.ActionBar.4
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             public void onAnimationEnd(Animator animator) {
                 if (ActionBar.this.actionModeAnimation == null || !ActionBar.this.actionModeAnimation.equals(animator)) {
@@ -975,6 +1048,14 @@ public class ActionBar extends FrameLayout {
             ((BackDrawable) drawable).setRotation(0.0f, true);
         }
         this.backButtonImageView.setBackgroundDrawable(Theme.createSelectorDrawable(this.itemsBackgroundColor));
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$hideActionMode$3(ValueAnimator valueAnimator) {
+        Runnable runnable = this.backgroundUpdateListener;
+        if (runnable != null) {
+            runnable.run();
+        }
     }
 
     public void showActionModeTop() {
@@ -1047,8 +1128,11 @@ public class ActionBar extends FrameLayout {
         return this.actionMode != null && this.actionModeVisible && (((str2 = this.actionModeTag) == null && str == null) || (str2 != null && str2.equals(str)));
     }
 
+    public void listenToBackgroundUpdate(Runnable runnable) {
+        this.backgroundUpdateListener = runnable;
+    }
+
     public void onSearchFieldVisibilityChanged(final boolean z) {
-        float f;
         this.isSearchFieldVisible = z;
         AnimatorSet animatorSet = this.searchVisibleAnimator;
         if (animatorSet != null) {
@@ -1056,22 +1140,32 @@ public class ActionBar extends FrameLayout {
         }
         this.searchVisibleAnimator = new AnimatorSet();
         final ArrayList arrayList = new ArrayList();
-        SimpleTextView[] simpleTextViewArr = this.titleTextView;
-        if (simpleTextViewArr[0] != null) {
-            arrayList.add(simpleTextViewArr[0]);
-        }
-        if (this.subtitleTextView != null && !TextUtils.isEmpty(this.subtitle)) {
-            arrayList.add(this.subtitleTextView);
-            this.subtitleTextView.setVisibility(z ? 4 : 0);
-        }
-        int i = 0;
-        while (true) {
-            f = 0.0f;
-            float f2 = 1.0f;
-            if (i >= arrayList.size()) {
-                break;
+        final boolean onSearchChangedIgnoreTitles = onSearchChangedIgnoreTitles();
+        if (!onSearchChangedIgnoreTitles) {
+            SimpleTextView[] simpleTextViewArr = this.titleTextView;
+            if (simpleTextViewArr[0] != null) {
+                arrayList.add(simpleTextViewArr[0]);
             }
+            if (this.subtitleTextView != null && !TextUtils.isEmpty(this.subtitle)) {
+                arrayList.add(this.subtitleTextView);
+                this.subtitleTextView.setVisibility(z ? 4 : 0);
+            }
+        }
+        float[] fArr = new float[2];
+        fArr[0] = this.searchFieldVisibleAlpha;
+        float f = 0.0f;
+        fArr[1] = z ? 1.0f : 0.0f;
+        ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ActionBar.ActionBar$$ExternalSyntheticLambda1
+            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+            public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                ActionBar.this.lambda$onSearchFieldVisibilityChanged$4(valueAnimator);
+            }
+        });
+        this.searchVisibleAnimator.playTogether(ofFloat);
+        for (int i = 0; i < arrayList.size(); i++) {
             View view = (View) arrayList.get(i);
+            float f2 = 0.95f;
             if (!z) {
                 view.setVisibility(0);
                 view.setAlpha(0.0f);
@@ -1081,35 +1175,43 @@ public class ActionBar extends FrameLayout {
             AnimatorSet animatorSet2 = this.searchVisibleAnimator;
             Animator[] animatorArr = new Animator[1];
             Property property = View.ALPHA;
-            float[] fArr = new float[1];
-            if (!z) {
-                f = 1.0f;
-            }
-            fArr[0] = f;
-            animatorArr[0] = ObjectAnimator.ofFloat(view, property, fArr);
+            float[] fArr2 = new float[1];
+            fArr2[0] = z ? 0.0f : 1.0f;
+            animatorArr[0] = ObjectAnimator.ofFloat(view, property, fArr2);
             animatorSet2.playTogether(animatorArr);
             AnimatorSet animatorSet3 = this.searchVisibleAnimator;
             Animator[] animatorArr2 = new Animator[1];
             Property property2 = View.SCALE_Y;
-            float[] fArr2 = new float[1];
-            fArr2[0] = z ? 0.95f : 1.0f;
-            animatorArr2[0] = ObjectAnimator.ofFloat(view, property2, fArr2);
+            float[] fArr3 = new float[1];
+            fArr3[0] = z ? 0.95f : 1.0f;
+            animatorArr2[0] = ObjectAnimator.ofFloat(view, property2, fArr3);
             animatorSet3.playTogether(animatorArr2);
             AnimatorSet animatorSet4 = this.searchVisibleAnimator;
             Animator[] animatorArr3 = new Animator[1];
             Property property3 = View.SCALE_X;
-            float[] fArr3 = new float[1];
-            if (z) {
-                f2 = 0.95f;
+            float[] fArr4 = new float[1];
+            if (!z) {
+                f2 = 1.0f;
             }
-            fArr3[0] = f2;
-            animatorArr3[0] = ObjectAnimator.ofFloat(view, property3, fArr3);
+            fArr4[0] = f2;
+            animatorArr3[0] = ObjectAnimator.ofFloat(view, property3, fArr4);
             animatorSet4.playTogether(animatorArr3);
-            i++;
+        }
+        BackupImageView backupImageView = this.avatarSearchImageView;
+        if (backupImageView != null) {
+            backupImageView.setVisibility(0);
+            AnimatorSet animatorSet5 = this.searchVisibleAnimator;
+            Animator[] animatorArr4 = new Animator[1];
+            BackupImageView backupImageView2 = this.avatarSearchImageView;
+            Property property4 = View.ALPHA;
+            float[] fArr5 = new float[1];
+            fArr5[0] = z ? 1.0f : 0.0f;
+            animatorArr4[0] = ObjectAnimator.ofFloat(backupImageView2, property4, fArr5);
+            animatorSet5.playTogether(animatorArr4);
         }
         this.centerScale = true;
         requestLayout();
-        this.searchVisibleAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.ActionBar.4
+        this.searchVisibleAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.ActionBar.5
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             public void onAnimationEnd(Animator animator) {
                 for (int i2 = 0; i2 < arrayList.size(); i2++) {
@@ -1121,26 +1223,42 @@ public class ActionBar extends FrameLayout {
                         view2.setAlpha(1.0f);
                     }
                 }
-                if (z) {
+                if (z && !onSearchChangedIgnoreTitles) {
                     if (ActionBar.this.titleTextView[0] != null) {
                         ActionBar.this.titleTextView[0].setVisibility(8);
                     }
-                    if (ActionBar.this.titleTextView[1] == null) {
-                        return;
+                    if (ActionBar.this.titleTextView[1] != null) {
+                        ActionBar.this.titleTextView[1].setVisibility(8);
                     }
-                    ActionBar.this.titleTextView[1].setVisibility(8);
                 }
+                if (ActionBar.this.avatarSearchImageView == null || z) {
+                    return;
+                }
+                ActionBar.this.avatarSearchImageView.setVisibility(8);
             }
         });
         this.searchVisibleAnimator.setDuration(150L).start();
-        Drawable drawable = this.backButtonImageView.getDrawable();
-        if (drawable instanceof MenuDrawable) {
+        ImageView imageView = this.backButtonImageView;
+        if (imageView != null) {
+            Drawable drawable = imageView.getDrawable();
+            if (!(drawable instanceof MenuDrawable)) {
+                return;
+            }
             MenuDrawable menuDrawable = (MenuDrawable) drawable;
             menuDrawable.setRotateToBack(true);
             if (z) {
                 f = 1.0f;
             }
             menuDrawable.setRotation(f, true);
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$onSearchFieldVisibilityChanged$4(ValueAnimator valueAnimator) {
+        this.searchFieldVisibleAlpha = ((Float) valueAnimator.getAnimatedValue()).floatValue();
+        Runnable runnable = this.backgroundUpdateListener;
+        if (runnable != null) {
+            runnable.run();
         }
     }
 
@@ -1360,12 +1478,16 @@ public class ActionBar extends FrameLayout {
                 }
             }
         }
+        BackupImageView backupImageView = this.avatarSearchImageView;
+        if (backupImageView != null) {
+            backupImageView.measure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(42.0f), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(42.0f), 1073741824));
+        }
         int childCount = getChildCount();
         for (int i5 = 0; i5 < childCount; i5++) {
             View childAt = getChildAt(i5);
             if (childAt.getVisibility() != 8) {
                 SimpleTextView[] simpleTextViewArr7 = this.titleTextView;
-                if (childAt != simpleTextViewArr7[0] && childAt != simpleTextViewArr7[1] && childAt != this.subtitleTextView && childAt != this.menu && childAt != this.backButtonImageView && childAt != this.additionalSubtitleTextView) {
+                if (childAt != simpleTextViewArr7[0] && childAt != simpleTextViewArr7[1] && childAt != this.subtitleTextView && childAt != this.menu && childAt != this.backButtonImageView && childAt != this.additionalSubtitleTextView && childAt != this.avatarSearchImageView) {
                     measureChildWithMargins(childAt, i, 0, View.MeasureSpec.makeMeasureSpec(getMeasuredHeight(), 1073741824), 0);
                 }
             }
@@ -1376,8 +1498,8 @@ public class ActionBar extends FrameLayout {
         this.isMenuOffsetSuppressed = z;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:102:0x021d  */
-    /* JADX WARN: Removed duplicated region for block: B:110:0x022a  */
+    /* JADX WARN: Removed duplicated region for block: B:107:0x0253  */
+    /* JADX WARN: Removed duplicated region for block: B:115:0x0260  */
     @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1444,15 +1566,19 @@ public class ActionBar extends FrameLayout {
             }
             int dp4 = currentActionBarHeight3 - AndroidUtilities.dp(1.0f);
             SimpleTextView simpleTextView5 = this.additionalSubtitleTextView;
-            int i17 = i11 + dp4;
+            int i17 = dp4 + i11;
             simpleTextView5.layout(dp, i17, simpleTextView5.getMeasuredWidth() + dp, this.additionalSubtitleTextView.getTextHeight() + i17);
+        }
+        BackupImageView backupImageView = this.avatarSearchImageView;
+        if (backupImageView != null) {
+            backupImageView.layout(AndroidUtilities.dp(64.0f), ((getCurrentActionBarHeight() - this.avatarSearchImageView.getMeasuredHeight()) / 2) + i11, AndroidUtilities.dp(64.0f) + this.avatarSearchImageView.getMeasuredWidth(), i11 + ((getCurrentActionBarHeight() + this.avatarSearchImageView.getMeasuredHeight()) / 2));
         }
         int childCount = getChildCount();
         for (int i18 = 0; i18 < childCount; i18++) {
             View childAt = getChildAt(i18);
             if (childAt.getVisibility() != 8) {
                 SimpleTextView[] simpleTextViewArr3 = this.titleTextView;
-                if (childAt != simpleTextViewArr3[0] && childAt != simpleTextViewArr3[1] && childAt != this.subtitleTextView && childAt != this.menu && childAt != this.backButtonImageView && childAt != this.additionalSubtitleTextView) {
+                if (childAt != simpleTextViewArr3[0] && childAt != simpleTextViewArr3[1] && childAt != this.subtitleTextView && childAt != this.menu && childAt != this.backButtonImageView && childAt != this.additionalSubtitleTextView && childAt != this.avatarSearchImageView) {
                     FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) childAt.getLayoutParams();
                     int measuredWidth = childAt.getMeasuredWidth();
                     int measuredHeight = childAt.getMeasuredHeight();
@@ -1595,7 +1721,7 @@ public class ActionBar extends FrameLayout {
                     }
                     requestLayout();
                     this.centerScale = true;
-                    alpha.setDuration(220L).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.ActionBar.5
+                    alpha.setDuration(220L).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.ActionBar.6
                         @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                         public void onAnimationEnd(Animator animator) {
                             if (ActionBar.this.titleTextView[1] != null && ActionBar.this.titleTextView[1].getParent() != null) {
@@ -1701,7 +1827,7 @@ public class ActionBar extends FrameLayout {
         this.itemsColor = i;
         ImageView imageView2 = this.backButtonImageView;
         if (imageView2 != null && i != 0) {
-            imageView2.setColorFilter(new PorterDuffColorFilter(this.itemsColor, PorterDuff.Mode.MULTIPLY));
+            imageView2.setColorFilter(new PorterDuffColorFilter(this.itemsColor, this.colorFilterMode));
             Drawable drawable2 = this.backButtonImageView.getDrawable();
             if (drawable2 instanceof BackDrawable) {
                 ((BackDrawable) drawable2).setColor(i);
@@ -1787,7 +1913,7 @@ public class ActionBar extends FrameLayout {
             }
             alpha.translationY(dp2);
         }
-        alpha.setDuration(j).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.ActionBar.6
+        alpha.setDuration(j).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.ActionBar.7
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             public void onAnimationEnd(Animator animator) {
                 if (ActionBar.this.titleTextView[1] != null && ActionBar.this.titleTextView[1].getParent() != null) {
@@ -1848,7 +1974,7 @@ public class ActionBar extends FrameLayout {
             TransitionSet transitionSet = new TransitionSet();
             transitionSet.setOrdering(0);
             transitionSet.addTransition(new Fade());
-            transitionSet.addTransition(new ChangeBounds(this) { // from class: org.telegram.ui.ActionBar.ActionBar.7
+            transitionSet.addTransition(new ChangeBounds(this) { // from class: org.telegram.ui.ActionBar.ActionBar.8
                 @Override // android.transition.ChangeBounds, android.transition.Transition
                 public void captureStartValues(TransitionValues transitionValues) {
                     super.captureStartValues(transitionValues);
@@ -1882,7 +2008,7 @@ public class ActionBar extends FrameLayout {
                         }
                         animatorSet.playTogether(ObjectAnimator.ofFloat(transitionValues.view, View.SCALE_X, 1.0f));
                         animatorSet.playTogether(ObjectAnimator.ofFloat(transitionValues.view, View.SCALE_Y, 1.0f));
-                        animatorSet.addListener(new AnimatorListenerAdapter(this) { // from class: org.telegram.ui.ActionBar.ActionBar.7.1
+                        animatorSet.addListener(new AnimatorListenerAdapter(this) { // from class: org.telegram.ui.ActionBar.ActionBar.8.1
                             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                             public void onAnimationStart(Animator animator) {
                                 super.onAnimationStart(animator);
@@ -1941,5 +2067,13 @@ public class ActionBar extends FrameLayout {
 
     public void setForceSkipTouches(boolean z) {
         this.forceSkipTouches = z;
+    }
+
+    public void setDrawBackButton(boolean z) {
+        this.drawBackButton = z;
+        ImageView imageView = this.backButtonImageView;
+        if (imageView != null) {
+            imageView.invalidate();
+        }
     }
 }

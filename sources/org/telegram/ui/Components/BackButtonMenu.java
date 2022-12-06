@@ -49,8 +49,8 @@ public class BackButtonMenu {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:32:0x01ee  */
-    /* JADX WARN: Removed duplicated region for block: B:35:0x020f A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x01f0  */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x0211 A[SYNTHETIC] */
     /* JADX WARN: Type inference failed for: r13v0, types: [android.widget.FrameLayout, android.view.View] */
     /* JADX WARN: Type inference failed for: r15v3, types: [android.graphics.drawable.BitmapDrawable] */
     /* JADX WARN: Type inference failed for: r2v1, types: [org.telegram.ui.ActionBar.ActionBarPopupWindow$ActionBarPopupWindowLayout, android.widget.FrameLayout, android.view.View] */
@@ -112,7 +112,7 @@ public class BackButtonMenu {
             textView.setEllipsize(TextUtils.TruncateAt.END);
             frameLayout.addView(textView, LayoutHelper.createFrameRelatively(-1.0f, -2.0f, 8388627, 59.0f, 0.0f, 12.0f, 0.0f));
             AvatarDrawable avatarDrawable = new AvatarDrawable();
-            avatarDrawable.setSmallSize(true);
+            avatarDrawable.setScaleSize(0.8f);
             if (tLRPC$Chat != null) {
                 avatarDrawable.setInfo(tLRPC$Chat);
                 TLRPC$ChatPhoto tLRPC$ChatPhoto = tLRPC$Chat.photo;

@@ -1,10 +1,26 @@
 package com.google.android.gms.maps.internal;
 
-import android.os.IInterface;
+import android.os.Parcel;
 import android.os.RemoteException;
-import com.google.android.gms.internal.maps.zzx;
-/* compiled from: com.google.android.gms:play-services-maps@@17.0.1 */
+import com.google.android.gms.internal.maps.zzaa;
+import com.google.android.gms.internal.maps.zzz;
+/* compiled from: com.google.android.gms:play-services-maps@@18.1.0 */
 /* loaded from: classes.dex */
-public interface zzat extends IInterface {
-    boolean zzb(zzx zzxVar) throws RemoteException;
+public abstract class zzat extends com.google.android.gms.internal.maps.zzb implements zzau {
+    public zzat() {
+        super("com.google.android.gms.maps.internal.IOnMarkerClickListener");
+    }
+
+    @Override // com.google.android.gms.internal.maps.zzb
+    protected final boolean zza(int i, Parcel parcel, Parcel parcel2, int i2) throws RemoteException {
+        if (i == 1) {
+            zzaa zzb = zzz.zzb(parcel.readStrongBinder());
+            com.google.android.gms.internal.maps.zzc.zzc(parcel);
+            boolean zzb2 = zzb(zzb);
+            parcel2.writeNoException();
+            com.google.android.gms.internal.maps.zzc.zzd(parcel2, zzb2);
+            return true;
+        }
+        return false;
+    }
 }

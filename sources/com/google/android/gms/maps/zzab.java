@@ -5,16 +5,18 @@ import android.os.Parcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelReader;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLngBounds;
-/* compiled from: com.google.android.gms:play-services-maps@@17.0.1 */
+/* compiled from: com.google.android.gms:play-services-maps@@18.1.0 */
 /* loaded from: classes.dex */
-public final class zzab implements Parcelable.Creator<GoogleMapOptions> {
+public final class zzab implements Parcelable.Creator {
     @Override // android.os.Parcelable.Creator
-    public final /* bridge */ /* synthetic */ GoogleMapOptions createFromParcel(Parcel parcel) {
+    public final /* bridge */ /* synthetic */ Object createFromParcel(Parcel parcel) {
         int validateObjectHeader = SafeParcelReader.validateObjectHeader(parcel);
         CameraPosition cameraPosition = null;
         Float f = null;
         Float f2 = null;
         LatLngBounds latLngBounds = null;
+        Integer num = null;
+        String str = null;
         byte b = -1;
         byte b2 = -1;
         int i = 0;
@@ -86,14 +88,20 @@ public final class zzab implements Parcelable.Creator<GoogleMapOptions> {
                 case 19:
                     b12 = SafeParcelReader.readByte(parcel, readHeader);
                     break;
+                case 20:
+                    num = SafeParcelReader.readIntegerObject(parcel, readHeader);
+                    break;
+                case 21:
+                    str = SafeParcelReader.createString(parcel, readHeader);
+                    break;
             }
         }
         SafeParcelReader.ensureAtEnd(parcel, validateObjectHeader);
-        return new GoogleMapOptions(b, b2, i, cameraPosition, b3, b4, b5, b6, b7, b8, b9, b10, b11, f, f2, latLngBounds, b12);
+        return new GoogleMapOptions(b, b2, i, cameraPosition, b3, b4, b5, b6, b7, b8, b9, b10, b11, f, f2, latLngBounds, b12, num, str);
     }
 
     @Override // android.os.Parcelable.Creator
-    public final /* bridge */ /* synthetic */ GoogleMapOptions[] newArray(int i) {
+    public final /* synthetic */ Object[] newArray(int i) {
         return new GoogleMapOptions[i];
     }
 }

@@ -80,6 +80,20 @@ public class HeaderCell extends FrameLayout {
         textView.setMinHeight(AndroidUtilities.dp(i) - ((FrameLayout.LayoutParams) this.textView.getLayoutParams()).topMargin);
     }
 
+    public void setTopMargin(int i) {
+        ((FrameLayout.LayoutParams) this.textView.getLayoutParams()).topMargin = AndroidUtilities.dp(i);
+        setHeight(this.height);
+    }
+
+    public void setBottomMargin(int i) {
+        float f = i;
+        ((FrameLayout.LayoutParams) this.textView.getLayoutParams()).bottomMargin = AndroidUtilities.dp(f);
+        SimpleTextView simpleTextView = this.textView2;
+        if (simpleTextView != null) {
+            ((FrameLayout.LayoutParams) simpleTextView.getLayoutParams()).bottomMargin = AndroidUtilities.dp(f);
+        }
+    }
+
     public void setEnabled(boolean z, ArrayList<Animator> arrayList) {
         float f = 1.0f;
         if (arrayList != null) {

@@ -24,7 +24,7 @@ public class HardwareVideoDecoderFactory extends MediaCodecVideoDecoderFactory {
         }
 
         /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-        /* JADX WARN: Code restructure failed: missing block: B:46:0x0047, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:46:0x004a, code lost:
             if (r3.equals(org.telegram.messenger.MediaController.VIDEO_MIME_TYPE) == false) goto L14;
          */
         @Override // org.webrtc.Predicate

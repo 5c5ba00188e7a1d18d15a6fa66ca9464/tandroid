@@ -2,11 +2,10 @@ package com.google.android.gms.maps;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.AttributeSet;
-import androidx.annotation.RecentlyNonNull;
-import androidx.annotation.RecentlyNullable;
 import com.google.android.gms.common.internal.Objects;
 import com.google.android.gms.common.internal.ReflectedParcelable;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
@@ -14,16 +13,15 @@ import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
-/* compiled from: com.google.android.gms:play-services-maps@@17.0.1 */
+/* compiled from: com.google.android.gms:play-services-maps@@18.1.0 */
 /* loaded from: classes.dex */
 public final class GoogleMapOptions extends AbstractSafeParcelable implements ReflectedParcelable {
-    @RecentlyNonNull
     public static final Parcelable.Creator<GoogleMapOptions> CREATOR = new zzab();
-    private Boolean zza;
+    private static final Integer zza = Integer.valueOf(Color.argb(255, 236, 233, 225));
     private Boolean zzb;
-    private int zzc;
-    private CameraPosition zzd;
-    private Boolean zze;
+    private Boolean zzc;
+    private int zzd;
+    private CameraPosition zze;
     private Boolean zzf;
     private Boolean zzg;
     private Boolean zzh;
@@ -32,20 +30,25 @@ public final class GoogleMapOptions extends AbstractSafeParcelable implements Re
     private Boolean zzk;
     private Boolean zzl;
     private Boolean zzm;
-    private Float zzn;
+    private Boolean zzn;
     private Float zzo;
-    private LatLngBounds zzp;
-    private Boolean zzq;
+    private Float zzp;
+    private LatLngBounds zzq;
+    private Boolean zzr;
+    private Integer zzs;
+    private String zzt;
 
     public GoogleMapOptions() {
-        this.zzc = -1;
-        this.zzn = null;
+        this.zzd = -1;
         this.zzo = null;
         this.zzp = null;
+        this.zzq = null;
+        this.zzs = null;
+        this.zzt = null;
     }
 
-    @RecentlyNullable
     public static GoogleMapOptions createFromAttributes(Context context, AttributeSet attributeSet) {
+        String string;
         if (context == null || attributeSet == null) {
             return null;
         }
@@ -110,35 +113,21 @@ public final class GoogleMapOptions extends AbstractSafeParcelable implements Re
         if (obtainAttributes.hasValue(i14)) {
             googleMapOptions.maxZoomPreference(obtainAttributes.getFloat(R$styleable.MapAttrs_cameraMaxZoomPreference, Float.POSITIVE_INFINITY));
         }
-        googleMapOptions.latLngBoundsForCameraTarget(zza(context, attributeSet));
-        googleMapOptions.camera(zzb(context, attributeSet));
+        int i15 = R$styleable.MapAttrs_backgroundColor;
+        if (obtainAttributes.hasValue(i15)) {
+            googleMapOptions.backgroundColor(Integer.valueOf(obtainAttributes.getColor(i15, zza.intValue())));
+        }
+        int i16 = R$styleable.MapAttrs_mapId;
+        if (obtainAttributes.hasValue(i16) && (string = obtainAttributes.getString(i16)) != null && !string.isEmpty()) {
+            googleMapOptions.mapId(string);
+        }
+        googleMapOptions.latLngBoundsForCameraTarget(zzb(context, attributeSet));
+        googleMapOptions.camera(zza(context, attributeSet));
         obtainAttributes.recycle();
         return googleMapOptions;
     }
 
-    @RecentlyNullable
-    public static LatLngBounds zza(Context context, AttributeSet attributeSet) {
-        if (context == null || attributeSet == null) {
-            return null;
-        }
-        TypedArray obtainAttributes = context.getResources().obtainAttributes(attributeSet, R$styleable.MapAttrs);
-        int i = R$styleable.MapAttrs_latLngBoundsSouthWestLatitude;
-        Float valueOf = obtainAttributes.hasValue(i) ? Float.valueOf(obtainAttributes.getFloat(i, 0.0f)) : null;
-        int i2 = R$styleable.MapAttrs_latLngBoundsSouthWestLongitude;
-        Float valueOf2 = obtainAttributes.hasValue(i2) ? Float.valueOf(obtainAttributes.getFloat(i2, 0.0f)) : null;
-        int i3 = R$styleable.MapAttrs_latLngBoundsNorthEastLatitude;
-        Float valueOf3 = obtainAttributes.hasValue(i3) ? Float.valueOf(obtainAttributes.getFloat(i3, 0.0f)) : null;
-        int i4 = R$styleable.MapAttrs_latLngBoundsNorthEastLongitude;
-        Float valueOf4 = obtainAttributes.hasValue(i4) ? Float.valueOf(obtainAttributes.getFloat(i4, 0.0f)) : null;
-        obtainAttributes.recycle();
-        if (valueOf != null && valueOf2 != null && valueOf3 != null && valueOf4 != null) {
-            return new LatLngBounds(new LatLng(valueOf.floatValue(), valueOf2.floatValue()), new LatLng(valueOf3.floatValue(), valueOf4.floatValue()));
-        }
-        return null;
-    }
-
-    @RecentlyNullable
-    public static CameraPosition zzb(Context context, AttributeSet attributeSet) {
+    public static CameraPosition zza(Context context, AttributeSet attributeSet) {
         if (context == null || attributeSet == null) {
             return null;
         }
@@ -165,182 +154,204 @@ public final class GoogleMapOptions extends AbstractSafeParcelable implements Re
         return builder.build();
     }
 
-    @RecentlyNonNull
+    public static LatLngBounds zzb(Context context, AttributeSet attributeSet) {
+        if (context == null || attributeSet == null) {
+            return null;
+        }
+        TypedArray obtainAttributes = context.getResources().obtainAttributes(attributeSet, R$styleable.MapAttrs);
+        int i = R$styleable.MapAttrs_latLngBoundsSouthWestLatitude;
+        Float valueOf = obtainAttributes.hasValue(i) ? Float.valueOf(obtainAttributes.getFloat(i, 0.0f)) : null;
+        int i2 = R$styleable.MapAttrs_latLngBoundsSouthWestLongitude;
+        Float valueOf2 = obtainAttributes.hasValue(i2) ? Float.valueOf(obtainAttributes.getFloat(i2, 0.0f)) : null;
+        int i3 = R$styleable.MapAttrs_latLngBoundsNorthEastLatitude;
+        Float valueOf3 = obtainAttributes.hasValue(i3) ? Float.valueOf(obtainAttributes.getFloat(i3, 0.0f)) : null;
+        int i4 = R$styleable.MapAttrs_latLngBoundsNorthEastLongitude;
+        Float valueOf4 = obtainAttributes.hasValue(i4) ? Float.valueOf(obtainAttributes.getFloat(i4, 0.0f)) : null;
+        obtainAttributes.recycle();
+        if (valueOf != null && valueOf2 != null && valueOf3 != null && valueOf4 != null) {
+            return new LatLngBounds(new LatLng(valueOf.floatValue(), valueOf2.floatValue()), new LatLng(valueOf3.floatValue(), valueOf4.floatValue()));
+        }
+        return null;
+    }
+
     public GoogleMapOptions ambientEnabled(boolean z) {
-        this.zzm = Boolean.valueOf(z);
+        this.zzn = Boolean.valueOf(z);
         return this;
     }
 
-    @RecentlyNonNull
+    public GoogleMapOptions backgroundColor(Integer num) {
+        this.zzs = num;
+        return this;
+    }
+
     public GoogleMapOptions camera(CameraPosition cameraPosition) {
-        this.zzd = cameraPosition;
+        this.zze = cameraPosition;
         return this;
     }
 
-    @RecentlyNonNull
     public GoogleMapOptions compassEnabled(boolean z) {
-        this.zzf = Boolean.valueOf(z);
-        return this;
-    }
-
-    @RecentlyNullable
-    public CameraPosition getCamera() {
-        return this.zzd;
-    }
-
-    @RecentlyNullable
-    public LatLngBounds getLatLngBoundsForCameraTarget() {
-        return this.zzp;
-    }
-
-    public int getMapType() {
-        return this.zzc;
-    }
-
-    @RecentlyNullable
-    public Float getMaxZoomPreference() {
-        return this.zzo;
-    }
-
-    @RecentlyNullable
-    public Float getMinZoomPreference() {
-        return this.zzn;
-    }
-
-    @RecentlyNonNull
-    public GoogleMapOptions latLngBoundsForCameraTarget(LatLngBounds latLngBounds) {
-        this.zzp = latLngBounds;
-        return this;
-    }
-
-    @RecentlyNonNull
-    public GoogleMapOptions liteMode(boolean z) {
-        this.zzk = Boolean.valueOf(z);
-        return this;
-    }
-
-    @RecentlyNonNull
-    public GoogleMapOptions mapToolbarEnabled(boolean z) {
-        this.zzl = Boolean.valueOf(z);
-        return this;
-    }
-
-    @RecentlyNonNull
-    public GoogleMapOptions mapType(int i) {
-        this.zzc = i;
-        return this;
-    }
-
-    @RecentlyNonNull
-    public GoogleMapOptions maxZoomPreference(float f) {
-        this.zzo = Float.valueOf(f);
-        return this;
-    }
-
-    @RecentlyNonNull
-    public GoogleMapOptions minZoomPreference(float f) {
-        this.zzn = Float.valueOf(f);
-        return this;
-    }
-
-    @RecentlyNonNull
-    public GoogleMapOptions rotateGesturesEnabled(boolean z) {
-        this.zzj = Boolean.valueOf(z);
-        return this;
-    }
-
-    @RecentlyNonNull
-    public GoogleMapOptions scrollGesturesEnabled(boolean z) {
         this.zzg = Boolean.valueOf(z);
         return this;
     }
 
-    @RecentlyNonNull
-    public GoogleMapOptions scrollGesturesEnabledDuringRotateOrZoom(boolean z) {
-        this.zzq = Boolean.valueOf(z);
+    public Integer getBackgroundColor() {
+        return this.zzs;
+    }
+
+    public CameraPosition getCamera() {
+        return this.zze;
+    }
+
+    public LatLngBounds getLatLngBoundsForCameraTarget() {
+        return this.zzq;
+    }
+
+    public String getMapId() {
+        return this.zzt;
+    }
+
+    public int getMapType() {
+        return this.zzd;
+    }
+
+    public Float getMaxZoomPreference() {
+        return this.zzp;
+    }
+
+    public Float getMinZoomPreference() {
+        return this.zzo;
+    }
+
+    public GoogleMapOptions latLngBoundsForCameraTarget(LatLngBounds latLngBounds) {
+        this.zzq = latLngBounds;
         return this;
     }
 
-    @RecentlyNonNull
-    public GoogleMapOptions tiltGesturesEnabled(boolean z) {
-        this.zzi = Boolean.valueOf(z);
+    public GoogleMapOptions liteMode(boolean z) {
+        this.zzl = Boolean.valueOf(z);
         return this;
     }
 
-    @RecentlyNonNull
-    public String toString() {
-        return Objects.toStringHelper(this).add("MapType", Integer.valueOf(this.zzc)).add("LiteMode", this.zzk).add("Camera", this.zzd).add("CompassEnabled", this.zzf).add("ZoomControlsEnabled", this.zze).add("ScrollGesturesEnabled", this.zzg).add("ZoomGesturesEnabled", this.zzh).add("TiltGesturesEnabled", this.zzi).add("RotateGesturesEnabled", this.zzj).add("ScrollGesturesEnabledDuringRotateOrZoom", this.zzq).add("MapToolbarEnabled", this.zzl).add("AmbientEnabled", this.zzm).add("MinZoomPreference", this.zzn).add("MaxZoomPreference", this.zzo).add("LatLngBoundsForCameraTarget", this.zzp).add("ZOrderOnTop", this.zza).add("UseViewLifecycleInFragment", this.zzb).toString();
-    }
-
-    @RecentlyNonNull
-    public GoogleMapOptions useViewLifecycleInFragment(boolean z) {
-        this.zzb = Boolean.valueOf(z);
+    public GoogleMapOptions mapId(String str) {
+        this.zzt = str;
         return this;
     }
 
-    @Override // android.os.Parcelable
-    public void writeToParcel(@RecentlyNonNull Parcel parcel, int i) {
-        int beginObjectHeader = SafeParcelWriter.beginObjectHeader(parcel);
-        SafeParcelWriter.writeByte(parcel, 2, com.google.android.gms.maps.internal.zza.zzb(this.zza));
-        SafeParcelWriter.writeByte(parcel, 3, com.google.android.gms.maps.internal.zza.zzb(this.zzb));
-        SafeParcelWriter.writeInt(parcel, 4, getMapType());
-        SafeParcelWriter.writeParcelable(parcel, 5, getCamera(), i, false);
-        SafeParcelWriter.writeByte(parcel, 6, com.google.android.gms.maps.internal.zza.zzb(this.zze));
-        SafeParcelWriter.writeByte(parcel, 7, com.google.android.gms.maps.internal.zza.zzb(this.zzf));
-        SafeParcelWriter.writeByte(parcel, 8, com.google.android.gms.maps.internal.zza.zzb(this.zzg));
-        SafeParcelWriter.writeByte(parcel, 9, com.google.android.gms.maps.internal.zza.zzb(this.zzh));
-        SafeParcelWriter.writeByte(parcel, 10, com.google.android.gms.maps.internal.zza.zzb(this.zzi));
-        SafeParcelWriter.writeByte(parcel, 11, com.google.android.gms.maps.internal.zza.zzb(this.zzj));
-        SafeParcelWriter.writeByte(parcel, 12, com.google.android.gms.maps.internal.zza.zzb(this.zzk));
-        SafeParcelWriter.writeByte(parcel, 14, com.google.android.gms.maps.internal.zza.zzb(this.zzl));
-        SafeParcelWriter.writeByte(parcel, 15, com.google.android.gms.maps.internal.zza.zzb(this.zzm));
-        SafeParcelWriter.writeFloatObject(parcel, 16, getMinZoomPreference(), false);
-        SafeParcelWriter.writeFloatObject(parcel, 17, getMaxZoomPreference(), false);
-        SafeParcelWriter.writeParcelable(parcel, 18, getLatLngBoundsForCameraTarget(), i, false);
-        SafeParcelWriter.writeByte(parcel, 19, com.google.android.gms.maps.internal.zza.zzb(this.zzq));
-        SafeParcelWriter.finishObjectHeader(parcel, beginObjectHeader);
-    }
-
-    @RecentlyNonNull
-    public GoogleMapOptions zOrderOnTop(boolean z) {
-        this.zza = Boolean.valueOf(z);
+    public GoogleMapOptions mapToolbarEnabled(boolean z) {
+        this.zzm = Boolean.valueOf(z);
         return this;
     }
 
-    @RecentlyNonNull
-    public GoogleMapOptions zoomControlsEnabled(boolean z) {
-        this.zze = Boolean.valueOf(z);
+    public GoogleMapOptions mapType(int i) {
+        this.zzd = i;
         return this;
     }
 
-    @RecentlyNonNull
-    public GoogleMapOptions zoomGesturesEnabled(boolean z) {
+    public GoogleMapOptions maxZoomPreference(float f) {
+        this.zzp = Float.valueOf(f);
+        return this;
+    }
+
+    public GoogleMapOptions minZoomPreference(float f) {
+        this.zzo = Float.valueOf(f);
+        return this;
+    }
+
+    public GoogleMapOptions rotateGesturesEnabled(boolean z) {
+        this.zzk = Boolean.valueOf(z);
+        return this;
+    }
+
+    public GoogleMapOptions scrollGesturesEnabled(boolean z) {
         this.zzh = Boolean.valueOf(z);
         return this;
     }
 
+    public GoogleMapOptions scrollGesturesEnabledDuringRotateOrZoom(boolean z) {
+        this.zzr = Boolean.valueOf(z);
+        return this;
+    }
+
+    public GoogleMapOptions tiltGesturesEnabled(boolean z) {
+        this.zzj = Boolean.valueOf(z);
+        return this;
+    }
+
+    public String toString() {
+        return Objects.toStringHelper(this).add("MapType", Integer.valueOf(this.zzd)).add("LiteMode", this.zzl).add("Camera", this.zze).add("CompassEnabled", this.zzg).add("ZoomControlsEnabled", this.zzf).add("ScrollGesturesEnabled", this.zzh).add("ZoomGesturesEnabled", this.zzi).add("TiltGesturesEnabled", this.zzj).add("RotateGesturesEnabled", this.zzk).add("ScrollGesturesEnabledDuringRotateOrZoom", this.zzr).add("MapToolbarEnabled", this.zzm).add("AmbientEnabled", this.zzn).add("MinZoomPreference", this.zzo).add("MaxZoomPreference", this.zzp).add("BackgroundColor", this.zzs).add("LatLngBoundsForCameraTarget", this.zzq).add("ZOrderOnTop", this.zzb).add("UseViewLifecycleInFragment", this.zzc).toString();
+    }
+
+    public GoogleMapOptions useViewLifecycleInFragment(boolean z) {
+        this.zzc = Boolean.valueOf(z);
+        return this;
+    }
+
+    @Override // android.os.Parcelable
+    public void writeToParcel(Parcel parcel, int i) {
+        int beginObjectHeader = SafeParcelWriter.beginObjectHeader(parcel);
+        SafeParcelWriter.writeByte(parcel, 2, com.google.android.gms.maps.internal.zza.zza(this.zzb));
+        SafeParcelWriter.writeByte(parcel, 3, com.google.android.gms.maps.internal.zza.zza(this.zzc));
+        SafeParcelWriter.writeInt(parcel, 4, getMapType());
+        SafeParcelWriter.writeParcelable(parcel, 5, getCamera(), i, false);
+        SafeParcelWriter.writeByte(parcel, 6, com.google.android.gms.maps.internal.zza.zza(this.zzf));
+        SafeParcelWriter.writeByte(parcel, 7, com.google.android.gms.maps.internal.zza.zza(this.zzg));
+        SafeParcelWriter.writeByte(parcel, 8, com.google.android.gms.maps.internal.zza.zza(this.zzh));
+        SafeParcelWriter.writeByte(parcel, 9, com.google.android.gms.maps.internal.zza.zza(this.zzi));
+        SafeParcelWriter.writeByte(parcel, 10, com.google.android.gms.maps.internal.zza.zza(this.zzj));
+        SafeParcelWriter.writeByte(parcel, 11, com.google.android.gms.maps.internal.zza.zza(this.zzk));
+        SafeParcelWriter.writeByte(parcel, 12, com.google.android.gms.maps.internal.zza.zza(this.zzl));
+        SafeParcelWriter.writeByte(parcel, 14, com.google.android.gms.maps.internal.zza.zza(this.zzm));
+        SafeParcelWriter.writeByte(parcel, 15, com.google.android.gms.maps.internal.zza.zza(this.zzn));
+        SafeParcelWriter.writeFloatObject(parcel, 16, getMinZoomPreference(), false);
+        SafeParcelWriter.writeFloatObject(parcel, 17, getMaxZoomPreference(), false);
+        SafeParcelWriter.writeParcelable(parcel, 18, getLatLngBoundsForCameraTarget(), i, false);
+        SafeParcelWriter.writeByte(parcel, 19, com.google.android.gms.maps.internal.zza.zza(this.zzr));
+        SafeParcelWriter.writeIntegerObject(parcel, 20, getBackgroundColor(), false);
+        SafeParcelWriter.writeString(parcel, 21, getMapId(), false);
+        SafeParcelWriter.finishObjectHeader(parcel, beginObjectHeader);
+    }
+
+    public GoogleMapOptions zOrderOnTop(boolean z) {
+        this.zzb = Boolean.valueOf(z);
+        return this;
+    }
+
+    public GoogleMapOptions zoomControlsEnabled(boolean z) {
+        this.zzf = Boolean.valueOf(z);
+        return this;
+    }
+
+    public GoogleMapOptions zoomGesturesEnabled(boolean z) {
+        this.zzi = Boolean.valueOf(z);
+        return this;
+    }
+
     /* JADX INFO: Access modifiers changed from: package-private */
-    public GoogleMapOptions(byte b, byte b2, int i, CameraPosition cameraPosition, byte b3, byte b4, byte b5, byte b6, byte b7, byte b8, byte b9, byte b10, byte b11, Float f, Float f2, LatLngBounds latLngBounds, byte b12) {
-        this.zzc = -1;
-        this.zzn = null;
+    public GoogleMapOptions(byte b, byte b2, int i, CameraPosition cameraPosition, byte b3, byte b4, byte b5, byte b6, byte b7, byte b8, byte b9, byte b10, byte b11, Float f, Float f2, LatLngBounds latLngBounds, byte b12, Integer num, String str) {
+        this.zzd = -1;
         this.zzo = null;
         this.zzp = null;
-        this.zza = com.google.android.gms.maps.internal.zza.zza(b);
-        this.zzb = com.google.android.gms.maps.internal.zza.zza(b2);
-        this.zzc = i;
-        this.zzd = cameraPosition;
-        this.zze = com.google.android.gms.maps.internal.zza.zza(b3);
-        this.zzf = com.google.android.gms.maps.internal.zza.zza(b4);
-        this.zzg = com.google.android.gms.maps.internal.zza.zza(b5);
-        this.zzh = com.google.android.gms.maps.internal.zza.zza(b6);
-        this.zzi = com.google.android.gms.maps.internal.zza.zza(b7);
-        this.zzj = com.google.android.gms.maps.internal.zza.zza(b8);
-        this.zzk = com.google.android.gms.maps.internal.zza.zza(b9);
-        this.zzl = com.google.android.gms.maps.internal.zza.zza(b10);
-        this.zzm = com.google.android.gms.maps.internal.zza.zza(b11);
-        this.zzn = f;
-        this.zzo = f2;
-        this.zzp = latLngBounds;
-        this.zzq = com.google.android.gms.maps.internal.zza.zza(b12);
+        this.zzq = null;
+        this.zzs = null;
+        this.zzt = null;
+        this.zzb = com.google.android.gms.maps.internal.zza.zzb(b);
+        this.zzc = com.google.android.gms.maps.internal.zza.zzb(b2);
+        this.zzd = i;
+        this.zze = cameraPosition;
+        this.zzf = com.google.android.gms.maps.internal.zza.zzb(b3);
+        this.zzg = com.google.android.gms.maps.internal.zza.zzb(b4);
+        this.zzh = com.google.android.gms.maps.internal.zza.zzb(b5);
+        this.zzi = com.google.android.gms.maps.internal.zza.zzb(b6);
+        this.zzj = com.google.android.gms.maps.internal.zza.zzb(b7);
+        this.zzk = com.google.android.gms.maps.internal.zza.zzb(b8);
+        this.zzl = com.google.android.gms.maps.internal.zza.zzb(b9);
+        this.zzm = com.google.android.gms.maps.internal.zza.zzb(b10);
+        this.zzn = com.google.android.gms.maps.internal.zza.zzb(b11);
+        this.zzo = f;
+        this.zzp = f2;
+        this.zzq = latLngBounds;
+        this.zzr = com.google.android.gms.maps.internal.zza.zzb(b12);
+        this.zzs = num;
+        this.zzt = str;
     }
 }

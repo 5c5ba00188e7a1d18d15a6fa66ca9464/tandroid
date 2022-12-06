@@ -40,7 +40,6 @@ import java.util.List;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.MediaController;
 import org.telegram.messenger.voip.VoIPService;
-import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public class MediaCodecVideoRenderer extends MediaCodecRenderer {
     private static final int[] STANDARD_LONG_EDGE_VIDEO_PX = {1920, 1600, 1440, 1280, 960, 854, 640, 540, 480};
@@ -1010,7 +1009,6 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
                 } else {
                     return -1;
                 }
-                break;
             default:
                 return -1;
         }
@@ -1021,7 +1019,7 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
         return "NVIDIA".equals(Util.MANUFACTURER);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:36:0x0657 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x0658 A[ADDED_TO_REGION] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1960,7 +1958,7 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
                             case 29:
                             case 30:
                             case 31:
-                            case ConnectionsManager.RequestFlagForceDownload /* 32 */:
+                            case ' ':
                             case '!':
                             case '\"':
                             case '#':

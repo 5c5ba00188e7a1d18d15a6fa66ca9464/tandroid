@@ -7,7 +7,6 @@ import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.telegram.messenger.audioinfo.AudioInfo;
-import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public class ID3v2Info extends AudioInfo {
     static final Logger LOGGER = Logger.getLogger(ID3v2Info.class.getName());
@@ -546,7 +545,7 @@ public class ID3v2Info extends AudioInfo {
                     return;
                 }
             case 15:
-            case ConnectionsManager.RequestFlagForceDownload /* 32 */:
+            case ' ':
                 if (this.lyrics != null) {
                     return;
                 }

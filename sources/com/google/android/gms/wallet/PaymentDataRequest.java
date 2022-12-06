@@ -3,36 +3,33 @@ package com.google.android.gms.wallet;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
-import androidx.annotation.RecentlyNonNull;
 import com.google.android.gms.common.internal.Preconditions;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
 import java.util.ArrayList;
-/* compiled from: com.google.android.gms:play-services-wallet@@18.1.3 */
+/* compiled from: com.google.android.gms:play-services-wallet@@19.1.0 */
 /* loaded from: classes.dex */
 public final class PaymentDataRequest extends AbstractSafeParcelable {
-    @RecentlyNonNull
-    public static final Parcelable.Creator<PaymentDataRequest> CREATOR = new zzx();
+    public static final Parcelable.Creator<PaymentDataRequest> CREATOR = new zzac();
     boolean zza;
     boolean zzb;
     CardRequirements zzc;
     boolean zzd;
     ShippingAddressRequirements zze;
-    ArrayList<Integer> zzf;
+    ArrayList zzf;
     PaymentMethodTokenizationParameters zzg;
     TransactionInfo zzh;
     boolean zzi;
     String zzj;
     Bundle zzk;
 
-    /* compiled from: com.google.android.gms:play-services-wallet@@18.1.3 */
+    /* compiled from: com.google.android.gms:play-services-wallet@@19.1.0 */
     @Deprecated
     /* loaded from: classes.dex */
     public final class Builder {
-        /* synthetic */ Builder(zzw zzwVar) {
+        /* synthetic */ Builder(zzab zzabVar) {
         }
 
-        @RecentlyNonNull
         public PaymentDataRequest build() {
             PaymentDataRequest paymentDataRequest = PaymentDataRequest.this;
             if (paymentDataRequest.zzj == null) {
@@ -51,21 +48,19 @@ public final class PaymentDataRequest extends AbstractSafeParcelable {
         this.zzi = true;
     }
 
-    @RecentlyNonNull
-    public static PaymentDataRequest fromJson(@RecentlyNonNull String str) {
+    public static PaymentDataRequest fromJson(String str) {
         Builder newBuilder = newBuilder();
         PaymentDataRequest.this.zzj = (String) Preconditions.checkNotNull(str, "paymentDataRequestJson cannot be null!");
         return newBuilder.build();
     }
 
-    @RecentlyNonNull
     @Deprecated
     public static Builder newBuilder() {
         return new Builder(null);
     }
 
     @Override // android.os.Parcelable
-    public void writeToParcel(@RecentlyNonNull Parcel parcel, int i) {
+    public void writeToParcel(Parcel parcel, int i) {
         int beginObjectHeader = SafeParcelWriter.beginObjectHeader(parcel);
         SafeParcelWriter.writeBoolean(parcel, 1, this.zza);
         SafeParcelWriter.writeBoolean(parcel, 2, this.zzb);
@@ -82,7 +77,7 @@ public final class PaymentDataRequest extends AbstractSafeParcelable {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public PaymentDataRequest(boolean z, boolean z2, CardRequirements cardRequirements, boolean z3, ShippingAddressRequirements shippingAddressRequirements, ArrayList<Integer> arrayList, PaymentMethodTokenizationParameters paymentMethodTokenizationParameters, TransactionInfo transactionInfo, boolean z4, String str, Bundle bundle) {
+    public PaymentDataRequest(boolean z, boolean z2, CardRequirements cardRequirements, boolean z3, ShippingAddressRequirements shippingAddressRequirements, ArrayList arrayList, PaymentMethodTokenizationParameters paymentMethodTokenizationParameters, TransactionInfo transactionInfo, boolean z4, String str, Bundle bundle) {
         this.zza = z;
         this.zzb = z2;
         this.zzc = cardRequirements;

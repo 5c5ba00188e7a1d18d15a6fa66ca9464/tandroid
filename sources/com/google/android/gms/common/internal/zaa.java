@@ -3,16 +3,11 @@ package com.google.android.gms.common.internal;
 import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelReader;
-/* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
+/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
-public final class zaa implements Parcelable.Creator<ClientIdentity> {
+public final class zaa implements Parcelable.Creator {
     @Override // android.os.Parcelable.Creator
-    public final /* synthetic */ ClientIdentity[] newArray(int i) {
-        return new ClientIdentity[i];
-    }
-
-    @Override // android.os.Parcelable.Creator
-    public final /* synthetic */ ClientIdentity createFromParcel(Parcel parcel) {
+    public final /* bridge */ /* synthetic */ Object createFromParcel(Parcel parcel) {
         int validateObjectHeader = SafeParcelReader.validateObjectHeader(parcel);
         int i = 0;
         String str = null;
@@ -29,5 +24,10 @@ public final class zaa implements Parcelable.Creator<ClientIdentity> {
         }
         SafeParcelReader.ensureAtEnd(parcel, validateObjectHeader);
         return new ClientIdentity(i, str);
+    }
+
+    @Override // android.os.Parcelable.Creator
+    public final /* synthetic */ Object[] newArray(int i) {
+        return new ClientIdentity[i];
     }
 }

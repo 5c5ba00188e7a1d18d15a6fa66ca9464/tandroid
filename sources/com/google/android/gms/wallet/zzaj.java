@@ -1,21 +1,33 @@
 package com.google.android.gms.wallet;
 
-import android.content.Context;
-import android.os.Looper;
-import com.google.android.gms.common.api.Api;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.internal.ClientSettings;
-import com.google.android.gms.wallet.Wallet;
-/* JADX INFO: Access modifiers changed from: package-private */
-/* compiled from: com.google.android.gms:play-services-wallet@@18.1.3 */
+import android.os.Parcel;
+import android.os.Parcelable;
+import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
+import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
+/* compiled from: com.google.android.gms:play-services-wallet@@19.1.0 */
+@Deprecated
 /* loaded from: classes.dex */
-public final class zzaj extends Api.AbstractClientBuilder<com.google.android.gms.internal.wallet.zzab, Wallet.WalletOptions> {
-    @Override // com.google.android.gms.common.api.Api.AbstractClientBuilder
-    public final /* bridge */ /* synthetic */ com.google.android.gms.internal.wallet.zzab buildClient(Context context, Looper looper, ClientSettings clientSettings, Wallet.WalletOptions walletOptions, GoogleApiClient.ConnectionCallbacks connectionCallbacks, GoogleApiClient.OnConnectionFailedListener onConnectionFailedListener) {
-        Wallet.WalletOptions walletOptions2 = walletOptions;
-        if (walletOptions2 == null) {
-            walletOptions2 = new Wallet.WalletOptions((zzaj) null);
-        }
-        return new com.google.android.gms.internal.wallet.zzab(context, looper, clientSettings, connectionCallbacks, onConnectionFailedListener, walletOptions2.environment, walletOptions2.theme, walletOptions2.zzb);
+public final class zzaj extends AbstractSafeParcelable {
+    public static final Parcelable.Creator<zzaj> CREATOR = new zzak();
+    final String zza;
+    final String zzb;
+    final int zzc;
+    final int zzd;
+
+    public zzaj(String str, String str2, int i, int i2) {
+        this.zza = str;
+        this.zzb = str2;
+        this.zzc = i;
+        this.zzd = i2;
+    }
+
+    @Override // android.os.Parcelable
+    public final void writeToParcel(Parcel parcel, int i) {
+        int beginObjectHeader = SafeParcelWriter.beginObjectHeader(parcel);
+        SafeParcelWriter.writeString(parcel, 2, this.zza, false);
+        SafeParcelWriter.writeString(parcel, 3, this.zzb, false);
+        SafeParcelWriter.writeInt(parcel, 4, this.zzc);
+        SafeParcelWriter.writeInt(parcel, 5, this.zzd);
+        SafeParcelWriter.finishObjectHeader(parcel, beginObjectHeader);
     }
 }

@@ -1,10 +1,9 @@
 package com.google.android.gms.maps.model;
 
 import android.os.RemoteException;
-import androidx.annotation.RecentlyNonNull;
 import com.google.android.gms.common.internal.Preconditions;
 import com.google.android.gms.internal.maps.zzl;
-/* compiled from: com.google.android.gms:play-services-maps@@17.0.1 */
+/* compiled from: com.google.android.gms:play-services-maps@@18.1.0 */
 /* loaded from: classes.dex */
 public final class Circle {
     private final zzl zza;
@@ -18,7 +17,7 @@ public final class Circle {
             return false;
         }
         try {
-            return this.zza.zzt(((Circle) obj).zza);
+            return this.zza.zzy(((Circle) obj).zza);
         } catch (RemoteException e) {
             throw new RuntimeRemoteException(e);
         }
@@ -26,7 +25,7 @@ public final class Circle {
 
     public double getRadius() {
         try {
-            return this.zza.zzi();
+            return this.zza.zzd();
         } catch (RemoteException e) {
             throw new RuntimeRemoteException(e);
         }
@@ -34,16 +33,16 @@ public final class Circle {
 
     public final int hashCode() {
         try {
-            return this.zza.zzu();
+            return this.zza.zzi();
         } catch (RemoteException e) {
             throw new RuntimeRemoteException(e);
         }
     }
 
-    public void setCenter(@RecentlyNonNull LatLng latLng) {
+    public void setCenter(LatLng latLng) {
         try {
             Preconditions.checkNotNull(latLng, "center must not be null.");
-            this.zza.zzf(latLng);
+            this.zza.zzo(latLng);
         } catch (RemoteException e) {
             throw new RuntimeRemoteException(e);
         }
@@ -51,7 +50,7 @@ public final class Circle {
 
     public void remove() {
         try {
-            this.zza.zzd();
+            this.zza.zzn();
         } catch (RemoteException e) {
             throw new RuntimeRemoteException(e);
         }
@@ -59,7 +58,7 @@ public final class Circle {
 
     public void setFillColor(int i) {
         try {
-            this.zza.zzn(i);
+            this.zza.zzq(i);
         } catch (RemoteException e) {
             throw new RuntimeRemoteException(e);
         }
@@ -67,7 +66,7 @@ public final class Circle {
 
     public void setRadius(double d) {
         try {
-            this.zza.zzh(d);
+            this.zza.zzr(d);
         } catch (RemoteException e) {
             throw new RuntimeRemoteException(e);
         }
@@ -75,7 +74,7 @@ public final class Circle {
 
     public void setStrokeColor(int i) {
         try {
-            this.zza.zzl(i);
+            this.zza.zzs(i);
         } catch (RemoteException e) {
             throw new RuntimeRemoteException(e);
         }

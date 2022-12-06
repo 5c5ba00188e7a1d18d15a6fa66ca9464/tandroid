@@ -2,14 +2,12 @@ package com.google.android.gms.wallet;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import androidx.annotation.RecentlyNonNull;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
-/* compiled from: com.google.android.gms:play-services-wallet@@18.1.3 */
+/* compiled from: com.google.android.gms:play-services-wallet@@19.1.0 */
 /* loaded from: classes.dex */
 public final class InstrumentInfo extends AbstractSafeParcelable {
-    @RecentlyNonNull
-    public static final Parcelable.Creator<InstrumentInfo> CREATOR = new zzn();
+    public static final Parcelable.Creator<InstrumentInfo> CREATOR = new zzo();
     private String zza;
     private String zzb;
     private int zzc;
@@ -25,18 +23,16 @@ public final class InstrumentInfo extends AbstractSafeParcelable {
         return 0;
     }
 
-    @RecentlyNonNull
     public String getInstrumentDetails() {
         return this.zzb;
     }
 
-    @RecentlyNonNull
     public String getInstrumentType() {
         return this.zza;
     }
 
     @Override // android.os.Parcelable
-    public void writeToParcel(@RecentlyNonNull Parcel parcel, int i) {
+    public void writeToParcel(Parcel parcel, int i) {
         int beginObjectHeader = SafeParcelWriter.beginObjectHeader(parcel);
         SafeParcelWriter.writeString(parcel, 2, getInstrumentType(), false);
         SafeParcelWriter.writeString(parcel, 3, getInstrumentDetails(), false);
@@ -44,7 +40,7 @@ public final class InstrumentInfo extends AbstractSafeParcelable {
         SafeParcelWriter.finishObjectHeader(parcel, beginObjectHeader);
     }
 
-    public InstrumentInfo(@RecentlyNonNull String str, @RecentlyNonNull String str2, int i) {
+    public InstrumentInfo(String str, String str2, int i) {
         this.zza = str;
         this.zzb = str2;
         this.zzc = i;

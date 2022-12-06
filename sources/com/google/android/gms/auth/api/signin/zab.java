@@ -6,16 +6,11 @@ import android.os.Parcelable;
 import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelReader;
 import java.util.ArrayList;
-/* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
+/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
-public final class zab implements Parcelable.Creator<GoogleSignInAccount> {
+public final class zab implements Parcelable.Creator {
     @Override // android.os.Parcelable.Creator
-    public final /* synthetic */ GoogleSignInAccount[] newArray(int i) {
-        return new GoogleSignInAccount[i];
-    }
-
-    @Override // android.os.Parcelable.Creator
-    public final /* synthetic */ GoogleSignInAccount createFromParcel(Parcel parcel) {
+    public final /* bridge */ /* synthetic */ Object createFromParcel(Parcel parcel) {
         int validateObjectHeader = SafeParcelReader.validateObjectHeader(parcel);
         String str = null;
         String str2 = null;
@@ -75,5 +70,10 @@ public final class zab implements Parcelable.Creator<GoogleSignInAccount> {
         }
         SafeParcelReader.ensureAtEnd(parcel, validateObjectHeader);
         return new GoogleSignInAccount(i, str, str2, str3, str4, uri, str5, j, str6, arrayList, str7, str8);
+    }
+
+    @Override // android.os.Parcelable.Creator
+    public final /* synthetic */ Object[] newArray(int i) {
+        return new GoogleSignInAccount[i];
     }
 }

@@ -13,12 +13,14 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
 public class LoadingDrawable extends Drawable {
+    public Integer color1;
+    public Integer color2;
     private LinearGradient gradient;
     private int gradientColor1;
     private int gradientColor2;
     private int gradientWidth;
     private RectF[] rects;
-    private Theme.ResourcesProvider resourcesProvider;
+    public Theme.ResourcesProvider resourcesProvider;
     private long start = -1;
     public String colorKey1 = "dialogBackground";
     public String colorKey2 = "dialogBackgroundGray";
@@ -41,13 +43,15 @@ public class LoadingDrawable extends Drawable {
             return;
         }
         int min = Math.min(AndroidUtilities.dp(400.0f), bounds.width());
-        int color = Theme.getColor(this.colorKey1, this.resourcesProvider);
-        int color2 = Theme.getColor(this.colorKey2, this.resourcesProvider);
+        Integer num = this.color1;
+        int intValue = num != null ? num.intValue() : Theme.getColor(this.colorKey1, this.resourcesProvider);
+        Integer num2 = this.color2;
+        int intValue2 = num2 != null ? num2.intValue() : Theme.getColor(this.colorKey2, this.resourcesProvider);
         int i = 0;
-        if (this.gradient == null || min != this.gradientWidth || color != this.gradientColor1 || color2 != this.gradientColor2) {
+        if (this.gradient == null || min != this.gradientWidth || intValue != this.gradientColor1 || intValue2 != this.gradientColor2) {
             this.gradientWidth = min;
-            this.gradientColor1 = color;
-            this.gradientColor2 = color2;
+            this.gradientColor1 = intValue;
+            this.gradientColor2 = intValue2;
             int i2 = this.gradientColor1;
             LinearGradient linearGradient = new LinearGradient(0.0f, 0.0f, this.gradientWidth, 0.0f, new int[]{i2, this.gradientColor2, i2}, new float[]{0.0f, 0.67f, 1.0f}, Shader.TileMode.REPEAT);
             this.gradient = linearGradient;
@@ -57,8 +61,9 @@ public class LoadingDrawable extends Drawable {
         if (this.start < 0) {
             this.start = elapsedRealtime;
         }
+        float dp = (((float) (elapsedRealtime - this.start)) / 4000.0f) * AndroidUtilities.dp(2.0f);
         int i3 = this.gradientWidth;
-        float f = i3 - (((((float) (elapsedRealtime - this.start)) / 1000.0f) * i3) % i3);
+        float f = this.gradientWidth - ((dp * i3) % i3);
         canvas.save();
         canvas.clipRect(bounds);
         canvas.translate(-f, 0.0f);

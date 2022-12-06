@@ -5,16 +5,11 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelReader;
-/* compiled from: com.google.android.gms:play-services-basement@@17.5.0 */
+/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
-public final class zzb implements Parcelable.Creator<Status> {
+public final class zzb implements Parcelable.Creator {
     @Override // android.os.Parcelable.Creator
-    public final /* synthetic */ Status[] newArray(int i) {
-        return new Status[i];
-    }
-
-    @Override // android.os.Parcelable.Creator
-    public final /* synthetic */ Status createFromParcel(Parcel parcel) {
+    public final /* bridge */ /* synthetic */ Object createFromParcel(Parcel parcel) {
         int validateObjectHeader = SafeParcelReader.validateObjectHeader(parcel);
         String str = null;
         PendingIntent pendingIntent = null;
@@ -40,5 +35,10 @@ public final class zzb implements Parcelable.Creator<Status> {
         }
         SafeParcelReader.ensureAtEnd(parcel, validateObjectHeader);
         return new Status(i, i2, str, pendingIntent, connectionResult);
+    }
+
+    @Override // android.os.Parcelable.Creator
+    public final /* synthetic */ Object[] newArray(int i) {
+        return new Status[i];
     }
 }

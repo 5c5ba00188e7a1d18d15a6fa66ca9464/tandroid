@@ -15,8 +15,9 @@ public final class zzae extends GmsClient<zzaa> {
         super(context, looper, 19, clientSettings, connectionCallbacks, onConnectionFailedListener);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.gms.common.internal.BaseGmsClient
-    protected final /* bridge */ /* synthetic */ IInterface createServiceInterface(IBinder iBinder) {
+    public final /* bridge */ /* synthetic */ IInterface createServiceInterface(IBinder iBinder) {
         if (iBinder == null) {
             return null;
         }
@@ -32,8 +33,9 @@ public final class zzae extends GmsClient<zzaa> {
         return 12600000;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.gms.common.internal.BaseGmsClient
-    protected final String getServiceDescriptor() {
+    public final String getServiceDescriptor() {
         return "com.google.android.gms.appdatasearch.internal.ILightweightAppDataSearch";
     }
 

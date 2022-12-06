@@ -11,10 +11,10 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.common.internal.ClientSettings;
 import com.google.android.gms.common.internal.GmsClient;
-import com.google.android.gms.internal.auth-api.zbax;
-/* compiled from: com.google.android.gms:play-services-auth@@19.2.0 */
+import com.google.android.gms.internal.auth-api.zbbb;
+/* compiled from: com.google.android.gms:play-services-auth@@20.4.0 */
 /* loaded from: classes.dex */
-public final class zbe extends GmsClient<zbs> {
+public final class zbe extends GmsClient {
     private final GoogleSignInOptions zba;
 
     public zbe(Context context, Looper looper, ClientSettings clientSettings, GoogleSignInOptions googleSignInOptions, GoogleApiClient.ConnectionCallbacks connectionCallbacks, GoogleApiClient.OnConnectionFailedListener onConnectionFailedListener) {
@@ -25,7 +25,7 @@ public final class zbe extends GmsClient<zbs> {
         } else {
             builder = new GoogleSignInOptions.Builder();
         }
-        builder.setLogSessionId(zbax.zba());
+        builder.setLogSessionId(zbbb.zba());
         if (!clientSettings.getAllRequestedScopes().isEmpty()) {
             for (Scope scope : clientSettings.getAllRequestedScopes()) {
                 builder.requestScopes(scope, new Scope[0]);
@@ -34,16 +34,14 @@ public final class zbe extends GmsClient<zbs> {
         this.zba = builder.build();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.gms.common.internal.BaseGmsClient
-    protected final /* bridge */ /* synthetic */ IInterface createServiceInterface(IBinder iBinder) {
+    public final /* synthetic */ IInterface createServiceInterface(IBinder iBinder) {
         if (iBinder == null) {
             return null;
         }
         IInterface queryLocalInterface = iBinder.queryLocalInterface("com.google.android.gms.auth.api.signin.internal.ISignInService");
-        if (queryLocalInterface instanceof zbs) {
-            return (zbs) queryLocalInterface;
-        }
-        return new zbs(iBinder);
+        return queryLocalInterface instanceof zbs ? (zbs) queryLocalInterface : new zbs(iBinder);
     }
 
     @Override // com.google.android.gms.common.internal.BaseGmsClient, com.google.android.gms.common.api.Api.Client
@@ -51,8 +49,9 @@ public final class zbe extends GmsClient<zbs> {
         return GooglePlayServicesUtilLight.GOOGLE_PLAY_SERVICES_VERSION_CODE;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.gms.common.internal.BaseGmsClient
-    protected final String getServiceDescriptor() {
+    public final String getServiceDescriptor() {
         return "com.google.android.gms.auth.api.signin.internal.ISignInService";
     }
 

@@ -2,23 +2,19 @@ package com.google.android.gms.maps.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import androidx.annotation.RecentlyNonNull;
 import com.google.android.gms.common.internal.Objects;
 import com.google.android.gms.common.internal.Preconditions;
 import com.google.android.gms.common.internal.ReflectedParcelable;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
-/* compiled from: com.google.android.gms:play-services-maps@@17.0.1 */
+/* compiled from: com.google.android.gms:play-services-maps@@18.1.0 */
 /* loaded from: classes.dex */
 public final class LatLngBounds extends AbstractSafeParcelable implements ReflectedParcelable {
-    @RecentlyNonNull
     public static final Parcelable.Creator<LatLngBounds> CREATOR = new zzf();
-    @RecentlyNonNull
     public final LatLng northeast;
-    @RecentlyNonNull
     public final LatLng southwest;
 
-    /* compiled from: com.google.android.gms:play-services-maps@@17.0.1 */
+    /* compiled from: com.google.android.gms:play-services-maps@@18.1.0 */
     /* loaded from: classes.dex */
     public static final class Builder {
         private double zza = Double.POSITIVE_INFINITY;
@@ -26,14 +22,12 @@ public final class LatLngBounds extends AbstractSafeParcelable implements Reflec
         private double zzc = Double.NaN;
         private double zzd = Double.NaN;
 
-        @RecentlyNonNull
         public LatLngBounds build() {
             Preconditions.checkState(!Double.isNaN(this.zzc), "no included points");
             return new LatLngBounds(new LatLng(this.zza, this.zzc), new LatLng(this.zzb, this.zzd));
         }
 
-        @RecentlyNonNull
-        public Builder include(@RecentlyNonNull LatLng latLng) {
+        public Builder include(LatLng latLng) {
             Preconditions.checkNotNull(latLng, "point must not be null");
             this.zza = Math.min(this.zza, latLng.latitude);
             this.zzb = Math.max(this.zzb, latLng.latitude);
@@ -57,7 +51,7 @@ public final class LatLngBounds extends AbstractSafeParcelable implements Reflec
         }
     }
 
-    public LatLngBounds(@RecentlyNonNull LatLng latLng, @RecentlyNonNull LatLng latLng2) {
+    public LatLngBounds(LatLng latLng, LatLng latLng2) {
         Preconditions.checkNotNull(latLng, "southwest must not be null.");
         Preconditions.checkNotNull(latLng2, "northeast must not be null.");
         double d = latLng2.latitude;
@@ -78,7 +72,6 @@ public final class LatLngBounds extends AbstractSafeParcelable implements Reflec
         return this.southwest.equals(latLngBounds.southwest) && this.northeast.equals(latLngBounds.northeast);
     }
 
-    @RecentlyNonNull
     public LatLng getCenter() {
         LatLng latLng = this.southwest;
         double d = latLng.latitude;
@@ -96,13 +89,12 @@ public final class LatLngBounds extends AbstractSafeParcelable implements Reflec
         return Objects.hashCode(this.southwest, this.northeast);
     }
 
-    @RecentlyNonNull
     public String toString() {
         return Objects.toStringHelper(this).add("southwest", this.southwest).add("northeast", this.northeast).toString();
     }
 
     @Override // android.os.Parcelable
-    public void writeToParcel(@RecentlyNonNull Parcel parcel, int i) {
+    public void writeToParcel(Parcel parcel, int i) {
         int beginObjectHeader = SafeParcelWriter.beginObjectHeader(parcel);
         SafeParcelWriter.writeParcelable(parcel, 2, this.southwest, i, false);
         SafeParcelWriter.writeParcelable(parcel, 3, this.northeast, i, false);

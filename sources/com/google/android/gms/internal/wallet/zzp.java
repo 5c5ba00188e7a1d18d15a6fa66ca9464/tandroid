@@ -4,11 +4,11 @@ import android.app.PendingIntent;
 import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelReader;
-/* compiled from: com.google.android.gms:play-services-wallet@@18.1.3 */
+/* compiled from: com.google.android.gms:play-services-wallet@@19.1.0 */
 /* loaded from: classes.dex */
-public final class zzp implements Parcelable.Creator<zzo> {
+public final class zzp implements Parcelable.Creator {
     @Override // android.os.Parcelable.Creator
-    public final /* bridge */ /* synthetic */ zzo createFromParcel(Parcel parcel) {
+    public final /* bridge */ /* synthetic */ Object createFromParcel(Parcel parcel) {
         int validateObjectHeader = SafeParcelReader.validateObjectHeader(parcel);
         PendingIntent pendingIntent = null;
         while (parcel.dataPosition() < validateObjectHeader) {
@@ -24,7 +24,7 @@ public final class zzp implements Parcelable.Creator<zzo> {
     }
 
     @Override // android.os.Parcelable.Creator
-    public final /* bridge */ /* synthetic */ zzo[] newArray(int i) {
+    public final /* synthetic */ Object[] newArray(int i) {
         return new zzo[i];
     }
 }

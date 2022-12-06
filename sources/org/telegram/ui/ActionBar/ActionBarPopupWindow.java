@@ -963,21 +963,31 @@ public class ActionBarPopupWindow extends PopupWindow {
     /* loaded from: classes3.dex */
     public static class GapView extends FrameLayout {
         Theme.ResourcesProvider resourcesProvider;
+        Drawable shadowDrawable;
+
+        public GapView(Context context, Theme.ResourcesProvider resourcesProvider) {
+            this(context, resourcesProvider, "actionBarDefaultSubmenuSeparator");
+        }
 
         public GapView(Context context, Theme.ResourcesProvider resourcesProvider, String str) {
             super(context);
             this.resourcesProvider = resourcesProvider;
-            setBackgroundColor(getThemedColor(str));
-        }
-
-        private int getThemedColor(String str) {
-            Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
-            Integer color = resourcesProvider != null ? resourcesProvider.getColor(str) : null;
-            return color != null ? color.intValue() : Theme.getColor(str);
+            this.shadowDrawable = Theme.getThemedDrawable(getContext(), R.drawable.greydivider, "windowBackgroundGrayShadow", resourcesProvider);
+            setBackgroundColor(Theme.getColor(str, resourcesProvider));
         }
 
         public void setColor(int i) {
             setBackgroundColor(i);
+        }
+
+        @Override // android.view.View
+        protected void onDraw(Canvas canvas) {
+            super.onDraw(canvas);
+            Drawable drawable = this.shadowDrawable;
+            if (drawable != null) {
+                drawable.setBounds(0, 0, getWidth(), getHeight());
+                this.shadowDrawable.draw(canvas);
+            }
         }
     }
 }

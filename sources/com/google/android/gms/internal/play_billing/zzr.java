@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Objects;
 import javax.annotation.CheckForNull;
-/* compiled from: com.android.billingclient:billing@@5.0.0 */
+/* compiled from: com.android.billingclient:billing@@5.1.0 */
 /* loaded from: classes.dex */
 public abstract class zzr extends AbstractCollection implements Serializable {
     private static final Object[] zza = new Object[0];

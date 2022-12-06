@@ -1,5 +1,5 @@
 package com.google.android.gms.wallet.wobs;
-/* compiled from: com.google.android.gms:play-services-wallet@@18.1.3 */
+/* compiled from: com.google.android.gms:play-services-wallet@@19.1.0 */
 /* loaded from: classes.dex */
 public final class zzb {
     final /* synthetic */ CommonWalletObject zza;

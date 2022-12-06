@@ -9,11 +9,12 @@ import android.os.ResultReceiver;
 import com.google.android.apps.common.proguard.UsedByReflection;
 import com.google.android.gms.internal.play_billing.zzb;
 import org.telegram.messenger.FileLoader;
-/* compiled from: com.android.billingclient:billing@@5.0.0 */
+/* compiled from: com.android.billingclient:billing@@5.1.0 */
 @UsedByReflection("PlatformActivityProxy")
 /* loaded from: classes.dex */
 public class ProxyBillingActivity extends Activity {
     private ResultReceiver inAppMessageResultReceiver;
+    private boolean isFlowFromFirstPartyClient;
     private ResultReceiver priceChangeResultReceiver;
     private boolean sendCancelledBroadcastIfFinished;
 
@@ -30,8 +31,8 @@ public class ProxyBillingActivity extends Activity {
         return intent;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:10:0x003c  */
-    /* JADX WARN: Removed duplicated region for block: B:16:0x0048  */
+    /* JADX WARN: Removed duplicated region for block: B:22:0x0074  */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x007f  */
     @Override // android.app.Activity
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -41,7 +42,7 @@ public class ProxyBillingActivity extends Activity {
         Intent makePurchasesUpdatedIntent;
         super.onActivityResult(i, i2, intent);
         Bundle bundle = null;
-        if (i == 100) {
+        if (i == 100 || i == 110) {
             int responseCode = zzb.zzi(intent, "ProxyBillingActivity").getResponseCode();
             if (i2 == -1) {
                 if (responseCode != 0) {
@@ -72,6 +73,9 @@ public class ProxyBillingActivity extends Activity {
                             }
                         } else {
                             makePurchasesUpdatedIntent = makePurchasesUpdatedIntent();
+                        }
+                        if (i == 110) {
+                            makePurchasesUpdatedIntent.putExtra("IS_FIRST_PARTY_PURCHASE", true);
                         }
                         sendBroadcast(makePurchasesUpdatedIntent);
                     }
@@ -104,22 +108,27 @@ public class ProxyBillingActivity extends Activity {
         super.onCreate(bundle);
         if (bundle == null) {
             zzb.zzn("ProxyBillingActivity", "Launching Play Store billing flow");
-            try {
-                if (getIntent().hasExtra("BUY_INTENT")) {
-                    pendingIntent = (PendingIntent) getIntent().getParcelableExtra("BUY_INTENT");
-                } else if (getIntent().hasExtra("SUBS_MANAGEMENT_INTENT")) {
+            if (getIntent().hasExtra("BUY_INTENT")) {
+                pendingIntent = (PendingIntent) getIntent().getParcelableExtra("BUY_INTENT");
+                if (getIntent().hasExtra("IS_FLOW_FROM_FIRST_PARTY_CLIENT") && getIntent().getBooleanExtra("IS_FLOW_FROM_FIRST_PARTY_CLIENT", false)) {
+                    this.isFlowFromFirstPartyClient = true;
+                    i = 110;
+                }
+                i = 100;
+            } else {
+                if (getIntent().hasExtra("SUBS_MANAGEMENT_INTENT")) {
                     pendingIntent = (PendingIntent) getIntent().getParcelableExtra("SUBS_MANAGEMENT_INTENT");
                     this.priceChangeResultReceiver = (ResultReceiver) getIntent().getParcelableExtra("result_receiver");
                 } else if (getIntent().hasExtra("IN_APP_MESSAGE_INTENT")) {
                     pendingIntent = (PendingIntent) getIntent().getParcelableExtra("IN_APP_MESSAGE_INTENT");
                     this.inAppMessageResultReceiver = (ResultReceiver) getIntent().getParcelableExtra("in_app_message_result_receiver");
                     i = FileLoader.MEDIA_DIR_VIDEO_PUBLIC;
-                    this.sendCancelledBroadcastIfFinished = true;
-                    startIntentSenderForResult(pendingIntent.getIntentSender(), i, new Intent(), 0, 0, 0);
-                    return;
                 } else {
                     pendingIntent = null;
                 }
+                i = 100;
+            }
+            try {
                 this.sendCancelledBroadcastIfFinished = true;
                 startIntentSenderForResult(pendingIntent.getIntentSender(), i, new Intent(), 0, 0, 0);
                 return;
@@ -134,6 +143,9 @@ public class ProxyBillingActivity extends Activity {
                         resultReceiver2.send(0, null);
                     } else {
                         Intent makePurchasesUpdatedIntent = makePurchasesUpdatedIntent();
+                        if (this.isFlowFromFirstPartyClient) {
+                            makePurchasesUpdatedIntent.putExtra("IS_FIRST_PARTY_PURCHASE", true);
+                        }
                         makePurchasesUpdatedIntent.putExtra("RESPONSE_CODE", 6);
                         makePurchasesUpdatedIntent.putExtra("DEBUG_MESSAGE", "An internal error occurred.");
                         sendBroadcast(makePurchasesUpdatedIntent);
@@ -143,17 +155,15 @@ public class ProxyBillingActivity extends Activity {
                 finish();
                 return;
             }
-            i = 100;
-        } else {
-            zzb.zzn("ProxyBillingActivity", "Launching Play Store billing flow from savedInstanceState");
-            this.sendCancelledBroadcastIfFinished = bundle.getBoolean("send_cancelled_broadcast_if_finished", false);
-            if (bundle.containsKey("result_receiver")) {
-                this.priceChangeResultReceiver = (ResultReceiver) bundle.getParcelable("result_receiver");
-            } else if (!bundle.containsKey("in_app_message_result_receiver")) {
-            } else {
-                this.inAppMessageResultReceiver = (ResultReceiver) bundle.getParcelable("in_app_message_result_receiver");
-            }
         }
+        zzb.zzn("ProxyBillingActivity", "Launching Play Store billing flow from savedInstanceState");
+        this.sendCancelledBroadcastIfFinished = bundle.getBoolean("send_cancelled_broadcast_if_finished", false);
+        if (bundle.containsKey("result_receiver")) {
+            this.priceChangeResultReceiver = (ResultReceiver) bundle.getParcelable("result_receiver");
+        } else if (bundle.containsKey("in_app_message_result_receiver")) {
+            this.inAppMessageResultReceiver = (ResultReceiver) bundle.getParcelable("in_app_message_result_receiver");
+        }
+        this.isFlowFromFirstPartyClient = bundle.getBoolean("IS_FLOW_FROM_FIRST_PARTY_CLIENT", false);
     }
 
     @Override // android.app.Activity
@@ -178,5 +188,6 @@ public class ProxyBillingActivity extends Activity {
             bundle.putParcelable("in_app_message_result_receiver", resultReceiver2);
         }
         bundle.putBoolean("send_cancelled_broadcast_if_finished", this.sendCancelledBroadcastIfFinished);
+        bundle.putBoolean("IS_FLOW_FROM_FIRST_PARTY_CLIENT", this.isFlowFromFirstPartyClient);
     }
 }

@@ -1,37 +1,38 @@
 package com.google.android.gms.common.internal;
 
-import android.content.Intent;
-import android.net.Uri;
-import android.text.TextUtils;
-/* compiled from: com.google.android.gms:play-services-basement@@17.5.0 */
+import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
+import com.google.android.gms.common.Feature;
+import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
+import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
+/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
-public final class zzj {
-    public static Intent zza(String str) {
-        Uri fromParts = Uri.fromParts("package", str, null);
-        Intent intent = new Intent("android.settings.APPLICATION_DETAILS_SETTINGS");
-        intent.setData(fromParts);
-        return intent;
+public final class zzj extends AbstractSafeParcelable {
+    public static final Parcelable.Creator<zzj> CREATOR = new zzk();
+    Bundle zza;
+    Feature[] zzb;
+    int zzc;
+    ConnectionTelemetryConfiguration zzd;
+
+    public zzj() {
     }
 
-    public static Intent zza(String str, String str2) {
-        Intent intent = new Intent("android.intent.action.VIEW");
-        Uri.Builder appendQueryParameter = Uri.parse("market://details").buildUpon().appendQueryParameter("id", str);
-        if (!TextUtils.isEmpty(str2)) {
-            appendQueryParameter.appendQueryParameter("pcampaignid", str2);
-        }
-        intent.setData(appendQueryParameter.build());
-        intent.setPackage("com.android.vending");
-        intent.addFlags(524288);
-        return intent;
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public zzj(Bundle bundle, Feature[] featureArr, int i, ConnectionTelemetryConfiguration connectionTelemetryConfiguration) {
+        this.zza = bundle;
+        this.zzb = featureArr;
+        this.zzc = i;
+        this.zzd = connectionTelemetryConfiguration;
     }
 
-    public static Intent zza() {
-        Intent intent = new Intent("com.google.android.clockwork.home.UPDATE_ANDROID_WEAR_ACTION");
-        intent.setPackage("com.google.android.wearable.app");
-        return intent;
-    }
-
-    static {
-        Uri.parse("https://plus.google.com/").buildUpon().appendPath("circles").appendPath("find").build();
+    @Override // android.os.Parcelable
+    public final void writeToParcel(Parcel parcel, int i) {
+        int beginObjectHeader = SafeParcelWriter.beginObjectHeader(parcel);
+        SafeParcelWriter.writeBundle(parcel, 1, this.zza, false);
+        SafeParcelWriter.writeTypedArray(parcel, 2, this.zzb, i, false);
+        SafeParcelWriter.writeInt(parcel, 3, this.zzc);
+        SafeParcelWriter.writeParcelable(parcel, 4, this.zzd, i, false);
+        SafeParcelWriter.finishObjectHeader(parcel, beginObjectHeader);
     }
 }

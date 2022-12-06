@@ -2,14 +2,12 @@ package com.google.android.gms.common.internal;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import androidx.annotation.RecentlyNonNull;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
-/* compiled from: com.google.android.gms:play-services-basement@@17.5.0 */
+/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
 public class RootTelemetryConfiguration extends AbstractSafeParcelable {
-    @RecentlyNonNull
-    public static final Parcelable.Creator<RootTelemetryConfiguration> CREATOR = new zzv();
+    public static final Parcelable.Creator<RootTelemetryConfiguration> CREATOR = new zzai();
     private final int zza;
     private final boolean zzb;
     private final boolean zzc;
@@ -24,8 +22,12 @@ public class RootTelemetryConfiguration extends AbstractSafeParcelable {
         this.zze = i3;
     }
 
-    public int getVersion() {
-        return this.zza;
+    public int getBatchPeriodMillis() {
+        return this.zzd;
+    }
+
+    public int getMaxMethodInvocationsInBatch() {
+        return this.zze;
     }
 
     public boolean getMethodInvocationTelemetryEnabled() {
@@ -36,16 +38,12 @@ public class RootTelemetryConfiguration extends AbstractSafeParcelable {
         return this.zzc;
     }
 
-    public int getBatchPeriodMillis() {
-        return this.zzd;
-    }
-
-    public int getMaxMethodInvocationsInBatch() {
-        return this.zze;
+    public int getVersion() {
+        return this.zza;
     }
 
     @Override // android.os.Parcelable
-    public void writeToParcel(@RecentlyNonNull Parcel parcel, int i) {
+    public final void writeToParcel(Parcel parcel, int i) {
         int beginObjectHeader = SafeParcelWriter.beginObjectHeader(parcel);
         SafeParcelWriter.writeInt(parcel, 1, getVersion());
         SafeParcelWriter.writeBoolean(parcel, 2, getMethodInvocationTelemetryEnabled());

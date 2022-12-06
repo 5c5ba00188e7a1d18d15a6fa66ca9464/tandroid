@@ -11,6 +11,7 @@ public class TLRPC$TL_forumTopic extends TLRPC$ForumTopic {
     public int flags;
     public TLRPC$Peer from_id;
     public ArrayList<MessageObject> groupedMessages;
+    public boolean hidden;
     public int icon_color;
     public long icon_emoji_id;
     public int id;
@@ -26,6 +27,7 @@ public class TLRPC$TL_forumTopic extends TLRPC$ForumTopic {
     public TLRPC$Message topMessage;
     public int top_message;
     public TLRPC$Message topicStartMessage;
+    public int totalMessagesCount;
     public int unread_count;
     public int unread_mentions_count;
     public int unread_reactions_count;
@@ -56,10 +58,11 @@ public class TLRPC$TL_forumTopic extends TLRPC$ForumTopic {
         this.my = (readInt32 & 2) != 0;
         this.closed = (readInt32 & 4) != 0;
         this.pinned = (readInt32 & 8) != 0;
-        if ((readInt32 & 32) != 0) {
+        this.isShort = (readInt32 & 32) != 0;
+        if ((readInt32 & 64) != 0) {
             z2 = true;
         }
-        this.isShort = z2;
+        this.hidden = z2;
         this.id = abstractSerializedData.readInt32(z);
         this.date = abstractSerializedData.readInt32(z);
         this.title = abstractSerializedData.readString(z);
@@ -91,7 +94,9 @@ public class TLRPC$TL_forumTopic extends TLRPC$ForumTopic {
         this.flags = i3;
         int i4 = this.isShort ? i3 | 32 : i3 & (-33);
         this.flags = i4;
-        abstractSerializedData.writeInt32(i4);
+        int i5 = this.hidden ? i4 | 64 : i4 & (-65);
+        this.flags = i5;
+        abstractSerializedData.writeInt32(i5);
         abstractSerializedData.writeInt32(this.id);
         abstractSerializedData.writeInt32(this.date);
         abstractSerializedData.writeString(this.title);

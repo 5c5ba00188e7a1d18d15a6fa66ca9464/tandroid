@@ -9,6 +9,7 @@ import java.io.FileDescriptor;
 import java.io.RandomAccessFile;
 import java.security.MessageDigest;
 import java.util.ArrayList;
+import org.telegram.messenger.FileLog;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.NativeByteBuffer;
 import org.telegram.tgnet.RequestDelegate;
@@ -324,7 +325,7 @@ public class FileUploadOperation {
             if (this.stream == null) {
                 File file = new File(this.uploadingFilePath);
                 if (AndroidUtilities.isInternalUri(Uri.fromFile(file))) {
-                    throw new Exception("trying to upload internal file");
+                    throw new FileLog.IgnoreSentException("trying to upload internal file");
                 }
                 this.stream = new RandomAccessFile(file, "r");
                 if (AndroidUtilities.isInternalUri(((Integer) FileDescriptor.class.getDeclaredMethod("getInt$", new Class[0]).invoke(this.stream.getFD(), new Object[0])).intValue())) {

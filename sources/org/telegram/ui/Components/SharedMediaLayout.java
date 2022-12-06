@@ -999,7 +999,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                 for (int i9 = 0; i9 < arrayList.size(); i9++) {
                     MessageObject messageObject = (MessageObject) arrayList.get(i9);
                     int i10 = this.topicId;
-                    if ((i10 == 0 || i10 == MessageObject.getTopicId(messageObject.messageOwner)) && MessageObject.getMedia(messageObject.messageOwner) != null && !messageObject.needDrawBluredPreview() && (mediaType = MediaDataController.getMediaType(messageObject.messageOwner)) != -1 && ((mediaType != 0 || this.sharedMediaData[0].filterType != 2 || messageObject.isVideo()) && (mediaType != 0 || this.sharedMediaData[0].filterType != 1 || !messageObject.isVideo()))) {
+                    if ((i10 == 0 || i10 == MessageObject.getTopicId(messageObject.messageOwner, true)) && MessageObject.getMedia(messageObject.messageOwner) != null && !messageObject.needDrawBluredPreview() && (mediaType = MediaDataController.getMediaType(messageObject.messageOwner)) != -1 && ((mediaType != 0 || this.sharedMediaData[0].filterType != 2 || messageObject.isVideo()) && (mediaType != 0 || this.sharedMediaData[0].filterType != 1 || !messageObject.isVideo()))) {
                         SharedMediaData[] sharedMediaDataArr2 = this.sharedMediaData;
                         if (sharedMediaDataArr2[mediaType].startReached) {
                             sharedMediaDataArr2[mediaType].addMessage(messageObject, 0, true, isEncryptedDialog);
@@ -1076,7 +1076,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                         if (i14 < sharedMediaDataArr4.length) {
                             MessageObject deleteMessage = sharedMediaDataArr4[i14].deleteMessage(((Integer) arrayList3.get(i13)).intValue(), 0);
                             if (deleteMessage != null) {
-                                if (deleteMessage.getDialogId() == this.dialogId && (this.topicId == 0 || MessageObject.getTopicId(deleteMessage.messageOwner) == this.topicId)) {
+                                if (deleteMessage.getDialogId() == this.dialogId && (this.topicId == 0 || MessageObject.getTopicId(deleteMessage.messageOwner, true) == this.topicId)) {
                                     int[] iArr7 = this.mediaCount;
                                     if (iArr7[i14] > 0) {
                                         iArr7[i14] = iArr7[i14] - 1;
@@ -1133,7 +1133,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                 for (int i17 = 0; i17 < size5; i17++) {
                     MessageObject messageObject2 = (MessageObject) arrayList4.get(i17);
                     int id = messageObject2.getId();
-                    int topicId = MessageObject.getTopicId(messageObject2.messageOwner);
+                    int topicId = MessageObject.getTopicId(messageObject2.messageOwner, true);
                     int mediaType2 = MediaDataController.getMediaType(messageObject2.messageOwner);
                     int i18 = this.topicId;
                     if (i18 == 0 || topicId == i18) {
@@ -1638,8 +1638,8 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         this.actionModeViews.add(this.selectedMessagesCountTextView);
         if (!DialogObject.isEncryptedDialog(this.dialog_id)) {
             str = "actionBarActionModeDefaultSelector";
-            str2 = "windowBackgroundWhiteGrayText2";
-            ActionBarMenuItem actionBarMenuItem2 = new ActionBarMenuItem(context, (ActionBarMenu) null, getThemedColor("actionBarActionModeDefaultSelector"), getThemedColor("windowBackgroundWhiteGrayText2"), false);
+            str2 = "actionBarActionModeDefaultIcon";
+            ActionBarMenuItem actionBarMenuItem2 = new ActionBarMenuItem(context, (ActionBarMenu) null, getThemedColor("actionBarActionModeDefaultSelector"), getThemedColor("actionBarActionModeDefaultIcon"), false);
             this.gotoItem = actionBarMenuItem2;
             actionBarMenuItem2.setIcon(R.drawable.msg_message);
             this.gotoItem.setContentDescription(LocaleController.getString("AccDescrGoToMessage", R.string.AccDescrGoToMessage));
@@ -1668,7 +1668,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
             updateForwardItem();
         } else {
             str = "actionBarActionModeDefaultSelector";
-            str2 = "windowBackgroundWhiteGrayText2";
+            str2 = "actionBarActionModeDefaultIcon";
         }
         ActionBarMenuItem actionBarMenuItem4 = new ActionBarMenuItem(context, (ActionBarMenu) null, getThemedColor(str), getThemedColor(str2), false);
         this.deleteItem = actionBarMenuItem4;
@@ -7371,14 +7371,14 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         ArrayList<ThemeDescription> arrayList = new ArrayList<>();
         arrayList.add(new ThemeDescription(this.selectedMessagesCountTextView, ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, "windowBackgroundWhiteGrayText2"));
         arrayList.add(new ThemeDescription(this.shadowLine, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, "divider"));
-        arrayList.add(new ThemeDescription(this.deleteItem.getIconView(), ThemeDescription.FLAG_IMAGECOLOR, null, null, null, null, "windowBackgroundWhiteGrayText2"));
+        arrayList.add(new ThemeDescription(this.deleteItem.getIconView(), ThemeDescription.FLAG_IMAGECOLOR, null, null, null, null, "actionBarActionModeDefaultIcon"));
         arrayList.add(new ThemeDescription(this.deleteItem, ThemeDescription.FLAG_BACKGROUNDFILTER, null, null, null, null, "actionBarActionModeDefaultSelector"));
         if (this.gotoItem != null) {
-            arrayList.add(new ThemeDescription(this.gotoItem.getIconView(), ThemeDescription.FLAG_IMAGECOLOR, null, null, null, null, "windowBackgroundWhiteGrayText2"));
+            arrayList.add(new ThemeDescription(this.gotoItem.getIconView(), ThemeDescription.FLAG_IMAGECOLOR, null, null, null, null, "actionBarActionModeDefaultIcon"));
             arrayList.add(new ThemeDescription(this.gotoItem, ThemeDescription.FLAG_BACKGROUNDFILTER, null, null, null, null, "actionBarActionModeDefaultSelector"));
         }
         if (this.forwardItem != null) {
-            arrayList.add(new ThemeDescription(this.forwardItem.getIconView(), ThemeDescription.FLAG_IMAGECOLOR, null, null, null, null, "windowBackgroundWhiteGrayText2"));
+            arrayList.add(new ThemeDescription(this.forwardItem.getIconView(), ThemeDescription.FLAG_IMAGECOLOR, null, null, null, null, "actionBarActionModeDefaultIcon"));
             arrayList.add(new ThemeDescription(this.forwardItem, ThemeDescription.FLAG_BACKGROUNDFILTER, null, null, null, null, "actionBarActionModeDefaultSelector"));
         }
         arrayList.add(new ThemeDescription(this.closeButton, ThemeDescription.FLAG_IMAGECOLOR, null, null, new Drawable[]{this.backDrawable}, null, "actionBarActionModeDefaultIcon"));

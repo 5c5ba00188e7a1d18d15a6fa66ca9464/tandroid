@@ -32,6 +32,7 @@ import org.telegram.tgnet.TLRPC$PhotoSize;
 import org.telegram.tgnet.TLRPC$TL_photoSize;
 import org.telegram.tgnet.TLRPC$TL_photoSizeProgressive;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.Components.AnimatedEmojiSpan;
 import org.telegram.ui.Components.CheckBox2;
 import org.telegram.ui.Components.DotDividerSpan;
 import org.telegram.ui.Components.FlickerLoadingView;
@@ -46,6 +47,7 @@ public class SharedAudioCell extends FrameLayout implements DownloadController.F
     private int buttonX;
     private int buttonY;
     private StaticLayout captionLayout;
+    AnimatedEmojiSpan.EmojiGroupedSpans captionLayoutEmojis;
     private TextPaint captionTextPaint;
     private int captionY;
     private CheckBox2 checkBox;
@@ -56,6 +58,7 @@ public class SharedAudioCell extends FrameLayout implements DownloadController.F
     private int dateLayoutX;
     private TextPaint description2TextPaint;
     private StaticLayout descriptionLayout;
+    AnimatedEmojiSpan.EmojiGroupedSpans descriptionLayoutEmojis;
     private int descriptionY;
     private SpannableStringBuilder dotSpan;
     float enterAlpha;
@@ -69,6 +72,7 @@ public class SharedAudioCell extends FrameLayout implements DownloadController.F
     boolean showReorderIcon;
     float showReorderIconProgress;
     private StaticLayout titleLayout;
+    AnimatedEmojiSpan.EmojiGroupedSpans titleLayoutEmojis;
     private int titleY;
     private int viewType;
 
@@ -133,7 +137,6 @@ public class SharedAudioCell extends FrameLayout implements DownloadController.F
     @SuppressLint({"DrawAllocation"})
     protected void onMeasure(int i, int i2) {
         int i3;
-        CharSequence highlightText;
         CharSequence replace;
         this.descriptionLayout = null;
         this.titleLayout = null;
@@ -155,16 +158,22 @@ public class SharedAudioCell extends FrameLayout implements DownloadController.F
             } else {
                 replace = this.currentMessageObject.getMusicTitle().replace('\n', ' ');
             }
-            CharSequence highlightText2 = AndroidUtilities.highlightText(replace, this.currentMessageObject.highlightedWords, this.resourcesProvider);
-            if (highlightText2 != null) {
-                replace = highlightText2;
+            CharSequence highlightText = AndroidUtilities.highlightText(replace, this.currentMessageObject.highlightedWords, this.resourcesProvider);
+            if (highlightText != null) {
+                replace = highlightText;
             }
-            this.titleLayout = new StaticLayout(TextUtils.ellipsize(replace, Theme.chat_contextResult_titleTextPaint, size - i3, TextUtils.TruncateAt.END), Theme.chat_contextResult_titleTextPaint, (AndroidUtilities.dp(4.0f) + size) - i3, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+            StaticLayout staticLayout = new StaticLayout(TextUtils.ellipsize(replace, Theme.chat_contextResult_titleTextPaint, size - i3, TextUtils.TruncateAt.END), Theme.chat_contextResult_titleTextPaint, (AndroidUtilities.dp(4.0f) + size) - i3, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+            this.titleLayout = staticLayout;
+            this.titleLayoutEmojis = AnimatedEmojiSpan.update(0, this, this.titleLayoutEmojis, staticLayout);
         } catch (Exception e) {
             FileLog.e(e);
         }
-        if (this.currentMessageObject.hasHighlightedWords() && (highlightText = AndroidUtilities.highlightText(Emoji.replaceEmoji(this.currentMessageObject.messageOwner.message.replace("\n", " ").replaceAll(" +", " ").trim(), Theme.chat_msgTextPaint.getFontMetricsInt(), AndroidUtilities.dp(20.0f), false), this.currentMessageObject.highlightedWords, this.resourcesProvider)) != null) {
-            this.captionLayout = new StaticLayout(TextUtils.ellipsize(AndroidUtilities.ellipsizeCenterEnd(highlightText, this.currentMessageObject.highlightedWords.get(0), size, this.captionTextPaint, 130), this.captionTextPaint, size, TextUtils.TruncateAt.END), this.captionTextPaint, size + AndroidUtilities.dp(4.0f), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+        if (this.currentMessageObject.hasHighlightedWords()) {
+            CharSequence highlightText2 = AndroidUtilities.highlightText(Emoji.replaceEmoji(this.currentMessageObject.messageOwner.message.replace("\n", " ").replaceAll(" +", " ").trim(), Theme.chat_msgTextPaint.getFontMetricsInt(), AndroidUtilities.dp(20.0f), false), this.currentMessageObject.highlightedWords, this.resourcesProvider);
+            if (highlightText2 != null) {
+                this.captionLayout = new StaticLayout(TextUtils.ellipsize(AndroidUtilities.ellipsizeCenterEnd(highlightText2, this.currentMessageObject.highlightedWords.get(0), size, this.captionTextPaint, 130), this.captionTextPaint, size, TextUtils.TruncateAt.END), this.captionTextPaint, size + AndroidUtilities.dp(4.0f), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+            }
+            this.captionLayoutEmojis = AnimatedEmojiSpan.update(0, this, this.captionLayoutEmojis, this.captionLayout);
         }
         try {
             if (this.viewType == 1 && (this.currentMessageObject.isVoice() || this.currentMessageObject.isRoundVideo())) {
@@ -185,6 +194,7 @@ public class SharedAudioCell extends FrameLayout implements DownloadController.F
                 TextPaint textPaint2 = this.viewType == 1 ? this.description2TextPaint : Theme.chat_contextResult_descriptionTextPaint;
                 this.descriptionLayout = new StaticLayout(TextUtils.ellipsize(spannableStringBuilder, textPaint2, size, TextUtils.TruncateAt.END), textPaint2, size + AndroidUtilities.dp(4.0f), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
             }
+            this.descriptionLayoutEmojis = AnimatedEmojiSpan.update(0, this, this.descriptionLayoutEmojis, this.descriptionLayout);
         } catch (Exception e2) {
             FileLog.e(e2);
         }
@@ -248,6 +258,9 @@ public class SharedAudioCell extends FrameLayout implements DownloadController.F
         NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.messagePlayingDidReset);
         NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.messagePlayingPlayStateChanged);
         NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.messagePlayingDidStart);
+        this.titleLayoutEmojis = AnimatedEmojiSpan.update(0, this, this.titleLayoutEmojis, this.titleLayout);
+        this.descriptionLayoutEmojis = AnimatedEmojiSpan.update(0, this, this.descriptionLayoutEmojis, this.descriptionLayout);
+        this.captionLayoutEmojis = AnimatedEmojiSpan.update(0, this, this.captionLayoutEmojis, this.captionLayout);
     }
 
     @Override // android.view.ViewGroup, android.view.View
@@ -258,6 +271,9 @@ public class SharedAudioCell extends FrameLayout implements DownloadController.F
         NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.messagePlayingDidReset);
         NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.messagePlayingPlayStateChanged);
         NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.messagePlayingDidStart);
+        AnimatedEmojiSpan.release(this, this.titleLayoutEmojis);
+        AnimatedEmojiSpan.release(this, this.descriptionLayoutEmojis);
+        AnimatedEmojiSpan.release(this, this.captionLayoutEmojis);
     }
 
     public MessageObject getMessage() {
@@ -642,6 +658,7 @@ public class SharedAudioCell extends FrameLayout implements DownloadController.F
             }
             canvas.translate(dp + i, this.titleY);
             this.titleLayout.draw(canvas);
+            AnimatedEmojiSpan.drawAnimatedEmojis(canvas, this.titleLayout, this.titleLayoutEmojis, 0.0f, null, 0.0f, 0.0f, 0.0f, 1.0f);
             canvas.restore();
         }
         if (this.captionLayout != null) {
@@ -659,6 +676,7 @@ public class SharedAudioCell extends FrameLayout implements DownloadController.F
             }
             canvas.translate(AndroidUtilities.dp(f), this.descriptionY);
             this.descriptionLayout.draw(canvas);
+            AnimatedEmojiSpan.drawAnimatedEmojis(canvas, this.descriptionLayout, this.descriptionLayoutEmojis, 0.0f, null, 0.0f, 0.0f, 0.0f, 1.0f);
             canvas.restore();
         }
         this.radialProgress.setProgressColor(getThemedColor(this.buttonPressed ? "chat_inAudioSelectedProgress" : "chat_inAudioProgress"));

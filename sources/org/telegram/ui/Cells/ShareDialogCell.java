@@ -17,9 +17,11 @@ import androidx.dynamicanimation.animation.SpringForce;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ContactsController;
 import org.telegram.messenger.DialogObject;
+import org.telegram.messenger.Emoji;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
@@ -65,10 +67,16 @@ public class ShareDialogCell extends FrameLayout {
         } else {
             addView(this.imageView, LayoutHelper.createFrame(56, 56.0f, 49, 0.0f, 7.0f, 0.0f, 0.0f));
         }
-        TextView textView = new TextView(context);
+        TextView textView = new TextView(this, context) { // from class: org.telegram.ui.Cells.ShareDialogCell.1
+            @Override // android.widget.TextView
+            public void setText(CharSequence charSequence, TextView.BufferType bufferType) {
+                super.setText(Emoji.replaceEmoji(charSequence, getPaint().getFontMetricsInt(), AndroidUtilities.dp(10.0f), false), bufferType);
+            }
+        };
         this.nameTextView = textView;
+        NotificationCenter.listenEmojiLoading(textView);
         String str = "voipgroup_nameText";
-        textView.setTextColor(getThemedColor(i == 1 ? str : "dialogTextBlack"));
+        this.nameTextView.setTextColor(getThemedColor(i == 1 ? str : "dialogTextBlack"));
         this.nameTextView.setTextSize(1, 12.0f);
         this.nameTextView.setMaxLines(2);
         this.nameTextView.setGravity(49);

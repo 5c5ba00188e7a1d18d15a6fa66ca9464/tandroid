@@ -2,19 +2,17 @@ package com.google.android.gms.wallet;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import androidx.annotation.RecentlyNonNull;
 import com.google.android.gms.common.internal.ReflectedParcelable;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
 import com.google.android.gms.identity.intents.model.UserAddress;
-/* compiled from: com.google.android.gms:play-services-wallet@@18.1.3 */
+/* compiled from: com.google.android.gms:play-services-wallet@@19.1.0 */
 /* loaded from: classes.dex */
 public final class FullWallet extends AbstractSafeParcelable implements ReflectedParcelable {
-    @RecentlyNonNull
-    public static final Parcelable.Creator<FullWallet> CREATOR = new zzk();
+    public static final Parcelable.Creator<FullWallet> CREATOR = new zzl();
     String zza;
     String zzb;
-    zzad zzc;
+    zzaj zzc;
     String zzd;
     zza zze;
     zza zzf;
@@ -28,7 +26,7 @@ public final class FullWallet extends AbstractSafeParcelable implements Reflecte
     }
 
     @Override // android.os.Parcelable
-    public final void writeToParcel(@RecentlyNonNull Parcel parcel, int i) {
+    public final void writeToParcel(Parcel parcel, int i) {
         int beginObjectHeader = SafeParcelWriter.beginObjectHeader(parcel);
         SafeParcelWriter.writeString(parcel, 2, this.zza, false);
         SafeParcelWriter.writeString(parcel, 3, this.zzb, false);
@@ -45,10 +43,10 @@ public final class FullWallet extends AbstractSafeParcelable implements Reflecte
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public FullWallet(String str, String str2, zzad zzadVar, String str3, zza zzaVar, zza zzaVar2, String[] strArr, UserAddress userAddress, UserAddress userAddress2, InstrumentInfo[] instrumentInfoArr, PaymentMethodToken paymentMethodToken) {
+    public FullWallet(String str, String str2, zzaj zzajVar, String str3, zza zzaVar, zza zzaVar2, String[] strArr, UserAddress userAddress, UserAddress userAddress2, InstrumentInfo[] instrumentInfoArr, PaymentMethodToken paymentMethodToken) {
         this.zza = str;
         this.zzb = str2;
-        this.zzc = zzadVar;
+        this.zzc = zzajVar;
         this.zzd = str3;
         this.zze = zzaVar;
         this.zzf = zzaVar2;

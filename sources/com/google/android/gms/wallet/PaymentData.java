@@ -4,17 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
-import androidx.annotation.RecentlyNonNull;
-import androidx.annotation.RecentlyNullable;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelableSerializer;
 import com.google.android.gms.identity.intents.model.UserAddress;
-/* compiled from: com.google.android.gms:play-services-wallet@@18.1.3 */
+/* compiled from: com.google.android.gms:play-services-wallet@@19.1.0 */
 /* loaded from: classes.dex */
 public final class PaymentData extends AbstractSafeParcelable implements AutoResolvableResult {
-    @RecentlyNonNull
-    public static final Parcelable.Creator<PaymentData> CREATOR = new zzv();
+    public static final Parcelable.Creator<PaymentData> CREATOR = new zzaa();
     String zza;
     CardInfo zzb;
     UserAddress zzc;
@@ -27,23 +24,21 @@ public final class PaymentData extends AbstractSafeParcelable implements AutoRes
     private PaymentData() {
     }
 
-    @RecentlyNullable
-    public static PaymentData getFromIntent(@RecentlyNonNull Intent intent) {
+    public static PaymentData getFromIntent(Intent intent) {
         return (PaymentData) SafeParcelableSerializer.deserializeFromIntentExtra(intent, "com.google.android.gms.wallet.PaymentData", CREATOR);
     }
 
     @Override // com.google.android.gms.wallet.AutoResolvableResult
-    public void putIntoIntent(@RecentlyNonNull Intent intent) {
+    public void putIntoIntent(Intent intent) {
         SafeParcelableSerializer.serializeToIntentExtra(this, intent, "com.google.android.gms.wallet.PaymentData");
     }
 
-    @RecentlyNonNull
     public String toJson() {
         return this.zzg;
     }
 
     @Override // android.os.Parcelable
-    public void writeToParcel(@RecentlyNonNull Parcel parcel, int i) {
+    public void writeToParcel(Parcel parcel, int i) {
         int beginObjectHeader = SafeParcelWriter.beginObjectHeader(parcel);
         SafeParcelWriter.writeString(parcel, 1, this.zza, false);
         SafeParcelWriter.writeParcelable(parcel, 2, this.zzb, i, false);

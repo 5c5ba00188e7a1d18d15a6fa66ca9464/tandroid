@@ -125,7 +125,6 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
     INavigationLayout.StartColorsProvider startColorsProvider = new INavigationLayout.StartColorsProvider();
     private ArrayList<ArrayList<ThemeDescription>> themeAnimatorDescriptions = new ArrayList<>();
     private ArrayList<ThemeDescription.ThemeDescriptionDelegate> themeAnimatorDelegate = new ArrayList<>();
-    private Rect rect = new Rect();
     private int overrideWidthOffset = -1;
     private int[] measureSpec = new int[2];
 
@@ -519,6 +518,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
 
     public ActionBarLayout(Context context) {
         super(context);
+        new Rect();
         this.parentActivity = (Activity) context;
         if (layerShadowDrawable == null) {
             layerShadowDrawable = getResources().getDrawable(R.drawable.layer_shadow);
@@ -1785,8 +1785,12 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
     @Override // org.telegram.ui.ActionBar.INavigationLayout
     public void closeLastFragment(boolean z, boolean z2) {
         final BaseFragment baseFragment;
-        INavigationLayout.INavigationLayoutDelegate iNavigationLayoutDelegate = this.delegate;
-        if ((iNavigationLayoutDelegate == null || iNavigationLayoutDelegate.needCloseLastFragment(this)) && !checkTransitionAnimation() && !this.fragmentsStack.isEmpty()) {
+        BaseFragment lastFragment = getLastFragment();
+        if (lastFragment == null || !lastFragment.closeLastFragment()) {
+            INavigationLayout.INavigationLayoutDelegate iNavigationLayoutDelegate = this.delegate;
+            if ((iNavigationLayoutDelegate != null && !iNavigationLayoutDelegate.needCloseLastFragment(this)) || checkTransitionAnimation() || this.fragmentsStack.isEmpty()) {
+                return;
+            }
             if (this.parentActivity.getCurrentFocus() != null) {
                 AndroidUtilities.hideKeyboard(this.parentActivity.getCurrentFocus());
             }
@@ -2418,6 +2422,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
         }
         AnimatorSet animatorSet = this.currentAnimation;
         if (animatorSet != null) {
+            this.currentAnimation = null;
             animatorSet.cancel();
         }
         this.transitionAnimationInProgress = false;
@@ -2427,7 +2432,9 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
         this.oldFragment = null;
         Runnable runnable = this.onCloseAnimationEndRunnable;
         this.onCloseAnimationEndRunnable = null;
-        runnable.run();
+        if (runnable != null) {
+            runnable.run();
+        }
         checkNeedRebuild();
         checkNeedRebuild();
     }
@@ -2586,25 +2593,21 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
         }
     }
 
-    private View findScrollingChild(ViewGroup viewGroup, float f, float f2) {
+    public static View findScrollingChild(ViewGroup viewGroup, float f, float f2) {
+        View findScrollingChild;
         int childCount = viewGroup.getChildCount();
         for (int i = 0; i < childCount; i++) {
             View childAt = viewGroup.getChildAt(i);
             if (childAt.getVisibility() == 0) {
-                childAt.getHitRect(this.rect);
-                if (!this.rect.contains((int) f, (int) f2)) {
+                Rect rect = AndroidUtilities.rectTmp2;
+                childAt.getHitRect(rect);
+                if (!rect.contains((int) f, (int) f2)) {
                     continue;
                 } else if (childAt.canScrollHorizontally(-1)) {
                     return childAt;
                 } else {
-                    if (childAt instanceof ViewGroup) {
-                        Rect rect = this.rect;
-                        View findScrollingChild = findScrollingChild((ViewGroup) childAt, f - rect.left, f2 - rect.top);
-                        if (findScrollingChild != null) {
-                            return findScrollingChild;
-                        }
-                    } else {
-                        continue;
+                    if ((childAt instanceof ViewGroup) && (findScrollingChild = findScrollingChild((ViewGroup) childAt, f - rect.left, f2 - rect.top)) != null) {
+                        return findScrollingChild;
                     }
                 }
             }

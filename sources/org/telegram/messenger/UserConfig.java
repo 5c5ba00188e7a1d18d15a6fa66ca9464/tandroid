@@ -9,12 +9,16 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.SerializedData;
+import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$EmojiStatus;
 import org.telegram.tgnet.TLRPC$InputStorePaymentPurpose;
 import org.telegram.tgnet.TLRPC$TL_account_tmpPassword;
+import org.telegram.tgnet.TLRPC$TL_defaultHistoryTTL;
 import org.telegram.tgnet.TLRPC$TL_emojiStatus;
 import org.telegram.tgnet.TLRPC$TL_emojiStatusUntil;
+import org.telegram.tgnet.TLRPC$TL_error;
 import org.telegram.tgnet.TLRPC$TL_help_termsOfService;
 import org.telegram.tgnet.TLRPC$User;
 /* loaded from: classes.dex */
@@ -45,6 +49,7 @@ public class UserConfig extends BaseController {
     public boolean hasValidDialogLoadIds;
     public int lastContactsSyncTime;
     public int lastHintsSyncTime;
+    long lastLoadingTime;
     public int lastMyLocationShareTime;
     public long lastUpdatedDefaultTopicIcons;
     public long lastUpdatedGenericAnimations;
@@ -74,6 +79,8 @@ public class UserConfig extends BaseController {
     public boolean syncContacts = true;
     public boolean suggestContacts = true;
     public List<String> awaitBillingProductIds = new ArrayList();
+    int globalTtl = 0;
+    boolean ttlIsLoading = false;
 
     public static UserConfig getInstance(int i) {
         UserConfig userConfig = Instance[i];
@@ -128,7 +135,7 @@ public class UserConfig extends BaseController {
     }
 
     public void saveConfig(final boolean z) {
-        NotificationCenter.getInstance(this.currentAccount).doOnIdle(new Runnable() { // from class: org.telegram.messenger.UserConfig$$ExternalSyntheticLambda1
+        NotificationCenter.getInstance(this.currentAccount).doOnIdle(new Runnable() { // from class: org.telegram.messenger.UserConfig$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 UserConfig.this.lambda$saveConfig$0(z);
@@ -275,7 +282,7 @@ public class UserConfig extends BaseController {
 
     private void checkPremiumSelf(TLRPC$User tLRPC$User, final TLRPC$User tLRPC$User2) {
         if (tLRPC$User == null || !(tLRPC$User2 == null || tLRPC$User.premium == tLRPC$User2.premium)) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.UserConfig$$ExternalSyntheticLambda0
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.UserConfig$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
                     UserConfig.this.lambda$checkPremiumSelf$1(tLRPC$User2);
@@ -647,5 +654,58 @@ public class UserConfig extends BaseController {
             return null;
         }
         return Long.valueOf(((TLRPC$TL_emojiStatus) tLRPC$EmojiStatus2).document_id);
+    }
+
+    public int getGlobalTTl() {
+        return this.globalTtl;
+    }
+
+    public void loadGlobalTTl() {
+        if (this.ttlIsLoading || System.currentTimeMillis() - this.lastLoadingTime < 60000) {
+            return;
+        }
+        this.ttlIsLoading = true;
+        getConnectionsManager().sendRequest(new TLObject() { // from class: org.telegram.tgnet.TLRPC$TL_messages_getDefaultHistoryTTL
+            public static int constructor = 1703637384;
+
+            @Override // org.telegram.tgnet.TLObject
+            public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i, boolean z) {
+                return TLRPC$TL_defaultHistoryTTL.TLdeserialize(abstractSerializedData, i, z);
+            }
+
+            @Override // org.telegram.tgnet.TLObject
+            public void serializeToStream(AbstractSerializedData abstractSerializedData) {
+                abstractSerializedData.writeInt32(constructor);
+            }
+        }, new RequestDelegate() { // from class: org.telegram.messenger.UserConfig$$ExternalSyntheticLambda3
+            @Override // org.telegram.tgnet.RequestDelegate
+            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                UserConfig.this.lambda$loadGlobalTTl$3(tLObject, tLRPC$TL_error);
+            }
+        });
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$loadGlobalTTl$3(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.UserConfig$$ExternalSyntheticLambda0
+            @Override // java.lang.Runnable
+            public final void run() {
+                UserConfig.this.lambda$loadGlobalTTl$2(tLObject);
+            }
+        });
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$loadGlobalTTl$2(TLObject tLObject) {
+        if (tLObject != null) {
+            this.globalTtl = ((TLRPC$TL_defaultHistoryTTL) tLObject).period / 60;
+            getNotificationCenter().postNotificationName(NotificationCenter.didUpdateGlobalAutoDeleteTimer, new Object[0]);
+            this.ttlIsLoading = false;
+            this.lastLoadingTime = System.currentTimeMillis();
+        }
+    }
+
+    public void setGlobalTtl(int i) {
+        this.globalTtl = i;
     }
 }

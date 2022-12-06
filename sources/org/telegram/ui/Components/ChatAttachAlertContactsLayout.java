@@ -23,6 +23,7 @@ import org.telegram.PhoneFormat.PhoneFormat;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ContactsController;
 import org.telegram.messenger.DispatchQueue;
+import org.telegram.messenger.Emoji;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
@@ -102,9 +103,15 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
             boolean z = LocaleController.isRTL;
             int i2 = 5;
             addView(backupImageView2, LayoutHelper.createFrame(46, 46.0f, (z ? 5 : 3) | 48, z ? 0.0f : 14.0f, 9.0f, z ? 14.0f : 0.0f, 0.0f));
-            SimpleTextView simpleTextView = new SimpleTextView(context);
+            SimpleTextView simpleTextView = new SimpleTextView(this, context) { // from class: org.telegram.ui.Components.ChatAttachAlertContactsLayout.UserCell.1
+                @Override // org.telegram.ui.ActionBar.SimpleTextView
+                public boolean setText(CharSequence charSequence, boolean z2) {
+                    return super.setText(Emoji.replaceEmoji(charSequence, getPaint().getFontMetricsInt(), AndroidUtilities.dp(14.0f), false), z2);
+                }
+            };
             this.nameTextView = simpleTextView;
-            simpleTextView.setTextColor(getThemedColor("dialogTextBlack"));
+            NotificationCenter.listenEmojiLoading(simpleTextView);
+            this.nameTextView.setTextColor(getThemedColor("dialogTextBlack"));
             this.nameTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
             this.nameTextView.setTextSize(16);
             this.nameTextView.setGravity((LocaleController.isRTL ? 5 : 3) | 48);

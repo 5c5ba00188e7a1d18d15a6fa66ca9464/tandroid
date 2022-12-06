@@ -3077,11 +3077,6 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
         return ((LayoutParams) view.getLayoutParams()).mViewHolder;
     }
 
-    @Deprecated
-    public int getChildPosition(View view) {
-        return getChildAdapterPosition(view);
-    }
-
     public int getChildAdapterPosition(View view) {
         ViewHolder childViewHolderInt = getChildViewHolderInt(view);
         if (childViewHolderInt != null) {

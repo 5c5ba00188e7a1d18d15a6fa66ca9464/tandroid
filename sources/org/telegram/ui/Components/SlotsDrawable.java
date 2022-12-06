@@ -2,6 +2,7 @@ package org.telegram.ui.Components;
 
 import android.graphics.Bitmap;
 import android.text.TextUtils;
+import java.lang.ref.WeakReference;
 import java.util.concurrent.CountDownLatch;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.DownloadController;
@@ -49,7 +50,6 @@ public class SlotsDrawable extends RLottieDrawable {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0() {
         int frame;
-        Runnable runnable;
         if (this.isRecycled) {
             return;
         }
@@ -148,8 +148,12 @@ public class SlotsDrawable extends RLottieDrawable {
                     if (reelValue == reelValue2 && reelValue2 == this.center) {
                         if (this.secondFrameNums[0] == this.secondFrameCounts[0] - 100) {
                             this.playWinAnimation = true;
-                            if (reelValue == ReelValue.sevenWin && (runnable = this.onFinishCallback.get()) != null) {
-                                AndroidUtilities.runOnUIThread(runnable);
+                            if (reelValue == ReelValue.sevenWin) {
+                                WeakReference<Runnable> weakReference = this.onFinishCallback;
+                                Runnable runnable = weakReference == null ? null : weakReference.get();
+                                if (runnable != null) {
+                                    AndroidUtilities.runOnUIThread(runnable);
+                                }
                             }
                         }
                     } else {

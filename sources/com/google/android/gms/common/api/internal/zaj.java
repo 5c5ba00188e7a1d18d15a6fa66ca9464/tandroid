@@ -1,37 +1,27 @@
 package com.google.android.gms.common.api.internal;
 
-import androidx.collection.ArrayMap;
+import android.util.Log;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.AvailabilityException;
-import com.google.android.gms.tasks.TaskCompletionSource;
-import java.util.Map;
-import java.util.Set;
-/* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
+import com.google.android.gms.common.api.GoogleApiClient;
+/* JADX INFO: Access modifiers changed from: package-private */
+/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
-public final class zaj {
-    private final ArrayMap<ApiKey<?>, ConnectionResult> zaa;
-    private final ArrayMap<ApiKey<?>, String> zab;
-    private final TaskCompletionSource<Map<ApiKey<?>, String>> zac;
-    private int zad;
-    private boolean zae;
+public final class zaj implements GoogleApiClient.OnConnectionFailedListener {
+    public final int zaa;
+    public final GoogleApiClient zab;
+    public final GoogleApiClient.OnConnectionFailedListener zac;
+    final /* synthetic */ zak zad;
 
-    public final Set<ApiKey<?>> zaa() {
-        return this.zaa.keySet();
+    public zaj(zak zakVar, int i, GoogleApiClient googleApiClient, GoogleApiClient.OnConnectionFailedListener onConnectionFailedListener) {
+        this.zad = zakVar;
+        this.zaa = i;
+        this.zab = googleApiClient;
+        this.zac = onConnectionFailedListener;
     }
 
-    public final void zaa(ApiKey<?> apiKey, ConnectionResult connectionResult, String str) {
-        this.zaa.put(apiKey, connectionResult);
-        this.zab.put(apiKey, str);
-        this.zad--;
-        if (!connectionResult.isSuccess()) {
-            this.zae = true;
-        }
-        if (this.zad == 0) {
-            if (this.zae) {
-                this.zac.setException(new AvailabilityException(this.zaa));
-                return;
-            }
-            this.zac.setResult(this.zab);
-        }
+    @Override // com.google.android.gms.common.api.internal.OnConnectionFailedListener
+    public final void onConnectionFailed(ConnectionResult connectionResult) {
+        Log.d("AutoManageHelper", "beginFailureResolution for ".concat(String.valueOf(connectionResult)));
+        this.zad.zah(connectionResult, this.zaa);
     }
 }

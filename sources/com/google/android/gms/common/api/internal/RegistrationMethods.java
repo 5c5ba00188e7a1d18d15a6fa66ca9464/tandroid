@@ -1,69 +1,33 @@
 package com.google.android.gms.common.api.internal;
 
-import androidx.annotation.RecentlyNonNull;
 import com.google.android.gms.common.Feature;
 import com.google.android.gms.common.api.Api;
 import com.google.android.gms.common.api.Api.AnyClient;
 import com.google.android.gms.common.api.internal.ListenerHolder;
 import com.google.android.gms.common.internal.Preconditions;
 import com.google.android.gms.tasks.TaskCompletionSource;
-/* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
+/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 public class RegistrationMethods<A extends Api.AnyClient, L> {
-    @RecentlyNonNull
     public final RegisterListenerMethod<A, L> register;
-    @RecentlyNonNull
-    public final UnregisterListenerMethod<A, L> zaa;
-    @RecentlyNonNull
+    public final UnregisterListenerMethod zaa;
     public final Runnable zab;
 
-    private RegistrationMethods(RegisterListenerMethod<A, L> registerListenerMethod, UnregisterListenerMethod<A, L> unregisterListenerMethod, Runnable runnable) {
-        this.register = registerListenerMethod;
-        this.zaa = unregisterListenerMethod;
-        this.zab = runnable;
-    }
-
-    /* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
+    /* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
     /* loaded from: classes.dex */
     public static class Builder<A extends Api.AnyClient, L> {
-        private RemoteCall<A, TaskCompletionSource<Void>> zaa;
-        private RemoteCall<A, TaskCompletionSource<Boolean>> zab;
-        private Runnable zac;
-        private ListenerHolder<L> zad;
+        private RemoteCall zaa;
+        private RemoteCall zab;
+        private ListenerHolder zad;
         private Feature[] zae;
-        private boolean zaf;
         private int zag;
+        private Runnable zac = zacj.zaa;
+        private boolean zaf = true;
 
-        private Builder() {
-            this.zac = zaby.zaa;
-            this.zaf = true;
+        /* synthetic */ Builder(zacm zacmVar) {
         }
 
-        @RecentlyNonNull
-        public Builder<A, L> register(@RecentlyNonNull RemoteCall<A, TaskCompletionSource<Void>> remoteCall) {
-            this.zaa = remoteCall;
-            return this;
-        }
-
-        @RecentlyNonNull
-        public Builder<A, L> setMethodKey(int i) {
-            this.zag = i;
-            return this;
-        }
-
-        @RecentlyNonNull
-        public Builder<A, L> unregister(@RecentlyNonNull RemoteCall<A, TaskCompletionSource<Boolean>> remoteCall) {
-            this.zab = remoteCall;
-            return this;
-        }
-
-        @RecentlyNonNull
-        public Builder<A, L> withHolder(@RecentlyNonNull ListenerHolder<L> listenerHolder) {
-            this.zad = listenerHolder;
-            return this;
-        }
-
-        @RecentlyNonNull
         public RegistrationMethods<A, L> build() {
             boolean z = true;
             Preconditions.checkArgument(this.zaa != null, "Must set register function");
@@ -72,12 +36,41 @@ public class RegistrationMethods<A extends Api.AnyClient, L> {
                 z = false;
             }
             Preconditions.checkArgument(z, "Must set holder");
-            return new RegistrationMethods<>(new zabz(this, this.zad, this.zae, this.zaf, this.zag), new zacb(this, (ListenerHolder.ListenerKey) Preconditions.checkNotNull(this.zad.getListenerKey(), "Key must not be null")), this.zac);
+            return new RegistrationMethods<>(new zack(this, this.zad, this.zae, this.zaf, this.zag), new zacl(this, (ListenerHolder.ListenerKey) Preconditions.checkNotNull(this.zad.getListenerKey(), "Key must not be null")), this.zac, null);
+        }
+
+        @CanIgnoreReturnValue
+        public Builder<A, L> register(RemoteCall<A, TaskCompletionSource<Void>> remoteCall) {
+            this.zaa = remoteCall;
+            return this;
+        }
+
+        @CanIgnoreReturnValue
+        public Builder<A, L> setMethodKey(int i) {
+            this.zag = i;
+            return this;
+        }
+
+        @CanIgnoreReturnValue
+        public Builder<A, L> unregister(RemoteCall<A, TaskCompletionSource<Boolean>> remoteCall) {
+            this.zab = remoteCall;
+            return this;
+        }
+
+        @CanIgnoreReturnValue
+        public Builder<A, L> withHolder(ListenerHolder<L> listenerHolder) {
+            this.zad = listenerHolder;
+            return this;
         }
     }
 
-    @RecentlyNonNull
+    /* synthetic */ RegistrationMethods(RegisterListenerMethod registerListenerMethod, UnregisterListenerMethod unregisterListenerMethod, Runnable runnable, zacn zacnVar) {
+        this.register = registerListenerMethod;
+        this.zaa = unregisterListenerMethod;
+        this.zab = runnable;
+    }
+
     public static <A extends Api.AnyClient, L> Builder<A, L> builder() {
-        return new Builder<>();
+        return new Builder<>(null);
     }
 }

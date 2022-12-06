@@ -35,6 +35,7 @@ public class NumberPicker extends LinearLayout {
     private int mCurrentScrollOffset;
     private boolean mDecrementVirtualButtonPressed;
     private String[] mDisplayedValues;
+    private int mFantomValue;
     private Scroller mFlingScroller;
     private Formatter mFormatter;
     private boolean mIncrementVirtualButtonPressed;
@@ -48,10 +49,12 @@ public class NumberPicker extends LinearLayout {
     private long mLongPressUpdateInterval;
     private int mMaxHeight;
     private int mMaxValue;
+    private boolean mMaxValueSet;
     private int mMaxWidth;
     private int mMaximumFlingVelocity;
     private int mMinHeight;
     private int mMinValue;
+    private boolean mMinValueSet;
     private int mMinWidth;
     private int mMinimumFlingVelocity;
     private OnScrollListener mOnScrollListener;
@@ -73,6 +76,7 @@ public class NumberPicker extends LinearLayout {
     private int mValue;
     private VelocityTracker mVelocityTracker;
     private boolean mWrapSelectorWheel;
+    private boolean mWrapSelectorWheelSetting;
     private final Theme.ResourcesProvider resourcesProvider;
     private int textOffset;
 
@@ -101,14 +105,14 @@ public class NumberPicker extends LinearLayout {
         return 0.9f;
     }
 
-    /* JADX WARN: Type inference failed for: r2v2, types: [byte, boolean] */
+    /* JADX WARN: Type inference failed for: r2v2, types: [boolean, byte] */
     static /* synthetic */ boolean access$280(NumberPicker numberPicker, int i) {
         ?? r2 = (byte) (i ^ (numberPicker.mIncrementVirtualButtonPressed ? 1 : 0));
         numberPicker.mIncrementVirtualButtonPressed = r2;
         return r2;
     }
 
-    /* JADX WARN: Type inference failed for: r2v2, types: [byte, boolean] */
+    /* JADX WARN: Type inference failed for: r2v2, types: [boolean, byte] */
     static /* synthetic */ boolean access$480(NumberPicker numberPicker, int i) {
         ?? r2 = (byte) (i ^ (numberPicker.mDecrementVirtualButtonPressed ? 1 : 0));
         numberPicker.mDecrementVirtualButtonPressed = r2;
@@ -123,6 +127,10 @@ public class NumberPicker extends LinearLayout {
         this.SELECTOR_MIDDLE_ITEM_INDEX = i / 2;
         this.mSelectorIndices = new int[i];
         initializeSelectorWheelIndices();
+    }
+
+    public int getItemsCount() {
+        return this.SELECTOR_WHEEL_ITEM_COUNT;
     }
 
     private void init() {
@@ -608,10 +616,14 @@ public class NumberPicker extends LinearLayout {
     }
 
     public void setWrapSelectorWheel(boolean z) {
-        boolean z2 = this.mMaxValue - this.mMinValue >= this.mSelectorIndices.length;
-        if ((!z || z2) && z != this.mWrapSelectorWheel) {
-            this.mWrapSelectorWheel = z;
+        boolean z2 = false;
+        if (!this.mMaxValueSet || !this.mMinValueSet || this.mMaxValue - this.mMinValue >= this.mSelectorIndices.length) {
+            this.mWrapSelectorWheelSetting = z;
+            if (z) {
+                z2 = true;
+            }
         }
+        this.mWrapSelectorWheel = z2;
     }
 
     public void setOnLongPressUpdateInterval(long j) {
@@ -634,10 +646,22 @@ public class NumberPicker extends LinearLayout {
             throw new IllegalArgumentException("minValue must be >= 0");
         }
         this.mMinValue = i;
+        boolean z = true;
+        this.mMinValueSet = true;
         if (i > this.mValue) {
-            this.mValue = i;
+            int i2 = this.mFantomValue;
+            if (i <= i2) {
+                this.mValue = i2;
+            } else {
+                this.mValue = i;
+            }
         }
-        setWrapSelectorWheel(this.mMaxValue - i > this.mSelectorIndices.length);
+        if (this.mWrapSelectorWheelSetting && this.mMaxValueSet) {
+            if (this.mMaxValue - i <= this.mSelectorIndices.length) {
+                z = false;
+            }
+            this.mWrapSelectorWheel = z;
+        }
         initializeSelectorWheelIndices();
         updateInputTextView();
         tryComputeMaxWidth();
@@ -656,10 +680,22 @@ public class NumberPicker extends LinearLayout {
             throw new IllegalArgumentException("maxValue must be >= 0");
         }
         this.mMaxValue = i;
+        boolean z = true;
+        this.mMaxValueSet = true;
         if (i < this.mValue) {
-            this.mValue = i;
+            int i2 = this.mFantomValue;
+            if (i >= i2) {
+                this.mValue = i2;
+            } else {
+                this.mValue = i;
+            }
         }
-        setWrapSelectorWheel(i - this.mMinValue > this.mSelectorIndices.length);
+        if (this.mWrapSelectorWheelSetting && this.mMinValueSet) {
+            if (i - this.mMinValue <= this.mSelectorIndices.length) {
+                z = false;
+            }
+            this.mWrapSelectorWheel = z;
+        }
         initializeSelectorWheelIndices();
         updateInputTextView();
         tryComputeMaxWidth();
@@ -801,6 +837,7 @@ public class NumberPicker extends LinearLayout {
             min = Math.min(Math.max(i, this.mMinValue), this.mMaxValue);
         }
         int i2 = this.mValue;
+        this.mFantomValue = min;
         this.mValue = min;
         updateInputTextView();
         if (Math.abs(i2 - min) > 0.9f && Build.VERSION.SDK_INT >= 27) {

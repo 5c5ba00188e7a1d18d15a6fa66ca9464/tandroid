@@ -2,23 +2,19 @@ package com.google.android.gms.dynamite;
 
 import android.content.Context;
 import com.google.android.gms.dynamite.DynamiteModule;
-/* compiled from: com.google.android.gms:play-services-basement@@17.5.0 */
+/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
 final class zzh implements DynamiteModule.VersionPolicy {
     @Override // com.google.android.gms.dynamite.DynamiteModule.VersionPolicy
-    public final DynamiteModule.VersionPolicy.zza zza(Context context, String str, DynamiteModule.VersionPolicy.zzb zzbVar) throws DynamiteModule.LoadingException {
-        DynamiteModule.VersionPolicy.zza zzaVar = new DynamiteModule.VersionPolicy.zza();
-        zzaVar.zza = zzbVar.zza(context, str);
-        int zza = zzbVar.zza(context, str, true);
-        zzaVar.zzb = zza;
-        int i = zzaVar.zza;
-        if (i == 0 && zza == 0) {
-            zzaVar.zzc = 0;
-        } else if (zza >= i) {
-            zzaVar.zzc = 1;
+    public final DynamiteModule.VersionPolicy.SelectionResult selectModule(Context context, String str, DynamiteModule.VersionPolicy.IVersions iVersions) throws DynamiteModule.LoadingException {
+        DynamiteModule.VersionPolicy.SelectionResult selectionResult = new DynamiteModule.VersionPolicy.SelectionResult();
+        int zzb = iVersions.zzb(context, str, false);
+        selectionResult.remoteVersion = zzb;
+        if (zzb == 0) {
+            selectionResult.selection = 0;
         } else {
-            zzaVar.zzc = -1;
+            selectionResult.selection = 1;
         }
-        return zzaVar;
+        return selectionResult;
     }
 }

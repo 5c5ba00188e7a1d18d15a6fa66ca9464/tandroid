@@ -3,7 +3,7 @@ package com.google.android.gms.internal.play_billing;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.CheckForNull;
-/* compiled from: com.android.billingclient:billing@@5.0.0 */
+/* compiled from: com.android.billingclient:billing@@5.1.0 */
 /* loaded from: classes.dex */
 public final class zzn {
     public static String zza(@CheckForNull String str, @CheckForNull Object... objArr) {

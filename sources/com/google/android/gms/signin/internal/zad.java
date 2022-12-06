@@ -5,36 +5,44 @@ import android.os.RemoteException;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.Status;
-/* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
+/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
-public abstract class zad extends com.google.android.gms.internal.base.zaa implements zae {
+public abstract class zad extends com.google.android.gms.internal.base.zab implements zae {
     public zad() {
         super("com.google.android.gms.signin.internal.ISignInCallbacks");
     }
 
-    @Override // com.google.android.gms.internal.base.zaa
+    @Override // com.google.android.gms.internal.base.zab
     protected final boolean zaa(int i, Parcel parcel, Parcel parcel2, int i2) throws RemoteException {
         switch (i) {
             case 3:
-                zaa((ConnectionResult) com.google.android.gms.internal.base.zad.zaa(parcel, ConnectionResult.CREATOR), (zaa) com.google.android.gms.internal.base.zad.zaa(parcel, zaa.CREATOR));
+                ConnectionResult connectionResult = (ConnectionResult) com.google.android.gms.internal.base.zac.zaa(parcel, ConnectionResult.CREATOR);
+                zaa zaaVar = (zaa) com.google.android.gms.internal.base.zac.zaa(parcel, zaa.CREATOR);
+                com.google.android.gms.internal.base.zac.zab(parcel);
                 break;
             case 4:
-                zaa((Status) com.google.android.gms.internal.base.zad.zaa(parcel, Status.CREATOR));
+                Status status = (Status) com.google.android.gms.internal.base.zac.zaa(parcel, Status.CREATOR);
+                com.google.android.gms.internal.base.zac.zab(parcel);
                 break;
             case 5:
             default:
                 return false;
             case 6:
-                zab((Status) com.google.android.gms.internal.base.zad.zaa(parcel, Status.CREATOR));
+                Status status2 = (Status) com.google.android.gms.internal.base.zac.zaa(parcel, Status.CREATOR);
+                com.google.android.gms.internal.base.zac.zab(parcel);
                 break;
             case 7:
-                zaa((Status) com.google.android.gms.internal.base.zad.zaa(parcel, Status.CREATOR), (GoogleSignInAccount) com.google.android.gms.internal.base.zad.zaa(parcel, GoogleSignInAccount.CREATOR));
+                Status status3 = (Status) com.google.android.gms.internal.base.zac.zaa(parcel, Status.CREATOR);
+                GoogleSignInAccount googleSignInAccount = (GoogleSignInAccount) com.google.android.gms.internal.base.zac.zaa(parcel, GoogleSignInAccount.CREATOR);
+                com.google.android.gms.internal.base.zac.zab(parcel);
                 break;
             case 8:
-                zaa((zak) com.google.android.gms.internal.base.zad.zaa(parcel, zak.CREATOR));
+                com.google.android.gms.internal.base.zac.zab(parcel);
+                zab((zak) com.google.android.gms.internal.base.zac.zaa(parcel, zak.CREATOR));
                 break;
             case 9:
-                zaa((zai) com.google.android.gms.internal.base.zad.zaa(parcel, zai.CREATOR));
+                zag zagVar = (zag) com.google.android.gms.internal.base.zac.zaa(parcel, zag.CREATOR);
+                com.google.android.gms.internal.base.zac.zab(parcel);
                 break;
         }
         parcel2.writeNoException();

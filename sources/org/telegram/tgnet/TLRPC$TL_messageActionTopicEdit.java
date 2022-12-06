@@ -1,8 +1,9 @@
 package org.telegram.tgnet;
 /* loaded from: classes.dex */
 public class TLRPC$TL_messageActionTopicEdit extends TLRPC$MessageAction {
-    public static int constructor = -1316338916;
+    public static int constructor = -1064024032;
     public boolean closed;
+    public boolean hidden;
     public long icon_emoji_id;
 
     @Override // org.telegram.tgnet.TLObject
@@ -18,6 +19,9 @@ public class TLRPC$TL_messageActionTopicEdit extends TLRPC$MessageAction {
         if ((this.flags & 4) != 0) {
             this.closed = abstractSerializedData.readBool(z);
         }
+        if ((this.flags & 8) != 0) {
+            this.hidden = abstractSerializedData.readBool(z);
+        }
     }
 
     @Override // org.telegram.tgnet.TLObject
@@ -32,6 +36,9 @@ public class TLRPC$TL_messageActionTopicEdit extends TLRPC$MessageAction {
         }
         if ((this.flags & 4) != 0) {
             abstractSerializedData.writeBool(this.closed);
+        }
+        if ((this.flags & 8) != 0) {
+            abstractSerializedData.writeBool(this.hidden);
         }
     }
 }

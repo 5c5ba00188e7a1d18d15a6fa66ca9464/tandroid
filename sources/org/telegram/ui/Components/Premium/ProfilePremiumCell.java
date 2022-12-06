@@ -39,8 +39,9 @@ public class ProfilePremiumCell extends TextCell {
         }
     }
 
-    @Override // android.view.ViewGroup, android.view.View
-    protected void dispatchDraw(Canvas canvas) {
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // org.telegram.ui.Cells.TextCell, android.view.ViewGroup, android.view.View
+    public void dispatchDraw(Canvas canvas) {
         this.drawable.onDraw(canvas);
         invalidate();
         super.dispatchDraw(canvas);

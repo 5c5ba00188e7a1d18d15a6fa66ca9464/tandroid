@@ -1,12 +1,12 @@
 package com.google.android.gms.common.api.internal;
 
 import android.os.Bundle;
-/* compiled from: com.google.android.gms:play-services-basement@@17.5.0 */
+/* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
 final class zza implements Runnable {
-    private final /* synthetic */ LifecycleCallback zza;
-    private final /* synthetic */ String zzb;
-    private final /* synthetic */ zzb zzc;
+    final /* synthetic */ LifecycleCallback zza;
+    final /* synthetic */ String zzb;
+    final /* synthetic */ zzb zzc;
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public zza(zzb zzbVar, LifecycleCallback lifecycleCallback, String str) {
@@ -25,12 +25,13 @@ final class zza implements Runnable {
         Bundle bundle;
         Bundle bundle2;
         Bundle bundle3;
-        i = this.zzc.zzc;
+        zzb zzbVar = this.zzc;
+        i = zzbVar.zzc;
         if (i > 0) {
             LifecycleCallback lifecycleCallback = this.zza;
-            bundle = this.zzc.zzd;
+            bundle = zzbVar.zzd;
             if (bundle != null) {
-                bundle3 = this.zzc.zzd;
+                bundle3 = zzbVar.zzd;
                 bundle2 = bundle3.getBundle(this.zzb);
             } else {
                 bundle2 = null;

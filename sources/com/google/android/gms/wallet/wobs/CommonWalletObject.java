@@ -2,18 +2,15 @@ package com.google.android.gms.wallet.wobs;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import androidx.annotation.RecentlyNonNull;
 import com.google.android.gms.common.annotation.KeepName;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
 import com.google.android.gms.common.util.ArrayUtils;
-import com.google.android.gms.maps.model.LatLng;
 import java.util.ArrayList;
-/* compiled from: com.google.android.gms:play-services-wallet@@18.1.3 */
+/* compiled from: com.google.android.gms:play-services-wallet@@19.1.0 */
 @KeepName
 /* loaded from: classes.dex */
 public class CommonWalletObject extends AbstractSafeParcelable {
-    @RecentlyNonNull
     public static final Parcelable.Creator<CommonWalletObject> CREATOR = new zzc();
     String zza;
     String zzb;
@@ -25,18 +22,18 @@ public class CommonWalletObject extends AbstractSafeParcelable {
     @Deprecated
     String zzh;
     int zzi;
-    ArrayList<WalletObjectMessage> zzj;
+    ArrayList zzj;
     TimeInterval zzk;
-    ArrayList<LatLng> zzl;
+    ArrayList zzl;
     @Deprecated
     String zzm;
     @Deprecated
     String zzn;
-    ArrayList<LabelValueRow> zzo;
+    ArrayList zzo;
     boolean zzp;
-    ArrayList<UriData> zzq;
-    ArrayList<TextModuleData> zzr;
-    ArrayList<UriData> zzs;
+    ArrayList zzq;
+    ArrayList zzr;
+    ArrayList zzs;
 
     CommonWalletObject() {
         this.zzj = ArrayUtils.newArrayList();
@@ -52,7 +49,7 @@ public class CommonWalletObject extends AbstractSafeParcelable {
     }
 
     @Override // android.os.Parcelable
-    public final void writeToParcel(@RecentlyNonNull Parcel parcel, int i) {
+    public final void writeToParcel(Parcel parcel, int i) {
         int beginObjectHeader = SafeParcelWriter.beginObjectHeader(parcel);
         SafeParcelWriter.writeString(parcel, 2, this.zza, false);
         SafeParcelWriter.writeString(parcel, 3, this.zzb, false);
@@ -77,7 +74,7 @@ public class CommonWalletObject extends AbstractSafeParcelable {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public CommonWalletObject(String str, String str2, String str3, String str4, String str5, String str6, String str7, String str8, int i, ArrayList<WalletObjectMessage> arrayList, TimeInterval timeInterval, ArrayList<LatLng> arrayList2, String str9, String str10, ArrayList<LabelValueRow> arrayList3, boolean z, ArrayList<UriData> arrayList4, ArrayList<TextModuleData> arrayList5, ArrayList<UriData> arrayList6) {
+    public CommonWalletObject(String str, String str2, String str3, String str4, String str5, String str6, String str7, String str8, int i, ArrayList arrayList, TimeInterval timeInterval, ArrayList arrayList2, String str9, String str10, ArrayList arrayList3, boolean z, ArrayList arrayList4, ArrayList arrayList5, ArrayList arrayList6) {
         this.zza = str;
         this.zzb = str2;
         this.zzc = str3;

@@ -9,28 +9,26 @@ import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.internal.ClientSettings;
 import com.google.android.gms.common.internal.GmsClient;
-/* compiled from: com.google.android.gms:play-services-auth@@19.2.0 */
+/* compiled from: com.google.android.gms:play-services-auth@@20.4.0 */
 /* loaded from: classes.dex */
-public final class zbo extends GmsClient<zbt> {
+public final class zbo extends GmsClient {
     private final Auth.AuthCredentialsOptions zba;
 
     public zbo(Context context, Looper looper, ClientSettings clientSettings, Auth.AuthCredentialsOptions authCredentialsOptions, GoogleApiClient.ConnectionCallbacks connectionCallbacks, GoogleApiClient.OnConnectionFailedListener onConnectionFailedListener) {
         super(context, looper, 68, clientSettings, connectionCallbacks, onConnectionFailedListener);
         Auth.AuthCredentialsOptions.Builder builder = new Auth.AuthCredentialsOptions.Builder(authCredentialsOptions == null ? Auth.AuthCredentialsOptions.zba : authCredentialsOptions);
-        builder.zba(zbax.zba());
+        builder.zba(zbbb.zba());
         this.zba = new Auth.AuthCredentialsOptions(builder);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.gms.common.internal.BaseGmsClient
-    protected final /* bridge */ /* synthetic */ IInterface createServiceInterface(IBinder iBinder) {
+    public final /* synthetic */ IInterface createServiceInterface(IBinder iBinder) {
         if (iBinder == null) {
             return null;
         }
         IInterface queryLocalInterface = iBinder.queryLocalInterface("com.google.android.gms.auth.api.credentials.internal.ICredentialsService");
-        if (queryLocalInterface instanceof zbt) {
-            return (zbt) queryLocalInterface;
-        }
-        return new zbt(iBinder);
+        return queryLocalInterface instanceof zbt ? (zbt) queryLocalInterface : new zbt(iBinder);
     }
 
     @Override // com.google.android.gms.common.internal.BaseGmsClient
@@ -43,8 +41,9 @@ public final class zbo extends GmsClient<zbt> {
         return 12800000;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.gms.common.internal.BaseGmsClient
-    protected final String getServiceDescriptor() {
+    public final String getServiceDescriptor() {
         return "com.google.android.gms.auth.api.credentials.internal.ICredentialsService";
     }
 

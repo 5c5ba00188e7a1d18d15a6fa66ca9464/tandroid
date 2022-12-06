@@ -6,11 +6,11 @@ import com.google.android.gms.common.internal.safeparcel.SafeParcelReader;
 import com.google.android.gms.common.util.ArrayUtils;
 import com.google.android.gms.maps.model.LatLng;
 import java.util.ArrayList;
-/* compiled from: com.google.android.gms:play-services-wallet@@18.1.3 */
+/* compiled from: com.google.android.gms:play-services-wallet@@19.1.0 */
 /* loaded from: classes.dex */
-public final class zzc implements Parcelable.Creator<CommonWalletObject> {
+public final class zzc implements Parcelable.Creator {
     @Override // android.os.Parcelable.Creator
-    public final /* bridge */ /* synthetic */ CommonWalletObject createFromParcel(Parcel parcel) {
+    public final /* bridge */ /* synthetic */ Object createFromParcel(Parcel parcel) {
         int validateObjectHeader = SafeParcelReader.validateObjectHeader(parcel);
         ArrayList newArrayList = ArrayUtils.newArrayList();
         ArrayList newArrayList2 = ArrayUtils.newArrayList();
@@ -104,7 +104,7 @@ public final class zzc implements Parcelable.Creator<CommonWalletObject> {
     }
 
     @Override // android.os.Parcelable.Creator
-    public final /* bridge */ /* synthetic */ CommonWalletObject[] newArray(int i) {
+    public final /* synthetic */ Object[] newArray(int i) {
         return new CommonWalletObject[i];
     }
 }

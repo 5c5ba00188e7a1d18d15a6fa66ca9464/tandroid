@@ -1,96 +1,87 @@
 package com.google.android.gms.common.api.internal;
 
 import android.os.RemoteException;
-import androidx.annotation.RecentlyNonNull;
-import androidx.annotation.RecentlyNullable;
 import com.google.android.gms.common.Feature;
 import com.google.android.gms.common.api.Api;
 import com.google.android.gms.common.api.Api.AnyClient;
 import com.google.android.gms.common.internal.Preconditions;
 import com.google.android.gms.tasks.TaskCompletionSource;
-/* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
+/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 public abstract class TaskApiCall<A extends Api.AnyClient, ResultT> {
     private final Feature[] zaa;
     private final boolean zab;
     private final int zac;
 
-    @Deprecated
-    public TaskApiCall() {
-        this.zaa = null;
-        this.zab = false;
-        this.zac = 0;
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    public abstract void doExecute(@RecentlyNonNull A a, @RecentlyNonNull TaskCompletionSource<ResultT> taskCompletionSource) throws RemoteException;
-
-    /* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
+    /* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
     /* loaded from: classes.dex */
     public static class Builder<A extends Api.AnyClient, ResultT> {
-        private RemoteCall<A, TaskCompletionSource<ResultT>> zaa;
-        private boolean zab;
+        private RemoteCall zaa;
         private Feature[] zac;
-        private int zad;
+        private boolean zab = true;
+        private int zad = 0;
 
-        private Builder() {
-            this.zab = true;
-            this.zad = 0;
+        /* synthetic */ Builder(zacw zacwVar) {
         }
 
-        @RecentlyNonNull
-        public Builder<A, ResultT> run(@RecentlyNonNull RemoteCall<A, TaskCompletionSource<ResultT>> remoteCall) {
+        public TaskApiCall<A, ResultT> build() {
+            Preconditions.checkArgument(this.zaa != null, "execute parameter required");
+            return new zacv(this, this.zac, this.zab, this.zad);
+        }
+
+        @CanIgnoreReturnValue
+        public Builder<A, ResultT> run(RemoteCall<A, TaskCompletionSource<ResultT>> remoteCall) {
             this.zaa = remoteCall;
             return this;
         }
 
-        @RecentlyNonNull
-        public Builder<A, ResultT> setFeatures(@RecentlyNonNull Feature... featureArr) {
-            this.zac = featureArr;
-            return this;
-        }
-
-        @RecentlyNonNull
+        @CanIgnoreReturnValue
         public Builder<A, ResultT> setAutoResolveMissingFeatures(boolean z) {
             this.zab = z;
             return this;
         }
 
-        @RecentlyNonNull
+        @CanIgnoreReturnValue
+        public Builder<A, ResultT> setFeatures(Feature... featureArr) {
+            this.zac = featureArr;
+            return this;
+        }
+
+        @CanIgnoreReturnValue
         public Builder<A, ResultT> setMethodKey(int i) {
             this.zad = i;
             return this;
         }
-
-        @RecentlyNonNull
-        public TaskApiCall<A, ResultT> build() {
-            Preconditions.checkArgument(this.zaa != null, "execute parameter required");
-            return new zacj(this, this.zac, this.zab, this.zad);
-        }
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    public TaskApiCall(@RecentlyNonNull Feature[] featureArr, boolean z, int i) {
+    public TaskApiCall(Feature[] featureArr, boolean z, int i) {
         this.zaa = featureArr;
-        this.zab = featureArr != null && z;
+        boolean z2 = false;
+        if (featureArr != null && z) {
+            z2 = true;
+        }
+        this.zab = z2;
         this.zac = i;
     }
 
-    @RecentlyNullable
-    public final Feature[] zaa() {
-        return this.zaa;
+    public static <A extends Api.AnyClient, ResultT> Builder<A, ResultT> builder() {
+        return new Builder<>(null);
     }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public abstract void doExecute(A a, TaskCompletionSource<ResultT> taskCompletionSource) throws RemoteException;
 
     public boolean shouldAutoResolveMissingFeatures() {
         return this.zab;
     }
 
-    public final int zab() {
+    public final int zaa() {
         return this.zac;
     }
 
-    @RecentlyNonNull
-    public static <A extends Api.AnyClient, ResultT> Builder<A, ResultT> builder() {
-        return new Builder<>();
+    public final Feature[] zab() {
+        return this.zaa;
     }
 }

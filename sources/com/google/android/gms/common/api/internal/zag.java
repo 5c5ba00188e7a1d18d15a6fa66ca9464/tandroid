@@ -1,47 +1,63 @@
 package com.google.android.gms.common.api.internal;
 
+import android.os.DeadObjectException;
 import android.os.RemoteException;
 import com.google.android.gms.common.Feature;
-import com.google.android.gms.common.api.internal.GoogleApiManager;
-import com.google.android.gms.common.api.internal.ListenerHolder;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.tasks.TaskCompletionSource;
-/* compiled from: com.google.android.gms:play-services-base@@17.5.0 */
+/* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
-public final class zag extends zac<Boolean> {
-    private final ListenerHolder.ListenerKey<?> zac;
+public final class zag extends zac {
+    private final TaskApiCall zaa;
+    private final TaskCompletionSource zab;
+    private final StatusExceptionMapper zad;
 
-    public zag(ListenerHolder.ListenerKey<?> listenerKey, TaskCompletionSource<Boolean> taskCompletionSource) {
-        super(4, taskCompletionSource);
-        this.zac = listenerKey;
-    }
-
-    @Override // com.google.android.gms.common.api.internal.zab
-    public final /* bridge */ /* synthetic */ void zaa(zav zavVar, boolean z) {
+    public zag(int i, TaskApiCall taskApiCall, TaskCompletionSource taskCompletionSource, StatusExceptionMapper statusExceptionMapper) {
+        super(i);
+        this.zab = taskCompletionSource;
+        this.zaa = taskApiCall;
+        this.zad = statusExceptionMapper;
+        if (i != 2 || !taskApiCall.shouldAutoResolveMissingFeatures()) {
+            return;
+        }
+        throw new IllegalArgumentException("Best-effort write calls cannot pass methods that should auto-resolve missing features.");
     }
 
     @Override // com.google.android.gms.common.api.internal.zac
-    public final void zab(GoogleApiManager.zaa<?> zaaVar) throws RemoteException {
-        zabv remove = zaaVar.zac().remove(this.zac);
-        if (remove != null) {
-            remove.zab.unregisterListener(zaaVar.zab(), this.zab);
-            remove.zaa.clearListener();
-            return;
-        }
-        this.zab.trySetResult(Boolean.FALSE);
+    public final boolean zaa(zabq zabqVar) {
+        return this.zaa.shouldAutoResolveMissingFeatures();
     }
 
-    @Override // com.google.android.gms.common.api.internal.zad
-    public final Feature[] zac(GoogleApiManager.zaa<?> zaaVar) {
-        zabv zabvVar = zaaVar.zac().get(this.zac);
-        if (zabvVar == null) {
-            return null;
-        }
-        return zabvVar.zaa.getRequiredFeatures();
+    @Override // com.google.android.gms.common.api.internal.zac
+    public final Feature[] zab(zabq zabqVar) {
+        return this.zaa.zab();
     }
 
-    @Override // com.google.android.gms.common.api.internal.zad
-    public final boolean zad(GoogleApiManager.zaa<?> zaaVar) {
-        zabv zabvVar = zaaVar.zac().get(this.zac);
-        return zabvVar != null && zabvVar.zaa.zaa();
+    @Override // com.google.android.gms.common.api.internal.zai
+    public final void zad(Status status) {
+        this.zab.trySetException(this.zad.getException(status));
+    }
+
+    @Override // com.google.android.gms.common.api.internal.zai
+    public final void zae(Exception exc) {
+        this.zab.trySetException(exc);
+    }
+
+    @Override // com.google.android.gms.common.api.internal.zai
+    public final void zaf(zabq zabqVar) throws DeadObjectException {
+        try {
+            this.zaa.doExecute(zabqVar.zaf(), this.zab);
+        } catch (DeadObjectException e) {
+            throw e;
+        } catch (RemoteException e2) {
+            zad(zai.zah(e2));
+        } catch (RuntimeException e3) {
+            this.zab.trySetException(e3);
+        }
+    }
+
+    @Override // com.google.android.gms.common.api.internal.zai
+    public final void zag(zaad zaadVar, boolean z) {
+        zaadVar.zad(this.zab, z);
     }
 }
