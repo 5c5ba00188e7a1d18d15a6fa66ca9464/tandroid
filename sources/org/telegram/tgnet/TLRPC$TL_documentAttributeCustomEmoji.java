@@ -3,16 +3,18 @@ package org.telegram.tgnet;
 public class TLRPC$TL_documentAttributeCustomEmoji extends TLRPC$DocumentAttribute {
     public static int constructor = -48981863;
     public boolean free;
+    public boolean text_color;
 
     @Override // org.telegram.tgnet.TLObject
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
         int readInt32 = abstractSerializedData.readInt32(z);
         this.flags = readInt32;
-        boolean z2 = true;
-        if ((readInt32 & 1) == 0) {
-            z2 = false;
+        boolean z2 = false;
+        this.free = (readInt32 & 1) != 0;
+        if ((readInt32 & 2) != 0) {
+            z2 = true;
         }
-        this.free = z2;
+        this.text_color = z2;
         this.alt = abstractSerializedData.readString(z);
         this.stickerset = TLRPC$InputStickerSet.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
     }
@@ -22,7 +24,9 @@ public class TLRPC$TL_documentAttributeCustomEmoji extends TLRPC$DocumentAttribu
         abstractSerializedData.writeInt32(constructor);
         int i = this.free ? this.flags | 1 : this.flags & (-2);
         this.flags = i;
-        abstractSerializedData.writeInt32(i);
+        int i2 = this.text_color ? i | 2 : i & (-3);
+        this.flags = i2;
+        abstractSerializedData.writeInt32(i2);
         abstractSerializedData.writeString(this.alt);
         this.stickerset.serializeToStream(abstractSerializedData);
     }

@@ -604,25 +604,32 @@ public class QrActivity extends BaseFragment {
         if (privacyRules == null) {
             return false;
         }
-        int i = 0;
-        while (true) {
-            c = 2;
-            if (i >= privacyRules.size()) {
-                break;
-            }
+        for (int i = 0; i < privacyRules.size(); i++) {
             TLRPC$PrivacyRule tLRPC$PrivacyRule = privacyRules.get(i);
-            if (!(tLRPC$PrivacyRule instanceof TLRPC$TL_privacyValueAllowAll)) {
-                if (tLRPC$PrivacyRule instanceof TLRPC$TL_privacyValueDisallowAll) {
-                    break;
-                } else if (tLRPC$PrivacyRule instanceof TLRPC$TL_privacyValueAllowContacts) {
-                    c = 1;
-                    break;
-                } else {
-                    i++;
-                }
-            } else {
+            if (tLRPC$PrivacyRule instanceof TLRPC$TL_privacyValueAllowAll) {
                 c = 0;
                 break;
+            } else if (tLRPC$PrivacyRule instanceof TLRPC$TL_privacyValueDisallowAll) {
+                break;
+            } else if (tLRPC$PrivacyRule instanceof TLRPC$TL_privacyValueAllowContacts) {
+                c = 1;
+                break;
+            }
+        }
+        c = 2;
+        if (c == 2) {
+            ArrayList<TLRPC$PrivacyRule> privacyRules2 = ContactsController.getInstance(this.currentAccount).getPrivacyRules(7);
+            if (privacyRules2 == null || privacyRules2.size() == 0) {
+                return true;
+            }
+            for (int i2 = 0; i2 < privacyRules2.size(); i2++) {
+                TLRPC$PrivacyRule tLRPC$PrivacyRule2 = privacyRules2.get(i2);
+                if (tLRPC$PrivacyRule2 instanceof TLRPC$TL_privacyValueAllowAll) {
+                    return true;
+                }
+                if ((tLRPC$PrivacyRule2 instanceof TLRPC$TL_privacyValueDisallowAll) || (tLRPC$PrivacyRule2 instanceof TLRPC$TL_privacyValueAllowContacts)) {
+                    return false;
+                }
             }
         }
         return c == 0 || c == 1;

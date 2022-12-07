@@ -9041,7 +9041,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     TLRPC$ChatPhoto tLRPC$ChatPhoto = chat.photo;
                     TLRPC$FileLocation tLRPC$FileLocation2 = (tLRPC$ChatPhoto != null || this.isTopic) ? null : tLRPC$ChatPhoto.photo_big;
                     if (this.isTopic) {
-                        ForumUtilities.setTopicIcon(this.avatarImage, tLRPC$TL_forumTopic2, true, this.resourcesProvider);
+                        ForumUtilities.setTopicIcon(this.avatarImage, tLRPC$TL_forumTopic2, true, true, this.resourcesProvider);
                         imageLocation2 = null;
                         currentVideoLocation = null;
                         imageLocation = null;

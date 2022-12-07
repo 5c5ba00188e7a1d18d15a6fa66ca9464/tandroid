@@ -29,6 +29,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewPropertyAnimator;
+import android.view.animation.Interpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import androidx.core.graphics.ColorUtils;
@@ -1869,7 +1870,11 @@ public class ActionBar extends FrameLayout {
         return AndroidUtilities.dp(56.0f);
     }
 
-    public void setTitleAnimated(CharSequence charSequence, final boolean z, long j) {
+    public void setTitleAnimated(CharSequence charSequence, boolean z, long j) {
+        setTitleAnimated(charSequence, z, j, null);
+    }
+
+    public void setTitleAnimated(CharSequence charSequence, final boolean z, long j, Interpolator interpolator) {
         if (this.titleTextView[0] == null || charSequence == null) {
             setTitle(charSequence);
             return;
@@ -1903,7 +1908,11 @@ public class ActionBar extends FrameLayout {
             }
             simpleTextView.setTranslationY(dp);
         }
-        this.titleTextView[0].animate().alpha(1.0f).translationY(0.0f).setDuration(j).start();
+        ViewPropertyAnimator duration = this.titleTextView[0].animate().alpha(1.0f).translationY(0.0f).setDuration(j);
+        if (interpolator != null) {
+            duration.setInterpolator(interpolator);
+        }
+        duration.start();
         this.titleAnimationRunning = true;
         ViewPropertyAnimator alpha = this.titleTextView[1].animate().alpha(0.0f);
         if (!z2) {
@@ -1912,6 +1921,9 @@ public class ActionBar extends FrameLayout {
                 dp2 = -dp2;
             }
             alpha.translationY(dp2);
+        }
+        if (interpolator != null) {
+            alpha.setInterpolator(interpolator);
         }
         alpha.setDuration(j).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.ActionBar.7
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener

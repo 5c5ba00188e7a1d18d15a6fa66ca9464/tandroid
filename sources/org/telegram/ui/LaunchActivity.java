@@ -170,6 +170,7 @@ import org.telegram.tgnet.TLRPC$TL_inputWallPaperSlug;
 import org.telegram.tgnet.TLRPC$TL_langPackLanguage;
 import org.telegram.tgnet.TLRPC$TL_langpack_getLanguage;
 import org.telegram.tgnet.TLRPC$TL_langpack_getStrings;
+import org.telegram.tgnet.TLRPC$TL_messageActionChannelMigrateFrom;
 import org.telegram.tgnet.TLRPC$TL_messages_chats;
 import org.telegram.tgnet.TLRPC$TL_messages_checkChatInvite;
 import org.telegram.tgnet.TLRPC$TL_messages_checkHistoryImport;
@@ -7258,7 +7259,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             for (int i2 = 0; i2 < size; i2++) {
                 arrayList.add(new MessageObject(UserConfig.selectedAccount, tLRPC$TL_messages_discussionMessage.messages.get(i2), true, true));
             }
-            if (!arrayList.isEmpty()) {
+            if (!arrayList.isEmpty() || (tLRPC$Chat.forum && num != null && num.intValue() == 1)) {
                 if (tLRPC$Chat.forum) {
                     TLRPC$TL_channels_getForumTopicsByID tLRPC$TL_channels_getForumTopicsByID = new TLRPC$TL_channels_getForumTopicsByID();
                     tLRPC$TL_channels_getForumTopicsByID.channel = MessagesController.getInstance(this.currentAccount).getInputChannel(tLRPC$Chat.id);
@@ -7266,7 +7267,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_channels_getForumTopicsByID, new RequestDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda88
                         @Override // org.telegram.tgnet.RequestDelegate
                         public final void run(TLObject tLObject2, TLRPC$TL_error tLRPC$TL_error) {
-                            LaunchActivity.this.lambda$runCommentRequest$26(tLRPC$Chat, num, arrayList, num2, tLRPC$TL_messages_getDiscussionMessage, num3, runnable, tLObject2, tLRPC$TL_error);
+                            LaunchActivity.this.lambda$runCommentRequest$26(tLRPC$Chat, num, num2, arrayList, tLRPC$TL_messages_getDiscussionMessage, num3, runnable, tLObject2, tLRPC$TL_error);
                         }
                     });
                 } else {
@@ -7309,17 +7310,17 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$runCommentRequest$26(final TLRPC$Chat tLRPC$Chat, final Integer num, final ArrayList arrayList, final Integer num2, final TLRPC$TL_messages_getDiscussionMessage tLRPC$TL_messages_getDiscussionMessage, final Integer num3, final Runnable runnable, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$runCommentRequest$26(final TLRPC$Chat tLRPC$Chat, final Integer num, final Integer num2, final ArrayList arrayList, final TLRPC$TL_messages_getDiscussionMessage tLRPC$TL_messages_getDiscussionMessage, final Integer num3, final Runnable runnable, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda58
             @Override // java.lang.Runnable
             public final void run() {
-                LaunchActivity.this.lambda$runCommentRequest$25(tLRPC$TL_error, tLObject, tLRPC$Chat, num, arrayList, num2, tLRPC$TL_messages_getDiscussionMessage, num3, runnable);
+                LaunchActivity.this.lambda$runCommentRequest$25(tLRPC$TL_error, tLObject, tLRPC$Chat, num, num2, arrayList, tLRPC$TL_messages_getDiscussionMessage, num3, runnable);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$runCommentRequest$25(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject, TLRPC$Chat tLRPC$Chat, Integer num, ArrayList arrayList, Integer num2, TLRPC$TL_messages_getDiscussionMessage tLRPC$TL_messages_getDiscussionMessage, Integer num3, Runnable runnable) {
+    public /* synthetic */ void lambda$runCommentRequest$25(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject, TLRPC$Chat tLRPC$Chat, Integer num, Integer num2, ArrayList arrayList, TLRPC$TL_messages_getDiscussionMessage tLRPC$TL_messages_getDiscussionMessage, Integer num3, Runnable runnable) {
         if (tLRPC$TL_error == null) {
             TLRPC$TL_messages_forumTopics tLRPC$TL_messages_forumTopics = (TLRPC$TL_messages_forumTopics) tLObject;
             SparseArray<TLRPC$Message> sparseArray = new SparseArray<>();
@@ -7333,11 +7334,17 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         TLRPC$TL_forumTopic findTopic = MessagesController.getInstance(this.currentAccount).getTopicsController().findTopic(tLRPC$Chat.id, num.intValue());
         if (findTopic != null) {
             Bundle bundle = new Bundle();
-            bundle.putLong("chat_id", -((MessageObject) arrayList.get(0)).getDialogId());
+            bundle.putLong("chat_id", tLRPC$Chat.id);
             if (num2.intValue() != findTopic.id) {
                 bundle.putInt("message_id", Math.max(1, num2.intValue()));
             }
             ChatActivity chatActivity = new ChatActivity(bundle);
+            if (arrayList.isEmpty()) {
+                TLRPC$Message tLRPC$Message = new TLRPC$Message();
+                tLRPC$Message.id = 1;
+                tLRPC$Message.action = new TLRPC$TL_messageActionChannelMigrateFrom();
+                arrayList.add(new MessageObject(this.currentAccount, tLRPC$Message, false, false));
+            }
             chatActivity.setThreadMessages(arrayList, tLRPC$Chat, tLRPC$TL_messages_getDiscussionMessage.msg_id, findTopic.read_inbox_max_id, findTopic.read_outbox_max_id, findTopic);
             if (num3 != null) {
                 chatActivity.setHighlightMessageId(num3.intValue());

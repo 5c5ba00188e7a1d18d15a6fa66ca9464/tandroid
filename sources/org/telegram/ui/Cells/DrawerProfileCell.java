@@ -423,12 +423,13 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
         public void setColor(int i) {
             this.color = Integer.valueOf(i);
             PorterDuffColorFilter porterDuffColorFilter = new PorterDuffColorFilter(i, PorterDuff.Mode.MULTIPLY);
+            PorterDuffColorFilter porterDuffColorFilter2 = new PorterDuffColorFilter(i, PorterDuff.Mode.SRC_IN);
             for (int i2 = 0; i2 < this.animations.size(); i2++) {
                 Object obj = this.animations.get(i2);
                 if (obj instanceof ImageReceiver) {
                     ((ImageReceiver) obj).setColorFilter(porterDuffColorFilter);
                 } else if (obj instanceof AnimatedEmojiEffect) {
-                    ((AnimatedEmojiEffect) obj).animatedEmojiDrawable.setColorFilter(porterDuffColorFilter);
+                    ((AnimatedEmojiEffect) obj).animatedEmojiDrawable.setColorFilter(porterDuffColorFilter2);
                 }
             }
         }

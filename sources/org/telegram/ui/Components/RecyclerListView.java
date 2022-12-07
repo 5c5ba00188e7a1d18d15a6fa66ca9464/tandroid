@@ -1581,8 +1581,28 @@ public class RecyclerListView extends RecyclerView {
         for (int i6 = 0; i6 < getChildCount(); i6++) {
             View childAt = getChildAt(i6);
             if (childAt != null && (childAdapterPosition = getChildAdapterPosition(childAt)) >= i && childAdapterPosition <= i2) {
-                i4 = Math.min(childAt.getTop(), i4);
-                i5 = Math.max(childAt.getBottom(), i5);
+                i4 = Math.min((int) childAt.getY(), i4);
+                i5 = Math.max(((int) childAt.getY()) + childAt.getHeight(), i5);
+            }
+        }
+        if (i4 < i5) {
+            if (this.backgroundPaint == null) {
+                this.backgroundPaint = new Paint(1);
+            }
+            this.backgroundPaint.setColor(i3);
+            canvas.drawRect(0.0f, i4, getWidth(), i5, this.backgroundPaint);
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public void drawItemBackground(Canvas canvas, int i, int i2, int i3) {
+        int i4 = ConnectionsManager.DEFAULT_DATACENTER_ID;
+        int i5 = Integer.MIN_VALUE;
+        for (int i6 = 0; i6 < getChildCount(); i6++) {
+            View childAt = getChildAt(i6);
+            if (childAt != null && getChildAdapterPosition(childAt) == i) {
+                i4 = (int) childAt.getY();
+                i5 = i2 <= 0 ? childAt.getHeight() + i4 : i4 + i2;
             }
         }
         if (i4 < i5) {

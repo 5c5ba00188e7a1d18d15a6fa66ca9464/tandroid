@@ -491,7 +491,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
         this.includeHint = globalMainSettings.getInt(sb.toString(), 0) < 3;
         this.selectorPaint.setColor(Theme.getColor("listSelectorSDK21", resourcesProvider));
         this.selectorAccentPaint.setColor(ColorUtils.setAlphaComponent(Theme.getColor("windowBackgroundWhiteBlueIcon", resourcesProvider), 30));
-        this.premiumStarColorFilter = new PorterDuffColorFilter(Theme.getColor("windowBackgroundWhiteBlueIcon", resourcesProvider), PorterDuff.Mode.MULTIPLY);
+        this.premiumStarColorFilter = new PorterDuffColorFilter(Theme.getColor("windowBackgroundWhiteBlueIcon", resourcesProvider), PorterDuff.Mode.SRC_IN);
         this.emojiX = num;
         final Integer valueOf = num == null ? null : Integer.valueOf(MathUtils.clamp(num.intValue(), AndroidUtilities.dp(26.0f), AndroidUtilities.dp(292.0f)));
         boolean z2 = valueOf != null && valueOf.intValue() > AndroidUtilities.dp(170.0f);
@@ -567,6 +567,11 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                 SelectAnimatedEmojiDialog.this.lambda$new$1(baseFragment);
             }
         } : null) { // from class: org.telegram.ui.SelectAnimatedEmojiDialog.3
+            @Override // org.telegram.ui.Components.EmojiTabsStrip
+            protected ColorFilter getEmojiColorFilter() {
+                return SelectAnimatedEmojiDialog.this.premiumStarColorFilter;
+            }
+
             @Override // org.telegram.ui.Components.EmojiTabsStrip
             protected boolean onTabClick(int i3) {
                 int i4 = 0;
@@ -1259,7 +1264,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
         canvas.translate(0.0f, -getTranslationY());
         this.emojiSelectView.drawable.setAlpha((int) (this.emojiSelectAlpha * 255.0f));
         this.emojiSelectView.drawable.setBounds(this.emojiSelectRect);
-        this.emojiSelectView.drawable.setColorFilter(new PorterDuffColorFilter(ColorUtils.blendARGB(Theme.getColor("windowBackgroundWhiteBlueIcon", this.resourcesProvider), this.scrimColor, 1.0f - this.scrimAlpha), PorterDuff.Mode.MULTIPLY));
+        this.emojiSelectView.drawable.setColorFilter(new PorterDuffColorFilter(ColorUtils.blendARGB(Theme.getColor("windowBackgroundWhiteBlueIcon", this.resourcesProvider), this.scrimColor, 1.0f - this.scrimAlpha), PorterDuff.Mode.SRC_IN));
         this.emojiSelectView.drawable.draw(canvas);
         canvas.restore();
     }
@@ -3967,12 +3972,13 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
             private void drawImage(Canvas canvas, Drawable drawable, ImageViewEmoji imageViewEmoji, float f) {
                 ImageReceiver imageReceiver;
                 if (drawable != null) {
-                    drawable.setColorFilter(SelectAnimatedEmojiDialog.this.premiumStarColorFilter);
                     drawable.setAlpha((int) (f * 255.0f));
                     if (drawable instanceof AnimatedEmojiDrawable) {
                         ((AnimatedEmojiDrawable) drawable).draw(canvas, false);
+                        drawable.setColorFilter(SelectAnimatedEmojiDialog.this.premiumStarColorFilter);
                     } else {
                         drawable.draw(canvas);
+                        drawable.setColorFilter(SelectAnimatedEmojiDialog.this.premiumStarColorFilter);
                     }
                     PremiumLockIconView premiumLockIconView = imageViewEmoji.premiumLockIconView;
                 } else if ((!imageViewEmoji.isDefaultReaction && !imageViewEmoji.isStaticIcon) || (imageReceiver = imageViewEmoji.imageReceiver) == null) {
@@ -4825,7 +4831,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                 this.imageReceiver.setImage(forDocument, str, ImageLocation.getForDocument(closestPhotoSizeWithSize, tLRPC$Document), "160_160", null, null, svgThumb, tLRPC$Document.size, null, tLRPC$Document, 1);
                 Drawable drawable2 = imageViewEmoji.drawable;
                 if ((drawable2 instanceof AnimatedEmojiDrawable) && ((AnimatedEmojiDrawable) drawable2).canOverrideColor()) {
-                    this.imageReceiver.setColorFilter(SelectAnimatedEmojiDialog.this.premiumStarColorFilter);
+                    this.imageReceiver.setColorFilter(AnimatedEmojiDrawable.isDefaultStatusEmoji((AnimatedEmojiDrawable) imageViewEmoji.drawable) ? SelectAnimatedEmojiDialog.this.premiumStarColorFilter : Theme.chat_animatedEmojiTextColorFilter);
                 }
             }
             imageViewEmoji.getLocationOnScreen(this.tempLocation);

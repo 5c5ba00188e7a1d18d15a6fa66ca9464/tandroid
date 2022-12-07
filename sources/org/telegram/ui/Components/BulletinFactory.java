@@ -1,6 +1,8 @@
 package org.telegram.ui.Components;
 
 import android.content.Context;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.text.SpannableStringBuilder;
 import android.text.TextPaint;
 import android.text.style.ClickableSpan;
@@ -240,6 +242,9 @@ public final class BulletinFactory {
 
     public Bulletin createEmojiBulletin(TLRPC$Document tLRPC$Document, CharSequence charSequence, CharSequence charSequence2, Runnable runnable) {
         Bulletin.LottieLayout lottieLayout = new Bulletin.LottieLayout(getContext(), this.resourcesProvider);
+        if (MessageObject.isTextColorEmoji(tLRPC$Document)) {
+            lottieLayout.imageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor("undo_infoColor"), PorterDuff.Mode.SRC_IN));
+        }
         lottieLayout.setAnimation(tLRPC$Document, 36, 36, new String[0]);
         lottieLayout.textView.setText(charSequence);
         lottieLayout.textView.setTextSize(1, 14.0f);
@@ -251,6 +256,9 @@ public final class BulletinFactory {
 
     public Bulletin createEmojiLoadingBulletin(TLRPC$Document tLRPC$Document, CharSequence charSequence, CharSequence charSequence2, Runnable runnable) {
         Bulletin.LoadingLottieLayout loadingLottieLayout = new Bulletin.LoadingLottieLayout(getContext(), this.resourcesProvider);
+        if (MessageObject.isTextColorEmoji(tLRPC$Document)) {
+            loadingLottieLayout.imageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor("undo_infoColor"), PorterDuff.Mode.SRC_IN));
+        }
         loadingLottieLayout.setAnimation(tLRPC$Document, 36, 36, new String[0]);
         loadingLottieLayout.textView.setTextSize(1, 14.0f);
         loadingLottieLayout.textView.setSingleLine(false);

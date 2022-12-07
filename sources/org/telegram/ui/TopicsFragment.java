@@ -3326,6 +3326,9 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
             if (animatedEmojiDrawable2 != null && this.attached) {
                 animatedEmojiDrawable2.removeView(this);
             }
+            if (animatedEmojiDrawable != null) {
+                animatedEmojiDrawable.setColorFilter(Theme.chat_animatedEmojiTextColorFilter);
+            }
             this.animatedEmojiDrawable = animatedEmojiDrawable;
             if (animatedEmojiDrawable == null || !this.attached) {
                 return;

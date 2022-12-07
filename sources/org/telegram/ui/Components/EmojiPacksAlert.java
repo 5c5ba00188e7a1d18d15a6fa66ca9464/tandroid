@@ -136,7 +136,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
                 EmojiPacksAlert.this.listView.getAdapter().notifyDataSetChanged();
             }
         };
-        final PorterDuffColorFilter porterDuffColorFilter = new PorterDuffColorFilter(ColorUtils.setAlphaComponent(getThemedColor("windowBackgroundWhiteLinkText"), 178), PorterDuff.Mode.MULTIPLY);
+        new PorterDuffColorFilter(ColorUtils.setAlphaComponent(getThemedColor("windowBackgroundWhiteLinkText"), 178), PorterDuff.Mode.MULTIPLY);
         this.containerView = new FrameLayout(context) { // from class: org.telegram.ui.Components.EmojiPacksAlert.2
             boolean attached;
             private Paint paint = new Paint();
@@ -217,7 +217,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
                                     longSparseArray.put(documentId, make);
                                     animatedEmojiDrawable = make;
                                 }
-                                animatedEmojiDrawable.setColorFilter(porterDuffColorFilter);
+                                animatedEmojiDrawable.setColorFilter(Theme.chat_animatedEmojiTextColorFilter);
                                 animatedEmojiDrawable.addView(this);
                                 ArrayList<EmojiImageView> arrayList2 = this.viewsGroupedByLines.get(childAt.getTop());
                                 if (arrayList2 == null) {
@@ -342,6 +342,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
                             android.graphics.Rect rect = AndroidUtilities.rectTmp2;
                             rect.set(emojiImageView.getLeft() + emojiImageView.getPaddingLeft(), emojiImageView.getPaddingTop(), emojiImageView.getRight() - emojiImageView.getPaddingRight(), emojiImageView.getMeasuredHeight() - emojiImageView.getPaddingBottom());
                             emojiImageView.backgroundThreadDrawHolder[this.threadIndex].setBounds(rect);
+                            animatedEmojiDrawable.setColorFilter(Theme.chat_animatedEmojiTextColorFilter);
                             emojiImageView.imageReceiver = animatedEmojiDrawable.getImageReceiver();
                             this.drawInBackgroundViews.add(emojiImageView);
                         }

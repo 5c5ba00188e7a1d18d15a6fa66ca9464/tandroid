@@ -45,10 +45,10 @@ import org.telegram.ui.TopicsFragment;
 /* loaded from: classes3.dex */
 public class ForumUtilities {
     public static void setTopicIcon(BackupImageView backupImageView, TLRPC$TL_forumTopic tLRPC$TL_forumTopic) {
-        setTopicIcon(backupImageView, tLRPC$TL_forumTopic, false, null);
+        setTopicIcon(backupImageView, tLRPC$TL_forumTopic, false, false, null);
     }
 
-    public static void setTopicIcon(BackupImageView backupImageView, TLRPC$TL_forumTopic tLRPC$TL_forumTopic, boolean z, Theme.ResourcesProvider resourcesProvider) {
+    public static void setTopicIcon(BackupImageView backupImageView, TLRPC$TL_forumTopic tLRPC$TL_forumTopic, boolean z, boolean z2, Theme.ResourcesProvider resourcesProvider) {
         if (tLRPC$TL_forumTopic == null || backupImageView == null) {
             return;
         }
@@ -61,7 +61,9 @@ public class ForumUtilities {
             if (animatedEmojiDrawable != null && tLRPC$TL_forumTopic.icon_emoji_id == animatedEmojiDrawable.getDocumentId()) {
                 return;
             }
-            backupImageView.setAnimatedEmojiDrawable(new AnimatedEmojiDrawable(z ? 11 : 10, UserConfig.selectedAccount, tLRPC$TL_forumTopic.icon_emoji_id));
+            AnimatedEmojiDrawable animatedEmojiDrawable2 = new AnimatedEmojiDrawable(z2 ? 11 : 10, UserConfig.selectedAccount, tLRPC$TL_forumTopic.icon_emoji_id);
+            animatedEmojiDrawable2.setColorFilter(z ? new PorterDuffColorFilter(Theme.getColor("actionBarDefaultTitle"), PorterDuff.Mode.SRC_IN) : Theme.chat_animatedEmojiTextColorFilter);
+            backupImageView.setAnimatedEmojiDrawable(animatedEmojiDrawable2);
         } else {
             backupImageView.setAnimatedEmojiDrawable(null);
             backupImageView.setImageDrawable(createTopicDrawable(tLRPC$TL_forumTopic));

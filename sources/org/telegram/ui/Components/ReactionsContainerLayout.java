@@ -1383,8 +1383,12 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
             } else {
                 this.pressedBackupImageView.getImageReceiver().clearImage();
                 this.loopImageView.getImageReceiver().clearImage();
-                this.pressedBackupImageView.setAnimatedEmojiDrawable(new AnimatedEmojiDrawable(4, ReactionsContainerLayout.this.currentAccount, this.currentReaction.documentId));
-                this.loopImageView.setAnimatedEmojiDrawable(new AnimatedEmojiDrawable(3, ReactionsContainerLayout.this.currentAccount, this.currentReaction.documentId));
+                AnimatedEmojiDrawable animatedEmojiDrawable = new AnimatedEmojiDrawable(4, ReactionsContainerLayout.this.currentAccount, this.currentReaction.documentId);
+                animatedEmojiDrawable.setColorFilter(Theme.chat_animatedEmojiTextColorFilter);
+                this.pressedBackupImageView.setAnimatedEmojiDrawable(animatedEmojiDrawable);
+                AnimatedEmojiDrawable animatedEmojiDrawable2 = new AnimatedEmojiDrawable(3, ReactionsContainerLayout.this.currentAccount, this.currentReaction.documentId);
+                animatedEmojiDrawable2.setColorFilter(Theme.chat_animatedEmojiTextColorFilter);
+                this.loopImageView.setAnimatedEmojiDrawable(animatedEmojiDrawable2);
             }
             setFocusable(true);
             this.shouldSwitchToLoopView = this.hasEnterAnimation && ReactionsContainerLayout.this.showCustomEmojiReaction();

@@ -6136,7 +6136,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         if (iNavigationLayout == null || iNavigationLayout.getDrawerLayoutContainer() == null) {
             return;
         }
-        this.parentLayout.getDrawerLayoutContainer().setAllowOpenDrawerBySwipe(this.isFirstTab && !this.searchIsShowed && SharedConfig.getChatSwipeAction(this.currentAccount) == 5 && ((rightSlidingDialogContainer = this.rightSlidingDialogContainer) == null || !rightSlidingDialogContainer.hasFragment()));
+        this.parentLayout.getDrawerLayoutContainer().setAllowOpenDrawerBySwipe(((this.isFirstTab && SharedConfig.getChatSwipeAction(this.currentAccount) == 5) || SharedConfig.getChatSwipeAction(this.currentAccount) != 5) && !this.searchIsShowed && ((rightSlidingDialogContainer = this.rightSlidingDialogContainer) == null || !rightSlidingDialogContainer.hasFragment()));
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment

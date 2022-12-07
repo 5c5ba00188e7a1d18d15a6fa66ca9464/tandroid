@@ -3192,6 +3192,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                         rect.set((imageViewEmoji.getLeft() + imageViewEmoji.getPaddingLeft()) - this.startOffset, height, (imageViewEmoji.getRight() - imageViewEmoji.getPaddingRight()) - this.startOffset, ((imageViewEmoji.getMeasuredHeight() + height) - imageViewEmoji.getPaddingTop()) - imageViewEmoji.getPaddingBottom());
                         imageViewEmoji.backgroundThreadDrawHolder[this.threadIndex].setBounds(rect);
                         imageViewEmoji.drawable = animatedEmojiDrawable;
+                        animatedEmojiDrawable.setColorFilter(Theme.chat_animatedEmojiTextColorFilter);
                         animatedEmojiDrawable.getImageReceiver();
                         this.drawInBackgroundViews.add(imageViewEmoji);
                     }

@@ -148,7 +148,8 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
                 }, 0, spannableString.length(), 33);
                 AnimatedEmojiDrawable make = AnimatedEmojiDrawable.make(i, 0, tLRPC$Document);
                 this.emojiDrawable = make;
-                make.addView(this);
+                make.setColorFilter(Theme.chat_animatedEmojiTextColorFilter);
+                this.emojiDrawable.addView(this);
                 SpannableString spannableString2 = new SpannableString(str);
                 spannableString2.setSpan(new BoldAndAccent(), 0, spannableString2.length(), 33);
                 this.mainText = new SpannableStringBuilder().append((CharSequence) split[0]).append((CharSequence) spannableString).append(' ').append((CharSequence) spannableString2).append((CharSequence) split[1]);

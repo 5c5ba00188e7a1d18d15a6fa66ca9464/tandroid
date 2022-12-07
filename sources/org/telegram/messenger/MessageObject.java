@@ -150,6 +150,7 @@ import org.telegram.tgnet.TLRPC$TL_forumTopic;
 import org.telegram.tgnet.TLRPC$TL_game;
 import org.telegram.tgnet.TLRPC$TL_inputMessageEntityMentionName;
 import org.telegram.tgnet.TLRPC$TL_inputStickerSetEmpty;
+import org.telegram.tgnet.TLRPC$TL_inputStickerSetID;
 import org.telegram.tgnet.TLRPC$TL_inputStickerSetShortName;
 import org.telegram.tgnet.TLRPC$TL_keyboardButtonBuy;
 import org.telegram.tgnet.TLRPC$TL_keyboardButtonRow;
@@ -7790,6 +7791,25 @@ public class MessageObject {
             TLRPC$DocumentAttribute tLRPC$DocumentAttribute = tLRPC$Document.attributes.get(i);
             if (tLRPC$DocumentAttribute instanceof TLRPC$TL_documentAttributeCustomEmoji) {
                 return ((TLRPC$TL_documentAttributeCustomEmoji) tLRPC$DocumentAttribute).free;
+            }
+        }
+        return false;
+    }
+
+    public static boolean isTextColorEmoji(TLRPC$Document tLRPC$Document) {
+        if (tLRPC$Document == null) {
+            return false;
+        }
+        getInputStickerSet(tLRPC$Document);
+        int size = tLRPC$Document.attributes.size();
+        for (int i = 0; i < size; i++) {
+            TLRPC$DocumentAttribute tLRPC$DocumentAttribute = tLRPC$Document.attributes.get(i);
+            if (tLRPC$DocumentAttribute instanceof TLRPC$TL_documentAttributeCustomEmoji) {
+                TLRPC$InputStickerSet tLRPC$InputStickerSet = tLRPC$DocumentAttribute.stickerset;
+                if ((tLRPC$InputStickerSet instanceof TLRPC$TL_inputStickerSetID) && tLRPC$InputStickerSet.id == 1269403972611866647L) {
+                    return true;
+                }
+                return ((TLRPC$TL_documentAttributeCustomEmoji) tLRPC$DocumentAttribute).text_color;
             }
         }
         return false;

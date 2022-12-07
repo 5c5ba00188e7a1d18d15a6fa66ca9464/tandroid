@@ -217,7 +217,7 @@ public class DefaultItemAnimator extends SimpleItemAnimator {
         if (getRemoveDelay() > 0) {
             view.bringToFront();
         }
-        animate.setDuration(getRemoveDuration()).setStartDelay(getRemoveDelay()).alpha(0.0f).scaleX(1.0f - animateByScale(view)).scaleY(1.0f - animateByScale(view)).setListener(new AnimatorListenerAdapter() { // from class: androidx.recyclerview.widget.DefaultItemAnimator.4
+        animate.setDuration(getRemoveDuration()).setStartDelay(getRemoveDelay()).setInterpolator(getRemoveInterpolator()).alpha(0.0f).scaleX(1.0f - animateByScale(view)).scaleY(1.0f - animateByScale(view)).setListener(new AnimatorListenerAdapter() { // from class: androidx.recyclerview.widget.DefaultItemAnimator.4
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             public void onAnimationStart(Animator animator) {
                 DefaultItemAnimator.this.dispatchRemoveStarting(viewHolder);
@@ -259,7 +259,7 @@ public class DefaultItemAnimator extends SimpleItemAnimator {
         final View view = viewHolder.itemView;
         final ViewPropertyAnimator animate = view.animate();
         this.mAddAnimations.add(viewHolder);
-        animate.alpha(1.0f).scaleX(1.0f).scaleY(1.0f).setDuration(getAddDuration()).setStartDelay(getAddDelay()).setListener(new AnimatorListenerAdapter() { // from class: androidx.recyclerview.widget.DefaultItemAnimator.5
+        animate.alpha(1.0f).scaleX(1.0f).scaleY(1.0f).setDuration(getAddDuration()).setStartDelay(getAddDelay()).setInterpolator(getAddInterpolator()).setListener(new AnimatorListenerAdapter() { // from class: androidx.recyclerview.widget.DefaultItemAnimator.5
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             public void onAnimationStart(Animator animator) {
                 DefaultItemAnimator.this.dispatchAddStarting(viewHolder);
@@ -335,9 +335,11 @@ public class DefaultItemAnimator extends SimpleItemAnimator {
         Interpolator interpolator = this.translationInterpolator;
         if (interpolator != null) {
             animate.setInterpolator(interpolator);
+        } else {
+            animate.setInterpolator(getMoveInterpolator());
         }
         beforeAnimateMoveImpl(viewHolder);
-        animate.setDuration(getMoveDuration()).setStartDelay(getMoveDelay()).setInterpolator(getMoveInterpolator()).setListener(new AnimatorListenerAdapter() { // from class: androidx.recyclerview.widget.DefaultItemAnimator.6
+        animate.setDuration(getMoveDuration()).setStartDelay(getMoveDelay()).setListener(new AnimatorListenerAdapter() { // from class: androidx.recyclerview.widget.DefaultItemAnimator.6
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             public void onAnimationStart(Animator animator) {
                 DefaultItemAnimator.this.dispatchMoveStarting(viewHolder);
@@ -417,7 +419,7 @@ public class DefaultItemAnimator extends SimpleItemAnimator {
             if (animateByScale(view2) > 0.0f) {
                 startDelay.scaleX(1.0f - animateByScale(view2)).scaleY(1.0f - animateByScale(view2));
             }
-            startDelay.setListener(new AnimatorListenerAdapter() { // from class: androidx.recyclerview.widget.DefaultItemAnimator.7
+            startDelay.setInterpolator(getChangeInterpolator()).setListener(new AnimatorListenerAdapter() { // from class: androidx.recyclerview.widget.DefaultItemAnimator.7
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                 public void onAnimationStart(Animator animator) {
                     DefaultItemAnimator.this.dispatchChangeStarting(changeInfo.oldHolder, true);
@@ -442,7 +444,7 @@ public class DefaultItemAnimator extends SimpleItemAnimator {
         if (view != null) {
             final ViewPropertyAnimator animate = view.animate();
             this.mChangeAnimations.add(changeInfo.newHolder);
-            animate.translationX(0.0f).translationY(0.0f).setDuration(getChangeAddDuration()).setStartDelay(getChangeDelay() + (getChangeDuration() - getChangeAddDuration())).alpha(1.0f);
+            animate.translationX(0.0f).translationY(0.0f).setDuration(getChangeAddDuration()).setStartDelay(getChangeDelay() + (getChangeDuration() - getChangeAddDuration())).setInterpolator(getChangeInterpolator()).alpha(1.0f);
             if (animateByScale(view) > 0.0f) {
                 animate.scaleX(1.0f).scaleY(1.0f);
             }

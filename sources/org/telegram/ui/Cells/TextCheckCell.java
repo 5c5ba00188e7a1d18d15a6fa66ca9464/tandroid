@@ -49,6 +49,7 @@ public class TextCheckCell extends FrameLayout {
     private boolean isMultiline;
     private float lastTouchX;
     private boolean needDivider;
+    private int padding;
     private Theme.ResourcesProvider resourcesProvider;
     private TextView textView;
     private TextView valueTextView;
@@ -73,6 +74,7 @@ public class TextCheckCell extends FrameLayout {
         super(context);
         this.height = 50;
         this.resourcesProvider = resourcesProvider;
+        this.padding = i;
         TextView textView = new TextView(context);
         this.textView = textView;
         textView.setTextColor(Theme.getColor(z ? "dialogTextBlack" : "windowBackgroundWhiteBlackText", resourcesProvider));
@@ -143,6 +145,26 @@ public class TextCheckCell extends FrameLayout {
         layoutParams.topMargin = 0;
         this.textView.setLayoutParams(layoutParams);
         setWillNotDraw(!z2);
+    }
+
+    public void updateRTL() {
+        int i = 5;
+        this.textView.setGravity((LocaleController.isRTL ? 5 : 3) | 16);
+        removeView(this.textView);
+        TextView textView = this.textView;
+        boolean z = LocaleController.isRTL;
+        addView(textView, LayoutHelper.createFrame(-1, -1.0f, (z ? 5 : 3) | 48, z ? 70.0f : this.padding, 0.0f, z ? this.padding : 70.0f, 0.0f));
+        this.valueTextView.setGravity(LocaleController.isRTL ? 5 : 3);
+        removeView(this.valueTextView);
+        TextView textView2 = this.valueTextView;
+        boolean z2 = LocaleController.isRTL;
+        addView(textView2, LayoutHelper.createFrame(-2, -2.0f, (z2 ? 5 : 3) | 48, z2 ? 64.0f : this.padding, 36.0f, z2 ? this.padding : 64.0f, 0.0f));
+        removeView(this.checkBox);
+        Switch r0 = this.checkBox;
+        if (LocaleController.isRTL) {
+            i = 3;
+        }
+        addView(r0, LayoutHelper.createFrame(37, 20.0f, i | 16, 22.0f, 0.0f, 22.0f, 0.0f));
     }
 
     public void setColors(String str, String str2, String str3, String str4, String str5) {

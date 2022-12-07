@@ -3,6 +3,8 @@ package org.telegram.ui.Components.Reactions;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.text.TextPaint;
@@ -482,6 +484,7 @@ public class ReactionsLayoutInBubble {
         public int animateFromX;
         public int animateFromY;
         AnimatedEmojiDrawable animatedEmojiDrawable;
+        int animatedEmojiDrawableColor;
         public int animationType;
         AvatarsDrawable avatarsDrawable;
         int backgroundColor;
@@ -670,6 +673,12 @@ public class ReactionsLayoutInBubble {
         private void drawImage(Canvas canvas, float f) {
             AnimatedEmojiDrawable animatedEmojiDrawable = this.animatedEmojiDrawable;
             ImageReceiver imageReceiver = animatedEmojiDrawable != null ? animatedEmojiDrawable.getImageReceiver() : this.imageReceiver;
+            AnimatedEmojiDrawable animatedEmojiDrawable2 = this.animatedEmojiDrawable;
+            if (animatedEmojiDrawable2 != null && this.animatedEmojiDrawableColor != this.lastDrawnTextColor) {
+                int i = this.lastDrawnTextColor;
+                this.animatedEmojiDrawableColor = i;
+                animatedEmojiDrawable2.setColorFilter(new PorterDuffColorFilter(i, PorterDuff.Mode.SRC_IN));
+            }
             boolean z = false;
             if (this.drawImage && (this.realCount > 1 || !ReactionsEffectOverlay.isPlaying(ReactionsLayoutInBubble.this.messageObject.getId(), ReactionsLayoutInBubble.this.messageObject.getGroupId(), this.visibleReaction) || !this.isSelected)) {
                 ImageReceiver imageReceiver2 = ReactionsLayoutInBubble.this.animatedReactions.get(this.visibleReaction);

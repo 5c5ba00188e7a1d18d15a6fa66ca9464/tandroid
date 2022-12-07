@@ -178,6 +178,7 @@ public class Theme {
     public static TextPaint chat_actionTextPaint = null;
     public static TextPaint chat_actionTextPaint2 = null;
     public static TextPaint chat_adminPaint = null;
+    public static PorterDuffColorFilter chat_animatedEmojiTextColorFilter = null;
     public static Drawable chat_attachEmptyDrawable = null;
     public static TextPaint chat_audioPerformerPaint = null;
     public static TextPaint chat_audioTimePaint = null;
@@ -8831,6 +8832,7 @@ public class Theme {
                 dialogs_unarchiveDrawable.setLayerColor("Box2.**", getNonAnimatedColor("chats_archiveIcon"));
                 dialogs_unarchiveDrawable.setLayerColor("Box1.**", getNonAnimatedColor("chats_archiveIcon"));
                 dialogs_unarchiveDrawable.commitApplyLayerColors();
+                chat_animatedEmojiTextColorFilter = new PorterDuffColorFilter(getColor("windowBackgroundWhiteBlackText"), PorterDuff.Mode.SRC_IN);
                 PremiumGradient.getInstance().checkIconColors();
                 return;
             }

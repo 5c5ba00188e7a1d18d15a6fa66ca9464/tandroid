@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PorterDuff;
@@ -671,6 +672,10 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
         this.contentView.invalidate();
     }
 
+    protected ColorFilter getEmojiColorFilter() {
+        return Theme.chat_animatedEmojiTextColorFilter;
+    }
+
     /* JADX INFO: Access modifiers changed from: private */
     public int selectorColor() {
         return Theme.getColor("chat_emojiPanelIcon", this.resourcesProvider) & 788529151;
@@ -685,6 +690,7 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
         private boolean forceSelector;
         public Integer id;
         private ImageView imageView;
+        private boolean isAnimatedEmoji;
         private ValueAnimator lockAnimator;
         private float lockT;
         private PremiumLockIconView lockView;
@@ -771,9 +777,18 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
                         }
                     }
                 }
+
+                @Override // android.widget.ImageView
+                public void setImageDrawable(Drawable drawable2) {
+                    super.setImageDrawable(drawable2);
+                }
             };
             this.imageView = imageView;
             imageView.setImageDrawable(drawable);
+            if (drawable instanceof AnimatedEmojiDrawable) {
+                this.isAnimatedEmoji = true;
+                this.imageView.setColorFilter(EmojiTabsStrip.this.getEmojiColorFilter());
+            }
             addView(this.imageView);
             PremiumLockIconView premiumLockIconView = new PremiumLockIconView(context, PremiumLockIconView.TYPE_STICKERS_PREMIUM_LOCKED, EmojiTabsStrip.this.resourcesProvider);
             this.lockView = premiumLockIconView;
@@ -1000,7 +1015,7 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
         private void setColor(int i) {
             PorterDuffColorFilter porterDuffColorFilter = new PorterDuffColorFilter(i, PorterDuff.Mode.MULTIPLY);
             ImageView imageView = this.imageView;
-            if (imageView != null) {
+            if (imageView != null && !this.isAnimatedEmoji) {
                 imageView.setColorFilter(porterDuffColorFilter);
                 this.imageView.invalidate();
             }

@@ -317,8 +317,9 @@ public class StickerSetCell extends FrameLayout {
             i = 0;
         }
         imageView.setVisibility(i);
-        ArrayList<TLRPC$Document> arrayList = tLRPC$TL_messages_stickerSet.documents;
         TLRPC$Document tLRPC$Document = null;
+        this.imageView.setColorFilter(null);
+        ArrayList<TLRPC$Document> arrayList = tLRPC$TL_messages_stickerSet.documents;
         String str = "EmojiCount";
         if (arrayList != null && !arrayList.isEmpty()) {
             TextView textView = this.valueTextView;
@@ -342,28 +343,32 @@ public class StickerSetCell extends FrameLayout {
             if (tLRPC$Document == null) {
                 tLRPC$Document = arrayList.get(0);
             }
+            TLRPC$Document tLRPC$Document3 = tLRPC$Document;
             TLObject closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(tLRPC$TL_messages_stickerSet.set.thumbs, 90);
             if (closestPhotoSizeWithSize == null) {
-                closestPhotoSizeWithSize = tLRPC$Document;
+                closestPhotoSizeWithSize = tLRPC$Document3;
             }
             SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(tLRPC$TL_messages_stickerSet.set.thumbs, "windowBackgroundGray", 1.0f);
             boolean z4 = closestPhotoSizeWithSize instanceof TLRPC$Document;
             if (z4) {
-                forSticker = ImageLocation.getForDocument(FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 90), tLRPC$Document);
+                forSticker = ImageLocation.getForDocument(FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document3.thumbs, 90), tLRPC$Document3);
             } else {
-                forSticker = ImageLocation.getForSticker((TLRPC$PhotoSize) closestPhotoSizeWithSize, tLRPC$Document, tLRPC$TL_messages_stickerSet.set.thumb_version);
+                forSticker = ImageLocation.getForSticker((TLRPC$PhotoSize) closestPhotoSizeWithSize, tLRPC$Document3, tLRPC$TL_messages_stickerSet.set.thumb_version);
             }
             ImageLocation imageLocation = forSticker;
-            if ((!z4 || !MessageObject.isAnimatedStickerDocument(tLRPC$Document, true)) && !MessageObject.isVideoSticker(tLRPC$Document)) {
-                if (imageLocation != null && imageLocation.imageType == 1) {
-                    this.imageView.setImage(imageLocation, "50_50", "tgs", svgThumb, tLRPC$TL_messages_stickerSet);
+            if ((z4 && MessageObject.isAnimatedStickerDocument(tLRPC$Document3, true)) || MessageObject.isVideoSticker(tLRPC$Document3)) {
+                if (svgThumb != null) {
+                    this.imageView.setImage(ImageLocation.getForDocument(tLRPC$Document3), "50_50", svgThumb, 0, tLRPC$TL_messages_stickerSet);
                 } else {
-                    this.imageView.setImage(imageLocation, "50_50", "webp", svgThumb, tLRPC$TL_messages_stickerSet);
+                    this.imageView.setImage(ImageLocation.getForDocument(tLRPC$Document3), "50_50", imageLocation, (String) null, 0, tLRPC$TL_messages_stickerSet);
                 }
-            } else if (svgThumb != null) {
-                this.imageView.setImage(ImageLocation.getForDocument(tLRPC$Document), "50_50", svgThumb, 0, tLRPC$TL_messages_stickerSet);
+                if (MessageObject.isTextColorEmoji(tLRPC$Document3)) {
+                    this.imageView.setColorFilter(Theme.chat_animatedEmojiTextColorFilter);
+                }
+            } else if (imageLocation != null && imageLocation.imageType == 1) {
+                this.imageView.setImage(imageLocation, "50_50", "tgs", svgThumb, tLRPC$TL_messages_stickerSet);
             } else {
-                this.imageView.setImage(ImageLocation.getForDocument(tLRPC$Document), "50_50", imageLocation, (String) null, 0, tLRPC$TL_messages_stickerSet);
+                this.imageView.setImage(imageLocation, "50_50", "webp", svgThumb, tLRPC$TL_messages_stickerSet);
             }
         } else {
             TextView textView2 = this.valueTextView;

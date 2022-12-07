@@ -1644,6 +1644,6 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
         this.selectedDialogsCountTextView.setTextColor(Theme.getColor("actionBarActionModeDefaultIcon"));
         createActionMode.addView(this.selectedDialogsCountTextView, LayoutHelper.createLinear(0, -1, 1.0f, 72, 0, 0, 0));
         this.selectedDialogsCountTextView.setOnTouchListener(CacheControlActivity$$ExternalSyntheticLambda3.INSTANCE);
-        createActionMode.addItemWithWidth(1, R.drawable.msg_delete, AndroidUtilities.dp(54.0f), LocaleController.getString("ClearCache", R.string.ClearCache));
+        createActionMode.addItemWithWidth(1, R.drawable.msg_clear, AndroidUtilities.dp(54.0f), LocaleController.getString("ClearCache", R.string.ClearCache));
     }
 }

@@ -64,6 +64,7 @@ public class AnimatedEmojiDrawable extends Drawable {
     private ArrayList<View> views;
     private float alpha = 1.0f;
     private Boolean canOverrideColorCached = null;
+    private Boolean isDefaultStatusEmojiCached = null;
 
     /* loaded from: classes3.dex */
     public interface ReceivedDocument {
@@ -741,14 +742,31 @@ public class AnimatedEmojiDrawable extends Drawable {
         }
     }
 
+    public boolean canOverrideColor() {
+        Boolean bool = this.canOverrideColorCached;
+        if (bool != null) {
+            return bool.booleanValue();
+        }
+        boolean z = false;
+        if (this.document == null) {
+            return false;
+        }
+        if (isDefaultStatusEmoji() || MessageObject.isTextColorEmoji(this.document)) {
+            z = true;
+        }
+        Boolean valueOf = Boolean.valueOf(z);
+        this.canOverrideColorCached = valueOf;
+        return valueOf.booleanValue();
+    }
+
     /* JADX WARN: Code restructure failed: missing block: B:15:0x002c, code lost:
         if (r2 != 2964141614563343L) goto L16;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public boolean canOverrideColor() {
-        Boolean bool = this.canOverrideColorCached;
+    public boolean isDefaultStatusEmoji() {
+        Boolean bool = this.isDefaultStatusEmojiCached;
         if (bool != null) {
             return bool.booleanValue();
         }
@@ -765,13 +783,17 @@ public class AnimatedEmojiDrawable extends Drawable {
                 }
             }
             Boolean valueOf = Boolean.valueOf(z);
-            this.canOverrideColorCached = valueOf;
+            this.isDefaultStatusEmojiCached = valueOf;
             return valueOf.booleanValue();
         }
         z = true;
         Boolean valueOf2 = Boolean.valueOf(z);
-        this.canOverrideColorCached = valueOf2;
+        this.isDefaultStatusEmojiCached = valueOf2;
         return valueOf2.booleanValue();
+    }
+
+    public static boolean isDefaultStatusEmoji(AnimatedEmojiDrawable animatedEmojiDrawable) {
+        return animatedEmojiDrawable != null && animatedEmojiDrawable.isDefaultStatusEmoji();
     }
 
     @Override // android.graphics.drawable.Drawable
@@ -791,7 +813,7 @@ public class AnimatedEmojiDrawable extends Drawable {
 
     @Override // android.graphics.drawable.Drawable
     public void setColorFilter(ColorFilter colorFilter) {
-        if (this.imageReceiver == null) {
+        if (this.imageReceiver == null || this.document == null) {
             this.colorFilterToSet = colorFilter;
         } else if (!canOverrideColor()) {
         } else {
@@ -994,7 +1016,7 @@ public class AnimatedEmojiDrawable extends Drawable {
                 return;
             }
             this.lastColor = num;
-            this.colorFilter = num != null ? new PorterDuffColorFilter(num.intValue(), PorterDuff.Mode.MULTIPLY) : null;
+            this.colorFilter = num != null ? new PorterDuffColorFilter(num.intValue(), PorterDuff.Mode.SRC_IN) : null;
         }
 
         public Integer getColor() {

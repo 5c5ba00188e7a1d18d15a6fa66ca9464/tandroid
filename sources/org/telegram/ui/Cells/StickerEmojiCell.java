@@ -127,11 +127,12 @@ public class StickerEmojiCell extends FrameLayout implements NotificationCenter.
     }
 
     public void setSticker(TLRPC$Document tLRPC$Document, SendMessagesHelper.ImportingSticker importingSticker, Object obj, String str, boolean z) {
+        int i;
         this.currentEmoji = str;
-        boolean isPremiumSticker = MessageObject.isPremiumSticker(tLRPC$Document);
-        this.isPremiumSticker = isPremiumSticker;
+        this.isPremiumSticker = MessageObject.isPremiumSticker(tLRPC$Document);
         this.drawInParentView = false;
-        if (isPremiumSticker) {
+        this.imageView.setColorFilter(null);
+        if (this.isPremiumSticker) {
             this.premiumIconView.setColor(Theme.getColor("windowBackgroundWhite"));
             this.premiumIconView.setWaitingImage();
         }
@@ -139,8 +140,10 @@ public class StickerEmojiCell extends FrameLayout implements NotificationCenter.
         if (importingSticker != null) {
             this.stickerPath = importingSticker;
             if (importingSticker.validated) {
+                i = 4;
                 this.imageView.setImage(ImageLocation.getForPath(importingSticker.path), "80_80", null, null, DocumentObject.getSvgRectThumb("dialogBackgroundGray", 1.0f), 0L, importingSticker.animated ? "tgs" : null, 0, 1);
             } else {
+                i = 4;
                 this.imageView.setImage(null, null, null, null, DocumentObject.getSvgRectThumb("dialogBackgroundGray", 1.0f), 0L, importingSticker.animated ? "tgs" : null, 0, 1);
             }
             if (str != null) {
@@ -148,7 +151,7 @@ public class StickerEmojiCell extends FrameLayout implements NotificationCenter.
                 textView.setText(Emoji.replaceEmoji(str, textView.getPaint().getFontMetricsInt(), AndroidUtilities.dp(16.0f), false));
                 this.emojiTextView.setVisibility(0);
             } else {
-                this.emojiTextView.setVisibility(4);
+                this.emojiTextView.setVisibility(i);
             }
         } else if (tLRPC$Document != null) {
             this.sticker = tLRPC$Document;
@@ -161,6 +164,9 @@ public class StickerEmojiCell extends FrameLayout implements NotificationCenter.
             }
             SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(tLRPC$Document, str2, f);
             String str3 = this.fromEmojiPanel ? "66_66_pcache_compress" : "66_66";
+            if (MessageObject.isTextColorEmoji(tLRPC$Document)) {
+                this.imageView.setColorFilter(Theme.chat_animatedEmojiTextColorFilter);
+            }
             boolean z3 = true;
             if (MessageObject.canAutoplayAnimatedSticker(tLRPC$Document)) {
                 if (this.fromEmojiPanel) {
@@ -189,12 +195,12 @@ public class StickerEmojiCell extends FrameLayout implements NotificationCenter.
                 textView2.setText(Emoji.replaceEmoji(str, textView2.getPaint().getFontMetricsInt(), AndroidUtilities.dp(16.0f), false));
                 this.emojiTextView.setVisibility(0);
             } else if (z) {
-                int i = 0;
+                int i2 = 0;
                 while (true) {
-                    if (i >= tLRPC$Document.attributes.size()) {
+                    if (i2 >= tLRPC$Document.attributes.size()) {
                         break;
                     }
-                    TLRPC$DocumentAttribute tLRPC$DocumentAttribute = tLRPC$Document.attributes.get(i);
+                    TLRPC$DocumentAttribute tLRPC$DocumentAttribute = tLRPC$Document.attributes.get(i2);
                     if (tLRPC$DocumentAttribute instanceof TLRPC$TL_documentAttributeSticker) {
                         String str4 = tLRPC$DocumentAttribute.alt;
                         if (str4 != null && str4.length() > 0) {
@@ -202,7 +208,7 @@ public class StickerEmojiCell extends FrameLayout implements NotificationCenter.
                             textView3.setText(Emoji.replaceEmoji(tLRPC$DocumentAttribute.alt, textView3.getPaint().getFontMetricsInt(), AndroidUtilities.dp(16.0f), false));
                         }
                     } else {
-                        i++;
+                        i2++;
                     }
                 }
                 z3 = false;

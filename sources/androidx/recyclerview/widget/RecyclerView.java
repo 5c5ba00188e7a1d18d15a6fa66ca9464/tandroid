@@ -6582,6 +6582,10 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
 
     /* loaded from: classes.dex */
     public static abstract class ItemAnimator {
+        private TimeInterpolator mAddInterpolator;
+        private TimeInterpolator mChangeInterpolator;
+        private TimeInterpolator mMoveInterpolator;
+        private TimeInterpolator mRemoveInterpolator;
         private ItemAnimatorListener mListener = null;
         private ArrayList<ItemAnimatorFinishedListener> mFinishedListeners = new ArrayList<>();
         private long mAddDuration = 120;
@@ -6589,7 +6593,6 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
         private long mMoveDuration = 250;
         private long mChangeAddDuration = 250;
         private long mChangeRemoveDuration = 250;
-        private TimeInterpolator mMoveInterpolator = null;
         private long mAddDelay = 0;
         private long mRemoveDelay = 0;
         private long mMoveDelay = 0;
@@ -6704,8 +6707,27 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
             this.mMoveInterpolator = timeInterpolator;
         }
 
+        public void setInterpolator(TimeInterpolator timeInterpolator) {
+            this.mAddInterpolator = timeInterpolator;
+            this.mMoveInterpolator = timeInterpolator;
+            this.mRemoveInterpolator = timeInterpolator;
+            this.mChangeInterpolator = timeInterpolator;
+        }
+
+        public TimeInterpolator getAddInterpolator() {
+            return this.mAddInterpolator;
+        }
+
         public TimeInterpolator getMoveInterpolator() {
             return this.mMoveInterpolator;
+        }
+
+        public TimeInterpolator getRemoveInterpolator() {
+            return this.mRemoveInterpolator;
+        }
+
+        public TimeInterpolator getChangeInterpolator() {
+            return this.mChangeInterpolator;
         }
 
         void setListener(ItemAnimatorListener itemAnimatorListener) {

@@ -594,7 +594,9 @@ public class TopicCreateFragment extends BaseFragment {
         }
         this.selectedEmojiDocumentId = longValue;
         if (longValue != 0) {
-            this.backupImageView[1].setAnimatedEmojiDrawable(new AnimatedEmojiDrawable(10, this.currentAccount, longValue));
+            AnimatedEmojiDrawable animatedEmojiDrawable = new AnimatedEmojiDrawable(10, this.currentAccount, longValue);
+            animatedEmojiDrawable.setColorFilter(Theme.chat_animatedEmojiTextColorFilter);
+            this.backupImageView[1].setAnimatedEmojiDrawable(animatedEmojiDrawable);
             this.backupImageView[1].setImageDrawable(null);
         } else {
             LetterDrawable letterDrawable = new LetterDrawable(null, 1);
