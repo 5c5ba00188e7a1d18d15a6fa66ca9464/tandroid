@@ -262,7 +262,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
                 return this.itemInternals.get(i).dialog;
             }
             if (this.itemInternals.get(i).contact != null) {
-                return this.itemInternals.get(i).contact;
+                return MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(this.itemInternals.get(i).contact.user_id));
             }
             if (this.itemInternals.get(i).recentMeUrl != null) {
                 return this.itemInternals.get(i).recentMeUrl;
@@ -778,7 +778,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
                 }
             }
         } else if (itemViewType == 6) {
-            ((UserCell) viewHolder.itemView).setData(MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(((TLRPC$TL_contact) getItem(i)).user_id)), null, null, 0);
+            ((UserCell) viewHolder.itemView).setData((TLRPC$User) getItem(i), null, null, 0);
         } else if (itemViewType == 7) {
             HeaderCell headerCell2 = (HeaderCell) viewHolder.itemView;
             int i8 = this.dialogsType;

@@ -793,6 +793,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
             while (this.filtered2RecentSearchObjects.size() > 0) {
                 RecentSearchObject remove = this.filtered2RecentSearchObjects.remove(0);
                 this.recentSearchObjects.remove(remove);
+                this.filteredRecentSearchObjects.remove(remove);
                 this.recentSearchObjectsById.remove(remove.did);
                 if (sb == null) {
                     sb = new StringBuilder("did IN (");
@@ -809,6 +810,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
             }
         } else {
             this.filtered2RecentSearchObjects.clear();
+            this.filteredRecentSearchObjects.clear();
             this.recentSearchObjects.clear();
             this.recentSearchObjectsById.clear();
             sb = new StringBuilder("1");

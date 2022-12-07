@@ -9332,8 +9332,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 backupImageView.setLayerNum(7);
                 backupImageView.setRoundRadius(AndroidUtilities.dp(4.0f));
                 backupImageView.setImage(forDocument, str2, ImageLocation.getForDocument(closestPhotoSizeWithSize, document), "140_140", svgThumb, document);
-                if (((AnimatedEmojiDrawable) this.emojiStatusDrawable[1].getDrawable()).canOverrideColor()) {
-                    backupImageView.setColorFilter(new PorterDuffColorFilter(getThemedColor("windowBackgroundWhiteBlueIcon"), PorterDuff.Mode.MULTIPLY));
+                if (AnimatedEmojiDrawable.isDefaultStatusEmoji(this.emojiStatusDrawable[1].getDrawable())) {
+                    backupImageView.setColorFilter(new PorterDuffColorFilter(getThemedColor("windowBackgroundWhiteBlueIcon"), PorterDuff.Mode.SRC_IN));
+                } else if (((AnimatedEmojiDrawable) this.emojiStatusDrawable[1].getDrawable()).canOverrideColor()) {
+                    backupImageView.setColorFilter(new PorterDuffColorFilter(getThemedColor("windowBackgroundWhiteBlackText"), PorterDuff.Mode.SRC_IN));
+                    premiumPreviewBottomSheet.statusStickerSet = MessageObject.getInputStickerSet(document);
                 } else {
                     premiumPreviewBottomSheet.statusStickerSet = MessageObject.getInputStickerSet(document);
                 }

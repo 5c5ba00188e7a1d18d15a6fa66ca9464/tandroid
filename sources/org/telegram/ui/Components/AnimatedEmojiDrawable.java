@@ -792,6 +792,13 @@ public class AnimatedEmojiDrawable extends Drawable {
         return valueOf2.booleanValue();
     }
 
+    public static boolean isDefaultStatusEmoji(Drawable drawable) {
+        if (!(drawable instanceof AnimatedEmojiDrawable)) {
+            return false;
+        }
+        return isDefaultStatusEmoji((AnimatedEmojiDrawable) drawable);
+    }
+
     public static boolean isDefaultStatusEmoji(AnimatedEmojiDrawable animatedEmojiDrawable) {
         return animatedEmojiDrawable != null && animatedEmojiDrawable.isDefaultStatusEmoji();
     }

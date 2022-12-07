@@ -33995,98 +33995,105 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     return true;
                 }
             } else if (ChatObject.getPublicUsername(this.currentChat) != null) {
-                if (publicMsgUrlPattern == null) {
-                    publicMsgUrlPattern = Pattern.compile("(https://)?t.me/([0-9a-zA-Z_]+)/([0-9]+)/?([0-9]+)?");
-                    voiceChatUrlPattern = Pattern.compile("(https://)?t.me/([0-9a-zA-Z_]+)\\?(voicechat+)");
-                }
-                Matcher matcher = publicMsgUrlPattern.matcher(str);
-                if (matcher.find(2) && matcher.find(3) && ChatObject.hasPublicLink(this.currentChat, matcher.group(2))) {
-                    Uri parse2 = Uri.parse(str);
-                    int intValue3 = Utilities.parseInt((CharSequence) parse2.getQueryParameter("thread")).intValue();
-                    int intValue4 = Utilities.parseInt((CharSequence) parse2.getQueryParameter("comment")).intValue();
-                    if (intValue3 != 0 || intValue4 != 0) {
-                        return false;
+                try {
+                    if (publicMsgUrlPattern == null) {
+                        publicMsgUrlPattern = Pattern.compile("(https://)?t.me/([0-9a-zA-Z_]+)/([0-9]+)/?([0-9]+)?");
+                        voiceChatUrlPattern = Pattern.compile("(https://)?t.me/([0-9a-zA-Z_]+)\\?(voicechat+)");
                     }
-                    if (matcher.find(4)) {
-                        int parseInt2 = Integer.parseInt(matcher.group(3));
-                        parseInt = Integer.parseInt(matcher.group(4));
-                        i2 = parseInt2;
-                    } else {
-                        parseInt = Integer.parseInt(matcher.group(3));
-                        i2 = 0;
-                    }
-                    if (ChatObject.isForum(this.currentChat) && i2 != getTopicId()) {
-                        return false;
-                    }
-                    this.showScrollToMessageError = true;
-                    if (this.chatMode == 2) {
-                        this.chatActivityDelegate.openReplyMessage(parseInt);
-                        finishFragment();
-                    } else {
-                        int timestampFromLink = LaunchActivity.getTimestampFromLink(parse2);
-                        this.startFromVideoTimestamp = timestampFromLink;
-                        if (timestampFromLink >= 0) {
-                            this.startFromVideoMessageId = parseInt;
+                    Matcher matcher = publicMsgUrlPattern.matcher(str);
+                    if (matcher.find(2) && matcher.find(3) && ChatObject.hasPublicLink(this.currentChat, matcher.group(2))) {
+                        Uri parse2 = Uri.parse(str);
+                        int intValue3 = Utilities.parseInt((CharSequence) parse2.getQueryParameter("thread")).intValue();
+                        int intValue4 = Utilities.parseInt((CharSequence) parse2.getQueryParameter("comment")).intValue();
+                        if (intValue3 == 0 && intValue4 == 0) {
+                            if (matcher.group(4) != null) {
+                                i2 = Integer.parseInt(matcher.group(3));
+                                parseInt = Integer.parseInt(matcher.group(4));
+                            } else {
+                                parseInt = Integer.parseInt(matcher.group(3));
+                                i2 = 0;
+                            }
+                            if (ChatObject.isForum(this.currentChat) && i2 != getTopicId()) {
+                                return false;
+                            }
+                            this.showScrollToMessageError = true;
+                            if (this.chatMode == 2) {
+                                this.chatActivityDelegate.openReplyMessage(parseInt);
+                                finishFragment();
+                            } else {
+                                int timestampFromLink = LaunchActivity.getTimestampFromLink(parse2);
+                                this.startFromVideoTimestamp = timestampFromLink;
+                                if (timestampFromLink >= 0) {
+                                    this.startFromVideoMessageId = parseInt;
+                                }
+                                scrollToMessageId(parseInt, i, true, 0, false, 0);
+                            }
+                            return true;
                         }
-                        scrollToMessageId(parseInt, i, true, 0, false, 0);
+                        return false;
                     }
-                    return true;
-                } else if (str.startsWith("tg:resolve") || str.startsWith("tg://resolve")) {
+                    if (!str.startsWith("tg:resolve") && !str.startsWith("tg://resolve")) {
+                        Matcher matcher2 = voiceChatUrlPattern.matcher(str);
+                        try {
+                            if (matcher2.find(2) && matcher2.find(3) && ChatObject.hasPublicLink(this.currentChat, matcher2.group(2))) {
+                                String queryParameter = Uri.parse(str).getQueryParameter("voicechat");
+                                if (!TextUtils.isEmpty(queryParameter)) {
+                                    this.voiceChatHash = queryParameter;
+                                    checkGroupCallJoin(true);
+                                    return true;
+                                }
+                            }
+                        } catch (Exception e) {
+                            FileLog.e(e);
+                        }
+                    }
                     Uri parse3 = Uri.parse(str.replace("tg:resolve", "tg://telegram.org").replace("tg://resolve", "tg://telegram.org"));
                     String lowerCase = parse3.getQueryParameter("domain").toLowerCase();
                     int intValue5 = Utilities.parseInt((CharSequence) parse3.getQueryParameter("post")).intValue();
                     int intValue6 = Utilities.parseInt((CharSequence) parse3.getQueryParameter("thread")).intValue();
                     int intValue7 = Utilities.parseInt((CharSequence) parse3.getQueryParameter("comment")).intValue();
-                    if (!ChatObject.hasPublicLink(this.currentChat, lowerCase) || intValue5 == 0 || intValue6 != 0 || intValue7 != 0) {
-                        return false;
-                    }
-                    if (this.chatMode == 2) {
-                        this.chatActivityDelegate.openReplyMessage(intValue5);
-                        finishFragment();
-                    } else {
-                        scrollToMessageId(intValue5, i, true, 0, false, 0);
-                    }
-                    return true;
-                } else {
-                    Matcher matcher2 = voiceChatUrlPattern.matcher(str);
-                    try {
-                        if (matcher2.find(2) && matcher2.find(3) && ChatObject.hasPublicLink(this.currentChat, matcher2.group(2))) {
-                            String queryParameter = Uri.parse(str).getQueryParameter("voicechat");
-                            if (!TextUtils.isEmpty(queryParameter)) {
-                                this.voiceChatHash = queryParameter;
-                                checkGroupCallJoin(true);
-                                return true;
-                            }
-                        }
-                    } catch (Exception e) {
-                        FileLog.e(e);
-                    }
-                }
-            } else {
-                if (privateMsgUrlPattern == null) {
-                    privateMsgUrlPattern = Pattern.compile("(https://)?t.me/c/([0-9]+)/([0-9]+)/?([0-9]+)?");
-                }
-                Matcher matcher3 = privateMsgUrlPattern.matcher(str);
-                if (matcher3.find(2) && matcher3.find(3) && !matcher3.find(4)) {
-                    long parseLong = Long.parseLong(matcher3.group(2));
-                    int parseInt3 = Integer.parseInt(matcher3.group(3));
-                    if (parseLong == this.currentChat.id && parseInt3 != 0) {
-                        Uri parse4 = Uri.parse(str);
-                        int intValue8 = Utilities.parseInt((CharSequence) parse4.getQueryParameter("thread")).intValue();
-                        int intValue9 = Utilities.parseInt((CharSequence) parse4.getQueryParameter("topic")).intValue();
-                        int intValue10 = Utilities.parseInt((CharSequence) parse4.getQueryParameter("comment")).intValue();
-                        if (intValue8 != 0 || intValue9 != 0 || intValue10 != 0) {
-                            return false;
-                        }
-                        this.showScrollToMessageError = true;
+                    if (ChatObject.hasPublicLink(this.currentChat, lowerCase) && intValue5 != 0 && intValue6 == 0 && intValue7 == 0) {
                         if (this.chatMode == 2) {
-                            this.chatActivityDelegate.openReplyMessage(parseInt3);
+                            this.chatActivityDelegate.openReplyMessage(intValue5);
                             finishFragment();
                         } else {
-                            scrollToMessageId(parseInt3, i, true, 0, false, 0);
+                            scrollToMessageId(intValue5, i, true, 0, false, 0);
                         }
                         return true;
                     }
+                    return false;
+                } catch (Exception e2) {
+                    FileLog.e(e2);
+                }
+            } else {
+                try {
+                    if (privateMsgUrlPattern == null) {
+                        privateMsgUrlPattern = Pattern.compile("(https://)?t.me/c/([0-9]+)/([0-9]+)/?([0-9]+)?");
+                    }
+                    Matcher matcher3 = privateMsgUrlPattern.matcher(str);
+                    if (matcher3.find(2) && matcher3.find(3) && matcher3.group(4) == null) {
+                        long parseLong = Long.parseLong(matcher3.group(2));
+                        int parseInt2 = Integer.parseInt(matcher3.group(3));
+                        if (parseLong == this.currentChat.id && parseInt2 != 0) {
+                            Uri parse4 = Uri.parse(str);
+                            int intValue8 = Utilities.parseInt((CharSequence) parse4.getQueryParameter("thread")).intValue();
+                            int intValue9 = Utilities.parseInt((CharSequence) parse4.getQueryParameter("topic")).intValue();
+                            int intValue10 = Utilities.parseInt((CharSequence) parse4.getQueryParameter("comment")).intValue();
+                            if (intValue8 == 0 && intValue9 == 0 && intValue10 == 0) {
+                                this.showScrollToMessageError = true;
+                                if (this.chatMode == 2) {
+                                    this.chatActivityDelegate.openReplyMessage(parseInt2);
+                                    finishFragment();
+                                } else {
+                                    scrollToMessageId(parseInt2, i, true, 0, false, 0);
+                                }
+                                return true;
+                            }
+                            return false;
+                        }
+                    }
+                } catch (Exception e3) {
+                    FileLog.e(e3);
                 }
             }
         }

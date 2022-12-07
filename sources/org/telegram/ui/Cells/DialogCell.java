@@ -6200,18 +6200,18 @@ public class DialogCell extends BaseCell {
             this.waitngNewMessageFroTypingAnimation = false;
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:27:0x00f4, code lost:
-            if (org.telegram.messenger.MessagesController.getInstance(r17.this$0.currentAccount).getTopicsController().endIsReached(-r17.this$0.currentDialogId) != false) goto L98;
+        /* JADX WARN: Code restructure failed: missing block: B:33:0x0108, code lost:
+            if (org.telegram.messenger.MessagesController.getInstance(r17.this$0.currentAccount).getTopicsController().endIsReached(-r17.this$0.currentDialogId) != false) goto L104;
          */
-        /* JADX WARN: Removed duplicated region for block: B:30:0x00ff  */
-        /* JADX WARN: Removed duplicated region for block: B:35:0x0144  */
-        /* JADX WARN: Removed duplicated region for block: B:45:0x0173  */
-        /* JADX WARN: Removed duplicated region for block: B:66:0x01bf  */
-        /* JADX WARN: Removed duplicated region for block: B:70:0x0200  */
-        /* JADX WARN: Removed duplicated region for block: B:74:0x01ca  */
-        /* JADX WARN: Removed duplicated region for block: B:90:0x01b2  */
-        /* JADX WARN: Removed duplicated region for block: B:92:0x0146  */
-        /* JADX WARN: Removed duplicated region for block: B:94:0x0126  */
+        /* JADX WARN: Removed duplicated region for block: B:100:0x013a  */
+        /* JADX WARN: Removed duplicated region for block: B:36:0x0113  */
+        /* JADX WARN: Removed duplicated region for block: B:41:0x0158  */
+        /* JADX WARN: Removed duplicated region for block: B:51:0x0187  */
+        /* JADX WARN: Removed duplicated region for block: B:72:0x01d3  */
+        /* JADX WARN: Removed duplicated region for block: B:76:0x0214  */
+        /* JADX WARN: Removed duplicated region for block: B:80:0x01de  */
+        /* JADX WARN: Removed duplicated region for block: B:96:0x01c6  */
+        /* JADX WARN: Removed duplicated region for block: B:98:0x015a  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -6223,7 +6223,7 @@ public class DialogCell extends BaseCell {
                 return false;
             }
             int id = DialogCell.this.message == null ? 0 : DialogCell.this.message.getId();
-            long j = tLRPC$Dialog.read_inbox_max_id + (tLRPC$Dialog.read_outbox_max_id << 8) + ((tLRPC$Dialog.unread_count + (tLRPC$Dialog.unread_mark ? -1 : 0)) << 16);
+            long j = tLRPC$Dialog.read_inbox_max_id + (tLRPC$Dialog.read_outbox_max_id << 8) + ((tLRPC$Dialog.unread_count + (tLRPC$Dialog.unread_mark ? -1 : 0)) << 16) + (tLRPC$Dialog.unread_reactions_count > 0 ? 262144 : 0) + (tLRPC$Dialog.unread_mentions_count > 0 ? 524288 : 0);
             TLRPC$DraftMessage tLRPC$DraftMessage = null;
             Integer printingStringType = (DialogCell.this.isForumCell() || (!DialogCell.this.isDialogCell && !DialogCell.this.isTopic) || TextUtils.isEmpty(MessagesController.getInstance(DialogCell.this.currentAccount).getPrintingString(DialogCell.this.currentDialogId, DialogCell.this.getTopicId(), true))) ? null : MessagesController.getInstance(DialogCell.this.currentAccount).getPrintingStringType(DialogCell.this.currentDialogId, DialogCell.this.getTopicId());
             int measuredWidth = DialogCell.this.getMeasuredWidth() + (DialogCell.this.getMeasuredHeight() << 16);
