@@ -488,7 +488,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$new$0() {
-            this.dialogsAdapter.updateList(this.listView);
+            this.dialogsAdapter.updateList(this.listView, this.dialogsType == 0 && DialogsActivity.this.hasHiddenArchive());
             this.listView.updateDialogsOnNextDraw = true;
             this.updating = false;
         }
@@ -1776,7 +1776,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             if (this.firstLayout && DialogsActivity.this.getMessagesController().dialogsLoaded) {
                 if (this.parentPage.dialogsType == 0 && DialogsActivity.this.hasHiddenArchive()) {
                     this.ignoreLayout = true;
-                    ((LinearLayoutManager) getLayoutManager()).scrollToPositionWithOffset(1, (int) ((BaseFragment) DialogsActivity.this).actionBar.getTranslationY());
+                    ((LinearLayoutManager) getLayoutManager()).scrollToPositionWithOffset(1, 0);
                     this.ignoreLayout = false;
                 }
                 this.firstLayout = false;
@@ -2067,7 +2067,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         @Override // androidx.recyclerview.widget.ItemTouchHelper.Callback
         public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
             TLRPC$Dialog tLRPC$Dialog;
-            if (!DialogsActivity.this.waitingForDialogsAnimationEnd(this.parentPage) && (((BaseFragment) DialogsActivity.this).parentLayout == null || !((BaseFragment) DialogsActivity.this).parentLayout.isInPreviewMode())) {
+            if (!DialogsActivity.this.waitingForDialogsAnimationEnd(this.parentPage) && ((((BaseFragment) DialogsActivity.this).parentLayout == null || !((BaseFragment) DialogsActivity.this).parentLayout.isInPreviewMode()) && !DialogsActivity.this.rightSlidingDialogContainer.hasFragment())) {
                 if (!this.swipingFolder || !this.swipeFolderBack) {
                     if (!DialogsActivity.this.onlySelect && this.parentPage.isDefaultDialogType() && DialogsActivity.this.slidingView == null) {
                         View view = viewHolder.itemView;
@@ -3874,6 +3874,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     this.transitionPage.listView.setClipChildren(false);
                     ((BaseFragment) DialogsActivity.this).actionBar.setAllowOverlayTitle(false);
                     this.transitionPage.listView.stopScroll();
+                    DialogsActivity.this.updateDrawerSwipeEnabled();
                 }
 
                 @Override // org.telegram.ui.RightSlidingDialogContainer
@@ -3897,6 +3898,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     this.transitionPage.layoutManager.setNeedFixEndGap(true ^ hasFragment());
                     DialogsActivity.this.setScrollY(0.0f);
                     DialogsActivity.this.searchViewPager.updateTabs();
+                    DialogsActivity.this.updateDrawerSwipeEnabled();
                 }
 
                 @Override // org.telegram.ui.RightSlidingDialogContainer
@@ -4145,6 +4147,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 this.transitionPage.listView.setClipChildren(false);
                 ((BaseFragment) DialogsActivity.this).actionBar.setAllowOverlayTitle(false);
                 this.transitionPage.listView.stopScroll();
+                DialogsActivity.this.updateDrawerSwipeEnabled();
             }
 
             @Override // org.telegram.ui.RightSlidingDialogContainer
@@ -4168,6 +4171,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 this.transitionPage.layoutManager.setNeedFixEndGap(true ^ hasFragment());
                 DialogsActivity.this.setScrollY(0.0f);
                 DialogsActivity.this.searchViewPager.updateTabs();
+                DialogsActivity.this.updateDrawerSwipeEnabled();
             }
 
             @Override // org.telegram.ui.RightSlidingDialogContainer
@@ -7188,16 +7192,16 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:104:0x03bc  */
-    /* JADX WARN: Removed duplicated region for block: B:144:0x02cd  */
+    /* JADX WARN: Removed duplicated region for block: B:101:0x03a6  */
+    /* JADX WARN: Removed duplicated region for block: B:106:0x03c5  */
+    /* JADX WARN: Removed duplicated region for block: B:146:0x02d6  */
     /* JADX WARN: Removed duplicated region for block: B:20:0x01f6 A[RETURN] */
     /* JADX WARN: Removed duplicated region for block: B:21:0x01f7  */
-    /* JADX WARN: Removed duplicated region for block: B:226:0x01c8  */
-    /* JADX WARN: Removed duplicated region for block: B:55:0x02c7  */
-    /* JADX WARN: Removed duplicated region for block: B:58:0x02e6  */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x0307  */
-    /* JADX WARN: Removed duplicated region for block: B:96:0x0394  */
-    /* JADX WARN: Removed duplicated region for block: B:99:0x039d  */
+    /* JADX WARN: Removed duplicated region for block: B:228:0x01c8  */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x02d0  */
+    /* JADX WARN: Removed duplicated region for block: B:60:0x02ef  */
+    /* JADX WARN: Removed duplicated region for block: B:68:0x0310  */
+    /* JADX WARN: Removed duplicated region for block: B:98:0x039d  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -7342,7 +7346,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                         if (!validateSlowModeDialog(j)) {
                             return;
                         }
-                        if (!this.selectedDialogs.isEmpty() || (this.initialDialogsType == 3 && this.selectAlertString != null)) {
+                        if (!getMessagesController().isForum(j) && (!this.selectedDialogs.isEmpty() || (this.initialDialogsType == 3 && this.selectAlertString != null))) {
                             if (!this.selectedDialogs.contains(Long.valueOf(j)) && !checkCanWrite(j)) {
                                 return;
                             }
@@ -10810,16 +10814,17 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         }
     }
 
-    public void didSelectResult(final long j, int i, boolean z, final boolean z2) {
+    public void didSelectResult(final long j, final int i, boolean z, final boolean z2) {
         final TLRPC$Chat tLRPC$Chat;
-        final TLRPC$User tLRPC$User;
         String string;
         String formatStringSimple;
         String string2;
+        TLRPC$TL_forumTopic findTopic;
         if (!checkCanWrite(j)) {
             return;
         }
         int i2 = this.initialDialogsType;
+        final TLRPC$User tLRPC$User = null;
         if (i2 == 11 || i2 == 12 || i2 == 13) {
             if (this.checkingImportDialog) {
                 return;
@@ -10830,18 +10835,16 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     getUndoView().showWithAction(j, 45, (Runnable) null);
                     return;
                 } else {
-                    tLRPC$User = user;
                     tLRPC$Chat = null;
+                    tLRPC$User = user;
                 }
             } else {
                 TLRPC$Chat chat = getMessagesController().getChat(Long.valueOf(-j));
                 if (!ChatObject.hasAdminRights(chat) || !ChatObject.canChangeChatInfo(chat)) {
                     getUndoView().showWithAction(j, 46, (Runnable) null);
                     return;
-                } else {
-                    tLRPC$Chat = chat;
-                    tLRPC$User = null;
                 }
+                tLRPC$Chat = chat;
             }
             final AlertDialog alertDialog = new AlertDialog(getParentActivity(), 3);
             final TLRPC$TL_messages_checkHistoryImportPeer tLRPC$TL_messages_checkHistoryImportPeer = new TLRPC$TL_messages_checkHistoryImportPeer();
@@ -10888,13 +10891,17 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 if (chat2 == null) {
                     return;
                 }
+                String str = chat2.title;
+                if (i != 0 && (findTopic = getMessagesController().getTopicsController().findTopic(chat2.id, i)) != null) {
+                    str = ((Object) str) + " " + findTopic.title;
+                }
                 if (this.addToGroupAlertString != null) {
                     string = LocaleController.getString("AddToTheGroupAlertTitle", R.string.AddToTheGroupAlertTitle);
-                    formatStringSimple = LocaleController.formatStringSimple(this.addToGroupAlertString, chat2.title);
+                    formatStringSimple = LocaleController.formatStringSimple(this.addToGroupAlertString, str);
                     string2 = LocaleController.getString("Add", R.string.Add);
                 } else {
                     string = LocaleController.getString("SendMessageTitle", R.string.SendMessageTitle);
-                    formatStringSimple = LocaleController.formatStringSimple(this.selectAlertStringGroup, chat2.title);
+                    formatStringSimple = LocaleController.formatStringSimple(this.selectAlertStringGroup, str);
                     string2 = LocaleController.getString("Send", R.string.Send);
                 }
             }
@@ -10903,7 +10910,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             builder.setPositiveButton(string2, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda12
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i3) {
-                    DialogsActivity.this.lambda$didSelectResult$58(j, dialogInterface, i3);
+                    DialogsActivity.this.lambda$didSelectResult$58(j, i, dialogInterface, i3);
                 }
             });
             builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
@@ -10961,8 +10968,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$didSelectResult$58(long j, DialogInterface dialogInterface, int i) {
-        didSelectResult(j, 0, false, false);
+    public /* synthetic */ void lambda$didSelectResult$58(long j, int i, DialogInterface dialogInterface, int i2) {
+        didSelectResult(j, i, false, false);
     }
 
     public RLottieImageView getFloatingButton() {

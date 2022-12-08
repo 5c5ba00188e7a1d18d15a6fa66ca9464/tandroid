@@ -390,26 +390,35 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
         this.hasHints = this.folderId == 0 && this.dialogsType == 0 && !this.isOnlySelect && !MessagesController.getInstance(this.currentAccount).hintDialogs.isEmpty();
     }
 
-    public void updateList(RecyclerListView recyclerListView) {
+    public void updateList(RecyclerListView recyclerListView, boolean z) {
         this.oldItems.clear();
         this.oldItems.addAll(this.itemInternals);
         updateItemList();
-        if (recyclerListView != null && recyclerListView.getChildCount() > 0) {
+        if (recyclerListView != null && recyclerListView.getChildCount() > 0 && recyclerListView.getLayoutManager() != null) {
             LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerListView.getLayoutManager();
             View view = null;
             int i = ConnectionsManager.DEFAULT_DATACENTER_ID;
-            int i2 = -1;
-            for (int i3 = 0; i3 < recyclerListView.getChildCount(); i3++) {
-                int childAdapterPosition = recyclerListView.getChildAdapterPosition(recyclerListView.getChildAt(i3));
-                View childAt = recyclerListView.getChildAt(i3);
+            int i2 = 0;
+            int i3 = -1;
+            for (int i4 = 0; i4 < recyclerListView.getChildCount(); i4++) {
+                int childAdapterPosition = recyclerListView.getChildAdapterPosition(recyclerListView.getChildAt(i4));
+                View childAt = recyclerListView.getChildAt(i4);
                 if (childAdapterPosition != -1 && childAt.getTop() < i) {
                     i = childAt.getTop();
-                    i2 = childAdapterPosition;
+                    i3 = childAdapterPosition;
                     view = childAt;
                 }
             }
             if (view != null) {
-                linearLayoutManager.scrollToPositionWithOffset(i2, view.getTop() - recyclerListView.getPaddingTop());
+                int top = view.getTop() - recyclerListView.getPaddingTop();
+                if (z && i3 == 0) {
+                    if (view.getTop() - recyclerListView.getPaddingTop() < AndroidUtilities.dp(SharedConfig.useThreeLinesLayout ? 78.0f : 72.0f)) {
+                        i3 = 1;
+                        linearLayoutManager.scrollToPositionWithOffset(i3, i2);
+                    }
+                }
+                i2 = top;
+                linearLayoutManager.scrollToPositionWithOffset(i3, i2);
             }
         }
         DiffUtil.calculateDiff(new DiffUtil.Callback() { // from class: org.telegram.ui.Adapters.DialogsAdapter.1
@@ -424,13 +433,13 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
             }
 
             @Override // androidx.recyclerview.widget.DiffUtil.Callback
-            public boolean areItemsTheSame(int i4, int i5) {
-                return DialogsAdapter.this.oldItems.get(i4).compare(DialogsAdapter.this.itemInternals.get(i5));
+            public boolean areItemsTheSame(int i5, int i6) {
+                return DialogsAdapter.this.oldItems.get(i5).compare(DialogsAdapter.this.itemInternals.get(i6));
             }
 
             @Override // androidx.recyclerview.widget.DiffUtil.Callback
-            public boolean areContentsTheSame(int i4, int i5) {
-                return DialogsAdapter.this.oldItems.get(i4).viewType == DialogsAdapter.this.itemInternals.get(i5).viewType;
+            public boolean areContentsTheSame(int i5, int i6) {
+                return DialogsAdapter.this.oldItems.get(i5).viewType == DialogsAdapter.this.itemInternals.get(i6).viewType;
             }
         }).dispatchUpdatesTo(this);
     }
@@ -838,7 +847,6 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
     }
 
     public void moveDialogs(RecyclerListView recyclerListView, int i, int i2) {
-        char c = 0;
         ArrayList<TLRPC$Dialog> dialogsArray = this.parentFragment.getDialogsArray(this.currentAccount, this.dialogsType, this.folderId, false);
         int fixPosition = fixPosition(i);
         int fixPosition2 = fixPosition(i2);
@@ -846,11 +854,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
         TLRPC$Dialog tLRPC$Dialog2 = dialogsArray.get(fixPosition2);
         int i3 = this.dialogsType;
         if (i3 == 7 || i3 == 8) {
-            MessagesController.DialogFilter[] dialogFilterArr = MessagesController.getInstance(this.currentAccount).selectedDialogFilter;
-            if (this.dialogsType == 8) {
-                c = 1;
-            }
-            MessagesController.DialogFilter dialogFilter = dialogFilterArr[c];
+            MessagesController.DialogFilter dialogFilter = MessagesController.getInstance(this.currentAccount).selectedDialogFilter[this.dialogsType == 8 ? (char) 1 : (char) 0];
             int i4 = dialogFilter.pinnedDialogs.get(tLRPC$Dialog.id);
             dialogFilter.pinnedDialogs.put(tLRPC$Dialog.id, dialogFilter.pinnedDialogs.get(tLRPC$Dialog2.id));
             dialogFilter.pinnedDialogs.put(tLRPC$Dialog2.id, i4);
@@ -860,7 +864,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
             tLRPC$Dialog2.pinnedNum = i5;
         }
         Collections.swap(dialogsArray, fixPosition, fixPosition2);
-        updateList(recyclerListView);
+        updateList(recyclerListView, false);
     }
 
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter

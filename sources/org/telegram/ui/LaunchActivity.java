@@ -9881,6 +9881,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             final boolean z6 = dialogsActivity == null || dialogsActivity.notify;
             if (arrayList.size() <= 1) {
                 long j2 = arrayList.get(0).dialogId;
+                int i2 = arrayList.get(0).topicId;
                 Bundle bundle = new Bundle();
                 bundle.putBoolean("scrollToTopOnResume", true);
                 if (!AndroidUtilities.isTablet()) {
@@ -9896,7 +9897,9 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 if (!MessagesController.getInstance(currentAccount).checkCanOpenChat(bundle, dialogsActivity)) {
                     return;
                 }
-                chatActivity = new ChatActivity(bundle);
+                ChatActivity chatActivity3 = new ChatActivity(bundle);
+                ForumUtilities.applyTopic(chatActivity3, arrayList.get(0));
+                chatActivity = chatActivity3;
             } else {
                 chatActivity = null;
             }
@@ -9920,8 +9923,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             if (this.videoPath == null && this.photoPathsArray == null && this.documentsPathsArray == null && this.documentsUrisArray == null && this.sendingText != null) {
                 size++;
             }
-            for (int i2 = 0; i2 < arrayList.size(); i2++) {
-                if (AlertsCreator.checkSlowMode(this, this.currentAccount, arrayList.get(i2).dialogId, size > 1)) {
+            for (int i3 = 0; i3 < arrayList.size(); i3++) {
+                if (AlertsCreator.checkSlowMode(this, this.currentAccount, arrayList.get(i3).dialogId, size > 1)) {
                     return;
                 }
             }
@@ -9929,20 +9932,20 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             if (arrayList8 != null && arrayList8.size() == 1 && !mainFragmentsStack.isEmpty()) {
                 ArrayList<BaseFragment> arrayList9 = mainFragmentsStack;
                 PhonebookShareAlert phonebookShareAlert = new PhonebookShareAlert(arrayList9.get(arrayList9.size() - 1), null, null, this.contactsToSendUri, null, null, null);
-                final ChatActivity chatActivity3 = chatActivity;
+                final ChatActivity chatActivity4 = chatActivity;
                 phonebookShareAlert.setDelegate(new ChatAttachAlertContactsLayout.PhonebookShareAlertDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda103
                     @Override // org.telegram.ui.Components.ChatAttachAlertContactsLayout.PhonebookShareAlertDelegate
-                    public final void didSelectContact(TLRPC$User tLRPC$User, boolean z7, int i3) {
-                        LaunchActivity.this.lambda$didSelectDialogs$88(chatActivity3, arrayList, currentAccount, charSequence, z6, tLRPC$User, z7, i3);
+                    public final void didSelectContact(TLRPC$User tLRPC$User, boolean z7, int i4) {
+                        LaunchActivity.this.lambda$didSelectDialogs$88(chatActivity4, arrayList, currentAccount, charSequence, z6, tLRPC$User, z7, i4);
                     }
                 });
                 ArrayList<BaseFragment> arrayList10 = mainFragmentsStack;
                 arrayList10.get(arrayList10.size() - 1).showDialog(phonebookShareAlert);
             } else {
                 String str = null;
-                int i3 = 0;
-                while (i3 < arrayList.size()) {
-                    long j3 = arrayList.get(i3).dialogId;
+                int i4 = 0;
+                while (i4 < arrayList.size()) {
+                    long j3 = arrayList.get(i4).dialogId;
                     AccountInstance accountInstance = AccountInstance.getInstance(UserConfig.selectedAccount);
                     if (chatActivity != null) {
                         boolean z7 = dialogsActivity == null || this.videoPath != null || ((arrayList2 = this.photoPathsArray) != null && arrayList2.size() > 0);
@@ -10019,19 +10022,19 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     }
                     ArrayList<TLRPC$User> arrayList15 = this.contactsToSend;
                     if (arrayList15 != null && !arrayList15.isEmpty()) {
-                        for (int i4 = 0; i4 < this.contactsToSend.size(); i4++) {
-                            SendMessagesHelper.getInstance(currentAccount).sendMessage(this.contactsToSend.get(i4), j, (MessageObject) null, (MessageObject) null, (TLRPC$ReplyMarkup) null, (HashMap<String, String>) null, z6, 0);
+                        for (int i5 = 0; i5 < this.contactsToSend.size(); i5++) {
+                            SendMessagesHelper.getInstance(currentAccount).sendMessage(this.contactsToSend.get(i5), j, (MessageObject) null, (MessageObject) null, (TLRPC$ReplyMarkup) null, (HashMap<String, String>) null, z6, 0);
                         }
                     }
                     if (!TextUtils.isEmpty(charSequence) && !z2 && !z3) {
                         SendMessagesHelper.prepareSendingText(accountInstance, charSequence.toString(), j, z6, 0);
                     }
-                    i3++;
+                    i4++;
                     chatActivity = chatActivity2;
                 }
             }
-            ChatActivity chatActivity4 = chatActivity;
-            if (dialogsActivity != null && chatActivity4 == null) {
+            ChatActivity chatActivity5 = chatActivity;
+            if (dialogsActivity != null && chatActivity5 == null) {
                 dialogsActivity.finishFragment();
             }
         }
