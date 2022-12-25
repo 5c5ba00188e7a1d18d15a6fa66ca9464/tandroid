@@ -989,6 +989,7 @@ updateStickerSetsOrder#bb2d201 flags:# masks:flags.0?true emojis:flags.1?true or
 updateTheme#8216fba3 theme:Theme = Update;
 updateTranscribeAudio#88617090 flags:# final:flags.0?true transcription_id:long text:string = Update;
 updateTranscribedAudio#84cd5a flags:# pending:flags.0?true peer:Peer msg_id:int transcription_id:long text:string = Update;
+updateUser#20529438 user_id:long = Update;
 updateUserEmojiStatus#28373599 user_id:long emoji_status:EmojiStatus = Update;
 updateUserName#a7848924 user_id:long first_name:string last_name:string usernames:Vector<Username> = Update;
 updateUserPhone#5492a13 user_id:long phone:string = Update;
