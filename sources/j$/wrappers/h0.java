@@ -2,21 +2,21 @@ package j$.wrappers;
 
 import java.util.function.LongFunction;
 /* loaded from: classes2.dex */
-public final /* synthetic */ class h0 implements j$.util.function.r {
-    final /* synthetic */ LongFunction a;
+public final /* synthetic */ class h0 implements LongFunction {
+    final /* synthetic */ j$.util.function.r a;
 
-    private /* synthetic */ h0(LongFunction longFunction) {
-        this.a = longFunction;
+    private /* synthetic */ h0(j$.util.function.r rVar) {
+        this.a = rVar;
     }
 
-    public static /* synthetic */ j$.util.function.r a(LongFunction longFunction) {
-        if (longFunction == null) {
+    public static /* synthetic */ LongFunction a(j$.util.function.r rVar) {
+        if (rVar == null) {
             return null;
         }
-        return longFunction instanceof i0 ? ((i0) longFunction).a : new h0(longFunction);
+        return rVar instanceof g0 ? ((g0) rVar).a : new h0(rVar);
     }
 
-    @Override // j$.util.function.r
+    @Override // java.util.function.LongFunction
     public /* synthetic */ Object apply(long j) {
         return this.a.apply(j);
     }

@@ -66,6 +66,7 @@ public class EditTextBoldCursor extends EditTextEffects {
     private int cursorSize;
     boolean drawInMaim;
     private Object editor;
+    private StaticLayout errorLayout;
     private int errorLineColor;
     private TextPaint errorPaint;
     private CharSequence errorText;
@@ -85,12 +86,14 @@ public class EditTextBoldCursor extends EditTextEffects {
     private int ignoreBottomCount;
     private int ignoreTopCount;
     private int lastSize;
+    CharSequence lastText;
     private int lineColor;
     private long lineLastUpdateTime;
     private Paint linePaint;
     private float lineSpacingExtra;
     private float lineY;
     private ViewTreeObserver.OnPreDrawListener listenerFixer;
+    private Drawable mCursorDrawable;
     private android.graphics.Rect mTempRect;
     private boolean nextSetTextAnimated;
     private int scrollY;
@@ -116,6 +119,7 @@ public class EditTextBoldCursor extends EditTextEffects {
     private float lineActiveness = 0.0f;
     private float lastLineActiveness = 0.0f;
     private float activeLineWidth = 0.0f;
+    int lastOffset = -1;
     private List<TextWatcher> registeredTextWatchers = new ArrayList();
     private boolean isTextWatchersSuppressed = false;
     private android.graphics.Rect padding = new android.graphics.Rect();
@@ -234,6 +238,10 @@ public class EditTextBoldCursor extends EditTextEffects {
                 textWatcher2.afterTextChanged(getText());
             }
         }
+    }
+
+    public boolean isTextWatchersSuppressed() {
+        return this.isTextWatchersSuppressed;
     }
 
     @Override // android.widget.TextView
@@ -1106,7 +1114,8 @@ public class EditTextBoldCursor extends EditTextEffects {
         int selectionStart = getSelectionStart();
         int lineForOffset = layout.getLineForOffset(selectionStart);
         updateCursorPosition(layout.getLineTop(lineForOffset), layout.getLineTop(lineForOffset + 1), layout.getPrimaryHorizontal(selectionStart));
-        layout.getText();
+        this.lastText = layout.getText();
+        this.lastOffset = selectionStart;
         return true;
     }
 

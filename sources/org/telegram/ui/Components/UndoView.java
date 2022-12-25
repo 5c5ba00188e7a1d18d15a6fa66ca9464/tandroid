@@ -714,7 +714,7 @@ public class UndoView extends FrameLayout {
                                 i4 = i == 20 ? R.raw.folder_in : R.raw.folder_out;
                             } else if (i == 19) {
                                 replaceTags = this.infoText;
-                                i4 = R.raw.chats_infotip;
+                                i4 = R.raw.ic_delete;
                             } else if (i == 82) {
                                 if (((MediaController.PhotoEntry) obj).isVideo) {
                                     i6 = R.string.AttachMediaVideoDeselected;

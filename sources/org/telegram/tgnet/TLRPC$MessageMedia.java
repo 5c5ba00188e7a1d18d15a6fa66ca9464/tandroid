@@ -23,6 +23,7 @@ public abstract class TLRPC$MessageMedia extends TLObject {
     public int proximity_notification_radius;
     public int receipt_msg_id;
     public boolean shipping_address_requested;
+    public boolean spoiler;
     public String start_param;
     public boolean test;
     public String title;

@@ -3,7 +3,6 @@ package org.telegram.ui.Components;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
@@ -26,11 +25,9 @@ public class CheckBoxBase {
     private boolean attachedToWindow;
     private Paint backgroundPaint;
     private int backgroundType;
-    private Canvas bitmapCanvas;
     private ObjectAnimator checkAnimator;
     private Paint checkPaint;
     private String checkedText;
-    private Bitmap drawBitmap;
     private boolean isChecked;
     private Theme.MessageDrawable messageDrawable;
     private View parentView;
@@ -40,7 +37,7 @@ public class CheckBoxBase {
     private float size;
     private TextPaint textPaint;
     private boolean useDefaultCheck;
-    private android.graphics.Rect bounds = new android.graphics.Rect();
+    public android.graphics.Rect bounds = new android.graphics.Rect();
     private RectF rect = new RectF();
     private Path path = new Path();
     private boolean enabled = true;
@@ -78,8 +75,6 @@ public class CheckBoxBase {
         this.backgroundPaint = paint4;
         paint4.setStyle(Paint.Style.STROKE);
         this.backgroundPaint.setStrokeWidth(AndroidUtilities.dp(1.2f));
-        this.drawBitmap = Bitmap.createBitmap(AndroidUtilities.dp(this.size), AndroidUtilities.dp(this.size), Bitmap.Config.ARGB_4444);
-        this.bitmapCanvas = new Canvas(this.drawBitmap);
     }
 
     public void onAttachedToWindow() {
@@ -236,12 +231,12 @@ public class CheckBoxBase {
         setProgress(z ? 1.0f : 0.0f);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:131:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:13:0x0045  */
-    /* JADX WARN: Removed duplicated region for block: B:152:0x00ef  */
-    /* JADX WARN: Removed duplicated region for block: B:162:0x0048  */
-    /* JADX WARN: Removed duplicated region for block: B:16:0x0066  */
-    /* JADX WARN: Removed duplicated region for block: B:60:0x02c1  */
+    /* JADX WARN: Removed duplicated region for block: B:12:0x005e  */
+    /* JADX WARN: Removed duplicated region for block: B:134:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:155:0x00ea  */
+    /* JADX WARN: Removed duplicated region for block: B:165:0x003f  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x02c7  */
+    /* JADX WARN: Removed duplicated region for block: B:9:0x003c  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -257,17 +252,11 @@ public class CheckBoxBase {
         int i4;
         float f3;
         float f4;
-        Bitmap bitmap;
         String str2;
         int i5;
         int i6;
         int i7;
         int i8;
-        Bitmap bitmap2 = this.drawBitmap;
-        if (bitmap2 == null) {
-            return;
-        }
-        bitmap2.eraseColor(0);
         float dp = AndroidUtilities.dp(this.size / 2.0f);
         int i9 = this.backgroundType;
         if (i9 == 12 || i9 == 13) {
@@ -290,10 +279,10 @@ public class CheckBoxBase {
                     } else if (i10 == 6 || i10 == 7) {
                         paint.setColor(getThemedColor(this.background2ColorKey));
                         this.backgroundPaint.setColor(getThemedColor(this.checkColorKey));
-                    } else if (i10 == 10) {
+                    } else if (i10 == 10 || i10 == 14) {
                         this.backgroundPaint.setColor(getThemedColor(this.background2ColorKey));
                     } else {
-                        paint.setColor((16777215 & Theme.getServiceMessageColor()) | 671088640);
+                        paint.setColor((Theme.getServiceMessageColor() & 16777215) | 671088640);
                         this.backgroundPaint.setColor(getThemedColor(this.checkColorKey));
                     }
                 } else {
@@ -320,7 +309,7 @@ public class CheckBoxBase {
                 paint3.setColor(AndroidUtilities.getOffsetColor(16777215, getThemedColor(str4), this.progress, this.backgroundAlpha));
             }
             if (this.drawUnchecked && (i8 = this.backgroundType) >= 0 && i8 != 12 && i8 != 13) {
-                if (i8 != 8 || i8 == 10) {
+                if (i8 != 8 || i8 == 10 || i8 == 14) {
                     canvas.drawCircle(centerX, centerY, f - AndroidUtilities.dp(1.5f), this.backgroundPaint);
                 } else if (i8 == 6 || i8 == 7) {
                     float f6 = centerX;
@@ -333,7 +322,7 @@ public class CheckBoxBase {
             }
             paint.setColor(getThemedColor(this.checkColorKey));
             i = this.backgroundType;
-            if (i != -1 || i == 7 || i == 8 || i == 9 || i == 10) {
+            if (i != -1 || i == 7 || i == 8 || i == 9 || i == 10 || i == 14) {
                 i2 = centerY;
                 i3 = centerX;
             } else if (i == 12 || i == 13) {
@@ -413,21 +402,25 @@ public class CheckBoxBase {
                 this.checkPaint.setColor(getThemedColor("checkboxCheck"));
             }
             if (this.backgroundType != -1) {
+                float dp2 = AndroidUtilities.dp(this.size) / 2.0f;
+                int save = canvas.save();
+                canvas.translate(i3 - dp2, i2 - dp2);
+                canvas.saveLayerAlpha(0.0f, 0.0f, AndroidUtilities.dp(this.size), AndroidUtilities.dp(this.size), 255, 31);
                 Paint provide = this.circlePaintProvider.provide(null);
                 int i13 = this.backgroundType;
                 if (i13 == 12 || i13 == 13) {
                     int alpha3 = provide.getAlpha();
                     provide.setAlpha((int) (f2 * 255.0f));
-                    this.bitmapCanvas.drawCircle(this.drawBitmap.getWidth() / 2, this.drawBitmap.getHeight() / 2, f * f2, provide);
+                    canvas.drawCircle(dp2, dp2, f * f2, provide);
                     if (provide != paint) {
                         provide.setAlpha(alpha3);
                     }
                 } else {
-                    float dp2 = f - AndroidUtilities.dp(0.5f);
-                    this.bitmapCanvas.drawCircle(this.drawBitmap.getWidth() / 2, this.drawBitmap.getHeight() / 2, dp2, provide);
-                    this.bitmapCanvas.drawCircle(this.drawBitmap.getWidth() / 2, this.drawBitmap.getHeight() / 2, dp2 * (1.0f - f2), eraser);
+                    float dp3 = f - AndroidUtilities.dp(0.5f);
+                    canvas.drawCircle(dp2, dp2, dp3, provide);
+                    canvas.drawCircle(dp2, dp2, dp3 * (1.0f - f2), eraser);
                 }
-                canvas.drawBitmap(this.drawBitmap, i3 - (bitmap.getWidth() / 2), i2 - (this.drawBitmap.getHeight() / 2), (Paint) null);
+                canvas.restoreToCount(save);
             }
             if (f11 == 0.0f) {
                 return;
@@ -465,17 +458,16 @@ public class CheckBoxBase {
             this.path.reset();
             int i14 = this.backgroundType;
             float f13 = i14 == -1 ? 1.4f : i14 == 5 ? 0.8f : 1.0f;
-            float dp3 = AndroidUtilities.dp(9.0f * f13) * f11;
-            float dp4 = AndroidUtilities.dp(f13 * 4.0f) * f11;
-            int dp5 = i3 - AndroidUtilities.dp(1.5f);
+            float dp4 = AndroidUtilities.dp(9.0f * f13) * f11;
+            float dp5 = AndroidUtilities.dp(f13 * 4.0f) * f11;
             int dp6 = i2 + AndroidUtilities.dp(4.0f);
-            float sqrt = (float) Math.sqrt((dp4 * dp4) / 2.0f);
-            float f14 = dp5;
-            float f15 = dp6;
-            this.path.moveTo(f14 - sqrt, f15 - sqrt);
-            this.path.lineTo(f14, f15);
-            float sqrt2 = (float) Math.sqrt((dp3 * dp3) / 2.0f);
-            this.path.lineTo(f14 + sqrt2, f15 - sqrt2);
+            float sqrt = (float) Math.sqrt((dp5 * dp5) / 2.0f);
+            float dp7 = i3 - AndroidUtilities.dp(1.5f);
+            float f14 = dp6;
+            this.path.moveTo(dp7 - sqrt, f14 - sqrt);
+            this.path.lineTo(dp7, f14);
+            float sqrt2 = (float) Math.sqrt((dp4 * dp4) / 2.0f);
+            this.path.lineTo(dp7 + sqrt2, f14 - sqrt2);
             canvas.drawPath(this.path, this.checkPaint);
             return;
         }

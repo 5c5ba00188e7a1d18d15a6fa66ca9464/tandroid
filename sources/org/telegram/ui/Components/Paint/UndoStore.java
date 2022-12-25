@@ -21,6 +21,10 @@ public class UndoStore {
         return !this.operations.isEmpty();
     }
 
+    public UndoStoreDelegate getDelegate() {
+        return this.delegate;
+    }
+
     public void setDelegate(UndoStoreDelegate undoStoreDelegate) {
         this.delegate = undoStoreDelegate;
     }
@@ -46,6 +50,12 @@ public class UndoStore {
         this.uuidToOperationMap.remove(uuid);
         this.operations.remove(size);
         this.uuidToOperationMap.get(uuid).run();
+        notifyOfHistoryChanges();
+    }
+
+    public void reset() {
+        this.operations.clear();
+        this.uuidToOperationMap.clear();
         notifyOfHistoryChanges();
     }
 

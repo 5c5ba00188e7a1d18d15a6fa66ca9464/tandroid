@@ -6,16 +6,16 @@ class I2 extends U2 {
     final /* synthetic */ j$.util.function.b b;
     final /* synthetic */ BiConsumer c;
     final /* synthetic */ j$.util.function.y d;
-    final /* synthetic */ j$.wrappers.J0 e;
+    final /* synthetic */ j$.wrappers.I0 e;
 
     /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public I2(e4 e4Var, j$.util.function.b bVar, BiConsumer biConsumer, j$.util.function.y yVar, j$.wrappers.J0 j0) {
+    public I2(e4 e4Var, j$.util.function.b bVar, BiConsumer biConsumer, j$.util.function.y yVar, j$.wrappers.I0 i0) {
         super(e4Var);
         this.b = bVar;
         this.c = biConsumer;
         this.d = yVar;
-        this.e = j0;
+        this.e = i0;
     }
 
     @Override // j$.util.stream.U2

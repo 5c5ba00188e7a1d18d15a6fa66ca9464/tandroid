@@ -12,11 +12,12 @@ public class TLRPC$TL_userProfilePhoto extends TLRPC$UserProfilePhoto {
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
         int readInt32 = abstractSerializedData.readInt32(z);
         this.flags = readInt32;
-        boolean z2 = true;
-        if ((readInt32 & 1) == 0) {
-            z2 = false;
+        boolean z2 = false;
+        this.has_video = (readInt32 & 1) != 0;
+        if ((readInt32 & 4) != 0) {
+            z2 = true;
         }
-        this.has_video = z2;
+        this.personal = z2;
         this.photo_id = abstractSerializedData.readInt64(z);
         if ((this.flags & 2) != 0) {
             this.stripped_thumb = abstractSerializedData.readByteArray(z);
@@ -45,7 +46,9 @@ public class TLRPC$TL_userProfilePhoto extends TLRPC$UserProfilePhoto {
         abstractSerializedData.writeInt32(constructor);
         int i = this.has_video ? this.flags | 1 : this.flags & (-2);
         this.flags = i;
-        abstractSerializedData.writeInt32(i);
+        int i2 = this.personal ? i | 4 : i & (-5);
+        this.flags = i2;
+        abstractSerializedData.writeInt32(i2);
         abstractSerializedData.writeInt64(this.photo_id);
         if ((this.flags & 2) != 0) {
             abstractSerializedData.writeByteArray(this.stripped_thumb);

@@ -31,9 +31,9 @@ public abstract class L0 extends c implements IntStream {
     }
 
     @Override // j$.util.stream.IntStream
-    public final U A(j$.wrappers.X x) {
-        Objects.requireNonNull(x);
-        return new K(this, this, e4.INT_VALUE, d4.p | d4.n, x);
+    public final U A(j$.wrappers.W w) {
+        Objects.requireNonNull(w);
+        return new K(this, this, e4.INT_VALUE, d4.p | d4.n, w);
     }
 
     @Override // j$.util.stream.c
@@ -58,13 +58,13 @@ public abstract class L0 extends c implements IntStream {
     }
 
     @Override // j$.util.stream.IntStream
-    public final boolean C(j$.wrappers.V v) {
-        return ((Boolean) x0(o1.v(v, k1.ALL))).booleanValue();
+    public final boolean C(j$.wrappers.U u) {
+        return ((Boolean) x0(o1.v(u, k1.ALL))).booleanValue();
     }
 
     @Override // j$.util.stream.IntStream
-    public final boolean F(j$.wrappers.V v) {
-        return ((Boolean) x0(o1.v(v, k1.ANY))).booleanValue();
+    public final boolean F(j$.wrappers.U u) {
+        return ((Boolean) x0(o1.v(u, k1.ANY))).booleanValue();
     }
 
     public void I(j$.util.function.l lVar) {
@@ -166,9 +166,9 @@ public abstract class L0 extends c implements IntStream {
     }
 
     @Override // j$.util.stream.IntStream
-    public final IntStream h(j$.wrappers.V v) {
-        Objects.requireNonNull(v);
-        return new M(this, this, e4.INT_VALUE, d4.t, v);
+    public final IntStream h(j$.wrappers.U u) {
+        Objects.requireNonNull(u);
+        return new M(this, this, e4.INT_VALUE, d4.t, u);
     }
 
     @Override // j$.util.stream.g
@@ -208,9 +208,9 @@ public abstract class L0 extends c implements IntStream {
     }
 
     @Override // j$.util.stream.IntStream
-    public final IntStream q(j$.wrappers.b0 b0Var) {
-        Objects.requireNonNull(b0Var);
-        return new M(this, this, e4.INT_VALUE, d4.p | d4.n, b0Var);
+    public final IntStream q(j$.wrappers.a0 a0Var) {
+        Objects.requireNonNull(a0Var);
+        return new M(this, this, e4.INT_VALUE, d4.p | d4.n, a0Var);
     }
 
     @Override // j$.util.stream.IntStream
@@ -258,8 +258,8 @@ public abstract class L0 extends c implements IntStream {
     }
 
     @Override // j$.util.stream.IntStream
-    public final boolean v(j$.wrappers.V v) {
-        return ((Boolean) x0(o1.v(v, k1.NONE))).booleanValue();
+    public final boolean v(j$.wrappers.U u) {
+        return ((Boolean) x0(o1.v(u, k1.NONE))).booleanValue();
     }
 
     @Override // j$.util.stream.c

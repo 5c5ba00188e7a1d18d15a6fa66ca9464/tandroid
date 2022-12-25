@@ -462,7 +462,7 @@ public class SizeNotifierFrameLayout extends FrameLayout {
             if (this.snowflakesEffect == null) {
                 this.snowflakesEffect = new SnowflakesEffect(1);
             }
-            this.snowflakesEffect.onDraw(this, canvas);
+            this.snowflakesEffect.onDraw(this.backgroundView, canvas);
         }
     }
 

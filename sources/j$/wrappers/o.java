@@ -20,7 +20,7 @@ public final /* synthetic */ class o implements j$.util.w {
 
     @Override // j$.util.u
     public /* synthetic */ boolean b(Consumer consumer) {
-        return this.a.tryAdvance(x.a(consumer));
+        return this.a.tryAdvance($r8$wrapper$java$util$function$Consumer$-WRP.convert(consumer));
     }
 
     @Override // j$.util.u
@@ -35,7 +35,7 @@ public final /* synthetic */ class o implements j$.util.w {
 
     @Override // j$.util.u
     public /* synthetic */ void forEachRemaining(Consumer consumer) {
-        this.a.forEachRemaining(x.a(consumer));
+        this.a.forEachRemaining($r8$wrapper$java$util$function$Consumer$-WRP.convert(consumer));
     }
 
     @Override // j$.util.w

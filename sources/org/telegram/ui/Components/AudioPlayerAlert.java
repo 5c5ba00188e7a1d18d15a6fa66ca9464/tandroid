@@ -577,8 +577,9 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         this.authorTextView = r1;
         this.playerLayout.addView(r1, LayoutHelper.createFrame(-1, -2.0f, 51, 14.0f, 47.0f, 72.0f, 0.0f));
         SeekBarView seekBarView = new SeekBarView(context, resourcesProvider) { // from class: org.telegram.ui.Components.AudioPlayerAlert.10
+            /* JADX INFO: Access modifiers changed from: package-private */
             @Override // org.telegram.ui.Components.SeekBarView
-            boolean onTouch(MotionEvent motionEvent) {
+            public boolean onTouch(MotionEvent motionEvent) {
                 if (AudioPlayerAlert.this.rewindingState != 0) {
                     return false;
                 }
@@ -586,7 +587,8 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
             }
         };
         this.seekBarView = seekBarView;
-        seekBarView.setDelegate(new SeekBarView.SeekBarViewDelegate() { // from class: org.telegram.ui.Components.AudioPlayerAlert.11
+        seekBarView.setLineWidth(4);
+        this.seekBarView.setDelegate(new SeekBarView.SeekBarViewDelegate() { // from class: org.telegram.ui.Components.AudioPlayerAlert.11
             @Override // org.telegram.ui.Components.SeekBarView.SeekBarViewDelegate
             public /* synthetic */ int getStepsCount() {
                 return SeekBarView.SeekBarViewDelegate.-CC.$default$getStepsCount(this);
@@ -615,7 +617,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
             }
         });
         this.seekBarView.setReportChanges(true);
-        this.playerLayout.addView(this.seekBarView, LayoutHelper.createFrame(-1, 38.0f, 51, 5.0f, 70.0f, 5.0f, 0.0f));
+        this.playerLayout.addView(this.seekBarView, LayoutHelper.createFrame(-1, 44.0f, 51, 5.0f, 67.0f, 5.0f, 0.0f));
         this.seekBarBufferSpring = new SpringAnimation(new FloatValueHolder(0.0f)).setSpring(new SpringForce().setStiffness(750.0f).setDampingRatio(1.0f)).addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() { // from class: org.telegram.ui.Components.AudioPlayerAlert$$ExternalSyntheticLambda6
             @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationUpdateListener
             public final void onAnimationUpdate(DynamicAnimation dynamicAnimation, float f, float f2) {
@@ -1544,7 +1546,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
                     AudioPlayerAlert.this.lambda$onSubItemClick$10(arrayList, dialogsActivity2, arrayList2, charSequence, z);
                 }
             });
-            this.parentActivity.lambda$runLinkRequest$67(dialogsActivity);
+            this.parentActivity.lambda$runLinkRequest$71(dialogsActivity);
             dismiss();
             return;
         }
@@ -2030,18 +2032,17 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
                     this.seekBarBufferSpring.start();
                 }
                 if (z2) {
-                    int duration = (int) (messageObject.getDuration() * this.seekBarView.getProgress());
-                    messageObject.audioProgressSec = duration;
-                    i = duration;
+                    i = (int) (messageObject.getDuration() * this.seekBarView.getProgress());
+                    messageObject.audioProgressSec = i;
                 } else {
                     i = messageObject.audioProgressSec;
                 }
             }
-            if (this.lastTime == i) {
-                return;
+            if (this.lastTime != i) {
+                this.lastTime = i;
+                this.timeTextView.setText(AndroidUtilities.formatShortDuration(i));
             }
-            this.lastTime = i;
-            this.timeTextView.setText(AndroidUtilities.formatShortDuration(i));
+            this.seekBarView.updateTimestamps(messageObject, null);
         }
     }
 

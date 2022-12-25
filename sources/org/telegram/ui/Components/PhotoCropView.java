@@ -84,6 +84,10 @@ public class PhotoCropView extends FrameLayout {
         boolean rotate();
     }
 
+    public void setSubtitle(String str) {
+        this.cropView.setSubtitle(str);
+    }
+
     public PhotoCropView(Context context, Theme.ResourcesProvider resourcesProvider) {
         super(context);
         this.resourcesProvider = resourcesProvider;

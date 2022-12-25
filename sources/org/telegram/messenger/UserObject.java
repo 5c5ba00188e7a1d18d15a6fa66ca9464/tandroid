@@ -2,6 +2,8 @@ package org.telegram.messenger;
 
 import android.text.TextUtils;
 import org.telegram.PhoneFormat.PhoneFormat;
+import org.telegram.tgnet.TLRPC$Photo;
+import org.telegram.tgnet.TLRPC$TL_photoEmpty;
 import org.telegram.tgnet.TLRPC$TL_userContact_old2;
 import org.telegram.tgnet.TLRPC$TL_userDeleted_old2;
 import org.telegram.tgnet.TLRPC$TL_userEmpty;
@@ -9,6 +11,7 @@ import org.telegram.tgnet.TLRPC$TL_userProfilePhotoEmpty;
 import org.telegram.tgnet.TLRPC$TL_userSelf_old3;
 import org.telegram.tgnet.TLRPC$TL_username;
 import org.telegram.tgnet.TLRPC$User;
+import org.telegram.tgnet.TLRPC$UserFull;
 import org.telegram.tgnet.TLRPC$UserProfilePhoto;
 /* loaded from: classes.dex */
 public class UserObject {
@@ -72,6 +75,23 @@ public class UserObject {
         return getPublicUsername(tLRPC$User, false);
     }
 
+    public static boolean hasPublicUsername(TLRPC$User tLRPC$User, String str) {
+        if (tLRPC$User != null && str != null) {
+            if (str.equalsIgnoreCase(tLRPC$User.username)) {
+                return true;
+            }
+            if (tLRPC$User.usernames != null) {
+                for (int i = 0; i < tLRPC$User.usernames.size(); i++) {
+                    TLRPC$TL_username tLRPC$TL_username = tLRPC$User.usernames.get(i);
+                    if (tLRPC$TL_username != null && tLRPC$TL_username.active && str.equalsIgnoreCase(tLRPC$TL_username.username)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
     public static String getFirstName(TLRPC$User tLRPC$User) {
         return getFirstName(tLRPC$User, true);
     }
@@ -99,5 +119,10 @@ public class UserObject {
             return tLRPC$User.photo;
         }
         return null;
+    }
+
+    public static boolean hasFallbackPhoto(TLRPC$UserFull tLRPC$UserFull) {
+        TLRPC$Photo tLRPC$Photo;
+        return (tLRPC$UserFull == null || (tLRPC$Photo = tLRPC$UserFull.fallback_photo) == null || (tLRPC$Photo instanceof TLRPC$TL_photoEmpty)) ? false : true;
     }
 }

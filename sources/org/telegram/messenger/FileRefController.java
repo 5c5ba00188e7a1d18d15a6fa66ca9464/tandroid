@@ -65,6 +65,7 @@ import org.telegram.tgnet.TLRPC$TL_inputStickeredMediaPhoto;
 import org.telegram.tgnet.TLRPC$TL_inputTheme;
 import org.telegram.tgnet.TLRPC$TL_inputWallPaper;
 import org.telegram.tgnet.TLRPC$TL_messageActionChatEditPhoto;
+import org.telegram.tgnet.TLRPC$TL_messageActionSuggestProfilePhoto;
 import org.telegram.tgnet.TLRPC$TL_messages_availableReactions;
 import org.telegram.tgnet.TLRPC$TL_messages_chats;
 import org.telegram.tgnet.TLRPC$TL_messages_editMessage;
@@ -230,11 +231,11 @@ public class FileRefController extends BaseController {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:59:0x0367, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:59:0x0368, code lost:
         if (r2.equals(r1) != false) goto L35;
      */
-    /* JADX WARN: Removed duplicated region for block: B:37:0x0374  */
-    /* JADX WARN: Removed duplicated region for block: B:43:0x038a  */
+    /* JADX WARN: Removed duplicated region for block: B:37:0x0375  */
+    /* JADX WARN: Removed duplicated region for block: B:43:0x038b  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1084,10 +1085,10 @@ public class FileRefController extends BaseController {
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Removed duplicated region for block: B:32:0x008a A[RETURN] */
     /* JADX WARN: Removed duplicated region for block: B:34:0x008b  */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x0153 A[LOOP:2: B:51:0x00d7->B:59:0x0153, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:60:0x0142 A[SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x0587  */
-    /* JADX WARN: Removed duplicated region for block: B:79:0x059c  */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x0157 A[LOOP:2: B:51:0x00d7->B:59:0x0157, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:60:0x0146 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x058b  */
+    /* JADX WARN: Removed duplicated region for block: B:79:0x05a0  */
     /* JADX WARN: Type inference failed for: r13v0 */
     /* JADX WARN: Type inference failed for: r13v12 */
     /*
@@ -1210,7 +1211,7 @@ public class FileRefController extends BaseController {
                                 } else {
                                     arrayList2 = arrayList;
                                     TLRPC$MessageAction tLRPC$MessageAction = tLRPC$Message.action;
-                                    if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionChatEditPhoto) {
+                                    if ((tLRPC$MessageAction instanceof TLRPC$TL_messageActionChatEditPhoto) || (tLRPC$MessageAction instanceof TLRPC$TL_messageActionSuggestProfilePhoto)) {
                                         fileReference2 = getFileReference(tLRPC$MessageAction.photo, requester2.location, zArr, tLRPC$InputFileLocationArr);
                                         bArr2 = fileReference2;
                                     }

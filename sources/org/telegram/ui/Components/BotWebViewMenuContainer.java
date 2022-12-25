@@ -255,6 +255,11 @@ public class BotWebViewMenuContainer extends FrameLayout implements Notification
         final /* synthetic */ ChatActivityEnterView val$parentEnterView;
 
         @Override // org.telegram.ui.Components.BotWebViewContainer.Delegate
+        public /* synthetic */ boolean isClipboardAvailable() {
+            return BotWebViewContainer.Delegate.-CC.$default$isClipboardAvailable(this);
+        }
+
+        @Override // org.telegram.ui.Components.BotWebViewContainer.Delegate
         public /* synthetic */ void onSendWebViewData(String str) {
             BotWebViewContainer.Delegate.-CC.$default$onSendWebViewData(this, str);
         }

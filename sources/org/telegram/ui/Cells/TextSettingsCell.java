@@ -325,13 +325,14 @@ public class TextSettingsCell extends FrameLayout {
         this.valueTextView.setAlpha(1.0f - this.drawLoadingProgress);
         super.dispatchDraw(canvas);
         if (this.needDivider) {
-            float dp = LocaleController.isRTL ? 0.0f : AndroidUtilities.dp(20.0f);
+            int dp = AndroidUtilities.dp(this.imageView.getVisibility() == 0 ? 71.0f : 20.0f);
+            float f7 = LocaleController.isRTL ? 0.0f : dp;
             float measuredHeight2 = getMeasuredHeight() - 1;
             int measuredWidth = getMeasuredWidth();
             if (LocaleController.isRTL) {
-                i = AndroidUtilities.dp(20.0f);
+                i = dp;
             }
-            canvas.drawLine(dp, measuredHeight2, measuredWidth - i, getMeasuredHeight() - 1, Theme.dividerPaint);
+            canvas.drawLine(f7, measuredHeight2, measuredWidth - i, getMeasuredHeight() - 1, Theme.dividerPaint);
         }
     }
 

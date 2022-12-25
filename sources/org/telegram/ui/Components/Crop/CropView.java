@@ -86,6 +86,10 @@ public class CropView extends FrameLayout implements CropAreaView.AreaViewListen
         return true;
     }
 
+    public void setSubtitle(String str) {
+        this.areaView.setSubtitle(str);
+    }
+
     /* loaded from: classes3.dex */
     public class CropState {
         public float baseRotation;

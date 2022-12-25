@@ -30,7 +30,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.Theme;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public class AcceptDeclineView extends View {
     private FabBackgroundDrawable acceptDrawable;
     private StaticLayout acceptLayout;
@@ -67,7 +67,7 @@ public class AcceptDeclineView extends View {
     Paint linePaint = new Paint(1);
     private int buttonWidth = AndroidUtilities.dp(60.0f);
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public interface Listener {
         void onAccept();
 
@@ -503,7 +503,7 @@ public class AcceptDeclineView extends View {
         this.screenWasWakeup = z;
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public static abstract class AcceptDeclineAccessibilityNodeProvider extends AccessibilityNodeProvider {
         private final AccessibilityManager accessibilityManager;
         private final View hostView;

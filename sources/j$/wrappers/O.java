@@ -2,21 +2,21 @@ package j$.wrappers;
 
 import java.util.function.IntBinaryOperator;
 /* loaded from: classes2.dex */
-public final /* synthetic */ class O implements j$.util.function.j {
-    final /* synthetic */ IntBinaryOperator a;
+public final /* synthetic */ class O implements IntBinaryOperator {
+    final /* synthetic */ j$.util.function.j a;
 
-    private /* synthetic */ O(IntBinaryOperator intBinaryOperator) {
-        this.a = intBinaryOperator;
+    private /* synthetic */ O(j$.util.function.j jVar) {
+        this.a = jVar;
     }
 
-    public static /* synthetic */ j$.util.function.j a(IntBinaryOperator intBinaryOperator) {
-        if (intBinaryOperator == null) {
+    public static /* synthetic */ IntBinaryOperator a(j$.util.function.j jVar) {
+        if (jVar == null) {
             return null;
         }
-        return intBinaryOperator instanceof P ? ((P) intBinaryOperator).a : new O(intBinaryOperator);
+        return jVar instanceof N ? ((N) jVar).a : new O(jVar);
     }
 
-    @Override // j$.util.function.j
+    @Override // java.util.function.IntBinaryOperator
     public /* synthetic */ int applyAsInt(int i, int i2) {
         return this.a.applyAsInt(i, i2);
     }

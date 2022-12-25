@@ -1633,7 +1633,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         this.selectedMessagesCountTextView = numberTextView;
         numberTextView.setTextSize(18);
         this.selectedMessagesCountTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
-        this.selectedMessagesCountTextView.setTextColor(getThemedColor("windowBackgroundWhiteGrayText2"));
+        this.selectedMessagesCountTextView.setTextColor(getThemedColor("actionBarActionModeDefaultIcon"));
         this.actionModeLayout.addView(this.selectedMessagesCountTextView, LayoutHelper.createLinear(0, -1, 1.0f, 18, 0, 0, 0));
         this.actionModeViews.add(this.selectedMessagesCountTextView);
         if (!DialogObject.isEncryptedDialog(this.dialog_id)) {
@@ -2268,10 +2268,20 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                     rect.right = 0;
                 }
             });
-            this.mediaPages[i9].listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.SharedMediaLayout$$ExternalSyntheticLambda15
-                @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
-                public final void onItemClick(View view, int i12) {
-                    SharedMediaLayout.this.lambda$new$6(mediaPage, view, i12);
+            this.mediaPages[i9].listView.setOnItemClickListener(new RecyclerListView.OnItemClickListenerExtended() { // from class: org.telegram.ui.Components.SharedMediaLayout$$ExternalSyntheticLambda15
+                @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
+                public /* synthetic */ boolean hasDoubleTap(View view, int i12) {
+                    return RecyclerListView.OnItemClickListenerExtended.-CC.$default$hasDoubleTap(this, view, i12);
+                }
+
+                @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
+                public /* synthetic */ void onDoubleTap(View view, int i12, float f, float f2) {
+                    RecyclerListView.OnItemClickListenerExtended.-CC.$default$onDoubleTap(this, view, i12, f, f2);
+                }
+
+                @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
+                public final void onItemClick(View view, int i12, float f, float f2) {
+                    SharedMediaLayout.this.lambda$new$6(mediaPage, view, i12, f, f2);
                 }
             });
             this.mediaPages[i9].listView.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.Components.SharedMediaLayout.13
@@ -2596,8 +2606,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$6(MediaPage mediaPage, View view, int i) {
-        MessageObject messageObject;
+    public /* synthetic */ void lambda$new$6(MediaPage mediaPage, View view, int i, float f, float f2) {
         long j;
         if (mediaPage.selectedType != 7) {
             if (mediaPage.selectedType != 6 || !(view instanceof ProfileSearchCell)) {
@@ -2607,7 +2616,16 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                             onItemClick(i, view, ((SharedAudioCell) view).getMessage(), 0, mediaPage.selectedType);
                             return;
                         } else if (mediaPage.selectedType != 5 || !(view instanceof ContextLinkCell)) {
-                            if (mediaPage.selectedType != 0 || !(view instanceof SharedPhotoVideoCell2) || (messageObject = ((SharedPhotoVideoCell2) view).getMessageObject()) == null) {
+                            if (mediaPage.selectedType != 0 || !(view instanceof SharedPhotoVideoCell2)) {
+                                return;
+                            }
+                            SharedPhotoVideoCell2 sharedPhotoVideoCell2 = (SharedPhotoVideoCell2) view;
+                            if (sharedPhotoVideoCell2.canRevealSpoiler()) {
+                                sharedPhotoVideoCell2.startRevealMedia(f, f2);
+                                return;
+                            }
+                            MessageObject messageObject = sharedPhotoVideoCell2.getMessageObject();
+                            if (messageObject == null) {
                                 return;
                             }
                             onItemClick(i, view, messageObject, 0, mediaPage.selectedType);
@@ -2662,7 +2680,10 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
             return false;
         }
         if (this.isActionModeShowed) {
-            mediaPage.listView.getOnItemClickListener().onItemClick(view, i);
+            RecyclerListView.OnItemClickListener onItemClickListener = mediaPage.listView.getOnItemClickListener();
+            if (onItemClickListener != null) {
+                onItemClickListener.onItemClick(view, i);
+            }
             return true;
         } else if (mediaPage.selectedType != 7 || !(view instanceof UserCell)) {
             if (mediaPage.selectedType != 1 || !(view instanceof SharedDocumentCell)) {

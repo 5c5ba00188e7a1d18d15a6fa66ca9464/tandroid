@@ -417,17 +417,17 @@ public final class MediaCodecUtil {
     }
 
     /* JADX WARN: Can't wrap try/catch for region: R(7:28|(4:(2:72|73)|53|(9:56|57|58|59|60|61|62|64|65)|9)|32|33|34|36|9) */
-    /* JADX WARN: Code restructure failed: missing block: B:37:0x00a6, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:37:0x00a7, code lost:
         r0 = e;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:38:0x00a7, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:38:0x00a8, code lost:
         r1 = r11;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:74:0x0083, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:74:0x0084, code lost:
         if (r1.secure == false) goto L32;
      */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x0104 A[Catch: Exception -> 0x0152, TRY_ENTER, TryCatch #5 {Exception -> 0x0152, blocks: (B:3:0x0008, B:5:0x001b, B:9:0x0123, B:10:0x002d, B:13:0x0038, B:39:0x00fc, B:42:0x0104, B:44:0x010a, B:47:0x012d, B:48:0x0150), top: B:2:0x0008 }] */
-    /* JADX WARN: Removed duplicated region for block: B:51:0x012d A[ADDED_TO_REGION, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x0105 A[Catch: Exception -> 0x0153, TRY_ENTER, TryCatch #5 {Exception -> 0x0153, blocks: (B:3:0x0009, B:5:0x001c, B:9:0x0124, B:10:0x002e, B:13:0x0039, B:39:0x00fd, B:42:0x0105, B:44:0x010b, B:47:0x012e, B:48:0x0151), top: B:2:0x0009 }] */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x012e A[ADDED_TO_REGION, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

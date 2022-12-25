@@ -1835,6 +1835,13 @@ public class FilterTabsView extends FrameLayout {
 
     /* loaded from: classes3.dex */
     public class TouchHelperCallback extends ItemTouchHelper.Callback {
+        private Runnable resetDefaultPosition = new Runnable() { // from class: org.telegram.ui.Components.FilterTabsView$TouchHelperCallback$$ExternalSyntheticLambda0
+            @Override // java.lang.Runnable
+            public final void run() {
+                FilterTabsView.TouchHelperCallback.this.lambda$new$0();
+            }
+        };
+
         @Override // androidx.recyclerview.widget.ItemTouchHelper.Callback
         public void onSwiped(RecyclerView.ViewHolder viewHolder, int i) {
         }
@@ -1865,7 +1872,7 @@ public class FilterTabsView extends FrameLayout {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public void resetDefaultPosition() {
+        public /* synthetic */ void lambda$new$0() {
             if (UserConfig.getInstance(UserConfig.selectedAccount).isPremium()) {
                 return;
             }
@@ -1886,18 +1893,8 @@ public class FilterTabsView extends FrameLayout {
                 viewHolder.itemView.setPressed(true);
                 viewHolder.itemView.setBackgroundColor(Theme.getColor(FilterTabsView.this.backgroundColorKey));
             } else {
-                AndroidUtilities.cancelRunOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.FilterTabsView$TouchHelperCallback$$ExternalSyntheticLambda0
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        FilterTabsView.TouchHelperCallback.this.resetDefaultPosition();
-                    }
-                });
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.FilterTabsView$TouchHelperCallback$$ExternalSyntheticLambda0
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        FilterTabsView.TouchHelperCallback.this.resetDefaultPosition();
-                    }
-                }, 320L);
+                AndroidUtilities.cancelRunOnUIThread(this.resetDefaultPosition);
+                AndroidUtilities.runOnUIThread(this.resetDefaultPosition, 320L);
             }
             super.onSelectedChanged(viewHolder, i);
         }

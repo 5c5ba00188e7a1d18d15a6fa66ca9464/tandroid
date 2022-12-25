@@ -8,9 +8,9 @@ class M extends K0 {
     final /* synthetic */ Object m;
 
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public M(T t, c cVar, e4 e4Var, int i, j$.wrappers.G g) {
+    public M(T t, c cVar, e4 e4Var, int i, j$.wrappers.F f) {
         super(cVar, e4Var, i);
-        this.m = g;
+        this.m = f;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -49,21 +49,21 @@ class M extends K0 {
     }
 
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public M(L0 l0, c cVar, e4 e4Var, int i, j$.wrappers.V v) {
+    public M(L0 l0, c cVar, e4 e4Var, int i, j$.wrappers.U u) {
         super(cVar, e4Var, i);
-        this.m = v;
+        this.m = u;
     }
 
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public M(L0 l0, c cVar, e4 e4Var, int i, j$.wrappers.b0 b0Var) {
+    public M(L0 l0, c cVar, e4 e4Var, int i, j$.wrappers.a0 a0Var) {
         super(cVar, e4Var, i);
-        this.m = b0Var;
+        this.m = a0Var;
     }
 
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public M(d1 d1Var, c cVar, e4 e4Var, int i, j$.wrappers.n0 n0Var) {
+    public M(d1 d1Var, c cVar, e4 e4Var, int i, j$.wrappers.m0 m0Var) {
         super(cVar, e4Var, i);
-        this.m = n0Var;
+        this.m = m0Var;
     }
 
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */

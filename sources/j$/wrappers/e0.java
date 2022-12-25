@@ -1,23 +1,28 @@
 package j$.wrappers;
 
-import java.util.function.LongBinaryOperator;
+import java.util.function.LongConsumer;
 /* loaded from: classes2.dex */
-public final /* synthetic */ class e0 implements LongBinaryOperator {
-    final /* synthetic */ j$.util.function.o a;
+public final /* synthetic */ class e0 implements j$.util.function.q {
+    final /* synthetic */ LongConsumer a;
 
-    private /* synthetic */ e0(j$.util.function.o oVar) {
-        this.a = oVar;
+    private /* synthetic */ e0(LongConsumer longConsumer) {
+        this.a = longConsumer;
     }
 
-    public static /* synthetic */ LongBinaryOperator a(j$.util.function.o oVar) {
-        if (oVar == null) {
+    public static /* synthetic */ j$.util.function.q b(LongConsumer longConsumer) {
+        if (longConsumer == null) {
             return null;
         }
-        return oVar instanceof d0 ? ((d0) oVar).a : new e0(oVar);
+        return longConsumer instanceof f0 ? ((f0) longConsumer).a : new e0(longConsumer);
     }
 
-    @Override // java.util.function.LongBinaryOperator
-    public /* synthetic */ long applyAsLong(long j, long j2) {
-        return this.a.applyAsLong(j, j2);
+    @Override // j$.util.function.q
+    public /* synthetic */ void accept(long j) {
+        this.a.accept(j);
+    }
+
+    @Override // j$.util.function.q
+    public /* synthetic */ j$.util.function.q f(j$.util.function.q qVar) {
+        return b(this.a.andThen(f0.a(qVar)));
     }
 }

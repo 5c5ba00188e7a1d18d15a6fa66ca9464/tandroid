@@ -1,33 +1,23 @@
 package j$.wrappers;
 
-import java.util.function.Function;
+import java.util.function.IntBinaryOperator;
 /* loaded from: classes2.dex */
-public final /* synthetic */ class N implements Function {
-    final /* synthetic */ j$.util.function.Function a;
+public final /* synthetic */ class N implements j$.util.function.j {
+    final /* synthetic */ IntBinaryOperator a;
 
-    private /* synthetic */ N(j$.util.function.Function function) {
-        this.a = function;
+    private /* synthetic */ N(IntBinaryOperator intBinaryOperator) {
+        this.a = intBinaryOperator;
     }
 
-    public static /* synthetic */ Function a(j$.util.function.Function function) {
-        if (function == null) {
+    public static /* synthetic */ j$.util.function.j a(IntBinaryOperator intBinaryOperator) {
+        if (intBinaryOperator == null) {
             return null;
         }
-        return function instanceof M ? ((M) function).a : new N(function);
+        return intBinaryOperator instanceof O ? ((O) intBinaryOperator).a : new N(intBinaryOperator);
     }
 
-    @Override // java.util.function.Function
-    public /* synthetic */ Function andThen(Function function) {
-        return a(this.a.andThen(M.a(function)));
-    }
-
-    @Override // java.util.function.Function
-    public /* synthetic */ Object apply(Object obj) {
-        return this.a.apply(obj);
-    }
-
-    @Override // java.util.function.Function
-    public /* synthetic */ Function compose(Function function) {
-        return a(this.a.compose(M.a(function)));
+    @Override // j$.util.function.j
+    public /* synthetic */ int applyAsInt(int i, int i2) {
+        return this.a.applyAsInt(i, i2);
     }
 }

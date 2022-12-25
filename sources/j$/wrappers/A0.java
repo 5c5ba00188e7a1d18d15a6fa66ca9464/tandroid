@@ -1,23 +1,23 @@
 package j$.wrappers;
 
-import java.util.function.Supplier;
+import java.util.function.ToDoubleFunction;
 /* loaded from: classes2.dex */
-public final /* synthetic */ class A0 implements Supplier {
-    final /* synthetic */ j$.util.function.y a;
+public final /* synthetic */ class A0 implements j$.util.function.z {
+    final /* synthetic */ ToDoubleFunction a;
 
-    private /* synthetic */ A0(j$.util.function.y yVar) {
-        this.a = yVar;
+    private /* synthetic */ A0(ToDoubleFunction toDoubleFunction) {
+        this.a = toDoubleFunction;
     }
 
-    public static /* synthetic */ Supplier a(j$.util.function.y yVar) {
-        if (yVar == null) {
+    public static /* synthetic */ j$.util.function.z a(ToDoubleFunction toDoubleFunction) {
+        if (toDoubleFunction == null) {
             return null;
         }
-        return yVar instanceof z0 ? ((z0) yVar).a : new A0(yVar);
+        return toDoubleFunction instanceof B0 ? ((B0) toDoubleFunction).a : new A0(toDoubleFunction);
     }
 
-    @Override // java.util.function.Supplier
-    public /* synthetic */ Object get() {
-        return this.a.get();
+    @Override // j$.util.function.z
+    public /* synthetic */ double applyAsDouble(Object obj) {
+        return this.a.applyAsDouble(obj);
     }
 }

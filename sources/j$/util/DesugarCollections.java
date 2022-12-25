@@ -89,7 +89,7 @@ public class DesugarCollections {
         @Override // java.util.Map
         public Object computeIfAbsent(Object obj, java.util.function.Function function) {
             Object n;
-            Function a = j$.wrappers.M.a(function);
+            Function a = j$.wrappers.L.a(function);
             synchronized (this.b) {
                 n = j$.util.a.n(this.a, obj, a);
             }

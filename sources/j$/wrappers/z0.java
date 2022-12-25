@@ -2,21 +2,21 @@ package j$.wrappers;
 
 import java.util.function.Supplier;
 /* loaded from: classes2.dex */
-public final /* synthetic */ class z0 implements j$.util.function.y {
-    final /* synthetic */ Supplier a;
+public final /* synthetic */ class z0 implements Supplier {
+    final /* synthetic */ j$.util.function.y a;
 
-    private /* synthetic */ z0(Supplier supplier) {
-        this.a = supplier;
+    private /* synthetic */ z0(j$.util.function.y yVar) {
+        this.a = yVar;
     }
 
-    public static /* synthetic */ j$.util.function.y a(Supplier supplier) {
-        if (supplier == null) {
+    public static /* synthetic */ Supplier a(j$.util.function.y yVar) {
+        if (yVar == null) {
             return null;
         }
-        return supplier instanceof A0 ? ((A0) supplier).a : new z0(supplier);
+        return yVar instanceof y0 ? ((y0) yVar).a : new z0(yVar);
     }
 
-    @Override // j$.util.function.y
+    @Override // java.util.function.Supplier
     public /* synthetic */ Object get() {
         return this.a.get();
     }

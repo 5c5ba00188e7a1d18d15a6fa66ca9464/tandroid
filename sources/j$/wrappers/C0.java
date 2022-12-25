@@ -1,23 +1,23 @@
 package j$.wrappers;
 
-import java.util.function.ToDoubleFunction;
+import j$.util.function.ToIntFunction;
 /* loaded from: classes2.dex */
-public final /* synthetic */ class C0 implements ToDoubleFunction {
-    final /* synthetic */ j$.util.function.z a;
+public final /* synthetic */ class C0 implements ToIntFunction {
+    final /* synthetic */ java.util.function.ToIntFunction a;
 
-    private /* synthetic */ C0(j$.util.function.z zVar) {
-        this.a = zVar;
+    private /* synthetic */ C0(java.util.function.ToIntFunction toIntFunction) {
+        this.a = toIntFunction;
     }
 
-    public static /* synthetic */ ToDoubleFunction a(j$.util.function.z zVar) {
-        if (zVar == null) {
+    public static /* synthetic */ ToIntFunction a(java.util.function.ToIntFunction toIntFunction) {
+        if (toIntFunction == null) {
             return null;
         }
-        return zVar instanceof B0 ? ((B0) zVar).a : new C0(zVar);
+        return toIntFunction instanceof D0 ? ((D0) toIntFunction).a : new C0(toIntFunction);
     }
 
-    @Override // java.util.function.ToDoubleFunction
-    public /* synthetic */ double applyAsDouble(Object obj) {
-        return this.a.applyAsDouble(obj);
+    @Override // j$.util.function.ToIntFunction
+    public /* synthetic */ int applyAsInt(Object obj) {
+        return this.a.applyAsInt(obj);
     }
 }

@@ -862,6 +862,11 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
             photoPickerActivity.setCaption(text);
             photoPickerActivity.setDelegate(new PhotoPickerActivity.PhotoPickerActivityDelegate() { // from class: org.telegram.ui.PhotoAlbumPickerActivity.8
                 @Override // org.telegram.ui.PhotoPickerActivity.PhotoPickerActivityDelegate
+                public /* synthetic */ boolean canFinishFragment() {
+                    return PhotoPickerActivity.PhotoPickerActivityDelegate.-CC.$default$canFinishFragment(this);
+                }
+
+                @Override // org.telegram.ui.PhotoPickerActivity.PhotoPickerActivityDelegate
                 public /* synthetic */ void onOpenInPressed() {
                     PhotoPickerActivity.PhotoPickerActivityDelegate.-CC.$default$onOpenInPressed(this);
                 }
@@ -898,6 +903,11 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
             photoPickerSearchActivity.setCaption(text2);
             photoPickerSearchActivity.setDelegate(new PhotoPickerActivity.PhotoPickerActivityDelegate() { // from class: org.telegram.ui.PhotoAlbumPickerActivity.9
                 @Override // org.telegram.ui.PhotoPickerActivity.PhotoPickerActivityDelegate
+                public /* synthetic */ boolean canFinishFragment() {
+                    return PhotoPickerActivity.PhotoPickerActivityDelegate.-CC.$default$canFinishFragment(this);
+                }
+
+                @Override // org.telegram.ui.PhotoPickerActivity.PhotoPickerActivityDelegate
                 public /* synthetic */ void onOpenInPressed() {
                     PhotoPickerActivity.PhotoPickerActivityDelegate.-CC.$default$onOpenInPressed(this);
                 }
@@ -928,6 +938,11 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
         this.caption = text3;
         photoPickerActivity2.setCaption(text3);
         photoPickerActivity2.setDelegate(new PhotoPickerActivity.PhotoPickerActivityDelegate() { // from class: org.telegram.ui.PhotoAlbumPickerActivity.10
+            @Override // org.telegram.ui.PhotoPickerActivity.PhotoPickerActivityDelegate
+            public /* synthetic */ boolean canFinishFragment() {
+                return PhotoPickerActivity.PhotoPickerActivityDelegate.-CC.$default$canFinishFragment(this);
+            }
+
             @Override // org.telegram.ui.PhotoPickerActivity.PhotoPickerActivityDelegate
             public /* synthetic */ void onOpenInPressed() {
                 PhotoPickerActivity.PhotoPickerActivityDelegate.-CC.$default$onOpenInPressed(this);

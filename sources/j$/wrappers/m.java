@@ -20,7 +20,7 @@ public final /* synthetic */ class m implements j$.util.v {
 
     @Override // j$.util.v, j$.util.u
     public /* synthetic */ boolean b(Consumer consumer) {
-        return this.a.tryAdvance(x.a(consumer));
+        return this.a.tryAdvance($r8$wrapper$java$util$function$Consumer$-WRP.convert(consumer));
     }
 
     @Override // j$.util.u
@@ -30,7 +30,7 @@ public final /* synthetic */ class m implements j$.util.v {
 
     @Override // j$.util.v
     public /* synthetic */ void d(j$.util.function.q qVar) {
-        this.a.forEachRemaining(g0.a(qVar));
+        this.a.forEachRemaining(f0.a(qVar));
     }
 
     @Override // j$.util.u
@@ -40,7 +40,7 @@ public final /* synthetic */ class m implements j$.util.v {
 
     @Override // j$.util.v, j$.util.u
     public /* synthetic */ void forEachRemaining(Consumer consumer) {
-        this.a.forEachRemaining(x.a(consumer));
+        this.a.forEachRemaining($r8$wrapper$java$util$function$Consumer$-WRP.convert(consumer));
     }
 
     @Override // j$.util.w
@@ -65,7 +65,7 @@ public final /* synthetic */ class m implements j$.util.v {
 
     @Override // j$.util.v
     public /* synthetic */ boolean i(j$.util.function.q qVar) {
-        return this.a.tryAdvance(g0.a(qVar));
+        return this.a.tryAdvance(f0.a(qVar));
     }
 
     @Override // j$.util.w

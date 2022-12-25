@@ -25,7 +25,7 @@ import org.telegram.ui.ActionBar.ThemeDescription;
 import org.telegram.ui.Components.AvatarsImageView;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.MemberRequestsBottomSheet;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public class ChatActivityMemberRequestsDelegate {
     private AvatarsImageView avatarsView;
     private MemberRequestsBottomSheet bottomSheet;
@@ -42,7 +42,7 @@ public class ChatActivityMemberRequestsDelegate {
     private TextView requestsCountTextView;
     private FrameLayout root;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public interface Callback {
         void onEnterOffsetChanged();
     }

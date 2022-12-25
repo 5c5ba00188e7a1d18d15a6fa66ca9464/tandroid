@@ -1,59 +1,60 @@
 package j$.wrappers;
 
 import java.util.Iterator;
+import java.util.Spliterator;
 import java.util.stream.BaseStream;
 /* loaded from: classes2.dex */
-public final /* synthetic */ class H0 implements j$.util.stream.g {
-    final /* synthetic */ BaseStream a;
+public final /* synthetic */ class H0 implements BaseStream {
+    final /* synthetic */ j$.util.stream.g a;
 
-    private /* synthetic */ H0(BaseStream baseStream) {
-        this.a = baseStream;
+    private /* synthetic */ H0(j$.util.stream.g gVar) {
+        this.a = gVar;
     }
 
-    public static /* synthetic */ j$.util.stream.g n0(BaseStream baseStream) {
-        if (baseStream == null) {
+    public static /* synthetic */ BaseStream n0(j$.util.stream.g gVar) {
+        if (gVar == null) {
             return null;
         }
-        return baseStream instanceof I0 ? ((I0) baseStream).a : new H0(baseStream);
+        return gVar instanceof G0 ? ((G0) gVar).a : new H0(gVar);
     }
 
-    @Override // j$.util.stream.g, java.lang.AutoCloseable
+    @Override // java.util.stream.BaseStream, java.lang.AutoCloseable
     public /* synthetic */ void close() {
         this.a.close();
     }
 
-    @Override // j$.util.stream.g
+    @Override // java.util.stream.BaseStream
     public /* synthetic */ boolean isParallel() {
         return this.a.isParallel();
     }
 
-    @Override // j$.util.stream.g
+    @Override // java.util.stream.BaseStream
     public /* synthetic */ Iterator iterator() {
         return this.a.iterator();
     }
 
-    @Override // j$.util.stream.g
-    public /* synthetic */ j$.util.stream.g onClose(Runnable runnable) {
+    @Override // java.util.stream.BaseStream
+    public /* synthetic */ BaseStream onClose(Runnable runnable) {
         return n0(this.a.onClose(runnable));
     }
 
-    @Override // j$.util.stream.g, j$.util.stream.IntStream
-    public /* synthetic */ j$.util.stream.g parallel() {
+    @Override // java.util.stream.BaseStream
+    public /* synthetic */ BaseStream parallel() {
         return n0(this.a.parallel());
     }
 
-    @Override // j$.util.stream.g, j$.util.stream.IntStream
-    public /* synthetic */ j$.util.stream.g sequential() {
+    @Override // java.util.stream.BaseStream
+    public /* synthetic */ BaseStream sequential() {
         return n0(this.a.sequential());
     }
 
-    @Override // j$.util.stream.g
-    public /* synthetic */ j$.util.u spliterator() {
-        return g.a(this.a.spliterator());
+    @Override // java.util.stream.BaseStream
+    public /* synthetic */ Spliterator spliterator() {
+        return h.a(this.a.spliterator());
     }
 
-    @Override // j$.util.stream.g
-    public /* synthetic */ j$.util.stream.g unordered() {
+    @Override // java.util.stream.BaseStream
+    public /* synthetic */ BaseStream unordered() {
         return n0(this.a.unordered());
     }
 }

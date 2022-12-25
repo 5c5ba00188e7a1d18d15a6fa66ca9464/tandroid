@@ -455,7 +455,7 @@ public class LinkActionView extends LinearLayout {
             i = R.string.QRCodeLinkHelpGroup;
             str = "QRCodeLinkHelpGroup";
         }
-        QRCodeBottomSheet qRCodeBottomSheet = new QRCodeBottomSheet(context, str2, LocaleController.getString(str, i)) { // from class: org.telegram.ui.Components.LinkActionView.5
+        QRCodeBottomSheet qRCodeBottomSheet = new QRCodeBottomSheet(context, str2, LocaleController.getString(str, i), false) { // from class: org.telegram.ui.Components.LinkActionView.5
             @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface
             public void dismiss() {
                 super.dismiss();
@@ -463,7 +463,8 @@ public class LinkActionView extends LinearLayout {
             }
         };
         this.qrCodeBottomSheet = qRCodeBottomSheet;
-        qRCodeBottomSheet.show();
+        qRCodeBottomSheet.setCenterAnimation(R.raw.qr_code_logo);
+        this.qrCodeBottomSheet.show();
         ActionBarPopupWindow actionBarPopupWindow = this.actionBarPopupWindow;
         if (actionBarPopupWindow != null) {
             actionBarPopupWindow.dismiss();

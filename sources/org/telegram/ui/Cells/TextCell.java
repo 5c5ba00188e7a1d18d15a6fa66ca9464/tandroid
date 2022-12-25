@@ -132,8 +132,9 @@ public class TextCell extends FrameLayout {
         requestLayout();
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.widget.FrameLayout, android.view.View
-    protected void onMeasure(int i, int i2) {
+    public void onMeasure(int i, int i2) {
         int size = View.MeasureSpec.getSize(i);
         int dp = AndroidUtilities.dp(this.heightDp);
         if (this.prioritizeTitleOverValue) {
@@ -301,6 +302,8 @@ public class TextCell extends FrameLayout {
         this.valueTextView.setVisibility(0);
         this.valueImageView.setVisibility(8);
         this.imageView.setVisibility(0);
+        this.imageView.setTranslationX(0.0f);
+        this.imageView.setTranslationY(0.0f);
         this.imageView.setPadding(0, AndroidUtilities.dp(7.0f), 0, 0);
         this.imageView.setImageResource(i);
         this.needDivider = z2;
@@ -309,6 +312,17 @@ public class TextCell extends FrameLayout {
         if (r2 != null) {
             r2.setVisibility(8);
         }
+    }
+
+    public void setColorfulIcon(int i, int i2) {
+        this.offsetFromImage = 65;
+        this.imageView.setVisibility(0);
+        this.imageView.setPadding(AndroidUtilities.dp(2.0f), AndroidUtilities.dp(2.0f), AndroidUtilities.dp(2.0f), AndroidUtilities.dp(2.0f));
+        this.imageView.setTranslationX(AndroidUtilities.dp(-3.0f));
+        this.imageView.setTranslationY(AndroidUtilities.dp(6.0f));
+        this.imageView.setImageResource(i2);
+        this.imageView.setColorFilter(new PorterDuffColorFilter(-1, PorterDuff.Mode.SRC_IN));
+        this.imageView.setBackground(Theme.createRoundRectDrawable(AndroidUtilities.dp(8.0f), i));
     }
 
     public void setTextAndCheck(String str, boolean z, boolean z2) {

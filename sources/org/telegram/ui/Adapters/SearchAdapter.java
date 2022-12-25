@@ -9,6 +9,7 @@ import androidx.collection.LongSparseArray;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Timer;
 import java.util.TimerTask;
 import org.telegram.PhoneFormat.PhoneFormat;
@@ -35,6 +36,7 @@ import org.telegram.ui.Components.ForegroundColorSpanThemable;
 import org.telegram.ui.Components.RecyclerListView;
 /* loaded from: classes3.dex */
 public class SearchAdapter extends RecyclerListView.SelectionAdapter {
+    private ArrayList<ContactEntry> allUnregistredContacts;
     private boolean allowBots;
     private boolean allowChats;
     private boolean allowPhoneNumbers;
@@ -49,10 +51,12 @@ public class SearchAdapter extends RecyclerListView.SelectionAdapter {
     private boolean searchInProgress;
     private int searchPointer;
     private int searchReqId;
+    private Timer searchTimer;
+    int unregistredContactsHeaderRow;
+    private boolean useUserCell;
     private ArrayList<Object> searchResult = new ArrayList<>();
     private ArrayList<CharSequence> searchResultNames = new ArrayList<>();
-    private Timer searchTimer;
-    private boolean useUserCell;
+    private ArrayList<ContactsController.Contact> unregistredContacts = new ArrayList<>();
 
     protected void onSearchProgressChanged() {
         throw null;
@@ -111,6 +115,7 @@ public class SearchAdapter extends RecyclerListView.SelectionAdapter {
             FileLog.e(e);
         }
         this.searchResult.clear();
+        this.unregistredContacts.clear();
         this.searchResultNames.clear();
         if (this.allowUsernameSearch) {
             this.searchAdapterHelper.queryServerSearch(null, true, this.allowChats, this.allowBots, this.allowSelf, false, this.channelId, this.allowPhoneNumbers, 0, 0);
@@ -167,122 +172,135 @@ public class SearchAdapter extends RecyclerListView.SelectionAdapter {
     public /* synthetic */ void lambda$processSearch$0(String str, int i, ArrayList arrayList, int i2) {
         LongSparseArray<TLRPC$User> longSparseArray;
         int i3;
-        String str2;
+        String[] strArr;
+        String[] strArr2;
         String lowerCase = str.trim().toLowerCase();
         if (lowerCase.length() == 0) {
-            updateSearchResults(i, new ArrayList<>(), new ArrayList<>());
+            updateSearchResults(i, new ArrayList<>(), new ArrayList<>(), this.unregistredContacts);
             return;
         }
         String translitString = LocaleController.getInstance().getTranslitString(lowerCase);
-        String str3 = null;
         if (lowerCase.equals(translitString) || translitString.length() == 0) {
             translitString = null;
         }
-        char c = 0;
-        char c2 = 1;
         int i4 = (translitString != null ? 1 : 0) + 1;
-        String[] strArr = new String[i4];
-        strArr[0] = lowerCase;
+        String[] strArr3 = new String[i4];
+        strArr3[0] = lowerCase;
         if (translitString != null) {
-            strArr[1] = translitString;
+            strArr3[1] = translitString;
         }
         ArrayList<Object> arrayList2 = new ArrayList<>();
         ArrayList<CharSequence> arrayList3 = new ArrayList<>();
+        ArrayList<ContactsController.Contact> arrayList4 = new ArrayList<>();
         int i5 = 0;
         while (i5 < arrayList.size()) {
             TLRPC$TL_contact tLRPC$TL_contact = (TLRPC$TL_contact) arrayList.get(i5);
+            int i6 = i4;
             TLRPC$User user = MessagesController.getInstance(i2).getUser(Long.valueOf(tLRPC$TL_contact.user_id));
             if ((this.allowSelf || !user.self) && ((!this.onlyMutual || user.mutual_contact) && ((longSparseArray = this.ignoreUsers) == null || longSparseArray.indexOfKey(tLRPC$TL_contact.user_id) < 0))) {
-                int i6 = 3;
-                String[] strArr2 = new String[3];
-                strArr2[c] = ContactsController.formatName(user.first_name, user.last_name).toLowerCase();
-                strArr2[c2] = LocaleController.getInstance().getTranslitString(strArr2[c]);
-                if (strArr2[c].equals(strArr2[c2])) {
-                    strArr2[c2] = str3;
+                String[] strArr4 = new String[3];
+                strArr4[0] = ContactsController.formatName(user.first_name, user.last_name).toLowerCase();
+                strArr4[1] = LocaleController.getInstance().getTranslitString(strArr4[0]);
+                if (strArr4[0].equals(strArr4[1])) {
+                    strArr4[1] = null;
                 }
                 if (UserObject.isReplyUser(user)) {
-                    strArr2[2] = LocaleController.getString("RepliesTitle", R.string.RepliesTitle).toLowerCase();
+                    strArr4[2] = LocaleController.getString("RepliesTitle", R.string.RepliesTitle).toLowerCase();
                 } else if (user.self) {
-                    strArr2[2] = LocaleController.getString("SavedMessages", R.string.SavedMessages).toLowerCase();
+                    strArr4[2] = LocaleController.getString("SavedMessages", R.string.SavedMessages).toLowerCase();
                 }
-                int i7 = 0;
-                char c3 = 0;
-                while (i7 < i4) {
-                    String str4 = strArr[i7];
-                    int i8 = 0;
-                    while (i8 < i6) {
-                        String str5 = strArr2[i8];
-                        if (str5 != null) {
-                            if (!str5.startsWith(str4)) {
-                                StringBuilder sb = new StringBuilder();
-                                i3 = i4;
-                                sb.append(" ");
-                                sb.append(str4);
-                                if (str5.contains(sb.toString())) {
+                int i7 = i6;
+                int i8 = 0;
+                char c = 0;
+                while (true) {
+                    i3 = i7;
+                    if (i8 >= i7) {
+                        strArr = strArr3;
+                        break;
+                    }
+                    String str2 = strArr3[i8];
+                    strArr = strArr3;
+                    int i9 = 0;
+                    while (i9 < 3) {
+                        String str3 = strArr4[i9];
+                        if (str3 != null) {
+                            if (!str3.startsWith(str2)) {
+                                strArr2 = strArr4;
+                                if (str3.contains(" " + str2)) {
                                 }
                             } else {
-                                i3 = i4;
+                                strArr2 = strArr4;
                             }
-                            c3 = 1;
+                            c = 1;
                             break;
                         }
-                        i3 = i4;
-                        i8++;
-                        i4 = i3;
-                        i6 = 3;
+                        strArr2 = strArr4;
+                        i9++;
+                        strArr4 = strArr2;
                     }
-                    i3 = i4;
+                    strArr2 = strArr4;
                     String publicUsername = UserObject.getPublicUsername(user);
-                    if (c3 == 0 && publicUsername != null && publicUsername.startsWith(str4)) {
-                        c3 = 2;
+                    if (c == 0 && publicUsername != null && publicUsername.startsWith(str2)) {
+                        c = 2;
                     }
-                    if (c3 != 0) {
-                        if (c3 == 1) {
-                            arrayList3.add(AndroidUtilities.generateSearchName(user.first_name, user.last_name, str4));
-                            str2 = null;
+                    if (c != 0) {
+                        if (c == 1) {
+                            arrayList3.add(AndroidUtilities.generateSearchName(user.first_name, user.last_name, str2));
                         } else {
-                            str2 = null;
-                            arrayList3.add(AndroidUtilities.generateSearchName("@" + UserObject.getPublicUsername(user), null, "@" + str4));
+                            arrayList3.add(AndroidUtilities.generateSearchName("@" + UserObject.getPublicUsername(user), null, "@" + str2));
                         }
                         arrayList2.add(user);
-                        i5++;
-                        str3 = str2;
-                        i4 = i3;
-                        c = 0;
-                        c2 = 1;
                     } else {
-                        i7++;
-                        str3 = null;
-                        i4 = i3;
-                        i6 = 3;
+                        i8++;
+                        i7 = i3;
+                        strArr3 = strArr;
+                        strArr4 = strArr2;
                     }
                 }
+            } else {
+                strArr = strArr3;
+                i3 = i6;
             }
-            i3 = i4;
-            str2 = str3;
             i5++;
-            str3 = str2;
             i4 = i3;
-            c = 0;
-            c2 = 1;
+            strArr3 = strArr;
         }
-        updateSearchResults(i, arrayList2, arrayList3);
+        if (this.allUnregistredContacts == null) {
+            this.allUnregistredContacts = new ArrayList<>();
+            Iterator<ContactsController.Contact> it = ContactsController.getInstance(i2).phoneBookContacts.iterator();
+            while (it.hasNext()) {
+                ContactsController.Contact next = it.next();
+                ContactEntry contactEntry = new ContactEntry();
+                contactEntry.contact = next;
+                contactEntry.q1 = (next.first_name + " " + next.last_name).toLowerCase();
+                (next.last_name + " " + next.first_name).toLowerCase();
+                this.allUnregistredContacts.add(contactEntry);
+            }
+        }
+        for (int i10 = 0; i10 < this.allUnregistredContacts.size(); i10++) {
+            ContactEntry contactEntry2 = this.allUnregistredContacts.get(i10);
+            if ((translitString != null && (contactEntry2.q1.toLowerCase().contains(translitString) || contactEntry2.q1.toLowerCase().contains(translitString))) || contactEntry2.q1.toLowerCase().contains(lowerCase) || contactEntry2.q1.toLowerCase().contains(lowerCase)) {
+                arrayList4.add(contactEntry2.contact);
+            }
+        }
+        updateSearchResults(i, arrayList2, arrayList3, arrayList4);
     }
 
-    private void updateSearchResults(final int i, final ArrayList<Object> arrayList, final ArrayList<CharSequence> arrayList2) {
+    private void updateSearchResults(final int i, final ArrayList<Object> arrayList, final ArrayList<CharSequence> arrayList2, final ArrayList<ContactsController.Contact> arrayList3) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.SearchAdapter$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
-                SearchAdapter.this.lambda$updateSearchResults$2(i, arrayList, arrayList2);
+                SearchAdapter.this.lambda$updateSearchResults$2(i, arrayList, arrayList2, arrayList3);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$updateSearchResults$2(int i, ArrayList arrayList, ArrayList arrayList2) {
+    public /* synthetic */ void lambda$updateSearchResults$2(int i, ArrayList arrayList, ArrayList arrayList2, ArrayList arrayList3) {
         if (i == this.searchReqId) {
             this.searchResult = arrayList;
             this.searchResultNames = arrayList2;
+            this.unregistredContacts = arrayList3;
             this.searchAdapterHelper.mergeResults(arrayList);
             this.searchInProgress = false;
             notifyDataSetChanged();
@@ -297,12 +315,17 @@ public class SearchAdapter extends RecyclerListView.SelectionAdapter {
     @Override // org.telegram.ui.Components.RecyclerListView.SelectionAdapter
     public boolean isEnabled(RecyclerView.ViewHolder viewHolder) {
         int itemViewType = viewHolder.getItemViewType();
-        return itemViewType == 0 || itemViewType == 2;
+        return itemViewType == 0 || itemViewType == 2 || itemViewType == 3;
     }
 
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter
     public int getItemCount() {
+        this.unregistredContactsHeaderRow = -1;
         int size = this.searchResult.size();
+        this.unregistredContactsHeaderRow = size;
+        if (!this.unregistredContacts.isEmpty()) {
+            size += this.unregistredContacts.size() + 1;
+        }
         int size2 = this.searchAdapterHelper.getGlobalSearch().size();
         if (size2 != 0) {
             size += size2 + 1;
@@ -313,25 +336,39 @@ public class SearchAdapter extends RecyclerListView.SelectionAdapter {
 
     public boolean isGlobalSearch(int i) {
         int size = this.searchResult.size();
-        int size2 = this.searchAdapterHelper.getGlobalSearch().size();
-        int size3 = this.searchAdapterHelper.getPhoneSearch().size();
+        int size2 = this.unregistredContacts.size();
+        int size3 = this.searchAdapterHelper.getGlobalSearch().size();
+        int size4 = this.searchAdapterHelper.getPhoneSearch().size();
         if (i < 0 || i >= size) {
-            return (i <= size || i >= size + size3) && i > size + size3 && i <= (size2 + size3) + size;
+            if (i > size && i < size + size2 + 1) {
+                return false;
+            }
+            return (i <= (size + size2) + 1 || i >= ((size + size4) + size2) + 1) && i > ((size + size4) + size2) + 1 && i <= (((size3 + size4) + size) + size2) + 1;
         }
         return false;
     }
 
     public Object getItem(int i) {
         int size = this.searchResult.size();
-        int size2 = this.searchAdapterHelper.getGlobalSearch().size();
-        int size3 = this.searchAdapterHelper.getPhoneSearch().size();
+        int size2 = this.unregistredContacts.size();
+        int size3 = this.searchAdapterHelper.getGlobalSearch().size();
+        int size4 = this.searchAdapterHelper.getPhoneSearch().size();
         if (i < 0 || i >= size) {
             int i2 = i - size;
-            if (i2 >= 0 && i2 < size3) {
+            if (size2 > 0) {
+                if (i2 == 0) {
+                    return null;
+                }
+                if (i2 > 0 && i2 <= size2) {
+                    return this.unregistredContacts.get(i2 - 1);
+                }
+                i2 -= size2 + 1;
+            }
+            if (i2 >= 0 && i2 < size4) {
                 return this.searchAdapterHelper.getPhoneSearch().get(i2);
             }
-            int i3 = i2 - size3;
-            if (i3 > 0 && i3 <= size2) {
+            int i3 = i2 - size4;
+            if (i3 > 0 && i3 <= size3) {
                 return this.searchAdapterHelper.getGlobalSearch().get(i3 - 1);
             }
             return null;
@@ -345,8 +382,10 @@ public class SearchAdapter extends RecyclerListView.SelectionAdapter {
         if (i != 0) {
             if (i == 1) {
                 profileSearchCell = new GraySectionCell(this.mContext);
-            } else {
+            } else if (i != 3) {
                 profileSearchCell = new TextCell(this.mContext, 16, false);
+            } else {
+                profileSearchCell = new ProfileSearchCell(this.mContext);
             }
         } else if (this.useUserCell) {
             UserCell userCell = new UserCell(this.mContext, 1, 1, false);
@@ -373,19 +412,28 @@ public class SearchAdapter extends RecyclerListView.SelectionAdapter {
         if (itemViewType != 0) {
             if (itemViewType == 1) {
                 GraySectionCell graySectionCell = (GraySectionCell) viewHolder.itemView;
-                if (getItem(i) == null) {
+                if (i == this.unregistredContactsHeaderRow) {
+                    graySectionCell.setText(LocaleController.getString("InviteToTelegramShort", R.string.InviteToTelegramShort));
+                    return;
+                } else if (getItem(i) == null) {
                     graySectionCell.setText(LocaleController.getString("GlobalSearch", R.string.GlobalSearch));
                     return;
                 } else {
                     graySectionCell.setText(LocaleController.getString("PhoneNumberSearch", R.string.PhoneNumberSearch));
                     return;
                 }
-            } else if (itemViewType != 2) {
-                return;
-            } else {
+            } else if (itemViewType == 2) {
                 TextCell textCell = (TextCell) viewHolder.itemView;
                 textCell.setColors(null, "windowBackgroundWhiteBlueText2");
                 textCell.setText(LocaleController.formatString("AddContactByPhone", R.string.AddContactByPhone, PhoneFormat.getInstance().format("+" + ((String) getItem(i)))), false);
+                return;
+            } else if (itemViewType != 3) {
+                return;
+            } else {
+                ProfileSearchCell profileSearchCell = (ProfileSearchCell) viewHolder.itemView;
+                ContactsController.Contact contact = (ContactsController.Contact) getItem(i);
+                profileSearchCell.useSeparator = getItem(i + 1) instanceof ContactsController.Contact;
+                profileSearchCell.setData(contact, null, ContactsController.formatName(contact.first_name, contact.last_name), PhoneFormat.getInstance().format("+" + contact.shortPhones.get(0)), false, false);
                 return;
             }
         }
@@ -457,12 +505,12 @@ public class SearchAdapter extends RecyclerListView.SelectionAdapter {
             userCell.setChecked(z3, false);
             return;
         }
-        ProfileSearchCell profileSearchCell = (ProfileSearchCell) viewHolder.itemView;
-        profileSearchCell.setData(tLObject, null, z ? LocaleController.getString("SavedMessages", R.string.SavedMessages) : str2, spannableStringBuilder, false, z);
+        ProfileSearchCell profileSearchCell2 = (ProfileSearchCell) viewHolder.itemView;
+        profileSearchCell2.setData(tLObject, null, z ? LocaleController.getString("SavedMessages", R.string.SavedMessages) : str2, spannableStringBuilder, false, z);
         if (i != getItemCount() - 1 && i != this.searchResult.size() - 1) {
             z2 = true;
         }
-        profileSearchCell.useSeparator = z2;
+        profileSearchCell2.useSeparator = z2;
     }
 
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -471,9 +519,16 @@ public class SearchAdapter extends RecyclerListView.SelectionAdapter {
         if (item == null) {
             return 1;
         }
-        if (!(item instanceof String)) {
-            return 0;
+        return item instanceof String ? "section".equals((String) item) ? 1 : 2 : item instanceof ContactsController.Contact ? 3 : 0;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: classes3.dex */
+    public static class ContactEntry {
+        ContactsController.Contact contact;
+        String q1;
+
+        private ContactEntry() {
         }
-        return "section".equals((String) item) ? 1 : 2;
     }
 }

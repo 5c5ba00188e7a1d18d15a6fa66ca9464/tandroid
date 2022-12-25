@@ -3,7 +3,6 @@ package org.telegram.ui.Components;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.CornerPathEffect;
 import android.graphics.Paint;
 import android.text.Layout;
 import android.text.SpannableString;
@@ -163,7 +162,7 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
             this.loadingDrawable = loadingDrawable;
             loadingDrawable.colorKey1 = "actionBarDefaultSubmenuBackground";
             loadingDrawable.colorKey2 = "listSelectorSDK21";
-            loadingDrawable.paint.setPathEffect(new CornerPathEffect(AndroidUtilities.dp(4.0f)));
+            loadingDrawable.setRadiiDp(4.0f);
         }
     }
 
@@ -186,7 +185,9 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
                     if (this.loadingBoundsFrom == null) {
                         this.loadingBoundsFrom = new android.graphics.Rect();
                     }
-                    this.loadingBoundsFrom.set(this.lastLineMargin, this.lastLineTop + AndroidUtilities.dp(1.25f), (int) (this.lastLineMargin + min), r1 + AndroidUtilities.dp(1.25f));
+                    android.graphics.Rect rect = this.loadingBoundsFrom;
+                    int i3 = this.lastLineMargin;
+                    rect.set(i3, this.lastLineTop, (int) (i3 + min), r1);
                     this.loadingDrawable.setBounds(this.loadingBoundsFrom);
                     this.loadingDrawableBoundsSet = true;
                 }

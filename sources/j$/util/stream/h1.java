@@ -4,14 +4,14 @@ import java.util.Objects;
 /* loaded from: classes2.dex */
 class h1 extends j1 implements l3 {
     final /* synthetic */ k1 c;
-    final /* synthetic */ j$.wrappers.j0 d;
+    final /* synthetic */ j$.wrappers.i0 d;
 
     /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public h1(k1 k1Var, j$.wrappers.j0 j0Var) {
+    public h1(k1 k1Var, j$.wrappers.i0 i0Var) {
         super(k1Var);
         this.c = k1Var;
-        this.d = j0Var;
+        this.d = i0Var;
     }
 
     @Override // j$.util.stream.j1, j$.util.stream.m3, j$.util.stream.l3, j$.util.function.q

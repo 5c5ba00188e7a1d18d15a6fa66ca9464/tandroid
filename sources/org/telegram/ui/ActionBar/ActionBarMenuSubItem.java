@@ -15,12 +15,13 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.CheckBox2;
 import org.telegram.ui.Components.LayoutHelper;
+import org.telegram.ui.Components.RLottieImageView;
 /* loaded from: classes3.dex */
 public class ActionBarMenuSubItem extends FrameLayout {
     boolean bottom;
     private CheckBox2 checkView;
     private int iconColor;
-    private ImageView imageView;
+    private RLottieImageView imageView;
     private int itemHeight;
     Runnable openSwipeBackLayout;
     private final Theme.ResourcesProvider resourcesProvider;
@@ -54,9 +55,9 @@ public class ActionBarMenuSubItem extends FrameLayout {
         this.selectorColor = getThemedColor("dialogButtonSelector");
         updateBackground();
         setPadding(AndroidUtilities.dp(18.0f), 0, AndroidUtilities.dp(18.0f), 0);
-        ImageView imageView = new ImageView(context);
-        this.imageView = imageView;
-        imageView.setScaleType(ImageView.ScaleType.CENTER);
+        RLottieImageView rLottieImageView = new RLottieImageView(context);
+        this.imageView = rLottieImageView;
+        rLottieImageView.setScaleType(ImageView.ScaleType.CENTER);
         this.imageView.setColorFilter(new PorterDuffColorFilter(this.iconColor, PorterDuff.Mode.MULTIPLY));
         int i = 5;
         addView(this.imageView, LayoutHelper.createFrame(-2, 40, (LocaleController.isRTL ? 5 : 3) | 16));
@@ -176,9 +177,9 @@ public class ActionBarMenuSubItem extends FrameLayout {
 
     public void setIconColor(int i) {
         if (this.iconColor != i) {
-            ImageView imageView = this.imageView;
+            RLottieImageView rLottieImageView = this.imageView;
             this.iconColor = i;
-            imageView.setColorFilter(new PorterDuffColorFilter(i, PorterDuff.Mode.MULTIPLY));
+            rLottieImageView.setColorFilter(new PorterDuffColorFilter(i, PorterDuff.Mode.MULTIPLY));
         }
     }
 
@@ -186,8 +187,18 @@ public class ActionBarMenuSubItem extends FrameLayout {
         this.imageView.setImageResource(i);
     }
 
-    public void setText(String str) {
-        this.textView.setText(str);
+    public void setAnimatedIcon(int i) {
+        this.imageView.setAnimation(i, 24, 24);
+    }
+
+    public void onItemShown() {
+        if (this.imageView.getAnimatedDrawable() != null) {
+            this.imageView.getAnimatedDrawable().start();
+        }
+    }
+
+    public void setText(CharSequence charSequence) {
+        this.textView.setText(charSequence);
     }
 
     public void setSubtextColor(int i) {

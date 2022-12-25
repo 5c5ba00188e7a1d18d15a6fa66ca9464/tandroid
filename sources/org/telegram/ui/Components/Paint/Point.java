@@ -14,6 +14,13 @@ public class Point {
         this.z = d3;
     }
 
+    public Point(double d, double d2, double d3, boolean z) {
+        this.x = d;
+        this.y = d2;
+        this.z = d3;
+        this.edge = z;
+    }
+
     public boolean equals(Object obj) {
         if (obj == null) {
             return false;

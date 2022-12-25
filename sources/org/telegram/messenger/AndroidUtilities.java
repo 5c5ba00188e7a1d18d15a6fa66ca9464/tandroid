@@ -79,6 +79,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.view.inputmethod.InputMethodSubtype;
+import android.view.inspector.WindowInspector;
 import android.webkit.MimeTypeMap;
 import android.widget.EdgeEffect;
 import android.widget.HorizontalScrollView;
@@ -118,6 +119,7 @@ import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
@@ -126,6 +128,7 @@ import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -133,6 +136,7 @@ import org.telegram.PhoneFormat.PhoneFormat;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.SharedConfig;
+import org.telegram.messenger.Utilities;
 import org.telegram.messenger.browser.Browser;
 import org.telegram.messenger.utils.CustomHtml;
 import org.telegram.tgnet.ConnectionsManager;
@@ -182,7 +186,11 @@ public class AndroidUtilities {
     public static final int REPLACING_TAG_TYPE_BOLD = 1;
     public static final int REPLACING_TAG_TYPE_LINK = 0;
     public static final String STICKERS_PLACEHOLDER_PACK_NAME = "tg_placeholders_android";
+    public static final String TYPEFACE_COURIER_NEW_BOLD = "fonts/courier_new_bold.ttf";
+    public static final String TYPEFACE_MERRIWEATHER_BOLD = "fonts/mw_bold.ttf";
     public static final String TYPEFACE_ROBOTO_MEDIUM = "fonts/rmedium.ttf";
+    public static final String TYPEFACE_ROBOTO_MEDIUM_ITALIC = "fonts/rmediumitalic.ttf";
+    public static final String TYPEFACE_ROBOTO_MONO = "fonts/rmono.ttf";
     public static Pattern WEB_URL;
     private static AccessibilityManager accessibilityManager;
     private static RectF bitmapRect;
@@ -290,6 +298,10 @@ public class AndroidUtilities {
 
     public static int lerp(int i, int i2, float f) {
         return (int) (i + (f * (i2 - i)));
+    }
+
+    public static float lerpAngle(float f, float f2, float f3) {
+        return ((f + ((((((f2 - f) + 360.0f) + 180.0f) % 360.0f) - 180.0f) * f3)) + 360.0f) % 360.0f;
     }
 
     public static int setMyLayerVersion(int i, int i2) {
@@ -703,7 +715,7 @@ public class AndroidUtilities {
 
     private static void pruneOverlaps(ArrayList<LinkSpec> arrayList) {
         int i;
-        Collections.sort(arrayList, AndroidUtilities$$ExternalSyntheticLambda13.INSTANCE);
+        Collections.sort(arrayList, AndroidUtilities$$ExternalSyntheticLambda14.INSTANCE);
         int size = arrayList.size();
         int i2 = 0;
         while (i2 < size - 1) {
@@ -3232,10 +3244,10 @@ public class AndroidUtilities {
     /* JADX WARN: Code restructure failed: missing block: B:10:0x0036, code lost:
         if (r8.length() != 0) goto L11;
      */
-    /* JADX WARN: Removed duplicated region for block: B:23:0x0068  */
-    /* JADX WARN: Removed duplicated region for block: B:29:0x00c6  */
-    /* JADX WARN: Removed duplicated region for block: B:31:0x0098 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x0088  */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x0069  */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x00c7  */
+    /* JADX WARN: Removed duplicated region for block: B:31:0x0099 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x0089  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -3310,14 +3322,14 @@ public class AndroidUtilities {
     }
 
     public static SpannableStringBuilder formatSpannableSimple(String str, CharSequence... charSequenceArr) {
-        return formatSpannable(str, AndroidUtilities$$ExternalSyntheticLambda15.INSTANCE, charSequenceArr);
+        return formatSpannable(str, AndroidUtilities$$ExternalSyntheticLambda16.INSTANCE, charSequenceArr);
     }
 
     public static SpannableStringBuilder formatSpannable(String str, CharSequence... charSequenceArr) {
         if (str.contains("%s")) {
             return formatSpannableSimple(str, charSequenceArr);
         }
-        return formatSpannable(str, AndroidUtilities$$ExternalSyntheticLambda14.INSTANCE, charSequenceArr);
+        return formatSpannable(str, AndroidUtilities$$ExternalSyntheticLambda15.INSTANCE, charSequenceArr);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -3536,13 +3548,13 @@ public class AndroidUtilities {
         return accessibilityManager.isEnabled() && accessibilityManager.isTouchExplorationEnabled();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:36:0x0108 A[Catch: Exception -> 0x0125, TRY_LEAVE, TryCatch #0 {Exception -> 0x0125, blocks: (B:6:0x0008, B:9:0x0012, B:11:0x0018, B:13:0x0020, B:16:0x0032, B:19:0x003b, B:21:0x0043, B:24:0x0053, B:26:0x0059, B:28:0x005f, B:30:0x0065, B:32:0x0083, B:33:0x0087, B:34:0x0102, B:36:0x0108, B:46:0x0121, B:52:0x009d, B:54:0x00ad, B:56:0x00b5, B:60:0x00bd, B:62:0x00c3, B:64:0x00cb, B:66:0x00d3, B:68:0x00dd, B:69:0x00e1), top: B:5:0x0008 }] */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x0112  */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x0117  */
-    /* JADX WARN: Removed duplicated region for block: B:44:0x011c  */
-    /* JADX WARN: Removed duplicated region for block: B:49:0x011e  */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x0119  */
-    /* JADX WARN: Removed duplicated region for block: B:51:0x0114  */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x0112 A[Catch: Exception -> 0x012f, TRY_LEAVE, TryCatch #0 {Exception -> 0x012f, blocks: (B:6:0x000a, B:9:0x0014, B:11:0x001a, B:13:0x0022, B:16:0x0035, B:19:0x003e, B:21:0x0047, B:24:0x005a, B:26:0x0060, B:28:0x0066, B:30:0x006c, B:32:0x008a, B:33:0x008e, B:34:0x010c, B:36:0x0112, B:46:0x012b, B:52:0x00a4, B:54:0x00b5, B:56:0x00be, B:60:0x00c7, B:62:0x00cd, B:64:0x00d5, B:66:0x00dd, B:68:0x00e7, B:69:0x00eb), top: B:5:0x000a }] */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x011c  */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x0121  */
+    /* JADX WARN: Removed duplicated region for block: B:44:0x0126  */
+    /* JADX WARN: Removed duplicated region for block: B:49:0x0128  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x0123  */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x011e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -3979,6 +3991,12 @@ public class AndroidUtilities {
         return -1;
     }
 
+    public static double lerp(double d, double d2, float f) {
+        double d3 = f;
+        Double.isNaN(d3);
+        return d + (d3 * (d2 - d));
+    }
+
     public static float lerp(float[] fArr, float f) {
         return lerp(fArr[0], fArr[1], f);
     }
@@ -4302,7 +4320,7 @@ public class AndroidUtilities {
             Field declaredField = baseFragment.getClass().getDeclaredField("listView");
             declaredField.setAccessible(true);
             final RecyclerListView recyclerListView = (RecyclerListView) declaredField.get(baseFragment);
-            recyclerListView.highlightRow(new RecyclerListView.IntReturnCallback() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda16
+            recyclerListView.highlightRow(new RecyclerListView.IntReturnCallback() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda17
                 @Override // org.telegram.ui.Components.RecyclerListView.IntReturnCallback
                 public final int run() {
                     int lambda$scrollToFragmentRow$15;
@@ -4430,59 +4448,76 @@ public class AndroidUtilities {
     }
 
     public static void updateViewShow(View view, boolean z, boolean z2, boolean z3) {
-        updateViewShow(view, z, z2, z3, null);
+        updateViewShow(view, z, z2, false, z3, null);
     }
 
     public static void updateViewShow(View view, boolean z, boolean z2, boolean z3, Runnable runnable) {
+        updateViewShow(view, z, z2, false, z3, runnable);
+    }
+
+    public static void updateViewShow(View view, boolean z, boolean z2, boolean z3, boolean z4, Runnable runnable) {
         if (view == null) {
             return;
         }
         int i = 0;
         if (view.getParent() == null) {
-            z3 = false;
+            z4 = false;
         }
         Integer num = null;
         view.animate().setListener(null).cancel();
-        float f = 0.0f;
-        if (z3) {
+        float f = 1.0f;
+        float f2 = 0.0f;
+        if (!z4) {
+            if (!z) {
+                i = 8;
+            }
+            view.setVisibility(i);
             if (z) {
-                if (view.getVisibility() != 0) {
-                    view.setVisibility(0);
-                    view.setAlpha(0.0f);
-                    view.setScaleX(z2 ? 0.0f : 1.0f);
-                    if (!z2) {
-                        f = 1.0f;
-                    }
-                    view.setScaleY(f);
+                num = 1;
+            }
+            view.setTag(num);
+            view.setAlpha(1.0f);
+            view.setScaleX((!z2 || z) ? 1.0f : 0.0f);
+            if (z2 && !z) {
+                f = 0.0f;
+            }
+            view.setScaleY(f);
+            if (z3) {
+                if (!z) {
+                    f2 = dp(-16.0f);
                 }
-                view.animate().alpha(1.0f).scaleY(1.0f).scaleX(1.0f).setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT).setDuration(340L).withEndAction(runnable).start();
+                view.setTranslationY(f2);
+            }
+            if (runnable == null) {
                 return;
             }
-            ViewPropertyAnimator scaleY = view.animate().alpha(0.0f).scaleY(z2 ? 0.0f : 1.0f);
-            if (!z2) {
-                f = 1.0f;
+            runnable.run();
+        } else if (z) {
+            if (view.getVisibility() != 0) {
+                view.setVisibility(0);
+                view.setAlpha(0.0f);
+                view.setScaleX(z2 ? 0.0f : 1.0f);
+                view.setScaleY(z2 ? 0.0f : 1.0f);
+                if (z3) {
+                    view.setTranslationY(dp(-16.0f));
+                }
             }
-            scaleY.scaleX(f).setListener(new HideViewAfterAnimation(view)).setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT).setDuration(340L).withEndAction(runnable).start();
-            return;
+            ViewPropertyAnimator withEndAction = view.animate().alpha(1.0f).scaleY(1.0f).scaleX(1.0f).setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT).setDuration(340L).withEndAction(runnable);
+            if (z3) {
+                withEndAction.translationY(0.0f);
+            }
+            withEndAction.start();
+        } else {
+            ViewPropertyAnimator scaleY = view.animate().alpha(0.0f).scaleY(z2 ? 0.0f : 1.0f);
+            if (z2) {
+                f = 0.0f;
+            }
+            ViewPropertyAnimator withEndAction2 = scaleY.scaleX(f).setListener(new HideViewAfterAnimation(view)).setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT).setDuration(340L).withEndAction(runnable);
+            if (z3) {
+                withEndAction2.translationY(dp(-16.0f));
+            }
+            withEndAction2.start();
         }
-        if (!z) {
-            i = 8;
-        }
-        view.setVisibility(i);
-        if (z) {
-            num = 1;
-        }
-        view.setTag(num);
-        view.setAlpha(1.0f);
-        view.setScaleX((!z2 || z) ? 1.0f : 0.0f);
-        if (!z2 || z) {
-            f = 1.0f;
-        }
-        view.setScaleY(f);
-        if (runnable == null) {
-            return;
-        }
-        runnable.run();
     }
 
     public static long getPrefIntOrLong(SharedPreferences sharedPreferences, String str, long j) {
@@ -4645,5 +4680,149 @@ public class AndroidUtilities {
             spannableStringBuilder.replace(indexOf, str.length() + indexOf, charSequence2);
         }
         return spannableStringBuilder;
+    }
+
+    public static Bitmap makeBlurBitmap(View view) {
+        if (view == null) {
+            return null;
+        }
+        int width = (int) (view.getWidth() / 6.0f);
+        int height = (int) (view.getHeight() / 6.0f);
+        Bitmap createBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(createBitmap);
+        canvas.scale(0.16666667f, 0.16666667f);
+        canvas.drawColor(Theme.getColor("windowBackgroundWhite"));
+        view.draw(canvas);
+        Utilities.stackBlurBitmap(createBitmap, Math.max(7, Math.max(width, height) / 180));
+        return createBitmap;
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:10:0x00ac  */
+    /* JADX WARN: Removed duplicated region for block: B:12:0x00b0  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public static void makeGlobalBlurBitmap(final Utilities.Callback<Bitmap> callback, float f) {
+        ArrayList arrayList;
+        List<View> list;
+        int i;
+        if (callback == null) {
+            return;
+        }
+        try {
+            i = Build.VERSION.SDK_INT;
+        } catch (Exception e) {
+            e = e;
+            arrayList = null;
+        }
+        if (i >= 29) {
+            list = WindowInspector.getGlobalWindowViews();
+        } else if (i >= 17) {
+            Class<?> cls = Class.forName("android.view.WindowManagerGlobal");
+            Object invoke = cls.getMethod("getInstance", new Class[0]).invoke(null, null);
+            Method method = cls.getMethod("getViewRootNames", new Class[0]);
+            Method method2 = cls.getMethod("getRootView", String.class);
+            String[] strArr = (String[]) method.invoke(invoke, null);
+            arrayList = new ArrayList();
+            try {
+                int length = strArr.length;
+                for (int i2 = 0; i2 < length; i2++) {
+                    arrayList.add((View) method2.invoke(invoke, strArr[i2]));
+                }
+            } catch (Exception e2) {
+                e = e2;
+                FileLog.e("makeGlobalBlurBitmap()", e);
+                list = arrayList;
+                if (list != null) {
+                }
+            }
+            list = arrayList;
+        } else {
+            if (i >= 14 && i < 17) {
+                Class<?> cls2 = Class.forName("android.view.WindowManagerImpl");
+                Object invoke2 = cls2.getMethod("getDefault", new Class[0]).invoke(null, new Object[0]);
+                Field declaredField = cls2.getDeclaredField("mViews");
+                declaredField.setAccessible(true);
+                Object obj = declaredField.get(invoke2);
+                if (obj instanceof List) {
+                    list = (List) declaredField.get(invoke2);
+                } else if (obj instanceof View[]) {
+                    list = Arrays.asList((View[]) declaredField.get(invoke2));
+                }
+            }
+            list = null;
+        }
+        if (list != null) {
+            callback.run(null);
+            return;
+        }
+        Point point = displaySize;
+        int i3 = (int) (point.x / f);
+        int i4 = (int) ((point.y + statusBarHeight) / f);
+        final Bitmap createBitmap = Bitmap.createBitmap(i3, i4, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(createBitmap);
+        float f2 = 1.0f / f;
+        canvas.scale(f2, f2);
+        canvas.drawColor(Theme.getColor("windowBackgroundWhite"));
+        int[] iArr = new int[2];
+        for (int i5 = 0; i5 < list.size(); i5++) {
+            View view = list.get(i5);
+            ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
+            if (layoutParams instanceof WindowManager.LayoutParams) {
+                WindowManager.LayoutParams layoutParams2 = (WindowManager.LayoutParams) layoutParams;
+                if ((layoutParams2.flags & 2) != 0) {
+                    canvas.drawColor(ColorUtils.setAlphaComponent(-16777216, (int) (layoutParams2.dimAmount * 255.0f)));
+                }
+            }
+            canvas.save();
+            view.getLocationOnScreen(iArr);
+            canvas.translate(iArr[0] / f, iArr[1] / f);
+            view.draw(canvas);
+            canvas.restore();
+        }
+        Utilities.stackBlurBitmap(createBitmap, Math.max((int) f, Math.max(i3, i4) / 180));
+        runOnUIThread(new Runnable() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda13
+            @Override // java.lang.Runnable
+            public final void run() {
+                Utilities.Callback.this.run(createBitmap);
+            }
+        });
+    }
+
+    public static int[] roundPercents(float[] fArr, int[] iArr) {
+        Objects.requireNonNull(fArr, "percents or output is null");
+        if (iArr == null) {
+            iArr = new int[fArr.length];
+        }
+        if (fArr.length != iArr.length) {
+            throw new IndexOutOfBoundsException("percents.length != output.length");
+        }
+        float f = 0.0f;
+        for (float f2 : fArr) {
+            f += f2;
+        }
+        int i = 0;
+        for (int i2 = 0; i2 < fArr.length; i2++) {
+            int floor = (int) Math.floor((fArr[i2] / f) * 100.0f);
+            iArr[i2] = floor;
+            i += floor;
+        }
+        while (i < 100) {
+            int i3 = -1;
+            float f3 = 0.0f;
+            for (int i4 = 0; i4 < fArr.length; i4++) {
+                float f4 = (fArr[i4] / f) - (iArr[i4] / 100.0f);
+                if (fArr[i4] > 0.0f && f4 >= f3) {
+                    i3 = i4;
+                    f3 = f4;
+                }
+            }
+            if (i3 < 0) {
+                break;
+            }
+            iArr[i3] = iArr[i3] + 1;
+            i++;
+        }
+        return iArr;
     }
 }

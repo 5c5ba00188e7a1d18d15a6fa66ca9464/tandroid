@@ -1,23 +1,38 @@
 package j$.wrappers;
 
-import java.util.function.ObjLongConsumer;
+import j$.util.function.Predicate;
 /* loaded from: classes2.dex */
-public final /* synthetic */ class w0 implements ObjLongConsumer {
-    final /* synthetic */ j$.util.function.w a;
+public final /* synthetic */ class w0 implements Predicate {
+    final /* synthetic */ java.util.function.Predicate a;
 
-    private /* synthetic */ w0(j$.util.function.w wVar) {
-        this.a = wVar;
+    private /* synthetic */ w0(java.util.function.Predicate predicate) {
+        this.a = predicate;
     }
 
-    public static /* synthetic */ ObjLongConsumer a(j$.util.function.w wVar) {
-        if (wVar == null) {
+    public static /* synthetic */ Predicate a(java.util.function.Predicate predicate) {
+        if (predicate == null) {
             return null;
         }
-        return wVar instanceof v0 ? ((v0) wVar).a : new w0(wVar);
+        return predicate instanceof x0 ? ((x0) predicate).a : new w0(predicate);
     }
 
-    @Override // java.util.function.ObjLongConsumer
-    public /* synthetic */ void accept(Object obj, long j) {
-        this.a.accept(obj, j);
+    @Override // j$.util.function.Predicate
+    public /* synthetic */ Predicate and(Predicate predicate) {
+        return a(this.a.and(x0.a(predicate)));
+    }
+
+    @Override // j$.util.function.Predicate
+    public /* synthetic */ Predicate negate() {
+        return a(this.a.negate());
+    }
+
+    @Override // j$.util.function.Predicate
+    public /* synthetic */ Predicate or(Predicate predicate) {
+        return a(this.a.or(x0.a(predicate)));
+    }
+
+    @Override // j$.util.function.Predicate
+    public /* synthetic */ boolean test(Object obj) {
+        return this.a.test(obj);
     }
 }

@@ -5718,6 +5718,16 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             }
 
             @Override // org.telegram.ui.CameraScanActivity.CameraScanActivityDelegate
+            public /* synthetic */ String getSubtitleText() {
+                return CameraScanActivity.CameraScanActivityDelegate.-CC.$default$getSubtitleText(this);
+            }
+
+            @Override // org.telegram.ui.CameraScanActivity.CameraScanActivityDelegate
+            public /* synthetic */ void onDismiss() {
+                CameraScanActivity.CameraScanActivityDelegate.-CC.$default$onDismiss(this);
+            }
+
+            @Override // org.telegram.ui.CameraScanActivity.CameraScanActivityDelegate
             public /* synthetic */ boolean processQr(String str, Runnable runnable) {
                 return CameraScanActivity.CameraScanActivityDelegate.-CC.$default$processQr(this, str, runnable);
             }

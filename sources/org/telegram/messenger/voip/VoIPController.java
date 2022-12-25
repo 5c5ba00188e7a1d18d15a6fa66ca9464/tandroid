@@ -179,8 +179,8 @@ public class VoIPController {
         nativeSetMicMute(this.nativeInst, z);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:16:0x0047  */
-    /* JADX WARN: Removed duplicated region for block: B:25:0x005e  */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x0049  */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x0060  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

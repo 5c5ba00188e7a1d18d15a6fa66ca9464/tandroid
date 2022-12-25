@@ -20,7 +20,7 @@ public final /* synthetic */ class i implements j$.util.t {
 
     @Override // j$.util.t, j$.util.u
     public /* synthetic */ boolean b(Consumer consumer) {
-        return this.a.tryAdvance(x.a(consumer));
+        return this.a.tryAdvance($r8$wrapper$java$util$function$Consumer$-WRP.convert(consumer));
     }
 
     @Override // j$.util.u
@@ -30,7 +30,7 @@ public final /* synthetic */ class i implements j$.util.t {
 
     @Override // j$.util.t
     public /* synthetic */ void e(j$.util.function.f fVar) {
-        this.a.forEachRemaining(B.a(fVar));
+        this.a.forEachRemaining(A.a(fVar));
     }
 
     @Override // j$.util.u
@@ -40,7 +40,7 @@ public final /* synthetic */ class i implements j$.util.t {
 
     @Override // j$.util.t, j$.util.u
     public /* synthetic */ void forEachRemaining(Consumer consumer) {
-        this.a.forEachRemaining(x.a(consumer));
+        this.a.forEachRemaining($r8$wrapper$java$util$function$Consumer$-WRP.convert(consumer));
     }
 
     @Override // j$.util.w
@@ -65,7 +65,7 @@ public final /* synthetic */ class i implements j$.util.t {
 
     @Override // j$.util.t
     public /* synthetic */ boolean k(j$.util.function.f fVar) {
-        return this.a.tryAdvance(B.a(fVar));
+        return this.a.tryAdvance(A.a(fVar));
     }
 
     @Override // j$.util.w

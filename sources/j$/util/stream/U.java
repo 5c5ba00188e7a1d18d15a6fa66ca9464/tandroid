@@ -11,9 +11,9 @@ public interface U extends g {
 
     Stream M(j$.util.function.g gVar);
 
-    IntStream R(j$.wrappers.G g);
+    IntStream R(j$.wrappers.F f);
 
-    boolean Y(j$.wrappers.E e);
+    boolean Y(j$.wrappers.D d);
 
     j$.util.j average();
 
@@ -29,9 +29,9 @@ public interface U extends g {
 
     j$.util.j findFirst();
 
-    boolean h0(j$.wrappers.E e);
+    boolean h0(j$.wrappers.D d);
 
-    boolean i0(j$.wrappers.E e);
+    boolean i0(j$.wrappers.D d);
 
     @Override // j$.util.stream.g
     j$.util.n iterator();
@@ -49,7 +49,7 @@ public interface U extends g {
     @Override // j$.util.stream.g, j$.util.stream.IntStream
     U parallel();
 
-    U r(j$.wrappers.E e);
+    U r(j$.wrappers.D d);
 
     @Override // j$.util.stream.g, j$.util.stream.IntStream
     U sequential();
@@ -71,5 +71,5 @@ public interface U extends g {
 
     e1 x(j$.util.function.h hVar);
 
-    U y(j$.wrappers.K k);
+    U y(j$.wrappers.J j);
 }

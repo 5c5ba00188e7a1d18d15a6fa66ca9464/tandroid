@@ -24,8 +24,11 @@ public class CanvasButton {
     private Runnable delegate;
     private boolean longPressEnabled;
     Runnable longPressRunnable;
+    Paint maskPaint;
     private final View parent;
     private boolean pathCreated;
+    CornerPathEffect pathEffect;
+    boolean rounded;
     RippleDrawable selectorDrawable;
     int usingRectCount;
     Path drawingPath = new Path();
@@ -42,15 +45,23 @@ public class CanvasButton {
             }
         }
     };
+    float roundRadius = AndroidUtilities.dp(12.0f);
 
     public CanvasButton(View view) {
         this.parent = view;
-        this.paint.setPathEffect(new CornerPathEffect(AndroidUtilities.dp(12.0f)));
+        Paint paint = this.paint;
+        CornerPathEffect cornerPathEffect = new CornerPathEffect(this.roundRadius);
+        this.pathEffect = cornerPathEffect;
+        paint.setPathEffect(cornerPathEffect);
         if (Build.VERSION.SDK_INT >= 21) {
-            final Paint paint = new Paint(1);
-            paint.setFilterBitmap(true);
-            paint.setPathEffect(new CornerPathEffect(AndroidUtilities.dp(12.0f)));
-            paint.setColor(-1);
+            Paint paint2 = new Paint(1);
+            this.maskPaint = paint2;
+            paint2.setFilterBitmap(true);
+            this.maskPaint.setPathEffect(new CornerPathEffect(AndroidUtilities.dp(12.0f)));
+            this.maskPaint.setColor(-1);
+            final Paint paint3 = new Paint(1);
+            paint3.setFilterBitmap(true);
+            paint3.setColor(-1);
             this.selectorDrawable = new RippleDrawable(new ColorStateList(new int[][]{StateSet.WILD_CARD}, new int[]{Theme.getColor("listSelectorSDK21") & 436207615}), null, new Drawable() { // from class: org.telegram.ui.Components.CanvasButton.2
                 @Override // android.graphics.drawable.Drawable
                 public int getOpacity() {
@@ -67,7 +78,12 @@ public class CanvasButton {
 
                 @Override // android.graphics.drawable.Drawable
                 public void draw(Canvas canvas) {
-                    CanvasButton.this.drawInternal(canvas, paint);
+                    CanvasButton canvasButton = CanvasButton.this;
+                    if (canvasButton.usingRectCount > 1) {
+                        canvasButton.drawInternal(canvas, canvasButton.maskPaint);
+                    } else {
+                        canvasButton.drawInternal(canvas, paint3);
+                    }
                 }
             });
         }
@@ -89,7 +105,18 @@ public class CanvasButton {
             if (i != 1) {
                 return;
             }
-            canvas.drawRoundRect(this.drawingRects.get(0), AndroidUtilities.dp(10.0f), AndroidUtilities.dp(10.0f), paint);
+            RippleDrawable rippleDrawable = this.selectorDrawable;
+            if (rippleDrawable != null) {
+                rippleDrawable.setBounds((int) this.drawingRects.get(0).left, (int) this.drawingRects.get(0).top, (int) this.drawingRects.get(0).right, (int) this.drawingRects.get(0).bottom);
+            }
+            if (this.rounded) {
+                paint.setPathEffect(null);
+                float min = Math.min(this.drawingRects.get(0).width(), this.drawingRects.get(0).height()) / 2.0f;
+                canvas.drawRoundRect(this.drawingRects.get(0), min, min, paint);
+                return;
+            }
+            paint.setPathEffect(this.pathEffect);
+            canvas.drawRoundRect(this.drawingRects.get(0), 0.0f, 0.0f, paint);
             return;
         }
         if (!this.pathCreated) {
@@ -126,14 +153,15 @@ public class CanvasButton {
                     i6 = (int) this.drawingRects.get(i2).top;
                 }
                 this.drawingPath.addRect(this.drawingRects.get(i2), Path.Direction.CCW);
-                RippleDrawable rippleDrawable = this.selectorDrawable;
-                if (rippleDrawable != null) {
-                    rippleDrawable.setBounds(i5, i6, i4, i3);
+                RippleDrawable rippleDrawable2 = this.selectorDrawable;
+                if (rippleDrawable2 != null) {
+                    rippleDrawable2.setBounds(i5, i6, i4, i3);
                 }
                 i2 = i8;
             }
             this.pathCreated = true;
         }
+        paint.setPathEffect(this.pathEffect);
         canvas.drawPath(this.drawingPath, paint);
     }
 
@@ -187,12 +215,16 @@ public class CanvasButton {
     }
 
     public void setColor(int i) {
+        setColor(i, i);
+    }
+
+    public void setColor(int i, int i2) {
         this.paint.setColor(i);
         RippleDrawable rippleDrawable = this.selectorDrawable;
         if (rippleDrawable == null || Build.VERSION.SDK_INT < 21) {
             return;
         }
-        Theme.setSelectorDrawableColor(rippleDrawable, i, true);
+        Theme.setSelectorDrawableColor(rippleDrawable, i2, true);
     }
 
     public void setDelegate(Runnable runnable) {
@@ -213,8 +245,26 @@ public class CanvasButton {
         this.drawingRects.get(this.usingRectCount - 1).set(rectF);
     }
 
+    public void setRect(RectF rectF) {
+        rewind();
+        addRect(rectF);
+    }
+
     public void setLongPress(Runnable runnable) {
         this.longPressEnabled = true;
         this.longPressRunnable = runnable;
+    }
+
+    public void setRounded(boolean z) {
+        this.rounded = z;
+    }
+
+    public void cancelRipple() {
+        RippleDrawable rippleDrawable;
+        if (Build.VERSION.SDK_INT < 21 || (rippleDrawable = this.selectorDrawable) == null) {
+            return;
+        }
+        rippleDrawable.setState(StateSet.NOTHING);
+        this.selectorDrawable.jumpToCurrentState();
     }
 }

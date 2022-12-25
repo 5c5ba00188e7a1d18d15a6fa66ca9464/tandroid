@@ -2,7 +2,6 @@ package org.telegram.ui.Components.Paint.Views;
 
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -18,31 +17,28 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import androidx.annotation.Keep;
 import org.telegram.messenger.AndroidUtilities;
-import org.telegram.messenger.LocaleController;
-import org.telegram.messenger.R;
-import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.Paint.Swatch;
 /* loaded from: classes3.dex */
 public class ColorPicker extends FrameLayout {
     private static final int[] COLORS = {-1431751, -2409774, -13610525, -11942419, -8337308, -205211, -223667, -16777216, -1};
     private static final float[] LOCATIONS = {0.0f, 0.14f, 0.24f, 0.39f, 0.49f, 0.62f, 0.73f, 0.85f, 1.0f};
+    private Paint backgroundPaint;
     private boolean changingWeight;
     private ColorPickerDelegate delegate;
     private boolean dragging;
     private float draggingFactor;
+    private Paint gradientPaint;
     private boolean interacting;
+    private OvershootInterpolator interpolator;
     private float location;
+    private RectF rectF;
     public ImageView settingsButton;
+    private Drawable shadowDrawable;
+    private Paint swatchPaint;
+    private Paint swatchStrokePaint;
     private ImageView undoButton;
     private boolean wasChangingWeight;
-    private OvershootInterpolator interpolator = new OvershootInterpolator(1.02f);
-    private Paint gradientPaint = new Paint(1);
-    private Paint backgroundPaint = new Paint(1);
-    private Paint swatchPaint = new Paint(1);
-    private Paint swatchStrokePaint = new Paint(1);
-    private RectF rectF = new RectF();
-    private float weight = 0.016773745f;
-    private Drawable shadowDrawable = getResources().getDrawable(R.drawable.knob_shadow);
+    private float weight;
 
     /* loaded from: classes3.dex */
     public interface ColorPickerDelegate {
@@ -51,62 +47,6 @@ public class ColorPicker extends FrameLayout {
         void onColorValueChanged();
 
         void onFinishedColorPicking();
-
-        void onSettingsPressed();
-
-        void onUndoPressed();
-    }
-
-    public ColorPicker(Context context) {
-        super(context);
-        setWillNotDraw(false);
-        this.backgroundPaint.setColor(-1);
-        this.swatchStrokePaint.setStyle(Paint.Style.STROKE);
-        this.swatchStrokePaint.setStrokeWidth(AndroidUtilities.dp(1.0f));
-        ImageView imageView = new ImageView(context);
-        this.settingsButton = imageView;
-        imageView.setContentDescription(LocaleController.getString("AccDescrBrushType", R.string.AccDescrBrushType));
-        this.settingsButton.setScaleType(ImageView.ScaleType.CENTER);
-        this.settingsButton.setImageResource(R.drawable.photo_paint_brush);
-        addView(this.settingsButton, LayoutHelper.createFrame(46, 52.0f));
-        this.settingsButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.ColorPicker$$ExternalSyntheticLambda0
-            @Override // android.view.View.OnClickListener
-            public final void onClick(View view) {
-                ColorPicker.this.lambda$new$0(view);
-            }
-        });
-        ImageView imageView2 = new ImageView(context);
-        this.undoButton = imageView2;
-        imageView2.setContentDescription(LocaleController.getString("Undo", R.string.Undo));
-        this.undoButton.setScaleType(ImageView.ScaleType.CENTER);
-        this.undoButton.setImageResource(R.drawable.photo_undo);
-        addView(this.undoButton, LayoutHelper.createFrame(46, 52.0f));
-        this.undoButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.ColorPicker$$ExternalSyntheticLambda1
-            @Override // android.view.View.OnClickListener
-            public final void onClick(View view) {
-                ColorPicker.this.lambda$new$1(view);
-            }
-        });
-        SharedPreferences sharedPreferences = context.getSharedPreferences("paint", 0);
-        this.location = sharedPreferences.getFloat("last_color_location", 1.0f);
-        setWeight(sharedPreferences.getFloat("last_color_weight", 0.016773745f));
-        setLocation(this.location);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$0(View view) {
-        ColorPickerDelegate colorPickerDelegate = this.delegate;
-        if (colorPickerDelegate != null) {
-            colorPickerDelegate.onSettingsPressed();
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$1(View view) {
-        ColorPickerDelegate colorPickerDelegate = this.delegate;
-        if (colorPickerDelegate != null) {
-            colorPickerDelegate.onUndoPressed();
-        }
     }
 
     public void setUndoEnabled(boolean z) {

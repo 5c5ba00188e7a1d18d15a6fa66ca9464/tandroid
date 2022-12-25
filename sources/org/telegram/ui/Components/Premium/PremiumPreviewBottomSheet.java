@@ -107,7 +107,7 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView i
     }
 
     public PremiumPreviewBottomSheet(final BaseFragment baseFragment, final int i, TLRPC$User tLRPC$User, GiftPremiumBottomSheet.GiftTier giftTier, Theme.ResourcesProvider resourcesProvider) {
-        super(baseFragment, false, false, resourcesProvider);
+        super(baseFragment, false, false, false, resourcesProvider);
         this.premiumFeatures = new ArrayList<>();
         this.coords = new int[2];
         this.enterTransitionProgress = 0.0f;

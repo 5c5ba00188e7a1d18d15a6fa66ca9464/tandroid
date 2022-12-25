@@ -1,23 +1,28 @@
 package j$.wrappers;
 
-import java.util.function.IntBinaryOperator;
+import java.util.function.IntConsumer;
 /* loaded from: classes2.dex */
-public final /* synthetic */ class P implements IntBinaryOperator {
-    final /* synthetic */ j$.util.function.j a;
+public final /* synthetic */ class P implements j$.util.function.l {
+    final /* synthetic */ IntConsumer a;
 
-    private /* synthetic */ P(j$.util.function.j jVar) {
-        this.a = jVar;
+    private /* synthetic */ P(IntConsumer intConsumer) {
+        this.a = intConsumer;
     }
 
-    public static /* synthetic */ IntBinaryOperator a(j$.util.function.j jVar) {
-        if (jVar == null) {
+    public static /* synthetic */ j$.util.function.l b(IntConsumer intConsumer) {
+        if (intConsumer == null) {
             return null;
         }
-        return jVar instanceof O ? ((O) jVar).a : new P(jVar);
+        return intConsumer instanceof Q ? ((Q) intConsumer).a : new P(intConsumer);
     }
 
-    @Override // java.util.function.IntBinaryOperator
-    public /* synthetic */ int applyAsInt(int i, int i2) {
-        return this.a.applyAsInt(i, i2);
+    @Override // j$.util.function.l
+    public /* synthetic */ void accept(int i) {
+        this.a.accept(i);
+    }
+
+    @Override // j$.util.function.l
+    public /* synthetic */ j$.util.function.l l(j$.util.function.l lVar) {
+        return b(this.a.andThen(Q.a(lVar)));
     }
 }

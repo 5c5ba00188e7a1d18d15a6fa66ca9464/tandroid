@@ -61,14 +61,14 @@ public abstract class d1 extends c implements e1 {
     }
 
     @Override // j$.util.stream.e1
-    public final boolean L(j$.wrappers.j0 j0Var) {
-        return ((Boolean) x0(o1.w(j0Var, k1.ALL))).booleanValue();
+    public final boolean L(j$.wrappers.i0 i0Var) {
+        return ((Boolean) x0(o1.w(i0Var, k1.ALL))).booleanValue();
     }
 
     @Override // j$.util.stream.e1
-    public final U O(j$.wrappers.l0 l0Var) {
-        Objects.requireNonNull(l0Var);
-        return new K(this, this, e4.LONG_VALUE, d4.p | d4.n, l0Var);
+    public final U O(j$.wrappers.k0 k0Var) {
+        Objects.requireNonNull(k0Var);
+        return new K(this, this, e4.LONG_VALUE, d4.p | d4.n, k0Var);
     }
 
     @Override // j$.util.stream.e1
@@ -78,8 +78,8 @@ public abstract class d1 extends c implements e1 {
     }
 
     @Override // j$.util.stream.e1
-    public final boolean S(j$.wrappers.j0 j0Var) {
-        return ((Boolean) x0(o1.w(j0Var, k1.NONE))).booleanValue();
+    public final boolean S(j$.wrappers.i0 i0Var) {
+        return ((Boolean) x0(o1.w(i0Var, k1.NONE))).booleanValue();
     }
 
     public void Z(j$.util.function.q qVar) {
@@ -126,9 +126,9 @@ public abstract class d1 extends c implements e1 {
     }
 
     @Override // j$.util.stream.e1
-    public final IntStream e0(j$.wrappers.n0 n0Var) {
-        Objects.requireNonNull(n0Var);
-        return new M(this, this, e4.LONG_VALUE, d4.p | d4.n, n0Var);
+    public final IntStream e0(j$.wrappers.m0 m0Var) {
+        Objects.requireNonNull(m0Var);
+        return new M(this, this, e4.LONG_VALUE, d4.p | d4.n, m0Var);
     }
 
     @Override // j$.util.stream.e1
@@ -166,8 +166,8 @@ public abstract class d1 extends c implements e1 {
     }
 
     @Override // j$.util.stream.e1
-    public final boolean k(j$.wrappers.j0 j0Var) {
-        return ((Boolean) x0(o1.w(j0Var, k1.ANY))).booleanValue();
+    public final boolean k(j$.wrappers.i0 i0Var) {
+        return ((Boolean) x0(o1.w(i0Var, k1.ANY))).booleanValue();
     }
 
     @Override // j$.util.stream.e1
@@ -239,9 +239,9 @@ public abstract class d1 extends c implements e1 {
     }
 
     @Override // j$.util.stream.e1
-    public final e1 u(j$.wrappers.j0 j0Var) {
-        Objects.requireNonNull(j0Var);
-        return new N(this, this, e4.LONG_VALUE, d4.t, j0Var);
+    public final e1 u(j$.wrappers.i0 i0Var) {
+        Objects.requireNonNull(i0Var);
+        return new N(this, this, e4.LONG_VALUE, d4.t, i0Var);
     }
 
     @Override // j$.util.stream.g

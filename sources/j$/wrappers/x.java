@@ -1,28 +1,23 @@
 package j$.wrappers;
 
-import java.util.function.Consumer;
+import java.util.function.DoubleBinaryOperator;
 /* loaded from: classes2.dex */
-public final /* synthetic */ class x implements Consumer {
-    final /* synthetic */ j$.util.function.Consumer a;
+public final /* synthetic */ class x implements j$.util.function.d {
+    final /* synthetic */ DoubleBinaryOperator a;
 
-    private /* synthetic */ x(j$.util.function.Consumer consumer) {
-        this.a = consumer;
+    private /* synthetic */ x(DoubleBinaryOperator doubleBinaryOperator) {
+        this.a = doubleBinaryOperator;
     }
 
-    public static /* synthetic */ Consumer a(j$.util.function.Consumer consumer) {
-        if (consumer == null) {
+    public static /* synthetic */ j$.util.function.d a(DoubleBinaryOperator doubleBinaryOperator) {
+        if (doubleBinaryOperator == null) {
             return null;
         }
-        return consumer instanceof w ? ((w) consumer).a : new x(consumer);
+        return doubleBinaryOperator instanceof y ? ((y) doubleBinaryOperator).a : new x(doubleBinaryOperator);
     }
 
-    @Override // java.util.function.Consumer
-    public /* synthetic */ void accept(Object obj) {
-        this.a.accept(obj);
-    }
-
-    @Override // java.util.function.Consumer
-    public /* synthetic */ Consumer andThen(Consumer consumer) {
-        return a(this.a.andThen(w.b(consumer)));
+    @Override // j$.util.function.d
+    public /* synthetic */ double applyAsDouble(double d, double d2) {
+        return this.a.applyAsDouble(d, d2);
     }
 }

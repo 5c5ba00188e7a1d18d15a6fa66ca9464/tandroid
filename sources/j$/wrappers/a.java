@@ -19,12 +19,12 @@ public final /* synthetic */ class a implements j$.util.n {
 
     @Override // j$.util.n
     public /* synthetic */ void e(j$.util.function.f fVar) {
-        this.a.forEachRemaining(B.a(fVar));
+        this.a.forEachRemaining(A.a(fVar));
     }
 
     @Override // j$.util.n, j$.util.Iterator
     public /* synthetic */ void forEachRemaining(Consumer consumer) {
-        this.a.forEachRemaining(x.a(consumer));
+        this.a.forEachRemaining($r8$wrapper$java$util$function$Consumer$-WRP.convert(consumer));
     }
 
     @Override // j$.util.p

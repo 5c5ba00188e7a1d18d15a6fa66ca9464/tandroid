@@ -81,14 +81,14 @@ public abstract class T extends c implements U {
     }
 
     @Override // j$.util.stream.U
-    public final IntStream R(j$.wrappers.G g) {
-        Objects.requireNonNull(g);
-        return new M(this, this, e4.DOUBLE_VALUE, d4.p | d4.n, g);
+    public final IntStream R(j$.wrappers.F f) {
+        Objects.requireNonNull(f);
+        return new M(this, this, e4.DOUBLE_VALUE, d4.p | d4.n, f);
     }
 
     @Override // j$.util.stream.U
-    public final boolean Y(j$.wrappers.E e) {
-        return ((Boolean) x0(o1.u(e, k1.ALL))).booleanValue();
+    public final boolean Y(j$.wrappers.D d) {
+        return ((Boolean) x0(o1.u(d, k1.ALL))).booleanValue();
     }
 
     @Override // j$.util.stream.U
@@ -129,13 +129,13 @@ public abstract class T extends c implements U {
     }
 
     @Override // j$.util.stream.U
-    public final boolean h0(j$.wrappers.E e) {
-        return ((Boolean) x0(o1.u(e, k1.ANY))).booleanValue();
+    public final boolean h0(j$.wrappers.D d) {
+        return ((Boolean) x0(o1.u(d, k1.ANY))).booleanValue();
     }
 
     @Override // j$.util.stream.U
-    public final boolean i0(j$.wrappers.E e) {
-        return ((Boolean) x0(o1.u(e, k1.NONE))).booleanValue();
+    public final boolean i0(j$.wrappers.D d) {
+        return ((Boolean) x0(o1.u(d, k1.NONE))).booleanValue();
     }
 
     @Override // j$.util.stream.g
@@ -177,9 +177,9 @@ public abstract class T extends c implements U {
     }
 
     @Override // j$.util.stream.U
-    public final U r(j$.wrappers.E e) {
-        Objects.requireNonNull(e);
-        return new K(this, this, e4.DOUBLE_VALUE, d4.t, e);
+    public final U r(j$.wrappers.D d) {
+        Objects.requireNonNull(d);
+        return new K(this, this, e4.DOUBLE_VALUE, d4.t, d);
     }
 
     @Override // j$.util.stream.U
@@ -238,9 +238,9 @@ public abstract class T extends c implements U {
     }
 
     @Override // j$.util.stream.U
-    public final U y(j$.wrappers.K k) {
-        Objects.requireNonNull(k);
-        return new K(this, this, e4.DOUBLE_VALUE, d4.p | d4.n, k);
+    public final U y(j$.wrappers.J j) {
+        Objects.requireNonNull(j);
+        return new K(this, this, e4.DOUBLE_VALUE, d4.p | d4.n, j);
     }
 
     @Override // j$.util.stream.c

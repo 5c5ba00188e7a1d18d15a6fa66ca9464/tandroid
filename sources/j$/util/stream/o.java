@@ -55,11 +55,11 @@ public final /* synthetic */ class o implements Consumer, j$.util.function.y {
     public Object get() {
         switch (this.a) {
             case 1:
-                return new i1((k1) this.b, (j$.wrappers.E) this.c);
+                return new i1((k1) this.b, (j$.wrappers.D) this.c);
             case 2:
-                return new g1((k1) this.b, (j$.wrappers.V) this.c);
+                return new g1((k1) this.b, (j$.wrappers.U) this.c);
             case 3:
-                return new h1((k1) this.b, (j$.wrappers.j0) this.c);
+                return new h1((k1) this.b, (j$.wrappers.i0) this.c);
             default:
                 return new f1((k1) this.b, (Predicate) this.c);
         }
@@ -70,19 +70,19 @@ public final /* synthetic */ class o implements Consumer, j$.util.function.y {
         this.c = predicate;
     }
 
-    public /* synthetic */ o(k1 k1Var, j$.wrappers.E e) {
+    public /* synthetic */ o(k1 k1Var, j$.wrappers.D d) {
         this.b = k1Var;
-        this.c = e;
+        this.c = d;
     }
 
-    public /* synthetic */ o(k1 k1Var, j$.wrappers.V v) {
+    public /* synthetic */ o(k1 k1Var, j$.wrappers.U u) {
         this.b = k1Var;
-        this.c = v;
+        this.c = u;
     }
 
-    public /* synthetic */ o(k1 k1Var, j$.wrappers.j0 j0Var) {
+    public /* synthetic */ o(k1 k1Var, j$.wrappers.i0 i0Var) {
         this.b = k1Var;
-        this.c = j0Var;
+        this.c = i0Var;
     }
 
     public /* synthetic */ o(m4 m4Var, Consumer consumer) {

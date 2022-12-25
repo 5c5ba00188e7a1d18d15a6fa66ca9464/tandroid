@@ -465,10 +465,10 @@ public class SvgHelper {
         }
     }
 
-    public static SvgDrawable getDrawable(int i, int i2) {
+    public static SvgDrawable getDrawable(int i, Integer num) {
         try {
             XMLReader xMLReader = SAXParserFactory.newInstance().newSAXParser().getXMLReader();
-            SVGHandler sVGHandler = new SVGHandler(0, 0, Integer.valueOf(i2), true, 1.0f);
+            SVGHandler sVGHandler = new SVGHandler(0, 0, num, true, 1.0f);
             xMLReader.setContentHandler(sVGHandler);
             xMLReader.parse(new InputSource(ApplicationLoader.applicationContext.getResources().openRawResource(i)));
             return sVGHandler.getDrawable();

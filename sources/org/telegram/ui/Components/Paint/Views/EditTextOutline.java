@@ -9,14 +9,16 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.RectF;
+import android.text.Editable;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
+import java.util.Arrays;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.Components.EditTextBoldCursor;
 /* loaded from: classes3.dex */
 public class EditTextOutline extends EditTextBoldCursor {
-    private float[] lines;
+    private RectF[] lines;
     private Bitmap mCache;
     private int mFrameColor;
     private float mStrokeWidth;
@@ -24,9 +26,9 @@ public class EditTextOutline extends EditTextBoldCursor {
     private TextPaint textPaint = new TextPaint(1);
     private Paint paint = new Paint(1);
     private Path path = new Path();
-    private RectF rect = new RectF();
     private int mStrokeColor = 0;
     private boolean mUpdateCachedBitmap = true;
+    private boolean isFrameDirty = true;
 
     public EditTextOutline(Context context) {
         super(context);
@@ -34,17 +36,21 @@ public class EditTextOutline extends EditTextBoldCursor {
         this.textPaint.setStyle(Paint.Style.FILL_AND_STROKE);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.EditTextEffects, android.widget.TextView
-    protected void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+    public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
         super.onTextChanged(charSequence, i, i2, i3);
         this.mUpdateCachedBitmap = true;
+        this.isFrameDirty = true;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.EditTextEffects, android.view.View
-    protected void onSizeChanged(int i, int i2, int i3, int i4) {
+    public void onSizeChanged(int i, int i2, int i3, int i4) {
         super.onSizeChanged(i, i2, i3, i4);
         if (i > 0 && i2 > 0) {
             this.mUpdateCachedBitmap = true;
+            this.isFrameDirty = true;
             Bitmap bitmap = this.mCache;
             if (bitmap != null) {
                 bitmap.recycle();
@@ -53,6 +59,14 @@ public class EditTextOutline extends EditTextBoldCursor {
             return;
         }
         this.mCache = null;
+    }
+
+    @Override // android.widget.TextView
+    public void setGravity(int i) {
+        super.setGravity(i);
+        this.mUpdateCachedBitmap = true;
+        this.isFrameDirty = true;
+        invalidate();
     }
 
     public void setStrokeColor(int i) {
@@ -81,6 +95,7 @@ public class EditTextOutline extends EditTextBoldCursor {
             } else {
                 setTextColor(-1);
             }
+            this.isFrameDirty = true;
         }
         this.mUpdateCachedBitmap = true;
         invalidate();
@@ -93,50 +108,40 @@ public class EditTextOutline extends EditTextBoldCursor {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Removed duplicated region for block: B:104:0x023f  */
-    /* JADX WARN: Removed duplicated region for block: B:107:0x026a  */
-    /* JADX WARN: Removed duplicated region for block: B:111:0x02d7  */
-    /* JADX WARN: Removed duplicated region for block: B:117:0x0366  */
-    /* JADX WARN: Removed duplicated region for block: B:121:0x03b2  */
-    /* JADX WARN: Removed duplicated region for block: B:124:0x03b6  */
-    /* JADX WARN: Removed duplicated region for block: B:126:0x0399  */
-    /* JADX WARN: Removed duplicated region for block: B:129:0x034f  */
-    /* JADX WARN: Removed duplicated region for block: B:131:0x02bd  */
+    /* JADX WARN: Code restructure failed: missing block: B:93:0x0345, code lost:
+        if (r8[r10].width() != 0.0f) goto L94;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:99:0x0369, code lost:
+        if (r8[r9].width() != 0.0f) goto L100;
+     */
+    /* JADX WARN: Removed duplicated region for block: B:102:0x0377  */
+    /* JADX WARN: Removed duplicated region for block: B:90:0x032d  */
+    /* JADX WARN: Removed duplicated region for block: B:96:0x0353  */
     @Override // org.telegram.ui.Components.EditTextBoldCursor, org.telegram.ui.Components.EditTextEffects, android.widget.TextView, android.view.View
     @SuppressLint({"DrawAllocation"})
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void onDraw(Canvas canvas) {
-        int i;
-        float f;
-        int i2;
-        boolean z;
-        boolean z2;
-        boolean z3;
-        Layout layout;
-        int i3;
-        float f2;
-        int i4;
-        float f3;
-        float f4;
+        RectF[] rectFArr;
+        RectF[] rectFArr2;
         if (this.mCache != null && this.mStrokeColor != 0) {
             if (this.mUpdateCachedBitmap) {
                 int measuredWidth = (getMeasuredWidth() - getPaddingLeft()) - getPaddingRight();
                 int measuredHeight = getMeasuredHeight();
-                String obj = getText().toString();
+                Editable text = getText();
                 this.mCanvas.setBitmap(this.mCache);
                 this.mCanvas.drawColor(0, PorterDuff.Mode.CLEAR);
-                float f5 = this.mStrokeWidth;
-                if (f5 <= 0.0f) {
-                    f5 = (float) Math.ceil(getTextSize() / 11.5f);
+                float f = this.mStrokeWidth;
+                if (f <= 0.0f) {
+                    f = (float) Math.ceil(getTextSize() / 11.5f);
                 }
-                this.textPaint.setStrokeWidth(f5);
+                this.textPaint.setStrokeWidth(f);
                 this.textPaint.setColor(this.mStrokeColor);
                 this.textPaint.setTextSize(getTextSize());
                 this.textPaint.setTypeface(getTypeface());
                 this.textPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-                StaticLayout staticLayout = new StaticLayout(obj, this.textPaint, measuredWidth, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, true);
+                StaticLayout staticLayout = new StaticLayout(text, this.textPaint, measuredWidth, getLayout().getAlignment(), 1.0f, 0.0f, true);
                 this.mCanvas.save();
                 this.mCanvas.translate(getPaddingLeft(), ((((measuredHeight - getPaddingTop()) - getPaddingBottom()) - staticLayout.getHeight()) / 2.0f) + getPaddingTop());
                 staticLayout.draw(this.mCanvas);
@@ -145,222 +150,175 @@ public class EditTextOutline extends EditTextBoldCursor {
             }
             canvas.drawBitmap(this.mCache, 0.0f, 0.0f, this.textPaint);
         }
-        int i5 = this.mFrameColor;
-        if (i5 != 0) {
-            this.paint.setColor(i5);
-            Layout layout2 = getLayout();
-            if (layout2 == null) {
+        int i = this.mFrameColor;
+        if (i != 0) {
+            this.paint.setColor(i);
+            Layout layout = getLayout();
+            if (layout == null) {
                 super.onDraw(canvas);
                 return;
             }
-            float[] fArr = this.lines;
-            if (fArr == null || fArr.length != layout2.getLineCount()) {
-                this.lines = new float[layout2.getLineCount()];
+            RectF[] rectFArr3 = this.lines;
+            if (rectFArr3 == null || rectFArr3.length != layout.getLineCount()) {
+                this.lines = new RectF[layout.getLineCount()];
+                this.isFrameDirty = true;
             }
-            float dp = AndroidUtilities.dp(6.0f);
-            float dp2 = AndroidUtilities.dp(6.0f);
-            float dp3 = AndroidUtilities.dp(26.0f);
-            for (int i6 = 0; i6 < this.lines.length; i6++) {
-                float ceil = (float) Math.ceil(layout2.getLineRight(i6) - layout2.getLineLeft(i6));
-                if (ceil > AndroidUtilities.dp(1.0f)) {
-                    this.lines[i6] = ceil + (dp2 * 2.0f);
-                } else {
-                    this.lines[i6] = 0.0f;
+            if (this.isFrameDirty) {
+                this.isFrameDirty = false;
+                for (int i2 = 0; i2 < layout.getLineCount(); i2++) {
+                    RectF[] rectFArr4 = this.lines;
+                    if (rectFArr4[i2] == null) {
+                        rectFArr4[i2] = new RectF();
+                    }
+                    this.lines[i2].set(layout.getLineLeft(i2), layout.getLineTop(i2), layout.getLineRight(i2), layout.getLineBottom(i2));
+                    if (this.lines[i2].width() > AndroidUtilities.dp(1.0f)) {
+                        int dp = AndroidUtilities.dp(6.0f);
+                        this.lines[i2].right += AndroidUtilities.dp(32.0f);
+                        this.lines[i2].bottom += dp;
+                    } else {
+                        RectF[] rectFArr5 = this.lines;
+                        rectFArr5[i2].left = rectFArr5[i2].right;
+                    }
                 }
             }
+            this.path.rewind();
+            float dp2 = AndroidUtilities.dp(16.0f);
+            float dp3 = AndroidUtilities.dp(8.0f);
+            int i3 = 0;
             while (true) {
-                i = 1;
-                int i7 = 1;
-                boolean z4 = false;
-                while (true) {
-                    float[] fArr2 = this.lines;
-                    if (i7 >= fArr2.length) {
-                        break;
-                    }
-                    if (fArr2[i7] != 0.0f) {
-                        int i8 = i7 - 1;
-                        float f6 = fArr2[i7] - fArr2[i8];
-                        if (f6 > 0.0f) {
-                            if (f6 < dp3) {
-                                fArr2[i8] = fArr2[i7];
-                            } else {
-                                if (f6 < 4.0f * dp) {
-                                    double d = fArr2[i7];
-                                    double ceil2 = Math.ceil(f4 - f6);
-                                    Double.isNaN(d);
-                                    fArr2[i7] = (float) (d + ceil2);
-                                }
-                            }
-                            z4 = true;
-                        } else if (f6 < 0.0f) {
-                            float f7 = -f6;
-                            if (f7 < dp3) {
-                                fArr2[i7] = fArr2[i8];
-                            } else {
-                                if (f7 < 4.0f * dp) {
-                                    double d2 = fArr2[i8];
-                                    double ceil3 = Math.ceil(f3 + f6);
-                                    Double.isNaN(d2);
-                                    fArr2[i8] = (float) (d2 + ceil3);
-                                }
-                            }
-                            z4 = true;
-                        }
-                    }
-                    i7++;
-                }
-                if (!z4) {
+                RectF[] rectFArr6 = this.lines;
+                if (i3 >= rectFArr6.length) {
                     break;
                 }
-            }
-            int measuredWidth2 = getMeasuredWidth() / 2;
-            float measuredHeight2 = (getMeasuredHeight() - layout2.getHeight()) / 2;
-            int i9 = 0;
-            while (i9 < this.lines.length) {
-                int lineBottom = layout2.getLineBottom(i9) - layout2.getLineTop(i9);
-                if (i9 != this.lines.length - i) {
-                    f = 1.0f;
-                    i2 = AndroidUtilities.dp(1.0f);
-                } else {
-                    f = 1.0f;
-                    i2 = 0;
-                }
-                int dp4 = (lineBottom - i2) + (i9 != 0 ? AndroidUtilities.dp(f) : 0);
-                float[] fArr3 = this.lines;
-                float f8 = dp2 * 2.0f;
-                if (fArr3[i9] <= f8) {
-                    measuredHeight2 += dp4;
-                    layout = layout2;
-                    i3 = measuredWidth2;
-                    f2 = dp2;
-                } else {
-                    if (i9 > 0) {
-                        int i10 = i9 - 1;
-                        if (fArr3[i10] > fArr3[i9] && fArr3[i10] > f8) {
-                            z = true;
-                            int i11 = i9 + 1;
-                            boolean z5 = i11 >= fArr3.length && fArr3[i11] > fArr3[i9] && fArr3[i11] > f8;
-                            z2 = (i9 == 0 && fArr3[i9 + (-1)] == fArr3[i9]) ? false : true;
-                            z3 = (i9 == fArr3.length - i && fArr3[i9] == fArr3[i11]) ? false : true;
-                            this.path.reset();
-                            if (i9 != 0) {
-                                measuredHeight2 -= 1.0f;
-                                dp4++;
-                            }
-                            int i12 = dp4;
-                            float ceil4 = (float) Math.ceil(dp4 + measuredHeight2);
-                            float f9 = measuredWidth2;
-                            float[] fArr4 = this.lines;
-                            float f10 = (f9 - (fArr4[i9] / 2.0f)) + dp;
-                            float f11 = (f9 + (fArr4[i9] / 2.0f)) - dp;
-                            this.path.moveTo(f10, measuredHeight2);
-                            if (z2) {
-                                layout = layout2;
-                                i3 = measuredWidth2;
-                                f2 = dp2;
-                                this.path.lineTo(f11 + dp, measuredHeight2);
-                            } else if (z) {
-                                float f12 = dp * 2.0f;
-                                this.path.lineTo(f11 + f12, measuredHeight2);
-                                layout = layout2;
-                                i3 = measuredWidth2;
-                                this.rect.set(f11 + dp, measuredHeight2, f11 + (dp * 3.0f), measuredHeight2 + f12);
-                                f2 = dp2;
-                                this.path.arcTo(this.rect, 270.0f, -90.0f, false);
-                            } else {
-                                layout = layout2;
-                                i3 = measuredWidth2;
-                                f2 = dp2;
-                                this.path.lineTo(f11, measuredHeight2);
-                                this.rect.set(f11 - dp, measuredHeight2, f11 + dp, (dp * 2.0f) + measuredHeight2);
-                                this.path.arcTo(this.rect, 270.0f, 90.0f, false);
-                            }
-                            float f13 = f11 + dp;
-                            this.path.lineTo(f13, ceil4 - dp);
-                            if (!z3) {
-                                if (z5) {
-                                    float f14 = dp * 2.0f;
-                                    this.rect.set(f13, ceil4 - f14, f11 + (dp * 3.0f), ceil4);
-                                    this.path.arcTo(this.rect, 180.0f, -90.0f, false);
-                                    this.path.lineTo(f10 - f14, ceil4);
-                                } else {
-                                    this.rect.set(f11 - dp, ceil4 - (dp * 2.0f), f13, ceil4);
-                                    this.path.arcTo(this.rect, 0.0f, 90.0f, false);
-                                    this.path.lineTo(f10, ceil4);
-                                }
-                                if (z5) {
-                                    this.rect.set(f10 - (dp * 3.0f), ceil4 - (dp * 2.0f), f10 - dp, ceil4);
-                                    this.path.arcTo(this.rect, 90.0f, -90.0f, false);
-                                } else {
-                                    this.rect.set(f10 - dp, ceil4 - (dp * 2.0f), f10 + dp, ceil4);
-                                    this.path.arcTo(this.rect, 90.0f, 90.0f, false);
-                                }
-                            } else {
-                                this.path.lineTo(f13, ceil4);
-                                this.path.lineTo(f10 - dp, ceil4);
-                            }
-                            float f15 = f10 - dp;
-                            this.path.lineTo(f15, measuredHeight2 - dp);
-                            if (z2) {
-                                this.path.lineTo(f15, measuredHeight2);
-                            } else if (z) {
-                                this.rect.set(f10 - (3.0f * dp), measuredHeight2, f15, (dp * 2.0f) + measuredHeight2);
-                                this.path.arcTo(this.rect, 0.0f, -90.0f, false);
-                            } else {
-                                this.rect.set(f15, measuredHeight2, f10 + dp, (dp * 2.0f) + measuredHeight2);
-                                this.path.arcTo(this.rect, 180.0f, 90.0f, false);
-                            }
-                            this.path.close();
-                            canvas.drawPath(this.path, this.paint);
-                            if (i9 == 0) {
-                                measuredHeight2 += 1.0f;
-                                i4 = i12 - 1;
-                            } else {
-                                i4 = i12;
-                            }
-                            measuredHeight2 += i4;
+                if (rectFArr6[i3].width() != 0.0f) {
+                    RectF[] rectFArr7 = this.lines;
+                    if (i3 != rectFArr7.length - 1) {
+                        int i4 = i3 + 1;
+                        if (rectFArr7[i3].left > rectFArr7[i4].left && rectFArr7[i3].left - rectFArr7[i4].left > dp2 + dp3) {
+                            float f2 = rectFArr7[i4].top;
+                            RectF rectF = AndroidUtilities.rectTmp;
+                            float f3 = dp2 * 2.0f;
+                            rectF.set(rectFArr7[i3].left - f3, f2 - f3, rectFArr7[i3].left, f2);
+                            this.path.moveTo(rectF.left, rectF.bottom);
+                            this.path.arcTo(rectF, 90.0f, -90.0f);
+                            this.path.lineTo(rectF.right, rectF.bottom);
+                            this.path.lineTo(rectF.left, rectF.bottom);
                         }
                     }
-                    z = false;
-                    int i112 = i9 + 1;
-                    if (i112 >= fArr3.length) {
+                    RectF[] rectFArr8 = this.lines;
+                    if (i3 != rectFArr8.length - 1) {
+                        int i5 = i3 + 1;
+                        if (rectFArr8[i3].right < rectFArr8[i5].right && rectFArr8[i5].right - rectFArr8[i3].right > dp2 + dp3) {
+                            float f4 = rectFArr8[i5].top;
+                            RectF rectF2 = AndroidUtilities.rectTmp;
+                            float f5 = dp2 * 2.0f;
+                            rectF2.set(rectFArr8[i3].right, f4 - f5, rectFArr8[i3].right + f5, f4);
+                            this.path.moveTo(rectF2.right, rectF2.bottom);
+                            this.path.arcTo(rectF2, 90.0f, 90.0f);
+                            this.path.lineTo(rectF2.left, rectF2.bottom);
+                            this.path.lineTo(rectF2.right, rectF2.bottom);
+                        }
                     }
-                    if (i9 == 0) {
+                    if (i3 != 0) {
+                        RectF[] rectFArr9 = this.lines;
+                        int i6 = i3 - 1;
+                        if (rectFArr9[i3].left > rectFArr9[i6].left) {
+                            if (rectFArr9[i3].left - rectFArr9[i6].left > dp2 + dp3) {
+                                float f6 = rectFArr9[i6].bottom;
+                                RectF rectF3 = AndroidUtilities.rectTmp;
+                                float f7 = dp2 * 2.0f;
+                                rectF3.set(rectFArr9[i3].left - f7, f6, rectFArr9[i3].left, f7 + f6);
+                                this.path.moveTo(rectF3.left, rectF3.top);
+                                this.path.arcTo(rectF3, -90.0f, 90.0f);
+                                this.path.lineTo(rectF3.right, rectF3.top);
+                                this.path.lineTo(rectF3.left, rectF3.top);
+                            } else {
+                                rectFArr9[i3].left = rectFArr9[i6].left;
+                            }
+                        }
                     }
-                    if (i9 == fArr3.length - i) {
+                    if (i3 != 0) {
+                        RectF[] rectFArr10 = this.lines;
+                        int i7 = i3 - 1;
+                        if (rectFArr10[i3].right < rectFArr10[i7].right) {
+                            if (rectFArr10[i7].right - rectFArr10[i3].right > dp2 + dp3) {
+                                float f8 = rectFArr10[i7].bottom;
+                                RectF rectF4 = AndroidUtilities.rectTmp;
+                                float f9 = dp2 * 2.0f;
+                                rectF4.set(rectFArr10[i3].right, f8, rectFArr10[i3].right + f9, f9 + f8);
+                                this.path.moveTo(rectF4.right, rectF4.top);
+                                this.path.arcTo(rectF4, -90.0f, -90.0f);
+                                this.path.lineTo(rectF4.left, rectF4.top);
+                                this.path.lineTo(rectF4.right, rectF4.top);
+                            } else {
+                                rectFArr10[i3].right = rectFArr10[i7].right;
+                            }
+                        }
                     }
-                    this.path.reset();
-                    if (i9 != 0) {
-                    }
-                    int i122 = dp4;
-                    float ceil42 = (float) Math.ceil(dp4 + measuredHeight2);
-                    float f92 = measuredWidth2;
-                    float[] fArr42 = this.lines;
-                    float f102 = (f92 - (fArr42[i9] / 2.0f)) + dp;
-                    float f112 = (f92 + (fArr42[i9] / 2.0f)) - dp;
-                    this.path.moveTo(f102, measuredHeight2);
-                    if (z2) {
-                    }
-                    float f132 = f112 + dp;
-                    this.path.lineTo(f132, ceil42 - dp);
-                    if (!z3) {
-                    }
-                    float f152 = f102 - dp;
-                    this.path.lineTo(f152, measuredHeight2 - dp);
-                    if (z2) {
-                    }
-                    this.path.close();
-                    canvas.drawPath(this.path, this.paint);
-                    if (i9 == 0) {
-                    }
-                    measuredHeight2 += i4;
                 }
-                i9++;
-                dp2 = f2;
-                measuredWidth2 = i3;
-                layout2 = layout;
-                i = 1;
+                i3++;
             }
+            float[] fArr = new float[8];
+            for (int i8 = 0; i8 < this.lines.length; i8++) {
+                Arrays.fill(fArr, 0.0f);
+                if (i8 != 0) {
+                    RectF[] rectFArr11 = this.lines;
+                    int i9 = i8 - 1;
+                    if (rectFArr11[i8].left >= rectFArr11[i9].left && rectFArr11[i9].width() != 0.0f) {
+                        if (i8 != 0) {
+                            RectF[] rectFArr12 = this.lines;
+                            int i10 = i8 - 1;
+                            if (rectFArr12[i8].right <= rectFArr12[i10].right) {
+                            }
+                        }
+                        fArr[3] = dp2;
+                        fArr[2] = dp2;
+                        rectFArr = this.lines;
+                        if (i8 != rectFArr.length - 1) {
+                            int i11 = i8 + 1;
+                            if (rectFArr[i11].left <= rectFArr[i8].left) {
+                            }
+                        }
+                        fArr[7] = dp2;
+                        fArr[6] = dp2;
+                        rectFArr2 = this.lines;
+                        if (i8 != rectFArr2.length - 1) {
+                            int i12 = i8 + 1;
+                            if (rectFArr2[i12].right >= rectFArr2[i8].right && rectFArr2[i12].width() != 0.0f) {
+                                RectF rectF5 = AndroidUtilities.rectTmp;
+                                rectF5.set(this.lines[i8]);
+                                this.path.addRoundRect(rectF5, fArr, Path.Direction.CW);
+                            }
+                        }
+                        fArr[5] = dp2;
+                        fArr[4] = dp2;
+                        RectF rectF52 = AndroidUtilities.rectTmp;
+                        rectF52.set(this.lines[i8]);
+                        this.path.addRoundRect(rectF52, fArr, Path.Direction.CW);
+                    }
+                }
+                fArr[1] = dp2;
+                fArr[0] = dp2;
+                if (i8 != 0) {
+                }
+                fArr[3] = dp2;
+                fArr[2] = dp2;
+                rectFArr = this.lines;
+                if (i8 != rectFArr.length - 1) {
+                }
+                fArr[7] = dp2;
+                fArr[6] = dp2;
+                rectFArr2 = this.lines;
+                if (i8 != rectFArr2.length - 1) {
+                }
+                fArr[5] = dp2;
+                fArr[4] = dp2;
+                RectF rectF522 = AndroidUtilities.rectTmp;
+                rectF522.set(this.lines[i8]);
+                this.path.addRoundRect(rectF522, fArr, Path.Direction.CW);
+            }
+            this.path.close();
+            canvas.drawPath(this.path, this.paint);
         }
         super.onDraw(canvas);
     }

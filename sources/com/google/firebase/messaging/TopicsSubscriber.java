@@ -224,7 +224,7 @@ public class TopicsSubscriber {
     /* JADX WARN: Code restructure failed: missing block: B:15:0x000f, code lost:
         android.util.Log.d("FirebaseMessaging", "topic sync succeeded");
      */
-    /* JADX WARN: Code restructure failed: missing block: B:17:0x0017, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:17:0x0018, code lost:
         return true;
      */
     /*

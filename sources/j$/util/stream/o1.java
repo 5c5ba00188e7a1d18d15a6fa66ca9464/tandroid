@@ -200,22 +200,22 @@ public abstract /* synthetic */ class o1 {
         return new a1(vVar, d4.c(vVar), z);
     }
 
-    public static N4 u(j$.wrappers.E e, k1 k1Var) {
-        Objects.requireNonNull(e);
+    public static N4 u(j$.wrappers.D d, k1 k1Var) {
+        Objects.requireNonNull(d);
         Objects.requireNonNull(k1Var);
-        return new l1(e4.DOUBLE_VALUE, k1Var, new o(k1Var, e));
+        return new l1(e4.DOUBLE_VALUE, k1Var, new o(k1Var, d));
     }
 
-    public static N4 v(j$.wrappers.V v, k1 k1Var) {
-        Objects.requireNonNull(v);
+    public static N4 v(j$.wrappers.U u, k1 k1Var) {
+        Objects.requireNonNull(u);
         Objects.requireNonNull(k1Var);
-        return new l1(e4.INT_VALUE, k1Var, new o(k1Var, v));
+        return new l1(e4.INT_VALUE, k1Var, new o(k1Var, u));
     }
 
-    public static N4 w(j$.wrappers.j0 j0Var, k1 k1Var) {
-        Objects.requireNonNull(j0Var);
+    public static N4 w(j$.wrappers.i0 i0Var, k1 k1Var) {
+        Objects.requireNonNull(i0Var);
         Objects.requireNonNull(k1Var);
-        return new l1(e4.LONG_VALUE, k1Var, new o(k1Var, j0Var));
+        return new l1(e4.LONG_VALUE, k1Var, new o(k1Var, i0Var));
     }
 
     public static N4 x(Predicate predicate, k1 k1Var) {

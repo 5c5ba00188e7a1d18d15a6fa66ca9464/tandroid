@@ -1595,6 +1595,35 @@ public class RecyclerListView extends RecyclerView {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
+    public void drawSectionBackgroundExclusive(Canvas canvas, int i, int i2, int i3) {
+        int i4 = ConnectionsManager.DEFAULT_DATACENTER_ID;
+        int i5 = Integer.MIN_VALUE;
+        for (int i6 = 0; i6 < getChildCount(); i6++) {
+            View childAt = getChildAt(i6);
+            if (childAt != null) {
+                int childAdapterPosition = getChildAdapterPosition(childAt);
+                if (childAdapterPosition > i && childAdapterPosition < i2) {
+                    i4 = Math.min((int) childAt.getY(), i4);
+                    i5 = Math.max(((int) childAt.getY()) + childAt.getHeight(), i5);
+                } else if (childAdapterPosition == i) {
+                    i4 = Math.min(((int) childAt.getY()) + childAt.getHeight(), i4);
+                    i5 = Math.max(((int) childAt.getY()) + childAt.getHeight(), i5);
+                } else if (childAdapterPosition == i2) {
+                    i4 = Math.min((int) childAt.getY(), i4);
+                    i5 = Math.max((int) childAt.getY(), i5);
+                }
+            }
+        }
+        if (i4 < i5) {
+            if (this.backgroundPaint == null) {
+                this.backgroundPaint = new Paint(1);
+            }
+            this.backgroundPaint.setColor(i3);
+            canvas.drawRect(0.0f, i4, getWidth(), i5, this.backgroundPaint);
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
     public void drawItemBackground(Canvas canvas, int i, int i2, int i3) {
         int i4 = ConnectionsManager.DEFAULT_DATACENTER_ID;
         int i5 = Integer.MIN_VALUE;
@@ -1640,7 +1669,8 @@ public class RecyclerListView extends RecyclerView {
     @Override // androidx.recyclerview.widget.RecyclerView, android.view.View
     public void onMeasure(int i, int i2) {
         super.onMeasure(i, i2);
-        if (this.fastScroll != null) {
+        FastScroll fastScroll = this.fastScroll;
+        if (fastScroll != null && fastScroll.getLayoutParams() != null) {
             int measuredHeight = (getMeasuredHeight() - getPaddingTop()) - getPaddingBottom();
             this.fastScroll.getLayoutParams().height = measuredHeight;
             this.fastScroll.measure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(132.0f), 1073741824), View.MeasureSpec.makeMeasureSpec(measuredHeight, 1073741824));

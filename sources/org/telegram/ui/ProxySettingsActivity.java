@@ -5,7 +5,6 @@ import android.animation.ValueAnimator;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.graphics.Typeface;
@@ -37,6 +36,7 @@ import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
+import org.telegram.messenger.SvgHelper;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.ui.ActionBar.ActionBar;
@@ -52,6 +52,8 @@ import org.telegram.ui.Cells.TextSettingsCell;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.EditTextBoldCursor;
 import org.telegram.ui.Components.LayoutHelper;
+import org.telegram.ui.Components.QRCodeBottomSheet;
+import org.telegram.ui.Components.RLottieDrawable;
 /* loaded from: classes3.dex */
 public class ProxySettingsActivity extends BaseFragment {
     private boolean addingNewProxy;
@@ -131,7 +133,7 @@ public class ProxySettingsActivity extends BaseFragment {
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
-    public View createView(Context context) {
+    public View createView(final Context context) {
         this.actionBar.setTitle(LocaleController.getString("ProxyDetails", R.string.ProxyDetails));
         this.actionBar.setBackButtonImage(R.drawable.ic_ab_back);
         this.actionBar.setAllowOverlayTitle(false);
@@ -391,7 +393,7 @@ public class ProxySettingsActivity extends BaseFragment {
         this.shareCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ProxySettingsActivity$$ExternalSyntheticLambda4
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
-                ProxySettingsActivity.this.lambda$createView$4(view);
+                ProxySettingsActivity.this.lambda$createView$4(context, view);
             }
         });
         this.sectionCell[1] = new ShadowSectionCell(context);
@@ -478,7 +480,7 @@ public class ProxySettingsActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$4(View view) {
+    public /* synthetic */ void lambda$createView$4(Context context, View view) {
         String str;
         StringBuilder sb = new StringBuilder();
         String obj = this.inputFields[0].getText().toString();
@@ -525,12 +527,9 @@ public class ProxySettingsActivity extends BaseFragment {
             if (sb.length() == 0) {
                 return;
             }
-            Intent intent = new Intent("android.intent.action.SEND");
-            intent.setType("text/plain");
-            intent.putExtra("android.intent.extra.TEXT", str + sb.toString());
-            Intent createChooser = Intent.createChooser(intent, LocaleController.getString("ShareLink", R.string.ShareLink));
-            createChooser.setFlags(268435456);
-            getParentActivity().startActivity(createChooser);
+            QRCodeBottomSheet qRCodeBottomSheet = new QRCodeBottomSheet(context, str + sb.toString(), LocaleController.getString("QRCodeLinkHelpProxy", R.string.QRCodeLinkHelpProxy), true);
+            qRCodeBottomSheet.setCenterImage(SvgHelper.getBitmap(RLottieDrawable.readRes(null, R.raw.qr_dog), AndroidUtilities.dp(60.0f), AndroidUtilities.dp(60.0f), false));
+            showDialog(qRCodeBottomSheet);
         } catch (Exception unused) {
         }
     }

@@ -116,6 +116,7 @@ import org.telegram.ui.Components.ChatAttachAlertContactsLayout;
 import org.telegram.ui.Components.ChatAttachAlertDocumentLayout;
 import org.telegram.ui.Components.ChatAttachAlertLocationLayout;
 import org.telegram.ui.Components.ChatAttachAlertPollLayout;
+import org.telegram.ui.Components.ImageUpdater;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.SizeNotifierFrameLayout;
 import org.telegram.ui.PassportActivity;
@@ -214,6 +215,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
     private float sendButtonEnabledProgress;
     private ActionBarPopupWindow.ActionBarPopupWindowLayout sendPopupLayout;
     private ActionBarPopupWindow sendPopupWindow;
+    private ImageUpdater.AvatarFor setAvatarFor;
     private View shadow;
     protected SizeNotifierFrameLayout sizeNotifierFrameLayout;
     private TextPaint textPaint;
@@ -271,6 +273,11 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
     public class 1 implements BotWebViewContainer.Delegate {
         private ValueAnimator botButtonAnimator;
         final /* synthetic */ ChatAttachAlertBotWebViewLayout val$webViewLayout;
+
+        @Override // org.telegram.ui.Components.BotWebViewContainer.Delegate
+        public boolean isClipboardAvailable() {
+            return true;
+        }
 
         @Override // org.telegram.ui.Components.BotWebViewContainer.Delegate
         public /* synthetic */ void onSendWebViewData(String str) {
@@ -505,6 +512,14 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             return ChatActivityEnterView.checkPremiumAnimatedEmoji(this.currentAccount, ((ChatActivity) baseFragment).getDialogId(), this.baseFragment, this.sizeNotifierFrameLayout, charSequence);
         }
         return false;
+    }
+
+    public void avatarFor(ImageUpdater.AvatarFor avatarFor) {
+        this.setAvatarFor = avatarFor;
+    }
+
+    public ImageUpdater.AvatarFor getAvatarFor() {
+        return this.setAvatarFor;
     }
 
     /* loaded from: classes3.dex */
@@ -1450,6 +1465,8 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         this.selectedTextView.setTextSize(1, 16.0f);
         this.selectedTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.selectedTextView.setGravity(19);
+        this.selectedTextView.setMaxLines(1);
+        this.selectedTextView.setEllipsize(TextUtils.TruncateAt.END);
         this.selectedView.addView(this.selectedTextView, LayoutHelper.createLinear(-2, -2, 16));
         this.selectedArrowImageView = new ImageView(context);
         Drawable mutate = getContext().getResources().getDrawable(R.drawable.attach_arrow_right).mutate();
@@ -2458,6 +2475,11 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         PhotoPickerSearchActivity photoPickerSearchActivity = new PhotoPickerSearchActivity(hashMap, arrayList, 0, true, (ChatActivity) this.baseFragment);
         photoPickerSearchActivity.setDelegate(new PhotoPickerActivity.PhotoPickerActivityDelegate() { // from class: org.telegram.ui.Components.ChatAttachAlert.7
             private boolean sendPressed;
+
+            @Override // org.telegram.ui.PhotoPickerActivity.PhotoPickerActivityDelegate
+            public /* synthetic */ boolean canFinishFragment() {
+                return PhotoPickerActivity.PhotoPickerActivityDelegate.-CC.$default$canFinishFragment(this);
+            }
 
             @Override // org.telegram.ui.PhotoPickerActivity.PhotoPickerActivityDelegate
             public void onCaptionChanged(CharSequence charSequence) {
@@ -3506,6 +3528,14 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         this.containerView.invalidate();
         this.actionBar.setTag(z ? 1 : null);
         runnable.run();
+    }
+
+    public AttachAlertLayout getCurrentAttachLayout() {
+        return this.currentAttachLayout;
+    }
+
+    public ChatAttachAlertPhotoLayoutPreview getPhotoPreviewLayout() {
+        return this.photoPreviewLayout;
     }
 
     public void updatePhotoPreview(boolean z) {
@@ -4814,6 +4844,10 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             }
         }
         this.typeButtonsAvailable = true;
+    }
+
+    public TextView getSelectedTextView() {
+        return this.selectedTextView;
     }
 
     public void setSoundPicker() {

@@ -6,11 +6,11 @@ import j$.util.function.BiFunction;
 import j$.util.function.Consumer;
 import j$.util.function.Function;
 import j$.util.function.Predicate;
-import j$.wrappers.M;
-import j$.wrappers.P0;
-import j$.wrappers.T;
+import j$.wrappers.L;
+import j$.wrappers.O0;
+import j$.wrappers.S;
 import j$.wrappers.w;
-import j$.wrappers.x0;
+import j$.wrappers.w0;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.ObjectStreamField;
@@ -224,7 +224,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
         @Override // java.util.Collection
         public /* synthetic */ Stream parallelStream() {
-            return P0.n0(j$.util.a.g(this));
+            return O0.n0(j$.util.a.g(this));
         }
 
         @Override // java.util.Collection, java.util.Set
@@ -237,7 +237,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
         @Override // java.util.Collection
         public /* synthetic */ boolean removeIf(java.util.function.Predicate predicate) {
-            return j$.util.a.h(this, x0.a(predicate));
+            return j$.util.a.h(this, w0.a(predicate));
         }
 
         @Override // java.util.Collection, java.lang.Iterable, java.util.Set, j$.util.b, j$.lang.e
@@ -265,11 +265,11 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
         @Override // java.util.Collection, j$.util.b
         public /* synthetic */ Stream stream() {
-            return P0.n0(j$.util.a.i(this));
+            return O0.n0(j$.util.a.i(this));
         }
 
         public Object[] toArray(IntFunction intFunction) {
-            return toArray((Object[]) T.a(intFunction).apply(0));
+            return toArray((Object[]) S.a(intFunction).apply(0));
         }
     }
 
@@ -507,7 +507,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
         @Override // java.util.Collection
         public /* synthetic */ Stream parallelStream() {
-            return P0.n0(j$.util.a.g(this));
+            return O0.n0(j$.util.a.g(this));
         }
 
         @Override // java.util.Collection, java.util.Set
@@ -517,7 +517,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
         @Override // java.util.Collection
         public /* synthetic */ boolean removeIf(java.util.function.Predicate predicate) {
-            return j$.util.a.h(this, x0.a(predicate));
+            return j$.util.a.h(this, w0.a(predicate));
         }
 
         @Override // java.util.Collection, java.lang.Iterable, java.util.Set, j$.util.b, j$.lang.e
@@ -545,11 +545,11 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
         @Override // java.util.Collection, j$.util.b
         public /* synthetic */ Stream stream() {
-            return P0.n0(j$.util.a.i(this));
+            return O0.n0(j$.util.a.i(this));
         }
 
         public Object[] toArray(IntFunction intFunction) {
-            return toArray((Object[]) T.a(intFunction).apply(0));
+            return toArray((Object[]) S.a(intFunction).apply(0));
         }
     }
 
@@ -1667,7 +1667,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
         @Override // java.util.Collection
         public /* synthetic */ Stream parallelStream() {
-            return P0.n0(j$.util.a.g(this));
+            return O0.n0(j$.util.a.g(this));
         }
 
         @Override // java.util.Collection
@@ -1689,7 +1689,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
         @Override // java.util.Collection
         public /* synthetic */ boolean removeIf(java.util.function.Predicate predicate) {
-            return j$.util.a.h(this, x0.a(predicate));
+            return j$.util.a.h(this, w0.a(predicate));
         }
 
         @Override // java.util.Collection, java.lang.Iterable, j$.util.b, j$.lang.e
@@ -1717,11 +1717,11 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
         @Override // java.util.Collection, j$.util.b
         public /* synthetic */ Stream stream() {
-            return P0.n0(j$.util.a.i(this));
+            return O0.n0(j$.util.a.i(this));
         }
 
         public Object[] toArray(IntFunction intFunction) {
-            return toArray((Object[]) T.a(intFunction).apply(0));
+            return toArray((Object[]) S.a(intFunction).apply(0));
         }
     }
 
@@ -2768,7 +2768,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
     @Override // java.util.Map, java.util.concurrent.ConcurrentMap
     public /* synthetic */ Object computeIfAbsent(Object obj, java.util.function.Function function) {
-        return computeIfAbsent(obj, M.a(function));
+        return computeIfAbsent(obj, L.a(function));
     }
 
     @Override // j$.util.Map

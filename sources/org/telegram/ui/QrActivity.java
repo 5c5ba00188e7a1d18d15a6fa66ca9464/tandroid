@@ -1148,6 +1148,12 @@ public class QrActivity extends BaseFragment {
         private Paint crossfadeFromPaint = new Paint(1);
         private Paint crossfadeToPaint = new Paint(1);
         private float[] radii = new float[8];
+        private Runnable checkTimerToken = new Runnable() { // from class: org.telegram.ui.QrActivity$QrView$$ExternalSyntheticLambda1
+            @Override // java.lang.Runnable
+            public final void run() {
+                QrActivity.QrView.this.lambda$new$5();
+            }
+        };
         private boolean firstPrepare = true;
 
         /* loaded from: classes3.dex */
@@ -1237,7 +1243,7 @@ public class QrActivity extends BaseFragment {
             float f3 = RADIUS;
             canvas.drawRoundRect(rectF, f3, f3, paint);
             if (this.setData) {
-                Utilities.themeQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.QrActivity$QrView$$ExternalSyntheticLambda2
+                Utilities.themeQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.QrActivity$QrView$$ExternalSyntheticLambda3
                     @Override // java.lang.Runnable
                     public final void run() {
                         QrActivity.QrView.this.lambda$onSizeChanged$0(i, i2);
@@ -1401,24 +1407,19 @@ public class QrActivity extends BaseFragment {
             this.hasTimer = z2;
             final int width = getWidth();
             final int height = getHeight();
-            Utilities.themeQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.QrActivity$QrView$$ExternalSyntheticLambda3
+            Utilities.themeQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.QrActivity$QrView$$ExternalSyntheticLambda4
                 @Override // java.lang.Runnable
                 public final void run() {
                     QrActivity.QrView.this.lambda$setData$1(width, height);
                 }
             });
             invalidate();
-            checkTimerToken();
+            this.checkTimerToken.run();
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public void checkTimerToken() {
-            AndroidUtilities.cancelRunOnUIThread(new Runnable() { // from class: org.telegram.ui.QrActivity$QrView$$ExternalSyntheticLambda1
-                @Override // java.lang.Runnable
-                public final void run() {
-                    QrActivity.QrView.this.checkTimerToken();
-                }
-            });
+        public /* synthetic */ void lambda$new$5() {
+            AndroidUtilities.cancelRunOnUIThread(this.checkTimerToken);
             boolean z = this.hasTimer;
             if (!z) {
                 return;
@@ -1437,10 +1438,10 @@ public class QrActivity extends BaseFragment {
                     this.link = null;
                     final int width = getWidth();
                     final int height = getHeight();
-                    Utilities.themeQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.QrActivity$QrView$$ExternalSyntheticLambda4
+                    Utilities.themeQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.QrActivity$QrView$$ExternalSyntheticLambda2
                         @Override // java.lang.Runnable
                         public final void run() {
-                            QrActivity.QrView.this.lambda$checkTimerToken$2(width, height);
+                            QrActivity.QrView.this.lambda$new$2(width, height);
                         }
                     });
                     this.timerTextDrawable.setText(str);
@@ -1448,7 +1449,7 @@ public class QrActivity extends BaseFragment {
                 MessagesController.getInstance(UserConfig.selectedAccount).requestContactToken(this.linkExpires == 0 ? 750L : 1750L, new Utilities.Callback() { // from class: org.telegram.ui.QrActivity$QrView$$ExternalSyntheticLambda7
                     @Override // org.telegram.messenger.Utilities.Callback
                     public final void run(Object obj) {
-                        QrActivity.QrView.this.lambda$checkTimerToken$4((TLRPC$TL_exportedContactToken) obj);
+                        QrActivity.QrView.this.lambda$new$4((TLRPC$TL_exportedContactToken) obj);
                     }
                 });
             }
@@ -1472,26 +1473,21 @@ public class QrActivity extends BaseFragment {
             if (!isAttachedToWindow()) {
                 return;
             }
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.QrActivity$QrView$$ExternalSyntheticLambda1
-                @Override // java.lang.Runnable
-                public final void run() {
-                    QrActivity.QrView.this.checkTimerToken();
-                }
-            }, 1000L);
+            AndroidUtilities.runOnUIThread(this.checkTimerToken, 1000L);
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$checkTimerToken$4(final TLRPC$TL_exportedContactToken tLRPC$TL_exportedContactToken) {
+        public /* synthetic */ void lambda$new$4(final TLRPC$TL_exportedContactToken tLRPC$TL_exportedContactToken) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.QrActivity$QrView$$ExternalSyntheticLambda6
                 @Override // java.lang.Runnable
                 public final void run() {
-                    QrActivity.QrView.this.lambda$checkTimerToken$3(tLRPC$TL_exportedContactToken);
+                    QrActivity.QrView.this.lambda$new$3(tLRPC$TL_exportedContactToken);
                 }
             });
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$checkTimerToken$3(TLRPC$TL_exportedContactToken tLRPC$TL_exportedContactToken) {
+        public /* synthetic */ void lambda$new$3(TLRPC$TL_exportedContactToken tLRPC$TL_exportedContactToken) {
             if (tLRPC$TL_exportedContactToken == null) {
                 return;
             }
@@ -1549,7 +1545,7 @@ public class QrActivity extends BaseFragment {
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.QrActivity$QrView$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
-                        QrActivity.QrView.this.lambda$prepareContent$5();
+                        QrActivity.QrView.this.lambda$prepareContent$6();
                     }
                 });
                 return;
@@ -1654,7 +1650,7 @@ public class QrActivity extends BaseFragment {
                         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.QrActivity$QrView$$ExternalSyntheticLambda5
                             @Override // java.lang.Runnable
                             public final void run() {
-                                QrActivity.QrView.this.lambda$prepareContent$6(createBitmap, width4, i11, width5);
+                                QrActivity.QrView.this.lambda$prepareContent$7(createBitmap, width4, i11, width5);
                             }
                         });
                         return;
@@ -1683,7 +1679,7 @@ public class QrActivity extends BaseFragment {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$prepareContent$5() {
+        public /* synthetic */ void lambda$prepareContent$6() {
             this.firstPrepare = false;
             Bitmap bitmap = this.contentBitmap;
             if (bitmap != null) {
@@ -1699,7 +1695,7 @@ public class QrActivity extends BaseFragment {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$prepareContent$6(Bitmap bitmap, float f, int i, float f2) {
+        public /* synthetic */ void lambda$prepareContent$7(Bitmap bitmap, float f, int i, float f2) {
             Bitmap bitmap2 = this.contentBitmap;
             this.contentBitmap = bitmap.extractAlpha();
             if (!this.firstPrepare) {
@@ -1723,7 +1719,7 @@ public class QrActivity extends BaseFragment {
         @Override // android.view.View
         protected void onAttachedToWindow() {
             super.onAttachedToWindow();
-            checkTimerToken();
+            this.checkTimerToken.run();
         }
 
         @Override // android.view.View

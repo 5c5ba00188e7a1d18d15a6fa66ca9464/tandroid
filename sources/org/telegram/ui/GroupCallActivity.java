@@ -4754,7 +4754,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
             if (groupCallInvitedCell.hasAvatarSet()) {
                 bundle.putBoolean("expandPhoto", true);
             }
-            this.parentActivity.lambda$runLinkRequest$67(new ProfileActivity(bundle));
+            this.parentActivity.lambda$runLinkRequest$71(new ProfileActivity(bundle));
             dismiss();
         } else if (i != this.listAdapter.addMemberRow) {
         } else {
@@ -8371,6 +8371,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
             chat = this.accountInstance.getMessagesController().getChat(Long.valueOf(-j));
         }
         final TLObject tLObject = chat;
+        boolean z = true;
         if (i == 0 || i == 2 || i == 3) {
             if (i == 0) {
                 if (VoIPService.getSharedInstance() == null) {
@@ -8394,8 +8395,8 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
             backupImageView.setRoundRadius(AndroidUtilities.dp(20.0f));
             frameLayout.addView(backupImageView, LayoutHelper.createFrame(40, 40.0f, (LocaleController.isRTL ? 5 : 3) | 48, 22.0f, 5.0f, 22.0f, 0.0f));
             avatarDrawable.setInfo(tLObject);
-            boolean z = tLObject instanceof TLRPC$User;
-            if (z) {
+            boolean z2 = tLObject instanceof TLRPC$User;
+            if (z2) {
                 TLRPC$User tLRPC$User = (TLRPC$User) tLObject;
                 backupImageView.setForUserOrChat(tLRPC$User, avatarDrawable);
                 str = UserObject.getFirstName(tLRPC$User);
@@ -8424,11 +8425,11 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                 textView3.setText(LocaleController.getString("VoipGroupAddMemberTitle", R.string.VoipGroupAddMemberTitle));
                 textView2.setText(AndroidUtilities.replaceTags(LocaleController.formatString("VoipGroupAddMemberText", R.string.VoipGroupAddMemberText, str, this.currentChat.title)));
             }
-            boolean z2 = LocaleController.isRTL;
-            int i2 = (z2 ? 5 : 3) | 48;
+            boolean z3 = LocaleController.isRTL;
+            int i2 = (z3 ? 5 : 3) | 48;
             int i3 = 21;
-            float f = z2 ? 21 : 76;
-            if (z2) {
+            float f = z3 ? 21 : 76;
+            if (z3) {
                 i3 = 76;
             }
             frameLayout.addView(textView3, LayoutHelper.createFrame(-1, -2.0f, i2, f, 11.0f, i3, 0.0f));
@@ -8440,7 +8441,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                         GroupCallActivity.this.lambda$processSelectedOption$55(tLObject, dialogInterface, i4);
                     }
                 });
-            } else if (z) {
+            } else if (z2) {
                 final TLRPC$User tLRPC$User2 = (TLRPC$User) tLObject;
                 builder.setPositiveButton(LocaleController.getString("VoipGroupAdd", R.string.VoipGroupAdd), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.GroupCallActivity$$ExternalSyntheticLambda8
                     @Override // android.content.DialogInterface.OnClickListener
@@ -8465,7 +8466,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
             } else {
                 bundle.putLong("chat_id", -j);
             }
-            this.parentActivity.lambda$runLinkRequest$67(new ChatActivity(bundle));
+            this.parentActivity.lambda$runLinkRequest$71(new ChatActivity(bundle));
             dismiss();
         } else if (i == 8) {
             this.parentActivity.switchToAccount(this.currentAccount, true);
@@ -8480,12 +8481,32 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
             } else {
                 bundle2.putLong("chat_id", -j);
             }
-            this.parentActivity.lambda$runLinkRequest$67(new ChatActivity(bundle2));
+            this.parentActivity.lambda$runLinkRequest$71(new ChatActivity(bundle2));
             dismiss();
         } else if (i == 7) {
             sharedInstance.editCallMember(tLObject, Boolean.TRUE, null, null, Boolean.FALSE, null);
             updateMuteButton(2, true);
-        } else if (i == 9) {
+        } else if (i != 9) {
+            if (i == 10) {
+                AlertsCreator.createChangeBioAlert(tLRPC$TL_groupCallParticipant.about, j, getContext(), this.currentAccount);
+            } else if (i == 11) {
+                AlertsCreator.createChangeNameAlert(j, getContext(), this.currentAccount);
+            } else if (i == 5) {
+                sharedInstance.editCallMember(tLObject, Boolean.TRUE, null, null, null, null);
+                getUndoView().showWithAction(0L, 35, tLObject);
+                sharedInstance.setParticipantVolume(tLRPC$TL_groupCallParticipant, 0);
+            } else {
+                if ((tLRPC$TL_groupCallParticipant.flags & ConnectionsManager.RequestFlagNeedQuickAck) != 0 && tLRPC$TL_groupCallParticipant.volume == 0) {
+                    tLRPC$TL_groupCallParticipant.volume = 10000;
+                    tLRPC$TL_groupCallParticipant.volume_by_admin = false;
+                    sharedInstance.editCallMember(tLObject, Boolean.FALSE, null, 10000, null, null);
+                } else {
+                    sharedInstance.editCallMember(tLObject, Boolean.FALSE, null, null, null, null);
+                }
+                sharedInstance.setParticipantVolume(tLRPC$TL_groupCallParticipant, ChatObject.getParticipantVolume(tLRPC$TL_groupCallParticipant));
+                getUndoView().showWithAction(0L, i == 1 ? 31 : 36, tLObject, (Object) null, (Runnable) null, (Runnable) null);
+            }
+        } else {
             ImageUpdater imageUpdater = this.currentAvatarUpdater;
             if (imageUpdater != null && imageUpdater.isUploadingImage()) {
                 return;
@@ -8504,30 +8525,15 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
             TLRPC$User currentUser = this.accountInstance.getUserConfig().getCurrentUser();
             ImageUpdater imageUpdater4 = this.currentAvatarUpdater;
             TLRPC$UserProfilePhoto tLRPC$UserProfilePhoto = currentUser.photo;
-            imageUpdater4.openMenu((tLRPC$UserProfilePhoto == null || tLRPC$UserProfilePhoto.photo_big == null || (tLRPC$UserProfilePhoto instanceof TLRPC$TL_userProfilePhotoEmpty)) ? false : true, new Runnable() { // from class: org.telegram.ui.GroupCallActivity$$ExternalSyntheticLambda34
+            if (tLRPC$UserProfilePhoto == null || tLRPC$UserProfilePhoto.photo_big == null || (tLRPC$UserProfilePhoto instanceof TLRPC$TL_userProfilePhotoEmpty)) {
+                z = false;
+            }
+            imageUpdater4.openMenu(z, new Runnable() { // from class: org.telegram.ui.GroupCallActivity$$ExternalSyntheticLambda34
                 @Override // java.lang.Runnable
                 public final void run() {
                     GroupCallActivity.this.lambda$processSelectedOption$58();
                 }
-            }, GroupCallActivity$$ExternalSyntheticLambda13.INSTANCE);
-        } else if (i == 10) {
-            AlertsCreator.createChangeBioAlert(tLRPC$TL_groupCallParticipant.about, j, getContext(), this.currentAccount);
-        } else if (i == 11) {
-            AlertsCreator.createChangeNameAlert(j, getContext(), this.currentAccount);
-        } else if (i == 5) {
-            sharedInstance.editCallMember(tLObject, Boolean.TRUE, null, null, null, null);
-            getUndoView().showWithAction(0L, 35, tLObject);
-            sharedInstance.setParticipantVolume(tLRPC$TL_groupCallParticipant, 0);
-        } else {
-            if ((tLRPC$TL_groupCallParticipant.flags & ConnectionsManager.RequestFlagNeedQuickAck) != 0 && tLRPC$TL_groupCallParticipant.volume == 0) {
-                tLRPC$TL_groupCallParticipant.volume = 10000;
-                tLRPC$TL_groupCallParticipant.volume_by_admin = false;
-                sharedInstance.editCallMember(tLObject, Boolean.FALSE, null, 10000, null, null);
-            } else {
-                sharedInstance.editCallMember(tLObject, Boolean.FALSE, null, null, null, null);
-            }
-            sharedInstance.setParticipantVolume(tLRPC$TL_groupCallParticipant, ChatObject.getParticipantVolume(tLRPC$TL_groupCallParticipant));
-            getUndoView().showWithAction(0L, i == 1 ? 31 : 36, tLObject, (Object) null, (Runnable) null, (Runnable) null);
+            }, GroupCallActivity$$ExternalSyntheticLambda13.INSTANCE, 0);
         }
     }
 
@@ -9909,7 +9915,17 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
         public float uploadingProgress;
 
         @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
+        public /* synthetic */ boolean canFinishFragment() {
+            return ImageUpdater.ImageUpdaterDelegate.-CC.$default$canFinishFragment(this);
+        }
+
+        @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
         public void didStartUpload(boolean z) {
+        }
+
+        @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
+        public /* synthetic */ void didUploadFailed() {
+            ImageUpdater.ImageUpdaterDelegate.-CC.$default$didUploadFailed(this);
         }
 
         @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
@@ -9922,7 +9938,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
         }
 
         @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
-        public void didUploadPhoto(final TLRPC$InputFile tLRPC$InputFile, final TLRPC$InputFile tLRPC$InputFile2, final double d, final String str, final TLRPC$PhotoSize tLRPC$PhotoSize, final TLRPC$PhotoSize tLRPC$PhotoSize2) {
+        public void didUploadPhoto(final TLRPC$InputFile tLRPC$InputFile, final TLRPC$InputFile tLRPC$InputFile2, final double d, final String str, final TLRPC$PhotoSize tLRPC$PhotoSize, final TLRPC$PhotoSize tLRPC$PhotoSize2, boolean z) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.GroupCallActivity$AvatarUpdaterDelegate$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {

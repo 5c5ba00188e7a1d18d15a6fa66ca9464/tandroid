@@ -466,9 +466,9 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
         return mimeTypeIsRawText(str) ? 3 : -1;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:28:0x0091  */
-    /* JADX WARN: Removed duplicated region for block: B:33:0x00f7  */
-    /* JADX WARN: Removed duplicated region for block: B:37:0x0098  */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x0095  */
+    /* JADX WARN: Removed duplicated region for block: B:33:0x00fb  */
+    /* JADX WARN: Removed duplicated region for block: B:37:0x009c  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -539,6 +539,7 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
                         bArr2 = uuid2;
                         break;
                     }
+                    break;
             }
             do {
                 xmlPullParser.next();

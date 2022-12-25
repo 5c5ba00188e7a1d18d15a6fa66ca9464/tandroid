@@ -619,8 +619,8 @@ public class DataSettingsActivity extends BaseFragment {
                     return;
                 }
             }
-            boolean z2 = true;
-            boolean z3 = false;
+            boolean z2 = false;
+            boolean z3 = true;
             if (itemViewType == 1) {
                 TextSettingsCell textSettingsCell = (TextSettingsCell) viewHolder.itemView;
                 textSettingsCell.setCanDisable(false);
@@ -653,44 +653,28 @@ public class DataSettingsActivity extends BaseFragment {
                                 textSettingsCell.setText(LocaleController.getString("ProxySettings", R.string.ProxySettings), false);
                                 return;
                             }
-                            textSettingsCell.setIcon(0);
-                            String absolutePath = ((File) DataSettingsActivity.this.storageDirs.get(0)).getAbsolutePath();
-                            if (!TextUtils.isEmpty(SharedConfig.storageCacheDir)) {
-                                int size = DataSettingsActivity.this.storageDirs.size();
-                                int i2 = 0;
-                                while (true) {
-                                    if (i2 >= size) {
-                                        break;
-                                    }
-                                    String absolutePath2 = ((File) DataSettingsActivity.this.storageDirs.get(i2)).getAbsolutePath();
-                                    if (absolutePath2.startsWith(SharedConfig.storageCacheDir)) {
-                                        absolutePath = absolutePath2;
-                                        break;
-                                    }
-                                    i2++;
-                                }
-                            }
-                            textSettingsCell.setTextAndValue(LocaleController.getString("StoragePath", R.string.StoragePath), absolutePath, false);
+                            textSettingsCell.setIcon(R.drawable.msg_storage_path);
+                            textSettingsCell.setText(LocaleController.getString("StoragePath", R.string.StoragePath), false);
                             return;
                         }
                         textSettingsCell.setIcon(R.drawable.msg_data_usage);
                         String string2 = LocaleController.getString("NetworkUsage", R.string.NetworkUsage);
-                        if (DataSettingsActivity.this.storageNumRow == -1) {
-                            z2 = false;
+                        if (DataSettingsActivity.this.storageNumRow != -1) {
+                            z2 = true;
                         }
                         textSettingsCell.setText(string2, z2);
                         return;
                     }
                     textSettingsCell.setIcon(0);
                     String str = null;
-                    int i3 = MessagesController.getGlobalMainSettings().getInt("VoipDataSaving", VoIPHelper.getDataSavingDefault());
-                    if (i3 == 0) {
+                    int i2 = MessagesController.getGlobalMainSettings().getInt("VoipDataSaving", VoIPHelper.getDataSavingDefault());
+                    if (i2 == 0) {
                         str = LocaleController.getString("UseLessDataNever", R.string.UseLessDataNever);
-                    } else if (i3 == 1) {
+                    } else if (i2 == 1) {
                         str = LocaleController.getString("UseLessDataOnMobile", R.string.UseLessDataOnMobile);
-                    } else if (i3 == 2) {
+                    } else if (i2 == 2) {
                         str = LocaleController.getString("UseLessDataAlways", R.string.UseLessDataAlways);
-                    } else if (i3 == 3) {
+                    } else if (i2 == 3) {
                         str = LocaleController.getString("UseLessDataOnRoaming", R.string.UseLessDataOnRoaming);
                     }
                     textSettingsCell.setTextAndValue(LocaleController.getString("VoipUseLessData", R.string.VoipUseLessData), str, DataSettingsActivity.this.updateVoipUseLessData, true);
@@ -746,23 +730,23 @@ public class DataSettingsActivity extends BaseFragment {
                                             }
                                             String string3 = LocaleController.getString("SaveToGalleryChannels", R.string.SaveToGalleryChannels);
                                             if ((SharedConfig.saveToGalleryFlags & 4) == 0) {
-                                                z2 = false;
+                                                z3 = false;
                                             }
-                                            textCheckCell.setTextAndCheck(string3, z2, false);
+                                            textCheckCell.setTextAndCheck(string3, z3, false);
                                             return;
                                         }
                                         String string4 = LocaleController.getString("SaveToGalleryGroups", R.string.SaveToGalleryGroups);
                                         if ((SharedConfig.saveToGalleryFlags & 2) != 0) {
-                                            z3 = true;
+                                            z2 = true;
                                         }
-                                        textCheckCell.setTextAndCheck(string4, z3, true);
+                                        textCheckCell.setTextAndCheck(string4, z2, true);
                                         return;
                                     }
                                     String string5 = LocaleController.getString("SaveToGalleryPrivate", R.string.SaveToGalleryPrivate);
                                     if ((SharedConfig.saveToGalleryFlags & 1) != 0) {
-                                        z3 = true;
+                                        z2 = true;
                                     }
-                                    textCheckCell.setTextAndCheck(string5, z3, true);
+                                    textCheckCell.setTextAndCheck(string5, z2, true);
                                     return;
                                 }
                                 textCheckCell.setTextAndCheck(LocaleController.getString("AutoplayVideo", R.string.AutoplayVideo), SharedConfig.autoplayVideo, false);
@@ -779,8 +763,8 @@ public class DataSettingsActivity extends BaseFragment {
                 }
                 String string6 = LocaleController.getString("EnableStreaming", R.string.EnableStreaming);
                 boolean z4 = SharedConfig.streamMedia;
-                if (DataSettingsActivity.this.enableAllStreamRow == -1) {
-                    z2 = false;
+                if (DataSettingsActivity.this.enableAllStreamRow != -1) {
+                    z2 = true;
                 }
                 textCheckCell.setTextAndCheck(string6, z4, z2);
             } else if (itemViewType == 4) {
@@ -809,31 +793,31 @@ public class DataSettingsActivity extends BaseFragment {
                     currentRoamingPreset = DownloadController.getInstance(((BaseFragment) DataSettingsActivity.this).currentAccount).getCurrentMobilePreset();
                 }
                 String str2 = string;
-                int i4 = 0;
+                int i3 = 0;
                 boolean z5 = false;
-                int i5 = 0;
+                int i4 = 0;
                 boolean z6 = false;
                 boolean z7 = false;
                 while (true) {
                     int[] iArr = currentRoamingPreset.mask;
-                    if (i4 >= iArr.length) {
+                    if (i3 >= iArr.length) {
                         break;
                     }
-                    if (!z5 && (iArr[i4] & 1) != 0) {
-                        i5++;
+                    if (!z5 && (iArr[i3] & 1) != 0) {
+                        i4++;
                         z5 = true;
                     }
-                    if (!z6 && (iArr[i4] & 4) != 0) {
-                        i5++;
+                    if (!z6 && (iArr[i3] & 4) != 0) {
+                        i4++;
                         z6 = true;
                     }
-                    if (!z7 && (iArr[i4] & 8) != 0) {
-                        i5++;
+                    if (!z7 && (iArr[i3] & 8) != 0) {
+                        i4++;
                         z7 = true;
                     }
-                    i4++;
+                    i3++;
                 }
-                if (!currentRoamingPreset.enabled || i5 == 0) {
+                if (!currentRoamingPreset.enabled || i4 == 0) {
                     notificationsCheckCell = notificationsCheckCell2;
                     sb.append(LocaleController.getString("NoMediaAutoDownload", R.string.NoMediaAutoDownload));
                 } else {

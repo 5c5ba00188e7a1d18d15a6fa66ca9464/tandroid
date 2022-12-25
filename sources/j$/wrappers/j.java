@@ -41,7 +41,7 @@ public final /* synthetic */ class j implements Spliterator.OfDouble {
 
     @Override // java.util.Spliterator.OfDouble
     public /* synthetic */ void forEachRemaining(DoubleConsumer doubleConsumer) {
-        this.a.e(A.b(doubleConsumer));
+        this.a.e(z.b(doubleConsumer));
     }
 
     @Override // java.util.Spliterator
@@ -71,7 +71,7 @@ public final /* synthetic */ class j implements Spliterator.OfDouble {
 
     @Override // java.util.Spliterator.OfDouble
     public /* synthetic */ boolean tryAdvance(DoubleConsumer doubleConsumer) {
-        return this.a.k(A.b(doubleConsumer));
+        return this.a.k(z.b(doubleConsumer));
     }
 
     @Override // java.util.Spliterator.OfDouble, java.util.Spliterator.OfPrimitive, java.util.Spliterator

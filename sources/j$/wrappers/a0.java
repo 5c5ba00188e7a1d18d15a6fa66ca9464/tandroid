@@ -1,23 +1,22 @@
 package j$.wrappers;
 
-import java.util.function.IntToLongFunction;
+import java.util.function.IntUnaryOperator;
 /* loaded from: classes2.dex */
-public final /* synthetic */ class a0 implements IntToLongFunction {
-    final /* synthetic */ j$.util.function.n a;
+public final /* synthetic */ class a0 {
+    final /* synthetic */ IntUnaryOperator a;
 
-    private /* synthetic */ a0(j$.util.function.n nVar) {
-        this.a = nVar;
+    private /* synthetic */ a0(IntUnaryOperator intUnaryOperator) {
+        this.a = intUnaryOperator;
     }
 
-    public static /* synthetic */ IntToLongFunction a(j$.util.function.n nVar) {
-        if (nVar == null) {
+    public static /* synthetic */ a0 b(IntUnaryOperator intUnaryOperator) {
+        if (intUnaryOperator == null) {
             return null;
         }
-        return nVar instanceof Z ? ((Z) nVar).a : new a0(nVar);
+        return intUnaryOperator instanceof b0 ? ((b0) intUnaryOperator).a : new a0(intUnaryOperator);
     }
 
-    @Override // java.util.function.IntToLongFunction
-    public /* synthetic */ long applyAsLong(int i) {
-        return this.a.applyAsLong(i);
+    public int a(int i) {
+        return this.a.applyAsInt(i);
     }
 }

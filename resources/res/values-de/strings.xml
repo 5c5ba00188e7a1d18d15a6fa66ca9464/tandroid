@@ -1990,7 +1990,6 @@
     <string name="KMetersShort">%1$s km</string>
     <string name="KeepMedia">Medien behalten</string>
     <string name="KeepMediaForever">Dauerhaft</string>
-    <string name="KeepMediaInfo">Bilder, Videos und andere Dateien, auf die du während dieser Zeit **nicht zugegriffen** hast, werden von diesem Gerät gelöscht, um Speicherplatz zu sparen.\n\nAlle Medien bleiben in der Telegram Cloud gespeichert und können jederzeit wieder heruntergeladen werden.</string>
     <string name="KickFromBroadcast">Aus Broadcast Liste entfernen</string>
     <string name="KickFromGroup">Aus der Gruppe entfernen</string>
     <string name="Km">km</string>
@@ -3130,7 +3129,6 @@
     <string name="PrivacyPolicyUrl">https://telegram.org/privacy</string>
     <string name="PrivacyProfilePhoto">Profilbilder</string>
     <string name="PrivacyProfilePhotoInfo">Hier kannst du per Feineinstellung bestimmen, wer dein Profilbild sehen darf.</string>
-    <string name="PrivacyProfilePhotoInfo2">Du kannst Kontakte oder ganze Gruppen hinzufügen, für die eine Ausnahme gemacht werden soll.</string>
     <string name="PrivacyProfilePhotoTitle">Wer darf mein Profilbild sehen?</string>
     <string name="PrivacySettings">Privatsphäre und Sicherheit</string>
     <string name="PrivacySettingsChangedAlert">Du hast einige Änderungen im Bereich Privatsphäre durchgeführt. Möchtest du die Änderungen anwenden?</string>

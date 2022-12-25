@@ -37,6 +37,7 @@ public class RadialProgress2 {
     private String iconPressedColorKey;
     private boolean isPressed;
     private boolean isPressedMini;
+    private int maxIconSize;
     private MediaActionDrawable mediaActionDrawable;
     private Bitmap miniDrawBitmap;
     private Canvas miniDrawCanvas;
@@ -454,9 +455,12 @@ public class RadialProgress2 {
                     canvas.drawCircle(ceil, ceil2, this.circleRadius, this.overlayPaint);
                 }
             }
-            MediaActionDrawable mediaActionDrawable5 = this.mediaActionDrawable;
             int i9 = this.circleRadius;
-            mediaActionDrawable5.setBounds(ceil - i9, ceil2 - i9, ceil + i9, ceil2 + i9);
+            int i10 = this.maxIconSize;
+            if (i10 > 0 && i9 > i10) {
+                i9 = i10;
+            }
+            this.mediaActionDrawable.setBounds(ceil - i9, ceil2 - i9, ceil + i9, ceil2 + i9);
             this.mediaActionDrawable.setHasOverlayImage(this.overlayImageView.hasBitmapImage());
             if (this.drawMiniIcon || this.circleCrossfadeColorKey != null) {
                 Canvas canvas6 = this.miniDrawCanvas;
@@ -486,7 +490,7 @@ public class RadialProgress2 {
                 centerX = this.progressRect.centerX() + AndroidUtilities.dp(18.0f);
                 centerY = this.progressRect.centerY() + AndroidUtilities.dp(18.0f);
             }
-            int i10 = i3 / 2;
+            int i11 = i3 / 2;
             if (this.drawMiniIcon) {
                 f = this.miniMediaActionDrawable.getCurrentIcon() != 4 ? 1.0f : 1.0f - this.miniMediaActionDrawable.getTransitionProgress();
                 if (f == 0.0f) {
@@ -498,7 +502,7 @@ public class RadialProgress2 {
             Canvas canvas7 = this.miniDrawCanvas;
             if (canvas7 != null) {
                 float f4 = i3 + 18 + i7;
-                canvas7.drawCircle(AndroidUtilities.dp(f4), AndroidUtilities.dp(f4), AndroidUtilities.dp(i10 + 1) * f * this.miniIconScale, Theme.checkboxSquare_eraserPaint);
+                canvas7.drawCircle(AndroidUtilities.dp(f4), AndroidUtilities.dp(f4), AndroidUtilities.dp(i11 + 1) * f * this.miniIconScale, Theme.checkboxSquare_eraserPaint);
             } else {
                 this.miniProgressBackgroundPaint.setColor(this.progressColor);
                 canvas.drawCircle(centerX, centerY, AndroidUtilities.dp(12.0f), this.miniProgressBackgroundPaint);
@@ -515,7 +519,7 @@ public class RadialProgress2 {
             } else {
                 i4 = Integer.MIN_VALUE;
             }
-            float f6 = i10;
+            float f6 = i11;
             canvas.drawCircle(centerX, centerY, (AndroidUtilities.dp(f6) * f) + (AndroidUtilities.dp(1.0f) * (1.0f - this.circleCheckProgress)), this.circleMiniPaint);
             if (this.drawMiniIcon) {
                 this.miniMediaActionDrawable.setBounds((int) (centerX - (AndroidUtilities.dp(f6) * f)), (int) (centerY - (AndroidUtilities.dp(f6) * f)), (int) (centerX + (AndroidUtilities.dp(f6) * f)), (int) (centerY + (AndroidUtilities.dp(f6) * f)));
@@ -536,5 +540,9 @@ public class RadialProgress2 {
         Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
         Integer color = resourcesProvider != null ? resourcesProvider.getColor(str) : null;
         return color != null ? color.intValue() : Theme.getColor(str);
+    }
+
+    public void setMaxIconSize(int i) {
+        this.maxIconSize = i;
     }
 }

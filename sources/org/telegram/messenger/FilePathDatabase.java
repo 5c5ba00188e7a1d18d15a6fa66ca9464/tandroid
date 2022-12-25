@@ -1,6 +1,7 @@
 package org.telegram.messenger;
 
 import android.os.Looper;
+import android.util.LongSparseArray;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -10,6 +11,8 @@ import org.telegram.SQLite.SQLiteCursor;
 import org.telegram.SQLite.SQLiteDatabase;
 import org.telegram.SQLite.SQLiteException;
 import org.telegram.SQLite.SQLitePreparedStatement;
+import org.telegram.messenger.CacheByChatsController;
+import org.telegram.ui.Storage.CacheModel;
 /* loaded from: classes.dex */
 public class FilePathDatabase {
     private static final String DATABASE_BACKUP_NAME = "file_to_path_backup";
@@ -493,8 +496,8 @@ public class FilePathDatabase {
         return this.dispatchQueue;
     }
 
-    public void removeFiles(final List<File> list) {
-        this.dispatchQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FilePathDatabase$$ExternalSyntheticLambda7
+    public void removeFiles(final List<CacheModel.FileInfo> list) {
+        this.dispatchQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FilePathDatabase$$ExternalSyntheticLambda8
             @Override // java.lang.Runnable
             public final void run() {
                 FilePathDatabase.this.lambda$removeFiles$7(list);
@@ -509,7 +512,7 @@ public class FilePathDatabase {
                 this.database.beginTransaction();
                 for (int i = 0; i < list.size(); i++) {
                     SQLiteDatabase sQLiteDatabase = this.database;
-                    sQLiteDatabase.executeFast("DELETE FROM paths_by_dialog_id WHERE path = '" + ((File) list.get(i)).getPath() + "'").stepThis().dispose();
+                    sQLiteDatabase.executeFast("DELETE FROM paths_by_dialog_id WHERE path = '" + ((CacheModel.FileInfo) list.get(i)).file.getPath() + "'").stepThis().dispose();
                 }
             } catch (Exception e) {
                 FileLog.e(e);
@@ -517,6 +520,43 @@ public class FilePathDatabase {
         } finally {
             this.database.commitTransaction();
         }
+    }
+
+    public LongSparseArray<ArrayList<CacheByChatsController.KeepMediaFile>> lookupFiles(final ArrayList<CacheByChatsController.KeepMediaFile> arrayList) {
+        final CountDownLatch countDownLatch = new CountDownLatch(1);
+        final LongSparseArray<ArrayList<CacheByChatsController.KeepMediaFile>> longSparseArray = new LongSparseArray<>();
+        this.dispatchQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FilePathDatabase$$ExternalSyntheticLambda7
+            @Override // java.lang.Runnable
+            public final void run() {
+                FilePathDatabase.this.lambda$lookupFiles$8(arrayList, longSparseArray, countDownLatch);
+            }
+        });
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            FileLog.e(e);
+        }
+        return longSparseArray;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$lookupFiles$8(ArrayList arrayList, LongSparseArray longSparseArray, CountDownLatch countDownLatch) {
+        for (int i = 0; i < arrayList.size(); i++) {
+            try {
+                long fileDialogId = getFileDialogId(((CacheByChatsController.KeepMediaFile) arrayList.get(i)).file);
+                if (fileDialogId != 0) {
+                    ArrayList arrayList2 = (ArrayList) longSparseArray.get(fileDialogId);
+                    if (arrayList2 == null) {
+                        arrayList2 = new ArrayList();
+                        longSparseArray.put(fileDialogId, arrayList2);
+                    }
+                    arrayList2.add((CacheByChatsController.KeepMediaFile) arrayList.get(i));
+                }
+            } catch (Exception e) {
+                FileLog.e(e);
+            }
+        }
+        countDownLatch.countDown();
     }
 
     /* loaded from: classes.dex */

@@ -30,7 +30,7 @@ public final /* synthetic */ class b implements PrimitiveIterator.OfDouble {
 
     @Override // java.util.PrimitiveIterator.OfDouble
     public /* synthetic */ void forEachRemaining(DoubleConsumer doubleConsumer) {
-        this.a.e(A.b(doubleConsumer));
+        this.a.e(z.b(doubleConsumer));
     }
 
     /* JADX WARN: Type inference failed for: r0v0, types: [j$.util.Iterator, j$.util.n] */

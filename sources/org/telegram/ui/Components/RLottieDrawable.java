@@ -91,6 +91,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
     private int[] pendingReplaceColors;
     protected boolean playInDirectionOfCustomEndFrame;
     boolean precache;
+    private int rawBackgroundBitmapFrame;
     protected volatile Bitmap renderingBitmap;
     private boolean resetVibrationAfterRestart;
     private float scaleX;
@@ -503,6 +504,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
                 RLottieDrawable.uiHandler.post(RLottieDrawable.this.uiRunnableNoFrame);
             }
         };
+        this.rawBackgroundBitmapFrame = -1;
         this.width = i;
         this.height = i2;
         this.shouldLimitFps = z;
@@ -800,6 +802,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
                 RLottieDrawable.uiHandler.post(RLottieDrawable.this.uiRunnableNoFrame);
             }
         };
+        this.rawBackgroundBitmapFrame = -1;
         this.width = i;
         this.height = i2;
         this.shouldLimitFps = z;
@@ -1099,6 +1102,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
                 RLottieDrawable.uiHandler.post(RLottieDrawable.this.uiRunnableNoFrame);
             }
         };
+        this.rawBackgroundBitmapFrame = -1;
         this.width = i;
         this.height = i2;
         this.isDice = 1;
@@ -1486,6 +1490,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
                 RLottieDrawable.uiHandler.post(RLottieDrawable.this.uiRunnableNoFrame);
             }
         };
+        this.rawBackgroundBitmapFrame = -1;
         this.width = i2;
         this.height = i3;
         this.autoRepeat = 0;
@@ -1795,15 +1800,15 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
             this.pendingReplaceColors = iArr;
             this.newReplaceColors = null;
         }
-        Runnable runnable = this.loadFrameRunnable;
-        this.loadFrameTask = runnable;
-        if (this.shouldLimitFps) {
+        this.loadFrameTask = this.loadFrameRunnable;
+        if (this.shouldLimitFps && Thread.currentThread() == ApplicationLoader.applicationHandler.getLooper().getThread()) {
+            Runnable runnable = this.loadFrameTask;
             if (this.frameWaitSync != null) {
                 z2 = true;
             }
             DispatchQueuePoolBackground.execute(runnable, z2);
         } else {
-            loadFrameRunnableQueue.execute(runnable);
+            loadFrameRunnableQueue.execute(this.loadFrameTask);
         }
         return true;
     }
@@ -2146,6 +2151,20 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
         int i2 = this.generateCacheFramePointer + i;
         this.generateCacheFramePointer = i2;
         return i2 > this.metaData[0] ? 0 : 1;
+    }
+
+    public void drawFrame(Canvas canvas, int i) {
+        if (this.rawBackgroundBitmapFrame != i || this.backgroundBitmap == null) {
+            if (this.backgroundBitmap == null) {
+                this.backgroundBitmap = Bitmap.createBitmap(this.width, this.height, Bitmap.Config.ARGB_8888);
+            }
+            long j = this.nativePtr;
+            this.rawBackgroundBitmapFrame = i;
+            getFrame(j, i, this.backgroundBitmap, this.width, this.height, this.backgroundBitmap.getRowBytes(), true);
+        }
+        android.graphics.Rect rect = AndroidUtilities.rectTmp2;
+        rect.set(0, 0, this.width, this.height);
+        canvas.drawBitmap(this.backgroundBitmap, rect, getBounds(), getPaint());
     }
 
     @Override // org.telegram.messenger.utils.BitmapsCache.Cacheable

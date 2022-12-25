@@ -284,17 +284,24 @@ public class SharedAudioCell extends FrameLayout implements DownloadController.F
         this.radialProgress.initMiniIcons();
     }
 
+    @Override // android.view.ViewGroup
+    public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
+        return onTouchEvent(motionEvent);
+    }
+
     /* JADX WARN: Removed duplicated region for block: B:14:0x0039  */
-    /* JADX WARN: Removed duplicated region for block: B:25:0x0064  */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x00bf  */
+    /* JADX WARN: Removed duplicated region for block: B:24:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:31:0x0068  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private boolean checkAudioMotionEvent(MotionEvent motionEvent) {
         boolean z;
+        boolean z2;
         int x = (int) motionEvent.getX();
         int y = (int) motionEvent.getY();
         int dp = AndroidUtilities.dp(36.0f);
-        boolean z2 = false;
         if (this.miniButtonState >= 0) {
             int dp2 = AndroidUtilities.dp(27.0f);
             int i = this.buttonX;
@@ -302,47 +309,59 @@ public class SharedAudioCell extends FrameLayout implements DownloadController.F
                 int i2 = this.buttonY;
                 if (y >= i2 + dp2 && y <= i2 + dp2 + dp) {
                     z = true;
-                    if (motionEvent.getAction() != 0) {
+                    if (motionEvent.getAction() == 0) {
+                        if (motionEvent.getAction() == 1) {
+                            if (this.miniButtonPressed) {
+                                this.miniButtonPressed = false;
+                                playSoundEffect(0);
+                                didPressedMiniButton(true);
+                                invalidate();
+                            } else if (this.buttonPressed) {
+                                this.buttonPressed = false;
+                                playSoundEffect(0);
+                                didPressedButton();
+                                invalidate();
+                            }
+                            requestDisallowInterceptTouchEvent(false);
+                        } else if (motionEvent.getAction() == 3) {
+                            requestDisallowInterceptTouchEvent(false);
+                            this.miniButtonPressed = false;
+                            this.buttonPressed = false;
+                            invalidate();
+                        } else if (motionEvent.getAction() == 2 && !z && this.miniButtonPressed) {
+                            this.miniButtonPressed = false;
+                            invalidate();
+                        }
+                    } else {
                         if (z) {
                             this.miniButtonPressed = true;
                             this.radialProgress.setPressed(true, true);
                             invalidate();
                         } else if (this.checkForButtonPress && this.radialProgress.getProgressRect().contains(x, y)) {
+                            requestDisallowInterceptTouchEvent(true);
                             this.buttonPressed = true;
                             this.radialProgress.setPressed(true, false);
                             invalidate();
                         }
                         z2 = true;
-                    } else if (motionEvent.getAction() == 1) {
-                        if (this.miniButtonPressed) {
-                            this.miniButtonPressed = false;
-                            playSoundEffect(0);
-                            didPressedMiniButton(true);
-                            invalidate();
-                        } else if (this.buttonPressed) {
-                            this.buttonPressed = false;
-                            playSoundEffect(0);
-                            didPressedButton();
-                            invalidate();
-                        }
-                    } else if (motionEvent.getAction() == 3) {
-                        this.miniButtonPressed = false;
-                        this.buttonPressed = false;
-                        invalidate();
-                    } else if (motionEvent.getAction() == 2 && !z && this.miniButtonPressed) {
-                        this.miniButtonPressed = false;
-                        invalidate();
+                        this.radialProgress.setPressed(this.miniButtonPressed, true);
+                        return !z2 || this.buttonPressed;
                     }
+                    z2 = false;
                     this.radialProgress.setPressed(this.miniButtonPressed, true);
-                    return z2;
+                    if (!z2) {
+                        return true;
+                    }
                 }
             }
         }
         z = false;
-        if (motionEvent.getAction() != 0) {
+        if (motionEvent.getAction() == 0) {
         }
+        z2 = false;
         this.radialProgress.setPressed(this.miniButtonPressed, true);
-        return z2;
+        if (!z2) {
+        }
     }
 
     @Override // android.view.View

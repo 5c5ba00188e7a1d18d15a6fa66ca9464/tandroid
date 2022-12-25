@@ -26,7 +26,7 @@ import androidx.core.graphics.ColorUtils;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.R;
 import org.telegram.ui.Components.CubicBezierInterpolator;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public class VoIPFloatingLayout extends FrameLayout {
     public boolean alwaysFloating;
     public int bottomOffset;
@@ -87,7 +87,7 @@ public class VoIPFloatingLayout extends FrameLayout {
         }
     };
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public interface VoIPFloatingLayoutDelegate {
         void onChange(float f, boolean z);
     }

@@ -33,6 +33,7 @@ import android.view.animation.Interpolator;
 import android.widget.EdgeEffect;
 import android.widget.OverScroller;
 import androidx.core.os.TraceCompat;
+import androidx.core.util.Consumer;
 import androidx.core.util.Preconditions;
 import androidx.core.view.AccessibilityDelegateCompat;
 import androidx.core.view.MotionEventCompat;
@@ -273,6 +274,18 @@ public class RecyclerView extends ViewGroup implements NestedScrollingChild {
 
     public View getHiddenChildAt(int i) {
         return this.mChildHelper.getHiddenChildAt(i);
+    }
+
+    public void forAllChild(Consumer<View> consumer) {
+        for (int i = 0; i < getChildCount(); i++) {
+            consumer.accept(getChildAt(i));
+        }
+        for (int i2 = 0; i2 < getHiddenChildCount(); i2++) {
+            consumer.accept(getHiddenChildAt(i2));
+        }
+        for (int i3 = 0; i3 < getAttachedScrapChildCount(); i3++) {
+            consumer.accept(getAttachedScrapChildAt(i3));
+        }
     }
 
     void applyEdgeEffectColor(EdgeEffect edgeEffect) {

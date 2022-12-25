@@ -553,8 +553,11 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         public boolean canDeleteAfter;
         public long dateTaken;
         public int duration;
+        public boolean hasSpoiler;
         public int height;
         public int imageId;
+        public boolean isAttachSpoilerRevealed;
+        public boolean isChatPreviewSpoilerRevealed;
         public boolean isMuted;
         public boolean isVideo;
         public int orientation;
@@ -579,6 +582,12 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         }
 
         @Override // org.telegram.messenger.MediaController.MediaEditState
+        public void copyFrom(MediaEditState mediaEditState) {
+            super.copyFrom(mediaEditState);
+            this.hasSpoiler = (mediaEditState instanceof PhotoEntry) && ((PhotoEntry) mediaEditState).hasSpoiler;
+        }
+
+        @Override // org.telegram.messenger.MediaController.MediaEditState
         public String getPath() {
             return this.path;
         }
@@ -589,6 +598,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                 new File(this.filterPath).delete();
                 this.filterPath = null;
             }
+            this.hasSpoiler = false;
             super.reset();
         }
     }
@@ -3502,9 +3512,9 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         return playMessage(messageObject, false);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:103:0x058c  */
-    /* JADX WARN: Removed duplicated region for block: B:117:0x0633  */
-    /* JADX WARN: Removed duplicated region for block: B:143:0x05d5 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:103:0x058e  */
+    /* JADX WARN: Removed duplicated region for block: B:117:0x0635  */
+    /* JADX WARN: Removed duplicated region for block: B:143:0x05d7 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -4865,14 +4875,14 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             this.currentAccount.getFileLoader().loadFile(document, messageObject, 0, 0);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:30:0x017b A[Catch: all -> 0x017f, TRY_ENTER, TRY_LEAVE, TryCatch #15 {all -> 0x0185, blocks: (B:31:0x0184, B:72:0x014a, B:90:0x0156, B:30:0x017b), top: B:8:0x0015 }] */
+        /* JADX WARN: Removed duplicated region for block: B:30:0x017c A[Catch: all -> 0x0180, TRY_ENTER, TRY_LEAVE, TryCatch #13 {all -> 0x0186, blocks: (B:31:0x0185, B:72:0x014b, B:90:0x0157, B:30:0x017c), top: B:7:0x0015 }] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         private boolean copyFile(File file, File file2, String str) {
             FileInputStream fileInputStream;
-            FileInputStream fileInputStream2;
             Throwable th;
+            FileInputStream fileInputStream2;
             Throwable th2;
             String str2;
             if (AndroidUtilities.isInternalUri(Uri.fromFile(file))) {
@@ -5031,13 +5041,13 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                     }
                 } catch (Throwable th11) {
                     th = th11;
+                    fileInputStream2 = fileInputStream;
                     th = th;
                     fileInputStream2.close();
                     throw th;
                 }
             } catch (Throwable th12) {
                 th = th12;
-                fileInputStream2 = fileInputStream;
                 th = th;
                 fileInputStream2.close();
                 throw th;
@@ -5527,8 +5537,8 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:70:0x00c4 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:76:0x00be -> B:58:0x00c1). Please submit an issue!!! */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x00c5 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:76:0x00bf -> B:58:0x00c2). Please submit an issue!!! */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -7044,7 +7054,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     /* JADX WARN: Removed duplicated region for block: B:35:0x012b  */
     /* JADX WARN: Removed duplicated region for block: B:53:0x01b0  */
     /* JADX WARN: Removed duplicated region for block: B:66:0x01be  */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x01f9 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x01fa A[ADDED_TO_REGION] */
     /* JADX WARN: Removed duplicated region for block: B:78:0x00f7  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

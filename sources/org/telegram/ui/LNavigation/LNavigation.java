@@ -68,7 +68,7 @@ import org.telegram.ui.Components.GroupCallPip;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.SeekBarView;
 import org.telegram.ui.LNavigation.LNavigation;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public class LNavigation extends FrameLayout implements INavigationLayout, FloatingDebugProvider {
     private static float SPRING_DAMPING_RATIO = 1.0f;
     private static float SPRING_STIFFNESS = 1000.0f;
@@ -1241,7 +1241,7 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public class 4 extends AnimatorListenerAdapter {
         final /* synthetic */ int val$flags;
 
@@ -2324,7 +2324,7 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public final class FragmentHolderView extends FrameLayout {
         private int backgroundColor;
         private Paint backgroundPaint = new Paint();

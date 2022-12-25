@@ -2,6 +2,7 @@ package org.telegram.messenger;
 
 import android.content.SharedPreferences;
 import org.telegram.tgnet.ConnectionsManager;
+import org.telegram.ui.Components.Paint.PersistColorPalette;
 /* loaded from: classes.dex */
 public class AccountInstance {
     private static volatile AccountInstance[] Instance = new AccountInstance[4];
@@ -37,6 +38,10 @@ public class AccountInstance {
 
     public ContactsController getContactsController() {
         return ContactsController.getInstance(this.currentAccount);
+    }
+
+    public PersistColorPalette getColorPalette() {
+        return PersistColorPalette.getInstance(this.currentAccount);
     }
 
     public MediaDataController getMediaDataController() {

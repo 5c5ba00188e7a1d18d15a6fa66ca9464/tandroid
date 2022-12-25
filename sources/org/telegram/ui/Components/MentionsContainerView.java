@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.SharedConfig;
-import org.telegram.messenger.UserConfig;
 import org.telegram.tgnet.TLRPC$BotInlineResult;
 import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$DocumentAttribute;
@@ -490,12 +489,12 @@ public class MentionsContainerView extends BlurredFrameLayout {
             max += this.listView.computeVerticalScrollOffset();
         }
         final float f3 = max;
-        setVisibility(0);
         SpringAnimation springAnimation2 = this.listViewTranslationAnimator;
         if (springAnimation2 != null) {
             springAnimation2.cancel();
         }
         int i = 8;
+        Integer num = null;
         if (z2) {
             this.listViewHiding = z;
             final float translationY = this.listView.getTranslationY();
@@ -506,46 +505,48 @@ public class MentionsContainerView extends BlurredFrameLayout {
                 if (!z) {
                     i = 0;
                 }
-                setVisibility(i);
-                if (!this.switchLayoutManagerOnEnd || !z) {
-                    return;
+                Integer valueOf = Integer.valueOf(i);
+                if (this.switchLayoutManagerOnEnd && z) {
+                    this.switchLayoutManagerOnEnd = false;
+                    this.listView.setLayoutManager(getNeededLayoutManager());
+                    this.shown = true;
+                    updateVisibility(true);
                 }
-                this.switchLayoutManagerOnEnd = false;
-                this.listView.setLayoutManager(getNeededLayoutManager());
-                this.shown = true;
-                updateVisibility(true);
-                return;
-            }
-            int i2 = UserConfig.selectedAccount;
-            SpringAnimation spring = new SpringAnimation(new FloatValueHolder(translationY)).setSpring(new SpringForce(f3).setDampingRatio(1.0f).setStiffness(550.0f));
-            this.listViewTranslationAnimator = spring;
-            spring.addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() { // from class: org.telegram.ui.Components.MentionsContainerView$$ExternalSyntheticLambda2
-                @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationUpdateListener
-                public final void onAnimationUpdate(DynamicAnimation dynamicAnimation, float f6, float f7) {
-                    MentionsContainerView.this.lambda$updateListViewTranslation$1(f4, f5, translationY, f3, dynamicAnimation, f6, f7);
-                }
-            });
-            if (z) {
-                this.listViewTranslationAnimator.addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.Components.MentionsContainerView$$ExternalSyntheticLambda0
-                    @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationEndListener
-                    public final void onAnimationEnd(DynamicAnimation dynamicAnimation, boolean z3, float f6, float f7) {
-                        MentionsContainerView.this.lambda$updateListViewTranslation$2(z, dynamicAnimation, z3, f6, f7);
+                num = valueOf;
+            } else {
+                SpringAnimation spring = new SpringAnimation(new FloatValueHolder(translationY)).setSpring(new SpringForce(f3).setDampingRatio(1.0f).setStiffness(550.0f));
+                this.listViewTranslationAnimator = spring;
+                spring.addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() { // from class: org.telegram.ui.Components.MentionsContainerView$$ExternalSyntheticLambda2
+                    @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationUpdateListener
+                    public final void onAnimationUpdate(DynamicAnimation dynamicAnimation, float f6, float f7) {
+                        MentionsContainerView.this.lambda$updateListViewTranslation$1(f4, f5, translationY, f3, dynamicAnimation, f6, f7);
                     }
                 });
+                if (z) {
+                    this.listViewTranslationAnimator.addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.Components.MentionsContainerView$$ExternalSyntheticLambda0
+                        @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationEndListener
+                        public final void onAnimationEnd(DynamicAnimation dynamicAnimation, boolean z3, float f6, float f7) {
+                            MentionsContainerView.this.lambda$updateListViewTranslation$2(z, dynamicAnimation, z3, f6, f7);
+                        }
+                    });
+                }
+                this.listViewTranslationAnimator.addEndListener(MentionsContainerView$$ExternalSyntheticLambda1.INSTANCE);
+                this.listViewTranslationAnimator.start();
             }
-            this.listViewTranslationAnimator.addEndListener(MentionsContainerView$$ExternalSyntheticLambda1.INSTANCE);
-            this.listViewTranslationAnimator.start();
+        } else {
+            if (z) {
+                f = 1.0f;
+            }
+            this.hideT = f;
+            this.listView.setTranslationY(f3);
+            if (z) {
+                num = 8;
+            }
+        }
+        if (num == null || getVisibility() == num.intValue()) {
             return;
         }
-        if (z) {
-            f = 1.0f;
-        }
-        this.hideT = f;
-        this.listView.setTranslationY(f3);
-        if (!z) {
-            return;
-        }
-        setVisibility(8);
+        setVisibility(num.intValue());
     }
 
     /* JADX INFO: Access modifiers changed from: private */

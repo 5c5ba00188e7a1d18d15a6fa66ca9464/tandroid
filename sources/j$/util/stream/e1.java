@@ -5,13 +5,13 @@ import j$.util.function.BiConsumer;
 public interface e1 extends g {
     long D(long j, j$.util.function.o oVar);
 
-    boolean L(j$.wrappers.j0 j0Var);
+    boolean L(j$.wrappers.i0 i0Var);
 
-    U O(j$.wrappers.l0 l0Var);
+    U O(j$.wrappers.k0 k0Var);
 
     Stream Q(j$.util.function.r rVar);
 
-    boolean S(j$.wrappers.j0 j0Var);
+    boolean S(j$.wrappers.i0 i0Var);
 
     void Z(j$.util.function.q qVar);
 
@@ -27,7 +27,7 @@ public interface e1 extends g {
 
     e1 distinct();
 
-    IntStream e0(j$.wrappers.n0 n0Var);
+    IntStream e0(j$.wrappers.m0 m0Var);
 
     Object f0(j$.util.function.y yVar, j$.util.function.w wVar, BiConsumer biConsumer);
 
@@ -40,7 +40,7 @@ public interface e1 extends g {
     @Override // j$.util.stream.g
     j$.util.r iterator();
 
-    boolean k(j$.wrappers.j0 j0Var);
+    boolean k(j$.wrappers.i0 i0Var);
 
     e1 limit(long j);
 
@@ -71,7 +71,7 @@ public interface e1 extends g {
 
     long[] toArray();
 
-    e1 u(j$.wrappers.j0 j0Var);
+    e1 u(j$.wrappers.i0 i0Var);
 
     e1 z(j$.util.function.t tVar);
 }

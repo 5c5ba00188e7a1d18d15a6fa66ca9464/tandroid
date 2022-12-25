@@ -110,7 +110,7 @@ public class SessionCell extends FrameLayout {
             addView(backupImageView6, LayoutHelper.createFrame(42, 42.0f, (z4 ? 5 : 3) | 48, z4 ? 0 : 16, 9.0f, z4 ? 16 : i3, 0.0f));
             LinearLayout linearLayout3 = this.linearLayout;
             boolean z5 = LocaleController.isRTL;
-            addView(linearLayout3, LayoutHelper.createFrame(-1, 30.0f, (z5 ? 5 : 3) | 48, z5 ? 15 : 72, 7.333f, z5 ? 72 : i4, 0.0f));
+            addView(linearLayout3, LayoutHelper.createFrame(-1, 30.0f, (z5 ? 5 : 3) | 48, z5 ? 15 : 72, 6.333f, z5 ? 72 : i4, 0.0f));
         }
         TextView textView = new TextView(context);
         this.nameTextView = textView;
@@ -445,7 +445,7 @@ public class SessionCell extends FrameLayout {
             }
         }
         if (this.needDivider) {
-            int i = this.currentType == 1 ? 49 : 21;
+            int i = this.currentType == 1 ? 49 : 72;
             canvas.drawLine(LocaleController.isRTL ? 0.0f : AndroidUtilities.dp(i), getMeasuredHeight() - 1, getMeasuredWidth() - (LocaleController.isRTL ? AndroidUtilities.dp(i) : 0), getMeasuredHeight() - 1, Theme.dividerPaint);
         }
     }

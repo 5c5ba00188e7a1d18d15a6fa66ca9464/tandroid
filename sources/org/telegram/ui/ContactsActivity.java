@@ -748,16 +748,20 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                     presentFragment(new ChatActivity(bundle), true);
                     return;
                 }
-            } else if (!(item instanceof String)) {
-                return;
-            } else {
+            } else if (item instanceof String) {
                 String str = (String) item;
                 if (str.equals("section")) {
                     return;
                 }
-                NewContactActivity newContactActivity = new NewContactActivity();
-                newContactActivity.setInitialPhoneNumber(str, true);
-                presentFragment(newContactActivity);
+                NewContactBottomSheet newContactBottomSheet = new NewContactBottomSheet(this, getContext());
+                newContactBottomSheet.setInitialPhoneNumber(str, true);
+                newContactBottomSheet.show();
+                return;
+            } else if (!(item instanceof ContactsController.Contact)) {
+                return;
+            } else {
+                ContactsController.Contact contact = (ContactsController.Contact) item;
+                AlertsCreator.createContactInviteDialog(this, contact.first_name, contact.last_name, contact.phones.get(0));
                 return;
             }
         }
@@ -858,8 +862,8 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
             }
         } else if (!(item2 instanceof ContactsController.Contact)) {
         } else {
-            ContactsController.Contact contact = (ContactsController.Contact) item2;
-            final String str2 = !contact.phones.isEmpty() ? contact.phones.get(0) : null;
+            ContactsController.Contact contact2 = (ContactsController.Contact) item2;
+            final String str2 = !contact2.phones.isEmpty() ? contact2.phones.get(0) : null;
             if (str2 == null || getParentActivity() == null) {
                 return;
             }
@@ -890,7 +894,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$2(View view) {
-        presentFragment(new NewContactActivity());
+        new NewContactBottomSheet(this, getContext()).show();
     }
 
     private void didSelectResult(final TLRPC$User tLRPC$User, boolean z, final String str) {
@@ -1307,6 +1311,8 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
         final RLottieImageView floatingButton = dialogsActivity.getFloatingButton();
         final View view = floatingButton.getParent() != null ? (View) floatingButton.getParent() : null;
         if (this.floatingButtonContainer == null || view == null || floatingButton.getVisibility() != 0 || Math.abs(view.getTranslationY()) > AndroidUtilities.dp(4.0f) || Math.abs(this.floatingButtonContainer.getTranslationY()) > AndroidUtilities.dp(4.0f)) {
+            this.floatingButton.setAnimation(R.raw.write_contacts_fab_icon, 52, 52);
+            this.floatingButton.getAnimatedDrawable().setCurrentFrame(this.floatingButton.getAnimatedDrawable().getFramesCount() - 1);
             return null;
         }
         view.setVisibility(8);

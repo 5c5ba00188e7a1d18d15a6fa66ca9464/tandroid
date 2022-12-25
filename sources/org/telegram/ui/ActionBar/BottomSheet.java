@@ -240,7 +240,6 @@ public class BottomSheet extends Dialog {
         this.disableScroll = z;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     /* loaded from: classes3.dex */
     public class ContainerView extends FrameLayout implements NestedScrollingParent {
         private boolean keyboardChanged;
@@ -1751,7 +1750,7 @@ public class BottomSheet extends Dialog {
         this.delegate = bottomSheetDelegateInterface;
     }
 
-    public FrameLayout getContainer() {
+    public ContainerView getContainer() {
         return this.container;
     }
 

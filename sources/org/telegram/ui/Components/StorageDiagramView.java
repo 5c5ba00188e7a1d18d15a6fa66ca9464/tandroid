@@ -28,12 +28,14 @@ import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimatedTextView;
+import org.telegram.ui.Storage.CacheModel;
 /* loaded from: classes3.dex */
 public class StorageDiagramView extends View implements NotificationCenter.NotificationCenterDelegate {
     private float[] animateToPercentage;
     private AvatarDrawable avatarDrawable;
     private ImageReceiver avatarImageReceiver;
     ValueAnimator backAnimator;
+    CacheModel cacheModel;
     private ClearViewData[] data;
     private Long dialogId;
     CharSequence dialogText;
@@ -61,6 +63,10 @@ public class StorageDiagramView extends View implements NotificationCenter.Notif
         this.text2 = new AnimatedTextView.AnimatedTextDrawable(false, true, false);
         this.text1.setCallback(this);
         this.text2.setCallback(this);
+    }
+
+    public void setCacheModel(CacheModel cacheModel) {
+        this.cacheModel = cacheModel;
     }
 
     public StorageDiagramView(Context context, long j) {
@@ -132,8 +138,9 @@ public class StorageDiagramView extends View implements NotificationCenter.Notif
         updateDescription();
     }
 
-    public void setData(ClearViewData[] clearViewDataArr) {
+    public void setData(CacheModel cacheModel, ClearViewData[] clearViewDataArr) {
         this.data = clearViewDataArr;
+        this.cacheModel = cacheModel;
         invalidate();
         this.drawingPercentage = new float[clearViewDataArr.length];
         this.animateToPercentage = new float[clearViewDataArr.length];
@@ -327,7 +334,6 @@ public class StorageDiagramView extends View implements NotificationCenter.Notif
     public static class ClearViewData {
         public String color;
         Paint paint;
-        private final StorageDiagramView parentView;
         public long size;
         public boolean clear = true;
         boolean firstDraw = false;
@@ -335,7 +341,6 @@ public class StorageDiagramView extends View implements NotificationCenter.Notif
         public ClearViewData(StorageDiagramView storageDiagramView) {
             Paint paint = new Paint(1);
             this.paint = paint;
-            this.parentView = storageDiagramView;
             paint.setStyle(Paint.Style.STROKE);
             this.paint.setStrokeWidth(AndroidUtilities.dp(5.0f));
             this.paint.setStrokeCap(Paint.Cap.ROUND);
@@ -345,14 +350,11 @@ public class StorageDiagramView extends View implements NotificationCenter.Notif
         public void setClear(boolean z) {
             if (this.clear != z) {
                 this.clear = z;
-                this.parentView.updateDescription();
                 this.firstDraw = true;
-                this.parentView.update(true);
             }
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     public void update(boolean z) {
         final ClearViewData[] clearViewDataArr = this.data;
         if (clearViewDataArr == null) {
@@ -360,26 +362,31 @@ public class StorageDiagramView extends View implements NotificationCenter.Notif
         }
         long j = 0;
         for (int i = 0; i < clearViewDataArr.length; i++) {
-            if (clearViewDataArr[i] != null && clearViewDataArr[i].clear) {
-                j += clearViewDataArr[i].size;
+            long selectedFilesSize = this.cacheModel.getSelectedFilesSize(i);
+            if (clearViewDataArr[i] != null && (clearViewDataArr[i].clear || selectedFilesSize > 0)) {
+                if (selectedFilesSize <= 0) {
+                    selectedFilesSize = clearViewDataArr[i].size;
+                }
+                j += selectedFilesSize;
             }
         }
         this.enabledCount = 0;
         float f = 0.0f;
         float f2 = 0.0f;
         for (int i2 = 0; i2 < clearViewDataArr.length; i2++) {
-            if (clearViewDataArr[i2] != null && clearViewDataArr[i2].clear) {
+            long selectedFilesSize2 = this.cacheModel.getSelectedFilesSize(i2);
+            if (clearViewDataArr[i2] != null && (clearViewDataArr[i2].clear || selectedFilesSize2 > 0)) {
                 this.enabledCount++;
             }
-            if (clearViewDataArr[i2] == null || !clearViewDataArr[i2].clear) {
+            if (clearViewDataArr[i2] == null || (!clearViewDataArr[i2].clear && selectedFilesSize2 <= 0)) {
                 this.animateToPercentage[i2] = 0.0f;
             } else {
-                float f3 = ((float) clearViewDataArr[i2].size) / ((float) j);
+                float f3 = ((float) (selectedFilesSize2 > 0 ? selectedFilesSize2 : clearViewDataArr[i2].size)) / ((float) j);
                 if (f3 < 0.02777f) {
                     f3 = 0.02777f;
                 }
                 f += f3;
-                if (f3 > f2 && clearViewDataArr[i2].clear) {
+                if (f3 > f2 && (clearViewDataArr[i2].clear || selectedFilesSize2 > 0)) {
                     f2 = f3;
                 }
                 this.animateToPercentage[i2] = f3;
@@ -511,34 +518,37 @@ public class StorageDiagramView extends View implements NotificationCenter.Notif
         invalidate();
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public void updateDescription() {
+    public long updateDescription() {
+        long calculateSize = calculateSize();
+        String str = " ";
+        String[] split = AndroidUtilities.formatFileSize(calculateSize).split(str);
+        if (split.length > 1) {
+            this.text1.setText(calculateSize == 0 ? str : split[0], true, false);
+            AnimatedTextView.AnimatedTextDrawable animatedTextDrawable = this.text2;
+            if (calculateSize != 0) {
+                str = split[1];
+            }
+            animatedTextDrawable.setText(str, true, false);
+        }
+        return calculateSize;
+    }
+
+    public long calculateSize() {
         if (this.data == null) {
-            return;
+            return 0L;
         }
         long j = 0;
-        int i = 0;
-        while (true) {
+        for (int i = 0; i < this.data.length; i++) {
+            long selectedFilesSize = this.cacheModel.getSelectedFilesSize(i);
             ClearViewData[] clearViewDataArr = this.data;
-            if (i >= clearViewDataArr.length) {
-                break;
+            if (clearViewDataArr[i] != null && (clearViewDataArr[i].clear || selectedFilesSize > 0)) {
+                if (selectedFilesSize <= 0) {
+                    selectedFilesSize = clearViewDataArr[i].size;
+                }
+                j += selectedFilesSize;
             }
-            if (clearViewDataArr[i] != null && clearViewDataArr[i].clear) {
-                j += clearViewDataArr[i].size;
-            }
-            i++;
         }
-        String str = " ";
-        String[] split = AndroidUtilities.formatFileSize(j).split(str);
-        if (split.length <= 1) {
-            return;
-        }
-        this.text1.setText(j == 0 ? str : split[0], true, false);
-        AnimatedTextView.AnimatedTextDrawable animatedTextDrawable = this.text2;
-        if (j != 0) {
-            str = split[1];
-        }
-        animatedTextDrawable.setText(str, true, false);
+        return j;
     }
 
     @Override // android.view.View

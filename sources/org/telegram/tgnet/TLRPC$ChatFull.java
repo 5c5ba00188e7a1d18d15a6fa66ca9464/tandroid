@@ -40,6 +40,7 @@ public abstract class TLRPC$ChatFull extends TLObject {
     public int online_count;
     public TLRPC$ChatParticipants participants;
     public int participants_count;
+    public boolean participants_hidden;
     public int pinned_msg_id;
     public int pts;
     public int read_inbox_max_id;

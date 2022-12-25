@@ -410,6 +410,10 @@ public abstract class BaseFragment {
         }
     }
 
+    public void setFinishing(boolean z) {
+        this.finishing = z;
+    }
+
     public void finishFragment(boolean z) {
         INavigationLayout iNavigationLayout;
         if (this.isFinished || (iNavigationLayout = this.parentLayout) == null) {
@@ -876,5 +880,13 @@ public abstract class BaseFragment {
 
     public void setPreviewDelegate(PreviewDelegate previewDelegate) {
         this.previewDelegate = previewDelegate;
+    }
+
+    public void resetFragment() {
+        if (this.isFinished) {
+            clearViews();
+            this.isFinished = false;
+            this.finishing = false;
+        }
     }
 }

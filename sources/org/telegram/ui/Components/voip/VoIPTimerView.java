@@ -11,7 +11,7 @@ import android.view.View;
 import androidx.core.graphics.ColorUtils;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.voip.VoIPService;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public class VoIPTimerView extends View {
     String currentTimeStr;
     StaticLayout timerLayout;

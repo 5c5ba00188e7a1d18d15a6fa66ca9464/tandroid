@@ -1,23 +1,23 @@
 package j$.wrappers;
 
-import java.util.function.ObjIntConsumer;
+import java.util.function.ObjLongConsumer;
 /* loaded from: classes2.dex */
-public final /* synthetic */ class u0 implements ObjIntConsumer {
-    final /* synthetic */ j$.util.function.v a;
+public final /* synthetic */ class u0 implements j$.util.function.w {
+    final /* synthetic */ ObjLongConsumer a;
 
-    private /* synthetic */ u0(j$.util.function.v vVar) {
-        this.a = vVar;
+    private /* synthetic */ u0(ObjLongConsumer objLongConsumer) {
+        this.a = objLongConsumer;
     }
 
-    public static /* synthetic */ ObjIntConsumer a(j$.util.function.v vVar) {
-        if (vVar == null) {
+    public static /* synthetic */ j$.util.function.w a(ObjLongConsumer objLongConsumer) {
+        if (objLongConsumer == null) {
             return null;
         }
-        return vVar instanceof t0 ? ((t0) vVar).a : new u0(vVar);
+        return objLongConsumer instanceof v0 ? ((v0) objLongConsumer).a : new u0(objLongConsumer);
     }
 
-    @Override // java.util.function.ObjIntConsumer
-    public /* synthetic */ void accept(Object obj, int i) {
-        this.a.accept(obj, i);
+    @Override // j$.util.function.w
+    public /* synthetic */ void accept(Object obj, long j) {
+        this.a.accept(obj, j);
     }
 }

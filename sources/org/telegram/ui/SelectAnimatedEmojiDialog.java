@@ -3863,12 +3863,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                     if (!imageViewEmoji.notDraw) {
                         if (imageViewEmoji.empty) {
                             imageViewEmoji.drawable.setBounds(imageViewEmoji.drawableBounds);
-                            Drawable drawable = imageViewEmoji.drawable;
-                            if (drawable instanceof AnimatedEmojiDrawable) {
-                                ((AnimatedEmojiDrawable) drawable).draw(canvas, false);
-                            } else {
-                                drawable.draw(canvas);
-                            }
+                            imageViewEmoji.drawable.draw(canvas);
                         } else {
                             ImageReceiver imageReceiver = imageViewEmoji.imageReceiverToDraw;
                             if (imageReceiver != null) {
@@ -3973,13 +3968,8 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                 ImageReceiver imageReceiver;
                 if (drawable != null) {
                     drawable.setAlpha((int) (f * 255.0f));
-                    if (drawable instanceof AnimatedEmojiDrawable) {
-                        ((AnimatedEmojiDrawable) drawable).draw(canvas, false);
-                        drawable.setColorFilter(SelectAnimatedEmojiDialog.this.premiumStarColorFilter);
-                    } else {
-                        drawable.draw(canvas);
-                        drawable.setColorFilter(SelectAnimatedEmojiDialog.this.premiumStarColorFilter);
-                    }
+                    drawable.draw(canvas);
+                    drawable.setColorFilter(SelectAnimatedEmojiDialog.this.premiumStarColorFilter);
                     PremiumLockIconView premiumLockIconView = imageViewEmoji.premiumLockIconView;
                 } else if ((!imageViewEmoji.isDefaultReaction && !imageViewEmoji.isStaticIcon) || (imageReceiver = imageViewEmoji.imageReceiver) == null) {
                 } else {

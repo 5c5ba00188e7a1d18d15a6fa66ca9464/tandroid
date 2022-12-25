@@ -24,7 +24,7 @@ public interface Stream<T> extends g {
 
     boolean a(Predicate predicate);
 
-    Object b0(j$.wrappers.J0 j0);
+    Object b0(j$.wrappers.I0 i0);
 
     IntStream c(Function function);
 

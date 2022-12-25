@@ -30,7 +30,7 @@ public final /* synthetic */ class f implements PrimitiveIterator.OfLong {
 
     @Override // java.util.PrimitiveIterator.OfLong
     public /* synthetic */ void forEachRemaining(LongConsumer longConsumer) {
-        this.a.d(f0.b(longConsumer));
+        this.a.d(e0.b(longConsumer));
     }
 
     /* JADX WARN: Type inference failed for: r0v0, types: [j$.util.Iterator, j$.util.r] */

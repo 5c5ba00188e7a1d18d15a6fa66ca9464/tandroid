@@ -87,6 +87,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
     private int currentSessionRow;
     private int currentSessionSectionRow;
     private int currentType;
+    private Delegate delegate;
     private EmptyTextProgressView emptyView;
     private boolean fragmentOpened;
     private FlickerLoadingView globalFlickerLoadingView;
@@ -116,6 +117,11 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
     private ArrayList<TLObject> sessions = new ArrayList<>();
     private ArrayList<TLObject> passwordSessions = new ArrayList<>();
     private int repeatLoad = 0;
+
+    /* loaded from: classes3.dex */
+    public interface Delegate {
+        void sessionsLoaded();
+    }
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$createView$0(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
@@ -691,7 +697,6 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* renamed from: loadSessions */
     public void lambda$loadSessions$17(final boolean z) {
         if (this.loading) {
@@ -754,7 +759,10 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadSessions$15(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject, final boolean z) {
         this.loading = false;
-        this.listAdapter.getItemCount();
+        ListAdapter listAdapter = this.listAdapter;
+        if (listAdapter != null) {
+            listAdapter.getItemCount();
+        }
         if (tLRPC$TL_error == null) {
             this.sessions.clear();
             this.passwordSessions.clear();
@@ -772,10 +780,14 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
             }
             this.ttlDays = tLRPC$TL_account_authorizations.authorization_ttl_days;
             updateRows();
+            Delegate delegate = this.delegate;
+            if (delegate != null) {
+                delegate.sessionsLoaded();
+            }
         }
-        ListAdapter listAdapter = this.listAdapter;
-        if (listAdapter != null) {
-            listAdapter.notifyDataSetChanged();
+        ListAdapter listAdapter2 = this.listAdapter;
+        if (listAdapter2 != null) {
+            listAdapter2.notifyDataSetChanged();
         }
         int i2 = this.repeatLoad;
         if (i2 > 0) {
@@ -1363,6 +1375,16 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
             CameraScanActivity.CameraScanActivityDelegate.-CC.$default$didFindMrzInfo(this, result);
         }
 
+        @Override // org.telegram.ui.CameraScanActivity.CameraScanActivityDelegate
+        public /* synthetic */ String getSubtitleText() {
+            return CameraScanActivity.CameraScanActivityDelegate.-CC.$default$getSubtitleText(this);
+        }
+
+        @Override // org.telegram.ui.CameraScanActivity.CameraScanActivityDelegate
+        public /* synthetic */ void onDismiss() {
+            CameraScanActivity.CameraScanActivityDelegate.-CC.$default$onDismiss(this);
+        }
+
         5() {
         }
 
@@ -1466,7 +1488,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
 
     /* JADX INFO: Access modifiers changed from: private */
     public void openCameraScanActivity() {
-        CameraScanActivity.showAsSheet(this, false, 2, new 5());
+        CameraScanActivity.showAsSheet((BaseFragment) this, false, 2, (CameraScanActivity.CameraScanActivityDelegate) new 5());
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -1527,5 +1549,17 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
         } catch (Exception e) {
             FileLog.e(e);
         }
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public int getSessionsCount() {
+        if (this.sessions.size() != 0 || !this.loading) {
+            return this.sessions.size() + 1;
+        }
+        return 0;
+    }
+
+    public void setDelegate(Delegate delegate) {
+        this.delegate = delegate;
     }
 }

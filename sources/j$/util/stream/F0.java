@@ -24,7 +24,7 @@ class F0 extends g3 {
                 this.a.accept(i);
                 return;
             case 3:
-                this.a.accept(((j$.wrappers.b0) ((M) this.c).m).a(i));
+                this.a.accept(((j$.wrappers.a0) ((M) this.c).m).a(i));
                 return;
             case 4:
                 this.a.accept((m3) ((j$.util.function.m) ((L) this.c).m).apply(i));
@@ -33,7 +33,7 @@ class F0 extends g3 {
                 this.a.accept(((j$.util.function.n) ((N) this.c).m).applyAsLong(i));
                 return;
             case 6:
-                this.a.accept(((j$.wrappers.X) ((K) this.c).m).a(i));
+                this.a.accept(((j$.wrappers.W) ((K) this.c).m).a(i));
                 return;
             case 7:
                 IntStream intStream = (IntStream) ((j$.util.function.m) ((M) this.c).m).apply(i);
@@ -55,7 +55,7 @@ class F0 extends g3 {
                 intStream.close();
                 return;
             default:
-                if (!((j$.wrappers.V) ((M) this.c).m).b(i)) {
+                if (!((j$.wrappers.U) ((M) this.c).m).b(i)) {
                     return;
                 }
                 this.a.accept(i);

@@ -291,7 +291,9 @@ public class SharedDocumentCell extends FrameLayout implements DownloadControlle
         }
         if (str4 != null || i != 0) {
             if (str4 != null) {
-                this.thumbImageView.setImage(str4, "42_42", null);
+                if (this.viewType != 3) {
+                    this.thumbImageView.setImage(str4, "42_42", null);
+                }
             } else {
                 CombinedDrawable createCircleDrawableWithIcon = Theme.createCircleDrawableWithIcon(AndroidUtilities.dp(42.0f), i);
                 if (i == R.drawable.files_storage) {
@@ -318,8 +320,10 @@ public class SharedDocumentCell extends FrameLayout implements DownloadControlle
         } else {
             this.extTextView.setAlpha(1.0f);
             this.placeholderImageView.setAlpha(1.0f);
-            this.thumbImageView.setImageBitmap(null);
-            this.thumbImageView.setVisibility(4);
+            if (this.viewType != 3) {
+                this.thumbImageView.setImageBitmap(null);
+                this.thumbImageView.setVisibility(4);
+            }
         }
         setWillNotDraw(true ^ this.needDivider);
     }
@@ -815,5 +819,19 @@ public class SharedDocumentCell extends FrameLayout implements DownloadControlle
             this.showReorderIconProgress = z ? 1.0f : 0.0f;
         }
         invalidate();
+    }
+
+    public void setPhoto(String str) {
+        if (str.endsWith("mp4")) {
+            BackupImageView backupImageView = this.thumbImageView;
+            backupImageView.setImage("vthumb://0:" + str, null, null);
+            this.thumbImageView.setVisibility(0);
+        } else if (str.endsWith(".jpg") || str.endsWith(".jpeg") || str.endsWith(".png") || str.endsWith(".gif")) {
+            BackupImageView backupImageView2 = this.thumbImageView;
+            backupImageView2.setImage("thumb://0:" + str, null, null);
+            this.thumbImageView.setVisibility(0);
+        } else {
+            this.thumbImageView.setVisibility(8);
+        }
     }
 }

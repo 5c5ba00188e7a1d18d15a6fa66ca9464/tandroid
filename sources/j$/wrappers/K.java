@@ -2,21 +2,13 @@ package j$.wrappers;
 
 import java.util.function.DoubleUnaryOperator;
 /* loaded from: classes2.dex */
-public final /* synthetic */ class K {
-    final /* synthetic */ DoubleUnaryOperator a;
+public abstract /* synthetic */ class K implements DoubleUnaryOperator {
+    final /* synthetic */ J a;
 
-    private /* synthetic */ K(DoubleUnaryOperator doubleUnaryOperator) {
-        this.a = doubleUnaryOperator;
-    }
-
-    public static /* synthetic */ K b(DoubleUnaryOperator doubleUnaryOperator) {
-        if (doubleUnaryOperator == null) {
+    public static /* synthetic */ DoubleUnaryOperator a(J j) {
+        if (j == null) {
             return null;
         }
-        return doubleUnaryOperator instanceof L ? ((L) doubleUnaryOperator).a : new K(doubleUnaryOperator);
-    }
-
-    public double a(double d) {
-        return this.a.applyAsDouble(d);
+        return j.a;
     }
 }

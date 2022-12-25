@@ -5,10 +5,14 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.graphics.Region;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -22,9 +26,11 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import androidx.core.graphics.ColorUtils;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.ImageLocation;
+import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaController;
 import org.telegram.messenger.MessageObject;
@@ -33,9 +39,12 @@ import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$PhotoSize;
 import org.telegram.tgnet.TLRPC$VideoSize;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.CheckBox2;
+import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
+import org.telegram.ui.Components.spoilers.SpoilerEffect;
 import org.telegram.ui.PhotoViewer;
 /* loaded from: classes3.dex */
 public class PhotoAttachPhotoCell extends FrameLayout {
@@ -45,8 +54,11 @@ public class PhotoAttachPhotoCell extends FrameLayout {
     private CheckBox2 checkBox;
     private FrameLayout checkFrame;
     private FrameLayout container;
+    private Float crossfadeDuration;
     private PhotoAttachPhotoCellDelegate delegate;
+    private boolean hasSpoiler;
     private BackupImageView imageView;
+    private Bitmap imageViewCrossfadeSnapshot;
     private boolean isLast;
     private boolean isVertical;
     private boolean itemSizeChanged;
@@ -54,10 +66,17 @@ public class PhotoAttachPhotoCell extends FrameLayout {
     private boolean pressed;
     private final Theme.ResourcesProvider resourcesProvider;
     private MediaController.SearchImage searchEntry;
+    private float spoilerMaxRadius;
+    private float spoilerRevealProgress;
+    private float spoilerRevealX;
+    private float spoilerRevealY;
     private FrameLayout videoInfoContainer;
     private TextView videoTextView;
     private boolean zoomOnSelect = true;
     private Paint backgroundPaint = new Paint();
+    private SpoilerEffect spoilerEffect = new SpoilerEffect();
+    private Path path = new Path();
+    private float imageViewCrossfadeProgress = 1.0f;
     private int itemSize = AndroidUtilities.dp(80.0f);
 
     /* loaded from: classes3.dex */
@@ -72,10 +91,70 @@ public class PhotoAttachPhotoCell extends FrameLayout {
         FrameLayout frameLayout = new FrameLayout(context);
         this.container = frameLayout;
         addView(frameLayout, LayoutHelper.createFrame(80, 80.0f));
-        BackupImageView backupImageView = new BackupImageView(context);
+        this.spoilerEffect.setColor(ColorUtils.setAlphaComponent(-1, (int) (Color.alpha(-1) * 0.325f)));
+        BackupImageView backupImageView = new BackupImageView(context) { // from class: org.telegram.ui.Cells.PhotoAttachPhotoCell.1
+            private Paint crossfadePaint = new Paint(1);
+            private long lastUpdate;
+
+            /* JADX INFO: Access modifiers changed from: protected */
+            @Override // org.telegram.ui.Components.BackupImageView, android.view.View
+            public void onDraw(Canvas canvas) {
+                AnimatedEmojiDrawable animatedEmojiDrawable = this.animatedEmojiDrawable;
+                ImageReceiver imageReceiver = animatedEmojiDrawable != null ? animatedEmojiDrawable.getImageReceiver() : this.imageReceiver;
+                if (imageReceiver == null) {
+                    return;
+                }
+                if (this.width != -1 && this.height != -1) {
+                    int height = getHeight();
+                    int i = this.height;
+                    imageReceiver.setImageCoords((getWidth() - this.width) / 2, (height - i) / 2, this.width, i);
+                    int height2 = getHeight();
+                    int i2 = this.height;
+                    this.blurImageReceiver.setImageCoords((getWidth() - this.width) / 2, (height2 - i2) / 2, this.width, i2);
+                } else {
+                    imageReceiver.setImageCoords(0.0f, 0.0f, getWidth(), getHeight());
+                    this.blurImageReceiver.setImageCoords(0.0f, 0.0f, getWidth(), getHeight());
+                }
+                imageReceiver.draw(canvas);
+                if (PhotoAttachPhotoCell.this.hasSpoiler && PhotoAttachPhotoCell.this.spoilerRevealProgress != 1.0f && (PhotoAttachPhotoCell.this.photoEntry == null || !PhotoAttachPhotoCell.this.photoEntry.isAttachSpoilerRevealed)) {
+                    if (PhotoAttachPhotoCell.this.spoilerRevealProgress != 0.0f) {
+                        canvas.save();
+                        PhotoAttachPhotoCell.this.path.rewind();
+                        PhotoAttachPhotoCell.this.path.addCircle(PhotoAttachPhotoCell.this.spoilerRevealX, PhotoAttachPhotoCell.this.spoilerRevealY, PhotoAttachPhotoCell.this.spoilerMaxRadius * PhotoAttachPhotoCell.this.spoilerRevealProgress, Path.Direction.CW);
+                        canvas.clipPath(PhotoAttachPhotoCell.this.path, Region.Op.DIFFERENCE);
+                    }
+                    this.blurImageReceiver.draw(canvas);
+                    PhotoAttachPhotoCell.this.spoilerEffect.setBounds(0, 0, getWidth(), getHeight());
+                    PhotoAttachPhotoCell.this.spoilerEffect.draw(canvas);
+                    invalidate();
+                    if (PhotoAttachPhotoCell.this.spoilerRevealProgress != 0.0f) {
+                        canvas.restore();
+                    }
+                }
+                if (PhotoAttachPhotoCell.this.imageViewCrossfadeProgress == 1.0f || PhotoAttachPhotoCell.this.imageViewCrossfadeSnapshot == null) {
+                    if (PhotoAttachPhotoCell.this.imageViewCrossfadeProgress != 1.0f || PhotoAttachPhotoCell.this.imageViewCrossfadeSnapshot == null) {
+                        return;
+                    }
+                    PhotoAttachPhotoCell.this.imageViewCrossfadeSnapshot.recycle();
+                    PhotoAttachPhotoCell.this.imageViewCrossfadeSnapshot = null;
+                    PhotoAttachPhotoCell.this.crossfadeDuration = null;
+                    invalidate();
+                    return;
+                }
+                this.crossfadePaint.setAlpha((int) (CubicBezierInterpolator.DEFAULT.getInterpolation(1.0f - PhotoAttachPhotoCell.this.imageViewCrossfadeProgress) * 255.0f));
+                canvas.drawBitmap(PhotoAttachPhotoCell.this.imageViewCrossfadeSnapshot, 0.0f, 0.0f, this.crossfadePaint);
+                long min = Math.min(16L, System.currentTimeMillis() - this.lastUpdate);
+                float floatValue = PhotoAttachPhotoCell.this.crossfadeDuration == null ? 250.0f : PhotoAttachPhotoCell.this.crossfadeDuration.floatValue();
+                PhotoAttachPhotoCell photoAttachPhotoCell = PhotoAttachPhotoCell.this;
+                photoAttachPhotoCell.imageViewCrossfadeProgress = Math.min(1.0f, photoAttachPhotoCell.imageViewCrossfadeProgress + (((float) min) / floatValue));
+                this.lastUpdate = System.currentTimeMillis();
+                invalidate();
+            }
+        };
         this.imageView = backupImageView;
-        this.container.addView(backupImageView, LayoutHelper.createFrame(-1, -1.0f));
-        FrameLayout frameLayout2 = new FrameLayout(this, context) { // from class: org.telegram.ui.Cells.PhotoAttachPhotoCell.1
+        backupImageView.setBlurAllowed(true);
+        this.container.addView(this.imageView, LayoutHelper.createFrame(-1, -1.0f));
+        FrameLayout frameLayout2 = new FrameLayout(this, context) { // from class: org.telegram.ui.Cells.PhotoAttachPhotoCell.2
             private RectF rect = new RectF();
 
             @Override // android.view.View
@@ -108,6 +187,35 @@ public class PhotoAttachPhotoCell extends FrameLayout {
         FrameLayout frameLayout3 = new FrameLayout(context);
         this.checkFrame = frameLayout3;
         addView(frameLayout3, LayoutHelper.createFrame(42, 42.0f, 51, 38.0f, 0.0f, 0.0f, 0.0f));
+    }
+
+    public void setHasSpoiler(boolean z) {
+        setHasSpoiler(z, null);
+    }
+
+    public void setHasSpoiler(boolean z, Float f) {
+        if (this.hasSpoiler != z) {
+            this.spoilerRevealProgress = 0.0f;
+            if (isLaidOut()) {
+                Bitmap bitmap = this.imageViewCrossfadeSnapshot;
+                this.imageViewCrossfadeSnapshot = AndroidUtilities.snapshotView(this.imageView);
+                if (bitmap != null) {
+                    bitmap.recycle();
+                }
+                this.imageViewCrossfadeProgress = 0.0f;
+            } else {
+                Bitmap bitmap2 = this.imageViewCrossfadeSnapshot;
+                if (bitmap2 != null) {
+                    bitmap2.recycle();
+                    this.imageViewCrossfadeSnapshot = null;
+                }
+                this.imageViewCrossfadeProgress = 1.0f;
+            }
+            this.hasSpoiler = z;
+            this.crossfadeDuration = f;
+            this.imageView.setHasBlur(z);
+            this.imageView.invalidate();
+        }
     }
 
     public void setIsVertical(boolean z) {
@@ -218,10 +326,10 @@ public class PhotoAttachPhotoCell extends FrameLayout {
         }
         frameLayout.setAlpha(f);
         requestLayout();
+        setHasSpoiler(photoEntry.hasSpoiler);
     }
 
     public void setPhotoEntry(MediaController.SearchImage searchImage, boolean z, boolean z2) {
-        boolean z3 = false;
         this.pressed = false;
         this.searchEntry = searchImage;
         this.isLast = z2;
@@ -259,9 +367,7 @@ public class PhotoAttachPhotoCell extends FrameLayout {
                 }
             }
         }
-        if (z && PhotoViewer.isShowingImage(searchImage.getPathToAttach())) {
-            z3 = true;
-        }
+        boolean z3 = z && PhotoViewer.isShowingImage(searchImage.getPathToAttach());
         this.imageView.getImageReceiver().setVisible(!z3, true);
         float f = 0.0f;
         this.checkBox.setAlpha(z3 ? 0.0f : 1.0f);
@@ -271,6 +377,7 @@ public class PhotoAttachPhotoCell extends FrameLayout {
         }
         frameLayout.setAlpha(f);
         requestLayout();
+        setHasSpoiler(false);
     }
 
     public boolean isChecked() {
@@ -305,7 +412,7 @@ public class PhotoAttachPhotoCell extends FrameLayout {
                 animatorArr[1] = ObjectAnimator.ofFloat(frameLayout2, property2, fArr2);
                 animatorSet2.playTogether(animatorArr);
                 this.animator.setDuration(200L);
-                this.animator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.PhotoAttachPhotoCell.2
+                this.animator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.PhotoAttachPhotoCell.4
                     @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                     public void onAnimationEnd(Animator animator) {
                         if (PhotoAttachPhotoCell.this.animator == null || !PhotoAttachPhotoCell.this.animator.equals(animator)) {
@@ -389,7 +496,7 @@ public class PhotoAttachPhotoCell extends FrameLayout {
             fArr2[0] = f;
             animatorArr[1] = ObjectAnimator.ofFloat(checkBox2, property2, fArr2);
             animatorSet3.playTogether(animatorArr);
-            this.animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.PhotoAttachPhotoCell.3
+            this.animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.PhotoAttachPhotoCell.5
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                 public void onAnimationEnd(Animator animator) {
                     if (animator.equals(PhotoAttachPhotoCell.this.animatorSet)) {

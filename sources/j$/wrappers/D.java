@@ -1,23 +1,22 @@
 package j$.wrappers;
 
-import java.util.function.DoubleFunction;
+import java.util.function.DoublePredicate;
 /* loaded from: classes2.dex */
-public final /* synthetic */ class D implements DoubleFunction {
-    final /* synthetic */ j$.util.function.g a;
+public final /* synthetic */ class D {
+    final /* synthetic */ DoublePredicate a;
 
-    private /* synthetic */ D(j$.util.function.g gVar) {
-        this.a = gVar;
+    private /* synthetic */ D(DoublePredicate doublePredicate) {
+        this.a = doublePredicate;
     }
 
-    public static /* synthetic */ DoubleFunction a(j$.util.function.g gVar) {
-        if (gVar == null) {
+    public static /* synthetic */ D a(DoublePredicate doublePredicate) {
+        if (doublePredicate == null) {
             return null;
         }
-        return gVar instanceof C ? ((C) gVar).a : new D(gVar);
+        return doublePredicate instanceof E ? ((E) doublePredicate).a : new D(doublePredicate);
     }
 
-    @Override // java.util.function.DoubleFunction
-    public /* synthetic */ Object apply(double d) {
-        return this.a.apply(d);
+    public boolean b(double d) {
+        return this.a.test(d);
     }
 }

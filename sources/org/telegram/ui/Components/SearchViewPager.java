@@ -274,7 +274,7 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
 
     public void updateTabs() {
         this.viewPagerAdapter.updateItems();
-        fillTabs();
+        fillTabs(false);
         ViewPagerFixed.TabsView tabsView = this.tabsView;
         if (tabsView != null) {
             tabsView.finishAddingTabs();

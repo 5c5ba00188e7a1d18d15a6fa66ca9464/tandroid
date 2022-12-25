@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import org.telegram.messenger.CharacterCompat;
-import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.Utilities;
 /* loaded from: classes.dex */
 public class TLRPC$Message extends TLObject {
@@ -2920,8 +2919,8 @@ public class TLRPC$Message extends TLObject {
             if (this.params == null) {
                 this.params = new HashMap<>();
             }
-            this.layer = ImageReceiver.DEFAULT_CROSSFADE_DURATION;
-            this.params.put("legacy_layer", "150");
+            this.layer = 151;
+            this.params.put("legacy_layer", "151");
         }
         if ((this.id < 0 || this.send_state == 3 || this.legacy) && (hashMap2 = this.params) != null && hashMap2.size() > 0) {
             for (Map.Entry<String, String> entry2 : this.params.entrySet()) {

@@ -77,7 +77,7 @@ import org.telegram.ui.Components.TypefaceSpan;
 import org.telegram.ui.Delegates.MemberRequestsDelegate;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.ProfileActivity;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public class MemberRequestsDelegate implements MemberRequestCell.OnClickListener {
     private final long chatId;
     private final MemberRequestsController controller;
@@ -660,7 +660,7 @@ public class MemberRequestsDelegate implements MemberRequestCell.OnClickListener
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public class Adapter extends RecyclerListView.SelectionAdapter {
         private Adapter() {
         }
@@ -778,7 +778,7 @@ public class MemberRequestsDelegate implements MemberRequestCell.OnClickListener
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public class PreviewDialog extends Dialog {
         private float animationProgress;
         private ValueAnimator animator;

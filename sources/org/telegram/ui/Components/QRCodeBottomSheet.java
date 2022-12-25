@@ -4,6 +4,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Outline;
 import android.net.Uri;
 import android.os.Build;
@@ -15,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import androidx.core.graphics.ColorUtils;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
@@ -27,13 +29,14 @@ import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
 public class QRCodeBottomSheet extends BottomSheet {
+    private TextView button2TextView;
     private final TextView buttonTextView;
     private final TextView help;
     RLottieImageView iconImage;
     int imageSize;
     Bitmap qrCode;
 
-    public QRCodeBottomSheet(final Context context, String str, String str2) {
+    public QRCodeBottomSheet(final Context context, final String str, String str2, boolean z) {
         super(context, false);
         fixNavigationBar();
         setTitle(LocaleController.getString("InviteByQRCode", R.string.InviteByQRCode), true);
@@ -62,10 +65,8 @@ public class QRCodeBottomSheet extends BottomSheet {
         imageView.setImageBitmap(createQR);
         RLottieImageView rLottieImageView = new RLottieImageView(context);
         this.iconImage = rLottieImageView;
-        rLottieImageView.setBackgroundColor(-1);
-        this.iconImage.setAutoRepeat(true);
-        this.iconImage.setAnimation(R.raw.qr_code_logo, 60, 60);
-        this.iconImage.playAnimation();
+        rLottieImageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        this.iconImage.setBackgroundColor(-1);
         FrameLayout frameLayout = new FrameLayout(context) { // from class: org.telegram.ui.Components.QRCodeBottomSheet.3
             float lastX;
 
@@ -99,13 +100,28 @@ public class QRCodeBottomSheet extends BottomSheet {
         textView2.setTextSize(1, 14.0f);
         textView2.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         textView2.setText(LocaleController.getString("ShareQrCode", R.string.ShareQrCode));
-        textView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.QRCodeBottomSheet$$ExternalSyntheticLambda0
+        textView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.QRCodeBottomSheet$$ExternalSyntheticLambda1
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 QRCodeBottomSheet.this.lambda$new$0(context, view);
             }
         });
-        linearLayout.addView(textView2, LayoutHelper.createLinear(-1, 48, 80, 16, 15, 16, 16));
+        linearLayout.addView(textView2, LayoutHelper.createLinear(-1, 48, 80, 16, 15, 16, 3));
+        if (z) {
+            TextView textView3 = new TextView(context);
+            this.button2TextView = textView3;
+            textView3.setPadding(AndroidUtilities.dp(34.0f), 0, AndroidUtilities.dp(34.0f), 0);
+            this.button2TextView.setGravity(17);
+            this.button2TextView.setTextSize(1, 14.0f);
+            this.button2TextView.setText(LocaleController.getString("ShareLink", R.string.ShareLink));
+            this.button2TextView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.QRCodeBottomSheet$$ExternalSyntheticLambda0
+                @Override // android.view.View.OnClickListener
+                public final void onClick(View view) {
+                    QRCodeBottomSheet.lambda$new$1(str, context, view);
+                }
+            });
+            linearLayout.addView(this.button2TextView, LayoutHelper.createLinear(-1, 48, 80, 16, 3, 16, 16));
+        }
         updateColors();
         ScrollView scrollView = new ScrollView(context);
         scrollView.addView(linearLayout);
@@ -127,6 +143,16 @@ public class QRCodeBottomSheet extends BottomSheet {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$new$1(String str, Context context, View view) {
+        Intent intent = new Intent("android.intent.action.SEND");
+        intent.setType("text/plain");
+        intent.putExtra("android.intent.extra.TEXT", str);
+        Intent createChooser = Intent.createChooser(intent, LocaleController.getString("ShareLink", R.string.ShareLink));
+        createChooser.setFlags(268435456);
+        context.startActivity(createChooser);
+    }
+
     public Bitmap createQR(Context context, String str, Bitmap bitmap) {
         try {
             HashMap hashMap = new HashMap();
@@ -142,11 +168,27 @@ public class QRCodeBottomSheet extends BottomSheet {
         }
     }
 
+    public void setCenterAnimation(int i) {
+        this.iconImage.setAutoRepeat(true);
+        this.iconImage.setAnimation(i, 60, 60);
+        this.iconImage.playAnimation();
+    }
+
+    public void setCenterImage(Bitmap bitmap) {
+        this.iconImage.setImageBitmap(bitmap);
+    }
+
     /* JADX INFO: Access modifiers changed from: package-private */
     public void updateColors() {
-        this.buttonTextView.setBackgroundDrawable(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(6.0f), Theme.getColor("featuredStickers_addButton"), Theme.getColor("featuredStickers_addButtonPressed")));
-        this.help.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText"));
         this.buttonTextView.setTextColor(Theme.getColor("featuredStickers_buttonText"));
+        this.buttonTextView.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(6.0f), Theme.getColor("featuredStickers_addButton"), Theme.getColor("featuredStickers_addButtonPressed")));
+        TextView textView = this.button2TextView;
+        if (textView != null) {
+            textView.setTextColor(Theme.getColor("featuredStickers_addButton"));
+            this.button2TextView.setBackground(Theme.createSelectorDrawable(ColorUtils.setAlphaComponent(Theme.getColor("featuredStickers_addButton"), Math.min(255, Color.alpha(Theme.getColor("listSelectorSDK21")) * 2)), 7));
+        }
+        this.help.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText"));
+        this.help.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText"));
         if (getTitleView() != null) {
             getTitleView().setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
         }

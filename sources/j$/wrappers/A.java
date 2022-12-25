@@ -2,27 +2,27 @@ package j$.wrappers;
 
 import java.util.function.DoubleConsumer;
 /* loaded from: classes2.dex */
-public final /* synthetic */ class A implements j$.util.function.f {
-    final /* synthetic */ DoubleConsumer a;
+public final /* synthetic */ class A implements DoubleConsumer {
+    final /* synthetic */ j$.util.function.f a;
 
-    private /* synthetic */ A(DoubleConsumer doubleConsumer) {
-        this.a = doubleConsumer;
+    private /* synthetic */ A(j$.util.function.f fVar) {
+        this.a = fVar;
     }
 
-    public static /* synthetic */ j$.util.function.f b(DoubleConsumer doubleConsumer) {
-        if (doubleConsumer == null) {
+    public static /* synthetic */ DoubleConsumer a(j$.util.function.f fVar) {
+        if (fVar == null) {
             return null;
         }
-        return doubleConsumer instanceof B ? ((B) doubleConsumer).a : new A(doubleConsumer);
+        return fVar instanceof z ? ((z) fVar).a : new A(fVar);
     }
 
-    @Override // j$.util.function.f
+    @Override // java.util.function.DoubleConsumer
     public /* synthetic */ void accept(double d) {
         this.a.accept(d);
     }
 
-    @Override // j$.util.function.f
-    public /* synthetic */ j$.util.function.f j(j$.util.function.f fVar) {
-        return b(this.a.andThen(B.a(fVar)));
+    @Override // java.util.function.DoubleConsumer
+    public /* synthetic */ DoubleConsumer andThen(DoubleConsumer doubleConsumer) {
+        return a(this.a.j(z.b(doubleConsumer)));
     }
 }

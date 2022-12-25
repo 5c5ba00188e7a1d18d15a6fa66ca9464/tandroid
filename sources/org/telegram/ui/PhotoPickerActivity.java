@@ -406,11 +406,17 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
 
         /* loaded from: classes3.dex */
         public final /* synthetic */ class -CC {
+            public static boolean $default$canFinishFragment(PhotoPickerActivityDelegate photoPickerActivityDelegate) {
+                return true;
+            }
+
             public static void $default$onOpenInPressed(PhotoPickerActivityDelegate photoPickerActivityDelegate) {
             }
         }
 
         void actionButtonPressed(boolean z, boolean z2, int i);
+
+        boolean canFinishFragment();
 
         void onCaptionChanged(CharSequence charSequence);
 
@@ -2053,6 +2059,10 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         if (this.selectPhotoType == PhotoAlbumPickerActivity.SELECT_TYPE_WALLPAPER) {
             return;
         }
+        PhotoPickerActivityDelegate photoPickerActivityDelegate = this.delegate;
+        if (photoPickerActivityDelegate != null && !photoPickerActivityDelegate.canFinishFragment()) {
+            return;
+        }
         finishFragment();
     }
 
@@ -2284,5 +2294,10 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         arrayList.add(new ThemeDescription(this.listView, 0, new Class[]{View.class}, null, new Drawable[]{Theme.chat_attachEmptyDrawable}, null, "chat_attachEmptyImage"));
         arrayList.add(new ThemeDescription(this.listView, 0, new Class[]{View.class}, null, null, null, "chat_attachPhotoBackground"));
         return arrayList;
+    }
+
+    @Override // org.telegram.ui.ActionBar.BaseFragment
+    public boolean isLightStatusBar() {
+        return AndroidUtilities.computePerceivedBrightness(Theme.getColor("windowBackgroundGray")) > 0.721f;
     }
 }

@@ -1545,28 +1545,58 @@ public class Bulletin {
     /* loaded from: classes3.dex */
     public static class UsersLayout extends ButtonLayout {
         public AvatarsImageView avatarsImageView;
+        LinearLayout linearLayout;
+        public TextView subtitleView;
         public TextView textView;
 
-        public UsersLayout(Context context, Theme.ResourcesProvider resourcesProvider) {
+        public UsersLayout(Context context, boolean z, Theme.ResourcesProvider resourcesProvider) {
             super(context, resourcesProvider);
             AvatarsImageView avatarsImageView = new AvatarsImageView(context, false);
             this.avatarsImageView = avatarsImageView;
             avatarsImageView.setStyle(11);
             this.avatarsImageView.setAvatarsTextSize(AndroidUtilities.dp(18.0f));
             addView(this.avatarsImageView, LayoutHelper.createFrameRelatively(56.0f, 48.0f, 8388627, 12.0f, 0.0f, 0.0f, 0.0f));
-            LinkSpanDrawable.LinksTextView linksTextView = new LinkSpanDrawable.LinksTextView(this, context) { // from class: org.telegram.ui.Components.Bulletin.UsersLayout.1
-                @Override // android.widget.TextView
-                public void setText(CharSequence charSequence, TextView.BufferType bufferType) {
-                    super.setText(Emoji.replaceEmoji(charSequence, getPaint().getFontMetricsInt(), AndroidUtilities.dp(13.0f), false), bufferType);
-                }
-            };
-            this.textView = linksTextView;
-            NotificationCenter.listenEmojiLoading(linksTextView);
-            this.textView.setTypeface(Typeface.SANS_SERIF);
-            this.textView.setTextSize(1, 15.0f);
-            this.textView.setEllipsize(TextUtils.TruncateAt.END);
-            this.textView.setPadding(0, AndroidUtilities.dp(8.0f), 0, AndroidUtilities.dp(8.0f));
-            addView(this.textView, LayoutHelper.createFrameRelatively(-2.0f, -2.0f, 8388627, 70.0f, 0.0f, 8.0f, 0.0f));
+            if (!z) {
+                LinkSpanDrawable.LinksTextView linksTextView = new LinkSpanDrawable.LinksTextView(this, context) { // from class: org.telegram.ui.Components.Bulletin.UsersLayout.1
+                    @Override // android.widget.TextView
+                    public void setText(CharSequence charSequence, TextView.BufferType bufferType) {
+                        super.setText(Emoji.replaceEmoji(charSequence, getPaint().getFontMetricsInt(), AndroidUtilities.dp(13.0f), false), bufferType);
+                    }
+                };
+                this.textView = linksTextView;
+                NotificationCenter.listenEmojiLoading(linksTextView);
+                this.textView.setTypeface(Typeface.SANS_SERIF);
+                this.textView.setTextSize(1, 15.0f);
+                this.textView.setEllipsize(TextUtils.TruncateAt.END);
+                this.textView.setPadding(0, AndroidUtilities.dp(8.0f), 0, AndroidUtilities.dp(8.0f));
+                addView(this.textView, LayoutHelper.createFrameRelatively(-2.0f, -2.0f, 8388627, 70.0f, 0.0f, 8.0f, 0.0f));
+            } else {
+                LinearLayout linearLayout = new LinearLayout(getContext());
+                this.linearLayout = linearLayout;
+                linearLayout.setOrientation(1);
+                addView(this.linearLayout, LayoutHelper.createFrameRelatively(-2.0f, -2.0f, 8388627, 76.0f, 0.0f, 8.0f, 0.0f));
+                LinkSpanDrawable.LinksTextView linksTextView2 = new LinkSpanDrawable.LinksTextView(this, context) { // from class: org.telegram.ui.Components.Bulletin.UsersLayout.2
+                    @Override // android.widget.TextView
+                    public void setText(CharSequence charSequence, TextView.BufferType bufferType) {
+                        super.setText(Emoji.replaceEmoji(charSequence, getPaint().getFontMetricsInt(), AndroidUtilities.dp(13.0f), false), bufferType);
+                    }
+                };
+                this.textView = linksTextView2;
+                NotificationCenter.listenEmojiLoading(linksTextView2);
+                this.textView.setTypeface(Typeface.SANS_SERIF);
+                this.textView.setTextSize(1, 14.0f);
+                this.textView.setEllipsize(TextUtils.TruncateAt.END);
+                this.textView.setMaxLines(1);
+                this.linearLayout.addView(this.textView);
+                LinkSpanDrawable.LinksTextView linksTextView3 = new LinkSpanDrawable.LinksTextView(context);
+                this.subtitleView = linksTextView3;
+                linksTextView3.setTypeface(Typeface.SANS_SERIF);
+                this.subtitleView.setTextSize(1, 13.0f);
+                this.subtitleView.setEllipsize(TextUtils.TruncateAt.END);
+                this.subtitleView.setMaxLines(1);
+                this.subtitleView.setLinkTextColor(getThemedColor("undo_cancelColor"));
+                this.linearLayout.addView(this.subtitleView, LayoutHelper.createLinear(-2, -2, 0, 0, 0, 0, 0));
+            }
             this.textView.setLinkTextColor(getThemedColor("undo_cancelColor"));
             setTextColor(getThemedColor("undo_infoColor"));
             setBackground(getThemedColor("undo_background"));
@@ -1574,6 +1604,10 @@ public class Bulletin {
 
         public void setTextColor(int i) {
             this.textView.setTextColor(i);
+            TextView textView = this.subtitleView;
+            if (textView != null) {
+                textView.setTextColor(i);
+            }
         }
 
         @Override // org.telegram.ui.Components.Bulletin.Layout
@@ -1646,14 +1680,14 @@ public class Bulletin {
                         Bulletin.UndoButton.this.lambda$new$0(view);
                     }
                 });
-                this.undoTextView.setBackground(Theme.createCircleSelectorDrawable(419430400 | (16777215 & themedColor), LocaleController.isRTL ? AndroidUtilities.dp(16.0f) : 0, !LocaleController.isRTL ? AndroidUtilities.dp(16.0f) : 0));
+                this.undoTextView.setBackground(Theme.createSelectorDrawable((themedColor & 16777215) | 419430400, 7));
                 this.undoTextView.setTextSize(1, 14.0f);
                 this.undoTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
                 this.undoTextView.setTextColor(themedColor);
                 this.undoTextView.setText(LocaleController.getString("Undo", R.string.Undo));
                 this.undoTextView.setGravity(16);
-                ViewHelper.setPaddingRelative(this.undoTextView, 16.0f, 0.0f, 16.0f, 0.0f);
-                addView(this.undoTextView, LayoutHelper.createFrameRelatively(-2.0f, 48.0f, 16, 8.0f, 0.0f, 0.0f, 0.0f));
+                ViewHelper.setPaddingRelative(this.undoTextView, 12.0f, 8.0f, 12.0f, 8.0f);
+                addView(this.undoTextView, LayoutHelper.createFrameRelatively(-2.0f, -2.0f, 16, 8.0f, 0.0f, 8.0f, 0.0f));
                 return;
             }
             ImageView imageView = new ImageView(getContext());

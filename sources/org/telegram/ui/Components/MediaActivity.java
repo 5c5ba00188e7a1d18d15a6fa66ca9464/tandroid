@@ -15,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.core.graphics.ColorUtils;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ContactsController;
 import org.telegram.messenger.DialogObject;
@@ -36,10 +38,13 @@ import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ActionBar.ThemeDescription;
 import org.telegram.ui.Components.AudioPlayerAlert;
+import org.telegram.ui.Components.FloatingDebug.FloatingDebugController;
+import org.telegram.ui.Components.FloatingDebug.FloatingDebugProvider;
+import org.telegram.ui.Components.Paint.ShapeDetector;
 import org.telegram.ui.Components.SharedMediaLayout;
 import org.telegram.ui.ProfileActivity;
 /* loaded from: classes3.dex */
-public class MediaActivity extends BaseFragment implements SharedMediaLayout.SharedMediaPreloaderDelegate {
+public class MediaActivity extends BaseFragment implements SharedMediaLayout.SharedMediaPreloaderDelegate, FloatingDebugProvider {
     ProfileActivity.AvatarImageView avatarImageView;
     private TLRPC$ChatFull currentChatInfo;
     private long dialogId;
@@ -373,7 +378,7 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public ArrayList<ThemeDescription> getThemeDescriptions() {
-        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.Components.MediaActivity$$ExternalSyntheticLambda0
+        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.Components.MediaActivity$$ExternalSyntheticLambda1
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public final void didSetColor() {
                 MediaActivity.this.lambda$getThemeDescriptions$0();
@@ -399,5 +404,25 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
             color = Theme.getColor("actionBarActionModeDefault");
         }
         return ColorUtils.calculateLuminance(color) > 0.699999988079071d;
+    }
+
+    @Override // org.telegram.ui.Components.FloatingDebug.FloatingDebugProvider
+    public List<FloatingDebugController.DebugItem> onGetDebugItems() {
+        FloatingDebugController.DebugItem[] debugItemArr = new FloatingDebugController.DebugItem[1];
+        StringBuilder sb = new StringBuilder();
+        sb.append(ShapeDetector.isLearning(getContext()) ? "Disable" : "Enable");
+        sb.append(" shape detector learning debug");
+        debugItemArr[0] = new FloatingDebugController.DebugItem(sb.toString(), new Runnable() { // from class: org.telegram.ui.Components.MediaActivity$$ExternalSyntheticLambda0
+            @Override // java.lang.Runnable
+            public final void run() {
+                MediaActivity.this.lambda$onGetDebugItems$1();
+            }
+        });
+        return Arrays.asList(debugItemArr);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$onGetDebugItems$1() {
+        ShapeDetector.setLearning(getContext(), !ShapeDetector.isLearning(getContext()));
     }
 }

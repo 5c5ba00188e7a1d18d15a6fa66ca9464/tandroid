@@ -79,12 +79,13 @@ public class SwipeGestureSettingsView extends FrameLayout {
             }
         };
         this.picker = numberPicker;
-        numberPicker.setWrapSelectorWheel(true);
-        this.picker.setMinValue(0);
+        numberPicker.setMinValue(0);
         this.picker.setDrawDividers(false);
         boolean z = !MessagesController.getInstance(i).dialogFilters.isEmpty();
         this.hasTabs = z;
         this.picker.setMaxValue(z ? this.strings.length - 1 : this.strings.length - 2);
+        this.picker.setAllItemsCount(this.hasTabs ? this.strings.length : this.strings.length - 1);
+        this.picker.setWrapSelectorWheel(true);
         this.picker.setFormatter(new NumberPicker.Formatter() { // from class: org.telegram.ui.Components.SwipeGestureSettingsView$$ExternalSyntheticLambda1
             @Override // org.telegram.ui.Components.NumberPicker.Formatter
             public final String format(int i2) {

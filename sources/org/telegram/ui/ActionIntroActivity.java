@@ -941,10 +941,20 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
     }
 
     private void processOpenQrReader() {
-        CameraScanActivity.showAsSheet(this, false, 1, new CameraScanActivity.CameraScanActivityDelegate() { // from class: org.telegram.ui.ActionIntroActivity.4
+        CameraScanActivity.showAsSheet((BaseFragment) this, false, 1, new CameraScanActivity.CameraScanActivityDelegate() { // from class: org.telegram.ui.ActionIntroActivity.4
             @Override // org.telegram.ui.CameraScanActivity.CameraScanActivityDelegate
             public /* synthetic */ void didFindMrzInfo(MrzRecognizer.Result result) {
                 CameraScanActivity.CameraScanActivityDelegate.-CC.$default$didFindMrzInfo(this, result);
+            }
+
+            @Override // org.telegram.ui.CameraScanActivity.CameraScanActivityDelegate
+            public /* synthetic */ String getSubtitleText() {
+                return CameraScanActivity.CameraScanActivityDelegate.-CC.$default$getSubtitleText(this);
+            }
+
+            @Override // org.telegram.ui.CameraScanActivity.CameraScanActivityDelegate
+            public /* synthetic */ void onDismiss() {
+                CameraScanActivity.CameraScanActivityDelegate.-CC.$default$onDismiss(this);
             }
 
             @Override // org.telegram.ui.CameraScanActivity.CameraScanActivityDelegate

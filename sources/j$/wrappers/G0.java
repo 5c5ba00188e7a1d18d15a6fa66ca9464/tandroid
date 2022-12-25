@@ -1,23 +1,59 @@
 package j$.wrappers;
 
-import java.util.function.ToLongFunction;
+import java.util.Iterator;
+import java.util.stream.BaseStream;
 /* loaded from: classes2.dex */
-public final /* synthetic */ class G0 implements ToLongFunction {
-    final /* synthetic */ j$.util.function.A a;
+public final /* synthetic */ class G0 implements j$.util.stream.g {
+    final /* synthetic */ BaseStream a;
 
-    private /* synthetic */ G0(j$.util.function.A a) {
-        this.a = a;
+    private /* synthetic */ G0(BaseStream baseStream) {
+        this.a = baseStream;
     }
 
-    public static /* synthetic */ ToLongFunction a(j$.util.function.A a) {
-        if (a == null) {
+    public static /* synthetic */ j$.util.stream.g n0(BaseStream baseStream) {
+        if (baseStream == null) {
             return null;
         }
-        return a instanceof F0 ? ((F0) a).a : new G0(a);
+        return baseStream instanceof H0 ? ((H0) baseStream).a : new G0(baseStream);
     }
 
-    @Override // java.util.function.ToLongFunction
-    public /* synthetic */ long applyAsLong(Object obj) {
-        return this.a.applyAsLong(obj);
+    @Override // j$.util.stream.g, java.lang.AutoCloseable
+    public /* synthetic */ void close() {
+        this.a.close();
+    }
+
+    @Override // j$.util.stream.g
+    public /* synthetic */ boolean isParallel() {
+        return this.a.isParallel();
+    }
+
+    @Override // j$.util.stream.g
+    public /* synthetic */ Iterator iterator() {
+        return this.a.iterator();
+    }
+
+    @Override // j$.util.stream.g
+    public /* synthetic */ j$.util.stream.g onClose(Runnable runnable) {
+        return n0(this.a.onClose(runnable));
+    }
+
+    @Override // j$.util.stream.g, j$.util.stream.IntStream
+    public /* synthetic */ j$.util.stream.g parallel() {
+        return n0(this.a.parallel());
+    }
+
+    @Override // j$.util.stream.g, j$.util.stream.IntStream
+    public /* synthetic */ j$.util.stream.g sequential() {
+        return n0(this.a.sequential());
+    }
+
+    @Override // j$.util.stream.g
+    public /* synthetic */ j$.util.u spliterator() {
+        return g.a(this.a.spliterator());
+    }
+
+    @Override // j$.util.stream.g
+    public /* synthetic */ j$.util.stream.g unordered() {
+        return n0(this.a.unordered());
     }
 }

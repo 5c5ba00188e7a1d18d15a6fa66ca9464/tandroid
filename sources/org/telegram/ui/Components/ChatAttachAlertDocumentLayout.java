@@ -526,6 +526,11 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
                     photoPickerActivity.setDocumentsPicker(true);
                     photoPickerActivity.setDelegate(new PhotoPickerActivity.PhotoPickerActivityDelegate() { // from class: org.telegram.ui.Components.ChatAttachAlertDocumentLayout.8
                         @Override // org.telegram.ui.PhotoPickerActivity.PhotoPickerActivityDelegate
+                        public /* synthetic */ boolean canFinishFragment() {
+                            return PhotoPickerActivity.PhotoPickerActivityDelegate.-CC.$default$canFinishFragment(this);
+                        }
+
+                        @Override // org.telegram.ui.PhotoPickerActivity.PhotoPickerActivityDelegate
                         public void onCaptionChanged(CharSequence charSequence) {
                         }
 
@@ -1313,20 +1318,20 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
         new AlertDialog.Builder(getContext(), this.resourcesProvider).setTitle(LocaleController.getString("AppName", R.string.AppName)).setMessage(str).setPositiveButton(LocaleController.getString("OK", R.string.OK), null).show();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:107:0x023f A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:81:0x01a2 A[Catch: Exception -> 0x01c3, TRY_LEAVE, TryCatch #4 {Exception -> 0x01c3, blocks: (B:79:0x0191, B:81:0x01a2), top: B:78:0x0191 }] */
-    /* JADX WARN: Removed duplicated region for block: B:85:0x01cb  */
-    /* JADX WARN: Removed duplicated region for block: B:88:0x01f7  */
-    /* JADX WARN: Removed duplicated region for block: B:91:0x022c  */
+    /* JADX WARN: Removed duplicated region for block: B:107:0x023a A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:81:0x019c A[Catch: Exception -> 0x01bf, TRY_LEAVE, TryCatch #0 {Exception -> 0x01bf, blocks: (B:79:0x0192, B:81:0x019c), top: B:78:0x0192 }] */
+    /* JADX WARN: Removed duplicated region for block: B:85:0x01c7  */
+    /* JADX WARN: Removed duplicated region for block: B:88:0x01f3  */
+    /* JADX WARN: Removed duplicated region for block: B:91:0x0228  */
     @SuppressLint({"NewApi"})
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void listRoots() {
         BufferedReader bufferedReader;
-        File file;
+        Throwable th;
+        File directory;
         int lastIndexOf;
-        BufferedReader bufferedReader2 = null;
         this.currentDir = null;
         this.hasFiles = false;
         this.listAdapter.items.clear();
@@ -1397,8 +1402,8 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
                             if (bufferedReader != null) {
                                 bufferedReader.close();
                             }
-                            file = new File(ApplicationLoader.applicationContext.getExternalFilesDir(null), "Telegram");
-                            if (file.exists()) {
+                            directory = FileLoader.getDirectory(4);
+                            if (directory.exists()) {
                             }
                             if (!this.isSoundPicker) {
                             }
@@ -1410,12 +1415,11 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
                             this.scrolling = true;
                             this.listAdapter.notifyDataSetChanged();
                         }
-                    } catch (Throwable th) {
-                        th = th;
-                        bufferedReader2 = bufferedReader;
-                        if (bufferedReader2 != null) {
+                    } catch (Throwable th2) {
+                        th = th2;
+                        if (bufferedReader != null) {
                             try {
-                                bufferedReader2.close();
+                                bufferedReader.close();
                             } catch (Exception e3) {
                                 FileLog.e(e3);
                             }
@@ -1430,20 +1434,21 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
         } catch (Exception e5) {
             e = e5;
             bufferedReader = null;
-        } catch (Throwable th2) {
-            th = th2;
-            if (bufferedReader2 != null) {
+        } catch (Throwable th3) {
+            bufferedReader = null;
+            th = th3;
+            if (bufferedReader != null) {
             }
             throw th;
         }
         try {
-            file = new File(ApplicationLoader.applicationContext.getExternalFilesDir(null), "Telegram");
-            if (file.exists()) {
+            directory = FileLoader.getDirectory(4);
+            if (directory.exists()) {
                 ListItem listItem3 = new ListItem(null);
                 listItem3.title = "Telegram";
                 listItem3.subtitle = LocaleController.getString("AppFolderInfo", R.string.AppFolderInfo);
                 listItem3.icon = R.drawable.files_folder;
-                listItem3.file = file;
+                listItem3.file = directory;
                 this.listAdapter.items.add(listItem3);
             }
         } catch (Exception e6) {

@@ -31,7 +31,7 @@ public final /* synthetic */ class d implements PrimitiveIterator.OfInt {
 
     @Override // java.util.PrimitiveIterator.OfInt
     public /* synthetic */ void forEachRemaining(IntConsumer intConsumer) {
-        this.a.c(Q.b(intConsumer));
+        this.a.c(P.b(intConsumer));
     }
 
     /* JADX WARN: Type inference failed for: r0v0, types: [j$.util.Iterator, j$.util.p$a] */

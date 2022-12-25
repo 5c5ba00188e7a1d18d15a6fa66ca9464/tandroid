@@ -1,60 +1,41 @@
 package j$.wrappers;
 
-import java.util.Iterator;
-import java.util.Spliterator;
-import java.util.stream.BaseStream;
+import j$.util.function.BiConsumer;
+import j$.util.function.Function;
+import java.util.Set;
+import java.util.stream.Collector;
 /* loaded from: classes2.dex */
-public final /* synthetic */ class I0 implements BaseStream {
-    final /* synthetic */ j$.util.stream.g a;
+public final /* synthetic */ class I0 {
+    final /* synthetic */ Collector a;
 
-    private /* synthetic */ I0(j$.util.stream.g gVar) {
-        this.a = gVar;
+    private /* synthetic */ I0(Collector collector) {
+        this.a = collector;
     }
 
-    public static /* synthetic */ BaseStream n0(j$.util.stream.g gVar) {
-        if (gVar == null) {
+    public static /* synthetic */ I0 d(Collector collector) {
+        if (collector == null) {
             return null;
         }
-        return gVar instanceof H0 ? ((H0) gVar).a : new I0(gVar);
+        return collector instanceof J0 ? ((J0) collector).a : new I0(collector);
     }
 
-    @Override // java.util.stream.BaseStream, java.lang.AutoCloseable
-    public /* synthetic */ void close() {
-        this.a.close();
+    public BiConsumer a() {
+        return q.a(this.a.accumulator());
     }
 
-    @Override // java.util.stream.BaseStream
-    public /* synthetic */ boolean isParallel() {
-        return this.a.isParallel();
+    public Set b() {
+        return this.a.characteristics();
     }
 
-    @Override // java.util.stream.BaseStream
-    public /* synthetic */ Iterator iterator() {
-        return this.a.iterator();
+    public j$.util.function.b c() {
+        return u.a(this.a.combiner());
     }
 
-    @Override // java.util.stream.BaseStream
-    public /* synthetic */ BaseStream onClose(Runnable runnable) {
-        return n0(this.a.onClose(runnable));
+    public Function e() {
+        return L.a(this.a.finisher());
     }
 
-    @Override // java.util.stream.BaseStream
-    public /* synthetic */ BaseStream parallel() {
-        return n0(this.a.parallel());
-    }
-
-    @Override // java.util.stream.BaseStream
-    public /* synthetic */ BaseStream sequential() {
-        return n0(this.a.sequential());
-    }
-
-    @Override // java.util.stream.BaseStream
-    public /* synthetic */ Spliterator spliterator() {
-        return h.a(this.a.spliterator());
-    }
-
-    @Override // java.util.stream.BaseStream
-    public /* synthetic */ BaseStream unordered() {
-        return n0(this.a.unordered());
+    public j$.util.function.y f() {
+        return y0.a(this.a.supplier());
     }
 }

@@ -696,6 +696,10 @@ public class Emoji {
         return arrayList;
     }
 
+    public static CharSequence replaceEmoji(CharSequence charSequence, Paint.FontMetricsInt fontMetricsInt, boolean z) {
+        return replaceEmoji(charSequence, fontMetricsInt, AndroidUtilities.dp(16.0f), z, null);
+    }
+
     public static CharSequence replaceEmoji(CharSequence charSequence, Paint.FontMetricsInt fontMetricsInt, int i, boolean z) {
         return replaceEmoji(charSequence, fontMetricsInt, i, z, null);
     }
@@ -786,6 +790,18 @@ public class Emoji {
         public void replaceFontMetrics(Paint.FontMetricsInt fontMetricsInt, int i) {
             this.fontMetrics = fontMetricsInt;
             this.size = i;
+        }
+
+        public void replaceFontMetrics(Paint.FontMetricsInt fontMetricsInt) {
+            this.fontMetrics = fontMetricsInt;
+            if (fontMetricsInt != null) {
+                int abs = Math.abs(fontMetricsInt.descent) + Math.abs(this.fontMetrics.ascent);
+                this.size = abs;
+                if (abs != 0) {
+                    return;
+                }
+                this.size = AndroidUtilities.dp(20.0f);
+            }
         }
 
         @Override // android.text.style.DynamicDrawableSpan, android.text.style.ReplacementSpan

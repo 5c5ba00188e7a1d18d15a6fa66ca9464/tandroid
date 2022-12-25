@@ -6,10 +6,12 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.SurfaceTexture;
+import android.graphics.Typeface;
 import android.opengl.GLES20;
 import android.opengl.GLUtils;
 import android.opengl.Matrix;
 import android.os.Build;
+import android.text.SpannableString;
 import android.view.View;
 import androidx.exifinterface.media.ExifInterface;
 import java.io.File;
@@ -21,17 +23,24 @@ import java.nio.FloatBuffer;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
+import java.util.Iterator;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.Bitmaps;
 import org.telegram.messenger.BuildVars;
+import org.telegram.messenger.Emoji;
 import org.telegram.messenger.FileLog;
+import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaController;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.VideoEditedInfo;
+import org.telegram.ui.Components.AnimatedEmojiDrawable;
+import org.telegram.ui.Components.AnimatedEmojiSpan;
 import org.telegram.ui.Components.AnimatedFileDrawable;
+import org.telegram.ui.Components.EditTextEffects;
 import org.telegram.ui.Components.FilterShaders;
+import org.telegram.ui.Components.Paint.PaintTypeface;
 import org.telegram.ui.Components.Paint.Views.EditTextOutline;
 import org.telegram.ui.Components.RLottieDrawable;
 /* loaded from: classes.dex */
@@ -41,6 +50,7 @@ public class TextureRenderer {
     private static final String VERTEX_SHADER = "uniform mat4 uMVPMatrix;\nuniform mat4 uSTMatrix;\nattribute vec4 aPosition;\nattribute vec4 aTextureCoord;\nvarying vec2 vTextureCoord;\nvoid main() {\n  gl_Position = uMVPMatrix * aPosition;\n  vTextureCoord = (uSTMatrix * aTextureCoord).xy;\n}\n";
     private FloatBuffer bitmapVerticesBuffer;
     private boolean blendEnabled;
+    private ArrayList<AnimatedEmojiDrawable> emojiDrawables;
     private FilterShaders filterShaders;
     private int imageOrientation;
     private String imagePath;
@@ -200,6 +210,7 @@ public class TextureRenderer {
         int i2;
         float[] fArr;
         char c;
+        Bitmap bitmap;
         if (this.isPhoto) {
             GLES20.glUseProgram(this.simpleShaderProgram);
             GLES20.glActiveTexture(33984);
@@ -288,8 +299,8 @@ public class TextureRenderer {
                 VideoEditedInfo.MediaEntity mediaEntity = this.mediaEntities.get(i6);
                 long j = mediaEntity.ptr;
                 if (j != 0) {
-                    Bitmap bitmap = this.stickerBitmap;
-                    RLottieDrawable.getFrame(j, (int) mediaEntity.currentFrame, bitmap, 512, 512, bitmap.getRowBytes(), true);
+                    Bitmap bitmap2 = this.stickerBitmap;
+                    RLottieDrawable.getFrame(j, (int) mediaEntity.currentFrame, bitmap2, 512, 512, bitmap2.getRowBytes(), true);
                     GLES20.glBindTexture(3553, this.stickerTexture[0]);
                     GLUtils.texImage2D(3553, 0, this.stickerBitmap, 0);
                     float f = mediaEntity.currentFrame + mediaEntity.framesPerDraw;
@@ -310,14 +321,25 @@ public class TextureRenderer {
                     if (this.stickerCanvas == null && this.stickerBitmap != null) {
                         this.stickerCanvas = new Canvas(this.stickerBitmap);
                     }
-                    Bitmap bitmap2 = this.stickerBitmap;
-                    if (bitmap2 != null && backgroundBitmap != null) {
-                        bitmap2.eraseColor(0);
+                    Bitmap bitmap3 = this.stickerBitmap;
+                    if (bitmap3 != null && backgroundBitmap != null) {
+                        bitmap3.eraseColor(0);
                         this.stickerCanvas.drawBitmap(backgroundBitmap, 0.0f, 0.0f, (Paint) null);
                         GLES20.glBindTexture(3553, this.stickerTexture[0]);
                         GLUtils.texImage2D(3553, 0, this.stickerBitmap, 0);
                         drawTexture(false, this.stickerTexture[0], mediaEntity.x, mediaEntity.y, mediaEntity.width, mediaEntity.height, mediaEntity.rotation, (mediaEntity.subType & 2) != 0);
                     }
+                } else if (mediaEntity.view != null && mediaEntity.canvas != null && (bitmap = mediaEntity.bitmap) != null) {
+                    bitmap.eraseColor(0);
+                    float f4 = mediaEntity.currentFrame;
+                    int i9 = (int) f4;
+                    float f5 = f4 + mediaEntity.framesPerDraw;
+                    mediaEntity.currentFrame = f5;
+                    ((EditTextEffects) mediaEntity.view).incrementFrames(((int) f5) - i9);
+                    mediaEntity.view.draw(mediaEntity.canvas);
+                    GLES20.glBindTexture(3553, this.stickerTexture[0]);
+                    GLUtils.texImage2D(3553, 0, mediaEntity.bitmap, 0);
+                    drawTexture(false, this.stickerTexture[0], mediaEntity.x, mediaEntity.y, mediaEntity.width, mediaEntity.height, mediaEntity.rotation, (mediaEntity.subType & 2) != 0);
                 } else if (mediaEntity.bitmap != null) {
                     GLES20.glBindTexture(3553, this.stickerTexture[0]);
                     GLUtils.texImage2D(3553, 0, mediaEntity.bitmap, 0);
@@ -410,8 +432,11 @@ public class TextureRenderer {
         editTextOutline.setBreakStrategy(0);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:101:0x0164  */
-    /* JADX WARN: Removed duplicated region for block: B:114:0x0204 A[SYNTHETIC] */
+    /* JADX WARN: Code restructure failed: missing block: B:82:0x0426, code lost:
+        if (org.telegram.messenger.LocaleController.isRTL != false) goto L83;
+     */
+    /* JADX WARN: Removed duplicated region for block: B:138:0x0169  */
+    /* JADX WARN: Removed duplicated region for block: B:151:0x0208 A[SYNTHETIC] */
     @SuppressLint({"WrongConstant"})
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -421,26 +446,29 @@ public class TextureRenderer {
         int i;
         Bitmap decodeFile;
         float max;
+        int i2;
+        AnimatedEmojiSpan animatedEmojiSpan;
+        Typeface typeface;
         Bitmap bitmap;
-        int i2 = 0;
+        int i3 = 0;
         while (true) {
             int[] iArr = this.mProgram;
-            if (i2 >= iArr.length) {
+            if (i3 >= iArr.length) {
                 break;
             }
-            iArr[i2] = createProgram(VERTEX_SHADER, i2 == 0 ? FRAGMENT_EXTERNAL_SHADER : FRAGMENT_SHADER);
-            this.maPositionHandle[i2] = GLES20.glGetAttribLocation(this.mProgram[i2], "aPosition");
-            this.maTextureHandle[i2] = GLES20.glGetAttribLocation(this.mProgram[i2], "aTextureCoord");
-            this.muMVPMatrixHandle[i2] = GLES20.glGetUniformLocation(this.mProgram[i2], "uMVPMatrix");
-            this.muSTMatrixHandle[i2] = GLES20.glGetUniformLocation(this.mProgram[i2], "uSTMatrix");
-            i2++;
+            iArr[i3] = createProgram(VERTEX_SHADER, i3 == 0 ? FRAGMENT_EXTERNAL_SHADER : FRAGMENT_SHADER);
+            this.maPositionHandle[i3] = GLES20.glGetAttribLocation(this.mProgram[i3], "aPosition");
+            this.maTextureHandle[i3] = GLES20.glGetAttribLocation(this.mProgram[i3], "aTextureCoord");
+            this.muMVPMatrixHandle[i3] = GLES20.glGetUniformLocation(this.mProgram[i3], "uMVPMatrix");
+            this.muSTMatrixHandle[i3] = GLES20.glGetUniformLocation(this.mProgram[i3], "uSTMatrix");
+            i3++;
         }
-        int i3 = 1;
+        int i4 = 1;
         int[] iArr2 = new int[1];
         GLES20.glGenTextures(1, iArr2, 0);
-        int i4 = iArr2[0];
-        this.mTextureID = i4;
-        GLES20.glBindTexture(36197, i4);
+        int i5 = iArr2[0];
+        this.mTextureID = i5;
+        GLES20.glBindTexture(36197, i5);
         GLES20.glTexParameteri(36197, 10241, 9729);
         GLES20.glTexParameteri(36197, 10240, 9729);
         GLES20.glTexParameteri(36197, 10242, 33071);
@@ -474,19 +502,19 @@ public class TextureRenderer {
             this.filterShaders.setRenderData(null, 0, this.mTextureID, this.originalWidth, this.originalHeight);
         }
         String str2 = this.imagePath;
-        int i5 = -16777216;
-        int i6 = 3;
+        int i6 = -16777216;
+        int i7 = 3;
         if (str2 != null || this.paintPath != null) {
             int[] iArr4 = new int[(str2 != null ? 1 : 0) + (this.paintPath != null ? 1 : 0)];
             this.paintTexture = iArr4;
             GLES20.glGenTextures(iArr4.length, iArr4, 0);
-            int i7 = 0;
-            while (i7 < this.paintTexture.length) {
+            int i8 = 0;
+            while (i8 < this.paintTexture.length) {
                 try {
-                    if (i7 == 0 && (str = this.imagePath) != null) {
+                    if (i8 == 0 && (str = this.imagePath) != null) {
                         try {
-                            int attributeInt = new ExifInterface(str).getAttributeInt("Orientation", i3);
-                            if (attributeInt == i6) {
+                            int attributeInt = new ExifInterface(str).getAttributeInt("Orientation", i4);
+                            if (attributeInt == i7) {
                                 i = 180;
                             } else if (attributeInt == 6) {
                                 i = 90;
@@ -497,9 +525,9 @@ public class TextureRenderer {
                         }
                         decodeFile = BitmapFactory.decodeFile(str);
                         if (decodeFile != null) {
-                            if (i7 == 0 && this.imagePath != null) {
+                            if (i8 == 0 && this.imagePath != null) {
                                 Bitmap createBitmap = Bitmap.createBitmap(this.transformedWidth, this.transformedHeight, Bitmap.Config.ARGB_8888);
-                                createBitmap.eraseColor(i5);
+                                createBitmap.eraseColor(i6);
                                 Canvas canvas = new Canvas(createBitmap);
                                 if (i != 90 && i != 270) {
                                     max = Math.max(decodeFile.getWidth() / this.transformedWidth, decodeFile.getHeight() / this.transformedHeight);
@@ -522,17 +550,17 @@ public class TextureRenderer {
                                 canvas.drawBitmap(decodeFile, matrix2, new Paint(2));
                                 decodeFile = createBitmap;
                             }
-                            GLES20.glBindTexture(3553, this.paintTexture[i7]);
+                            GLES20.glBindTexture(3553, this.paintTexture[i8]);
                             GLES20.glTexParameteri(3553, 10241, 9729);
                             GLES20.glTexParameteri(3553, 10240, 9729);
                             GLES20.glTexParameteri(3553, 10242, 33071);
                             GLES20.glTexParameteri(3553, 10243, 33071);
                             GLUtils.texImage2D(3553, 0, decodeFile, 0);
                         }
-                        i7++;
-                        i3 = 1;
-                        i5 = -16777216;
-                        i6 = 3;
+                        i8++;
+                        i4 = 1;
+                        i6 = -16777216;
+                        i7 = 3;
                     } else {
                         str = this.paintPath;
                     }
@@ -540,10 +568,10 @@ public class TextureRenderer {
                     decodeFile = BitmapFactory.decodeFile(str);
                     if (decodeFile != null) {
                     }
-                    i7++;
-                    i3 = 1;
-                    i5 = -16777216;
-                    i6 = 3;
+                    i8++;
+                    i4 = 1;
+                    i6 = -16777216;
+                    i7 = 3;
                 } catch (Throwable th) {
                     FileLog.e(th);
                 }
@@ -561,8 +589,8 @@ public class TextureRenderer {
                 GLES20.glTexParameteri(3553, 10242, 33071);
                 GLES20.glTexParameteri(3553, 10243, 33071);
                 int size = this.mediaEntities.size();
-                for (int i8 = 0; i8 < size; i8++) {
-                    VideoEditedInfo.MediaEntity mediaEntity = this.mediaEntities.get(i8);
+                for (int i9 = 0; i9 < size; i9++) {
+                    VideoEditedInfo.MediaEntity mediaEntity = this.mediaEntities.get(i9);
                     byte b = mediaEntity.type;
                     if (b == 0) {
                         byte b2 = mediaEntity.subType;
@@ -606,19 +634,58 @@ public class TextureRenderer {
                             }
                         }
                     } else if (b == 1) {
-                        EditTextOutline editTextOutline = new EditTextOutline(ApplicationLoader.applicationContext);
+                        EditTextOutline editTextOutline = new EditTextOutline(ApplicationLoader.applicationContext) { // from class: org.telegram.messenger.video.TextureRenderer.1
+                            {
+                                this.animatedEmojiOffsetX = AndroidUtilities.dp(8.0f);
+                                this.animatedEmojiRawDraw = true;
+                                this.animatedEmojiRawDrawFps = (int) TextureRenderer.this.videoFps;
+                            }
+                        };
                         editTextOutline.setBackgroundColor(0);
                         editTextOutline.setPadding(AndroidUtilities.dp(7.0f), AndroidUtilities.dp(7.0f), AndroidUtilities.dp(7.0f), AndroidUtilities.dp(7.0f));
+                        PaintTypeface paintTypeface = mediaEntity.textTypeface;
+                        if (paintTypeface != null && (typeface = paintTypeface.getTypeface()) != null) {
+                            editTextOutline.setTypeface(typeface);
+                        }
                         editTextOutline.setTextSize(0, mediaEntity.fontSize);
-                        editTextOutline.setText(mediaEntity.text);
+                        SpannableString spannableString = new SpannableString(mediaEntity.text);
+                        Iterator<VideoEditedInfo.EmojiEntity> it = mediaEntity.entities.iterator();
+                        boolean z = false;
+                        while (it.hasNext()) {
+                            VideoEditedInfo.EmojiEntity next = it.next();
+                            if (next.document != null) {
+                                animatedEmojiSpan = new AnimatedEmojiSpan(next.document, editTextOutline.getPaint().getFontMetricsInt());
+                            } else {
+                                animatedEmojiSpan = new AnimatedEmojiSpan(next.document_id, editTextOutline.getPaint().getFontMetricsInt());
+                            }
+                            animatedEmojiSpan.cacheType = 12;
+                            animatedEmojiSpan.documentAbsolutePath = next.documentAbsolutePath;
+                            int i10 = next.offset;
+                            spannableString.setSpan(animatedEmojiSpan, i10, next.length + i10, 33);
+                            z = true;
+                        }
+                        editTextOutline.setText(Emoji.replaceEmoji(spannableString, editTextOutline.getPaint().getFontMetricsInt(), (int) (editTextOutline.getTextSize() * 0.8f), false));
                         editTextOutline.setTextColor(mediaEntity.color);
-                        editTextOutline.setTypeface(null, 1);
-                        editTextOutline.setGravity(17);
+                        int i11 = mediaEntity.textAlign;
+                        editTextOutline.setGravity(i11 != 1 ? i11 != 2 ? 19 : 21 : 17);
+                        int i12 = Build.VERSION.SDK_INT;
+                        if (i12 >= 17) {
+                            int i13 = mediaEntity.textAlign;
+                            if (i13 == 1) {
+                                i2 = 4;
+                            } else if (i13 == 2) {
+                                if (LocaleController.isRTL) {
+                                    i2 = 2;
+                                }
+                                i2 = 3;
+                            }
+                            editTextOutline.setTextAlignment(i2);
+                        }
                         editTextOutline.setHorizontallyScrolling(false);
                         editTextOutline.setImeOptions(268435456);
                         editTextOutline.setFocusableInTouchMode(true);
                         editTextOutline.setInputType(editTextOutline.getInputType() | 16384);
-                        if (Build.VERSION.SDK_INT >= 23) {
+                        if (i12 >= 23) {
                             setBreakStrategy(editTextOutline);
                         }
                         byte b3 = mediaEntity.subType;
@@ -641,7 +708,14 @@ public class TextureRenderer {
                         editTextOutline.measure(View.MeasureSpec.makeMeasureSpec(mediaEntity.viewWidth, 1073741824), View.MeasureSpec.makeMeasureSpec(mediaEntity.viewHeight, 1073741824));
                         editTextOutline.layout(0, 0, mediaEntity.viewWidth, mediaEntity.viewHeight);
                         mediaEntity.bitmap = Bitmap.createBitmap(mediaEntity.viewWidth, mediaEntity.viewHeight, Bitmap.Config.ARGB_8888);
-                        editTextOutline.draw(new Canvas(mediaEntity.bitmap));
+                        Canvas canvas2 = new Canvas(mediaEntity.bitmap);
+                        editTextOutline.draw(canvas2);
+                        if (z) {
+                            mediaEntity.view = editTextOutline;
+                            mediaEntity.canvas = canvas2;
+                            mediaEntity.framesPerDraw = this.videoFps / 30.0f;
+                            mediaEntity.currentFrame = 0.0f;
+                        }
                     }
                 }
             } catch (Throwable th2) {
@@ -682,6 +756,10 @@ public class TextureRenderer {
                 AnimatedFileDrawable animatedFileDrawable = mediaEntity.animatedFileDrawable;
                 if (animatedFileDrawable != null) {
                     animatedFileDrawable.recycle();
+                }
+                View view = mediaEntity.view;
+                if (view instanceof EditTextEffects) {
+                    ((EditTextEffects) view).recycleEmojis();
                 }
             }
         }

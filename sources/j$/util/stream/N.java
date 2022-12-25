@@ -61,9 +61,9 @@ public class N extends c1 {
     }
 
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public N(d1 d1Var, c cVar, e4 e4Var, int i, j$.wrappers.j0 j0Var) {
+    public N(d1 d1Var, c cVar, e4 e4Var, int i, j$.wrappers.i0 i0Var) {
         super(cVar, e4Var, i);
-        this.m = j0Var;
+        this.m = i0Var;
     }
 
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */

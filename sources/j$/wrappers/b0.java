@@ -2,21 +2,13 @@ package j$.wrappers;
 
 import java.util.function.IntUnaryOperator;
 /* loaded from: classes2.dex */
-public final /* synthetic */ class b0 {
-    final /* synthetic */ IntUnaryOperator a;
+public abstract /* synthetic */ class b0 implements IntUnaryOperator {
+    final /* synthetic */ a0 a;
 
-    private /* synthetic */ b0(IntUnaryOperator intUnaryOperator) {
-        this.a = intUnaryOperator;
-    }
-
-    public static /* synthetic */ b0 b(IntUnaryOperator intUnaryOperator) {
-        if (intUnaryOperator == null) {
+    public static /* synthetic */ IntUnaryOperator a(a0 a0Var) {
+        if (a0Var == null) {
             return null;
         }
-        return intUnaryOperator instanceof c0 ? ((c0) intUnaryOperator).a : new b0(intUnaryOperator);
-    }
-
-    public int a(int i) {
-        return this.a.applyAsInt(i);
+        return a0Var.a;
     }
 }

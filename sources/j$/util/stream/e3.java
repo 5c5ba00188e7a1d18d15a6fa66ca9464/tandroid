@@ -82,17 +82,17 @@ public abstract class e3 extends c implements Stream {
     }
 
     @Override // j$.util.stream.Stream
-    public final Object b0(j$.wrappers.J0 j0) {
+    public final Object b0(j$.wrappers.I0 i0) {
         Object x0;
-        if (!isParallel() || !j0.b().contains(h.CONCURRENT) || (C0() && !j0.b().contains(h.UNORDERED))) {
-            Objects.requireNonNull(j0);
-            j$.util.function.y f = j0.f();
-            x0 = x0(new I2(e4.REFERENCE, j0.c(), j0.a(), f, j0));
+        if (!isParallel() || !i0.b().contains(h.CONCURRENT) || (C0() && !i0.b().contains(h.UNORDERED))) {
+            Objects.requireNonNull(i0);
+            j$.util.function.y f = i0.f();
+            x0 = x0(new I2(e4.REFERENCE, i0.c(), i0.a(), f, i0));
         } else {
-            x0 = j0.f().get();
-            forEach(new o(j0.a(), x0));
+            x0 = i0.f().get();
+            forEach(new o(i0.a(), x0));
         }
-        return j0.b().contains(h.IDENTITY_FINISH) ? x0 : j0.e().apply(x0);
+        return i0.b().contains(h.IDENTITY_FINISH) ? x0 : i0.e().apply(x0);
     }
 
     @Override // j$.util.stream.Stream

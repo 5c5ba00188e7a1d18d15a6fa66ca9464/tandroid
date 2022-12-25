@@ -2,21 +2,21 @@ package j$.wrappers;
 
 import java.util.function.ObjLongConsumer;
 /* loaded from: classes2.dex */
-public final /* synthetic */ class v0 implements j$.util.function.w {
-    final /* synthetic */ ObjLongConsumer a;
+public final /* synthetic */ class v0 implements ObjLongConsumer {
+    final /* synthetic */ j$.util.function.w a;
 
-    private /* synthetic */ v0(ObjLongConsumer objLongConsumer) {
-        this.a = objLongConsumer;
+    private /* synthetic */ v0(j$.util.function.w wVar) {
+        this.a = wVar;
     }
 
-    public static /* synthetic */ j$.util.function.w a(ObjLongConsumer objLongConsumer) {
-        if (objLongConsumer == null) {
+    public static /* synthetic */ ObjLongConsumer a(j$.util.function.w wVar) {
+        if (wVar == null) {
             return null;
         }
-        return objLongConsumer instanceof w0 ? ((w0) objLongConsumer).a : new v0(objLongConsumer);
+        return wVar instanceof u0 ? ((u0) wVar).a : new v0(wVar);
     }
 
-    @Override // j$.util.function.w
+    @Override // java.util.function.ObjLongConsumer
     public /* synthetic */ void accept(Object obj, long j) {
         this.a.accept(obj, j);
     }

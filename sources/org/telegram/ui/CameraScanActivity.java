@@ -6,6 +6,7 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -122,6 +123,7 @@ public class CameraScanActivity extends BaseFragment {
     private QRCodeReader qrReader = null;
     private BarcodeDetector visionQrReader = null;
     private float recognizedT = 0.0f;
+    private float newRecognizedT = 0.0f;
     private float useRecognizedBounds = 0.0f;
     private Runnable requestShot = new 7();
     private float averageProcessTime = 0.0f;
@@ -138,6 +140,13 @@ public class CameraScanActivity extends BaseFragment {
             public static void $default$didFindQr(CameraScanActivityDelegate cameraScanActivityDelegate, String str) {
             }
 
+            public static String $default$getSubtitleText(CameraScanActivityDelegate cameraScanActivityDelegate) {
+                return null;
+            }
+
+            public static void $default$onDismiss(CameraScanActivityDelegate cameraScanActivityDelegate) {
+            }
+
             public static boolean $default$processQr(CameraScanActivityDelegate cameraScanActivityDelegate, String str, Runnable runnable) {
                 return false;
             }
@@ -147,6 +156,10 @@ public class CameraScanActivity extends BaseFragment {
 
         void didFindQr(String str);
 
+        String getSubtitleText();
+
+        void onDismiss();
+
         boolean processQr(String str, Runnable runnable);
     }
 
@@ -154,19 +167,8 @@ public class CameraScanActivity extends BaseFragment {
         return true;
     }
 
-    public static INavigationLayout[] showAsSheet(BaseFragment baseFragment, boolean z, int i, CameraScanActivityDelegate cameraScanActivityDelegate) {
-        if (baseFragment == null || baseFragment.getParentActivity() == null) {
-            return null;
-        }
-        INavigationLayout[] iNavigationLayoutArr = {INavigationLayout.-CC.newLayout(baseFragment.getParentActivity())};
-        1 r9 = new 1(baseFragment.getParentActivity(), false, iNavigationLayoutArr, i, z, cameraScanActivityDelegate);
-        r9.setUseLightStatusBar(false);
-        AndroidUtilities.setLightNavigationBar(r9.getWindow(), false);
-        AndroidUtilities.setNavigationBarColor(r9.getWindow(), -16777216, false);
-        r9.setUseLightStatusBar(false);
-        r9.getWindow().addFlags(512);
-        r9.show();
-        return iNavigationLayoutArr;
+    public static BottomSheet showAsSheet(BaseFragment baseFragment, boolean z, int i, CameraScanActivityDelegate cameraScanActivityDelegate) {
+        return showAsSheet(baseFragment.getParentActivity(), z, i, cameraScanActivityDelegate);
     }
 
     /* loaded from: classes3.dex */
@@ -197,6 +199,7 @@ public class CameraScanActivity extends BaseFragment {
 
                 @Override // org.telegram.ui.ActionBar.BaseFragment
                 public void finishFragment() {
+                    setFinishing(true);
                     1.this.dismiss();
                 }
 
@@ -214,6 +217,9 @@ public class CameraScanActivity extends BaseFragment {
             int i2 = this.backgroundPaddingLeft;
             view.setPadding(i2, 0, i2, 0);
             this.fragment.setDelegate(cameraScanActivityDelegate);
+            if (cameraScanActivityDelegate.getSubtitleText() != null) {
+                this.fragment.descriptionText.setText(cameraScanActivityDelegate.getSubtitleText());
+            }
             this.containerView = iNavigationLayoutArr[0].getView();
             setApplyBottomPadding(false);
             setApplyBottomPadding(false);
@@ -243,7 +249,22 @@ public class CameraScanActivity extends BaseFragment {
         public void dismiss() {
             super.dismiss();
             this.val$actionBarLayout[0] = null;
+            this.val$cameraDelegate.onDismiss();
         }
+    }
+
+    public static BottomSheet showAsSheet(Activity activity, boolean z, int i, CameraScanActivityDelegate cameraScanActivityDelegate) {
+        if (activity == null) {
+            return null;
+        }
+        1 r0 = new 1(activity, false, new INavigationLayout[]{INavigationLayout.-CC.newLayout(activity)}, i, z, cameraScanActivityDelegate);
+        r0.setUseLightStatusBar(false);
+        AndroidUtilities.setLightNavigationBar(r0.getWindow(), false);
+        AndroidUtilities.setNavigationBarColor(r0.getWindow(), -16777216, false);
+        r0.setUseLightStatusBar(false);
+        r0.getWindow().addFlags(512);
+        r0.show();
+        return r0;
     }
 
     public CameraScanActivity(int i) {
@@ -340,7 +361,11 @@ public class CameraScanActivity extends BaseFragment {
                     CameraScanActivity.this.flashButton.measure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(60.0f), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(60.0f), 1073741824));
                 }
                 CameraScanActivity.this.titleTextView.measure(View.MeasureSpec.makeMeasureSpec(size - AndroidUtilities.dp(72.0f), 1073741824), View.MeasureSpec.makeMeasureSpec(size2, 0));
-                CameraScanActivity.this.descriptionText.measure(View.MeasureSpec.makeMeasureSpec((int) (size * 0.9f), 1073741824), View.MeasureSpec.makeMeasureSpec(size2, 0));
+                if (CameraScanActivity.this.currentType == 3) {
+                    CameraScanActivity.this.descriptionText.measure(View.MeasureSpec.makeMeasureSpec(size - AndroidUtilities.dp(72.0f), 1073741824), View.MeasureSpec.makeMeasureSpec(size2, 0));
+                } else {
+                    CameraScanActivity.this.descriptionText.measure(View.MeasureSpec.makeMeasureSpec((int) (size * 0.9f), 1073741824), View.MeasureSpec.makeMeasureSpec(size2, 0));
+                }
                 setMeasuredDimension(size, size2);
             }
 
@@ -374,6 +399,10 @@ public class CameraScanActivity extends BaseFragment {
                     }
                     int i8 = measuredHeight - dp;
                     CameraScanActivity.this.titleTextView.layout(AndroidUtilities.dp(36.0f), i8, AndroidUtilities.dp(36.0f) + CameraScanActivity.this.titleTextView.getMeasuredWidth(), CameraScanActivity.this.titleTextView.getMeasuredHeight() + i8);
+                    if (CameraScanActivity.this.currentType == 3) {
+                        int measuredHeight2 = i8 + CameraScanActivity.this.titleTextView.getMeasuredHeight() + AndroidUtilities.dp(8.0f);
+                        CameraScanActivity.this.descriptionText.layout(AndroidUtilities.dp(36.0f), measuredHeight2, AndroidUtilities.dp(36.0f) + CameraScanActivity.this.descriptionText.getMeasuredWidth(), CameraScanActivity.this.descriptionText.getMeasuredHeight() + measuredHeight2);
+                    }
                     CameraScanActivity.this.recognizedMrzView.layout(0, getMeasuredHeight() - CameraScanActivity.this.recognizedMrzView.getMeasuredHeight(), getMeasuredWidth(), getMeasuredHeight());
                     if (!CameraScanActivity.this.needGalleryButton) {
                         measuredWidth = (i5 / 2) - (CameraScanActivity.this.flashButton.getMeasuredWidth() / 2);
@@ -387,9 +416,11 @@ public class CameraScanActivity extends BaseFragment {
                         CameraScanActivity.this.galleryButton.layout(dp3, dp2, CameraScanActivity.this.galleryButton.getMeasuredWidth() + dp3, CameraScanActivity.this.galleryButton.getMeasuredHeight() + dp2);
                     }
                 }
-                int i9 = (int) (i6 * 0.74f);
-                int i10 = (int) (i5 * 0.05f);
-                CameraScanActivity.this.descriptionText.layout(i10, i9, CameraScanActivity.this.descriptionText.getMeasuredWidth() + i10, CameraScanActivity.this.descriptionText.getMeasuredHeight() + i9);
+                if (CameraScanActivity.this.currentType != 3) {
+                    int i9 = (int) (i6 * 0.74f);
+                    int i10 = (int) (i5 * 0.05f);
+                    CameraScanActivity.this.descriptionText.layout(i10, i9, CameraScanActivity.this.descriptionText.getMeasuredWidth() + i10, CameraScanActivity.this.descriptionText.getMeasuredHeight() + i9);
+                }
                 CameraScanActivity.this.updateNormalBounds();
             }
 
@@ -472,9 +503,8 @@ public class CameraScanActivity extends BaseFragment {
         };
         viewGroup.setOnTouchListener(CameraScanActivity$$ExternalSyntheticLambda4.INSTANCE);
         this.fragmentView = viewGroup;
-        int i = this.currentType;
-        if (i == 1 || i == 2) {
-            viewGroup.postDelayed(new Runnable() { // from class: org.telegram.ui.CameraScanActivity$$ExternalSyntheticLambda9
+        if (isQr()) {
+            this.fragmentView.postDelayed(new Runnable() { // from class: org.telegram.ui.CameraScanActivity$$ExternalSyntheticLambda9
                 @Override // java.lang.Runnable
                 public final void run() {
                     CameraScanActivity.this.initCameraView();
@@ -495,7 +525,8 @@ public class CameraScanActivity extends BaseFragment {
             viewGroup.setBackgroundColor(Theme.getColor("wallet_blackBackground"));
             viewGroup.addView(this.actionBar);
         }
-        if (this.currentType == 2) {
+        int i = this.currentType;
+        if (i == 2 || i == 3) {
             this.actionBar.setTitle(LocaleController.getString("AuthAnotherClientScan", R.string.AuthAnotherClientScan));
         }
         final Paint paint = new Paint(1);
@@ -609,7 +640,7 @@ public class CameraScanActivity extends BaseFragment {
             this.recognizedMrzView.setTypeface(Typeface.MONOSPACE);
         } else {
             if (!this.needGalleryButton) {
-                if (i2 == 1) {
+                if (i2 == 1 || i2 == 3) {
                     this.titleTextView.setText(LocaleController.getString("AuthAnotherClientScan", R.string.AuthAnotherClientScan));
                 } else {
                     SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(LocaleController.getString("AuthAnotherClientInfo5", R.string.AuthAnotherClientInfo5));
@@ -640,6 +671,9 @@ public class CameraScanActivity extends BaseFragment {
                 }
             }
             this.titleTextView.setTextColor(-1);
+            if (this.currentType == 3) {
+                this.descriptionText.setTextColor(-1711276033);
+            }
             this.recognizedMrzView.setTextSize(1, 16.0f);
             this.recognizedMrzView.setPadding(AndroidUtilities.dp(10.0f), 0, AndroidUtilities.dp(10.0f), AndroidUtilities.dp(10.0f));
             if (!this.needGalleryButton) {
@@ -785,44 +819,51 @@ public class CameraScanActivity extends BaseFragment {
     }
 
     public void updateRecognized() {
-        ValueAnimator valueAnimator = this.recognizedAnimator;
-        if (valueAnimator != null) {
-            valueAnimator.cancel();
-        }
-        float f = this.recognized ? 1.0f : 0.0f;
-        ValueAnimator ofFloat = ValueAnimator.ofFloat(this.recognizedT, f);
-        this.recognizedAnimator = ofFloat;
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.CameraScanActivity$$ExternalSyntheticLambda0
-            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-            public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                CameraScanActivity.this.lambda$updateRecognized$5(valueAnimator2);
+        float f = this.recognizedT;
+        float f2 = this.recognized ? 1.0f : 0.0f;
+        this.newRecognizedT = f2;
+        if (f != f2) {
+            ValueAnimator valueAnimator = this.recognizedAnimator;
+            if (valueAnimator != null) {
+                valueAnimator.cancel();
             }
-        });
-        this.recognizedAnimator.setDuration(Math.abs(this.recognizedT - f) * 300.0f);
-        this.recognizedAnimator.setInterpolator(CubicBezierInterpolator.DEFAULT);
-        this.recognizedAnimator.start();
-        SpringAnimation springAnimation = this.useRecognizedBoundsAnimator;
-        if (springAnimation != null) {
-            springAnimation.cancel();
-        }
-        SpringAnimation springAnimation2 = new SpringAnimation(new FloatValueHolder((this.recognized ? this.useRecognizedBounds : 1.0f - this.useRecognizedBounds) * 500.0f));
-        this.useRecognizedBoundsAnimator = springAnimation2;
-        springAnimation2.addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() { // from class: org.telegram.ui.CameraScanActivity$$ExternalSyntheticLambda7
-            @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationUpdateListener
-            public final void onAnimationUpdate(DynamicAnimation dynamicAnimation, float f2, float f3) {
-                CameraScanActivity.this.lambda$updateRecognized$6(dynamicAnimation, f2, f3);
+            ValueAnimator ofFloat = ValueAnimator.ofFloat(this.recognizedT, this.newRecognizedT);
+            this.recognizedAnimator = ofFloat;
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.CameraScanActivity$$ExternalSyntheticLambda0
+                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
+                    CameraScanActivity.this.lambda$updateRecognized$5(valueAnimator2);
+                }
+            });
+            this.recognizedAnimator.setDuration(Math.abs(this.recognizedT - this.newRecognizedT) * 300.0f);
+            this.recognizedAnimator.setInterpolator(CubicBezierInterpolator.DEFAULT);
+            this.recognizedAnimator.start();
+            SpringAnimation springAnimation = this.useRecognizedBoundsAnimator;
+            if (springAnimation != null) {
+                springAnimation.cancel();
             }
-        });
-        this.useRecognizedBoundsAnimator.setSpring(new SpringForce(500.0f));
-        this.useRecognizedBoundsAnimator.getSpring().setDampingRatio(1.0f);
-        this.useRecognizedBoundsAnimator.getSpring().setStiffness(500.0f);
-        this.useRecognizedBoundsAnimator.start();
+            SpringAnimation springAnimation2 = new SpringAnimation(new FloatValueHolder((this.recognized ? this.useRecognizedBounds : 1.0f - this.useRecognizedBounds) * 500.0f));
+            this.useRecognizedBoundsAnimator = springAnimation2;
+            springAnimation2.addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() { // from class: org.telegram.ui.CameraScanActivity$$ExternalSyntheticLambda7
+                @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationUpdateListener
+                public final void onAnimationUpdate(DynamicAnimation dynamicAnimation, float f3, float f4) {
+                    CameraScanActivity.this.lambda$updateRecognized$6(dynamicAnimation, f3, f4);
+                }
+            });
+            this.useRecognizedBoundsAnimator.setSpring(new SpringForce(500.0f));
+            this.useRecognizedBoundsAnimator.getSpring().setDampingRatio(1.0f);
+            this.useRecognizedBoundsAnimator.getSpring().setStiffness(500.0f);
+            this.useRecognizedBoundsAnimator.start();
+        }
     }
 
     public /* synthetic */ void lambda$updateRecognized$5(ValueAnimator valueAnimator) {
         float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         this.recognizedT = floatValue;
         this.titleTextView.setAlpha(1.0f - floatValue);
+        if (this.currentType == 3) {
+            this.descriptionText.setAlpha(1.0f - this.recognizedT);
+        }
         this.flashButton.setAlpha(1.0f - this.recognizedT);
         this.backShadowAlpha = (this.recognizedT * 0.25f) + 0.5f;
         this.fragmentView.invalidate();
@@ -843,7 +884,7 @@ public class CameraScanActivity extends BaseFragment {
         this.cameraView = cameraView;
         cameraView.setUseMaxPreview(true);
         this.cameraView.setOptimizeForBarcode(true);
-        this.cameraView.setDelegate(new CameraView.CameraViewDelegate() { // from class: org.telegram.ui.CameraScanActivity$$ExternalSyntheticLambda19
+        this.cameraView.setDelegate(new CameraView.CameraViewDelegate() { // from class: org.telegram.ui.CameraScanActivity$$ExternalSyntheticLambda20
             @Override // org.telegram.messenger.camera.CameraView.CameraViewDelegate
             public final void onCameraInit() {
                 CameraScanActivity.this.lambda$initCameraView$9();
@@ -1060,7 +1101,7 @@ public class CameraScanActivity extends BaseFragment {
                 if (recognize != null && !TextUtils.isEmpty(recognize.firstName) && !TextUtils.isEmpty(recognize.lastName) && !TextUtils.isEmpty(recognize.number) && recognize.birthDay != 0 && ((recognize.expiryDay != 0 || recognize.doesNotExpire) && recognize.gender != 0)) {
                     this.recognized = true;
                     CameraController.getInstance().stopPreview(this.cameraView.getCameraSession());
-                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.CameraScanActivity$$ExternalSyntheticLambda17
+                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.CameraScanActivity$$ExternalSyntheticLambda18
                         @Override // java.lang.Runnable
                         public final void run() {
                             CameraScanActivity.this.lambda$processShot$11(recognize);
@@ -1081,21 +1122,16 @@ public class CameraScanActivity extends BaseFragment {
                     this.recognizedText = str;
                     if (!z) {
                         this.recognized = true;
-                        this.qrLoading = this.delegate.processQr(str, new Runnable() { // from class: org.telegram.ui.CameraScanActivity$$ExternalSyntheticLambda12
+                        this.qrLoading = this.delegate.processQr(str, new Runnable() { // from class: org.telegram.ui.CameraScanActivity$$ExternalSyntheticLambda13
                             @Override // java.lang.Runnable
                             public final void run() {
                                 CameraScanActivity.this.lambda$processShot$13();
                             }
                         });
                         this.recognizedStart = SystemClock.elapsedRealtime();
-                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.CameraScanActivity$$ExternalSyntheticLambda15
-                            @Override // java.lang.Runnable
-                            public final void run() {
-                                CameraScanActivity.this.updateRecognized();
-                            }
-                        });
+                        AndroidUtilities.runOnUIThread(new CameraScanActivity$$ExternalSyntheticLambda15(this));
                     }
-                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.CameraScanActivity$$ExternalSyntheticLambda18
+                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.CameraScanActivity$$ExternalSyntheticLambda19
                         @Override // java.lang.Runnable
                         public final void run() {
                             CameraScanActivity.this.lambda$processShot$14(tryReadQr);
@@ -1108,32 +1144,36 @@ public class CameraScanActivity extends BaseFragment {
                         this.recognized = false;
                         this.recognizeIndex = 0;
                         this.recognizedText = null;
-                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.CameraScanActivity$$ExternalSyntheticLambda15
-                            @Override // java.lang.Runnable
-                            public final void run() {
-                                CameraScanActivity.this.updateRecognized();
-                            }
-                        });
+                        AndroidUtilities.runOnUIThread(new CameraScanActivity$$ExternalSyntheticLambda15(this));
                         AndroidUtilities.runOnUIThread(this.requestShot, 500L);
                         return;
                     }
                 }
                 if (((this.recognizeIndex == 0 && tryReadQr != null && tryReadQr.bounds == null && !this.qrLoading) || (SystemClock.elapsedRealtime() - this.recognizedStart > 1000 && !this.qrLoading)) && this.recognizedText != null) {
                     CameraView cameraView = this.cameraView;
-                    if (cameraView != null && cameraView.getCameraSession() != null) {
+                    if (cameraView != null && cameraView.getCameraSession() != null && this.currentType != 3) {
                         CameraController.getInstance().stopPreview(this.cameraView.getCameraSession());
                     }
-                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.CameraScanActivity$$ExternalSyntheticLambda13
+                    final String str2 = this.recognizedText;
+                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.CameraScanActivity$$ExternalSyntheticLambda17
                         @Override // java.lang.Runnable
                         public final void run() {
-                            CameraScanActivity.this.lambda$processShot$15();
+                            CameraScanActivity.this.lambda$processShot$15(str2);
                         }
                     });
+                    if (this.currentType == 3) {
+                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.CameraScanActivity$$ExternalSyntheticLambda14
+                            @Override // java.lang.Runnable
+                            public final void run() {
+                                CameraScanActivity.this.lambda$processShot$16();
+                            }
+                        });
+                    }
                 } else if (this.recognized) {
-                    this.handler.postDelayed(new Runnable() { // from class: org.telegram.ui.CameraScanActivity$$ExternalSyntheticLambda14
+                    this.handler.postDelayed(new Runnable() { // from class: org.telegram.ui.CameraScanActivity$$ExternalSyntheticLambda11
                         @Override // java.lang.Runnable
                         public final void run() {
-                            CameraScanActivity.this.lambda$processShot$16();
+                            CameraScanActivity.this.lambda$processShot$17();
                         }
                     }, Math.max(16L, (1000 / this.sps) - this.averageProcessTime));
                 }
@@ -1174,7 +1214,7 @@ public class CameraScanActivity extends BaseFragment {
         if (cameraView != null && cameraView.getCameraSession() != null) {
             CameraController.getInstance().stopPreview(this.cameraView.getCameraSession());
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.CameraScanActivity$$ExternalSyntheticLambda11
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.CameraScanActivity$$ExternalSyntheticLambda12
             @Override // java.lang.Runnable
             public final void run() {
                 CameraScanActivity.this.lambda$processShot$12();
@@ -1194,15 +1234,30 @@ public class CameraScanActivity extends BaseFragment {
         updateRecognizedBounds(qrResult.bounds);
     }
 
-    public /* synthetic */ void lambda$processShot$15() {
+    public /* synthetic */ void lambda$processShot$15(String str) {
         CameraScanActivityDelegate cameraScanActivityDelegate = this.delegate;
         if (cameraScanActivityDelegate != null) {
-            cameraScanActivityDelegate.didFindQr(this.recognizedText);
+            cameraScanActivityDelegate.didFindQr(str);
         }
-        finishFragment();
+        if (this.currentType != 3) {
+            finishFragment();
+        }
     }
 
     public /* synthetic */ void lambda$processShot$16() {
+        if (isFinishing()) {
+            return;
+        }
+        this.recognizedText = null;
+        this.recognized = false;
+        this.requestShot.run();
+        if (this.recognized) {
+            return;
+        }
+        AndroidUtilities.runOnUIThread(new CameraScanActivity$$ExternalSyntheticLambda15(this), 500L);
+    }
+
+    public /* synthetic */ void lambda$processShot$17() {
         CameraView cameraView = this.cameraView;
         if (cameraView != null) {
             processShot(cameraView.getTextureView().getBitmap());
@@ -1415,11 +1470,8 @@ public class CameraScanActivity extends BaseFragment {
                 return null;
             }
             if (this.needGalleryButton) {
-                if (!str.startsWith("ton://transfer/")) {
-                    return null;
-                }
                 Uri.parse(str).getPath().replace("/", "");
-            } else if (!str.startsWith("tg://login?token=")) {
+            } else if (!str.startsWith("tg://login?token=") && this.currentType != 3) {
                 onNoQrFound();
                 return null;
             }
@@ -1443,7 +1495,7 @@ public class CameraScanActivity extends BaseFragment {
 
     public boolean isQr() {
         int i = this.currentType;
-        return i == 1 || i == 2;
+        return i == 1 || i == 2 || i == 3;
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment

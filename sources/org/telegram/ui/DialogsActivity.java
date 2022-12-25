@@ -488,7 +488,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$new$0() {
-            this.dialogsAdapter.updateList(this.listView, this.dialogsType == 0 && DialogsActivity.this.hasHiddenArchive());
+            this.dialogsAdapter.updateList(this.listView, this.dialogsType == 0 && DialogsActivity.this.hasHiddenArchive() && this.archivePullViewState == 2, ((BaseFragment) DialogsActivity.this).actionBar.getTranslationY());
             this.listView.updateDialogsOnNextDraw = true;
             this.updating = false;
         }
@@ -1757,6 +1757,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             int findFirstVisibleItemPosition = this.parentPage.layoutManager.findFirstVisibleItemPosition();
             if (findFirstVisibleItemPosition != -1 && this.parentPage.itemTouchhelper.isIdle() && (findViewHolderForAdapterPosition = this.parentPage.listView.findViewHolderForAdapterPosition(findFirstVisibleItemPosition)) != null) {
                 int top = findViewHolderForAdapterPosition.itemView.getTop();
+                if (this.parentPage.dialogsType == 0 && DialogsActivity.this.hasHiddenArchive() && this.parentPage.archivePullViewState == 2) {
+                    findFirstVisibleItemPosition = Math.max(1, findFirstVisibleItemPosition);
+                }
                 this.ignoreLayout = true;
                 this.parentPage.layoutManager.scrollToPositionWithOffset(findFirstVisibleItemPosition, (int) ((top - this.lastListPadding) + DialogsActivity.this.scrollAdditionalOffset));
                 this.ignoreLayout = false;
@@ -5980,7 +5983,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         this.viewPages[1].isLocked = dialogFilter.locked;
         this.viewPages[z].dialogsAdapter.setDialogsType(this.viewPages[z].dialogsType);
         LinearLayoutManager linearLayoutManager = this.viewPages[z].layoutManager;
-        if (this.viewPages[z].dialogsType == 0 && hasHiddenArchive()) {
+        if (this.viewPages[z].dialogsType == 0 && hasHiddenArchive() && this.viewPages[z].archivePullViewState == 2) {
             i = 1;
         }
         linearLayoutManager.scrollToPositionWithOffset(i, (int) this.actionBar.getTranslationY());
@@ -6119,7 +6122,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     if (viewPageArr3[i5].dialogsType == 0 && this.viewPages[i5].archivePullViewState == 2 && hasHiddenArchive()) {
                         int findFirstVisibleItemPosition = this.viewPages[i5].layoutManager.findFirstVisibleItemPosition();
                         if (findFirstVisibleItemPosition == 0 || findFirstVisibleItemPosition == 1) {
-                            this.viewPages[i5].layoutManager.scrollToPositionWithOffset(1, 0);
+                            this.viewPages[i5].layoutManager.scrollToPositionWithOffset(1, (int) this.actionBar.getTranslationY());
                         }
                     }
                     this.viewPages[i5].listView.setScrollingTouchSlop(0);
@@ -6221,7 +6224,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     break;
                 }
                 if (viewPageArr2[i3].dialogsType == 0 && this.viewPages[i3].archivePullViewState == 2 && this.viewPages[i3].layoutManager.findFirstVisibleItemPosition() == 0 && hasHiddenArchive()) {
-                    this.viewPages[i3].layoutManager.scrollToPositionWithOffset(1, 0);
+                    this.viewPages[i3].layoutManager.scrollToPositionWithOffset(1, (int) this.actionBar.getTranslationY());
                 }
                 if (i3 == 0) {
                     this.viewPages[i3].dialogsAdapter.resume();
@@ -6479,7 +6482,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                         break;
                     }
                     if (viewPageArr[i].dialogsType == 0 && this.viewPages[i].archivePullViewState == 2 && this.viewPages[i].layoutManager.findFirstVisibleItemPosition() == 0 && hasHiddenArchive()) {
-                        this.viewPages[i].layoutManager.scrollToPositionWithOffset(1, 0);
+                        this.viewPages[i].layoutManager.scrollToPositionWithOffset(1, (int) this.actionBar.getTranslationY());
                     }
                     if (i == 0) {
                         this.viewPages[i].dialogsAdapter.resume();
@@ -6583,7 +6586,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             ContentView contentView = (ContentView) this.fragmentView;
             ViewPagerFixed.TabsView tabsView = this.searchTabsView;
             if (tabsView == null && !onlyDialogsAdapter) {
-                this.searchTabsView = this.searchViewPager.createTabsView();
+                this.searchTabsView = this.searchViewPager.createTabsView(false);
                 if (this.filtersView != null) {
                     i = 0;
                     while (i < contentView.getChildCount()) {
@@ -7192,16 +7195,16 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:101:0x03a6  */
-    /* JADX WARN: Removed duplicated region for block: B:106:0x03c5  */
-    /* JADX WARN: Removed duplicated region for block: B:146:0x02d6  */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x01f6 A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:21:0x01f7  */
-    /* JADX WARN: Removed duplicated region for block: B:228:0x01c8  */
-    /* JADX WARN: Removed duplicated region for block: B:57:0x02d0  */
-    /* JADX WARN: Removed duplicated region for block: B:60:0x02ef  */
-    /* JADX WARN: Removed duplicated region for block: B:68:0x0310  */
-    /* JADX WARN: Removed duplicated region for block: B:98:0x039d  */
+    /* JADX WARN: Removed duplicated region for block: B:101:0x03c0  */
+    /* JADX WARN: Removed duplicated region for block: B:106:0x03df  */
+    /* JADX WARN: Removed duplicated region for block: B:146:0x02f0  */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x0210 A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:21:0x0211  */
+    /* JADX WARN: Removed duplicated region for block: B:228:0x01e2  */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x02ea  */
+    /* JADX WARN: Removed duplicated region for block: B:60:0x0309  */
+    /* JADX WARN: Removed duplicated region for block: B:68:0x032a  */
+    /* JADX WARN: Removed duplicated region for block: B:98:0x03b7  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -7508,10 +7511,13 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                         if (this.searchViewPager.dialogsSearchAdapter.isHashtagSearch()) {
                             this.actionBar.openSearchField(str2, false);
                         } else if (!str2.equals("section")) {
-                            NewContactActivity newContactActivity = new NewContactActivity();
-                            newContactActivity.setInitialPhoneNumber(str2, true);
-                            presentFragment(newContactActivity);
+                            NewContactBottomSheet newContactBottomSheet = new NewContactBottomSheet(this, getContext());
+                            newContactBottomSheet.setInitialPhoneNumber(str2, true);
+                            newContactBottomSheet.show();
                         }
+                    } else if (item2 instanceof ContactsController.Contact) {
+                        ContactsController.Contact contact = (ContactsController.Contact) item2;
+                        AlertsCreator.createContactInviteDialog(this, contact.first_name, contact.last_name, contact.phones.get(0));
                     }
                     i2 = 0;
                     j2 = 0;
@@ -7769,7 +7775,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         final ArrayList arrayList2 = new ArrayList();
         arrayList2.add(Long.valueOf(dialogId));
         ChatActivity[] chatActivityArr2 = new ChatActivity[1];
-        ActionBarPopupWindow.ActionBarPopupWindowLayout[] actionBarPopupWindowLayoutArr = {new ActionBarPopupWindow.ActionBarPopupWindowLayout(getParentActivity(), R.drawable.popup_fixed_alert, getResourceProvider(), 2)};
+        ActionBarPopupWindow.ActionBarPopupWindowLayout[] actionBarPopupWindowLayoutArr = {new ActionBarPopupWindow.ActionBarPopupWindowLayout(getParentActivity(), R.drawable.popup_fixed_alert2, getResourceProvider(), 2)};
         ActionBarMenuSubItem actionBarMenuSubItem = new ActionBarMenuSubItem(getParentActivity(), true, false);
         if (dialogCell.getHasUnread()) {
             actionBarMenuSubItem.setTextAndIcon(LocaleController.getString("MarkAsRead", R.string.MarkAsRead), R.drawable.msg_markread);
@@ -8910,8 +8916,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         getMessagesController().checkIfFolderEmpty(this.folderId);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:63:0x0130  */
-    /* JADX WARN: Removed duplicated region for block: B:65:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:67:0x0146  */
+    /* JADX WARN: Removed duplicated region for block: B:69:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -8920,7 +8926,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         boolean z3;
         boolean pinDialog;
         boolean z4 = true;
-        int i3 = (this.viewPages[0].dialogsType != 0 || !hasHiddenArchive()) ? 0 : 1;
+        int i3 = (this.viewPages[0].dialogsType == 0 && hasHiddenArchive() && this.viewPages[0].archivePullViewState == 2) ? 1 : 0;
         int findFirstVisibleItemPosition = this.viewPages[0].layoutManager.findFirstVisibleItemPosition();
         if (dialogFilter != null) {
             int i4 = dialogFilter.pinnedDialogs.get(j, Integer.MIN_VALUE);
@@ -8988,7 +8994,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     arrayList.add(i5, arrayList.remove(i2));
                     this.viewPages[0].dialogsItemAnimator.prepareForRemove();
                     this.viewPages[0].updateList(true);
-                    this.viewPages[0].layoutManager.scrollToPositionWithOffset((this.viewPages[0].dialogsType != 0 || !hasHiddenArchive()) ? 0 : 1, (int) this.actionBar.getTranslationY());
+                    this.viewPages[0].layoutManager.scrollToPositionWithOffset((this.viewPages[0].dialogsType == 0 && hasHiddenArchive() && this.viewPages[0].archivePullViewState == 2) ? 1 : 0, (int) this.actionBar.getTranslationY());
                 } else if (i5 >= 0 && i2 == i5) {
                     AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda35
                         @Override // java.lang.Runnable
@@ -9017,7 +9023,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     /* JADX INFO: Access modifiers changed from: private */
     public void scrollToTop() {
         int findFirstVisibleItemPosition = this.viewPages[0].layoutManager.findFirstVisibleItemPosition() * AndroidUtilities.dp(SharedConfig.useThreeLinesLayout ? 78.0f : 72.0f);
-        int i = (this.viewPages[0].dialogsType != 0 || !hasHiddenArchive()) ? 0 : 1;
+        int i = (this.viewPages[0].dialogsType == 0 && hasHiddenArchive() && this.viewPages[0].archivePullViewState == 2) ? 1 : 0;
         this.viewPages[0].listView.getItemAnimator();
         if (findFirstVisibleItemPosition >= this.viewPages[0].listView.getMeasuredHeight() * 1.2f) {
             this.viewPages[0].scrollHelper.setScrollDirection(1);
@@ -9786,16 +9792,14 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             return;
         }
         int currentCount = viewPage.dialogsAdapter.getCurrentCount();
-        if (viewPage.dialogsType == 0 && hasHiddenArchive() && viewPage.listView.getChildCount() == 0) {
-            ((LinearLayoutManager) viewPage.listView.getLayoutManager()).scrollToPositionWithOffset(1, 0);
+        if (viewPage.dialogsType == 0 && hasHiddenArchive() && viewPage.listView.getChildCount() == 0 && viewPage.archivePullViewState == 2) {
+            ((LinearLayoutManager) viewPage.listView.getLayoutManager()).scrollToPositionWithOffset(1, (int) this.actionBar.getTranslationY());
         }
         if (viewPage.dialogsAdapter.isDataSetChanged() || z) {
             viewPage.dialogsAdapter.updateHasHints();
             int itemCount = viewPage.dialogsAdapter.getItemCount();
             if (itemCount == 1 && currentCount == 1 && viewPage.dialogsAdapter.getItemViewType(0) == 5) {
-                if (viewPage.dialogsAdapter.lastDialogsEmptyType != viewPage.dialogsAdapter.dialogsEmptyType()) {
-                    viewPage.updateList(true);
-                }
+                viewPage.updateList(true);
             } else {
                 viewPage.updateList(false);
                 if (itemCount > currentCount && (i = this.initialDialogsType) != 11 && i != 12 && i != 13) {

@@ -1,7 +1,7 @@
 package org.telegram.ui.Components.voip;
 
 import android.view.View;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public final /* synthetic */ class VoIPHelper$$ExternalSyntheticLambda14 implements View.OnClickListener {
     public static final /* synthetic */ VoIPHelper$$ExternalSyntheticLambda14 INSTANCE = new VoIPHelper$$ExternalSyntheticLambda14();
 

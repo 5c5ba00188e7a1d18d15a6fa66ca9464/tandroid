@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import androidx.core.graphics.ColorUtils;
 import java.util.ArrayList;
+import java.util.List;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.DialogObject;
@@ -189,35 +190,64 @@ public final class BulletinFactory {
         return create(lottieLayout, 5000);
     }
 
-    public Bulletin createUsersBulletin(ArrayList<TLRPC$User> arrayList, CharSequence charSequence) {
+    public Bulletin createUsersBulletin(List<TLRPC$User> list, CharSequence charSequence) {
+        return createUsersBulletin(list, charSequence, null);
+    }
+
+    public Bulletin createUsersBulletin(List<TLRPC$User> list, CharSequence charSequence, CharSequence charSequence2) {
         int i;
-        Bulletin.UsersLayout usersLayout = new Bulletin.UsersLayout(getContext(), this.resourcesProvider);
-        if (arrayList != null) {
+        Bulletin.UsersLayout usersLayout = new Bulletin.UsersLayout(getContext(), charSequence2 != null, this.resourcesProvider);
+        if (list != null) {
             i = 0;
-            for (int i2 = 0; i2 < arrayList.size() && i < 3; i2++) {
-                TLRPC$User tLRPC$User = arrayList.get(i2);
+            for (int i2 = 0; i2 < list.size() && i < 3; i2++) {
+                TLRPC$User tLRPC$User = list.get(i2);
                 if (tLRPC$User != null) {
                     i++;
                     usersLayout.avatarsImageView.setCount(i);
                     usersLayout.avatarsImageView.setObject(i - 1, UserConfig.selectedAccount, tLRPC$User);
                 }
             }
+            if (list.size() == 1) {
+                usersLayout.avatarsImageView.setTranslationX(AndroidUtilities.dp(4.0f));
+                usersLayout.avatarsImageView.setScaleX(1.2f);
+                usersLayout.avatarsImageView.setScaleY(1.2f);
+            } else {
+                usersLayout.avatarsImageView.setScaleX(1.0f);
+                usersLayout.avatarsImageView.setScaleY(1.0f);
+            }
         } else {
             i = 0;
         }
         usersLayout.avatarsImageView.commitTransition(false);
-        usersLayout.textView.setSingleLine(false);
-        usersLayout.textView.setMaxLines(2);
-        usersLayout.textView.setText(charSequence);
-        if (usersLayout.textView.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
-            int dp = AndroidUtilities.dp(70 - ((3 - i) * 12));
-            if (LocaleController.isRTL) {
-                ((ViewGroup.MarginLayoutParams) usersLayout.textView.getLayoutParams()).rightMargin = dp;
-            } else {
-                ((ViewGroup.MarginLayoutParams) usersLayout.textView.getLayoutParams()).leftMargin = dp;
+        if (charSequence2 != null) {
+            usersLayout.textView.setSingleLine(true);
+            usersLayout.textView.setMaxLines(1);
+            usersLayout.textView.setText(charSequence);
+            usersLayout.subtitleView.setText(charSequence2);
+            usersLayout.subtitleView.setSingleLine(true);
+            usersLayout.subtitleView.setMaxLines(1);
+            if (usersLayout.linearLayout.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
+                int dp = AndroidUtilities.dp(70 - ((3 - i) * 12));
+                if (LocaleController.isRTL) {
+                    ((ViewGroup.MarginLayoutParams) usersLayout.linearLayout.getLayoutParams()).rightMargin = dp;
+                } else {
+                    ((ViewGroup.MarginLayoutParams) usersLayout.linearLayout.getLayoutParams()).leftMargin = dp;
+                }
+            }
+        } else {
+            usersLayout.textView.setSingleLine(false);
+            usersLayout.textView.setMaxLines(2);
+            usersLayout.textView.setText(charSequence);
+            if (usersLayout.textView.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
+                int dp2 = AndroidUtilities.dp(70 - ((3 - i) * 12));
+                if (LocaleController.isRTL) {
+                    ((ViewGroup.MarginLayoutParams) usersLayout.textView.getLayoutParams()).rightMargin = dp2;
+                } else {
+                    ((ViewGroup.MarginLayoutParams) usersLayout.textView.getLayoutParams()).leftMargin = dp2;
+                }
             }
         }
-        return create(usersLayout, 2750);
+        return create(usersLayout, 5000);
     }
 
     public Bulletin createUsersAddedBulletin(ArrayList<TLRPC$User> arrayList, TLRPC$Chat tLRPC$Chat) {

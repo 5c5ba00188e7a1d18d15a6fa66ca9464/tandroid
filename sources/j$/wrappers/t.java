@@ -19,7 +19,7 @@ public final /* synthetic */ class t implements BiFunction {
 
     @Override // java.util.function.BiFunction
     public /* synthetic */ BiFunction andThen(Function function) {
-        return a(this.a.andThen(M.a(function)));
+        return a(this.a.andThen(L.a(function)));
     }
 
     @Override // java.util.function.BiFunction

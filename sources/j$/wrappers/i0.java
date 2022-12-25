@@ -1,23 +1,22 @@
 package j$.wrappers;
 
-import java.util.function.LongFunction;
+import java.util.function.LongPredicate;
 /* loaded from: classes2.dex */
-public final /* synthetic */ class i0 implements LongFunction {
-    final /* synthetic */ j$.util.function.r a;
+public final /* synthetic */ class i0 {
+    final /* synthetic */ LongPredicate a;
 
-    private /* synthetic */ i0(j$.util.function.r rVar) {
-        this.a = rVar;
+    private /* synthetic */ i0(LongPredicate longPredicate) {
+        this.a = longPredicate;
     }
 
-    public static /* synthetic */ LongFunction a(j$.util.function.r rVar) {
-        if (rVar == null) {
+    public static /* synthetic */ i0 a(LongPredicate longPredicate) {
+        if (longPredicate == null) {
             return null;
         }
-        return rVar instanceof h0 ? ((h0) rVar).a : new i0(rVar);
+        return longPredicate instanceof j0 ? ((j0) longPredicate).a : new i0(longPredicate);
     }
 
-    @Override // java.util.function.LongFunction
-    public /* synthetic */ Object apply(long j) {
-        return this.a.apply(j);
+    public boolean b(long j) {
+        return this.a.test(j);
     }
 }

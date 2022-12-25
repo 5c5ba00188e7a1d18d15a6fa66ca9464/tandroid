@@ -1,6 +1,7 @@
 package org.telegram.messenger;
 
 import org.telegram.tgnet.ConnectionsManager;
+import org.telegram.ui.Components.Paint.PersistColorPalette;
 /* loaded from: classes.dex */
 public class BaseController {
     protected final int currentAccount;
@@ -24,6 +25,11 @@ public class BaseController {
     /* JADX INFO: Access modifiers changed from: protected */
     public final ContactsController getContactsController() {
         return this.parentAccountInstance.getContactsController();
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public final PersistColorPalette getColorPalette() {
+        return this.parentAccountInstance.getColorPalette();
     }
 
     /* JADX INFO: Access modifiers changed from: protected */

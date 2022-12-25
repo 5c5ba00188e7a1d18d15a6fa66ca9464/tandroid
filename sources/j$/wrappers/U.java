@@ -1,23 +1,22 @@
 package j$.wrappers;
 
-import java.util.function.IntFunction;
+import java.util.function.IntPredicate;
 /* loaded from: classes2.dex */
-public final /* synthetic */ class U implements IntFunction {
-    final /* synthetic */ j$.util.function.m a;
+public final /* synthetic */ class U {
+    final /* synthetic */ IntPredicate a;
 
-    private /* synthetic */ U(j$.util.function.m mVar) {
-        this.a = mVar;
+    private /* synthetic */ U(IntPredicate intPredicate) {
+        this.a = intPredicate;
     }
 
-    public static /* synthetic */ IntFunction a(j$.util.function.m mVar) {
-        if (mVar == null) {
+    public static /* synthetic */ U a(IntPredicate intPredicate) {
+        if (intPredicate == null) {
             return null;
         }
-        return mVar instanceof T ? ((T) mVar).a : new U(mVar);
+        return intPredicate instanceof V ? ((V) intPredicate).a : new U(intPredicate);
     }
 
-    @Override // java.util.function.IntFunction
-    public /* synthetic */ Object apply(int i) {
-        return this.a.apply(i);
+    public boolean b(int i) {
+        return this.a.test(i);
     }
 }

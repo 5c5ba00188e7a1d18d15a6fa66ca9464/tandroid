@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Path;
 import android.graphics.Region;
+import android.os.Looper;
 import android.text.Editable;
 import android.text.Layout;
 import android.text.Spannable;
@@ -20,7 +21,12 @@ import org.telegram.ui.Components.spoilers.SpoilerEffect;
 import org.telegram.ui.Components.spoilers.SpoilersClickDetector;
 /* loaded from: classes3.dex */
 public class EditTextEffects extends EditText {
+    private static final int SPOILER_TIMEOUT = 10000;
     private AnimatedEmojiSpan.EmojiGroupedSpans animatedEmojiDrawables;
+    protected int animatedEmojiOffsetX;
+    protected boolean animatedEmojiRawDraw;
+    protected int animatedEmojiRawDrawFps;
+    private SpoilersClickDetector clickDetector;
     private boolean clipToPadding;
     private boolean isSpoilersRevealed;
     private float lastRippleX;
@@ -42,12 +48,13 @@ public class EditTextEffects extends EditText {
         }
     };
     private android.graphics.Rect rect = new android.graphics.Rect();
-    private SpoilersClickDetector clickDetector = new SpoilersClickDetector(this, this.spoilers, new SpoilersClickDetector.OnSpoilerClickedListener() { // from class: org.telegram.ui.Components.EditTextEffects$$ExternalSyntheticLambda5
-        @Override // org.telegram.ui.Components.spoilers.SpoilersClickDetector.OnSpoilerClickedListener
-        public final void onSpoilerClicked(SpoilerEffect spoilerEffect, float f, float f2) {
-            EditTextEffects.this.onSpoilerClicked(spoilerEffect, f, f2);
+
+    public void incrementFrames(int i) {
+        AnimatedEmojiSpan.EmojiGroupedSpans emojiGroupedSpans = this.animatedEmojiDrawables;
+        if (emojiGroupedSpans != null) {
+            emojiGroupedSpans.incrementFrames(i);
         }
-    });
+    }
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$2() {
@@ -86,6 +93,14 @@ public class EditTextEffects extends EditText {
 
     public EditTextEffects(Context context) {
         super(context);
+        if (Looper.getMainLooper().getThread() == Thread.currentThread()) {
+            this.clickDetector = new SpoilersClickDetector(this, this.spoilers, new SpoilersClickDetector.OnSpoilerClickedListener() { // from class: org.telegram.ui.Components.EditTextEffects$$ExternalSyntheticLambda5
+                @Override // org.telegram.ui.Components.spoilers.SpoilersClickDetector.OnSpoilerClickedListener
+                public final void onSpoilerClicked(SpoilerEffect spoilerEffect, float f, float f2) {
+                    EditTextEffects.this.onSpoilerClicked(spoilerEffect, f, f2);
+                }
+            });
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -172,6 +187,10 @@ public class EditTextEffects extends EditText {
         AnimatedEmojiSpan.release(this, this.animatedEmojiDrawables);
     }
 
+    public void recycleEmojis() {
+        AnimatedEmojiSpan.release(this, this.animatedEmojiDrawables);
+    }
+
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.widget.TextView, android.view.View
     public void onAttachedToWindow() {
@@ -243,7 +262,8 @@ public class EditTextEffects extends EditText {
     @Override // android.view.View
     public boolean dispatchTouchEvent(MotionEvent motionEvent) {
         boolean z;
-        if (!this.shouldRevealSpoilersByTouch || !this.clickDetector.onTouchEvent(motionEvent)) {
+        SpoilersClickDetector spoilersClickDetector;
+        if (!this.shouldRevealSpoilersByTouch || (spoilersClickDetector = this.clickDetector) == null || !spoilersClickDetector.onTouchEvent(motionEvent)) {
             z = false;
         } else {
             if (motionEvent.getActionMasked() == 1) {
@@ -292,7 +312,14 @@ public class EditTextEffects extends EditText {
         updateAnimatedEmoji(false);
         super.onDraw(canvas);
         if (this.animatedEmojiDrawables != null) {
-            AnimatedEmojiSpan.drawAnimatedEmojis(canvas, getLayout(), this.animatedEmojiDrawables, 0.0f, this.spoilers, computeVerticalScrollOffset() - AndroidUtilities.dp(6.0f), computeVerticalScrollOffset() + computeVerticalScrollExtent(), 0.0f, 1.0f);
+            canvas.save();
+            canvas.translate(this.animatedEmojiOffsetX, 0.0f);
+            if (this.animatedEmojiRawDraw) {
+                AnimatedEmojiSpan.drawRawAnimatedEmojis(canvas, getLayout(), this.animatedEmojiDrawables, 0.0f, this.spoilers, computeVerticalScrollOffset() - AndroidUtilities.dp(6.0f), computeVerticalScrollOffset() + computeVerticalScrollExtent(), 0.0f, 1.0f, this.animatedEmojiRawDrawFps);
+            } else {
+                AnimatedEmojiSpan.drawAnimatedEmojis(canvas, getLayout(), this.animatedEmojiDrawables, 0.0f, this.spoilers, computeVerticalScrollOffset() - AndroidUtilities.dp(6.0f), computeVerticalScrollOffset() + computeVerticalScrollExtent(), 0.0f, 1.0f);
+            }
+            canvas.restore();
         }
         canvas.restore();
         canvas.save();

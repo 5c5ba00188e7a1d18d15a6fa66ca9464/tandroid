@@ -13,7 +13,7 @@ import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.UserConfig;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.VoIPFragment;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public class VoIPWindowView extends FrameLayout {
     Activity activity;
     private int animationIndex = -1;

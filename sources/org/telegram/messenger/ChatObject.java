@@ -1103,7 +1103,7 @@ public class ChatObject {
             }
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:180:0x03e2  */
+        /* JADX WARN: Removed duplicated region for block: B:180:0x03e3  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */

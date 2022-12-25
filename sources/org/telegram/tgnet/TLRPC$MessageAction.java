@@ -350,6 +350,20 @@ public abstract class TLRPC$MessageAction extends TLObject {
             case -519864430:
                 tLRPC$MessageAction = new TLRPC$TL_messageActionChatMigrateTo();
                 break;
+            case -404267113:
+                tLRPC$MessageAction = new TLRPC$MessageAction() { // from class: org.telegram.tgnet.TLRPC$TL_messageActionAttachMenuBotAllowed
+                    public static int constructor = -404267113;
+
+                    @Override // org.telegram.tgnet.TLObject
+                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
+                    }
+
+                    @Override // org.telegram.tgnet.TLObject
+                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
+                        abstractSerializedData2.writeInt32(constructor);
+                    }
+                };
+                break;
             case -365344535:
                 tLRPC$MessageAction = new TLRPC$TL_messageActionChannelMigrateFrom();
                 break;
@@ -583,6 +597,9 @@ public abstract class TLRPC$MessageAction extends TLObject {
                 break;
             case 1431655927:
                 tLRPC$MessageAction = new TLRPC$TL_messageEncryptedAction();
+                break;
+            case 1474192222:
+                tLRPC$MessageAction = new TLRPC$TL_messageActionSuggestProfilePhoto();
                 break;
             case 1581055051:
                 tLRPC$MessageAction = new TLRPC$TL_messageActionChatAddUser() { // from class: org.telegram.tgnet.TLRPC$TL_messageActionChatAddUser_old

@@ -2,21 +2,21 @@ package j$.wrappers;
 
 import java.util.function.IntFunction;
 /* loaded from: classes2.dex */
-public final /* synthetic */ class T implements j$.util.function.m {
-    final /* synthetic */ IntFunction a;
+public final /* synthetic */ class T implements IntFunction {
+    final /* synthetic */ j$.util.function.m a;
 
-    private /* synthetic */ T(IntFunction intFunction) {
-        this.a = intFunction;
+    private /* synthetic */ T(j$.util.function.m mVar) {
+        this.a = mVar;
     }
 
-    public static /* synthetic */ j$.util.function.m a(IntFunction intFunction) {
-        if (intFunction == null) {
+    public static /* synthetic */ IntFunction a(j$.util.function.m mVar) {
+        if (mVar == null) {
             return null;
         }
-        return intFunction instanceof U ? ((U) intFunction).a : new T(intFunction);
+        return mVar instanceof S ? ((S) mVar).a : new T(mVar);
     }
 
-    @Override // j$.util.function.m
+    @Override // java.util.function.IntFunction
     public /* synthetic */ Object apply(int i) {
         return this.a.apply(i);
     }

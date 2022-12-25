@@ -13,7 +13,7 @@ public final /* synthetic */ class w implements Consumer {
         if (consumer == null) {
             return null;
         }
-        return consumer instanceof x ? ((x) consumer).a : new w(consumer);
+        return consumer instanceof $r8$wrapper$java$util$function$Consumer$-WRP ? (($r8$wrapper$java$util$function$Consumer$-WRP) consumer).a : new w(consumer);
     }
 
     @Override // j$.util.function.Consumer
@@ -23,6 +23,6 @@ public final /* synthetic */ class w implements Consumer {
 
     @Override // j$.util.function.Consumer
     public /* synthetic */ Consumer andThen(Consumer consumer) {
-        return b(this.a.andThen(x.a(consumer)));
+        return b(this.a.andThen($r8$wrapper$java$util$function$Consumer$-WRP.convert(consumer)));
     }
 }

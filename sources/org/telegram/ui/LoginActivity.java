@@ -78,6 +78,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -1423,7 +1424,7 @@ public class LoginActivity extends BaseFragment {
                 return;
             }
             AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-            builder.setTitle(LocaleController.getString(R.string.AppName));
+            builder.setTitle(LocaleController.getString("StopLoadingTitle", R.string.StopLoadingTitle));
             builder.setMessage(LocaleController.getString("StopLoading", R.string.StopLoading));
             builder.setPositiveButton(LocaleController.getString("WaitMore", R.string.WaitMore), null);
             builder.setNegativeButton(LocaleController.getString("Stop", R.string.Stop), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda6
@@ -1893,6 +1894,7 @@ public class LoginActivity extends BaseFragment {
         private View codeDividerView;
         private AnimatedPhoneNumberEditText codeField;
         private TextViewSwitcher countryButton;
+        private String countryCodeForHint;
         private OutlineTextContainerView countryOutlineView;
         private int countryState;
         private CountrySelectActivity.Country currentCountry;
@@ -1905,13 +1907,14 @@ public class LoginActivity extends BaseFragment {
         private CheckBoxCell testBackendCheckBox;
         private TextView titleView;
         private ArrayList<CountrySelectActivity.Country> countriesArray = new ArrayList<>();
-        private HashMap<String, CountrySelectActivity.Country> codesMap = new HashMap<>();
+        private HashMap<String, List<CountrySelectActivity.Country>> codesMap = new HashMap<>();
         private HashMap<String, List<String>> phoneFormatMap = new HashMap<>();
         private boolean ignoreSelection = false;
         private boolean ignoreOnTextChange = false;
         private boolean ignoreOnPhoneChange = false;
         private boolean nextPressed = false;
         private boolean confirmedNumber = false;
+        private int wasCountryHintIndex = -1;
 
         @Override // org.telegram.ui.Components.SlideView
         public boolean hasCustomKeyboard() {
@@ -1924,7 +1927,6 @@ public class LoginActivity extends BaseFragment {
 
         public PhoneView(final Context context) {
             super(context);
-            int i;
             this.countryState = 0;
             setOrientation(1);
             setGravity(17);
@@ -1966,12 +1968,12 @@ public class LoginActivity extends BaseFragment {
             linearLayout.addView(this.chevronRight, LayoutHelper.createLinearRelatively(24.0f, 24.0f, 0, 0.0f, 0.0f, 14.0f, 0.0f));
             OutlineTextContainerView outlineTextContainerView = new OutlineTextContainerView(context);
             this.countryOutlineView = outlineTextContainerView;
-            int i2 = R.string.Country;
-            outlineTextContainerView.setText(LocaleController.getString(i2));
+            int i = R.string.Country;
+            outlineTextContainerView.setText(LocaleController.getString(i));
             this.countryOutlineView.addView(linearLayout, LayoutHelper.createFrame(-1, -1.0f, 48, 0.0f, 0.0f, 0.0f, 0.0f));
             this.countryOutlineView.setForceUseCenter(true);
             this.countryOutlineView.setFocusable(true);
-            this.countryOutlineView.setContentDescription(LocaleController.getString(i2));
+            this.countryOutlineView.setContentDescription(LocaleController.getString(i));
             this.countryOutlineView.setOnFocusChangeListener(new View.OnFocusChangeListener() { // from class: org.telegram.ui.LoginActivity$PhoneView$$ExternalSyntheticLambda4
                 @Override // android.view.View.OnFocusChangeListener
                 public final void onFocusChange(View view, boolean z) {
@@ -1991,8 +1993,8 @@ public class LoginActivity extends BaseFragment {
             this.phoneOutlineView = outlineTextContainerView2;
             outlineTextContainerView2.addView(linearLayout2, LayoutHelper.createFrame(-1, -2.0f, 16, 16.0f, 8.0f, 16.0f, 8.0f));
             OutlineTextContainerView outlineTextContainerView3 = this.phoneOutlineView;
-            int i3 = R.string.PhoneNumber;
-            outlineTextContainerView3.setText(LocaleController.getString(i3));
+            int i2 = R.string.PhoneNumber;
+            outlineTextContainerView3.setText(LocaleController.getString(i2));
             addView(this.phoneOutlineView, LayoutHelper.createLinear(-1, 58, 16.0f, 8.0f, 16.0f, 8.0f));
             TextView textView3 = new TextView(context);
             this.plusTextView = textView3;
@@ -2003,8 +2005,8 @@ public class LoginActivity extends BaseFragment {
             AnimatedPhoneNumberEditText animatedPhoneNumberEditText = new AnimatedPhoneNumberEditText(context, LoginActivity.this) { // from class: org.telegram.ui.LoginActivity.PhoneView.1
                 /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
-                public void onFocusChanged(boolean z, int i4, Rect rect) {
-                    super.onFocusChanged(z, i4, rect);
+                public void onFocusChanged(boolean z, int i3, Rect rect) {
+                    super.onFocusChanged(z, i3, rect);
                     PhoneView.this.phoneOutlineView.animateSelection((z || PhoneView.this.phoneField.isFocused()) ? 1.0f : 0.0f);
                     if (z) {
                         LoginActivity.this.keyboardView.setEditText(this);
@@ -2021,25 +2023,27 @@ public class LoginActivity extends BaseFragment {
             this.codeField.setGravity(19);
             this.codeField.setImeOptions(268435461);
             this.codeField.setBackground(null);
-            int i4 = Build.VERSION.SDK_INT;
-            if (i4 >= 21) {
+            int i3 = Build.VERSION.SDK_INT;
+            if (i3 >= 21) {
                 this.codeField.setShowSoftInputOnFocus(!hasCustomKeyboard() || LoginActivity.this.isCustomKeyboardForceDisabled());
             }
             this.codeField.setContentDescription(LocaleController.getString(R.string.LoginAccessibilityCountryCode));
             linearLayout2.addView(this.codeField, LayoutHelper.createLinear(55, 36, -9.0f, 0.0f, 0.0f, 0.0f));
             this.codeField.addTextChangedListener(new TextWatcher(LoginActivity.this) { // from class: org.telegram.ui.LoginActivity.PhoneView.2
                 @Override // android.text.TextWatcher
-                public void beforeTextChanged(CharSequence charSequence, int i5, int i6, int i7) {
+                public void beforeTextChanged(CharSequence charSequence, int i4, int i5, int i6) {
                 }
 
                 @Override // android.text.TextWatcher
-                public void onTextChanged(CharSequence charSequence, int i5, int i6, int i7) {
+                public void onTextChanged(CharSequence charSequence, int i4, int i5, int i6) {
                 }
 
                 @Override // android.text.TextWatcher
                 public void afterTextChanged(Editable editable) {
                     String str;
                     boolean z;
+                    CountrySelectActivity.Country country;
+                    CountrySelectActivity.Country country2;
                     if (PhoneView.this.ignoreOnTextChange) {
                         return;
                     }
@@ -2051,24 +2055,46 @@ public class LoginActivity extends BaseFragment {
                         PhoneView.this.phoneField.setHintText((String) null);
                         PhoneView.this.countryState = 1;
                     } else {
-                        int i5 = 4;
+                        int i4 = 4;
                         if (stripExceptNumbers.length() > 4) {
                             while (true) {
-                                if (i5 < 1) {
+                                if (i4 < 1) {
                                     str = null;
                                     z = false;
                                     break;
                                 }
-                                String substring = stripExceptNumbers.substring(0, i5);
-                                if (((CountrySelectActivity.Country) PhoneView.this.codesMap.get(substring)) != null) {
-                                    String str2 = stripExceptNumbers.substring(i5) + PhoneView.this.phoneField.getText().toString();
+                                String substring = stripExceptNumbers.substring(0, i4);
+                                List list = (List) PhoneView.this.codesMap.get(substring);
+                                if (list == null) {
+                                    country2 = null;
+                                } else if (list.size() > 1) {
+                                    String string = MessagesController.getGlobalMainSettings().getString("phone_code_last_matched_" + substring, null);
+                                    country2 = (CountrySelectActivity.Country) list.get(list.size() - 1);
+                                    if (string != null) {
+                                        Iterator it = PhoneView.this.countriesArray.iterator();
+                                        while (true) {
+                                            if (!it.hasNext()) {
+                                                break;
+                                            }
+                                            CountrySelectActivity.Country country3 = (CountrySelectActivity.Country) it.next();
+                                            if (Objects.equals(country3.shortname, string)) {
+                                                country2 = country3;
+                                                break;
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    country2 = (CountrySelectActivity.Country) list.get(0);
+                                }
+                                if (country2 != null) {
+                                    String str2 = stripExceptNumbers.substring(i4) + PhoneView.this.phoneField.getText().toString();
                                     PhoneView.this.codeField.setText(substring);
                                     z = true;
                                     str = str2;
                                     stripExceptNumbers = substring;
                                     break;
                                 }
-                                i5--;
+                                i4--;
                             }
                             if (!z) {
                                 str = stripExceptNumbers.substring(1) + PhoneView.this.phoneField.getText().toString();
@@ -2080,28 +2106,51 @@ public class LoginActivity extends BaseFragment {
                             str = null;
                             z = false;
                         }
-                        CountrySelectActivity.Country country = null;
-                        int i6 = 0;
-                        for (CountrySelectActivity.Country country2 : PhoneView.this.codesMap.values()) {
-                            if (country2.code.startsWith(stripExceptNumbers)) {
-                                i6++;
-                                if (country2.code.equals(stripExceptNumbers)) {
-                                    country = country2;
+                        Iterator it2 = PhoneView.this.countriesArray.iterator();
+                        CountrySelectActivity.Country country4 = null;
+                        int i5 = 0;
+                        while (it2.hasNext()) {
+                            CountrySelectActivity.Country country5 = (CountrySelectActivity.Country) it2.next();
+                            if (country5.code.startsWith(stripExceptNumbers)) {
+                                i5++;
+                                if (country5.code.equals(stripExceptNumbers)) {
+                                    country4 = country5;
                                 }
                             }
                         }
-                        if (i6 == 1 && country != null && str == null) {
-                            str = stripExceptNumbers.substring(country.code.length()) + PhoneView.this.phoneField.getText().toString();
+                        if (i5 == 1 && country4 != null && str == null) {
+                            str = stripExceptNumbers.substring(country4.code.length()) + PhoneView.this.phoneField.getText().toString();
                             AnimatedPhoneNumberEditText animatedPhoneNumberEditText3 = PhoneView.this.codeField;
-                            String str3 = country.code;
+                            String str3 = country4.code;
                             animatedPhoneNumberEditText3.setText(str3);
                             stripExceptNumbers = str3;
                         }
-                        CountrySelectActivity.Country country3 = (CountrySelectActivity.Country) PhoneView.this.codesMap.get(stripExceptNumbers);
-                        if (country3 != null) {
+                        List list2 = (List) PhoneView.this.codesMap.get(stripExceptNumbers);
+                        if (list2 == null) {
+                            country = null;
+                        } else if (list2.size() > 1) {
+                            String string2 = MessagesController.getGlobalMainSettings().getString("phone_code_last_matched_" + stripExceptNumbers, null);
+                            country = (CountrySelectActivity.Country) list2.get(list2.size() - 1);
+                            if (string2 != null) {
+                                Iterator it3 = PhoneView.this.countriesArray.iterator();
+                                while (true) {
+                                    if (!it3.hasNext()) {
+                                        break;
+                                    }
+                                    CountrySelectActivity.Country country6 = (CountrySelectActivity.Country) it3.next();
+                                    if (Objects.equals(country6.shortname, string2)) {
+                                        country = country6;
+                                        break;
+                                    }
+                                }
+                            }
+                        } else {
+                            country = (CountrySelectActivity.Country) list2.get(0);
+                        }
+                        if (country != null) {
                             PhoneView.this.ignoreSelection = true;
-                            PhoneView.this.currentCountry = country3;
-                            PhoneView.this.setCountryHint(stripExceptNumbers, country3);
+                            PhoneView.this.currentCountry = country;
+                            PhoneView.this.setCountryHint(stripExceptNumbers, country);
                             PhoneView.this.countryState = 0;
                         } else {
                             PhoneView.this.setCountryButtonText(null);
@@ -2122,9 +2171,9 @@ public class LoginActivity extends BaseFragment {
             });
             this.codeField.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.LoginActivity$PhoneView$$ExternalSyntheticLambda5
                 @Override // android.widget.TextView.OnEditorActionListener
-                public final boolean onEditorAction(TextView textView4, int i5, KeyEvent keyEvent) {
+                public final boolean onEditorAction(TextView textView4, int i4, KeyEvent keyEvent) {
                     boolean lambda$new$5;
-                    lambda$new$5 = LoginActivity.PhoneView.this.lambda$new$5(textView4, i5, keyEvent);
+                    lambda$new$5 = LoginActivity.PhoneView.this.lambda$new$5(textView4, i4, keyEvent);
                     return lambda$new$5;
                 }
             });
@@ -2134,13 +2183,13 @@ public class LoginActivity extends BaseFragment {
             linearLayout2.addView(this.codeDividerView, createLinear);
             AnimatedPhoneNumberEditText animatedPhoneNumberEditText2 = new AnimatedPhoneNumberEditText(context, LoginActivity.this) { // from class: org.telegram.ui.LoginActivity.PhoneView.3
                 @Override // android.widget.TextView, android.view.View, android.view.KeyEvent.Callback
-                public boolean onKeyDown(int i5, KeyEvent keyEvent) {
-                    if (i5 == 67 && PhoneView.this.phoneField.length() == 0) {
+                public boolean onKeyDown(int i4, KeyEvent keyEvent) {
+                    if (i4 == 67 && PhoneView.this.phoneField.length() == 0) {
                         PhoneView.this.codeField.requestFocus();
                         PhoneView.this.codeField.setSelection(PhoneView.this.codeField.length());
                         PhoneView.this.codeField.dispatchKeyEvent(keyEvent);
                     }
-                    return super.onKeyDown(i5, keyEvent);
+                    return super.onKeyDown(i4, keyEvent);
                 }
 
                 @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
@@ -2154,8 +2203,8 @@ public class LoginActivity extends BaseFragment {
 
                 /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
-                public void onFocusChanged(boolean z, int i5, Rect rect) {
-                    super.onFocusChanged(z, i5, rect);
+                public void onFocusChanged(boolean z, int i4, Rect rect) {
+                    super.onFocusChanged(z, i4, rect);
                     PhoneView.this.phoneOutlineView.animateSelection((z || PhoneView.this.codeField.isFocused()) ? 1.0f : 0.0f);
                     if (z) {
                         LoginActivity.this.keyboardView.setEditText(this);
@@ -2180,27 +2229,23 @@ public class LoginActivity extends BaseFragment {
             this.phoneField.setGravity(19);
             this.phoneField.setImeOptions(268435461);
             this.phoneField.setBackground(null);
-            if (i4 >= 21) {
+            if (i3 >= 21) {
                 this.phoneField.setShowSoftInputOnFocus(!hasCustomKeyboard() || LoginActivity.this.isCustomKeyboardForceDisabled());
             }
-            this.phoneField.setContentDescription(LocaleController.getString(i3));
+            this.phoneField.setContentDescription(LocaleController.getString(i2));
             linearLayout2.addView(this.phoneField, LayoutHelper.createFrame(-1, 36.0f));
             this.phoneField.addTextChangedListener(new TextWatcher(LoginActivity.this) { // from class: org.telegram.ui.LoginActivity.PhoneView.4
                 private int actionPosition;
                 private int characterAction = -1;
 
                 @Override // android.text.TextWatcher
-                public void onTextChanged(CharSequence charSequence, int i5, int i6, int i7) {
-                }
-
-                @Override // android.text.TextWatcher
-                public void beforeTextChanged(CharSequence charSequence, int i5, int i6, int i7) {
-                    if (i6 == 0 && i7 == 1) {
+                public void beforeTextChanged(CharSequence charSequence, int i4, int i5, int i6) {
+                    if (i5 == 0 && i6 == 1) {
                         this.characterAction = 1;
-                    } else if (i6 == 1 && i7 == 0) {
-                        if (charSequence.charAt(i5) == ' ' && i5 > 0) {
+                    } else if (i5 == 1 && i6 == 0) {
+                        if (charSequence.charAt(i4) == ' ' && i4 > 0) {
                             this.characterAction = 3;
-                            this.actionPosition = i5 - 1;
+                            this.actionPosition = i4 - 1;
                             return;
                         }
                         this.characterAction = 2;
@@ -2210,9 +2255,41 @@ public class LoginActivity extends BaseFragment {
                 }
 
                 @Override // android.text.TextWatcher
+                public void onTextChanged(CharSequence charSequence, int i4, int i5, int i6) {
+                    List list;
+                    if (PhoneView.this.ignoreOnPhoneChange) {
+                        return;
+                    }
+                    String replaceAll = charSequence.toString().substring(i4, i6 + i4).replaceAll("[^\\d]+", "");
+                    if (replaceAll.isEmpty()) {
+                        return;
+                    }
+                    for (int min = Math.min(3, replaceAll.length()); min >= 0; min--) {
+                        String substring = replaceAll.substring(0, min);
+                        List list2 = (List) PhoneView.this.codesMap.get(substring);
+                        if (list2 != null && !list2.isEmpty() && (list = (List) PhoneView.this.phoneFormatMap.get(substring)) != null && !list.isEmpty()) {
+                            Iterator it = list.iterator();
+                            while (true) {
+                                if (!it.hasNext()) {
+                                    break;
+                                } else if (((String) it.next()).replace(" ", "").length() == replaceAll.length() - min) {
+                                    PhoneView.this.codeField.setText(substring);
+                                    PhoneView.this.ignoreOnTextChange = true;
+                                    PhoneView.this.phoneField.setText(replaceAll.substring(min));
+                                    PhoneView.this.ignoreOnTextChange = false;
+                                    afterTextChanged(PhoneView.this.phoneField.getText());
+                                    PhoneView.this.phoneField.setSelection(PhoneView.this.phoneField.getText().length(), PhoneView.this.phoneField.getText().length());
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                @Override // android.text.TextWatcher
                 public void afterTextChanged(Editable editable) {
+                    int i4;
                     int i5;
-                    int i6;
                     if (PhoneView.this.ignoreOnPhoneChange) {
                         return;
                     }
@@ -2223,34 +2300,34 @@ public class LoginActivity extends BaseFragment {
                         selectionStart--;
                     }
                     StringBuilder sb = new StringBuilder(obj.length());
-                    int i7 = 0;
-                    while (i7 < obj.length()) {
-                        int i8 = i7 + 1;
-                        String substring = obj.substring(i7, i8);
+                    int i6 = 0;
+                    while (i6 < obj.length()) {
+                        int i7 = i6 + 1;
+                        String substring = obj.substring(i6, i7);
                         if ("0123456789".contains(substring)) {
                             sb.append(substring);
                         }
-                        i7 = i8;
+                        i6 = i7;
                     }
                     PhoneView.this.ignoreOnPhoneChange = true;
                     String hintText = PhoneView.this.phoneField.getHintText();
                     if (hintText != null) {
-                        int i9 = 0;
+                        int i8 = 0;
                         while (true) {
-                            if (i9 >= sb.length()) {
+                            if (i8 >= sb.length()) {
                                 break;
-                            } else if (i9 < hintText.length()) {
-                                if (hintText.charAt(i9) == ' ') {
-                                    sb.insert(i9, ' ');
-                                    i9++;
-                                    if (selectionStart == i9 && (i6 = this.characterAction) != 2 && i6 != 3) {
+                            } else if (i8 < hintText.length()) {
+                                if (hintText.charAt(i8) == ' ') {
+                                    sb.insert(i8, ' ');
+                                    i8++;
+                                    if (selectionStart == i8 && (i5 = this.characterAction) != 2 && i5 != 3) {
                                         selectionStart++;
                                     }
                                 }
-                                i9++;
+                                i8++;
                             } else {
-                                sb.insert(i9, ' ');
-                                if (selectionStart == i9 + 1 && (i5 = this.characterAction) != 2 && i5 != 3) {
+                                sb.insert(i8, ' ');
+                                if (selectionStart == i8 + 1 && (i4 = this.characterAction) != 2 && i4 != 3) {
                                     selectionStart++;
                                 }
                             }
@@ -2261,25 +2338,26 @@ public class LoginActivity extends BaseFragment {
                         PhoneView.this.phoneField.setSelection(Math.min(selectionStart, PhoneView.this.phoneField.length()));
                     }
                     PhoneView.this.phoneField.onTextChange();
+                    PhoneView.this.invalidateCountryHint();
                     PhoneView.this.ignoreOnPhoneChange = false;
                 }
             });
             this.phoneField.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.LoginActivity$PhoneView$$ExternalSyntheticLambda6
                 @Override // android.widget.TextView.OnEditorActionListener
-                public final boolean onEditorAction(TextView textView4, int i5, KeyEvent keyEvent) {
+                public final boolean onEditorAction(TextView textView4, int i4, KeyEvent keyEvent) {
                     boolean lambda$new$6;
-                    lambda$new$6 = LoginActivity.PhoneView.this.lambda$new$6(textView4, i5, keyEvent);
+                    lambda$new$6 = LoginActivity.PhoneView.this.lambda$new$6(textView4, i4, keyEvent);
                     return lambda$new$6;
                 }
             });
-            int i5 = 72;
-            int i6 = 56;
+            int i4 = 72;
+            int i5 = 56;
             if (LoginActivity.this.newAccount && LoginActivity.this.activityMode == 0) {
                 CheckBoxCell checkBoxCell = new CheckBoxCell(context, 2);
                 this.syncContactsBox = checkBoxCell;
                 checkBoxCell.setText(LocaleController.getString("SyncContacts", R.string.SyncContacts), "", LoginActivity.this.syncContacts, false);
-                addView(this.syncContactsBox, LayoutHelper.createLinear(-2, -1, 51, 16, 0, 16 + ((!LocaleController.isRTL || !AndroidUtilities.isSmallScreen()) ? 0 : i4 >= 21 ? 56 : 60), 0));
-                i5 = 48;
+                addView(this.syncContactsBox, LayoutHelper.createLinear(-2, -1, 51, 16, 0, 16 + ((!LocaleController.isRTL || !AndroidUtilities.isSmallScreen()) ? 0 : i3 >= 21 ? 56 : 60), 0));
+                i4 = 48;
                 this.syncContactsBox.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.LoginActivity$PhoneView$$ExternalSyntheticLambda3
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view) {
@@ -2293,16 +2371,12 @@ public class LoginActivity extends BaseFragment {
                 checkBoxCell2.setText(LocaleController.getString(R.string.DebugTestBackend), "", LoginActivity.this.testBackend, false);
                 View view = this.testBackendCheckBox;
                 if (!LocaleController.isRTL || !AndroidUtilities.isSmallScreen()) {
-                    i = 16;
-                    i6 = 0;
-                } else if (i4 >= 21) {
-                    i = 16;
-                } else {
-                    i = 16;
-                    i6 = 60;
+                    i5 = 0;
+                } else if (i3 < 21) {
+                    i5 = 60;
                 }
-                addView(view, LayoutHelper.createLinear(-2, -1, 51, 16, 0, i + i6, 0));
-                i5 -= 24;
+                addView(view, LayoutHelper.createLinear(-2, -1, 51, 16, 0, 16 + i5, 0));
+                i4 -= 24;
                 this.testBackendCheckBox.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.LoginActivity$PhoneView$$ExternalSyntheticLambda1
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view2) {
@@ -2310,9 +2384,9 @@ public class LoginActivity extends BaseFragment {
                     }
                 });
             }
-            if (i5 > 0 && !AndroidUtilities.isSmallScreen()) {
+            if (i4 > 0 && !AndroidUtilities.isSmallScreen()) {
                 Space space = new Space(context);
-                space.setMinimumHeight(AndroidUtilities.dp(i5));
+                space.setMinimumHeight(AndroidUtilities.dp(i4));
                 addView(space, LayoutHelper.createLinear(-2, -2));
             }
             final HashMap hashMap = new HashMap();
@@ -2329,7 +2403,15 @@ public class LoginActivity extends BaseFragment {
                     country.code = split[0];
                     country.shortname = split[1];
                     this.countriesArray.add(0, country);
-                    this.codesMap.put(split[0], country);
+                    List<CountrySelectActivity.Country> list = this.codesMap.get(split[0]);
+                    if (list == null) {
+                        HashMap<String, List<CountrySelectActivity.Country>> hashMap2 = this.codesMap;
+                        String str = split[0];
+                        ArrayList arrayList = new ArrayList();
+                        hashMap2.put(str, arrayList);
+                        list = arrayList;
+                    }
+                    list.add(country);
                     if (split.length > 3) {
                         this.phoneFormatMap.put(split[0], Collections.singletonList(split[3]));
                     }
@@ -2349,8 +2431,8 @@ public class LoginActivity extends BaseFragment {
                 public static int constructor = 531836966;
 
                 @Override // org.telegram.tgnet.TLObject
-                public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i7, boolean z) {
-                    return TLRPC$TL_nearestDc.TLdeserialize(abstractSerializedData, i7, z);
+                public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i6, boolean z) {
+                    return TLRPC$TL_nearestDc.TLdeserialize(abstractSerializedData, i6, z);
                 }
 
                 @Override // org.telegram.tgnet.TLObject
@@ -2531,6 +2613,7 @@ public class LoginActivity extends BaseFragment {
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$loadCountries$12(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject) {
             boolean z;
+            CountrySelectActivity.Country country;
             if (tLRPC$TL_error == null) {
                 this.countriesArray.clear();
                 this.codesMap.clear();
@@ -2541,12 +2624,20 @@ public class LoginActivity extends BaseFragment {
                     for (int i2 = 0; i2 < tLRPC$TL_help_country.country_codes.size(); i2++) {
                         TLRPC$TL_help_countryCode tLRPC$TL_help_countryCode = tLRPC$TL_help_country.country_codes.get(i2);
                         if (tLRPC$TL_help_countryCode != null) {
-                            CountrySelectActivity.Country country = new CountrySelectActivity.Country();
-                            country.name = tLRPC$TL_help_country.default_name;
-                            country.code = tLRPC$TL_help_countryCode.country_code;
-                            country.shortname = tLRPC$TL_help_country.iso2;
-                            this.countriesArray.add(country);
-                            this.codesMap.put(tLRPC$TL_help_countryCode.country_code, country);
+                            CountrySelectActivity.Country country2 = new CountrySelectActivity.Country();
+                            country2.name = tLRPC$TL_help_country.default_name;
+                            country2.code = tLRPC$TL_help_countryCode.country_code;
+                            country2.shortname = tLRPC$TL_help_country.iso2;
+                            this.countriesArray.add(country2);
+                            List<CountrySelectActivity.Country> list = this.codesMap.get(tLRPC$TL_help_countryCode.country_code);
+                            if (list == null) {
+                                HashMap<String, List<CountrySelectActivity.Country>> hashMap = this.codesMap;
+                                String str = tLRPC$TL_help_countryCode.country_code;
+                                ArrayList arrayList = new ArrayList();
+                                hashMap.put(str, arrayList);
+                                list = arrayList;
+                            }
+                            list.add(country2);
                             if (tLRPC$TL_help_countryCode.patterns.size() > 0) {
                                 this.phoneFormatMap.put(tLRPC$TL_help_countryCode.country_code, tLRPC$TL_help_countryCode.patterns);
                             }
@@ -2570,7 +2661,33 @@ public class LoginActivity extends BaseFragment {
                         break;
                     }
                     String substring = stripExceptNumbers.substring(0, i3);
-                    if (this.codesMap.get(substring) != null) {
+                    List<CountrySelectActivity.Country> list2 = this.codesMap.get(substring);
+                    CountrySelectActivity.Country country3 = null;
+                    if (list2 != null) {
+                        if (list2.size() > 1) {
+                            String string = MessagesController.getGlobalMainSettings().getString("phone_code_last_matched_" + substring, null);
+                            if (string != null) {
+                                country = list2.get(list2.size() - 1);
+                                Iterator<CountrySelectActivity.Country> it = this.countriesArray.iterator();
+                                while (true) {
+                                    if (!it.hasNext()) {
+                                        break;
+                                    }
+                                    CountrySelectActivity.Country next = it.next();
+                                    if (Objects.equals(next.shortname, string)) {
+                                        country = next;
+                                        break;
+                                    }
+                                }
+                            } else {
+                                country = list2.get(list2.size() - 1);
+                            }
+                            country3 = country;
+                        } else {
+                            country3 = list2.get(0);
+                        }
+                    }
+                    if (country3 != null) {
                         this.codeField.setText(substring);
                         z = true;
                         break;
@@ -2636,6 +2753,8 @@ public class LoginActivity extends BaseFragment {
             this.currentCountry = country;
             this.countryState = 0;
             this.ignoreOnTextChange = false;
+            SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
+            edit.putString("phone_code_last_matched_" + country.code, country.shortname).apply();
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -2657,17 +2776,66 @@ public class LoginActivity extends BaseFragment {
             }
             spannableStringBuilder.append((CharSequence) country.name);
             setCountryButtonText(Emoji.replaceEmoji(spannableStringBuilder, this.countryButton.getCurrentView().getPaint().getFontMetricsInt(), AndroidUtilities.dp(20.0f), false));
+            this.countryCodeForHint = str;
+            this.wasCountryHintIndex = -1;
+            invalidateCountryHint();
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        /* JADX WARN: Code restructure failed: missing block: B:28:0x008d, code lost:
+            if (r7 == (-1)) goto L29;
+         */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+        */
+        public void invalidateCountryHint() {
+            int i;
+            String str = this.countryCodeForHint;
+            String replace = this.phoneField.getText() != null ? this.phoneField.getText().toString().replace(" ", "") : "";
             String str2 = null;
             if (this.phoneFormatMap.get(str) != null && !this.phoneFormatMap.get(str).isEmpty()) {
-                String str3 = this.phoneFormatMap.get(str).get(0);
+                List<String> list = this.phoneFormatMap.get(str);
+                int i2 = 0;
+                if (!replace.isEmpty()) {
+                    i = 0;
+                    while (i < list.size()) {
+                        if (replace.startsWith(list.get(i).replace(" ", "").replace("X", "").replace("0", ""))) {
+                            break;
+                        }
+                        i++;
+                    }
+                }
+                i = -1;
+                if (i == -1) {
+                    for (int i3 = 0; i3 < list.size(); i3++) {
+                        String str3 = list.get(i3);
+                        if (str3.startsWith("X") || str3.startsWith("0")) {
+                            i = i3;
+                            break;
+                        }
+                    }
+                }
+                i2 = i;
+                if (this.wasCountryHintIndex == i2) {
+                    return;
+                }
+                String str4 = this.phoneFormatMap.get(str).get(i2);
+                int selectionStart = this.phoneField.getSelectionStart();
+                int selectionEnd = this.phoneField.getSelectionEnd();
                 AnimatedPhoneNumberEditText animatedPhoneNumberEditText = this.phoneField;
-                if (str3 != null) {
-                    str2 = str3.replace('X', '0');
+                if (str4 != null) {
+                    str2 = str4.replace('X', '0');
                 }
                 animatedPhoneNumberEditText.setHintText(str2);
-                return;
+                this.phoneField.setSelection(selectionStart, selectionEnd);
+                this.wasCountryHintIndex = i2;
+            } else if (this.wasCountryHintIndex != -1) {
+                int selectionStart2 = this.phoneField.getSelectionStart();
+                int selectionEnd2 = this.phoneField.getSelectionEnd();
+                this.phoneField.setHintText((String) null);
+                this.phoneField.setSelection(selectionStart2, selectionEnd2);
+                this.wasCountryHintIndex = -1;
             }
-            this.phoneField.setHintText((String) null);
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -2721,8 +2889,8 @@ public class LoginActivity extends BaseFragment {
         }
 
         /* JADX WARN: Multi-variable type inference failed */
-        /* JADX WARN: Removed duplicated region for block: B:173:0x040a  */
-        /* JADX WARN: Removed duplicated region for block: B:188:0x0414  */
+        /* JADX WARN: Removed duplicated region for block: B:173:0x0417  */
+        /* JADX WARN: Removed duplicated region for block: B:188:0x0421  */
         @Override // org.telegram.ui.Components.SlideView
         /* renamed from: onNextPressed */
         /*
@@ -2886,6 +3054,7 @@ public class LoginActivity extends BaseFragment {
                     tLRPC$TL_codeSettings.flags |= 64;
                 }
                 SharedPreferences sharedPreferences = ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", 0);
+                sharedPreferences.edit().remove("sms_hash_code").apply();
                 if (tLRPC$TL_codeSettings.allow_app_hash) {
                     sharedPreferences.edit().putString("sms_hash", BuildVars.SMS_HASH).apply();
                 } else {
@@ -3205,8 +3374,8 @@ public class LoginActivity extends BaseFragment {
             LoginActivity.this.setPage(6, true, bundle, false);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:25:0x0064 A[Catch: Exception -> 0x0164, TryCatch #0 {Exception -> 0x0164, blocks: (B:6:0x0010, B:8:0x0020, B:10:0x0028, B:15:0x003d, B:19:0x004d, B:23:0x0059, B:25:0x0064, B:28:0x0071, B:29:0x007a, B:31:0x0086, B:33:0x009e, B:36:0x00a4, B:39:0x00aa, B:43:0x00b8, B:45:0x00d2, B:48:0x00db, B:52:0x00e9, B:54:0x00fa, B:50:0x00f4, B:58:0x0109, B:59:0x011c, B:61:0x0126, B:63:0x0159), top: B:5:0x0010 }] */
-        /* JADX WARN: Removed duplicated region for block: B:31:0x0086 A[Catch: Exception -> 0x0164, TryCatch #0 {Exception -> 0x0164, blocks: (B:6:0x0010, B:8:0x0020, B:10:0x0028, B:15:0x003d, B:19:0x004d, B:23:0x0059, B:25:0x0064, B:28:0x0071, B:29:0x007a, B:31:0x0086, B:33:0x009e, B:36:0x00a4, B:39:0x00aa, B:43:0x00b8, B:45:0x00d2, B:48:0x00db, B:52:0x00e9, B:54:0x00fa, B:50:0x00f4, B:58:0x0109, B:59:0x011c, B:61:0x0126, B:63:0x0159), top: B:5:0x0010 }] */
+        /* JADX WARN: Removed duplicated region for block: B:25:0x0064 A[Catch: Exception -> 0x01b7, TryCatch #0 {Exception -> 0x01b7, blocks: (B:6:0x0010, B:8:0x0020, B:10:0x0028, B:15:0x003d, B:19:0x004d, B:23:0x0059, B:25:0x0064, B:28:0x0071, B:29:0x007a, B:31:0x0086, B:33:0x009e, B:36:0x00a4, B:39:0x00aa, B:43:0x00b8, B:45:0x00d1, B:48:0x00db, B:54:0x013b, B:56:0x014d, B:52:0x0147, B:57:0x00eb, B:59:0x00f1, B:61:0x0117, B:62:0x011d, B:64:0x0123, B:69:0x0133, B:73:0x015c, B:74:0x016f, B:76:0x0179, B:78:0x01ac), top: B:5:0x0010 }] */
+        /* JADX WARN: Removed duplicated region for block: B:31:0x0086 A[Catch: Exception -> 0x01b7, TryCatch #0 {Exception -> 0x01b7, blocks: (B:6:0x0010, B:8:0x0020, B:10:0x0028, B:15:0x003d, B:19:0x004d, B:23:0x0059, B:25:0x0064, B:28:0x0071, B:29:0x007a, B:31:0x0086, B:33:0x009e, B:36:0x00a4, B:39:0x00aa, B:43:0x00b8, B:45:0x00d1, B:48:0x00db, B:54:0x013b, B:56:0x014d, B:52:0x0147, B:57:0x00eb, B:59:0x00f1, B:61:0x0117, B:62:0x011d, B:64:0x0123, B:69:0x0133, B:73:0x015c, B:74:0x016f, B:76:0x0179, B:78:0x01ac), top: B:5:0x0010 }] */
         /* JADX WARN: Removed duplicated region for block: B:38:? A[RETURN, SYNTHETIC] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -3215,6 +3384,7 @@ public class LoginActivity extends BaseFragment {
             boolean z;
             boolean z2;
             boolean z3;
+            CountrySelectActivity.Country country;
             if (this.numberFilled || LoginActivity.this.activityMode != 0) {
                 return;
             }
@@ -3277,9 +3447,9 @@ public class LoginActivity extends BaseFragment {
                 this.codeField.setAlpha(0.0f);
                 this.phoneField.setAlpha(0.0f);
                 String stripExceptNumbers = PhoneFormat.stripExceptNumbers(telephonyManager.getLine1Number());
-                String str = null;
                 if (!TextUtils.isEmpty(stripExceptNumbers)) {
                     int i2 = 4;
+                    String str = null;
                     if (stripExceptNumbers.length() > 4) {
                         while (true) {
                             if (i2 < 1) {
@@ -3287,9 +3457,32 @@ public class LoginActivity extends BaseFragment {
                                 break;
                             }
                             String substring = stripExceptNumbers.substring(0, i2);
-                            if (this.codesMap.get(substring) != null) {
-                                str = stripExceptNumbers.substring(i2);
+                            List<CountrySelectActivity.Country> list = this.codesMap.get(substring);
+                            if (list == null) {
+                                country = null;
+                            } else if (list.size() > 1) {
+                                String string = MessagesController.getGlobalMainSettings().getString("phone_code_last_matched_" + substring, null);
+                                country = list.get(list.size() - 1);
+                                if (string != null) {
+                                    Iterator<CountrySelectActivity.Country> it = this.countriesArray.iterator();
+                                    while (true) {
+                                        if (!it.hasNext()) {
+                                            break;
+                                        }
+                                        CountrySelectActivity.Country next = it.next();
+                                        if (Objects.equals(next.shortname, string)) {
+                                            country = next;
+                                            break;
+                                        }
+                                    }
+                                }
+                            } else {
+                                country = list.get(0);
+                            }
+                            if (country != null) {
+                                String substring2 = stripExceptNumbers.substring(i2);
                                 this.codeField.setText(substring);
+                                str = substring2;
                                 z3 = true;
                                 break;
                             }
@@ -3476,7 +3669,7 @@ public class LoginActivity extends BaseFragment {
             return true;
         }
 
-        static /* synthetic */ int access$8326(LoginActivitySmsView loginActivitySmsView, double d) {
+        static /* synthetic */ int access$8626(LoginActivitySmsView loginActivitySmsView, double d) {
             double d2 = loginActivitySmsView.codeTime;
             Double.isNaN(d2);
             int i = (int) (d2 - d);
@@ -3484,7 +3677,7 @@ public class LoginActivity extends BaseFragment {
             return i;
         }
 
-        static /* synthetic */ int access$8926(LoginActivitySmsView loginActivitySmsView, double d) {
+        static /* synthetic */ int access$9226(LoginActivitySmsView loginActivitySmsView, double d) {
             double d2 = loginActivitySmsView.time;
             Double.isNaN(d2);
             int i = (int) (d2 - d);
@@ -4429,7 +4622,7 @@ public class LoginActivity extends BaseFragment {
                 double d = LoginActivitySmsView.this.lastCodeTime;
                 Double.isNaN(currentTimeMillis);
                 LoginActivitySmsView.this.lastCodeTime = currentTimeMillis;
-                LoginActivitySmsView.access$8326(LoginActivitySmsView.this, currentTimeMillis - d);
+                LoginActivitySmsView.access$8626(LoginActivitySmsView.this, currentTimeMillis - d);
                 if (LoginActivitySmsView.this.codeTime <= 1000) {
                     LoginActivitySmsView.this.setProblemTextVisible(true);
                     LoginActivitySmsView.this.timeText.setVisibility(8);
@@ -4489,7 +4682,7 @@ public class LoginActivity extends BaseFragment {
                 double d = LoginActivitySmsView.this.lastCurrentTime;
                 Double.isNaN(currentTimeMillis);
                 LoginActivitySmsView.this.lastCurrentTime = currentTimeMillis;
-                LoginActivitySmsView.access$8926(LoginActivitySmsView.this, currentTimeMillis - d);
+                LoginActivitySmsView.access$9226(LoginActivitySmsView.this, currentTimeMillis - d);
                 if (LoginActivitySmsView.this.time >= 1000) {
                     int i = (LoginActivitySmsView.this.time / 1000) / 60;
                     int i2 = (LoginActivitySmsView.this.time / 1000) - (i * 60);
@@ -8472,8 +8665,18 @@ public class LoginActivity extends BaseFragment {
         private AvatarDrawable avatarDrawable = new AvatarDrawable();
 
         @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
+        public /* synthetic */ boolean canFinishFragment() {
+            return ImageUpdater.ImageUpdaterDelegate.-CC.$default$canFinishFragment(this);
+        }
+
+        @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
         public /* synthetic */ void didStartUpload(boolean z) {
             ImageUpdater.ImageUpdaterDelegate.-CC.$default$didStartUpload(this, z);
+        }
+
+        @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
+        public /* synthetic */ void didUploadFailed() {
+            ImageUpdater.ImageUpdaterDelegate.-CC.$default$didUploadFailed(this);
         }
 
         @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
@@ -8801,7 +9004,7 @@ public class LoginActivity extends BaseFragment {
                 public final void onDismiss(DialogInterface dialogInterface) {
                     LoginActivity.LoginActivityRegisterView.this.lambda$new$6(dialogInterface);
                 }
-            });
+            }, 0);
             this.isCameraWaitAnimationAllowed = false;
             this.avatarEditor.setAnimation(this.cameraDrawable);
             this.cameraDrawable.setCurrentFrame(0);
@@ -8990,7 +9193,7 @@ public class LoginActivity extends BaseFragment {
         }
 
         @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
-        public void didUploadPhoto(TLRPC$InputFile tLRPC$InputFile, TLRPC$InputFile tLRPC$InputFile2, double d, String str, final TLRPC$PhotoSize tLRPC$PhotoSize, final TLRPC$PhotoSize tLRPC$PhotoSize2) {
+        public void didUploadPhoto(TLRPC$InputFile tLRPC$InputFile, TLRPC$InputFile tLRPC$InputFile2, double d, String str, final TLRPC$PhotoSize tLRPC$PhotoSize, final TLRPC$PhotoSize tLRPC$PhotoSize2, boolean z) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LoginActivity$LoginActivityRegisterView$$ExternalSyntheticLambda18
                 @Override // java.lang.Runnable
                 public final void run() {

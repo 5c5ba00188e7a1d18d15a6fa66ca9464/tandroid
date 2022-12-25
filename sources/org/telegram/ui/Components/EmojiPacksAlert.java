@@ -405,7 +405,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
                                     f2 = 1.0f * (((1.0f - emojiImageView.pressedProgress) * 0.2f) + 0.8f);
                                 }
                                 animatedEmojiDrawable.setBounds((int) (left - ((emojiImageView.getScaleX() * width) * f2)), (int) (paddingTop - ((emojiImageView.getScaleY() * height) * f2)), (int) (left + (width * emojiImageView.getScaleX() * f2)), (int) (paddingTop + (height * emojiImageView.getScaleY() * f2)));
-                                animatedEmojiDrawable.draw(canvas, false);
+                                animatedEmojiDrawable.draw(canvas);
                             }
                         }
                     }
@@ -564,7 +564,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         this.premiumButtonView.buttonLayout.setClickable(true);
         this.buttonsView.addView(this.premiumButtonView, LayoutHelper.createFrame(-1, 48.0f, 80, 12.0f, 10.0f, 12.0f, 10.0f));
         updateButton();
-        MediaDataController.getInstance(baseFragment.getCurrentAccount()).checkStickers(5);
+        MediaDataController.getInstance(baseFragment == null ? UserConfig.selectedAccount : baseFragment.getCurrentAccount()).checkStickers(5);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -765,7 +765,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
             new PremiumFeatureBottomSheet(baseFragment, 11, false).show();
         } else if (!(getContext() instanceof LaunchActivity)) {
         } else {
-            ((LaunchActivity) getContext()).lambda$runLinkRequest$67(new PremiumPreviewFragment(null));
+            ((LaunchActivity) getContext()).lambda$runLinkRequest$71(new PremiumPreviewFragment(null));
         }
     }
 
@@ -908,6 +908,13 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
             return;
         }
         MediaDataController.getInstance(baseFragment.getCurrentAccount()).toggleStickerSet(baseFragment.getFragmentView().getContext(), tLRPC$TL_messages_stickerSet, 0, baseFragment, true, z, runnable);
+    }
+
+    public static void uninstallSet(Context context, TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet, boolean z, Runnable runnable) {
+        if (tLRPC$TL_messages_stickerSet == null) {
+            return;
+        }
+        MediaDataController.getInstance(UserConfig.selectedAccount).toggleStickerSet(context, tLRPC$TL_messages_stickerSet, 0, null, true, z, runnable);
     }
 
     private void loadAnimation() {
@@ -1073,7 +1080,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         } else {
             int i = 0;
             while (i < arrayList.size()) {
-                uninstallSet(this.fragment, (TLRPC$TL_messages_stickerSet) arrayList.get(i), i == 0, null);
+                uninstallSet(getContext(), (TLRPC$TL_messages_stickerSet) arrayList.get(i), i == 0, (Runnable) null);
                 i++;
             }
         }

@@ -119,8 +119,12 @@ public class DispatchQueuePoolBackground {
     }
 
     public static void execute(Runnable runnable, boolean z) {
-        if (BuildVars.DEBUG_PRIVATE_VERSION && Thread.currentThread() != ApplicationLoader.applicationHandler.getLooper().getThread()) {
-            throw new RuntimeException("wrong thread");
+        if (Thread.currentThread() != ApplicationLoader.applicationHandler.getLooper().getThread()) {
+            if (!BuildVars.DEBUG_PRIVATE_VERSION) {
+                return;
+            }
+            FileLog.e(new RuntimeException("wrong thread"));
+            return;
         }
         if (updateTaskCollection == null) {
             ArrayList<ArrayList<Runnable>> arrayList = freeCollections;

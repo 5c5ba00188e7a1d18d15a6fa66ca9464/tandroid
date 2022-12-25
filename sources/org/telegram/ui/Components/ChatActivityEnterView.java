@@ -4735,6 +4735,8 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             globalMainSettings.edit().putBoolean(z3 ? "currentModeVideoChannel" : "currentModeVideo", z).apply();
         }
         this.audioVideoSendButton.setState(isInVideoMode() ? ChatActivityEnterViewAnimatedIconView.State.VIDEO : ChatActivityEnterViewAnimatedIconView.State.VOICE, z2);
+        this.audioVideoSendButton.setContentDescription(LocaleController.getString(isInVideoMode() ? R.string.AccDescrVideoMessage : R.string.AccDescrVoiceMessage));
+        this.audioVideoButtonContainer.setContentDescription(LocaleController.getString(isInVideoMode() ? R.string.AccDescrVideoMessage : R.string.AccDescrVoiceMessage));
         this.audioVideoSendButton.sendAccessibilityEvent(8);
     }
 
@@ -5852,7 +5854,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             new PremiumFeatureBottomSheet(baseFragment, 11, false).show();
         } else if (!(baseFragment.getContext() instanceof LaunchActivity)) {
         } else {
-            ((LaunchActivity) baseFragment.getContext()).lambda$runLinkRequest$67(new PremiumPreviewFragment(null));
+            ((LaunchActivity) baseFragment.getContext()).lambda$runLinkRequest$71(new PremiumPreviewFragment(null));
         }
     }
 
@@ -5918,7 +5920,9 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             messageObject2.editingMessage = charSequenceArr[0];
             messageObject2.editingMessageEntities = entities;
             messageObject2.editingMessageSearchWebPage = this.messageWebPageSearch;
-            SendMessagesHelper.getInstance(this.currentAccount).editMessage(this.editingMessageObject, null, null, null, null, null, false, null);
+            SendMessagesHelper sendMessagesHelper = SendMessagesHelper.getInstance(this.currentAccount);
+            MessageObject messageObject3 = this.editingMessageObject;
+            sendMessagesHelper.editMessage(messageObject3, null, null, null, null, null, false, messageObject3.hasMediaSpoilers(), null);
         }
         setEditingMessageObject(null, false);
     }

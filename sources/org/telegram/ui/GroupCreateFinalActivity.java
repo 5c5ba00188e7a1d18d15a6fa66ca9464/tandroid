@@ -127,6 +127,16 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
         return true;
     }
 
+    @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
+    public /* synthetic */ boolean canFinishFragment() {
+        return ImageUpdater.ImageUpdaterDelegate.-CC.$default$canFinishFragment(this);
+    }
+
+    @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
+    public /* synthetic */ void didUploadFailed() {
+        ImageUpdater.ImageUpdaterDelegate.-CC.$default$didUploadFailed(this);
+    }
+
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public boolean hideKeyboardOnShow() {
@@ -657,7 +667,7 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
             public final void onDismiss(DialogInterface dialogInterface) {
                 GroupCreateFinalActivity.this.lambda$createView$3(dialogInterface);
             }
-        });
+        }, 0);
         this.cameraDrawable.setCurrentFrame(0);
         this.cameraDrawable.setCustomEndFrame(43);
         this.avatarEditor.playAnimation();
@@ -792,7 +802,7 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
     }
 
     @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
-    public void didUploadPhoto(final TLRPC$InputFile tLRPC$InputFile, final TLRPC$InputFile tLRPC$InputFile2, final double d, final String str, final TLRPC$PhotoSize tLRPC$PhotoSize, final TLRPC$PhotoSize tLRPC$PhotoSize2) {
+    public void didUploadPhoto(final TLRPC$InputFile tLRPC$InputFile, final TLRPC$InputFile tLRPC$InputFile2, final double d, final String str, final TLRPC$PhotoSize tLRPC$PhotoSize, final TLRPC$PhotoSize tLRPC$PhotoSize2, boolean z) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.GroupCreateFinalActivity$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
             public final void run() {

@@ -433,6 +433,11 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
         final /* synthetic */ Theme.ResourcesProvider val$resourcesProvider;
 
         @Override // org.telegram.ui.Components.BotWebViewContainer.Delegate
+        public /* synthetic */ boolean isClipboardAvailable() {
+            return BotWebViewContainer.Delegate.-CC.$default$isClipboardAvailable(this);
+        }
+
+        @Override // org.telegram.ui.Components.BotWebViewContainer.Delegate
         public /* synthetic */ void onWebAppReady() {
             BotWebViewContainer.Delegate.-CC.$default$onWebAppReady(this);
         }
@@ -828,7 +833,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
                     Bundle bundle = new Bundle();
                     bundle.putLong("user_id", j2);
                     if (BotWebViewSheet.this.parentActivity instanceof LaunchActivity) {
-                        ((LaunchActivity) BotWebViewSheet.this.parentActivity).lambda$runLinkRequest$67(new ChatActivity(bundle));
+                        ((LaunchActivity) BotWebViewSheet.this.parentActivity).lambda$runLinkRequest$71(new ChatActivity(bundle));
                     }
                     BotWebViewSheet.this.dismiss();
                 } else if (i4 == R.id.menu_reload_page) {

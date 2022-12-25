@@ -228,8 +228,9 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
         canvas.drawRect(f3, height - this.indicatorHeight, f2, height, this.rectPaint);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
-    private class PageListener implements ViewPager.OnPageChangeListener {
+    public class PageListener implements ViewPager.OnPageChangeListener {
         private PageListener() {
         }
 

@@ -1,28 +1,23 @@
 package j$.wrappers;
 
-import java.util.function.LongConsumer;
+import java.util.function.LongFunction;
 /* loaded from: classes2.dex */
-public final /* synthetic */ class g0 implements LongConsumer {
-    final /* synthetic */ j$.util.function.q a;
+public final /* synthetic */ class g0 implements j$.util.function.r {
+    final /* synthetic */ LongFunction a;
 
-    private /* synthetic */ g0(j$.util.function.q qVar) {
-        this.a = qVar;
+    private /* synthetic */ g0(LongFunction longFunction) {
+        this.a = longFunction;
     }
 
-    public static /* synthetic */ LongConsumer a(j$.util.function.q qVar) {
-        if (qVar == null) {
+    public static /* synthetic */ j$.util.function.r a(LongFunction longFunction) {
+        if (longFunction == null) {
             return null;
         }
-        return qVar instanceof f0 ? ((f0) qVar).a : new g0(qVar);
+        return longFunction instanceof h0 ? ((h0) longFunction).a : new g0(longFunction);
     }
 
-    @Override // java.util.function.LongConsumer
-    public /* synthetic */ void accept(long j) {
-        this.a.accept(j);
-    }
-
-    @Override // java.util.function.LongConsumer
-    public /* synthetic */ LongConsumer andThen(LongConsumer longConsumer) {
-        return a(this.a.f(f0.b(longConsumer)));
+    @Override // j$.util.function.r
+    public /* synthetic */ Object apply(long j) {
+        return this.a.apply(j);
     }
 }

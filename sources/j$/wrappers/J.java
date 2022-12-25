@@ -1,23 +1,22 @@
 package j$.wrappers;
 
-import java.util.function.DoubleToLongFunction;
+import java.util.function.DoubleUnaryOperator;
 /* loaded from: classes2.dex */
-public final /* synthetic */ class J implements DoubleToLongFunction {
-    final /* synthetic */ j$.util.function.h a;
+public final /* synthetic */ class J {
+    final /* synthetic */ DoubleUnaryOperator a;
 
-    private /* synthetic */ J(j$.util.function.h hVar) {
-        this.a = hVar;
+    private /* synthetic */ J(DoubleUnaryOperator doubleUnaryOperator) {
+        this.a = doubleUnaryOperator;
     }
 
-    public static /* synthetic */ DoubleToLongFunction a(j$.util.function.h hVar) {
-        if (hVar == null) {
+    public static /* synthetic */ J b(DoubleUnaryOperator doubleUnaryOperator) {
+        if (doubleUnaryOperator == null) {
             return null;
         }
-        return hVar instanceof I ? ((I) hVar).a : new J(hVar);
+        return doubleUnaryOperator instanceof K ? ((K) doubleUnaryOperator).a : new J(doubleUnaryOperator);
     }
 
-    @Override // java.util.function.DoubleToLongFunction
-    public /* synthetic */ long applyAsLong(double d) {
-        return this.a.applyAsLong(d);
+    public double a(double d) {
+        return this.a.applyAsDouble(d);
     }
 }

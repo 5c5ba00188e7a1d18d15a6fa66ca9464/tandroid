@@ -1,15 +1,20 @@
 package org.telegram.messenger;
 
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.text.TextUtils;
 import android.view.View;
 import java.util.ArrayList;
 import java.util.Locale;
 import org.telegram.messenger.MediaController;
+import org.telegram.tgnet.AbstractSerializedData;
 import org.telegram.tgnet.SerializedData;
 import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$InputEncryptedFile;
 import org.telegram.tgnet.TLRPC$InputFile;
+import org.telegram.tgnet.TLRPC$TL_messageEntityCustomEmoji;
 import org.telegram.ui.Components.AnimatedFileDrawable;
+import org.telegram.ui.Components.Paint.PaintTypeface;
 import org.telegram.ui.Components.PhotoFilterView;
 import org.telegram.ui.Components.Point;
 /* loaded from: classes.dex */
@@ -49,12 +54,39 @@ public class VideoEditedInfo {
     public boolean shouldLimitFps = true;
 
     /* loaded from: classes.dex */
+    public static class EmojiEntity extends TLRPC$TL_messageEntityCustomEmoji {
+        public String documentAbsolutePath;
+
+        @Override // org.telegram.tgnet.TLRPC$TL_messageEntityCustomEmoji, org.telegram.tgnet.TLObject
+        public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
+            super.readParams(abstractSerializedData, z);
+            if (abstractSerializedData.readBool(z)) {
+                this.documentAbsolutePath = abstractSerializedData.readString(z);
+            }
+            if (TextUtils.isEmpty(this.documentAbsolutePath)) {
+                this.documentAbsolutePath = null;
+            }
+        }
+
+        @Override // org.telegram.tgnet.TLRPC$TL_messageEntityCustomEmoji, org.telegram.tgnet.TLObject
+        public void serializeToStream(AbstractSerializedData abstractSerializedData) {
+            super.serializeToStream(abstractSerializedData);
+            abstractSerializedData.writeBool(!TextUtils.isEmpty(this.documentAbsolutePath));
+            if (!TextUtils.isEmpty(this.documentAbsolutePath)) {
+                abstractSerializedData.writeString(this.documentAbsolutePath);
+            }
+        }
+    }
+
+    /* loaded from: classes.dex */
     public static class MediaEntity {
         public AnimatedFileDrawable animatedFileDrawable;
         public Bitmap bitmap;
+        public Canvas canvas;
         public int color;
         public float currentFrame;
         public TLRPC$Document document;
+        public ArrayList<EmojiEntity> entities;
         public int fontSize;
         public float framesPerDraw;
         public float height;
@@ -65,6 +97,8 @@ public class VideoEditedInfo {
         public float scale;
         public byte subType;
         public String text;
+        public int textAlign;
+        public PaintTypeface textTypeface;
         public float textViewHeight;
         public float textViewWidth;
         public float textViewX;
@@ -78,9 +112,11 @@ public class VideoEditedInfo {
         public float y;
 
         public MediaEntity() {
+            this.entities = new ArrayList<>();
         }
 
         private MediaEntity(SerializedData serializedData) {
+            this.entities = new ArrayList<>();
             this.type = serializedData.readByte(false);
             this.subType = serializedData.readByte(false);
             this.x = serializedData.readFloat(false);
@@ -89,10 +125,18 @@ public class VideoEditedInfo {
             this.width = serializedData.readFloat(false);
             this.height = serializedData.readFloat(false);
             this.text = serializedData.readString(false);
+            int readInt32 = serializedData.readInt32(false);
+            for (int i = 0; i < readInt32; i++) {
+                EmojiEntity emojiEntity = new EmojiEntity();
+                serializedData.readInt32(false);
+                emojiEntity.readParams(serializedData, false);
+                this.entities.add(emojiEntity);
+            }
             this.color = serializedData.readInt32(false);
             this.fontSize = serializedData.readInt32(false);
             this.viewWidth = serializedData.readInt32(false);
             this.viewHeight = serializedData.readInt32(false);
+            this.textAlign = serializedData.readInt32(false);
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -105,10 +149,15 @@ public class VideoEditedInfo {
             serializedData.writeFloat(this.width);
             serializedData.writeFloat(this.height);
             serializedData.writeString(this.text);
+            serializedData.writeInt32(this.entities.size());
+            for (int i = 0; i < this.entities.size(); i++) {
+                this.entities.get(i).serializeToStream(serializedData);
+            }
             serializedData.writeInt32(this.color);
             serializedData.writeInt32(this.fontSize);
             serializedData.writeInt32(this.viewWidth);
             serializedData.writeInt32(this.viewHeight);
+            serializedData.writeInt32(this.textAlign);
         }
 
         public MediaEntity copy() {
@@ -121,6 +170,7 @@ public class VideoEditedInfo {
             mediaEntity.width = this.width;
             mediaEntity.height = this.height;
             mediaEntity.text = this.text;
+            mediaEntity.entities.addAll(this.entities);
             mediaEntity.color = this.color;
             mediaEntity.fontSize = this.fontSize;
             mediaEntity.viewWidth = this.viewWidth;
@@ -130,6 +180,7 @@ public class VideoEditedInfo {
             mediaEntity.textViewHeight = this.textViewHeight;
             mediaEntity.textViewX = this.textViewX;
             mediaEntity.textViewY = this.textViewY;
+            mediaEntity.textAlign = this.textAlign;
             return mediaEntity;
         }
     }

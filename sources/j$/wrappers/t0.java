@@ -2,21 +2,21 @@ package j$.wrappers;
 
 import java.util.function.ObjIntConsumer;
 /* loaded from: classes2.dex */
-public final /* synthetic */ class t0 implements j$.util.function.v {
-    final /* synthetic */ ObjIntConsumer a;
+public final /* synthetic */ class t0 implements ObjIntConsumer {
+    final /* synthetic */ j$.util.function.v a;
 
-    private /* synthetic */ t0(ObjIntConsumer objIntConsumer) {
-        this.a = objIntConsumer;
+    private /* synthetic */ t0(j$.util.function.v vVar) {
+        this.a = vVar;
     }
 
-    public static /* synthetic */ j$.util.function.v a(ObjIntConsumer objIntConsumer) {
-        if (objIntConsumer == null) {
+    public static /* synthetic */ ObjIntConsumer a(j$.util.function.v vVar) {
+        if (vVar == null) {
             return null;
         }
-        return objIntConsumer instanceof u0 ? ((u0) objIntConsumer).a : new t0(objIntConsumer);
+        return vVar instanceof s0 ? ((s0) vVar).a : new t0(vVar);
     }
 
-    @Override // j$.util.function.v
+    @Override // java.util.function.ObjIntConsumer
     public /* synthetic */ void accept(Object obj, int i) {
         this.a.accept(obj, i);
     }

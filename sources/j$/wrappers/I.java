@@ -2,21 +2,21 @@ package j$.wrappers;
 
 import java.util.function.DoubleToLongFunction;
 /* loaded from: classes2.dex */
-public final /* synthetic */ class I implements j$.util.function.h {
-    final /* synthetic */ DoubleToLongFunction a;
+public final /* synthetic */ class I implements DoubleToLongFunction {
+    final /* synthetic */ j$.util.function.h a;
 
-    private /* synthetic */ I(DoubleToLongFunction doubleToLongFunction) {
-        this.a = doubleToLongFunction;
+    private /* synthetic */ I(j$.util.function.h hVar) {
+        this.a = hVar;
     }
 
-    public static /* synthetic */ j$.util.function.h a(DoubleToLongFunction doubleToLongFunction) {
-        if (doubleToLongFunction == null) {
+    public static /* synthetic */ DoubleToLongFunction a(j$.util.function.h hVar) {
+        if (hVar == null) {
             return null;
         }
-        return doubleToLongFunction instanceof J ? ((J) doubleToLongFunction).a : new I(doubleToLongFunction);
+        return hVar instanceof H ? ((H) hVar).a : new I(hVar);
     }
 
-    @Override // j$.util.function.h
+    @Override // java.util.function.DoubleToLongFunction
     public /* synthetic */ long applyAsLong(double d) {
         return this.a.applyAsLong(d);
     }

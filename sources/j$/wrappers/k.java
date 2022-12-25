@@ -21,12 +21,12 @@ public final /* synthetic */ class k implements u.a {
 
     @Override // j$.util.u.a, j$.util.u
     public /* synthetic */ boolean b(Consumer consumer) {
-        return this.a.tryAdvance(x.a(consumer));
+        return this.a.tryAdvance($r8$wrapper$java$util$function$Consumer$-WRP.convert(consumer));
     }
 
     @Override // j$.util.u.a
     public /* synthetic */ void c(j$.util.function.l lVar) {
-        this.a.forEachRemaining(S.a(lVar));
+        this.a.forEachRemaining(Q.a(lVar));
     }
 
     @Override // j$.util.u
@@ -41,7 +41,7 @@ public final /* synthetic */ class k implements u.a {
 
     @Override // j$.util.u.a, j$.util.u
     public /* synthetic */ void forEachRemaining(Consumer consumer) {
-        this.a.forEachRemaining(x.a(consumer));
+        this.a.forEachRemaining($r8$wrapper$java$util$function$Consumer$-WRP.convert(consumer));
     }
 
     @Override // j$.util.w
@@ -51,7 +51,7 @@ public final /* synthetic */ class k implements u.a {
 
     @Override // j$.util.u.a
     public /* synthetic */ boolean g(j$.util.function.l lVar) {
-        return this.a.tryAdvance(S.a(lVar));
+        return this.a.tryAdvance(Q.a(lVar));
     }
 
     @Override // j$.util.u

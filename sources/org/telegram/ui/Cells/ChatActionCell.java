@@ -48,6 +48,7 @@ import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.SvgHelper;
 import org.telegram.messenger.UserConfig;
+import org.telegram.messenger.Utilities;
 import org.telegram.messenger.browser.Browser;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Document;
@@ -59,12 +60,14 @@ import org.telegram.tgnet.TLRPC$PhotoSize;
 import org.telegram.tgnet.TLRPC$TL_chatInviteExported;
 import org.telegram.tgnet.TLRPC$TL_documentEmpty;
 import org.telegram.tgnet.TLRPC$TL_forumTopic;
+import org.telegram.tgnet.TLRPC$TL_messageActionSuggestProfilePhoto;
 import org.telegram.tgnet.TLRPC$TL_messageActionUserUpdatedPhoto;
 import org.telegram.tgnet.TLRPC$TL_messages_stickerSet;
 import org.telegram.tgnet.TLRPC$TL_photoEmpty;
 import org.telegram.tgnet.TLRPC$TL_photoStrippedSize;
 import org.telegram.tgnet.TLRPC$TL_premiumGiftOption;
 import org.telegram.tgnet.TLRPC$TL_stickerPack;
+import org.telegram.tgnet.TLRPC$User;
 import org.telegram.tgnet.TLRPC$VideoSize;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.BaseFragment;
@@ -72,8 +75,11 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimatedEmojiSpan;
 import org.telegram.ui.Components.AvatarDrawable;
 import org.telegram.ui.Components.Forum.ForumUtilities;
+import org.telegram.ui.Components.ImageUpdater;
 import org.telegram.ui.Components.Premium.StarParticlesView;
 import org.telegram.ui.Components.RLottieDrawable;
+import org.telegram.ui.Components.RadialProgress2;
+import org.telegram.ui.Components.RadialProgressView;
 import org.telegram.ui.Components.TypefaceSpan;
 import org.telegram.ui.Components.URLSpanNoUnderline;
 import org.telegram.ui.Components.spoilers.SpoilerEffect;
@@ -88,6 +94,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
     private AvatarDrawable avatarDrawable;
     private int backgroundHeight;
     private Path backgroundPath;
+    private RectF backroundRect;
     private boolean canDrawInParent;
     private int currentAccount;
     private MessageObject currentMessageObject;
@@ -99,6 +106,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
     private boolean giftButtonPressed;
     private RectF giftButtonRect;
     private TLRPC$VideoSize giftEffectAnimation;
+    private int giftPremiumAdditionalHeight;
     private StaticLayout giftPremiumButtonLayout;
     private float giftPremiumButtonWidth;
     private StaticLayout giftPremiumSubtitleLayout;
@@ -123,6 +131,9 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
     private TextPaint overrideTextPaint;
     private URLSpan pressedLink;
     private int previousWidth;
+    float progressToProgress;
+    RadialProgressView progressView;
+    private RadialProgress2 radialProgress;
     private RectF rect;
     private View rippleView;
     public List<SpoilerEffect> spoilers;
@@ -313,6 +324,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         this.invalidateColors = false;
         this.giftTitlePaint = new TextPaint(1);
         this.giftSubtitlePaint = new TextPaint(1);
+        this.radialProgress = new RadialProgress2(this);
         this.giftStickerDelegate = new ImageReceiver.ImageReceiverDelegate() { // from class: org.telegram.ui.Cells.ChatActionCell$$ExternalSyntheticLambda3
             @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
             public final void didSetImage(ImageReceiver imageReceiver, boolean z2, boolean z3, boolean z4) {
@@ -420,84 +432,122 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         setMessageObject(messageObject, false);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:116:0x024f  */
-    /* JADX WARN: Removed duplicated region for block: B:117:0x026e  */
+    /* JADX WARN: Code restructure failed: missing block: B:94:0x0201, code lost:
+        continue;
+     */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void setMessageObject(MessageObject messageObject, boolean z) {
         TLRPC$PhotoSize tLRPC$PhotoSize;
-        TLRPC$VideoSize tLRPC$VideoSize;
-        String str;
         TLRPC$Document tLRPC$Document;
+        TLRPC$PhotoSize tLRPC$PhotoSize2;
+        boolean z2;
         StaticLayout staticLayout;
-        if (this.currentMessageObject != messageObject || (((staticLayout = this.textLayout) != null && !TextUtils.equals(staticLayout.getText(), messageObject.messageText)) || ((!this.hasReplyMessage && messageObject.replyMessageObject != null) || z))) {
+        if (this.currentMessageObject != messageObject || (((staticLayout = this.textLayout) != null && !TextUtils.equals(staticLayout.getText(), messageObject.messageText)) || ((!this.hasReplyMessage && messageObject.replyMessageObject != null) || z || messageObject.type == 21))) {
             if (BuildVars.DEBUG_PRIVATE_VERSION && Thread.currentThread() != ApplicationLoader.applicationHandler.getLooper().getThread()) {
                 FileLog.e(new IllegalStateException("Wrong thread!!!"));
             }
+            TLRPC$VideoSize tLRPC$VideoSize = null;
             this.accessibilityText = null;
+            MessageObject messageObject2 = this.currentMessageObject;
+            boolean z3 = messageObject2 != null && messageObject2.stableId == messageObject.stableId;
             this.currentMessageObject = messageObject;
-            boolean z2 = true;
-            int i = 0;
             this.hasReplyMessage = messageObject.replyMessageObject != null;
             DownloadController.getInstance(this.currentAccount).removeLoadingFileObserver(this);
             this.previousWidth = 0;
-            int i2 = messageObject.type;
-            if (i2 == 18) {
+            int i = messageObject.type;
+            if (i == 21) {
+                this.imageReceiver.setRoundRadius((int) (this.stickerSize / 2.0f));
+                this.imageReceiver.setAllowStartLottieAnimation(true);
+                this.imageReceiver.setDelegate(null);
+                TLRPC$TL_messageActionSuggestProfilePhoto tLRPC$TL_messageActionSuggestProfilePhoto = (TLRPC$TL_messageActionSuggestProfilePhoto) messageObject.messageOwner.action;
+                ArrayList<TLRPC$VideoSize> arrayList = tLRPC$TL_messageActionSuggestProfilePhoto.photo.video_sizes;
+                ImageLocation forPhoto = (arrayList == null || arrayList.isEmpty()) ? null : ImageLocation.getForPhoto(tLRPC$TL_messageActionSuggestProfilePhoto.photo.video_sizes.get(0), tLRPC$TL_messageActionSuggestProfilePhoto.photo);
+                TLRPC$Photo tLRPC$Photo = messageObject.messageOwner.action.photo;
+                int size = messageObject.photoThumbs.size();
+                int i2 = 0;
+                while (true) {
+                    if (i2 >= size) {
+                        tLRPC$PhotoSize2 = null;
+                        break;
+                    }
+                    tLRPC$PhotoSize2 = messageObject.photoThumbs.get(i2);
+                    if (tLRPC$PhotoSize2 instanceof TLRPC$TL_photoStrippedSize) {
+                        break;
+                    }
+                    i2++;
+                }
+                TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(messageObject.photoThumbs, 1000);
+                if (closestPhotoSizeWithSize != null) {
+                    if (!tLRPC$Photo.video_sizes.isEmpty()) {
+                        tLRPC$VideoSize = tLRPC$Photo.video_sizes.get(0);
+                    }
+                    if (tLRPC$VideoSize != null) {
+                        z2 = false;
+                        this.imageReceiver.setImage(forPhoto, ImageLoader.AUTOPLAY_FILTER, ImageLocation.getForPhoto(closestPhotoSizeWithSize, tLRPC$Photo), "150_150", ImageLocation.getForObject(tLRPC$PhotoSize2, messageObject.photoThumbsObject), "50_50_b", null, 0L, null, messageObject, 0);
+                    } else {
+                        z2 = false;
+                        this.imageReceiver.setImage(ImageLocation.getForPhoto(closestPhotoSizeWithSize, tLRPC$Photo), "150_150", ImageLocation.getForObject(tLRPC$PhotoSize2, messageObject.photoThumbsObject), "50_50_b", null, 0L, null, messageObject, 0);
+                    }
+                } else {
+                    z2 = false;
+                }
+                this.imageReceiver.setAllowStartLottieAnimation(z2);
+                ImageUpdater imageUpdater = MessagesController.getInstance(this.currentAccount).photoSuggestion.get(messageObject.messageOwner.local_id);
+                if (imageUpdater == null || imageUpdater.getCurrentImageProgress() == 1.0f) {
+                    this.radialProgress.setProgress(1.0f, !z3);
+                    this.radialProgress.setIcon(4, true, !z3);
+                } else {
+                    this.radialProgress.setIcon(3, true, !z3);
+                }
+            } else if (i == 18) {
                 this.imageReceiver.setRoundRadius(0);
-                String str2 = UserConfig.getInstance(this.currentAccount).premiumGiftsStickerPack;
-                if (str2 == null) {
+                String str = UserConfig.getInstance(this.currentAccount).premiumGiftsStickerPack;
+                if (str == null) {
                     MediaDataController.getInstance(this.currentAccount).checkPremiumGiftStickers();
                     return;
                 }
-                TLRPC$TL_messages_stickerSet stickerSetByName = MediaDataController.getInstance(this.currentAccount).getStickerSetByName(str2);
+                TLRPC$TL_messages_stickerSet stickerSetByName = MediaDataController.getInstance(this.currentAccount).getStickerSetByName(str);
                 if (stickerSetByName == null) {
-                    stickerSetByName = MediaDataController.getInstance(this.currentAccount).getStickerSetByEmojiOrName(str2);
+                    stickerSetByName = MediaDataController.getInstance(this.currentAccount).getStickerSetByEmojiOrName(str);
                 }
                 TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet = stickerSetByName;
                 if (tLRPC$TL_messages_stickerSet != null) {
-                    String str3 = monthsToEmoticon.get(Integer.valueOf(messageObject.messageOwner.action.months));
+                    String str2 = monthsToEmoticon.get(Integer.valueOf(messageObject.messageOwner.action.months));
                     Iterator<TLRPC$TL_stickerPack> it = tLRPC$TL_messages_stickerSet.packs.iterator();
-                    TLRPC$Document tLRPC$Document2 = null;
-                    while (true) {
-                        if (!it.hasNext()) {
-                            str = str2;
-                            break;
-                        }
+                    tLRPC$Document = null;
+                    while (it.hasNext()) {
                         TLRPC$TL_stickerPack next = it.next();
-                        if (Objects.equals(next.emoticon, str3)) {
+                        if (Objects.equals(next.emoticon, str2)) {
                             Iterator<Long> it2 = next.documents.iterator();
                             while (it2.hasNext()) {
                                 long longValue = it2.next().longValue();
                                 Iterator<TLRPC$Document> it3 = tLRPC$TL_messages_stickerSet.documents.iterator();
                                 while (true) {
-                                    if (!it3.hasNext()) {
-                                        str = str2;
-                                        break;
+                                    if (it3.hasNext()) {
+                                        TLRPC$Document next2 = it3.next();
+                                        if (next2.id == longValue) {
+                                            tLRPC$Document = next2;
+                                            continue;
+                                            break;
+                                        }
                                     }
-                                    TLRPC$Document next2 = it3.next();
-                                    str = str2;
-                                    if (next2.id == longValue) {
-                                        tLRPC$Document2 = next2;
-                                        break;
-                                    }
-                                    str2 = str;
                                 }
-                                if (tLRPC$Document2 != null) {
+                                if (tLRPC$Document != null) {
                                     break;
                                 }
-                                str2 = str;
                             }
+                            continue;
                         }
-                        str = str2;
-                        if (tLRPC$Document2 != null) {
+                        if (tLRPC$Document != null) {
                             break;
                         }
-                        str2 = str;
                     }
-                    tLRPC$Document = (tLRPC$Document2 != null || tLRPC$TL_messages_stickerSet.documents.isEmpty()) ? tLRPC$Document2 : tLRPC$TL_messages_stickerSet.documents.get(0);
+                    if (tLRPC$Document == null && !tLRPC$TL_messages_stickerSet.documents.isEmpty()) {
+                        tLRPC$Document = tLRPC$TL_messages_stickerSet.documents.get(0);
+                    }
                 } else {
-                    str = str2;
                     tLRPC$Document = null;
                 }
                 this.forceWasUnread = messageObject.wasUnread;
@@ -524,14 +574,9 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
                     this.imageReceiver.setAutoRepeat(0);
                     this.imageReceiver.setImage(ImageLocation.getForDocument(tLRPC$Document), messageObject.getId() + "_130_130", svgThumb, "tgs", tLRPC$TL_messages_stickerSet, 1);
                 } else {
-                    MediaDataController mediaDataController = MediaDataController.getInstance(this.currentAccount);
-                    String str4 = str;
-                    if (tLRPC$TL_messages_stickerSet != null) {
-                        z2 = false;
-                    }
-                    mediaDataController.loadStickersByEmojiOrName(str4, false, z2);
+                    MediaDataController.getInstance(this.currentAccount).loadStickersByEmojiOrName(str, false, tLRPC$TL_messages_stickerSet == null);
                 }
-            } else if (i2 == 11) {
+            } else if (i == 11) {
                 this.imageReceiver.setAllowStartLottieAnimation(true);
                 this.imageReceiver.setDelegate(null);
                 this.imageReceiver.setRoundRadius(AndroidUtilities.roundMessageSize / 2);
@@ -539,37 +584,35 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
                 if (messageObject.messageOwner.action instanceof TLRPC$TL_messageActionUserUpdatedPhoto) {
                     this.imageReceiver.setImage(null, null, this.avatarDrawable, null, messageObject, 0);
                 } else {
-                    int size = messageObject.photoThumbs.size();
+                    int size2 = messageObject.photoThumbs.size();
                     int i4 = 0;
                     while (true) {
-                        if (i4 >= size) {
+                        if (i4 >= size2) {
                             tLRPC$PhotoSize = null;
                             break;
                         }
-                        TLRPC$PhotoSize tLRPC$PhotoSize2 = messageObject.photoThumbs.get(i4);
-                        if (tLRPC$PhotoSize2 instanceof TLRPC$TL_photoStrippedSize) {
-                            tLRPC$PhotoSize = tLRPC$PhotoSize2;
+                        tLRPC$PhotoSize = messageObject.photoThumbs.get(i4);
+                        if (tLRPC$PhotoSize instanceof TLRPC$TL_photoStrippedSize) {
                             break;
                         }
                         i4++;
                     }
-                    TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(messageObject.photoThumbs, 640);
-                    if (closestPhotoSizeWithSize != null) {
-                        TLRPC$Photo tLRPC$Photo = messageObject.messageOwner.action.photo;
-                        if (!tLRPC$Photo.video_sizes.isEmpty() && SharedConfig.autoplayGifs) {
-                            tLRPC$VideoSize = tLRPC$Photo.video_sizes.get(0);
-                            if (!messageObject.mediaExists && !DownloadController.getInstance(this.currentAccount).canDownloadMedia(4, tLRPC$VideoSize.size)) {
-                                this.currentVideoLocation = ImageLocation.getForPhoto(tLRPC$VideoSize, tLRPC$Photo);
-                                DownloadController.getInstance(this.currentAccount).addLoadingFileObserver(FileLoader.getAttachFileName(tLRPC$VideoSize), messageObject, this);
-                            }
-                            if (tLRPC$VideoSize == null) {
-                                this.imageReceiver.setImage(ImageLocation.getForPhoto(tLRPC$VideoSize, tLRPC$Photo), ImageLoader.AUTOPLAY_FILTER, ImageLocation.getForObject(tLRPC$PhotoSize, messageObject.photoThumbsObject), "50_50_b", this.avatarDrawable, 0L, null, messageObject, 1);
+                    TLRPC$PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(messageObject.photoThumbs, 640);
+                    if (closestPhotoSizeWithSize2 != null) {
+                        TLRPC$Photo tLRPC$Photo2 = messageObject.messageOwner.action.photo;
+                        if (!tLRPC$Photo2.video_sizes.isEmpty() && SharedConfig.autoplayGifs) {
+                            TLRPC$VideoSize tLRPC$VideoSize2 = tLRPC$Photo2.video_sizes.get(0);
+                            if (messageObject.mediaExists || DownloadController.getInstance(this.currentAccount).canDownloadMedia(4, tLRPC$VideoSize2.size)) {
+                                tLRPC$VideoSize = tLRPC$VideoSize2;
                             } else {
-                                this.imageReceiver.setImage(ImageLocation.getForObject(closestPhotoSizeWithSize, messageObject.photoThumbsObject), "150_150", ImageLocation.getForObject(tLRPC$PhotoSize, messageObject.photoThumbsObject), "50_50_b", this.avatarDrawable, 0L, null, messageObject, 1);
+                                this.currentVideoLocation = ImageLocation.getForPhoto(tLRPC$VideoSize2, tLRPC$Photo2);
+                                DownloadController.getInstance(this.currentAccount).addLoadingFileObserver(FileLoader.getAttachFileName(tLRPC$VideoSize2), messageObject, this);
                             }
                         }
-                        tLRPC$VideoSize = null;
-                        if (tLRPC$VideoSize == null) {
+                        if (tLRPC$VideoSize != null) {
+                            this.imageReceiver.setImage(ImageLocation.getForPhoto(tLRPC$VideoSize, tLRPC$Photo2), ImageLoader.AUTOPLAY_FILTER, ImageLocation.getForObject(tLRPC$PhotoSize, messageObject.photoThumbsObject), "50_50_b", this.avatarDrawable, 0L, null, messageObject, 1);
+                        } else {
+                            this.imageReceiver.setImage(ImageLocation.getForObject(closestPhotoSizeWithSize2, messageObject.photoThumbsObject), "150_150", ImageLocation.getForObject(tLRPC$PhotoSize, messageObject.photoThumbsObject), "50_50_b", this.avatarDrawable, 0L, null, messageObject, 1);
                         }
                     } else {
                         this.imageReceiver.setImageBitmap(this.avatarDrawable);
@@ -581,11 +624,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
                 this.imageReceiver.setDelegate(null);
                 this.imageReceiver.setImageBitmap((Bitmap) null);
             }
-            View view = this.rippleView;
-            if (messageObject.type != 18) {
-                i = 8;
-            }
-            view.setVisibility(i);
+            this.rippleView.setVisibility(isButtonLayout(messageObject) ? 0 : 8);
             ForumUtilities.applyTopicToMessage(messageObject);
             requestLayout();
         }
@@ -642,6 +681,11 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         this.animatedEmojiStack = AnimatedEmojiSpan.update(0, this, this.canDrawInParent && (chatActionCellDelegate = this.delegate) != null && !chatActionCellDelegate.canDrawOutboundsContent(), this.animatedEmojiStack, this.textLayout);
         NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.didUpdatePremiumGiftStickers);
         NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.diceStickersDidLoad);
+        MessageObject messageObject = this.currentMessageObject;
+        if (messageObject == null || messageObject.type != 21) {
+            return;
+        }
+        setMessageObject(messageObject, true);
     }
 
     private void setStarsPaused(boolean z) {
@@ -660,9 +704,9 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         invalidate();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:30:0x00e3  */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x0156  */
-    /* JADX WARN: Removed duplicated region for block: B:58:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x0146  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x01b9  */
+    /* JADX WARN: Removed duplicated region for block: B:64:? A[RETURN, SYNTHETIC] */
     @Override // android.view.View
     @SuppressLint({"ClickableViewAccessibility"})
     /*
@@ -682,14 +726,17 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         boolean z2 = true;
         if (motionEvent.getAction() == 0) {
             if (this.delegate != null) {
-                int i2 = messageObject.type;
-                if ((i2 == 11 || i2 == 18) && this.imageReceiver.isInsideImage(x, y)) {
+                if ((messageObject.type == 11 || isButtonLayout(messageObject)) && this.imageReceiver.isInsideImage(x, y)) {
                     this.imagePressed = true;
                     z = true;
                 } else {
                     z = false;
                 }
-                if (messageObject.type == 18 && this.giftButtonRect.contains(x, y)) {
+                if (messageObject.type == 21 && this.backroundRect.contains(x, y)) {
+                    this.imagePressed = true;
+                    z = true;
+                }
+                if (isButtonLayout(messageObject) && this.giftButtonRect.contains(x, y)) {
                     View view = this.rippleView;
                     this.giftButtonPressed = true;
                     view.setPressed(true);
@@ -701,10 +748,10 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
                 if (!z && (motionEvent.getAction() == 0 || (this.pressedLink != null && motionEvent.getAction() == 1))) {
                     i = this.textX;
                     if (x >= i) {
-                        int i3 = this.textY;
-                        if (y >= i3 && x <= i + this.textWidth && y <= this.textHeight + i3) {
+                        int i2 = this.textY;
+                        if (y >= i2 && x <= i + this.textWidth && y <= this.textHeight + i2) {
                             float f = x - this.textXLeft;
-                            int lineForVertical = this.textLayout.getLineForVertical((int) (y - i3));
+                            int lineForVertical = this.textLayout.getLineForVertical((int) (y - i2));
                             int offsetForHorizontal = this.textLayout.getOffsetForHorizontal(lineForVertical, f);
                             float lineLeft = this.textLayout.getLineLeft(lineForVertical);
                             if (lineLeft <= f && lineLeft + this.textLayout.getLineWidth(lineForVertical) >= f) {
@@ -746,15 +793,21 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
                     this.imagePressed = false;
                     if (messageObject.type == 18) {
                         openPremiumGiftPreview();
-                    } else {
-                        ChatActionCellDelegate chatActionCellDelegate = this.delegate;
-                        if (chatActionCellDelegate != null) {
-                            chatActionCellDelegate.didClickImage(this);
+                    } else if (this.delegate != null) {
+                        ImageUpdater imageUpdater = MessagesController.getInstance(this.currentAccount).photoSuggestion.get(messageObject.messageOwner.local_id);
+                        if (imageUpdater != null) {
+                            imageUpdater.cancel();
+                        } else {
+                            this.delegate.didClickImage(this);
                             playSoundEffect(0);
                         }
                     }
                 } else if (action != 2) {
                     if (action == 3) {
+                        this.imagePressed = false;
+                    }
+                } else if (messageObject.type == 21) {
+                    if (!this.backroundRect.contains(x, y)) {
                         this.imagePressed = false;
                     }
                 } else if (!this.imageReceiver.isInsideImage(x, y)) {
@@ -767,8 +820,12 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
                     this.giftButtonPressed = false;
                     view2.setPressed(false);
                     if (this.delegate != null) {
-                        playSoundEffect(0);
-                        openPremiumGiftPreview();
+                        if (messageObject.type == 18) {
+                            playSoundEffect(0);
+                            openPremiumGiftPreview();
+                        } else if (MessagesController.getInstance(this.currentAccount).photoSuggestion.get(messageObject.messageOwner.local_id) == null) {
+                            this.delegate.didClickImage(this);
+                        }
                     }
                 } else if (action2 != 2) {
                     if (action2 == 3) {
@@ -894,19 +951,32 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         this.textXLeft = (i - this.textLayout.getWidth()) / 2;
     }
 
+    /* JADX WARN: Removed duplicated region for block: B:29:0x00ad  */
     @Override // android.view.View
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     protected void onMeasure(int i, int i2) {
         int i3;
-        int dp;
+        StaticLayout staticLayout;
+        float dp;
+        int i4;
+        int dp2;
         MessageObject messageObject = this.currentMessageObject;
         if (messageObject == null && this.customText == null) {
             setMeasuredDimension(View.MeasureSpec.getSize(i), this.textHeight + AndroidUtilities.dp(14.0f));
             return;
         }
-        if (messageObject != null && messageObject.type == 18) {
+        if (isButtonLayout(messageObject)) {
             int min = Math.min((int) ((AndroidUtilities.isTablet() ? AndroidUtilities.getMinTabletSide() : AndroidUtilities.displaySize.x) * 0.6f), ((AndroidUtilities.displaySize.y - ActionBar.getCurrentActionBarHeight()) - AndroidUtilities.statusBarHeight) - AndroidUtilities.dp(64.0f));
             this.giftRectSize = min;
-            this.stickerSize = min - AndroidUtilities.dp(106.0f);
+            int dp3 = min - AndroidUtilities.dp(106.0f);
+            this.stickerSize = dp3;
+            if (messageObject.type == 21) {
+                this.imageReceiver.setRoundRadius(dp3 / 2);
+            } else {
+                this.imageReceiver.setRoundRadius(0);
+            }
         }
         int max = Math.max(AndroidUtilities.dp(30.0f), View.MeasureSpec.getSize(i));
         if (this.previousWidth != max) {
@@ -914,38 +984,61 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
             this.previousWidth = max;
             buildLayout();
         }
-        int i4 = 0;
         if (messageObject != null) {
-            int i5 = messageObject.type;
-            if (i5 == 11) {
-                i3 = AndroidUtilities.roundMessageSize;
-                dp = AndroidUtilities.dp(10.0f);
-            } else if (i5 == 18) {
-                i3 = this.giftRectSize;
-                dp = AndroidUtilities.dp(12.0f);
+            if (messageObject.type == 11) {
+                i4 = AndroidUtilities.roundMessageSize;
+                dp2 = AndroidUtilities.dp(10.0f);
+            } else if (isButtonLayout(messageObject)) {
+                i4 = this.giftRectSize;
+                dp2 = AndroidUtilities.dp(12.0f);
             }
-            i4 = i3 + dp;
+            i3 = i4 + dp2;
+            if (isButtonLayout(messageObject)) {
+                int i5 = this.stickerSize;
+                if (messageObject.type == 21) {
+                    i5 = (int) (i5 * 0.7f);
+                }
+                float dp4 = this.textY + this.textHeight + (this.giftRectSize * 0.075f) + i5 + AndroidUtilities.dp(4.0f) + AndroidUtilities.dp(4.0f) + this.giftPremiumSubtitleLayout.getHeight();
+                this.giftPremiumAdditionalHeight = 0;
+                if (this.giftPremiumTitleLayout != null) {
+                    dp = dp4 + staticLayout.getHeight();
+                } else {
+                    dp = dp4 - AndroidUtilities.dp(12.0f);
+                    this.giftPremiumAdditionalHeight -= AndroidUtilities.dp(30.0f);
+                }
+                if (messageObject.type == 21) {
+                    dp += AndroidUtilities.dp(16.0f);
+                }
+                if (this.giftPremiumSubtitleLayout.getLineCount() > 2) {
+                    this.giftPremiumAdditionalHeight += ((this.giftPremiumSubtitleLayout.getLineBottom(0) - this.giftPremiumSubtitleLayout.getLineTop(0)) * this.giftPremiumSubtitleLayout.getLineCount()) - 2;
+                }
+                i3 += this.giftPremiumAdditionalHeight;
+                float dp5 = dp + ((((((this.textHeight + i3) + AndroidUtilities.dp(14.0f)) - dp) - this.giftPremiumButtonLayout.getHeight()) - AndroidUtilities.dp(8.0f)) / 2.0f);
+                float f = (this.previousWidth - this.giftPremiumButtonWidth) / 2.0f;
+                this.giftButtonRect.set(f - AndroidUtilities.dp(18.0f), dp5 - AndroidUtilities.dp(8.0f), f + this.giftPremiumButtonWidth + AndroidUtilities.dp(18.0f), dp5 + this.giftPremiumButtonLayout.getHeight() + AndroidUtilities.dp(8.0f));
+                int measuredWidth = getMeasuredWidth() << (getMeasuredHeight() + 16);
+                this.starParticlesDrawable.rect.set(this.giftButtonRect);
+                this.starParticlesDrawable.rect2.set(this.giftButtonRect);
+                if (this.starsSize != measuredWidth) {
+                    this.starsSize = measuredWidth;
+                    this.starParticlesDrawable.resetPositions();
+                }
+            }
+            setMeasuredDimension(max, this.textHeight + i3 + AndroidUtilities.dp(14.0f));
         }
-        setMeasuredDimension(max, this.textHeight + i4 + AndroidUtilities.dp(14.0f));
-        if (messageObject == null || messageObject.type != 18) {
-            return;
+        i3 = 0;
+        if (isButtonLayout(messageObject)) {
         }
-        float dp2 = this.textY + this.textHeight + (this.giftRectSize * 0.075f) + this.stickerSize + AndroidUtilities.dp(4.0f) + this.giftPremiumTitleLayout.getHeight() + AndroidUtilities.dp(4.0f) + this.giftPremiumSubtitleLayout.getHeight();
-        float measuredHeight = dp2 + ((((getMeasuredHeight() - dp2) - this.giftPremiumButtonLayout.getHeight()) - AndroidUtilities.dp(8.0f)) / 2.0f);
-        float f = (this.previousWidth - this.giftPremiumButtonWidth) / 2.0f;
-        this.giftButtonRect.set(f - AndroidUtilities.dp(18.0f), measuredHeight - AndroidUtilities.dp(8.0f), f + this.giftPremiumButtonWidth + AndroidUtilities.dp(18.0f), measuredHeight + this.giftPremiumButtonLayout.getHeight() + AndroidUtilities.dp(8.0f));
-        int measuredWidth = getMeasuredWidth() << (getMeasuredHeight() + 16);
-        this.starParticlesDrawable.rect.set(this.giftButtonRect);
-        this.starParticlesDrawable.rect2.set(this.giftButtonRect);
-        if (this.starsSize == measuredWidth) {
-            return;
-        }
-        this.starsSize = measuredWidth;
-        this.starParticlesDrawable.resetPositions();
+        setMeasuredDimension(max, this.textHeight + i3 + AndroidUtilities.dp(14.0f));
     }
 
     private void buildLayout() {
         CharSequence charSequence;
+        String formatString;
+        String string;
+        ArrayList<TLRPC$VideoSize> arrayList;
+        TLRPC$Photo tLRPC$Photo;
+        ArrayList<TLRPC$VideoSize> arrayList2;
         TLRPC$MessageMedia tLRPC$MessageMedia;
         MessageObject messageObject = this.currentMessageObject;
         if (messageObject != null) {
@@ -973,21 +1066,57 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
             if (i == 11) {
                 int i2 = AndroidUtilities.roundMessageSize;
                 this.imageReceiver.setImageCoords((this.previousWidth - AndroidUtilities.roundMessageSize) / 2.0f, this.textHeight + AndroidUtilities.dp(19.0f), i2, i2);
-            } else if (i != 18) {
-            } else {
+            } else if (i == 18) {
                 createGiftPremiumLayouts(LocaleController.getString(R.string.ActionGiftPremiumTitle), LocaleController.formatString(R.string.ActionGiftPremiumSubtitle, LocaleController.formatPluralString("Months", messageObject.messageOwner.action.months, new Object[0])), LocaleController.getString(R.string.ActionGiftPremiumView), this.giftRectSize);
+            } else if (i != 21) {
+            } else {
+                TLRPC$TL_messageActionSuggestProfilePhoto tLRPC$TL_messageActionSuggestProfilePhoto = (TLRPC$TL_messageActionSuggestProfilePhoto) messageObject.messageOwner.action;
+                TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(messageObject.isOutOwner() ? 0L : messageObject.getDialogId()));
+                boolean z = tLRPC$TL_messageActionSuggestProfilePhoto.video || !((tLRPC$Photo = tLRPC$TL_messageActionSuggestProfilePhoto.photo) == null || (arrayList2 = tLRPC$Photo.video_sizes) == null || arrayList2.isEmpty());
+                if (user.id == UserConfig.getInstance(this.currentAccount).clientUserId) {
+                    TLRPC$User user2 = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(messageObject.getDialogId()));
+                    if (z) {
+                        formatString = LocaleController.formatString("ActionSuggestVideoFromYouDescription", R.string.ActionSuggestVideoFromYouDescription, user2.first_name);
+                    } else {
+                        formatString = LocaleController.formatString("ActionSuggestPhotoFromYouDescription", R.string.ActionSuggestPhotoFromYouDescription, user2.first_name);
+                    }
+                } else if (z) {
+                    formatString = LocaleController.formatString("ActionSuggestVideoToYouDescription", R.string.ActionSuggestVideoToYouDescription, user.first_name);
+                } else {
+                    formatString = LocaleController.formatString("ActionSuggestPhotoToYouDescription", R.string.ActionSuggestPhotoToYouDescription, user.first_name);
+                }
+                if (tLRPC$TL_messageActionSuggestProfilePhoto.video || ((arrayList = tLRPC$TL_messageActionSuggestProfilePhoto.photo.video_sizes) != null && !arrayList.isEmpty())) {
+                    string = LocaleController.getString("ViewVideoAction", R.string.ViewVideoAction);
+                } else {
+                    string = LocaleController.getString("ViewPhotoAction", R.string.ViewPhotoAction);
+                }
+                createGiftPremiumLayouts(null, formatString, string, this.giftRectSize);
+                this.textLayout = null;
+                this.textHeight = 0;
+                this.textY = 0;
             }
         }
     }
 
     private void createGiftPremiumLayouts(CharSequence charSequence, CharSequence charSequence2, CharSequence charSequence3, int i) {
-        SpannableStringBuilder valueOf = SpannableStringBuilder.valueOf(charSequence);
-        valueOf.setSpan(new TypefaceSpan(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM)), 0, valueOf.length(), 33);
-        this.giftPremiumTitleLayout = new StaticLayout(valueOf, this.giftTitlePaint, i, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
-        this.giftPremiumSubtitleLayout = new StaticLayout(charSequence2, this.giftSubtitlePaint, i, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
+        int dp = i - AndroidUtilities.dp(16.0f);
+        if (charSequence != null) {
+            SpannableStringBuilder valueOf = SpannableStringBuilder.valueOf(charSequence);
+            valueOf.setSpan(new TypefaceSpan(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM)), 0, valueOf.length(), 33);
+            this.giftPremiumTitleLayout = new StaticLayout(valueOf, this.giftTitlePaint, dp, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
+        } else {
+            this.giftPremiumTitleLayout = null;
+        }
+        MessageObject messageObject = this.currentMessageObject;
+        if (messageObject != null && messageObject.type == 21) {
+            this.giftSubtitlePaint.setTextSize(AndroidUtilities.dp(13.0f));
+        } else {
+            this.giftSubtitlePaint.setTextSize(AndroidUtilities.dp(15.0f));
+        }
+        this.giftPremiumSubtitleLayout = new StaticLayout(charSequence2, this.giftSubtitlePaint, dp, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
         SpannableStringBuilder valueOf2 = SpannableStringBuilder.valueOf(charSequence3);
         valueOf2.setSpan(new TypefaceSpan(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM)), 0, valueOf2.length(), 33);
-        StaticLayout staticLayout = new StaticLayout(valueOf2, (TextPaint) getThemedPaint("paintChatActionText"), i, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
+        StaticLayout staticLayout = new StaticLayout(valueOf2, (TextPaint) getThemedPaint("paintChatActionText"), dp, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
         this.giftPremiumButtonLayout = staticLayout;
         this.giftPremiumButtonWidth = measureLayoutWidth(staticLayout);
     }
@@ -1007,15 +1136,30 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         return this.customDate;
     }
 
+    /* JADX WARN: Removed duplicated region for block: B:71:0x030f  */
+    /* JADX WARN: Removed duplicated region for block: B:77:0x0360  */
+    /* JADX WARN: Removed duplicated region for block: B:80:? A[RETURN, SYNTHETIC] */
     @Override // android.view.View
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public void onDraw(Canvas canvas) {
-        int i;
+        float dp;
+        float f;
+        float clamp;
         TextPaint textPaint;
         MessageObject messageObject = this.currentMessageObject;
-        if (messageObject != null && messageObject.type == 18) {
-            int dp = this.giftRectSize - AndroidUtilities.dp(106.0f);
-            this.stickerSize = dp;
-            this.imageReceiver.setImageCoords((this.previousWidth - dp) / 2.0f, this.textY + this.textHeight + (this.giftRectSize * 0.075f), dp, dp);
+        int i = this.stickerSize;
+        if (isButtonLayout(messageObject)) {
+            int dp2 = this.giftRectSize - AndroidUtilities.dp(106.0f);
+            this.stickerSize = dp2;
+            if (messageObject.type == 11) {
+                this.imageReceiver.setImageCoords((this.previousWidth - dp2) / 2.0f, this.textY + this.textHeight + (this.giftRectSize * 0.075f), dp2, dp2);
+            } else {
+                i = (int) (dp2 * 0.7f);
+                float f2 = i;
+                this.imageReceiver.setImageCoords((this.previousWidth - i) / 2.0f, this.textY + this.textHeight + (this.giftRectSize * 0.075f) + AndroidUtilities.dp(8.0f), f2, f2);
+            }
             if (this.textPaint != null && (textPaint = this.giftTitlePaint) != null && this.giftSubtitlePaint != null) {
                 if (textPaint.getColor() != this.textPaint.getColor()) {
                     this.giftTitlePaint.setColor(this.textPaint.getColor());
@@ -1025,14 +1169,28 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
                 }
             }
         }
-        if (messageObject != null && ((i = messageObject.type) == 11 || i == 18)) {
+        int i2 = i;
+        if (isButtonLayout(messageObject) || (messageObject != null && messageObject.type == 11)) {
             this.imageReceiver.draw(canvas);
-        }
-        if (this.textLayout == null) {
-            return;
+            this.radialProgress.setProgressRect(this.imageReceiver.getImageX(), this.imageReceiver.getImageY(), this.imageReceiver.getImageX() + this.imageReceiver.getImageWidth(), this.imageReceiver.getImageY() + this.imageReceiver.getImageHeight());
+            if (messageObject.type == 21) {
+                ImageUpdater imageUpdater = MessagesController.getInstance(this.currentAccount).photoSuggestion.get(messageObject.messageOwner.local_id);
+                if (imageUpdater != null) {
+                    this.radialProgress.setProgress(imageUpdater.getCurrentImageProgress(), true);
+                    this.radialProgress.setCircleRadius(((int) (this.imageReceiver.getImageWidth() * 0.5f)) + 1);
+                    this.radialProgress.setMaxIconSize(AndroidUtilities.dp(24.0f));
+                    this.radialProgress.setColors("chat_mediaLoaderPhoto", "chat_mediaLoaderPhotoSelected", "chat_mediaLoaderPhotoIcon", "chat_mediaLoaderPhotoIconSelected");
+                    if (imageUpdater.getCurrentImageProgress() == 1.0f) {
+                        this.radialProgress.setIcon(4, true, true);
+                    } else {
+                        this.radialProgress.setIcon(3, true, true);
+                    }
+                }
+                this.radialProgress.draw(canvas);
+            }
         }
         drawBackground(canvas, false);
-        if (this.textPaint != null) {
+        if (this.textPaint != null && this.textLayout != null) {
             canvas.save();
             canvas.translate(this.textXLeft, this.textY);
             if (this.textLayout.getPaint() != this.textPaint) {
@@ -1052,41 +1210,103 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
             }
             canvas.restore();
         }
-        if (messageObject == null || messageObject.type != 18) {
-            return;
+        if (isButtonLayout(messageObject)) {
+            canvas.save();
+            float dp3 = ((this.previousWidth - this.giftRectSize) / 2.0f) + AndroidUtilities.dp(8.0f);
+            float dp4 = this.textY + this.textHeight + (this.giftRectSize * 0.075f) + i2 + AndroidUtilities.dp(4.0f);
+            if (messageObject.type == 21) {
+                dp4 += AndroidUtilities.dp(16.0f);
+            }
+            canvas.translate(dp3, dp4);
+            StaticLayout staticLayout = this.giftPremiumTitleLayout;
+            if (staticLayout != null) {
+                staticLayout.draw(canvas);
+                dp = dp4 + this.giftPremiumTitleLayout.getHeight();
+            } else {
+                dp = dp4 - AndroidUtilities.dp(4.0f);
+            }
+            canvas.restore();
+            float dp5 = dp + AndroidUtilities.dp(4.0f);
+            canvas.save();
+            canvas.translate(dp3, dp5);
+            this.giftPremiumSubtitleLayout.draw(canvas);
+            canvas.restore();
+            if (this.giftPremiumTitleLayout == null) {
+                dp5 -= AndroidUtilities.dp(8.0f);
+            }
+            float height = dp5 + this.giftPremiumSubtitleLayout.getHeight();
+            float height2 = height + ((((getHeight() - height) - this.giftPremiumButtonLayout.getHeight()) - AndroidUtilities.dp(8.0f)) / 2.0f);
+            ThemeDelegate themeDelegate = this.themeDelegate;
+            if (themeDelegate != null) {
+                themeDelegate.applyServiceShaderMatrix(getMeasuredWidth(), this.backgroundHeight, 0.0f, this.viewTop + AndroidUtilities.dp(4.0f));
+            } else {
+                Theme.applyServiceShaderMatrix(getMeasuredWidth(), this.backgroundHeight, 0.0f, this.viewTop + AndroidUtilities.dp(4.0f));
+            }
+            canvas.drawRoundRect(this.giftButtonRect, AndroidUtilities.dp(16.0f), AndroidUtilities.dp(16.0f), getThemedPaint("paintChatActionBackground"));
+            if (hasGradientService()) {
+                canvas.drawRoundRect(this.giftButtonRect, AndroidUtilities.dp(16.0f), AndroidUtilities.dp(16.0f), Theme.chat_actionBackgroundGradientDarkenPaint);
+            }
+            this.starsPath.rewind();
+            this.starsPath.addRoundRect(this.giftButtonRect, AndroidUtilities.dp(16.0f), AndroidUtilities.dp(16.0f), Path.Direction.CW);
+            canvas.save();
+            canvas.clipPath(this.starsPath);
+            if (getMessageObject().type != 21) {
+                this.starParticlesDrawable.onDraw(canvas);
+                if (!this.starParticlesDrawable.paused) {
+                    invalidate();
+                }
+            } else {
+                invalidate();
+            }
+            canvas.restore();
+            boolean z = messageObject.settingAvatar;
+            if (z) {
+                float f3 = this.progressToProgress;
+                f = 1.0f;
+                if (f3 != 1.0f) {
+                    this.progressToProgress = f3 + 0.10666667f;
+                    clamp = Utilities.clamp(this.progressToProgress, f, 0.0f);
+                    this.progressToProgress = clamp;
+                    if (clamp != 0.0f) {
+                        if (this.progressView == null) {
+                            this.progressView = new RadialProgressView(getContext());
+                        }
+                        int dp6 = AndroidUtilities.dp(16.0f);
+                        canvas.save();
+                        float f4 = this.progressToProgress;
+                        canvas.scale(f4, f4, this.giftButtonRect.centerX(), this.giftButtonRect.centerY());
+                        this.progressView.setSize(dp6);
+                        this.progressView.setProgressColor(Theme.getColor("chat_serviceText"));
+                        this.progressView.draw(canvas, this.giftButtonRect.centerX(), this.giftButtonRect.centerY());
+                        canvas.restore();
+                    }
+                    if (this.progressToProgress != f) {
+                        return;
+                    }
+                    canvas.save();
+                    float f5 = f - this.progressToProgress;
+                    canvas.scale(f5, f5, this.giftButtonRect.centerX(), this.giftButtonRect.centerY());
+                    canvas.translate(dp3, height2);
+                    this.giftPremiumButtonLayout.draw(canvas);
+                    canvas.restore();
+                    return;
+                }
+            } else {
+                f = 1.0f;
+            }
+            if (!z) {
+                float f6 = this.progressToProgress;
+                if (f6 != 0.0f) {
+                    this.progressToProgress = f6 - 0.10666667f;
+                }
+            }
+            clamp = Utilities.clamp(this.progressToProgress, f, 0.0f);
+            this.progressToProgress = clamp;
+            if (clamp != 0.0f) {
+            }
+            if (this.progressToProgress != f) {
+            }
         }
-        canvas.save();
-        int i2 = this.previousWidth;
-        int i3 = this.giftRectSize;
-        float f = (i2 - i3) / 2.0f;
-        float dp2 = this.textY + this.textHeight + (i3 * 0.075f) + this.stickerSize + AndroidUtilities.dp(4.0f);
-        canvas.translate(f, dp2);
-        this.giftPremiumTitleLayout.draw(canvas);
-        canvas.restore();
-        float height = dp2 + this.giftPremiumTitleLayout.getHeight() + AndroidUtilities.dp(4.0f);
-        canvas.save();
-        canvas.translate(f, height);
-        this.giftPremiumSubtitleLayout.draw(canvas);
-        canvas.restore();
-        float height2 = height + this.giftPremiumSubtitleLayout.getHeight();
-        float height3 = height2 + ((((getHeight() - height2) - this.giftPremiumButtonLayout.getHeight()) - AndroidUtilities.dp(8.0f)) / 2.0f);
-        canvas.drawRoundRect(this.giftButtonRect, AndroidUtilities.dp(16.0f), AndroidUtilities.dp(16.0f), getThemedPaint("paintChatActionBackground"));
-        if (hasGradientService()) {
-            canvas.drawRoundRect(this.giftButtonRect, AndroidUtilities.dp(16.0f), AndroidUtilities.dp(16.0f), Theme.chat_actionBackgroundGradientDarkenPaint);
-        }
-        this.starsPath.rewind();
-        this.starsPath.addRoundRect(this.giftButtonRect, AndroidUtilities.dp(16.0f), AndroidUtilities.dp(16.0f), Path.Direction.CW);
-        canvas.save();
-        canvas.clipPath(this.starsPath);
-        this.starParticlesDrawable.onDraw(canvas);
-        if (!this.starParticlesDrawable.paused) {
-            invalidate();
-        }
-        canvas.restore();
-        canvas.save();
-        canvas.translate(f, height3);
-        this.giftPremiumButtonLayout.draw(canvas);
-        canvas.restore();
     }
 
     public void drawBackground(Canvas canvas, boolean z) {
@@ -1136,7 +1356,8 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         if (this.invalidatePath) {
             this.invalidatePath = false;
             this.lineWidths.clear();
-            int lineCount = this.textLayout.getLineCount();
+            StaticLayout staticLayout = this.textLayout;
+            int lineCount = staticLayout == null ? 0 : staticLayout.getLineCount();
             int dp = AndroidUtilities.dp(11.0f);
             int dp2 = AndroidUtilities.dp(8.0f);
             int i12 = 0;
@@ -1304,16 +1525,19 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         if (hasGradientService()) {
             canvas.drawPath(this.backgroundPath, Theme.chat_actionBackgroundGradientDarkenPaint);
         }
-        MessageObject messageObject = this.currentMessageObject;
-        if (messageObject != null && messageObject.type == 18) {
+        if (isButtonLayout(this.currentMessageObject)) {
             float width = (getWidth() - this.giftRectSize) / 2.0f;
             float dp6 = this.textY + this.textHeight + AndroidUtilities.dp(12.0f);
             RectF rectF = AndroidUtilities.rectTmp;
             int i29 = this.giftRectSize;
-            rectF.set(width, dp6, i29 + width, i29 + dp6);
-            canvas.drawRoundRect(rectF, AndroidUtilities.dp(16.0f), AndroidUtilities.dp(16.0f), paint2);
+            rectF.set(width, dp6, i29 + width, i29 + dp6 + this.giftPremiumAdditionalHeight);
+            if (this.backroundRect == null) {
+                this.backroundRect = new RectF();
+            }
+            this.backroundRect.set(rectF);
+            canvas.drawRoundRect(this.backroundRect, AndroidUtilities.dp(16.0f), AndroidUtilities.dp(16.0f), paint2);
             if (hasGradientService()) {
-                canvas.drawRoundRect(rectF, AndroidUtilities.dp(16.0f), AndroidUtilities.dp(16.0f), Theme.chat_actionBackgroundGradientDarkenPaint);
+                canvas.drawRoundRect(this.backroundRect, AndroidUtilities.dp(16.0f), AndroidUtilities.dp(16.0f), Theme.chat_actionBackgroundGradientDarkenPaint);
             }
         }
         if (i28 >= 0) {
@@ -1417,5 +1641,10 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         canvas.translate(this.textXLeft, this.textY);
         AnimatedEmojiSpan.drawAnimatedEmojis(canvas, this.textLayout, this.animatedEmojiStack, 0.0f, this.spoilers, 0.0f, 0.0f, 0.0f, 1.0f);
         canvas.restore();
+    }
+
+    private boolean isButtonLayout(MessageObject messageObject) {
+        int i;
+        return messageObject != null && ((i = messageObject.type) == 18 || i == 21);
     }
 }

@@ -4,14 +4,14 @@ import java.util.Objects;
 /* loaded from: classes2.dex */
 class i1 extends j1 implements j3 {
     final /* synthetic */ k1 c;
-    final /* synthetic */ j$.wrappers.E d;
+    final /* synthetic */ j$.wrappers.D d;
 
     /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public i1(k1 k1Var, j$.wrappers.E e) {
+    public i1(k1 k1Var, j$.wrappers.D d) {
         super(k1Var);
         this.c = k1Var;
-        this.d = e;
+        this.d = d;
     }
 
     @Override // j$.util.stream.j1, j$.util.stream.m3

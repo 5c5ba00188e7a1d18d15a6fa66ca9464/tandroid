@@ -26,7 +26,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.voip.VoIPNotificationsLayout;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public class VoIPNotificationsLayout extends LinearLayout {
     boolean lockAnimation;
     Runnable onViewsUpdated;
@@ -173,7 +173,7 @@ public class VoIPNotificationsLayout extends LinearLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public static class NotificationView extends FrameLayout {
         ImageView iconView;
         public String tag;

@@ -155,6 +155,7 @@ import org.telegram.tgnet.TLRPC$TL_inputStickerSetShortName;
 import org.telegram.tgnet.TLRPC$TL_keyboardButtonBuy;
 import org.telegram.tgnet.TLRPC$TL_keyboardButtonRow;
 import org.telegram.tgnet.TLRPC$TL_message;
+import org.telegram.tgnet.TLRPC$TL_messageActionAttachMenuBotAllowed;
 import org.telegram.tgnet.TLRPC$TL_messageActionBotAllowed;
 import org.telegram.tgnet.TLRPC$TL_messageActionChannelCreate;
 import org.telegram.tgnet.TLRPC$TL_messageActionChannelMigrateFrom;
@@ -186,6 +187,7 @@ import org.telegram.tgnet.TLRPC$TL_messageActionScreenshotTaken;
 import org.telegram.tgnet.TLRPC$TL_messageActionSecureValuesSent;
 import org.telegram.tgnet.TLRPC$TL_messageActionSetChatTheme;
 import org.telegram.tgnet.TLRPC$TL_messageActionSetMessagesTTL;
+import org.telegram.tgnet.TLRPC$TL_messageActionSuggestProfilePhoto;
 import org.telegram.tgnet.TLRPC$TL_messageActionTTLChange;
 import org.telegram.tgnet.TLRPC$TL_messageActionTopicCreate;
 import org.telegram.tgnet.TLRPC$TL_messageActionTopicEdit;
@@ -335,6 +337,7 @@ public class MessageObject {
     public static final int TYPE_POLL = 17;
     public static final int TYPE_ROUND_VIDEO = 5;
     public static final int TYPE_STICKER = 13;
+    public static final int TYPE_SUGGEST_PHOTO = 21;
     public static final int TYPE_TEXT = 0;
     public static final int TYPE_VIDEO = 3;
     public static final int TYPE_VOICE = 2;
@@ -387,6 +390,8 @@ public class MessageObject {
     public ArrayList<String> highlightedWords;
     public boolean isDateObject;
     public boolean isDownloadingFile;
+    public boolean isMediaSpoilersRevealed;
+    public boolean isMediaSpoilersRevealedInSharedMedia;
     Boolean isOutOwnerCached;
     public boolean isReactionPush;
     public boolean isRestrictedMessage;
@@ -439,9 +444,11 @@ public class MessageObject {
     public MessageObject replyMessageObject;
     public TLRPC$TL_forumTopic replyToForumTopic;
     public boolean resendAsIs;
+    public boolean revealingMediaSpoilers;
     public boolean scheduled;
     public SendAnimationData sendAnimationData;
     public TLRPC$Peer sendAsPeer;
+    public boolean settingAvatar;
     public boolean shouldRemoveVideoEditedInfo;
     public int sponsoredChannelPost;
     public TLRPC$ChatInvite sponsoredChatInvite;
@@ -544,6 +551,11 @@ public class MessageObject {
 
     public int getEmojiOnlyCount() {
         return this.emojiOnlyCount;
+    }
+
+    public boolean hasMediaSpoilers() {
+        TLRPC$MessageMedia tLRPC$MessageMedia = this.messageOwner.media;
+        return tLRPC$MessageMedia != null && tLRPC$MessageMedia.spoiler;
     }
 
     public boolean shouldDrawReactionsInLayout() {
@@ -1718,17 +1730,17 @@ public class MessageObject {
         this.totalAnimatedEmojiCount = 0;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:14:0x166c  */
-    /* JADX WARN: Removed duplicated region for block: B:17:0x16ba  */
-    /* JADX WARN: Removed duplicated region for block: B:19:0x16bd  */
-    /* JADX WARN: Removed duplicated region for block: B:224:0x04b9  */
-    /* JADX WARN: Removed duplicated region for block: B:230:0x04d3 A[LOOP:0: B:217:0x0486->B:230:0x04d3, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:231:0x04ec A[EDGE_INSN: B:231:0x04ec->B:232:0x04ec ?: BREAK  , SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:31:0x1746  */
-    /* JADX WARN: Removed duplicated region for block: B:334:0x04cd  */
-    /* JADX WARN: Removed duplicated region for block: B:506:0x0ccc  */
+    /* JADX WARN: Removed duplicated region for block: B:14:0x1670  */
+    /* JADX WARN: Removed duplicated region for block: B:17:0x16be  */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x16c1  */
+    /* JADX WARN: Removed duplicated region for block: B:224:0x04bb  */
+    /* JADX WARN: Removed duplicated region for block: B:230:0x04d5 A[LOOP:0: B:217:0x0488->B:230:0x04d5, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:231:0x04ee A[EDGE_INSN: B:231:0x04ee->B:232:0x04ee ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:31:0x174a  */
+    /* JADX WARN: Removed duplicated region for block: B:334:0x04cf  */
+    /* JADX WARN: Removed duplicated region for block: B:506:0x0cce  */
     /* JADX WARN: Removed duplicated region for block: B:56:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:60:0x173f  */
+    /* JADX WARN: Removed duplicated region for block: B:60:0x1743  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -3969,18 +3981,18 @@ public class MessageObject {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:138:0x11ea  */
+    /* JADX WARN: Removed duplicated region for block: B:138:0x1224  */
     /* JADX WARN: Removed duplicated region for block: B:141:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:205:0x05ad  */
-    /* JADX WARN: Removed duplicated region for block: B:209:0x05cb  */
-    /* JADX WARN: Removed duplicated region for block: B:228:0x062d  */
-    /* JADX WARN: Removed duplicated region for block: B:229:0x0643  */
-    /* JADX WARN: Removed duplicated region for block: B:245:0x068f  */
-    /* JADX WARN: Removed duplicated region for block: B:246:0x069b  */
-    /* JADX WARN: Removed duplicated region for block: B:276:0x076c  */
-    /* JADX WARN: Removed duplicated region for block: B:284:0x07d0  */
-    /* JADX WARN: Removed duplicated region for block: B:563:0x0f5e  */
-    /* JADX WARN: Removed duplicated region for block: B:664:0x002c  */
+    /* JADX WARN: Removed duplicated region for block: B:215:0x05d9  */
+    /* JADX WARN: Removed duplicated region for block: B:219:0x05f7  */
+    /* JADX WARN: Removed duplicated region for block: B:238:0x0659  */
+    /* JADX WARN: Removed duplicated region for block: B:239:0x066f  */
+    /* JADX WARN: Removed duplicated region for block: B:255:0x06bb  */
+    /* JADX WARN: Removed duplicated region for block: B:256:0x06c7  */
+    /* JADX WARN: Removed duplicated region for block: B:289:0x07a6  */
+    /* JADX WARN: Removed duplicated region for block: B:297:0x080a  */
+    /* JADX WARN: Removed duplicated region for block: B:576:0x0f98  */
+    /* JADX WARN: Removed duplicated region for block: B:677:0x002c  */
     /* JADX WARN: Removed duplicated region for block: B:6:0x002a  */
     /* JADX WARN: Removed duplicated region for block: B:9:0x0039  */
     /* JADX WARN: Type inference failed for: r8v1, types: [org.telegram.tgnet.TLObject] */
@@ -4007,6 +4019,7 @@ public class MessageObject {
         TLRPC$Chat tLRPC$Chat3;
         TLRPC$Chat tLRPC$Chat4;
         TLRPC$Chat tLRPC$Chat5;
+        ArrayList<TLRPC$VideoSize> arrayList;
         TLObject chat2;
         TLObject chat3;
         String formatPluralString;
@@ -4215,6 +4228,13 @@ public class MessageObject {
                                     TLRPC$MessageAction tLRPC$MessageAction2 = this.messageOwner.action;
                                     this.messageText = SpannableStringBuilder.valueOf(this.messageText).replace(indexOf, indexOf + 3, (CharSequence) billingController.formatCurrency(tLRPC$MessageAction2.amount, tLRPC$MessageAction2.currency));
                                 }
+                            } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionSuggestProfilePhoto) {
+                                TLRPC$Photo tLRPC$Photo = tLRPC$MessageAction.photo;
+                                if (tLRPC$Photo != null && (arrayList = tLRPC$Photo.video_sizes) != null && !arrayList.isEmpty()) {
+                                    this.messageText = LocaleController.getString(R.string.ActionSuggestVideoShort);
+                                } else {
+                                    this.messageText = LocaleController.getString(R.string.ActionSuggestPhotoShort);
+                                }
                             } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionChatEditPhoto) {
                                 TLRPC$Peer tLRPC$Peer3 = tLRPC$Message.peer_id;
                                 if (tLRPC$Peer3 != null) {
@@ -4297,6 +4317,8 @@ public class MessageObject {
                                 } else {
                                     this.messageText = LocaleController.formatString("MessageLifetimeRemoved", R.string.MessageLifetimeRemoved, UserObject.getFirstName(tLRPC$User));
                                 }
+                            } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionAttachMenuBotAllowed) {
+                                this.messageText = LocaleController.getString(R.string.ActionAttachMenuBotAllowed);
                             } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionSetMessagesTTL) {
                                 TLRPC$TL_messageActionSetMessagesTTL tLRPC$TL_messageActionSetMessagesTTL = (TLRPC$TL_messageActionSetMessagesTTL) tLRPC$MessageAction;
                                 TLRPC$Peer tLRPC$Peer6 = tLRPC$Message.peer_id;
@@ -4856,7 +4878,14 @@ public class MessageObject {
             }
         } else if (tLRPC$Message instanceof TLRPC$TL_messageService) {
             TLRPC$MessageAction tLRPC$MessageAction = tLRPC$Message.action;
-            if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionLoginUnknownLocation) {
+            if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionSuggestProfilePhoto) {
+                this.contentType = 1;
+                this.type = 21;
+                ArrayList<TLRPC$PhotoSize> arrayList = new ArrayList<>();
+                this.photoThumbs = arrayList;
+                arrayList.addAll(this.messageOwner.action.photo.sizes);
+                this.photoThumbsObject = this.messageOwner.action.photo;
+            } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionLoginUnknownLocation) {
                 this.type = 0;
             } else if (tLRPC$MessageAction instanceof TLRPC$TL_messageActionGiftPremium) {
                 this.contentType = 1;
@@ -5899,8 +5928,8 @@ public class MessageObject {
         return spannableString;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:170:0x03e9  */
-    /* JADX WARN: Removed duplicated region for block: B:176:0x03fd A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:170:0x03ea  */
+    /* JADX WARN: Removed duplicated region for block: B:176:0x03fe A[ADDED_TO_REGION] */
     /* JADX WARN: Removed duplicated region for block: B:60:0x017b  */
     /* JADX WARN: Removed duplicated region for block: B:89:0x022a  */
     /* JADX WARN: Removed duplicated region for block: B:92:0x022f A[SYNTHETIC] */
@@ -7683,10 +7712,15 @@ public class MessageObject {
     }
 
     public static boolean isPhoto(TLRPC$Message tLRPC$Message) {
+        TLRPC$MessageAction tLRPC$MessageAction;
+        TLRPC$Photo tLRPC$Photo;
         if (getMedia(tLRPC$Message) instanceof TLRPC$TL_messageMediaWebPage) {
             return (getMedia(tLRPC$Message).webpage.photo instanceof TLRPC$TL_photo) && !(getMedia(tLRPC$Message).webpage.document instanceof TLRPC$TL_document);
+        } else if (tLRPC$Message != null && (tLRPC$MessageAction = tLRPC$Message.action) != null && (tLRPC$Photo = tLRPC$MessageAction.photo) != null) {
+            return tLRPC$Photo instanceof TLRPC$TL_photo;
+        } else {
+            return getMedia(tLRPC$Message) instanceof TLRPC$TL_messageMediaPhoto;
         }
-        return getMedia(tLRPC$Message) instanceof TLRPC$TL_messageMediaPhoto;
     }
 
     public static boolean isVoiceMessage(TLRPC$Message tLRPC$Message) {
@@ -7928,7 +7962,7 @@ public class MessageObject {
             if (i3 == 10) {
                 return AndroidUtilities.dp(30.0f);
             }
-            if (i3 == 11 || i3 == 18) {
+            if (i3 == 11 || i3 == 18 || i3 == 21) {
                 return AndroidUtilities.dp(50.0f);
             }
             if (i3 == 5) {

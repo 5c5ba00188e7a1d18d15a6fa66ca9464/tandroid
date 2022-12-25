@@ -20,7 +20,7 @@ public final /* synthetic */ class u implements j$.util.function.b {
 
     @Override // j$.util.function.BiFunction
     public /* synthetic */ BiFunction andThen(Function function) {
-        return s.a(this.a.andThen(N.a(function)));
+        return s.a(this.a.andThen(M.a(function)));
     }
 
     @Override // j$.util.function.BiFunction

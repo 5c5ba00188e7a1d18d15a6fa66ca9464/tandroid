@@ -3,7 +3,7 @@ package org.telegram.tgnet;
 import org.telegram.messenger.CharacterCompat;
 /* loaded from: classes.dex */
 public class TLRPC$TL_userFull extends TLRPC$UserFull {
-    public static int constructor = -994968513;
+    public static int constructor = -120378643;
 
     @Override // org.telegram.tgnet.TLObject
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
@@ -21,8 +21,14 @@ public class TLRPC$TL_userFull extends TLRPC$UserFull {
             this.about = abstractSerializedData.readString(z);
         }
         this.settings = TLRPC$TL_peerSettings.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
+        if ((this.flags & 2097152) != 0) {
+            this.personal_photo = TLRPC$Photo.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
+        }
         if ((this.flags & 4) != 0) {
             this.profile_photo = TLRPC$Photo.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
+        }
+        if ((this.flags & 4194304) != 0) {
+            this.fallback_photo = TLRPC$Photo.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
         }
         this.notify_settings = TLRPC$PeerNotifySettings.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
         if ((this.flags & 8) != 0) {
@@ -92,8 +98,14 @@ public class TLRPC$TL_userFull extends TLRPC$UserFull {
             abstractSerializedData.writeString(this.about);
         }
         this.settings.serializeToStream(abstractSerializedData);
+        if ((this.flags & 2097152) != 0) {
+            this.personal_photo.serializeToStream(abstractSerializedData);
+        }
         if ((this.flags & 4) != 0) {
             this.profile_photo.serializeToStream(abstractSerializedData);
+        }
+        if ((this.flags & 4194304) != 0) {
+            this.fallback_photo.serializeToStream(abstractSerializedData);
         }
         this.notify_settings.serializeToStream(abstractSerializedData);
         if ((this.flags & 8) != 0) {

@@ -20,12 +20,12 @@ public final /* synthetic */ class c implements p.a {
 
     @Override // j$.util.p.a
     public /* synthetic */ void c(j$.util.function.l lVar) {
-        this.a.forEachRemaining(S.a(lVar));
+        this.a.forEachRemaining(Q.a(lVar));
     }
 
     @Override // j$.util.p.a, j$.util.Iterator
     public /* synthetic */ void forEachRemaining(Consumer consumer) {
-        this.a.forEachRemaining(x.a(consumer));
+        this.a.forEachRemaining($r8$wrapper$java$util$function$Consumer$-WRP.convert(consumer));
     }
 
     @Override // j$.util.p

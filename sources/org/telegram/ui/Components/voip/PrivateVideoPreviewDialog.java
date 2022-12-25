@@ -43,7 +43,7 @@ import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.Components.RLottieImageView;
 import org.webrtc.RendererCommon;
 @TargetApi(21)
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public abstract class PrivateVideoPreviewDialog extends FrameLayout implements VoIPService.StateListener {
     private boolean cameraReady;
     private int currentPage;
@@ -577,7 +577,7 @@ public abstract class PrivateVideoPreviewDialog extends FrameLayout implements V
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     private class Adapter extends PagerAdapter {
         @Override // androidx.viewpager.widget.PagerAdapter
         public void restoreState(Parcelable parcelable, ClassLoader classLoader) {

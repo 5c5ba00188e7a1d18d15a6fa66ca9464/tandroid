@@ -126,6 +126,22 @@ public abstract class TLRPC$StickerSetCovered extends TLObject {
                     }
                 };
                 break;
+            case 2008112412:
+                tLRPC$StickerSetCovered = new TLRPC$StickerSetCovered() { // from class: org.telegram.tgnet.TLRPC$TL_stickerSetNoCovered
+                    public static int constructor = 2008112412;
+
+                    @Override // org.telegram.tgnet.TLObject
+                    public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
+                        this.set = TLRPC$StickerSet.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
+                    }
+
+                    @Override // org.telegram.tgnet.TLObject
+                    public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
+                        abstractSerializedData2.writeInt32(constructor);
+                        this.set.serializeToStream(abstractSerializedData2);
+                    }
+                };
+                break;
             default:
                 tLRPC$StickerSetCovered = null;
                 break;

@@ -11,7 +11,7 @@ import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityManager;
 import androidx.annotation.Keep;
 import org.telegram.messenger.AndroidUtilities;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public class CallSwipeView extends View {
     private boolean animatingArrows;
     private Path arrow;
@@ -26,7 +26,7 @@ public class CallSwipeView extends View {
     private RectF tmpRect;
     private View viewToDrag;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     public interface Listener {
         void onDragCancel();
 
@@ -156,7 +156,7 @@ public class CallSwipeView extends View {
         super.onPopulateAccessibilityEvent(accessibilityEvent);
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes.dex */
     private class ArrowAnimWrapper {
         private int index;
         final /* synthetic */ CallSwipeView this$0;

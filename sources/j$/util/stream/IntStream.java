@@ -5,11 +5,11 @@ import j$.util.p;
 import j$.util.u;
 /* loaded from: classes2.dex */
 public interface IntStream extends g {
-    U A(j$.wrappers.X x);
+    U A(j$.wrappers.W w);
 
-    boolean C(j$.wrappers.V v);
+    boolean C(j$.wrappers.U u);
 
-    boolean F(j$.wrappers.V v);
+    boolean F(j$.wrappers.U u);
 
     void I(j$.util.function.l lVar);
 
@@ -43,7 +43,7 @@ public interface IntStream extends g {
 
     j$.util.k findFirst();
 
-    IntStream h(j$.wrappers.V v);
+    IntStream h(j$.wrappers.U u);
 
     @Override // j$.util.stream.g
     p.a iterator();
@@ -59,7 +59,7 @@ public interface IntStream extends g {
     @Override // 
     IntStream parallel();
 
-    IntStream q(j$.wrappers.b0 b0Var);
+    IntStream q(j$.wrappers.a0 a0Var);
 
     @Override // 
     IntStream sequential();
@@ -77,5 +77,5 @@ public interface IntStream extends g {
 
     int[] toArray();
 
-    boolean v(j$.wrappers.V v);
+    boolean v(j$.wrappers.U u);
 }

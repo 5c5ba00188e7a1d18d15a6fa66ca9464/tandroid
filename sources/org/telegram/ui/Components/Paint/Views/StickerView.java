@@ -2,7 +2,6 @@ package org.telegram.ui.Components.Paint.Views;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.graphics.RectF;
 import android.view.View;
 import android.view.ViewGroup;
@@ -140,8 +139,8 @@ public class StickerView extends EntityView {
     @Override // org.telegram.ui.Components.Paint.Views.EntityView
     public void updatePosition() {
         Size size = this.baseSize;
-        setX(this.position.x - (size.width / 2.0f));
-        setY(this.position.y - (size.height / 2.0f));
+        setX(getPositionX() - (size.width / 2.0f));
+        setY(getPositionY() - (size.height / 2.0f));
         updateSelectionView();
     }
 
@@ -180,12 +179,15 @@ public class StickerView extends EntityView {
 
     @Override // org.telegram.ui.Components.Paint.Views.EntityView
     protected Rect getSelectionBounds() {
-        float scaleX = ((ViewGroup) getParent()).getScaleX();
-        float measuredWidth = getMeasuredWidth() * (getScale() + 0.4f);
-        Point point = this.position;
+        ViewGroup viewGroup = (ViewGroup) getParent();
+        if (viewGroup == null) {
+            return new Rect();
+        }
+        float scaleX = viewGroup.getScaleX();
+        float measuredWidth = getMeasuredWidth() * (getScale() + 0.5f);
         float f = measuredWidth / 2.0f;
         float f2 = measuredWidth * scaleX;
-        return new Rect((point.x - f) * scaleX, (point.y - f) * scaleX, f2, f2);
+        return new Rect((getPositionX() - f) * scaleX, (getPositionY() - f) * scaleX, f2, f2);
     }
 
     @Override // org.telegram.ui.Components.Paint.Views.EntityView
@@ -207,14 +209,10 @@ public class StickerView extends EntityView {
 
     /* loaded from: classes3.dex */
     public class StickerViewSelectionView extends EntityView.SelectionView {
-        private Paint arcPaint = new Paint(1);
         private RectF arcRect = new RectF();
 
         public StickerViewSelectionView(StickerView stickerView, Context context) {
             super(context);
-            this.arcPaint.setColor(-1);
-            this.arcPaint.setStrokeWidth(AndroidUtilities.dp(1.0f));
-            this.arcPaint.setStyle(Paint.Style.STROKE);
         }
 
         @Override // org.telegram.ui.Components.Paint.Views.EntityView.SelectionView
@@ -239,11 +237,10 @@ public class StickerView extends EntityView {
             float dp = AndroidUtilities.dp(4.5f);
             float dp2 = AndroidUtilities.dp(1.0f) + dp + AndroidUtilities.dp(15.0f);
             float measuredWidth = (getMeasuredWidth() / 2) - dp2;
-            float f = (2.0f * measuredWidth) + dp2;
+            float f = dp2 + (2.0f * measuredWidth);
             this.arcRect.set(dp2, dp2, f, f);
-            for (int i = 0; i < 48; i++) {
-                canvas.drawArc(this.arcRect, i * 8.0f, 4.0f, false, this.arcPaint);
-            }
+            canvas.drawArc(this.arcRect, 0.0f, 180.0f, false, this.paint);
+            canvas.drawArc(this.arcRect, 180.0f, 180.0f, false, this.paint);
             float f2 = measuredWidth + dp2;
             canvas.drawCircle(dp2, f2, dp, this.dotPaint);
             canvas.drawCircle(dp2, f2, dp, this.dotStrokePaint);

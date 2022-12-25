@@ -14,13 +14,13 @@ class J extends f3 {
     public void accept(double d) {
         switch (this.b) {
             case 0:
-                this.a.accept(((j$.wrappers.K) ((K) this.c).m).a(d));
+                this.a.accept(((j$.wrappers.J) ((K) this.c).m).a(d));
                 return;
             case 1:
                 this.a.accept((m3) ((j$.util.function.g) ((L) this.c).m).apply(d));
                 return;
             case 2:
-                this.a.accept(((j$.wrappers.G) ((M) this.c).m).a(d));
+                this.a.accept(((j$.wrappers.F) ((M) this.c).m).a(d));
                 return;
             case 3:
                 this.a.accept(((j$.util.function.h) ((N) this.c).m).applyAsLong(d));
@@ -45,7 +45,7 @@ class J extends f3 {
                 u.close();
                 return;
             case 5:
-                if (!((j$.wrappers.E) ((K) this.c).m).b(d)) {
+                if (!((j$.wrappers.D) ((K) this.c).m).b(d)) {
                     return;
                 }
                 this.a.accept(d);

@@ -31,7 +31,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.MotionBackgroundDrawable;
 import org.webrtc.RendererCommon;
 import org.webrtc.TextureViewRenderer;
-/* loaded from: classes3.dex */
+/* loaded from: classes.dex */
 public class VoIPTextureView extends FrameLayout {
     public static int SCALE_TYPE_ADAPTIVE = 2;
     public static int SCALE_TYPE_FILL = 0;

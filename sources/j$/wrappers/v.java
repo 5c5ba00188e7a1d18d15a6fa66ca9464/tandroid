@@ -20,7 +20,7 @@ public final /* synthetic */ class v implements BinaryOperator {
 
     @Override // java.util.function.BiFunction
     public /* synthetic */ BiFunction andThen(Function function) {
-        return t.a(this.a.andThen(M.a(function)));
+        return t.a(this.a.andThen(L.a(function)));
     }
 
     @Override // java.util.function.BiFunction

@@ -1,33 +1,23 @@
 package j$.wrappers;
 
-import java.util.function.LongUnaryOperator;
+import java.util.function.ObjDoubleConsumer;
 /* loaded from: classes2.dex */
-public final /* synthetic */ class q0 implements LongUnaryOperator {
-    final /* synthetic */ j$.util.function.t a;
+public final /* synthetic */ class q0 implements j$.util.function.u {
+    final /* synthetic */ ObjDoubleConsumer a;
 
-    private /* synthetic */ q0(j$.util.function.t tVar) {
-        this.a = tVar;
+    private /* synthetic */ q0(ObjDoubleConsumer objDoubleConsumer) {
+        this.a = objDoubleConsumer;
     }
 
-    public static /* synthetic */ LongUnaryOperator a(j$.util.function.t tVar) {
-        if (tVar == null) {
+    public static /* synthetic */ j$.util.function.u a(ObjDoubleConsumer objDoubleConsumer) {
+        if (objDoubleConsumer == null) {
             return null;
         }
-        return tVar instanceof p0 ? ((p0) tVar).a : new q0(tVar);
+        return objDoubleConsumer instanceof r0 ? ((r0) objDoubleConsumer).a : new q0(objDoubleConsumer);
     }
 
-    @Override // java.util.function.LongUnaryOperator
-    public /* synthetic */ LongUnaryOperator andThen(LongUnaryOperator longUnaryOperator) {
-        return a(this.a.a(p0.c(longUnaryOperator)));
-    }
-
-    @Override // java.util.function.LongUnaryOperator
-    public /* synthetic */ long applyAsLong(long j) {
-        return this.a.applyAsLong(j);
-    }
-
-    @Override // java.util.function.LongUnaryOperator
-    public /* synthetic */ LongUnaryOperator compose(LongUnaryOperator longUnaryOperator) {
-        return a(this.a.b(p0.c(longUnaryOperator)));
+    @Override // j$.util.function.u
+    public /* synthetic */ void accept(Object obj, double d) {
+        this.a.accept(obj, d);
     }
 }

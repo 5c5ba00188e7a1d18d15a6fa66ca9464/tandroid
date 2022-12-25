@@ -920,6 +920,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
 
         @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
         public void onItemClick(int i) {
+            TLRPC$ChatParticipants tLRPC$ChatParticipants;
             TopicDialogCell topicDialogCell;
             TLRPC$TL_forumTopic tLRPC$TL_forumTopic;
             if (i == -1) {
@@ -938,18 +939,25 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
                     TopicsFragment.this.switchToChat(false);
                     break;
                 case 2:
+                    TLRPC$ChatFull chatFull = TopicsFragment.this.getMessagesController().getChatFull(TopicsFragment.this.chatId);
                     TLRPC$ChatFull tLRPC$ChatFull = TopicsFragment.this.chatFull;
-                    if (tLRPC$ChatFull != null && tLRPC$ChatFull.participants != null) {
+                    if (tLRPC$ChatFull != null && (tLRPC$ChatParticipants = tLRPC$ChatFull.participants) != null) {
+                        chatFull.participants = tLRPC$ChatParticipants;
+                    }
+                    if (chatFull != null) {
                         LongSparseArray longSparseArray = new LongSparseArray();
-                        while (i2 < TopicsFragment.this.chatFull.participants.participants.size()) {
-                            longSparseArray.put(TopicsFragment.this.chatFull.participants.participants.get(i2).user_id, null);
-                            i2++;
+                        if (chatFull.participants != null) {
+                            while (i2 < chatFull.participants.participants.size()) {
+                                longSparseArray.put(chatFull.participants.participants.get(i2).user_id, null);
+                                i2++;
+                            }
                         }
-                        final long j = TopicsFragment.this.chatFull.id;
+                        final long j = chatFull.id;
                         Context context = this.val$context;
                         int i3 = ((BaseFragment) TopicsFragment.this).currentAccount;
+                        long j2 = chatFull.id;
                         TopicsFragment topicsFragment = TopicsFragment.this;
-                        InviteMembersBottomSheet inviteMembersBottomSheet = new InviteMembersBottomSheet(context, i3, longSparseArray, topicsFragment.chatFull.id, topicsFragment, topicsFragment.themeDelegate) { // from class: org.telegram.ui.TopicsFragment.2.1
+                        InviteMembersBottomSheet inviteMembersBottomSheet = new InviteMembersBottomSheet(context, i3, longSparseArray, j2, topicsFragment, topicsFragment.themeDelegate) { // from class: org.telegram.ui.TopicsFragment.2.1
                             @Override // org.telegram.ui.Components.InviteMembersBottomSheet
                             protected boolean canGenerateLink() {
                                 TLRPC$Chat chat = TopicsFragment.this.getMessagesController().getChat(Long.valueOf(j));
@@ -1018,10 +1026,10 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
                         if (findTopic != null) {
                             TopicsFragment.this.getMessagesController().markMentionsAsRead(-TopicsFragment.this.chatId, findTopic.id);
                             MessagesController messagesController = TopicsFragment.this.getMessagesController();
-                            long j2 = -TopicsFragment.this.chatId;
+                            long j3 = -TopicsFragment.this.chatId;
                             int i5 = findTopic.top_message;
                             TLRPC$Message tLRPC$Message = findTopic.topMessage;
-                            messagesController.markDialogAsRead(j2, i5, 0, tLRPC$Message != null ? tLRPC$Message.date : 0, false, findTopic.id, 0, true, 0);
+                            messagesController.markDialogAsRead(j3, i5, 0, tLRPC$Message != null ? tLRPC$Message.date : 0, false, findTopic.id, 0, true, 0);
                             TopicsFragment.this.getMessagesStorage().updateRepliesMaxReadId(TopicsFragment.this.chatId, findTopic.id, findTopic.top_message, 0, true);
                         }
                     }
@@ -2254,7 +2262,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
             this.searchAnimator.cancel();
         }
         if (this.searchTabsView == null) {
-            ViewPagerFixed.TabsView createTabsView = this.searchContainer.createTabsView();
+            ViewPagerFixed.TabsView createTabsView = this.searchContainer.createTabsView(false);
             this.searchTabsView = createTabsView;
             if (this.parentDialogsActivity != null) {
                 createTabsView.setBackgroundColor(getThemedColor("windowBackgroundWhite"));

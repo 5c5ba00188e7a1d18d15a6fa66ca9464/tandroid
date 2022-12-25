@@ -23,6 +23,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.DispatchQueue;
 import org.telegram.messenger.FileLog;
+import org.telegram.ui.Components.Paint.Brush;
 import org.telegram.ui.Components.Paint.Painting;
 import org.telegram.ui.Components.Paint.RenderView;
 import org.telegram.ui.Components.Size;
@@ -33,7 +34,6 @@ public class RenderView extends TextureView {
     private int color;
     private RenderViewDelegate delegate;
     private boolean firstDrawSent;
-    private Input input = new Input(this);
     private CanvasInternal internal;
     private Painting painting;
     private DispatchQueue queue;
@@ -41,16 +41,31 @@ public class RenderView extends TextureView {
     private boolean transformedBitmap;
     private UndoStore undoStore;
     private float weight;
+    private Input input = new Input(this);
+    private ShapeInput shapeInput = new ShapeInput(this, new Runnable() { // from class: org.telegram.ui.Components.Paint.RenderView$$ExternalSyntheticLambda2
+        @Override // java.lang.Runnable
+        public final void run() {
+            RenderView.this.lambda$new$0();
+        }
+    });
 
     /* loaded from: classes3.dex */
     public interface RenderViewDelegate {
+        void invalidateInputView();
+
         void onBeganDrawing();
 
         void onFinishedDrawing(boolean z);
 
         void onFirstDraw();
 
+        void resetBrush();
+
         boolean shouldDraw();
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public void selectBrush(Brush brush) {
     }
 
     public RenderView(Context context, Painting painting, Bitmap bitmap) {
@@ -98,11 +113,21 @@ public class RenderView extends TextureView {
             RenderView.this.internal = new CanvasInternal(surfaceTexture);
             RenderView.this.internal.setBufferSize(i, i2);
             RenderView.this.updateTransform();
-            RenderView.this.internal.requestRender();
+            RenderView.this.post(new Runnable() { // from class: org.telegram.ui.Components.Paint.RenderView$1$$ExternalSyntheticLambda1
+                @Override // java.lang.Runnable
+                public final void run() {
+                    RenderView.1.this.lambda$onSurfaceTextureAvailable$0();
+                }
+            });
             if (!RenderView.this.painting.isPaused()) {
                 return;
             }
             RenderView.this.painting.onResume();
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$onSurfaceTextureAvailable$0() {
+            RenderView.this.internal.requestRender();
         }
 
         @Override // android.view.TextureView.SurfaceTextureListener
@@ -113,16 +138,16 @@ public class RenderView extends TextureView {
             RenderView.this.internal.setBufferSize(i, i2);
             RenderView.this.updateTransform();
             RenderView.this.internal.requestRender();
-            RenderView.this.internal.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.Paint.RenderView$1$$ExternalSyntheticLambda1
+            RenderView.this.internal.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.Paint.RenderView$1$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
-                    RenderView.1.this.lambda$onSurfaceTextureSizeChanged$0();
+                    RenderView.1.this.lambda$onSurfaceTextureSizeChanged$1();
                 }
             });
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onSurfaceTextureSizeChanged$0() {
+        public /* synthetic */ void lambda$onSurfaceTextureSizeChanged$1() {
             if (RenderView.this.internal != null) {
                 RenderView.this.internal.requestRender();
             }
@@ -134,7 +159,7 @@ public class RenderView extends TextureView {
                 RenderView.this.painting.onPause(new Runnable() { // from class: org.telegram.ui.Components.Paint.RenderView$1$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
-                        RenderView.1.this.lambda$onSurfaceTextureDestroyed$1();
+                        RenderView.1.this.lambda$onSurfaceTextureDestroyed$2();
                     }
                 });
             }
@@ -142,9 +167,17 @@ public class RenderView extends TextureView {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onSurfaceTextureDestroyed$1() {
+        public /* synthetic */ void lambda$onSurfaceTextureDestroyed$2() {
             RenderView.this.internal.shutdown();
             RenderView.this.internal = null;
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$new$0() {
+        RenderViewDelegate renderViewDelegate = this.delegate;
+        if (renderViewDelegate != null) {
+            renderViewDelegate.invalidateInputView();
         }
     }
 
@@ -162,9 +195,19 @@ public class RenderView extends TextureView {
         }
         CanvasInternal canvasInternal = this.internal;
         if (canvasInternal != null && canvasInternal.initialized && this.internal.ready) {
-            this.input.process(motionEvent, getScaleX());
+            if (this.brush instanceof Brush.Shape) {
+                this.shapeInput.process(motionEvent, getScaleX());
+            } else {
+                this.input.process(motionEvent, getScaleX());
+            }
         }
         return true;
+    }
+
+    public void onDrawForInput(Canvas canvas) {
+        if (this.brush instanceof Brush.Shape) {
+            this.shapeInput.dispatchDraw(canvas);
+        }
     }
 
     public void setUndoStore(UndoStore undoStore) {
@@ -183,7 +226,7 @@ public class RenderView extends TextureView {
         return this.painting;
     }
 
-    private float brushWeightForSize(float f) {
+    public float brushWeightForSize(float f) {
         float f2 = this.painting.getSize().width;
         return (0.00390625f * f2) + (f2 * 0.043945312f * f);
     }
@@ -194,6 +237,9 @@ public class RenderView extends TextureView {
 
     public void setColor(int i) {
         this.color = i;
+        if (this.brush instanceof Brush.Shape) {
+            this.shapeInput.onColorChange();
+        }
     }
 
     public float getCurrentWeight() {
@@ -202,20 +248,52 @@ public class RenderView extends TextureView {
 
     public void setBrushSize(float f) {
         this.weight = brushWeightForSize(f);
+        if (this.brush instanceof Brush.Shape) {
+            this.shapeInput.onWeightChange();
+        }
     }
 
     public Brush getCurrentBrush() {
         return this.brush;
     }
 
+    public UndoStore getUndoStore() {
+        return this.undoStore;
+    }
+
     public void setBrush(Brush brush) {
-        Painting painting = this.painting;
+        if (this.brush instanceof Brush.Shape) {
+            this.shapeInput.stop();
+        }
         this.brush = brush;
-        painting.setBrush(brush);
+        updateTransform();
+        this.painting.setBrush(this.brush);
+        Brush brush2 = this.brush;
+        if (brush2 instanceof Brush.Shape) {
+            this.shapeInput.start(((Brush.Shape) brush2).getShapeShaderType());
+        }
+    }
+
+    public void resetBrush() {
+        RenderViewDelegate renderViewDelegate = this.delegate;
+        if (renderViewDelegate != null) {
+            renderViewDelegate.resetBrush();
+        }
+        this.input.ignoreOnce();
+    }
+
+    public void clearShape() {
+        ShapeInput shapeInput = this.shapeInput;
+        if (shapeInput != null) {
+            shapeInput.clear();
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public void updateTransform() {
+        if (this.internal == null) {
+            return;
+        }
         Matrix matrix = new Matrix();
         float f = 1.0f;
         float width = this.painting != null ? getWidth() / this.painting.getSize().width : 1.0f;
@@ -226,7 +304,11 @@ public class RenderView extends TextureView {
         matrix.preTranslate(getWidth() / 2.0f, getHeight() / 2.0f);
         matrix.preScale(f, -f);
         matrix.preTranslate((-size.width) / 2.0f, (-size.height) / 2.0f);
-        this.input.setMatrix(matrix);
+        if (this.brush instanceof Brush.Shape) {
+            this.shapeInput.setMatrix(matrix);
+        } else {
+            this.input.setMatrix(matrix);
+        }
         this.painting.setRenderProjection(GLMatrix.MultiplyMat4f(GLMatrix.LoadOrtho(0.0f, this.internal.bufferWidth, 0.0f, this.internal.bufferHeight, -1.0f, 1.0f), GLMatrix.LoadGraphicsMatrix(matrix)));
     }
 
@@ -255,7 +337,7 @@ public class RenderView extends TextureView {
             performInContext(new Runnable() { // from class: org.telegram.ui.Components.Paint.RenderView$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    RenderView.this.lambda$shutdown$0();
+                    RenderView.this.lambda$shutdown$1();
                 }
             });
         }
@@ -263,10 +345,24 @@ public class RenderView extends TextureView {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$shutdown$0() {
+    public /* synthetic */ void lambda$shutdown$1() {
         this.painting.cleanResources(this.transformedBitmap);
         this.internal.shutdown();
         this.internal = null;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$clearAll$2() {
+        this.painting.setBrush(this.brush);
+    }
+
+    public void clearAll() {
+        this.input.clear(new Runnable() { // from class: org.telegram.ui.Components.Paint.RenderView$$ExternalSyntheticLambda1
+            @Override // java.lang.Runnable
+            public final void run() {
+                RenderView.this.lambda$clearAll$2();
+            }
+        });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -551,6 +647,9 @@ public class RenderView extends TextureView {
     }
 
     public Bitmap getResultBitmap() {
+        if (this.brush instanceof Brush.Shape) {
+            this.shapeInput.stop();
+        }
         CanvasInternal canvasInternal = this.internal;
         if (canvasInternal != null) {
             return canvasInternal.getTexture();
@@ -563,16 +662,16 @@ public class RenderView extends TextureView {
         if (canvasInternal == null) {
             return;
         }
-        canvasInternal.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.Paint.RenderView$$ExternalSyntheticLambda1
+        canvasInternal.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.Paint.RenderView$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
-                RenderView.this.lambda$performInContext$1(runnable);
+                RenderView.this.lambda$performInContext$3(runnable);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$performInContext$1(Runnable runnable) {
+    public /* synthetic */ void lambda$performInContext$3(Runnable runnable) {
         CanvasInternal canvasInternal = this.internal;
         if (canvasInternal == null || !canvasInternal.initialized) {
             return;
