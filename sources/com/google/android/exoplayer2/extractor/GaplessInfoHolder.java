@@ -48,12 +48,12 @@ public final class GaplessInfoHolder {
             try {
                 int parseInt = Integer.parseInt(matcher.group(1), 16);
                 int parseInt2 = Integer.parseInt(matcher.group(2), 16);
-                if (parseInt <= 0 && parseInt2 <= 0) {
-                    return false;
+                if (parseInt > 0 || parseInt2 > 0) {
+                    this.encoderDelay = parseInt;
+                    this.encoderPadding = parseInt2;
+                    return true;
                 }
-                this.encoderDelay = parseInt;
-                this.encoderPadding = parseInt2;
-                return true;
+                return false;
             } catch (NumberFormatException unused) {
                 return false;
             }

@@ -46,7 +46,9 @@ public class HardwareVideoEncoder implements VideoEncoder {
     private long lastKeyFrameNs;
     private final MediaCodecWrapperFactory mediaCodecWrapperFactory;
     private ByteBuffer[] outputBuffers;
+    private final BusyCount outputBuffersBusyCount;
     private Thread outputThread;
+    private final ThreadUtils.ThreadChecker outputThreadChecker;
     private final Map<String, String> params;
     private volatile boolean running;
     private final EglBase14.Context sharedContext;
@@ -61,8 +63,6 @@ public class HardwareVideoEncoder implements VideoEncoder {
     private final GlRectDrawer textureDrawer = new GlRectDrawer();
     private final VideoFrameDrawer videoFrameDrawer = new VideoFrameDrawer();
     private final BlockingDeque<EncodedImage.Builder> outputBuilders = new LinkedBlockingDeque();
-    private final ThreadUtils.ThreadChecker outputThreadChecker = new ThreadUtils.ThreadChecker();
-    private final BusyCount outputBuffersBusyCount = new BusyCount();
 
     @Override // org.webrtc.VideoEncoder
     public /* synthetic */ long createNativeVideoEncoder() {
@@ -144,6 +144,8 @@ public class HardwareVideoEncoder implements VideoEncoder {
     public HardwareVideoEncoder(MediaCodecWrapperFactory mediaCodecWrapperFactory, String str, VideoCodecMimeType videoCodecMimeType, Integer num, Integer num2, Map<String, String> map, int i, int i2, BitrateAdjuster bitrateAdjuster, EglBase14.Context context) {
         ThreadUtils.ThreadChecker threadChecker = new ThreadUtils.ThreadChecker();
         this.encodeThreadChecker = threadChecker;
+        this.outputThreadChecker = new ThreadUtils.ThreadChecker();
+        this.outputBuffersBusyCount = new BusyCount();
         this.mediaCodecWrapperFactory = mediaCodecWrapperFactory;
         this.codecName = str;
         this.codecType = videoCodecMimeType;
@@ -176,10 +178,10 @@ public class HardwareVideoEncoder implements VideoEncoder {
         return initEncodeInternal();
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:22:0x008d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:28:0x008d, code lost:
         if (r5 == 1) goto L31;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:23:0x008f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:29:0x008f, code lost:
         org.webrtc.Logging.w(org.webrtc.HardwareVideoEncoder.TAG, "Unknown profile level id: " + r1);
      */
     /*
@@ -294,33 +296,33 @@ public class HardwareVideoEncoder implements VideoEncoder {
         int width = videoFrame.getBuffer().getWidth();
         int height = videoFrame.getBuffer().getHeight();
         boolean z2 = canUseSurface() && z;
-        if ((width != this.width || height != this.height || z2 != this.useSurfaceMode) && (resetCodec = resetCodec(width, height, z2)) != VideoCodecStatus.OK) {
-            return resetCodec;
-        }
-        if (this.outputBuilders.size() > 2) {
-            Logging.e(TAG, "Dropped frame, encoder queue full");
-            return VideoCodecStatus.NO_OUTPUT;
-        }
-        boolean z3 = false;
-        for (EncodedImage.FrameType frameType : encodeInfo.frameTypes) {
-            if (frameType == EncodedImage.FrameType.VideoFrameKey) {
-                z3 = true;
+        if ((width == this.width && height == this.height && z2 == this.useSurfaceMode) || (resetCodec = resetCodec(width, height, z2)) == VideoCodecStatus.OK) {
+            if (this.outputBuilders.size() > 2) {
+                Logging.e(TAG, "Dropped frame, encoder queue full");
+                return VideoCodecStatus.NO_OUTPUT;
             }
+            boolean z3 = false;
+            for (EncodedImage.FrameType frameType : encodeInfo.frameTypes) {
+                if (frameType == EncodedImage.FrameType.VideoFrameKey) {
+                    z3 = true;
+                }
+            }
+            if (z3 || shouldForceKeyFrame(videoFrame.getTimestampNs())) {
+                requestKeyFrame(videoFrame.getTimestampNs());
+            }
+            int height2 = ((buffer.getHeight() * buffer.getWidth()) * 3) / 2;
+            this.outputBuilders.offer(EncodedImage.builder().setCaptureTimeNs(videoFrame.getTimestampNs()).setEncodedWidth(videoFrame.getBuffer().getWidth()).setEncodedHeight(videoFrame.getBuffer().getHeight()).setRotation(videoFrame.getRotation()));
+            if (this.useSurfaceMode) {
+                encodeByteBuffer = encodeTextureBuffer(videoFrame);
+            } else {
+                encodeByteBuffer = encodeByteBuffer(videoFrame, buffer, height2);
+            }
+            if (encodeByteBuffer != VideoCodecStatus.OK) {
+                this.outputBuilders.pollLast();
+            }
+            return encodeByteBuffer;
         }
-        if (z3 || shouldForceKeyFrame(videoFrame.getTimestampNs())) {
-            requestKeyFrame(videoFrame.getTimestampNs());
-        }
-        int height2 = ((buffer.getHeight() * buffer.getWidth()) * 3) / 2;
-        this.outputBuilders.offer(EncodedImage.builder().setCaptureTimeNs(videoFrame.getTimestampNs()).setEncodedWidth(videoFrame.getBuffer().getWidth()).setEncodedHeight(videoFrame.getBuffer().getHeight()).setRotation(videoFrame.getRotation()));
-        if (this.useSurfaceMode) {
-            encodeByteBuffer = encodeTextureBuffer(videoFrame);
-        } else {
-            encodeByteBuffer = encodeByteBuffer(videoFrame, buffer, height2);
-        }
-        if (encodeByteBuffer != VideoCodecStatus.OK) {
-            this.outputBuilders.pollLast();
-        }
-        return encodeByteBuffer;
+        return resetCodec;
     }
 
     private VideoCodecStatus encodeTextureBuffer(VideoFrame videoFrame) {
@@ -440,11 +442,11 @@ public class HardwareVideoEncoder implements VideoEncoder {
             MediaCodec.BufferInfo bufferInfo = new MediaCodec.BufferInfo();
             final int dequeueOutputBuffer = this.codec.dequeueOutputBuffer(bufferInfo, 100000L);
             if (dequeueOutputBuffer < 0) {
-                if (dequeueOutputBuffer != -3) {
+                if (dequeueOutputBuffer == -3) {
+                    this.outputBuffersBusyCount.waitForZero();
+                    this.outputBuffers = this.codec.getOutputBuffers();
                     return;
                 }
-                this.outputBuffersBusyCount.waitForZero();
-                this.outputBuffers = this.codec.getOutputBuffers();
                 return;
             }
             ByteBuffer byteBuffer = this.outputBuffers[dequeueOutputBuffer];

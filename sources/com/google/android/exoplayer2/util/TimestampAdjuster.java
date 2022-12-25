@@ -23,20 +23,20 @@ public final class TimestampAdjuster {
             return this.timestampOffsetUs + this.lastSampleTimestampUs;
         }
         long j = this.firstSampleTimestampUs;
-        if (j == Long.MAX_VALUE) {
-            return -9223372036854775807L;
+        if (j != Long.MAX_VALUE) {
+            return j;
         }
-        return j;
+        return -9223372036854775807L;
     }
 
     public long getTimestampOffsetUs() {
         if (this.firstSampleTimestampUs == Long.MAX_VALUE) {
             return 0L;
         }
-        if (this.lastSampleTimestampUs != -9223372036854775807L) {
-            return this.timestampOffsetUs;
+        if (this.lastSampleTimestampUs == -9223372036854775807L) {
+            return -9223372036854775807L;
         }
-        return -9223372036854775807L;
+        return this.timestampOffsetUs;
     }
 
     public void reset() {

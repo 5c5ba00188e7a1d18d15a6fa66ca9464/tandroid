@@ -56,13 +56,13 @@ public class GroupCreateSpan extends View {
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:41:0x0099, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:23:0x0099, code lost:
         if (r1.equals("non_contacts") != false) goto L8;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:13:0x0216  */
-    /* JADX WARN: Removed duplicated region for block: B:16:0x026a  */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x021e  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x0216  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x021e  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x026a  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -291,12 +291,11 @@ public class GroupCreateSpan extends View {
     }
 
     public void cancelDeleteAnimation() {
-        if (!this.deleting) {
-            return;
+        if (this.deleting) {
+            this.deleting = false;
+            this.lastUpdateTime = System.currentTimeMillis();
+            invalidate();
         }
-        this.deleting = false;
-        this.lastUpdateTime = System.currentTimeMillis();
-        invalidate();
     }
 
     public long getUid() {

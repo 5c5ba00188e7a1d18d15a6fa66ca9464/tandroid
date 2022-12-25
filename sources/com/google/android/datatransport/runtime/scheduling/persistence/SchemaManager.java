@@ -15,7 +15,7 @@ public final class SchemaManager extends SQLiteOpenHelper {
     private static final Migration MIGRATE_TO_V3;
     private static final Migration MIGRATE_TO_V4;
     private static final Migration MIGRATION_TO_V5;
-    private boolean configured = false;
+    private boolean configured;
     private final int schemaVersion;
     private static final String CREATE_INITIAL_GLOBAL_LOG_EVENT_STATE_VALUE_SQL = "INSERT INTO global_log_event_state VALUES (" + System.currentTimeMillis() + ")";
     static int SCHEMA_VERSION = 5;
@@ -72,6 +72,7 @@ public final class SchemaManager extends SQLiteOpenHelper {
     /* JADX INFO: Access modifiers changed from: package-private */
     public SchemaManager(Context context, String str, int i) {
         super(context, str, (SQLiteDatabase.CursorFactory) null, i);
+        this.configured = false;
         this.schemaVersion = i;
     }
 
@@ -85,9 +86,10 @@ public final class SchemaManager extends SQLiteOpenHelper {
     }
 
     private void ensureConfigured(SQLiteDatabase sQLiteDatabase) {
-        if (!this.configured) {
-            onConfigure(sQLiteDatabase);
+        if (this.configured) {
+            return;
         }
+        onConfigure(sQLiteDatabase);
     }
 
     @Override // android.database.sqlite.SQLiteOpenHelper

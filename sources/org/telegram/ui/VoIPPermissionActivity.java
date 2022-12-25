@@ -26,12 +26,13 @@ public class VoIPPermissionActivity extends Activity {
         if (z && checkSelfPermission("android.permission.CAMERA") != 0) {
             arrayList.add("android.permission.CAMERA");
         }
-        if (!arrayList.isEmpty()) {
-            try {
-                requestPermissions((String[]) arrayList.toArray(new String[0]), z ? 102 : FileLoader.MEDIA_DIR_VIDEO_PUBLIC);
-            } catch (Exception e) {
-                FileLog.e(e);
-            }
+        if (arrayList.isEmpty()) {
+            return;
+        }
+        try {
+            requestPermissions((String[]) arrayList.toArray(new String[0]), z ? 102 : FileLoader.MEDIA_DIR_VIDEO_PUBLIC);
+        } catch (Exception e) {
+            FileLog.e(e);
         }
     }
 

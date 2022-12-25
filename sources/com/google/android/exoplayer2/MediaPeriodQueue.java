@@ -8,8 +8,9 @@ import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.trackselection.TrackSelectorResult;
 import com.google.android.exoplayer2.upstream.Allocator;
 import com.google.android.exoplayer2.util.Assertions;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-final class MediaPeriodQueue {
+public final class MediaPeriodQueue {
     private int length;
     private MediaPeriodHolder loading;
     private long nextWindowSequenceNumber;
@@ -66,7 +67,7 @@ final class MediaPeriodQueue {
         return getFollowingMediaPeriodInfo(mediaPeriodHolder, j);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:6:0x0018, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:7:0x0018, code lost:
         if (r1 != (-9223372036854775807L)) goto L7;
      */
     /*
@@ -193,7 +194,7 @@ final class MediaPeriodQueue {
             mediaPeriodHolder.info = mediaPeriodInfo.copyWithContentPositionUs(mediaPeriodInfo2.contentPositionUs);
             if (!areDurationsCompatible(mediaPeriodInfo2.durationUs, mediaPeriodInfo.durationUs)) {
                 long j3 = mediaPeriodInfo.durationUs;
-                return !removeAfter(mediaPeriodHolder) && !(mediaPeriodHolder == this.reading && ((j2 > Long.MIN_VALUE ? 1 : (j2 == Long.MIN_VALUE ? 0 : -1)) == 0 || (j2 > ((j3 > (-9223372036854775807L) ? 1 : (j3 == (-9223372036854775807L) ? 0 : -1)) == 0 ? Long.MAX_VALUE : mediaPeriodHolder.toRendererTime(j3)) ? 1 : (j2 == ((j3 > (-9223372036854775807L) ? 1 : (j3 == (-9223372036854775807L) ? 0 : -1)) == 0 ? Long.MAX_VALUE : mediaPeriodHolder.toRendererTime(j3)) ? 0 : -1)) >= 0));
+                return (removeAfter(mediaPeriodHolder) || (mediaPeriodHolder == this.reading && ((j2 > Long.MIN_VALUE ? 1 : (j2 == Long.MIN_VALUE ? 0 : -1)) == 0 || (j2 > ((j3 > (-9223372036854775807L) ? 1 : (j3 == (-9223372036854775807L) ? 0 : -1)) == 0 ? Long.MAX_VALUE : mediaPeriodHolder.toRendererTime(j3)) ? 1 : (j2 == ((j3 > (-9223372036854775807L) ? 1 : (j3 == (-9223372036854775807L) ? 0 : -1)) == 0 ? Long.MAX_VALUE : mediaPeriodHolder.toRendererTime(j3)) ? 0 : -1)) >= 0))) ? false : true;
             }
             mediaPeriodHolder2 = mediaPeriodHolder;
             mediaPeriodHolder = mediaPeriodHolder.getNext();

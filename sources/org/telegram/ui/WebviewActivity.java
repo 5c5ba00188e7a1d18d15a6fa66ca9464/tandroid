@@ -172,12 +172,10 @@ public class WebviewActivity extends BaseFragment {
                 if (i == -1) {
                     WebviewActivity.this.finishFragment();
                 } else if (i != 1) {
-                    if (i != 2) {
-                        return;
+                    if (i == 2) {
+                        WebviewActivity.openGameInBrowser(WebviewActivity.this.currentUrl, WebviewActivity.this.currentMessageObject, WebviewActivity.this.getParentActivity(), WebviewActivity.this.short_param, WebviewActivity.this.currentBot);
                     }
-                    WebviewActivity.openGameInBrowser(WebviewActivity.this.currentUrl, WebviewActivity.this.currentMessageObject, WebviewActivity.this.getParentActivity(), WebviewActivity.this.short_param, WebviewActivity.this.currentBot);
-                } else if (WebviewActivity.this.currentMessageObject == null) {
-                } else {
+                } else if (WebviewActivity.this.currentMessageObject != null) {
                     WebviewActivity.this.currentMessageObject.messageOwner.with_my_score = false;
                     WebviewActivity webviewActivity = WebviewActivity.this;
                     webviewActivity.showDialog(ShareAlert.createShareAlert(webviewActivity.getParentActivity(), WebviewActivity.this.currentMessageObject, null, false, WebviewActivity.this.linkToCopy, false));
@@ -240,27 +238,27 @@ public class WebviewActivity extends BaseFragment {
                     return false;
                 }
                 Uri parse = Uri.parse(str);
-                if (!"tg".equals(parse.getScheme())) {
-                    return false;
-                }
-                if (WebviewActivity.this.type == 1) {
-                    try {
-                        WebviewActivity.this.reloadStats(Uri.parse(str.replace("tg:statsrefresh", "tg://telegram.org")).getQueryParameter("params"));
-                    } catch (Throwable th) {
-                        FileLog.e(th);
+                if ("tg".equals(parse.getScheme())) {
+                    if (WebviewActivity.this.type == 1) {
+                        try {
+                            WebviewActivity.this.reloadStats(Uri.parse(str.replace("tg:statsrefresh", "tg://telegram.org")).getQueryParameter("params"));
+                        } catch (Throwable th) {
+                            FileLog.e(th);
+                        }
+                    } else {
+                        WebviewActivity.this.finishFragment(false);
+                        try {
+                            Intent intent = new Intent("android.intent.action.VIEW", parse);
+                            intent.setComponent(new ComponentName(ApplicationLoader.applicationContext.getPackageName(), LaunchActivity.class.getName()));
+                            intent.putExtra("com.android.browser.application_id", ApplicationLoader.applicationContext.getPackageName());
+                            ApplicationLoader.applicationContext.startActivity(intent);
+                        } catch (Exception e) {
+                            FileLog.e(e);
+                        }
                     }
-                } else {
-                    WebviewActivity.this.finishFragment(false);
-                    try {
-                        Intent intent = new Intent("android.intent.action.VIEW", parse);
-                        intent.setComponent(new ComponentName(ApplicationLoader.applicationContext.getPackageName(), LaunchActivity.class.getName()));
-                        intent.putExtra("com.android.browser.application_id", ApplicationLoader.applicationContext.getPackageName());
-                        ApplicationLoader.applicationContext.startActivity(intent);
-                    } catch (Exception e) {
-                        FileLog.e(e);
-                    }
+                    return true;
                 }
-                return true;
+                return false;
             }
 
             @Override // android.webkit.WebViewClient
@@ -325,7 +323,7 @@ public class WebviewActivity extends BaseFragment {
     }
 
     public static boolean supportWebview() {
-        return !"samsung".equals(Build.MANUFACTURER) || !"GT-I9500".equals(Build.MODEL);
+        return ("samsung".equals(Build.MANUFACTURER) && "GT-I9500".equals(Build.MODEL)) ? false : true;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -375,8 +373,8 @@ public class WebviewActivity extends BaseFragment {
         String str5 = "";
         try {
             SharedPreferences sharedPreferences = ApplicationLoader.applicationContext.getSharedPreferences("botshare", 0);
-            String string = sharedPreferences.getString(str5 + messageObject.getId(), null);
-            StringBuilder sb = new StringBuilder(string != null ? string : str5);
+            String string = sharedPreferences.getString("" + messageObject.getId(), null);
+            StringBuilder sb = new StringBuilder(string != null ? string : "");
             StringBuilder sb2 = new StringBuilder("tgShareScoreUrl=" + URLEncoder.encode("tgb://share_game_score?hash=", "UTF-8"));
             if (string == null) {
                 char[] charArray = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();

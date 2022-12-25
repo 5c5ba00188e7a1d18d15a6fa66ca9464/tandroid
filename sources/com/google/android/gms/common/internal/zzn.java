@@ -12,7 +12,7 @@ public final class zzn {
     private static final Uri zza = new Uri.Builder().scheme("content").authority("com.google.android.gms.chimera").build();
     private final String zzb;
     private final String zzc;
-    private final ComponentName zzd = null;
+    private final ComponentName zzd;
     private final int zze;
     private final boolean zzf;
 
@@ -20,11 +20,11 @@ public final class zzn {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof zzn)) {
-            return false;
+        if (obj instanceof zzn) {
+            zzn zznVar = (zzn) obj;
+            return Objects.equal(this.zzb, zznVar.zzb) && Objects.equal(this.zzc, zznVar.zzc) && Objects.equal(this.zzd, zznVar.zzd) && this.zze == zznVar.zze && this.zzf == zznVar.zzf;
         }
-        zzn zznVar = (zzn) obj;
-        return Objects.equal(this.zzb, zznVar.zzb) && Objects.equal(this.zzc, zznVar.zzc) && Objects.equal(this.zzd, zznVar.zzd) && this.zze == zznVar.zze && this.zzf == zznVar.zzf;
+        return false;
     }
 
     public final int hashCode() {
@@ -51,7 +51,6 @@ public final class zzn {
     public final Intent zzc(Context context) {
         Bundle bundle;
         if (this.zzb != null) {
-            Intent intent = null;
             if (this.zzf) {
                 Bundle bundle2 = new Bundle();
                 bundle2.putString("serviceActionBundleKey", this.zzb);
@@ -61,14 +60,12 @@ public final class zzn {
                     Log.w("ConnectionStatusConfig", "Dynamic intent resolution failed: ".concat(e.toString()));
                     bundle = null;
                 }
-                if (bundle != null) {
-                    intent = (Intent) bundle.getParcelable("serviceResponseIntentKey");
-                }
-                if (intent == null) {
+                r2 = bundle != null ? (Intent) bundle.getParcelable("serviceResponseIntentKey") : null;
+                if (r2 == null) {
                     Log.w("ConnectionStatusConfig", "Dynamic lookup for intent failed for action: ".concat(String.valueOf(this.zzb)));
                 }
             }
-            return intent != null ? intent : new Intent(this.zzb).setPackage(this.zzc);
+            return r2 != null ? r2 : new Intent(this.zzb).setPackage(this.zzc);
         }
         return new Intent().setComponent(this.zzd);
     }
@@ -82,6 +79,7 @@ public final class zzn {
         this.zzb = str;
         Preconditions.checkNotEmpty(str2);
         this.zzc = str2;
+        this.zzd = null;
         this.zze = i;
         this.zzf = z;
     }

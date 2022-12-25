@@ -22,9 +22,9 @@ public class HandlerBox extends AbstractFullBox {
     private long b;
     private long c;
     private String handlerType;
+    private String name;
     private long shouldBeZeroButAppleWritesHereSomeValue;
-    private String name = null;
-    private boolean zeroTerm = true;
+    private boolean zeroTerm;
 
     private static /* synthetic */ void ajc$preClinit() {
         Factory factory = new Factory("HandlerBox.java", HandlerBox.class);
@@ -59,6 +59,8 @@ public class HandlerBox extends AbstractFullBox {
 
     public HandlerBox() {
         super("hdlr");
+        this.name = null;
+        this.zeroTerm = true;
     }
 
     public String getHandlerType() {

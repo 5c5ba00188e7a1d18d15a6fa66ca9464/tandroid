@@ -25,12 +25,8 @@ public final class UriCompat {
             } else if (scheme.equalsIgnoreCase("http") || scheme.equalsIgnoreCase("https") || scheme.equalsIgnoreCase("ftp") || scheme.equalsIgnoreCase("rtsp")) {
                 StringBuilder sb2 = new StringBuilder();
                 sb2.append("//");
-                String str = "";
-                sb2.append(uri.getHost() != null ? uri.getHost() : str);
-                if (uri.getPort() != -1) {
-                    str = ":" + uri.getPort();
-                }
-                sb2.append(str);
+                sb2.append(uri.getHost() != null ? uri.getHost() : "");
+                sb2.append(uri.getPort() != -1 ? ":" + uri.getPort() : "");
                 sb2.append("/...");
                 schemeSpecificPart = sb2.toString();
             }

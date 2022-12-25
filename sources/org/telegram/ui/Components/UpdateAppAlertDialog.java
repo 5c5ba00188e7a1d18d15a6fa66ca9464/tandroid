@@ -35,7 +35,7 @@ public class UpdateAppAlertDialog extends BottomSheet {
     private boolean animationInProgress;
     private TLRPC$TL_help_appUpdate appUpdate;
     private LinearLayout linearLayout;
-    private int[] location = new int[2];
+    private int[] location;
     private int scrollOffsetY;
     private NestedScrollView scrollView;
     private View shadow;
@@ -51,10 +51,11 @@ public class UpdateAppAlertDialog extends BottomSheet {
     public class BottomSheetCell extends FrameLayout {
         private View background;
         private boolean hasBackground;
-        private TextView[] textView = new TextView[2];
+        private TextView[] textView;
 
         public BottomSheetCell(Context context, boolean z) {
             super(context);
+            this.textView = new TextView[2];
             this.hasBackground = !z;
             setBackground(null);
             View view = new View(context);
@@ -116,6 +117,7 @@ public class UpdateAppAlertDialog extends BottomSheet {
 
     public UpdateAppAlertDialog(Context context, TLRPC$TL_help_appUpdate tLRPC$TL_help_appUpdate, int i) {
         super(context, false);
+        this.location = new int[2];
         this.appUpdate = tLRPC$TL_help_appUpdate;
         this.accountNum = i;
         setCanceledOnTouchOutside(false);

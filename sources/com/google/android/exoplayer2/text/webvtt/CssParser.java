@@ -102,19 +102,16 @@ final class CssParser {
             } else if ("background-color".equals(parseIdentifier)) {
                 webvttCssStyle.setBackgroundColor(ColorParser.parseCssColor(parsePropertyValue));
             } else if ("text-decoration".equals(parseIdentifier)) {
-                if (!"underline".equals(parsePropertyValue)) {
-                    return;
+                if ("underline".equals(parsePropertyValue)) {
+                    webvttCssStyle.setUnderline(true);
                 }
-                webvttCssStyle.setUnderline(true);
             } else if ("font-family".equals(parseIdentifier)) {
                 webvttCssStyle.setFontFamily(parsePropertyValue);
             } else if ("font-weight".equals(parseIdentifier)) {
-                if (!"bold".equals(parsePropertyValue)) {
-                    return;
+                if ("bold".equals(parsePropertyValue)) {
+                    webvttCssStyle.setBold(true);
                 }
-                webvttCssStyle.setBold(true);
-            } else if (!"font-style".equals(parseIdentifier) || !"italic".equals(parsePropertyValue)) {
-            } else {
+            } else if ("font-style".equals(parseIdentifier) && "italic".equals(parsePropertyValue)) {
                 webvttCssStyle.setItalic(true);
             }
         }
@@ -136,10 +133,10 @@ final class CssParser {
             return null;
         }
         String parseIdentifier = parseIdentifier(parsableByteArray, sb);
-        if (!"".equals(parseIdentifier)) {
-            return parseIdentifier;
+        if ("".equals(parseIdentifier)) {
+            return "" + ((char) parsableByteArray.readUnsignedByte());
         }
-        return "" + ((char) parsableByteArray.readUnsignedByte());
+        return parseIdentifier;
     }
 
     private static boolean maybeSkipWhitespace(ParsableByteArray parsableByteArray) {
@@ -183,31 +180,30 @@ final class CssParser {
         int position = parsableByteArray.getPosition();
         int limit = parsableByteArray.limit();
         byte[] bArr = parsableByteArray.data;
-        if (position + 2 <= limit) {
-            int i = position + 1;
-            if (bArr[position] != 47) {
-                return false;
-            }
-            int i2 = i + 1;
-            if (bArr[i] != 42) {
-                return false;
-            }
-            while (true) {
-                int i3 = i2 + 1;
-                if (i3 < limit) {
-                    if (((char) bArr[i2]) == '*' && ((char) bArr[i3]) == '/') {
-                        i2 = i3 + 1;
-                        limit = i2;
-                    } else {
-                        i2 = i3;
-                    }
-                } else {
-                    parsableByteArray.skipBytes(limit - parsableByteArray.getPosition());
-                    return true;
-                }
-            }
-        } else {
+        if (position + 2 > limit) {
             return false;
+        }
+        int i = position + 1;
+        if (bArr[position] != 47) {
+            return false;
+        }
+        int i2 = i + 1;
+        if (bArr[i] != 42) {
+            return false;
+        }
+        while (true) {
+            int i3 = i2 + 1;
+            if (i3 < limit) {
+                if (((char) bArr[i2]) == '*' && ((char) bArr[i3]) == '/') {
+                    i2 = i3 + 1;
+                    limit = i2;
+                } else {
+                    i2 = i3;
+                }
+            } else {
+                parsableByteArray.skipBytes(limit - parsableByteArray.getPosition());
+                return true;
+            }
         }
     }
 
@@ -250,9 +246,8 @@ final class CssParser {
         } else {
             webvttCssStyle.setTargetTagName(str2);
         }
-        if (split.length <= 1) {
-            return;
+        if (split.length > 1) {
+            webvttCssStyle.setTargetClasses((String[]) Util.nullSafeArrayCopyOfRange(split, 1, split.length));
         }
-        webvttCssStyle.setTargetClasses((String[]) Util.nullSafeArrayCopyOfRange(split, 1, split.length));
     }
 }

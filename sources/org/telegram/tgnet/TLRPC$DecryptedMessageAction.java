@@ -73,12 +73,12 @@ public abstract class TLRPC$DecryptedMessageAction extends TLObject {
                 tLRPC$TL_decryptedMessageActionScreenshotMessages = null;
                 break;
         }
-        if (tLRPC$TL_decryptedMessageActionScreenshotMessages != null || !z) {
-            if (tLRPC$TL_decryptedMessageActionScreenshotMessages != null) {
-                tLRPC$TL_decryptedMessageActionScreenshotMessages.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_decryptedMessageActionScreenshotMessages;
+        if (tLRPC$TL_decryptedMessageActionScreenshotMessages == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in DecryptedMessageAction", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in DecryptedMessageAction", Integer.valueOf(i)));
+        if (tLRPC$TL_decryptedMessageActionScreenshotMessages != null) {
+            tLRPC$TL_decryptedMessageActionScreenshotMessages.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_decryptedMessageActionScreenshotMessages;
     }
 }

@@ -85,13 +85,13 @@ public class PollEditTextCell extends FrameLayout {
 
                 @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
                 public boolean onTouchEvent(MotionEvent motionEvent) {
-                    if (!isEnabled()) {
-                        return false;
+                    if (isEnabled()) {
+                        if (motionEvent.getAction() == 1) {
+                            PollEditTextCell.this.onFieldTouchUp(this);
+                        }
+                        return super.onTouchEvent(motionEvent);
                     }
-                    if (motionEvent.getAction() == 1) {
-                        PollEditTextCell.this.onFieldTouchUp(this);
-                    }
-                    return super.onTouchEvent(motionEvent);
+                    return false;
                 }
 
                 @Override // org.telegram.ui.Components.EditTextCaption, org.telegram.ui.Components.EditTextBoldCursor, android.view.View
@@ -130,20 +130,19 @@ public class PollEditTextCell extends FrameLayout {
 
                 @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
                 public boolean onTouchEvent(MotionEvent motionEvent) {
-                    if (!isEnabled()) {
-                        return false;
+                    if (isEnabled()) {
+                        if (motionEvent.getAction() == 1) {
+                            PollEditTextCell.this.onFieldTouchUp(this);
+                        }
+                        return super.onTouchEvent(motionEvent);
                     }
-                    if (motionEvent.getAction() == 1) {
-                        PollEditTextCell.this.onFieldTouchUp(this);
-                    }
-                    return super.onTouchEvent(motionEvent);
+                    return false;
                 }
             };
         }
         this.textView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
         this.textView.setHintTextColor(Theme.getColor("windowBackgroundWhiteHintText"));
         this.textView.setTextSize(1, 16.0f);
-        int i = 5;
         this.textView.setGravity((LocaleController.isRTL ? 5 : 3) | 16);
         this.textView.setBackgroundDrawable(null);
         EditTextBoldCursor editTextBoldCursor = this.textView;
@@ -189,7 +188,7 @@ public class PollEditTextCell extends FrameLayout {
             this.checkBox.setChecked(true, false);
             this.checkBox.setAlpha(0.0f);
             this.checkBox.setDrawBackgroundAsArc(8);
-            addView(this.checkBox, LayoutHelper.createFrame(48, 48.0f, (!LocaleController.isRTL ? 3 : i) | 48, 6.0f, 2.0f, 6.0f, 0.0f));
+            addView(this.checkBox, LayoutHelper.createFrame(48, 48.0f, (LocaleController.isRTL ? 5 : 3) | 48, 6.0f, 2.0f, 6.0f, 0.0f));
             this.checkBox.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Cells.PollEditTextCell$$ExternalSyntheticLambda0
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
@@ -198,7 +197,7 @@ public class PollEditTextCell extends FrameLayout {
             });
             return;
         }
-        addView(this.textView, LayoutHelper.createFrame(-1, -2.0f, (!LocaleController.isRTL ? 3 : i) | 16, 19.0f, 0.0f, 19.0f, 0.0f));
+        addView(this.textView, LayoutHelper.createFrame(-1, -2.0f, (LocaleController.isRTL ? 5 : 3) | 16, 19.0f, 0.0f, 19.0f, 0.0f));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -214,14 +213,10 @@ public class PollEditTextCell extends FrameLayout {
         SimpleTextView simpleTextView = new SimpleTextView(getContext());
         this.textView2 = simpleTextView;
         simpleTextView.setTextSize(13);
-        int i = 3;
         this.textView2.setGravity((LocaleController.isRTL ? 3 : 5) | 48);
         SimpleTextView simpleTextView2 = this.textView2;
         boolean z = LocaleController.isRTL;
-        if (!z) {
-            i = 5;
-        }
-        addView(simpleTextView2, LayoutHelper.createFrame(48, 24.0f, i | 48, z ? 20.0f : 0.0f, 17.0f, z ? 0.0f : 20.0f, 0.0f));
+        addView(simpleTextView2, LayoutHelper.createFrame(48, 24.0f, (z ? 3 : 5) | 48, z ? 20.0f : 0.0f, 17.0f, z ? 0.0f : 20.0f, 0.0f));
     }
 
     @Override // android.widget.FrameLayout, android.view.View
@@ -314,33 +309,24 @@ public class PollEditTextCell extends FrameLayout {
             return;
         }
         AnimatorSet animatorSet = this.checkBoxAnimation;
-        Integer num = null;
         if (animatorSet != null) {
             animatorSet.cancel();
             this.checkBoxAnimation = null;
         }
-        CheckBox2 checkBox2 = this.checkBox;
-        if (z) {
-            num = 1;
-        }
-        checkBox2.setTag(num);
-        float f = 1.0f;
+        this.checkBox.setTag(z ? 1 : null);
         if (z2) {
             AnimatorSet animatorSet2 = new AnimatorSet();
             this.checkBoxAnimation = animatorSet2;
             Animator[] animatorArr = new Animator[2];
-            CheckBox2 checkBox22 = this.checkBox;
+            CheckBox2 checkBox2 = this.checkBox;
             Property property = View.ALPHA;
             float[] fArr = new float[1];
             fArr[0] = z ? 1.0f : 0.0f;
-            animatorArr[0] = ObjectAnimator.ofFloat(checkBox22, property, fArr);
+            animatorArr[0] = ObjectAnimator.ofFloat(checkBox2, property, fArr);
             ImageView imageView = this.moveImageView;
             Property property2 = View.ALPHA;
             float[] fArr2 = new float[1];
-            if (z) {
-                f = 0.0f;
-            }
-            fArr2[0] = f;
+            fArr2[0] = z ? 0.0f : 1.0f;
             animatorArr[1] = ObjectAnimator.ofFloat(imageView, property2, fArr2);
             animatorSet2.playTogether(animatorArr);
             this.checkBoxAnimation.setDuration(180L);
@@ -348,11 +334,7 @@ public class PollEditTextCell extends FrameLayout {
             return;
         }
         this.checkBox.setAlpha(z ? 1.0f : 0.0f);
-        ImageView imageView2 = this.moveImageView;
-        if (z) {
-            f = 0.0f;
-        }
-        imageView2.setAlpha(f);
+        this.moveImageView.setAlpha(z ? 0.0f : 1.0f);
     }
 
     public void setTextAndHint(CharSequence charSequence, String str, boolean z) {
@@ -386,25 +368,20 @@ public class PollEditTextCell extends FrameLayout {
     protected void onDraw(Canvas canvas) {
         float dp;
         int i;
-        if (!this.needDivider || !drawDivider()) {
-            return;
-        }
-        float f = 63.0f;
-        if (LocaleController.isRTL) {
-            dp = 0.0f;
-        } else {
-            dp = AndroidUtilities.dp(this.moveImageView != null ? 63.0f : 20.0f);
-        }
-        float measuredHeight = getMeasuredHeight() - 1;
-        int measuredWidth = getMeasuredWidth();
-        if (LocaleController.isRTL) {
-            if (this.moveImageView == null) {
-                f = 20.0f;
+        if (this.needDivider && drawDivider()) {
+            if (LocaleController.isRTL) {
+                dp = 0.0f;
+            } else {
+                dp = AndroidUtilities.dp(this.moveImageView != null ? 63.0f : 20.0f);
             }
-            i = AndroidUtilities.dp(f);
-        } else {
-            i = 0;
+            float measuredHeight = getMeasuredHeight() - 1;
+            int measuredWidth = getMeasuredWidth();
+            if (LocaleController.isRTL) {
+                i = AndroidUtilities.dp(this.moveImageView == null ? 20.0f : 63.0f);
+            } else {
+                i = 0;
+            }
+            canvas.drawLine(dp, measuredHeight, measuredWidth - i, getMeasuredHeight() - 1, Theme.dividerPaint);
         }
-        canvas.drawLine(dp, measuredHeight, measuredWidth - i, getMeasuredHeight() - 1, Theme.dividerPaint);
     }
 }

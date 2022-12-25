@@ -178,10 +178,10 @@ public final class DefaultHlsExtractorFactory implements HlsExtractorFactory {
         if (extractor instanceof Ac4Extractor) {
             return buildResult(new Ac4Extractor());
         }
-        if (!(extractor instanceof Mp3Extractor)) {
-            return null;
+        if (extractor instanceof Mp3Extractor) {
+            return buildResult(new Mp3Extractor());
         }
-        return buildResult(new Mp3Extractor());
+        return null;
     }
 
     private static HlsExtractorFactory.Result buildResult(Extractor extractor) {

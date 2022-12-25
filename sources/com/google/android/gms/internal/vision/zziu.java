@@ -123,14 +123,14 @@ public final class zziu<T extends zziw<T>> {
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:12:0x0020, code lost:
-        if ((r6 instanceof com.google.android.gms.internal.vision.zzjp) == false) goto L3;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:17:0x0029, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:13:0x0029, code lost:
         if ((r6 instanceof com.google.android.gms.internal.vision.zzje) == false) goto L3;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:21:0x0032, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:18:0x0032, code lost:
         if ((r6 instanceof byte[]) == false) goto L3;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:8:0x0020, code lost:
+        if ((r6 instanceof com.google.android.gms.internal.vision.zzjp) == false) goto L3;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -180,10 +180,9 @@ public final class zziu<T extends zziw<T>> {
                 z = false;
                 break;
         }
-        if (z) {
-            return;
+        if (!z) {
+            throw new IllegalArgumentException(String.format("Wrong object type used with protocol message reflection.\nField number: %d, field java type: %s, value type: %s\n", Integer.valueOf(t.zza()), t.zzb().zza(), obj.getClass().getName()));
         }
-        throw new IllegalArgumentException(String.format("Wrong object type used with protocol message reflection.\nField number: %d, field java type: %s, value type: %s\n", Integer.valueOf(t.zza()), t.zzb().zza(), obj.getClass().getName()));
     }
 
     public final boolean zzf() {
@@ -238,13 +237,13 @@ public final class zziu<T extends zziw<T>> {
         if (obj instanceof zzkt) {
             return ((zzkt) obj).zza();
         }
-        if (!(obj instanceof byte[])) {
-            return obj;
+        if (obj instanceof byte[]) {
+            byte[] bArr = (byte[]) obj;
+            byte[] bArr2 = new byte[bArr.length];
+            System.arraycopy(bArr, 0, bArr2, 0, bArr.length);
+            return bArr2;
         }
-        byte[] bArr = (byte[]) obj;
-        byte[] bArr2 = new byte[bArr.length];
-        System.arraycopy(bArr, 0, bArr2, 0, bArr.length);
-        return bArr2;
+        return obj;
     }
 
     private final void zzb(Map.Entry<T, Object> entry) {

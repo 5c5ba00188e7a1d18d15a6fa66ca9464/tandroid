@@ -78,10 +78,9 @@ public class zzei<K extends Comparable<K>, V> extends AbstractMap<K, V> {
 
     /* JADX INFO: Access modifiers changed from: private */
     public final void zzdu() {
-        if (!this.zzgu) {
-            return;
+        if (this.zzgu) {
+            throw new UnsupportedOperationException();
         }
-        throw new UnsupportedOperationException();
     }
 
     private final SortedMap<K, V> zzdv() {
@@ -100,9 +99,10 @@ public class zzei<K extends Comparable<K>, V> extends AbstractMap<K, V> {
         if (!this.zzom.isEmpty()) {
             this.zzom.clear();
         }
-        if (!this.zzon.isEmpty()) {
-            this.zzon.clear();
+        if (this.zzon.isEmpty()) {
+            return;
         }
+        this.zzon.clear();
     }
 
     /* JADX WARN: Multi-variable type inference failed */
@@ -125,27 +125,27 @@ public class zzei<K extends Comparable<K>, V> extends AbstractMap<K, V> {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof zzei)) {
-            return super.equals(obj);
-        }
-        zzei zzeiVar = (zzei) obj;
-        int size = size();
-        if (size != zzeiVar.size()) {
-            return false;
-        }
-        int zzdr = zzdr();
-        if (zzdr != zzeiVar.zzdr()) {
-            return entrySet().equals(zzeiVar.entrySet());
-        }
-        for (int i = 0; i < zzdr; i++) {
-            if (!zzak(i).equals(zzeiVar.zzak(i))) {
+        if (obj instanceof zzei) {
+            zzei zzeiVar = (zzei) obj;
+            int size = size();
+            if (size != zzeiVar.size()) {
                 return false;
             }
-        }
-        if (zzdr == size) {
+            int zzdr = zzdr();
+            if (zzdr != zzeiVar.zzdr()) {
+                return entrySet().equals(zzeiVar.entrySet());
+            }
+            for (int i = 0; i < zzdr; i++) {
+                if (!zzak(i).equals(zzeiVar.zzak(i))) {
+                    return false;
+                }
+            }
+            if (zzdr != size) {
+                return this.zzon.equals(zzeiVar.zzon);
+            }
             return true;
         }
-        return this.zzon.equals(zzeiVar.zzon);
+        return super.equals(obj);
     }
 
     /* JADX WARN: Multi-variable type inference failed */
@@ -185,10 +185,10 @@ public class zzei<K extends Comparable<K>, V> extends AbstractMap<K, V> {
         if (zza >= 0) {
             return (V) zzal(zza);
         }
-        if (!this.zzon.isEmpty()) {
-            return this.zzon.remove(comparable);
+        if (this.zzon.isEmpty()) {
+            return null;
         }
-        return null;
+        return this.zzon.remove(comparable);
     }
 
     @Override // java.util.AbstractMap, java.util.Map
@@ -241,10 +241,11 @@ public class zzei<K extends Comparable<K>, V> extends AbstractMap<K, V> {
     }
 
     public void zzv() {
-        if (!this.zzgu) {
-            this.zzon = this.zzon.isEmpty() ? Collections.emptyMap() : Collections.unmodifiableMap(this.zzon);
-            this.zzop = this.zzop.isEmpty() ? Collections.emptyMap() : Collections.unmodifiableMap(this.zzop);
-            this.zzgu = true;
+        if (this.zzgu) {
+            return;
         }
+        this.zzon = this.zzon.isEmpty() ? Collections.emptyMap() : Collections.unmodifiableMap(this.zzon);
+        this.zzop = this.zzop.isEmpty() ? Collections.emptyMap() : Collections.unmodifiableMap(this.zzop);
+        this.zzgu = true;
     }
 }

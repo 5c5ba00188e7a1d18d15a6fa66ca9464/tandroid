@@ -39,13 +39,12 @@ final class K implements v {
             return;
         }
         this.b = i2;
-        if (i >= i2) {
-            return;
+        if (i < i2) {
+            do {
+                qVar.accept(jArr[i]);
+                i++;
+            } while (i < i2);
         }
-        do {
-            qVar.accept(jArr[i]);
-            i++;
-        } while (i < i2);
     }
 
     @Override // j$.util.u

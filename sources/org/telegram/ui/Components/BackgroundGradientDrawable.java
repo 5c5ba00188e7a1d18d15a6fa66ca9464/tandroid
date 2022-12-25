@@ -17,12 +17,12 @@ import org.telegram.messenger.Utilities;
 /* loaded from: classes3.dex */
 public class BackgroundGradientDrawable extends GradientDrawable {
     private final Paint bitmapPaint;
+    private final ArrayMap<IntSize, Bitmap> bitmaps;
     private final int[] colors;
-    private final ArrayMap<IntSize, Bitmap> bitmaps = new ArrayMap<>();
-    private final ArrayMap<IntSize, Boolean> isForExactBounds = new ArrayMap<>();
-    private final ArrayMap<View, Disposable> disposables = new ArrayMap<>();
-    private final List<Runnable[]> ditheringRunnables = new ArrayList();
-    private boolean disposed = false;
+    private final ArrayMap<View, Disposable> disposables;
+    private boolean disposed;
+    private final List<Runnable[]> ditheringRunnables;
+    private final ArrayMap<IntSize, Boolean> isForExactBounds;
 
     /* loaded from: classes3.dex */
     public interface Disposable {
@@ -95,22 +95,22 @@ public class BackgroundGradientDrawable extends GradientDrawable {
             if (i == i2) {
                 return of(i, i2, new int[0]);
             }
-            boolean z = true;
             if (orientation == Orientation.BOTH) {
                 return of(i, i2, i2, i);
             }
-            boolean z2 = orientation == Orientation.PORTRAIT;
-            if (i >= i2) {
-                z = false;
-            }
-            return z2 == z ? of(i, i2, new int[0]) : of(i2, i, new int[0]);
+            return (orientation == Orientation.PORTRAIT) == (i < i2) ? of(i, i2, new int[0]) : of(i2, i, new int[0]);
         }
     }
 
     public BackgroundGradientDrawable(GradientDrawable.Orientation orientation, int[] iArr) {
         super(orientation, iArr);
+        this.bitmaps = new ArrayMap<>();
+        this.isForExactBounds = new ArrayMap<>();
+        this.disposables = new ArrayMap<>();
+        this.ditheringRunnables = new ArrayList();
         Paint paint = new Paint(1);
         this.bitmapPaint = paint;
+        this.disposed = false;
         setDither(true);
         this.colors = iArr;
         paint.setDither(true);
@@ -225,10 +225,10 @@ public class BackgroundGradientDrawable extends GradientDrawable {
                 arrayList.add(intSize);
             }
         }
-        if (!arrayList.isEmpty()) {
-            return startDitheringInternal((IntSize[]) arrayList.toArray(new IntSize[0]), listener, j);
+        if (arrayList.isEmpty()) {
+            return null;
         }
-        return null;
+        return startDitheringInternal((IntSize[]) arrayList.toArray(new IntSize[0]), listener, j);
     }
 
     private Disposable startDitheringInternal(final IntSize[] intSizeArr, Listener listener, long j) {
@@ -285,10 +285,10 @@ public class BackgroundGradientDrawable extends GradientDrawable {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$startDitheringInternal$1(Runnable[] runnableArr, Bitmap bitmap, IntSize intSize, int i, Listener[] listenerArr) {
         if (!this.ditheringRunnables.contains(runnableArr)) {
-            if (bitmap == null) {
+            if (bitmap != null) {
+                bitmap.recycle();
                 return;
             }
-            bitmap.recycle();
             return;
         }
         if (bitmap != null) {
@@ -310,15 +310,14 @@ public class BackgroundGradientDrawable extends GradientDrawable {
         if (!z) {
             this.ditheringRunnables.remove(runnableArr);
         }
-        if (listenerArr[0] == null) {
-            return;
+        if (listenerArr[0] != null) {
+            listenerArr[0].onSizeReady(intSize.width, intSize.height);
+            if (z) {
+                return;
+            }
+            listenerArr[0].onAllSizesReady();
+            listenerArr[0] = null;
         }
-        listenerArr[0].onSizeReady(intSize.width, intSize.height);
-        if (z) {
-            return;
-        }
-        listenerArr[0].onAllSizesReady();
-        listenerArr[0] = null;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -338,20 +337,21 @@ public class BackgroundGradientDrawable extends GradientDrawable {
     }
 
     public void dispose() {
-        if (!this.disposed) {
-            for (int size = this.ditheringRunnables.size() - 1; size >= 0; size--) {
-                Utilities.globalQueue.cancelRunnables(this.ditheringRunnables.remove(size));
-            }
-            for (int size2 = this.bitmaps.size() - 1; size2 >= 0; size2--) {
-                Bitmap removeAt = this.bitmaps.removeAt(size2);
-                if (removeAt != null) {
-                    removeAt.recycle();
-                }
-            }
-            this.isForExactBounds.clear();
-            this.disposables.clear();
-            this.disposed = true;
+        if (this.disposed) {
+            return;
         }
+        for (int size = this.ditheringRunnables.size() - 1; size >= 0; size--) {
+            Utilities.globalQueue.cancelRunnables(this.ditheringRunnables.remove(size));
+        }
+        for (int size2 = this.bitmaps.size() - 1; size2 >= 0; size2--) {
+            Bitmap removeAt = this.bitmaps.removeAt(size2);
+            if (removeAt != null) {
+                removeAt.recycle();
+            }
+        }
+        this.isForExactBounds.clear();
+        this.disposables.clear();
+        this.disposed = true;
     }
 
     private Bitmap findBestBitmapForSize(int i, int i2) {
@@ -475,25 +475,25 @@ public class BackgroundGradientDrawable extends GradientDrawable {
 
     public static GradientDrawable.Orientation getGradientOrientation(int i) {
         if (i != 0) {
-            if (i == 90) {
-                return GradientDrawable.Orientation.LEFT_RIGHT;
-            }
-            if (i == 135) {
+            if (i != 90) {
+                if (i != 135) {
+                    if (i != 180) {
+                        if (i != 225) {
+                            if (i != 270) {
+                                if (i == 315) {
+                                    return GradientDrawable.Orientation.BR_TL;
+                                }
+                                return GradientDrawable.Orientation.BL_TR;
+                            }
+                            return GradientDrawable.Orientation.RIGHT_LEFT;
+                        }
+                        return GradientDrawable.Orientation.TR_BL;
+                    }
+                    return GradientDrawable.Orientation.TOP_BOTTOM;
+                }
                 return GradientDrawable.Orientation.TL_BR;
             }
-            if (i == 180) {
-                return GradientDrawable.Orientation.TOP_BOTTOM;
-            }
-            if (i == 225) {
-                return GradientDrawable.Orientation.TR_BL;
-            }
-            if (i == 270) {
-                return GradientDrawable.Orientation.RIGHT_LEFT;
-            }
-            if (i == 315) {
-                return GradientDrawable.Orientation.BR_TL;
-            }
-            return GradientDrawable.Orientation.BL_TR;
+            return GradientDrawable.Orientation.LEFT_RIGHT;
         }
         return GradientDrawable.Orientation.BOTTOM_TOP;
     }

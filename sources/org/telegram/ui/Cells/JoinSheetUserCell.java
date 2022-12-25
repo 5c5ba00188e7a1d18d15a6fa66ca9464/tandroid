@@ -16,13 +16,15 @@ import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.LayoutHelper;
 /* loaded from: classes3.dex */
 public class JoinSheetUserCell extends FrameLayout {
+    private AvatarDrawable avatarDrawable;
     private BackupImageView imageView;
     private TextView nameTextView;
-    private AvatarDrawable avatarDrawable = new AvatarDrawable();
-    private int[] result = new int[1];
+    private int[] result;
 
     public JoinSheetUserCell(Context context) {
         super(context);
+        this.avatarDrawable = new AvatarDrawable();
+        this.result = new int[1];
         BackupImageView backupImageView = new BackupImageView(context);
         this.imageView = backupImageView;
         backupImageView.setRoundRadius(AndroidUtilities.dp(27.0f));

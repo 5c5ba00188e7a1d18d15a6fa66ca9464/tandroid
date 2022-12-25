@@ -38,11 +38,11 @@ public class ServiceStarter {
                 startService = context.startService(intent);
                 Log.d("FirebaseMessaging", "Missing wake lock permission, service start may be delayed");
             }
-            if (startService != null) {
-                return -1;
+            if (startService == null) {
+                Log.e("FirebaseMessaging", "Error while delivering the message: ServiceIntent not found.");
+                return 404;
             }
-            Log.e("FirebaseMessaging", "Error while delivering the message: ServiceIntent not found.");
-            return 404;
+            return -1;
         } catch (IllegalStateException e) {
             String valueOf = String.valueOf(e);
             StringBuilder sb = new StringBuilder(valueOf.length() + 45);

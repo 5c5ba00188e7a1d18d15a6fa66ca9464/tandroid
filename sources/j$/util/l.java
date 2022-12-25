@@ -40,17 +40,17 @@ public final class l {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof l)) {
-            return false;
-        }
-        l lVar = (l) obj;
-        boolean z = this.a;
-        if (!z || !lVar.a) {
-            if (z == lVar.a) {
+        if (obj instanceof l) {
+            l lVar = (l) obj;
+            boolean z = this.a;
+            if (z && lVar.a) {
+                if (this.b == lVar.b) {
+                    return true;
+                }
+            } else if (z == lVar.a) {
                 return true;
             }
-        } else if (this.b == lVar.b) {
-            return true;
+            return false;
         }
         return false;
     }

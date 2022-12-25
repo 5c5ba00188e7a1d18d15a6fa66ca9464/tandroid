@@ -24,9 +24,9 @@ public class WebRtcAudioTrack {
     private static ErrorCallback errorCallback;
     private static WebRtcAudioTrackErrorCallback errorCallbackOld;
     private static volatile boolean speakerMute;
-    private static int streamType = 0;
+    private static int streamType;
     private static int usageAttribute;
-    private final AudioManager audioManager = (AudioManager) ContextUtils.getApplicationContext().getSystemService(MediaStreamTrack.AUDIO_TRACK_KIND);
+    private final AudioManager audioManager;
     private AudioTrackThread audioThread;
     private AudioTrack audioTrack;
     private ByteBuffer byteBuffer;
@@ -72,6 +72,7 @@ public class WebRtcAudioTrack {
         int defaultUsageAttribute = getDefaultUsageAttribute();
         DEFAULT_USAGE = defaultUsageAttribute;
         usageAttribute = defaultUsageAttribute;
+        streamType = 0;
     }
 
     public static synchronized void setAudioTrackUsageAttribute(int i) {
@@ -104,10 +105,11 @@ public class WebRtcAudioTrack {
 
     /* loaded from: classes.dex */
     private class AudioTrackThread extends Thread {
-        private volatile boolean keepAlive = true;
+        private volatile boolean keepAlive;
 
         public AudioTrackThread(String str) {
             super(str);
+            this.keepAlive = true;
         }
 
         @Override // java.lang.Thread, java.lang.Runnable
@@ -170,6 +172,7 @@ public class WebRtcAudioTrack {
         threadChecker.checkIsOnValidThread();
         Logging.d(TAG, "ctor" + WebRtcAudioUtils.getThreadInfo());
         this.nativeAudioTrack = j;
+        this.audioManager = (AudioManager) ContextUtils.getApplicationContext().getSystemService(MediaStreamTrack.AUDIO_TRACK_KIND);
     }
 
     private int initPlayout(int i, int i2, double d) {
@@ -347,10 +350,9 @@ public class WebRtcAudioTrack {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static void assertTrue(boolean z) {
-        if (z) {
-            return;
+        if (!z) {
+            throw new AssertionError("Expected condition to be true");
         }
-        throw new AssertionError("Expected condition to be true");
     }
 
     public static void setSpeakerMute(boolean z) {

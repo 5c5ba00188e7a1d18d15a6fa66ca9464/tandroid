@@ -121,19 +121,18 @@ public class AvcDecoderConfigurationRecord {
         }
         if (this.hasExts) {
             int i = this.avcProfileIndication;
-            if (i != 100 && i != 110 && i != 122 && i != 144) {
-                return;
-            }
-            BitWriterBuffer bitWriterBuffer2 = new BitWriterBuffer(byteBuffer);
-            bitWriterBuffer2.writeBits(this.chromaFormatPaddingBits, 6);
-            bitWriterBuffer2.writeBits(this.chromaFormat, 2);
-            bitWriterBuffer2.writeBits(this.bitDepthLumaMinus8PaddingBits, 5);
-            bitWriterBuffer2.writeBits(this.bitDepthLumaMinus8, 3);
-            bitWriterBuffer2.writeBits(this.bitDepthChromaMinus8PaddingBits, 5);
-            bitWriterBuffer2.writeBits(this.bitDepthChromaMinus8, 3);
-            for (byte[] bArr3 : this.sequenceParameterSetExts) {
-                IsoTypeWriter.writeUInt16(byteBuffer, bArr3.length);
-                byteBuffer.put(bArr3);
+            if (i == 100 || i == 110 || i == 122 || i == 144) {
+                BitWriterBuffer bitWriterBuffer2 = new BitWriterBuffer(byteBuffer);
+                bitWriterBuffer2.writeBits(this.chromaFormatPaddingBits, 6);
+                bitWriterBuffer2.writeBits(this.chromaFormat, 2);
+                bitWriterBuffer2.writeBits(this.bitDepthLumaMinus8PaddingBits, 5);
+                bitWriterBuffer2.writeBits(this.bitDepthLumaMinus8, 3);
+                bitWriterBuffer2.writeBits(this.bitDepthChromaMinus8PaddingBits, 5);
+                bitWriterBuffer2.writeBits(this.bitDepthChromaMinus8, 3);
+                for (byte[] bArr3 : this.sequenceParameterSetExts) {
+                    IsoTypeWriter.writeUInt16(byteBuffer, bArr3.length);
+                    byteBuffer.put(bArr3);
+                }
             }
         }
     }

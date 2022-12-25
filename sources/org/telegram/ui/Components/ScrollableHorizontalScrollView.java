@@ -13,10 +13,11 @@ import org.telegram.messenger.AndroidUtilities;
 public class ScrollableHorizontalScrollView extends HorizontalScrollView {
     private ValueAnimator scrollAnimator;
     protected boolean scrollingAnimation;
-    private int scrollingTo = -1;
+    private int scrollingTo;
 
     public ScrollableHorizontalScrollView(Context context) {
         super(context);
+        this.scrollingTo = -1;
     }
 
     public boolean scrollToVisible(int i, int i2) {

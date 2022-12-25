@@ -17,14 +17,15 @@ public class TextViewSwitcher extends ViewSwitcher {
     }
 
     public void setText(CharSequence charSequence, boolean z) {
-        if (!TextUtils.equals(charSequence, getCurrentView().getText())) {
-            if (z) {
-                getNextView().setText(charSequence);
-                showNext();
-                return;
-            }
-            getCurrentView().setText(charSequence);
+        if (TextUtils.equals(charSequence, getCurrentView().getText())) {
+            return;
         }
+        if (z) {
+            getNextView().setText(charSequence);
+            showNext();
+            return;
+        }
+        getCurrentView().setText(charSequence);
     }
 
     @Override // android.widget.ViewSwitcher, android.widget.ViewAnimator, android.view.ViewGroup

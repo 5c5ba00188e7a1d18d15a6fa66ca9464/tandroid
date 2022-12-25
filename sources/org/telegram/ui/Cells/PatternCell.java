@@ -33,7 +33,10 @@ import org.telegram.ui.Components.MotionBackgroundDrawable;
 import org.telegram.ui.Components.RadialProgress2;
 /* loaded from: classes3.dex */
 public class PatternCell extends BackupImageView implements DownloadController.FileDownloadProgressListener {
+    private int TAG;
     private MotionBackgroundDrawable backgroundDrawable;
+    private Paint backgroundPaint;
+    private int currentAccount;
     private int currentBackgroundColor;
     private int currentGradientAngle;
     private int currentGradientColor1;
@@ -44,10 +47,7 @@ public class PatternCell extends BackupImageView implements DownloadController.F
     private LinearGradient gradientShader;
     private int maxWallpaperSize;
     private RadialProgress2 radialProgress;
-    private RectF rect = new RectF();
-    private int currentAccount = UserConfig.selectedAccount;
-    private Paint backgroundPaint = new Paint(3);
-    private int TAG = DownloadController.getInstance(this.currentAccount).generateObserverTag();
+    private RectF rect;
 
     /* loaded from: classes3.dex */
     public interface PatternCellDelegate {
@@ -76,12 +76,16 @@ public class PatternCell extends BackupImageView implements DownloadController.F
 
     public PatternCell(Context context, int i, PatternCellDelegate patternCellDelegate) {
         super(context);
+        this.rect = new RectF();
+        this.currentAccount = UserConfig.selectedAccount;
         setRoundRadius(AndroidUtilities.dp(6.0f));
         this.maxWallpaperSize = i;
         this.delegate = patternCellDelegate;
         RadialProgress2 radialProgress2 = new RadialProgress2(this);
         this.radialProgress = radialProgress2;
         radialProgress2.setProgressRect(AndroidUtilities.dp(30.0f), AndroidUtilities.dp(30.0f), AndroidUtilities.dp(70.0f), AndroidUtilities.dp(70.0f));
+        this.backgroundPaint = new Paint(3);
+        this.TAG = DownloadController.getInstance(this.currentAccount).generateObserverTag();
         if (Build.VERSION.SDK_INT >= 21) {
             setOutlineProvider(new ViewOutlineProvider(this) { // from class: org.telegram.ui.Cells.PatternCell.1
                 @Override // android.view.ViewOutlineProvider

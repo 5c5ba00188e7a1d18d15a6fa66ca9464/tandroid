@@ -31,9 +31,10 @@ final class FlacBinarySearchSeeker extends BinarySearchSeeker {
 
     @Override // com.google.android.exoplayer2.extractor.BinarySearchSeeker
     protected void onSeekOperationFinished(boolean z, long j) {
-        if (!z) {
-            this.decoderJni.reset(j);
+        if (z) {
+            return;
         }
+        this.decoderJni.reset(j);
     }
 
     /* loaded from: classes.dex */

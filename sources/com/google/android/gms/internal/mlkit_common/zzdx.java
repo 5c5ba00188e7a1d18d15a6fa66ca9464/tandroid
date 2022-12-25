@@ -9,7 +9,7 @@ import com.google.mlkit.common.sdkinternal.SharedPrefManager;
 /* compiled from: com.google.mlkit:common@@17.0.0 */
 /* loaded from: classes.dex */
 public final class zzdx {
-    public static final Component<?> zza = Component.builder(zza.class).add(Dependency.required(zzds.class)).add(Dependency.required(SharedPrefManager.class)).factory(zzdw.zza).build();
+    public static final Component<?> zza;
 
     /* compiled from: com.google.mlkit:common@@17.0.0 */
     /* loaded from: classes.dex */
@@ -25,5 +25,6 @@ public final class zzdx {
 
     static {
         new GmsLogger("ModelDownloadLogger", "");
+        zza = Component.builder(zza.class).add(Dependency.required(zzds.class)).add(Dependency.required(SharedPrefManager.class)).factory(zzdw.zza).build();
     }
 }

@@ -44,12 +44,7 @@ public final class b implements Comparable, Serializable {
             j3--;
         }
         long j5 = j + j3;
-        boolean z = false;
-        boolean z2 = (j3 ^ j) < 0;
-        if ((j ^ j5) >= 0) {
-            z = true;
-        }
-        if (z2 | z) {
+        if (((j3 ^ j) < 0) | ((j ^ j5) >= 0)) {
             long j6 = j2 % 1000000000;
             if (j6 != 0) {
                 if ((1 | ((j2 ^ 1000000000) >> 63)) <= 0) {
@@ -73,11 +68,11 @@ public final class b implements Comparable, Serializable {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof b)) {
-            return false;
+        if (obj instanceof b) {
+            b bVar = (b) obj;
+            return this.a == bVar.a && this.b == bVar.b;
         }
-        b bVar = (b) obj;
-        return this.a == bVar.a && this.b == bVar.b;
+        return false;
     }
 
     public int hashCode() {

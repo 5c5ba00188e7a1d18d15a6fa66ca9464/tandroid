@@ -22,13 +22,14 @@ import com.google.android.gms.common.internal.zat;
 /* loaded from: classes.dex */
 public class SignInClientImpl extends GmsClient<zaf> implements com.google.android.gms.signin.zae {
     public static final /* synthetic */ int zaa = 0;
-    private final boolean zab = true;
+    private final boolean zab;
     private final ClientSettings zac;
     private final Bundle zad;
     private final Integer zae;
 
     public SignInClientImpl(Context context, Looper looper, boolean z, ClientSettings clientSettings, Bundle bundle, GoogleApiClient.ConnectionCallbacks connectionCallbacks, GoogleApiClient.OnConnectionFailedListener onConnectionFailedListener) {
         super(context, looper, 44, clientSettings, connectionCallbacks, onConnectionFailedListener);
+        this.zab = true;
         this.zac = clientSettings;
         this.zad = bundle;
         this.zae = clientSettings.zab();

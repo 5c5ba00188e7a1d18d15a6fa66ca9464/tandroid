@@ -14,15 +14,15 @@ public final class ICUCompat {
     static {
         int i = Build.VERSION.SDK_INT;
         if (i >= 21) {
-            if (i >= 24) {
-                return;
+            if (i < 24) {
+                try {
+                    sAddLikelySubtagsMethod = Class.forName("libcore.icu.ICU").getMethod("addLikelySubtags", Locale.class);
+                    return;
+                } catch (Exception e) {
+                    throw new IllegalStateException(e);
+                }
             }
-            try {
-                sAddLikelySubtagsMethod = Class.forName("libcore.icu.ICU").getMethod("addLikelySubtags", Locale.class);
-                return;
-            } catch (Exception e) {
-                throw new IllegalStateException(e);
-            }
+            return;
         }
         try {
             Class<?> cls = Class.forName("libcore.icu.ICU");
@@ -52,10 +52,10 @@ public final class ICUCompat {
             }
         }
         String addLikelySubtags = addLikelySubtags(locale);
-        if (addLikelySubtags == null) {
-            return null;
+        if (addLikelySubtags != null) {
+            return getScript(addLikelySubtags);
         }
-        return getScript(addLikelySubtags);
+        return null;
     }
 
     private static String getScript(String localeStr) {

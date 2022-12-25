@@ -96,26 +96,26 @@ public final class Excluder implements TypeAdapterFactory, Cloneable {
         if ((this.modifiers & field.getModifiers()) != 0) {
             return true;
         }
-        if ((this.version != -1.0d && !isValidVersion((Since) field.getAnnotation(Since.class), (Until) field.getAnnotation(Until.class))) || field.isSynthetic()) {
-            return true;
-        }
-        if (this.requireExpose && ((expose = (Expose) field.getAnnotation(Expose.class)) == null || (!z ? !expose.deserialize() : !expose.serialize()))) {
-            return true;
-        }
-        if ((!this.serializeInnerClasses && isInnerClass(field.getType())) || isAnonymousOrNonStaticLocal(field.getType())) {
-            return true;
-        }
-        List<ExclusionStrategy> list = z ? this.serializationStrategies : this.deserializationStrategies;
-        if (list.isEmpty()) {
-            return false;
-        }
-        FieldAttributes fieldAttributes = new FieldAttributes(field);
-        for (ExclusionStrategy exclusionStrategy : list) {
-            if (exclusionStrategy.shouldSkipField(fieldAttributes)) {
+        if ((this.version == -1.0d || isValidVersion((Since) field.getAnnotation(Since.class), (Until) field.getAnnotation(Until.class))) && !field.isSynthetic()) {
+            if (!this.requireExpose || ((expose = (Expose) field.getAnnotation(Expose.class)) != null && (!z ? !expose.deserialize() : !expose.serialize()))) {
+                if ((this.serializeInnerClasses || !isInnerClass(field.getType())) && !isAnonymousOrNonStaticLocal(field.getType())) {
+                    List<ExclusionStrategy> list = z ? this.serializationStrategies : this.deserializationStrategies;
+                    if (list.isEmpty()) {
+                        return false;
+                    }
+                    FieldAttributes fieldAttributes = new FieldAttributes(field);
+                    for (ExclusionStrategy exclusionStrategy : list) {
+                        if (exclusionStrategy.shouldSkipField(fieldAttributes)) {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
                 return true;
             }
+            return true;
         }
-        return false;
+        return true;
     }
 
     private boolean excludeClassChecks(Class<?> cls) {
@@ -139,7 +139,7 @@ public final class Excluder implements TypeAdapterFactory, Cloneable {
     }
 
     private boolean isAnonymousOrNonStaticLocal(Class<?> cls) {
-        return !Enum.class.isAssignableFrom(cls) && !isStatic(cls) && (cls.isAnonymousClass() || cls.isLocalClass());
+        return (Enum.class.isAssignableFrom(cls) || isStatic(cls) || (!cls.isAnonymousClass() && !cls.isLocalClass())) ? false : true;
     }
 
     private boolean isInnerClass(Class<?> cls) {

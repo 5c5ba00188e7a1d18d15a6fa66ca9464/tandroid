@@ -116,21 +116,21 @@ public class HardwareVideoEncoderFactory implements VideoEncoderFactory {
     private boolean isHardwareSupportedInCurrentSdk(MediaCodecInfo mediaCodecInfo, VideoCodecMimeType videoCodecMimeType) {
         if (VoIPService.getSharedInstance() == null || VoIPService.getSharedInstance().groupCall == null) {
             Instance.ServerConfig globalServerConfig = Instance.getGlobalServerConfig();
-            if (!globalServerConfig.enable_h264_encoder && !globalServerConfig.enable_h265_encoder && !globalServerConfig.enable_vp8_encoder && !globalServerConfig.enable_vp9_encoder) {
-                return false;
-            }
-            int i = 1.$SwitchMap$org$webrtc$VideoCodecMimeType[videoCodecMimeType.ordinal()];
-            if (i == 1) {
+            if (globalServerConfig.enable_h264_encoder || globalServerConfig.enable_h265_encoder || globalServerConfig.enable_vp8_encoder || globalServerConfig.enable_vp9_encoder) {
+                int i = 1.$SwitchMap$org$webrtc$VideoCodecMimeType[videoCodecMimeType.ordinal()];
+                if (i != 1) {
+                    if (i != 2) {
+                        if (i != 3) {
+                            if (i != 4) {
+                                return false;
+                            }
+                            return isHardwareSupportedInCurrentSdkH265(mediaCodecInfo);
+                        }
+                        return isHardwareSupportedInCurrentSdkH264(mediaCodecInfo);
+                    }
+                    return isHardwareSupportedInCurrentSdkVp9(mediaCodecInfo);
+                }
                 return isHardwareSupportedInCurrentSdkVp8(mediaCodecInfo);
-            }
-            if (i == 2) {
-                return isHardwareSupportedInCurrentSdkVp9(mediaCodecInfo);
-            }
-            if (i == 3) {
-                return isHardwareSupportedInCurrentSdkH264(mediaCodecInfo);
-            }
-            if (i == 4) {
-                return isHardwareSupportedInCurrentSdkH265(mediaCodecInfo);
             }
             return false;
         }
@@ -165,35 +165,35 @@ public class HardwareVideoEncoderFactory implements VideoEncoderFactory {
     }
 
     private boolean isHardwareSupportedInCurrentSdkVp8(MediaCodecInfo mediaCodecInfo) {
-        if (!Instance.getGlobalServerConfig().enable_vp8_encoder) {
-            return false;
+        if (Instance.getGlobalServerConfig().enable_vp8_encoder) {
+            String name = mediaCodecInfo.getName();
+            return (name.startsWith("OMX.qcom.") && Build.VERSION.SDK_INT >= 19) || (name.startsWith("OMX.hisi.") && Build.VERSION.SDK_INT >= 19) || ((name.startsWith("OMX.Exynos.") && Build.VERSION.SDK_INT >= 23) || (name.startsWith("OMX.Intel.") && Build.VERSION.SDK_INT >= 21 && this.enableIntelVp8Encoder));
         }
-        String name = mediaCodecInfo.getName();
-        return (name.startsWith("OMX.qcom.") && Build.VERSION.SDK_INT >= 19) || (name.startsWith("OMX.hisi.") && Build.VERSION.SDK_INT >= 19) || ((name.startsWith("OMX.Exynos.") && Build.VERSION.SDK_INT >= 23) || (name.startsWith("OMX.Intel.") && Build.VERSION.SDK_INT >= 21 && this.enableIntelVp8Encoder));
+        return false;
     }
 
     private boolean isHardwareSupportedInCurrentSdkVp9(MediaCodecInfo mediaCodecInfo) {
-        if (!Instance.getGlobalServerConfig().enable_vp9_encoder) {
-            return false;
+        if (Instance.getGlobalServerConfig().enable_vp9_encoder) {
+            String name = mediaCodecInfo.getName();
+            return (name.startsWith("OMX.qcom.") || name.startsWith("OMX.Exynos.") || name.startsWith("OMX.hisi.")) && Build.VERSION.SDK_INT >= 24;
         }
-        String name = mediaCodecInfo.getName();
-        return (name.startsWith("OMX.qcom.") || name.startsWith("OMX.Exynos.") || name.startsWith("OMX.hisi.")) && Build.VERSION.SDK_INT >= 24;
+        return false;
     }
 
     private boolean isHardwareSupportedInCurrentSdkH264(MediaCodecInfo mediaCodecInfo) {
-        if (!Instance.getGlobalServerConfig().enable_h264_encoder) {
-            return false;
+        if (Instance.getGlobalServerConfig().enable_h264_encoder) {
+            String name = mediaCodecInfo.getName();
+            return (name.startsWith("OMX.qcom.") && Build.VERSION.SDK_INT >= 19) || (name.startsWith("OMX.Exynos.") && Build.VERSION.SDK_INT >= 21);
         }
-        String name = mediaCodecInfo.getName();
-        return (name.startsWith("OMX.qcom.") && Build.VERSION.SDK_INT >= 19) || (name.startsWith("OMX.Exynos.") && Build.VERSION.SDK_INT >= 21);
+        return false;
     }
 
     private boolean isHardwareSupportedInCurrentSdkH265(MediaCodecInfo mediaCodecInfo) {
-        if (!Instance.getGlobalServerConfig().enable_h265_encoder) {
-            return false;
+        if (Instance.getGlobalServerConfig().enable_h265_encoder) {
+            String name = mediaCodecInfo.getName();
+            return (name.startsWith("OMX.qcom.") && Build.VERSION.SDK_INT >= 19) || (name.startsWith("OMX.Exynos.") && Build.VERSION.SDK_INT >= 21);
         }
-        String name = mediaCodecInfo.getName();
-        return (name.startsWith("OMX.qcom.") && Build.VERSION.SDK_INT >= 19) || (name.startsWith("OMX.Exynos.") && Build.VERSION.SDK_INT >= 21);
+        return false;
     }
 
     private boolean isMediaCodecAllowed(MediaCodecInfo mediaCodecInfo) {
@@ -216,19 +216,19 @@ public class HardwareVideoEncoderFactory implements VideoEncoderFactory {
     }
 
     private int getForcedKeyFrameIntervalMs(VideoCodecMimeType videoCodecMimeType, String str) {
-        if (videoCodecMimeType != VideoCodecMimeType.VP8 || !str.startsWith("OMX.qcom.")) {
-            return 0;
-        }
-        int i = Build.VERSION.SDK_INT;
-        if (i != 21 && i != 22) {
-            if (i == 23) {
-                return QCOM_VP8_KEY_FRAME_INTERVAL_ANDROID_M_MS;
+        if (videoCodecMimeType == VideoCodecMimeType.VP8 && str.startsWith("OMX.qcom.")) {
+            int i = Build.VERSION.SDK_INT;
+            if (i != 21 && i != 22) {
+                if (i == 23) {
+                    return QCOM_VP8_KEY_FRAME_INTERVAL_ANDROID_M_MS;
+                }
+                if (i <= 23) {
+                    return 0;
+                }
             }
-            if (i <= 23) {
-                return 0;
-            }
+            return 15000;
         }
-        return 15000;
+        return 0;
     }
 
     private BitrateAdjuster createBitrateAdjuster(VideoCodecMimeType videoCodecMimeType, String str) {

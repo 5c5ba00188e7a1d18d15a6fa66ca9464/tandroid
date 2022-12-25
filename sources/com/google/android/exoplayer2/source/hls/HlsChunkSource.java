@@ -114,10 +114,10 @@ class HlsChunkSource {
         this.isTimestampMaster = z;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:15:0x006f  */
-    /* JADX WARN: Removed duplicated region for block: B:18:0x007e  */
-    /* JADX WARN: Removed duplicated region for block: B:21:0x008e  */
-    /* JADX WARN: Removed duplicated region for block: B:51:0x0071  */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x006f  */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x0071  */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x007e  */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x008e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -354,16 +354,15 @@ class HlsChunkSource {
         @Override // com.google.android.exoplayer2.trackselection.TrackSelection
         public void updateSelectedTrack(long j, long j2, long j3, List<? extends MediaChunk> list, MediaChunkIterator[] mediaChunkIteratorArr) {
             long elapsedRealtime = SystemClock.elapsedRealtime();
-            if (!isBlacklisted(this.selectedIndex, elapsedRealtime)) {
-                return;
-            }
-            for (int i = this.length - 1; i >= 0; i--) {
-                if (!isBlacklisted(i, elapsedRealtime)) {
-                    this.selectedIndex = i;
-                    return;
+            if (isBlacklisted(this.selectedIndex, elapsedRealtime)) {
+                for (int i = this.length - 1; i >= 0; i--) {
+                    if (!isBlacklisted(i, elapsedRealtime)) {
+                        this.selectedIndex = i;
+                        return;
+                    }
                 }
+                throw new IllegalStateException();
             }
-            throw new IllegalStateException();
         }
 
         @Override // com.google.android.exoplayer2.trackselection.TrackSelection

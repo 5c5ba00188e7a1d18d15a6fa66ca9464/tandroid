@@ -432,11 +432,11 @@ public class TextureRenderer {
         editTextOutline.setBreakStrategy(0);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:82:0x0426, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:124:0x0426, code lost:
         if (org.telegram.messenger.LocaleController.isRTL != false) goto L83;
      */
-    /* JADX WARN: Removed duplicated region for block: B:138:0x0169  */
-    /* JADX WARN: Removed duplicated region for block: B:151:0x0208 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:170:0x0208 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x0169  */
     @SuppressLint({"WrongConstant"})
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -736,11 +736,11 @@ public class TextureRenderer {
         GLES20.glLinkProgram(glCreateProgram);
         int[] iArr = new int[1];
         GLES20.glGetProgramiv(glCreateProgram, 35714, iArr, 0);
-        if (iArr[0] == 1) {
-            return glCreateProgram;
+        if (iArr[0] != 1) {
+            GLES20.glDeleteProgram(glCreateProgram);
+            return 0;
         }
-        GLES20.glDeleteProgram(glCreateProgram);
-        return 0;
+        return glCreateProgram;
     }
 
     public void release() {

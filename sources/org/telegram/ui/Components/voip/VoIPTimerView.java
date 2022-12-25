@@ -13,19 +13,14 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.voip.VoIPService;
 /* loaded from: classes.dex */
 public class VoIPTimerView extends View {
+    Paint activePaint;
     String currentTimeStr;
+    Paint inactivePaint;
+    RectF rectF;
+    private int signalBarCount;
+    TextPaint textPaint;
     StaticLayout timerLayout;
-    RectF rectF = new RectF();
-    Paint activePaint = new Paint(1);
-    Paint inactivePaint = new Paint(1);
-    TextPaint textPaint = new TextPaint(1);
-    private int signalBarCount = 4;
-    Runnable updater = new Runnable() { // from class: org.telegram.ui.Components.voip.VoIPTimerView$$ExternalSyntheticLambda0
-        @Override // java.lang.Runnable
-        public final void run() {
-            VoIPTimerView.this.lambda$new$0();
-        }
-    };
+    Runnable updater;
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0() {
@@ -36,6 +31,17 @@ public class VoIPTimerView extends View {
 
     public VoIPTimerView(Context context) {
         super(context);
+        this.rectF = new RectF();
+        this.activePaint = new Paint(1);
+        this.inactivePaint = new Paint(1);
+        this.textPaint = new TextPaint(1);
+        this.signalBarCount = 4;
+        this.updater = new Runnable() { // from class: org.telegram.ui.Components.voip.VoIPTimerView$$ExternalSyntheticLambda0
+            @Override // java.lang.Runnable
+            public final void run() {
+                VoIPTimerView.this.lambda$new$0();
+            }
+        };
         this.textPaint.setTextSize(AndroidUtilities.dp(15.0f));
         this.textPaint.setColor(-1);
         this.textPaint.setShadowLayer(AndroidUtilities.dp(3.0f), 0.0f, AndroidUtilities.dp(0.6666667f), 1275068416);

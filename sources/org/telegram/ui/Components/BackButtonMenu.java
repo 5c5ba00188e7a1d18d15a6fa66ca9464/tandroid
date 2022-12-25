@@ -49,8 +49,8 @@ public class BackButtonMenu {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:32:0x01f0  */
-    /* JADX WARN: Removed duplicated region for block: B:35:0x0211 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x01f0  */
+    /* JADX WARN: Removed duplicated region for block: B:74:0x0211 A[SYNTHETIC] */
     /* JADX WARN: Type inference failed for: r13v0, types: [android.widget.FrameLayout, android.view.View] */
     /* JADX WARN: Type inference failed for: r15v3, types: [android.graphics.drawable.BitmapDrawable] */
     /* JADX WARN: Type inference failed for: r2v1, types: [org.telegram.ui.ActionBar.ActionBarPopupWindow$ActionBarPopupWindowLayout, android.widget.FrameLayout, android.view.View] */
@@ -314,17 +314,16 @@ public class BackButtonMenu {
             bundle3.putLong("chat_id", pulledDialog.chat.id);
             baseFragment.presentFragment(new TopicsFragment(bundle3), true);
         }
-        if (pulledDialog.activity != DialogsActivity.class) {
-            return;
+        if (pulledDialog.activity == DialogsActivity.class) {
+            baseFragment.presentFragment(new DialogsActivity(null), true);
         }
-        baseFragment.presentFragment(new DialogsActivity(null), true);
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:28:0x0088  */
-    /* JADX WARN: Removed duplicated region for block: B:34:0x00a2  */
-    /* JADX WARN: Removed duplicated region for block: B:41:0x00bf A[SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x009d A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x0088  */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x00a2  */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x00bf A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:74:0x009d A[SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -468,12 +467,10 @@ public class BackButtonMenu {
         boolean z = false;
         Iterator<PulledDialog> it = parentLayout.getPulledDialogs().iterator();
         while (true) {
-            if (it.hasNext()) {
-                if (it.next().dialogId == j) {
-                    z = true;
-                    break;
-                }
-            } else {
+            if (!it.hasNext()) {
+                break;
+            } else if (it.next().dialogId == j) {
+                z = true;
                 break;
             }
         }

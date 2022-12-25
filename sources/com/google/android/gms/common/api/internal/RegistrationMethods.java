@@ -29,13 +29,9 @@ public class RegistrationMethods<A extends Api.AnyClient, L> {
         }
 
         public RegistrationMethods<A, L> build() {
-            boolean z = true;
             Preconditions.checkArgument(this.zaa != null, "Must set register function");
             Preconditions.checkArgument(this.zab != null, "Must set unregister function");
-            if (this.zad == null) {
-                z = false;
-            }
-            Preconditions.checkArgument(z, "Must set holder");
+            Preconditions.checkArgument(this.zad != null, "Must set holder");
             return new RegistrationMethods<>(new zack(this, this.zad, this.zae, this.zaf, this.zag), new zacl(this, (ListenerHolder.ListenerKey) Preconditions.checkNotNull(this.zad.getListenerKey(), "Key must not be null")), this.zac, null);
         }
 

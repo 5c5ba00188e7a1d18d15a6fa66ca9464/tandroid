@@ -94,12 +94,12 @@ public final class SpringAnimation extends DynamicAnimation<SpringAnimation> {
         this.mValue = max;
         float min = Math.min(max, this.mMaxValue);
         this.mValue = min;
-        if (!isAtEquilibrium(min, this.mVelocity)) {
-            return false;
+        if (isAtEquilibrium(min, this.mVelocity)) {
+            this.mValue = this.mSpring.getFinalPosition();
+            this.mVelocity = 0.0f;
+            return true;
         }
-        this.mValue = this.mSpring.getFinalPosition();
-        this.mVelocity = 0.0f;
-        return true;
+        return false;
     }
 
     boolean isAtEquilibrium(float f, float f2) {

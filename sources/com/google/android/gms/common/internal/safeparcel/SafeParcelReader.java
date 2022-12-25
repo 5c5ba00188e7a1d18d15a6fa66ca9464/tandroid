@@ -242,10 +242,10 @@ public class SafeParcelReader {
             throw new ParseException("Expected object header. Got 0x".concat(String.valueOf(Integer.toHexString(readHeader))), parcel);
         }
         int i = readSize + dataPosition;
-        if (i >= dataPosition && i <= parcel.dataSize()) {
-            return i;
+        if (i < dataPosition || i > parcel.dataSize()) {
+            throw new ParseException("Size read is invalid start=" + dataPosition + " end=" + i, parcel);
         }
-        throw new ParseException("Size read is invalid start=" + dataPosition + " end=" + i, parcel);
+        return i;
     }
 
     private static void zza(Parcel parcel, int i, int i2, int i3) {

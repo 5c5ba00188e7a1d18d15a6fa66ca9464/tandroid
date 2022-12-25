@@ -23,34 +23,34 @@ public class VideoTimelinePlayView extends View {
     public static int TYPE_PROGRESS = 2;
     public static int TYPE_RIGHT = 1;
     private static final Object sync = new Object();
+    Paint bitmapPaint;
+    private int currentMode;
     private AsyncTask<Integer, Integer, Bitmap> currentTask;
     private VideoTimelineViewDelegate delegate;
     private Drawable drawableLeft;
     private Drawable drawableRight;
+    private ArrayList<android.graphics.Rect> exclusionRects;
+    private android.graphics.Rect exclustionRect;
     private int frameHeight;
     private long frameTimeOffset;
     private int frameWidth;
+    private ArrayList<BitmapFrame> frames;
     private int framesToLoad;
     private int lastWidth;
+    private float maxProgressDiff;
     private MediaMetadataRetriever mediaMetadataRetriever;
+    private float minProgressDiff;
     private Paint paint;
     private Paint paint2;
+    private float playProgress;
     private float pressDx;
     private boolean pressedLeft;
     private boolean pressedPlay;
     private boolean pressedRight;
     private float progressLeft;
+    private float progressRight;
+    private RectF rect3;
     private long videoLength;
-    private float progressRight = 1.0f;
-    private float playProgress = 0.5f;
-    private ArrayList<BitmapFrame> frames = new ArrayList<>();
-    private float maxProgressDiff = 1.0f;
-    private float minProgressDiff = 0.0f;
-    private RectF rect3 = new RectF();
-    private int currentMode = 0;
-    Paint bitmapPaint = new Paint();
-    private ArrayList<android.graphics.Rect> exclusionRects = new ArrayList<>();
-    private android.graphics.Rect exclustionRect = new android.graphics.Rect();
 
     /* loaded from: classes3.dex */
     public interface VideoTimelineViewDelegate {
@@ -67,6 +67,16 @@ public class VideoTimelinePlayView extends View {
 
     public VideoTimelinePlayView(Context context) {
         super(context);
+        this.progressRight = 1.0f;
+        this.playProgress = 0.5f;
+        this.frames = new ArrayList<>();
+        this.maxProgressDiff = 1.0f;
+        this.minProgressDiff = 0.0f;
+        this.rect3 = new RectF();
+        this.currentMode = 0;
+        this.bitmapPaint = new Paint();
+        this.exclusionRects = new ArrayList<>();
+        this.exclustionRect = new android.graphics.Rect();
         Paint paint = new Paint(1);
         this.paint = paint;
         paint.setColor(-1);
@@ -377,17 +387,17 @@ public class VideoTimelinePlayView extends View {
                     if (isCancelled()) {
                         return null;
                     }
-                    if (frameAtTime == null) {
-                        return frameAtTime;
+                    if (frameAtTime != null) {
+                        Bitmap createBitmap = Bitmap.createBitmap(VideoTimelinePlayView.this.frameWidth, VideoTimelinePlayView.this.frameHeight, frameAtTime.getConfig());
+                        Canvas canvas = new Canvas(createBitmap);
+                        float max = Math.max(VideoTimelinePlayView.this.frameWidth / frameAtTime.getWidth(), VideoTimelinePlayView.this.frameHeight / frameAtTime.getHeight());
+                        int width = (int) (frameAtTime.getWidth() * max);
+                        int height = (int) (frameAtTime.getHeight() * max);
+                        canvas.drawBitmap(frameAtTime, new android.graphics.Rect(0, 0, frameAtTime.getWidth(), frameAtTime.getHeight()), new android.graphics.Rect((VideoTimelinePlayView.this.frameWidth - width) / 2, (VideoTimelinePlayView.this.frameHeight - height) / 2, width, height), (Paint) null);
+                        frameAtTime.recycle();
+                        return createBitmap;
                     }
-                    Bitmap createBitmap = Bitmap.createBitmap(VideoTimelinePlayView.this.frameWidth, VideoTimelinePlayView.this.frameHeight, frameAtTime.getConfig());
-                    Canvas canvas = new Canvas(createBitmap);
-                    float max = Math.max(VideoTimelinePlayView.this.frameWidth / frameAtTime.getWidth(), VideoTimelinePlayView.this.frameHeight / frameAtTime.getHeight());
-                    int width = (int) (frameAtTime.getWidth() * max);
-                    int height = (int) (frameAtTime.getHeight() * max);
-                    canvas.drawBitmap(frameAtTime, new android.graphics.Rect(0, 0, frameAtTime.getWidth(), frameAtTime.getHeight()), new android.graphics.Rect((VideoTimelinePlayView.this.frameWidth - width) / 2, (VideoTimelinePlayView.this.frameHeight - height) / 2, width, height), (Paint) null);
-                    frameAtTime.recycle();
-                    return createBitmap;
+                    return frameAtTime;
                 } catch (Exception e2) {
                     e = e2;
                     bitmap = frameAtTime;
@@ -399,12 +409,12 @@ public class VideoTimelinePlayView extends View {
             /* JADX INFO: Access modifiers changed from: protected */
             @Override // android.os.AsyncTask
             public void onPostExecute(Bitmap bitmap) {
-                if (!isCancelled()) {
-                    VideoTimelinePlayView.this.frames.add(new BitmapFrame(bitmap));
-                    VideoTimelinePlayView.this.invalidate();
-                    if (this.frameNum >= VideoTimelinePlayView.this.framesToLoad) {
-                        return;
-                    }
+                if (isCancelled()) {
+                    return;
+                }
+                VideoTimelinePlayView.this.frames.add(new BitmapFrame(bitmap));
+                VideoTimelinePlayView.this.invalidate();
+                if (this.frameNum < VideoTimelinePlayView.this.framesToLoad) {
                     VideoTimelinePlayView.this.reloadFrames(this.frameNum + 1);
                 }
             }

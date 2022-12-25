@@ -41,37 +41,35 @@ public final class Id3Reader implements ElementaryStreamReader {
 
     @Override // com.google.android.exoplayer2.extractor.ts.ElementaryStreamReader
     public void consume(ParsableByteArray parsableByteArray) {
-        if (!this.writingSample) {
-            return;
-        }
-        int bytesLeft = parsableByteArray.bytesLeft();
-        int i = this.sampleBytesRead;
-        if (i < 10) {
-            int min = Math.min(bytesLeft, 10 - i);
-            System.arraycopy(parsableByteArray.data, parsableByteArray.getPosition(), this.id3Header.data, this.sampleBytesRead, min);
-            if (this.sampleBytesRead + min == 10) {
-                this.id3Header.setPosition(0);
-                if (73 != this.id3Header.readUnsignedByte() || 68 != this.id3Header.readUnsignedByte() || 51 != this.id3Header.readUnsignedByte()) {
-                    Log.w("Id3Reader", "Discarding invalid ID3 tag");
-                    this.writingSample = false;
-                    return;
+        if (this.writingSample) {
+            int bytesLeft = parsableByteArray.bytesLeft();
+            int i = this.sampleBytesRead;
+            if (i < 10) {
+                int min = Math.min(bytesLeft, 10 - i);
+                System.arraycopy(parsableByteArray.data, parsableByteArray.getPosition(), this.id3Header.data, this.sampleBytesRead, min);
+                if (this.sampleBytesRead + min == 10) {
+                    this.id3Header.setPosition(0);
+                    if (73 != this.id3Header.readUnsignedByte() || 68 != this.id3Header.readUnsignedByte() || 51 != this.id3Header.readUnsignedByte()) {
+                        Log.w("Id3Reader", "Discarding invalid ID3 tag");
+                        this.writingSample = false;
+                        return;
+                    }
+                    this.id3Header.skipBytes(3);
+                    this.sampleSize = this.id3Header.readSynchSafeInt() + 10;
                 }
-                this.id3Header.skipBytes(3);
-                this.sampleSize = this.id3Header.readSynchSafeInt() + 10;
             }
+            int min2 = Math.min(bytesLeft, this.sampleSize - this.sampleBytesRead);
+            this.output.sampleData(parsableByteArray, min2);
+            this.sampleBytesRead += min2;
         }
-        int min2 = Math.min(bytesLeft, this.sampleSize - this.sampleBytesRead);
-        this.output.sampleData(parsableByteArray, min2);
-        this.sampleBytesRead += min2;
     }
 
     @Override // com.google.android.exoplayer2.extractor.ts.ElementaryStreamReader
     public void packetFinished() {
         int i;
-        if (!this.writingSample || (i = this.sampleSize) == 0 || this.sampleBytesRead != i) {
-            return;
+        if (this.writingSample && (i = this.sampleSize) != 0 && this.sampleBytesRead == i) {
+            this.output.sampleMetadata(this.sampleTimeUs, 1, i, 0, null);
+            this.writingSample = false;
         }
-        this.output.sampleMetadata(this.sampleTimeUs, 1, i, 0, null);
-        this.writingSample = false;
     }
 }

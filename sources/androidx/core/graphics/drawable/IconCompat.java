@@ -169,10 +169,10 @@ public class IconCompat extends CustomVersionedParcelable {
         int i = this.mType;
         if (i == -1 && Build.VERSION.SDK_INT >= 23) {
             Object obj = this.mObj1;
-            if (!(obj instanceof Bitmap)) {
-                return null;
+            if (obj instanceof Bitmap) {
+                return (Bitmap) obj;
             }
-            return (Bitmap) obj;
+            return null;
         } else if (i == 1) {
             return (Bitmap) this.mObj1;
         } else {
@@ -264,24 +264,22 @@ public class IconCompat extends CustomVersionedParcelable {
             return;
         }
         String str = (String) obj;
-        if (!str.contains(":")) {
-            return;
+        if (str.contains(":")) {
+            String str2 = str.split(":", -1)[1];
+            String str3 = str2.split("/", -1)[0];
+            String str4 = str2.split("/", -1)[1];
+            String str5 = str.split(":", -1)[0];
+            if ("0_resource_name_obfuscated".equals(str4)) {
+                Log.i("IconCompat", "Found obfuscated resource, not trying to update resource id for it");
+                return;
+            }
+            String resPackage = getResPackage();
+            int identifier = getResources(context, resPackage).getIdentifier(str4, str3, str5);
+            if (this.mInt1 != identifier) {
+                Log.i("IconCompat", "Id has changed for " + resPackage + " " + str);
+                this.mInt1 = identifier;
+            }
         }
-        String str2 = str.split(":", -1)[1];
-        String str3 = str2.split("/", -1)[0];
-        String str4 = str2.split("/", -1)[1];
-        String str5 = str.split(":", -1)[0];
-        if ("0_resource_name_obfuscated".equals(str4)) {
-            Log.i("IconCompat", "Found obfuscated resource, not trying to update resource id for it");
-            return;
-        }
-        String resPackage = getResPackage();
-        int identifier = getResources(context, resPackage).getIdentifier(str4, str3, str5);
-        if (this.mInt1 == identifier) {
-            return;
-        }
-        Log.i("IconCompat", "Id has changed for " + resPackage + " " + str);
-        this.mInt1 = identifier;
     }
 
     public InputStream getUriInputStream(Context context) {
@@ -310,10 +308,10 @@ public class IconCompat extends CustomVersionedParcelable {
         PackageManager packageManager = context.getPackageManager();
         try {
             ApplicationInfo applicationInfo = packageManager.getApplicationInfo(resPackage, 8192);
-            if (applicationInfo == null) {
-                return null;
+            if (applicationInfo != null) {
+                return packageManager.getResourcesForApplication(applicationInfo);
             }
-            return packageManager.getResourcesForApplication(applicationInfo);
+            return null;
         } catch (PackageManager.NameNotFoundException e) {
             Log.e("IconCompat", String.format("Unable to find pkg=%s for icon", resPackage), e);
             return null;
@@ -513,10 +511,10 @@ public class IconCompat extends CustomVersionedParcelable {
             case 6:
                 String str = new String(this.mData, Charset.forName("UTF-16"));
                 this.mObj1 = str;
-                if (this.mType != 2 || this.mString1 != null) {
+                if (this.mType == 2 && this.mString1 == null) {
+                    this.mString1 = str.split(":", -1)[0];
                     return;
                 }
-                this.mString1 = str.split(":", -1)[0];
                 return;
             case 3:
                 this.mObj1 = this.mData;

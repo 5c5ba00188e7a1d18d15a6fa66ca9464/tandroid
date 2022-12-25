@@ -60,11 +60,10 @@ public class LongSparseArray<E> implements Cloneable {
             Object[] objArr = this.mValues;
             Object obj = objArr[binarySearch];
             Object obj2 = DELETED;
-            if (obj == obj2) {
-                return;
+            if (obj != obj2) {
+                objArr[binarySearch] = obj2;
+                this.mGarbage = true;
             }
-            objArr[binarySearch] = obj2;
-            this.mGarbage = true;
         }
     }
 

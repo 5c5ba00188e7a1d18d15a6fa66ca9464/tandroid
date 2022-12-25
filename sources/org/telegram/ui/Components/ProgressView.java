@@ -21,8 +21,7 @@ public class ProgressView {
         this.currentProgress = f;
         if (f < 0.0f) {
             this.currentProgress = 0.0f;
-        } else if (f <= 1.0f) {
-        } else {
+        } else if (f > 1.0f) {
             this.currentProgress = 1.0f;
         }
     }

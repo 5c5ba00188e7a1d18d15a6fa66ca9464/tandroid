@@ -160,21 +160,14 @@ public class PremiumButtonView extends FrameLayout {
             valueAnimator.removeAllListeners();
             this.overlayAnimator.cancel();
         }
-        float f = 1.0f;
         if (!z) {
-            if (!this.showOverlay) {
-                f = 0.0f;
-            }
-            this.overlayProgress = f;
+            this.overlayProgress = this.showOverlay ? 1.0f : 0.0f;
             updateOverlayProgress();
             return;
         }
         float[] fArr = new float[2];
         fArr[0] = this.overlayProgress;
-        if (!this.showOverlay) {
-            f = 0.0f;
-        }
-        fArr[1] = f;
+        fArr[1] = this.showOverlay ? 1.0f : 0.0f;
         ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
         this.overlayAnimator = ofFloat;
         ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Premium.PremiumButtonView.1
@@ -203,13 +196,8 @@ public class PremiumButtonView extends FrameLayout {
         this.overlayTextView.setTranslationY(AndroidUtilities.dp(12.0f) * (1.0f - this.overlayProgress));
         this.buttonLayout.setAlpha(1.0f - this.overlayProgress);
         this.buttonLayout.setTranslationY((-AndroidUtilities.dp(12.0f)) * this.overlayProgress);
-        int i = 4;
         this.buttonLayout.setVisibility(this.overlayProgress == 1.0f ? 4 : 0);
-        TextView textView = this.overlayTextView;
-        if (this.overlayProgress != 0.0f) {
-            i = 0;
-        }
-        textView.setVisibility(i);
+        this.overlayTextView.setVisibility(this.overlayProgress != 0.0f ? 0 : 4);
         invalidate();
     }
 

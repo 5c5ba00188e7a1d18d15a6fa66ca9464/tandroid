@@ -59,30 +59,30 @@ public class SpoilerEffect extends Drawable {
     private List<Long> keyPoints;
     private int lastColor;
     private long lastDrawTime;
+    private int mAlpha;
     private View mParent;
     private int maxParticles;
     private Runnable onRippleEndCallback;
     private Paint[] particlePaints;
     float[][] particlePoints;
+    private float[] particleRands;
+    private ArrayList<Particle> particles;
+    private Stack<Particle> particlesPool;
     private int[] renderCount;
     private boolean reverseAnimator;
     private ValueAnimator rippleAnimator;
+    private TimeInterpolator rippleInterpolator;
     private float rippleMaxRadius;
+    private float rippleProgress;
     private float rippleX;
     private float rippleY;
     private boolean shouldInvalidateColor;
+    private List<RectF> spaces;
     private RectF visibleRect;
     public static final int MAX_PARTICLES_PER_ENTITY = measureMaxParticlesCount();
     public static final int PARTICLES_PER_CHARACTER = measureParticlesPerCharacter();
     public static final float[] ALPHAS = {0.3f, 0.6f, 1.0f};
     private static Path tempPath = new Path();
-    private Stack<Particle> particlesPool = new Stack<>();
-    private float[] particleRands = new float[14];
-    private ArrayList<Particle> particles = new ArrayList<>();
-    private float rippleProgress = -1.0f;
-    private List<RectF> spaces = new ArrayList();
-    private int mAlpha = 255;
-    private TimeInterpolator rippleInterpolator = SpoilerEffect$$ExternalSyntheticLambda0.INSTANCE;
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ float lambda$new$0(float f) {
@@ -108,8 +108,15 @@ public class SpoilerEffect extends Drawable {
     public SpoilerEffect() {
         float[] fArr = ALPHAS;
         this.particlePaints = new Paint[fArr.length];
+        this.particlesPool = new Stack<>();
         this.particlePoints = (float[][]) Array.newInstance(float.class, fArr.length, MAX_PARTICLES_PER_ENTITY * 2);
+        this.particleRands = new float[14];
         this.renderCount = new int[fArr.length];
+        this.particles = new ArrayList<>();
+        this.rippleProgress = -1.0f;
+        this.spaces = new ArrayList();
+        this.mAlpha = 255;
+        this.rippleInterpolator = SpoilerEffect$$ExternalSyntheticLambda0.INSTANCE;
         for (int i = 0; i < ALPHAS.length; i++) {
             this.particlePaints[i] = new Paint();
             if (i == 0) {
@@ -153,7 +160,6 @@ public class SpoilerEffect extends Drawable {
         this.rippleX = f;
         this.rippleY = f2;
         this.rippleMaxRadius = f3;
-        float f4 = 1.0f;
         this.rippleProgress = z ? 1.0f : 0.0f;
         this.reverseAnimator = z;
         ValueAnimator valueAnimator = this.rippleAnimator;
@@ -163,10 +169,7 @@ public class SpoilerEffect extends Drawable {
         final int alpha = this.reverseAnimator ? 255 : this.particlePaints[ALPHAS.length - 1].getAlpha();
         float[] fArr = new float[2];
         fArr[0] = this.rippleProgress;
-        if (z) {
-            f4 = 0.0f;
-        }
-        fArr[1] = f4;
+        fArr[1] = z ? 0.0f : 1.0f;
         ValueAnimator duration = ValueAnimator.ofFloat(fArr).setDuration(MathUtils.clamp(this.rippleMaxRadius * 0.3f, 250.0f, 550.0f));
         this.rippleAnimator = duration;
         duration.setInterpolator(this.rippleInterpolator);
@@ -435,12 +438,11 @@ public class SpoilerEffect extends Drawable {
         int i2 = 0;
         while (true) {
             float[] fArr = ALPHAS;
-            if (i2 < fArr.length) {
-                this.particlePaints[i2].setAlpha((int) (fArr[i2] * i));
-                i2++;
-            } else {
+            if (i2 >= fArr.length) {
                 return;
             }
+            this.particlePaints[i2].setAlpha((int) (fArr[i2] * i));
+            i2++;
         }
     }
 
@@ -452,17 +454,18 @@ public class SpoilerEffect extends Drawable {
     }
 
     public void setColor(int i) {
-        if (this.lastColor != i) {
-            int i2 = 0;
-            while (true) {
-                float[] fArr = ALPHAS;
-                if (i2 < fArr.length) {
-                    this.particlePaints[i2].setColor(ColorUtils.setAlphaComponent(i, (int) (this.mAlpha * fArr[i2])));
-                    i2++;
-                } else {
-                    this.lastColor = i;
-                    return;
-                }
+        if (this.lastColor == i) {
+            return;
+        }
+        int i2 = 0;
+        while (true) {
+            float[] fArr = ALPHAS;
+            if (i2 < fArr.length) {
+                this.particlePaints[i2].setColor(ColorUtils.setAlphaComponent(i, (int) (this.mAlpha * fArr[i2])));
+                i2++;
+            } else {
+                this.lastColor = i;
+                return;
             }
         }
     }

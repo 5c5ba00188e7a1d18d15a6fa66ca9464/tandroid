@@ -37,10 +37,10 @@ final class FlacReader extends StreamReader {
 
     @Override // com.google.android.exoplayer2.extractor.ogg.StreamReader
     protected long preparePayload(ParsableByteArray parsableByteArray) {
-        if (!isAudioPacket(parsableByteArray.data)) {
-            return -1L;
+        if (isAudioPacket(parsableByteArray.data)) {
+            return getFlacFrameBlockSize(parsableByteArray);
         }
-        return getFlacFrameBlockSize(parsableByteArray);
+        return -1L;
     }
 
     @Override // com.google.android.exoplayer2.extractor.ogg.StreamReader
@@ -54,15 +54,15 @@ final class FlacReader extends StreamReader {
             this.flacOggSeeker = new FlacOggSeeker();
             this.streamMetadata = this.streamMetadata.copyWithSeekTable(FlacMetadataReader.readSeekTableMetadataBlock(parsableByteArray));
             return true;
-        } else if (!isAudioPacket(bArr)) {
-            return true;
-        } else {
+        } else if (isAudioPacket(bArr)) {
             FlacOggSeeker flacOggSeeker = this.flacOggSeeker;
             if (flacOggSeeker != null) {
                 flacOggSeeker.setFirstFrameOffset(j);
                 setupData.oggSeeker = this.flacOggSeeker;
             }
             return false;
+        } else {
+            return true;
         }
     }
 

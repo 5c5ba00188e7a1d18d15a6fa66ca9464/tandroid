@@ -13,8 +13,9 @@ import com.google.android.exoplayer2.trackselection.TrackSelectorResult;
 import com.google.android.exoplayer2.upstream.Allocator;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Log;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-final class MediaPeriodHolder {
+public final class MediaPeriodHolder {
     public boolean hasEnabledTracks;
     public MediaPeriodInfo info;
     private final boolean[] mayRetainStreamFlags;
@@ -25,7 +26,7 @@ final class MediaPeriodHolder {
     private final RendererCapabilities[] rendererCapabilities;
     private long rendererPositionOffsetUs;
     public final SampleStream[] sampleStreams;
-    private TrackGroupArray trackGroups = TrackGroupArray.EMPTY;
+    private TrackGroupArray trackGroups;
     private final TrackSelector trackSelector;
     private TrackSelectorResult trackSelectorResult;
     public final Object uid;
@@ -38,6 +39,7 @@ final class MediaPeriodHolder {
         MediaSource.MediaPeriodId mediaPeriodId = mediaPeriodInfo.id;
         this.uid = mediaPeriodId.periodUid;
         this.info = mediaPeriodInfo;
+        this.trackGroups = TrackGroupArray.EMPTY;
         this.trackSelectorResult = trackSelectorResult;
         this.sampleStreams = new SampleStream[rendererCapabilitiesArr.length];
         this.mayRetainStreamFlags = new boolean[rendererCapabilitiesArr.length];
@@ -77,10 +79,10 @@ final class MediaPeriodHolder {
     }
 
     public long getNextLoadPositionUs() {
-        if (!this.prepared) {
-            return 0L;
+        if (this.prepared) {
+            return this.mediaPeriod.getNextLoadPositionUs();
         }
-        return this.mediaPeriod.getNextLoadPositionUs();
+        return 0L;
     }
 
     public void handlePrepared(float f, Timeline timeline) throws ExoPlaybackException {
@@ -145,19 +147,18 @@ final class MediaPeriodHolder {
         int i2 = 0;
         while (true) {
             SampleStream[] sampleStreamArr = this.sampleStreams;
-            if (i2 < sampleStreamArr.length) {
-                if (sampleStreamArr[i2] != null) {
-                    Assertions.checkState(trackSelectorResult.isRendererEnabled(i2));
-                    if (this.rendererCapabilities[i2].getTrackType() != 6) {
-                        this.hasEnabledTracks = true;
-                    }
-                } else {
-                    Assertions.checkState(trackSelectionArray.get(i2) == null);
-                }
-                i2++;
-            } else {
+            if (i2 >= sampleStreamArr.length) {
                 return selectTracks;
             }
+            if (sampleStreamArr[i2] != null) {
+                Assertions.checkState(trackSelectorResult.isRendererEnabled(i2));
+                if (this.rendererCapabilities[i2].getTrackType() != 6) {
+                    this.hasEnabledTracks = true;
+                }
+            } else {
+                Assertions.checkState(trackSelectionArray.get(i2) == null);
+            }
+            i2++;
         }
     }
 
@@ -229,14 +230,13 @@ final class MediaPeriodHolder {
         int i = 0;
         while (true) {
             RendererCapabilities[] rendererCapabilitiesArr = this.rendererCapabilities;
-            if (i < rendererCapabilitiesArr.length) {
-                if (rendererCapabilitiesArr[i].getTrackType() == 6) {
-                    sampleStreamArr[i] = null;
-                }
-                i++;
-            } else {
+            if (i >= rendererCapabilitiesArr.length) {
                 return;
             }
+            if (rendererCapabilitiesArr[i].getTrackType() == 6) {
+                sampleStreamArr[i] = null;
+            }
+            i++;
         }
     }
 
@@ -244,14 +244,13 @@ final class MediaPeriodHolder {
         int i = 0;
         while (true) {
             RendererCapabilities[] rendererCapabilitiesArr = this.rendererCapabilities;
-            if (i < rendererCapabilitiesArr.length) {
-                if (rendererCapabilitiesArr[i].getTrackType() == 6 && this.trackSelectorResult.isRendererEnabled(i)) {
-                    sampleStreamArr[i] = new EmptySampleStream();
-                }
-                i++;
-            } else {
+            if (i >= rendererCapabilitiesArr.length) {
                 return;
             }
+            if (rendererCapabilitiesArr[i].getTrackType() == 6 && this.trackSelectorResult.isRendererEnabled(i)) {
+                sampleStreamArr[i] = new EmptySampleStream();
+            }
+            i++;
         }
     }
 

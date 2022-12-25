@@ -9,18 +9,22 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
 public class ContextProgressView extends View {
+    private RectF cicleRect;
     private int innerColor;
     private String innerKey;
+    private Paint innerPaint;
     private long lastUpdateTime;
     private int outerColor;
     private String outerKey;
-    private Paint innerPaint = new Paint(1);
-    private Paint outerPaint = new Paint(1);
-    private RectF cicleRect = new RectF();
-    private int radOffset = 0;
+    private Paint outerPaint;
+    private int radOffset;
 
     public ContextProgressView(Context context, int i) {
         super(context);
+        this.innerPaint = new Paint(1);
+        this.outerPaint = new Paint(1);
+        this.cicleRect = new RectF();
+        this.radOffset = 0;
         this.innerPaint.setStyle(Paint.Style.STROKE);
         this.innerPaint.setStrokeWidth(AndroidUtilities.dp(2.0f));
         this.outerPaint.setStyle(Paint.Style.STROKE);

@@ -21,11 +21,11 @@ public abstract class d1 extends c implements e1 {
         if (uVar instanceof j$.util.v) {
             return (j$.util.v) uVar;
         }
-        if (!Q4.a) {
-            throw new UnsupportedOperationException("LongStream.adapt(Spliterator<Long> s)");
+        if (Q4.a) {
+            Q4.a(c.class, "using LongStream.adapt(Spliterator<Long> s)");
+            throw null;
         }
-        Q4.a(c.class, "using LongStream.adapt(Spliterator<Long> s)");
-        throw null;
+        throw new UnsupportedOperationException("LongStream.adapt(Spliterator<Long> s)");
     }
 
     @Override // j$.util.stream.c

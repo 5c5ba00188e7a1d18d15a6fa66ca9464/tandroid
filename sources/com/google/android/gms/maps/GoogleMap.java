@@ -75,10 +75,10 @@ public class GoogleMap {
         try {
             Preconditions.checkNotNull(markerOptions, "MarkerOptions must not be null.");
             com.google.android.gms.internal.maps.zzaa addMarker = this.zza.addMarker(markerOptions);
-            if (addMarker == null) {
-                return null;
+            if (addMarker != null) {
+                return new Marker(addMarker);
             }
-            return new Marker(addMarker);
+            return null;
         } catch (RemoteException e) {
             throw new RuntimeRemoteException(e);
         }

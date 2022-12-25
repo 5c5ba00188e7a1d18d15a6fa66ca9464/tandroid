@@ -30,9 +30,8 @@ public final class RootTelemetryConfigManager {
             return;
         }
         RootTelemetryConfiguration rootTelemetryConfiguration2 = this.zzc;
-        if (rootTelemetryConfiguration2 != null && rootTelemetryConfiguration2.getVersion() >= rootTelemetryConfiguration.getVersion()) {
-            return;
+        if (rootTelemetryConfiguration2 == null || rootTelemetryConfiguration2.getVersion() < rootTelemetryConfiguration.getVersion()) {
+            this.zzc = rootTelemetryConfiguration;
         }
-        this.zzc = rootTelemetryConfiguration;
     }
 }

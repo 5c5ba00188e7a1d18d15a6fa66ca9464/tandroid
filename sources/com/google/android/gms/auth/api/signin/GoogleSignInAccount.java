@@ -63,7 +63,6 @@ public class GoogleSignInAccount extends AbstractSafeParcelable implements Refle
     }
 
     public static GoogleSignInAccount zab(String str) throws JSONException {
-        String str2 = null;
         if (TextUtils.isEmpty(str)) {
             return null;
         }
@@ -78,10 +77,7 @@ public class GoogleSignInAccount extends AbstractSafeParcelable implements Refle
             hashSet.add(new Scope(jSONArray.getString(i)));
         }
         GoogleSignInAccount zaa = zaa(jSONObject.optString("id"), jSONObject.has("tokenId") ? jSONObject.optString("tokenId") : null, jSONObject.has("email") ? jSONObject.optString("email") : null, jSONObject.has("displayName") ? jSONObject.optString("displayName") : null, jSONObject.has("givenName") ? jSONObject.optString("givenName") : null, jSONObject.has("familyName") ? jSONObject.optString("familyName") : null, parse, Long.valueOf(parseLong), jSONObject.getString("obfuscatedIdentifier"), hashSet);
-        if (jSONObject.has("serverAuthCode")) {
-            str2 = jSONObject.optString("serverAuthCode");
-        }
-        zaa.zai = str2;
+        zaa.zai = jSONObject.has("serverAuthCode") ? jSONObject.optString("serverAuthCode") : null;
         return zaa;
     }
 
@@ -92,11 +88,11 @@ public class GoogleSignInAccount extends AbstractSafeParcelable implements Refle
         if (obj == this) {
             return true;
         }
-        if (!(obj instanceof GoogleSignInAccount)) {
-            return false;
+        if (obj instanceof GoogleSignInAccount) {
+            GoogleSignInAccount googleSignInAccount = (GoogleSignInAccount) obj;
+            return googleSignInAccount.zak.equals(this.zak) && googleSignInAccount.getRequestedScopes().equals(getRequestedScopes());
         }
-        GoogleSignInAccount googleSignInAccount = (GoogleSignInAccount) obj;
-        return googleSignInAccount.zak.equals(this.zak) && googleSignInAccount.getRequestedScopes().equals(getRequestedScopes());
+        return false;
     }
 
     public Account getAccount() {

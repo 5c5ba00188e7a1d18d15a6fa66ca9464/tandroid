@@ -26,10 +26,9 @@ public final class RemoteInput {
         this.mEditChoicesBeforeSending = editChoicesBeforeSending;
         this.mExtras = extras;
         this.mAllowedDataTypes = allowedDataTypes;
-        if (getEditChoicesBeforeSending() != 2 || getAllowFreeFormInput()) {
-            return;
+        if (getEditChoicesBeforeSending() == 2 && !getAllowFreeFormInput()) {
+            throw new IllegalArgumentException("setEditChoicesBeforeSending requires setAllowFreeFormInput");
         }
-        throw new IllegalArgumentException("setEditChoicesBeforeSending requires setAllowFreeFormInput");
     }
 
     public String getResultKey() {
@@ -49,7 +48,7 @@ public final class RemoteInput {
     }
 
     public boolean isDataOnly() {
-        return !getAllowFreeFormInput() && (getChoices() == null || getChoices().length == 0) && getAllowedDataTypes() != null && !getAllowedDataTypes().isEmpty();
+        return (getAllowFreeFormInput() || (getChoices() != null && getChoices().length != 0) || getAllowedDataTypes() == null || getAllowedDataTypes().isEmpty()) ? false : true;
     }
 
     public boolean getAllowFreeFormInput() {
@@ -97,10 +96,10 @@ public final class RemoteInput {
         if (i >= 20) {
             return android.app.RemoteInput.getResultsFromIntent(intent);
         }
-        if (i >= 16 && (clipDataIntentFromIntent = getClipDataIntentFromIntent(intent)) != null) {
-            return (Bundle) clipDataIntentFromIntent.getExtras().getParcelable("android.remoteinput.resultsData");
+        if (i < 16 || (clipDataIntentFromIntent = getClipDataIntentFromIntent(intent)) == null) {
+            return null;
         }
-        return null;
+        return (Bundle) clipDataIntentFromIntent.getExtras().getParcelable("android.remoteinput.resultsData");
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -135,9 +134,9 @@ public final class RemoteInput {
             return null;
         }
         ClipDescription description = clipData.getDescription();
-        if (!description.hasMimeType("text/vnd.android.intent") || !description.getLabel().toString().contentEquals("android.remoteinput.results")) {
-            return null;
+        if (description.hasMimeType("text/vnd.android.intent") && description.getLabel().toString().contentEquals("android.remoteinput.results")) {
+            return clipData.getItemAt(0).getIntent();
         }
-        return clipData.getItemAt(0).getIntent();
+        return null;
     }
 }

@@ -9,15 +9,16 @@ public class LineBlobDrawable {
     private final float N;
     public float maxRadius;
     public float minRadius;
+    public Path path = new Path();
     private float[] progress;
     private float[] radius;
     private float[] radiusNext;
+    final Random random;
     private float[] speed;
-    public Path path = new Path();
-    final Random random = new Random();
 
     public LineBlobDrawable(int i) {
         new Paint(1);
+        this.random = new Random();
         this.N = i;
         int i2 = i + 1;
         this.radius = new float[i2];

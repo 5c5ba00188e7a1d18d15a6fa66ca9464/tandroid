@@ -62,19 +62,17 @@ public final class DvbSubtitleReader implements ElementaryStreamReader {
     public void consume(ParsableByteArray parsableByteArray) {
         TrackOutput[] trackOutputArr;
         if (this.writingSample) {
-            if (this.bytesToCheck == 2 && !checkNextByte(parsableByteArray, 32)) {
-                return;
+            if (this.bytesToCheck != 2 || checkNextByte(parsableByteArray, 32)) {
+                if (this.bytesToCheck != 1 || checkNextByte(parsableByteArray, 0)) {
+                    int position = parsableByteArray.getPosition();
+                    int bytesLeft = parsableByteArray.bytesLeft();
+                    for (TrackOutput trackOutput : this.outputs) {
+                        parsableByteArray.setPosition(position);
+                        trackOutput.sampleData(parsableByteArray, bytesLeft);
+                    }
+                    this.sampleBytesWritten += bytesLeft;
+                }
             }
-            if (this.bytesToCheck == 1 && !checkNextByte(parsableByteArray, 0)) {
-                return;
-            }
-            int position = parsableByteArray.getPosition();
-            int bytesLeft = parsableByteArray.bytesLeft();
-            for (TrackOutput trackOutput : this.outputs) {
-                parsableByteArray.setPosition(position);
-                trackOutput.sampleData(parsableByteArray, bytesLeft);
-            }
-            this.sampleBytesWritten += bytesLeft;
         }
     }
 

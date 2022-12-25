@@ -111,8 +111,7 @@ public class WebRtcAudioManager {
                 int mode = VolumeLogger.this.audioManager.getMode();
                 if (mode == 1) {
                     Logging.d(WebRtcAudioManager.TAG, "STREAM_RING stream volume: " + VolumeLogger.this.audioManager.getStreamVolume(2) + " (max=" + this.maxRingVolume + ")");
-                } else if (mode != 3) {
-                } else {
+                } else if (mode == 3) {
                     Logging.d(WebRtcAudioManager.TAG, "VOICE_CALL stream volume: " + VolumeLogger.this.audioManager.getStreamVolume(0) + " (max=" + this.maxVoiceCallVolume + ")");
                 }
             }
@@ -152,10 +151,9 @@ public class WebRtcAudioManager {
 
     private void dispose() {
         Logging.d(TAG, "dispose" + WebRtcAudioUtils.getThreadInfo());
-        if (!this.initialized) {
-            return;
+        if (this.initialized) {
+            this.volumeLogger.stop();
         }
-        this.volumeLogger.stop();
     }
 
     private boolean isCommunicationModeEnabled() {
@@ -177,12 +175,8 @@ public class WebRtcAudioManager {
     }
 
     private void storeAudioParameters() {
-        int i = 2;
         this.outputChannels = getStereoOutput() ? 2 : 1;
-        if (!getStereoInput()) {
-            i = 1;
-        }
-        this.inputChannels = i;
+        this.inputChannels = getStereoInput() ? 2 : 1;
         this.sampleRate = getNativeOutputSampleRate();
         this.hardwareAEC = isAcousticEchoCancelerSupported();
         this.hardwareAGC = false;
@@ -269,9 +263,8 @@ public class WebRtcAudioManager {
     }
 
     private static void assertTrue(boolean z) {
-        if (z) {
-            return;
+        if (!z) {
+            throw new AssertionError("Expected condition to be true");
         }
-        throw new AssertionError("Expected condition to be true");
     }
 }

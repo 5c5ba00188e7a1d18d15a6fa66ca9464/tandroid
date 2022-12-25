@@ -21,20 +21,20 @@ final class I3 extends E3 {
         Arrays.sort(jArr);
         this.a.n(jArr.length);
         int i = 0;
-        if (!this.b) {
+        if (this.b) {
             int length = jArr.length;
             while (i < length) {
-                this.a.accept(jArr[i]);
-                i++;
-            }
-        } else {
-            int length2 = jArr.length;
-            while (i < length2) {
                 long j = jArr[i];
                 if (this.a.o()) {
                     break;
                 }
                 this.a.accept(j);
+                i++;
+            }
+        } else {
+            int length2 = jArr.length;
+            while (i < length2) {
+                this.a.accept(jArr[i]);
                 i++;
             }
         }
@@ -43,10 +43,9 @@ final class I3 extends E3 {
 
     @Override // j$.util.stream.m3
     public void n(long j) {
-        if (j < 2147483639) {
-            this.c = j > 0 ? new Y3((int) j) : new Y3();
-            return;
+        if (j >= 2147483639) {
+            throw new IllegalArgumentException("Stream size exceeds max array size");
         }
-        throw new IllegalArgumentException("Stream size exceeds max array size");
+        this.c = j > 0 ? new Y3((int) j) : new Y3();
     }
 }

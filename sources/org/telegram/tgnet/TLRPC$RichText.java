@@ -64,12 +64,12 @@ public abstract class TLRPC$RichText extends TLObject {
                 tLRPC$TL_textStrike = null;
                 break;
         }
-        if (tLRPC$TL_textStrike != null || !z) {
-            if (tLRPC$TL_textStrike != null) {
-                tLRPC$TL_textStrike.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_textStrike;
+        if (tLRPC$TL_textStrike == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in RichText", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in RichText", Integer.valueOf(i)));
+        if (tLRPC$TL_textStrike != null) {
+            tLRPC$TL_textStrike.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_textStrike;
     }
 }

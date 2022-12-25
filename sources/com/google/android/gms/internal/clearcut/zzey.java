@@ -74,46 +74,46 @@ public final class zzey {
         if (this == obj) {
             return true;
         }
-        if (obj == null || !(obj instanceof zzey)) {
-            return false;
-        }
-        zzey zzeyVar = (zzey) obj;
-        int i = this.count;
-        if (i == zzeyVar.count) {
-            int[] iArr = this.zzpa;
-            int[] iArr2 = zzeyVar.zzpa;
-            int i2 = 0;
-            while (true) {
-                if (i2 >= i) {
-                    z = true;
-                    break;
-                } else if (iArr[i2] != iArr2[i2]) {
-                    z = false;
-                    break;
-                } else {
-                    i2++;
-                }
-            }
-            if (z) {
-                Object[] objArr = this.zzmj;
-                Object[] objArr2 = zzeyVar.zzmj;
-                int i3 = this.count;
-                int i4 = 0;
+        if (obj != null && (obj instanceof zzey)) {
+            zzey zzeyVar = (zzey) obj;
+            int i = this.count;
+            if (i == zzeyVar.count) {
+                int[] iArr = this.zzpa;
+                int[] iArr2 = zzeyVar.zzpa;
+                int i2 = 0;
                 while (true) {
-                    if (i4 >= i3) {
-                        z2 = true;
+                    if (i2 >= i) {
+                        z = true;
                         break;
-                    } else if (!objArr[i4].equals(objArr2[i4])) {
-                        z2 = false;
+                    } else if (iArr[i2] != iArr2[i2]) {
+                        z = false;
                         break;
                     } else {
-                        i4++;
+                        i2++;
                     }
                 }
-                if (z2) {
-                    return true;
+                if (z) {
+                    Object[] objArr = this.zzmj;
+                    Object[] objArr2 = zzeyVar.zzmj;
+                    int i3 = this.count;
+                    int i4 = 0;
+                    while (true) {
+                        if (i4 >= i3) {
+                            z2 = true;
+                            break;
+                        } else if (!objArr[i4].equals(objArr2[i4])) {
+                            z2 = false;
+                            break;
+                        } else {
+                            i4++;
+                        }
+                    }
+                    if (z2) {
+                        return true;
+                    }
                 }
             }
+            return false;
         }
         return false;
     }
@@ -188,22 +188,21 @@ public final class zzey {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public final void zzb(int i, Object obj) {
-        if (this.zzfa) {
-            int i2 = this.count;
-            int[] iArr = this.zzpa;
-            if (i2 == iArr.length) {
-                int i3 = i2 + (i2 < 4 ? 8 : i2 >> 1);
-                this.zzpa = Arrays.copyOf(iArr, i3);
-                this.zzmj = Arrays.copyOf(this.zzmj, i3);
-            }
-            int[] iArr2 = this.zzpa;
-            int i4 = this.count;
-            iArr2[i4] = i;
-            this.zzmj[i4] = obj;
-            this.count = i4 + 1;
-            return;
+        if (!this.zzfa) {
+            throw new UnsupportedOperationException();
         }
-        throw new UnsupportedOperationException();
+        int i2 = this.count;
+        int[] iArr = this.zzpa;
+        if (i2 == iArr.length) {
+            int i3 = i2 + (i2 < 4 ? 8 : i2 >> 1);
+            this.zzpa = Arrays.copyOf(iArr, i3);
+            this.zzmj = Arrays.copyOf(this.zzmj, i3);
+        }
+        int[] iArr2 = this.zzpa;
+        int i4 = this.count;
+        iArr2[i4] = i;
+        this.zzmj[i4] = obj;
+        this.count = i4 + 1;
     }
 
     public final void zzb(zzfr zzfrVar) throws IOException {

@@ -37,10 +37,10 @@ public class DefaultTrackSelector extends MappingTrackSelector {
     public static int compareFormatValues(int i, int i2) {
         if (i == -1) {
             return i2 == -1 ? 0 : -1;
-        } else if (i2 != -1) {
-            return i - i2;
-        } else {
+        } else if (i2 == -1) {
             return 1;
+        } else {
+            return i - i2;
         }
     }
 
@@ -70,16 +70,18 @@ public class DefaultTrackSelector extends MappingTrackSelector {
         private int maxVideoFrameRate;
         private int maxVideoHeight;
         private int maxVideoWidth;
+        private final SparseBooleanArray rendererDisabledFlags;
+        private final SparseArray<Map<TrackGroupArray, SelectionOverride>> selectionOverrides;
         private int tunnelingAudioSessionId;
         private int viewportHeight;
         private boolean viewportOrientationMayChange;
         private int viewportWidth;
-        private final SparseArray<Map<TrackGroupArray, SelectionOverride>> selectionOverrides = new SparseArray<>();
-        private final SparseBooleanArray rendererDisabledFlags = new SparseBooleanArray();
 
         @Deprecated
         public ParametersBuilder() {
             setInitialValuesWithoutContext();
+            this.selectionOverrides = new SparseArray<>();
+            this.rendererDisabledFlags = new SparseBooleanArray();
         }
 
         @Override // com.google.android.exoplayer2.trackselection.TrackSelectionParameters.Builder
@@ -421,7 +423,6 @@ public class DefaultTrackSelector extends MappingTrackSelector {
         TrackSelection.Definition[] selectAllTracks = selectAllTracks(mappedTrackInfo, iArr, iArr2, parameters);
         int i = 0;
         while (true) {
-            TrackSelection.Definition definition = null;
             if (i >= rendererCount) {
                 break;
             }
@@ -431,10 +432,7 @@ public class DefaultTrackSelector extends MappingTrackSelector {
                 TrackGroupArray trackGroups = mappedTrackInfo.getTrackGroups(i);
                 if (parameters.hasSelectionOverride(i, trackGroups)) {
                     SelectionOverride selectionOverride = parameters.getSelectionOverride(i, trackGroups);
-                    if (selectionOverride != null) {
-                        definition = new TrackSelection.Definition(trackGroups.get(selectionOverride.groupIndex), selectionOverride.tracks, selectionOverride.reason, Integer.valueOf(selectionOverride.data));
-                    }
-                    selectAllTracks[i] = definition;
+                    selectAllTracks[i] = selectionOverride != null ? new TrackSelection.Definition(trackGroups.get(selectionOverride.groupIndex), selectionOverride.tracks, selectionOverride.reason, Integer.valueOf(selectionOverride.data)) : null;
                 }
             }
             i++;
@@ -462,7 +460,6 @@ public class DefaultTrackSelector extends MappingTrackSelector {
         int i5 = 0;
         int i6 = 0;
         while (true) {
-            i = 1;
             if (i5 >= rendererCount) {
                 break;
             }
@@ -471,10 +468,7 @@ public class DefaultTrackSelector extends MappingTrackSelector {
                     definitionArr[i5] = selectVideoTrack(mappedTrackInfo.getTrackGroups(i5), iArr[i5], iArr2[i5], parameters, true);
                     z = definitionArr[i5] != null;
                 }
-                if (mappedTrackInfo.getTrackGroups(i5).length <= 0) {
-                    i = 0;
-                }
-                i6 |= i;
+                i6 |= mappedTrackInfo.getTrackGroups(i5).length <= 0 ? 0 : 1;
             }
             i5++;
         }
@@ -577,7 +571,9 @@ public class DefaultTrackSelector extends MappingTrackSelector {
         if (viewportFilteredTrackIndices.size() < 2) {
             return NO_TRACKS;
         }
-        if (!z) {
+        if (z) {
+            str = null;
+        } else {
             HashSet hashSet = new HashSet();
             String str2 = null;
             int i8 = 0;
@@ -589,8 +585,6 @@ public class DefaultTrackSelector extends MappingTrackSelector {
                 }
             }
             str = str2;
-        } else {
-            str = null;
         }
         filterAdaptiveVideoTrackCountForMimeType(trackGroup, iArr, i, str, i2, i3, i4, i5, viewportFilteredTrackIndices);
         return viewportFilteredTrackIndices.size() < 2 ? NO_TRACKS : Util.toArray(viewportFilteredTrackIndices);
@@ -618,41 +612,41 @@ public class DefaultTrackSelector extends MappingTrackSelector {
 
     private static boolean isSupportedAdaptiveVideoTrack(Format format, String str, int i, int i2, int i3, int i4, int i5, int i6) {
         if ((format.roleFlags & 16384) == 0 && isSupported(i, false) && (i & i2) != 0) {
-            if (str != null && !Util.areEqual(format.sampleMimeType, str)) {
+            if (str == null || Util.areEqual(format.sampleMimeType, str)) {
+                int i7 = format.width;
+                if (i7 == -1 || i7 <= i3) {
+                    int i8 = format.height;
+                    if (i8 == -1 || i8 <= i4) {
+                        float f = format.frameRate;
+                        if (f == -1.0f || f <= i5) {
+                            int i9 = format.bitrate;
+                            return i9 == -1 || i9 <= i6;
+                        }
+                        return false;
+                    }
+                    return false;
+                }
                 return false;
             }
-            int i7 = format.width;
-            if (i7 != -1 && i7 > i3) {
-                return false;
-            }
-            int i8 = format.height;
-            if (i8 != -1 && i8 > i4) {
-                return false;
-            }
-            float f = format.frameRate;
-            if (f != -1.0f && f > i5) {
-                return false;
-            }
-            int i9 = format.bitrate;
-            return i9 == -1 || i9 <= i6;
+            return false;
         }
         return false;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:44:0x009b, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:50:0x009b, code lost:
         if (r0 < 0) goto L45;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:45:0x009d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:51:0x009d, code lost:
         r0 = true;
      */
-    /* JADX WARN: Removed duplicated region for block: B:34:0x0078  */
-    /* JADX WARN: Removed duplicated region for block: B:37:0x0084  */
-    /* JADX WARN: Removed duplicated region for block: B:39:0x0088  */
-    /* JADX WARN: Removed duplicated region for block: B:41:0x008d  */
-    /* JADX WARN: Removed duplicated region for block: B:47:0x00c0  */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x00bc  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x008a  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x007a  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x0078  */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x007a  */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x0084  */
+    /* JADX WARN: Removed duplicated region for block: B:44:0x0088  */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x008a  */
+    /* JADX WARN: Removed duplicated region for block: B:47:0x008d  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x00bc  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x00c0  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -837,16 +831,16 @@ public class DefaultTrackSelector extends MappingTrackSelector {
         int i4;
         if (isSupported(i, false)) {
             int i5 = format.bitrate;
-            if (i5 != -1 && i5 > i2) {
+            if (i5 == -1 || i5 <= i2) {
+                if (z3 || ((i4 = format.channelCount) != -1 && i4 == audioConfigurationTuple.channelCount)) {
+                    if (z || ((str = format.sampleMimeType) != null && TextUtils.equals(str, audioConfigurationTuple.mimeType))) {
+                        return z2 || ((i3 = format.sampleRate) != -1 && i3 == audioConfigurationTuple.sampleRate);
+                    }
+                    return false;
+                }
                 return false;
             }
-            if (!z3 && ((i4 = format.channelCount) == -1 || i4 != audioConfigurationTuple.channelCount)) {
-                return false;
-            }
-            if (!z && ((str = format.sampleMimeType) == null || !TextUtils.equals(str, audioConfigurationTuple.mimeType))) {
-                return false;
-            }
-            return z2 || ((i3 = format.sampleRate) != -1 && i3 == audioConfigurationTuple.sampleRate);
+            return false;
         }
         return false;
     }
@@ -932,12 +926,11 @@ public class DefaultTrackSelector extends MappingTrackSelector {
         if (i3 != -1 && i2 != -1) {
             z2 = true;
         }
-        if (!z || !z2) {
-            return;
+        if (z && z2) {
+            RendererConfiguration rendererConfiguration = new RendererConfiguration(i);
+            rendererConfigurationArr[i3] = rendererConfiguration;
+            rendererConfigurationArr[i2] = rendererConfiguration;
         }
-        RendererConfiguration rendererConfiguration = new RendererConfiguration(i);
-        rendererConfigurationArr[i3] = rendererConfiguration;
-        rendererConfigurationArr[i2] = rendererConfiguration;
     }
 
     private static boolean rendererSupportsTunneling(int[][] iArr, TrackGroupArray trackGroupArray, TrackSelection trackSelection) {
@@ -970,7 +963,7 @@ public class DefaultTrackSelector extends MappingTrackSelector {
             String normalizeUndeterminedLanguageToNull = normalizeUndeterminedLanguageToNull(str);
             String normalizeUndeterminedLanguageToNull2 = normalizeUndeterminedLanguageToNull(format.language);
             if (normalizeUndeterminedLanguageToNull2 == null || normalizeUndeterminedLanguageToNull == null) {
-                return (!z || normalizeUndeterminedLanguageToNull2 != null) ? 0 : 1;
+                return (z && normalizeUndeterminedLanguageToNull2 == null) ? 1 : 0;
             } else if (normalizeUndeterminedLanguageToNull2.startsWith(normalizeUndeterminedLanguageToNull) || normalizeUndeterminedLanguageToNull.startsWith(normalizeUndeterminedLanguageToNull2)) {
                 return 3;
             } else {
@@ -1013,19 +1006,14 @@ public class DefaultTrackSelector extends MappingTrackSelector {
         return arrayList;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:7:0x000d, code lost:
-        if (r1 != r3) goto L8;
+    /* JADX WARN: Code restructure failed: missing block: B:10:0x000d, code lost:
+        if ((r6 > r7) != (r4 > r5)) goto L8;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private static Point getMaxVideoSizeInViewport(boolean z, int i, int i2, int i3, int i4) {
         if (z) {
-            boolean z2 = true;
-            boolean z3 = i3 > i4;
-            if (i <= i2) {
-                z2 = false;
-            }
         }
         i2 = i;
         i = i2;
@@ -1122,9 +1110,7 @@ public class DefaultTrackSelector extends MappingTrackSelector {
                 if (i6 != i7) {
                     return DefaultTrackSelector.compareInts(i6, i7);
                 }
-                if (!this.isWithinConstraints || !this.isWithinRendererCapabilities) {
-                    i = -1;
-                }
+                i = (this.isWithinConstraints && this.isWithinRendererCapabilities) ? -1 : -1;
                 int i8 = this.channelCount;
                 int i9 = audioTrackScore.channelCount;
                 if (i8 != i9) {

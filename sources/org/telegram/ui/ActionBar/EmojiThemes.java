@@ -41,16 +41,17 @@ public class EmojiThemes {
     public EmojiThemes(TLRPC$TL_theme tLRPC$TL_theme, boolean z) {
         this.showAsDefaultStub = z;
         this.emoji = tLRPC$TL_theme.emoticon;
-        if (!z) {
-            ThemeItem themeItem = new ThemeItem();
-            themeItem.tlTheme = tLRPC$TL_theme;
-            themeItem.settingsIndex = 0;
-            this.items.add(themeItem);
-            ThemeItem themeItem2 = new ThemeItem();
-            themeItem2.tlTheme = tLRPC$TL_theme;
-            themeItem2.settingsIndex = 1;
-            this.items.add(themeItem2);
+        if (z) {
+            return;
         }
+        ThemeItem themeItem = new ThemeItem();
+        themeItem.tlTheme = tLRPC$TL_theme;
+        themeItem.settingsIndex = 0;
+        this.items.add(themeItem);
+        ThemeItem themeItem2 = new ThemeItem();
+        themeItem2.tlTheme = tLRPC$TL_theme;
+        themeItem2.settingsIndex = 1;
+        this.items.add(themeItem2);
     }
 
     public static EmojiThemes createPreviewFullTheme(TLRPC$TL_theme tLRPC$TL_theme) {
@@ -88,10 +89,10 @@ public class EmojiThemes {
         int i3 = 99;
         String str = "Blue";
         if (string == null || Theme.getTheme(string) == null) {
-            string = sharedPreferences.getString("lastDayTheme", str);
+            string = sharedPreferences.getString("lastDayTheme", "Blue");
             Theme.ThemeInfo theme = Theme.getTheme(string);
             if (theme == null) {
-                string = str;
+                string = "Blue";
                 i2 = 99;
             } else {
                 i2 = theme.currentAccentId;
@@ -108,10 +109,10 @@ public class EmojiThemes {
         int i4 = sharedPreferences.getInt("lastDarkCustomThemeAccentId", -1);
         String str2 = "Dark Blue";
         if (string2 == null || Theme.getTheme(string2) == null) {
-            string2 = sharedPreferences.getString("lastDarkTheme", str2);
+            string2 = sharedPreferences.getString("lastDarkTheme", "Dark Blue");
             Theme.ThemeInfo theme2 = Theme.getTheme(string2);
             if (theme2 == null) {
-                string2 = str2;
+                string2 = "Dark Blue";
                 i4 = 0;
             } else {
                 i4 = theme2.currentAccentId;
@@ -327,8 +328,7 @@ public class EmojiThemes {
                     ResultCallback.-CC.$default$onError(this, tLRPC$TL_error);
                 }
             });
-        } else if (resultCallback == null) {
-        } else {
+        } else if (resultCallback != null) {
             resultCallback.onComplete(null);
         }
     }
@@ -382,10 +382,10 @@ public class EmojiThemes {
     public void loadWallpaperThumb(int i, final ResultCallback<Pair<Long, Bitmap>> resultCallback) {
         TLRPC$WallPaper wallpaper = getWallpaper(i);
         if (wallpaper == null) {
-            if (resultCallback == null) {
+            if (resultCallback != null) {
+                resultCallback.onComplete(null);
                 return;
             }
-            resultCallback.onComplete(null);
             return;
         }
         final long j = getTlTheme(i).id;
@@ -399,18 +399,18 @@ public class EmojiThemes {
             }
         }
         if (wallpaperThumbBitmap != null) {
-            if (resultCallback == null) {
+            if (resultCallback != null) {
+                resultCallback.onComplete(new Pair<>(Long.valueOf(j), wallpaperThumbBitmap));
                 return;
             }
-            resultCallback.onComplete(new Pair<>(Long.valueOf(j), wallpaperThumbBitmap));
             return;
         }
         TLRPC$Document tLRPC$Document = wallpaper.document;
         if (tLRPC$Document == null) {
-            if (resultCallback == null) {
+            if (resultCallback != null) {
+                resultCallback.onComplete(new Pair<>(Long.valueOf(j), null));
                 return;
             }
-            resultCallback.onComplete(new Pair<>(Long.valueOf(j), null));
             return;
         }
         ImageLocation forDocument = ImageLocation.getForDocument(FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 140), wallpaper.document);
@@ -453,8 +453,7 @@ public class EmojiThemes {
                     EmojiThemes.lambda$loadWallpaperThumb$2(file, bitmap);
                 }
             });
-        } else if (resultCallback == null) {
-        } else {
+        } else if (resultCallback != null) {
             resultCallback.onComplete(null);
         }
     }
@@ -487,18 +486,14 @@ public class EmojiThemes {
         Theme.ThemeInfo currentNightTheme = z ? Theme.getCurrentNightTheme() : Theme.getCurrentTheme();
         if (z != currentNightTheme.isDark()) {
             SharedPreferences sharedPreferences = ApplicationLoader.applicationContext.getSharedPreferences("themeconfig", 0);
-            String str = "Dark Blue";
             if (z) {
-                string = sharedPreferences.getString("lastDarkTheme", str);
+                string = sharedPreferences.getString("lastDarkTheme", "Dark Blue");
             } else {
                 string = sharedPreferences.getString("lastDayTheme", "Blue");
             }
             currentNightTheme = Theme.getTheme(string);
             if (currentNightTheme == null) {
-                if (!z) {
-                    str = "Blue";
-                }
-                currentNightTheme = Theme.getTheme(str);
+                currentNightTheme = Theme.getTheme(z ? "Dark Blue" : "Blue");
             }
         }
         return new Theme.ThemeInfo(currentNightTheme);
@@ -579,23 +574,22 @@ public class EmojiThemes {
         if (themeInfo == null) {
             return;
         }
-        if (i >= 0 && (sparseArray = themeInfo.themeAccentsMap) != null && ((themeAccent = sparseArray.get(i)) == null || themeAccent.isDefault)) {
-            return;
+        if (i < 0 || (sparseArray = themeInfo.themeAccentsMap) == null || !((themeAccent = sparseArray.get(i)) == null || themeAccent.isDefault)) {
+            if (themeInfo.getKey().equals("Blue") && i == 99) {
+                return;
+            }
+            if (themeInfo.getKey().equals("Day") && i == 9) {
+                return;
+            }
+            if (themeInfo.getKey().equals("Night") && i == 0) {
+                return;
+            }
+            if (themeInfo.getKey().equals("Dark Blue") && i == 0) {
+                return;
+            }
+            boolean isDark = themeInfo.isDark();
+            ApplicationLoader.applicationContext.getSharedPreferences("themeconfig", 0).edit().putString(isDark ? "lastDarkCustomTheme" : "lastDayCustomTheme", themeInfo.getKey()).putInt(isDark ? "lastDarkCustomThemeAccentId" : "lastDayCustomThemeAccentId", i).apply();
         }
-        if (themeInfo.getKey().equals("Blue") && i == 99) {
-            return;
-        }
-        if (themeInfo.getKey().equals("Day") && i == 9) {
-            return;
-        }
-        if (themeInfo.getKey().equals("Night") && i == 0) {
-            return;
-        }
-        if (themeInfo.getKey().equals("Dark Blue") && i == 0) {
-            return;
-        }
-        boolean isDark = themeInfo.isDark();
-        ApplicationLoader.applicationContext.getSharedPreferences("themeconfig", 0).edit().putString(isDark ? "lastDarkCustomTheme" : "lastDayCustomTheme", themeInfo.getKey()).putInt(isDark ? "lastDarkCustomThemeAccentId" : "lastDayCustomThemeAccentId", i).apply();
     }
 
     /* loaded from: classes3.dex */

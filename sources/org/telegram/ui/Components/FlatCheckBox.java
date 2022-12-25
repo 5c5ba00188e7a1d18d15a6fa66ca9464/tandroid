@@ -13,28 +13,40 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
 public class FlatCheckBox extends View {
+    int HEIGHT;
+    int INNER_PADDING;
+    int P;
+    int TRANSLETE_TEXT;
     boolean attached;
     ValueAnimator checkAnimator;
+    Paint checkPaint;
     public boolean checked;
     int colorActive;
     int colorInactive;
     int colorTextActive;
+    public boolean enabled;
+    Paint fillPaint;
+    int lastW;
+    Paint outLinePaint;
+    float progress;
+    RectF rectF;
     String text;
-    public boolean enabled = true;
-    TextPaint textPaint = new TextPaint(1);
-    Paint fillPaint = new Paint(1);
-    Paint outLinePaint = new Paint(1);
-    Paint checkPaint = new Paint(1);
-    int HEIGHT = AndroidUtilities.dp(36.0f);
-    int INNER_PADDING = AndroidUtilities.dp(22.0f);
-    int TRANSLETE_TEXT = AndroidUtilities.dp(8.0f);
-    int P = AndroidUtilities.dp(2.0f);
-    RectF rectF = new RectF();
-    float progress = 0.0f;
-    int lastW = 0;
+    TextPaint textPaint;
 
     public FlatCheckBox(Context context) {
         super(context);
+        this.enabled = true;
+        this.textPaint = new TextPaint(1);
+        this.fillPaint = new Paint(1);
+        this.outLinePaint = new Paint(1);
+        this.checkPaint = new Paint(1);
+        this.HEIGHT = AndroidUtilities.dp(36.0f);
+        this.INNER_PADDING = AndroidUtilities.dp(22.0f);
+        this.TRANSLETE_TEXT = AndroidUtilities.dp(8.0f);
+        this.P = AndroidUtilities.dp(2.0f);
+        this.rectF = new RectF();
+        this.progress = 0.0f;
+        this.lastW = 0;
         this.textPaint.setTextSize(AndroidUtilities.dp(14.0f));
         this.textPaint.setTextAlign(Paint.Align.CENTER);
         this.textPaint.setTypeface(Typeface.create("sans-serif-medium", 0));
@@ -70,12 +82,8 @@ public class FlatCheckBox extends View {
 
     public void setChecked(boolean z, boolean z2) {
         this.checked = z;
-        float f = 1.0f;
         if (!this.attached || !z2) {
-            if (!z) {
-                f = 0.0f;
-            }
-            this.progress = f;
+            this.progress = z ? 1.0f : 0.0f;
             return;
         }
         ValueAnimator valueAnimator = this.checkAnimator;
@@ -85,10 +93,7 @@ public class FlatCheckBox extends View {
         }
         float[] fArr = new float[2];
         fArr[0] = this.progress;
-        if (!z) {
-            f = 0.0f;
-        }
-        fArr[1] = f;
+        fArr[1] = z ? 1.0f : 0.0f;
         ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
         this.checkAnimator = ofFloat;
         ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.FlatCheckBox$$ExternalSyntheticLambda0

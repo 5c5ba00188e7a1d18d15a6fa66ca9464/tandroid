@@ -139,8 +139,7 @@ public final class zaaa implements zaca {
         Bundle bundle2 = zaaaVar.zai;
         if (bundle2 == null) {
             zaaaVar.zai = bundle;
-        } else if (bundle == null) {
-        } else {
+        } else if (bundle != null) {
             bundle2.putAll(bundle);
         }
     }
@@ -165,15 +164,14 @@ public final class zaaa implements zaca {
                 return;
             }
             ConnectionResult connectionResult2 = zaaaVar.zak;
-            if (connectionResult2 == null) {
-                return;
+            if (connectionResult2 != null) {
+                if (zaaaVar.zan == 1) {
+                    zaaaVar.zaB();
+                    return;
+                }
+                zaaaVar.zaA(connectionResult2);
+                zaaaVar.zad.zar();
             }
-            if (zaaaVar.zan == 1) {
-                zaaaVar.zaB();
-                return;
-            }
-            zaaaVar.zaA(connectionResult2);
-            zaaaVar.zad.zar();
         } else if (zaaaVar.zaj == null || !zaE(zaaaVar.zak)) {
             ConnectionResult connectionResult3 = zaaaVar.zaj;
             if (connectionResult3 == null || (connectionResult = zaaaVar.zak) == null) {

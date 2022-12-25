@@ -17,13 +17,12 @@ public class WrapperSdkExceptionManager {
             return;
         }
         File file = getFile(uuid);
-        if (!file.exists()) {
-            return;
+        if (file.exists()) {
+            if (loadWrapperExceptionData(uuid) == null) {
+                AppCenterLog.error("AppCenterCrashes", "Failed to load wrapper exception data.");
+            }
+            FileManager.delete(file);
         }
-        if (loadWrapperExceptionData(uuid) == null) {
-            AppCenterLog.error("AppCenterCrashes", "Failed to load wrapper exception data.");
-        }
-        FileManager.delete(file);
     }
 
     public static String loadWrapperExceptionData(UUID uuid) {

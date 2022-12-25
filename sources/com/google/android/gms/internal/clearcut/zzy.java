@@ -62,25 +62,18 @@ public class zzy {
         synchronized (zzy.class) {
             zza(contentResolver);
             Object obj = zzcz;
-            String str3 = null;
             if (zzcu.containsKey(str)) {
-                String str4 = zzcu.get(str);
-                if (str4 != null) {
-                    str3 = str4;
-                }
-                return str3;
+                String str3 = zzcu.get(str);
+                return str3 != null ? str3 : null;
             }
-            for (String str5 : zzdb) {
-                if (str.startsWith(str5)) {
+            for (String str4 : zzdb) {
+                if (str.startsWith(str4)) {
                     if (!zzda || zzcu.isEmpty()) {
                         zzcu.putAll(zza(contentResolver, zzdb));
                         zzda = true;
                         if (zzcu.containsKey(str)) {
-                            String str6 = zzcu.get(str);
-                            if (str6 != null) {
-                                str3 = str6;
-                            }
-                            return str3;
+                            String str5 = zzcu.get(str);
+                            return str5 != null ? str5 : null;
                         }
                     }
                     return null;
@@ -95,11 +88,9 @@ public class zzy {
                             string = null;
                         }
                         zza(obj, str, string);
-                        if (string != null) {
-                            str3 = string;
-                        }
+                        String str6 = string != null ? string : null;
                         query.close();
-                        return str3;
+                        return str6;
                     }
                 } finally {
                     if (query != null) {
@@ -135,8 +126,7 @@ public class zzy {
             zzcz = new Object();
             zzda = false;
             contentResolver.registerContentObserver(CONTENT_URI, true, new zzz(null));
-        } else if (!zzct.getAndSet(false)) {
-        } else {
+        } else if (zzct.getAndSet(false)) {
             zzcu.clear();
             zzcv.clear();
             zzcw.clear();

@@ -29,8 +29,14 @@ import org.json.JSONObject;
 /* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 public class GoogleSignInOptions extends AbstractSafeParcelable implements Api.ApiOptions, ReflectedParcelable {
+    public static final Parcelable.Creator<GoogleSignInOptions> CREATOR;
     public static final GoogleSignInOptions DEFAULT_SIGN_IN;
+    public static final Scope zaa = new Scope("profile");
+    public static final Scope zab = new Scope("email");
+    public static final Scope zac = new Scope("openid");
     public static final Scope zad;
+    public static final Scope zae;
+    private static Comparator zag;
     final int zaf;
     private final ArrayList zah;
     private Account zai;
@@ -41,16 +47,11 @@ public class GoogleSignInOptions extends AbstractSafeParcelable implements Api.A
     private String zan;
     private ArrayList zao;
     private String zap;
-    public static final Scope zaa = new Scope("profile");
-    public static final Scope zab = new Scope("email");
-    public static final Scope zac = new Scope("openid");
-    public static final Scope zae = new Scope("https://www.googleapis.com/auth/games");
-    public static final Parcelable.Creator<GoogleSignInOptions> CREATOR = new zae();
-    private static Comparator zag = new zac();
 
     static {
         Scope scope = new Scope("https://www.googleapis.com/auth/games_lite");
         zad = scope;
+        zae = new Scope("https://www.googleapis.com/auth/games");
         Builder builder = new Builder();
         builder.requestId();
         builder.requestProfile();
@@ -58,6 +59,8 @@ public class GoogleSignInOptions extends AbstractSafeParcelable implements Api.A
         Builder builder2 = new Builder();
         builder2.requestScopes(scope, new Scope[0]);
         builder2.build();
+        CREATOR = new zae();
+        zag = new zac();
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -66,7 +69,6 @@ public class GoogleSignInOptions extends AbstractSafeParcelable implements Api.A
     }
 
     public static GoogleSignInOptions zab(String str) throws JSONException {
-        String str2 = null;
         if (TextUtils.isEmpty(str)) {
             return null;
         }
@@ -78,16 +80,7 @@ public class GoogleSignInOptions extends AbstractSafeParcelable implements Api.A
             hashSet.add(new Scope(jSONArray.getString(i)));
         }
         String optString = jSONObject.has("accountName") ? jSONObject.optString("accountName") : null;
-        Account account = !TextUtils.isEmpty(optString) ? new Account(optString, "com.google") : null;
-        ArrayList arrayList = new ArrayList(hashSet);
-        boolean z = jSONObject.getBoolean("idTokenRequested");
-        boolean z2 = jSONObject.getBoolean("serverAuthRequested");
-        boolean z3 = jSONObject.getBoolean("forceCodeForRefreshToken");
-        String optString2 = jSONObject.has("serverClientId") ? jSONObject.optString("serverClientId") : null;
-        if (jSONObject.has("hostedDomain")) {
-            str2 = jSONObject.optString("hostedDomain");
-        }
-        return new GoogleSignInOptions(3, arrayList, account, z, z2, z3, optString2, str2, new HashMap(), (String) null);
+        return new GoogleSignInOptions(3, new ArrayList(hashSet), !TextUtils.isEmpty(optString) ? new Account(optString, "com.google") : null, jSONObject.getBoolean("idTokenRequested"), jSONObject.getBoolean("serverAuthRequested"), jSONObject.getBoolean("forceCodeForRefreshToken"), jSONObject.has("serverClientId") ? jSONObject.optString("serverClientId") : null, jSONObject.has("hostedDomain") ? jSONObject.optString("hostedDomain") : null, new HashMap(), (String) null);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -104,7 +97,7 @@ public class GoogleSignInOptions extends AbstractSafeParcelable implements Api.A
         return hashMap;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:40:0x0048, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:21:0x0048, code lost:
         if (r1.equals(r4.getAccount()) != false) goto L21;
      */
     /*

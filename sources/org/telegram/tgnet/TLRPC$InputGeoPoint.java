@@ -13,12 +13,12 @@ public abstract class TLRPC$InputGeoPoint extends TLObject {
         } else {
             tLRPC$TL_inputGeoPointEmpty = new TLRPC$TL_inputGeoPointEmpty();
         }
-        if (tLRPC$TL_inputGeoPointEmpty != null || !z) {
-            if (tLRPC$TL_inputGeoPointEmpty != null) {
-                tLRPC$TL_inputGeoPointEmpty.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_inputGeoPointEmpty;
+        if (tLRPC$TL_inputGeoPointEmpty == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in InputGeoPoint", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in InputGeoPoint", Integer.valueOf(i)));
+        if (tLRPC$TL_inputGeoPointEmpty != null) {
+            tLRPC$TL_inputGeoPointEmpty.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_inputGeoPointEmpty;
     }
 }

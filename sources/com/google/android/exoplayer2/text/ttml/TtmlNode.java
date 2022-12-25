@@ -189,27 +189,24 @@ final class TtmlNode {
 
     private void traverseForStyle(long j, Map<String, TtmlStyle> map, Map<String, SpannableStringBuilder> map2) {
         int i;
-        if (!isActive(j)) {
-            return;
-        }
-        Iterator<Map.Entry<String, Integer>> it = this.nodeEndsByRegion.entrySet().iterator();
-        while (true) {
-            i = 0;
-            if (it.hasNext()) {
+        if (isActive(j)) {
+            Iterator<Map.Entry<String, Integer>> it = this.nodeEndsByRegion.entrySet().iterator();
+            while (true) {
+                if (!it.hasNext()) {
+                    break;
+                }
                 Map.Entry<String, Integer> next = it.next();
                 String key = next.getKey();
-                if (this.nodeStartsByRegion.containsKey(key)) {
-                    i = this.nodeStartsByRegion.get(key).intValue();
-                }
+                i = this.nodeStartsByRegion.containsKey(key) ? this.nodeStartsByRegion.get(key).intValue() : 0;
                 int intValue = next.getValue().intValue();
                 if (i != intValue) {
                     applyStyleToOutput(map, map2.get(key), i, intValue);
                 }
             }
-        }
-        while (i < getChildCount()) {
-            getChild(i).traverseForStyle(j, map, map2);
-            i++;
+            while (i < getChildCount()) {
+                getChild(i).traverseForStyle(j, map, map2);
+                i++;
+            }
         }
     }
 

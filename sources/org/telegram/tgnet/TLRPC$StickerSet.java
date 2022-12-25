@@ -57,14 +57,10 @@ public abstract class TLRPC$StickerSet extends TLObject {
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
                         this.flags = readInt32;
-                        boolean z3 = false;
                         this.installed = (readInt32 & 1) != 0;
                         this.archived = (readInt32 & 2) != 0;
                         this.official = (readInt32 & 4) != 0;
-                        if ((readInt32 & 8) != 0) {
-                            z3 = true;
-                        }
-                        this.masks = z3;
+                        this.masks = (readInt32 & 8) != 0;
                         this.id = abstractSerializedData2.readInt64(z2);
                         this.access_hash = abstractSerializedData2.readInt64(z2);
                         this.title = abstractSerializedData2.readString(z2);
@@ -199,14 +195,10 @@ public abstract class TLRPC$StickerSet extends TLObject {
                         TLRPC$PhotoSize TLdeserialize;
                         int readInt32 = abstractSerializedData2.readInt32(z2);
                         this.flags = readInt32;
-                        boolean z3 = false;
                         this.archived = (readInt32 & 2) != 0;
                         this.official = (readInt32 & 4) != 0;
                         this.masks = (readInt32 & 8) != 0;
-                        if ((readInt32 & 32) != 0) {
-                            z3 = true;
-                        }
-                        this.animated = z3;
+                        this.animated = (readInt32 & 32) != 0;
                         if ((readInt32 & 1) != 0) {
                             this.installed_date = abstractSerializedData2.readInt32(z2);
                         }
@@ -343,13 +335,9 @@ public abstract class TLRPC$StickerSet extends TLObject {
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
                         this.flags = readInt32;
-                        boolean z3 = false;
                         this.archived = (readInt32 & 2) != 0;
                         this.official = (readInt32 & 4) != 0;
-                        if ((readInt32 & 8) != 0) {
-                            z3 = true;
-                        }
-                        this.masks = z3;
+                        this.masks = (readInt32 & 8) != 0;
                         if ((readInt32 & 1) != 0) {
                             this.installed_date = abstractSerializedData2.readInt32(z2);
                         }
@@ -392,13 +380,9 @@ public abstract class TLRPC$StickerSet extends TLObject {
                         TLRPC$PhotoSize TLdeserialize;
                         int readInt32 = abstractSerializedData2.readInt32(z2);
                         this.flags = readInt32;
-                        boolean z3 = false;
                         this.archived = (readInt32 & 2) != 0;
                         this.official = (readInt32 & 4) != 0;
-                        if ((readInt32 & 8) != 0) {
-                            z3 = true;
-                        }
-                        this.masks = z3;
+                        this.masks = (readInt32 & 8) != 0;
                         if ((readInt32 & 1) != 0) {
                             this.installed_date = abstractSerializedData2.readInt32(z2);
                         }
@@ -442,12 +426,12 @@ public abstract class TLRPC$StickerSet extends TLObject {
                 tLRPC$TL_stickerSet = null;
                 break;
         }
-        if (tLRPC$TL_stickerSet != null || !z) {
-            if (tLRPC$TL_stickerSet != null) {
-                tLRPC$TL_stickerSet.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_stickerSet;
+        if (tLRPC$TL_stickerSet == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in StickerSet", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in StickerSet", Integer.valueOf(i)));
+        if (tLRPC$TL_stickerSet != null) {
+            tLRPC$TL_stickerSet.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_stickerSet;
     }
 }

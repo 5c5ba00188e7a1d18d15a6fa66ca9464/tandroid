@@ -18,12 +18,12 @@ class h1 extends j1 implements l3 {
     public void accept(long j) {
         boolean z;
         boolean z2;
-        if (!this.a) {
-            boolean b = this.d.b(j);
-            z = this.c.a;
-            if (b != z) {
-                return;
-            }
+        if (this.a) {
+            return;
+        }
+        boolean b = this.d.b(j);
+        z = this.c.a;
+        if (b == z) {
             this.a = true;
             z2 = this.c.b;
             this.b = z2;

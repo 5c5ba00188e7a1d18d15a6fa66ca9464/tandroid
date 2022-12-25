@@ -64,8 +64,7 @@ public abstract class StreamReader {
         this.oggPacket.reset();
         if (j == 0) {
             reset(!this.seekMapSet);
-        } else if (this.state == 0) {
-        } else {
+        } else if (this.state != 0) {
             long convertTimeToGranule = convertTimeToGranule(j2);
             this.targetGranule = convertTimeToGranule;
             this.oggSeeker.startSeek(convertTimeToGranule);

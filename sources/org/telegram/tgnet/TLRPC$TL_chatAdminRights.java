@@ -32,7 +32,6 @@ public class TLRPC$TL_chatAdminRights extends TLObject {
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
         int readInt32 = abstractSerializedData.readInt32(z);
         this.flags = readInt32;
-        boolean z2 = false;
         this.change_info = (readInt32 & 1) != 0;
         this.post_messages = (readInt32 & 2) != 0;
         this.edit_messages = (readInt32 & 4) != 0;
@@ -44,10 +43,7 @@ public class TLRPC$TL_chatAdminRights extends TLObject {
         this.anonymous = (readInt32 & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0;
         this.manage_call = (readInt32 & 2048) != 0;
         this.other = (readInt32 & 4096) != 0;
-        if ((readInt32 & 8192) != 0) {
-            z2 = true;
-        }
-        this.manage_topics = z2;
+        this.manage_topics = (readInt32 & 8192) != 0;
     }
 
     @Override // org.telegram.tgnet.TLObject

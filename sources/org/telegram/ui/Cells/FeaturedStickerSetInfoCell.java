@@ -34,6 +34,7 @@ public class FeaturedStickerSetInfoCell extends FrameLayout {
     private ProgressButton addButton;
     private AnimatorSet animatorSet;
     private boolean canAddRemove;
+    private int currentAccount;
     private TextView delButton;
     private boolean hasOnClick;
     private TextView infoTextView;
@@ -41,6 +42,7 @@ public class FeaturedStickerSetInfoCell extends FrameLayout {
     private boolean isUnread;
     private TextView nameTextView;
     private boolean needDivider;
+    private Paint paint;
     private final Theme.ResourcesProvider resourcesProvider;
     private TLRPC$StickerSetCovered set;
     private int stickerSetNameSearchIndex;
@@ -48,8 +50,6 @@ public class FeaturedStickerSetInfoCell extends FrameLayout {
     float unreadProgress;
     private CharSequence url;
     private int urlSearchLength;
-    private int currentAccount = UserConfig.selectedAccount;
-    private Paint paint = new Paint(1);
 
     public FeaturedStickerSetInfoCell(Context context, int i, boolean z, boolean z2, Theme.ResourcesProvider resourcesProvider) {
         super(context);
@@ -57,6 +57,8 @@ public class FeaturedStickerSetInfoCell extends FrameLayout {
         FrameLayout.LayoutParams createFrame2;
         FrameLayout.LayoutParams createFrame3;
         FrameLayout.LayoutParams createFrame4;
+        this.currentAccount = UserConfig.selectedAccount;
+        this.paint = new Paint(1);
         this.canAddRemove = z2;
         this.resourcesProvider = resourcesProvider;
         TextView textView = new TextView(context);
@@ -157,7 +159,6 @@ public class FeaturedStickerSetInfoCell extends FrameLayout {
             animatorSet.cancel();
             this.animatorSet = null;
         }
-        float f = 1.0f;
         if (this.set != tLRPC$StickerSetCovered) {
             this.unreadProgress = z ? 1.0f : 0.0f;
             invalidate();
@@ -237,10 +238,7 @@ public class FeaturedStickerSetInfoCell extends FrameLayout {
                 ProgressButton progressButton3 = this.addButton;
                 Property property6 = View.SCALE_Y;
                 float[] fArr6 = new float[1];
-                if (this.isInstalled) {
-                    f = 0.0f;
-                }
-                fArr6[0] = f;
+                fArr6[0] = this.isInstalled ? 0.0f : 1.0f;
                 animatorArr[5] = ObjectAnimator.ofFloat(progressButton3, property6, fArr6);
                 animatorSet3.playTogether(animatorArr);
                 this.animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.FeaturedStickerSetInfoCell.1

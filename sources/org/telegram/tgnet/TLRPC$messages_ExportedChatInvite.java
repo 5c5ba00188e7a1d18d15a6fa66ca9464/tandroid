@@ -47,12 +47,12 @@ public abstract class TLRPC$messages_ExportedChatInvite extends TLObject {
                 }
             };
         }
-        if (tLRPC$messages_ExportedChatInvite != null || !z) {
-            if (tLRPC$messages_ExportedChatInvite != null) {
-                tLRPC$messages_ExportedChatInvite.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$messages_ExportedChatInvite;
+        if (tLRPC$messages_ExportedChatInvite == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in messages_ExportedChatInvite", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in messages_ExportedChatInvite", Integer.valueOf(i)));
+        if (tLRPC$messages_ExportedChatInvite != null) {
+            tLRPC$messages_ExportedChatInvite.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$messages_ExportedChatInvite;
     }
 }

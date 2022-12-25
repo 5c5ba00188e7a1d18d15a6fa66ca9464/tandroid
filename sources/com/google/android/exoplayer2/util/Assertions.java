@@ -6,17 +6,15 @@ import org.checkerframework.checker.nullness.qual.EnsuresNonNull;
 /* loaded from: classes.dex */
 public final class Assertions {
     public static void checkArgument(boolean z) {
-        if (z) {
-            return;
+        if (!z) {
+            throw new IllegalArgumentException();
         }
-        throw new IllegalArgumentException();
     }
 
     public static void checkArgument(boolean z, Object obj) {
-        if (z) {
-            return;
+        if (!z) {
+            throw new IllegalArgumentException(String.valueOf(obj));
         }
-        throw new IllegalArgumentException(String.valueOf(obj));
     }
 
     public static int checkIndex(int i, int i2, int i3) {
@@ -27,17 +25,15 @@ public final class Assertions {
     }
 
     public static void checkState(boolean z) {
-        if (z) {
-            return;
+        if (!z) {
+            throw new IllegalStateException();
         }
-        throw new IllegalStateException();
     }
 
     public static void checkState(boolean z, Object obj) {
-        if (z) {
-            return;
+        if (!z) {
+            throw new IllegalStateException(String.valueOf(obj));
         }
-        throw new IllegalStateException(String.valueOf(obj));
     }
 
     @EnsuresNonNull({"#1"})
@@ -56,9 +52,9 @@ public final class Assertions {
 
     @EnsuresNonNull({"#1"})
     public static String checkNotEmpty(String str) {
-        if (!TextUtils.isEmpty(str)) {
-            return str;
+        if (TextUtils.isEmpty(str)) {
+            throw new IllegalArgumentException();
         }
-        throw new IllegalArgumentException();
+        return str;
     }
 }

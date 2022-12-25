@@ -21,19 +21,26 @@ import java.util.Objects;
 public class AnimatedPhoneNumberEditText extends HintEditText {
     private ObjectAnimator animator;
     private Runnable hintAnimationCallback;
+    private List<Float> hintAnimationValues;
+    private List<SpringAnimation> hintAnimations;
+    private HintFadeProperty hintFadeProperty;
+    private ArrayList<StaticLayout> letters;
+    private ArrayList<StaticLayout> oldLetters;
+    private String oldText;
     private float progress;
+    private TextPaint textPaint;
     private String wasHint;
     private Boolean wasHintVisible;
-    private ArrayList<StaticLayout> letters = new ArrayList<>();
-    private ArrayList<StaticLayout> oldLetters = new ArrayList<>();
-    private TextPaint textPaint = new TextPaint(1);
-    private String oldText = "";
-    private HintFadeProperty hintFadeProperty = new HintFadeProperty();
-    private List<Float> hintAnimationValues = new ArrayList();
-    private List<SpringAnimation> hintAnimations = new ArrayList();
 
     public AnimatedPhoneNumberEditText(Context context) {
         super(context);
+        this.letters = new ArrayList<>();
+        this.oldLetters = new ArrayList<>();
+        this.textPaint = new TextPaint(1);
+        this.oldText = "";
+        this.hintFadeProperty = new HintFadeProperty();
+        this.hintAnimationValues = new ArrayList();
+        this.hintAnimations = new ArrayList();
     }
 
     @Override // org.telegram.ui.Components.HintEditText
@@ -74,9 +81,10 @@ public class AnimatedPhoneNumberEditText extends HintEditText {
         for (SpringAnimation springAnimation : this.hintAnimations) {
             springAnimation.cancel();
         }
-        if (!z) {
-            super.setHintText(str);
+        if (z) {
+            return;
         }
+        super.setHintText(str);
     }
 
     @Override // org.telegram.ui.Components.HintEditText

@@ -111,20 +111,20 @@ final class ProtobufDataEncoderContext implements ObjectEncoderContext {
     }
 
     ObjectEncoderContext add(FieldDescriptor fieldDescriptor, double d, boolean z) throws IOException {
-        if (!z || d != 0.0d) {
-            writeVarInt32((getTag(fieldDescriptor) << 3) | 1);
-            this.output.write(allocateBuffer(8).putDouble(d).array());
+        if (z && d == 0.0d) {
             return this;
         }
+        writeVarInt32((getTag(fieldDescriptor) << 3) | 1);
+        this.output.write(allocateBuffer(8).putDouble(d).array());
         return this;
     }
 
     ObjectEncoderContext add(FieldDescriptor fieldDescriptor, float f, boolean z) throws IOException {
-        if (!z || f != 0.0f) {
-            writeVarInt32((getTag(fieldDescriptor) << 3) | 5);
-            this.output.write(allocateBuffer(4).putFloat(f).array());
+        if (z && f == 0.0f) {
             return this;
         }
+        writeVarInt32((getTag(fieldDescriptor) << 3) | 5);
+        this.output.write(allocateBuffer(4).putFloat(f).array());
         return this;
     }
 
@@ -157,20 +157,20 @@ final class ProtobufDataEncoderContext implements ObjectEncoderContext {
     }
 
     ProtobufDataEncoderContext add(FieldDescriptor fieldDescriptor, int i, boolean z) throws IOException {
-        if (!z || i != 0) {
-            Protobuf protobuf = getProtobuf(fieldDescriptor);
-            int i2 = 1.$SwitchMap$com$google$firebase$encoders$proto$Protobuf$IntEncoding[protobuf.intEncoding().ordinal()];
-            if (i2 == 1) {
-                writeVarInt32(protobuf.tag() << 3);
-                writeVarInt32(i);
-            } else if (i2 == 2) {
-                writeVarInt32(protobuf.tag() << 3);
-                writeVarInt32((i << 1) ^ (i >> 31));
-            } else if (i2 == 3) {
-                writeVarInt32((protobuf.tag() << 3) | 5);
-                this.output.write(allocateBuffer(4).putInt(i).array());
-            }
+        if (z && i == 0) {
             return this;
+        }
+        Protobuf protobuf = getProtobuf(fieldDescriptor);
+        int i2 = 1.$SwitchMap$com$google$firebase$encoders$proto$Protobuf$IntEncoding[protobuf.intEncoding().ordinal()];
+        if (i2 == 1) {
+            writeVarInt32(protobuf.tag() << 3);
+            writeVarInt32(i);
+        } else if (i2 == 2) {
+            writeVarInt32(protobuf.tag() << 3);
+            writeVarInt32((i << 1) ^ (i >> 31));
+        } else if (i2 == 3) {
+            writeVarInt32((protobuf.tag() << 3) | 5);
+            this.output.write(allocateBuffer(4).putInt(i).array());
         }
         return this;
     }
@@ -181,20 +181,20 @@ final class ProtobufDataEncoderContext implements ObjectEncoderContext {
     }
 
     ProtobufDataEncoderContext add(FieldDescriptor fieldDescriptor, long j, boolean z) throws IOException {
-        if (!z || j != 0) {
-            Protobuf protobuf = getProtobuf(fieldDescriptor);
-            int i = 1.$SwitchMap$com$google$firebase$encoders$proto$Protobuf$IntEncoding[protobuf.intEncoding().ordinal()];
-            if (i == 1) {
-                writeVarInt32(protobuf.tag() << 3);
-                writeVarInt64(j);
-            } else if (i == 2) {
-                writeVarInt32(protobuf.tag() << 3);
-                writeVarInt64((j >> 63) ^ (j << 1));
-            } else if (i == 3) {
-                writeVarInt32((protobuf.tag() << 3) | 1);
-                this.output.write(allocateBuffer(8).putLong(j).array());
-            }
+        if (z && j == 0) {
             return this;
+        }
+        Protobuf protobuf = getProtobuf(fieldDescriptor);
+        int i = 1.$SwitchMap$com$google$firebase$encoders$proto$Protobuf$IntEncoding[protobuf.intEncoding().ordinal()];
+        if (i == 1) {
+            writeVarInt32(protobuf.tag() << 3);
+            writeVarInt64(j);
+        } else if (i == 2) {
+            writeVarInt32(protobuf.tag() << 3);
+            writeVarInt64((j >> 63) ^ (j << 1));
+        } else if (i == 3) {
+            writeVarInt32((protobuf.tag() << 3) | 1);
+            this.output.write(allocateBuffer(8).putLong(j).array());
         }
         return this;
     }
@@ -219,12 +219,12 @@ final class ProtobufDataEncoderContext implements ObjectEncoderContext {
 
     private <T> ProtobufDataEncoderContext doEncode(ObjectEncoder<T> objectEncoder, FieldDescriptor fieldDescriptor, T t, boolean z) throws IOException {
         long determineSize = determineSize(objectEncoder, t);
-        if (!z || determineSize != 0) {
-            writeVarInt32((getTag(fieldDescriptor) << 3) | 2);
-            writeVarInt64(determineSize);
-            objectEncoder.encode(t, this);
+        if (z && determineSize == 0) {
             return this;
         }
+        writeVarInt32((getTag(fieldDescriptor) << 3) | 2);
+        writeVarInt64(determineSize);
+        objectEncoder.encode(t, this);
         return this;
     }
 

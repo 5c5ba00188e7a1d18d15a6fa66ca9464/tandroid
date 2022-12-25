@@ -63,11 +63,11 @@ class z implements r, j$.util.function.q, Iterator {
 
     @Override // j$.util.r, java.util.Iterator
     public Long next() {
-        if (!N.a) {
-            return Long.valueOf(nextLong());
+        if (N.a) {
+            N.a(z.class, "{0} calling PrimitiveIterator.OfLong.nextLong()");
+            throw null;
         }
-        N.a(z.class, "{0} calling PrimitiveIterator.OfLong.nextLong()");
-        throw null;
+        return Long.valueOf(nextLong());
     }
 
     @Override // j$.util.r

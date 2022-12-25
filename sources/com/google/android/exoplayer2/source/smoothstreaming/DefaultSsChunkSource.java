@@ -192,12 +192,12 @@ public class DefaultSsChunkSource implements SsChunkSource {
 
     private long resolveTimeToLiveEdgeUs(long j) {
         SsManifest ssManifest = this.manifest;
-        if (!ssManifest.isLive) {
-            return -9223372036854775807L;
+        if (ssManifest.isLive) {
+            SsManifest.StreamElement streamElement = ssManifest.streamElements[this.streamElementIndex];
+            int i = streamElement.chunkCount - 1;
+            return (streamElement.getStartTimeUs(i) + streamElement.getChunkDurationUs(i)) - j;
         }
-        SsManifest.StreamElement streamElement = ssManifest.streamElements[this.streamElementIndex];
-        int i = streamElement.chunkCount - 1;
-        return (streamElement.getStartTimeUs(i) + streamElement.getChunkDurationUs(i)) - j;
+        return -9223372036854775807L;
     }
 
     /* loaded from: classes.dex */

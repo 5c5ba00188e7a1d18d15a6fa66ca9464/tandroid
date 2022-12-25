@@ -50,10 +50,10 @@ class ImageDownload implements Closeable {
                 sb.append(valueOf);
                 Log.v("FirebaseMessaging", sb.toString());
             }
-            if (zza.length > 1048576) {
-                throw new IOException("Image exceeds max size of 1048576");
+            if (zza.length <= 1048576) {
+                return zza;
             }
-            return zza;
+            throw new IOException("Image exceeds max size of 1048576");
         } catch (Throwable th) {
             if (inputStream != null) {
                 try {

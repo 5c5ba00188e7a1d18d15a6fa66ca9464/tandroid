@@ -113,11 +113,10 @@ public class SharedAudioCell extends FrameLayout implements DownloadController.F
         checkBox2.setVisibility(4);
         this.checkBox.setColor(null, "windowBackgroundWhite", "checkboxCheck");
         this.checkBox.setDrawUnchecked(false);
-        int i2 = 3;
         this.checkBox.setDrawBackgroundAsArc(3);
         CheckBox2 checkBox22 = this.checkBox;
         boolean z = LocaleController.isRTL;
-        addView(checkBox22, LayoutHelper.createFrame(24, 24.0f, (z ? 5 : i2) | 48, z ? 0.0f : 38.1f, 32.1f, z ? 6.0f : 0.0f, 0.0f));
+        addView(checkBox22, LayoutHelper.createFrame(24, 24.0f, (z ? 5 : 3) | 48, z ? 0.0f : 38.1f, 32.1f, z ? 6.0f : 0.0f, 0.0f));
         if (i == 1) {
             TextPaint textPaint = new TextPaint(1);
             this.description2TextPaint = textPaint;
@@ -142,7 +141,6 @@ public class SharedAudioCell extends FrameLayout implements DownloadController.F
         this.titleLayout = null;
         this.captionLayout = null;
         int size = (View.MeasureSpec.getSize(i) - AndroidUtilities.dp(AndroidUtilities.leftBaseline)) - AndroidUtilities.dp(28.0f);
-        int i4 = 0;
         if (this.viewType == 1) {
             String stringForMessageListDate = LocaleController.stringForMessageListDate(this.currentMessageObject.messageOwner.date);
             int ceil = (int) Math.ceil(this.description2TextPaint.measureText(stringForMessageListDate));
@@ -198,19 +196,14 @@ public class SharedAudioCell extends FrameLayout implements DownloadController.F
         } catch (Exception e2) {
             FileLog.e(e2);
         }
-        int size2 = View.MeasureSpec.getSize(i);
-        int dp = AndroidUtilities.dp(56.0f);
-        if (this.captionLayout != null) {
-            i4 = AndroidUtilities.dp(18.0f);
-        }
-        setMeasuredDimension(size2, dp + i4 + (this.needDivider ? 1 : 0));
-        int size3 = LocaleController.isRTL ? (View.MeasureSpec.getSize(i) - AndroidUtilities.dp(8.0f)) - AndroidUtilities.dp(52.0f) : AndroidUtilities.dp(8.0f);
+        setMeasuredDimension(View.MeasureSpec.getSize(i), AndroidUtilities.dp(56.0f) + (this.captionLayout != null ? AndroidUtilities.dp(18.0f) : 0) + (this.needDivider ? 1 : 0));
+        int size2 = LocaleController.isRTL ? (View.MeasureSpec.getSize(i) - AndroidUtilities.dp(8.0f)) - AndroidUtilities.dp(52.0f) : AndroidUtilities.dp(8.0f);
         RadialProgress2 radialProgress2 = this.radialProgress;
-        int dp2 = AndroidUtilities.dp(4.0f) + size3;
-        this.buttonX = dp2;
-        int dp3 = AndroidUtilities.dp(6.0f);
-        this.buttonY = dp3;
-        radialProgress2.setProgressRect(dp2, dp3, size3 + AndroidUtilities.dp(48.0f), AndroidUtilities.dp(50.0f));
+        int dp = AndroidUtilities.dp(4.0f) + size2;
+        this.buttonX = dp;
+        int dp2 = AndroidUtilities.dp(6.0f);
+        this.buttonY = dp2;
+        radialProgress2.setProgressRect(dp, dp2, size2 + AndroidUtilities.dp(48.0f), AndroidUtilities.dp(50.0f));
         measureChildWithMargins(this.checkBox, i, 0, i2, 0);
         if (this.captionLayout != null) {
             this.captionY = AndroidUtilities.dp(29.0f);
@@ -289,10 +282,10 @@ public class SharedAudioCell extends FrameLayout implements DownloadController.F
         return onTouchEvent(motionEvent);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:14:0x0039  */
-    /* JADX WARN: Removed duplicated region for block: B:19:0x00bf  */
-    /* JADX WARN: Removed duplicated region for block: B:24:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:31:0x0068  */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x0039  */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x0068  */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x00bf  */
+    /* JADX WARN: Removed duplicated region for block: B:50:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -349,7 +342,7 @@ public class SharedAudioCell extends FrameLayout implements DownloadController.F
                     }
                     z2 = false;
                     this.radialProgress.setPressed(this.miniButtonPressed, true);
-                    if (!z2) {
+                    if (z2) {
                         return true;
                     }
                 }
@@ -360,7 +353,7 @@ public class SharedAudioCell extends FrameLayout implements DownloadController.F
         }
         z2 = false;
         this.radialProgress.setPressed(this.miniButtonPressed, true);
-        if (!z2) {
+        if (z2) {
         }
     }
 
@@ -370,14 +363,14 @@ public class SharedAudioCell extends FrameLayout implements DownloadController.F
             return super.onTouchEvent(motionEvent);
         }
         boolean checkAudioMotionEvent = checkAudioMotionEvent(motionEvent);
-        if (motionEvent.getAction() != 3) {
-            return checkAudioMotionEvent;
+        if (motionEvent.getAction() == 3) {
+            this.miniButtonPressed = false;
+            this.buttonPressed = false;
+            this.radialProgress.setPressed(false, false);
+            this.radialProgress.setPressed(this.miniButtonPressed, true);
+            return false;
         }
-        this.miniButtonPressed = false;
-        this.buttonPressed = false;
-        this.radialProgress.setPressed(false, false);
-        this.radialProgress.setPressed(this.miniButtonPressed, true);
-        return false;
+        return checkAudioMotionEvent;
     }
 
     private void didPressedMiniButton(boolean z) {
@@ -388,8 +381,7 @@ public class SharedAudioCell extends FrameLayout implements DownloadController.F
             FileLoader.getInstance(this.currentAccount).loadFile(this.currentMessageObject.getDocument(), this.currentMessageObject, 1, 0);
             this.radialProgress.setMiniIcon(getMiniIconForCurrentState(), false, true);
             invalidate();
-        } else if (i != 1) {
-        } else {
+        } else if (i == 1) {
             if (MediaController.getInstance().isPlayingMessage(this.currentMessageObject)) {
                 MediaController.getInstance().cleanupPlayer(true, true);
             }
@@ -407,24 +399,22 @@ public class SharedAudioCell extends FrameLayout implements DownloadController.F
                 this.currentMessageObject.putInDownloadsStore = true;
                 FileLoader.getInstance(this.currentAccount).loadFile(this.currentMessageObject.getDocument(), this.currentMessageObject, 1, 0);
             }
-            if (!needPlayMessage(this.currentMessageObject)) {
-                return;
+            if (needPlayMessage(this.currentMessageObject)) {
+                if (this.hasMiniProgress == 2 && this.miniButtonState != 1) {
+                    this.miniButtonState = 1;
+                    this.radialProgress.setProgress(0.0f, false);
+                    this.radialProgress.setMiniIcon(getMiniIconForCurrentState(), false, true);
+                }
+                this.buttonState = 1;
+                this.radialProgress.setIcon(getIconForCurrentState(), false, true);
+                invalidate();
             }
-            if (this.hasMiniProgress == 2 && this.miniButtonState != 1) {
-                this.miniButtonState = 1;
-                this.radialProgress.setProgress(0.0f, false);
-                this.radialProgress.setMiniIcon(getMiniIconForCurrentState(), false, true);
-            }
-            this.buttonState = 1;
-            this.radialProgress.setIcon(getIconForCurrentState(), false, true);
-            invalidate();
         } else if (i == 1) {
-            if (!MediaController.getInstance().lambda$startAudioAgain$7(this.currentMessageObject)) {
-                return;
+            if (MediaController.getInstance().lambda$startAudioAgain$7(this.currentMessageObject)) {
+                this.buttonState = 0;
+                this.radialProgress.setIcon(getIconForCurrentState(), false, true);
+                invalidate();
             }
-            this.buttonState = 0;
-            this.radialProgress.setIcon(getIconForCurrentState(), false, true);
-            invalidate();
         } else if (i == 2) {
             this.radialProgress.setProgress(0.0f, false);
             this.currentMessageObject.putInDownloadsStore = true;
@@ -432,8 +422,7 @@ public class SharedAudioCell extends FrameLayout implements DownloadController.F
             this.buttonState = 4;
             this.radialProgress.setIcon(getIconForCurrentState(), false, true);
             invalidate();
-        } else if (i != 4) {
-        } else {
+        } else if (i == 4) {
             FileLoader.getInstance(this.currentAccount).cancelLoadFile(this.currentMessageObject.getDocument());
             this.buttonState = 2;
             this.radialProgress.setIcon(getIconForCurrentState(), false, true);
@@ -550,12 +539,10 @@ public class SharedAudioCell extends FrameLayout implements DownloadController.F
     public void onProgressDownload(String str, long j, long j2) {
         this.radialProgress.setProgress(Math.min(1.0f, ((float) j) / ((float) j2)), true);
         if (this.hasMiniProgress != 0) {
-            if (this.miniButtonState == 1) {
-                return;
+            if (this.miniButtonState != 1) {
+                updateButtonState(false, true);
             }
-            updateButtonState(false, true);
-        } else if (this.buttonState == 4) {
-        } else {
+        } else if (this.buttonState != 4) {
             updateButtonState(false, true);
         }
     }
@@ -662,7 +649,6 @@ public class SharedAudioCell extends FrameLayout implements DownloadController.F
             this.description2TextPaint.setColor(getThemedColor("windowBackgroundWhiteGrayText3"));
         }
         int i = 0;
-        float f = 8.0f;
         if (this.dateLayout != null) {
             canvas.save();
             canvas.translate(AndroidUtilities.dp(LocaleController.isRTL ? 8.0f : AndroidUtilities.leftBaseline) + (LocaleController.isRTL ? 0 : this.dateLayoutX), this.titleY);
@@ -690,10 +676,7 @@ public class SharedAudioCell extends FrameLayout implements DownloadController.F
         if (this.descriptionLayout != null) {
             Theme.chat_contextResult_descriptionTextPaint.setColor(getThemedColor("windowBackgroundWhiteGrayText2"));
             canvas.save();
-            if (!LocaleController.isRTL) {
-                f = AndroidUtilities.leftBaseline;
-            }
-            canvas.translate(AndroidUtilities.dp(f), this.descriptionY);
+            canvas.translate(AndroidUtilities.dp(LocaleController.isRTL ? 8.0f : AndroidUtilities.leftBaseline), this.descriptionY);
             this.descriptionLayout.draw(canvas);
             AnimatedEmojiSpan.drawAnimatedEmojis(canvas, this.descriptionLayout, this.descriptionLayoutEmojis, 0.0f, null, 0.0f, 0.0f, 0.0f, 1.0f);
             canvas.restore();

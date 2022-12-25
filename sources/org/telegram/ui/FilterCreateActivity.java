@@ -11,7 +11,6 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewPropertyAnimator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -127,10 +126,11 @@ public class FilterCreateActivity extends BaseFragment {
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$new$0(View view) {
-            if (!this.imageView.isPlaying()) {
-                this.imageView.setProgress(0.0f);
-                this.imageView.playAnimation();
+            if (this.imageView.isPlaying()) {
+                return;
             }
+            this.imageView.setProgress(0.0f);
+            this.imageView.playAnimation();
         }
 
         @Override // android.widget.FrameLayout, android.view.View
@@ -340,12 +340,10 @@ public class FilterCreateActivity extends BaseFragment {
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i) {
                 if (i == -1) {
-                    if (!FilterCreateActivity.this.checkDiscard()) {
-                        return;
+                    if (FilterCreateActivity.this.checkDiscard()) {
+                        FilterCreateActivity.this.finishFragment();
                     }
-                    FilterCreateActivity.this.finishFragment();
-                } else if (i != 1) {
-                } else {
+                } else if (i == 1) {
                     FilterCreateActivity.this.processDone();
                 }
             }
@@ -392,7 +390,6 @@ public class FilterCreateActivity extends BaseFragment {
         if (getParentActivity() == null) {
             return;
         }
-        boolean z = true;
         if (i == this.includeShowMoreRow) {
             this.includeExpanded = true;
             updateRows();
@@ -402,15 +399,11 @@ public class FilterCreateActivity extends BaseFragment {
         } else {
             int i2 = this.includeAddRow;
             if (i == i2 || i == this.excludeAddRow) {
-                ArrayList<Long> arrayList = i == this.excludeAddRow ? this.newNeverShow : this.newAlwaysShow;
-                if (i != i2) {
-                    z = false;
-                }
-                UsersSelectActivity usersSelectActivity = new UsersSelectActivity(z, arrayList, this.newFilterFlags);
+                UsersSelectActivity usersSelectActivity = new UsersSelectActivity(i == i2, i == this.excludeAddRow ? this.newNeverShow : this.newAlwaysShow, this.newFilterFlags);
                 usersSelectActivity.setDelegate(new UsersSelectActivity.FilterUsersActivityDelegate() { // from class: org.telegram.ui.FilterCreateActivity$$ExternalSyntheticLambda14
                     @Override // org.telegram.ui.UsersSelectActivity.FilterUsersActivityDelegate
-                    public final void didSelectChats(ArrayList arrayList2, int i3) {
-                        FilterCreateActivity.this.lambda$createView$0(i, arrayList2, i3);
+                    public final void didSelectChats(ArrayList arrayList, int i3) {
+                        FilterCreateActivity.this.lambda$createView$0(i, arrayList, i3);
                     }
                 });
                 presentFragment(usersSelectActivity);
@@ -428,23 +421,16 @@ public class FilterCreateActivity extends BaseFragment {
                 AlertDialog create = builder.create();
                 showDialog(create);
                 TextView textView = (TextView) create.getButton(-1);
-                if (textView == null) {
-                    return;
+                if (textView != null) {
+                    textView.setTextColor(Theme.getColor("dialogTextRed2"));
                 }
-                textView.setTextColor(Theme.getColor("dialogTextRed2"));
             } else if (i == this.nameRow) {
                 PollEditTextCell pollEditTextCell = (PollEditTextCell) view;
                 pollEditTextCell.getTextView().requestFocus();
                 AndroidUtilities.showKeyboard(pollEditTextCell.getTextView());
-            } else if (!(view instanceof UserCell)) {
-            } else {
+            } else if (view instanceof UserCell) {
                 UserCell userCell = (UserCell) view;
-                CharSequence name = userCell.getName();
-                Object currentObject = userCell.getCurrentObject();
-                if (i >= this.includeSectionRow) {
-                    z = false;
-                }
-                showRemoveAlert(i, name, currentObject, z);
+                showRemoveAlert(i, userCell.getName(), userCell.getCurrentObject(), i < this.includeSectionRow);
             }
         }
     }
@@ -528,15 +514,9 @@ public class FilterCreateActivity extends BaseFragment {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$createView$5(View view, int i) {
-        boolean z = false;
         if (view instanceof UserCell) {
             UserCell userCell = (UserCell) view;
-            CharSequence name = userCell.getName();
-            Object currentObject = userCell.getCurrentObject();
-            if (i < this.includeSectionRow) {
-                z = true;
-            }
-            showRemoveAlert(i, name, currentObject, z);
+            showRemoveAlert(i, userCell.getName(), userCell.getCurrentObject(), i < this.includeSectionRow);
             return true;
         }
         return false;
@@ -559,70 +539,68 @@ public class FilterCreateActivity extends BaseFragment {
     private void fillFilterName() {
         String string;
         if (this.creatingNew) {
-            if (!TextUtils.isEmpty(this.newFilterName) && this.nameChangedManually) {
-                return;
-            }
-            int i = this.newFilterFlags;
-            int i2 = MessagesController.DIALOG_FILTER_FLAG_ALL_CHATS;
-            int i3 = i & i2;
-            String str = "";
-            if ((i3 & i2) == i2) {
-                if ((MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_READ & i) != 0) {
-                    string = LocaleController.getString("FilterNameUnread", R.string.FilterNameUnread);
-                } else {
-                    if ((i & MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_MUTED) != 0) {
-                        string = LocaleController.getString("FilterNameNonMuted", R.string.FilterNameNonMuted);
-                    }
-                    string = str;
-                }
-            } else {
-                int i4 = MessagesController.DIALOG_FILTER_FLAG_CONTACTS;
-                if ((i3 & i4) != 0) {
-                    if (((i4 ^ (-1)) & i3) == 0) {
-                        string = LocaleController.getString("FilterContacts", R.string.FilterContacts);
-                    }
-                    string = str;
-                } else {
-                    int i5 = MessagesController.DIALOG_FILTER_FLAG_NON_CONTACTS;
-                    if ((i3 & i5) != 0) {
-                        if (((i5 ^ (-1)) & i3) == 0) {
-                            string = LocaleController.getString("FilterNonContacts", R.string.FilterNonContacts);
-                        }
-                        string = str;
+            if (TextUtils.isEmpty(this.newFilterName) || !this.nameChangedManually) {
+                int i = this.newFilterFlags;
+                int i2 = MessagesController.DIALOG_FILTER_FLAG_ALL_CHATS;
+                int i3 = i & i2;
+                String str = "";
+                if ((i3 & i2) == i2) {
+                    if ((MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_READ & i) != 0) {
+                        string = LocaleController.getString("FilterNameUnread", R.string.FilterNameUnread);
                     } else {
-                        int i6 = MessagesController.DIALOG_FILTER_FLAG_GROUPS;
-                        if ((i3 & i6) != 0) {
-                            if (((i6 ^ (-1)) & i3) == 0) {
-                                string = LocaleController.getString("FilterGroups", R.string.FilterGroups);
+                        if ((i & MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_MUTED) != 0) {
+                            string = LocaleController.getString("FilterNameNonMuted", R.string.FilterNameNonMuted);
+                        }
+                        string = "";
+                    }
+                } else {
+                    int i4 = MessagesController.DIALOG_FILTER_FLAG_CONTACTS;
+                    if ((i3 & i4) != 0) {
+                        if (((i4 ^ (-1)) & i3) == 0) {
+                            string = LocaleController.getString("FilterContacts", R.string.FilterContacts);
+                        }
+                        string = "";
+                    } else {
+                        int i5 = MessagesController.DIALOG_FILTER_FLAG_NON_CONTACTS;
+                        if ((i3 & i5) != 0) {
+                            if (((i5 ^ (-1)) & i3) == 0) {
+                                string = LocaleController.getString("FilterNonContacts", R.string.FilterNonContacts);
                             }
-                            string = str;
+                            string = "";
                         } else {
-                            int i7 = MessagesController.DIALOG_FILTER_FLAG_BOTS;
-                            if ((i3 & i7) != 0) {
-                                if (((i7 ^ (-1)) & i3) == 0) {
-                                    string = LocaleController.getString("FilterBots", R.string.FilterBots);
+                            int i6 = MessagesController.DIALOG_FILTER_FLAG_GROUPS;
+                            if ((i3 & i6) != 0) {
+                                if (((i6 ^ (-1)) & i3) == 0) {
+                                    string = LocaleController.getString("FilterGroups", R.string.FilterGroups);
                                 }
-                                string = str;
+                                string = "";
                             } else {
-                                int i8 = MessagesController.DIALOG_FILTER_FLAG_CHANNELS;
-                                if ((i3 & i8) != 0 && ((i8 ^ (-1)) & i3) == 0) {
-                                    string = LocaleController.getString("FilterChannels", R.string.FilterChannels);
+                                int i7 = MessagesController.DIALOG_FILTER_FLAG_BOTS;
+                                if ((i3 & i7) != 0) {
+                                    if (((i7 ^ (-1)) & i3) == 0) {
+                                        string = LocaleController.getString("FilterBots", R.string.FilterBots);
+                                    }
+                                    string = "";
+                                } else {
+                                    int i8 = MessagesController.DIALOG_FILTER_FLAG_CHANNELS;
+                                    if ((i3 & i8) != 0 && ((i8 ^ (-1)) & i3) == 0) {
+                                        string = LocaleController.getString("FilterChannels", R.string.FilterChannels);
+                                    }
+                                    string = "";
                                 }
-                                string = str;
                             }
                         }
                     }
                 }
+                if (string == null || string.length() <= 12) {
+                    str = string;
+                }
+                this.newFilterName = str;
+                RecyclerView.ViewHolder findViewHolderForAdapterPosition = this.listView.findViewHolderForAdapterPosition(this.nameRow);
+                if (findViewHolderForAdapterPosition != null) {
+                    this.adapter.onViewAttachedToWindow(findViewHolderForAdapterPosition);
+                }
             }
-            if (string == null || string.length() <= 12) {
-                str = string;
-            }
-            this.newFilterName = str;
-            RecyclerView.ViewHolder findViewHolderForAdapterPosition = this.listView.findViewHolderForAdapterPosition(this.nameRow);
-            if (findViewHolderForAdapterPosition == null) {
-                return;
-            }
-            this.adapter.onViewAttachedToWindow(findViewHolderForAdapterPosition);
         }
     }
 
@@ -966,22 +944,13 @@ public class FilterCreateActivity extends BaseFragment {
             return;
         }
         this.doneItem.setEnabled(z3);
-        float f = 1.0f;
         if (z) {
-            ViewPropertyAnimator scaleX = this.doneItem.animate().alpha(z3 ? 1.0f : 0.0f).scaleX(z3 ? 1.0f : 0.0f);
-            if (!z3) {
-                f = 0.0f;
-            }
-            scaleX.scaleY(f).setDuration(180L).start();
+            this.doneItem.animate().alpha(z3 ? 1.0f : 0.0f).scaleX(z3 ? 1.0f : 0.0f).scaleY(z3 ? 1.0f : 0.0f).setDuration(180L).start();
             return;
         }
         this.doneItem.setAlpha(z3 ? 1.0f : 0.0f);
         this.doneItem.setScaleX(z3 ? 1.0f : 0.0f);
-        ActionBarMenuItem actionBarMenuItem = this.doneItem;
-        if (!z3) {
-            f = 0.0f;
-        }
-        actionBarMenuItem.setScaleY(f);
+        this.doneItem.setScaleY(z3 ? 1.0f : 0.0f);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1114,31 +1083,31 @@ public class FilterCreateActivity extends BaseFragment {
         public void onViewDetachedFromWindow(RecyclerView.ViewHolder viewHolder) {
             if (viewHolder.getItemViewType() == 2) {
                 EditTextBoldCursor textView = ((PollEditTextCell) viewHolder.itemView).getTextView();
-                if (!textView.isFocused()) {
-                    return;
+                if (textView.isFocused()) {
+                    textView.clearFocus();
+                    AndroidUtilities.hideKeyboard(textView);
                 }
-                textView.clearFocus();
-                AndroidUtilities.hideKeyboard(textView);
             }
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:115:0x01bd, code lost:
-            if (r12 == (r10.this$0.excludeEndRow - 1)) goto L68;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:67:0x0184, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:57:0x0184, code lost:
             if (r12 == (r10.this$0.includeEndRow - 1)) goto L68;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:68:0x0187, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:59:0x0187, code lost:
             r3 = false;
          */
+        /* JADX WARN: Code restructure failed: missing block: B:68:0x01bd, code lost:
+            if (r12 == (r10.this$0.excludeEndRow - 1)) goto L68;
+         */
         /* JADX WARN: Removed duplicated region for block: B:72:0x01ca  */
-        /* JADX WARN: Removed duplicated region for block: B:85:0x0201  */
+        /* JADX WARN: Removed duplicated region for block: B:83:0x0201  */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
             String string;
+            boolean z;
             String str;
             Long l;
             String string2;
@@ -1147,16 +1116,15 @@ public class FilterCreateActivity extends BaseFragment {
             if (itemViewType == 0) {
                 HeaderCell headerCell = (HeaderCell) viewHolder.itemView;
                 if (i != FilterCreateActivity.this.includeHeaderRow) {
-                    if (i != FilterCreateActivity.this.excludeHeaderRow) {
+                    if (i == FilterCreateActivity.this.excludeHeaderRow) {
+                        headerCell.setText(LocaleController.getString("FilterExclude", R.string.FilterExclude));
                         return;
                     }
-                    headerCell.setText(LocaleController.getString("FilterExclude", R.string.FilterExclude));
                     return;
                 }
                 headerCell.setText(LocaleController.getString("FilterInclude", R.string.FilterInclude));
                 return;
             }
-            boolean z = false;
             boolean z2 = true;
             if (itemViewType != 1) {
                 if (itemViewType == 3) {
@@ -1192,25 +1160,15 @@ public class FilterCreateActivity extends BaseFragment {
                         if (i != FilterCreateActivity.this.includeShowMoreRow) {
                             if (i != FilterCreateActivity.this.excludeShowMoreRow) {
                                 if (i != FilterCreateActivity.this.includeAddRow) {
-                                    if (i != FilterCreateActivity.this.excludeAddRow) {
+                                    if (i == FilterCreateActivity.this.excludeAddRow) {
+                                        textCell.setColors("switchTrackChecked", "windowBackgroundWhiteBlueText4");
+                                        textCell.setTextAndIcon(LocaleController.getString("FilterRemoveChats", R.string.FilterRemoveChats), R.drawable.msg_chats_add, i + 1 != FilterCreateActivity.this.excludeSectionRow);
                                         return;
                                     }
-                                    textCell.setColors("switchTrackChecked", "windowBackgroundWhiteBlueText4");
-                                    String string4 = LocaleController.getString("FilterRemoveChats", R.string.FilterRemoveChats);
-                                    int i2 = R.drawable.msg_chats_add;
-                                    if (i + 1 != FilterCreateActivity.this.excludeSectionRow) {
-                                        z = true;
-                                    }
-                                    textCell.setTextAndIcon(string4, i2, z);
                                     return;
                                 }
                                 textCell.setColors("switchTrackChecked", "windowBackgroundWhiteBlueText4");
-                                String string5 = LocaleController.getString("FilterAddChats", R.string.FilterAddChats);
-                                int i3 = R.drawable.msg_chats_add;
-                                if (i + 1 != FilterCreateActivity.this.includeSectionRow) {
-                                    z = true;
-                                }
-                                textCell.setTextAndIcon(string5, i3, z);
+                                textCell.setTextAndIcon(LocaleController.getString("FilterAddChats", R.string.FilterAddChats), R.drawable.msg_chats_add, i + 1 != FilterCreateActivity.this.includeSectionRow);
                                 return;
                             }
                             textCell.setColors("switchTrackChecked", "windowBackgroundWhiteBlueText4");
@@ -1237,57 +1195,41 @@ public class FilterCreateActivity extends BaseFragment {
                                         if (i != FilterCreateActivity.this.excludeMutedRow) {
                                             if (i == FilterCreateActivity.this.excludeReadRow) {
                                                 string = LocaleController.getString("FilterRead", R.string.FilterRead);
-                                                if (i + 1 != FilterCreateActivity.this.excludeSectionRow) {
-                                                    z = true;
-                                                }
+                                                z = i + 1 != FilterCreateActivity.this.excludeSectionRow;
                                                 str = "read";
                                             } else {
                                                 string = LocaleController.getString("FilterArchived", R.string.FilterArchived);
-                                                if (i + 1 != FilterCreateActivity.this.excludeSectionRow) {
-                                                    z = true;
-                                                }
+                                                z = i + 1 != FilterCreateActivity.this.excludeSectionRow;
                                                 str = "archived";
                                             }
                                         } else {
                                             string = LocaleController.getString("FilterMuted", R.string.FilterMuted);
-                                            if (i + 1 != FilterCreateActivity.this.excludeSectionRow) {
-                                                z = true;
-                                            }
+                                            z = i + 1 != FilterCreateActivity.this.excludeSectionRow;
                                             str = "muted";
                                         }
                                     } else {
                                         string = LocaleController.getString("FilterBots", R.string.FilterBots);
-                                        if (i + 1 != FilterCreateActivity.this.includeSectionRow) {
-                                            z = true;
-                                        }
+                                        z = i + 1 != FilterCreateActivity.this.includeSectionRow;
                                         str = "bots";
                                     }
                                 } else {
                                     string = LocaleController.getString("FilterChannels", R.string.FilterChannels);
-                                    if (i + 1 != FilterCreateActivity.this.includeSectionRow) {
-                                        z = true;
-                                    }
+                                    z = i + 1 != FilterCreateActivity.this.includeSectionRow;
                                     str = "channels";
                                 }
                             } else {
                                 string = LocaleController.getString("FilterGroups", R.string.FilterGroups);
-                                if (i + 1 != FilterCreateActivity.this.includeSectionRow) {
-                                    z = true;
-                                }
+                                z = i + 1 != FilterCreateActivity.this.includeSectionRow;
                                 str = "groups";
                             }
                         } else {
                             string = LocaleController.getString("FilterNonContacts", R.string.FilterNonContacts);
-                            if (i + 1 != FilterCreateActivity.this.includeSectionRow) {
-                                z = true;
-                            }
+                            z = i + 1 != FilterCreateActivity.this.includeSectionRow;
                             str = "non_contacts";
                         }
                     } else {
                         string = LocaleController.getString("FilterContacts", R.string.FilterContacts);
-                        if (i + 1 != FilterCreateActivity.this.includeSectionRow) {
-                            z = true;
-                        }
+                        z = i + 1 != FilterCreateActivity.this.includeSectionRow;
                         str = "contacts";
                     }
                     userCell.setData(str, string, null, 0, z);
@@ -1299,38 +1241,38 @@ public class FilterCreateActivity extends BaseFragment {
                 boolean z3 = z2;
                 if (l.longValue() <= 0) {
                     TLRPC$User user = FilterCreateActivity.this.getMessagesController().getUser(l);
-                    if (user == null) {
+                    if (user != null) {
+                        if (user.bot) {
+                            string3 = LocaleController.getString("Bot", R.string.Bot);
+                        } else if (user.contact) {
+                            string3 = LocaleController.getString("FilterContact", R.string.FilterContact);
+                        } else {
+                            string3 = LocaleController.getString("FilterNonContact", R.string.FilterNonContact);
+                        }
+                        userCell.setData(user, null, string3, 0, z3);
                         return;
                     }
-                    if (user.bot) {
-                        string3 = LocaleController.getString("Bot", R.string.Bot);
-                    } else if (user.contact) {
-                        string3 = LocaleController.getString("FilterContact", R.string.FilterContact);
-                    } else {
-                        string3 = LocaleController.getString("FilterNonContact", R.string.FilterNonContact);
-                    }
-                    userCell.setData(user, null, string3, 0, z3);
                     return;
                 }
                 TLRPC$Chat chat = FilterCreateActivity.this.getMessagesController().getChat(Long.valueOf(-l.longValue()));
-                if (chat == null) {
+                if (chat != null) {
+                    int i2 = chat.participants_count;
+                    if (i2 != 0) {
+                        string2 = LocaleController.formatPluralString("Members", i2, new Object[0]);
+                    } else if (!ChatObject.isPublic(chat)) {
+                        if (ChatObject.isChannel(chat) && !chat.megagroup) {
+                            string2 = LocaleController.getString("ChannelPrivate", R.string.ChannelPrivate);
+                        } else {
+                            string2 = LocaleController.getString("MegaPrivate", R.string.MegaPrivate);
+                        }
+                    } else if (ChatObject.isChannel(chat) && !chat.megagroup) {
+                        string2 = LocaleController.getString("ChannelPublic", R.string.ChannelPublic);
+                    } else {
+                        string2 = LocaleController.getString("MegaPublic", R.string.MegaPublic);
+                    }
+                    userCell.setData(chat, null, string2, 0, z3);
                     return;
                 }
-                int i4 = chat.participants_count;
-                if (i4 != 0) {
-                    string2 = LocaleController.formatPluralString("Members", i4, new Object[0]);
-                } else if (!ChatObject.isPublic(chat)) {
-                    if (ChatObject.isChannel(chat) && !chat.megagroup) {
-                        string2 = LocaleController.getString("ChannelPrivate", R.string.ChannelPrivate);
-                    } else {
-                        string2 = LocaleController.getString("MegaPrivate", R.string.MegaPrivate);
-                    }
-                } else if (ChatObject.isChannel(chat) && !chat.megagroup) {
-                    string2 = LocaleController.getString("ChannelPublic", R.string.ChannelPublic);
-                } else {
-                    string2 = LocaleController.getString("MegaPublic", R.string.MegaPublic);
-                }
-                userCell.setData(chat, null, string2, 0, z3);
                 return;
             }
             l = (Long) FilterCreateActivity.this.newAlwaysShow.get(i - FilterCreateActivity.this.includeStartRow);
@@ -1346,22 +1288,22 @@ public class FilterCreateActivity extends BaseFragment {
             if (i == FilterCreateActivity.this.includeHeaderRow || i == FilterCreateActivity.this.excludeHeaderRow) {
                 return 0;
             }
-            if (i >= FilterCreateActivity.this.includeStartRow && i < FilterCreateActivity.this.includeEndRow) {
-                return 1;
+            if (i < FilterCreateActivity.this.includeStartRow || i >= FilterCreateActivity.this.includeEndRow) {
+                if ((i >= FilterCreateActivity.this.excludeStartRow && i < FilterCreateActivity.this.excludeEndRow) || i == FilterCreateActivity.this.includeContactsRow || i == FilterCreateActivity.this.includeNonContactsRow || i == FilterCreateActivity.this.includeGroupsRow || i == FilterCreateActivity.this.includeChannelsRow || i == FilterCreateActivity.this.includeBotsRow || i == FilterCreateActivity.this.excludeReadRow || i == FilterCreateActivity.this.excludeArchivedRow || i == FilterCreateActivity.this.excludeMutedRow) {
+                    return 1;
+                }
+                if (i == FilterCreateActivity.this.nameRow) {
+                    return 2;
+                }
+                if (i == FilterCreateActivity.this.nameSectionRow || i == FilterCreateActivity.this.namePreSectionRow || i == FilterCreateActivity.this.removeSectionRow) {
+                    return 3;
+                }
+                if (i == FilterCreateActivity.this.imageRow) {
+                    return 5;
+                }
+                return (i == FilterCreateActivity.this.includeSectionRow || i == FilterCreateActivity.this.excludeSectionRow) ? 6 : 4;
             }
-            if ((i >= FilterCreateActivity.this.excludeStartRow && i < FilterCreateActivity.this.excludeEndRow) || i == FilterCreateActivity.this.includeContactsRow || i == FilterCreateActivity.this.includeNonContactsRow || i == FilterCreateActivity.this.includeGroupsRow || i == FilterCreateActivity.this.includeChannelsRow || i == FilterCreateActivity.this.includeBotsRow || i == FilterCreateActivity.this.excludeReadRow || i == FilterCreateActivity.this.excludeArchivedRow || i == FilterCreateActivity.this.excludeMutedRow) {
-                return 1;
-            }
-            if (i == FilterCreateActivity.this.nameRow) {
-                return 2;
-            }
-            if (i == FilterCreateActivity.this.nameSectionRow || i == FilterCreateActivity.this.namePreSectionRow || i == FilterCreateActivity.this.removeSectionRow) {
-                return 3;
-            }
-            if (i == FilterCreateActivity.this.imageRow) {
-                return 5;
-            }
-            return (i == FilterCreateActivity.this.includeSectionRow || i == FilterCreateActivity.this.excludeSectionRow) ? 6 : 4;
+            return 1;
         }
     }
 

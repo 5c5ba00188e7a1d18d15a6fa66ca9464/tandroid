@@ -130,7 +130,7 @@ public final class Id3Decoder implements MetadataDecoder {
     /* JADX WARN: Code restructure failed: missing block: B:31:0x0076, code lost:
         if ((r10 & 1) != 0) goto L33;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:54:0x0086, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:40:0x0086, code lost:
         if ((r10 & org.telegram.tgnet.ConnectionsManager.RequestFlagNeedQuickAck) != 0) goto L33;
      */
     /*
@@ -192,7 +192,7 @@ public final class Id3Decoder implements MetadataDecoder {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:127:0x0190, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:131:0x0190, code lost:
         if (r13 == 67) goto L98;
      */
     /*
@@ -555,15 +555,14 @@ public final class Id3Decoder implements MetadataDecoder {
         int i2 = position;
         while (true) {
             int i3 = i2 + 1;
-            if (i3 < position + i) {
-                if ((bArr[i2] & 255) == 255 && bArr[i3] == 0) {
-                    System.arraycopy(bArr, i2 + 2, bArr, i3, (i - (i2 - position)) - 2);
-                    i--;
-                }
-                i2 = i3;
-            } else {
+            if (i3 >= position + i) {
                 return i;
             }
+            if ((bArr[i2] & 255) == 255 && bArr[i3] == 0) {
+                System.arraycopy(bArr, i2 + 2, bArr, i3, (i - (i2 - position)) - 2);
+                i--;
+            }
+            i2 = i3;
         }
     }
 

@@ -417,24 +417,23 @@ public class ContentPreviewViewer {
                 ContentPreviewViewer contentPreviewViewer2 = ContentPreviewViewer.this;
                 contentPreviewViewer2.popupWindow.showAtLocation(contentPreviewViewer2.containerView, 0, (int) ((ContentPreviewViewer.this.containerView.getMeasuredWidth() - actionBarPopupWindowLayout2.getMeasuredWidth()) / 2.0f), (int) (((int) (f + Math.max(i11 + dp, ((ContentPreviewViewer.this.containerView.getHeight() - i2) - ContentPreviewViewer.this.keyboardHeight) / 2) + i3)) + (AndroidUtilities.dp(24.0f) - ContentPreviewViewer.this.moveY)));
                 ContentPreviewViewer.this.containerView.performHapticFeedback(0);
-                if (ContentPreviewViewer.this.moveY == 0.0f) {
-                    return;
-                }
-                if (ContentPreviewViewer.this.finalMoveY == 0.0f) {
-                    ContentPreviewViewer.this.finalMoveY = 0.0f;
-                    ContentPreviewViewer contentPreviewViewer3 = ContentPreviewViewer.this;
-                    contentPreviewViewer3.startMoveY = contentPreviewViewer3.moveY;
-                }
-                ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
-                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ContentPreviewViewer$1$$ExternalSyntheticLambda0
-                    @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                    public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                        ContentPreviewViewer.1.this.lambda$run$2(valueAnimator);
+                if (ContentPreviewViewer.this.moveY != 0.0f) {
+                    if (ContentPreviewViewer.this.finalMoveY == 0.0f) {
+                        ContentPreviewViewer.this.finalMoveY = 0.0f;
+                        ContentPreviewViewer contentPreviewViewer3 = ContentPreviewViewer.this;
+                        contentPreviewViewer3.startMoveY = contentPreviewViewer3.moveY;
                     }
-                });
-                ofFloat.setDuration(350L);
-                ofFloat.setInterpolator(CubicBezierInterpolator.DEFAULT);
-                ofFloat.start();
+                    ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
+                    ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ContentPreviewViewer$1$$ExternalSyntheticLambda0
+                        @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                        public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                            ContentPreviewViewer.1.this.lambda$run$2(valueAnimator);
+                        }
+                    });
+                    ofFloat.setDuration(350L);
+                    ofFloat.setInterpolator(CubicBezierInterpolator.DEFAULT);
+                    ofFloat.start();
+                }
             }
         }
 
@@ -482,10 +481,9 @@ public class ContentPreviewViewer {
                     ContentPreviewViewer.this.delegate.remove(ContentPreviewViewer.this.importingSticker);
                 }
                 ActionBarPopupWindow actionBarPopupWindow = ContentPreviewViewer.this.popupWindow;
-                if (actionBarPopupWindow == null) {
-                    return;
+                if (actionBarPopupWindow != null) {
+                    actionBarPopupWindow.dismiss();
                 }
-                actionBarPopupWindow.dismiss();
             }
         }
 
@@ -516,10 +514,9 @@ public class ContentPreviewViewer {
                 }, ContentPreviewViewer.this.resourcesProvider);
             }
             ActionBarPopupWindow actionBarPopupWindow = ContentPreviewViewer.this.popupWindow;
-            if (actionBarPopupWindow == null) {
-                return;
+            if (actionBarPopupWindow != null) {
+                actionBarPopupWindow.dismiss();
             }
-            actionBarPopupWindow.dismiss();
         }
 
         /* JADX WARN: Multi-variable type inference failed */
@@ -618,12 +615,12 @@ public class ContentPreviewViewer {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:58:0x0135  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x013f  */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x0164  */
-    /* JADX WARN: Removed duplicated region for block: B:68:0x0172  */
-    /* JADX WARN: Removed duplicated region for block: B:75:0x01a7  */
-    /* JADX WARN: Removed duplicated region for block: B:95:0x0145  */
+    /* JADX WARN: Removed duplicated region for block: B:221:0x0135  */
+    /* JADX WARN: Removed duplicated region for block: B:226:0x013f  */
+    /* JADX WARN: Removed duplicated region for block: B:227:0x0145  */
+    /* JADX WARN: Removed duplicated region for block: B:235:0x0164  */
+    /* JADX WARN: Removed duplicated region for block: B:238:0x0172  */
+    /* JADX WARN: Removed duplicated region for block: B:243:0x01a7  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1230,12 +1227,7 @@ public class ContentPreviewViewer {
     }
 
     private float rubberYPoisition(float f, float f2) {
-        float f3 = 1.0f;
-        float f4 = -((1.0f - (1.0f / (((Math.abs(f) * 0.55f) / f2) + 1.0f))) * f2);
-        if (f >= 0.0f) {
-            f3 = -1.0f;
-        }
-        return f4 * f3;
+        return (-((1.0f - (1.0f / (((Math.abs(f) * 0.55f) / f2) + 1.0f))) * f2)) * (f >= 0.0f ? -1.0f : 1.0f);
     }
 
     @SuppressLint({"DrawAllocation"})
@@ -1359,19 +1351,16 @@ public class ContentPreviewViewer {
         }
         canvas.restore();
         if (this.isVisible) {
-            if (this.showProgress == 1.0f) {
-                return;
+            if (this.showProgress != 1.0f) {
+                long currentTimeMillis = System.currentTimeMillis();
+                this.lastUpdateTime = currentTimeMillis;
+                this.showProgress += ((float) (currentTimeMillis - this.lastUpdateTime)) / 120.0f;
+                this.containerView.invalidate();
+                if (this.showProgress > 1.0f) {
+                    this.showProgress = 1.0f;
+                }
             }
-            long currentTimeMillis = System.currentTimeMillis();
-            this.lastUpdateTime = currentTimeMillis;
-            this.showProgress += ((float) (currentTimeMillis - this.lastUpdateTime)) / 120.0f;
-            this.containerView.invalidate();
-            if (this.showProgress <= 1.0f) {
-                return;
-            }
-            this.showProgress = 1.0f;
-        } else if (this.showProgress == 0.0f) {
-        } else {
+        } else if (this.showProgress != 0.0f) {
             long currentTimeMillis2 = System.currentTimeMillis();
             this.lastUpdateTime = currentTimeMillis2;
             this.showProgress -= ((float) (currentTimeMillis2 - this.lastUpdateTime)) / 120.0f;
@@ -1379,31 +1368,29 @@ public class ContentPreviewViewer {
             if (this.showProgress < 0.0f) {
                 this.showProgress = 0.0f;
             }
-            if (this.showProgress != 0.0f) {
-                return;
-            }
-            this.centerImage.setImageBitmap((Drawable) null);
-            AndroidUtilities.unlockOrientation(this.parentActivity);
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ContentPreviewViewer$$ExternalSyntheticLambda5
-                @Override // java.lang.Runnable
-                public final void run() {
-                    ContentPreviewViewer.this.lambda$onDraw$6();
+            if (this.showProgress == 0.0f) {
+                this.centerImage.setImageBitmap((Drawable) null);
+                AndroidUtilities.unlockOrientation(this.parentActivity);
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ContentPreviewViewer$$ExternalSyntheticLambda5
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        ContentPreviewViewer.this.lambda$onDraw$6();
+                    }
+                });
+                Bitmap bitmap = this.blurrBitmap;
+                if (bitmap != null) {
+                    bitmap.recycle();
+                    this.blurrBitmap = null;
                 }
-            });
-            Bitmap bitmap = this.blurrBitmap;
-            if (bitmap != null) {
-                bitmap.recycle();
-                this.blurrBitmap = null;
-            }
-            AndroidUtilities.updateViewVisibilityAnimated(this.unlockPremiumView, false, 1.0f, false);
-            this.blurProgress = 0.0f;
-            try {
-                if (this.windowView.getParent() == null) {
-                    return;
+                AndroidUtilities.updateViewVisibilityAnimated(this.unlockPremiumView, false, 1.0f, false);
+                this.blurProgress = 0.0f;
+                try {
+                    if (this.windowView.getParent() != null) {
+                        ((WindowManager) this.parentActivity.getSystemService("window")).removeView(this.windowView);
+                    }
+                } catch (Exception e) {
+                    FileLog.e(e);
                 }
-                ((WindowManager) this.parentActivity.getSystemService("window")).removeView(this.windowView);
-            } catch (Exception e) {
-                FileLog.e(e);
             }
         }
     }

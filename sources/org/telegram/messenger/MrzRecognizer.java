@@ -58,10 +58,10 @@ public class MrzRecognizer {
         if (c == 'I') {
             return 1;
         }
-        if (c != 'B') {
-            return c - '0';
+        if (c == 'B') {
+            return 8;
         }
-        return 8;
+        return c - '0';
     }
 
     private static int parseGender(char c) {
@@ -86,10 +86,10 @@ public class MrzRecognizer {
                 }
             } catch (Exception unused) {
             }
-            if (!z && (recognizeBarcode = recognizeBarcode(bitmap)) != null) {
-                return recognizeBarcode;
+            if (z || (recognizeBarcode = recognizeBarcode(bitmap)) == null) {
+                return null;
             }
-            return null;
+            return recognizeBarcode;
         }
         return recognizeBarcode2;
     }
@@ -184,14 +184,14 @@ public class MrzRecognizer {
         return null;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:178:0x0252 A[SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:180:0x023d  */
-    /* JADX WARN: Removed duplicated region for block: B:184:0x0271 A[SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:32:0x01f4  */
-    /* JADX WARN: Removed duplicated region for block: B:37:0x022c  */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x0253  */
-    /* JADX WARN: Removed duplicated region for block: B:84:0x03c6  */
-    /* JADX WARN: Removed duplicated region for block: B:87:0x03f4  */
+    /* JADX WARN: Removed duplicated region for block: B:101:0x03f4  */
+    /* JADX WARN: Removed duplicated region for block: B:191:0x0252 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:192:0x0271 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x01f4  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x022c  */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x023d  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x0253  */
+    /* JADX WARN: Removed duplicated region for block: B:98:0x03c6  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

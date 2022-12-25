@@ -156,19 +156,18 @@ class EglBase14Impl implements EglBase14 {
     public void releaseSurface(boolean z) {
         if (z) {
             EGLSurface eGLSurface = this.eglSurfaceBackground;
-            if (eGLSurface == EGL14.EGL_NO_SURFACE) {
+            if (eGLSurface != EGL14.EGL_NO_SURFACE) {
+                EGL14.eglDestroySurface(this.eglDisplay, eGLSurface);
+                this.eglSurfaceBackground = EGL14.EGL_NO_SURFACE;
                 return;
             }
-            EGL14.eglDestroySurface(this.eglDisplay, eGLSurface);
-            this.eglSurfaceBackground = EGL14.EGL_NO_SURFACE;
             return;
         }
         EGLSurface eGLSurface2 = this.eglSurface;
-        if (eGLSurface2 == EGL14.EGL_NO_SURFACE) {
-            return;
+        if (eGLSurface2 != EGL14.EGL_NO_SURFACE) {
+            EGL14.eglDestroySurface(this.eglDisplay, eGLSurface2);
+            this.eglSurface = EGL14.EGL_NO_SURFACE;
         }
-        EGL14.eglDestroySurface(this.eglDisplay, eGLSurface2);
-        this.eglSurface = EGL14.EGL_NO_SURFACE;
     }
 
     private void checkIsNotReleased() {
@@ -285,10 +284,10 @@ class EglBase14Impl implements EglBase14 {
             throw new RuntimeException("Unable to find any matching EGL config");
         } else {
             EGLConfig eGLConfig = eGLConfigArr[0];
-            if (eGLConfig == null) {
-                throw new RuntimeException("eglChooseConfig returned null");
+            if (eGLConfig != null) {
+                return eGLConfig;
             }
-            return eGLConfig;
+            throw new RuntimeException("eglChooseConfig returned null");
         }
     }
 

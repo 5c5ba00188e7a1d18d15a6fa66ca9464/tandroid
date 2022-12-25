@@ -55,10 +55,10 @@ public final class DefaultOggSeeker implements OggSeeker {
                 }
                 this.state = 3;
             } else if (i != 3) {
-                if (i != 4) {
-                    throw new IllegalStateException();
+                if (i == 4) {
+                    return -1L;
                 }
-                return -1L;
+                throw new IllegalStateException();
             }
             skipToPageOfTargetGranule(extractorInput);
             this.state = 4;
@@ -94,10 +94,10 @@ public final class DefaultOggSeeker implements OggSeeker {
         long position = extractorInput.getPosition();
         if (!skipToNextPage(extractorInput, this.end)) {
             long j = this.start;
-            if (j == position) {
-                throw new IOException("No ogg page can be found.");
+            if (j != position) {
+                return j;
             }
-            return j;
+            throw new IOException("No ogg page can be found.");
         }
         this.pageHeader.populate(extractorInput, false);
         extractorInput.resetPeekPosition();
@@ -106,26 +106,26 @@ public final class DefaultOggSeeker implements OggSeeker {
         long j3 = oggPageHeader.granulePosition;
         long j4 = j2 - j3;
         int i = oggPageHeader.headerSize + oggPageHeader.bodySize;
-        if (0 <= j4 && j4 < 72000) {
-            return -1L;
+        if (0 > j4 || j4 >= 72000) {
+            if (j4 < 0) {
+                this.end = position;
+                this.endGranule = j3;
+            } else {
+                this.start = extractorInput.getPosition() + i;
+                this.startGranule = this.pageHeader.granulePosition;
+            }
+            long j5 = this.end;
+            long j6 = this.start;
+            if (j5 - j6 < 100000) {
+                this.end = j6;
+                return j6;
+            }
+            long position2 = extractorInput.getPosition() - (i * (j4 <= 0 ? 2L : 1L));
+            long j7 = this.end;
+            long j8 = this.start;
+            return Util.constrainValue(position2 + ((j4 * (j7 - j8)) / (this.endGranule - this.startGranule)), j8, j7 - 1);
         }
-        if (j4 < 0) {
-            this.end = position;
-            this.endGranule = j3;
-        } else {
-            this.start = extractorInput.getPosition() + i;
-            this.startGranule = this.pageHeader.granulePosition;
-        }
-        long j5 = this.end;
-        long j6 = this.start;
-        if (j5 - j6 < 100000) {
-            this.end = j6;
-            return j6;
-        }
-        long position2 = extractorInput.getPosition() - (i * (j4 <= 0 ? 2L : 1L));
-        long j7 = this.end;
-        long j8 = this.start;
-        return Util.constrainValue(position2 + ((j4 * (j7 - j8)) / (this.endGranule - this.startGranule)), j8, j7 - 1);
+        return -1L;
     }
 
     private void skipToPageOfTargetGranule(ExtractorInput extractorInput) throws IOException, InterruptedException {
@@ -146,10 +146,9 @@ public final class DefaultOggSeeker implements OggSeeker {
     }
 
     void skipToNextPage(ExtractorInput extractorInput) throws IOException, InterruptedException {
-        if (skipToNextPage(extractorInput, this.payloadEndPosition)) {
-            return;
+        if (!skipToNextPage(extractorInput, this.payloadEndPosition)) {
+            throw new EOFException();
         }
-        throw new EOFException();
     }
 
     private boolean skipToNextPage(ExtractorInput extractorInput, long j) throws IOException, InterruptedException {

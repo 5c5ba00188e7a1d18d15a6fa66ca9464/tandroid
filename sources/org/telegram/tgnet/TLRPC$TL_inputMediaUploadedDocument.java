@@ -47,10 +47,9 @@ public class TLRPC$TL_inputMediaUploadedDocument extends TLRPC$InputMedia {
                 this.stickers.add(TLdeserialize2);
             }
         }
-        if ((this.flags & 2) == 0) {
-            return;
+        if ((this.flags & 2) != 0) {
+            this.ttl_seconds = abstractSerializedData.readInt32(z);
         }
-        this.ttl_seconds = abstractSerializedData.readInt32(z);
     }
 
     @Override // org.telegram.tgnet.TLObject

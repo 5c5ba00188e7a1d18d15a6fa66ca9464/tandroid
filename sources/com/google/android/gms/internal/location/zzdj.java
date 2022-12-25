@@ -5,12 +5,13 @@ import java.util.Locale;
 /* compiled from: com.google.android.gms:play-services-location@@21.0.1 */
 /* loaded from: classes.dex */
 public final class zzdj {
-    private static final StringBuilder zzc = new StringBuilder(33);
+    private static final StringBuilder zzc;
 
     static {
         Locale locale = Locale.ROOT;
         new SimpleDateFormat("MM-dd HH:mm:ss.SSS", locale);
         new SimpleDateFormat("MM-dd HH:mm:ss", locale);
+        zzc = new StringBuilder(33);
     }
 
     public static String zza(long j) {
@@ -63,10 +64,9 @@ public final class zzdj {
             sb.append("s");
             j %= 1000;
         }
-        if (j <= 0) {
-            return;
+        if (j > 0) {
+            sb.append(j);
+            sb.append("ms");
         }
-        sb.append(j);
-        sb.append("ms");
     }
 }

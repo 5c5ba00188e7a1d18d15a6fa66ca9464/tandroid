@@ -8,12 +8,12 @@ public abstract class TLRPC$EmojiKeyword extends TLObject {
         } else {
             tLRPC$TL_emojiKeyword = new TLRPC$TL_emojiKeyword();
         }
-        if (tLRPC$TL_emojiKeyword != null || !z) {
-            if (tLRPC$TL_emojiKeyword != null) {
-                tLRPC$TL_emojiKeyword.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_emojiKeyword;
+        if (tLRPC$TL_emojiKeyword == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in EmojiKeyword", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in EmojiKeyword", Integer.valueOf(i)));
+        if (tLRPC$TL_emojiKeyword != null) {
+            tLRPC$TL_emojiKeyword.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_emojiKeyword;
     }
 }

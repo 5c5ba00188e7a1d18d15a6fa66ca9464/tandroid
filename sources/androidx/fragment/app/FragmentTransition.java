@@ -45,19 +45,18 @@ public class FragmentTransition {
                 calculateFragments(backStackRecord, sparseArray, z);
             }
         }
-        if (sparseArray.size() == 0) {
-            return;
-        }
-        View view = new View(fragmentManagerImpl.mHost.getContext());
-        int size = sparseArray.size();
-        for (int i4 = 0; i4 < size; i4++) {
-            int keyAt = sparseArray.keyAt(i4);
-            ArrayMap<String, String> calculateNameOverrides = calculateNameOverrides(keyAt, arrayList, arrayList2, i, i2);
-            FragmentContainerTransition fragmentContainerTransition = (FragmentContainerTransition) sparseArray.valueAt(i4);
-            if (z) {
-                configureTransitionsReordered(fragmentManagerImpl, keyAt, fragmentContainerTransition, view, calculateNameOverrides);
-            } else {
-                configureTransitionsOrdered(fragmentManagerImpl, keyAt, fragmentContainerTransition, view, calculateNameOverrides);
+        if (sparseArray.size() != 0) {
+            View view = new View(fragmentManagerImpl.mHost.getContext());
+            int size = sparseArray.size();
+            for (int i4 = 0; i4 < size; i4++) {
+                int keyAt = sparseArray.keyAt(i4);
+                ArrayMap<String, String> calculateNameOverrides = calculateNameOverrides(keyAt, arrayList, arrayList2, i, i2);
+                FragmentContainerTransition fragmentContainerTransition = (FragmentContainerTransition) sparseArray.valueAt(i4);
+                if (z) {
+                    configureTransitionsReordered(fragmentManagerImpl, keyAt, fragmentContainerTransition, view, calculateNameOverrides);
+                } else {
+                    configureTransitionsOrdered(fragmentManagerImpl, keyAt, fragmentContainerTransition, view, calculateNameOverrides);
+                }
             }
         }
     }
@@ -125,30 +124,28 @@ public class FragmentTransition {
         ArrayList<View> configureEnteringExitingViews2 = configureEnteringExitingViews(chooseImpl, enterTransition, fragment, arrayList, view);
         setViewVisibility(configureEnteringExitingViews2, 4);
         Object mergeTransitions = mergeTransitions(chooseImpl, enterTransition, obj, configureSharedElementsReordered, fragment, z);
-        if (mergeTransitions == null) {
-            return;
+        if (mergeTransitions != null) {
+            replaceHide(chooseImpl, obj, fragment2, configureEnteringExitingViews);
+            ArrayList<String> prepareSetNameOverridesReordered = chooseImpl.prepareSetNameOverridesReordered(arrayList);
+            chooseImpl.scheduleRemoveTargets(mergeTransitions, enterTransition, configureEnteringExitingViews2, obj, configureEnteringExitingViews, configureSharedElementsReordered, arrayList);
+            chooseImpl.beginDelayedTransition(viewGroup, mergeTransitions);
+            chooseImpl.setNameOverridesReordered(viewGroup, arrayList2, arrayList, prepareSetNameOverridesReordered, arrayMap);
+            setViewVisibility(configureEnteringExitingViews2, 0);
+            chooseImpl.swapSharedElementTargets(configureSharedElementsReordered, arrayList2, arrayList);
         }
-        replaceHide(chooseImpl, obj, fragment2, configureEnteringExitingViews);
-        ArrayList<String> prepareSetNameOverridesReordered = chooseImpl.prepareSetNameOverridesReordered(arrayList);
-        chooseImpl.scheduleRemoveTargets(mergeTransitions, enterTransition, configureEnteringExitingViews2, obj, configureEnteringExitingViews, configureSharedElementsReordered, arrayList);
-        chooseImpl.beginDelayedTransition(viewGroup, mergeTransitions);
-        chooseImpl.setNameOverridesReordered(viewGroup, arrayList2, arrayList, prepareSetNameOverridesReordered, arrayMap);
-        setViewVisibility(configureEnteringExitingViews2, 0);
-        chooseImpl.swapSharedElementTargets(configureSharedElementsReordered, arrayList2, arrayList);
     }
 
     private static void replaceHide(FragmentTransitionImpl fragmentTransitionImpl, Object obj, Fragment fragment, final ArrayList<View> arrayList) {
-        if (fragment == null || obj == null || !fragment.mAdded || !fragment.mHidden || !fragment.mHiddenChanged) {
-            return;
+        if (fragment != null && obj != null && fragment.mAdded && fragment.mHidden && fragment.mHiddenChanged) {
+            fragment.setHideReplaced(true);
+            fragmentTransitionImpl.scheduleHideFragmentView(obj, fragment.getView(), arrayList);
+            OneShotPreDrawListener.add(fragment.mContainer, new Runnable() { // from class: androidx.fragment.app.FragmentTransition.1
+                @Override // java.lang.Runnable
+                public void run() {
+                    FragmentTransition.setViewVisibility(arrayList, 4);
+                }
+            });
         }
-        fragment.setHideReplaced(true);
-        fragmentTransitionImpl.scheduleHideFragmentView(obj, fragment.getView(), arrayList);
-        OneShotPreDrawListener.add(fragment.mContainer, new Runnable() { // from class: androidx.fragment.app.FragmentTransition.1
-            @Override // java.lang.Runnable
-            public void run() {
-                FragmentTransition.setViewVisibility(arrayList, 4);
-            }
-        });
     }
 
     private static void configureTransitionsOrdered(FragmentManagerImpl fragmentManagerImpl, int i, FragmentContainerTransition fragmentContainerTransition, View view, ArrayMap<String, String> arrayMap) {
@@ -179,15 +176,14 @@ public class FragmentTransition {
         Object obj2 = (configureEnteringExitingViews == null || configureEnteringExitingViews.isEmpty()) ? null : obj;
         chooseImpl.addTarget(enterTransition, view);
         Object mergeTransitions = mergeTransitions(chooseImpl, enterTransition, obj2, configureSharedElementsOrdered, fragment, fragmentContainerTransition.lastInIsPop);
-        if (mergeTransitions == null) {
-            return;
+        if (mergeTransitions != null) {
+            ArrayList<View> arrayList3 = new ArrayList<>();
+            chooseImpl.scheduleRemoveTargets(mergeTransitions, enterTransition, arrayList3, obj2, configureEnteringExitingViews, configureSharedElementsOrdered, arrayList2);
+            scheduleTargetChange(chooseImpl, viewGroup, fragment, view, arrayList2, enterTransition, arrayList3, obj2, configureEnteringExitingViews);
+            chooseImpl.setNameOverridesOrdered(viewGroup, arrayList2, arrayMap);
+            chooseImpl.beginDelayedTransition(viewGroup, mergeTransitions);
+            chooseImpl.scheduleNameReset(viewGroup, arrayList2, arrayMap);
         }
-        ArrayList<View> arrayList3 = new ArrayList<>();
-        chooseImpl.scheduleRemoveTargets(mergeTransitions, enterTransition, arrayList3, obj2, configureEnteringExitingViews, configureSharedElementsOrdered, arrayList2);
-        scheduleTargetChange(chooseImpl, viewGroup, fragment, view, arrayList2, enterTransition, arrayList3, obj2, configureEnteringExitingViews);
-        chooseImpl.setNameOverridesOrdered(viewGroup, arrayList2, arrayMap);
-        chooseImpl.beginDelayedTransition(viewGroup, mergeTransitions);
-        chooseImpl.scheduleNameReset(viewGroup, arrayList2, arrayMap);
     }
 
     private static void scheduleTargetChange(final FragmentTransitionImpl fragmentTransitionImpl, ViewGroup viewGroup, final Fragment fragment, final View view, final ArrayList<View> arrayList, final Object obj, final ArrayList<View> arrayList2, final Object obj2, final ArrayList<View> arrayList3) {
@@ -246,17 +242,17 @@ public class FragmentTransition {
             return null;
         }
         FragmentTransitionImpl fragmentTransitionImpl = PLATFORM_IMPL;
-        if (fragmentTransitionImpl != null && canHandleAll(fragmentTransitionImpl, arrayList)) {
-            return fragmentTransitionImpl;
-        }
-        FragmentTransitionImpl fragmentTransitionImpl2 = SUPPORT_IMPL;
-        if (fragmentTransitionImpl2 != null && canHandleAll(fragmentTransitionImpl2, arrayList)) {
+        if (fragmentTransitionImpl == null || !canHandleAll(fragmentTransitionImpl, arrayList)) {
+            FragmentTransitionImpl fragmentTransitionImpl2 = SUPPORT_IMPL;
+            if (fragmentTransitionImpl2 == null || !canHandleAll(fragmentTransitionImpl2, arrayList)) {
+                if (fragmentTransitionImpl == null && fragmentTransitionImpl2 == null) {
+                    return null;
+                }
+                throw new IllegalArgumentException("Invalid Transition types");
+            }
             return fragmentTransitionImpl2;
         }
-        if (fragmentTransitionImpl != null || fragmentTransitionImpl2 != null) {
-            throw new IllegalArgumentException("Invalid Transition types");
-        }
-        return null;
+        return fragmentTransitionImpl;
     }
 
     private static boolean canHandleAll(FragmentTransitionImpl fragmentTransitionImpl, List<Object> list) {
@@ -432,10 +428,9 @@ public class FragmentTransition {
                 if (obj5 != null) {
                     FragmentTransitionImpl.this.swapSharedElementTargets(obj5, arrayList, arrayList2);
                     View inEpicenterView = FragmentTransition.getInEpicenterView(captureInSharedElements, fragmentContainerTransition, obj, z);
-                    if (inEpicenterView == null) {
-                        return;
+                    if (inEpicenterView != null) {
+                        FragmentTransitionImpl.this.getBoundsOnScreen(inEpicenterView, rect2);
                     }
-                    FragmentTransitionImpl.this.getBoundsOnScreen(inEpicenterView, rect2);
                 }
             }
         });
@@ -518,10 +513,9 @@ public class FragmentTransition {
         }
         View view = arrayMap.get(str);
         fragmentTransitionImpl.setEpicenter(obj, view);
-        if (obj2 == null) {
-            return;
+        if (obj2 != null) {
+            fragmentTransitionImpl.setEpicenter(obj2, view);
         }
-        fragmentTransitionImpl.setEpicenter(obj2, view);
     }
 
     private static void retainValues(ArrayMap<String, String> arrayMap, ArrayMap<String, View> arrayMap2) {
@@ -592,31 +586,30 @@ public class FragmentTransition {
     }
 
     public static void calculatePopFragments(BackStackRecord backStackRecord, SparseArray<FragmentContainerTransition> sparseArray, boolean z) {
-        if (!backStackRecord.mManager.mContainer.onHasView()) {
-            return;
-        }
-        for (int size = backStackRecord.mOps.size() - 1; size >= 0; size--) {
-            addToFirstInLastOut(backStackRecord, backStackRecord.mOps.get(size), sparseArray, true, z);
+        if (backStackRecord.mManager.mContainer.onHasView()) {
+            for (int size = backStackRecord.mOps.size() - 1; size >= 0; size--) {
+                addToFirstInLastOut(backStackRecord, backStackRecord.mOps.get(size), sparseArray, true, z);
+            }
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:100:0x0092, code lost:
-        if (r10.mHidden == false) goto L64;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:63:0x0041, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:31:0x0041, code lost:
         if (r10.mAdded != false) goto L64;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:64:0x0094, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:56:0x0076, code lost:
         r1 = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:75:0x0076, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:69:0x0092, code lost:
+        if (r10.mHidden == false) goto L64;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:70:0x0094, code lost:
         r1 = true;
      */
-    /* JADX WARN: Removed duplicated region for block: B:26:0x00a2  */
-    /* JADX WARN: Removed duplicated region for block: B:29:0x00b0 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x00d5 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:47:0x00e7 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:56:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:102:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:75:0x00a2  */
+    /* JADX WARN: Removed duplicated region for block: B:78:0x00b0 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:91:0x00d5 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:96:0x00e7 A[ADDED_TO_REGION] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -649,7 +642,7 @@ public class FragmentTransition {
                     }
                     if (z5) {
                     }
-                    if (!z2) {
+                    if (z2) {
                     }
                 } else if (i2 != 5) {
                     if (i2 != 6) {
@@ -681,7 +674,7 @@ public class FragmentTransition {
                                 fragmentContainerTransition.firstOutIsPop = z;
                                 fragmentContainerTransition.firstOutTransaction = backStackRecord;
                             }
-                            if (!z2 || !z6 || fragmentContainerTransition == null || fragmentContainerTransition.lastIn != fragment) {
+                            if (z2 || !z6 || fragmentContainerTransition == null || fragmentContainerTransition.lastIn != fragment) {
                                 return;
                             }
                             fragmentContainerTransition.lastIn = null;
@@ -718,7 +711,7 @@ public class FragmentTransition {
                         fragmentContainerTransition.firstOutIsPop = z;
                         fragmentContainerTransition.firstOutTransaction = backStackRecord;
                     }
-                    if (!z2) {
+                    if (z2) {
                         return;
                     }
                     return;
@@ -736,7 +729,7 @@ public class FragmentTransition {
                     }
                     if (z5) {
                     }
-                    if (!z2) {
+                    if (z2) {
                     }
                 }
             }
@@ -753,7 +746,7 @@ public class FragmentTransition {
             }
             if (z5) {
             }
-            if (!z2) {
+            if (z2) {
             }
         }
         if (z2) {
@@ -770,7 +763,7 @@ public class FragmentTransition {
             }
             if (z5) {
             }
-            if (!z2) {
+            if (z2) {
             }
         } else {
             if (!fragment.mAdded) {
@@ -788,7 +781,7 @@ public class FragmentTransition {
             }
             if (z5) {
             }
-            if (!z2) {
+            if (z2) {
             }
         }
     }

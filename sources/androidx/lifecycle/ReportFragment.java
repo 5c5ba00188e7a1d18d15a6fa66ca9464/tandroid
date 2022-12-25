@@ -89,13 +89,11 @@ public class ReportFragment extends Fragment {
         Activity activity = getActivity();
         if (activity instanceof LifecycleRegistryOwner) {
             ((LifecycleRegistryOwner) activity).getLifecycle().handleLifecycleEvent(event);
-        } else if (!(activity instanceof LifecycleOwner)) {
-        } else {
+        } else if (activity instanceof LifecycleOwner) {
             Lifecycle lifecycle = ((LifecycleOwner) activity).getLifecycle();
-            if (!(lifecycle instanceof LifecycleRegistry)) {
-                return;
+            if (lifecycle instanceof LifecycleRegistry) {
+                ((LifecycleRegistry) lifecycle).handleLifecycleEvent(event);
             }
-            ((LifecycleRegistry) lifecycle).handleLifecycleEvent(event);
         }
     }
 }

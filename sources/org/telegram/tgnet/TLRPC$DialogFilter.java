@@ -33,12 +33,12 @@ public abstract class TLRPC$DialogFilter extends TLObject {
         } else {
             tLRPC$DialogFilter = i != 1949890536 ? null : new TLRPC$TL_dialogFilter();
         }
-        if (tLRPC$DialogFilter != null || !z) {
-            if (tLRPC$DialogFilter != null) {
-                tLRPC$DialogFilter.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$DialogFilter;
+        if (tLRPC$DialogFilter == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in DialogFilter", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in DialogFilter", Integer.valueOf(i)));
+        if (tLRPC$DialogFilter != null) {
+            tLRPC$DialogFilter.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$DialogFilter;
     }
 }

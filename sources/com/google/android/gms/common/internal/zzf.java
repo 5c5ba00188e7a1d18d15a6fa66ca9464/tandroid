@@ -42,18 +42,18 @@ public final class zzf extends zza {
                 return false;
             }
             IInterface createServiceInterface = this.zzf.createServiceInterface(this.zze);
-            if (createServiceInterface == null || (!BaseGmsClient.zzn(this.zzf, 2, 4, createServiceInterface) && !BaseGmsClient.zzn(this.zzf, 3, 4, createServiceInterface))) {
+            if (createServiceInterface == null || !(BaseGmsClient.zzn(this.zzf, 2, 4, createServiceInterface) || BaseGmsClient.zzn(this.zzf, 3, 4, createServiceInterface))) {
                 return false;
             }
             this.zzf.zzB = null;
             Bundle connectionHint = this.zzf.getConnectionHint();
             BaseGmsClient baseGmsClient = this.zzf;
             baseConnectionCallbacks = baseGmsClient.zzw;
-            if (baseConnectionCallbacks == null) {
+            if (baseConnectionCallbacks != null) {
+                baseConnectionCallbacks2 = baseGmsClient.zzw;
+                baseConnectionCallbacks2.onConnected(connectionHint);
                 return true;
             }
-            baseConnectionCallbacks2 = baseGmsClient.zzw;
-            baseConnectionCallbacks2.onConnected(connectionHint);
             return true;
         } catch (RemoteException unused) {
             Log.w("GmsClient", "service probably died");

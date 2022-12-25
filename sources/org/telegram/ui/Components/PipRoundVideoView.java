@@ -364,7 +364,6 @@ public class PipRoundVideoView implements NotificationCenter.NotificationCenterD
         FrameLayout frameLayout = this.windowView;
         Property property = View.ALPHA;
         float[] fArr = new float[1];
-        float f = 1.0f;
         fArr[0] = z ? 1.0f : 0.0f;
         animatorArr[0] = ObjectAnimator.ofFloat(frameLayout, property, fArr);
         FrameLayout frameLayout2 = this.windowView;
@@ -375,10 +374,7 @@ public class PipRoundVideoView implements NotificationCenter.NotificationCenterD
         FrameLayout frameLayout3 = this.windowView;
         Property property3 = View.SCALE_Y;
         float[] fArr3 = new float[1];
-        if (!z) {
-            f = 0.8f;
-        }
-        fArr3[0] = f;
+        fArr3[0] = z ? 1.0f : 0.8f;
         animatorArr[2] = ObjectAnimator.ofFloat(frameLayout3, property3, fArr3);
         animatorSet2.playTogether(animatorArr);
         this.hideShowAnimation.setDuration(150L);
@@ -408,7 +404,6 @@ public class PipRoundVideoView implements NotificationCenter.NotificationCenterD
         FrameLayout frameLayout = this.windowView;
         Property property = View.ALPHA;
         float[] fArr = new float[1];
-        float f = 1.0f;
         fArr[0] = z ? 1.0f : 0.0f;
         animatorArr[0] = ObjectAnimator.ofFloat(frameLayout, property, fArr);
         FrameLayout frameLayout2 = this.windowView;
@@ -419,10 +414,7 @@ public class PipRoundVideoView implements NotificationCenter.NotificationCenterD
         FrameLayout frameLayout3 = this.windowView;
         Property property3 = View.SCALE_Y;
         float[] fArr3 = new float[1];
-        if (!z) {
-            f = 0.8f;
-        }
-        fArr3[0] = f;
+        fArr3[0] = z ? 1.0f : 0.8f;
         animatorArr[2] = ObjectAnimator.ofFloat(frameLayout3, property3, fArr3);
         animatorSet2.playTogether(animatorArr);
         this.hideShowAnimation.setDuration(150L);
@@ -452,9 +444,9 @@ public class PipRoundVideoView implements NotificationCenter.NotificationCenterD
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x010e  */
-    /* JADX WARN: Removed duplicated region for block: B:35:0x0178  */
-    /* JADX WARN: Removed duplicated region for block: B:44:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x010e  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x0178  */
+    /* JADX WARN: Removed duplicated region for block: B:58:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -509,29 +501,29 @@ public class PipRoundVideoView implements NotificationCenter.NotificationCenterD
                             }
                             edit.commit();
                         }
-                        if (arrayList != null) {
+                        if (arrayList == null) {
+                            if (this.decelerateInterpolator == null) {
+                                this.decelerateInterpolator = new DecelerateInterpolator();
+                            }
+                            AnimatorSet animatorSet = new AnimatorSet();
+                            animatorSet.setInterpolator(this.decelerateInterpolator);
+                            animatorSet.setDuration(150L);
+                            if (z) {
+                                arrayList.add(ObjectAnimator.ofFloat(this.windowView, View.ALPHA, 0.0f));
+                                animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.PipRoundVideoView.7
+                                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                                    public void onAnimationEnd(Animator animator) {
+                                        PipRoundVideoView.this.close(false);
+                                        if (PipRoundVideoView.this.onCloseRunnable != null) {
+                                            PipRoundVideoView.this.onCloseRunnable.run();
+                                        }
+                                    }
+                                });
+                            }
+                            animatorSet.playTogether(arrayList);
+                            animatorSet.start();
                             return;
                         }
-                        if (this.decelerateInterpolator == null) {
-                            this.decelerateInterpolator = new DecelerateInterpolator();
-                        }
-                        AnimatorSet animatorSet = new AnimatorSet();
-                        animatorSet.setInterpolator(this.decelerateInterpolator);
-                        animatorSet.setDuration(150L);
-                        if (z) {
-                            arrayList.add(ObjectAnimator.ofFloat(this.windowView, View.ALPHA, 0.0f));
-                            animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.PipRoundVideoView.7
-                                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                                public void onAnimationEnd(Animator animator) {
-                                    PipRoundVideoView.this.close(false);
-                                    if (PipRoundVideoView.this.onCloseRunnable != null) {
-                                        PipRoundVideoView.this.onCloseRunnable.run();
-                                    }
-                                }
-                            });
-                        }
-                        animatorSet.playTogether(arrayList);
-                        animatorSet.start();
                         return;
                     }
                     edit.putFloat("px", (this.windowLayoutParams.x - sideCoord) / (sideCoord2 - sideCoord));
@@ -549,7 +541,7 @@ public class PipRoundVideoView implements NotificationCenter.NotificationCenterD
         z = false;
         if (!z) {
         }
-        if (arrayList != null) {
+        if (arrayList == null) {
         }
     }
 

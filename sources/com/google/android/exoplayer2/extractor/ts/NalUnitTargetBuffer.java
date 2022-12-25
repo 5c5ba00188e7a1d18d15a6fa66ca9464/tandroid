@@ -27,11 +27,8 @@ final class NalUnitTargetBuffer {
     }
 
     public void startNalUnit(int i) {
-        boolean z = true;
         Assertions.checkState(!this.isFilling);
-        if (i != this.targetType) {
-            z = false;
-        }
+        boolean z = i == this.targetType;
         this.isFilling = z;
         if (z) {
             this.nalLength = 3;
@@ -40,27 +37,26 @@ final class NalUnitTargetBuffer {
     }
 
     public void appendToNalUnit(byte[] bArr, int i, int i2) {
-        if (!this.isFilling) {
-            return;
+        if (this.isFilling) {
+            int i3 = i2 - i;
+            byte[] bArr2 = this.nalData;
+            int length = bArr2.length;
+            int i4 = this.nalLength;
+            if (length < i4 + i3) {
+                this.nalData = Arrays.copyOf(bArr2, (i4 + i3) * 2);
+            }
+            System.arraycopy(bArr, i, this.nalData, this.nalLength, i3);
+            this.nalLength += i3;
         }
-        int i3 = i2 - i;
-        byte[] bArr2 = this.nalData;
-        int length = bArr2.length;
-        int i4 = this.nalLength;
-        if (length < i4 + i3) {
-            this.nalData = Arrays.copyOf(bArr2, (i4 + i3) * 2);
-        }
-        System.arraycopy(bArr, i, this.nalData, this.nalLength, i3);
-        this.nalLength += i3;
     }
 
     public boolean endNalUnit(int i) {
-        if (!this.isFilling) {
-            return false;
+        if (this.isFilling) {
+            this.nalLength -= i;
+            this.isFilling = false;
+            this.isCompleted = true;
+            return true;
         }
-        this.nalLength -= i;
-        this.isFilling = false;
-        this.isCompleted = true;
-        return true;
+        return false;
     }
 }

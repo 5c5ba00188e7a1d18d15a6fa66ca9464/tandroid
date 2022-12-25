@@ -46,32 +46,31 @@ final class I4 extends J4 implements j$.util.u, Consumer {
         k4 k4Var = null;
         while (true) {
             int r = r();
-            if (r != 1) {
-                if (r == 2) {
-                    if (k4Var == null) {
-                        k4Var = new k4(ConnectionsManager.RequestFlagNeedQuickAck);
-                    } else {
-                        k4Var.a = 0;
-                    }
-                    long j = 0;
-                    while (this.a.b(k4Var)) {
-                        j++;
-                        if (j >= 128) {
-                            break;
-                        }
-                    }
-                    if (j == 0) {
-                        return;
-                    }
-                    long p = p(j);
-                    for (int i = 0; i < p; i++) {
-                        consumer.accept(k4Var.b[i]);
-                    }
+            if (r == 1) {
+                return;
+            }
+            if (r == 2) {
+                if (k4Var == null) {
+                    k4Var = new k4(ConnectionsManager.RequestFlagNeedQuickAck);
                 } else {
-                    this.a.forEachRemaining(consumer);
+                    k4Var.a = 0;
+                }
+                long j = 0;
+                while (this.a.b(k4Var)) {
+                    j++;
+                    if (j >= 128) {
+                        break;
+                    }
+                }
+                if (j == 0) {
                     return;
                 }
+                long p = p(j);
+                for (int i = 0; i < p; i++) {
+                    consumer.accept(k4Var.b[i]);
+                }
             } else {
+                this.a.forEachRemaining(consumer);
                 return;
             }
         }

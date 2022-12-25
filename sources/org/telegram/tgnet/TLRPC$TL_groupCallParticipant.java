@@ -53,7 +53,6 @@ public class TLRPC$TL_groupCallParticipant extends TLObject {
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
         int readInt32 = abstractSerializedData.readInt32(z);
         this.flags = readInt32;
-        boolean z2 = false;
         this.muted = (readInt32 & 1) != 0;
         this.left = (readInt32 & 2) != 0;
         this.can_self_unmute = (readInt32 & 4) != 0;
@@ -63,10 +62,7 @@ public class TLRPC$TL_groupCallParticipant extends TLObject {
         this.muted_by_you = (readInt32 & 512) != 0;
         this.volume_by_admin = (readInt32 & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0;
         this.self = (readInt32 & 4096) != 0;
-        if ((readInt32 & 32768) != 0) {
-            z2 = true;
-        }
-        this.video_joined = z2;
+        this.video_joined = (readInt32 & 32768) != 0;
         this.peer = TLRPC$Peer.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
         this.date = abstractSerializedData.readInt32(z);
         if ((this.flags & 8) != 0) {

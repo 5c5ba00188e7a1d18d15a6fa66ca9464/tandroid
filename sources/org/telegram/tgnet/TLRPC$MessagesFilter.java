@@ -107,12 +107,12 @@ public abstract class TLRPC$MessagesFilter extends TLObject {
                 tLRPC$TL_inputMessagesFilterPhoneCalls = null;
                 break;
         }
-        if (tLRPC$TL_inputMessagesFilterPhoneCalls != null || !z) {
-            if (tLRPC$TL_inputMessagesFilterPhoneCalls != null) {
-                tLRPC$TL_inputMessagesFilterPhoneCalls.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_inputMessagesFilterPhoneCalls;
+        if (tLRPC$TL_inputMessagesFilterPhoneCalls == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in MessagesFilter", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in MessagesFilter", Integer.valueOf(i)));
+        if (tLRPC$TL_inputMessagesFilterPhoneCalls != null) {
+            tLRPC$TL_inputMessagesFilterPhoneCalls.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_inputMessagesFilterPhoneCalls;
     }
 }

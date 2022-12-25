@@ -42,13 +42,10 @@ public final class FlacFrameReader {
 
     public static long getFirstSampleNumber(ExtractorInput extractorInput, FlacStreamMetadata flacStreamMetadata) throws IOException, InterruptedException {
         extractorInput.resetPeekPosition();
-        boolean z = true;
         extractorInput.advancePeekPosition(1);
         byte[] bArr = new byte[1];
         extractorInput.peekFully(bArr, 0, 1);
-        if ((bArr[0] & 1) != 1) {
-            z = false;
-        }
+        boolean z = (bArr[0] & 1) == 1;
         extractorInput.advancePeekPosition(2);
         int i = z ? 7 : 6;
         ParsableByteArray parsableByteArray = new ParsableByteArray(i);
@@ -123,14 +120,14 @@ public final class FlacFrameReader {
             return i == flacStreamMetadata.sampleRateLookupKey;
         } else if (i == 12) {
             return parsableByteArray.readUnsignedByte() * 1000 == i2;
-        } else if (i > 14) {
-            return false;
-        } else {
+        } else if (i <= 14) {
             int readUnsignedShort = parsableByteArray.readUnsignedShort();
             if (i == 14) {
                 readUnsignedShort *= 10;
             }
             return readUnsignedShort == i2;
+        } else {
+            return false;
         }
     }
 

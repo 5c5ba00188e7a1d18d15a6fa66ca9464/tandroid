@@ -32,10 +32,10 @@ public class I0 extends L0 {
 
     @Override // j$.util.stream.L0, j$.util.stream.IntStream
     public void U(j$.util.function.l lVar) {
-        if (!isParallel()) {
-            L0.L0(J0()).c(lVar);
-        } else {
+        if (isParallel()) {
             super.U(lVar);
+        } else {
+            L0.L0(J0()).c(lVar);
         }
     }
 

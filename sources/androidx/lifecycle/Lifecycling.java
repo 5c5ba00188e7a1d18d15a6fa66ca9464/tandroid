@@ -111,11 +111,11 @@ public class Lifecycling {
                     arrayList.addAll(sClassToAdapters.get(cls2));
                 }
             }
-            if (arrayList == null) {
-                return 1;
+            if (arrayList != null) {
+                sClassToAdapters.put(cls, arrayList);
+                return 2;
             }
-            sClassToAdapters.put(cls, arrayList);
-            return 2;
+            return 1;
         }
     }
 

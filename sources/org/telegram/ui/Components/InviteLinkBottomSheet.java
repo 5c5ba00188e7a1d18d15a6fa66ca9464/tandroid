@@ -70,6 +70,7 @@ import org.telegram.ui.ProfileActivity;
 /* loaded from: classes3.dex */
 public class InviteLinkBottomSheet extends BottomSheet {
     Adapter adapter;
+    private boolean canEdit;
     private long chatId;
     int creatorHeaderRow;
     int creatorRow;
@@ -87,9 +88,11 @@ public class InviteLinkBottomSheet extends BottomSheet {
     TLRPC$TL_chatInviteExported invite;
     InviteDelegate inviteDelegate;
     private boolean isChannel;
+    public boolean isNeedReopen;
     int joinedEndRow;
     int joinedHeaderRow;
     int joinedStartRow;
+    ArrayList<TLRPC$TL_chatInviteImporter> joinedUsers;
     int linkActionRow;
     int linkInfoRow;
     private RecyclerListView listView;
@@ -98,6 +101,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
     int requestedEndRow;
     int requestedHeaderRow;
     int requestedStartRow;
+    ArrayList<TLRPC$TL_chatInviteImporter> requestedUsers;
     int rowCount;
     private int scrollOffsetY;
     private View shadow;
@@ -107,10 +111,6 @@ public class InviteLinkBottomSheet extends BottomSheet {
     private boolean titleVisible;
     HashMap<Long, TLRPC$User> users;
     boolean usersLoading;
-    ArrayList<TLRPC$TL_chatInviteImporter> joinedUsers = new ArrayList<>();
-    ArrayList<TLRPC$TL_chatInviteImporter> requestedUsers = new ArrayList<>();
-    private boolean canEdit = true;
-    public boolean isNeedReopen = false;
 
     /* loaded from: classes3.dex */
     public interface InviteDelegate {
@@ -130,6 +130,10 @@ public class InviteLinkBottomSheet extends BottomSheet {
 
     public InviteLinkBottomSheet(Context context, final TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported, TLRPC$ChatFull tLRPC$ChatFull, final HashMap<Long, TLRPC$User> hashMap, final BaseFragment baseFragment, long j, boolean z, boolean z2) {
         super(context, false);
+        this.joinedUsers = new ArrayList<>();
+        this.requestedUsers = new ArrayList<>();
+        this.canEdit = true;
+        this.isNeedReopen = false;
         this.invite = tLRPC$TL_chatInviteExported;
         this.users = hashMap;
         this.fragment = baseFragment;
@@ -187,9 +191,9 @@ public class InviteLinkBottomSheet extends BottomSheet {
                 super.requestLayout();
             }
 
-            /* JADX WARN: Removed duplicated region for block: B:13:0x009c  */
-            /* JADX WARN: Removed duplicated region for block: B:15:0x00ed  */
-            /* JADX WARN: Removed duplicated region for block: B:18:0x011c  */
+            /* JADX WARN: Removed duplicated region for block: B:17:0x009c  */
+            /* JADX WARN: Removed duplicated region for block: B:19:0x00ed  */
+            /* JADX WARN: Removed duplicated region for block: B:22:0x011c  */
             @Override // android.view.View
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
@@ -199,7 +203,6 @@ public class InviteLinkBottomSheet extends BottomSheet {
                 int i;
                 int dp = (InviteLinkBottomSheet.this.scrollOffsetY - ((BottomSheet) InviteLinkBottomSheet.this).backgroundPaddingTop) - AndroidUtilities.dp(8.0f);
                 int measuredHeight = getMeasuredHeight() + AndroidUtilities.dp(36.0f) + ((BottomSheet) InviteLinkBottomSheet.this).backgroundPaddingTop;
-                boolean z3 = false;
                 if (Build.VERSION.SDK_INT >= 21) {
                     int i2 = AndroidUtilities.statusBarHeight;
                     dp += i2;
@@ -230,10 +233,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
                                 Theme.dialogs_onlineCirclePaint.setColor(Theme.getColor("dialogBackground"));
                                 canvas.drawRect(((BottomSheet) InviteLinkBottomSheet.this).backgroundPaddingLeft, AndroidUtilities.statusBarHeight - i, getMeasuredWidth() - ((BottomSheet) InviteLinkBottomSheet.this).backgroundPaddingLeft, AndroidUtilities.statusBarHeight, Theme.dialogs_onlineCirclePaint);
                             }
-                            if (i > AndroidUtilities.statusBarHeight / 2) {
-                                z3 = true;
-                            }
-                            updateLightStatusBar(z3);
+                            updateLightStatusBar(i > AndroidUtilities.statusBarHeight / 2);
                         }
                         i = 0;
                         ((BottomSheet) InviteLinkBottomSheet.this).shadowDrawable.setBounds(0, dp, getMeasuredWidth(), measuredHeight);
@@ -242,9 +242,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
                         }
                         if (i > 0) {
                         }
-                        if (i > AndroidUtilities.statusBarHeight / 2) {
-                        }
-                        updateLightStatusBar(z3);
+                        updateLightStatusBar(i > AndroidUtilities.statusBarHeight / 2);
                     }
                 }
                 f = 1.0f;
@@ -255,25 +253,20 @@ public class InviteLinkBottomSheet extends BottomSheet {
                 }
                 if (i > 0) {
                 }
-                if (i > AndroidUtilities.statusBarHeight / 2) {
-                }
-                updateLightStatusBar(z3);
+                updateLightStatusBar(i > AndroidUtilities.statusBarHeight / 2);
             }
 
             private void updateLightStatusBar(boolean z3) {
                 Boolean bool = this.statusBarOpen;
                 if (bool == null || bool.booleanValue() != z3) {
-                    boolean z4 = true;
-                    boolean z5 = AndroidUtilities.computePerceivedBrightness(InviteLinkBottomSheet.this.getThemedColor("dialogBackground")) > 0.721f;
-                    if (AndroidUtilities.computePerceivedBrightness(Theme.blendOver(InviteLinkBottomSheet.this.getThemedColor("actionBarDefault"), AndroidUtilities.DARK_STATUS_BAR_OVERLAY)) <= 0.721f) {
-                        z4 = false;
-                    }
+                    boolean z4 = AndroidUtilities.computePerceivedBrightness(InviteLinkBottomSheet.this.getThemedColor("dialogBackground")) > 0.721f;
+                    boolean z5 = AndroidUtilities.computePerceivedBrightness(Theme.blendOver(InviteLinkBottomSheet.this.getThemedColor("actionBarDefault"), AndroidUtilities.DARK_STATUS_BAR_OVERLAY)) > 0.721f;
                     Boolean valueOf = Boolean.valueOf(z3);
                     this.statusBarOpen = valueOf;
                     if (!valueOf.booleanValue()) {
-                        z5 = z4;
+                        z4 = z5;
                     }
-                    AndroidUtilities.setLightStatusBar(InviteLinkBottomSheet.this.getWindow(), z5);
+                    AndroidUtilities.setLightStatusBar(InviteLinkBottomSheet.this.getWindow(), z4);
                 }
             }
         };
@@ -342,10 +335,9 @@ public class InviteLinkBottomSheet extends BottomSheet {
                 }
                 int findLastVisibleItemPosition = linearLayoutManager.findLastVisibleItemPosition();
                 InviteLinkBottomSheet inviteLinkBottomSheet2 = InviteLinkBottomSheet.this;
-                if (inviteLinkBottomSheet2.rowCount - findLastVisibleItemPosition >= 10) {
-                    return;
+                if (inviteLinkBottomSheet2.rowCount - findLastVisibleItemPosition < 10) {
+                    inviteLinkBottomSheet2.loadUsers();
                 }
-                inviteLinkBottomSheet2.loadUsers();
             }
         });
         this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet$$ExternalSyntheticLambda4
@@ -402,30 +394,26 @@ public class InviteLinkBottomSheet extends BottomSheet {
         boolean z = true;
         boolean z2 = i >= i2 && i < this.joinedEndRow;
         int i3 = this.requestedStartRow;
-        if (i < i3 || i >= this.requestedEndRow) {
-            z = false;
-        }
-        if ((i != this.creatorRow && !z2 && !z) || hashMap == null) {
-            return;
-        }
-        long j = tLRPC$TL_chatInviteExported.admin_id;
-        if (z2) {
-            j = this.joinedUsers.get(i - i2).user_id;
-        } else if (z) {
-            j = this.requestedUsers.get(i - i3).user_id;
-        }
-        final TLRPC$User tLRPC$User = (TLRPC$User) hashMap.get(Long.valueOf(j));
-        if (tLRPC$User == null) {
-            return;
-        }
-        MessagesController.getInstance(UserConfig.selectedAccount).putUser(tLRPC$User, false);
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet$$ExternalSyntheticLambda1
-            @Override // java.lang.Runnable
-            public final void run() {
-                InviteLinkBottomSheet.this.lambda$new$0(tLRPC$User, baseFragment);
+        z = (i < i3 || i >= this.requestedEndRow) ? false : false;
+        if ((i == this.creatorRow || z2 || z) && hashMap != null) {
+            long j = tLRPC$TL_chatInviteExported.admin_id;
+            if (z2) {
+                j = this.joinedUsers.get(i - i2).user_id;
+            } else if (z) {
+                j = this.requestedUsers.get(i - i3).user_id;
             }
-        }, 100L);
-        dismiss();
+            final TLRPC$User tLRPC$User = (TLRPC$User) hashMap.get(Long.valueOf(j));
+            if (tLRPC$User != null) {
+                MessagesController.getInstance(UserConfig.selectedAccount).putUser(tLRPC$User, false);
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet$$ExternalSyntheticLambda1
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        InviteLinkBottomSheet.this.lambda$new$0(tLRPC$User, baseFragment);
+                    }
+                }, 100L);
+                dismiss();
+            }
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -492,8 +480,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
                 CombinedDrawable combinedDrawable2 = new CombinedDrawable(new ColorDrawable(Theme.getColor("windowBackgroundGray")), Theme.getThemedDrawable(view.getContext(), R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"), 0, 0);
                 combinedDrawable2.setFullsize(true);
                 view.setBackgroundDrawable(combinedDrawable2);
-            } else if (childViewHolder.getItemViewType() != 2) {
-            } else {
+            } else if (childViewHolder.getItemViewType() == 2) {
                 CombinedDrawable combinedDrawable3 = new CombinedDrawable(new ColorDrawable(Theme.getColor("windowBackgroundGray")), Theme.getThemedDrawable(view.getContext(), R.drawable.greydivider, "windowBackgroundGrayShadow"), 0, 0);
                 combinedDrawable3.setFullsize(true);
                 view.setBackgroundDrawable(combinedDrawable3);
@@ -526,10 +513,10 @@ public class InviteLinkBottomSheet extends BottomSheet {
         });
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:20:0x007d  */
-    /* JADX WARN: Removed duplicated region for block: B:23:0x00a7  */
-    /* JADX WARN: Removed duplicated region for block: B:28:0x00e8  */
-    /* JADX WARN: Removed duplicated region for block: B:34:0x00c9  */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x007d  */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x00a7  */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x00c9  */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x00e8  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -661,34 +648,34 @@ public class InviteLinkBottomSheet extends BottomSheet {
             if (i == inviteLinkBottomSheet.creatorHeaderRow || i == inviteLinkBottomSheet.requestedHeaderRow || i == inviteLinkBottomSheet.joinedHeaderRow) {
                 return 0;
             }
-            if (i == inviteLinkBottomSheet.creatorRow) {
+            if (i != inviteLinkBottomSheet.creatorRow) {
+                if (i < inviteLinkBottomSheet.requestedStartRow || i >= inviteLinkBottomSheet.requestedEndRow) {
+                    if (i < inviteLinkBottomSheet.joinedStartRow || i >= inviteLinkBottomSheet.joinedEndRow) {
+                        if (i == inviteLinkBottomSheet.dividerRow || i == inviteLinkBottomSheet.divider2Row) {
+                            return 2;
+                        }
+                        if (i == inviteLinkBottomSheet.linkActionRow) {
+                            return 3;
+                        }
+                        if (i == inviteLinkBottomSheet.linkInfoRow) {
+                            return 4;
+                        }
+                        if (i == inviteLinkBottomSheet.loadingRow) {
+                            return 5;
+                        }
+                        if (i == inviteLinkBottomSheet.emptyView || i == inviteLinkBottomSheet.emptyView2 || i == inviteLinkBottomSheet.emptyView3) {
+                            return 6;
+                        }
+                        if (i == inviteLinkBottomSheet.divider3Row) {
+                            return 7;
+                        }
+                        return i == inviteLinkBottomSheet.emptyHintRow ? 8 : 0;
+                    }
+                    return 1;
+                }
                 return 1;
             }
-            if (i >= inviteLinkBottomSheet.requestedStartRow && i < inviteLinkBottomSheet.requestedEndRow) {
-                return 1;
-            }
-            if (i >= inviteLinkBottomSheet.joinedStartRow && i < inviteLinkBottomSheet.joinedEndRow) {
-                return 1;
-            }
-            if (i == inviteLinkBottomSheet.dividerRow || i == inviteLinkBottomSheet.divider2Row) {
-                return 2;
-            }
-            if (i == inviteLinkBottomSheet.linkActionRow) {
-                return 3;
-            }
-            if (i == inviteLinkBottomSheet.linkInfoRow) {
-                return 4;
-            }
-            if (i == inviteLinkBottomSheet.loadingRow) {
-                return 5;
-            }
-            if (i == inviteLinkBottomSheet.emptyView || i == inviteLinkBottomSheet.emptyView2 || i == inviteLinkBottomSheet.emptyView3) {
-                return 6;
-            }
-            if (i == inviteLinkBottomSheet.divider3Row) {
-                return 7;
-            }
-            return i == inviteLinkBottomSheet.emptyHintRow ? 8 : 0;
+            return 1;
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -809,10 +796,10 @@ public class InviteLinkBottomSheet extends BottomSheet {
                             tLRPC$ChatFull.exported_invite = (TLRPC$TL_chatInviteExported) tLRPC$TL_messages_exportedChatInviteReplaced.new_invite;
                         }
                         InviteDelegate inviteDelegate = inviteLinkBottomSheet.inviteDelegate;
-                        if (inviteDelegate == null) {
+                        if (inviteDelegate != null) {
+                            inviteDelegate.permanentLinkReplaced(inviteLinkBottomSheet.invite, tLRPC$ChatFull.exported_invite);
                             return;
                         }
-                        inviteDelegate.permanentLinkReplaced(inviteLinkBottomSheet.invite, tLRPC$ChatFull.exported_invite);
                         return;
                     }
                     InviteLinkBottomSheet inviteLinkBottomSheet2 = InviteLinkBottomSheet.this;
@@ -827,10 +814,9 @@ public class InviteLinkBottomSheet extends BottomSheet {
                     }
                     InviteLinkBottomSheet inviteLinkBottomSheet3 = InviteLinkBottomSheet.this;
                     InviteDelegate inviteDelegate2 = inviteLinkBottomSheet3.inviteDelegate;
-                    if (inviteDelegate2 == null) {
-                        return;
+                    if (inviteDelegate2 != null) {
+                        inviteDelegate2.linkRevoked(inviteLinkBottomSheet3.invite);
                     }
-                    inviteDelegate2.linkRevoked(inviteLinkBottomSheet3.invite);
                 }
             }
 
@@ -940,8 +926,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
                     } else {
                         headerCell.setText2(null);
                     }
-                } else if (i != inviteLinkBottomSheet.requestedHeaderRow) {
-                } else {
+                } else if (i == inviteLinkBottomSheet.requestedHeaderRow) {
                     headerCell.setText(LocaleController.formatPluralString("JoinRequests", inviteLinkBottomSheet.invite.requested, new Object[0]));
                 }
             } else if (itemViewType == 1) {
@@ -1100,18 +1085,17 @@ public class InviteLinkBottomSheet extends BottomSheet {
         } else {
             runShadowAnimation(true);
         }
-        if (this.scrollOffsetY == i) {
-            return;
+        if (this.scrollOffsetY != i) {
+            RecyclerListView recyclerListView2 = this.listView;
+            this.scrollOffsetY = i;
+            recyclerListView2.setTopGlowOffset(i);
+            TextView textView = this.titleTextView;
+            if (textView != null) {
+                textView.setTranslationY(this.scrollOffsetY);
+            }
+            this.shadow.setTranslationY(this.scrollOffsetY);
+            this.containerView.invalidate();
         }
-        RecyclerListView recyclerListView2 = this.listView;
-        this.scrollOffsetY = i;
-        recyclerListView2.setTopGlowOffset(i);
-        TextView textView = this.titleTextView;
-        if (textView != null) {
-            textView.setTranslationY(this.scrollOffsetY);
-        }
-        this.shadow.setTranslationY(this.scrollOffsetY);
-        this.containerView.invalidate();
     }
 
     private void runShadowAnimation(final boolean z) {
@@ -1133,7 +1117,6 @@ public class InviteLinkBottomSheet extends BottomSheet {
         View view = this.shadow;
         Property property = View.ALPHA;
         float[] fArr = new float[1];
-        float f = 1.0f;
         fArr[0] = z ? 1.0f : 0.0f;
         animatorArr[0] = ObjectAnimator.ofFloat(view, property, fArr);
         animatorSet2.playTogether(animatorArr);
@@ -1143,10 +1126,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
             TextView textView = this.titleTextView;
             Property property2 = View.ALPHA;
             float[] fArr2 = new float[1];
-            if (!z) {
-                f = 0.0f;
-            }
-            fArr2[0] = f;
+            fArr2[0] = z ? 1.0f : 0.0f;
             animatorArr2[0] = ObjectAnimator.ofFloat(textView, property2, fArr2);
             animatorSet3.playTogether(animatorArr2);
         }
@@ -1247,20 +1227,21 @@ public class InviteLinkBottomSheet extends BottomSheet {
     /* loaded from: classes3.dex */
     public class TimerPrivacyCell extends TextInfoPrivacyCell {
         boolean timer;
-        Runnable timerRunnable = new Runnable() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet.TimerPrivacyCell.1
-            @Override // java.lang.Runnable
-            public void run() {
-                int childAdapterPosition;
-                if (InviteLinkBottomSheet.this.listView != null && InviteLinkBottomSheet.this.listView.getAdapter() != null && (childAdapterPosition = InviteLinkBottomSheet.this.listView.getChildAdapterPosition(TimerPrivacyCell.this)) >= 0) {
-                    InviteLinkBottomSheet inviteLinkBottomSheet = InviteLinkBottomSheet.this;
-                    inviteLinkBottomSheet.adapter.onBindViewHolder(inviteLinkBottomSheet.listView.getChildViewHolder(TimerPrivacyCell.this), childAdapterPosition);
-                }
-                AndroidUtilities.runOnUIThread(this);
-            }
-        };
+        Runnable timerRunnable;
 
         public TimerPrivacyCell(Context context) {
             super(context);
+            this.timerRunnable = new Runnable() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet.TimerPrivacyCell.1
+                @Override // java.lang.Runnable
+                public void run() {
+                    int childAdapterPosition;
+                    if (InviteLinkBottomSheet.this.listView != null && InviteLinkBottomSheet.this.listView.getAdapter() != null && (childAdapterPosition = InviteLinkBottomSheet.this.listView.getChildAdapterPosition(TimerPrivacyCell.this)) >= 0) {
+                        InviteLinkBottomSheet inviteLinkBottomSheet = InviteLinkBottomSheet.this;
+                        inviteLinkBottomSheet.adapter.onBindViewHolder(inviteLinkBottomSheet.listView.getChildViewHolder(TimerPrivacyCell.this), childAdapterPosition);
+                    }
+                    AndroidUtilities.runOnUIThread(this);
+                }
+            };
         }
 
         @Override // android.view.ViewGroup, android.view.View

@@ -43,10 +43,9 @@ public class TLRPC$TL_groupCallParticipantVideo extends TLObject {
             }
             this.source_groups.add(TLdeserialize);
         }
-        if ((this.flags & 2) == 0) {
-            return;
+        if ((this.flags & 2) != 0) {
+            this.audio_source = abstractSerializedData.readInt32(z);
         }
-        this.audio_source = abstractSerializedData.readInt32(z);
     }
 
     @Override // org.telegram.tgnet.TLObject

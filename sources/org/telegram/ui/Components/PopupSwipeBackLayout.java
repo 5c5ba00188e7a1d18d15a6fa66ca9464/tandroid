@@ -24,30 +24,30 @@ import org.telegram.ui.ActionBar.ActionBarPopupWindow;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
 public class PopupSwipeBackLayout extends FrameLayout {
+    private int currentForegroundIndex;
     private GestureDetectorCompat detector;
     private ValueAnimator foregroundAnimator;
+    private int foregroundColor;
+    private Paint foregroundPaint;
+    private android.graphics.Rect hitRect;
     private boolean isAnimationInProgress;
     private boolean isProcessingSwipe;
     private boolean isSwipeBackDisallowed;
     private boolean isSwipeDisallowed;
+    private int lastHeightReported;
     float lastToProgress;
     float lastTransitionProgress;
+    private Path mPath;
+    private RectF mRect;
     private int notificationIndex;
     private IntCallback onHeightUpdateListener;
+    private ArrayList<OnSwipeBackProgressListener> onSwipeBackProgressListeners;
+    private Paint overlayPaint;
     private float overrideForegroundHeight;
+    SparseIntArray overrideHeightIndex;
     Theme.ResourcesProvider resourcesProvider;
+    private float toProgress;
     public float transitionProgress;
-    SparseIntArray overrideHeightIndex = new SparseIntArray();
-    private float toProgress = -1.0f;
-    private Paint overlayPaint = new Paint(1);
-    private Paint foregroundPaint = new Paint();
-    private int foregroundColor = 0;
-    private Path mPath = new Path();
-    private RectF mRect = new RectF();
-    private ArrayList<OnSwipeBackProgressListener> onSwipeBackProgressListeners = new ArrayList<>();
-    private int currentForegroundIndex = -1;
-    private int lastHeightReported = -1;
-    private android.graphics.Rect hitRect = new android.graphics.Rect();
 
     /* loaded from: classes3.dex */
     public interface IntCallback {
@@ -61,6 +61,17 @@ public class PopupSwipeBackLayout extends FrameLayout {
 
     public PopupSwipeBackLayout(Context context, Theme.ResourcesProvider resourcesProvider) {
         super(context);
+        this.overrideHeightIndex = new SparseIntArray();
+        this.toProgress = -1.0f;
+        this.overlayPaint = new Paint(1);
+        this.foregroundPaint = new Paint();
+        this.foregroundColor = 0;
+        this.mPath = new Path();
+        this.mRect = new RectF();
+        this.onSwipeBackProgressListeners = new ArrayList<>();
+        this.currentForegroundIndex = -1;
+        this.lastHeightReported = -1;
+        this.hitRect = new android.graphics.Rect();
         this.resourcesProvider = resourcesProvider;
         final int scaledTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
         this.detector = new GestureDetectorCompat(context, new GestureDetector.SimpleOnGestureListener() { // from class: org.telegram.ui.Components.PopupSwipeBackLayout.1
@@ -244,10 +255,10 @@ public class PopupSwipeBackLayout extends FrameLayout {
                 clearFlags();
                 animateToState(this.transitionProgress >= 0.5f ? 1.0f : 0.0f, 0.0f);
                 return false;
-            } else if (!this.isSwipeDisallowed) {
+            } else if (this.isSwipeDisallowed) {
+                clearFlags();
                 return false;
             } else {
-                clearFlags();
                 return false;
             }
         }
@@ -395,18 +406,18 @@ public class PopupSwipeBackLayout extends FrameLayout {
     /* JADX INFO: Access modifiers changed from: private */
     public boolean isDisallowedView(MotionEvent motionEvent, View view) {
         view.getHitRect(this.hitRect);
-        if (!this.hitRect.contains((int) motionEvent.getX(), (int) motionEvent.getY()) || !view.canScrollHorizontally(-1)) {
-            if (view instanceof ViewGroup) {
-                ViewGroup viewGroup = (ViewGroup) view;
-                for (int i = 0; i < viewGroup.getChildCount(); i++) {
-                    if (isDisallowedView(motionEvent, viewGroup.getChildAt(i))) {
-                        return true;
-                    }
+        if (this.hitRect.contains((int) motionEvent.getX(), (int) motionEvent.getY()) && view.canScrollHorizontally(-1)) {
+            return true;
+        }
+        if (view instanceof ViewGroup) {
+            ViewGroup viewGroup = (ViewGroup) view;
+            for (int i = 0; i < viewGroup.getChildCount(); i++) {
+                if (isDisallowedView(motionEvent, viewGroup.getChildAt(i))) {
+                    return true;
                 }
             }
-            return false;
         }
-        return true;
+        return false;
     }
 
     private void invalidateVisibility() {

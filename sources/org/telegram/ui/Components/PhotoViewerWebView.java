@@ -50,6 +50,7 @@ import org.telegram.ui.PhotoViewer;
 /* loaded from: classes3.dex */
 public class PhotoViewerWebView extends FrameLayout {
     private float bufferedPosition;
+    private int currentAccount;
     private int currentPosition;
     private TLRPC$WebPage currentWebpage;
     private String currentYoutubeId;
@@ -64,18 +65,12 @@ public class PhotoViewerWebView extends FrameLayout {
     private float playbackSpeed;
     private RadialProgressView progressBar;
     private View progressBarBlackBackground;
+    private Runnable progressRunnable;
     private boolean setPlaybackSpeed;
     private int videoDuration;
     private WebView webView;
+    private List<String> youtubeStoryboards;
     private String youtubeStoryboardsSpecUrl;
-    private int currentAccount = UserConfig.selectedAccount;
-    private List<String> youtubeStoryboards = new ArrayList();
-    private Runnable progressRunnable = new Runnable() { // from class: org.telegram.ui.Components.PhotoViewerWebView$$ExternalSyntheticLambda2
-        @Override // java.lang.Runnable
-        public final void run() {
-            PhotoViewerWebView.this.lambda$new$0();
-        }
-    };
 
     protected void drawBlackBackground(Canvas canvas, int i, int i2) {
     }
@@ -269,6 +264,14 @@ public class PhotoViewerWebView extends FrameLayout {
     @SuppressLint({"SetJavaScriptEnabled"})
     public PhotoViewerWebView(PhotoViewer photoViewer, Context context, View view) {
         super(context);
+        this.currentAccount = UserConfig.selectedAccount;
+        this.youtubeStoryboards = new ArrayList();
+        this.progressRunnable = new Runnable() { // from class: org.telegram.ui.Components.PhotoViewerWebView$$ExternalSyntheticLambda2
+            @Override // java.lang.Runnable
+            public final void run() {
+                PhotoViewerWebView.this.lambda$new$0();
+            }
+        };
         this.photoViewer = photoViewer;
         this.pipItem = view;
         WebView webView = new WebView(context) { // from class: org.telegram.ui.Components.PhotoViewerWebView.1
@@ -357,15 +360,15 @@ public class PhotoViewerWebView extends FrameLayout {
         @Override // android.webkit.WebViewClient
         public WebResourceResponse shouldInterceptRequest(WebView webView, final WebResourceRequest webResourceRequest) {
             final String uri = webResourceRequest.getUrl().toString();
-            if (!PhotoViewerWebView.this.isYouTube || !uri.startsWith("https://www.youtube.com/youtubei/v1/player?key=")) {
+            if (PhotoViewerWebView.this.isYouTube && uri.startsWith("https://www.youtube.com/youtubei/v1/player?key=")) {
+                Utilities.externalNetworkQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.PhotoViewerWebView$2$$ExternalSyntheticLambda0
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        PhotoViewerWebView.2.this.lambda$shouldInterceptRequest$0(uri, webResourceRequest);
+                    }
+                });
                 return null;
             }
-            Utilities.externalNetworkQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.PhotoViewerWebView$2$$ExternalSyntheticLambda0
-                @Override // java.lang.Runnable
-                public final void run() {
-                    PhotoViewerWebView.2.this.lambda$shouldInterceptRequest$0(uri, webResourceRequest);
-                }
-            });
             return null;
         }
 
@@ -466,28 +469,28 @@ public class PhotoViewerWebView extends FrameLayout {
         double ceil;
         int indexOf = this.youtubeStoryboards.indexOf(getYoutubeStoryboard(i));
         if (indexOf != -1) {
-            if (indexOf != this.youtubeStoryboards.size() - 1) {
-                return 25;
+            if (indexOf == this.youtubeStoryboards.size() - 1) {
+                int videoDuration = getVideoDuration() / 1000;
+                if (videoDuration <= 100) {
+                    ceil = Math.ceil(videoDuration);
+                } else if (videoDuration <= 250) {
+                    ceil = Math.ceil(videoDuration / 2.0f);
+                } else if (videoDuration <= 500) {
+                    ceil = Math.ceil(videoDuration / 4.0f);
+                } else if (videoDuration <= 1000) {
+                    ceil = Math.ceil(videoDuration / 5.0f);
+                } else {
+                    ceil = Math.ceil(videoDuration / 10.0f);
+                }
+                return Math.min(25, (((int) ceil) - ((this.youtubeStoryboards.size() - 1) * 25)) + 1);
             }
-            int videoDuration = getVideoDuration() / 1000;
-            if (videoDuration <= 100) {
-                ceil = Math.ceil(videoDuration);
-            } else if (videoDuration <= 250) {
-                ceil = Math.ceil(videoDuration / 2.0f);
-            } else if (videoDuration <= 500) {
-                ceil = Math.ceil(videoDuration / 4.0f);
-            } else if (videoDuration <= 1000) {
-                ceil = Math.ceil(videoDuration / 5.0f);
-            } else {
-                ceil = Math.ceil(videoDuration / 10.0f);
-            }
-            return Math.min(25, (((int) ceil) - ((this.youtubeStoryboards.size() - 1) * 25)) + 1);
+            return 25;
         }
         return 0;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:10:0x0049 A[ORIG_RETURN, RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:7:0x0040  */
+    /* JADX WARN: Removed duplicated region for block: B:17:0x0040  */
+    /* JADX WARN: Removed duplicated region for block: B:18:0x0049 A[ORIG_RETURN, RETURN] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -505,14 +508,14 @@ public class PhotoViewerWebView extends FrameLayout {
             } else {
                 f = i / 10.0f;
             }
-            if (i2 < this.youtubeStoryboards.size()) {
-                return null;
+            if (i2 >= this.youtubeStoryboards.size()) {
+                return this.youtubeStoryboards.get(i2);
             }
-            return this.youtubeStoryboards.get(i2);
+            return null;
         }
         f = i;
         i2 = (int) (f / 25.0f);
-        if (i2 < this.youtubeStoryboards.size()) {
+        if (i2 >= this.youtubeStoryboards.size()) {
         }
     }
 
@@ -622,18 +625,15 @@ public class PhotoViewerWebView extends FrameLayout {
         if (this.webView.getParent() == this) {
             TLRPC$WebPage tLRPC$WebPage = this.currentWebpage;
             int i3 = tLRPC$WebPage.embed_width;
-            int i4 = 100;
             if (i3 == 0) {
                 i3 = 100;
             }
-            int i5 = tLRPC$WebPage.embed_height;
-            if (i5 != 0) {
-                i4 = i5;
-            }
+            int i4 = tLRPC$WebPage.embed_height;
+            int i5 = i4 != 0 ? i4 : 100;
             int size = View.MeasureSpec.getSize(i);
             int size2 = View.MeasureSpec.getSize(i2);
             float f = i3;
-            float f2 = i4;
+            float f2 = i5;
             float min = Math.min(size / f, size2 / f2);
             FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) this.webView.getLayoutParams();
             int i6 = (int) (f * min);
@@ -700,28 +700,27 @@ public class PhotoViewerWebView extends FrameLayout {
     }
 
     public void pauseVideo() {
-        if (!this.isPlaying || !isControllable()) {
-            return;
+        if (this.isPlaying && isControllable()) {
+            runJsCode("pauseVideo();");
+            this.isPlaying = false;
+            checkPlayingPoll(true);
         }
-        runJsCode("pauseVideo();");
-        this.isPlaying = false;
-        checkPlayingPoll(true);
     }
 
     public void setPlaybackSpeed(float f) {
         this.playbackSpeed = f;
         if (this.progressBar.getVisibility() != 0) {
-            if (!this.isYouTube) {
+            if (this.isYouTube) {
+                runJsCode("setPlaybackSpeed(" + f + ");");
                 return;
             }
-            runJsCode("setPlaybackSpeed(" + f + ");");
             return;
         }
         this.setPlaybackSpeed = true;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:13:0x00aa A[Catch: Exception -> 0x00ef, LOOP:0: B:11:0x00a3->B:13:0x00aa, LOOP_END, TryCatch #0 {Exception -> 0x00ef, blocks: (B:3:0x0013, B:5:0x0017, B:7:0x0025, B:10:0x008c, B:11:0x00a3, B:13:0x00aa, B:15:0x00ae, B:42:0x0088, B:43:0x00db, B:29:0x0033, B:31:0x0039, B:33:0x004c, B:35:0x0054, B:37:0x005c, B:39:0x0062, B:40:0x007e), top: B:2:0x0013, inners: #1 }] */
-    /* JADX WARN: Removed duplicated region for block: B:14:0x00ae A[EDGE_INSN: B:14:0x00ae->B:15:0x00ae ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x00aa A[Catch: Exception -> 0x00ef, LOOP:0: B:26:0x00a3->B:28:0x00aa, LOOP_END, TryCatch #0 {Exception -> 0x00ef, blocks: (B:3:0x0013, B:5:0x0017, B:7:0x0025, B:25:0x008c, B:26:0x00a3, B:28:0x00aa, B:29:0x00ae, B:23:0x0088, B:30:0x00db, B:9:0x0033, B:11:0x0039, B:13:0x004c, B:15:0x0054, B:17:0x005c, B:19:0x0062, B:20:0x007e), top: B:43:0x0013, inners: #1 }] */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x00ae A[EDGE_INSN: B:45:0x00ae->B:29:0x00ae ?: BREAK  , SYNTHETIC] */
     @SuppressLint({"AddJavascriptInterface"})
     /*
         Code decompiled incorrectly, please refer to instructions dump.

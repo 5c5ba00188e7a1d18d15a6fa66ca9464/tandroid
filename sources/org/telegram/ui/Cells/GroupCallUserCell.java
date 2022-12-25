@@ -55,9 +55,11 @@ import org.telegram.ui.Components.RadialProgressView;
 public class GroupCallUserCell extends FrameLayout {
     private AccountInstance accountInstance;
     private AnimatorSet animatorSet;
+    private AvatarDrawable avatarDrawable;
     private BackupImageView avatarImageView;
     private RadialProgressView avatarProgressView;
     private AvatarWavesDrawable avatarWavesDrawable;
+    private Runnable checkRaiseRunnable;
     private ChatObject.Call currentCall;
     private TLRPC$Chat currentChat;
     private boolean currentIconGray;
@@ -65,6 +67,7 @@ public class GroupCallUserCell extends FrameLayout {
     private TLRPC$User currentUser;
     private Paint dividerPaint;
     private SimpleTextView fullAboutTextView;
+    private String grayIconColor;
     private boolean hasAvatar;
     private boolean isSpeaking;
     private int lastMuteColor;
@@ -77,46 +80,18 @@ public class GroupCallUserCell extends FrameLayout {
     private TLRPC$TL_groupCallParticipant participant;
     private Drawable premiumDrawable;
     private float progressToAvatarPreview;
+    private Runnable raiseHandCallback;
     public AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable rightDrawable;
     private long selfId;
+    private Runnable shakeHandCallback;
     private RLottieDrawable shakeHandDrawable;
     private Drawable speakingDrawable;
+    private SimpleTextView[] statusTextView;
+    private Runnable updateRunnable;
     private boolean updateRunnableScheduled;
+    private Runnable updateVoiceRunnable;
     private boolean updateVoiceRunnableScheduled;
     private Drawable verifiedDrawable;
-    private SimpleTextView[] statusTextView = new SimpleTextView[5];
-    private Runnable shakeHandCallback = new Runnable() { // from class: org.telegram.ui.Cells.GroupCallUserCell$$ExternalSyntheticLambda4
-        @Override // java.lang.Runnable
-        public final void run() {
-            GroupCallUserCell.this.lambda$new$0();
-        }
-    };
-    private Runnable raiseHandCallback = new Runnable() { // from class: org.telegram.ui.Cells.GroupCallUserCell$$ExternalSyntheticLambda2
-        @Override // java.lang.Runnable
-        public final void run() {
-            GroupCallUserCell.this.lambda$new$1();
-        }
-    };
-    private String grayIconColor = "voipgroup_mutedIcon";
-    private Runnable checkRaiseRunnable = new Runnable() { // from class: org.telegram.ui.Cells.GroupCallUserCell$$ExternalSyntheticLambda3
-        @Override // java.lang.Runnable
-        public final void run() {
-            GroupCallUserCell.this.lambda$new$2();
-        }
-    };
-    private Runnable updateRunnable = new Runnable() { // from class: org.telegram.ui.Cells.GroupCallUserCell$$ExternalSyntheticLambda6
-        @Override // java.lang.Runnable
-        public final void run() {
-            GroupCallUserCell.this.lambda$new$3();
-        }
-    };
-    private Runnable updateVoiceRunnable = new Runnable() { // from class: org.telegram.ui.Cells.GroupCallUserCell$$ExternalSyntheticLambda5
-        @Override // java.lang.Runnable
-        public final void run() {
-            GroupCallUserCell.this.lambda$new$4();
-        }
-    };
-    private AvatarDrawable avatarDrawable = new AvatarDrawable();
 
     @Override // android.view.View
     public boolean hasOverlappingRendering() {
@@ -217,11 +192,7 @@ public class GroupCallUserCell extends FrameLayout {
             }
         }
         this.avatarImageView.setAlpha(f == 0.0f ? 1.0f : 0.0f);
-        AvatarWavesDrawable avatarWavesDrawable = this.avatarWavesDrawable;
-        if (!this.isSpeaking || f != 0.0f) {
-            z = false;
-        }
-        avatarWavesDrawable.setShowWaves(z, this);
+        this.avatarWavesDrawable.setShowWaves((this.isSpeaking && f == 0.0f) ? false : false, this);
         float f3 = 1.0f - f;
         this.muteButton.setAlpha(f3);
         float f4 = (f3 * 0.4f) + 0.6f;
@@ -249,9 +220,8 @@ public class GroupCallUserCell extends FrameLayout {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
-    public static class VerifiedDrawable extends Drawable {
+    private static class VerifiedDrawable extends Drawable {
         private Drawable[] drawables;
 
         @Override // android.graphics.drawable.Drawable
@@ -286,13 +256,12 @@ public class GroupCallUserCell extends FrameLayout {
             int i = 0;
             while (true) {
                 Drawable[] drawableArr = this.drawables;
-                if (i < drawableArr.length) {
-                    drawableArr[i].setBounds(getBounds());
-                    this.drawables[i].draw(canvas);
-                    i++;
-                } else {
+                if (i >= drawableArr.length) {
                     return;
                 }
+                drawableArr[i].setBounds(getBounds());
+                this.drawables[i].draw(canvas);
+                i++;
             }
         }
 
@@ -301,29 +270,59 @@ public class GroupCallUserCell extends FrameLayout {
             int i2 = 0;
             while (true) {
                 Drawable[] drawableArr = this.drawables;
-                if (i2 < drawableArr.length) {
-                    drawableArr[i2].setAlpha(i);
-                    i2++;
-                } else {
+                if (i2 >= drawableArr.length) {
                     return;
                 }
+                drawableArr[i2].setAlpha(i);
+                i2++;
             }
         }
     }
 
     public GroupCallUserCell(Context context) {
         super(context);
-        int i = 5;
+        this.statusTextView = new SimpleTextView[5];
+        this.shakeHandCallback = new Runnable() { // from class: org.telegram.ui.Cells.GroupCallUserCell$$ExternalSyntheticLambda4
+            @Override // java.lang.Runnable
+            public final void run() {
+                GroupCallUserCell.this.lambda$new$0();
+            }
+        };
+        this.raiseHandCallback = new Runnable() { // from class: org.telegram.ui.Cells.GroupCallUserCell$$ExternalSyntheticLambda2
+            @Override // java.lang.Runnable
+            public final void run() {
+                GroupCallUserCell.this.lambda$new$1();
+            }
+        };
+        this.grayIconColor = "voipgroup_mutedIcon";
+        this.checkRaiseRunnable = new Runnable() { // from class: org.telegram.ui.Cells.GroupCallUserCell$$ExternalSyntheticLambda3
+            @Override // java.lang.Runnable
+            public final void run() {
+                GroupCallUserCell.this.lambda$new$2();
+            }
+        };
+        this.updateRunnable = new Runnable() { // from class: org.telegram.ui.Cells.GroupCallUserCell$$ExternalSyntheticLambda6
+            @Override // java.lang.Runnable
+            public final void run() {
+                GroupCallUserCell.this.lambda$new$3();
+            }
+        };
+        this.updateVoiceRunnable = new Runnable() { // from class: org.telegram.ui.Cells.GroupCallUserCell$$ExternalSyntheticLambda5
+            @Override // java.lang.Runnable
+            public final void run() {
+                GroupCallUserCell.this.lambda$new$4();
+            }
+        };
         Paint paint = new Paint();
         this.dividerPaint = paint;
         paint.setColor(Theme.getColor("voipgroup_actionBar"));
+        this.avatarDrawable = new AvatarDrawable();
         setClipChildren(false);
         BackupImageView backupImageView = new BackupImageView(context);
         this.avatarImageView = backupImageView;
         backupImageView.setRoundRadius(AndroidUtilities.dp(24.0f));
         BackupImageView backupImageView2 = this.avatarImageView;
         boolean z = LocaleController.isRTL;
-        float f = 11.0f;
         addView(backupImageView2, LayoutHelper.createFrame(46, 46.0f, (z ? 5 : 3) | 48, z ? 0.0f : 11.0f, 6.0f, z ? 11.0f : 0.0f, 0.0f));
         RadialProgressView radialProgressView = new RadialProgressView(context) { // from class: org.telegram.ui.Cells.GroupCallUserCell.1
             private Paint paint;
@@ -351,7 +350,7 @@ public class GroupCallUserCell extends FrameLayout {
         this.avatarProgressView.setNoProgress(false);
         RadialProgressView radialProgressView2 = this.avatarProgressView;
         boolean z2 = LocaleController.isRTL;
-        addView(radialProgressView2, LayoutHelper.createFrame(46, 46.0f, (z2 ? 5 : 3) | 48, z2 ? 0.0f : 11.0f, 6.0f, !z2 ? 0.0f : f, 0.0f));
+        addView(radialProgressView2, LayoutHelper.createFrame(46, 46.0f, (z2 ? 5 : 3) | 48, z2 ? 0.0f : 11.0f, 6.0f, z2 ? 11.0f : 0.0f, 0.0f));
         AndroidUtilities.updateViewVisibilityAnimated(this.avatarProgressView, false, 1.0f, false);
         SimpleTextView simpleTextView = new SimpleTextView(context);
         this.nameTextView = simpleTextView;
@@ -367,40 +366,40 @@ public class GroupCallUserCell extends FrameLayout {
         Drawable drawable = context.getResources().getDrawable(R.drawable.voice_volume_mini);
         this.speakingDrawable = drawable;
         drawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor("voipgroup_speakingText"), PorterDuff.Mode.MULTIPLY));
-        final int i2 = 0;
+        final int i = 0;
         while (true) {
             SimpleTextView[] simpleTextViewArr = this.statusTextView;
-            if (i2 >= simpleTextViewArr.length) {
+            if (i >= simpleTextViewArr.length) {
                 break;
             }
-            simpleTextViewArr[i2] = new SimpleTextView(context) { // from class: org.telegram.ui.Cells.GroupCallUserCell.2
+            simpleTextViewArr[i] = new SimpleTextView(context) { // from class: org.telegram.ui.Cells.GroupCallUserCell.2
                 float originalAlpha;
 
                 @Override // android.view.View
-                public void setAlpha(float f2) {
-                    this.originalAlpha = f2;
-                    if (i2 == 4) {
+                public void setAlpha(float f) {
+                    this.originalAlpha = f;
+                    if (i == 4) {
                         float fullAlpha = GroupCallUserCell.this.statusTextView[4].getFullAlpha();
                         if (GroupCallUserCell.this.isSelfUser() && GroupCallUserCell.this.progressToAvatarPreview > 0.0f) {
                             super.setAlpha(1.0f - GroupCallUserCell.this.progressToAvatarPreview);
                             return;
                         } else if (fullAlpha > 0.0f) {
-                            super.setAlpha(Math.max(f2, fullAlpha));
+                            super.setAlpha(Math.max(f, fullAlpha));
                             return;
                         } else {
-                            super.setAlpha(f2);
+                            super.setAlpha(f);
                             return;
                         }
                     }
-                    super.setAlpha(f2 * (1.0f - GroupCallUserCell.this.statusTextView[4].getFullAlpha()));
+                    super.setAlpha(f * (1.0f - GroupCallUserCell.this.statusTextView[4].getFullAlpha()));
                 }
 
                 @Override // android.view.View
-                public void setTranslationY(float f2) {
-                    if (i2 == 4 && getFullAlpha() > 0.0f) {
-                        f2 = 0.0f;
+                public void setTranslationY(float f) {
+                    if (i == 4 && getFullAlpha() > 0.0f) {
+                        f = 0.0f;
                     }
-                    super.setTranslationY(f2);
+                    super.setTranslationY(f);
                 }
 
                 @Override // android.view.View
@@ -409,41 +408,41 @@ public class GroupCallUserCell extends FrameLayout {
                 }
 
                 @Override // org.telegram.ui.ActionBar.SimpleTextView
-                public void setFullAlpha(float f2) {
-                    super.setFullAlpha(f2);
-                    for (int i3 = 0; i3 < GroupCallUserCell.this.statusTextView.length; i3++) {
-                        GroupCallUserCell.this.statusTextView[i3].setAlpha(GroupCallUserCell.this.statusTextView[i3].getAlpha());
+                public void setFullAlpha(float f) {
+                    super.setFullAlpha(f);
+                    for (int i2 = 0; i2 < GroupCallUserCell.this.statusTextView.length; i2++) {
+                        GroupCallUserCell.this.statusTextView[i2].setAlpha(GroupCallUserCell.this.statusTextView[i2].getAlpha());
                     }
                 }
             };
-            this.statusTextView[i2].setTextSize(15);
-            this.statusTextView[i2].setGravity((LocaleController.isRTL ? 5 : 3) | 48);
-            if (i2 == 4) {
-                this.statusTextView[i2].setBuildFullLayout(true);
-                this.statusTextView[i2].setTextColor(Theme.getColor("voipgroup_mutedIcon"));
-                SimpleTextView simpleTextView3 = this.statusTextView[i2];
+            this.statusTextView[i].setTextSize(15);
+            this.statusTextView[i].setGravity((LocaleController.isRTL ? 5 : 3) | 48);
+            if (i == 4) {
+                this.statusTextView[i].setBuildFullLayout(true);
+                this.statusTextView[i].setTextColor(Theme.getColor("voipgroup_mutedIcon"));
+                SimpleTextView simpleTextView3 = this.statusTextView[i];
                 boolean z4 = LocaleController.isRTL;
                 addView(simpleTextView3, LayoutHelper.createFrame(-1, -2.0f, (z4 ? 5 : 3) | 48, z4 ? 54.0f : 67.0f, 32.0f, z4 ? 67.0f : 54.0f, 0.0f));
             } else {
-                if (i2 == 0) {
-                    this.statusTextView[i2].setTextColor(Theme.getColor("voipgroup_listeningText"));
-                    this.statusTextView[i2].setText(LocaleController.getString("Listening", R.string.Listening));
-                } else if (i2 == 1) {
-                    this.statusTextView[i2].setTextColor(Theme.getColor("voipgroup_speakingText"));
-                    this.statusTextView[i2].setText(LocaleController.getString("Speaking", R.string.Speaking));
-                    this.statusTextView[i2].setDrawablePadding(AndroidUtilities.dp(2.0f));
-                } else if (i2 == 2) {
-                    this.statusTextView[i2].setTextColor(Theme.getColor("voipgroup_mutedByAdminIcon"));
-                    this.statusTextView[i2].setText(LocaleController.getString("VoipGroupMutedForMe", R.string.VoipGroupMutedForMe));
-                } else if (i2 == 3) {
-                    this.statusTextView[i2].setTextColor(Theme.getColor("voipgroup_listeningText"));
-                    this.statusTextView[i2].setText(LocaleController.getString("WantsToSpeak", R.string.WantsToSpeak));
+                if (i == 0) {
+                    this.statusTextView[i].setTextColor(Theme.getColor("voipgroup_listeningText"));
+                    this.statusTextView[i].setText(LocaleController.getString("Listening", R.string.Listening));
+                } else if (i == 1) {
+                    this.statusTextView[i].setTextColor(Theme.getColor("voipgroup_speakingText"));
+                    this.statusTextView[i].setText(LocaleController.getString("Speaking", R.string.Speaking));
+                    this.statusTextView[i].setDrawablePadding(AndroidUtilities.dp(2.0f));
+                } else if (i == 2) {
+                    this.statusTextView[i].setTextColor(Theme.getColor("voipgroup_mutedByAdminIcon"));
+                    this.statusTextView[i].setText(LocaleController.getString("VoipGroupMutedForMe", R.string.VoipGroupMutedForMe));
+                } else if (i == 3) {
+                    this.statusTextView[i].setTextColor(Theme.getColor("voipgroup_listeningText"));
+                    this.statusTextView[i].setText(LocaleController.getString("WantsToSpeak", R.string.WantsToSpeak));
                 }
-                SimpleTextView simpleTextView4 = this.statusTextView[i2];
+                SimpleTextView simpleTextView4 = this.statusTextView[i];
                 boolean z5 = LocaleController.isRTL;
                 addView(simpleTextView4, LayoutHelper.createFrame(-1, 20.0f, (z5 ? 5 : 3) | 48, z5 ? 54.0f : 67.0f, 32.0f, z5 ? 67.0f : 54.0f, 0.0f));
             }
-            i2++;
+            i++;
         }
         SimpleTextView simpleTextView5 = new SimpleTextView(context);
         this.fullAboutTextView = simpleTextView5;
@@ -452,10 +451,10 @@ public class GroupCallUserCell extends FrameLayout {
         this.fullAboutTextView.setTextColor(Theme.getColor("voipgroup_mutedIcon"));
         this.fullAboutTextView.setVisibility(8);
         addView(this.fullAboutTextView, LayoutHelper.createFrame(-1, 60.0f, (LocaleController.isRTL ? 5 : 3) | 48, 14.0f, 32.0f, 14.0f, 0.0f));
-        int i3 = R.raw.voice_outlined2;
-        this.muteDrawable = new RLottieDrawable(i3, "" + i3, AndroidUtilities.dp(34.0f), AndroidUtilities.dp(32.0f), true, null);
-        int i4 = R.raw.hand_1;
-        this.shakeHandDrawable = new RLottieDrawable(i4, "" + i4, AndroidUtilities.dp(34.0f), AndroidUtilities.dp(32.0f), true, null);
+        int i2 = R.raw.voice_outlined2;
+        this.muteDrawable = new RLottieDrawable(i2, "" + i2, AndroidUtilities.dp(34.0f), AndroidUtilities.dp(32.0f), true, null);
+        int i3 = R.raw.hand_1;
+        this.shakeHandDrawable = new RLottieDrawable(i3, "" + i3, AndroidUtilities.dp(34.0f), AndroidUtilities.dp(32.0f), true, null);
         RLottieImageView rLottieImageView = new RLottieImageView(context);
         this.muteButton = rLottieImageView;
         rLottieImageView.setScaleType(ImageView.ScaleType.CENTER);
@@ -466,7 +465,7 @@ public class GroupCallUserCell extends FrameLayout {
             this.muteButton.setBackground(rippleDrawable);
         }
         this.muteButton.setImportantForAccessibility(2);
-        addView(this.muteButton, LayoutHelper.createFrame(48, -1.0f, (LocaleController.isRTL ? 3 : i) | 16, 6.0f, 0.0f, 6.0f, 0.0f));
+        addView(this.muteButton, LayoutHelper.createFrame(48, -1.0f, (LocaleController.isRTL ? 3 : 5) | 16, 6.0f, 0.0f, 6.0f, 0.0f));
         this.muteButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Cells.GroupCallUserCell$$ExternalSyntheticLambda1
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
@@ -536,7 +535,6 @@ public class GroupCallUserCell extends FrameLayout {
         this.selfId = j;
         this.participant = tLRPC$TL_groupCallParticipant;
         long peerId = MessageObject.getPeerId(tLRPC$TL_groupCallParticipant.peer);
-        boolean z2 = false;
         if (peerId > 0) {
             TLRPC$User user = this.accountInstance.getMessagesController().getUser(Long.valueOf(peerId));
             this.currentUser = user;
@@ -592,10 +590,7 @@ public class GroupCallUserCell extends FrameLayout {
                 this.avatarImageView.setImage(ImageLocation.getForLocal(tLRPC$FileLocation), "50_50", this.avatarDrawable, (Object) null);
             } else {
                 ImageLocation forUser = ImageLocation.getForUser(this.currentUser, 1);
-                if (forUser != null) {
-                    z2 = true;
-                }
-                this.hasAvatar = z2;
+                this.hasAvatar = forUser != null;
                 this.avatarImageView.setImage(forUser, "50_50", this.avatarDrawable, this.currentUser);
             }
         } else {
@@ -623,10 +618,7 @@ public class GroupCallUserCell extends FrameLayout {
                     this.avatarImageView.setImage(ImageLocation.getForLocal(tLRPC$FileLocation), "50_50", this.avatarDrawable, (Object) null);
                 } else {
                     ImageLocation forChat = ImageLocation.getForChat(this.currentChat, 1);
-                    if (forChat != null) {
-                        z2 = true;
-                    }
-                    this.hasAvatar = z2;
+                    this.hasAvatar = forChat != null;
                     this.avatarImageView.setImage(forChat, "50_50", this.avatarDrawable, this.currentChat);
                 }
             }
@@ -715,23 +707,23 @@ public class GroupCallUserCell extends FrameLayout {
         invalidate();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:102:0x03d9  */
-    /* JADX WARN: Removed duplicated region for block: B:113:0x0499  */
-    /* JADX WARN: Removed duplicated region for block: B:123:0x0410  */
-    /* JADX WARN: Removed duplicated region for block: B:127:0x0452  */
-    /* JADX WARN: Removed duplicated region for block: B:141:0x0482  */
-    /* JADX WARN: Removed duplicated region for block: B:143:0x042a  */
-    /* JADX WARN: Removed duplicated region for block: B:153:0x0341  */
-    /* JADX WARN: Removed duplicated region for block: B:198:0x02b2  */
-    /* JADX WARN: Removed duplicated region for block: B:199:0x02d0  */
-    /* JADX WARN: Removed duplicated region for block: B:215:0x0268  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x017a  */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x018d  */
-    /* JADX WARN: Removed duplicated region for block: B:76:0x0291  */
-    /* JADX WARN: Removed duplicated region for block: B:83:0x029f A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:85:0x02aa  */
-    /* JADX WARN: Removed duplicated region for block: B:90:0x02ee  */
-    /* JADX WARN: Removed duplicated region for block: B:99:0x033b  */
+    /* JADX WARN: Removed duplicated region for block: B:111:0x017a  */
+    /* JADX WARN: Removed duplicated region for block: B:114:0x018d  */
+    /* JADX WARN: Removed duplicated region for block: B:135:0x0268  */
+    /* JADX WARN: Removed duplicated region for block: B:141:0x0291  */
+    /* JADX WARN: Removed duplicated region for block: B:149:0x029f A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:153:0x02aa  */
+    /* JADX WARN: Removed duplicated region for block: B:157:0x02b2  */
+    /* JADX WARN: Removed duplicated region for block: B:158:0x02d0  */
+    /* JADX WARN: Removed duplicated region for block: B:161:0x02ee  */
+    /* JADX WARN: Removed duplicated region for block: B:170:0x033b  */
+    /* JADX WARN: Removed duplicated region for block: B:171:0x0341  */
+    /* JADX WARN: Removed duplicated region for block: B:211:0x03d9  */
+    /* JADX WARN: Removed duplicated region for block: B:222:0x0410  */
+    /* JADX WARN: Removed duplicated region for block: B:226:0x042a  */
+    /* JADX WARN: Removed duplicated region for block: B:237:0x0452  */
+    /* JADX WARN: Removed duplicated region for block: B:250:0x0482  */
+    /* JADX WARN: Removed duplicated region for block: B:254:0x0499  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -750,7 +742,7 @@ public class GroupCallUserCell extends FrameLayout {
             return;
         }
         boolean z5 = false;
-        this.muteButton.setEnabled(!isSelfUser() || this.participant.raise_hand_rating != 0);
+        this.muteButton.setEnabled((isSelfUser() && this.participant.raise_hand_rating == 0) ? false : true);
         long elapsedRealtime = SystemClock.elapsedRealtime();
         TLRPC$TL_groupCallParticipant tLRPC$TL_groupCallParticipant = this.participant;
         if (elapsedRealtime - tLRPC$TL_groupCallParticipant.lastVoiceUpdateTime < 500) {
@@ -778,7 +770,7 @@ public class GroupCallUserCell extends FrameLayout {
             this.participant = tLRPC$TL_groupCallParticipant2;
         }
         boolean z7 = this.participant.muted_by_you && !isSelfUser();
-        boolean z8 = !isSelfUser() ? !((!this.participant.muted || (this.isSpeaking && z3)) && !z7) : !(VoIPService.getSharedInstance() == null || !VoIPService.getSharedInstance().isMicMute() || (this.isSpeaking && z3));
+        boolean z8 = !isSelfUser() ? (!this.participant.muted || (this.isSpeaking && z3)) && !z7 : VoIPService.getSharedInstance() == null || !VoIPService.getSharedInstance().isMicMute() || (this.isSpeaking && z3);
         if (z8) {
             boolean z9 = this.participant.can_self_unmute;
         }
@@ -789,7 +781,7 @@ public class GroupCallUserCell extends FrameLayout {
         if ((tLRPC$TL_groupCallParticipant3.muted && !this.isSpeaking) || z7) {
             boolean z11 = tLRPC$TL_groupCallParticipant3.can_self_unmute;
             if (!z11 || z7) {
-                boolean z12 = !z11 && tLRPC$TL_groupCallParticipant3.raise_hand_rating != 0;
+                boolean z12 = (z11 || tLRPC$TL_groupCallParticipant3.raise_hand_rating == 0) ? false : true;
                 if (z12) {
                     int color2 = Theme.getColor("voipgroup_listeningText");
                     long elapsedRealtime2 = SystemClock.elapsedRealtime();
@@ -1225,28 +1217,27 @@ public class GroupCallUserCell extends FrameLayout {
                 if (f5 != 1.0f) {
                     float f6 = f5 + 0.045714285f;
                     this.wavesEnter = f6;
-                    if (f6 <= 1.0f) {
+                    if (f6 > 1.0f) {
+                        this.wavesEnter = 1.0f;
                         return;
                     }
-                    this.wavesEnter = 1.0f;
                     return;
                 }
             }
-            if (!z) {
-                float f7 = this.wavesEnter;
-                if (f7 == 0.0f) {
-                    return;
-                }
+            if (z) {
+                return;
+            }
+            float f7 = this.wavesEnter;
+            if (f7 != 0.0f) {
                 float f8 = f7 - 0.045714285f;
                 this.wavesEnter = f8;
-                if (f8 >= 0.0f) {
-                    return;
+                if (f8 < 0.0f) {
+                    this.wavesEnter = 0.0f;
                 }
-                this.wavesEnter = 0.0f;
             }
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:23:0x005d  */
+        /* JADX WARN: Removed duplicated region for block: B:25:0x005d  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */

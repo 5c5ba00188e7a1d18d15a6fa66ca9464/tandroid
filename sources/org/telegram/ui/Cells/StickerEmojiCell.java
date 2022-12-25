@@ -33,7 +33,9 @@ import org.telegram.ui.Components.Premium.PremiumLockIconView;
 /* loaded from: classes3.dex */
 public class StickerEmojiCell extends FrameLayout implements NotificationCenter.NotificationCenterDelegate, RecyclerListViewWithOverlayDraw.OverlayView {
     private static AccelerateInterpolator interpolator = new AccelerateInterpolator(0.5f);
+    private float alpha;
     private boolean changingAlpha;
+    private int currentAccount;
     private String currentEmoji;
     private boolean drawInParentView;
     private TextView emojiTextView;
@@ -42,6 +44,7 @@ public class StickerEmojiCell extends FrameLayout implements NotificationCenter.
     private boolean isPremiumSticker;
     private long lastUpdateTime;
     private Object parentObject;
+    private float premiumAlpha;
     private PremiumLockIconView premiumIconView;
     private boolean recent;
     private float scale;
@@ -50,12 +53,12 @@ public class StickerEmojiCell extends FrameLayout implements NotificationCenter.
     private TLRPC$Document sticker;
     private SendMessagesHelper.ImportingSticker stickerPath;
     private long time;
-    private float alpha = 1.0f;
-    private int currentAccount = UserConfig.selectedAccount;
-    private float premiumAlpha = 1.0f;
 
     public StickerEmojiCell(Context context, boolean z) {
         super(context);
+        this.alpha = 1.0f;
+        this.currentAccount = UserConfig.selectedAccount;
+        this.premiumAlpha = 1.0f;
         this.fromEmojiPanel = z;
         ImageReceiver imageReceiver = new ImageReceiver();
         this.imageView = imageReceiver;
@@ -113,17 +116,17 @@ public class StickerEmojiCell extends FrameLayout implements NotificationCenter.
 
     public MessageObject.SendAnimationData getSendAnimationData() {
         ImageReceiver imageReceiver = this.imageView;
-        if (!imageReceiver.hasNotThumb()) {
-            return null;
+        if (imageReceiver.hasNotThumb()) {
+            MessageObject.SendAnimationData sendAnimationData = new MessageObject.SendAnimationData();
+            int[] iArr = new int[2];
+            getLocationInWindow(iArr);
+            sendAnimationData.x = imageReceiver.getCenterX() + iArr[0];
+            sendAnimationData.y = imageReceiver.getCenterY() + iArr[1];
+            sendAnimationData.width = imageReceiver.getImageWidth();
+            sendAnimationData.height = imageReceiver.getImageHeight();
+            return sendAnimationData;
         }
-        MessageObject.SendAnimationData sendAnimationData = new MessageObject.SendAnimationData();
-        int[] iArr = new int[2];
-        getLocationInWindow(iArr);
-        sendAnimationData.x = imageReceiver.getCenterX() + iArr[0];
-        sendAnimationData.y = imageReceiver.getCenterY() + iArr[1];
-        sendAnimationData.width = imageReceiver.getImageWidth();
-        sendAnimationData.height = imageReceiver.getImageHeight();
-        return sendAnimationData;
+        return null;
     }
 
     public void setSticker(TLRPC$Document tLRPC$Document, SendMessagesHelper.ImportingSticker importingSticker, Object obj, String str, boolean z) {
@@ -136,7 +139,6 @@ public class StickerEmojiCell extends FrameLayout implements NotificationCenter.
             this.premiumIconView.setColor(Theme.getColor("windowBackgroundWhite"));
             this.premiumIconView.setWaitingImage();
         }
-        float f = 1.0f;
         if (importingSticker != null) {
             this.stickerPath = importingSticker;
             if (importingSticker.validated) {
@@ -158,12 +160,8 @@ public class StickerEmojiCell extends FrameLayout implements NotificationCenter.
             this.parentObject = obj;
             TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 90);
             boolean z2 = this.fromEmojiPanel;
-            String str2 = z2 ? "emptyListPlaceholder" : "windowBackgroundGray";
-            if (z2) {
-                f = 0.2f;
-            }
-            SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(tLRPC$Document, str2, f);
-            String str3 = this.fromEmojiPanel ? "66_66_pcache_compress" : "66_66";
+            SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(tLRPC$Document, z2 ? "emptyListPlaceholder" : "windowBackgroundGray", z2 ? 0.2f : 1.0f);
+            String str2 = this.fromEmojiPanel ? "66_66_pcache_compress" : "66_66";
             if (MessageObject.isTextColorEmoji(tLRPC$Document)) {
                 this.imageView.setColorFilter(Theme.chat_animatedEmojiTextColorFilter);
             }
@@ -173,22 +171,22 @@ public class StickerEmojiCell extends FrameLayout implements NotificationCenter.
                     this.drawInParentView = true;
                 }
                 if (svgThumb != null) {
-                    this.imageView.setImage(ImageLocation.getForDocument(tLRPC$Document), str3, ImageLocation.getForDocument(closestPhotoSizeWithSize, tLRPC$Document), null, null, null, svgThumb, 0L, null, this.parentObject, 1);
+                    this.imageView.setImage(ImageLocation.getForDocument(tLRPC$Document), str2, ImageLocation.getForDocument(closestPhotoSizeWithSize, tLRPC$Document), null, null, null, svgThumb, 0L, null, this.parentObject, 1);
                 } else if (closestPhotoSizeWithSize != null) {
-                    this.imageView.setImage(ImageLocation.getForDocument(tLRPC$Document), str3, ImageLocation.getForDocument(closestPhotoSizeWithSize, tLRPC$Document), (String) null, (String) null, this.parentObject, 1);
+                    this.imageView.setImage(ImageLocation.getForDocument(tLRPC$Document), str2, ImageLocation.getForDocument(closestPhotoSizeWithSize, tLRPC$Document), (String) null, (String) null, this.parentObject, 1);
                 } else {
-                    this.imageView.setImage(ImageLocation.getForDocument(tLRPC$Document), str3, null, null, this.parentObject, 1);
+                    this.imageView.setImage(ImageLocation.getForDocument(tLRPC$Document), str2, null, null, this.parentObject, 1);
                 }
             } else if (svgThumb != null) {
                 if (closestPhotoSizeWithSize != null) {
-                    this.imageView.setImage(ImageLocation.getForDocument(closestPhotoSizeWithSize, tLRPC$Document), str3, svgThumb, "webp", this.parentObject, 1);
+                    this.imageView.setImage(ImageLocation.getForDocument(closestPhotoSizeWithSize, tLRPC$Document), str2, svgThumb, "webp", this.parentObject, 1);
                 } else {
-                    this.imageView.setImage(ImageLocation.getForDocument(tLRPC$Document), str3, svgThumb, "webp", this.parentObject, 1);
+                    this.imageView.setImage(ImageLocation.getForDocument(tLRPC$Document), str2, svgThumb, "webp", this.parentObject, 1);
                 }
             } else if (closestPhotoSizeWithSize != null) {
-                this.imageView.setImage(ImageLocation.getForDocument(closestPhotoSizeWithSize, tLRPC$Document), str3, null, "webp", this.parentObject, 1);
+                this.imageView.setImage(ImageLocation.getForDocument(closestPhotoSizeWithSize, tLRPC$Document), str2, null, "webp", this.parentObject, 1);
             } else {
-                this.imageView.setImage(ImageLocation.getForDocument(tLRPC$Document), str3, null, "webp", this.parentObject, 1);
+                this.imageView.setImage(ImageLocation.getForDocument(tLRPC$Document), str2, null, "webp", this.parentObject, 1);
             }
             if (str != null) {
                 TextView textView2 = this.emojiTextView;
@@ -202,8 +200,8 @@ public class StickerEmojiCell extends FrameLayout implements NotificationCenter.
                     }
                     TLRPC$DocumentAttribute tLRPC$DocumentAttribute = tLRPC$Document.attributes.get(i2);
                     if (tLRPC$DocumentAttribute instanceof TLRPC$TL_documentAttributeSticker) {
-                        String str4 = tLRPC$DocumentAttribute.alt;
-                        if (str4 != null && str4.length() > 0) {
+                        String str3 = tLRPC$DocumentAttribute.alt;
+                        if (str3 != null && str3.length() > 0) {
                             TextView textView3 = this.emojiTextView;
                             textView3.setText(Emoji.replaceEmoji(tLRPC$DocumentAttribute.alt, textView3.getPaint().getFontMetricsInt(), AndroidUtilities.dp(16.0f), false));
                         }

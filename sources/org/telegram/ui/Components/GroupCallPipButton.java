@@ -31,10 +31,15 @@ public class GroupCallPipButton extends FrameLayout implements NotificationCente
     float animateAmplitudeDiff;
     float animateToAmplitude;
     private RLottieDrawable bigMicDrawable;
+    BlobDrawable blobDrawable;
+    BlobDrawable blobDrawable2;
     private final int currentAccount;
     WeavingState currentState;
     long lastStubUpdateAmplitude;
+    Matrix matrix;
     private RLottieImageView muteButton;
+    OvershootInterpolator overshootInterpolator;
+    Paint paint;
     float pinnedProgress;
     boolean prepareToRemove;
     private final LinearGradient prepareToRemoveShader;
@@ -42,18 +47,13 @@ public class GroupCallPipButton extends FrameLayout implements NotificationCente
     boolean pressedState;
     WeavingState previousState;
     float progressToPrepareRemove;
+    float progressToState;
+    Random random;
     float removeAngle;
     public boolean removed;
+    WeavingState[] states;
     private boolean stub;
-    Paint paint = new Paint(1);
-    BlobDrawable blobDrawable = new BlobDrawable(8);
-    BlobDrawable blobDrawable2 = new BlobDrawable(9);
-    float progressToState = 1.0f;
-    Matrix matrix = new Matrix();
-    float wavesEnter = 0.0f;
-    Random random = new Random();
-    WeavingState[] states = new WeavingState[4];
-    OvershootInterpolator overshootInterpolator = new OvershootInterpolator();
+    float wavesEnter;
 
     @Override // org.telegram.messenger.voip.VoIPService.StateListener
     public /* synthetic */ void onCameraFirstFrameAvailable() {
@@ -87,6 +87,15 @@ public class GroupCallPipButton extends FrameLayout implements NotificationCente
 
     public GroupCallPipButton(Context context, int i, boolean z) {
         super(context);
+        this.paint = new Paint(1);
+        this.blobDrawable = new BlobDrawable(8);
+        this.blobDrawable2 = new BlobDrawable(9);
+        this.progressToState = 1.0f;
+        this.matrix = new Matrix();
+        this.wavesEnter = 0.0f;
+        this.random = new Random();
+        this.states = new WeavingState[4];
+        this.overshootInterpolator = new OvershootInterpolator();
         this.stub = z;
         this.currentAccount = i;
         for (int i2 = 0; i2 < 4; i2++) {
@@ -183,26 +192,22 @@ public class GroupCallPipButton extends FrameLayout implements NotificationCente
                 updateTargets();
             }
             float f3 = (float) j;
-            float f4 = 2.0f;
-            float f5 = this.time + ((BlobDrawable.GRADIENT_SPEED_MIN + 0.5f) * f3) + (f3 * BlobDrawable.GRADIENT_SPEED_MAX * 2.0f * f);
-            this.time = f5;
-            float f6 = this.duration;
-            if (f5 > f6) {
-                this.time = f6;
+            float f4 = this.time + ((BlobDrawable.GRADIENT_SPEED_MIN + 0.5f) * f3) + (f3 * BlobDrawable.GRADIENT_SPEED_MAX * 2.0f * f);
+            this.time = f4;
+            float f5 = this.duration;
+            if (f4 > f5) {
+                this.time = f5;
             }
-            float interpolation = CubicBezierInterpolator.EASE_OUT.getInterpolation(this.time / f6);
-            float f7 = dp;
-            float f8 = this.startX;
-            float f9 = ((f8 + ((this.targetX - f8) * interpolation)) * f7) - 200.0f;
-            float f10 = this.startY;
-            float f11 = ((f10 + ((this.targetY - f10) * interpolation)) * f7) - 200.0f;
-            if (this.currentState != 3) {
-                f4 = 1.5f;
-            }
-            float f12 = (f7 / 400.0f) * f4;
+            float interpolation = CubicBezierInterpolator.EASE_OUT.getInterpolation(this.time / f5);
+            float f6 = dp;
+            float f7 = this.startX;
+            float f8 = ((f7 + ((this.targetX - f7) * interpolation)) * f6) - 200.0f;
+            float f9 = this.startY;
+            float f10 = ((f9 + ((this.targetY - f9) * interpolation)) * f6) - 200.0f;
+            float f11 = (f6 / 400.0f) * (this.currentState != 3 ? 1.5f : 2.0f);
             this.matrix.reset();
-            this.matrix.postTranslate(f9, f11);
-            this.matrix.postScale(f12, f12, f9 + 200.0f, f11 + 200.0f);
+            this.matrix.postTranslate(f8, f10);
+            this.matrix.postScale(f11, f11, f8 + 200.0f, f10 + 200.0f);
             this.shader.setLocalMatrix(this.matrix);
         }
 
@@ -230,26 +235,26 @@ public class GroupCallPipButton extends FrameLayout implements NotificationCente
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:105:0x02db  */
-    /* JADX WARN: Removed duplicated region for block: B:110:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:111:0x016c  */
-    /* JADX WARN: Removed duplicated region for block: B:112:0x015a  */
-    /* JADX WARN: Removed duplicated region for block: B:114:0x012b  */
-    /* JADX WARN: Removed duplicated region for block: B:121:0x00f1  */
-    /* JADX WARN: Removed duplicated region for block: B:14:0x0065  */
-    /* JADX WARN: Removed duplicated region for block: B:19:0x00a2  */
-    /* JADX WARN: Removed duplicated region for block: B:29:0x00c0  */
-    /* JADX WARN: Removed duplicated region for block: B:34:0x00d8  */
-    /* JADX WARN: Removed duplicated region for block: B:44:0x010b  */
-    /* JADX WARN: Removed duplicated region for block: B:48:0x0119  */
-    /* JADX WARN: Removed duplicated region for block: B:55:0x0156  */
-    /* JADX WARN: Removed duplicated region for block: B:58:0x0168  */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x0174  */
-    /* JADX WARN: Removed duplicated region for block: B:74:0x022e  */
-    /* JADX WARN: Removed duplicated region for block: B:77:0x024f  */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x02a1  */
-    /* JADX WARN: Removed duplicated region for block: B:83:0x02ac  */
-    /* JADX WARN: Removed duplicated region for block: B:86:0x023d  */
+    /* JADX WARN: Removed duplicated region for block: B:111:0x022e  */
+    /* JADX WARN: Removed duplicated region for block: B:112:0x023d  */
+    /* JADX WARN: Removed duplicated region for block: B:115:0x024f  */
+    /* JADX WARN: Removed duplicated region for block: B:118:0x02a1  */
+    /* JADX WARN: Removed duplicated region for block: B:119:0x02ac  */
+    /* JADX WARN: Removed duplicated region for block: B:126:0x02db  */
+    /* JADX WARN: Removed duplicated region for block: B:134:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x0065  */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x00a2  */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x00c0  */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x00d8  */
+    /* JADX WARN: Removed duplicated region for block: B:49:0x00f1  */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x010b  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x0119  */
+    /* JADX WARN: Removed duplicated region for block: B:68:0x012b  */
+    /* JADX WARN: Removed duplicated region for block: B:75:0x0156  */
+    /* JADX WARN: Removed duplicated region for block: B:76:0x015a  */
+    /* JADX WARN: Removed duplicated region for block: B:79:0x0168  */
+    /* JADX WARN: Removed duplicated region for block: B:80:0x016c  */
+    /* JADX WARN: Removed duplicated region for block: B:83:0x0174  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -428,7 +433,7 @@ public class GroupCallPipButton extends FrameLayout implements NotificationCente
                                     }
                                     i++;
                                 }
-                                if (this.removed || this.wavesEnter <= 0.0f) {
+                                if (!this.removed || this.wavesEnter <= 0.0f) {
                                     return;
                                 }
                                 invalidate();
@@ -539,19 +544,12 @@ public class GroupCallPipButton extends FrameLayout implements NotificationCente
             this.previousState = weavingState2;
             WeavingState weavingState3 = this.states[i];
             this.currentState = weavingState3;
-            float f = 0.0f;
             if (weavingState2 != null) {
                 this.progressToState = 0.0f;
             } else {
                 this.progressToState = 1.0f;
                 boolean z = true;
-                if (weavingState3.currentState == 3 || this.currentState.currentState == 2) {
-                    z = false;
-                }
-                if (z) {
-                    f = 1.0f;
-                }
-                this.wavesEnter = f;
+                this.wavesEnter = (weavingState3.currentState == 3 || this.currentState.currentState == 2) ? false : false ? 1.0f : 0.0f;
             }
             VoIPService sharedInstance = VoIPService.getSharedInstance();
             if (sharedInstance != null && ChatObject.isChannelOrGiga(sharedInstance.getChat())) {
@@ -592,19 +590,20 @@ public class GroupCallPipButton extends FrameLayout implements NotificationCente
     @Override // android.view.ViewGroup, android.view.View
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        if (!this.stub) {
-            setAmplitude(0.0d);
-            NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.webRtcMicAmplitudeEvent);
-            NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.groupCallUpdated);
-            boolean z = VoIPService.getSharedInstance() != null && VoIPService.getSharedInstance().isMicMute();
-            if (VoIPService.getSharedInstance() != null) {
-                VoIPService.getSharedInstance().registerStateListener(this);
-            }
-            this.bigMicDrawable.setCustomEndFrame(z ? 13 : 24);
-            RLottieDrawable rLottieDrawable = this.bigMicDrawable;
-            rLottieDrawable.setCurrentFrame(rLottieDrawable.getCustomEndFrame() - 1, false, true);
-            updateButtonState();
+        if (this.stub) {
+            return;
         }
+        setAmplitude(0.0d);
+        NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.webRtcMicAmplitudeEvent);
+        NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.groupCallUpdated);
+        boolean z = VoIPService.getSharedInstance() != null && VoIPService.getSharedInstance().isMicMute();
+        if (VoIPService.getSharedInstance() != null) {
+            VoIPService.getSharedInstance().registerStateListener(this);
+        }
+        this.bigMicDrawable.setCustomEndFrame(z ? 13 : 24);
+        RLottieDrawable rLottieDrawable = this.bigMicDrawable;
+        rLottieDrawable.setCurrentFrame(rLottieDrawable.getCustomEndFrame() - 1, false, true);
+        updateButtonState();
     }
 
     private void updateButtonState() {
@@ -625,10 +624,10 @@ public class GroupCallPipButton extends FrameLayout implements NotificationCente
             setState(3);
             long uptimeMillis = SystemClock.uptimeMillis();
             MotionEvent obtain = MotionEvent.obtain(uptimeMillis, uptimeMillis, 3, 0.0f, 0.0f, 0);
-            if (getParent() == null) {
+            if (getParent() != null) {
+                ((View) getParent()).dispatchTouchEvent(obtain);
                 return;
             }
-            ((View) getParent()).dispatchTouchEvent(obtain);
             return;
         }
         setState(sharedInstance.isMicMute() ? 1 : 0);
@@ -637,12 +636,12 @@ public class GroupCallPipButton extends FrameLayout implements NotificationCente
     @Override // android.view.ViewGroup, android.view.View
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        if (!this.stub) {
-            NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.webRtcMicAmplitudeEvent);
-            NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.groupCallUpdated);
-            if (VoIPService.getSharedInstance() == null) {
-                return;
-            }
+        if (this.stub) {
+            return;
+        }
+        NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.webRtcMicAmplitudeEvent);
+        NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.groupCallUpdated);
+        if (VoIPService.getSharedInstance() != null) {
             VoIPService.getSharedInstance().unregisterStateListener(this);
         }
     }
@@ -651,8 +650,7 @@ public class GroupCallPipButton extends FrameLayout implements NotificationCente
     public void didReceivedNotification(int i, int i2, Object... objArr) {
         if (i == NotificationCenter.webRtcMicAmplitudeEvent) {
             setAmplitude(((Float) objArr[0]).floatValue() * 4000.0f);
-        } else if (i != NotificationCenter.groupCallUpdated) {
-        } else {
+        } else if (i == NotificationCenter.groupCallUpdated) {
             updateButtonState();
         }
     }

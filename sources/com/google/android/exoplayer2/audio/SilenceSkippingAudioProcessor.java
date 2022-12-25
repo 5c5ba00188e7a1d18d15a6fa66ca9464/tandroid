@@ -77,9 +77,10 @@ public final class SilenceSkippingAudioProcessor extends BaseAudioProcessor {
         if (i > 0) {
             output(this.maybeSilenceBuffer, i);
         }
-        if (!this.hasOutputNoise) {
-            this.skippedFrames += this.paddingSize / this.bytesPerFrame;
+        if (this.hasOutputNoise) {
+            return;
         }
+        this.skippedFrames += this.paddingSize / this.bytesPerFrame;
     }
 
     @Override // com.google.android.exoplayer2.audio.BaseAudioProcessor

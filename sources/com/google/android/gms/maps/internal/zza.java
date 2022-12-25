@@ -11,10 +11,10 @@ public final class zza {
 
     public static Boolean zzb(byte b) {
         if (b != 0) {
-            if (b == 1) {
-                return Boolean.TRUE;
+            if (b != 1) {
+                return null;
             }
-            return null;
+            return Boolean.TRUE;
         }
         return Boolean.FALSE;
     }

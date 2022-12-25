@@ -105,18 +105,13 @@ public final class Ac4Reader implements ElementaryStreamReader {
     }
 
     private boolean skipToNextSync(ParsableByteArray parsableByteArray) {
-        boolean z;
         int readUnsignedByte;
         while (true) {
-            z = false;
             if (parsableByteArray.bytesLeft() <= 0) {
                 return false;
             }
             if (!this.lastByteWasAC) {
-                if (parsableByteArray.readUnsignedByte() == 172) {
-                    z = true;
-                }
-                this.lastByteWasAC = z;
+                this.lastByteWasAC = parsableByteArray.readUnsignedByte() == 172;
             } else {
                 readUnsignedByte = parsableByteArray.readUnsignedByte();
                 this.lastByteWasAC = readUnsignedByte == 172;
@@ -125,10 +120,7 @@ public final class Ac4Reader implements ElementaryStreamReader {
                 }
             }
         }
-        if (readUnsignedByte == 65) {
-            z = true;
-        }
-        this.hasCRC = z;
+        this.hasCRC = readUnsignedByte == 65;
         return true;
     }
 

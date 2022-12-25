@@ -16,14 +16,17 @@ import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
 public class SimpleAvatarView extends View {
     private ValueAnimator animator;
+    private AvatarDrawable avatarDrawable;
+    private ImageReceiver avatarImage;
     private boolean isAvatarHidden;
+    private Paint selectPaint;
     private float selectProgress;
-    private ImageReceiver avatarImage = new ImageReceiver(this);
-    private AvatarDrawable avatarDrawable = new AvatarDrawable();
-    private Paint selectPaint = new Paint(1);
 
     public SimpleAvatarView(Context context) {
         super(context);
+        this.avatarImage = new ImageReceiver(this);
+        this.avatarDrawable = new AvatarDrawable();
+        this.selectPaint = new Paint(1);
         this.avatarImage.setRoundRadius(AndroidUtilities.dp(28.0f));
         this.selectPaint.setStrokeWidth(AndroidUtilities.dp(2.0f));
         this.selectPaint.setStyle(Paint.Style.STROKE);
@@ -55,12 +58,13 @@ public class SimpleAvatarView extends View {
         rectF.set(strokeWidth, strokeWidth, getWidth() - strokeWidth, getHeight() - strokeWidth);
         canvas.drawArc(rectF, -90.0f, this.selectProgress * 360.0f, false, this.selectPaint);
         canvas.restore();
-        if (!this.isAvatarHidden) {
-            float strokeWidth2 = this.selectPaint.getStrokeWidth() * 2.5f * this.selectProgress;
-            float f2 = 2.0f * strokeWidth2;
-            this.avatarImage.setImageCoords(strokeWidth2, strokeWidth2, getWidth() - f2, getHeight() - f2);
-            this.avatarImage.draw(canvas);
+        if (this.isAvatarHidden) {
+            return;
         }
+        float strokeWidth2 = this.selectPaint.getStrokeWidth() * 2.5f * this.selectProgress;
+        float f2 = 2.0f * strokeWidth2;
+        this.avatarImage.setImageCoords(strokeWidth2, strokeWidth2, getWidth() - f2, getHeight() - f2);
+        this.avatarImage.draw(canvas);
     }
 
     public void setAvatar(TLObject tLObject) {
@@ -78,12 +82,8 @@ public class SimpleAvatarView extends View {
         if (valueAnimator != null) {
             valueAnimator.cancel();
         }
-        float f = 1.0f;
         if (z2) {
-            if (!z) {
-                f = 0.0f;
-            }
-            ValueAnimator duration = ValueAnimator.ofFloat(this.selectProgress, f).setDuration(200L);
+            ValueAnimator duration = ValueAnimator.ofFloat(this.selectProgress, z ? 1.0f : 0.0f).setDuration(200L);
             duration.setInterpolator(CubicBezierInterpolator.DEFAULT);
             duration.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.SimpleAvatarView$$ExternalSyntheticLambda0
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
@@ -103,10 +103,7 @@ public class SimpleAvatarView extends View {
             this.animator = duration;
             return;
         }
-        if (!z) {
-            f = 0.0f;
-        }
-        this.selectProgress = f;
+        this.selectProgress = z ? 1.0f : 0.0f;
         invalidate();
     }
 

@@ -32,7 +32,7 @@ public class ChatThemeController extends BaseController {
     private static volatile long lastReloadTimeMs = 0;
     private static final long reloadTimeoutMs = 7200000;
     private static volatile long themesHash;
-    private final LongSparseArray<String> dialogEmoticonsMap = new LongSparseArray<>();
+    private final LongSparseArray<String> dialogEmoticonsMap;
     public static volatile DispatchQueue chatThemeQueue = new DispatchQueue("chatThemeQueue");
     private static final HashMap<Long, Bitmap> themeIdWallpaperThumbMap = new HashMap<>();
     private static final ChatThemeController[] instances = new ChatThemeController[4];
@@ -52,10 +52,11 @@ public class ChatThemeController extends BaseController {
         }
         allChatThemes = getAllChatThemesFromPrefs();
         preloadSticker("❌");
-        if (!allChatThemes.isEmpty()) {
-            for (EmojiThemes emojiThemes : allChatThemes) {
-                preloadSticker(emojiThemes.getEmoticon());
-            }
+        if (allChatThemes.isEmpty()) {
+            return;
+        }
+        for (EmojiThemes emojiThemes : allChatThemes) {
+            preloadSticker(emojiThemes.getEmoticon());
         }
     }
 
@@ -102,8 +103,8 @@ public class ChatThemeController extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:11:0x00a7  */
-    /* JADX WARN: Removed duplicated region for block: B:23:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x00a7  */
+    /* JADX WARN: Removed duplicated region for block: B:27:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -142,25 +143,25 @@ public class ChatThemeController extends BaseController {
                 }
             });
             z2 = true;
-            if (!z2) {
+            if (z2) {
+                if (z && !((EmojiThemes) list.get(0)).showAsDefaultStub) {
+                    list.add(0, EmojiThemes.createChatThemesDefault());
+                }
+                for (EmojiThemes emojiThemes2 : list) {
+                    emojiThemes2.initColors();
+                }
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ChatThemeController$$ExternalSyntheticLambda2
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        ChatThemeController.lambda$requestAllChatThemes$1(list, resultCallback);
+                    }
+                });
                 return;
             }
-            if (z && !((EmojiThemes) list.get(0)).showAsDefaultStub) {
-                list.add(0, EmojiThemes.createChatThemesDefault());
-            }
-            for (EmojiThemes emojiThemes2 : list) {
-                emojiThemes2.initColors();
-            }
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ChatThemeController$$ExternalSyntheticLambda2
-                @Override // java.lang.Runnable
-                public final void run() {
-                    ChatThemeController.lambda$requestAllChatThemes$1(list, resultCallback);
-                }
-            });
             return;
         }
         z2 = false;
-        if (!z2) {
+        if (z2) {
         }
     }
 
@@ -241,6 +242,7 @@ public class ChatThemeController extends BaseController {
 
     public ChatThemeController(int i) {
         super(i);
+        this.dialogEmoticonsMap = new LongSparseArray<>();
     }
 
     public void setDialogTheme(long j, String str, boolean z) {
@@ -254,16 +256,15 @@ public class ChatThemeController extends BaseController {
         }
         SharedPreferences.Editor edit = getEmojiSharedPreferences().edit();
         edit.putString("chatTheme_" + this.currentAccount + "_" + j, str).apply();
-        if (!z) {
-            return;
+        if (z) {
+            TLRPC$TL_messages_setChatTheme tLRPC$TL_messages_setChatTheme = new TLRPC$TL_messages_setChatTheme();
+            if (str == null) {
+                str = "";
+            }
+            tLRPC$TL_messages_setChatTheme.emoticon = str;
+            tLRPC$TL_messages_setChatTheme.peer = getMessagesController().getInputPeer(j);
+            getConnectionsManager().sendRequest(tLRPC$TL_messages_setChatTheme, null);
         }
-        TLRPC$TL_messages_setChatTheme tLRPC$TL_messages_setChatTheme = new TLRPC$TL_messages_setChatTheme();
-        if (str == null) {
-            str = "";
-        }
-        tLRPC$TL_messages_setChatTheme.emoticon = str;
-        tLRPC$TL_messages_setChatTheme.peer = getMessagesController().getInputPeer(j);
-        getConnectionsManager().sendRequest(tLRPC$TL_messages_setChatTheme, null);
     }
 
     public EmojiThemes getDialogTheme(long j) {
@@ -283,23 +284,21 @@ public class ChatThemeController extends BaseController {
         return null;
     }
 
-    /* JADX WARN: Multi-variable type inference failed */
     public static void preloadAllWallpaperImages(boolean z) {
         for (EmojiThemes emojiThemes : allChatThemes) {
             TLRPC$TL_theme tlTheme = emojiThemes.getTlTheme(z ? 1 : 0);
             if (tlTheme != null && !getPatternFile(tlTheme.id).exists()) {
-                emojiThemes.loadWallpaper(z, null);
+                emojiThemes.loadWallpaper(z ? 1 : 0, null);
             }
         }
     }
 
-    /* JADX WARN: Multi-variable type inference failed */
     public static void preloadAllWallpaperThumbs(boolean z) {
         for (EmojiThemes emojiThemes : allChatThemes) {
             TLRPC$TL_theme tlTheme = emojiThemes.getTlTheme(z ? 1 : 0);
             if (tlTheme != null) {
                 if (!themeIdWallpaperThumbMap.containsKey(Long.valueOf(tlTheme.id))) {
-                    emojiThemes.loadWallpaperThumb(z, ChatThemeController$$ExternalSyntheticLambda7.INSTANCE);
+                    emojiThemes.loadWallpaperThumb(z ? 1 : 0, ChatThemeController$$ExternalSyntheticLambda7.INSTANCE);
                 }
             }
         }

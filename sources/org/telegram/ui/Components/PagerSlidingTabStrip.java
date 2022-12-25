@@ -18,25 +18,25 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
 public class PagerSlidingTabStrip extends HorizontalScrollView {
+    private int currentPosition;
+    private float currentPositionOffset;
+    private LinearLayout.LayoutParams defaultTabLayoutParams;
     public ViewPager.OnPageChangeListener delegatePageListener;
+    private int dividerPadding;
+    private int indicatorColor;
+    private int indicatorHeight;
+    private int lastScrollX;
+    private final PageListener pageListener;
     private ViewPager pager;
     private Paint rectPaint;
     private Theme.ResourcesProvider resourcesProvider;
+    private int scrollOffset;
+    private boolean shouldExpand;
     private int tabCount;
+    private int tabPadding;
     private LinearLayout tabsContainer;
-    private final PageListener pageListener = new PageListener();
-    private int currentPosition = 0;
-    private float currentPositionOffset = 0.0f;
-    private int indicatorColor = -10066330;
-    private int underlineColor = 436207616;
-    private boolean shouldExpand = false;
-    private int scrollOffset = AndroidUtilities.dp(52.0f);
-    private int indicatorHeight = AndroidUtilities.dp(8.0f);
-    private int underlineHeight = AndroidUtilities.dp(2.0f);
-    private int dividerPadding = AndroidUtilities.dp(12.0f);
-    private int tabPadding = AndroidUtilities.dp(24.0f);
-    private int lastScrollX = 0;
-    private LinearLayout.LayoutParams defaultTabLayoutParams = new LinearLayout.LayoutParams(-2, -1);
+    private int underlineColor;
+    private int underlineHeight;
 
     /* loaded from: classes3.dex */
     public interface IconTabProvider {
@@ -49,6 +49,18 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
 
     public PagerSlidingTabStrip(Context context, Theme.ResourcesProvider resourcesProvider) {
         super(context);
+        this.pageListener = new PageListener();
+        this.currentPosition = 0;
+        this.currentPositionOffset = 0.0f;
+        this.indicatorColor = -10066330;
+        this.underlineColor = 436207616;
+        this.shouldExpand = false;
+        this.scrollOffset = AndroidUtilities.dp(52.0f);
+        this.indicatorHeight = AndroidUtilities.dp(8.0f);
+        this.underlineHeight = AndroidUtilities.dp(2.0f);
+        this.dividerPadding = AndroidUtilities.dp(12.0f);
+        this.tabPadding = AndroidUtilities.dp(24.0f);
+        this.lastScrollX = 0;
         this.resourcesProvider = resourcesProvider;
         setFillViewport(true);
         setWillNotDraw(false);
@@ -61,6 +73,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
         this.rectPaint = paint;
         paint.setAntiAlias(true);
         this.rectPaint.setStyle(Paint.Style.FILL);
+        this.defaultTabLayoutParams = new LinearLayout.LayoutParams(-2, -1);
     }
 
     public void setViewPager(ViewPager viewPager) {
@@ -125,7 +138,6 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
                 Theme.setSelectorDrawableColor(background, Color.argb(30, Color.red(themedColor), Color.green(themedColor), Color.blue(themedColor)), true);
             }
         };
-        boolean z = true;
         imageView.setFocusable(true);
         if (Build.VERSION.SDK_INT >= 21) {
             RippleDrawable rippleDrawable = (RippleDrawable) Theme.createSelectorDrawable(getThemedColor("chat_emojiBottomPanelIcon"), 1, AndroidUtilities.dp(18.0f));
@@ -141,10 +153,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
             }
         });
         this.tabsContainer.addView(imageView);
-        if (i != this.currentPosition) {
-            z = false;
-        }
-        imageView.setSelected(z);
+        imageView.setSelected(i == this.currentPosition);
         imageView.setContentDescription(charSequence);
     }
 
@@ -188,11 +197,10 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
         if (i > 0 || i2 > 0) {
             left -= this.scrollOffset;
         }
-        if (left == this.lastScrollX) {
-            return;
+        if (left != this.lastScrollX) {
+            this.lastScrollX = left;
+            scrollTo(left, 0);
         }
-        this.lastScrollX = left;
-        scrollTo(left, 0);
     }
 
     @Override // android.view.View
@@ -208,24 +216,22 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
             canvas.drawRect(0.0f, height - this.underlineHeight, this.tabsContainer.getWidth(), height, this.rectPaint);
         }
         View childAt = this.tabsContainer.getChildAt(this.currentPosition);
-        if (childAt == null) {
-            return;
+        if (childAt != null) {
+            float left = childAt.getLeft();
+            float right = childAt.getRight();
+            if (this.currentPositionOffset > 0.0f && (i = this.currentPosition) < this.tabCount - 1) {
+                View childAt2 = this.tabsContainer.getChildAt(i + 1);
+                float f = this.currentPositionOffset;
+                left = (childAt2.getLeft() * f) + ((1.0f - f) * left);
+                right = (childAt2.getRight() * f) + ((1.0f - f) * right);
+            }
+            float f2 = right;
+            float f3 = left;
+            if (this.indicatorHeight != 0) {
+                this.rectPaint.setColor(this.indicatorColor);
+                canvas.drawRect(f3, height - this.indicatorHeight, f2, height, this.rectPaint);
+            }
         }
-        float left = childAt.getLeft();
-        float right = childAt.getRight();
-        if (this.currentPositionOffset > 0.0f && (i = this.currentPosition) < this.tabCount - 1) {
-            View childAt2 = this.tabsContainer.getChildAt(i + 1);
-            float f = this.currentPositionOffset;
-            left = (childAt2.getLeft() * f) + ((1.0f - f) * left);
-            right = (childAt2.getRight() * f) + ((1.0f - f) * right);
-        }
-        float f2 = right;
-        float f3 = left;
-        if (this.indicatorHeight == 0) {
-            return;
-        }
-        this.rectPaint.setColor(this.indicatorColor);
-        canvas.drawRect(f3, height - this.indicatorHeight, f2, height, this.rectPaint);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -243,10 +249,9 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
                 pagerSlidingTabStrip.scrollToChild(i, (int) (pagerSlidingTabStrip.tabsContainer.getChildAt(i).getWidth() * f));
                 PagerSlidingTabStrip.this.invalidate();
                 ViewPager.OnPageChangeListener onPageChangeListener = PagerSlidingTabStrip.this.delegatePageListener;
-                if (onPageChangeListener == null) {
-                    return;
+                if (onPageChangeListener != null) {
+                    onPageChangeListener.onPageScrolled(i, f, i2);
                 }
-                onPageChangeListener.onPageScrolled(i, f, i2);
             }
         }
 
@@ -285,14 +290,15 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
 
     @Override // android.widget.HorizontalScrollView, android.view.View
     public void onSizeChanged(int i, int i2, int i3, int i4) {
-        if (!this.shouldExpand) {
-            post(new Runnable() { // from class: org.telegram.ui.Components.PagerSlidingTabStrip$$ExternalSyntheticLambda1
-                @Override // java.lang.Runnable
-                public final void run() {
-                    PagerSlidingTabStrip.this.notifyDataSetChanged();
-                }
-            });
+        if (this.shouldExpand) {
+            return;
         }
+        post(new Runnable() { // from class: org.telegram.ui.Components.PagerSlidingTabStrip$$ExternalSyntheticLambda1
+            @Override // java.lang.Runnable
+            public final void run() {
+                PagerSlidingTabStrip.this.notifyDataSetChanged();
+            }
+        });
     }
 
     public void setIndicatorColor(int i) {

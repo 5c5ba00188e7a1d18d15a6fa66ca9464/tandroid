@@ -30,13 +30,13 @@ public final class zzfi$zzg extends zzjb<zzfi$zzg, zza> implements zzkm {
 
         public static zzb zza(int i) {
             if (i != 0) {
-                if (i == 1) {
-                    return zza;
-                }
-                if (i == 2) {
+                if (i != 1) {
+                    if (i != 2) {
+                        return null;
+                    }
                     return zzb;
                 }
-                return null;
+                return zza;
             }
             return zzc;
         }
@@ -76,16 +76,16 @@ public final class zzfi$zzg extends zzjb<zzfi$zzg, zza> implements zzkm {
 
         public static zzc zza(int i) {
             if (i != 0) {
-                if (i == 1) {
-                    return zza;
-                }
-                if (i == 2) {
+                if (i != 1) {
+                    if (i != 2) {
+                        if (i != 3) {
+                            return null;
+                        }
+                        return zzc;
+                    }
                     return zzb;
                 }
-                if (i == 3) {
-                    return zzc;
-                }
-                return null;
+                return zza;
             }
             return zzd;
         }
@@ -125,16 +125,16 @@ public final class zzfi$zzg extends zzjb<zzfi$zzg, zza> implements zzkm {
 
         public static zzd zza(int i) {
             if (i != 0) {
-                if (i == 1) {
-                    return zza;
-                }
-                if (i == 2) {
+                if (i != 1) {
+                    if (i != 2) {
+                        if (i != 3) {
+                            return null;
+                        }
+                        return zzc;
+                    }
                     return zzb;
                 }
-                if (i == 3) {
-                    return zzc;
-                }
-                return null;
+                return zza;
             }
             return zzd;
         }

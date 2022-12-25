@@ -43,10 +43,10 @@ final class BitMatrixParser {
         }
         FormatInformation decodeFormatInformation = FormatInformation.decodeFormatInformation(copyBit, i);
         this.parsedFormatInfo = decodeFormatInformation;
-        if (decodeFormatInformation == null) {
-            throw FormatException.getFormatInstance();
+        if (decodeFormatInformation != null) {
+            return decodeFormatInformation;
         }
-        return decodeFormatInformation;
+        throw FormatException.getFormatInstance();
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

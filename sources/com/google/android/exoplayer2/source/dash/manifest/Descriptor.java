@@ -27,12 +27,8 @@ public final class Descriptor {
     public int hashCode() {
         int hashCode = this.schemeIdUri.hashCode() * 31;
         String str = this.value;
-        int i = 0;
         int hashCode2 = (hashCode + (str != null ? str.hashCode() : 0)) * 31;
         String str2 = this.id;
-        if (str2 != null) {
-            i = str2.hashCode();
-        }
-        return hashCode2 + i;
+        return hashCode2 + (str2 != null ? str2.hashCode() : 0);
     }
 }

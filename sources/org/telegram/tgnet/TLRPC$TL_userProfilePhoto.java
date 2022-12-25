@@ -12,12 +12,8 @@ public class TLRPC$TL_userProfilePhoto extends TLRPC$UserProfilePhoto {
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
         int readInt32 = abstractSerializedData.readInt32(z);
         this.flags = readInt32;
-        boolean z2 = false;
         this.has_video = (readInt32 & 1) != 0;
-        if ((readInt32 & 4) != 0) {
-            z2 = true;
-        }
-        this.personal = z2;
+        this.personal = (readInt32 & 4) != 0;
         this.photo_id = abstractSerializedData.readInt64(z);
         if ((this.flags & 2) != 0) {
             this.stripped_thumb = abstractSerializedData.readByteArray(z);

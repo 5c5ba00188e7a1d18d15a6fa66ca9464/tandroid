@@ -13,12 +13,13 @@ public final class Objects {
     /* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
     /* loaded from: classes.dex */
     public static final class ToStringHelper {
-        private final List zza = new ArrayList();
+        private final List zza;
         private final Object zzb;
 
         /* synthetic */ ToStringHelper(Object obj, zzah zzahVar) {
             Preconditions.checkNotNull(obj);
             this.zzb = obj;
+            this.zza = new ArrayList();
         }
 
         @CanIgnoreReturnValue
@@ -53,15 +54,15 @@ public final class Objects {
             return false;
         } else {
             Set<String> keySet = bundle.keySet();
-            if (!keySet.containsAll(bundle2.keySet())) {
-                return false;
-            }
-            for (String str : keySet) {
-                if (!equal(bundle.get(str), bundle2.get(str))) {
-                    return false;
+            if (keySet.containsAll(bundle2.keySet())) {
+                for (String str : keySet) {
+                    if (!equal(bundle.get(str), bundle2.get(str))) {
+                        return false;
+                    }
                 }
+                return true;
             }
-            return true;
+            return false;
         }
     }
 

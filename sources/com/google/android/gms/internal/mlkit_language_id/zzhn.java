@@ -12,15 +12,15 @@ import sun.misc.Unsafe;
 /* loaded from: classes.dex */
 public final class zzhn {
     static final boolean zza;
+    private static final Logger zzb = Logger.getLogger(zzhn.class.getName());
     private static final Unsafe zzc;
+    private static final Class<?> zzd;
     private static final boolean zze;
     private static final boolean zzf;
     private static final zzc zzg;
     private static final boolean zzh;
     private static final boolean zzi;
     private static final long zzj;
-    private static final Logger zzb = Logger.getLogger(zzhn.class.getName());
-    private static final Class<?> zzd = zzdl.zzb();
 
     private zzhn() {
     }
@@ -431,35 +431,35 @@ public final class zzhn {
     }
 
     private static boolean zzd(Class<?> cls) {
-        if (!zzdl.zza()) {
-            return false;
+        if (zzdl.zza()) {
+            try {
+                Class<?> cls2 = zzd;
+                Class<?> cls3 = Boolean.TYPE;
+                cls2.getMethod("peekLong", cls, cls3);
+                cls2.getMethod("pokeLong", cls, Long.TYPE, cls3);
+                Class<?> cls4 = Integer.TYPE;
+                cls2.getMethod("pokeInt", cls, cls4, cls3);
+                cls2.getMethod("peekInt", cls, cls3);
+                cls2.getMethod("pokeByte", cls, Byte.TYPE);
+                cls2.getMethod("peekByte", cls);
+                cls2.getMethod("pokeByteArray", cls, byte[].class, cls4, cls4);
+                cls2.getMethod("peekByteArray", cls, byte[].class, cls4, cls4);
+                return true;
+            } catch (Throwable unused) {
+                return false;
+            }
         }
-        try {
-            Class<?> cls2 = zzd;
-            Class<?> cls3 = Boolean.TYPE;
-            cls2.getMethod("peekLong", cls, cls3);
-            cls2.getMethod("pokeLong", cls, Long.TYPE, cls3);
-            Class<?> cls4 = Integer.TYPE;
-            cls2.getMethod("pokeInt", cls, cls4, cls3);
-            cls2.getMethod("peekInt", cls, cls3);
-            cls2.getMethod("pokeByte", cls, Byte.TYPE);
-            cls2.getMethod("peekByte", cls);
-            cls2.getMethod("pokeByteArray", cls, byte[].class, cls4, cls4);
-            cls2.getMethod("peekByteArray", cls, byte[].class, cls4, cls4);
-            return true;
-        } catch (Throwable unused) {
-            return false;
-        }
+        return false;
     }
 
     private static Field zzf() {
         Field zza2;
         if (!zzdl.zza() || (zza2 = zza(Buffer.class, "effectiveDirectAddress")) == null) {
             Field zza3 = zza(Buffer.class, "address");
-            if (zza3 != null && zza3.getType() == Long.TYPE) {
-                return zza3;
+            if (zza3 == null || zza3.getType() != Long.TYPE) {
+                return null;
             }
-            return null;
+            return zza3;
         }
         return zza2;
     }
@@ -519,6 +519,7 @@ public final class zzhn {
     static {
         Unsafe zzc2 = zzc();
         zzc = zzc2;
+        zzd = zzdl.zzb();
         boolean zzd2 = zzd(Long.TYPE);
         zze = zzd2;
         boolean zzd3 = zzd(Integer.TYPE);

@@ -52,7 +52,6 @@ public final class SpliceScheduleCommand extends SpliceCommand {
 
         private Event(Parcel parcel) {
             this.spliceEventId = parcel.readLong();
-            boolean z = false;
             this.spliceEventCancelIndicator = parcel.readByte() == 1;
             this.outOfNetworkIndicator = parcel.readByte() == 1;
             this.programSpliceFlag = parcel.readByte() == 1;
@@ -63,7 +62,7 @@ public final class SpliceScheduleCommand extends SpliceCommand {
             }
             this.componentSpliceList = Collections.unmodifiableList(arrayList);
             this.utcSpliceTime = parcel.readLong();
-            this.autoReturn = parcel.readByte() == 1 ? true : z;
+            this.autoReturn = parcel.readByte() == 1;
             this.breakDurationUs = parcel.readLong();
             this.uniqueProgramId = parcel.readInt();
             this.availNum = parcel.readInt();
@@ -86,7 +85,17 @@ public final class SpliceScheduleCommand extends SpliceCommand {
             long readUnsignedInt = parsableByteArray.readUnsignedInt();
             boolean z5 = (parsableByteArray.readUnsignedByte() & ConnectionsManager.RequestFlagNeedQuickAck) != 0;
             ArrayList arrayList2 = new ArrayList();
-            if (!z5) {
+            if (z5) {
+                arrayList = arrayList2;
+                z = false;
+                j = -9223372036854775807L;
+                z2 = false;
+                j2 = -9223372036854775807L;
+                i = 0;
+                i2 = 0;
+                i3 = 0;
+                z3 = false;
+            } else {
                 int readUnsignedByte = parsableByteArray.readUnsignedByte();
                 boolean z6 = (readUnsignedByte & ConnectionsManager.RequestFlagNeedQuickAck) != 0;
                 boolean z7 = (readUnsignedByte & 64) != 0;
@@ -122,16 +131,6 @@ public final class SpliceScheduleCommand extends SpliceCommand {
                 boolean z10 = z6;
                 z2 = z4;
                 z = z10;
-            } else {
-                arrayList = arrayList2;
-                z = false;
-                j = -9223372036854775807L;
-                z2 = false;
-                j2 = -9223372036854775807L;
-                i = 0;
-                i2 = 0;
-                i3 = 0;
-                z3 = false;
             }
             return new Event(readUnsignedInt, z5, z, z3, arrayList, j, z2, j2, i, i2, i3);
         }

@@ -101,10 +101,10 @@ public final class JsonPrimitive extends JsonElement {
             if ((obj2 instanceof Number) && (jsonPrimitive.value instanceof Number)) {
                 double doubleValue = getAsNumber().doubleValue();
                 double doubleValue2 = jsonPrimitive.getAsNumber().doubleValue();
-                if (doubleValue == doubleValue2) {
-                    return true;
+                if (doubleValue != doubleValue2) {
+                    return Double.isNaN(doubleValue) && Double.isNaN(doubleValue2);
                 }
-                return Double.isNaN(doubleValue) && Double.isNaN(doubleValue2);
+                return true;
             }
             return obj2.equals(jsonPrimitive.value);
         }

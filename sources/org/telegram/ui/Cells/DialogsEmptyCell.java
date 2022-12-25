@@ -28,6 +28,8 @@ import org.telegram.ui.Components.RLottieImageView;
 import org.telegram.ui.Components.TextViewSwitcher;
 /* loaded from: classes3.dex */
 public class DialogsEmptyCell extends LinearLayout {
+    private int currentAccount;
+    private int currentType;
     private RLottieImageView imageView;
     private Runnable onUtyanAnimationEndListener;
     private Consumer<Float> onUtyanAnimationUpdateListener;
@@ -37,8 +39,6 @@ public class DialogsEmptyCell extends LinearLayout {
     private boolean utyanAnimationTriggered;
     private ValueAnimator utyanAnimator;
     private float utyanCollapseProgress;
-    private int currentType = -1;
-    private int currentAccount = UserConfig.selectedAccount;
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ boolean lambda$new$0(View view, MotionEvent motionEvent) {
@@ -47,6 +47,8 @@ public class DialogsEmptyCell extends LinearLayout {
 
     public DialogsEmptyCell(final Context context) {
         super(context);
+        this.currentType = -1;
+        this.currentAccount = UserConfig.selectedAccount;
         setGravity(17);
         setOrientation(1);
         setOnTouchListener(DialogsEmptyCell$$ExternalSyntheticLambda3.INSTANCE);
@@ -84,10 +86,11 @@ public class DialogsEmptyCell extends LinearLayout {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(View view) {
-        if (!this.imageView.isPlaying()) {
-            this.imageView.setProgress(0.0f);
-            this.imageView.playAnimation();
+        if (this.imageView.isPlaying()) {
+            return;
         }
+        this.imageView.setProgress(0.0f);
+        this.imageView.playAnimation();
     }
 
     /* JADX INFO: Access modifiers changed from: private */

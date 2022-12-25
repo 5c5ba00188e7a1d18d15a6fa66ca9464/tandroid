@@ -71,13 +71,7 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
                         TtsExtent ttsExtent2 = ttsExtent;
                         FrameAndTickRate frameAndTickRate3 = frameAndTickRate2;
                         CellResolution cellResolution2 = cellResolution;
-                        if (!isSupportedTag(name)) {
-                            Log.i("TtmlDecoder", "Ignoring unsupported tag: " + newPullParser.getName());
-                            i2++;
-                            frameAndTickRate2 = frameAndTickRate3;
-                            ttsExtent = ttsExtent2;
-                            cellResolution = cellResolution2;
-                        } else {
+                        if (isSupportedTag(name)) {
                             if ("head".equals(name)) {
                                 ttmlSubtitle = ttmlSubtitle2;
                                 frameAndTickRate = frameAndTickRate3;
@@ -97,6 +91,12 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
                                 }
                             }
                             frameAndTickRate2 = frameAndTickRate;
+                            ttsExtent = ttsExtent2;
+                            cellResolution = cellResolution2;
+                        } else {
+                            Log.i("TtmlDecoder", "Ignoring unsupported tag: " + newPullParser.getName());
+                            i2++;
+                            frameAndTickRate2 = frameAndTickRate3;
                             ttsExtent = ttsExtent2;
                             cellResolution = cellResolution2;
                         }
@@ -335,10 +335,10 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:44:0x0131, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:65:0x0131, code lost:
         if (r3.equals("linethrough") == false) goto L32;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:70:0x0198, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:89:0x0198, code lost:
         if (r3.equals("start") == false) goto L56;
      */
     /*
@@ -757,7 +757,7 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:33:0x00b3, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:23:0x00b3, code lost:
         if (r13.equals("ms") == false) goto L21;
      */
     /*

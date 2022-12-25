@@ -65,11 +65,11 @@ class y implements p.a, j$.util.function.l, Iterator {
 
     @Override // j$.util.p.a, java.util.Iterator
     public Integer next() {
-        if (!N.a) {
-            return Integer.valueOf(nextInt());
+        if (N.a) {
+            N.a(y.class, "{0} calling PrimitiveIterator.OfInt.nextInt()");
+            throw null;
         }
-        N.a(y.class, "{0} calling PrimitiveIterator.OfInt.nextInt()");
-        throw null;
+        return Integer.valueOf(nextInt());
     }
 
     @Override // j$.util.p.a

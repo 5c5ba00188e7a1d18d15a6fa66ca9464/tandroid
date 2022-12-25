@@ -7,7 +7,7 @@ import com.google.android.gms.internal.auth.zzbt;
 /* loaded from: classes.dex */
 public final class AuthProxy {
     public static final Api<AuthProxyOptions> API;
-    public static final ProxyApi ProxyApi = new zzbt();
+    public static final ProxyApi ProxyApi;
     public static final Api.ClientKey zza;
     private static final Api.AbstractClientBuilder zzb;
 
@@ -17,5 +17,6 @@ public final class AuthProxy {
         zza zzaVar = new zza();
         zzb = zzaVar;
         API = new Api<>("Auth.PROXY_API", zzaVar, clientKey);
+        ProxyApi = new zzbt();
     }
 }

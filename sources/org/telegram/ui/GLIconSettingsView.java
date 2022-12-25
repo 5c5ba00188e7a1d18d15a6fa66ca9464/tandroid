@@ -26,7 +26,6 @@ public class GLIconSettingsView extends LinearLayout {
         textView.setLines(1);
         textView.setMaxLines(1);
         textView.setSingleLine(true);
-        int i = 3;
         textView.setGravity((LocaleController.isRTL ? 3 : 5) | 48);
         addView(textView, LayoutHelper.createFrame(-2, -1.0f, (LocaleController.isRTL ? 3 : 5) | 48, 21.0f, 13.0f, 21.0f, 0.0f));
         SeekBarView seekBarView = new SeekBarView(context);
@@ -105,8 +104,8 @@ public class GLIconSettingsView extends LinearLayout {
                     }
 
                     @Override // org.telegram.ui.Components.ColorPicker.ColorPickerDelegate
-                    public /* synthetic */ int getDefaultColor(int i2) {
-                        return ColorPicker.ColorPickerDelegate.-CC.$default$getDefaultColor(this, i2);
+                    public /* synthetic */ int getDefaultColor(int i) {
+                        return ColorPicker.ColorPickerDelegate.-CC.$default$getDefaultColor(this, i);
                     }
 
                     @Override // org.telegram.ui.Components.ColorPicker.ColorPickerDelegate
@@ -115,13 +114,13 @@ public class GLIconSettingsView extends LinearLayout {
                     }
 
                     @Override // org.telegram.ui.Components.ColorPicker.ColorPickerDelegate
-                    public void setColor(int i2, int i3, boolean z) {
-                        gLIconRenderer.star.specColor = i2;
+                    public void setColor(int i, int i2, boolean z) {
+                        gLIconRenderer.star.specColor = i;
                     }
                 }) { // from class: org.telegram.ui.GLIconSettingsView.3.2
                     @Override // android.widget.FrameLayout, android.view.View
-                    protected void onMeasure(int i2, int i3) {
-                        super.onMeasure(i2, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(300.0f), 1073741824));
+                    protected void onMeasure(int i, int i2) {
+                        super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(300.0f), 1073741824));
                     }
                 };
                 colorPicker.setColor(gLIconRenderer.star.specColor, 0);
@@ -218,8 +217,8 @@ public class GLIconSettingsView extends LinearLayout {
                     }
 
                     @Override // org.telegram.ui.Components.ColorPicker.ColorPickerDelegate
-                    public /* synthetic */ int getDefaultColor(int i2) {
-                        return ColorPicker.ColorPickerDelegate.-CC.$default$getDefaultColor(this, i2);
+                    public /* synthetic */ int getDefaultColor(int i) {
+                        return ColorPicker.ColorPickerDelegate.-CC.$default$getDefaultColor(this, i);
                     }
 
                     @Override // org.telegram.ui.Components.ColorPicker.ColorPickerDelegate
@@ -228,15 +227,15 @@ public class GLIconSettingsView extends LinearLayout {
                     }
 
                     @Override // org.telegram.ui.Components.ColorPicker.ColorPickerDelegate
-                    public void setColor(int i2, int i3, boolean z) {
-                        if (i3 == 0) {
-                            gLIconRenderer.star.normalSpecColor = i2;
+                    public void setColor(int i, int i2, boolean z) {
+                        if (i2 == 0) {
+                            gLIconRenderer.star.normalSpecColor = i;
                         }
                     }
                 }) { // from class: org.telegram.ui.GLIconSettingsView.6.2
                     @Override // android.widget.FrameLayout, android.view.View
-                    protected void onMeasure(int i2, int i3) {
-                        super.onMeasure(i2, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(300.0f), 1073741824));
+                    protected void onMeasure(int i, int i2) {
+                        super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(300.0f), 1073741824));
                     }
                 };
                 colorPicker.setColor(gLIconRenderer.star.normalSpecColor, 0);
@@ -256,7 +255,7 @@ public class GLIconSettingsView extends LinearLayout {
         textView7.setMaxLines(1);
         textView7.setSingleLine(true);
         textView7.setGravity((LocaleController.isRTL ? 3 : 5) | 48);
-        addView(textView7, LayoutHelper.createFrame(-2, -1.0f, (!LocaleController.isRTL ? 5 : i) | 48, 21.0f, 13.0f, 21.0f, 0.0f));
+        addView(textView7, LayoutHelper.createFrame(-2, -1.0f, (LocaleController.isRTL ? 3 : 5) | 48, 21.0f, 13.0f, 21.0f, 0.0f));
         SeekBarView seekBarView5 = new SeekBarView(context);
         seekBarView5.setDelegate(new SeekBarView.SeekBarViewDelegate(this) { // from class: org.telegram.ui.GLIconSettingsView.7
             @Override // org.telegram.ui.Components.SeekBarView.SeekBarViewDelegate

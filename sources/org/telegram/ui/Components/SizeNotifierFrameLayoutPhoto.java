@@ -9,7 +9,7 @@ import org.telegram.messenger.AndroidUtilities;
 public class SizeNotifierFrameLayoutPhoto extends FrameLayout {
     private SizeNotifierFrameLayoutPhotoDelegate delegate;
     private int keyboardHeight;
-    private android.graphics.Rect rect = new android.graphics.Rect();
+    private android.graphics.Rect rect;
     private boolean withoutWindow;
 
     /* loaded from: classes3.dex */
@@ -19,6 +19,7 @@ public class SizeNotifierFrameLayoutPhoto extends FrameLayout {
 
     public SizeNotifierFrameLayoutPhoto(Context context, boolean z) {
         super(context);
+        this.rect = new android.graphics.Rect();
     }
 
     public void setDelegate(SizeNotifierFrameLayoutPhotoDelegate sizeNotifierFrameLayoutPhotoDelegate) {
@@ -43,21 +44,16 @@ public class SizeNotifierFrameLayoutPhoto extends FrameLayout {
     public int measureKeyboardHeight() {
         View rootView = getRootView();
         getWindowVisibleDisplayFrame(this.rect);
-        int i = 0;
         if (this.withoutWindow) {
-            int height = rootView.getHeight();
-            if (this.rect.top != 0) {
-                i = AndroidUtilities.statusBarHeight;
-            }
-            int viewInset = (height - i) - AndroidUtilities.getViewInset(rootView);
+            int height = (rootView.getHeight() - (this.rect.top != 0 ? AndroidUtilities.statusBarHeight : 0)) - AndroidUtilities.getViewInset(rootView);
             android.graphics.Rect rect = this.rect;
-            return viewInset - (rect.bottom - rect.top);
+            return height - (rect.bottom - rect.top);
         }
         int height2 = (((Activity) rootView.getContext()).getWindow().getDecorView().getHeight() - AndroidUtilities.getViewInset(rootView)) - rootView.getBottom();
-        if (height2 > Math.max(AndroidUtilities.dp(10.0f), AndroidUtilities.statusBarHeight)) {
-            return height2;
+        if (height2 <= Math.max(AndroidUtilities.dp(10.0f), AndroidUtilities.statusBarHeight)) {
+            return 0;
         }
-        return 0;
+        return height2;
     }
 
     public void notifyHeightChanged() {

@@ -87,10 +87,9 @@ public class RoundVideoPlayingDrawable extends Drawable {
     }
 
     public void stop() {
-        if (!this.started) {
-            return;
+        if (this.started) {
+            this.started = false;
         }
-        this.started = false;
     }
 
     @Override // android.graphics.drawable.Drawable

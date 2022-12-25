@@ -1036,15 +1036,14 @@ public class NotificationCenter {
                 onAnimationFinish(((Integer) arrayList.get(i)).intValue());
             }
         }
-        if (j == Long.MAX_VALUE) {
-            return;
+        if (j != Long.MAX_VALUE) {
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.NotificationCenter$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    NotificationCenter.this.lambda$checkForExpiredNotifications$0();
+                }
+            }, Math.max(17L, EXPIRE_NOTIFICATIONS_TIME - (elapsedRealtime - j)));
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.NotificationCenter$$ExternalSyntheticLambda0
-            @Override // java.lang.Runnable
-            public final void run() {
-                NotificationCenter.this.lambda$checkForExpiredNotifications$0();
-            }
-        }, Math.max(17L, EXPIRE_NOTIFICATIONS_TIME - (elapsedRealtime - j)));
     }
 
     public /* synthetic */ void lambda$checkForExpiredNotifications$0() {
@@ -1089,15 +1088,16 @@ public class NotificationCenter {
             }
             this.delayedPostsTmp.clear();
         }
-        if (!this.delayedRunnables.isEmpty()) {
-            this.delayedRunnablesTmp.clear();
-            this.delayedRunnablesTmp.addAll(this.delayedRunnables);
-            this.delayedRunnables.clear();
-            for (int i2 = 0; i2 < this.delayedRunnablesTmp.size(); i2++) {
-                AndroidUtilities.runOnUIThread(this.delayedRunnablesTmp.get(i2));
-            }
-            this.delayedRunnablesTmp.clear();
+        if (this.delayedRunnables.isEmpty()) {
+            return;
         }
+        this.delayedRunnablesTmp.clear();
+        this.delayedRunnablesTmp.addAll(this.delayedRunnables);
+        this.delayedRunnables.clear();
+        for (int i2 = 0; i2 < this.delayedRunnablesTmp.size(); i2++) {
+            AndroidUtilities.runOnUIThread(this.delayedRunnablesTmp.get(i2));
+        }
+        this.delayedRunnablesTmp.clear();
     }
 
     public boolean isAnimationInProgress() {
@@ -1113,10 +1113,9 @@ public class NotificationCenter {
     }
 
     public void postNotificationName(int i, Object... objArr) {
-        boolean z = true;
-        boolean z2 = i == startAllHeavyOperations || i == stopAllHeavyOperations || i == didReplacedPhotoInMemCache || i == closeChats || i == invalidateMotionBackground;
+        boolean z = i == startAllHeavyOperations || i == stopAllHeavyOperations || i == didReplacedPhotoInMemCache || i == closeChats || i == invalidateMotionBackground;
         ArrayList arrayList = null;
-        if (!z2 && !this.allowedNotifications.isEmpty()) {
+        if (!z && !this.allowedNotifications.isEmpty()) {
             int size = this.allowedNotifications.size();
             long elapsedRealtime = SystemClock.elapsedRealtime();
             int i2 = 0;
@@ -1144,17 +1143,14 @@ public class NotificationCenter {
                     }
                 }
             }
-            if (size != i2) {
-                z = false;
-            }
-            z2 = z;
+            z = size == i2;
         }
         if (i == startAllHeavyOperations) {
             this.currentHeavyOperationFlags = (((Integer) objArr[0]).intValue() ^ (-1)) & this.currentHeavyOperationFlags;
         } else if (i == stopAllHeavyOperations) {
             this.currentHeavyOperationFlags = ((Integer) objArr[0]).intValue() | this.currentHeavyOperationFlags;
         }
-        postNotificationNameInternal(i, z2, objArr);
+        postNotificationNameInternal(i, z, objArr);
         if (arrayList != null) {
             for (int i4 = 0; i4 < arrayList.size(); i4++) {
                 onAnimationFinish(((Integer) arrayList.get(i4)).intValue());
@@ -1187,30 +1183,28 @@ public class NotificationCenter {
         }
         int i4 = this.broadcasting - 1;
         this.broadcasting = i4;
-        if (i4 != 0) {
-            return;
-        }
-        if (this.removeAfterBroadcast.size() != 0) {
-            for (int i5 = 0; i5 < this.removeAfterBroadcast.size(); i5++) {
-                int keyAt = this.removeAfterBroadcast.keyAt(i5);
-                ArrayList<NotificationCenterDelegate> arrayList2 = this.removeAfterBroadcast.get(keyAt);
-                for (int i6 = 0; i6 < arrayList2.size(); i6++) {
-                    removeObserver(arrayList2.get(i6), keyAt);
+        if (i4 == 0) {
+            if (this.removeAfterBroadcast.size() != 0) {
+                for (int i5 = 0; i5 < this.removeAfterBroadcast.size(); i5++) {
+                    int keyAt = this.removeAfterBroadcast.keyAt(i5);
+                    ArrayList<NotificationCenterDelegate> arrayList2 = this.removeAfterBroadcast.get(keyAt);
+                    for (int i6 = 0; i6 < arrayList2.size(); i6++) {
+                        removeObserver(arrayList2.get(i6), keyAt);
+                    }
                 }
+                this.removeAfterBroadcast.clear();
             }
-            this.removeAfterBroadcast.clear();
-        }
-        if (this.addAfterBroadcast.size() == 0) {
-            return;
-        }
-        for (int i7 = 0; i7 < this.addAfterBroadcast.size(); i7++) {
-            int keyAt2 = this.addAfterBroadcast.keyAt(i7);
-            ArrayList<NotificationCenterDelegate> arrayList3 = this.addAfterBroadcast.get(keyAt2);
-            for (int i8 = 0; i8 < arrayList3.size(); i8++) {
-                addObserver(arrayList3.get(i8), keyAt2);
+            if (this.addAfterBroadcast.size() != 0) {
+                for (int i7 = 0; i7 < this.addAfterBroadcast.size(); i7++) {
+                    int keyAt2 = this.addAfterBroadcast.keyAt(i7);
+                    ArrayList<NotificationCenterDelegate> arrayList3 = this.addAfterBroadcast.get(keyAt2);
+                    for (int i8 = 0; i8 < arrayList3.size(); i8++) {
+                        addObserver(arrayList3.get(i8), keyAt2);
+                    }
+                }
+                this.addAfterBroadcast.clear();
             }
         }
-        this.addAfterBroadcast.clear();
     }
 
     public void addObserver(NotificationCenterDelegate notificationCenterDelegate, int i) {
@@ -1253,10 +1247,9 @@ public class NotificationCenter {
             return;
         }
         ArrayList<NotificationCenterDelegate> arrayList2 = this.observers.get(i);
-        if (arrayList2 == null) {
-            return;
+        if (arrayList2 != null) {
+            arrayList2.remove(notificationCenterDelegate);
         }
-        arrayList2.remove(notificationCenterDelegate);
     }
 
     public boolean hasObservers(int i) {
@@ -1277,10 +1270,9 @@ public class NotificationCenter {
         if (BuildVars.DEBUG_VERSION && Thread.currentThread() != ApplicationLoader.applicationHandler.getLooper().getThread()) {
             throw new RuntimeException("removePostponeNotificationsCallback allowed only from MAIN thread");
         }
-        if (!this.postponeCallbackList.remove(postponeNotificationCallback)) {
-            return;
+        if (this.postponeCallbackList.remove(postponeNotificationCallback)) {
+            runDelayedNotifications();
         }
-        runDelayedNotifications();
     }
 
     public void doOnIdle(Runnable runnable) {
@@ -1329,9 +1321,8 @@ public class NotificationCenter {
     }
 
     public static /* synthetic */ void lambda$listenEmojiLoading$1(View view, int i, int i2, Object[] objArr) {
-        if (i != emojiLoaded || view == null || !view.isAttachedToWindow()) {
-            return;
+        if (i == emojiLoaded && view != null && view.isAttachedToWindow()) {
+            view.invalidate();
         }
-        view.invalidate();
     }
 }

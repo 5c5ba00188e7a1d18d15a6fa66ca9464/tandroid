@@ -44,6 +44,7 @@ import java.util.Comparator;
 import java.util.List;
 /* loaded from: classes.dex */
 public class ViewPager extends ViewGroup {
+    private int mActivePointerId;
     PagerAdapter mAdapter;
     private List<OnAdapterChangeListener> mAdapterChangeListeners;
     private int mBottomPageBounds;
@@ -55,8 +56,11 @@ public class ViewPager extends ViewGroup {
     private int mDefaultGutterSize;
     private int mDrawingOrder;
     private ArrayList<View> mDrawingOrderedChildren;
+    private final Runnable mEndScrollRunnable;
     private int mExpectedAdapterCount;
     private boolean mFakeDragging;
+    private boolean mFirstLayout;
+    private float mFirstOffset;
     private int mFlingDistance;
     private int mGutterSize;
     private boolean mInLayout;
@@ -66,22 +70,31 @@ public class ViewPager extends ViewGroup {
     private boolean mIsBeingDragged;
     private boolean mIsScrollStarted;
     private boolean mIsUnableToDrag;
+    private final ArrayList<ItemInfo> mItems;
     private float mLastMotionX;
     private float mLastMotionY;
+    private float mLastOffset;
     private EdgeEffect mLeftEdge;
     private Drawable mMarginDrawable;
     private int mMaximumVelocity;
     private int mMinimumVelocity;
     private PagerObserver mObserver;
+    private int mOffscreenPageLimit;
     private OnPageChangeListener mOnPageChangeListener;
     private List<OnPageChangeListener> mOnPageChangeListeners;
     private int mPageMargin;
     private PageTransformer mPageTransformer;
     private int mPageTransformerLayerType;
     private boolean mPopulatePending;
+    private Parcelable mRestoredAdapterState;
+    private ClassLoader mRestoredClassLoader;
+    private int mRestoredCurItem;
     private EdgeEffect mRightEdge;
+    private int mScrollState;
     private Scroller mScroller;
     private boolean mScrollingCacheEnabled;
+    private final ItemInfo mTempItem;
+    private final Rect mTempRect;
     private int mTopPageBounds;
     private int mTouchSlop;
     private VelocityTracker mVelocityTracker;
@@ -100,25 +113,6 @@ public class ViewPager extends ViewGroup {
         }
     };
     private static final ViewPositionComparator sPositionComparator = new ViewPositionComparator();
-    private final ArrayList<ItemInfo> mItems = new ArrayList<>();
-    private final ItemInfo mTempItem = new ItemInfo();
-    private final Rect mTempRect = new Rect();
-    private int mRestoredCurItem = -1;
-    private Parcelable mRestoredAdapterState = null;
-    private ClassLoader mRestoredClassLoader = null;
-    private float mFirstOffset = -3.4028235E38f;
-    private float mLastOffset = Float.MAX_VALUE;
-    private int mOffscreenPageLimit = 1;
-    private int mActivePointerId = -1;
-    private boolean mFirstLayout = true;
-    private final Runnable mEndScrollRunnable = new Runnable() { // from class: androidx.viewpager.widget.ViewPager.3
-        @Override // java.lang.Runnable
-        public void run() {
-            ViewPager.this.setScrollState(0);
-            ViewPager.this.populate();
-        }
-    };
-    private int mScrollState = 0;
 
     @Target({ElementType.TYPE})
     @Inherited
@@ -161,6 +155,25 @@ public class ViewPager extends ViewGroup {
 
     public ViewPager(Context context) {
         super(context);
+        this.mItems = new ArrayList<>();
+        this.mTempItem = new ItemInfo();
+        this.mTempRect = new Rect();
+        this.mRestoredCurItem = -1;
+        this.mRestoredAdapterState = null;
+        this.mRestoredClassLoader = null;
+        this.mFirstOffset = -3.4028235E38f;
+        this.mLastOffset = Float.MAX_VALUE;
+        this.mOffscreenPageLimit = 1;
+        this.mActivePointerId = -1;
+        this.mFirstLayout = true;
+        this.mEndScrollRunnable = new Runnable() { // from class: androidx.viewpager.widget.ViewPager.3
+            @Override // java.lang.Runnable
+            public void run() {
+                ViewPager.this.setScrollState(0);
+                ViewPager.this.populate();
+            }
+        };
+        this.mScrollState = 0;
         initViewPager();
     }
 
@@ -320,7 +333,6 @@ public class ViewPager extends ViewGroup {
 
     void setCurrentItemInternal(int i, boolean z, boolean z2, int i2) {
         PagerAdapter pagerAdapter = this.mAdapter;
-        boolean z3 = false;
         if (pagerAdapter == null || pagerAdapter.getCount() <= 0) {
             setScrollingCacheEnabled(false);
         } else if (!z2 && this.mCurItem == i && this.mItems.size() != 0) {
@@ -338,9 +350,7 @@ public class ViewPager extends ViewGroup {
                     this.mItems.get(i5).scrolling = true;
                 }
             }
-            if (this.mCurItem != i) {
-                z3 = true;
-            }
+            boolean z3 = this.mCurItem != i;
             if (this.mFirstLayout) {
                 this.mCurItem = i;
                 if (z3) {
@@ -359,10 +369,10 @@ public class ViewPager extends ViewGroup {
         int clientWidth = infoForPosition != null ? (int) (getClientWidth() * Math.max(this.mFirstOffset, Math.min(infoForPosition.offset, this.mLastOffset))) : 0;
         if (z) {
             smoothScrollTo(clientWidth, 0, i2);
-            if (!z2) {
+            if (z2) {
+                dispatchOnPageSelected(i);
                 return;
             }
-            dispatchOnPageSelected(i);
             return;
         }
         if (z2) {
@@ -460,7 +470,7 @@ public class ViewPager extends ViewGroup {
             return;
         }
         Scroller scroller = this.mScroller;
-        if (scroller != null && !scroller.isFinished()) {
+        if ((scroller == null || scroller.isFinished()) ? false : true) {
             scrollX = this.mIsScrollStarted ? this.mScroller.getCurrX() : this.mScroller.getStartX();
             this.mScroller.abortAnimation();
             setScrollingCacheEnabled(false);
@@ -566,10 +576,10 @@ public class ViewPager extends ViewGroup {
         populate(this.mCurItem);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:25:0x0060, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:24:0x0060, code lost:
         if (r9 == r10) goto L27;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:26:0x0066, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:27:0x0066, code lost:
         r8 = null;
      */
     /*
@@ -714,19 +724,17 @@ public class ViewPager extends ViewGroup {
                 }
             }
             sortChildDrawingOrder();
-            if (!hasFocus()) {
-                return;
-            }
-            View findFocus = findFocus();
-            ItemInfo infoForAnyChild = findFocus != null ? infoForAnyChild(findFocus) : null;
-            if (infoForAnyChild != null && infoForAnyChild.position == this.mCurItem) {
-                return;
-            }
-            for (int i12 = 0; i12 < getChildCount(); i12++) {
-                View childAt2 = getChildAt(i12);
-                ItemInfo infoForChild2 = infoForChild(childAt2);
-                if (infoForChild2 != null && infoForChild2.position == this.mCurItem && childAt2.requestFocus(2)) {
-                    return;
+            if (hasFocus()) {
+                View findFocus = findFocus();
+                ItemInfo infoForAnyChild = findFocus != null ? infoForAnyChild(findFocus) : null;
+                if (infoForAnyChild == null || infoForAnyChild.position != this.mCurItem) {
+                    for (int i12 = 0; i12 < getChildCount(); i12++) {
+                        View childAt2 = getChildAt(i12);
+                        ItemInfo infoForChild2 = infoForChild(childAt2);
+                        if (infoForChild2 != null && infoForChild2.position == this.mCurItem && childAt2.requestFocus(2)) {
+                            return;
+                        }
+                    }
                 }
             }
         }
@@ -1007,12 +1015,12 @@ public class ViewPager extends ViewGroup {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Removed duplicated region for block: B:26:0x0082  */
-    /* JADX WARN: Removed duplicated region for block: B:31:0x008e  */
-    /* JADX WARN: Removed duplicated region for block: B:35:0x00a2  */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x00a8  */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x0082  */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x0089  */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x008e  */
     /* JADX WARN: Removed duplicated region for block: B:42:0x0093  */
-    /* JADX WARN: Removed duplicated region for block: B:43:0x0089  */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x00a2  */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x00a8  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1121,15 +1129,14 @@ public class ViewPager extends ViewGroup {
         }
         ItemInfo infoForPosition = infoForPosition(this.mCurItem);
         int min = (int) ((infoForPosition != null ? Math.min(infoForPosition.offset, this.mLastOffset) : 0.0f) * ((i - getPaddingLeft()) - getPaddingRight()));
-        if (min == getScrollX()) {
-            return;
+        if (min != getScrollX()) {
+            completeScroll(false);
+            scrollTo(min, getScrollY());
         }
-        completeScroll(false);
-        scrollTo(min, getScrollY());
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:17:0x0071  */
-    /* JADX WARN: Removed duplicated region for block: B:28:0x008e  */
+    /* JADX WARN: Removed duplicated region for block: B:22:0x0071  */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x008e  */
     @Override // android.view.ViewGroup, android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1267,10 +1274,10 @@ public class ViewPager extends ViewGroup {
             }
             this.mCalledSuper = false;
             onPageScrolled(0, 0.0f, 0);
-            if (!this.mCalledSuper) {
-                throw new IllegalStateException("onPageScrolled did not call superclass implementation");
+            if (this.mCalledSuper) {
+                return false;
             }
-            return false;
+            throw new IllegalStateException("onPageScrolled did not call superclass implementation");
         }
         ItemInfo infoForCurrentScrollPosition = infoForCurrentScrollPosition();
         int clientWidth = getClientWidth();
@@ -1281,13 +1288,13 @@ public class ViewPager extends ViewGroup {
         float f2 = ((i / f) - infoForCurrentScrollPosition.offset) / (infoForCurrentScrollPosition.widthFactor + (i2 / f));
         this.mCalledSuper = false;
         onPageScrolled(i4, f2, (int) (i3 * f2));
-        if (!this.mCalledSuper) {
-            throw new IllegalStateException("onPageScrolled did not call superclass implementation");
+        if (this.mCalledSuper) {
+            return true;
         }
-        return true;
+        throw new IllegalStateException("onPageScrolled did not call superclass implementation");
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:16:0x0064  */
+    /* JADX WARN: Removed duplicated region for block: B:22:0x0064  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1868,10 +1875,9 @@ public class ViewPager extends ViewGroup {
             this.mLastMotionX = motionEvent.getX(i);
             this.mActivePointerId = motionEvent.getPointerId(i);
             VelocityTracker velocityTracker = this.mVelocityTracker;
-            if (velocityTracker == null) {
-                return;
+            if (velocityTracker != null) {
+                velocityTracker.clear();
             }
-            velocityTracker.clear();
         }
     }
 
@@ -1948,7 +1954,7 @@ public class ViewPager extends ViewGroup {
         return false;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:14:0x00cf  */
+    /* JADX WARN: Removed duplicated region for block: B:44:0x00cf  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2198,18 +2204,18 @@ public class ViewPager extends ViewGroup {
                 return true;
             }
             if (i == 4096) {
-                if (!ViewPager.this.canScrollHorizontally(1)) {
-                    return false;
+                if (ViewPager.this.canScrollHorizontally(1)) {
+                    ViewPager viewPager = ViewPager.this;
+                    viewPager.setCurrentItem(viewPager.mCurItem + 1);
+                    return true;
                 }
-                ViewPager viewPager = ViewPager.this;
-                viewPager.setCurrentItem(viewPager.mCurItem + 1);
-                return true;
-            } else if (i != 8192 || !ViewPager.this.canScrollHorizontally(-1)) {
                 return false;
-            } else {
+            } else if (i == 8192 && ViewPager.this.canScrollHorizontally(-1)) {
                 ViewPager viewPager2 = ViewPager.this;
                 viewPager2.setCurrentItem(viewPager2.mCurItem - 1);
                 return true;
+            } else {
+                return false;
             }
         }
 
@@ -2242,14 +2248,16 @@ public class ViewPager extends ViewGroup {
         public boolean isDecor;
         boolean needsMeasure;
         int position;
-        float widthFactor = 0.0f;
+        float widthFactor;
 
         public LayoutParams() {
             super(-1, -1);
+            this.widthFactor = 0.0f;
         }
 
         public LayoutParams(Context context, AttributeSet attributeSet) {
             super(context, attributeSet);
+            this.widthFactor = 0.0f;
             TypedArray obtainStyledAttributes = context.obtainStyledAttributes(attributeSet, ViewPager.LAYOUT_ATTRS);
             this.gravity = obtainStyledAttributes.getInteger(0, 48);
             obtainStyledAttributes.recycle();

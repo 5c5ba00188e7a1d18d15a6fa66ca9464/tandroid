@@ -153,10 +153,9 @@ public class Input {
         this.fillAnimator.setDuration(450L);
         this.fillAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
         this.fillAnimator.start();
-        if (!z) {
-            return;
+        if (z) {
+            BotWebViewVibrationEffect.IMPACT_HEAVY.vibrate();
         }
-        BotWebViewVibrationEffect.IMPACT_HEAVY.vibrate();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -182,148 +181,148 @@ public class Input {
         this.ignore = true;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:12:0x0084  */
-    /* JADX WARN: Removed duplicated region for block: B:15:0x00b7  */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x0206 A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x0207  */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x0084  */
+    /* JADX WARN: Removed duplicated region for block: B:18:0x00b7  */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x0206 A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x0207  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void process(MotionEvent motionEvent, float f) {
         boolean z;
         boolean z2;
-        if (this.fillAnimator == null && this.arrowAnimator == null) {
-            int actionMasked = motionEvent.getActionMasked();
-            float x = motionEvent.getX();
-            float height = this.renderView.getHeight() - motionEvent.getY();
-            float[] fArr = this.tempPoint;
-            fArr[0] = x;
-            fArr[1] = height;
-            this.invertMatrix.mapPoints(fArr);
-            float currentTimeMillis = (float) (System.currentTimeMillis() - this.lastVelocityUpdate);
-            this.velocity = androidx.core.math.MathUtils.clamp(this.velocity - (currentTimeMillis / 125.0f), 0.6f, 1.0f);
-            this.lastVelocityUpdate = System.currentTimeMillis();
-            float f2 = this.velocity;
-            if (motionEvent.getToolType(motionEvent.getActionIndex()) == 2) {
-                f2 = Math.max(0.1f, PRESSURE_INTERPOLATOR.getInterpolation(motionEvent.getPressure()));
-                if ((motionEvent.getButtonState() & 32) == 32) {
-                    z = true;
-                    if (this.renderView.getCurrentBrush() != null) {
-                        f2 = ((f2 - 1.0f) * AndroidUtilities.lerp(1.0f, this.renderView.getCurrentBrush().getSmoothThicknessRate(), androidx.core.math.MathUtils.clamp(this.realPointsCount / 16.0f, 0.0f, 1.0f))) + 1.0f;
-                    }
-                    float[] fArr2 = this.tempPoint;
-                    boolean z3 = z;
-                    Point point = new Point(fArr2[0], fArr2[1], f2);
-                    if (actionMasked != 0) {
-                        if (actionMasked == 1) {
-                            if (this.ignore) {
-                                this.ignore = false;
-                                return;
-                            }
-                            this.canFill = false;
-                            this.detector.clear();
-                            AndroidUtilities.cancelRunOnUIThread(this.fillWithCurrentBrush);
-                            if (!this.renderView.getPainting().applyHelperShape()) {
-                                if (!this.hasMoved) {
-                                    if (this.renderView.shouldDraw()) {
-                                        point.edge = true;
-                                        paintPath(new Path(point));
-                                    }
-                                    reset();
-                                } else if (this.pointsCount > 0) {
-                                    smoothenAndPaintPoints(true, this.renderView.getCurrentBrush().getSmoothThicknessRate());
-                                    if (this.renderView.getCurrentBrush() instanceof Brush.Arrow) {
-                                        final float f3 = this.lastAngle;
-                                        final Point point2 = this.points[this.pointsCount - 1];
-                                        Point point3 = this.lastThickLocation;
-                                        final double d = point3 == null ? point.z : point3.z;
-                                        final float currentWeight = this.renderView.getCurrentWeight() * ((float) d) * 4.5f;
-                                        ValueAnimator valueAnimator = this.arrowAnimator;
-                                        if (valueAnimator != null) {
-                                            valueAnimator.cancel();
-                                        }
-                                        final float[] fArr3 = new float[1];
-                                        final boolean[] zArr = new boolean[1];
-                                        ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
-                                        this.arrowAnimator = ofFloat;
-                                        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Input$$ExternalSyntheticLambda0
-                                            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                                            public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                                                Input.this.lambda$process$2(point2, f3, currentWeight, fArr3, d, zArr, valueAnimator2);
-                                            }
-                                        });
-                                        this.arrowAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.Paint.Input.2
-                                            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                                            public void onAnimationEnd(Animator animator) {
-                                                if (!Input.this.renderView.getCurrentBrush().isEraser() || Input.this.renderView.getUndoStore().canUndo()) {
-                                                    Input.this.renderView.getPainting().commitPath(null, Input.this.renderView.getCurrentColor());
-                                                }
-                                                Input.this.arrowAnimator = null;
-                                            }
-                                        });
-                                        this.arrowAnimator.setDuration(240L);
-                                        this.arrowAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
-                                        this.arrowAnimator.start();
-                                        z2 = false;
-                                        if (z2 && (!this.renderView.getCurrentBrush().isEraser() || this.renderView.getUndoStore().canUndo())) {
-                                            this.renderView.getPainting().commitPath(null, this.renderView.getCurrentColor(), true, new Runnable() { // from class: org.telegram.ui.Components.Paint.Input$$ExternalSyntheticLambda2
-                                                @Override // java.lang.Runnable
-                                                public final void run() {
-                                                    Input.this.lambda$process$3();
-                                                }
-                                            });
-                                        }
-                                    }
+        if (this.fillAnimator != null || this.arrowAnimator != null) {
+            return;
+        }
+        int actionMasked = motionEvent.getActionMasked();
+        float x = motionEvent.getX();
+        float height = this.renderView.getHeight() - motionEvent.getY();
+        float[] fArr = this.tempPoint;
+        fArr[0] = x;
+        fArr[1] = height;
+        this.invertMatrix.mapPoints(fArr);
+        float currentTimeMillis = (float) (System.currentTimeMillis() - this.lastVelocityUpdate);
+        this.velocity = androidx.core.math.MathUtils.clamp(this.velocity - (currentTimeMillis / 125.0f), 0.6f, 1.0f);
+        this.lastVelocityUpdate = System.currentTimeMillis();
+        float f2 = this.velocity;
+        if (motionEvent.getToolType(motionEvent.getActionIndex()) == 2) {
+            f2 = Math.max(0.1f, PRESSURE_INTERPOLATOR.getInterpolation(motionEvent.getPressure()));
+            if ((motionEvent.getButtonState() & 32) == 32) {
+                z = true;
+                if (this.renderView.getCurrentBrush() != null) {
+                    f2 = ((f2 - 1.0f) * AndroidUtilities.lerp(1.0f, this.renderView.getCurrentBrush().getSmoothThicknessRate(), androidx.core.math.MathUtils.clamp(this.realPointsCount / 16.0f, 0.0f, 1.0f))) + 1.0f;
+                }
+                float[] fArr2 = this.tempPoint;
+                boolean z3 = z;
+                Point point = new Point(fArr2[0], fArr2[1], f2);
+                if (actionMasked != 0) {
+                    if (actionMasked == 1) {
+                        if (this.ignore) {
+                            this.ignore = false;
+                            return;
+                        }
+                        this.canFill = false;
+                        this.detector.clear();
+                        AndroidUtilities.cancelRunOnUIThread(this.fillWithCurrentBrush);
+                        if (!this.renderView.getPainting().applyHelperShape()) {
+                            if (!this.hasMoved) {
+                                if (this.renderView.shouldDraw()) {
+                                    point.edge = true;
+                                    paintPath(new Path(point));
                                 }
-                                z2 = true;
-                                if (z2) {
-                                    this.renderView.getPainting().commitPath(null, this.renderView.getCurrentColor(), true, new Runnable() { // from class: org.telegram.ui.Components.Paint.Input$$ExternalSyntheticLambda2
-                                        @Override // java.lang.Runnable
-                                        public final void run() {
-                                            Input.this.lambda$process$3();
+                                reset();
+                            } else if (this.pointsCount > 0) {
+                                smoothenAndPaintPoints(true, this.renderView.getCurrentBrush().getSmoothThicknessRate());
+                                if (this.renderView.getCurrentBrush() instanceof Brush.Arrow) {
+                                    final float f3 = this.lastAngle;
+                                    final Point point2 = this.points[this.pointsCount - 1];
+                                    Point point3 = this.lastThickLocation;
+                                    final double d = point3 == null ? point.z : point3.z;
+                                    final float currentWeight = this.renderView.getCurrentWeight() * ((float) d) * 4.5f;
+                                    ValueAnimator valueAnimator = this.arrowAnimator;
+                                    if (valueAnimator != null) {
+                                        valueAnimator.cancel();
+                                    }
+                                    final float[] fArr3 = new float[1];
+                                    final boolean[] zArr = new boolean[1];
+                                    ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
+                                    this.arrowAnimator = ofFloat;
+                                    ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Input$$ExternalSyntheticLambda0
+                                        @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                                        public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
+                                            Input.this.lambda$process$2(point2, f3, currentWeight, fArr3, d, zArr, valueAnimator2);
                                         }
                                     });
+                                    this.arrowAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.Paint.Input.2
+                                        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                                        public void onAnimationEnd(Animator animator) {
+                                            if (!Input.this.renderView.getCurrentBrush().isEraser() || Input.this.renderView.getUndoStore().canUndo()) {
+                                                Input.this.renderView.getPainting().commitPath(null, Input.this.renderView.getCurrentColor());
+                                            }
+                                            Input.this.arrowAnimator = null;
+                                        }
+                                    });
+                                    this.arrowAnimator.setDuration(240L);
+                                    this.arrowAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
+                                    this.arrowAnimator.start();
+                                    z2 = false;
+                                    if (z2 && (!this.renderView.getCurrentBrush().isEraser() || this.renderView.getUndoStore().canUndo())) {
+                                        this.renderView.getPainting().commitPath(null, this.renderView.getCurrentColor(), true, new Runnable() { // from class: org.telegram.ui.Components.Paint.Input$$ExternalSyntheticLambda2
+                                            @Override // java.lang.Runnable
+                                            public final void run() {
+                                                Input.this.lambda$process$3();
+                                            }
+                                        });
+                                    }
                                 }
                             }
-                            this.pointsCount = 0;
-                            this.realPointsCount = 0;
-                            this.lastAngleSet = false;
-                            this.beganDrawing = false;
-                            this.thicknessSum = 0.0d;
-                            this.thicknessCount = 0.0d;
-                            this.renderView.onFinishedDrawing(this.hasMoved);
+                            z2 = true;
+                            if (z2) {
+                                this.renderView.getPainting().commitPath(null, this.renderView.getCurrentColor(), true, new Runnable() { // from class: org.telegram.ui.Components.Paint.Input$$ExternalSyntheticLambda2
+                                    @Override // java.lang.Runnable
+                                    public final void run() {
+                                        Input.this.lambda$process$3();
+                                    }
+                                });
+                            }
+                        }
+                        this.pointsCount = 0;
+                        this.realPointsCount = 0;
+                        this.lastAngleSet = false;
+                        this.beganDrawing = false;
+                        this.thicknessSum = 0.0d;
+                        this.thicknessCount = 0.0d;
+                        this.renderView.onFinishedDrawing(this.hasMoved);
+                        return;
+                    } else if (actionMasked != 2) {
+                        if (actionMasked != 3) {
                             return;
-                        } else if (actionMasked != 2) {
-                            if (actionMasked != 3) {
-                                return;
-                            }
-                            if (this.ignore) {
-                                this.ignore = false;
-                                return;
-                            }
-                            this.canFill = false;
-                            this.detector.clear();
-                            this.renderView.getPainting().setHelperShape(null);
-                            AndroidUtilities.cancelRunOnUIThread(this.fillWithCurrentBrush);
-                            this.renderView.getPainting().clearStroke();
-                            this.pointsCount = 0;
-                            this.realPointsCount = 0;
-                            this.lastAngleSet = false;
-                            this.beganDrawing = false;
-                            this.thicknessSum = 0.0d;
-                            this.thicknessCount = 0.0d;
-                            Brush brush = this.switchedBrushByStylusFrom;
-                            if (brush == null) {
-                                return;
-                            }
+                        }
+                        if (this.ignore) {
+                            this.ignore = false;
+                            return;
+                        }
+                        this.canFill = false;
+                        this.detector.clear();
+                        this.renderView.getPainting().setHelperShape(null);
+                        AndroidUtilities.cancelRunOnUIThread(this.fillWithCurrentBrush);
+                        this.renderView.getPainting().clearStroke();
+                        this.pointsCount = 0;
+                        this.realPointsCount = 0;
+                        this.lastAngleSet = false;
+                        this.beganDrawing = false;
+                        this.thicknessSum = 0.0d;
+                        this.thicknessCount = 0.0d;
+                        Brush brush = this.switchedBrushByStylusFrom;
+                        if (brush != null) {
                             this.renderView.selectBrush(brush);
                             this.switchedBrushByStylusFrom = null;
                             return;
                         }
-                    }
-                    if (!this.ignore) {
                         return;
                     }
+                }
+                if (this.ignore) {
                     if (!this.beganDrawing) {
                         this.beganDrawing = true;
                         this.hasMoved = false;
@@ -388,17 +387,18 @@ public class Input {
                     this.velocity = androidx.core.math.MathUtils.clamp(this.velocity + (currentTimeMillis / 75.0f), 0.6f, 1.0f);
                     return;
                 }
+                return;
             }
-            z = false;
-            if (this.renderView.getCurrentBrush() != null) {
-            }
-            float[] fArr22 = this.tempPoint;
-            boolean z32 = z;
-            Point point4 = new Point(fArr22[0], fArr22[1], f2);
-            if (actionMasked != 0) {
-            }
-            if (!this.ignore) {
-            }
+        }
+        z = false;
+        if (this.renderView.getCurrentBrush() != null) {
+        }
+        float[] fArr22 = this.tempPoint;
+        boolean z32 = z;
+        Point point4 = new Point(fArr22[0], fArr22[1], f2);
+        if (actionMasked != 0) {
+        }
+        if (this.ignore) {
         }
     }
 

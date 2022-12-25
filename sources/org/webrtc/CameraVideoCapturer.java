@@ -111,10 +111,9 @@ public interface CameraVideoCapturer extends VideoCapturer {
         }
 
         private void checkThread() {
-            if (Thread.currentThread() == this.surfaceTextureHelper.getHandler().getLooper().getThread()) {
-                return;
+            if (Thread.currentThread() != this.surfaceTextureHelper.getHandler().getLooper().getThread()) {
+                throw new IllegalStateException("Wrong thread");
             }
-            throw new IllegalStateException("Wrong thread");
         }
 
         public void addFrame() {

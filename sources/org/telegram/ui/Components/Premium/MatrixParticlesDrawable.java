@@ -109,15 +109,15 @@ public class MatrixParticlesDrawable {
                     int i12 = this.size;
                     float f = i12 * i7;
                     float f2 = i12 * max;
-                    if (!this.excludeRect.contains(f, f2)) {
+                    if (this.excludeRect.contains(f, f2)) {
                         i = max;
                         i2 = min;
                         particle = particle3;
-                        this.matrixTextParticles[i7][max].draw(canvas, f, f2, currentTimeMillis, Utilities.clamp(((1.0f - ((particle3.y - max) / (particle3.len - i9))) * 0.8f) + 0.2f, 1.0f, 0.0f));
                     } else {
                         i = max;
                         i2 = min;
                         particle = particle3;
+                        this.matrixTextParticles[i7][max].draw(canvas, f, f2, currentTimeMillis, Utilities.clamp(((1.0f - ((particle3.y - max) / (particle3.len - i9))) * 0.8f) + 0.2f, 1.0f, 0.0f));
                     }
                     max = i + 1;
                     min = i2;
@@ -183,12 +183,12 @@ public class MatrixParticlesDrawable {
                 MatrixParticlesDrawable matrixParticlesDrawable2 = MatrixParticlesDrawable.this;
                 canvas.drawBitmap(matrixParticlesDrawable2.bitmaps[this.nextIndex], f, f2, matrixParticlesDrawable2.paint);
                 MatrixParticlesDrawable.this.paint.setAlpha(255);
-                if (clamp < 1.0f) {
+                if (clamp >= 1.0f) {
+                    this.index = this.nextIndex;
+                    this.nextIndex = Math.abs(Utilities.fastRandom.nextInt() % 16);
+                    this.nextUpdateTime = j + Math.abs(Utilities.fastRandom.nextInt() % 300) + 150;
                     return;
                 }
-                this.index = this.nextIndex;
-                this.nextIndex = Math.abs(Utilities.fastRandom.nextInt() % 16);
-                this.nextUpdateTime = j + Math.abs(Utilities.fastRandom.nextInt() % 300) + 150;
                 return;
             }
             MatrixParticlesDrawable.this.paint.setAlpha((int) (f3 * 255.0f));

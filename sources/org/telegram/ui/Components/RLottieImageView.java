@@ -106,14 +106,14 @@ public class RLottieImageView extends ImageView {
             TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 90);
             this.imageReceiver.setImage(ImageLocation.getForDocument(tLRPC$Document), i + "_" + i2 + "_pcache_" + ImageLoader.AUTOPLAY_FILTER, ImageLocation.getForDocument(closestPhotoSizeWithSize, tLRPC$Document), null, null, tLRPC$Document.size, null, tLRPC$Document, 1);
         } else {
-            if (!ImageLoader.getInstance().hasLottieMemCache(tLRPC$Document.id + "@" + i + "_" + i2)) {
+            if (ImageLoader.getInstance().hasLottieMemCache(tLRPC$Document.id + "@" + i + "_" + i2)) {
+                svgDrawable = null;
+            } else {
                 SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(tLRPC$Document.thumbs, "windowBackgroundWhiteGrayIcon", 0.2f);
                 if (svgThumb != null) {
                     svgThumb.overrideWidthAndHeight(512, 512);
                 }
                 svgDrawable = svgThumb;
-            } else {
-                svgDrawable = null;
             }
             TLRPC$PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 90);
             this.imageReceiver.setImage(ImageLocation.getForDocument(tLRPC$Document), i + "_" + i2, ImageLocation.getForDocument(closestPhotoSizeWithSize2, tLRPC$Document), null, null, null, svgDrawable, 0L, null, tLRPC$Document, 1);
@@ -149,10 +149,9 @@ public class RLottieImageView extends ImageView {
                 RLottieImageView.this.imageReceiver.setColorFilter(colorFilter);
             }
         });
-        if (!this.attachedToWindow) {
-            return;
+        if (this.attachedToWindow) {
+            this.imageReceiver.onAttachedToWindow();
         }
-        this.imageReceiver.onAttachedToWindow();
     }
 
     public void clearAnimationDrawable() {
@@ -180,10 +179,9 @@ public class RLottieImageView extends ImageView {
         RLottieDrawable rLottieDrawable = this.drawable;
         if (rLottieDrawable != null) {
             rLottieDrawable.setCallback(this);
-            if (!this.playing) {
-                return;
+            if (this.playing) {
+                this.drawable.start();
             }
-            this.drawable.start();
         }
     }
 
@@ -231,15 +229,13 @@ public class RLottieImageView extends ImageView {
             return;
         }
         this.playing = true;
-        if (!this.attachedToWindow) {
-            return;
+        if (this.attachedToWindow) {
+            rLottieDrawable.start();
+            ImageReceiver imageReceiver = this.imageReceiver;
+            if (imageReceiver != null) {
+                imageReceiver.startAnimation();
+            }
         }
-        rLottieDrawable.start();
-        ImageReceiver imageReceiver = this.imageReceiver;
-        if (imageReceiver == null) {
-            return;
-        }
-        imageReceiver.startAnimation();
     }
 
     public void stopAnimation() {
@@ -248,15 +244,13 @@ public class RLottieImageView extends ImageView {
             return;
         }
         this.playing = false;
-        if (!this.attachedToWindow) {
-            return;
+        if (this.attachedToWindow) {
+            rLottieDrawable.stop();
+            ImageReceiver imageReceiver = this.imageReceiver;
+            if (imageReceiver != null) {
+                imageReceiver.stopAnimation();
+            }
         }
-        rLottieDrawable.stop();
-        ImageReceiver imageReceiver = this.imageReceiver;
-        if (imageReceiver == null) {
-            return;
-        }
-        imageReceiver.stopAnimation();
     }
 
     public RLottieDrawable getAnimatedDrawable() {

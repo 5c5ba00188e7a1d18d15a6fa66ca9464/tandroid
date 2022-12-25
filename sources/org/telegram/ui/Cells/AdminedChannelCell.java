@@ -23,15 +23,15 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.URLSpanNoUnderline;
 /* loaded from: classes3.dex */
 public class AdminedChannelCell extends FrameLayout {
+    private AvatarDrawable avatarDrawable;
     private BackupImageView avatarImageView;
     CheckBox2 checkBox;
+    private int currentAccount;
     private TLRPC$Chat currentChannel;
     private ImageView deleteButton;
     private boolean isLast;
     private SimpleTextView nameTextView;
     private SimpleTextView statusTextView;
-    private int currentAccount = UserConfig.selectedAccount;
-    private AvatarDrawable avatarDrawable = new AvatarDrawable();
 
     @Override // android.view.View
     public boolean hasOverlappingRendering() {
@@ -40,12 +40,13 @@ public class AdminedChannelCell extends FrameLayout {
 
     public AdminedChannelCell(Context context, View.OnClickListener onClickListener, boolean z, int i) {
         super(context);
+        this.currentAccount = UserConfig.selectedAccount;
+        this.avatarDrawable = new AvatarDrawable();
         BackupImageView backupImageView = new BackupImageView(context);
         this.avatarImageView = backupImageView;
         backupImageView.setRoundRadius(AndroidUtilities.dp(24.0f));
         BackupImageView backupImageView2 = this.avatarImageView;
         boolean z2 = LocaleController.isRTL;
-        int i2 = 5;
         addView(backupImageView2, LayoutHelper.createFrame(48, 48.0f, (z2 ? 5 : 3) | 48, z2 ? 0.0f : i + 12, 6.0f, z2 ? i + 12 : 0.0f, 6.0f));
         if (z) {
             CheckBox2 checkBox2 = new CheckBox2(context, 21);
@@ -57,7 +58,7 @@ public class AdminedChannelCell extends FrameLayout {
             boolean z3 = LocaleController.isRTL;
             addView(checkBox22, LayoutHelper.createFrame(24, 24.0f, (z3 ? 5 : 3) | 48, z3 ? 0.0f : i + 42, 32.0f, z3 ? i + 42 : 0.0f, 0.0f));
         }
-        int i3 = onClickListener == null ? 24 : 62;
+        int i2 = onClickListener == null ? 24 : 62;
         SimpleTextView simpleTextView = new SimpleTextView(context);
         this.nameTextView = simpleTextView;
         simpleTextView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
@@ -65,7 +66,7 @@ public class AdminedChannelCell extends FrameLayout {
         this.nameTextView.setGravity((LocaleController.isRTL ? 5 : 3) | 48);
         SimpleTextView simpleTextView2 = this.nameTextView;
         boolean z4 = LocaleController.isRTL;
-        addView(simpleTextView2, LayoutHelper.createFrame(-1, 20.0f, (z4 ? 5 : 3) | 48, z4 ? i3 : i + 73, 9.5f, z4 ? i + 73 : i3, 0.0f));
+        addView(simpleTextView2, LayoutHelper.createFrame(-1, 20.0f, (z4 ? 5 : 3) | 48, z4 ? i2 : i + 73, 9.5f, z4 ? i + 73 : i2, 0.0f));
         SimpleTextView simpleTextView3 = new SimpleTextView(context);
         this.statusTextView = simpleTextView3;
         simpleTextView3.setTextSize(14);
@@ -74,7 +75,7 @@ public class AdminedChannelCell extends FrameLayout {
         this.statusTextView.setGravity((LocaleController.isRTL ? 5 : 3) | 48);
         SimpleTextView simpleTextView4 = this.statusTextView;
         boolean z5 = LocaleController.isRTL;
-        addView(simpleTextView4, LayoutHelper.createFrame(-1, 20.0f, (z5 ? 5 : 3) | 48, z5 ? i3 : i + 73, 32.5f, z5 ? i + 73 : i3, 6.0f));
+        addView(simpleTextView4, LayoutHelper.createFrame(-1, 20.0f, (z5 ? 5 : 3) | 48, z5 ? i2 : i + 73, 32.5f, z5 ? i + 73 : i2, 6.0f));
         if (onClickListener != null) {
             ImageView imageView = new ImageView(context);
             this.deleteButton = imageView;
@@ -85,7 +86,7 @@ public class AdminedChannelCell extends FrameLayout {
             this.deleteButton.setColorFilter(new PorterDuffColorFilter(Theme.getColor("windowBackgroundWhiteGrayText"), PorterDuff.Mode.MULTIPLY));
             ImageView imageView2 = this.deleteButton;
             boolean z6 = LocaleController.isRTL;
-            addView(imageView2, LayoutHelper.createFrame(48, 48.0f, (z6 ? 3 : i2) | 48, z6 ? 7.0f : 0.0f, 6.0f, z6 ? 0.0f : 7.0f, 0.0f));
+            addView(imageView2, LayoutHelper.createFrame(48, 48.0f, (z6 ? 3 : 5) | 48, z6 ? 7.0f : 0.0f, 6.0f, z6 ? 0.0f : 7.0f, 0.0f));
         }
     }
 

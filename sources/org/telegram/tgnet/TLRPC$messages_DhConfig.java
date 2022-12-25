@@ -45,12 +45,12 @@ public abstract class TLRPC$messages_DhConfig extends TLObject {
                 }
             };
         }
-        if (tLRPC$messages_DhConfig != null || !z) {
-            if (tLRPC$messages_DhConfig != null) {
-                tLRPC$messages_DhConfig.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$messages_DhConfig;
+        if (tLRPC$messages_DhConfig == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in messages_DhConfig", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in messages_DhConfig", Integer.valueOf(i)));
+        if (tLRPC$messages_DhConfig != null) {
+            tLRPC$messages_DhConfig.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$messages_DhConfig;
     }
 }

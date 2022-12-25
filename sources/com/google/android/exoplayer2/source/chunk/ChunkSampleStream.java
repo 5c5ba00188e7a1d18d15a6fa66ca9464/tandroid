@@ -246,9 +246,10 @@ public class ChunkSampleStream<T extends ChunkSource> implements SampleStream, S
     public void maybeThrowError() throws IOException {
         this.loader.maybeThrowError();
         this.primarySampleQueue.maybeThrowError();
-        if (!this.loader.isLoading()) {
-            this.chunkSource.maybeThrowError();
+        if (this.loader.isLoading()) {
+            return;
         }
+        this.chunkSource.maybeThrowError();
     }
 
     @Override // com.google.android.exoplayer2.source.SampleStream
@@ -285,13 +286,14 @@ public class ChunkSampleStream<T extends ChunkSource> implements SampleStream, S
     @Override // com.google.android.exoplayer2.upstream.Loader.Callback
     public void onLoadCanceled(Chunk chunk, long j, long j2, boolean z) {
         this.eventDispatcher.loadCanceled(chunk.dataSpec, chunk.getUri(), chunk.getResponseHeaders(), chunk.type, this.primaryTrackType, chunk.trackFormat, chunk.trackSelectionReason, chunk.trackSelectionData, chunk.startTimeUs, chunk.endTimeUs, j, j2, chunk.bytesLoaded());
-        if (!z) {
-            this.primarySampleQueue.reset();
-            for (SampleQueue sampleQueue : this.embeddedSampleQueues) {
-                sampleQueue.reset();
-            }
-            this.callback.onContinueLoadingRequested(this);
+        if (z) {
+            return;
         }
+        this.primarySampleQueue.reset();
+        for (SampleQueue sampleQueue : this.embeddedSampleQueues) {
+            sampleQueue.reset();
+        }
+        this.callback.onContinueLoadingRequested(this);
     }
 
     @Override // com.google.android.exoplayer2.upstream.Loader.Callback
@@ -300,7 +302,7 @@ public class ChunkSampleStream<T extends ChunkSource> implements SampleStream, S
         long bytesLoaded = chunk.bytesLoaded();
         boolean isMediaChunk = isMediaChunk(chunk);
         int size = this.mediaChunks.size() - 1;
-        boolean z = bytesLoaded == 0 || !isMediaChunk || !haveReadFromMediaChunk(size);
+        boolean z = (bytesLoaded != 0 && isMediaChunk && haveReadFromMediaChunk(size)) ? false : true;
         Loader.LoadErrorAction loadErrorAction2 = null;
         if (this.chunkSource.onChunkLoadError(chunk, z, iOException, z ? this.loadErrorHandlingPolicy.getBlacklistDurationMsFor(chunk.type, j2, iOException, i) : -9223372036854775807L)) {
             if (z) {
@@ -337,7 +339,6 @@ public class ChunkSampleStream<T extends ChunkSource> implements SampleStream, S
     public boolean continueLoading(long j) {
         List<BaseMediaChunk> list;
         long j2;
-        boolean z = false;
         if (this.loadingFinished || this.loader.isLoading() || this.loader.hasFatalError()) {
             return false;
         }
@@ -349,13 +350,12 @@ public class ChunkSampleStream<T extends ChunkSource> implements SampleStream, S
             list = this.readOnlyMediaChunks;
             j2 = getLastMediaChunk().endTimeUs;
         }
-        T t = this.chunkSource;
-        t.getNextChunk(j, j2, list, this.nextChunkHolder);
+        this.chunkSource.getNextChunk(j, j2, list, this.nextChunkHolder);
         ChunkHolder chunkHolder = this.nextChunkHolder;
-        boolean z2 = chunkHolder.endOfStream;
+        boolean z = chunkHolder.endOfStream;
         Chunk chunk = chunkHolder.chunk;
         chunkHolder.clear();
-        if (z2) {
+        if (z) {
             this.pendingResetPositionUs = -9223372036854775807L;
             this.loadingFinished = true;
             return true;
@@ -368,9 +368,6 @@ public class ChunkSampleStream<T extends ChunkSource> implements SampleStream, S
                     long j3 = baseMediaChunk.startTimeUs;
                     long j4 = this.pendingResetPositionUs;
                     if (j3 == j4) {
-                        z = true;
-                    }
-                    if (z) {
                         j4 = 0;
                     }
                     this.decodeOnlyUntilPositionUs = j4;
@@ -396,10 +393,10 @@ public class ChunkSampleStream<T extends ChunkSource> implements SampleStream, S
         if (isPendingReset()) {
             return this.pendingResetPositionUs;
         }
-        if (!this.loadingFinished) {
-            return getLastMediaChunk().endTimeUs;
+        if (this.loadingFinished) {
+            return Long.MIN_VALUE;
         }
-        return Long.MIN_VALUE;
+        return getLastMediaChunk().endTimeUs;
     }
 
     @Override // com.google.android.exoplayer2.source.SequenceableLoader
@@ -469,12 +466,11 @@ public class ChunkSampleStream<T extends ChunkSource> implements SampleStream, S
         int primarySampleIndexToMediaChunkIndex = primarySampleIndexToMediaChunkIndex(this.primarySampleQueue.getReadIndex(), this.nextNotifyPrimaryFormatMediaChunkIndex - 1);
         while (true) {
             int i = this.nextNotifyPrimaryFormatMediaChunkIndex;
-            if (i <= primarySampleIndexToMediaChunkIndex) {
-                this.nextNotifyPrimaryFormatMediaChunkIndex = i + 1;
-                maybeNotifyPrimaryTrackFormatChanged(i);
-            } else {
+            if (i > primarySampleIndexToMediaChunkIndex) {
                 return;
             }
+            this.nextNotifyPrimaryFormatMediaChunkIndex = i + 1;
+            maybeNotifyPrimaryTrackFormatChanged(i);
         }
     }
 
@@ -511,13 +507,12 @@ public class ChunkSampleStream<T extends ChunkSource> implements SampleStream, S
         this.primarySampleQueue.discardUpstreamSamples(baseMediaChunk.getFirstSampleIndex(0));
         while (true) {
             SampleQueue[] sampleQueueArr = this.embeddedSampleQueues;
-            if (i2 < sampleQueueArr.length) {
-                SampleQueue sampleQueue = sampleQueueArr[i2];
-                i2++;
-                sampleQueue.discardUpstreamSamples(baseMediaChunk.getFirstSampleIndex(i2));
-            } else {
+            if (i2 >= sampleQueueArr.length) {
                 return baseMediaChunk;
             }
+            SampleQueue sampleQueue = sampleQueueArr[i2];
+            i2++;
+            sampleQueue.discardUpstreamSamples(baseMediaChunk.getFirstSampleIndex(i2));
         }
     }
 
@@ -572,10 +567,11 @@ public class ChunkSampleStream<T extends ChunkSource> implements SampleStream, S
         }
 
         private void maybeNotifyDownstreamFormat() {
-            if (!this.notifiedDownstreamFormat) {
-                ChunkSampleStream.this.eventDispatcher.downstreamFormatChanged(ChunkSampleStream.this.embeddedTrackTypes[this.index], ChunkSampleStream.this.embeddedTrackFormats[this.index], 0, null, ChunkSampleStream.this.lastSeekPositionUs);
-                this.notifiedDownstreamFormat = true;
+            if (this.notifiedDownstreamFormat) {
+                return;
             }
+            ChunkSampleStream.this.eventDispatcher.downstreamFormatChanged(ChunkSampleStream.this.embeddedTrackTypes[this.index], ChunkSampleStream.this.embeddedTrackFormats[this.index], 0, null, ChunkSampleStream.this.lastSeekPositionUs);
+            this.notifiedDownstreamFormat = true;
         }
     }
 }

@@ -232,15 +232,13 @@ public abstract class FourierTransform {
             fArr2[i] = fArr2[i] * f;
             float[] fArr3 = this.spectrum;
             fArr3[i] = fArr3[i] * f;
-            if (i == 0) {
-                return;
+            if (i != 0) {
+                int i2 = this.timeSize;
+                if (i != i2 / 2) {
+                    fArr[i2 - i] = fArr[i];
+                    fArr2[i2 - i] = -fArr2[i];
+                }
             }
-            int i2 = this.timeSize;
-            if (i == i2 / 2) {
-                return;
-            }
-            fArr[i2 - i] = fArr[i];
-            fArr2[i2 - i] = -fArr2[i];
         }
 
         @Override // org.telegram.messenger.FourierTransform
@@ -262,16 +260,14 @@ public abstract class FourierTransform {
                 fArr[i] = fArr[i] * fArr2[i];
                 fArr3[i] = fArr3[i] * fArr2[i];
             }
-            if (i == 0) {
-                return;
+            if (i != 0) {
+                int i2 = this.timeSize;
+                if (i != i2 / 2) {
+                    fArr[i2 - i] = fArr[i];
+                    float[] fArr4 = this.imag;
+                    fArr4[i2 - i] = -fArr4[i];
+                }
             }
-            int i2 = this.timeSize;
-            if (i == i2 / 2) {
-                return;
-            }
-            fArr[i2 - i] = fArr[i];
-            float[] fArr4 = this.imag;
-            fArr4[i2 - i] = -fArr4[i];
         }
 
         private void fft() {

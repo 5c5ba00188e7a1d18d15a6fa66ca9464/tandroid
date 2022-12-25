@@ -38,11 +38,11 @@ public final class YearMonth implements Comparable<YearMonth>, Serializable {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof YearMonth)) {
-            return false;
+        if (obj instanceof YearMonth) {
+            YearMonth yearMonth = (YearMonth) obj;
+            return this.a == yearMonth.a && this.b == yearMonth.b;
         }
-        YearMonth yearMonth = (YearMonth) obj;
-        return this.a == yearMonth.a && this.b == yearMonth.b;
+        return false;
     }
 
     public int hashCode() {

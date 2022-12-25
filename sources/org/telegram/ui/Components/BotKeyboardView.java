@@ -21,14 +21,14 @@ import org.telegram.ui.ActionBar.Theme;
 public class BotKeyboardView extends LinearLayout {
     private TLRPC$TL_replyKeyboardMarkup botButtons;
     private int buttonHeight;
+    private ArrayList<ImageView> buttonIcons;
+    private ArrayList<TextView> buttonViews;
     private LinearLayout container;
     private BotKeyboardViewDelegate delegate;
     private boolean isFullSize;
     private int panelHeight;
     private final Theme.ResourcesProvider resourcesProvider;
     private ScrollView scrollView;
-    private ArrayList<TextView> buttonViews = new ArrayList<>();
-    private ArrayList<ImageView> buttonIcons = new ArrayList<>();
 
     /* loaded from: classes3.dex */
     public interface BotKeyboardViewDelegate {
@@ -37,6 +37,8 @@ public class BotKeyboardView extends LinearLayout {
 
     public BotKeyboardView(Context context, Theme.ResourcesProvider resourcesProvider) {
         super(context);
+        this.buttonViews = new ArrayList<>();
+        this.buttonIcons = new ArrayList<>();
         this.resourcesProvider = resourcesProvider;
         setOrientation(1);
         ScrollView scrollView = new ScrollView(context);
@@ -96,8 +98,8 @@ public class BotKeyboardView extends LinearLayout {
 
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r3v13 */
-    /* JADX WARN: Type inference failed for: r3v19 */
-    /* JADX WARN: Type inference failed for: r3v2, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r3v16 */
+    /* JADX WARN: Type inference failed for: r3v2, types: [int, boolean] */
     public void setButtons(TLRPC$TL_replyKeyboardMarkup tLRPC$TL_replyKeyboardMarkup) {
         this.botButtons = tLRPC$TL_replyKeyboardMarkup;
         this.container.removeAllViews();
@@ -116,16 +118,13 @@ public class BotKeyboardView extends LinearLayout {
         while (i2 < tLRPC$TL_replyKeyboardMarkup.rows.size()) {
             TLRPC$TL_keyboardButtonRow tLRPC$TL_keyboardButtonRow = tLRPC$TL_replyKeyboardMarkup.rows.get(i2);
             LinearLayout linearLayout = new LinearLayout(getContext());
-            int i3 = z ? 1 : 0;
-            int i4 = z ? 1 : 0;
-            int i5 = z ? 1 : 0;
-            linearLayout.setOrientation(i3);
+            linearLayout.setOrientation(z ? 1 : 0);
             this.container.addView(linearLayout, LayoutHelper.createLinear(-1, this.buttonHeight, 15.0f, i2 == 0 ? 15.0f : 10.0f, 15.0f, i2 == tLRPC$TL_replyKeyboardMarkup.rows.size() - i ? 15.0f : 0.0f));
             float size = 1.0f / tLRPC$TL_keyboardButtonRow.buttons.size();
-            int i6 = 0;
+            int i3 = 0;
             ?? r3 = z;
-            while (i6 < tLRPC$TL_keyboardButtonRow.buttons.size()) {
-                TLRPC$KeyboardButton tLRPC$KeyboardButton = tLRPC$TL_keyboardButtonRow.buttons.get(i6);
+            while (i3 < tLRPC$TL_keyboardButtonRow.buttons.size()) {
+                TLRPC$KeyboardButton tLRPC$KeyboardButton = tLRPC$TL_keyboardButtonRow.buttons.get(i3);
                 TextView textView = new TextView(getContext());
                 textView.setTag(tLRPC$KeyboardButton);
                 textView.setTextColor(getThemedColor("chat_botKeyboardButtonText"));
@@ -134,9 +133,9 @@ public class BotKeyboardView extends LinearLayout {
                 textView.setGravity(17);
                 FrameLayout frameLayout = new FrameLayout(getContext());
                 frameLayout.addView(textView, LayoutHelper.createFrame(-1, -1.0f));
-                textView.setPadding(AndroidUtilities.dp(4.0f), r3 == true ? 1 : 0, AndroidUtilities.dp(4.0f), r3);
+                textView.setPadding(AndroidUtilities.dp(4.0f), r3, AndroidUtilities.dp(4.0f), r3);
                 textView.setText(Emoji.replaceEmoji(tLRPC$KeyboardButton.text, textView.getPaint().getFontMetricsInt(), AndroidUtilities.dp(16.0f), r3));
-                linearLayout.addView(frameLayout, LayoutHelper.createLinear(0, -1, size, 0, 0, i6 != tLRPC$TL_keyboardButtonRow.buttons.size() + (-1) ? 10 : 0, 0));
+                linearLayout.addView(frameLayout, LayoutHelper.createLinear(0, -1, size, 0, 0, i3 != tLRPC$TL_keyboardButtonRow.buttons.size() + (-1) ? 10 : 0, 0));
                 textView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.BotKeyboardView$$ExternalSyntheticLambda0
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view) {
@@ -154,7 +153,7 @@ public class BotKeyboardView extends LinearLayout {
                 }
                 this.buttonIcons.add(imageView);
                 frameLayout.addView(imageView, LayoutHelper.createFrame(12, 12.0f, 53, 0.0f, 8.0f, 8.0f, 0.0f));
-                i6++;
+                i3++;
                 r3 = 0;
                 i = 1;
             }

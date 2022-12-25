@@ -17,22 +17,27 @@ public class GroupCreateCheckBox extends View {
     private static Paint eraser2;
     private boolean attachedToWindow;
     private Paint backgroundInnerPaint;
+    private String backgroundKey;
     private Paint backgroundPaint;
     private Canvas bitmapCanvas;
     private ObjectAnimator checkAnimator;
+    private String checkKey;
     private Paint checkPaint;
+    private float checkScale;
     private Bitmap drawBitmap;
+    private String innerKey;
     private int innerRadDiff;
+    private boolean isCheckAnimation;
     private boolean isChecked;
     private float progress;
-    private boolean isCheckAnimation = true;
-    private float checkScale = 1.0f;
-    private String backgroundKey = "checkboxCheck";
-    private String checkKey = "checkboxCheck";
-    private String innerKey = "checkbox";
 
     public GroupCreateCheckBox(Context context) {
         super(context);
+        this.isCheckAnimation = true;
+        this.checkScale = 1.0f;
+        this.backgroundKey = "checkboxCheck";
+        this.checkKey = "checkboxCheck";
+        this.innerKey = "checkbox";
         if (eraser == null) {
             Paint paint = new Paint(1);
             eraser = paint;

@@ -50,11 +50,11 @@ public final class AtProtobuf {
             if (this == obj) {
                 return true;
             }
-            if (!(obj instanceof Protobuf)) {
-                return false;
+            if (obj instanceof Protobuf) {
+                Protobuf protobuf = (Protobuf) obj;
+                return this.tag == protobuf.tag() && this.intEncoding.equals(protobuf.intEncoding());
             }
-            Protobuf protobuf = (Protobuf) obj;
-            return this.tag == protobuf.tag() && this.intEncoding.equals(protobuf.intEncoding());
+            return false;
         }
 
         @Override // java.lang.annotation.Annotation

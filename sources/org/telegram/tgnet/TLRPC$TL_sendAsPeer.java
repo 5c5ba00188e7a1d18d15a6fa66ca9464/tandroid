@@ -22,11 +22,7 @@ public class TLRPC$TL_sendAsPeer extends TLObject {
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
         int readInt32 = abstractSerializedData.readInt32(z);
         this.flags = readInt32;
-        boolean z2 = true;
-        if ((readInt32 & 1) == 0) {
-            z2 = false;
-        }
-        this.premium_required = z2;
+        this.premium_required = (readInt32 & 1) != 0;
         this.peer = TLRPC$Peer.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
     }
 

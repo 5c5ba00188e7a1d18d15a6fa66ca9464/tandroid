@@ -17,21 +17,20 @@ abstract class c extends y2 implements g {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public c(c cVar, int i) {
-        if (!cVar.h) {
-            cVar.h = true;
-            cVar.d = this;
-            this.b = cVar;
-            this.c = d4.h & i;
-            this.f = d4.a(i, cVar.f);
-            c cVar2 = cVar.a;
-            this.a = cVar2;
-            if (G0()) {
-                cVar2.i = true;
-            }
-            this.e = cVar.e + 1;
-            return;
+        if (cVar.h) {
+            throw new IllegalStateException("stream has already been operated upon or closed");
         }
-        throw new IllegalStateException("stream has already been operated upon or closed");
+        cVar.h = true;
+        cVar.d = this;
+        this.b = cVar;
+        this.c = d4.h & i;
+        this.f = d4.a(i, cVar.f);
+        c cVar2 = cVar.a;
+        this.a = cVar2;
+        if (G0()) {
+            cVar2.i = true;
+        }
+        this.e = cVar.e + 1;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -125,11 +124,11 @@ abstract class c extends y2 implements g {
             }
             this.h = true;
             j$.util.u uVar = cVar.g;
-            if (uVar == null) {
-                throw new IllegalStateException("source already consumed or closed");
+            if (uVar != null) {
+                cVar.g = null;
+                return uVar;
             }
-            cVar.g = null;
-            return uVar;
+            throw new IllegalStateException("source already consumed or closed");
         }
         throw new IllegalStateException();
     }
@@ -237,20 +236,20 @@ abstract class c extends y2 implements g {
     }
 
     public j$.util.u spliterator() {
-        if (!this.h) {
-            this.h = true;
-            c cVar = this.a;
-            if (this != cVar) {
-                return K0(this, new b(this), cVar.k);
-            }
-            j$.util.u uVar = cVar.g;
-            if (uVar == null) {
-                throw new IllegalStateException("source already consumed or closed");
-            }
-            cVar.g = null;
-            return uVar;
+        if (this.h) {
+            throw new IllegalStateException("stream has already been operated upon or closed");
         }
-        throw new IllegalStateException("stream has already been operated upon or closed");
+        this.h = true;
+        c cVar = this.a;
+        if (this == cVar) {
+            j$.util.u uVar = cVar.g;
+            if (uVar != null) {
+                cVar.g = null;
+                return uVar;
+            }
+            throw new IllegalStateException("source already consumed or closed");
+        }
+        return K0(this, new b(this), cVar.k);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -279,25 +278,25 @@ abstract class c extends y2 implements g {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public final Object x0(N4 n4) {
-        if (!this.h) {
-            this.h = true;
-            return this.a.k ? n4.c(this, I0(n4.b())) : n4.d(this, I0(n4.b()));
+        if (this.h) {
+            throw new IllegalStateException("stream has already been operated upon or closed");
         }
-        throw new IllegalStateException("stream has already been operated upon or closed");
+        this.h = true;
+        return this.a.k ? n4.c(this, I0(n4.b())) : n4.d(this, I0(n4.b()));
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public final A1 y0(j$.util.function.m mVar) {
-        if (!this.h) {
-            this.h = true;
-            if (!this.a.k || this.b == null || !G0()) {
-                return p0(I0(0), true, mVar);
-            }
+        if (this.h) {
+            throw new IllegalStateException("stream has already been operated upon or closed");
+        }
+        this.h = true;
+        if (this.a.k && this.b != null && G0()) {
             this.e = 0;
             c cVar = this.b;
             return E0(cVar, cVar.I0(0), mVar);
         }
-        throw new IllegalStateException("stream has already been operated upon or closed");
+        return p0(I0(0), true, mVar);
     }
 
     abstract A1 z0(y2 y2Var, j$.util.u uVar, boolean z, j$.util.function.m mVar);

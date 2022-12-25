@@ -52,8 +52,7 @@ public abstract class DataChunk extends Chunk {
         byte[] bArr = this.data;
         if (bArr == null) {
             this.data = new byte[16384];
-        } else if (bArr.length >= i + 16384) {
-        } else {
+        } else if (bArr.length < i + 16384) {
             this.data = Arrays.copyOf(bArr, bArr.length + 16384);
         }
     }

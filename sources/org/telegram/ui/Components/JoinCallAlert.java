@@ -105,10 +105,9 @@ public class JoinCallAlert extends BottomSheet {
                 i2++;
             }
         }
-        if (!cachedChats.isEmpty()) {
-            return;
+        if (cachedChats.isEmpty()) {
+            cachedChats = null;
         }
-        cachedChats = null;
     }
 
     /* loaded from: classes3.dex */
@@ -116,10 +115,11 @@ public class JoinCallAlert extends BottomSheet {
         private View background;
         private boolean hasBackground;
         private CharSequence text;
-        private TextView[] textView = new TextView[2];
+        private TextView[] textView;
 
         public BottomSheetCell(Context context, boolean z) {
             super(context);
+            this.textView = new TextView[2];
             this.hasBackground = !z;
             setBackground(null);
             View view = new View(context);
@@ -191,11 +191,7 @@ public class JoinCallAlert extends BottomSheet {
 
     public static void checkFewUsers(Context context, final long j, final AccountInstance accountInstance, final MessagesStorage.BooleanCallback booleanCallback) {
         if (lastCachedAccount == accountInstance.getCurrentAccount() && lastCacheDid == j && cachedChats != null && SystemClock.elapsedRealtime() - lastCacheTime < 240000) {
-            boolean z = true;
-            if (cachedChats.size() != 1) {
-                z = false;
-            }
-            booleanCallback.run(z);
+            booleanCallback.run(cachedChats.size() == 1);
             return;
         }
         final AlertDialog alertDialog = new AlertDialog(context, 3);
@@ -242,13 +238,9 @@ public class JoinCallAlert extends BottomSheet {
             lastCacheDid = j;
             lastCacheTime = SystemClock.elapsedRealtime();
             lastCachedAccount = accountInstance.getCurrentAccount();
-            boolean z = false;
             accountInstance.getMessagesController().putChats(tLRPC$TL_phone_joinAsPeers.chats, false);
             accountInstance.getMessagesController().putUsers(tLRPC$TL_phone_joinAsPeers.users, false);
-            if (tLRPC$TL_phone_joinAsPeers.peers.size() == 1) {
-                z = true;
-            }
-            booleanCallback.run(z);
+            booleanCallback.run(tLRPC$TL_phone_joinAsPeers.peers.size() == 1);
         }
     }
 
@@ -332,10 +324,10 @@ public class JoinCallAlert extends BottomSheet {
     private static void showAlert(Context context, long j, ArrayList<TLRPC$Peer> arrayList, BaseFragment baseFragment, int i, TLRPC$Peer tLRPC$Peer, JoinCallAlertDelegate joinCallAlertDelegate) {
         JoinCallAlert joinCallAlert = new JoinCallAlert(context, j, arrayList, i, tLRPC$Peer, joinCallAlertDelegate);
         if (baseFragment != null) {
-            if (baseFragment.getParentActivity() == null) {
+            if (baseFragment.getParentActivity() != null) {
+                baseFragment.showDialog(joinCallAlert);
                 return;
             }
-            baseFragment.showDialog(joinCallAlert);
             return;
         }
         joinCallAlert.show();
@@ -677,10 +669,9 @@ public class JoinCallAlert extends BottomSheet {
                 }
             }
         }
-        if (this.currentType == 0) {
-            return;
+        if (this.currentType != 0) {
+            updateDoneButton(true, tLRPC$Chat);
         }
-        updateDoneButton(true, tLRPC$Chat);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -688,11 +679,7 @@ public class JoinCallAlert extends BottomSheet {
         TLRPC$InputPeer inputPeer = MessagesController.getInstance(this.currentAccount).getInputPeer(MessageObject.getPeerId(this.selectedPeer));
         if (this.currentType == 2) {
             if (this.selectedPeer != this.currentPeer) {
-                boolean z = true;
-                if (this.chats.size() <= 1) {
-                    z = false;
-                }
-                joinCallAlertDelegate.didSelectChat(inputPeer, z, false);
+                joinCallAlertDelegate.didSelectChat(inputPeer, this.chats.size() > 1, false);
             }
         } else {
             this.selectAfterDismiss = inputPeer;
@@ -750,15 +737,14 @@ public class JoinCallAlert extends BottomSheet {
         if (top > 0 && holder != null && holder.getAdapterPosition() == 0) {
             i = top;
         }
-        if (this.scrollOffsetY == i) {
-            return;
+        if (this.scrollOffsetY != i) {
+            this.textView.setTranslationY(AndroidUtilities.dp(19.0f) + top);
+            this.messageTextView.setTranslationY(top + AndroidUtilities.dp(56.0f));
+            RecyclerListView recyclerListView2 = this.listView;
+            this.scrollOffsetY = i;
+            recyclerListView2.setTopGlowOffset(i);
+            this.containerView.invalidate();
         }
-        this.textView.setTranslationY(AndroidUtilities.dp(19.0f) + top);
-        this.messageTextView.setTranslationY(top + AndroidUtilities.dp(56.0f));
-        RecyclerListView recyclerListView2 = this.listView;
-        this.scrollOffsetY = i;
-        recyclerListView2.setTopGlowOffset(i);
-        this.containerView.invalidate();
     }
 
     @Override // org.telegram.ui.ActionBar.BottomSheet
@@ -766,12 +752,7 @@ public class JoinCallAlert extends BottomSheet {
         super.dismissInternal();
         TLRPC$InputPeer tLRPC$InputPeer = this.selectAfterDismiss;
         if (tLRPC$InputPeer != null) {
-            JoinCallAlertDelegate joinCallAlertDelegate = this.delegate;
-            boolean z = true;
-            if (this.chats.size() <= 1) {
-                z = false;
-            }
-            joinCallAlertDelegate.didSelectChat(tLRPC$InputPeer, z, this.schedule);
+            this.delegate.didSelectChat(tLRPC$InputPeer, this.chats.size() > 1, this.schedule);
         }
     }
 
@@ -815,7 +796,6 @@ public class JoinCallAlert extends BottomSheet {
             viewHolder.getAdapterPosition();
             long peerId = MessageObject.getPeerId(JoinCallAlert.this.selectedPeer);
             View view = viewHolder.itemView;
-            boolean z = true;
             if (view instanceof GroupCreateUserCell) {
                 GroupCreateUserCell groupCreateUserCell = (GroupCreateUserCell) view;
                 Object object = groupCreateUserCell.getObject();
@@ -827,17 +807,11 @@ public class JoinCallAlert extends BottomSheet {
                         j = ((TLRPC$User) object).id;
                     }
                 }
-                if (peerId != j) {
-                    z = false;
-                }
-                groupCreateUserCell.setChecked(z, false);
+                groupCreateUserCell.setChecked(peerId == j, false);
                 return;
             }
             ShareDialogCell shareDialogCell = (ShareDialogCell) view;
-            if (peerId != shareDialogCell.getCurrentDialog()) {
-                z = false;
-            }
-            shareDialogCell.setChecked(z, false);
+            shareDialogCell.setChecked(peerId == shareDialogCell.getCurrentDialog(), false);
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -852,20 +826,11 @@ public class JoinCallAlert extends BottomSheet {
                 chat = MessagesController.getInstance(((BottomSheet) JoinCallAlert.this).currentAccount).getChat(Long.valueOf(-peerId));
                 str = null;
             }
-            boolean z = false;
             if (JoinCallAlert.this.currentType == 0) {
-                ShareDialogCell shareDialogCell = (ShareDialogCell) viewHolder.itemView;
-                if (peerId == MessageObject.getPeerId(JoinCallAlert.this.selectedPeer)) {
-                    z = true;
-                }
-                shareDialogCell.setDialog(peerId, z, null);
-                return;
+                ((ShareDialogCell) viewHolder.itemView).setDialog(peerId, peerId == MessageObject.getPeerId(JoinCallAlert.this.selectedPeer), null);
+            } else {
+                ((GroupCreateUserCell) viewHolder.itemView).setObject(chat, null, str, i != getItemCount() - 1);
             }
-            GroupCreateUserCell groupCreateUserCell = (GroupCreateUserCell) viewHolder.itemView;
-            if (i != getItemCount() - 1) {
-                z = true;
-            }
-            groupCreateUserCell.setObject(chat, null, str, z);
         }
     }
 }

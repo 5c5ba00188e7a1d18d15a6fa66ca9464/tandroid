@@ -105,10 +105,9 @@ public class a4 extends e implements Consumer, Iterable, j$.lang.e {
             i += this.f[i2].length;
         }
         int i3 = this.b;
-        if (i3 <= 0) {
-            return;
+        if (i3 > 0) {
+            System.arraycopy(this.e, 0, objArr, i, i3);
         }
-        System.arraycopy(this.e, 0, objArr, i, i3);
     }
 
     @Override // java.lang.Iterable
@@ -145,26 +144,27 @@ public class a4 extends e implements Consumer, Iterable, j$.lang.e {
         Object[][] objArr;
         int i;
         long t = t();
-        if (j > t) {
-            v();
-            int i2 = this.c;
-            while (true) {
-                i2++;
-                if (j <= t) {
-                    return;
-                }
-                Object[][] objArr2 = this.f;
-                if (i2 >= objArr2.length) {
-                    int length = objArr2.length * 2;
-                    this.f = (Object[][]) Arrays.copyOf(objArr2, length);
-                    this.d = Arrays.copyOf(this.d, length);
-                }
-                int s = s(i2);
-                this.f[i2] = new Object[s];
-                long[] jArr = this.d;
-                jArr[i2] = jArr[i2 - 1] + objArr[i].length;
-                t += s;
+        if (j <= t) {
+            return;
+        }
+        v();
+        int i2 = this.c;
+        while (true) {
+            i2++;
+            if (j <= t) {
+                return;
             }
+            Object[][] objArr2 = this.f;
+            if (i2 >= objArr2.length) {
+                int length = objArr2.length * 2;
+                this.f = (Object[][]) Arrays.copyOf(objArr2, length);
+                this.d = Arrays.copyOf(this.d, length);
+            }
+            int s = s(i2);
+            this.f[i2] = new Object[s];
+            long[] jArr = this.d;
+            jArr[i2] = jArr[i2 - 1] + objArr[i].length;
+            t += s;
         }
     }
 }

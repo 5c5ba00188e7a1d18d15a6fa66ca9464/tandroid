@@ -31,12 +31,8 @@ public abstract class TLRPC$Dialog extends TLObject {
                 public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                     int readInt32 = abstractSerializedData2.readInt32(z2);
                     this.flags = readInt32;
-                    boolean z3 = false;
                     this.pinned = (readInt32 & 4) != 0;
-                    if ((readInt32 & 8) != 0) {
-                        z3 = true;
-                    }
-                    this.unread_mark = z3;
+                    this.unread_mark = (readInt32 & 8) != 0;
                     this.peer = TLRPC$Peer.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                     this.top_message = abstractSerializedData2.readInt32(z2);
                     this.read_inbox_max_id = abstractSerializedData2.readInt32(z2);
@@ -97,12 +93,12 @@ public abstract class TLRPC$Dialog extends TLObject {
             tLRPC$Dialog = new TLRPC$TL_dialogFolder();
             tLRPC$Dialog.isFolder = true;
         }
-        if (tLRPC$Dialog != null || !z) {
-            if (tLRPC$Dialog != null) {
-                tLRPC$Dialog.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$Dialog;
+        if (tLRPC$Dialog == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in Dialog", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in Dialog", Integer.valueOf(i)));
+        if (tLRPC$Dialog != null) {
+            tLRPC$Dialog.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$Dialog;
     }
 }

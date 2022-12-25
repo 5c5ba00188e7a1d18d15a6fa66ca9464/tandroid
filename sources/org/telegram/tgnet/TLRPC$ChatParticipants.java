@@ -143,12 +143,12 @@ public abstract class TLRPC$ChatParticipants extends TLObject {
                 tLRPC$TL_chatParticipantsForbidden = null;
                 break;
         }
-        if (tLRPC$TL_chatParticipantsForbidden != null || !z) {
-            if (tLRPC$TL_chatParticipantsForbidden != null) {
-                tLRPC$TL_chatParticipantsForbidden.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_chatParticipantsForbidden;
+        if (tLRPC$TL_chatParticipantsForbidden == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in ChatParticipants", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in ChatParticipants", Integer.valueOf(i)));
+        if (tLRPC$TL_chatParticipantsForbidden != null) {
+            tLRPC$TL_chatParticipantsForbidden.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_chatParticipantsForbidden;
     }
 }

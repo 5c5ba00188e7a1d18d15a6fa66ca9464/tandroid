@@ -29,33 +29,29 @@ final class AutoValue_NetworkConnectionInfo extends NetworkConnectionInfo {
         if (obj == this) {
             return true;
         }
-        if (!(obj instanceof NetworkConnectionInfo)) {
-            return false;
-        }
-        NetworkConnectionInfo networkConnectionInfo = (NetworkConnectionInfo) obj;
-        NetworkConnectionInfo.NetworkType networkType = this.networkType;
-        if (networkType != null ? networkType.equals(networkConnectionInfo.getNetworkType()) : networkConnectionInfo.getNetworkType() == null) {
-            NetworkConnectionInfo.MobileSubtype mobileSubtype = this.mobileSubtype;
-            if (mobileSubtype == null) {
-                if (networkConnectionInfo.getMobileSubtype() == null) {
+        if (obj instanceof NetworkConnectionInfo) {
+            NetworkConnectionInfo networkConnectionInfo = (NetworkConnectionInfo) obj;
+            NetworkConnectionInfo.NetworkType networkType = this.networkType;
+            if (networkType != null ? networkType.equals(networkConnectionInfo.getNetworkType()) : networkConnectionInfo.getNetworkType() == null) {
+                NetworkConnectionInfo.MobileSubtype mobileSubtype = this.mobileSubtype;
+                if (mobileSubtype == null) {
+                    if (networkConnectionInfo.getMobileSubtype() == null) {
+                        return true;
+                    }
+                } else if (mobileSubtype.equals(networkConnectionInfo.getMobileSubtype())) {
                     return true;
                 }
-            } else if (mobileSubtype.equals(networkConnectionInfo.getMobileSubtype())) {
-                return true;
             }
+            return false;
         }
         return false;
     }
 
     public int hashCode() {
         NetworkConnectionInfo.NetworkType networkType = this.networkType;
-        int i = 0;
         int hashCode = ((networkType == null ? 0 : networkType.hashCode()) ^ 1000003) * 1000003;
         NetworkConnectionInfo.MobileSubtype mobileSubtype = this.mobileSubtype;
-        if (mobileSubtype != null) {
-            i = mobileSubtype.hashCode();
-        }
-        return hashCode ^ i;
+        return hashCode ^ (mobileSubtype != null ? mobileSubtype.hashCode() : 0);
     }
 
     /* loaded from: classes.dex */

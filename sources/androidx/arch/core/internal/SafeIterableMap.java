@@ -112,23 +112,23 @@ public class SafeIterableMap<K, V> implements Iterable<Map.Entry<K, V>> {
         if (obj == this) {
             return true;
         }
-        if (!(obj instanceof SafeIterableMap)) {
-            return false;
-        }
-        SafeIterableMap safeIterableMap = (SafeIterableMap) obj;
-        if (size() != safeIterableMap.size()) {
-            return false;
-        }
-        Iterator<Map.Entry<K, V>> it = iterator();
-        Iterator<Map.Entry<K, V>> it2 = safeIterableMap.iterator();
-        while (it.hasNext() && it2.hasNext()) {
-            Map.Entry<K, V> next = it.next();
-            Map.Entry<K, V> next2 = it2.next();
-            if ((next == null && next2 != null) || (next != null && !next.equals(next2))) {
+        if (obj instanceof SafeIterableMap) {
+            SafeIterableMap safeIterableMap = (SafeIterableMap) obj;
+            if (size() != safeIterableMap.size()) {
                 return false;
             }
+            Iterator<Map.Entry<K, V>> it = iterator();
+            Iterator<Map.Entry<K, V>> it2 = safeIterableMap.iterator();
+            while (it.hasNext() && it2.hasNext()) {
+                Map.Entry<K, V> next = it.next();
+                Map.Entry<K, V> next2 = it2.next();
+                if ((next == null && next2 != null) || (next != null && !next.equals(next2))) {
+                    return false;
+                }
+            }
+            return (it.hasNext() || it2.hasNext()) ? false : true;
         }
-        return !it.hasNext() && !it2.hasNext();
+        return false;
     }
 
     public int hashCode() {
@@ -318,11 +318,11 @@ public class SafeIterableMap<K, V> implements Iterable<Map.Entry<K, V>> {
             if (obj == this) {
                 return true;
             }
-            if (!(obj instanceof Entry)) {
-                return false;
+            if (obj instanceof Entry) {
+                Entry entry = (Entry) obj;
+                return this.mKey.equals(entry.mKey) && this.mValue.equals(entry.mValue);
             }
-            Entry entry = (Entry) obj;
-            return this.mKey.equals(entry.mKey) && this.mValue.equals(entry.mValue);
+            return false;
         }
 
         @Override // java.util.Map.Entry

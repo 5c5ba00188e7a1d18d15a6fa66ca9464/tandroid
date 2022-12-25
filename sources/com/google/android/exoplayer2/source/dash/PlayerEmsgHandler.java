@@ -58,37 +58,37 @@ public final class PlayerEmsgHandler implements Handler.Callback {
     boolean maybeRefreshManifestBeforeLoadingNextChunk(long j) {
         DashManifest dashManifest = this.manifest;
         boolean z = false;
-        if (!dashManifest.dynamic) {
-            return false;
+        if (dashManifest.dynamic) {
+            if (this.isWaitingForManifestRefresh) {
+                return true;
+            }
+            Map.Entry<Long, Long> ceilingExpiryEntryForPublishTime = ceilingExpiryEntryForPublishTime(dashManifest.publishTimeMs);
+            if (ceilingExpiryEntryForPublishTime != null && ceilingExpiryEntryForPublishTime.getValue().longValue() < j) {
+                this.expiredManifestPublishTimeUs = ceilingExpiryEntryForPublishTime.getKey().longValue();
+                notifyManifestPublishTimeExpired();
+                z = true;
+            }
+            if (z) {
+                maybeNotifyDashManifestRefreshNeeded();
+            }
+            return z;
         }
-        if (this.isWaitingForManifestRefresh) {
-            return true;
-        }
-        Map.Entry<Long, Long> ceilingExpiryEntryForPublishTime = ceilingExpiryEntryForPublishTime(dashManifest.publishTimeMs);
-        if (ceilingExpiryEntryForPublishTime != null && ceilingExpiryEntryForPublishTime.getValue().longValue() < j) {
-            this.expiredManifestPublishTimeUs = ceilingExpiryEntryForPublishTime.getKey().longValue();
-            notifyManifestPublishTimeExpired();
-            z = true;
-        }
-        if (z) {
-            maybeNotifyDashManifestRefreshNeeded();
-        }
-        return z;
+        return false;
     }
 
     boolean maybeRefreshManifestOnLoadingError(Chunk chunk) {
-        if (!this.manifest.dynamic) {
+        if (this.manifest.dynamic) {
+            if (this.isWaitingForManifestRefresh) {
+                return true;
+            }
+            long j = this.lastLoadedChunkEndTimeUs;
+            if (j != -9223372036854775807L && j < chunk.startTimeUs) {
+                maybeNotifyDashManifestRefreshNeeded();
+                return true;
+            }
             return false;
         }
-        if (this.isWaitingForManifestRefresh) {
-            return true;
-        }
-        long j = this.lastLoadedChunkEndTimeUs;
-        if (!(j != -9223372036854775807L && j < chunk.startTimeUs)) {
-            return false;
-        }
-        maybeNotifyDashManifestRefreshNeeded();
-        return true;
+        return false;
     }
 
     void onChunkLoadCompleted(Chunk chunk) {
@@ -128,8 +128,7 @@ public final class PlayerEmsgHandler implements Handler.Callback {
         Long l = this.manifestPublishTimeToExpiryTimeUs.get(Long.valueOf(j2));
         if (l == null) {
             this.manifestPublishTimeToExpiryTimeUs.put(Long.valueOf(j2), Long.valueOf(j));
-        } else if (l.longValue() <= j) {
-        } else {
+        } else if (l.longValue() > j) {
             this.manifestPublishTimeToExpiryTimeUs.put(Long.valueOf(j2), Long.valueOf(j));
         }
     }

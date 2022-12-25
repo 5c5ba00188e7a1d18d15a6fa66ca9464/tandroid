@@ -25,10 +25,11 @@ public abstract class BaseDataSource implements DataSource {
 
     @Override // com.google.android.exoplayer2.upstream.DataSource
     public final void addTransferListener(TransferListener transferListener) {
-        if (!this.listeners.contains(transferListener)) {
-            this.listeners.add(transferListener);
-            this.listenerCount++;
+        if (this.listeners.contains(transferListener)) {
+            return;
         }
+        this.listeners.add(transferListener);
+        this.listenerCount++;
     }
 
     /* JADX INFO: Access modifiers changed from: protected */

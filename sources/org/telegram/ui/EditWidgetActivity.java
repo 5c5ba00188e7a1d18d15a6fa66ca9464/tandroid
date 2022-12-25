@@ -136,7 +136,6 @@ public class EditWidgetActivity extends BaseFragment {
 
         @Override // androidx.recyclerview.widget.ItemTouchHelper.Callback
         public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder viewHolder2) {
-            boolean z = false;
             if (viewHolder.getItemViewType() != viewHolder2.getItemViewType()) {
                 return false;
             }
@@ -144,11 +143,7 @@ public class EditWidgetActivity extends BaseFragment {
             int adapterPosition2 = viewHolder2.getAdapterPosition();
             if (EditWidgetActivity.this.listAdapter.swapElements(adapterPosition, adapterPosition2)) {
                 ((GroupCreateUserCell) viewHolder.itemView).setDrawDivider(adapterPosition2 != EditWidgetActivity.this.chatsEndRow - 1);
-                GroupCreateUserCell groupCreateUserCell = (GroupCreateUserCell) viewHolder2.itemView;
-                if (adapterPosition != EditWidgetActivity.this.chatsEndRow - 1) {
-                    z = true;
-                }
-                groupCreateUserCell.setDrawDivider(z);
+                ((GroupCreateUserCell) viewHolder2.itemView).setDrawDivider(adapterPosition != EditWidgetActivity.this.chatsEndRow - 1);
                 this.moved = true;
             }
             return true;
@@ -184,12 +179,12 @@ public class EditWidgetActivity extends BaseFragment {
     public class WidgetPreviewCell extends FrameLayout {
         private Drawable backgroundDrawable;
         private BackgroundGradientDrawable.Disposable backgroundGradientDisposable;
+        private RectF bitmapRect;
+        private ViewGroup[] cells;
         private Drawable oldBackgroundDrawable;
         private BackgroundGradientDrawable.Disposable oldBackgroundGradientDisposable;
+        private Paint roundPaint;
         private Drawable shadowDrawable;
-        private Paint roundPaint = new Paint(1);
-        private RectF bitmapRect = new RectF();
-        private ViewGroup[] cells = new ViewGroup[2];
 
         @Override // android.view.ViewGroup, android.view.View
         protected void dispatchSetPressed(boolean z) {
@@ -212,6 +207,9 @@ public class EditWidgetActivity extends BaseFragment {
 
         public WidgetPreviewCell(Context context) {
             super(context);
+            this.roundPaint = new Paint(1);
+            this.bitmapRect = new RectF();
+            this.cells = new ViewGroup[2];
             int i = 0;
             setWillNotDraw(false);
             setPadding(0, AndroidUtilities.dp(24.0f), 0, AndroidUtilities.dp(24.0f));
@@ -247,11 +245,11 @@ public class EditWidgetActivity extends BaseFragment {
             this.shadowDrawable = Theme.getThemedDrawable(context, R.drawable.greydivider_bottom, "windowBackgroundGrayShadow");
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:63:0x029e, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:110:0x029e, code lost:
             if ((r0 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChannelMigrateFrom) != false) goto L64;
          */
-        /* JADX WARN: Removed duplicated region for block: B:344:0x0911  */
-        /* JADX WARN: Removed duplicated region for block: B:358:0x095c  */
+        /* JADX WARN: Removed duplicated region for block: B:382:0x0911  */
+        /* JADX WARN: Removed duplicated region for block: B:395:0x095c  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -277,39 +275,39 @@ public class EditWidgetActivity extends BaseFragment {
             String str5;
             String str6;
             TLRPC$Chat tLRPC$Chat2;
-            CharSequence charSequence;
+            String str7;
             TLRPC$User tLRPC$User2;
             TLRPC$FileLocation tLRPC$FileLocation2;
             Bitmap decodeFile2;
-            String str7;
+            String str8;
             TLRPC$Chat chat;
             TLRPC$User tLRPC$User3;
-            CharSequence charSequence2;
-            String str8;
+            CharSequence charSequence;
+            String str9;
             String replace;
             SpannableStringBuilder valueOf;
             char c;
             char c2;
             char c3;
-            String charSequence3;
+            String charSequence2;
             SpannableStringBuilder spannableStringBuilder;
-            String str9;
+            String str10;
+            CharSequence charSequence3;
             CharSequence charSequence4;
-            CharSequence charSequence5;
             AvatarDrawable avatarDrawable2;
             TLRPC$UserProfilePhoto tLRPC$UserProfilePhoto2;
             TLRPC$FileLocation tLRPC$FileLocation3;
-            String str10 = "%d";
-            String str11 = "HiddenName";
-            String str12 = "SavedMessages";
+            String str11 = "%d";
+            String str12 = "HiddenName";
+            String str13 = "SavedMessages";
             float f = 0.0f;
             long j = 0;
             int i3 = 8;
             int i4 = 2;
             int i5 = 0;
             if (EditWidgetActivity.this.widgetType != 0) {
-                String str13 = str11;
-                String str14 = str12;
+                String str14 = "HiddenName";
+                String str15 = "SavedMessages";
                 if (EditWidgetActivity.this.widgetType == 1) {
                     int i6 = 0;
                     while (true) {
@@ -344,8 +342,8 @@ public class EditWidgetActivity extends BaseFragment {
                                 if (i9 == 0 || i9 == 2) {
                                     this.cells[i6].setVisibility(8);
                                 }
-                                str = str14;
-                                str2 = str13;
+                                str = str15;
+                                str2 = str14;
                             } else {
                                 this.cells[i6].findViewById(i7 == 0 ? R.id.contacts_widget_item1 : R.id.contacts_widget_item2).setVisibility(0);
                                 if (i9 == 0 || i9 == 2) {
@@ -354,18 +352,18 @@ public class EditWidgetActivity extends BaseFragment {
                                 if (DialogObject.isUserDialog(tLRPC$Dialog.id)) {
                                     tLRPC$User = EditWidgetActivity.this.getMessagesController().getUser(Long.valueOf(tLRPC$Dialog.id));
                                     if (UserObject.isUserSelf(tLRPC$User)) {
-                                        str = str14;
+                                        str = str15;
                                         firstName = LocaleController.getString(str, R.string.SavedMessages);
                                     } else {
-                                        str = str14;
+                                        str = str15;
                                         if (UserObject.isReplyUser(tLRPC$User)) {
                                             firstName = LocaleController.getString("RepliesTitle", R.string.RepliesTitle);
                                         } else {
                                             if (UserObject.isDeleted(tLRPC$User)) {
-                                                str2 = str13;
+                                                str2 = str14;
                                                 firstName = LocaleController.getString(str2, R.string.HiddenName);
                                             } else {
-                                                str2 = str13;
+                                                str2 = str14;
                                                 firstName = UserObject.getFirstName(tLRPC$User);
                                             }
                                             if (!UserObject.isReplyUser(tLRPC$User) || UserObject.isUserSelf(tLRPC$User) || tLRPC$User == null || (tLRPC$UserProfilePhoto = tLRPC$User.photo) == null || (tLRPC$FileLocation = tLRPC$UserProfilePhoto.photo_small) == null || tLRPC$FileLocation.volume_id == 0 || tLRPC$FileLocation.local_id == 0) {
@@ -378,26 +376,26 @@ public class EditWidgetActivity extends BaseFragment {
                                             }
                                         }
                                     }
-                                    str2 = str13;
-                                    if (!UserObject.isReplyUser(tLRPC$User)) {
+                                    str2 = str14;
+                                    if (UserObject.isReplyUser(tLRPC$User)) {
                                     }
                                     str3 = firstName;
                                     tLRPC$Chat = null;
                                     tLRPC$FileLocation = null;
                                 } else {
-                                    str = str14;
-                                    str2 = str13;
+                                    str = str15;
+                                    str2 = str14;
                                     TLRPC$Chat chat2 = EditWidgetActivity.this.getMessagesController().getChat(Long.valueOf(-tLRPC$Dialog.id));
-                                    String str15 = chat2.title;
+                                    String str16 = chat2.title;
                                     TLRPC$ChatPhoto tLRPC$ChatPhoto = chat2.photo;
                                     if (tLRPC$ChatPhoto != null && (tLRPC$FileLocation = tLRPC$ChatPhoto.photo_small) != null) {
                                         if (tLRPC$FileLocation.volume_id != 0 && tLRPC$FileLocation.local_id != 0) {
-                                            str3 = str15;
+                                            str3 = str16;
                                             tLRPC$Chat = chat2;
                                             tLRPC$User = null;
                                         }
                                     }
-                                    str3 = str15;
+                                    str3 = str16;
                                     tLRPC$FileLocation = null;
                                     tLRPC$Chat = chat2;
                                     tLRPC$User = null;
@@ -413,8 +411,8 @@ public class EditWidgetActivity extends BaseFragment {
                                         if (i <= 0) {
                                         }
                                         i7++;
-                                        str14 = str;
-                                        str13 = str2;
+                                        str15 = str;
+                                        str14 = str2;
                                     }
                                 } else {
                                     decodeFile = null;
@@ -444,8 +442,8 @@ public class EditWidgetActivity extends BaseFragment {
                                                 if (i <= 0) {
                                                 }
                                                 i7++;
-                                                str14 = str;
-                                                str13 = str2;
+                                                str15 = str;
+                                                str14 = str2;
                                             }
                                         }
                                         avatarDrawable.setBounds(i2, i2, dp, dp);
@@ -470,8 +468,8 @@ public class EditWidgetActivity extends BaseFragment {
                                             if (i <= 0) {
                                             }
                                             i7++;
-                                            str14 = str;
-                                            str13 = str2;
+                                            str15 = str;
+                                            str14 = str2;
                                         }
                                     }
                                 } catch (Throwable th4) {
@@ -481,8 +479,8 @@ public class EditWidgetActivity extends BaseFragment {
                                     if (i <= 0) {
                                     }
                                     i7++;
-                                    str14 = str;
-                                    str13 = str2;
+                                    str15 = str;
+                                    str14 = str2;
                                 }
                                 try {
                                     canvas.setBitmap(bitmap);
@@ -494,23 +492,23 @@ public class EditWidgetActivity extends BaseFragment {
                                     if (i <= 0) {
                                     }
                                     i7++;
-                                    str14 = str;
-                                    str13 = str2;
+                                    str15 = str;
+                                    str14 = str2;
                                 }
                                 i = tLRPC$Dialog.unread_count;
                                 if (i <= 0) {
-                                    ((TextView) this.cells[i6].findViewById(i7 == 0 ? R.id.contacts_widget_item_badge1 : R.id.contacts_widget_item_badge2)).setText(i > 99 ? String.format("%d+", 99) : String.format(str10, Integer.valueOf(i)));
+                                    ((TextView) this.cells[i6].findViewById(i7 == 0 ? R.id.contacts_widget_item_badge1 : R.id.contacts_widget_item_badge2)).setText(i > 99 ? String.format("%d+", 99) : String.format("%d", Integer.valueOf(i)));
                                     this.cells[i6].findViewById(i7 == 0 ? R.id.contacts_widget_item_badge_bg1 : R.id.contacts_widget_item_badge_bg2).setVisibility(0);
                                 } else {
                                     this.cells[i6].findViewById(i7 == 0 ? R.id.contacts_widget_item_badge_bg1 : R.id.contacts_widget_item_badge_bg2).setVisibility(8);
                                 }
                             }
                             i7++;
-                            str14 = str;
-                            str13 = str2;
+                            str15 = str;
+                            str14 = str2;
                         }
                         i6++;
-                        str13 = str13;
+                        str14 = str14;
                     }
                 }
             } else {
@@ -518,7 +516,7 @@ public class EditWidgetActivity extends BaseFragment {
                 while (i10 < i4) {
                     if (!EditWidgetActivity.this.selectedDialogs.isEmpty()) {
                         if (i10 < EditWidgetActivity.this.selectedDialogs.size()) {
-                            str4 = str10;
+                            str4 = str11;
                             TLRPC$Dialog tLRPC$Dialog3 = EditWidgetActivity.this.getMessagesController().dialogs_dict.get(((Long) EditWidgetActivity.this.selectedDialogs.get(i10)).longValue());
                             if (tLRPC$Dialog3 == null) {
                                 tLRPC$Dialog3 = new TLRPC$TL_dialog();
@@ -526,60 +524,60 @@ public class EditWidgetActivity extends BaseFragment {
                             }
                             tLRPC$Dialog2 = tLRPC$Dialog3;
                         } else {
-                            str4 = str10;
+                            str4 = str11;
                             tLRPC$Dialog2 = null;
                         }
                     } else {
                         tLRPC$Dialog2 = i10 < EditWidgetActivity.this.getMessagesController().dialogsServerOnly.size() ? EditWidgetActivity.this.getMessagesController().dialogsServerOnly.get(i10) : null;
-                        str4 = str10;
+                        str4 = str11;
                     }
                     if (tLRPC$Dialog2 == null) {
                         this.cells[i10].setVisibility(i3);
-                        str5 = str11;
-                        str6 = str12;
-                        str7 = str4;
+                        str5 = str12;
+                        str6 = str13;
+                        str8 = str4;
                     } else {
                         this.cells[i10].setVisibility(i5);
                         if (DialogObject.isUserDialog(tLRPC$Dialog2.id)) {
                             tLRPC$User2 = EditWidgetActivity.this.getMessagesController().getUser(Long.valueOf(tLRPC$Dialog2.id));
                             if (tLRPC$User2 != null) {
                                 if (UserObject.isUserSelf(tLRPC$User2)) {
-                                    charSequence = LocaleController.getString(str12, R.string.SavedMessages);
+                                    str7 = LocaleController.getString(str13, R.string.SavedMessages);
                                 } else if (UserObject.isReplyUser(tLRPC$User2)) {
-                                    charSequence = LocaleController.getString("RepliesTitle", R.string.RepliesTitle);
+                                    str7 = LocaleController.getString("RepliesTitle", R.string.RepliesTitle);
                                 } else if (UserObject.isDeleted(tLRPC$User2)) {
-                                    charSequence = LocaleController.getString(str11, R.string.HiddenName);
+                                    str7 = LocaleController.getString(str12, R.string.HiddenName);
                                 } else {
-                                    charSequence = ContactsController.formatName(tLRPC$User2.first_name, tLRPC$User2.last_name);
+                                    str7 = ContactsController.formatName(tLRPC$User2.first_name, tLRPC$User2.last_name);
                                 }
                                 if (UserObject.isReplyUser(tLRPC$User2) || UserObject.isUserSelf(tLRPC$User2) || (tLRPC$UserProfilePhoto2 = tLRPC$User2.photo) == null || (tLRPC$FileLocation3 = tLRPC$UserProfilePhoto2.photo_small) == null) {
-                                    str5 = str11;
+                                    str5 = str12;
                                 } else {
-                                    str5 = str11;
+                                    str5 = str12;
                                     if (tLRPC$FileLocation3.volume_id != j && tLRPC$FileLocation3.local_id != 0) {
                                         tLRPC$FileLocation2 = tLRPC$FileLocation3;
                                         tLRPC$Chat2 = null;
-                                        str6 = str12;
+                                        str6 = str13;
                                     }
                                 }
-                                str6 = str12;
+                                str6 = str13;
                             } else {
-                                str5 = str11;
-                                str6 = str12;
-                                charSequence = "";
+                                str5 = str12;
+                                str6 = str13;
+                                str7 = "";
                             }
                             tLRPC$FileLocation2 = null;
                             tLRPC$Chat2 = null;
                         } else {
-                            str5 = str11;
+                            str5 = str12;
                             TLRPC$Chat chat3 = EditWidgetActivity.this.getMessagesController().getChat(Long.valueOf(-tLRPC$Dialog2.id));
                             if (chat3 != null) {
-                                charSequence = chat3.title;
+                                str7 = chat3.title;
                                 TLRPC$ChatPhoto tLRPC$ChatPhoto2 = chat3.photo;
                                 if (tLRPC$ChatPhoto2 == null || (tLRPC$FileLocation2 = tLRPC$ChatPhoto2.photo_small) == null) {
-                                    str6 = str12;
+                                    str6 = str13;
                                 } else {
-                                    str6 = str12;
+                                    str6 = str13;
                                     if (tLRPC$FileLocation2.volume_id != j && tLRPC$FileLocation2.local_id != 0) {
                                         tLRPC$Chat2 = chat3;
                                         tLRPC$User2 = null;
@@ -587,14 +585,14 @@ public class EditWidgetActivity extends BaseFragment {
                                 }
                                 tLRPC$Chat2 = chat3;
                             } else {
-                                str6 = str12;
+                                str6 = str13;
                                 tLRPC$Chat2 = chat3;
-                                charSequence = "";
+                                str7 = "";
                             }
                             tLRPC$User2 = null;
                             tLRPC$FileLocation2 = null;
                         }
-                        ((TextView) this.cells[i10].findViewById(R.id.shortcut_widget_item_text)).setText(charSequence);
+                        ((TextView) this.cells[i10].findViewById(R.id.shortcut_widget_item_text)).setText(str7);
                         if (tLRPC$FileLocation2 != null) {
                             try {
                                 decodeFile2 = BitmapFactory.decodeFile(EditWidgetActivity.this.getFileLoader().getPathToAttach(tLRPC$FileLocation2, true).toString());
@@ -653,55 +651,55 @@ public class EditWidgetActivity extends BaseFragment {
                             if (messageObject.messageOwner instanceof TLRPC$TL_messageService) {
                                 if (ChatObject.isChannel(tLRPC$Chat2)) {
                                     TLRPC$MessageAction tLRPC$MessageAction = messageObject.messageOwner.action;
-                                    charSequence5 = "";
+                                    charSequence4 = "";
                                     if (!(tLRPC$MessageAction instanceof TLRPC$TL_messageActionHistoryClear)) {
-                                        charSequence5 = "";
+                                        charSequence4 = "";
                                     }
                                     color = getContext().getResources().getColor(R.color.widget_action_text);
-                                    charSequence4 = charSequence5;
+                                    charSequence3 = charSequence4;
                                 }
-                                charSequence5 = messageObject.messageText;
+                                charSequence4 = messageObject.messageText;
                                 color = getContext().getResources().getColor(R.color.widget_action_text);
-                                charSequence4 = charSequence5;
+                                charSequence3 = charSequence4;
                             } else if (tLRPC$Chat2 != null && tLRPC$Chat2.id > 0 && chat == null && (!ChatObject.isChannel(tLRPC$Chat2) || ChatObject.isMegagroup(tLRPC$Chat2))) {
                                 if (messageObject.isOutOwner()) {
                                     replace = LocaleController.getString("FromYou", R.string.FromYou);
                                 } else {
                                     replace = tLRPC$User3 != null ? UserObject.getFirstName(tLRPC$User3).replace("\n", "") : "DELETED";
                                 }
-                                String str16 = replace;
-                                CharSequence charSequence6 = messageObject.caption;
+                                String str17 = replace;
+                                CharSequence charSequence5 = messageObject.caption;
                                 try {
-                                    if (charSequence6 != null) {
-                                        String charSequence7 = charSequence6.toString();
-                                        if (charSequence7.length() > 150) {
-                                            charSequence7 = charSequence7.substring(0, ImageReceiver.DEFAULT_CROSSFADE_DURATION);
+                                    if (charSequence5 != null) {
+                                        String charSequence6 = charSequence5.toString();
+                                        if (charSequence6.length() > 150) {
+                                            charSequence6 = charSequence6.substring(0, ImageReceiver.DEFAULT_CROSSFADE_DURATION);
                                         }
                                         if (messageObject.isVideo()) {
-                                            str9 = "📹 ";
+                                            str10 = "📹 ";
                                         } else if (messageObject.isVoice()) {
-                                            str9 = "🎤 ";
+                                            str10 = "🎤 ";
                                         } else if (messageObject.isMusic()) {
-                                            str9 = "🎧 ";
+                                            str10 = "🎧 ";
                                         } else {
-                                            str9 = messageObject.isPhoto() ? "🖼 " : "📎 ";
+                                            str10 = messageObject.isPhoto() ? "🖼 " : "📎 ";
                                         }
-                                        valueOf = SpannableStringBuilder.valueOf(String.format("%2$s: \u2068%1$s\u2069", str9 + charSequence7.replace('\n', ' '), str16));
+                                        valueOf = SpannableStringBuilder.valueOf(String.format("%2$s: \u2068%1$s\u2069", str10 + charSequence6.replace('\n', ' '), str17));
                                     } else if (messageObject.messageOwner.media != null && !messageObject.isMediaEmpty()) {
                                         color = getContext().getResources().getColor(R.color.widget_action_text);
                                         TLRPC$MessageMedia tLRPC$MessageMedia = messageObject.messageOwner.media;
                                         if (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaPoll) {
                                             TLRPC$TL_messageMediaPoll tLRPC$TL_messageMediaPoll = (TLRPC$TL_messageMediaPoll) tLRPC$MessageMedia;
-                                            charSequence3 = Build.VERSION.SDK_INT >= 18 ? String.format("📊 \u2068%s\u2069", tLRPC$TL_messageMediaPoll.poll.question) : String.format("📊 %s", tLRPC$TL_messageMediaPoll.poll.question);
+                                            charSequence2 = Build.VERSION.SDK_INT >= 18 ? String.format("📊 \u2068%s\u2069", tLRPC$TL_messageMediaPoll.poll.question) : String.format("📊 %s", tLRPC$TL_messageMediaPoll.poll.question);
                                             c3 = 1;
                                             c2 = 0;
                                         } else if (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaGame) {
                                             if (Build.VERSION.SDK_INT >= 18) {
                                                 c2 = 0;
-                                                charSequence3 = String.format("🎮 \u2068%s\u2069", tLRPC$MessageMedia.game.title);
+                                                charSequence2 = String.format("🎮 \u2068%s\u2069", tLRPC$MessageMedia.game.title);
                                             } else {
                                                 c2 = 0;
-                                                charSequence3 = String.format("🎮 %s", tLRPC$MessageMedia.game.title);
+                                                charSequence2 = String.format("🎮 %s", tLRPC$MessageMedia.game.title);
                                             }
                                             c3 = 1;
                                         } else {
@@ -709,87 +707,87 @@ public class EditWidgetActivity extends BaseFragment {
                                             if (messageObject.type == 14) {
                                                 if (Build.VERSION.SDK_INT >= 18) {
                                                     c3 = 1;
-                                                    charSequence3 = String.format("🎧 \u2068%s - %s\u2069", messageObject.getMusicAuthor(), messageObject.getMusicTitle());
+                                                    charSequence2 = String.format("🎧 \u2068%s - %s\u2069", messageObject.getMusicAuthor(), messageObject.getMusicTitle());
                                                 } else {
                                                     c3 = 1;
-                                                    charSequence3 = String.format("🎧 %s - %s", messageObject.getMusicAuthor(), messageObject.getMusicTitle());
+                                                    charSequence2 = String.format("🎧 %s - %s", messageObject.getMusicAuthor(), messageObject.getMusicTitle());
                                                 }
                                             } else {
                                                 c3 = 1;
-                                                charSequence3 = messageObject.messageText.toString();
+                                                charSequence2 = messageObject.messageText.toString();
                                             }
                                         }
                                         Object[] objArr = new Object[2];
-                                        objArr[c2] = charSequence3.replace('\n', ' ');
-                                        objArr[c3] = str16;
+                                        objArr[c2] = charSequence2.replace('\n', ' ');
+                                        objArr[c3] = str17;
                                         SpannableStringBuilder valueOf2 = SpannableStringBuilder.valueOf(String.format("%2$s: \u2068%1$s\u2069", objArr));
                                         try {
-                                            valueOf2.setSpan(new ForegroundColorSpanThemable("chats_attachMessage"), str16.length() + 2, valueOf2.length(), 33);
+                                            valueOf2.setSpan(new ForegroundColorSpanThemable("chats_attachMessage"), str17.length() + 2, valueOf2.length(), 33);
                                         } catch (Exception e) {
                                             FileLog.e(e);
                                         }
                                         spannableStringBuilder = valueOf2;
-                                        spannableStringBuilder.setSpan(new ForegroundColorSpanThemable("chats_nameMessage"), 0, str16.length() + 1, 33);
-                                        charSequence4 = spannableStringBuilder;
+                                        spannableStringBuilder.setSpan(new ForegroundColorSpanThemable("chats_nameMessage"), 0, str17.length() + 1, 33);
+                                        charSequence3 = spannableStringBuilder;
                                     } else {
-                                        String str17 = messageObject.messageOwner.message;
-                                        if (str17 != null) {
-                                            if (str17.length() > 150) {
+                                        String str18 = messageObject.messageOwner.message;
+                                        if (str18 != null) {
+                                            if (str18.length() > 150) {
                                                 c = 0;
-                                                str17 = str17.substring(0, ImageReceiver.DEFAULT_CROSSFADE_DURATION);
+                                                str18 = str18.substring(0, ImageReceiver.DEFAULT_CROSSFADE_DURATION);
                                             } else {
                                                 c = 0;
                                             }
                                             Object[] objArr2 = new Object[2];
-                                            objArr2[c] = str17.replace('\n', ' ').trim();
-                                            objArr2[1] = str16;
+                                            objArr2[c] = str18.replace('\n', ' ').trim();
+                                            objArr2[1] = str17;
                                             valueOf = SpannableStringBuilder.valueOf(String.format("%2$s: \u2068%1$s\u2069", objArr2));
                                         } else {
                                             valueOf = SpannableStringBuilder.valueOf("");
                                         }
                                     }
-                                    spannableStringBuilder.setSpan(new ForegroundColorSpanThemable("chats_nameMessage"), 0, str16.length() + 1, 33);
-                                    charSequence4 = spannableStringBuilder;
+                                    spannableStringBuilder.setSpan(new ForegroundColorSpanThemable("chats_nameMessage"), 0, str17.length() + 1, 33);
+                                    charSequence3 = spannableStringBuilder;
                                 } catch (Exception e2) {
                                     FileLog.e(e2);
-                                    charSequence4 = spannableStringBuilder;
+                                    charSequence3 = spannableStringBuilder;
                                 }
                                 spannableStringBuilder = valueOf;
                             } else {
                                 TLRPC$MessageMedia tLRPC$MessageMedia2 = messageObject.messageOwner.media;
                                 if ((tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaPhoto) && (tLRPC$MessageMedia2.photo instanceof TLRPC$TL_photoEmpty) && tLRPC$MessageMedia2.ttl_seconds != 0) {
-                                    charSequence4 = LocaleController.getString("AttachPhotoExpired", R.string.AttachPhotoExpired);
+                                    charSequence3 = LocaleController.getString("AttachPhotoExpired", R.string.AttachPhotoExpired);
                                 } else if ((tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaDocument) && (tLRPC$MessageMedia2.document instanceof TLRPC$TL_documentEmpty) && tLRPC$MessageMedia2.ttl_seconds != 0) {
-                                    charSequence4 = LocaleController.getString("AttachVideoExpired", R.string.AttachVideoExpired);
+                                    charSequence3 = LocaleController.getString("AttachVideoExpired", R.string.AttachVideoExpired);
                                 } else if (messageObject.caption != null) {
                                     if (messageObject.isVideo()) {
-                                        str8 = "📹 ";
+                                        str9 = "📹 ";
                                     } else if (messageObject.isVoice()) {
-                                        str8 = "🎤 ";
+                                        str9 = "🎤 ";
                                     } else if (messageObject.isMusic()) {
-                                        str8 = "🎧 ";
+                                        str9 = "🎧 ";
                                     } else {
-                                        str8 = messageObject.isPhoto() ? "🖼 " : "📎 ";
+                                        str9 = messageObject.isPhoto() ? "🖼 " : "📎 ";
                                     }
-                                    charSequence4 = str8 + ((Object) messageObject.caption);
+                                    charSequence3 = str9 + ((Object) messageObject.caption);
                                 } else {
                                     if (tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaPoll) {
-                                        charSequence2 = "📊 " + ((TLRPC$TL_messageMediaPoll) tLRPC$MessageMedia2).poll.question;
+                                        charSequence = "📊 " + ((TLRPC$TL_messageMediaPoll) tLRPC$MessageMedia2).poll.question;
                                     } else if (tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaGame) {
-                                        charSequence2 = "🎮 " + messageObject.messageOwner.media.game.title;
+                                        charSequence = "🎮 " + messageObject.messageOwner.media.game.title;
                                     } else if (messageObject.type == 14) {
-                                        charSequence2 = String.format("🎧 %s - %s", messageObject.getMusicAuthor(), messageObject.getMusicTitle());
+                                        charSequence = String.format("🎧 %s - %s", messageObject.getMusicAuthor(), messageObject.getMusicTitle());
                                     } else {
-                                        charSequence2 = messageObject.messageText;
-                                        AndroidUtilities.highlightText(charSequence2, messageObject.highlightedWords, (Theme.ResourcesProvider) null);
+                                        charSequence = messageObject.messageText;
+                                        AndroidUtilities.highlightText(charSequence, messageObject.highlightedWords, (Theme.ResourcesProvider) null);
                                     }
-                                    CharSequence charSequence8 = charSequence2;
-                                    charSequence4 = charSequence8;
+                                    CharSequence charSequence7 = charSequence;
+                                    charSequence3 = charSequence7;
                                     if (messageObject.messageOwner.media != null) {
-                                        charSequence4 = charSequence8;
+                                        charSequence3 = charSequence7;
                                         if (!messageObject.isMediaEmpty()) {
                                             color = getContext().getResources().getColor(R.color.widget_action_text);
-                                            charSequence4 = charSequence8;
+                                            charSequence3 = charSequence7;
                                         }
                                     }
                                 }
@@ -797,7 +795,7 @@ public class EditWidgetActivity extends BaseFragment {
                             ((TextView) this.cells[i10].findViewById(R.id.shortcut_widget_item_time)).setText(LocaleController.stringForMessageListDate(messageObject.messageOwner.date));
                             ViewGroup viewGroup = this.cells[i10];
                             int i11 = R.id.shortcut_widget_item_message;
-                            ((TextView) viewGroup.findViewById(i11)).setText(charSequence4.toString());
+                            ((TextView) viewGroup.findViewById(i11)).setText(charSequence3.toString());
                             ((TextView) this.cells[i10].findViewById(i11)).setTextColor(color);
                         } else {
                             if (tLRPC$Dialog2.last_message_date != 0) {
@@ -810,8 +808,8 @@ public class EditWidgetActivity extends BaseFragment {
                         if (tLRPC$Dialog2.unread_count > 0) {
                             ViewGroup viewGroup2 = this.cells[i10];
                             int i12 = R.id.shortcut_widget_item_badge;
-                            str7 = str4;
-                            ((TextView) viewGroup2.findViewById(i12)).setText(String.format(str7, Integer.valueOf(tLRPC$Dialog2.unread_count)));
+                            str8 = str4;
+                            ((TextView) viewGroup2.findViewById(i12)).setText(String.format(str8, Integer.valueOf(tLRPC$Dialog2.unread_count)));
                             this.cells[i10].findViewById(i12).setVisibility(0);
                             if (EditWidgetActivity.this.getMessagesController().isDialogMuted(tLRPC$Dialog2.id, 0)) {
                                 this.cells[i10].findViewById(i12).setBackgroundResource(R.drawable.widget_counter_muted);
@@ -819,14 +817,14 @@ public class EditWidgetActivity extends BaseFragment {
                                 this.cells[i10].findViewById(i12).setBackgroundResource(R.drawable.widget_counter);
                             }
                         } else {
-                            str7 = str4;
+                            str8 = str4;
                             this.cells[i10].findViewById(R.id.shortcut_widget_item_badge).setVisibility(8);
                         }
                     }
                     i10++;
-                    str10 = str7;
-                    str12 = str6;
-                    str11 = str5;
+                    str11 = str8;
+                    str13 = str6;
+                    str12 = str5;
                     f = 0.0f;
                     j = 0;
                     i3 = 8;
@@ -1120,10 +1118,9 @@ public class EditWidgetActivity extends BaseFragment {
             if (i2 == 0) {
                 EditWidgetActivity.this.selectedDialogs.remove(i - EditWidgetActivity.this.chatsStartRow);
                 EditWidgetActivity.this.updateRows();
-                if (EditWidgetActivity.this.widgetPreviewCell == null) {
-                    return;
+                if (EditWidgetActivity.this.widgetPreviewCell != null) {
+                    EditWidgetActivity.this.widgetPreviewCell.updateDialogs();
                 }
-                EditWidgetActivity.this.widgetPreviewCell.updateDialogs();
             }
         }
     }
@@ -1208,55 +1205,42 @@ public class EditWidgetActivity extends BaseFragment {
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
             int itemViewType = viewHolder.getItemViewType();
-            boolean z = true;
             if (itemViewType == 0) {
                 TextInfoPrivacyCell textInfoPrivacyCell = (TextInfoPrivacyCell) viewHolder.itemView;
-                if (i != EditWidgetActivity.this.infoRow) {
+                if (i == EditWidgetActivity.this.infoRow) {
+                    SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
+                    if (EditWidgetActivity.this.widgetType != 0) {
+                        if (EditWidgetActivity.this.widgetType == 1) {
+                            spannableStringBuilder.append((CharSequence) LocaleController.getString("EditWidgetContactsInfo", R.string.EditWidgetContactsInfo));
+                        }
+                    } else {
+                        spannableStringBuilder.append((CharSequence) LocaleController.getString("EditWidgetChatsInfo", R.string.EditWidgetChatsInfo));
+                    }
+                    if (SharedConfig.passcodeHash.length() > 0) {
+                        spannableStringBuilder.append((CharSequence) "\n\n").append((CharSequence) AndroidUtilities.replaceTags(LocaleController.getString("WidgetPasscode2", R.string.WidgetPasscode2)));
+                    }
+                    textInfoPrivacyCell.setText(spannableStringBuilder);
+                }
+            } else if (itemViewType != 1) {
+                if (itemViewType != 3) {
                     return;
                 }
-                SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
-                if (EditWidgetActivity.this.widgetType != 0) {
-                    if (EditWidgetActivity.this.widgetType == 1) {
-                        spannableStringBuilder.append((CharSequence) LocaleController.getString("EditWidgetContactsInfo", R.string.EditWidgetContactsInfo));
-                    }
+                GroupCreateUserCell groupCreateUserCell = (GroupCreateUserCell) viewHolder.itemView;
+                long longValue = ((Long) EditWidgetActivity.this.selectedDialogs.get(i - EditWidgetActivity.this.chatsStartRow)).longValue();
+                if (DialogObject.isUserDialog(longValue)) {
+                    groupCreateUserCell.setObject(EditWidgetActivity.this.getMessagesController().getUser(Long.valueOf(longValue)), null, null, i != EditWidgetActivity.this.chatsEndRow - 1);
                 } else {
-                    spannableStringBuilder.append((CharSequence) LocaleController.getString("EditWidgetChatsInfo", R.string.EditWidgetChatsInfo));
+                    groupCreateUserCell.setObject(EditWidgetActivity.this.getMessagesController().getChat(Long.valueOf(-longValue)), null, null, i != EditWidgetActivity.this.chatsEndRow - 1);
                 }
-                if (SharedConfig.passcodeHash.length() > 0) {
-                    spannableStringBuilder.append((CharSequence) "\n\n").append((CharSequence) AndroidUtilities.replaceTags(LocaleController.getString("WidgetPasscode2", R.string.WidgetPasscode2)));
-                }
-                textInfoPrivacyCell.setText(spannableStringBuilder);
-            } else if (itemViewType == 1) {
+            } else {
                 TextCell textCell = (TextCell) viewHolder.itemView;
                 textCell.setColors(null, "windowBackgroundWhiteBlueText4");
                 Drawable drawable = this.mContext.getResources().getDrawable(R.drawable.poll_add_circle);
                 Drawable drawable2 = this.mContext.getResources().getDrawable(R.drawable.poll_add_plus);
                 drawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor("switchTrackChecked"), PorterDuff.Mode.MULTIPLY));
                 drawable2.setColorFilter(new PorterDuffColorFilter(Theme.getColor("checkboxCheck"), PorterDuff.Mode.MULTIPLY));
-                CombinedDrawable combinedDrawable = new CombinedDrawable(drawable, drawable2);
-                String string = LocaleController.getString("SelectChats", R.string.SelectChats);
-                if (EditWidgetActivity.this.chatsStartRow == -1) {
-                    z = false;
-                }
-                textCell.setTextAndIcon(string, combinedDrawable, z);
+                textCell.setTextAndIcon(LocaleController.getString("SelectChats", R.string.SelectChats), new CombinedDrawable(drawable, drawable2), EditWidgetActivity.this.chatsStartRow != -1);
                 textCell.getImageView().setPadding(0, AndroidUtilities.dp(7.0f), 0, 0);
-            } else if (itemViewType != 3) {
-            } else {
-                GroupCreateUserCell groupCreateUserCell = (GroupCreateUserCell) viewHolder.itemView;
-                long longValue = ((Long) EditWidgetActivity.this.selectedDialogs.get(i - EditWidgetActivity.this.chatsStartRow)).longValue();
-                if (DialogObject.isUserDialog(longValue)) {
-                    TLRPC$User user = EditWidgetActivity.this.getMessagesController().getUser(Long.valueOf(longValue));
-                    if (i == EditWidgetActivity.this.chatsEndRow - 1) {
-                        z = false;
-                    }
-                    groupCreateUserCell.setObject(user, null, null, z);
-                    return;
-                }
-                TLRPC$Chat chat = EditWidgetActivity.this.getMessagesController().getChat(Long.valueOf(-longValue));
-                if (i == EditWidgetActivity.this.chatsEndRow - 1) {
-                    z = false;
-                }
-                groupCreateUserCell.setObject(chat, null, null, z);
             }
         }
 

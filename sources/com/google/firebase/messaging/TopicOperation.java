@@ -28,10 +28,10 @@ final class TopicOperation {
             return null;
         }
         String[] split = str.split("!", -1);
-        if (split.length == 2) {
-            return new TopicOperation(split[0], split[1]);
+        if (split.length != 2) {
+            return null;
         }
-        return null;
+        return new TopicOperation(split[0], split[1]);
     }
 
     private static String normalizeTopicOrThrow(String str, String str2) {
@@ -46,11 +46,11 @@ final class TopicOperation {
     }
 
     public boolean equals(Object obj) {
-        if (!(obj instanceof TopicOperation)) {
-            return false;
+        if (obj instanceof TopicOperation) {
+            TopicOperation topicOperation = (TopicOperation) obj;
+            return this.topic.equals(topicOperation.topic) && this.operation.equals(topicOperation.operation);
         }
-        TopicOperation topicOperation = (TopicOperation) obj;
-        return this.topic.equals(topicOperation.topic) && this.operation.equals(topicOperation.operation);
+        return false;
     }
 
     public String getOperation() {

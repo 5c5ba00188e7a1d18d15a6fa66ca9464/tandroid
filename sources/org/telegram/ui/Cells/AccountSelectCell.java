@@ -112,7 +112,7 @@ public class AccountSelectCell extends FrameLayout {
         this.textView.setText(ContactsController.formatName(currentUser.first_name, currentUser.last_name));
         this.imageView.getImageReceiver().setCurrentAccount(i);
         this.imageView.setForUserOrChat(currentUser, this.avatarDrawable);
-        this.checkImageView.setVisibility((!z || i != UserConfig.selectedAccount) ? 4 : 0);
+        this.checkImageView.setVisibility((z && i == UserConfig.selectedAccount) ? 0 : 4);
     }
 
     public int getAccountNumber() {

@@ -31,24 +31,24 @@ public class Camera2Session implements CameraSession {
     private final String cameraId;
     private final CameraManager cameraManager;
     private int cameraOrientation;
+    private final Handler cameraThreadHandler;
     private CameraEnumerationAndroid.CaptureFormat captureFormat;
     private CameraCaptureSession captureSession;
+    private final long constructionTimeNs;
     private final CameraSession.Events events;
     private boolean firstFrameReported;
     private int fpsUnitFactor;
     private final int framerate;
     private final int height;
     private boolean isCameraFrontFacing;
+    private OrientationHelper orientationHelper;
+    private SessionState state = SessionState.RUNNING;
     private Surface surface;
     private final SurfaceTextureHelper surfaceTextureHelper;
     private final int width;
     private static final Histogram camera2StartTimeMsHistogram = Histogram.createCounts("WebRTC.Android.Camera2.StartTimeMs", 1, 10000, 50);
     private static final Histogram camera2StopTimeMsHistogram = Histogram.createCounts("WebRTC.Android.Camera2.StopTimeMs", 1, 10000, 50);
     private static final Histogram camera2ResolutionHistogram = Histogram.createEnumeration("WebRTC.Android.Camera2.Resolution", CameraEnumerationAndroid.COMMON_RESOLUTIONS.size());
-    private SessionState state = SessionState.RUNNING;
-    private final long constructionTimeNs = System.nanoTime();
-    private final Handler cameraThreadHandler = new Handler();
-    private OrientationHelper orientationHelper = new OrientationHelper();
 
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
@@ -65,19 +65,19 @@ public class Camera2Session implements CameraSession {
 
         private String getErrorDescription(int i) {
             if (i != 1) {
-                if (i == 2) {
-                    return "Camera device could not be opened because there are too many other open camera devices.";
-                }
-                if (i == 3) {
+                if (i != 2) {
+                    if (i != 3) {
+                        if (i != 4) {
+                            if (i != 5) {
+                                return "Unknown camera error: " + i;
+                            }
+                            return "Camera service has encountered a fatal error.";
+                        }
+                        return "Camera device has encountered a fatal error.";
+                    }
                     return "Camera device could not be opened due to a device policy.";
                 }
-                if (i == 4) {
-                    return "Camera device has encountered a fatal error.";
-                }
-                if (i == 5) {
-                    return "Camera service has encountered a fatal error.";
-                }
-                return "Unknown camera error: " + i;
+                return "Camera device could not be opened because there are too many other open camera devices.";
             }
             return "Camera device is in use already.";
         }
@@ -238,6 +238,8 @@ public class Camera2Session implements CameraSession {
 
     private Camera2Session(CameraSession.CreateSessionCallback createSessionCallback, CameraSession.Events events, Context context, CameraManager cameraManager, SurfaceTextureHelper surfaceTextureHelper, String str, int i, int i2, int i3) {
         Logging.d(TAG, "Create new camera2 session on camera " + str);
+        this.constructionTimeNs = System.nanoTime();
+        this.cameraThreadHandler = new Handler();
         this.callback = createSessionCallback;
         this.events = events;
         this.applicationContext = context;
@@ -247,6 +249,7 @@ public class Camera2Session implements CameraSession {
         this.width = i;
         this.height = i2;
         this.framerate = i3;
+        this.orientationHelper = new OrientationHelper();
         start();
     }
 
@@ -364,9 +367,8 @@ public class Camera2Session implements CameraSession {
 
     /* JADX INFO: Access modifiers changed from: private */
     public void checkIsOnCameraThread() {
-        if (Thread.currentThread() == this.cameraThreadHandler.getLooper().getThread()) {
-            return;
+        if (Thread.currentThread() != this.cameraThreadHandler.getLooper().getThread()) {
+            throw new IllegalStateException("Wrong thread");
         }
-        throw new IllegalStateException("Wrong thread");
     }
 }

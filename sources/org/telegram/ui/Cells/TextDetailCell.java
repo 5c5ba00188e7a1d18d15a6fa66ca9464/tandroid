@@ -119,7 +119,6 @@ public class TextDetailCell extends FrameLayout {
     public void setImage(Drawable drawable, CharSequence charSequence) {
         ((ViewGroup.MarginLayoutParams) this.valueTextView.getLayoutParams()).rightMargin = (LocaleController.isRTL || drawable == null) ? AndroidUtilities.dp(23.0f) : AndroidUtilities.dp(58.0f);
         this.imageView.setImageDrawable(drawable);
-        int i = 0;
         this.imageView.setFocusable(drawable != null);
         this.imageView.setContentDescription(charSequence);
         if (drawable == null) {
@@ -129,15 +128,11 @@ public class TextDetailCell extends FrameLayout {
             this.imageView.setBackground(Theme.createSimpleSelectorCircleDrawable(AndroidUtilities.dp(48.0f), 0, Theme.getColor("listSelectorSDK21", this.resourcesProvider)));
             this.imageView.setImportantForAccessibility(1);
         }
-        int dp = AndroidUtilities.dp(23.0f);
-        if (drawable != null) {
-            i = AndroidUtilities.dp(48.0f);
-        }
-        int i2 = dp + i;
+        int dp = AndroidUtilities.dp(23.0f) + (drawable != null ? AndroidUtilities.dp(48.0f) : 0);
         if (LocaleController.isRTL) {
-            ((ViewGroup.MarginLayoutParams) this.textView.getLayoutParams()).leftMargin = i2;
+            ((ViewGroup.MarginLayoutParams) this.textView.getLayoutParams()).leftMargin = dp;
         } else {
-            ((ViewGroup.MarginLayoutParams) this.textView.getLayoutParams()).rightMargin = i2;
+            ((ViewGroup.MarginLayoutParams) this.textView.getLayoutParams()).rightMargin = dp;
         }
         this.textView.requestLayout();
     }

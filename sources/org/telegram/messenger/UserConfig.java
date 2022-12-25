@@ -34,6 +34,7 @@ public class UserConfig extends BaseController {
     public static final int i_dialogsLoadOffsetUserId = 2;
     public static int selectedAccount;
     public long autoDownloadConfigLoadTime;
+    public List<String> awaitBillingProductIds;
     public TLRPC$InputStorePaymentPurpose billingPaymentPurpose;
     public int botRatingLoadTime;
     public long clientUserId;
@@ -45,16 +46,25 @@ public class UserConfig extends BaseController {
     public boolean draftsLoaded;
     public boolean filtersLoaded;
     public String genericAnimationsStickerPack;
+    int globalTtl;
     public boolean hasSecureData;
     public boolean hasValidDialogLoadIds;
+    public int lastBroadcastId;
     public int lastContactsSyncTime;
     public int lastHintsSyncTime;
     long lastLoadingTime;
     public int lastMyLocationShareTime;
+    public int lastSendMessageId;
     public long lastUpdatedDefaultTopicIcons;
     public long lastUpdatedGenericAnimations;
     public long lastUpdatedPremiumGiftsStickerPack;
     public int loginTime;
+    public long migrateOffsetAccess;
+    public long migrateOffsetChannelId;
+    public long migrateOffsetChatId;
+    public int migrateOffsetDate;
+    public int migrateOffsetId;
+    public long migrateOffsetUserId;
     public boolean notificationsSettingsLoaded;
     public boolean notificationsSignUpSettingsLoaded;
     public String premiumGiftsStickerPack;
@@ -64,23 +74,13 @@ public class UserConfig extends BaseController {
     public volatile long savedPasswordTime;
     public volatile byte[] savedSaltedPassword;
     public int sharingMyLocationUntil;
+    public boolean suggestContacts;
+    private final Object sync;
+    public boolean syncContacts;
     public TLRPC$TL_account_tmpPassword tmpPassword;
+    boolean ttlIsLoading;
     public TLRPC$TL_help_termsOfService unacceptedTermsOfService;
-    private final Object sync = new Object();
-    public int lastSendMessageId = -210000;
-    public int lastBroadcastId = -1;
-    public boolean unreadDialogsLoaded = true;
-    public int migrateOffsetId = -1;
-    public int migrateOffsetDate = -1;
-    public long migrateOffsetUserId = -1;
-    public long migrateOffsetChatId = -1;
-    public long migrateOffsetChannelId = -1;
-    public long migrateOffsetAccess = -1;
-    public boolean syncContacts = true;
-    public boolean suggestContacts = true;
-    public List<String> awaitBillingProductIds = new ArrayList();
-    int globalTtl = 0;
-    boolean ttlIsLoading = false;
+    public boolean unreadDialogsLoaded;
 
     public static UserConfig getInstance(int i) {
         UserConfig userConfig = Instance[i];
@@ -110,6 +110,21 @@ public class UserConfig extends BaseController {
 
     public UserConfig(int i) {
         super(i);
+        this.sync = new Object();
+        this.lastSendMessageId = -210000;
+        this.lastBroadcastId = -1;
+        this.unreadDialogsLoaded = true;
+        this.migrateOffsetId = -1;
+        this.migrateOffsetDate = -1;
+        this.migrateOffsetUserId = -1L;
+        this.migrateOffsetChatId = -1L;
+        this.migrateOffsetChannelId = -1L;
+        this.migrateOffsetAccess = -1L;
+        this.syncContacts = true;
+        this.suggestContacts = true;
+        this.awaitBillingProductIds = new ArrayList();
+        this.globalTtl = 0;
+        this.ttlIsLoading = false;
     }
 
     public static boolean hasPremiumOnAccounts() {
@@ -301,14 +316,14 @@ public class UserConfig extends BaseController {
     }
 
     /* JADX WARN: Can't wrap try/catch for region: R(22:9|(1:11)|12|(18:17|18|(1:24)|25|26|27|(1:31)|33|(1:35)|36|(1:40)|41|(1:45)|46|(1:48)|49|50|51)|54|18|(3:20|22|24)|25|26|27|(2:29|31)|33|(0)|36|(2:38|40)|41|(2:43|45)|46|(0)|49|50|51) */
-    /* JADX WARN: Code restructure failed: missing block: B:52:0x0176, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:32:0x0176, code lost:
         r2 = move-exception;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:53:0x0177, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:33:0x0177, code lost:
         org.telegram.messenger.FileLog.e(r2);
      */
-    /* JADX WARN: Removed duplicated region for block: B:35:0x0184 A[Catch: all -> 0x01ff, TryCatch #1 {, blocks: (B:4:0x0003, B:6:0x0007, B:9:0x0009, B:11:0x0012, B:12:0x001a, B:14:0x00d4, B:18:0x00e0, B:20:0x0114, B:22:0x011c, B:24:0x0122, B:25:0x0134, B:27:0x0154, B:29:0x015d, B:31:0x0163, B:33:0x017a, B:35:0x0184, B:36:0x01ac, B:38:0x01b5, B:40:0x01bb, B:41:0x01cd, B:43:0x01d6, B:45:0x01dc, B:46:0x01ee, B:48:0x01f2, B:49:0x01fb, B:50:0x01fd, B:53:0x0177), top: B:3:0x0003, inners: #0 }] */
-    /* JADX WARN: Removed duplicated region for block: B:48:0x01f2 A[Catch: all -> 0x01ff, TryCatch #1 {, blocks: (B:4:0x0003, B:6:0x0007, B:9:0x0009, B:11:0x0012, B:12:0x001a, B:14:0x00d4, B:18:0x00e0, B:20:0x0114, B:22:0x011c, B:24:0x0122, B:25:0x0134, B:27:0x0154, B:29:0x015d, B:31:0x0163, B:33:0x017a, B:35:0x0184, B:36:0x01ac, B:38:0x01b5, B:40:0x01bb, B:41:0x01cd, B:43:0x01d6, B:45:0x01dc, B:46:0x01ee, B:48:0x01f2, B:49:0x01fb, B:50:0x01fd, B:53:0x0177), top: B:3:0x0003, inners: #0 }] */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x0184 A[Catch: all -> 0x01ff, TryCatch #1 {, blocks: (B:4:0x0003, B:6:0x0007, B:8:0x0009, B:10:0x0012, B:11:0x001a, B:13:0x00d4, B:18:0x00e0, B:20:0x0114, B:22:0x011c, B:24:0x0122, B:25:0x0134, B:26:0x0154, B:28:0x015d, B:30:0x0163, B:34:0x017a, B:36:0x0184, B:37:0x01ac, B:39:0x01b5, B:41:0x01bb, B:42:0x01cd, B:44:0x01d6, B:46:0x01dc, B:47:0x01ee, B:49:0x01f2, B:50:0x01fb, B:51:0x01fd, B:33:0x0177), top: B:58:0x0003, inners: #0 }] */
+    /* JADX WARN: Removed duplicated region for block: B:49:0x01f2 A[Catch: all -> 0x01ff, TryCatch #1 {, blocks: (B:4:0x0003, B:6:0x0007, B:8:0x0009, B:10:0x0012, B:11:0x001a, B:13:0x00d4, B:18:0x00e0, B:20:0x0114, B:22:0x011c, B:24:0x0122, B:25:0x0134, B:26:0x0154, B:28:0x015d, B:30:0x0163, B:34:0x017a, B:36:0x0184, B:37:0x01ac, B:39:0x01b5, B:41:0x01bb, B:42:0x01cd, B:44:0x01d6, B:46:0x01dc, B:47:0x01ee, B:49:0x01f2, B:50:0x01fb, B:51:0x01fd, B:33:0x0177), top: B:58:0x0003, inners: #0 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -560,73 +575,55 @@ public class UserConfig extends BaseController {
         SharedPreferences preferences = getPreferences();
         StringBuilder sb = new StringBuilder();
         sb.append("2dialogsLoadOffsetId");
-        Object obj = "";
-        sb.append(i == 0 ? obj : Integer.valueOf(i));
-        int i2 = -1;
-        int i3 = preferences.getInt(sb.toString(), this.hasValidDialogLoadIds ? 0 : -1);
+        sb.append(i == 0 ? "" : Integer.valueOf(i));
+        int i2 = preferences.getInt(sb.toString(), this.hasValidDialogLoadIds ? 0 : -1);
         StringBuilder sb2 = new StringBuilder();
         sb2.append("2dialogsLoadOffsetDate");
-        sb2.append(i == 0 ? obj : Integer.valueOf(i));
-        String sb3 = sb2.toString();
-        if (this.hasValidDialogLoadIds) {
-            i2 = 0;
-        }
-        int i4 = preferences.getInt(sb3, i2);
+        sb2.append(i == 0 ? "" : Integer.valueOf(i));
+        int i3 = preferences.getInt(sb2.toString(), this.hasValidDialogLoadIds ? 0 : -1);
+        StringBuilder sb3 = new StringBuilder();
+        sb3.append("2dialogsLoadOffsetUserId");
+        sb3.append(i == 0 ? "" : Integer.valueOf(i));
+        long prefIntOrLong = AndroidUtilities.getPrefIntOrLong(preferences, sb3.toString(), this.hasValidDialogLoadIds ? 0L : -1L);
         StringBuilder sb4 = new StringBuilder();
-        sb4.append("2dialogsLoadOffsetUserId");
-        sb4.append(i == 0 ? obj : Integer.valueOf(i));
-        long j = -1;
-        long prefIntOrLong = AndroidUtilities.getPrefIntOrLong(preferences, sb4.toString(), this.hasValidDialogLoadIds ? 0L : -1L);
+        sb4.append("2dialogsLoadOffsetChatId");
+        sb4.append(i == 0 ? "" : Integer.valueOf(i));
+        long prefIntOrLong2 = AndroidUtilities.getPrefIntOrLong(preferences, sb4.toString(), this.hasValidDialogLoadIds ? 0L : -1L);
         StringBuilder sb5 = new StringBuilder();
-        sb5.append("2dialogsLoadOffsetChatId");
-        sb5.append(i == 0 ? obj : Integer.valueOf(i));
-        long prefIntOrLong2 = AndroidUtilities.getPrefIntOrLong(preferences, sb5.toString(), this.hasValidDialogLoadIds ? 0L : -1L);
+        sb5.append("2dialogsLoadOffsetChannelId");
+        sb5.append(i == 0 ? "" : Integer.valueOf(i));
+        long prefIntOrLong3 = AndroidUtilities.getPrefIntOrLong(preferences, sb5.toString(), this.hasValidDialogLoadIds ? 0L : -1L);
         StringBuilder sb6 = new StringBuilder();
-        sb6.append("2dialogsLoadOffsetChannelId");
-        sb6.append(i == 0 ? obj : Integer.valueOf(i));
-        long prefIntOrLong3 = AndroidUtilities.getPrefIntOrLong(preferences, sb6.toString(), this.hasValidDialogLoadIds ? 0L : -1L);
-        StringBuilder sb7 = new StringBuilder();
-        sb7.append("2dialogsLoadOffsetAccess");
-        if (i != 0) {
-            obj = Integer.valueOf(i);
-        }
-        sb7.append(obj);
-        String sb8 = sb7.toString();
-        if (this.hasValidDialogLoadIds) {
-            j = 0;
-        }
-        return new long[]{i3, i4, prefIntOrLong, prefIntOrLong2, prefIntOrLong3, preferences.getLong(sb8, j)};
+        sb6.append("2dialogsLoadOffsetAccess");
+        sb6.append(i != 0 ? Integer.valueOf(i) : "");
+        return new long[]{i2, i3, prefIntOrLong, prefIntOrLong2, prefIntOrLong3, preferences.getLong(sb6.toString(), this.hasValidDialogLoadIds ? 0L : -1L)};
     }
 
     public void setDialogsLoadOffset(int i, int i2, int i3, long j, long j2, long j3, long j4) {
         SharedPreferences.Editor edit = getPreferences().edit();
         StringBuilder sb = new StringBuilder();
         sb.append("2dialogsLoadOffsetId");
-        Object obj = "";
-        sb.append(i == 0 ? obj : Integer.valueOf(i));
+        sb.append(i == 0 ? "" : Integer.valueOf(i));
         edit.putInt(sb.toString(), i2);
         StringBuilder sb2 = new StringBuilder();
         sb2.append("2dialogsLoadOffsetDate");
-        sb2.append(i == 0 ? obj : Integer.valueOf(i));
+        sb2.append(i == 0 ? "" : Integer.valueOf(i));
         edit.putInt(sb2.toString(), i3);
         StringBuilder sb3 = new StringBuilder();
         sb3.append("2dialogsLoadOffsetUserId");
-        sb3.append(i == 0 ? obj : Integer.valueOf(i));
+        sb3.append(i == 0 ? "" : Integer.valueOf(i));
         edit.putLong(sb3.toString(), j);
         StringBuilder sb4 = new StringBuilder();
         sb4.append("2dialogsLoadOffsetChatId");
-        sb4.append(i == 0 ? obj : Integer.valueOf(i));
+        sb4.append(i == 0 ? "" : Integer.valueOf(i));
         edit.putLong(sb4.toString(), j2);
         StringBuilder sb5 = new StringBuilder();
         sb5.append("2dialogsLoadOffsetChannelId");
-        sb5.append(i == 0 ? obj : Integer.valueOf(i));
+        sb5.append(i == 0 ? "" : Integer.valueOf(i));
         edit.putLong(sb5.toString(), j3);
         StringBuilder sb6 = new StringBuilder();
         sb6.append("2dialogsLoadOffsetAccess");
-        if (i != 0) {
-            obj = Integer.valueOf(i);
-        }
-        sb6.append(obj);
+        sb6.append(i != 0 ? Integer.valueOf(i) : "");
         edit.putLong(sb6.toString(), j4);
         edit.putBoolean("hasValidDialogLoadIds", true);
         edit.commit();
@@ -650,10 +647,10 @@ public class UserConfig extends BaseController {
             return Long.valueOf(((TLRPC$TL_emojiStatusUntil) this.currentUser.emoji_status).document_id);
         }
         TLRPC$EmojiStatus tLRPC$EmojiStatus2 = this.currentUser.emoji_status;
-        if (!(tLRPC$EmojiStatus2 instanceof TLRPC$TL_emojiStatus)) {
-            return null;
+        if (tLRPC$EmojiStatus2 instanceof TLRPC$TL_emojiStatus) {
+            return Long.valueOf(((TLRPC$TL_emojiStatus) tLRPC$EmojiStatus2).document_id);
         }
-        return Long.valueOf(((TLRPC$TL_emojiStatus) tLRPC$EmojiStatus2).document_id);
+        return null;
     }
 
     public int getGlobalTTl() {

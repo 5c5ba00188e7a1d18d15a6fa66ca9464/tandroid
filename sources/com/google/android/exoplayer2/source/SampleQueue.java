@@ -110,10 +110,9 @@ public class SampleQueue implements TrackOutput {
 
     public void maybeThrowError() throws IOException {
         DrmSession<?> drmSession = this.currentDrmSession;
-        if (drmSession == null || drmSession.getState() != 1) {
-            return;
+        if (drmSession != null && drmSession.getState() == 1) {
+            throw ((DrmSession.DrmSessionException) Assertions.checkNotNull(this.currentDrmSession.getError()));
         }
-        throw ((DrmSession.DrmSessionException) Assertions.checkNotNull(this.currentDrmSession.getError()));
     }
 
     public final int getFirstIndex() {
@@ -154,10 +153,10 @@ public class SampleQueue implements TrackOutput {
             return z2;
         }
         int relativeIndex = getRelativeIndex(this.readPosition);
-        if (this.formats[relativeIndex] == this.downstreamFormat) {
-            return mayReadSample(relativeIndex);
+        if (this.formats[relativeIndex] != this.downstreamFormat) {
+            return true;
         }
-        return true;
+        return mayReadSample(relativeIndex);
     }
 
     public int read(FormatHolder formatHolder, DecoderInputBuffer decoderInputBuffer, boolean z, boolean z2, long j) {
@@ -373,10 +372,10 @@ public class SampleQueue implements TrackOutput {
                     i2 = i + 1;
                 }
                 int findSampleBefore = findSampleBefore(i3, i2, j, z);
-                if (findSampleBefore != -1) {
-                    return discardSamples(findSampleBefore);
+                if (findSampleBefore == -1) {
+                    return -1L;
                 }
-                return -1L;
+                return discardSamples(findSampleBefore);
             }
         }
         return -1L;
@@ -471,12 +470,8 @@ public class SampleQueue implements TrackOutput {
     }
 
     private synchronized boolean attemptSplice(long j) {
-        boolean z = false;
         if (this.length == 0) {
-            if (j > this.largestDiscardedTimestampUs) {
-                z = true;
-            }
-            return z;
+            return j > this.largestDiscardedTimestampUs;
         } else if (Math.max(this.largestDiscardedTimestampUs, getLargestTimestamp(this.readPosition)) >= j) {
             return false;
         } else {
@@ -530,21 +525,19 @@ public class SampleQueue implements TrackOutput {
         DrmInitData drmInitData2 = format.drmInitData;
         formatHolder.includesDrmSession = true;
         formatHolder.drmSession = this.currentDrmSession;
-        if (!z && Util.areEqual(drmInitData, drmInitData2)) {
-            return;
+        if (z || !Util.areEqual(drmInitData, drmInitData2)) {
+            DrmSession<?> drmSession = this.currentDrmSession;
+            if (drmInitData2 != null) {
+                acquirePlaceholderSession = this.drmSessionManager.acquireSession(this.playbackLooper, drmInitData2);
+            } else {
+                acquirePlaceholderSession = this.drmSessionManager.acquirePlaceholderSession(this.playbackLooper, MimeTypes.getTrackType(format.sampleMimeType));
+            }
+            this.currentDrmSession = acquirePlaceholderSession;
+            formatHolder.drmSession = acquirePlaceholderSession;
+            if (drmSession != null) {
+                drmSession.release();
+            }
         }
-        DrmSession<?> drmSession = this.currentDrmSession;
-        if (drmInitData2 != null) {
-            acquirePlaceholderSession = this.drmSessionManager.acquireSession(this.playbackLooper, drmInitData2);
-        } else {
-            acquirePlaceholderSession = this.drmSessionManager.acquirePlaceholderSession(this.playbackLooper, MimeTypes.getTrackType(format.sampleMimeType));
-        }
-        this.currentDrmSession = acquirePlaceholderSession;
-        formatHolder.drmSession = acquirePlaceholderSession;
-        if (drmSession == null) {
-            return;
-        }
-        drmSession.release();
     }
 
     private boolean mayReadSample(int i) {

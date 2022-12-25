@@ -55,11 +55,10 @@ public class FloatingDebugController {
                 }
             });
         }
-        if (!z2) {
-            return;
+        if (z2) {
+            SharedConfig.isFloatingDebugActive = z;
+            SharedConfig.saveConfig();
         }
-        SharedConfig.isFloatingDebugActive = z;
-        SharedConfig.saveConfig();
     }
 
     /* JADX INFO: Access modifiers changed from: private */

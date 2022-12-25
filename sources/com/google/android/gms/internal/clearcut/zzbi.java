@@ -17,22 +17,22 @@ public class zzbi extends zzbh {
         if (obj == this) {
             return true;
         }
-        if (!(obj instanceof zzbb) || size() != ((zzbb) obj).size()) {
-            return false;
-        }
-        if (size() == 0) {
-            return true;
-        }
-        if (!(obj instanceof zzbi)) {
+        if ((obj instanceof zzbb) && size() == ((zzbb) obj).size()) {
+            if (size() == 0) {
+                return true;
+            }
+            if (obj instanceof zzbi) {
+                zzbi zzbiVar = (zzbi) obj;
+                int zzab = zzab();
+                int zzab2 = zzbiVar.zzab();
+                if (zzab == 0 || zzab2 == 0 || zzab == zzab2) {
+                    return zza(zzbiVar, 0, size());
+                }
+                return false;
+            }
             return obj.equals(this);
         }
-        zzbi zzbiVar = (zzbi) obj;
-        int zzab = zzab();
-        int zzab2 = zzbiVar.zzab();
-        if (zzab != 0 && zzab2 != 0 && zzab != zzab2) {
-            return false;
-        }
-        return zza(zzbiVar, 0, size());
+        return false;
     }
 
     @Override // com.google.android.gms.internal.clearcut.zzbb
@@ -79,9 +79,7 @@ public class zzbi extends zzbh {
             sb2.append(", ");
             sb2.append(size2);
             throw new IllegalArgumentException(sb2.toString());
-        } else if (!(zzbbVar instanceof zzbi)) {
-            return zzbbVar.zza(0, i2).equals(zza(0, i2));
-        } else {
+        } else if (zzbbVar instanceof zzbi) {
             zzbi zzbiVar = (zzbi) zzbbVar;
             byte[] bArr = this.zzfp;
             byte[] bArr2 = zzbiVar.zzfp;
@@ -96,6 +94,8 @@ public class zzbi extends zzbh {
                 zzac3++;
             }
             return true;
+        } else {
+            return zzbbVar.zza(0, i2).equals(zza(0, i2));
         }
     }
 

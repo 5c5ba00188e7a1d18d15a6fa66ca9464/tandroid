@@ -47,21 +47,20 @@ public final class WebvttParserUtil {
         String readLine;
         while (true) {
             String readLine2 = parsableByteArray.readLine();
-            if (readLine2 != null) {
-                if (COMMENT.matcher(readLine2).matches()) {
-                    do {
-                        readLine = parsableByteArray.readLine();
-                        if (readLine != null) {
-                        }
-                    } while (!readLine.isEmpty());
-                } else {
-                    Matcher matcher = WebvttCueParser.CUE_HEADER_PATTERN.matcher(readLine2);
-                    if (matcher.matches()) {
-                        return matcher;
-                    }
-                }
-            } else {
+            if (readLine2 == null) {
                 return null;
+            }
+            if (COMMENT.matcher(readLine2).matches()) {
+                do {
+                    readLine = parsableByteArray.readLine();
+                    if (readLine != null) {
+                    }
+                } while (!readLine.isEmpty());
+            } else {
+                Matcher matcher = WebvttCueParser.CUE_HEADER_PATTERN.matcher(readLine2);
+                if (matcher.matches()) {
+                    return matcher;
+                }
             }
         }
     }

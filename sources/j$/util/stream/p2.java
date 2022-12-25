@@ -20,13 +20,12 @@ public final class p2 extends s2 implements k3 {
     @Override // j$.util.stream.s2, j$.util.stream.m3
     public void accept(int i) {
         int i2 = this.f;
-        if (i2 < this.g) {
-            int[] iArr = this.h;
-            this.f = i2 + 1;
-            iArr[i2] = i;
-            return;
+        if (i2 >= this.g) {
+            throw new IndexOutOfBoundsException(Integer.toString(this.f));
         }
-        throw new IndexOutOfBoundsException(Integer.toString(this.f));
+        int[] iArr = this.h;
+        this.f = i2 + 1;
+        iArr[i2] = i;
     }
 
     @Override // j$.util.stream.s2

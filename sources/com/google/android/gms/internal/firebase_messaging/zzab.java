@@ -17,15 +17,15 @@ import org.telegram.tgnet.ConnectionsManager;
 /* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
 /* loaded from: classes.dex */
 public final class zzab implements ObjectEncoderContext {
+    private static final Charset zza = Charset.forName("UTF-8");
     private static final FieldDescriptor zzg;
     private static final FieldDescriptor zzh;
+    private static final ObjectEncoder<Map.Entry<Object, Object>> zzi;
     private OutputStream zzb;
     private final Map<Class<?>, ObjectEncoder<?>> zzc;
     private final Map<Class<?>, ValueEncoder<?>> zzd;
     private final ObjectEncoder<Object> zze;
     private final zzaf zzf = new zzaf(this);
-    private static final Charset zza = Charset.forName("UTF-8");
-    private static final ObjectEncoder<Map.Entry<Object, Object>> zzi = zzaa.zza;
 
     static {
         FieldDescriptor.Builder builder = FieldDescriptor.builder("key");
@@ -36,6 +36,7 @@ public final class zzab implements ObjectEncoderContext {
         zzv zzvVar2 = new zzv();
         zzvVar2.zza(2);
         zzh = builder2.withProperty(zzvVar2.zzb()).build();
+        zzi = zzaa.zza;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -54,12 +55,12 @@ public final class zzab implements ObjectEncoderContext {
 
     private final <T> zzab zzh(ObjectEncoder<T> objectEncoder, FieldDescriptor fieldDescriptor, T t, boolean z) throws IOException {
         long zzi2 = zzi(objectEncoder, t);
-        if (!z || zzi2 != 0) {
-            zzn((zzl(fieldDescriptor) << 3) | 2);
-            zzo(zzi2);
-            objectEncoder.encode(t, this);
+        if (z && zzi2 == 0) {
             return this;
         }
+        zzn((zzl(fieldDescriptor) << 3) | 2);
+        zzo(zzi2);
+        objectEncoder.encode(t, this);
         return this;
     }
 
@@ -195,60 +196,60 @@ public final class zzab implements ObjectEncoderContext {
     }
 
     final ObjectEncoderContext zzb(FieldDescriptor fieldDescriptor, double d, boolean z) throws IOException {
-        if (!z || d != 0.0d) {
-            zzn((zzl(fieldDescriptor) << 3) | 1);
-            this.zzb.write(zzk(8).putDouble(d).array());
+        if (z && d == 0.0d) {
             return this;
         }
+        zzn((zzl(fieldDescriptor) << 3) | 1);
+        this.zzb.write(zzk(8).putDouble(d).array());
         return this;
     }
 
     final ObjectEncoderContext zzc(FieldDescriptor fieldDescriptor, float f, boolean z) throws IOException {
-        if (!z || f != 0.0f) {
-            zzn((zzl(fieldDescriptor) << 3) | 5);
-            this.zzb.write(zzk(4).putFloat(f).array());
+        if (z && f == 0.0f) {
             return this;
         }
+        zzn((zzl(fieldDescriptor) << 3) | 5);
+        this.zzb.write(zzk(4).putFloat(f).array());
         return this;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public final zzab zzd(FieldDescriptor fieldDescriptor, int i, boolean z) throws IOException {
-        if (!z || i != 0) {
-            zzz zzm = zzm(fieldDescriptor);
-            zzy zzyVar = zzy.zza;
-            int ordinal = zzm.zzb().ordinal();
-            if (ordinal == 0) {
-                zzn(zzm.zza() << 3);
-                zzn(i);
-            } else if (ordinal == 1) {
-                zzn(zzm.zza() << 3);
-                zzn((i + i) ^ (i >> 31));
-            } else if (ordinal == 2) {
-                zzn((zzm.zza() << 3) | 5);
-                this.zzb.write(zzk(4).putInt(i).array());
-            }
+        if (z && i == 0) {
             return this;
+        }
+        zzz zzm = zzm(fieldDescriptor);
+        zzy zzyVar = zzy.zza;
+        int ordinal = zzm.zzb().ordinal();
+        if (ordinal == 0) {
+            zzn(zzm.zza() << 3);
+            zzn(i);
+        } else if (ordinal == 1) {
+            zzn(zzm.zza() << 3);
+            zzn((i + i) ^ (i >> 31));
+        } else if (ordinal == 2) {
+            zzn((zzm.zza() << 3) | 5);
+            this.zzb.write(zzk(4).putInt(i).array());
         }
         return this;
     }
 
     final zzab zze(FieldDescriptor fieldDescriptor, long j, boolean z) throws IOException {
-        if (!z || j != 0) {
-            zzz zzm = zzm(fieldDescriptor);
-            zzy zzyVar = zzy.zza;
-            int ordinal = zzm.zzb().ordinal();
-            if (ordinal == 0) {
-                zzn(zzm.zza() << 3);
-                zzo(j);
-            } else if (ordinal == 1) {
-                zzn(zzm.zza() << 3);
-                zzo((j >> 63) ^ (j + j));
-            } else if (ordinal == 2) {
-                zzn((zzm.zza() << 3) | 1);
-                this.zzb.write(zzk(8).putLong(j).array());
-            }
+        if (z && j == 0) {
             return this;
+        }
+        zzz zzm = zzm(fieldDescriptor);
+        zzy zzyVar = zzy.zza;
+        int ordinal = zzm.zzb().ordinal();
+        if (ordinal == 0) {
+            zzn(zzm.zza() << 3);
+            zzo(j);
+        } else if (ordinal == 1) {
+            zzn(zzm.zza() << 3);
+            zzo((j >> 63) ^ (j + j));
+        } else if (ordinal == 2) {
+            zzn((zzm.zza() << 3) | 1);
+            this.zzb.write(zzk(8).putLong(j).array());
         }
         return this;
     }

@@ -67,11 +67,14 @@ import org.telegram.ui.Components.SizeNotifierFrameLayout;
 import org.telegram.ui.TopicCreateFragment;
 /* loaded from: classes3.dex */
 public class TopicCreateFragment extends BaseFragment {
+    int animationIndex;
+    BackupImageView[] backupImageView;
     long chatId;
     TextCheckCell2 checkBoxCell;
     boolean created;
     Drawable defaultIconDrawable;
     EditTextBoldCursor editTextBoldCursor;
+    String firstSymbol;
     ForumBubbleDrawable forumBubbleDrawable;
     int iconColor;
     ReplaceableIconDrawable replaceableIconDrawable;
@@ -79,9 +82,6 @@ public class TopicCreateFragment extends BaseFragment {
     long selectedEmojiDocumentId;
     TLRPC$TL_forumTopic topicForEdit;
     int topicId;
-    BackupImageView[] backupImageView = new BackupImageView[2];
-    String firstSymbol = "";
-    int animationIndex = 0;
 
     public static TopicCreateFragment create(long j, int i) {
         Bundle bundle = new Bundle();
@@ -92,6 +92,9 @@ public class TopicCreateFragment extends BaseFragment {
 
     private TopicCreateFragment(Bundle bundle) {
         super(bundle);
+        this.backupImageView = new BackupImageView[2];
+        this.firstSymbol = "";
+        this.animationIndex = 0;
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -185,13 +188,13 @@ public class TopicCreateFragment extends BaseFragment {
                 } else {
                     TopicCreateFragment.this.firstSymbol = "";
                 }
-                if (!str.equals(TopicCreateFragment.this.firstSymbol)) {
-                    LetterDrawable letterDrawable = new LetterDrawable(null, 1);
-                    letterDrawable.setTitle(TopicCreateFragment.this.firstSymbol);
-                    ReplaceableIconDrawable replaceableIconDrawable = TopicCreateFragment.this.replaceableIconDrawable;
-                    if (replaceableIconDrawable == null) {
-                        return;
-                    }
+                if (str.equals(TopicCreateFragment.this.firstSymbol)) {
+                    return;
+                }
+                LetterDrawable letterDrawable = new LetterDrawable(null, 1);
+                letterDrawable.setTitle(TopicCreateFragment.this.firstSymbol);
+                ReplaceableIconDrawable replaceableIconDrawable = TopicCreateFragment.this.replaceableIconDrawable;
+                if (replaceableIconDrawable != null) {
                     replaceableIconDrawable.setIcon((Drawable) letterDrawable, true);
                 }
             }
@@ -307,7 +310,7 @@ public class TopicCreateFragment extends BaseFragment {
         1() {
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:41:0x0100, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:42:0x0100, code lost:
             if (r13.topicForEdit.icon_emoji_id != r13.selectedEmojiDocumentId) goto L58;
          */
         @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
@@ -315,6 +318,7 @@ public class TopicCreateFragment extends BaseFragment {
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public void onItemClick(int i) {
+            final String obj;
             TextCheckCell2 textCheckCell2;
             TextCheckCell2 textCheckCell22;
             TopicCreateFragment topicCreateFragment;
@@ -322,12 +326,9 @@ public class TopicCreateFragment extends BaseFragment {
                 TopicCreateFragment.this.finishFragment();
                 return;
             }
-            final String str = null;
             if (i == 1) {
-                if (TopicCreateFragment.this.editTextBoldCursor.getText() != null) {
-                    str = TopicCreateFragment.this.editTextBoldCursor.getText().toString();
-                }
-                if (TextUtils.isEmpty(str)) {
+                obj = TopicCreateFragment.this.editTextBoldCursor.getText() != null ? TopicCreateFragment.this.editTextBoldCursor.getText().toString() : null;
+                if (TextUtils.isEmpty(obj)) {
                     Vibrator vibrator = (Vibrator) TopicCreateFragment.this.getParentActivity().getSystemService("vibrator");
                     if (vibrator != null) {
                         vibrator.vibrate(200L);
@@ -340,7 +341,7 @@ public class TopicCreateFragment extends BaseFragment {
                     TopicCreateFragment.this.created = true;
                     TLRPC$TL_channels_createForumTopic tLRPC$TL_channels_createForumTopic = new TLRPC$TL_channels_createForumTopic();
                     tLRPC$TL_channels_createForumTopic.channel = TopicCreateFragment.this.getMessagesController().getInputChannel(TopicCreateFragment.this.chatId);
-                    tLRPC$TL_channels_createForumTopic.title = str;
+                    tLRPC$TL_channels_createForumTopic.title = obj;
                     long j = TopicCreateFragment.this.selectedEmojiDocumentId;
                     if (j != 0) {
                         tLRPC$TL_channels_createForumTopic.icon_emoji_id = j;
@@ -353,16 +354,13 @@ public class TopicCreateFragment extends BaseFragment {
                     ConnectionsManager.getInstance(((BaseFragment) topicCreateFragment2).currentAccount).sendRequest(tLRPC$TL_channels_createForumTopic, new RequestDelegate() { // from class: org.telegram.ui.TopicCreateFragment$1$$ExternalSyntheticLambda1
                         @Override // org.telegram.tgnet.RequestDelegate
                         public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                            TopicCreateFragment.1.this.lambda$onItemClick$1(str, alertDialog, tLObject, tLRPC$TL_error);
+                            TopicCreateFragment.1.this.lambda$onItemClick$1(obj, alertDialog, tLObject, tLRPC$TL_error);
                         }
                     });
                 }
-            } else if (i != 2) {
-            } else {
-                if (TopicCreateFragment.this.editTextBoldCursor.getText() != null) {
-                    str = TopicCreateFragment.this.editTextBoldCursor.getText().toString();
-                }
-                if (TextUtils.isEmpty(str)) {
+            } else if (i == 2) {
+                obj = TopicCreateFragment.this.editTextBoldCursor.getText() != null ? TopicCreateFragment.this.editTextBoldCursor.getText().toString() : null;
+                if (TextUtils.isEmpty(obj)) {
                     Vibrator vibrator2 = (Vibrator) TopicCreateFragment.this.getParentActivity().getSystemService("vibrator");
                     if (vibrator2 != null) {
                         vibrator2.vibrate(200L);
@@ -370,15 +368,15 @@ public class TopicCreateFragment extends BaseFragment {
                     AndroidUtilities.shakeView(TopicCreateFragment.this.editTextBoldCursor);
                     return;
                 }
-                if (TopicCreateFragment.this.topicForEdit.title.equals(str)) {
+                if (TopicCreateFragment.this.topicForEdit.title.equals(obj)) {
                     TopicCreateFragment topicCreateFragment3 = TopicCreateFragment.this;
                 }
                 TLRPC$TL_channels_editForumTopic tLRPC$TL_channels_editForumTopic = new TLRPC$TL_channels_editForumTopic();
                 tLRPC$TL_channels_editForumTopic.channel = TopicCreateFragment.this.getMessagesController().getInputChannel(TopicCreateFragment.this.chatId);
                 TLRPC$TL_forumTopic tLRPC$TL_forumTopic = TopicCreateFragment.this.topicForEdit;
                 tLRPC$TL_channels_editForumTopic.topic_id = tLRPC$TL_forumTopic.id;
-                if (!tLRPC$TL_forumTopic.title.equals(str)) {
-                    tLRPC$TL_channels_editForumTopic.title = str;
+                if (!tLRPC$TL_forumTopic.title.equals(obj)) {
+                    tLRPC$TL_channels_editForumTopic.title = obj;
                     tLRPC$TL_channels_editForumTopic.flags |= 1;
                 }
                 TopicCreateFragment topicCreateFragment4 = TopicCreateFragment.this;
@@ -405,7 +403,7 @@ public class TopicCreateFragment extends BaseFragment {
                 } else {
                     tLRPC$TL_forumTopic2.flags &= -2;
                 }
-                tLRPC$TL_forumTopic2.title = str;
+                tLRPC$TL_forumTopic2.title = obj;
                 if (topicCreateFragment6.checkBoxCell != null) {
                     tLRPC$TL_forumTopic2.hidden = !textCheckCell22.isChecked();
                 }
@@ -514,27 +512,26 @@ public class TopicCreateFragment extends BaseFragment {
                     return;
                 }
                 float f = this.pressedProgress;
-                if (f == 0.0f) {
-                    return;
+                if (f != 0.0f) {
+                    ValueAnimator ofFloat = ValueAnimator.ofFloat(f, 0.0f);
+                    this.backAnimator = ofFloat;
+                    ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.TopicCreateFragment$4$$ExternalSyntheticLambda0
+                        @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                        public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
+                            TopicCreateFragment.4.this.lambda$setPressed$0(valueAnimator2);
+                        }
+                    });
+                    this.backAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.TopicCreateFragment.4.1
+                        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                        public void onAnimationEnd(Animator animator) {
+                            super.onAnimationEnd(animator);
+                            4.this.backAnimator = null;
+                        }
+                    });
+                    this.backAnimator.setInterpolator(new OvershootInterpolator(5.0f));
+                    this.backAnimator.setDuration(350L);
+                    this.backAnimator.start();
                 }
-                ValueAnimator ofFloat = ValueAnimator.ofFloat(f, 0.0f);
-                this.backAnimator = ofFloat;
-                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.TopicCreateFragment$4$$ExternalSyntheticLambda0
-                    @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                    public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                        TopicCreateFragment.4.this.lambda$setPressed$0(valueAnimator2);
-                    }
-                });
-                this.backAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.TopicCreateFragment.4.1
-                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                    public void onAnimationEnd(Animator animator) {
-                        super.onAnimationEnd(animator);
-                        4.this.backAnimator = null;
-                    }
-                });
-                this.backAnimator.setInterpolator(new OvershootInterpolator(5.0f));
-                this.backAnimator.setDuration(350L);
-                this.backAnimator.start();
             }
         }
 
@@ -547,11 +544,10 @@ public class TopicCreateFragment extends BaseFragment {
         public void updatePressedProgress() {
             if (isPressed()) {
                 float f = this.pressedProgress;
-                if (f == 1.0f) {
-                    return;
+                if (f != 1.0f) {
+                    this.pressedProgress = Utilities.clamp(f + 0.16f, 1.0f, 0.0f);
+                    invalidate();
                 }
-                this.pressedProgress = Utilities.clamp(f + 0.16f, 1.0f, 0.0f);
-                invalidate();
             }
         }
     }
@@ -581,15 +577,15 @@ public class TopicCreateFragment extends BaseFragment {
         }
         if (!z && longValue != 0 && !getUserConfig().isPremium()) {
             TLRPC$Document findDocument = AnimatedEmojiDrawable.findDocument(this.currentAccount, l.longValue());
-            if (findDocument == null) {
+            if (findDocument != null) {
+                BulletinFactory.of(this).createEmojiBulletin(findDocument, AndroidUtilities.replaceTags(LocaleController.getString("UnlockPremiumEmojiHint", R.string.UnlockPremiumEmojiHint)), LocaleController.getString("PremiumMore", R.string.PremiumMore), new Runnable() { // from class: org.telegram.ui.TopicCreateFragment$$ExternalSyntheticLambda2
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        TopicCreateFragment.this.lambda$selectEmoji$2();
+                    }
+                }).show();
                 return;
             }
-            BulletinFactory.of(this).createEmojiBulletin(findDocument, AndroidUtilities.replaceTags(LocaleController.getString("UnlockPremiumEmojiHint", R.string.UnlockPremiumEmojiHint)), LocaleController.getString("PremiumMore", R.string.PremiumMore), new Runnable() { // from class: org.telegram.ui.TopicCreateFragment$$ExternalSyntheticLambda2
-                @Override // java.lang.Runnable
-                public final void run() {
-                    TopicCreateFragment.this.lambda$selectEmoji$2();
-                }
-            }).show();
             return;
         }
         this.selectedEmojiDocumentId = longValue;

@@ -19,10 +19,10 @@ public class LinearChartView extends BaseChartView<ChartData, LineViewData> {
         super.init();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:46:0x0151  */
-    /* JADX WARN: Removed duplicated region for block: B:49:0x0164  */
-    /* JADX WARN: Removed duplicated region for block: B:52:0x016d  */
-    /* JADX WARN: Removed duplicated region for block: B:53:0x0159  */
+    /* JADX WARN: Removed duplicated region for block: B:54:0x0151  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x0159  */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x0164  */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x016d  */
     @Override // org.telegram.ui.Charts.BaseChartView
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -93,27 +93,23 @@ public class LinearChartView extends BaseChartView<ChartData, LineViewData> {
                     f = f7;
                     canvas.save();
                     int i9 = this.transitionMode;
-                    float f13 = 1.0f;
                     if (i9 == 2) {
                         TransitionParams transitionParams = this.transitionParams;
-                        float f14 = transitionParams.progress;
-                        f2 = f14 > 0.5f ? 0.0f : 1.0f - (f14 * 2.0f);
-                        canvas.scale((f14 * 2.0f) + 1.0f, 1.0f, transitionParams.pX, transitionParams.pY);
+                        float f13 = transitionParams.progress;
+                        f2 = f13 > 0.5f ? 0.0f : 1.0f - (f13 * 2.0f);
+                        canvas.scale((f13 * 2.0f) + 1.0f, 1.0f, transitionParams.pX, transitionParams.pY);
                     } else if (i9 == 1) {
-                        float f15 = this.transitionParams.progress;
-                        f2 = f15 < 0.3f ? 0.0f : f15;
+                        float f14 = this.transitionParams.progress;
+                        f2 = f14 < 0.3f ? 0.0f : f14;
                         canvas.save();
                         TransitionParams transitionParams2 = this.transitionParams;
-                        float f16 = transitionParams2.progress;
-                        if (transitionParams2.needScaleY) {
-                            f13 = f16;
-                        }
-                        canvas.scale(f16, f13, transitionParams2.pX, transitionParams2.pY);
+                        float f15 = transitionParams2.progress;
+                        canvas.scale(f15, transitionParams2.needScaleY ? f15 : 1.0f, transitionParams2.pX, transitionParams2.pY);
                     } else {
                         if (i9 == 3) {
-                            f13 = this.transitionParams.progress;
+                            r4 = this.transitionParams.progress;
                         }
-                        lineViewData.paint.setAlpha((int) (lineViewData.alpha * 255.0f * f13));
+                        lineViewData.paint.setAlpha((int) (lineViewData.alpha * 255.0f * r4));
                         if (this.endXIndex - this.startXIndex <= 100) {
                             lineViewData.paint.setStrokeCap(Paint.Cap.SQUARE);
                         } else {
@@ -126,8 +122,8 @@ public class LinearChartView extends BaseChartView<ChartData, LineViewData> {
                         }
                         canvas.restore();
                     }
-                    f13 = f2;
-                    lineViewData.paint.setAlpha((int) (lineViewData.alpha * 255.0f * f13));
+                    r4 = f2;
+                    lineViewData.paint.setAlpha((int) (lineViewData.alpha * 255.0f * r4));
                     if (this.endXIndex - this.startXIndex <= 100) {
                     }
                     if (BaseChartView.USE_LINES) {

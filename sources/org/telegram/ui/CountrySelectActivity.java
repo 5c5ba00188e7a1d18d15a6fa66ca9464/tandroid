@@ -107,7 +107,6 @@ public class CountrySelectActivity extends BaseFragment {
                 }
             }
         });
-        int i = 1;
         this.actionBar.createMenu().addItem(0, R.drawable.ic_ab_search).setIsSearchField(true).setActionBarMenuItemSearchListener(new ActionBarMenuItem.ActionBarMenuItemSearchListener() { // from class: org.telegram.ui.CountrySelectActivity.2
             @Override // org.telegram.ui.ActionBar.ActionBarMenuItem.ActionBarMenuItemSearchListener
             public void onSearchExpand() {
@@ -134,10 +133,9 @@ public class CountrySelectActivity extends BaseFragment {
                     return;
                 }
                 CountrySelectActivity.this.searchListViewAdapter.search(obj);
-                if (obj.length() == 0) {
-                    return;
+                if (obj.length() != 0) {
+                    CountrySelectActivity.this.searchWas = true;
                 }
-                CountrySelectActivity.this.searchWas = true;
             }
         }).setSearchFieldHint(LocaleController.getString("Search", R.string.Search));
         this.actionBar.setSearchTextColor(Theme.getColor("windowBackgroundWhiteGrayText"), true);
@@ -166,22 +164,18 @@ public class CountrySelectActivity extends BaseFragment {
         this.listView.setFastScrollVisible(true);
         this.listView.setLayoutManager(new LinearLayoutManager(context, 1, false));
         this.listView.setAdapter(this.listViewAdapter);
-        RecyclerListView recyclerListView2 = this.listView;
-        if (!LocaleController.isRTL) {
-            i = 2;
-        }
-        recyclerListView2.setVerticalScrollbarPosition(i);
+        this.listView.setVerticalScrollbarPosition(LocaleController.isRTL ? 1 : 2);
         frameLayout2.addView(this.listView, LayoutHelper.createFrame(-1, -1.0f));
         this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.CountrySelectActivity$$ExternalSyntheticLambda0
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
-            public final void onItemClick(View view, int i2) {
-                CountrySelectActivity.this.lambda$createView$0(view, i2);
+            public final void onItemClick(View view, int i) {
+                CountrySelectActivity.this.lambda$createView$0(view, i);
             }
         });
         this.listView.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.CountrySelectActivity.3
             @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
-            public void onScrollStateChanged(RecyclerView recyclerView, int i2) {
-                if (i2 == 1) {
+            public void onScrollStateChanged(RecyclerView recyclerView, int i) {
+                if (i == 1) {
                     AndroidUtilities.hideKeyboard(CountrySelectActivity.this.getParentActivity().getCurrentFocus());
                 }
             }
@@ -472,10 +466,12 @@ public class CountrySelectActivity extends BaseFragment {
             for (Country country : this.countryList) {
                 Iterator<String> it = this.countrySearchMap.get(country).iterator();
                 while (true) {
-                    if (!it.hasNext()) {
-                        break;
-                    } else if (it.next().toLowerCase().startsWith(lowerCase)) {
-                        arrayList.add(country);
+                    if (it.hasNext()) {
+                        if (it.next().toLowerCase().startsWith(lowerCase)) {
+                            arrayList.add(country);
+                            break;
+                        }
+                    } else {
                         break;
                     }
                 }
@@ -494,15 +490,14 @@ public class CountrySelectActivity extends BaseFragment {
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$updateSearchResults$1(ArrayList arrayList) {
-            if (!CountrySelectActivity.this.searching) {
-                return;
+            if (CountrySelectActivity.this.searching) {
+                this.searchResult = arrayList;
+                if (CountrySelectActivity.this.searchWas && CountrySelectActivity.this.listView != null && CountrySelectActivity.this.listView.getAdapter() != CountrySelectActivity.this.searchListViewAdapter) {
+                    CountrySelectActivity.this.listView.setAdapter(CountrySelectActivity.this.searchListViewAdapter);
+                    CountrySelectActivity.this.listView.setFastScrollVisible(false);
+                }
+                notifyDataSetChanged();
             }
-            this.searchResult = arrayList;
-            if (CountrySelectActivity.this.searchWas && CountrySelectActivity.this.listView != null && CountrySelectActivity.this.listView.getAdapter() != CountrySelectActivity.this.searchListViewAdapter) {
-                CountrySelectActivity.this.listView.setAdapter(CountrySelectActivity.this.searchListViewAdapter);
-                CountrySelectActivity.this.listView.setFastScrollVisible(false);
-            }
-            notifyDataSetChanged();
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -544,12 +539,7 @@ public class CountrySelectActivity extends BaseFragment {
     /* JADX INFO: Access modifiers changed from: private */
     public static TextSettingsCell createSettingsCell(Context context) {
         TextSettingsCell textSettingsCell = new TextSettingsCell(context);
-        float f = 16.0f;
-        int dp = AndroidUtilities.dp(LocaleController.isRTL ? 16.0f : 12.0f);
-        if (LocaleController.isRTL) {
-            f = 12.0f;
-        }
-        textSettingsCell.setPadding(dp, 0, AndroidUtilities.dp(f), 0);
+        textSettingsCell.setPadding(AndroidUtilities.dp(LocaleController.isRTL ? 16.0f : 12.0f), 0, AndroidUtilities.dp(LocaleController.isRTL ? 12.0f : 16.0f), 0);
         textSettingsCell.addOnAttachStateChangeListener(new 4(textSettingsCell));
         return textSettingsCell;
     }

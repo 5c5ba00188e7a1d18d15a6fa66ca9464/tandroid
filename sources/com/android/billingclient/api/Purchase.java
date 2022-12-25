@@ -38,11 +38,11 @@ public class Purchase {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof Purchase)) {
-            return false;
+        if (obj instanceof Purchase) {
+            Purchase purchase = (Purchase) obj;
+            return TextUtils.equals(this.zza, purchase.getOriginalJson()) && TextUtils.equals(this.zzb, purchase.getSignature());
         }
-        Purchase purchase = (Purchase) obj;
-        return TextUtils.equals(this.zza, purchase.getOriginalJson()) && TextUtils.equals(this.zzb, purchase.getSignature());
+        return false;
     }
 
     public String getOriginalJson() {

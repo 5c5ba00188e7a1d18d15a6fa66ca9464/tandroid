@@ -8,7 +8,7 @@ import java.util.Set;
 /* loaded from: classes.dex */
 public final class zzdi<K, V> extends LinkedHashMap<K, V> {
     private static final zzdi zzme;
-    private boolean zzfa = true;
+    private boolean zzfa;
 
     static {
         zzdi zzdiVar = new zzdi();
@@ -17,10 +17,12 @@ public final class zzdi<K, V> extends LinkedHashMap<K, V> {
     }
 
     private zzdi() {
+        this.zzfa = true;
     }
 
     private zzdi(Map<K, V> map) {
         super(map);
+        this.zzfa = true;
     }
 
     public static <K, V> zzdi<K, V> zzbz() {
@@ -28,10 +30,9 @@ public final class zzdi<K, V> extends LinkedHashMap<K, V> {
     }
 
     private final void zzcb() {
-        if (this.zzfa) {
-            return;
+        if (!this.zzfa) {
+            throw new UnsupportedOperationException();
         }
-        throw new UnsupportedOperationException();
     }
 
     private static int zzf(Object obj) {
@@ -55,7 +56,7 @@ public final class zzdi<K, V> extends LinkedHashMap<K, V> {
         return isEmpty() ? Collections.emptySet() : super.entrySet();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:9:0x005c A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x005c A[RETURN] */
     @Override // java.util.AbstractMap, java.util.Map
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -71,11 +72,11 @@ public final class zzdi<K, V> extends LinkedHashMap<K, V> {
                         if (map.containsKey(entry.getKey())) {
                             V value = entry.getValue();
                             Object obj2 = map.get(entry.getKey());
-                            if (!(value instanceof byte[]) || !(obj2 instanceof byte[])) {
-                                equals = value.equals(obj2);
+                            if ((value instanceof byte[]) && (obj2 instanceof byte[])) {
+                                equals = Arrays.equals((byte[]) value, (byte[]) obj2);
                                 continue;
                             } else {
-                                equals = Arrays.equals((byte[]) value, (byte[]) obj2);
+                                equals = value.equals(obj2);
                                 continue;
                             }
                             if (!equals) {
@@ -134,9 +135,10 @@ public final class zzdi<K, V> extends LinkedHashMap<K, V> {
 
     public final void zza(zzdi<K, V> zzdiVar) {
         zzcb();
-        if (!zzdiVar.isEmpty()) {
-            putAll(zzdiVar);
+        if (zzdiVar.isEmpty()) {
+            return;
         }
+        putAll(zzdiVar);
     }
 
     public final zzdi<K, V> zzca() {

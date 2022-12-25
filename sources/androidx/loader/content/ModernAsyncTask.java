@@ -114,9 +114,10 @@ abstract class ModernAsyncTask<Params, Progress, Result> {
     }
 
     void postResultIfNotInvoked(Result result) {
-        if (!this.mTaskInvoked.get()) {
-            postResult(result);
+        if (this.mTaskInvoked.get()) {
+            return;
         }
+        postResult(result);
     }
 
     Result postResult(Result result) {
@@ -158,13 +159,13 @@ abstract class ModernAsyncTask<Params, Progress, Result> {
     public final ModernAsyncTask<Params, Progress, Result> executeOnExecutor(Executor executor, Params... paramsArr) {
         if (this.mStatus != Status.PENDING) {
             int i = 4.$SwitchMap$androidx$loader$content$ModernAsyncTask$Status[this.mStatus.ordinal()];
-            if (i == 1) {
-                throw new IllegalStateException("Cannot execute task: the task is already running.");
+            if (i != 1) {
+                if (i == 2) {
+                    throw new IllegalStateException("Cannot execute task: the task has already been executed (a task can be executed only once)");
+                }
+                throw new IllegalStateException("We should never reach this state");
             }
-            if (i == 2) {
-                throw new IllegalStateException("Cannot execute task: the task has already been executed (a task can be executed only once)");
-            }
-            throw new IllegalStateException("We should never reach this state");
+            throw new IllegalStateException("Cannot execute task: the task is already running.");
         }
         this.mStatus = Status.RUNNING;
         onPreExecute();

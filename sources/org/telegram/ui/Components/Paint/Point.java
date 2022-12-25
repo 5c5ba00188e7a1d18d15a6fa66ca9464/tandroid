@@ -28,11 +28,11 @@ public class Point {
         if (obj == this) {
             return true;
         }
-        if (!(obj instanceof Point)) {
-            return false;
+        if (obj instanceof Point) {
+            Point point = (Point) obj;
+            return this.x == point.x && this.y == point.y && this.z == point.z;
         }
-        Point point = (Point) obj;
-        return this.x == point.x && this.y == point.y && this.z == point.z;
+        return false;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

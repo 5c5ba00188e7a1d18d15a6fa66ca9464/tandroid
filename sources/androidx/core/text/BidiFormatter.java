@@ -7,8 +7,8 @@ public final class BidiFormatter {
     static final BidiFormatter DEFAULT_LTR_INSTANCE;
     static final BidiFormatter DEFAULT_RTL_INSTANCE;
     static final TextDirectionHeuristicCompat DEFAULT_TEXT_DIRECTION_HEURISTIC;
-    private static final String LRM_STRING = Character.toString(8206);
-    private static final String RLM_STRING = Character.toString(8207);
+    private static final String LRM_STRING;
+    private static final String RLM_STRING;
     private final TextDirectionHeuristicCompat mDefaultTextDirectionHeuristicCompat;
     private final int mFlags;
     private final boolean mIsRtlContext;
@@ -16,6 +16,8 @@ public final class BidiFormatter {
     static {
         TextDirectionHeuristicCompat textDirectionHeuristicCompat = TextDirectionHeuristicsCompat.FIRSTSTRONG_LTR;
         DEFAULT_TEXT_DIRECTION_HEURISTIC = textDirectionHeuristicCompat;
+        LRM_STRING = Character.toString((char) 8206);
+        RLM_STRING = Character.toString((char) 8207);
         DEFAULT_LTR_INSTANCE = new BidiFormatter(false, 2, textDirectionHeuristicCompat);
         DEFAULT_RTL_INSTANCE = new BidiFormatter(true, 2, textDirectionHeuristicCompat);
     }
@@ -64,7 +66,7 @@ public final class BidiFormatter {
 
     private String markAfter(CharSequence str, TextDirectionHeuristicCompat heuristic) {
         boolean isRtl = heuristic.isRtl(str, 0, str.length());
-        if (this.mIsRtlContext || (!isRtl && getExitDir(str) != 1)) {
+        if (this.mIsRtlContext || !(isRtl || getExitDir(str) == 1)) {
             return this.mIsRtlContext ? (!isRtl || getExitDir(str) == -1) ? RLM_STRING : "" : "";
         }
         return LRM_STRING;
@@ -72,7 +74,7 @@ public final class BidiFormatter {
 
     private String markBefore(CharSequence str, TextDirectionHeuristicCompat heuristic) {
         boolean isRtl = heuristic.isRtl(str, 0, str.length());
-        if (this.mIsRtlContext || (!isRtl && getEntryDir(str) != 1)) {
+        if (this.mIsRtlContext || !(isRtl || getEntryDir(str) == 1)) {
             return this.mIsRtlContext ? (!isRtl || getEntryDir(str) == -1) ? RLM_STRING : "" : "";
         }
         return LRM_STRING;
@@ -271,14 +273,14 @@ public final class BidiFormatter {
             }
             this.charIndex++;
             byte cachedDirectionality = getCachedDirectionality(this.lastChar);
-            if (!this.isHtml) {
-                return cachedDirectionality;
+            if (this.isHtml) {
+                char c = this.lastChar;
+                if (c == '<') {
+                    return skipTagForward();
+                }
+                return c == '&' ? skipEntityForward() : cachedDirectionality;
             }
-            char c = this.lastChar;
-            if (c == '<') {
-                return skipTagForward();
-            }
-            return c == '&' ? skipEntityForward() : cachedDirectionality;
+            return cachedDirectionality;
         }
 
         byte dirTypeBackward() {
@@ -291,14 +293,14 @@ public final class BidiFormatter {
             }
             this.charIndex--;
             byte cachedDirectionality = getCachedDirectionality(this.lastChar);
-            if (!this.isHtml) {
-                return cachedDirectionality;
+            if (this.isHtml) {
+                char c = this.lastChar;
+                if (c == '>') {
+                    return skipTagBackward();
+                }
+                return c == ';' ? skipEntityBackward() : cachedDirectionality;
             }
-            char c = this.lastChar;
-            if (c == '>') {
-                return skipTagBackward();
-            }
-            return c == ';' ? skipEntityBackward() : cachedDirectionality;
+            return cachedDirectionality;
         }
 
         private byte skipTagForward() {

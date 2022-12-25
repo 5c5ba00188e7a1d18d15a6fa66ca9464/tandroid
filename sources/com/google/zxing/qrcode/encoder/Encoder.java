@@ -21,13 +21,13 @@ public final class Encoder {
         return MaskUtil.applyMaskPenaltyRule1(byteMatrix) + MaskUtil.applyMaskPenaltyRule2(byteMatrix) + MaskUtil.applyMaskPenaltyRule3(byteMatrix) + MaskUtil.applyMaskPenaltyRule4(byteMatrix);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:38:0x00fc, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:45:0x00fc, code lost:
         if (com.google.zxing.qrcode.encoder.QRCode.isValidMaskPattern(r9) != false) goto L39;
      */
-    /* JADX WARN: Removed duplicated region for block: B:32:0x009f  */
-    /* JADX WARN: Removed duplicated region for block: B:35:0x00e4  */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x0102  */
-    /* JADX WARN: Removed duplicated region for block: B:44:0x00a4  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x009f  */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x00a4  */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x00e4  */
+    /* JADX WARN: Removed duplicated region for block: B:49:0x0102  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -44,10 +44,7 @@ public final class Encoder {
         if (chooseMode == mode && z2 && (characterSetECIByName = CharacterSetECI.getCharacterSetECIByName(obj)) != null) {
             appendECI(characterSetECIByName, bitArray);
         }
-        if (map == null || !map.containsKey(EncodeHintType.GS1_FORMAT)) {
-            z = false;
-        }
-        if (z && Boolean.parseBoolean(map.get(EncodeHintType.GS1_FORMAT).toString())) {
+        if (((map == null || !map.containsKey(EncodeHintType.GS1_FORMAT)) ? false : false) && Boolean.parseBoolean(map.get(EncodeHintType.GS1_FORMAT).toString())) {
             appendModeInfo(Mode.FNC1_FIRST_POSITION, bitArray);
         }
         appendModeInfo(chooseMode, bitArray);
@@ -428,8 +425,8 @@ public final class Encoder {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:13:0x003c A[LOOP:0: B:6:0x000f->B:13:0x003c, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:14:0x004b A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x003c A[LOOP:0: B:6:0x000f->B:19:0x003c, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x004b A[SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

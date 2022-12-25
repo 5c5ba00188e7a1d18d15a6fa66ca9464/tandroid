@@ -94,8 +94,7 @@ public abstract class BaseGmsClient<T extends IInterface> {
             if (connectionResult.isSuccess()) {
                 BaseGmsClient baseGmsClient = BaseGmsClient.this;
                 baseGmsClient.getRemoteService(null, baseGmsClient.getScopes());
-            } else if (BaseGmsClient.this.zzx == null) {
-            } else {
+            } else if (BaseGmsClient.this.zzx != null) {
                 BaseGmsClient.this.zzx.onConnectionFailed(connectionResult);
             }
         }
@@ -189,11 +188,7 @@ public abstract class BaseGmsClient<T extends IInterface> {
     public final void zzp(int i, IInterface iInterface) {
         zzu zzuVar;
         zzu zzuVar2;
-        boolean z = false;
-        if ((i == 4) == (iInterface != 0)) {
-            z = true;
-        }
-        Preconditions.checkArgument(z);
+        Preconditions.checkArgument((i == 4) == (iInterface != 0));
         synchronized (this.zzp) {
             this.zzv = i;
             this.zzs = iInterface;
@@ -246,10 +241,9 @@ public abstract class BaseGmsClient<T extends IInterface> {
     }
 
     protected final void checkConnected() {
-        if (isConnected()) {
-            return;
+        if (!isConnected()) {
+            throw new IllegalStateException("Not connected. Call connect() and wait for onConnected() to be called.");
         }
-        throw new IllegalStateException("Not connected. Call connect() and wait for onConnected() to be called.");
     }
 
     public void connect(ConnectionProgressReportCallbacks connectionProgressReportCallbacks) {

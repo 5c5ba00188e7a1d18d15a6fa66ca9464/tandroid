@@ -58,14 +58,14 @@ public class TopicsController extends BaseController {
     public static final int TOPIC_FLAG_TITLE = 1;
     public static final int TOPIC_FLAG_TOTAL_MESSAGES_COUNT = 16;
     private static final int[] countsTmp = new int[4];
-    LongSparseArray<ArrayList<TLRPC$TL_forumTopic>> topicsByChatId = new LongSparseArray<>();
-    LongSparseArray<LongSparseArray<TLRPC$TL_forumTopic>> topicsMapByChatId = new LongSparseArray<>();
-    LongSparseIntArray topicsIsLoading = new LongSparseIntArray();
-    LongSparseIntArray endIsReached = new LongSparseIntArray();
-    LongSparseArray<TLRPC$TL_forumTopic> topicsByTopMsgId = new LongSparseArray<>();
-    LongSparseIntArray currentOpenTopicsCounter = new LongSparseIntArray();
-    LongSparseIntArray openedTopicsBuChatId = new LongSparseIntArray();
-    LongSparseArray<TopicsLoadOffset> offsets = new LongSparseArray<>();
+    LongSparseIntArray currentOpenTopicsCounter;
+    LongSparseIntArray endIsReached;
+    LongSparseArray<TopicsLoadOffset> offsets;
+    LongSparseIntArray openedTopicsBuChatId;
+    LongSparseArray<ArrayList<TLRPC$TL_forumTopic>> topicsByChatId;
+    LongSparseArray<TLRPC$TL_forumTopic> topicsByTopMsgId;
+    LongSparseIntArray topicsIsLoading;
+    LongSparseArray<LongSparseArray<TLRPC$TL_forumTopic>> topicsMapByChatId;
 
     /* loaded from: classes.dex */
     public static class TopicUpdate {
@@ -91,6 +91,14 @@ public class TopicsController extends BaseController {
 
     public TopicsController(int i) {
         super(i);
+        this.topicsByChatId = new LongSparseArray<>();
+        this.topicsMapByChatId = new LongSparseArray<>();
+        this.topicsIsLoading = new LongSparseIntArray();
+        this.endIsReached = new LongSparseIntArray();
+        this.topicsByTopMsgId = new LongSparseArray<>();
+        this.currentOpenTopicsCounter = new LongSparseIntArray();
+        this.openedTopicsBuChatId = new LongSparseIntArray();
+        this.offsets = new LongSparseArray<>();
     }
 
     public void preloadTopics(long j) {
@@ -210,8 +218,7 @@ public class TopicsController extends BaseController {
             TLRPC$TL_forumTopic tLRPC$TL_forumTopic = arrayList.get(arrayList.size() - 1);
             TLRPC$Message tLRPC$Message = (TLRPC$Message) sparseArray.get(tLRPC$TL_forumTopic.top_message);
             saveLoadOffset(j, tLRPC$TL_forumTopic.top_message, tLRPC$Message == null ? 0 : tLRPC$Message.date, tLRPC$TL_forumTopic.id);
-        } else if (getTopics(j) != null && getTopics(j).size() >= tLRPC$TL_messages_forumTopics.count) {
-        } else {
+        } else if (getTopics(j) == null || getTopics(j).size() < tLRPC$TL_messages_forumTopics.count) {
             clearLoadingOffset(j);
             loadTopics(j);
         }
@@ -223,9 +230,13 @@ public class TopicsController extends BaseController {
         getNotificationCenter().postNotificationName(NotificationCenter.topicsDidLoaded, Long.valueOf(j), Boolean.FALSE);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:85:0x0137, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:59:0x0137, code lost:
         if (r23 == 1) goto L80;
      */
+    /* JADX WARN: Multi-variable type inference failed */
+    /* JADX WARN: Type inference failed for: r4v3 */
+    /* JADX WARN: Type inference failed for: r4v4, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r4v5 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -312,14 +323,11 @@ public class TopicsController extends BaseController {
         if (arrayList3 != null && i != 2) {
             reloadTopics(j, arrayList3);
         } else {
-            boolean z3 = (i != 0 || z) ? true : true;
+            ?? r4 = (i != 0 || z) ? 1 : 1;
             if (arrayList2.size() >= i2 && i2 >= 0) {
-                LongSparseIntArray longSparseIntArray = this.endIsReached;
-                int i8 = z3 ? 1 : 0;
-                int i9 = z3 ? 1 : 0;
-                longSparseIntArray.put(j, i8);
+                this.endIsReached.put(j, r4);
                 SharedPreferences.Editor edit = getUserConfig().getPreferences().edit();
-                edit.putBoolean("topics_end_reached_" + j, z3).apply();
+                edit.putBoolean("topics_end_reached_" + j, r4).apply();
                 z2 = true;
             }
         }
@@ -356,10 +364,9 @@ public class TopicsController extends BaseController {
             if (this.openedTopicsBuChatId.get(j, 0) > 0) {
                 Collections.sort(arrayList, TopicsController$$ExternalSyntheticLambda18.INSTANCE);
             }
-            if (!z) {
-                return;
+            if (z) {
+                getNotificationCenter().postNotificationName(NotificationCenter.topicsDidLoaded, Long.valueOf(j), Boolean.TRUE);
             }
-            getNotificationCenter().postNotificationName(NotificationCenter.topicsDidLoaded, Long.valueOf(j), Boolean.TRUE);
         }
     }
 
@@ -377,13 +384,9 @@ public class TopicsController extends BaseController {
             return tLRPC$TL_forumTopic.pinnedOrder - tLRPC$TL_forumTopic2.pinnedOrder;
         } else {
             TLRPC$Message tLRPC$Message = tLRPC$TL_forumTopic2.topMessage;
-            int i = 0;
-            int i2 = tLRPC$Message != null ? tLRPC$Message.date : 0;
+            int i = tLRPC$Message != null ? tLRPC$Message.date : 0;
             TLRPC$Message tLRPC$Message2 = tLRPC$TL_forumTopic.topMessage;
-            if (tLRPC$Message2 != null) {
-                i = tLRPC$Message2.date;
-            }
-            return i2 - i;
+            return i - (tLRPC$Message2 != null ? tLRPC$Message2.date : 0);
         }
     }
 
@@ -411,8 +414,8 @@ public class TopicsController extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x0141  */
-    /* JADX WARN: Removed duplicated region for block: B:41:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x0141  */
+    /* JADX WARN: Removed duplicated region for block: B:46:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -612,10 +615,10 @@ public class TopicsController extends BaseController {
         if (i == 0) {
             i = tLRPC$TL_messageReplyHeader.reply_to_msg_id;
         }
-        if (i != 0 && (findTopic = findTopic(tLRPC$Chat.id, i)) != null) {
-            return ForumUtilities.getTopicSpannedName(findTopic, textPaint, drawableArr);
+        if (i == 0 || (findTopic = findTopic(tLRPC$Chat.id, i)) == null) {
+            return null;
         }
-        return null;
+        return ForumUtilities.getTopicSpannedName(findTopic, textPaint, drawableArr);
     }
 
     public int[] getForumUnreadCount(long j) {
@@ -625,14 +628,9 @@ public class TopicsController extends BaseController {
             for (int i = 0; i < arrayList.size(); i++) {
                 TLRPC$TL_forumTopic tLRPC$TL_forumTopic = arrayList.get(i);
                 int[] iArr = countsTmp;
-                int i2 = 1;
                 iArr[0] = iArr[0] + (tLRPC$TL_forumTopic.unread_count > 0 ? 1 : 0);
                 iArr[1] = iArr[1] + (tLRPC$TL_forumTopic.unread_mentions_count > 0 ? 1 : 0);
-                int i3 = iArr[2];
-                if (tLRPC$TL_forumTopic.unread_reactions_count <= 0) {
-                    i2 = 0;
-                }
-                iArr[2] = i3 + i2;
+                iArr[2] = iArr[2] + (tLRPC$TL_forumTopic.unread_reactions_count <= 0 ? 0 : 1);
                 if (!getMessagesController().isDialogMuted(-j, tLRPC$TL_forumTopic.id)) {
                     iArr[3] = iArr[3] + tLRPC$TL_forumTopic.unread_count;
                 }
@@ -704,10 +702,9 @@ public class TopicsController extends BaseController {
                     TLRPC$TL_messages_affectedHistory tLRPC$TL_messages_affectedHistory = (TLRPC$TL_messages_affectedHistory) tLObject;
                     TopicsController.this.getMessagesController().processNewChannelDifferenceParams(tLRPC$TL_messages_affectedHistory.pts, tLRPC$TL_messages_affectedHistory.pts_count, j);
                     int i3 = tLRPC$TL_messages_affectedHistory.offset;
-                    if (i3 <= 0) {
-                        return;
+                    if (i3 > 0) {
+                        TopicsController.this.deleteTopic(j, i, i3);
                     }
-                    TopicsController.this.deleteTopic(j, i, i3);
                 }
             }
         });
@@ -773,15 +770,14 @@ public class TopicsController extends BaseController {
             }
             z2 = z3;
         }
-        if (!z || !z2) {
-            return;
+        if (z && z2) {
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.TopicsController$$ExternalSyntheticLambda1
+                @Override // java.lang.Runnable
+                public final void run() {
+                    TopicsController.this.lambda$applyPinnedOrder$13();
+                }
+            });
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.TopicsController$$ExternalSyntheticLambda1
-            @Override // java.lang.Runnable
-            public final void run() {
-                TopicsController.this.lambda$applyPinnedOrder$13();
-            }
-        });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -833,10 +829,9 @@ public class TopicsController extends BaseController {
     public /* synthetic */ void lambda$pinTopic$16(final BaseFragment baseFragment, long j, ArrayList arrayList, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (tLRPC$TL_error != null) {
             if (!"PINNED_TOO_MUCH".equals(tLRPC$TL_error.text)) {
-                if (!"PINNED_TOPIC_NOT_MODIFIED".equals(tLRPC$TL_error.text)) {
-                    return;
+                if ("PINNED_TOPIC_NOT_MODIFIED".equals(tLRPC$TL_error.text)) {
+                    reloadTopics(j, false);
                 }
-                reloadTopics(j, false);
             } else if (baseFragment == null) {
             } else {
                 applyPinnedOrder(j, arrayList);
@@ -1212,12 +1207,8 @@ public class TopicsController extends BaseController {
     }
 
     public void onTopicFragmentPause(long j) {
-        int i = 0;
-        int i2 = this.openedTopicsBuChatId.get(j, 0) - 1;
-        if (i2 >= 0) {
-            i = i2;
-        }
-        this.openedTopicsBuChatId.put(j, i);
+        int i = this.openedTopicsBuChatId.get(j, 0) - 1;
+        this.openedTopicsBuChatId.put(j, i >= 0 ? i : 0);
     }
 
     public void getTopicRepliesCount(final long j, int i) {

@@ -88,11 +88,10 @@ public class DrawingInBackgroundThreadDrawable implements NotificationCenter.Not
                 return;
             }
             Bitmap bitmap = drawingInBackgroundThreadDrawable.backgroundBitmap;
-            if (bitmap == null) {
-                return;
+            if (bitmap != null) {
+                bitmap.recycle();
+                DrawingInBackgroundThreadDrawable.this.backgroundBitmap = null;
             }
-            bitmap.recycle();
-            DrawingInBackgroundThreadDrawable.this.backgroundBitmap = null;
         }
     };
 
@@ -127,10 +126,10 @@ public class DrawingInBackgroundThreadDrawable implements NotificationCenter.Not
 
     public void draw(Canvas canvas, long j, int i, int i2, float f) {
         if (this.error) {
-            if (!BuildVars.DEBUG_PRIVATE_VERSION) {
+            if (BuildVars.DEBUG_PRIVATE_VERSION) {
+                canvas.drawRect(0.0f, 0.0f, i, i2, Theme.DEBUG_RED);
                 return;
             }
-            canvas.drawRect(0.0f, 0.0f, i, i2, Theme.DEBUG_RED);
             return;
         }
         this.height = i2;
@@ -173,14 +172,13 @@ public class DrawingInBackgroundThreadDrawable implements NotificationCenter.Not
             this.backgroundQueue.postRunnable(this.bitmapCreateTask);
         }
         Bitmap bitmap4 = this.bitmap;
-        if (bitmap4 == null) {
-            return;
+        if (bitmap4 != null) {
+            this.paint.setAlpha((int) (f * 255.0f));
+            canvas.save();
+            canvas.translate(0.0f, -this.padding);
+            drawBitmap(canvas, bitmap4, this.paint);
+            canvas.restore();
         }
-        this.paint.setAlpha((int) (f * 255.0f));
-        canvas.save();
-        canvas.translate(0.0f, -this.padding);
-        drawBitmap(canvas, bitmap4, this.paint);
-        canvas.restore();
     }
 
     protected void drawBitmap(Canvas canvas, Bitmap bitmap, Paint paint) {
@@ -219,32 +217,28 @@ public class DrawingInBackgroundThreadDrawable implements NotificationCenter.Not
         int i3;
         if (i == NotificationCenter.stopAllHeavyOperations) {
             Integer num = (Integer) objArr[0];
-            if (this.currentLayerNum >= num.intValue()) {
-                return;
+            if (this.currentLayerNum < num.intValue()) {
+                if (num.intValue() != 512 || SharedConfig.getDevicePerformanceClass() < 2) {
+                    int intValue = num.intValue() | this.currentOpenedLayerFlags;
+                    this.currentOpenedLayerFlags = intValue;
+                    if (intValue == 0 || this.paused) {
+                        return;
+                    }
+                    this.paused = true;
+                    onPaused();
+                }
             }
-            if (num.intValue() == 512 && SharedConfig.getDevicePerformanceClass() >= 2) {
-                return;
-            }
-            int intValue = num.intValue() | this.currentOpenedLayerFlags;
-            this.currentOpenedLayerFlags = intValue;
-            if (intValue == 0 || this.paused) {
-                return;
-            }
-            this.paused = true;
-            onPaused();
-        } else if (i != NotificationCenter.startAllHeavyOperations) {
-        } else {
+        } else if (i == NotificationCenter.startAllHeavyOperations) {
             Integer num2 = (Integer) objArr[0];
             if (this.currentLayerNum >= num2.intValue() || (i3 = this.currentOpenedLayerFlags) == 0) {
                 return;
             }
             int intValue2 = (num2.intValue() ^ (-1)) & i3;
             this.currentOpenedLayerFlags = intValue2;
-            if (intValue2 != 0 || !this.paused) {
-                return;
+            if (intValue2 == 0 && this.paused) {
+                this.paused = false;
+                onResume();
             }
-            this.paused = false;
-            onResume();
         }
     }
 

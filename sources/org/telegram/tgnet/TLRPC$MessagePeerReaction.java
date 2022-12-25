@@ -47,12 +47,8 @@ public abstract class TLRPC$MessagePeerReaction extends TLObject {
                 public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                     int readInt32 = abstractSerializedData2.readInt32(z2);
                     this.flags = readInt32;
-                    boolean z3 = false;
                     this.big = (readInt32 & 1) != 0;
-                    if ((readInt32 & 2) != 0) {
-                        z3 = true;
-                    }
-                    this.unread = z3;
+                    this.unread = (readInt32 & 2) != 0;
                     this.peer_id = TLRPC$Peer.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                     TLRPC$TL_reactionEmoji tLRPC$TL_reactionEmoji = new TLRPC$TL_reactionEmoji();
                     this.reaction = tLRPC$TL_reactionEmoji;
@@ -77,12 +73,12 @@ public abstract class TLRPC$MessagePeerReaction extends TLObject {
                 }
             };
         }
-        if (tLRPC$MessagePeerReaction != null || !z) {
-            if (tLRPC$MessagePeerReaction != null) {
-                tLRPC$MessagePeerReaction.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$MessagePeerReaction;
+        if (tLRPC$MessagePeerReaction == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in MessagePeerReaction", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in MessagePeerReaction", Integer.valueOf(i)));
+        if (tLRPC$MessagePeerReaction != null) {
+            tLRPC$MessagePeerReaction.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$MessagePeerReaction;
     }
 }

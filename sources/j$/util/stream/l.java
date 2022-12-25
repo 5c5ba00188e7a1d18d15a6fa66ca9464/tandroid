@@ -19,7 +19,7 @@ public abstract class l {
     public static double a(double[] dArr) {
         double d = dArr[0] + dArr[1];
         double d2 = dArr[dArr.length - 1];
-        return (!Double.isNaN(d) || !Double.isInfinite(d2)) ? d : d2;
+        return (Double.isNaN(d) && Double.isInfinite(d2)) ? d2 : d;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

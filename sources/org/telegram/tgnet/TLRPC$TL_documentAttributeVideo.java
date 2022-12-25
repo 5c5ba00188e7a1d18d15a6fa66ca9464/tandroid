@@ -7,12 +7,8 @@ public class TLRPC$TL_documentAttributeVideo extends TLRPC$DocumentAttribute {
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
         int readInt32 = abstractSerializedData.readInt32(z);
         this.flags = readInt32;
-        boolean z2 = false;
         this.round_message = (readInt32 & 1) != 0;
-        if ((readInt32 & 2) != 0) {
-            z2 = true;
-        }
-        this.supports_streaming = z2;
+        this.supports_streaming = (readInt32 & 2) != 0;
         this.duration = abstractSerializedData.readInt32(z);
         this.w = abstractSerializedData.readInt32(z);
         this.h = abstractSerializedData.readInt32(z);

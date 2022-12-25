@@ -60,11 +60,10 @@ public class StickerSetNameCell extends FrameLayout {
                 this.textView.setTextAlignment(4);
             }
         }
-        float f = 17.0f;
         if (z2) {
             createFrame = LayoutHelper.createFrameRelatively(-2.0f, -2.0f, 8388659, z ? 5.0f : 17.0f, z ? 10.0f : 2.0f, z ? 15.0f : 57.0f, 0.0f);
         } else {
-            createFrame = LayoutHelper.createFrame(-2, -2.0f, 51, z ? 5.0f : f, z ? 10.0f : 2.0f, z ? 15.0f : 57.0f, 0.0f);
+            createFrame = LayoutHelper.createFrame(-2, -2.0f, 51, z ? 5.0f : 17.0f, z ? 10.0f : 2.0f, z ? 15.0f : 57.0f, 0.0f);
         }
         addView(this.textView, createFrame);
         TextView textView2 = new TextView(context);

@@ -31,7 +31,6 @@ public class TextDetailSettingsCell extends FrameLayout {
         this.textView.setMaxLines(1);
         this.textView.setSingleLine(true);
         this.textView.setEllipsize(TextUtils.TruncateAt.END);
-        int i = 5;
         this.textView.setGravity((LocaleController.isRTL ? 5 : 3) | 16);
         addView(this.textView, LayoutHelper.createFrame(-2, -2.0f, (LocaleController.isRTL ? 5 : 3) | 48, 21.0f, 10.0f, 21.0f, 0.0f));
         TextView textView2 = new TextView(context);
@@ -49,7 +48,7 @@ public class TextDetailSettingsCell extends FrameLayout {
         imageView.setScaleType(ImageView.ScaleType.CENTER);
         this.imageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor("windowBackgroundWhiteGrayIcon"), PorterDuff.Mode.MULTIPLY));
         this.imageView.setVisibility(8);
-        addView(this.imageView, LayoutHelper.createFrame(52, 52.0f, (!LocaleController.isRTL ? 3 : i) | 48, 8.0f, 6.0f, 8.0f, 0.0f));
+        addView(this.imageView, LayoutHelper.createFrame(52, 52.0f, (LocaleController.isRTL ? 5 : 3) | 48, 8.0f, 6.0f, 8.0f, 0.0f));
     }
 
     @Override // android.widget.FrameLayout, android.view.View
@@ -120,7 +119,6 @@ public class TextDetailSettingsCell extends FrameLayout {
         if (!this.needDivider || Theme.dividerPaint == null) {
             return;
         }
-        float f = 71.0f;
         if (LocaleController.isRTL) {
             dp = 0.0f;
         } else {
@@ -129,10 +127,7 @@ public class TextDetailSettingsCell extends FrameLayout {
         float measuredHeight = getMeasuredHeight() - 1;
         int measuredWidth = getMeasuredWidth();
         if (LocaleController.isRTL) {
-            if (this.imageView.getVisibility() != 0) {
-                f = 20.0f;
-            }
-            i = AndroidUtilities.dp(f);
+            i = AndroidUtilities.dp(this.imageView.getVisibility() != 0 ? 20.0f : 71.0f);
         } else {
             i = 0;
         }

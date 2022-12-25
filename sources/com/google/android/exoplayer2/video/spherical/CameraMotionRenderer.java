@@ -10,11 +10,11 @@ import com.google.android.exoplayer2.util.Util;
 import java.nio.ByteBuffer;
 /* loaded from: classes.dex */
 public class CameraMotionRenderer extends BaseRenderer {
+    private final DecoderInputBuffer buffer;
     private long lastTimestampUs;
     private CameraMotionListener listener;
     private long offsetUs;
-    private final DecoderInputBuffer buffer = new DecoderInputBuffer(1);
-    private final ParsableByteArray scratch = new ParsableByteArray();
+    private final ParsableByteArray scratch;
 
     @Override // com.google.android.exoplayer2.Renderer
     public boolean isReady() {
@@ -23,6 +23,8 @@ public class CameraMotionRenderer extends BaseRenderer {
 
     public CameraMotionRenderer() {
         super(5);
+        this.buffer = new DecoderInputBuffer(1);
+        this.scratch = new ParsableByteArray();
     }
 
     @Override // com.google.android.exoplayer2.RendererCapabilities

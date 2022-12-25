@@ -66,8 +66,7 @@ public class ChangeBioActivity extends BaseFragment {
             public void onItemClick(int i2) {
                 if (i2 == -1) {
                     ChangeBioActivity.this.finishFragment();
-                } else if (i2 != 1) {
-                } else {
+                } else if (i2 == 1) {
                     ChangeBioActivity.this.saveName();
                 }
             }
@@ -98,13 +97,7 @@ public class ChangeBioActivity extends BaseFragment {
         this.firstNameField.setBackgroundDrawable(null);
         this.firstNameField.setLineColors(getThemedColor("windowBackgroundWhiteInputField"), getThemedColor("windowBackgroundWhiteInputFieldActivated"), getThemedColor("windowBackgroundWhiteRedText3"));
         this.firstNameField.setMaxLines(4);
-        EditTextBoldCursor editTextBoldCursor2 = this.firstNameField;
-        float f = 24.0f;
-        int dp = AndroidUtilities.dp(LocaleController.isRTL ? 24.0f : 0.0f);
-        if (LocaleController.isRTL) {
-            f = 0.0f;
-        }
-        editTextBoldCursor2.setPadding(dp, 0, AndroidUtilities.dp(f), AndroidUtilities.dp(6.0f));
+        this.firstNameField.setPadding(AndroidUtilities.dp(LocaleController.isRTL ? 24.0f : 0.0f), 0, AndroidUtilities.dp(LocaleController.isRTL ? 0.0f : 24.0f), AndroidUtilities.dp(6.0f));
         this.firstNameField.setGravity(LocaleController.isRTL ? 5 : 3);
         this.firstNameField.setImeOptions(268435456);
         this.firstNameField.setInputType(147457);
@@ -174,8 +167,8 @@ public class ChangeBioActivity extends BaseFragment {
         TLRPC$UserFull userFull = MessagesController.getInstance(this.currentAccount).getUserFull(UserConfig.getInstance(this.currentAccount).getClientUserId());
         if (userFull != null && (str = userFull.about) != null) {
             this.firstNameField.setText(str);
-            EditTextBoldCursor editTextBoldCursor3 = this.firstNameField;
-            editTextBoldCursor3.setSelection(editTextBoldCursor3.length());
+            EditTextBoldCursor editTextBoldCursor2 = this.firstNameField;
+            editTextBoldCursor2.setSelection(editTextBoldCursor2.length());
         }
         return this.fragmentView;
     }
@@ -193,10 +186,11 @@ public class ChangeBioActivity extends BaseFragment {
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public void onResume() {
         super.onResume();
-        if (!MessagesController.getGlobalMainSettings().getBoolean("view_animations", true)) {
-            this.firstNameField.requestFocus();
-            AndroidUtilities.showKeyboard(this.firstNameField);
+        if (MessagesController.getGlobalMainSettings().getBoolean("view_animations", true)) {
+            return;
         }
+        this.firstNameField.requestFocus();
+        AndroidUtilities.showKeyboard(this.firstNameField);
     }
 
     /* JADX INFO: Access modifiers changed from: private */

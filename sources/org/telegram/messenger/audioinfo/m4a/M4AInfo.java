@@ -138,14 +138,12 @@ public class M4AInfo extends AudioInfo {
         long readLong = readByte == 1 ? mP4Atom.readLong() : mP4Atom.readInt();
         if (this.duration == 0) {
             this.duration = (readLong * 1000) / readInt;
-        } else if (!logger.isLoggable(this.debugLevel)) {
-        } else {
+        } else if (logger.isLoggable(this.debugLevel)) {
             long j = (readLong * 1000) / readInt;
-            if (Math.abs(this.duration - j) <= 2) {
-                return;
+            if (Math.abs(this.duration - j) > 2) {
+                Level level = this.debugLevel;
+                logger.log(level, "mdhd: duration " + this.duration + " -> " + j);
             }
-            Level level = this.debugLevel;
-            logger.log(level, "mdhd: duration " + this.duration + " -> " + j);
         }
     }
 
@@ -353,19 +351,19 @@ public class M4AInfo extends AudioInfo {
                     options.inJustDecodeBounds = false;
                     Bitmap decodeByteArray = BitmapFactory.decodeByteArray(readBytes, 0, readBytes.length, options);
                     this.cover = decodeByteArray;
-                    if (decodeByteArray == null) {
+                    if (decodeByteArray != null) {
+                        float max2 = Math.max(decodeByteArray.getWidth(), this.cover.getHeight()) / 120.0f;
+                        if (max2 > 0.0f) {
+                            this.smallCover = Bitmap.createScaledBitmap(this.cover, (int) (bitmap.getWidth() / max2), (int) (this.cover.getHeight() / max2), true);
+                        } else {
+                            this.smallCover = this.cover;
+                        }
+                        if (this.smallCover == null) {
+                            this.smallCover = this.cover;
+                            return;
+                        }
                         return;
                     }
-                    float max2 = Math.max(decodeByteArray.getWidth(), this.cover.getHeight()) / 120.0f;
-                    if (max2 > 0.0f) {
-                        this.smallCover = Bitmap.createScaledBitmap(this.cover, (int) (bitmap.getWidth() / max2), (int) (this.cover.getHeight() / max2), true);
-                    } else {
-                        this.smallCover = this.cover;
-                    }
-                    if (this.smallCover != null) {
-                        return;
-                    }
-                    this.smallCover = this.cover;
                     return;
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -377,10 +375,10 @@ public class M4AInfo extends AudioInfo {
             case 3:
             case '\r':
                 String str = this.copyright;
-                if (str != null && str.trim().length() != 0) {
+                if (str == null || str.trim().length() == 0) {
+                    this.copyright = mP4Atom.readString("UTF-8");
                     return;
                 }
-                this.copyright = mP4Atom.readString("UTF-8");
                 return;
             case 4:
                 mP4Atom.skip(2);
@@ -389,18 +387,18 @@ public class M4AInfo extends AudioInfo {
                 return;
             case 5:
                 String str2 = this.genre;
-                if (str2 != null && str2.trim().length() != 0) {
-                    return;
-                }
-                if (mP4Atom.getRemaining() == 2) {
-                    ID3v1Genre genre = ID3v1Genre.getGenre(mP4Atom.readShort() - 1);
-                    if (genre == null) {
+                if (str2 == null || str2.trim().length() == 0) {
+                    if (mP4Atom.getRemaining() == 2) {
+                        ID3v1Genre genre = ID3v1Genre.getGenre(mP4Atom.readShort() - 1);
+                        if (genre != null) {
+                            this.genre = genre.getDescription();
+                            return;
+                        }
                         return;
                     }
-                    this.genre = genre.getDescription();
+                    this.genre = mP4Atom.readString("UTF-8");
                     return;
                 }
-                this.genre = mP4Atom.readString("UTF-8");
                 return;
             case 6:
                 mP4Atom.readByte();
@@ -425,28 +423,28 @@ public class M4AInfo extends AudioInfo {
             case '\f':
             case 19:
                 String str3 = this.composer;
-                if (str3 != null && str3.trim().length() != 0) {
+                if (str3 == null || str3.trim().length() == 0) {
+                    this.composer = mP4Atom.readString("UTF-8");
                     return;
                 }
-                this.composer = mP4Atom.readString("UTF-8");
                 return;
             case 14:
                 String trim = mP4Atom.readString("UTF-8").trim();
-                if (trim.length() < 4) {
-                    return;
+                if (trim.length() >= 4) {
+                    try {
+                        this.year = Short.valueOf(trim.substring(0, 4)).shortValue();
+                        return;
+                    } catch (NumberFormatException unused) {
+                        return;
+                    }
                 }
-                try {
-                    this.year = Short.valueOf(trim.substring(0, 4)).shortValue();
-                    return;
-                } catch (NumberFormatException unused) {
-                    return;
-                }
+                return;
             case 15:
                 String str4 = this.genre;
-                if (str4 != null && str4.trim().length() != 0) {
+                if (str4 == null || str4.trim().length() == 0) {
+                    this.genre = mP4Atom.readString("UTF-8");
                     return;
                 }
-                this.genre = mP4Atom.readString("UTF-8");
                 return;
             case 16:
                 this.grouping = mP4Atom.readString("UTF-8");

@@ -295,21 +295,22 @@ public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
 
     /* JADX INFO: Access modifiers changed from: private */
     public void preDrawInternal(Canvas canvas, View view) {
-        if (!this.hasFixedSize) {
-            RecyclerView.ViewHolder findViewHolderForAdapterPosition = this.recyclerListView.findViewHolderForAdapterPosition(0);
-            int i = -AndroidUtilities.dp(16.0f);
-            if (findViewHolderForAdapterPosition != null) {
-                i = findViewHolderForAdapterPosition.itemView.getBottom() - AndroidUtilities.dp(16.0f);
-            }
-            float dp = 1.0f - ((AndroidUtilities.dp(16.0f) + i) / AndroidUtilities.dp(56.0f));
-            if (dp < 0.0f) {
-                dp = 0.0f;
-            }
-            AndroidUtilities.updateViewVisibilityAnimated(this.actionBar, dp != 0.0f, 1.0f, this.wasDrawn);
-            this.shadowDrawable.setBounds(0, i, view.getMeasuredWidth(), view.getMeasuredHeight());
-            this.shadowDrawable.draw(canvas);
-            onPreDraw(canvas, i, dp);
+        if (this.hasFixedSize) {
+            return;
         }
+        RecyclerView.ViewHolder findViewHolderForAdapterPosition = this.recyclerListView.findViewHolderForAdapterPosition(0);
+        int i = -AndroidUtilities.dp(16.0f);
+        if (findViewHolderForAdapterPosition != null) {
+            i = findViewHolderForAdapterPosition.itemView.getBottom() - AndroidUtilities.dp(16.0f);
+        }
+        float dp = 1.0f - ((AndroidUtilities.dp(16.0f) + i) / AndroidUtilities.dp(56.0f));
+        if (dp < 0.0f) {
+            dp = 0.0f;
+        }
+        AndroidUtilities.updateViewVisibilityAnimated(this.actionBar, dp != 0.0f, 1.0f, this.wasDrawn);
+        this.shadowDrawable.setBounds(0, i, view.getMeasuredWidth(), view.getMeasuredHeight());
+        this.shadowDrawable.draw(canvas);
+        onPreDraw(canvas, i, dp);
     }
 
     private boolean isLightStatusBar() {
@@ -329,8 +330,7 @@ public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
         ActionBar actionBar = this.actionBar;
         if (actionBar != null && actionBar.getTag() != null) {
             AndroidUtilities.setLightStatusBar(getWindow(), isLightStatusBar());
-        } else if (this.baseFragment == null) {
-        } else {
+        } else if (this.baseFragment != null) {
             AndroidUtilities.setLightStatusBar(getWindow(), this.baseFragment.isLightStatusBar());
         }
     }

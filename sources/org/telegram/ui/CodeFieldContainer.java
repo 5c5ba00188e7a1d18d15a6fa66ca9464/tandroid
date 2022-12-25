@@ -17,18 +17,20 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
 /* loaded from: classes3.dex */
 public class CodeFieldContainer extends LinearLayout {
+    Paint bitmapPaint;
     public CodeNumberField[] codeField;
     public boolean ignoreOnTextChange;
     public boolean isFocusSuppressed;
+    Paint paint;
     float strokeWidth;
-    Paint paint = new Paint(1);
-    Paint bitmapPaint = new Paint(1);
 
     protected void processNextPressed() {
     }
 
     public CodeFieldContainer(Context context) {
         super(context);
+        this.paint = new Paint(1);
+        this.bitmapPaint = new Paint(1);
         this.paint.setStyle(Paint.Style.STROKE);
         setOrientation(0);
     }
@@ -93,16 +95,16 @@ public class CodeFieldContainer extends LinearLayout {
             super.drawChild(canvas, view, j);
             canvas.restore();
             float f4 = codeNumberField.exitAnimation;
-            if (f4 >= 1.0f) {
+            if (f4 < 1.0f) {
+                canvas.save();
+                float f5 = 1.0f - f4;
+                float f6 = (f5 * 0.5f) + 0.5f;
+                canvas.scale(f6, f6, codeNumberField.getX() + (codeNumberField.getMeasuredWidth() / 2.0f), codeNumberField.getY() + (codeNumberField.getMeasuredHeight() / 2.0f));
+                this.bitmapPaint.setAlpha((int) (f5 * 255.0f));
+                canvas.drawBitmap(codeNumberField.exitBitmap, codeNumberField.getX(), codeNumberField.getY(), this.bitmapPaint);
+                canvas.restore();
                 return true;
             }
-            canvas.save();
-            float f5 = 1.0f - f4;
-            float f6 = (f5 * 0.5f) + 0.5f;
-            canvas.scale(f6, f6, codeNumberField.getX() + (codeNumberField.getMeasuredWidth() / 2.0f), codeNumberField.getY() + (codeNumberField.getMeasuredHeight() / 2.0f));
-            this.bitmapPaint.setAlpha((int) (f5 * 255.0f));
-            canvas.drawBitmap(codeNumberField.exitBitmap, codeNumberField.getX(), codeNumberField.getY(), this.bitmapPaint);
-            canvas.restore();
             return true;
         }
         return super.drawChild(canvas, view, j);
@@ -233,10 +235,9 @@ public class CodeFieldContainer extends LinearLayout {
                                 CodeFieldContainer.this.codeField[i10].requestFocus();
                             }
                             int i11 = i;
-                            if ((i8 != i11 - 1 && (i8 != i11 - 2 || length < 2)) || CodeFieldContainer.this.getCode().length() != i) {
-                                return;
+                            if ((i8 == i11 - 1 || (i8 == i11 - 2 && length >= 2)) && CodeFieldContainer.this.getCode().length() == i) {
+                                CodeFieldContainer.this.processNextPressed();
                             }
-                            CodeFieldContainer.this.processNextPressed();
                         }
                     }
                 });

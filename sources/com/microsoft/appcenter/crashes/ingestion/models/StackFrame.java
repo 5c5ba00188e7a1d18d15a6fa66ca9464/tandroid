@@ -69,34 +69,30 @@ public class StackFrame implements Model {
         }
         StackFrame stackFrame = (StackFrame) obj;
         String str = this.className;
-        if (str == null ? stackFrame.className != null : !str.equals(stackFrame.className)) {
+        if (str == null ? stackFrame.className == null : str.equals(stackFrame.className)) {
+            String str2 = this.methodName;
+            if (str2 == null ? stackFrame.methodName == null : str2.equals(stackFrame.methodName)) {
+                Integer num = this.lineNumber;
+                if (num == null ? stackFrame.lineNumber == null : num.equals(stackFrame.lineNumber)) {
+                    String str3 = this.fileName;
+                    String str4 = stackFrame.fileName;
+                    return str3 != null ? str3.equals(str4) : str4 == null;
+                }
+                return false;
+            }
             return false;
         }
-        String str2 = this.methodName;
-        if (str2 == null ? stackFrame.methodName != null : !str2.equals(stackFrame.methodName)) {
-            return false;
-        }
-        Integer num = this.lineNumber;
-        if (num == null ? stackFrame.lineNumber != null : !num.equals(stackFrame.lineNumber)) {
-            return false;
-        }
-        String str3 = this.fileName;
-        String str4 = stackFrame.fileName;
-        return str3 != null ? str3.equals(str4) : str4 == null;
+        return false;
     }
 
     public int hashCode() {
         String str = this.className;
-        int i = 0;
         int hashCode = (str != null ? str.hashCode() : 0) * 31;
         String str2 = this.methodName;
         int hashCode2 = (hashCode + (str2 != null ? str2.hashCode() : 0)) * 31;
         Integer num = this.lineNumber;
         int hashCode3 = (hashCode2 + (num != null ? num.hashCode() : 0)) * 31;
         String str3 = this.fileName;
-        if (str3 != null) {
-            i = str3.hashCode();
-        }
-        return hashCode3 + i;
+        return hashCode3 + (str3 != null ? str3.hashCode() : 0);
     }
 }

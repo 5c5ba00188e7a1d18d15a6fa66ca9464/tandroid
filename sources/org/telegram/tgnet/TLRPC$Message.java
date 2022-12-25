@@ -599,17 +599,13 @@ public class TLRPC$Message extends TLObject {
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
                         this.flags = readInt32;
-                        boolean z3 = false;
                         this.unread = (readInt32 & 1) != 0;
                         this.out = (readInt32 & 2) != 0;
                         this.mentioned = (readInt32 & 16) != 0;
                         this.media_unread = (readInt32 & 32) != 0;
                         this.silent = (readInt32 & 8192) != 0;
                         this.post = (readInt32 & 16384) != 0;
-                        if ((readInt32 & 524288) != 0) {
-                            z3 = true;
-                        }
-                        this.legacy = z3;
+                        this.legacy = (readInt32 & 524288) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
                         if ((this.flags & 256) != 0) {
                             TLRPC$TL_peerUser tLRPC$TL_peerUser = new TLRPC$TL_peerUser();
@@ -700,14 +696,10 @@ public class TLRPC$Message extends TLObject {
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2) | 256 | 512;
                         this.flags = readInt32;
-                        boolean z3 = false;
                         this.unread = (readInt32 & 1) != 0;
                         this.out = (readInt32 & 2) != 0;
                         this.mentioned = (readInt32 & 16) != 0;
-                        if ((readInt32 & 32) != 0) {
-                            z3 = true;
-                        }
-                        this.media_unread = z3;
+                        this.media_unread = (readInt32 & 32) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
                         TLRPC$TL_peerUser tLRPC$TL_peerUser = new TLRPC$TL_peerUser();
                         this.from_id = tLRPC$TL_peerUser;
@@ -962,16 +954,12 @@ public class TLRPC$Message extends TLObject {
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
                         this.flags = readInt32;
-                        boolean z3 = false;
                         this.unread = (readInt32 & 1) != 0;
                         this.out = (readInt32 & 2) != 0;
                         this.mentioned = (readInt32 & 16) != 0;
                         this.media_unread = (readInt32 & 32) != 0;
                         this.silent = (readInt32 & 8192) != 0;
-                        if ((readInt32 & 16384) != 0) {
-                            z3 = true;
-                        }
-                        this.post = z3;
+                        this.post = (readInt32 & 16384) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
                         if ((this.flags & 256) != 0) {
                             TLRPC$TL_peerUser tLRPC$TL_peerUser = new TLRPC$TL_peerUser();
@@ -1155,14 +1143,10 @@ public class TLRPC$Message extends TLObject {
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2) | 256 | 512;
                         this.flags = readInt32;
-                        boolean z3 = false;
                         this.unread = (readInt32 & 1) != 0;
                         this.out = (readInt32 & 2) != 0;
                         this.mentioned = (readInt32 & 16) != 0;
-                        if ((readInt32 & 32) != 0) {
-                            z3 = true;
-                        }
-                        this.media_unread = z3;
+                        this.media_unread = (readInt32 & 32) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
                         TLRPC$TL_peerUser tLRPC$TL_peerUser = new TLRPC$TL_peerUser();
                         this.from_id = tLRPC$TL_peerUser;
@@ -1847,14 +1831,10 @@ public class TLRPC$Message extends TLObject {
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
                         this.flags = readInt32;
-                        boolean z3 = false;
                         this.unread = (readInt32 & 1) != 0;
                         this.out = (readInt32 & 2) != 0;
                         this.mentioned = (readInt32 & 16) != 0;
-                        if ((readInt32 & 32) != 0) {
-                            z3 = true;
-                        }
-                        this.media_unread = z3;
+                        this.media_unread = (readInt32 & 32) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
                         TLRPC$TL_peerUser tLRPC$TL_peerUser = new TLRPC$TL_peerUser();
                         this.from_id = tLRPC$TL_peerUser;
@@ -1932,16 +1912,12 @@ public class TLRPC$Message extends TLObject {
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
                         this.flags = readInt32;
-                        boolean z3 = true;
                         this.out = (readInt32 & 2) != 0;
                         this.mentioned = (readInt32 & 16) != 0;
                         this.media_unread = (readInt32 & 32) != 0;
                         this.silent = (readInt32 & 8192) != 0;
                         this.post = (readInt32 & 16384) != 0;
-                        if ((readInt32 & 524288) == 0) {
-                            z3 = false;
-                        }
-                        this.legacy = z3;
+                        this.legacy = (readInt32 & 524288) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
                         if ((this.flags & 256) != 0) {
                             this.from_id = TLRPC$Peer.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
@@ -2427,14 +2403,10 @@ public class TLRPC$Message extends TLObject {
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2) | 256 | 512;
                         this.flags = readInt32;
-                        boolean z3 = false;
                         this.unread = (readInt32 & 1) != 0;
                         this.out = (readInt32 & 2) != 0;
                         this.mentioned = (readInt32 & 16) != 0;
-                        if ((readInt32 & 32) != 0) {
-                            z3 = true;
-                        }
-                        this.media_unread = z3;
+                        this.media_unread = (readInt32 & 32) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
                         TLRPC$TL_peerUser tLRPC$TL_peerUser = new TLRPC$TL_peerUser();
                         this.from_id = tLRPC$TL_peerUser;
@@ -2782,30 +2754,30 @@ public class TLRPC$Message extends TLObject {
                 tLRPC$Message = null;
                 break;
         }
-        if (tLRPC$Message != null || !z) {
-            if (tLRPC$Message != null) {
-                tLRPC$Message.readParams(abstractSerializedData, z);
-                if (tLRPC$Message.from_id == null) {
-                    tLRPC$Message.from_id = tLRPC$Message.peer_id;
-                }
-            }
-            return tLRPC$Message;
+        if (tLRPC$Message == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in Message", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in Message", Integer.valueOf(i)));
+        if (tLRPC$Message != null) {
+            tLRPC$Message.readParams(abstractSerializedData, z);
+            if (tLRPC$Message.from_id == null) {
+                tLRPC$Message.from_id = tLRPC$Message.peer_id;
+            }
+        }
+        return tLRPC$Message;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:36:0x005d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:39:0x005d, code lost:
         if (r9 == r13) goto L92;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:38:0x006b, code lost:
-        if (r11.legacy != false) goto L39;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:96:0x0067, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:44:0x0067, code lost:
         if (r11.send_state != 3) goto L37;
      */
-    /* JADX WARN: Removed duplicated region for block: B:27:0x0045  */
-    /* JADX WARN: Removed duplicated region for block: B:54:0x00aa  */
-    /* JADX WARN: Removed duplicated region for block: B:94:0x0063  */
+    /* JADX WARN: Code restructure failed: missing block: B:46:0x006b, code lost:
+        if (r11.legacy != false) goto L39;
+     */
+    /* JADX WARN: Removed duplicated region for block: B:30:0x0045  */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x0063  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x00aa  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2813,7 +2785,7 @@ public class TLRPC$Message extends TLObject {
         boolean z;
         TLRPC$Peer tLRPC$Peer;
         TLRPC$MessageMedia tLRPC$MessageMedia = this.media;
-        boolean z2 = tLRPC$MessageMedia != null && !(tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaEmpty) && !(tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaWebPage);
+        boolean z2 = (tLRPC$MessageMedia == null || (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaEmpty) || (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaWebPage)) ? false : true;
         if (!TextUtils.isEmpty(this.message)) {
             TLRPC$MessageMedia tLRPC$MessageMedia2 = this.media;
             if (((tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaPhoto_old) || (tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaPhoto_layer68) || (tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaPhoto_layer74) || (tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaDocument_old) || (tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaDocument_layer68) || (tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaDocument_layer74)) && this.message.startsWith("-1")) {

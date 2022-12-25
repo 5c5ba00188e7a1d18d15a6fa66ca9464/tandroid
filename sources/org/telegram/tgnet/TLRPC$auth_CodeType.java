@@ -58,12 +58,12 @@ public abstract class TLRPC$auth_CodeType extends TLObject {
                 tLRPC$auth_CodeType = null;
                 break;
         }
-        if (tLRPC$auth_CodeType != null || !z) {
-            if (tLRPC$auth_CodeType != null) {
-                tLRPC$auth_CodeType.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$auth_CodeType;
+        if (tLRPC$auth_CodeType == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in auth_CodeType", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in auth_CodeType", Integer.valueOf(i)));
+        if (tLRPC$auth_CodeType != null) {
+            tLRPC$auth_CodeType.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$auth_CodeType;
     }
 }

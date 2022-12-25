@@ -146,13 +146,11 @@ public class PhonebookShareAlert extends BottomSheet {
             textView.setTextColor(phonebookShareAlert.getThemedColor("windowBackgroundWhiteBlackText"));
             this.textView.setTextSize(1, 16.0f);
             this.textView.setSingleLine(false);
-            int i = 5;
             this.textView.setGravity((LocaleController.isRTL ? 5 : 3) | 48);
             this.textView.setEllipsize(TextUtils.TruncateAt.END);
             TextView textView2 = this.textView;
             boolean z = LocaleController.isRTL;
-            int i2 = (z ? 5 : 3) | 48;
-            int i3 = 17;
+            int i = (z ? 5 : 3) | 48;
             if (z) {
                 f = phonebookShareAlert.isImport ? 17 : 64;
             } else {
@@ -163,7 +161,7 @@ public class PhonebookShareAlert extends BottomSheet {
             } else {
                 f2 = phonebookShareAlert.isImport ? 17 : 64;
             }
-            addView(textView2, LayoutHelper.createFrame(-1, -1.0f, i2, f, 10.0f, f2, 0.0f));
+            addView(textView2, LayoutHelper.createFrame(-1, -1.0f, i, f, 10.0f, f2, 0.0f));
             TextView textView3 = new TextView(context);
             this.valueTextView = textView3;
             textView3.setTextColor(phonebookShareAlert.getThemedColor("windowBackgroundWhiteGrayText2"));
@@ -174,7 +172,7 @@ public class PhonebookShareAlert extends BottomSheet {
             this.valueTextView.setGravity(LocaleController.isRTL ? 5 : 3);
             TextView textView4 = this.valueTextView;
             boolean z2 = LocaleController.isRTL;
-            int i4 = z2 ? 5 : 3;
+            int i2 = z2 ? 5 : 3;
             if (z2) {
                 f3 = phonebookShareAlert.isImport ? 17 : 64;
             } else {
@@ -183,9 +181,9 @@ public class PhonebookShareAlert extends BottomSheet {
             if (LocaleController.isRTL) {
                 f4 = 72.0f;
             } else {
-                f4 = !phonebookShareAlert.isImport ? 64 : i3;
+                f4 = phonebookShareAlert.isImport ? 17 : 64;
             }
-            addView(textView4, LayoutHelper.createFrame(-2, -2.0f, i4, f3, 35.0f, f4, 0.0f));
+            addView(textView4, LayoutHelper.createFrame(-2, -2.0f, i2, f3, 35.0f, f4, 0.0f));
             ImageView imageView = new ImageView(context);
             this.imageView = imageView;
             imageView.setScaleType(ImageView.ScaleType.CENTER);
@@ -193,12 +191,13 @@ public class PhonebookShareAlert extends BottomSheet {
             ImageView imageView2 = this.imageView;
             boolean z3 = LocaleController.isRTL;
             addView(imageView2, LayoutHelper.createFrame(-2, -2.0f, (z3 ? 5 : 3) | 48, z3 ? 0.0f : 20.0f, 20.0f, z3 ? 20.0f : 0.0f, 0.0f));
-            if (!phonebookShareAlert.isImport) {
-                Switch r1 = new Switch(context);
-                this.checkBox = r1;
-                r1.setColors("switchTrack", "switchTrackChecked", "windowBackgroundWhite", "windowBackgroundWhite");
-                addView(this.checkBox, LayoutHelper.createFrame(37, 40.0f, (LocaleController.isRTL ? 3 : i) | 16, 22.0f, 0.0f, 22.0f, 0.0f));
+            if (phonebookShareAlert.isImport) {
+                return;
             }
+            Switch r1 = new Switch(context);
+            this.checkBox = r1;
+            r1.setColors("switchTrack", "switchTrackChecked", "windowBackgroundWhite", "windowBackgroundWhite");
+            addView(this.checkBox, LayoutHelper.createFrame(37, 40.0f, (LocaleController.isRTL ? 3 : 5) | 16, 22.0f, 0.0f, 22.0f, 0.0f));
         }
 
         @Override // android.view.View
@@ -265,13 +264,13 @@ public class PhonebookShareAlert extends BottomSheet {
         this(baseFragment, contact, tLRPC$User, uri, file, str, str2, null);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:39:0x0105  */
-    /* JADX WARN: Removed duplicated region for block: B:44:0x01a7  */
-    /* JADX WARN: Removed duplicated region for block: B:60:0x022a  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x02e1  */
-    /* JADX WARN: Removed duplicated region for block: B:67:0x02ed  */
-    /* JADX WARN: Removed duplicated region for block: B:68:0x0236  */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x0126  */
+    /* JADX WARN: Removed duplicated region for block: B:43:0x0105  */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x0126  */
+    /* JADX WARN: Removed duplicated region for block: B:49:0x01a7  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x022a  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x0236  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x02e1  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x02ed  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -851,10 +850,9 @@ public class PhonebookShareAlert extends BottomSheet {
         if (i == 0) {
             try {
                 ((ClipboardManager) ApplicationLoader.applicationContext.getSystemService("clipboard")).setPrimaryClip(ClipData.newPlainText("label", vcardItem.getValue(false)));
-                if (!AndroidUtilities.shouldShowClipboardToast()) {
-                    return;
+                if (AndroidUtilities.shouldShowClipboardToast()) {
+                    Toast.makeText(this.parentFragment.getParentActivity(), LocaleController.getString("TextCopied", R.string.TextCopied), 0).show();
                 }
-                Toast.makeText(this.parentFragment.getParentActivity(), LocaleController.getString("TextCopied", R.string.TextCopied), 0).show();
             } catch (Exception e) {
                 FileLog.e(e);
             }
@@ -1273,7 +1271,6 @@ public class PhonebookShareAlert extends BottomSheet {
             top = 0;
         }
         boolean z2 = top <= 0;
-        float f = 1.0f;
         if ((z2 && this.actionBar.getTag() == null) || (!z2 && this.actionBar.getTag() != null)) {
             this.actionBar.setTag(z2 ? 1 : null);
             AnimatorSet animatorSet = this.actionBarAnimation;
@@ -1317,7 +1314,7 @@ public class PhonebookShareAlert extends BottomSheet {
         childAt.getBottom();
         this.scrollView.getMeasuredHeight();
         boolean z3 = childAt.getBottom() - this.scrollView.getScrollY() > this.scrollView.getMeasuredHeight();
-        if ((!z3 || this.shadow.getTag() != null) && (z3 || this.shadow.getTag() == null)) {
+        if (!(z3 && this.shadow.getTag() == null) && (z3 || this.shadow.getTag() == null)) {
             return;
         }
         this.shadow.setTag(z3 ? 1 : null);
@@ -1335,10 +1332,7 @@ public class PhonebookShareAlert extends BottomSheet {
             View view2 = this.shadow;
             Property property3 = View.ALPHA;
             float[] fArr3 = new float[1];
-            if (!z3) {
-                f = 0.0f;
-            }
-            fArr3[0] = f;
+            fArr3[0] = z3 ? 1.0f : 0.0f;
             animatorArr2[0] = ObjectAnimator.ofFloat(view2, property3, fArr3);
             animatorSet6.playTogether(animatorArr2);
             this.shadowAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.PhonebookShareAlert.8
@@ -1350,11 +1344,7 @@ public class PhonebookShareAlert extends BottomSheet {
             this.shadowAnimation.start();
             return;
         }
-        View view3 = this.shadow;
-        if (!z3) {
-            f = 0.0f;
-        }
-        view3.setAlpha(f);
+        this.shadow.setAlpha(z3 ? 1.0f : 0.0f);
     }
 
     private void updateRows() {
@@ -1402,7 +1392,6 @@ public class PhonebookShareAlert extends BottomSheet {
         public void onBindViewHolder(View view, int i, int i2) {
             AndroidUtilities.VcardItem vcardItem;
             int i3;
-            boolean z = true;
             if (i2 == 1) {
                 TextCheckBoxCell textCheckBoxCell = (TextCheckBoxCell) view;
                 if (i < PhonebookShareAlert.this.phoneStartRow || i >= PhonebookShareAlert.this.phoneEndRow) {
@@ -1433,10 +1422,7 @@ public class PhonebookShareAlert extends BottomSheet {
                     vcardItem = (AndroidUtilities.VcardItem) PhonebookShareAlert.this.phones.get(i - PhonebookShareAlert.this.phoneStartRow);
                     i3 = R.drawable.msg_calls;
                 }
-                if (i == getItemCount() - 1) {
-                    z = false;
-                }
-                textCheckBoxCell.setVCardItem(vcardItem, i3, z);
+                textCheckBoxCell.setVCardItem(vcardItem, i3, i != getItemCount() - 1);
             }
         }
 

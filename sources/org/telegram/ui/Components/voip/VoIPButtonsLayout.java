@@ -8,21 +8,23 @@ import org.telegram.messenger.AndroidUtilities;
 /* loaded from: classes.dex */
 public class VoIPButtonsLayout extends FrameLayout {
     int childPadding;
+    private int childSize;
     int childWidth;
+    private boolean startPadding;
     int visibleChildCount;
-    private int childSize = 68;
-    private boolean startPadding = true;
 
     public VoIPButtonsLayout(Context context) {
         super(context);
+        this.childSize = 68;
+        this.startPadding = true;
     }
 
     @Override // android.view.ViewGroup, android.view.View
     public boolean dispatchTouchEvent(MotionEvent motionEvent) {
-        if (!isEnabled()) {
-            return false;
+        if (isEnabled()) {
+            return super.dispatchTouchEvent(motionEvent);
         }
-        return super.dispatchTouchEvent(motionEvent);
+        return false;
     }
 
     @Override // android.widget.FrameLayout, android.view.View

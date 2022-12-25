@@ -7,12 +7,8 @@ public class TLRPC$TL_messageMediaDocument extends TLRPC$MessageMedia {
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
         int readInt32 = abstractSerializedData.readInt32(z);
         this.flags = readInt32;
-        boolean z2 = false;
         this.nopremium = (readInt32 & 8) != 0;
-        if ((readInt32 & 16) != 0) {
-            z2 = true;
-        }
-        this.spoiler = z2;
+        this.spoiler = (readInt32 & 16) != 0;
         if ((readInt32 & 1) != 0) {
             this.document = TLRPC$Document.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
         } else {

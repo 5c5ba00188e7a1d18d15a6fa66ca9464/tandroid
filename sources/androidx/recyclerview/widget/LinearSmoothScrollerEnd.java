@@ -49,10 +49,9 @@ public class LinearSmoothScrollerEnd extends RecyclerView.SmoothScroller {
         this.mInterimTargetDx = clampApplyScroll(this.mInterimTargetDx, i);
         int clampApplyScroll = clampApplyScroll(this.mInterimTargetDy, i2);
         this.mInterimTargetDy = clampApplyScroll;
-        if (this.mInterimTargetDx != 0 || clampApplyScroll != 0) {
-            return;
+        if (this.mInterimTargetDx == 0 && clampApplyScroll == 0) {
+            updateActionForInterimTarget(action);
         }
-        updateActionForInterimTarget(action);
     }
 
     @Override // androidx.recyclerview.widget.RecyclerView.SmoothScroller

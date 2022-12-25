@@ -23,11 +23,11 @@ public final class SignInOptions implements Api.ApiOptions {
         if (obj == this) {
             return true;
         }
-        if (!(obj instanceof SignInOptions)) {
-            return false;
+        if (obj instanceof SignInOptions) {
+            boolean z = ((SignInOptions) obj).zab;
+            return Objects.equal(null, null) && Objects.equal(null, null) && Objects.equal(null, null) && Objects.equal(null, null) && Objects.equal(null, null);
         }
-        boolean z = ((SignInOptions) obj).zab;
-        return Objects.equal(null, null) && Objects.equal(null, null) && Objects.equal(null, null) && Objects.equal(null, null) && Objects.equal(null, null);
+        return false;
     }
 
     public final int hashCode() {

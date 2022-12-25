@@ -345,12 +345,12 @@ public abstract class TLRPC$Page extends TLObject {
                 tLRPC$Page = null;
                 break;
         }
-        if (tLRPC$Page != null || !z) {
-            if (tLRPC$Page != null) {
-                tLRPC$Page.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$Page;
+        if (tLRPC$Page == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in Page", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in Page", Integer.valueOf(i)));
+        if (tLRPC$Page != null) {
+            tLRPC$Page.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$Page;
     }
 }

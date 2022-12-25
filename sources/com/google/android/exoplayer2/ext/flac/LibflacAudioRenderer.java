@@ -38,13 +38,13 @@ public final class LibflacAudioRenderer extends SimpleDecoderAudioRenderer {
 
     @Override // com.google.android.exoplayer2.audio.SimpleDecoderAudioRenderer
     protected int supportsFormatInternal(DrmSessionManager<ExoMediaCrypto> drmSessionManager, Format format) {
-        if (!"audio/flac".equalsIgnoreCase(format.sampleMimeType)) {
-            return 0;
-        }
-        if (!supportsOutput(format.channelCount, format.initializationData.isEmpty() ? 2 : Util.getPcmEncoding(new FlacStreamMetadata(format.initializationData.get(0), 8).bitsPerSample))) {
+        if ("audio/flac".equalsIgnoreCase(format.sampleMimeType)) {
+            if (supportsOutput(format.channelCount, format.initializationData.isEmpty() ? 2 : Util.getPcmEncoding(new FlacStreamMetadata(format.initializationData.get(0), 8).bitsPerSample))) {
+                return !BaseRenderer.supportsFormatDrm(drmSessionManager, format.drmInitData) ? 2 : 4;
+            }
             return 1;
         }
-        return !BaseRenderer.supportsFormatDrm(drmSessionManager, format.drmInitData) ? 2 : 4;
+        return 0;
     }
 
     /* JADX INFO: Access modifiers changed from: protected */

@@ -47,12 +47,8 @@ public abstract class TLRPC$PageBlock extends TLObject {
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
                         this.flags = readInt32;
-                        boolean z3 = false;
                         this.full_width = (readInt32 & 1) != 0;
-                        if ((readInt32 & 8) != 0) {
-                            z3 = true;
-                        }
-                        this.allow_scrolling = z3;
+                        this.allow_scrolling = (readInt32 & 8) != 0;
                         if ((readInt32 & 2) != 0) {
                             this.url = abstractSerializedData2.readString(z2);
                         }
@@ -112,12 +108,8 @@ public abstract class TLRPC$PageBlock extends TLObject {
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
                         this.flags = readInt32;
-                        boolean z3 = false;
                         this.full_width = (readInt32 & 1) != 0;
-                        if ((readInt32 & 8) != 0) {
-                            z3 = true;
-                        }
-                        this.allow_scrolling = z3;
+                        this.allow_scrolling = (readInt32 & 8) != 0;
                         if ((readInt32 & 2) != 0) {
                             this.url = abstractSerializedData2.readString(z2);
                         }
@@ -157,12 +149,8 @@ public abstract class TLRPC$PageBlock extends TLObject {
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
                         this.flags = readInt32;
-                        boolean z3 = false;
                         this.autoplay = (readInt32 & 1) != 0;
-                        if ((readInt32 & 2) != 0) {
-                            z3 = true;
-                        }
-                        this.loop = z3;
+                        this.loop = (readInt32 & 2) != 0;
                         this.video_id = abstractSerializedData2.readInt64(z2);
                         TLRPC$TL_pageCaption tLRPC$TL_pageCaption = new TLRPC$TL_pageCaption();
                         this.caption = tLRPC$TL_pageCaption;
@@ -490,12 +478,12 @@ public abstract class TLRPC$PageBlock extends TLObject {
                 tLRPC$TL_pageBlockAudio = null;
                 break;
         }
-        if (tLRPC$TL_pageBlockAudio != null || !z) {
-            if (tLRPC$TL_pageBlockAudio != null) {
-                tLRPC$TL_pageBlockAudio.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_pageBlockAudio;
+        if (tLRPC$TL_pageBlockAudio == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in PageBlock", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in PageBlock", Integer.valueOf(i)));
+        if (tLRPC$TL_pageBlockAudio != null) {
+            tLRPC$TL_pageBlockAudio.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_pageBlockAudio;
     }
 }

@@ -36,6 +36,7 @@ public class AvatarsDrawable {
     private boolean isInCall;
     private int overrideSize;
     View parent;
+    Random random;
     private boolean transitionInProgress;
     ValueAnimator transitionProgressAnimator;
     boolean updateAfterTransition;
@@ -49,7 +50,6 @@ public class AvatarsDrawable {
     private Paint xRefP = new Paint(1);
     private float overrideAlpha = 1.0f;
     public long transitionDuration = 220;
-    Random random = new Random();
 
     public void commitTransition(boolean z) {
         commitTransition(z, true);
@@ -60,11 +60,10 @@ public class AvatarsDrawable {
             return;
         }
         this.transitionProgress = f;
-        if (f != 1.0f) {
-            return;
+        if (f == 1.0f) {
+            swapStates();
+            this.transitionInProgress = false;
         }
-        swapStates();
-        this.transitionInProgress = false;
     }
 
     public void commitTransition(boolean z, boolean z2) {
@@ -255,6 +254,7 @@ public class AvatarsDrawable {
 
     public AvatarsDrawable(View view, boolean z) {
         CubicBezierInterpolator cubicBezierInterpolator = CubicBezierInterpolator.DEFAULT;
+        this.random = new Random();
         this.parent = view;
         for (int i = 0; i < 3; i++) {
             this.currentStates[i] = new DrawingState();
@@ -347,11 +347,15 @@ public class AvatarsDrawable {
         invalidate();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:104:0x025f  */
-    /* JADX WARN: Removed duplicated region for block: B:145:0x04e8  */
-    /* JADX WARN: Removed duplicated region for block: B:147:0x0502  */
-    /* JADX WARN: Removed duplicated region for block: B:149:0x0505 A[SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:150:0x04fd  */
+    /* JADX WARN: Multi-variable type inference failed */
+    /* JADX WARN: Removed duplicated region for block: B:154:0x025f  */
+    /* JADX WARN: Removed duplicated region for block: B:223:0x04e8  */
+    /* JADX WARN: Removed duplicated region for block: B:224:0x04fd  */
+    /* JADX WARN: Removed duplicated region for block: B:226:0x0502  */
+    /* JADX WARN: Removed duplicated region for block: B:242:0x0505 A[SYNTHETIC] */
+    /* JADX WARN: Type inference failed for: r9v2, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r9v33 */
+    /* JADX WARN: Type inference failed for: r9v34 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -360,94 +364,93 @@ public class AvatarsDrawable {
         int i;
         float f;
         boolean z;
-        int length;
         float f2;
         int i2;
-        int i3;
         boolean z2 = true;
         this.wasDraw = true;
-        int i4 = this.currentStyle;
-        int i5 = 4;
-        int i6 = 10;
-        boolean z3 = i4 == 4 || i4 == 10;
+        int i3 = this.currentStyle;
+        int i4 = 4;
+        int i5 = 10;
+        boolean z3 = i3 == 4 || i3 == 10;
         int size = getSize();
-        int i7 = 11;
+        int i6 = 11;
         if (this.currentStyle == 11) {
             dp = AndroidUtilities.dp(12.0f);
         } else {
-            int i8 = this.overrideSize;
-            if (i8 != 0) {
-                dp = (int) (i8 * 0.8f);
+            int i7 = this.overrideSize;
+            if (i7 != 0) {
+                dp = (int) (i7 * 0.8f);
             } else {
                 dp = AndroidUtilities.dp(z3 ? 24.0f : 20.0f);
             }
         }
-        int i9 = dp;
-        int i10 = 0;
-        for (int i11 = 0; i11 < 3; i11++) {
-            if (this.currentStates[i11].id != 0) {
-                i10++;
+        int i8 = dp;
+        int i9 = 0;
+        for (int i10 = 0; i10 < 3; i10++) {
+            if (this.currentStates[i10].id != 0) {
+                i9++;
             }
         }
-        int i12 = this.currentStyle;
-        int dp2 = (i12 == 0 || i12 == 10 || i12 == 11) ? 0 : AndroidUtilities.dp(10.0f);
-        int dp3 = this.centered ? ((this.width - (i10 * i9)) - AndroidUtilities.dp(z3 ? 8.0f : 4.0f)) / 2 : dp2;
+        int i11 = this.currentStyle;
+        int dp2 = (i11 == 0 || i11 == 10 || i11 == 11) ? 0 : AndroidUtilities.dp(10.0f);
+        int dp3 = this.centered ? ((this.width - (i9 * i8)) - AndroidUtilities.dp(z3 ? 8.0f : 4.0f)) / 2 : dp2;
         boolean z4 = VoIPService.getSharedInstance() != null && VoIPService.getSharedInstance().isMicMute();
-        int i13 = this.currentStyle;
-        if (i13 == 4) {
+        int i12 = this.currentStyle;
+        if (i12 == 4) {
             this.paint.setColor(Theme.getColor("inappPlayerBackground"));
-        } else if (i13 != 3) {
+        } else if (i12 != 3) {
             this.paint.setColor(Theme.getColor(z4 ? "returnToCallMutedBackground" : "returnToCallBackground"));
         }
-        int i14 = 0;
-        for (int i15 = 0; i15 < 3; i15++) {
-            if (this.animatingStates[i15].id != 0) {
-                i14++;
+        int i13 = 0;
+        for (int i14 = 0; i14 < 3; i14++) {
+            if (this.animatingStates[i14].id != 0) {
+                i13++;
             }
         }
-        int i16 = this.currentStyle;
-        boolean z5 = i16 == 0 || i16 == 1 || i16 == 3 || i16 == 4 || i16 == 5 || i16 == 10 || i16 == 11;
+        int i15 = this.currentStyle;
+        boolean z5 = i15 == 0 || i15 == 1 || i15 == 3 || i15 == 4 || i15 == 5 || i15 == 10 || i15 == 11;
         if (z5) {
-            float dp4 = i16 == 10 ? AndroidUtilities.dp(16.0f) : 0.0f;
+            float dp4 = i15 == 10 ? AndroidUtilities.dp(16.0f) : 0.0f;
             float f3 = -dp4;
             i = 2;
             canvas.saveLayerAlpha(f3, f3, this.width + dp4, this.height + dp4, 255, 31);
         } else {
             i = 2;
         }
-        int i17 = 2;
-        while (i17 >= 0) {
-            int i18 = 0;
-            while (i18 < i) {
-                if (i18 != 0 || this.transitionProgress != 1.0f) {
-                    DrawingState[] drawingStateArr = i18 == 0 ? this.animatingStates : this.currentStates;
-                    if (i18 != z2 || this.transitionProgress == 1.0f || drawingStateArr[i17].animationType == z2) {
-                        ImageReceiver imageReceiver = drawingStateArr[i17].imageReceiver;
+        int i16 = 2;
+        while (i16 >= 0) {
+            int i17 = 0;
+            ?? r9 = z2;
+            while (i17 < i) {
+                if (i17 != 0 || this.transitionProgress != 1.0f) {
+                    DrawingState[] drawingStateArr = i17 == 0 ? this.animatingStates : this.currentStates;
+                    if (i17 != r9 || this.transitionProgress == 1.0f || drawingStateArr[i16].animationType == r9) {
+                        ImageReceiver imageReceiver = drawingStateArr[i16].imageReceiver;
                         if (imageReceiver.hasImageSet()) {
-                            if (i18 == 0) {
-                                imageReceiver.setImageX((this.centered ? ((this.width - (i14 * i9)) - AndroidUtilities.dp(z3 ? 8.0f : 4.0f)) / i : dp2) + (i9 * i17));
+                            if (i17 == 0) {
+                                imageReceiver.setImageX((this.centered ? ((this.width - (i13 * i8)) - AndroidUtilities.dp(z3 ? 8.0f : 4.0f)) / i : dp2) + (i8 * i16));
                             } else {
-                                imageReceiver.setImageX(dp3 + (i9 * i17));
+                                imageReceiver.setImageX(dp3 + (i8 * i16));
                             }
-                            int i19 = this.currentStyle;
-                            if (i19 == 0 || i19 == i6 || i19 == i7) {
+                            int i18 = this.currentStyle;
+                            if (i18 == 0 || i18 == i5 || i18 == i6) {
                                 imageReceiver.setImageY((this.height - size) / 2.0f);
                             } else {
-                                imageReceiver.setImageY(AndroidUtilities.dp(i19 == i5 ? 8.0f : 6.0f));
+                                imageReceiver.setImageY(AndroidUtilities.dp(i18 == i4 ? 8.0f : 6.0f));
                             }
                             if (this.transitionProgress != 1.0f) {
-                                if (drawingStateArr[i17].animationType != z2) {
-                                    if (drawingStateArr[i17].animationType != 0) {
-                                        if (drawingStateArr[i17].animationType != i) {
-                                            if (drawingStateArr[i17].animationType == -1 && this.centered) {
-                                                int dp5 = (((this.width - (i14 * i9)) - AndroidUtilities.dp(z3 ? 8.0f : 4.0f)) / i) + (i9 * i17);
+                                if (drawingStateArr[i16].animationType != r9) {
+                                    if (drawingStateArr[i16].animationType != 0) {
+                                        if (drawingStateArr[i16].animationType != i) {
+                                            if (drawingStateArr[i16].animationType == -1 && this.centered) {
+                                                int dp5 = (((this.width - (i13 * i8)) - AndroidUtilities.dp(z3 ? 8.0f : 4.0f)) / i) + (i8 * i16);
                                                 float f4 = this.transitionProgress;
                                                 imageReceiver.setImageX((int) ((dp5 * f4) + ((dp3 + i2) * (1.0f - f4))));
                                             }
                                         } else {
-                                            int dp6 = this.centered ? ((this.width - (i14 * i9)) - AndroidUtilities.dp(z3 ? 8.0f : 4.0f)) / i : dp2;
+                                            int dp6 = this.centered ? ((this.width - (i13 * i8)) - AndroidUtilities.dp(z3 ? 8.0f : 4.0f)) / i : dp2;
                                             float f5 = this.transitionProgress;
-                                            imageReceiver.setImageX((int) (((dp6 + (i9 * i17)) * f5) + ((dp3 + (drawingStateArr[i17].moveFromIndex * i9)) * (1.0f - f5))));
+                                            imageReceiver.setImageX((int) (((dp6 + (i8 * i16)) * f5) + ((dp3 + (drawingStateArr[i16].moveFromIndex * i8)) * (1.0f - f5))));
                                         }
                                     } else {
                                         canvas.save();
@@ -463,70 +466,66 @@ public class AvatarsDrawable {
                                 }
                                 z = true;
                                 float f8 = f * this.overrideAlpha;
-                                length = drawingStateArr.length;
-                                i3 = z2 ? 1 : 0;
-                                int i20 = z2 ? 1 : 0;
-                                int i21 = z2 ? 1 : 0;
-                                if (i17 != length - i3) {
-                                    int i22 = this.currentStyle;
-                                    if (i22 == z2 || i22 == 3 || i22 == 5) {
+                                if (i16 != drawingStateArr.length - r9) {
+                                    int i19 = this.currentStyle;
+                                    if (i19 == r9 || i19 == 3 || i19 == 5) {
                                         canvas.drawCircle(imageReceiver.getCenterX(), imageReceiver.getCenterY(), AndroidUtilities.dp(13.0f), this.xRefP);
-                                        if (drawingStateArr[i17].wavesDrawable == null) {
+                                        if (drawingStateArr[i16].wavesDrawable == null) {
                                             if (this.currentStyle == 5) {
-                                                drawingStateArr[i17].wavesDrawable = new GroupCallUserCell.AvatarWavesDrawable(AndroidUtilities.dp(14.0f), AndroidUtilities.dp(16.0f));
+                                                drawingStateArr[i16].wavesDrawable = new GroupCallUserCell.AvatarWavesDrawable(AndroidUtilities.dp(14.0f), AndroidUtilities.dp(16.0f));
                                             } else {
-                                                drawingStateArr[i17].wavesDrawable = new GroupCallUserCell.AvatarWavesDrawable(AndroidUtilities.dp(17.0f), AndroidUtilities.dp(21.0f));
+                                                drawingStateArr[i16].wavesDrawable = new GroupCallUserCell.AvatarWavesDrawable(AndroidUtilities.dp(17.0f), AndroidUtilities.dp(21.0f));
                                             }
                                         }
                                         if (this.currentStyle == 5) {
-                                            drawingStateArr[i17].wavesDrawable.setColor(ColorUtils.setAlphaComponent(Theme.getColor("voipgroup_speakingText"), (int) (f8 * 76.5f)));
+                                            drawingStateArr[i16].wavesDrawable.setColor(ColorUtils.setAlphaComponent(Theme.getColor("voipgroup_speakingText"), (int) (f8 * 76.5f)));
                                         }
-                                        if (drawingStateArr[i17].participant == null || drawingStateArr[i17].participant.amplitude <= 0.0f) {
-                                            drawingStateArr[i17].wavesDrawable.setShowWaves(false, this.parent);
+                                        if (drawingStateArr[i16].participant == null || drawingStateArr[i16].participant.amplitude <= 0.0f) {
+                                            drawingStateArr[i16].wavesDrawable.setShowWaves(false, this.parent);
                                         } else {
-                                            drawingStateArr[i17].wavesDrawable.setShowWaves(true, this.parent);
-                                            drawingStateArr[i17].wavesDrawable.setAmplitude(drawingStateArr[i17].participant.amplitude * 15.0f);
+                                            drawingStateArr[i16].wavesDrawable.setShowWaves(true, this.parent);
+                                            drawingStateArr[i16].wavesDrawable.setAmplitude(drawingStateArr[i16].participant.amplitude * 15.0f);
                                         }
-                                        if (this.currentStyle == 5 && SystemClock.uptimeMillis() - drawingStateArr[i17].participant.lastSpeakTime > 500) {
+                                        if (this.currentStyle == 5 && SystemClock.uptimeMillis() - drawingStateArr[i16].participant.lastSpeakTime > 500) {
                                             this.updateDelegate.run();
                                         }
-                                        drawingStateArr[i17].wavesDrawable.update();
+                                        drawingStateArr[i16].wavesDrawable.update();
                                         if (this.currentStyle == 5) {
-                                            drawingStateArr[i17].wavesDrawable.draw(canvas, imageReceiver.getCenterX(), imageReceiver.getCenterY(), this.parent);
+                                            drawingStateArr[i16].wavesDrawable.draw(canvas, imageReceiver.getCenterX(), imageReceiver.getCenterY(), this.parent);
                                             invalidate();
                                         }
-                                        f2 = drawingStateArr[i17].wavesDrawable.getAvatarScale();
-                                    } else if (i22 == i5 || i22 == 10) {
+                                        f2 = drawingStateArr[i16].wavesDrawable.getAvatarScale();
+                                    } else if (i19 == i4 || i19 == 10) {
                                         canvas.drawCircle(imageReceiver.getCenterX(), imageReceiver.getCenterY(), AndroidUtilities.dp(17.0f), this.xRefP);
-                                        if (drawingStateArr[i17].wavesDrawable == null) {
-                                            drawingStateArr[i17].wavesDrawable = new GroupCallUserCell.AvatarWavesDrawable(AndroidUtilities.dp(17.0f), AndroidUtilities.dp(21.0f));
+                                        if (drawingStateArr[i16].wavesDrawable == null) {
+                                            drawingStateArr[i16].wavesDrawable = new GroupCallUserCell.AvatarWavesDrawable(AndroidUtilities.dp(17.0f), AndroidUtilities.dp(21.0f));
                                         }
                                         if (this.currentStyle == 10) {
-                                            drawingStateArr[i17].wavesDrawable.setColor(ColorUtils.setAlphaComponent(Theme.getColor("voipgroup_speakingText"), (int) (f8 * 76.5f)));
+                                            drawingStateArr[i16].wavesDrawable.setColor(ColorUtils.setAlphaComponent(Theme.getColor("voipgroup_speakingText"), (int) (f8 * 76.5f)));
                                         } else {
-                                            drawingStateArr[i17].wavesDrawable.setColor(ColorUtils.setAlphaComponent(Theme.getColor("voipgroup_listeningText"), (int) (f8 * 76.5f)));
+                                            drawingStateArr[i16].wavesDrawable.setColor(ColorUtils.setAlphaComponent(Theme.getColor("voipgroup_listeningText"), (int) (f8 * 76.5f)));
                                         }
                                         long currentTimeMillis = System.currentTimeMillis();
-                                        if (currentTimeMillis - drawingStateArr[i17].lastUpdateTime > 100) {
-                                            drawingStateArr[i17].lastUpdateTime = currentTimeMillis;
+                                        if (currentTimeMillis - drawingStateArr[i16].lastUpdateTime > 100) {
+                                            drawingStateArr[i16].lastUpdateTime = currentTimeMillis;
                                             if (this.currentStyle != 10) {
-                                                if (ConnectionsManager.getInstance(UserConfig.selectedAccount).getCurrentTime() - drawingStateArr[i17].lastSpeakTime <= 5) {
-                                                    drawingStateArr[i17].wavesDrawable.setShowWaves(true, this.parent);
-                                                    drawingStateArr[i17].wavesDrawable.setAmplitude(this.random.nextInt() % 100);
+                                                if (ConnectionsManager.getInstance(UserConfig.selectedAccount).getCurrentTime() - drawingStateArr[i16].lastSpeakTime <= 5) {
+                                                    drawingStateArr[i16].wavesDrawable.setShowWaves(true, this.parent);
+                                                    drawingStateArr[i16].wavesDrawable.setAmplitude(this.random.nextInt() % 100);
                                                 } else {
-                                                    drawingStateArr[i17].wavesDrawable.setShowWaves(false, this.parent);
-                                                    drawingStateArr[i17].wavesDrawable.setAmplitude(0.0d);
+                                                    drawingStateArr[i16].wavesDrawable.setShowWaves(false, this.parent);
+                                                    drawingStateArr[i16].wavesDrawable.setAmplitude(0.0d);
                                                 }
-                                            } else if (drawingStateArr[i17].participant == null || drawingStateArr[i17].participant.amplitude <= 0.0f) {
-                                                drawingStateArr[i17].wavesDrawable.setShowWaves(false, this.parent);
+                                            } else if (drawingStateArr[i16].participant == null || drawingStateArr[i16].participant.amplitude <= 0.0f) {
+                                                drawingStateArr[i16].wavesDrawable.setShowWaves(false, this.parent);
                                             } else {
-                                                drawingStateArr[i17].wavesDrawable.setShowWaves(z2, this.parent);
-                                                drawingStateArr[i17].wavesDrawable.setAmplitude(drawingStateArr[i17].participant.amplitude * 15.0f);
+                                                drawingStateArr[i16].wavesDrawable.setShowWaves(r9, this.parent);
+                                                drawingStateArr[i16].wavesDrawable.setAmplitude(drawingStateArr[i16].participant.amplitude * 15.0f);
                                             }
                                         }
-                                        drawingStateArr[i17].wavesDrawable.update();
-                                        drawingStateArr[i17].wavesDrawable.draw(canvas, imageReceiver.getCenterX(), imageReceiver.getCenterY(), this.parent);
-                                        f2 = drawingStateArr[i17].wavesDrawable.getAvatarScale();
+                                        drawingStateArr[i16].wavesDrawable.update();
+                                        drawingStateArr[i16].wavesDrawable.draw(canvas, imageReceiver.getCenterX(), imageReceiver.getCenterY(), this.parent);
+                                        f2 = drawingStateArr[i16].wavesDrawable.getAvatarScale();
                                     } else {
                                         float size2 = (getSize() / 2.0f) + AndroidUtilities.dp(2.0f);
                                         if (z5) {
@@ -554,12 +553,12 @@ public class AvatarsDrawable {
                                     if (z) {
                                         canvas.restore();
                                     }
-                                    i18++;
-                                    z2 = true;
-                                    i5 = 4;
-                                    i6 = 10;
+                                    i17++;
+                                    r9 = 1;
+                                    i4 = 4;
+                                    i5 = 10;
                                     i = 2;
-                                    i7 = 11;
+                                    i6 = 11;
                                 }
                                 f2 = 1.0f;
                                 imageReceiver.setAlpha(f8);
@@ -567,21 +566,17 @@ public class AvatarsDrawable {
                                 }
                                 if (z) {
                                 }
-                                i18++;
-                                z2 = true;
-                                i5 = 4;
-                                i6 = 10;
+                                i17++;
+                                r9 = 1;
+                                i4 = 4;
+                                i5 = 10;
                                 i = 2;
-                                i7 = 11;
+                                i6 = 11;
                             }
                             f = 1.0f;
                             z = false;
                             float f82 = f * this.overrideAlpha;
-                            length = drawingStateArr.length;
-                            i3 = z2 ? 1 : 0;
-                            int i202 = z2 ? 1 : 0;
-                            int i212 = z2 ? 1 : 0;
-                            if (i17 != length - i3) {
+                            if (i16 != drawingStateArr.length - r9) {
                             }
                             f2 = 1.0f;
                             imageReceiver.setAlpha(f82);
@@ -589,28 +584,28 @@ public class AvatarsDrawable {
                             }
                             if (z) {
                             }
-                            i18++;
-                            z2 = true;
-                            i5 = 4;
-                            i6 = 10;
+                            i17++;
+                            r9 = 1;
+                            i4 = 4;
+                            i5 = 10;
                             i = 2;
-                            i7 = 11;
+                            i6 = 11;
                         }
                     }
                 }
-                i18++;
-                z2 = true;
-                i5 = 4;
-                i6 = 10;
+                i17++;
+                r9 = 1;
+                i4 = 4;
+                i5 = 10;
                 i = 2;
-                i7 = 11;
+                i6 = 11;
             }
-            i17--;
+            i16--;
             z2 = true;
-            i5 = 4;
-            i6 = 10;
+            i4 = 4;
+            i5 = 10;
             i = 2;
-            i7 = 11;
+            i6 = 11;
         }
         if (z5) {
             canvas.restore();

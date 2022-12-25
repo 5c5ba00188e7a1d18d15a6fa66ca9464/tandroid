@@ -24,7 +24,7 @@ public class DoubledLimitsBottomSheet$Adapter extends RecyclerListView.Selection
     ViewGroup containerView;
     boolean drawHeader;
     PremiumGradient.GradientTools gradientTools;
-    int headerRow = 0;
+    int headerRow;
     int lastViewRow;
     final ArrayList<DoubledLimitsBottomSheet$Limit> limits;
     int limitsStartRow;
@@ -60,6 +60,7 @@ public class DoubledLimitsBottomSheet$Adapter extends RecyclerListView.Selection
         this.rowCount = 0;
         int i2 = 1 + 0;
         this.rowCount = i2;
+        this.headerRow = 0;
         this.limitsStartRow = i2;
         this.rowCount = i2 + arrayList.size();
     }

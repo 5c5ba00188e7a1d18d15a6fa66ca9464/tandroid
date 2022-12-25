@@ -67,27 +67,27 @@ final class zzbq extends zzav<Double> implements zzcn<Double> {
     public final boolean addAll(Collection<? extends Double> collection) {
         zzw();
         zzci.checkNotNull(collection);
-        if (!(collection instanceof zzbq)) {
-            return super.addAll(collection);
-        }
-        zzbq zzbqVar = (zzbq) collection;
-        int i = zzbqVar.size;
-        if (i == 0) {
-            return false;
-        }
-        int i2 = this.size;
-        if (ConnectionsManager.DEFAULT_DATACENTER_ID - i2 < i) {
+        if (collection instanceof zzbq) {
+            zzbq zzbqVar = (zzbq) collection;
+            int i = zzbqVar.size;
+            if (i == 0) {
+                return false;
+            }
+            int i2 = this.size;
+            if (ConnectionsManager.DEFAULT_DATACENTER_ID - i2 >= i) {
+                int i3 = i2 + i;
+                double[] dArr = this.zzgk;
+                if (i3 > dArr.length) {
+                    this.zzgk = Arrays.copyOf(dArr, i3);
+                }
+                System.arraycopy(zzbqVar.zzgk, 0, this.zzgk, this.size, zzbqVar.size);
+                this.size = i3;
+                ((AbstractList) this).modCount++;
+                return true;
+            }
             throw new OutOfMemoryError();
         }
-        int i3 = i2 + i;
-        double[] dArr = this.zzgk;
-        if (i3 > dArr.length) {
-            this.zzgk = Arrays.copyOf(dArr, i3);
-        }
-        System.arraycopy(zzbqVar.zzgk, 0, this.zzgk, this.size, zzbqVar.size);
-        this.size = i3;
-        ((AbstractList) this).modCount++;
-        return true;
+        return super.addAll(collection);
     }
 
     @Override // com.google.android.gms.internal.clearcut.zzav, java.util.AbstractList, java.util.Collection, java.util.List
@@ -95,20 +95,20 @@ final class zzbq extends zzav<Double> implements zzcn<Double> {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof zzbq)) {
-            return super.equals(obj);
-        }
-        zzbq zzbqVar = (zzbq) obj;
-        if (this.size != zzbqVar.size) {
-            return false;
-        }
-        double[] dArr = zzbqVar.zzgk;
-        for (int i = 0; i < this.size; i++) {
-            if (this.zzgk[i] != dArr[i]) {
+        if (obj instanceof zzbq) {
+            zzbq zzbqVar = (zzbq) obj;
+            if (this.size != zzbqVar.size) {
                 return false;
             }
+            double[] dArr = zzbqVar.zzgk;
+            for (int i = 0; i < this.size; i++) {
+                if (this.zzgk[i] != dArr[i]) {
+                    return false;
+                }
+            }
+            return true;
         }
-        return true;
+        return super.equals(obj);
     }
 
     @Override // java.util.AbstractList, java.util.List
@@ -159,14 +159,13 @@ final class zzbq extends zzav<Double> implements zzcn<Double> {
     @Override // java.util.AbstractList
     protected final void removeRange(int i, int i2) {
         zzw();
-        if (i2 >= i) {
-            double[] dArr = this.zzgk;
-            System.arraycopy(dArr, i2, dArr, i, this.size - i2);
-            this.size -= i2 - i;
-            ((AbstractList) this).modCount++;
-            return;
+        if (i2 < i) {
+            throw new IndexOutOfBoundsException("toIndex < fromIndex");
         }
-        throw new IndexOutOfBoundsException("toIndex < fromIndex");
+        double[] dArr = this.zzgk;
+        System.arraycopy(dArr, i2, dArr, i, this.size - i2);
+        this.size -= i2 - i;
+        ((AbstractList) this).modCount++;
     }
 
     @Override // java.util.AbstractList, java.util.List

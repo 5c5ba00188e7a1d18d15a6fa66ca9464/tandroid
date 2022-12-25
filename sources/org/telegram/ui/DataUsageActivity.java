@@ -76,7 +76,6 @@ public class DataUsageActivity extends BaseFragment {
         RecyclerListView.Holder holder;
         this.actionBar.setBackButtonImage(R.drawable.ic_ab_back);
         this.actionBar.setTitle(LocaleController.getString("NetworkUsage", R.string.NetworkUsage));
-        boolean z = false;
         if (AndroidUtilities.isTablet()) {
             this.actionBar.setOccupyStatusBar(false);
         }
@@ -107,7 +106,7 @@ public class DataUsageActivity extends BaseFragment {
             }
 
             @Override // org.telegram.ui.Components.ScrollSlidingTextTabStrip.ScrollSlidingTabStripDelegate
-            public void onPageSelected(int i, boolean z2) {
+            public void onPageSelected(int i, boolean z) {
                 if (DataUsageActivity.this.viewPages[0].selectedType == i) {
                     return;
                 }
@@ -116,7 +115,7 @@ public class DataUsageActivity extends BaseFragment {
                 DataUsageActivity.this.viewPages[1].selectedType = i;
                 DataUsageActivity.this.viewPages[1].setVisibility(0);
                 DataUsageActivity.this.switchToCurrentSelectedMode(true);
-                DataUsageActivity.this.animatingForward = z2;
+                DataUsageActivity.this.animatingForward = z;
             }
 
             @Override // org.telegram.ui.Components.ScrollSlidingTextTabStrip.ScrollSlidingTabStripDelegate
@@ -129,13 +128,12 @@ public class DataUsageActivity extends BaseFragment {
                         DataUsageActivity.this.viewPages[0].setTranslationX(DataUsageActivity.this.viewPages[0].getMeasuredWidth() * f);
                         DataUsageActivity.this.viewPages[1].setTranslationX((DataUsageActivity.this.viewPages[0].getMeasuredWidth() * f) - DataUsageActivity.this.viewPages[0].getMeasuredWidth());
                     }
-                    if (f != 1.0f) {
-                        return;
+                    if (f == 1.0f) {
+                        ViewPage viewPage = DataUsageActivity.this.viewPages[0];
+                        DataUsageActivity.this.viewPages[0] = DataUsageActivity.this.viewPages[1];
+                        DataUsageActivity.this.viewPages[1] = viewPage;
+                        DataUsageActivity.this.viewPages[1].setVisibility(8);
                     }
-                    ViewPage viewPage = DataUsageActivity.this.viewPages[0];
-                    DataUsageActivity.this.viewPages[0] = DataUsageActivity.this.viewPages[1];
-                    DataUsageActivity.this.viewPages[1] = viewPage;
-                    DataUsageActivity.this.viewPages[1].setVisibility(8);
                 }
             }
         });
@@ -149,8 +147,8 @@ public class DataUsageActivity extends BaseFragment {
             private int startedTrackingY;
             private VelocityTracker velocityTracker;
 
-            private boolean prepareForMoving(MotionEvent motionEvent, boolean z2) {
-                int nextPageId = DataUsageActivity.this.scrollSlidingTextTabStrip.getNextPageId(z2);
+            private boolean prepareForMoving(MotionEvent motionEvent, boolean z) {
+                int nextPageId = DataUsageActivity.this.scrollSlidingTextTabStrip.getNextPageId(z);
                 if (nextPageId < 0) {
                     return false;
                 }
@@ -162,9 +160,9 @@ public class DataUsageActivity extends BaseFragment {
                 DataUsageActivity.this.scrollSlidingTextTabStrip.setEnabled(false);
                 DataUsageActivity.this.viewPages[1].selectedType = nextPageId;
                 DataUsageActivity.this.viewPages[1].setVisibility(0);
-                DataUsageActivity.this.animatingForward = z2;
+                DataUsageActivity.this.animatingForward = z;
                 DataUsageActivity.this.switchToCurrentSelectedMode(true);
-                if (z2) {
+                if (z) {
                     DataUsageActivity.this.viewPages[1].setTranslationX(DataUsageActivity.this.viewPages[0].getMeasuredWidth());
                 } else {
                     DataUsageActivity.this.viewPages[1].setTranslationX(-DataUsageActivity.this.viewPages[0].getMeasuredWidth());
@@ -211,32 +209,21 @@ public class DataUsageActivity extends BaseFragment {
 
             public boolean checkTabsAnimationInProgress() {
                 if (DataUsageActivity.this.tabsAnimationInProgress) {
-                    int i = -1;
-                    boolean z2 = true;
+                    boolean z = true;
                     if (DataUsageActivity.this.backAnimation) {
                         if (Math.abs(DataUsageActivity.this.viewPages[0].getTranslationX()) < 1.0f) {
                             DataUsageActivity.this.viewPages[0].setTranslationX(0.0f);
-                            ViewPage viewPage = DataUsageActivity.this.viewPages[1];
-                            int measuredWidth = DataUsageActivity.this.viewPages[0].getMeasuredWidth();
-                            if (DataUsageActivity.this.animatingForward) {
-                                i = 1;
-                            }
-                            viewPage.setTranslationX(measuredWidth * i);
+                            DataUsageActivity.this.viewPages[1].setTranslationX(DataUsageActivity.this.viewPages[0].getMeasuredWidth() * (DataUsageActivity.this.animatingForward ? 1 : -1));
                         }
-                        z2 = false;
+                        z = false;
                     } else {
                         if (Math.abs(DataUsageActivity.this.viewPages[1].getTranslationX()) < 1.0f) {
-                            ViewPage viewPage2 = DataUsageActivity.this.viewPages[0];
-                            int measuredWidth2 = DataUsageActivity.this.viewPages[0].getMeasuredWidth();
-                            if (!DataUsageActivity.this.animatingForward) {
-                                i = 1;
-                            }
-                            viewPage2.setTranslationX(measuredWidth2 * i);
+                            DataUsageActivity.this.viewPages[0].setTranslationX(DataUsageActivity.this.viewPages[0].getMeasuredWidth() * (DataUsageActivity.this.animatingForward ? -1 : 1));
                             DataUsageActivity.this.viewPages[1].setTranslationX(0.0f);
                         }
-                        z2 = false;
+                        z = false;
                     }
-                    if (z2) {
+                    if (z) {
                         if (DataUsageActivity.this.tabsAnimation != null) {
                             DataUsageActivity.this.tabsAnimation.cancel();
                             DataUsageActivity.this.tabsAnimation = null;
@@ -265,7 +252,6 @@ public class DataUsageActivity extends BaseFragment {
                 float f2;
                 float measuredWidth;
                 int measuredWidth2;
-                boolean z2 = false;
                 if (((BaseFragment) DataUsageActivity.this).parentLayout.checkTransitionAnimation() || checkTabsAnimationInProgress()) {
                     return false;
                 }
@@ -295,10 +281,7 @@ public class DataUsageActivity extends BaseFragment {
                     }
                     if (this.maybeStartTracking && !this.startedTracking) {
                         if (Math.abs(x) >= AndroidUtilities.getPixelsInCM(0.3f, true) && Math.abs(x) > abs) {
-                            if (x < 0) {
-                                z2 = true;
-                            }
-                            prepareForMoving(motionEvent, z2);
+                            prepareForMoving(motionEvent, x < 0);
                         }
                     } else if (this.startedTracking) {
                         if (DataUsageActivity.this.animatingForward) {
@@ -413,10 +396,9 @@ public class DataUsageActivity extends BaseFragment {
                 @Override // android.view.View
                 public void setTranslationX(float f) {
                     super.setTranslationX(f);
-                    if (!DataUsageActivity.this.tabsAnimationInProgress || DataUsageActivity.this.viewPages[0] != this) {
-                        return;
+                    if (DataUsageActivity.this.tabsAnimationInProgress && DataUsageActivity.this.viewPages[0] == this) {
+                        DataUsageActivity.this.scrollSlidingTextTabStrip.selectTabWithId(DataUsageActivity.this.viewPages[1].selectedType, Math.abs(DataUsageActivity.this.viewPages[0].getTranslationX()) / DataUsageActivity.this.viewPages[0].getMeasuredWidth());
                     }
-                    DataUsageActivity.this.scrollSlidingTextTabStrip.selectTabWithId(DataUsageActivity.this.viewPages[1].selectedType, Math.abs(DataUsageActivity.this.viewPages[0].getTranslationX()) / DataUsageActivity.this.viewPages[0].getMeasuredWidth());
                 }
             };
             frameLayout.addView(viewPage, LayoutHelper.createFrame(-1, -1.0f));
@@ -470,10 +452,9 @@ public class DataUsageActivity extends BaseFragment {
                         } else if (f > 0.0f) {
                             f = 0.0f;
                         }
-                        if (f == translationY) {
-                            return;
+                        if (f != translationY) {
+                            DataUsageActivity.this.setScrollY(f);
                         }
-                        DataUsageActivity.this.setScrollY(f);
                     }
                 }
             });
@@ -488,10 +469,7 @@ public class DataUsageActivity extends BaseFragment {
         frameLayout.addView(this.actionBar, LayoutHelper.createFrame(-1, -2.0f));
         updateTabs();
         switchToCurrentSelectedMode(false);
-        if (this.scrollSlidingTextTabStrip.getCurrentTabId() == this.scrollSlidingTextTabStrip.getFirstTabId()) {
-            z = true;
-        }
-        this.swipeBackEnabled = z;
+        this.swipeBackEnabled = this.scrollSlidingTextTabStrip.getCurrentTabId() == this.scrollSlidingTextTabStrip.getFirstTabId();
         return this.fragmentView;
     }
 
@@ -501,26 +479,24 @@ public class DataUsageActivity extends BaseFragment {
             return;
         }
         final ListAdapter listAdapter = (ListAdapter) recyclerListView.getAdapter();
-        if (i != listAdapter.resetRow) {
-            return;
-        }
-        AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-        builder.setTitle(LocaleController.getString("ResetStatisticsAlertTitle", R.string.ResetStatisticsAlertTitle));
-        builder.setMessage(LocaleController.getString("ResetStatisticsAlert", R.string.ResetStatisticsAlert));
-        builder.setPositiveButton(LocaleController.getString("Reset", R.string.Reset), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.DataUsageActivity$$ExternalSyntheticLambda0
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i2) {
-                DataUsageActivity.this.lambda$createView$1(listAdapter, dialogInterface, i2);
+        if (i == listAdapter.resetRow) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
+            builder.setTitle(LocaleController.getString("ResetStatisticsAlertTitle", R.string.ResetStatisticsAlertTitle));
+            builder.setMessage(LocaleController.getString("ResetStatisticsAlert", R.string.ResetStatisticsAlert));
+            builder.setPositiveButton(LocaleController.getString("Reset", R.string.Reset), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.DataUsageActivity$$ExternalSyntheticLambda0
+                @Override // android.content.DialogInterface.OnClickListener
+                public final void onClick(DialogInterface dialogInterface, int i2) {
+                    DataUsageActivity.this.lambda$createView$1(listAdapter, dialogInterface, i2);
+                }
+            });
+            builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+            AlertDialog create = builder.create();
+            showDialog(create);
+            TextView textView = (TextView) create.getButton(-1);
+            if (textView != null) {
+                textView.setTextColor(Theme.getColor("dialogTextRed2"));
             }
-        });
-        builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-        AlertDialog create = builder.create();
-        showDialog(create);
-        TextView textView = (TextView) create.getButton(-1);
-        if (textView == null) {
-            return;
         }
-        textView.setTextColor(Theme.getColor("dialogTextRed2"));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -597,21 +573,21 @@ public class DataUsageActivity extends BaseFragment {
             i++;
         }
         RecyclerView.Adapter adapter = viewPageArr[z ? 1 : 0].listView.getAdapter();
-        this.viewPages[z].listView.setPinnedHeaderShadowDrawable(null);
-        if (this.viewPages[z].selectedType != 0) {
-            if (this.viewPages[z].selectedType != 1) {
-                if (this.viewPages[z].selectedType == 2 && adapter != this.roamingAdapter) {
-                    this.viewPages[z].listView.setAdapter(this.roamingAdapter);
+        this.viewPages[z ? 1 : 0].listView.setPinnedHeaderShadowDrawable(null);
+        if (this.viewPages[z ? 1 : 0].selectedType != 0) {
+            if (this.viewPages[z ? 1 : 0].selectedType != 1) {
+                if (this.viewPages[z ? 1 : 0].selectedType == 2 && adapter != this.roamingAdapter) {
+                    this.viewPages[z ? 1 : 0].listView.setAdapter(this.roamingAdapter);
                 }
             } else if (adapter != this.wifiAdapter) {
-                this.viewPages[z].listView.setAdapter(this.wifiAdapter);
+                this.viewPages[z ? 1 : 0].listView.setAdapter(this.wifiAdapter);
             }
         } else if (adapter != this.mobileAdapter) {
-            this.viewPages[z].listView.setAdapter(this.mobileAdapter);
+            this.viewPages[z ? 1 : 0].listView.setAdapter(this.mobileAdapter);
         }
-        this.viewPages[z].listView.setVisibility(0);
+        this.viewPages[z ? 1 : 0].listView.setVisibility(0);
         if (this.actionBar.getTranslationY() != 0.0f) {
-            this.viewPages[z].layoutManager.scrollToPositionWithOffset(0, (int) this.actionBar.getTranslationY());
+            this.viewPages[z ? 1 : 0].layoutManager.scrollToPositionWithOffset(0, (int) this.actionBar.getTranslationY());
         }
     }
 
@@ -810,7 +786,6 @@ public class DataUsageActivity extends BaseFragment {
                 }
             }
             int i2 = 3;
-            boolean z = false;
             if (itemViewType != 1) {
                 if (itemViewType != 2) {
                     if (itemViewType != 3) {
@@ -840,10 +815,10 @@ public class DataUsageActivity extends BaseFragment {
                 } else if (i == this.photosSectionRow) {
                     headerCell.setText(LocaleController.getString("LocalPhotoCache", R.string.LocalPhotoCache));
                     return;
-                } else if (i != this.messagesSectionRow) {
+                } else if (i == this.messagesSectionRow) {
+                    headerCell.setText(LocaleController.getString("MessagesDataUsage", R.string.MessagesDataUsage));
                     return;
                 } else {
-                    headerCell.setText(LocaleController.getString("MessagesDataUsage", R.string.MessagesDataUsage));
                     return;
                 }
             }
@@ -882,14 +857,8 @@ public class DataUsageActivity extends BaseFragment {
                 textSettingsCell.setTextAndValue(LocaleController.getString("CountReceived", R.string.CountReceived), String.format("%d", Integer.valueOf(StatsController.getInstance(((BaseFragment) DataUsageActivity.this).currentAccount).getRecivedItemsCount(this.currentType, i2))), true);
             } else if (i == this.messagesBytesSentRow || i == this.photosBytesSentRow || i == this.videosBytesSentRow || i == this.audiosBytesSentRow || i == this.filesBytesSentRow || i == this.callsBytesSentRow || i == this.totalBytesSentRow) {
                 textSettingsCell.setTextAndValue(LocaleController.getString("BytesSent", R.string.BytesSent), AndroidUtilities.formatFileSize(StatsController.getInstance(((BaseFragment) DataUsageActivity.this).currentAccount).getSentBytesCount(this.currentType, i2)), true);
-            } else if (i != this.messagesBytesReceivedRow && i != this.photosBytesReceivedRow && i != this.videosBytesReceivedRow && i != this.audiosBytesReceivedRow && i != this.filesBytesReceivedRow && i != this.callsBytesReceivedRow && i != this.totalBytesReceivedRow) {
-            } else {
-                String string = LocaleController.getString("BytesReceived", R.string.BytesReceived);
-                String formatFileSize = AndroidUtilities.formatFileSize(StatsController.getInstance(((BaseFragment) DataUsageActivity.this).currentAccount).getReceivedBytesCount(this.currentType, i2));
-                if (i == this.callsBytesReceivedRow) {
-                    z = true;
-                }
-                textSettingsCell.setTextAndValue(string, formatFileSize, z);
+            } else if (i == this.messagesBytesReceivedRow || i == this.photosBytesReceivedRow || i == this.videosBytesReceivedRow || i == this.audiosBytesReceivedRow || i == this.filesBytesReceivedRow || i == this.callsBytesReceivedRow || i == this.totalBytesReceivedRow) {
+                textSettingsCell.setTextAndValue(LocaleController.getString("BytesReceived", R.string.BytesReceived), AndroidUtilities.formatFileSize(StatsController.getInstance(((BaseFragment) DataUsageActivity.this).currentAccount).getReceivedBytesCount(this.currentType, i2)), i == this.callsBytesReceivedRow);
             }
         }
 

@@ -42,7 +42,7 @@ public class TrackHeaderBox extends AbstractFullBox {
     private long duration;
     private double height;
     private int layer;
-    private Matrix matrix = Matrix.ROTATE_0;
+    private Matrix matrix;
     private Date modificationTime;
     private long trackId;
     private float volume;
@@ -88,6 +88,7 @@ public class TrackHeaderBox extends AbstractFullBox {
 
     public TrackHeaderBox() {
         super("tkhd");
+        this.matrix = Matrix.ROTATE_0;
     }
 
     public Date getCreationTime() {

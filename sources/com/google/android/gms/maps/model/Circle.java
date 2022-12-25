@@ -13,14 +13,14 @@ public final class Circle {
     }
 
     public final boolean equals(Object obj) {
-        if (!(obj instanceof Circle)) {
-            return false;
+        if (obj instanceof Circle) {
+            try {
+                return this.zza.zzy(((Circle) obj).zza);
+            } catch (RemoteException e) {
+                throw new RuntimeRemoteException(e);
+            }
         }
-        try {
-            return this.zza.zzy(((Circle) obj).zza);
-        } catch (RemoteException e) {
-            throw new RuntimeRemoteException(e);
-        }
+        return false;
     }
 
     public double getRadius() {

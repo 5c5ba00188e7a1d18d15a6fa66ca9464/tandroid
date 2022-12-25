@@ -67,6 +67,6 @@ public final class zaad {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public final boolean zag() {
-        return !this.zaa.isEmpty() || !this.zab.isEmpty();
+        return (this.zaa.isEmpty() && this.zab.isEmpty()) ? false : true;
     }
 }

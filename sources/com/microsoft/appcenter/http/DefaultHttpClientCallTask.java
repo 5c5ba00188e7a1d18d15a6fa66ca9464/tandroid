@@ -165,10 +165,10 @@ public class DefaultHttpClientCallTask extends AsyncTask<Void, Void, Object> {
                 hashMap.put(entry2.getKey(), ((List) entry2.getValue()).iterator().next());
             }
             HttpResponse httpResponse = new HttpResponse(responseCode, readResponse, hashMap);
-            if (responseCode >= 200 && responseCode < 300) {
-                return httpResponse;
+            if (responseCode < 200 || responseCode >= 300) {
+                throw new HttpException(httpResponse);
             }
-            throw new HttpException(httpResponse);
+            return httpResponse;
         } finally {
             createHttpsConnection.disconnect();
         }

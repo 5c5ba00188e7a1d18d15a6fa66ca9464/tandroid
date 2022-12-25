@@ -9,12 +9,12 @@ import androidx.core.graphics.ColorUtils;
 import org.telegram.messenger.AndroidUtilities;
 /* loaded from: classes3.dex */
 public class MsgClockDrawable extends Drawable {
+    private int alpha;
     private int color;
+    private int colorAlpha;
     private Drawable.ConstantState constantState;
     private Paint paint;
-    private int alpha = 255;
-    private int colorAlpha = 255;
-    private long startTime = System.currentTimeMillis();
+    private long startTime;
 
     @Override // android.graphics.drawable.Drawable
     public int getOpacity() {
@@ -28,9 +28,12 @@ public class MsgClockDrawable extends Drawable {
     public MsgClockDrawable() {
         Paint paint = new Paint(1);
         this.paint = paint;
+        this.alpha = 255;
+        this.colorAlpha = 255;
         paint.setStyle(Paint.Style.STROKE);
         this.paint.setStrokeCap(Paint.Cap.ROUND);
         this.paint.setStrokeWidth(AndroidUtilities.dp(1.0f));
+        this.startTime = System.currentTimeMillis();
     }
 
     @Override // android.graphics.drawable.Drawable

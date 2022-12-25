@@ -29,7 +29,7 @@ public class ReflectionAccessFilterHelper {
         private AccessChecker() {
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:5:0x001f  */
+        /* JADX WARN: Removed duplicated region for block: B:8:0x001f  */
         static {
             AccessChecker accessChecker;
             if (JavaVersion.isJava9OrLater()) {

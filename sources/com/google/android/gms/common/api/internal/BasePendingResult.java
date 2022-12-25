@@ -235,12 +235,8 @@ public abstract class BasePendingResult<R extends Result> extends PendingResult<
         if (j > 0) {
             Preconditions.checkNotMainThread("await must not be called on the UI thread when time is greater than zero.");
         }
-        boolean z = true;
         Preconditions.checkState(!this.zal, "Result has already been consumed.");
-        if (this.zap != null) {
-            z = false;
-        }
-        Preconditions.checkState(z, "Cannot await if then() has been called.");
+        Preconditions.checkState(this.zap == null, "Cannot await if then() has been called.");
         try {
             if (!this.zaf.await(j, timeUnit)) {
                 forceFailureUnlessReady(Status.RESULT_TIMEOUT);

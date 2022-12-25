@@ -95,49 +95,39 @@ public class LinkPath extends Path {
             }
             float lineRight = layout.getLineRight(this.currentLine);
             float lineLeft = this.currentLayout.getLineLeft(this.currentLine);
-            if (f >= lineRight) {
-                return;
-            }
-            if (f <= lineLeft && f3 <= lineLeft) {
-                return;
-            }
-            if (f3 <= lineRight) {
-                lineRight = f3;
-            }
-            if (f >= lineLeft) {
-                lineLeft = f;
-            }
-            float f9 = this.xOffset;
-            float f10 = lineLeft + f9;
-            float f11 = f9 + lineRight;
-            float f12 = 0.0f;
-            if (Build.VERSION.SDK_INT >= 28) {
-                if (f7 - f6 > this.lineHeight) {
-                    float f13 = this.yOffset;
-                    if (f7 != this.currentLayout.getHeight()) {
-                        f12 = this.currentLayout.getLineBottom(this.currentLine) - this.currentLayout.getSpacingAdd();
+            if (f < lineRight) {
+                if (f > lineLeft || f3 > lineLeft) {
+                    if (f3 <= lineRight) {
+                        lineRight = f3;
                     }
-                    f7 = f13 + f12;
+                    if (f >= lineLeft) {
+                        lineLeft = f;
+                    }
+                    float f9 = this.xOffset;
+                    float f10 = lineLeft + f9;
+                    float f11 = f9 + lineRight;
+                    if (Build.VERSION.SDK_INT >= 28) {
+                        if (f7 - f6 > this.lineHeight) {
+                            f7 = this.yOffset + (f7 != ((float) this.currentLayout.getHeight()) ? this.currentLayout.getLineBottom(this.currentLine) - this.currentLayout.getSpacingAdd() : 0.0f);
+                        }
+                    } else {
+                        f7 -= f7 != ((float) this.currentLayout.getHeight()) ? this.currentLayout.getSpacingAdd() : 0.0f;
+                    }
+                    int i = this.baselineShift;
+                    if (i < 0) {
+                        f7 += i;
+                    } else if (i > 0) {
+                        f6 += i;
+                    }
+                    float f12 = f7;
+                    this.centerX = (f11 + f10) / 2.0f;
+                    this.centerY = (f12 + f6) / 2.0f;
+                    if (this.useRoundRect) {
+                        super.addRect(f10 - (getRadius() / 2.0f), f6, f11 + (getRadius() / 2.0f), f12, direction);
+                    } else {
+                        super.addRect(f10, f6, f11, f12, direction);
+                    }
                 }
-            } else {
-                if (f7 != this.currentLayout.getHeight()) {
-                    f12 = this.currentLayout.getSpacingAdd();
-                }
-                f7 -= f12;
-            }
-            int i = this.baselineShift;
-            if (i < 0) {
-                f7 += i;
-            } else if (i > 0) {
-                f6 += i;
-            }
-            float f14 = f7;
-            this.centerX = (f11 + f10) / 2.0f;
-            this.centerY = (f14 + f6) / 2.0f;
-            if (this.useRoundRect) {
-                super.addRect(f10 - (getRadius() / 2.0f), f6, f11 + (getRadius() / 2.0f), f14, direction);
-            } else {
-                super.addRect(f10, f6, f11, f14, direction);
             }
         } catch (Exception unused) {
         }
@@ -145,9 +135,8 @@ public class LinkPath extends Path {
 
     @Override // android.graphics.Path
     public void reset() {
-        if (!this.allowReset) {
-            return;
+        if (this.allowReset) {
+            super.reset();
         }
-        super.reset();
     }
 }

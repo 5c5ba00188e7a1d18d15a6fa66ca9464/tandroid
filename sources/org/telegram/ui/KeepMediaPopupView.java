@@ -27,7 +27,7 @@ import org.telegram.ui.DialogsActivity;
 public class KeepMediaPopupView extends ActionBarPopupWindow.ActionBarPopupWindowLayout {
     private final CacheByChatsController cacheByChatsController;
     Callback callback;
-    ArrayList<CheckItem> checkItems = new ArrayList<>();
+    ArrayList<CheckItem> checkItems;
     int currentType;
     ActionBarMenuSubItem delete;
     private final TextView description;
@@ -48,6 +48,7 @@ public class KeepMediaPopupView extends ActionBarPopupWindow.ActionBarPopupWindo
 
     public KeepMediaPopupView(final BaseFragment baseFragment, Context context) {
         super(context, null);
+        this.checkItems = new ArrayList<>();
         this.parentFragment = baseFragment;
         this.cacheByChatsController = baseFragment.getMessagesController().getCacheByChatsController();
         setFitItems(true);

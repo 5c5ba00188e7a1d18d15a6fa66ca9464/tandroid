@@ -73,13 +73,12 @@ public class GestureDetectorFixDoubleTap {
                 } else if (i == 3) {
                     GestureDetectorCompatImplBase gestureDetectorCompatImplBase2 = GestureDetectorCompatImplBase.this;
                     GestureDetector.OnDoubleTapListener onDoubleTapListener = gestureDetectorCompatImplBase2.mDoubleTapListener;
-                    if (onDoubleTapListener == null) {
-                        return;
-                    }
-                    if (!gestureDetectorCompatImplBase2.mStillDown) {
-                        onDoubleTapListener.onSingleTapConfirmed(gestureDetectorCompatImplBase2.mCurrentDownEvent);
-                    } else {
-                        gestureDetectorCompatImplBase2.mDeferConfirmSingleTap = true;
+                    if (onDoubleTapListener != null) {
+                        if (!gestureDetectorCompatImplBase2.mStillDown) {
+                            onDoubleTapListener.onSingleTapConfirmed(gestureDetectorCompatImplBase2.mCurrentDownEvent);
+                        } else {
+                            gestureDetectorCompatImplBase2.mDeferConfirmSingleTap = true;
+                        }
                     }
                 } else {
                     throw new RuntimeException("Unknown message " + message);
@@ -131,8 +130,8 @@ public class GestureDetectorFixDoubleTap {
             this.mLongpressDuration = j;
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:116:0x020f  */
-        /* JADX WARN: Removed duplicated region for block: B:119:0x0226  */
+        /* JADX WARN: Removed duplicated region for block: B:109:0x020f  */
+        /* JADX WARN: Removed duplicated region for block: B:112:0x0226  */
         @Override // org.telegram.ui.Components.GestureDetectorFixDoubleTap.GestureDetectorCompatImpl
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -316,13 +315,13 @@ public class GestureDetectorFixDoubleTap {
                     if (i6 > this.mTouchSlopSquare) {
                         this.mAlwaysInBiggerTapRegion = false;
                     }
-                } else if (Math.abs(f6) < 1.0f && Math.abs(f7) < 1.0f) {
-                    return false;
-                } else {
+                } else if (Math.abs(f6) >= 1.0f || Math.abs(f7) >= 1.0f) {
                     boolean onScroll = this.mListener.onScroll(this.mCurrentDownEvent, motionEvent, f6, f7);
                     this.mLastFocusX = f4;
                     this.mLastFocusY = f5;
                     return onScroll;
+                } else {
+                    return false;
                 }
             }
             return onFling;

@@ -32,26 +32,25 @@ public class RingtoneUploader implements NotificationCenter.NotificationCenterDe
     public void didReceivedNotification(int i, int i2, Object... objArr) {
         if (i == NotificationCenter.fileUploaded) {
             String str = (String) objArr[0];
-            if (this.canceled || !str.equals(this.filePath)) {
-                return;
-            }
-            TLRPC$InputFile tLRPC$InputFile = (TLRPC$InputFile) objArr[1];
-            TLRPC$TL_account_uploadRingtone tLRPC$TL_account_uploadRingtone = new TLRPC$TL_account_uploadRingtone();
-            tLRPC$TL_account_uploadRingtone.file = tLRPC$InputFile;
-            tLRPC$TL_account_uploadRingtone.file_name = tLRPC$InputFile.name;
-            String fileExtension = FileLoader.getFileExtension(new File(tLRPC$InputFile.name));
-            tLRPC$TL_account_uploadRingtone.mime_type = fileExtension;
-            if ("ogg".equals(fileExtension)) {
-                tLRPC$TL_account_uploadRingtone.mime_type = "audio/ogg";
-            } else {
-                tLRPC$TL_account_uploadRingtone.mime_type = "audio/mpeg";
-            }
-            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_uploadRingtone, new RequestDelegate() { // from class: org.telegram.messenger.ringtone.RingtoneUploader$$ExternalSyntheticLambda2
-                @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    RingtoneUploader.this.lambda$didReceivedNotification$1(tLObject, tLRPC$TL_error);
+            if (!this.canceled && str.equals(this.filePath)) {
+                TLRPC$InputFile tLRPC$InputFile = (TLRPC$InputFile) objArr[1];
+                TLRPC$TL_account_uploadRingtone tLRPC$TL_account_uploadRingtone = new TLRPC$TL_account_uploadRingtone();
+                tLRPC$TL_account_uploadRingtone.file = tLRPC$InputFile;
+                tLRPC$TL_account_uploadRingtone.file_name = tLRPC$InputFile.name;
+                String fileExtension = FileLoader.getFileExtension(new File(tLRPC$InputFile.name));
+                tLRPC$TL_account_uploadRingtone.mime_type = fileExtension;
+                if ("ogg".equals(fileExtension)) {
+                    tLRPC$TL_account_uploadRingtone.mime_type = "audio/ogg";
+                } else {
+                    tLRPC$TL_account_uploadRingtone.mime_type = "audio/mpeg";
                 }
-            });
+                ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_uploadRingtone, new RequestDelegate() { // from class: org.telegram.messenger.ringtone.RingtoneUploader$$ExternalSyntheticLambda2
+                    @Override // org.telegram.tgnet.RequestDelegate
+                    public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                        RingtoneUploader.this.lambda$didReceivedNotification$1(tLObject, tLRPC$TL_error);
+                    }
+                });
+            }
         }
     }
 

@@ -71,29 +71,36 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
     private Integer currentColor;
     private Integer currentMoonColor;
     private RLottieImageView darkThemeView;
+    private Rect destRect;
     public boolean drawPremium;
     public float drawPremiumProgress;
     PremiumGradient.GradientTools gradientTools;
+    private int lastAccount;
+    private TLRPC$User lastUser;
     private SimpleTextView nameTextView;
+    private Paint paint;
     private TextView phoneTextView;
+    private Drawable premiumStar;
     private ImageView shadowView;
     private SnowflakesEffect snowflakesEffect;
+    private Rect srcRect;
     StarParticlesView.Drawable starParticlesDrawable;
     private AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable status;
-    private boolean updateRightDrawable = true;
-    private Rect srcRect = new Rect();
-    private Rect destRect = new Rect();
-    private Paint paint = new Paint();
-    private int lastAccount = -1;
-    private TLRPC$User lastUser = null;
-    private Drawable premiumStar = null;
+    private boolean updateRightDrawable;
 
     protected void onPremiumClick() {
     }
 
     public DrawerProfileCell(Context context, final DrawerLayoutContainer drawerLayoutContainer) {
         super(context);
+        this.updateRightDrawable = true;
+        this.srcRect = new Rect();
+        this.destRect = new Rect();
+        this.paint = new Paint();
         new Paint(1);
+        this.lastAccount = -1;
+        this.lastUser = null;
+        this.premiumStar = null;
         ImageView imageView = new ImageView(context);
         this.shadowView = imageView;
         imageView.setVisibility(4);
@@ -227,9 +234,9 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:24:0x006f  */
-    /* JADX WARN: Removed duplicated region for block: B:27:0x008d  */
-    /* JADX WARN: Removed duplicated region for block: B:30:0x007b  */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x006f  */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x007b  */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x008d  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -242,19 +249,15 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
         switchingTheme = true;
         SharedPreferences sharedPreferences = ApplicationLoader.applicationContext.getSharedPreferences("themeconfig", 0);
         String str = "Blue";
-        String string = sharedPreferences.getString("lastDayTheme", str);
-        if (Theme.getTheme(string) == null || Theme.getTheme(string).isDark()) {
-            string = str;
-        }
+        String string = sharedPreferences.getString("lastDayTheme", "Blue");
+        string = (Theme.getTheme(string) == null || Theme.getTheme(string).isDark()) ? "Blue" : "Blue";
         String str2 = "Dark Blue";
-        String string2 = sharedPreferences.getString("lastDarkTheme", str2);
-        if (Theme.getTheme(string2) == null || !Theme.getTheme(string2).isDark()) {
-            string2 = str2;
-        }
+        String string2 = sharedPreferences.getString("lastDarkTheme", "Dark Blue");
+        string2 = (Theme.getTheme(string2) == null || !Theme.getTheme(string2).isDark()) ? "Dark Blue" : "Dark Blue";
         Theme.ThemeInfo activeTheme = Theme.getActiveTheme();
         if (!string.equals(string2)) {
             str2 = string2;
-        } else if (activeTheme.isDark() || string.equals(str2) || string.equals("Night")) {
+        } else if (activeTheme.isDark() || string.equals("Dark Blue") || string.equals("Night")) {
             str2 = string2;
             equals = str.equals(activeTheme.getKey());
             if (!equals) {
@@ -295,7 +298,7 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
     /* loaded from: classes3.dex */
     public static class AnimatedStatusView extends View {
         private int animationUniq;
-        private ArrayList<Object> animations = new ArrayList<>();
+        private ArrayList<Object> animations;
         private Integer color;
         private int effectsSize;
         private int renderedEffectsSize;
@@ -305,6 +308,7 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
 
         public AnimatedStatusView(Context context, int i, int i2) {
             super(context);
+            this.animations = new ArrayList<>();
             this.stateSize = i;
             this.effectsSize = i2;
             this.renderedEffectsSize = i2;
@@ -481,10 +485,9 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
         }
         if (this.nameTextView.getRightDrawable() instanceof AnimatedEmojiDrawable.WrapSizeDrawable) {
             Drawable drawable = ((AnimatedEmojiDrawable.WrapSizeDrawable) this.nameTextView.getRightDrawable()).getDrawable();
-            if (!(drawable instanceof AnimatedEmojiDrawable)) {
-                return;
+            if (drawable instanceof AnimatedEmojiDrawable) {
+                ((AnimatedEmojiDrawable) drawable).removeView(this.nameTextView);
             }
-            ((AnimatedEmojiDrawable) drawable).removeView(this.nameTextView);
         }
     }
 
@@ -520,9 +523,9 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:50:0x01b7  */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x021e  */
-    /* JADX WARN: Removed duplicated region for block: B:62:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:71:0x01b7  */
+    /* JADX WARN: Removed duplicated region for block: B:80:0x021e  */
+    /* JADX WARN: Removed duplicated region for block: B:84:? A[RETURN, SYNTHETIC] */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -533,8 +536,7 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
         float clamp;
         SnowflakesEffect snowflakesEffect;
         Drawable cachedWallpaper = Theme.getCachedWallpaper();
-        int i = 0;
-        boolean z2 = !applyBackground(false).equals("chats_menuTopBackground") && Theme.isCustomTheme() && !Theme.isPatternWallpaper() && cachedWallpaper != null && !(cachedWallpaper instanceof ColorDrawable) && !(cachedWallpaper instanceof GradientDrawable);
+        boolean z2 = (applyBackground(false).equals("chats_menuTopBackground") || !Theme.isCustomTheme() || Theme.isPatternWallpaper() || cachedWallpaper == null || (cachedWallpaper instanceof ColorDrawable) || (cachedWallpaper instanceof GradientDrawable)) ? false : true;
         if (!z2 && Theme.hasThemeKey("chats_menuTopShadowCats")) {
             serviceMessageColor = Theme.getColor("chats_menuTopShadowCats");
             z = true;
@@ -589,9 +591,7 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
                 Theme.getServiceMessageColor();
             }
         } else {
-            if (!z) {
-                i = 4;
-            }
+            int i = z ? 0 : 4;
             if (this.shadowView.getVisibility() != i) {
                 this.shadowView.setVisibility(i);
             }
@@ -626,10 +626,10 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
                     invalidate();
                 }
                 snowflakesEffect = this.snowflakesEffect;
-                if (snowflakesEffect != null) {
+                if (snowflakesEffect == null) {
+                    snowflakesEffect.onDraw(this, canvas);
                     return;
                 }
-                snowflakesEffect.onDraw(this, canvas);
                 return;
             }
         }
@@ -644,7 +644,7 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
         if (clamp != 0.0f) {
         }
         snowflakesEffect = this.snowflakesEffect;
-        if (snowflakesEffect != null) {
+        if (snowflakesEffect == null) {
         }
     }
 
@@ -691,7 +691,6 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
         this.drawPremium = false;
         this.nameTextView.setText(userName);
         TLRPC$EmojiStatus tLRPC$EmojiStatus = tLRPC$User.emoji_status;
-        String str = "chats_menuPhoneCats";
         if ((tLRPC$EmojiStatus instanceof TLRPC$TL_emojiStatusUntil) && ((TLRPC$TL_emojiStatusUntil) tLRPC$EmojiStatus).until > ((int) (System.currentTimeMillis() / 1000))) {
             this.animatedStatus.animate().alpha(1.0f).setDuration(200L).start();
             this.nameTextView.setDrawablePadding(AndroidUtilities.dp(4.0f));
@@ -706,19 +705,15 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
             if (this.premiumStar == null) {
                 this.premiumStar = getResources().getDrawable(R.drawable.msg_premium_liststar).mutate();
             }
-            this.premiumStar.setColorFilter(new PorterDuffColorFilter(Theme.getColor(str), PorterDuff.Mode.MULTIPLY));
+            this.premiumStar.setColorFilter(new PorterDuffColorFilter(Theme.getColor("chats_menuPhoneCats"), PorterDuff.Mode.MULTIPLY));
             this.status.set(this.premiumStar, true);
         } else {
             this.animatedStatus.animateChange(null);
             this.animatedStatus.animate().alpha(0.0f).setDuration(200L).start();
             this.status.set((Drawable) null, true);
         }
-        this.animatedStatus.setColor(Theme.getColor(Theme.isCurrentThemeDark() ? "chats_verifiedBackground" : str));
-        AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable = this.status;
-        if (Theme.isCurrentThemeDark()) {
-            str = "chats_verifiedBackground";
-        }
-        swapAnimatedEmojiDrawable.setColor(Integer.valueOf(Theme.getColor(str)));
+        this.animatedStatus.setColor(Theme.getColor(Theme.isCurrentThemeDark() ? "chats_verifiedBackground" : "chats_menuPhoneCats"));
+        this.status.setColor(Integer.valueOf(Theme.getColor(Theme.isCurrentThemeDark() ? "chats_verifiedBackground" : "chats_menuPhoneCats")));
         TextView textView = this.phoneTextView;
         PhoneFormat phoneFormat = PhoneFormat.getInstance();
         textView.setText(phoneFormat.format("+" + tLRPC$User.phone));
@@ -732,9 +727,7 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
     public String applyBackground(boolean z) {
         String str = (String) getTag();
         String str2 = "chats_menuTopBackground";
-        if (!Theme.hasThemeKey(str2) || Theme.getColor(str2) == 0) {
-            str2 = "chats_menuTopBackgroundCats";
-        }
+        str2 = (!Theme.hasThemeKey("chats_menuTopBackground") || Theme.getColor("chats_menuTopBackground") == 0) ? "chats_menuTopBackgroundCats" : "chats_menuTopBackgroundCats";
         if (z || !str2.equals(str)) {
             setBackgroundColor(Theme.getColor(str2));
             setTag(str2);
@@ -748,16 +741,12 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
             snowflakesEffect.updateColors();
         }
         AnimatedStatusView animatedStatusView = this.animatedStatus;
-        String str = "chats_verifiedBackground";
         if (animatedStatusView != null) {
-            animatedStatusView.setColor(Theme.getColor(Theme.isCurrentThemeDark() ? str : "chats_menuPhoneCats"));
+            animatedStatusView.setColor(Theme.getColor(Theme.isCurrentThemeDark() ? "chats_verifiedBackground" : "chats_menuPhoneCats"));
         }
         AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable = this.status;
         if (swapAnimatedEmojiDrawable != null) {
-            if (!Theme.isCurrentThemeDark()) {
-                str = "chats_menuPhoneCats";
-            }
-            swapAnimatedEmojiDrawable.setColor(Integer.valueOf(Theme.getColor(str)));
+            swapAnimatedEmojiDrawable.setColor(Integer.valueOf(Theme.getColor(Theme.isCurrentThemeDark() ? "chats_verifiedBackground" : "chats_menuPhoneCats")));
         }
     }
 
@@ -790,8 +779,7 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
             setUser((TLRPC$User) objArr[0], this.accountsShown);
         } else if (i == NotificationCenter.currentUserPremiumStatusChanged) {
             setUser(UserConfig.getInstance(UserConfig.selectedAccount).getCurrentUser(), this.accountsShown);
-        } else if (i != NotificationCenter.updateInterfaces) {
-        } else {
+        } else if (i == NotificationCenter.updateInterfaces) {
             int intValue = ((Integer) objArr[0]).intValue();
             if ((MessagesController.UPDATE_MASK_NAME & intValue) == 0 && (MessagesController.UPDATE_MASK_AVATAR & intValue) == 0 && (MessagesController.UPDATE_MASK_STATUS & intValue) == 0 && (MessagesController.UPDATE_MASK_PHONE & intValue) == 0 && (intValue & MessagesController.UPDATE_MASK_EMOJI_STATUS) == 0) {
                 return;

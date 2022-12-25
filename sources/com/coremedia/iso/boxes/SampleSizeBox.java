@@ -16,7 +16,7 @@ public class SampleSizeBox extends AbstractFullBox {
     private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_6 = null;
     int sampleCount;
     private long sampleSize;
-    private long[] sampleSizes = new long[0];
+    private long[] sampleSizes;
 
     static {
         ajc$preClinit();
@@ -35,6 +35,7 @@ public class SampleSizeBox extends AbstractFullBox {
 
     public SampleSizeBox() {
         super("stsz");
+        this.sampleSizes = new long[0];
     }
 
     public long getSampleSize() {

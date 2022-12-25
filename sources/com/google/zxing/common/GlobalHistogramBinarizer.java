@@ -6,11 +6,13 @@ import com.google.zxing.NotFoundException;
 /* loaded from: classes.dex */
 public class GlobalHistogramBinarizer extends Binarizer {
     private static final byte[] EMPTY = new byte[0];
-    private byte[] luminances = EMPTY;
-    private final int[] buckets = new int[32];
+    private final int[] buckets;
+    private byte[] luminances;
 
     public GlobalHistogramBinarizer(LuminanceSource luminanceSource) {
         super(luminanceSource);
+        this.luminances = EMPTY;
+        this.buckets = new int[32];
     }
 
     @Override // com.google.zxing.Binarizer

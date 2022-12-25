@@ -12,14 +12,14 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 /* loaded from: classes3.dex */
 public class ScamDrawable extends Drawable {
+    int alpha;
+    int colorAlpha;
     private int currentType;
     private String text;
     private TextPaint textPaint;
     private int textWidth;
     private RectF rect = new RectF();
     private Paint paint = new Paint(1);
-    int colorAlpha = 255;
-    int alpha = 255;
 
     @Override // android.graphics.drawable.Drawable
     public int getOpacity() {
@@ -33,6 +33,8 @@ public class ScamDrawable extends Drawable {
     public ScamDrawable(int i, int i2) {
         TextPaint textPaint = new TextPaint(1);
         this.textPaint = textPaint;
+        this.colorAlpha = 255;
+        this.alpha = 255;
         this.currentType = i2;
         textPaint.setTextSize(AndroidUtilities.dp(i));
         this.textPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
@@ -53,10 +55,11 @@ public class ScamDrawable extends Drawable {
         } else {
             string = LocaleController.getString("FakeMessage", R.string.FakeMessage);
         }
-        if (!string.equals(this.text)) {
-            this.text = string;
-            this.textWidth = (int) Math.ceil(this.textPaint.measureText(string));
+        if (string.equals(this.text)) {
+            return;
         }
+        this.text = string;
+        this.textWidth = (int) Math.ceil(this.textPaint.measureText(string));
     }
 
     public void setColor(int i) {

@@ -14,7 +14,7 @@ import org.aspectj.runtime.reflect.Factory;
 public class AbstractDescriptorBox extends AbstractFullBox {
     private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_3 = null;
     private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_4 = null;
-    private static Logger log = Logger.getLogger(AbstractDescriptorBox.class.getName());
+    private static Logger log;
     protected ByteBuffer data;
 
     private static /* synthetic */ void ajc$preClinit() {
@@ -28,6 +28,7 @@ public class AbstractDescriptorBox extends AbstractFullBox {
 
     static {
         ajc$preClinit();
+        log = Logger.getLogger(AbstractDescriptorBox.class.getName());
     }
 
     public AbstractDescriptorBox(String str) {

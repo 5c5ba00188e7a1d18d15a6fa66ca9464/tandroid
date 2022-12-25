@@ -128,12 +128,12 @@ public abstract class TLRPC$messages_Dialogs extends TLObject {
                 }
             };
         }
-        if (tLRPC$messages_Dialogs != null || !z) {
-            if (tLRPC$messages_Dialogs != null) {
-                tLRPC$messages_Dialogs.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$messages_Dialogs;
+        if (tLRPC$messages_Dialogs == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in messages_Dialogs", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in messages_Dialogs", Integer.valueOf(i)));
+        if (tLRPC$messages_Dialogs != null) {
+            tLRPC$messages_Dialogs.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$messages_Dialogs;
     }
 }

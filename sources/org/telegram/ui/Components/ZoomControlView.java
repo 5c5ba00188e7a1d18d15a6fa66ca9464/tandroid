@@ -15,21 +15,7 @@ import org.telegram.messenger.R;
 import org.telegram.ui.Components.AnimationProperties;
 /* loaded from: classes3.dex */
 public class ZoomControlView extends View {
-    public final Property<ZoomControlView, Float> ZOOM_PROPERTY = new AnimationProperties.FloatProperty<ZoomControlView>("clipProgress") { // from class: org.telegram.ui.Components.ZoomControlView.1
-        @Override // org.telegram.ui.Components.AnimationProperties.FloatProperty
-        public void setValue(ZoomControlView zoomControlView, float f) {
-            ZoomControlView.this.zoom = f;
-            if (ZoomControlView.this.delegate != null) {
-                ZoomControlView.this.delegate.didSetZoom(ZoomControlView.this.zoom);
-            }
-            ZoomControlView.this.invalidate();
-        }
-
-        @Override // android.util.Property
-        public Float get(ZoomControlView zoomControlView) {
-            return Float.valueOf(ZoomControlView.this.zoom);
-        }
-    };
+    public final Property<ZoomControlView, Float> ZOOM_PROPERTY;
     private float animatingToZoom;
     private AnimatorSet animatorSet;
     private ZoomControlViewDelegate delegate;
@@ -60,6 +46,21 @@ public class ZoomControlView extends View {
 
     public ZoomControlView(Context context) {
         super(context);
+        this.ZOOM_PROPERTY = new AnimationProperties.FloatProperty<ZoomControlView>("clipProgress") { // from class: org.telegram.ui.Components.ZoomControlView.1
+            @Override // org.telegram.ui.Components.AnimationProperties.FloatProperty
+            public void setValue(ZoomControlView zoomControlView, float f) {
+                ZoomControlView.this.zoom = f;
+                if (ZoomControlView.this.delegate != null) {
+                    ZoomControlView.this.delegate.didSetZoom(ZoomControlView.this.zoom);
+                }
+                ZoomControlView.this.invalidate();
+            }
+
+            @Override // android.util.Property
+            public Float get(ZoomControlView zoomControlView) {
+                return Float.valueOf(ZoomControlView.this.zoom);
+            }
+        };
         this.minusDrawable = context.getResources().getDrawable(R.drawable.zoom_minus);
         this.plusDrawable = context.getResources().getDrawable(R.drawable.zoom_plus);
         this.progressDrawable = context.getResources().getDrawable(R.drawable.zoom_slide);
@@ -96,8 +97,8 @@ public class ZoomControlView extends View {
         this.delegate = zoomControlViewDelegate;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:26:0x01da  */
-    /* JADX WARN: Removed duplicated region for block: B:28:0x01e3  */
+    /* JADX WARN: Removed duplicated region for block: B:92:0x01da  */
+    /* JADX WARN: Removed duplicated region for block: B:94:0x01e3  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -175,7 +176,7 @@ public class ZoomControlView extends View {
             z = true;
             if (action == 1) {
             }
-            if (!z) {
+            if (z) {
             }
         } else if (action == 2 && this.knobPressed) {
             if (z2) {
@@ -198,7 +199,7 @@ public class ZoomControlView extends View {
         z = false;
         if (action == 1) {
         }
-        if (!z) {
+        if (z) {
         }
     }
 

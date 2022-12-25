@@ -54,13 +54,13 @@ public class ID3v2Info extends AudioInfo {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:34:0x005a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:12:0x005a, code lost:
         r1 = org.telegram.messenger.audioinfo.mp3.ID3v2Info.LOGGER;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:35:0x0060, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:13:0x0060, code lost:
         if (r1.isLoggable(r13) == false) goto L38;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:36:0x0062, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:14:0x0062, code lost:
         r1.log(r13, "ID3 frame claims to extend frames area");
      */
     /*
@@ -110,10 +110,9 @@ public class ID3v2Info extends AudioInfo {
                 }
             }
             tagBody.getData().skipFully(tagBody.getRemainingLength());
-            if (iD3v2TagHeader.getFooterSize() <= 0) {
-                return;
+            if (iD3v2TagHeader.getFooterSize() > 0) {
+                inputStream.skip(iD3v2TagHeader.getFooterSize());
             }
-            inputStream.skip(iD3v2TagHeader.getFooterSize());
         }
     }
 
@@ -333,50 +332,50 @@ public class ID3v2Info extends AudioInfo {
             case 0:
             case 17:
                 CommentOrUnsynchronizedLyrics parseCommentOrUnsynchronizedLyricsFrame = parseCommentOrUnsynchronizedLyricsFrame(iD3v2FrameBody);
-                if (this.comment != null && (str = parseCommentOrUnsynchronizedLyricsFrame.description) != null && !"".equals(str)) {
+                if (this.comment == null || (str = parseCommentOrUnsynchronizedLyricsFrame.description) == null || "".equals(str)) {
+                    this.comment = parseCommentOrUnsynchronizedLyricsFrame.text;
                     return;
                 }
-                this.comment = parseCommentOrUnsynchronizedLyricsFrame.text;
                 return;
             case 1:
             case 16:
-                if (this.cover != null && this.coverPictureType == 3) {
+                if (this.cover == null || this.coverPictureType != 3) {
+                    AttachedPicture parseAttachedPictureFrame = parseAttachedPictureFrame(iD3v2FrameBody);
+                    if (this.cover == null || (b = parseAttachedPictureFrame.type) == 3 || b == 0) {
+                        try {
+                            byte[] bArr = parseAttachedPictureFrame.imageData;
+                            BitmapFactory.Options options = new BitmapFactory.Options();
+                            options.inJustDecodeBounds = true;
+                            options.inSampleSize = 1;
+                            BitmapFactory.decodeByteArray(bArr, 0, bArr.length, options);
+                            int i2 = options.outWidth;
+                            if (i2 > 800 || options.outHeight > 800) {
+                                for (int max = Math.max(i2, options.outHeight); max > 800; max /= 2) {
+                                    options.inSampleSize *= 2;
+                                }
+                            }
+                            options.inJustDecodeBounds = false;
+                            Bitmap decodeByteArray = BitmapFactory.decodeByteArray(bArr, 0, bArr.length, options);
+                            this.cover = decodeByteArray;
+                            if (decodeByteArray != null) {
+                                float max2 = Math.max(decodeByteArray.getWidth(), this.cover.getHeight()) / 120.0f;
+                                if (max2 > 0.0f) {
+                                    this.smallCover = Bitmap.createScaledBitmap(this.cover, (int) (bitmap.getWidth() / max2), (int) (this.cover.getHeight() / max2), true);
+                                } else {
+                                    this.smallCover = this.cover;
+                                }
+                                if (this.smallCover == null) {
+                                    this.smallCover = this.cover;
+                                }
+                            }
+                        } catch (Throwable th) {
+                            th.printStackTrace();
+                        }
+                        this.coverPictureType = parseAttachedPictureFrame.type;
+                        return;
+                    }
                     return;
                 }
-                AttachedPicture parseAttachedPictureFrame = parseAttachedPictureFrame(iD3v2FrameBody);
-                if (this.cover != null && (b = parseAttachedPictureFrame.type) != 3 && b != 0) {
-                    return;
-                }
-                try {
-                    byte[] bArr = parseAttachedPictureFrame.imageData;
-                    BitmapFactory.Options options = new BitmapFactory.Options();
-                    options.inJustDecodeBounds = true;
-                    options.inSampleSize = 1;
-                    BitmapFactory.decodeByteArray(bArr, 0, bArr.length, options);
-                    int i2 = options.outWidth;
-                    if (i2 > 800 || options.outHeight > 800) {
-                        for (int max = Math.max(i2, options.outHeight); max > 800; max /= 2) {
-                            options.inSampleSize *= 2;
-                        }
-                    }
-                    options.inJustDecodeBounds = false;
-                    Bitmap decodeByteArray = BitmapFactory.decodeByteArray(bArr, 0, bArr.length, options);
-                    this.cover = decodeByteArray;
-                    if (decodeByteArray != null) {
-                        float max2 = Math.max(decodeByteArray.getWidth(), this.cover.getHeight()) / 120.0f;
-                        if (max2 > 0.0f) {
-                            this.smallCover = Bitmap.createScaledBitmap(this.cover, (int) (bitmap.getWidth() / max2), (int) (this.cover.getHeight() / max2), true);
-                        } else {
-                            this.smallCover = this.cover;
-                        }
-                        if (this.smallCover == null) {
-                            this.smallCover = this.cover;
-                        }
-                    }
-                } catch (Throwable th) {
-                    th.printStackTrace();
-                }
-                this.coverPictureType = parseAttachedPictureFrame.type;
                 return;
             case 2:
             case 18:
@@ -389,28 +388,28 @@ public class ID3v2Info extends AudioInfo {
             case 4:
             case 21:
                 String parseTextFrame = parseTextFrame(iD3v2FrameBody);
-                if (parseTextFrame.length() <= 0) {
-                    return;
-                }
-                this.genre = parseTextFrame;
-                ID3v1Genre iD3v1Genre = null;
-                try {
-                    if (parseTextFrame.charAt(0) == '(') {
-                        int indexOf = parseTextFrame.indexOf(41);
-                        if (indexOf > 1 && (iD3v1Genre = ID3v1Genre.getGenre(Integer.parseInt(parseTextFrame.substring(1, indexOf)))) == null && parseTextFrame.length() > (i = indexOf + 1)) {
-                            this.genre = parseTextFrame.substring(i);
+                if (parseTextFrame.length() > 0) {
+                    this.genre = parseTextFrame;
+                    ID3v1Genre iD3v1Genre = null;
+                    try {
+                        if (parseTextFrame.charAt(0) == '(') {
+                            int indexOf = parseTextFrame.indexOf(41);
+                            if (indexOf > 1 && (iD3v1Genre = ID3v1Genre.getGenre(Integer.parseInt(parseTextFrame.substring(1, indexOf)))) == null && parseTextFrame.length() > (i = indexOf + 1)) {
+                                this.genre = parseTextFrame.substring(i);
+                            }
+                        } else {
+                            iD3v1Genre = ID3v1Genre.getGenre(Integer.parseInt(parseTextFrame));
                         }
-                    } else {
-                        iD3v1Genre = ID3v1Genre.getGenre(Integer.parseInt(parseTextFrame));
-                    }
-                    if (iD3v1Genre == null) {
+                        if (iD3v1Genre != null) {
+                            this.genre = iD3v1Genre.getDescription();
+                            return;
+                        }
+                        return;
+                    } catch (NumberFormatException unused) {
                         return;
                     }
-                    this.genre = iD3v1Genre.getDescription();
-                    return;
-                } catch (NumberFormatException unused) {
-                    return;
                 }
+                return;
             case 5:
             case 19:
                 this.compilation = "1".equals(parseTextFrame(iD3v2FrameBody));
@@ -427,10 +426,10 @@ public class ID3v2Info extends AudioInfo {
                     return;
                 } catch (NumberFormatException unused2) {
                     Logger logger2 = LOGGER;
-                    if (!logger2.isLoggable(this.debugLevel)) {
+                    if (logger2.isLoggable(this.debugLevel)) {
+                        logger2.log(this.debugLevel, "Could not parse track duration: " + parseTextFrame2);
                         return;
                     }
-                    logger2.log(this.debugLevel, "Could not parse track duration: " + parseTextFrame2);
                     return;
                 }
             case '\b':
@@ -444,81 +443,81 @@ public class ID3v2Info extends AudioInfo {
             case '\n':
             case 29:
                 String parseTextFrame3 = parseTextFrame(iD3v2FrameBody);
-                if (parseTextFrame3.length() <= 0) {
-                    return;
-                }
-                int indexOf2 = parseTextFrame3.indexOf(47);
-                if (indexOf2 < 0) {
-                    try {
-                        this.disc = Short.valueOf(parseTextFrame3).shortValue();
-                        return;
-                    } catch (NumberFormatException unused3) {
-                        Logger logger3 = LOGGER;
-                        if (!logger3.isLoggable(this.debugLevel)) {
+                if (parseTextFrame3.length() > 0) {
+                    int indexOf2 = parseTextFrame3.indexOf(47);
+                    if (indexOf2 < 0) {
+                        try {
+                            this.disc = Short.valueOf(parseTextFrame3).shortValue();
+                            return;
+                        } catch (NumberFormatException unused3) {
+                            Logger logger3 = LOGGER;
+                            if (logger3.isLoggable(this.debugLevel)) {
+                                logger3.log(this.debugLevel, "Could not parse disc number: " + parseTextFrame3);
+                                return;
+                            }
                             return;
                         }
-                        logger3.log(this.debugLevel, "Could not parse disc number: " + parseTextFrame3);
+                    }
+                    try {
+                        this.disc = Short.valueOf(parseTextFrame3.substring(0, indexOf2)).shortValue();
+                    } catch (NumberFormatException unused4) {
+                        Logger logger4 = LOGGER;
+                        if (logger4.isLoggable(this.debugLevel)) {
+                            logger4.log(this.debugLevel, "Could not parse disc number: " + parseTextFrame3);
+                        }
+                    }
+                    try {
+                        this.discs = Short.valueOf(parseTextFrame3.substring(indexOf2 + 1)).shortValue();
+                        return;
+                    } catch (NumberFormatException unused5) {
+                        Logger logger5 = LOGGER;
+                        if (logger5.isLoggable(this.debugLevel)) {
+                            logger5.log(this.debugLevel, "Could not parse number of discs: " + parseTextFrame3);
+                            return;
+                        }
                         return;
                     }
                 }
-                try {
-                    this.disc = Short.valueOf(parseTextFrame3.substring(0, indexOf2)).shortValue();
-                } catch (NumberFormatException unused4) {
-                    Logger logger4 = LOGGER;
-                    if (logger4.isLoggable(this.debugLevel)) {
-                        logger4.log(this.debugLevel, "Could not parse disc number: " + parseTextFrame3);
-                    }
-                }
-                try {
-                    this.discs = Short.valueOf(parseTextFrame3.substring(indexOf2 + 1)).shortValue();
-                    return;
-                } catch (NumberFormatException unused5) {
-                    Logger logger5 = LOGGER;
-                    if (!logger5.isLoggable(this.debugLevel)) {
-                        return;
-                    }
-                    logger5.log(this.debugLevel, "Could not parse number of discs: " + parseTextFrame3);
-                    return;
-                }
+                return;
             case 11:
             case 30:
                 String parseTextFrame4 = parseTextFrame(iD3v2FrameBody);
-                if (parseTextFrame4.length() <= 0) {
-                    return;
-                }
-                int indexOf3 = parseTextFrame4.indexOf(47);
-                if (indexOf3 < 0) {
-                    try {
-                        this.track = Short.valueOf(parseTextFrame4).shortValue();
-                        return;
-                    } catch (NumberFormatException unused6) {
-                        Logger logger6 = LOGGER;
-                        if (!logger6.isLoggable(this.debugLevel)) {
+                if (parseTextFrame4.length() > 0) {
+                    int indexOf3 = parseTextFrame4.indexOf(47);
+                    if (indexOf3 < 0) {
+                        try {
+                            this.track = Short.valueOf(parseTextFrame4).shortValue();
+                            return;
+                        } catch (NumberFormatException unused6) {
+                            Logger logger6 = LOGGER;
+                            if (logger6.isLoggable(this.debugLevel)) {
+                                logger6.log(this.debugLevel, "Could not parse track number: " + parseTextFrame4);
+                                return;
+                            }
                             return;
                         }
-                        logger6.log(this.debugLevel, "Could not parse track number: " + parseTextFrame4);
+                    }
+                    try {
+                        this.track = Short.valueOf(parseTextFrame4.substring(0, indexOf3)).shortValue();
+                    } catch (NumberFormatException unused7) {
+                        Logger logger7 = LOGGER;
+                        if (logger7.isLoggable(this.debugLevel)) {
+                            logger7.log(this.debugLevel, "Could not parse track number: " + parseTextFrame4);
+                        }
+                    }
+                    try {
+                        this.tracks = Short.valueOf(parseTextFrame4.substring(indexOf3 + 1)).shortValue();
+                        return;
+                    } catch (NumberFormatException unused8) {
+                        Logger logger8 = LOGGER;
+                        if (logger8.isLoggable(this.debugLevel)) {
+                            logger8.log(this.debugLevel, "Could not parse number of tracks: " + parseTextFrame4);
+                            return;
+                        }
                         return;
                     }
                 }
-                try {
-                    this.track = Short.valueOf(parseTextFrame4.substring(0, indexOf3)).shortValue();
-                } catch (NumberFormatException unused7) {
-                    Logger logger7 = LOGGER;
-                    if (logger7.isLoggable(this.debugLevel)) {
-                        logger7.log(this.debugLevel, "Could not parse track number: " + parseTextFrame4);
-                    }
-                }
-                try {
-                    this.tracks = Short.valueOf(parseTextFrame4.substring(indexOf3 + 1)).shortValue();
-                    return;
-                } catch (NumberFormatException unused8) {
-                    Logger logger8 = LOGGER;
-                    if (!logger8.isLoggable(this.debugLevel)) {
-                        return;
-                    }
-                    logger8.log(this.debugLevel, "Could not parse number of tracks: " + parseTextFrame4);
-                    return;
-                }
+                return;
             case '\f':
             case 24:
                 this.grouping = parseTextFrame(iD3v2FrameBody);
@@ -530,43 +529,43 @@ public class ID3v2Info extends AudioInfo {
             case 14:
             case 31:
                 String parseTextFrame5 = parseTextFrame(iD3v2FrameBody);
-                if (parseTextFrame5.length() <= 0) {
-                    return;
-                }
-                try {
-                    this.year = Short.valueOf(parseTextFrame5).shortValue();
-                    return;
-                } catch (NumberFormatException unused9) {
-                    Logger logger9 = LOGGER;
-                    if (!logger9.isLoggable(this.debugLevel)) {
+                if (parseTextFrame5.length() > 0) {
+                    try {
+                        this.year = Short.valueOf(parseTextFrame5).shortValue();
+                        return;
+                    } catch (NumberFormatException unused9) {
+                        Logger logger9 = LOGGER;
+                        if (logger9.isLoggable(this.debugLevel)) {
+                            logger9.log(this.debugLevel, "Could not parse year: " + parseTextFrame5);
+                            return;
+                        }
                         return;
                     }
-                    logger9.log(this.debugLevel, "Could not parse year: " + parseTextFrame5);
-                    return;
                 }
+                return;
             case 15:
             case ' ':
-                if (this.lyrics != null) {
+                if (this.lyrics == null) {
+                    this.lyrics = parseCommentOrUnsynchronizedLyricsFrame(iD3v2FrameBody).text;
                     return;
                 }
-                this.lyrics = parseCommentOrUnsynchronizedLyricsFrame(iD3v2FrameBody).text;
                 return;
             case 23:
                 String parseTextFrame6 = parseTextFrame(iD3v2FrameBody);
-                if (parseTextFrame6.length() < 4) {
-                    return;
-                }
-                try {
-                    this.year = Short.valueOf(parseTextFrame6.substring(0, 4)).shortValue();
-                    return;
-                } catch (NumberFormatException unused10) {
-                    Logger logger10 = LOGGER;
-                    if (!logger10.isLoggable(this.debugLevel)) {
+                if (parseTextFrame6.length() >= 4) {
+                    try {
+                        this.year = Short.valueOf(parseTextFrame6.substring(0, 4)).shortValue();
+                        return;
+                    } catch (NumberFormatException unused10) {
+                        Logger logger10 = LOGGER;
+                        if (logger10.isLoggable(this.debugLevel)) {
+                            logger10.log(this.debugLevel, "Could not parse year from: " + parseTextFrame6);
+                            return;
+                        }
                         return;
                     }
-                    logger10.log(this.debugLevel, "Could not parse year from: " + parseTextFrame6);
-                    return;
                 }
+                return;
             default:
                 return;
         }

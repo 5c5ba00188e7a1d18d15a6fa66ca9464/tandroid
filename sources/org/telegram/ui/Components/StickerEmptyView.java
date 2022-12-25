@@ -239,7 +239,6 @@ public class StickerEmptyView extends FrameLayout implements NotificationCenter.
             tLRPC$Document = tLRPC$Document2;
             str = "130_130";
         }
-        boolean z = true;
         if (tLRPC$Document != null) {
             SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(tLRPC$Document.thumbs, this.colorKey1, 0.2f);
             if (svgThumb != null) {
@@ -255,11 +254,7 @@ public class StickerEmptyView extends FrameLayout implements NotificationCenter.
                 return;
             }
         }
-        MediaDataController mediaDataController = MediaDataController.getInstance(this.currentAccount);
-        if (tLRPC$TL_messages_stickerSet != null) {
-            z = false;
-        }
-        mediaDataController.loadStickersByEmojiOrName(AndroidUtilities.STICKERS_PLACEHOLDER_PACK_NAME, false, z);
+        MediaDataController.getInstance(this.currentAccount).loadStickersByEmojiOrName(AndroidUtilities.STICKERS_PLACEHOLDER_PACK_NAME, false, tLRPC$TL_messages_stickerSet == null);
         this.stickerView.getImageReceiver().clearImage();
     }
 
@@ -272,33 +267,27 @@ public class StickerEmptyView extends FrameLayout implements NotificationCenter.
 
     public void setKeyboardHeight(int i, boolean z) {
         if (this.keyboardSize != i) {
-            int i2 = 0;
             if (getVisibility() != 0) {
                 z = false;
             }
             this.keyboardSize = i;
-            int i3 = -(i >> 1);
-            if (i > 0) {
-                i2 = AndroidUtilities.dp(20.0f);
-            }
-            float f = i3 + i2;
+            float dp = (-(i >> 1)) + (i > 0 ? AndroidUtilities.dp(20.0f) : 0);
             if (z) {
-                ViewPropertyAnimator translationY = this.linearLayout.animate().translationY(f);
+                ViewPropertyAnimator translationY = this.linearLayout.animate().translationY(dp);
                 CubicBezierInterpolator cubicBezierInterpolator = CubicBezierInterpolator.DEFAULT;
                 translationY.setInterpolator(cubicBezierInterpolator).setDuration(250L);
                 RadialProgressView radialProgressView = this.progressBar;
-                if (radialProgressView == null) {
+                if (radialProgressView != null) {
+                    radialProgressView.animate().translationY(dp).setInterpolator(cubicBezierInterpolator).setDuration(250L);
                     return;
                 }
-                radialProgressView.animate().translationY(f).setInterpolator(cubicBezierInterpolator).setDuration(250L);
                 return;
             }
-            this.linearLayout.setTranslationY(f);
+            this.linearLayout.setTranslationY(dp);
             RadialProgressView radialProgressView2 = this.progressBar;
-            if (radialProgressView2 == null) {
-                return;
+            if (radialProgressView2 != null) {
+                radialProgressView2.setTranslationY(dp);
             }
-            radialProgressView2.setTranslationY(f);
         }
     }
 
@@ -371,12 +360,12 @@ public class StickerEmptyView extends FrameLayout implements NotificationCenter.
 
     public void setPreventMoving(boolean z) {
         this.preventMoving = z;
-        if (!z) {
-            this.linearLayout.setTranslationY(0.0f);
-            RadialProgressView radialProgressView = this.progressBar;
-            if (radialProgressView == null) {
-                return;
-            }
+        if (z) {
+            return;
+        }
+        this.linearLayout.setTranslationY(0.0f);
+        RadialProgressView radialProgressView = this.progressBar;
+        if (radialProgressView != null) {
             radialProgressView.setTranslationY(0.0f);
         }
     }

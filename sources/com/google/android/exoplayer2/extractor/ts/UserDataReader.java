@@ -8,9 +8,8 @@ import com.google.android.exoplayer2.text.cea.CeaUtil;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import java.util.List;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class UserDataReader {
+final class UserDataReader {
     private final List<Format> closedCaptionFormats;
     private final TrackOutput[] outputs;
 
@@ -39,9 +38,8 @@ public final class UserDataReader {
         int readInt = parsableByteArray.readInt();
         int readInt2 = parsableByteArray.readInt();
         int readUnsignedByte = parsableByteArray.readUnsignedByte();
-        if (readInt != 434 || readInt2 != 1195456820 || readUnsignedByte != 3) {
-            return;
+        if (readInt == 434 && readInt2 == 1195456820 && readUnsignedByte == 3) {
+            CeaUtil.consumeCcData(j, parsableByteArray, this.outputs);
         }
-        CeaUtil.consumeCcData(j, parsableByteArray, this.outputs);
     }
 }

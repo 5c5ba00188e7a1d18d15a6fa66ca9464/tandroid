@@ -225,8 +225,8 @@ public final class WavExtractor implements Extractor {
         }
 
         /* JADX WARN: Removed duplicated region for block: B:15:0x0048  */
-        /* JADX WARN: Removed duplicated region for block: B:6:0x0021  */
-        /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:8:0x0036 -> B:3:0x001c). Please submit an issue!!! */
+        /* JADX WARN: Removed duplicated region for block: B:7:0x0021  */
+        /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:10:0x0036 -> B:4:0x001c). Please submit an issue!!! */
         @Override // com.google.android.exoplayer2.extractor.wav.WavExtractor.OutputWriter
         /*
             Code decompiled incorrectly, please refer to instructions dump.

@@ -23,9 +23,8 @@ public class BotSwitchCell extends FrameLayout {
         this.textView.setSingleLine(true);
         this.textView.setEllipsize(TextUtils.TruncateAt.END);
         this.textView.setMaxLines(1);
-        int i = 5;
         this.textView.setGravity(LocaleController.isRTL ? 5 : 3);
-        addView(this.textView, LayoutHelper.createFrame(-2, -2.0f, (!LocaleController.isRTL ? 3 : i) | 16, 14.0f, 0.0f, 14.0f, 0.0f));
+        addView(this.textView, LayoutHelper.createFrame(-2, -2.0f, (LocaleController.isRTL ? 5 : 3) | 16, 14.0f, 0.0f, 14.0f, 0.0f));
     }
 
     @Override // android.widget.FrameLayout, android.view.View

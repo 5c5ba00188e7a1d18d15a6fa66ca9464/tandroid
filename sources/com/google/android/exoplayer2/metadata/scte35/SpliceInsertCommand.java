@@ -53,7 +53,6 @@ public final class SpliceInsertCommand extends SpliceCommand {
 
     private SpliceInsertCommand(Parcel parcel) {
         this.spliceEventId = parcel.readLong();
-        boolean z = false;
         this.spliceEventCancelIndicator = parcel.readByte() == 1;
         this.outOfNetworkIndicator = parcel.readByte() == 1;
         this.programSpliceFlag = parcel.readByte() == 1;
@@ -66,7 +65,7 @@ public final class SpliceInsertCommand extends SpliceCommand {
             arrayList.add(ComponentSplice.createFromParcel(parcel));
         }
         this.componentSpliceList = Collections.unmodifiableList(arrayList);
-        this.autoReturn = parcel.readByte() == 1 ? true : z;
+        this.autoReturn = parcel.readByte() == 1;
         this.breakDurationUs = parcel.readLong();
         this.uniqueProgramId = parcel.readInt();
         this.availNum = parcel.readInt();
@@ -90,7 +89,18 @@ public final class SpliceInsertCommand extends SpliceCommand {
         long readUnsignedInt = parsableByteArray.readUnsignedInt();
         boolean z6 = (parsableByteArray.readUnsignedByte() & ConnectionsManager.RequestFlagNeedQuickAck) != 0;
         List emptyList = Collections.emptyList();
-        if (!z6) {
+        if (z6) {
+            list = emptyList;
+            z = false;
+            z2 = false;
+            j2 = -9223372036854775807L;
+            z3 = false;
+            j3 = -9223372036854775807L;
+            i = 0;
+            i2 = 0;
+            i3 = 0;
+            z4 = false;
+        } else {
             int readUnsignedByte = parsableByteArray.readUnsignedByte();
             boolean z7 = (readUnsignedByte & ConnectionsManager.RequestFlagNeedQuickAck) != 0;
             boolean z8 = (readUnsignedByte & 64) != 0;
@@ -127,17 +137,6 @@ public final class SpliceInsertCommand extends SpliceCommand {
             z2 = z10;
             z = z7;
             j2 = j5;
-        } else {
-            list = emptyList;
-            z = false;
-            z2 = false;
-            j2 = -9223372036854775807L;
-            z3 = false;
-            j3 = -9223372036854775807L;
-            i = 0;
-            i2 = 0;
-            i3 = 0;
-            z4 = false;
         }
         return new SpliceInsertCommand(readUnsignedInt, z6, z, z4, z2, j2, timestampAdjuster.adjustTsTimestamp(j2), list, z3, j3, i, i2, i3);
     }

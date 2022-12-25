@@ -28,24 +28,32 @@ import org.telegram.ui.Components.AnimatedEmojiSpan;
 public class Emoji {
     private static final int MAX_RECENT_EMOJI_COUNT = 48;
     private static int bigImgSize;
+    private static int drawImgSize;
+    private static Bitmap[][] emojiBmp;
+    public static HashMap<String, String> emojiColor;
     private static int[] emojiCounts;
+    public static boolean emojiDrawingUseAlpha;
     public static float emojiDrawingYOffset;
+    public static HashMap<String, Integer> emojiUseHistory;
+    private static Runnable invalidateUiRunnable;
+    private static boolean[][] loadingEmoji;
     private static Paint placeholderPaint;
+    public static ArrayList<String> recentEmoji;
     private static boolean recentEmojiLoaded;
     private static HashMap<CharSequence, DrawableInfo> rects = new HashMap<>();
     private static boolean inited = false;
-    private static Bitmap[][] emojiBmp = new Bitmap[8];
-    private static boolean[][] loadingEmoji = new boolean[8];
-    public static HashMap<String, Integer> emojiUseHistory = new HashMap<>();
-    public static ArrayList<String> recentEmoji = new ArrayList<>();
-    public static HashMap<String, String> emojiColor = new HashMap<>();
-    private static Runnable invalidateUiRunnable = Emoji$$ExternalSyntheticLambda1.INSTANCE;
-    public static boolean emojiDrawingUseAlpha = true;
-    private static int drawImgSize = AndroidUtilities.dp(20.0f);
 
     static {
         String[][] strArr = EmojiData.data;
         emojiCounts = new int[]{strArr[0].length, strArr[1].length, strArr[2].length, strArr[3].length, strArr[4].length, strArr[5].length, strArr[6].length, strArr[7].length};
+        emojiBmp = new Bitmap[8];
+        loadingEmoji = new boolean[8];
+        emojiUseHistory = new HashMap<>();
+        recentEmoji = new ArrayList<>();
+        emojiColor = new HashMap<>();
+        invalidateUiRunnable = Emoji$$ExternalSyntheticLambda1.INSTANCE;
+        emojiDrawingUseAlpha = true;
+        drawImgSize = AndroidUtilities.dp(20.0f);
         bigImgSize = AndroidUtilities.dp(AndroidUtilities.isTablet() ? 40.0f : 34.0f);
         int i = 0;
         while (true) {
@@ -122,10 +130,9 @@ public class Emoji {
             AndroidUtilities.cancelRunOnUIThread(invalidateUiRunnable);
             AndroidUtilities.runOnUIThread(invalidateUiRunnable);
         } catch (Throwable th) {
-            if (!BuildVars.LOGS_ENABLED) {
-                return;
+            if (BuildVars.LOGS_ENABLED) {
+                FileLog.e("Error loading emoji", th);
             }
-            FileLog.e("Error loading emoji", th);
         }
     }
 
@@ -296,10 +303,11 @@ public class Emoji {
         }
 
         public void preload() {
-            if (!isLoaded()) {
-                DrawableInfo drawableInfo = this.info;
-                Emoji.loadEmoji(drawableInfo.page, drawableInfo.page2);
+            if (isLoaded()) {
+                return;
             }
+            DrawableInfo drawableInfo = this.info;
+            Emoji.loadEmoji(drawableInfo.page, drawableInfo.page2);
         }
     }
 
@@ -349,16 +357,16 @@ public class Emoji {
         return parseEmojis(charSequence, null);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:110:0x0183  */
-    /* JADX WARN: Removed duplicated region for block: B:15:0x0063  */
-    /* JADX WARN: Removed duplicated region for block: B:161:0x00f6 A[Catch: Exception -> 0x0256, TryCatch #0 {Exception -> 0x0256, blocks: (B:8:0x0029, B:16:0x0064, B:19:0x0114, B:21:0x011a, B:23:0x0125, B:27:0x0133, B:31:0x018c, B:33:0x0190, B:37:0x019d, B:39:0x01a3, B:41:0x01e9, B:59:0x01cf, B:61:0x01d3, B:74:0x01f4, B:76:0x01fb, B:78:0x01ff, B:80:0x020a, B:84:0x0218, B:87:0x0228, B:88:0x022f, B:94:0x0140, B:96:0x0147, B:98:0x0151, B:102:0x0160, B:104:0x017a, B:107:0x0180, B:113:0x003f, B:115:0x004a, B:122:0x0073, B:130:0x0087, B:131:0x008a, B:135:0x0096, B:137:0x009f, B:141:0x00a9, B:145:0x00bd, B:161:0x00f6, B:171:0x00de, B:176:0x00ee), top: B:7:0x0029 }] */
-    /* JADX WARN: Removed duplicated region for block: B:162:0x0100  */
-    /* JADX WARN: Removed duplicated region for block: B:19:0x0114 A[Catch: Exception -> 0x0256, TryCatch #0 {Exception -> 0x0256, blocks: (B:8:0x0029, B:16:0x0064, B:19:0x0114, B:21:0x011a, B:23:0x0125, B:27:0x0133, B:31:0x018c, B:33:0x0190, B:37:0x019d, B:39:0x01a3, B:41:0x01e9, B:59:0x01cf, B:61:0x01d3, B:74:0x01f4, B:76:0x01fb, B:78:0x01ff, B:80:0x020a, B:84:0x0218, B:87:0x0228, B:88:0x022f, B:94:0x0140, B:96:0x0147, B:98:0x0151, B:102:0x0160, B:104:0x017a, B:107:0x0180, B:113:0x003f, B:115:0x004a, B:122:0x0073, B:130:0x0087, B:131:0x008a, B:135:0x0096, B:137:0x009f, B:141:0x00a9, B:145:0x00bd, B:161:0x00f6, B:171:0x00de, B:176:0x00ee), top: B:7:0x0029 }] */
-    /* JADX WARN: Removed duplicated region for block: B:31:0x018c A[Catch: Exception -> 0x0256, TryCatch #0 {Exception -> 0x0256, blocks: (B:8:0x0029, B:16:0x0064, B:19:0x0114, B:21:0x011a, B:23:0x0125, B:27:0x0133, B:31:0x018c, B:33:0x0190, B:37:0x019d, B:39:0x01a3, B:41:0x01e9, B:59:0x01cf, B:61:0x01d3, B:74:0x01f4, B:76:0x01fb, B:78:0x01ff, B:80:0x020a, B:84:0x0218, B:87:0x0228, B:88:0x022f, B:94:0x0140, B:96:0x0147, B:98:0x0151, B:102:0x0160, B:104:0x017a, B:107:0x0180, B:113:0x003f, B:115:0x004a, B:122:0x0073, B:130:0x0087, B:131:0x008a, B:135:0x0096, B:137:0x009f, B:141:0x00a9, B:145:0x00bd, B:161:0x00f6, B:171:0x00de, B:176:0x00ee), top: B:7:0x0029 }] */
-    /* JADX WARN: Removed duplicated region for block: B:73:0x01f2 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:76:0x01fb A[Catch: Exception -> 0x0256, TryCatch #0 {Exception -> 0x0256, blocks: (B:8:0x0029, B:16:0x0064, B:19:0x0114, B:21:0x011a, B:23:0x0125, B:27:0x0133, B:31:0x018c, B:33:0x0190, B:37:0x019d, B:39:0x01a3, B:41:0x01e9, B:59:0x01cf, B:61:0x01d3, B:74:0x01f4, B:76:0x01fb, B:78:0x01ff, B:80:0x020a, B:84:0x0218, B:87:0x0228, B:88:0x022f, B:94:0x0140, B:96:0x0147, B:98:0x0151, B:102:0x0160, B:104:0x017a, B:107:0x0180, B:113:0x003f, B:115:0x004a, B:122:0x0073, B:130:0x0087, B:131:0x008a, B:135:0x0096, B:137:0x009f, B:141:0x00a9, B:145:0x00bd, B:161:0x00f6, B:171:0x00de, B:176:0x00ee), top: B:7:0x0029 }] */
-    /* JADX WARN: Removed duplicated region for block: B:86:0x0226  */
-    /* JADX WARN: Removed duplicated region for block: B:92:0x024a  */
+    /* JADX WARN: Removed duplicated region for block: B:108:0x0183  */
+    /* JADX WARN: Removed duplicated region for block: B:113:0x018c A[Catch: Exception -> 0x0256, TryCatch #0 {Exception -> 0x0256, blocks: (B:9:0x0029, B:28:0x0064, B:86:0x0114, B:88:0x011a, B:90:0x0125, B:94:0x0133, B:113:0x018c, B:115:0x0190, B:119:0x019d, B:121:0x01a3, B:146:0x01e9, B:135:0x01cf, B:137:0x01d3, B:150:0x01f4, B:152:0x01fb, B:154:0x01ff, B:156:0x020a, B:160:0x0218, B:163:0x0228, B:164:0x022f, B:95:0x0140, B:97:0x0147, B:99:0x0151, B:103:0x0160, B:105:0x017a, B:107:0x0180, B:17:0x003f, B:19:0x004a, B:30:0x0073, B:38:0x0087, B:39:0x008a, B:43:0x0096, B:45:0x009f, B:49:0x00a9, B:57:0x00bd, B:75:0x00f6, B:68:0x00de, B:73:0x00ee), top: B:175:0x0029 }] */
+    /* JADX WARN: Removed duplicated region for block: B:149:0x01f2 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:152:0x01fb A[Catch: Exception -> 0x0256, TryCatch #0 {Exception -> 0x0256, blocks: (B:9:0x0029, B:28:0x0064, B:86:0x0114, B:88:0x011a, B:90:0x0125, B:94:0x0133, B:113:0x018c, B:115:0x0190, B:119:0x019d, B:121:0x01a3, B:146:0x01e9, B:135:0x01cf, B:137:0x01d3, B:150:0x01f4, B:152:0x01fb, B:154:0x01ff, B:156:0x020a, B:160:0x0218, B:163:0x0228, B:164:0x022f, B:95:0x0140, B:97:0x0147, B:99:0x0151, B:103:0x0160, B:105:0x017a, B:107:0x0180, B:17:0x003f, B:19:0x004a, B:30:0x0073, B:38:0x0087, B:39:0x008a, B:43:0x0096, B:45:0x009f, B:49:0x00a9, B:57:0x00bd, B:75:0x00f6, B:68:0x00de, B:73:0x00ee), top: B:175:0x0029 }] */
+    /* JADX WARN: Removed duplicated region for block: B:162:0x0226  */
+    /* JADX WARN: Removed duplicated region for block: B:166:0x024a  */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x0063  */
+    /* JADX WARN: Removed duplicated region for block: B:75:0x00f6 A[Catch: Exception -> 0x0256, TryCatch #0 {Exception -> 0x0256, blocks: (B:9:0x0029, B:28:0x0064, B:86:0x0114, B:88:0x011a, B:90:0x0125, B:94:0x0133, B:113:0x018c, B:115:0x0190, B:119:0x019d, B:121:0x01a3, B:146:0x01e9, B:135:0x01cf, B:137:0x01d3, B:150:0x01f4, B:152:0x01fb, B:154:0x01ff, B:156:0x020a, B:160:0x0218, B:163:0x0228, B:164:0x022f, B:95:0x0140, B:97:0x0147, B:99:0x0151, B:103:0x0160, B:105:0x017a, B:107:0x0180, B:17:0x003f, B:19:0x004a, B:30:0x0073, B:38:0x0087, B:39:0x008a, B:43:0x0096, B:45:0x009f, B:49:0x00a9, B:57:0x00bd, B:75:0x00f6, B:68:0x00de, B:73:0x00ee), top: B:175:0x0029 }] */
+    /* JADX WARN: Removed duplicated region for block: B:76:0x0100  */
+    /* JADX WARN: Removed duplicated region for block: B:86:0x0114 A[Catch: Exception -> 0x0256, TryCatch #0 {Exception -> 0x0256, blocks: (B:9:0x0029, B:28:0x0064, B:86:0x0114, B:88:0x011a, B:90:0x0125, B:94:0x0133, B:113:0x018c, B:115:0x0190, B:119:0x019d, B:121:0x01a3, B:146:0x01e9, B:135:0x01cf, B:137:0x01d3, B:150:0x01f4, B:152:0x01fb, B:154:0x01ff, B:156:0x020a, B:160:0x0218, B:163:0x0228, B:164:0x022f, B:95:0x0140, B:97:0x0147, B:99:0x0151, B:103:0x0160, B:105:0x017a, B:107:0x0180, B:17:0x003f, B:19:0x004a, B:30:0x0073, B:38:0x0087, B:39:0x008a, B:43:0x0096, B:45:0x009f, B:49:0x00a9, B:57:0x00bd, B:75:0x00f6, B:68:0x00de, B:73:0x00ee), top: B:175:0x0029 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -710,6 +718,7 @@ public class Emoji {
 
     public static CharSequence replaceEmoji(CharSequence charSequence, Paint.FontMetricsInt fontMetricsInt, int i, boolean z, int[] iArr, boolean z2) {
         Spannable newSpannable;
+        int i2;
         EmojiSpanRange emojiSpanRange;
         boolean z3;
         if (SharedConfig.useSystemEmoji || charSequence == null || charSequence.length() == 0) {
@@ -725,10 +734,10 @@ public class Emoji {
             return charSequence;
         }
         AnimatedEmojiSpan[] animatedEmojiSpanArr = (AnimatedEmojiSpan[]) newSpannable.getSpans(0, newSpannable.length(), AnimatedEmojiSpan.class);
-        int i2 = SharedConfig.getDevicePerformanceClass() >= 2 ? 100 : 50;
-        for (int i3 = 0; i3 < parseEmojis.size(); i3++) {
+        int i3 = SharedConfig.getDevicePerformanceClass() >= 2 ? 100 : 50;
+        while (i2 < parseEmojis.size()) {
             try {
-                emojiSpanRange = parseEmojis.get(i3);
+                emojiSpanRange = parseEmojis.get(i2);
             } catch (Exception e) {
                 FileLog.e(e);
             }
@@ -746,8 +755,7 @@ public class Emoji {
                     }
                     i4++;
                 }
-                if (z3) {
-                }
+                i2 = z3 ? i2 + 1 : 0;
             }
             EmojiDrawable emojiDrawable = getEmojiDrawable(emojiSpanRange.code);
             if (emojiDrawable != null) {
@@ -757,7 +765,7 @@ public class Emoji {
                 newSpannable.setSpan(emojiSpan, emojiSpanRange.start, emojiSpanRange.end, 33);
             }
             int i5 = Build.VERSION.SDK_INT;
-            if ((i5 < 23 || i5 >= 29) && i3 + 1 >= i2) {
+            if ((i5 < 23 || i5 >= 29) && i2 + 1 >= i3) {
                 break;
             }
         }
@@ -780,10 +788,9 @@ public class Emoji {
             if (fontMetricsInt != null) {
                 int abs = Math.abs(fontMetricsInt.descent) + Math.abs(this.fontMetrics.ascent);
                 this.size = abs;
-                if (abs != 0) {
-                    return;
+                if (abs == 0) {
+                    this.size = AndroidUtilities.dp(20.0f);
                 }
-                this.size = AndroidUtilities.dp(20.0f);
             }
         }
 
@@ -797,10 +804,9 @@ public class Emoji {
             if (fontMetricsInt != null) {
                 int abs = Math.abs(fontMetricsInt.descent) + Math.abs(this.fontMetrics.ascent);
                 this.size = abs;
-                if (abs != 0) {
-                    return;
+                if (abs == 0) {
+                    this.size = AndroidUtilities.dp(20.0f);
                 }
-                this.size = AndroidUtilities.dp(20.0f);
             }
         }
 

@@ -82,10 +82,9 @@ public class SQLiteDatabase {
     }
 
     void checkOpened() throws SQLiteException {
-        if (this.isOpen) {
-            return;
+        if (!this.isOpen) {
+            throw new SQLiteException("Database closed");
         }
-        throw new SQLiteException("Database closed");
     }
 
     public void finalize() throws Throwable {
@@ -102,10 +101,9 @@ public class SQLiteDatabase {
     }
 
     public void commitTransaction() {
-        if (!this.inTransaction) {
-            return;
+        if (this.inTransaction) {
+            this.inTransaction = false;
+            commitTransaction(this.sqliteHandle);
         }
-        this.inTransaction = false;
-        commitTransaction(this.sqliteHandle);
     }
 }

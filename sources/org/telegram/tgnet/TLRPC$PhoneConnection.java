@@ -23,11 +23,7 @@ public abstract class TLRPC$PhoneConnection extends TLObject {
                 public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                     int readInt32 = abstractSerializedData2.readInt32(z2);
                     this.flags = readInt32;
-                    boolean z3 = true;
-                    if ((readInt32 & 1) == 0) {
-                        z3 = false;
-                    }
-                    this.tcp = z3;
+                    this.tcp = (readInt32 & 1) != 0;
                     this.id = abstractSerializedData2.readInt64(z2);
                     this.ip = abstractSerializedData2.readString(z2);
                     this.ipv6 = abstractSerializedData2.readString(z2);
@@ -56,12 +52,8 @@ public abstract class TLRPC$PhoneConnection extends TLObject {
                 public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                     int readInt32 = abstractSerializedData2.readInt32(z2);
                     this.flags = readInt32;
-                    boolean z3 = false;
                     this.turn = (readInt32 & 1) != 0;
-                    if ((readInt32 & 2) != 0) {
-                        z3 = true;
-                    }
-                    this.stun = z3;
+                    this.stun = (readInt32 & 2) != 0;
                     this.id = abstractSerializedData2.readInt64(z2);
                     this.ip = abstractSerializedData2.readString(z2);
                     this.ipv6 = abstractSerializedData2.readString(z2);
@@ -87,12 +79,12 @@ public abstract class TLRPC$PhoneConnection extends TLObject {
                 }
             };
         }
-        if (tLRPC$PhoneConnection != null || !z) {
-            if (tLRPC$PhoneConnection != null) {
-                tLRPC$PhoneConnection.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$PhoneConnection;
+        if (tLRPC$PhoneConnection == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in PhoneConnection", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in PhoneConnection", Integer.valueOf(i)));
+        if (tLRPC$PhoneConnection != null) {
+            tLRPC$PhoneConnection.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$PhoneConnection;
     }
 }

@@ -146,8 +146,7 @@ public class AvatarDrawable extends Drawable {
             setInfo((TLRPC$User) tLObject);
         } else if (tLObject instanceof TLRPC$Chat) {
             setInfo((TLRPC$Chat) tLObject);
-        } else if (!(tLObject instanceof TLRPC$ChatInvite)) {
-        } else {
+        } else if (tLObject instanceof TLRPC$ChatInvite) {
             setInfo((TLRPC$ChatInvite) tLObject);
         }
     }
@@ -323,12 +322,12 @@ public class AvatarDrawable extends Drawable {
             try {
                 StaticLayout staticLayout = new StaticLayout(Emoji.replaceEmoji(this.stringBuilder.toString().toUpperCase(), this.namePaint.getFontMetricsInt(), AndroidUtilities.dp(16.0f), true), this.namePaint, AndroidUtilities.dp(100.0f), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
                 this.textLayout = staticLayout;
-                if (staticLayout.getLineCount() <= 0) {
+                if (staticLayout.getLineCount() > 0) {
+                    this.textLeft = this.textLayout.getLineLeft(0);
+                    this.textWidth = this.textLayout.getLineWidth(0);
+                    this.textHeight = this.textLayout.getLineBottom(0);
                     return;
                 }
-                this.textLeft = this.textLayout.getLineLeft(0);
-                this.textWidth = this.textLayout.getLineWidth(0);
-                this.textHeight = this.textLayout.getLineBottom(0);
                 return;
             } catch (Exception e) {
                 FileLog.e(e);

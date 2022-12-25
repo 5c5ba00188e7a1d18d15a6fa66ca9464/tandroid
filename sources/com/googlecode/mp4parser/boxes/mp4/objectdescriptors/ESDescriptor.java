@@ -45,14 +45,9 @@ public class ESDescriptor extends BaseDescriptor {
         if (this.oCRstreamFlag == 1) {
             this.oCREsId = IsoTypeReader.readUInt16(byteBuffer);
         }
-        int i2 = 0;
-        int sizeBytes = getSizeBytes() + 1 + 2 + 1 + (this.streamDependenceFlag == 1 ? 2 : 0) + (this.URLFlag == 1 ? this.URLLength + 1 : 0);
-        if (this.oCRstreamFlag == 1) {
-            i2 = 2;
-        }
-        int i3 = sizeBytes + i2;
+        int sizeBytes = getSizeBytes() + 1 + 2 + 1 + (this.streamDependenceFlag == 1 ? 2 : 0) + (this.URLFlag == 1 ? this.URLLength + 1 : 0) + (this.oCRstreamFlag == 1 ? 2 : 0);
         int position = byteBuffer.position();
-        if (getSize() > i3 + 2) {
+        if (getSize() > sizeBytes + 2) {
             BaseDescriptor createFrom = ObjectDescriptorFactory.createFrom(-1, byteBuffer);
             long position2 = byteBuffer.position() - position;
             Logger logger = log;
@@ -66,16 +61,16 @@ public class ESDescriptor extends BaseDescriptor {
             if (createFrom != null) {
                 int size = createFrom.getSize();
                 byteBuffer.position(position + size);
-                i3 += size;
+                sizeBytes += size;
             } else {
-                i3 = (int) (i3 + position2);
+                sizeBytes = (int) (sizeBytes + position2);
             }
             if (createFrom instanceof DecoderConfigDescriptor) {
                 this.decoderConfigDescriptor = (DecoderConfigDescriptor) createFrom;
             }
         }
         int position3 = byteBuffer.position();
-        if (getSize() > i3 + 2) {
+        if (getSize() > sizeBytes + 2) {
             BaseDescriptor createFrom2 = ObjectDescriptorFactory.createFrom(-1, byteBuffer);
             long position4 = byteBuffer.position() - position3;
             Logger logger2 = log;
@@ -89,9 +84,9 @@ public class ESDescriptor extends BaseDescriptor {
             if (createFrom2 != null) {
                 int size2 = createFrom2.getSize();
                 byteBuffer.position(position3 + size2);
-                i3 += size2;
+                sizeBytes += size2;
             } else {
-                i3 = (int) (i3 + position4);
+                sizeBytes = (int) (sizeBytes + position4);
             }
             if (createFrom2 instanceof SLConfigDescriptor) {
                 this.slConfigDescriptor = (SLConfigDescriptor) createFrom2;
@@ -99,7 +94,7 @@ public class ESDescriptor extends BaseDescriptor {
         } else {
             log.warning("SLConfigDescriptor is missing!");
         }
-        while (getSize() - i3 > 2) {
+        while (getSize() - sizeBytes > 2) {
             int position5 = byteBuffer.position();
             BaseDescriptor createFrom3 = ObjectDescriptorFactory.createFrom(-1, byteBuffer);
             long position6 = byteBuffer.position() - position5;
@@ -114,9 +109,9 @@ public class ESDescriptor extends BaseDescriptor {
             if (createFrom3 != null) {
                 int size3 = createFrom3.getSize();
                 byteBuffer.position(position5 + size3);
-                i3 += size3;
+                sizeBytes += size3;
             } else {
-                i3 = (int) (i3 + position6);
+                sizeBytes = (int) (sizeBytes + position6);
             }
             this.otherDescriptors.add(createFrom3);
         }
@@ -181,39 +176,35 @@ public class ESDescriptor extends BaseDescriptor {
             return false;
         }
         ESDescriptor eSDescriptor = (ESDescriptor) obj;
-        if (this.URLFlag != eSDescriptor.URLFlag || this.URLLength != eSDescriptor.URLLength || this.dependsOnEsId != eSDescriptor.dependsOnEsId || this.esId != eSDescriptor.esId || this.oCREsId != eSDescriptor.oCREsId || this.oCRstreamFlag != eSDescriptor.oCRstreamFlag || this.remoteODFlag != eSDescriptor.remoteODFlag || this.streamDependenceFlag != eSDescriptor.streamDependenceFlag || this.streamPriority != eSDescriptor.streamPriority) {
+        if (this.URLFlag == eSDescriptor.URLFlag && this.URLLength == eSDescriptor.URLLength && this.dependsOnEsId == eSDescriptor.dependsOnEsId && this.esId == eSDescriptor.esId && this.oCREsId == eSDescriptor.oCREsId && this.oCRstreamFlag == eSDescriptor.oCRstreamFlag && this.remoteODFlag == eSDescriptor.remoteODFlag && this.streamDependenceFlag == eSDescriptor.streamDependenceFlag && this.streamPriority == eSDescriptor.streamPriority) {
+            String str = this.URLString;
+            if (str == null ? eSDescriptor.URLString == null : str.equals(eSDescriptor.URLString)) {
+                DecoderConfigDescriptor decoderConfigDescriptor = this.decoderConfigDescriptor;
+                if (decoderConfigDescriptor == null ? eSDescriptor.decoderConfigDescriptor == null : decoderConfigDescriptor.equals(eSDescriptor.decoderConfigDescriptor)) {
+                    List<BaseDescriptor> list = this.otherDescriptors;
+                    if (list == null ? eSDescriptor.otherDescriptors == null : list.equals(eSDescriptor.otherDescriptors)) {
+                        SLConfigDescriptor sLConfigDescriptor = this.slConfigDescriptor;
+                        SLConfigDescriptor sLConfigDescriptor2 = eSDescriptor.slConfigDescriptor;
+                        return sLConfigDescriptor == null ? sLConfigDescriptor2 == null : sLConfigDescriptor.equals(sLConfigDescriptor2);
+                    }
+                    return false;
+                }
+                return false;
+            }
             return false;
         }
-        String str = this.URLString;
-        if (str == null ? eSDescriptor.URLString != null : !str.equals(eSDescriptor.URLString)) {
-            return false;
-        }
-        DecoderConfigDescriptor decoderConfigDescriptor = this.decoderConfigDescriptor;
-        if (decoderConfigDescriptor == null ? eSDescriptor.decoderConfigDescriptor != null : !decoderConfigDescriptor.equals(eSDescriptor.decoderConfigDescriptor)) {
-            return false;
-        }
-        List<BaseDescriptor> list = this.otherDescriptors;
-        if (list == null ? eSDescriptor.otherDescriptors != null : !list.equals(eSDescriptor.otherDescriptors)) {
-            return false;
-        }
-        SLConfigDescriptor sLConfigDescriptor = this.slConfigDescriptor;
-        SLConfigDescriptor sLConfigDescriptor2 = eSDescriptor.slConfigDescriptor;
-        return sLConfigDescriptor == null ? sLConfigDescriptor2 == null : sLConfigDescriptor.equals(sLConfigDescriptor2);
+        return false;
     }
 
     public int hashCode() {
         int i = ((((((((((this.esId * 31) + this.streamDependenceFlag) * 31) + this.URLFlag) * 31) + this.oCRstreamFlag) * 31) + this.streamPriority) * 31) + this.URLLength) * 31;
         String str = this.URLString;
-        int i2 = 0;
         int hashCode = (((((((i + (str != null ? str.hashCode() : 0)) * 31) + this.remoteODFlag) * 31) + this.dependsOnEsId) * 31) + this.oCREsId) * 31;
         DecoderConfigDescriptor decoderConfigDescriptor = this.decoderConfigDescriptor;
         int hashCode2 = (hashCode + (decoderConfigDescriptor != null ? decoderConfigDescriptor.hashCode() : 0)) * 31;
         SLConfigDescriptor sLConfigDescriptor = this.slConfigDescriptor;
         int hashCode3 = (hashCode2 + (sLConfigDescriptor != null ? sLConfigDescriptor.hashCode() : 0)) * 31;
         List<BaseDescriptor> list = this.otherDescriptors;
-        if (list != null) {
-            i2 = list.hashCode();
-        }
-        return hashCode3 + i2;
+        return hashCode3 + (list != null ? list.hashCode() : 0);
     }
 }

@@ -23,12 +23,8 @@ public class TLRPC$TL_username extends TLObject {
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
         int readInt32 = abstractSerializedData.readInt32(z);
         this.flags = readInt32;
-        boolean z2 = false;
         this.editable = (readInt32 & 1) != 0;
-        if ((readInt32 & 2) != 0) {
-            z2 = true;
-        }
-        this.active = z2;
+        this.active = (readInt32 & 2) != 0;
         this.username = abstractSerializedData.readString(z);
     }
 

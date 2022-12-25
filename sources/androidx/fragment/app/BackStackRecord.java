@@ -119,69 +119,70 @@ public final class BackStackRecord extends FragmentTransaction implements Fragme
                 printWriter.println(this.mBreadCrumbShortTitleText);
             }
         }
-        if (!this.mOps.isEmpty()) {
+        if (this.mOps.isEmpty()) {
+            return;
+        }
+        printWriter.print(str);
+        printWriter.println("Operations:");
+        int size = this.mOps.size();
+        for (int i = 0; i < size; i++) {
+            Op op = this.mOps.get(i);
+            switch (op.cmd) {
+                case 0:
+                    str2 = "NULL";
+                    break;
+                case 1:
+                    str2 = "ADD";
+                    break;
+                case 2:
+                    str2 = "REPLACE";
+                    break;
+                case 3:
+                    str2 = "REMOVE";
+                    break;
+                case 4:
+                    str2 = "HIDE";
+                    break;
+                case 5:
+                    str2 = "SHOW";
+                    break;
+                case 6:
+                    str2 = "DETACH";
+                    break;
+                case 7:
+                    str2 = "ATTACH";
+                    break;
+                case 8:
+                    str2 = "SET_PRIMARY_NAV";
+                    break;
+                case 9:
+                    str2 = "UNSET_PRIMARY_NAV";
+                    break;
+                default:
+                    str2 = "cmd=" + op.cmd;
+                    break;
+            }
             printWriter.print(str);
-            printWriter.println("Operations:");
-            int size = this.mOps.size();
-            for (int i = 0; i < size; i++) {
-                Op op = this.mOps.get(i);
-                switch (op.cmd) {
-                    case 0:
-                        str2 = "NULL";
-                        break;
-                    case 1:
-                        str2 = "ADD";
-                        break;
-                    case 2:
-                        str2 = "REPLACE";
-                        break;
-                    case 3:
-                        str2 = "REMOVE";
-                        break;
-                    case 4:
-                        str2 = "HIDE";
-                        break;
-                    case 5:
-                        str2 = "SHOW";
-                        break;
-                    case 6:
-                        str2 = "DETACH";
-                        break;
-                    case 7:
-                        str2 = "ATTACH";
-                        break;
-                    case 8:
-                        str2 = "SET_PRIMARY_NAV";
-                        break;
-                    case 9:
-                        str2 = "UNSET_PRIMARY_NAV";
-                        break;
-                    default:
-                        str2 = "cmd=" + op.cmd;
-                        break;
+            printWriter.print("  Op #");
+            printWriter.print(i);
+            printWriter.print(": ");
+            printWriter.print(str2);
+            printWriter.print(" ");
+            printWriter.println(op.fragment);
+            if (z) {
+                if (op.enterAnim != 0 || op.exitAnim != 0) {
+                    printWriter.print(str);
+                    printWriter.print("enterAnim=#");
+                    printWriter.print(Integer.toHexString(op.enterAnim));
+                    printWriter.print(" exitAnim=#");
+                    printWriter.println(Integer.toHexString(op.exitAnim));
                 }
-                printWriter.print(str);
-                printWriter.print("  Op #");
-                printWriter.print(i);
-                printWriter.print(": ");
-                printWriter.print(str2);
-                printWriter.print(" ");
-                printWriter.println(op.fragment);
-                if (z) {
-                    if (op.enterAnim != 0 || op.exitAnim != 0) {
-                        printWriter.print(str);
-                        printWriter.print("enterAnim=#");
-                        printWriter.print(Integer.toHexString(op.enterAnim));
-                        printWriter.print(" exitAnim=#");
-                        printWriter.println(Integer.toHexString(op.exitAnim));
-                    }
-                    if (op.popEnterAnim != 0 || op.popExitAnim != 0) {
-                        printWriter.print(str);
-                        printWriter.print("popEnterAnim=#");
-                        printWriter.print(Integer.toHexString(op.popEnterAnim));
-                        printWriter.print(" popExitAnim=#");
-                        printWriter.println(Integer.toHexString(op.popExitAnim));
-                    }
+                if (op.popEnterAnim != 0 || op.popExitAnim != 0) {
+                    printWriter.print(str);
+                    printWriter.print("popEnterAnim=#");
+                    printWriter.print(Integer.toHexString(op.popEnterAnim));
+                    printWriter.print(" popExitAnim=#");
+                    printWriter.println(Integer.toHexString(op.popExitAnim));
                 }
             }
         }
@@ -243,19 +244,18 @@ public final class BackStackRecord extends FragmentTransaction implements Fragme
     /* JADX INFO: Access modifiers changed from: package-private */
     public void bumpBackStackNesting(int i) {
         Op op;
-        if (!this.mAddToBackStack) {
-            return;
-        }
-        if (FragmentManagerImpl.DEBUG) {
-            Log.v("FragmentManager", "Bump nesting in " + this + " by " + i);
-        }
-        int size = this.mOps.size();
-        for (int i2 = 0; i2 < size; i2++) {
-            Fragment fragment = this.mOps.get(i2).fragment;
-            if (fragment != null) {
-                fragment.mBackStackNesting += i;
-                if (FragmentManagerImpl.DEBUG) {
-                    Log.v("FragmentManager", "Bump nesting of " + op.fragment + " to " + op.fragment.mBackStackNesting);
+        if (this.mAddToBackStack) {
+            if (FragmentManagerImpl.DEBUG) {
+                Log.v("FragmentManager", "Bump nesting in " + this + " by " + i);
+            }
+            int size = this.mOps.size();
+            for (int i2 = 0; i2 < size; i2++) {
+                Fragment fragment = this.mOps.get(i2).fragment;
+                if (fragment != null) {
+                    fragment.mBackStackNesting += i;
+                    if (FragmentManagerImpl.DEBUG) {
+                        Log.v("FragmentManager", "Bump nesting of " + op.fragment + " to " + op.fragment.mBackStackNesting);
+                    }
                 }
             }
         }
@@ -404,10 +404,11 @@ public final class BackStackRecord extends FragmentTransaction implements Fragme
                 this.mManager.moveFragmentToExpectedState(fragment);
             }
         }
-        if (!this.mReorderingAllowed) {
-            FragmentManagerImpl fragmentManagerImpl = this.mManager;
-            fragmentManagerImpl.moveToState(fragmentManagerImpl.mCurState, true);
+        if (this.mReorderingAllowed) {
+            return;
         }
+        FragmentManagerImpl fragmentManagerImpl = this.mManager;
+        fragmentManagerImpl.moveToState(fragmentManagerImpl.mCurState, true);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -573,7 +574,7 @@ public final class BackStackRecord extends FragmentTransaction implements Fragme
 
     private static boolean isFragmentPostponed(Op op) {
         Fragment fragment = op.fragment;
-        return fragment != null && fragment.mAdded && fragment.mView != null && !fragment.mDetached && !fragment.mHidden && fragment.isPostponed();
+        return (fragment == null || !fragment.mAdded || fragment.mView == null || fragment.mDetached || fragment.mHidden || !fragment.isPostponed()) ? false : true;
     }
 
     public String getName() {

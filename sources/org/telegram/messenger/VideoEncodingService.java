@@ -40,36 +40,27 @@ public class VideoEncodingService extends Service implements NotificationCenter.
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     public void didReceivedNotification(int i, int i2, Object... objArr) {
         String str;
-        boolean z = true;
         if (i == NotificationCenter.fileUploadProgressChanged) {
             String str2 = (String) objArr[0];
-            if (i2 != this.currentAccount || (str = this.path) == null || !str.equals(str2)) {
-                return;
+            if (i2 == this.currentAccount && (str = this.path) != null && str.equals(str2)) {
+                float min = Math.min(1.0f, ((float) ((Long) objArr[1]).longValue()) / ((float) ((Long) objArr[2]).longValue()));
+                Boolean bool = (Boolean) objArr[3];
+                int i3 = (int) (min * 100.0f);
+                this.currentProgress = i3;
+                this.builder.setProgress(100, i3, i3 == 0);
+                try {
+                    NotificationManagerCompat.from(ApplicationLoader.applicationContext).notify(4, this.builder.build());
+                } catch (Throwable th) {
+                    FileLog.e(th);
+                }
             }
-            float min = Math.min(1.0f, ((float) ((Long) objArr[1]).longValue()) / ((float) ((Long) objArr[2]).longValue()));
-            Boolean bool = (Boolean) objArr[3];
-            int i3 = (int) (min * 100.0f);
-            this.currentProgress = i3;
-            NotificationCompat.Builder builder = this.builder;
-            if (i3 != 0) {
-                z = false;
-            }
-            builder.setProgress(100, i3, z);
-            try {
-                NotificationManagerCompat.from(ApplicationLoader.applicationContext).notify(4, this.builder.build());
-            } catch (Throwable th) {
-                FileLog.e(th);
-            }
-        } else if (i != NotificationCenter.stopEncodingService) {
-        } else {
+        } else if (i == NotificationCenter.stopEncodingService) {
             String str3 = (String) objArr[0];
-            if (((Integer) objArr[1]).intValue() != this.currentAccount) {
-                return;
+            if (((Integer) objArr[1]).intValue() == this.currentAccount) {
+                if (str3 == null || str3.equals(this.path)) {
+                    stopSelf();
+                }
             }
-            if (str3 != null && !str3.equals(this.path)) {
-                return;
-            }
-            stopSelf();
         }
     }
 

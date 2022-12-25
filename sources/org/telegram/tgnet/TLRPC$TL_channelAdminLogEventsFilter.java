@@ -24,7 +24,6 @@ public class TLRPC$TL_channelAdminLogEventsFilter extends TLObject {
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
         int readInt32 = abstractSerializedData.readInt32(z);
         this.flags = readInt32;
-        boolean z2 = false;
         this.join = (readInt32 & 1) != 0;
         this.leave = (readInt32 & 2) != 0;
         this.invite = (readInt32 & 4) != 0;
@@ -40,10 +39,7 @@ public class TLRPC$TL_channelAdminLogEventsFilter extends TLObject {
         this.edit = (readInt32 & 4096) != 0;
         this.delete = (readInt32 & 8192) != 0;
         this.group_call = (readInt32 & 16384) != 0;
-        if ((readInt32 & 32768) != 0) {
-            z2 = true;
-        }
-        this.invites = z2;
+        this.invites = (readInt32 & 32768) != 0;
     }
 
     @Override // org.telegram.tgnet.TLObject

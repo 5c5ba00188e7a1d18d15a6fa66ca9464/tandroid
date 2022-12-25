@@ -22,16 +22,16 @@ public class PipettePickerView extends View {
     private float appearProgress;
     private Bitmap bitmap;
     private Consumer<Integer> colorListener;
+    private Paint colorPaint;
+    private RectF dstRect;
     private boolean isDisappeared;
+    private Paint linePaint;
     private int mColor;
-    private Paint outlinePaint = new Paint(1);
-    private Paint linePaint = new Paint(1);
-    private Paint colorPaint = new Paint(1);
-    private float positionX = 0.5f;
-    private float positionY = 0.5f;
-    private Path path = new Path();
-    private Rect srcRect = new Rect();
-    private RectF dstRect = new RectF();
+    private Paint outlinePaint;
+    private Path path;
+    private float positionX;
+    private float positionY;
+    private Rect srcRect;
 
     protected void onStartPipette() {
     }
@@ -41,6 +41,14 @@ public class PipettePickerView extends View {
 
     public PipettePickerView(Context context, Bitmap bitmap) {
         super(context);
+        this.outlinePaint = new Paint(1);
+        this.linePaint = new Paint(1);
+        this.colorPaint = new Paint(1);
+        this.positionX = 0.5f;
+        this.positionY = 0.5f;
+        this.path = new Path();
+        this.srcRect = new Rect();
+        this.dstRect = new RectF();
         this.bitmap = bitmap;
         this.outlinePaint.setStyle(Paint.Style.STROKE);
         this.outlinePaint.setStrokeWidth(AndroidUtilities.dp(4.0f));

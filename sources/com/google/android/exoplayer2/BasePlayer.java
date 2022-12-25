@@ -38,19 +38,20 @@ public abstract class BasePlayer implements Player {
         }
 
         public void invoke(ListenerInvocation listenerInvocation) {
-            if (!this.released) {
-                listenerInvocation.invokeListener(this.listener);
+            if (this.released) {
+                return;
             }
+            listenerInvocation.invokeListener(this.listener);
         }
 
         public boolean equals(Object obj) {
             if (this == obj) {
                 return true;
             }
-            if (obj != null && ListenerHolder.class == obj.getClass()) {
-                return this.listener.equals(((ListenerHolder) obj).listener);
+            if (obj == null || ListenerHolder.class != obj.getClass()) {
+                return false;
             }
-            return false;
+            return this.listener.equals(((ListenerHolder) obj).listener);
         }
 
         public int hashCode() {

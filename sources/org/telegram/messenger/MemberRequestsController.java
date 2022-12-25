@@ -15,7 +15,7 @@ import org.telegram.tgnet.TLRPC$User;
 /* loaded from: classes.dex */
 public class MemberRequestsController extends BaseController {
     private static final MemberRequestsController[] instances = new MemberRequestsController[4];
-    private final LongSparseArray<TLRPC$TL_messages_chatInviteImporters> firstImportersCache = new LongSparseArray<>();
+    private final LongSparseArray<TLRPC$TL_messages_chatInviteImporters> firstImportersCache;
 
     public static MemberRequestsController getInstance(int i) {
         MemberRequestsController[] memberRequestsControllerArr = instances;
@@ -34,6 +34,7 @@ public class MemberRequestsController extends BaseController {
 
     public MemberRequestsController(int i) {
         super(i);
+        this.firstImportersCache = new LongSparseArray<>();
     }
 
     public TLRPC$TL_messages_chatInviteImporters getCachedImporters(long j) {

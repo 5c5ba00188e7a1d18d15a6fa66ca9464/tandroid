@@ -27,9 +27,8 @@ public class TimestampAligner {
     }
 
     private void checkNativeAlignerExists() {
-        if (this.nativeTimestampAligner != 0) {
-            return;
+        if (this.nativeTimestampAligner == 0) {
+            throw new IllegalStateException("TimestampAligner has been disposed.");
         }
-        throw new IllegalStateException("TimestampAligner has been disposed.");
     }
 }

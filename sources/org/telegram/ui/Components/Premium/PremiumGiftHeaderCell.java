@@ -16,7 +16,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.Premium.StarParticlesView;
 /* loaded from: classes3.dex */
 public class PremiumGiftHeaderCell extends LinearLayout {
-    private AvatarDrawable avatarDrawable = new AvatarDrawable();
+    private AvatarDrawable avatarDrawable;
     private BackupImageView avatarImageView;
     private StarParticlesView.Drawable drawable;
     private TextView subtitleView;
@@ -25,6 +25,7 @@ public class PremiumGiftHeaderCell extends LinearLayout {
     public PremiumGiftHeaderCell(Context context) {
         super(context);
         setOrientation(1);
+        this.avatarDrawable = new AvatarDrawable();
         BackupImageView backupImageView = new BackupImageView(context);
         this.avatarImageView = backupImageView;
         backupImageView.setRoundRadius(AndroidUtilities.dp(50.0f));

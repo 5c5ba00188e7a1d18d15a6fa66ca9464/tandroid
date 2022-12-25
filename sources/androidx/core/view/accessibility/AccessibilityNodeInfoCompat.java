@@ -29,108 +29,107 @@ public class AccessibilityNodeInfoCompat {
 
     private static String getActionSymbolicName(int action) {
         if (action != 1) {
-            if (action == 2) {
-                return "ACTION_CLEAR_FOCUS";
+            if (action != 2) {
+                switch (action) {
+                    case 4:
+                        return "ACTION_SELECT";
+                    case 8:
+                        return "ACTION_CLEAR_SELECTION";
+                    case 16:
+                        return "ACTION_CLICK";
+                    case 32:
+                        return "ACTION_LONG_CLICK";
+                    case 64:
+                        return "ACTION_ACCESSIBILITY_FOCUS";
+                    case ConnectionsManager.RequestFlagNeedQuickAck /* 128 */:
+                        return "ACTION_CLEAR_ACCESSIBILITY_FOCUS";
+                    case 256:
+                        return "ACTION_NEXT_AT_MOVEMENT_GRANULARITY";
+                    case 512:
+                        return "ACTION_PREVIOUS_AT_MOVEMENT_GRANULARITY";
+                    case ConnectionsManager.RequestFlagDoNotWaitFloodWait /* 1024 */:
+                        return "ACTION_NEXT_HTML_ELEMENT";
+                    case 2048:
+                        return "ACTION_PREVIOUS_HTML_ELEMENT";
+                    case 4096:
+                        return "ACTION_SCROLL_FORWARD";
+                    case 8192:
+                        return "ACTION_SCROLL_BACKWARD";
+                    case 16384:
+                        return "ACTION_COPY";
+                    case 32768:
+                        return "ACTION_PASTE";
+                    case CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT /* 65536 */:
+                        return "ACTION_CUT";
+                    case 131072:
+                        return "ACTION_SET_SELECTION";
+                    case 262144:
+                        return "ACTION_EXPAND";
+                    case 524288:
+                        return "ACTION_COLLAPSE";
+                    case 2097152:
+                        return "ACTION_SET_TEXT";
+                    case 16908354:
+                        return "ACTION_MOVE_WINDOW";
+                    case 16908372:
+                        return "ACTION_IME_ENTER";
+                    default:
+                        switch (action) {
+                            case 16908342:
+                                return "ACTION_SHOW_ON_SCREEN";
+                            case 16908343:
+                                return "ACTION_SCROLL_TO_POSITION";
+                            case 16908344:
+                                return "ACTION_SCROLL_UP";
+                            case 16908345:
+                                return "ACTION_SCROLL_LEFT";
+                            case 16908346:
+                                return "ACTION_SCROLL_DOWN";
+                            case 16908347:
+                                return "ACTION_SCROLL_RIGHT";
+                            case 16908348:
+                                return "ACTION_CONTEXT_CLICK";
+                            case 16908349:
+                                return "ACTION_SET_PROGRESS";
+                            default:
+                                switch (action) {
+                                    case 16908356:
+                                        return "ACTION_SHOW_TOOLTIP";
+                                    case 16908357:
+                                        return "ACTION_HIDE_TOOLTIP";
+                                    case 16908358:
+                                        return "ACTION_PAGE_UP";
+                                    case 16908359:
+                                        return "ACTION_PAGE_DOWN";
+                                    case 16908360:
+                                        return "ACTION_PAGE_LEFT";
+                                    case 16908361:
+                                        return "ACTION_PAGE_RIGHT";
+                                    case 16908362:
+                                        return "ACTION_PRESS_AND_HOLD";
+                                    default:
+                                        return "ACTION_UNKNOWN";
+                                }
+                        }
+                }
             }
-            switch (action) {
-                case 4:
-                    return "ACTION_SELECT";
-                case 8:
-                    return "ACTION_CLEAR_SELECTION";
-                case 16:
-                    return "ACTION_CLICK";
-                case 32:
-                    return "ACTION_LONG_CLICK";
-                case 64:
-                    return "ACTION_ACCESSIBILITY_FOCUS";
-                case ConnectionsManager.RequestFlagNeedQuickAck /* 128 */:
-                    return "ACTION_CLEAR_ACCESSIBILITY_FOCUS";
-                case 256:
-                    return "ACTION_NEXT_AT_MOVEMENT_GRANULARITY";
-                case 512:
-                    return "ACTION_PREVIOUS_AT_MOVEMENT_GRANULARITY";
-                case ConnectionsManager.RequestFlagDoNotWaitFloodWait /* 1024 */:
-                    return "ACTION_NEXT_HTML_ELEMENT";
-                case 2048:
-                    return "ACTION_PREVIOUS_HTML_ELEMENT";
-                case 4096:
-                    return "ACTION_SCROLL_FORWARD";
-                case 8192:
-                    return "ACTION_SCROLL_BACKWARD";
-                case 16384:
-                    return "ACTION_COPY";
-                case 32768:
-                    return "ACTION_PASTE";
-                case CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT /* 65536 */:
-                    return "ACTION_CUT";
-                case 131072:
-                    return "ACTION_SET_SELECTION";
-                case 262144:
-                    return "ACTION_EXPAND";
-                case 524288:
-                    return "ACTION_COLLAPSE";
-                case 2097152:
-                    return "ACTION_SET_TEXT";
-                case 16908354:
-                    return "ACTION_MOVE_WINDOW";
-                case 16908372:
-                    return "ACTION_IME_ENTER";
-                default:
-                    switch (action) {
-                        case 16908342:
-                            return "ACTION_SHOW_ON_SCREEN";
-                        case 16908343:
-                            return "ACTION_SCROLL_TO_POSITION";
-                        case 16908344:
-                            return "ACTION_SCROLL_UP";
-                        case 16908345:
-                            return "ACTION_SCROLL_LEFT";
-                        case 16908346:
-                            return "ACTION_SCROLL_DOWN";
-                        case 16908347:
-                            return "ACTION_SCROLL_RIGHT";
-                        case 16908348:
-                            return "ACTION_CONTEXT_CLICK";
-                        case 16908349:
-                            return "ACTION_SET_PROGRESS";
-                        default:
-                            switch (action) {
-                                case 16908356:
-                                    return "ACTION_SHOW_TOOLTIP";
-                                case 16908357:
-                                    return "ACTION_HIDE_TOOLTIP";
-                                case 16908358:
-                                    return "ACTION_PAGE_UP";
-                                case 16908359:
-                                    return "ACTION_PAGE_DOWN";
-                                case 16908360:
-                                    return "ACTION_PAGE_LEFT";
-                                case 16908361:
-                                    return "ACTION_PAGE_RIGHT";
-                                case 16908362:
-                                    return "ACTION_PRESS_AND_HOLD";
-                                default:
-                                    return "ACTION_UNKNOWN";
-                            }
-                    }
-            }
+            return "ACTION_CLEAR_FOCUS";
         }
         return "ACTION_FOCUS";
     }
 
     /* loaded from: classes.dex */
     public static class AccessibilityActionCompat {
+        public static final AccessibilityActionCompat ACTION_SCROLL_BACKWARD;
         public static final AccessibilityActionCompat ACTION_SCROLL_DOWN;
+        public static final AccessibilityActionCompat ACTION_SCROLL_FORWARD;
         public static final AccessibilityActionCompat ACTION_SCROLL_UP;
         public static final AccessibilityActionCompat ACTION_SET_PROGRESS;
         final Object mAction;
         protected final AccessibilityViewCommand mCommand;
         private final Class<? extends AccessibilityViewCommand.CommandArguments> mViewCommandArgumentClass;
-        public static final AccessibilityActionCompat ACTION_SCROLL_FORWARD = new AccessibilityActionCompat(4096, null);
-        public static final AccessibilityActionCompat ACTION_SCROLL_BACKWARD = new AccessibilityActionCompat(8192, null);
 
         static {
-            AccessibilityNodeInfo.AccessibilityAction accessibilityAction = null;
             new AccessibilityActionCompat(1, null);
             new AccessibilityActionCompat(2, null);
             new AccessibilityActionCompat(4, null);
@@ -143,6 +142,8 @@ public class AccessibilityNodeInfoCompat {
             new AccessibilityActionCompat(512, null, AccessibilityViewCommand.MoveAtGranularityArguments.class);
             new AccessibilityActionCompat(ConnectionsManager.RequestFlagDoNotWaitFloodWait, null, AccessibilityViewCommand.MoveHtmlArguments.class);
             new AccessibilityActionCompat(2048, null, AccessibilityViewCommand.MoveHtmlArguments.class);
+            ACTION_SCROLL_FORWARD = new AccessibilityActionCompat(4096, null);
+            ACTION_SCROLL_BACKWARD = new AccessibilityActionCompat(8192, null);
             new AccessibilityActionCompat(16384, null);
             new AccessibilityActionCompat(32768, null);
             new AccessibilityActionCompat(CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT, null);
@@ -168,10 +169,7 @@ public class AccessibilityNodeInfoCompat {
             new AccessibilityActionCompat(i >= 28 ? AccessibilityNodeInfo.AccessibilityAction.ACTION_SHOW_TOOLTIP : null, 16908356, null, null, null);
             new AccessibilityActionCompat(i >= 28 ? AccessibilityNodeInfo.AccessibilityAction.ACTION_HIDE_TOOLTIP : null, 16908357, null, null, null);
             new AccessibilityActionCompat(i >= 30 ? AccessibilityNodeInfo.AccessibilityAction.ACTION_PRESS_AND_HOLD : null, 16908362, null, null, null);
-            if (i >= 30) {
-                accessibilityAction = AccessibilityNodeInfo.AccessibilityAction.ACTION_IME_ENTER;
-            }
-            new AccessibilityActionCompat(accessibilityAction, 16908372, null, null, null);
+            new AccessibilityActionCompat(i >= 30 ? AccessibilityNodeInfo.AccessibilityAction.ACTION_IME_ENTER : null, 16908372, null, null, null);
         }
 
         public AccessibilityActionCompat(int actionId, CharSequence label) {
@@ -409,12 +407,12 @@ public class AccessibilityNodeInfoCompat {
             return new ArrayList();
         }
         ArrayList<Integer> integerArrayList = this.mInfo.getExtras().getIntegerArrayList(key);
-        if (integerArrayList != null) {
-            return integerArrayList;
+        if (integerArrayList == null) {
+            ArrayList<Integer> arrayList = new ArrayList<>();
+            this.mInfo.getExtras().putIntegerArrayList(key, arrayList);
+            return arrayList;
         }
-        ArrayList<Integer> arrayList = new ArrayList<>();
-        this.mInfo.getExtras().putIntegerArrayList(key, arrayList);
-        return arrayList;
+        return integerArrayList;
     }
 
     public void addAction(AccessibilityActionCompat action) {
@@ -666,8 +664,7 @@ public class AccessibilityNodeInfoCompat {
     public void setStateDescription(CharSequence stateDescription) {
         if (BuildCompat.isAtLeastR()) {
             this.mInfo.setStateDescription(stateDescription);
-        } else if (Build.VERSION.SDK_INT < 19) {
-        } else {
+        } else if (Build.VERSION.SDK_INT >= 19) {
             this.mInfo.getExtras().putCharSequence("androidx.view.accessibility.AccessibilityNodeInfoCompat.STATE_DESCRIPTION_KEY", stateDescription);
         }
     }
@@ -726,8 +723,7 @@ public class AccessibilityNodeInfoCompat {
         int i = Build.VERSION.SDK_INT;
         if (i >= 26) {
             this.mInfo.setHintText(hintText);
-        } else if (i < 19) {
-        } else {
+        } else if (i >= 19) {
             this.mInfo.getExtras().putCharSequence("androidx.view.accessibility.AccessibilityNodeInfoCompat.HINT_TEXT_KEY", hintText);
         }
     }
@@ -743,8 +739,7 @@ public class AccessibilityNodeInfoCompat {
         int i = Build.VERSION.SDK_INT;
         if (i >= 28) {
             this.mInfo.setPaneTitle(paneTitle);
-        } else if (i < 19) {
-        } else {
+        } else if (i >= 19) {
             this.mInfo.getExtras().putCharSequence("androidx.view.accessibility.AccessibilityNodeInfoCompat.PANE_TITLE_KEY", paneTitle);
         }
     }
@@ -777,19 +772,19 @@ public class AccessibilityNodeInfoCompat {
         if (this == obj) {
             return true;
         }
-        if (obj == null || !(obj instanceof AccessibilityNodeInfoCompat)) {
-            return false;
-        }
-        AccessibilityNodeInfoCompat accessibilityNodeInfoCompat = (AccessibilityNodeInfoCompat) obj;
-        AccessibilityNodeInfo accessibilityNodeInfo = this.mInfo;
-        if (accessibilityNodeInfo == null) {
-            if (accessibilityNodeInfoCompat.mInfo != null) {
+        if (obj != null && (obj instanceof AccessibilityNodeInfoCompat)) {
+            AccessibilityNodeInfoCompat accessibilityNodeInfoCompat = (AccessibilityNodeInfoCompat) obj;
+            AccessibilityNodeInfo accessibilityNodeInfo = this.mInfo;
+            if (accessibilityNodeInfo == null) {
+                if (accessibilityNodeInfoCompat.mInfo != null) {
+                    return false;
+                }
+            } else if (!accessibilityNodeInfo.equals(accessibilityNodeInfoCompat.mInfo)) {
                 return false;
             }
-        } else if (!accessibilityNodeInfo.equals(accessibilityNodeInfoCompat.mInfo)) {
-            return false;
+            return this.mVirtualDescendantId == accessibilityNodeInfoCompat.mVirtualDescendantId && this.mParentVirtualDescendantId == accessibilityNodeInfoCompat.mParentVirtualDescendantId;
         }
-        return this.mVirtualDescendantId == accessibilityNodeInfoCompat.mVirtualDescendantId && this.mParentVirtualDescendantId == accessibilityNodeInfoCompat.mParentVirtualDescendantId;
+        return false;
     }
 
     public String toString() {

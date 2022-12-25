@@ -69,12 +69,12 @@ public abstract class TLRPC$photos_Photos extends TLObject {
                 }
             };
         }
-        if (tLRPC$TL_photos_photos != null || !z) {
-            if (tLRPC$TL_photos_photos != null) {
-                tLRPC$TL_photos_photos.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_photos_photos;
+        if (tLRPC$TL_photos_photos == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in photos_Photos", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in photos_Photos", Integer.valueOf(i)));
+        if (tLRPC$TL_photos_photos != null) {
+            tLRPC$TL_photos_photos.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_photos_photos;
     }
 }

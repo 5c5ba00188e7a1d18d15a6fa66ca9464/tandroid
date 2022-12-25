@@ -29,7 +29,7 @@ public class PaintTextOptionsView extends LinearLayout {
     private static final List<AlignFramePair> ALIGN_PAIRS = Arrays.asList(new AlignFramePair(0, 1, 20, 0), new AlignFramePair(0, 2, 20, 40), new AlignFramePair(1, 0, 0, 20), new AlignFramePair(1, 2, 60, 40), new AlignFramePair(2, 0, 40, 20), new AlignFramePair(2, 1, 40, 60));
     private RLottieImageView alignView;
     private View colorClickableView;
-    private int currentAlign = 0;
+    private int currentAlign;
     private Delegate delegate;
     private ChatActivityEnterViewAnimatedIconView emojiButton;
     private int outlineType;
@@ -55,6 +55,7 @@ public class PaintTextOptionsView extends LinearLayout {
 
     public PaintTextOptionsView(Context context) {
         super(context);
+        this.currentAlign = 0;
         setOrientation(0);
         setGravity(16);
         setWillNotDraw(false);
@@ -237,10 +238,10 @@ public class PaintTextOptionsView extends LinearLayout {
             }
             animatedDrawable.setCurrentFrame(alignFramePair.toFrame);
             animatedDrawable.setCustomEndFrame(alignFramePair.toFrame);
-            if (!z) {
+            if (z) {
+                this.delegate.onTextAlignmentSelected(i);
                 return;
             }
-            this.delegate.onTextAlignmentSelected(i);
             return;
         }
         List<AlignFramePair> list2 = ALIGN_PAIRS;
@@ -260,10 +261,9 @@ public class PaintTextOptionsView extends LinearLayout {
         animatedDrawable2.setCurrentFrame(alignFramePair2.fromFrame);
         animatedDrawable2.setCustomEndFrame(alignFramePair2.toFrame);
         animatedDrawable2.start();
-        if (!z) {
-            return;
+        if (z) {
+            this.delegate.onTextAlignmentSelected(i);
         }
-        this.delegate.onTextAlignmentSelected(i);
     }
 
     /* loaded from: classes3.dex */
@@ -294,14 +294,8 @@ public class PaintTextOptionsView extends LinearLayout {
 
         public void setCurrent(boolean z) {
             this.isCurrent = z;
-            float f = 14.0f;
             if (z) {
-                int dp = AndroidUtilities.dp(LocaleController.isRTL ? 38.0f : 14.0f);
-                int dp2 = AndroidUtilities.dp(6.0f);
-                if (!LocaleController.isRTL) {
-                    f = 38.0f;
-                }
-                setPadding(dp, dp2, AndroidUtilities.dp(f), AndroidUtilities.dp(6.0f));
+                setPadding(AndroidUtilities.dp(LocaleController.isRTL ? 38.0f : 14.0f), AndroidUtilities.dp(6.0f), AndroidUtilities.dp(LocaleController.isRTL ? 14.0f : 38.0f), AndroidUtilities.dp(6.0f));
                 setBackground(Theme.AdaptiveRipple.rect(1090519039, AndroidUtilities.dp(32.0f)));
             } else {
                 setPadding(AndroidUtilities.dp(24.0f), AndroidUtilities.dp(14.0f), AndroidUtilities.dp(24.0f), AndroidUtilities.dp(14.0f));

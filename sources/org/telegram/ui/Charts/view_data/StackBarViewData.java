@@ -7,7 +7,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Charts.data.ChartData;
 /* loaded from: classes3.dex */
 public class StackBarViewData extends LineViewData {
-    public int blendColor = 0;
+    public int blendColor;
     public final Paint unselectedPaint;
 
     @Override // org.telegram.ui.Charts.view_data.LineViewData
@@ -20,6 +20,7 @@ public class StackBarViewData extends LineViewData {
         super(line);
         Paint paint = new Paint();
         this.unselectedPaint = paint;
+        this.blendColor = 0;
         this.paint.setStrokeWidth(AndroidUtilities.dpf2(1.0f));
         this.paint.setStyle(Paint.Style.STROKE);
         paint.setStyle(Paint.Style.STROKE);

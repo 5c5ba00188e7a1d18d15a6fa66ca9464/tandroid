@@ -32,7 +32,6 @@ public class ChatScrimPopupContainerLayout extends LinearLayout {
         ReactionsContainerLayout reactionsContainerLayout = this.reactionsLayout;
         if (reactionsContainerLayout != null && this.popupWindowLayout != null) {
             reactionsContainerLayout.getLayoutParams().width = -2;
-            int i4 = 0;
             ((LinearLayout.LayoutParams) this.reactionsLayout.getLayoutParams()).rightMargin = 0;
             this.popupLayoutLeftOffset = 0.0f;
             super.onMeasure(i, i2);
@@ -71,19 +70,17 @@ public class ChatScrimPopupContainerLayout extends LinearLayout {
                 if (this.reactionsLayout.getLayoutParams().width != -2 && this.reactionsLayout.getLayoutParams().width + measuredWidth3 > measuredWidth) {
                     measuredWidth3 = (measuredWidth - this.reactionsLayout.getLayoutParams().width) + AndroidUtilities.dp(8.0f);
                 }
-                if (measuredWidth3 >= 0) {
-                    i4 = measuredWidth3;
-                }
-                ((LinearLayout.LayoutParams) this.reactionsLayout.getLayoutParams()).rightMargin = i4;
+                r2 = measuredWidth3 >= 0 ? measuredWidth3 : 0;
+                ((LinearLayout.LayoutParams) this.reactionsLayout.getLayoutParams()).rightMargin = r2;
                 this.popupLayoutLeftOffset = 0.0f;
                 updatePopupTranslation();
             } else {
                 float measuredWidth4 = (measuredWidth - childAt.getMeasuredWidth()) * 0.25f;
                 this.popupLayoutLeftOffset = measuredWidth4;
                 ReactionsContainerLayout reactionsContainerLayout2 = this.reactionsLayout;
-                int i5 = (int) (reactionsContainerLayout2.bigCircleOffset - measuredWidth4);
-                reactionsContainerLayout2.bigCircleOffset = i5;
-                if (i5 < AndroidUtilities.dp(36.0f)) {
+                int i4 = (int) (reactionsContainerLayout2.bigCircleOffset - measuredWidth4);
+                reactionsContainerLayout2.bigCircleOffset = i4;
+                if (i4 < AndroidUtilities.dp(36.0f)) {
                     this.popupLayoutLeftOffset = 0.0f;
                     this.reactionsLayout.bigCircleOffset = AndroidUtilities.dp(36.0f);
                 }
@@ -97,7 +94,7 @@ public class ChatScrimPopupContainerLayout extends LinearLayout {
                     this.bottomView.getLayoutParams().width = -1;
                 }
                 if (this.popupWindowLayout.getSwipeBack() != null) {
-                    ((LinearLayout.LayoutParams) this.bottomView.getLayoutParams()).rightMargin = i4 + AndroidUtilities.dp(36.0f);
+                    ((LinearLayout.LayoutParams) this.bottomView.getLayoutParams()).rightMargin = r2 + AndroidUtilities.dp(36.0f);
                 } else {
                     ((LinearLayout.LayoutParams) this.bottomView.getLayoutParams()).rightMargin = AndroidUtilities.dp(36.0f);
                 }

@@ -9,12 +9,8 @@ public class TLRPC$TL_documentAttributeCustomEmoji extends TLRPC$DocumentAttribu
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
         int readInt32 = abstractSerializedData.readInt32(z);
         this.flags = readInt32;
-        boolean z2 = false;
         this.free = (readInt32 & 1) != 0;
-        if ((readInt32 & 2) != 0) {
-            z2 = true;
-        }
-        this.text_color = z2;
+        this.text_color = (readInt32 & 2) != 0;
         this.alt = abstractSerializedData.readString(z);
         this.stickerset = TLRPC$InputStickerSet.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
     }

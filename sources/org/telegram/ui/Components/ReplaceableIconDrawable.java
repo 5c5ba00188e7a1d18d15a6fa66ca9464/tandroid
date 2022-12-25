@@ -60,9 +60,7 @@ public class ReplaceableIconDrawable extends Drawable implements Animator.Animat
             invalidateSelf();
             return;
         }
-        if (getBounds() == null || getBounds().isEmpty()) {
-            z = false;
-        }
+        z = (getBounds() == null || getBounds().isEmpty()) ? false : false;
         Drawable drawable2 = this.currentDrawable;
         if (drawable == drawable2) {
             drawable2.setColorFilter(this.colorFilter);
@@ -170,11 +168,10 @@ public class ReplaceableIconDrawable extends Drawable implements Animator.Animat
             return;
         }
         Drawable drawable2 = this.outDrawable;
-        if (drawable2 == null) {
-            return;
+        if (drawable2 != null) {
+            drawable2.setAlpha(255);
+            this.outDrawable.draw(canvas);
         }
-        drawable2.setAlpha(255);
-        this.outDrawable.draw(canvas);
     }
 
     @Override // android.graphics.drawable.Drawable

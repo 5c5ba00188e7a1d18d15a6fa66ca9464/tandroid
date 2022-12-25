@@ -15,12 +15,13 @@ import com.microsoft.appcenter.utils.HandlerUtils;
 import com.microsoft.appcenter.utils.storage.SharedPreferencesManager;
 /* loaded from: classes.dex */
 public class DownloadManagerReleaseDownloader extends AbstractReleaseDownloader {
-    private long mDownloadId = -1;
+    private long mDownloadId;
     private DownloadManagerRequestTask mRequestTask;
     private DownloadManagerUpdateTask mUpdateTask;
 
     public DownloadManagerReleaseDownloader(Context context, ReleaseDetails releaseDetails, ReleaseDownloader.Listener listener) {
         super(context, releaseDetails, listener);
+        this.mDownloadId = -1L;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

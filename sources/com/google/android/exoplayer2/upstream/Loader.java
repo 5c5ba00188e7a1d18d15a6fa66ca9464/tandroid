@@ -13,8 +13,8 @@ import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 /* loaded from: classes.dex */
 public final class Loader implements LoaderErrorThrower {
-    public static final LoadErrorAction DONT_RETRY = new LoadErrorAction(2, -9223372036854775807L);
-    public static final LoadErrorAction DONT_RETRY_FATAL = new LoadErrorAction(3, -9223372036854775807L);
+    public static final LoadErrorAction DONT_RETRY;
+    public static final LoadErrorAction DONT_RETRY_FATAL;
     private LoadTask<? extends Loadable> currentTask;
     private final ExecutorService downloadExecutorService;
     private IOException fatalError;
@@ -50,6 +50,8 @@ public final class Loader implements LoaderErrorThrower {
     static {
         createRetryAction(false, -9223372036854775807L);
         createRetryAction(true, -9223372036854775807L);
+        DONT_RETRY = new LoadErrorAction(2, -9223372036854775807L);
+        DONT_RETRY_FATAL = new LoadErrorAction(3, -9223372036854775807L);
     }
 
     /* loaded from: classes.dex */
@@ -125,13 +127,12 @@ public final class Loader implements LoaderErrorThrower {
             throw iOException;
         }
         LoadTask<? extends Loadable> loadTask = this.currentTask;
-        if (loadTask == null) {
-            return;
+        if (loadTask != null) {
+            if (i == Integer.MIN_VALUE) {
+                i = loadTask.defaultMinRetryCount;
+            }
+            loadTask.maybeThrowError(i);
         }
-        if (i == Integer.MIN_VALUE) {
-            i = loadTask.defaultMinRetryCount;
-        }
-        loadTask.maybeThrowError(i);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -158,10 +159,9 @@ public final class Loader implements LoaderErrorThrower {
 
         public void maybeThrowError(int i) throws IOException {
             IOException iOException = this.currentError;
-            if (iOException == null || this.errorCount <= i) {
-                return;
+            if (iOException != null && this.errorCount > i) {
+                throw iOException;
             }
-            throw iOException;
         }
 
         public void start(long j) {
@@ -295,18 +295,18 @@ public final class Loader implements LoaderErrorThrower {
                     this.errorCount = i3;
                     LoadErrorAction onLoadError = callback.onLoadError(this.loadable, elapsedRealtime, j, iOException, i3);
                     if (onLoadError.type != 3) {
-                        if (onLoadError.type == 2) {
+                        if (onLoadError.type != 2) {
+                            if (onLoadError.type == 1) {
+                                this.errorCount = 1;
+                            }
+                            if (onLoadError.retryDelayMillis != -9223372036854775807L) {
+                                retryDelayMillis = onLoadError.retryDelayMillis;
+                            } else {
+                                retryDelayMillis = getRetryDelayMillis();
+                            }
+                            start(retryDelayMillis);
                             return;
                         }
-                        if (onLoadError.type == 1) {
-                            this.errorCount = 1;
-                        }
-                        if (onLoadError.retryDelayMillis != -9223372036854775807L) {
-                            retryDelayMillis = onLoadError.retryDelayMillis;
-                        } else {
-                            retryDelayMillis = getRetryDelayMillis();
-                        }
-                        start(retryDelayMillis);
                         return;
                     }
                     Loader.this.fatalError = this.currentError;

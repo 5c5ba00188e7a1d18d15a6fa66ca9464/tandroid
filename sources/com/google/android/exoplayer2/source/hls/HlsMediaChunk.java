@@ -88,10 +88,10 @@ public final class HlsMediaChunk extends MediaChunk {
         if (hlsMediaChunk != null) {
             Id3Decoder id3Decoder2 = hlsMediaChunk.id3Decoder;
             ParsableByteArray parsableByteArray2 = hlsMediaChunk.scratchId3Data;
-            boolean z6 = !uri.equals(hlsMediaChunk.playlistUrl) || !hlsMediaChunk.loadCompleted;
+            boolean z6 = (uri.equals(hlsMediaChunk.playlistUrl) && hlsMediaChunk.loadCompleted) ? false : true;
             id3Decoder = id3Decoder2;
             parsableByteArray = parsableByteArray2;
-            extractor = (!hlsMediaChunk.isExtractorReusable || hlsMediaChunk.discontinuitySequenceNumber != i3 || z6) ? null : hlsMediaChunk.extractor;
+            extractor = (hlsMediaChunk.isExtractorReusable && hlsMediaChunk.discontinuitySequenceNumber == i3 && !z6) ? hlsMediaChunk.extractor : null;
             z3 = z6;
         } else {
             id3Decoder = new Id3Decoder();
@@ -149,24 +149,24 @@ public final class HlsMediaChunk extends MediaChunk {
             this.initDataLoadRequired = false;
         }
         maybeLoadInitData();
-        if (!this.loadCanceled) {
-            if (!this.hasGapTag) {
-                loadMedia();
-            }
-            this.loadCompleted = true;
+        if (this.loadCanceled) {
+            return;
         }
+        if (!this.hasGapTag) {
+            loadMedia();
+        }
+        this.loadCompleted = true;
     }
 
     @RequiresNonNull({"output"})
     private void maybeLoadInitData() throws IOException, InterruptedException {
-        if (!this.initDataLoadRequired) {
-            return;
+        if (this.initDataLoadRequired) {
+            Assertions.checkNotNull(this.initDataSource);
+            Assertions.checkNotNull(this.initDataSpec);
+            feedDataToExtractor(this.initDataSource, this.initDataSpec, this.initSegmentEncrypted);
+            this.nextLoadPosition = 0;
+            this.initDataLoadRequired = false;
         }
-        Assertions.checkNotNull(this.initDataSource);
-        Assertions.checkNotNull(this.initDataSpec);
-        feedDataToExtractor(this.initDataSource, this.initDataSpec, this.initSegmentEncrypted);
-        this.nextLoadPosition = 0;
-        this.initDataLoadRequired = false;
     }
 
     @RequiresNonNull({"output"})

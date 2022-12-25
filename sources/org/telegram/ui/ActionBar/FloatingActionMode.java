@@ -19,13 +19,23 @@ import org.telegram.messenger.AndroidUtilities;
 @TargetApi(23)
 /* loaded from: classes3.dex */
 public final class FloatingActionMode extends ActionMode {
+    private final int mBottomAllowance;
     private final ActionMode.Callback2 mCallback;
+    private final Rect mContentRect;
+    private final Rect mContentRectOnScreen;
     private final Context mContext;
+    private final Point mDisplaySize;
     private FloatingToolbar mFloatingToolbar;
     private FloatingToolbarVisibilityHelper mFloatingToolbarVisibilityHelper;
     private final Menu mMenu;
     private final View mOriginatingView;
+    private final Rect mPreviousContentRectOnScreen;
+    private final int[] mPreviousViewPositionOnScreen;
+    private final Rect mPreviousViewRectOnScreen;
+    private final int[] mRootViewPositionOnScreen;
+    private final Rect mScreenRect;
     private final int[] mViewPositionOnScreen;
+    private final Rect mViewRectOnScreen;
     private final Runnable mMovingOff = new Runnable() { // from class: org.telegram.ui.ActionBar.FloatingActionMode.1
         @Override // java.lang.Runnable
         public void run() {
@@ -44,16 +54,6 @@ public final class FloatingActionMode extends ActionMode {
             }
         }
     };
-    private final Rect mContentRect = new Rect();
-    private final Rect mContentRectOnScreen = new Rect();
-    private final Rect mPreviousContentRectOnScreen = new Rect();
-    private final int[] mPreviousViewPositionOnScreen = new int[2];
-    private final int[] mRootViewPositionOnScreen = new int[2];
-    private final Rect mViewRectOnScreen = new Rect();
-    private final Rect mPreviousViewRectOnScreen = new Rect();
-    private final Rect mScreenRect = new Rect();
-    private final int mBottomAllowance = AndroidUtilities.dp(20.0f);
-    private final Point mDisplaySize = new Point();
 
     @Override // android.view.ActionMode
     public View getCustomView() {
@@ -104,10 +104,20 @@ public final class FloatingActionMode extends ActionMode {
                 return lambda$new$0;
             }
         });
+        this.mContentRect = new Rect();
+        this.mContentRectOnScreen = new Rect();
+        this.mPreviousContentRectOnScreen = new Rect();
         int[] iArr = new int[2];
         this.mViewPositionOnScreen = iArr;
+        this.mPreviousViewPositionOnScreen = new int[2];
+        this.mRootViewPositionOnScreen = new int[2];
+        this.mViewRectOnScreen = new Rect();
+        this.mPreviousViewRectOnScreen = new Rect();
+        this.mScreenRect = new Rect();
         this.mOriginatingView = view;
         view.getLocationOnScreen(iArr);
+        this.mBottomAllowance = AndroidUtilities.dp(20.0f);
+        this.mDisplaySize = new Point();
         setFloatingToolbar(floatingToolbar);
     }
 
@@ -160,14 +170,15 @@ public final class FloatingActionMode extends ActionMode {
         Rect rect = this.mViewRectOnScreen;
         int[] iArr = this.mRootViewPositionOnScreen;
         rect.offset(iArr[0], iArr[1]);
-        if (!Arrays.equals(this.mViewPositionOnScreen, this.mPreviousViewPositionOnScreen) || !this.mViewRectOnScreen.equals(this.mPreviousViewRectOnScreen)) {
-            repositionToolbar();
-            int[] iArr2 = this.mPreviousViewPositionOnScreen;
-            int[] iArr3 = this.mViewPositionOnScreen;
-            iArr2[0] = iArr3[0];
-            iArr2[1] = iArr3[1];
-            this.mPreviousViewRectOnScreen.set(this.mViewRectOnScreen);
+        if (Arrays.equals(this.mViewPositionOnScreen, this.mPreviousViewPositionOnScreen) && this.mViewRectOnScreen.equals(this.mPreviousViewRectOnScreen)) {
+            return;
         }
+        repositionToolbar();
+        int[] iArr2 = this.mPreviousViewPositionOnScreen;
+        int[] iArr3 = this.mViewPositionOnScreen;
+        iArr2[0] = iArr3[0];
+        iArr2[1] = iArr3[1];
+        this.mPreviousViewRectOnScreen.set(this.mViewRectOnScreen);
     }
 
     private void repositionToolbar() {
@@ -312,15 +323,14 @@ public final class FloatingActionMode extends ActionMode {
         }
 
         public void updateToolbarVisibility() {
-            if (!this.mActive) {
-                return;
+            if (this.mActive) {
+                if (this.mHideRequested || this.mMoving || this.mOutOfBounds || !this.mWindowFocused) {
+                    this.mToolbar.hide();
+                    return;
+                }
+                this.mToolbar.show();
+                this.mLastShowTime = System.currentTimeMillis();
             }
-            if (this.mHideRequested || this.mMoving || this.mOutOfBounds || !this.mWindowFocused) {
-                this.mToolbar.hide();
-                return;
-            }
-            this.mToolbar.show();
-            this.mLastShowTime = System.currentTimeMillis();
         }
     }
 }

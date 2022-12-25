@@ -20,7 +20,7 @@ import java.util.Set;
 /* loaded from: classes2.dex */
 public class DesugarCollections {
     public static final Class a;
-    static final Class b = Collections.synchronizedList(new LinkedList()).getClass();
+    static final Class b;
     private static final Field c;
     private static final Field d;
     private static final Constructor e;
@@ -30,7 +30,7 @@ public class DesugarCollections {
     /* loaded from: classes2.dex */
     public static class a implements java.util.Map, Serializable, Map {
         private final java.util.Map a;
-        final Object b = this;
+        final Object b;
         private transient Set c;
         private transient Set d;
         private transient Collection e;
@@ -38,6 +38,7 @@ public class DesugarCollections {
         a(java.util.Map map) {
             Objects.requireNonNull(map);
             this.a = map;
+            this.b = this;
         }
 
         private Set a(Set set, Object obj) {
@@ -373,6 +374,7 @@ public class DesugarCollections {
         Constructor<?> constructor;
         Class<?> cls = Collections.synchronizedCollection(new ArrayList()).getClass();
         a = cls;
+        b = Collections.synchronizedList(new LinkedList()).getClass();
         Constructor<?> constructor2 = null;
         try {
             field = cls.getDeclaredField("mutex");

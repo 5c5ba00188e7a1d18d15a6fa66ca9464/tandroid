@@ -117,10 +117,10 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
 
     public static int reverseTransit(int i) {
         if (i != 4097) {
-            if (i == 4099) {
-                return 4099;
+            if (i != 4099) {
+                return i != 8194 ? 0 : 4097;
             }
-            return i != 8194 ? 0 : 4097;
+            return 4099;
         }
         return 8194;
     }
@@ -490,29 +490,29 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
                 }
             }
         }
-        if (i == 0 || (transitToStyleIndex = transitToStyleIndex(i, z)) < 0) {
-            return null;
-        }
-        switch (transitToStyleIndex) {
-            case 1:
-                return makeOpenCloseAnimation(this.mHost.getContext(), 1.125f, 1.0f, 0.0f, 1.0f);
-            case 2:
-                return makeOpenCloseAnimation(this.mHost.getContext(), 1.0f, 0.975f, 1.0f, 0.0f);
-            case 3:
-                return makeOpenCloseAnimation(this.mHost.getContext(), 0.975f, 1.0f, 0.0f, 1.0f);
-            case 4:
-                return makeOpenCloseAnimation(this.mHost.getContext(), 1.0f, 1.075f, 1.0f, 0.0f);
-            case 5:
-                return makeFadeAnimation(this.mHost.getContext(), 0.0f, 1.0f);
-            case 6:
-                return makeFadeAnimation(this.mHost.getContext(), 1.0f, 0.0f);
-            default:
-                if (i2 != 0 || !this.mHost.onHasWindowAnimations()) {
+        if (i != 0 && (transitToStyleIndex = transitToStyleIndex(i, z)) >= 0) {
+            switch (transitToStyleIndex) {
+                case 1:
+                    return makeOpenCloseAnimation(this.mHost.getContext(), 1.125f, 1.0f, 0.0f, 1.0f);
+                case 2:
+                    return makeOpenCloseAnimation(this.mHost.getContext(), 1.0f, 0.975f, 1.0f, 0.0f);
+                case 3:
+                    return makeOpenCloseAnimation(this.mHost.getContext(), 0.975f, 1.0f, 0.0f, 1.0f);
+                case 4:
+                    return makeOpenCloseAnimation(this.mHost.getContext(), 1.0f, 1.075f, 1.0f, 0.0f);
+                case 5:
+                    return makeFadeAnimation(this.mHost.getContext(), 0.0f, 1.0f);
+                case 6:
+                    return makeFadeAnimation(this.mHost.getContext(), 1.0f, 0.0f);
+                default:
+                    if (i2 == 0 && this.mHost.onHasWindowAnimations()) {
+                        this.mHost.onGetWindowAnimations();
+                        return null;
+                    }
                     return null;
-                }
-                this.mHost.onGetWindowAnimations();
-                return null;
+            }
         }
+        return null;
     }
 
     public void performPendingDeferredStart(Fragment fragment) {
@@ -563,13 +563,13 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* JADX WARN: Code restructure failed: missing block: B:37:0x0072, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:43:0x0072, code lost:
         if (r0 != 3) goto L43;
      */
-    /* JADX WARN: Removed duplicated region for block: B:39:0x02b3  */
-    /* JADX WARN: Removed duplicated region for block: B:46:0x041e  */
-    /* JADX WARN: Removed duplicated region for block: B:48:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x0293  */
+    /* JADX WARN: Removed duplicated region for block: B:131:0x0293  */
+    /* JADX WARN: Removed duplicated region for block: B:136:0x02b3  */
+    /* JADX WARN: Removed duplicated region for block: B:218:0x041e  */
+    /* JADX WARN: Removed duplicated region for block: B:222:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -591,7 +591,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
             i4 = i;
         }
         if (fragment.mRemoving && i4 > (i5 = fragment.mState)) {
-            i4 = (i5 != 0 || !fragment.isInBackStack()) ? fragment.mState : 1;
+            i4 = (i5 == 0 && fragment.isInBackStack()) ? 1 : fragment.mState;
         }
         int i7 = (!fragment.mDeferStart || fragment.mState >= 3 || i4 <= 2) ? i4 : 2;
         int i8 = fragment.mState;
@@ -733,10 +733,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
                         }
                         fragment.onViewCreated(fragment.mView, fragment.mSavedFragmentState);
                         dispatchOnFragmentViewCreated(fragment, fragment.mView, fragment.mSavedFragmentState, false);
-                        if (fragment.mView.getVisibility() != 0 || fragment.mContainer == null) {
-                            z2 = false;
-                        }
-                        fragment.mIsNewlyAdded = z2;
+                        fragment.mIsNewlyAdded = (fragment.mView.getVisibility() != 0 || fragment.mContainer == null) ? false : false;
                     } else {
                         fragment.mInnerView = null;
                     }
@@ -816,11 +813,11 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
                 }
                 if (fragment.getAnimatingAway() != null || fragment.getAnimator() != null) {
                     fragment.setStateAfterAnimating(i7);
-                    if (fragment.mState != i6) {
+                    if (fragment.mState == i6) {
+                        Log.w("FragmentManager", "moveToState: Fragment state for " + fragment + " not updated inline; expected state " + i6 + " found " + fragment.mState);
+                        fragment.mState = i6;
                         return;
                     }
-                    Log.w("FragmentManager", "moveToState: Fragment state for " + fragment + " not updated inline; expected state " + i6 + " found " + fragment.mState);
-                    fragment.mState = i6;
                     return;
                 }
                 if (DEBUG) {
@@ -846,7 +843,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
             }
         }
         i6 = i7;
-        if (fragment.mState != i6) {
+        if (fragment.mState == i6) {
         }
     }
 
@@ -1019,10 +1016,9 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
                 }
             }
         }
-        if (!fragment.mHiddenChanged) {
-            return;
+        if (fragment.mHiddenChanged) {
+            completeShowHideFragment(fragment);
         }
-        completeShowHideFragment(fragment);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -1031,30 +1027,27 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         if (this.mHost == null && i != 0) {
             throw new IllegalStateException("No activity");
         }
-        if (!z && i == this.mCurState) {
-            return;
-        }
-        this.mCurState = i;
-        if (this.mActive == null) {
-            return;
-        }
-        int size = this.mAdded.size();
-        for (int i2 = 0; i2 < size; i2++) {
-            moveFragmentToExpectedState(this.mAdded.get(i2));
-        }
-        int size2 = this.mActive.size();
-        for (int i3 = 0; i3 < size2; i3++) {
-            Fragment valueAt = this.mActive.valueAt(i3);
-            if (valueAt != null && ((valueAt.mRemoving || valueAt.mDetached) && !valueAt.mIsNewlyAdded)) {
-                moveFragmentToExpectedState(valueAt);
+        if (z || i != this.mCurState) {
+            this.mCurState = i;
+            if (this.mActive != null) {
+                int size = this.mAdded.size();
+                for (int i2 = 0; i2 < size; i2++) {
+                    moveFragmentToExpectedState(this.mAdded.get(i2));
+                }
+                int size2 = this.mActive.size();
+                for (int i3 = 0; i3 < size2; i3++) {
+                    Fragment valueAt = this.mActive.valueAt(i3);
+                    if (valueAt != null && ((valueAt.mRemoving || valueAt.mDetached) && !valueAt.mIsNewlyAdded)) {
+                        moveFragmentToExpectedState(valueAt);
+                    }
+                }
+                startPendingDeferredFragments();
+                if (this.mNeedMenuInvalidate && (fragmentHostCallback = this.mHost) != null && this.mCurState == 4) {
+                    fragmentHostCallback.onSupportInvalidateOptionsMenu();
+                    this.mNeedMenuInvalidate = false;
+                }
             }
         }
-        startPendingDeferredFragments();
-        if (!this.mNeedMenuInvalidate || (fragmentHostCallback = this.mHost) == null || this.mCurState != 4) {
-            return;
-        }
-        fragmentHostCallback.onSupportInvalidateOptionsMenu();
-        this.mNeedMenuInvalidate = false;
     }
 
     void startPendingDeferredFragments() {
@@ -1081,10 +1074,9 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
             this.mActive = new SparseArray<>();
         }
         this.mActive.put(fragment.mIndex, fragment);
-        if (!DEBUG) {
-            return;
+        if (DEBUG) {
+            Log.v("FragmentManager", "Allocated fragment index " + fragment);
         }
-        Log.v("FragmentManager", "Allocated fragment index " + fragment);
     }
 
     void makeInactive(Fragment fragment) {
@@ -1103,24 +1095,24 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
             Log.v("FragmentManager", "add: " + fragment);
         }
         makeActive(fragment);
-        if (!fragment.mDetached) {
-            if (this.mAdded.contains(fragment)) {
-                throw new IllegalStateException("Fragment already added: " + fragment);
-            }
-            synchronized (this.mAdded) {
-                this.mAdded.add(fragment);
-            }
-            fragment.mAdded = true;
-            fragment.mRemoving = false;
-            if (fragment.mView == null) {
-                fragment.mHiddenChanged = false;
-            }
-            if (fragment.mHasMenu && fragment.mMenuVisible) {
-                this.mNeedMenuInvalidate = true;
-            }
-            if (!z) {
-                return;
-            }
+        if (fragment.mDetached) {
+            return;
+        }
+        if (this.mAdded.contains(fragment)) {
+            throw new IllegalStateException("Fragment already added: " + fragment);
+        }
+        synchronized (this.mAdded) {
+            this.mAdded.add(fragment);
+        }
+        fragment.mAdded = true;
+        fragment.mRemoving = false;
+        if (fragment.mView == null) {
+            fragment.mHiddenChanged = false;
+        }
+        if (fragment.mHasMenu && fragment.mMenuVisible) {
+            this.mNeedMenuInvalidate = true;
+        }
+        if (z) {
             moveToState(fragment);
         }
     }
@@ -1146,10 +1138,11 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         if (DEBUG) {
             Log.v("FragmentManager", "hide: " + fragment);
         }
-        if (!fragment.mHidden) {
-            fragment.mHidden = true;
-            fragment.mHiddenChanged = true ^ fragment.mHiddenChanged;
+        if (fragment.mHidden) {
+            return;
         }
+        fragment.mHidden = true;
+        fragment.mHiddenChanged = true ^ fragment.mHiddenChanged;
     }
 
     public void showFragment(Fragment fragment) {
@@ -1166,11 +1159,11 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         if (DEBUG) {
             Log.v("FragmentManager", "detach: " + fragment);
         }
-        if (!fragment.mDetached) {
-            fragment.mDetached = true;
-            if (!fragment.mAdded) {
-                return;
-            }
+        if (fragment.mDetached) {
+            return;
+        }
+        fragment.mDetached = true;
+        if (fragment.mAdded) {
             if (DEBUG) {
                 Log.v("FragmentManager", "remove from detach: " + fragment);
             }
@@ -1203,10 +1196,9 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
                 this.mAdded.add(fragment);
             }
             fragment.mAdded = true;
-            if (!fragment.mHasMenu || !fragment.mMenuVisible) {
-                return;
+            if (fragment.mHasMenu && fragment.mMenuVisible) {
+                this.mNeedMenuInvalidate = true;
             }
-            this.mNeedMenuInvalidate = true;
         }
     }
 
@@ -1283,7 +1275,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         return this.mStateSaved || this.mStopped;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:19:0x0027, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:18:0x0027, code lost:
         return;
      */
     /*
@@ -1310,7 +1302,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         synchronized (this) {
             ArrayList<StartEnterTransitionListener> arrayList = this.mPostponedTransactions;
             boolean z = false;
-            boolean z2 = arrayList != null && !arrayList.isEmpty();
+            boolean z2 = (arrayList == null || arrayList.isEmpty()) ? false : true;
             ArrayList<OpGenerator> arrayList2 = this.mPendingActions;
             if (arrayList2 != null && arrayList2.size() == 1) {
                 z = true;
@@ -1491,10 +1483,9 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
             }
             i++;
         }
-        if (i2 == size) {
-            return;
+        if (i2 != size) {
+            executeOpsTogether(arrayList, arrayList2, i2, size);
         }
-        executeOpsTogether(arrayList, arrayList2, i2, size);
     }
 
     private void executeOpsTogether(ArrayList<BackStackRecord> arrayList, ArrayList<Boolean> arrayList2, int i, int i2) {
@@ -1646,13 +1637,9 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
     private static void executeOps(ArrayList<BackStackRecord> arrayList, ArrayList<Boolean> arrayList2, int i, int i2) {
         while (i < i2) {
             BackStackRecord backStackRecord = arrayList.get(i);
-            boolean z = true;
             if (arrayList2.get(i).booleanValue()) {
                 backStackRecord.bumpBackStackNesting(-1);
-                if (i != i2 - 1) {
-                    z = false;
-                }
-                backStackRecord.executePopOps(z);
+                backStackRecord.executePopOps(i == i2 + (-1));
             } else {
                 backStackRecord.bumpBackStackNesting(1);
                 backStackRecord.executeOps();
@@ -1822,11 +1809,10 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
             }
         }
         List<FragmentManagerNonConfig> childNonConfigs = fragmentManagerNonConfig.getChildNonConfigs();
-        if (childNonConfigs == null) {
-            return;
-        }
-        for (FragmentManagerNonConfig fragmentManagerNonConfig2 : childNonConfigs) {
-            setRetaining(fragmentManagerNonConfig2);
+        if (childNonConfigs != null) {
+            for (FragmentManagerNonConfig fragmentManagerNonConfig2 : childNonConfigs) {
+                setRetaining(fragmentManagerNonConfig2);
+            }
         }
     }
 
@@ -1903,11 +1889,10 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
             sparseArray.clear();
         }
         fragment.mInnerView.saveHierarchyState(this.mStateArray);
-        if (this.mStateArray.size() <= 0) {
-            return;
+        if (this.mStateArray.size() > 0) {
+            fragment.mSavedViewState = this.mStateArray;
+            this.mStateArray = null;
         }
-        fragment.mSavedViewState = this.mStateArray;
-        this.mStateArray = null;
     }
 
     Bundle saveFragmentBasicState(Fragment fragment) {
@@ -2394,7 +2379,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         return this.mPrimaryNav;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:9:0x001e  */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x001e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2418,7 +2403,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:9:0x001e  */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x001e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2442,7 +2427,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:9:0x001e  */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x001e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2466,7 +2451,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:9:0x001e  */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x001e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2490,7 +2475,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:9:0x001e  */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x001e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2514,7 +2499,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:9:0x001e  */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x001e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2538,7 +2523,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:9:0x001e  */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x001e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2562,7 +2547,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:9:0x001e  */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x001e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2586,7 +2571,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:9:0x001e  */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x001e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2610,7 +2595,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:9:0x001e  */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x001e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2634,7 +2619,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:9:0x001e  */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x001e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2658,7 +2643,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:9:0x001e  */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x001e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2682,7 +2667,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:9:0x001e  */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x001e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2706,7 +2691,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:9:0x001e  */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x001e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2732,77 +2717,74 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
 
     @Override // android.view.LayoutInflater.Factory2
     public View onCreateView(View view, String str, Context context, AttributeSet attributeSet) {
-        if (!"fragment".equals(str)) {
-            return null;
-        }
-        String attributeValue = attributeSet.getAttributeValue(null, "class");
-        TypedArray obtainStyledAttributes = context.obtainStyledAttributes(attributeSet, FragmentTag.Fragment);
-        int i = 0;
-        if (attributeValue == null) {
-            attributeValue = obtainStyledAttributes.getString(0);
-        }
-        String str2 = attributeValue;
-        int resourceId = obtainStyledAttributes.getResourceId(1, -1);
-        String string = obtainStyledAttributes.getString(2);
-        obtainStyledAttributes.recycle();
-        if (!Fragment.isSupportFragmentClass(this.mHost.getContext(), str2)) {
-            return null;
-        }
-        if (view != null) {
-            i = view.getId();
-        }
-        if (i == -1 && resourceId == -1 && string == null) {
-            throw new IllegalArgumentException(attributeSet.getPositionDescription() + ": Must specify unique android:id, android:tag, or have a parent with an id for " + str2);
-        }
-        Fragment findFragmentById = resourceId != -1 ? findFragmentById(resourceId) : null;
-        if (findFragmentById == null && string != null) {
-            findFragmentById = findFragmentByTag(string);
-        }
-        if (findFragmentById == null && i != -1) {
-            findFragmentById = findFragmentById(i);
-        }
-        if (DEBUG) {
-            Log.v("FragmentManager", "onCreateView: id=0x" + Integer.toHexString(resourceId) + " fname=" + str2 + " existing=" + findFragmentById);
-        }
-        if (findFragmentById == null) {
-            findFragmentById = this.mContainer.instantiate(context, str2, null);
-            findFragmentById.mFromLayout = true;
-            findFragmentById.mFragmentId = resourceId != 0 ? resourceId : i;
-            findFragmentById.mContainerId = i;
-            findFragmentById.mTag = string;
-            findFragmentById.mInLayout = true;
-            findFragmentById.mFragmentManager = this;
-            FragmentHostCallback fragmentHostCallback = this.mHost;
-            findFragmentById.mHost = fragmentHostCallback;
-            findFragmentById.onInflate(fragmentHostCallback.getContext(), attributeSet, findFragmentById.mSavedFragmentState);
-            addFragment(findFragmentById, true);
-        } else if (findFragmentById.mInLayout) {
-            throw new IllegalArgumentException(attributeSet.getPositionDescription() + ": Duplicate id 0x" + Integer.toHexString(resourceId) + ", tag " + string + ", or parent id 0x" + Integer.toHexString(i) + " with another fragment for " + str2);
-        } else {
-            findFragmentById.mInLayout = true;
-            FragmentHostCallback fragmentHostCallback2 = this.mHost;
-            findFragmentById.mHost = fragmentHostCallback2;
-            if (!findFragmentById.mRetaining) {
-                findFragmentById.onInflate(fragmentHostCallback2.getContext(), attributeSet, findFragmentById.mSavedFragmentState);
+        if ("fragment".equals(str)) {
+            String attributeValue = attributeSet.getAttributeValue(null, "class");
+            TypedArray obtainStyledAttributes = context.obtainStyledAttributes(attributeSet, FragmentTag.Fragment);
+            if (attributeValue == null) {
+                attributeValue = obtainStyledAttributes.getString(0);
             }
+            String str2 = attributeValue;
+            int resourceId = obtainStyledAttributes.getResourceId(1, -1);
+            String string = obtainStyledAttributes.getString(2);
+            obtainStyledAttributes.recycle();
+            if (Fragment.isSupportFragmentClass(this.mHost.getContext(), str2)) {
+                int id = view != null ? view.getId() : 0;
+                if (id == -1 && resourceId == -1 && string == null) {
+                    throw new IllegalArgumentException(attributeSet.getPositionDescription() + ": Must specify unique android:id, android:tag, or have a parent with an id for " + str2);
+                }
+                Fragment findFragmentById = resourceId != -1 ? findFragmentById(resourceId) : null;
+                if (findFragmentById == null && string != null) {
+                    findFragmentById = findFragmentByTag(string);
+                }
+                if (findFragmentById == null && id != -1) {
+                    findFragmentById = findFragmentById(id);
+                }
+                if (DEBUG) {
+                    Log.v("FragmentManager", "onCreateView: id=0x" + Integer.toHexString(resourceId) + " fname=" + str2 + " existing=" + findFragmentById);
+                }
+                if (findFragmentById == null) {
+                    findFragmentById = this.mContainer.instantiate(context, str2, null);
+                    findFragmentById.mFromLayout = true;
+                    findFragmentById.mFragmentId = resourceId != 0 ? resourceId : id;
+                    findFragmentById.mContainerId = id;
+                    findFragmentById.mTag = string;
+                    findFragmentById.mInLayout = true;
+                    findFragmentById.mFragmentManager = this;
+                    FragmentHostCallback fragmentHostCallback = this.mHost;
+                    findFragmentById.mHost = fragmentHostCallback;
+                    findFragmentById.onInflate(fragmentHostCallback.getContext(), attributeSet, findFragmentById.mSavedFragmentState);
+                    addFragment(findFragmentById, true);
+                } else if (findFragmentById.mInLayout) {
+                    throw new IllegalArgumentException(attributeSet.getPositionDescription() + ": Duplicate id 0x" + Integer.toHexString(resourceId) + ", tag " + string + ", or parent id 0x" + Integer.toHexString(id) + " with another fragment for " + str2);
+                } else {
+                    findFragmentById.mInLayout = true;
+                    FragmentHostCallback fragmentHostCallback2 = this.mHost;
+                    findFragmentById.mHost = fragmentHostCallback2;
+                    if (!findFragmentById.mRetaining) {
+                        findFragmentById.onInflate(fragmentHostCallback2.getContext(), attributeSet, findFragmentById.mSavedFragmentState);
+                    }
+                }
+                Fragment fragment = findFragmentById;
+                if (this.mCurState < 1 && fragment.mFromLayout) {
+                    moveToState(fragment, 1, 0, 0, false);
+                } else {
+                    moveToState(fragment);
+                }
+                View view2 = fragment.mView;
+                if (view2 == null) {
+                    throw new IllegalStateException("Fragment " + str2 + " did not create a view.");
+                }
+                if (resourceId != 0) {
+                    view2.setId(resourceId);
+                }
+                if (fragment.mView.getTag() == null) {
+                    fragment.mView.setTag(string);
+                }
+                return fragment.mView;
+            }
+            return null;
         }
-        Fragment fragment = findFragmentById;
-        if (this.mCurState < 1 && fragment.mFromLayout) {
-            moveToState(fragment, 1, 0, 0, false);
-        } else {
-            moveToState(fragment);
-        }
-        View view2 = fragment.mView;
-        if (view2 == null) {
-            throw new IllegalStateException("Fragment " + str2 + " did not create a view.");
-        }
-        if (resourceId != 0) {
-            view2.setId(resourceId);
-        }
-        if (fragment.mView.getTag() == null) {
-            fragment.mView.setTag(string);
-        }
-        return fragment.mView;
+        return null;
     }
 
     @Override // android.view.LayoutInflater.Factory
@@ -2897,19 +2879,17 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         AnimationOrAnimator(Animation animation) {
             this.animation = animation;
             this.animator = null;
-            if (animation != null) {
-                return;
+            if (animation == null) {
+                throw new IllegalStateException("Animation cannot be null");
             }
-            throw new IllegalStateException("Animation cannot be null");
         }
 
         AnimationOrAnimator(Animator animator) {
             this.animation = null;
             this.animator = animator;
-            if (animator != null) {
-                return;
+            if (animator == null) {
+                throw new IllegalStateException("Animator cannot be null");
             }
-            throw new IllegalStateException("Animator cannot be null");
         }
     }
 
@@ -3000,7 +2980,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
     /* compiled from: FragmentManager.java */
     /* loaded from: classes.dex */
     public static class EndViewTransitionAnimator extends AnimationSet implements Runnable {
-        private boolean mAnimating = true;
+        private boolean mAnimating;
         private final View mChild;
         private boolean mEnded;
         private final ViewGroup mParent;
@@ -3008,6 +2988,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
 
         EndViewTransitionAnimator(Animation animation, ViewGroup viewGroup, View view) {
             super(false);
+            this.mAnimating = true;
             this.mParent = viewGroup;
             this.mChild = view;
             addAnimation(animation);

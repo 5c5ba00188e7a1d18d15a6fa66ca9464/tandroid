@@ -22,9 +22,8 @@ public class TurnCustomizer {
     }
 
     private void checkTurnCustomizerExists() {
-        if (this.nativeTurnCustomizer != 0) {
-            return;
+        if (this.nativeTurnCustomizer == 0) {
+            throw new IllegalStateException("TurnCustomizer has been disposed.");
         }
-        throw new IllegalStateException("TurnCustomizer has been disposed.");
     }
 }

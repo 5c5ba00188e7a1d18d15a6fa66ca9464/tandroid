@@ -176,40 +176,40 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
         setWillNotDraw(false);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:203:0x01e2, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:80:0x01e2, code lost:
         if (r0 == r40.currentPhotoObject) goto L39;
      */
-    /* JADX WARN: Removed duplicated region for block: B:103:0x0649  */
-    /* JADX WARN: Removed duplicated region for block: B:105:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:106:0x057c  */
-    /* JADX WARN: Removed duplicated region for block: B:131:0x031d  */
-    /* JADX WARN: Removed duplicated region for block: B:136:0x0386  */
-    /* JADX WARN: Removed duplicated region for block: B:139:0x0390  */
-    /* JADX WARN: Removed duplicated region for block: B:152:0x0430  */
-    /* JADX WARN: Removed duplicated region for block: B:168:0x0388  */
-    /* JADX WARN: Removed duplicated region for block: B:170:0x0378  */
-    /* JADX WARN: Removed duplicated region for block: B:174:0x02e7  */
-    /* JADX WARN: Removed duplicated region for block: B:177:0x02f1  */
-    /* JADX WARN: Removed duplicated region for block: B:183:0x02ae  */
-    /* JADX WARN: Removed duplicated region for block: B:184:0x028d  */
-    /* JADX WARN: Removed duplicated region for block: B:195:0x02b1  */
-    /* JADX WARN: Removed duplicated region for block: B:198:0x01ca  */
-    /* JADX WARN: Removed duplicated region for block: B:204:0x0130 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:23:0x0172  */
-    /* JADX WARN: Removed duplicated region for block: B:27:0x0180  */
-    /* JADX WARN: Removed duplicated region for block: B:43:0x01ec  */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x0240  */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x026f  */
-    /* JADX WARN: Removed duplicated region for block: B:71:0x02a9  */
-    /* JADX WARN: Removed duplicated region for block: B:74:0x02b7  */
-    /* JADX WARN: Removed duplicated region for block: B:85:0x02e1 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:88:0x0306 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:91:0x0311  */
-    /* JADX WARN: Removed duplicated region for block: B:97:0x053d  */
+    /* JADX WARN: Removed duplicated region for block: B:106:0x0240  */
+    /* JADX WARN: Removed duplicated region for block: B:119:0x026f  */
+    /* JADX WARN: Removed duplicated region for block: B:120:0x028d  */
+    /* JADX WARN: Removed duplicated region for block: B:124:0x02a9  */
+    /* JADX WARN: Removed duplicated region for block: B:125:0x02ae  */
+    /* JADX WARN: Removed duplicated region for block: B:126:0x02b1  */
+    /* JADX WARN: Removed duplicated region for block: B:129:0x02b7  */
+    /* JADX WARN: Removed duplicated region for block: B:141:0x02e1 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:144:0x02e7  */
+    /* JADX WARN: Removed duplicated region for block: B:147:0x02f1  */
+    /* JADX WARN: Removed duplicated region for block: B:152:0x0306 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:156:0x0311  */
+    /* JADX WARN: Removed duplicated region for block: B:162:0x031d  */
+    /* JADX WARN: Removed duplicated region for block: B:166:0x0378  */
+    /* JADX WARN: Removed duplicated region for block: B:169:0x0386  */
+    /* JADX WARN: Removed duplicated region for block: B:170:0x0388  */
+    /* JADX WARN: Removed duplicated region for block: B:173:0x0390  */
+    /* JADX WARN: Removed duplicated region for block: B:185:0x0430  */
+    /* JADX WARN: Removed duplicated region for block: B:204:0x053d  */
+    /* JADX WARN: Removed duplicated region for block: B:208:0x057c  */
+    /* JADX WARN: Removed duplicated region for block: B:233:0x0649  */
+    /* JADX WARN: Removed duplicated region for block: B:237:0x0130 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:248:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:54:0x0172  */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x0180  */
+    /* JADX WARN: Removed duplicated region for block: B:75:0x01ca  */
+    /* JADX WARN: Removed duplicated region for block: B:85:0x01ec  */
     /* JADX WARN: Type inference failed for: r3v2, types: [boolean, int] */
-    /* JADX WARN: Type inference failed for: r3v36 */
-    /* JADX WARN: Type inference failed for: r3v37 */
-    /* JADX WARN: Type inference failed for: r3v38 */
+    /* JADX WARN: Type inference failed for: r3v28 */
+    /* JADX WARN: Type inference failed for: r3v29 */
+    /* JADX WARN: Type inference failed for: r3v30 */
     @Override // android.widget.FrameLayout, android.view.View
     @SuppressLint({"DrawAllocation"})
     /*
@@ -364,7 +364,7 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
                             if (this.mediaWebpage) {
                             }
                             checkBox2 = this.checkBox;
-                            if (checkBox2 == null) {
+                            if (checkBox2 != null) {
                             }
                         }
                         tLRPC$Document = this.documentAttach;
@@ -470,11 +470,7 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
                                         if (tLRPC$BotInlineResult5 != null) {
                                             int[] inlineResultWidthAndHeight = MessageObject.getInlineResultWidthAndHeight(tLRPC$BotInlineResult5);
                                             int i8 = inlineResultWidthAndHeight[0];
-                                            char c3 = r3 == true ? 1 : 0;
-                                            char c4 = r3 == true ? 1 : 0;
-                                            char c5 = r3 == true ? 1 : 0;
-                                            char c6 = r3 == true ? 1 : 0;
-                                            i4 = inlineResultWidthAndHeight[c3];
+                                            i4 = inlineResultWidthAndHeight[r3];
                                             i3 = i8;
                                         }
                                     }
@@ -572,12 +568,7 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
                                     StaticLayout staticLayout6 = this.linkLayout;
                                     if (staticLayout6 != null && staticLayout6.getLineCount() > 0) {
                                         StaticLayout staticLayout7 = this.linkLayout;
-                                        int lineCount = staticLayout7.getLineCount();
-                                        int i9 = r3 == true ? 1 : 0;
-                                        int i10 = r3 == true ? 1 : 0;
-                                        int i11 = r3 == true ? 1 : 0;
-                                        int i12 = r3 == true ? 1 : 0;
-                                        i5 += staticLayout7.getLineBottom(lineCount - i9);
+                                        i5 += staticLayout7.getLineBottom(staticLayout7.getLineCount() - r3);
                                     }
                                     setMeasuredDimension(View.MeasureSpec.getSize(i), Math.max(AndroidUtilities.dp(68.0f), Math.max(AndroidUtilities.dp(52.0f), i5) + AndroidUtilities.dp(16.0f)) + (this.needDivider ? 1 : 0));
                                     int dp6 = AndroidUtilities.dp(52.0f);
@@ -591,21 +582,21 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
                                     this.letterDrawable.setBounds(dp, AndroidUtilities.dp(f2), dp + dp6, AndroidUtilities.dp(60.0f));
                                     float f3 = dp6;
                                     this.linkImageView.setImageCoords(dp, AndroidUtilities.dp(f2), f3, f3);
-                                    int i13 = this.documentAttachType;
-                                    if (i13 == 3 || i13 == 5) {
+                                    int i9 = this.documentAttachType;
+                                    if (i9 == 3 || i9 == 5) {
                                         this.radialProgress.setCircleRadius(AndroidUtilities.dp(24.0f));
                                         this.radialProgress.setProgressRect(AndroidUtilities.dp(4.0f) + dp, AndroidUtilities.dp(12.0f), dp + AndroidUtilities.dp(48.0f), AndroidUtilities.dp(56.0f));
                                     }
                                 }
                                 checkBox2 = this.checkBox;
-                                if (checkBox2 == null) {
+                                if (checkBox2 != null) {
+                                    measureChildWithMargins(checkBox2, i, 0, i2, 0);
                                     return;
                                 }
-                                measureChildWithMargins(checkBox2, i, 0, i2, 0);
                                 return;
                             } else {
-                                int i14 = this.documentAttachType;
-                                if (i14 != 5 && i14 != 3) {
+                                int i10 = this.documentAttachType;
+                                if (i10 != 5 && i10 != 3) {
                                     this.currentPhotoObject = FileLoader.getClosestPhotoSizeWithSize(this.documentAttach.thumbs, 90);
                                 }
                             }
@@ -645,7 +636,7 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
                         if (this.mediaWebpage) {
                         }
                         checkBox2 = this.checkBox;
-                        if (checkBox2 == null) {
+                        if (checkBox2 != null) {
                         }
                     } else {
                         arrayList3 = arrayList;
@@ -686,12 +677,12 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
                 if (this.mediaWebpage) {
                 }
                 checkBox2 = this.checkBox;
-                if (checkBox2 == null) {
+                if (checkBox2 != null) {
                 }
             }
         }
         arrayList = arrayList2;
-        if (!this.mediaWebpage) {
+        if (this.mediaWebpage) {
         }
         arrayList3 = arrayList;
         z = true;
@@ -729,7 +720,7 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
         if (this.mediaWebpage) {
         }
         checkBox2 = this.checkBox;
-        if (checkBox2 == null) {
+        if (checkBox2 != null) {
         }
     }
 
@@ -772,8 +763,7 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
             tLRPC$TL_peerUser.user_id = clientUserId;
             tLRPC$Peer.user_id = clientUserId;
             tLRPC$TL_message.date = (int) (System.currentTimeMillis() / 1000);
-            String str = "";
-            tLRPC$TL_message.message = str;
+            tLRPC$TL_message.message = "";
             TLRPC$TL_messageMediaDocument tLRPC$TL_messageMediaDocument = new TLRPC$TL_messageMediaDocument();
             tLRPC$TL_message.media = tLRPC$TL_messageMediaDocument;
             tLRPC$TL_messageMediaDocument.flags |= 3;
@@ -784,10 +774,9 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
             TLRPC$Document tLRPC$Document2 = this.documentAttach;
             if (tLRPC$Document2 != null) {
                 tLRPC$MessageMedia.document = tLRPC$Document2;
-                tLRPC$TL_message.attachPath = str;
+                tLRPC$TL_message.attachPath = "";
             } else {
-                String str2 = "mp3";
-                String httpUrlExtension = ImageLoader.getHttpUrlExtension(this.inlineResult.content.url, this.documentAttachType == 5 ? str2 : "ogg");
+                String httpUrlExtension = ImageLoader.getHttpUrlExtension(this.inlineResult.content.url, this.documentAttachType == 5 ? "mp3" : "ogg");
                 TLRPC$Document tLRPC$Document3 = tLRPC$TL_message.media.document;
                 tLRPC$Document3.id = 0L;
                 tLRPC$Document3.access_hash = 0L;
@@ -799,16 +788,13 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
                 TLRPC$TL_documentAttributeAudio tLRPC$TL_documentAttributeAudio = new TLRPC$TL_documentAttributeAudio();
                 tLRPC$TL_documentAttributeAudio.duration = MessageObject.getInlineResultDuration(this.inlineResult);
                 TLRPC$BotInlineResult tLRPC$BotInlineResult2 = this.inlineResult;
-                String str3 = tLRPC$BotInlineResult2.title;
-                if (str3 == null) {
-                    str3 = str;
+                String str = tLRPC$BotInlineResult2.title;
+                if (str == null) {
+                    str = "";
                 }
-                tLRPC$TL_documentAttributeAudio.title = str3;
-                String str4 = tLRPC$BotInlineResult2.description;
-                if (str4 != null) {
-                    str = str4;
-                }
-                tLRPC$TL_documentAttributeAudio.performer = str;
+                tLRPC$TL_documentAttributeAudio.title = str;
+                String str2 = tLRPC$BotInlineResult2.description;
+                tLRPC$TL_documentAttributeAudio.performer = str2 != null ? str2 : "";
                 tLRPC$TL_documentAttributeAudio.flags |= 3;
                 if (this.documentAttachType == 3) {
                     tLRPC$TL_documentAttributeAudio.voice = true;
@@ -818,18 +804,14 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
                 StringBuilder sb = new StringBuilder();
                 sb.append(Utilities.MD5(this.inlineResult.content.url));
                 sb.append(".");
-                sb.append(ImageLoader.getHttpUrlExtension(this.inlineResult.content.url, this.documentAttachType == 5 ? str2 : "ogg"));
+                sb.append(ImageLoader.getHttpUrlExtension(this.inlineResult.content.url, this.documentAttachType == 5 ? "mp3" : "ogg"));
                 tLRPC$TL_documentAttributeFilename.file_name = sb.toString();
                 tLRPC$TL_message.media.document.attributes.add(tLRPC$TL_documentAttributeFilename);
                 File directory = FileLoader.getDirectory(4);
                 StringBuilder sb2 = new StringBuilder();
                 sb2.append(Utilities.MD5(this.inlineResult.content.url));
                 sb2.append(".");
-                String str5 = this.inlineResult.content.url;
-                if (this.documentAttachType != 5) {
-                    str2 = "ogg";
-                }
-                sb2.append(ImageLoader.getHttpUrlExtension(str5, str2));
+                sb2.append(ImageLoader.getHttpUrlExtension(this.inlineResult.content.url, this.documentAttachType != 5 ? "ogg" : "mp3"));
                 tLRPC$TL_message.attachPath = new File(directory, sb2.toString()).getAbsolutePath();
             }
             this.currentMessageObject = new MessageObject(this.currentAccount, tLRPC$TL_message, false, true);
@@ -1016,19 +998,17 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
         if (i == 3 || i == 5) {
             int i2 = this.buttonState;
             if (i2 == 0) {
-                if (!MediaController.getInstance().playMessage(this.currentMessageObject)) {
-                    return;
+                if (MediaController.getInstance().playMessage(this.currentMessageObject)) {
+                    this.buttonState = 1;
+                    this.radialProgress.setIcon(getIconForCurrentState(), false, true);
+                    invalidate();
                 }
-                this.buttonState = 1;
-                this.radialProgress.setIcon(getIconForCurrentState(), false, true);
-                invalidate();
             } else if (i2 == 1) {
-                if (!MediaController.getInstance().lambda$startAudioAgain$7(this.currentMessageObject)) {
-                    return;
+                if (MediaController.getInstance().lambda$startAudioAgain$7(this.currentMessageObject)) {
+                    this.buttonState = 0;
+                    this.radialProgress.setIcon(getIconForCurrentState(), false, true);
+                    invalidate();
                 }
-                this.buttonState = 0;
-                this.radialProgress.setIcon(getIconForCurrentState(), false, true);
-                invalidate();
             } else if (i2 == 2) {
                 this.radialProgress.setProgress(0.0f, false);
                 if (this.documentAttach != null) {
@@ -1039,8 +1019,7 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
                 this.buttonState = 4;
                 this.radialProgress.setIcon(getIconForCurrentState(), false, true);
                 invalidate();
-            } else if (i2 != 4) {
-            } else {
+            } else if (i2 == 4) {
                 if (this.documentAttach != null) {
                     FileLoader.getInstance(this.currentAccount).cancelLoadFile(this.documentAttach);
                 } else if (this.inlineResult.content instanceof TLRPC$TL_webDocument) {
@@ -1056,12 +1035,10 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
     @Override // android.view.View
     protected void onDraw(Canvas canvas) {
         int i;
-        TLRPC$BotInlineResult tLRPC$BotInlineResult;
         CheckBox2 checkBox2 = this.checkBox;
         if (checkBox2 != null && (checkBox2.isChecked() || !this.linkImageView.hasBitmapImage() || this.linkImageView.getCurrentAlpha() != 1.0f || PhotoViewer.isShowingImage((MessageObject) this.parentObject))) {
             canvas.drawRect(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), this.backgroundPaint);
         }
-        float f = 8.0f;
         if (this.titleLayout != null) {
             canvas.save();
             canvas.translate(AndroidUtilities.dp(LocaleController.isRTL ? 8.0f : AndroidUtilities.leftBaseline), this.titleY);
@@ -1078,10 +1055,7 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
         if (this.linkLayout != null) {
             Theme.chat_contextResult_descriptionTextPaint.setColor(Theme.getColor("windowBackgroundWhiteLinkText", this.resourcesProvider));
             canvas.save();
-            if (!LocaleController.isRTL) {
-                f = AndroidUtilities.leftBaseline;
-            }
-            canvas.translate(AndroidUtilities.dp(f), this.linkY);
+            canvas.translate(AndroidUtilities.dp(LocaleController.isRTL ? 8.0f : AndroidUtilities.leftBaseline), this.linkY);
             this.linkLayout.draw(canvas);
             canvas.restore();
         }
@@ -1096,8 +1070,8 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
                 this.radialProgress.setProgressColor(Theme.getColor(this.buttonPressed ? "chat_inAudioSelectedProgress" : "chat_inAudioProgress", this.resourcesProvider));
                 this.radialProgress.draw(canvas);
             } else {
-                TLRPC$BotInlineResult tLRPC$BotInlineResult2 = this.inlineResult;
-                if (tLRPC$BotInlineResult2 != null && tLRPC$BotInlineResult2.type.equals("file")) {
+                TLRPC$BotInlineResult tLRPC$BotInlineResult = this.inlineResult;
+                if (tLRPC$BotInlineResult != null && tLRPC$BotInlineResult.type.equals("file")) {
                     int intrinsicWidth = Theme.chat_inlineResultFile.getIntrinsicWidth();
                     int intrinsicHeight = Theme.chat_inlineResultFile.getIntrinsicHeight();
                     int imageX = (int) (this.linkImageView.getImageX() + ((AndroidUtilities.dp(52.0f) - intrinsicWidth) / 2));
@@ -1106,8 +1080,8 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
                     Theme.chat_inlineResultFile.setBounds(imageX, imageY, intrinsicWidth + imageX, intrinsicHeight + imageY);
                     Theme.chat_inlineResultFile.draw(canvas);
                 } else {
-                    TLRPC$BotInlineResult tLRPC$BotInlineResult3 = this.inlineResult;
-                    if (tLRPC$BotInlineResult3 != null && (tLRPC$BotInlineResult3.type.equals(MediaStreamTrack.AUDIO_TRACK_KIND) || this.inlineResult.type.equals("voice"))) {
+                    TLRPC$BotInlineResult tLRPC$BotInlineResult2 = this.inlineResult;
+                    if (tLRPC$BotInlineResult2 != null && (tLRPC$BotInlineResult2.type.equals(MediaStreamTrack.AUDIO_TRACK_KIND) || this.inlineResult.type.equals("voice"))) {
                         int intrinsicWidth2 = Theme.chat_inlineResultAudio.getIntrinsicWidth();
                         int intrinsicHeight2 = Theme.chat_inlineResultAudio.getIntrinsicHeight();
                         int imageX2 = (int) (this.linkImageView.getImageX() + ((AndroidUtilities.dp(52.0f) - intrinsicWidth2) / 2));
@@ -1116,8 +1090,8 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
                         Theme.chat_inlineResultAudio.setBounds(imageX2, imageY2, intrinsicWidth2 + imageX2, intrinsicHeight2 + imageY2);
                         Theme.chat_inlineResultAudio.draw(canvas);
                     } else {
-                        TLRPC$BotInlineResult tLRPC$BotInlineResult4 = this.inlineResult;
-                        if (tLRPC$BotInlineResult4 != null && (tLRPC$BotInlineResult4.type.equals("venue") || this.inlineResult.type.equals("geo"))) {
+                        TLRPC$BotInlineResult tLRPC$BotInlineResult3 = this.inlineResult;
+                        if (tLRPC$BotInlineResult3 != null && (tLRPC$BotInlineResult3.type.equals("venue") || this.inlineResult.type.equals("geo"))) {
                             int intrinsicWidth3 = Theme.chat_inlineResultLocation.getIntrinsicWidth();
                             int intrinsicHeight3 = Theme.chat_inlineResultLocation.getIntrinsicHeight();
                             int imageX3 = (int) (this.linkImageView.getImageX() + ((AndroidUtilities.dp(52.0f) - intrinsicWidth3) / 2));
@@ -1132,9 +1106,9 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
                 }
             }
         } else {
-            TLRPC$BotInlineResult tLRPC$BotInlineResult5 = this.inlineResult;
-            if (tLRPC$BotInlineResult5 != null) {
-                TLRPC$BotInlineMessage tLRPC$BotInlineMessage = tLRPC$BotInlineResult5.send_message;
+            TLRPC$BotInlineResult tLRPC$BotInlineResult4 = this.inlineResult;
+            if (tLRPC$BotInlineResult4 != null) {
+                TLRPC$BotInlineMessage tLRPC$BotInlineMessage = tLRPC$BotInlineResult4.send_message;
                 if ((tLRPC$BotInlineMessage instanceof TLRPC$TL_botInlineMessageMediaGeo) || (tLRPC$BotInlineMessage instanceof TLRPC$TL_botInlineMessageMediaVenue)) {
                     int intrinsicWidth4 = Theme.chat_inlineResultLocation.getIntrinsicWidth();
                     int intrinsicHeight4 = Theme.chat_inlineResultLocation.getIntrinsicHeight();
@@ -1147,8 +1121,9 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
             }
         }
         if (this.drawLinkImageView) {
-            if (this.inlineResult != null) {
-                this.linkImageView.setVisible(!PhotoViewer.isShowingImage(tLRPC$BotInlineResult), false);
+            TLRPC$BotInlineResult tLRPC$BotInlineResult5 = this.inlineResult;
+            if (tLRPC$BotInlineResult5 != null) {
+                this.linkImageView.setVisible(!PhotoViewer.isShowingImage(tLRPC$BotInlineResult5), false);
             }
             canvas.save();
             boolean z = this.scaled;
@@ -1157,26 +1132,26 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
                 long j = currentTimeMillis - this.lastUpdateTime;
                 this.lastUpdateTime = currentTimeMillis;
                 if (this.scaled) {
-                    float f2 = this.scale;
-                    if (f2 != 0.8f) {
-                        float f3 = f2 - (((float) j) / 400.0f);
-                        this.scale = f3;
-                        if (f3 < 0.8f) {
+                    float f = this.scale;
+                    if (f != 0.8f) {
+                        float f2 = f - (((float) j) / 400.0f);
+                        this.scale = f2;
+                        if (f2 < 0.8f) {
                             this.scale = 0.8f;
                         }
                         invalidate();
                     }
                 }
-                float f4 = this.scale + (((float) j) / 400.0f);
-                this.scale = f4;
-                if (f4 > 1.0f) {
+                float f3 = this.scale + (((float) j) / 400.0f);
+                this.scale = f3;
+                if (f3 > 1.0f) {
                     this.scale = 1.0f;
                 }
                 invalidate();
             }
-            float f5 = this.scale;
-            float f6 = this.imageScale;
-            canvas.scale(f5 * f6, f5 * f6, getMeasuredWidth() / 2, getMeasuredHeight() / 2);
+            float f4 = this.scale;
+            float f5 = this.imageScale;
+            canvas.scale(f4 * f5, f4 * f5, getMeasuredWidth() / 2, getMeasuredHeight() / 2);
             this.linkImageView.draw(canvas);
             canvas.restore();
         }
@@ -1235,14 +1210,10 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
             if (isLoadingHttpFile || !this.fileExist) {
                 DownloadController.getInstance(this.currentAccount).addLoadingFileObserver(this.fileName, this);
                 int i2 = this.documentAttachType;
-                float f = 0.0f;
                 if (i2 != 5 && i2 != 3) {
                     this.buttonState = 1;
                     Float fileProgress = ImageLoader.getInstance().getFileProgress(this.fileName);
-                    if (fileProgress != null) {
-                        f = fileProgress.floatValue();
-                    }
-                    this.radialProgress.setProgress(f, false);
+                    this.radialProgress.setProgress(fileProgress != null ? fileProgress.floatValue() : 0.0f, false);
                 } else if (!isLoadingHttpFile) {
                     this.buttonState = 2;
                 } else {
@@ -1285,7 +1256,7 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
             this.val$ifSame = z;
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:14:0x019c  */
+        /* JADX WARN: Removed duplicated region for block: B:36:0x019c  */
         @Override // java.lang.Runnable
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -1424,12 +1395,10 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
         this.radialProgress.setProgress(Math.min(1.0f, ((float) j) / ((float) j2)), true);
         int i = this.documentAttachType;
         if (i == 3 || i == 5) {
-            if (this.buttonState == 4) {
-                return;
+            if (this.buttonState != 4) {
+                updateButtonState(false, true);
             }
-            updateButtonState(false, true);
-        } else if (this.buttonState == 1) {
-        } else {
+        } else if (this.buttonState != 1) {
             updateButtonState(false, true);
         }
     }
@@ -1470,10 +1439,13 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
                 break;
         }
         StaticLayout staticLayout = this.titleLayout;
-        boolean z = staticLayout != null && !TextUtils.isEmpty(staticLayout.getText());
+        boolean z = (staticLayout == null || TextUtils.isEmpty(staticLayout.getText())) ? false : true;
         StaticLayout staticLayout2 = this.descriptionLayout;
-        boolean z2 = staticLayout2 != null && !TextUtils.isEmpty(staticLayout2.getText());
-        if (this.documentAttachType != 5 || !z || !z2) {
+        boolean z2 = (staticLayout2 == null || TextUtils.isEmpty(staticLayout2.getText())) ? false : true;
+        if (this.documentAttachType == 5 && z && z2) {
+            sb.append(", ");
+            sb.append(LocaleController.formatString("AccDescrMusicInfo", R.string.AccDescrMusicInfo, this.descriptionLayout.getText(), this.titleLayout.getText()));
+        } else {
             if (z) {
                 if (sb.length() > 0) {
                     sb.append(", ");
@@ -1486,9 +1458,6 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
                 }
                 sb.append(this.descriptionLayout.getText());
             }
-        } else {
-            sb.append(", ");
-            sb.append(LocaleController.formatString("AccDescrMusicInfo", R.string.AccDescrMusicInfo, this.descriptionLayout.getText(), this.titleLayout.getText()));
         }
         accessibilityNodeInfo.setText(sb);
         CheckBox2 checkBox2 = this.checkBox;
@@ -1513,17 +1482,13 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
             animatorSet.cancel();
             this.animator = null;
         }
-        float f = 1.0f;
         if (z2) {
             AnimatorSet animatorSet2 = new AnimatorSet();
             this.animator = animatorSet2;
             Animator[] animatorArr = new Animator[1];
             Property<ContextLinkCell, Float> property = this.IMAGE_SCALE;
             float[] fArr = new float[1];
-            if (z) {
-                f = 0.81f;
-            }
-            fArr[0] = f;
+            fArr[0] = z ? 0.81f : 1.0f;
             animatorArr[0] = ObjectAnimator.ofFloat(this, property, fArr);
             animatorSet2.playTogether(animatorArr);
             this.animator.setDuration(200L);
@@ -1551,10 +1516,7 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
             this.animator.start();
             return;
         }
-        if (z) {
-            f = 0.85f;
-        }
-        this.imageScale = f;
+        this.imageScale = z ? 0.85f : 1.0f;
         invalidate();
     }
 }

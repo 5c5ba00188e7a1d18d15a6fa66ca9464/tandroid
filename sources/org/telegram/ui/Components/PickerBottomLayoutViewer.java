@@ -25,10 +25,8 @@ public class PickerBottomLayoutViewer extends FrameLayout {
         TextView textView = new TextView(context);
         this.cancelButton = textView;
         textView.setTextSize(1, 14.0f);
-        int i = -15095832;
         this.cancelButton.setTextColor(this.isDarkTheme ? -1 : -15095832);
         this.cancelButton.setGravity(17);
-        int i2 = -12763843;
         this.cancelButton.setBackgroundDrawable(Theme.createSelectorDrawable(this.isDarkTheme ? -12763843 : 788529152, 0));
         this.cancelButton.setPadding(AndroidUtilities.dp(20.0f), 0, AndroidUtilities.dp(20.0f), 0);
         this.cancelButton.setText(LocaleController.getString("Cancel", R.string.Cancel).toUpperCase());
@@ -37,9 +35,9 @@ public class PickerBottomLayoutViewer extends FrameLayout {
         TextView textView2 = new TextView(context);
         this.doneButton = textView2;
         textView2.setTextSize(1, 14.0f);
-        this.doneButton.setTextColor(this.isDarkTheme ? -1 : i);
+        this.doneButton.setTextColor(this.isDarkTheme ? -1 : -15095832);
         this.doneButton.setGravity(17);
-        this.doneButton.setBackgroundDrawable(Theme.createSelectorDrawable(!this.isDarkTheme ? 788529152 : i2, 0));
+        this.doneButton.setBackgroundDrawable(Theme.createSelectorDrawable(this.isDarkTheme ? -12763843 : 788529152, 0));
         this.doneButton.setPadding(AndroidUtilities.dp(20.0f), 0, AndroidUtilities.dp(20.0f), 0);
         this.doneButton.setText(LocaleController.getString("Send", R.string.Send).toUpperCase());
         this.doneButton.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
@@ -57,7 +55,6 @@ public class PickerBottomLayoutViewer extends FrameLayout {
     }
 
     public void updateSelectedCount(int i, boolean z) {
-        int i2 = -1;
         if (i == 0) {
             this.doneButtonBadgeTextView.setVisibility(8);
             if (z) {
@@ -65,23 +62,14 @@ public class PickerBottomLayoutViewer extends FrameLayout {
                 this.doneButton.setEnabled(false);
                 return;
             }
-            TextView textView = this.doneButton;
-            if (!this.isDarkTheme) {
-                i2 = -15095832;
-            }
-            textView.setTextColor(i2);
+            this.doneButton.setTextColor(this.isDarkTheme ? -1 : -15095832);
             return;
         }
         this.doneButtonBadgeTextView.setVisibility(0);
         this.doneButtonBadgeTextView.setText(String.format("%d", Integer.valueOf(i)));
-        TextView textView2 = this.doneButton;
-        if (!this.isDarkTheme) {
-            i2 = -15095832;
+        this.doneButton.setTextColor(this.isDarkTheme ? -1 : -15095832);
+        if (z) {
+            this.doneButton.setEnabled(true);
         }
-        textView2.setTextColor(i2);
-        if (!z) {
-            return;
-        }
-        this.doneButton.setEnabled(true);
     }
 }

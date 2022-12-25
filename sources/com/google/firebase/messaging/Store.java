@@ -91,11 +91,10 @@ class Store {
             Log.i("FirebaseMessaging", "App restored, clearing state");
             deleteAll();
         } catch (IOException e) {
-            if (!Log.isLoggable("FirebaseMessaging", 3)) {
-                return;
+            if (Log.isLoggable("FirebaseMessaging", 3)) {
+                String valueOf = String.valueOf(e.getMessage());
+                Log.d("FirebaseMessaging", valueOf.length() != 0 ? "Error creating file in no backup dir: ".concat(valueOf) : new String("Error creating file in no backup dir: "));
             }
-            String valueOf = String.valueOf(e.getMessage());
-            Log.d("FirebaseMessaging", valueOf.length() != 0 ? "Error creating file in no backup dir: ".concat(valueOf) : new String("Error creating file in no backup dir: "));
         }
     }
 

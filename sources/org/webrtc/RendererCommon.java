@@ -58,8 +58,8 @@ public class RendererCommon {
             this.visibleFractionMismatchOrientation = f2;
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:27:0x0056, code lost:
-            if (r8 == r2) goto L29;
+        /* JADX WARN: Code restructure failed: missing block: B:34:0x0056, code lost:
+            if ((r11 > 1.0f) == (r12 > 1.0f)) goto L29;
          */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -73,7 +73,6 @@ public class RendererCommon {
             }
             float f2 = i3 / i4;
             float f3 = defaultSize / defaultSize2;
-            boolean z2 = true;
             if ((f2 > 1.0f) == (f3 > 1.0f)) {
                 f = this.visibleFractionMatchOrientation;
             } else {
@@ -85,10 +84,6 @@ public class RendererCommon {
                     displaySize.x = defaultSize;
                 }
                 if (View.MeasureSpec.getMode(i2) != 1073741824) {
-                    boolean z3 = f2 > 1.0f;
-                    if (f3 <= 1.0f) {
-                        z2 = false;
-                    }
                 }
                 displaySize.y = defaultSize2;
             }
@@ -167,13 +162,13 @@ public class RendererCommon {
     public static float convertScalingTypeToVisibleFraction(ScalingType scalingType) {
         int i = 1.$SwitchMap$org$webrtc$RendererCommon$ScalingType[scalingType.ordinal()];
         if (i != 1) {
-            if (i == 2) {
-                return 0.0f;
+            if (i != 2) {
+                if (i == 3) {
+                    return BALANCED_VISIBLE_FRACTION;
+                }
+                throw new IllegalArgumentException();
             }
-            if (i == 3) {
-                return BALANCED_VISIBLE_FRACTION;
-            }
-            throw new IllegalArgumentException();
+            return 0.0f;
         }
         return 1.0f;
     }

@@ -48,12 +48,7 @@ public final class AudioSampleEntry extends AbstractSampleEntry {
     public void getBox(WritableByteChannel writableByteChannel) throws IOException {
         writableByteChannel.write(getHeader());
         int i = this.soundVersion;
-        int i2 = 0;
-        int i3 = (i == 1 ? 16 : 0) + 28;
-        if (i == 2) {
-            i2 = 36;
-        }
-        ByteBuffer allocate = ByteBuffer.allocate(i3 + i2);
+        ByteBuffer allocate = ByteBuffer.allocate((i == 1 ? 16 : 0) + 28 + (i == 2 ? 36 : 0));
         allocate.position(6);
         IsoTypeWriter.writeUInt16(allocate, this.dataReferenceIndex);
         IsoTypeWriter.writeUInt16(allocate, this.soundVersion);
@@ -89,12 +84,7 @@ public final class AudioSampleEntry extends AbstractSampleEntry {
     public long getSize() {
         int i = this.soundVersion;
         int i2 = 16;
-        int i3 = 0;
-        int i4 = (i == 1 ? 16 : 0) + 28;
-        if (i == 2) {
-            i3 = 36;
-        }
-        long containerSize = i4 + i3 + getContainerSize();
+        long containerSize = (i == 1 ? 16 : 0) + 28 + (i == 2 ? 36 : 0) + getContainerSize();
         if (!this.largeBox && 8 + containerSize < 4294967296L) {
             i2 = 8;
         }

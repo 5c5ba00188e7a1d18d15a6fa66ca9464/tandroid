@@ -35,11 +35,11 @@ public final class zzab {
         if (zzabVar == null) {
             zzab zzabVar2 = new zzab(contentResolver, uri);
             zzab putIfAbsent = concurrentHashMap.putIfAbsent(uri, zzabVar2);
-            if (putIfAbsent != null) {
-                return putIfAbsent;
+            if (putIfAbsent == null) {
+                zzabVar2.zzdf.registerContentObserver(zzabVar2.uri, false, zzabVar2.zzdg);
+                return zzabVar2;
             }
-            zzabVar2.zzdf.registerContentObserver(zzabVar2.uri, false, zzabVar2.zzdg);
-            return zzabVar2;
+            return putIfAbsent;
         }
         return zzabVar;
     }

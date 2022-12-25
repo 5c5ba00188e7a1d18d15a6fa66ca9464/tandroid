@@ -78,13 +78,13 @@ public final class Dependency {
 
     private static String describeInjection(int i) {
         if (i != 0) {
-            if (i == 1) {
-                return "provider";
+            if (i != 1) {
+                if (i == 2) {
+                    return "deferred";
+                }
+                throw new AssertionError("Unsupported injection: " + i);
             }
-            if (i == 2) {
-                return "deferred";
-            }
-            throw new AssertionError("Unsupported injection: " + i);
+            return "provider";
         }
         return "direct";
     }

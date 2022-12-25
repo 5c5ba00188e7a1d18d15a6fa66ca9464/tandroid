@@ -100,65 +100,66 @@ public class FadingTextViewLayout extends FrameLayout {
 
     public void setText(CharSequence charSequence, boolean z, boolean z2) {
         int staticCharsCount;
-        if (!TextUtils.equals(charSequence, this.currentView.getText())) {
-            ValueAnimator valueAnimator = this.animator;
-            if (valueAnimator != null) {
-                valueAnimator.end();
-            }
-            this.text = charSequence;
-            if (z) {
-                if (z2 && this.foregroundView != null && (staticCharsCount = getStaticCharsCount()) > 0) {
-                    CharSequence text = this.currentView.getText();
-                    int min = Math.min(staticCharsCount, Math.min(charSequence.length(), text.length()));
-                    ArrayList arrayList = new ArrayList();
-                    int i = -1;
-                    for (int i2 = 0; i2 < min; i2++) {
-                        if (charSequence.charAt(i2) == text.charAt(i2)) {
-                            if (i >= 0) {
-                                arrayList.add(new android.graphics.Point(i, i2));
-                                i = -1;
-                            }
-                        } else if (i == -1) {
-                            i = i2;
+        if (TextUtils.equals(charSequence, this.currentView.getText())) {
+            return;
+        }
+        ValueAnimator valueAnimator = this.animator;
+        if (valueAnimator != null) {
+            valueAnimator.end();
+        }
+        this.text = charSequence;
+        if (z) {
+            if (z2 && this.foregroundView != null && (staticCharsCount = getStaticCharsCount()) > 0) {
+                CharSequence text = this.currentView.getText();
+                int min = Math.min(staticCharsCount, Math.min(charSequence.length(), text.length()));
+                ArrayList arrayList = new ArrayList();
+                int i = -1;
+                for (int i2 = 0; i2 < min; i2++) {
+                    if (charSequence.charAt(i2) == text.charAt(i2)) {
+                        if (i >= 0) {
+                            arrayList.add(new android.graphics.Point(i, i2));
+                            i = -1;
                         }
-                    }
-                    if (i != 0) {
-                        if (i > 0) {
-                            arrayList.add(new android.graphics.Point(i, min));
-                        } else {
-                            arrayList.add(new android.graphics.Point(min, 0));
-                        }
-                    }
-                    if (!arrayList.isEmpty()) {
-                        SpannableString spannableString = new SpannableString(charSequence.subSequence(0, min));
-                        SpannableString spannableString2 = new SpannableString(text);
-                        SpannableString spannableString3 = new SpannableString(charSequence);
-                        int size = arrayList.size();
-                        int i3 = 0;
-                        for (int i4 = 0; i4 < size; i4++) {
-                            android.graphics.Point point = (android.graphics.Point) arrayList.get(i4);
-                            if (point.y > point.x) {
-                                spannableString.setSpan(new ForegroundColorSpan(0), point.x, point.y, 17);
-                            }
-                            if (point.x > i3) {
-                                spannableString2.setSpan(new ForegroundColorSpan(0), i3, point.x, 17);
-                                spannableString3.setSpan(new ForegroundColorSpan(0), i3, point.x, 17);
-                            }
-                            i3 = point.y;
-                        }
-                        this.foregroundView.setVisibility(0);
-                        this.foregroundView.setText(spannableString);
-                        this.currentView.setText(spannableString2);
-                        charSequence = spannableString3;
+                    } else if (i == -1) {
+                        i = i2;
                     }
                 }
-                this.nextView.setVisibility(0);
-                this.nextView.setText(charSequence);
-                showNext();
-                return;
+                if (i != 0) {
+                    if (i > 0) {
+                        arrayList.add(new android.graphics.Point(i, min));
+                    } else {
+                        arrayList.add(new android.graphics.Point(min, 0));
+                    }
+                }
+                if (!arrayList.isEmpty()) {
+                    SpannableString spannableString = new SpannableString(charSequence.subSequence(0, min));
+                    SpannableString spannableString2 = new SpannableString(text);
+                    SpannableString spannableString3 = new SpannableString(charSequence);
+                    int size = arrayList.size();
+                    int i3 = 0;
+                    for (int i4 = 0; i4 < size; i4++) {
+                        android.graphics.Point point = (android.graphics.Point) arrayList.get(i4);
+                        if (point.y > point.x) {
+                            spannableString.setSpan(new ForegroundColorSpan(0), point.x, point.y, 17);
+                        }
+                        if (point.x > i3) {
+                            spannableString2.setSpan(new ForegroundColorSpan(0), i3, point.x, 17);
+                            spannableString3.setSpan(new ForegroundColorSpan(0), i3, point.x, 17);
+                        }
+                        i3 = point.y;
+                    }
+                    this.foregroundView.setVisibility(0);
+                    this.foregroundView.setText(spannableString);
+                    this.currentView.setText(spannableString2);
+                    charSequence = spannableString3;
+                }
             }
-            this.currentView.setText(charSequence);
+            this.nextView.setVisibility(0);
+            this.nextView.setText(charSequence);
+            showNext();
+            return;
         }
+        this.currentView.setText(charSequence);
     }
 
     public CharSequence getText() {

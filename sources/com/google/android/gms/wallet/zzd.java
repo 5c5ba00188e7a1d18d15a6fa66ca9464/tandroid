@@ -15,15 +15,16 @@ public final class zzd extends Fragment {
 
     /* JADX INFO: Access modifiers changed from: private */
     public final void zzb(Task task) {
-        if (!this.zza) {
-            this.zza = true;
-            Activity activity = getActivity();
-            activity.getFragmentManager().beginTransaction().remove(this).commit();
-            if (task != null) {
-                AutoResolveHelper.zzf(activity, this.zzb, task);
-            } else {
-                AutoResolveHelper.zze(activity, this.zzb, 0, new Intent());
-            }
+        if (this.zza) {
+            return;
+        }
+        this.zza = true;
+        Activity activity = getActivity();
+        activity.getFragmentManager().beginTransaction().remove(this).commit();
+        if (task != null) {
+            AutoResolveHelper.zzf(activity, this.zzb, task);
+        } else {
+            AutoResolveHelper.zze(activity, this.zzb, 0, new Intent());
         }
     }
 

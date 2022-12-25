@@ -8,12 +8,12 @@ import android.widget.FrameLayout;
 /* loaded from: classes.dex */
 public class AspectRatioFrameLayout extends FrameLayout {
     private AspectRatioListener aspectRatioListener;
+    private final AspectRatioUpdateDispatcher aspectRatioUpdateDispatcher;
     private boolean drawingReady;
+    private Matrix matrix;
+    private int resizeMode;
     private int rotation;
     private float videoAspectRatio;
-    private Matrix matrix = new Matrix();
-    private int resizeMode = 0;
-    private final AspectRatioUpdateDispatcher aspectRatioUpdateDispatcher = new AspectRatioUpdateDispatcher();
 
     /* loaded from: classes.dex */
     public interface AspectRatioListener {
@@ -22,6 +22,9 @@ public class AspectRatioFrameLayout extends FrameLayout {
 
     public AspectRatioFrameLayout(Context context) {
         super(context);
+        this.matrix = new Matrix();
+        this.resizeMode = 0;
+        this.aspectRatioUpdateDispatcher = new AspectRatioUpdateDispatcher();
     }
 
     public void setAspectRatio(float f, int i) {
@@ -150,10 +153,11 @@ public class AspectRatioFrameLayout extends FrameLayout {
             this.targetAspectRatio = f;
             this.naturalAspectRatio = f2;
             this.aspectRatioMismatch = z;
-            if (!this.isScheduled) {
-                this.isScheduled = true;
-                AspectRatioFrameLayout.this.post(this);
+            if (this.isScheduled) {
+                return;
             }
+            this.isScheduled = true;
+            AspectRatioFrameLayout.this.post(this);
         }
 
         @Override // java.lang.Runnable

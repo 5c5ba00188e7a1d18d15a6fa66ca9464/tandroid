@@ -8,12 +8,12 @@ public abstract class TLRPC$help_TermsOfServiceUpdate extends TLObject {
         } else {
             tLRPC$TL_help_termsOfServiceUpdateEmpty = new TLRPC$TL_help_termsOfServiceUpdateEmpty();
         }
-        if (tLRPC$TL_help_termsOfServiceUpdateEmpty != null || !z) {
-            if (tLRPC$TL_help_termsOfServiceUpdateEmpty != null) {
-                tLRPC$TL_help_termsOfServiceUpdateEmpty.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_help_termsOfServiceUpdateEmpty;
+        if (tLRPC$TL_help_termsOfServiceUpdateEmpty == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in help_TermsOfServiceUpdate", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in help_TermsOfServiceUpdate", Integer.valueOf(i)));
+        if (tLRPC$TL_help_termsOfServiceUpdateEmpty != null) {
+            tLRPC$TL_help_termsOfServiceUpdateEmpty.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_help_termsOfServiceUpdateEmpty;
     }
 }

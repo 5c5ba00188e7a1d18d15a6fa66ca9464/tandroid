@@ -18,12 +18,12 @@ class f1 extends j1 {
     public void accept(Object obj) {
         boolean z;
         boolean z2;
-        if (!this.a) {
-            boolean test = this.d.test(obj);
-            z = this.c.a;
-            if (test != z) {
-                return;
-            }
+        if (this.a) {
+            return;
+        }
+        boolean test = this.d.test(obj);
+        z = this.c.a;
+        if (test == z) {
             this.a = true;
             z2 = this.c.b;
             this.b = z2;

@@ -27,7 +27,7 @@ public class PaintTypeface {
     public static final PaintTypeface ROBOTO_MEDIUM;
     public static final PaintTypeface ROBOTO_MONO;
     public static final PaintTypeface ROBOTO_SERIF;
-    private static final List<String> preferable = Arrays.asList("Google Sans", "Dancing Script", "Carrois Gothic SC", "Cutive Mono", "Droid Sans Mono", "Coming Soon");
+    private static final List<String> preferable;
     private static List<PaintTypeface> typefaces;
     private final String key;
     private final String name;
@@ -48,6 +48,7 @@ public class PaintTypeface {
         PaintTypeface paintTypeface6 = new PaintTypeface("courier_new_bold", "PhotoEditorTypefaceCourierNew", AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_COURIER_NEW_BOLD));
         COURIER_NEW_BOLD = paintTypeface6;
         BUILT_IN_FONTS = Arrays.asList(paintTypeface, paintTypeface2, paintTypeface3, paintTypeface4, paintTypeface5, paintTypeface6);
+        preferable = Arrays.asList("Google Sans", "Dancing Script", "Carrois Gothic SC", "Cutive Mono", "Droid Sans Mono", "Coming Soon");
     }
 
     PaintTypeface(String str, String str2, Typeface typeface) {
@@ -206,10 +207,10 @@ public class PaintTypeface {
         return nameRecord.read(randomAccessFile, i);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:45:0x00a7, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:36:0x00a7, code lost:
         if (r2 == null) goto L42;
      */
-    /* JADX WARN: Removed duplicated region for block: B:52:0x00af A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x00af A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

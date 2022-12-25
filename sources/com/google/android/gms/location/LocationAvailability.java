@@ -10,7 +10,7 @@ import java.util.Arrays;
 /* compiled from: com.google.android.gms:play-services-location@@21.0.1 */
 /* loaded from: classes.dex */
 public final class LocationAvailability extends AbstractSafeParcelable implements ReflectedParcelable {
-    public static final Parcelable.Creator<LocationAvailability> CREATOR = new zzw();
+    public static final Parcelable.Creator<LocationAvailability> CREATOR;
     int zzc;
     private final int zzd;
     private final int zze;
@@ -20,6 +20,7 @@ public final class LocationAvailability extends AbstractSafeParcelable implement
     static {
         new LocationAvailability(0, 1, 1, 0L, null, true);
         new LocationAvailability(1000, 1, 1, 0L, null, false);
+        CREATOR = new zzw();
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

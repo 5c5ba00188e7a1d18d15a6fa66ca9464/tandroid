@@ -23,14 +23,14 @@ import org.telegram.ui.Components.RLottieImageView;
 /* loaded from: classes3.dex */
 public class PaintToolsView extends LinearLayout {
     private final int brushesCount;
+    private RLottieImageView[] buttons;
     private Delegate delegate;
     private boolean isShapeSelected;
     private ValueAnimator nextSelectedAnimator;
-    private RLottieImageView[] buttons = new RLottieImageView[Brush.BRUSHES_LIST.size() + 2];
-    private Paint selectorPaint = new Paint(1);
-    private int selectedIndex = 1;
-    private int nextSelectedIndex = -1;
-    private float nextSelectedIndexProgress = 0.0f;
+    private int nextSelectedIndex;
+    private float nextSelectedIndexProgress;
+    private int selectedIndex;
+    private Paint selectorPaint;
 
     /* loaded from: classes3.dex */
     public interface Delegate {
@@ -45,6 +45,11 @@ public class PaintToolsView extends LinearLayout {
 
     public PaintToolsView(Context context, boolean z) {
         super(context);
+        this.buttons = new RLottieImageView[Brush.BRUSHES_LIST.size() + 2];
+        this.selectorPaint = new Paint(1);
+        this.selectedIndex = 1;
+        this.nextSelectedIndex = -1;
+        this.nextSelectedIndexProgress = 0.0f;
         setOrientation(0);
         setGravity(16);
         setWillNotDraw(false);
@@ -129,52 +134,51 @@ public class PaintToolsView extends LinearLayout {
             if (i >= rLottieImageViewArr.length) {
                 return;
             }
-            if (this.nextSelectedAnimator != null && this.nextSelectedIndex == i) {
-                return;
-            }
-            RLottieImageView rLottieImageView = rLottieImageViewArr[i];
-            if (rLottieImageView != null) {
-                Drawable drawable = rLottieImageView.getDrawable();
-                if (drawable instanceof RLottieDrawable) {
-                    RLottieDrawable rLottieDrawable = (RLottieDrawable) drawable;
-                    rLottieDrawable.setCurrentFrame(0);
-                    rLottieDrawable.start();
-                }
-            }
-            ValueAnimator valueAnimator = this.nextSelectedAnimator;
-            if (valueAnimator != null) {
-                valueAnimator.cancel();
-            }
-            if (this.selectedIndex == i) {
-                return;
-            }
-            if (this.isShapeSelected) {
-                this.isShapeSelected = false;
-                AndroidUtilities.updateImageViewImageAnimated(this.buttons[this.brushesCount + 1], R.drawable.msg_add);
-            }
-            this.nextSelectedIndex = i;
-            this.nextSelectedIndexProgress = 0.0f;
-            ValueAnimator duration = ValueAnimator.ofFloat(0.0f, 1.0f).setDuration(250L);
-            this.nextSelectedAnimator = duration;
-            duration.setInterpolator(CubicBezierInterpolator.DEFAULT);
-            this.nextSelectedAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Views.PaintToolsView$$ExternalSyntheticLambda0
-                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                    PaintToolsView.this.lambda$animateNextIndex$3(valueAnimator2);
-                }
-            });
-            this.nextSelectedAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.Paint.Views.PaintToolsView.1
-                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                public void onAnimationEnd(Animator animator) {
-                    if (animator == PaintToolsView.this.nextSelectedAnimator) {
-                        PaintToolsView paintToolsView = PaintToolsView.this;
-                        paintToolsView.selectedIndex = paintToolsView.nextSelectedIndex;
-                        PaintToolsView.this.nextSelectedIndex = -1;
-                        PaintToolsView.this.nextSelectedAnimator = null;
+            if (this.nextSelectedAnimator == null || this.nextSelectedIndex != i) {
+                RLottieImageView rLottieImageView = rLottieImageViewArr[i];
+                if (rLottieImageView != null) {
+                    Drawable drawable = rLottieImageView.getDrawable();
+                    if (drawable instanceof RLottieDrawable) {
+                        RLottieDrawable rLottieDrawable = (RLottieDrawable) drawable;
+                        rLottieDrawable.setCurrentFrame(0);
+                        rLottieDrawable.start();
                     }
                 }
-            });
-            this.nextSelectedAnimator.start();
+                ValueAnimator valueAnimator = this.nextSelectedAnimator;
+                if (valueAnimator != null) {
+                    valueAnimator.cancel();
+                }
+                if (this.selectedIndex == i) {
+                    return;
+                }
+                if (this.isShapeSelected) {
+                    this.isShapeSelected = false;
+                    AndroidUtilities.updateImageViewImageAnimated(this.buttons[this.brushesCount + 1], R.drawable.msg_add);
+                }
+                this.nextSelectedIndex = i;
+                this.nextSelectedIndexProgress = 0.0f;
+                ValueAnimator duration = ValueAnimator.ofFloat(0.0f, 1.0f).setDuration(250L);
+                this.nextSelectedAnimator = duration;
+                duration.setInterpolator(CubicBezierInterpolator.DEFAULT);
+                this.nextSelectedAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Views.PaintToolsView$$ExternalSyntheticLambda0
+                    @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                    public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
+                        PaintToolsView.this.lambda$animateNextIndex$3(valueAnimator2);
+                    }
+                });
+                this.nextSelectedAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.Paint.Views.PaintToolsView.1
+                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                    public void onAnimationEnd(Animator animator) {
+                        if (animator == PaintToolsView.this.nextSelectedAnimator) {
+                            PaintToolsView paintToolsView = PaintToolsView.this;
+                            paintToolsView.selectedIndex = paintToolsView.nextSelectedIndex;
+                            PaintToolsView.this.nextSelectedIndex = -1;
+                            PaintToolsView.this.nextSelectedAnimator = null;
+                        }
+                    }
+                });
+                this.nextSelectedAnimator.start();
+            }
         }
     }
 
@@ -226,18 +230,12 @@ public class PaintToolsView extends LinearLayout {
         RLottieImageView rLottieImageView = rLottieImageViewArr[this.selectedIndex];
         int i = this.nextSelectedIndex;
         RLottieImageView rLottieImageView2 = i != -1 ? rLottieImageViewArr[i] : null;
-        float f = 0.0f;
-        float f2 = rLottieImageView2 != null ? this.nextSelectedIndexProgress : 0.0f;
-        float f3 = 1.0f;
-        if (f2 > 0.25f && f2 < 0.75f) {
-            f3 = (f2 <= 0.25f || f2 >= 0.5f) ? 1.0f - ((0.75f - f2) / 0.25f) : (0.5f - f2) / 0.25f;
+        float f = rLottieImageView2 != null ? this.nextSelectedIndexProgress : 0.0f;
+        float f2 = 1.0f;
+        if (f > 0.25f && f < 0.75f) {
+            f2 = (f <= 0.25f || f >= 0.5f) ? 1.0f - ((0.75f - f) / 0.25f) : (0.5f - f) / 0.25f;
         }
-        float min = (Math.min((rLottieImageView.getWidth() - rLottieImageView.getPaddingLeft()) - rLottieImageView.getPaddingRight(), (rLottieImageView.getHeight() - rLottieImageView.getPaddingTop()) - rLottieImageView.getPaddingBottom()) / 2.0f) + AndroidUtilities.dp(3.0f) + (AndroidUtilities.dp(3.0f) * f3);
-        float x = rLottieImageView.getX() + (rLottieImageView.getWidth() / 2.0f);
-        if (rLottieImageView2 != null) {
-            f = rLottieImageView2.getX() + (rLottieImageView2.getWidth() / 2.0f);
-        }
-        canvas.drawCircle(AndroidUtilities.lerp(x, f, f2), rLottieImageView.getY() + (rLottieImageView.getHeight() / 2.0f), min, this.selectorPaint);
+        canvas.drawCircle(AndroidUtilities.lerp(rLottieImageView.getX() + (rLottieImageView.getWidth() / 2.0f), rLottieImageView2 != null ? rLottieImageView2.getX() + (rLottieImageView2.getWidth() / 2.0f) : 0.0f, f), rLottieImageView.getY() + (rLottieImageView.getHeight() / 2.0f), (Math.min((rLottieImageView.getWidth() - rLottieImageView.getPaddingLeft()) - rLottieImageView.getPaddingRight(), (rLottieImageView.getHeight() - rLottieImageView.getPaddingTop()) - rLottieImageView.getPaddingBottom()) / 2.0f) + AndroidUtilities.dp(3.0f) + (AndroidUtilities.dp(3.0f) * f2), this.selectorPaint);
     }
 
     public void setDelegate(Delegate delegate) {
@@ -246,13 +244,7 @@ public class PaintToolsView extends LinearLayout {
 
     private RLottieImageView createView(boolean z, boolean z2) {
         RLottieImageView rLottieImageView = new RLottieImageView(getContext());
-        float f = 0.0f;
-        int dp = AndroidUtilities.dp(z ? 0.0f : 8.0f);
-        int dp2 = AndroidUtilities.dp(8.0f);
-        if (!z2) {
-            f = 8.0f;
-        }
-        rLottieImageView.setPadding(dp, dp2, AndroidUtilities.dp(f), AndroidUtilities.dp(8.0f));
+        rLottieImageView.setPadding(AndroidUtilities.dp(z ? 0.0f : 8.0f), AndroidUtilities.dp(8.0f), AndroidUtilities.dp(z2 ? 0.0f : 8.0f), AndroidUtilities.dp(8.0f));
         rLottieImageView.setLayoutParams(LayoutHelper.createLinear(0, 40, 1.0f));
         rLottieImageView.setColorFilter(new PorterDuffColorFilter(-1, PorterDuff.Mode.SRC_IN));
         return rLottieImageView;

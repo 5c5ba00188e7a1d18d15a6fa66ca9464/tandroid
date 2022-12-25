@@ -15,12 +15,12 @@ public abstract class TLRPC$account_WallPapers extends TLObject {
         } else {
             tLRPC$TL_account_wallPapers = new TLRPC$TL_account_wallPapers();
         }
-        if (tLRPC$TL_account_wallPapers != null || !z) {
-            if (tLRPC$TL_account_wallPapers != null) {
-                tLRPC$TL_account_wallPapers.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_account_wallPapers;
+        if (tLRPC$TL_account_wallPapers == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in account_WallPapers", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in account_WallPapers", Integer.valueOf(i)));
+        if (tLRPC$TL_account_wallPapers != null) {
+            tLRPC$TL_account_wallPapers.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_account_wallPapers;
     }
 }

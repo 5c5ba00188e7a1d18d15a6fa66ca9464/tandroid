@@ -28,10 +28,9 @@ public abstract class zzjb<MessageType extends zzjb<MessageType, BuilderType>, B
         final zzf zzd;
     }
 
-    /* JADX WARN: Failed to restore enum class, 'enum' modifier removed */
     /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
     /* loaded from: classes.dex */
-    public static final class zzg {
+    public enum zzg {
         public static final int zza = 1;
         public static final int zzb = 2;
         public static final int zzc = 3;
@@ -226,10 +225,10 @@ public abstract class zzjb<MessageType extends zzjb<MessageType, BuilderType>, B
         if (this == obj) {
             return true;
         }
-        if (obj == null || getClass() != obj.getClass()) {
-            return false;
+        if (obj != null && getClass() == obj.getClass()) {
+            return zzky.zza().zza((zzky) this).zza(this, (zzjb) obj);
         }
-        return zzky.zza().zza((zzky) this).zza(this, (zzjb) obj);
+        return false;
     }
 
     /* JADX INFO: Access modifiers changed from: protected */

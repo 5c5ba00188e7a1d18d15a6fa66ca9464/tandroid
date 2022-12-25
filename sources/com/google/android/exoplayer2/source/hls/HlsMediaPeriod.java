@@ -158,7 +158,6 @@ public final class HlsMediaPeriod implements MediaPeriod, HlsSampleStreamWrapper
             int i9 = 0;
             boolean z2 = false;
             while (true) {
-                boolean z3 = true;
                 if (i9 >= trackSelectionArr.length) {
                     break;
                 }
@@ -169,10 +168,7 @@ public final class HlsMediaPeriod implements MediaPeriod, HlsSampleStreamWrapper
                     this.streamWrapperIndices.put(sampleStream, Integer.valueOf(i8));
                     z2 = true;
                 } else if (iArr[i9] == i8) {
-                    if (sampleStream != null) {
-                        z3 = false;
-                    }
-                    Assertions.checkState(z3);
+                    Assertions.checkState(sampleStream == null);
                 }
                 i9++;
             }
@@ -246,11 +242,11 @@ public final class HlsMediaPeriod implements MediaPeriod, HlsSampleStreamWrapper
 
     @Override // com.google.android.exoplayer2.source.MediaPeriod
     public long readDiscontinuity() {
-        if (!this.notifiedReadingStarted) {
-            this.eventDispatcher.readingStarted();
-            this.notifiedReadingStarted = true;
+        if (this.notifiedReadingStarted) {
             return -9223372036854775807L;
         }
+        this.eventDispatcher.readingStarted();
+        this.notifiedReadingStarted = true;
         return -9223372036854775807L;
     }
 
@@ -372,7 +368,7 @@ public final class HlsMediaPeriod implements MediaPeriod, HlsSampleStreamWrapper
         this.enabledSampleStreamWrappers = this.sampleStreamWrappers;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:24:0x0064  */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x0064  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

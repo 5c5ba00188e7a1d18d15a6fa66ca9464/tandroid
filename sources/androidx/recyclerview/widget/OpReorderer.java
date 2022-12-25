@@ -23,11 +23,10 @@ class OpReorderer {
     public void reorderOps(List<AdapterHelper.UpdateOp> list) {
         while (true) {
             int lastMoveOutOfOrder = getLastMoveOutOfOrder(list);
-            if (lastMoveOutOfOrder != -1) {
-                swapMoveOp(list, lastMoveOutOfOrder, lastMoveOutOfOrder + 1);
-            } else {
+            if (lastMoveOutOfOrder == -1) {
                 return;
             }
+            swapMoveOp(list, lastMoveOutOfOrder, lastMoveOutOfOrder + 1);
         }
     }
 
@@ -72,11 +71,11 @@ class OpReorderer {
                 updateOp2.itemCount = i6 - 1;
                 updateOp.cmd = 2;
                 updateOp.itemCount = 1;
-                if (updateOp2.itemCount != 0) {
+                if (updateOp2.itemCount == 0) {
+                    list.remove(i2);
+                    this.mCallback.recycleUpdateOp(updateOp2);
                     return;
                 }
-                list.remove(i2);
-                this.mCallback.recycleUpdateOp(updateOp2);
                 return;
             }
         }
@@ -143,10 +142,9 @@ class OpReorderer {
         } else {
             list.remove(i2);
         }
-        if (updateOp3 == null) {
-            return;
+        if (updateOp3 != null) {
+            list.add(i, updateOp3);
         }
-        list.add(i, updateOp3);
     }
 
     private void swapMoveAdd(List<AdapterHelper.UpdateOp> list, int i, AdapterHelper.UpdateOp updateOp, int i2, AdapterHelper.UpdateOp updateOp2) {
@@ -169,13 +167,13 @@ class OpReorderer {
         list.set(i2, updateOp);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:10:0x0048  */
-    /* JADX WARN: Removed duplicated region for block: B:12:0x0056  */
-    /* JADX WARN: Removed duplicated region for block: B:14:0x005b  */
-    /* JADX WARN: Removed duplicated region for block: B:17:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:11:0x0027  */
+    /* JADX WARN: Removed duplicated region for block: B:12:0x002b  */
+    /* JADX WARN: Removed duplicated region for block: B:17:0x0048  */
     /* JADX WARN: Removed duplicated region for block: B:18:0x004c  */
-    /* JADX WARN: Removed duplicated region for block: B:19:0x002b  */
-    /* JADX WARN: Removed duplicated region for block: B:7:0x0027  */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x0056  */
+    /* JADX WARN: Removed duplicated region for block: B:22:0x005b  */
+    /* JADX WARN: Removed duplicated region for block: B:24:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -215,10 +213,10 @@ class OpReorderer {
                 if (obtainUpdateOp != null) {
                     list.add(i, obtainUpdateOp);
                 }
-                if (updateOp3 != null) {
+                if (updateOp3 == null) {
+                    list.add(i, updateOp3);
                     return;
                 }
-                list.add(i, updateOp3);
                 return;
             }
         }
@@ -232,7 +230,7 @@ class OpReorderer {
         }
         if (obtainUpdateOp != null) {
         }
-        if (updateOp3 != null) {
+        if (updateOp3 == null) {
         }
     }
 

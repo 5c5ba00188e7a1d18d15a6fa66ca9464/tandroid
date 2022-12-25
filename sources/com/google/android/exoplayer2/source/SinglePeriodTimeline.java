@@ -49,7 +49,7 @@ public final class SinglePeriodTimeline extends Timeline {
         this.tag = obj2;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:12:0x0026, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:10:0x0026, code lost:
         if (r1 > r5) goto L7;
      */
     @Override // com.google.android.exoplayer2.Timeline

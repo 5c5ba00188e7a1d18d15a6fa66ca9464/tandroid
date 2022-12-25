@@ -10,9 +10,14 @@ import org.telegram.ui.Charts.BaseChartView;
 import org.telegram.ui.Charts.data.ChartData;
 /* loaded from: classes3.dex */
 public class LineViewData {
+    public float alpha;
     public ValueAnimator animatorIn;
     public ValueAnimator animatorOut;
     public final Paint bottomLinePaint;
+    public final Path bottomLinePath;
+    public final Path chartPath;
+    public final Path chartPathPicker;
+    public boolean enabled;
     public final ChartData.Line line;
     public int lineColor;
     public float[] linesPath;
@@ -20,11 +25,6 @@ public class LineViewData {
     public int linesPathBottomSize;
     public final Paint paint;
     public final Paint selectionPaint;
-    public final Path bottomLinePath = new Path();
-    public final Path chartPath = new Path();
-    public final Path chartPathPicker = new Path();
-    public boolean enabled = true;
-    public float alpha = 1.0f;
 
     public LineViewData(ChartData.Line line) {
         Paint paint = new Paint(1);
@@ -33,6 +33,11 @@ public class LineViewData {
         this.paint = paint2;
         Paint paint3 = new Paint(1);
         this.selectionPaint = paint3;
+        this.bottomLinePath = new Path();
+        this.chartPath = new Path();
+        this.chartPathPicker = new Path();
+        this.enabled = true;
+        this.alpha = 1.0f;
         this.line = line;
         paint2.setStrokeWidth(AndroidUtilities.dpf2(2.0f));
         paint2.setStyle(Paint.Style.STROKE);

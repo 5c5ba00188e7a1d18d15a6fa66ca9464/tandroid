@@ -669,15 +669,15 @@ public class Distribute extends AbstractAppCenterService {
             if (isCurrentReleaseWasUpdated(string)) {
                 AppCenterLog.debug("AppCenterDistribute", "Current release was updated but not reported yet, reporting..");
                 if (z) {
-                    str2 = str2 + "&install_id=" + IdHelper.getInstallId();
+                    str2 = "&install_id=" + IdHelper.getInstallId();
                 }
                 return (str2 + "&distribution_group_id=" + str) + "&downloaded_release_id=" + SharedPreferencesManager.getInt("Distribute.downloaded_release_id");
             }
             AppCenterLog.debug("AppCenterDistribute", "New release was downloaded but not installed yet, skip reporting.");
-            return str2;
+            return "";
         }
         AppCenterLog.debug("AppCenterDistribute", "Current release was already reported, skip reporting.");
-        return str2;
+        return "";
     }
 
     private void changeDistributionGroupIdAfterAppUpdateIfNeeded() {
@@ -701,14 +701,10 @@ public class Distribute extends AbstractAppCenterService {
     private boolean isMoreRecent(ReleaseDetails releaseDetails) {
         boolean z;
         int versionCode = DeviceInfoHelper.getVersionCode(this.mPackageInfo);
-        boolean z2 = true;
         if (releaseDetails.getVersion() == versionCode) {
             z = !releaseDetails.getReleaseHash().equals(DistributeUtils.computeReleaseHash(this.mPackageInfo));
         } else {
-            if (releaseDetails.getVersion() <= versionCode) {
-                z2 = false;
-            }
-            z = z2;
+            z = releaseDetails.getVersion() > versionCode;
         }
         AppCenterLog.debug("AppCenterDistribute", "Latest release more recent=" + z);
         return z;
@@ -727,11 +723,11 @@ public class Distribute extends AbstractAppCenterService {
             return true;
         }
         long j2 = j + 86400000;
-        if (currentTimeMillis >= j2) {
-            return true;
+        if (currentTimeMillis < j2) {
+            AppCenterLog.debug("AppCenterDistribute", "Optional updates are postponed until " + new Date(j2));
+            return false;
         }
-        AppCenterLog.debug("AppCenterDistribute", "Optional updates are postponed until " + new Date(j2));
-        return false;
+        return true;
     }
 
     private boolean shouldRefreshDialog(Dialog dialog) {
@@ -844,65 +840,63 @@ public class Distribute extends AbstractAppCenterService {
     }
 
     private synchronized void showUnknownSourcesDialog() {
-        if (!shouldRefreshDialog(this.mUnknownSourcesDialog)) {
-            return;
-        }
-        AppCenterLog.debug("AppCenterDistribute", "Show new unknown sources dialog.");
-        AlertDialog.Builder builder = new AlertDialog.Builder(this.mForegroundActivity);
-        builder.setMessage(R$string.appcenter_distribute_unknown_sources_dialog_message);
-        final ReleaseDetails releaseDetails = this.mReleaseDetails;
-        if (releaseDetails.isMandatoryUpdate()) {
-            builder.setCancelable(false);
-        } else {
-            builder.setNegativeButton(17039360, new DialogInterface.OnClickListener() { // from class: com.microsoft.appcenter.distribute.Distribute.9
+        if (shouldRefreshDialog(this.mUnknownSourcesDialog)) {
+            AppCenterLog.debug("AppCenterDistribute", "Show new unknown sources dialog.");
+            AlertDialog.Builder builder = new AlertDialog.Builder(this.mForegroundActivity);
+            builder.setMessage(R$string.appcenter_distribute_unknown_sources_dialog_message);
+            final ReleaseDetails releaseDetails = this.mReleaseDetails;
+            if (releaseDetails.isMandatoryUpdate()) {
+                builder.setCancelable(false);
+            } else {
+                builder.setNegativeButton(17039360, new DialogInterface.OnClickListener() { // from class: com.microsoft.appcenter.distribute.Distribute.9
+                    @Override // android.content.DialogInterface.OnClickListener
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Distribute.this.completeWorkflow(releaseDetails);
+                    }
+                });
+                builder.setOnCancelListener(new DialogInterface.OnCancelListener() { // from class: com.microsoft.appcenter.distribute.Distribute.10
+                    @Override // android.content.DialogInterface.OnCancelListener
+                    public void onCancel(DialogInterface dialogInterface) {
+                        Distribute.this.completeWorkflow(releaseDetails);
+                    }
+                });
+            }
+            builder.setPositiveButton(R$string.appcenter_distribute_unknown_sources_dialog_settings, new DialogInterface.OnClickListener() { // from class: com.microsoft.appcenter.distribute.Distribute.11
                 @Override // android.content.DialogInterface.OnClickListener
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    Distribute.this.completeWorkflow(releaseDetails);
+                    Distribute.this.goToUnknownAppsSettings(releaseDetails);
                 }
             });
-            builder.setOnCancelListener(new DialogInterface.OnCancelListener() { // from class: com.microsoft.appcenter.distribute.Distribute.10
-                @Override // android.content.DialogInterface.OnCancelListener
-                public void onCancel(DialogInterface dialogInterface) {
-                    Distribute.this.completeWorkflow(releaseDetails);
-                }
-            });
+            AlertDialog create = builder.create();
+            this.mUnknownSourcesDialog = create;
+            showAndRememberDialogActivity(create);
         }
-        builder.setPositiveButton(R$string.appcenter_distribute_unknown_sources_dialog_settings, new DialogInterface.OnClickListener() { // from class: com.microsoft.appcenter.distribute.Distribute.11
-            @Override // android.content.DialogInterface.OnClickListener
-            public void onClick(DialogInterface dialogInterface, int i) {
-                Distribute.this.goToUnknownAppsSettings(releaseDetails);
-            }
-        });
-        AlertDialog create = builder.create();
-        this.mUnknownSourcesDialog = create;
-        showAndRememberDialogActivity(create);
     }
 
     private synchronized void showUpdateSetupFailedDialog() {
-        if (!shouldRefreshDialog(this.mUpdateSetupFailedDialog)) {
-            return;
+        if (shouldRefreshDialog(this.mUpdateSetupFailedDialog)) {
+            AppCenterLog.debug("AppCenterDistribute", "Show update setup failed dialog.");
+            AlertDialog.Builder builder = new AlertDialog.Builder(this.mForegroundActivity);
+            builder.setCancelable(false);
+            builder.setTitle(R$string.appcenter_distribute_update_failed_dialog_title);
+            builder.setMessage(R$string.appcenter_distribute_update_failed_dialog_message);
+            builder.setPositiveButton(R$string.appcenter_distribute_update_failed_dialog_ignore, new DialogInterface.OnClickListener() { // from class: com.microsoft.appcenter.distribute.Distribute.12
+                @Override // android.content.DialogInterface.OnClickListener
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    Distribute.this.storeUpdateSetupFailedPackageHash(dialogInterface);
+                }
+            });
+            builder.setNegativeButton(R$string.appcenter_distribute_update_failed_dialog_reinstall, new DialogInterface.OnClickListener() { // from class: com.microsoft.appcenter.distribute.Distribute.13
+                @Override // android.content.DialogInterface.OnClickListener
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    Distribute.this.handleUpdateFailedDialogReinstallAction(dialogInterface);
+                }
+            });
+            AlertDialog create = builder.create();
+            this.mUpdateSetupFailedDialog = create;
+            showAndRememberDialogActivity(create);
+            SharedPreferencesManager.remove("Distribute.update_setup_failed_message");
         }
-        AppCenterLog.debug("AppCenterDistribute", "Show update setup failed dialog.");
-        AlertDialog.Builder builder = new AlertDialog.Builder(this.mForegroundActivity);
-        builder.setCancelable(false);
-        builder.setTitle(R$string.appcenter_distribute_update_failed_dialog_title);
-        builder.setMessage(R$string.appcenter_distribute_update_failed_dialog_message);
-        builder.setPositiveButton(R$string.appcenter_distribute_update_failed_dialog_ignore, new DialogInterface.OnClickListener() { // from class: com.microsoft.appcenter.distribute.Distribute.12
-            @Override // android.content.DialogInterface.OnClickListener
-            public void onClick(DialogInterface dialogInterface, int i) {
-                Distribute.this.storeUpdateSetupFailedPackageHash(dialogInterface);
-            }
-        });
-        builder.setNegativeButton(R$string.appcenter_distribute_update_failed_dialog_reinstall, new DialogInterface.OnClickListener() { // from class: com.microsoft.appcenter.distribute.Distribute.13
-            @Override // android.content.DialogInterface.OnClickListener
-            public void onClick(DialogInterface dialogInterface, int i) {
-                Distribute.this.handleUpdateFailedDialogReinstallAction(dialogInterface);
-            }
-        });
-        AlertDialog create = builder.create();
-        this.mUpdateSetupFailedDialog = create;
-        showAndRememberDialogActivity(create);
-        SharedPreferencesManager.remove("Distribute.update_setup_failed_message");
     }
 
     /* JADX INFO: Access modifiers changed from: private */

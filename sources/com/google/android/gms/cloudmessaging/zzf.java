@@ -284,40 +284,39 @@ public final class zzf implements ServiceConnection {
             Log.d("MessengerIpcClient", valueOf.length() != 0 ? "Disconnected: ".concat(valueOf) : new String("Disconnected: "));
         }
         int i2 = this.zza;
-        if (i2 != 0) {
-            if (i2 != 1 && i2 != 2) {
-                if (i2 == 3) {
-                    this.zza = 4;
-                    return;
-                } else if (i2 == 4) {
-                    return;
-                } else {
-                    int i3 = this.zza;
-                    StringBuilder sb = new StringBuilder(26);
-                    sb.append("Unknown state: ");
-                    sb.append(i3);
-                    throw new IllegalStateException(sb.toString());
-                }
-            }
-            if (Log.isLoggable("MessengerIpcClient", 2)) {
-                Log.v("MessengerIpcClient", "Unbinding service");
-            }
-            this.zza = 4;
-            ConnectionTracker connectionTracker = ConnectionTracker.getInstance();
-            context = this.zzf.zzb;
-            connectionTracker.unbindService(context, this);
-            zzp zzpVar = new zzp(i, str);
-            for (zzq<?> zzqVar : this.zzd) {
-                zzqVar.zza(zzpVar);
-            }
-            this.zzd.clear();
-            for (int i4 = 0; i4 < this.zze.size(); i4++) {
-                this.zze.valueAt(i4).zza(zzpVar);
-            }
-            this.zze.clear();
-            return;
+        if (i2 == 0) {
+            throw new IllegalStateException();
         }
-        throw new IllegalStateException();
+        if (i2 != 1 && i2 != 2) {
+            if (i2 == 3) {
+                this.zza = 4;
+                return;
+            } else if (i2 == 4) {
+                return;
+            } else {
+                int i3 = this.zza;
+                StringBuilder sb = new StringBuilder(26);
+                sb.append("Unknown state: ");
+                sb.append(i3);
+                throw new IllegalStateException(sb.toString());
+            }
+        }
+        if (Log.isLoggable("MessengerIpcClient", 2)) {
+            Log.v("MessengerIpcClient", "Unbinding service");
+        }
+        this.zza = 4;
+        ConnectionTracker connectionTracker = ConnectionTracker.getInstance();
+        context = this.zzf.zzb;
+        connectionTracker.unbindService(context, this);
+        zzp zzpVar = new zzp(i, str);
+        for (zzq<?> zzqVar : this.zzd) {
+            zzqVar.zza(zzpVar);
+        }
+        this.zzd.clear();
+        for (int i4 = 0; i4 < this.zze.size(); i4++) {
+            this.zze.valueAt(i4).zza(zzpVar);
+        }
+        this.zze.clear();
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

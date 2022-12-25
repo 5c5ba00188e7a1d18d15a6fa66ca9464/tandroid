@@ -62,11 +62,10 @@ public class UserIdContext {
     }
 
     public void setUserId(String str) {
-        if (!updateUserId(str)) {
-            return;
-        }
-        for (Listener listener : this.mListeners) {
-            listener.onNewUserId(this.mUserId);
+        if (updateUserId(str)) {
+            for (Listener listener : this.mListeners) {
+                listener.onNewUserId(this.mUserId);
+            }
         }
     }
 

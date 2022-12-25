@@ -38,16 +38,15 @@ public final class zzb extends zzi {
         ConnectionResult connectionResult2;
         boolean z;
         if (this.zza.zzd.get() != message.arg1) {
-            if (!zzb(message)) {
+            if (zzb(message)) {
+                zza(message);
                 return;
             }
-            zza(message);
             return;
         }
         int i = message.what;
         if ((i != 1 && i != 7 && ((i != 4 || this.zza.enableLocalFallback()) && message.what != 5)) || this.zza.isConnecting()) {
             int i2 = message.what;
-            PendingIntent pendingIntent = null;
             if (i2 == 4) {
                 this.zza.zzB = new ConnectionResult(message.arg2);
                 if (BaseGmsClient.zzo(this.zza)) {
@@ -73,10 +72,7 @@ public final class zzb extends zzi {
                 return;
             } else if (i2 == 3) {
                 Object obj = message.obj;
-                if (obj instanceof PendingIntent) {
-                    pendingIntent = (PendingIntent) obj;
-                }
-                ConnectionResult connectionResult5 = new ConnectionResult(message.arg2, pendingIntent);
+                ConnectionResult connectionResult5 = new ConnectionResult(message.arg2, obj instanceof PendingIntent ? (PendingIntent) obj : null);
                 this.zza.zzc.onReportServiceBinding(connectionResult5);
                 this.zza.onConnectionFailed(connectionResult5);
                 return;

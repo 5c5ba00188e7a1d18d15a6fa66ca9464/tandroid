@@ -31,8 +31,8 @@ public class ProxyBillingActivity extends Activity {
         return intent;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:22:0x0074  */
-    /* JADX WARN: Removed duplicated region for block: B:25:0x007f  */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x0074  */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x007f  */
     @Override // android.app.Activity
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -41,7 +41,6 @@ public class ProxyBillingActivity extends Activity {
         ResultReceiver resultReceiver;
         Intent makePurchasesUpdatedIntent;
         super.onActivityResult(i, i2, intent);
-        Bundle bundle = null;
         if (i == 100 || i == 110) {
             int responseCode = zzb.zzi(intent, "ProxyBillingActivity").getResponseCode();
             if (i2 == -1) {
@@ -51,10 +50,7 @@ public class ProxyBillingActivity extends Activity {
                     responseCode = 0;
                     resultReceiver = this.priceChangeResultReceiver;
                     if (resultReceiver == null) {
-                        if (intent != null) {
-                            bundle = intent.getExtras();
-                        }
-                        resultReceiver.send(responseCode, bundle);
+                        resultReceiver.send(responseCode, intent != null ? intent.getExtras() : null);
                     } else {
                         if (intent != null) {
                             if (intent.getExtras() != null) {
@@ -89,10 +85,7 @@ public class ProxyBillingActivity extends Activity {
             int zza = zzb.zza(intent, "ProxyBillingActivity");
             ResultReceiver resultReceiver2 = this.inAppMessageResultReceiver;
             if (resultReceiver2 != null) {
-                if (intent != null) {
-                    bundle = intent.getExtras();
-                }
-                resultReceiver2.send(zza, bundle);
+                resultReceiver2.send(zza, intent != null ? intent.getExtras() : null);
             }
         } else {
             zzb.zzo("ProxyBillingActivity", "Got onActivityResult with wrong requestCode: " + i + "; skipping...");

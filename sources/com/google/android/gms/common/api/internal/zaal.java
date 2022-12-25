@@ -39,9 +39,7 @@ final class zaal implements BaseGmsClient.ConnectionProgressReportCallbacks {
         lock.lock();
         try {
             zaG = zaawVar.zaG(0);
-            if (!zaG) {
-                lock3 = zaawVar.zab;
-            } else {
+            if (zaG) {
                 if (!connectionResult.isSuccess()) {
                     zaawVar.zaE(connectionResult, this.zab, this.zac);
                 }
@@ -49,6 +47,8 @@ final class zaal implements BaseGmsClient.ConnectionProgressReportCallbacks {
                 if (zaH) {
                     zaawVar.zaF();
                 }
+                lock3 = zaawVar.zab;
+            } else {
                 lock3 = zaawVar.zab;
             }
             lock3.unlock();

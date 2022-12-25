@@ -23,7 +23,7 @@ public final class AvcConfigurationBox extends AbstractBox {
     private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_7 = null;
     private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_8 = null;
     private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_9 = null;
-    public AvcDecoderConfigurationRecord avcDecoderConfigurationRecord = new AvcDecoderConfigurationRecord();
+    public AvcDecoderConfigurationRecord avcDecoderConfigurationRecord;
 
     static {
         ajc$preClinit();
@@ -65,6 +65,7 @@ public final class AvcConfigurationBox extends AbstractBox {
 
     public AvcConfigurationBox() {
         super("avcC");
+        this.avcDecoderConfigurationRecord = new AvcDecoderConfigurationRecord();
     }
 
     public void setConfigurationVersion(int i) {

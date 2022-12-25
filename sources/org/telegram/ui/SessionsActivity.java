@@ -290,10 +290,9 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
             AlertDialog create = builder2.create();
             showDialog(create);
             TextView textView = (TextView) create.getButton(-1);
-            if (textView == null) {
-                return;
+            if (textView != null) {
+                textView.setTextColor(Theme.getColor("dialogTextRed2"));
             }
-            textView.setTextColor(Theme.getColor("dialogTextRed2"));
         } else if (((i < this.otherSessionsStartRow || i >= this.otherSessionsEndRow) && ((i < this.passwordSessionsStartRow || i >= this.passwordSessionsEndRow) && i != this.currentSessionRow)) || getParentActivity() == null) {
         } else {
             if (this.currentType == 0) {
@@ -350,10 +349,9 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
             AlertDialog create2 = builder3.create();
             showDialog(create2);
             TextView textView2 = (TextView) create2.getButton(-1);
-            if (textView2 == null) {
-                return;
+            if (textView2 != null) {
+                textView2.setTextColor(Theme.getColor("dialogTextRed2"));
             }
-            textView2.setTextColor(Theme.getColor("dialogTextRed2"));
         }
     }
 
@@ -476,11 +474,10 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$createView$7(boolean[] zArr, View view) {
-        if (!view.isEnabled()) {
-            return;
+        if (view.isEnabled()) {
+            zArr[0] = !zArr[0];
+            ((CheckBoxCell) view).setChecked(zArr[0], true);
         }
-        zArr[0] = !zArr[0];
-        ((CheckBoxCell) view).setChecked(zArr[0], true);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -518,10 +515,9 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
                 SessionsActivity.this.lambda$createView$11(alertDialog, tLRPC$TL_webAuthorization, tLObject, tLRPC$TL_error);
             }
         });
-        if (!zArr[0]) {
-            return;
+        if (zArr[0]) {
+            MessagesController.getInstance(this.currentAccount).blockPeer(tLRPC$TL_webAuthorization.bot_id);
         }
-        MessagesController.getInstance(this.currentAccount).blockPeer(tLRPC$TL_webAuthorization.bot_id);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -546,10 +542,9 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
             this.passwordSessions.remove(tLRPC$TL_authorization);
             updateRows();
             ListAdapter listAdapter = this.listAdapter;
-            if (listAdapter == null) {
-                return;
+            if (listAdapter != null) {
+                listAdapter.notifyDataSetChanged();
             }
-            listAdapter.notifyDataSetChanged();
         }
     }
 
@@ -574,10 +569,9 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
             this.sessions.remove(tLRPC$TL_webAuthorization);
             updateRows();
             ListAdapter listAdapter = this.listAdapter;
-            if (listAdapter == null) {
-                return;
+            if (listAdapter != null) {
+                listAdapter.notifyDataSetChanged();
             }
-            listAdapter.notifyDataSetChanged();
         }
     }
 
@@ -793,15 +787,14 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
         if (i2 > 0) {
             int i3 = i2 - 1;
             this.repeatLoad = i3;
-            if (i3 <= 0) {
-                return;
+            if (i3 > 0) {
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.SessionsActivity$$ExternalSyntheticLambda11
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        SessionsActivity.this.lambda$loadSessions$14(z);
+                    }
+                }, 2500L);
             }
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.SessionsActivity$$ExternalSyntheticLambda11
-                @Override // java.lang.Runnable
-                public final void run() {
-                    SessionsActivity.this.lambda$loadSessions$14(z);
-                }
-            }, 2500L);
         }
     }
 
@@ -833,15 +826,14 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
         if (i > 0) {
             int i2 = i - 1;
             this.repeatLoad = i2;
-            if (i2 <= 0) {
-                return;
+            if (i2 > 0) {
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.SessionsActivity$$ExternalSyntheticLambda12
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        SessionsActivity.this.lambda$loadSessions$17(z);
+                    }
+                }, 2500L);
             }
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.SessionsActivity$$ExternalSyntheticLambda12
-                @Override // java.lang.Runnable
-                public final void run() {
-                    SessionsActivity.this.lambda$loadSessions$17(z);
-                }
-            }, 2500L);
         }
     }
 
@@ -875,15 +867,15 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
             this.qrCodeDividerRow = i2;
         }
         if (this.loading) {
-            if (this.currentType != 0) {
+            if (this.currentType == 0) {
+                int i3 = this.rowCount;
+                int i4 = i3 + 1;
+                this.rowCount = i4;
+                this.currentSessionSectionRow = i3;
+                this.rowCount = i4 + 1;
+                this.currentSessionRow = i4;
                 return;
             }
-            int i3 = this.rowCount;
-            int i4 = i3 + 1;
-            this.rowCount = i4;
-            this.currentSessionSectionRow = i3;
-            this.rowCount = i4 + 1;
-            this.currentSessionRow = i4;
             return;
         }
         if (this.currentSession != null) {
@@ -937,18 +929,17 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
             this.rowCount = size2 + 1;
             this.otherSessionsTerminateDetail = size2;
         }
-        if (this.ttlDays <= 0) {
-            return;
+        if (this.ttlDays > 0) {
+            int i14 = this.rowCount;
+            int i15 = i14 + 1;
+            this.rowCount = i15;
+            this.ttlHeaderRow = i14;
+            int i16 = i15 + 1;
+            this.rowCount = i16;
+            this.ttlRow = i15;
+            this.rowCount = i16 + 1;
+            this.ttlDivideRow = i16;
         }
-        int i14 = this.rowCount;
-        int i15 = i14 + 1;
-        this.rowCount = i15;
-        this.ttlHeaderRow = i14;
-        int i16 = i15 + 1;
-        this.rowCount = i16;
-        this.ttlRow = i15;
-        this.rowCount = i16 + 1;
-        this.ttlDivideRow = i16;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -998,16 +989,15 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
             int itemViewType = viewHolder.getItemViewType();
-            boolean z = true;
             if (itemViewType == 0) {
                 TextCell textCell = (TextCell) viewHolder.itemView;
                 if (i != SessionsActivity.this.terminateAllSessionsRow) {
-                    if (i != SessionsActivity.this.qrCodeRow) {
+                    if (i == SessionsActivity.this.qrCodeRow) {
+                        textCell.setColors("windowBackgroundWhiteBlueText4", "windowBackgroundWhiteBlueText4");
+                        textCell.setTag("windowBackgroundWhiteBlueText4");
+                        textCell.setTextAndIcon(LocaleController.getString("AuthAnotherClient", R.string.AuthAnotherClient), R.drawable.msg_qrcode, true ^ SessionsActivity.this.sessions.isEmpty());
                         return;
                     }
-                    textCell.setColors("windowBackgroundWhiteBlueText4", "windowBackgroundWhiteBlueText4");
-                    textCell.setTag("windowBackgroundWhiteBlueText4");
-                    textCell.setTextAndIcon(LocaleController.getString("AuthAnotherClient", R.string.AuthAnotherClient), R.drawable.msg_qrcode, true ^ SessionsActivity.this.sessions.isEmpty());
                     return;
                 }
                 textCell.setColors("windowBackgroundWhiteRedText2", "windowBackgroundWhiteRedText2");
@@ -1039,12 +1029,11 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
                     }
                     textInfoPrivacyCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
                 } else if (i != SessionsActivity.this.passwordSessionsDetailRow) {
-                    if (i != SessionsActivity.this.qrCodeDividerRow && i != SessionsActivity.this.ttlDivideRow && i != SessionsActivity.this.noOtherSessionsRow) {
-                        return;
+                    if (i == SessionsActivity.this.qrCodeDividerRow || i == SessionsActivity.this.ttlDivideRow || i == SessionsActivity.this.noOtherSessionsRow) {
+                        textInfoPrivacyCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, R.drawable.greydivider, "windowBackgroundGrayShadow"));
+                        textInfoPrivacyCell.setText("");
+                        textInfoPrivacyCell.setFixedSize(12);
                     }
-                    textInfoPrivacyCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, R.drawable.greydivider, "windowBackgroundGrayShadow"));
-                    textInfoPrivacyCell.setText("");
-                    textInfoPrivacyCell.setFixedSize(12);
                 } else {
                     textInfoPrivacyCell.setText(LocaleController.getString("LoginAttemptsInfo", R.string.LoginAttemptsInfo));
                     if (SessionsActivity.this.otherSessionsTerminateDetail == -1) {
@@ -1065,10 +1054,10 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
                             return;
                         }
                     } else if (i != SessionsActivity.this.passwordSessionsSectionRow) {
-                        if (i != SessionsActivity.this.ttlHeaderRow) {
+                        if (i == SessionsActivity.this.ttlHeaderRow) {
+                            headerCell.setText(LocaleController.getString("TerminateOldSessionHeader", R.string.TerminateOldSessionHeader));
                             return;
                         }
-                        headerCell.setText(LocaleController.getString("TerminateOldSessionHeader", R.string.TerminateOldSessionHeader));
                         return;
                     } else {
                         headerCell.setText(LocaleController.getString("LoginAttempts", R.string.LoginAttempts));
@@ -1076,8 +1065,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
                     }
                 }
                 headerCell.setText(LocaleController.getString("CurrentSession", R.string.CurrentSession));
-            } else if (itemViewType == 5) {
-            } else {
+            } else if (itemViewType != 5) {
                 if (itemViewType == 6) {
                     ((TextSettingsCell) viewHolder.itemView).setTextAndValue(LocaleController.getString("IfInactiveFor", R.string.IfInactiveFor), (SessionsActivity.this.ttlDays <= 30 || SessionsActivity.this.ttlDays > 183) ? SessionsActivity.this.ttlDays == 365 ? LocaleController.formatPluralString("Years", SessionsActivity.this.ttlDays / 365, new Object[0]) : LocaleController.formatPluralString("Weeks", SessionsActivity.this.ttlDays / 7, new Object[0]) : LocaleController.formatPluralString("Months", SessionsActivity.this.ttlDays / 30, new Object[0]), true, false);
                     return;
@@ -1090,24 +1078,16 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
                     }
                     TLRPC$TL_authorization tLRPC$TL_authorization = SessionsActivity.this.currentSession;
                     if (SessionsActivity.this.sessions.isEmpty() && SessionsActivity.this.passwordSessions.isEmpty() && SessionsActivity.this.qrCodeRow == -1) {
-                        z = false;
+                        r1 = false;
                     }
-                    sessionCell.setSession(tLRPC$TL_authorization, z);
+                    sessionCell.setSession(tLRPC$TL_authorization, r1);
                 } else if (i < SessionsActivity.this.otherSessionsStartRow || i >= SessionsActivity.this.otherSessionsEndRow) {
                     if (i < SessionsActivity.this.passwordSessionsStartRow || i >= SessionsActivity.this.passwordSessionsEndRow) {
                         return;
                     }
-                    TLObject tLObject = (TLObject) SessionsActivity.this.passwordSessions.get(i - SessionsActivity.this.passwordSessionsStartRow);
-                    if (i == SessionsActivity.this.passwordSessionsEndRow - 1) {
-                        z = false;
-                    }
-                    sessionCell.setSession(tLObject, z);
+                    sessionCell.setSession((TLObject) SessionsActivity.this.passwordSessions.get(i - SessionsActivity.this.passwordSessionsStartRow), i != SessionsActivity.this.passwordSessionsEndRow - 1);
                 } else {
-                    TLObject tLObject2 = (TLObject) SessionsActivity.this.sessions.get(i - SessionsActivity.this.otherSessionsStartRow);
-                    if (i == SessionsActivity.this.otherSessionsEndRow - 1) {
-                        z = false;
-                    }
-                    sessionCell.setSession(tLObject2, z);
+                    sessionCell.setSession((TLObject) SessionsActivity.this.sessions.get(i - SessionsActivity.this.otherSessionsStartRow), i != SessionsActivity.this.otherSessionsEndRow - 1);
                 }
             }
         }
@@ -1189,19 +1169,19 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
             if (i == SessionsActivity.this.currentSessionSectionRow || i == SessionsActivity.this.otherSessionsSectionRow || i == SessionsActivity.this.passwordSessionsSectionRow || i == SessionsActivity.this.ttlHeaderRow) {
                 return 2;
             }
-            if (i == SessionsActivity.this.currentSessionRow) {
+            if (i != SessionsActivity.this.currentSessionRow) {
+                if (i < SessionsActivity.this.otherSessionsStartRow || i >= SessionsActivity.this.otherSessionsEndRow) {
+                    if (i < SessionsActivity.this.passwordSessionsStartRow || i >= SessionsActivity.this.passwordSessionsEndRow) {
+                        if (i == SessionsActivity.this.qrCodeRow) {
+                            return 5;
+                        }
+                        return i == SessionsActivity.this.ttlRow ? 6 : 0;
+                    }
+                    return 4;
+                }
                 return 4;
             }
-            if (i >= SessionsActivity.this.otherSessionsStartRow && i < SessionsActivity.this.otherSessionsEndRow) {
-                return 4;
-            }
-            if (i >= SessionsActivity.this.passwordSessionsStartRow && i < SessionsActivity.this.passwordSessionsEndRow) {
-                return 4;
-            }
-            if (i == SessionsActivity.this.qrCodeRow) {
-                return 5;
-            }
-            return i == SessionsActivity.this.ttlRow ? 6 : 0;
+            return 4;
         }
     }
 
@@ -1209,12 +1189,13 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
     /* loaded from: classes3.dex */
     public class ScanQRCodeView extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
         TextView buttonTextView;
-        CellFlickerDrawable flickerDrawable = new CellFlickerDrawable();
+        CellFlickerDrawable flickerDrawable;
         BackupImageView imageView;
         TextView textView;
 
         public ScanQRCodeView(Context context) {
             super(context);
+            this.flickerDrawable = new CellFlickerDrawable();
             BackupImageView backupImageView = new BackupImageView(context);
             this.imageView = backupImageView;
             addView(backupImageView, LayoutHelper.createFrame(120, 120.0f, 1, 0.0f, 16.0f, 0.0f, 0.0f));
@@ -1271,14 +1252,13 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
                 public void draw(Canvas canvas) {
                     super.draw(canvas);
                     ScanQRCodeView scanQRCodeView = ScanQRCodeView.this;
-                    if (scanQRCodeView.flickerDrawable.progress > 1.0f || !SessionsActivity.this.highlightLinkDesktopDevice || !SessionsActivity.this.fragmentOpened) {
-                        return;
+                    if (scanQRCodeView.flickerDrawable.progress <= 1.0f && SessionsActivity.this.highlightLinkDesktopDevice && SessionsActivity.this.fragmentOpened) {
+                        RectF rectF = AndroidUtilities.rectTmp;
+                        rectF.set(0.0f, 0.0f, getWidth(), getHeight());
+                        ScanQRCodeView.this.flickerDrawable.setParentWidth(getMeasuredWidth());
+                        ScanQRCodeView.this.flickerDrawable.draw(canvas, rectF, AndroidUtilities.dp(8.0f), null);
+                        invalidate();
                     }
-                    RectF rectF = AndroidUtilities.rectTmp;
-                    rectF.set(0.0f, 0.0f, getWidth(), getHeight());
-                    ScanQRCodeView.this.flickerDrawable.setParentWidth(getMeasuredWidth());
-                    ScanQRCodeView.this.flickerDrawable.draw(canvas, rectF, AndroidUtilities.dp(8.0f), null);
-                    invalidate();
                 }
             };
             this.buttonTextView = textView;
@@ -1334,10 +1314,9 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
 
         @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
         public void didReceivedNotification(int i, int i2, Object... objArr) {
-            if (i != NotificationCenter.diceStickersDidLoad || !AndroidUtilities.STICKERS_PLACEHOLDER_PACK_NAME.equals((String) objArr[0])) {
-                return;
+            if (i == NotificationCenter.diceStickersDidLoad && AndroidUtilities.STICKERS_PLACEHOLDER_PACK_NAME.equals((String) objArr[0])) {
+                setSticker();
             }
-            setSticker();
         }
 
         private void setSticker() {
@@ -1346,20 +1325,16 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
                 stickerSetByName = MediaDataController.getInstance(((BaseFragment) SessionsActivity.this).currentAccount).getStickerSetByEmojiOrName(AndroidUtilities.STICKERS_PLACEHOLDER_PACK_NAME);
             }
             TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet = stickerSetByName;
-            SvgHelper.SvgDrawable svgDrawable = null;
             TLRPC$Document tLRPC$Document = (tLRPC$TL_messages_stickerSet == null || tLRPC$TL_messages_stickerSet.documents.size() <= 6) ? null : tLRPC$TL_messages_stickerSet.documents.get(6);
-            if (tLRPC$Document != null) {
-                svgDrawable = DocumentObject.getSvgThumb(tLRPC$Document.thumbs, "emptyListPlaceholder", 0.2f);
-            }
-            SvgHelper.SvgDrawable svgDrawable2 = svgDrawable;
-            if (svgDrawable2 != null) {
-                svgDrawable2.overrideWidthAndHeight(512, 512);
+            SvgHelper.SvgDrawable svgThumb = tLRPC$Document != null ? DocumentObject.getSvgThumb(tLRPC$Document.thumbs, "emptyListPlaceholder", 0.2f) : null;
+            if (svgThumb != null) {
+                svgThumb.overrideWidthAndHeight(512, 512);
             }
             if (tLRPC$Document == null) {
                 MediaDataController.getInstance(((BaseFragment) SessionsActivity.this).currentAccount).loadStickersByEmojiOrName(AndroidUtilities.STICKERS_PLACEHOLDER_PACK_NAME, false, tLRPC$TL_messages_stickerSet == null);
                 return;
             }
-            this.imageView.setImage(ImageLocation.getForDocument(tLRPC$Document), "130_130", "tgs", svgDrawable2, tLRPC$TL_messages_stickerSet);
+            this.imageView.setImage(ImageLocation.getForDocument(tLRPC$Document), "130_130", "tgs", svgThumb, tLRPC$TL_messages_stickerSet);
             this.imageView.getImageReceiver().setAutoRepeat(2);
         }
     }
@@ -1403,8 +1378,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
                 SessionsActivity.this.updateRows();
                 SessionsActivity.this.listAdapter.notifyDataSetChanged();
                 SessionsActivity.this.undoView.showWithAction(0L, 11, this.response);
-            } else if (this.error == null) {
-            } else {
+            } else if (this.error != null) {
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.SessionsActivity$5$$ExternalSyntheticLambda1
                     @Override // java.lang.Runnable
                     public final void run() {
@@ -1553,10 +1527,10 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public int getSessionsCount() {
-        if (this.sessions.size() != 0 || !this.loading) {
-            return this.sessions.size() + 1;
+        if (this.sessions.size() == 0 && this.loading) {
+            return 0;
         }
-        return 0;
+        return this.sessions.size() + 1;
     }
 
     public void setDelegate(Delegate delegate) {

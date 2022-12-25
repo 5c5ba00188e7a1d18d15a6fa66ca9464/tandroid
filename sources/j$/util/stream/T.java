@@ -21,11 +21,11 @@ public abstract class T extends c implements U {
         if (uVar instanceof j$.util.t) {
             return (j$.util.t) uVar;
         }
-        if (!Q4.a) {
-            throw new UnsupportedOperationException("DoubleStream.adapt(Spliterator<Double> s)");
+        if (Q4.a) {
+            Q4.a(c.class, "using DoubleStream.adapt(Spliterator<Double> s)");
+            throw null;
         }
-        Q4.a(c.class, "using DoubleStream.adapt(Spliterator<Double> s)");
-        throw null;
+        throw new UnsupportedOperationException("DoubleStream.adapt(Spliterator<Double> s)");
     }
 
     @Override // j$.util.stream.c

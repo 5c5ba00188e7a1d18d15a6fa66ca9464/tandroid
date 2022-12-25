@@ -82,10 +82,10 @@ public class Person {
         if (str != null) {
             return str;
         }
-        if (this.mName == null) {
-            return "";
+        if (this.mName != null) {
+            return "name:" + ((Object) this.mName);
         }
-        return "name:" + ((Object) this.mName);
+        return "";
     }
 
     /* loaded from: classes.dex */

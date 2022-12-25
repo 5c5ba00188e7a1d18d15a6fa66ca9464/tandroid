@@ -7,13 +7,15 @@ import java.util.Objects;
 /* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
 /* loaded from: classes.dex */
 final class zzk extends FilterInputStream {
-    private long zzb = -1;
-    private long zza = 1048577;
+    private long zza;
+    private long zzb;
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public zzk(InputStream inputStream, long j) {
         super(inputStream);
+        this.zzb = -1L;
         Objects.requireNonNull(inputStream);
+        this.zza = 1048577L;
     }
 
     @Override // java.io.FilterInputStream, java.io.InputStream

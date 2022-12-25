@@ -73,16 +73,16 @@ public class PhotoFace {
 
     public org.telegram.ui.Components.Point getPointForAnchor(int i) {
         if (i != 0) {
-            if (i == 1) {
-                return this.eyesCenterPoint;
-            }
-            if (i == 2) {
+            if (i != 1) {
+                if (i != 2) {
+                    if (i != 3) {
+                        return null;
+                    }
+                    return this.chinPoint;
+                }
                 return this.mouthPoint;
             }
-            if (i == 3) {
-                return this.chinPoint;
-            }
-            return null;
+            return this.eyesCenterPoint;
         }
         return this.foreheadPoint;
     }

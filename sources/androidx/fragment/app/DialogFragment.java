@@ -62,9 +62,10 @@ public class DialogFragment extends Fragment implements DialogInterface.OnCancel
     @Override // androidx.fragment.app.Fragment
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (!this.mShownByMe) {
-            this.mDismissed = false;
+        if (this.mShownByMe) {
+            return;
         }
+        this.mDismissed = false;
     }
 
     @Override // androidx.fragment.app.Fragment
@@ -115,36 +116,36 @@ public class DialogFragment extends Fragment implements DialogInterface.OnCancel
 
     @Override // android.content.DialogInterface.OnDismissListener
     public void onDismiss(DialogInterface dialogInterface) {
-        if (!this.mViewDestroyed) {
-            dismissInternal(true);
+        if (this.mViewDestroyed) {
+            return;
         }
+        dismissInternal(true);
     }
 
     @Override // androidx.fragment.app.Fragment
     public void onActivityCreated(Bundle bundle) {
         Bundle bundle2;
         super.onActivityCreated(bundle);
-        if (!this.mShowsDialog) {
-            return;
-        }
-        View view = getView();
-        if (view != null) {
-            if (view.getParent() != null) {
-                throw new IllegalStateException("DialogFragment can not be attached to a container view");
+        if (this.mShowsDialog) {
+            View view = getView();
+            if (view != null) {
+                if (view.getParent() != null) {
+                    throw new IllegalStateException("DialogFragment can not be attached to a container view");
+                }
+                this.mDialog.setContentView(view);
             }
-            this.mDialog.setContentView(view);
+            FragmentActivity activity = getActivity();
+            if (activity != null) {
+                this.mDialog.setOwnerActivity(activity);
+            }
+            this.mDialog.setCancelable(this.mCancelable);
+            this.mDialog.setOnCancelListener(this);
+            this.mDialog.setOnDismissListener(this);
+            if (bundle == null || (bundle2 = bundle.getBundle("android:savedDialogState")) == null) {
+                return;
+            }
+            this.mDialog.onRestoreInstanceState(bundle2);
         }
-        FragmentActivity activity = getActivity();
-        if (activity != null) {
-            this.mDialog.setOwnerActivity(activity);
-        }
-        this.mDialog.setCancelable(this.mCancelable);
-        this.mDialog.setOnCancelListener(this);
-        this.mDialog.setOnDismissListener(this);
-        if (bundle == null || (bundle2 = bundle.getBundle("android:savedDialogState")) == null) {
-            return;
-        }
-        this.mDialog.onRestoreInstanceState(bundle2);
     }
 
     @Override // androidx.fragment.app.Fragment

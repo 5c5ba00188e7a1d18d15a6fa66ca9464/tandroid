@@ -29,6 +29,8 @@ public class PremiumTierCell extends ViewGroup {
     private CheckBox2 checkBox;
     private int color0;
     private int color1;
+    private String colorKey1;
+    private String colorKey2;
     protected TextView discountView;
     private PremiumTierCell globalGradientView;
     private LinearGradient gradient;
@@ -36,6 +38,10 @@ public class PremiumTierCell extends ViewGroup {
     private boolean hasDivider;
     private boolean isDrawingGradient;
     private long lastUpdateTime;
+    private int leftPaddingToCheckboxDp;
+    private int leftPaddingToTextDp;
+    private Matrix matrix;
+    private Paint paint;
     private int parentWidth;
     private float parentXOffset;
     private TextView pricePerMonthView;
@@ -44,15 +50,15 @@ public class PremiumTierCell extends ViewGroup {
     protected PremiumPreviewFragment.SubscriptionTier tier;
     private TextView titleView;
     private int totalTranslation;
-    private int leftPaddingToTextDp = 12;
-    private int leftPaddingToCheckboxDp = 8;
-    private String colorKey1 = "windowBackgroundWhite";
-    private String colorKey2 = "windowBackgroundGray";
-    private Paint paint = new Paint();
-    private Matrix matrix = new Matrix();
 
     public PremiumTierCell(Context context) {
         super(context);
+        this.leftPaddingToTextDp = 12;
+        this.leftPaddingToCheckboxDp = 8;
+        this.colorKey1 = "windowBackgroundWhite";
+        this.colorKey2 = "windowBackgroundGray";
+        this.paint = new Paint();
+        this.matrix = new Matrix();
         CheckBox2 checkBox2 = new CheckBox2(context, 24);
         this.checkBox = checkBox2;
         checkBox2.setDrawBackgroundAsArc(10);
@@ -64,7 +70,6 @@ public class PremiumTierCell extends ViewGroup {
         this.titleView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
         this.titleView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.titleView.setSingleLine();
-        int i = 5;
         addView(this.titleView, LayoutHelper.createFrame(-2, -2.0f, (LocaleController.isRTL ? 5 : 3) | 48, 0.0f, 8.0f, 0.0f, 0.0f));
         TextView textView2 = new TextView(context);
         this.discountView = textView2;
@@ -85,7 +90,7 @@ public class PremiumTierCell extends ViewGroup {
         textView4.setTextSize(1, 14.0f);
         this.pricePerYearView.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText"));
         this.pricePerYearView.setSingleLine();
-        addView(this.pricePerYearView, LayoutHelper.createFrame(-2, -2.0f, (!LocaleController.isRTL ? 3 : i) | 80, 0.0f, 0.0f, 0.0f, 8.0f));
+        addView(this.pricePerYearView, LayoutHelper.createFrame(-2, -2.0f, (LocaleController.isRTL ? 5 : 3) | 80, 0.0f, 0.0f, 0.0f, 8.0f));
         TextView textView5 = new TextView(context);
         this.pricePerMonthView = textView5;
         textView5.setTextSize(1, 15.0f);
@@ -283,10 +288,9 @@ public class PremiumTierCell extends ViewGroup {
         }
         this.matrix.setTranslate(this.totalTranslation + this.parentXOffset, 0.0f);
         LinearGradient linearGradient = this.gradient;
-        if (linearGradient == null) {
-            return;
+        if (linearGradient != null) {
+            linearGradient.setLocalMatrix(this.matrix);
         }
-        linearGradient.setLocalMatrix(this.matrix);
     }
 
     public void updateColors() {

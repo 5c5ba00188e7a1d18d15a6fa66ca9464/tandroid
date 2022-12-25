@@ -97,10 +97,9 @@ public interface TsPayloadReader {
         }
 
         private void maybeThrowUninitializedError() {
-            if (this.trackId != Integer.MIN_VALUE) {
-                return;
+            if (this.trackId == Integer.MIN_VALUE) {
+                throw new IllegalStateException("generateNewId() must be called before retrieving ids.");
             }
-            throw new IllegalStateException("generateNewId() must be called before retrieving ids.");
         }
     }
 }

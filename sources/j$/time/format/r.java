@@ -17,11 +17,11 @@ public final class r {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof r)) {
-            return false;
+        if (obj instanceof r) {
+            Objects.requireNonNull((r) obj);
+            return true;
         }
-        Objects.requireNonNull((r) obj);
-        return true;
+        return false;
     }
 
     public int hashCode() {

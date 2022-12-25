@@ -41,19 +41,19 @@ public class NestedScrollingChildHelper {
         if (hasNestedScrollingParent(type)) {
             return true;
         }
-        if (!isNestedScrollingEnabled()) {
+        if (isNestedScrollingEnabled()) {
+            View view = this.mView;
+            for (ViewParent parent = this.mView.getParent(); parent != null; parent = parent.getParent()) {
+                if (ViewParentCompat.onStartNestedScroll(parent, view, this.mView, axes, type)) {
+                    setNestedScrollingParentForType(type, parent);
+                    ViewParentCompat.onNestedScrollAccepted(parent, view, this.mView, axes, type);
+                    return true;
+                }
+                if (parent instanceof View) {
+                    view = (View) parent;
+                }
+            }
             return false;
-        }
-        View view = this.mView;
-        for (ViewParent parent = this.mView.getParent(); parent != null; parent = parent.getParent()) {
-            if (ViewParentCompat.onStartNestedScroll(parent, view, this.mView, axes, type)) {
-                setNestedScrollingParentForType(type, parent);
-                ViewParentCompat.onNestedScrollAccepted(parent, view, this.mView, axes, type);
-                return true;
-            }
-            if (parent instanceof View) {
-                view = (View) parent;
-            }
         }
         return false;
     }
@@ -130,11 +130,11 @@ public class NestedScrollingChildHelper {
             return false;
         }
         if (dx == 0 && dy == 0) {
-            if (offsetInWindow == null) {
+            if (offsetInWindow != null) {
+                offsetInWindow[0] = 0;
+                offsetInWindow[1] = 0;
                 return false;
             }
-            offsetInWindow[0] = 0;
-            offsetInWindow[1] = 0;
             return false;
         }
         if (offsetInWindow != null) {
@@ -177,10 +177,10 @@ public class NestedScrollingChildHelper {
 
     private ViewParent getNestedScrollingParentForType(int type) {
         if (type != 0) {
-            if (type == 1) {
-                return this.mNestedScrollingParentNonTouch;
+            if (type != 1) {
+                return null;
             }
-            return null;
+            return this.mNestedScrollingParentNonTouch;
         }
         return this.mNestedScrollingParentTouch;
     }

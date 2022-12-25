@@ -364,12 +364,11 @@ abstract class CameraCapturer implements CameraVideoCapturer {
         Thread thread = handler != null ? handler.getLooper().getThread() : null;
         if (thread != null) {
             StackTraceElement[] stackTrace = thread.getStackTrace();
-            if (stackTrace.length <= 0) {
-                return;
-            }
-            Logging.d(TAG, "CameraCapturer stack trace:");
-            for (StackTraceElement stackTraceElement : stackTrace) {
-                Logging.d(TAG, stackTraceElement.toString());
+            if (stackTrace.length > 0) {
+                Logging.d(TAG, "CameraCapturer stack trace:");
+                for (StackTraceElement stackTraceElement : stackTrace) {
+                    Logging.d(TAG, stackTraceElement.toString());
+                }
             }
         }
     }

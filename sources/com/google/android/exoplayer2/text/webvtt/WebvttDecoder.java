@@ -11,14 +11,19 @@ import java.util.ArrayList;
 import java.util.List;
 /* loaded from: classes.dex */
 public final class WebvttDecoder extends SimpleSubtitleDecoder {
-    private final WebvttCueParser cueParser = new WebvttCueParser();
-    private final ParsableByteArray parsableWebvttData = new ParsableByteArray();
-    private final WebvttCue.Builder webvttCueBuilder = new WebvttCue.Builder();
-    private final CssParser cssParser = new CssParser();
-    private final List<WebvttCssStyle> definedStyles = new ArrayList();
+    private final CssParser cssParser;
+    private final WebvttCueParser cueParser;
+    private final List<WebvttCssStyle> definedStyles;
+    private final ParsableByteArray parsableWebvttData;
+    private final WebvttCue.Builder webvttCueBuilder;
 
     public WebvttDecoder() {
         super("WebvttDecoder");
+        this.cueParser = new WebvttCueParser();
+        this.parsableWebvttData = new ParsableByteArray();
+        this.webvttCueBuilder = new WebvttCue.Builder();
+        this.cssParser = new CssParser();
+        this.definedStyles = new ArrayList();
     }
 
     @Override // com.google.android.exoplayer2.text.SimpleSubtitleDecoder

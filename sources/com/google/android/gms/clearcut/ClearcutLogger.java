@@ -79,18 +79,16 @@ public final class ClearcutLogger {
         }
 
         public void log() {
-            if (!this.zzab) {
-                this.zzab = true;
-                zze zzeVar = new zze(new zzr(ClearcutLogger.this.packageName, ClearcutLogger.this.zzi, this.zzk, this.zzj, this.zzl, this.zzm, ClearcutLogger.this.zzn, this.zzo), this.zzaa, null, null, ClearcutLogger.zza((ArrayList<Integer>) null), null, ClearcutLogger.zza((ArrayList<Integer>) null), null, null, this.zzz);
-                if (ClearcutLogger.this.zzs.zza(zzeVar)) {
-                    ClearcutLogger.this.zzp.zzb(zzeVar);
-                    return;
-                } else {
-                    PendingResults.immediatePendingResult(Status.RESULT_SUCCESS, null);
-                    return;
-                }
+            if (this.zzab) {
+                throw new IllegalStateException("do not reuse LogEventBuilder");
             }
-            throw new IllegalStateException("do not reuse LogEventBuilder");
+            this.zzab = true;
+            zze zzeVar = new zze(new zzr(ClearcutLogger.this.packageName, ClearcutLogger.this.zzi, this.zzk, this.zzj, this.zzl, this.zzm, ClearcutLogger.this.zzn, this.zzo), this.zzaa, null, null, ClearcutLogger.zza((ArrayList<Integer>) null), null, ClearcutLogger.zza((ArrayList<Integer>) null), null, null, this.zzz);
+            if (ClearcutLogger.this.zzs.zza(zzeVar)) {
+                ClearcutLogger.this.zzp.zzb(zzeVar);
+            } else {
+                PendingResults.immediatePendingResult(Status.RESULT_SUCCESS, null);
+            }
         }
 
         public LogEventBuilder setEventCode(int i) {

@@ -146,9 +146,8 @@ public final class Format implements Parcelable {
         this.width = i5;
         this.height = i6;
         this.frameRate = f;
-        int i15 = 0;
-        int i16 = i7;
-        this.rotationDegrees = i16 == -1 ? 0 : i16;
+        int i15 = i7;
+        this.rotationDegrees = i15 == -1 ? 0 : i15;
         this.pixelWidthHeightRatio = f2 == -1.0f ? 1.0f : f2;
         this.projectionData = bArr;
         this.stereoMode = i8;
@@ -156,9 +155,9 @@ public final class Format implements Parcelable {
         this.channelCount = i9;
         this.sampleRate = i10;
         this.pcmEncoding = i11;
-        int i17 = i12;
-        this.encoderDelay = i17 == -1 ? 0 : i17;
-        this.encoderPadding = i13 != -1 ? i13 : i15;
+        int i16 = i12;
+        this.encoderDelay = i16 == -1 ? 0 : i16;
+        this.encoderPadding = i13 != -1 ? i13 : 0;
         this.language = Util.normalizeLanguageCode(str6);
         this.accessibilityChannel = i14;
         this.exoMediaCryptoType = cls;
@@ -217,8 +216,8 @@ public final class Format implements Parcelable {
         return new Format(str, str2, i5, this.roleFlags, i, str4, metadata2 != null ? metadata2.copyWithAppendedEntriesFrom(metadata) : metadata, this.containerMimeType, str3, this.maxInputSize, this.initializationData, this.drmInitData, this.subsampleOffsetUs, i2, i3, this.frameRate, this.rotationDegrees, this.pixelWidthHeightRatio, this.projectionData, this.stereoMode, this.colorInfo, i4, this.sampleRate, this.pcmEncoding, this.encoderDelay, this.encoderPadding, str5, this.accessibilityChannel, this.exoMediaCryptoType);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:22:0x0048  */
-    /* JADX WARN: Removed duplicated region for block: B:31:0x004b  */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x0048  */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x004b  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -315,7 +314,6 @@ public final class Format implements Parcelable {
     public int hashCode() {
         if (this.hashCode == 0) {
             String str = this.id;
-            int i = 0;
             int hashCode = (527 + (str == null ? 0 : str.hashCode())) * 31;
             String str2 = this.label;
             int hashCode2 = (((((((hashCode + (str2 != null ? str2.hashCode() : 0)) * 31) + this.selectionFlags) * 31) + this.roleFlags) * 31) + this.bitrate) * 31;
@@ -330,10 +328,7 @@ public final class Format implements Parcelable {
             String str6 = this.language;
             int hashCode7 = (((hashCode6 + (str6 == null ? 0 : str6.hashCode())) * 31) + this.accessibilityChannel) * 31;
             Class<? extends ExoMediaCrypto> cls = this.exoMediaCryptoType;
-            if (cls != null) {
-                i = cls.hashCode();
-            }
-            this.hashCode = hashCode7 + i;
+            this.hashCode = hashCode7 + (cls != null ? cls.hashCode() : 0);
         }
         return this.hashCode;
     }
@@ -371,7 +366,6 @@ public final class Format implements Parcelable {
         parcel.writeInt(this.roleFlags);
         parcel.writeInt(this.bitrate);
         parcel.writeString(this.codecs);
-        boolean z = false;
         parcel.writeParcelable(this.metadata, 0);
         parcel.writeString(this.containerMimeType);
         parcel.writeString(this.sampleMimeType);
@@ -388,10 +382,7 @@ public final class Format implements Parcelable {
         parcel.writeFloat(this.frameRate);
         parcel.writeInt(this.rotationDegrees);
         parcel.writeFloat(this.pixelWidthHeightRatio);
-        if (this.projectionData != null) {
-            z = true;
-        }
-        Util.writeBoolean(parcel, z);
+        Util.writeBoolean(parcel, this.projectionData != null);
         byte[] bArr = this.projectionData;
         if (bArr != null) {
             parcel.writeByteArray(bArr);

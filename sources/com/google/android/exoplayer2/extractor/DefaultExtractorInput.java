@@ -96,11 +96,11 @@ public final class DefaultExtractorInput implements ExtractorInput {
 
     @Override // com.google.android.exoplayer2.extractor.ExtractorInput
     public boolean peekFully(byte[] bArr, int i, int i2, boolean z) throws IOException, InterruptedException {
-        if (!advancePeekPosition(i2, z)) {
-            return false;
+        if (advancePeekPosition(i2, z)) {
+            System.arraycopy(this.peekBuffer, this.peekBufferPosition - i2, bArr, i, i2);
+            return true;
         }
-        System.arraycopy(this.peekBuffer, this.peekBufferPosition - i2, bArr, i, i2);
-        return true;
+        return false;
     }
 
     @Override // com.google.android.exoplayer2.extractor.ExtractorInput
@@ -195,13 +195,13 @@ public final class DefaultExtractorInput implements ExtractorInput {
             throw new InterruptedException();
         }
         int read = this.dataSource.read(bArr, i + i3, i2 - i3);
-        if (read != -1) {
-            return i3 + read;
+        if (read == -1) {
+            if (i3 == 0 && z) {
+                return -1;
+            }
+            throw new EOFException();
         }
-        if (i3 == 0 && z) {
-            return -1;
-        }
-        throw new EOFException();
+        return i3 + read;
     }
 
     private void commitBytesRead(int i) {

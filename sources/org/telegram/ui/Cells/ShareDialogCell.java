@@ -40,7 +40,9 @@ import org.telegram.ui.Components.Forum.ForumUtilities;
 import org.telegram.ui.Components.LayoutHelper;
 /* loaded from: classes3.dex */
 public class ShareDialogCell extends FrameLayout {
+    private AvatarDrawable avatarDrawable;
     private CheckBox2 checkBox;
+    private int currentAccount;
     private long currentDialog;
     private int currentType;
     private BackupImageView imageView;
@@ -51,11 +53,11 @@ public class ShareDialogCell extends FrameLayout {
     private SimpleTextView topicTextView;
     private boolean topicWasVisible;
     private TLRPC$User user;
-    private AvatarDrawable avatarDrawable = new AvatarDrawable();
-    private int currentAccount = UserConfig.selectedAccount;
 
     public ShareDialogCell(Context context, int i, Theme.ResourcesProvider resourcesProvider) {
         super(context);
+        this.avatarDrawable = new AvatarDrawable();
+        this.currentAccount = UserConfig.selectedAccount;
         this.resourcesProvider = resourcesProvider;
         setWillNotDraw(false);
         this.currentType = i;
@@ -75,8 +77,7 @@ public class ShareDialogCell extends FrameLayout {
         };
         this.nameTextView = textView;
         NotificationCenter.listenEmojiLoading(textView);
-        String str = "voipgroup_nameText";
-        this.nameTextView.setTextColor(getThemedColor(i == 1 ? str : "dialogTextBlack"));
+        this.nameTextView.setTextColor(getThemedColor(i == 1 ? "voipgroup_nameText" : "dialogTextBlack"));
         this.nameTextView.setTextSize(1, 12.0f);
         this.nameTextView.setMaxLines(2);
         this.nameTextView.setGravity(49);
@@ -85,7 +86,7 @@ public class ShareDialogCell extends FrameLayout {
         addView(this.nameTextView, LayoutHelper.createFrame(-1, -2.0f, 51, 6.0f, this.currentType == 2 ? 58.0f : 66.0f, 6.0f, 0.0f));
         SimpleTextView simpleTextView = new SimpleTextView(context);
         this.topicTextView = simpleTextView;
-        simpleTextView.setTextColor(getThemedColor(i != 1 ? "dialogTextBlack" : str));
+        simpleTextView.setTextColor(getThemedColor(i != 1 ? "dialogTextBlack" : "voipgroup_nameText"));
         this.topicTextView.setTextSize(12);
         this.topicTextView.setMaxLines(2);
         this.topicTextView.setGravity(49);
@@ -170,58 +171,55 @@ public class ShareDialogCell extends FrameLayout {
 
     public void setChecked(boolean z, boolean z2) {
         this.checkBox.setChecked(z, z2);
-        if (!z) {
-            setTopic(null, true);
+        if (z) {
+            return;
         }
+        setTopic(null, true);
     }
 
     public void setTopic(TLRPC$TL_forumTopic tLRPC$TL_forumTopic, boolean z) {
         boolean z2 = this.topicWasVisible;
         boolean z3 = tLRPC$TL_forumTopic != null;
-        if (z2 != z3 || !z) {
-            SimpleTextView simpleTextView = this.topicTextView;
-            int i = R.id.spring_tag;
-            SpringAnimation springAnimation = (SpringAnimation) simpleTextView.getTag(i);
-            if (springAnimation != null) {
-                springAnimation.cancel();
-            }
-            if (z3) {
-                SimpleTextView simpleTextView2 = this.topicTextView;
-                simpleTextView2.setText(ForumUtilities.getTopicSpannedName(tLRPC$TL_forumTopic, simpleTextView2.getTextPaint()));
-                this.topicTextView.requestLayout();
-            }
-            float f = 0.0f;
-            if (z) {
-                SpringAnimation springAnimation2 = new SpringAnimation(new FloatValueHolder(z3 ? 0.0f : 1000.0f));
-                if (z3) {
-                    f = 1000.0f;
-                }
-                SpringAnimation addEndListener = springAnimation2.setSpring(new SpringForce(f).setStiffness(1500.0f).setDampingRatio(1.0f)).addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() { // from class: org.telegram.ui.Cells.ShareDialogCell$$ExternalSyntheticLambda1
-                    @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationUpdateListener
-                    public final void onAnimationUpdate(DynamicAnimation dynamicAnimation, float f2, float f3) {
-                        ShareDialogCell.this.lambda$setTopic$1(dynamicAnimation, f2, f3);
-                    }
-                }).addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.Cells.ShareDialogCell$$ExternalSyntheticLambda0
-                    @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationEndListener
-                    public final void onAnimationEnd(DynamicAnimation dynamicAnimation, boolean z4, float f2, float f3) {
-                        ShareDialogCell.this.lambda$setTopic$2(dynamicAnimation, z4, f2, f3);
-                    }
-                });
-                this.topicTextView.setTag(i, addEndListener);
-                addEndListener.start();
-            } else if (z3) {
-                this.topicTextView.setAlpha(1.0f);
-                this.nameTextView.setAlpha(0.0f);
-                this.topicTextView.setTranslationX(0.0f);
-                this.nameTextView.setTranslationX(AndroidUtilities.dp(10.0f));
-            } else {
-                this.topicTextView.setAlpha(0.0f);
-                this.nameTextView.setAlpha(1.0f);
-                this.topicTextView.setTranslationX(-AndroidUtilities.dp(10.0f));
-                this.nameTextView.setTranslationX(0.0f);
-            }
-            this.topicWasVisible = z3;
+        if (z2 == z3 && z) {
+            return;
         }
+        SimpleTextView simpleTextView = this.topicTextView;
+        int i = R.id.spring_tag;
+        SpringAnimation springAnimation = (SpringAnimation) simpleTextView.getTag(i);
+        if (springAnimation != null) {
+            springAnimation.cancel();
+        }
+        if (z3) {
+            SimpleTextView simpleTextView2 = this.topicTextView;
+            simpleTextView2.setText(ForumUtilities.getTopicSpannedName(tLRPC$TL_forumTopic, simpleTextView2.getTextPaint()));
+            this.topicTextView.requestLayout();
+        }
+        if (z) {
+            SpringAnimation addEndListener = new SpringAnimation(new FloatValueHolder(z3 ? 0.0f : 1000.0f)).setSpring(new SpringForce(z3 ? 1000.0f : 0.0f).setStiffness(1500.0f).setDampingRatio(1.0f)).addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() { // from class: org.telegram.ui.Cells.ShareDialogCell$$ExternalSyntheticLambda1
+                @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationUpdateListener
+                public final void onAnimationUpdate(DynamicAnimation dynamicAnimation, float f, float f2) {
+                    ShareDialogCell.this.lambda$setTopic$1(dynamicAnimation, f, f2);
+                }
+            }).addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.Cells.ShareDialogCell$$ExternalSyntheticLambda0
+                @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationEndListener
+                public final void onAnimationEnd(DynamicAnimation dynamicAnimation, boolean z4, float f, float f2) {
+                    ShareDialogCell.this.lambda$setTopic$2(dynamicAnimation, z4, f, f2);
+                }
+            });
+            this.topicTextView.setTag(i, addEndListener);
+            addEndListener.start();
+        } else if (z3) {
+            this.topicTextView.setAlpha(1.0f);
+            this.nameTextView.setAlpha(0.0f);
+            this.topicTextView.setTranslationX(0.0f);
+            this.nameTextView.setTranslationX(AndroidUtilities.dp(10.0f));
+        } else {
+            this.topicTextView.setAlpha(0.0f);
+            this.nameTextView.setAlpha(1.0f);
+            this.topicTextView.setTranslationX(-AndroidUtilities.dp(10.0f));
+            this.nameTextView.setTranslationX(0.0f);
+        }
+        this.topicWasVisible = z3;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -252,7 +250,7 @@ public class ShareDialogCell extends FrameLayout {
             }
             this.lastUpdateTime = elapsedRealtime;
             TLRPC$User tLRPC$User2 = this.user;
-            boolean z = !tLRPC$User2.self && !tLRPC$User2.bot && (((tLRPC$UserStatus = tLRPC$User2.status) != null && tLRPC$UserStatus.expires > ConnectionsManager.getInstance(this.currentAccount).getCurrentTime()) || MessagesController.getInstance(this.currentAccount).onlinePrivacy.containsKey(Long.valueOf(this.user.id)));
+            boolean z = (tLRPC$User2.self || tLRPC$User2.bot || (((tLRPC$UserStatus = tLRPC$User2.status) == null || tLRPC$UserStatus.expires <= ConnectionsManager.getInstance(this.currentAccount).getCurrentTime()) && !MessagesController.getInstance(this.currentAccount).onlinePrivacy.containsKey(Long.valueOf(this.user.id)))) ? false : true;
             if (z || this.onlineProgress != 0.0f) {
                 int bottom = this.imageView.getBottom() - AndroidUtilities.dp(6.0f);
                 int right = this.imageView.getRight() - AndroidUtilities.dp(10.0f);

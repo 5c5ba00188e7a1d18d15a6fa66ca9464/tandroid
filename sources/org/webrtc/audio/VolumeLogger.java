@@ -42,8 +42,7 @@ class VolumeLogger {
             int mode = VolumeLogger.this.audioManager.getMode();
             if (mode == 1) {
                 Logging.d(VolumeLogger.TAG, "STREAM_RING stream volume: " + VolumeLogger.this.audioManager.getStreamVolume(2) + " (max=" + this.maxRingVolume + ")");
-            } else if (mode != 3) {
-            } else {
+            } else if (mode == 3) {
                 Logging.d(VolumeLogger.TAG, "VOICE_CALL stream volume: " + VolumeLogger.this.audioManager.getStreamVolume(0) + " (max=" + this.maxVoiceCallVolume + ")");
             }
         }

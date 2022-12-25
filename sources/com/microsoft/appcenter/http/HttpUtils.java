@@ -47,15 +47,10 @@ public class HttpUtils {
     }
 
     public static String hideSecret(String str) {
-        int length = str.length();
-        int i = 8;
-        if (str.length() < 8) {
-            i = 0;
-        }
-        int i2 = length - i;
-        char[] cArr = new char[i2];
+        int length = str.length() - (str.length() < 8 ? 0 : 8);
+        char[] cArr = new char[length];
         Arrays.fill(cArr, '*');
-        return new String(cArr) + str.substring(i2);
+        return new String(cArr) + str.substring(length);
     }
 
     public static String hideApiKeys(String str) {

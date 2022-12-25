@@ -21,16 +21,15 @@ abstract class k2 implements j$.util.u {
     public final A1 a(Deque deque) {
         while (true) {
             A1 a1 = (A1) deque.pollFirst();
-            if (a1 != null) {
-                if (a1.p() != 0) {
-                    for (int p = a1.p() - 1; p >= 0; p--) {
-                        deque.addFirst(a1.b(p));
-                    }
-                } else if (a1.count() > 0) {
-                    return a1;
-                }
-            } else {
+            if (a1 == null) {
                 return null;
+            }
+            if (a1.p() != 0) {
+                for (int p = a1.p() - 1; p >= 0; p--) {
+                    deque.addFirst(a1.b(p));
+                }
+            } else if (a1.count() > 0) {
+                return a1;
             }
         }
     }
@@ -62,11 +61,10 @@ abstract class k2 implements j$.util.u {
         int p = this.a.p();
         while (true) {
             p--;
-            if (p >= this.b) {
-                arrayDeque.addFirst(this.a.b(p));
-            } else {
+            if (p < this.b) {
                 return arrayDeque;
             }
+            arrayDeque.addFirst(this.a.b(p));
         }
     }
 
@@ -85,21 +83,21 @@ abstract class k2 implements j$.util.u {
         if (this.a == null) {
             return false;
         }
-        if (this.d != null) {
+        if (this.d == null) {
+            j$.util.u uVar = this.c;
+            if (uVar == null) {
+                Deque f = f();
+                this.e = f;
+                A1 a = a(f);
+                if (a == null) {
+                    this.a = null;
+                    return false;
+                }
+                uVar = a.spliterator();
+            }
+            this.d = uVar;
             return true;
         }
-        j$.util.u uVar = this.c;
-        if (uVar == null) {
-            Deque f = f();
-            this.e = f;
-            A1 a = a(f);
-            if (a == null) {
-                this.a = null;
-                return false;
-            }
-            uVar = a.spliterator();
-        }
-        this.d = uVar;
         return true;
     }
 

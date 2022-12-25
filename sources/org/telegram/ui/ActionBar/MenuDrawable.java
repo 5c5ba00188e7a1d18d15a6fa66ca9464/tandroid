@@ -110,18 +110,18 @@ public class MenuDrawable extends Drawable {
         invalidateSelf();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:33:0x010b  */
-    /* JADX WARN: Removed duplicated region for block: B:47:0x0385  */
-    /* JADX WARN: Removed duplicated region for block: B:54:0x03f8  */
-    /* JADX WARN: Removed duplicated region for block: B:57:0x0415  */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x0464  */
-    /* JADX WARN: Removed duplicated region for block: B:68:0x0478  */
-    /* JADX WARN: Removed duplicated region for block: B:71:0x04e3  */
-    /* JADX WARN: Removed duplicated region for block: B:76:0x0487  */
-    /* JADX WARN: Removed duplicated region for block: B:79:0x042b  */
-    /* JADX WARN: Removed duplicated region for block: B:81:0x043b  */
-    /* JADX WARN: Removed duplicated region for block: B:86:0x03a4  */
-    /* JADX WARN: Removed duplicated region for block: B:90:0x0221  */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x010b  */
+    /* JADX WARN: Removed duplicated region for block: B:54:0x0221  */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x0385  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x03a4  */
+    /* JADX WARN: Removed duplicated region for block: B:76:0x03f8  */
+    /* JADX WARN: Removed duplicated region for block: B:79:0x0415  */
+    /* JADX WARN: Removed duplicated region for block: B:83:0x042b  */
+    /* JADX WARN: Removed duplicated region for block: B:84:0x043b  */
+    /* JADX WARN: Removed duplicated region for block: B:88:0x0464  */
+    /* JADX WARN: Removed duplicated region for block: B:92:0x0478  */
+    /* JADX WARN: Removed duplicated region for block: B:93:0x0487  */
+    /* JADX WARN: Removed duplicated region for block: B:96:0x04e3  */
     @Override // android.graphics.drawable.Drawable
     /*
         Code decompiled incorrectly, please refer to instructions dump.

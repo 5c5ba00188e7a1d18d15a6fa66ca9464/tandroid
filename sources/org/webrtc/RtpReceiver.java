@@ -73,9 +73,8 @@ public class RtpReceiver {
     }
 
     private void checkRtpReceiverExists() {
-        if (this.nativeRtpReceiver != 0) {
-            return;
+        if (this.nativeRtpReceiver == 0) {
+            throw new IllegalStateException("RtpReceiver has been disposed.");
         }
-        throw new IllegalStateException("RtpReceiver has been disposed.");
     }
 }

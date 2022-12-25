@@ -123,20 +123,19 @@ public class SubstringLayoutAnimator {
                 canvas.restore();
                 textPaint.setAlpha(alpha);
             }
-            if (this.animateOutLayout == null) {
-                return;
+            if (this.animateOutLayout != null) {
+                float f4 = this.animateTextChangeOut ? this.hintProgress : 1.0f - this.hintProgress;
+                canvas.save();
+                textPaint.setAlpha((int) (alpha * (this.animateTextChangeOut ? this.hintProgress : 1.0f - this.hintProgress)));
+                canvas.translate(f, 0.0f);
+                if (this.replaceAnimation) {
+                    float f5 = (f4 * 0.1f) + 0.9f;
+                    canvas.scale(f5, f5, f, this.parentView.getMeasuredHeight() / 2.0f);
+                }
+                this.animateOutLayout.draw(canvas);
+                canvas.restore();
+                textPaint.setAlpha(alpha);
             }
-            float f4 = this.animateTextChangeOut ? this.hintProgress : 1.0f - this.hintProgress;
-            canvas.save();
-            textPaint.setAlpha((int) (alpha * (this.animateTextChangeOut ? this.hintProgress : 1.0f - this.hintProgress)));
-            canvas.translate(f, 0.0f);
-            if (this.replaceAnimation) {
-                float f5 = (f4 * 0.1f) + 0.9f;
-                canvas.scale(f5, f5, f, this.parentView.getMeasuredHeight() / 2.0f);
-            }
-            this.animateOutLayout.draw(canvas);
-            canvas.restore();
-            textPaint.setAlpha(alpha);
         }
     }
 

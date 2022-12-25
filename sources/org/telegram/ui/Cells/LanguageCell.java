@@ -14,19 +14,20 @@ import org.telegram.ui.Components.RadioButton;
 /* loaded from: classes3.dex */
 public class LanguageCell extends FrameLayout {
     private LocaleController.LocaleInfo currentLocale;
+    private int marginEndDp;
+    private int marginStartDp;
     private boolean needDivider;
     private RadioButton radioButton;
     private TextView textView;
     private TextView textView2;
-    private int marginStartDp = 62;
-    private int marginEndDp = 23;
 
     public LanguageCell(Context context) {
         super(context);
+        this.marginStartDp = 62;
+        this.marginEndDp = 23;
         if (Theme.dividerPaint == null) {
             Theme.createCommonResources(context);
         }
-        int i = 0;
         setWillNotDraw(false);
         RadioButton radioButton = new RadioButton(context);
         this.radioButton = radioButton;
@@ -34,8 +35,7 @@ public class LanguageCell extends FrameLayout {
         this.radioButton.setColor(Theme.getColor("dialogRadioBackground"), Theme.getColor("dialogRadioBackgroundChecked"));
         RadioButton radioButton2 = this.radioButton;
         boolean z = LocaleController.isRTL;
-        int i2 = 5;
-        addView(radioButton2, LayoutHelper.createFrame(22, 22.0f, (z ? 5 : 3) | 16, z ? 0 : 20, 0.0f, z ? 20 : i, 0.0f));
+        addView(radioButton2, LayoutHelper.createFrame(22, 22.0f, (z ? 5 : 3) | 16, z ? 0 : 20, 0.0f, z ? 20 : 0, 0.0f));
         TextView textView = new TextView(context);
         this.textView = textView;
         textView.setTextColor(Theme.getColor("dialogTextBlack"));
@@ -55,7 +55,7 @@ public class LanguageCell extends FrameLayout {
         this.textView2.setGravity((LocaleController.isRTL ? 5 : 3) | 16);
         TextView textView4 = this.textView2;
         boolean z3 = LocaleController.isRTL;
-        addView(textView4, LayoutHelper.createFrame(-1, -1.0f, (!z3 ? 3 : i2) | 48, z3 ? this.marginEndDp : this.marginStartDp, 20.0f, z3 ? this.marginStartDp : this.marginEndDp, 0.0f));
+        addView(textView4, LayoutHelper.createFrame(-1, -1.0f, (z3 ? 5 : 3) | 48, z3 ? this.marginEndDp : this.marginStartDp, 20.0f, z3 ? this.marginStartDp : this.marginEndDp, 0.0f));
     }
 
     @Override // android.widget.FrameLayout, android.view.View

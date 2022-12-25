@@ -128,7 +128,6 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
         View view3 = this.nameTextView;
         boolean z5 = LocaleController.isRTL;
         int i6 = (z5 ? 5 : 3) | 48;
-        int i7 = 18;
         if (z5) {
             i4 = (i2 == 2 ? 18 : 0) + 28 + i3;
         } else {
@@ -138,7 +137,7 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
         if (z5) {
             i5 = i + 64;
         } else {
-            i5 = (i2 != 2 ? 0 : i7) + 28 + i3;
+            i5 = (i2 != 2 ? 0 : 18) + 28 + i3;
         }
         addView(view3, LayoutHelper.createFrame(-1, 20.0f, i6, f, 10.0f, i5, 0.0f));
         this.emojiStatus = new AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable(this.nameTextView, AndroidUtilities.dp(20.0f));
@@ -187,12 +186,10 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
         int i2;
         float f;
         FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) this.avatarImageView.getLayoutParams();
-        float f2 = 0.0f;
         layoutParams.leftMargin = AndroidUtilities.dp(LocaleController.isRTL ? 0.0f : i + 7);
         layoutParams.rightMargin = AndroidUtilities.dp(LocaleController.isRTL ? i + 7 : 0.0f);
         this.avatarImageView.setLayoutParams(layoutParams);
         FrameLayout.LayoutParams layoutParams2 = (FrameLayout.LayoutParams) this.nameTextView.getLayoutParams();
-        int i3 = 18;
         if (LocaleController.isRTL) {
             i2 = (this.checkBoxBig != null ? 18 : 0) + 28;
         } else {
@@ -202,27 +199,17 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
         if (LocaleController.isRTL) {
             f = i + 64;
         } else {
-            if (this.checkBoxBig == null) {
-                i3 = 0;
-            }
-            f = i3 + 28;
+            f = (this.checkBoxBig == null ? 0 : 18) + 28;
         }
         layoutParams2.rightMargin = AndroidUtilities.dp(f);
         FrameLayout.LayoutParams layoutParams3 = (FrameLayout.LayoutParams) this.statusTextView.getLayoutParams();
-        float f3 = 28.0f;
         layoutParams3.leftMargin = AndroidUtilities.dp(LocaleController.isRTL ? 28.0f : i + 64);
-        if (LocaleController.isRTL) {
-            f3 = i + 64;
-        }
-        layoutParams3.rightMargin = AndroidUtilities.dp(f3);
+        layoutParams3.rightMargin = AndroidUtilities.dp(LocaleController.isRTL ? i + 64 : 28.0f);
         CheckBox checkBox = this.checkBox;
         if (checkBox != null) {
             FrameLayout.LayoutParams layoutParams4 = (FrameLayout.LayoutParams) checkBox.getLayoutParams();
             layoutParams4.leftMargin = AndroidUtilities.dp(LocaleController.isRTL ? 0.0f : i + 37);
-            if (LocaleController.isRTL) {
-                f2 = i + 37;
-            }
-            layoutParams4.rightMargin = AndroidUtilities.dp(f2);
+            layoutParams4.rightMargin = AndroidUtilities.dp(LocaleController.isRTL ? i + 37 : 0.0f);
         }
     }
 
@@ -338,16 +325,14 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
             setData(user, encryptedChat, charSequence, str, 0, false);
         } else if (DialogObject.isUserDialog(notificationException.did)) {
             TLRPC$User user2 = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(notificationException.did));
-            if (user2 == null) {
-                return;
+            if (user2 != null) {
+                setData(user2, null, charSequence, str, 0, z);
             }
-            setData(user2, null, charSequence, str, 0, z);
         } else {
             TLRPC$Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-notificationException.did));
-            if (chat == null) {
-                return;
+            if (chat != null) {
+                setData(chat, null, charSequence, str, 0, z);
             }
-            setData(chat, null, charSequence, str, 0, z);
         }
     }
 
@@ -369,13 +354,12 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
             return;
         }
         CheckBoxSquare checkBoxSquare = this.checkBoxBig;
-        if (checkBoxSquare == null) {
-            return;
+        if (checkBoxSquare != null) {
+            if (checkBoxSquare.getVisibility() != 0) {
+                this.checkBoxBig.setVisibility(0);
+            }
+            this.checkBoxBig.setChecked(z, z2);
         }
-        if (checkBoxSquare.getVisibility() != 0) {
-            this.checkBoxBig.setVisibility(0);
-        }
-        this.checkBoxBig.setChecked(z, z2);
     }
 
     public void setCheckDisabled(boolean z) {
@@ -400,7 +384,7 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:164:0x010a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:90:0x010a, code lost:
         if (r7.equals("groups") == false) goto L44;
      */
     /* JADX WARN: Multi-variable type inference failed */

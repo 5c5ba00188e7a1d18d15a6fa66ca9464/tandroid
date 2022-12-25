@@ -24,12 +24,12 @@ import org.telegram.ui.PhotoCropActivity;
 /* loaded from: classes3.dex */
 public class PhotoCropActivity extends BaseFragment {
     private String bitmapKey;
+    private PhotoEditActivityDelegate delegate;
+    private boolean doneButtonPressed;
     private BitmapDrawable drawable;
     private Bitmap imageToCrop;
+    private boolean sameBitmap;
     private PhotoCropView view;
-    private PhotoEditActivityDelegate delegate = null;
-    private boolean sameBitmap = false;
-    private boolean doneButtonPressed = false;
 
     /* loaded from: classes3.dex */
     public interface PhotoEditActivityDelegate {
@@ -48,22 +48,32 @@ public class PhotoCropActivity extends BaseFragment {
         int bitmapWidth;
         int bitmapX;
         int bitmapY;
+        Paint circlePaint;
+        int draggingState;
         boolean freeform;
+        Paint halfPaint;
+        float oldX;
+        float oldY;
+        Paint rectPaint;
+        float rectSizeX;
+        float rectSizeY;
+        float rectX;
+        float rectY;
         int viewHeight;
         int viewWidth;
-        Paint rectPaint = null;
-        Paint circlePaint = null;
-        Paint halfPaint = null;
-        float rectSizeX = 600.0f;
-        float rectSizeY = 600.0f;
-        float rectX = -1.0f;
-        float rectY = -1.0f;
-        int draggingState = 0;
-        float oldX = 0.0f;
-        float oldY = 0.0f;
 
         public PhotoCropView(Context context) {
             super(context);
+            this.rectPaint = null;
+            this.circlePaint = null;
+            this.halfPaint = null;
+            this.rectSizeX = 600.0f;
+            this.rectSizeY = 600.0f;
+            this.rectX = -1.0f;
+            this.rectY = -1.0f;
+            this.draggingState = 0;
+            this.oldX = 0.0f;
+            this.oldY = 0.0f;
             init();
         }
 
@@ -91,7 +101,7 @@ public class PhotoCropActivity extends BaseFragment {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* JADX WARN: Removed duplicated region for block: B:14:0x00bb  */
+        /* JADX WARN: Removed duplicated region for block: B:52:0x00bb  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -445,7 +455,7 @@ public class PhotoCropActivity extends BaseFragment {
             }
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:6:0x01b4 A[LOOP:0: B:5:0x01b2->B:6:0x01b4, LOOP_END] */
+        /* JADX WARN: Removed duplicated region for block: B:16:0x01b4 A[LOOP:0: B:15:0x01b2->B:16:0x01b4, LOOP_END] */
         @Override // android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -552,6 +562,9 @@ public class PhotoCropActivity extends BaseFragment {
 
     public PhotoCropActivity(Bundle bundle) {
         super(bundle);
+        this.delegate = null;
+        this.sameBitmap = false;
+        this.doneButtonPressed = false;
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -612,8 +625,7 @@ public class PhotoCropActivity extends BaseFragment {
             public void onItemClick(int i) {
                 if (i == -1) {
                     PhotoCropActivity.this.finishFragment();
-                } else if (i != 1) {
-                } else {
+                } else if (i == 1) {
                     if (PhotoCropActivity.this.delegate != null && !PhotoCropActivity.this.doneButtonPressed) {
                         Bitmap bitmap = PhotoCropActivity.this.view.getBitmap();
                         if (bitmap == PhotoCropActivity.this.imageToCrop) {

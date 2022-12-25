@@ -37,21 +37,22 @@ public class zzlh<K extends Comparable<K>, V> extends AbstractMap<K, V> {
     public void zza() {
         Map<K, V> unmodifiableMap;
         Map<K, V> unmodifiableMap2;
-        if (!this.zzd) {
-            if (this.zzc.isEmpty()) {
-                unmodifiableMap = Collections.emptyMap();
-            } else {
-                unmodifiableMap = Collections.unmodifiableMap(this.zzc);
-            }
-            this.zzc = unmodifiableMap;
-            if (this.zzf.isEmpty()) {
-                unmodifiableMap2 = Collections.emptyMap();
-            } else {
-                unmodifiableMap2 = Collections.unmodifiableMap(this.zzf);
-            }
-            this.zzf = unmodifiableMap2;
-            this.zzd = true;
+        if (this.zzd) {
+            return;
         }
+        if (this.zzc.isEmpty()) {
+            unmodifiableMap = Collections.emptyMap();
+        } else {
+            unmodifiableMap = Collections.unmodifiableMap(this.zzc);
+        }
+        this.zzc = unmodifiableMap;
+        if (this.zzf.isEmpty()) {
+            unmodifiableMap2 = Collections.emptyMap();
+        } else {
+            unmodifiableMap2 = Collections.unmodifiableMap(this.zzf);
+        }
+        this.zzf = unmodifiableMap2;
+        this.zzd = true;
     }
 
     public final boolean zzb() {
@@ -126,9 +127,10 @@ public class zzlh<K extends Comparable<K>, V> extends AbstractMap<K, V> {
         if (!this.zzb.isEmpty()) {
             this.zzb.clear();
         }
-        if (!this.zzc.isEmpty()) {
-            this.zzc.clear();
+        if (this.zzc.isEmpty()) {
+            return;
         }
+        this.zzc.clear();
     }
 
     /* JADX WARN: Multi-variable type inference failed */
@@ -140,10 +142,10 @@ public class zzlh<K extends Comparable<K>, V> extends AbstractMap<K, V> {
         if (zza >= 0) {
             return (V) zzc(zza);
         }
-        if (!this.zzc.isEmpty()) {
-            return this.zzc.remove(comparable);
+        if (this.zzc.isEmpty()) {
+            return null;
         }
-        return null;
+        return this.zzc.remove(comparable);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -202,10 +204,9 @@ public class zzlh<K extends Comparable<K>, V> extends AbstractMap<K, V> {
 
     /* JADX INFO: Access modifiers changed from: private */
     public final void zzf() {
-        if (!this.zzd) {
-            return;
+        if (this.zzd) {
+            throw new UnsupportedOperationException();
         }
-        throw new UnsupportedOperationException();
     }
 
     private final SortedMap<K, V> zzg() {
@@ -240,10 +241,10 @@ public class zzlh<K extends Comparable<K>, V> extends AbstractMap<K, V> {
                 return false;
             }
         }
-        if (zzc == size) {
-            return true;
+        if (zzc != size) {
+            return this.zzc.equals(zzlhVar.zzc);
         }
-        return this.zzc.equals(zzlhVar.zzc);
+        return true;
     }
 
     @Override // java.util.AbstractMap, java.util.Map

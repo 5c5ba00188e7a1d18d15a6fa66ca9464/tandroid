@@ -58,10 +58,9 @@ public class LinearSmoothScroller extends RecyclerView.SmoothScroller {
             this.mInterimTargetDx = clampApplyScroll(this.mInterimTargetDx, i);
             int clampApplyScroll = clampApplyScroll(this.mInterimTargetDy, i2);
             this.mInterimTargetDy = clampApplyScroll;
-            if (this.mInterimTargetDx != 0 || clampApplyScroll != 0) {
-                return;
+            if (this.mInterimTargetDx == 0 && clampApplyScroll == 0) {
+                updateActionForInterimTarget(action);
             }
-            updateActionForInterimTarget(action);
         }
     }
 
@@ -138,20 +137,20 @@ public class LinearSmoothScroller extends RecyclerView.SmoothScroller {
     public int calculateDtToFit(int i, int i2, int i3, int i4, int i5) {
         if (i5 != -1) {
             if (i5 != 0) {
-                if (i5 != 1) {
-                    throw new IllegalArgumentException("snap preference should be one of the constants defined in SmoothScroller, starting with SNAP_");
+                if (i5 == 1) {
+                    return i4 - i2;
                 }
-                return i4 - i2;
+                throw new IllegalArgumentException("snap preference should be one of the constants defined in SmoothScroller, starting with SNAP_");
             }
             int i6 = i3 - i;
             if (i6 > 0) {
                 return i6;
             }
             int i7 = i4 - i2;
-            if (i7 >= 0) {
-                return 0;
+            if (i7 < 0) {
+                return i7;
             }
-            return i7;
+            return 0;
         }
         return i3 - i;
     }

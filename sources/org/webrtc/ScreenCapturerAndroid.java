@@ -42,10 +42,9 @@ public class ScreenCapturerAndroid implements VideoCapturer, VideoSink {
     }
 
     private void checkNotDisposed() {
-        if (!this.isDisposed) {
-            return;
+        if (this.isDisposed) {
+            throw new RuntimeException("capturer is disposed.");
         }
-        throw new RuntimeException("capturer is disposed.");
     }
 
     public MediaProjection getMediaProjection() {

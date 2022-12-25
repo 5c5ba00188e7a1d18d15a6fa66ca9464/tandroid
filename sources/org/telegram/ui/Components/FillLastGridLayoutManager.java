@@ -9,13 +9,13 @@ import androidx.recyclerview.widget.RecyclerView;
 /* loaded from: classes3.dex */
 public class FillLastGridLayoutManager extends GridLayoutManager {
     private int additionalHeight;
+    private boolean bind;
+    private boolean canScrollVertically;
+    private SparseArray<RecyclerView.ViewHolder> heights;
+    protected int lastItemHeight;
     private int listHeight;
     private RecyclerView listView;
     private int listWidth;
-    private SparseArray<RecyclerView.ViewHolder> heights = new SparseArray<>();
-    protected int lastItemHeight = -1;
-    private boolean bind = true;
-    private boolean canScrollVertically = true;
 
     protected boolean shouldCalcLastItemHeight() {
         return true;
@@ -27,12 +27,20 @@ public class FillLastGridLayoutManager extends GridLayoutManager {
 
     public FillLastGridLayoutManager(Context context, int i, int i2, RecyclerView recyclerView) {
         super(context, i);
+        this.heights = new SparseArray<>();
+        this.lastItemHeight = -1;
+        this.bind = true;
+        this.canScrollVertically = true;
         this.listView = recyclerView;
         this.additionalHeight = i2;
     }
 
     public FillLastGridLayoutManager(Context context, int i, int i2, boolean z, int i3, RecyclerView recyclerView) {
         super(context, i, i2, z);
+        this.heights = new SparseArray<>();
+        this.lastItemHeight = -1;
+        this.bind = true;
+        this.canScrollVertically = true;
         this.listView = recyclerView;
         this.additionalHeight = i3;
     }

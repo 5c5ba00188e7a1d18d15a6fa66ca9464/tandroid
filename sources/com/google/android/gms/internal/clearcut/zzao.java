@@ -37,10 +37,10 @@ public final class zzao {
 
     public final zzao zzc(String str) {
         boolean z = this.zzej;
-        if (!z) {
-            return new zzao(this.zzef, this.zzeg, str, this.zzei, z, this.zzek);
+        if (z) {
+            throw new IllegalStateException("Cannot set GServices prefix and skip GServices");
         }
-        throw new IllegalStateException("Cannot set GServices prefix and skip GServices");
+        return new zzao(this.zzef, this.zzeg, str, this.zzei, z, this.zzek);
     }
 
     public final zzao zzd(String str) {

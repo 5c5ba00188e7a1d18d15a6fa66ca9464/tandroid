@@ -49,10 +49,10 @@ class ClassesInfoCache {
     private void verifyAndPutHandler(Map<MethodReference, Lifecycle.Event> map, MethodReference methodReference, Lifecycle.Event event, Class cls) {
         Lifecycle.Event event2 = map.get(methodReference);
         if (event2 == null || event == event2) {
-            if (event2 != null) {
+            if (event2 == null) {
+                map.put(methodReference, event);
                 return;
             }
-            map.put(methodReference, event);
             return;
         }
         Method method = methodReference.mMethod;

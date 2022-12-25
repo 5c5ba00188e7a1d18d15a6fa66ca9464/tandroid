@@ -148,10 +148,10 @@ public final class FingerprintManagerCompat {
             if (cryptoObject.getSignature() != null) {
                 return new FingerprintManagerCompatApi23.CryptoObject(cryptoObject.getSignature());
             }
-            if (cryptoObject.getMac() == null) {
-                return null;
+            if (cryptoObject.getMac() != null) {
+                return new FingerprintManagerCompatApi23.CryptoObject(cryptoObject.getMac());
             }
-            return new FingerprintManagerCompatApi23.CryptoObject(cryptoObject.getMac());
+            return null;
         }
 
         static CryptoObject unwrapCryptoObject(FingerprintManagerCompatApi23.CryptoObject cryptoObject) {
@@ -164,10 +164,10 @@ public final class FingerprintManagerCompat {
             if (cryptoObject.getSignature() != null) {
                 return new CryptoObject(cryptoObject.getSignature());
             }
-            if (cryptoObject.getMac() == null) {
-                return null;
+            if (cryptoObject.getMac() != null) {
+                return new CryptoObject(cryptoObject.getMac());
             }
-            return new CryptoObject(cryptoObject.getMac());
+            return null;
         }
 
         private static FingerprintManagerCompatApi23.AuthenticationCallback wrapCallback(final AuthenticationCallback authenticationCallback) {

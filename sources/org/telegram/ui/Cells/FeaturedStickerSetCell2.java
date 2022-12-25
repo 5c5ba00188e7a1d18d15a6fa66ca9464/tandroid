@@ -44,7 +44,7 @@ import org.telegram.ui.Components.RecyclerListView;
 /* loaded from: classes3.dex */
 public class FeaturedStickerSetCell2 extends FrameLayout {
     private final ProgressButton addButton;
-    private final int currentAccount = UserConfig.selectedAccount;
+    private final int currentAccount;
     private AnimatorSet currentAnimation;
     private final TextView delButton;
     private final BackupImageView imageView;
@@ -62,6 +62,7 @@ public class FeaturedStickerSetCell2 extends FrameLayout {
 
     public FeaturedStickerSetCell2(Context context, Theme.ResourcesProvider resourcesProvider) {
         super(context);
+        this.currentAccount = UserConfig.selectedAccount;
         this.resourcesProvider = resourcesProvider;
         TextView textView = new TextView(context);
         this.textView = textView;
@@ -71,10 +72,8 @@ public class FeaturedStickerSetCell2 extends FrameLayout {
         textView.setMaxLines(1);
         textView.setSingleLine(true);
         textView.setEllipsize(TextUtils.TruncateAt.END);
-        int i = 5;
         textView.setGravity(LocaleController.isRTL ? 5 : 3);
         boolean z = LocaleController.isRTL;
-        float f = 71.0f;
         addView(textView, LayoutHelper.createFrame(-2, -2.0f, z ? 5 : 3, z ? 22.0f : 71.0f, 10.0f, z ? 71.0f : 22.0f, 0.0f));
         TextView textView2 = new TextView(context);
         this.valueTextView = textView2;
@@ -86,13 +85,13 @@ public class FeaturedStickerSetCell2 extends FrameLayout {
         textView2.setEllipsize(TextUtils.TruncateAt.END);
         textView2.setGravity(LocaleController.isRTL ? 5 : 3);
         boolean z2 = LocaleController.isRTL;
-        addView(textView2, LayoutHelper.createFrame(-2, -2.0f, z2 ? 5 : 3, z2 ? 100.0f : 71.0f, 35.0f, !z2 ? 100.0f : f, 0.0f));
+        addView(textView2, LayoutHelper.createFrame(-2, -2.0f, z2 ? 5 : 3, z2 ? 100.0f : 71.0f, 35.0f, z2 ? 71.0f : 100.0f, 0.0f));
         BackupImageView backupImageView = new BackupImageView(context);
         this.imageView = backupImageView;
         backupImageView.setAspectFit(true);
         backupImageView.setLayerNum(1);
         boolean z3 = LocaleController.isRTL;
-        addView(backupImageView, LayoutHelper.createFrame(48, 48.0f, (!z3 ? 3 : i) | 48, z3 ? 0.0f : 12.0f, 8.0f, z3 ? 12.0f : 0.0f, 0.0f));
+        addView(backupImageView, LayoutHelper.createFrame(48, 48.0f, (z3 ? 5 : 3) | 48, z3 ? 0.0f : 12.0f, 8.0f, z3 ? 12.0f : 0.0f, 0.0f));
         ProgressButton progressButton = new ProgressButton(context);
         this.addButton = progressButton;
         progressButton.setText(LocaleController.getString("Add", R.string.Add));
@@ -154,10 +153,10 @@ public class FeaturedStickerSetCell2 extends FrameLayout {
         measureChildWithMargins(this.textView, i, measuredWidth, i2, 0);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:118:0x017f  */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x00d2  */
-    /* JADX WARN: Removed duplicated region for block: B:46:0x01c4  */
-    /* JADX WARN: Removed duplicated region for block: B:96:0x02e3  */
+    /* JADX WARN: Removed duplicated region for block: B:137:0x02e3  */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x00d2  */
+    /* JADX WARN: Removed duplicated region for block: B:71:0x017f  */
+    /* JADX WARN: Removed duplicated region for block: B:87:0x01c4  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -248,7 +247,6 @@ public class FeaturedStickerSetCell2 extends FrameLayout {
                         tLRPC$Document = tLRPC$Document3;
                     }
                 }
-                float f = 1.0f;
                 if (tLRPC$Document == null) {
                     if (MessageObject.canAutoplayAnimatedSticker(tLRPC$Document)) {
                         TLObject closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(tLRPC$StickerSetCovered.set.thumbs, 90);
@@ -263,16 +261,16 @@ public class FeaturedStickerSetCell2 extends FrameLayout {
                             forSticker = ImageLocation.getForSticker((TLRPC$PhotoSize) closestPhotoSizeWithSize, tLRPC$Document, tLRPC$StickerSetCovered.set.thumb_version);
                         }
                         ImageLocation imageLocation = forSticker;
-                        if (!z6 || !MessageObject.isAnimatedStickerDocument(tLRPC$Document, true)) {
-                            if (imageLocation != null && imageLocation.imageType == 1) {
-                                this.imageView.setImage(imageLocation, "50_50", "tgs", svgThumb, tLRPC$StickerSetCovered);
+                        if (z6 && MessageObject.isAnimatedStickerDocument(tLRPC$Document, true)) {
+                            if (svgThumb != null) {
+                                this.imageView.setImage(ImageLocation.getForDocument(tLRPC$Document), "50_50", svgThumb, 0, tLRPC$StickerSetCovered);
                             } else {
-                                this.imageView.setImage(imageLocation, "50_50", "webp", svgThumb, tLRPC$StickerSetCovered);
+                                this.imageView.setImage(ImageLocation.getForDocument(tLRPC$Document), "50_50", imageLocation, (String) null, 0, tLRPC$StickerSetCovered);
                             }
-                        } else if (svgThumb != null) {
-                            this.imageView.setImage(ImageLocation.getForDocument(tLRPC$Document), "50_50", svgThumb, 0, tLRPC$StickerSetCovered);
+                        } else if (imageLocation != null && imageLocation.imageType == 1) {
+                            this.imageView.setImage(imageLocation, "50_50", "tgs", svgThumb, tLRPC$StickerSetCovered);
                         } else {
-                            this.imageView.setImage(ImageLocation.getForDocument(tLRPC$Document), "50_50", imageLocation, (String) null, 0, tLRPC$StickerSetCovered);
+                            this.imageView.setImage(imageLocation, "50_50", "webp", svgThumb, tLRPC$StickerSetCovered);
                         }
                     } else {
                         TLRPC$PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 90);
@@ -385,10 +383,7 @@ public class FeaturedStickerSetCell2 extends FrameLayout {
                 PremiumButtonView premiumButtonView3 = this.unlockButton;
                 Property property8 = View.SCALE_Y;
                 float[] fArr8 = new float[1];
-                if (!this.isLocked) {
-                    f = 0.0f;
-                }
-                fArr8[0] = f;
+                fArr8[0] = this.isLocked ? 1.0f : 0.0f;
                 animatorArr[7] = ObjectAnimator.ofFloat(premiumButtonView3, property8, fArr8);
                 animatorSet3.playTogether(animatorArr);
                 this.currentAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.FeaturedStickerSetCell2.2
@@ -414,7 +409,6 @@ public class FeaturedStickerSetCell2 extends FrameLayout {
             }
         }
         tLRPC$Document = tLRPC$Document2;
-        float f2 = 1.0f;
         if (tLRPC$Document == null) {
         }
         this.addButton.setVisibility(0);

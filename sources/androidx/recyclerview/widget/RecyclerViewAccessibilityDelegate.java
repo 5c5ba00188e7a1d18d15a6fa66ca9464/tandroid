@@ -23,10 +23,10 @@ public class RecyclerViewAccessibilityDelegate extends AccessibilityDelegateComp
         if (super.performAccessibilityAction(view, i, bundle)) {
             return true;
         }
-        if (!shouldIgnore() && this.mRecyclerView.getLayoutManager() != null) {
-            return this.mRecyclerView.getLayoutManager().performAccessibilityAction(i, bundle);
+        if (shouldIgnore() || this.mRecyclerView.getLayoutManager() == null) {
+            return false;
         }
-        return false;
+        return this.mRecyclerView.getLayoutManager().performAccessibilityAction(i, bundle);
     }
 
     @Override // androidx.core.view.AccessibilityDelegateCompat
@@ -45,10 +45,9 @@ public class RecyclerViewAccessibilityDelegate extends AccessibilityDelegateComp
             return;
         }
         RecyclerView recyclerView = (RecyclerView) view;
-        if (recyclerView.getLayoutManager() == null) {
-            return;
+        if (recyclerView.getLayoutManager() != null) {
+            recyclerView.getLayoutManager().onInitializeAccessibilityEvent(accessibilityEvent);
         }
-        recyclerView.getLayoutManager().onInitializeAccessibilityEvent(accessibilityEvent);
     }
 
     public AccessibilityDelegateCompat getItemDelegate() {
@@ -77,10 +76,10 @@ public class RecyclerViewAccessibilityDelegate extends AccessibilityDelegateComp
             if (super.performAccessibilityAction(view, i, bundle)) {
                 return true;
             }
-            if (!this.mRecyclerViewDelegate.shouldIgnore() && this.mRecyclerViewDelegate.mRecyclerView.getLayoutManager() != null) {
-                return this.mRecyclerViewDelegate.mRecyclerView.getLayoutManager().performAccessibilityActionForItem(view, i, bundle);
+            if (this.mRecyclerViewDelegate.shouldIgnore() || this.mRecyclerViewDelegate.mRecyclerView.getLayoutManager() == null) {
+                return false;
             }
-            return false;
+            return this.mRecyclerViewDelegate.mRecyclerView.getLayoutManager().performAccessibilityActionForItem(view, i, bundle);
         }
     }
 }

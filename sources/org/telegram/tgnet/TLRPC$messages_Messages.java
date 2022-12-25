@@ -252,12 +252,12 @@ public abstract class TLRPC$messages_Messages extends TLObject {
                 tLRPC$TL_messages_messages = null;
                 break;
         }
-        if (tLRPC$TL_messages_messages != null || !z) {
-            if (tLRPC$TL_messages_messages != null) {
-                tLRPC$TL_messages_messages.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_messages_messages;
+        if (tLRPC$TL_messages_messages == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in messages_Messages", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in messages_Messages", Integer.valueOf(i)));
+        if (tLRPC$TL_messages_messages != null) {
+            tLRPC$TL_messages_messages.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_messages_messages;
     }
 }

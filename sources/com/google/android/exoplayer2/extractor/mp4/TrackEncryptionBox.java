@@ -12,8 +12,7 @@ public final class TrackEncryptionBox {
     public final String schemeType;
 
     public TrackEncryptionBox(boolean z, String str, int i, byte[] bArr, int i2, int i3, byte[] bArr2) {
-        boolean z2 = true;
-        Assertions.checkArgument((bArr2 != null ? false : z2) ^ (i == 0));
+        Assertions.checkArgument((bArr2 == null) ^ (i == 0));
         this.isEncrypted = z;
         this.schemeType = str;
         this.perSampleIvSize = i;

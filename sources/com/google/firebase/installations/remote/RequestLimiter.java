@@ -44,11 +44,8 @@ class RequestLimiter {
     public synchronized boolean isRequestAllowed() {
         boolean z;
         if (this.attemptCount != 0) {
-            if (this.utils.currentTimeInMillis() <= this.nextRequestTime) {
-                z = false;
-            }
+            z = this.utils.currentTimeInMillis() > this.nextRequestTime;
         }
-        z = true;
         return z;
     }
 }

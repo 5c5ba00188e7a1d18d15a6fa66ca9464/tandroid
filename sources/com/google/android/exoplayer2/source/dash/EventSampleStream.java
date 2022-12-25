@@ -49,8 +49,7 @@ final class EventSampleStream implements SampleStream {
         long j2 = this.pendingSeekPositionUs;
         if (j2 != -9223372036854775807L) {
             seekToUs(j2);
-        } else if (j == -9223372036854775807L) {
-        } else {
+        } else if (j != -9223372036854775807L) {
             this.currentIndex = Util.binarySearchCeil(jArr, j, false, false);
         }
     }
@@ -59,10 +58,7 @@ final class EventSampleStream implements SampleStream {
         boolean z = true;
         int binarySearchCeil = Util.binarySearchCeil(this.eventTimesUs, j, true, false);
         this.currentIndex = binarySearchCeil;
-        if (!this.eventStreamAppendable || binarySearchCeil != this.eventTimesUs.length) {
-            z = false;
-        }
-        if (!z) {
+        if (!((this.eventStreamAppendable && binarySearchCeil == this.eventTimesUs.length) ? false : false)) {
             j = -9223372036854775807L;
         }
         this.pendingSeekPositionUs = j;
@@ -85,14 +81,14 @@ final class EventSampleStream implements SampleStream {
         }
         this.currentIndex = i + 1;
         byte[] encode = this.eventMessageEncoder.encode(this.eventStream.events[i]);
-        if (encode == null) {
-            return -3;
+        if (encode != null) {
+            decoderInputBuffer.ensureSpaceForWrite(encode.length);
+            decoderInputBuffer.data.put(encode);
+            decoderInputBuffer.timeUs = this.eventTimesUs[i];
+            decoderInputBuffer.setFlags(1);
+            return -4;
         }
-        decoderInputBuffer.ensureSpaceForWrite(encode.length);
-        decoderInputBuffer.data.put(encode);
-        decoderInputBuffer.timeUs = this.eventTimesUs[i];
-        decoderInputBuffer.setFlags(1);
-        return -4;
+        return -3;
     }
 
     @Override // com.google.android.exoplayer2.source.SampleStream

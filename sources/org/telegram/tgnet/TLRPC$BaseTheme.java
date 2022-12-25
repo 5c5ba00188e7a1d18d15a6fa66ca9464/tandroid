@@ -23,12 +23,12 @@ public abstract class TLRPC$BaseTheme extends TLObject {
                 tLRPC$TL_baseThemeNight = null;
                 break;
         }
-        if (tLRPC$TL_baseThemeNight != null || !z) {
-            if (tLRPC$TL_baseThemeNight != null) {
-                tLRPC$TL_baseThemeNight.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_baseThemeNight;
+        if (tLRPC$TL_baseThemeNight == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in BaseTheme", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in BaseTheme", Integer.valueOf(i)));
+        if (tLRPC$TL_baseThemeNight != null) {
+            tLRPC$TL_baseThemeNight.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_baseThemeNight;
     }
 }

@@ -149,10 +149,10 @@ public class ContextCompat {
             return (T) Api23Impl.getSystemService(context, serviceClass);
         }
         String systemServiceName = getSystemServiceName(context, serviceClass);
-        if (systemServiceName == null) {
-            return null;
+        if (systemServiceName != null) {
+            return (T) context.getSystemService(systemServiceName);
         }
-        return (T) context.getSystemService(systemServiceName);
+        return null;
     }
 
     public static String getSystemServiceName(Context context, Class<?> serviceClass) {

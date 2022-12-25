@@ -114,11 +114,10 @@ public final class BackgroundDetector implements Application.ActivityLifecycleCa
 
     @Override // android.content.ComponentCallbacks2
     public final void onTrimMemory(int i) {
-        if (i != 20 || !this.zzb.compareAndSet(false, true)) {
-            return;
+        if (i == 20 && this.zzb.compareAndSet(false, true)) {
+            this.zzc.set(true);
+            zza(true);
         }
-        this.zzc.set(true);
-        zza(true);
     }
 
     @TargetApi(16)

@@ -52,11 +52,11 @@ public class zzlo extends AbstractSet<Map.Entry<K, V>> {
     @Override // java.util.AbstractCollection, java.util.Collection, java.util.Set
     public /* synthetic */ boolean add(Object obj) {
         Map.Entry entry = (Map.Entry) obj;
-        if (!contains(entry)) {
-            this.zza.zza((zzlh) ((Comparable) entry.getKey()), (Comparable) entry.getValue());
-            return true;
+        if (contains(entry)) {
+            return false;
         }
-        return false;
+        this.zza.zza((zzlh) ((Comparable) entry.getKey()), (Comparable) entry.getValue());
+        return true;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

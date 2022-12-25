@@ -59,12 +59,12 @@ public abstract class TLRPC$upload_File extends TLObject {
                 }
             };
         }
-        if (tLRPC$upload_File != null || !z) {
-            if (tLRPC$upload_File != null) {
-                tLRPC$upload_File.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$upload_File;
+        if (tLRPC$upload_File == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in upload_File", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in upload_File", Integer.valueOf(i)));
+        if (tLRPC$upload_File != null) {
+            tLRPC$upload_File.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$upload_File;
     }
 }

@@ -103,6 +103,7 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
     private ImageView backIcon;
     View bottomShadow;
     private VoIPButtonsLayout buttonsLayout;
+    TLRPC$User callingUser;
     boolean callingUserIsVideo;
     private VoIPFloatingLayout callingUserMiniFloatingLayout;
     private TextureViewRenderer callingUserMiniTextureRenderer;
@@ -116,6 +117,7 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
     private boolean canSwitchToPip;
     private boolean canZoomGesture;
     private final int currentAccount;
+    private int currentState;
     private VoIPFloatingLayout currentUserCameraFloatingLayout;
     private boolean currentUserCameraIsFullscreen;
     boolean currentUserIsVideo;
@@ -150,6 +152,7 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
     private int pointerId1;
     private int pointerId2;
     private PrivateVideoPreviewDialog previewDialog;
+    private int previousState;
     private boolean screenWasWakeup;
     private ImageView speakerPhoneIcon;
     LinearLayout statusLayout;
@@ -190,9 +193,6 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
         }
     };
     float pinchScale = 1.0f;
-    TLRPC$User callingUser = VoIPService.getSharedInstance().getUser();
-    private int previousState = -1;
-    private int currentState = VoIPService.getSharedInstance().getCallState();
 
     @Override // org.telegram.messenger.voip.VoIPService.StateListener
     public /* synthetic */ void onCameraFirstFrameAvailable() {
@@ -218,13 +218,12 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$2() {
         this.hideUiRunnableWaiting = false;
-        if (!this.canHideUI || !this.uiVisible || this.emojiExpanded) {
-            return;
+        if (this.canHideUI && this.uiVisible && !this.emojiExpanded) {
+            this.lastContentTapTime = System.currentTimeMillis();
+            showUi(false);
+            this.previousState = this.currentState;
+            updateViewState();
         }
-        this.lastContentTapTime = System.currentTimeMillis();
-        showUi(false);
-        this.previousState = this.currentState;
-        updateViewState();
     }
 
     public static void show(Activity activity, int i) {
@@ -416,8 +415,11 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
     public VoIPFragment(int i) {
         this.currentAccount = i;
         MessagesController.getInstance(i).getUser(Long.valueOf(UserConfig.getInstance(i).getClientUserId()));
+        this.callingUser = VoIPService.getSharedInstance().getUser();
         VoIPService.getSharedInstance().registerStateListener(this);
         VoIPService.getSharedInstance().isOutgoing();
+        this.previousState = -1;
+        this.currentState = VoIPService.getSharedInstance().getCallState();
         NotificationCenter.getInstance(i).addObserver(this, NotificationCenter.voipServiceCreated);
         NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.emojiLoaded);
         NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.closeInCallActivity);
@@ -440,10 +442,9 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
         if (i2 != i) {
             this.previousState = i2;
             this.currentState = i;
-            if (this.windowView == null) {
-                return;
+            if (this.windowView != null) {
+                updateViewState();
             }
-            updateViewState();
         }
     }
 
@@ -460,8 +461,7 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
             VoIPService.getSharedInstance().registerStateListener(this);
         } else if (i == NotificationCenter.emojiLoaded) {
             updateKeyView(true);
-        } else if (i != NotificationCenter.closeInCallActivity) {
-        } else {
+        } else if (i == NotificationCenter.closeInCallActivity) {
             this.windowView.finish();
         }
     }
@@ -879,13 +879,11 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
                     }
                 } else if (Build.VERSION.SDK_INT >= 23 && VoIPFragment.this.activity.checkSelfPermission("android.permission.RECORD_AUDIO") != 0) {
                     VoIPFragment.this.activity.requestPermissions(new String[]{"android.permission.RECORD_AUDIO"}, FileLoader.MEDIA_DIR_VIDEO_PUBLIC);
-                } else if (VoIPService.getSharedInstance() == null) {
-                } else {
+                } else if (VoIPService.getSharedInstance() != null) {
                     VoIPService.getSharedInstance().acceptIncomingCall();
-                    if (!VoIPFragment.this.currentUserIsVideo) {
-                        return;
+                    if (VoIPFragment.this.currentUserIsVideo) {
+                        VoIPService.getSharedInstance().requestVideoCall(false);
                     }
-                    VoIPService.getSharedInstance().requestVideoCall(false);
                 }
             }
 
@@ -893,8 +891,7 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
             public void onDecline() {
                 if (VoIPFragment.this.currentState == 17) {
                     VoIPFragment.this.windowView.finish();
-                } else if (VoIPService.getSharedInstance() == null) {
-                } else {
+                } else if (VoIPService.getSharedInstance() != null) {
                     VoIPService.getSharedInstance().declineIncomingCall();
                 }
             }
@@ -987,17 +984,16 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$6(View view) {
-        if (!this.currentUserIsVideo || !this.callingUserIsVideo || System.currentTimeMillis() - this.lastContentTapTime <= 500) {
-            return;
+        if (this.currentUserIsVideo && this.callingUserIsVideo && System.currentTimeMillis() - this.lastContentTapTime > 500) {
+            AndroidUtilities.cancelRunOnUIThread(this.hideUIRunnable);
+            this.hideUiRunnableWaiting = false;
+            this.lastContentTapTime = System.currentTimeMillis();
+            this.callingUserMiniFloatingLayout.setRelativePosition(this.currentUserCameraFloatingLayout);
+            this.currentUserCameraIsFullscreen = true;
+            this.cameraForceExpanded = true;
+            this.previousState = this.currentState;
+            updateViewState();
         }
-        AndroidUtilities.cancelRunOnUIThread(this.hideUIRunnable);
-        this.hideUiRunnableWaiting = false;
-        this.lastContentTapTime = System.currentTimeMillis();
-        this.callingUserMiniFloatingLayout.setRelativePosition(this.currentUserCameraFloatingLayout);
-        this.currentUserCameraIsFullscreen = true;
-        this.cameraForceExpanded = true;
-        this.previousState = this.currentState;
-        updateViewState();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1021,10 +1017,9 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
             return;
         }
         this.lastContentTapTime = System.currentTimeMillis();
-        if (!this.emojiLoaded) {
-            return;
+        if (this.emojiLoaded) {
+            expandEmoji(!this.emojiExpanded);
         }
-        expandEmoji(!this.emojiExpanded);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1037,9 +1032,10 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$10(View view) {
-        if (!this.lockOnScreen) {
-            onBackPressed();
+        if (this.lockOnScreen) {
+            return;
         }
+        onBackPressed();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1446,58 +1442,56 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
 
     /* JADX INFO: Access modifiers changed from: private */
     public void expandEmoji(boolean z) {
-        if (!this.emojiLoaded || this.emojiExpanded == z || !this.uiVisible) {
-            return;
-        }
-        this.emojiExpanded = z;
-        if (z) {
-            AndroidUtilities.runOnUIThread(this.hideUIRunnable);
-            this.hideUiRunnableWaiting = false;
-            float measuredWidth = (this.windowView.getMeasuredWidth() - AndroidUtilities.dp(128.0f)) / this.emojiLayout.getMeasuredWidth();
-            this.emojiLayout.animate().scaleX(measuredWidth).scaleY(measuredWidth).translationY((this.windowView.getHeight() / 2.0f) - this.emojiLayout.getBottom()).setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT).setDuration(250L).start();
-            this.emojiRationalTextView.animate().setListener(null).cancel();
-            if (this.emojiRationalTextView.getVisibility() != 0) {
-                this.emojiRationalTextView.setVisibility(0);
-                this.emojiRationalTextView.setAlpha(0.0f);
-            }
-            this.emojiRationalTextView.animate().alpha(1.0f).setDuration(150L).start();
-            this.overlayBackground.animate().setListener(null).cancel();
-            if (this.overlayBackground.getVisibility() != 0) {
-                this.overlayBackground.setVisibility(0);
-                this.overlayBackground.setAlpha(0.0f);
-                this.overlayBackground.setShowBlackout(this.currentUserIsVideo || this.callingUserIsVideo, false);
-            }
-            this.overlayBackground.animate().alpha(1.0f).setDuration(150L).start();
-            return;
-        }
-        this.emojiLayout.animate().scaleX(1.0f).scaleY(1.0f).translationY(0.0f).setInterpolator(CubicBezierInterpolator.DEFAULT).setDuration(150L).start();
-        if (this.emojiRationalTextView.getVisibility() == 8) {
-            return;
-        }
-        this.emojiRationalTextView.animate().alpha(0.0f).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.VoIPFragment.14
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                VoIPService sharedInstance = VoIPService.getSharedInstance();
-                if (VoIPFragment.this.canHideUI && !VoIPFragment.this.hideUiRunnableWaiting && sharedInstance != null && !sharedInstance.isMicMute()) {
-                    AndroidUtilities.runOnUIThread(VoIPFragment.this.hideUIRunnable, 3000L);
-                    VoIPFragment.this.hideUiRunnableWaiting = true;
+        if (this.emojiLoaded && this.emojiExpanded != z && this.uiVisible) {
+            this.emojiExpanded = z;
+            if (z) {
+                AndroidUtilities.runOnUIThread(this.hideUIRunnable);
+                this.hideUiRunnableWaiting = false;
+                float measuredWidth = (this.windowView.getMeasuredWidth() - AndroidUtilities.dp(128.0f)) / this.emojiLayout.getMeasuredWidth();
+                this.emojiLayout.animate().scaleX(measuredWidth).scaleY(measuredWidth).translationY((this.windowView.getHeight() / 2.0f) - this.emojiLayout.getBottom()).setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT).setDuration(250L).start();
+                this.emojiRationalTextView.animate().setListener(null).cancel();
+                if (this.emojiRationalTextView.getVisibility() != 0) {
+                    this.emojiRationalTextView.setVisibility(0);
+                    this.emojiRationalTextView.setAlpha(0.0f);
                 }
-                VoIPFragment.this.emojiRationalTextView.setVisibility(8);
+                this.emojiRationalTextView.animate().alpha(1.0f).setDuration(150L).start();
+                this.overlayBackground.animate().setListener(null).cancel();
+                if (this.overlayBackground.getVisibility() != 0) {
+                    this.overlayBackground.setVisibility(0);
+                    this.overlayBackground.setAlpha(0.0f);
+                    this.overlayBackground.setShowBlackout(this.currentUserIsVideo || this.callingUserIsVideo, false);
+                }
+                this.overlayBackground.animate().alpha(1.0f).setDuration(150L).start();
+                return;
             }
-        }).setDuration(150L).start();
-        this.overlayBackground.animate().alpha(0.0f).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.VoIPFragment.15
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                VoIPFragment.this.overlayBackground.setVisibility(8);
+            this.emojiLayout.animate().scaleX(1.0f).scaleY(1.0f).translationY(0.0f).setInterpolator(CubicBezierInterpolator.DEFAULT).setDuration(150L).start();
+            if (this.emojiRationalTextView.getVisibility() != 8) {
+                this.emojiRationalTextView.animate().alpha(0.0f).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.VoIPFragment.14
+                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                    public void onAnimationEnd(Animator animator) {
+                        VoIPService sharedInstance = VoIPService.getSharedInstance();
+                        if (VoIPFragment.this.canHideUI && !VoIPFragment.this.hideUiRunnableWaiting && sharedInstance != null && !sharedInstance.isMicMute()) {
+                            AndroidUtilities.runOnUIThread(VoIPFragment.this.hideUIRunnable, 3000L);
+                            VoIPFragment.this.hideUiRunnableWaiting = true;
+                        }
+                        VoIPFragment.this.emojiRationalTextView.setVisibility(8);
+                    }
+                }).setDuration(150L).start();
+                this.overlayBackground.animate().alpha(0.0f).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.VoIPFragment.15
+                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                    public void onAnimationEnd(Animator animator) {
+                        VoIPFragment.this.overlayBackground.setVisibility(8);
+                    }
+                }).setDuration(150L).start();
             }
-        }).setDuration(150L).start();
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Removed duplicated region for block: B:175:0x0593  */
-    /* JADX WARN: Removed duplicated region for block: B:23:0x0249 A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:25:0x024a  */
+    /* JADX WARN: Removed duplicated region for block: B:286:0x0593  */
+    /* JADX WARN: Removed duplicated region for block: B:79:0x0249 A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:80:0x024a  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1884,9 +1878,10 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$updateViewState$19(boolean[] zArr, DialogInterface dialogInterface) {
-        if (!zArr[0]) {
-            this.windowView.finish();
+        if (zArr[0]) {
+            return;
         }
+        this.windowView.finish();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1903,22 +1898,13 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
         if (this.switchingToPip) {
             return;
         }
-        float f = 0.0f;
-        float f2 = 1.0f;
         if (!z2) {
             ValueAnimator valueAnimator = this.naviagtionBarAnimator;
             if (valueAnimator != null) {
                 valueAnimator.cancel();
             }
-            if (z) {
-                f = 1.0f;
-            }
-            this.fillNaviagtionBarValue = f;
-            Paint paint = this.overlayBottomPaint;
-            if (!z) {
-                f2 = 0.5f;
-            }
-            paint.setColor(ColorUtils.setAlphaComponent(-16777216, (int) (f2 * 255.0f)));
+            this.fillNaviagtionBarValue = z ? 1.0f : 0.0f;
+            this.overlayBottomPaint.setColor(ColorUtils.setAlphaComponent(-16777216, (int) ((z ? 1.0f : 0.5f) * 255.0f)));
         } else if (z != this.fillNaviagtionBar) {
             ValueAnimator valueAnimator2 = this.naviagtionBarAnimator;
             if (valueAnimator2 != null) {
@@ -1926,10 +1912,7 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
             }
             float[] fArr = new float[2];
             fArr[0] = this.fillNaviagtionBarValue;
-            if (z) {
-                f = 1.0f;
-            }
-            fArr[1] = f;
+            fArr[1] = z ? 1.0f : 0.0f;
             ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
             this.naviagtionBarAnimator = ofFloat;
             ofFloat.addUpdateListener(this.navigationBarAnimationListener);
@@ -1946,7 +1929,6 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
         if (valueAnimator != null) {
             valueAnimator.cancel();
         }
-        int i = 0;
         if (!z && this.uiVisible) {
             ViewPropertyAnimator duration = this.speakerPhoneIcon.animate().alpha(0.0f).translationY(-AndroidUtilities.dp(50.0f)).setDuration(150L);
             CubicBezierInterpolator cubicBezierInterpolator = CubicBezierInterpolator.DEFAULT;
@@ -1985,12 +1967,7 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
         }
         this.uiVisible = z;
         this.windowView.requestFullscreen(!z);
-        ViewPropertyAnimator animate = this.notificationsLayout.animate();
-        int i2 = -AndroidUtilities.dp(16.0f);
-        if (this.uiVisible) {
-            i = AndroidUtilities.dp(80.0f);
-        }
-        animate.translationY(i2 - i).setDuration(150L).setInterpolator(CubicBezierInterpolator.DEFAULT).start();
+        this.notificationsLayout.animate().translationY((-AndroidUtilities.dp(16.0f)) - (this.uiVisible ? AndroidUtilities.dp(80.0f) : 0)).setDuration(150L).setInterpolator(CubicBezierInterpolator.DEFAULT).start();
     }
 
     private void showFloatingLayout(int i, boolean z) {
@@ -2002,9 +1979,8 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
             animator.removeAllListeners();
             this.cameraShowingAnimator.cancel();
         }
-        boolean z2 = true;
         if (i != 0) {
-            boolean z3 = (this.currentUserCameraFloatingLayout.getTag() == null || ((Integer) this.currentUserCameraFloatingLayout.getTag()).intValue() == 0) ? false : z;
+            boolean z2 = (this.currentUserCameraFloatingLayout.getTag() == null || ((Integer) this.currentUserCameraFloatingLayout.getTag()).intValue() == 0) ? false : z;
             if (z) {
                 if (this.currentUserCameraFloatingLayout.getTag() != null && ((Integer) this.currentUserCameraFloatingLayout.getTag()).intValue() == 0) {
                     if (this.currentUserCameraFloatingLayout.getVisibility() == 8) {
@@ -2033,11 +2009,8 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
                     this.currentUserCameraIsFullscreen = true;
                 }
             }
-            this.currentUserCameraFloatingLayout.setFloatingMode(i == 2, z3);
-            if (i == 2) {
-                z2 = false;
-            }
-            this.currentUserCameraIsFullscreen = z2;
+            this.currentUserCameraFloatingLayout.setFloatingMode(i == 2, z2);
+            this.currentUserCameraIsFullscreen = i != 2;
         } else if (z) {
             if (this.currentUserCameraFloatingLayout.getTag() != null && ((Integer) this.currentUserCameraFloatingLayout.getTag()).intValue() != 0) {
                 Animator animator3 = this.cameraShowingAnimator;
@@ -2077,8 +2050,6 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
     }
 
     private void showCallingUserAvatarMini(boolean z, boolean z2) {
-        int i = 0;
-        Integer num = null;
         if (z2) {
             if (z && this.callingUserPhotoViewMini.getTag() == null) {
                 this.callingUserPhotoViewMini.animate().setListener(null).cancel();
@@ -2099,49 +2070,42 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
             this.callingUserPhotoViewMini.animate().setListener(null).cancel();
             this.callingUserPhotoViewMini.setTranslationY(0.0f);
             this.callingUserPhotoViewMini.setAlpha(1.0f);
-            BackupImageView backupImageView = this.callingUserPhotoViewMini;
-            if (!z) {
-                i = 8;
-            }
-            backupImageView.setVisibility(i);
+            this.callingUserPhotoViewMini.setVisibility(z ? 0 : 8);
         }
-        BackupImageView backupImageView2 = this.callingUserPhotoViewMini;
-        if (z) {
-            num = 1;
-        }
-        backupImageView2.setTag(num);
+        this.callingUserPhotoViewMini.setTag(z ? 1 : null);
     }
 
     private void updateKeyView(boolean z) {
         VoIPService sharedInstance;
-        if (!this.emojiLoaded && (sharedInstance = VoIPService.getSharedInstance()) != null) {
-            byte[] bArr = null;
-            try {
-                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                byteArrayOutputStream.write(sharedInstance.getEncryptionKey());
-                byteArrayOutputStream.write(sharedInstance.getGA());
-                bArr = byteArrayOutputStream.toByteArray();
-            } catch (Exception e) {
-                FileLog.e((Throwable) e, false);
-            }
-            if (bArr == null) {
-                return;
-            }
-            String[] emojifyForCall = EncryptionKeyEmojifier.emojifyForCall(Utilities.computeSHA256(bArr, 0, bArr.length));
-            for (int i = 0; i < 4; i++) {
-                Emoji.preloadEmoji(emojifyForCall[i]);
-                Emoji.EmojiDrawable emojiDrawable = Emoji.getEmojiDrawable(emojifyForCall[i]);
-                if (emojiDrawable != null) {
-                    emojiDrawable.setBounds(0, 0, AndroidUtilities.dp(22.0f), AndroidUtilities.dp(22.0f));
-                    emojiDrawable.preload();
-                    this.emojiViews[i].setImageDrawable(emojiDrawable);
-                    this.emojiViews[i].setContentDescription(emojifyForCall[i]);
-                    this.emojiViews[i].setVisibility(8);
-                }
-                this.emojiDrawables[i] = emojiDrawable;
-            }
-            checkEmojiLoaded(z);
+        if (this.emojiLoaded || (sharedInstance = VoIPService.getSharedInstance()) == null) {
+            return;
         }
+        byte[] bArr = null;
+        try {
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            byteArrayOutputStream.write(sharedInstance.getEncryptionKey());
+            byteArrayOutputStream.write(sharedInstance.getGA());
+            bArr = byteArrayOutputStream.toByteArray();
+        } catch (Exception e) {
+            FileLog.e((Throwable) e, false);
+        }
+        if (bArr == null) {
+            return;
+        }
+        String[] emojifyForCall = EncryptionKeyEmojifier.emojifyForCall(Utilities.computeSHA256(bArr, 0, bArr.length));
+        for (int i = 0; i < 4; i++) {
+            Emoji.preloadEmoji(emojifyForCall[i]);
+            Emoji.EmojiDrawable emojiDrawable = Emoji.getEmojiDrawable(emojifyForCall[i]);
+            if (emojiDrawable != null) {
+                emojiDrawable.setBounds(0, 0, AndroidUtilities.dp(22.0f), AndroidUtilities.dp(22.0f));
+                emojiDrawable.preload();
+                this.emojiViews[i].setImageDrawable(emojiDrawable);
+                this.emojiViews[i].setContentDescription(emojifyForCall[i]);
+                this.emojiViews[i].setVisibility(8);
+            }
+            this.emojiDrawables[i] = emojiDrawable;
+        }
+        checkEmojiLoaded(z);
     }
 
     private void checkEmojiLoaded(boolean z) {
@@ -2168,14 +2132,8 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
     }
 
     private void showAcceptDeclineView(boolean z, boolean z2) {
-        int i = 0;
-        Integer num = null;
         if (!z2) {
-            AcceptDeclineView acceptDeclineView = this.acceptDeclineView;
-            if (!z) {
-                i = 8;
-            }
-            acceptDeclineView.setVisibility(i);
+            this.acceptDeclineView.setVisibility(z ? 0 : 8);
         } else {
             if (z && this.acceptDeclineView.getTag() == null) {
                 this.acceptDeclineView.animate().setListener(null).cancel();
@@ -2196,11 +2154,7 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
             }
         }
         this.acceptDeclineView.setEnabled(z);
-        AcceptDeclineView acceptDeclineView2 = this.acceptDeclineView;
-        if (z) {
-            num = 1;
-        }
-        acceptDeclineView2.setTag(num);
+        this.acceptDeclineView.setTag(z ? 1 : null);
     }
 
     private void updateButtons(boolean z) {
@@ -2477,40 +2431,40 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
             }
             if (!this.currentUserIsVideo) {
                 if (Build.VERSION.SDK_INT >= 21) {
-                    if (this.previewDialog != null) {
+                    if (this.previewDialog == null) {
+                        sharedInstance.createCaptureDevice(false);
+                        if (!sharedInstance.isFrontFaceCamera()) {
+                            sharedInstance.switchCamera();
+                        }
+                        this.windowView.setLockOnScreen(true);
+                        PrivateVideoPreviewDialog privateVideoPreviewDialog = new PrivateVideoPreviewDialog(this.fragmentView.getContext(), false, true) { // from class: org.telegram.ui.VoIPFragment.21
+                            @Override // org.telegram.ui.Components.voip.PrivateVideoPreviewDialog
+                            public void onDismiss(boolean z, boolean z2) {
+                                VoIPFragment.this.previewDialog = null;
+                                VoIPService sharedInstance2 = VoIPService.getSharedInstance();
+                                VoIPFragment.this.windowView.setLockOnScreen(false);
+                                if (z2) {
+                                    VoIPFragment.this.currentUserIsVideo = true;
+                                    if (sharedInstance2 != null && !z) {
+                                        sharedInstance2.requestVideoCall(false);
+                                        sharedInstance2.setVideoState(false, 2);
+                                    }
+                                } else if (sharedInstance2 != null) {
+                                    sharedInstance2.setVideoState(false, 0);
+                                }
+                                VoIPFragment voIPFragment = VoIPFragment.this;
+                                voIPFragment.previousState = voIPFragment.currentState;
+                                VoIPFragment.this.updateViewState();
+                            }
+                        };
+                        this.previewDialog = privateVideoPreviewDialog;
+                        WindowInsets windowInsets = this.lastInsets;
+                        if (windowInsets != null) {
+                            privateVideoPreviewDialog.setBottomPadding(windowInsets.getSystemWindowInsetBottom());
+                        }
+                        this.fragmentView.addView(this.previewDialog);
                         return;
                     }
-                    sharedInstance.createCaptureDevice(false);
-                    if (!sharedInstance.isFrontFaceCamera()) {
-                        sharedInstance.switchCamera();
-                    }
-                    this.windowView.setLockOnScreen(true);
-                    PrivateVideoPreviewDialog privateVideoPreviewDialog = new PrivateVideoPreviewDialog(this.fragmentView.getContext(), false, true) { // from class: org.telegram.ui.VoIPFragment.21
-                        @Override // org.telegram.ui.Components.voip.PrivateVideoPreviewDialog
-                        public void onDismiss(boolean z, boolean z2) {
-                            VoIPFragment.this.previewDialog = null;
-                            VoIPService sharedInstance2 = VoIPService.getSharedInstance();
-                            VoIPFragment.this.windowView.setLockOnScreen(false);
-                            if (z2) {
-                                VoIPFragment.this.currentUserIsVideo = true;
-                                if (sharedInstance2 != null && !z) {
-                                    sharedInstance2.requestVideoCall(false);
-                                    sharedInstance2.setVideoState(false, 2);
-                                }
-                            } else if (sharedInstance2 != null) {
-                                sharedInstance2.setVideoState(false, 0);
-                            }
-                            VoIPFragment voIPFragment = VoIPFragment.this;
-                            voIPFragment.previousState = voIPFragment.currentState;
-                            VoIPFragment.this.updateViewState();
-                        }
-                    };
-                    this.previewDialog = privateVideoPreviewDialog;
-                    WindowInsets windowInsets = this.lastInsets;
-                    if (windowInsets != null) {
-                        privateVideoPreviewDialog.setBottomPadding(windowInsets.getSystemWindowInsetBottom());
-                    }
-                    this.fragmentView.addView(this.previewDialog);
                     return;
                 }
                 this.currentUserIsVideo = true;

@@ -19,7 +19,7 @@ import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.LayoutHelper;
 /* loaded from: classes3.dex */
 public class MemberRequestCell extends FrameLayout {
-    private final AvatarDrawable avatarDrawable = new AvatarDrawable();
+    private final AvatarDrawable avatarDrawable;
     private final BackupImageView avatarImageView;
     private TLRPC$TL_chatInviteImporter importer;
     private boolean isNeedDivider;
@@ -37,6 +37,7 @@ public class MemberRequestCell extends FrameLayout {
         super(context);
         int i;
         String str;
+        this.avatarDrawable = new AvatarDrawable();
         BackupImageView backupImageView = new BackupImageView(getContext());
         this.avatarImageView = backupImageView;
         SimpleTextView simpleTextView = new SimpleTextView(getContext());
@@ -44,7 +45,6 @@ public class MemberRequestCell extends FrameLayout {
         SimpleTextView simpleTextView2 = new SimpleTextView(getContext());
         this.statusTextView = simpleTextView2;
         backupImageView.setRoundRadius(AndroidUtilities.dp(23.0f));
-        int i2 = 5;
         addView(backupImageView, LayoutHelper.createFrame(46, 46.0f, LocaleController.isRTL ? 5 : 3, 12.0f, 8.0f, 12.0f, 0.0f));
         simpleTextView.setGravity(LocaleController.isRTL ? 5 : 3);
         simpleTextView.setMaxLines(1);
@@ -61,7 +61,6 @@ public class MemberRequestCell extends FrameLayout {
         addView(simpleTextView2, LayoutHelper.createFrame(-1, -2.0f, 48, z3 ? 12.0f : 74.0f, 36.0f, z3 ? 74.0f : 12.0f, 0.0f));
         int dp = AndroidUtilities.dp(17.0f);
         TextView textView = new TextView(getContext());
-        int i3 = 0;
         textView.setBackground(Theme.AdaptiveRipple.filledRect("featuredStickers_addButton", 4.0f));
         textView.setGravity((LocaleController.isRTL ? 5 : 3) | 16);
         textView.setMaxLines(1);
@@ -101,10 +100,10 @@ public class MemberRequestCell extends FrameLayout {
                 MemberRequestCell.this.lambda$new$1(onClickListener, view);
             }
         });
-        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(-2, AndroidUtilities.dp(32.0f), !LocaleController.isRTL ? 3 : i2);
+        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(-2, AndroidUtilities.dp(32.0f), LocaleController.isRTL ? 5 : 3);
         layoutParams.topMargin = AndroidUtilities.dp(62.0f);
         layoutParams.leftMargin = LocaleController.isRTL ? 0 : (int) (AndroidUtilities.dp(79.0f) + measureText);
-        layoutParams.rightMargin = LocaleController.isRTL ? (int) (measureText + AndroidUtilities.dp(79.0f)) : i3;
+        layoutParams.rightMargin = LocaleController.isRTL ? (int) (measureText + AndroidUtilities.dp(79.0f)) : 0;
         addView(textView2, layoutParams);
     }
 

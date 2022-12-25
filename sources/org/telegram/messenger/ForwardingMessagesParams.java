@@ -32,10 +32,13 @@ public class ForwardingMessagesParams {
     public SparseBooleanArray selectedIds = new SparseBooleanArray();
     public ArrayList<TLRPC$TL_pollAnswerVoters> pollChoosenAnswers = new ArrayList<>();
 
-    /* JADX WARN: Removed duplicated region for block: B:33:0x0124  */
-    /* JADX WARN: Removed duplicated region for block: B:36:0x014a  */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x0178  */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x01ed A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x0124  */
+    /* JADX WARN: Removed duplicated region for block: B:48:0x014a  */
+    /* JADX WARN: Removed duplicated region for block: B:54:0x0178  */
+    /* JADX WARN: Removed duplicated region for block: B:92:0x01ed A[SYNTHETIC] */
+    /* JADX WARN: Type inference failed for: r8v0 */
+    /* JADX WARN: Type inference failed for: r8v1, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r8v7 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -46,7 +49,7 @@ public class ForwardingMessagesParams {
         TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader;
         MessageObject messageObject;
         this.messages = arrayList;
-        boolean z = false;
+        ?? r8 = 0;
         this.hasCaption = false;
         this.hasSenders = false;
         this.isSecret = DialogObject.isEncryptedDialog(j);
@@ -68,26 +71,26 @@ public class ForwardingMessagesParams {
             tLRPC$TL_message.message = tLRPC$Message.message;
             tLRPC$TL_message.media = tLRPC$Message.media;
             tLRPC$TL_message.action = tLRPC$Message.action;
-            int i2 = z ? 1 : 0;
-            int i3 = z ? 1 : 0;
-            tLRPC$TL_message.edit_date = i2;
+            tLRPC$TL_message.edit_date = r8;
             ArrayList<TLRPC$MessageEntity> arrayList4 = tLRPC$Message.entities;
             if (arrayList4 != null) {
                 tLRPC$TL_message.entities.addAll(arrayList4);
                 if (!this.hasSpoilers) {
                     Iterator<TLRPC$MessageEntity> it = tLRPC$TL_message.entities.iterator();
                     while (true) {
-                        if (!it.hasNext()) {
-                            break;
-                        } else if (it.next() instanceof TLRPC$TL_messageEntitySpoiler) {
-                            this.hasSpoilers = true;
+                        if (it.hasNext()) {
+                            if (it.next() instanceof TLRPC$TL_messageEntitySpoiler) {
+                                this.hasSpoilers = true;
+                                break;
+                            }
+                        } else {
                             break;
                         }
                     }
                 }
             }
             tLRPC$TL_message.out = true;
-            tLRPC$TL_message.unread = z;
+            tLRPC$TL_message.unread = r8;
             TLRPC$Message tLRPC$Message2 = messageObject2.messageOwner;
             tLRPC$TL_message.via_bot_id = tLRPC$Message2.via_bot_id;
             tLRPC$TL_message.reply_markup = tLRPC$Message2.reply_markup;
@@ -96,7 +99,9 @@ public class ForwardingMessagesParams {
             tLRPC$TL_message.restriction_reason = tLRPC$Message2.restriction_reason;
             tLRPC$TL_message.replyMessage = tLRPC$Message2.replyMessage;
             long j4 = UserConfig.getInstance(messageObject2.currentAccount).clientUserId;
-            if (!this.isSecret) {
+            if (this.isSecret) {
+                arrayList2 = arrayList3;
+            } else {
                 TLRPC$Message tLRPC$Message3 = messageObject2.messageOwner;
                 tLRPC$MessageFwdHeader = tLRPC$Message3.fwd_from;
                 if (tLRPC$MessageFwdHeader != null) {
@@ -153,14 +158,14 @@ public class ForwardingMessagesParams {
                     previewMediaPoll.provider = tLRPC$TL_messageMediaPoll.provider;
                     TLRPC$TL_pollResults tLRPC$TL_pollResults = new TLRPC$TL_pollResults();
                     previewMediaPoll.results = tLRPC$TL_pollResults;
-                    int i4 = tLRPC$TL_messageMediaPoll.results.total_voters;
-                    tLRPC$TL_pollResults.total_voters = i4;
-                    previewMediaPoll.totalVotersCached = i4;
+                    int i2 = tLRPC$TL_messageMediaPoll.results.total_voters;
+                    tLRPC$TL_pollResults.total_voters = i2;
+                    previewMediaPoll.totalVotersCached = i2;
                     messageObject.messageOwner.media = previewMediaPoll;
                     if (messageObject2.canUnvote()) {
                         int size = tLRPC$TL_messageMediaPoll.results.results.size();
-                        for (int i5 = 0; i5 < size; i5++) {
-                            TLRPC$TL_pollAnswerVoters tLRPC$TL_pollAnswerVoters = tLRPC$TL_messageMediaPoll.results.results.get(i5);
+                        for (int i3 = 0; i3 < size; i3++) {
+                            TLRPC$TL_pollAnswerVoters tLRPC$TL_pollAnswerVoters = tLRPC$TL_messageMediaPoll.results.results.get(i3);
                             if (tLRPC$TL_pollAnswerVoters.chosen) {
                                 TLRPC$TL_pollAnswerVoters tLRPC$TL_pollAnswerVoters2 = new TLRPC$TL_pollAnswerVoters();
                                 tLRPC$TL_pollAnswerVoters2.chosen = tLRPC$TL_pollAnswerVoters.chosen;
@@ -178,9 +183,7 @@ public class ForwardingMessagesParams {
                 }
                 i++;
                 arrayList3 = arrayList2;
-                z = false;
-            } else {
-                arrayList2 = arrayList3;
+                r8 = 0;
             }
             tLRPC$MessageFwdHeader = null;
             if (tLRPC$MessageFwdHeader != null) {
@@ -203,12 +206,12 @@ public class ForwardingMessagesParams {
             }
             i++;
             arrayList3 = arrayList2;
-            z = false;
+            r8 = 0;
         }
         ArrayList arrayList5 = arrayList3;
         ArrayList arrayList6 = new ArrayList();
-        for (int i6 = 0; i6 < arrayList.size(); i6++) {
-            MessageObject messageObject3 = arrayList.get(i6);
+        for (int i4 = 0; i4 < arrayList.size(); i4++) {
+            MessageObject messageObject3 = arrayList.get(i4);
             if (messageObject3.isFromUser()) {
                 j3 = messageObject3.messageOwner.from_id.user_id;
             } else {
@@ -227,8 +230,8 @@ public class ForwardingMessagesParams {
         if (arrayList6.size() + arrayList5.size() > 1) {
             this.multiplyUsers = true;
         }
-        for (int i7 = 0; i7 < this.groupedMessagesMap.size(); i7++) {
-            this.groupedMessagesMap.valueAt(i7).calculate();
+        for (int i5 = 0; i5 < this.groupedMessagesMap.size(); i5++) {
+            this.groupedMessagesMap.valueAt(i5).calculate();
         }
     }
 

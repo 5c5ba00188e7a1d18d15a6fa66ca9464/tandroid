@@ -52,8 +52,12 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
     private boolean codecNeedsSetOutputSurfaceWorkaround;
     private int consecutiveDroppedFrameCount;
     private final Context context;
+    private int currentHeight;
     private MediaFormat currentMediaFormat;
+    private float currentPixelWidthHeightRatio;
     private int currentUnappliedRotationDegrees;
+    private int currentWidth;
+    private final boolean deviceNeedsNoPostProcessWorkaround;
     private long droppedFrameAccumulationStartTimeMs;
     private int droppedFrames;
     private Surface dummySurface;
@@ -61,30 +65,26 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
     private VideoFrameMetadataListener frameMetadataListener;
     private final VideoFrameReleaseTimeHelper frameReleaseTimeHelper;
     private long initialPositionUs;
+    private long joiningDeadlineMs;
+    private long lastInputTimeUs;
     private long lastRenderTimeUs;
     private final int maxDroppedFramesToNotify;
+    private long outputStreamOffsetUs;
     private int pendingOutputStreamOffsetCount;
+    private final long[] pendingOutputStreamOffsetsUs;
+    private final long[] pendingOutputStreamSwitchTimesUs;
+    private float pendingPixelWidthHeightRatio;
     private int pendingRotationDegrees;
     private boolean renderedFirstFrame;
     private int reportedHeight;
     private float reportedPixelWidthHeightRatio;
     private int reportedUnappliedRotationDegrees;
     private int reportedWidth;
+    private int scalingMode;
     private Surface surface;
     private boolean tunneling;
     private int tunnelingAudioSessionId;
     OnFrameRenderedListenerV23 tunnelingOnFrameRenderedListener;
-    private final boolean deviceNeedsNoPostProcessWorkaround = deviceNeedsNoPostProcessWorkaround();
-    private final long[] pendingOutputStreamOffsetsUs = new long[10];
-    private final long[] pendingOutputStreamSwitchTimesUs = new long[10];
-    private long outputStreamOffsetUs = -9223372036854775807L;
-    private long lastInputTimeUs = -9223372036854775807L;
-    private long joiningDeadlineMs = -9223372036854775807L;
-    private int currentWidth = -1;
-    private int currentHeight = -1;
-    private float currentPixelWidthHeightRatio = -1.0f;
-    private float pendingPixelWidthHeightRatio = -1.0f;
-    private int scalingMode = 1;
 
     private static boolean isBufferLate(long j) {
         return j < -30000;
@@ -103,6 +103,17 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
         this.context = applicationContext;
         this.frameReleaseTimeHelper = new VideoFrameReleaseTimeHelper(applicationContext);
         this.eventDispatcher = new VideoRendererEventListener.EventDispatcher(handler, videoRendererEventListener);
+        this.deviceNeedsNoPostProcessWorkaround = deviceNeedsNoPostProcessWorkaround();
+        this.pendingOutputStreamOffsetsUs = new long[10];
+        this.pendingOutputStreamSwitchTimesUs = new long[10];
+        this.outputStreamOffsetUs = -9223372036854775807L;
+        this.lastInputTimeUs = -9223372036854775807L;
+        this.joiningDeadlineMs = -9223372036854775807L;
+        this.currentWidth = -1;
+        this.currentHeight = -1;
+        this.currentPixelWidthHeightRatio = -1.0f;
+        this.pendingPixelWidthHeightRatio = -1.0f;
+        this.scalingMode = 1;
         clearReportedVideoSize();
     }
 
@@ -275,14 +286,13 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
         try {
             super.onReset();
             Surface surface = this.dummySurface;
-            if (surface == null) {
-                return;
+            if (surface != null) {
+                if (this.surface == surface) {
+                    this.surface = null;
+                }
+                surface.release();
+                this.dummySurface = null;
             }
-            if (this.surface == surface) {
-                this.surface = null;
-            }
-            surface.release();
-            this.dummySurface = null;
         } catch (Throwable th) {
             if (this.dummySurface != null) {
                 Surface surface2 = this.surface;
@@ -310,10 +320,9 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
         } else {
             this.scalingMode = ((Integer) obj).intValue();
             MediaCodec codec = getCodec();
-            if (codec == null) {
-                return;
+            if (codec != null) {
+                codec.setVideoScalingMode(this.scalingMode);
             }
-            codec.setVideoScalingMode(this.scalingMode);
         }
     }
 
@@ -349,10 +358,10 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
             if (surface != null && surface != this.dummySurface) {
                 maybeRenotifyVideoSizeChanged();
                 clearRenderedFirstFrame();
-                if (state != 2) {
+                if (state == 2) {
+                    setJoiningDeadlineMs();
                     return;
                 }
-                setJoiningDeadlineMs();
                 return;
             }
             clearReportedVideoSize();
@@ -492,26 +501,23 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
 
     @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer
     protected void handleInputBufferSupplementalData(DecoderInputBuffer decoderInputBuffer) throws ExoPlaybackException {
-        if (!this.codecHandlesHdr10PlusOutOfBandMetadata) {
-            return;
+        if (this.codecHandlesHdr10PlusOutOfBandMetadata) {
+            ByteBuffer byteBuffer = (ByteBuffer) Assertions.checkNotNull(decoderInputBuffer.supplementalData);
+            if (byteBuffer.remaining() >= 7) {
+                byte b = byteBuffer.get();
+                short s = byteBuffer.getShort();
+                short s2 = byteBuffer.getShort();
+                byte b2 = byteBuffer.get();
+                byte b3 = byteBuffer.get();
+                byteBuffer.position(0);
+                if (b == -75 && s == 60 && s2 == 1 && b2 == 4 && b3 == 0) {
+                    byte[] bArr = new byte[byteBuffer.remaining()];
+                    byteBuffer.get(bArr);
+                    byteBuffer.position(0);
+                    setHdr10PlusInfoV29(getCodec(), bArr);
+                }
+            }
         }
-        ByteBuffer byteBuffer = (ByteBuffer) Assertions.checkNotNull(decoderInputBuffer.supplementalData);
-        if (byteBuffer.remaining() < 7) {
-            return;
-        }
-        byte b = byteBuffer.get();
-        short s = byteBuffer.getShort();
-        short s2 = byteBuffer.getShort();
-        byte b2 = byteBuffer.get();
-        byte b3 = byteBuffer.get();
-        byteBuffer.position(0);
-        if (b != -75 || s != 60 || s2 != 1 || b2 != 4 || b3 != 0) {
-            return;
-        }
-        byte[] bArr = new byte[byteBuffer.remaining()];
-        byteBuffer.get(bArr);
-        byteBuffer.position(0);
-        setHdr10PlusInfoV29(getCodec(), bArr);
     }
 
     @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer
@@ -526,11 +532,11 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
         }
         long j5 = j3 - j;
         if (this.surface == this.dummySurface) {
-            if (!isBufferLate(j5)) {
-                return false;
+            if (isBufferLate(j5)) {
+                skipOutputBuffer(mediaCodec, i, j4);
+                return true;
             }
-            skipOutputBuffer(mediaCodec, i, j4);
-            return true;
+            return false;
         }
         long elapsedRealtime = SystemClock.elapsedRealtime() * 1000;
         long j6 = elapsedRealtime - this.lastRenderTimeUs;
@@ -743,10 +749,11 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
     }
 
     void maybeNotifyRenderedFirstFrame() {
-        if (!this.renderedFirstFrame) {
-            this.renderedFirstFrame = true;
-            this.eventDispatcher.renderedFirstFrame(this.surface);
+        if (this.renderedFirstFrame) {
+            return;
         }
+        this.renderedFirstFrame = true;
+        this.eventDispatcher.renderedFirstFrame(this.surface);
     }
 
     private void maybeRenotifyRenderedFirstFrame() {
@@ -1019,7 +1026,7 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
         return "NVIDIA".equals(Util.MANUFACTURER);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:36:0x065a A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:422:0x065a A[ADDED_TO_REGION] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

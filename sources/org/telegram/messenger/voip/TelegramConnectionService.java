@@ -72,10 +72,10 @@ public class TelegramConnectionService extends ConnectionService {
         Bundle extras = connectionRequest.getExtras();
         if (extras.getInt("call_type") == 1) {
             VoIPService sharedInstance = VoIPService.getSharedInstance();
-            if (sharedInstance != null) {
-                return sharedInstance.getConnectionAndStartCall();
+            if (sharedInstance == null) {
+                return null;
             }
-            return null;
+            return sharedInstance.getConnectionAndStartCall();
         }
         extras.getInt("call_type");
         return null;

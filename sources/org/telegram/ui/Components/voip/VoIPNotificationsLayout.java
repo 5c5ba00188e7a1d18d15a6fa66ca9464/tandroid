@@ -31,13 +31,16 @@ public class VoIPNotificationsLayout extends LinearLayout {
     boolean lockAnimation;
     Runnable onViewsUpdated;
     TransitionSet transitionSet;
+    ArrayList<NotificationView> viewToAdd;
+    ArrayList<NotificationView> viewToRemove;
+    HashMap<String, NotificationView> viewsByTag;
     boolean wasChanged;
-    HashMap<String, NotificationView> viewsByTag = new HashMap<>();
-    ArrayList<NotificationView> viewToAdd = new ArrayList<>();
-    ArrayList<NotificationView> viewToRemove = new ArrayList<>();
 
     public VoIPNotificationsLayout(Context context) {
         super(context);
+        this.viewsByTag = new HashMap<>();
+        this.viewToAdd = new ArrayList<>();
+        this.viewToRemove = new ArrayList<>();
         setOrientation(1);
         if (Build.VERSION.SDK_INT >= 19) {
             TransitionSet transitionSet = new TransitionSet();
@@ -108,46 +111,46 @@ public class VoIPNotificationsLayout extends LinearLayout {
     }
 
     private void runDelayed() {
-        if (!this.viewToAdd.isEmpty() || !this.viewToRemove.isEmpty()) {
-            if (Build.VERSION.SDK_INT >= 19 && getParent() != null) {
-                TransitionManager.beginDelayedTransition(this, this.transitionSet);
-            }
-            int i = 0;
-            while (i < this.viewToAdd.size()) {
-                NotificationView notificationView = this.viewToAdd.get(i);
-                int i2 = 0;
-                while (true) {
-                    if (i2 >= this.viewToRemove.size()) {
-                        break;
-                    } else if (notificationView.tag.equals(this.viewToRemove.get(i2).tag)) {
-                        this.viewToAdd.remove(i);
-                        this.viewToRemove.remove(i2);
-                        i--;
-                        break;
-                    } else {
-                        i2++;
-                    }
+        if (this.viewToAdd.isEmpty() && this.viewToRemove.isEmpty()) {
+            return;
+        }
+        if (Build.VERSION.SDK_INT >= 19 && getParent() != null) {
+            TransitionManager.beginDelayedTransition(this, this.transitionSet);
+        }
+        int i = 0;
+        while (i < this.viewToAdd.size()) {
+            NotificationView notificationView = this.viewToAdd.get(i);
+            int i2 = 0;
+            while (true) {
+                if (i2 >= this.viewToRemove.size()) {
+                    break;
+                } else if (notificationView.tag.equals(this.viewToRemove.get(i2).tag)) {
+                    this.viewToAdd.remove(i);
+                    this.viewToRemove.remove(i2);
+                    i--;
+                    break;
+                } else {
+                    i2++;
                 }
-                i++;
             }
-            for (int i3 = 0; i3 < this.viewToAdd.size(); i3++) {
-                addView(this.viewToAdd.get(i3), LayoutHelper.createLinear(-2, -2, 1, 4, 0, 0, 4));
-            }
-            for (int i4 = 0; i4 < this.viewToRemove.size(); i4++) {
-                removeView(this.viewToRemove.get(i4));
-            }
-            this.viewsByTag.clear();
-            for (int i5 = 0; i5 < getChildCount(); i5++) {
-                NotificationView notificationView2 = (NotificationView) getChildAt(i5);
-                this.viewsByTag.put(notificationView2.tag, notificationView2);
-            }
-            this.viewToAdd.clear();
-            this.viewToRemove.clear();
-            lock();
-            Runnable runnable = this.onViewsUpdated;
-            if (runnable == null) {
-                return;
-            }
+            i++;
+        }
+        for (int i3 = 0; i3 < this.viewToAdd.size(); i3++) {
+            addView(this.viewToAdd.get(i3), LayoutHelper.createLinear(-2, -2, 1, 4, 0, 0, 4));
+        }
+        for (int i4 = 0; i4 < this.viewToRemove.size(); i4++) {
+            removeView(this.viewToRemove.get(i4));
+        }
+        this.viewsByTag.clear();
+        for (int i5 = 0; i5 < getChildCount(); i5++) {
+            NotificationView notificationView2 = (NotificationView) getChildAt(i5);
+            this.viewsByTag.put(notificationView2.tag, notificationView2);
+        }
+        this.viewToAdd.clear();
+        this.viewToRemove.clear();
+        lock();
+        Runnable runnable = this.onViewsUpdated;
+        if (runnable != null) {
             runnable.run();
         }
     }

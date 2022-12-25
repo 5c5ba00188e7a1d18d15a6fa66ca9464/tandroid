@@ -8,10 +8,9 @@ import org.checkerframework.checker.nullness.qual.EnsuresNonNull;
 /* loaded from: classes.dex */
 public final class Preconditions {
     public static void checkArgument(boolean z) {
-        if (z) {
-            return;
+        if (!z) {
+            throw new IllegalArgumentException();
         }
-        throw new IllegalArgumentException();
     }
 
     public static void checkHandlerThread(Handler handler) {
@@ -25,10 +24,10 @@ public final class Preconditions {
 
     @EnsuresNonNull({"#1"})
     public static String checkNotEmpty(String str) {
-        if (!TextUtils.isEmpty(str)) {
-            return str;
+        if (TextUtils.isEmpty(str)) {
+            throw new IllegalArgumentException("Given String is empty or null");
         }
-        throw new IllegalArgumentException("Given String is empty or null");
+        return str;
     }
 
     public static void checkNotMainThread() {
@@ -42,31 +41,27 @@ public final class Preconditions {
     }
 
     public static void checkState(boolean z) {
-        if (z) {
-            return;
+        if (!z) {
+            throw new IllegalStateException();
         }
-        throw new IllegalStateException();
     }
 
     public static void checkArgument(boolean z, Object obj) {
-        if (z) {
-            return;
+        if (!z) {
+            throw new IllegalArgumentException(String.valueOf(obj));
         }
-        throw new IllegalArgumentException(String.valueOf(obj));
     }
 
     public static void checkMainThread(String str) {
-        if (com.google.android.gms.common.util.zzb.zza()) {
-            return;
+        if (!com.google.android.gms.common.util.zzb.zza()) {
+            throw new IllegalStateException(str);
         }
-        throw new IllegalStateException(str);
     }
 
     public static void checkNotMainThread(String str) {
-        if (!com.google.android.gms.common.util.zzb.zza()) {
-            return;
+        if (com.google.android.gms.common.util.zzb.zza()) {
+            throw new IllegalStateException(str);
         }
-        throw new IllegalStateException(str);
     }
 
     @EnsuresNonNull({"#1"})
@@ -78,38 +73,34 @@ public final class Preconditions {
     }
 
     public static void checkState(boolean z, Object obj) {
-        if (z) {
-            return;
+        if (!z) {
+            throw new IllegalStateException(String.valueOf(obj));
         }
-        throw new IllegalStateException(String.valueOf(obj));
     }
 
     public static void checkArgument(boolean z, String str, Object... objArr) {
-        if (z) {
-            return;
+        if (!z) {
+            throw new IllegalArgumentException(String.format(str, objArr));
         }
-        throw new IllegalArgumentException(String.format(str, objArr));
     }
 
     @EnsuresNonNull({"#1"})
     public static String checkNotEmpty(String str, Object obj) {
-        if (!TextUtils.isEmpty(str)) {
-            return str;
+        if (TextUtils.isEmpty(str)) {
+            throw new IllegalArgumentException(String.valueOf(obj));
         }
-        throw new IllegalArgumentException(String.valueOf(obj));
+        return str;
     }
 
     public static void checkState(boolean z, String str, Object... objArr) {
-        if (z) {
-            return;
+        if (!z) {
+            throw new IllegalStateException(String.format(str, objArr));
         }
-        throw new IllegalStateException(String.format(str, objArr));
     }
 
     public static void checkHandlerThread(Handler handler, String str) {
-        if (Looper.myLooper() == handler.getLooper()) {
-            return;
+        if (Looper.myLooper() != handler.getLooper()) {
+            throw new IllegalStateException(str);
         }
-        throw new IllegalStateException(str);
     }
 }

@@ -29,7 +29,6 @@ public class TextCheckBoxCell extends FrameLayout {
         this.textView.setLines(1);
         this.textView.setMaxLines(1);
         this.textView.setSingleLine(true);
-        int i = 5;
         this.textView.setGravity((LocaleController.isRTL ? 5 : 3) | 16);
         this.textView.setEllipsize(TextUtils.TruncateAt.END);
         addView(this.textView, LayoutHelper.createFrame(-1, -1.0f, (z3 ? 5 : 3) | 48, z3 ? 66.0f : 21.0f, 0.0f, z3 ? 21.0f : 66.0f, 0.0f));
@@ -39,7 +38,7 @@ public class TextCheckBoxCell extends FrameLayout {
         this.checkBox.setFocusable(false);
         this.checkBox.setFocusableInTouchMode(false);
         this.checkBox.setClickable(false);
-        addView(this.checkBox, LayoutHelper.createFrame(18, 18.0f, (z3 ? 3 : i) | 16, 21.0f, 0.0f, 21.0f, 0.0f));
+        addView(this.checkBox, LayoutHelper.createFrame(18, 18.0f, (z3 ? 3 : 5) | 16, 21.0f, 0.0f, 21.0f, 0.0f));
     }
 
     @Override // android.view.View

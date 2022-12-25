@@ -49,10 +49,9 @@ public final class FlacMetadataReader {
     public static void readStreamMarker(ExtractorInput extractorInput) throws IOException, InterruptedException {
         ParsableByteArray parsableByteArray = new ParsableByteArray(4);
         extractorInput.readFully(parsableByteArray.data, 0, 4);
-        if (parsableByteArray.readUnsignedInt() == 1716281667) {
-            return;
+        if (parsableByteArray.readUnsignedInt() != 1716281667) {
+            throw new ParserException("Failed to read FLAC stream marker.");
         }
-        throw new ParserException("Failed to read FLAC stream marker.");
     }
 
     public static boolean readMetadataBlock(ExtractorInput extractorInput, FlacStreamMetadataHolder flacStreamMetadataHolder) throws IOException, InterruptedException {

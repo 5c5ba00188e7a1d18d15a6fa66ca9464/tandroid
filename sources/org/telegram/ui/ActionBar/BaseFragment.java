@@ -273,15 +273,11 @@ public abstract class BaseFragment {
         this.inPreviewMode = z;
         ActionBar actionBar = this.actionBar;
         if (actionBar != null) {
-            boolean z2 = false;
             if (z) {
                 actionBar.setOccupyStatusBar(false);
-                return;
+            } else {
+                actionBar.setOccupyStatusBar(Build.VERSION.SDK_INT >= 21);
             }
-            if (Build.VERSION.SDK_INT >= 21) {
-                z2 = true;
-            }
-            actionBar.setOccupyStatusBar(z2);
         }
     }
 
@@ -347,9 +343,7 @@ public abstract class BaseFragment {
             }
             if (this.actionBar != null) {
                 INavigationLayout iNavigationLayout3 = this.parentLayout;
-                if (iNavigationLayout3 == null || iNavigationLayout3.getView().getContext() == this.actionBar.getContext()) {
-                    z = false;
-                }
+                z = (iNavigationLayout3 == null || iNavigationLayout3.getView().getContext() == this.actionBar.getContext()) ? false : false;
                 if ((this.actionBar.shouldAddToContainer() || z) && (viewGroup = (ViewGroup) this.actionBar.getParent()) != null) {
                     try {
                         viewGroup.removeViewInLayout(this.actionBar);
@@ -367,10 +361,9 @@ public abstract class BaseFragment {
             }
             ActionBar createActionBar = createActionBar(iNavigationLayout4.getView().getContext());
             this.actionBar = createActionBar;
-            if (createActionBar == null) {
-                return;
+            if (createActionBar != null) {
+                createActionBar.parentFragment = this;
             }
-            createActionBar.parentFragment = this;
         }
     }
 
@@ -444,7 +437,6 @@ public abstract class BaseFragment {
     public void onFragmentDestroy() {
         getConnectionsManager().cancelRequestsForGuid(this.classGuid);
         getMessagesStorage().cancelTasksForGuid(this.classGuid);
-        boolean z = true;
         this.isFinished = true;
         ActionBar actionBar = this.actionBar;
         if (actionBar != null) {
@@ -453,11 +445,7 @@ public abstract class BaseFragment {
         if (!hasForceLightStatusBar() || AndroidUtilities.isTablet() || getParentLayout().getLastFragment() != this || getParentActivity() == null || this.finishing) {
             return;
         }
-        Window window = getParentActivity().getWindow();
-        if (Theme.getColor("actionBarDefault") != -1) {
-            z = false;
-        }
-        AndroidUtilities.setLightStatusBar(window, z);
+        AndroidUtilities.setLightStatusBar(getParentActivity().getWindow(), Theme.getColor("actionBarDefault") == -1);
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
@@ -480,11 +468,10 @@ public abstract class BaseFragment {
         this.isPaused = true;
         try {
             Dialog dialog = this.visibleDialog;
-            if (dialog == null || !dialog.isShowing() || !dismissDialogOnPause(this.visibleDialog)) {
-                return;
+            if (dialog != null && dialog.isShowing() && dismissDialogOnPause(this.visibleDialog)) {
+                this.visibleDialog.dismiss();
+                this.visibleDialog = null;
             }
-            this.visibleDialog.dismiss();
-            this.visibleDialog = null;
         } catch (Exception e) {
             FileLog.e(e);
         }
@@ -519,10 +506,10 @@ public abstract class BaseFragment {
         View view = this.fragmentView;
         if (view != null) {
             ViewParent parent = view.getParent();
-            if (!(parent instanceof FrameLayout)) {
-                return null;
+            if (parent instanceof FrameLayout) {
+                return (FrameLayout) parent;
             }
-            return (FrameLayout) parent;
+            return null;
         }
         return null;
     }

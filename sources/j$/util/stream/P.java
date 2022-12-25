@@ -22,10 +22,10 @@ public class P extends T {
 
     @Override // j$.util.stream.T, j$.util.stream.U
     public void j(j$.util.function.f fVar) {
-        if (!isParallel()) {
-            T.L0(J0()).e(fVar);
-        } else {
+        if (isParallel()) {
             super.j(fVar);
+        } else {
+            T.L0(J0()).e(fVar);
         }
     }
 

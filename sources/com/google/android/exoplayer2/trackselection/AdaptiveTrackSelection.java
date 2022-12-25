@@ -171,10 +171,9 @@ public class AdaptiveTrackSelection extends BaseTrackSelection {
                 this.selectedIndex = i;
             }
         }
-        if (this.selectedIndex == i) {
-            return;
+        if (this.selectedIndex != i) {
+            this.reason = 3;
         }
-        this.reason = 3;
     }
 
     @Override // com.google.android.exoplayer2.trackselection.TrackSelection

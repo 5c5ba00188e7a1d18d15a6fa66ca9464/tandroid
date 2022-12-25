@@ -15,12 +15,12 @@ public abstract class TLRPC$help_CountriesList extends TLObject {
         } else {
             tLRPC$TL_help_countriesList = new TLRPC$TL_help_countriesList();
         }
-        if (tLRPC$TL_help_countriesList != null || !z) {
-            if (tLRPC$TL_help_countriesList != null) {
-                tLRPC$TL_help_countriesList.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_help_countriesList;
+        if (tLRPC$TL_help_countriesList == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in help_CountriesList", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in help_CountriesList", Integer.valueOf(i)));
+        if (tLRPC$TL_help_countriesList != null) {
+            tLRPC$TL_help_countriesList.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_help_countriesList;
     }
 }

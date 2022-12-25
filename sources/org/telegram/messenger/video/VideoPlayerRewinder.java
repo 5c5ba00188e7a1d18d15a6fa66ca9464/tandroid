@@ -64,10 +64,9 @@ public class VideoPlayerRewinder {
                 VideoPlayerRewinder.this.cancelRewind();
             }
             VideoPlayerRewinder videoPlayerRewinder8 = VideoPlayerRewinder.this;
-            if (videoPlayerRewinder8.rewindCount <= 0) {
-                return;
+            if (videoPlayerRewinder8.rewindCount > 0) {
+                AndroidUtilities.runOnUIThread(videoPlayerRewinder8.backSeek, 16L);
             }
-            AndroidUtilities.runOnUIThread(videoPlayerRewinder8.backSeek, 16L);
         }
     };
 
@@ -129,12 +128,12 @@ public class VideoPlayerRewinder {
         onRewindCanceled();
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:39:0x0046, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:27:0x0046, code lost:
         if (r0 != 2) goto L23;
      */
-    /* JADX WARN: Removed duplicated region for block: B:25:0x004d  */
-    /* JADX WARN: Removed duplicated region for block: B:28:0x0072  */
-    /* JADX WARN: Removed duplicated region for block: B:33:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:31:0x004d  */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x0072  */
+    /* JADX WARN: Removed duplicated region for block: B:39:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -164,7 +163,7 @@ public class VideoPlayerRewinder {
                 }
                 AndroidUtilities.cancelRunOnUIThread(this.backSeek);
                 AndroidUtilities.runOnUIThread(this.backSeek);
-                if (!z) {
+                if (z) {
                 }
             }
             z = true;
@@ -172,7 +171,7 @@ public class VideoPlayerRewinder {
             }
             AndroidUtilities.cancelRunOnUIThread(this.backSeek);
             AndroidUtilities.runOnUIThread(this.backSeek);
-            if (!z) {
+            if (z) {
             }
         } else {
             int i3 = this.rewindCount;
@@ -189,21 +188,20 @@ public class VideoPlayerRewinder {
             }
             AndroidUtilities.cancelRunOnUIThread(this.backSeek);
             AndroidUtilities.runOnUIThread(this.backSeek);
-            if (!z) {
-                return;
-            }
-            Runnable runnable = this.updateRewindRunnable;
-            if (runnable != null) {
-                AndroidUtilities.cancelRunOnUIThread(runnable);
-            }
-            Runnable runnable2 = new Runnable() { // from class: org.telegram.messenger.video.VideoPlayerRewinder$$ExternalSyntheticLambda0
-                @Override // java.lang.Runnable
-                public final void run() {
-                    VideoPlayerRewinder.this.lambda$incrementRewindCount$0();
+            if (z) {
+                Runnable runnable = this.updateRewindRunnable;
+                if (runnable != null) {
+                    AndroidUtilities.cancelRunOnUIThread(runnable);
                 }
-            };
-            this.updateRewindRunnable = runnable2;
-            AndroidUtilities.runOnUIThread(runnable2, 2000L);
+                Runnable runnable2 = new Runnable() { // from class: org.telegram.messenger.video.VideoPlayerRewinder$$ExternalSyntheticLambda0
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        VideoPlayerRewinder.this.lambda$incrementRewindCount$0();
+                    }
+                };
+                this.updateRewindRunnable = runnable2;
+                AndroidUtilities.runOnUIThread(runnable2, 2000L);
+            }
         }
     }
 
@@ -246,10 +244,10 @@ public class VideoPlayerRewinder {
             return photoViewerWebView.getCurrentPosition();
         }
         VideoPlayer videoPlayer = this.videoPlayer;
-        if (videoPlayer != null) {
-            return videoPlayer.getCurrentPosition();
+        if (videoPlayer == null) {
+            return 0L;
         }
-        return 0L;
+        return videoPlayer.getCurrentPosition();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -259,10 +257,10 @@ public class VideoPlayerRewinder {
             return photoViewerWebView.getVideoDuration();
         }
         VideoPlayer videoPlayer = this.videoPlayer;
-        if (videoPlayer != null) {
-            return videoPlayer.getDuration();
+        if (videoPlayer == null) {
+            return 0L;
         }
-        return 0L;
+        return videoPlayer.getDuration();
     }
 
     private boolean isPlaying() {
@@ -271,10 +269,10 @@ public class VideoPlayerRewinder {
             return photoViewerWebView.isPlaying();
         }
         VideoPlayer videoPlayer = this.videoPlayer;
-        if (videoPlayer != null) {
-            return videoPlayer.isPlaying();
+        if (videoPlayer == null) {
+            return false;
         }
-        return false;
+        return videoPlayer.isPlaying();
     }
 
     public float getVideoProgress() {

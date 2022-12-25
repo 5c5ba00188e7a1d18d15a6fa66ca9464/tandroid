@@ -32,8 +32,6 @@ public class ReleaseDownloadListener implements ReleaseDownloader.Listener {
 
     @Override // com.microsoft.appcenter.distribute.download.ReleaseDownloader.Listener
     public synchronized boolean onProgress(final long j, final long j2) {
-        boolean z;
-        z = false;
         AppCenterLog.verbose("AppCenterDistribute", String.format(Locale.ENGLISH, "Downloading %s (%d) update: %d KiB / %d KiB", this.mReleaseDetails.getShortVersion(), Integer.valueOf(this.mReleaseDetails.getVersion()), Long.valueOf(j / 1024), Long.valueOf(j2 / 1024)));
         HandlerUtils.runOnUiThread(new Runnable() { // from class: com.microsoft.appcenter.distribute.ReleaseDownloadListener.1
             @Override // java.lang.Runnable
@@ -41,10 +39,7 @@ public class ReleaseDownloadListener implements ReleaseDownloader.Listener {
                 ReleaseDownloadListener.this.updateProgressDialog(j, j2);
             }
         });
-        if (this.mProgressDialog != null) {
-            z = true;
-        }
-        return z;
+        return this.mProgressDialog != null;
     }
 
     @Override // com.microsoft.appcenter.distribute.download.ReleaseDownloader.Listener
@@ -77,18 +72,18 @@ public class ReleaseDownloadListener implements ReleaseDownloader.Listener {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized ProgressDialog showDownloadProgress(Activity activity) {
-        if (!this.mReleaseDetails.isMandatoryUpdate()) {
-            return null;
+        if (this.mReleaseDetails.isMandatoryUpdate()) {
+            ProgressDialog progressDialog = new ProgressDialog(activity);
+            this.mProgressDialog = progressDialog;
+            progressDialog.setTitle(R$string.appcenter_distribute_downloading_update);
+            this.mProgressDialog.setCancelable(false);
+            this.mProgressDialog.setProgressStyle(1);
+            this.mProgressDialog.setIndeterminate(true);
+            this.mProgressDialog.setProgressNumberFormat(null);
+            this.mProgressDialog.setProgressPercentFormat(null);
+            return this.mProgressDialog;
         }
-        ProgressDialog progressDialog = new ProgressDialog(activity);
-        this.mProgressDialog = progressDialog;
-        progressDialog.setTitle(R$string.appcenter_distribute_downloading_update);
-        this.mProgressDialog.setCancelable(false);
-        this.mProgressDialog.setProgressStyle(1);
-        this.mProgressDialog.setIndeterminate(true);
-        this.mProgressDialog.setProgressNumberFormat(null);
-        this.mProgressDialog.setProgressPercentFormat(null);
-        return this.mProgressDialog;
+        return null;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

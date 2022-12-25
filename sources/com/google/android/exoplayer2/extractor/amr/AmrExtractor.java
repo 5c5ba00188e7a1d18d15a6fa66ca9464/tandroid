@@ -96,12 +96,12 @@ public final class AmrExtractor implements Extractor {
             return true;
         }
         byte[] bArr2 = amrSignatureWb;
-        if (!peekAmrSignature(extractorInput, bArr2)) {
-            return false;
+        if (peekAmrSignature(extractorInput, bArr2)) {
+            this.isWideBand = true;
+            extractorInput.skipFully(bArr2.length);
+            return true;
         }
-        this.isWideBand = true;
-        extractorInput.skipFully(bArr2.length);
-        return true;
+        return false;
     }
 
     private boolean peekAmrSignature(ExtractorInput extractorInput, byte[] bArr) throws IOException, InterruptedException {
@@ -112,11 +112,12 @@ public final class AmrExtractor implements Extractor {
     }
 
     private void maybeOutputFormat() {
-        if (!this.hasOutputFormat) {
-            this.hasOutputFormat = true;
-            boolean z = this.isWideBand;
-            this.trackOutput.format(Format.createAudioSampleFormat(null, z ? "audio/amr-wb" : "audio/3gpp", null, -1, MAX_FRAME_SIZE_BYTES, 1, z ? 16000 : 8000, -1, null, null, 0, null));
+        if (this.hasOutputFormat) {
+            return;
         }
+        this.hasOutputFormat = true;
+        boolean z = this.isWideBand;
+        this.trackOutput.format(Format.createAudioSampleFormat(null, z ? "audio/amr-wb" : "audio/3gpp", null, -1, MAX_FRAME_SIZE_BYTES, 1, z ? 16000 : 8000, -1, null, null, 0, null));
     }
 
     private int readSample(ExtractorInput extractorInput) throws IOException, InterruptedException {
@@ -194,8 +195,7 @@ public final class AmrExtractor implements Extractor {
             this.seekMap = unseekable;
             this.extractorOutput.seekMap(unseekable);
             this.hasOutputSeekMap = true;
-        } else if (this.numSamplesWithSameSize < 20 && i != -1) {
-        } else {
+        } else if (this.numSamplesWithSameSize >= 20 || i == -1) {
             SeekMap constantBitrateSeekMap = getConstantBitrateSeekMap(j);
             this.seekMap = constantBitrateSeekMap;
             this.extractorOutput.seekMap(constantBitrateSeekMap);

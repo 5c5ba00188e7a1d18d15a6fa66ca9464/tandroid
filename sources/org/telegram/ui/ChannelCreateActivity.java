@@ -91,6 +91,7 @@ import org.telegram.ui.Components.SizeNotifierFrameLayout;
 import org.telegram.ui.Components.TypefaceSpan;
 /* loaded from: classes3.dex */
 public class ChannelCreateActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate, ImageUpdater.ImageUpdaterDelegate {
+    private ArrayList<AdminedChannelCell> adminedChannelCells;
     private TextInfoPrivacyCell adminedInfoCell;
     private LinearLayout adminnedChannelsLayout;
     private TLRPC$FileLocation avatar;
@@ -117,6 +118,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
     private boolean donePressed;
     private Integer doneRequestId;
     private EditTextBoldCursor editText;
+    private Runnable enableDoneLoading;
     private HeaderCell headerCell;
     private HeaderCell headerCell2;
     private TextView helpTextView;
@@ -144,13 +146,6 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
     private ShadowSectionCell sectionCell;
     private TextInfoPrivacyCell typeInfoCell;
     private double videoTimestamp;
-    private ArrayList<AdminedChannelCell> adminedChannelCells = new ArrayList<>();
-    private Runnable enableDoneLoading = new Runnable() { // from class: org.telegram.ui.ChannelCreateActivity$$ExternalSyntheticLambda13
-        @Override // java.lang.Runnable
-        public final void run() {
-            ChannelCreateActivity.this.lambda$new$3();
-        }
-    };
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ boolean lambda$createView$5(View view, MotionEvent motionEvent) {
@@ -169,7 +164,14 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
 
     public ChannelCreateActivity(Bundle bundle) {
         super(bundle);
+        this.adminedChannelCells = new ArrayList<>();
         this.canCreatePublic = true;
+        this.enableDoneLoading = new Runnable() { // from class: org.telegram.ui.ChannelCreateActivity$$ExternalSyntheticLambda13
+            @Override // java.lang.Runnable
+            public final void run() {
+                ChannelCreateActivity.this.lambda$new$3();
+            }
+        };
         int i = bundle.getInt("step", 0);
         this.currentStep = i;
         if (i == 0) {
@@ -352,7 +354,6 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
             }
             float[] fArr = new float[2];
             fArr[0] = this.doneButtonDrawable.getProgress();
-            float f = 1.0f;
             fArr[1] = z ? 1.0f : 0.0f;
             ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
             this.doneButtonDrawableAnimator = ofFloat;
@@ -362,12 +363,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
                     ChannelCreateActivity.this.lambda$updateDoneProgress$4(valueAnimator2);
                 }
             });
-            ValueAnimator valueAnimator2 = this.doneButtonDrawableAnimator;
-            float progress = this.doneButtonDrawable.getProgress();
-            if (!z) {
-                f = 0.0f;
-            }
-            valueAnimator2.setDuration(Math.abs(progress - f) * 200.0f);
+            this.doneButtonDrawableAnimator.setDuration(Math.abs(this.doneButtonDrawable.getProgress() - (z ? 1.0f : 0.0f)) * 200.0f);
             this.doneButtonDrawableAnimator.setInterpolator(CubicBezierInterpolator.DEFAULT);
             this.doneButtonDrawableAnimator.start();
         }
@@ -396,40 +392,38 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
                     } else {
                         ChannelCreateActivity.this.finishFragment();
                     }
-                } else if (i != 1) {
-                } else {
+                } else if (i == 1) {
                     if (ChannelCreateActivity.this.currentStep != 0) {
-                        if (ChannelCreateActivity.this.currentStep != 1) {
-                            return;
-                        }
-                        if (!ChannelCreateActivity.this.isPrivate) {
-                            if (ChannelCreateActivity.this.descriptionTextView.length() != 0) {
-                                if (ChannelCreateActivity.this.lastNameAvailable) {
-                                    MessagesController messagesController = MessagesController.getInstance(((BaseFragment) ChannelCreateActivity.this).currentAccount);
-                                    ChannelCreateActivity channelCreateActivity = ChannelCreateActivity.this;
-                                    messagesController.updateChannelUserName(channelCreateActivity, channelCreateActivity.chatId, ChannelCreateActivity.this.lastCheckName, null, null);
-                                } else {
-                                    Vibrator vibrator = (Vibrator) ChannelCreateActivity.this.getParentActivity().getSystemService("vibrator");
-                                    if (vibrator != null) {
-                                        vibrator.vibrate(200L);
+                        if (ChannelCreateActivity.this.currentStep == 1) {
+                            if (!ChannelCreateActivity.this.isPrivate) {
+                                if (ChannelCreateActivity.this.descriptionTextView.length() != 0) {
+                                    if (ChannelCreateActivity.this.lastNameAvailable) {
+                                        MessagesController messagesController = MessagesController.getInstance(((BaseFragment) ChannelCreateActivity.this).currentAccount);
+                                        ChannelCreateActivity channelCreateActivity = ChannelCreateActivity.this;
+                                        messagesController.updateChannelUserName(channelCreateActivity, channelCreateActivity.chatId, ChannelCreateActivity.this.lastCheckName, null, null);
+                                    } else {
+                                        Vibrator vibrator = (Vibrator) ChannelCreateActivity.this.getParentActivity().getSystemService("vibrator");
+                                        if (vibrator != null) {
+                                            vibrator.vibrate(200L);
+                                        }
+                                        AndroidUtilities.shakeView(ChannelCreateActivity.this.checkTextView);
+                                        return;
                                     }
-                                    AndroidUtilities.shakeView(ChannelCreateActivity.this.checkTextView);
+                                } else {
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(ChannelCreateActivity.this.getParentActivity());
+                                    builder.setTitle(LocaleController.getString("ChannelPublicEmptyUsernameTitle", R.string.ChannelPublicEmptyUsernameTitle));
+                                    builder.setMessage(LocaleController.getString("ChannelPublicEmptyUsername", R.string.ChannelPublicEmptyUsername));
+                                    builder.setPositiveButton(LocaleController.getString("Close", R.string.Close), null);
+                                    ChannelCreateActivity.this.showDialog(builder.create());
                                     return;
                                 }
-                            } else {
-                                AlertDialog.Builder builder = new AlertDialog.Builder(ChannelCreateActivity.this.getParentActivity());
-                                builder.setTitle(LocaleController.getString("ChannelPublicEmptyUsernameTitle", R.string.ChannelPublicEmptyUsernameTitle));
-                                builder.setMessage(LocaleController.getString("ChannelPublicEmptyUsername", R.string.ChannelPublicEmptyUsername));
-                                builder.setPositiveButton(LocaleController.getString("Close", R.string.Close), null);
-                                ChannelCreateActivity.this.showDialog(builder.create());
-                                return;
                             }
+                            Bundle bundle = new Bundle();
+                            bundle.putInt("step", 2);
+                            bundle.putLong("chatId", ChannelCreateActivity.this.chatId);
+                            bundle.putInt("chatType", 2);
+                            ChannelCreateActivity.this.presentFragment(new GroupCreateActivity(bundle), true);
                         }
-                        Bundle bundle = new Bundle();
-                        bundle.putInt("step", 2);
-                        bundle.putLong("chatId", ChannelCreateActivity.this.chatId);
-                        bundle.putInt("chatType", 2);
-                        ChannelCreateActivity.this.presentFragment(new GroupCreateActivity(bundle), true);
                     } else if (ChannelCreateActivity.this.getParentActivity() == null) {
                     } else {
                         if (ChannelCreateActivity.this.donePressed) {
@@ -500,11 +494,11 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
                 }
 
                 /* JADX INFO: Access modifiers changed from: protected */
-                /* JADX WARN: Removed duplicated region for block: B:22:0x0072  */
-                /* JADX WARN: Removed duplicated region for block: B:29:0x00a1  */
-                /* JADX WARN: Removed duplicated region for block: B:33:0x00b3  */
-                /* JADX WARN: Removed duplicated region for block: B:35:0x00bc  */
-                /* JADX WARN: Removed duplicated region for block: B:42:0x008c  */
+                /* JADX WARN: Removed duplicated region for block: B:28:0x0072  */
+                /* JADX WARN: Removed duplicated region for block: B:35:0x008c  */
+                /* JADX WARN: Removed duplicated region for block: B:39:0x00a1  */
+                /* JADX WARN: Removed duplicated region for block: B:43:0x00b3  */
+                /* JADX WARN: Removed duplicated region for block: B:44:0x00bc  */
                 @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
                 /*
                     Code decompiled incorrectly, please refer to instructions dump.
@@ -1000,8 +994,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
     public /* synthetic */ void lambda$createView$11(View view) {
         if (!this.canCreatePublic) {
             showPremiumIncreaseLimitDialog();
-        } else if (!this.isPrivate) {
-        } else {
+        } else if (this.isPrivate) {
             this.isPrivate = false;
             updatePrivatePublic();
         }
@@ -1274,14 +1267,12 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
                 bundle.putString("path", str);
             }
             EditTextEmoji editTextEmoji = this.nameTextView;
-            if (editTextEmoji == null) {
-                return;
+            if (editTextEmoji != null) {
+                String obj = editTextEmoji.getText().toString();
+                if (obj.length() != 0) {
+                    bundle.putString("nameTextView", obj);
+                }
             }
-            String obj = editTextEmoji.getText().toString();
-            if (obj.length() == 0) {
-                return;
-            }
-            bundle.putString("nameTextView", obj);
         }
     }
 
@@ -1292,14 +1283,13 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
                 imageUpdater.currentPicturePath = bundle.getString("path");
             }
             String string = bundle.getString("nameTextView");
-            if (string == null) {
-                return;
-            }
-            EditTextEmoji editTextEmoji = this.nameTextView;
-            if (editTextEmoji != null) {
-                editTextEmoji.setText(string);
-            } else {
-                this.nameToSet = string;
+            if (string != null) {
+                EditTextEmoji editTextEmoji = this.nameTextView;
+                if (editTextEmoji != null) {
+                    editTextEmoji.setText(string);
+                } else {
+                    this.nameToSet = string;
+                }
             }
         }
     }
@@ -1327,8 +1317,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
             }
             updateDoneProgress(false);
             this.donePressed = false;
-        } else if (i != NotificationCenter.chatDidCreated) {
-        } else {
+        } else if (i == NotificationCenter.chatDidCreated) {
             AlertDialog alertDialog2 = this.cancelDialog;
             if (alertDialog2 != null) {
                 try {

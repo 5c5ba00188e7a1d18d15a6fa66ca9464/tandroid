@@ -248,8 +248,7 @@ public class StickerSetCell extends FrameLayout {
             this.premiumButtonView.performClick();
         } else if (this.addButtonView.getVisibility() == 0 && this.addButtonView.isEnabled()) {
             this.addButtonView.performClick();
-        } else if (this.removeButtonView.getVisibility() != 0 || !this.removeButtonView.isEnabled()) {
-        } else {
+        } else if (this.removeButtonView.getVisibility() == 0 && this.removeButtonView.isEnabled()) {
             this.removeButtonView.performClick();
         }
     }
@@ -310,32 +309,22 @@ public class StickerSetCell extends FrameLayout {
         }
         boolean z3 = tLRPC$TL_messages_stickerSet.set.emojis;
         this.emojis = z3;
-        int i = 8;
         this.sideButtons.setVisibility(z3 ? 0 : 8);
-        ImageView imageView = this.optionsButton;
-        if (!this.emojis) {
-            i = 0;
-        }
-        imageView.setVisibility(i);
+        this.optionsButton.setVisibility(this.emojis ? 8 : 0);
         TLRPC$Document tLRPC$Document = null;
         this.imageView.setColorFilter(null);
         ArrayList<TLRPC$Document> arrayList = tLRPC$TL_messages_stickerSet.documents;
-        String str = "EmojiCount";
         if (arrayList != null && !arrayList.isEmpty()) {
-            TextView textView = this.valueTextView;
-            if (!this.emojis) {
-                str = "Stickers";
-            }
-            textView.setText(LocaleController.formatPluralString(str, arrayList.size(), new Object[0]));
-            int i2 = 0;
+            this.valueTextView.setText(LocaleController.formatPluralString(this.emojis ? "EmojiCount" : "Stickers", arrayList.size(), new Object[0]));
+            int i = 0;
             while (true) {
-                if (i2 < arrayList.size()) {
-                    TLRPC$Document tLRPC$Document2 = arrayList.get(i2);
+                if (i < arrayList.size()) {
+                    TLRPC$Document tLRPC$Document2 = arrayList.get(i);
                     if (tLRPC$Document2 != null && tLRPC$Document2.id == tLRPC$TL_messages_stickerSet.set.thumb_document_id) {
                         tLRPC$Document = tLRPC$Document2;
                         break;
                     }
-                    i2++;
+                    i++;
                 } else {
                     break;
                 }
@@ -371,19 +360,15 @@ public class StickerSetCell extends FrameLayout {
                 this.imageView.setImage(imageLocation, "50_50", "webp", svgThumb, tLRPC$TL_messages_stickerSet);
             }
         } else {
-            TextView textView2 = this.valueTextView;
-            if (!tLRPC$TL_messages_stickerSet.set.emojis) {
-                str = "Stickers";
-            }
-            textView2.setText(LocaleController.formatPluralString(str, 0, new Object[0]));
+            this.valueTextView.setText(LocaleController.formatPluralString(tLRPC$TL_messages_stickerSet.set.emojis ? "EmojiCount" : "Stickers", 0, new Object[0]));
             this.imageView.setImageDrawable(null);
         }
         if (z2) {
-            TextView textView3 = this.valueTextView;
+            TextView textView = this.valueTextView;
             StringBuilder sb = new StringBuilder();
             sb.append(tLRPC$TL_messages_stickerSet.set.emojis ? "t.me/addemoji/" : "t.me/addstickers/");
             sb.append(tLRPC$TL_messages_stickerSet.set.short_name);
-            textView3.setText(sb.toString());
+            textView.setText(sb.toString());
         }
     }
 
@@ -405,18 +390,16 @@ public class StickerSetCell extends FrameLayout {
             this.checkBox.setChecked(z, z2);
             return;
         }
-        float f = 0.0f;
-        int i2 = 0;
-        float f2 = 1.0f;
         if (this.emojis) {
             if (z2) {
                 this.sideButtons.animate().cancel();
-                ViewPropertyAnimator listener = this.sideButtons.animate().setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.StickerSetCell.2
+                this.sideButtons.animate().setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.StickerSetCell.2
                     @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                     public void onAnimationEnd(Animator animator) {
-                        if (!z) {
-                            StickerSetCell.this.sideButtons.setVisibility(4);
+                        if (z) {
+                            return;
                         }
+                        StickerSetCell.this.sideButtons.setVisibility(4);
                     }
 
                     @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -425,37 +408,25 @@ public class StickerSetCell extends FrameLayout {
                             StickerSetCell.this.sideButtons.setVisibility(0);
                         }
                     }
-                });
-                if (z) {
-                    f = 1.0f;
-                }
-                ViewPropertyAnimator scaleX = listener.alpha(f).scaleX(z ? 1.0f : 0.1f);
-                if (!z) {
-                    f2 = 0.1f;
-                }
-                scaleX.scaleY(f2).setDuration(150L).start();
+                }).alpha(z ? 1.0f : 0.0f).scaleX(z ? 1.0f : 0.1f).scaleY(z ? 1.0f : 0.1f).setDuration(150L).start();
                 return;
             }
-            FrameLayout frameLayout = this.sideButtons;
-            if (!z) {
-                i2 = 4;
-            }
-            frameLayout.setVisibility(i2);
+            this.sideButtons.setVisibility(z ? 0 : 4);
             if (z) {
                 return;
             }
             this.sideButtons.setScaleX(0.1f);
             this.sideButtons.setScaleY(0.1f);
-        } else if (i != 3) {
-        } else {
+        } else if (i == 3) {
             if (z2) {
                 this.optionsButton.animate().cancel();
-                ViewPropertyAnimator listener2 = this.optionsButton.animate().setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.StickerSetCell.3
+                this.optionsButton.animate().setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.StickerSetCell.3
                     @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                     public void onAnimationEnd(Animator animator) {
-                        if (!z) {
-                            StickerSetCell.this.optionsButton.setVisibility(4);
+                        if (z) {
+                            return;
                         }
+                        StickerSetCell.this.optionsButton.setVisibility(4);
                     }
 
                     @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -464,22 +435,10 @@ public class StickerSetCell extends FrameLayout {
                             StickerSetCell.this.optionsButton.setVisibility(0);
                         }
                     }
-                });
-                if (z) {
-                    f = 1.0f;
-                }
-                ViewPropertyAnimator scaleX2 = listener2.alpha(f).scaleX(z ? 1.0f : 0.1f);
-                if (!z) {
-                    f2 = 0.1f;
-                }
-                scaleX2.scaleY(f2).setDuration(150L).start();
+                }).alpha(z ? 1.0f : 0.0f).scaleX(z ? 1.0f : 0.1f).scaleY(z ? 1.0f : 0.1f).setDuration(150L).start();
                 return;
             }
-            ImageView imageView = this.optionsButton;
-            if (!z) {
-                i2 = 4;
-            }
-            imageView.setVisibility(i2);
+            this.optionsButton.setVisibility(z ? 0 : 4);
             if (z) {
                 return;
             }
@@ -495,20 +454,11 @@ public class StickerSetCell extends FrameLayout {
     public void setReorderable(final boolean z, boolean z2) {
         if (this.option == 1) {
             float[] fArr = new float[2];
-            float f = 0.0f;
-            float f2 = 1.0f;
-            int i = 0;
             fArr[0] = z ? 1.0f : 0.0f;
-            if (!z) {
-                f = 1.0f;
-            }
-            fArr[1] = f;
+            fArr[1] = z ? 0.0f : 1.0f;
             float[] fArr2 = new float[2];
             fArr2[0] = z ? 1.0f : 0.66f;
-            if (z) {
-                f2 = 0.66f;
-            }
-            fArr2[1] = f2;
+            fArr2[1] = z ? 0.66f : 1.0f;
             if (z2) {
                 this.reorderButton.setVisibility(0);
                 ViewPropertyAnimator duration = this.reorderButton.animate().alpha(fArr[0]).scaleX(fArr2[0]).scaleY(fArr2[0]).setDuration(200L);
@@ -543,21 +493,13 @@ public class StickerSetCell extends FrameLayout {
             this.reorderButton.setScaleX(fArr2[0]);
             this.reorderButton.setScaleY(fArr2[0]);
             if (this.emojis) {
-                FrameLayout frameLayout = this.sideButtons;
-                if (z) {
-                    i = 8;
-                }
-                frameLayout.setVisibility(i);
+                this.sideButtons.setVisibility(z ? 8 : 0);
                 this.sideButtons.setAlpha(fArr[1]);
                 this.sideButtons.setScaleX(fArr2[1]);
                 this.sideButtons.setScaleY(fArr2[1]);
                 return;
             }
-            ImageView imageView = this.optionsButton;
-            if (z) {
-                i = 8;
-            }
-            imageView.setVisibility(i);
+            this.optionsButton.setVisibility(z ? 8 : 0);
             this.optionsButton.setAlpha(fArr[1]);
             this.optionsButton.setScaleX(fArr2[1]);
             this.optionsButton.setScaleY(fArr2[1]);
@@ -566,9 +508,10 @@ public class StickerSetCell extends FrameLayout {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setReorderable$4(boolean z) {
-        if (!z) {
-            this.reorderButton.setVisibility(8);
+        if (z) {
+            return;
         }
+        this.reorderButton.setVisibility(8);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -662,12 +605,9 @@ public class StickerSetCell extends FrameLayout {
                 }
             });
         }
-        int i2 = 0;
         this.premiumButtonView.setEnabled(i == 1 || i == 2);
         this.addButtonView.setEnabled(i == 3);
         this.removeButtonView.setEnabled(i == 4);
-        float f = 0.0f;
-        float f2 = 0.6f;
         if (z) {
             AnimatorSet animatorSet2 = new AnimatorSet();
             this.stateAnimator = animatorSet2;
@@ -705,10 +645,7 @@ public class StickerSetCell extends FrameLayout {
             TextView textView4 = this.removeButtonView;
             Property property7 = FrameLayout.ALPHA;
             float[] fArr7 = new float[1];
-            if (i == 4) {
-                f = 1.0f;
-            }
-            fArr7[0] = f;
+            fArr7[0] = i == 4 ? 1.0f : 0.0f;
             animatorArr[6] = ObjectAnimator.ofFloat(textView4, property7, fArr7);
             TextView textView5 = this.removeButtonView;
             Property property8 = FrameLayout.SCALE_X;
@@ -718,10 +655,7 @@ public class StickerSetCell extends FrameLayout {
             TextView textView6 = this.removeButtonView;
             Property property9 = FrameLayout.SCALE_Y;
             float[] fArr9 = new float[1];
-            if (i == 4) {
-                f2 = 1.0f;
-            }
-            fArr9[0] = f2;
+            fArr9[0] = i == 4 ? 1.0f : 0.6f;
             animatorArr[8] = ObjectAnimator.ofFloat(textView6, property9, fArr9);
             animatorSet2.playTogether(animatorArr);
             this.stateAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.StickerSetCell.4
@@ -735,15 +669,10 @@ public class StickerSetCell extends FrameLayout {
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                 public void onAnimationEnd(Animator animator) {
                     PremiumButtonView premiumButtonView4 = StickerSetCell.this.premiumButtonView;
-                    int i3 = i;
-                    int i4 = 8;
-                    premiumButtonView4.setVisibility((i3 == 1 || i3 == 2) ? 0 : 8);
+                    int i2 = i;
+                    premiumButtonView4.setVisibility((i2 == 1 || i2 == 2) ? 0 : 8);
                     StickerSetCell.this.addButtonView.setVisibility(i == 3 ? 0 : 8);
-                    TextView textView7 = StickerSetCell.this.removeButtonView;
-                    if (i == 4) {
-                        i4 = 0;
-                    }
-                    textView7.setVisibility(i4);
+                    StickerSetCell.this.removeButtonView.setVisibility(i == 4 ? 0 : 8);
                     StickerSetCell.this.updateRightMargin();
                 }
             });
@@ -760,22 +689,10 @@ public class StickerSetCell extends FrameLayout {
         this.addButtonView.setScaleX(i == 3 ? 1.0f : 0.6f);
         this.addButtonView.setScaleY(i == 3 ? 1.0f : 0.6f);
         this.addButtonView.setVisibility(i == 3 ? 0 : 8);
-        TextView textView7 = this.removeButtonView;
-        if (i == 4) {
-            f = 1.0f;
-        }
-        textView7.setAlpha(f);
+        this.removeButtonView.setAlpha(i == 4 ? 1.0f : 0.0f);
         this.removeButtonView.setScaleX(i == 4 ? 1.0f : 0.6f);
-        TextView textView8 = this.removeButtonView;
-        if (i == 4) {
-            f2 = 1.0f;
-        }
-        textView8.setScaleY(f2);
-        TextView textView9 = this.removeButtonView;
-        if (i != 4) {
-            i2 = 8;
-        }
-        textView9.setVisibility(i2);
+        this.removeButtonView.setScaleY(i == 4 ? 1.0f : 0.6f);
+        this.removeButtonView.setVisibility(i != 4 ? 8 : 0);
         updateRightMargin();
     }
 

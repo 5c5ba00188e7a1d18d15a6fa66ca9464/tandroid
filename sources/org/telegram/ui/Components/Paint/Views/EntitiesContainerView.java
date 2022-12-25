@@ -13,8 +13,8 @@ public class EntitiesContainerView extends FrameLayout implements ScaleGestureDe
     private ScaleGestureDetector gestureDetector;
     private boolean hasTransformed;
     private float previousAngle;
-    private float previousScale = 1.0f;
-    private RotationGestureDetector rotationGestureDetector = new RotationGestureDetector(this);
+    private float previousScale;
+    private RotationGestureDetector rotationGestureDetector;
 
     /* loaded from: classes3.dex */
     public interface EntitiesContainerViewDelegate {
@@ -35,7 +35,9 @@ public class EntitiesContainerView extends FrameLayout implements ScaleGestureDe
 
     public EntitiesContainerView(Context context, EntitiesContainerViewDelegate entitiesContainerViewDelegate) {
         super(context);
+        this.previousScale = 1.0f;
         this.gestureDetector = new ScaleGestureDetector(context, this);
+        this.rotationGestureDetector = new RotationGestureDetector(this);
         this.delegate = entitiesContainerViewDelegate;
     }
 

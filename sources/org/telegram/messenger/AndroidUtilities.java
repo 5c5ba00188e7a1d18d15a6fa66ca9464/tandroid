@@ -313,7 +313,6 @@ public class AndroidUtilities {
     }
 
     static {
-        boolean z = false;
         WEB_URL = null;
         BAD_CHARS_PATTERN = null;
         BAD_CHARS_MESSAGE_PATTERN = null;
@@ -331,24 +330,21 @@ public class AndroidUtilities {
         documentIcons = new int[]{R.drawable.media_doc_blue, R.drawable.media_doc_green, R.drawable.media_doc_red, R.drawable.media_doc_yellow};
         documentMediaIcons = new int[]{R.drawable.media_doc_blue_b, R.drawable.media_doc_green_b, R.drawable.media_doc_red_b, R.drawable.media_doc_yellow_b};
         sUrlMatchFilter = AndroidUtilities$$ExternalSyntheticLambda4.INSTANCE;
-        if (Build.VERSION.SDK_INT >= 23) {
-            z = true;
-        }
-        hasCallPermissions = z;
+        hasCallPermissions = Build.VERSION.SDK_INT >= 23;
         numbersSignatureArray = new String[]{"", "K", "M", "G", "T", "P"};
         flagSecureReasons = new HashMap<>();
         characters = new char[]{160, ' ', '!', '\"', '#', '%', '&', '\'', '(', ')', '*', ',', '-', '.', '/', ':', ';', '?', '@', '[', '\\', ']', '_', '{', '}', 161, 167, 171, 182, 183, 187, 191, 894, 903, 1370, 1371, 1372, 1373, 1374, 1375, 1417, 1418, 1470, 1472, 1475, 1478, 1523, 1524, 1545, 1546, 1548, 1549, 1563, 1566, 1567, 1642, 1643, 1644, 1645, 1748, 1792, 1793, 1794, 1795, 1796, 1797, 1798, 1799, 1800, 1801, 1802, 1803, 1804, 1805, 2039, 2040, 2041, 2096, 2097, 2098, 2099, 2100, 2101, 2102, 2103, 2104, 2105, 2106, 2107, 2108, 2109, 2110, 2142, 2404, 2405, 2416, 2557, 2678, 2800, 3191, 3204, 3572, 3663, 3674, 3675, 3844, 3845, 3846, 3847, 3848, 3849, 3850, 3851, 3852, 3853, 3854, 3855, 3856, 3857, 3858, 3860, 3898, 3899, 3900, 3901, 3973, 4048, 4049, 4050, 4051, 4052, 4057, 4058, 4170, 4171, 4172, 4173, 4174, 4175, 4347, 4960, 4961, 4962, 4963, 4964, 4965, 4966, 4967, 4968, 5120, 5742, 5787, 5788, 5867, 5868, 5869, 5941, 5942, 6100, 6101, 6102, 6104, 6105, 6106, 6144, 6145, 6146, 6147, 6148, 6149, 6150, 6151, 6152, 6153, 6154, 6468, 6469, 6686, 6687, 6816, 6817, 6818, 6819, 6820, 6821, 6822, 6824, 6825, 6826, 6827, 6828, 6829, 7002, 7003, 7004, 7005, 7006, 7007, 7008, 7164, 7165, 7166, 7167, 7227, 7228, 7229, 7230, 7231, 7294, 7295, 7360, 7361, 7362, 7363, 7364, 7365, 7366, 7367, 7379, 8208, 8209, 8210, 8211, 8212, 8213, 8214, 8215, 8216, 8217, 8218, 8219, 8220, 8221, 8222, 8223, 8224, 8225, 8226, 8227, 8228, 8229, 8230, 8231, 8240, 8241, 8242, 8243, 8244, 8245, 8246, 8247, 8248, 8249, 8250, 8251, 8252, 8253, 8254, 8255, 8256, 8257, 8258, 8259, 8261, 8262, 8263, 8264, 8265, 8266, 8267, 8268, 8269, 8270, 8271, 8272, 8273, 8275, 8276, 8277, 8278, 8279, 8280, 8281, 8282, 8283, 8284, 8285, 8286, 8317, 8318, 8333, 8334, 8968, 8969, 8970, 8971, 9001, 9002, 10088, 10089, 10090, 10091, 10092, 10093, 10094, 10095, 10096, 10097, 10098, 10099, 10100, 10101, 10181, 10182, 10214, 10215, 10216, 10217, 10218, 10219, 10220, 10221, 10222, 10223, 10627, 10628, 10629, 10630, 10631, 10632, 10633, 10634, 10635, 10636, 10637, 10638, 10639, 10640, 10641, 10642, 10643, 10644, 10645, 10646, 10647, 10648, 10712, 10713, 10714, 10715, 10748, 10749, 11513, 11514, 11515, 11516, 11518, 11519, 11632, 11776, 11777, 11778, 11779, 11780, 11781, 11782, 11783, 11784, 11785, 11786, 11787, 11788, 11789, 11790, 11791, 11792, 11793, 11794, 11795, 11796, 11797, 11798, 11799, 11800, 11801, 11802, 11803, 11804, 11805, 11806, 11807, 11808, 11809, 11810, 11811, 11812, 11813, 11814, 11815, 11816, 11817, 11818, 11819, 11820, 11821, 11822, 11824, 11825, 11826, 11827, 11828, 11829, 11830, 11831, 11832, 11833, 11834, 11835, 11836, 11837, 11838, 11839, 11840, 11841, 11842, 11843, 11844, 11845, 11846, 11847, 11848, 11849, 11850, 11851, 11852, 11853, 11854, 11855, 12289, 12290, 12291, 12296, 12297, 12298, 12299, 12300, 12301, 12302, 12303, 12304, 12305, 12308, 12309, 12310, 12311, 12312, 12313, 12314, 12315, 12316, 12317, 12318, 12319, 12336, 12349, 12448, 12539, 42238, 42239, 42509, 42510, 42511, 42611, 42622, 42738, 42739, 42740, 42741, 42742, 42743, 43124, 43125, 43126, 43127, 43214, 43215, 43256, 43257, 43258, 43260, 43310, 43311, 43359, 43457, 43458, 43459, 43460, 43461, 43462, 43463, 43464, 43465, 43466, 43467, 43468, 43469, 43486, 43487, 43612, 43613, 43614, 43615, 43742, 43743, 43760, 43761, 44011, 64830, 64831, 65040, 65041, 65042, 65043, 65044, 65045, 65046, 65047, 65048, 65049, 65072, 65073, 65074, 65075, 65076, 65077, 65078, 65079, 65080, 65081, 65082, 65083, 65084, 65085, 65086, 65087, 65088, 65089, 65090, 65091, 65092, 65093, 65094, 65095, 65096, 65097, 65098, 65099, 65100, 65101, 65102, 65103, 65104, 65105, 65106, 65108, 65109, 65110, 65111, 65112, 65113, 65114, 65115, 65116, 65117, 65118, 65119, 65120, 65121, 65123, 65128, 65130, 65131, 65281, 65282, 65283, 65285, 65286, 65287, 65288, 65289, 65290, 65292, 65293, 65294, 65295, 65306, 65307, 65311, 65312, 65339, 65340, 65341, 65343, 65371, 65373, 65375, 65376, 65377, 65378, 65379, 65380, 65381};
     }
 
     private static boolean containsUnsupportedCharacters(String str) {
-        if (!str.contains("\u202c") && !str.contains("\u202d") && !str.contains("\u202e")) {
-            try {
-                return BAD_CHARS_PATTERN.matcher(str).find();
-            } catch (Throwable unused) {
-                return true;
-            }
+        if (str.contains("\u202c") || str.contains("\u202d") || str.contains("\u202e")) {
+            return true;
         }
-        return true;
+        try {
+            return BAD_CHARS_PATTERN.matcher(str).find();
+        } catch (Throwable unused) {
+            return true;
+        }
     }
 
     public static String getSafeString(String str) {
@@ -443,10 +439,10 @@ public class AndroidUtilities {
                 i++;
             }
         }
-        if (i != arrayList.size()) {
-            return charSequence;
+        if (i == arrayList.size()) {
+            return null;
         }
-        return null;
+        return charSequence;
     }
 
     public static CharSequence highlightText(CharSequence charSequence, String str, Theme.ResourcesProvider resourcesProvider) {
@@ -471,10 +467,10 @@ public class AndroidUtilities {
         if (context instanceof Activity) {
             return (Activity) context;
         }
-        if (!(context instanceof ContextWrapper)) {
-            return null;
+        if (context instanceof ContextWrapper) {
+            return findActivity(((ContextWrapper) context).getBaseContext());
         }
-        return findActivity(((ContextWrapper) context).getBaseContext());
+        return null;
     }
 
     public static CharSequence replaceSingleTag(String str, Runnable runnable) {
@@ -567,15 +563,14 @@ public class AndroidUtilities {
     }
 
     public static void googleVoiceClientService_performAction(final Intent intent, boolean z, Bundle bundle) {
-        if (!z) {
-            return;
+        if (z) {
+            runOnUIThread(new Runnable() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda9
+                @Override // java.lang.Runnable
+                public final void run() {
+                    AndroidUtilities.lambda$googleVoiceClientService_performAction$2(intent);
+                }
+            });
         }
-        runOnUIThread(new Runnable() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda9
-            @Override // java.lang.Runnable
-            public final void run() {
-                AndroidUtilities.lambda$googleVoiceClientService_performAction$2(intent);
-            }
-        });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -594,11 +589,10 @@ public class AndroidUtilities {
                 if (user == null && (user = MessagesStorage.getInstance(i).getUserSync(parseLong)) != null) {
                     MessagesController.getInstance(i).putUser(user, true);
                 }
-                if (user == null) {
-                    return;
+                if (user != null) {
+                    ContactsController.getInstance(i).markAsContacted(stringExtra2);
+                    SendMessagesHelper.getInstance(i).sendMessage(stringExtra, user.id, null, null, null, true, null, null, null, true, 0, null, false);
                 }
-                ContactsController.getInstance(i).markAsContacted(stringExtra2);
-                SendMessagesHelper.getInstance(i).sendMessage(stringExtra, user.id, null, null, null, true, null, null, null, true, 0, null, false);
             }
         } catch (Exception e) {
             FileLog.e(e);
@@ -745,10 +739,10 @@ public class AndroidUtilities {
         if (i3 < i4) {
             return -1;
         }
-        if (i3 > i4 || (i = linkSpec.end) < (i2 = linkSpec2.end)) {
-            return 1;
+        if (i3 <= i4 && (i = linkSpec.end) >= (i2 = linkSpec2.end)) {
+            return i > i2 ? -1 : 0;
         }
-        return i > i2 ? -1 : 0;
+        return 1;
     }
 
     public static void fillStatusBarHeight(Context context) {
@@ -1063,10 +1057,9 @@ public class AndroidUtilities {
             return;
         }
         int i2 = adjustOwnerClassGuid;
-        if (i2 != 0 && i2 != i) {
-            return;
+        if (i2 == 0 || i2 == i) {
+            activity.getWindow().setSoftInputMode(48);
         }
-        activity.getWindow().setSoftInputMode(48);
     }
 
     public static void removeAdjustResize(Activity activity, int i) {
@@ -1247,11 +1240,10 @@ public class AndroidUtilities {
         }
         try {
             int i = prevOrientation;
-            if (i == -10) {
-                return;
+            if (i != -10) {
+                activity.setRequestedOrientation(i);
+                prevOrientation = -10;
             }
-            activity.setRequestedOrientation(i);
-            prevOrientation = -10;
         } catch (Exception e) {
             FileLog.e(e);
         }
@@ -1396,7 +1388,7 @@ public class AndroidUtilities {
         }
 
         /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-        /* JADX WARN: Code restructure failed: missing block: B:45:0x0090, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:36:0x0090, code lost:
             if (r0.equals("OTHER") == false) goto L37;
          */
         /*
@@ -1618,7 +1610,7 @@ public class AndroidUtilities {
                         str3 = null;
                     }
                     String str4 = "=";
-                    if (readLine.contains("=QUOTED-PRINTABLE") && readLine.endsWith(str4)) {
+                    if (readLine.contains("=QUOTED-PRINTABLE") && readLine.endsWith("=")) {
                         str3 = readLine.substring(i2, readLine.length() - 1);
                         r3 = 0;
                     } else {
@@ -1833,8 +1825,8 @@ public class AndroidUtilities {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:24:0x008a A[Catch: Exception -> 0x00a8, TryCatch #0 {Exception -> 0x00a8, blocks: (B:3:0x0002, B:5:0x0015, B:7:0x0019, B:8:0x001f, B:10:0x0025, B:11:0x0048, B:13:0x0054, B:15:0x006a, B:16:0x006e, B:18:0x0074, B:22:0x0084, B:24:0x008a, B:27:0x0096, B:29:0x007d, B:32:0x009f, B:35:0x002a, B:37:0x0030, B:39:0x0034, B:40:0x003a, B:42:0x0040), top: B:2:0x0002 }] */
-    /* JADX WARN: Removed duplicated region for block: B:27:0x0096 A[Catch: Exception -> 0x00a8, TryCatch #0 {Exception -> 0x00a8, blocks: (B:3:0x0002, B:5:0x0015, B:7:0x0019, B:8:0x001f, B:10:0x0025, B:11:0x0048, B:13:0x0054, B:15:0x006a, B:16:0x006e, B:18:0x0074, B:22:0x0084, B:24:0x008a, B:27:0x0096, B:29:0x007d, B:32:0x009f, B:35:0x002a, B:37:0x0030, B:39:0x0034, B:40:0x003a, B:42:0x0040), top: B:2:0x0002 }] */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x008a A[Catch: Exception -> 0x00a8, TryCatch #0 {Exception -> 0x00a8, blocks: (B:3:0x0002, B:5:0x0015, B:7:0x0019, B:9:0x001f, B:11:0x0025, B:23:0x0048, B:25:0x0054, B:27:0x006a, B:28:0x006e, B:30:0x0074, B:37:0x0084, B:39:0x008a, B:41:0x0096, B:34:0x007d, B:43:0x009f, B:12:0x002a, B:14:0x0030, B:16:0x0034, B:18:0x003a, B:20:0x0040), top: B:47:0x0002 }] */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x0096 A[Catch: Exception -> 0x00a8, TryCatch #0 {Exception -> 0x00a8, blocks: (B:3:0x0002, B:5:0x0015, B:7:0x0019, B:9:0x001f, B:11:0x0025, B:23:0x0048, B:25:0x0054, B:27:0x006a, B:28:0x006e, B:30:0x0074, B:37:0x0084, B:39:0x008a, B:41:0x0096, B:34:0x007d, B:43:0x009f, B:12:0x002a, B:14:0x0030, B:16:0x0034, B:18:0x003a, B:20:0x0040), top: B:47:0x0002 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1887,10 +1879,9 @@ public class AndroidUtilities {
         }
         try {
             InputMethodManager inputMethodManager = (InputMethodManager) view.getContext().getSystemService("input_method");
-            if (!inputMethodManager.isActive()) {
-                return;
+            if (inputMethodManager.isActive()) {
+                inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
             }
-            inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
         } catch (Exception e) {
             FileLog.e(e);
         }
@@ -2212,42 +2203,41 @@ public class AndroidUtilities {
     }
 
     public static void endIncomingCall() {
-        if (!hasCallPermissions) {
-            return;
-        }
-        try {
-            TelephonyManager telephonyManager = (TelephonyManager) ApplicationLoader.applicationContext.getSystemService("phone");
-            Method declaredMethod = Class.forName(telephonyManager.getClass().getName()).getDeclaredMethod("getITelephony", new Class[0]);
-            declaredMethod.setAccessible(true);
-            ITelephony iTelephony = (ITelephony) declaredMethod.invoke(telephonyManager, new Object[0]);
-            ITelephony iTelephony2 = (ITelephony) declaredMethod.invoke(telephonyManager, new Object[0]);
-            iTelephony2.silenceRinger();
-            iTelephony2.endCall();
-        } catch (Throwable th) {
-            FileLog.e(th);
+        if (hasCallPermissions) {
+            try {
+                TelephonyManager telephonyManager = (TelephonyManager) ApplicationLoader.applicationContext.getSystemService("phone");
+                Method declaredMethod = Class.forName(telephonyManager.getClass().getName()).getDeclaredMethod("getITelephony", new Class[0]);
+                declaredMethod.setAccessible(true);
+                ITelephony iTelephony = (ITelephony) declaredMethod.invoke(telephonyManager, new Object[0]);
+                ITelephony iTelephony2 = (ITelephony) declaredMethod.invoke(telephonyManager, new Object[0]);
+                iTelephony2.silenceRinger();
+                iTelephony2.endCall();
+            } catch (Throwable th) {
+                FileLog.e(th);
+            }
         }
     }
 
     public static String obtainLoginPhoneCall(String str) {
-        if (!hasCallPermissions) {
-            return null;
-        }
-        try {
-            Cursor query = ApplicationLoader.applicationContext.getContentResolver().query(CallLog.Calls.CONTENT_URI, new String[]{"number", "date"}, "type IN (3,1,5)", null, "date DESC LIMIT 5");
-            while (query.moveToNext()) {
-                String string = query.getString(0);
-                long j = query.getLong(1);
-                if (BuildVars.LOGS_ENABLED) {
-                    FileLog.e("number = " + string);
+        if (hasCallPermissions) {
+            try {
+                Cursor query = ApplicationLoader.applicationContext.getContentResolver().query(CallLog.Calls.CONTENT_URI, new String[]{"number", "date"}, "type IN (3,1,5)", null, "date DESC LIMIT 5");
+                while (query.moveToNext()) {
+                    String string = query.getString(0);
+                    long j = query.getLong(1);
+                    if (BuildVars.LOGS_ENABLED) {
+                        FileLog.e("number = " + string);
+                    }
+                    if (Math.abs(System.currentTimeMillis() - j) < 3600000 && checkPhonePattern(str, string)) {
+                        query.close();
+                        return string;
+                    }
                 }
-                if (Math.abs(System.currentTimeMillis() - j) < 3600000 && checkPhonePattern(str, string)) {
-                    query.close();
-                    return string;
-                }
+                query.close();
+            } catch (Exception e) {
+                FileLog.e(e);
             }
-            query.close();
-        } catch (Exception e) {
-            FileLog.e(e);
+            return null;
         }
         return null;
     }
@@ -2276,10 +2266,10 @@ public class AndroidUtilities {
             try {
                 if (i >= 23) {
                     WindowInsets rootWindowInsets = view.getRootWindowInsets();
-                    if (rootWindowInsets == null) {
-                        return 0;
+                    if (rootWindowInsets != null) {
+                        return rootWindowInsets.getStableInsetBottom();
                     }
-                    return rootWindowInsets.getStableInsetBottom();
+                    return 0;
                 }
                 if (mAttachInfoField == null) {
                     Field declaredField = View.class.getDeclaredField("mAttachInfo");
@@ -2327,12 +2317,11 @@ public class AndroidUtilities {
             return;
         }
         view.setEnabled(z);
-        if (!(view instanceof ViewGroup)) {
-            return;
-        }
-        ViewGroup viewGroup = (ViewGroup) view;
-        for (int i = 0; i < viewGroup.getChildCount(); i++) {
-            setEnabled(viewGroup.getChildAt(i), z);
+        if (view instanceof ViewGroup) {
+            ViewGroup viewGroup = (ViewGroup) view;
+            for (int i = 0; i < viewGroup.getChildCount(); i++) {
+                setEnabled(viewGroup.getChildAt(i), z);
+            }
         }
     }
 
@@ -2390,10 +2379,9 @@ public class AndroidUtilities {
                 Field declaredField2 = ViewPager.class.getDeclaredField("mRightEdge");
                 declaredField2.setAccessible(true);
                 EdgeEffect edgeEffect2 = (EdgeEffect) declaredField2.get(viewPager);
-                if (edgeEffect2 == null) {
-                    return;
+                if (edgeEffect2 != null) {
+                    edgeEffect2.setColor(i);
                 }
-                edgeEffect2.setColor(i);
             } catch (Exception unused) {
             }
         }
@@ -2403,8 +2391,7 @@ public class AndroidUtilities {
         int i2 = Build.VERSION.SDK_INT;
         if (i2 >= 29) {
             horizontalScrollView.setEdgeEffectColor(i);
-        } else if (i2 < 21) {
-        } else {
+        } else if (i2 >= 21) {
             try {
                 Field declaredField = HorizontalScrollView.class.getDeclaredField("mEdgeGlowLeft");
                 declaredField.setAccessible(true);
@@ -2415,10 +2402,9 @@ public class AndroidUtilities {
                 Field declaredField2 = HorizontalScrollView.class.getDeclaredField("mEdgeGlowRight");
                 declaredField2.setAccessible(true);
                 EdgeEffect edgeEffect2 = (EdgeEffect) declaredField2.get(horizontalScrollView);
-                if (edgeEffect2 == null) {
-                    return;
+                if (edgeEffect2 != null) {
+                    edgeEffect2.setColor(i);
                 }
-                edgeEffect2.setColor(i);
             } catch (Exception e) {
                 FileLog.e(e);
             }
@@ -2430,8 +2416,7 @@ public class AndroidUtilities {
         if (i2 >= 29) {
             scrollView.setTopEdgeEffectColor(i);
             scrollView.setBottomEdgeEffectColor(i);
-        } else if (i2 < 21) {
-        } else {
+        } else if (i2 >= 21) {
             try {
                 Field declaredField = ScrollView.class.getDeclaredField("mEdgeGlowTop");
                 declaredField.setAccessible(true);
@@ -2442,10 +2427,9 @@ public class AndroidUtilities {
                 Field declaredField2 = ScrollView.class.getDeclaredField("mEdgeGlowBottom");
                 declaredField2.setAccessible(true);
                 EdgeEffect edgeEffect2 = (EdgeEffect) declaredField2.get(scrollView);
-                if (edgeEffect2 == null) {
-                    return;
+                if (edgeEffect2 != null) {
+                    edgeEffect2.setColor(i);
                 }
-                edgeEffect2.setColor(i);
             } catch (Exception unused) {
             }
         }
@@ -2458,18 +2442,17 @@ public class AndroidUtilities {
         }
         if (view instanceof ListView) {
             Drawable selector = ((ListView) view).getSelector();
-            if (selector == null) {
+            if (selector != null) {
+                selector.setState(StateSet.NOTHING);
                 return;
             }
-            selector.setState(StateSet.NOTHING);
             return;
         }
         Drawable background = view.getBackground();
-        if (background == null) {
-            return;
+        if (background != null) {
+            background.setState(StateSet.NOTHING);
+            background.jumpToCurrentState();
         }
-        background.setState(StateSet.NOTHING);
-        background.jumpToCurrentState();
     }
 
     public static SpannableStringBuilder replaceTags(String str) {
@@ -2482,9 +2465,10 @@ public class AndroidUtilities {
             if ((i & 1) != 0) {
                 while (true) {
                     int indexOf = sb.indexOf("<br>");
-                    if (indexOf != -1) {
-                        sb.replace(indexOf, indexOf + 4, "\n");
+                    if (indexOf == -1) {
+                        break;
                     }
+                    sb.replace(indexOf, indexOf + 4, "\n");
                 }
                 while (true) {
                     int indexOf2 = sb.indexOf("<br/>");
@@ -2498,16 +2482,17 @@ public class AndroidUtilities {
             if ((i & 2) != 0) {
                 while (true) {
                     int indexOf3 = sb.indexOf("<b>");
-                    if (indexOf3 != -1) {
-                        sb.replace(indexOf3, indexOf3 + 3, "");
-                        int indexOf4 = sb.indexOf("</b>");
-                        if (indexOf4 == -1) {
-                            indexOf4 = sb.indexOf("<b>");
-                        }
-                        sb.replace(indexOf4, indexOf4 + 4, "");
-                        arrayList.add(Integer.valueOf(indexOf3));
-                        arrayList.add(Integer.valueOf(indexOf4));
+                    if (indexOf3 == -1) {
+                        break;
                     }
+                    sb.replace(indexOf3, indexOf3 + 3, "");
+                    int indexOf4 = sb.indexOf("</b>");
+                    if (indexOf4 == -1) {
+                        indexOf4 = sb.indexOf("<b>");
+                    }
+                    sb.replace(indexOf4, indexOf4 + 4, "");
+                    arrayList.add(Integer.valueOf(indexOf3));
+                    arrayList.add(Integer.valueOf(indexOf4));
                 }
                 while (true) {
                     int indexOf5 = sb.indexOf("**");
@@ -2580,7 +2565,7 @@ public class AndroidUtilities {
         if (BuildVars.LOGS_ENABLED && z && SharedConfig.passcodeHash.length() > 0) {
             FileLog.d("wasInBackground = " + isWasInBackground + " appLocked = " + SharedConfig.appLocked + " autoLockIn = " + SharedConfig.autoLockIn + " lastPauseTime = " + SharedConfig.lastPauseTime + " uptime = " + elapsedRealtime);
         }
-        return SharedConfig.passcodeHash.length() > 0 && isWasInBackground && (SharedConfig.appLocked || ((SharedConfig.autoLockIn != 0 && SharedConfig.lastPauseTime != 0 && !SharedConfig.appLocked && SharedConfig.lastPauseTime + SharedConfig.autoLockIn <= elapsedRealtime) || elapsedRealtime + 5 < SharedConfig.lastPauseTime));
+        return SharedConfig.passcodeHash.length() > 0 && isWasInBackground && (SharedConfig.appLocked || (!(SharedConfig.autoLockIn == 0 || SharedConfig.lastPauseTime == 0 || SharedConfig.appLocked || SharedConfig.lastPauseTime + SharedConfig.autoLockIn > elapsedRealtime) || elapsedRealtime + 5 < SharedConfig.lastPauseTime));
     }
 
     public static void shakeView(final View view) {
@@ -2727,27 +2712,27 @@ public class AndroidUtilities {
                 FileLog.d("failed to create directory");
             }
             return null;
-        } else if (!BuildVars.LOGS_ENABLED) {
+        } else if (BuildVars.LOGS_ENABLED) {
+            FileLog.d("External storage is not mounted READ/WRITE.");
             return null;
         } else {
-            FileLog.d("External storage is not mounted READ/WRITE.");
             return null;
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:32:0x00b4, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:40:0x00b4, code lost:
         if (r2 == 1) goto L38;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:33:0x00b6, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:41:0x00b6, code lost:
         if (r2 == 2) goto L37;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:34:0x00b8, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:42:0x00b8, code lost:
         r1 = null;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:37:0x00ba, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:43:0x00ba, code lost:
         r1 = android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:38:0x00bd, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:44:0x00bd, code lost:
         r1 = android.provider.MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
      */
     @SuppressLint({"NewApi"})
@@ -2811,7 +2796,7 @@ public class AndroidUtilities {
             return null;
         }
         String string = query.getString(query.getColumnIndexOrThrow("_data"));
-        if (string.startsWith("content://") || (!string.startsWith("/") && !string.startsWith("file://"))) {
+        if (string.startsWith("content://") || !(string.startsWith("/") || string.startsWith("file://"))) {
             query.close();
             return null;
         }
@@ -2867,49 +2852,44 @@ public class AndroidUtilities {
     }
 
     public static CharSequence generateSearchName(String str, String str2, String str3) {
-        if (!(str == null && str2 == null) && !TextUtils.isEmpty(str3)) {
-            SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
-            if (str == null || str.length() == 0) {
-                str = str2;
-            } else if (str2 != null && str2.length() != 0) {
-                str = str + " " + str2;
-            }
-            String trim = str.trim();
-            String str4 = " " + trim.toLowerCase();
-            int i = 0;
-            while (true) {
-                int indexOf = str4.indexOf(" " + str3, i);
-                if (indexOf == -1) {
-                    break;
-                }
-                int i2 = 1;
-                int i3 = indexOf - (indexOf == 0 ? 0 : 1);
-                int length = str3.length();
-                if (indexOf == 0) {
-                    i2 = 0;
-                }
-                int i4 = length + i2 + i3;
-                if (i != 0 && i != i3 + 1) {
-                    spannableStringBuilder.append((CharSequence) trim.substring(i, i3));
-                } else if (i == 0 && i3 != 0) {
-                    spannableStringBuilder.append((CharSequence) trim.substring(0, i3));
-                }
-                String substring = trim.substring(i3, Math.min(trim.length(), i4));
-                if (substring.startsWith(" ")) {
-                    spannableStringBuilder.append((CharSequence) " ");
-                }
-                String trim2 = substring.trim();
-                int length2 = spannableStringBuilder.length();
-                spannableStringBuilder.append((CharSequence) trim2);
-                spannableStringBuilder.setSpan(new ForegroundColorSpanThemable("windowBackgroundWhiteBlueText4"), length2, trim2.length() + length2, 33);
-                i = i4;
-            }
-            if (i != -1 && i < trim.length()) {
-                spannableStringBuilder.append((CharSequence) trim.substring(i));
-            }
-            return spannableStringBuilder;
+        if ((str == null && str2 == null) || TextUtils.isEmpty(str3)) {
+            return "";
         }
-        return "";
+        SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
+        if (str == null || str.length() == 0) {
+            str = str2;
+        } else if (str2 != null && str2.length() != 0) {
+            str = str + " " + str2;
+        }
+        String trim = str.trim();
+        String str4 = " " + trim.toLowerCase();
+        int i = 0;
+        while (true) {
+            int indexOf = str4.indexOf(" " + str3, i);
+            if (indexOf == -1) {
+                break;
+            }
+            int i2 = indexOf - (indexOf == 0 ? 0 : 1);
+            int length = str3.length() + (indexOf == 0 ? 0 : 1) + i2;
+            if (i != 0 && i != i2 + 1) {
+                spannableStringBuilder.append((CharSequence) trim.substring(i, i2));
+            } else if (i == 0 && i2 != 0) {
+                spannableStringBuilder.append((CharSequence) trim.substring(0, i2));
+            }
+            String substring = trim.substring(i2, Math.min(trim.length(), length));
+            if (substring.startsWith(" ")) {
+                spannableStringBuilder.append((CharSequence) " ");
+            }
+            String trim2 = substring.trim();
+            int length2 = spannableStringBuilder.length();
+            spannableStringBuilder.append((CharSequence) trim2);
+            spannableStringBuilder.setSpan(new ForegroundColorSpanThemable("windowBackgroundWhiteBlueText4"), length2, trim2.length() + length2, 33);
+            i = length;
+        }
+        if (i != -1 && i < trim.length()) {
+            spannableStringBuilder.append((CharSequence) trim.substring(i));
+        }
+        return spannableStringBuilder;
     }
 
     public static boolean isKeyguardSecure() {
@@ -3241,13 +3221,13 @@ public class AndroidUtilities {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:10:0x0036, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:11:0x0036, code lost:
         if (r8.length() != 0) goto L11;
      */
-    /* JADX WARN: Removed duplicated region for block: B:23:0x0069  */
-    /* JADX WARN: Removed duplicated region for block: B:29:0x00c7  */
-    /* JADX WARN: Removed duplicated region for block: B:31:0x0099 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x0089  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x0069  */
+    /* JADX WARN: Removed duplicated region for block: B:31:0x0089  */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x00c7  */
+    /* JADX WARN: Removed duplicated region for block: B:49:0x0099 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -3414,7 +3394,7 @@ public class AndroidUtilities {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:17:0x0053, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:19:0x0053, code lost:
         if (r1.length() != 0) goto L18;
      */
     /*
@@ -3548,13 +3528,13 @@ public class AndroidUtilities {
         return accessibilityManager.isEnabled() && accessibilityManager.isTouchExplorationEnabled();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:36:0x0112 A[Catch: Exception -> 0x012f, TRY_LEAVE, TryCatch #0 {Exception -> 0x012f, blocks: (B:6:0x000a, B:9:0x0014, B:11:0x001a, B:13:0x0022, B:16:0x0035, B:19:0x003e, B:21:0x0047, B:24:0x005a, B:26:0x0060, B:28:0x0066, B:30:0x006c, B:32:0x008a, B:33:0x008e, B:34:0x010c, B:36:0x0112, B:46:0x012b, B:52:0x00a4, B:54:0x00b5, B:56:0x00be, B:60:0x00c7, B:62:0x00cd, B:64:0x00d5, B:66:0x00dd, B:68:0x00e7, B:69:0x00eb), top: B:5:0x000a }] */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x011c  */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x0121  */
-    /* JADX WARN: Removed duplicated region for block: B:44:0x0126  */
-    /* JADX WARN: Removed duplicated region for block: B:49:0x0128  */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x0123  */
-    /* JADX WARN: Removed duplicated region for block: B:51:0x011e  */
+    /* JADX WARN: Removed duplicated region for block: B:54:0x0112 A[Catch: Exception -> 0x012f, TRY_LEAVE, TryCatch #0 {Exception -> 0x012f, blocks: (B:5:0x000a, B:8:0x0014, B:10:0x001a, B:12:0x0022, B:15:0x0035, B:18:0x003e, B:20:0x0047, B:23:0x005a, B:25:0x0060, B:27:0x0066, B:29:0x006c, B:31:0x008a, B:32:0x008e, B:52:0x010c, B:54:0x0112, B:67:0x012b, B:33:0x00a4, B:35:0x00b5, B:37:0x00be, B:39:0x00c7, B:41:0x00cd, B:43:0x00d5, B:45:0x00dd, B:47:0x00e7, B:48:0x00eb), top: B:71:0x000a }] */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x011c  */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x011e  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x0121  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x0123  */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x0126  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x0128  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -3765,10 +3745,11 @@ public class AndroidUtilities {
 
     public static void fixGoogleMapsBug() {
         SharedPreferences sharedPreferences = ApplicationLoader.applicationContext.getSharedPreferences("google_bug_154855417", 0);
-        if (!sharedPreferences.contains("fixed")) {
-            new File(ApplicationLoader.getFilesDirFixed(), "ZoomTables.data").delete();
-            sharedPreferences.edit().putBoolean("fixed", true).apply();
+        if (sharedPreferences.contains("fixed")) {
+            return;
         }
+        new File(ApplicationLoader.getFilesDirFixed(), "ZoomTables.data").delete();
+        sharedPreferences.edit().putBoolean("fixed", true).apply();
     }
 
     public static CharSequence concat(CharSequence... charSequenceArr) {
@@ -3938,14 +3919,14 @@ public class AndroidUtilities {
                     sb.append("motion");
                 }
             }
-            if (sb.length() <= 0) {
-                return str;
+            if (sb.length() > 0) {
+                return str + "?mode=" + sb.toString();
             }
-            return str + "?mode=" + sb.toString();
-        } else if (!(obj instanceof WallpapersListActivity.ColorWallpaper)) {
-            return null;
-        } else {
+            return str;
+        } else if (obj instanceof WallpapersListActivity.ColorWallpaper) {
             return ((WallpapersListActivity.ColorWallpaper) obj).getUrl();
+        } else {
+            return null;
         }
     }
 
@@ -4210,44 +4191,45 @@ public class AndroidUtilities {
 
     public static void setNavigationBarColor(final Window window, int i, boolean z, final IntColorCallback intColorCallback) {
         ValueAnimator valueAnimator;
-        if (Build.VERSION.SDK_INT >= 21) {
-            HashMap<Window, ValueAnimator> hashMap = navigationBarColorAnimators;
-            if (hashMap != null && (valueAnimator = hashMap.get(window)) != null) {
-                valueAnimator.cancel();
-                navigationBarColorAnimators.remove(window);
+        if (Build.VERSION.SDK_INT < 21) {
+            return;
+        }
+        HashMap<Window, ValueAnimator> hashMap = navigationBarColorAnimators;
+        if (hashMap != null && (valueAnimator = hashMap.get(window)) != null) {
+            valueAnimator.cancel();
+            navigationBarColorAnimators.remove(window);
+        }
+        if (!z) {
+            if (intColorCallback != null) {
+                intColorCallback.run(i);
             }
-            if (!z) {
-                if (intColorCallback != null) {
-                    intColorCallback.run(i);
-                }
-                try {
-                    window.setNavigationBarColor(i);
-                } catch (Exception unused) {
-                }
-            } else {
-                ValueAnimator ofArgb = ValueAnimator.ofArgb(window.getNavigationBarColor(), i);
-                ofArgb.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda2
-                    @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                    public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                        AndroidUtilities.lambda$setNavigationBarColor$14(AndroidUtilities.IntColorCallback.this, window, valueAnimator2);
-                    }
-                });
-                ofArgb.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.messenger.AndroidUtilities.4
-                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                    public void onAnimationEnd(Animator animator) {
-                        if (AndroidUtilities.navigationBarColorAnimators != null) {
-                            AndroidUtilities.navigationBarColorAnimators.remove(window);
-                        }
-                    }
-                });
-                ofArgb.setDuration(200L);
-                ofArgb.setInterpolator(CubicBezierInterpolator.DEFAULT);
-                ofArgb.start();
-                if (navigationBarColorAnimators == null) {
-                    navigationBarColorAnimators = new HashMap<>();
-                }
-                navigationBarColorAnimators.put(window, ofArgb);
+            try {
+                window.setNavigationBarColor(i);
+            } catch (Exception unused) {
             }
+        } else {
+            ValueAnimator ofArgb = ValueAnimator.ofArgb(window.getNavigationBarColor(), i);
+            ofArgb.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda2
+                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
+                    AndroidUtilities.lambda$setNavigationBarColor$14(AndroidUtilities.IntColorCallback.this, window, valueAnimator2);
+                }
+            });
+            ofArgb.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.messenger.AndroidUtilities.4
+                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                public void onAnimationEnd(Animator animator) {
+                    if (AndroidUtilities.navigationBarColorAnimators != null) {
+                        AndroidUtilities.navigationBarColorAnimators.remove(window);
+                    }
+                }
+            });
+            ofArgb.setDuration(200L);
+            ofArgb.setInterpolator(CubicBezierInterpolator.DEFAULT);
+            ofArgb.start();
+            if (navigationBarColorAnimators == null) {
+                navigationBarColorAnimators = new HashMap<>();
+            }
+            navigationBarColorAnimators.put(window, ofArgb);
         }
     }
 
@@ -4407,21 +4389,13 @@ public class AndroidUtilities {
         if (view == null) {
             return;
         }
-        int i = 0;
         if (view.getParent() == null) {
             z2 = false;
         }
-        Integer num = null;
         if (!z2) {
             view.animate().setListener(null).cancel();
-            if (!z) {
-                i = 8;
-            }
-            view.setVisibility(i);
-            if (z) {
-                num = 1;
-            }
-            view.setTag(num);
+            view.setVisibility(z ? 0 : 8);
+            view.setTag(z ? 1 : null);
             view.setAlpha(1.0f);
             view.setScaleX(1.0f);
             view.setScaleY(1.0f);
@@ -4459,39 +4433,25 @@ public class AndroidUtilities {
         if (view == null) {
             return;
         }
-        int i = 0;
         if (view.getParent() == null) {
             z4 = false;
         }
-        Integer num = null;
         view.animate().setListener(null).cancel();
-        float f = 1.0f;
-        float f2 = 0.0f;
         if (!z4) {
-            if (!z) {
-                i = 8;
-            }
-            view.setVisibility(i);
-            if (z) {
-                num = 1;
-            }
-            view.setTag(num);
+            view.setVisibility(z ? 0 : 8);
+            view.setTag(z ? 1 : null);
             view.setAlpha(1.0f);
             view.setScaleX((!z2 || z) ? 1.0f : 0.0f);
             if (z2 && !z) {
-                f = 0.0f;
+                r3 = 0.0f;
             }
-            view.setScaleY(f);
+            view.setScaleY(r3);
             if (z3) {
-                if (!z) {
-                    f2 = dp(-16.0f);
-                }
-                view.setTranslationY(f2);
+                view.setTranslationY(z ? 0.0f : dp(-16.0f));
             }
-            if (runnable == null) {
-                return;
+            if (runnable != null) {
+                runnable.run();
             }
-            runnable.run();
         } else if (z) {
             if (view.getVisibility() != 0) {
                 view.setVisibility(0);
@@ -4508,11 +4468,7 @@ public class AndroidUtilities {
             }
             withEndAction.start();
         } else {
-            ViewPropertyAnimator scaleY = view.animate().alpha(0.0f).scaleY(z2 ? 0.0f : 1.0f);
-            if (z2) {
-                f = 0.0f;
-            }
-            ViewPropertyAnimator withEndAction2 = scaleY.scaleX(f).setListener(new HideViewAfterAnimation(view)).setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT).setDuration(340L).withEndAction(runnable);
+            ViewPropertyAnimator withEndAction2 = view.animate().alpha(0.0f).scaleY(z2 ? 0.0f : 1.0f).scaleX(z2 ? 0.0f : 1.0f).setListener(new HideViewAfterAnimation(view)).setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT).setDuration(340L).withEndAction(runnable);
             if (z3) {
                 withEndAction2.translationY(dp(-16.0f));
             }
@@ -4528,9 +4484,9 @@ public class AndroidUtilities {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:21:0x0051 A[Catch: all -> 0x0073, TryCatch #1 {all -> 0x0073, blocks: (B:6:0x0020, B:8:0x0024, B:14:0x0031, B:16:0x0041, B:19:0x004c, B:21:0x0051, B:30:0x0056, B:38:0x0015), top: B:37:0x0015 }] */
-    /* JADX WARN: Removed duplicated region for block: B:25:0x0064 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:30:0x0056 A[Catch: all -> 0x0073, TRY_LEAVE, TryCatch #1 {all -> 0x0073, blocks: (B:6:0x0020, B:8:0x0024, B:14:0x0031, B:16:0x0041, B:19:0x004c, B:21:0x0051, B:30:0x0056, B:38:0x0015), top: B:37:0x0015 }] */
+    /* JADX WARN: Removed duplicated region for block: B:22:0x0051 A[Catch: all -> 0x0073, TryCatch #1 {all -> 0x0073, blocks: (B:8:0x0020, B:10:0x0024, B:16:0x0031, B:18:0x0041, B:20:0x004c, B:22:0x0051, B:23:0x0056, B:7:0x0015), top: B:56:0x0015 }] */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x0056 A[Catch: all -> 0x0073, TRY_LEAVE, TryCatch #1 {all -> 0x0073, blocks: (B:8:0x0020, B:10:0x0024, B:16:0x0031, B:18:0x0041, B:20:0x004c, B:22:0x0051, B:23:0x0056, B:7:0x0015), top: B:56:0x0015 }] */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x0064 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -4697,8 +4653,8 @@ public class AndroidUtilities {
         return createBitmap;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:10:0x00ac  */
-    /* JADX WARN: Removed duplicated region for block: B:12:0x00b0  */
+    /* JADX WARN: Removed duplicated region for block: B:33:0x00ac  */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x00b0  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

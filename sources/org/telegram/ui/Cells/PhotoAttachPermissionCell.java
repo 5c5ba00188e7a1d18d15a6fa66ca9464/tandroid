@@ -16,7 +16,7 @@ import org.telegram.ui.Components.LayoutHelper;
 public class PhotoAttachPermissionCell extends FrameLayout {
     private ImageView imageView;
     private ImageView imageView2;
-    private int itemSize = AndroidUtilities.dp(80.0f);
+    private int itemSize;
     private final Theme.ResourcesProvider resourcesProvider;
     private TextView textView;
 
@@ -39,6 +39,7 @@ public class PhotoAttachPermissionCell extends FrameLayout {
         this.textView.setTextSize(1, 12.0f);
         this.textView.setGravity(17);
         addView(this.textView, LayoutHelper.createFrame(-2, -2.0f, 17, 5.0f, 13.0f, 5.0f, 0.0f));
+        this.itemSize = AndroidUtilities.dp(80.0f);
     }
 
     public void setItemSize(int i) {

@@ -24,12 +24,12 @@ public abstract class TLRPC$upload_CdnFile extends TLObject {
                 }
             };
         }
-        if (tLRPC$TL_upload_cdnFile != null || !z) {
-            if (tLRPC$TL_upload_cdnFile != null) {
-                tLRPC$TL_upload_cdnFile.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_upload_cdnFile;
+        if (tLRPC$TL_upload_cdnFile == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in upload_CdnFile", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in upload_CdnFile", Integer.valueOf(i)));
+        if (tLRPC$TL_upload_cdnFile != null) {
+            tLRPC$TL_upload_cdnFile.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_upload_cdnFile;
     }
 }

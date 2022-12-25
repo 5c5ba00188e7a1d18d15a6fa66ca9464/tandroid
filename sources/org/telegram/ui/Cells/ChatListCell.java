@@ -18,7 +18,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RadioButton;
 /* loaded from: classes3.dex */
 public class ChatListCell extends LinearLayout {
-    private ListView[] listView = new ListView[2];
+    private ListView[] listView;
 
     protected void didSelectChatType(boolean z) {
     }
@@ -28,14 +28,16 @@ public class ChatListCell extends LinearLayout {
     public class ListView extends FrameLayout {
         private RadioButton button;
         private boolean isThreeLines;
-        private RectF rect = new RectF();
-        private TextPaint textPaint = new TextPaint(1);
+        private RectF rect;
+        private TextPaint textPaint;
 
         public ListView(ChatListCell chatListCell, Context context, boolean z) {
             super(context);
             int i;
             String str;
+            this.rect = new RectF();
             boolean z2 = true;
+            this.textPaint = new TextPaint(1);
             setWillNotDraw(false);
             this.isThreeLines = z;
             if (z) {
@@ -69,7 +71,6 @@ public class ChatListCell extends LinearLayout {
         protected void onDraw(Canvas canvas) {
             int i;
             String str;
-            float f;
             int color = Theme.getColor("switchTrack");
             int red = Color.red(color);
             int green = Color.green(color);
@@ -100,27 +101,13 @@ public class ChatListCell extends LinearLayout {
                 while (true) {
                     if (i4 < (this.isThreeLines ? 3 : 2)) {
                         Theme.dialogs_onlineCirclePaint.setColor(Color.argb(i4 == 0 ? 204 : 90, red, green, blue));
-                        float f2 = 72.0f;
                         if (this.isThreeLines) {
-                            RectF rectF = this.rect;
-                            float dp2 = AndroidUtilities.dp(41.0f);
-                            float dp3 = dp - AndroidUtilities.dp(8.3f - (i4 * 7));
-                            int measuredWidth = getMeasuredWidth();
-                            if (i4 != 0) {
-                                f2 = 48.0f;
-                            }
-                            rectF.set(dp2, dp3, measuredWidth - AndroidUtilities.dp(f2), dp - AndroidUtilities.dp(5.3f - f));
+                            float f = i4 * 7;
+                            this.rect.set(AndroidUtilities.dp(41.0f), dp - AndroidUtilities.dp(8.3f - f), getMeasuredWidth() - AndroidUtilities.dp(i4 != 0 ? 48.0f : 72.0f), dp - AndroidUtilities.dp(5.3f - f));
                             canvas.drawRoundRect(this.rect, AndroidUtilities.dpf2(1.5f), AndroidUtilities.dpf2(1.5f), Theme.dialogs_onlineCirclePaint);
                         } else {
-                            RectF rectF2 = this.rect;
-                            float dp4 = AndroidUtilities.dp(41.0f);
                             int i5 = i4 * 10;
-                            float dp5 = dp - AndroidUtilities.dp(7 - i5);
-                            int measuredWidth2 = getMeasuredWidth();
-                            if (i4 != 0) {
-                                f2 = 48.0f;
-                            }
-                            rectF2.set(dp4, dp5, measuredWidth2 - AndroidUtilities.dp(f2), dp - AndroidUtilities.dp(3 - i5));
+                            this.rect.set(AndroidUtilities.dp(41.0f), dp - AndroidUtilities.dp(7 - i5), getMeasuredWidth() - AndroidUtilities.dp(i4 != 0 ? 48.0f : 72.0f), dp - AndroidUtilities.dp(3 - i5));
                             canvas.drawRoundRect(this.rect, AndroidUtilities.dp(2.0f), AndroidUtilities.dp(2.0f), Theme.dialogs_onlineCirclePaint);
                         }
                         i4++;
@@ -151,25 +138,25 @@ public class ChatListCell extends LinearLayout {
 
     public ChatListCell(Context context) {
         super(context);
+        this.listView = new ListView[2];
         setOrientation(0);
         setPadding(AndroidUtilities.dp(21.0f), AndroidUtilities.dp(10.0f), AndroidUtilities.dp(21.0f), 0);
         int i = 0;
         while (true) {
             ListView[] listViewArr = this.listView;
-            if (i < listViewArr.length) {
-                final boolean z = i == 1;
-                listViewArr[i] = new ListView(this, context, z);
-                addView(this.listView[i], LayoutHelper.createLinear(-1, -1, 0.5f, i == 1 ? 10 : 0, 0, 0, 0));
-                this.listView[i].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Cells.ChatListCell$$ExternalSyntheticLambda0
-                    @Override // android.view.View.OnClickListener
-                    public final void onClick(View view) {
-                        ChatListCell.this.lambda$new$0(z, view);
-                    }
-                });
-                i++;
-            } else {
+            if (i >= listViewArr.length) {
                 return;
             }
+            final boolean z = i == 1;
+            listViewArr[i] = new ListView(this, context, z);
+            addView(this.listView[i], LayoutHelper.createLinear(-1, -1, 0.5f, i == 1 ? 10 : 0, 0, 0, 0));
+            this.listView[i].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Cells.ChatListCell$$ExternalSyntheticLambda0
+                @Override // android.view.View.OnClickListener
+                public final void onClick(View view) {
+                    ChatListCell.this.lambda$new$0(z, view);
+                }
+            });
+            i++;
         }
     }
 
@@ -187,12 +174,11 @@ public class ChatListCell extends LinearLayout {
         int i = 0;
         while (true) {
             ListView[] listViewArr = this.listView;
-            if (i < listViewArr.length) {
-                listViewArr[i].invalidate();
-                i++;
-            } else {
+            if (i >= listViewArr.length) {
                 return;
             }
+            listViewArr[i].invalidate();
+            i++;
         }
     }
 

@@ -46,10 +46,10 @@ public final class ConstructorConstructor {
         int modifiers = cls.getModifiers();
         if (Modifier.isInterface(modifiers)) {
             return "Interfaces can't be instantiated! Register an InstanceCreator or a TypeAdapter for this type. Interface name: " + cls.getName();
-        } else if (!Modifier.isAbstract(modifiers)) {
-            return null;
-        } else {
+        } else if (Modifier.isAbstract(modifiers)) {
             return "Abstract classes can't be instantiated! Register an InstanceCreator or a TypeAdapter for this type. Class name: " + cls.getName();
+        } else {
+            return null;
         }
     }
 
@@ -128,24 +128,24 @@ public final class ConstructorConstructor {
                 }
             };
         }
-        if (cls != EnumMap.class) {
-            return null;
-        }
-        return new ObjectConstructor<T>() { // from class: com.google.gson.internal.ConstructorConstructor.6
-            /* JADX WARN: Type inference failed for: r1v7, types: [T, java.util.EnumMap] */
-            @Override // com.google.gson.internal.ObjectConstructor
-            public T construct() {
-                Type type2 = type;
-                if (type2 instanceof ParameterizedType) {
-                    Type type3 = ((ParameterizedType) type2).getActualTypeArguments()[0];
-                    if (type3 instanceof Class) {
-                        return new EnumMap((Class) type3);
+        if (cls == EnumMap.class) {
+            return new ObjectConstructor<T>() { // from class: com.google.gson.internal.ConstructorConstructor.6
+                /* JADX WARN: Type inference failed for: r1v7, types: [T, java.util.EnumMap] */
+                @Override // com.google.gson.internal.ObjectConstructor
+                public T construct() {
+                    Type type2 = type;
+                    if (type2 instanceof ParameterizedType) {
+                        Type type3 = ((ParameterizedType) type2).getActualTypeArguments()[0];
+                        if (type3 instanceof Class) {
+                            return new EnumMap((Class) type3);
+                        }
+                        throw new JsonIOException("Invalid EnumMap type: " + type.toString());
                     }
                     throw new JsonIOException("Invalid EnumMap type: " + type.toString());
                 }
-                throw new JsonIOException("Invalid EnumMap type: " + type.toString());
-            }
-        };
+            };
+        }
+        return null;
     }
 
     private static <T> ObjectConstructor<T> newDefaultConstructor(Class<? super T> cls, ReflectionAccessFilter.FilterResult filterResult) {
@@ -233,9 +233,7 @@ public final class ConstructorConstructor {
                     return new ArrayList();
                 }
             };
-        } else if (!Map.class.isAssignableFrom(cls)) {
-            return null;
-        } else {
+        } else if (Map.class.isAssignableFrom(cls)) {
             if (ConcurrentNavigableMap.class.isAssignableFrom(cls)) {
                 return new ObjectConstructor<T>() { // from class: com.google.gson.internal.ConstructorConstructor.14
                     /* JADX WARN: Type inference failed for: r0v0, types: [java.util.concurrent.ConcurrentSkipListMap, T] */
@@ -279,6 +277,8 @@ public final class ConstructorConstructor {
                     return new LinkedTreeMap();
                 }
             };
+        } else {
+            return null;
         }
     }
 

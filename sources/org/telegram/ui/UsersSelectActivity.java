@@ -161,12 +161,13 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
     public class SpansContainer extends ViewGroup {
         private View addingSpan;
         private boolean animationStarted;
-        private ArrayList<Animator> animators = new ArrayList<>();
+        private ArrayList<Animator> animators;
         private AnimatorSet currentAnimation;
         private View removingSpan;
 
         public SpansContainer(Context context) {
             super(context);
+            this.animators = new ArrayList<>();
         }
 
         @Override // android.view.View
@@ -428,12 +429,7 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
             this.animatedAvatarContainer = animatedAvatarContainer;
             ActionBar actionBar = this.actionBar;
             boolean z = LocaleController.isRTL;
-            float f = 64.0f;
-            float f2 = z ? 0.0f : 64.0f;
-            if (!z) {
-                f = 0.0f;
-            }
-            actionBar.addView(animatedAvatarContainer, LayoutHelper.createFrame(-1, -1.0f, 0, f2, 0.0f, f, 0.0f));
+            actionBar.addView(animatedAvatarContainer, LayoutHelper.createFrame(-1, -1.0f, 0, z ? 0.0f : 64.0f, 0.0f, z ? 64.0f : 0.0f, 0.0f));
             this.actionBar.setAllowOverlayTitle(false);
         }
         this.actionBar.setBackButtonImage(R.drawable.ic_ab_back);
@@ -453,8 +449,7 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
             public void onItemClick(int i3) {
                 if (i3 == -1) {
                     UsersSelectActivity.this.finishFragment();
-                } else if (i3 != 1) {
-                } else {
+                } else if (i3 == 1) {
                     UsersSelectActivity.this.onDonePressed(true);
                 }
             }
@@ -466,7 +461,6 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
                 int size = View.MeasureSpec.getSize(i3);
                 int size2 = View.MeasureSpec.getSize(i4);
                 setMeasuredDimension(size, size2);
-                float f3 = 56.0f;
                 if (AndroidUtilities.isTablet() || size2 > size) {
                     dp = AndroidUtilities.dp(144.0f);
                 } else {
@@ -476,10 +470,7 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
                 UsersSelectActivity.this.listView.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(size2 - UsersSelectActivity.this.scrollView.getMeasuredHeight(), 1073741824));
                 UsersSelectActivity.this.emptyView.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(size2 - UsersSelectActivity.this.scrollView.getMeasuredHeight(), 1073741824));
                 if (UsersSelectActivity.this.floatingButton != null) {
-                    if (Build.VERSION.SDK_INT < 21) {
-                        f3 = 60.0f;
-                    }
-                    int dp2 = AndroidUtilities.dp(f3);
+                    int dp2 = AndroidUtilities.dp(Build.VERSION.SDK_INT < 21 ? 60.0f : 56.0f);
                     UsersSelectActivity.this.floatingButton.measure(View.MeasureSpec.makeMeasureSpec(dp2, 1073741824), View.MeasureSpec.makeMeasureSpec(dp2, 1073741824));
                 }
             }
@@ -561,7 +552,6 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
         this.editText.setTextIsSelectable(false);
         this.editText.setPadding(0, 0, 0, 0);
         this.editText.setImeOptions(268435462);
-        int i3 = 5;
         this.editText.setGravity((LocaleController.isRTL ? 5 : 3) | 16);
         this.spansContainer.addView(this.editText);
         this.editText.setHintText(LocaleController.getString("SearchForPeopleAndGroups", R.string.SearchForPeopleAndGroups));
@@ -589,14 +579,10 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
             private boolean wasEmpty;
 
             @Override // android.view.View.OnKeyListener
-            public boolean onKey(View view, int i4, KeyEvent keyEvent) {
-                if (i4 == 67) {
-                    boolean z2 = true;
+            public boolean onKey(View view, int i3, KeyEvent keyEvent) {
+                if (i3 == 67) {
                     if (keyEvent.getAction() == 0) {
-                        if (UsersSelectActivity.this.editText.length() != 0) {
-                            z2 = false;
-                        }
-                        this.wasEmpty = z2;
+                        this.wasEmpty = UsersSelectActivity.this.editText.length() == 0;
                     } else if (keyEvent.getAction() == 1 && this.wasEmpty && !UsersSelectActivity.this.allSpans.isEmpty()) {
                         GroupCreateSpan groupCreateSpan = (GroupCreateSpan) UsersSelectActivity.this.allSpans.get(UsersSelectActivity.this.allSpans.size() - 1);
                         UsersSelectActivity.this.spansContainer.removeSpan(groupCreateSpan);
@@ -627,11 +613,11 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
         });
         this.editText.addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.UsersSelectActivity.7
             @Override // android.text.TextWatcher
-            public void beforeTextChanged(CharSequence charSequence, int i4, int i5, int i6) {
+            public void beforeTextChanged(CharSequence charSequence, int i3, int i4, int i5) {
             }
 
             @Override // android.text.TextWatcher
-            public void onTextChanged(CharSequence charSequence, int i4, int i5, int i6) {
+            public void onTextChanged(CharSequence charSequence, int i3, int i4, int i5) {
             }
 
             @Override // android.text.TextWatcher
@@ -677,14 +663,14 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
         viewGroup2.addView(this.listView);
         this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.UsersSelectActivity$$ExternalSyntheticLambda3
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
-            public final void onItemClick(View view, int i4) {
-                UsersSelectActivity.this.lambda$createView$1(context, view, i4);
+            public final void onItemClick(View view, int i3) {
+                UsersSelectActivity.this.lambda$createView$1(context, view, i3);
             }
         });
         this.listView.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.UsersSelectActivity.8
             @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
-            public void onScrollStateChanged(RecyclerView recyclerView, int i4) {
-                if (i4 == 1) {
+            public void onScrollStateChanged(RecyclerView recyclerView, int i3) {
+                if (i3 == 1) {
                     AndroidUtilities.hideKeyboard(UsersSelectActivity.this.editText);
                 }
             }
@@ -693,8 +679,8 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
         this.floatingButton = imageView;
         imageView.setScaleType(ImageView.ScaleType.CENTER);
         Drawable createSimpleSelectorCircleDrawable = Theme.createSimpleSelectorCircleDrawable(AndroidUtilities.dp(56.0f), Theme.getColor("chats_actionBackground"), Theme.getColor("chats_actionPressedBackground"));
-        int i4 = Build.VERSION.SDK_INT;
-        if (i4 < 21) {
+        int i3 = Build.VERSION.SDK_INT;
+        if (i3 < 21) {
             Drawable mutate = context.getResources().getDrawable(R.drawable.floating_shadow).mutate();
             mutate.setColorFilter(new PorterDuffColorFilter(-16777216, PorterDuff.Mode.MULTIPLY));
             CombinedDrawable combinedDrawable = new CombinedDrawable(mutate, createSimpleSelectorCircleDrawable, 0, 0);
@@ -704,7 +690,7 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
         this.floatingButton.setBackgroundDrawable(createSimpleSelectorCircleDrawable);
         this.floatingButton.setColorFilter(new PorterDuffColorFilter(Theme.getColor("chats_actionIcon"), PorterDuff.Mode.MULTIPLY));
         this.floatingButton.setImageResource(R.drawable.floating_check);
-        if (i4 >= 21) {
+        if (i3 >= 21) {
             StateListAnimator stateListAnimator = new StateListAnimator();
             ImageView imageView2 = this.floatingButton;
             Property property = View.TRANSLATION_Z;
@@ -727,10 +713,8 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
             }
         });
         this.floatingButton.setContentDescription(LocaleController.getString("Next", R.string.Next));
-        if (!this.isInclude) {
-            i3 = 3;
-        }
-        for (int i5 = 1; i5 <= i3; i5++) {
+        int i4 = this.isInclude ? 5 : 3;
+        for (int i5 = 1; i5 <= i4; i5++) {
             if (this.isInclude) {
                 if (i5 == 1) {
                     i = MessagesController.DIALOG_FILTER_FLAG_CONTACTS;
@@ -869,10 +853,9 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
             } else {
                 groupCreateUserCell.setChecked(!z2, true);
             }
-            if (this.editText.length() <= 0) {
-                return;
+            if (this.editText.length() > 0) {
+                this.editText.setText((CharSequence) null);
             }
-            this.editText.setText((CharSequence) null);
         }
     }
 
@@ -899,23 +882,21 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
                 emptyTextProgressView.showTextView();
             }
             GroupCreateAdapter groupCreateAdapter = this.adapter;
-            if (groupCreateAdapter == null) {
-                return;
+            if (groupCreateAdapter != null) {
+                groupCreateAdapter.notifyDataSetChanged();
             }
-            groupCreateAdapter.notifyDataSetChanged();
         } else if (i == NotificationCenter.updateInterfaces) {
-            if (this.listView == null) {
-                return;
-            }
-            int intValue = ((Integer) objArr[0]).intValue();
-            int childCount = this.listView.getChildCount();
-            if ((MessagesController.UPDATE_MASK_AVATAR & intValue) == 0 && (MessagesController.UPDATE_MASK_NAME & intValue) == 0 && (MessagesController.UPDATE_MASK_STATUS & intValue) == 0) {
-                return;
-            }
-            for (int i3 = 0; i3 < childCount; i3++) {
-                View childAt = this.listView.getChildAt(i3);
-                if (childAt instanceof GroupCreateUserCell) {
-                    ((GroupCreateUserCell) childAt).update(intValue);
+            if (this.listView != null) {
+                int intValue = ((Integer) objArr[0]).intValue();
+                int childCount = this.listView.getChildCount();
+                if ((MessagesController.UPDATE_MASK_AVATAR & intValue) == 0 && (MessagesController.UPDATE_MASK_NAME & intValue) == 0 && (MessagesController.UPDATE_MASK_STATUS & intValue) == 0) {
+                    return;
+                }
+                for (int i3 = 0; i3 < childCount; i3++) {
+                    View childAt = this.listView.getChildAt(i3);
+                    if (childAt instanceof GroupCreateUserCell) {
+                        ((GroupCreateUserCell) childAt).update(intValue);
+                    }
                 }
             }
         } else if (i == NotificationCenter.chatDidCreated) {
@@ -1076,8 +1057,7 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
             } else {
                 this.actionBar.setSubtitle(String.format(LocaleController.getPluralString("MembersCountSelected", i3), Integer.valueOf(this.selectedCount), Integer.valueOf(i2)));
             }
-        } else if (i != 1) {
-        } else {
+        } else if (i == 1) {
             this.actionBar.setTitle("");
             this.actionBar.setSubtitle("");
             if (this.selectedCount == 0) {
@@ -1232,16 +1212,16 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
         }
 
         /* JADX WARN: Multi-variable type inference failed */
-        /* JADX WARN: Removed duplicated region for block: B:33:0x01c5  */
-        /* JADX WARN: Removed duplicated region for block: B:36:0x01df  */
-        /* JADX WARN: Removed duplicated region for block: B:53:0x02a0  */
-        /* JADX WARN: Removed duplicated region for block: B:56:0x02b4  */
-        /* JADX WARN: Removed duplicated region for block: B:59:0x02c4  */
-        /* JADX WARN: Removed duplicated region for block: B:65:? A[RETURN, SYNTHETIC] */
-        /* JADX WARN: Removed duplicated region for block: B:66:0x02b7  */
-        /* JADX WARN: Removed duplicated region for block: B:67:0x02a6  */
-        /* JADX WARN: Removed duplicated region for block: B:68:0x0220  */
-        /* JADX WARN: Removed duplicated region for block: B:79:0x01cb  */
+        /* JADX WARN: Removed duplicated region for block: B:105:0x0220  */
+        /* JADX WARN: Removed duplicated region for block: B:117:0x02a0  */
+        /* JADX WARN: Removed duplicated region for block: B:118:0x02a6  */
+        /* JADX WARN: Removed duplicated region for block: B:121:0x02b4  */
+        /* JADX WARN: Removed duplicated region for block: B:122:0x02b7  */
+        /* JADX WARN: Removed duplicated region for block: B:125:0x02c4  */
+        /* JADX WARN: Removed duplicated region for block: B:138:? A[RETURN, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:85:0x01c5  */
+        /* JADX WARN: Removed duplicated region for block: B:86:0x01cb  */
+        /* JADX WARN: Removed duplicated region for block: B:92:0x01df  */
         /* JADX WARN: Type inference failed for: r6v0 */
         /* JADX WARN: Type inference failed for: r6v1 */
         /* JADX WARN: Type inference failed for: r6v13 */
@@ -1395,11 +1375,11 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
                             }
                             groupCreateUserCell.setObject(tLObject2, charSequence, spannableStringBuilder);
                             groupCreateUserCell.getStatusTextView().setTextColor(Theme.getColor(z ? "windowBackgroundWhiteBlueText" : "windowBackgroundWhiteGrayText"));
-                            if (j == 0) {
+                            if (j != 0) {
+                                groupCreateUserCell.setChecked(UsersSelectActivity.this.selectedContacts.indexOfKey(j) >= 0, false);
+                                groupCreateUserCell.setCheckBoxEnabled(true);
                                 return;
                             }
-                            groupCreateUserCell.setChecked(UsersSelectActivity.this.selectedContacts.indexOfKey(j) >= 0, false);
-                            groupCreateUserCell.setCheckBoxEnabled(true);
                             return;
                         }
                     }
@@ -1408,7 +1388,7 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
                     }
                     groupCreateUserCell.setObject(tLObject2, charSequence, spannableStringBuilder);
                     groupCreateUserCell.getStatusTextView().setTextColor(Theme.getColor(z ? "windowBackgroundWhiteBlueText" : "windowBackgroundWhiteGrayText"));
-                    if (j == 0) {
+                    if (j != 0) {
                     }
                 }
             } else {
@@ -1467,7 +1447,7 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
             }
             groupCreateUserCell.setObject(tLObject2, charSequence, spannableStringBuilder);
             groupCreateUserCell.getStatusTextView().setTextColor(Theme.getColor(z ? "windowBackgroundWhiteBlueText" : "windowBackgroundWhiteGrayText"));
-            if (j == 0) {
+            if (j != 0) {
             }
         }
 
@@ -1613,15 +1593,15 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
                     while (i5 < 3) {
                         String str6 = strArr2[i5];
                         if (str6 != null) {
-                            if (!str6.startsWith(str5)) {
+                            if (str6.startsWith(str5)) {
+                                i = i2;
+                            } else {
                                 StringBuilder sb = new StringBuilder();
                                 i = i2;
                                 sb.append(" ");
                                 sb.append(str5);
                                 if (str6.contains(sb.toString())) {
                                 }
-                            } else {
-                                i = i2;
                             }
                             c3 = 1;
                             break;
@@ -1674,17 +1654,16 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$updateSearchResults$4(ArrayList arrayList, ArrayList arrayList2) {
-            if (!this.searching) {
-                return;
+            if (this.searching) {
+                this.searchRunnable = null;
+                this.searchResult = arrayList;
+                this.searchResultNames = arrayList2;
+                this.searchAdapterHelper.mergeResults(arrayList);
+                if (this.searching && !this.searchAdapterHelper.isSearchInProgress()) {
+                    UsersSelectActivity.this.emptyView.showTextView();
+                }
+                notifyDataSetChanged();
             }
-            this.searchRunnable = null;
-            this.searchResult = arrayList;
-            this.searchResultNames = arrayList2;
-            this.searchAdapterHelper.mergeResults(arrayList);
-            if (this.searching && !this.searchAdapterHelper.isSearchInProgress()) {
-                UsersSelectActivity.this.emptyView.showTextView();
-            }
-            notifyDataSetChanged();
         }
     }
 

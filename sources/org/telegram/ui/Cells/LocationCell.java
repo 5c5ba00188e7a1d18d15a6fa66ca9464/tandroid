@@ -22,7 +22,7 @@ public class LocationCell extends FrameLayout {
     private static FlickerLoadingView globalGradientView;
     private TextView addressTextView;
     private ShapeDrawable circleDrawable;
-    private float enterAlpha = 0.0f;
+    private float enterAlpha;
     private ValueAnimator enterAnimator;
     private BackupImageView imageView;
     private TextView nameTextView;
@@ -32,6 +32,7 @@ public class LocationCell extends FrameLayout {
 
     public LocationCell(Context context, boolean z, Theme.ResourcesProvider resourcesProvider) {
         super(context);
+        this.enterAlpha = 0.0f;
         this.resourcesProvider = resourcesProvider;
         this.wrapContent = z;
         BackupImageView backupImageView = new BackupImageView(context);
@@ -42,7 +43,6 @@ public class LocationCell extends FrameLayout {
         this.imageView.setSize(AndroidUtilities.dp(30.0f), AndroidUtilities.dp(30.0f));
         BackupImageView backupImageView2 = this.imageView;
         boolean z2 = LocaleController.isRTL;
-        int i = 5;
         addView(backupImageView2, LayoutHelper.createFrame(42, 42.0f, (z2 ? 5 : 3) | 48, z2 ? 0.0f : 15.0f, 11.0f, z2 ? 15.0f : 0.0f, 0.0f));
         TextView textView = new TextView(context);
         this.nameTextView = textView;
@@ -55,7 +55,6 @@ public class LocationCell extends FrameLayout {
         this.nameTextView.setGravity(LocaleController.isRTL ? 5 : 3);
         TextView textView2 = this.nameTextView;
         boolean z3 = LocaleController.isRTL;
-        int i2 = 16;
         addView(textView2, LayoutHelper.createFrame(-2, -2.0f, (z3 ? 5 : 3) | 48, z3 ? 16 : 73, 10.0f, z3 ? 73 : 16, 0.0f));
         TextView textView3 = new TextView(context);
         this.addressTextView = textView3;
@@ -67,7 +66,7 @@ public class LocationCell extends FrameLayout {
         this.addressTextView.setGravity(LocaleController.isRTL ? 5 : 3);
         TextView textView4 = this.addressTextView;
         boolean z4 = LocaleController.isRTL;
-        addView(textView4, LayoutHelper.createFrame(-2, -2.0f, (!z4 ? 3 : i) | 48, z4 ? 16 : 73, 35.0f, z4 ? 73 : i2, 0.0f));
+        addView(textView4, LayoutHelper.createFrame(-2, -2.0f, (z4 ? 5 : 3) | 48, z4 ? 16 : 73, 35.0f, z4 ? 73 : 16, 0.0f));
         this.imageView.setAlpha(this.enterAlpha);
         this.nameTextView.setAlpha(this.enterAlpha);
         this.addressTextView.setAlpha(this.enterAlpha);
@@ -93,19 +92,19 @@ public class LocationCell extends FrameLayout {
     public static int getColorForIndex(int i) {
         int i2 = i % 7;
         if (i2 != 0) {
-            if (i2 == 1) {
-                return -868277;
-            }
-            if (i2 == 2) {
+            if (i2 != 1) {
+                if (i2 != 2) {
+                    if (i2 != 3) {
+                        if (i2 != 4) {
+                            return i2 != 5 ? -1285237 : -12338729;
+                        }
+                        return -7900675;
+                    }
+                    return -13187226;
+                }
                 return -12214795;
             }
-            if (i2 == 3) {
-                return -13187226;
-            }
-            if (i2 == 4) {
-                return -7900675;
-            }
-            return i2 != 5 ? -1285237 : -12338729;
+            return -868277;
         }
         return -1351584;
     }
@@ -156,12 +155,7 @@ public class LocationCell extends FrameLayout {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setLocation$0(long j, long j2, float f, float f2, ValueAnimator valueAnimator) {
-        float f3 = 1.0f;
-        float min = Math.min(Math.max(((float) (SystemClock.elapsedRealtime() - j)) / ((float) j2), 0.0f), 1.0f);
-        if (j2 > 0) {
-            f3 = min;
-        }
-        float lerp = AndroidUtilities.lerp(f, f2, f3);
+        float lerp = AndroidUtilities.lerp(f, f2, j2 > 0 ? Math.min(Math.max(((float) (SystemClock.elapsedRealtime() - j)) / ((float) j2), 0.0f), 1.0f) : 1.0f);
         this.enterAlpha = lerp;
         this.imageView.setAlpha(lerp);
         this.nameTextView.setAlpha(this.enterAlpha);

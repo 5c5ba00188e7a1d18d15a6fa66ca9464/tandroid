@@ -23,6 +23,7 @@ public class SearchCounterView extends View {
     private StaticLayout countAnimationStableLayout;
     private StaticLayout countAnimationStableLayout2;
     private ValueAnimator countAnimator;
+    private float countChangeProgress;
     private StaticLayout countLayout;
     float countLeft;
     private StaticLayout countOldLayout;
@@ -30,20 +31,25 @@ public class SearchCounterView extends View {
     private int countWidthOld;
     int currentCount;
     String currentString;
+    float dx;
+    int gravity;
     public float horizontalPadding;
     int lastH;
+    RectF rectF;
     private final Theme.ResourcesProvider resourcesProvider;
     private int textColor;
+    private String textColorKey;
+    TextPaint textPaint;
     float x;
-    TextPaint textPaint = new TextPaint(1);
-    RectF rectF = new RectF();
-    private float countChangeProgress = 1.0f;
-    private String textColorKey = "chat_searchPanelText";
-    int gravity = 17;
-    float dx = 0.0f;
 
     public SearchCounterView(Context context, Theme.ResourcesProvider resourcesProvider) {
         super(context);
+        this.textPaint = new TextPaint(1);
+        this.rectF = new RectF();
+        this.countChangeProgress = 1.0f;
+        this.textColorKey = "chat_searchPanelText";
+        this.gravity = 17;
+        this.dx = 0.0f;
         this.resourcesProvider = resourcesProvider;
         this.textPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.textPaint.setTextSize(AndroidUtilities.dp(15.0f));

@@ -17,12 +17,7 @@ public class MP3Frame {
             int i3 = 1 << (i2 - 1);
             do {
                 short s = this.crc;
-                boolean z = false;
-                boolean z2 = (32768 & s) == 0;
-                if ((i & i3) == 0) {
-                    z = true;
-                }
-                if (z2 ^ z) {
+                if (((32768 & s) == 0) ^ ((i & i3) == 0)) {
                     short s2 = (short) (s << 1);
                     this.crc = s2;
                     this.crc = (short) (s2 ^ 32773);
@@ -86,17 +81,16 @@ public class MP3Frame {
             if (i7 == 3) {
                 throw new MP3Exception("Reserved frequency");
             }
-            int i8 = 6;
             this.channelMode = (i3 >> 6) & 3;
             this.padding = (i2 >> 1) & 1;
-            int i9 = i & 1;
-            this.protection = i9;
-            i8 = i9 != 0 ? 4 : i8;
-            i8 = i5 == 1 ? i8 + getSideInfoSize() : i8;
-            if (getFrameSize() >= i8) {
+            int i8 = i & 1;
+            this.protection = i8;
+            int i9 = i8 != 0 ? 4 : 6;
+            i9 = i5 == 1 ? i9 + getSideInfoSize() : i9;
+            if (getFrameSize() >= i9) {
                 return;
             }
-            throw new MP3Exception("Frame size must be at least " + i8);
+            throw new MP3Exception("Frame size must be at least " + i9);
         }
 
         public int getVersion() {

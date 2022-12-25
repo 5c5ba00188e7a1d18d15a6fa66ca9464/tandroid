@@ -32,19 +32,19 @@ public interface RendererCapabilities {
 
         public static String getFormatSupportString(int i) {
             if (i != 0) {
-                if (i == 1) {
-                    return "NO_UNSUPPORTED_TYPE";
-                }
-                if (i == 2) {
+                if (i != 1) {
+                    if (i != 2) {
+                        if (i != 3) {
+                            if (i == 4) {
+                                return "YES";
+                            }
+                            throw new IllegalStateException();
+                        }
+                        return "NO_EXCEEDS_CAPABILITIES";
+                    }
                     return "NO_UNSUPPORTED_DRM";
                 }
-                if (i == 3) {
-                    return "NO_EXCEEDS_CAPABILITIES";
-                }
-                if (i != 4) {
-                    throw new IllegalStateException();
-                }
-                return "YES";
+                return "NO_UNSUPPORTED_TYPE";
             }
             return "NO";
         }

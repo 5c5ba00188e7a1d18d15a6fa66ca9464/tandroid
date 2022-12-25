@@ -43,10 +43,10 @@ public class ReflectionHelper {
         } else {
             str = "<unknown AccessibleObject> " + accessibleObject.toString();
         }
-        if (!z || !Character.isLowerCase(str.charAt(0))) {
-            return str;
+        if (z && Character.isLowerCase(str.charAt(0))) {
+            return Character.toUpperCase(str.charAt(0)) + str.substring(1);
         }
-        return Character.toUpperCase(str.charAt(0)) + str.substring(1);
+        return str;
     }
 
     public static String constructorToString(Constructor<?> constructor) {

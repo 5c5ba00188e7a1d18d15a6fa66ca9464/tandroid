@@ -65,10 +65,10 @@ public class ConnectionTracker {
             }
             try {
                 boolean zze = zze(context, intent, serviceConnection, i, executor);
-                if (!zze) {
-                    return false;
+                if (zze) {
+                    return zze;
                 }
-                return zze;
+                return false;
             } finally {
                 this.zza.remove(serviceConnection, serviceConnection);
             }

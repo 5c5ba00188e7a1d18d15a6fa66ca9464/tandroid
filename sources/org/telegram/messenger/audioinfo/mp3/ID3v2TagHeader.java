@@ -19,7 +19,6 @@ public class ID3v2TagHeader {
     }
 
     ID3v2TagHeader(PositionInputStream positionInputStream) throws IOException, ID3v2Exception {
-        boolean z = false;
         this.version = 0;
         this.revision = 0;
         this.headerSize = 0;
@@ -42,9 +41,9 @@ public class ID3v2TagHeader {
         int i = this.version;
         if (i == 2) {
             this.unsynchronization = (readByte2 & 128) != 0;
-            this.compression = (readByte2 & 64) != 0 ? true : z;
+            this.compression = (readByte2 & 64) != 0;
         } else {
-            this.unsynchronization = (readByte2 & 128) != 0 ? true : z;
+            this.unsynchronization = (readByte2 & 128) != 0;
             if ((readByte2 & 64) != 0) {
                 if (i == 3) {
                     int readInt = iD3v2DataInput.readInt();

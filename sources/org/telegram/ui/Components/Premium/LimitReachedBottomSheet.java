@@ -49,29 +49,29 @@ import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.PremiumPreviewFragment;
 /* loaded from: classes3.dex */
 public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView {
+    int chatStartRow;
+    ArrayList<TLRPC$Chat> chats;
+    int chatsTitleRow;
+    private int currentValue;
     View divider;
+    int dividerRow;
     RecyclerItemsEnterAnimator enterAnimator;
+    int headerRow;
+    private ArrayList<TLRPC$Chat> inactiveChats;
+    private ArrayList<String> inactiveChatsSignatures;
     private boolean isVeryLargeFile;
     LimitParams limitParams;
     LimitPreviewView limitPreviewView;
+    private boolean loading;
+    int loadingRow;
     public Runnable onShowPremiumScreenRunnable;
     public Runnable onSuccessRunnable;
     BaseFragment parentFragment;
     public boolean parentIsChannel;
     PremiumButtonView premiumButtonView;
     int rowCount;
+    HashSet<TLRPC$Chat> selectedChats;
     final int type;
-    ArrayList<TLRPC$Chat> chats = new ArrayList<>();
-    int headerRow = -1;
-    int dividerRow = -1;
-    int chatsTitleRow = -1;
-    int chatStartRow = -1;
-    int loadingRow = -1;
-    private int currentValue = -1;
-    HashSet<TLRPC$Chat> selectedChats = new HashSet<>();
-    private ArrayList<TLRPC$Chat> inactiveChats = new ArrayList<>();
-    private ArrayList<String> inactiveChatsSignatures = new ArrayList<>();
-    private boolean loading = false;
 
     /* loaded from: classes3.dex */
     public static class LimitParams {
@@ -116,6 +116,17 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView {
 
     public LimitReachedBottomSheet(BaseFragment baseFragment, Context context, int i, int i2) {
         super(baseFragment, false, hasFixedSize(i));
+        this.chats = new ArrayList<>();
+        this.headerRow = -1;
+        this.dividerRow = -1;
+        this.chatsTitleRow = -1;
+        this.chatStartRow = -1;
+        this.loadingRow = -1;
+        this.currentValue = -1;
+        this.selectedChats = new HashSet<>();
+        this.inactiveChats = new ArrayList<>();
+        this.inactiveChatsSignatures = new ArrayList<>();
+        this.loading = false;
         fixNavigationBar();
         this.parentFragment = baseFragment;
         this.type = i;
@@ -189,8 +200,7 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView {
             }
             adminedChannelCell.setChecked(this.selectedChats.contains(currentChannel), true);
             updateButton();
-        } else if (!(view instanceof GroupCreateUserCell)) {
-        } else {
+        } else if (view instanceof GroupCreateUserCell) {
             GroupCreateUserCell groupCreateUserCell = (GroupCreateUserCell) view;
             TLRPC$Chat tLRPC$Chat = (TLRPC$Chat) groupCreateUserCell.getObject();
             if (this.selectedChats.contains(tLRPC$Chat)) {
@@ -239,8 +249,7 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView {
         int i = this.type;
         if (i == 2) {
             revokeSelectedLinks();
-        } else if (i != 5) {
-        } else {
+        } else if (i == 5) {
             leaveFromSelectedGroups();
         }
     }
@@ -355,7 +364,6 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView {
 
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
             public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
-                boolean z = false;
                 if (viewHolder.getItemViewType() == 4) {
                     TLRPC$Chat tLRPC$Chat = (TLRPC$Chat) LimitReachedBottomSheet.this.inactiveChats.get(i - LimitReachedBottomSheet.this.chatStartRow);
                     GroupCreateUserCell groupCreateUserCell = (GroupCreateUserCell) viewHolder.itemView;
@@ -367,13 +375,8 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView {
                     AdminedChannelCell adminedChannelCell = (AdminedChannelCell) viewHolder.itemView;
                     TLRPC$Chat currentChannel = adminedChannelCell.getCurrentChannel();
                     adminedChannelCell.setChannel(tLRPC$Chat2, false);
-                    boolean contains = LimitReachedBottomSheet.this.selectedChats.contains(tLRPC$Chat2);
-                    if (currentChannel == tLRPC$Chat2) {
-                        z = true;
-                    }
-                    adminedChannelCell.setChecked(contains, z);
-                } else if (viewHolder.getItemViewType() != 3) {
-                } else {
+                    adminedChannelCell.setChecked(LimitReachedBottomSheet.this.selectedChats.contains(tLRPC$Chat2), currentChannel == tLRPC$Chat2);
+                } else if (viewHolder.getItemViewType() == 3) {
                     HeaderCell headerCell = (HeaderCell) viewHolder.itemView;
                     if (LimitReachedBottomSheet.this.type == 2) {
                         headerCell.setText(LocaleController.getString("YourPublicCommunities", R.string.YourPublicCommunities));

@@ -72,7 +72,7 @@ class ContactsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactor
         StringBuilder sb = new StringBuilder();
         sb.append("deleted");
         sb.append(this.appWidgetId);
-        this.deleted = (sharedPreferences.getBoolean(sb.toString(), false) || this.accountInstance == null) ? true : z;
+        this.deleted = (sharedPreferences.getBoolean(sb.toString(), false) || this.accountInstance == null) ? true : true;
     }
 
     @Override // android.widget.RemoteViewsService.RemoteViewsFactory

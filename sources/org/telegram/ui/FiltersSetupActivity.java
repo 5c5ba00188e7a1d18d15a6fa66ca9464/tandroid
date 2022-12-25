@@ -115,18 +115,10 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
             int dp;
             int i5 = i3 - i;
             int textHeight = ((i4 - i2) - this.textView.getTextHeight()) / 2;
-            float f = 64.0f;
             if (LocaleController.isRTL) {
-                int measuredWidth = getMeasuredWidth() - this.textView.getMeasuredWidth();
-                if (this.imageView.getVisibility() != 0) {
-                    f = 23.0f;
-                }
-                dp = measuredWidth - AndroidUtilities.dp(f);
+                dp = (getMeasuredWidth() - this.textView.getMeasuredWidth()) - AndroidUtilities.dp(this.imageView.getVisibility() != 0 ? 23.0f : 64.0f);
             } else {
-                if (this.imageView.getVisibility() != 0) {
-                    f = 23.0f;
-                }
-                dp = AndroidUtilities.dp(f);
+                dp = AndroidUtilities.dp(this.imageView.getVisibility() != 0 ? 23.0f : 64.0f);
             }
             SimpleTextView simpleTextView = this.textView;
             simpleTextView.layout(dp, textHeight, simpleTextView.getMeasuredWidth() + dp, this.textView.getMeasuredHeight() + textHeight);
@@ -251,10 +243,11 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$new$0(View view) {
-            if (!this.imageView.isPlaying()) {
-                this.imageView.setProgress(0.0f);
-                this.imageView.playAnimation();
+            if (this.imageView.isPlaying()) {
+                return;
             }
+            this.imageView.setProgress(0.0f);
+            this.imageView.playAnimation();
         }
 
         @Override // android.widget.FrameLayout, android.view.View
@@ -284,7 +277,6 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
             this.moveImageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor("stickers_menu"), PorterDuff.Mode.MULTIPLY));
             this.moveImageView.setContentDescription(LocaleController.getString("FilterReorder", R.string.FilterReorder));
             this.moveImageView.setClickable(true);
-            int i = 5;
             addView(this.moveImageView, LayoutHelper.createFrame(48, 48.0f, (LocaleController.isRTL ? 5 : 3) | 16, 6.0f, 0.0f, 6.0f, 0.0f));
             SimpleTextView simpleTextView = new SimpleTextView(context);
             this.textView = simpleTextView;
@@ -320,7 +312,7 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
             this.optionsImageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor("stickers_menu"), PorterDuff.Mode.MULTIPLY));
             this.optionsImageView.setImageResource(R.drawable.msg_actions);
             this.optionsImageView.setContentDescription(LocaleController.getString("AccDescrMoreOptions", R.string.AccDescrMoreOptions));
-            addView(this.optionsImageView, LayoutHelper.createFrame(40, 40.0f, (LocaleController.isRTL ? 3 : i) | 16, 6.0f, 0.0f, 6.0f, 0.0f));
+            addView(this.optionsImageView, LayoutHelper.createFrame(40, 40.0f, (LocaleController.isRTL ? 3 : 5) | 16, 6.0f, 0.0f, 6.0f, 0.0f));
         }
 
         @Override // android.widget.FrameLayout, android.view.View
@@ -328,30 +320,26 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
             super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(50.0f), 1073741824));
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:50:0x00f5  */
-        /* JADX WARN: Removed duplicated region for block: B:53:0x0108  */
-        /* JADX WARN: Removed duplicated region for block: B:55:0x0110  */
-        /* JADX WARN: Removed duplicated region for block: B:62:0x0140  */
-        /* JADX WARN: Removed duplicated region for block: B:66:0x0148  */
-        /* JADX WARN: Removed duplicated region for block: B:69:0x00d4  */
+        /* JADX WARN: Removed duplicated region for block: B:56:0x00d4  */
+        /* JADX WARN: Removed duplicated region for block: B:60:0x00f5  */
+        /* JADX WARN: Removed duplicated region for block: B:63:0x0108  */
+        /* JADX WARN: Removed duplicated region for block: B:65:0x0110  */
+        /* JADX WARN: Removed duplicated region for block: B:72:0x0140  */
+        /* JADX WARN: Removed duplicated region for block: B:73:0x0148  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public void setFilter(MessagesController.DialogFilter dialogFilter, boolean z) {
             MessagesController.DialogFilter dialogFilter2 = this.currentFilter;
-            int i = -1;
-            int i2 = dialogFilter2 == null ? -1 : dialogFilter2.id;
+            int i = dialogFilter2 == null ? -1 : dialogFilter2.id;
             this.currentFilter = dialogFilter;
-            if (dialogFilter != null) {
-                i = dialogFilter.id;
-            }
-            boolean z2 = i2 != i;
+            boolean z2 = i != (dialogFilter != null ? dialogFilter.id : -1);
             StringBuilder sb = new StringBuilder();
             if (!dialogFilter.isDefault()) {
-                int i3 = dialogFilter.flags;
-                int i4 = MessagesController.DIALOG_FILTER_FLAG_ALL_CHATS;
-                if ((i3 & i4) != i4) {
-                    if ((i3 & MessagesController.DIALOG_FILTER_FLAG_CONTACTS) != 0) {
+                int i2 = dialogFilter.flags;
+                int i3 = MessagesController.DIALOG_FILTER_FLAG_ALL_CHATS;
+                if ((i2 & i3) != i3) {
+                    if ((i2 & MessagesController.DIALOG_FILTER_FLAG_CONTACTS) != 0) {
                         if (sb.length() != 0) {
                             sb.append(", ");
                         }
@@ -659,8 +647,7 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
             } else {
                 presentFragment(new FilterCreateActivity(getMessagesController().dialogFilters.get(i3)));
             }
-        } else if (i != this.createFilterRow) {
-        } else {
+        } else if (i == this.createFilterRow) {
             if ((getMessagesController().dialogFilters.size() - 1 >= getMessagesController().dialogFiltersLimitDefault && !getUserConfig().isPremium()) || getMessagesController().dialogFilters.size() >= getMessagesController().dialogFiltersLimitPremium) {
                 showDialog(new LimitReachedBottomSheet(this, context, 3, this.currentAccount));
             } else {
@@ -691,8 +678,7 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
             } else {
                 this.adapter.notifyItemRangeChanged(0, i3);
             }
-        } else if (i != NotificationCenter.suggestedFiltersLoaded) {
-        } else {
+        } else if (i == NotificationCenter.suggestedFiltersLoaded) {
             updateRows(true);
         }
     }
@@ -754,8 +740,7 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
                     return;
                 }
                 FiltersSetupActivity.this.presentFragment(new FilterCreateActivity(dialogFilter));
-            } else if (i != 1) {
-            } else {
+            } else if (i == 1) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(FiltersSetupActivity.this.getParentActivity());
                 builder.setTitle(LocaleController.getString("FilterDelete", R.string.FilterDelete));
                 builder.setMessage(LocaleController.getString("FilterDeleteAlert", R.string.FilterDeleteAlert));
@@ -769,10 +754,9 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
                 AlertDialog create = builder.create();
                 FiltersSetupActivity.this.showDialog(create);
                 TextView textView = (TextView) create.getButton(-1);
-                if (textView == null) {
-                    return;
+                if (textView != null) {
+                    textView.setTextColor(Theme.getColor("dialogTextRed2"));
                 }
-                textView.setTextColor(Theme.getColor("dialogTextRed2"));
             }
         }
 
@@ -825,15 +809,10 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
             FiltersSetupActivity.this.ignoreUpdates = true;
             FiltersSetupActivity.this.getMessagesController().removeFilter(dialogFilter);
             FiltersSetupActivity.this.getMessagesStorage().deleteDialogFilter(dialogFilter);
-            boolean z = false;
             FiltersSetupActivity.this.ignoreUpdates = false;
             int i = FiltersSetupActivity.this.createFilterRow;
             int i2 = FiltersSetupActivity.this.recommendedHeaderRow;
-            FiltersSetupActivity filtersSetupActivity = FiltersSetupActivity.this;
-            if (indexOf == -1) {
-                z = true;
-            }
-            filtersSetupActivity.updateRows(z);
+            FiltersSetupActivity.this.updateRows(indexOf == -1);
             if (indexOf != -1) {
                 if (FiltersSetupActivity.this.filtersStartRow == -1) {
                     FiltersSetupActivity.this.adapter.notifyItemRangeRemoved(indexOf - 1, 2);
@@ -963,7 +942,6 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onCreateViewHolder$6(TLRPC$TL_dialogFilterSuggested tLRPC$TL_dialogFilterSuggested, MessagesController.DialogFilter dialogFilter) {
-            int i = 0;
             FiltersSetupActivity.this.getNotificationCenter().postNotificationName(NotificationCenter.dialogFiltersUpdated, new Object[0]);
             FiltersSetupActivity.this.ignoreUpdates = false;
             ArrayList<TLRPC$TL_dialogFilterSuggested> arrayList = FiltersSetupActivity.this.getMessagesController().suggestedFilters;
@@ -971,35 +949,32 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
             if (indexOf != -1) {
                 boolean z = FiltersSetupActivity.this.filtersStartRow == -1;
                 arrayList.remove(indexOf);
-                int i2 = indexOf + FiltersSetupActivity.this.recommendedStartRow;
-                int i3 = FiltersSetupActivity.this.createFilterRow;
-                int i4 = FiltersSetupActivity.this.recommendedHeaderRow;
-                int i5 = FiltersSetupActivity.this.recommendedSectionRow;
+                int i = indexOf + FiltersSetupActivity.this.recommendedStartRow;
+                int i2 = FiltersSetupActivity.this.createFilterRow;
+                int i3 = FiltersSetupActivity.this.recommendedHeaderRow;
+                int i4 = FiltersSetupActivity.this.recommendedSectionRow;
                 FiltersSetupActivity.this.updateRows(false);
-                if (i3 != -1 && FiltersSetupActivity.this.createFilterRow == -1) {
-                    FiltersSetupActivity.this.adapter.notifyItemRemoved(i3);
-                }
-                if (i4 == -1 || FiltersSetupActivity.this.recommendedHeaderRow != -1) {
+                if (i2 != -1 && FiltersSetupActivity.this.createFilterRow == -1) {
                     FiltersSetupActivity.this.adapter.notifyItemRemoved(i2);
+                }
+                if (i3 == -1 || FiltersSetupActivity.this.recommendedHeaderRow != -1) {
+                    FiltersSetupActivity.this.adapter.notifyItemRemoved(i);
                 } else {
-                    FiltersSetupActivity.this.adapter.notifyItemRangeRemoved(i4, (i5 - i4) + 1);
+                    FiltersSetupActivity.this.adapter.notifyItemRangeRemoved(i3, (i4 - i3) + 1);
                 }
                 if (z) {
                     FiltersSetupActivity.this.adapter.notifyItemInserted(FiltersSetupActivity.this.filtersHeaderRow);
                 }
-                int i6 = 0;
-                for (int i7 = 0; i7 < FiltersSetupActivity.this.getMessagesController().dialogFilters.size(); i7++) {
-                    if (dialogFilter.id == FiltersSetupActivity.this.getMessagesController().dialogFilters.get(i7).id) {
-                        i6 = i7;
+                int i5 = 0;
+                for (int i6 = 0; i6 < FiltersSetupActivity.this.getMessagesController().dialogFilters.size(); i6++) {
+                    if (dialogFilter.id == FiltersSetupActivity.this.getMessagesController().dialogFilters.get(i6).id) {
+                        i5 = i6;
                     }
                 }
                 if (!FiltersSetupActivity.this.getUserConfig().isPremium()) {
-                    i6--;
+                    i5--;
                 }
-                if (i6 >= 0) {
-                    i = i6;
-                }
-                FiltersSetupActivity.this.adapter.notifyItemInserted(FiltersSetupActivity.this.filtersStartRow + i);
+                FiltersSetupActivity.this.adapter.notifyItemInserted(FiltersSetupActivity.this.filtersStartRow + (i5 >= 0 ? i5 : 0));
                 return;
             }
             FiltersSetupActivity.this.updateRows(true);
@@ -1011,16 +986,15 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
             if (itemViewType == 0) {
                 HeaderCell headerCell = (HeaderCell) viewHolder.itemView;
                 if (i != FiltersSetupActivity.this.filtersHeaderRow) {
-                    if (i != FiltersSetupActivity.this.recommendedHeaderRow) {
+                    if (i == FiltersSetupActivity.this.recommendedHeaderRow) {
+                        headerCell.setText(LocaleController.getString("FilterRecommended", R.string.FilterRecommended));
                         return;
                     }
-                    headerCell.setText(LocaleController.getString("FilterRecommended", R.string.FilterRecommended));
                     return;
                 }
                 headerCell.setText(LocaleController.getString("Filters", R.string.Filters));
                 return;
             }
-            boolean z = true;
             if (itemViewType == 2) {
                 FilterCell filterCell = (FilterCell) viewHolder.itemView;
                 int i2 = i - FiltersSetupActivity.this.filtersStartRow;
@@ -1038,23 +1012,17 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
                 if (itemViewType != 5) {
                     return;
                 }
-                SuggestedFilterCell suggestedFilterCell = (SuggestedFilterCell) viewHolder.itemView;
-                TLRPC$TL_dialogFilterSuggested tLRPC$TL_dialogFilterSuggested = FiltersSetupActivity.this.getMessagesController().suggestedFilters.get(i - FiltersSetupActivity.this.recommendedStartRow);
-                if (FiltersSetupActivity.this.recommendedStartRow == FiltersSetupActivity.this.recommendedEndRow - 1) {
-                    z = false;
-                }
-                suggestedFilterCell.setFilter(tLRPC$TL_dialogFilterSuggested, z);
+                ((SuggestedFilterCell) viewHolder.itemView).setFilter(FiltersSetupActivity.this.getMessagesController().suggestedFilters.get(i - FiltersSetupActivity.this.recommendedStartRow), FiltersSetupActivity.this.recommendedStartRow != FiltersSetupActivity.this.recommendedEndRow - 1);
             } else {
                 TextCell textCell = (TextCell) viewHolder.itemView;
                 MessagesController.getNotificationsSettings(((BaseFragment) FiltersSetupActivity.this).currentAccount);
-                if (i != FiltersSetupActivity.this.createFilterRow) {
-                    return;
+                if (i == FiltersSetupActivity.this.createFilterRow) {
+                    Drawable drawable = this.mContext.getResources().getDrawable(R.drawable.poll_add_circle);
+                    Drawable drawable2 = this.mContext.getResources().getDrawable(R.drawable.poll_add_plus);
+                    drawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor("switchTrackChecked"), PorterDuff.Mode.MULTIPLY));
+                    drawable2.setColorFilter(new PorterDuffColorFilter(Theme.getColor("checkboxCheck"), PorterDuff.Mode.MULTIPLY));
+                    textCell.setTextAndIcon(LocaleController.getString("CreateNewFilter", R.string.CreateNewFilter), new CombinedDrawable(drawable, drawable2), false);
                 }
-                Drawable drawable = this.mContext.getResources().getDrawable(R.drawable.poll_add_circle);
-                Drawable drawable2 = this.mContext.getResources().getDrawable(R.drawable.poll_add_plus);
-                drawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor("switchTrackChecked"), PorterDuff.Mode.MULTIPLY));
-                drawable2.setColorFilter(new PorterDuffColorFilter(Theme.getColor("checkboxCheck"), PorterDuff.Mode.MULTIPLY));
-                textCell.setTextAndIcon(LocaleController.getString("CreateNewFilter", R.string.CreateNewFilter), new CombinedDrawable(drawable, drawable2), false);
             }
         }
 
@@ -1066,13 +1034,13 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
             if (i == FiltersSetupActivity.this.filterHelpRow) {
                 return 1;
             }
-            if (i >= FiltersSetupActivity.this.filtersStartRow && i < FiltersSetupActivity.this.filtersEndRow) {
-                return 2;
+            if (i < FiltersSetupActivity.this.filtersStartRow || i >= FiltersSetupActivity.this.filtersEndRow) {
+                if (i == FiltersSetupActivity.this.createSectionRow || i == FiltersSetupActivity.this.recommendedSectionRow) {
+                    return 3;
+                }
+                return i == FiltersSetupActivity.this.createFilterRow ? 4 : 5;
             }
-            if (i == FiltersSetupActivity.this.createSectionRow || i == FiltersSetupActivity.this.recommendedSectionRow) {
-                return 3;
-            }
-            return i == FiltersSetupActivity.this.createFilterRow ? 4 : 5;
+            return 2;
         }
 
         public void swapElements(int i, int i2) {
@@ -1102,11 +1070,11 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
         public void moveElementToStart(int i) {
             int i2;
             int i3 = FiltersSetupActivity.this.filtersEndRow - FiltersSetupActivity.this.filtersStartRow;
-            if (!FiltersSetupActivity.this.showAllChats) {
+            if (FiltersSetupActivity.this.showAllChats) {
+                i2 = i;
+            } else {
                 i2 = i + 1;
                 i3++;
-            } else {
-                i2 = i;
             }
             if (i2 < 0 || i2 >= i3) {
                 return;

@@ -85,10 +85,9 @@ public class FilePathDatabase {
                 this.shmCacheFile.delete();
                 createDatabase(i + 1, false);
             }
-            if (!BuildVars.DEBUG_VERSION) {
-                return;
+            if (BuildVars.DEBUG_VERSION) {
+                FileLog.e(e);
             }
-            FileLog.e(e);
         }
     }
 
@@ -128,15 +127,15 @@ public class FilePathDatabase {
             filesDirFixed = file;
         }
         File file2 = new File(filesDirFixed, "file_to_path_backup.db");
-        if (!file2.exists()) {
-            return false;
+        if (file2.exists()) {
+            try {
+                return AndroidUtilities.copyFile(file2, this.cacheFile);
+            } catch (IOException e) {
+                FileLog.e(e);
+                return false;
+            }
         }
-        try {
-            return AndroidUtilities.copyFile(file2, this.cacheFile);
-        } catch (IOException e) {
-            FileLog.e(e);
-            return false;
-        }
+        return false;
     }
 
     public String getPath(final long j, final int i, final int i2, boolean z) {
@@ -208,7 +207,7 @@ public class FilePathDatabase {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:14:0x0072, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:15:0x0072, code lost:
         if (r1 == null) goto L21;
      */
     /*
@@ -251,8 +250,8 @@ public class FilePathDatabase {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:37:0x00be  */
-    /* JADX WARN: Removed duplicated region for block: B:39:0x00c3  */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x00be  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x00c3  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -292,10 +291,10 @@ public class FilePathDatabase {
                         if (sQLitePreparedStatement3 != null) {
                             sQLitePreparedStatement3.dispose();
                         }
-                        if (sQLitePreparedStatement == null) {
+                        if (sQLitePreparedStatement != null) {
+                            sQLitePreparedStatement.dispose();
                             return;
                         }
-                        sQLitePreparedStatement.dispose();
                         return;
                     } catch (Throwable th) {
                         th = th;
@@ -324,10 +323,9 @@ public class FilePathDatabase {
             if (sQLitePreparedStatement3 != null) {
                 sQLitePreparedStatement3.dispose();
             }
-            if (sQLitePreparedStatement2 == null) {
-                return;
+            if (sQLitePreparedStatement2 != null) {
+                sQLitePreparedStatement2.dispose();
             }
-            sQLitePreparedStatement2.dispose();
         } catch (SQLiteException e2) {
             e = e2;
             sQLitePreparedStatement = sQLitePreparedStatement3;
@@ -356,10 +354,9 @@ public class FilePathDatabase {
             FileLog.e(e);
         }
         FileLog.d("checkMediaExistance size=" + arrayList.size() + " time=" + (System.currentTimeMillis() - currentTimeMillis));
-        if (!BuildVars.DEBUG_VERSION || Thread.currentThread() != Looper.getMainLooper().getThread()) {
-            return;
+        if (BuildVars.DEBUG_VERSION && Thread.currentThread() == Looper.getMainLooper().getThread()) {
+            FileLog.e(new Exception("warning, not allowed in main thread"));
         }
-        FileLog.e(new Exception("warning, not allowed in main thread"));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -460,7 +457,7 @@ public class FilePathDatabase {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:15:0x003d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:14:0x003d, code lost:
         if (r2 == null) goto L12;
      */
     /*

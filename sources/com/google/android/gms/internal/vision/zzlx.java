@@ -150,46 +150,46 @@ public final class zzlx {
         if (this == obj) {
             return true;
         }
-        if (obj == null || !(obj instanceof zzlx)) {
-            return false;
-        }
-        zzlx zzlxVar = (zzlx) obj;
-        int i = this.zzb;
-        if (i == zzlxVar.zzb) {
-            int[] iArr = this.zzc;
-            int[] iArr2 = zzlxVar.zzc;
-            int i2 = 0;
-            while (true) {
-                if (i2 >= i) {
-                    z = true;
-                    break;
-                } else if (iArr[i2] != iArr2[i2]) {
-                    z = false;
-                    break;
-                } else {
-                    i2++;
-                }
-            }
-            if (z) {
-                Object[] objArr = this.zzd;
-                Object[] objArr2 = zzlxVar.zzd;
-                int i3 = this.zzb;
-                int i4 = 0;
+        if (obj != null && (obj instanceof zzlx)) {
+            zzlx zzlxVar = (zzlx) obj;
+            int i = this.zzb;
+            if (i == zzlxVar.zzb) {
+                int[] iArr = this.zzc;
+                int[] iArr2 = zzlxVar.zzc;
+                int i2 = 0;
                 while (true) {
-                    if (i4 >= i3) {
-                        z2 = true;
+                    if (i2 >= i) {
+                        z = true;
                         break;
-                    } else if (!objArr[i4].equals(objArr2[i4])) {
-                        z2 = false;
+                    } else if (iArr[i2] != iArr2[i2]) {
+                        z = false;
                         break;
                     } else {
-                        i4++;
+                        i2++;
                     }
                 }
-                if (z2) {
-                    return true;
+                if (z) {
+                    Object[] objArr = this.zzd;
+                    Object[] objArr2 = zzlxVar.zzd;
+                    int i3 = this.zzb;
+                    int i4 = 0;
+                    while (true) {
+                        if (i4 >= i3) {
+                            z2 = true;
+                            break;
+                        } else if (!objArr[i4].equals(objArr2[i4])) {
+                            z2 = false;
+                            break;
+                        } else {
+                            i4++;
+                        }
+                    }
+                    if (z2) {
+                        return true;
+                    }
                 }
             }
+            return false;
         }
         return false;
     }

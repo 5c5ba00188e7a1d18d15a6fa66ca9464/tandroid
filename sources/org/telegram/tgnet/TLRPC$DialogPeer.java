@@ -22,12 +22,12 @@ public abstract class TLRPC$DialogPeer extends TLObject {
                 }
             };
         }
-        if (tLRPC$TL_dialogPeer != null || !z) {
-            if (tLRPC$TL_dialogPeer != null) {
-                tLRPC$TL_dialogPeer.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_dialogPeer;
+        if (tLRPC$TL_dialogPeer == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in DialogPeer", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in DialogPeer", Integer.valueOf(i)));
+        if (tLRPC$TL_dialogPeer != null) {
+            tLRPC$TL_dialogPeer.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_dialogPeer;
     }
 }

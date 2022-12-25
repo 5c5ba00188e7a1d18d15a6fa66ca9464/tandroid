@@ -142,41 +142,41 @@ public class ColorPicker extends FrameLayout {
         }
         float x = motionEvent.getX() - this.rectF.left;
         float y = motionEvent.getY() - this.rectF.top;
-        if (!this.interacting && y < (-AndroidUtilities.dp(10.0f))) {
-            return false;
-        }
-        int actionMasked = motionEvent.getActionMasked();
-        if (actionMasked == 3 || actionMasked == 1 || actionMasked == 6) {
-            if (this.interacting && (colorPickerDelegate = this.delegate) != null) {
-                colorPickerDelegate.onFinishedColorPicking();
-                SharedPreferences.Editor edit = getContext().getSharedPreferences("paint", 0).edit();
-                edit.putFloat("last_color_location", this.location);
-                edit.putFloat("last_color_weight", this.weight);
-                edit.commit();
-            }
-            this.interacting = false;
-            this.wasChangingWeight = this.changingWeight;
-            this.changingWeight = false;
-            setDragging(false, true);
-        } else if (actionMasked == 0 || actionMasked == 2) {
-            if (!this.interacting) {
-                this.interacting = true;
-                ColorPickerDelegate colorPickerDelegate2 = this.delegate;
-                if (colorPickerDelegate2 != null) {
-                    colorPickerDelegate2.onBeganColorPicking();
+        if (this.interacting || y >= (-AndroidUtilities.dp(10.0f))) {
+            int actionMasked = motionEvent.getActionMasked();
+            if (actionMasked == 3 || actionMasked == 1 || actionMasked == 6) {
+                if (this.interacting && (colorPickerDelegate = this.delegate) != null) {
+                    colorPickerDelegate.onFinishedColorPicking();
+                    SharedPreferences.Editor edit = getContext().getSharedPreferences("paint", 0).edit();
+                    edit.putFloat("last_color_location", this.location);
+                    edit.putFloat("last_color_weight", this.weight);
+                    edit.commit();
                 }
+                this.interacting = false;
+                this.wasChangingWeight = this.changingWeight;
+                this.changingWeight = false;
+                setDragging(false, true);
+            } else if (actionMasked == 0 || actionMasked == 2) {
+                if (!this.interacting) {
+                    this.interacting = true;
+                    ColorPickerDelegate colorPickerDelegate2 = this.delegate;
+                    if (colorPickerDelegate2 != null) {
+                        colorPickerDelegate2.onBeganColorPicking();
+                    }
+                }
+                setLocation(Math.max(0.0f, Math.min(1.0f, x / this.rectF.width())));
+                setDragging(true, true);
+                if (y < (-AndroidUtilities.dp(10.0f))) {
+                    this.changingWeight = true;
+                    setWeight(Math.max(0.0f, Math.min(1.0f, ((-y) - AndroidUtilities.dp(10.0f)) / AndroidUtilities.dp(190.0f))));
+                }
+                ColorPickerDelegate colorPickerDelegate3 = this.delegate;
+                if (colorPickerDelegate3 != null) {
+                    colorPickerDelegate3.onColorValueChanged();
+                }
+                return true;
             }
-            setLocation(Math.max(0.0f, Math.min(1.0f, x / this.rectF.width())));
-            setDragging(true, true);
-            if (y < (-AndroidUtilities.dp(10.0f))) {
-                this.changingWeight = true;
-                setWeight(Math.max(0.0f, Math.min(1.0f, ((-y) - AndroidUtilities.dp(10.0f)) / AndroidUtilities.dp(190.0f))));
-            }
-            ColorPickerDelegate colorPickerDelegate3 = this.delegate;
-            if (colorPickerDelegate3 != null) {
-                colorPickerDelegate3.onColorValueChanged();
-            }
-            return true;
+            return false;
         }
         return false;
     }
@@ -231,11 +231,7 @@ public class ColorPicker extends FrameLayout {
         if (z2) {
             ObjectAnimator ofFloat = ObjectAnimator.ofFloat(this, "draggingFactor", this.draggingFactor, f);
             ofFloat.setInterpolator(this.interpolator);
-            int i = 300;
-            if (this.wasChangingWeight) {
-                i = (int) (300 + (this.weight * 75.0f));
-            }
-            ofFloat.setDuration(i);
+            ofFloat.setDuration(this.wasChangingWeight ? (int) (300 + (this.weight * 75.0f)) : 300);
             ofFloat.start();
             return;
         }

@@ -10,12 +10,12 @@ public abstract class TLRPC$ChatReactions extends TLObject {
         } else {
             tLRPC$TL_chatReactionsNone = new TLRPC$TL_chatReactionsAll();
         }
-        if (tLRPC$TL_chatReactionsNone != null || !z) {
-            if (tLRPC$TL_chatReactionsNone != null) {
-                tLRPC$TL_chatReactionsNone.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_chatReactionsNone;
+        if (tLRPC$TL_chatReactionsNone == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in ChatReactions", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in ChatReactions", Integer.valueOf(i)));
+        if (tLRPC$TL_chatReactionsNone != null) {
+            tLRPC$TL_chatReactionsNone.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_chatReactionsNone;
     }
 }

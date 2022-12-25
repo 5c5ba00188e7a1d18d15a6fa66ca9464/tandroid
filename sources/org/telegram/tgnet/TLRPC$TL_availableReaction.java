@@ -32,12 +32,8 @@ public class TLRPC$TL_availableReaction extends TLObject {
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
         int readInt32 = abstractSerializedData.readInt32(z);
         this.flags = readInt32;
-        boolean z2 = false;
         this.inactive = (readInt32 & 1) != 0;
-        if ((readInt32 & 4) != 0) {
-            z2 = true;
-        }
-        this.premium = z2;
+        this.premium = (readInt32 & 4) != 0;
         this.reaction = abstractSerializedData.readString(z);
         this.title = abstractSerializedData.readString(z);
         this.static_icon = TLRPC$Document.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);

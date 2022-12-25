@@ -79,12 +79,12 @@ public abstract class TLRPC$messages_StickerSet extends TLObject {
                 }
             };
         }
-        if (tLRPC$TL_messages_stickerSet != null || !z) {
-            if (tLRPC$TL_messages_stickerSet != null) {
-                tLRPC$TL_messages_stickerSet.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_messages_stickerSet;
+        if (tLRPC$TL_messages_stickerSet == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in messages_StickerSet", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in messages_StickerSet", Integer.valueOf(i)));
+        if (tLRPC$TL_messages_stickerSet != null) {
+            tLRPC$TL_messages_stickerSet.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_messages_stickerSet;
     }
 }

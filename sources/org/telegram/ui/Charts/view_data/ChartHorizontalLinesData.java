@@ -13,9 +13,9 @@ public class ChartHorizontalLinesData {
         this(i, i2, z, 0.0f);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:26:0x008e  */
-    /* JADX WARN: Removed duplicated region for block: B:29:0x0099  */
-    /* JADX WARN: Removed duplicated region for block: B:32:0x009c  */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x008e  */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x0099  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x009c  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -23,16 +23,15 @@ public class ChartHorizontalLinesData {
         float f2;
         this.fixedAlpha = 255;
         int i3 = 6;
-        int i4 = 1;
         if (!z) {
             i = i > 100 ? round(i) : i;
             int max = Math.max(1, (int) Math.ceil(i / 5.0f));
             if (i < 6) {
                 i3 = Math.max(2, i + 1);
             } else {
-                int i5 = i / 2;
-                if (i5 < 6) {
-                    i3 = i5 + 1;
+                int i4 = i / 2;
+                if (i4 < 6) {
+                    i3 = i4 + 1;
                     if (i % 2 != 0) {
                         i3++;
                     }
@@ -40,29 +39,29 @@ public class ChartHorizontalLinesData {
             }
             this.values = new int[i3];
             this.valuesStr = new String[i3];
-            while (i4 < i3) {
+            while (r4 < i3) {
                 int[] iArr = this.values;
-                iArr[i4] = i4 * max;
-                this.valuesStr[i4] = AndroidUtilities.formatWholeNumber(iArr[i4], 0);
-                i4++;
+                iArr[r4] = r4 * max;
+                this.valuesStr[r4] = AndroidUtilities.formatWholeNumber(iArr[r4], 0);
+                r4++;
             }
             return;
         }
-        int i6 = i - i2;
-        if (i6 == 0) {
+        int i5 = i - i2;
+        if (i5 == 0) {
             i2--;
             i3 = 3;
-        } else if (i6 < 6) {
-            i3 = Math.max(2, i6 + 1);
+        } else if (i5 < 6) {
+            i3 = Math.max(2, i5 + 1);
         } else {
-            int i7 = i6 / 2;
-            if (i7 < 6) {
-                i3 = i7 + (i6 % 2) + 1;
+            int i6 = i5 / 2;
+            if (i6 < 6) {
+                i3 = i6 + (i5 % 2) + 1;
                 f2 = 2.0f;
             } else {
-                f2 = i6 / 5.0f;
+                f2 = i5 / 5.0f;
                 if (f2 <= 0.0f) {
-                    i3 = Math.max(2, i6 + 1);
+                    i3 = Math.max(2, i5 + 1);
                 }
             }
             this.values = new int[i3];
@@ -70,22 +69,22 @@ public class ChartHorizontalLinesData {
             if (f > 0.0f) {
                 this.valuesStr2 = new String[i3];
             }
-            i4 = f2 / f >= 1.0f ? 0 : i4;
-            for (int i8 = 0; i8 < i3; i8++) {
+            r4 = f2 / f >= 1.0f ? 0 : 1;
+            for (int i7 = 0; i7 < i3; i7++) {
                 int[] iArr2 = this.values;
-                iArr2[i8] = ((int) (i8 * f2)) + i2;
-                this.valuesStr[i8] = AndroidUtilities.formatWholeNumber(iArr2[i8], i6);
+                iArr2[i7] = ((int) (i7 * f2)) + i2;
+                this.valuesStr[i7] = AndroidUtilities.formatWholeNumber(iArr2[i7], i5);
                 if (f > 0.0f) {
-                    float f3 = this.values[i8] / f;
-                    if (i4 != 0) {
-                        int i9 = (int) f3;
-                        if (f3 - i9 < 0.01f) {
-                            this.valuesStr2[i8] = AndroidUtilities.formatWholeNumber(i9, (int) (i6 / f));
+                    float f3 = this.values[i7] / f;
+                    if (r4 != 0) {
+                        int i8 = (int) f3;
+                        if (f3 - i8 < 0.01f) {
+                            this.valuesStr2[i7] = AndroidUtilities.formatWholeNumber(i8, (int) (i5 / f));
                         } else {
-                            this.valuesStr2[i8] = "";
+                            this.valuesStr2[i7] = "";
                         }
                     } else {
-                        this.valuesStr2[i8] = AndroidUtilities.formatWholeNumber((int) f3, (int) (i6 / f));
+                        this.valuesStr2[i7] = AndroidUtilities.formatWholeNumber((int) f3, (int) (i5 / f));
                     }
                 }
             }
@@ -97,7 +96,7 @@ public class ChartHorizontalLinesData {
         }
         if (f2 / f >= 1.0f) {
         }
-        while (i8 < i3) {
+        while (i7 < i3) {
         }
     }
 

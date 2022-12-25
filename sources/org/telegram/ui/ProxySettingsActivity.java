@@ -419,11 +419,11 @@ public class ProxySettingsActivity extends BaseFragment {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$createView$1(TextView textView, int i, KeyEvent keyEvent) {
         if (i != 5) {
-            if (i != 6) {
-                return false;
+            if (i == 6) {
+                finishFragment();
+                return true;
             }
-            finishFragment();
-            return true;
+            return false;
         }
         int intValue = ((Integer) textView.getTag()).intValue() + 1;
         EditTextBoldCursor[] editTextBoldCursorArr = this.inputFields;
@@ -435,35 +435,36 @@ public class ProxySettingsActivity extends BaseFragment {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$3(View view) {
-        if (this.pasteType != -1) {
-            int i = 0;
-            while (true) {
-                String[] strArr = this.pasteFields;
-                if (i < strArr.length) {
-                    int i2 = this.pasteType;
-                    if ((i2 != 0 || i != 4) && (i2 != 1 || (i != 2 && i != 3))) {
-                        if (strArr[i] != null) {
-                            try {
-                                this.inputFields[i].setText(URLDecoder.decode(strArr[i], "UTF-8"));
-                            } catch (UnsupportedEncodingException unused) {
-                                this.inputFields[i].setText(this.pasteFields[i]);
-                            }
-                        } else {
-                            this.inputFields[i].setText((CharSequence) null);
+        if (this.pasteType == -1) {
+            return;
+        }
+        int i = 0;
+        while (true) {
+            String[] strArr = this.pasteFields;
+            if (i < strArr.length) {
+                int i2 = this.pasteType;
+                if ((i2 != 0 || i != 4) && (i2 != 1 || (i != 2 && i != 3))) {
+                    if (strArr[i] != null) {
+                        try {
+                            this.inputFields[i].setText(URLDecoder.decode(strArr[i], "UTF-8"));
+                        } catch (UnsupportedEncodingException unused) {
+                            this.inputFields[i].setText(this.pasteFields[i]);
                         }
+                    } else {
+                        this.inputFields[i].setText((CharSequence) null);
                     }
-                    i++;
-                } else {
-                    EditTextBoldCursor[] editTextBoldCursorArr = this.inputFields;
-                    editTextBoldCursorArr[0].setSelection(editTextBoldCursorArr[0].length());
-                    setProxyType(this.pasteType, true, new Runnable() { // from class: org.telegram.ui.ProxySettingsActivity$$ExternalSyntheticLambda6
-                        @Override // java.lang.Runnable
-                        public final void run() {
-                            ProxySettingsActivity.this.lambda$createView$2();
-                        }
-                    });
-                    return;
                 }
+                i++;
+            } else {
+                EditTextBoldCursor[] editTextBoldCursorArr = this.inputFields;
+                editTextBoldCursorArr[0].setSelection(editTextBoldCursorArr[0].length());
+                setProxyType(this.pasteType, true, new Runnable() { // from class: org.telegram.ui.ProxySettingsActivity$$ExternalSyntheticLambda6
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        ProxySettingsActivity.this.lambda$createView$2();
+                    }
+                });
+                return;
             }
         }
     }
@@ -536,8 +537,8 @@ public class ProxySettingsActivity extends BaseFragment {
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Removed duplicated region for block: B:11:0x002d  */
-    /* JADX WARN: Removed duplicated region for block: B:9:0x002c A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:11:0x002c A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:12:0x002d  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -551,139 +552,139 @@ public class ProxySettingsActivity extends BaseFragment {
                 str = primaryClip.getItemAt(0).coerceToText(this.fragmentView.getContext()).toString();
             } catch (Exception unused) {
             }
-            if (!TextUtils.equals(str, this.pasteString)) {
-                return;
-            }
-            this.pasteType = -1;
-            this.pasteString = str;
-            this.pasteFields = new String[this.inputFields.length];
-            if (str != null) {
-                String[] strArr2 = {"t.me/socks?", "tg://socks?"};
-                int i = 0;
-                while (true) {
-                    if (i >= 2) {
-                        break;
-                    }
-                    int indexOf = str.indexOf(strArr2[i]);
-                    if (indexOf >= 0) {
-                        this.pasteType = 0;
-                        strArr = str.substring(indexOf + strArr2[i].length()).split("&");
-                        break;
-                    }
-                    i++;
-                }
-                if (strArr == null) {
-                    String[] strArr3 = {"t.me/proxy?", "tg://proxy?"};
-                    int i2 = 0;
+            if (TextUtils.equals(str, this.pasteString)) {
+                this.pasteType = -1;
+                this.pasteString = str;
+                this.pasteFields = new String[this.inputFields.length];
+                if (str != null) {
+                    String[] strArr2 = {"t.me/socks?", "tg://socks?"};
+                    int i = 0;
                     while (true) {
-                        if (i2 >= 2) {
+                        if (i >= 2) {
                             break;
                         }
-                        int indexOf2 = str.indexOf(strArr3[i2]);
-                        if (indexOf2 >= 0) {
-                            this.pasteType = 1;
-                            strArr = str.substring(indexOf2 + strArr3[i2].length()).split("&");
+                        int indexOf = str.indexOf(strArr2[i]);
+                        if (indexOf >= 0) {
+                            this.pasteType = 0;
+                            strArr = str.substring(indexOf + strArr2[i].length()).split("&");
                             break;
                         }
-                        i2++;
+                        i++;
                     }
-                }
-                if (strArr != null) {
-                    for (String str2 : strArr) {
-                        String[] split = str2.split("=");
-                        if (split.length == 2) {
-                            String lowerCase = split[0].toLowerCase();
-                            lowerCase.hashCode();
-                            switch (lowerCase.hashCode()) {
-                                case -906277200:
-                                    if (lowerCase.equals("secret")) {
-                                        c = 0;
-                                        break;
-                                    }
-                                    c = 65535;
-                                    break;
-                                case -905826493:
-                                    if (lowerCase.equals("server")) {
-                                        c = 1;
-                                        break;
-                                    }
-                                    c = 65535;
-                                    break;
-                                case 3433489:
-                                    if (lowerCase.equals("pass")) {
-                                        c = 2;
-                                        break;
-                                    }
-                                    c = 65535;
-                                    break;
-                                case 3446913:
-                                    if (lowerCase.equals("port")) {
-                                        c = 3;
-                                        break;
-                                    }
-                                    c = 65535;
-                                    break;
-                                case 3599307:
-                                    if (lowerCase.equals("user")) {
-                                        c = 4;
-                                        break;
-                                    }
-                                    c = 65535;
-                                    break;
-                                default:
-                                    c = 65535;
-                                    break;
+                    if (strArr == null) {
+                        String[] strArr3 = {"t.me/proxy?", "tg://proxy?"};
+                        int i2 = 0;
+                        while (true) {
+                            if (i2 >= 2) {
+                                break;
                             }
-                            switch (c) {
-                                case 0:
-                                    if (this.pasteType != 1) {
+                            int indexOf2 = str.indexOf(strArr3[i2]);
+                            if (indexOf2 >= 0) {
+                                this.pasteType = 1;
+                                strArr = str.substring(indexOf2 + strArr3[i2].length()).split("&");
+                                break;
+                            }
+                            i2++;
+                        }
+                    }
+                    if (strArr != null) {
+                        for (String str2 : strArr) {
+                            String[] split = str2.split("=");
+                            if (split.length == 2) {
+                                String lowerCase = split[0].toLowerCase();
+                                lowerCase.hashCode();
+                                switch (lowerCase.hashCode()) {
+                                    case -906277200:
+                                        if (lowerCase.equals("secret")) {
+                                            c = 0;
+                                            break;
+                                        }
+                                        c = 65535;
                                         break;
-                                    } else {
-                                        this.pasteFields[4] = split[1];
-                                        continue;
-                                    }
-                                case 1:
-                                    this.pasteFields[0] = split[1];
-                                    continue;
-                                case 2:
-                                    if (this.pasteType == 0) {
-                                        this.pasteFields[3] = split[1];
+                                    case -905826493:
+                                        if (lowerCase.equals("server")) {
+                                            c = 1;
+                                            break;
+                                        }
+                                        c = 65535;
                                         break;
-                                    } else {
-                                        continue;
-                                    }
-                                case 3:
-                                    this.pasteFields[1] = split[1];
-                                    continue;
-                                case 4:
-                                    if (this.pasteType == 0) {
-                                        this.pasteFields[2] = split[1];
+                                    case 3433489:
+                                        if (lowerCase.equals("pass")) {
+                                            c = 2;
+                                            break;
+                                        }
+                                        c = 65535;
                                         break;
-                                    } else {
+                                    case 3446913:
+                                        if (lowerCase.equals("port")) {
+                                            c = 3;
+                                            break;
+                                        }
+                                        c = 65535;
+                                        break;
+                                    case 3599307:
+                                        if (lowerCase.equals("user")) {
+                                            c = 4;
+                                            break;
+                                        }
+                                        c = 65535;
+                                        break;
+                                    default:
+                                        c = 65535;
+                                        break;
+                                }
+                                switch (c) {
+                                    case 0:
+                                        if (this.pasteType != 1) {
+                                            break;
+                                        } else {
+                                            this.pasteFields[4] = split[1];
+                                            continue;
+                                        }
+                                    case 1:
+                                        this.pasteFields[0] = split[1];
                                         continue;
-                                    }
+                                    case 2:
+                                        if (this.pasteType == 0) {
+                                            this.pasteFields[3] = split[1];
+                                            break;
+                                        } else {
+                                            continue;
+                                        }
+                                    case 3:
+                                        this.pasteFields[1] = split[1];
+                                        continue;
+                                    case 4:
+                                        if (this.pasteType == 0) {
+                                            this.pasteFields[2] = split[1];
+                                            break;
+                                        } else {
+                                            continue;
+                                        }
+                                }
                             }
                         }
                     }
                 }
-            }
-            if (this.pasteType != -1) {
-                if (this.pasteCell.getVisibility() == 0) {
+                if (this.pasteType != -1) {
+                    if (this.pasteCell.getVisibility() != 0) {
+                        this.pasteCell.setVisibility(0);
+                        this.sectionCell[2].setVisibility(0);
+                        return;
+                    }
+                    return;
+                } else if (this.pasteCell.getVisibility() != 8) {
+                    this.pasteCell.setVisibility(8);
+                    this.sectionCell[2].setVisibility(8);
+                    return;
+                } else {
                     return;
                 }
-                this.pasteCell.setVisibility(0);
-                this.sectionCell[2].setVisibility(0);
-                return;
-            } else if (this.pasteCell.getVisibility() == 8) {
-                return;
-            } else {
-                this.pasteCell.setVisibility(8);
-                this.sectionCell[2].setVisibility(8);
-                return;
             }
+            return;
         }
         str = null;
-        if (!TextUtils.equals(str, this.pasteString)) {
+        if (TextUtils.equals(str, this.pasteString)) {
         }
     }
 
@@ -703,27 +704,15 @@ public class ProxySettingsActivity extends BaseFragment {
                     }
                 });
             }
-            float f = 0.0f;
-            float f2 = 1.0f;
             if (z2) {
                 float[] fArr = this.shareDoneProgressAnimValues;
                 fArr[0] = this.shareDoneProgress;
-                if (z) {
-                    f = 1.0f;
-                }
-                fArr[1] = f;
+                fArr[1] = z ? 1.0f : 0.0f;
                 this.shareDoneAnimator.start();
             } else {
-                if (z) {
-                    f = 1.0f;
-                }
-                this.shareDoneProgress = f;
+                this.shareDoneProgress = z ? 1.0f : 0.0f;
                 this.shareCell.setTextColor(Theme.getColor(z ? "windowBackgroundWhiteBlueText4" : "windowBackgroundWhiteGrayText2"));
-                ActionBarMenuItem actionBarMenuItem = this.doneItem;
-                if (!z) {
-                    f2 = 0.5f;
-                }
-                actionBarMenuItem.setAlpha(f2);
+                this.doneItem.setAlpha(z ? 1.0f : 0.5f);
             }
             this.shareCell.setEnabled(z);
             this.doneItem.setEnabled(z);
@@ -765,7 +754,6 @@ public class ProxySettingsActivity extends BaseFragment {
             if (i2 >= 23) {
                 TransitionManager.endTransitions(this.linearLayout2);
             }
-            boolean z2 = true;
             if (z && i2 >= 21) {
                 TransitionSet duration = new TransitionSet().addTransition(new Fade(2)).addTransition(new ChangeBounds()).addTransition(new Fade(1)).setInterpolator((TimeInterpolator) CubicBezierInterpolator.DEFAULT).setDuration(250L);
                 if (runnable != null) {
@@ -809,21 +797,16 @@ public class ProxySettingsActivity extends BaseFragment {
                 ((View) this.inputFields[2].getParent()).setVisibility(8);
             }
             this.typeCell[0].setChecked(this.currentType == 0, z);
-            RadioCell radioCell = this.typeCell[1];
-            if (this.currentType != 1) {
-                z2 = false;
-            }
-            radioCell.setChecked(z2, z);
+            this.typeCell[1].setChecked(this.currentType == 1, z);
         }
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public void onTransitionAnimationEnd(boolean z, boolean z2) {
-        if (!z || z2 || !this.addingNewProxy) {
-            return;
+        if (z && !z2 && this.addingNewProxy) {
+            this.inputFields[0].requestFocus();
+            AndroidUtilities.showKeyboard(this.inputFields[0]);
         }
-        this.inputFields[0].requestFocus();
-        AndroidUtilities.showKeyboard(this.inputFields[0]);
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -905,16 +888,17 @@ public class ProxySettingsActivity extends BaseFragment {
         if (this.shareCell != null && ((valueAnimator = this.shareDoneAnimator) == null || !valueAnimator.isRunning())) {
             this.shareCell.setTextColor(Theme.getColor(this.shareDoneEnabled ? "windowBackgroundWhiteBlueText4" : "windowBackgroundWhiteGrayText2"));
         }
-        if (this.inputFields != null) {
-            int i = 0;
-            while (true) {
-                EditTextBoldCursor[] editTextBoldCursorArr = this.inputFields;
-                if (i >= editTextBoldCursorArr.length) {
-                    return;
-                }
-                editTextBoldCursorArr[i].setLineColors(Theme.getColor("windowBackgroundWhiteInputField"), Theme.getColor("windowBackgroundWhiteInputFieldActivated"), Theme.getColor("windowBackgroundWhiteRedText3"));
-                i++;
+        if (this.inputFields == null) {
+            return;
+        }
+        int i = 0;
+        while (true) {
+            EditTextBoldCursor[] editTextBoldCursorArr = this.inputFields;
+            if (i >= editTextBoldCursorArr.length) {
+                return;
             }
+            editTextBoldCursorArr[i].setLineColors(Theme.getColor("windowBackgroundWhiteInputField"), Theme.getColor("windowBackgroundWhiteInputFieldActivated"), Theme.getColor("windowBackgroundWhiteRedText3"));
+            i++;
         }
     }
 }

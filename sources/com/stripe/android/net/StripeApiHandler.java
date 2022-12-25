@@ -79,11 +79,7 @@ public class StripeApiHandler {
         if (str2 == null || str2.isEmpty()) {
             return str;
         }
-        String str3 = "?";
-        if (str.contains(str3)) {
-            str3 = "&";
-        }
-        return String.format("%s%s%s", str, str3, str2);
+        return String.format("%s%s%s", str, str.contains("?") ? "&" : "?", str2);
     }
 
     private static HttpURLConnection createGetConnection(String str, String str2, RequestOptions requestOptions) throws IOException {
@@ -131,8 +127,8 @@ public class StripeApiHandler {
         return httpURLConnection;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:13:0x0093  */
-    /* JADX WARN: Removed duplicated region for block: B:15:0x0026 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:47:0x0093  */
+    /* JADX WARN: Removed duplicated region for block: B:54:0x0026 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -245,17 +241,17 @@ public class StripeApiHandler {
         if (obj instanceof List) {
             return flattenParamsList((List) obj, str);
         }
-        if (!"".equals(obj)) {
-            if (obj == null) {
-                LinkedList linkedList = new LinkedList();
-                linkedList.add(new Parameter(str, ""));
-                return linkedList;
-            }
+        if ("".equals(obj)) {
+            throw new InvalidRequestException("You cannot set '" + str + "' to an empty string. We interpret empty strings as null in requests. You may set '" + str + "' to null to delete the property.", str, null, 0, null);
+        } else if (obj == null) {
+            LinkedList linkedList = new LinkedList();
+            linkedList.add(new Parameter(str, ""));
+            return linkedList;
+        } else {
             LinkedList linkedList2 = new LinkedList();
             linkedList2.add(new Parameter(str, obj.toString()));
             return linkedList2;
         }
-        throw new InvalidRequestException("You cannot set '" + str + "' to an empty string. We interpret empty strings as null in requests. You may set '" + str + "' to null to delete the property.", str, null, 0, null);
     }
 
     private static void handleAPIError(String str, int i, String str2) throws InvalidRequestException, AuthenticationException, CardException, APIException {
@@ -290,13 +286,13 @@ public class StripeApiHandler {
         return URLEncoder.encode(str, "UTF-8");
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:10:0x0028, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:15:0x0028, code lost:
         if (r0 != 1) goto L22;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:11:0x002a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:16:0x002a, code lost:
         r6 = createPostConnection(r7, r8, r9);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:23:0x003e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:18:0x003e, code lost:
         throw new com.stripe.android.exception.APIConnectionException(java.lang.String.format("Unrecognized HTTP method %s. This indicates a bug in the Stripe bindings. Please contact support@stripe.com for assistance.", r6));
      */
     /*

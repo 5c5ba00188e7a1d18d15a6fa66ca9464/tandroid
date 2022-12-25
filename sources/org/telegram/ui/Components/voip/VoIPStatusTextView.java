@@ -24,12 +24,13 @@ public class VoIPStatusTextView extends FrameLayout {
     EllipsizeSpanAnimator ellipsizeAnimator;
     CharSequence nextTextToSet;
     TextView reconnectTextView;
-    TextView[] textView = new TextView[2];
+    TextView[] textView;
     boolean timerShowing;
     VoIPTimerView timerView;
 
     public VoIPStatusTextView(Context context) {
         super(context);
+        this.textView = new TextView[2];
         for (int i = 0; i < 2; i++) {
             this.textView[i] = new TextView(context);
             this.textView[i].setTextSize(1, 15.0f);
@@ -241,14 +242,9 @@ public class VoIPStatusTextView extends FrameLayout {
     }
 
     public void showReconnect(boolean z, boolean z2) {
-        int i = 0;
         if (!z2) {
             this.reconnectTextView.animate().setListener(null).cancel();
-            TextView textView = this.reconnectTextView;
-            if (!z) {
-                i = 8;
-            }
-            textView.setVisibility(i);
+            this.reconnectTextView.setVisibility(z ? 0 : 8);
         } else if (z) {
             if (this.reconnectTextView.getVisibility() != 0) {
                 this.reconnectTextView.setVisibility(0);

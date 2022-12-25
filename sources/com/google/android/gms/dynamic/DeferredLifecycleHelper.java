@@ -116,10 +116,9 @@ public abstract class DeferredLifecycleHelper<T extends LifecycleDelegate> {
             return;
         }
         Bundle bundle2 = this.zab;
-        if (bundle2 == null) {
-            return;
+        if (bundle2 != null) {
+            bundle.putAll(bundle2);
         }
-        bundle.putAll(bundle2);
     }
 
     public void onStart() {

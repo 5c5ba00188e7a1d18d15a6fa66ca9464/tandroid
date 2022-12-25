@@ -98,18 +98,18 @@ public class JNIUtilities {
         if (Build.VERSION.SDK_INT >= 24) {
             telephonyManager = telephonyManager.createForSubscriptionId(SubscriptionManager.getDefaultDataSubscriptionId());
         }
-        if (!TextUtils.isEmpty(telephonyManager.getNetworkOperatorName())) {
-            String networkOperator = telephonyManager.getNetworkOperator();
-            String str2 = "";
-            if (networkOperator == null || networkOperator.length() <= 3) {
-                str = str2;
-            } else {
-                str2 = networkOperator.substring(0, 3);
-                str = networkOperator.substring(3);
-            }
-            return new String[]{telephonyManager.getNetworkOperatorName(), telephonyManager.getNetworkCountryIso().toUpperCase(), str2, str};
+        if (TextUtils.isEmpty(telephonyManager.getNetworkOperatorName())) {
+            return null;
         }
-        return null;
+        String networkOperator = telephonyManager.getNetworkOperator();
+        String str2 = "";
+        if (networkOperator == null || networkOperator.length() <= 3) {
+            str = "";
+        } else {
+            str2 = networkOperator.substring(0, 3);
+            str = networkOperator.substring(3);
+        }
+        return new String[]{telephonyManager.getNetworkOperatorName(), telephonyManager.getNetworkCountryIso().toUpperCase(), str2, str};
     }
 
     public static int[] getWifiInfo() {

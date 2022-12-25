@@ -40,7 +40,7 @@ public class TextureViewRenderer extends TextureView implements TextureView.Surf
     Runnable updateScreenRunnable;
     boolean useCameraRotation;
     private int videoHeight;
-    private final RendererCommon.VideoLayoutMeasure videoLayoutMeasure = new RendererCommon.VideoLayoutMeasure();
+    private final RendererCommon.VideoLayoutMeasure videoLayoutMeasure;
     private int videoWidth;
 
     public void setBackgroundRenderer(TextureView textureView) {
@@ -85,7 +85,7 @@ public class TextureViewRenderer extends TextureView implements TextureView.Surf
         private int frameRotation;
         private boolean isFirstFrameRendered;
         private boolean isRenderingPaused;
-        private final Object layoutLock = new Object();
+        private final Object layoutLock;
         private RendererCommon.RendererEvents rendererEvents;
         private int rotatedFrameHeight;
         private int rotatedFrameWidth;
@@ -96,6 +96,7 @@ public class TextureViewRenderer extends TextureView implements TextureView.Surf
 
         public TextureEglRenderer(String str) {
             super(str);
+            this.layoutLock = new Object();
         }
 
         public void init(EglBase.Context context, RendererCommon.RendererEvents rendererEvents, int[] iArr, RendererCommon.GlDrawer glDrawer) {
@@ -207,6 +208,7 @@ public class TextureViewRenderer extends TextureView implements TextureView.Surf
 
     public TextureViewRenderer(Context context) {
         super(context);
+        this.videoLayoutMeasure = new RendererCommon.VideoLayoutMeasure();
         String resourceName = getResourceName();
         this.resourceName = resourceName;
         this.eglRenderer = new TextureEglRenderer(resourceName);
@@ -251,18 +253,20 @@ public class TextureViewRenderer extends TextureView implements TextureView.Surf
 
     public void setIsCamera(boolean z) {
         this.isCamera = z;
-        if (!z) {
-            OrientationHelper orientationHelper = new OrientationHelper() { // from class: org.webrtc.TextureViewRenderer.2
-                @Override // org.webrtc.OrientationHelper
-                protected void onOrientationUpdate(int i) {
-                    if (!TextureViewRenderer.this.isCamera) {
-                        TextureViewRenderer.this.updateRotation();
-                    }
-                }
-            };
-            this.orientationHelper = orientationHelper;
-            orientationHelper.start();
+        if (z) {
+            return;
         }
+        OrientationHelper orientationHelper = new OrientationHelper() { // from class: org.webrtc.TextureViewRenderer.2
+            @Override // org.webrtc.OrientationHelper
+            protected void onOrientationUpdate(int i) {
+                if (TextureViewRenderer.this.isCamera) {
+                    return;
+                }
+                TextureViewRenderer.this.updateRotation();
+            }
+        };
+        this.orientationHelper = orientationHelper;
+        orientationHelper.start();
     }
 
     public void setEnableHardwareScaler(boolean z) {
@@ -456,17 +460,17 @@ public class TextureViewRenderer extends TextureView implements TextureView.Surf
         return this.eglRenderer.isFirstFrameRendered;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:14:0x0023, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:16:0x0023, code lost:
         if (r10 == 0) goto L30;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:30:0x0059, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:27:0x0036, code lost:
+        if (r10 != (-180)) goto L30;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:41:0x0056, code lost:
+        if (r10 != (-180)) goto L30;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:43:0x0059, code lost:
         r10 = r8;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:39:0x0036, code lost:
-        if (r10 != (-180)) goto L30;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:51:0x0056, code lost:
-        if (r10 != (-180)) goto L30;
      */
     @Override // org.webrtc.RendererCommon.RendererEvents
     /*

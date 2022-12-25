@@ -58,10 +58,9 @@ public class AbtExperimentInfo {
                 arrayList.add(str);
             }
         }
-        if (arrayList.isEmpty()) {
-            return;
+        if (!arrayList.isEmpty()) {
+            throw new AbtException(String.format("The following keys are missing from the experiment info map: %s", arrayList));
         }
-        throw new AbtException(String.format("The following keys are missing from the experiment info map: %s", arrayList));
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

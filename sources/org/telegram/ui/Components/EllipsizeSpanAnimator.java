@@ -15,11 +15,12 @@ public class EllipsizeSpanAnimator {
     boolean attachedToWindow;
     private final AnimatorSet ellAnimator;
     private final TextAlphaSpan[] ellSpans;
-    public ArrayList<View> ellipsizedViews = new ArrayList<>();
+    public ArrayList<View> ellipsizedViews;
 
     public EllipsizeSpanAnimator(final View view) {
         TextAlphaSpan[] textAlphaSpanArr = {new TextAlphaSpan(), new TextAlphaSpan(), new TextAlphaSpan()};
         this.ellSpans = textAlphaSpanArr;
+        this.ellipsizedViews = new ArrayList<>();
         AnimatorSet animatorSet = new AnimatorSet();
         this.ellAnimator = animatorSet;
         animatorSet.playTogether(createEllipsizeAnimator(textAlphaSpanArr[0], 0, 255, 0, 300), createEllipsizeAnimator(textAlphaSpanArr[1], 0, 255, ImageReceiver.DEFAULT_CROSSFADE_DURATION, 300), createEllipsizeAnimator(textAlphaSpanArr[2], 0, 255, 300, 300), createEllipsizeAnimator(textAlphaSpanArr[0], 255, 0, 1000, 400), createEllipsizeAnimator(textAlphaSpanArr[1], 255, 0, 1000, 400), createEllipsizeAnimator(textAlphaSpanArr[2], 255, 0, 1000, 400));
@@ -57,9 +58,10 @@ public class EllipsizeSpanAnimator {
 
     public void onAttachedToWindow() {
         this.attachedToWindow = true;
-        if (!this.ellAnimator.isRunning()) {
-            this.ellAnimator.start();
+        if (this.ellAnimator.isRunning()) {
+            return;
         }
+        this.ellAnimator.start();
     }
 
     public void onDetachedFromWindow() {
@@ -99,9 +101,10 @@ public class EllipsizeSpanAnimator {
         if (this.ellipsizedViews.isEmpty()) {
             this.ellAnimator.start();
         }
-        if (!this.ellipsizedViews.contains(view)) {
-            this.ellipsizedViews.add(view);
+        if (this.ellipsizedViews.contains(view)) {
+            return;
         }
+        this.ellipsizedViews.add(view);
     }
 
     public void removeView(View view) {

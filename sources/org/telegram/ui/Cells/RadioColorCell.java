@@ -30,7 +30,6 @@ public class RadioColorCell extends FrameLayout {
         this.radioButton.setColor(getThemedColor("dialogRadioBackground"), getThemedColor("dialogRadioBackgroundChecked"));
         RadioButton radioButton2 = this.radioButton;
         boolean z = LocaleController.isRTL;
-        int i = 5;
         addView(radioButton2, LayoutHelper.createFrame(22, 22.0f, (z ? 5 : 3) | 48, z ? 0 : 18, 14.0f, z ? 18 : 0, 0.0f));
         TextView textView = new TextView(context);
         this.textView = textView;
@@ -42,7 +41,6 @@ public class RadioColorCell extends FrameLayout {
         this.textView.setGravity((LocaleController.isRTL ? 5 : 3) | 16);
         TextView textView2 = this.textView;
         boolean z2 = LocaleController.isRTL;
-        int i2 = 21;
         addView(textView2, LayoutHelper.createFrame(-2, -2.0f, (z2 ? 5 : 3) | 48, z2 ? 21 : 51, 13.0f, z2 ? 51 : 21, 0.0f));
         TextView textView3 = new TextView(context);
         this.text2View = textView3;
@@ -52,7 +50,7 @@ public class RadioColorCell extends FrameLayout {
         this.text2View.setVisibility(8);
         TextView textView4 = this.text2View;
         boolean z3 = LocaleController.isRTL;
-        addView(textView4, LayoutHelper.createFrame(-2, -2.0f, (!z3 ? 3 : i) | 48, z3 ? 21 : 51, 37.0f, z3 ? 51 : i2, 0.0f));
+        addView(textView4, LayoutHelper.createFrame(-2, -2.0f, (z3 ? 5 : 3) | 48, z3 ? 21 : 51, 37.0f, z3 ? 51 : 21, 0.0f));
     }
 
     @Override // android.widget.FrameLayout, android.view.View

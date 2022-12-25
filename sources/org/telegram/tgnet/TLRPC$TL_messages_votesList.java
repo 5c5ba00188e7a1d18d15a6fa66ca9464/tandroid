@@ -56,10 +56,9 @@ public class TLRPC$TL_messages_votesList extends TLObject {
             }
             this.users.add(TLdeserialize2);
         }
-        if ((this.flags & 1) == 0) {
-            return;
+        if ((this.flags & 1) != 0) {
+            this.next_offset = abstractSerializedData.readString(z);
         }
-        this.next_offset = abstractSerializedData.readString(z);
     }
 
     @Override // org.telegram.tgnet.TLObject

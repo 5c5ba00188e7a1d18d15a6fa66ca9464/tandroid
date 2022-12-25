@@ -54,11 +54,11 @@ final class AutoValue_SendRequest extends SendRequest {
         if (obj == this) {
             return true;
         }
-        if (!(obj instanceof SendRequest)) {
-            return false;
+        if (obj instanceof SendRequest) {
+            SendRequest sendRequest = (SendRequest) obj;
+            return this.transportContext.equals(sendRequest.getTransportContext()) && this.transportName.equals(sendRequest.getTransportName()) && this.event.equals(sendRequest.getEvent()) && this.transformer.equals(sendRequest.getTransformer()) && this.encoding.equals(sendRequest.getEncoding());
         }
-        SendRequest sendRequest = (SendRequest) obj;
-        return this.transportContext.equals(sendRequest.getTransportContext()) && this.transportName.equals(sendRequest.getTransportName()) && this.event.equals(sendRequest.getEvent()) && this.transformer.equals(sendRequest.getTransformer()) && this.encoding.equals(sendRequest.getEncoding());
+        return false;
     }
 
     public int hashCode() {
@@ -112,7 +112,7 @@ final class AutoValue_SendRequest extends SendRequest {
         public SendRequest build() {
             String str = "";
             if (this.transportContext == null) {
-                str = str + " transportContext";
+                str = " transportContext";
             }
             if (this.transportName == null) {
                 str = str + " transportName";

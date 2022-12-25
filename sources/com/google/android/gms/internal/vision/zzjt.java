@@ -13,22 +13,22 @@ public class zzjt {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof zzjt)) {
-            return false;
-        }
-        zzjt zzjtVar = (zzjt) obj;
-        zzkk zzkkVar = this.zzc;
-        zzkk zzkkVar2 = zzjtVar.zzc;
-        if (zzkkVar == null && zzkkVar2 == null) {
-            return zzc().equals(zzjtVar.zzc());
-        }
-        if (zzkkVar != null && zzkkVar2 != null) {
+        if (obj instanceof zzjt) {
+            zzjt zzjtVar = (zzjt) obj;
+            zzkk zzkkVar = this.zzc;
+            zzkk zzkkVar2 = zzjtVar.zzc;
+            if (zzkkVar == null && zzkkVar2 == null) {
+                return zzc().equals(zzjtVar.zzc());
+            }
+            if (zzkkVar == null || zzkkVar2 == null) {
+                if (zzkkVar != null) {
+                    return zzkkVar.equals(zzjtVar.zzb(zzkkVar.zzr()));
+                }
+                return zzb(zzkkVar2.zzr()).equals(zzkkVar2);
+            }
             return zzkkVar.equals(zzkkVar2);
         }
-        if (zzkkVar != null) {
-            return zzkkVar.equals(zzjtVar.zzb(zzkkVar.zzr()));
-        }
-        return zzb(zzkkVar2.zzr()).equals(zzkkVar2);
+        return false;
     }
 
     private final zzkk zzb(zzkk zzkkVar) {
@@ -59,10 +59,10 @@ public class zzjt {
         if (this.zzd != null) {
             return this.zzd.zza();
         }
-        if (this.zzc == null) {
-            return 0;
+        if (this.zzc != null) {
+            return this.zzc.zzm();
         }
-        return this.zzc.zzm();
+        return 0;
     }
 
     public final zzht zzc() {

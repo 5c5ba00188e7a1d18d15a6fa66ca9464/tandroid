@@ -72,36 +72,33 @@ public class MP3Info extends AudioInfo {
         }
         if (this.title == null || this.album == null || this.artist == null) {
             long j3 = j - 128;
-            if (mP3Input.getPosition() > j3) {
-                return;
+            if (mP3Input.getPosition() <= j3) {
+                mP3Input.skipFully(j3 - mP3Input.getPosition());
+                if (ID3v1Info.isID3v1StartPosition(inputStream)) {
+                    ID3v1Info iD3v1Info = new ID3v1Info(inputStream);
+                    if (this.album == null) {
+                        this.album = iD3v1Info.getAlbum();
+                    }
+                    if (this.artist == null) {
+                        this.artist = iD3v1Info.getArtist();
+                    }
+                    if (this.comment == null) {
+                        this.comment = iD3v1Info.getComment();
+                    }
+                    if (this.genre == null) {
+                        this.genre = iD3v1Info.getGenre();
+                    }
+                    if (this.title == null) {
+                        this.title = iD3v1Info.getTitle();
+                    }
+                    if (this.track == 0) {
+                        this.track = iD3v1Info.getTrack();
+                    }
+                    if (this.year == 0) {
+                        this.year = iD3v1Info.getYear();
+                    }
+                }
             }
-            mP3Input.skipFully(j3 - mP3Input.getPosition());
-            if (!ID3v1Info.isID3v1StartPosition(inputStream)) {
-                return;
-            }
-            ID3v1Info iD3v1Info = new ID3v1Info(inputStream);
-            if (this.album == null) {
-                this.album = iD3v1Info.getAlbum();
-            }
-            if (this.artist == null) {
-                this.artist = iD3v1Info.getArtist();
-            }
-            if (this.comment == null) {
-                this.comment = iD3v1Info.getComment();
-            }
-            if (this.genre == null) {
-                this.genre = iD3v1Info.getGenre();
-            }
-            if (this.title == null) {
-                this.title = iD3v1Info.getTitle();
-            }
-            if (this.track == 0) {
-                this.track = iD3v1Info.getTrack();
-            }
-            if (this.year != 0) {
-                return;
-            }
-            this.year = iD3v1Info.getYear();
         }
     }
 

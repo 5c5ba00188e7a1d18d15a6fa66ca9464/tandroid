@@ -498,7 +498,6 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
             this.descriptionText.setPadding(AndroidUtilities.dp(32.0f), 0, AndroidUtilities.dp(32.0f), 0);
         }
         viewGroup2.addView(this.descriptionText);
-        String str = "";
         if (this.currentType == 5) {
             LinearLayout linearLayout = new LinearLayout(context);
             this.descriptionLayout = linearLayout;
@@ -517,11 +516,11 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
                 this.desctiptionLines[i8].setGravity(LocaleController.isRTL ? 5 : 3);
                 this.desctiptionLines[i8].setTextSize(i3, f);
                 TextView textView4 = this.desctiptionLines[i8];
-                String str2 = LocaleController.isRTL ? ".%d" : "%d.";
+                String str = LocaleController.isRTL ? ".%d" : "%d.";
                 Object[] objArr = new Object[i3];
                 int i9 = i7 + 1;
                 objArr[i2] = Integer.valueOf(i9);
-                textView4.setText(String.format(str2, objArr));
+                textView4.setText(String.format(str, objArr));
                 this.desctiptionLines[i8].setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
                 int i10 = i8 + 1;
                 this.desctiptionLines[i10] = new TextView(context);
@@ -537,8 +536,8 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
                     int lastIndexOf = string.lastIndexOf(42);
                     if (indexOf != -1 && lastIndexOf != -1 && indexOf != lastIndexOf) {
                         this.desctiptionLines[i10].setMovementMethod(new AndroidUtilities.LinkMovementMethodMy());
-                        spannableStringBuilder.replace(lastIndexOf, lastIndexOf + 1, (CharSequence) str);
-                        spannableStringBuilder.replace(indexOf, indexOf + 1, (CharSequence) str);
+                        spannableStringBuilder.replace(lastIndexOf, lastIndexOf + 1, (CharSequence) "");
+                        spannableStringBuilder.replace(indexOf, indexOf + 1, (CharSequence) "");
                         spannableStringBuilder.setSpan(new URLSpanNoUnderline(LocaleController.getString("AuthAnotherClientDownloadClientUrl", R.string.AuthAnotherClientDownloadClientUrl)), indexOf, lastIndexOf - 1, 33);
                     }
                     this.desctiptionLines[i10].setText(spannableStringBuilder);
@@ -640,11 +639,8 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
                 this.imageView.setImageResource(Theme.getCurrentTheme().isDark() ? R.drawable.groupsintro2 : R.drawable.groupsintro);
                 this.imageView.setScaleType(ImageView.ScaleType.CENTER);
                 TextView textView7 = this.subtitleTextView;
-                String str3 = this.currentGroupCreateDisplayAddress;
-                if (str3 != null) {
-                    str = str3;
-                }
-                textView7.setText(str);
+                String str2 = this.currentGroupCreateDisplayAddress;
+                textView7.setText(str2 != null ? str2 : "");
                 this.titleTextView.setText(LocaleController.getString("NearbyCreateGroup", R.string.NearbyCreateGroup));
                 this.descriptionText.setText(LocaleController.getString("NearbyCreateGroupInfo", R.string.NearbyCreateGroupInfo));
                 this.descriptionText2.setText(LocaleController.getString("NearbyCreateGroupInfo2", R.string.NearbyCreateGroupInfo2));
@@ -798,18 +794,20 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$3(View view) {
-        if (!this.imageView.getAnimatedDrawable().isRunning()) {
-            this.imageView.getAnimatedDrawable().setCurrentFrame(0, false);
-            this.imageView.playAnimation();
+        if (this.imageView.getAnimatedDrawable().isRunning()) {
+            return;
         }
+        this.imageView.getAnimatedDrawable().setCurrentFrame(0, false);
+        this.imageView.playAnimation();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$4(View view) {
-        if (!this.imageView.getAnimatedDrawable().isRunning()) {
-            this.imageView.getAnimatedDrawable().setCurrentFrame(0, false);
-            this.imageView.playAnimation();
+        if (this.imageView.getAnimatedDrawable().isRunning()) {
+            return;
         }
+        this.imageView.getAnimatedDrawable().setCurrentFrame(0, false);
+        this.imageView.playAnimation();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -849,10 +847,9 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
                 }
                 z = true;
             }
-            if (!z) {
-                return;
+            if (z) {
+                presentFragment(new PeopleNearbyActivity(), true);
             }
-            presentFragment(new PeopleNearbyActivity(), true);
         }
     }
 
@@ -905,8 +902,7 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
                     }
                 });
             }
-        } else if (i != 34) {
-        } else {
+        } else if (i == 34) {
             if (iArr.length > 0 && iArr[0] == 0) {
                 processOpenQrReader();
             } else {

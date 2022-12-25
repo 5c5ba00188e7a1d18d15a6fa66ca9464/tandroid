@@ -25,14 +25,13 @@ public class ManageChatTextCell extends FrameLayout {
         this.textView = simpleTextView;
         simpleTextView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
         this.textView.setTextSize(16);
-        int i = 5;
         this.textView.setGravity(LocaleController.isRTL ? 5 : 3);
         addView(this.textView);
         SimpleTextView simpleTextView2 = new SimpleTextView(context);
         this.valueTextView = simpleTextView2;
         simpleTextView2.setTextColor(Theme.getColor("windowBackgroundWhiteValueText"));
         this.valueTextView.setTextSize(16);
-        this.valueTextView.setGravity(LocaleController.isRTL ? 3 : i);
+        this.valueTextView.setGravity(LocaleController.isRTL ? 3 : 5);
         addView(this.valueTextView);
         ImageView imageView = new ImageView(context);
         this.imageView = imageView;

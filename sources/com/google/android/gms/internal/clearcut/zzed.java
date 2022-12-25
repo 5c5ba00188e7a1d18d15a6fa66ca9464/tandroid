@@ -47,7 +47,6 @@ final class zzed {
         this.flags = zzeeVar.next();
         int next = zzeeVar.next();
         this.zznj = next;
-        int[] iArr = null;
         if (next == 0) {
             this.zznk = 0;
             this.zznl = 0;
@@ -71,7 +70,7 @@ final class zzed {
         this.zznm = zzeeVar.next();
         this.zzno = zzeeVar.next();
         int next4 = zzeeVar.next();
-        this.zzms = next4 != 0 ? new int[next4] : iArr;
+        this.zzms = next4 != 0 ? new int[next4] : null;
         this.zznp = (next2 << 1) + next3;
     }
 
@@ -110,16 +109,16 @@ final class zzed {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* JADX WARN: Code restructure failed: missing block: B:31:0x00c6, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:39:0x00c6, code lost:
         if (zzcz() != false) goto L32;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:32:0x00c8, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:40:0x00c8, code lost:
         r6.zzof = zzcw();
      */
-    /* JADX WARN: Code restructure failed: missing block: B:58:0x0152, code lost:
-        if (r1 != false) goto L32;
+    /* JADX WARN: Code restructure failed: missing block: B:68:0x0152, code lost:
+        if (((r6.zznz & 2048) != 0) != false) goto L32;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:60:0x0159, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:71:0x0159, code lost:
         if (zzcz() != false) goto L32;
      */
     /*
@@ -128,79 +127,75 @@ final class zzed {
     public final boolean next() {
         int i;
         Object type;
-        boolean z = false;
-        if (!this.zznh.hasNext()) {
-            return false;
-        }
-        this.zzny = this.zznh.next();
-        int next = this.zznh.next();
-        this.zznz = next;
-        int i2 = next & 255;
-        this.zzoa = i2;
-        int i3 = this.zzny;
-        if (i3 < this.zznr) {
-            this.zznr = i3;
-        }
-        if (i3 > this.zzns) {
-            this.zzns = i3;
-        }
-        zzcb zzcbVar = zzcb.zziw;
-        if (i2 == zzcbVar.id()) {
-            this.zznt++;
-        } else if (this.zzoa >= zzcb.zzhq.id() && this.zzoa <= zzcb.zziv.id()) {
-            this.zznu++;
-        }
-        int i4 = this.zznx + 1;
-        this.zznx = i4;
-        if (zzeh.zzc(this.zznr, this.zzny, i4)) {
-            int i5 = this.zzny + 1;
-            this.zznw = i5;
-            i = i5 - this.zznr;
-        } else {
-            i = this.zznv + 1;
-        }
-        this.zznv = i;
-        if ((this.zznz & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
-            int[] iArr = this.zzms;
-            int i6 = this.zznq;
-            this.zznq = i6 + 1;
-            iArr[i6] = this.zzny;
-        }
-        this.zzoe = null;
-        this.zzof = null;
-        this.zzog = null;
-        if (zzda()) {
-            this.zzob = this.zznh.next();
-            if (this.zzoa != zzcb.zzhh.id() + 51 && this.zzoa != zzcb.zzhp.id() + 51) {
-                if (this.zzoa == zzcb.zzhk.id() + 51) {
-                }
-                return true;
+        if (this.zznh.hasNext()) {
+            this.zzny = this.zznh.next();
+            int next = this.zznh.next();
+            this.zznz = next;
+            int i2 = next & 255;
+            this.zzoa = i2;
+            int i3 = this.zzny;
+            if (i3 < this.zznr) {
+                this.zznr = i3;
             }
-            type = zzcw();
-        } else {
-            this.zzod = zza(this.zzni, (String) zzcw());
-            if (zzde()) {
-                this.zzoc = this.zznh.next();
+            if (i3 > this.zzns) {
+                this.zzns = i3;
             }
-            if (this.zzoa == zzcb.zzhh.id() || this.zzoa == zzcb.zzhp.id()) {
-                type = this.zzod.getType();
+            zzcb zzcbVar = zzcb.zziw;
+            if (i2 == zzcbVar.id()) {
+                this.zznt++;
+            } else if (this.zzoa >= zzcb.zzhq.id() && this.zzoa <= zzcb.zziv.id()) {
+                this.zznu++;
+            }
+            int i4 = this.zznx + 1;
+            this.zznx = i4;
+            if (zzeh.zzc(this.zznr, this.zzny, i4)) {
+                int i5 = this.zzny + 1;
+                this.zznw = i5;
+                i = i5 - this.zznr;
             } else {
-                if (this.zzoa != zzcb.zzhz.id() && this.zzoa != zzcb.zziv.id()) {
-                    if (this.zzoa != zzcb.zzhk.id() && this.zzoa != zzcb.zzic.id() && this.zzoa != zzcb.zziq.id()) {
-                        if (this.zzoa == zzcbVar.id()) {
-                            this.zzog = zzcw();
-                            if ((this.zznz & 2048) != 0) {
-                                z = true;
-                            }
-                        }
-                        return true;
+                i = this.zznv + 1;
+            }
+            this.zznv = i;
+            if ((this.zznz & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
+                int[] iArr = this.zzms;
+                int i6 = this.zznq;
+                this.zznq = i6 + 1;
+                iArr[i6] = this.zzny;
+            }
+            this.zzoe = null;
+            this.zzof = null;
+            this.zzog = null;
+            if (zzda()) {
+                this.zzob = this.zznh.next();
+                if (this.zzoa != zzcb.zzhh.id() + 51 && this.zzoa != zzcb.zzhp.id() + 51) {
+                    if (this.zzoa == zzcb.zzhk.id() + 51) {
                     }
+                    return true;
                 }
                 type = zzcw();
+            } else {
+                this.zzod = zza(this.zzni, (String) zzcw());
+                if (zzde()) {
+                    this.zzoc = this.zznh.next();
+                }
+                if (this.zzoa == zzcb.zzhh.id() || this.zzoa == zzcb.zzhp.id()) {
+                    type = this.zzod.getType();
+                } else {
+                    if (this.zzoa != zzcb.zzhz.id() && this.zzoa != zzcb.zziv.id()) {
+                        if (this.zzoa != zzcb.zzhk.id() && this.zzoa != zzcb.zzic.id() && this.zzoa != zzcb.zziq.id()) {
+                            if (this.zzoa == zzcbVar.id()) {
+                                this.zzog = zzcw();
+                            }
+                            return true;
+                        }
+                    }
+                    type = zzcw();
+                }
             }
+            this.zzoe = type;
+            return true;
         }
-        this.zzoe = type;
-        return true;
+        return false;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

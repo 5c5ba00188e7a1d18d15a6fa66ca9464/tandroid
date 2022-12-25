@@ -176,10 +176,9 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
             CheckBox2 checkBox2 = this.checkBox;
             checkBox2.layout(dp, dp2, checkBox2.getMeasuredWidth() + dp, this.checkBox.getMeasuredHeight() + dp2);
         }
-        if (!z) {
-            return;
+        if (z) {
+            buildLayout();
         }
-        buildLayout();
     }
 
     public TLRPC$User getUser() {

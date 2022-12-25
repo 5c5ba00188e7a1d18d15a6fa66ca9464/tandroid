@@ -29,7 +29,6 @@ public class TLRPC$TL_channelBannedRights_layer92 extends TLObject {
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
         int readInt32 = abstractSerializedData.readInt32(z);
         this.flags = readInt32;
-        boolean z2 = false;
         this.view_messages = (readInt32 & 1) != 0;
         this.send_messages = (readInt32 & 2) != 0;
         this.send_media = (readInt32 & 4) != 0;
@@ -37,10 +36,7 @@ public class TLRPC$TL_channelBannedRights_layer92 extends TLObject {
         this.send_gifs = (readInt32 & 16) != 0;
         this.send_games = (readInt32 & 32) != 0;
         this.send_inline = (readInt32 & 64) != 0;
-        if ((readInt32 & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
-            z2 = true;
-        }
-        this.embed_links = z2;
+        this.embed_links = (readInt32 & ConnectionsManager.RequestFlagNeedQuickAck) != 0;
         this.until_date = abstractSerializedData.readInt32(z);
     }
 

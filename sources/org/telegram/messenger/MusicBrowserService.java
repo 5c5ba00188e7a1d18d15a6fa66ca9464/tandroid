@@ -105,7 +105,7 @@ public class MusicBrowserService extends MediaBrowserService implements Notifica
 
     @Override // android.service.media.MediaBrowserService
     public MediaBrowserService.BrowserRoot onGetRoot(String str, int i, Bundle bundle) {
-        if (str == null || (1000 != i && Process.myUid() != i && !str.equals("com.google.android.mediasimulator") && !str.equals("com.google.android.projection.gearhead"))) {
+        if (str == null || !(1000 == i || Process.myUid() == i || str.equals("com.google.android.mediasimulator") || str.equals("com.google.android.projection.gearhead"))) {
             return null;
         }
         return new MediaBrowserService.BrowserRoot(MEDIA_ID_ROOT, null);
@@ -249,10 +249,10 @@ public class MusicBrowserService extends MediaBrowserService implements Notifica
         updatePlaybackState(null);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:12:0x0060, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:13:0x0060, code lost:
         if ((r1 instanceof org.telegram.tgnet.TLRPC$TL_fileLocationUnavailable) == false) goto L13;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:31:0x0081, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:21:0x0081, code lost:
         if ((r1 instanceof org.telegram.tgnet.TLRPC$TL_fileLocationUnavailable) == false) goto L13;
      */
     /*
@@ -329,22 +329,22 @@ public class MusicBrowserService extends MediaBrowserService implements Notifica
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inSampleSize = 2;
             Bitmap decodeFile = BitmapFactory.decodeFile(file.toString(), options);
-            if (decodeFile == null) {
-                return null;
+            if (decodeFile != null) {
+                Bitmap createBitmap = Bitmap.createBitmap(decodeFile.getWidth(), decodeFile.getHeight(), Bitmap.Config.ARGB_8888);
+                createBitmap.eraseColor(0);
+                Canvas canvas = new Canvas(createBitmap);
+                Shader.TileMode tileMode = Shader.TileMode.CLAMP;
+                BitmapShader bitmapShader = new BitmapShader(decodeFile, tileMode, tileMode);
+                if (this.roundPaint == null) {
+                    this.roundPaint = new Paint(1);
+                    this.bitmapRect = new RectF();
+                }
+                this.roundPaint.setShader(bitmapShader);
+                this.bitmapRect.set(0.0f, 0.0f, decodeFile.getWidth(), decodeFile.getHeight());
+                canvas.drawRoundRect(this.bitmapRect, decodeFile.getWidth(), decodeFile.getHeight(), this.roundPaint);
+                return createBitmap;
             }
-            Bitmap createBitmap = Bitmap.createBitmap(decodeFile.getWidth(), decodeFile.getHeight(), Bitmap.Config.ARGB_8888);
-            createBitmap.eraseColor(0);
-            Canvas canvas = new Canvas(createBitmap);
-            Shader.TileMode tileMode = Shader.TileMode.CLAMP;
-            BitmapShader bitmapShader = new BitmapShader(decodeFile, tileMode, tileMode);
-            if (this.roundPaint == null) {
-                this.roundPaint = new Paint(1);
-                this.bitmapRect = new RectF();
-            }
-            this.roundPaint.setShader(bitmapShader);
-            this.bitmapRect.set(0.0f, 0.0f, decodeFile.getWidth(), decodeFile.getHeight());
-            canvas.drawRoundRect(this.bitmapRect, decodeFile.getWidth(), decodeFile.getHeight(), this.roundPaint);
-            return createBitmap;
+            return null;
         } catch (Throwable th) {
             FileLog.e(th);
             return null;
@@ -499,12 +499,8 @@ public class MusicBrowserService extends MediaBrowserService implements Notifica
     }
 
     private long getAvailableActions() {
-        long j = 3076;
         if (MediaController.getInstance().getPlayingMessageObject() != null) {
-            if (!MediaController.getInstance().isMessagePaused()) {
-                j = 3078;
-            }
-            return j | 16 | 32;
+            return (MediaController.getInstance().isMessagePaused() ? 3076L : 3078L) | 16 | 32;
         }
         return 3076L;
     }
@@ -577,11 +573,10 @@ public class MusicBrowserService extends MediaBrowserService implements Notifica
         public void handleMessage(Message message) {
             MusicBrowserService musicBrowserService = this.mWeakReference.get();
             if (musicBrowserService != null) {
-                if (MediaController.getInstance().getPlayingMessageObject() != null && !MediaController.getInstance().isMessagePaused()) {
-                    return;
+                if (MediaController.getInstance().getPlayingMessageObject() == null || MediaController.getInstance().isMessagePaused()) {
+                    musicBrowserService.stopSelf();
+                    musicBrowserService.serviceStarted = false;
                 }
-                musicBrowserService.stopSelf();
-                musicBrowserService.serviceStarted = false;
             }
         }
     }

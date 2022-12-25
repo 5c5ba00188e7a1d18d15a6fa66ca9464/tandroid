@@ -43,10 +43,10 @@ public abstract class IndexableBuilder<T extends IndexableBuilder<?>> {
                     i++;
                 }
             }
-            if (i <= 0) {
+            if (i > 0) {
+                bundle.putStringArray(str, (String[]) zzf((String[]) Arrays.copyOfRange(strArr2, 0, i)));
                 return;
             }
-            bundle.putStringArray(str, (String[]) zzf((String[]) Arrays.copyOfRange(strArr2, 0, i)));
             return;
         }
         zzw.zza("String array is empty and is ignored by put method.");

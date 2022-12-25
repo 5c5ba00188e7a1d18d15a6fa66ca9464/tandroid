@@ -24,10 +24,10 @@ final class zzjw extends zzju {
         } else {
             if ((list instanceof zzkw) && (list instanceof zzjl)) {
                 zzjl zzjlVar = (zzjl) list;
-                if (!zzjlVar.zza()) {
+                if (zzjlVar.zza()) {
+                    zzjlVar.zzb();
                     return;
                 }
-                zzjlVar.zzb();
                 return;
             }
             unmodifiableList = Collections.unmodifiableList(list);
@@ -61,9 +61,7 @@ final class zzjw extends zzju {
             zzjsVar2.addAll((zzlz) zzc);
             zzma.zza(obj, j, zzjsVar2);
             zzjsVar = zzjsVar2;
-        } else if (!(zzc instanceof zzkw) || !(zzc instanceof zzjl)) {
-            return zzc;
-        } else {
+        } else if ((zzc instanceof zzkw) && (zzc instanceof zzjl)) {
             zzjl zzjlVar = (zzjl) zzc;
             if (zzjlVar.zza()) {
                 return zzc;
@@ -71,6 +69,8 @@ final class zzjw extends zzju {
             zzjl zza2 = zzjlVar.zza(zzc.size() + i);
             zzma.zza(obj, j, zza2);
             return zza2;
+        } else {
+            return zzc;
         }
         return zzjsVar;
     }

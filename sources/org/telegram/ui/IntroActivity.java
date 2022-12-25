@@ -125,7 +125,6 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
                 int i5 = (i4 - i2) / 4;
                 int i6 = i5 * 3;
                 int dp = (i6 - AndroidUtilities.dp(275.0f)) / 2;
-                int i7 = 0;
                 IntroActivity.this.frameLayout2.layout(0, dp, IntroActivity.this.frameLayout2.getMeasuredWidth(), IntroActivity.this.frameLayout2.getMeasuredHeight() + dp);
                 int dp2 = dp + AndroidUtilities.dp(150.0f) + AndroidUtilities.dp(122.0f);
                 int measuredWidth = (getMeasuredWidth() - IntroActivity.this.bottomPages.getMeasuredWidth()) / 2;
@@ -138,13 +137,9 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
                 int measuredWidth3 = (getMeasuredWidth() - IntroActivity.this.switchLanguageTextView.getMeasuredWidth()) / 2;
                 IntroActivity.this.switchLanguageTextView.layout(measuredWidth3, dp3 - IntroActivity.this.switchLanguageTextView.getMeasuredHeight(), IntroActivity.this.switchLanguageTextView.getMeasuredWidth() + measuredWidth3, dp3);
                 ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams) frameLayout.getLayoutParams();
-                int dp4 = AndroidUtilities.dp(r4);
-                if (!AndroidUtilities.isTablet()) {
-                    i7 = AndroidUtilities.statusBarHeight;
-                }
-                int i8 = dp4 + i7;
-                if (marginLayoutParams.topMargin != i8) {
-                    marginLayoutParams.topMargin = i8;
+                int dp4 = AndroidUtilities.dp(r4) + (AndroidUtilities.isTablet() ? 0 : AndroidUtilities.statusBarHeight);
+                if (marginLayoutParams.topMargin != dp4) {
+                    marginLayoutParams.topMargin = dp4;
                     frameLayout.requestLayout();
                 }
             }
@@ -202,17 +197,15 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
                     IntroActivity.this.dragging = true;
                     IntroActivity introActivity = IntroActivity.this;
                     introActivity.startDragX = introActivity.viewPager.getCurrentItem() * IntroActivity.this.viewPager.getMeasuredWidth();
-                } else if (i2 != 0 && i2 != 2) {
-                } else {
+                } else if (i2 == 0 || i2 == 2) {
                     if (IntroActivity.this.dragging) {
                         IntroActivity.this.justEndDragging = true;
                         IntroActivity.this.dragging = false;
                     }
-                    if (IntroActivity.this.lastPage == IntroActivity.this.viewPager.getCurrentItem()) {
-                        return;
+                    if (IntroActivity.this.lastPage != IntroActivity.this.viewPager.getCurrentItem()) {
+                        IntroActivity introActivity2 = IntroActivity.this;
+                        introActivity2.lastPage = introActivity2.viewPager.getCurrentItem();
                     }
-                    IntroActivity introActivity2 = IntroActivity.this;
-                    introActivity2.lastPage = introActivity2.viewPager.getCurrentItem();
                 }
             }
         });
@@ -510,24 +503,24 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
                 return;
             }
             final TLRPC$LangPackString tLRPC$LangPackString = (TLRPC$LangPackString) tLRPC$Vector.objects.get(0);
-            if (!(tLRPC$LangPackString instanceof TLRPC$TL_langPackString)) {
-                return;
+            if (tLRPC$LangPackString instanceof TLRPC$TL_langPackString) {
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.IntroActivity$$ExternalSyntheticLambda4
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        IntroActivity.this.lambda$checkContinueText$3(tLRPC$LangPackString, str);
+                    }
+                });
             }
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.IntroActivity$$ExternalSyntheticLambda4
-                @Override // java.lang.Runnable
-                public final void run() {
-                    IntroActivity.this.lambda$checkContinueText$3(tLRPC$LangPackString, str);
-                }
-            });
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$checkContinueText$3(TLRPC$LangPackString tLRPC$LangPackString, String str) {
-        if (!this.destroyed) {
-            this.switchLanguageTextView.setText(tLRPC$LangPackString.value);
-            MessagesController.getGlobalMainSettings().edit().putString("language_showed2", str.toLowerCase()).apply();
+        if (this.destroyed) {
+            return;
         }
+        this.switchLanguageTextView.setText(tLRPC$LangPackString.value);
+        MessagesController.getGlobalMainSettings().edit().putString("language_showed2", str.toLowerCase()).apply();
     }
 
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
@@ -624,6 +617,7 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
 
     /* loaded from: classes3.dex */
     public class EGLThread extends DispatchQueue {
+        private Runnable drawRunnable;
         private EGL10 egl10;
         private EGLConfig eglConfig;
         private EGLContext eglContext;
@@ -633,44 +627,8 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
         private long lastDrawFrame;
         private float maxRefreshRate;
         private SurfaceTexture surfaceTexture;
-        private int[] textures = new int[24];
-        private GenericProvider<Void, Bitmap> telegramMaskProvider = IntroActivity$EGLThread$$ExternalSyntheticLambda2.INSTANCE;
-        private Runnable drawRunnable = new Runnable() { // from class: org.telegram.ui.IntroActivity.EGLThread.1
-            @Override // java.lang.Runnable
-            public void run() {
-                float[] supportedRefreshRates;
-                if (!EGLThread.this.initied) {
-                    return;
-                }
-                long currentTimeMillis = System.currentTimeMillis();
-                if ((EGLThread.this.eglContext.equals(EGLThread.this.egl10.eglGetCurrentContext()) && EGLThread.this.eglSurface.equals(EGLThread.this.egl10.eglGetCurrentSurface(12377))) || EGLThread.this.egl10.eglMakeCurrent(EGLThread.this.eglDisplay, EGLThread.this.eglSurface, EGLThread.this.eglSurface, EGLThread.this.eglContext)) {
-                    int min = (int) Math.min(currentTimeMillis - EGLThread.this.lastDrawFrame, 16L);
-                    Intro.setPage(IntroActivity.this.currentViewPagerPage);
-                    Intro.setDate(((float) (currentTimeMillis - IntroActivity.this.currentDate)) / 1000.0f);
-                    Intro.onDrawFrame(min);
-                    EGLThread.this.egl10.eglSwapBuffers(EGLThread.this.eglDisplay, EGLThread.this.eglSurface);
-                    EGLThread.this.lastDrawFrame = currentTimeMillis;
-                    float f = 0.0f;
-                    if (EGLThread.this.maxRefreshRate == 0.0f) {
-                        if (Build.VERSION.SDK_INT < 21) {
-                            EGLThread.this.maxRefreshRate = 60.0f;
-                        } else {
-                            for (float f2 : ((WindowManager) ApplicationLoader.applicationContext.getSystemService("window")).getDefaultDisplay().getSupportedRefreshRates()) {
-                                if (f2 > f) {
-                                    f = f2;
-                                }
-                            }
-                            EGLThread.this.maxRefreshRate = f;
-                        }
-                    }
-                    long currentTimeMillis2 = System.currentTimeMillis() - currentTimeMillis;
-                    EGLThread eGLThread = EGLThread.this;
-                    eGLThread.postRunnable(eGLThread.drawRunnable, Math.max((1000.0f / EGLThread.this.maxRefreshRate) - currentTimeMillis2, 0L));
-                } else if (BuildVars.LOGS_ENABLED) {
-                    FileLog.e("eglMakeCurrent failed " + GLUtils.getEGLErrorString(EGLThread.this.egl10.eglGetError()));
-                }
-            }
-        };
+        private GenericProvider<Void, Bitmap> telegramMaskProvider;
+        private int[] textures;
 
         /* JADX INFO: Access modifiers changed from: private */
         public static /* synthetic */ Bitmap lambda$new$0(Void r6) {
@@ -686,6 +644,43 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
 
         public EGLThread(SurfaceTexture surfaceTexture) {
             super("EGLThread");
+            this.textures = new int[24];
+            this.telegramMaskProvider = IntroActivity$EGLThread$$ExternalSyntheticLambda2.INSTANCE;
+            this.drawRunnable = new Runnable() { // from class: org.telegram.ui.IntroActivity.EGLThread.1
+                @Override // java.lang.Runnable
+                public void run() {
+                    float[] supportedRefreshRates;
+                    if (EGLThread.this.initied) {
+                        long currentTimeMillis = System.currentTimeMillis();
+                        if ((EGLThread.this.eglContext.equals(EGLThread.this.egl10.eglGetCurrentContext()) && EGLThread.this.eglSurface.equals(EGLThread.this.egl10.eglGetCurrentSurface(12377))) || EGLThread.this.egl10.eglMakeCurrent(EGLThread.this.eglDisplay, EGLThread.this.eglSurface, EGLThread.this.eglSurface, EGLThread.this.eglContext)) {
+                            int min = (int) Math.min(currentTimeMillis - EGLThread.this.lastDrawFrame, 16L);
+                            Intro.setPage(IntroActivity.this.currentViewPagerPage);
+                            Intro.setDate(((float) (currentTimeMillis - IntroActivity.this.currentDate)) / 1000.0f);
+                            Intro.onDrawFrame(min);
+                            EGLThread.this.egl10.eglSwapBuffers(EGLThread.this.eglDisplay, EGLThread.this.eglSurface);
+                            EGLThread.this.lastDrawFrame = currentTimeMillis;
+                            float f = 0.0f;
+                            if (EGLThread.this.maxRefreshRate == 0.0f) {
+                                if (Build.VERSION.SDK_INT < 21) {
+                                    EGLThread.this.maxRefreshRate = 60.0f;
+                                } else {
+                                    for (float f2 : ((WindowManager) ApplicationLoader.applicationContext.getSystemService("window")).getDefaultDisplay().getSupportedRefreshRates()) {
+                                        if (f2 > f) {
+                                            f = f2;
+                                        }
+                                    }
+                                    EGLThread.this.maxRefreshRate = f;
+                                }
+                            }
+                            long currentTimeMillis2 = System.currentTimeMillis() - currentTimeMillis;
+                            EGLThread eGLThread = EGLThread.this;
+                            eGLThread.postRunnable(eGLThread.drawRunnable, Math.max((1000.0f / EGLThread.this.maxRefreshRate) - currentTimeMillis2, 0L));
+                        } else if (BuildVars.LOGS_ENABLED) {
+                            FileLog.e("eglMakeCurrent failed " + GLUtils.getEGLErrorString(EGLThread.this.egl10.eglGetError()));
+                        }
+                    }
+                }
+            };
             this.surfaceTexture = surfaceTexture;
         }
 

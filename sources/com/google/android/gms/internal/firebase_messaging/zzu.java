@@ -23,11 +23,11 @@ final class zzu implements zzz {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof zzz)) {
-            return false;
+        if (obj instanceof zzz) {
+            zzz zzzVar = (zzz) obj;
+            return this.zza == zzzVar.zza() && this.zzb.equals(zzzVar.zzb());
         }
-        zzz zzzVar = (zzz) obj;
-        return this.zza == zzzVar.zza() && this.zzb.equals(zzzVar.zzb());
+        return false;
     }
 
     @Override // java.lang.annotation.Annotation

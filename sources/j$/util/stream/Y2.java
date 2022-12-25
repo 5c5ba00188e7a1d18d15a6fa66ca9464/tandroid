@@ -22,10 +22,10 @@ class Y2 extends i3 {
                 this.a.accept((m3) obj);
                 return;
             case 1:
-                if (!((Predicate) ((L) this.c).m).test(obj)) {
+                if (((Predicate) ((L) this.c).m).test(obj)) {
+                    this.a.accept((m3) obj);
                     return;
                 }
-                this.a.accept((m3) obj);
                 return;
             case 2:
                 this.a.accept((m3) ((a3) this.c).m.apply(obj));
@@ -53,10 +53,10 @@ class Y2 extends i3 {
                         throw th;
                     }
                 }
-                if (stream == null) {
+                if (stream != null) {
+                    stream.close();
                     return;
                 }
-                stream.close();
                 return;
         }
     }

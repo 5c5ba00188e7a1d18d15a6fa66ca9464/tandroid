@@ -120,10 +120,10 @@ public class DispatchQueuePoolBackground {
 
     public static void execute(Runnable runnable, boolean z) {
         if (Thread.currentThread() != ApplicationLoader.applicationHandler.getLooper().getThread()) {
-            if (!BuildVars.DEBUG_PRIVATE_VERSION) {
+            if (BuildVars.DEBUG_PRIVATE_VERSION) {
+                FileLog.e(new RuntimeException("wrong thread"));
                 return;
             }
-            FileLog.e(new RuntimeException("wrong thread"));
             return;
         }
         if (updateTaskCollection == null) {
@@ -138,12 +138,11 @@ public class DispatchQueuePoolBackground {
             }
         }
         updateTaskCollection.add(runnable);
-        if (!z) {
-            return;
+        if (z) {
+            Runnable runnable2 = finishCollectUpdateRunnable;
+            AndroidUtilities.cancelRunOnUIThread(runnable2);
+            runnable2.run();
         }
-        Runnable runnable2 = finishCollectUpdateRunnable;
-        AndroidUtilities.cancelRunOnUIThread(runnable2);
-        runnable2.run();
     }
 
     /* JADX INFO: Access modifiers changed from: private */

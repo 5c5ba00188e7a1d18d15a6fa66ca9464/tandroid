@@ -22,8 +22,10 @@ import org.telegram.ui.MessageEnterTransitionContainer;
 /* loaded from: classes3.dex */
 public class VoiceMessageEnterTransition implements MessageEnterTransitionContainer.Transition {
     private final ValueAnimator animator;
+    final Paint circlePaint = new Paint(1);
     MessageEnterTransitionContainer container;
     float fromRadius;
+    private final Matrix gradientMatrix;
     private final Paint gradientPaint;
     private final LinearGradient gradientShader;
     float lastToCx;
@@ -34,8 +36,6 @@ public class VoiceMessageEnterTransition implements MessageEnterTransitionContai
     float progress;
     private final ChatActivityEnterView.RecordCircle recordCircle;
     private final Theme.ResourcesProvider resourcesProvider;
-    final Paint circlePaint = new Paint(1);
-    private final Matrix gradientMatrix = new Matrix();
 
     public VoiceMessageEnterTransition(final ChatMessageCell chatMessageCell, ChatActivityEnterView chatActivityEnterView, RecyclerListView recyclerListView, final MessageEnterTransitionContainer messageEnterTransitionContainer, Theme.ResourcesProvider resourcesProvider) {
         this.resourcesProvider = resourcesProvider;
@@ -48,6 +48,7 @@ public class VoiceMessageEnterTransition implements MessageEnterTransitionContai
         this.recordCircle = recordCicle;
         recordCicle.voiceEnterTransitionInProgress = true;
         recordCicle.skipDraw = true;
+        this.gradientMatrix = new Matrix();
         Paint paint = new Paint(1);
         this.gradientPaint = paint;
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_IN));

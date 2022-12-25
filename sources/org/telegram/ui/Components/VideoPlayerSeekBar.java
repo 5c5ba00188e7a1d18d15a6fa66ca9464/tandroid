@@ -301,11 +301,11 @@ public class VideoPlayerSeekBar {
             this.currentTimestamp = -1;
             this.timestampsAppearing = 0.0f;
             StaticLayout[] staticLayoutArr = this.timestampLabel;
-            if (staticLayoutArr == null) {
+            if (staticLayoutArr != null) {
+                staticLayoutArr[1] = null;
+                staticLayoutArr[0] = null;
                 return;
             }
-            staticLayoutArr[1] = null;
-            staticLayoutArr[0] = null;
             return;
         }
         Spanned spanned = (Spanned) charSequence;
@@ -333,11 +333,10 @@ public class VideoPlayerSeekBar {
             this.currentTimestamp = -1;
             this.timestampsAppearing = 0.0f;
             StaticLayout[] staticLayoutArr2 = this.timestampLabel;
-            if (staticLayoutArr2 == null) {
-                return;
+            if (staticLayoutArr2 != null) {
+                staticLayoutArr2[1] = null;
+                staticLayoutArr2[0] = null;
             }
-            staticLayoutArr2[1] = null;
-            staticLayoutArr2[0] = null;
         }
     }
 

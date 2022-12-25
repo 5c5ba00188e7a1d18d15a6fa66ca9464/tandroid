@@ -56,9 +56,12 @@ public class VideoScreenPreview extends FrameLayout implements PagerHeaderView, 
     File file;
     boolean firstFrameRendered;
     boolean fromTop;
+    ImageReceiver imageReceiver;
     long lastFrameTime;
     private MatrixParticlesDrawable matrixParticlesDrawable;
     Runnable nextCheck;
+    Paint phoneFrame1;
+    Paint phoneFrame2;
     boolean play;
     float progress;
     private float roundRadius;
@@ -71,9 +74,6 @@ public class VideoScreenPreview extends FrameLayout implements PagerHeaderView, 
     int type;
     VideoPlayer videoPlayer;
     boolean visible;
-    Paint phoneFrame1 = new Paint(1);
-    Paint phoneFrame2 = new Paint(1);
-    ImageReceiver imageReceiver = new ImageReceiver(this);
 
     /* JADX INFO: Access modifiers changed from: private */
     public void checkVideo() {
@@ -114,7 +114,10 @@ public class VideoScreenPreview extends FrameLayout implements PagerHeaderView, 
 
     public VideoScreenPreview(Context context, SvgHelper.SvgDrawable svgDrawable, int i, int i2) {
         super(context);
+        this.phoneFrame1 = new Paint(1);
+        this.phoneFrame2 = new Paint(1);
         this.fromTop = false;
+        this.imageReceiver = new ImageReceiver(this);
         this.currentAccount = i;
         this.type = i2;
         this.svgIcon = svgDrawable;
@@ -228,43 +231,42 @@ public class VideoScreenPreview extends FrameLayout implements PagerHeaderView, 
                     i2++;
                 }
             }
-            if (i < 0) {
-                return;
-            }
-            final TLRPC$Document tLRPC$Document = premiumPromo.videos.get(i);
-            CombinedDrawable combinedDrawable = null;
-            for (int i3 = 0; i3 < tLRPC$Document.thumbs.size(); i3++) {
-                if (tLRPC$Document.thumbs.get(i3) instanceof TLRPC$TL_photoStrippedSize) {
-                    this.roundedBitmapDrawable = RoundedBitmapDrawableFactory.create(getResources(), ImageLoader.getStrippedPhotoBitmap(tLRPC$Document.thumbs.get(i3).bytes, "b"));
-                    CellFlickerDrawable cellFlickerDrawable = new CellFlickerDrawable();
-                    cellFlickerDrawable.repeatProgress = 4.0f;
-                    cellFlickerDrawable.progress = 3.5f;
-                    cellFlickerDrawable.frameInside = true;
-                    this.cellFlickerDrawable = cellFlickerDrawable.getDrawableInterface(this, this.svgIcon);
-                    combinedDrawable = new CombinedDrawable(this.roundedBitmapDrawable, this.cellFlickerDrawable) { // from class: org.telegram.ui.Components.Premium.VideoScreenPreview.2
-                        @Override // android.graphics.drawable.Drawable
-                        public void setBounds(int i4, int i5, int i6, int i7) {
-                            VideoScreenPreview videoScreenPreview = VideoScreenPreview.this;
-                            if (videoScreenPreview.fromTop) {
-                                super.setBounds(i4, (int) (i5 - videoScreenPreview.roundRadius), i6, i7);
-                            } else {
-                                super.setBounds(i4, i5, i6, (int) (i7 + videoScreenPreview.roundRadius));
+            if (i >= 0) {
+                final TLRPC$Document tLRPC$Document = premiumPromo.videos.get(i);
+                CombinedDrawable combinedDrawable = null;
+                for (int i3 = 0; i3 < tLRPC$Document.thumbs.size(); i3++) {
+                    if (tLRPC$Document.thumbs.get(i3) instanceof TLRPC$TL_photoStrippedSize) {
+                        this.roundedBitmapDrawable = RoundedBitmapDrawableFactory.create(getResources(), ImageLoader.getStrippedPhotoBitmap(tLRPC$Document.thumbs.get(i3).bytes, "b"));
+                        CellFlickerDrawable cellFlickerDrawable = new CellFlickerDrawable();
+                        cellFlickerDrawable.repeatProgress = 4.0f;
+                        cellFlickerDrawable.progress = 3.5f;
+                        cellFlickerDrawable.frameInside = true;
+                        this.cellFlickerDrawable = cellFlickerDrawable.getDrawableInterface(this, this.svgIcon);
+                        combinedDrawable = new CombinedDrawable(this.roundedBitmapDrawable, this.cellFlickerDrawable) { // from class: org.telegram.ui.Components.Premium.VideoScreenPreview.2
+                            @Override // android.graphics.drawable.Drawable
+                            public void setBounds(int i4, int i5, int i6, int i7) {
+                                VideoScreenPreview videoScreenPreview = VideoScreenPreview.this;
+                                if (videoScreenPreview.fromTop) {
+                                    super.setBounds(i4, (int) (i5 - videoScreenPreview.roundRadius), i6, i7);
+                                } else {
+                                    super.setBounds(i4, i5, i6, (int) (i7 + videoScreenPreview.roundRadius));
+                                }
                             }
-                        }
-                    };
-                    combinedDrawable.setFullsize(true);
+                        };
+                        combinedDrawable.setFullsize(true);
+                    }
                 }
+                this.attachFileName = FileLoader.getAttachFileName(tLRPC$Document);
+                this.imageReceiver.setImage(null, null, combinedDrawable, null, premiumPromo, 1);
+                FileLoader.getInstance(this.currentAccount).loadFile(tLRPC$Document, premiumPromo, 3, 0);
+                this.document = tLRPC$Document;
+                Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.Premium.VideoScreenPreview$$ExternalSyntheticLambda2
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        VideoScreenPreview.this.lambda$setVideo$1(tLRPC$Document);
+                    }
+                });
             }
-            this.attachFileName = FileLoader.getAttachFileName(tLRPC$Document);
-            this.imageReceiver.setImage(null, null, combinedDrawable, null, premiumPromo, 1);
-            FileLoader.getInstance(this.currentAccount).loadFile(tLRPC$Document, premiumPromo, 3, 0);
-            this.document = tLRPC$Document;
-            Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.Premium.VideoScreenPreview$$ExternalSyntheticLambda2
-                @Override // java.lang.Runnable
-                public final void run() {
-                    VideoScreenPreview.this.lambda$setVideo$1(tLRPC$Document);
-                }
-            });
         }
     }
 
@@ -347,14 +349,13 @@ public class VideoScreenPreview extends FrameLayout implements PagerHeaderView, 
                 this.starDrawable.excludeRect.inset(AndroidUtilities.dp(10.0f), AndroidUtilities.dp(10.0f));
             }
             SpeedLineParticles$Drawable speedLineParticles$Drawable = this.speedLinesDrawable;
-            if (speedLineParticles$Drawable == null) {
-                return;
+            if (speedLineParticles$Drawable != null) {
+                speedLineParticles$Drawable.rect.set(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight());
+                this.speedLinesDrawable.screenRect.set(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight());
+                this.speedLinesDrawable.rect.inset(AndroidUtilities.dp(100.0f), AndroidUtilities.dp(100.0f));
+                this.speedLinesDrawable.rect.offset(0.0f, getMeasuredHeight() * 0.1f);
+                this.speedLinesDrawable.resetPositions();
             }
-            speedLineParticles$Drawable.rect.set(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight());
-            this.speedLinesDrawable.screenRect.set(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight());
-            this.speedLinesDrawable.rect.inset(AndroidUtilities.dp(100.0f), AndroidUtilities.dp(100.0f));
-            this.speedLinesDrawable.rect.offset(0.0f, getMeasuredHeight() * 0.1f);
-            this.speedLinesDrawable.resetPositions();
         }
     }
 
@@ -443,15 +444,15 @@ public class VideoScreenPreview extends FrameLayout implements PagerHeaderView, 
             this.imageReceiver.draw(canvas);
         }
         super.dispatchDraw(canvas);
-        if (!this.fromTop) {
-            canvas.drawCircle(this.imageReceiver.getCenterX(), this.imageReceiver.getImageY() + AndroidUtilities.dp(12.0f), AndroidUtilities.dp(6.0f), this.phoneFrame1);
+        if (this.fromTop) {
+            return;
         }
+        canvas.drawCircle(this.imageReceiver.getCenterX(), this.imageReceiver.getImageY() + AndroidUtilities.dp(12.0f), AndroidUtilities.dp(6.0f), this.phoneFrame1);
     }
 
     @Override // org.telegram.ui.Components.Premium.PagerHeaderView
     public void setOffset(float f) {
         boolean z;
-        boolean z2 = true;
         if (f < 0.0f) {
             float measuredWidth = (-f) / getMeasuredWidth();
             setAlpha((Utilities.clamp(1.0f - measuredWidth, 1.0f, 0.0f) * 0.5f) + 0.5f);
@@ -465,7 +466,7 @@ public class VideoScreenPreview extends FrameLayout implements PagerHeaderView, 
             this.progress = Math.abs(measuredWidth);
             z = measuredWidth < 1.0f;
             if (measuredWidth >= 0.1f) {
-                z2 = false;
+                r2 = false;
             }
         } else {
             float measuredWidth2 = (-f) / getMeasuredWidth();
@@ -477,18 +478,16 @@ public class VideoScreenPreview extends FrameLayout implements PagerHeaderView, 
                 setTranslationY((-getMeasuredHeight()) * 0.3f * measuredWidth2);
             }
             z = measuredWidth2 > -1.0f;
-            if (measuredWidth2 <= -0.1f) {
-                z2 = false;
-            }
+            r2 = measuredWidth2 > -0.1f;
             this.progress = Math.abs(measuredWidth2);
         }
         if (z != this.visible) {
             this.visible = z;
             updateAttachState();
         }
-        if (z2 != this.allowPlay) {
-            this.allowPlay = z2;
-            this.imageReceiver.setAllowStartAnimation(z2);
+        if (r2 != this.allowPlay) {
+            this.allowPlay = r2;
+            this.imageReceiver.setAllowStartAnimation(r2);
             if (this.allowPlay) {
                 this.imageReceiver.startAnimation();
                 runVideoPlayer();
@@ -588,8 +587,7 @@ public class VideoScreenPreview extends FrameLayout implements PagerHeaderView, 
                     if (i == 4) {
                         VideoScreenPreview.this.videoPlayer.seekTo(0L);
                         VideoScreenPreview.this.videoPlayer.play();
-                    } else if (i != 1) {
-                    } else {
+                    } else if (i == 1) {
                         VideoScreenPreview.this.videoPlayer.play();
                     }
                 }
@@ -597,17 +595,18 @@ public class VideoScreenPreview extends FrameLayout implements PagerHeaderView, 
                 @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
                 public void onRenderedFirstFrame() {
                     VideoScreenPreview videoScreenPreview = VideoScreenPreview.this;
-                    if (!videoScreenPreview.firstFrameRendered) {
-                        videoScreenPreview.textureView.setAlpha(0.0f);
-                        VideoScreenPreview.this.textureView.animate().alpha(1.0f).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.Premium.VideoScreenPreview.3.1
-                            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                            public void onAnimationEnd(Animator animator) {
-                                VideoScreenPreview videoScreenPreview2 = VideoScreenPreview.this;
-                                videoScreenPreview2.firstFrameRendered = true;
-                                videoScreenPreview2.invalidate();
-                            }
-                        }).setDuration(200L);
+                    if (videoScreenPreview.firstFrameRendered) {
+                        return;
                     }
+                    videoScreenPreview.textureView.setAlpha(0.0f);
+                    VideoScreenPreview.this.textureView.animate().alpha(1.0f).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.Premium.VideoScreenPreview.3.1
+                        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                        public void onAnimationEnd(Animator animator) {
+                            VideoScreenPreview videoScreenPreview2 = VideoScreenPreview.this;
+                            videoScreenPreview2.firstFrameRendered = true;
+                            videoScreenPreview2.invalidate();
+                        }
+                    }).setDuration(200L);
                 }
             });
             File file = this.file;

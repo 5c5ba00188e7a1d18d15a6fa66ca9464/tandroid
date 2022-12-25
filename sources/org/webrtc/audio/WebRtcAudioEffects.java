@@ -71,7 +71,6 @@ class WebRtcAudioEffects {
         boolean z = true;
         assertTrue(this.aec == null);
         assertTrue(this.ns == null);
-        String str = "enabled";
         if (isAcousticEchoCancelerSupported()) {
             AcousticEchoCanceler create = AcousticEchoCanceler.create(i);
             this.aec = create;
@@ -83,11 +82,11 @@ class WebRtcAudioEffects {
                 }
                 StringBuilder sb = new StringBuilder();
                 sb.append("AcousticEchoCanceler: was ");
-                sb.append(enabled ? str : "disabled");
+                sb.append(enabled ? "enabled" : "disabled");
                 sb.append(", enable: ");
                 sb.append(z2);
                 sb.append(", is now: ");
-                sb.append(this.aec.getEnabled() ? str : "disabled");
+                sb.append(this.aec.getEnabled() ? "enabled" : "disabled");
                 Logging.d(TAG, sb.toString());
             } else {
                 Logging.e(TAG, "Failed to create the AcousticEchoCanceler instance");
@@ -98,22 +97,17 @@ class WebRtcAudioEffects {
             this.ns = create2;
             if (create2 != null) {
                 boolean enabled2 = create2.getEnabled();
-                if (!this.shouldEnableNs || !isNoiseSuppressorSupported()) {
-                    z = false;
-                }
+                z = (this.shouldEnableNs && isNoiseSuppressorSupported()) ? false : false;
                 if (this.ns.setEnabled(z) != 0) {
                     Logging.e(TAG, "Failed to set the NoiseSuppressor state");
                 }
                 StringBuilder sb2 = new StringBuilder();
                 sb2.append("NoiseSuppressor: was ");
-                sb2.append(enabled2 ? str : "disabled");
+                sb2.append(enabled2 ? "enabled" : "disabled");
                 sb2.append(", enable: ");
                 sb2.append(z);
                 sb2.append(", is now: ");
-                if (!this.ns.getEnabled()) {
-                    str = "disabled";
-                }
-                sb2.append(str);
+                sb2.append(this.ns.getEnabled() ? "enabled" : "disabled");
                 Logging.d(TAG, sb2.toString());
                 return;
             }
@@ -143,10 +137,9 @@ class WebRtcAudioEffects {
     }
 
     private static void assertTrue(boolean z) {
-        if (z) {
-            return;
+        if (!z) {
+            throw new AssertionError("Expected condition to be true");
         }
-        throw new AssertionError("Expected condition to be true");
     }
 
     private static AudioEffect.Descriptor[] getAvailableEffects() {

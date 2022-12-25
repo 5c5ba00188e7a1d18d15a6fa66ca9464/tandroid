@@ -16,9 +16,11 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimationProperties;
 /* loaded from: classes3.dex */
 public class WallpaperCheckBoxView extends View {
+    public final Property<WallpaperCheckBoxView, Float> PROGRESS_PROPERTY;
     private Paint backgroundPaint;
     private ObjectAnimator checkAnimator;
     private Paint checkPaint;
+    private int[] colors;
     private String currentText;
     private int currentTextSize;
     private Bitmap drawBitmap;
@@ -28,24 +30,25 @@ public class WallpaperCheckBoxView extends View {
     private int maxTextSize;
     private View parentView;
     private float progress;
+    private RectF rect;
     private TextPaint textPaint;
-    private int[] colors = new int[4];
-    public final Property<WallpaperCheckBoxView, Float> PROGRESS_PROPERTY = new AnimationProperties.FloatProperty<WallpaperCheckBoxView>("progress") { // from class: org.telegram.ui.Components.WallpaperCheckBoxView.1
-        @Override // org.telegram.ui.Components.AnimationProperties.FloatProperty
-        public void setValue(WallpaperCheckBoxView wallpaperCheckBoxView, float f) {
-            WallpaperCheckBoxView.this.progress = f;
-            WallpaperCheckBoxView.this.invalidate();
-        }
-
-        @Override // android.util.Property
-        public Float get(WallpaperCheckBoxView wallpaperCheckBoxView) {
-            return Float.valueOf(WallpaperCheckBoxView.this.progress);
-        }
-    };
-    private RectF rect = new RectF();
 
     public WallpaperCheckBoxView(Context context, boolean z, View view) {
         super(context);
+        this.colors = new int[4];
+        this.PROGRESS_PROPERTY = new AnimationProperties.FloatProperty<WallpaperCheckBoxView>("progress") { // from class: org.telegram.ui.Components.WallpaperCheckBoxView.1
+            @Override // org.telegram.ui.Components.AnimationProperties.FloatProperty
+            public void setValue(WallpaperCheckBoxView wallpaperCheckBoxView, float f) {
+                WallpaperCheckBoxView.this.progress = f;
+                WallpaperCheckBoxView.this.invalidate();
+            }
+
+            @Override // android.util.Property
+            public Float get(WallpaperCheckBoxView wallpaperCheckBoxView) {
+                return Float.valueOf(WallpaperCheckBoxView.this.progress);
+            }
+        };
+        this.rect = new RectF();
         if (z) {
             this.drawBitmap = Bitmap.createBitmap(AndroidUtilities.dp(18.0f), AndroidUtilities.dp(18.0f), Bitmap.Config.ARGB_4444);
             this.drawCanvas = new Canvas(this.drawBitmap);

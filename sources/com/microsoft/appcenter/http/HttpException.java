@@ -26,10 +26,10 @@ public class HttpException extends IOException {
         if (this == obj) {
             return true;
         }
-        if (obj != null && HttpException.class == obj.getClass()) {
-            return this.mHttpResponse.equals(((HttpException) obj).mHttpResponse);
+        if (obj == null || HttpException.class != obj.getClass()) {
+            return false;
         }
-        return false;
+        return this.mHttpResponse.equals(((HttpException) obj).mHttpResponse);
     }
 
     public int hashCode() {

@@ -51,11 +51,11 @@ final class j0 extends d {
                 l(obj);
             }
             return null;
-        } else if (obj == null) {
-            return null;
-        } else {
+        } else if (obj != null) {
             m(obj);
             return obj;
+        } else {
+            return null;
         }
     }
 

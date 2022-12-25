@@ -86,10 +86,9 @@ public class TLRPC$TL_account_authorizationForm extends TLObject {
             }
             this.users.add(TLdeserialize4);
         }
-        if ((this.flags & 1) == 0) {
-            return;
+        if ((this.flags & 1) != 0) {
+            this.privacy_policy_url = abstractSerializedData.readString(z);
         }
-        this.privacy_policy_url = abstractSerializedData.readString(z);
     }
 
     @Override // org.telegram.tgnet.TLObject

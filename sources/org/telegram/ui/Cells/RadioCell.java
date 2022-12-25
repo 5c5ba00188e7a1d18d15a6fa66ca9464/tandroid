@@ -50,7 +50,6 @@ public class RadioCell extends FrameLayout {
         this.textView.setMaxLines(1);
         this.textView.setSingleLine(true);
         this.textView.setEllipsize(TextUtils.TruncateAt.END);
-        int i2 = 5;
         this.textView.setGravity((LocaleController.isRTL ? 5 : 3) | 16);
         float f = i;
         addView(this.textView, LayoutHelper.createFrame(-1, -1.0f, (LocaleController.isRTL ? 5 : 3) | 48, f, 0.0f, f, 0.0f));
@@ -64,7 +63,7 @@ public class RadioCell extends FrameLayout {
         }
         RadioButton radioButton2 = this.radioButton;
         boolean z2 = LocaleController.isRTL;
-        addView(radioButton2, LayoutHelper.createFrame(22, 22.0f, (z2 ? 3 : i2) | 48, z2 ? i + 1 : 0, 14.0f, !z2 ? i + 1 : 0, 0.0f));
+        addView(radioButton2, LayoutHelper.createFrame(22, 22.0f, (z2 ? 3 : 5) | 48, z2 ? i + 1 : 0, 14.0f, z2 ? 0 : i + 1, 0.0f));
     }
 
     @Override // android.widget.FrameLayout, android.view.View
@@ -96,7 +95,6 @@ public class RadioCell extends FrameLayout {
 
     public void setEnabled(boolean z, ArrayList<Animator> arrayList) {
         super.setEnabled(z);
-        float f = 1.0f;
         if (arrayList != null) {
             TextView textView = this.textView;
             Property property = View.ALPHA;
@@ -106,19 +104,12 @@ public class RadioCell extends FrameLayout {
             RadioButton radioButton = this.radioButton;
             Property property2 = View.ALPHA;
             float[] fArr2 = new float[1];
-            if (!z) {
-                f = 0.5f;
-            }
-            fArr2[0] = f;
+            fArr2[0] = z ? 1.0f : 0.5f;
             arrayList.add(ObjectAnimator.ofFloat(radioButton, property2, fArr2));
             return;
         }
         this.textView.setAlpha(z ? 1.0f : 0.5f);
-        RadioButton radioButton2 = this.radioButton;
-        if (!z) {
-            f = 0.5f;
-        }
-        radioButton2.setAlpha(f);
+        this.radioButton.setAlpha(z ? 1.0f : 0.5f);
     }
 
     public void hideRadioButton() {

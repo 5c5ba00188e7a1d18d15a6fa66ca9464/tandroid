@@ -114,7 +114,7 @@ public class CryptoUtils {
         this(context, DEFAULT_CRYPTO_FACTORY, Build.VERSION.SDK_INT);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:15:0x0044 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x0044 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     @TargetApi(23)
     /*
         Code decompiled incorrectly, please refer to instructions dump.

@@ -21,21 +21,21 @@ import org.telegram.ui.Charts.view_data.PieLegendView;
 import org.telegram.ui.Charts.view_data.TransitionParams;
 /* loaded from: classes3.dex */
 public class PieChartView extends StackLinearChartView<PieChartViewData> {
+    float MAX_TEXT_SIZE;
+    float MIN_TEXT_SIZE;
+    int currentSelection;
     float[] darawingValuesPercentage;
+    float emptyDataAlpha;
     boolean isEmpty;
+    int lastEndIndex;
+    int lastStartIndex;
+    String[] lookupTable;
+    int oldW;
     PieLegendView pieLegendView;
+    RectF rectF;
     float sum;
     TextPaint textPaint;
     float[] values;
-    int currentSelection = -1;
-    RectF rectF = new RectF();
-    float MIN_TEXT_SIZE = AndroidUtilities.dp(9.0f);
-    float MAX_TEXT_SIZE = AndroidUtilities.dp(13.0f);
-    String[] lookupTable = new String[FileLoader.MEDIA_DIR_VIDEO_PUBLIC];
-    float emptyDataAlpha = 1.0f;
-    int oldW = 0;
-    int lastStartIndex = -1;
-    int lastEndIndex = -1;
 
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Charts.BaseChartView
@@ -64,6 +64,15 @@ public class PieChartView extends StackLinearChartView<PieChartViewData> {
 
     public PieChartView(Context context) {
         super(context);
+        this.currentSelection = -1;
+        this.rectF = new RectF();
+        this.MIN_TEXT_SIZE = AndroidUtilities.dp(9.0f);
+        this.MAX_TEXT_SIZE = AndroidUtilities.dp(13.0f);
+        this.lookupTable = new String[FileLoader.MEDIA_DIR_VIDEO_PUBLIC];
+        this.emptyDataAlpha = 1.0f;
+        this.oldW = 0;
+        this.lastStartIndex = -1;
+        this.lastEndIndex = -1;
         for (int i = 1; i <= 100; i++) {
             String[] strArr = this.lookupTable;
             strArr[i] = i + "%";
@@ -137,10 +146,10 @@ public class PieChartView extends StackLinearChartView<PieChartViewData> {
             f14 += ((PieChartViewData) this.lines.get(i6)).drawingPart * ((PieChartViewData) this.lines.get(i6)).alpha;
         }
         if (f14 == 0.0f) {
-            if (canvas3 == null) {
+            if (canvas3 != null) {
+                canvas.restore();
                 return;
             }
-            canvas.restore();
             return;
         }
         float f15 = -90.0f;
@@ -222,72 +231,71 @@ public class PieChartView extends StackLinearChartView<PieChartViewData> {
         }
         int i8 = i5;
         float f18 = f14;
-        if (canvas3 == null) {
-            return;
-        }
-        int i9 = 0;
-        while (i9 < size) {
-            if (((PieChartViewData) this.lines.get(i9)).alpha > 0.0f || ((PieChartViewData) this.lines.get(i9)).enabled) {
-                float f19 = (((PieChartViewData) this.lines.get(i9)).drawingPart * ((PieChartViewData) this.lines.get(i9)).alpha) / f18;
-                canvas.save();
-                double d4 = f15 + ((f19 / f) * 360.0f);
-                if (((PieChartViewData) this.lines.get(i9)).selectionA > 0.0f) {
-                    float interpolation2 = BaseChartView.INTERPOLATOR.getInterpolation(((PieChartViewData) this.lines.get(i9)).selectionA);
-                    double cos2 = Math.cos(Math.toRadians(d4));
-                    double dp3 = AndroidUtilities.dp(f2);
-                    Double.isNaN(dp3);
-                    double d5 = cos2 * dp3;
-                    double d6 = interpolation2;
-                    Double.isNaN(d6);
-                    float f20 = (float) (d5 * d6);
-                    double sin2 = Math.sin(Math.toRadians(d4));
-                    double dp4 = AndroidUtilities.dp(f2);
-                    Double.isNaN(dp4);
-                    Double.isNaN(d6);
-                    canvas3.translate(f20, (float) (sin2 * dp4 * d6));
-                }
-                int i10 = (int) (100.0f * f19);
-                if (f19 < 0.02f || i10 <= 0 || i10 > 100) {
-                    f3 = f19;
+        if (canvas3 != null) {
+            int i9 = 0;
+            while (i9 < size) {
+                if (((PieChartViewData) this.lines.get(i9)).alpha > 0.0f || ((PieChartViewData) this.lines.get(i9)).enabled) {
+                    float f19 = (((PieChartViewData) this.lines.get(i9)).drawingPart * ((PieChartViewData) this.lines.get(i9)).alpha) / f18;
+                    canvas.save();
+                    double d4 = f15 + ((f19 / f) * 360.0f);
+                    if (((PieChartViewData) this.lines.get(i9)).selectionA > 0.0f) {
+                        float interpolation2 = BaseChartView.INTERPOLATOR.getInterpolation(((PieChartViewData) this.lines.get(i9)).selectionA);
+                        double cos2 = Math.cos(Math.toRadians(d4));
+                        double dp3 = AndroidUtilities.dp(f2);
+                        Double.isNaN(dp3);
+                        double d5 = cos2 * dp3;
+                        double d6 = interpolation2;
+                        Double.isNaN(d6);
+                        float f20 = (float) (d5 * d6);
+                        double sin2 = Math.sin(Math.toRadians(d4));
+                        double dp4 = AndroidUtilities.dp(f2);
+                        Double.isNaN(dp4);
+                        Double.isNaN(d6);
+                        canvas3.translate(f20, (float) (sin2 * dp4 * d6));
+                    }
+                    int i10 = (int) (100.0f * f19);
+                    if (f19 < 0.02f || i10 <= 0 || i10 > 100) {
+                        f3 = f19;
+                        canvas2 = canvas3;
+                        i2 = i8;
+                    } else {
+                        double width = this.rectF.width() * 0.42f;
+                        double sqrt = Math.sqrt(f6 - f19);
+                        Double.isNaN(width);
+                        float f21 = (float) (width * sqrt);
+                        this.textPaint.setTextSize(this.MIN_TEXT_SIZE + (this.MAX_TEXT_SIZE * f19));
+                        i2 = i8;
+                        this.textPaint.setAlpha((int) (i2 * ((PieChartViewData) this.lines.get(i9)).alpha));
+                        String str = this.lookupTable[i10];
+                        double centerX = this.rectF.centerX();
+                        double d7 = f21;
+                        double cos3 = Math.cos(Math.toRadians(d4));
+                        Double.isNaN(d7);
+                        Double.isNaN(centerX);
+                        f3 = f19;
+                        double centerY = this.rectF.centerY();
+                        double sin3 = Math.sin(Math.toRadians(d4));
+                        Double.isNaN(d7);
+                        Double.isNaN(centerY);
+                        canvas2 = canvas;
+                        canvas2.drawText(str, (float) (centerX + (cos3 * d7)), ((float) (centerY + (d7 * sin3))) - ((this.textPaint.descent() + this.textPaint.ascent()) / 2.0f), this.textPaint);
+                    }
+                    canvas.restore();
+                    ((PieChartViewData) this.lines.get(i9)).paint.setAlpha(255);
+                    f15 += f3 * 360.0f;
+                } else {
                     canvas2 = canvas3;
                     i2 = i8;
-                } else {
-                    double width = this.rectF.width() * 0.42f;
-                    double sqrt = Math.sqrt(f6 - f19);
-                    Double.isNaN(width);
-                    float f21 = (float) (width * sqrt);
-                    this.textPaint.setTextSize(this.MIN_TEXT_SIZE + (this.MAX_TEXT_SIZE * f19));
-                    i2 = i8;
-                    this.textPaint.setAlpha((int) (i2 * ((PieChartViewData) this.lines.get(i9)).alpha));
-                    String str = this.lookupTable[i10];
-                    double centerX = this.rectF.centerX();
-                    double d7 = f21;
-                    double cos3 = Math.cos(Math.toRadians(d4));
-                    Double.isNaN(d7);
-                    Double.isNaN(centerX);
-                    f3 = f19;
-                    double centerY = this.rectF.centerY();
-                    double sin3 = Math.sin(Math.toRadians(d4));
-                    Double.isNaN(d7);
-                    Double.isNaN(centerY);
-                    canvas2 = canvas;
-                    canvas2.drawText(str, (float) (centerX + (cos3 * d7)), ((float) (centerY + (d7 * sin3))) - ((this.textPaint.descent() + this.textPaint.ascent()) / 2.0f), this.textPaint);
                 }
-                canvas.restore();
-                ((PieChartViewData) this.lines.get(i9)).paint.setAlpha(255);
-                f15 += f3 * 360.0f;
-            } else {
-                canvas2 = canvas3;
-                i2 = i8;
+                i9++;
+                canvas3 = canvas2;
+                i8 = i2;
+                f = 2.0f;
+                f2 = 8.0f;
+                f6 = 1.0f;
             }
-            i9++;
-            canvas3 = canvas2;
-            i8 = i2;
-            f = 2.0f;
-            f2 = 8.0f;
-            f6 = 1.0f;
+            canvas.restore();
         }
-        canvas.restore();
     }
 
     @Override // org.telegram.ui.Charts.StackLinearChartView, org.telegram.ui.Charts.BaseChartView
@@ -725,13 +733,12 @@ public class PieChartView extends StackLinearChartView<PieChartViewData> {
         int i = 0;
         while (true) {
             float[] fArr = this.darawingValuesPercentage;
-            if (i < fArr.length) {
-                f += fArr[i];
-                transitionParams.angle[i] = (360.0f * f) - 180.0f;
-                i++;
-            } else {
+            if (i >= fArr.length) {
                 return;
             }
+            f += fArr[i];
+            transitionParams.angle[i] = (360.0f * f) - 180.0f;
+            i++;
         }
     }
 }

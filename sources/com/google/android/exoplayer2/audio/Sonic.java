@@ -274,7 +274,6 @@ final class Sonic {
         int i6 = 0;
         while (true) {
             int i7 = this.pitchFrameCount;
-            boolean z = true;
             if (i6 < i7 - 1) {
                 while (true) {
                     i2 = this.oldRatePosition;
@@ -299,10 +298,7 @@ final class Sonic {
                 this.oldRatePosition = i11;
                 if (i11 == i4) {
                     this.oldRatePosition = 0;
-                    if (i3 != i5) {
-                        z = false;
-                    }
-                    Assertions.checkState(z);
+                    Assertions.checkState(i3 == i5);
                     this.newRatePosition = 0;
                 }
                 i6++;

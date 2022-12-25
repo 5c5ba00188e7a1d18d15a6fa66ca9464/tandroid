@@ -29,31 +29,37 @@ public class TextSelectionHint extends View {
     int animateToStart;
     int currentEnd;
     int currentStart;
+    Runnable dismissTunnable;
     int end;
     float endOffsetValue;
     float enterValue;
+    private Interpolator interpolator;
     int lastW;
+    int padding;
+    Path path;
     float prepareProgress;
     private final Theme.ResourcesProvider resourcesProvider;
+    Paint selectionPaint;
     private boolean showOnMeasure;
     boolean showing;
     int start;
     float startOffsetValue;
     StaticLayout textLayout;
-    TextPaint textPaint = new TextPaint(1);
-    Paint selectionPaint = new Paint(1);
-    int padding = AndroidUtilities.dp(24.0f);
-    private Interpolator interpolator = new OvershootInterpolator();
-    Runnable dismissTunnable = new Runnable() { // from class: org.telegram.ui.Components.TextSelectionHint$$ExternalSyntheticLambda5
-        @Override // java.lang.Runnable
-        public final void run() {
-            TextSelectionHint.this.hideInternal();
-        }
-    };
-    Path path = new Path();
+    TextPaint textPaint;
 
     public TextSelectionHint(Context context, Theme.ResourcesProvider resourcesProvider) {
         super(context);
+        this.textPaint = new TextPaint(1);
+        this.selectionPaint = new Paint(1);
+        this.padding = AndroidUtilities.dp(24.0f);
+        this.interpolator = new OvershootInterpolator();
+        this.dismissTunnable = new Runnable() { // from class: org.telegram.ui.Components.TextSelectionHint$$ExternalSyntheticLambda5
+            @Override // java.lang.Runnable
+            public final void run() {
+                TextSelectionHint.this.hideInternal();
+            }
+        };
+        this.path = new Path();
         this.resourcesProvider = resourcesProvider;
         int themedColor = getThemedColor("undo_infoColor");
         int alpha = Color.alpha(themedColor);
@@ -79,20 +85,17 @@ public class TextSelectionHint extends View {
             }
             String string = LocaleController.getString("TextSelectionHit", R.string.TextSelectionHit);
             Matcher matcher = Pattern.compile("\\*\\*.*\\*\\*").matcher(string);
-            String str = null;
-            if (matcher.matches()) {
-                str = matcher.group();
-            }
+            String group = matcher.matches() ? matcher.group() : null;
             String replace = string.replace("**", "");
             this.textLayout = new StaticLayout(replace, this.textPaint, getMeasuredWidth() - (this.padding * 2), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
             this.start = 0;
             this.end = 0;
-            if (str != null) {
-                this.start = replace.indexOf(str);
+            if (group != null) {
+                this.start = replace.indexOf(group);
             }
             int i3 = this.start;
             if (i3 > 0) {
-                this.end = i3 + str.length();
+                this.end = i3 + group.length();
             } else {
                 int i4 = 0;
                 for (int i5 = 0; i5 < replace.length(); i5++) {

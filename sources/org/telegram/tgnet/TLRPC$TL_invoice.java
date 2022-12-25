@@ -77,10 +77,9 @@ public class TLRPC$TL_invoice extends TLObject {
                 this.suggested_tip_amounts.add(Long.valueOf(abstractSerializedData.readInt64(z)));
             }
         }
-        if ((this.flags & 512) == 0) {
-            return;
+        if ((this.flags & 512) != 0) {
+            this.recurring_terms_url = abstractSerializedData.readString(z);
         }
-        this.recurring_terms_url = abstractSerializedData.readString(z);
     }
 
     @Override // org.telegram.tgnet.TLObject

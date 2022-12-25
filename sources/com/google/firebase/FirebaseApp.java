@@ -71,10 +71,10 @@ public class FirebaseApp {
     }
 
     public boolean equals(Object obj) {
-        if (!(obj instanceof FirebaseApp)) {
-            return false;
+        if (obj instanceof FirebaseApp) {
+            return this.name.equals(((FirebaseApp) obj).getName());
         }
-        return this.name.equals(((FirebaseApp) obj).getName());
+        return false;
     }
 
     public int hashCode() {
@@ -214,10 +214,9 @@ public class FirebaseApp {
         public static void ensureReceiverRegistered(Context context) {
             if (INSTANCE.get() == null) {
                 UserUnlockReceiver userUnlockReceiver = new UserUnlockReceiver(context);
-                if (!INSTANCE.compareAndSet(null, userUnlockReceiver)) {
-                    return;
+                if (INSTANCE.compareAndSet(null, userUnlockReceiver)) {
+                    context.registerReceiver(userUnlockReceiver, new IntentFilter("android.intent.action.USER_UNLOCKED"));
                 }
-                context.registerReceiver(userUnlockReceiver, new IntentFilter("android.intent.action.USER_UNLOCKED"));
             }
         }
 
@@ -247,19 +246,16 @@ public class FirebaseApp {
 
         /* JADX INFO: Access modifiers changed from: private */
         public static void ensureBackgroundStateListenerRegistered(Context context) {
-            if (!PlatformVersion.isAtLeastIceCreamSandwich() || !(context.getApplicationContext() instanceof Application)) {
-                return;
+            if (PlatformVersion.isAtLeastIceCreamSandwich() && (context.getApplicationContext() instanceof Application)) {
+                Application application = (Application) context.getApplicationContext();
+                if (INSTANCE.get() == null) {
+                    GlobalBackgroundStateListener globalBackgroundStateListener = new GlobalBackgroundStateListener();
+                    if (INSTANCE.compareAndSet(null, globalBackgroundStateListener)) {
+                        BackgroundDetector.initialize(application);
+                        BackgroundDetector.getInstance().addListener(globalBackgroundStateListener);
+                    }
+                }
             }
-            Application application = (Application) context.getApplicationContext();
-            if (INSTANCE.get() != null) {
-                return;
-            }
-            GlobalBackgroundStateListener globalBackgroundStateListener = new GlobalBackgroundStateListener();
-            if (!INSTANCE.compareAndSet(null, globalBackgroundStateListener)) {
-                return;
-            }
-            BackgroundDetector.initialize(application);
-            BackgroundDetector.getInstance().addListener(globalBackgroundStateListener);
         }
 
         @Override // com.google.android.gms.common.api.internal.BackgroundDetector.BackgroundStateChangeListener

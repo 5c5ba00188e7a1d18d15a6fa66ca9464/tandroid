@@ -29,11 +29,11 @@ public final class ApiKey<O extends Api.ApiOptions> {
         if (obj == this) {
             return true;
         }
-        if (!(obj instanceof ApiKey)) {
-            return false;
+        if (obj instanceof ApiKey) {
+            ApiKey apiKey = (ApiKey) obj;
+            return Objects.equal(this.zab, apiKey.zab) && Objects.equal(this.zac, apiKey.zac) && Objects.equal(this.zad, apiKey.zad);
         }
-        ApiKey apiKey = (ApiKey) obj;
-        return Objects.equal(this.zab, apiKey.zab) && Objects.equal(this.zac, apiKey.zac) && Objects.equal(this.zad, apiKey.zad);
+        return false;
     }
 
     public final int hashCode() {

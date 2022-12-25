@@ -83,20 +83,20 @@ public final class NotificationManagerCompat {
         if (i >= 24) {
             return this.mNotificationManager.areNotificationsEnabled();
         }
-        if (i < 19) {
-            return true;
+        if (i >= 19) {
+            AppOpsManager appOpsManager = (AppOpsManager) this.mContext.getSystemService("appops");
+            ApplicationInfo applicationInfo = this.mContext.getApplicationInfo();
+            String packageName = this.mContext.getApplicationContext().getPackageName();
+            int i2 = applicationInfo.uid;
+            try {
+                Class<?> cls = Class.forName(AppOpsManager.class.getName());
+                Class<?> cls2 = Integer.TYPE;
+                return ((Integer) cls.getMethod("checkOpNoThrow", cls2, cls2, String.class).invoke(appOpsManager, Integer.valueOf(((Integer) cls.getDeclaredField("OP_POST_NOTIFICATION").get(Integer.class)).intValue()), Integer.valueOf(i2), packageName)).intValue() == 0;
+            } catch (ClassNotFoundException | IllegalAccessException | NoSuchFieldException | NoSuchMethodException | RuntimeException | InvocationTargetException unused) {
+                return true;
+            }
         }
-        AppOpsManager appOpsManager = (AppOpsManager) this.mContext.getSystemService("appops");
-        ApplicationInfo applicationInfo = this.mContext.getApplicationInfo();
-        String packageName = this.mContext.getApplicationContext().getPackageName();
-        int i2 = applicationInfo.uid;
-        try {
-            Class<?> cls = Class.forName(AppOpsManager.class.getName());
-            Class<?> cls2 = Integer.TYPE;
-            return ((Integer) cls.getMethod("checkOpNoThrow", cls2, cls2, String.class).invoke(appOpsManager, Integer.valueOf(((Integer) cls.getDeclaredField("OP_POST_NOTIFICATION").get(Integer.class)).intValue()), Integer.valueOf(i2), packageName)).intValue() == 0;
-        } catch (ClassNotFoundException | IllegalAccessException | NoSuchFieldException | NoSuchMethodException | RuntimeException | InvocationTargetException unused) {
-            return true;
-        }
+        return true;
     }
 
     public static Set<String> getEnabledListenerPackages(Context context) {

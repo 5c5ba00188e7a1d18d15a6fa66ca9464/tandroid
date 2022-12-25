@@ -67,27 +67,27 @@ final class zzaz extends zzav<Boolean> implements zzcn<Boolean> {
     public final boolean addAll(Collection<? extends Boolean> collection) {
         zzw();
         zzci.checkNotNull(collection);
-        if (!(collection instanceof zzaz)) {
-            return super.addAll(collection);
-        }
-        zzaz zzazVar = (zzaz) collection;
-        int i = zzazVar.size;
-        if (i == 0) {
-            return false;
-        }
-        int i2 = this.size;
-        if (ConnectionsManager.DEFAULT_DATACENTER_ID - i2 < i) {
+        if (collection instanceof zzaz) {
+            zzaz zzazVar = (zzaz) collection;
+            int i = zzazVar.size;
+            if (i == 0) {
+                return false;
+            }
+            int i2 = this.size;
+            if (ConnectionsManager.DEFAULT_DATACENTER_ID - i2 >= i) {
+                int i3 = i2 + i;
+                boolean[] zArr = this.zzfh;
+                if (i3 > zArr.length) {
+                    this.zzfh = Arrays.copyOf(zArr, i3);
+                }
+                System.arraycopy(zzazVar.zzfh, 0, this.zzfh, this.size, zzazVar.size);
+                this.size = i3;
+                ((AbstractList) this).modCount++;
+                return true;
+            }
             throw new OutOfMemoryError();
         }
-        int i3 = i2 + i;
-        boolean[] zArr = this.zzfh;
-        if (i3 > zArr.length) {
-            this.zzfh = Arrays.copyOf(zArr, i3);
-        }
-        System.arraycopy(zzazVar.zzfh, 0, this.zzfh, this.size, zzazVar.size);
-        this.size = i3;
-        ((AbstractList) this).modCount++;
-        return true;
+        return super.addAll(collection);
     }
 
     public final void addBoolean(boolean z) {
@@ -99,20 +99,20 @@ final class zzaz extends zzav<Boolean> implements zzcn<Boolean> {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof zzaz)) {
-            return super.equals(obj);
-        }
-        zzaz zzazVar = (zzaz) obj;
-        if (this.size != zzazVar.size) {
-            return false;
-        }
-        boolean[] zArr = zzazVar.zzfh;
-        for (int i = 0; i < this.size; i++) {
-            if (this.zzfh[i] != zArr[i]) {
+        if (obj instanceof zzaz) {
+            zzaz zzazVar = (zzaz) obj;
+            if (this.size != zzazVar.size) {
                 return false;
             }
+            boolean[] zArr = zzazVar.zzfh;
+            for (int i = 0; i < this.size; i++) {
+                if (this.zzfh[i] != zArr[i]) {
+                    return false;
+                }
+            }
+            return true;
         }
-        return true;
+        return super.equals(obj);
     }
 
     @Override // java.util.AbstractList, java.util.List
@@ -163,14 +163,13 @@ final class zzaz extends zzav<Boolean> implements zzcn<Boolean> {
     @Override // java.util.AbstractList
     protected final void removeRange(int i, int i2) {
         zzw();
-        if (i2 >= i) {
-            boolean[] zArr = this.zzfh;
-            System.arraycopy(zArr, i2, zArr, i, this.size - i2);
-            this.size -= i2 - i;
-            ((AbstractList) this).modCount++;
-            return;
+        if (i2 < i) {
+            throw new IndexOutOfBoundsException("toIndex < fromIndex");
         }
-        throw new IndexOutOfBoundsException("toIndex < fromIndex");
+        boolean[] zArr = this.zzfh;
+        System.arraycopy(zArr, i2, zArr, i, this.size - i2);
+        this.size -= i2 - i;
+        ((AbstractList) this).modCount++;
     }
 
     @Override // java.util.AbstractList, java.util.List

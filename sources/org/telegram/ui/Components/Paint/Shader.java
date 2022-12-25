@@ -46,10 +46,9 @@ public class Shader {
             GLES20.glDeleteShader(i2);
         }
         int i3 = compileShader2.shader;
-        if (i3 == 0) {
-            return;
+        if (i3 != 0) {
+            GLES20.glDeleteShader(i3);
         }
-        GLES20.glDeleteShader(i3);
     }
 
     public void cleanResources() {

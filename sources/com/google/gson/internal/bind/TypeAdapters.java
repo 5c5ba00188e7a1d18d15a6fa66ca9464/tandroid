@@ -40,9 +40,12 @@ public final class TypeAdapters {
     public static final TypeAdapter<AtomicIntegerArray> ATOMIC_INTEGER_ARRAY;
     public static final TypeAdapterFactory ATOMIC_INTEGER_ARRAY_FACTORY;
     public static final TypeAdapterFactory ATOMIC_INTEGER_FACTORY;
+    public static final TypeAdapter<BigDecimal> BIG_DECIMAL;
+    public static final TypeAdapter<BigInteger> BIG_INTEGER;
     public static final TypeAdapter<BitSet> BIT_SET;
     public static final TypeAdapterFactory BIT_SET_FACTORY;
     public static final TypeAdapter<Boolean> BOOLEAN;
+    public static final TypeAdapter<Boolean> BOOLEAN_AS_STRING;
     public static final TypeAdapterFactory BOOLEAN_FACTORY;
     public static final TypeAdapter<Number> BYTE;
     public static final TypeAdapterFactory BYTE_FACTORY;
@@ -54,14 +57,19 @@ public final class TypeAdapters {
     public static final TypeAdapterFactory CLASS_FACTORY;
     public static final TypeAdapter<Currency> CURRENCY;
     public static final TypeAdapterFactory CURRENCY_FACTORY;
+    public static final TypeAdapter<Number> DOUBLE;
+    public static final TypeAdapterFactory ENUM_FACTORY;
+    public static final TypeAdapter<Number> FLOAT;
     public static final TypeAdapter<InetAddress> INET_ADDRESS;
     public static final TypeAdapterFactory INET_ADDRESS_FACTORY;
     public static final TypeAdapter<Number> INTEGER;
     public static final TypeAdapterFactory INTEGER_FACTORY;
     public static final TypeAdapter<JsonElement> JSON_ELEMENT;
     public static final TypeAdapterFactory JSON_ELEMENT_FACTORY;
+    public static final TypeAdapter<LazilyParsedNumber> LAZILY_PARSED_NUMBER;
     public static final TypeAdapter<Locale> LOCALE;
     public static final TypeAdapterFactory LOCALE_FACTORY;
+    public static final TypeAdapter<Number> LONG;
     public static final TypeAdapter<Number> SHORT;
     public static final TypeAdapterFactory SHORT_FACTORY;
     public static final TypeAdapter<String> STRING;
@@ -76,76 +84,6 @@ public final class TypeAdapters {
     public static final TypeAdapterFactory URL_FACTORY;
     public static final TypeAdapter<UUID> UUID;
     public static final TypeAdapterFactory UUID_FACTORY;
-    public static final TypeAdapter<Boolean> BOOLEAN_AS_STRING = new TypeAdapter<Boolean>() { // from class: com.google.gson.internal.bind.TypeAdapters.4
-        @Override // com.google.gson.TypeAdapter
-        public void write(JsonWriter jsonWriter, Boolean bool) throws IOException {
-            jsonWriter.value(bool == null ? "null" : bool.toString());
-        }
-    };
-    public static final TypeAdapter<Number> LONG = new TypeAdapter<Number>() { // from class: com.google.gson.internal.bind.TypeAdapters.11
-        @Override // com.google.gson.TypeAdapter
-        public void write(JsonWriter jsonWriter, Number number) throws IOException {
-            if (number == null) {
-                jsonWriter.nullValue();
-            } else {
-                jsonWriter.value(number.longValue());
-            }
-        }
-    };
-    public static final TypeAdapter<Number> FLOAT = new TypeAdapter<Number>() { // from class: com.google.gson.internal.bind.TypeAdapters.12
-        @Override // com.google.gson.TypeAdapter
-        public void write(JsonWriter jsonWriter, Number number) throws IOException {
-            if (number == null) {
-                jsonWriter.nullValue();
-                return;
-            }
-            if (!(number instanceof Float)) {
-                number = Float.valueOf(number.floatValue());
-            }
-            jsonWriter.value(number);
-        }
-    };
-    public static final TypeAdapter<Number> DOUBLE = new TypeAdapter<Number>() { // from class: com.google.gson.internal.bind.TypeAdapters.13
-        @Override // com.google.gson.TypeAdapter
-        public void write(JsonWriter jsonWriter, Number number) throws IOException {
-            if (number == null) {
-                jsonWriter.nullValue();
-            } else {
-                jsonWriter.value(number.doubleValue());
-            }
-        }
-    };
-    public static final TypeAdapter<BigDecimal> BIG_DECIMAL = new TypeAdapter<BigDecimal>() { // from class: com.google.gson.internal.bind.TypeAdapters.16
-        @Override // com.google.gson.TypeAdapter
-        public void write(JsonWriter jsonWriter, BigDecimal bigDecimal) throws IOException {
-            jsonWriter.value(bigDecimal);
-        }
-    };
-    public static final TypeAdapter<BigInteger> BIG_INTEGER = new TypeAdapter<BigInteger>() { // from class: com.google.gson.internal.bind.TypeAdapters.17
-        @Override // com.google.gson.TypeAdapter
-        public void write(JsonWriter jsonWriter, BigInteger bigInteger) throws IOException {
-            jsonWriter.value(bigInteger);
-        }
-    };
-    public static final TypeAdapter<LazilyParsedNumber> LAZILY_PARSED_NUMBER = new TypeAdapter<LazilyParsedNumber>() { // from class: com.google.gson.internal.bind.TypeAdapters.18
-        @Override // com.google.gson.TypeAdapter
-        public void write(JsonWriter jsonWriter, LazilyParsedNumber lazilyParsedNumber) throws IOException {
-            jsonWriter.value(lazilyParsedNumber);
-        }
-    };
-    public static final TypeAdapterFactory ENUM_FACTORY = new TypeAdapterFactory() { // from class: com.google.gson.internal.bind.TypeAdapters.29
-        @Override // com.google.gson.TypeAdapterFactory
-        public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> typeToken) {
-            Class rawType = typeToken.getRawType();
-            if (!Enum.class.isAssignableFrom(rawType) || rawType == Enum.class) {
-                return null;
-            }
-            if (!rawType.isEnum()) {
-                rawType = (Class<? super Object>) rawType.getSuperclass();
-            }
-            return new EnumTypeAdapter(rawType);
-        }
-    };
 
     static {
         TypeAdapter<Class> nullSafe = new TypeAdapter<Class>() { // from class: com.google.gson.internal.bind.TypeAdapters.1
@@ -176,6 +114,12 @@ public final class TypeAdapters {
             }
         };
         BOOLEAN = typeAdapter;
+        BOOLEAN_AS_STRING = new TypeAdapter<Boolean>() { // from class: com.google.gson.internal.bind.TypeAdapters.4
+            @Override // com.google.gson.TypeAdapter
+            public void write(JsonWriter jsonWriter, Boolean bool) throws IOException {
+                jsonWriter.value(bool == null ? "null" : bool.toString());
+            }
+        };
         BOOLEAN_FACTORY = newFactory(Boolean.TYPE, Boolean.class, typeAdapter);
         TypeAdapter<Number> typeAdapter2 = new TypeAdapter<Number>() { // from class: com.google.gson.internal.bind.TypeAdapters.5
             @Override // com.google.gson.TypeAdapter
@@ -242,6 +186,39 @@ public final class TypeAdapters {
         }.nullSafe();
         ATOMIC_INTEGER_ARRAY = nullSafe5;
         ATOMIC_INTEGER_ARRAY_FACTORY = newFactory(AtomicIntegerArray.class, nullSafe5);
+        LONG = new TypeAdapter<Number>() { // from class: com.google.gson.internal.bind.TypeAdapters.11
+            @Override // com.google.gson.TypeAdapter
+            public void write(JsonWriter jsonWriter, Number number) throws IOException {
+                if (number == null) {
+                    jsonWriter.nullValue();
+                } else {
+                    jsonWriter.value(number.longValue());
+                }
+            }
+        };
+        FLOAT = new TypeAdapter<Number>() { // from class: com.google.gson.internal.bind.TypeAdapters.12
+            @Override // com.google.gson.TypeAdapter
+            public void write(JsonWriter jsonWriter, Number number) throws IOException {
+                if (number == null) {
+                    jsonWriter.nullValue();
+                    return;
+                }
+                if (!(number instanceof Float)) {
+                    number = Float.valueOf(number.floatValue());
+                }
+                jsonWriter.value(number);
+            }
+        };
+        DOUBLE = new TypeAdapter<Number>() { // from class: com.google.gson.internal.bind.TypeAdapters.13
+            @Override // com.google.gson.TypeAdapter
+            public void write(JsonWriter jsonWriter, Number number) throws IOException {
+                if (number == null) {
+                    jsonWriter.nullValue();
+                } else {
+                    jsonWriter.value(number.doubleValue());
+                }
+            }
+        };
         TypeAdapter<Character> typeAdapter5 = new TypeAdapter<Character>() { // from class: com.google.gson.internal.bind.TypeAdapters.14
             @Override // com.google.gson.TypeAdapter
             public void write(JsonWriter jsonWriter, Character ch) throws IOException {
@@ -257,6 +234,24 @@ public final class TypeAdapters {
             }
         };
         STRING = typeAdapter6;
+        BIG_DECIMAL = new TypeAdapter<BigDecimal>() { // from class: com.google.gson.internal.bind.TypeAdapters.16
+            @Override // com.google.gson.TypeAdapter
+            public void write(JsonWriter jsonWriter, BigDecimal bigDecimal) throws IOException {
+                jsonWriter.value(bigDecimal);
+            }
+        };
+        BIG_INTEGER = new TypeAdapter<BigInteger>() { // from class: com.google.gson.internal.bind.TypeAdapters.17
+            @Override // com.google.gson.TypeAdapter
+            public void write(JsonWriter jsonWriter, BigInteger bigInteger) throws IOException {
+                jsonWriter.value(bigInteger);
+            }
+        };
+        LAZILY_PARSED_NUMBER = new TypeAdapter<LazilyParsedNumber>() { // from class: com.google.gson.internal.bind.TypeAdapters.18
+            @Override // com.google.gson.TypeAdapter
+            public void write(JsonWriter jsonWriter, LazilyParsedNumber lazilyParsedNumber) throws IOException {
+                jsonWriter.value(lazilyParsedNumber);
+            }
+        };
         STRING_FACTORY = newFactory(String.class, typeAdapter6);
         TypeAdapter<StringBuilder> typeAdapter7 = new TypeAdapter<StringBuilder>() { // from class: com.google.gson.internal.bind.TypeAdapters.19
             @Override // com.google.gson.TypeAdapter
@@ -382,6 +377,19 @@ public final class TypeAdapters {
         };
         JSON_ELEMENT = typeAdapter15;
         JSON_ELEMENT_FACTORY = newTypeHierarchyFactory(JsonElement.class, typeAdapter15);
+        ENUM_FACTORY = new TypeAdapterFactory() { // from class: com.google.gson.internal.bind.TypeAdapters.29
+            @Override // com.google.gson.TypeAdapterFactory
+            public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> typeToken) {
+                Class rawType = typeToken.getRawType();
+                if (!Enum.class.isAssignableFrom(rawType) || rawType == Enum.class) {
+                    return null;
+                }
+                if (!rawType.isEnum()) {
+                    rawType = (Class<? super Object>) rawType.getSuperclass();
+                }
+                return new EnumTypeAdapter(rawType);
+            }
+        };
     }
 
     /* loaded from: classes.dex */
@@ -494,15 +502,15 @@ public final class TypeAdapters {
             @Override // com.google.gson.TypeAdapterFactory
             public <T2> TypeAdapter<T2> create(Gson gson, TypeToken<T2> typeToken) {
                 Class<? super T2> rawType = typeToken.getRawType();
-                if (!cls.isAssignableFrom(rawType)) {
-                    return null;
+                if (cls.isAssignableFrom(rawType)) {
+                    return (TypeAdapter<T2>) new TypeAdapter<T1>(rawType) { // from class: com.google.gson.internal.bind.TypeAdapters.34.1
+                        @Override // com.google.gson.TypeAdapter
+                        public void write(JsonWriter jsonWriter, T1 t1) throws IOException {
+                            typeAdapter.write(jsonWriter, t1);
+                        }
+                    };
                 }
-                return (TypeAdapter<T2>) new TypeAdapter<T1>(rawType) { // from class: com.google.gson.internal.bind.TypeAdapters.34.1
-                    @Override // com.google.gson.TypeAdapter
-                    public void write(JsonWriter jsonWriter, T1 t1) throws IOException {
-                        typeAdapter.write(jsonWriter, t1);
-                    }
-                };
+                return null;
             }
 
             public String toString() {

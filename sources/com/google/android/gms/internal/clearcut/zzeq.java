@@ -72,21 +72,20 @@ final class zzeq implements Iterator<Map.Entry<K, V>>, j$.util.Iterator {
     @Override // java.util.Iterator, j$.util.Iterator
     public final void remove() {
         List list;
-        if (this.zzow) {
-            this.zzow = false;
-            this.zzos.zzdu();
-            int i = this.pos;
-            list = this.zzos.zzom;
-            if (i >= list.size()) {
-                zzdw().remove();
-                return;
-            }
-            zzei zzeiVar = this.zzos;
-            int i2 = this.pos;
-            this.pos = i2 - 1;
-            zzeiVar.zzal(i2);
+        if (!this.zzow) {
+            throw new IllegalStateException("remove() was called before next()");
+        }
+        this.zzow = false;
+        this.zzos.zzdu();
+        int i = this.pos;
+        list = this.zzos.zzom;
+        if (i >= list.size()) {
+            zzdw().remove();
             return;
         }
-        throw new IllegalStateException("remove() was called before next()");
+        zzei zzeiVar = this.zzos;
+        int i2 = this.pos;
+        this.pos = i2 - 1;
+        zzeiVar.zzal(i2);
     }
 }

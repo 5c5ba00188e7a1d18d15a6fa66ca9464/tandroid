@@ -20,11 +20,11 @@ public class zzer extends AbstractSet<Map.Entry<K, V>> {
     @Override // java.util.AbstractCollection, java.util.Collection, java.util.Set
     public /* synthetic */ boolean add(Object obj) {
         Map.Entry entry = (Map.Entry) obj;
-        if (!contains(entry)) {
-            this.zzos.zza((zzei) ((Comparable) entry.getKey()), (Comparable) entry.getValue());
-            return true;
+        if (contains(entry)) {
+            return false;
         }
-        return false;
+        this.zzos.zza((zzei) ((Comparable) entry.getKey()), (Comparable) entry.getValue());
+        return true;
     }
 
     @Override // java.util.AbstractCollection, java.util.Collection, java.util.Set

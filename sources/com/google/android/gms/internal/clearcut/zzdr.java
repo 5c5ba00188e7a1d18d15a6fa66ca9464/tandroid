@@ -20,20 +20,20 @@ public final class zzdr {
         return sb.toString();
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:100:0x021a, code lost:
-        if (((java.lang.Double) r11).doubleValue() == 0.0d) goto L79;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:78:0x01e6, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:79:0x01e6, code lost:
         if (((java.lang.Boolean) r11).booleanValue() == false) goto L79;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:79:0x01e8, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:80:0x01e8, code lost:
         r7 = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:92:0x01f7, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:85:0x01f7, code lost:
         if (((java.lang.Integer) r11).intValue() == 0) goto L79;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:96:0x0208, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:90:0x0208, code lost:
         if (((java.lang.Float) r11).floatValue() == 0.0f) goto L79;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:95:0x021a, code lost:
+        if (((java.lang.Double) r11).doubleValue() == 0.0d) goto L79;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -54,8 +54,8 @@ public final class zzdr {
             }
         }
         for (String str : treeSet) {
-            String str2 = "";
-            String replaceFirst = str.replaceFirst("get", str2);
+            Object obj = "";
+            String replaceFirst = str.replaceFirst("get", "");
             boolean z = true;
             if (replaceFirst.endsWith("List") && !replaceFirst.endsWith("OrBuilderList") && !replaceFirst.equals("List")) {
                 String valueOf = String.valueOf(replaceFirst.substring(0, 1).toLowerCase());
@@ -93,7 +93,6 @@ public final class zzdr {
                             if (!(zza instanceof Integer)) {
                                 if (!(zza instanceof Float)) {
                                     if (!(zza instanceof Double)) {
-                                        Object obj = str2;
                                         if (!(zza instanceof String)) {
                                             if (zza instanceof zzbb) {
                                                 obj = zzbb.zzfi;

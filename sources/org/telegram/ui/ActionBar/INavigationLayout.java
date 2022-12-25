@@ -204,10 +204,7 @@ public interface INavigationLayout {
                 _this.showLastFragment();
                 return;
             }
-            boolean z = true;
-            if ((i & 1) == 0) {
-                z = false;
-            }
+            boolean z = (i & 1) != 0;
             _this.rebuildAllFragmentViews(z, z);
         }
 
@@ -256,9 +253,10 @@ public interface INavigationLayout {
 
         public static void $default$dismissDialogs(INavigationLayout _this) {
             List<BaseFragment> fragmentStack = _this.getFragmentStack();
-            if (!fragmentStack.isEmpty()) {
-                fragmentStack.get(fragmentStack.size() - 1).dismissCurrentDialog();
+            if (fragmentStack.isEmpty()) {
+                return;
             }
+            fragmentStack.get(fragmentStack.size() - 1).dismissCurrentDialog();
         }
     }
 

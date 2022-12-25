@@ -53,9 +53,10 @@ public final class zzfi$zzi extends zzjb<zzfi$zzi, zza> implements zzkm {
 
     private final void zzc() {
         zzjl<zzfi$zzf> zzjlVar = this.zzf;
-        if (!zzjlVar.zza()) {
-            this.zzf = zzjb.zza(zzjlVar);
+        if (zzjlVar.zza()) {
+            return;
         }
+        this.zzf = zzjb.zza(zzjlVar);
     }
 
     /* JADX INFO: Access modifiers changed from: private */

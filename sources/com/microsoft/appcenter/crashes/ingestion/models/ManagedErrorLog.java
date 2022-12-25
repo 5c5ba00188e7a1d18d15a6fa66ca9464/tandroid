@@ -60,29 +60,25 @@ public class ManagedErrorLog extends AbstractErrorLog {
         if (this == obj) {
             return true;
         }
-        if (obj == null || ManagedErrorLog.class != obj.getClass() || !super.equals(obj)) {
+        if (obj != null && ManagedErrorLog.class == obj.getClass() && super.equals(obj)) {
+            ManagedErrorLog managedErrorLog = (ManagedErrorLog) obj;
+            Exception exception = this.exception;
+            if (exception == null ? managedErrorLog.exception == null : exception.equals(managedErrorLog.exception)) {
+                List<Thread> list = this.threads;
+                List<Thread> list2 = managedErrorLog.threads;
+                return list != null ? list.equals(list2) : list2 == null;
+            }
             return false;
         }
-        ManagedErrorLog managedErrorLog = (ManagedErrorLog) obj;
-        Exception exception = this.exception;
-        if (exception == null ? managedErrorLog.exception != null : !exception.equals(managedErrorLog.exception)) {
-            return false;
-        }
-        List<Thread> list = this.threads;
-        List<Thread> list2 = managedErrorLog.threads;
-        return list != null ? list.equals(list2) : list2 == null;
+        return false;
     }
 
     @Override // com.microsoft.appcenter.crashes.ingestion.models.AbstractErrorLog, com.microsoft.appcenter.ingestion.models.AbstractLog
     public int hashCode() {
         int hashCode = super.hashCode() * 31;
         Exception exception = this.exception;
-        int i = 0;
         int hashCode2 = (hashCode + (exception != null ? exception.hashCode() : 0)) * 31;
         List<Thread> list = this.threads;
-        if (list != null) {
-            i = list.hashCode();
-        }
-        return hashCode2 + i;
+        return hashCode2 + (list != null ? list.hashCode() : 0);
     }
 }

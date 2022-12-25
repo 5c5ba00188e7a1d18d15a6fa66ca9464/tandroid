@@ -201,11 +201,10 @@ public final class DefaultHlsPlaylistTracker implements HlsPlaylistTracker, Load
             return;
         }
         HlsMediaPlaylist hlsMediaPlaylist = this.primaryMediaPlaylistSnapshot;
-        if (hlsMediaPlaylist != null && hlsMediaPlaylist.hasEndTag) {
-            return;
+        if (hlsMediaPlaylist == null || !hlsMediaPlaylist.hasEndTag) {
+            this.primaryMediaPlaylistUrl = uri;
+            this.playlistBundles.get(uri).loadPlaylist();
         }
-        this.primaryMediaPlaylistUrl = uri;
-        this.playlistBundles.get(uri).loadPlaylist();
     }
 
     private boolean isVariantUrl(Uri uri) {
@@ -254,10 +253,10 @@ public final class DefaultHlsPlaylistTracker implements HlsPlaylistTracker, Load
 
     /* JADX INFO: Access modifiers changed from: private */
     public HlsMediaPlaylist getLatestPlaylistSnapshot(HlsMediaPlaylist hlsMediaPlaylist, HlsMediaPlaylist hlsMediaPlaylist2) {
-        if (!hlsMediaPlaylist2.isNewerThan(hlsMediaPlaylist)) {
-            return hlsMediaPlaylist2.hasEndTag ? hlsMediaPlaylist.copyWithEndTag() : hlsMediaPlaylist;
+        if (hlsMediaPlaylist2.isNewerThan(hlsMediaPlaylist)) {
+            return hlsMediaPlaylist2.copyWith(getLoadedPlaylistStartTimeUs(hlsMediaPlaylist, hlsMediaPlaylist2), getLoadedPlaylistDiscontinuitySequence(hlsMediaPlaylist, hlsMediaPlaylist2));
         }
-        return hlsMediaPlaylist2.copyWith(getLoadedPlaylistStartTimeUs(hlsMediaPlaylist, hlsMediaPlaylist2), getLoadedPlaylistDiscontinuitySequence(hlsMediaPlaylist, hlsMediaPlaylist2));
+        return hlsMediaPlaylist2.hasEndTag ? hlsMediaPlaylist.copyWithEndTag() : hlsMediaPlaylist;
     }
 
     private long getLoadedPlaylistStartTimeUs(HlsMediaPlaylist hlsMediaPlaylist, HlsMediaPlaylist hlsMediaPlaylist2) {
@@ -351,10 +350,9 @@ public final class DefaultHlsPlaylistTracker implements HlsPlaylistTracker, Load
         public void maybeThrowPlaylistRefreshError() throws IOException {
             this.mediaPlaylistLoader.maybeThrowError();
             IOException iOException = this.playlistError;
-            if (iOException == null) {
-                return;
+            if (iOException != null) {
+                throw iOException;
             }
-            throw iOException;
         }
 
         @Override // com.google.android.exoplayer2.upstream.Loader.Callback

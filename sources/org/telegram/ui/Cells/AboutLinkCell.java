@@ -52,19 +52,28 @@ import org.telegram.ui.Components.URLSpanNoUnderline;
 public class AboutLinkCell extends FrameLayout {
     private static final int COLLAPSED_HEIGHT = AndroidUtilities.dp(76.0f);
     private static final int MOST_SPEC = View.MeasureSpec.makeMeasureSpec(999999, Integer.MIN_VALUE);
+    final float SPACE;
+    private Paint backgroundPaint;
     private FrameLayout bottomShadow;
     private ValueAnimator collapseAnimator;
     private FrameLayout container;
+    private float expandT;
     private boolean expanded;
     private StaticLayout firstThreeLinesLayout;
+    private int lastInlineLine;
+    private int lastMaxWidth;
     private LinkSpanDrawable.LinkCollector links;
+    Runnable longPressedRunnable;
     private boolean moreButtonDisabled;
+    private boolean needSpace;
+    private StaticLayout[] nextLinesLayouts;
     private Point[] nextLinesLayoutsPositions;
     private String oldText;
     private BaseFragment parentFragment;
     private LinkSpanDrawable pressedLink;
     private Theme.ResourcesProvider resourcesProvider;
     private Drawable rippleBackground;
+    private boolean shouldExpand;
     private Drawable showMoreBackgroundDrawable;
     private FrameLayout showMoreTextBackgroundView;
     private TextView showMoreTextView;
@@ -73,15 +82,6 @@ public class AboutLinkCell extends FrameLayout {
     private int textX;
     private int textY;
     private TextView valueTextView;
-    private StaticLayout[] nextLinesLayouts = null;
-    private int lastInlineLine = -1;
-    private boolean needSpace = false;
-    private Paint backgroundPaint = new Paint();
-    final float SPACE = AndroidUtilities.dp(3.0f);
-    Runnable longPressedRunnable = new 2();
-    private float expandT = 0.0f;
-    private int lastMaxWidth = 0;
-    private boolean shouldExpand = false;
 
     protected void didExtend() {
     }
@@ -104,6 +104,15 @@ public class AboutLinkCell extends FrameLayout {
         super(context);
         new Point();
         new LinkPath(true);
+        this.nextLinesLayouts = null;
+        this.lastInlineLine = -1;
+        this.needSpace = false;
+        this.backgroundPaint = new Paint();
+        this.SPACE = AndroidUtilities.dp(3.0f);
+        this.longPressedRunnable = new 2();
+        this.expandT = 0.0f;
+        this.lastMaxWidth = 0;
+        this.shouldExpand = false;
         this.resourcesProvider = resourcesProvider;
         this.parentFragment = baseFragment;
         FrameLayout frameLayout = new FrameLayout(context);
@@ -119,11 +128,10 @@ public class AboutLinkCell extends FrameLayout {
         this.valueTextView.setLines(1);
         this.valueTextView.setMaxLines(1);
         this.valueTextView.setSingleLine(true);
-        int i = 5;
         this.valueTextView.setGravity(LocaleController.isRTL ? 5 : 3);
         this.valueTextView.setImportantForAccessibility(2);
         this.valueTextView.setFocusable(false);
-        this.container.addView(this.valueTextView, LayoutHelper.createFrame(-2, -2.0f, (!LocaleController.isRTL ? 3 : i) | 80, 23.0f, 0.0f, 23.0f, 10.0f));
+        this.container.addView(this.valueTextView, LayoutHelper.createFrame(-2, -2.0f, (LocaleController.isRTL ? 5 : 3) | 80, 23.0f, 0.0f, 23.0f, 10.0f));
         this.bottomShadow = new FrameLayout(context);
         Drawable mutate = context.getResources().getDrawable(R.drawable.gradient_bottom).mutate();
         mutate.setColorFilter(new PorterDuffColorFilter(Theme.getColor("windowBackgroundWhite", resourcesProvider), PorterDuff.Mode.SRC_ATOP));
@@ -195,41 +203,41 @@ public class AboutLinkCell extends FrameLayout {
         boolean z;
         int x = (int) motionEvent.getX();
         int y = (int) motionEvent.getY();
-        if (this.showMoreTextView.getVisibility() != 0 || x < this.showMoreTextBackgroundView.getLeft() || x > this.showMoreTextBackgroundView.getRight() || y < this.showMoreTextBackgroundView.getTop() || y > this.showMoreTextBackgroundView.getBottom()) {
-            if (this.textLayout != null || this.nextLinesLayouts != null) {
-                if (motionEvent.getAction() == 0 || (this.pressedLink != null && motionEvent.getAction() == 1)) {
-                    if (motionEvent.getAction() == 0) {
-                        resetPressedLink();
-                        LinkSpanDrawable hitLink = hitLink(x, y);
-                        if (hitLink != null) {
-                            LinkSpanDrawable.LinkCollector linkCollector = this.links;
-                            this.pressedLink = hitLink;
-                            linkCollector.addLink(hitLink);
-                            AndroidUtilities.runOnUIThread(this.longPressedRunnable, ViewConfiguration.getLongPressTimeout());
-                            z = true;
-                        }
-                    } else {
-                        LinkSpanDrawable linkSpanDrawable = this.pressedLink;
-                        if (linkSpanDrawable != null) {
-                            try {
-                                onLinkClick((ClickableSpan) linkSpanDrawable.getSpan());
-                            } catch (Exception e) {
-                                FileLog.e(e);
-                            }
-                            resetPressedLink();
-                            z = true;
-                        }
-                    }
-                    return !z || super.onTouchEvent(motionEvent);
-                } else if (motionEvent.getAction() == 3) {
+        if (this.showMoreTextView.getVisibility() == 0 && x >= this.showMoreTextBackgroundView.getLeft() && x <= this.showMoreTextBackgroundView.getRight() && y >= this.showMoreTextBackgroundView.getTop() && y <= this.showMoreTextBackgroundView.getBottom()) {
+            return false;
+        }
+        if (this.textLayout != null || this.nextLinesLayouts != null) {
+            if (motionEvent.getAction() == 0 || (this.pressedLink != null && motionEvent.getAction() == 1)) {
+                if (motionEvent.getAction() == 0) {
                     resetPressedLink();
+                    LinkSpanDrawable hitLink = hitLink(x, y);
+                    if (hitLink != null) {
+                        LinkSpanDrawable.LinkCollector linkCollector = this.links;
+                        this.pressedLink = hitLink;
+                        linkCollector.addLink(hitLink);
+                        AndroidUtilities.runOnUIThread(this.longPressedRunnable, ViewConfiguration.getLongPressTimeout());
+                        z = true;
+                    }
+                } else {
+                    LinkSpanDrawable linkSpanDrawable = this.pressedLink;
+                    if (linkSpanDrawable != null) {
+                        try {
+                            onLinkClick((ClickableSpan) linkSpanDrawable.getSpan());
+                        } catch (Exception e) {
+                            FileLog.e(e);
+                        }
+                        resetPressedLink();
+                        z = true;
+                    }
                 }
-            }
-            z = false;
-            if (!z) {
+                return !z || super.onTouchEvent(motionEvent);
+            } else if (motionEvent.getAction() == 3) {
+                resetPressedLink();
             }
         }
-        return false;
+        z = false;
+        if (z) {
+        }
     }
 
     private void setShowMoreMarginBottom(int i) {
@@ -427,18 +435,16 @@ public class AboutLinkCell extends FrameLayout {
         public /* synthetic */ void lambda$run$0(ClickableSpan clickableSpan, String str, DialogInterface dialogInterface, int i) {
             if (i == 0) {
                 AboutLinkCell.this.onLinkClick(clickableSpan);
-            } else if (i != 1) {
-            } else {
+            } else if (i == 1) {
                 AndroidUtilities.addToClipboard(str);
-                if (!AndroidUtilities.shouldShowClipboardToast()) {
-                    return;
-                }
-                if (str.startsWith("@")) {
-                    BulletinFactory.of(AboutLinkCell.this.parentFragment).createSimpleBulletin(R.raw.copy, LocaleController.getString("UsernameCopied", R.string.UsernameCopied)).show();
-                } else if (str.startsWith("#") || str.startsWith("$")) {
-                    BulletinFactory.of(AboutLinkCell.this.parentFragment).createSimpleBulletin(R.raw.copy, LocaleController.getString("HashtagCopied", R.string.HashtagCopied)).show();
-                } else {
-                    BulletinFactory.of(AboutLinkCell.this.parentFragment).createSimpleBulletin(R.raw.copy, LocaleController.getString("LinkCopied", R.string.LinkCopied)).show();
+                if (AndroidUtilities.shouldShowClipboardToast()) {
+                    if (str.startsWith("@")) {
+                        BulletinFactory.of(AboutLinkCell.this.parentFragment).createSimpleBulletin(R.raw.copy, LocaleController.getString("UsernameCopied", R.string.UsernameCopied)).show();
+                    } else if (str.startsWith("#") || str.startsWith("$")) {
+                        BulletinFactory.of(AboutLinkCell.this.parentFragment).createSimpleBulletin(R.raw.copy, LocaleController.getString("HashtagCopied", R.string.HashtagCopied)).show();
+                    } else {
+                        BulletinFactory.of(AboutLinkCell.this.parentFragment).createSimpleBulletin(R.raw.copy, LocaleController.getString("LinkCopied", R.string.LinkCopied)).show();
+                    }
                 }
             }
         }
@@ -451,37 +457,37 @@ public class AboutLinkCell extends FrameLayout {
 
     private LinkSpanDrawable hitLink(int i, int i2) {
         if (i < this.showMoreTextView.getLeft() || i > this.showMoreTextView.getRight() || i2 < this.showMoreTextView.getTop() || i2 > this.showMoreTextView.getBottom()) {
-            if (getMeasuredWidth() > 0 && i > getMeasuredWidth() - AndroidUtilities.dp(23.0f)) {
-                return null;
-            }
-            StaticLayout staticLayout = this.firstThreeLinesLayout;
-            if (staticLayout != null && this.expandT < 1.0f && this.shouldExpand) {
-                LinkSpanDrawable checkTouchTextLayout = checkTouchTextLayout(staticLayout, this.textX, this.textY, i, i2);
-                if (checkTouchTextLayout != null) {
-                    return checkTouchTextLayout;
-                }
-                if (this.nextLinesLayouts != null) {
-                    int i3 = 0;
-                    while (true) {
-                        StaticLayout[] staticLayoutArr = this.nextLinesLayouts;
-                        if (i3 >= staticLayoutArr.length) {
-                            break;
+            if (getMeasuredWidth() <= 0 || i <= getMeasuredWidth() - AndroidUtilities.dp(23.0f)) {
+                StaticLayout staticLayout = this.firstThreeLinesLayout;
+                if (staticLayout != null && this.expandT < 1.0f && this.shouldExpand) {
+                    LinkSpanDrawable checkTouchTextLayout = checkTouchTextLayout(staticLayout, this.textX, this.textY, i, i2);
+                    if (checkTouchTextLayout != null) {
+                        return checkTouchTextLayout;
+                    }
+                    if (this.nextLinesLayouts != null) {
+                        int i3 = 0;
+                        while (true) {
+                            StaticLayout[] staticLayoutArr = this.nextLinesLayouts;
+                            if (i3 >= staticLayoutArr.length) {
+                                break;
+                            }
+                            StaticLayout staticLayout2 = staticLayoutArr[i3];
+                            Point[] pointArr = this.nextLinesLayoutsPositions;
+                            LinkSpanDrawable checkTouchTextLayout2 = checkTouchTextLayout(staticLayout2, pointArr[i3].x, pointArr[i3].y, i, i2);
+                            if (checkTouchTextLayout2 != null) {
+                                return checkTouchTextLayout2;
+                            }
+                            i3++;
                         }
-                        StaticLayout staticLayout2 = staticLayoutArr[i3];
-                        Point[] pointArr = this.nextLinesLayoutsPositions;
-                        LinkSpanDrawable checkTouchTextLayout2 = checkTouchTextLayout(staticLayout2, pointArr[i3].x, pointArr[i3].y, i, i2);
-                        if (checkTouchTextLayout2 != null) {
-                            return checkTouchTextLayout2;
-                        }
-                        i3++;
                     }
                 }
-            }
-            LinkSpanDrawable checkTouchTextLayout3 = checkTouchTextLayout(this.textLayout, this.textX, this.textY, i, i2);
-            if (checkTouchTextLayout3 == null) {
+                LinkSpanDrawable checkTouchTextLayout3 = checkTouchTextLayout(this.textLayout, this.textX, this.textY, i, i2);
+                if (checkTouchTextLayout3 != null) {
+                    return checkTouchTextLayout3;
+                }
                 return null;
             }
-            return checkTouchTextLayout3;
+            return null;
         }
         return null;
     }
@@ -519,10 +525,9 @@ public class AboutLinkCell extends FrameLayout {
     public void onLinkClick(ClickableSpan clickableSpan) {
         if (clickableSpan instanceof URLSpanNoUnderline) {
             String url = ((URLSpanNoUnderline) clickableSpan).getURL();
-            if (!url.startsWith("@") && !url.startsWith("#") && !url.startsWith("/")) {
-                return;
+            if (url.startsWith("@") || url.startsWith("#") || url.startsWith("/")) {
+                didPressUrl(url);
             }
-            didPressUrl(url);
         } else if (clickableSpan instanceof URLSpan) {
             String url2 = ((URLSpan) clickableSpan).getURL();
             if (AndroidUtilities.shouldShowUrlInAlert(url2)) {
@@ -644,7 +649,6 @@ public class AboutLinkCell extends FrameLayout {
 
     private void setHeight(int i) {
         RecyclerView.LayoutParams layoutParams = (RecyclerView.LayoutParams) getLayoutParams();
-        boolean z = true;
         if (layoutParams == null) {
             if (getMinimumHeight() == 0) {
                 getHeight();
@@ -653,12 +657,10 @@ public class AboutLinkCell extends FrameLayout {
             }
             layoutParams = new RecyclerView.LayoutParams(-1, i);
         } else {
-            if (((ViewGroup.MarginLayoutParams) layoutParams).height == i) {
-                z = false;
-            }
+            r1 = ((ViewGroup.MarginLayoutParams) layoutParams).height != i;
             ((ViewGroup.MarginLayoutParams) layoutParams).height = i;
         }
-        if (z) {
+        if (r1) {
             setLayoutParams(layoutParams);
         }
     }
@@ -678,7 +680,6 @@ public class AboutLinkCell extends FrameLayout {
     }
 
     private void checkTextLayout(int i, boolean z) {
-        int i2 = 0;
         if (this.moreButtonDisabled) {
             this.shouldExpand = false;
         }
@@ -692,8 +693,8 @@ public class AboutLinkCell extends FrameLayout {
                 if (this.stringBuilder.charAt(max - 1) == '\n') {
                     max--;
                 }
-                int i3 = max - 1;
-                this.needSpace = (this.stringBuilder.charAt(i3) == ' ' || this.stringBuilder.charAt(i3) == '\n') ? false : true;
+                int i2 = max - 1;
+                this.needSpace = (this.stringBuilder.charAt(i2) == ' ' || this.stringBuilder.charAt(i2) == '\n') ? false : true;
                 this.firstThreeLinesLayout = makeTextLayout(this.stringBuilder.subSequence(0, max), i);
                 this.nextLinesLayouts = new StaticLayout[this.textLayout.getLineCount() - 3];
                 this.nextLinesLayoutsPositions = new Point[this.textLayout.getLineCount() - 3];
@@ -701,18 +702,18 @@ public class AboutLinkCell extends FrameLayout {
                 this.lastInlineLine = -1;
                 if (this.showMoreTextBackgroundView.getMeasuredWidth() <= 0) {
                     FrameLayout frameLayout = this.showMoreTextBackgroundView;
-                    int i4 = MOST_SPEC;
-                    frameLayout.measure(i4, i4);
+                    int i3 = MOST_SPEC;
+                    frameLayout.measure(i3, i3);
                 }
-                for (int i5 = 3; i5 < this.textLayout.getLineCount(); i5++) {
-                    int lineStart = this.textLayout.getLineStart(i5);
-                    int lineEnd = this.textLayout.getLineEnd(i5);
+                for (int i4 = 3; i4 < this.textLayout.getLineCount(); i4++) {
+                    int lineStart = this.textLayout.getLineStart(i4);
+                    int lineEnd = this.textLayout.getLineEnd(i4);
                     StaticLayout makeTextLayout2 = makeTextLayout(this.stringBuilder.subSequence(Math.min(lineStart, lineEnd), Math.max(lineStart, lineEnd)), i);
-                    int i6 = i5 - 3;
-                    this.nextLinesLayouts[i6] = makeTextLayout2;
-                    this.nextLinesLayoutsPositions[i6] = new Point();
+                    int i5 = i4 - 3;
+                    this.nextLinesLayouts[i5] = makeTextLayout2;
+                    this.nextLinesLayoutsPositions[i5] = new Point();
                     if (this.lastInlineLine == -1 && lineRight > (i - this.showMoreTextBackgroundView.getMeasuredWidth()) + this.showMoreTextBackgroundView.getPaddingLeft()) {
-                        this.lastInlineLine = i6;
+                        this.lastInlineLine = i5;
                     }
                     lineRight += makeTextLayout2.getLineRight(0) + this.SPACE;
                 }
@@ -732,11 +733,7 @@ public class AboutLinkCell extends FrameLayout {
                 setShowMoreMarginBottom((((fromHeight - staticLayout.getLineBottom(staticLayout.getLineCount() - 1)) - this.showMoreTextBackgroundView.getPaddingBottom()) - this.showMoreTextView.getPaddingBottom()) - (this.showMoreTextView.getLayout() == null ? 0 : this.showMoreTextView.getLayout().getHeight() - this.showMoreTextView.getLayout().getLineBottom(this.showMoreTextView.getLineCount() - 1)));
             }
         }
-        TextView textView = this.showMoreTextView;
-        if (!this.shouldExpand) {
-            i2 = 8;
-        }
-        textView.setVisibility(i2);
+        this.showMoreTextView.setVisibility(this.shouldExpand ? 0 : 8);
         if (!this.shouldExpand && this.container.getBackground() == null) {
             this.container.setBackground(this.rippleBackground);
         }

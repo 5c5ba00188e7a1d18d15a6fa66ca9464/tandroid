@@ -9,13 +9,15 @@ import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
 public class AnimatedAvatarContainer extends FrameLayout {
+    private int leftPadding;
+    boolean occupyStatusBar;
     AnimatedTextView subtitleTextView;
     AnimatedTextView titleTextView;
-    boolean occupyStatusBar = true;
-    private int leftPadding = AndroidUtilities.dp(8.0f);
 
     public AnimatedAvatarContainer(Context context) {
         super(context);
+        this.occupyStatusBar = true;
+        this.leftPadding = AndroidUtilities.dp(8.0f);
         AnimatedTextView animatedTextView = new AnimatedTextView(context, true, true, true);
         this.titleTextView = animatedTextView;
         animatedTextView.setTextColor(Theme.getColor("actionBarDefaultTitle"));

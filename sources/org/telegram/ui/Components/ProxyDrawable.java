@@ -17,10 +17,10 @@ public class ProxyDrawable extends Drawable {
     private Drawable emptyDrawable;
     private Drawable fullDrawable;
     private boolean isEnabled;
+    private long lastUpdateTime;
     private Paint outerPaint = new Paint(1);
     private RectF cicleRect = new RectF();
     private int radOffset = 0;
-    private long lastUpdateTime = SystemClock.elapsedRealtime();
 
     @Override // android.graphics.drawable.Drawable
     public int getOpacity() {
@@ -37,6 +37,7 @@ public class ProxyDrawable extends Drawable {
         this.outerPaint.setStyle(Paint.Style.STROKE);
         this.outerPaint.setStrokeWidth(AndroidUtilities.dp(2.0f));
         this.outerPaint.setStrokeCap(Paint.Cap.ROUND);
+        this.lastUpdateTime = SystemClock.elapsedRealtime();
     }
 
     public void setConnected(boolean z, boolean z2, boolean z3) {
@@ -89,11 +90,11 @@ public class ProxyDrawable extends Drawable {
                 return;
             }
         }
-        if (!z) {
-            float f3 = this.connectedAnimationProgress;
-            if (f3 == 0.0f) {
-                return;
-            }
+        if (z) {
+            return;
+        }
+        float f3 = this.connectedAnimationProgress;
+        if (f3 != 0.0f) {
             float f4 = f3 - (((float) j) / 300.0f);
             this.connectedAnimationProgress = f4;
             if (f4 < 0.0f) {

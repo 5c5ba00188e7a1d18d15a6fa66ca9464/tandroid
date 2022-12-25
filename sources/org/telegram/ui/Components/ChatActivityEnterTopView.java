@@ -34,13 +34,8 @@ public class ChatActivityEnterTopView extends FrameLayout {
     public void setEditMode(boolean z) {
         if (z != this.editMode) {
             this.editMode = z;
-            int i = 8;
             this.replyView.setVisibility(z ? 8 : 0);
-            EditView editView = this.editView;
-            if (z) {
-                i = 0;
-            }
-            editView.setVisibility(i);
+            this.editView.setVisibility(z ? 0 : 8);
         }
     }
 
@@ -54,10 +49,11 @@ public class ChatActivityEnterTopView extends FrameLayout {
 
     /* loaded from: classes3.dex */
     public static class EditView extends LinearLayout {
-        private EditViewButton[] buttons = new EditViewButton[2];
+        private EditViewButton[] buttons;
 
         public EditView(Context context) {
             super(context);
+            this.buttons = new EditViewButton[2];
         }
 
         public void addButton(EditViewButton editViewButton, LinearLayout.LayoutParams layoutParams) {

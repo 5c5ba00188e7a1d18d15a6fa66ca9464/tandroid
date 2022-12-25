@@ -29,12 +29,12 @@ public abstract class TLRPC$GroupCall extends TLObject {
         } else {
             tLRPC$TL_groupCall = new TLRPC$TL_groupCall();
         }
-        if (tLRPC$TL_groupCall != null || !z) {
-            if (tLRPC$TL_groupCall != null) {
-                tLRPC$TL_groupCall.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_groupCall;
+        if (tLRPC$TL_groupCall == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in GroupCall", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in GroupCall", Integer.valueOf(i)));
+        if (tLRPC$TL_groupCall != null) {
+            tLRPC$TL_groupCall.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_groupCall;
     }
 }

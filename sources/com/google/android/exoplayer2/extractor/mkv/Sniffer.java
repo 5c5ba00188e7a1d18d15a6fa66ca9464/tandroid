@@ -9,7 +9,7 @@ final class Sniffer {
     private int peekLength;
     private final ParsableByteArray scratch = new ParsableByteArray(8);
 
-    /* JADX WARN: Code restructure failed: missing block: B:40:0x009c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:35:0x009c, code lost:
         return false;
      */
     /*
@@ -36,30 +36,29 @@ final class Sniffer {
         }
         long readUint = readUint(extractorInput);
         long j2 = this.peekLength;
-        if (readUint != Long.MIN_VALUE) {
-            if (length != -1 && j2 + readUint >= length) {
+        if (readUint == Long.MIN_VALUE) {
+            return false;
+        }
+        if (length != -1 && j2 + readUint >= length) {
+            return false;
+        }
+        while (true) {
+            int i3 = this.peekLength;
+            long j3 = j2 + readUint;
+            if (i3 >= j3) {
+                return ((long) i3) == j3;
+            } else if (readUint(extractorInput) == Long.MIN_VALUE) {
                 return false;
-            }
-            while (true) {
-                int i3 = this.peekLength;
-                long j3 = j2 + readUint;
-                if (i3 >= j3) {
-                    return ((long) i3) == j3;
-                } else if (readUint(extractorInput) == Long.MIN_VALUE) {
-                    return false;
-                } else {
-                    long readUint2 = readUint(extractorInput);
-                    if (readUint2 < 0 || readUint2 > 2147483647L) {
-                        break;
-                    } else if (readUint2 != 0) {
-                        int i4 = (int) readUint2;
-                        extractorInput.advancePeekPosition(i4);
-                        this.peekLength += i4;
-                    }
+            } else {
+                long readUint2 = readUint(extractorInput);
+                if (readUint2 < 0 || readUint2 > 2147483647L) {
+                    break;
+                } else if (readUint2 != 0) {
+                    int i4 = (int) readUint2;
+                    extractorInput.advancePeekPosition(i4);
+                    this.peekLength += i4;
                 }
             }
-        } else {
-            return false;
         }
     }
 

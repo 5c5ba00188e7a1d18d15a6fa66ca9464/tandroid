@@ -249,10 +249,10 @@ public class FileProvider extends ContentProvider {
             File file2 = new File(file, decode2);
             try {
                 File canonicalFile = file2.getCanonicalFile();
-                if (!canonicalFile.getPath().startsWith(file.getPath())) {
-                    throw new SecurityException("Resolved path jumped beyond configured root");
+                if (canonicalFile.getPath().startsWith(file.getPath())) {
+                    return canonicalFile;
                 }
-                return canonicalFile;
+                throw new SecurityException("Resolved path jumped beyond configured root");
             } catch (IOException unused) {
                 throw new IllegalArgumentException("Failed to resolve canonical path for " + file2);
             }

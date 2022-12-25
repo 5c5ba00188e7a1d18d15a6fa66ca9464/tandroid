@@ -23,30 +23,29 @@ public abstract class H4 extends J4 implements j$.util.w {
         j4 j4Var = null;
         while (true) {
             int r = r();
-            if (r != 1) {
-                if (r != 2) {
-                    ((j$.util.w) this.a).forEachRemaining(obj);
-                    return;
-                }
-                if (j4Var == null) {
-                    j4Var = t(ConnectionsManager.RequestFlagNeedQuickAck);
-                } else {
-                    j4Var.b = 0;
-                }
-                long j = 0;
-                while (((j$.util.w) this.a).tryAdvance(j4Var)) {
-                    j++;
-                    if (j >= 128) {
-                        break;
-                    }
-                }
-                if (j == 0) {
-                    return;
-                }
-                j4Var.b(obj, p(j));
-            } else {
+            if (r == 1) {
                 return;
             }
+            if (r != 2) {
+                ((j$.util.w) this.a).forEachRemaining(obj);
+                return;
+            }
+            if (j4Var == null) {
+                j4Var = t(ConnectionsManager.RequestFlagNeedQuickAck);
+            } else {
+                j4Var.b = 0;
+            }
+            long j = 0;
+            while (((j$.util.w) this.a).tryAdvance(j4Var)) {
+                j++;
+                if (j >= 128) {
+                    break;
+                }
+            }
+            if (j == 0) {
+                return;
+            }
+            j4Var.b(obj, p(j));
         }
     }
 

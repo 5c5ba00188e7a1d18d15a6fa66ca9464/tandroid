@@ -118,10 +118,10 @@ public final class CctTransportBackend implements TransportBackend {
         if (subtype == -1) {
             return NetworkConnectionInfo.MobileSubtype.COMBINED.getValue();
         }
-        if (NetworkConnectionInfo.MobileSubtype.forNumber(subtype) == null) {
-            return 0;
+        if (NetworkConnectionInfo.MobileSubtype.forNumber(subtype) != null) {
+            return subtype;
         }
-        return subtype;
+        return 0;
     }
 
     private BatchedLogRequest getRequestBody(BackendRequest backendRequest) {
@@ -263,13 +263,10 @@ public final class CctTransportBackend implements TransportBackend {
     public BackendResponse send(BackendRequest backendRequest) {
         BatchedLogRequest requestBody = getRequestBody(backendRequest);
         URL url = this.endPoint;
-        String str = null;
         if (backendRequest.getExtras() != null) {
             try {
                 CCTDestination fromByteArray = CCTDestination.fromByteArray(backendRequest.getExtras());
-                if (fromByteArray.getAPIKey() != null) {
-                    str = fromByteArray.getAPIKey();
-                }
+                r3 = fromByteArray.getAPIKey() != null ? fromByteArray.getAPIKey() : null;
                 if (fromByteArray.getEndPoint() != null) {
                     url = parseUrlOrThrow(fromByteArray.getEndPoint());
                 }
@@ -278,7 +275,7 @@ public final class CctTransportBackend implements TransportBackend {
             }
         }
         try {
-            HttpResponse httpResponse = (HttpResponse) Retries.retry(5, new HttpRequest(url, requestBody, str), new Function() { // from class: com.google.android.datatransport.cct.CctTransportBackend$$ExternalSyntheticLambda0
+            HttpResponse httpResponse = (HttpResponse) Retries.retry(5, new HttpRequest(url, requestBody, r3), new Function() { // from class: com.google.android.datatransport.cct.CctTransportBackend$$ExternalSyntheticLambda0
                 @Override // com.google.android.datatransport.runtime.retries.Function
                 public final Object apply(Object obj) {
                     CctTransportBackend.HttpResponse doSend;

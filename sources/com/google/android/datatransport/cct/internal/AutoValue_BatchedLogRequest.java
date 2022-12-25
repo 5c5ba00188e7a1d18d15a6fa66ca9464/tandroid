@@ -25,10 +25,10 @@ final class AutoValue_BatchedLogRequest extends BatchedLogRequest {
         if (obj == this) {
             return true;
         }
-        if (!(obj instanceof BatchedLogRequest)) {
-            return false;
+        if (obj instanceof BatchedLogRequest) {
+            return this.logRequests.equals(((BatchedLogRequest) obj).getLogRequests());
         }
-        return this.logRequests.equals(((BatchedLogRequest) obj).getLogRequests());
+        return false;
     }
 
     public int hashCode() {

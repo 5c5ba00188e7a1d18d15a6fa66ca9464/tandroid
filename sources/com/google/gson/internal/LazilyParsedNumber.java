@@ -53,11 +53,11 @@ public final class LazilyParsedNumber extends Number {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof LazilyParsedNumber)) {
-            return false;
+        if (obj instanceof LazilyParsedNumber) {
+            String str = this.value;
+            String str2 = ((LazilyParsedNumber) obj).value;
+            return str == str2 || str.equals(str2);
         }
-        String str = this.value;
-        String str2 = ((LazilyParsedNumber) obj).value;
-        return str == str2 || str.equals(str2);
+        return false;
     }
 }

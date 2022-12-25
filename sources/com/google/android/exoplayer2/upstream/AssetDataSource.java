@@ -81,10 +81,10 @@ public final class AssetDataSource extends BaseDataSource {
         }
         int read = ((InputStream) Util.castNonNull(this.inputStream)).read(bArr, i, i2);
         if (read == -1) {
-            if (this.bytesRemaining != -1) {
-                throw new AssetDataSourceException(new EOFException());
+            if (this.bytesRemaining == -1) {
+                return -1;
             }
-            return -1;
+            throw new AssetDataSourceException(new EOFException());
         }
         long j2 = this.bytesRemaining;
         if (j2 != -1) {

@@ -99,7 +99,7 @@ public final class zabe extends GoogleApiClient implements zabz {
             z3 |= client.providesSignIn();
         }
         if (z2) {
-            return (!z3 || !z) ? 1 : 2;
+            return (z3 && z) ? 2 : 1;
         }
         return 3;
     }
@@ -325,10 +325,11 @@ public final class zabe extends GoogleApiClient implements zabz {
         if (!this.zat.isPlayServicesPossiblyUpdating(this.zan, connectionResult.getErrorCode())) {
             zak();
         }
-        if (!this.zap) {
-            this.zak.zac(connectionResult);
-            this.zak.zaa();
+        if (this.zap) {
+            return;
         }
+        this.zak.zac(connectionResult);
+        this.zak.zaa();
     }
 
     @Override // com.google.android.gms.common.api.internal.zabz
@@ -350,21 +351,21 @@ public final class zabe extends GoogleApiClient implements zabz {
     /* JADX INFO: Access modifiers changed from: package-private */
     @GuardedBy("mLock")
     public final boolean zak() {
-        if (!this.zap) {
-            return false;
+        if (this.zap) {
+            this.zap = false;
+            this.zas.removeMessages(2);
+            this.zas.removeMessages(1);
+            zabx zabxVar = this.zab;
+            if (zabxVar != null) {
+                zabxVar.zab();
+                this.zab = null;
+            }
+            return true;
         }
-        this.zap = false;
-        this.zas.removeMessages(2);
-        this.zas.removeMessages(1);
-        zabx zabxVar = this.zab;
-        if (zabxVar != null) {
-            zabxVar.zab();
-            this.zab = null;
-        }
-        return true;
+        return false;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:23:0x0041, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:18:0x0041, code lost:
         if (r3 == false) goto L17;
      */
     @Override // com.google.android.gms.common.api.GoogleApiClient

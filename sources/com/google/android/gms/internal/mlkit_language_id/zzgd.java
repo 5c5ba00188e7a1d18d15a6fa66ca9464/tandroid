@@ -48,8 +48,8 @@ final class zzgd<T> implements zzgp<T> {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* JADX WARN: Removed duplicated region for block: B:107:0x033a  */
-    /* JADX WARN: Removed duplicated region for block: B:123:0x039c  */
+    /* JADX WARN: Removed duplicated region for block: B:163:0x033a  */
+    /* JADX WARN: Removed duplicated region for block: B:180:0x039c  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -585,62 +585,62 @@ final class zzgd<T> implements zzgp<T> {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:16:0x006a, code lost:
-        if (com.google.android.gms.internal.mlkit_language_id.zzgr.zza(com.google.android.gms.internal.mlkit_language_id.zzhn.zzf(r10, r6), com.google.android.gms.internal.mlkit_language_id.zzhn.zzf(r11, r6)) != false) goto L85;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:20:0x007e, code lost:
-        if (com.google.android.gms.internal.mlkit_language_id.zzhn.zzb(r10, r6) == com.google.android.gms.internal.mlkit_language_id.zzhn.zzb(r11, r6)) goto L85;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:24:0x0090, code lost:
-        if (com.google.android.gms.internal.mlkit_language_id.zzhn.zza(r10, r6) == com.google.android.gms.internal.mlkit_language_id.zzhn.zza(r11, r6)) goto L85;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:28:0x00a4, code lost:
-        if (com.google.android.gms.internal.mlkit_language_id.zzhn.zzb(r10, r6) == com.google.android.gms.internal.mlkit_language_id.zzhn.zzb(r11, r6)) goto L85;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:32:0x00b6, code lost:
-        if (com.google.android.gms.internal.mlkit_language_id.zzhn.zza(r10, r6) == com.google.android.gms.internal.mlkit_language_id.zzhn.zza(r11, r6)) goto L85;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:36:0x00c8, code lost:
-        if (com.google.android.gms.internal.mlkit_language_id.zzhn.zza(r10, r6) == com.google.android.gms.internal.mlkit_language_id.zzhn.zza(r11, r6)) goto L85;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:40:0x00da, code lost:
-        if (com.google.android.gms.internal.mlkit_language_id.zzhn.zza(r10, r6) == com.google.android.gms.internal.mlkit_language_id.zzhn.zza(r11, r6)) goto L85;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:44:0x00f0, code lost:
-        if (com.google.android.gms.internal.mlkit_language_id.zzgr.zza(com.google.android.gms.internal.mlkit_language_id.zzhn.zzf(r10, r6), com.google.android.gms.internal.mlkit_language_id.zzhn.zzf(r11, r6)) != false) goto L85;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:48:0x0106, code lost:
-        if (com.google.android.gms.internal.mlkit_language_id.zzgr.zza(com.google.android.gms.internal.mlkit_language_id.zzhn.zzf(r10, r6), com.google.android.gms.internal.mlkit_language_id.zzhn.zzf(r11, r6)) != false) goto L85;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:52:0x011c, code lost:
-        if (com.google.android.gms.internal.mlkit_language_id.zzgr.zza(com.google.android.gms.internal.mlkit_language_id.zzhn.zzf(r10, r6), com.google.android.gms.internal.mlkit_language_id.zzhn.zzf(r11, r6)) != false) goto L85;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:56:0x012e, code lost:
-        if (com.google.android.gms.internal.mlkit_language_id.zzhn.zzc(r10, r6) == com.google.android.gms.internal.mlkit_language_id.zzhn.zzc(r11, r6)) goto L85;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:60:0x0140, code lost:
-        if (com.google.android.gms.internal.mlkit_language_id.zzhn.zza(r10, r6) == com.google.android.gms.internal.mlkit_language_id.zzhn.zza(r11, r6)) goto L85;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:64:0x0154, code lost:
-        if (com.google.android.gms.internal.mlkit_language_id.zzhn.zzb(r10, r6) == com.google.android.gms.internal.mlkit_language_id.zzhn.zzb(r11, r6)) goto L85;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:68:0x0165, code lost:
-        if (com.google.android.gms.internal.mlkit_language_id.zzhn.zza(r10, r6) == com.google.android.gms.internal.mlkit_language_id.zzhn.zza(r11, r6)) goto L85;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:72:0x0178, code lost:
-        if (com.google.android.gms.internal.mlkit_language_id.zzhn.zzb(r10, r6) == com.google.android.gms.internal.mlkit_language_id.zzhn.zzb(r11, r6)) goto L85;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:76:0x018b, code lost:
-        if (com.google.android.gms.internal.mlkit_language_id.zzhn.zzb(r10, r6) == com.google.android.gms.internal.mlkit_language_id.zzhn.zzb(r11, r6)) goto L85;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:80:0x01a4, code lost:
-        if (java.lang.Float.floatToIntBits(com.google.android.gms.internal.mlkit_language_id.zzhn.zzd(r10, r6)) == java.lang.Float.floatToIntBits(com.google.android.gms.internal.mlkit_language_id.zzhn.zzd(r11, r6))) goto L85;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:84:0x01bf, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:103:0x01bf, code lost:
         if (java.lang.Double.doubleToLongBits(com.google.android.gms.internal.mlkit_language_id.zzhn.zze(r10, r6)) == java.lang.Double.doubleToLongBits(com.google.android.gms.internal.mlkit_language_id.zzhn.zze(r11, r6))) goto L85;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:9:0x0038, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:11:0x0038, code lost:
         if (com.google.android.gms.internal.mlkit_language_id.zzgr.zza(com.google.android.gms.internal.mlkit_language_id.zzhn.zzf(r10, r6), com.google.android.gms.internal.mlkit_language_id.zzhn.zzf(r11, r6)) != false) goto L85;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:18:0x006a, code lost:
+        if (com.google.android.gms.internal.mlkit_language_id.zzgr.zza(com.google.android.gms.internal.mlkit_language_id.zzhn.zzf(r10, r6), com.google.android.gms.internal.mlkit_language_id.zzhn.zzf(r11, r6)) != false) goto L85;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:23:0x007e, code lost:
+        if (com.google.android.gms.internal.mlkit_language_id.zzhn.zzb(r10, r6) == com.google.android.gms.internal.mlkit_language_id.zzhn.zzb(r11, r6)) goto L85;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:28:0x0090, code lost:
+        if (com.google.android.gms.internal.mlkit_language_id.zzhn.zza(r10, r6) == com.google.android.gms.internal.mlkit_language_id.zzhn.zza(r11, r6)) goto L85;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:33:0x00a4, code lost:
+        if (com.google.android.gms.internal.mlkit_language_id.zzhn.zzb(r10, r6) == com.google.android.gms.internal.mlkit_language_id.zzhn.zzb(r11, r6)) goto L85;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:38:0x00b6, code lost:
+        if (com.google.android.gms.internal.mlkit_language_id.zzhn.zza(r10, r6) == com.google.android.gms.internal.mlkit_language_id.zzhn.zza(r11, r6)) goto L85;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:43:0x00c8, code lost:
+        if (com.google.android.gms.internal.mlkit_language_id.zzhn.zza(r10, r6) == com.google.android.gms.internal.mlkit_language_id.zzhn.zza(r11, r6)) goto L85;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:48:0x00da, code lost:
+        if (com.google.android.gms.internal.mlkit_language_id.zzhn.zza(r10, r6) == com.google.android.gms.internal.mlkit_language_id.zzhn.zza(r11, r6)) goto L85;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:53:0x00f0, code lost:
+        if (com.google.android.gms.internal.mlkit_language_id.zzgr.zza(com.google.android.gms.internal.mlkit_language_id.zzhn.zzf(r10, r6), com.google.android.gms.internal.mlkit_language_id.zzhn.zzf(r11, r6)) != false) goto L85;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:58:0x0106, code lost:
+        if (com.google.android.gms.internal.mlkit_language_id.zzgr.zza(com.google.android.gms.internal.mlkit_language_id.zzhn.zzf(r10, r6), com.google.android.gms.internal.mlkit_language_id.zzhn.zzf(r11, r6)) != false) goto L85;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:63:0x011c, code lost:
+        if (com.google.android.gms.internal.mlkit_language_id.zzgr.zza(com.google.android.gms.internal.mlkit_language_id.zzhn.zzf(r10, r6), com.google.android.gms.internal.mlkit_language_id.zzhn.zzf(r11, r6)) != false) goto L85;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:68:0x012e, code lost:
+        if (com.google.android.gms.internal.mlkit_language_id.zzhn.zzc(r10, r6) == com.google.android.gms.internal.mlkit_language_id.zzhn.zzc(r11, r6)) goto L85;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:73:0x0140, code lost:
+        if (com.google.android.gms.internal.mlkit_language_id.zzhn.zza(r10, r6) == com.google.android.gms.internal.mlkit_language_id.zzhn.zza(r11, r6)) goto L85;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:78:0x0154, code lost:
+        if (com.google.android.gms.internal.mlkit_language_id.zzhn.zzb(r10, r6) == com.google.android.gms.internal.mlkit_language_id.zzhn.zzb(r11, r6)) goto L85;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:83:0x0165, code lost:
+        if (com.google.android.gms.internal.mlkit_language_id.zzhn.zza(r10, r6) == com.google.android.gms.internal.mlkit_language_id.zzhn.zza(r11, r6)) goto L85;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:88:0x0178, code lost:
+        if (com.google.android.gms.internal.mlkit_language_id.zzhn.zzb(r10, r6) == com.google.android.gms.internal.mlkit_language_id.zzhn.zzb(r11, r6)) goto L85;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:93:0x018b, code lost:
+        if (com.google.android.gms.internal.mlkit_language_id.zzhn.zzb(r10, r6) == com.google.android.gms.internal.mlkit_language_id.zzhn.zzb(r11, r6)) goto L85;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:98:0x01a4, code lost:
+        if (java.lang.Float.floatToIntBits(com.google.android.gms.internal.mlkit_language_id.zzhn.zzd(r10, r6)) == java.lang.Float.floatToIntBits(com.google.android.gms.internal.mlkit_language_id.zzhn.zzd(r11, r6))) goto L85;
      */
     @Override // com.google.android.gms.internal.mlkit_language_id.zzgp
     /*
@@ -829,13 +829,13 @@ final class zzgd<T> implements zzgp<T> {
                     return false;
                 }
                 i += 3;
-            } else if (!this.zzq.zza(t).equals(this.zzq.zza(t2))) {
-                return false;
-            } else {
-                if (!this.zzh) {
-                    return true;
+            } else if (this.zzq.zza(t).equals(this.zzq.zza(t2))) {
+                if (this.zzh) {
+                    return this.zzr.zza(t).equals(this.zzr.zza(t2));
                 }
-                return this.zzr.zza(t).equals(this.zzr.zza(t2));
+                return true;
+            } else {
+                return false;
             }
         }
     }
@@ -1380,18 +1380,16 @@ final class zzgd<T> implements zzgp<T> {
 
     private final void zza(T t, T t2, int i) {
         long zzc = zzc(i) & 1048575;
-        if (!zza((zzgd<T>) t2, i)) {
-            return;
-        }
-        Object zzf = zzhn.zzf(t, zzc);
-        Object zzf2 = zzhn.zzf(t2, zzc);
-        if (zzf != null && zzf2 != null) {
-            zzhn.zza(t, zzc, zzeq.zza(zzf, zzf2));
-            zzb((zzgd<T>) t, i);
-        } else if (zzf2 == null) {
-        } else {
-            zzhn.zza(t, zzc, zzf2);
-            zzb((zzgd<T>) t, i);
+        if (zza((zzgd<T>) t2, i)) {
+            Object zzf = zzhn.zzf(t, zzc);
+            Object zzf2 = zzhn.zzf(t2, zzc);
+            if (zzf != null && zzf2 != null) {
+                zzhn.zza(t, zzc, zzeq.zza(zzf, zzf2));
+                zzb((zzgd<T>) t, i);
+            } else if (zzf2 != null) {
+                zzhn.zza(t, zzc, zzf2);
+                zzb((zzgd<T>) t, i);
+            }
         }
     }
 
@@ -1399,18 +1397,16 @@ final class zzgd<T> implements zzgp<T> {
         int zzc = zzc(i);
         int i2 = this.zzc[i];
         long j = zzc & 1048575;
-        if (!zza((zzgd<T>) t2, i2, i)) {
-            return;
-        }
-        Object zzf = zzhn.zzf(t, j);
-        Object zzf2 = zzhn.zzf(t2, j);
-        if (zzf != null && zzf2 != null) {
-            zzhn.zza(t, j, zzeq.zza(zzf, zzf2));
-            zzb((zzgd<T>) t, i2, i);
-        } else if (zzf2 == null) {
-        } else {
-            zzhn.zza(t, j, zzf2);
-            zzb((zzgd<T>) t, i2, i);
+        if (zza((zzgd<T>) t2, i2, i)) {
+            Object zzf = zzhn.zzf(t, j);
+            Object zzf2 = zzhn.zzf(t2, j);
+            if (zzf != null && zzf2 != null) {
+                zzhn.zza(t, j, zzeq.zza(zzf, zzf2));
+                zzb((zzgd<T>) t, i2, i);
+            } else if (zzf2 != null) {
+                zzhn.zza(t, j, zzf2);
+                zzb((zzgd<T>) t, i2, i);
+            }
         }
     }
 
@@ -2684,18 +2680,18 @@ final class zzgd<T> implements zzgp<T> {
         }
         int i18 = 0;
         int zza2 = i11 + zza((zzhh) this.zzq, (Object) t);
-        if (!this.zzh) {
-            return zza2;
+        if (this.zzh) {
+            zzej<?> zza3 = this.zzr.zza(t);
+            for (int i19 = 0; i19 < zza3.zza.zzc(); i19++) {
+                Map.Entry<?, Object> zzb4 = zza3.zza.zzb(i19);
+                i18 += zzej.zza((zzel) zzb4.getKey(), zzb4.getValue());
+            }
+            for (Map.Entry<?, Object> entry : zza3.zza.zzd()) {
+                i18 += zzej.zza((zzel) entry.getKey(), entry.getValue());
+            }
+            return zza2 + i18;
         }
-        zzej<?> zza3 = this.zzr.zza(t);
-        for (int i19 = 0; i19 < zza3.zza.zzc(); i19++) {
-            Map.Entry<?, Object> zzb4 = zza3.zza.zzb(i19);
-            i18 += zzej.zza((zzel) zzb4.getKey(), zzb4.getValue());
-        }
-        for (Map.Entry<?, Object> entry : zza3.zza.zzd()) {
-            i18 += zzej.zza((zzel) entry.getKey(), entry.getValue());
-        }
-        return zza2 + i18;
+        return zza2;
     }
 
     private static <UT, UB> int zza(zzhh<UT, UB> zzhhVar, T t) {
@@ -2706,10 +2702,10 @@ final class zzgd<T> implements zzgp<T> {
         return (List) zzhn.zzf(obj, j);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:10:0x003b  */
-    /* JADX WARN: Removed duplicated region for block: B:277:0x0513  */
-    /* JADX WARN: Removed duplicated region for block: B:299:0x0552  */
-    /* JADX WARN: Removed duplicated region for block: B:566:0x0a2a  */
+    /* JADX WARN: Removed duplicated region for block: B:12:0x003b  */
+    /* JADX WARN: Removed duplicated region for block: B:166:0x0513  */
+    /* JADX WARN: Removed duplicated region for block: B:181:0x0552  */
+    /* JADX WARN: Removed duplicated region for block: B:335:0x0a2a  */
     @Override // com.google.android.gms.internal.mlkit_language_id.zzgp
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -3490,8 +3486,8 @@ final class zzgd<T> implements zzgp<T> {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:216:0x0495  */
-    /* JADX WARN: Removed duplicated region for block: B:8:0x0031  */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x0031  */
+    /* JADX WARN: Removed duplicated region for block: B:172:0x0495  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -4076,10 +4072,10 @@ final class zzgd<T> implements zzgp<T> {
                 Object zzf = zzhn.zzf(t, j2);
                 if (zzf instanceof String) {
                     return !((String) zzf).isEmpty();
-                } else if (!(zzf instanceof zzdn)) {
-                    throw new IllegalArgumentException();
-                } else {
+                } else if (zzf instanceof zzdn) {
                     return !zzdn.zza.equals(zzf);
+                } else {
+                    throw new IllegalArgumentException();
                 }
             case 9:
                 return zzhn.zzf(t, j2) != null;

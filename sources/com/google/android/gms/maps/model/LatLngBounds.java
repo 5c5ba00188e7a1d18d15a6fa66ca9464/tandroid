@@ -65,11 +65,11 @@ public final class LatLngBounds extends AbstractSafeParcelable implements Reflec
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof LatLngBounds)) {
-            return false;
+        if (obj instanceof LatLngBounds) {
+            LatLngBounds latLngBounds = (LatLngBounds) obj;
+            return this.southwest.equals(latLngBounds.southwest) && this.northeast.equals(latLngBounds.northeast);
         }
-        LatLngBounds latLngBounds = (LatLngBounds) obj;
-        return this.southwest.equals(latLngBounds.southwest) && this.northeast.equals(latLngBounds.northeast);
+        return false;
     }
 
     public LatLng getCenter() {

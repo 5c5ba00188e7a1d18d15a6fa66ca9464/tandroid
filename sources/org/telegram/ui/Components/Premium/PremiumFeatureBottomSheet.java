@@ -245,7 +245,6 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
 
             private void checkPage() {
                 float measuredWidth;
-                boolean z2 = false;
                 int i4 = 0;
                 while (true) {
                     float f = 0.0f;
@@ -279,10 +278,7 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
                 premiumFeatureBottomSheet.containerViewsProgress = this.progress;
                 int i6 = this.toPosition;
                 int i7 = this.selectedPosition;
-                if (i6 > i7) {
-                    z2 = true;
-                }
-                premiumFeatureBottomSheet.containerViewsForward = z2;
+                premiumFeatureBottomSheet.containerViewsForward = i6 > i7;
                 if (i7 >= 0 && i7 < premiumFeatureBottomSheet.premiumFeatures.size() && PremiumFeatureBottomSheet.this.premiumFeatures.get(this.selectedPosition).type == 0) {
                     PremiumFeatureBottomSheet.this.progressToFullscreenView = 1.0f - this.progress;
                 } else {
@@ -452,8 +448,7 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
                 this.premiumButtonView.setIcon(R.raw.unlock_icon);
             } else if (i == 3 || i == 2 || i == 9 || i == 8) {
                 this.premiumButtonView.buttonTextView.setText(LocaleController.getString(R.string.AboutTelegramPremium));
-            } else if (i != 10) {
-            } else {
+            } else if (i == 10) {
                 this.premiumButtonView.buttonTextView.setText(LocaleController.getString(R.string.UnlockPremiumIcons));
                 this.premiumButtonView.setIcon(R.raw.unlock_icon);
             }
@@ -523,8 +518,7 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
     public void didReceivedNotification(int i, int i2, Object... objArr) {
         if (i == NotificationCenter.billingProductDetailsUpdated || i == NotificationCenter.premiumPromoUpdated) {
             setButtonText();
-        } else if (i != NotificationCenter.currentUserPremiumStatusChanged) {
-        } else {
+        } else if (i == NotificationCenter.currentUserPremiumStatusChanged) {
             if (UserConfig.getInstance(this.currentAccount).isPremium()) {
                 this.premiumButtonView.setOverlayText(LocaleController.getString("OK", R.string.OK), false, true);
             } else {
@@ -733,7 +727,6 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
     void checkTopOffset() {
         int i;
         int i2;
-        boolean z = false;
         int i3 = 0;
         while (true) {
             if (i3 >= this.viewPager.getChildCount()) {
@@ -772,10 +765,7 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
             this.content.setTranslationY(this.topCurrentOffset);
             this.closeLayout.setTranslationY(this.topCurrentOffset);
             this.containerView.invalidate();
-            if (this.topCurrentOffset < AndroidUtilities.dp(30.0f)) {
-                z = true;
-            }
-            AndroidUtilities.updateViewVisibilityAnimated(this.actionBar, z, 1.0f, true);
+            AndroidUtilities.updateViewVisibilityAnimated(this.actionBar, this.topCurrentOffset < AndroidUtilities.dp(30.0f), 1.0f, true);
         }
     }
 
@@ -784,8 +774,7 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
         ActionBar actionBar = this.actionBar;
         if (actionBar != null && actionBar.getTag() != null) {
             AndroidUtilities.setLightStatusBar(getWindow(), isLightStatusBar());
-        } else if (this.baseFragment == null) {
-        } else {
+        } else if (this.baseFragment != null) {
             AndroidUtilities.setLightStatusBar(getWindow(), this.baseFragment.isLightStatusBar());
         }
     }

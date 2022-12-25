@@ -138,10 +138,9 @@ public class OutputSurface implements SurfaceTexture.OnFrameAvailableListener {
     }
 
     private void checkEglError(String str) {
-        if (this.mEGL.eglGetError() == 12288) {
-            return;
+        if (this.mEGL.eglGetError() != 12288) {
+            throw new RuntimeException("EGL error encountered (see log)");
         }
-        throw new RuntimeException("EGL error encountered (see log)");
     }
 
     public void changeFragmentShader(String str, String str2) {

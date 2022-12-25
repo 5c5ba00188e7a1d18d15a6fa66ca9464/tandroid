@@ -83,7 +83,6 @@ public class FiltersListBottomSheet extends BottomSheet implements NotificationC
             @Override // android.widget.FrameLayout, android.view.View
             protected void onMeasure(int i, int i2) {
                 int size = View.MeasureSpec.getSize(i2);
-                boolean z = true;
                 if (Build.VERSION.SDK_INT >= 21) {
                     FiltersListBottomSheet.this.ignoreLayout = true;
                     setPadding(((BottomSheet) FiltersListBottomSheet.this).backgroundPaddingLeft, AndroidUtilities.statusBarHeight, ((BottomSheet) FiltersListBottomSheet.this).backgroundPaddingLeft, 0);
@@ -105,10 +104,7 @@ public class FiltersListBottomSheet extends BottomSheet implements NotificationC
                     FiltersListBottomSheet.this.listView.setPadding(AndroidUtilities.dp(10.0f), i4, AndroidUtilities.dp(10.0f), 0);
                     FiltersListBottomSheet.this.ignoreLayout = false;
                 }
-                if (dp < size) {
-                    z = false;
-                }
-                this.fullHeight = z;
+                this.fullHeight = dp >= size;
                 super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(Math.min(dp, size), 1073741824));
             }
 
@@ -126,9 +122,9 @@ public class FiltersListBottomSheet extends BottomSheet implements NotificationC
                 super.requestLayout();
             }
 
-            /* JADX WARN: Removed duplicated region for block: B:13:0x009c  */
-            /* JADX WARN: Removed duplicated region for block: B:15:0x00ed  */
-            /* JADX WARN: Removed duplicated region for block: B:18:0x011c  */
+            /* JADX WARN: Removed duplicated region for block: B:17:0x009c  */
+            /* JADX WARN: Removed duplicated region for block: B:19:0x00ed  */
+            /* JADX WARN: Removed duplicated region for block: B:22:0x011c  */
             @Override // android.view.View
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
@@ -138,7 +134,6 @@ public class FiltersListBottomSheet extends BottomSheet implements NotificationC
                 int i;
                 int dp = (FiltersListBottomSheet.this.scrollOffsetY - ((BottomSheet) FiltersListBottomSheet.this).backgroundPaddingTop) - AndroidUtilities.dp(8.0f);
                 int measuredHeight = getMeasuredHeight() + AndroidUtilities.dp(36.0f) + ((BottomSheet) FiltersListBottomSheet.this).backgroundPaddingTop;
-                boolean z = false;
                 if (Build.VERSION.SDK_INT >= 21) {
                     int i2 = AndroidUtilities.statusBarHeight;
                     dp += i2;
@@ -169,10 +164,7 @@ public class FiltersListBottomSheet extends BottomSheet implements NotificationC
                                 Theme.dialogs_onlineCirclePaint.setColor(Theme.getColor("dialogBackground"));
                                 canvas.drawRect(((BottomSheet) FiltersListBottomSheet.this).backgroundPaddingLeft, AndroidUtilities.statusBarHeight - i, getMeasuredWidth() - ((BottomSheet) FiltersListBottomSheet.this).backgroundPaddingLeft, AndroidUtilities.statusBarHeight, Theme.dialogs_onlineCirclePaint);
                             }
-                            if (i > AndroidUtilities.statusBarHeight / 2) {
-                                z = true;
-                            }
-                            updateLightStatusBar(z);
+                            updateLightStatusBar(i > AndroidUtilities.statusBarHeight / 2);
                         }
                         i = 0;
                         ((BottomSheet) FiltersListBottomSheet.this).shadowDrawable.setBounds(0, dp, getMeasuredWidth(), measuredHeight);
@@ -181,9 +173,7 @@ public class FiltersListBottomSheet extends BottomSheet implements NotificationC
                         }
                         if (i > 0) {
                         }
-                        if (i > AndroidUtilities.statusBarHeight / 2) {
-                        }
-                        updateLightStatusBar(z);
+                        updateLightStatusBar(i > AndroidUtilities.statusBarHeight / 2);
                     }
                 }
                 f = 1.0f;
@@ -194,25 +184,20 @@ public class FiltersListBottomSheet extends BottomSheet implements NotificationC
                 }
                 if (i > 0) {
                 }
-                if (i > AndroidUtilities.statusBarHeight / 2) {
-                }
-                updateLightStatusBar(z);
+                updateLightStatusBar(i > AndroidUtilities.statusBarHeight / 2);
             }
 
             private void updateLightStatusBar(boolean z) {
                 Boolean bool = this.statusBarOpen;
                 if (bool == null || bool.booleanValue() != z) {
-                    boolean z2 = true;
-                    boolean z3 = AndroidUtilities.computePerceivedBrightness(FiltersListBottomSheet.this.getThemedColor("dialogBackground")) > 0.721f;
-                    if (AndroidUtilities.computePerceivedBrightness(Theme.blendOver(FiltersListBottomSheet.this.getThemedColor("actionBarDefault"), AndroidUtilities.DARK_STATUS_BAR_OVERLAY)) <= 0.721f) {
-                        z2 = false;
-                    }
+                    boolean z2 = AndroidUtilities.computePerceivedBrightness(FiltersListBottomSheet.this.getThemedColor("dialogBackground")) > 0.721f;
+                    boolean z3 = AndroidUtilities.computePerceivedBrightness(Theme.blendOver(FiltersListBottomSheet.this.getThemedColor("actionBarDefault"), AndroidUtilities.DARK_STATUS_BAR_OVERLAY)) > 0.721f;
                     Boolean valueOf = Boolean.valueOf(z);
                     this.statusBarOpen = valueOf;
                     if (!valueOf.booleanValue()) {
-                        z3 = z2;
+                        z2 = z3;
                     }
-                    AndroidUtilities.setLightStatusBar(FiltersListBottomSheet.this.getWindow(), z3);
+                    AndroidUtilities.setLightStatusBar(FiltersListBottomSheet.this.getWindow(), z2);
                 }
             }
         };
@@ -308,15 +293,14 @@ public class FiltersListBottomSheet extends BottomSheet implements NotificationC
         } else {
             runShadowAnimation(true);
         }
-        if (this.scrollOffsetY == i) {
-            return;
+        if (this.scrollOffsetY != i) {
+            RecyclerListView recyclerListView2 = this.listView;
+            this.scrollOffsetY = i;
+            recyclerListView2.setTopGlowOffset(i);
+            this.titleTextView.setTranslationY(this.scrollOffsetY);
+            this.shadow.setTranslationY(this.scrollOffsetY);
+            this.containerView.invalidate();
         }
-        RecyclerListView recyclerListView2 = this.listView;
-        this.scrollOffsetY = i;
-        recyclerListView2.setTopGlowOffset(i);
-        this.titleTextView.setTranslationY(this.scrollOffsetY);
-        this.shadow.setTranslationY(this.scrollOffsetY);
-        this.containerView.invalidate();
     }
 
     private void runShadowAnimation(final boolean z) {

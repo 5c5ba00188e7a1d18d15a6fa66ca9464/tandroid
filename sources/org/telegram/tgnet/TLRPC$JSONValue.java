@@ -26,12 +26,12 @@ public abstract class TLRPC$JSONValue extends TLObject {
                 tLRPC$TL_jsonObject = null;
                 break;
         }
-        if (tLRPC$TL_jsonObject != null || !z) {
-            if (tLRPC$TL_jsonObject != null) {
-                tLRPC$TL_jsonObject.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_jsonObject;
+        if (tLRPC$TL_jsonObject == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in JSONValue", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in JSONValue", Integer.valueOf(i)));
+        if (tLRPC$TL_jsonObject != null) {
+            tLRPC$TL_jsonObject.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_jsonObject;
     }
 }

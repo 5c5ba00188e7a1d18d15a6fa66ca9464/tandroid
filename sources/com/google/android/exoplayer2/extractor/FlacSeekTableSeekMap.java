@@ -32,12 +32,7 @@ public final class FlacSeekTableSeekMap implements SeekMap {
         long[] jArr = seekTable.pointSampleNumbers;
         long[] jArr2 = seekTable.pointOffsets;
         int binarySearchFloor = Util.binarySearchFloor(jArr, flacStreamMetadata.getSampleNumber(j), true, false);
-        long j2 = 0;
-        long j3 = binarySearchFloor == -1 ? 0L : jArr[binarySearchFloor];
-        if (binarySearchFloor != -1) {
-            j2 = jArr2[binarySearchFloor];
-        }
-        SeekPoint seekPoint = getSeekPoint(j3, j2);
+        SeekPoint seekPoint = getSeekPoint(binarySearchFloor == -1 ? 0L : jArr[binarySearchFloor], binarySearchFloor != -1 ? jArr2[binarySearchFloor] : 0L);
         if (seekPoint.timeUs == j || binarySearchFloor == jArr.length - 1) {
             return new SeekMap.SeekPoints(seekPoint);
         }

@@ -20,12 +20,12 @@ public abstract class TLRPC$account_EmojiStatuses extends TLObject {
         } else {
             tLRPC$TL_account_emojiStatuses = new TLRPC$TL_account_emojiStatuses();
         }
-        if (tLRPC$TL_account_emojiStatuses != null || !z) {
-            if (tLRPC$TL_account_emojiStatuses != null) {
-                tLRPC$TL_account_emojiStatuses.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_account_emojiStatuses;
+        if (tLRPC$TL_account_emojiStatuses == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in account_EmojiStatuses", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in account_EmojiStatuses", Integer.valueOf(i)));
+        if (tLRPC$TL_account_emojiStatuses != null) {
+            tLRPC$TL_account_emojiStatuses.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_account_emojiStatuses;
     }
 }

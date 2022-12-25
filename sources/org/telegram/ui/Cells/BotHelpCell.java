@@ -46,6 +46,7 @@ public class BotHelpCell extends View {
     private String currentPhotoKey;
     private BotHelpCellDelegate delegate;
     private int height;
+    private int imagePadding;
     private ImageReceiver imageReceiver;
     private boolean isPhotoVisible;
     private boolean isTextVisible;
@@ -56,9 +57,8 @@ public class BotHelpCell extends View {
     private StaticLayout textLayout;
     private int textX;
     private int textY;
+    private LinkPath urlPath;
     private int width;
-    private LinkPath urlPath = new LinkPath();
-    private int imagePadding = AndroidUtilities.dp(4.0f);
 
     /* loaded from: classes3.dex */
     public interface BotHelpCellDelegate {
@@ -67,6 +67,8 @@ public class BotHelpCell extends View {
 
     public BotHelpCell(Context context, Theme.ResourcesProvider resourcesProvider) {
         super(context);
+        this.urlPath = new LinkPath();
+        this.imagePadding = AndroidUtilities.dp(4.0f);
         this.resourcesProvider = resourcesProvider;
         ImageReceiver imageReceiver = new ImageReceiver(this);
         this.imageReceiver = imageReceiver;
@@ -182,18 +184,17 @@ public class BotHelpCell extends View {
         }
         int dp3 = this.width + AndroidUtilities.dp(22.0f);
         this.width = dp3;
-        if (!this.isPhotoVisible) {
-            return;
+        if (this.isPhotoVisible) {
+            int i4 = this.height;
+            double d = dp3;
+            Double.isNaN(d);
+            int i5 = (int) (d * 0.5625d);
+            this.photoHeight = i5;
+            this.height = i4 + i5 + AndroidUtilities.dp(4.0f);
         }
-        int i4 = this.height;
-        double d = dp3;
-        Double.isNaN(d);
-        int i5 = (int) (d * 0.5625d);
-        this.photoHeight = i5;
-        this.height = i4 + i5 + AndroidUtilities.dp(4.0f);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:27:0x00ff  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x00ff  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -241,7 +242,7 @@ public class BotHelpCell extends View {
                                     resetPressedLink();
                                     FileLog.e(e);
                                     z = z2;
-                                    if (!z) {
+                                    if (z) {
                                     }
                                 }
                             }
@@ -274,7 +275,7 @@ public class BotHelpCell extends View {
                         }
                         resetPressedLink();
                         z = true;
-                        if (!z) {
+                        if (z) {
                         }
                     }
                 }
@@ -283,7 +284,7 @@ public class BotHelpCell extends View {
             }
         }
         z = false;
-        if (!z) {
+        if (z) {
         }
     }
 

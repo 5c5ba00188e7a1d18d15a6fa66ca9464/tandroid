@@ -168,12 +168,10 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
                 if (i == -1) {
                     PhotoAlbumPickerActivity.this.finishFragment();
                 } else if (i != 1) {
-                    if (i != 2) {
-                        return;
+                    if (i == 2) {
+                        PhotoAlbumPickerActivity.this.openPhotoPicker(null, 0);
                     }
-                    PhotoAlbumPickerActivity.this.openPhotoPicker(null, 0);
-                } else if (PhotoAlbumPickerActivity.this.delegate == null) {
-                } else {
+                } else if (PhotoAlbumPickerActivity.this.delegate != null) {
                     PhotoAlbumPickerActivity.this.finishFragment(false);
                     PhotoAlbumPickerActivity.this.delegate.startPhotoSelectActivity();
                 }
@@ -227,11 +225,11 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
             }
 
             /* JADX INFO: Access modifiers changed from: protected */
-            /* JADX WARN: Removed duplicated region for block: B:32:0x00a5  */
-            /* JADX WARN: Removed duplicated region for block: B:39:0x00d4  */
-            /* JADX WARN: Removed duplicated region for block: B:43:0x00e6  */
-            /* JADX WARN: Removed duplicated region for block: B:45:0x00ef  */
-            /* JADX WARN: Removed duplicated region for block: B:52:0x00bf  */
+            /* JADX WARN: Removed duplicated region for block: B:39:0x00a5  */
+            /* JADX WARN: Removed duplicated region for block: B:46:0x00bf  */
+            /* JADX WARN: Removed duplicated region for block: B:50:0x00d4  */
+            /* JADX WARN: Removed duplicated region for block: B:54:0x00e6  */
+            /* JADX WARN: Removed duplicated region for block: B:55:0x00ef  */
             @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
@@ -410,13 +408,9 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
         this.sizeNotifierFrameLayout.addView(this.writeButtonContainer, LayoutHelper.createFrame(60, 60.0f, 85, 0.0f, 0.0f, 12.0f, 10.0f));
         this.writeButton = new ImageView(context);
         int dp = AndroidUtilities.dp(56.0f);
-        String str = "dialogFloatingButton";
-        int color = Theme.getColor(str);
+        int color = Theme.getColor("dialogFloatingButton");
         int i = Build.VERSION.SDK_INT;
-        if (i >= 21) {
-            str = "dialogFloatingButtonPressed";
-        }
-        this.writeButtonDrawable = Theme.createSimpleSelectorCircleDrawable(dp, color, Theme.getColor(str));
+        this.writeButtonDrawable = Theme.createSimpleSelectorCircleDrawable(dp, color, Theme.getColor(i >= 21 ? "dialogFloatingButtonPressed" : "dialogFloatingButton"));
         if (i < 21) {
             Drawable mutate = context.getResources().getDrawable(R.drawable.floating_shadow_profile).mutate();
             mutate.setColorFilter(new PorterDuffColorFilter(-16777216, PorterDuff.Mode.MULTIPLY));
@@ -531,14 +525,14 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
 
                     @Override // android.view.View.OnTouchListener
                     public boolean onTouch(View view2, MotionEvent motionEvent) {
-                        if (motionEvent.getActionMasked() != 0 || PhotoAlbumPickerActivity.this.sendPopupWindow == null || !PhotoAlbumPickerActivity.this.sendPopupWindow.isShowing()) {
+                        if (motionEvent.getActionMasked() == 0 && PhotoAlbumPickerActivity.this.sendPopupWindow != null && PhotoAlbumPickerActivity.this.sendPopupWindow.isShowing()) {
+                            view2.getHitRect(this.popupRect);
+                            if (this.popupRect.contains((int) motionEvent.getX(), (int) motionEvent.getY())) {
+                                return false;
+                            }
+                            PhotoAlbumPickerActivity.this.sendPopupWindow.dismiss();
                             return false;
                         }
-                        view2.getHitRect(this.popupRect);
-                        if (this.popupRect.contains((int) motionEvent.getX(), (int) motionEvent.getY())) {
-                            return false;
-                        }
-                        PhotoAlbumPickerActivity.this.sendPopupWindow.dismiss();
                         return false;
                     }
                 });
@@ -599,10 +593,9 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$4(KeyEvent keyEvent) {
         ActionBarPopupWindow actionBarPopupWindow;
-        if (keyEvent.getKeyCode() != 4 || keyEvent.getRepeatCount() != 0 || (actionBarPopupWindow = this.sendPopupWindow) == null || !actionBarPopupWindow.isShowing()) {
-            return;
+        if (keyEvent.getKeyCode() == 4 && keyEvent.getRepeatCount() == 0 && (actionBarPopupWindow = this.sendPopupWindow) != null && actionBarPopupWindow.isShowing()) {
+            this.sendPopupWindow.dismiss();
         }
-        this.sendPopupWindow.dismiss();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -658,30 +651,28 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     public void didReceivedNotification(int i, int i2, Object... objArr) {
         if (i == NotificationCenter.albumsDidLoad) {
-            if (this.classGuid != ((Integer) objArr[0]).intValue()) {
-                return;
+            if (this.classGuid == ((Integer) objArr[0]).intValue()) {
+                int i3 = this.selectPhotoType;
+                if (i3 == SELECT_TYPE_AVATAR || i3 == SELECT_TYPE_WALLPAPER || i3 == SELECT_TYPE_QR || !this.allowSearchImages) {
+                    this.albumsSorted = (ArrayList) objArr[2];
+                } else {
+                    this.albumsSorted = (ArrayList) objArr[1];
+                }
+                FrameLayout frameLayout = this.progressView;
+                if (frameLayout != null) {
+                    frameLayout.setVisibility(8);
+                }
+                RecyclerListView recyclerListView = this.listView;
+                if (recyclerListView != null && recyclerListView.getEmptyView() == null) {
+                    this.listView.setEmptyView(this.emptyView);
+                }
+                ListAdapter listAdapter = this.listAdapter;
+                if (listAdapter != null) {
+                    listAdapter.notifyDataSetChanged();
+                }
+                this.loading = false;
             }
-            int i3 = this.selectPhotoType;
-            if (i3 == SELECT_TYPE_AVATAR || i3 == SELECT_TYPE_WALLPAPER || i3 == SELECT_TYPE_QR || !this.allowSearchImages) {
-                this.albumsSorted = (ArrayList) objArr[2];
-            } else {
-                this.albumsSorted = (ArrayList) objArr[1];
-            }
-            FrameLayout frameLayout = this.progressView;
-            if (frameLayout != null) {
-                frameLayout.setVisibility(8);
-            }
-            RecyclerListView recyclerListView = this.listView;
-            if (recyclerListView != null && recyclerListView.getEmptyView() == null) {
-                this.listView.setEmptyView(this.emptyView);
-            }
-            ListAdapter listAdapter = this.listAdapter;
-            if (listAdapter != null) {
-                listAdapter.notifyDataSetChanged();
-            }
-            this.loading = false;
-        } else if (i != NotificationCenter.closeChats) {
-        } else {
+        } else if (i == NotificationCenter.closeChats) {
             removeSelfFromStack();
         }
     }
@@ -720,12 +711,11 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
             Object obj = hashMap.get(arrayList.get(i2));
             SendMessagesHelper.SendingMediaInfo sendingMediaInfo = new SendMessagesHelper.SendingMediaInfo();
             arrayList2.add(sendingMediaInfo);
-            String str = null;
             if (obj instanceof MediaController.PhotoEntry) {
                 MediaController.PhotoEntry photoEntry = (MediaController.PhotoEntry) obj;
-                String str2 = photoEntry.imagePath;
-                if (str2 != null) {
-                    sendingMediaInfo.path = str2;
+                String str = photoEntry.imagePath;
+                if (str != null) {
+                    sendingMediaInfo.path = str;
                 } else {
                     sendingMediaInfo.path = photoEntry.path;
                 }
@@ -733,28 +723,22 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
                 sendingMediaInfo.videoEditedInfo = photoEntry.editedInfo;
                 sendingMediaInfo.isVideo = photoEntry.isVideo;
                 CharSequence charSequence = photoEntry.caption;
-                if (charSequence != null) {
-                    str = charSequence.toString();
-                }
-                sendingMediaInfo.caption = str;
+                sendingMediaInfo.caption = charSequence != null ? charSequence.toString() : null;
                 sendingMediaInfo.entities = photoEntry.entities;
                 sendingMediaInfo.masks = photoEntry.stickers;
                 sendingMediaInfo.ttl = photoEntry.ttl;
             } else if (obj instanceof MediaController.SearchImage) {
                 MediaController.SearchImage searchImage = (MediaController.SearchImage) obj;
-                String str3 = searchImage.imagePath;
-                if (str3 != null) {
-                    sendingMediaInfo.path = str3;
+                String str2 = searchImage.imagePath;
+                if (str2 != null) {
+                    sendingMediaInfo.path = str2;
                 } else {
                     sendingMediaInfo.searchImage = searchImage;
                 }
                 sendingMediaInfo.thumbPath = searchImage.thumbPath;
                 sendingMediaInfo.videoEditedInfo = searchImage.editedInfo;
                 CharSequence charSequence2 = searchImage.caption;
-                if (charSequence2 != null) {
-                    str = charSequence2.toString();
-                }
-                sendingMediaInfo.caption = str;
+                sendingMediaInfo.caption = charSequence2 != null ? charSequence2.toString() : null;
                 sendingMediaInfo.entities = searchImage.entities;
                 sendingMediaInfo.masks = searchImage.stickers;
                 sendingMediaInfo.ttl = searchImage.ttl;
@@ -815,29 +799,14 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
             this.frameLayout2.setVisibility(4);
             this.writeButtonContainer.setVisibility(4);
         }
-        float f = 0.2f;
-        float f2 = 1.0f;
         this.writeButtonContainer.setScaleX(z ? 1.0f : 0.2f);
         this.writeButtonContainer.setScaleY(z ? 1.0f : 0.2f);
-        float f3 = 0.0f;
         this.writeButtonContainer.setAlpha(z ? 1.0f : 0.0f);
         this.selectedCountView.setScaleX(z ? 1.0f : 0.2f);
-        View view = this.selectedCountView;
-        if (z) {
-            f = 1.0f;
-        }
-        view.setScaleY(f);
-        View view2 = this.selectedCountView;
-        if (!z) {
-            f2 = 0.0f;
-        }
-        view2.setAlpha(f2);
+        this.selectedCountView.setScaleY(z ? 1.0f : 0.2f);
+        this.selectedCountView.setAlpha(z ? 1.0f : 0.0f);
         this.frameLayout2.setTranslationY(z ? 0.0f : AndroidUtilities.dp(48.0f));
-        View view3 = this.shadow;
-        if (!z) {
-            f3 = AndroidUtilities.dp(48.0f);
-        }
-        view3.setTranslationY(f3);
+        this.shadow.setTranslationY(z ? 0.0f : AndroidUtilities.dp(48.0f));
         return true;
     }
 
@@ -879,10 +848,11 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
                 @Override // org.telegram.ui.PhotoPickerActivity.PhotoPickerActivityDelegate
                 public void actionButtonPressed(boolean z, boolean z2, int i2) {
                     PhotoAlbumPickerActivity.this.removeSelfFromStack();
-                    if (!z) {
-                        PhotoAlbumPickerActivity photoAlbumPickerActivity = PhotoAlbumPickerActivity.this;
-                        photoAlbumPickerActivity.sendSelectedPhotos(photoAlbumPickerActivity.selectedPhotos, PhotoAlbumPickerActivity.this.selectedPhotosOrder, z2, i2);
+                    if (z) {
+                        return;
                     }
+                    PhotoAlbumPickerActivity photoAlbumPickerActivity = PhotoAlbumPickerActivity.this;
+                    photoAlbumPickerActivity.sendSelectedPhotos(photoAlbumPickerActivity.selectedPhotos, PhotoAlbumPickerActivity.this.selectedPhotosOrder, z2, i2);
                 }
 
                 @Override // org.telegram.ui.PhotoPickerActivity.PhotoPickerActivityDelegate
@@ -919,9 +889,10 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
                 @Override // org.telegram.ui.PhotoPickerActivity.PhotoPickerActivityDelegate
                 public void actionButtonPressed(boolean z, boolean z2, int i2) {
                     PhotoAlbumPickerActivity.this.removeSelfFromStack();
-                    if (!z) {
-                        PhotoAlbumPickerActivity.this.sendSelectedPhotos(hashMap, arrayList, z2, i2);
+                    if (z) {
+                        return;
                     }
+                    PhotoAlbumPickerActivity.this.sendSelectedPhotos(hashMap, arrayList, z2, i2);
                 }
 
                 @Override // org.telegram.ui.PhotoPickerActivity.PhotoPickerActivityDelegate
@@ -955,9 +926,10 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
             @Override // org.telegram.ui.PhotoPickerActivity.PhotoPickerActivityDelegate
             public void actionButtonPressed(boolean z, boolean z2, int i2) {
                 PhotoAlbumPickerActivity.this.removeSelfFromStack();
-                if (!z) {
-                    PhotoAlbumPickerActivity.this.sendSelectedPhotos(hashMap, arrayList, z2, i2);
+                if (z) {
+                    return;
                 }
+                PhotoAlbumPickerActivity.this.sendSelectedPhotos(hashMap, arrayList, z2, i2);
             }
 
             @Override // org.telegram.ui.PhotoPickerActivity.PhotoPickerActivityDelegate

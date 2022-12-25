@@ -31,12 +31,12 @@ public abstract class TLRPC$ContactLink_layer101 extends TLObject {
                 }
             };
         }
-        if (tLRPC$ContactLink_layer101 != null || !z) {
-            if (tLRPC$ContactLink_layer101 != null) {
-                tLRPC$ContactLink_layer101.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$ContactLink_layer101;
+        if (tLRPC$ContactLink_layer101 == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in ContactLink", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in ContactLink", Integer.valueOf(i)));
+        if (tLRPC$ContactLink_layer101 != null) {
+            tLRPC$ContactLink_layer101.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$ContactLink_layer101;
     }
 }

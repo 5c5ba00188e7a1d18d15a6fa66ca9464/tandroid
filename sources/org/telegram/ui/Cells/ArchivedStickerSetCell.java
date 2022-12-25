@@ -207,12 +207,8 @@ public class ArchivedStickerSetCell extends FrameLayout implements Checkable {
                 animatorSet.cancel();
             }
             boolean z2 = this.checked;
-            float f = 1.0f;
-            float f2 = z2 ? 1.0f : 0.0f;
-            if (z2) {
-                f = 0.0f;
-            }
-            int i = 4;
+            float f = z2 ? 1.0f : 0.0f;
+            float f2 = z2 ? 0.0f : 1.0f;
             if (z) {
                 this.currentButton = z2 ? this.deleteButton : this.addButton;
                 this.addButton.setVisibility(0);
@@ -220,7 +216,7 @@ public class ArchivedStickerSetCell extends FrameLayout implements Checkable {
                 AnimatorSet animatorSet2 = new AnimatorSet();
                 this.animatorSet = animatorSet2;
                 animatorSet2.setDuration(250L);
-                this.animatorSet.playTogether(ObjectAnimator.ofFloat(this.deleteButton, View.ALPHA, f2), ObjectAnimator.ofFloat(this.deleteButton, View.SCALE_X, f2), ObjectAnimator.ofFloat(this.deleteButton, View.SCALE_Y, f2), ObjectAnimator.ofFloat(this.addButton, View.ALPHA, f), ObjectAnimator.ofFloat(this.addButton, View.SCALE_X, f), ObjectAnimator.ofFloat(this.addButton, View.SCALE_Y, f));
+                this.animatorSet.playTogether(ObjectAnimator.ofFloat(this.deleteButton, View.ALPHA, f), ObjectAnimator.ofFloat(this.deleteButton, View.SCALE_X, f), ObjectAnimator.ofFloat(this.deleteButton, View.SCALE_Y, f), ObjectAnimator.ofFloat(this.addButton, View.ALPHA, f2), ObjectAnimator.ofFloat(this.addButton, View.SCALE_X, f2), ObjectAnimator.ofFloat(this.addButton, View.SCALE_Y, f2));
                 this.animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.ArchivedStickerSetCell.1
                     @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                     public void onAnimationEnd(Animator animator) {
@@ -236,17 +232,13 @@ public class ArchivedStickerSetCell extends FrameLayout implements Checkable {
                 return;
             }
             this.deleteButton.setVisibility(z2 ? 0 : 4);
-            this.deleteButton.setAlpha(f2);
-            this.deleteButton.setScaleX(f2);
-            this.deleteButton.setScaleY(f2);
-            ProgressButton progressButton = this.addButton;
-            if (!this.checked) {
-                i = 0;
-            }
-            progressButton.setVisibility(i);
-            this.addButton.setAlpha(f);
-            this.addButton.setScaleX(f);
-            this.addButton.setScaleY(f);
+            this.deleteButton.setAlpha(f);
+            this.deleteButton.setScaleX(f);
+            this.deleteButton.setScaleY(f);
+            this.addButton.setVisibility(this.checked ? 4 : 0);
+            this.addButton.setAlpha(f2);
+            this.addButton.setScaleX(f2);
+            this.addButton.setScaleY(f2);
         }
     }
 

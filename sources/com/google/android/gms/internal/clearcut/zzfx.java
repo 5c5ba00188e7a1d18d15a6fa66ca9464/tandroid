@@ -78,25 +78,25 @@ final class zzfx implements Cloneable {
         if (obj == this) {
             return true;
         }
-        if (!(obj instanceof zzfx)) {
-            return false;
-        }
-        zzfx zzfxVar = (zzfx) obj;
-        if (this.value != null && zzfxVar.value != null) {
-            if (this.zzrp == zzfxVar.zzrp) {
+        if (obj instanceof zzfx) {
+            zzfx zzfxVar = (zzfx) obj;
+            if (this.value != null && zzfxVar.value != null) {
+                if (this.zzrp != zzfxVar.zzrp) {
+                    return false;
+                }
                 throw null;
             }
-            return false;
-        }
-        List<Object> list2 = this.zzrq;
-        if (list2 != null && (list = zzfxVar.zzrq) != null) {
+            List<Object> list2 = this.zzrq;
+            if (list2 == null || (list = zzfxVar.zzrq) == null) {
+                try {
+                    return Arrays.equals(toByteArray(), zzfxVar.toByteArray());
+                } catch (IOException e) {
+                    throw new IllegalStateException(e);
+                }
+            }
             return list2.equals(list);
         }
-        try {
-            return Arrays.equals(toByteArray(), zzfxVar.toByteArray());
-        } catch (IOException e) {
-            throw new IllegalStateException(e);
-        }
+        return false;
     }
 
     public final int hashCode() {
@@ -109,26 +109,25 @@ final class zzfx implements Cloneable {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public final void zza(zzfs zzfsVar) throws IOException {
-        if (this.value == null) {
-            Iterator<Object> it = this.zzrq.iterator();
-            if (!it.hasNext()) {
-                return;
-            }
+        if (this.value != null) {
+            throw new NoSuchMethodError();
+        }
+        Iterator<Object> it = this.zzrq.iterator();
+        if (it.hasNext()) {
             it.next();
             throw new NoSuchMethodError();
         }
-        throw new NoSuchMethodError();
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public final int zzen() {
         if (this.value == null) {
             Iterator<Object> it = this.zzrq.iterator();
-            if (!it.hasNext()) {
-                return 0;
+            if (it.hasNext()) {
+                it.next();
+                throw new NoSuchMethodError();
             }
-            it.next();
-            throw new NoSuchMethodError();
+            return 0;
         }
         throw new NoSuchMethodError();
     }

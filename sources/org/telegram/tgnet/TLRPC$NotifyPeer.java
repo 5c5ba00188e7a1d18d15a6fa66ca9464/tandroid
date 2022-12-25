@@ -44,12 +44,12 @@ public abstract class TLRPC$NotifyPeer extends TLObject {
                 tLRPC$TL_notifyPeer = null;
                 break;
         }
-        if (tLRPC$TL_notifyPeer != null || !z) {
-            if (tLRPC$TL_notifyPeer != null) {
-                tLRPC$TL_notifyPeer.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_notifyPeer;
+        if (tLRPC$TL_notifyPeer == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in NotifyPeer", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in NotifyPeer", Integer.valueOf(i)));
+        if (tLRPC$TL_notifyPeer != null) {
+            tLRPC$TL_notifyPeer.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_notifyPeer;
     }
 }

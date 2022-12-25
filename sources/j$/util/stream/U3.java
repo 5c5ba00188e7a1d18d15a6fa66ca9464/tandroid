@@ -39,11 +39,11 @@ public class U3 extends Z3 implements j$.util.function.f {
     public void forEach(Consumer consumer) {
         if (consumer instanceof j$.util.function.f) {
             g((j$.util.function.f) consumer);
-        } else if (!Q4.a) {
-            spliterator().forEachRemaining(consumer);
-        } else {
+        } else if (Q4.a) {
             Q4.a(getClass(), "{0} calling SpinedBuffer.OfDouble.forEach(Consumer)");
             throw null;
+        } else {
+            spliterator().forEachRemaining(consumer);
         }
     }
 

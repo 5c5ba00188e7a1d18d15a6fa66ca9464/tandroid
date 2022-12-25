@@ -31,9 +31,9 @@ public final class TrackSelectionArray {
         if (this == obj) {
             return true;
         }
-        if (obj != null && TrackSelectionArray.class == obj.getClass()) {
-            return Arrays.equals(this.trackSelections, ((TrackSelectionArray) obj).trackSelections);
+        if (obj == null || TrackSelectionArray.class != obj.getClass()) {
+            return false;
         }
-        return false;
+        return Arrays.equals(this.trackSelections, ((TrackSelectionArray) obj).trackSelections);
     }
 }

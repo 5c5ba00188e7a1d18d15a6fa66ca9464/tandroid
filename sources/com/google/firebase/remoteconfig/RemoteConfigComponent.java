@@ -127,10 +127,10 @@ public class RemoteConfigComponent {
     }
 
     private static Personalization getPersonalization(FirebaseApp firebaseApp, String str, Provider<AnalyticsConnector> provider) {
-        if (!isPrimaryApp(firebaseApp) || !str.equals("firebase")) {
-            return null;
+        if (isPrimaryApp(firebaseApp) && str.equals("firebase")) {
+            return new Personalization(provider);
         }
-        return new Personalization(provider);
+        return null;
     }
 
     private static boolean isAbtSupported(FirebaseApp firebaseApp, String str) {

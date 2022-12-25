@@ -12,7 +12,6 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.drawable.Drawable;
-import android.view.ViewPropertyAnimator;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -105,12 +104,12 @@ public class VoIPToggleButton extends FrameLayout {
         this.drawBackground = z;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:11:0x0054  */
-    /* JADX WARN: Removed duplicated region for block: B:14:0x007e  */
-    /* JADX WARN: Removed duplicated region for block: B:67:0x01c3  */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x0290  */
-    /* JADX WARN: Removed duplicated region for block: B:77:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:8:0x0042  */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x0042  */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x0054  */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x007e  */
+    /* JADX WARN: Removed duplicated region for block: B:72:0x01c3  */
+    /* JADX WARN: Removed duplicated region for block: B:73:0x0290  */
+    /* JADX WARN: Removed duplicated region for block: B:78:? A[RETURN, SYNTHETIC] */
     @Override // android.view.View
     @SuppressLint({"DrawAllocation"})
     /*
@@ -260,20 +259,12 @@ public class VoIPToggleButton extends FrameLayout {
 
     public void setEnabled(boolean z, boolean z2) {
         super.setEnabled(z);
-        float f = 1.0f;
         if (z2) {
-            ViewPropertyAnimator animate = animate();
-            if (!z) {
-                f = 0.5f;
-            }
-            animate.alpha(f).setDuration(180L).start();
+            animate().alpha(z ? 1.0f : 0.5f).setDuration(180L).start();
             return;
         }
         clearAnimation();
-        if (!z) {
-            f = 0.5f;
-        }
-        setAlpha(f);
+        setAlpha(z ? 1.0f : 0.5f);
     }
 
     public void setData(int i, int i2, int i3, float f, boolean z, String str, boolean z2, boolean z3) {
@@ -439,48 +430,40 @@ public class VoIPToggleButton extends FrameLayout {
             return;
         }
         this.checked = z;
-        if (!this.checkable) {
-            return;
-        }
-        float f = 1.0f;
-        if (z2) {
-            ValueAnimator valueAnimator = this.checkAnimator;
-            if (valueAnimator != null) {
-                valueAnimator.removeAllListeners();
-                this.checkAnimator.cancel();
-            }
-            float[] fArr = new float[2];
-            fArr[0] = this.checkedProgress;
-            if (!this.checked) {
-                f = 0.0f;
-            }
-            fArr[1] = f;
-            ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
-            this.checkAnimator = ofFloat;
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoIPToggleButton$$ExternalSyntheticLambda0
-                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                    VoIPToggleButton.this.lambda$setChecked$1(valueAnimator2);
+        if (this.checkable) {
+            if (z2) {
+                ValueAnimator valueAnimator = this.checkAnimator;
+                if (valueAnimator != null) {
+                    valueAnimator.removeAllListeners();
+                    this.checkAnimator.cancel();
                 }
-            });
-            this.checkAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.voip.VoIPToggleButton.2
-                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                public void onAnimationEnd(Animator animator) {
-                    VoIPToggleButton voIPToggleButton = VoIPToggleButton.this;
-                    voIPToggleButton.checkedProgress = voIPToggleButton.checked ? 1.0f : 0.0f;
-                    VoIPToggleButton voIPToggleButton2 = VoIPToggleButton.this;
-                    voIPToggleButton2.setBackgroundColor(voIPToggleButton2.backgroundCheck1, VoIPToggleButton.this.backgroundCheck2);
-                }
-            });
-            this.checkAnimator.setDuration(150L);
-            this.checkAnimator.start();
-            return;
+                float[] fArr = new float[2];
+                fArr[0] = this.checkedProgress;
+                fArr[1] = this.checked ? 1.0f : 0.0f;
+                ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
+                this.checkAnimator = ofFloat;
+                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoIPToggleButton$$ExternalSyntheticLambda0
+                    @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                    public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
+                        VoIPToggleButton.this.lambda$setChecked$1(valueAnimator2);
+                    }
+                });
+                this.checkAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.voip.VoIPToggleButton.2
+                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                    public void onAnimationEnd(Animator animator) {
+                        VoIPToggleButton voIPToggleButton = VoIPToggleButton.this;
+                        voIPToggleButton.checkedProgress = voIPToggleButton.checked ? 1.0f : 0.0f;
+                        VoIPToggleButton voIPToggleButton2 = VoIPToggleButton.this;
+                        voIPToggleButton2.setBackgroundColor(voIPToggleButton2.backgroundCheck1, VoIPToggleButton.this.backgroundCheck2);
+                    }
+                });
+                this.checkAnimator.setDuration(150L);
+                this.checkAnimator.start();
+                return;
+            }
+            this.checkedProgress = z ? 1.0f : 0.0f;
+            setBackgroundColor(this.backgroundCheck1, this.backgroundCheck2);
         }
-        if (!z) {
-            f = 0.0f;
-        }
-        this.checkedProgress = f;
-        setBackgroundColor(this.backgroundCheck1, this.backgroundCheck2);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -508,22 +491,15 @@ public class VoIPToggleButton extends FrameLayout {
     }
 
     public void showText(boolean z, boolean z2) {
-        float f = 1.0f;
         if (z2) {
-            if (!z) {
-                f = 0.0f;
-            }
-            if (this.textLayoutContainer.getAlpha() == f) {
+            float f = z ? 1.0f : 0.0f;
+            if (this.textLayoutContainer.getAlpha() != f) {
+                this.textLayoutContainer.animate().alpha(f).start();
                 return;
             }
-            this.textLayoutContainer.animate().alpha(f).start();
             return;
         }
         this.textLayoutContainer.animate().cancel();
-        FrameLayout frameLayout = this.textLayoutContainer;
-        if (!z) {
-            f = 0.0f;
-        }
-        frameLayout.setAlpha(f);
+        this.textLayoutContainer.setAlpha(z ? 1.0f : 0.0f);
     }
 }

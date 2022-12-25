@@ -43,8 +43,8 @@ public class WallpaperCell extends FrameLayout {
     private Paint framePaint;
     private boolean isBottom;
     private boolean isTop;
-    private int spanCount = 3;
-    private WallpaperView[] wallpaperViews = new WallpaperView[5];
+    private int spanCount;
+    private WallpaperView[] wallpaperViews;
 
     protected void onWallpaperClick(Object obj, int i) {
     }
@@ -115,13 +115,12 @@ public class WallpaperCell extends FrameLayout {
         }
 
         public void setWallpaper(Object obj, Object obj2, Drawable drawable, boolean z) {
+            TLRPC$PhotoSize tLRPC$PhotoSize;
             int patternColor;
             int patternColor2;
             this.currentWallpaper = obj;
-            int i = 0;
             this.imageView.setVisibility(0);
             this.imageView2.setVisibility(4);
-            TLRPC$PhotoSize tLRPC$PhotoSize = null;
             this.imageView.setBackgroundDrawable(null);
             this.imageView.getImageReceiver().setColorFilter(null);
             this.imageView.getImageReceiver().setAlpha(1.0f);
@@ -134,9 +133,7 @@ public class WallpaperCell extends FrameLayout {
                 TLRPC$TL_wallPaper tLRPC$TL_wallPaper = (TLRPC$TL_wallPaper) obj;
                 TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(tLRPC$TL_wallPaper.document.thumbs, AndroidUtilities.dp(100));
                 TLRPC$PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(tLRPC$TL_wallPaper.document.thumbs, AndroidUtilities.dp(180));
-                if (closestPhotoSizeWithSize2 != closestPhotoSizeWithSize) {
-                    tLRPC$PhotoSize = closestPhotoSizeWithSize2;
-                }
+                tLRPC$PhotoSize = closestPhotoSizeWithSize2 != closestPhotoSizeWithSize ? closestPhotoSizeWithSize2 : null;
                 long j = tLRPC$PhotoSize != null ? tLRPC$PhotoSize.size : tLRPC$TL_wallPaper.document.size;
                 if (!tLRPC$TL_wallPaper.pattern) {
                     if (tLRPC$PhotoSize != null) {
@@ -207,10 +204,10 @@ public class WallpaperCell extends FrameLayout {
                     TLRPC$PhotoSize closestPhotoSizeWithSize3 = FileLoader.getClosestPhotoSizeWithSize(colorWallpaper.pattern.document.thumbs, 100);
                     this.imageView.setImage(ImageLocation.getForDocument(closestPhotoSizeWithSize3, colorWallpaper.pattern.document), str, null, null, "jpg", closestPhotoSizeWithSize3 != null ? closestPhotoSizeWithSize3.size : colorWallpaper.pattern.document.size, 1, colorWallpaper.pattern);
                     this.imageView.getImageReceiver().setAlpha(Math.abs(colorWallpaper.intensity));
-                    if (Build.VERSION.SDK_INT >= 29 && colorWallpaper.gradientColor2 != 0) {
+                    if (Build.VERSION.SDK_INT < 29 || colorWallpaper.gradientColor2 == 0) {
+                        this.imageView.getImageReceiver().setColorFilter(new PorterDuffColorFilter(AndroidUtilities.getPatternColor(patternColor), PorterDuff.Mode.SRC_IN));
                         return;
                     }
-                    this.imageView.getImageReceiver().setColorFilter(new PorterDuffColorFilter(AndroidUtilities.getPatternColor(patternColor), PorterDuff.Mode.SRC_IN));
                     return;
                 }
                 this.imageView.setImageBitmap(null);
@@ -243,13 +240,8 @@ public class WallpaperCell extends FrameLayout {
                 if (tLRPC$Photo != null) {
                     TLRPC$PhotoSize closestPhotoSizeWithSize4 = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Photo.sizes, AndroidUtilities.dp(100));
                     TLRPC$PhotoSize closestPhotoSizeWithSize5 = FileLoader.getClosestPhotoSizeWithSize(searchImage.photo.sizes, AndroidUtilities.dp(180));
-                    if (closestPhotoSizeWithSize5 != closestPhotoSizeWithSize4) {
-                        tLRPC$PhotoSize = closestPhotoSizeWithSize5;
-                    }
-                    if (tLRPC$PhotoSize != null) {
-                        i = tLRPC$PhotoSize.size;
-                    }
-                    this.imageView.setImage(ImageLocation.getForPhoto(tLRPC$PhotoSize, searchImage.photo), str, ImageLocation.getForPhoto(closestPhotoSizeWithSize4, searchImage.photo), str2, "jpg", i, 1, searchImage);
+                    tLRPC$PhotoSize = closestPhotoSizeWithSize5 != closestPhotoSizeWithSize4 ? closestPhotoSizeWithSize5 : null;
+                    this.imageView.setImage(ImageLocation.getForPhoto(tLRPC$PhotoSize, searchImage.photo), str, ImageLocation.getForPhoto(closestPhotoSizeWithSize4, searchImage.photo), str2, "jpg", tLRPC$PhotoSize != null ? tLRPC$PhotoSize.size : 0, 1, searchImage);
                     return;
                 }
                 this.imageView.setImage(searchImage.thumbUrl, str, null);
@@ -268,7 +260,6 @@ public class WallpaperCell extends FrameLayout {
                 animatorSet.cancel();
                 this.animator = null;
             }
-            float f = 0.8875f;
             if (z2) {
                 AnimatorSet animatorSet2 = new AnimatorSet();
                 this.animator = animatorSet2;
@@ -279,10 +270,7 @@ public class WallpaperCell extends FrameLayout {
                 animatorArr[0] = ObjectAnimator.ofFloat(backupImageView, "scaleX", fArr);
                 BackupImageView backupImageView2 = this.imageView;
                 float[] fArr2 = new float[1];
-                if (!z) {
-                    f = 1.0f;
-                }
-                fArr2[0] = f;
+                fArr2[0] = z ? 0.8875f : 1.0f;
                 animatorArr[1] = ObjectAnimator.ofFloat(backupImageView2, "scaleY", fArr2);
                 animatorSet2.playTogether(animatorArr);
                 this.animator.setDuration(200L);
@@ -310,11 +298,7 @@ public class WallpaperCell extends FrameLayout {
                 this.animator.start();
             } else {
                 this.imageView.setScaleX(z ? 0.8875f : 1.0f);
-                BackupImageView backupImageView3 = this.imageView;
-                if (!z) {
-                    f = 1.0f;
-                }
-                backupImageView3.setScaleY(f);
+                this.imageView.setScaleY(z ? 0.8875f : 1.0f);
             }
             invalidate();
         }
@@ -337,14 +321,17 @@ public class WallpaperCell extends FrameLayout {
 
         @Override // android.view.View
         protected void onDraw(Canvas canvas) {
-            if (this.checkBox.isChecked() || !this.imageView.getImageReceiver().hasBitmapImage() || this.imageView.getImageReceiver().getCurrentAlpha() != 1.0f) {
-                canvas.drawRect(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), WallpaperCell.this.backgroundPaint);
+            if (!this.checkBox.isChecked() && this.imageView.getImageReceiver().hasBitmapImage() && this.imageView.getImageReceiver().getCurrentAlpha() == 1.0f) {
+                return;
             }
+            canvas.drawRect(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), WallpaperCell.this.backgroundPaint);
         }
     }
 
     public WallpaperCell(Context context) {
         super(context);
+        this.spanCount = 3;
+        this.wallpaperViews = new WallpaperView[5];
         final int i = 0;
         while (true) {
             WallpaperView[] wallpaperViewArr = this.wallpaperViews;
@@ -397,22 +384,16 @@ public class WallpaperCell extends FrameLayout {
         int dp = size - AndroidUtilities.dp(((this.spanCount - 1) * 6) + 28);
         int i3 = dp / this.spanCount;
         int dp2 = this.currentType == 0 ? AndroidUtilities.dp(180.0f) : i3;
-        float f = 14.0f;
         int i4 = 0;
-        int dp3 = (this.isTop ? AndroidUtilities.dp(14.0f) : 0) + dp2;
-        if (!this.isBottom) {
-            f = 6.0f;
-        }
-        setMeasuredDimension(size, dp3 + AndroidUtilities.dp(f));
+        setMeasuredDimension(size, (this.isTop ? AndroidUtilities.dp(14.0f) : 0) + dp2 + AndroidUtilities.dp(this.isBottom ? 14.0f : 6.0f));
         while (true) {
             int i5 = this.spanCount;
-            if (i4 < i5) {
-                this.wallpaperViews[i4].measure(View.MeasureSpec.makeMeasureSpec(i4 == i5 + (-1) ? dp : i3, 1073741824), View.MeasureSpec.makeMeasureSpec(dp2, 1073741824));
-                dp -= i3;
-                i4++;
-            } else {
+            if (i4 >= i5) {
                 return;
             }
+            this.wallpaperViews[i4].measure(View.MeasureSpec.makeMeasureSpec(i4 == i5 + (-1) ? dp : i3, 1073741824), View.MeasureSpec.makeMeasureSpec(dp2, 1073741824));
+            dp -= i3;
+            i4++;
         }
     }
 
@@ -435,13 +416,12 @@ public class WallpaperCell extends FrameLayout {
         int i2 = 0;
         while (true) {
             WallpaperView[] wallpaperViewArr = this.wallpaperViews;
-            if (i2 < wallpaperViewArr.length) {
-                wallpaperViewArr[i2].setVisibility(i2 < i ? 0 : 8);
-                this.wallpaperViews[i2].clearAnimation();
-                i2++;
-            } else {
+            if (i2 >= wallpaperViewArr.length) {
                 return;
             }
+            wallpaperViewArr[i2].setVisibility(i2 < i ? 0 : 8);
+            this.wallpaperViews[i2].clearAnimation();
+            i2++;
         }
     }
 

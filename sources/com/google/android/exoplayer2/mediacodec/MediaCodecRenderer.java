@@ -33,8 +33,11 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
     private static final byte[] ADAPTATION_WORKAROUND_BUFFER = {0, 0, 1, 103, 66, -64, 11, -38, 37, -112, 0, 0, 1, 104, -50, 15, 19, 32, 0, 0, 1, 101, -120, -124, 13, -50, 113, 24, -96, 0, 47, -65, 28, 49, -61, 39, 93, 120};
     private final float assumedMinimumCodecOperatingRate;
     private ArrayDeque<MediaCodecInfo> availableCodecInfos;
+    private final DecoderInputBuffer buffer;
     private MediaCodec codec;
     private int codecAdaptationWorkaroundMode;
+    private int codecDrainAction;
+    private int codecDrainState;
     private DrmSession<FrameworkMediaCrypto> codecDrmSession;
     private Format codecFormat;
     private boolean codecHasOutputMediaFormat;
@@ -49,13 +52,18 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
     private boolean codecNeedsMonoChannelCountWorkaround;
     private boolean codecNeedsReconfigureWorkaround;
     private boolean codecNeedsSosFlushWorkaround;
+    private float codecOperatingRate;
     private boolean codecReceivedBuffers;
     private boolean codecReceivedEos;
+    private int codecReconfigurationState;
     private boolean codecReconfigured;
+    private final ArrayList<Long> decodeOnlyPresentationTimestamps;
     protected DecoderCounters decoderCounters;
     private boolean drmResourcesAcquired;
     private final DrmSessionManager<FrameworkMediaCrypto> drmSessionManager;
     private final boolean enableDecoderFallback;
+    private final DecoderInputBuffer flagsOnlyBuffer;
+    private final TimedValueQueue<Format> formatQueue;
     private ByteBuffer[] inputBuffers;
     private Format inputFormat;
     private int inputIndex;
@@ -68,6 +76,7 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
     private MediaCrypto mediaCrypto;
     private boolean mediaCryptoRequiresSecureDecoder;
     private ByteBuffer outputBuffer;
+    private final MediaCodec.BufferInfo outputBufferInfo;
     private ByteBuffer[] outputBuffers;
     private Format outputFormat;
     private int outputIndex;
@@ -75,23 +84,14 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
     private boolean pendingOutputEndOfStream;
     private final boolean playClearSamplesWithoutKeys;
     private DecoderInitializationException preferredDecoderInitializationException;
+    private long renderTimeLimitMs;
+    private float rendererOperatingRate;
     private boolean shouldSkipAdaptationWorkaroundOutputBuffer;
     private boolean skipMediaCodecStopOnRelease;
     private DrmSession<FrameworkMediaCrypto> sourceDrmSession;
     private boolean waitingForFirstSampleInFormat;
     private boolean waitingForFirstSyncSample;
     private boolean waitingForKeys;
-    private final DecoderInputBuffer buffer = new DecoderInputBuffer(0);
-    private final DecoderInputBuffer flagsOnlyBuffer = DecoderInputBuffer.newFlagsOnlyInstance();
-    private final TimedValueQueue<Format> formatQueue = new TimedValueQueue<>();
-    private final ArrayList<Long> decodeOnlyPresentationTimestamps = new ArrayList<>();
-    private final MediaCodec.BufferInfo outputBufferInfo = new MediaCodec.BufferInfo();
-    private int codecReconfigurationState = 0;
-    private int codecDrainState = 0;
-    private int codecDrainAction = 0;
-    private float codecOperatingRate = -1.0f;
-    private float rendererOperatingRate = 1.0f;
-    private long renderTimeLimitMs = -9223372036854775807L;
 
     protected abstract int canKeepCodec(MediaCodec mediaCodec, MediaCodecInfo mediaCodecInfo, Format format, Format format2);
 
@@ -195,6 +195,17 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
         this.playClearSamplesWithoutKeys = z;
         this.enableDecoderFallback = z2;
         this.assumedMinimumCodecOperatingRate = f;
+        this.buffer = new DecoderInputBuffer(0);
+        this.flagsOnlyBuffer = DecoderInputBuffer.newFlagsOnlyInstance();
+        this.formatQueue = new TimedValueQueue<>();
+        this.decodeOnlyPresentationTimestamps = new ArrayList<>();
+        this.outputBufferInfo = new MediaCodec.BufferInfo();
+        this.codecReconfigurationState = 0;
+        this.codecDrainState = 0;
+        this.codecDrainAction = 0;
+        this.codecOperatingRate = -1.0f;
+        this.rendererOperatingRate = 1.0f;
+        this.renderTimeLimitMs = -9223372036854775807L;
     }
 
     @Override // com.google.android.exoplayer2.RendererCapabilities
@@ -381,8 +392,7 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
         try {
             if (this.outputStreamEnded) {
                 renderToEndOfStream();
-            } else if (this.inputFormat == null && !readToFlagsOnlyBuffer(true)) {
-            } else {
+            } else if (this.inputFormat != null || readToFlagsOnlyBuffer(true)) {
                 maybeInitCodec();
                 if (this.codec != null) {
                     long elapsedRealtime = SystemClock.elapsedRealtime();
@@ -453,11 +463,11 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
         if (readSource == -5) {
             onInputFormatChanged(formatHolder);
             return true;
-        } else if (readSource != -4 || !this.flagsOnlyBuffer.isEndOfStream()) {
-            return false;
-        } else {
+        } else if (readSource == -4 && this.flagsOnlyBuffer.isEndOfStream()) {
             this.inputStreamEnded = true;
             processEndOfStream();
+            return false;
+        } else {
             return false;
         }
     }
@@ -779,14 +789,14 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
             return false;
         }
         int state = this.codecDrmSession.getState();
-        if (state == 1) {
-            throw createRendererException(this.codecDrmSession.getError(), this.inputFormat);
+        if (state != 1) {
+            return state != 4;
         }
-        return state != 4;
+        throw createRendererException(this.codecDrmSession.getError(), this.inputFormat);
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Code restructure failed: missing block: B:52:0x00a0, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:50:0x00a0, code lost:
         if (r1.height == r2.height) goto L54;
      */
     /* JADX WARN: Multi-variable type inference failed */
@@ -827,10 +837,10 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
             if (canKeepCodec == 3) {
                 this.codecFormat = format;
                 updateCodecOperatingRate();
-                if (this.sourceDrmSession == this.codecDrmSession) {
+                if (this.sourceDrmSession != this.codecDrmSession) {
+                    drainAndUpdateCodecDrmSession();
                     return;
                 }
-                drainAndUpdateCodecDrmSession();
                 return;
             }
             throw new IllegalStateException();
@@ -852,10 +862,9 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
             this.codecNeedsAdaptationWorkaroundBuffer = z;
             this.codecFormat = format;
             updateCodecOperatingRate();
-            if (this.sourceDrmSession == this.codecDrmSession) {
-                return;
+            if (this.sourceDrmSession != this.codecDrmSession) {
+                drainAndUpdateCodecDrmSession();
             }
-            drainAndUpdateCodecDrmSession();
         }
     }
 
@@ -866,7 +875,7 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
 
     @Override // com.google.android.exoplayer2.Renderer
     public boolean isReady() {
-        return this.inputFormat != null && !this.waitingForKeys && (isSourceReady() || hasOutputBuffer() || (this.codecHotswapDeadlineMs != -9223372036854775807L && SystemClock.elapsedRealtime() < this.codecHotswapDeadlineMs));
+        return (this.inputFormat == null || this.waitingForKeys || (!isSourceReady() && !hasOutputBuffer() && (this.codecHotswapDeadlineMs == -9223372036854775807L || SystemClock.elapsedRealtime() >= this.codecHotswapDeadlineMs))) ? false : true;
     }
 
     private void updateCodecOperatingRate() throws ExoPlaybackException {
@@ -880,8 +889,7 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
         }
         if (codecOperatingRateV23 == -1.0f) {
             drainAndReinitializeCodec();
-        } else if (f == -1.0f && codecOperatingRateV23 <= this.assumedMinimumCodecOperatingRate) {
-        } else {
+        } else if (f != -1.0f || codecOperatingRateV23 > this.assumedMinimumCodecOperatingRate) {
             Bundle bundle = new Bundle();
             bundle.putFloat("operating-rate", codecOperatingRateV23);
             this.codec.setParameters(bundle);
@@ -1146,11 +1154,11 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
             }
         }
         if (i < 24) {
-            if (!"OMX.Nvidia.h264.decode".equals(str) && !"OMX.Nvidia.h264.decode.secure".equals(str)) {
-                return 0;
+            if ("OMX.Nvidia.h264.decode".equals(str) || "OMX.Nvidia.h264.decode.secure".equals(str)) {
+                String str3 = Util.DEVICE;
+                return ("flounder".equals(str3) || "flounder_lte".equals(str3) || "grouper".equals(str3) || "tilapia".equals(str3)) ? 1 : 0;
             }
-            String str3 = Util.DEVICE;
-            return ("flounder".equals(str3) || "flounder_lte".equals(str3) || "grouper".equals(str3) || "tilapia".equals(str3)) ? 1 : 0;
+            return 0;
         }
         return 0;
     }

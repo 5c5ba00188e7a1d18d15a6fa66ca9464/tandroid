@@ -101,10 +101,10 @@ public class ImageLocation {
         if (tLObject instanceof TLRPC$Document) {
             return getForDocument(tLRPC$PhotoSize, (TLRPC$Document) tLObject);
         }
-        if (!(tLObject instanceof TLRPC$Message)) {
-            return null;
+        if (tLObject instanceof TLRPC$Message) {
+            return getForMessage(tLRPC$PhotoSize, (TLRPC$Message) tLObject);
         }
-        return getForMessage(tLRPC$PhotoSize, (TLRPC$Message) tLObject);
+        return null;
     }
 
     public static ImageLocation getForMessage(TLRPC$PhotoSize tLRPC$PhotoSize, TLRPC$Message tLRPC$Message) {
@@ -136,10 +136,10 @@ public class ImageLocation {
         if (tLObject instanceof TLRPC$User) {
             return getForUser((TLRPC$User) tLObject, i);
         }
-        if (!(tLObject instanceof TLRPC$Chat)) {
-            return null;
+        if (tLObject instanceof TLRPC$Chat) {
+            return getForChat((TLRPC$Chat) tLObject, i);
         }
-        return getForChat((TLRPC$Chat) tLObject, i);
+        return null;
     }
 
     public static ImageLocation getForUser(TLRPC$User tLRPC$User, int i) {
@@ -286,10 +286,10 @@ public class ImageLocation {
             ImageLocation imageLocation = new ImageLocation();
             imageLocation.photoSize = tLRPC$PhotoSize;
             return imageLocation;
-        } else if (tLRPC$PhotoSize != null && tLRPC$Document != null) {
-            return getForPhoto(tLRPC$PhotoSize.location, tLRPC$PhotoSize.size, null, tLRPC$Document, null, 1, tLRPC$Document.dc_id, null, tLRPC$PhotoSize.type);
-        } else {
+        } else if (tLRPC$PhotoSize == null || tLRPC$Document == null) {
             return null;
+        } else {
+            return getForPhoto(tLRPC$PhotoSize.location, tLRPC$PhotoSize.size, null, tLRPC$Document, null, 1, tLRPC$Document.dc_id, null, tLRPC$PhotoSize.type);
         }
     }
 
@@ -389,10 +389,10 @@ public class ImageLocation {
         }
         TLRPC$PhotoSize tLRPC$PhotoSize = this.photoSize;
         if ((tLRPC$PhotoSize instanceof TLRPC$TL_photoStrippedSize) || (tLRPC$PhotoSize instanceof TLRPC$TL_photoPathSize)) {
-            if (tLRPC$PhotoSize.bytes.length <= 0) {
-                return null;
+            if (tLRPC$PhotoSize.bytes.length > 0) {
+                return getStrippedKey(obj, obj2, tLRPC$PhotoSize);
             }
-            return getStrippedKey(obj, obj2, tLRPC$PhotoSize);
+            return null;
         } else if (this.location != null) {
             return this.location.volume_id + "_" + this.location.local_id;
         } else {
@@ -413,13 +413,9 @@ public class ImageLocation {
                     sb.append("_");
                     sb.append(themeDocument.themeSettings.accent_color);
                     sb.append("_");
-                    int i = 0;
                     sb.append(themeDocument.themeSettings.message_colors.size() > 1 ? themeDocument.themeSettings.message_colors.get(1).intValue() : 0);
                     sb.append("_");
-                    if (themeDocument.themeSettings.message_colors.size() > 0) {
-                        i = themeDocument.themeSettings.message_colors.get(0).intValue();
-                    }
-                    sb.append(i);
+                    sb.append(themeDocument.themeSettings.message_colors.size() > 0 ? themeDocument.themeSettings.message_colors.get(0).intValue() : 0);
                     return sb.toString();
                 } else if (tLRPC$Document.id == 0 || tLRPC$Document.dc_id == 0) {
                     return null;
@@ -428,10 +424,10 @@ public class ImageLocation {
                 }
             }
             String str = this.path;
-            if (str == null) {
-                return null;
+            if (str != null) {
+                return Utilities.MD5(str);
             }
-            return Utilities.MD5(str);
+            return null;
         }
     }
 

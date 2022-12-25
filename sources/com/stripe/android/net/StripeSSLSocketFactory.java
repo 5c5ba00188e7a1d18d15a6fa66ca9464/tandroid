@@ -72,18 +72,18 @@ public class StripeSSLSocketFactory extends SSLSocketFactory {
     }
 
     private Socket fixupSocket(Socket socket) {
-        if (!(socket instanceof SSLSocket)) {
-            return socket;
+        if (socket instanceof SSLSocket) {
+            SSLSocket sSLSocket = (SSLSocket) socket;
+            HashSet hashSet = new HashSet(Arrays.asList(sSLSocket.getEnabledProtocols()));
+            if (this.tlsv11Supported) {
+                hashSet.add("TLSv1.1");
+            }
+            if (this.tlsv12Supported) {
+                hashSet.add("TLSv1.2");
+            }
+            sSLSocket.setEnabledProtocols((String[]) hashSet.toArray(new String[0]));
+            return sSLSocket;
         }
-        SSLSocket sSLSocket = (SSLSocket) socket;
-        HashSet hashSet = new HashSet(Arrays.asList(sSLSocket.getEnabledProtocols()));
-        if (this.tlsv11Supported) {
-            hashSet.add("TLSv1.1");
-        }
-        if (this.tlsv12Supported) {
-            hashSet.add("TLSv1.2");
-        }
-        sSLSocket.setEnabledProtocols((String[]) hashSet.toArray(new String[0]));
-        return sSLSocket;
+        return socket;
     }
 }

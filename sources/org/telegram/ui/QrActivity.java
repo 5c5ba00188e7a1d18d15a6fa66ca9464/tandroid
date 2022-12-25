@@ -108,32 +108,32 @@ import org.telegram.ui.QrActivity;
 /* loaded from: classes3.dex */
 public class QrActivity extends BaseFragment {
     private static List<EmojiThemes> cachedThemes;
-    private static boolean firstOpen = true;
+    private static boolean firstOpen;
     private static final ArrayMap<String, int[]> qrColorsMap;
     private BackupImageView avatarImageView;
     private View backgroundView;
     private long chatId;
     private ImageView closeImageView;
+    private MotionBackgroundDrawable currMotionDrawable;
     private EmojiThemes currentTheme;
+    private final ArrayMap<String, Bitmap> emojiThemeDarkIcons;
     private Bitmap emojiThemeIcon;
     private final EmojiThemes homeTheme;
     private boolean isCurrentThemeDark;
     private RLottieImageView logoImageView;
+    private final Rect logoRect;
     private ValueAnimator patternAlphaAnimator;
     private ValueAnimator patternIntensityAnimator;
     private MotionBackgroundDrawable prevMotionDrawable;
+    private int[] prevQrColors;
     private int prevSystemUiVisibility;
     private QrView qrView;
+    private final ThemeResourcesProvider resourcesProvider;
+    private int selectedPosition;
     private MotionBackgroundDrawable tempMotionDrawable;
     private FrameLayout themeLayout;
     private ThemeListViewController themesViewController;
     private long userId;
-    private final ThemeResourcesProvider resourcesProvider = new ThemeResourcesProvider();
-    private final Rect logoRect = new Rect();
-    private final ArrayMap<String, Bitmap> emojiThemeDarkIcons = new ArrayMap<>();
-    private int[] prevQrColors = null;
-    private MotionBackgroundDrawable currMotionDrawable = new MotionBackgroundDrawable();
-    private int selectedPosition = -1;
 
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes3.dex */
@@ -162,13 +162,20 @@ public class QrActivity extends BaseFragment {
         arrayMap.put("💜n", new int[]{-3123030, -2067394, -2599576, -6067757});
         arrayMap.put("🎄n", new int[]{-2725857, -3242459, -3248848, -3569123});
         arrayMap.put("🎮n", new int[]{-3718333, -1278154, -16338695, -6076417});
+        firstOpen = true;
     }
 
     public QrActivity(Bundle bundle) {
         super(bundle);
+        this.resourcesProvider = new ThemeResourcesProvider();
         EmojiThemes createHomeQrTheme = EmojiThemes.createHomeQrTheme();
         this.homeTheme = createHomeQrTheme;
+        this.logoRect = new Rect();
+        this.emojiThemeDarkIcons = new ArrayMap<>();
+        this.prevQrColors = null;
+        this.currMotionDrawable = new MotionBackgroundDrawable();
         this.currentTheme = createHomeQrTheme;
+        this.selectedPosition = -1;
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -178,11 +185,11 @@ public class QrActivity extends BaseFragment {
         return super.onFragmentCreate();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:21:0x00e5  */
-    /* JADX WARN: Removed duplicated region for block: B:24:0x010c  */
-    /* JADX WARN: Removed duplicated region for block: B:27:0x02a1  */
-    /* JADX WARN: Removed duplicated region for block: B:31:0x02a4  */
+    /* JADX WARN: Removed duplicated region for block: B:31:0x00e5  */
     /* JADX WARN: Removed duplicated region for block: B:32:0x0107  */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x010c  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x02a1  */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x02a4  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -237,14 +244,11 @@ public class QrActivity extends BaseFragment {
 
             @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
             protected void onLayout(boolean z4, int i, int i2, int i3, int i4) {
-                int i5 = 0;
                 boolean z5 = getWidth() < getHeight();
                 QrActivity.this.backgroundView.layout(0, 0, getWidth(), getHeight());
-                if (QrActivity.this.themeLayout.getVisibility() == 0) {
-                    i5 = QrActivity.this.themeLayout.getMeasuredHeight();
-                }
+                int measuredHeight = QrActivity.this.themeLayout.getVisibility() == 0 ? QrActivity.this.themeLayout.getMeasuredHeight() : 0;
                 int width = z5 ? (getWidth() - QrActivity.this.qrView.getMeasuredWidth()) / 2 : ((getWidth() - QrActivity.this.themeLayout.getMeasuredWidth()) - QrActivity.this.qrView.getMeasuredWidth()) / 2;
-                int height = z5 ? ((((getHeight() - i5) - QrActivity.this.qrView.getMeasuredHeight()) - AndroidUtilities.dp(48.0f)) / 2) + AndroidUtilities.dp(52.0f) : (getHeight() - QrActivity.this.qrView.getMeasuredHeight()) / 2;
+                int height = z5 ? ((((getHeight() - measuredHeight) - QrActivity.this.qrView.getMeasuredHeight()) - AndroidUtilities.dp(48.0f)) / 2) + AndroidUtilities.dp(52.0f) : (getHeight() - QrActivity.this.qrView.getMeasuredHeight()) / 2;
                 QrActivity.this.qrView.layout(width, height, QrActivity.this.qrView.getMeasuredWidth() + width, QrActivity.this.qrView.getMeasuredHeight() + height);
                 if (z5) {
                     int width2 = (getWidth() - QrActivity.this.avatarImageView.getMeasuredWidth()) / 2;
@@ -254,7 +258,7 @@ public class QrActivity extends BaseFragment {
                 if (QrActivity.this.themeLayout.getVisibility() == 0) {
                     if (z5) {
                         int width3 = (getWidth() - QrActivity.this.themeLayout.getMeasuredWidth()) / 2;
-                        QrActivity.this.themeLayout.layout(width3, i4 - i5, QrActivity.this.themeLayout.getMeasuredWidth() + width3, i4);
+                        QrActivity.this.themeLayout.layout(width3, i4 - measuredHeight, QrActivity.this.themeLayout.getMeasuredWidth() + width3, i4);
                     } else {
                         int height2 = (getHeight() - QrActivity.this.themeLayout.getMeasuredHeight()) / 2;
                         QrActivity.this.themeLayout.layout(i3 - QrActivity.this.themeLayout.getMeasuredWidth(), height2, i3, QrActivity.this.themeLayout.getMeasuredHeight() + height2);
@@ -778,15 +782,13 @@ public class QrActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Type inference failed for: r0v0, types: [boolean, int] */
     public void onItemSelected(EmojiThemes emojiThemes, int i, final boolean z) {
         float f;
         this.selectedPosition = i;
         final EmojiThemes emojiThemes2 = this.currentTheme;
-        final ?? r0 = this.isCurrentThemeDark;
+        final boolean z2 = this.isCurrentThemeDark;
         this.currentTheme = emojiThemes;
-        EmojiThemes.ThemeItem themeItem = emojiThemes.getThemeItem(r0 == true ? 1 : 0);
+        EmojiThemes.ThemeItem themeItem = emojiThemes.getThemeItem(z2 ? 1 : 0);
         ValueAnimator valueAnimator = this.patternAlphaAnimator;
         if (valueAnimator != null) {
             f = Math.max(0.5f, 1.0f - ((Float) valueAnimator.getAnimatedValue()).floatValue()) * 1.0f;
@@ -810,14 +812,14 @@ public class QrActivity extends BaseFragment {
             this.currMotionDrawable.posAnimationProgress = motionBackgroundDrawable3.posAnimationProgress;
         }
         this.qrView.setPosAnimationProgress(this.currMotionDrawable.posAnimationProgress);
-        TLRPC$WallPaper wallpaper = this.currentTheme.getWallpaper(r0);
+        TLRPC$WallPaper wallpaper = this.currentTheme.getWallpaper(z2 ? 1 : 0);
         if (wallpaper != null) {
             this.currMotionDrawable.setPatternBitmap(wallpaper.settings.intensity);
             final long elapsedRealtime = SystemClock.elapsedRealtime();
-            this.currentTheme.loadWallpaper(r0, new ResultCallback() { // from class: org.telegram.ui.QrActivity$$ExternalSyntheticLambda12
+            this.currentTheme.loadWallpaper(z2 ? 1 : 0, new ResultCallback() { // from class: org.telegram.ui.QrActivity$$ExternalSyntheticLambda12
                 @Override // org.telegram.tgnet.ResultCallback
                 public final void onComplete(Object obj) {
-                    QrActivity.this.lambda$onItemSelected$8(r0, elapsedRealtime, (Pair) obj);
+                    QrActivity.this.lambda$onItemSelected$8(z2, elapsedRealtime, (Pair) obj);
                 }
 
                 @Override // org.telegram.tgnet.ResultCallback
@@ -838,7 +840,7 @@ public class QrActivity extends BaseFragment {
         ArrayMap<String, int[]> arrayMap = qrColorsMap;
         StringBuilder sb = new StringBuilder();
         sb.append(emojiThemes.emoji);
-        sb.append(r0 != 0 ? "n" : "d");
+        sb.append(z2 ? "n" : "d");
         final int[] iArr = arrayMap.get(sb.toString());
         if (z) {
             if (this.prevQrColors == null) {
@@ -903,14 +905,13 @@ public class QrActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Multi-variable type inference failed */
     public /* synthetic */ void lambda$onItemSelected$8(boolean z, long j, Pair pair) {
         if (pair == null || this.currentTheme.getTlTheme(z ? 1 : 0) == null) {
             return;
         }
         long longValue = ((Long) pair.first).longValue();
         Bitmap bitmap = (Bitmap) pair.second;
-        if (longValue != this.currentTheme.getTlTheme(z).id || bitmap == null) {
+        if (longValue != this.currentTheme.getTlTheme(z ? 1 : 0).id || bitmap == null) {
             return;
         }
         onPatternLoaded(bitmap, this.currMotionDrawable.getIntensity(), SystemClock.elapsedRealtime() - j > 150);
@@ -1122,8 +1123,12 @@ public class QrActivity extends BaseFragment {
         private Bitmap backgroundBitmap;
         private final Paint bitmapGradientPaint;
         private QrCenterChangedListener centerChangedListener;
+        private Runnable checkTimerToken;
         private Bitmap contentBitmap;
         private AnimatedFloat contentBitmapAlpha;
+        private Paint crossfadeFromPaint;
+        private Paint crossfadeToPaint;
+        private boolean firstPrepare;
         private final MotionBackgroundDrawable gradientDrawable;
         private final BitmapShader gradientShader;
         private final BitmapShader gradientTextShader;
@@ -1138,6 +1143,7 @@ public class QrActivity extends BaseFragment {
         private RLottieDrawable loadingMatrix;
         private boolean logoCenterSet;
         private Bitmap oldContentBitmap;
+        private float[] radii;
         private boolean setData;
         private StaticLayout shareUsernameLayout;
         private TextPaint shareUsernameLayoutPaint;
@@ -1145,16 +1151,6 @@ public class QrActivity extends BaseFragment {
         private String username;
         private static final float SHADOW_SIZE = AndroidUtilities.dp(2.0f);
         private static final float RADIUS = AndroidUtilities.dp(20.0f);
-        private Paint crossfadeFromPaint = new Paint(1);
-        private Paint crossfadeToPaint = new Paint(1);
-        private float[] radii = new float[8];
-        private Runnable checkTimerToken = new Runnable() { // from class: org.telegram.ui.QrActivity$QrView$$ExternalSyntheticLambda1
-            @Override // java.lang.Runnable
-            public final void run() {
-                QrActivity.QrView.this.lambda$new$5();
-            }
-        };
-        private boolean firstPrepare = true;
 
         /* loaded from: classes3.dex */
         public interface QrCenterChangedListener {
@@ -1169,6 +1165,16 @@ public class QrActivity extends BaseFragment {
             this.bitmapGradientPaint = paint;
             CubicBezierInterpolator cubicBezierInterpolator = CubicBezierInterpolator.EASE_OUT_QUINT;
             this.contentBitmapAlpha = new AnimatedFloat(1.0f, this, 0L, 2000L, cubicBezierInterpolator);
+            this.crossfadeFromPaint = new Paint(1);
+            this.crossfadeToPaint = new Paint(1);
+            this.radii = new float[8];
+            this.checkTimerToken = new Runnable() { // from class: org.telegram.ui.QrActivity$QrView$$ExternalSyntheticLambda1
+                @Override // java.lang.Runnable
+                public final void run() {
+                    QrActivity.QrView.this.lambda$new$5();
+                }
+            };
+            this.firstPrepare = true;
             motionBackgroundDrawable.setIndeterminateAnimation(true);
             motionBackgroundDrawable.setParentView(this);
             Bitmap bitmap = motionBackgroundDrawable.getBitmap();
@@ -1201,24 +1207,23 @@ public class QrActivity extends BaseFragment {
         }
 
         public void setForShare(boolean z) {
-            if (!this.hasTimer) {
-                return;
-            }
-            if (z) {
-                if (this.shareUsernameLayoutPaint == null) {
-                    this.shareUsernameLayoutPaint = new TextPaint(1);
+            if (this.hasTimer) {
+                if (z) {
+                    if (this.shareUsernameLayoutPaint == null) {
+                        this.shareUsernameLayoutPaint = new TextPaint(1);
+                    }
+                    this.shareUsernameLayoutPaint.setShader(this.gradientTextShader);
+                    this.shareUsernameLayoutPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rcondensedbold.ttf"));
+                    this.shareUsernameLayoutPaint.setTextSize(AndroidUtilities.dp(25.0f));
+                    String str = this.username;
+                    if (str == null) {
+                        str = "";
+                    }
+                    this.shareUsernameLayout = StaticLayoutEx.createStaticLayout(Emoji.replaceEmoji(str, this.shareUsernameLayoutPaint.getFontMetricsInt(), AndroidUtilities.dp(20.0f), false), this.shareUsernameLayoutPaint, getWidth(), Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false, TextUtils.TruncateAt.END, getWidth() - AndroidUtilities.dp(60.0f), 1);
+                    return;
                 }
-                this.shareUsernameLayoutPaint.setShader(this.gradientTextShader);
-                this.shareUsernameLayoutPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rcondensedbold.ttf"));
-                this.shareUsernameLayoutPaint.setTextSize(AndroidUtilities.dp(25.0f));
-                String str = this.username;
-                if (str == null) {
-                    str = "";
-                }
-                this.shareUsernameLayout = StaticLayoutEx.createStaticLayout(Emoji.replaceEmoji(str, this.shareUsernameLayoutPaint.getFontMetricsInt(), AndroidUtilities.dp(20.0f), false), this.shareUsernameLayoutPaint, getWidth(), Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false, TextUtils.TruncateAt.END, getWidth() - AndroidUtilities.dp(60.0f), 1);
-                return;
+                this.shareUsernameLayout = null;
             }
-            this.shareUsernameLayout = null;
         }
 
         @Override // android.view.View
@@ -1299,9 +1304,9 @@ public class QrActivity extends BaseFragment {
             }
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:20:0x008f  */
-        /* JADX WARN: Removed duplicated region for block: B:30:0x00f7  */
-        /* JADX WARN: Removed duplicated region for block: B:40:? A[RETURN, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:24:0x008f  */
+        /* JADX WARN: Removed duplicated region for block: B:34:0x00f7  */
+        /* JADX WARN: Removed duplicated region for block: B:42:? A[RETURN, SYNTHETIC] */
         @Override // android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -1421,59 +1426,53 @@ public class QrActivity extends BaseFragment {
         public /* synthetic */ void lambda$new$5() {
             AndroidUtilities.cancelRunOnUIThread(this.checkTimerToken);
             boolean z = this.hasTimer;
-            if (!z) {
-                return;
-            }
-            if (z && this.loadingMatrix == null) {
-                RLottieDrawable rLottieDrawable = new RLottieDrawable(R.raw.qr_matrix, "qr_matrix", AndroidUtilities.dp(200.0f), AndroidUtilities.dp(200.0f));
-                this.loadingMatrix = rLottieDrawable;
-                rLottieDrawable.setMasterParent(this);
-                this.loadingMatrix.getPaint().setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_IN));
-                this.loadingMatrix.setAutoRepeat(1);
-                this.loadingMatrix.start();
-            }
-            String str = "";
-            if (this.linkExpires == 0 || System.currentTimeMillis() / 1000 >= this.linkExpires) {
-                if (this.linkExpires != 0) {
-                    this.link = null;
-                    final int width = getWidth();
-                    final int height = getHeight();
-                    Utilities.themeQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.QrActivity$QrView$$ExternalSyntheticLambda2
-                        @Override // java.lang.Runnable
-                        public final void run() {
-                            QrActivity.QrView.this.lambda$new$2(width, height);
+            if (z) {
+                if (z && this.loadingMatrix == null) {
+                    RLottieDrawable rLottieDrawable = new RLottieDrawable(R.raw.qr_matrix, "qr_matrix", AndroidUtilities.dp(200.0f), AndroidUtilities.dp(200.0f));
+                    this.loadingMatrix = rLottieDrawable;
+                    rLottieDrawable.setMasterParent(this);
+                    this.loadingMatrix.getPaint().setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_IN));
+                    this.loadingMatrix.setAutoRepeat(1);
+                    this.loadingMatrix.start();
+                }
+                if (this.linkExpires == 0 || System.currentTimeMillis() / 1000 >= this.linkExpires) {
+                    if (this.linkExpires != 0) {
+                        this.link = null;
+                        final int width = getWidth();
+                        final int height = getHeight();
+                        Utilities.themeQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.QrActivity$QrView$$ExternalSyntheticLambda2
+                            @Override // java.lang.Runnable
+                            public final void run() {
+                                QrActivity.QrView.this.lambda$new$2(width, height);
+                            }
+                        });
+                        this.timerTextDrawable.setText("");
+                    }
+                    MessagesController.getInstance(UserConfig.selectedAccount).requestContactToken(this.linkExpires == 0 ? 750L : 1750L, new Utilities.Callback() { // from class: org.telegram.ui.QrActivity$QrView$$ExternalSyntheticLambda7
+                        @Override // org.telegram.messenger.Utilities.Callback
+                        public final void run(Object obj) {
+                            QrActivity.QrView.this.lambda$new$4((TLRPC$TL_exportedContactToken) obj);
                         }
                     });
-                    this.timerTextDrawable.setText(str);
                 }
-                MessagesController.getInstance(UserConfig.selectedAccount).requestContactToken(this.linkExpires == 0 ? 750L : 1750L, new Utilities.Callback() { // from class: org.telegram.ui.QrActivity$QrView$$ExternalSyntheticLambda7
-                    @Override // org.telegram.messenger.Utilities.Callback
-                    public final void run(Object obj) {
-                        QrActivity.QrView.this.lambda$new$4((TLRPC$TL_exportedContactToken) obj);
-                    }
-                });
-            }
-            int i = this.linkExpires;
-            if (i > 0 && this.link != null) {
-                long max = Math.max(0L, (i - (System.currentTimeMillis() / 1000)) - 1);
-                int i2 = (int) (max % 60);
-                int min = Math.min(99, (int) (max / 60));
-                AnimatedTextView.AnimatedTextDrawable animatedTextDrawable = this.timerTextDrawable;
-                StringBuilder sb = new StringBuilder();
-                sb.append(min < 10 ? "0" : str);
-                sb.append(min);
-                sb.append(":");
-                if (i2 < 10) {
-                    str = "0";
+                int i = this.linkExpires;
+                if (i > 0 && this.link != null) {
+                    long max = Math.max(0L, (i - (System.currentTimeMillis() / 1000)) - 1);
+                    int i2 = (int) (max % 60);
+                    int min = Math.min(99, (int) (max / 60));
+                    AnimatedTextView.AnimatedTextDrawable animatedTextDrawable = this.timerTextDrawable;
+                    StringBuilder sb = new StringBuilder();
+                    sb.append(min < 10 ? "0" : "");
+                    sb.append(min);
+                    sb.append(":");
+                    sb.append(i2 < 10 ? "0" : "");
+                    sb.append(i2);
+                    animatedTextDrawable.setText(sb.toString(), true, false);
                 }
-                sb.append(str);
-                sb.append(i2);
-                animatedTextDrawable.setText(sb.toString(), true, false);
+                if (isAttachedToWindow()) {
+                    AndroidUtilities.runOnUIThread(this.checkTimerToken, 1000L);
+                }
             }
-            if (!isAttachedToWindow()) {
-                return;
-            }
-            AndroidUtilities.runOnUIThread(this.checkTimerToken, 1000L);
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -1519,11 +1518,11 @@ public class QrActivity extends BaseFragment {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* JADX WARN: Removed duplicated region for block: B:56:0x01b3  */
-        /* JADX WARN: Removed duplicated region for block: B:60:0x01e5 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-        /* JADX WARN: Removed duplicated region for block: B:68:0x0219 A[RETURN] */
-        /* JADX WARN: Removed duplicated region for block: B:69:0x021a  */
-        /* JADX WARN: Removed duplicated region for block: B:88:0x01b5  */
+        /* JADX WARN: Removed duplicated region for block: B:67:0x01b3  */
+        /* JADX WARN: Removed duplicated region for block: B:68:0x01b5  */
+        /* JADX WARN: Removed duplicated region for block: B:80:0x0219 A[RETURN] */
+        /* JADX WARN: Removed duplicated region for block: B:81:0x021a  */
+        /* JADX WARN: Removed duplicated region for block: B:97:0x01e5 A[EXC_TOP_SPLITTER, SYNTHETIC] */
         /* renamed from: prepareContent */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -1745,6 +1744,7 @@ public class QrActivity extends BaseFragment {
         private float changeDayNightViewProgress;
         private final RLottieDrawable darkThemeDrawable;
         private final RLottieImageView darkThemeView;
+        private boolean forceDark;
         private final BaseFragment fragment;
         protected boolean isLightDarkChangeAnimation;
         private OnItemSelectedListener itemSelectedListener;
@@ -1761,7 +1761,6 @@ public class QrActivity extends BaseFragment {
         private final Window window;
         private final Paint backgroundPaint = new Paint(1);
         public int prevSelectedPosition = -1;
-        private boolean forceDark = Theme.getActiveTheme().isDark() ^ true;
 
         protected void setDarkTheme(boolean z) {
         }
@@ -1866,6 +1865,7 @@ public class QrActivity extends BaseFragment {
             int i = R.raw.sun_outline;
             RLottieDrawable rLottieDrawable = new RLottieDrawable(i, "" + i, dp, dp, false, null);
             this.darkThemeDrawable = rLottieDrawable;
+            this.forceDark = Theme.getActiveTheme().isDark() ^ true;
             setForceDark(Theme.getActiveTheme().isDark(), false);
             rLottieDrawable.setPlayInDirectionOfCustomEndFrame(true);
             rLottieDrawable.setColorFilter(new PorterDuffColorFilter(themedColor, PorterDuff.Mode.MULTIPLY));
@@ -2026,10 +2026,9 @@ public class QrActivity extends BaseFragment {
                 ((ThemeSmallPreviewView) view).playEmojiAnimation();
             }
             OnItemSelectedListener onItemSelectedListener = this.itemSelectedListener;
-            if (onItemSelectedListener == null) {
-                return;
+            if (onItemSelectedListener != null) {
+                onItemSelectedListener.onItemSelected(this.selectedItem.chatTheme, i);
             }
-            onItemSelectedListener.onItemSelected(this.selectedItem.chatTheme, i);
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -2144,15 +2143,14 @@ public class QrActivity extends BaseFragment {
                 this.isLightDarkChangeAnimation = true;
                 setDarkTheme(z);
             }
-            if (this.adapter.items == null) {
-                return;
+            if (this.adapter.items != null) {
+                for (int i = 0; i < this.adapter.items.size(); i++) {
+                    this.adapter.items.get(i).themeIndex = z ? 1 : 0;
+                    this.adapter.items.get(i).icon = QrActivity.this.getEmojiThemeIcon(this.adapter.items.get(i).chatTheme, z);
+                }
+                QrActivity.this.tempMotionDrawable = null;
+                this.adapter.notifyDataSetChanged();
             }
-            for (int i = 0; i < this.adapter.items.size(); i++) {
-                this.adapter.items.get(i).themeIndex = z ? 1 : 0;
-                this.adapter.items.get(i).icon = QrActivity.this.getEmojiThemeIcon(this.adapter.items.get(i).chatTheme, z);
-            }
-            QrActivity.this.tempMotionDrawable = null;
-            this.adapter.notifyDataSetChanged();
         }
 
         public void setForceDark(boolean z, boolean z2) {
@@ -2164,19 +2162,18 @@ public class QrActivity extends BaseFragment {
             if (z2) {
                 this.darkThemeDrawable.setCustomEndFrame(framesCount);
                 RLottieImageView rLottieImageView = this.darkThemeView;
-                if (rLottieImageView == null) {
+                if (rLottieImageView != null) {
+                    rLottieImageView.playAnimation();
                     return;
                 }
-                rLottieImageView.playAnimation();
                 return;
             }
             this.darkThemeDrawable.setCustomEndFrame(framesCount);
             this.darkThemeDrawable.setCurrentFrame(framesCount, false, true);
             RLottieImageView rLottieImageView2 = this.darkThemeView;
-            if (rLottieImageView2 == null) {
-                return;
+            if (rLottieImageView2 != null) {
+                rLottieImageView2.invalidate();
             }
-            rLottieImageView2.invalidate();
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -2196,9 +2193,10 @@ public class QrActivity extends BaseFragment {
                     chatThemeItem.themeIndex = this.forceDark ? 1 : 0;
                 }
             }
-            if (!this.isLightDarkChangeAnimation) {
-                setItemsAnimationProgress(1.0f);
+            if (this.isLightDarkChangeAnimation) {
+                return;
             }
+            setItemsAnimationProgress(1.0f);
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -2232,13 +2230,12 @@ public class QrActivity extends BaseFragment {
                     if (themeListViewController.isLightDarkChangeAnimation) {
                         themeListViewController.setItemsAnimationProgress(f);
                     }
-                    if (f != 1.0f || !this.isAnimationStarted) {
-                        return;
+                    if (f == 1.0f && this.isAnimationStarted) {
+                        ThemeListViewController themeListViewController2 = ThemeListViewController.this;
+                        themeListViewController2.isLightDarkChangeAnimation = false;
+                        themeListViewController2.onAnimationEnd();
+                        this.isAnimationStarted = false;
                     }
-                    ThemeListViewController themeListViewController2 = ThemeListViewController.this;
-                    themeListViewController2.isLightDarkChangeAnimation = false;
-                    themeListViewController2.onAnimationEnd();
-                    this.isAnimationStarted = false;
                 }
             };
             ArrayList<ThemeDescription> arrayList = new ArrayList<>();

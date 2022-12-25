@@ -24,12 +24,12 @@ public abstract class TLRPC$messages_AllStickers extends TLObject {
                 }
             };
         }
-        if (tLRPC$TL_messages_allStickers != null || !z) {
-            if (tLRPC$TL_messages_allStickers != null) {
-                tLRPC$TL_messages_allStickers.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_messages_allStickers;
+        if (tLRPC$TL_messages_allStickers == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in messages_AllStickers", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in messages_AllStickers", Integer.valueOf(i)));
+        if (tLRPC$TL_messages_allStickers != null) {
+            tLRPC$TL_messages_allStickers.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_messages_allStickers;
     }
 }

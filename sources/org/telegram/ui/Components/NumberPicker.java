@@ -322,59 +322,59 @@ public class NumberPicker extends LinearLayout {
 
     @Override // android.view.View
     public boolean onTouchEvent(MotionEvent motionEvent) {
-        if (!isEnabled()) {
-            return false;
-        }
-        if (this.mVelocityTracker == null) {
-            this.mVelocityTracker = VelocityTracker.obtain();
-        }
-        this.mVelocityTracker.addMovement(motionEvent);
-        int actionMasked = motionEvent.getActionMasked();
-        if (actionMasked != 1) {
-            if (actionMasked == 2 && !this.mIngonreMoveEvents) {
-                float y = motionEvent.getY();
-                if (this.mScrollState != 1) {
-                    if (((int) Math.abs(y - this.mLastDownEventY)) > this.mTouchSlop) {
-                        removeAllCallbacks();
-                        onScrollStateChange(1);
-                    }
-                } else {
-                    scrollBy(0, (int) (y - this.mLastDownOrMoveEventY));
-                    invalidate();
-                }
-                this.mLastDownOrMoveEventY = y;
+        if (isEnabled()) {
+            if (this.mVelocityTracker == null) {
+                this.mVelocityTracker = VelocityTracker.obtain();
             }
-        } else {
-            removeChangeCurrentByOneFromLongPress();
-            this.mPressedStateHelper.cancel();
-            VelocityTracker velocityTracker = this.mVelocityTracker;
-            velocityTracker.computeCurrentVelocity(1000, this.mMaximumFlingVelocity);
-            int yVelocity = (int) velocityTracker.getYVelocity();
-            if (Math.abs(yVelocity) > this.mMinimumFlingVelocity) {
-                fling(yVelocity);
-                onScrollStateChange(2);
+            this.mVelocityTracker.addMovement(motionEvent);
+            int actionMasked = motionEvent.getActionMasked();
+            if (actionMasked != 1) {
+                if (actionMasked == 2 && !this.mIngonreMoveEvents) {
+                    float y = motionEvent.getY();
+                    if (this.mScrollState != 1) {
+                        if (((int) Math.abs(y - this.mLastDownEventY)) > this.mTouchSlop) {
+                            removeAllCallbacks();
+                            onScrollStateChange(1);
+                        }
+                    } else {
+                        scrollBy(0, (int) (y - this.mLastDownOrMoveEventY));
+                        invalidate();
+                    }
+                    this.mLastDownOrMoveEventY = y;
+                }
             } else {
-                int y2 = (int) motionEvent.getY();
-                int abs = (int) Math.abs(y2 - this.mLastDownEventY);
-                long eventTime = motionEvent.getEventTime() - this.mLastDownEventTime;
-                if (abs <= this.mTouchSlop && eventTime < ViewConfiguration.getTapTimeout()) {
-                    int i = (y2 / this.mSelectorElementHeight) - this.SELECTOR_MIDDLE_ITEM_INDEX;
-                    if (i > 0) {
-                        changeValueByOne(true);
-                        this.mPressedStateHelper.buttonTapped(1);
-                    } else if (i < 0) {
-                        changeValueByOne(false);
-                        this.mPressedStateHelper.buttonTapped(2);
-                    }
+                removeChangeCurrentByOneFromLongPress();
+                this.mPressedStateHelper.cancel();
+                VelocityTracker velocityTracker = this.mVelocityTracker;
+                velocityTracker.computeCurrentVelocity(1000, this.mMaximumFlingVelocity);
+                int yVelocity = (int) velocityTracker.getYVelocity();
+                if (Math.abs(yVelocity) > this.mMinimumFlingVelocity) {
+                    fling(yVelocity);
+                    onScrollStateChange(2);
                 } else {
-                    ensureScrollWheelAdjusted();
+                    int y2 = (int) motionEvent.getY();
+                    int abs = (int) Math.abs(y2 - this.mLastDownEventY);
+                    long eventTime = motionEvent.getEventTime() - this.mLastDownEventTime;
+                    if (abs <= this.mTouchSlop && eventTime < ViewConfiguration.getTapTimeout()) {
+                        int i = (y2 / this.mSelectorElementHeight) - this.SELECTOR_MIDDLE_ITEM_INDEX;
+                        if (i > 0) {
+                            changeValueByOne(true);
+                            this.mPressedStateHelper.buttonTapped(1);
+                        } else if (i < 0) {
+                            changeValueByOne(false);
+                            this.mPressedStateHelper.buttonTapped(2);
+                        }
+                    } else {
+                        ensureScrollWheelAdjusted();
+                    }
+                    onScrollStateChange(0);
                 }
-                onScrollStateChange(0);
+                this.mVelocityTracker.recycle();
+                this.mVelocityTracker = null;
             }
-            this.mVelocityTracker.recycle();
-            this.mVelocityTracker = null;
+            return true;
         }
-        return true;
+        return false;
     }
 
     @Override // android.view.ViewGroup, android.view.View
@@ -386,27 +386,27 @@ public class NumberPicker extends LinearLayout {
         return super.dispatchTouchEvent(motionEvent);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:24:0x0047, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:28:0x0047, code lost:
         requestFocus();
         r5.mLastHandledDownDpadKeyCode = r0;
         removeAllCallbacks();
      */
-    /* JADX WARN: Code restructure failed: missing block: B:25:0x0055, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:29:0x0055, code lost:
         if (r5.mFlingScroller.isFinished() == false) goto L30;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:26:0x0057, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:30:0x0057, code lost:
         if (r0 != 20) goto L29;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:27:0x0059, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:31:0x0059, code lost:
         r6 = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:28:0x005c, code lost:
-        changeValueByOne(r6);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:29:0x005b, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:32:0x005b, code lost:
         r6 = false;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:30:0x005f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:33:0x005c, code lost:
+        changeValueByOne(r6);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:34:0x005f, code lost:
         return true;
      */
     @Override // android.view.ViewGroup, android.view.View
@@ -491,15 +491,16 @@ public class NumberPicker extends LinearLayout {
         this.mCurrentScrollOffset += i2;
         while (true) {
             int i7 = this.mCurrentScrollOffset;
-            if (i7 - this.mInitialScrollOffset > this.mSelectorTextGapHeight) {
-                this.mCurrentScrollOffset = i7 - this.mSelectorElementHeight;
-                decrementSelectorIndices(iArr);
-                if (!this.mWrapSelectorWheel && iArr[this.SELECTOR_MIDDLE_ITEM_INDEX] <= this.mMinValue) {
-                    int i8 = this.mCurrentScrollOffset;
-                    int i9 = this.mInitialScrollOffset;
-                    if (i8 > i9) {
-                        this.mCurrentScrollOffset = i9;
-                    }
+            if (i7 - this.mInitialScrollOffset <= this.mSelectorTextGapHeight) {
+                break;
+            }
+            this.mCurrentScrollOffset = i7 - this.mSelectorElementHeight;
+            decrementSelectorIndices(iArr);
+            if (!this.mWrapSelectorWheel && iArr[this.SELECTOR_MIDDLE_ITEM_INDEX] <= this.mMinValue) {
+                int i8 = this.mCurrentScrollOffset;
+                int i9 = this.mInitialScrollOffset;
+                if (i8 > i9) {
+                    this.mCurrentScrollOffset = i9;
                 }
             }
         }
@@ -570,46 +571,44 @@ public class NumberPicker extends LinearLayout {
 
     private void tryComputeMaxWidth() {
         int i;
-        if (!this.mComputeMaxWidth) {
-            return;
-        }
-        String[] strArr = this.mDisplayedValues;
-        int i2 = 0;
-        if (strArr == null) {
-            float f = 0.0f;
-            for (int i3 = 0; i3 <= 9; i3++) {
-                float measureText = this.mSelectorWheelPaint.measureText(formatNumberWithLocale(i3));
-                if (measureText > f) {
-                    f = measureText;
+        if (this.mComputeMaxWidth) {
+            String[] strArr = this.mDisplayedValues;
+            int i2 = 0;
+            if (strArr == null) {
+                float f = 0.0f;
+                for (int i3 = 0; i3 <= 9; i3++) {
+                    float measureText = this.mSelectorWheelPaint.measureText(formatNumberWithLocale(i3));
+                    if (measureText > f) {
+                        f = measureText;
+                    }
                 }
-            }
-            for (int i4 = this.mMaxValue; i4 > 0; i4 /= 10) {
-                i2++;
-            }
-            i = (int) (i2 * f);
-        } else {
-            int length = strArr.length;
-            int i5 = 0;
-            while (i2 < length) {
-                float measureText2 = this.mSelectorWheelPaint.measureText(strArr[i2]);
-                if (measureText2 > i5) {
-                    i5 = (int) measureText2;
+                for (int i4 = this.mMaxValue; i4 > 0; i4 /= 10) {
+                    i2++;
                 }
-                i2++;
+                i = (int) (i2 * f);
+            } else {
+                int length = strArr.length;
+                int i5 = 0;
+                while (i2 < length) {
+                    float measureText2 = this.mSelectorWheelPaint.measureText(strArr[i2]);
+                    if (measureText2 > i5) {
+                        i5 = (int) measureText2;
+                    }
+                    i2++;
+                }
+                i = i5;
             }
-            i = i5;
+            int paddingLeft = i + this.mInputText.getPaddingLeft() + this.mInputText.getPaddingRight();
+            if (this.mMaxWidth != paddingLeft) {
+                int i6 = this.mMinWidth;
+                if (paddingLeft > i6) {
+                    this.mMaxWidth = paddingLeft;
+                } else {
+                    this.mMaxWidth = i6;
+                }
+                invalidate();
+            }
         }
-        int paddingLeft = i + this.mInputText.getPaddingLeft() + this.mInputText.getPaddingRight();
-        if (this.mMaxWidth == paddingLeft) {
-            return;
-        }
-        int i6 = this.mMinWidth;
-        if (paddingLeft > i6) {
-            this.mMaxWidth = paddingLeft;
-        } else {
-            this.mMaxWidth = i6;
-        }
-        invalidate();
     }
 
     public boolean getWrapSelectorWheel() {
@@ -619,7 +618,7 @@ public class NumberPicker extends LinearLayout {
     public void setWrapSelectorWheel(boolean z) {
         Integer num;
         boolean z2 = false;
-        if (!this.mMaxValueSet || !this.mMinValueSet || ((num = this.allItemsCount) != null && (this.mMaxValue - this.mMinValue) + 1 >= num.intValue())) {
+        if ((this.mMaxValueSet && this.mMinValueSet && ((num = this.allItemsCount) == null || (this.mMaxValue - this.mMinValue) + 1 < num.intValue())) ? false : true) {
             this.mWrapSelectorWheelSetting = z;
             if (z) {
                 z2 = true;
@@ -778,16 +777,16 @@ public class NumberPicker extends LinearLayout {
         }
         int size = View.MeasureSpec.getSize(i);
         int mode = View.MeasureSpec.getMode(i);
-        if (mode == Integer.MIN_VALUE) {
-            return View.MeasureSpec.makeMeasureSpec(Math.min(size, i2), 1073741824);
-        }
-        if (mode == 0) {
+        if (mode != Integer.MIN_VALUE) {
+            if (mode != 0) {
+                if (mode == 1073741824) {
+                    return i;
+                }
+                throw new IllegalArgumentException("Unknown measure mode: " + mode);
+            }
             return View.MeasureSpec.makeMeasureSpec(i2, 1073741824);
         }
-        if (mode == 1073741824) {
-            return i;
-        }
-        throw new IllegalArgumentException("Unknown measure mode: " + mode);
+        return View.MeasureSpec.makeMeasureSpec(Math.min(size, i2), 1073741824);
     }
 
     private int resolveSizeAndStateRespectingMinSize(int i, int i2, int i3) {
@@ -889,8 +888,7 @@ public class NumberPicker extends LinearLayout {
                 updateInputTextView();
             }
             onScrollStateChange(0);
-        } else if (this.mScrollState == 1) {
-        } else {
+        } else if (this.mScrollState != 1) {
             updateInputTextView();
         }
     }
@@ -904,19 +902,17 @@ public class NumberPicker extends LinearLayout {
         if (onScrollListener != null) {
             onScrollListener.onScrollStateChange(this, i);
         }
-        if (i != 0) {
-            return;
+        if (i == 0) {
+            AccessibilityManager accessibilityManager = (AccessibilityManager) getContext().getSystemService("accessibility");
+            if (accessibilityManager.isTouchExplorationEnabled()) {
+                String[] strArr = this.mDisplayedValues;
+                String formatNumber = strArr == null ? formatNumber(this.mValue) : strArr[this.mValue - this.mMinValue];
+                AccessibilityEvent obtain = AccessibilityEvent.obtain();
+                obtain.setEventType(16384);
+                obtain.getText().add(formatNumber);
+                accessibilityManager.sendAccessibilityEvent(obtain);
+            }
         }
-        AccessibilityManager accessibilityManager = (AccessibilityManager) getContext().getSystemService("accessibility");
-        if (!accessibilityManager.isTouchExplorationEnabled()) {
-            return;
-        }
-        String[] strArr = this.mDisplayedValues;
-        String formatNumber = strArr == null ? formatNumber(this.mValue) : strArr[this.mValue - this.mMinValue];
-        AccessibilityEvent obtain = AccessibilityEvent.obtain();
-        obtain.setEventType(16384);
-        obtain.getText().add(formatNumber);
-        accessibilityManager.sendAccessibilityEvent(obtain);
     }
 
     private void fling(int i) {

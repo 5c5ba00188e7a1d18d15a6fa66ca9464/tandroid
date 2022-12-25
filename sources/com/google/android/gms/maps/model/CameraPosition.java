@@ -66,11 +66,11 @@ public final class CameraPosition extends AbstractSafeParcelable implements Refl
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof CameraPosition)) {
-            return false;
+        if (obj instanceof CameraPosition) {
+            CameraPosition cameraPosition = (CameraPosition) obj;
+            return this.target.equals(cameraPosition.target) && Float.floatToIntBits(this.zoom) == Float.floatToIntBits(cameraPosition.zoom) && Float.floatToIntBits(this.tilt) == Float.floatToIntBits(cameraPosition.tilt) && Float.floatToIntBits(this.bearing) == Float.floatToIntBits(cameraPosition.bearing);
         }
-        CameraPosition cameraPosition = (CameraPosition) obj;
-        return this.target.equals(cameraPosition.target) && Float.floatToIntBits(this.zoom) == Float.floatToIntBits(cameraPosition.zoom) && Float.floatToIntBits(this.tilt) == Float.floatToIntBits(cameraPosition.tilt) && Float.floatToIntBits(this.bearing) == Float.floatToIntBits(cameraPosition.bearing);
+        return false;
     }
 
     public int hashCode() {

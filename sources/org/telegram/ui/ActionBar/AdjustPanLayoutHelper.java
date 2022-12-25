@@ -80,8 +80,7 @@ public class AdjustPanLayoutHelper {
     public void animateHeight(int i, int i2, boolean z) {
         if (this.ignoreOnce) {
             this.ignoreOnce = false;
-        } else if (!this.enabled) {
-        } else {
+        } else if (this.enabled) {
             startTransition(i, i2, z);
             this.animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ActionBar.AdjustPanLayoutHelper$$ExternalSyntheticLambda0
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
@@ -93,9 +92,10 @@ public class AdjustPanLayoutHelper {
             this.animator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.AdjustPanLayoutHelper.3
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                 public void onAnimationEnd(Animator animator) {
-                    if (!AdjustPanLayoutHelper.this.usingInsetAnimator) {
-                        AdjustPanLayoutHelper.this.stopTransition();
+                    if (AdjustPanLayoutHelper.this.usingInsetAnimator) {
+                        return;
                     }
+                    AdjustPanLayoutHelper.this.stopTransition();
                 }
             });
             this.animator.setDuration(250L);
@@ -114,13 +114,14 @@ public class AdjustPanLayoutHelper {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$animateHeight$0(ValueAnimator valueAnimator) {
-        if (!this.usingInsetAnimator) {
-            updateTransition(((Float) valueAnimator.getAnimatedValue()).floatValue());
+        if (this.usingInsetAnimator) {
+            return;
         }
+        updateTransition(((Float) valueAnimator.getAnimatedValue()).floatValue());
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:11:0x0047  */
-    /* JADX WARN: Removed duplicated region for block: B:15:0x005b  */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x0047  */
+    /* JADX WARN: Removed duplicated region for block: B:14:0x005b  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -242,7 +243,6 @@ public class AdjustPanLayoutHelper {
         this.onPreDrawListener = new ViewTreeObserver.OnPreDrawListener() { // from class: org.telegram.ui.ActionBar.AdjustPanLayoutHelper.2
             @Override // android.view.ViewTreeObserver.OnPreDrawListener
             public boolean onPreDraw() {
-                boolean z2 = true;
                 if (SharedConfig.smoothKeyboard) {
                     int height = AdjustPanLayoutHelper.this.parent.getHeight();
                     int startOffset = height - AdjustPanLayoutHelper.this.startOffset();
@@ -269,10 +269,7 @@ public class AdjustPanLayoutHelper {
                         AdjustPanLayoutHelper adjustPanLayoutHelper5 = AdjustPanLayoutHelper.this;
                         if (adjustPanLayoutHelper5.previousHeight != -1 && adjustPanLayoutHelper5.previousContentHeight == adjustPanLayoutHelper5.contentView.getHeight()) {
                             AdjustPanLayoutHelper adjustPanLayoutHelper6 = AdjustPanLayoutHelper.this;
-                            if (height >= adjustPanLayoutHelper6.contentView.getBottom()) {
-                                z2 = false;
-                            }
-                            adjustPanLayoutHelper6.isKeyboardVisible = z2;
+                            adjustPanLayoutHelper6.isKeyboardVisible = height < adjustPanLayoutHelper6.contentView.getBottom();
                             AdjustPanLayoutHelper adjustPanLayoutHelper7 = AdjustPanLayoutHelper.this;
                             adjustPanLayoutHelper7.animateHeight(adjustPanLayoutHelper7.previousHeight, height, adjustPanLayoutHelper7.isKeyboardVisible);
                             AdjustPanLayoutHelper adjustPanLayoutHelper8 = AdjustPanLayoutHelper.this;
@@ -301,34 +298,33 @@ public class AdjustPanLayoutHelper {
     }
 
     public void onAttach() {
-        if (!SharedConfig.smoothKeyboard) {
-            return;
+        if (SharedConfig.smoothKeyboard) {
+            onDetach();
+            Activity activity = getActivity(this.parent.getContext());
+            if (activity != null) {
+                this.contentView = (ViewGroup) ((ViewGroup) activity.getWindow().getDecorView()).findViewById(16908290);
+            }
+            View findResizableView = findResizableView(this.parent);
+            this.resizableView = findResizableView;
+            if (findResizableView != null) {
+                this.parentForListener = findResizableView;
+                findResizableView.getViewTreeObserver().addOnPreDrawListener(this.onPreDrawListener);
+            }
+            if (!this.useInsetsAnimator || Build.VERSION.SDK_INT < 30) {
+                return;
+            }
+            setupNewCallback();
         }
-        onDetach();
-        Activity activity = getActivity(this.parent.getContext());
-        if (activity != null) {
-            this.contentView = (ViewGroup) ((ViewGroup) activity.getWindow().getDecorView()).findViewById(16908290);
-        }
-        View findResizableView = findResizableView(this.parent);
-        this.resizableView = findResizableView;
-        if (findResizableView != null) {
-            this.parentForListener = findResizableView;
-            findResizableView.getViewTreeObserver().addOnPreDrawListener(this.onPreDrawListener);
-        }
-        if (!this.useInsetsAnimator || Build.VERSION.SDK_INT < 30) {
-            return;
-        }
-        setupNewCallback();
     }
 
     private Activity getActivity(Context context) {
         if (context instanceof Activity) {
             return (Activity) context;
         }
-        if (!(context instanceof ContextThemeWrapper)) {
-            return null;
+        if (context instanceof ContextThemeWrapper) {
+            return getActivity(((ContextThemeWrapper) context).getBaseContext());
         }
-        return getActivity(((ContextThemeWrapper) context).getBaseContext());
+        return null;
     }
 
     private View findResizableView(View view) {

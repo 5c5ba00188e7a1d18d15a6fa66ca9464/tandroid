@@ -61,18 +61,18 @@ public class WallpaperParallaxEffect implements SensorEventListener {
         return Math.max(f2, (dp + f3) / f3);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:20:0x00ed  */
-    /* JADX WARN: Removed duplicated region for block: B:23:0x00f4  */
-    /* JADX WARN: Removed duplicated region for block: B:26:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x00ed  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x00f4  */
+    /* JADX WARN: Removed duplicated region for block: B:29:? A[RETURN, SYNTHETIC] */
     @Override // android.hardware.SensorEventListener
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void onSensorChanged(SensorEvent sensorEvent) {
         float[] fArr;
-        float f;
         float atan2;
         Callback callback;
+        float f;
         int rotation = this.wm.getDefaultDisplay().getRotation();
         float[] fArr2 = sensorEvent.values;
         float f2 = fArr2[0] / 9.80665f;
@@ -113,9 +113,7 @@ public class WallpaperParallaxEffect implements SensorEventListener {
         float length = f7 / fArr.length;
         float length2 = f8 / fArr.length;
         if (length <= 1.0f) {
-            if (length < -1.0f) {
-                f = -2.0f;
-            }
+            f = length < -1.0f ? -2.0f : -2.0f;
             int round = Math.round(AndroidUtilities.dpf2(16.0f) * length2);
             int round2 = Math.round(AndroidUtilities.dpf2(16.0f) * length);
             float max = Math.max(-1.0f, Math.min(1.0f, (-length2) / 0.45f));
@@ -128,10 +126,10 @@ public class WallpaperParallaxEffect implements SensorEventListener {
                 atan2 += 360.0f;
             }
             callback = this.callback;
-            if (callback != null) {
+            if (callback == null) {
+                callback.onOffsetsChanged(round, round2, atan2);
                 return;
             }
-            callback.onOffsetsChanged(round, round2, atan2);
             return;
         }
         f = 2.0f;
@@ -147,7 +145,7 @@ public class WallpaperParallaxEffect implements SensorEventListener {
         if (atan2 < 0.0f) {
         }
         callback = this.callback;
-        if (callback != null) {
+        if (callback == null) {
         }
     }
 }

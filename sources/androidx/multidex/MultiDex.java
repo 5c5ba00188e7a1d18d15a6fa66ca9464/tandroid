@@ -123,15 +123,12 @@ public final class MultiDex {
         boolean z = false;
         if (str != null) {
             StringTokenizer stringTokenizer = new StringTokenizer(str, ".");
-            String str2 = null;
             String nextToken = stringTokenizer.hasMoreTokens() ? stringTokenizer.nextToken() : null;
-            if (stringTokenizer.hasMoreTokens()) {
-                str2 = stringTokenizer.nextToken();
-            }
-            if (nextToken != null && str2 != null) {
+            String nextToken2 = stringTokenizer.hasMoreTokens() ? stringTokenizer.nextToken() : null;
+            if (nextToken != null && nextToken2 != null) {
                 try {
                     int parseInt = Integer.parseInt(nextToken);
-                    int parseInt2 = Integer.parseInt(str2);
+                    int parseInt2 = Integer.parseInt(nextToken2);
                     if (parseInt > 2 || (parseInt == 2 && parseInt2 >= 1)) {
                         z = true;
                     }
@@ -148,15 +145,16 @@ public final class MultiDex {
     }
 
     private static void installSecondaryDexes(ClassLoader classLoader, File file, List<? extends File> list) throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, InvocationTargetException, NoSuchMethodException, IOException, SecurityException, ClassNotFoundException, InstantiationException {
-        if (!list.isEmpty()) {
-            int i = Build.VERSION.SDK_INT;
-            if (i >= 19) {
-                V19.install(classLoader, list, file);
-            } else if (i >= 14) {
-                V14.install(classLoader, list);
-            } else {
-                V4.install(classLoader, list);
-            }
+        if (list.isEmpty()) {
+            return;
+        }
+        int i = Build.VERSION.SDK_INT;
+        if (i >= 19) {
+            V19.install(classLoader, list, file);
+        } else if (i >= 14) {
+            V14.install(classLoader, list);
+        } else {
+            V4.install(classLoader, list);
         }
     }
 
@@ -211,10 +209,10 @@ public final class MultiDex {
             }
             for (File file2 : listFiles) {
                 Log.i("MultiDex", "Trying to delete old file " + file2.getPath() + " of size " + file2.length());
-                if (!file2.delete()) {
-                    Log.w("MultiDex", "Failed to delete old file " + file2.getPath());
-                } else {
+                if (file2.delete()) {
                     Log.i("MultiDex", "Deleted old file " + file2.getPath());
+                } else {
+                    Log.w("MultiDex", "Failed to delete old file " + file2.getPath());
                 }
             }
             if (!file.delete()) {
@@ -240,15 +238,16 @@ public final class MultiDex {
 
     private static void mkdirChecked(File file) throws IOException {
         file.mkdir();
-        if (!file.isDirectory()) {
-            File parentFile = file.getParentFile();
-            if (parentFile == null) {
-                Log.e("MultiDex", "Failed to create dir " + file.getPath() + ". Parent file is null.");
-            } else {
-                Log.e("MultiDex", "Failed to create dir " + file.getPath() + ". parent file is a dir " + parentFile.isDirectory() + ", a file " + parentFile.isFile() + ", exists " + parentFile.exists() + ", readable " + parentFile.canRead() + ", writable " + parentFile.canWrite());
-            }
-            throw new IOException("Failed to create directory " + file.getPath());
+        if (file.isDirectory()) {
+            return;
         }
+        File parentFile = file.getParentFile();
+        if (parentFile == null) {
+            Log.e("MultiDex", "Failed to create dir " + file.getPath() + ". Parent file is null.");
+        } else {
+            Log.e("MultiDex", "Failed to create dir " + file.getPath() + ". parent file is a dir " + parentFile.isDirectory() + ", a file " + parentFile.isFile() + ", exists " + parentFile.exists() + ", readable " + parentFile.canRead() + ", writable " + parentFile.canWrite());
+        }
+        throw new IOException("Failed to create directory " + file.getPath());
     }
 
     /* JADX INFO: Access modifiers changed from: private */

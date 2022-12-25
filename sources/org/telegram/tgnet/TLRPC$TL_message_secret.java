@@ -49,10 +49,9 @@ public class TLRPC$TL_message_secret extends TLRPC$TL_message {
             this.reply_to = tLRPC$TL_messageReplyHeader;
             tLRPC$TL_messageReplyHeader.reply_to_random_id = abstractSerializedData.readInt64(z);
         }
-        if ((this.flags & 131072) == 0) {
-            return;
+        if ((this.flags & 131072) != 0) {
+            this.grouped_id = abstractSerializedData.readInt64(z);
         }
-        this.grouped_id = abstractSerializedData.readInt64(z);
     }
 
     @Override // org.telegram.tgnet.TLRPC$TL_message, org.telegram.tgnet.TLObject

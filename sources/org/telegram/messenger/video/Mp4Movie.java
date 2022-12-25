@@ -36,8 +36,7 @@ public class Mp4Movie {
             this.matrix = Matrix.ROTATE_90;
         } else if (i == 180) {
             this.matrix = Matrix.ROTATE_180;
-        } else if (i != 270) {
-        } else {
+        } else if (i == 270) {
             this.matrix = Matrix.ROTATE_270;
         }
     }

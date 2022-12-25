@@ -38,11 +38,11 @@ final class AutoValue_SchedulerConfig_ConfigValue extends SchedulerConfig.Config
         if (obj == this) {
             return true;
         }
-        if (!(obj instanceof SchedulerConfig.ConfigValue)) {
-            return false;
+        if (obj instanceof SchedulerConfig.ConfigValue) {
+            SchedulerConfig.ConfigValue configValue = (SchedulerConfig.ConfigValue) obj;
+            return this.delta == configValue.getDelta() && this.maxAllowedDelay == configValue.getMaxAllowedDelay() && this.flags.equals(configValue.getFlags());
         }
-        SchedulerConfig.ConfigValue configValue = (SchedulerConfig.ConfigValue) obj;
-        return this.delta == configValue.getDelta() && this.maxAllowedDelay == configValue.getMaxAllowedDelay() && this.flags.equals(configValue.getFlags());
+        return false;
     }
 
     public int hashCode() {
@@ -80,7 +80,7 @@ final class AutoValue_SchedulerConfig_ConfigValue extends SchedulerConfig.Config
         public SchedulerConfig.ConfigValue build() {
             String str = "";
             if (this.delta == null) {
-                str = str + " delta";
+                str = " delta";
             }
             if (this.maxAllowedDelay == null) {
                 str = str + " maxAllowedDelay";

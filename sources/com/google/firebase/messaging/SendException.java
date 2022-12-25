@@ -60,12 +60,12 @@ public final class SendException extends Exception {
         if (c == 0 || c == 1) {
             return 1;
         }
-        if (c == 2) {
-            return 2;
-        }
-        if (c == 3) {
+        if (c != 2) {
+            if (c != 3) {
+                return c != 4 ? 0 : 4;
+            }
             return 3;
         }
-        return c != 4 ? 0 : 4;
+        return 2;
     }
 }

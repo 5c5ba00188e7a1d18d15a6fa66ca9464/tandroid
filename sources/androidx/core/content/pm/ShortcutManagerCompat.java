@@ -59,24 +59,24 @@ public class ShortcutManagerCompat {
         if (Build.VERSION.SDK_INT >= 26) {
             return ((ShortcutManager) context.getSystemService(ShortcutManager.class)).requestPinShortcut(shortcut.toShortcutInfo(), callback);
         }
-        if (!isRequestPinShortcutSupported(context)) {
-            return false;
-        }
-        Intent addToIntent = shortcut.addToIntent(new Intent("com.android.launcher.action.INSTALL_SHORTCUT"));
-        if (callback == null) {
-            context.sendBroadcast(addToIntent);
+        if (isRequestPinShortcutSupported(context)) {
+            Intent addToIntent = shortcut.addToIntent(new Intent("com.android.launcher.action.INSTALL_SHORTCUT"));
+            if (callback == null) {
+                context.sendBroadcast(addToIntent);
+                return true;
+            }
+            context.sendOrderedBroadcast(addToIntent, null, new BroadcastReceiver() { // from class: androidx.core.content.pm.ShortcutManagerCompat.1
+                @Override // android.content.BroadcastReceiver
+                public void onReceive(Context context2, Intent intent) {
+                    try {
+                        callback.sendIntent(context2, 0, null, null, null);
+                    } catch (IntentSender.SendIntentException unused) {
+                    }
+                }
+            }, null, -1, null, null);
             return true;
         }
-        context.sendOrderedBroadcast(addToIntent, null, new BroadcastReceiver() { // from class: androidx.core.content.pm.ShortcutManagerCompat.1
-            @Override // android.content.BroadcastReceiver
-            public void onReceive(Context context2, Intent intent) {
-                try {
-                    callback.sendIntent(context2, 0, null, null, null);
-                } catch (IntentSender.SendIntentException unused) {
-                }
-            }
-        }, null, -1, null, null);
-        return true;
+        return false;
     }
 
     public static boolean addDynamicShortcuts(Context context, List<ShortcutInfoCompat> shortcutInfoList) {
@@ -164,19 +164,19 @@ public class ShortcutManagerCompat {
             return false;
         }
         int i = iconCompat.mType;
-        if (i != 6 && i != 4) {
+        if (i == 6 || i == 4) {
+            InputStream uriInputStream = iconCompat.getUriInputStream(context);
+            if (uriInputStream == null || (decodeStream = BitmapFactory.decodeStream(uriInputStream)) == null) {
+                return false;
+            }
+            if (i == 6) {
+                createWithBitmap = IconCompat.createWithAdaptiveBitmap(decodeStream);
+            } else {
+                createWithBitmap = IconCompat.createWithBitmap(decodeStream);
+            }
+            info.mIcon = createWithBitmap;
             return true;
         }
-        InputStream uriInputStream = iconCompat.getUriInputStream(context);
-        if (uriInputStream == null || (decodeStream = BitmapFactory.decodeStream(uriInputStream)) == null) {
-            return false;
-        }
-        if (i == 6) {
-            createWithBitmap = IconCompat.createWithAdaptiveBitmap(decodeStream);
-        } else {
-            createWithBitmap = IconCompat.createWithBitmap(decodeStream);
-        }
-        info.mIcon = createWithBitmap;
         return true;
     }
 

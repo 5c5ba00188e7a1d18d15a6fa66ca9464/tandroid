@@ -26,7 +26,6 @@ import android.view.MotionEvent;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewPropertyAnimator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -93,9 +92,11 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
     boolean flipHalfReached;
     public boolean forceDetached;
     int fullSize;
+    Paint gradientPaint;
     LinearGradient gradientShader;
     int gridItemsCount;
     public boolean hasVideo;
+    ImageReceiver imageReceiver;
     boolean inPinchToZoom;
     FrameLayout infoContainer;
     private boolean invalidateFromChild;
@@ -106,9 +107,11 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
     int lastSpeakingFrameColor;
     private final RLottieImageView micIconView;
     private final SimpleTextView nameView;
+    private Runnable noRtmpStreamCallback;
     private TextView noRtmpStreamTextView;
     ValueAnimator noVideoStubAnimator;
     private NoVideoStubLayout noVideoStubLayout;
+    ArrayList<Runnable> onFirstFrameRunnables;
     float overlayIconAlpha;
     GroupCallRenderersContainer parentContainer;
     public ChatObject.VideoParticipant participant;
@@ -121,12 +124,15 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
     private boolean postedNoRtmpStreamCallback;
     public GroupCallGridCell primaryView;
     private float progressToBackground;
+    public float progressToNoVideoStub;
     float progressToSpeaking;
+    private Rect rect;
     private final ImageView screencastIcon;
     public GroupCallFullscreenAdapter.GroupCallUserCell secondaryView;
     private boolean showingAsScrimView;
     public boolean showingInFullscreen;
     float spanCount;
+    Paint speakingPaint;
     private GroupCallStatusIcon statusIcon;
     private TextView stopSharingTextView;
     private boolean swipeToBack;
@@ -139,18 +145,6 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
     boolean useSpanSize;
     private boolean videoIsPaused;
     private float videoIsPausedProgress;
-    Paint gradientPaint = new Paint(1);
-    Paint speakingPaint = new Paint(1);
-    public float progressToNoVideoStub = 1.0f;
-    ImageReceiver imageReceiver = new ImageReceiver();
-    ArrayList<Runnable> onFirstFrameRunnables = new ArrayList<>();
-    private Runnable noRtmpStreamCallback = new Runnable() { // from class: org.telegram.ui.Components.voip.GroupCallMiniTextureView$$ExternalSyntheticLambda5
-        @Override // java.lang.Runnable
-        public final void run() {
-            GroupCallMiniTextureView.this.lambda$new$0();
-        }
-    };
-    private Rect rect = new Rect();
 
     static /* synthetic */ float access$116(GroupCallMiniTextureView groupCallMiniTextureView, float f) {
         float f2 = groupCallMiniTextureView.progressToBackground + f;
@@ -183,6 +177,18 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
 
     public GroupCallMiniTextureView(final GroupCallRenderersContainer groupCallRenderersContainer, ArrayList<GroupCallMiniTextureView> arrayList, final ChatObject.Call call, final GroupCallActivity groupCallActivity) {
         super(groupCallRenderersContainer.getContext());
+        this.gradientPaint = new Paint(1);
+        this.speakingPaint = new Paint(1);
+        this.progressToNoVideoStub = 1.0f;
+        this.imageReceiver = new ImageReceiver();
+        this.onFirstFrameRunnables = new ArrayList<>();
+        this.noRtmpStreamCallback = new Runnable() { // from class: org.telegram.ui.Components.voip.GroupCallMiniTextureView$$ExternalSyntheticLambda5
+            @Override // java.lang.Runnable
+            public final void run() {
+                GroupCallMiniTextureView.this.lambda$new$0();
+            }
+        };
+        this.rect = new Rect();
         this.call = call;
         this.currentAccount = groupCallActivity.getCurrentAccount();
         CrossOutDrawable crossOutDrawable = new CrossOutDrawable(groupCallRenderersContainer.getContext(), R.drawable.calls_video, null);
@@ -393,32 +399,31 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
                         f3 = GroupCallMiniTextureView.this.overlayIconAlpha;
                     }
                     float f12 = f9 * f3;
-                    if (f12 <= 0.0f) {
-                        return;
+                    if (f12 > 0.0f) {
+                        float dp7 = AndroidUtilities.dp(48.0f);
+                        float measuredWidth2 = (getMeasuredWidth() - dp7) / 2.0f;
+                        float measuredHeight3 = (getMeasuredHeight() - dp7) / 2.0f;
+                        if (GroupCallMiniTextureView.this.participant == call.videoNotAvailableParticipant) {
+                            measuredHeight3 -= dp7 / 2.5f;
+                        }
+                        RectF rectF = AndroidUtilities.rectTmp;
+                        float f13 = measuredHeight3 + dp7;
+                        rectF.set((int) measuredWidth2, (int) measuredHeight3, (int) (measuredWidth2 + dp7), (int) f13);
+                        if (f12 != 1.0f) {
+                            canvas.saveLayerAlpha(rectF, (int) (f12 * 255.0f), 31);
+                        } else {
+                            canvas.save();
+                        }
+                        GroupCallMiniTextureView.this.pausedVideoDrawable.setBounds((int) rectF.left, (int) rectF.top, (int) rectF.right, (int) rectF.bottom);
+                        GroupCallMiniTextureView.this.pausedVideoDrawable.draw(canvas);
+                        canvas.restore();
+                        float f14 = f12 * groupCallRenderersContainer.progressToFullscreenMode;
+                        if (f14 <= 0.0f || GroupCallMiniTextureView.this.participant == call.videoNotAvailableParticipant) {
+                            return;
+                        }
+                        textPaint.setAlpha((int) (f14 * 255.0f));
+                        canvas.drawText(string, (measuredWidth2 - (measureText / 2.0f)) + (dp7 / 2.0f), f13 + AndroidUtilities.dp(16.0f), textPaint);
                     }
-                    float dp7 = AndroidUtilities.dp(48.0f);
-                    float measuredWidth2 = (getMeasuredWidth() - dp7) / 2.0f;
-                    float measuredHeight3 = (getMeasuredHeight() - dp7) / 2.0f;
-                    if (GroupCallMiniTextureView.this.participant == call.videoNotAvailableParticipant) {
-                        measuredHeight3 -= dp7 / 2.5f;
-                    }
-                    RectF rectF = AndroidUtilities.rectTmp;
-                    float f13 = measuredHeight3 + dp7;
-                    rectF.set((int) measuredWidth2, (int) measuredHeight3, (int) (measuredWidth2 + dp7), (int) f13);
-                    if (f12 != 1.0f) {
-                        canvas.saveLayerAlpha(rectF, (int) (f12 * 255.0f), 31);
-                    } else {
-                        canvas.save();
-                    }
-                    GroupCallMiniTextureView.this.pausedVideoDrawable.setBounds((int) rectF.left, (int) rectF.top, (int) rectF.right, (int) rectF.bottom);
-                    GroupCallMiniTextureView.this.pausedVideoDrawable.draw(canvas);
-                    canvas.restore();
-                    float f14 = f12 * groupCallRenderersContainer.progressToFullscreenMode;
-                    if (f14 <= 0.0f || GroupCallMiniTextureView.this.participant == call.videoNotAvailableParticipant) {
-                        return;
-                    }
-                    textPaint.setAlpha((int) (f14 * 255.0f));
-                    canvas.drawText(string, (measuredWidth2 - (measureText / 2.0f)) + (dp7 / 2.0f), f13 + AndroidUtilities.dp(16.0f), textPaint);
                 }
             }
 
@@ -709,27 +714,26 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
             float f5 = this.progressToSpeaking;
             GroupCallRenderersContainer groupCallRenderersContainer3 = this.parentContainer;
             float f6 = (1.0f - groupCallRenderersContainer3.progressToFullscreenMode) * f5 * (1.0f - groupCallRenderersContainer3.progressToScrimView);
-            if (f5 <= 0.0f) {
-                return;
+            if (f5 > 0.0f) {
+                this.speakingPaint.setAlpha((int) (f6 * 255.0f));
+                float max = (Math.max(0.0f, 1.0f - (Math.abs(this.swipeToBackDy) / AndroidUtilities.dp(300.0f))) * 0.1f) + 0.9f;
+                canvas.save();
+                RectF rectF = AndroidUtilities.rectTmp;
+                float x = this.textureView.getX();
+                VoIPTextureView voIPTextureView = this.textureView;
+                float f7 = x + voIPTextureView.currentClipHorizontal;
+                float y2 = voIPTextureView.getY();
+                VoIPTextureView voIPTextureView2 = this.textureView;
+                float f8 = y2 + voIPTextureView2.currentClipVertical;
+                float x2 = voIPTextureView2.getX() + this.textureView.getMeasuredWidth();
+                VoIPTextureView voIPTextureView3 = this.textureView;
+                rectF.set(f7, f8, x2 - voIPTextureView3.currentClipHorizontal, (voIPTextureView3.getY() + this.textureView.getMeasuredHeight()) - this.textureView.currentClipVertical);
+                canvas.scale(max, max, rectF.centerX(), rectF.centerY());
+                canvas.translate(0.0f, this.swipeToBackDy);
+                float f9 = this.textureView.roundRadius;
+                canvas.drawRoundRect(rectF, f9, f9, this.speakingPaint);
+                canvas.restore();
             }
-            this.speakingPaint.setAlpha((int) (f6 * 255.0f));
-            float max = (Math.max(0.0f, 1.0f - (Math.abs(this.swipeToBackDy) / AndroidUtilities.dp(300.0f))) * 0.1f) + 0.9f;
-            canvas.save();
-            RectF rectF = AndroidUtilities.rectTmp;
-            float x = this.textureView.getX();
-            VoIPTextureView voIPTextureView = this.textureView;
-            float f7 = x + voIPTextureView.currentClipHorizontal;
-            float y2 = voIPTextureView.getY();
-            VoIPTextureView voIPTextureView2 = this.textureView;
-            float f8 = y2 + voIPTextureView2.currentClipVertical;
-            float x2 = voIPTextureView2.getX() + this.textureView.getMeasuredWidth();
-            VoIPTextureView voIPTextureView3 = this.textureView;
-            rectF.set(f7, f8, x2 - voIPTextureView3.currentClipHorizontal, (voIPTextureView3.getY() + this.textureView.getMeasuredHeight()) - this.textureView.currentClipVertical);
-            canvas.scale(max, max, rectF.centerX(), rectF.centerY());
-            canvas.translate(0.0f, this.swipeToBackDy);
-            float f9 = this.textureView.roundRadius;
-            canvas.drawRoundRect(rectF, f9, f9, this.speakingPaint);
-            canvas.restore();
         }
     }
 
@@ -751,24 +755,24 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
         return super.drawChild(canvas, view, j);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:46:0x0185  */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x01ba  */
-    /* JADX WARN: Removed duplicated region for block: B:52:0x01c4  */
-    /* JADX WARN: Removed duplicated region for block: B:53:0x0196  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x0185  */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x0196  */
+    /* JADX WARN: Removed duplicated region for block: B:68:0x01ba  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x01c4  */
     @Override // android.widget.FrameLayout, android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     protected void onMeasure(int i, int i2) {
-        float f;
+        float size;
         int dp;
         GroupCallGridCell groupCallGridCell;
-        float f2;
+        float f;
         int dp2;
         SimpleTextView simpleTextView;
         FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) this.infoContainer.getLayoutParams();
         int i3 = layoutParams.leftMargin;
-        float f3 = this.call.call.rtmp_stream ? 0.0f : 1.0f;
+        float f2 = this.call.call.rtmp_stream ? 0.0f : 1.0f;
         boolean z = this.lastLandscapeMode;
         boolean z2 = GroupCallActivity.isLandscapeMode;
         if (z != z2) {
@@ -779,18 +783,17 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
         layoutParams.rightMargin = dp3;
         layoutParams.leftMargin = dp3;
         if (this.updateNextLayoutAnimated) {
-            this.nameView.animate().scaleX(f3).scaleY(f3).start();
-            this.micIconView.animate().scaleX(f3).scaleY(f3).start();
+            this.nameView.animate().scaleX(f2).scaleY(f2).start();
+            this.micIconView.animate().scaleX(f2).scaleY(f2).start();
         } else {
             this.nameView.animate().cancel();
-            this.nameView.setScaleX(f3);
-            this.nameView.setScaleY(f3);
+            this.nameView.setScaleX(f2);
+            this.nameView.setScaleY(f2);
             this.micIconView.animate().cancel();
-            this.micIconView.setScaleX(f3);
-            this.micIconView.setScaleY(f3);
+            this.micIconView.setScaleX(f2);
+            this.micIconView.setScaleY(f2);
             this.infoContainer.animate().cancel();
         }
-        int i4 = 0;
         this.updateNextLayoutAnimated = false;
         if (this.showingInFullscreen) {
             updateSize(0);
@@ -798,17 +801,17 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
             if (GroupCallActivity.isTabletMode) {
                 super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i) - AndroidUtilities.dp(328.0f), 1073741824), View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i2) - AndroidUtilities.dp(4.0f), 1073741824));
             } else if (!GroupCallActivity.isLandscapeMode) {
-                int size = View.MeasureSpec.getSize(i2);
-                if (!this.call.call.rtmp_stream) {
-                    size -= AndroidUtilities.dp(92.0f);
-                }
-                super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(size, 1073741824));
-            } else {
-                int size2 = View.MeasureSpec.getSize(i);
+                int size2 = View.MeasureSpec.getSize(i2);
                 if (!this.call.call.rtmp_stream) {
                     size2 -= AndroidUtilities.dp(92.0f);
                 }
-                super.onMeasure(View.MeasureSpec.makeMeasureSpec(size2, 1073741824), View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i2), 1073741824));
+                super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(size2, 1073741824));
+            } else {
+                int size3 = View.MeasureSpec.getSize(i);
+                if (!this.call.call.rtmp_stream) {
+                    size3 -= AndroidUtilities.dp(92.0f);
+                }
+                super.onMeasure(View.MeasureSpec.makeMeasureSpec(size3, 1073741824), View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i2), 1073741824));
             }
         } else if (this.showingAsScrimView) {
             this.overlayIconAlpha = 1.0f;
@@ -816,52 +819,48 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
             super.onMeasure(View.MeasureSpec.makeMeasureSpec(min, 1073741824), View.MeasureSpec.makeMeasureSpec(min + getPaddingBottom(), 1073741824));
         } else if (this.useSpanSize) {
             this.overlayIconAlpha = 1.0f;
-            int i5 = 6;
+            int i4 = 6;
             if ((!GroupCallActivity.isTabletMode || this.tabletGridView == null) && !GroupCallActivity.isLandscapeMode) {
-                i5 = 2;
+                i4 = 2;
             }
             if (this.tabletGridView != null) {
                 dp = View.MeasureSpec.getSize(i) - AndroidUtilities.dp(344.0f);
             } else if (GroupCallActivity.isTabletMode) {
                 dp = AndroidUtilities.dp(320.0f);
             } else {
-                int size3 = View.MeasureSpec.getSize(i) - (AndroidUtilities.dp(14.0f) * 2);
-                if (GroupCallActivity.isLandscapeMode) {
-                    i4 = -AndroidUtilities.dp(90.0f);
-                }
-                f = size3 + i4;
-                float f4 = (this.spanCount / i5) * f;
+                size = (View.MeasureSpec.getSize(i) - (AndroidUtilities.dp(14.0f) * 2)) + (GroupCallActivity.isLandscapeMode ? -AndroidUtilities.dp(90.0f) : 0);
+                float f3 = (this.spanCount / i4) * size;
                 groupCallGridCell = this.tabletGridView;
                 if (groupCallGridCell == null) {
-                    f2 = groupCallGridCell.getItemHeight() - AndroidUtilities.dp(4.0f);
+                    f = groupCallGridCell.getItemHeight() - AndroidUtilities.dp(4.0f);
                     dp2 = AndroidUtilities.dp(4.0f);
                 } else {
                     if (GroupCallActivity.isTabletMode) {
-                        f2 = f / 2.0f;
+                        f = size / 2.0f;
                     } else {
-                        f2 = f / (GroupCallActivity.isLandscapeMode ? 3 : 2);
+                        f = size / (GroupCallActivity.isLandscapeMode ? 3 : 2);
                     }
                     dp2 = AndroidUtilities.dp(2.0f);
                 }
-                float f5 = f4 - dp2;
+                float f4 = f3 - dp2;
                 FrameLayout.LayoutParams layoutParams2 = (FrameLayout.LayoutParams) this.infoContainer.getLayoutParams();
-                float dp4 = this.screencastIcon.getVisibility() != 0 ? f5 - AndroidUtilities.dp(28.0f) : f5;
+                float dp4 = this.screencastIcon.getVisibility() != 0 ? f4 - AndroidUtilities.dp(28.0f) : f4;
                 updateSize((int) dp4);
                 layoutParams2.width = (int) (dp4 - (layoutParams2.leftMargin * 2));
-                super.onMeasure(View.MeasureSpec.makeMeasureSpec((int) f5, 1073741824), View.MeasureSpec.makeMeasureSpec((int) f2, 1073741824));
+                super.onMeasure(View.MeasureSpec.makeMeasureSpec((int) f4, 1073741824), View.MeasureSpec.makeMeasureSpec((int) f, 1073741824));
             }
-            f = dp;
-            float f42 = (this.spanCount / i5) * f;
+            size = dp;
+            float f32 = (this.spanCount / i4) * size;
             groupCallGridCell = this.tabletGridView;
             if (groupCallGridCell == null) {
             }
-            float f52 = f42 - dp2;
+            float f42 = f32 - dp2;
             FrameLayout.LayoutParams layoutParams22 = (FrameLayout.LayoutParams) this.infoContainer.getLayoutParams();
             if (this.screencastIcon.getVisibility() != 0) {
             }
             updateSize((int) dp4);
             layoutParams22.width = (int) (dp4 - (layoutParams22.leftMargin * 2));
-            super.onMeasure(View.MeasureSpec.makeMeasureSpec((int) f52, 1073741824), View.MeasureSpec.makeMeasureSpec((int) f2, 1073741824));
+            super.onMeasure(View.MeasureSpec.makeMeasureSpec((int) f42, 1073741824), View.MeasureSpec.makeMeasureSpec((int) f, 1073741824));
         } else {
             this.overlayIconAlpha = 0.0f;
             super.onMeasure(i, i2);
@@ -949,58 +948,58 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:303:0x0180, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:103:0x0180, code lost:
         if (org.telegram.messenger.voip.VoIPService.getSharedInstance().getVideoState(r23.participant.presentation) == 2) goto L304;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:304:0x0182, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:104:0x0182, code lost:
         r1 = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:311:0x01bd, code lost:
-        if (r1 != false) goto L312;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:352:0x018e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:109:0x018e, code lost:
         if (r1 != r11.videoNotAvailableParticipant) goto L348;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:354:0x0196, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:111:0x0196, code lost:
         if (org.telegram.messenger.ChatObject.Call.videoIsActive(r10, r1.presentation, r11) == false) goto L348;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:44:0x0089, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:119:0x01bd, code lost:
+        if (r1 != false) goto L312;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:45:0x0089, code lost:
         if (r23.participant != r10.videoNotAvailableParticipant) goto L282;
      */
-    /* JADX WARN: Removed duplicated region for block: B:106:0x0405  */
-    /* JADX WARN: Removed duplicated region for block: B:109:0x0424  */
-    /* JADX WARN: Removed duplicated region for block: B:115:0x04d9  */
-    /* JADX WARN: Removed duplicated region for block: B:123:0x04ea A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:126:0x04f2  */
-    /* JADX WARN: Removed duplicated region for block: B:128:0x04fc  */
-    /* JADX WARN: Removed duplicated region for block: B:139:0x0565  */
-    /* JADX WARN: Removed duplicated region for block: B:141:0x0540  */
-    /* JADX WARN: Removed duplicated region for block: B:152:0x0572  */
-    /* JADX WARN: Removed duplicated region for block: B:157:0x0598  */
-    /* JADX WARN: Removed duplicated region for block: B:160:0x05a3  */
-    /* JADX WARN: Removed duplicated region for block: B:167:0x05bd  */
-    /* JADX WARN: Removed duplicated region for block: B:173:0x05e2  */
-    /* JADX WARN: Removed duplicated region for block: B:197:0x0666  */
-    /* JADX WARN: Removed duplicated region for block: B:202:0x069c  */
-    /* JADX WARN: Removed duplicated region for block: B:205:0x0678  */
-    /* JADX WARN: Removed duplicated region for block: B:208:0x05ae  */
-    /* JADX WARN: Removed duplicated region for block: B:215:0x044d  */
-    /* JADX WARN: Removed duplicated region for block: B:218:0x0497  */
-    /* JADX WARN: Removed duplicated region for block: B:223:0x046f  */
-    /* JADX WARN: Removed duplicated region for block: B:224:0x040f  */
-    /* JADX WARN: Removed duplicated region for block: B:259:0x02d2  */
-    /* JADX WARN: Removed duplicated region for block: B:268:0x00f9  */
-    /* JADX WARN: Removed duplicated region for block: B:273:0x0125  */
-    /* JADX WARN: Removed duplicated region for block: B:274:0x010b  */
-    /* JADX WARN: Removed duplicated region for block: B:279:0x00dd  */
-    /* JADX WARN: Removed duplicated region for block: B:281:0x00e6  */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x02be  */
-    /* JADX WARN: Removed duplicated region for block: B:64:0x02e8  */
-    /* JADX WARN: Removed duplicated region for block: B:79:0x0370  */
-    /* JADX WARN: Removed duplicated region for block: B:91:0x038b  */
-    /* JADX WARN: Removed duplicated region for block: B:94:0x0396  */
-    /* JADX WARN: Removed duplicated region for block: B:96:0x039e  */
-    /* JADX WARN: Removed duplicated region for block: B:99:0x03bb  */
+    /* JADX WARN: Removed duplicated region for block: B:157:0x02be  */
+    /* JADX WARN: Removed duplicated region for block: B:160:0x02d2  */
+    /* JADX WARN: Removed duplicated region for block: B:165:0x02e8  */
+    /* JADX WARN: Removed duplicated region for block: B:212:0x0370  */
+    /* JADX WARN: Removed duplicated region for block: B:225:0x038b  */
+    /* JADX WARN: Removed duplicated region for block: B:228:0x0396  */
+    /* JADX WARN: Removed duplicated region for block: B:229:0x039e  */
+    /* JADX WARN: Removed duplicated region for block: B:233:0x03bb  */
+    /* JADX WARN: Removed duplicated region for block: B:241:0x0405  */
+    /* JADX WARN: Removed duplicated region for block: B:242:0x040f  */
+    /* JADX WARN: Removed duplicated region for block: B:245:0x0424  */
+    /* JADX WARN: Removed duplicated region for block: B:253:0x044d  */
+    /* JADX WARN: Removed duplicated region for block: B:254:0x046f  */
+    /* JADX WARN: Removed duplicated region for block: B:257:0x0497  */
+    /* JADX WARN: Removed duplicated region for block: B:263:0x04d9  */
+    /* JADX WARN: Removed duplicated region for block: B:272:0x04ea A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:275:0x04f2  */
+    /* JADX WARN: Removed duplicated region for block: B:277:0x04fc  */
+    /* JADX WARN: Removed duplicated region for block: B:287:0x0540  */
+    /* JADX WARN: Removed duplicated region for block: B:298:0x0565  */
+    /* JADX WARN: Removed duplicated region for block: B:301:0x0572  */
+    /* JADX WARN: Removed duplicated region for block: B:306:0x0598  */
+    /* JADX WARN: Removed duplicated region for block: B:309:0x05a3  */
+    /* JADX WARN: Removed duplicated region for block: B:314:0x05ae  */
+    /* JADX WARN: Removed duplicated region for block: B:321:0x05bd  */
+    /* JADX WARN: Removed duplicated region for block: B:327:0x05e2  */
+    /* JADX WARN: Removed duplicated region for block: B:351:0x0666  */
+    /* JADX WARN: Removed duplicated region for block: B:354:0x0678  */
+    /* JADX WARN: Removed duplicated region for block: B:359:0x069c  */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x00dd  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x00e6  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x00f9  */
+    /* JADX WARN: Removed duplicated region for block: B:72:0x010b  */
+    /* JADX WARN: Removed duplicated region for block: B:77:0x0125  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1049,7 +1048,6 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
             }
         }
         boolean z7 = this.attached;
-        float f2 = 1.0f;
         if (z7 && !this.showingInFullscreen) {
             boolean z8 = VoIPService.getSharedInstance() == null;
             if (!GroupCallActivity.paused && (videoParticipant4 = this.participant) != null) {
@@ -1224,7 +1222,6 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
                 }
                 if (this.attached) {
                     boolean z10 = GroupCallActivity.isTabletMode && (!this.parentContainer.inFullscreenMode || (this.secondaryView == null && this.primaryView == null));
-                    int i3 = -1;
                     if (!this.showingInFullscreen) {
                         GroupCallFullscreenAdapter.GroupCallUserCell groupCallUserCell2 = this.secondaryView;
                         if (groupCallUserCell2 == null || this.primaryView != null || this.parentContainer.inFullscreenMode) {
@@ -1247,10 +1244,7 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
                                             marginLayoutParams = (ViewGroup.MarginLayoutParams) getLayoutParams();
                                             if (dp != 0 && (marginLayoutParams.height != dp || z3 || this.useSpanSize != z4 || ((z4 && this.spanCount != f) || this.gridItemsCount != i))) {
                                                 marginLayoutParams.height = dp;
-                                                if (!z4) {
-                                                    i3 = dp;
-                                                }
-                                                marginLayoutParams.width = i3;
+                                                marginLayoutParams.width = z4 ? -1 : dp;
                                                 this.useSpanSize = z4;
                                                 this.spanCount = f;
                                                 this.checkScale = true;
@@ -1290,7 +1284,7 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
                                                 ChatObject.Call call3 = this.call;
                                                 if (call3.canStreamVideo || this.participant == call3.videoNotAvailableParticipant) {
                                                     z5 = true;
-                                                    boolean z11 = !z2 && this.secondaryView != null && !this.showingInFullscreen && !z5;
+                                                    boolean z11 = (z2 || this.secondaryView == null || this.showingInFullscreen || z5) ? false : true;
                                                     if (z5 != this.hasVideo && !z11) {
                                                         this.hasVideo = z5;
                                                         valueAnimator = this.noVideoStubAnimator;
@@ -1349,11 +1343,7 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
                                                     }
                                                     if (this.videoIsPaused != z6) {
                                                         this.videoIsPaused = z6;
-                                                        ViewPropertyAnimator animate = this.textureView.renderer.animate();
-                                                        if (this.videoIsPaused) {
-                                                            f2 = 0.0f;
-                                                        }
-                                                        animate.alpha(f2).setDuration(250L).start();
+                                                        this.textureView.renderer.animate().alpha(this.videoIsPaused ? 0.0f : 1.0f).setDuration(250L).start();
                                                         this.textureView.invalidate();
                                                     }
                                                     if (!GroupCallActivity.paused || !this.hasVideo) {
@@ -1420,7 +1410,7 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
                                             this.noVideoStubLayout.avatarImageReceiver.setImage(imageLocation, null, (forChat2 != null || (imageFromMemory = ImageLoader.getInstance().getImageFromMemory(forChat2.location, null, "50_50")) == null) ? this.noVideoStubLayout.avatarDrawable : imageFromMemory, null, tLRPC$Chat, 0);
                                             this.noVideoStubLayout.backgroundImageReceiver.setImage(imageLocation, "50_50_b", new ColorDrawable(Theme.getColor("voipgroup_listViewBackground")), null, tLRPC$Chat, 0);
                                             z5 = false;
-                                            if (!z2) {
+                                            if (z2) {
                                             }
                                             if (z5 != this.hasVideo) {
                                                 this.hasVideo = z5;
@@ -1475,9 +1465,7 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
                                         marginLayoutParams = (ViewGroup.MarginLayoutParams) getLayoutParams();
                                         if (dp != 0) {
                                             marginLayoutParams.height = dp;
-                                            if (!z4) {
-                                            }
-                                            marginLayoutParams.width = i3;
+                                            marginLayoutParams.width = z4 ? -1 : dp;
                                             this.useSpanSize = z4;
                                             this.spanCount = f;
                                             this.checkScale = true;
@@ -1513,7 +1501,7 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
                                         this.noVideoStubLayout.avatarImageReceiver.setImage(imageLocation2, null, (forChat2 != null || (imageFromMemory = ImageLoader.getInstance().getImageFromMemory(forChat2.location, null, "50_50")) == null) ? this.noVideoStubLayout.avatarDrawable : imageFromMemory, null, tLRPC$Chat2, 0);
                                         this.noVideoStubLayout.backgroundImageReceiver.setImage(imageLocation2, "50_50_b", new ColorDrawable(Theme.getColor("voipgroup_listViewBackground")), null, tLRPC$Chat2, 0);
                                         z5 = false;
-                                        if (!z2) {
+                                        if (z2) {
                                         }
                                         if (z5 != this.hasVideo) {
                                         }
@@ -1556,7 +1544,7 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
                                 this.noVideoStubLayout.avatarImageReceiver.setImage(imageLocation22, null, (forChat2 != null || (imageFromMemory = ImageLoader.getInstance().getImageFromMemory(forChat2.location, null, "50_50")) == null) ? this.noVideoStubLayout.avatarDrawable : imageFromMemory, null, tLRPC$Chat22, 0);
                                 this.noVideoStubLayout.backgroundImageReceiver.setImage(imageLocation22, "50_50_b", new ColorDrawable(Theme.getColor("voipgroup_listViewBackground")), null, tLRPC$Chat22, 0);
                                 z5 = false;
-                                if (!z2) {
+                                if (z2) {
                                 }
                                 if (z5 != this.hasVideo) {
                                 }
@@ -1598,7 +1586,7 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
                         this.noVideoStubLayout.avatarImageReceiver.setImage(imageLocation222, null, (forChat2 != null || (imageFromMemory = ImageLoader.getInstance().getImageFromMemory(forChat2.location, null, "50_50")) == null) ? this.noVideoStubLayout.avatarDrawable : imageFromMemory, null, tLRPC$Chat222, 0);
                         this.noVideoStubLayout.backgroundImageReceiver.setImage(imageLocation222, "50_50_b", new ColorDrawable(Theme.getColor("voipgroup_listViewBackground")), null, tLRPC$Chat222, 0);
                         z5 = false;
-                        if (!z2) {
+                        if (z2) {
                         }
                         if (z5 != this.hasVideo) {
                         }
@@ -1639,7 +1627,7 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
                     this.noVideoStubLayout.avatarImageReceiver.setImage(imageLocation2222, null, (forChat2 != null || (imageFromMemory = ImageLoader.getInstance().getImageFromMemory(forChat2.location, null, "50_50")) == null) ? this.noVideoStubLayout.avatarDrawable : imageFromMemory, null, tLRPC$Chat2222, 0);
                     this.noVideoStubLayout.backgroundImageReceiver.setImage(imageLocation2222, "50_50_b", new ColorDrawable(Theme.getColor("voipgroup_listViewBackground")), null, tLRPC$Chat2222, 0);
                     z5 = false;
-                    if (!z2) {
+                    if (z2) {
                     }
                     if (z5 != this.hasVideo) {
                     }
@@ -1688,100 +1676,98 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
         Bitmap bitmap = hashMap.get(z ? tLRPC$TL_groupCallParticipant.presentationEndpoint : tLRPC$TL_groupCallParticipant.videoEndpoint);
         this.thumb = bitmap;
         this.textureView.setThumb(bitmap);
-        if (this.thumb != null) {
-            return;
-        }
-        long peerId = MessageObject.getPeerId(this.participant.participant.peer);
-        ChatObject.VideoParticipant videoParticipant2 = this.participant;
-        if (videoParticipant2.participant.self && videoParticipant2.presentation) {
-            this.imageReceiver.setImageBitmap(new MotionBackgroundDrawable(-14602694, -13935795, -14395293, -14203560, true));
-        } else if (peerId > 0) {
-            TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(peerId));
-            ImageLocation forUser = ImageLocation.getForUser(user, 1);
-            int colorForId = user != null ? AvatarDrawable.getColorForId(user.id) : ColorUtils.blendARGB(-16777216, -1, 0.2f);
-            this.imageReceiver.setImage(forUser, "50_50_b", new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP, new int[]{ColorUtils.blendARGB(colorForId, -16777216, 0.2f), ColorUtils.blendARGB(colorForId, -16777216, 0.4f)}), null, user, 0);
-        } else {
-            TLRPC$Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-peerId));
-            ImageLocation forChat = ImageLocation.getForChat(chat, 1);
-            int colorForId2 = chat != null ? AvatarDrawable.getColorForId(chat.id) : ColorUtils.blendARGB(-16777216, -1, 0.2f);
-            this.imageReceiver.setImage(forChat, "50_50_b", new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP, new int[]{ColorUtils.blendARGB(colorForId2, -16777216, 0.2f), ColorUtils.blendARGB(colorForId2, -16777216, 0.4f)}), null, chat, 0);
+        if (this.thumb == null) {
+            long peerId = MessageObject.getPeerId(this.participant.participant.peer);
+            ChatObject.VideoParticipant videoParticipant2 = this.participant;
+            if (videoParticipant2.participant.self && videoParticipant2.presentation) {
+                this.imageReceiver.setImageBitmap(new MotionBackgroundDrawable(-14602694, -13935795, -14395293, -14203560, true));
+            } else if (peerId > 0) {
+                TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(peerId));
+                ImageLocation forUser = ImageLocation.getForUser(user, 1);
+                int colorForId = user != null ? AvatarDrawable.getColorForId(user.id) : ColorUtils.blendARGB(-16777216, -1, 0.2f);
+                this.imageReceiver.setImage(forUser, "50_50_b", new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP, new int[]{ColorUtils.blendARGB(colorForId, -16777216, 0.2f), ColorUtils.blendARGB(colorForId, -16777216, 0.4f)}), null, user, 0);
+            } else {
+                TLRPC$Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-peerId));
+                ImageLocation forChat = ImageLocation.getForChat(chat, 1);
+                int colorForId2 = chat != null ? AvatarDrawable.getColorForId(chat.id) : ColorUtils.blendARGB(-16777216, -1, 0.2f);
+                this.imageReceiver.setImage(forChat, "50_50_b", new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP, new int[]{ColorUtils.blendARGB(colorForId2, -16777216, 0.2f), ColorUtils.blendARGB(colorForId2, -16777216, 0.4f)}), null, chat, 0);
+            }
         }
     }
 
     public void updateInfo() {
-        if (!this.attached) {
-            return;
-        }
-        String str = null;
-        long peerId = MessageObject.getPeerId(this.participant.participant.peer);
-        if (DialogObject.isUserDialog(peerId)) {
-            str = UserObject.getUserName(AccountInstance.getInstance(this.currentAccount).getMessagesController().getUser(Long.valueOf(peerId)));
-        } else {
-            TLRPC$Chat chat = AccountInstance.getInstance(this.currentAccount).getMessagesController().getChat(Long.valueOf(-peerId));
-            if (chat != null) {
-                str = chat.title;
+        if (this.attached) {
+            String str = null;
+            long peerId = MessageObject.getPeerId(this.participant.participant.peer);
+            if (DialogObject.isUserDialog(peerId)) {
+                str = UserObject.getUserName(AccountInstance.getInstance(this.currentAccount).getMessagesController().getUser(Long.valueOf(peerId)));
+            } else {
+                TLRPC$Chat chat = AccountInstance.getInstance(this.currentAccount).getMessagesController().getChat(Long.valueOf(-peerId));
+                if (chat != null) {
+                    str = chat.title;
+                }
             }
+            this.nameView.setText(str);
         }
-        this.nameView.setText(str);
     }
 
     public boolean hasImage() {
         return this.textureView.stubVisibleProgress == 1.0f;
     }
 
+    /* JADX WARN: Code restructure failed: missing block: B:100:?, code lost:
+        return;
+     */
     /* JADX WARN: Code restructure failed: missing block: B:47:0x00c4, code lost:
         if (r0 != false) goto L48;
      */
     /* JADX WARN: Code restructure failed: missing block: B:48:0x00c6, code lost:
         r9 = r10;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:49:0x00ce, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:51:0x00cb, code lost:
+        if (r2 != null) goto L48;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:53:0x00ce, code lost:
         setTranslationX(((r11.getX() + r9.getX()) - getLeft()) - r12.getLeft());
         setTranslationY((((r11.getY() + org.telegram.messenger.AndroidUtilities.dp(2.0f)) + r9.getY()) - getTop()) - r12.getTop());
         r8.textureView.setRoundCorners(org.telegram.messenger.AndroidUtilities.dp(8.0f));
      */
-    /* JADX WARN: Code restructure failed: missing block: B:50:0x0110, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:54:0x0110, code lost:
         if (r8.attached == false) goto L66;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:52:0x0114, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:56:0x0114, code lost:
         if (r8.animateEnter != false) goto L65;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:54:0x0118, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:58:0x0118, code lost:
         if (org.telegram.ui.GroupCallActivity.isTabletMode != false) goto L57;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:55:0x011a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:59:0x011a, code lost:
         r8.drawFirst = true;
         setAlpha((1.0f - r1) * r11.getAlpha());
      */
-    /* JADX WARN: Code restructure failed: missing block: B:56:?, code lost:
-        return;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:58:0x012a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:61:0x012a, code lost:
         if (r8.primaryView == null) goto L64;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:60:0x012e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:63:0x012e, code lost:
         if (r8.tabletGridView != null) goto L63;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:61:0x0130, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:64:0x0130, code lost:
         setAlpha(r1 * r11.getAlpha());
      */
-    /* JADX WARN: Code restructure failed: missing block: B:62:?, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:95:?, code lost:
         return;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:63:?, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:96:?, code lost:
         return;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:64:?, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:97:?, code lost:
         return;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:65:?, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:98:?, code lost:
         return;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:66:?, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:99:?, code lost:
         return;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:69:0x00cb, code lost:
-        if (r2 != null) goto L48;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -2022,8 +2008,8 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:11:0x002f A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:12:0x0030  */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x002f A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x0030  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2131,24 +2117,34 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
         float amplitude;
         float animateAmplitudeDiff;
         float animateToAmplitude;
+        AvatarDrawable avatarDrawable;
+        public ImageReceiver avatarImageReceiver;
+        public ImageReceiver backgroundImageReceiver;
+        Paint backgroundPaint;
+        BlobDrawable bigWaveDrawable;
         private GroupCallActivity.WeavingState currentState;
         float cx;
         float cy;
+        int muteButtonState;
+        Paint paint;
         private GroupCallActivity.WeavingState prevState;
         float speakingProgress;
-        public ImageReceiver avatarImageReceiver = new ImageReceiver();
-        public ImageReceiver backgroundImageReceiver = new ImageReceiver();
-        AvatarDrawable avatarDrawable = new AvatarDrawable();
-        Paint paint = new Paint(1);
-        Paint backgroundPaint = new Paint(1);
-        private GroupCallActivity.WeavingState[] states = new GroupCallActivity.WeavingState[3];
-        int muteButtonState = -1;
-        float switchProgress = 1.0f;
-        BlobDrawable tinyWaveDrawable = new BlobDrawable(9);
-        BlobDrawable bigWaveDrawable = new BlobDrawable(12);
+        private GroupCallActivity.WeavingState[] states;
+        float switchProgress;
+        BlobDrawable tinyWaveDrawable;
 
         public NoVideoStubLayout(Context context) {
             super(context);
+            this.avatarImageReceiver = new ImageReceiver();
+            this.backgroundImageReceiver = new ImageReceiver();
+            this.avatarDrawable = new AvatarDrawable();
+            this.paint = new Paint(1);
+            this.backgroundPaint = new Paint(1);
+            this.states = new GroupCallActivity.WeavingState[3];
+            this.muteButtonState = -1;
+            this.switchProgress = 1.0f;
+            this.tinyWaveDrawable = new BlobDrawable(9);
+            this.bigWaveDrawable = new BlobDrawable(12);
             this.tinyWaveDrawable.minRadius = AndroidUtilities.dp(76.0f);
             this.tinyWaveDrawable.maxRadius = AndroidUtilities.dp(92.0f);
             this.tinyWaveDrawable.generateBlob();
@@ -2376,9 +2372,10 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
                 groupCallMiniTextureView.flipAnimator = null;
                 groupCallMiniTextureView.textureView.setRotationY(0.0f);
                 GroupCallMiniTextureView groupCallMiniTextureView2 = GroupCallMiniTextureView.this;
-                if (!groupCallMiniTextureView2.flipHalfReached) {
-                    groupCallMiniTextureView2.textureView.renderer.clearImage();
+                if (groupCallMiniTextureView2.flipHalfReached) {
+                    return;
                 }
+                groupCallMiniTextureView2.textureView.renderer.clearImage();
             }
         });
         this.flipAnimator.setDuration(400L);

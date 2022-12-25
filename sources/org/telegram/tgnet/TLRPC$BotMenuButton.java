@@ -24,12 +24,12 @@ public abstract class TLRPC$BotMenuButton extends TLObject {
                 }
             };
         }
-        if (tLRPC$TL_botMenuButton != null || !z) {
-            if (tLRPC$TL_botMenuButton != null) {
-                tLRPC$TL_botMenuButton.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_botMenuButton;
+        if (tLRPC$TL_botMenuButton == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in BotMenuButton", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in BotMenuButton", Integer.valueOf(i)));
+        if (tLRPC$TL_botMenuButton != null) {
+            tLRPC$TL_botMenuButton.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_botMenuButton;
     }
 }

@@ -16,11 +16,13 @@ public class PhotoEditRadioCell extends FrameLayout {
     private TextView nameTextView;
     private View.OnClickListener onClickListener;
     private LinearLayout tintButtonsContainer;
-    private final int[] tintShadowColors = {0, -45747, -753630, -13056, -8269183, -9321002, -16747844, -10080879};
-    private final int[] tintHighlighsColors = {0, -1076602, -1388894, -859780, -5968466, -7742235, -13726776, -3303195};
+    private final int[] tintHighlighsColors;
+    private final int[] tintShadowColors;
 
     public PhotoEditRadioCell(Context context) {
         super(context);
+        this.tintShadowColors = new int[]{0, -45747, -753630, -13056, -8269183, -9321002, -16747844, -10080879};
+        this.tintHighlighsColors = new int[]{0, -1076602, -1388894, -859780, -5968466, -7742235, -13726776, -3303195};
         TextView textView = new TextView(context);
         this.nameTextView = textView;
         textView.setGravity(5);
@@ -73,16 +75,12 @@ public class PhotoEditRadioCell extends FrameLayout {
                 RadioButton radioButton = (RadioButton) childAt;
                 int intValue = ((Integer) radioButton.getTag()).intValue();
                 radioButton.setChecked(this.currentColor == (this.currentType == 0 ? this.tintShadowColors[intValue] : this.tintHighlighsColors[intValue]), z);
-                int i3 = -1;
                 if (intValue == 0) {
                     i = -1;
                 } else {
                     i = this.currentType == 0 ? this.tintShadowColors[intValue] : this.tintHighlighsColors[intValue];
                 }
-                if (intValue != 0) {
-                    i3 = this.currentType == 0 ? this.tintShadowColors[intValue] : this.tintHighlighsColors[intValue];
-                }
-                radioButton.setColor(i, i3);
+                radioButton.setColor(i, intValue != 0 ? this.currentType == 0 ? this.tintShadowColors[intValue] : this.tintHighlighsColors[intValue] : -1);
             }
         }
     }

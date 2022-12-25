@@ -27,10 +27,9 @@ public abstract class zzeo<MessageType extends zzeo<MessageType, BuilderType>, B
         protected zzej<zzf> zzc = zzej.zza();
     }
 
-    /* JADX WARN: Failed to restore enum class, 'enum' modifier removed */
     /* compiled from: com.google.mlkit:language-id@@16.1.1 */
     /* loaded from: classes.dex */
-    public static final class zze {
+    public enum zze {
         public static final int zza = 1;
         public static final int zzb = 2;
         public static final int zzc = 3;
@@ -215,10 +214,10 @@ public abstract class zzeo<MessageType extends zzeo<MessageType, BuilderType>, B
         if (this == obj) {
             return true;
         }
-        if (obj == null || getClass() != obj.getClass()) {
-            return false;
+        if (obj != null && getClass() == obj.getClass()) {
+            return zzgk.zza().zza((zzgk) this).zza(this, (zzeo) obj);
         }
-        return zzgk.zza().zza((zzgk) this).zza(this, (zzeo) obj);
+        return false;
     }
 
     /* JADX INFO: Access modifiers changed from: protected */

@@ -163,14 +163,10 @@ class AndroidVideoDecoder implements VideoDecoder, VideoSink {
         int i2;
         VideoCodecStatus reinitDecode;
         this.decoderThreadChecker.checkIsOnValidThread();
-        boolean z = false;
         if (this.codec == null || this.callback == null) {
             StringBuilder sb = new StringBuilder();
             sb.append("decode uninitalized, codec: ");
-            if (this.codec != null) {
-                z = true;
-            }
-            sb.append(z);
+            sb.append(this.codec != null);
             sb.append(", callback: ");
             sb.append(this.callback);
             Logging.d(TAG, sb.toString());
@@ -192,46 +188,46 @@ class AndroidVideoDecoder implements VideoDecoder, VideoSink {
         }
         int i3 = encodedImage.encodedWidth;
         int i4 = encodedImage.encodedHeight;
-        if (i3 * i4 > 0 && ((i3 != i || i4 != i2) && (reinitDecode = reinitDecode(i3, i4)) != VideoCodecStatus.OK)) {
-            return reinitDecode;
-        }
-        if (this.keyFrameRequired && encodedImage.frameType != EncodedImage.FrameType.VideoFrameKey) {
-            Logging.e(TAG, "decode() - key frame required first");
-            return VideoCodecStatus.NO_OUTPUT;
-        }
-        try {
-            int dequeueInputBuffer = this.codec.dequeueInputBuffer(500000L);
-            if (dequeueInputBuffer < 0) {
-                Logging.e(TAG, "decode() - no HW buffers available; decoder falling behind");
-                return VideoCodecStatus.ERROR;
+        if (i3 * i4 <= 0 || ((i3 == i && i4 == i2) || (reinitDecode = reinitDecode(i3, i4)) == VideoCodecStatus.OK)) {
+            if (this.keyFrameRequired && encodedImage.frameType != EncodedImage.FrameType.VideoFrameKey) {
+                Logging.e(TAG, "decode() - key frame required first");
+                return VideoCodecStatus.NO_OUTPUT;
             }
             try {
-                ByteBuffer byteBuffer2 = this.codec.getInputBuffers()[dequeueInputBuffer];
-                if (byteBuffer2.capacity() < remaining) {
-                    Logging.e(TAG, "decode() - HW buffer too small");
+                int dequeueInputBuffer = this.codec.dequeueInputBuffer(500000L);
+                if (dequeueInputBuffer < 0) {
+                    Logging.e(TAG, "decode() - no HW buffers available; decoder falling behind");
                     return VideoCodecStatus.ERROR;
                 }
-                byteBuffer2.put(encodedImage.buffer);
-                this.frameInfos.offer(new FrameInfo(SystemClock.elapsedRealtime(), encodedImage.rotation));
                 try {
-                    this.codec.queueInputBuffer(dequeueInputBuffer, 0, remaining, TimeUnit.NANOSECONDS.toMicros(encodedImage.captureTimeNs), 0);
-                    if (this.keyFrameRequired) {
-                        this.keyFrameRequired = false;
+                    ByteBuffer byteBuffer2 = this.codec.getInputBuffers()[dequeueInputBuffer];
+                    if (byteBuffer2.capacity() < remaining) {
+                        Logging.e(TAG, "decode() - HW buffer too small");
+                        return VideoCodecStatus.ERROR;
                     }
-                    return VideoCodecStatus.OK;
-                } catch (IllegalStateException e) {
-                    Logging.e(TAG, "queueInputBuffer failed", e);
-                    this.frameInfos.pollLast();
+                    byteBuffer2.put(encodedImage.buffer);
+                    this.frameInfos.offer(new FrameInfo(SystemClock.elapsedRealtime(), encodedImage.rotation));
+                    try {
+                        this.codec.queueInputBuffer(dequeueInputBuffer, 0, remaining, TimeUnit.NANOSECONDS.toMicros(encodedImage.captureTimeNs), 0);
+                        if (this.keyFrameRequired) {
+                            this.keyFrameRequired = false;
+                        }
+                        return VideoCodecStatus.OK;
+                    } catch (IllegalStateException e) {
+                        Logging.e(TAG, "queueInputBuffer failed", e);
+                        this.frameInfos.pollLast();
+                        return VideoCodecStatus.ERROR;
+                    }
+                } catch (IllegalStateException e2) {
+                    Logging.e(TAG, "getInputBuffers failed", e2);
                     return VideoCodecStatus.ERROR;
                 }
-            } catch (IllegalStateException e2) {
-                Logging.e(TAG, "getInputBuffers failed", e2);
+            } catch (IllegalStateException e3) {
+                Logging.e(TAG, "dequeueInputBuffer failed", e3);
                 return VideoCodecStatus.ERROR;
             }
-        } catch (IllegalStateException e3) {
-            Logging.e(TAG, "dequeueInputBuffer failed", e3);
-            return VideoCodecStatus.ERROR;
         }
+        return reinitDecode;
     }
 
     @Override // org.webrtc.VideoDecoder

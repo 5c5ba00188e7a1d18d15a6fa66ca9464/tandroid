@@ -128,10 +128,10 @@ public final class EGLSurfaceTexture implements SurfaceTexture.OnFrameAvailableL
             throw new GlException("eglGetDisplay failed");
         }
         int[] iArr = new int[2];
-        if (!EGL14.eglInitialize(eglGetDisplay, iArr, 0, iArr, 1)) {
-            throw new GlException("eglInitialize failed");
+        if (EGL14.eglInitialize(eglGetDisplay, iArr, 0, iArr, 1)) {
+            return eglGetDisplay;
         }
-        return eglGetDisplay;
+        throw new GlException("eglInitialize failed");
     }
 
     private static EGLConfig chooseEGLConfig(EGLDisplay eGLDisplay) {

@@ -17,12 +17,12 @@ public abstract class TLRPC$UrlAuthResult extends TLObject {
         } else {
             tLRPC$TL_urlAuthResultAccepted = new TLRPC$TL_urlAuthResultRequest();
         }
-        if (tLRPC$TL_urlAuthResultAccepted != null || !z) {
-            if (tLRPC$TL_urlAuthResultAccepted != null) {
-                tLRPC$TL_urlAuthResultAccepted.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_urlAuthResultAccepted;
+        if (tLRPC$TL_urlAuthResultAccepted == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in UrlAuthResult", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in UrlAuthResult", Integer.valueOf(i)));
+        if (tLRPC$TL_urlAuthResultAccepted != null) {
+            tLRPC$TL_urlAuthResultAccepted.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_urlAuthResultAccepted;
     }
 }

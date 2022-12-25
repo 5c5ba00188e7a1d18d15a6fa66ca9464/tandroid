@@ -57,7 +57,6 @@ public class HeaderCell extends FrameLayout {
         textView.setTextSize(1, 15.0f);
         this.textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.textView.setEllipsize(TextUtils.TruncateAt.END);
-        int i4 = 5;
         this.textView.setGravity((LocaleController.isRTL ? 5 : 3) | 16);
         this.textView.setMinHeight(AndroidUtilities.dp(this.height - i2));
         this.textView.setTextColor(getThemedColor(str));
@@ -69,7 +68,7 @@ public class HeaderCell extends FrameLayout {
             this.textView2 = simpleTextView;
             simpleTextView.setTextSize(13);
             this.textView2.setGravity((LocaleController.isRTL ? 3 : 5) | 48);
-            addView(this.textView2, LayoutHelper.createFrame(-1, -1.0f, (LocaleController.isRTL ? 3 : i4) | 48, f, 21.0f, f, i3));
+            addView(this.textView2, LayoutHelper.createFrame(-1, -1.0f, (LocaleController.isRTL ? 3 : 5) | 48, f, 21.0f, f, i3));
         }
         ViewCompat.setAccessibilityHeading(this, true);
     }
@@ -95,23 +94,15 @@ public class HeaderCell extends FrameLayout {
     }
 
     public void setEnabled(boolean z, ArrayList<Animator> arrayList) {
-        float f = 1.0f;
         if (arrayList != null) {
             TextView textView = this.textView;
             Property property = View.ALPHA;
             float[] fArr = new float[1];
-            if (!z) {
-                f = 0.5f;
-            }
-            fArr[0] = f;
+            fArr[0] = z ? 1.0f : 0.5f;
             arrayList.add(ObjectAnimator.ofFloat(textView, property, fArr));
             return;
         }
-        TextView textView2 = this.textView;
-        if (!z) {
-            f = 0.5f;
-        }
-        textView2.setAlpha(f);
+        this.textView.setAlpha(z ? 1.0f : 0.5f);
     }
 
     @Override // android.widget.FrameLayout, android.view.View

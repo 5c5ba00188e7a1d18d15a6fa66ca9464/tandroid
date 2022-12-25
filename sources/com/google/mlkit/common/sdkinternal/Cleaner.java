@@ -37,11 +37,10 @@ public class Cleaner {
 
         @Override // com.google.mlkit.common.sdkinternal.Cleaner.Cleanable
         public final void clean() {
-            if (!this.zza.remove(this)) {
-                return;
+            if (this.zza.remove(this)) {
+                clear();
+                this.zzb.run();
             }
-            clear();
-            this.zzb.run();
         }
     }
 

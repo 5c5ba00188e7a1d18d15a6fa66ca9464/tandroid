@@ -77,12 +77,12 @@ public abstract class TLRPC$ChatParticipant extends TLObject {
                 tLRPC$TL_chatParticipantAdmin = null;
                 break;
         }
-        if (tLRPC$TL_chatParticipantAdmin != null || !z) {
-            if (tLRPC$TL_chatParticipantAdmin != null) {
-                tLRPC$TL_chatParticipantAdmin.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_chatParticipantAdmin;
+        if (tLRPC$TL_chatParticipantAdmin == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in ChatParticipant", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in ChatParticipant", Integer.valueOf(i)));
+        if (tLRPC$TL_chatParticipantAdmin != null) {
+            tLRPC$TL_chatParticipantAdmin.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_chatParticipantAdmin;
     }
 }

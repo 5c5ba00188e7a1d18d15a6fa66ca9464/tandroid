@@ -18,11 +18,12 @@ public class MemberRequestsBottomSheet extends UsersAlertBase {
     private boolean enterEventSent;
     private final StickerEmptyView membersEmptyView;
     private final StickerEmptyView membersSearchEmptyView;
-    private final int touchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
+    private final int touchSlop;
     private float yOffset;
 
     public MemberRequestsBottomSheet(BaseFragment baseFragment, long j) {
         super(baseFragment.getParentActivity(), false, baseFragment.getCurrentAccount(), baseFragment.getResourceProvider());
+        this.touchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
         this.needSnapToTop = false;
         this.isEmptyViewVisible = false;
         MemberRequestsDelegate memberRequestsDelegate = new MemberRequestsDelegate(baseFragment, this.container, j, false) { // from class: org.telegram.ui.Components.MemberRequestsBottomSheet.1
@@ -103,11 +104,11 @@ public class MemberRequestsBottomSheet extends UsersAlertBase {
     public void updateLayout() {
         if (this.listView.getChildCount() <= 0) {
             int paddingTop = this.listView.getVisibility() == 0 ? this.listView.getPaddingTop() - AndroidUtilities.dp(8.0f) : 0;
-            if (this.scrollOffsetY == paddingTop) {
+            if (this.scrollOffsetY != paddingTop) {
+                this.scrollOffsetY = paddingTop;
+                setTranslationY(paddingTop);
                 return;
             }
-            this.scrollOffsetY = paddingTop;
-            setTranslationY(paddingTop);
             return;
         }
         super.updateLayout();

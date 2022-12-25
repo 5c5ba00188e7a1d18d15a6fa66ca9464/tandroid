@@ -22,10 +22,9 @@ public class ThreadUtils {
             if (this.thread == null) {
                 this.thread = Thread.currentThread();
             }
-            if (Thread.currentThread() == this.thread) {
-                return;
+            if (Thread.currentThread() != this.thread) {
+                throw new IllegalStateException("Wrong thread");
             }
-            throw new IllegalStateException("Wrong thread");
         }
 
         public void detachThread() {
@@ -34,10 +33,9 @@ public class ThreadUtils {
     }
 
     public static void checkIsOnMainThread() {
-        if (Thread.currentThread() == Looper.getMainLooper().getThread()) {
-            return;
+        if (Thread.currentThread() != Looper.getMainLooper().getThread()) {
+            throw new IllegalStateException("Not on main thread!");
         }
-        throw new IllegalStateException("Not on main thread!");
     }
 
     public static void executeUninterruptibly(BlockingOperation blockingOperation) {

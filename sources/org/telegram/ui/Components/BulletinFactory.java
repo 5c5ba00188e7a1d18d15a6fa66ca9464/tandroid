@@ -51,57 +51,90 @@ public final class BulletinFactory {
         return (baseFragment == null || baseFragment.getParentActivity() == null || baseFragment.getLayoutContainer() == null) ? false : true;
     }
 
-    /* JADX WARN: Init of enum AUDIO can be incorrect */
-    /* JADX WARN: Init of enum AUDIOS can be incorrect */
-    /* JADX WARN: Init of enum GIF_TO_DOWNLOADS can be incorrect */
-    /* JADX WARN: Init of enum MEDIA can be incorrect */
-    /* JADX WARN: Init of enum PHOTO can be incorrect */
-    /* JADX WARN: Init of enum PHOTOS can be incorrect */
-    /* JADX WARN: Init of enum PHOTO_TO_DOWNLOADS can be incorrect */
-    /* JADX WARN: Init of enum UNKNOWN can be incorrect */
-    /* JADX WARN: Init of enum UNKNOWNS can be incorrect */
-    /* JADX WARN: Init of enum VIDEO can be incorrect */
-    /* JADX WARN: Init of enum VIDEOS can be incorrect */
-    /* JADX WARN: Init of enum VIDEO_TO_DOWNLOADS can be incorrect */
+    /* JADX WARN: Enum visitor error
+    jadx.core.utils.exceptions.JadxRuntimeException: Init of enum PHOTO uses external variables
+    	at jadx.core.dex.visitors.EnumVisitor.createEnumFieldByConstructor(EnumVisitor.java:444)
+    	at jadx.core.dex.visitors.EnumVisitor.processEnumFieldByRegister(EnumVisitor.java:391)
+    	at jadx.core.dex.visitors.EnumVisitor.extractEnumFieldsFromFilledArray(EnumVisitor.java:320)
+    	at jadx.core.dex.visitors.EnumVisitor.extractEnumFieldsFromInsn(EnumVisitor.java:258)
+    	at jadx.core.dex.visitors.EnumVisitor.convertToEnum(EnumVisitor.java:151)
+    	at jadx.core.dex.visitors.EnumVisitor.visit(EnumVisitor.java:100)
+     */
+    /* JADX WARN: Failed to restore enum class, 'enum' modifier and super class removed */
     /* loaded from: classes3.dex */
-    public enum FileType {
-        PHOTO("PhotoSavedHint", r4, r13),
-        PHOTOS("PhotosSavedHint", r13),
-        VIDEO("VideoSavedHint", R.string.VideoSavedHint, r13),
-        VIDEOS("VideosSavedHint", r13),
-        MEDIA("MediaSavedHint", r13),
-        PHOTO_TO_DOWNLOADS("PhotoSavedToDownloadsHint", r18, r13),
-        VIDEO_TO_DOWNLOADS("VideoSavedToDownloadsHint", R.string.VideoSavedToDownloadsHint, r13),
-        GIF("GifSavedHint", R.string.GifSavedHint, Icon.SAVED_TO_GIFS),
-        GIF_TO_DOWNLOADS("GifSavedToDownloadsHint", R.string.GifSavedToDownloadsHint, r13),
-        AUDIO("AudioSavedHint", r28, r9),
-        AUDIOS("AudiosSavedHint", r9),
-        UNKNOWN("FileSavedHint", R.string.FileSavedHint, r13),
-        UNKNOWNS("FilesSavedHint", r13);
-        
+    public static final class FileType {
+        private static final /* synthetic */ FileType[] $VALUES;
+        public static final FileType AUDIO;
+        public static final FileType AUDIOS;
+        public static final FileType GIF;
+        public static final FileType GIF_TO_DOWNLOADS;
+        public static final FileType MEDIA;
+        public static final FileType PHOTO;
+        public static final FileType PHOTOS;
+        public static final FileType PHOTO_TO_DOWNLOADS;
+        public static final FileType UNKNOWN;
+        public static final FileType UNKNOWNS;
+        public static final FileType VIDEO;
+        public static final FileType VIDEOS;
+        public static final FileType VIDEO_TO_DOWNLOADS;
         private final Icon icon;
         private final String localeKey;
         private final int localeRes;
         private final boolean plural;
 
+        public static FileType valueOf(String str) {
+            return (FileType) Enum.valueOf(FileType.class, str);
+        }
+
+        public static FileType[] values() {
+            return (FileType[]) $VALUES.clone();
+        }
+
         static {
             int i = R.string.PhotoSavedHint;
             Icon icon = Icon.SAVED_TO_GALLERY;
+            FileType fileType = new FileType("PHOTO", 0, "PhotoSavedHint", i, icon);
+            PHOTO = fileType;
+            FileType fileType2 = new FileType("PHOTOS", 1, "PhotosSavedHint", icon);
+            PHOTOS = fileType2;
+            FileType fileType3 = new FileType("VIDEO", 2, "VideoSavedHint", R.string.VideoSavedHint, icon);
+            VIDEO = fileType3;
+            FileType fileType4 = new FileType("VIDEOS", 3, "VideosSavedHint", icon);
+            VIDEOS = fileType4;
+            FileType fileType5 = new FileType("MEDIA", 4, "MediaSavedHint", icon);
+            MEDIA = fileType5;
             int i2 = R.string.PhotoSavedToDownloadsHint;
             Icon icon2 = Icon.SAVED_TO_DOWNLOADS;
+            FileType fileType6 = new FileType("PHOTO_TO_DOWNLOADS", 5, "PhotoSavedToDownloadsHint", i2, icon2);
+            PHOTO_TO_DOWNLOADS = fileType6;
+            FileType fileType7 = new FileType("VIDEO_TO_DOWNLOADS", 6, "VideoSavedToDownloadsHint", R.string.VideoSavedToDownloadsHint, icon2);
+            VIDEO_TO_DOWNLOADS = fileType7;
+            FileType fileType8 = new FileType("GIF", 7, "GifSavedHint", R.string.GifSavedHint, Icon.SAVED_TO_GIFS);
+            GIF = fileType8;
+            FileType fileType9 = new FileType("GIF_TO_DOWNLOADS", 8, "GifSavedToDownloadsHint", R.string.GifSavedToDownloadsHint, icon2);
+            GIF_TO_DOWNLOADS = fileType9;
             int i3 = R.string.AudioSavedHint;
             Icon icon3 = Icon.SAVED_TO_MUSIC;
+            FileType fileType10 = new FileType("AUDIO", 9, "AudioSavedHint", i3, icon3);
+            AUDIO = fileType10;
+            FileType fileType11 = new FileType("AUDIOS", 10, "AudiosSavedHint", icon3);
+            AUDIOS = fileType11;
+            FileType fileType12 = new FileType("UNKNOWN", 11, "FileSavedHint", R.string.FileSavedHint, icon2);
+            UNKNOWN = fileType12;
+            FileType fileType13 = new FileType("UNKNOWNS", 12, "FilesSavedHint", icon2);
+            UNKNOWNS = fileType13;
+            $VALUES = new FileType[]{fileType, fileType2, fileType3, fileType4, fileType5, fileType6, fileType7, fileType8, fileType9, fileType10, fileType11, fileType12, fileType13};
         }
 
-        FileType(String str, int i, Icon icon) {
-            this.localeKey = str;
-            this.localeRes = i;
+        private FileType(String str, int i, String str2, int i2, Icon icon) {
+            this.localeKey = str2;
+            this.localeRes = i2;
             this.icon = icon;
             this.plural = false;
         }
 
-        FileType(String str, Icon icon) {
-            this.localeKey = str;
+        private FileType(String str, int i, String str2, Icon icon) {
+            this.localeKey = str2;
             this.icon = icon;
             this.localeRes = 0;
             this.plural = true;
@@ -137,9 +170,8 @@ public final class BulletinFactory {
 
     private BulletinFactory(BaseFragment baseFragment) {
         this.fragment = baseFragment;
-        Theme.ResourcesProvider resourcesProvider = null;
         this.containerLayout = null;
-        this.resourcesProvider = baseFragment != null ? baseFragment.getResourceProvider() : resourcesProvider;
+        this.resourcesProvider = baseFragment != null ? baseFragment.getResourceProvider() : null;
     }
 
     private BulletinFactory(FrameLayout frameLayout, Theme.ResourcesProvider resourcesProvider) {
@@ -497,20 +529,20 @@ public final class BulletinFactory {
     }
 
     public Bulletin createCopyLinkBulletin(boolean z, Theme.ResourcesProvider resourcesProvider) {
-        if (!AndroidUtilities.shouldShowClipboardToast()) {
-            return new Bulletin.EmptyBulletin();
+        if (AndroidUtilities.shouldShowClipboardToast()) {
+            if (z) {
+                Bulletin.TwoLineLottieLayout twoLineLottieLayout = new Bulletin.TwoLineLottieLayout(getContext(), resourcesProvider);
+                twoLineLottieLayout.setAnimation(R.raw.voip_invite, 36, 36, "Wibe", "Circle");
+                twoLineLottieLayout.titleTextView.setText(LocaleController.getString("LinkCopied", R.string.LinkCopied));
+                twoLineLottieLayout.subtitleTextView.setText(LocaleController.getString("LinkCopiedPrivateInfo", R.string.LinkCopiedPrivateInfo));
+                return create(twoLineLottieLayout, 2750);
+            }
+            Bulletin.LottieLayout lottieLayout = new Bulletin.LottieLayout(getContext(), resourcesProvider);
+            lottieLayout.setAnimation(R.raw.voip_invite, 36, 36, "Wibe", "Circle");
+            lottieLayout.textView.setText(LocaleController.getString("LinkCopied", R.string.LinkCopied));
+            return create(lottieLayout, 1500);
         }
-        if (z) {
-            Bulletin.TwoLineLottieLayout twoLineLottieLayout = new Bulletin.TwoLineLottieLayout(getContext(), resourcesProvider);
-            twoLineLottieLayout.setAnimation(R.raw.voip_invite, 36, 36, "Wibe", "Circle");
-            twoLineLottieLayout.titleTextView.setText(LocaleController.getString("LinkCopied", R.string.LinkCopied));
-            twoLineLottieLayout.subtitleTextView.setText(LocaleController.getString("LinkCopiedPrivateInfo", R.string.LinkCopiedPrivateInfo));
-            return create(twoLineLottieLayout, 2750);
-        }
-        Bulletin.LottieLayout lottieLayout = new Bulletin.LottieLayout(getContext(), resourcesProvider);
-        lottieLayout.setAnimation(R.raw.voip_invite, 36, 36, "Wibe", "Circle");
-        lottieLayout.textView.setText(LocaleController.getString("LinkCopied", R.string.LinkCopied));
-        return create(lottieLayout, 1500);
+        return new Bulletin.EmptyBulletin();
     }
 
     public Bulletin createCopyLinkBulletin(String str, Theme.ResourcesProvider resourcesProvider) {
@@ -540,8 +572,8 @@ public final class BulletinFactory {
         return createMuteBulletin(baseFragment, i, 0, null);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:14:0x0082  */
-    /* JADX WARN: Removed duplicated region for block: B:18:0x008a  */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x0082  */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x008a  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -599,10 +631,10 @@ public final class BulletinFactory {
     public static Bulletin createUnpinAllMessagesBulletin(BaseFragment baseFragment, int i, boolean z, Runnable runnable, Runnable runnable2, Theme.ResourcesProvider resourcesProvider) {
         Bulletin.LottieLayout lottieLayout;
         if (baseFragment.getParentActivity() == null) {
-            if (runnable2 == null) {
+            if (runnable2 != null) {
+                runnable2.run();
                 return null;
             }
-            runnable2.run();
             return null;
         }
         if (z) {
@@ -647,7 +679,7 @@ public final class BulletinFactory {
         return Bulletin.make(baseFragment, lottieLayout, 1500);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:8:0x00aa  */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x00aa  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -690,7 +722,7 @@ public final class BulletinFactory {
         return Bulletin.make(frameLayout, lottieLayout, 1500);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:10:0x00e9  */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x00e9  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

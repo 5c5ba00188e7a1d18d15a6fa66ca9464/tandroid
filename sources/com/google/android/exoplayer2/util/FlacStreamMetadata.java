@@ -27,16 +27,16 @@ public final class FlacStreamMetadata {
 
     private static int getBitsPerSampleLookupKey(int i) {
         if (i != 8) {
-            if (i == 12) {
-                return 2;
-            }
-            if (i == 16) {
+            if (i != 12) {
+                if (i != 16) {
+                    if (i != 20) {
+                        return i != 24 ? -1 : 6;
+                    }
+                    return 5;
+                }
                 return 4;
             }
-            if (i == 20) {
-                return 5;
-            }
-            return i != 24 ? -1 : 6;
+            return 2;
         }
         return 1;
     }
@@ -187,23 +187,23 @@ public final class FlacStreamMetadata {
     }
 
     private static Metadata buildMetadata(List<String> list, List<PictureFrame> list2) {
-        if (!list.isEmpty() || !list2.isEmpty()) {
-            ArrayList arrayList = new ArrayList();
-            for (int i = 0; i < list.size(); i++) {
-                String str = list.get(i);
-                String[] splitAtFirst = Util.splitAtFirst(str, SEPARATOR);
-                if (splitAtFirst.length != 2) {
-                    Log.w(TAG, "Failed to parse Vorbis comment: " + str);
-                } else {
-                    arrayList.add(new VorbisComment(splitAtFirst[0], splitAtFirst[1]));
-                }
-            }
-            arrayList.addAll(list2);
-            if (!arrayList.isEmpty()) {
-                return new Metadata(arrayList);
-            }
+        if (list.isEmpty() && list2.isEmpty()) {
             return null;
         }
-        return null;
+        ArrayList arrayList = new ArrayList();
+        for (int i = 0; i < list.size(); i++) {
+            String str = list.get(i);
+            String[] splitAtFirst = Util.splitAtFirst(str, SEPARATOR);
+            if (splitAtFirst.length != 2) {
+                Log.w(TAG, "Failed to parse Vorbis comment: " + str);
+            } else {
+                arrayList.add(new VorbisComment(splitAtFirst[0], splitAtFirst[1]));
+            }
+        }
+        arrayList.addAll(list2);
+        if (arrayList.isEmpty()) {
+            return null;
+        }
+        return new Metadata(arrayList);
     }
 }

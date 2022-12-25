@@ -70,10 +70,9 @@ public class InputSurface {
     public void makeCurrent() {
         EGLDisplay eGLDisplay = this.mEGLDisplay;
         EGLSurface eGLSurface = this.mEGLSurface;
-        if (EGL14.eglMakeCurrent(eGLDisplay, eGLSurface, eGLSurface, this.mEGLContext)) {
-            return;
+        if (!EGL14.eglMakeCurrent(eGLDisplay, eGLSurface, eGLSurface, this.mEGLContext)) {
+            throw new RuntimeException("eglMakeCurrent failed");
         }
-        throw new RuntimeException("eglMakeCurrent failed");
     }
 
     public boolean swapBuffers() {
@@ -94,9 +93,8 @@ public class InputSurface {
         while (EGL14.eglGetError() != 12288) {
             z = true;
         }
-        if (!z) {
-            return;
+        if (z) {
+            throw new RuntimeException("EGL error encountered (see log)");
         }
-        throw new RuntimeException("EGL error encountered (see log)");
     }
 }

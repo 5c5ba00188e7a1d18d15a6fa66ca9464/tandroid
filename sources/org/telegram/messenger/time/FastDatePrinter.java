@@ -396,11 +396,11 @@ public class FastDatePrinter implements DatePrinter, Serializable {
     }
 
     public boolean equals(Object obj) {
-        if (!(obj instanceof FastDatePrinter)) {
-            return false;
+        if (obj instanceof FastDatePrinter) {
+            FastDatePrinter fastDatePrinter = (FastDatePrinter) obj;
+            return this.mPattern.equals(fastDatePrinter.mPattern) && this.mTimeZone.equals(fastDatePrinter.mTimeZone) && this.mLocale.equals(fastDatePrinter.mLocale);
         }
-        FastDatePrinter fastDatePrinter = (FastDatePrinter) obj;
-        return this.mPattern.equals(fastDatePrinter.mPattern) && this.mTimeZone.equals(fastDatePrinter.mTimeZone) && this.mLocale.equals(fastDatePrinter.mLocale);
+        return false;
     }
 
     public int hashCode() {
@@ -473,13 +473,12 @@ public class FastDatePrinter implements DatePrinter, Serializable {
             int i = 0;
             while (true) {
                 length--;
-                if (length >= 0) {
-                    int length2 = this.mValues[length].length();
-                    if (length2 > i) {
-                        i = length2;
-                    }
-                } else {
+                if (length < 0) {
                     return i;
+                }
+                int length2 = this.mValues[length].length();
+                if (length2 > i) {
+                    i = length2;
                 }
             }
         }
@@ -848,11 +847,11 @@ public class FastDatePrinter implements DatePrinter, Serializable {
             if (this == obj) {
                 return true;
             }
-            if (!(obj instanceof TimeZoneDisplayKey)) {
-                return false;
+            if (obj instanceof TimeZoneDisplayKey) {
+                TimeZoneDisplayKey timeZoneDisplayKey = (TimeZoneDisplayKey) obj;
+                return this.mTimeZone.equals(timeZoneDisplayKey.mTimeZone) && this.mStyle == timeZoneDisplayKey.mStyle && this.mLocale.equals(timeZoneDisplayKey.mLocale);
             }
-            TimeZoneDisplayKey timeZoneDisplayKey = (TimeZoneDisplayKey) obj;
-            return this.mTimeZone.equals(timeZoneDisplayKey.mTimeZone) && this.mStyle == timeZoneDisplayKey.mStyle && this.mLocale.equals(timeZoneDisplayKey.mLocale);
+            return false;
         }
     }
 }

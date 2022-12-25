@@ -25,11 +25,11 @@ public final class LatLng extends AbstractSafeParcelable implements ReflectedPar
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof LatLng)) {
-            return false;
+        if (obj instanceof LatLng) {
+            LatLng latLng = (LatLng) obj;
+            return Double.doubleToLongBits(this.latitude) == Double.doubleToLongBits(latLng.latitude) && Double.doubleToLongBits(this.longitude) == Double.doubleToLongBits(latLng.longitude);
         }
-        LatLng latLng = (LatLng) obj;
-        return Double.doubleToLongBits(this.latitude) == Double.doubleToLongBits(latLng.latitude) && Double.doubleToLongBits(this.longitude) == Double.doubleToLongBits(latLng.longitude);
+        return false;
     }
 
     public int hashCode() {

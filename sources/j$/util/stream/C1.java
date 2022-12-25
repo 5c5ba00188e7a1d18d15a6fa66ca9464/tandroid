@@ -17,10 +17,10 @@ abstract class C1 implements A1 {
         if (i == 0) {
             return this.a;
         }
-        if (i != 1) {
-            throw new IndexOutOfBoundsException();
+        if (i == 1) {
+            return this.b;
         }
-        return this.b;
+        throw new IndexOutOfBoundsException();
     }
 
     @Override // j$.util.stream.A1

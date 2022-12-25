@@ -17,12 +17,12 @@ public abstract class TLRPC$account_ResetPasswordResult extends TLObject {
                 }
             };
         }
-        if (tLRPC$TL_account_resetPasswordFailedWait != null || !z) {
-            if (tLRPC$TL_account_resetPasswordFailedWait != null) {
-                tLRPC$TL_account_resetPasswordFailedWait.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_account_resetPasswordFailedWait;
+        if (tLRPC$TL_account_resetPasswordFailedWait == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in account_ResetPasswordResult", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in account_ResetPasswordResult", Integer.valueOf(i)));
+        if (tLRPC$TL_account_resetPasswordFailedWait != null) {
+            tLRPC$TL_account_resetPasswordFailedWait.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_account_resetPasswordFailedWait;
     }
 }

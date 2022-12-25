@@ -198,80 +198,79 @@ public class Device extends WrapperSdk {
         if (this == obj) {
             return true;
         }
-        if (obj == null || Device.class != obj.getClass() || !super.equals(obj)) {
+        if (obj != null && Device.class == obj.getClass() && super.equals(obj)) {
+            Device device = (Device) obj;
+            String str = this.sdkName;
+            if (str == null ? device.sdkName == null : str.equals(device.sdkName)) {
+                String str2 = this.sdkVersion;
+                if (str2 == null ? device.sdkVersion == null : str2.equals(device.sdkVersion)) {
+                    String str3 = this.model;
+                    if (str3 == null ? device.model == null : str3.equals(device.model)) {
+                        String str4 = this.oemName;
+                        if (str4 == null ? device.oemName == null : str4.equals(device.oemName)) {
+                            String str5 = this.osName;
+                            if (str5 == null ? device.osName == null : str5.equals(device.osName)) {
+                                String str6 = this.osVersion;
+                                if (str6 == null ? device.osVersion == null : str6.equals(device.osVersion)) {
+                                    String str7 = this.osBuild;
+                                    if (str7 == null ? device.osBuild == null : str7.equals(device.osBuild)) {
+                                        Integer num = this.osApiLevel;
+                                        if (num == null ? device.osApiLevel == null : num.equals(device.osApiLevel)) {
+                                            String str8 = this.locale;
+                                            if (str8 == null ? device.locale == null : str8.equals(device.locale)) {
+                                                Integer num2 = this.timeZoneOffset;
+                                                if (num2 == null ? device.timeZoneOffset == null : num2.equals(device.timeZoneOffset)) {
+                                                    String str9 = this.screenSize;
+                                                    if (str9 == null ? device.screenSize == null : str9.equals(device.screenSize)) {
+                                                        String str10 = this.appVersion;
+                                                        if (str10 == null ? device.appVersion == null : str10.equals(device.appVersion)) {
+                                                            String str11 = this.carrierName;
+                                                            if (str11 == null ? device.carrierName == null : str11.equals(device.carrierName)) {
+                                                                String str12 = this.carrierCountry;
+                                                                if (str12 == null ? device.carrierCountry == null : str12.equals(device.carrierCountry)) {
+                                                                    String str13 = this.appBuild;
+                                                                    if (str13 == null ? device.appBuild == null : str13.equals(device.appBuild)) {
+                                                                        String str14 = this.appNamespace;
+                                                                        String str15 = device.appNamespace;
+                                                                        return str14 != null ? str14.equals(str15) : str15 == null;
+                                                                    }
+                                                                    return false;
+                                                                }
+                                                                return false;
+                                                            }
+                                                            return false;
+                                                        }
+                                                        return false;
+                                                    }
+                                                    return false;
+                                                }
+                                                return false;
+                                            }
+                                            return false;
+                                        }
+                                        return false;
+                                    }
+                                    return false;
+                                }
+                                return false;
+                            }
+                            return false;
+                        }
+                        return false;
+                    }
+                    return false;
+                }
+                return false;
+            }
             return false;
         }
-        Device device = (Device) obj;
-        String str = this.sdkName;
-        if (str == null ? device.sdkName != null : !str.equals(device.sdkName)) {
-            return false;
-        }
-        String str2 = this.sdkVersion;
-        if (str2 == null ? device.sdkVersion != null : !str2.equals(device.sdkVersion)) {
-            return false;
-        }
-        String str3 = this.model;
-        if (str3 == null ? device.model != null : !str3.equals(device.model)) {
-            return false;
-        }
-        String str4 = this.oemName;
-        if (str4 == null ? device.oemName != null : !str4.equals(device.oemName)) {
-            return false;
-        }
-        String str5 = this.osName;
-        if (str5 == null ? device.osName != null : !str5.equals(device.osName)) {
-            return false;
-        }
-        String str6 = this.osVersion;
-        if (str6 == null ? device.osVersion != null : !str6.equals(device.osVersion)) {
-            return false;
-        }
-        String str7 = this.osBuild;
-        if (str7 == null ? device.osBuild != null : !str7.equals(device.osBuild)) {
-            return false;
-        }
-        Integer num = this.osApiLevel;
-        if (num == null ? device.osApiLevel != null : !num.equals(device.osApiLevel)) {
-            return false;
-        }
-        String str8 = this.locale;
-        if (str8 == null ? device.locale != null : !str8.equals(device.locale)) {
-            return false;
-        }
-        Integer num2 = this.timeZoneOffset;
-        if (num2 == null ? device.timeZoneOffset != null : !num2.equals(device.timeZoneOffset)) {
-            return false;
-        }
-        String str9 = this.screenSize;
-        if (str9 == null ? device.screenSize != null : !str9.equals(device.screenSize)) {
-            return false;
-        }
-        String str10 = this.appVersion;
-        if (str10 == null ? device.appVersion != null : !str10.equals(device.appVersion)) {
-            return false;
-        }
-        String str11 = this.carrierName;
-        if (str11 == null ? device.carrierName != null : !str11.equals(device.carrierName)) {
-            return false;
-        }
-        String str12 = this.carrierCountry;
-        if (str12 == null ? device.carrierCountry != null : !str12.equals(device.carrierCountry)) {
-            return false;
-        }
-        String str13 = this.appBuild;
-        if (str13 == null ? device.appBuild != null : !str13.equals(device.appBuild)) {
-            return false;
-        }
-        String str14 = this.appNamespace;
-        String str15 = device.appNamespace;
-        return str14 != null ? str14.equals(str15) : str15 == null;
+        return false;
     }
 
     @Override // com.microsoft.appcenter.ingestion.models.WrapperSdk
     public int hashCode() {
         int hashCode = super.hashCode() * 31;
         String str = this.sdkName;
-        int i = 0;
         int hashCode2 = (hashCode + (str != null ? str.hashCode() : 0)) * 31;
         String str2 = this.sdkVersion;
         int hashCode3 = (hashCode2 + (str2 != null ? str2.hashCode() : 0)) * 31;
@@ -302,9 +301,6 @@ public class Device extends WrapperSdk {
         String str13 = this.appBuild;
         int hashCode16 = (hashCode15 + (str13 != null ? str13.hashCode() : 0)) * 31;
         String str14 = this.appNamespace;
-        if (str14 != null) {
-            i = str14.hashCode();
-        }
-        return hashCode16 + i;
+        return hashCode16 + (str14 != null ? str14.hashCode() : 0);
     }
 }

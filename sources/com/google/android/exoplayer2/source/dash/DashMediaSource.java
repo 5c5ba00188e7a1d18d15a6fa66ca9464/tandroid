@@ -243,8 +243,8 @@ public final class DashMediaSource extends BaseMediaSource {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:17:0x0099  */
-    /* JADX WARN: Removed duplicated region for block: B:24:0x00b9  */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x0099  */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x00b9  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -254,7 +254,6 @@ public final class DashMediaSource extends BaseMediaSource {
         this.manifestEventDispatcher.loadCompleted(parsingLoadable.dataSpec, parsingLoadable.getUri(), parsingLoadable.getResponseHeaders(), parsingLoadable.type, j, j2, parsingLoadable.bytesLoaded());
         DashManifest result = parsingLoadable.getResult();
         DashManifest dashManifest = this.manifest;
-        boolean z2 = false;
         int periodCount = dashManifest == null ? 0 : dashManifest.getPeriodCount();
         long j3 = result.getPeriod(0).startMs;
         int i = 0;
@@ -294,9 +293,6 @@ public final class DashMediaSource extends BaseMediaSource {
         this.manifestLoadEndTimestampMs = j;
         synchronized (this.manifestUriLock) {
             if (parsingLoadable.dataSpec.uri == this.manifestUri) {
-                z2 = true;
-            }
-            if (z2) {
                 Uri uri = this.manifest.location;
                 if (uri == null) {
                     uri = parsingLoadable.getUri();
@@ -444,27 +440,22 @@ public final class DashMediaSource extends BaseMediaSource {
         long usToMs = j9 != -9223372036854775807L ? j9 + dashManifest2.getPeriod(0).startMs + C.usToMs(j) : -9223372036854775807L;
         DashManifest dashManifest3 = this.manifest;
         refreshSourceInfo(new DashTimeline(dashManifest3.availabilityStartTimeMs, usToMs, this.firstPeriodId, j, j6, j2, dashManifest3, this.tag));
-        if (!this.sideloadedManifest) {
-            this.handler.removeCallbacks(this.simulateManifestRefreshRunnable);
-            long j10 = 5000;
-            if (z2) {
-                this.handler.postDelayed(this.simulateManifestRefreshRunnable, 5000L);
-            }
-            if (this.manifestLoadPending) {
-                startLoadingManifest();
-            } else if (z) {
-                DashManifest dashManifest4 = this.manifest;
-                if (!dashManifest4.dynamic) {
-                    return;
+        if (this.sideloadedManifest) {
+            return;
+        }
+        this.handler.removeCallbacks(this.simulateManifestRefreshRunnable);
+        if (z2) {
+            this.handler.postDelayed(this.simulateManifestRefreshRunnable, 5000L);
+        }
+        if (this.manifestLoadPending) {
+            startLoadingManifest();
+        } else if (z) {
+            DashManifest dashManifest4 = this.manifest;
+            if (dashManifest4.dynamic) {
+                long j10 = dashManifest4.minUpdatePeriodMs;
+                if (j10 != -9223372036854775807L) {
+                    scheduleManifestRefresh(Math.max(0L, (this.manifestLoadStartTimestampMs + (j10 != 0 ? j10 : 5000L)) - SystemClock.elapsedRealtime()));
                 }
-                long j11 = dashManifest4.minUpdatePeriodMs;
-                if (j11 == -9223372036854775807L) {
-                    return;
-                }
-                if (j11 != 0) {
-                    j10 = j11;
-                }
-                scheduleManifestRefresh(Math.max(0L, (this.manifestLoadStartTimestampMs + j10) - SystemClock.elapsedRealtime()));
             }
         }
     }
@@ -616,12 +607,7 @@ public final class DashMediaSource extends BaseMediaSource {
         @Override // com.google.android.exoplayer2.Timeline
         public Timeline.Period getPeriod(int i, Timeline.Period period, boolean z) {
             Assertions.checkIndex(i, 0, getPeriodCount());
-            Integer num = null;
-            String str = z ? this.manifest.getPeriod(i).id : null;
-            if (z) {
-                num = Integer.valueOf(this.firstPeriodId + i);
-            }
-            return period.set(str, num, 0, this.manifest.getPeriodDurationUs(i), C.msToUs(this.manifest.getPeriod(i).startMs - this.manifest.getPeriod(0).startMs) - this.offsetInFirstPeriodUs);
+            return period.set(z ? this.manifest.getPeriod(i).id : null, z ? Integer.valueOf(this.firstPeriodId + i) : null, 0, this.manifest.getPeriodDurationUs(i), C.msToUs(this.manifest.getPeriod(i).startMs - this.manifest.getPeriod(0).startMs) - this.offsetInFirstPeriodUs);
         }
 
         @Override // com.google.android.exoplayer2.Timeline
@@ -646,26 +632,26 @@ public final class DashMediaSource extends BaseMediaSource {
         private long getAdjustedWindowDefaultStartPositionUs(long j) {
             DashSegmentIndex index;
             long j2 = this.windowDefaultStartPositionUs;
-            if (!isMovingLiveWindow(this.manifest)) {
-                return j2;
-            }
-            if (j > 0) {
-                j2 += j;
-                if (j2 > this.windowDurationUs) {
-                    return -9223372036854775807L;
+            if (isMovingLiveWindow(this.manifest)) {
+                if (j > 0) {
+                    j2 += j;
+                    if (j2 > this.windowDurationUs) {
+                        return -9223372036854775807L;
+                    }
                 }
+                long j3 = this.offsetInFirstPeriodUs + j2;
+                long periodDurationUs = this.manifest.getPeriodDurationUs(0);
+                int i = 0;
+                while (i < this.manifest.getPeriodCount() - 1 && j3 >= periodDurationUs) {
+                    j3 -= periodDurationUs;
+                    i++;
+                    periodDurationUs = this.manifest.getPeriodDurationUs(i);
+                }
+                Period period = this.manifest.getPeriod(i);
+                int adaptationSetIndex = period.getAdaptationSetIndex(2);
+                return (adaptationSetIndex == -1 || (index = period.adaptationSets.get(adaptationSetIndex).representations.get(0).getIndex()) == null || index.getSegmentCount(periodDurationUs) == 0) ? j2 : (j2 + index.getTimeUs(index.getSegmentNum(j3, periodDurationUs))) - j3;
             }
-            long j3 = this.offsetInFirstPeriodUs + j2;
-            long periodDurationUs = this.manifest.getPeriodDurationUs(0);
-            int i = 0;
-            while (i < this.manifest.getPeriodCount() - 1 && j3 >= periodDurationUs) {
-                j3 -= periodDurationUs;
-                i++;
-                periodDurationUs = this.manifest.getPeriodDurationUs(i);
-            }
-            Period period = this.manifest.getPeriod(i);
-            int adaptationSetIndex = period.getAdaptationSetIndex(2);
-            return (adaptationSetIndex == -1 || (index = period.adaptationSets.get(adaptationSetIndex).representations.get(0).getIndex()) == null || index.getSegmentCount(periodDurationUs) == 0) ? j2 : (j2 + index.getTimeUs(index.getSegmentNum(j3, periodDurationUs))) - j3;
+            return j2;
         }
 
         @Override // com.google.android.exoplayer2.Timeline
@@ -796,10 +782,9 @@ public final class DashMediaSource extends BaseMediaSource {
         }
 
         private void maybeThrowManifestError() throws IOException {
-            if (DashMediaSource.this.manifestFatalError == null) {
-                return;
+            if (DashMediaSource.this.manifestFatalError != null) {
+                throw DashMediaSource.this.manifestFatalError;
             }
-            throw DashMediaSource.this.manifestFatalError;
         }
     }
 }

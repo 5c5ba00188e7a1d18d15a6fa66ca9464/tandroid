@@ -39,7 +39,7 @@ public class DrawerLayoutAdapter extends RecyclerListView.SelectionAdapter {
         this.mDrawerLayoutContainer = drawerLayoutContainer;
         this.itemAnimator = sideMenultItemAnimator;
         boolean z = true;
-        this.accountsShown = (UserConfig.getActivatedAccountsCount() <= 1 || !MessagesController.getGlobalMainSettings().getBoolean("accountsShown", true)) ? false : z;
+        this.accountsShown = (UserConfig.getActivatedAccountsCount() <= 1 || !MessagesController.getGlobalMainSettings().getBoolean("accountsShown", true)) ? false : false;
         Theme.createCommonDialogResources(context);
         resetItems();
         try {
@@ -215,67 +215,66 @@ public class DrawerLayoutAdapter extends RecyclerListView.SelectionAdapter {
         }
         Collections.sort(this.accountNumbers, DrawerLayoutAdapter$$ExternalSyntheticLambda0.INSTANCE);
         this.items.clear();
-        if (!UserConfig.getInstance(UserConfig.selectedAccount).isClientActivated()) {
-            return;
-        }
-        int eventType = Theme.getEventType();
-        if (eventType == 0) {
-            i = R.drawable.msg_groups_ny;
-            i2 = R.drawable.msg_contacts_ny;
-            i3 = R.drawable.msg_calls_ny;
-            i4 = R.drawable.msg_saved_ny;
-            i5 = R.drawable.msg_settings_ny;
-            i6 = R.drawable.msg_invite_ny;
-            i7 = R.drawable.msg_help_ny;
-            i8 = R.drawable.msg_nearby_ny;
-        } else if (eventType == 1) {
-            i = R.drawable.msg_groups_14;
-            i2 = R.drawable.msg_contacts_14;
-            i3 = R.drawable.msg_calls_14;
-            i4 = R.drawable.msg_saved_14;
-            i5 = R.drawable.msg_settings_14;
-            i6 = R.drawable.msg_secret_ny;
-            i7 = R.drawable.msg_help;
-            i8 = R.drawable.msg_secret_14;
-        } else if (eventType == 2) {
-            i = R.drawable.msg_groups_hw;
-            i2 = R.drawable.msg_contacts_hw;
-            i3 = R.drawable.msg_calls_hw;
-            i4 = R.drawable.msg_saved_hw;
-            i5 = R.drawable.msg_settings_hw;
-            i6 = R.drawable.msg_invite_hw;
-            i7 = R.drawable.msg_help_hw;
-            i8 = R.drawable.msg_secret_hw;
-        } else {
-            i = R.drawable.msg_groups;
-            i2 = R.drawable.msg_contacts;
-            i3 = R.drawable.msg_calls;
-            i4 = R.drawable.msg_saved;
-            i5 = R.drawable.msg_settings_old;
-            i6 = R.drawable.msg_invite;
-            i7 = R.drawable.msg_help;
-            i8 = R.drawable.msg_nearby;
-        }
-        UserConfig userConfig = UserConfig.getInstance(UserConfig.selectedAccount);
-        if (userConfig != null && userConfig.isPremium()) {
-            if (userConfig.getEmojiStatus() != null) {
-                this.items.add(new Item(15, LocaleController.getString("ChangeEmojiStatus", R.string.ChangeEmojiStatus), 0, R.raw.emoji_status_change_to_set));
+        if (UserConfig.getInstance(UserConfig.selectedAccount).isClientActivated()) {
+            int eventType = Theme.getEventType();
+            if (eventType == 0) {
+                i = R.drawable.msg_groups_ny;
+                i2 = R.drawable.msg_contacts_ny;
+                i3 = R.drawable.msg_calls_ny;
+                i4 = R.drawable.msg_saved_ny;
+                i5 = R.drawable.msg_settings_ny;
+                i6 = R.drawable.msg_invite_ny;
+                i7 = R.drawable.msg_help_ny;
+                i8 = R.drawable.msg_nearby_ny;
+            } else if (eventType == 1) {
+                i = R.drawable.msg_groups_14;
+                i2 = R.drawable.msg_contacts_14;
+                i3 = R.drawable.msg_calls_14;
+                i4 = R.drawable.msg_saved_14;
+                i5 = R.drawable.msg_settings_14;
+                i6 = R.drawable.msg_secret_ny;
+                i7 = R.drawable.msg_help;
+                i8 = R.drawable.msg_secret_14;
+            } else if (eventType == 2) {
+                i = R.drawable.msg_groups_hw;
+                i2 = R.drawable.msg_contacts_hw;
+                i3 = R.drawable.msg_calls_hw;
+                i4 = R.drawable.msg_saved_hw;
+                i5 = R.drawable.msg_settings_hw;
+                i6 = R.drawable.msg_invite_hw;
+                i7 = R.drawable.msg_help_hw;
+                i8 = R.drawable.msg_secret_hw;
             } else {
-                this.items.add(new Item(15, LocaleController.getString("SetEmojiStatus", R.string.SetEmojiStatus), 0, R.raw.emoji_status_set_to_change));
+                i = R.drawable.msg_groups;
+                i2 = R.drawable.msg_contacts;
+                i3 = R.drawable.msg_calls;
+                i4 = R.drawable.msg_saved;
+                i5 = R.drawable.msg_settings_old;
+                i6 = R.drawable.msg_invite;
+                i7 = R.drawable.msg_help;
+                i8 = R.drawable.msg_nearby;
             }
+            UserConfig userConfig = UserConfig.getInstance(UserConfig.selectedAccount);
+            if (userConfig != null && userConfig.isPremium()) {
+                if (userConfig.getEmojiStatus() != null) {
+                    this.items.add(new Item(15, LocaleController.getString("ChangeEmojiStatus", R.string.ChangeEmojiStatus), 0, R.raw.emoji_status_change_to_set));
+                } else {
+                    this.items.add(new Item(15, LocaleController.getString("SetEmojiStatus", R.string.SetEmojiStatus), 0, R.raw.emoji_status_set_to_change));
+                }
+                this.items.add(null);
+            }
+            this.items.add(new Item(2, LocaleController.getString("NewGroup", R.string.NewGroup), i));
+            this.items.add(new Item(6, LocaleController.getString("Contacts", R.string.Contacts), i2));
+            this.items.add(new Item(10, LocaleController.getString("Calls", R.string.Calls), i3));
+            if (this.hasGps) {
+                this.items.add(new Item(12, LocaleController.getString("PeopleNearby", R.string.PeopleNearby), i8));
+            }
+            this.items.add(new Item(11, LocaleController.getString("SavedMessages", R.string.SavedMessages), i4));
+            this.items.add(new Item(8, LocaleController.getString("Settings", R.string.Settings), i5));
             this.items.add(null);
+            this.items.add(new Item(7, LocaleController.getString("InviteFriends", R.string.InviteFriends), i6));
+            this.items.add(new Item(13, LocaleController.getString("TelegramFeatures", R.string.TelegramFeatures), i7));
         }
-        this.items.add(new Item(2, LocaleController.getString("NewGroup", R.string.NewGroup), i));
-        this.items.add(new Item(6, LocaleController.getString("Contacts", R.string.Contacts), i2));
-        this.items.add(new Item(10, LocaleController.getString("Calls", R.string.Calls), i3));
-        if (this.hasGps) {
-            this.items.add(new Item(12, LocaleController.getString("PeopleNearby", R.string.PeopleNearby), i8));
-        }
-        this.items.add(new Item(11, LocaleController.getString("SavedMessages", R.string.SavedMessages), i4));
-        this.items.add(new Item(8, LocaleController.getString("Settings", R.string.Settings), i5));
-        this.items.add(null);
-        this.items.add(new Item(7, LocaleController.getString("InviteFriends", R.string.InviteFriends), i6));
-        this.items.add(new Item(13, LocaleController.getString("TelegramFeatures", R.string.TelegramFeatures), i7));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -305,10 +304,10 @@ public class DrawerLayoutAdapter extends RecyclerListView.SelectionAdapter {
     }
 
     public int getLastAccountPosition() {
-        if (!this.accountsShown) {
-            return -1;
+        if (this.accountsShown) {
+            return this.accountNumbers.size() + 1;
         }
-        return this.accountNumbers.size() + 1;
+        return -1;
     }
 
     /* JADX INFO: Access modifiers changed from: private */

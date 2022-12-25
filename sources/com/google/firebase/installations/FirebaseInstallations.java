@@ -199,7 +199,7 @@ public class FirebaseInstallations implements FirebaseInstallationsApi {
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Removed duplicated region for block: B:17:0x0032  */
     /* JADX WARN: Removed duplicated region for block: B:20:0x003f  */
-    /* JADX WARN: Removed duplicated region for block: B:22:0x004a  */
+    /* JADX WARN: Removed duplicated region for block: B:21:0x004a  */
     /* renamed from: doNetworkCallIfNecessary */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -298,14 +298,14 @@ public class FirebaseInstallations implements FirebaseInstallationsApi {
         TokenResult generateAuthToken = this.serviceClient.generateAuthToken(getApiKey(), persistedInstallationEntry.getFirebaseInstallationId(), getProjectIdentifier(), persistedInstallationEntry.getRefreshToken());
         int i = 3.$SwitchMap$com$google$firebase$installations$remote$TokenResult$ResponseCode[generateAuthToken.getResponseCode().ordinal()];
         if (i != 1) {
-            if (i == 2) {
-                return persistedInstallationEntry.withFisError("BAD CONFIG");
+            if (i != 2) {
+                if (i == 3) {
+                    updateCacheFid(null);
+                    return persistedInstallationEntry.withNoGeneratedFid();
+                }
+                throw new FirebaseInstallationsException("Firebase Installations Service is unavailable. Please try again later.", FirebaseInstallationsException.Status.UNAVAILABLE);
             }
-            if (i == 3) {
-                updateCacheFid(null);
-                return persistedInstallationEntry.withNoGeneratedFid();
-            }
-            throw new FirebaseInstallationsException("Firebase Installations Service is unavailable. Please try again later.", FirebaseInstallationsException.Status.UNAVAILABLE);
+            return persistedInstallationEntry.withFisError("BAD CONFIG");
         }
         return persistedInstallationEntry.withAuthToken(generateAuthToken.getToken(), generateAuthToken.getTokenExpirationTimestamp(), this.utils.currentTimeInSecs());
     }

@@ -13,14 +13,14 @@ import javax.annotation.concurrent.GuardedBy;
 /* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
 public final class zzr extends GmsClientSupervisor {
+    @GuardedBy("connectionStatus")
+    private final HashMap zzb = new HashMap();
     private final Context zzc;
     private volatile Handler zzd;
     private final zzq zze;
-    @GuardedBy("connectionStatus")
-    private final HashMap zzb = new HashMap();
-    private final ConnectionTracker zzf = ConnectionTracker.getInstance();
-    private final long zzg = 5000;
-    private final long zzh = 300000;
+    private final ConnectionTracker zzf;
+    private final long zzg;
+    private final long zzh;
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public zzr(Context context, Looper looper) {
@@ -28,6 +28,9 @@ public final class zzr extends GmsClientSupervisor {
         this.zze = zzqVar;
         this.zzc = context.getApplicationContext();
         this.zzd = new zzi(looper, zzqVar);
+        this.zzf = ConnectionTracker.getInstance();
+        this.zzg = 5000L;
+        this.zzh = 300000L;
     }
 
     @Override // com.google.android.gms.common.internal.GmsClientSupervisor

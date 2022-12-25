@@ -39,7 +39,7 @@ public class ClearHistoryAlert extends BottomSheet {
     private ClearHistoryAlertDelegate delegate;
     private boolean dismissedDelayed;
     private LinearLayout linearLayout;
-    private int[] location = new int[2];
+    private int[] location;
     private int newTimer;
     private int scrollOffsetY;
     private BottomSheetCell setTimerButton;
@@ -106,12 +106,12 @@ public class ClearHistoryAlert extends BottomSheet {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:19:0x00d8  */
-    /* JADX WARN: Removed duplicated region for block: B:27:0x0107  */
-    /* JADX WARN: Removed duplicated region for block: B:51:0x045d  */
-    /* JADX WARN: Removed duplicated region for block: B:55:0x046b  */
-    /* JADX WARN: Removed duplicated region for block: B:73:0x02f1  */
-    /* JADX WARN: Removed duplicated region for block: B:84:0x00e1  */
+    /* JADX WARN: Removed duplicated region for block: B:132:0x00d8  */
+    /* JADX WARN: Removed duplicated region for block: B:133:0x00e1  */
+    /* JADX WARN: Removed duplicated region for block: B:142:0x0107  */
+    /* JADX WARN: Removed duplicated region for block: B:178:0x02f1  */
+    /* JADX WARN: Removed duplicated region for block: B:190:0x045d  */
+    /* JADX WARN: Removed duplicated region for block: B:191:0x046b  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -121,6 +121,7 @@ public class ClearHistoryAlert extends BottomSheet {
         NestedScrollView nestedScrollView;
         boolean z2;
         int i2;
+        this.location = new int[2];
         this.autoDeleteOnly = !z;
         setApplyBottomPadding(false);
         if (tLRPC$User != null) {

@@ -38,21 +38,28 @@ public class SharedMediaFastScrollTooltip extends FrameLayout {
 
     /* loaded from: classes3.dex */
     private class TooltipDrawableView extends View {
+        Paint fadePaint;
+        Paint fadePaintBack;
+        float fromProgress;
+        Paint paint;
+        Paint paint2;
+        float progress;
+        Random random;
         float toProgress;
-        Random random = new Random();
-        Paint paint = new Paint(1);
-        Paint paint2 = new Paint(1);
-        float progress = 1.0f;
-        float fromProgress = 0.0f;
-        Paint fadePaint = new Paint();
-        Paint fadePaintBack = new Paint();
 
         public TooltipDrawableView(SharedMediaFastScrollTooltip sharedMediaFastScrollTooltip, Context context) {
             super(context);
+            this.random = new Random();
+            this.paint = new Paint(1);
+            this.paint2 = new Paint(1);
+            this.progress = 1.0f;
+            this.fromProgress = 0.0f;
             this.paint.setColor(ColorUtils.setAlphaComponent(Theme.getColor("chat_gifSaveHintText"), 76));
             this.paint2.setColor(Theme.getColor("chat_gifSaveHintText"));
+            this.fadePaint = new Paint();
             this.fadePaint.setShader(new LinearGradient(0.0f, AndroidUtilities.dp(4.0f), 0.0f, 0.0f, new int[]{0, -1}, new float[]{0.0f, 1.0f}, Shader.TileMode.CLAMP));
             this.fadePaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
+            this.fadePaintBack = new Paint();
             this.fadePaintBack.setShader(new LinearGradient(0.0f, 0.0f, 0.0f, AndroidUtilities.dp(4.0f), new int[]{0, -1}, new float[]{0.0f, 1.0f}, Shader.TileMode.CLAMP));
             this.fadePaintBack.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
         }

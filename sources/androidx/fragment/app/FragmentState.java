@@ -55,7 +55,6 @@ public final class FragmentState implements Parcelable {
     FragmentState(Parcel parcel) {
         this.mClassName = parcel.readString();
         this.mIndex = parcel.readInt();
-        boolean z = true;
         this.mFromLayout = parcel.readInt() != 0;
         this.mFragmentId = parcel.readInt();
         this.mContainerId = parcel.readInt();
@@ -63,7 +62,7 @@ public final class FragmentState implements Parcelable {
         this.mRetainInstance = parcel.readInt() != 0;
         this.mDetached = parcel.readInt() != 0;
         this.mArguments = parcel.readBundle();
-        this.mHidden = parcel.readInt() == 0 ? false : z;
+        this.mHidden = parcel.readInt() != 0;
         this.mSavedFragmentState = parcel.readBundle();
     }
 

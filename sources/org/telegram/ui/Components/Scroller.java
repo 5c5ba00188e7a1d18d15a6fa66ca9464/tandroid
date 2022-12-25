@@ -183,25 +183,24 @@ public class Scroller {
         this.mDurationReciprocal = 1.0f / this.mDuration;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:12:0x00a0  */
-    /* JADX WARN: Removed duplicated region for block: B:15:0x00aa  */
-    /* JADX WARN: Removed duplicated region for block: B:19:0x00a3  */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x00a0  */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x00a3  */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x00aa  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void fling(int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8) {
         int i9;
         int i10;
-        float sqrt;
         if (!this.mFlywheel || this.mFinished) {
             i9 = i3;
         } else {
             float currVelocity = getCurrVelocity();
             float f = this.mFinalX - this.mStartX;
             float f2 = this.mFinalY - this.mStartY;
-            float sqrt2 = (float) Math.sqrt((f * f) + (f2 * f2));
-            float f3 = (f / sqrt2) * currVelocity;
-            float f4 = (f2 / sqrt2) * currVelocity;
+            float sqrt = (float) Math.sqrt((f * f) + (f2 * f2));
+            float f3 = (f / sqrt) * currVelocity;
+            float f4 = (f2 / sqrt) * currVelocity;
             i9 = i3;
             float f5 = i9;
             if (Math.signum(f5) == Math.signum(f3)) {
@@ -213,20 +212,17 @@ public class Scroller {
                 }
                 this.mMode = 1;
                 this.mFinished = false;
-                sqrt = (float) Math.sqrt((i9 * i9) + (i10 * i10));
-                this.mVelocity = sqrt;
-                double log = Math.log((START_TENSION * sqrt) / 800.0f);
+                float sqrt2 = (float) Math.sqrt((i9 * i9) + (i10 * i10));
+                this.mVelocity = sqrt2;
+                double log = Math.log((START_TENSION * sqrt2) / 800.0f);
                 double d = DECELERATION_RATE;
                 Double.isNaN(d);
                 this.mDuration = (int) (Math.exp(log / (d - 1.0d)) * 1000.0d);
                 this.mStartTime = AnimationUtils.currentAnimationTimeMillis();
                 this.mStartX = i;
                 this.mStartY = i2;
-                float f7 = 1.0f;
-                float f8 = sqrt != 0.0f ? 1.0f : i9 / sqrt;
-                if (sqrt != 0.0f) {
-                    f7 = i10 / sqrt;
-                }
+                float f7 = sqrt2 != 0.0f ? 1.0f : i9 / sqrt2;
+                float f8 = sqrt2 != 0.0f ? i10 / sqrt2 : 1.0f;
                 double d2 = 800.0f;
                 float f9 = DECELERATION_RATE;
                 double d3 = f9;
@@ -240,12 +236,12 @@ public class Scroller {
                 this.mMinY = i7;
                 this.mMaxY = i8;
                 float f10 = (int) (d2 * exp);
-                int round = i + Math.round(f8 * f10);
+                int round = i + Math.round(f7 * f10);
                 this.mFinalX = round;
                 int min = Math.min(round, this.mMaxX);
                 this.mFinalX = min;
                 this.mFinalX = Math.max(min, this.mMinX);
-                int round2 = Math.round(f10 * f7) + i2;
+                int round2 = Math.round(f10 * f8) + i2;
                 this.mFinalY = round2;
                 int min2 = Math.min(round2, this.mMaxY);
                 this.mFinalY = min2;
@@ -255,19 +251,18 @@ public class Scroller {
         i10 = i4;
         this.mMode = 1;
         this.mFinished = false;
-        sqrt = (float) Math.sqrt((i9 * i9) + (i10 * i10));
-        this.mVelocity = sqrt;
-        double log2 = Math.log((START_TENSION * sqrt) / 800.0f);
+        float sqrt22 = (float) Math.sqrt((i9 * i9) + (i10 * i10));
+        this.mVelocity = sqrt22;
+        double log2 = Math.log((START_TENSION * sqrt22) / 800.0f);
         double d5 = DECELERATION_RATE;
         Double.isNaN(d5);
         this.mDuration = (int) (Math.exp(log2 / (d5 - 1.0d)) * 1000.0d);
         this.mStartTime = AnimationUtils.currentAnimationTimeMillis();
         this.mStartX = i;
         this.mStartY = i2;
-        float f72 = 1.0f;
-        if (sqrt != 0.0f) {
+        if (sqrt22 != 0.0f) {
         }
-        if (sqrt != 0.0f) {
+        if (sqrt22 != 0.0f) {
         }
         double d22 = 800.0f;
         float f92 = DECELERATION_RATE;
@@ -282,12 +277,12 @@ public class Scroller {
         this.mMinY = i7;
         this.mMaxY = i8;
         float f102 = (int) (d22 * exp2);
-        int round3 = i + Math.round(f8 * f102);
+        int round3 = i + Math.round(f7 * f102);
         this.mFinalX = round3;
         int min3 = Math.min(round3, this.mMaxX);
         this.mFinalX = min3;
         this.mFinalX = Math.max(min3, this.mMinX);
-        int round22 = Math.round(f102 * f72) + i2;
+        int round22 = Math.round(f102 * f8) + i2;
         this.mFinalY = round22;
         int min22 = Math.min(round22, this.mMaxY);
         this.mFinalY = min22;

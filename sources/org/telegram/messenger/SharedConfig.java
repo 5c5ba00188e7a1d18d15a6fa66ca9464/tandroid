@@ -283,12 +283,12 @@ public class SharedConfig {
         return i;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:41:0x0238  */
-    /* JADX WARN: Removed duplicated region for block: B:44:0x024b  */
-    /* JADX WARN: Removed duplicated region for block: B:58:0x024d  */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x023b  */
-    /* JADX WARN: Removed duplicated region for block: B:68:0x016c A[Catch: Exception -> 0x018e, all -> 0x040a, TryCatch #0 {Exception -> 0x018e, blocks: (B:22:0x011d, B:24:0x0125, B:26:0x0135, B:27:0x0149, B:68:0x016c, B:70:0x0170, B:71:0x0172, B:73:0x0176, B:75:0x017c, B:77:0x0182, B:79:0x0186, B:83:0x0166), top: B:21:0x011d, outer: #1 }] */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x0170 A[Catch: Exception -> 0x018e, all -> 0x040a, TryCatch #0 {Exception -> 0x018e, blocks: (B:22:0x011d, B:24:0x0125, B:26:0x0135, B:27:0x0149, B:68:0x016c, B:70:0x0170, B:71:0x0172, B:73:0x0176, B:75:0x017c, B:77:0x0182, B:79:0x0186, B:83:0x0166), top: B:21:0x011d, outer: #1 }] */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x016c A[Catch: Exception -> 0x018e, all -> 0x040a, TryCatch #0 {Exception -> 0x018e, blocks: (B:22:0x011d, B:24:0x0125, B:26:0x0135, B:27:0x0149, B:38:0x016c, B:40:0x0170, B:41:0x0172, B:43:0x0176, B:45:0x017c, B:47:0x0182, B:49:0x0186, B:36:0x0166), top: B:89:0x011d, outer: #1 }] */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x0170 A[Catch: Exception -> 0x018e, all -> 0x040a, TryCatch #0 {Exception -> 0x018e, blocks: (B:22:0x011d, B:24:0x0125, B:26:0x0135, B:27:0x0149, B:38:0x016c, B:40:0x0170, B:41:0x0172, B:43:0x0176, B:45:0x017c, B:47:0x0182, B:49:0x0186, B:36:0x0166), top: B:89:0x011d, outer: #1 }] */
+    /* JADX WARN: Removed duplicated region for block: B:67:0x0238  */
+    /* JADX WARN: Removed duplicated region for block: B:68:0x023b  */
+    /* JADX WARN: Removed duplicated region for block: B:71:0x024b  */
+    /* JADX WARN: Removed duplicated region for block: B:72:0x024d  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -615,8 +615,8 @@ public class SharedConfig {
         return pendingAppUpdateBuildVersion == i;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:10:0x0024  */
-    /* JADX WARN: Removed duplicated region for block: B:8:0x0020  */
+    /* JADX WARN: Removed duplicated region for block: B:12:0x0020  */
+    /* JADX WARN: Removed duplicated region for block: B:14:0x0024  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -809,20 +809,19 @@ public class SharedConfig {
     }
 
     public static void checkLogsToDelete() {
-        if (!BuildVars.LOGS_ENABLED) {
-            return;
-        }
-        final int currentTimeMillis = (int) (System.currentTimeMillis() / 1000);
-        if (Math.abs(currentTimeMillis - lastLogsCheckTime) < 3600) {
-            return;
-        }
-        lastLogsCheckTime = currentTimeMillis;
-        Utilities.cacheClearQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.SharedConfig$$ExternalSyntheticLambda0
-            @Override // java.lang.Runnable
-            public final void run() {
-                SharedConfig.lambda$checkLogsToDelete$0(currentTimeMillis);
+        if (BuildVars.LOGS_ENABLED) {
+            final int currentTimeMillis = (int) (System.currentTimeMillis() / 1000);
+            if (Math.abs(currentTimeMillis - lastLogsCheckTime) < 3600) {
+                return;
             }
-        });
+            lastLogsCheckTime = currentTimeMillis;
+            Utilities.cacheClearQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.SharedConfig$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    SharedConfig.lambda$checkLogsToDelete$0(currentTimeMillis);
+                }
+            });
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1314,18 +1313,18 @@ public class SharedConfig {
             String str = proxyInfo.address;
             String str2 = "";
             if (str == null) {
-                str = str2;
+                str = "";
             }
             serializedData.writeString(str);
             serializedData.writeInt32(proxyInfo.port);
             String str3 = proxyInfo.username;
             if (str3 == null) {
-                str3 = str2;
+                str3 = "";
             }
             serializedData.writeString(str3);
             String str4 = proxyInfo.password;
             if (str4 == null) {
-                str4 = str2;
+                str4 = "";
             }
             serializedData.writeString(str4);
             String str5 = proxyInfo.secret;
@@ -1390,19 +1389,18 @@ public class SharedConfig {
                 if (file2.isDirectory()) {
                     AndroidUtilities.createEmptyFile(new File(file2, ".nomedia"));
                 }
-                if (!file3.isDirectory()) {
+                if (file3.isDirectory()) {
+                    AndroidUtilities.createEmptyFile(new File(file3, ".nomedia"));
                     return;
                 }
-                AndroidUtilities.createEmptyFile(new File(file3, ".nomedia"));
                 return;
             }
             if (file2.isDirectory()) {
                 new File(file2, ".nomedia").delete();
             }
-            if (!file3.isDirectory()) {
-                return;
+            if (file3.isDirectory()) {
+                new File(file3, ".nomedia").delete();
             }
-            new File(file3, ".nomedia").delete();
         } catch (Throwable th) {
             FileLog.e(th);
         }

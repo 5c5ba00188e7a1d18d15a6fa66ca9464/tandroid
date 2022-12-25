@@ -29,7 +29,6 @@ public final class CodecSpecificDataUtil {
                 readBits = parsableBitArray.readBits(4);
             }
         }
-        boolean z2 = true;
         if (z) {
             if (aacAudioObjectType != 1 && aacAudioObjectType != 2 && aacAudioObjectType != 3 && aacAudioObjectType != 4 && aacAudioObjectType != 6 && aacAudioObjectType != 7 && aacAudioObjectType != 17) {
                 switch (aacAudioObjectType) {
@@ -58,10 +57,7 @@ public final class CodecSpecificDataUtil {
             }
         }
         int i = AUDIO_SPECIFIC_CONFIG_CHANNEL_COUNT_TABLE[readBits];
-        if (i == -1) {
-            z2 = false;
-        }
-        Assertions.checkArgument(z2);
+        Assertions.checkArgument(i != -1);
         return Pair.create(Integer.valueOf(aacSamplingFrequency), Integer.valueOf(i));
     }
 
@@ -117,26 +113,26 @@ public final class CodecSpecificDataUtil {
     }
 
     public static byte[][] splitNalUnits(byte[] bArr) {
-        if (!isNalStartCode(bArr, 0)) {
-            return null;
+        if (isNalStartCode(bArr, 0)) {
+            ArrayList arrayList = new ArrayList();
+            int i = 0;
+            do {
+                arrayList.add(Integer.valueOf(i));
+                i = findNalStartCode(bArr, i + NAL_START_CODE.length);
+            } while (i != -1);
+            byte[][] bArr2 = new byte[arrayList.size()];
+            int i2 = 0;
+            while (i2 < arrayList.size()) {
+                int intValue = ((Integer) arrayList.get(i2)).intValue();
+                int intValue2 = (i2 < arrayList.size() + (-1) ? ((Integer) arrayList.get(i2 + 1)).intValue() : bArr.length) - intValue;
+                byte[] bArr3 = new byte[intValue2];
+                System.arraycopy(bArr, intValue, bArr3, 0, intValue2);
+                bArr2[i2] = bArr3;
+                i2++;
+            }
+            return bArr2;
         }
-        ArrayList arrayList = new ArrayList();
-        int i = 0;
-        do {
-            arrayList.add(Integer.valueOf(i));
-            i = findNalStartCode(bArr, i + NAL_START_CODE.length);
-        } while (i != -1);
-        byte[][] bArr2 = new byte[arrayList.size()];
-        int i2 = 0;
-        while (i2 < arrayList.size()) {
-            int intValue = ((Integer) arrayList.get(i2)).intValue();
-            int intValue2 = (i2 < arrayList.size() + (-1) ? ((Integer) arrayList.get(i2 + 1)).intValue() : bArr.length) - intValue;
-            byte[] bArr3 = new byte[intValue2];
-            System.arraycopy(bArr, intValue, bArr3, 0, intValue2);
-            bArr2[i2] = bArr3;
-            i2++;
-        }
-        return bArr2;
+        return null;
     }
 
     private static int findNalStartCode(byte[] bArr, int i) {
@@ -187,13 +183,13 @@ public final class CodecSpecificDataUtil {
             parsableBitArray.skipBits(14);
         }
         boolean readBit = parsableBitArray.readBit();
-        if (i2 != 0) {
-            if (i == 6 || i == 20) {
-                parsableBitArray.skipBits(3);
-            }
-            if (!readBit) {
-                return;
-            }
+        if (i2 == 0) {
+            throw new UnsupportedOperationException();
+        }
+        if (i == 6 || i == 20) {
+            parsableBitArray.skipBits(3);
+        }
+        if (readBit) {
             if (i == 22) {
                 parsableBitArray.skipBits(16);
             }
@@ -201,8 +197,6 @@ public final class CodecSpecificDataUtil {
                 parsableBitArray.skipBits(3);
             }
             parsableBitArray.skipBits(1);
-            return;
         }
-        throw new UnsupportedOperationException();
     }
 }

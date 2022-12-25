@@ -182,9 +182,7 @@ public class Track {
                 visualSampleEntry.addBox(avcConfigurationBox);
                 this.sampleDescriptionBox.addBox(visualSampleEntry);
                 return;
-            } else if (!string.equals("video/mp4v")) {
-                return;
-            } else {
+            } else if (string.equals("video/mp4v")) {
                 VisualSampleEntry visualSampleEntry2 = new VisualSampleEntry("mp4v");
                 visualSampleEntry2.setDataReferenceIndex(1);
                 visualSampleEntry2.setDepth(24);
@@ -194,6 +192,8 @@ public class Track {
                 visualSampleEntry2.setWidth(this.width);
                 visualSampleEntry2.setHeight(this.height);
                 this.sampleDescriptionBox.addBox(visualSampleEntry2);
+                return;
+            } else {
                 return;
             }
         }
@@ -247,9 +247,7 @@ public class Track {
 
     public void addSample(long j, MediaCodec.BufferInfo bufferInfo) {
         boolean z = true;
-        if (this.isAudio || (bufferInfo.flags & 1) == 0) {
-            z = false;
-        }
+        z = (this.isAudio || (bufferInfo.flags & 1) == 0) ? false : false;
         this.samples.add(new Sample(j, bufferInfo.size));
         LinkedList<Integer> linkedList = this.syncSamples;
         if (linkedList != null && z) {

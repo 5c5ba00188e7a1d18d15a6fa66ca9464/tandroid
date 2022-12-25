@@ -15,10 +15,11 @@ public final class StandaloneMediaClock implements MediaClock {
     }
 
     public void start() {
-        if (!this.started) {
-            this.baseElapsedMs = this.clock.elapsedRealtime();
-            this.started = true;
+        if (this.started) {
+            return;
         }
+        this.baseElapsedMs = this.clock.elapsedRealtime();
+        this.started = true;
     }
 
     public void stop() {

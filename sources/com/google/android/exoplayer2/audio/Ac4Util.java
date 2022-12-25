@@ -29,13 +29,13 @@ public final class Ac4Util {
         return Format.createAudioSampleFormat(str, "audio/ac4", null, -1, -1, 2, ((parsableByteArray.readUnsignedByte() & 32) >> 5) == 1 ? 48000 : 44100, null, drmInitData, 0, str2);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:37:0x0086, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:38:0x0086, code lost:
         if (r10 != 11) goto L39;
      */
     /* JADX WARN: Code restructure failed: missing block: B:41:0x008b, code lost:
         if (r10 != 11) goto L39;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:43:0x0090, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:44:0x0090, code lost:
         if (r10 != 8) goto L39;
      */
     /*

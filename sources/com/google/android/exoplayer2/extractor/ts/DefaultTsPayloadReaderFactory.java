@@ -35,36 +35,32 @@ public final class DefaultTsPayloadReaderFactory implements TsPayloadReader.Fact
                 return new PesReader(new MpegAudioReader(esInfo.language));
             }
             if (i == 15) {
-                if (!isSet(2)) {
-                    return new PesReader(new AdtsReader(false, esInfo.language));
-                }
-                return null;
-            } else if (i == 17) {
-                if (!isSet(2)) {
-                    return new PesReader(new LatmReader(esInfo.language));
-                }
-                return null;
-            } else if (i == 21) {
-                return new PesReader(new Id3Reader());
-            } else {
-                if (i == 27) {
-                    if (!isSet(4)) {
-                        return new PesReader(new H264Reader(buildSeiReader(esInfo), isSet(1), isSet(8)));
-                    }
+                if (isSet(2)) {
                     return null;
-                } else if (i == 36) {
-                    return new PesReader(new H265Reader(buildSeiReader(esInfo)));
-                } else {
+                }
+                return new PesReader(new AdtsReader(false, esInfo.language));
+            } else if (i == 17) {
+                if (isSet(2)) {
+                    return null;
+                }
+                return new PesReader(new LatmReader(esInfo.language));
+            } else if (i != 21) {
+                if (i == 27) {
+                    if (isSet(4)) {
+                        return null;
+                    }
+                    return new PesReader(new H264Reader(buildSeiReader(esInfo), isSet(1), isSet(8)));
+                } else if (i != 36) {
                     if (i != 89) {
                         if (i != 138) {
                             if (i != 172) {
                                 if (i != 129) {
                                     if (i != 130) {
                                         if (i == 134) {
-                                            if (!isSet(16)) {
-                                                return new SectionReader(new SpliceInfoSectionReader());
+                                            if (isSet(16)) {
+                                                return null;
                                             }
-                                            return null;
+                                            return new SectionReader(new SpliceInfoSectionReader());
                                         } else if (i != 135) {
                                             return null;
                                         }
@@ -79,7 +75,11 @@ public final class DefaultTsPayloadReaderFactory implements TsPayloadReader.Fact
                         return new PesReader(new DtsReader(esInfo.language));
                     }
                     return new PesReader(new DvbSubtitleReader(esInfo.dvbSubtitleInfos));
+                } else {
+                    return new PesReader(new H265Reader(buildSeiReader(esInfo)));
                 }
+            } else {
+                return new PesReader(new Id3Reader());
             }
         }
         return new PesReader(new H262Reader(buildUserDataReader(esInfo)));
@@ -111,9 +111,8 @@ public final class DefaultTsPayloadReaderFactory implements TsPayloadReader.Fact
                 for (int i2 = 0; i2 < readUnsignedByte2; i2++) {
                     String readString = parsableByteArray.readString(3);
                     int readUnsignedByte3 = parsableByteArray.readUnsignedByte();
-                    boolean z = true;
-                    boolean z2 = (readUnsignedByte3 & ConnectionsManager.RequestFlagNeedQuickAck) != 0;
-                    if (z2) {
+                    boolean z = (readUnsignedByte3 & ConnectionsManager.RequestFlagNeedQuickAck) != 0;
+                    if (z) {
                         i = readUnsignedByte3 & 63;
                         str = "application/cea-708";
                     } else {
@@ -122,11 +121,8 @@ public final class DefaultTsPayloadReaderFactory implements TsPayloadReader.Fact
                     }
                     byte readUnsignedByte4 = (byte) parsableByteArray.readUnsignedByte();
                     parsableByteArray.skipBytes(1);
-                    if (z2) {
-                        if ((readUnsignedByte4 & 64) == 0) {
-                            z = false;
-                        }
-                        list = Cea708InitializationData.buildData(z);
+                    if (z) {
+                        list = Cea708InitializationData.buildData((readUnsignedByte4 & 64) != 0);
                     } else {
                         list = null;
                     }

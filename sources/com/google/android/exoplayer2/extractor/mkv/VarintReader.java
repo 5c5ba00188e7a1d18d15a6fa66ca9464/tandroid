@@ -46,14 +46,13 @@ final class VarintReader {
         int i2 = 0;
         while (true) {
             long[] jArr = VARINT_LENGTH_MASKS;
-            if (i2 < jArr.length) {
-                if ((jArr[i2] & i) != 0) {
-                    return i2 + 1;
-                }
-                i2++;
-            } else {
+            if (i2 >= jArr.length) {
                 return -1;
             }
+            if ((jArr[i2] & i) != 0) {
+                return i2 + 1;
+            }
+            i2++;
         }
     }
 

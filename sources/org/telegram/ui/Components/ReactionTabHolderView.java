@@ -27,22 +27,26 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble;
 /* loaded from: classes3.dex */
 public class ReactionTabHolderView extends FrameLayout {
+    private Paint bgPaint;
     private int count;
     private TextView counterView;
     Drawable drawable;
     private ImageView iconView;
+    private Paint outlinePaint;
     private float outlineProgress;
     View overlaySelectorView;
+    private float radius;
     private BackupImageView reactView;
     private ReactionsLayoutInBubble.VisibleReaction reaction;
-    private Paint outlinePaint = new Paint(1);
-    private Paint bgPaint = new Paint(1);
-    private RectF rect = new RectF();
-    private float radius = AndroidUtilities.dp(32.0f);
+    private RectF rect;
 
     public ReactionTabHolderView(Context context) {
         super(context);
+        this.outlinePaint = new Paint(1);
+        this.bgPaint = new Paint(1);
         new Path();
+        this.rect = new RectF();
+        this.radius = AndroidUtilities.dp(32.0f);
         View view = new View(context);
         this.overlaySelectorView = view;
         addView(view, LayoutHelper.createFrame(-1, -1.0f));

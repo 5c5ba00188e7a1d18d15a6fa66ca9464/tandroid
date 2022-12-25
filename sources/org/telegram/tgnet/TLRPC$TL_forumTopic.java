@@ -41,28 +41,24 @@ public class TLRPC$TL_forumTopic extends TLRPC$ForumTopic {
         } else {
             tLRPC$TL_forumTopicDeleted = i != 1903173033 ? null : new TLRPC$TL_forumTopic();
         }
-        if (tLRPC$TL_forumTopicDeleted != null || !z) {
-            if (tLRPC$TL_forumTopicDeleted != null) {
-                tLRPC$TL_forumTopicDeleted.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_forumTopicDeleted;
+        if (tLRPC$TL_forumTopicDeleted == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in TL_forumTopic", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in TL_forumTopic", Integer.valueOf(i)));
+        if (tLRPC$TL_forumTopicDeleted != null) {
+            tLRPC$TL_forumTopicDeleted.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_forumTopicDeleted;
     }
 
     @Override // org.telegram.tgnet.TLObject
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
         int readInt32 = abstractSerializedData.readInt32(z);
         this.flags = readInt32;
-        boolean z2 = false;
         this.my = (readInt32 & 2) != 0;
         this.closed = (readInt32 & 4) != 0;
         this.pinned = (readInt32 & 8) != 0;
         this.isShort = (readInt32 & 32) != 0;
-        if ((readInt32 & 64) != 0) {
-            z2 = true;
-        }
-        this.hidden = z2;
+        this.hidden = (readInt32 & 64) != 0;
         this.id = abstractSerializedData.readInt32(z);
         this.date = abstractSerializedData.readInt32(z);
         this.title = abstractSerializedData.readString(z);

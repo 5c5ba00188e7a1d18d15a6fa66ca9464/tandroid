@@ -27,11 +27,11 @@ public final class ListenerHolder<L> {
             if (this == obj) {
                 return true;
             }
-            if (!(obj instanceof ListenerKey)) {
-                return false;
+            if (obj instanceof ListenerKey) {
+                ListenerKey listenerKey = (ListenerKey) obj;
+                return this.zaa == listenerKey.zaa && this.zab.equals(listenerKey.zab);
             }
-            ListenerKey listenerKey = (ListenerKey) obj;
-            return this.zaa == listenerKey.zaa && this.zab.equals(listenerKey.zab);
+            return false;
         }
 
         public int hashCode() {

@@ -190,12 +190,12 @@ public abstract class TLRPC$Video extends TLObject {
                 tLRPC$Video = null;
                 break;
         }
-        if (tLRPC$Video != null || !z) {
-            if (tLRPC$Video != null) {
-                tLRPC$Video.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$Video;
+        if (tLRPC$Video == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in Video", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in Video", Integer.valueOf(i)));
+        if (tLRPC$Video != null) {
+            tLRPC$Video.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$Video;
     }
 }

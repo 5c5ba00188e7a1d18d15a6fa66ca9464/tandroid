@@ -15,12 +15,12 @@ public abstract class TLRPC$account_Themes extends TLObject {
                 }
             };
         }
-        if (tLRPC$TL_account_themes != null || !z) {
-            if (tLRPC$TL_account_themes != null) {
-                tLRPC$TL_account_themes.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_account_themes;
+        if (tLRPC$TL_account_themes == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in account_Themes", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in account_Themes", Integer.valueOf(i)));
+        if (tLRPC$TL_account_themes != null) {
+            tLRPC$TL_account_themes.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_account_themes;
     }
 }

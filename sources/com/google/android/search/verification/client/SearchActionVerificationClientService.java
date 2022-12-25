@@ -33,7 +33,7 @@ public abstract class SearchActionVerificationClientService extends IntentServic
     private final Intent assistantGoServiceIntent;
     private SearchActionVerificationServiceConnection assistantGoVerificationServiceConnection;
     private final long connectionTimeout;
-    private final boolean dbg = isDebugMode();
+    private final boolean dbg;
     private final Intent gsaServiceIntent;
     private SearchActionVerificationServiceConnection searchActionVerificationServiceConnection;
 
@@ -57,6 +57,7 @@ public abstract class SearchActionVerificationClientService extends IntentServic
         this.gsaServiceIntent = intent;
         Intent intent2 = new Intent(REMOTE_ASSISTANT_GO_SERVICE_ACTION).setPackage("com.google.android.apps.assistant");
         this.assistantGoServiceIntent = intent2;
+        this.dbg = isDebugMode();
         if (isTestingMode()) {
             intent.setPackage("com.google.verificationdemo.fakeverification");
             intent2.setPackage("com.google.verificationdemo.fakeverification");
@@ -137,13 +138,12 @@ public abstract class SearchActionVerificationClientService extends IntentServic
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:35:0x0113  */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x0113  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private boolean maybePerformActionIfVerified(String packageName, Intent intent, SearchActionVerificationServiceConnection searchActionVerificationServiceConnection) {
         boolean isVerified;
-        int i = 0;
         if (!packageName.equals("com.google.android.googlequicksearchbox") && !packageName.equals("com.google.android.apps.assistant")) {
             if (this.dbg) {
                 Log.d(TAG, String.format("Unsupported package %s for verification.", packageName));
@@ -190,14 +190,11 @@ public abstract class SearchActionVerificationClientService extends IntentServic
                     ResultReceiver resultReceiver = (ResultReceiver) intent2.getExtras().getParcelable(SEND_MESSAGE_RESULT_RECEIVER);
                     Bundle bundle2 = new Bundle();
                     bundle2.putString(SEND_MESSAGE_ERROR_MESSAGE, str);
-                    if (!isVerified) {
-                        i = -1;
-                    }
-                    resultReceiver.send(i, bundle2);
+                    resultReceiver.send(isVerified ? 0 : -1, bundle2);
                 }
                 return isVerified;
             }
-            Log.e(TAG, String.format(str, packageName, intent));
+            Log.e(TAG, String.format("VerificationService is not connected to %s, unable to check intent: %s", packageName, intent));
             isVerified = false;
             if (intent2.hasExtra(SEND_MESSAGE_RESULT_RECEIVER)) {
             }
@@ -208,10 +205,10 @@ public abstract class SearchActionVerificationClientService extends IntentServic
     @Override // android.app.IntentService
     protected final void onHandleIntent(Intent intent) {
         if (intent == null) {
-            if (!this.dbg) {
+            if (this.dbg) {
+                Log.d(TAG, "Unable to verify null intent");
                 return;
             }
-            Log.d(TAG, "Unable to verify null intent");
             return;
         }
         long nanoTime = System.nanoTime();

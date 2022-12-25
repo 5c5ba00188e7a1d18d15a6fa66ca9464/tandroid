@@ -30,16 +30,16 @@ public final class zzfi$zzj extends zzjb<zzfi$zzj, zzb> implements zzkm {
 
         public static zza zza(int i) {
             if (i != 0) {
-                if (i == 1) {
-                    return zzb;
-                }
-                if (i == 2) {
+                if (i != 1) {
+                    if (i != 2) {
+                        if (i != 3) {
+                            return null;
+                        }
+                        return zzd;
+                    }
                     return zzc;
                 }
-                if (i == 3) {
-                    return zzd;
-                }
-                return null;
+                return zzb;
             }
             return zza;
         }

@@ -9,14 +9,14 @@ import org.telegram.messenger.AndroidUtilities;
 /* loaded from: classes3.dex */
 public class PhotoEditorSeekBar extends View {
     private PhotoEditorSeekBarDelegate delegate;
+    private Paint innerPaint;
     private int maxValue;
     private int minValue;
-    private Paint innerPaint = new Paint();
-    private Paint outerPaint = new Paint(1);
-    private int thumbSize = AndroidUtilities.dp(16.0f);
-    private int thumbDX = 0;
-    private float progress = 0.0f;
-    private boolean pressed = false;
+    private Paint outerPaint;
+    private boolean pressed;
+    private float progress;
+    private int thumbDX;
+    private int thumbSize;
 
     /* loaded from: classes3.dex */
     public interface PhotoEditorSeekBarDelegate {
@@ -25,6 +25,12 @@ public class PhotoEditorSeekBar extends View {
 
     public PhotoEditorSeekBar(Context context) {
         super(context);
+        this.innerPaint = new Paint();
+        this.outerPaint = new Paint(1);
+        this.thumbSize = AndroidUtilities.dp(16.0f);
+        this.thumbDX = 0;
+        this.progress = 0.0f;
+        this.pressed = false;
         this.innerPaint.setColor(-11711155);
         this.outerPaint.setColor(-1);
     }

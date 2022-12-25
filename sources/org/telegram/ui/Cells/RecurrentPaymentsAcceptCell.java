@@ -24,7 +24,6 @@ public class RecurrentPaymentsAcceptCell extends FrameLayout {
         this.checkBox.setFocusable(false);
         this.checkBox.setFocusableInTouchMode(false);
         this.checkBox.setClickable(false);
-        int i = 5;
         addView(this.checkBox, LayoutHelper.createFrame(18, 18.0f, (LocaleController.isRTL ? 5 : 3) | 16, 21.0f, 0.0f, 21.0f, 0.0f));
         LinkSpanDrawable.LinkCollector linkCollector = new LinkSpanDrawable.LinkCollector(this);
         this.links = linkCollector;
@@ -38,7 +37,7 @@ public class RecurrentPaymentsAcceptCell extends FrameLayout {
         this.textView.setEllipsize(TextUtils.TruncateAt.END);
         TextView textView = this.textView;
         boolean z = LocaleController.isRTL;
-        addView(textView, LayoutHelper.createFrame(-1, -1.0f, (!z ? 3 : i) | 48, z ? 16.0f : 58.0f, 21.0f, z ? 58.0f : 16.0f, 21.0f));
+        addView(textView, LayoutHelper.createFrame(-1, -1.0f, (z ? 5 : 3) | 48, z ? 16.0f : 58.0f, 21.0f, z ? 58.0f : 16.0f, 21.0f));
         setWillNotDraw(false);
     }
 

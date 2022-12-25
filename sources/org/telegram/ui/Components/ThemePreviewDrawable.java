@@ -66,13 +66,9 @@ public class ThemePreviewDrawable extends BitmapDrawable {
         int i = 0;
         while (i < 2) {
             Drawable drawable = mutate2;
-            boolean z3 = true;
             Paint paint2 = paint;
             int i2 = previewColor;
-            if (i != 1) {
-                z3 = false;
-            }
-            messageDrawableArr[i] = new Theme.MessageDrawable(2, z3, false) { // from class: org.telegram.ui.Components.ThemePreviewDrawable.1
+            messageDrawableArr[i] = new Theme.MessageDrawable(2, i == 1, false) { // from class: org.telegram.ui.Components.ThemePreviewDrawable.1
                 @Override // org.telegram.ui.ActionBar.Theme.MessageDrawable
                 protected int getColor(String str) {
                     Integer num6 = (Integer) hashMap.get(str);

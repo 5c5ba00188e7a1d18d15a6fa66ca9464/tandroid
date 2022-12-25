@@ -24,13 +24,13 @@ final class P3 extends D3 {
         int i = 0;
         Arrays.sort(this.c, 0, this.d);
         this.a.n(this.d);
-        if (!this.b) {
-            while (i < this.d) {
+        if (this.b) {
+            while (i < this.d && !this.a.o()) {
                 this.a.accept(this.c[i]);
                 i++;
             }
         } else {
-            while (i < this.d && !this.a.o()) {
+            while (i < this.d) {
                 this.a.accept(this.c[i]);
                 i++;
             }
@@ -41,10 +41,9 @@ final class P3 extends D3 {
 
     @Override // j$.util.stream.m3
     public void n(long j) {
-        if (j < 2147483639) {
-            this.c = new int[(int) j];
-            return;
+        if (j >= 2147483639) {
+            throw new IllegalArgumentException("Stream size exceeds max array size");
         }
-        throw new IllegalArgumentException("Stream size exceeds max array size");
+        this.c = new int[(int) j];
     }
 }

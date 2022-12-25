@@ -91,7 +91,6 @@ public final class SsMediaSource extends BaseMediaSource implements Loader.Callb
     }
 
     private SsMediaSource(SsManifest ssManifest, Uri uri, DataSource.Factory factory, ParsingLoadable.Parser<? extends SsManifest> parser, SsChunkSource.Factory factory2, CompositeSequenceableLoaderFactory compositeSequenceableLoaderFactory, DrmSessionManager<?> drmSessionManager, LoadErrorHandlingPolicy loadErrorHandlingPolicy, long j, Object obj) {
-        boolean z = false;
         Assertions.checkState(ssManifest == null || !ssManifest.isLive);
         this.manifest = ssManifest;
         this.manifestUri = uri == null ? null : SsUtil.fixManifestUri(uri);
@@ -104,7 +103,7 @@ public final class SsMediaSource extends BaseMediaSource implements Loader.Callb
         this.livePresentationDelayMs = j;
         this.manifestEventDispatcher = createEventDispatcher(null);
         this.tag = obj;
-        this.sideloadedManifest = ssManifest != null ? true : z;
+        this.sideloadedManifest = ssManifest != null;
         this.mediaPeriods = new ArrayList<>();
     }
 
@@ -231,15 +230,14 @@ public final class SsMediaSource extends BaseMediaSource implements Loader.Callb
     }
 
     private void scheduleManifestRefresh() {
-        if (!this.manifest.isLive) {
-            return;
+        if (this.manifest.isLive) {
+            this.manifestRefreshHandler.postDelayed(new Runnable() { // from class: com.google.android.exoplayer2.source.smoothstreaming.SsMediaSource$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    SsMediaSource.this.startLoadingManifest();
+                }
+            }, Math.max(0L, (this.manifestLoadStartTimestamp + 5000) - SystemClock.elapsedRealtime()));
         }
-        this.manifestRefreshHandler.postDelayed(new Runnable() { // from class: com.google.android.exoplayer2.source.smoothstreaming.SsMediaSource$$ExternalSyntheticLambda0
-            @Override // java.lang.Runnable
-            public final void run() {
-                SsMediaSource.this.startLoadingManifest();
-            }
-        }, Math.max(0L, (this.manifestLoadStartTimestamp + 5000) - SystemClock.elapsedRealtime()));
     }
 
     /* JADX INFO: Access modifiers changed from: private */

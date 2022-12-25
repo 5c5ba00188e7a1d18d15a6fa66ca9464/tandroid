@@ -26,7 +26,6 @@ public final class VideoFrameReleaseTimeHelper {
     private final WindowManager windowManager;
 
     public VideoFrameReleaseTimeHelper(Context context) {
-        DefaultDisplayListener defaultDisplayListener = null;
         if (context != null) {
             context = context.getApplicationContext();
             this.windowManager = (WindowManager) context.getSystemService("window");
@@ -34,7 +33,7 @@ public final class VideoFrameReleaseTimeHelper {
             this.windowManager = null;
         }
         if (this.windowManager != null) {
-            this.displayListener = Util.SDK_INT >= 17 ? maybeBuildDefaultDisplayListenerV17(context) : defaultDisplayListener;
+            this.displayListener = Util.SDK_INT >= 17 ? maybeBuildDefaultDisplayListenerV17(context) : null;
             this.vsyncSampler = VSyncSampler.getInstance();
         } else {
             this.displayListener = null;
@@ -66,7 +65,7 @@ public final class VideoFrameReleaseTimeHelper {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:14:0x0048  */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x0048  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

@@ -29,25 +29,20 @@ public class EditTextEffects extends EditText {
     private SpoilersClickDetector clickDetector;
     private boolean clipToPadding;
     private boolean isSpoilersRevealed;
+    private Layout lastLayout;
     private float lastRippleX;
     private float lastRippleY;
     private int lastTextLength;
+    private Path path;
     private boolean postedSpoilerTimeout;
+    private android.graphics.Rect rect;
     private int selEnd;
     private int selStart;
+    private boolean shouldRevealSpoilersByTouch;
+    private Runnable spoilerTimeout;
+    private List<SpoilerEffect> spoilers;
+    private Stack<SpoilerEffect> spoilersPool;
     private boolean suppressOnTextChanged;
-    private List<SpoilerEffect> spoilers = new ArrayList();
-    private Stack<SpoilerEffect> spoilersPool = new Stack<>();
-    private boolean shouldRevealSpoilersByTouch = true;
-    private Path path = new Path();
-    private Layout lastLayout = null;
-    private Runnable spoilerTimeout = new Runnable() { // from class: org.telegram.ui.Components.EditTextEffects$$ExternalSyntheticLambda4
-        @Override // java.lang.Runnable
-        public final void run() {
-            EditTextEffects.this.lambda$new$2();
-        }
-    };
-    private android.graphics.Rect rect = new android.graphics.Rect();
 
     public void incrementFrames(int i) {
         AnimatedEmojiSpan.EmojiGroupedSpans emojiGroupedSpans = this.animatedEmojiDrawables;
@@ -93,6 +88,18 @@ public class EditTextEffects extends EditText {
 
     public EditTextEffects(Context context) {
         super(context);
+        this.spoilers = new ArrayList();
+        this.spoilersPool = new Stack<>();
+        this.shouldRevealSpoilersByTouch = true;
+        this.path = new Path();
+        this.lastLayout = null;
+        this.spoilerTimeout = new Runnable() { // from class: org.telegram.ui.Components.EditTextEffects$$ExternalSyntheticLambda4
+            @Override // java.lang.Runnable
+            public final void run() {
+                EditTextEffects.this.lambda$new$2();
+            }
+        };
+        this.rect = new android.graphics.Rect();
         if (Looper.getMainLooper().getThread() == Thread.currentThread()) {
             this.clickDetector = new SpoilersClickDetector(this, this.spoilers, new SpoilersClickDetector.OnSpoilerClickedListener() { // from class: org.telegram.ui.Components.EditTextEffects$$ExternalSyntheticLambda5
                 @Override // org.telegram.ui.Components.spoilers.SpoilersClickDetector.OnSpoilerClickedListener
@@ -263,15 +270,15 @@ public class EditTextEffects extends EditText {
     public boolean dispatchTouchEvent(MotionEvent motionEvent) {
         boolean z;
         SpoilersClickDetector spoilersClickDetector;
-        if (!this.shouldRevealSpoilersByTouch || (spoilersClickDetector = this.clickDetector) == null || !spoilersClickDetector.onTouchEvent(motionEvent)) {
-            z = false;
-        } else {
+        if (this.shouldRevealSpoilersByTouch && (spoilersClickDetector = this.clickDetector) != null && spoilersClickDetector.onTouchEvent(motionEvent)) {
             if (motionEvent.getActionMasked() == 1) {
                 MotionEvent obtain = MotionEvent.obtain(0L, 0L, 3, 0.0f, 0.0f, 0);
                 super.dispatchTouchEvent(obtain);
                 obtain.recycle();
             }
             z = true;
+        } else {
+            z = false;
         }
         return super.dispatchTouchEvent(motionEvent) || z;
     }

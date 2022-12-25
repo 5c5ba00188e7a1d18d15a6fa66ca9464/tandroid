@@ -9,13 +9,15 @@ import java.util.Set;
 /* loaded from: classes.dex */
 public final class zzke<K, V> extends LinkedHashMap<K, V> {
     private static final zzke zzb;
-    private boolean zza = true;
+    private boolean zza;
 
     private zzke() {
+        this.zza = true;
     }
 
     private zzke(Map<K, V> map) {
         super(map);
+        this.zza = true;
     }
 
     public static <K, V> zzke<K, V> zza() {
@@ -24,9 +26,10 @@ public final class zzke<K, V> extends LinkedHashMap<K, V> {
 
     public final void zza(zzke<K, V> zzkeVar) {
         zze();
-        if (!zzkeVar.isEmpty()) {
-            putAll(zzkeVar);
+        if (zzkeVar.isEmpty()) {
+            return;
         }
+        putAll(zzkeVar);
     }
 
     @Override // java.util.LinkedHashMap, java.util.HashMap, java.util.AbstractMap, java.util.Map
@@ -64,7 +67,7 @@ public final class zzke<K, V> extends LinkedHashMap<K, V> {
         return (V) super.remove(obj);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:9:0x005c A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x005c A[RETURN] */
     @Override // java.util.AbstractMap, java.util.Map
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -136,10 +139,9 @@ public final class zzke<K, V> extends LinkedHashMap<K, V> {
     }
 
     private final void zze() {
-        if (this.zza) {
-            return;
+        if (!this.zza) {
+            throw new UnsupportedOperationException();
         }
-        throw new UnsupportedOperationException();
     }
 
     static {

@@ -47,6 +47,7 @@ import org.webrtc.RendererCommon;
 public abstract class PrivateVideoPreviewDialog extends FrameLayout implements VoIPService.StateListener {
     private boolean cameraReady;
     private int currentPage;
+    private int currentTexturePage;
     private boolean isDismissed;
     public boolean micEnabled;
     private RLottieImageView micIconView;
@@ -58,8 +59,7 @@ public abstract class PrivateVideoPreviewDialog extends FrameLayout implements V
     private TextView[] titles;
     private LinearLayout titlesLayout;
     private ViewPager viewPager;
-    private int currentTexturePage = 1;
-    private int visibleCameraPage = 1;
+    private int visibleCameraPage;
 
     @Override // org.telegram.messenger.voip.VoIPService.StateListener
     public /* synthetic */ void onAudioSettingsChanged() {
@@ -101,6 +101,8 @@ public abstract class PrivateVideoPreviewDialog extends FrameLayout implements V
 
     public PrivateVideoPreviewDialog(Context context, boolean z, boolean z2) {
         super(context);
+        this.currentTexturePage = 1;
+        this.visibleCameraPage = 1;
         this.needScreencast = z2;
         this.titles = new TextView[z2 ? 3 : 2];
         ViewPager viewPager = new ViewPager(context);
@@ -180,17 +182,16 @@ public abstract class PrivateVideoPreviewDialog extends FrameLayout implements V
                 int i = 0;
                 while (true) {
                     Paint[] paintArr = this.gradientPaint;
-                    if (i < paintArr.length) {
-                        paintArr[i] = new Paint(1);
-                        i++;
-                    } else {
+                    if (i >= paintArr.length) {
                         return;
                     }
+                    paintArr[i] = new Paint(1);
+                    i++;
                 }
             }
 
-            /* JADX WARN: Removed duplicated region for block: B:12:0x0042  */
-            /* JADX WARN: Removed duplicated region for block: B:15:0x005e  */
+            /* JADX WARN: Removed duplicated region for block: B:20:0x0042  */
+            /* JADX WARN: Removed duplicated region for block: B:21:0x005e  */
             @Override // android.view.View
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
@@ -456,47 +457,38 @@ public abstract class PrivateVideoPreviewDialog extends FrameLayout implements V
     }
 
     private void saveLastCameraBitmap() {
-        if (!this.cameraReady) {
-            return;
-        }
-        try {
-            Bitmap bitmap = this.textureView.renderer.getBitmap();
-            if (bitmap == null) {
-                return;
+        if (this.cameraReady) {
+            try {
+                Bitmap bitmap = this.textureView.renderer.getBitmap();
+                if (bitmap != null) {
+                    Bitmap createBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), this.textureView.renderer.getMatrix(), true);
+                    bitmap.recycle();
+                    Bitmap createScaledBitmap = Bitmap.createScaledBitmap(createBitmap, 80, (int) (createBitmap.getHeight() / (createBitmap.getWidth() / 80.0f)), true);
+                    if (createScaledBitmap != null) {
+                        if (createScaledBitmap != createBitmap) {
+                            createBitmap.recycle();
+                        }
+                        Utilities.blurBitmap(createScaledBitmap, 7, 1, createScaledBitmap.getWidth(), createScaledBitmap.getHeight(), createScaledBitmap.getRowBytes());
+                        File filesDirFixed = ApplicationLoader.getFilesDirFixed();
+                        createScaledBitmap.compress(Bitmap.CompressFormat.JPEG, 87, new FileOutputStream(new File(filesDirFixed, "cthumb" + this.visibleCameraPage + ".jpg")));
+                        View findViewWithTag = this.viewPager.findViewWithTag(Integer.valueOf(this.visibleCameraPage - (this.needScreencast ? 0 : 1)));
+                        if (findViewWithTag instanceof ImageView) {
+                            ((ImageView) findViewWithTag).setImageBitmap(createScaledBitmap);
+                        }
+                    }
+                }
+            } catch (Throwable unused) {
             }
-            Bitmap createBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), this.textureView.renderer.getMatrix(), true);
-            bitmap.recycle();
-            int i = 1;
-            Bitmap createScaledBitmap = Bitmap.createScaledBitmap(createBitmap, 80, (int) (createBitmap.getHeight() / (createBitmap.getWidth() / 80.0f)), true);
-            if (createScaledBitmap == null) {
-                return;
-            }
-            if (createScaledBitmap != createBitmap) {
-                createBitmap.recycle();
-            }
-            Utilities.blurBitmap(createScaledBitmap, 7, 1, createScaledBitmap.getWidth(), createScaledBitmap.getHeight(), createScaledBitmap.getRowBytes());
-            File filesDirFixed = ApplicationLoader.getFilesDirFixed();
-            createScaledBitmap.compress(Bitmap.CompressFormat.JPEG, 87, new FileOutputStream(new File(filesDirFixed, "cthumb" + this.visibleCameraPage + ".jpg")));
-            ViewPager viewPager = this.viewPager;
-            int i2 = this.visibleCameraPage;
-            if (this.needScreencast) {
-                i = 0;
-            }
-            View findViewWithTag = viewPager.findViewWithTag(Integer.valueOf(i2 - i));
-            if (!(findViewWithTag instanceof ImageView)) {
-                return;
-            }
-            ((ImageView) findViewWithTag).setImageBitmap(createScaledBitmap);
-        } catch (Throwable unused) {
         }
     }
 
     @Override // org.telegram.messenger.voip.VoIPService.StateListener
     public void onCameraFirstFrameAvailable() {
-        if (!this.cameraReady) {
-            this.cameraReady = true;
-            this.textureView.animate().alpha(1.0f).setDuration(250L);
+        if (this.cameraReady) {
+            return;
         }
+        this.cameraReady = true;
+        this.textureView.animate().alpha(1.0f).setDuration(250L);
     }
 
     @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View

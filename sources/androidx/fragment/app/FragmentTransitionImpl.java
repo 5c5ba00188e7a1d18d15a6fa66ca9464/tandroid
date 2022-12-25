@@ -122,13 +122,12 @@ public abstract class FragmentTransitionImpl {
             if (transitionName != null) {
                 map.put(transitionName, view);
             }
-            if (!(view instanceof ViewGroup)) {
-                return;
-            }
-            ViewGroup viewGroup = (ViewGroup) view;
-            int childCount = viewGroup.getChildCount();
-            for (int i = 0; i < childCount; i++) {
-                findNamedViews(map, viewGroup.getChildAt(i));
+            if (view instanceof ViewGroup) {
+                ViewGroup viewGroup = (ViewGroup) view;
+                int childCount = viewGroup.getChildCount();
+                for (int i = 0; i < childCount; i++) {
+                    findNamedViews(map, viewGroup.getChildAt(i));
+                }
             }
         }
     }

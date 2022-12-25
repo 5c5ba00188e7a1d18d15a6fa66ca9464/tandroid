@@ -74,14 +74,13 @@ public class Loader<D> {
 
     public void unregisterListener(OnLoadCompleteListener<D> onLoadCompleteListener) {
         OnLoadCompleteListener<D> onLoadCompleteListener2 = this.mListener;
-        if (onLoadCompleteListener2 != null) {
-            if (onLoadCompleteListener2 != onLoadCompleteListener) {
-                throw new IllegalArgumentException("Attempting to unregister the wrong listener");
-            }
-            this.mListener = null;
-            return;
+        if (onLoadCompleteListener2 == null) {
+            throw new IllegalStateException("No listener register");
         }
-        throw new IllegalStateException("No listener register");
+        if (onLoadCompleteListener2 != onLoadCompleteListener) {
+            throw new IllegalArgumentException("Attempting to unregister the wrong listener");
+        }
+        this.mListener = null;
     }
 
     public boolean isAbandoned() {

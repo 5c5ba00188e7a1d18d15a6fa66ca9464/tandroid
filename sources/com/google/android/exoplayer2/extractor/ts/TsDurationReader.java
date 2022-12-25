@@ -106,15 +106,14 @@ final class TsDurationReader {
         int limit = parsableByteArray.limit();
         while (true) {
             limit--;
-            if (limit >= position) {
-                if (parsableByteArray.data[limit] == 71) {
-                    long readPcrFromPacket = TsUtil.readPcrFromPacket(parsableByteArray, limit, i);
-                    if (readPcrFromPacket != -9223372036854775807L) {
-                        return readPcrFromPacket;
-                    }
-                }
-            } else {
+            if (limit < position) {
                 return -9223372036854775807L;
+            }
+            if (parsableByteArray.data[limit] == 71) {
+                long readPcrFromPacket = TsUtil.readPcrFromPacket(parsableByteArray, limit, i);
+                if (readPcrFromPacket != -9223372036854775807L) {
+                    return readPcrFromPacket;
+                }
             }
         }
     }

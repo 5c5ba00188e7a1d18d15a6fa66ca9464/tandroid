@@ -21,30 +21,38 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.NumberPicker;
 /* loaded from: classes3.dex */
 public class SwipeGestureSettingsView extends FrameLayout {
+    String[] backgroundKeys;
+    float colorProgress;
     String currentColorKey;
     int currentIconIndex;
     int currentIconValue;
+    Paint filledPaint;
     int fromColor;
     boolean hasTabs;
+    RLottieImageView[] iconViews;
+    RLottieDrawable[] icons;
+    Paint linePaint;
+    Paint outlinePaint;
     private NumberPicker picker;
+    Paint pickerDividersPaint;
     float progressToSwipeFolders;
+    RectF rect;
     String[] strings;
     Runnable swapIconRunnable;
-    Paint outlinePaint = new Paint(1);
-    Paint filledPaint = new Paint(1);
-    Paint linePaint = new Paint(1);
-    Paint pickerDividersPaint = new Paint(1);
-    RectF rect = new RectF();
-    String[] backgroundKeys = new String[6];
-    RLottieDrawable[] icons = new RLottieDrawable[6];
-    RLottieImageView[] iconViews = new RLottieImageView[2];
-    float colorProgress = 1.0f;
 
     public SwipeGestureSettingsView(Context context, int i) {
         super(context);
+        this.outlinePaint = new Paint(1);
+        this.filledPaint = new Paint(1);
+        this.linePaint = new Paint(1);
+        this.pickerDividersPaint = new Paint(1);
+        this.rect = new RectF();
         String[] strArr = new String[6];
         this.strings = strArr;
-        float f = 1.0f;
+        this.backgroundKeys = new String[6];
+        this.icons = new RLottieDrawable[6];
+        this.iconViews = new RLottieImageView[2];
+        this.colorProgress = 1.0f;
         strArr[0] = LocaleController.getString("SwipeSettingsPin", R.string.SwipeSettingsPin);
         this.strings[1] = LocaleController.getString("SwipeSettingsRead", R.string.SwipeSettingsRead);
         this.strings[2] = LocaleController.getString("SwipeSettingsArchive", R.string.SwipeSettingsArchive);
@@ -116,7 +124,7 @@ public class SwipeGestureSettingsView extends FrameLayout {
         }
         AndroidUtilities.updateViewVisibilityAnimated(this.iconViews[0], true, 0.5f, false);
         AndroidUtilities.updateViewVisibilityAnimated(this.iconViews[1], false, 0.5f, false);
-        this.progressToSwipeFolders = this.picker.getValue() != 5 ? 0.0f : f;
+        this.progressToSwipeFolders = this.picker.getValue() != 5 ? 0.0f : 1.0f;
         this.currentIconValue = this.picker.getValue();
     }
 
@@ -173,9 +181,9 @@ public class SwipeGestureSettingsView extends FrameLayout {
         super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(102.0f), 1073741824));
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:13:0x00b6  */
-    /* JADX WARN: Removed duplicated region for block: B:16:0x0113  */
-    /* JADX WARN: Removed duplicated region for block: B:23:0x00d5  */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x00b6  */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x00d5  */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x0113  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -362,10 +370,7 @@ public class SwipeGestureSettingsView extends FrameLayout {
         super.onInitializeAccessibilityEvent(accessibilityEvent);
         if (accessibilityEvent.getEventType() == 1) {
             int value = this.picker.getValue() + 1;
-            if (value > this.picker.getMaxValue() || value < 0) {
-                value = 0;
-            }
-            setContentDescription(this.strings[value]);
+            setContentDescription(this.strings[(value > this.picker.getMaxValue() || value < 0) ? 0 : 0]);
             this.picker.changeValueByOne(true);
         }
     }

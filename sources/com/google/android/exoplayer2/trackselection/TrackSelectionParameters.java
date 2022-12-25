@@ -73,13 +73,9 @@ public class TrackSelectionParameters implements Parcelable {
 
     public int hashCode() {
         String str = this.preferredAudioLanguage;
-        int i = 0;
         int hashCode = ((str == null ? 0 : str.hashCode()) + 31) * 31;
         String str2 = this.preferredTextLanguage;
-        if (str2 != null) {
-            i = str2.hashCode();
-        }
-        return ((((((hashCode + i) * 31) + this.preferredTextRoleFlags) * 31) + (this.selectUndeterminedTextLanguage ? 1 : 0)) * 31) + this.disabledTextTrackSelectionFlags;
+        return ((((((hashCode + (str2 != null ? str2.hashCode() : 0)) * 31) + this.preferredTextRoleFlags) * 31) + (this.selectUndeterminedTextLanguage ? 1 : 0)) * 31) + this.disabledTextTrackSelectionFlags;
     }
 
     @Override // android.os.Parcelable

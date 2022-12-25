@@ -8,20 +8,23 @@ import java.util.Set;
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
 public final class zzft<K, V> extends LinkedHashMap<K, V> {
-    private boolean zza = true;
+    private boolean zza;
 
     private zzft() {
+        this.zza = true;
     }
 
     private zzft(Map<K, V> map) {
         super(map);
+        this.zza = true;
     }
 
     public final void zza(zzft<K, V> zzftVar) {
         zzd();
-        if (!zzftVar.isEmpty()) {
-            putAll(zzftVar);
+        if (zzftVar.isEmpty()) {
+            return;
         }
+        putAll(zzftVar);
     }
 
     @Override // java.util.LinkedHashMap, java.util.HashMap, java.util.AbstractMap, java.util.Map
@@ -59,7 +62,7 @@ public final class zzft<K, V> extends LinkedHashMap<K, V> {
         return (V) super.remove(obj);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:9:0x005c A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x005c A[RETURN] */
     @Override // java.util.AbstractMap, java.util.Map
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -131,10 +134,9 @@ public final class zzft<K, V> extends LinkedHashMap<K, V> {
     }
 
     private final void zzd() {
-        if (this.zza) {
-            return;
+        if (!this.zza) {
+            throw new UnsupportedOperationException();
         }
-        throw new UnsupportedOperationException();
     }
 
     static {

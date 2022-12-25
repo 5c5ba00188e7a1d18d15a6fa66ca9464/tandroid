@@ -23,13 +23,16 @@ public class zza implements IInterface {
 
     /* JADX INFO: Access modifiers changed from: protected */
     public final Parcel zzB(int i, Parcel parcel) throws RemoteException {
-        parcel = Parcel.obtain();
+        Parcel obtain = Parcel.obtain();
         try {
-            this.zza.transact(i, parcel, parcel, 0);
-            parcel.readException();
-            return parcel;
-        } catch (RuntimeException e) {
-            throw e;
+            try {
+                this.zza.transact(i, parcel, obtain, 0);
+                obtain.readException();
+                return obtain;
+            } catch (RuntimeException e) {
+                obtain.recycle();
+                throw e;
+            }
         } finally {
             parcel.recycle();
         }

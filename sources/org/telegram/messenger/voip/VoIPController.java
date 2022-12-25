@@ -138,10 +138,9 @@ public class VoIPController {
     }
 
     protected void ensureNativeInstance() {
-        if (this.nativeInst != 0) {
-            return;
+        if (this.nativeInst == 0) {
+            throw new IllegalStateException("Native instance is not valid");
         }
-        throw new IllegalStateException("Native instance is not valid");
     }
 
     public void setConnectionStateListener(ConnectionStateListener connectionStateListener) {
@@ -179,7 +178,7 @@ public class VoIPController {
         nativeSetMicMute(this.nativeInst, z);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:16:0x0049  */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x0049  */
     /* JADX WARN: Removed duplicated region for block: B:25:0x0060  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -202,10 +201,10 @@ public class VoIPController {
             long j2 = this.nativeInst;
             boolean z2 = isAvailable || !VoIPServerConfig.getBoolean("use_system_aec", true);
             boolean z3 = isAvailable2 || !VoIPServerConfig.getBoolean("use_system_ns", true);
-            if (!BuildVars.DEBUG_VERSION) {
-                logFilePath = getLogFilePath("voip" + j);
-            } else {
+            if (BuildVars.DEBUG_VERSION) {
                 logFilePath = getLogFilePath(j);
+            } else {
+                logFilePath = getLogFilePath("voip" + j);
             }
             nativeSetConfig(j2, d, d2, i, z2, z3, true, logFilePath, (BuildVars.DEBUG_VERSION || !z) ? null : getLogFilePath("voipStats"), BuildVars.DEBUG_VERSION);
         }
@@ -217,7 +216,7 @@ public class VoIPController {
         }
         if (isAvailable2) {
         }
-        if (!BuildVars.DEBUG_VERSION) {
+        if (BuildVars.DEBUG_VERSION) {
         }
         nativeSetConfig(j22, d, d2, i, z2, z3, true, logFilePath, (BuildVars.DEBUG_VERSION || !z4) ? null : getLogFilePath("voipStats"), BuildVars.DEBUG_VERSION);
     }

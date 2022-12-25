@@ -171,9 +171,8 @@ public class RtpTransceiver {
     }
 
     private void checkRtpTransceiverExists() {
-        if (this.nativeRtpTransceiver != 0) {
-            return;
+        if (this.nativeRtpTransceiver == 0) {
+            throw new IllegalStateException("RtpTransceiver has been disposed.");
         }
-        throw new IllegalStateException("RtpTransceiver has been disposed.");
     }
 }

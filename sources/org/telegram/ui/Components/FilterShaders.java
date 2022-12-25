@@ -757,7 +757,7 @@ public class FilterShaders {
             this.linearBlurPositionHandle = GLES20.glGetAttribLocation(this.linearBlurShaderProgram, "position");
             this.linearBlurInputTexCoordHandle = GLES20.glGetAttribLocation(this.linearBlurShaderProgram, "inputTexCoord");
             this.linearBlurSourceImageHandle = GLES20.glGetUniformLocation(this.linearBlurShaderProgram, "sourceImage");
-            this.linearBlurSourceImage2Handle = GLES20.glGetUniformLocation(this.linearBlurShaderProgram, str5);
+            this.linearBlurSourceImage2Handle = GLES20.glGetUniformLocation(this.linearBlurShaderProgram, "inputImageTexture2");
             this.linearBlurExcludeSizeHandle = GLES20.glGetUniformLocation(this.linearBlurShaderProgram, "excludeSize");
             this.linearBlurExcludePointHandle = GLES20.glGetUniformLocation(this.linearBlurShaderProgram, "excludePoint");
             this.linearBlurExcludeBlurSizeHandle = GLES20.glGetUniformLocation(this.linearBlurShaderProgram, "excludeBlurSize");
@@ -784,7 +784,7 @@ public class FilterShaders {
             this.radialBlurPositionHandle = GLES20.glGetAttribLocation(this.radialBlurShaderProgram, "position");
             this.radialBlurInputTexCoordHandle = GLES20.glGetAttribLocation(this.radialBlurShaderProgram, "inputTexCoord");
             this.radialBlurSourceImageHandle = GLES20.glGetUniformLocation(this.radialBlurShaderProgram, "sourceImage");
-            this.radialBlurSourceImage2Handle = GLES20.glGetUniformLocation(this.radialBlurShaderProgram, str5);
+            this.radialBlurSourceImage2Handle = GLES20.glGetUniformLocation(this.radialBlurShaderProgram, "inputImageTexture2");
             this.radialBlurExcludeSizeHandle = GLES20.glGetUniformLocation(this.radialBlurShaderProgram, "excludeSize");
             this.radialBlurExcludePointHandle = GLES20.glGetUniformLocation(this.radialBlurShaderProgram, "excludePoint");
             this.radialBlurExcludeBlurSizeHandle = GLES20.glGetUniformLocation(this.radialBlurShaderProgram, "excludeBlurSize");
@@ -1099,7 +1099,6 @@ public class FilterShaders {
         GLES20.glBindTexture(3553, this.renderTexture[this.isVideo ? 1 : 0]);
         GLES20.glUniform1i(this.sourceImageHandle, 0);
         FilterShadersDelegate filterShadersDelegate = this.delegate;
-        float f = 1.0f;
         if (filterShadersDelegate == null || filterShadersDelegate.shouldShowOriginal()) {
             GLES20.glUniform1f(this.shadowsHandle, 1.0f);
             GLES20.glUniform1f(this.highlightsHandle, 1.0f);
@@ -1132,11 +1131,7 @@ public class FilterShaders {
             GLES20.glUniform3f(this.shadowsTintColorHandle, ((tintShadowsColor >> 16) & 255) / 255.0f, ((tintShadowsColor >> 8) & 255) / 255.0f, (tintShadowsColor & 255) / 255.0f);
             GLES20.glUniform1f(this.shadowsTintIntensityHandle, this.delegate.getTintShadowsIntensityValue());
             boolean shouldDrawCurvesPass = this.delegate.shouldDrawCurvesPass();
-            int i = this.skipToneHandle;
-            if (shouldDrawCurvesPass) {
-                f = 0.0f;
-            }
-            GLES20.glUniform1f(i, f);
+            GLES20.glUniform1f(this.skipToneHandle, shouldDrawCurvesPass ? 0.0f : 1.0f);
             if (shouldDrawCurvesPass) {
                 ByteBuffer fillAndGetCurveBuffer = this.delegate.fillAndGetCurveBuffer();
                 GLES20.glActiveTexture(33985);

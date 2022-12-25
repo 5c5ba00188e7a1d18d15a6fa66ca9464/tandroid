@@ -22,15 +22,17 @@ public class ChartHeaderView extends FrameLayout {
     public TextView back;
     private TextView dates;
     private TextView datesTmp;
+    SimpleDateFormat formatter;
+    private boolean showDate;
     int textMargin;
     private TextView title;
     private boolean useWeekInterval;
     private Drawable zoomIcon;
-    private boolean showDate = true;
-    SimpleDateFormat formatter = new SimpleDateFormat("d MMM yyyy");
 
     public ChartHeaderView(Context context) {
         super(context);
+        this.showDate = true;
+        this.formatter = new SimpleDateFormat("d MMM yyyy");
         TextPaint textPaint = new TextPaint();
         textPaint.setTextSize(14.0f);
         textPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));

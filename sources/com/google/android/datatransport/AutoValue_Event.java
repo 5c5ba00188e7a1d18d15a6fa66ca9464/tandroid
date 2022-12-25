@@ -39,15 +39,15 @@ final class AutoValue_Event<T> extends Event<T> {
         if (obj == this) {
             return true;
         }
-        if (!(obj instanceof Event)) {
-            return false;
-        }
-        Event event = (Event) obj;
-        Integer num = this.code;
-        if (num != null ? num.equals(event.getCode()) : event.getCode() == null) {
-            if (this.payload.equals(event.getPayload()) && this.priority.equals(event.getPriority())) {
-                return true;
+        if (obj instanceof Event) {
+            Event event = (Event) obj;
+            Integer num = this.code;
+            if (num != null ? num.equals(event.getCode()) : event.getCode() == null) {
+                if (this.payload.equals(event.getPayload()) && this.priority.equals(event.getPriority())) {
+                    return true;
+                }
             }
+            return false;
         }
         return false;
     }

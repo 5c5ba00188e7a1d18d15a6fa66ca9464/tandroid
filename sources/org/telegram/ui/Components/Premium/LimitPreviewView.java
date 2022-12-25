@@ -36,7 +36,7 @@ import org.telegram.ui.Components.Premium.LimitPreviewView;
 import org.telegram.ui.Components.Premium.PremiumGradient;
 /* loaded from: classes3.dex */
 public class LimitPreviewView extends LinearLayout {
-    boolean animationCanPlay = true;
+    boolean animationCanPlay;
     TextView defaultCount;
     public int gradientTotalHeight;
     int gradientYOffset;
@@ -56,6 +56,7 @@ public class LimitPreviewView extends LinearLayout {
     @SuppressLint({"SetTextI18n"})
     public LimitPreviewView(Context context, int i, int i2, int i3) {
         super(context);
+        this.animationCanPlay = true;
         this.icon = i;
         setOrientation(1);
         setClipChildren(false);
@@ -231,10 +232,9 @@ public class LimitPreviewView extends LinearLayout {
             this.limitIcon.setTranslationX(dp3);
         } else {
             CounterView counterView3 = this.limitIcon;
-            if (counterView3 == null) {
-                return;
+            if (counterView3 != null) {
+                counterView3.setAlpha(0.0f);
             }
-            counterView3.setAlpha(0.0f);
         }
     }
 
@@ -304,20 +304,24 @@ public class LimitPreviewView extends LinearLayout {
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class CounterView extends View {
+        ArrayList<AnimatedLayout> animatedLayouts;
         StaticLayout animatedStableLayout;
         boolean animationInProgress;
         float arrowCenter;
         boolean invalidatePath;
+        Path path;
+        PathEffect pathEffect;
         CharSequence text;
         StaticLayout textLayout;
+        TextPaint textPaint;
         float textWidth;
-        Path path = new Path();
-        PathEffect pathEffect = new CornerPathEffect(AndroidUtilities.dp(6.0f));
-        TextPaint textPaint = new TextPaint(1);
-        ArrayList<AnimatedLayout> animatedLayouts = new ArrayList<>();
 
         public CounterView(Context context) {
             super(context);
+            this.path = new Path();
+            this.pathEffect = new CornerPathEffect(AndroidUtilities.dp(6.0f));
+            this.textPaint = new TextPaint(1);
+            this.animatedLayouts = new ArrayList<>();
             this.textPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
             this.textPaint.setTextSize(AndroidUtilities.dp(22.0f));
             this.textPaint.setColor(-1);
@@ -382,13 +386,13 @@ public class LimitPreviewView extends LinearLayout {
             float measuredWidth = (getMeasuredWidth() - this.textLayout.getWidth()) / 2.0f;
             float height = (measuredHeight - this.textLayout.getHeight()) / 2.0f;
             if (!this.animationInProgress) {
-                if (this.textLayout == null) {
+                if (this.textLayout != null) {
+                    canvas.save();
+                    canvas.translate(measuredWidth, height);
+                    this.textLayout.draw(canvas);
+                    canvas.restore();
                     return;
                 }
-                canvas.save();
-                canvas.translate(measuredWidth, height);
-                this.textLayout.draw(canvas);
-                canvas.restore();
                 return;
             }
             canvas.save();

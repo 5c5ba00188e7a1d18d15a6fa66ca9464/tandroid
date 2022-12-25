@@ -41,7 +41,6 @@ public class AudioVisualizerDrawable {
     }
 
     public void setWaveform(boolean z, boolean z2, float[] fArr) {
-        float f = 0.0f;
         int i = 0;
         if (!z && !z2) {
             while (i < 8) {
@@ -53,11 +52,11 @@ public class AudioVisualizerDrawable {
             return;
         }
         boolean z3 = fArr != null && fArr[6] == 0.0f;
-        float f2 = fArr == null ? 0.0f : fArr[6];
-        if (fArr != null && f2 > 0.4d) {
+        float f = fArr == null ? 0.0f : fArr[6];
+        if (fArr != null && f > 0.4d) {
             float[] fArr3 = this.lastAmplitude;
             int i2 = this.lastAmplitudePointer;
-            fArr3[i2] = f2;
+            fArr3[i2] = f;
             int i3 = i2 + 1;
             this.lastAmplitudePointer = i3;
             if (i3 > 5) {
@@ -72,18 +71,18 @@ public class AudioVisualizerDrawable {
                 fArr[i4] = (this.random.nextInt() % 500) / 1000.0f;
             }
         }
-        float f3 = this.ANIMATION_DURATION;
+        float f2 = this.ANIMATION_DURATION;
         if (z3) {
-            f3 *= 2.0f;
+            f2 *= 2.0f;
         }
         if (this.lastAmplitudeCount > 6) {
-            float f4 = 0.0f;
+            float f3 = 0.0f;
             for (int i5 = 0; i5 < 6; i5++) {
-                f4 += this.lastAmplitude[i5];
+                f3 += this.lastAmplitude[i5];
             }
-            float f5 = f4 / 6.0f;
-            if (f5 > 0.52f) {
-                f3 -= this.ANIMATION_DURATION * (f5 - 0.4f);
+            float f4 = f3 / 6.0f;
+            if (f4 > 0.52f) {
+                f2 -= this.ANIMATION_DURATION * (f4 - 0.4f);
             }
         }
         while (i < 7) {
@@ -97,15 +96,12 @@ public class AudioVisualizerDrawable {
             } else if (i == 6) {
                 this.dt[i] = (this.animateTo[i] - this.current[i]) / (this.ANIMATION_DURATION + 80.0f);
             } else {
-                this.dt[i] = (this.animateTo[i] - this.current[i]) / f3;
+                this.dt[i] = (this.animateTo[i] - this.current[i]) / f2;
             }
             i++;
         }
         float[] fArr4 = this.animateTo;
-        if (z) {
-            f = 1.0f;
-        }
-        fArr4[7] = f;
+        fArr4[7] = z ? 1.0f : 0.0f;
         this.dt[7] = (fArr4[7] - this.current[7]) / 120.0f;
     }
 

@@ -30,11 +30,16 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AvatarDrawable;
 /* loaded from: classes3.dex */
 public class DialogMeUrlCell extends BaseCell {
+    private AvatarDrawable avatarDrawable;
+    private ImageReceiver avatarImage;
+    private int avatarTop;
+    private int currentAccount;
     private boolean drawNameLock;
     private boolean drawVerified;
     private boolean isSelected;
     private StaticLayout messageLayout;
     private int messageLeft;
+    private int messageTop;
     private StaticLayout nameLayout;
     private int nameLeft;
     private int nameLockLeft;
@@ -42,11 +47,6 @@ public class DialogMeUrlCell extends BaseCell {
     private int nameMuteLeft;
     private TLRPC$RecentMeUrl recentMeUrl;
     public boolean useSeparator;
-    private ImageReceiver avatarImage = new ImageReceiver(this);
-    private AvatarDrawable avatarDrawable = new AvatarDrawable();
-    private int messageTop = AndroidUtilities.dp(40.0f);
-    private int avatarTop = AndroidUtilities.dp(10.0f);
-    private int currentAccount = UserConfig.selectedAccount;
 
     @Override // org.telegram.ui.Cells.BaseCell, android.view.View
     public boolean hasOverlappingRendering() {
@@ -55,6 +55,11 @@ public class DialogMeUrlCell extends BaseCell {
 
     public DialogMeUrlCell(Context context) {
         super(context);
+        this.avatarImage = new ImageReceiver(this);
+        this.avatarDrawable = new AvatarDrawable();
+        this.messageTop = AndroidUtilities.dp(40.0f);
+        this.avatarTop = AndroidUtilities.dp(10.0f);
+        this.currentAccount = UserConfig.selectedAccount;
         Theme.createDialogsResources(context);
         this.avatarImage.setRoundRadius(AndroidUtilities.dp(26.0f));
     }
@@ -261,13 +266,13 @@ public class DialogMeUrlCell extends BaseCell {
             }
             double ceil2 = Math.ceil(this.messageLayout.getLineWidth(0));
             double d7 = max2;
-            if (ceil2 >= d7) {
+            if (ceil2 < d7) {
+                double d8 = this.messageLeft;
+                Double.isNaN(d7);
+                Double.isNaN(d8);
+                this.messageLeft = (int) (d8 + (d7 - ceil2));
                 return;
             }
-            double d8 = this.messageLeft;
-            Double.isNaN(d7);
-            Double.isNaN(d8);
-            this.messageLeft = (int) (d8 + (d7 - ceil2));
             return;
         }
         StaticLayout staticLayout3 = this.nameLayout;
@@ -293,13 +298,12 @@ public class DialogMeUrlCell extends BaseCell {
         }
         double ceil4 = Math.ceil(this.messageLayout.getLineWidth(0));
         double d11 = max2;
-        if (ceil4 >= d11) {
-            return;
+        if (ceil4 < d11) {
+            double d12 = this.messageLeft;
+            Double.isNaN(d11);
+            Double.isNaN(d12);
+            this.messageLeft = (int) (d12 - (d11 - ceil4));
         }
-        double d12 = this.messageLeft;
-        Double.isNaN(d11);
-        Double.isNaN(d12);
-        this.messageLeft = (int) (d12 - (d11 - ceil4));
     }
 
     public void setDialogSelected(boolean z) {

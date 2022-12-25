@@ -172,13 +172,12 @@ public class NotificationCompatBuilder implements NotificationBuilderWithBuilder
             int i7 = i6 & (-3);
             notification.defaults = i7;
             this.mBuilder.setDefaults(i7);
-            if (i5 < 26) {
-                return;
+            if (i5 >= 26) {
+                if (TextUtils.isEmpty(this.mBuilderCompat.mGroupKey)) {
+                    this.mBuilder.setGroup("silent");
+                }
+                this.mBuilder.setGroupAlertBehavior(this.mGroupAlertBehavior);
             }
-            if (TextUtils.isEmpty(this.mBuilderCompat.mGroupKey)) {
-                this.mBuilder.setGroup("silent");
-            }
-            this.mBuilder.setGroupAlertBehavior(this.mGroupAlertBehavior);
         }
     }
 
@@ -252,10 +251,10 @@ public class NotificationCompatBuilder implements NotificationBuilderWithBuilder
         Bundle bundle;
         int i = Build.VERSION.SDK_INT;
         if (i < 20) {
-            if (i < 16) {
+            if (i >= 16) {
+                this.mActionExtrasList.add(NotificationCompatJellybean.writeActionAndGetExtras(this.mBuilder, action));
                 return;
             }
-            this.mActionExtrasList.add(NotificationCompatJellybean.writeActionAndGetExtras(this.mBuilder, action));
             return;
         }
         IconCompat iconCompat = action.getIconCompat();

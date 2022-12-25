@@ -191,10 +191,10 @@ public class PopupNotificationActivity extends Activity implements NotificationC
             }
 
             /* JADX INFO: Access modifiers changed from: protected */
-            /* JADX WARN: Removed duplicated region for block: B:18:0x0065  */
-            /* JADX WARN: Removed duplicated region for block: B:23:0x008b  */
-            /* JADX WARN: Removed duplicated region for block: B:30:0x0094  */
-            /* JADX WARN: Removed duplicated region for block: B:35:0x0073  */
+            /* JADX WARN: Removed duplicated region for block: B:23:0x0065  */
+            /* JADX WARN: Removed duplicated region for block: B:27:0x0073  */
+            /* JADX WARN: Removed duplicated region for block: B:31:0x008b  */
+            /* JADX WARN: Removed duplicated region for block: B:35:0x0094  */
             @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
@@ -553,8 +553,7 @@ public class PopupNotificationActivity extends Activity implements NotificationC
                     PopupNotificationActivity.this.finish();
                 } else if (i2 == 1) {
                     PopupNotificationActivity.this.openCurrentMessage();
-                } else if (i2 != 2) {
-                } else {
+                } else if (i2 == 2) {
                     PopupNotificationActivity.this.switchToNextMessage();
                 }
             }
@@ -648,7 +647,7 @@ public class PopupNotificationActivity extends Activity implements NotificationC
         return this.animationInProgress;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:72:0x0137  */
+    /* JADX WARN: Removed duplicated region for block: B:84:0x0137  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -970,8 +969,8 @@ public class PopupNotificationActivity extends Activity implements NotificationC
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:67:0x0170  */
-    /* JADX WARN: Removed duplicated region for block: B:68:0x0184  */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x0170  */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x0184  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1198,8 +1197,7 @@ public class PopupNotificationActivity extends Activity implements NotificationC
             this.textViews.add(viewGroup);
         } else if (intValue == 2) {
             this.imageViews.add(viewGroup);
-        } else if (intValue != 3) {
-        } else {
+        } else if (intValue == 3) {
             this.audioViews.add(viewGroup);
         }
     }
@@ -1547,17 +1545,15 @@ public class PopupNotificationActivity extends Activity implements NotificationC
                 return;
             }
             this.currentChat = chat;
-            if (this.avatarImageView == null) {
-                return;
+            if (this.avatarImageView != null) {
+                this.avatarImageView.setForUserOrChat(chat, new AvatarDrawable(this.currentChat));
             }
-            this.avatarImageView.setForUserOrChat(chat, new AvatarDrawable(this.currentChat));
         } else if (this.currentUser == null || (user = MessagesController.getInstance(messageObject.currentAccount).getUser(Long.valueOf(this.currentUser.id))) == null) {
         } else {
             this.currentUser = user;
-            if (this.avatarImageView == null) {
-                return;
+            if (this.avatarImageView != null) {
+                this.avatarImageView.setForUserOrChat(user, new AvatarDrawable(this.currentUser));
             }
-            this.avatarImageView.setForUserOrChat(user, new AvatarDrawable(this.currentUser));
         }
     }
 
@@ -1643,11 +1639,11 @@ public class PopupNotificationActivity extends Activity implements NotificationC
         MessageObject messageObject2;
         MessageObject messageObject3;
         if (i == NotificationCenter.appDidLogout) {
-            if (i2 != this.lastResumedAccount) {
+            if (i2 == this.lastResumedAccount) {
+                onFinish();
+                finish();
                 return;
             }
-            onFinish();
-            finish();
             return;
         }
         int i3 = 0;
@@ -1692,57 +1688,53 @@ public class PopupNotificationActivity extends Activity implements NotificationC
             if ((MessagesController.UPDATE_MASK_AVATAR & intValue) != 0 || (MessagesController.UPDATE_MASK_CHAT_AVATAR & intValue) != 0) {
                 checkAndUpdateAvatar();
             }
-            if ((intValue & MessagesController.UPDATE_MASK_USER_PRINT) == 0) {
-                return;
+            if ((intValue & MessagesController.UPDATE_MASK_USER_PRINT) != 0) {
+                CharSequence printingString = MessagesController.getInstance(this.currentMessageObject.currentAccount).getPrintingString(this.currentMessageObject.getDialogId(), 0, false);
+                CharSequence charSequence = this.lastPrintString;
+                if ((charSequence == null || printingString != null) && ((charSequence != null || printingString == null) && (charSequence == null || charSequence.equals(printingString)))) {
+                    return;
+                }
+                updateSubtitle();
             }
-            CharSequence printingString = MessagesController.getInstance(this.currentMessageObject.currentAccount).getPrintingString(this.currentMessageObject.getDialogId(), 0, false);
-            CharSequence charSequence = this.lastPrintString;
-            if ((charSequence == null || printingString != null) && ((charSequence != null || printingString == null) && (charSequence == null || charSequence.equals(printingString)))) {
-                return;
-            }
-            updateSubtitle();
         } else if (i == NotificationCenter.messagePlayingDidReset) {
             Integer num = (Integer) objArr[0];
             ViewGroup viewGroup = this.messageContainer;
-            if (viewGroup == null) {
-                return;
-            }
-            int childCount = viewGroup.getChildCount();
-            while (i3 < childCount) {
-                View childAt = this.messageContainer.getChildAt(i3);
-                if (((Integer) childAt.getTag()).intValue() == 3 && (messageObject2 = (popupAudioView2 = (PopupAudioView) childAt.findViewWithTag(300)).getMessageObject()) != null && messageObject2.currentAccount == i2 && messageObject2.getId() == num.intValue()) {
-                    popupAudioView2.updateButtonState();
-                    return;
+            if (viewGroup != null) {
+                int childCount = viewGroup.getChildCount();
+                while (i3 < childCount) {
+                    View childAt = this.messageContainer.getChildAt(i3);
+                    if (((Integer) childAt.getTag()).intValue() == 3 && (messageObject2 = (popupAudioView2 = (PopupAudioView) childAt.findViewWithTag(300)).getMessageObject()) != null && messageObject2.currentAccount == i2 && messageObject2.getId() == num.intValue()) {
+                        popupAudioView2.updateButtonState();
+                        return;
+                    }
+                    i3++;
                 }
-                i3++;
             }
         } else if (i == NotificationCenter.messagePlayingProgressDidChanged) {
             Integer num2 = (Integer) objArr[0];
             ViewGroup viewGroup2 = this.messageContainer;
-            if (viewGroup2 == null) {
-                return;
-            }
-            int childCount2 = viewGroup2.getChildCount();
-            while (i3 < childCount2) {
-                View childAt2 = this.messageContainer.getChildAt(i3);
-                if (((Integer) childAt2.getTag()).intValue() == 3 && (messageObject = (popupAudioView = (PopupAudioView) childAt2.findViewWithTag(300)).getMessageObject()) != null && messageObject.currentAccount == i2 && messageObject.getId() == num2.intValue()) {
-                    popupAudioView.updateProgress();
-                    return;
+            if (viewGroup2 != null) {
+                int childCount2 = viewGroup2.getChildCount();
+                while (i3 < childCount2) {
+                    View childAt2 = this.messageContainer.getChildAt(i3);
+                    if (((Integer) childAt2.getTag()).intValue() == 3 && (messageObject = (popupAudioView = (PopupAudioView) childAt2.findViewWithTag(300)).getMessageObject()) != null && messageObject.currentAccount == i2 && messageObject.getId() == num2.intValue()) {
+                        popupAudioView.updateProgress();
+                        return;
+                    }
+                    i3++;
                 }
-                i3++;
             }
         } else if (i == NotificationCenter.emojiLoaded) {
             ViewGroup viewGroup3 = this.messageContainer;
-            if (viewGroup3 == null) {
-                return;
-            }
-            int childCount3 = viewGroup3.getChildCount();
-            while (i3 < childCount3) {
-                View childAt3 = this.messageContainer.getChildAt(i3);
-                if (((Integer) childAt3.getTag()).intValue() == 1 && (textView = (TextView) childAt3.findViewWithTag(301)) != null) {
-                    textView.invalidate();
+            if (viewGroup3 != null) {
+                int childCount3 = viewGroup3.getChildCount();
+                while (i3 < childCount3) {
+                    View childAt3 = this.messageContainer.getChildAt(i3);
+                    if (((Integer) childAt3.getTag()).intValue() == 1 && (textView = (TextView) childAt3.findViewWithTag(301)) != null) {
+                        textView.invalidate();
+                    }
+                    i3++;
                 }
-                i3++;
             }
         } else if (i == NotificationCenter.contactsDidLoad && i2 == this.lastResumedAccount) {
             updateSubtitle();
@@ -1784,9 +1776,8 @@ public class PopupNotificationActivity extends Activity implements NotificationC
         if (chatActivityEnterView != null) {
             chatActivityEnterView.onDestroy();
         }
-        if (!this.wakeLock.isHeld()) {
-            return;
+        if (this.wakeLock.isHeld()) {
+            this.wakeLock.release();
         }
-        this.wakeLock.release();
     }
 }

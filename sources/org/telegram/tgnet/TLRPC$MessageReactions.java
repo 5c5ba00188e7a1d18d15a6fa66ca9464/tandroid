@@ -76,23 +76,22 @@ public abstract class TLRPC$MessageReactions extends TLObject {
                         }
                         this.results.add(TLdeserialize);
                     }
-                    if ((this.flags & 2) == 0) {
-                        return;
-                    }
-                    int readInt324 = abstractSerializedData2.readInt32(z2);
-                    if (readInt324 != 481674261) {
-                        if (z2) {
-                            throw new RuntimeException(String.format("wrong Vector magic, got %x", Integer.valueOf(readInt324)));
-                        }
-                        return;
-                    }
-                    int readInt325 = abstractSerializedData2.readInt32(z2);
-                    for (int i3 = 0; i3 < readInt325; i3++) {
-                        TLRPC$MessagePeerReaction TLdeserialize2 = TLRPC$MessagePeerReaction.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
-                        if (TLdeserialize2 == null) {
+                    if ((this.flags & 2) != 0) {
+                        int readInt324 = abstractSerializedData2.readInt32(z2);
+                        if (readInt324 != 481674261) {
+                            if (z2) {
+                                throw new RuntimeException(String.format("wrong Vector magic, got %x", Integer.valueOf(readInt324)));
+                            }
                             return;
                         }
-                        this.recent_reactions.add(TLdeserialize2);
+                        int readInt325 = abstractSerializedData2.readInt32(z2);
+                        for (int i3 = 0; i3 < readInt325; i3++) {
+                            TLRPC$MessagePeerReaction TLdeserialize2 = TLRPC$MessagePeerReaction.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
+                            if (TLdeserialize2 == null) {
+                                return;
+                            }
+                            this.recent_reactions.add(TLdeserialize2);
+                        }
                     }
                 }
 
@@ -123,12 +122,12 @@ public abstract class TLRPC$MessageReactions extends TLObject {
         } else {
             tLRPC$TL_messageReactions = i != 1328256121 ? null : new TLRPC$TL_messageReactions();
         }
-        if (tLRPC$TL_messageReactions != null || !z) {
-            if (tLRPC$TL_messageReactions != null) {
-                tLRPC$TL_messageReactions.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_messageReactions;
+        if (tLRPC$TL_messageReactions == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in MessageReactions", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in MessageReactions", Integer.valueOf(i)));
+        if (tLRPC$TL_messageReactions != null) {
+            tLRPC$TL_messageReactions.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_messageReactions;
     }
 }

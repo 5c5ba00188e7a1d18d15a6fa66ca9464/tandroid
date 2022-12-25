@@ -8,7 +8,7 @@ import java.util.Spliterator;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public abstract class Z3 extends e implements Iterable, j$.lang.e {
-    Object e = c(16);
+    Object e;
     Object[] f;
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -146,9 +146,7 @@ public abstract class Z3 extends e implements Iterable, j$.lang.e {
                 this.c = 0;
                 this.e = Z3.this.f[i4];
                 return h;
-            } else if (i != i2) {
-                return null;
-            } else {
+            } else if (i == i2) {
                 int i5 = this.d;
                 int i6 = this.c;
                 int i7 = (i5 - i6) / 2;
@@ -158,17 +156,21 @@ public abstract class Z3 extends e implements Iterable, j$.lang.e {
                 j$.util.w f = f(this.e, i6, i7);
                 this.c += i7;
                 return f;
+            } else {
+                return null;
             }
         }
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public Z3() {
+        this.e = c(16);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public Z3(int i) {
         super(i);
+        this.e = c(1 << this.a);
     }
 
     private void y() {
@@ -227,10 +229,9 @@ public abstract class Z3 extends e implements Iterable, j$.lang.e {
             i += u(this.f[i2]);
         }
         int i3 = this.b;
-        if (i3 <= 0) {
-            return;
+        if (i3 > 0) {
+            System.arraycopy(this.e, 0, obj, i, i3);
         }
-        System.arraycopy(this.e, 0, obj, i, i3);
     }
 
     public Object e() {
@@ -273,18 +274,18 @@ public abstract class Z3 extends e implements Iterable, j$.lang.e {
     /* JADX INFO: Access modifiers changed from: protected */
     public int w(long j) {
         if (this.c == 0) {
-            if (j >= this.b) {
-                throw new IndexOutOfBoundsException(Long.toString(j));
+            if (j < this.b) {
+                return 0;
             }
-            return 0;
-        } else if (j >= count()) {
             throw new IndexOutOfBoundsException(Long.toString(j));
-        } else {
+        } else if (j < count()) {
             for (int i = 0; i <= this.c; i++) {
                 if (j < this.d[i] + u(this.f[i])) {
                     return i;
                 }
             }
+            throw new IndexOutOfBoundsException(Long.toString(j));
+        } else {
             throw new IndexOutOfBoundsException(Long.toString(j));
         }
     }
@@ -293,26 +294,27 @@ public abstract class Z3 extends e implements Iterable, j$.lang.e {
     public final void x(long j) {
         int i;
         long v = v();
-        if (j > v) {
-            y();
-            int i2 = this.c;
-            while (true) {
-                i2++;
-                if (j <= v) {
-                    return;
-                }
-                Object[] objArr = this.f;
-                if (i2 >= objArr.length) {
-                    int length = objArr.length * 2;
-                    this.f = Arrays.copyOf(objArr, length);
-                    this.d = Arrays.copyOf(this.d, length);
-                }
-                int s = s(i2);
-                this.f[i2] = c(s);
-                long[] jArr = this.d;
-                jArr[i2] = jArr[i2 - 1] + u(this.f[i]);
-                v += s;
+        if (j <= v) {
+            return;
+        }
+        y();
+        int i2 = this.c;
+        while (true) {
+            i2++;
+            if (j <= v) {
+                return;
             }
+            Object[] objArr = this.f;
+            if (i2 >= objArr.length) {
+                int length = objArr.length * 2;
+                this.f = Arrays.copyOf(objArr, length);
+                this.d = Arrays.copyOf(this.d, length);
+            }
+            int s = s(i2);
+            this.f[i2] = c(s);
+            long[] jArr = this.d;
+            jArr[i2] = jArr[i2 - 1] + u(this.f[i]);
+            v += s;
         }
     }
 

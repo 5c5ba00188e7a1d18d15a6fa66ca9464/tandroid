@@ -189,10 +189,10 @@ public class PremiumLockIconView extends ImageView {
                 }
             }
         }
-        if (i != 0) {
-            return Color.argb(255, i2 / i, i3 / i, i4 / i);
+        if (i == 0) {
+            return 0;
         }
-        return 0;
+        return Color.argb(255, i2 / i, i3 / i, i4 / i);
     }
 
     private void updateGradient() {

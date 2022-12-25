@@ -95,7 +95,6 @@ public final class H262Reader implements ElementaryStreamReader {
             int i2 = findNalUnit + 3;
             int i3 = parsableByteArray.data[i2] & 255;
             int i4 = findNalUnit - position;
-            boolean z = false;
             if (!this.hasOutputFormat) {
                 if (i4 > 0) {
                     this.csdBuffer.onData(bArr, position, findNalUnit);
@@ -128,22 +127,19 @@ public final class H262Reader implements ElementaryStreamReader {
                 if (this.startedFirstSample && this.sampleHasPicture && this.hasOutputFormat) {
                     this.output.sampleMetadata(this.sampleTimeUs, this.sampleIsKeyframe ? 1 : 0, ((int) (this.totalBytesWritten - this.samplePosition)) - i5, i5, null);
                 }
-                boolean z2 = this.startedFirstSample;
-                if (!z2 || this.sampleHasPicture) {
+                boolean z = this.startedFirstSample;
+                if (!z || this.sampleHasPicture) {
                     this.samplePosition = this.totalBytesWritten - i5;
                     long j = this.pesTimeUs;
                     if (j == -9223372036854775807L) {
-                        j = z2 ? this.sampleTimeUs + this.frameDurationUs : 0L;
+                        j = z ? this.sampleTimeUs + this.frameDurationUs : 0L;
                     }
                     this.sampleTimeUs = j;
                     this.sampleIsKeyframe = false;
                     this.pesTimeUs = -9223372036854775807L;
                     this.startedFirstSample = true;
                 }
-                if (i3 == 0) {
-                    z = true;
-                }
-                this.sampleHasPicture = z;
+                this.sampleHasPicture = i3 == 0;
             } else if (i3 == 184) {
                 this.sampleIsKeyframe = true;
             }
@@ -157,7 +153,7 @@ public final class H262Reader implements ElementaryStreamReader {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:9:0x006c  */
+    /* JADX WARN: Removed duplicated region for block: B:14:0x006c  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -251,18 +247,17 @@ public final class H262Reader implements ElementaryStreamReader {
         }
 
         public void onData(byte[] bArr, int i, int i2) {
-            if (!this.isFilling) {
-                return;
+            if (this.isFilling) {
+                int i3 = i2 - i;
+                byte[] bArr2 = this.data;
+                int length = bArr2.length;
+                int i4 = this.length;
+                if (length < i4 + i3) {
+                    this.data = Arrays.copyOf(bArr2, (i4 + i3) * 2);
+                }
+                System.arraycopy(bArr, i, this.data, this.length, i3);
+                this.length += i3;
             }
-            int i3 = i2 - i;
-            byte[] bArr2 = this.data;
-            int length = bArr2.length;
-            int i4 = this.length;
-            if (length < i4 + i3) {
-                this.data = Arrays.copyOf(bArr2, (i4 + i3) * 2);
-            }
-            System.arraycopy(bArr, i, this.data, this.length, i3);
-            this.length += i3;
         }
     }
 }

@@ -7,7 +7,7 @@ import org.telegram.tgnet.TLRPC$Message;
 /* loaded from: classes.dex */
 public class MessageCustomParamsHelper {
     public static boolean isEmpty(TLRPC$Message tLRPC$Message) {
-        return tLRPC$Message.voiceTranscription == null && !tLRPC$Message.voiceTranscriptionOpen && !tLRPC$Message.voiceTranscriptionFinal && !tLRPC$Message.voiceTranscriptionRated && !tLRPC$Message.voiceTranscriptionForce && tLRPC$Message.voiceTranscriptionId == 0 && !tLRPC$Message.premiumEffectWasPlayed;
+        return (tLRPC$Message.voiceTranscription != null || tLRPC$Message.voiceTranscriptionOpen || tLRPC$Message.voiceTranscriptionFinal || tLRPC$Message.voiceTranscriptionRated || tLRPC$Message.voiceTranscriptionForce || tLRPC$Message.voiceTranscriptionId != 0 || tLRPC$Message.premiumEffectWasPlayed) ? false : true;
     }
 
     public static void copyParams(TLRPC$Message tLRPC$Message, TLRPC$Message tLRPC$Message2) {
@@ -54,12 +54,11 @@ public class MessageCustomParamsHelper {
         final TLRPC$Message message;
 
         private Params_v1(TLRPC$Message tLRPC$Message) {
-            int i = 0;
             this.flags = 0;
             this.message = tLRPC$Message;
-            int i2 = (tLRPC$Message.voiceTranscription != null ? 1 : 0) + 0;
-            this.flags = i2;
-            this.flags = i2 + (tLRPC$Message.voiceTranscriptionForce ? 2 : i);
+            int i = (tLRPC$Message.voiceTranscription != null ? 1 : 0) + 0;
+            this.flags = i;
+            this.flags = i + (tLRPC$Message.voiceTranscriptionForce ? 2 : 0);
         }
 
         @Override // org.telegram.tgnet.TLObject
@@ -80,17 +79,13 @@ public class MessageCustomParamsHelper {
 
         @Override // org.telegram.tgnet.TLObject
         public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
-            boolean z2 = true;
             int readInt32 = abstractSerializedData.readInt32(true);
             this.flags = readInt32;
             if ((readInt32 & 1) != 0) {
                 this.message.voiceTranscription = abstractSerializedData.readString(z);
             }
             TLRPC$Message tLRPC$Message = this.message;
-            if ((this.flags & 2) == 0) {
-                z2 = false;
-            }
-            tLRPC$Message.voiceTranscriptionForce = z2;
+            tLRPC$Message.voiceTranscriptionForce = (this.flags & 2) != 0;
             tLRPC$Message.voiceTranscriptionOpen = abstractSerializedData.readBool(z);
             this.message.voiceTranscriptionFinal = abstractSerializedData.readBool(z);
             this.message.voiceTranscriptionRated = abstractSerializedData.readBool(z);

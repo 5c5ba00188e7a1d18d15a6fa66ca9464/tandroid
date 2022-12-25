@@ -25,14 +25,13 @@ public abstract class zzbn extends zzba {
             super();
             Objects.requireNonNull(bArr, "buffer");
             int i3 = i + i2;
-            if ((i | i2 | (bArr.length - i3)) >= 0) {
-                this.buffer = bArr;
-                this.offset = i;
-                this.position = i;
-                this.limit = i3;
-                return;
+            if ((i | i2 | (bArr.length - i3)) < 0) {
+                throw new IllegalArgumentException(String.format("Array range is invalid. Buffer.length=%d, offset=%d, length=%d", Integer.valueOf(bArr.length), Integer.valueOf(i), Integer.valueOf(i2)));
             }
-            throw new IllegalArgumentException(String.format("Array range is invalid. Buffer.length=%d, offset=%d, length=%d", Integer.valueOf(bArr.length), Integer.valueOf(i), Integer.valueOf(i2)));
+            this.buffer = bArr;
+            this.offset = i;
+            this.position = i;
+            this.limit = i3;
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
@@ -678,12 +677,11 @@ public abstract class zzbn extends zzba {
         @Override // com.google.android.gms.internal.clearcut.zzbn
         public final void zza(byte b) throws IOException {
             long j = this.zzgi;
-            if (j < this.zzgg) {
-                this.zzgi = 1 + j;
-                zzfd.zza(j, b);
-                return;
+            if (j >= this.zzgg) {
+                throw new zzc(String.format("Pos: %d, limit: %d, len: %d", Long.valueOf(this.zzgi), Long.valueOf(this.zzgg), 1));
             }
-            throw new zzc(String.format("Pos: %d, limit: %d, len: %d", Long.valueOf(this.zzgi), Long.valueOf(this.zzgg), 1));
+            this.zzgi = 1 + j;
+            zzfd.zza(j, b);
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn

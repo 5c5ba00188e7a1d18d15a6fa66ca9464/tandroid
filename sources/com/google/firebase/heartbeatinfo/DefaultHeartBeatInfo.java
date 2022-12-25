@@ -43,16 +43,16 @@ public class DefaultHeartBeatInfo implements HeartBeatInfo {
         long currentTimeMillis = System.currentTimeMillis();
         boolean shouldSendSdkHeartBeat = this.storageProvider.get().shouldSendSdkHeartBeat(str, currentTimeMillis);
         boolean shouldSendGlobalHeartBeat = this.storageProvider.get().shouldSendGlobalHeartBeat(currentTimeMillis);
-        if (!shouldSendSdkHeartBeat || !shouldSendGlobalHeartBeat) {
-            if (shouldSendGlobalHeartBeat) {
-                return HeartBeatInfo.HeartBeat.GLOBAL;
-            }
-            if (shouldSendSdkHeartBeat) {
-                return HeartBeatInfo.HeartBeat.SDK;
-            }
-            return HeartBeatInfo.HeartBeat.NONE;
+        if (shouldSendSdkHeartBeat && shouldSendGlobalHeartBeat) {
+            return HeartBeatInfo.HeartBeat.COMBINED;
         }
-        return HeartBeatInfo.HeartBeat.COMBINED;
+        if (shouldSendGlobalHeartBeat) {
+            return HeartBeatInfo.HeartBeat.GLOBAL;
+        }
+        if (shouldSendSdkHeartBeat) {
+            return HeartBeatInfo.HeartBeat.SDK;
+        }
+        return HeartBeatInfo.HeartBeat.NONE;
     }
 
     public static Component<HeartBeatInfo> component() {

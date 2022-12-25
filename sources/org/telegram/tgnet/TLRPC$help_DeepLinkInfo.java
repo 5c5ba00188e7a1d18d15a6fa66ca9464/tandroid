@@ -15,12 +15,12 @@ public abstract class TLRPC$help_DeepLinkInfo extends TLObject {
         } else {
             tLRPC$help_DeepLinkInfo = i != 1783556146 ? null : new TLRPC$TL_help_deepLinkInfo();
         }
-        if (tLRPC$help_DeepLinkInfo != null || !z) {
-            if (tLRPC$help_DeepLinkInfo != null) {
-                tLRPC$help_DeepLinkInfo.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$help_DeepLinkInfo;
+        if (tLRPC$help_DeepLinkInfo == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in help_DeepLinkInfo", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in help_DeepLinkInfo", Integer.valueOf(i)));
+        if (tLRPC$help_DeepLinkInfo != null) {
+            tLRPC$help_DeepLinkInfo.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$help_DeepLinkInfo;
     }
 }

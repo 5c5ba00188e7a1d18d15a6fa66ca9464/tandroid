@@ -24,32 +24,33 @@ import org.telegram.ui.Components.ShareLocationDrawable;
 /* loaded from: classes3.dex */
 public class SendLocationCell extends FrameLayout {
     private SimpleTextView accurateTextView;
+    private int currentAccount;
     private long dialogId;
     private ImageView imageView;
+    private Runnable invalidateRunnable;
     private boolean live;
     private RectF rect;
     private final Theme.ResourcesProvider resourcesProvider;
     private SimpleTextView titleTextView;
-    private int currentAccount = UserConfig.selectedAccount;
-    private Runnable invalidateRunnable = new Runnable() { // from class: org.telegram.ui.Cells.SendLocationCell.1
-        @Override // java.lang.Runnable
-        public void run() {
-            SendLocationCell.this.checkText();
-            SendLocationCell sendLocationCell = SendLocationCell.this;
-            sendLocationCell.invalidate(((int) sendLocationCell.rect.left) - 5, ((int) SendLocationCell.this.rect.top) - 5, ((int) SendLocationCell.this.rect.right) + 5, ((int) SendLocationCell.this.rect.bottom) + 5);
-            AndroidUtilities.runOnUIThread(SendLocationCell.this.invalidateRunnable, 1000L);
-        }
-    };
 
     public SendLocationCell(Context context, boolean z, Theme.ResourcesProvider resourcesProvider) {
         super(context);
+        this.currentAccount = UserConfig.selectedAccount;
+        this.invalidateRunnable = new Runnable() { // from class: org.telegram.ui.Cells.SendLocationCell.1
+            @Override // java.lang.Runnable
+            public void run() {
+                SendLocationCell.this.checkText();
+                SendLocationCell sendLocationCell = SendLocationCell.this;
+                sendLocationCell.invalidate(((int) sendLocationCell.rect.left) - 5, ((int) SendLocationCell.this.rect.top) - 5, ((int) SendLocationCell.this.rect.right) + 5, ((int) SendLocationCell.this.rect.bottom) + 5);
+                AndroidUtilities.runOnUIThread(SendLocationCell.this.invalidateRunnable, 1000L);
+            }
+        };
         this.resourcesProvider = resourcesProvider;
         this.live = z;
         this.imageView = new ImageView(context);
         setBackground(Theme.AdaptiveRipple.rect());
         this.imageView.setTag(z ? "location_sendLiveLocationBackgroundlocation_sendLiveLocationIcon" : "location_sendLocationBackgroundlocation_sendLocationIcon");
-        String str = "location_sendLiveLocationBackground";
-        Drawable createSimpleSelectorCircleDrawable = Theme.createSimpleSelectorCircleDrawable(AndroidUtilities.dp(42.0f), getThemedColor(z ? str : "location_sendLocationBackground"), getThemedColor(!z ? "location_sendLocationBackground" : str));
+        Drawable createSimpleSelectorCircleDrawable = Theme.createSimpleSelectorCircleDrawable(AndroidUtilities.dp(42.0f), getThemedColor(z ? "location_sendLiveLocationBackground" : "location_sendLocationBackground"), getThemedColor(z ? "location_sendLiveLocationBackground" : "location_sendLocationBackground"));
         if (z) {
             this.rect = new RectF();
             ShareLocationDrawable shareLocationDrawable = new ShareLocationDrawable(context, 4);
@@ -69,14 +70,12 @@ public class SendLocationCell extends FrameLayout {
         }
         ImageView imageView = this.imageView;
         boolean z2 = LocaleController.isRTL;
-        int i = 5;
-        addView(imageView, LayoutHelper.createFrame(42, 42.0f, (z2 ? 5 : 3) | 48, z2 ? 0.0f : 15.0f, 12.0f, !z2 ? 0.0f : 15.0f, 0.0f));
+        addView(imageView, LayoutHelper.createFrame(42, 42.0f, (z2 ? 5 : 3) | 48, z2 ? 0.0f : 15.0f, 12.0f, z2 ? 15.0f : 0.0f, 0.0f));
         SimpleTextView simpleTextView = new SimpleTextView(context);
         this.titleTextView = simpleTextView;
         simpleTextView.setTextSize(16);
-        String str2 = "location_sendLiveLocationText";
-        this.titleTextView.setTag(z ? str2 : "location_sendLocationText");
-        this.titleTextView.setTextColor(getThemedColor(!z ? "location_sendLocationText" : str2));
+        this.titleTextView.setTag(z ? "location_sendLiveLocationText" : "location_sendLocationText");
+        this.titleTextView.setTextColor(getThemedColor(z ? "location_sendLiveLocationText" : "location_sendLocationText"));
         this.titleTextView.setGravity(LocaleController.isRTL ? 5 : 3);
         this.titleTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         SimpleTextView simpleTextView2 = this.titleTextView;
@@ -89,7 +88,7 @@ public class SendLocationCell extends FrameLayout {
         this.accurateTextView.setGravity(LocaleController.isRTL ? 5 : 3);
         SimpleTextView simpleTextView4 = this.accurateTextView;
         boolean z4 = LocaleController.isRTL;
-        addView(simpleTextView4, LayoutHelper.createFrame(-1, 20.0f, (!z4 ? 3 : i) | 48, z4 ? 16.0f : 73.0f, 37.0f, z4 ? 73.0f : 16.0f, 0.0f));
+        addView(simpleTextView4, LayoutHelper.createFrame(-1, 20.0f, (z4 ? 5 : 3) | 48, z4 ? 16.0f : 73.0f, 37.0f, z4 ? 73.0f : 16.0f, 0.0f));
     }
 
     private ImageView getImageView() {
@@ -98,14 +97,9 @@ public class SendLocationCell extends FrameLayout {
 
     public void setHasLocation(boolean z) {
         if (LocationController.getInstance(this.currentAccount).getSharingLocationInfo(this.dialogId) == null) {
-            float f = 1.0f;
             this.titleTextView.setAlpha(z ? 1.0f : 0.5f);
             this.accurateTextView.setAlpha(z ? 1.0f : 0.5f);
-            ImageView imageView = this.imageView;
-            if (!z) {
-                f = 0.5f;
-            }
-            imageView.setAlpha(f);
+            this.imageView.setAlpha(z ? 1.0f : 0.5f);
         }
         if (this.live) {
             checkText();

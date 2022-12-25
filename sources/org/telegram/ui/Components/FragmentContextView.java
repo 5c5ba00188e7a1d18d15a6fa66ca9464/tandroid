@@ -295,10 +295,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
                     f2 = 0.0f;
                 } else {
                     long currentTimeMillis = (groupCall.call.schedule_date * 1000) - FragmentContextView.this.fragment.getConnectionsManager().getCurrentTimeMillis();
-                    f2 = 1.0f;
-                    if (currentTimeMillis >= 0) {
-                        f2 = currentTimeMillis < 5000 ? 1.0f - (((float) currentTimeMillis) / 5000.0f) : 0.0f;
-                    }
+                    f2 = currentTimeMillis >= 0 ? currentTimeMillis < 5000 ? 1.0f - (((float) currentTimeMillis) / 5000.0f) : 0.0f : 1.0f;
                     if (currentTimeMillis < 6000) {
                         invalidate();
                     }
@@ -455,7 +452,10 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
         this.silentButton.setOnClickListener(FragmentContextView$$ExternalSyntheticLambda8.INSTANCE);
         this.silentButton.setVisibility(8);
         addView(this.silentButton, LayoutHelper.createFrame(36, 36.0f, 53, 0.0f, 0.0f, 36.0f, 0.0f));
-        if (!z) {
+        if (z) {
+            i = 51;
+            f = 14.0f;
+        } else {
             i = 51;
             f = 14.0f;
             ActionBarMenuItem actionBarMenuItem = new ActionBarMenuItem(context, (ActionBarMenu) null, 0, getThemedColor("dialogTextBlack"), resourcesProvider);
@@ -495,9 +495,6 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
                 }
             });
             updatePlaybackButton();
-        } else {
-            i = 51;
-            f = 14.0f;
         }
         AvatarsImageView avatarsImageView = new AvatarsImageView(context, false);
         this.avatars = avatarsImageView;
@@ -620,23 +617,25 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes3.dex */
     public class 7 extends RLottieImageView {
+        private final Runnable pressRunnable;
         boolean pressed;
         boolean scheduled;
-        private final Runnable toggleMicRunnable = new Runnable() { // from class: org.telegram.ui.Components.FragmentContextView$7$$ExternalSyntheticLambda0
-            @Override // java.lang.Runnable
-            public final void run() {
-                FragmentContextView.7.this.lambda$$0();
-            }
-        };
-        private final Runnable pressRunnable = new Runnable() { // from class: org.telegram.ui.Components.FragmentContextView$7$$ExternalSyntheticLambda1
-            @Override // java.lang.Runnable
-            public final void run() {
-                FragmentContextView.7.this.lambda$$1();
-            }
-        };
+        private final Runnable toggleMicRunnable;
 
         7(Context context) {
             super(context);
+            this.toggleMicRunnable = new Runnable() { // from class: org.telegram.ui.Components.FragmentContextView$7$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    FragmentContextView.7.this.lambda$$0();
+                }
+            };
+            this.pressRunnable = new Runnable() { // from class: org.telegram.ui.Components.FragmentContextView$7$$ExternalSyntheticLambda1
+                @Override // java.lang.Runnable
+                public final void run() {
+                    FragmentContextView.7.this.lambda$$1();
+                }
+            };
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -789,10 +788,10 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
             AlertDialog create = builder.create();
             builder.show();
             TextView textView = (TextView) create.getButton(-1);
-            if (textView == null) {
+            if (textView != null) {
+                textView.setTextColor(getThemedColor("dialogTextRed2"));
                 return;
             }
-            textView.setTextColor(getThemedColor("dialogTextRed2"));
             return;
         }
         MediaController.getInstance().cleanupPlayer(true, true);
@@ -815,24 +814,20 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
         ChatObject.Call groupCall;
         long j;
         int i = this.currentStyle;
-        long j2 = 0;
         if (i == 0) {
             MessageObject playingMessageObject = MediaController.getInstance().getPlayingMessageObject();
             if (this.fragment == null || playingMessageObject == null) {
                 return;
             }
             if (playingMessageObject.isMusic()) {
-                if (!(getContext() instanceof LaunchActivity)) {
+                if (getContext() instanceof LaunchActivity) {
+                    this.fragment.showDialog(new AudioPlayerAlert(getContext(), resourcesProvider));
                     return;
                 }
-                this.fragment.showDialog(new AudioPlayerAlert(getContext(), resourcesProvider));
                 return;
             }
             ChatActivityInterface chatActivityInterface = this.chatActivity;
-            if (chatActivityInterface != null) {
-                j2 = chatActivityInterface.getDialogId();
-            }
-            if (playingMessageObject.getDialogId() == j2) {
+            if (playingMessageObject.getDialogId() == (chatActivityInterface != null ? chatActivityInterface.getDialogId() : 0L)) {
                 this.chatActivity.scrollToMessageId(playingMessageObject.getId(), 0, false, 0, true, 0);
                 return;
             }
@@ -892,10 +887,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
             }
             TLRPC$Chat chat = this.fragment.getMessagesController().getChat(Long.valueOf(groupCall.chatId));
             TLRPC$GroupCall tLRPC$GroupCall = groupCall.call;
-            if (tLRPC$GroupCall == null || tLRPC$GroupCall.rtmp_stream) {
-                z = false;
-            }
-            Boolean valueOf = Boolean.valueOf(z);
+            Boolean valueOf = Boolean.valueOf((tLRPC$GroupCall == null || tLRPC$GroupCall.rtmp_stream) ? false : false);
             Activity parentActivity = this.fragment.getParentActivity();
             BaseFragment baseFragment2 = this.fragment;
             VoIPHelper.startCall(chat, null, null, false, valueOf, parentActivity, baseFragment2, baseFragment2.getAccountInstance());
@@ -952,10 +944,9 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
         if (this.playbackSpeedButton != null) {
             String str = Math.abs(MediaController.getInstance().getPlaybackSpeed(this.isMusic) - 1.0f) > 0.001f ? "inappPlayerPlayPause" : "inappPlayerClose";
             this.playbackSpeedButton.setIconColor(getThemedColor(str));
-            if (Build.VERSION.SDK_INT < 21) {
-                return;
+            if (Build.VERSION.SDK_INT >= 21) {
+                this.playbackSpeedButton.setBackgroundDrawable(Theme.createSelectorDrawable(getThemedColor(str) & 436207615, 1, AndroidUtilities.dp(14.0f)));
             }
-            this.playbackSpeedButton.setBackgroundDrawable(Theme.createSelectorDrawable(getThemedColor(str) & 436207615, 1, AndroidUtilities.dp(14.0f)));
         }
     }
 
@@ -992,17 +983,16 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
         return this.topPadding;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:41:0x0099, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:38:0x0099, code lost:
         if (r0.getId() != 0) goto L8;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:6:0x0010, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:7:0x0010, code lost:
         if (org.telegram.messenger.LocationController.getLocationsCount() != 0) goto L8;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private void checkVisibility() {
-        int i = 0;
         boolean z = true;
         if (this.isLocation) {
             BaseFragment baseFragment = this.fragment;
@@ -1022,10 +1012,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
                 z = false;
             }
         }
-        if (!z) {
-            i = 8;
-        }
-        setVisibility(i);
+        setVisibility(z ? 0 : 8);
     }
 
     @Keep
@@ -1169,10 +1156,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
             this.importingImageView.setVisibility(8);
             this.importingImageView.stopAnimation();
             ChatActivityInterface chatActivityInterface = this.chatActivity;
-            if (chatActivityInterface == null || chatActivityInterface.getGroupCall() == null || this.chatActivity.getGroupCall().call == null || !this.chatActivity.getGroupCall().call.rtmp_stream) {
-                z = false;
-            }
-            this.avatars.setVisibility(!z ? 0 : 8);
+            this.avatars.setVisibility(!((chatActivityInterface == null || chatActivityInterface.getGroupCall() == null || this.chatActivity.getGroupCall().call == null || !this.chatActivity.getGroupCall().call.rtmp_stream) ? false : false) ? 0 : 8);
             if (this.avatars.getVisibility() != 8) {
                 updateAvatars(false);
             } else {
@@ -1182,13 +1166,11 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
             this.closeButton.setVisibility(8);
             this.playButton.setVisibility(8);
             ActionBarMenuItem actionBarMenuItem3 = this.playbackSpeedButton;
-            if (actionBarMenuItem3 == null) {
-                return;
+            if (actionBarMenuItem3 != null) {
+                actionBarMenuItem3.setVisibility(8);
+                this.playbackSpeedButton.setTag(null);
             }
-            actionBarMenuItem3.setVisibility(8);
-            this.playbackSpeedButton.setTag(null);
-        } else if (i != 1 && i != 3) {
-        } else {
+        } else if (i == 1 || i == 3) {
             this.selector.setBackground(null);
             updateCallTitle();
             boolean hasRtmpStream = VoIPService.hasRtmpStream();
@@ -1235,11 +1217,10 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
             this.titleTextView.setLayoutParams(LayoutHelper.createFrame(-2, -2.0f, 17, 0.0f, 0.0f, 0.0f, 2.0f));
             this.titleTextView.setPadding(AndroidUtilities.dp(112.0f), 0, AndroidUtilities.dp(112.0f), 0);
             ActionBarMenuItem actionBarMenuItem4 = this.playbackSpeedButton;
-            if (actionBarMenuItem4 == null) {
-                return;
+            if (actionBarMenuItem4 != null) {
+                actionBarMenuItem4.setVisibility(8);
+                this.playbackSpeedButton.setTag(null);
             }
-            actionBarMenuItem4.setVisibility(8);
-            this.playbackSpeedButton.setTag(null);
         }
     }
 
@@ -1290,7 +1271,6 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
     @Override // android.view.ViewGroup, android.view.View
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        int i = 15;
         if (this.isLocation) {
             NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.liveLocationsChanged);
             NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.liveLocationsCacheChanged);
@@ -1300,13 +1280,13 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
             }
             checkLiveLocation(true);
         } else {
-            for (int i2 = 0; i2 < 4; i2++) {
-                NotificationCenter.getInstance(i2).addObserver(this, NotificationCenter.messagePlayingDidReset);
-                NotificationCenter.getInstance(i2).addObserver(this, NotificationCenter.messagePlayingPlayStateChanged);
-                NotificationCenter.getInstance(i2).addObserver(this, NotificationCenter.messagePlayingDidStart);
-                NotificationCenter.getInstance(i2).addObserver(this, NotificationCenter.groupCallUpdated);
-                NotificationCenter.getInstance(i2).addObserver(this, NotificationCenter.groupCallTypingsUpdated);
-                NotificationCenter.getInstance(i2).addObserver(this, NotificationCenter.historyImportProgressChanged);
+            for (int i = 0; i < 4; i++) {
+                NotificationCenter.getInstance(i).addObserver(this, NotificationCenter.messagePlayingDidReset);
+                NotificationCenter.getInstance(i).addObserver(this, NotificationCenter.messagePlayingPlayStateChanged);
+                NotificationCenter.getInstance(i).addObserver(this, NotificationCenter.messagePlayingDidStart);
+                NotificationCenter.getInstance(i).addObserver(this, NotificationCenter.groupCallUpdated);
+                NotificationCenter.getInstance(i).addObserver(this, NotificationCenter.groupCallTypingsUpdated);
+                NotificationCenter.getInstance(i).addObserver(this, NotificationCenter.historyImportProgressChanged);
             }
             NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.messagePlayingSpeedChanged);
             NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.didStartedCall);
@@ -1333,8 +1313,8 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
                 }
             }
         }
-        int i3 = this.currentStyle;
-        if (i3 == 3 || i3 == 1) {
+        int i2 = this.currentStyle;
+        if (i2 == 3 || i2 == 1) {
             Theme.getFragmentContextViewWavesDrawable().addParent(this);
             if (VoIPService.getSharedInstance() != null) {
                 VoIPService.getSharedInstance().registerStateListener(this);
@@ -1342,16 +1322,12 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
             boolean z = VoIPService.getSharedInstance() != null && VoIPService.getSharedInstance().isMicMute();
             if (this.isMuted != z) {
                 this.isMuted = z;
+                this.muteDrawable.setCustomEndFrame(z ? 15 : 29);
                 RLottieDrawable rLottieDrawable = this.muteDrawable;
-                if (!z) {
-                    i = 29;
-                }
-                rLottieDrawable.setCustomEndFrame(i);
-                RLottieDrawable rLottieDrawable2 = this.muteDrawable;
-                rLottieDrawable2.setCurrentFrame(rLottieDrawable2.getCustomEndFrame() - 1, false, true);
+                rLottieDrawable.setCurrentFrame(rLottieDrawable.getCustomEndFrame() - 1, false, true);
                 this.muteButton.invalidate();
             }
-        } else if (i3 == 4 && !this.scheduleRunnableScheduled) {
+        } else if (i2 == 4 && !this.scheduleRunnableScheduled) {
             this.scheduleRunnableScheduled = true;
             this.updateScheduleTimeRunnable.run();
         }
@@ -1375,13 +1351,11 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
         if (i == NotificationCenter.liveLocationsChanged) {
             checkLiveLocation(false);
         } else if (i == NotificationCenter.liveLocationsCacheChanged) {
-            if (this.chatActivity == null) {
-                return;
+            if (this.chatActivity != null) {
+                if (this.chatActivity.getDialogId() == ((Long) objArr[0]).longValue()) {
+                    checkLocationString();
+                }
             }
-            if (this.chatActivity.getDialogId() != ((Long) objArr[0]).longValue()) {
-                return;
-            }
-            checkLocationString();
         } else if (i == NotificationCenter.messagePlayingDidStart || i == NotificationCenter.messagePlayingPlayStateChanged || i == NotificationCenter.messagePlayingDidReset || i == NotificationCenter.didEndCall) {
             int i3 = this.currentStyle;
             if (i3 == 1 || i3 == 3 || i3 == 4) {
@@ -1406,24 +1380,23 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
                 long uptimeMillis = SystemClock.uptimeMillis();
                 this.muteButton.dispatchTouchEvent(MotionEvent.obtain(uptimeMillis, uptimeMillis, 3, 0.0f, 0.0f, 0));
             } else if (i == NotificationCenter.groupCallTypingsUpdated) {
-                if (!this.visible || this.currentStyle != 4) {
-                    return;
-                }
-                ChatObject.Call groupCall = this.chatActivity.getGroupCall();
-                if (groupCall != null) {
-                    if (groupCall.isScheduled()) {
-                        this.subtitleTextView.setText(LocaleController.formatStartsTime(groupCall.call.schedule_date, 4), false);
-                    } else {
-                        TLRPC$GroupCall tLRPC$GroupCall = groupCall.call;
-                        int i5 = tLRPC$GroupCall.participants_count;
-                        if (i5 == 0) {
-                            this.subtitleTextView.setText(LocaleController.getString(tLRPC$GroupCall.rtmp_stream ? R.string.ViewersWatchingNobody : R.string.MembersTalkingNobody), false);
+                if (this.visible && this.currentStyle == 4) {
+                    ChatObject.Call groupCall = this.chatActivity.getGroupCall();
+                    if (groupCall != null) {
+                        if (groupCall.isScheduled()) {
+                            this.subtitleTextView.setText(LocaleController.formatStartsTime(groupCall.call.schedule_date, 4), false);
                         } else {
-                            this.subtitleTextView.setText(LocaleController.formatPluralString(tLRPC$GroupCall.rtmp_stream ? "ViewersWatching" : "Participants", i5, new Object[0]), false);
+                            TLRPC$GroupCall tLRPC$GroupCall = groupCall.call;
+                            int i5 = tLRPC$GroupCall.participants_count;
+                            if (i5 == 0) {
+                                this.subtitleTextView.setText(LocaleController.getString(tLRPC$GroupCall.rtmp_stream ? R.string.ViewersWatchingNobody : R.string.MembersTalkingNobody), false);
+                            } else {
+                                this.subtitleTextView.setText(LocaleController.formatPluralString(tLRPC$GroupCall.rtmp_stream ? "ViewersWatching" : "Participants", i5, new Object[0]), false);
+                            }
                         }
                     }
+                    updateAvatars(true);
                 }
-                updateAvatars(true);
             } else if (i == NotificationCenter.historyImportProgressChanged) {
                 int i6 = this.currentStyle;
                 if (i6 == 1 || i6 == 3 || i6 == 4) {
@@ -1438,12 +1411,10 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
                 } else {
                     this.micAmplitude = Math.min(8500.0f, ((Float) objArr[0]).floatValue() * 4000.0f) / 8500.0f;
                 }
-                if (VoIPService.getSharedInstance() == null) {
-                    return;
+                if (VoIPService.getSharedInstance() != null) {
+                    Theme.getFragmentContextViewWavesDrawable().setAmplitude(Math.max(this.speakerAmplitude, this.micAmplitude));
                 }
-                Theme.getFragmentContextViewWavesDrawable().setAmplitude(Math.max(this.speakerAmplitude, this.micAmplitude));
-            } else if (i != NotificationCenter.webRtcSpeakerAmplitudeEvent) {
-            } else {
+            } else if (i == NotificationCenter.webRtcSpeakerAmplitudeEvent) {
                 this.speakerAmplitude = Math.max(0.0f, Math.min((((Float) objArr[0]).floatValue() * 15.0f) / 80.0f, 1.0f));
                 if (VoIPService.getSharedInstance() == null || VoIPService.getSharedInstance().isMicMute()) {
                     this.micAmplitude = 0.0f;
@@ -1482,37 +1453,37 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
         if (!isSharingLocation) {
             this.lastLocationSharingCount = -1;
             AndroidUtilities.cancelRunOnUIThread(this.checkLocationRunnable);
-            if (!this.visible) {
-                return;
-            }
-            this.visible = false;
-            if (z) {
-                if (getVisibility() != 8) {
-                    setVisibility(8);
-                }
-                setTopPadding(0.0f);
-                return;
-            }
-            AnimatorSet animatorSet = this.animatorSet;
-            if (animatorSet != null) {
-                animatorSet.cancel();
-                this.animatorSet = null;
-            }
-            AnimatorSet animatorSet2 = new AnimatorSet();
-            this.animatorSet = animatorSet2;
-            animatorSet2.playTogether(ObjectAnimator.ofFloat(this, "topPadding", 0.0f));
-            this.animatorSet.setDuration(200L);
-            this.animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.FragmentContextView.8
-                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                public void onAnimationEnd(Animator animator) {
-                    if (FragmentContextView.this.animatorSet == null || !FragmentContextView.this.animatorSet.equals(animator)) {
-                        return;
+            if (this.visible) {
+                this.visible = false;
+                if (z) {
+                    if (getVisibility() != 8) {
+                        setVisibility(8);
                     }
-                    FragmentContextView.this.setVisibility(8);
-                    FragmentContextView.this.animatorSet = null;
+                    setTopPadding(0.0f);
+                    return;
                 }
-            });
-            this.animatorSet.start();
+                AnimatorSet animatorSet = this.animatorSet;
+                if (animatorSet != null) {
+                    animatorSet.cancel();
+                    this.animatorSet = null;
+                }
+                AnimatorSet animatorSet2 = new AnimatorSet();
+                this.animatorSet = animatorSet2;
+                animatorSet2.playTogether(ObjectAnimator.ofFloat(this, "topPadding", 0.0f));
+                this.animatorSet.setDuration(200L);
+                this.animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.FragmentContextView.8
+                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                    public void onAnimationEnd(Animator animator) {
+                        if (FragmentContextView.this.animatorSet == null || !FragmentContextView.this.animatorSet.equals(animator)) {
+                            return;
+                        }
+                        FragmentContextView.this.setVisibility(8);
+                        FragmentContextView.this.animatorSet = null;
+                    }
+                });
+                this.animatorSet.start();
+                return;
+            }
             return;
         }
         updateStyle(2);
@@ -1673,7 +1644,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
         boolean z3 = this.visible;
         if (playingMessageObject == null || playingMessageObject.getId() == 0 || playingMessageObject.isVideo()) {
             this.lastMessageObject = null;
-            boolean z4 = this.supportsCalls && VoIPService.getSharedInstance() != null && !VoIPService.getSharedInstance().isHangingUp() && VoIPService.getSharedInstance().getCallState() != 15 && !GroupCallPip.isShowing();
+            boolean z4 = (!this.supportsCalls || VoIPService.getSharedInstance() == null || VoIPService.getSharedInstance().isHangingUp() || VoIPService.getSharedInstance().getCallState() == 15 || GroupCallPip.isShowing()) ? false : true;
             if (!isPlayingVoice() && !z4 && this.chatActivity != null && !GroupCallPip.isShowing()) {
                 ChatObject.Call groupCall = this.chatActivity.getGroupCall();
                 z4 = groupCall != null && groupCall.shouldShowPanel();
@@ -1865,11 +1836,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
             }
         }
         spannableStringBuilder.setSpan(new TypefaceSpan(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM), 0, getThemedColor("inappPlayerPerformer")), 0, playingMessageObject.getMusicAuthor().length(), 18);
-        AudioPlayerAlert.ClippingTextViewSwitcher clippingTextViewSwitcher3 = this.titleTextView;
-        if (z || !z3 || !this.isMusic) {
-            z2 = false;
-        }
-        clippingTextViewSwitcher3.setText(spannableStringBuilder, z2);
+        this.titleTextView.setText(spannableStringBuilder, (!z && z3 && this.isMusic) ? false : false);
     }
 
     public void checkImport(boolean z) {
@@ -1936,11 +1903,10 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
                     return;
                 }
                 int i3 = this.currentStyle;
-                if (i3 != -1 && i3 != 5) {
-                    return;
+                if (i3 == -1 || i3 == 5) {
+                    this.visible = false;
+                    setVisibility(8);
                 }
-                this.visible = false;
-                setVisibility(8);
             } else if (this.currentStyle != 5 && this.animatorSet != null && !z) {
                 this.checkImportAfterAnimation = true;
             } else {
@@ -2007,11 +1973,10 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
                 }
                 int i4 = this.currentProgress;
                 int i5 = importingHistory.uploadProgress;
-                if (i4 == i5) {
-                    return;
+                if (i4 != i5) {
+                    this.currentProgress = i5;
+                    this.titleTextView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("ImportUploading", R.string.ImportUploading, Integer.valueOf(i5))), false);
                 }
-                this.currentProgress = i5;
-                this.titleTextView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("ImportUploading", R.string.ImportUploading, Integer.valueOf(i5))), false);
             }
         }
     }
@@ -2021,8 +1986,8 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
         return playingMessageObject != null && playingMessageObject.isVoice();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:25:0x0092  */
-    /* JADX WARN: Removed duplicated region for block: B:64:0x013a  */
+    /* JADX WARN: Removed duplicated region for block: B:54:0x0092  */
+    /* JADX WARN: Removed duplicated region for block: B:88:0x013a  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2037,198 +2002,52 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
         ChatActivityInterface chatActivityInterface2;
         int i3;
         VoIPService sharedInstance = VoIPService.getSharedInstance();
-        if (!this.visible || this.currentStyle != 5 || (sharedInstance != null && !sharedInstance.isHangingUp())) {
-            View fragmentView = this.fragment.getFragmentView();
-            boolean z4 = (z || fragmentView == null || (fragmentView.getParent() != null && ((View) fragmentView.getParent()).getVisibility() == 0)) ? z : true;
-            if (GroupCallPip.isShowing()) {
+        if (this.visible && this.currentStyle == 5 && (sharedInstance == null || sharedInstance.isHangingUp())) {
+            return;
+        }
+        View fragmentView = this.fragment.getFragmentView();
+        boolean z4 = (z || fragmentView == null || (fragmentView.getParent() != null && ((View) fragmentView.getParent()).getVisibility() == 0)) ? z : true;
+        if (GroupCallPip.isShowing()) {
+            z2 = false;
+        } else {
+            z2 = (GroupCallActivity.groupCallUiVisible || !this.supportsCalls || sharedInstance == null || sharedInstance.isHangingUp()) ? false : true;
+            if (sharedInstance != null && (call = sharedInstance.groupCall) != null && (call.call instanceof TLRPC$TL_groupCallDiscarded)) {
                 z2 = false;
-            } else {
-                z2 = !GroupCallActivity.groupCallUiVisible && this.supportsCalls && sharedInstance != null && !sharedInstance.isHangingUp();
-                if (sharedInstance != null && (call = sharedInstance.groupCall) != null && (call.call instanceof TLRPC$TL_groupCallDiscarded)) {
-                    z2 = false;
-                }
-                if (!isPlayingVoice() && !GroupCallActivity.groupCallUiVisible && this.supportsCalls && !z2 && (chatActivityInterface = this.chatActivity) != null && (groupCall = chatActivityInterface.getGroupCall()) != null && groupCall.shouldShowPanel()) {
-                    z2 = true;
-                    z3 = true;
-                    if (z2) {
-                        boolean z5 = this.visible;
-                        if (z5 && ((z4 && this.currentStyle == -1) || (i3 = this.currentStyle) == 4 || i3 == 3 || i3 == 1)) {
-                            this.visible = false;
-                            if (z4) {
-                                if (getVisibility() != 8) {
-                                    setVisibility(8);
-                                }
-                                setTopPadding(0.0f);
-                            } else {
-                                AnimatorSet animatorSet = this.animatorSet;
-                                if (animatorSet != null) {
-                                    animatorSet.cancel();
-                                    this.animatorSet = null;
-                                }
-                                final int i4 = this.account;
-                                this.animationIndex = NotificationCenter.getInstance(i4).setAnimationInProgress(this.animationIndex, null);
-                                AnimatorSet animatorSet2 = new AnimatorSet();
-                                this.animatorSet = animatorSet2;
-                                animatorSet2.playTogether(ObjectAnimator.ofFloat(this, "topPadding", 0.0f));
-                                this.animatorSet.setDuration(220L);
-                                this.animatorSet.setInterpolator(CubicBezierInterpolator.DEFAULT);
-                                this.animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.FragmentContextView.14
-                                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                                    public void onAnimationEnd(Animator animator) {
-                                        NotificationCenter.getInstance(i4).onAnimationFinish(FragmentContextView.this.animationIndex);
-                                        if (FragmentContextView.this.animatorSet == null || !FragmentContextView.this.animatorSet.equals(animator)) {
-                                            return;
-                                        }
-                                        FragmentContextView.this.setVisibility(8);
-                                        FragmentContextView.this.animatorSet = null;
-                                        if (!FragmentContextView.this.checkCallAfterAnimation) {
-                                            if (FragmentContextView.this.checkPlayerAfterAnimation) {
-                                                FragmentContextView.this.checkPlayer(false);
-                                            } else if (FragmentContextView.this.checkImportAfterAnimation) {
-                                                FragmentContextView.this.checkImport(false);
-                                            }
-                                        } else {
-                                            FragmentContextView.this.checkCall(false);
-                                        }
-                                        FragmentContextView.this.checkCallAfterAnimation = false;
-                                        FragmentContextView.this.checkPlayerAfterAnimation = false;
-                                        FragmentContextView.this.checkImportAfterAnimation = false;
-                                    }
-                                });
-                                this.animatorSet.start();
+            }
+            if (!isPlayingVoice() && !GroupCallActivity.groupCallUiVisible && this.supportsCalls && !z2 && (chatActivityInterface = this.chatActivity) != null && (groupCall = chatActivityInterface.getGroupCall()) != null && groupCall.shouldShowPanel()) {
+                z2 = true;
+                z3 = true;
+                if (z2) {
+                    boolean z5 = this.visible;
+                    if (z5 && ((z4 && this.currentStyle == -1) || (i3 = this.currentStyle) == 4 || i3 == 3 || i3 == 1)) {
+                        this.visible = false;
+                        if (z4) {
+                            if (getVisibility() != 8) {
+                                setVisibility(8);
                             }
-                        } else if (z5 && ((i2 = this.currentStyle) == -1 || i2 == 4 || i2 == 3 || i2 == 1)) {
-                            this.visible = false;
-                            setVisibility(8);
-                        }
-                        if (!z4 || (chatActivityInterface2 = this.chatActivity) == null || !chatActivityInterface2.openedWithLivestream() || GroupCallPip.isShowing()) {
-                            return;
-                        }
-                        BulletinFactory.of(this.fragment).createSimpleBulletin(R.raw.linkbroken, LocaleController.getString("InviteExpired", R.string.InviteExpired)).show();
-                        return;
-                    }
-                    if (z3) {
-                        i = 4;
-                    } else {
-                        i = sharedInstance.groupCall != null ? 3 : 1;
-                    }
-                    int i5 = this.currentStyle;
-                    if (i != i5 && this.animatorSet != null && !z4) {
-                        this.checkCallAfterAnimation = true;
-                        return;
-                    } else if (i != i5 && this.visible && !z4) {
-                        AnimatorSet animatorSet3 = this.animatorSet;
-                        if (animatorSet3 != null) {
-                            animatorSet3.cancel();
-                            this.animatorSet = null;
-                        }
-                        final int i6 = this.account;
-                        this.animationIndex = NotificationCenter.getInstance(i6).setAnimationInProgress(this.animationIndex, null);
-                        AnimatorSet animatorSet4 = new AnimatorSet();
-                        this.animatorSet = animatorSet4;
-                        animatorSet4.playTogether(ObjectAnimator.ofFloat(this, "topPadding", 0.0f));
-                        this.animatorSet.setDuration(220L);
-                        this.animatorSet.setInterpolator(CubicBezierInterpolator.DEFAULT);
-                        this.animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.FragmentContextView.15
-                            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                            public void onAnimationEnd(Animator animator) {
-                                NotificationCenter.getInstance(i6).onAnimationFinish(FragmentContextView.this.animationIndex);
-                                if (FragmentContextView.this.animatorSet == null || !FragmentContextView.this.animatorSet.equals(animator)) {
-                                    return;
-                                }
-                                FragmentContextView.this.visible = false;
-                                FragmentContextView.this.animatorSet = null;
-                                FragmentContextView.this.checkCall(false);
-                            }
-                        });
-                        this.animatorSet.start();
-                        return;
-                    } else {
-                        if (z3) {
-                            boolean z6 = i5 == 4 && this.visible;
-                            updateStyle(4);
-                            ChatObject.Call groupCall2 = this.chatActivity.getGroupCall();
-                            TLRPC$Chat currentChat = this.chatActivity.getCurrentChat();
-                            if (groupCall2.isScheduled()) {
-                                if (this.gradientPaint == null) {
-                                    TextPaint textPaint = new TextPaint(1);
-                                    this.gradientTextPaint = textPaint;
-                                    textPaint.setColor(-1);
-                                    this.gradientTextPaint.setTextSize(AndroidUtilities.dp(14.0f));
-                                    this.gradientTextPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
-                                    Paint paint = new Paint(1);
-                                    this.gradientPaint = paint;
-                                    paint.setColor(-1);
-                                    this.matrix = new Matrix();
-                                }
-                                this.joinButton.setVisibility(8);
-                                if (!TextUtils.isEmpty(groupCall2.call.title)) {
-                                    this.titleTextView.setText(groupCall2.call.title, false);
-                                } else if (ChatObject.isChannelOrGiga(currentChat)) {
-                                    this.titleTextView.setText(LocaleController.getString("VoipChannelScheduledVoiceChat", R.string.VoipChannelScheduledVoiceChat), false);
-                                } else {
-                                    this.titleTextView.setText(LocaleController.getString("VoipGroupScheduledVoiceChat", R.string.VoipGroupScheduledVoiceChat), false);
-                                }
-                                this.subtitleTextView.setText(LocaleController.formatStartsTime(groupCall2.call.schedule_date, 4), false);
-                                if (!this.scheduleRunnableScheduled) {
-                                    this.scheduleRunnableScheduled = true;
-                                    this.updateScheduleTimeRunnable.run();
-                                }
-                            } else {
-                                this.timeLayout = null;
-                                this.joinButton.setVisibility(0);
-                                if (groupCall2.call.rtmp_stream) {
-                                    this.titleTextView.setText(LocaleController.getString(R.string.VoipChannelVoiceChat), false);
-                                } else if (ChatObject.isChannelOrGiga(currentChat)) {
-                                    this.titleTextView.setText(LocaleController.getString("VoipChannelVoiceChat", R.string.VoipChannelVoiceChat), false);
-                                } else {
-                                    this.titleTextView.setText(LocaleController.getString("VoipGroupVoiceChat", R.string.VoipGroupVoiceChat), false);
-                                }
-                                TLRPC$GroupCall tLRPC$GroupCall = groupCall2.call;
-                                int i7 = tLRPC$GroupCall.participants_count;
-                                if (i7 == 0) {
-                                    this.subtitleTextView.setText(LocaleController.getString(tLRPC$GroupCall.rtmp_stream ? R.string.ViewersWatchingNobody : R.string.MembersTalkingNobody), false);
-                                } else {
-                                    this.subtitleTextView.setText(LocaleController.formatPluralString(tLRPC$GroupCall.rtmp_stream ? "ViewersWatching" : "Participants", i7, new Object[0]), false);
-                                }
-                                this.frameLayout.invalidate();
-                            }
-                            updateAvatars(this.avatars.avatarsDrawable.wasDraw && z6);
-                        } else if (sharedInstance != null && sharedInstance.groupCall != null) {
-                            updateAvatars(i5 == 3);
-                            updateStyle(3);
+                            setTopPadding(0.0f);
                         } else {
-                            updateAvatars(i5 == 1);
-                            updateStyle(1);
-                        }
-                        if (this.visible) {
-                            return;
-                        }
-                        if (!z4) {
-                            AnimatorSet animatorSet5 = this.animatorSet;
-                            if (animatorSet5 != null) {
-                                animatorSet5.cancel();
+                            AnimatorSet animatorSet = this.animatorSet;
+                            if (animatorSet != null) {
+                                animatorSet.cancel();
                                 this.animatorSet = null;
                             }
-                            this.animatorSet = new AnimatorSet();
-                            FragmentContextView fragmentContextView = this.additionalContextView;
-                            if (fragmentContextView != null && fragmentContextView.getVisibility() == 0) {
-                                ((FrameLayout.LayoutParams) getLayoutParams()).topMargin = -AndroidUtilities.dp(getStyleHeight() + this.additionalContextView.getStyleHeight());
-                            } else {
-                                ((FrameLayout.LayoutParams) getLayoutParams()).topMargin = -AndroidUtilities.dp(getStyleHeight());
-                            }
-                            final int i8 = this.account;
-                            this.animationIndex = NotificationCenter.getInstance(i8).setAnimationInProgress(this.animationIndex, new int[]{NotificationCenter.messagesDidLoad});
-                            this.animatorSet.playTogether(ObjectAnimator.ofFloat(this, "topPadding", AndroidUtilities.dp2(getStyleHeight())));
+                            final int i4 = this.account;
+                            this.animationIndex = NotificationCenter.getInstance(i4).setAnimationInProgress(this.animationIndex, null);
+                            AnimatorSet animatorSet2 = new AnimatorSet();
+                            this.animatorSet = animatorSet2;
+                            animatorSet2.playTogether(ObjectAnimator.ofFloat(this, "topPadding", 0.0f));
                             this.animatorSet.setDuration(220L);
                             this.animatorSet.setInterpolator(CubicBezierInterpolator.DEFAULT);
-                            this.animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.FragmentContextView.16
+                            this.animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.FragmentContextView.14
                                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                                 public void onAnimationEnd(Animator animator) {
-                                    NotificationCenter.getInstance(i8).onAnimationFinish(FragmentContextView.this.animationIndex);
-                                    if (FragmentContextView.this.animatorSet != null && FragmentContextView.this.animatorSet.equals(animator)) {
-                                        FragmentContextView.this.animatorSet = null;
+                                    NotificationCenter.getInstance(i4).onAnimationFinish(FragmentContextView.this.animationIndex);
+                                    if (FragmentContextView.this.animatorSet == null || !FragmentContextView.this.animatorSet.equals(animator)) {
+                                        return;
                                     }
+                                    FragmentContextView.this.setVisibility(8);
+                                    FragmentContextView.this.animatorSet = null;
                                     if (!FragmentContextView.this.checkCallAfterAnimation) {
                                         if (FragmentContextView.this.checkPlayerAfterAnimation) {
                                             FragmentContextView.this.checkPlayer(false);
@@ -2241,24 +2060,171 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
                                     FragmentContextView.this.checkCallAfterAnimation = false;
                                     FragmentContextView.this.checkPlayerAfterAnimation = false;
                                     FragmentContextView.this.checkImportAfterAnimation = false;
-                                    FragmentContextView.this.startJoinFlickerAnimation();
                                 }
                             });
                             this.animatorSet.start();
-                        } else {
-                            updatePaddings();
-                            setTopPadding(AndroidUtilities.dp2(getStyleHeight()));
-                            startJoinFlickerAnimation();
                         }
-                        this.visible = true;
-                        setVisibility(0);
+                    } else if (z5 && ((i2 = this.currentStyle) == -1 || i2 == 4 || i2 == 3 || i2 == 1)) {
+                        this.visible = false;
+                        setVisibility(8);
+                    }
+                    if (!z4 || (chatActivityInterface2 = this.chatActivity) == null || !chatActivityInterface2.openedWithLivestream() || GroupCallPip.isShowing()) {
                         return;
                     }
+                    BulletinFactory.of(this.fragment).createSimpleBulletin(R.raw.linkbroken, LocaleController.getString("InviteExpired", R.string.InviteExpired)).show();
+                    return;
+                }
+                if (z3) {
+                    i = 4;
+                } else {
+                    i = sharedInstance.groupCall != null ? 3 : 1;
+                }
+                int i5 = this.currentStyle;
+                if (i != i5 && this.animatorSet != null && !z4) {
+                    this.checkCallAfterAnimation = true;
+                    return;
+                } else if (i != i5 && this.visible && !z4) {
+                    AnimatorSet animatorSet3 = this.animatorSet;
+                    if (animatorSet3 != null) {
+                        animatorSet3.cancel();
+                        this.animatorSet = null;
+                    }
+                    final int i6 = this.account;
+                    this.animationIndex = NotificationCenter.getInstance(i6).setAnimationInProgress(this.animationIndex, null);
+                    AnimatorSet animatorSet4 = new AnimatorSet();
+                    this.animatorSet = animatorSet4;
+                    animatorSet4.playTogether(ObjectAnimator.ofFloat(this, "topPadding", 0.0f));
+                    this.animatorSet.setDuration(220L);
+                    this.animatorSet.setInterpolator(CubicBezierInterpolator.DEFAULT);
+                    this.animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.FragmentContextView.15
+                        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                        public void onAnimationEnd(Animator animator) {
+                            NotificationCenter.getInstance(i6).onAnimationFinish(FragmentContextView.this.animationIndex);
+                            if (FragmentContextView.this.animatorSet == null || !FragmentContextView.this.animatorSet.equals(animator)) {
+                                return;
+                            }
+                            FragmentContextView.this.visible = false;
+                            FragmentContextView.this.animatorSet = null;
+                            FragmentContextView.this.checkCall(false);
+                        }
+                    });
+                    this.animatorSet.start();
+                    return;
+                } else {
+                    if (z3) {
+                        boolean z6 = i5 == 4 && this.visible;
+                        updateStyle(4);
+                        ChatObject.Call groupCall2 = this.chatActivity.getGroupCall();
+                        TLRPC$Chat currentChat = this.chatActivity.getCurrentChat();
+                        if (groupCall2.isScheduled()) {
+                            if (this.gradientPaint == null) {
+                                TextPaint textPaint = new TextPaint(1);
+                                this.gradientTextPaint = textPaint;
+                                textPaint.setColor(-1);
+                                this.gradientTextPaint.setTextSize(AndroidUtilities.dp(14.0f));
+                                this.gradientTextPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+                                Paint paint = new Paint(1);
+                                this.gradientPaint = paint;
+                                paint.setColor(-1);
+                                this.matrix = new Matrix();
+                            }
+                            this.joinButton.setVisibility(8);
+                            if (!TextUtils.isEmpty(groupCall2.call.title)) {
+                                this.titleTextView.setText(groupCall2.call.title, false);
+                            } else if (ChatObject.isChannelOrGiga(currentChat)) {
+                                this.titleTextView.setText(LocaleController.getString("VoipChannelScheduledVoiceChat", R.string.VoipChannelScheduledVoiceChat), false);
+                            } else {
+                                this.titleTextView.setText(LocaleController.getString("VoipGroupScheduledVoiceChat", R.string.VoipGroupScheduledVoiceChat), false);
+                            }
+                            this.subtitleTextView.setText(LocaleController.formatStartsTime(groupCall2.call.schedule_date, 4), false);
+                            if (!this.scheduleRunnableScheduled) {
+                                this.scheduleRunnableScheduled = true;
+                                this.updateScheduleTimeRunnable.run();
+                            }
+                        } else {
+                            this.timeLayout = null;
+                            this.joinButton.setVisibility(0);
+                            if (groupCall2.call.rtmp_stream) {
+                                this.titleTextView.setText(LocaleController.getString(R.string.VoipChannelVoiceChat), false);
+                            } else if (ChatObject.isChannelOrGiga(currentChat)) {
+                                this.titleTextView.setText(LocaleController.getString("VoipChannelVoiceChat", R.string.VoipChannelVoiceChat), false);
+                            } else {
+                                this.titleTextView.setText(LocaleController.getString("VoipGroupVoiceChat", R.string.VoipGroupVoiceChat), false);
+                            }
+                            TLRPC$GroupCall tLRPC$GroupCall = groupCall2.call;
+                            int i7 = tLRPC$GroupCall.participants_count;
+                            if (i7 == 0) {
+                                this.subtitleTextView.setText(LocaleController.getString(tLRPC$GroupCall.rtmp_stream ? R.string.ViewersWatchingNobody : R.string.MembersTalkingNobody), false);
+                            } else {
+                                this.subtitleTextView.setText(LocaleController.formatPluralString(tLRPC$GroupCall.rtmp_stream ? "ViewersWatching" : "Participants", i7, new Object[0]), false);
+                            }
+                            this.frameLayout.invalidate();
+                        }
+                        updateAvatars(this.avatars.avatarsDrawable.wasDraw && z6);
+                    } else if (sharedInstance != null && sharedInstance.groupCall != null) {
+                        updateAvatars(i5 == 3);
+                        updateStyle(3);
+                    } else {
+                        updateAvatars(i5 == 1);
+                        updateStyle(1);
+                    }
+                    if (this.visible) {
+                        return;
+                    }
+                    if (!z4) {
+                        AnimatorSet animatorSet5 = this.animatorSet;
+                        if (animatorSet5 != null) {
+                            animatorSet5.cancel();
+                            this.animatorSet = null;
+                        }
+                        this.animatorSet = new AnimatorSet();
+                        FragmentContextView fragmentContextView = this.additionalContextView;
+                        if (fragmentContextView != null && fragmentContextView.getVisibility() == 0) {
+                            ((FrameLayout.LayoutParams) getLayoutParams()).topMargin = -AndroidUtilities.dp(getStyleHeight() + this.additionalContextView.getStyleHeight());
+                        } else {
+                            ((FrameLayout.LayoutParams) getLayoutParams()).topMargin = -AndroidUtilities.dp(getStyleHeight());
+                        }
+                        final int i8 = this.account;
+                        this.animationIndex = NotificationCenter.getInstance(i8).setAnimationInProgress(this.animationIndex, new int[]{NotificationCenter.messagesDidLoad});
+                        this.animatorSet.playTogether(ObjectAnimator.ofFloat(this, "topPadding", AndroidUtilities.dp2(getStyleHeight())));
+                        this.animatorSet.setDuration(220L);
+                        this.animatorSet.setInterpolator(CubicBezierInterpolator.DEFAULT);
+                        this.animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.FragmentContextView.16
+                            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                            public void onAnimationEnd(Animator animator) {
+                                NotificationCenter.getInstance(i8).onAnimationFinish(FragmentContextView.this.animationIndex);
+                                if (FragmentContextView.this.animatorSet != null && FragmentContextView.this.animatorSet.equals(animator)) {
+                                    FragmentContextView.this.animatorSet = null;
+                                }
+                                if (!FragmentContextView.this.checkCallAfterAnimation) {
+                                    if (FragmentContextView.this.checkPlayerAfterAnimation) {
+                                        FragmentContextView.this.checkPlayer(false);
+                                    } else if (FragmentContextView.this.checkImportAfterAnimation) {
+                                        FragmentContextView.this.checkImport(false);
+                                    }
+                                } else {
+                                    FragmentContextView.this.checkCall(false);
+                                }
+                                FragmentContextView.this.checkCallAfterAnimation = false;
+                                FragmentContextView.this.checkPlayerAfterAnimation = false;
+                                FragmentContextView.this.checkImportAfterAnimation = false;
+                                FragmentContextView.this.startJoinFlickerAnimation();
+                            }
+                        });
+                        this.animatorSet.start();
+                    } else {
+                        updatePaddings();
+                        setTopPadding(AndroidUtilities.dp2(getStyleHeight()));
+                        startJoinFlickerAnimation();
+                    }
+                    this.visible = true;
+                    setVisibility(0);
+                    return;
                 }
             }
-            z3 = false;
-            if (z2) {
-            }
+        }
+        z3 = false;
+        if (z2) {
         }
     }
 
@@ -2313,41 +2279,35 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
                 i = this.account;
                 tLRPC$User = null;
             }
-            int i3 = 0;
             if (call != null) {
                 int size = call.sortedParticipants.size();
-                for (int i4 = 0; i4 < 3; i4++) {
-                    if (i4 < size) {
-                        this.avatars.setObject(i4, i, call.sortedParticipants.get(i4));
+                for (int i3 = 0; i3 < 3; i3++) {
+                    if (i3 < size) {
+                        this.avatars.setObject(i3, i, call.sortedParticipants.get(i3));
                     } else {
-                        this.avatars.setObject(i4, i, null);
+                        this.avatars.setObject(i3, i, null);
                     }
                 }
             } else if (tLRPC$User != null) {
                 this.avatars.setObject(0, i, tLRPC$User);
-                for (int i5 = 1; i5 < 3; i5++) {
-                    this.avatars.setObject(i5, i, null);
+                for (int i4 = 1; i4 < 3; i4++) {
+                    this.avatars.setObject(i4, i, null);
                 }
             } else {
-                for (int i6 = 0; i6 < 3; i6++) {
-                    this.avatars.setObject(i6, i, null);
+                for (int i5 = 0; i5 < 3; i5++) {
+                    this.avatars.setObject(i5, i, null);
                 }
             }
             this.avatars.commitTransition(z);
             if (this.currentStyle != 4 || call == null) {
                 return;
             }
-            if (!call.call.rtmp_stream) {
-                i3 = Math.min(3, call.sortedParticipants.size());
-            }
-            int i7 = 10;
-            if (i3 != 0) {
-                i7 = 10 + ((i3 - 1) * 24) + 10 + 32;
-            }
+            int min = call.call.rtmp_stream ? 0 : Math.min(3, call.sortedParticipants.size());
+            int i6 = min != 0 ? 10 + ((min - 1) * 24) + 10 + 32 : 10;
             if (z) {
-                int i8 = ((FrameLayout.LayoutParams) this.titleTextView.getLayoutParams()).leftMargin;
-                if (AndroidUtilities.dp(i7) != i8) {
-                    float translationX = (this.titleTextView.getTranslationX() + i8) - AndroidUtilities.dp(f);
+                int i7 = ((FrameLayout.LayoutParams) this.titleTextView.getLayoutParams()).leftMargin;
+                if (AndroidUtilities.dp(i6) != i7) {
+                    float translationX = (this.titleTextView.getTranslationX() + i7) - AndroidUtilities.dp(f);
                     this.titleTextView.setTranslationX(translationX);
                     this.subtitleTextView.setTranslationX(translationX);
                     ViewPropertyAnimator duration = this.titleTextView.animate().translationX(0.0f).setDuration(220L);
@@ -2361,14 +2321,9 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
                 this.titleTextView.setTranslationX(0.0f);
                 this.subtitleTextView.setTranslationX(0.0f);
             }
-            float f2 = i7;
-            float f3 = 36.0f;
+            float f2 = i6;
             this.titleTextView.setLayoutParams(LayoutHelper.createFrame(-1, 20.0f, 51, f2, 5.0f, call.isScheduled() ? 90.0f : 36.0f, 0.0f));
-            AudioPlayerAlert.ClippingTextViewSwitcher clippingTextViewSwitcher = this.subtitleTextView;
-            if (call.isScheduled()) {
-                f3 = 90.0f;
-            }
-            clippingTextViewSwitcher.setLayoutParams(LayoutHelper.createFrame(-1, 20.0f, 51, f2, 25.0f, f3, 0.0f));
+            this.subtitleTextView.setLayoutParams(LayoutHelper.createFrame(-1, 20.0f, 51, f2, 25.0f, call.isScheduled() ? 90.0f : 36.0f, 0.0f));
             return;
         }
         avatarsImageView.updateAfterTransitionEnd();
@@ -2445,18 +2400,15 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
     }
 
     private void updatePaddings() {
-        int i = 0;
-        if (getVisibility() == 0) {
-            i = 0 - AndroidUtilities.dp(getStyleHeight());
-        }
+        int dp = getVisibility() == 0 ? 0 - AndroidUtilities.dp(getStyleHeight()) : 0;
         FragmentContextView fragmentContextView = this.additionalContextView;
         if (fragmentContextView != null && fragmentContextView.getVisibility() == 0) {
-            int dp = i - AndroidUtilities.dp(this.additionalContextView.getStyleHeight());
-            ((FrameLayout.LayoutParams) getLayoutParams()).topMargin = dp;
-            ((FrameLayout.LayoutParams) this.additionalContextView.getLayoutParams()).topMargin = dp;
+            int dp2 = dp - AndroidUtilities.dp(this.additionalContextView.getStyleHeight());
+            ((FrameLayout.LayoutParams) getLayoutParams()).topMargin = dp2;
+            ((FrameLayout.LayoutParams) this.additionalContextView.getLayoutParams()).topMargin = dp2;
             return;
         }
-        ((FrameLayout.LayoutParams) getLayoutParams()).topMargin = i;
+        ((FrameLayout.LayoutParams) getLayoutParams()).topMargin = dp;
     }
 
     @Override // org.telegram.messenger.voip.VoIPService.StateListener
@@ -2468,40 +2420,38 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
         VoIPService sharedInstance = VoIPService.getSharedInstance();
         if (sharedInstance != null) {
             int i = this.currentStyle;
-            if (i != 1 && i != 3) {
-                return;
-            }
-            int callState = sharedInstance.getCallState();
-            if (!sharedInstance.isSwitchingStream() && (callState == 1 || callState == 2 || callState == 6 || callState == 5)) {
-                this.titleTextView.setText(LocaleController.getString("VoipGroupConnecting", R.string.VoipGroupConnecting), false);
-            } else if (sharedInstance.getChat() != null) {
-                if (!TextUtils.isEmpty(sharedInstance.groupCall.call.title)) {
-                    this.titleTextView.setText(sharedInstance.groupCall.call.title, false);
-                    return;
-                }
-                ChatActivityInterface chatActivityInterface = this.chatActivity;
-                if (chatActivityInterface != null && chatActivityInterface.getCurrentChat() != null && this.chatActivity.getCurrentChat().id == sharedInstance.getChat().id) {
-                    TLRPC$Chat currentChat = this.chatActivity.getCurrentChat();
-                    if (VoIPService.hasRtmpStream()) {
-                        this.titleTextView.setText(LocaleController.getString(R.string.VoipChannelViewVoiceChat), false);
-                        return;
-                    } else if (ChatObject.isChannelOrGiga(currentChat)) {
-                        this.titleTextView.setText(LocaleController.getString("VoipChannelViewVoiceChat", R.string.VoipChannelViewVoiceChat), false);
-                        return;
-                    } else {
-                        this.titleTextView.setText(LocaleController.getString("VoipGroupViewVoiceChat", R.string.VoipGroupViewVoiceChat), false);
+            if (i == 1 || i == 3) {
+                int callState = sharedInstance.getCallState();
+                if (!sharedInstance.isSwitchingStream() && (callState == 1 || callState == 2 || callState == 6 || callState == 5)) {
+                    this.titleTextView.setText(LocaleController.getString("VoipGroupConnecting", R.string.VoipGroupConnecting), false);
+                } else if (sharedInstance.getChat() != null) {
+                    if (!TextUtils.isEmpty(sharedInstance.groupCall.call.title)) {
+                        this.titleTextView.setText(sharedInstance.groupCall.call.title, false);
                         return;
                     }
-                }
-                this.titleTextView.setText(sharedInstance.getChat().title, false);
-            } else if (sharedInstance.getUser() == null) {
-            } else {
-                TLRPC$User user = sharedInstance.getUser();
-                ChatActivityInterface chatActivityInterface2 = this.chatActivity;
-                if (chatActivityInterface2 != null && chatActivityInterface2.getCurrentUser() != null && this.chatActivity.getCurrentUser().id == user.id) {
-                    this.titleTextView.setText(LocaleController.getString("ReturnToCall", R.string.ReturnToCall));
-                } else {
-                    this.titleTextView.setText(ContactsController.formatName(user.first_name, user.last_name));
+                    ChatActivityInterface chatActivityInterface = this.chatActivity;
+                    if (chatActivityInterface != null && chatActivityInterface.getCurrentChat() != null && this.chatActivity.getCurrentChat().id == sharedInstance.getChat().id) {
+                        TLRPC$Chat currentChat = this.chatActivity.getCurrentChat();
+                        if (VoIPService.hasRtmpStream()) {
+                            this.titleTextView.setText(LocaleController.getString(R.string.VoipChannelViewVoiceChat), false);
+                            return;
+                        } else if (ChatObject.isChannelOrGiga(currentChat)) {
+                            this.titleTextView.setText(LocaleController.getString("VoipChannelViewVoiceChat", R.string.VoipChannelViewVoiceChat), false);
+                            return;
+                        } else {
+                            this.titleTextView.setText(LocaleController.getString("VoipGroupViewVoiceChat", R.string.VoipGroupViewVoiceChat), false);
+                            return;
+                        }
+                    }
+                    this.titleTextView.setText(sharedInstance.getChat().title, false);
+                } else if (sharedInstance.getUser() != null) {
+                    TLRPC$User user = sharedInstance.getUser();
+                    ChatActivityInterface chatActivityInterface2 = this.chatActivity;
+                    if (chatActivityInterface2 != null && chatActivityInterface2.getCurrentUser() != null && this.chatActivity.getCurrentUser().id == user.id) {
+                        this.titleTextView.setText(LocaleController.getString("ReturnToCall", R.string.ReturnToCall));
+                    } else {
+                        this.titleTextView.setText(ContactsController.formatName(user.first_name, user.last_name));
+                    }
                 }
             }
         }

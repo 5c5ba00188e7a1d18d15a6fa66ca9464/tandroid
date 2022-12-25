@@ -91,7 +91,6 @@ public class UserCell2 extends FrameLayout {
         View view2 = this.nameTextView;
         boolean z2 = LocaleController.isRTL;
         int i4 = (z2 ? 5 : 3) | 48;
-        int i5 = 18;
         if (z2) {
             i3 = (i2 == 2 ? 18 : 0) + 28;
         } else {
@@ -101,7 +100,7 @@ public class UserCell2 extends FrameLayout {
         if (z2) {
             f = i + 68;
         } else {
-            f = (i2 != 2 ? 0 : i5) + 28;
+            f = (i2 != 2 ? 0 : 18) + 28;
         }
         addView(view2, LayoutHelper.createFrame(-1, 20.0f, i4, f2, 14.5f, f, 0.0f));
         SimpleTextView simpleTextView2 = new SimpleTextView(context);
@@ -124,8 +123,7 @@ public class UserCell2 extends FrameLayout {
             this.checkBoxBig = checkBoxSquare;
             boolean z5 = LocaleController.isRTL;
             addView(checkBoxSquare, LayoutHelper.createFrame(18, 18.0f, (z5 ? 3 : 5) | 16, z5 ? 19.0f : 0.0f, 0.0f, z5 ? 0.0f : 19.0f, 0.0f));
-        } else if (i2 != 1) {
-        } else {
+        } else if (i2 == 1) {
             CheckBox checkBox = new CheckBox(context, R.drawable.round_check2);
             this.checkBox = checkBox;
             checkBox.setVisibility(4);
@@ -182,7 +180,7 @@ public class UserCell2 extends FrameLayout {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:35:0x0087, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:55:0x0087, code lost:
         if (r13.equals(r12.lastName) == false) goto L37;
      */
     /* JADX WARN: Multi-variable type inference failed */
@@ -225,7 +223,6 @@ public class UserCell2 extends FrameLayout {
             tLRPC$Chat = null;
             tLRPC$FileLocation = tLRPC$Chat;
         }
-        int i2 = 0;
         if (i != 0) {
             boolean z = true;
             boolean z2 = (MessagesController.UPDATE_MASK_AVATAR & i) != 0 && (((tLRPC$FileLocation2 = this.lastAvatar) != null && tLRPC$FileLocation == null) || ((tLRPC$FileLocation2 == null && tLRPC$FileLocation != null) || !(tLRPC$FileLocation2 == null || tLRPC$FileLocation == null || (tLRPC$FileLocation2.volume_id == tLRPC$FileLocation.volume_id && tLRPC$FileLocation2.local_id == tLRPC$FileLocation.local_id))));
@@ -312,18 +309,18 @@ public class UserCell2 extends FrameLayout {
         } else if (tLRPC$Chat != null) {
             this.statusTextView.setTextColor(this.statusColor);
             if (ChatObject.isChannel(tLRPC$Chat) && !tLRPC$Chat.megagroup) {
-                int i3 = tLRPC$Chat.participants_count;
-                if (i3 != 0) {
-                    this.statusTextView.setText(LocaleController.formatPluralString("Subscribers", i3, new Object[0]));
+                int i2 = tLRPC$Chat.participants_count;
+                if (i2 != 0) {
+                    this.statusTextView.setText(LocaleController.formatPluralString("Subscribers", i2, new Object[0]));
                 } else if (!ChatObject.isPublic(tLRPC$Chat)) {
                     this.statusTextView.setText(LocaleController.getString("ChannelPrivate", R.string.ChannelPrivate));
                 } else {
                     this.statusTextView.setText(LocaleController.getString("ChannelPublic", R.string.ChannelPublic));
                 }
             } else {
-                int i4 = tLRPC$Chat.participants_count;
-                if (i4 != 0) {
-                    this.statusTextView.setText(LocaleController.formatPluralString("Members", i4, new Object[0]));
+                int i3 = tLRPC$Chat.participants_count;
+                if (i3 != 0) {
+                    this.statusTextView.setText(LocaleController.formatPluralString("Members", i3, new Object[0]));
                 } else if (tLRPC$Chat.has_geo) {
                     this.statusTextView.setText(LocaleController.getString("MegaLocation", R.string.MegaLocation));
                 } else if (!ChatObject.isPublic(tLRPC$Chat)) {
@@ -340,11 +337,7 @@ public class UserCell2 extends FrameLayout {
         if (!(this.imageView.getVisibility() == 0 && this.currentDrawable == 0) && (this.imageView.getVisibility() != 8 || this.currentDrawable == 0)) {
             return;
         }
-        ImageView imageView = this.imageView;
-        if (this.currentDrawable == 0) {
-            i2 = 8;
-        }
-        imageView.setVisibility(i2);
+        this.imageView.setVisibility(this.currentDrawable == 0 ? 8 : 0);
         this.imageView.setImageResource(this.currentDrawable);
     }
 }

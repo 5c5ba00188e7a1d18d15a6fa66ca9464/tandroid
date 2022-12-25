@@ -72,10 +72,9 @@ public class TLRPC$TL_messages_messageReactionsList extends TLObject {
             }
             this.users.add(TLdeserialize3);
         }
-        if ((this.flags & 1) == 0) {
-            return;
+        if ((this.flags & 1) != 0) {
+            this.next_offset = abstractSerializedData.readString(z);
         }
-        this.next_offset = abstractSerializedData.readString(z);
     }
 
     @Override // org.telegram.tgnet.TLObject

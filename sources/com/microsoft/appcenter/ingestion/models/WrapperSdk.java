@@ -90,33 +90,32 @@ public class WrapperSdk implements Model {
         }
         WrapperSdk wrapperSdk = (WrapperSdk) obj;
         String str = this.wrapperSdkVersion;
-        if (str == null ? wrapperSdk.wrapperSdkVersion != null : !str.equals(wrapperSdk.wrapperSdkVersion)) {
+        if (str == null ? wrapperSdk.wrapperSdkVersion == null : str.equals(wrapperSdk.wrapperSdkVersion)) {
+            String str2 = this.wrapperSdkName;
+            if (str2 == null ? wrapperSdk.wrapperSdkName == null : str2.equals(wrapperSdk.wrapperSdkName)) {
+                String str3 = this.wrapperRuntimeVersion;
+                if (str3 == null ? wrapperSdk.wrapperRuntimeVersion == null : str3.equals(wrapperSdk.wrapperRuntimeVersion)) {
+                    String str4 = this.liveUpdateReleaseLabel;
+                    if (str4 == null ? wrapperSdk.liveUpdateReleaseLabel == null : str4.equals(wrapperSdk.liveUpdateReleaseLabel)) {
+                        String str5 = this.liveUpdateDeploymentKey;
+                        if (str5 == null ? wrapperSdk.liveUpdateDeploymentKey == null : str5.equals(wrapperSdk.liveUpdateDeploymentKey)) {
+                            String str6 = this.liveUpdatePackageHash;
+                            String str7 = wrapperSdk.liveUpdatePackageHash;
+                            return str6 != null ? str6.equals(str7) : str7 == null;
+                        }
+                        return false;
+                    }
+                    return false;
+                }
+                return false;
+            }
             return false;
         }
-        String str2 = this.wrapperSdkName;
-        if (str2 == null ? wrapperSdk.wrapperSdkName != null : !str2.equals(wrapperSdk.wrapperSdkName)) {
-            return false;
-        }
-        String str3 = this.wrapperRuntimeVersion;
-        if (str3 == null ? wrapperSdk.wrapperRuntimeVersion != null : !str3.equals(wrapperSdk.wrapperRuntimeVersion)) {
-            return false;
-        }
-        String str4 = this.liveUpdateReleaseLabel;
-        if (str4 == null ? wrapperSdk.liveUpdateReleaseLabel != null : !str4.equals(wrapperSdk.liveUpdateReleaseLabel)) {
-            return false;
-        }
-        String str5 = this.liveUpdateDeploymentKey;
-        if (str5 == null ? wrapperSdk.liveUpdateDeploymentKey != null : !str5.equals(wrapperSdk.liveUpdateDeploymentKey)) {
-            return false;
-        }
-        String str6 = this.liveUpdatePackageHash;
-        String str7 = wrapperSdk.liveUpdatePackageHash;
-        return str6 != null ? str6.equals(str7) : str7 == null;
+        return false;
     }
 
     public int hashCode() {
         String str = this.wrapperSdkVersion;
-        int i = 0;
         int hashCode = (str != null ? str.hashCode() : 0) * 31;
         String str2 = this.wrapperSdkName;
         int hashCode2 = (hashCode + (str2 != null ? str2.hashCode() : 0)) * 31;
@@ -127,9 +126,6 @@ public class WrapperSdk implements Model {
         String str5 = this.liveUpdateDeploymentKey;
         int hashCode5 = (hashCode4 + (str5 != null ? str5.hashCode() : 0)) * 31;
         String str6 = this.liveUpdatePackageHash;
-        if (str6 != null) {
-            i = str6.hashCode();
-        }
-        return hashCode5 + i;
+        return hashCode5 + (str6 != null ? str6.hashCode() : 0);
     }
 }

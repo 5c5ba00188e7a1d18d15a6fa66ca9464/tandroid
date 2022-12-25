@@ -311,9 +311,12 @@ public class Theme {
     public static Paint checkboxSquare_backgroundPaint = null;
     public static Paint checkboxSquare_checkPaint = null;
     public static Paint checkboxSquare_eraserPaint = null;
+    private static HashMap<String, Integer> currentColors = null;
+    private static HashMap<String, Integer> currentColorsNoAccent = null;
     private static ThemeInfo currentDayTheme = null;
     private static ThemeInfo currentNightTheme = null;
     private static ThemeInfo currentTheme = null;
+    private static HashMap<String, Integer> defaultColors = null;
     private static ThemeInfo defaultTheme = null;
     public static Paint dialogs_actionMessagePaint = null;
     public static RLottieDrawable dialogs_archiveAvatarDrawable = null;
@@ -376,8 +379,14 @@ public class Theme {
     public static Drawable dialogs_verifiedDrawable = null;
     public static Paint dividerExtraPaint = null;
     public static Paint dividerPaint = null;
+    private static HashMap<String, String> fallbackKeys = null;
     private static FragmentContextViewWavesDrawable fragmentContextViewWavesDrawable = null;
     private static boolean hasPreviousTheme = false;
+    private static ThreadLocal<float[]> hsvTemp1Local = null;
+    private static ThreadLocal<float[]> hsvTemp2Local = null;
+    private static ThreadLocal<float[]> hsvTemp3Local = null;
+    private static ThreadLocal<float[]> hsvTemp4Local = null;
+    private static ThreadLocal<float[]> hsvTemp5Local = null;
     private static boolean isApplyingAccent = false;
     private static boolean isCustomTheme = false;
     private static boolean isInNigthMode = false;
@@ -393,6 +402,7 @@ public class Theme {
     public static Paint linkSelectionPaint;
     private static int loadingCurrentTheme;
     public static Drawable moveUpDrawable;
+    private static ArrayList<ThemeInfo> otherThemes;
     public static PathAnimator playPauseAnimator;
     private static int previousPhase;
     private static ThemeInfo previousTheme;
@@ -416,9 +426,12 @@ public class Theme {
     private static boolean switchNightRunnableScheduled;
     private static int switchNightThemeDelay;
     private static boolean switchingNightTheme;
+    private static HashSet<String> themeAccentExclusionKeys;
     private static Drawable themedWallpaper;
     private static int themedWallpaperFileOffset;
     private static String themedWallpaperLink;
+    public static ArrayList<ThemeInfo> themes;
+    private static HashMap<String, ThemeInfo> themesDict;
     private static float[] tmpHSV5;
     private static int[] viewPos;
     private static Drawable wallpaper;
@@ -469,19 +482,6 @@ public class Theme {
     private static final HashMap<String, String> defaultChatPaintColors = new HashMap<>();
     private static HashSet<String> myMessagesColorKeys = new HashSet<>();
     private static HashSet<String> myMessagesBubblesColorKeys = new HashSet<>();
-    private static HashMap<String, Integer> defaultColors = new HashMap<>();
-    private static HashMap<String, String> fallbackKeys = new HashMap<>();
-    private static HashSet<String> themeAccentExclusionKeys = new HashSet<>();
-    private static ThreadLocal<float[]> hsvTemp1Local = new ThreadLocal<>();
-    private static ThreadLocal<float[]> hsvTemp2Local = new ThreadLocal<>();
-    private static ThreadLocal<float[]> hsvTemp3Local = new ThreadLocal<>();
-    private static ThreadLocal<float[]> hsvTemp4Local = new ThreadLocal<>();
-    private static ThreadLocal<float[]> hsvTemp5Local = new ThreadLocal<>();
-    public static ArrayList<ThemeInfo> themes = new ArrayList<>();
-    private static ArrayList<ThemeInfo> otherThemes = new ArrayList<>();
-    private static HashMap<String, ThemeInfo> themesDict = new HashMap<>();
-    private static HashMap<String, Integer> currentColorsNoAccent = new HashMap<>();
-    private static HashMap<String, Integer> currentColors = new HashMap<>();
 
     /* loaded from: classes3.dex */
     public static class BackgroundDrawableSettings {
@@ -595,24 +595,18 @@ public class Theme {
         public void applyMatrixScale() {
             Bitmap bitmap;
             if (this.gradientShader instanceof BitmapShader) {
-                char c = 1;
-                char c2 = 2;
+                char c = 2;
                 if (this.isCrossfadeBackground && (bitmap = this.crosfadeFromBitmap) != null) {
-                    if (this.currentType != 2) {
-                        c = 0;
-                    }
-                    float min = 1.0f / Math.min(bitmap.getWidth() / motionBackground[c].getBounds().width(), this.crosfadeFromBitmap.getHeight() / motionBackground[c].getBounds().height());
+                    char c2 = this.currentType != 2 ? (char) 0 : (char) 1;
+                    float min = 1.0f / Math.min(bitmap.getWidth() / motionBackground[c2].getBounds().width(), this.crosfadeFromBitmap.getHeight() / motionBackground[c2].getBounds().height());
                     this.matrix.postScale(min, min);
                     return;
                 }
                 if (!this.themePreview) {
-                    if (this.currentType != 2) {
-                        c = 0;
-                    }
-                    c2 = c;
+                    c = this.currentType != 2 ? (char) 0 : (char) 1;
                 }
-                Bitmap bitmap2 = motionBackground[c2].getBitmap();
-                float min2 = 1.0f / Math.min(bitmap2.getWidth() / motionBackground[c2].getBounds().width(), bitmap2.getHeight() / motionBackground[c2].getBounds().height());
+                Bitmap bitmap2 = motionBackground[c].getBitmap();
+                float min2 = 1.0f / Math.min(bitmap2.getWidth() / motionBackground[c].getBounds().width(), bitmap2.getHeight() / motionBackground[c].getBounds().height());
                 this.matrix.postScale(min2, min2);
             }
         }
@@ -646,17 +640,17 @@ public class Theme {
             setTop(i, i2, i3, i3, 0, 0, z, z2);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:109:0x029b  */
-        /* JADX WARN: Removed duplicated region for block: B:113:0x0083  */
-        /* JADX WARN: Removed duplicated region for block: B:15:0x0066  */
-        /* JADX WARN: Removed duplicated region for block: B:17:0x006c  */
-        /* JADX WARN: Removed duplicated region for block: B:19:0x0072  */
-        /* JADX WARN: Removed duplicated region for block: B:21:0x0078  */
-        /* JADX WARN: Removed duplicated region for block: B:24:0x0081  */
-        /* JADX WARN: Removed duplicated region for block: B:32:0x009d  */
-        /* JADX WARN: Removed duplicated region for block: B:55:0x02b2  */
-        /* JADX WARN: Removed duplicated region for block: B:58:0x02c8  */
-        /* JADX WARN: Removed duplicated region for block: B:62:0x02bf  */
+        /* JADX WARN: Removed duplicated region for block: B:111:0x029b  */
+        /* JADX WARN: Removed duplicated region for block: B:117:0x02b2  */
+        /* JADX WARN: Removed duplicated region for block: B:118:0x02bf  */
+        /* JADX WARN: Removed duplicated region for block: B:121:0x02c8  */
+        /* JADX WARN: Removed duplicated region for block: B:23:0x0066  */
+        /* JADX WARN: Removed duplicated region for block: B:25:0x006c  */
+        /* JADX WARN: Removed duplicated region for block: B:27:0x0072  */
+        /* JADX WARN: Removed duplicated region for block: B:29:0x0078  */
+        /* JADX WARN: Removed duplicated region for block: B:32:0x0081  */
+        /* JADX WARN: Removed duplicated region for block: B:33:0x0083  */
+        /* JADX WARN: Removed duplicated region for block: B:44:0x009d  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -693,10 +687,10 @@ public class Theme {
                     if (num3 == null) {
                         num3 = 0;
                     }
-                    if (!this.themePreview) {
-                        c = 2;
-                    } else {
+                    if (this.themePreview) {
                         c = this.currentType == 2 ? (char) 1 : (char) 0;
+                    } else {
+                        c = 2;
                     }
                     if (!this.isCrossfadeBackground && num2.intValue() != 0 && z3) {
                         motionBackgroundDrawableArr = motionBackground;
@@ -771,11 +765,11 @@ public class Theme {
                         }
                         this.paint.setColor(color);
                     }
-                    if (!(this.gradientShader instanceof BitmapShader)) {
+                    if (this.gradientShader instanceof BitmapShader) {
                         i7 = 0;
-                        motionBackground[c].setBounds(0, i5, i2, i3 - i4);
                     } else {
                         i7 = 0;
+                        motionBackground[c].setBounds(0, i5, i2, i3 - i4);
                     }
                     this.currentBackgroundHeight = i3;
                     if (this.gradientShader instanceof BitmapShader) {
@@ -800,7 +794,7 @@ public class Theme {
             }
             if (num3 == null) {
             }
-            if (!this.themePreview) {
+            if (this.themePreview) {
             }
             if (!this.isCrossfadeBackground) {
                 motionBackgroundDrawableArr = motionBackground;
@@ -813,7 +807,7 @@ public class Theme {
             }
             if (num.intValue() == 0) {
             }
-            if (!(this.gradientShader instanceof BitmapShader)) {
+            if (this.gradientShader instanceof BitmapShader) {
             }
             this.currentBackgroundHeight = i3;
             if (this.gradientShader instanceof BitmapShader) {
@@ -842,7 +836,6 @@ public class Theme {
             return this.shadowDrawable;
         }
 
-        /* JADX WARN: Type inference failed for: r7v0, types: [boolean] */
         public Drawable getBackgroundDrawable() {
             char c;
             int color;
@@ -859,16 +852,16 @@ public class Theme {
             } else {
                 c = this.isBottomNear ? (char) 1 : (char) 0;
             }
-            ?? r7 = this.isSelected;
-            boolean z3 = this.gradientShader == null && r7 == 0 && !this.isCrossfadeBackground;
+            boolean z3 = this.isSelected;
+            boolean z4 = (this.gradientShader != null || z3 || this.isCrossfadeBackground) ? false : true;
             int color2 = getColor(this.isOut ? "chat_outBubbleShadow" : "chat_inBubbleShadow");
-            if (this.lastDrawWithShadow != z3 || this.currentBackgroundDrawableRadius[r7][c] != i || (z3 && this.shadowDrawableColor[c] != color2)) {
-                this.currentBackgroundDrawableRadius[r7 == true ? 1 : 0][c] = i;
+            if (this.lastDrawWithShadow != z4 || this.currentBackgroundDrawableRadius[z3 ? 1 : 0][c] != i || (z4 && this.shadowDrawableColor[c] != color2)) {
+                this.currentBackgroundDrawableRadius[z3 ? 1 : 0][c] = i;
                 try {
                     Bitmap createBitmap = Bitmap.createBitmap(dp(50.0f), dp(40.0f), Bitmap.Config.ARGB_8888);
                     Canvas canvas = new Canvas(createBitmap);
                     this.backupRect.set(getBounds());
-                    if (z3) {
+                    if (z4) {
                         this.shadowDrawableColor[c] = color2;
                         Paint paint = new Paint(1);
                         paint.setShader(new LinearGradient(0.0f, 0.0f, 0.0f, dp(40.0f), new int[]{358573417, 694117737}, (float[]) null, Shader.TileMode.CLAMP));
@@ -892,7 +885,7 @@ public class Theme {
                     paint2.setColor(-1);
                     setBounds(0, 0, createBitmap.getWidth(), createBitmap.getHeight());
                     draw(canvas, paint2);
-                    this.backgroundDrawable[r7][c] = new NinePatchDrawable(createBitmap, getByteBuffer((createBitmap.getWidth() / 2) - 1, (createBitmap.getWidth() / 2) + 1, (createBitmap.getHeight() / 2) - 1, (createBitmap.getHeight() / 2) + 1).array(), new Rect(), null);
+                    this.backgroundDrawable[z3 ? 1 : 0][c] = new NinePatchDrawable(createBitmap, getByteBuffer((createBitmap.getWidth() / 2) - 1, (createBitmap.getWidth() / 2) + 1, (createBitmap.getHeight() / 2) - 1, (createBitmap.getHeight() / 2) + 1).array(), new Rect(), null);
                     try {
                         setBounds(this.backupRect);
                     } catch (Throwable unused) {
@@ -901,18 +894,18 @@ public class Theme {
                 } catch (Throwable unused2) {
                 }
             }
-            this.lastDrawWithShadow = z3;
+            this.lastDrawWithShadow = z4;
             if (this.isSelected) {
                 color = getColor(this.isOut ? "chat_outBubbleSelected" : "chat_inBubbleSelected");
             } else {
                 color = getColor(this.isOut ? "chat_outBubble" : "chat_inBubble");
             }
             Drawable[][] drawableArr = this.backgroundDrawable;
-            if (drawableArr[r7][c] != null && (this.backgroundDrawableColor[r7][c] != color || z)) {
-                drawableArr[r7][c].setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.MULTIPLY));
-                this.backgroundDrawableColor[r7][c] = color;
+            if (drawableArr[z3 ? 1 : 0][c] != null && (this.backgroundDrawableColor[z3 ? 1 : 0][c] != color || z)) {
+                drawableArr[z3 ? 1 : 0][c].setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.MULTIPLY));
+                this.backgroundDrawableColor[z3 ? 1 : 0][c] = color;
             }
-            return this.backgroundDrawable[r7][c];
+            return this.backgroundDrawable[z3 ? 1 : 0][c];
         }
 
         public Drawable getTransitionDrawable(int i) {
@@ -1073,10 +1066,10 @@ public class Theme {
             draw(canvas, null);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:145:0x0107  */
-        /* JADX WARN: Removed duplicated region for block: B:32:0x0100  */
-        /* JADX WARN: Removed duplicated region for block: B:48:0x0119  */
-        /* JADX WARN: Removed duplicated region for block: B:97:0x035e  */
+        /* JADX WARN: Removed duplicated region for block: B:112:0x035e  */
+        /* JADX WARN: Removed duplicated region for block: B:53:0x0100  */
+        /* JADX WARN: Removed duplicated region for block: B:54:0x0107  */
+        /* JADX WARN: Removed duplicated region for block: B:60:0x0119  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -1283,12 +1276,12 @@ public class Theme {
                         path.close();
                     }
                     canvas.drawPath(path, paint2);
-                    if (this.gradientShader == null || !this.isSelected || paint != null) {
+                    if (this.gradientShader == null && this.isSelected && paint == null) {
+                        int color = getColor("chat_outBubbleGradientSelectedOverlay");
+                        this.selectedPaint.setColor(ColorUtils.setAlphaComponent(color, (int) ((Color.alpha(color) * this.alpha) / 255.0f)));
+                        canvas.drawPath(path, this.selectedPaint);
                         return;
                     }
-                    int color = getColor("chat_outBubbleGradientSelectedOverlay");
-                    this.selectedPaint.setColor(ColorUtils.setAlphaComponent(color, (int) ((Color.alpha(color) * this.alpha) / 255.0f)));
-                    canvas.drawPath(path, this.selectedPaint);
                     return;
                 }
             } else {
@@ -1325,10 +1318,10 @@ public class Theme {
             if (this.gradientShader == null) {
                 Drawable backgroundDrawable = getBackgroundDrawable();
                 if (Build.VERSION.SDK_INT >= 19) {
-                    if (backgroundDrawable.getAlpha() == i) {
+                    if (backgroundDrawable.getAlpha() != i) {
+                        backgroundDrawable.setAlpha(i);
                         return;
                     }
-                    backgroundDrawable.setAlpha(i);
                     return;
                 }
                 backgroundDrawable.setAlpha(i);
@@ -1560,22 +1553,21 @@ public class Theme {
                 Theme.reloadWallpaper();
             }
             if (z) {
-                if (this.watingForLoad == null) {
+                if (this.watingForLoad != null) {
+                    NotificationCenter.getInstance(this.account).addObserver(this, NotificationCenter.fileLoaded);
+                    NotificationCenter.getInstance(this.account).addObserver(this, NotificationCenter.fileLoadFailed);
+                    for (Map.Entry<String, LoadingPattern> entry : this.watingForLoad.entrySet()) {
+                        FileLoader.getInstance(this.account).loadFile(ImageLocation.getForDocument(entry.getValue().pattern.document), "wallpaper", null, 0, 1);
+                    }
                     return;
-                }
-                NotificationCenter.getInstance(this.account).addObserver(this, NotificationCenter.fileLoaded);
-                NotificationCenter.getInstance(this.account).addObserver(this, NotificationCenter.fileLoadFailed);
-                for (Map.Entry<String, LoadingPattern> entry : this.watingForLoad.entrySet()) {
-                    FileLoader.getInstance(this.account).loadFile(ImageLocation.getForDocument(entry.getValue().pattern.document), "wallpaper", null, 0, 1);
                 }
                 return;
             }
             HashMap<String, LoadingPattern> hashMap = this.watingForLoad;
-            if (hashMap != null && !hashMap.isEmpty()) {
-                return;
+            if (hashMap == null || hashMap.isEmpty()) {
+                NotificationCenter.getInstance(this.account).removeObserver(this, NotificationCenter.fileLoaded);
+                NotificationCenter.getInstance(this.account).removeObserver(this, NotificationCenter.fileLoadFailed);
             }
-            NotificationCenter.getInstance(this.account).removeObserver(this, NotificationCenter.fileLoaded);
-            NotificationCenter.getInstance(this.account).removeObserver(this, NotificationCenter.fileLoadFailed);
         }
 
         private Bitmap createWallpaperForAccent(Bitmap bitmap, boolean z, File file, ThemeAccent themeAccent) {
@@ -1684,15 +1676,14 @@ public class Theme {
             }
             if (i == NotificationCenter.fileLoaded) {
                 final LoadingPattern remove = hashMap.remove((String) objArr[0]);
-                if (remove == null) {
-                    return;
+                if (remove != null) {
+                    Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.ActionBar.Theme$PatternsLoader$$ExternalSyntheticLambda2
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            Theme.PatternsLoader.this.lambda$didReceivedNotification$3(remove);
+                        }
+                    });
                 }
-                Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.ActionBar.Theme$PatternsLoader$$ExternalSyntheticLambda2
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        Theme.PatternsLoader.this.lambda$didReceivedNotification$3(remove);
-                    }
-                });
             } else if (i != NotificationCenter.fileLoadFailed || hashMap.remove((String) objArr[0]) == null) {
             } else {
                 checkCurrentWallpaper(null, false);
@@ -1756,11 +1747,11 @@ public class Theme {
         ThemeAccent() {
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:151:0x01d1, code lost:
-            r11 = (java.lang.Integer) org.telegram.ui.ActionBar.Theme.defaultColors.get(r7);
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:206:0x0082, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:17:0x0082, code lost:
             r9 = (java.lang.Integer) org.telegram.ui.ActionBar.Theme.defaultColors.get(r8);
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:96:0x01d1, code lost:
+            r11 = (java.lang.Integer) org.telegram.ui.ActionBar.Theme.defaultColors.get(r7);
          */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -2100,14 +2091,9 @@ public class Theme {
         private int linkSelectionBackground(int i, int i2, boolean z) {
             Color.colorToHSV(ColorUtils.blendARGB(i, i2, 0.25f), this.tempHSV);
             float[] fArr = this.tempHSV;
-            float f = 0.1f;
             fArr[1] = Math.max(0.0f, Math.min(1.0f, fArr[1] - 0.1f));
             float[] fArr2 = this.tempHSV;
-            float f2 = fArr2[2];
-            if (!z) {
-                f = 0.0f;
-            }
-            fArr2[2] = Math.max(0.0f, Math.min(1.0f, f2 + f));
+            fArr2[2] = Math.max(0.0f, Math.min(1.0f, fArr2[2] + (z ? 0.1f : 0.0f)));
             return Color.HSVToColor(51, this.tempHSV);
         }
 
@@ -2166,8 +2152,8 @@ public class Theme {
             }
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:88:0x02f4 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-        /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:89:0x02eb -> B:62:0x02ef). Please submit an issue!!! */
+        /* JADX WARN: Removed duplicated region for block: B:98:0x02f4 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+        /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:81:0x02eb -> B:95:0x02ef). Please submit an issue!!! */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -2178,43 +2164,42 @@ public class Theme {
             FileOutputStream fileOutputStream2;
             File sharingDirectory = AndroidUtilities.getSharingDirectory();
             sharingDirectory.mkdirs();
-            Integer num = 0;
             File file = new File(sharingDirectory, String.format(Locale.US, "%s_%d.attheme", this.parentTheme.getKey(), Integer.valueOf(this.id)));
             HashMap<String, Integer> themeFileValues = Theme.getThemeFileValues(null, this.parentTheme.assetName, null);
             HashMap<String, Integer> hashMap = new HashMap<>(themeFileValues);
             fillAccentColors(themeFileValues, hashMap);
-            if (!TextUtils.isEmpty(this.patternSlug)) {
+            if (TextUtils.isEmpty(this.patternSlug)) {
+                str = null;
+            } else {
                 StringBuilder sb = new StringBuilder();
                 if (this.patternMotion) {
                     sb.append("motion");
                 }
-                Integer num2 = hashMap.get("chat_wallpaper");
+                Integer num = hashMap.get("chat_wallpaper");
+                if (num == null) {
+                    num = -1;
+                }
+                Integer num2 = hashMap.get("chat_wallpaper_gradient_to");
                 if (num2 == null) {
-                    num2 = -1;
+                    num2 = r8;
                 }
-                Integer num3 = hashMap.get("chat_wallpaper_gradient_to");
+                Integer num3 = hashMap.get("key_chat_wallpaper_gradient_to2");
                 if (num3 == null) {
-                    num3 = num;
+                    num3 = r8;
                 }
-                Integer num4 = hashMap.get("key_chat_wallpaper_gradient_to2");
-                if (num4 == null) {
-                    num4 = num;
+                Integer num4 = hashMap.get("key_chat_wallpaper_gradient_to3");
+                r8 = num4 != null ? num4 : 0;
+                Integer num5 = hashMap.get("chat_wallpaper_gradient_rotation");
+                if (num5 == null) {
+                    num5 = 45;
                 }
-                Integer num5 = hashMap.get("key_chat_wallpaper_gradient_to3");
-                if (num5 != null) {
-                    num = num5;
-                }
-                Integer num6 = hashMap.get("chat_wallpaper_gradient_rotation");
-                if (num6 == null) {
-                    num6 = 45;
-                }
-                String lowerCase = String.format("%02x%02x%02x", Integer.valueOf(((byte) (num2.intValue() >> 16)) & 255), Integer.valueOf(((byte) (num2.intValue() >> 8)) & 255), Byte.valueOf((byte) (num2.intValue() & 255))).toLowerCase();
-                String lowerCase2 = num3.intValue() != 0 ? String.format("%02x%02x%02x", Integer.valueOf(((byte) (num3.intValue() >> 16)) & 255), Integer.valueOf(((byte) (num3.intValue() >> 8)) & 255), Byte.valueOf((byte) (num3.intValue() & 255))).toLowerCase() : null;
-                String lowerCase3 = num4.intValue() != 0 ? String.format("%02x%02x%02x", Integer.valueOf(((byte) (num4.intValue() >> 16)) & 255), Integer.valueOf(((byte) (num4.intValue() >> 8)) & 255), Byte.valueOf((byte) (num4.intValue() & 255))).toLowerCase() : null;
-                String lowerCase4 = num.intValue() != 0 ? String.format("%02x%02x%02x", Integer.valueOf(((byte) (num.intValue() >> 16)) & 255), Integer.valueOf(((byte) (num.intValue() >> 8)) & 255), Byte.valueOf((byte) (num.intValue() & 255))).toLowerCase() : null;
+                String lowerCase = String.format("%02x%02x%02x", Integer.valueOf(((byte) (num.intValue() >> 16)) & 255), Integer.valueOf(((byte) (num.intValue() >> 8)) & 255), Byte.valueOf((byte) (num.intValue() & 255))).toLowerCase();
+                String lowerCase2 = num2.intValue() != 0 ? String.format("%02x%02x%02x", Integer.valueOf(((byte) (num2.intValue() >> 16)) & 255), Integer.valueOf(((byte) (num2.intValue() >> 8)) & 255), Byte.valueOf((byte) (num2.intValue() & 255))).toLowerCase() : null;
+                String lowerCase3 = num3.intValue() != 0 ? String.format("%02x%02x%02x", Integer.valueOf(((byte) (num3.intValue() >> 16)) & 255), Integer.valueOf(((byte) (num3.intValue() >> 8)) & 255), Byte.valueOf((byte) (num3.intValue() & 255))).toLowerCase() : null;
+                String lowerCase4 = r8.intValue() != 0 ? String.format("%02x%02x%02x", Integer.valueOf(((byte) (r8.intValue() >> 16)) & 255), Integer.valueOf(((byte) (r8.intValue() >> 8)) & 255), Byte.valueOf((byte) (r8.intValue() & 255))).toLowerCase() : null;
                 if (lowerCase2 == null || lowerCase3 == null) {
                     if (lowerCase2 != null) {
-                        lowerCase = (lowerCase + "-" + lowerCase2) + "&rotation=" + num6;
+                        lowerCase = (lowerCase + "-" + lowerCase2) + "&rotation=" + num5;
                     }
                 } else if (lowerCase4 != null) {
                     lowerCase = lowerCase + "~" + lowerCase2 + "~" + lowerCase3 + "~" + lowerCase4;
@@ -2225,8 +2210,6 @@ public class Theme {
                 if (sb.length() > 0) {
                     str = str + "&mode=" + sb.toString();
                 }
-            } else {
-                str = null;
             }
             StringBuilder sb2 = new StringBuilder();
             for (Map.Entry<String, Integer> entry : hashMap.entrySet()) {
@@ -2413,13 +2396,11 @@ public class Theme {
             ThemeInfo themeInfo = this.parentTheme;
             if (themeInfo != null) {
                 ThemeAccent themeAccent = this.parentAccent;
-                if (themeAccent == null && themeInfo.overrideWallpaper != this) {
-                    return;
+                if (themeAccent != null || themeInfo.overrideWallpaper == this) {
+                    if (themeAccent == null || themeAccent.overrideWallpaper == this) {
+                        save();
+                    }
                 }
-                if (themeAccent != null && themeAccent.overrideWallpaper != this) {
-                    return;
-                }
-                save();
             }
         }
 
@@ -2640,10 +2621,9 @@ public class Theme {
                 } else {
                     this.overrideWallpaper = overrideWallpaperInfo;
                 }
-                if (!jSONObject.has("wallId") || jSONObject.getLong("wallId") != 1000001) {
-                    return;
+                if (jSONObject.has("wallId") && jSONObject.getLong("wallId") == 1000001) {
+                    overrideWallpaperInfo.slug = "d";
                 }
-                overrideWallpaperInfo.slug = "d";
             } catch (Throwable th) {
                 FileLog.e(th);
             }
@@ -2664,10 +2644,9 @@ public class Theme {
                 overrideWallpaperInfo.save();
             }
             this.overrideWallpaper = overrideWallpaperInfo;
-            if (accent == null) {
-                return;
+            if (accent != null) {
+                accent.overrideWallpaper = overrideWallpaperInfo;
             }
-            accent.overrideWallpaper = overrideWallpaperInfo;
         }
 
         public String getName() {
@@ -2753,69 +2732,69 @@ public class Theme {
         }
 
         public int getPreviewInColor() {
-            if (!this.firstAccentIsDefault || this.currentAccentId != Theme.DEFALT_THEME_ACCENT_ID) {
-                return this.previewInColor;
+            if (this.firstAccentIsDefault && this.currentAccentId == Theme.DEFALT_THEME_ACCENT_ID) {
+                return -1;
             }
-            return -1;
+            return this.previewInColor;
         }
 
         public int getPreviewOutColor() {
-            if (!this.firstAccentIsDefault || this.currentAccentId != Theme.DEFALT_THEME_ACCENT_ID) {
-                return this.previewOutColor;
+            if (this.firstAccentIsDefault && this.currentAccentId == Theme.DEFALT_THEME_ACCENT_ID) {
+                return -983328;
             }
-            return -983328;
+            return this.previewOutColor;
         }
 
         public int getPreviewBackgroundColor() {
-            if (!this.firstAccentIsDefault || this.currentAccentId != Theme.DEFALT_THEME_ACCENT_ID) {
-                return this.previewBackgroundColor;
+            if (this.firstAccentIsDefault && this.currentAccentId == Theme.DEFALT_THEME_ACCENT_ID) {
+                return -3155485;
             }
-            return -3155485;
+            return this.previewBackgroundColor;
         }
 
         /* JADX INFO: Access modifiers changed from: private */
         public boolean isDefaultMyMessagesBubbles() {
-            if (!this.firstAccentIsDefault) {
-                return false;
+            if (this.firstAccentIsDefault) {
+                int i = this.currentAccentId;
+                int i2 = Theme.DEFALT_THEME_ACCENT_ID;
+                if (i == i2) {
+                    return true;
+                }
+                ThemeAccent themeAccent = this.themeAccentsMap.get(i2);
+                ThemeAccent themeAccent2 = this.themeAccentsMap.get(this.currentAccentId);
+                return themeAccent != null && themeAccent2 != null && themeAccent.myMessagesAccentColor == themeAccent2.myMessagesAccentColor && themeAccent.myMessagesGradientAccentColor1 == themeAccent2.myMessagesGradientAccentColor1 && themeAccent.myMessagesGradientAccentColor2 == themeAccent2.myMessagesGradientAccentColor2 && themeAccent.myMessagesGradientAccentColor3 == themeAccent2.myMessagesGradientAccentColor3 && themeAccent.myMessagesAnimated == themeAccent2.myMessagesAnimated;
             }
-            int i = this.currentAccentId;
-            int i2 = Theme.DEFALT_THEME_ACCENT_ID;
-            if (i == i2) {
-                return true;
-            }
-            ThemeAccent themeAccent = this.themeAccentsMap.get(i2);
-            ThemeAccent themeAccent2 = this.themeAccentsMap.get(this.currentAccentId);
-            return themeAccent != null && themeAccent2 != null && themeAccent.myMessagesAccentColor == themeAccent2.myMessagesAccentColor && themeAccent.myMessagesGradientAccentColor1 == themeAccent2.myMessagesGradientAccentColor1 && themeAccent.myMessagesGradientAccentColor2 == themeAccent2.myMessagesGradientAccentColor2 && themeAccent.myMessagesGradientAccentColor3 == themeAccent2.myMessagesGradientAccentColor3 && themeAccent.myMessagesAnimated == themeAccent2.myMessagesAnimated;
+            return false;
         }
 
         /* JADX INFO: Access modifiers changed from: private */
         public boolean isDefaultMyMessages() {
-            if (!this.firstAccentIsDefault) {
-                return false;
+            if (this.firstAccentIsDefault) {
+                int i = this.currentAccentId;
+                int i2 = Theme.DEFALT_THEME_ACCENT_ID;
+                if (i == i2) {
+                    return true;
+                }
+                ThemeAccent themeAccent = this.themeAccentsMap.get(i2);
+                ThemeAccent themeAccent2 = this.themeAccentsMap.get(this.currentAccentId);
+                return themeAccent != null && themeAccent2 != null && themeAccent.accentColor2 == themeAccent2.accentColor2 && themeAccent.myMessagesAccentColor == themeAccent2.myMessagesAccentColor && themeAccent.myMessagesGradientAccentColor1 == themeAccent2.myMessagesGradientAccentColor1 && themeAccent.myMessagesGradientAccentColor2 == themeAccent2.myMessagesGradientAccentColor2 && themeAccent.myMessagesGradientAccentColor3 == themeAccent2.myMessagesGradientAccentColor3 && themeAccent.myMessagesAnimated == themeAccent2.myMessagesAnimated;
             }
-            int i = this.currentAccentId;
-            int i2 = Theme.DEFALT_THEME_ACCENT_ID;
-            if (i == i2) {
-                return true;
-            }
-            ThemeAccent themeAccent = this.themeAccentsMap.get(i2);
-            ThemeAccent themeAccent2 = this.themeAccentsMap.get(this.currentAccentId);
-            return themeAccent != null && themeAccent2 != null && themeAccent.accentColor2 == themeAccent2.accentColor2 && themeAccent.myMessagesAccentColor == themeAccent2.myMessagesAccentColor && themeAccent.myMessagesGradientAccentColor1 == themeAccent2.myMessagesGradientAccentColor1 && themeAccent.myMessagesGradientAccentColor2 == themeAccent2.myMessagesGradientAccentColor2 && themeAccent.myMessagesGradientAccentColor3 == themeAccent2.myMessagesGradientAccentColor3 && themeAccent.myMessagesAnimated == themeAccent2.myMessagesAnimated;
+            return false;
         }
 
         /* JADX INFO: Access modifiers changed from: private */
         public boolean isDefaultMainAccent() {
-            if (!this.firstAccentIsDefault) {
-                return false;
+            if (this.firstAccentIsDefault) {
+                int i = this.currentAccentId;
+                int i2 = Theme.DEFALT_THEME_ACCENT_ID;
+                if (i == i2) {
+                    return true;
+                }
+                ThemeAccent themeAccent = this.themeAccentsMap.get(i2);
+                ThemeAccent themeAccent2 = this.themeAccentsMap.get(this.currentAccentId);
+                return (themeAccent2 == null || themeAccent == null || themeAccent.accentColor != themeAccent2.accentColor) ? false : true;
             }
-            int i = this.currentAccentId;
-            int i2 = Theme.DEFALT_THEME_ACCENT_ID;
-            if (i == i2) {
-                return true;
-            }
-            ThemeAccent themeAccent = this.themeAccentsMap.get(i2);
-            ThemeAccent themeAccent2 = this.themeAccentsMap.get(this.currentAccentId);
-            return (themeAccent2 == null || themeAccent == null || themeAccent.accentColor != themeAccent2.accentColor) ? false : true;
+            return false;
         }
 
         public boolean hasAccentColors() {
@@ -2986,7 +2965,6 @@ public class Theme {
         /* JADX INFO: Access modifiers changed from: private */
         public void onFinishLoadingRemoteTheme() {
             this.loaded = true;
-            boolean z = false;
             this.previewParsed = false;
             Theme.saveOtherThemes(true);
             if (this == Theme.currentTheme && Theme.previousTheme == null) {
@@ -2994,10 +2972,7 @@ public class Theme {
                 int i = NotificationCenter.needSetDayNightTheme;
                 Object[] objArr = new Object[5];
                 objArr[0] = this;
-                if (this == Theme.currentNightTheme) {
-                    z = true;
-                }
-                objArr[1] = Boolean.valueOf(z);
+                objArr[1] = Boolean.valueOf(this == Theme.currentNightTheme);
                 objArr[2] = null;
                 objArr[3] = -1;
                 objArr[4] = Theme.fallbackKeys;
@@ -3123,13 +3098,10 @@ public class Theme {
         }
 
         public ThemeAccent createNewAccent(TLRPC$TL_theme tLRPC$TL_theme, int i, boolean z, int i2) {
-            TLRPC$ThemeSettings tLRPC$ThemeSettings = null;
             if (tLRPC$TL_theme == null) {
                 return null;
             }
-            if (i2 < tLRPC$TL_theme.settings.size()) {
-                tLRPC$ThemeSettings = tLRPC$TL_theme.settings.get(i2);
-            }
+            TLRPC$ThemeSettings tLRPC$ThemeSettings = i2 < tLRPC$TL_theme.settings.size() ? tLRPC$TL_theme.settings.get(i2) : null;
             if (z) {
                 ThemeAccent themeAccent = this.chatAccentsByThemeId.get(tLRPC$TL_theme.id);
                 if (themeAccent != null) {
@@ -3166,40 +3138,40 @@ public class Theme {
             if (this.themeAccents == null || (themeAccent = this.themeAccentsMap.get(this.currentAccentId)) == null) {
                 return null;
             }
-            if (!z) {
-                return themeAccent;
+            if (z) {
+                int i = this.lastAccentId + 1;
+                this.lastAccentId = i;
+                ThemeAccent themeAccent2 = new ThemeAccent();
+                themeAccent2.accentColor = themeAccent.accentColor;
+                themeAccent2.accentColor2 = themeAccent.accentColor2;
+                themeAccent2.myMessagesAccentColor = themeAccent.myMessagesAccentColor;
+                themeAccent2.myMessagesGradientAccentColor1 = themeAccent.myMessagesGradientAccentColor1;
+                themeAccent2.myMessagesGradientAccentColor2 = themeAccent.myMessagesGradientAccentColor2;
+                themeAccent2.myMessagesGradientAccentColor3 = themeAccent.myMessagesGradientAccentColor3;
+                themeAccent2.myMessagesAnimated = themeAccent.myMessagesAnimated;
+                themeAccent2.backgroundOverrideColor = themeAccent.backgroundOverrideColor;
+                themeAccent2.backgroundGradientOverrideColor1 = themeAccent.backgroundGradientOverrideColor1;
+                themeAccent2.backgroundGradientOverrideColor2 = themeAccent.backgroundGradientOverrideColor2;
+                themeAccent2.backgroundGradientOverrideColor3 = themeAccent.backgroundGradientOverrideColor3;
+                themeAccent2.backgroundRotation = themeAccent.backgroundRotation;
+                themeAccent2.patternSlug = themeAccent.patternSlug;
+                themeAccent2.patternIntensity = themeAccent.patternIntensity;
+                themeAccent2.patternMotion = themeAccent.patternMotion;
+                themeAccent2.parentTheme = this;
+                OverrideWallpaperInfo overrideWallpaperInfo = this.overrideWallpaper;
+                if (overrideWallpaperInfo != null) {
+                    themeAccent2.overrideWallpaper = new OverrideWallpaperInfo(overrideWallpaperInfo, this, themeAccent2);
+                }
+                this.prevAccentId = this.currentAccentId;
+                themeAccent2.id = i;
+                this.currentAccentId = i;
+                this.overrideWallpaper = themeAccent2.overrideWallpaper;
+                this.themeAccentsMap.put(i, themeAccent2);
+                this.themeAccents.add(0, themeAccent2);
+                Theme.sortAccents(this);
+                return themeAccent2;
             }
-            int i = this.lastAccentId + 1;
-            this.lastAccentId = i;
-            ThemeAccent themeAccent2 = new ThemeAccent();
-            themeAccent2.accentColor = themeAccent.accentColor;
-            themeAccent2.accentColor2 = themeAccent.accentColor2;
-            themeAccent2.myMessagesAccentColor = themeAccent.myMessagesAccentColor;
-            themeAccent2.myMessagesGradientAccentColor1 = themeAccent.myMessagesGradientAccentColor1;
-            themeAccent2.myMessagesGradientAccentColor2 = themeAccent.myMessagesGradientAccentColor2;
-            themeAccent2.myMessagesGradientAccentColor3 = themeAccent.myMessagesGradientAccentColor3;
-            themeAccent2.myMessagesAnimated = themeAccent.myMessagesAnimated;
-            themeAccent2.backgroundOverrideColor = themeAccent.backgroundOverrideColor;
-            themeAccent2.backgroundGradientOverrideColor1 = themeAccent.backgroundGradientOverrideColor1;
-            themeAccent2.backgroundGradientOverrideColor2 = themeAccent.backgroundGradientOverrideColor2;
-            themeAccent2.backgroundGradientOverrideColor3 = themeAccent.backgroundGradientOverrideColor3;
-            themeAccent2.backgroundRotation = themeAccent.backgroundRotation;
-            themeAccent2.patternSlug = themeAccent.patternSlug;
-            themeAccent2.patternIntensity = themeAccent.patternIntensity;
-            themeAccent2.patternMotion = themeAccent.patternMotion;
-            themeAccent2.parentTheme = this;
-            OverrideWallpaperInfo overrideWallpaperInfo = this.overrideWallpaper;
-            if (overrideWallpaperInfo != null) {
-                themeAccent2.overrideWallpaper = new OverrideWallpaperInfo(overrideWallpaperInfo, this, themeAccent2);
-            }
-            this.prevAccentId = this.currentAccentId;
-            themeAccent2.id = i;
-            this.currentAccentId = i;
-            this.overrideWallpaper = themeAccent2.overrideWallpaper;
-            this.themeAccentsMap.put(i, themeAccent2);
-            this.themeAccents.add(0, themeAccent2);
-            Theme.sortAccents(this);
-            return themeAccent2;
+            return themeAccent;
         }
 
         public int getAccentColor(int i) {
@@ -3270,37 +3242,35 @@ public class Theme {
                             Theme.ThemeInfo.this.lambda$didReceivedNotification$0(file);
                         }
                     });
-                } else if (!str.equals(FileLoader.getAttachFileName(this.info.document))) {
-                } else {
+                } else if (str.equals(FileLoader.getAttachFileName(this.info.document))) {
                     removeObservers();
-                    if (i != i3) {
-                        return;
+                    if (i == i3) {
+                        File file2 = new File(this.pathToFile);
+                        TLRPC$TL_theme tLRPC$TL_theme2 = this.info;
+                        final ThemeInfo fillThemeValues = Theme.fillThemeValues(file2, tLRPC$TL_theme2.title, tLRPC$TL_theme2);
+                        if (fillThemeValues != null && fillThemeValues.pathToWallpaper != null && !new File(fillThemeValues.pathToWallpaper).exists()) {
+                            this.patternBgColor = fillThemeValues.patternBgColor;
+                            this.patternBgGradientColor1 = fillThemeValues.patternBgGradientColor1;
+                            this.patternBgGradientColor2 = fillThemeValues.patternBgGradientColor2;
+                            this.patternBgGradientColor3 = fillThemeValues.patternBgGradientColor3;
+                            this.patternBgGradientRotation = fillThemeValues.patternBgGradientRotation;
+                            this.isBlured = fillThemeValues.isBlured;
+                            this.patternIntensity = fillThemeValues.patternIntensity;
+                            this.newPathToWallpaper = fillThemeValues.pathToWallpaper;
+                            TLRPC$TL_account_getWallPaper tLRPC$TL_account_getWallPaper = new TLRPC$TL_account_getWallPaper();
+                            TLRPC$TL_inputWallPaperSlug tLRPC$TL_inputWallPaperSlug = new TLRPC$TL_inputWallPaperSlug();
+                            tLRPC$TL_inputWallPaperSlug.slug = fillThemeValues.slug;
+                            tLRPC$TL_account_getWallPaper.wallpaper = tLRPC$TL_inputWallPaperSlug;
+                            ConnectionsManager.getInstance(fillThemeValues.account).sendRequest(tLRPC$TL_account_getWallPaper, new RequestDelegate() { // from class: org.telegram.ui.ActionBar.Theme$ThemeInfo$$ExternalSyntheticLambda3
+                                @Override // org.telegram.tgnet.RequestDelegate
+                                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                                    Theme.ThemeInfo.this.lambda$didReceivedNotification$2(fillThemeValues, tLObject, tLRPC$TL_error);
+                                }
+                            });
+                            return;
+                        }
+                        onFinishLoadingRemoteTheme();
                     }
-                    File file2 = new File(this.pathToFile);
-                    TLRPC$TL_theme tLRPC$TL_theme2 = this.info;
-                    final ThemeInfo fillThemeValues = Theme.fillThemeValues(file2, tLRPC$TL_theme2.title, tLRPC$TL_theme2);
-                    if (fillThemeValues != null && fillThemeValues.pathToWallpaper != null && !new File(fillThemeValues.pathToWallpaper).exists()) {
-                        this.patternBgColor = fillThemeValues.patternBgColor;
-                        this.patternBgGradientColor1 = fillThemeValues.patternBgGradientColor1;
-                        this.patternBgGradientColor2 = fillThemeValues.patternBgGradientColor2;
-                        this.patternBgGradientColor3 = fillThemeValues.patternBgGradientColor3;
-                        this.patternBgGradientRotation = fillThemeValues.patternBgGradientRotation;
-                        this.isBlured = fillThemeValues.isBlured;
-                        this.patternIntensity = fillThemeValues.patternIntensity;
-                        this.newPathToWallpaper = fillThemeValues.pathToWallpaper;
-                        TLRPC$TL_account_getWallPaper tLRPC$TL_account_getWallPaper = new TLRPC$TL_account_getWallPaper();
-                        TLRPC$TL_inputWallPaperSlug tLRPC$TL_inputWallPaperSlug = new TLRPC$TL_inputWallPaperSlug();
-                        tLRPC$TL_inputWallPaperSlug.slug = fillThemeValues.slug;
-                        tLRPC$TL_account_getWallPaper.wallpaper = tLRPC$TL_inputWallPaperSlug;
-                        ConnectionsManager.getInstance(fillThemeValues.account).sendRequest(tLRPC$TL_account_getWallPaper, new RequestDelegate() { // from class: org.telegram.ui.ActionBar.Theme$ThemeInfo$$ExternalSyntheticLambda3
-                            @Override // org.telegram.tgnet.RequestDelegate
-                            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                                Theme.ThemeInfo.this.lambda$didReceivedNotification$2(fillThemeValues, tLObject, tLRPC$TL_error);
-                            }
-                        });
-                        return;
-                    }
-                    onFinishLoadingRemoteTheme();
                 }
             }
         }
@@ -3376,11 +3346,11 @@ public class Theme {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:108:0x3788 A[Catch: Exception -> 0x396f, TryCatch #3 {Exception -> 0x396f, blocks: (B:35:0x343e, B:37:0x3456, B:38:0x3499, B:40:0x34a7, B:41:0x34d4, B:43:0x34d8, B:45:0x34e0, B:46:0x34f2, B:47:0x34fe, B:49:0x3504, B:51:0x350e, B:53:0x3512, B:55:0x3540, B:56:0x3544, B:106:0x3782, B:108:0x3788, B:109:0x3791, B:111:0x3795, B:113:0x379d, B:115:0x37a1, B:116:0x37a5, B:118:0x37a7, B:120:0x37b1, B:124:0x367a, B:127:0x3699, B:128:0x36a1, B:130:0x36ad, B:134:0x36b9, B:136:0x36c5, B:137:0x376a, B:132:0x36bf, B:147:0x37c7, B:148:0x37cd, B:151:0x37d8, B:153:0x382f, B:154:0x383d, B:156:0x384b, B:157:0x3859, B:194:0x3852, B:195:0x3836, B:197:0x34b7, B:199:0x34bf, B:201:0x34c8, B:203:0x34d2, B:204:0x3465, B:206:0x346d, B:208:0x3475, B:210:0x347f, B:212:0x3487, B:58:0x3555, B:61:0x356b, B:63:0x3580, B:64:0x3586, B:66:0x3598, B:69:0x35a8, B:72:0x35b4, B:75:0x35cb, B:78:0x35dc, B:80:0x35eb, B:83:0x35f4, B:85:0x3607, B:88:0x3610, B:90:0x3617, B:91:0x3627, B:93:0x362b, B:94:0x362f, B:96:0x363a, B:97:0x3648, B:100:0x35d2, B:101:0x35be), top: B:34:0x343e }] */
-    /* JADX WARN: Removed duplicated region for block: B:115:0x37a1 A[Catch: Exception -> 0x396f, TryCatch #3 {Exception -> 0x396f, blocks: (B:35:0x343e, B:37:0x3456, B:38:0x3499, B:40:0x34a7, B:41:0x34d4, B:43:0x34d8, B:45:0x34e0, B:46:0x34f2, B:47:0x34fe, B:49:0x3504, B:51:0x350e, B:53:0x3512, B:55:0x3540, B:56:0x3544, B:106:0x3782, B:108:0x3788, B:109:0x3791, B:111:0x3795, B:113:0x379d, B:115:0x37a1, B:116:0x37a5, B:118:0x37a7, B:120:0x37b1, B:124:0x367a, B:127:0x3699, B:128:0x36a1, B:130:0x36ad, B:134:0x36b9, B:136:0x36c5, B:137:0x376a, B:132:0x36bf, B:147:0x37c7, B:148:0x37cd, B:151:0x37d8, B:153:0x382f, B:154:0x383d, B:156:0x384b, B:157:0x3859, B:194:0x3852, B:195:0x3836, B:197:0x34b7, B:199:0x34bf, B:201:0x34c8, B:203:0x34d2, B:204:0x3465, B:206:0x346d, B:208:0x3475, B:210:0x347f, B:212:0x3487, B:58:0x3555, B:61:0x356b, B:63:0x3580, B:64:0x3586, B:66:0x3598, B:69:0x35a8, B:72:0x35b4, B:75:0x35cb, B:78:0x35dc, B:80:0x35eb, B:83:0x35f4, B:85:0x3607, B:88:0x3610, B:90:0x3617, B:91:0x3627, B:93:0x362b, B:94:0x362f, B:96:0x363a, B:97:0x3648, B:100:0x35d2, B:101:0x35be), top: B:34:0x343e }] */
-    /* JADX WARN: Removed duplicated region for block: B:117:0x37a4  */
-    /* JADX WARN: Removed duplicated region for block: B:120:0x37b1 A[Catch: Exception -> 0x396f, TryCatch #3 {Exception -> 0x396f, blocks: (B:35:0x343e, B:37:0x3456, B:38:0x3499, B:40:0x34a7, B:41:0x34d4, B:43:0x34d8, B:45:0x34e0, B:46:0x34f2, B:47:0x34fe, B:49:0x3504, B:51:0x350e, B:53:0x3512, B:55:0x3540, B:56:0x3544, B:106:0x3782, B:108:0x3788, B:109:0x3791, B:111:0x3795, B:113:0x379d, B:115:0x37a1, B:116:0x37a5, B:118:0x37a7, B:120:0x37b1, B:124:0x367a, B:127:0x3699, B:128:0x36a1, B:130:0x36ad, B:134:0x36b9, B:136:0x36c5, B:137:0x376a, B:132:0x36bf, B:147:0x37c7, B:148:0x37cd, B:151:0x37d8, B:153:0x382f, B:154:0x383d, B:156:0x384b, B:157:0x3859, B:194:0x3852, B:195:0x3836, B:197:0x34b7, B:199:0x34bf, B:201:0x34c8, B:203:0x34d2, B:204:0x3465, B:206:0x346d, B:208:0x3475, B:210:0x347f, B:212:0x3487, B:58:0x3555, B:61:0x356b, B:63:0x3580, B:64:0x3586, B:66:0x3598, B:69:0x35a8, B:72:0x35b4, B:75:0x35cb, B:78:0x35dc, B:80:0x35eb, B:83:0x35f4, B:85:0x3607, B:88:0x3610, B:90:0x3617, B:91:0x3627, B:93:0x362b, B:94:0x362f, B:96:0x363a, B:97:0x3648, B:100:0x35d2, B:101:0x35be), top: B:34:0x343e }] */
-    /* JADX WARN: Removed duplicated region for block: B:123:0x37bb A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:149:0x3788 A[Catch: Exception -> 0x396f, TryCatch #3 {Exception -> 0x396f, blocks: (B:38:0x343e, B:40:0x3456, B:51:0x3499, B:53:0x34a7, B:61:0x34d4, B:63:0x34d8, B:65:0x34e0, B:66:0x34f2, B:67:0x34fe, B:69:0x3504, B:71:0x350e, B:73:0x3512, B:75:0x3540, B:77:0x3544, B:147:0x3782, B:149:0x3788, B:150:0x3791, B:152:0x3795, B:154:0x379d, B:156:0x37a1, B:158:0x37a5, B:159:0x37a7, B:161:0x37b1, B:132:0x367a, B:135:0x3699, B:136:0x36a1, B:138:0x36ad, B:140:0x36b9, B:144:0x36c5, B:146:0x376a, B:141:0x36bf, B:166:0x37c7, B:167:0x37cd, B:171:0x37d8, B:173:0x382f, B:175:0x383d, B:177:0x384b, B:179:0x3859, B:178:0x3852, B:174:0x3836, B:54:0x34b7, B:56:0x34bf, B:58:0x34c8, B:60:0x34d2, B:41:0x3465, B:43:0x346d, B:45:0x3475, B:47:0x347f, B:49:0x3487, B:79:0x3555, B:82:0x356b, B:84:0x3580, B:85:0x3586, B:87:0x3598, B:90:0x35a8, B:94:0x35b4, B:98:0x35cb, B:102:0x35dc, B:104:0x35eb, B:107:0x35f4, B:109:0x3607, B:112:0x3610, B:114:0x3617, B:115:0x3627, B:117:0x362b, B:118:0x362f, B:120:0x363a, B:122:0x3648, B:99:0x35d2, B:95:0x35be), top: B:219:0x343e }] */
+    /* JADX WARN: Removed duplicated region for block: B:156:0x37a1 A[Catch: Exception -> 0x396f, TryCatch #3 {Exception -> 0x396f, blocks: (B:38:0x343e, B:40:0x3456, B:51:0x3499, B:53:0x34a7, B:61:0x34d4, B:63:0x34d8, B:65:0x34e0, B:66:0x34f2, B:67:0x34fe, B:69:0x3504, B:71:0x350e, B:73:0x3512, B:75:0x3540, B:77:0x3544, B:147:0x3782, B:149:0x3788, B:150:0x3791, B:152:0x3795, B:154:0x379d, B:156:0x37a1, B:158:0x37a5, B:159:0x37a7, B:161:0x37b1, B:132:0x367a, B:135:0x3699, B:136:0x36a1, B:138:0x36ad, B:140:0x36b9, B:144:0x36c5, B:146:0x376a, B:141:0x36bf, B:166:0x37c7, B:167:0x37cd, B:171:0x37d8, B:173:0x382f, B:175:0x383d, B:177:0x384b, B:179:0x3859, B:178:0x3852, B:174:0x3836, B:54:0x34b7, B:56:0x34bf, B:58:0x34c8, B:60:0x34d2, B:41:0x3465, B:43:0x346d, B:45:0x3475, B:47:0x347f, B:49:0x3487, B:79:0x3555, B:82:0x356b, B:84:0x3580, B:85:0x3586, B:87:0x3598, B:90:0x35a8, B:94:0x35b4, B:98:0x35cb, B:102:0x35dc, B:104:0x35eb, B:107:0x35f4, B:109:0x3607, B:112:0x3610, B:114:0x3617, B:115:0x3627, B:117:0x362b, B:118:0x362f, B:120:0x363a, B:122:0x3648, B:99:0x35d2, B:95:0x35be), top: B:219:0x343e }] */
+    /* JADX WARN: Removed duplicated region for block: B:157:0x37a4  */
+    /* JADX WARN: Removed duplicated region for block: B:161:0x37b1 A[Catch: Exception -> 0x396f, TryCatch #3 {Exception -> 0x396f, blocks: (B:38:0x343e, B:40:0x3456, B:51:0x3499, B:53:0x34a7, B:61:0x34d4, B:63:0x34d8, B:65:0x34e0, B:66:0x34f2, B:67:0x34fe, B:69:0x3504, B:71:0x350e, B:73:0x3512, B:75:0x3540, B:77:0x3544, B:147:0x3782, B:149:0x3788, B:150:0x3791, B:152:0x3795, B:154:0x379d, B:156:0x37a1, B:158:0x37a5, B:159:0x37a7, B:161:0x37b1, B:132:0x367a, B:135:0x3699, B:136:0x36a1, B:138:0x36ad, B:140:0x36b9, B:144:0x36c5, B:146:0x376a, B:141:0x36bf, B:166:0x37c7, B:167:0x37cd, B:171:0x37d8, B:173:0x382f, B:175:0x383d, B:177:0x384b, B:179:0x3859, B:178:0x3852, B:174:0x3836, B:54:0x34b7, B:56:0x34bf, B:58:0x34c8, B:60:0x34d2, B:41:0x3465, B:43:0x346d, B:45:0x3475, B:47:0x347f, B:49:0x3487, B:79:0x3555, B:82:0x356b, B:84:0x3580, B:85:0x3586, B:87:0x3598, B:90:0x35a8, B:94:0x35b4, B:98:0x35cb, B:102:0x35dc, B:104:0x35eb, B:107:0x35f4, B:109:0x3607, B:112:0x3610, B:114:0x3617, B:115:0x3627, B:117:0x362b, B:118:0x362f, B:120:0x363a, B:122:0x3648, B:99:0x35d2, B:95:0x35be), top: B:219:0x343e }] */
+    /* JADX WARN: Removed duplicated region for block: B:231:0x37bb A[SYNTHETIC] */
     /* JADX WARN: Type inference failed for: r2v73, types: [boolean] */
     /* JADX WARN: Type inference failed for: r2v83 */
     /* JADX WARN: Type inference failed for: r2v86 */
@@ -3409,6 +3379,14 @@ public class Theme {
         autoNightLocationLatitude = 10000.0d;
         autoNightLocationLongitude = 10000.0d;
         new HashSet();
+        defaultColors = new HashMap<>();
+        fallbackKeys = new HashMap<>();
+        themeAccentExclusionKeys = new HashSet<>();
+        hsvTemp1Local = new ThreadLocal<>();
+        hsvTemp2Local = new ThreadLocal<>();
+        hsvTemp3Local = new ThreadLocal<>();
+        hsvTemp4Local = new ThreadLocal<>();
+        hsvTemp5Local = new ThreadLocal<>();
         defaultColors.put("dialogBackground", -1);
         defaultColors.put("dialogBackgroundGray", -986896);
         defaultColors.put("dialogTextBlack", -14540254);
@@ -4492,6 +4470,11 @@ public class Theme {
         myMessagesColorKeys.add("chat_outBroadcast");
         myMessagesColorKeys.add("chat_messageTextOut");
         myMessagesColorKeys.add("chat_messageLinkOut");
+        themes = new ArrayList<>();
+        otherThemes = new ArrayList<>();
+        themesDict = new HashMap<>();
+        currentColorsNoAccent = new HashMap<>();
+        currentColors = new HashMap<>();
         SharedPreferences sharedPreferences = ApplicationLoader.applicationContext.getSharedPreferences("themeconfig", 0);
         ThemeInfo themeInfo6 = new ThemeInfo();
         themeInfo6.name = "Blue";
@@ -4829,7 +4812,6 @@ public class Theme {
                 str = null;
             }
             ThemeInfo themeInfo12 = themeInfo;
-            boolean z4 = true;
             if (editor != null) {
                 editor.commit();
                 editor2.commit();
@@ -4862,9 +4844,9 @@ public class Theme {
                 themeInfo3 = themeInfo12;
             }
             if (globalMainSettings.contains("overrideThemeWallpaper") || globalMainSettings.contains("selectedBackground2")) {
-                boolean z5 = globalMainSettings.getBoolean("overrideThemeWallpaper", false);
+                boolean z4 = globalMainSettings.getBoolean("overrideThemeWallpaper", false);
                 long j3 = globalMainSettings.getLong("selectedBackground2", 1000001L);
-                if (j3 == -1 || (z5 && j3 != -2 && j3 != 1000001)) {
+                if (j3 == -1 || (z4 && j3 != -2 && j3 != 1000001)) {
                     OverrideWallpaperInfo overrideWallpaperInfo = new OverrideWallpaperInfo();
                     overrideWallpaperInfo.color = globalMainSettings.getInt("selectedColor", 0);
                     overrideWallpaperInfo.slug = globalMainSettings.getString("selectedBackgroundSlug", "");
@@ -4894,10 +4876,7 @@ public class Theme {
             if (needSwitchToTheme == 2) {
                 themeInfo3 = currentNightTheme;
             }
-            if (needSwitchToTheme != 2) {
-                z4 = false;
-            }
-            applyTheme(themeInfo3, false, false, z4);
+            applyTheme(themeInfo3, false, false, needSwitchToTheme == 2);
             AndroidUtilities.runOnUIThread(MessagesController$$ExternalSyntheticLambda229.INSTANCE);
             ambientSensorListener = new SensorEventListener() { // from class: org.telegram.ui.ActionBar.Theme.9
                 @Override // android.hardware.SensorEventListener
@@ -5124,24 +5103,24 @@ public class Theme {
             if (i == 1 && i2 == 14) {
                 return 1;
             }
-            if (i == 9 && i2 >= 30) {
-                return 2;
+            if (i != 9 || i2 < 30) {
+                return (i == 10 && i2 == 1 && i3 < 12) ? 2 : -1;
             }
-            return (i == 10 && i2 == 1 && i3 < 12) ? 2 : -1;
+            return 2;
         }
         return 0;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:16:0x0057, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:19:0x0057, code lost:
         if (r2 <= 31) goto L17;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:17:0x005d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:21:0x005b, code lost:
+        if (r2 == 1) goto L17;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:22:0x005d, code lost:
         org.telegram.ui.ActionBar.Theme.dialogs_holidayDrawable = org.telegram.messenger.ApplicationLoader.applicationContext.getResources().getDrawable(org.telegram.messenger.R.drawable.newyear);
         org.telegram.ui.ActionBar.Theme.dialogs_holidayDrawableOffsetX = -org.telegram.messenger.AndroidUtilities.dp(3.0f);
         org.telegram.ui.ActionBar.Theme.dialogs_holidayDrawableOffsetY = -org.telegram.messenger.AndroidUtilities.dp(1.0f);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:20:0x005b, code lost:
-        if (r2 == 1) goto L17;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -5223,18 +5202,17 @@ public class Theme {
 
     public static void setCombinedDrawableColor(Drawable drawable, int i, boolean z) {
         Drawable background;
-        if (!(drawable instanceof CombinedDrawable)) {
-            return;
-        }
-        if (z) {
-            background = ((CombinedDrawable) drawable).getIcon();
-        } else {
-            background = ((CombinedDrawable) drawable).getBackground();
-        }
-        if (background instanceof ColorDrawable) {
-            ((ColorDrawable) background).setColor(i);
-        } else {
-            background.setColorFilter(new PorterDuffColorFilter(i, PorterDuff.Mode.MULTIPLY));
+        if (drawable instanceof CombinedDrawable) {
+            if (z) {
+                background = ((CombinedDrawable) drawable).getIcon();
+            } else {
+                background = ((CombinedDrawable) drawable).getBackground();
+            }
+            if (background instanceof ColorDrawable) {
+                ((ColorDrawable) background).setColor(i);
+            } else {
+                background.setColorFilter(new PorterDuffColorFilter(i, PorterDuff.Mode.MULTIPLY));
+            }
         }
     }
 
@@ -5398,7 +5376,7 @@ public class Theme {
         return createSelectorDrawable(i, i2, -1);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:21:0x004f  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x004f  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -5892,10 +5870,10 @@ public class Theme {
         if (themeInfo.pathToFile == null && themeInfo.assetName == null) {
             return -1;
         }
-        if (themeInfo2.pathToFile != null || themeInfo2.assetName != null) {
-            return themeInfo.name.compareTo(themeInfo2.name);
+        if (themeInfo2.pathToFile == null && themeInfo2.assetName == null) {
+            return 1;
         }
-        return 1;
+        return themeInfo.name.compareTo(themeInfo2.name);
     }
 
     public static void applyThemeTemporary(ThemeInfo themeInfo, boolean z) {
@@ -6064,15 +6042,15 @@ public class Theme {
         applyTheme(themeInfo, z, true, z2);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:38:0x003c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:19:0x003c, code lost:
         if (r8 == false) goto L40;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:39:0x003e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:20:0x003e, code lost:
         r0 = org.telegram.messenger.MessagesController.getGlobalMainSettings().edit();
         r0.putString("theme", r7.getKey());
         r0.apply();
      */
-    /* JADX WARN: Removed duplicated region for block: B:24:0x01d1 A[Catch: Exception -> 0x01e8, TryCatch #2 {Exception -> 0x01e8, blocks: (B:9:0x000d, B:12:0x0014, B:17:0x001d, B:18:0x002b, B:20:0x01c5, B:22:0x01c9, B:24:0x01d1, B:25:0x01e2, B:39:0x003e, B:40:0x0050, B:42:0x0057, B:43:0x006b, B:45:0x0077, B:46:0x007d, B:48:0x0087, B:56:0x00c3, B:110:0x01bf, B:113:0x005e, B:57:0x00c5, B:59:0x00db, B:61:0x00e7, B:64:0x00eb, B:66:0x00ee, B:68:0x00f8, B:70:0x0107, B:71:0x00fb, B:73:0x0105, B:77:0x010a, B:79:0x011b, B:81:0x0127, B:83:0x013f, B:85:0x0149, B:86:0x0155, B:88:0x015d, B:90:0x0167, B:91:0x0174, B:93:0x017c, B:95:0x0186, B:98:0x0193, B:100:0x019f), top: B:8:0x000d }] */
+    /* JADX WARN: Removed duplicated region for block: B:89:0x01d1 A[Catch: Exception -> 0x01e8, TryCatch #2 {Exception -> 0x01e8, blocks: (B:8:0x000d, B:11:0x0014, B:16:0x001d, B:17:0x002b, B:85:0x01c5, B:87:0x01c9, B:89:0x01d1, B:90:0x01e2, B:20:0x003e, B:21:0x0050, B:23:0x0057, B:25:0x006b, B:27:0x0077, B:29:0x007d, B:31:0x0087, B:37:0x00c3, B:83:0x01bf, B:24:0x005e, B:38:0x00c5, B:40:0x00db, B:42:0x00e7, B:45:0x00eb, B:47:0x00ee, B:49:0x00f8, B:53:0x0107, B:50:0x00fb, B:52:0x0105, B:54:0x010a, B:55:0x011b, B:57:0x0127, B:59:0x013f, B:61:0x0149, B:62:0x0155, B:64:0x015d, B:66:0x0167, B:67:0x0174, B:69:0x017c, B:71:0x0186, B:72:0x0193, B:74:0x019f), top: B:106:0x000d }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -6110,7 +6088,7 @@ public class Theme {
             }
             currentTheme = themeInfo;
             refreshThemeColors();
-            if (previousTheme != null || !z || switchingNightTheme) {
+            if (previousTheme == null || !z || switchingNightTheme) {
                 return;
             }
             MessagesController.getInstance(themeInfo.account).saveTheme(themeInfo, themeInfo.getAccent(false), z3, false);
@@ -6191,14 +6169,14 @@ public class Theme {
         }
         currentTheme = themeInfo;
         refreshThemeColors();
-        if (previousTheme != null) {
+        if (previousTheme == null) {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:40:0x0064, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:28:0x0064, code lost:
         if (r10 == false) goto L42;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:41:0x0066, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:29:0x0066, code lost:
         r0 = org.telegram.messenger.MessagesController.getGlobalMainSettings().edit();
         r0.putString("theme", r9.getKey());
         r0.apply();
@@ -6208,10 +6186,10 @@ public class Theme {
     */
     private static void applyThemeInBackground(final ThemeInfo themeInfo, final boolean z, boolean z2, final boolean z3, final Runnable runnable) {
         if (themeInfo == null) {
-            if (runnable == null) {
+            if (runnable != null) {
+                runnable.run();
                 return;
             }
-            runnable.run();
             return;
         }
         ThemeEditorView themeEditorView = ThemeEditorView.getInstance();
@@ -6246,10 +6224,10 @@ public class Theme {
             if (previousTheme == null && z && !switchingNightTheme) {
                 MessagesController.getInstance(themeInfo.account).saveTheme(themeInfo, themeInfo.getAccent(false), z3, false);
             }
-            if (runnable == null) {
+            if (runnable != null) {
+                runnable.run();
                 return;
             }
-            runnable.run();
             return;
         }
         final String[] strArr = new String[1];
@@ -6465,13 +6443,8 @@ public class Theme {
     }
 
     public static int changeColorAccent(int i) {
-        int i2 = 0;
         ThemeAccent accent = currentTheme.getAccent(false);
-        ThemeInfo themeInfo = currentTheme;
-        if (accent != null) {
-            i2 = accent.accentColor;
-        }
-        return changeColorAccent(themeInfo, i2, i);
+        return changeColorAccent(currentTheme, accent != null ? accent.accentColor : 0, i);
     }
 
     public static int changeColorAccent(float[] fArr, float[] fArr2, int i, boolean z) {
@@ -6501,13 +6474,7 @@ public class Theme {
         int red = (int) (Color.red(i) * f);
         int green = (int) (Color.green(i) * f);
         int blue = (int) (Color.blue(i) * f);
-        int i2 = 0;
-        int min = red < 0 ? 0 : Math.min(red, 255);
-        int min2 = green < 0 ? 0 : Math.min(green, 255);
-        if (blue >= 0) {
-            i2 = Math.min(blue, 255);
-        }
-        return Color.argb(Color.alpha(i), min, min2, i2);
+        return Color.argb(Color.alpha(i), red < 0 ? 0 : Math.min(red, 255), green < 0 ? 0 : Math.min(green, 255), blue >= 0 ? Math.min(blue, 255) : 0);
     }
 
     public static boolean deleteThemeAccent(ThemeInfo themeInfo, ThemeAccent themeAccent, boolean z) {
@@ -6647,7 +6614,7 @@ public class Theme {
             StringBuilder sb = new StringBuilder();
             sb.append("2remoteThemesHash");
             Object obj = "";
-            sb.append(i3 != 0 ? Integer.valueOf(i3) : obj);
+            sb.append(i3 != 0 ? Integer.valueOf(i3) : "");
             edit.putLong(sb.toString(), remoteThemesHash[i3]);
             StringBuilder sb2 = new StringBuilder();
             sb2.append("lastLoadingThemesTime");
@@ -6736,16 +6703,14 @@ public class Theme {
                 switchDayRunnableScheduled = false;
                 AndroidUtilities.cancelRunOnUIThread(switchDayBrightnessRunnable);
             }
-            if (!lightSensorRegistered) {
-                return;
+            if (lightSensorRegistered) {
+                lastBrightnessValue = 1.0f;
+                sensorManager.unregisterListener(ambientSensorListener, lightSensor);
+                lightSensorRegistered = false;
+                if (BuildVars.LOGS_ENABLED) {
+                    FileLog.d("light sensor unregistered");
+                }
             }
-            lastBrightnessValue = 1.0f;
-            sensorManager.unregisterListener(ambientSensorListener, lightSensor);
-            lightSensorRegistered = false;
-            if (!BuildVars.LOGS_ENABLED) {
-                return;
-            }
-            FileLog.d("light sensor unregistered");
         }
     }
 
@@ -6818,9 +6783,10 @@ public class Theme {
 
     public static void setChangingWallpaper(boolean z) {
         changingWallpaper = z;
-        if (!z) {
-            checkAutoNightThemeConditions(false);
+        if (z) {
+            return;
         }
+        checkAutoNightThemeConditions(false);
     }
 
     public static void checkAutoNightThemeConditions(boolean z) {
@@ -6837,7 +6803,6 @@ public class Theme {
                 return;
             }
         }
-        boolean z2 = false;
         if (z) {
             if (switchNightRunnableScheduled) {
                 switchNightRunnableScheduled = false;
@@ -6851,15 +6816,11 @@ public class Theme {
         cancelAutoNightThemeCallbacks();
         int needSwitchToTheme = needSwitchToTheme();
         if (needSwitchToTheme != 0) {
-            if (needSwitchToTheme == 2) {
-                z2 = true;
-            }
-            applyDayNightThemeMaybe(z2);
+            applyDayNightThemeMaybe(needSwitchToTheme == 2);
         }
-        if (!z) {
-            return;
+        if (z) {
+            lastThemeSwitchTime = 0L;
         }
-        lastThemeSwitchTime = 0L;
     }
 
     public static void applyDayNightThemeMaybe(boolean z) {
@@ -6869,32 +6830,30 @@ public class Theme {
         if (z) {
             ThemeInfo themeInfo = currentTheme;
             ThemeInfo themeInfo2 = currentNightTheme;
-            if (themeInfo == themeInfo2) {
+            if (themeInfo != themeInfo2) {
+                if (themeInfo == null || !(themeInfo2 == null || themeInfo.isDark() == currentNightTheme.isDark())) {
+                    isInNigthMode = true;
+                    lastThemeSwitchTime = SystemClock.elapsedRealtime();
+                    switchingNightTheme = true;
+                    NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.needSetDayNightTheme, currentNightTheme, Boolean.TRUE, null, -1);
+                    switchingNightTheme = false;
+                    return;
+                }
                 return;
             }
-            if (themeInfo != null && (themeInfo2 == null || themeInfo.isDark() == currentNightTheme.isDark())) {
-                return;
-            }
-            isInNigthMode = true;
-            lastThemeSwitchTime = SystemClock.elapsedRealtime();
-            switchingNightTheme = true;
-            NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.needSetDayNightTheme, currentNightTheme, Boolean.TRUE, null, -1);
-            switchingNightTheme = false;
             return;
         }
         ThemeInfo themeInfo3 = currentTheme;
         ThemeInfo themeInfo4 = currentDayTheme;
-        if (themeInfo3 == themeInfo4) {
-            return;
+        if (themeInfo3 != themeInfo4) {
+            if (themeInfo3 == null || !(themeInfo4 == null || themeInfo3.isLight() == currentDayTheme.isLight())) {
+                isInNigthMode = false;
+                lastThemeSwitchTime = SystemClock.elapsedRealtime();
+                switchingNightTheme = true;
+                NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.needSetDayNightTheme, currentDayTheme, Boolean.TRUE, null, -1);
+                switchingNightTheme = false;
+            }
         }
-        if (themeInfo3 != null && (themeInfo4 == null || themeInfo3.isLight() == currentDayTheme.isLight())) {
-            return;
-        }
-        isInNigthMode = false;
-        lastThemeSwitchTime = SystemClock.elapsedRealtime();
-        switchingNightTheme = true;
-        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.needSetDayNightTheme, currentDayTheme, Boolean.TRUE, null, -1);
-        switchingNightTheme = false;
     }
 
     public static boolean deleteTheme(ThemeInfo themeInfo) {
@@ -6935,7 +6894,6 @@ public class Theme {
 
     private static String getWallpaperUrl(OverrideWallpaperInfo overrideWallpaperInfo) {
         String str;
-        String str2 = null;
         if (overrideWallpaperInfo == null || TextUtils.isEmpty(overrideWallpaperInfo.slug) || overrideWallpaperInfo.slug.equals("d")) {
             return null;
         }
@@ -6959,29 +6917,27 @@ public class Theme {
             int i3 = overrideWallpaperInfo.gradientColor2;
             String lowerCase3 = i3 != 0 ? String.format("%02x%02x%02x", Integer.valueOf(((byte) (i3 >> 16)) & 255), Integer.valueOf(((byte) (overrideWallpaperInfo.gradientColor2 >> 8)) & 255), Byte.valueOf((byte) (overrideWallpaperInfo.gradientColor2 & 255))).toLowerCase() : null;
             int i4 = overrideWallpaperInfo.gradientColor3;
-            if (i4 != 0) {
-                str2 = String.format("%02x%02x%02x", Integer.valueOf(((byte) (i4 >> 16)) & 255), Integer.valueOf(((byte) (overrideWallpaperInfo.gradientColor3 >> 8)) & 255), Byte.valueOf((byte) (overrideWallpaperInfo.gradientColor3 & 255))).toLowerCase();
-            }
+            String lowerCase4 = i4 != 0 ? String.format("%02x%02x%02x", Integer.valueOf(((byte) (i4 >> 16)) & 255), Integer.valueOf(((byte) (overrideWallpaperInfo.gradientColor3 >> 8)) & 255), Byte.valueOf((byte) (overrideWallpaperInfo.gradientColor3 & 255))).toLowerCase() : null;
             if (lowerCase2 == null || lowerCase3 == null) {
                 if (lowerCase2 != null) {
                     lowerCase = (lowerCase + "-" + lowerCase2) + "&rotation=" + overrideWallpaperInfo.rotation;
                 }
-            } else if (str2 != null) {
-                lowerCase = lowerCase + "~" + lowerCase2 + "~" + lowerCase3 + "~" + str2;
+            } else if (lowerCase4 != null) {
+                lowerCase = lowerCase + "~" + lowerCase2 + "~" + lowerCase3 + "~" + lowerCase4;
             } else {
                 lowerCase = lowerCase + "~" + lowerCase2 + "~" + lowerCase3;
             }
             str = "https://attheme.org?slug=" + overrideWallpaperInfo.slug + "&intensity=" + ((int) (overrideWallpaperInfo.intensity * 100.0f)) + "&bg_color=" + lowerCase;
         }
-        if (sb.length() <= 0) {
-            return str;
+        if (sb.length() > 0) {
+            return str + "&mode=" + sb.toString();
         }
-        return str + "&mode=" + sb.toString();
+        return str;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:101:0x021c  */
-    /* JADX WARN: Removed duplicated region for block: B:104:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:119:0x0217 -> B:87:0x021a). Please submit an issue!!! */
+    /* JADX WARN: Removed duplicated region for block: B:113:0x021c  */
+    /* JADX WARN: Removed duplicated region for block: B:145:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:111:0x0217 -> B:127:0x021a). Please submit an issue!!! */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -6999,7 +6955,7 @@ public class Theme {
             themedWallpaper = wallpaper;
         }
         ThemeAccent accent = currentTheme.getAccent(false);
-        HashMap<String, Integer> hashMap = (!currentTheme.firstAccentIsDefault || accent.id != DEFALT_THEME_ACCENT_ID) ? currentColors : defaultColors;
+        HashMap<String, Integer> hashMap = (currentTheme.firstAccentIsDefault && accent.id == DEFALT_THEME_ACCENT_ID) ? defaultColors : currentColors;
         StringBuilder sb = new StringBuilder();
         if (hashMap != defaultColors) {
             int i = accent != null ? accent.myMessagesAccentColor : 0;
@@ -7095,7 +7051,7 @@ public class Theme {
             if (fileOutputStream2 != null) {
                 fileOutputStream2.close();
             }
-            if (!z) {
+            if (z) {
             }
         } catch (Throwable th2) {
             th = th2;
@@ -7109,46 +7065,46 @@ public class Theme {
             }
             throw th;
         }
-        if (!z) {
-            MessagesController.getInstance(themeInfo.account).saveThemeToServer(themeInfo, themeInfo.getAccent(false));
+        if (z) {
+            return;
         }
+        MessagesController.getInstance(themeInfo.account).saveThemeToServer(themeInfo, themeInfo.getAccent(false));
     }
 
     public static void checkCurrentRemoteTheme(boolean z) {
         int i;
         if (loadingCurrentTheme == 0) {
-            if (!z && Math.abs((System.currentTimeMillis() / 1000) - lastLoadingCurrentThemeTime) < 3600) {
-                return;
-            }
-            int i2 = 0;
-            while (i2 < 2) {
-                final ThemeInfo themeInfo = i2 == 0 ? currentDayTheme : currentNightTheme;
-                if (themeInfo != null && UserConfig.getInstance(themeInfo.account).isClientActivated()) {
-                    final ThemeAccent accent = themeInfo.getAccent(false);
-                    final TLRPC$TL_theme tLRPC$TL_theme = themeInfo.info;
-                    if (tLRPC$TL_theme != null) {
-                        i = themeInfo.account;
-                    } else if (accent != null && (tLRPC$TL_theme = accent.info) != null) {
-                        i = UserConfig.selectedAccount;
+            if (z || Math.abs((System.currentTimeMillis() / 1000) - lastLoadingCurrentThemeTime) >= 3600) {
+                int i2 = 0;
+                while (i2 < 2) {
+                    final ThemeInfo themeInfo = i2 == 0 ? currentDayTheme : currentNightTheme;
+                    if (themeInfo != null && UserConfig.getInstance(themeInfo.account).isClientActivated()) {
+                        final ThemeAccent accent = themeInfo.getAccent(false);
+                        final TLRPC$TL_theme tLRPC$TL_theme = themeInfo.info;
+                        if (tLRPC$TL_theme != null) {
+                            i = themeInfo.account;
+                        } else if (accent != null && (tLRPC$TL_theme = accent.info) != null) {
+                            i = UserConfig.selectedAccount;
+                        }
+                        if (tLRPC$TL_theme != null && tLRPC$TL_theme.document != null) {
+                            loadingCurrentTheme++;
+                            TLRPC$TL_account_getTheme tLRPC$TL_account_getTheme = new TLRPC$TL_account_getTheme();
+                            tLRPC$TL_account_getTheme.document_id = tLRPC$TL_theme.document.id;
+                            tLRPC$TL_account_getTheme.format = "android";
+                            TLRPC$TL_inputTheme tLRPC$TL_inputTheme = new TLRPC$TL_inputTheme();
+                            tLRPC$TL_inputTheme.access_hash = tLRPC$TL_theme.access_hash;
+                            tLRPC$TL_inputTheme.id = tLRPC$TL_theme.id;
+                            tLRPC$TL_account_getTheme.theme = tLRPC$TL_inputTheme;
+                            ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_account_getTheme, new RequestDelegate() { // from class: org.telegram.ui.ActionBar.Theme$$ExternalSyntheticLambda14
+                                @Override // org.telegram.tgnet.RequestDelegate
+                                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                                    Theme.lambda$checkCurrentRemoteTheme$7(Theme.ThemeAccent.this, themeInfo, tLRPC$TL_theme, tLObject, tLRPC$TL_error);
+                                }
+                            });
+                        }
                     }
-                    if (tLRPC$TL_theme != null && tLRPC$TL_theme.document != null) {
-                        loadingCurrentTheme++;
-                        TLRPC$TL_account_getTheme tLRPC$TL_account_getTheme = new TLRPC$TL_account_getTheme();
-                        tLRPC$TL_account_getTheme.document_id = tLRPC$TL_theme.document.id;
-                        tLRPC$TL_account_getTheme.format = "android";
-                        TLRPC$TL_inputTheme tLRPC$TL_inputTheme = new TLRPC$TL_inputTheme();
-                        tLRPC$TL_inputTheme.access_hash = tLRPC$TL_theme.access_hash;
-                        tLRPC$TL_inputTheme.id = tLRPC$TL_theme.id;
-                        tLRPC$TL_account_getTheme.theme = tLRPC$TL_inputTheme;
-                        ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_account_getTheme, new RequestDelegate() { // from class: org.telegram.ui.ActionBar.Theme$$ExternalSyntheticLambda14
-                            @Override // org.telegram.tgnet.RequestDelegate
-                            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                                Theme.lambda$checkCurrentRemoteTheme$7(Theme.ThemeAccent.this, themeInfo, tLRPC$TL_theme, tLObject, tLRPC$TL_error);
-                            }
-                        });
-                    }
+                    i2++;
                 }
-                i2++;
             }
         }
     }
@@ -7164,8 +7120,8 @@ public class Theme {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:32:0x00a6  */
-    /* JADX WARN: Removed duplicated region for block: B:35:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x00a6  */
+    /* JADX WARN: Removed duplicated region for block: B:47:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -7178,7 +7134,9 @@ public class Theme {
             TLRPC$TL_theme tLRPC$TL_theme2 = (TLRPC$TL_theme) tLObject;
             TLRPC$ThemeSettings tLRPC$ThemeSettings = tLRPC$TL_theme2.settings.size() > 0 ? tLRPC$TL_theme2.settings.get(0) : null;
             if (themeAccent != null && tLRPC$ThemeSettings != null) {
-                if (!ThemeInfo.accentEquals(themeAccent, tLRPC$ThemeSettings)) {
+                if (ThemeInfo.accentEquals(themeAccent, tLRPC$ThemeSettings)) {
+                    z = false;
+                } else {
                     File pathToWallpaper = themeAccent.getPathToWallpaper();
                     if (pathToWallpaper != null) {
                         pathToWallpaper.delete();
@@ -7200,14 +7158,9 @@ public class Theme {
                     }
                     PatternsLoader.createLoader(true);
                     z = true;
-                } else {
-                    z = false;
                 }
                 TLRPC$WallPaper tLRPC$WallPaper = tLRPC$ThemeSettings.wallpaper;
-                if (tLRPC$WallPaper == null || (tLRPC$WallPaperSettings = tLRPC$WallPaper.settings) == null || !tLRPC$WallPaperSettings.motion) {
-                    z2 = false;
-                }
-                themeAccent.patternMotion = z2;
+                themeAccent.patternMotion = (tLRPC$WallPaper == null || (tLRPC$WallPaperSettings = tLRPC$WallPaper.settings) == null || !tLRPC$WallPaperSettings.motion) ? false : false;
                 z2 = z;
             } else {
                 TLRPC$Document tLRPC$Document = tLRPC$TL_theme2.document;
@@ -7220,23 +7173,23 @@ public class Theme {
                     }
                 }
             }
-            if (loadingCurrentTheme == 0) {
+            if (loadingCurrentTheme != 0) {
+                lastLoadingCurrentThemeTime = (int) (System.currentTimeMillis() / 1000);
+                saveOtherThemes(z2);
                 return;
             }
-            lastLoadingCurrentThemeTime = (int) (System.currentTimeMillis() / 1000);
-            saveOtherThemes(z2);
             return;
         }
         z2 = false;
-        if (loadingCurrentTheme == 0) {
+        if (loadingCurrentTheme != 0) {
         }
     }
 
     public static void loadRemoteThemes(final int i, boolean z) {
-        if (!loadingRemoteThemes[i]) {
-            if ((!z && Math.abs((System.currentTimeMillis() / 1000) - lastLoadingThemesTime[i]) < 3600) || !UserConfig.getInstance(i).isClientActivated()) {
-                return;
-            }
+        if (loadingRemoteThemes[i]) {
+            return;
+        }
+        if ((z || Math.abs((System.currentTimeMillis() / 1000) - lastLoadingThemesTime[i]) >= 3600) && UserConfig.getInstance(i).isClientActivated()) {
             loadingRemoteThemes[i] = true;
             TLRPC$TL_account_getThemes tLRPC$TL_account_getThemes = new TLRPC$TL_account_getThemes();
             tLRPC$TL_account_getThemes.format = "android";
@@ -7266,8 +7219,8 @@ public class Theme {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:112:0x020d  */
-    /* JADX WARN: Removed duplicated region for block: B:119:0x0219  */
+    /* JADX WARN: Removed duplicated region for block: B:103:0x020d  */
+    /* JADX WARN: Removed duplicated region for block: B:107:0x0219  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -7343,11 +7296,11 @@ public class Theme {
                                 } else {
                                     arrayList2 = arrayList4;
                                     ThemeAccent createNewAccent = themeInfo.createNewAccent(tLRPC$TL_theme, i, false, i5);
-                                    if (!TextUtils.isEmpty(createNewAccent.patternSlug)) {
+                                    if (TextUtils.isEmpty(createNewAccent.patternSlug)) {
                                         themeAccent2 = createNewAccent;
-                                        z2 = true;
                                     } else {
                                         themeAccent2 = createNewAccent;
+                                        z2 = true;
                                     }
                                 }
                                 themeAccent2.isDefault = tLRPC$TL_theme.isDefault;
@@ -7440,10 +7393,10 @@ public class Theme {
         if (tLRPC$BaseTheme instanceof TLRPC$TL_baseThemeArctic) {
             return "Arctic Blue";
         }
-        if (!(tLRPC$BaseTheme instanceof TLRPC$TL_baseThemeNight)) {
-            return null;
+        if (tLRPC$BaseTheme instanceof TLRPC$TL_baseThemeNight) {
+            return "Night";
         }
-        return "Night";
+        return null;
     }
 
     public static TLRPC$BaseTheme getBaseThemeByKey(String str) {
@@ -7459,10 +7412,10 @@ public class Theme {
         if ("Arctic Blue".equals(str)) {
             return new TLRPC$TL_baseThemeArctic();
         }
-        if (!"Night".equals(str)) {
-            return null;
+        if ("Night".equals(str)) {
+            return new TLRPC$TL_baseThemeNight();
         }
-        return new TLRPC$TL_baseThemeNight();
+        return null;
     }
 
     public static void setThemeFileReference(TLRPC$TL_theme tLRPC$TL_theme) {
@@ -7602,40 +7555,40 @@ public class Theme {
         return num.intValue();
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:162:0x03b9, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:173:0x03b9, code lost:
         if (android.text.TextUtils.isEmpty(r6[0]) == false) goto L101;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:128:0x04ac A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:141:0x04c3 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:164:0x0286 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:176:0x02bf A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:18:0x00b2 A[Catch: all -> 0x067c, TryCatch #17 {all -> 0x067c, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x0089, B:10:0x0091, B:14:0x00a0, B:18:0x00b2, B:20:0x00ba, B:23:0x00c3, B:27:0x00d1, B:29:0x00d9, B:32:0x00e2, B:36:0x00f7, B:38:0x00ff, B:41:0x010a, B:44:0x011a, B:193:0x0123, B:195:0x0131, B:199:0x013b, B:202:0x014b, B:204:0x0155, B:206:0x015f, B:207:0x016e, B:209:0x0176, B:211:0x0182, B:214:0x0192, B:217:0x019d, B:219:0x01a5, B:221:0x01b1, B:224:0x01bf, B:229:0x01e0, B:47:0x01ef, B:49:0x0247, B:52:0x0253, B:56:0x0263, B:61:0x026e, B:71:0x04e0, B:72:0x04ff, B:74:0x0528, B:76:0x0541, B:77:0x0563, B:79:0x05f3, B:82:0x0615, B:83:0x063d, B:188:0x0343, B:67:0x034f, B:68:0x0397, B:90:0x0357, B:91:0x0363, B:93:0x036d, B:96:0x037b, B:97:0x0377, B:99:0x03ac, B:129:0x04ac, B:133:0x04b2, B:142:0x04c3, B:146:0x04c9, B:161:0x03b2, B:138:0x04be, B:84:0x0665), top: B:2:0x0008, inners: #0, #7, #14 }] */
-    /* JADX WARN: Removed duplicated region for block: B:192:0x0123 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x00ba A[Catch: all -> 0x067c, TryCatch #17 {all -> 0x067c, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x0089, B:10:0x0091, B:14:0x00a0, B:18:0x00b2, B:20:0x00ba, B:23:0x00c3, B:27:0x00d1, B:29:0x00d9, B:32:0x00e2, B:36:0x00f7, B:38:0x00ff, B:41:0x010a, B:44:0x011a, B:193:0x0123, B:195:0x0131, B:199:0x013b, B:202:0x014b, B:204:0x0155, B:206:0x015f, B:207:0x016e, B:209:0x0176, B:211:0x0182, B:214:0x0192, B:217:0x019d, B:219:0x01a5, B:221:0x01b1, B:224:0x01bf, B:229:0x01e0, B:47:0x01ef, B:49:0x0247, B:52:0x0253, B:56:0x0263, B:61:0x026e, B:71:0x04e0, B:72:0x04ff, B:74:0x0528, B:76:0x0541, B:77:0x0563, B:79:0x05f3, B:82:0x0615, B:83:0x063d, B:188:0x0343, B:67:0x034f, B:68:0x0397, B:90:0x0357, B:91:0x0363, B:93:0x036d, B:96:0x037b, B:97:0x0377, B:99:0x03ac, B:129:0x04ac, B:133:0x04b2, B:142:0x04c3, B:146:0x04c9, B:161:0x03b2, B:138:0x04be, B:84:0x0665), top: B:2:0x0008, inners: #0, #7, #14 }] */
-    /* JADX WARN: Removed duplicated region for block: B:248:0x0118  */
-    /* JADX WARN: Removed duplicated region for block: B:251:0x0104  */
-    /* JADX WARN: Removed duplicated region for block: B:252:0x00fc  */
-    /* JADX WARN: Removed duplicated region for block: B:254:0x00f3  */
-    /* JADX WARN: Removed duplicated region for block: B:256:0x00dd  */
-    /* JADX WARN: Removed duplicated region for block: B:257:0x00d6  */
-    /* JADX WARN: Removed duplicated region for block: B:259:0x00cd  */
-    /* JADX WARN: Removed duplicated region for block: B:261:0x00be  */
-    /* JADX WARN: Removed duplicated region for block: B:262:0x00b7  */
-    /* JADX WARN: Removed duplicated region for block: B:27:0x00d1 A[Catch: all -> 0x067c, TryCatch #17 {all -> 0x067c, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x0089, B:10:0x0091, B:14:0x00a0, B:18:0x00b2, B:20:0x00ba, B:23:0x00c3, B:27:0x00d1, B:29:0x00d9, B:32:0x00e2, B:36:0x00f7, B:38:0x00ff, B:41:0x010a, B:44:0x011a, B:193:0x0123, B:195:0x0131, B:199:0x013b, B:202:0x014b, B:204:0x0155, B:206:0x015f, B:207:0x016e, B:209:0x0176, B:211:0x0182, B:214:0x0192, B:217:0x019d, B:219:0x01a5, B:221:0x01b1, B:224:0x01bf, B:229:0x01e0, B:47:0x01ef, B:49:0x0247, B:52:0x0253, B:56:0x0263, B:61:0x026e, B:71:0x04e0, B:72:0x04ff, B:74:0x0528, B:76:0x0541, B:77:0x0563, B:79:0x05f3, B:82:0x0615, B:83:0x063d, B:188:0x0343, B:67:0x034f, B:68:0x0397, B:90:0x0357, B:91:0x0363, B:93:0x036d, B:96:0x037b, B:97:0x0377, B:99:0x03ac, B:129:0x04ac, B:133:0x04b2, B:142:0x04c3, B:146:0x04c9, B:161:0x03b2, B:138:0x04be, B:84:0x0665), top: B:2:0x0008, inners: #0, #7, #14 }] */
-    /* JADX WARN: Removed duplicated region for block: B:29:0x00d9 A[Catch: all -> 0x067c, TryCatch #17 {all -> 0x067c, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x0089, B:10:0x0091, B:14:0x00a0, B:18:0x00b2, B:20:0x00ba, B:23:0x00c3, B:27:0x00d1, B:29:0x00d9, B:32:0x00e2, B:36:0x00f7, B:38:0x00ff, B:41:0x010a, B:44:0x011a, B:193:0x0123, B:195:0x0131, B:199:0x013b, B:202:0x014b, B:204:0x0155, B:206:0x015f, B:207:0x016e, B:209:0x0176, B:211:0x0182, B:214:0x0192, B:217:0x019d, B:219:0x01a5, B:221:0x01b1, B:224:0x01bf, B:229:0x01e0, B:47:0x01ef, B:49:0x0247, B:52:0x0253, B:56:0x0263, B:61:0x026e, B:71:0x04e0, B:72:0x04ff, B:74:0x0528, B:76:0x0541, B:77:0x0563, B:79:0x05f3, B:82:0x0615, B:83:0x063d, B:188:0x0343, B:67:0x034f, B:68:0x0397, B:90:0x0357, B:91:0x0363, B:93:0x036d, B:96:0x037b, B:97:0x0377, B:99:0x03ac, B:129:0x04ac, B:133:0x04b2, B:142:0x04c3, B:146:0x04c9, B:161:0x03b2, B:138:0x04be, B:84:0x0665), top: B:2:0x0008, inners: #0, #7, #14 }] */
-    /* JADX WARN: Removed duplicated region for block: B:36:0x00f7 A[Catch: all -> 0x067c, TryCatch #17 {all -> 0x067c, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x0089, B:10:0x0091, B:14:0x00a0, B:18:0x00b2, B:20:0x00ba, B:23:0x00c3, B:27:0x00d1, B:29:0x00d9, B:32:0x00e2, B:36:0x00f7, B:38:0x00ff, B:41:0x010a, B:44:0x011a, B:193:0x0123, B:195:0x0131, B:199:0x013b, B:202:0x014b, B:204:0x0155, B:206:0x015f, B:207:0x016e, B:209:0x0176, B:211:0x0182, B:214:0x0192, B:217:0x019d, B:219:0x01a5, B:221:0x01b1, B:224:0x01bf, B:229:0x01e0, B:47:0x01ef, B:49:0x0247, B:52:0x0253, B:56:0x0263, B:61:0x026e, B:71:0x04e0, B:72:0x04ff, B:74:0x0528, B:76:0x0541, B:77:0x0563, B:79:0x05f3, B:82:0x0615, B:83:0x063d, B:188:0x0343, B:67:0x034f, B:68:0x0397, B:90:0x0357, B:91:0x0363, B:93:0x036d, B:96:0x037b, B:97:0x0377, B:99:0x03ac, B:129:0x04ac, B:133:0x04b2, B:142:0x04c3, B:146:0x04c9, B:161:0x03b2, B:138:0x04be, B:84:0x0665), top: B:2:0x0008, inners: #0, #7, #14 }] */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x00ff A[Catch: all -> 0x067c, TryCatch #17 {all -> 0x067c, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x0089, B:10:0x0091, B:14:0x00a0, B:18:0x00b2, B:20:0x00ba, B:23:0x00c3, B:27:0x00d1, B:29:0x00d9, B:32:0x00e2, B:36:0x00f7, B:38:0x00ff, B:41:0x010a, B:44:0x011a, B:193:0x0123, B:195:0x0131, B:199:0x013b, B:202:0x014b, B:204:0x0155, B:206:0x015f, B:207:0x016e, B:209:0x0176, B:211:0x0182, B:214:0x0192, B:217:0x019d, B:219:0x01a5, B:221:0x01b1, B:224:0x01bf, B:229:0x01e0, B:47:0x01ef, B:49:0x0247, B:52:0x0253, B:56:0x0263, B:61:0x026e, B:71:0x04e0, B:72:0x04ff, B:74:0x0528, B:76:0x0541, B:77:0x0563, B:79:0x05f3, B:82:0x0615, B:83:0x063d, B:188:0x0343, B:67:0x034f, B:68:0x0397, B:90:0x0357, B:91:0x0363, B:93:0x036d, B:96:0x037b, B:97:0x0377, B:99:0x03ac, B:129:0x04ac, B:133:0x04b2, B:142:0x04c3, B:146:0x04c9, B:161:0x03b2, B:138:0x04be, B:84:0x0665), top: B:2:0x0008, inners: #0, #7, #14 }] */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x0108 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:46:0x01e6  */
-    /* JADX WARN: Removed duplicated region for block: B:49:0x0247 A[Catch: all -> 0x067c, TryCatch #17 {all -> 0x067c, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x0089, B:10:0x0091, B:14:0x00a0, B:18:0x00b2, B:20:0x00ba, B:23:0x00c3, B:27:0x00d1, B:29:0x00d9, B:32:0x00e2, B:36:0x00f7, B:38:0x00ff, B:41:0x010a, B:44:0x011a, B:193:0x0123, B:195:0x0131, B:199:0x013b, B:202:0x014b, B:204:0x0155, B:206:0x015f, B:207:0x016e, B:209:0x0176, B:211:0x0182, B:214:0x0192, B:217:0x019d, B:219:0x01a5, B:221:0x01b1, B:224:0x01bf, B:229:0x01e0, B:47:0x01ef, B:49:0x0247, B:52:0x0253, B:56:0x0263, B:61:0x026e, B:71:0x04e0, B:72:0x04ff, B:74:0x0528, B:76:0x0541, B:77:0x0563, B:79:0x05f3, B:82:0x0615, B:83:0x063d, B:188:0x0343, B:67:0x034f, B:68:0x0397, B:90:0x0357, B:91:0x0363, B:93:0x036d, B:96:0x037b, B:97:0x0377, B:99:0x03ac, B:129:0x04ac, B:133:0x04b2, B:142:0x04c3, B:146:0x04c9, B:161:0x03b2, B:138:0x04be, B:84:0x0665), top: B:2:0x0008, inners: #0, #7, #14 }] */
-    /* JADX WARN: Removed duplicated region for block: B:64:0x0349  */
-    /* JADX WARN: Removed duplicated region for block: B:71:0x04e0 A[Catch: all -> 0x067c, TryCatch #17 {all -> 0x067c, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x0089, B:10:0x0091, B:14:0x00a0, B:18:0x00b2, B:20:0x00ba, B:23:0x00c3, B:27:0x00d1, B:29:0x00d9, B:32:0x00e2, B:36:0x00f7, B:38:0x00ff, B:41:0x010a, B:44:0x011a, B:193:0x0123, B:195:0x0131, B:199:0x013b, B:202:0x014b, B:204:0x0155, B:206:0x015f, B:207:0x016e, B:209:0x0176, B:211:0x0182, B:214:0x0192, B:217:0x019d, B:219:0x01a5, B:221:0x01b1, B:224:0x01bf, B:229:0x01e0, B:47:0x01ef, B:49:0x0247, B:52:0x0253, B:56:0x0263, B:61:0x026e, B:71:0x04e0, B:72:0x04ff, B:74:0x0528, B:76:0x0541, B:77:0x0563, B:79:0x05f3, B:82:0x0615, B:83:0x063d, B:188:0x0343, B:67:0x034f, B:68:0x0397, B:90:0x0357, B:91:0x0363, B:93:0x036d, B:96:0x037b, B:97:0x0377, B:99:0x03ac, B:129:0x04ac, B:133:0x04b2, B:142:0x04c3, B:146:0x04c9, B:161:0x03b2, B:138:0x04be, B:84:0x0665), top: B:2:0x0008, inners: #0, #7, #14 }] */
-    /* JADX WARN: Removed duplicated region for block: B:74:0x0528 A[Catch: all -> 0x067c, TryCatch #17 {all -> 0x067c, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x0089, B:10:0x0091, B:14:0x00a0, B:18:0x00b2, B:20:0x00ba, B:23:0x00c3, B:27:0x00d1, B:29:0x00d9, B:32:0x00e2, B:36:0x00f7, B:38:0x00ff, B:41:0x010a, B:44:0x011a, B:193:0x0123, B:195:0x0131, B:199:0x013b, B:202:0x014b, B:204:0x0155, B:206:0x015f, B:207:0x016e, B:209:0x0176, B:211:0x0182, B:214:0x0192, B:217:0x019d, B:219:0x01a5, B:221:0x01b1, B:224:0x01bf, B:229:0x01e0, B:47:0x01ef, B:49:0x0247, B:52:0x0253, B:56:0x0263, B:61:0x026e, B:71:0x04e0, B:72:0x04ff, B:74:0x0528, B:76:0x0541, B:77:0x0563, B:79:0x05f3, B:82:0x0615, B:83:0x063d, B:188:0x0343, B:67:0x034f, B:68:0x0397, B:90:0x0357, B:91:0x0363, B:93:0x036d, B:96:0x037b, B:97:0x0377, B:99:0x03ac, B:129:0x04ac, B:133:0x04b2, B:142:0x04c3, B:146:0x04c9, B:161:0x03b2, B:138:0x04be, B:84:0x0665), top: B:2:0x0008, inners: #0, #7, #14 }] */
-    /* JADX WARN: Removed duplicated region for block: B:76:0x0541 A[Catch: all -> 0x067c, TryCatch #17 {all -> 0x067c, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x0089, B:10:0x0091, B:14:0x00a0, B:18:0x00b2, B:20:0x00ba, B:23:0x00c3, B:27:0x00d1, B:29:0x00d9, B:32:0x00e2, B:36:0x00f7, B:38:0x00ff, B:41:0x010a, B:44:0x011a, B:193:0x0123, B:195:0x0131, B:199:0x013b, B:202:0x014b, B:204:0x0155, B:206:0x015f, B:207:0x016e, B:209:0x0176, B:211:0x0182, B:214:0x0192, B:217:0x019d, B:219:0x01a5, B:221:0x01b1, B:224:0x01bf, B:229:0x01e0, B:47:0x01ef, B:49:0x0247, B:52:0x0253, B:56:0x0263, B:61:0x026e, B:71:0x04e0, B:72:0x04ff, B:74:0x0528, B:76:0x0541, B:77:0x0563, B:79:0x05f3, B:82:0x0615, B:83:0x063d, B:188:0x0343, B:67:0x034f, B:68:0x0397, B:90:0x0357, B:91:0x0363, B:93:0x036d, B:96:0x037b, B:97:0x0377, B:99:0x03ac, B:129:0x04ac, B:133:0x04b2, B:142:0x04c3, B:146:0x04c9, B:161:0x03b2, B:138:0x04be, B:84:0x0665), top: B:2:0x0008, inners: #0, #7, #14 }] */
-    /* JADX WARN: Removed duplicated region for block: B:79:0x05f3 A[Catch: all -> 0x067c, TryCatch #17 {all -> 0x067c, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x0089, B:10:0x0091, B:14:0x00a0, B:18:0x00b2, B:20:0x00ba, B:23:0x00c3, B:27:0x00d1, B:29:0x00d9, B:32:0x00e2, B:36:0x00f7, B:38:0x00ff, B:41:0x010a, B:44:0x011a, B:193:0x0123, B:195:0x0131, B:199:0x013b, B:202:0x014b, B:204:0x0155, B:206:0x015f, B:207:0x016e, B:209:0x0176, B:211:0x0182, B:214:0x0192, B:217:0x019d, B:219:0x01a5, B:221:0x01b1, B:224:0x01bf, B:229:0x01e0, B:47:0x01ef, B:49:0x0247, B:52:0x0253, B:56:0x0263, B:61:0x026e, B:71:0x04e0, B:72:0x04ff, B:74:0x0528, B:76:0x0541, B:77:0x0563, B:79:0x05f3, B:82:0x0615, B:83:0x063d, B:188:0x0343, B:67:0x034f, B:68:0x0397, B:90:0x0357, B:91:0x0363, B:93:0x036d, B:96:0x037b, B:97:0x0377, B:99:0x03ac, B:129:0x04ac, B:133:0x04b2, B:142:0x04c3, B:146:0x04c9, B:161:0x03b2, B:138:0x04be, B:84:0x0665), top: B:2:0x0008, inners: #0, #7, #14 }] */
-    /* JADX WARN: Removed duplicated region for block: B:82:0x0615 A[Catch: all -> 0x067c, TryCatch #17 {all -> 0x067c, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x0089, B:10:0x0091, B:14:0x00a0, B:18:0x00b2, B:20:0x00ba, B:23:0x00c3, B:27:0x00d1, B:29:0x00d9, B:32:0x00e2, B:36:0x00f7, B:38:0x00ff, B:41:0x010a, B:44:0x011a, B:193:0x0123, B:195:0x0131, B:199:0x013b, B:202:0x014b, B:204:0x0155, B:206:0x015f, B:207:0x016e, B:209:0x0176, B:211:0x0182, B:214:0x0192, B:217:0x019d, B:219:0x01a5, B:221:0x01b1, B:224:0x01bf, B:229:0x01e0, B:47:0x01ef, B:49:0x0247, B:52:0x0253, B:56:0x0263, B:61:0x026e, B:71:0x04e0, B:72:0x04ff, B:74:0x0528, B:76:0x0541, B:77:0x0563, B:79:0x05f3, B:82:0x0615, B:83:0x063d, B:188:0x0343, B:67:0x034f, B:68:0x0397, B:90:0x0357, B:91:0x0363, B:93:0x036d, B:96:0x037b, B:97:0x0377, B:99:0x03ac, B:129:0x04ac, B:133:0x04b2, B:142:0x04c3, B:146:0x04c9, B:161:0x03b2, B:138:0x04be, B:84:0x0665), top: B:2:0x0008, inners: #0, #7, #14 }] */
-    /* JADX WARN: Removed duplicated region for block: B:88:0x04fe  */
+    /* JADX WARN: Removed duplicated region for block: B:114:0x01e6  */
+    /* JADX WARN: Removed duplicated region for block: B:117:0x0247 A[Catch: all -> 0x067c, TryCatch #17 {all -> 0x067c, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x0089, B:11:0x0091, B:16:0x00a0, B:25:0x00b2, B:28:0x00ba, B:32:0x00c3, B:39:0x00d1, B:42:0x00d9, B:46:0x00e2, B:53:0x00f7, B:56:0x00ff, B:60:0x010a, B:67:0x011a, B:69:0x0123, B:71:0x0131, B:74:0x013b, B:76:0x014b, B:78:0x0155, B:80:0x015f, B:81:0x016e, B:83:0x0176, B:85:0x0182, B:87:0x0192, B:92:0x019d, B:94:0x01a5, B:96:0x01b1, B:98:0x01bf, B:112:0x01e0, B:115:0x01ef, B:117:0x0247, B:121:0x0253, B:125:0x0263, B:126:0x026e, B:236:0x04e0, B:238:0x04ff, B:240:0x0528, B:242:0x0541, B:243:0x0563, B:245:0x05f3, B:248:0x0615, B:249:0x063d, B:153:0x0343, B:158:0x034f, B:168:0x0397, B:160:0x0357, B:161:0x0363, B:163:0x036d, B:167:0x037b, B:166:0x0377, B:170:0x03ac, B:207:0x04ac, B:211:0x04b2, B:219:0x04c3, B:223:0x04c9, B:172:0x03b2, B:217:0x04be, B:250:0x0665), top: B:287:0x0008, inners: #0, #7, #14 }] */
+    /* JADX WARN: Removed duplicated region for block: B:155:0x0349  */
+    /* JADX WARN: Removed duplicated region for block: B:236:0x04e0 A[Catch: all -> 0x067c, TryCatch #17 {all -> 0x067c, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x0089, B:11:0x0091, B:16:0x00a0, B:25:0x00b2, B:28:0x00ba, B:32:0x00c3, B:39:0x00d1, B:42:0x00d9, B:46:0x00e2, B:53:0x00f7, B:56:0x00ff, B:60:0x010a, B:67:0x011a, B:69:0x0123, B:71:0x0131, B:74:0x013b, B:76:0x014b, B:78:0x0155, B:80:0x015f, B:81:0x016e, B:83:0x0176, B:85:0x0182, B:87:0x0192, B:92:0x019d, B:94:0x01a5, B:96:0x01b1, B:98:0x01bf, B:112:0x01e0, B:115:0x01ef, B:117:0x0247, B:121:0x0253, B:125:0x0263, B:126:0x026e, B:236:0x04e0, B:238:0x04ff, B:240:0x0528, B:242:0x0541, B:243:0x0563, B:245:0x05f3, B:248:0x0615, B:249:0x063d, B:153:0x0343, B:158:0x034f, B:168:0x0397, B:160:0x0357, B:161:0x0363, B:163:0x036d, B:167:0x037b, B:166:0x0377, B:170:0x03ac, B:207:0x04ac, B:211:0x04b2, B:219:0x04c3, B:223:0x04c9, B:172:0x03b2, B:217:0x04be, B:250:0x0665), top: B:287:0x0008, inners: #0, #7, #14 }] */
+    /* JADX WARN: Removed duplicated region for block: B:237:0x04fe  */
+    /* JADX WARN: Removed duplicated region for block: B:240:0x0528 A[Catch: all -> 0x067c, TryCatch #17 {all -> 0x067c, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x0089, B:11:0x0091, B:16:0x00a0, B:25:0x00b2, B:28:0x00ba, B:32:0x00c3, B:39:0x00d1, B:42:0x00d9, B:46:0x00e2, B:53:0x00f7, B:56:0x00ff, B:60:0x010a, B:67:0x011a, B:69:0x0123, B:71:0x0131, B:74:0x013b, B:76:0x014b, B:78:0x0155, B:80:0x015f, B:81:0x016e, B:83:0x0176, B:85:0x0182, B:87:0x0192, B:92:0x019d, B:94:0x01a5, B:96:0x01b1, B:98:0x01bf, B:112:0x01e0, B:115:0x01ef, B:117:0x0247, B:121:0x0253, B:125:0x0263, B:126:0x026e, B:236:0x04e0, B:238:0x04ff, B:240:0x0528, B:242:0x0541, B:243:0x0563, B:245:0x05f3, B:248:0x0615, B:249:0x063d, B:153:0x0343, B:158:0x034f, B:168:0x0397, B:160:0x0357, B:161:0x0363, B:163:0x036d, B:167:0x037b, B:166:0x0377, B:170:0x03ac, B:207:0x04ac, B:211:0x04b2, B:219:0x04c3, B:223:0x04c9, B:172:0x03b2, B:217:0x04be, B:250:0x0665), top: B:287:0x0008, inners: #0, #7, #14 }] */
+    /* JADX WARN: Removed duplicated region for block: B:242:0x0541 A[Catch: all -> 0x067c, TryCatch #17 {all -> 0x067c, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x0089, B:11:0x0091, B:16:0x00a0, B:25:0x00b2, B:28:0x00ba, B:32:0x00c3, B:39:0x00d1, B:42:0x00d9, B:46:0x00e2, B:53:0x00f7, B:56:0x00ff, B:60:0x010a, B:67:0x011a, B:69:0x0123, B:71:0x0131, B:74:0x013b, B:76:0x014b, B:78:0x0155, B:80:0x015f, B:81:0x016e, B:83:0x0176, B:85:0x0182, B:87:0x0192, B:92:0x019d, B:94:0x01a5, B:96:0x01b1, B:98:0x01bf, B:112:0x01e0, B:115:0x01ef, B:117:0x0247, B:121:0x0253, B:125:0x0263, B:126:0x026e, B:236:0x04e0, B:238:0x04ff, B:240:0x0528, B:242:0x0541, B:243:0x0563, B:245:0x05f3, B:248:0x0615, B:249:0x063d, B:153:0x0343, B:158:0x034f, B:168:0x0397, B:160:0x0357, B:161:0x0363, B:163:0x036d, B:167:0x037b, B:166:0x0377, B:170:0x03ac, B:207:0x04ac, B:211:0x04b2, B:219:0x04c3, B:223:0x04c9, B:172:0x03b2, B:217:0x04be, B:250:0x0665), top: B:287:0x0008, inners: #0, #7, #14 }] */
+    /* JADX WARN: Removed duplicated region for block: B:245:0x05f3 A[Catch: all -> 0x067c, TryCatch #17 {all -> 0x067c, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x0089, B:11:0x0091, B:16:0x00a0, B:25:0x00b2, B:28:0x00ba, B:32:0x00c3, B:39:0x00d1, B:42:0x00d9, B:46:0x00e2, B:53:0x00f7, B:56:0x00ff, B:60:0x010a, B:67:0x011a, B:69:0x0123, B:71:0x0131, B:74:0x013b, B:76:0x014b, B:78:0x0155, B:80:0x015f, B:81:0x016e, B:83:0x0176, B:85:0x0182, B:87:0x0192, B:92:0x019d, B:94:0x01a5, B:96:0x01b1, B:98:0x01bf, B:112:0x01e0, B:115:0x01ef, B:117:0x0247, B:121:0x0253, B:125:0x0263, B:126:0x026e, B:236:0x04e0, B:238:0x04ff, B:240:0x0528, B:242:0x0541, B:243:0x0563, B:245:0x05f3, B:248:0x0615, B:249:0x063d, B:153:0x0343, B:158:0x034f, B:168:0x0397, B:160:0x0357, B:161:0x0363, B:163:0x036d, B:167:0x037b, B:166:0x0377, B:170:0x03ac, B:207:0x04ac, B:211:0x04b2, B:219:0x04c3, B:223:0x04c9, B:172:0x03b2, B:217:0x04be, B:250:0x0665), top: B:287:0x0008, inners: #0, #7, #14 }] */
+    /* JADX WARN: Removed duplicated region for block: B:248:0x0615 A[Catch: all -> 0x067c, TryCatch #17 {all -> 0x067c, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x0089, B:11:0x0091, B:16:0x00a0, B:25:0x00b2, B:28:0x00ba, B:32:0x00c3, B:39:0x00d1, B:42:0x00d9, B:46:0x00e2, B:53:0x00f7, B:56:0x00ff, B:60:0x010a, B:67:0x011a, B:69:0x0123, B:71:0x0131, B:74:0x013b, B:76:0x014b, B:78:0x0155, B:80:0x015f, B:81:0x016e, B:83:0x0176, B:85:0x0182, B:87:0x0192, B:92:0x019d, B:94:0x01a5, B:96:0x01b1, B:98:0x01bf, B:112:0x01e0, B:115:0x01ef, B:117:0x0247, B:121:0x0253, B:125:0x0263, B:126:0x026e, B:236:0x04e0, B:238:0x04ff, B:240:0x0528, B:242:0x0541, B:243:0x0563, B:245:0x05f3, B:248:0x0615, B:249:0x063d, B:153:0x0343, B:158:0x034f, B:168:0x0397, B:160:0x0357, B:161:0x0363, B:163:0x036d, B:167:0x037b, B:166:0x0377, B:170:0x03ac, B:207:0x04ac, B:211:0x04b2, B:219:0x04c3, B:223:0x04c9, B:172:0x03b2, B:217:0x04be, B:250:0x0665), top: B:287:0x0008, inners: #0, #7, #14 }] */
+    /* JADX WARN: Removed duplicated region for block: B:259:0x04ac A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x00b2 A[Catch: all -> 0x067c, TryCatch #17 {all -> 0x067c, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x0089, B:11:0x0091, B:16:0x00a0, B:25:0x00b2, B:28:0x00ba, B:32:0x00c3, B:39:0x00d1, B:42:0x00d9, B:46:0x00e2, B:53:0x00f7, B:56:0x00ff, B:60:0x010a, B:67:0x011a, B:69:0x0123, B:71:0x0131, B:74:0x013b, B:76:0x014b, B:78:0x0155, B:80:0x015f, B:81:0x016e, B:83:0x0176, B:85:0x0182, B:87:0x0192, B:92:0x019d, B:94:0x01a5, B:96:0x01b1, B:98:0x01bf, B:112:0x01e0, B:115:0x01ef, B:117:0x0247, B:121:0x0253, B:125:0x0263, B:126:0x026e, B:236:0x04e0, B:238:0x04ff, B:240:0x0528, B:242:0x0541, B:243:0x0563, B:245:0x05f3, B:248:0x0615, B:249:0x063d, B:153:0x0343, B:158:0x034f, B:168:0x0397, B:160:0x0357, B:161:0x0363, B:163:0x036d, B:167:0x037b, B:166:0x0377, B:170:0x03ac, B:207:0x04ac, B:211:0x04b2, B:219:0x04c3, B:223:0x04c9, B:172:0x03b2, B:217:0x04be, B:250:0x0665), top: B:287:0x0008, inners: #0, #7, #14 }] */
+    /* JADX WARN: Removed duplicated region for block: B:261:0x0286 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:269:0x0123 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x00b7  */
+    /* JADX WARN: Removed duplicated region for block: B:273:0x02bf A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:281:0x04c3 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x00ba A[Catch: all -> 0x067c, TryCatch #17 {all -> 0x067c, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x0089, B:11:0x0091, B:16:0x00a0, B:25:0x00b2, B:28:0x00ba, B:32:0x00c3, B:39:0x00d1, B:42:0x00d9, B:46:0x00e2, B:53:0x00f7, B:56:0x00ff, B:60:0x010a, B:67:0x011a, B:69:0x0123, B:71:0x0131, B:74:0x013b, B:76:0x014b, B:78:0x0155, B:80:0x015f, B:81:0x016e, B:83:0x0176, B:85:0x0182, B:87:0x0192, B:92:0x019d, B:94:0x01a5, B:96:0x01b1, B:98:0x01bf, B:112:0x01e0, B:115:0x01ef, B:117:0x0247, B:121:0x0253, B:125:0x0263, B:126:0x026e, B:236:0x04e0, B:238:0x04ff, B:240:0x0528, B:242:0x0541, B:243:0x0563, B:245:0x05f3, B:248:0x0615, B:249:0x063d, B:153:0x0343, B:158:0x034f, B:168:0x0397, B:160:0x0357, B:161:0x0363, B:163:0x036d, B:167:0x037b, B:166:0x0377, B:170:0x03ac, B:207:0x04ac, B:211:0x04b2, B:219:0x04c3, B:223:0x04c9, B:172:0x03b2, B:217:0x04be, B:250:0x0665), top: B:287:0x0008, inners: #0, #7, #14 }] */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x00be  */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x00cd  */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x00d1 A[Catch: all -> 0x067c, TryCatch #17 {all -> 0x067c, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x0089, B:11:0x0091, B:16:0x00a0, B:25:0x00b2, B:28:0x00ba, B:32:0x00c3, B:39:0x00d1, B:42:0x00d9, B:46:0x00e2, B:53:0x00f7, B:56:0x00ff, B:60:0x010a, B:67:0x011a, B:69:0x0123, B:71:0x0131, B:74:0x013b, B:76:0x014b, B:78:0x0155, B:80:0x015f, B:81:0x016e, B:83:0x0176, B:85:0x0182, B:87:0x0192, B:92:0x019d, B:94:0x01a5, B:96:0x01b1, B:98:0x01bf, B:112:0x01e0, B:115:0x01ef, B:117:0x0247, B:121:0x0253, B:125:0x0263, B:126:0x026e, B:236:0x04e0, B:238:0x04ff, B:240:0x0528, B:242:0x0541, B:243:0x0563, B:245:0x05f3, B:248:0x0615, B:249:0x063d, B:153:0x0343, B:158:0x034f, B:168:0x0397, B:160:0x0357, B:161:0x0363, B:163:0x036d, B:167:0x037b, B:166:0x0377, B:170:0x03ac, B:207:0x04ac, B:211:0x04b2, B:219:0x04c3, B:223:0x04c9, B:172:0x03b2, B:217:0x04be, B:250:0x0665), top: B:287:0x0008, inners: #0, #7, #14 }] */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x00d6  */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x00d9 A[Catch: all -> 0x067c, TryCatch #17 {all -> 0x067c, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x0089, B:11:0x0091, B:16:0x00a0, B:25:0x00b2, B:28:0x00ba, B:32:0x00c3, B:39:0x00d1, B:42:0x00d9, B:46:0x00e2, B:53:0x00f7, B:56:0x00ff, B:60:0x010a, B:67:0x011a, B:69:0x0123, B:71:0x0131, B:74:0x013b, B:76:0x014b, B:78:0x0155, B:80:0x015f, B:81:0x016e, B:83:0x0176, B:85:0x0182, B:87:0x0192, B:92:0x019d, B:94:0x01a5, B:96:0x01b1, B:98:0x01bf, B:112:0x01e0, B:115:0x01ef, B:117:0x0247, B:121:0x0253, B:125:0x0263, B:126:0x026e, B:236:0x04e0, B:238:0x04ff, B:240:0x0528, B:242:0x0541, B:243:0x0563, B:245:0x05f3, B:248:0x0615, B:249:0x063d, B:153:0x0343, B:158:0x034f, B:168:0x0397, B:160:0x0357, B:161:0x0363, B:163:0x036d, B:167:0x037b, B:166:0x0377, B:170:0x03ac, B:207:0x04ac, B:211:0x04b2, B:219:0x04c3, B:223:0x04c9, B:172:0x03b2, B:217:0x04be, B:250:0x0665), top: B:287:0x0008, inners: #0, #7, #14 }] */
+    /* JADX WARN: Removed duplicated region for block: B:43:0x00dd  */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x00f3  */
+    /* JADX WARN: Removed duplicated region for block: B:53:0x00f7 A[Catch: all -> 0x067c, TryCatch #17 {all -> 0x067c, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x0089, B:11:0x0091, B:16:0x00a0, B:25:0x00b2, B:28:0x00ba, B:32:0x00c3, B:39:0x00d1, B:42:0x00d9, B:46:0x00e2, B:53:0x00f7, B:56:0x00ff, B:60:0x010a, B:67:0x011a, B:69:0x0123, B:71:0x0131, B:74:0x013b, B:76:0x014b, B:78:0x0155, B:80:0x015f, B:81:0x016e, B:83:0x0176, B:85:0x0182, B:87:0x0192, B:92:0x019d, B:94:0x01a5, B:96:0x01b1, B:98:0x01bf, B:112:0x01e0, B:115:0x01ef, B:117:0x0247, B:121:0x0253, B:125:0x0263, B:126:0x026e, B:236:0x04e0, B:238:0x04ff, B:240:0x0528, B:242:0x0541, B:243:0x0563, B:245:0x05f3, B:248:0x0615, B:249:0x063d, B:153:0x0343, B:158:0x034f, B:168:0x0397, B:160:0x0357, B:161:0x0363, B:163:0x036d, B:167:0x037b, B:166:0x0377, B:170:0x03ac, B:207:0x04ac, B:211:0x04b2, B:219:0x04c3, B:223:0x04c9, B:172:0x03b2, B:217:0x04be, B:250:0x0665), top: B:287:0x0008, inners: #0, #7, #14 }] */
+    /* JADX WARN: Removed duplicated region for block: B:54:0x00fc  */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x00ff A[Catch: all -> 0x067c, TryCatch #17 {all -> 0x067c, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001a, B:8:0x0089, B:11:0x0091, B:16:0x00a0, B:25:0x00b2, B:28:0x00ba, B:32:0x00c3, B:39:0x00d1, B:42:0x00d9, B:46:0x00e2, B:53:0x00f7, B:56:0x00ff, B:60:0x010a, B:67:0x011a, B:69:0x0123, B:71:0x0131, B:74:0x013b, B:76:0x014b, B:78:0x0155, B:80:0x015f, B:81:0x016e, B:83:0x0176, B:85:0x0182, B:87:0x0192, B:92:0x019d, B:94:0x01a5, B:96:0x01b1, B:98:0x01bf, B:112:0x01e0, B:115:0x01ef, B:117:0x0247, B:121:0x0253, B:125:0x0263, B:126:0x026e, B:236:0x04e0, B:238:0x04ff, B:240:0x0528, B:242:0x0541, B:243:0x0563, B:245:0x05f3, B:248:0x0615, B:249:0x063d, B:153:0x0343, B:158:0x034f, B:168:0x0397, B:160:0x0357, B:161:0x0363, B:163:0x036d, B:167:0x037b, B:166:0x0377, B:170:0x03ac, B:207:0x04ac, B:211:0x04b2, B:219:0x04c3, B:223:0x04c9, B:172:0x03b2, B:217:0x04be, B:250:0x0665), top: B:287:0x0008, inners: #0, #7, #14 }] */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x0104  */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x0108 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x0118  */
     /* JADX WARN: Type inference failed for: r3v30 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -9561,37 +9514,36 @@ public class Theme {
         int i = 0;
         while (true) {
             RLottieDrawable[] rLottieDrawableArr = chat_attachButtonDrawables;
-            if (i < rLottieDrawableArr.length) {
-                if (rLottieDrawableArr[i] != null) {
-                    rLottieDrawableArr[i].beginApplyLayerColors();
-                    if (i == 0) {
-                        chat_attachButtonDrawables[i].setLayerColor("Color_Mount.**", getNonAnimatedColor("chat_attachGalleryBackground"));
-                        chat_attachButtonDrawables[i].setLayerColor("Color_PhotoShadow.**", getNonAnimatedColor("chat_attachGalleryBackground"));
-                        chat_attachButtonDrawables[i].setLayerColor("White_Photo.**", getNonAnimatedColor("chat_attachGalleryIcon"));
-                        chat_attachButtonDrawables[i].setLayerColor("White_BackPhoto.**", getNonAnimatedColor("chat_attachGalleryIcon"));
-                    } else if (i == 1) {
-                        chat_attachButtonDrawables[i].setLayerColor("White_Play1.**", getNonAnimatedColor("chat_attachAudioIcon"));
-                        chat_attachButtonDrawables[i].setLayerColor("White_Play2.**", getNonAnimatedColor("chat_attachAudioIcon"));
-                    } else if (i == 2) {
-                        chat_attachButtonDrawables[i].setLayerColor("Color_Corner.**", getNonAnimatedColor("chat_attachFileBackground"));
-                        chat_attachButtonDrawables[i].setLayerColor("White_List.**", getNonAnimatedColor("chat_attachFileIcon"));
-                    } else if (i == 3) {
-                        chat_attachButtonDrawables[i].setLayerColor("White_User1.**", getNonAnimatedColor("chat_attachContactIcon"));
-                        chat_attachButtonDrawables[i].setLayerColor("White_User2.**", getNonAnimatedColor("chat_attachContactIcon"));
-                    } else if (i == 4) {
-                        chat_attachButtonDrawables[i].setLayerColor("Color_Oval.**", getNonAnimatedColor("chat_attachLocationBackground"));
-                        chat_attachButtonDrawables[i].setLayerColor("White_Pin.**", getNonAnimatedColor("chat_attachLocationIcon"));
-                    } else if (i == 5) {
-                        chat_attachButtonDrawables[i].setLayerColor("White_Column 1.**", getNonAnimatedColor("chat_attachPollIcon"));
-                        chat_attachButtonDrawables[i].setLayerColor("White_Column 2.**", getNonAnimatedColor("chat_attachPollIcon"));
-                        chat_attachButtonDrawables[i].setLayerColor("White_Column 3.**", getNonAnimatedColor("chat_attachPollIcon"));
-                    }
-                    chat_attachButtonDrawables[i].commitApplyLayerColors();
-                }
-                i++;
-            } else {
+            if (i >= rLottieDrawableArr.length) {
                 return;
             }
+            if (rLottieDrawableArr[i] != null) {
+                rLottieDrawableArr[i].beginApplyLayerColors();
+                if (i == 0) {
+                    chat_attachButtonDrawables[i].setLayerColor("Color_Mount.**", getNonAnimatedColor("chat_attachGalleryBackground"));
+                    chat_attachButtonDrawables[i].setLayerColor("Color_PhotoShadow.**", getNonAnimatedColor("chat_attachGalleryBackground"));
+                    chat_attachButtonDrawables[i].setLayerColor("White_Photo.**", getNonAnimatedColor("chat_attachGalleryIcon"));
+                    chat_attachButtonDrawables[i].setLayerColor("White_BackPhoto.**", getNonAnimatedColor("chat_attachGalleryIcon"));
+                } else if (i == 1) {
+                    chat_attachButtonDrawables[i].setLayerColor("White_Play1.**", getNonAnimatedColor("chat_attachAudioIcon"));
+                    chat_attachButtonDrawables[i].setLayerColor("White_Play2.**", getNonAnimatedColor("chat_attachAudioIcon"));
+                } else if (i == 2) {
+                    chat_attachButtonDrawables[i].setLayerColor("Color_Corner.**", getNonAnimatedColor("chat_attachFileBackground"));
+                    chat_attachButtonDrawables[i].setLayerColor("White_List.**", getNonAnimatedColor("chat_attachFileIcon"));
+                } else if (i == 3) {
+                    chat_attachButtonDrawables[i].setLayerColor("White_User1.**", getNonAnimatedColor("chat_attachContactIcon"));
+                    chat_attachButtonDrawables[i].setLayerColor("White_User2.**", getNonAnimatedColor("chat_attachContactIcon"));
+                } else if (i == 4) {
+                    chat_attachButtonDrawables[i].setLayerColor("Color_Oval.**", getNonAnimatedColor("chat_attachLocationBackground"));
+                    chat_attachButtonDrawables[i].setLayerColor("White_Pin.**", getNonAnimatedColor("chat_attachLocationIcon"));
+                } else if (i == 5) {
+                    chat_attachButtonDrawables[i].setLayerColor("White_Column 1.**", getNonAnimatedColor("chat_attachPollIcon"));
+                    chat_attachButtonDrawables[i].setLayerColor("White_Column 2.**", getNonAnimatedColor("chat_attachPollIcon"));
+                    chat_attachButtonDrawables[i].setLayerColor("White_Column 3.**", getNonAnimatedColor("chat_attachPollIcon"));
+                }
+                chat_attachButtonDrawables[i].commitApplyLayerColors();
+            }
+            i++;
         }
     }
 
@@ -9825,10 +9777,7 @@ public class Theme {
             drawable = drawable2;
         }
         boolean z2 = drawable instanceof MotionBackgroundDrawable;
-        if (!z2 || SharedConfig.getDevicePerformanceClass() == 0) {
-            z = false;
-        }
-        if (z) {
+        if ((!z2 || SharedConfig.getDevicePerformanceClass() == 0) ? false : false) {
             Bitmap bitmap = ((MotionBackgroundDrawable) drawable).getBitmap();
             if (serviceBitmap != bitmap) {
                 serviceBitmap = bitmap;
@@ -10056,48 +10005,48 @@ public class Theme {
         if (!z && (hashMap = animatingColors) != null && (num = hashMap.get(str)) != null) {
             return num.intValue();
         }
-        if (serviceBitmapShader != null && ("chat_serviceText".equals(str) || "chat_serviceLink".equals(str) || "chat_serviceIcon".equals(str) || "chat_stickerReplyLine".equals(str) || "chat_stickerReplyNameText".equals(str) || "chat_stickerReplyMessageText".equals(str))) {
-            return -1;
-        }
-        if (currentTheme == defaultTheme) {
-            if (myMessagesBubblesColorKeys.contains(str)) {
-                isDefaultMyMessages = currentTheme.isDefaultMyMessagesBubbles();
-            } else {
-                isDefaultMyMessages = myMessagesColorKeys.contains(str) ? currentTheme.isDefaultMyMessages() : ("chat_wallpaper".equals(str) || "chat_wallpaper_gradient_to".equals(str) || "key_chat_wallpaper_gradient_to2".equals(str) || "key_chat_wallpaper_gradient_to3".equals(str)) ? false : currentTheme.isDefaultMainAccent();
-            }
-            if (isDefaultMyMessages) {
-                if (str.equals("chat_serviceBackground")) {
-                    return serviceMessageColor;
+        if (serviceBitmapShader == null || !("chat_serviceText".equals(str) || "chat_serviceLink".equals(str) || "chat_serviceIcon".equals(str) || "chat_stickerReplyLine".equals(str) || "chat_stickerReplyNameText".equals(str) || "chat_stickerReplyMessageText".equals(str))) {
+            if (currentTheme == defaultTheme) {
+                if (myMessagesBubblesColorKeys.contains(str)) {
+                    isDefaultMyMessages = currentTheme.isDefaultMyMessagesBubbles();
+                } else {
+                    isDefaultMyMessages = myMessagesColorKeys.contains(str) ? currentTheme.isDefaultMyMessages() : ("chat_wallpaper".equals(str) || "chat_wallpaper_gradient_to".equals(str) || "key_chat_wallpaper_gradient_to2".equals(str) || "key_chat_wallpaper_gradient_to3".equals(str)) ? false : currentTheme.isDefaultMainAccent();
                 }
-                if (str.equals("chat_serviceBackgroundSelected")) {
-                    return serviceSelectedMessageColor;
+                if (isDefaultMyMessages) {
+                    if (str.equals("chat_serviceBackground")) {
+                        return serviceMessageColor;
+                    }
+                    if (str.equals("chat_serviceBackgroundSelected")) {
+                        return serviceSelectedMessageColor;
+                    }
+                    return getDefaultColor(str);
                 }
-                return getDefaultColor(str);
             }
-        }
-        Integer num2 = currentColors.get(str);
-        if (num2 == null) {
-            String str2 = fallbackKeys.get(str);
-            if (str2 != null) {
-                num2 = currentColors.get(str2);
-            }
+            Integer num2 = currentColors.get(str);
             if (num2 == null) {
-                if (zArr != null) {
-                    zArr[0] = true;
+                String str2 = fallbackKeys.get(str);
+                if (str2 != null) {
+                    num2 = currentColors.get(str2);
                 }
-                if (str.equals("chat_serviceBackground")) {
-                    return serviceMessageColor;
+                if (num2 == null) {
+                    if (zArr != null) {
+                        zArr[0] = true;
+                    }
+                    if (str.equals("chat_serviceBackground")) {
+                        return serviceMessageColor;
+                    }
+                    if (str.equals("chat_serviceBackgroundSelected")) {
+                        return serviceSelectedMessageColor;
+                    }
+                    return getDefaultColor(str);
                 }
-                if (str.equals("chat_serviceBackgroundSelected")) {
-                    return serviceSelectedMessageColor;
-                }
-                return getDefaultColor(str);
             }
+            if ("windowBackgroundWhite".equals(str) || "windowBackgroundGray".equals(str) || "actionBarDefault".equals(str) || "actionBarDefaultArchived".equals(str)) {
+                num2 = Integer.valueOf(num2.intValue() | (-16777216));
+            }
+            return num2.intValue();
         }
-        if ("windowBackgroundWhite".equals(str) || "windowBackgroundGray".equals(str) || "actionBarDefault".equals(str) || "actionBarDefaultArchived".equals(str)) {
-            num2 = Integer.valueOf(num2.intValue() | (-16777216));
-        }
-        return num2.intValue();
+        return -1;
     }
 
     public static void setColor(String str, int i, boolean z) {
@@ -10181,16 +10130,16 @@ public class Theme {
                 reloadWallpaper();
                 return;
             case 2:
-                if (Build.VERSION.SDK_INT < 26) {
+                if (Build.VERSION.SDK_INT >= 26) {
+                    NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.needCheckSystemBarColors, new Object[0]);
                     return;
                 }
-                NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.needCheckSystemBarColors, new Object[0]);
                 return;
             case 4:
-                if (Build.VERSION.SDK_INT < 23) {
+                if (Build.VERSION.SDK_INT >= 23) {
+                    NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.needCheckSystemBarColors, new Object[0]);
                     return;
                 }
-                NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.needCheckSystemBarColors, new Object[0]);
                 return;
             case 5:
                 applyChatMessageSelectedBackgroundColor();
@@ -10313,8 +10262,7 @@ public class Theme {
             RippleDrawable rippleDrawable = (RippleDrawable) drawable;
             if (z) {
                 rippleDrawable.setColor(new ColorStateList(new int[][]{StateSet.WILD_CARD}, new int[]{i}));
-            } else if (rippleDrawable.getNumberOfLayers() <= 0) {
-            } else {
+            } else if (rippleDrawable.getNumberOfLayers() > 0) {
                 Drawable drawable2 = rippleDrawable.getDrawable(0);
                 if (drawable2 instanceof ShapeDrawable) {
                     ((ShapeDrawable) drawable2).getPaint().setColor(i);
@@ -10331,10 +10279,10 @@ public class Theme {
 
     public static boolean hasWallpaperFromTheme() {
         ThemeInfo themeInfo = currentTheme;
-        if (!themeInfo.firstAccentIsDefault || themeInfo.currentAccentId != DEFALT_THEME_ACCENT_ID) {
-            return currentColors.containsKey("chat_wallpaper") || themedWallpaperFileOffset > 0 || !TextUtils.isEmpty(themedWallpaperLink);
+        if (themeInfo.firstAccentIsDefault && themeInfo.currentAccentId == DEFALT_THEME_ACCENT_ID) {
+            return false;
         }
-        return false;
+        return currentColors.containsKey("chat_wallpaper") || themedWallpaperFileOffset > 0 || !TextUtils.isEmpty(themedWallpaperLink);
     }
 
     public static boolean isCustomTheme() {
@@ -10468,8 +10416,8 @@ public class Theme {
         NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.didSetNewWallpapper, new Object[0]);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:20:0x0047  */
-    /* JADX WARN: Removed duplicated region for block: B:24:0x004d  */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x0047  */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x004d  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -10497,7 +10445,7 @@ public class Theme {
         return createBackgroundDrawable(themeInfo, overrideWallpaperInfo, hashMap, pathToWallpaper, str, num2 == null ? num2.intValue() : -1, i22, i, z, false, false, z2, null);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:92:0x0313  */
+    /* JADX WARN: Removed duplicated region for block: B:134:0x0313  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -10510,7 +10458,7 @@ public class Theme {
         boolean z5 = (!z2 || z3) && overrideWallpaperInfo != null;
         if (overrideWallpaperInfo != null) {
             backgroundDrawableSettings.isWallpaperMotion = Boolean.valueOf(overrideWallpaperInfo.isMotion);
-            backgroundDrawableSettings.isPatternWallpaper = Boolean.valueOf(overrideWallpaperInfo.color != 0 && !overrideWallpaperInfo.isDefault() && !overrideWallpaperInfo.isColor());
+            backgroundDrawableSettings.isPatternWallpaper = Boolean.valueOf((overrideWallpaperInfo.color == 0 || overrideWallpaperInfo.isDefault() || overrideWallpaperInfo.isColor()) ? false : true);
         } else {
             backgroundDrawableSettings.isWallpaperMotion = Boolean.valueOf(themeInfo.isMotion);
             backgroundDrawableSettings.isPatternWallpaper = Boolean.valueOf(themeInfo.patternBgColor != 0);
@@ -10574,12 +10522,7 @@ public class Theme {
                         @Override // org.telegram.ui.Components.BackgroundGradientDrawable.ListenerAdapter, org.telegram.ui.Components.BackgroundGradientDrawable.Listener
                         public void onSizeReady(int i4, int i5) {
                             Point point = AndroidUtilities.displaySize;
-                            boolean z6 = true;
-                            boolean z7 = point.x <= point.y;
-                            if (i4 > i5) {
-                                z6 = false;
-                            }
-                            if (z7 == z6) {
+                            if ((point.x <= point.y) == (i4 <= i5)) {
                                 NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.didSetNewWallpapper, new Object[0]);
                             }
                         }
@@ -10643,12 +10586,7 @@ public class Theme {
                                     @Override // org.telegram.ui.Components.BackgroundGradientDrawable.ListenerAdapter, org.telegram.ui.Components.BackgroundGradientDrawable.Listener
                                     public void onSizeReady(int i6, int i7) {
                                         Point point = AndroidUtilities.displaySize;
-                                        boolean z6 = true;
-                                        boolean z7 = point.x <= point.y;
-                                        if (i6 > i7) {
-                                            z6 = false;
-                                        }
-                                        if (z7 == z6) {
+                                        if ((point.x <= point.y) == (i6 <= i7)) {
                                             NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.didSetNewWallpapper, new Object[0]);
                                         }
                                     }
@@ -10780,13 +10718,13 @@ public class Theme {
     }
 
     /* JADX WARN: Can't wrap try/catch for region: R(7:1|(3:3|(1:5)|(2:7|8)(4:10|(1:101)|(4:21|(1:23)(1:90)|24|(1:26))(1:(5:92|(1:94)(1:99)|(1:96)|97|98)(1:100))|27))(3:102|(2:104|(6:108|(1:110)(1:112)|111|29|(7:32|33|34|35|(2:37|(2:38|(1:44)(1:42)))(0)|46|(6:48|(1:50)(1:58)|51|52|53|54)(1:(4:60|61|62|63)(2:67|68)))|31))|113)|28|29|(0)|31|(1:(0))) */
-    /* JADX WARN: Code restructure failed: missing block: B:88:0x017a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:93:0x017a, code lost:
         r0 = move-exception;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:89:0x017b, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:94:0x017b, code lost:
         org.telegram.messenger.FileLog.e(r0);
      */
-    /* JADX WARN: Removed duplicated region for block: B:32:0x00f8 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:116:0x00f8 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -10799,7 +10737,6 @@ public class Theme {
         MotionBackgroundDrawable motionBackgroundDrawable2;
         Integer num = currentColors.get("chat_wallpaper");
         int i2 = 1;
-        BackgroundGradientDrawable.ListenerAdapter listenerAdapter = null;
         if (num != null) {
             Integer num2 = currentColors.get("chat_wallpaper_gradient_to");
             Integer num3 = currentColors.get("key_chat_wallpaper_gradient_to2");
@@ -10822,29 +10759,20 @@ public class Theme {
                 }
             } else if (file == null) {
                 BackgroundGradientDrawable backgroundGradientDrawable = new BackgroundGradientDrawable(BackgroundGradientDrawable.getGradientOrientation(num5.intValue()), new int[]{num.intValue(), num2.intValue()});
-                BackgroundGradientDrawable.Sizes ofDeviceScreen = !z ? BackgroundGradientDrawable.Sizes.ofDeviceScreen() : BackgroundGradientDrawable.Sizes.ofDeviceScreen(0.125f, BackgroundGradientDrawable.Sizes.Orientation.PORTRAIT);
-                if (view != null) {
-                    listenerAdapter = new BackgroundGradientDrawable.ListenerAdapter() { // from class: org.telegram.ui.ActionBar.Theme.13
-                        @Override // org.telegram.ui.Components.BackgroundGradientDrawable.ListenerAdapter, org.telegram.ui.Components.BackgroundGradientDrawable.Listener
-                        public void onSizeReady(int i3, int i4) {
-                            if (!z) {
-                                Point point = AndroidUtilities.displaySize;
-                                boolean z2 = true;
-                                boolean z3 = point.x <= point.y;
-                                if (i3 > i4) {
-                                    z2 = false;
-                                }
-                                if (z3 != z2) {
-                                    return;
-                                }
+                backgroundGradientDrawable.startDithering(!z ? BackgroundGradientDrawable.Sizes.ofDeviceScreen() : BackgroundGradientDrawable.Sizes.ofDeviceScreen(0.125f, BackgroundGradientDrawable.Sizes.Orientation.PORTRAIT), view != null ? new BackgroundGradientDrawable.ListenerAdapter() { // from class: org.telegram.ui.ActionBar.Theme.13
+                    @Override // org.telegram.ui.Components.BackgroundGradientDrawable.ListenerAdapter, org.telegram.ui.Components.BackgroundGradientDrawable.Listener
+                    public void onSizeReady(int i3, int i4) {
+                        if (!z) {
+                            Point point = AndroidUtilities.displaySize;
+                            if ((point.x <= point.y) == (i3 <= i4)) {
                                 view.invalidate();
                                 return;
                             }
-                            view.invalidate();
+                            return;
                         }
-                    };
-                }
-                backgroundGradientDrawable.startDithering(ofDeviceScreen, listenerAdapter);
+                        view.invalidate();
+                    }
+                } : null);
                 return backgroundGradientDrawable;
             } else {
                 motionBackgroundDrawable2 = null;

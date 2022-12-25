@@ -34,10 +34,9 @@ public final class NonGmsServiceBrokerClient implements Api.Client, ServiceConne
     private String zak;
 
     private final void zad() {
-        if (Thread.currentThread() == this.zag.getLooper().getThread()) {
-            return;
+        if (Thread.currentThread() != this.zag.getLooper().getThread()) {
+            throw new IllegalStateException("This method should only run on the NonGmsServiceBrokerClient's handler thread.");
         }
-        throw new IllegalStateException("This method should only run on the NonGmsServiceBrokerClient's handler thread.");
     }
 
     @Override // com.google.android.gms.common.api.Api.Client

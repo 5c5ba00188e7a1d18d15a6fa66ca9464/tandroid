@@ -23,11 +23,11 @@ public abstract class L0 extends c implements IntStream {
         if (uVar instanceof u.a) {
             return (u.a) uVar;
         }
-        if (!Q4.a) {
-            throw new UnsupportedOperationException("IntStream.adapt(Spliterator<Integer> s)");
+        if (Q4.a) {
+            Q4.a(c.class, "using IntStream.adapt(Spliterator<Integer> s)");
+            throw null;
         }
-        Q4.a(c.class, "using IntStream.adapt(Spliterator<Integer> s)");
-        throw null;
+        throw new UnsupportedOperationException("IntStream.adapt(Spliterator<Integer> s)");
     }
 
     @Override // j$.util.stream.IntStream

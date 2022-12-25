@@ -21,15 +21,15 @@ import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.LayoutHelper;
 /* loaded from: classes3.dex */
 public class GroupCallInvitedCell extends FrameLayout {
+    private AvatarDrawable avatarDrawable;
     private BackupImageView avatarImageView;
     private TLRPC$User currentUser;
     private Paint dividerPaint;
+    private String grayIconColor;
     private ImageView muteButton;
     private SimpleTextView nameTextView;
     private boolean needDivider;
     private SimpleTextView statusTextView;
-    private String grayIconColor = "voipgroup_mutedIcon";
-    private AvatarDrawable avatarDrawable = new AvatarDrawable();
 
     @Override // android.view.View
     public boolean hasOverlappingRendering() {
@@ -38,15 +38,16 @@ public class GroupCallInvitedCell extends FrameLayout {
 
     public GroupCallInvitedCell(Context context) {
         super(context);
+        this.grayIconColor = "voipgroup_mutedIcon";
         Paint paint = new Paint();
         this.dividerPaint = paint;
         paint.setColor(Theme.getColor("voipgroup_actionBar"));
+        this.avatarDrawable = new AvatarDrawable();
         BackupImageView backupImageView = new BackupImageView(context);
         this.avatarImageView = backupImageView;
         backupImageView.setRoundRadius(AndroidUtilities.dp(24.0f));
         BackupImageView backupImageView2 = this.avatarImageView;
         boolean z = LocaleController.isRTL;
-        int i = 5;
         addView(backupImageView2, LayoutHelper.createFrame(46, 46.0f, (z ? 5 : 3) | 48, z ? 0.0f : 11.0f, 6.0f, z ? 11.0f : 0.0f, 0.0f));
         SimpleTextView simpleTextView = new SimpleTextView(context);
         this.nameTextView = simpleTextView;
@@ -56,7 +57,6 @@ public class GroupCallInvitedCell extends FrameLayout {
         this.nameTextView.setGravity((LocaleController.isRTL ? 5 : 3) | 48);
         SimpleTextView simpleTextView2 = this.nameTextView;
         boolean z2 = LocaleController.isRTL;
-        float f = 54.0f;
         addView(simpleTextView2, LayoutHelper.createFrame(-1, 20.0f, (z2 ? 5 : 3) | 48, z2 ? 54.0f : 67.0f, 10.0f, z2 ? 67.0f : 54.0f, 0.0f));
         SimpleTextView simpleTextView3 = new SimpleTextView(context);
         this.statusTextView = simpleTextView3;
@@ -66,7 +66,7 @@ public class GroupCallInvitedCell extends FrameLayout {
         this.statusTextView.setText(LocaleController.getString("Invited", R.string.Invited));
         SimpleTextView simpleTextView4 = this.statusTextView;
         boolean z3 = LocaleController.isRTL;
-        addView(simpleTextView4, LayoutHelper.createFrame(-1, 20.0f, (z3 ? 5 : 3) | 48, z3 ? 54.0f : 67.0f, 32.0f, z3 ? 67.0f : f, 0.0f));
+        addView(simpleTextView4, LayoutHelper.createFrame(-1, 20.0f, (z3 ? 5 : 3) | 48, z3 ? 54.0f : 67.0f, 32.0f, z3 ? 67.0f : 54.0f, 0.0f));
         ImageView imageView = new ImageView(context);
         this.muteButton = imageView;
         imageView.setScaleType(ImageView.ScaleType.CENTER);
@@ -74,7 +74,7 @@ public class GroupCallInvitedCell extends FrameLayout {
         this.muteButton.setImportantForAccessibility(2);
         this.muteButton.setPadding(0, 0, AndroidUtilities.dp(4.0f), 0);
         this.muteButton.setColorFilter(new PorterDuffColorFilter(Theme.getColor(this.grayIconColor), PorterDuff.Mode.MULTIPLY));
-        addView(this.muteButton, LayoutHelper.createFrame(48, -1.0f, (LocaleController.isRTL ? 3 : i) | 16, 6.0f, 0.0f, 6.0f, 0.0f));
+        addView(this.muteButton, LayoutHelper.createFrame(48, -1.0f, (LocaleController.isRTL ? 3 : 5) | 16, 6.0f, 0.0f, 6.0f, 0.0f));
         setWillNotDraw(false);
         setFocusable(true);
     }

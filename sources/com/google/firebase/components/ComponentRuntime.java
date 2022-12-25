@@ -212,13 +212,12 @@ public class ComponentRuntime extends AbstractComponentContainer implements Comp
 
     public void initializeEagerComponents(boolean z) {
         HashMap hashMap;
-        if (!this.eagerComponentsInitializedWith.compareAndSet(null, Boolean.valueOf(z))) {
-            return;
+        if (this.eagerComponentsInitializedWith.compareAndSet(null, Boolean.valueOf(z))) {
+            synchronized (this) {
+                hashMap = new HashMap(this.components);
+            }
+            doInitializeEagerComponents(hashMap, z);
         }
-        synchronized (this) {
-            hashMap = new HashMap(this.components);
-        }
-        doInitializeEagerComponents(hashMap, z);
     }
 
     private void doInitializeEagerComponents(Map<Component<?>, Provider<?>> map, boolean z) {

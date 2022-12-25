@@ -9,10 +9,11 @@ import java.util.List;
 /* compiled from: com.google.android.gms:play-services-tasks@@18.0.2 */
 /* loaded from: classes.dex */
 final class zzv extends LifecycleCallback {
-    private final List zza = new ArrayList();
+    private final List zza;
 
     private zzv(LifecycleFragment lifecycleFragment) {
         super(lifecycleFragment);
+        this.zza = new ArrayList();
         this.mLifecycleFragment.addCallback("TaskOnStopCallback", this);
     }
 

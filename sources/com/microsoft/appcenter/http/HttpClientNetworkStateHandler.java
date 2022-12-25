@@ -9,11 +9,12 @@ import java.util.Map;
 import java.util.Set;
 /* loaded from: classes.dex */
 public class HttpClientNetworkStateHandler extends HttpClientDecorator implements NetworkStateHelper.Listener {
-    private final Set<Call> mCalls = new HashSet();
+    private final Set<Call> mCalls;
     private final NetworkStateHelper mNetworkStateHelper;
 
     public HttpClientNetworkStateHandler(HttpClient httpClient, NetworkStateHelper networkStateHelper) {
         super(httpClient);
+        this.mCalls = new HashSet();
         this.mNetworkStateHelper = networkStateHelper;
         networkStateHelper.addListener(this);
     }

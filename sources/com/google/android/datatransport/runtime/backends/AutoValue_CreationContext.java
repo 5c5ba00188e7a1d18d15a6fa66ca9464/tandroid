@@ -50,11 +50,11 @@ final class AutoValue_CreationContext extends CreationContext {
         if (obj == this) {
             return true;
         }
-        if (!(obj instanceof CreationContext)) {
-            return false;
+        if (obj instanceof CreationContext) {
+            CreationContext creationContext = (CreationContext) obj;
+            return this.applicationContext.equals(creationContext.getApplicationContext()) && this.wallClock.equals(creationContext.getWallClock()) && this.monotonicClock.equals(creationContext.getMonotonicClock()) && this.backendName.equals(creationContext.getBackendName());
         }
-        CreationContext creationContext = (CreationContext) obj;
-        return this.applicationContext.equals(creationContext.getApplicationContext()) && this.wallClock.equals(creationContext.getWallClock()) && this.monotonicClock.equals(creationContext.getMonotonicClock()) && this.backendName.equals(creationContext.getBackendName());
+        return false;
     }
 
     public int hashCode() {

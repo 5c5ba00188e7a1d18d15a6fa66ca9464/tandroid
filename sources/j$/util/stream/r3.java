@@ -23,11 +23,10 @@ class r3 extends g3 {
             return;
         }
         long j2 = this.c;
-        if (j2 <= 0) {
-            return;
+        if (j2 > 0) {
+            this.c = j2 - 1;
+            this.a.accept(i);
         }
-        this.c = j2 - 1;
-        this.a.accept(i);
     }
 
     @Override // j$.util.stream.m3

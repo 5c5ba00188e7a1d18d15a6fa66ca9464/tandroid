@@ -49,23 +49,21 @@ public class Bitmaps {
     }
 
     private static void checkXYSign(int i, int i2) {
-        if (i >= 0) {
-            if (i2 < 0) {
-                throw new IllegalArgumentException("y must be >= 0");
-            }
-            return;
+        if (i < 0) {
+            throw new IllegalArgumentException("x must be >= 0");
         }
-        throw new IllegalArgumentException("x must be >= 0");
+        if (i2 < 0) {
+            throw new IllegalArgumentException("y must be >= 0");
+        }
     }
 
     private static void checkWidthHeight(int i, int i2) {
-        if (i > 0) {
-            if (i2 <= 0) {
-                throw new IllegalArgumentException("height must be > 0");
-            }
-            return;
+        if (i <= 0) {
+            throw new IllegalArgumentException("width must be > 0");
         }
-        throw new IllegalArgumentException("width must be > 0");
+        if (i2 <= 0) {
+            throw new IllegalArgumentException("height must be > 0");
+        }
     }
 
     public static Bitmap createBitmap(Bitmap bitmap, int i, int i2, int i3, int i4, Matrix matrix, boolean z) {

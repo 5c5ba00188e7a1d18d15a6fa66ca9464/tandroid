@@ -125,15 +125,15 @@ public class FileStreamLoadOperation extends BaseDataSource implements FileLoadO
                 throw new IOException(e);
             }
         }
-        if (!this.opened) {
-            return 0;
+        if (this.opened) {
+            this.file.readFully(bArr, i, i3);
+            long j2 = i3;
+            this.currentOffset += j2;
+            this.bytesRemaining -= j2;
+            bytesTransferred(i3);
+            return i3;
         }
-        this.file.readFully(bArr, i, i3);
-        long j2 = i3;
-        this.currentOffset += j2;
-        this.bytesRemaining -= j2;
-        bytesTransferred(i3);
-        return i3;
+        return 0;
     }
 
     @Override // com.google.android.exoplayer2.upstream.DataSource

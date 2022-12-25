@@ -42,10 +42,10 @@ public class ChartPickerDelegate {
         if (capturesDataArr[0] != null && capturesDataArr[0].state == 4) {
             return capturesDataArr[0];
         }
-        if (capturesDataArr[1] != null && capturesDataArr[1].state == 4) {
-            return capturesDataArr[1];
+        if (capturesDataArr[1] == null || capturesDataArr[1].state != 4) {
+            return null;
         }
-        return null;
+        return capturesDataArr[1];
     }
 
     public CapturesData getLeftCaptured() {
@@ -53,10 +53,10 @@ public class ChartPickerDelegate {
         if (capturesDataArr[0] != null && capturesDataArr[0].state == 1) {
             return capturesDataArr[0];
         }
-        if (capturesDataArr[1] != null && capturesDataArr[1].state == 1) {
-            return capturesDataArr[1];
+        if (capturesDataArr[1] == null || capturesDataArr[1].state != 1) {
+            return null;
         }
-        return null;
+        return capturesDataArr[1];
     }
 
     public CapturesData getRightCaptured() {
@@ -64,10 +64,10 @@ public class ChartPickerDelegate {
         if (capturesDataArr[0] != null && capturesDataArr[0].state == 2) {
             return capturesDataArr[0];
         }
-        if (capturesDataArr[1] != null && capturesDataArr[1].state == 2) {
-            return capturesDataArr[1];
+        if (capturesDataArr[1] == null || capturesDataArr[1].state != 2) {
+            return null;
         }
-        return null;
+        return capturesDataArr[1];
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -234,60 +234,60 @@ public class ChartPickerDelegate {
     public boolean move(int i, int i2, int i3) {
         CapturesData capturesData;
         boolean z = false;
-        if (!this.tryMoveTo && (capturesData = this.capturedStates[i3]) != null) {
-            int i4 = capturesData.state;
-            float f = capturesData.start;
-            float f2 = capturesData.end;
-            int i5 = capturesData.capturedX;
-            if (i4 == 1) {
-                float f3 = f - ((i5 - i) / this.pickerWidth);
-                this.pickerStart = f3;
-                if (f3 < 0.0f) {
-                    this.pickerStart = 0.0f;
-                }
-                float f4 = this.pickerEnd;
-                float f5 = this.minDistance;
-                if (f4 - this.pickerStart < f5) {
-                    this.pickerStart = f4 - f5;
-                }
-                z = true;
-            }
-            if (i4 == 2) {
-                float f6 = f2 - ((i5 - i) / this.pickerWidth);
-                this.pickerEnd = f6;
-                if (f6 > 1.0f) {
-                    this.pickerEnd = 1.0f;
-                }
-                float f7 = this.pickerEnd;
-                float f8 = this.pickerStart;
-                float f9 = this.minDistance;
-                if (f7 - f8 < f9) {
-                    this.pickerEnd = f8 + f9;
-                }
-                z = true;
-            }
-            if (i4 == 4) {
-                float f10 = i5 - i;
-                float f11 = this.pickerWidth;
-                float f12 = f - (f10 / f11);
-                this.pickerStart = f12;
-                this.pickerEnd = f2 - (f10 / f11);
-                if (f12 < 0.0f) {
-                    this.pickerStart = 0.0f;
-                    this.pickerEnd = f2 - f;
-                }
-                if (this.pickerEnd > 1.0f) {
-                    this.pickerEnd = 1.0f;
-                    this.pickerStart = 1.0f - (f2 - f);
-                }
-                z = true;
-            }
-            if (z) {
-                this.view.onPickerDataChanged();
-            }
-            return true;
+        if (this.tryMoveTo || (capturesData = this.capturedStates[i3]) == null) {
+            return false;
         }
-        return false;
+        int i4 = capturesData.state;
+        float f = capturesData.start;
+        float f2 = capturesData.end;
+        int i5 = capturesData.capturedX;
+        if (i4 == 1) {
+            float f3 = f - ((i5 - i) / this.pickerWidth);
+            this.pickerStart = f3;
+            if (f3 < 0.0f) {
+                this.pickerStart = 0.0f;
+            }
+            float f4 = this.pickerEnd;
+            float f5 = this.minDistance;
+            if (f4 - this.pickerStart < f5) {
+                this.pickerStart = f4 - f5;
+            }
+            z = true;
+        }
+        if (i4 == 2) {
+            float f6 = f2 - ((i5 - i) / this.pickerWidth);
+            this.pickerEnd = f6;
+            if (f6 > 1.0f) {
+                this.pickerEnd = 1.0f;
+            }
+            float f7 = this.pickerEnd;
+            float f8 = this.pickerStart;
+            float f9 = this.minDistance;
+            if (f7 - f8 < f9) {
+                this.pickerEnd = f8 + f9;
+            }
+            z = true;
+        }
+        if (i4 == 4) {
+            float f10 = i5 - i;
+            float f11 = this.pickerWidth;
+            float f12 = f - (f10 / f11);
+            this.pickerStart = f12;
+            this.pickerEnd = f2 - (f10 / f11);
+            if (f12 < 0.0f) {
+                this.pickerStart = 0.0f;
+                this.pickerEnd = f2 - f;
+            }
+            if (this.pickerEnd > 1.0f) {
+                this.pickerEnd = 1.0f;
+                this.pickerStart = 1.0f - (f2 - f);
+            }
+            z = true;
+        }
+        if (z) {
+            this.view.onPickerDataChanged();
+        }
+        return true;
     }
 
     public boolean uncapture(MotionEvent motionEvent, int i) {

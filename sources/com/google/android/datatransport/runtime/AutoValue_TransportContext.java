@@ -35,14 +35,14 @@ final class AutoValue_TransportContext extends TransportContext {
         if (obj == this) {
             return true;
         }
-        if (!(obj instanceof TransportContext)) {
-            return false;
-        }
-        TransportContext transportContext = (TransportContext) obj;
-        if (this.backendName.equals(transportContext.getBackendName())) {
-            if (Arrays.equals(this.extras, transportContext instanceof AutoValue_TransportContext ? ((AutoValue_TransportContext) transportContext).extras : transportContext.getExtras()) && this.priority.equals(transportContext.getPriority())) {
-                return true;
+        if (obj instanceof TransportContext) {
+            TransportContext transportContext = (TransportContext) obj;
+            if (this.backendName.equals(transportContext.getBackendName())) {
+                if (Arrays.equals(this.extras, transportContext instanceof AutoValue_TransportContext ? ((AutoValue_TransportContext) transportContext).extras : transportContext.getExtras()) && this.priority.equals(transportContext.getPriority())) {
+                    return true;
+                }
             }
+            return false;
         }
         return false;
     }
@@ -81,7 +81,7 @@ final class AutoValue_TransportContext extends TransportContext {
         public TransportContext build() {
             String str = "";
             if (this.backendName == null) {
-                str = str + " backendName";
+                str = " backendName";
             }
             if (this.priority == null) {
                 str = str + " priority";

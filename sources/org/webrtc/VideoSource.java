@@ -4,50 +4,11 @@ import org.webrtc.VideoProcessor;
 import org.webrtc.VideoSink;
 /* loaded from: classes.dex */
 public class VideoSource extends MediaSource {
+    private final CapturerObserver capturerObserver;
     private boolean isCapturerRunning;
     private final NativeAndroidVideoTrackSource nativeAndroidVideoTrackSource;
     private VideoProcessor videoProcessor;
-    private final Object videoProcessorLock = new Object();
-    private final CapturerObserver capturerObserver = new CapturerObserver() { // from class: org.webrtc.VideoSource.1
-        @Override // org.webrtc.CapturerObserver
-        public void onCapturerStarted(boolean z) {
-            VideoSource.this.nativeAndroidVideoTrackSource.setState(z);
-            synchronized (VideoSource.this.videoProcessorLock) {
-                VideoSource.this.isCapturerRunning = z;
-                if (VideoSource.this.videoProcessor != null) {
-                    VideoSource.this.videoProcessor.onCapturerStarted(z);
-                }
-            }
-        }
-
-        @Override // org.webrtc.CapturerObserver
-        public void onCapturerStopped() {
-            VideoSource.this.nativeAndroidVideoTrackSource.setState(false);
-            synchronized (VideoSource.this.videoProcessorLock) {
-                VideoSource.this.isCapturerRunning = false;
-                if (VideoSource.this.videoProcessor != null) {
-                    VideoSource.this.videoProcessor.onCapturerStopped();
-                }
-            }
-        }
-
-        @Override // org.webrtc.CapturerObserver
-        public void onFrameCaptured(VideoFrame videoFrame) {
-            VideoProcessor.FrameAdaptationParameters adaptFrame = VideoSource.this.nativeAndroidVideoTrackSource.adaptFrame(videoFrame);
-            synchronized (VideoSource.this.videoProcessorLock) {
-                if (VideoSource.this.videoProcessor != null) {
-                    VideoSource.this.videoProcessor.onFrameCaptured(videoFrame, adaptFrame);
-                    return;
-                }
-                VideoFrame applyFrameAdaptationParameters = VideoProcessor.-CC.applyFrameAdaptationParameters(videoFrame, adaptFrame);
-                if (applyFrameAdaptationParameters == null) {
-                    return;
-                }
-                VideoSource.this.nativeAndroidVideoTrackSource.onFrameCaptured(applyFrameAdaptationParameters);
-                applyFrameAdaptationParameters.release();
-            }
-        }
-    };
+    private final Object videoProcessorLock;
 
     /* loaded from: classes.dex */
     public static class AspectRatio {
@@ -63,6 +24,46 @@ public class VideoSource extends MediaSource {
 
     public VideoSource(long j) {
         super(j);
+        this.videoProcessorLock = new Object();
+        this.capturerObserver = new CapturerObserver() { // from class: org.webrtc.VideoSource.1
+            @Override // org.webrtc.CapturerObserver
+            public void onCapturerStarted(boolean z) {
+                VideoSource.this.nativeAndroidVideoTrackSource.setState(z);
+                synchronized (VideoSource.this.videoProcessorLock) {
+                    VideoSource.this.isCapturerRunning = z;
+                    if (VideoSource.this.videoProcessor != null) {
+                        VideoSource.this.videoProcessor.onCapturerStarted(z);
+                    }
+                }
+            }
+
+            @Override // org.webrtc.CapturerObserver
+            public void onCapturerStopped() {
+                VideoSource.this.nativeAndroidVideoTrackSource.setState(false);
+                synchronized (VideoSource.this.videoProcessorLock) {
+                    VideoSource.this.isCapturerRunning = false;
+                    if (VideoSource.this.videoProcessor != null) {
+                        VideoSource.this.videoProcessor.onCapturerStopped();
+                    }
+                }
+            }
+
+            @Override // org.webrtc.CapturerObserver
+            public void onFrameCaptured(VideoFrame videoFrame) {
+                VideoProcessor.FrameAdaptationParameters adaptFrame = VideoSource.this.nativeAndroidVideoTrackSource.adaptFrame(videoFrame);
+                synchronized (VideoSource.this.videoProcessorLock) {
+                    if (VideoSource.this.videoProcessor != null) {
+                        VideoSource.this.videoProcessor.onFrameCaptured(videoFrame, adaptFrame);
+                        return;
+                    }
+                    VideoFrame applyFrameAdaptationParameters = VideoProcessor.-CC.applyFrameAdaptationParameters(videoFrame, adaptFrame);
+                    if (applyFrameAdaptationParameters != null) {
+                        VideoSource.this.nativeAndroidVideoTrackSource.onFrameCaptured(applyFrameAdaptationParameters);
+                        applyFrameAdaptationParameters.release();
+                    }
+                }
+            }
+        };
         this.nativeAndroidVideoTrackSource = new NativeAndroidVideoTrackSource(j);
     }
 

@@ -42,7 +42,6 @@ public class GroupCallTextCell extends FrameLayout {
         this.textView = simpleTextView;
         simpleTextView.setTextColor(Theme.getColor(z ? "dialogTextBlack" : "windowBackgroundWhiteBlackText"));
         this.textView.setTextSize(16);
-        int i2 = 5;
         this.textView.setGravity(LocaleController.isRTL ? 5 : 3);
         this.textView.setImportantForAccessibility(2);
         addView(this.textView);
@@ -50,7 +49,7 @@ public class GroupCallTextCell extends FrameLayout {
         this.valueTextView = simpleTextView2;
         simpleTextView2.setTextColor(Theme.getColor(z ? "dialogTextBlue2" : "windowBackgroundWhiteValueText"));
         this.valueTextView.setTextSize(16);
-        this.valueTextView.setGravity(LocaleController.isRTL ? 3 : i2);
+        this.valueTextView.setGravity(LocaleController.isRTL ? 3 : 5);
         this.valueTextView.setImportantForAccessibility(2);
         addView(this.valueTextView);
         ImageView imageView = new ImageView(context);
@@ -156,7 +155,6 @@ public class GroupCallTextCell extends FrameLayout {
         float dp;
         int i;
         if (this.needDivider) {
-            float f = 68.0f;
             if (LocaleController.isRTL) {
                 dp = 0.0f;
             } else {
@@ -165,10 +163,7 @@ public class GroupCallTextCell extends FrameLayout {
             float measuredHeight = getMeasuredHeight() - 1;
             int measuredWidth = getMeasuredWidth();
             if (LocaleController.isRTL) {
-                if (this.imageView.getVisibility() != 0) {
-                    f = 20.0f;
-                }
-                i = AndroidUtilities.dp(f);
+                i = AndroidUtilities.dp(this.imageView.getVisibility() != 0 ? 20.0f : 68.0f);
             } else {
                 i = 0;
             }
@@ -180,13 +175,14 @@ public class GroupCallTextCell extends FrameLayout {
     public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
         super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
         CharSequence text = this.textView.getText();
-        if (!TextUtils.isEmpty(text)) {
-            CharSequence text2 = this.valueTextView.getText();
-            if (!TextUtils.isEmpty(text2)) {
-                accessibilityNodeInfo.setText(((Object) text) + ": " + ((Object) text2));
-                return;
-            }
-            accessibilityNodeInfo.setText(text);
+        if (TextUtils.isEmpty(text)) {
+            return;
         }
+        CharSequence text2 = this.valueTextView.getText();
+        if (!TextUtils.isEmpty(text2)) {
+            accessibilityNodeInfo.setText(((Object) text) + ": " + ((Object) text2));
+            return;
+        }
+        accessibilityNodeInfo.setText(text);
     }
 }

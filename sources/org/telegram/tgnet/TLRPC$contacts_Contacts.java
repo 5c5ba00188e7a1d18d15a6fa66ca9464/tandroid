@@ -76,12 +76,12 @@ public abstract class TLRPC$contacts_Contacts extends TLObject {
                 }
             };
         }
-        if (tLRPC$contacts_Contacts != null || !z) {
-            if (tLRPC$contacts_Contacts != null) {
-                tLRPC$contacts_Contacts.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$contacts_Contacts;
+        if (tLRPC$contacts_Contacts == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in contacts_Contacts", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in contacts_Contacts", Integer.valueOf(i)));
+        if (tLRPC$contacts_Contacts != null) {
+            tLRPC$contacts_Contacts.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$contacts_Contacts;
     }
 }

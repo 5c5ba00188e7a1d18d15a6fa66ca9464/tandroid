@@ -12,19 +12,19 @@ final class j2 extends k2 {
     @Override // j$.util.u
     public boolean b(Consumer consumer) {
         A1 a;
-        if (!h()) {
-            return false;
-        }
-        boolean b = this.d.b(consumer);
-        if (!b) {
-            if (this.c == null && (a = a(this.e)) != null) {
-                j$.util.u spliterator = a.spliterator();
-                this.d = spliterator;
-                return spliterator.b(consumer);
+        if (h()) {
+            boolean b = this.d.b(consumer);
+            if (!b) {
+                if (this.c == null && (a = a(this.e)) != null) {
+                    j$.util.u spliterator = a.spliterator();
+                    this.d = spliterator;
+                    return spliterator.b(consumer);
+                }
+                this.a = null;
             }
-            this.a = null;
+            return b;
         }
-        return b;
+        return false;
     }
 
     @Override // j$.util.u

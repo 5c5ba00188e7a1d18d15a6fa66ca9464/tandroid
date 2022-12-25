@@ -14,16 +14,18 @@ public class BottomPagesView extends View {
     private String colorKey;
     private int currentPage;
     private int pagesCount;
+    private Paint paint;
     private float progress;
+    private RectF rect;
     private int scrollPosition;
     private String selectedColorKey;
     private ViewPager viewPager;
-    private Paint paint = new Paint(1);
-    private RectF rect = new RectF();
 
     public BottomPagesView(Context context, ViewPager viewPager, int i) {
         super(context);
+        this.paint = new Paint(1);
         new DecelerateInterpolator();
+        this.rect = new RectF();
         this.viewPager = viewPager;
         this.pagesCount = i;
     }

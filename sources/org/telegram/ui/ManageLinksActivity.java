@@ -171,11 +171,12 @@ public class ManageLinksActivity extends BaseFragment {
 
     /* loaded from: classes3.dex */
     private static class EmptyView extends LinearLayout implements NotificationCenter.NotificationCenterDelegate {
-        private final int currentAccount = UserConfig.selectedAccount;
+        private final int currentAccount;
         private BackupImageView stickerView;
 
         public EmptyView(Context context) {
             super(context);
+            this.currentAccount = UserConfig.selectedAccount;
             setPadding(0, AndroidUtilities.dp(12.0f), 0, AndroidUtilities.dp(12.0f));
             setOrientation(1);
             BackupImageView backupImageView = new BackupImageView(context);
@@ -212,10 +213,9 @@ public class ManageLinksActivity extends BaseFragment {
 
         @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
         public void didReceivedNotification(int i, int i2, Object... objArr) {
-            if (i != NotificationCenter.diceStickersDidLoad || !AndroidUtilities.STICKERS_PLACEHOLDER_PACK_NAME.equals((String) objArr[0])) {
-                return;
+            if (i == NotificationCenter.diceStickersDidLoad && AndroidUtilities.STICKERS_PLACEHOLDER_PACK_NAME.equals((String) objArr[0])) {
+                setSticker();
             }
-            setSticker();
         }
     }
 
@@ -378,7 +378,7 @@ public class ManageLinksActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x015a  */
+    /* JADX WARN: Removed duplicated region for block: B:80:0x015a  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -502,11 +502,8 @@ public class ManageLinksActivity extends BaseFragment {
         this.adminsHeaderRow = -1;
         this.linksHeaderRow = -1;
         this.dividerRow = -1;
-        boolean z2 = false;
         this.rowCount = 0;
-        if (this.adminId != getAccountInstance().getUserConfig().clientUserId) {
-            z2 = true;
-        }
+        boolean z2 = this.adminId != getAccountInstance().getUserConfig().clientUserId;
         if (z2) {
             int i = this.rowCount;
             int i2 = i + 1;
@@ -662,10 +659,9 @@ public class ManageLinksActivity extends BaseFragment {
                 if (!manageLinksActivity.hasMore || manageLinksActivity.linksLoading) {
                     return;
                 }
-                if (ManageLinksActivity.this.rowCount - linearLayoutManager.findLastVisibleItemPosition() >= 10) {
-                    return;
+                if (ManageLinksActivity.this.rowCount - linearLayoutManager.findLastVisibleItemPosition() < 10) {
+                    ManageLinksActivity.this.loadLinks(true);
                 }
-                ManageLinksActivity.this.loadLinks(true);
             }
         });
         this.recyclerItemsEnterAnimator = new RecyclerItemsEnterAnimator(this.listView, false);
@@ -701,13 +697,12 @@ public class ManageLinksActivity extends BaseFragment {
     public /* synthetic */ void lambda$createView$9(Context context, View view, int i) {
         if (i == this.creatorRow) {
             TLRPC$User tLRPC$User = this.users.get(Long.valueOf(this.invite.admin_id));
-            if (tLRPC$User == null) {
-                return;
+            if (tLRPC$User != null) {
+                Bundle bundle = new Bundle();
+                bundle.putLong("user_id", tLRPC$User.id);
+                MessagesController.getInstance(UserConfig.selectedAccount).putUser(tLRPC$User, false);
+                presentFragment(new ProfileActivity(bundle));
             }
-            Bundle bundle = new Bundle();
-            bundle.putLong("user_id", tLRPC$User.id);
-            MessagesController.getInstance(UserConfig.selectedAccount).putUser(tLRPC$User, false);
-            presentFragment(new ProfileActivity(bundle));
         } else if (i == this.createNewLinkRow) {
             LinkEditActivity linkEditActivity = new LinkEditActivity(0, this.currentChatId);
             linkEditActivity.setCallback(this.linkEditActivityCallback);
@@ -871,13 +866,13 @@ public class ManageLinksActivity extends BaseFragment {
             if (ManageLinksActivity.this.creatorRow == adapterPosition || ManageLinksActivity.this.createNewLinkRow == adapterPosition) {
                 return true;
             }
-            if (adapterPosition >= ManageLinksActivity.this.linksStartRow && adapterPosition < ManageLinksActivity.this.linksEndRow) {
+            if (adapterPosition < ManageLinksActivity.this.linksStartRow || adapterPosition >= ManageLinksActivity.this.linksEndRow) {
+                if ((adapterPosition < ManageLinksActivity.this.revokedLinksStartRow || adapterPosition >= ManageLinksActivity.this.revokedLinksEndRow) && adapterPosition != ManageLinksActivity.this.revokeAllRow) {
+                    return adapterPosition >= ManageLinksActivity.this.adminsStartRow && adapterPosition < ManageLinksActivity.this.adminsEndRow;
+                }
                 return true;
             }
-            if ((adapterPosition >= ManageLinksActivity.this.revokedLinksStartRow && adapterPosition < ManageLinksActivity.this.revokedLinksEndRow) || adapterPosition == ManageLinksActivity.this.revokeAllRow) {
-                return true;
-            }
-            return adapterPosition >= ManageLinksActivity.this.adminsStartRow && adapterPosition < ManageLinksActivity.this.adminsEndRow;
+            return true;
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -985,17 +980,17 @@ public class ManageLinksActivity extends BaseFragment {
             return new RecyclerListView.Holder(linkActionView);
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:30:0x00b5, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:28:0x00b5, code lost:
             if (r10 == (r8.this$0.linksEndRow - 1)) goto L33;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:33:0x00d5, code lost:
-            r1 = false;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:35:0x00d3, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:31:0x00d3, code lost:
             if (r10 == (r8.this$0.revokedLinksEndRow - 1)) goto L33;
          */
-        /* JADX WARN: Removed duplicated region for block: B:16:0x0075  */
-        /* JADX WARN: Removed duplicated region for block: B:19:? A[RETURN, SYNTHETIC] */
+        /* JADX WARN: Code restructure failed: missing block: B:32:0x00d5, code lost:
+            r1 = false;
+         */
+        /* JADX WARN: Removed duplicated region for block: B:22:0x0075  */
+        /* JADX WARN: Removed duplicated region for block: B:71:? A[RETURN, SYNTHETIC] */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -1021,10 +1016,10 @@ public class ManageLinksActivity extends BaseFragment {
                     headerCell.setText(LocaleController.getString("PublicLink", R.string.PublicLink));
                 } else if (i != ManageLinksActivity.this.revokedHeader) {
                     if (i != ManageLinksActivity.this.linksHeaderRow) {
-                        if (i != ManageLinksActivity.this.adminsHeaderRow) {
+                        if (i == ManageLinksActivity.this.adminsHeaderRow) {
+                            headerCell.setText(LocaleController.getString("LinksCreatedByOtherAdmins", R.string.LinksCreatedByOtherAdmins));
                             return;
                         }
-                        headerCell.setText(LocaleController.getString("LinksCreatedByOtherAdmins", R.string.LinksCreatedByOtherAdmins));
                         return;
                     }
                     headerCell.setText(LocaleController.getString("LinksCreatedByThisAdmin", R.string.LinksCreatedByThisAdmin));
@@ -1044,8 +1039,7 @@ public class ManageLinksActivity extends BaseFragment {
                     }
                     linkActionView.setLink(null);
                     linkActionView.loadUsers(null, ManageLinksActivity.this.currentChatId);
-                } else if (ManageLinksActivity.this.info == null) {
-                } else {
+                } else if (ManageLinksActivity.this.info != null) {
                     linkActionView.setLink("https://t.me/" + ChatObject.getPublicUsername(ManageLinksActivity.this.currentChat));
                     linkActionView.setUsers(0, null);
                     linkActionView.hideRevokeOption(true);
@@ -1077,16 +1071,16 @@ public class ManageLinksActivity extends BaseFragment {
                     i2 = tLRPC$TL_chatAdminWithInvites.invites_count;
                     if (i != ManageLinksActivity.this.adminsEndRow - 1) {
                         tLRPC$User = tLRPC$User2;
-                        if (tLRPC$User != null) {
+                        if (tLRPC$User == null) {
+                            manageChatUserCell.setData(tLRPC$User, ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name), LocaleController.formatPluralString("InviteLinkCount", i2, new Object[0]), z);
                             return;
                         }
-                        manageChatUserCell.setData(tLRPC$User, ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name), LocaleController.formatPluralString("InviteLinkCount", i2, new Object[0]), z);
                         return;
                     }
                     tLRPC$User = tLRPC$User2;
                 }
                 z = false;
-                if (tLRPC$User != null) {
+                if (tLRPC$User == null) {
                 }
             }
         }
@@ -1116,28 +1110,28 @@ public class ManageLinksActivity extends BaseFragment {
             if (i == ManageLinksActivity.this.dividerRow || i == ManageLinksActivity.this.revokedDivider || i == ManageLinksActivity.this.revokeAllDivider || i == ManageLinksActivity.this.creatorDividerRow || i == ManageLinksActivity.this.adminsDividerRow) {
                 return 4;
             }
-            if (i >= ManageLinksActivity.this.linksStartRow && i < ManageLinksActivity.this.linksEndRow) {
+            if (i < ManageLinksActivity.this.linksStartRow || i >= ManageLinksActivity.this.linksEndRow) {
+                if (i < ManageLinksActivity.this.revokedLinksStartRow || i >= ManageLinksActivity.this.revokedLinksEndRow) {
+                    if (i == ManageLinksActivity.this.linksLoadingRow) {
+                        return 6;
+                    }
+                    if (i == ManageLinksActivity.this.lastDivider) {
+                        return 7;
+                    }
+                    if (i == ManageLinksActivity.this.revokeAllRow) {
+                        return 8;
+                    }
+                    if (i == ManageLinksActivity.this.createLinkHelpRow) {
+                        return 9;
+                    }
+                    if (i != ManageLinksActivity.this.creatorRow) {
+                        return (i < ManageLinksActivity.this.adminsStartRow || i >= ManageLinksActivity.this.adminsEndRow) ? 1 : 10;
+                    }
+                    return 10;
+                }
                 return 5;
             }
-            if (i >= ManageLinksActivity.this.revokedLinksStartRow && i < ManageLinksActivity.this.revokedLinksEndRow) {
-                return 5;
-            }
-            if (i == ManageLinksActivity.this.linksLoadingRow) {
-                return 6;
-            }
-            if (i == ManageLinksActivity.this.lastDivider) {
-                return 7;
-            }
-            if (i == ManageLinksActivity.this.revokeAllRow) {
-                return 8;
-            }
-            if (i == ManageLinksActivity.this.createLinkHelpRow) {
-                return 9;
-            }
-            if (i == ManageLinksActivity.this.creatorRow) {
-                return 10;
-            }
-            return (i < ManageLinksActivity.this.adminsStartRow || i >= ManageLinksActivity.this.adminsEndRow) ? 1 : 10;
+            return 5;
         }
     }
 
@@ -1198,20 +1192,20 @@ public class ManageLinksActivity extends BaseFragment {
     public class LinkCell extends FrameLayout {
         int animateFromState;
         boolean animateHideExpiring;
+        float animateToStateProgress;
         boolean drawDivider;
         TLRPC$TL_chatInviteExported invite;
         float lastDrawExpringProgress;
         int lastDrawingState;
         ImageView optionsView;
+        Paint paint;
+        Paint paint2;
         int position;
+        RectF rectF;
         TextView subtitleView;
+        private TimerParticles timerParticles;
         boolean timerRunning;
         TextView titleView;
-        Paint paint = new Paint(1);
-        Paint paint2 = new Paint(1);
-        RectF rectF = new RectF();
-        float animateToStateProgress = 1.0f;
-        private TimerParticles timerParticles = new TimerParticles();
 
         private boolean hasProgress(int i) {
             return i == 2 || i == 1;
@@ -1219,6 +1213,11 @@ public class ManageLinksActivity extends BaseFragment {
 
         public LinkCell(Context context) {
             super(context);
+            this.paint = new Paint(1);
+            this.paint2 = new Paint(1);
+            this.rectF = new RectF();
+            this.animateToStateProgress = 1.0f;
+            this.timerParticles = new TimerParticles();
             this.paint2.setStyle(Paint.Style.STROKE);
             this.paint2.setStrokeCap(Paint.Cap.ROUND);
             LinearLayout linearLayout = new LinearLayout(context);
@@ -1254,8 +1253,8 @@ public class ManageLinksActivity extends BaseFragment {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* JADX WARN: Removed duplicated region for block: B:11:0x00f5  */
-        /* JADX WARN: Removed duplicated region for block: B:13:? A[RETURN, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:20:0x00f5  */
+        /* JADX WARN: Removed duplicated region for block: B:22:? A[RETURN, SYNTHETIC] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -1394,13 +1393,13 @@ public class ManageLinksActivity extends BaseFragment {
             this.paint2.setStrokeWidth(AndroidUtilities.dp(2.0f));
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:39:0x0105, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:61:0x0105, code lost:
             if (r4.revoked == false) goto L49;
          */
-        /* JADX WARN: Removed duplicated region for block: B:42:0x01cc  */
-        /* JADX WARN: Removed duplicated region for block: B:45:0x0219  */
-        /* JADX WARN: Removed duplicated region for block: B:47:? A[RETURN, SYNTHETIC] */
-        /* JADX WARN: Removed duplicated region for block: B:48:0x01f1  */
+        /* JADX WARN: Removed duplicated region for block: B:82:0x01cc  */
+        /* JADX WARN: Removed duplicated region for block: B:83:0x01f1  */
+        /* JADX WARN: Removed duplicated region for block: B:86:0x0219  */
+        /* JADX WARN: Removed duplicated region for block: B:88:? A[RETURN, SYNTHETIC] */
         @Override // android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -1745,10 +1744,9 @@ public class ManageLinksActivity extends BaseFragment {
                     getMessagesStorage().saveChatLinksCount(this.currentChatId, this.info.invitesCount);
                 }
             }
-            if (getParentActivity() == null) {
-                return;
+            if (getParentActivity() != null) {
+                BulletinFactory.of(this).createSimpleBulletin(R.raw.linkbroken, LocaleController.getString("InviteRevokedHint", R.string.InviteRevokedHint)).show();
             }
-            BulletinFactory.of(this).createSimpleBulletin(R.raw.linkbroken, LocaleController.getString("InviteRevokedHint", R.string.InviteRevokedHint)).show();
         }
     }
 
@@ -1933,22 +1931,14 @@ public class ManageLinksActivity extends BaseFragment {
     }
 
     public void fixDate(TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported) {
-        boolean z = true;
         if (tLRPC$TL_chatInviteExported.expire_date > 0) {
-            if (getConnectionsManager().getCurrentTime() < tLRPC$TL_chatInviteExported.expire_date) {
-                z = false;
-            }
-            tLRPC$TL_chatInviteExported.expired = z;
+            tLRPC$TL_chatInviteExported.expired = getConnectionsManager().getCurrentTime() >= tLRPC$TL_chatInviteExported.expire_date;
             return;
         }
         int i = tLRPC$TL_chatInviteExported.usage_limit;
-        if (i <= 0) {
-            return;
+        if (i > 0) {
+            tLRPC$TL_chatInviteExported.expired = tLRPC$TL_chatInviteExported.usage >= i;
         }
-        if (tLRPC$TL_chatInviteExported.usage < i) {
-            z = false;
-        }
-        tLRPC$TL_chatInviteExported.expired = z;
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment

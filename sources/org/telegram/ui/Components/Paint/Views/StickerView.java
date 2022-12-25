@@ -166,10 +166,10 @@ public class StickerView extends EntityView {
             return lottieAnimation.getDuration();
         }
         AnimatedFileDrawable animation = this.centerImage.getAnimation();
-        if (animation == null) {
-            return 0L;
+        if (animation != null) {
+            return animation.getDurationMs();
         }
-        return animation.getDurationMs();
+        return 0L;
     }
 
     @Override // android.widget.FrameLayout, android.view.View
@@ -209,10 +209,11 @@ public class StickerView extends EntityView {
 
     /* loaded from: classes3.dex */
     public class StickerViewSelectionView extends EntityView.SelectionView {
-        private RectF arcRect = new RectF();
+        private RectF arcRect;
 
         public StickerViewSelectionView(StickerView stickerView, Context context) {
             super(context);
+            this.arcRect = new RectF();
         }
 
         @Override // org.telegram.ui.Components.Paint.Views.EntityView.SelectionView
@@ -222,11 +223,11 @@ public class StickerView extends EntityView {
             float f3 = dp2 * 2.0f;
             float measuredHeight = ((getMeasuredHeight() - f3) / 2.0f) + dp2;
             if (f <= dp2 - dp || f2 <= measuredHeight - dp || f >= dp2 + dp || f2 >= measuredHeight + dp) {
-                if (f > ((getMeasuredWidth() - f3) + dp2) - dp && f2 > measuredHeight - dp && f < dp2 + (getMeasuredWidth() - f3) + dp && f2 < measuredHeight + dp) {
-                    return 2;
+                if (f <= ((getMeasuredWidth() - f3) + dp2) - dp || f2 <= measuredHeight - dp || f >= dp2 + (getMeasuredWidth() - f3) + dp || f2 >= measuredHeight + dp) {
+                    float measuredWidth = getMeasuredWidth() / 2.0f;
+                    return Math.pow((double) (f - measuredWidth), 2.0d) + Math.pow((double) (f2 - measuredWidth), 2.0d) < Math.pow((double) measuredWidth, 2.0d) ? 3 : 0;
                 }
-                float measuredWidth = getMeasuredWidth() / 2.0f;
-                return Math.pow((double) (f - measuredWidth), 2.0d) + Math.pow((double) (f2 - measuredWidth), 2.0d) < Math.pow((double) measuredWidth, 2.0d) ? 3 : 0;
+                return 2;
             }
             return 1;
         }

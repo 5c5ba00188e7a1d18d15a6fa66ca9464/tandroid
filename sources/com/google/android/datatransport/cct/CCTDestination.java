@@ -14,7 +14,7 @@ public final class CCTDestination implements EncodedDestination {
     static final String DEFAULT_END_POINT;
     static final String LEGACY_END_POINT;
     public static final CCTDestination LEGACY_INSTANCE;
-    private static final Set<Encoding> SUPPORTED_ENCODINGS = Collections.unmodifiableSet(new HashSet(Arrays.asList(Encoding.of("proto"), Encoding.of("json"))));
+    private static final Set<Encoding> SUPPORTED_ENCODINGS;
     private final String apiKey;
     private final String endPoint;
 
@@ -30,6 +30,7 @@ public final class CCTDestination implements EncodedDestination {
         LEGACY_END_POINT = mergeStrings2;
         String mergeStrings3 = StringMerger.mergeStrings("AzSCki82AwsLzKd5O8zo", "IayckHiZRO1EFl1aGoK");
         DEFAULT_API_KEY = mergeStrings3;
+        SUPPORTED_ENCODINGS = Collections.unmodifiableSet(new HashSet(Arrays.asList(Encoding.of("proto"), Encoding.of("json"))));
         new CCTDestination(mergeStrings, null);
         LEGACY_INSTANCE = new CCTDestination(mergeStrings2, mergeStrings3);
     }

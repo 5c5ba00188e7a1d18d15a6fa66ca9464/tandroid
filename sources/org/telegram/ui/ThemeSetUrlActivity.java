@@ -111,10 +111,9 @@ public class ThemeSetUrlActivity extends BaseFragment implements NotificationCen
         public void onClick(View view) {
             try {
                 ((ClipboardManager) ApplicationLoader.applicationContext.getSystemService("clipboard")).setPrimaryClip(ClipData.newPlainText("label", this.url));
-                if (!BulletinFactory.canShowBulletin(ThemeSetUrlActivity.this)) {
-                    return;
+                if (BulletinFactory.canShowBulletin(ThemeSetUrlActivity.this)) {
+                    BulletinFactory.createCopyLinkBulletin(ThemeSetUrlActivity.this).show();
                 }
-                BulletinFactory.createCopyLinkBulletin(ThemeSetUrlActivity.this).show();
             } catch (Exception e) {
                 FileLog.e(e);
             }
@@ -177,8 +176,7 @@ public class ThemeSetUrlActivity extends BaseFragment implements NotificationCen
             public void onItemClick(int i) {
                 if (i == -1) {
                     ThemeSetUrlActivity.this.finishFragment();
-                } else if (i != 1) {
-                } else {
+                } else if (i == 1) {
                     ThemeSetUrlActivity.this.saveTheme();
                 }
             }
@@ -459,36 +457,32 @@ public class ThemeSetUrlActivity extends BaseFragment implements NotificationCen
         if (i == NotificationCenter.themeUploadedToServer) {
             Theme.ThemeInfo themeInfo = (Theme.ThemeInfo) objArr[0];
             Theme.ThemeAccent themeAccent = (Theme.ThemeAccent) objArr[1];
-            if (themeInfo != this.themeInfo || themeAccent != this.themeAccent || (alertDialog2 = this.progressDialog) == null) {
-                return;
+            if (themeInfo == this.themeInfo && themeAccent == this.themeAccent && (alertDialog2 = this.progressDialog) != null) {
+                try {
+                    alertDialog2.dismiss();
+                    this.progressDialog = null;
+                } catch (Exception e) {
+                    FileLog.e(e);
+                }
+                Theme.applyTheme(this.themeInfo, false);
+                finishFragment();
             }
-            try {
-                alertDialog2.dismiss();
-                this.progressDialog = null;
-            } catch (Exception e) {
-                FileLog.e(e);
-            }
-            Theme.applyTheme(this.themeInfo, false);
-            finishFragment();
-        } else if (i != NotificationCenter.themeUploadError) {
-        } else {
+        } else if (i == NotificationCenter.themeUploadError) {
             Theme.ThemeInfo themeInfo2 = (Theme.ThemeInfo) objArr[0];
             Theme.ThemeAccent themeAccent2 = (Theme.ThemeAccent) objArr[1];
-            if (themeInfo2 != this.themeInfo || themeAccent2 != this.themeAccent || (alertDialog = this.progressDialog) == null) {
-                return;
-            }
-            try {
-                alertDialog.dismiss();
-                this.progressDialog = null;
-            } catch (Exception e2) {
-                FileLog.e(e2);
+            if (themeInfo2 == this.themeInfo && themeAccent2 == this.themeAccent && (alertDialog = this.progressDialog) != null) {
+                try {
+                    alertDialog.dismiss();
+                    this.progressDialog = null;
+                } catch (Exception e2) {
+                    FileLog.e(e2);
+                }
             }
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public boolean checkUrl(final String str, boolean z) {
-        String str2;
         Runnable runnable = this.checkRunnable;
         if (runnable != null) {
             AndroidUtilities.cancelRunOnUIThread(runnable);
@@ -539,10 +533,7 @@ public class ThemeSetUrlActivity extends BaseFragment implements NotificationCen
         } else {
             if (!z) {
                 TLRPC$TL_theme tLRPC$TL_theme = this.info;
-                if (tLRPC$TL_theme == null || (str2 = tLRPC$TL_theme.slug) == null) {
-                    str2 = "";
-                }
-                if (str.equals(str2)) {
+                if (str.equals((tLRPC$TL_theme == null || (r11 = tLRPC$TL_theme.slug) == null) ? "" : "")) {
                     setCheckText(LocaleController.formatString("SetUrlAvailable", R.string.SetUrlAvailable, str), "windowBackgroundWhiteGreenText");
                     return true;
                 }
@@ -592,7 +583,7 @@ public class ThemeSetUrlActivity extends BaseFragment implements NotificationCen
         if (str2 == null || !str2.equals(str)) {
             return;
         }
-        if (tLRPC$TL_error == null || (!"THEME_SLUG_INVALID".equals(tLRPC$TL_error.text) && !"THEME_SLUG_OCCUPIED".equals(tLRPC$TL_error.text))) {
+        if (tLRPC$TL_error == null || !("THEME_SLUG_INVALID".equals(tLRPC$TL_error.text) || "THEME_SLUG_OCCUPIED".equals(tLRPC$TL_error.text))) {
             setCheckText(LocaleController.formatString("SetUrlAvailable", R.string.SetUrlAvailable, str), "windowBackgroundWhiteGreenText");
         } else {
             setCheckText(LocaleController.getString("SetUrlInUse", R.string.SetUrlInUse), "windowBackgroundWhiteRedText4");
@@ -644,17 +635,14 @@ public class ThemeSetUrlActivity extends BaseFragment implements NotificationCen
             } else {
                 TLRPC$TL_theme tLRPC$TL_theme3 = this.info;
                 String str3 = tLRPC$TL_theme3.slug;
-                String str4 = "";
                 if (str3 == null) {
-                    str3 = str4;
+                    str3 = "";
                 }
-                String str5 = tLRPC$TL_theme3.title;
-                if (str5 != null) {
-                    str4 = str5;
-                }
+                String str4 = tLRPC$TL_theme3.title;
+                String str5 = str4 != null ? str4 : "";
                 String obj2 = this.linkField.getText().toString();
                 String obj3 = this.nameField.getText().toString();
-                if (str3.equals(obj2) && str4.equals(obj3)) {
+                if (str3.equals(obj2) && str5.equals(obj3)) {
                     finishFragment();
                     return;
                 }

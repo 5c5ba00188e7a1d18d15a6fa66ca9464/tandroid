@@ -236,12 +236,12 @@ public abstract class TLRPC$MessageEntity extends TLObject {
                 tLRPC$TL_messageEntityItalic = null;
                 break;
         }
-        if (tLRPC$TL_messageEntityItalic != null || !z) {
-            if (tLRPC$TL_messageEntityItalic != null) {
-                tLRPC$TL_messageEntityItalic.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_messageEntityItalic;
+        if (tLRPC$TL_messageEntityItalic == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in MessageEntity", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in MessageEntity", Integer.valueOf(i)));
+        if (tLRPC$TL_messageEntityItalic != null) {
+            tLRPC$TL_messageEntityItalic.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_messageEntityItalic;
     }
 }

@@ -18,18 +18,18 @@ import org.telegram.ui.ActionBar.Theme;
 public class OutlineTextContainerView extends FrameLayout {
     private EditText attachedEditText;
     private float errorProgress;
+    private SpringAnimation errorSpring;
     private boolean forceUseCenter;
+    private String mText;
+    private Paint outlinePaint;
+    private RectF rect;
     private float selectionProgress;
+    private SpringAnimation selectionSpring;
+    private float strokeWidthRegular;
+    private float strokeWidthSelected;
+    private TextPaint textPaint;
     private static final SimpleFloatPropertyCompat<OutlineTextContainerView> SELECTION_PROGRESS_PROPERTY = new SimpleFloatPropertyCompat("selectionProgress", OutlineTextContainerView$$ExternalSyntheticLambda0.INSTANCE, OutlineTextContainerView$$ExternalSyntheticLambda2.INSTANCE).setMultiplier(100.0f);
     private static final SimpleFloatPropertyCompat<OutlineTextContainerView> ERROR_PROGRESS_PROPERTY = new SimpleFloatPropertyCompat("errorProgress", OutlineTextContainerView$$ExternalSyntheticLambda1.INSTANCE, OutlineTextContainerView$$ExternalSyntheticLambda3.INSTANCE).setMultiplier(100.0f);
-    private RectF rect = new RectF();
-    private String mText = "";
-    private Paint outlinePaint = new Paint(1);
-    private TextPaint textPaint = new TextPaint(1);
-    private SpringAnimation selectionSpring = new SpringAnimation(this, SELECTION_PROGRESS_PROPERTY);
-    private SpringAnimation errorSpring = new SpringAnimation(this, ERROR_PROGRESS_PROPERTY);
-    private float strokeWidthRegular = Math.max(2, AndroidUtilities.dp(0.5f));
-    private float strokeWidthSelected = AndroidUtilities.dp(1.5f);
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$static$1(OutlineTextContainerView outlineTextContainerView, float f) {
@@ -51,6 +51,14 @@ public class OutlineTextContainerView extends FrameLayout {
 
     public OutlineTextContainerView(Context context) {
         super(context);
+        this.rect = new RectF();
+        this.mText = "";
+        this.outlinePaint = new Paint(1);
+        this.textPaint = new TextPaint(1);
+        this.selectionSpring = new SpringAnimation(this, SELECTION_PROGRESS_PROPERTY);
+        this.errorSpring = new SpringAnimation(this, ERROR_PROGRESS_PROPERTY);
+        this.strokeWidthRegular = Math.max(2, AndroidUtilities.dp(0.5f));
+        this.strokeWidthSelected = AndroidUtilities.dp(1.5f);
         setWillNotDraw(false);
         this.textPaint.setTextSize(AndroidUtilities.dp(16.0f));
         this.outlinePaint.setStyle(Paint.Style.STROKE);
@@ -85,14 +93,8 @@ public class OutlineTextContainerView extends FrameLayout {
     }
 
     public void updateColor() {
-        float f = 0.0f;
         this.textPaint.setColor(ColorUtils.blendARGB(ColorUtils.blendARGB(Theme.getColor("windowBackgroundWhiteHintText"), Theme.getColor("windowBackgroundWhiteValueText"), this.forceUseCenter ? 0.0f : this.selectionProgress), Theme.getColor("dialogTextRed"), this.errorProgress));
-        int color = Theme.getColor("windowBackgroundWhiteInputField");
-        int color2 = Theme.getColor("windowBackgroundWhiteInputFieldActivated");
-        if (!this.forceUseCenter) {
-            f = this.selectionProgress;
-        }
-        setColor(ColorUtils.blendARGB(ColorUtils.blendARGB(color, color2, f), Theme.getColor("dialogTextRed"), this.errorProgress));
+        setColor(ColorUtils.blendARGB(ColorUtils.blendARGB(Theme.getColor("windowBackgroundWhiteInputField"), Theme.getColor("windowBackgroundWhiteInputFieldActivated"), this.forceUseCenter ? 0.0f : this.selectionProgress), Theme.getColor("dialogTextRed"), this.errorProgress));
     }
 
     public void animateSelection(float f) {

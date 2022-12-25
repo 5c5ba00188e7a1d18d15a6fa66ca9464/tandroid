@@ -44,12 +44,11 @@ public class TLRPC$TL_message_secret_layer72 extends TLRPC$TL_message {
         if ((this.flags & 2048) != 0) {
             this.via_bot_name = abstractSerializedData.readString(z);
         }
-        if ((this.flags & 8) == 0) {
-            return;
+        if ((this.flags & 8) != 0) {
+            TLRPC$TL_messageReplyHeader tLRPC$TL_messageReplyHeader = new TLRPC$TL_messageReplyHeader();
+            this.reply_to = tLRPC$TL_messageReplyHeader;
+            tLRPC$TL_messageReplyHeader.reply_to_random_id = abstractSerializedData.readInt64(z);
         }
-        TLRPC$TL_messageReplyHeader tLRPC$TL_messageReplyHeader = new TLRPC$TL_messageReplyHeader();
-        this.reply_to = tLRPC$TL_messageReplyHeader;
-        tLRPC$TL_messageReplyHeader.reply_to_random_id = abstractSerializedData.readInt64(z);
     }
 
     @Override // org.telegram.tgnet.TLRPC$TL_message, org.telegram.tgnet.TLObject

@@ -220,12 +220,12 @@ public abstract class TLRPC$DecryptedMessageMedia extends TLObject {
                 tLRPC$TL_decryptedMessageMediaVenue = null;
                 break;
         }
-        if (tLRPC$TL_decryptedMessageMediaVenue != null || !z) {
-            if (tLRPC$TL_decryptedMessageMediaVenue != null) {
-                tLRPC$TL_decryptedMessageMediaVenue.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_decryptedMessageMediaVenue;
+        if (tLRPC$TL_decryptedMessageMediaVenue == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in DecryptedMessageMedia", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in DecryptedMessageMedia", Integer.valueOf(i)));
+        if (tLRPC$TL_decryptedMessageMediaVenue != null) {
+            tLRPC$TL_decryptedMessageMediaVenue.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_decryptedMessageMediaVenue;
     }
 }

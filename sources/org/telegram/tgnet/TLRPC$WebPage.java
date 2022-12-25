@@ -465,12 +465,12 @@ public abstract class TLRPC$WebPage extends TLObject {
                 tLRPC$WebPage = null;
                 break;
         }
-        if (tLRPC$WebPage != null || !z) {
-            if (tLRPC$WebPage != null) {
-                tLRPC$WebPage.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$WebPage;
+        if (tLRPC$WebPage == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in WebPage", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in WebPage", Integer.valueOf(i)));
+        if (tLRPC$WebPage != null) {
+            tLRPC$WebPage.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$WebPage;
     }
 }

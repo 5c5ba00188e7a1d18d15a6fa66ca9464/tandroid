@@ -18,12 +18,12 @@ class g1 extends j1 implements k3 {
     public void accept(int i) {
         boolean z;
         boolean z2;
-        if (!this.a) {
-            boolean b = this.d.b(i);
-            z = this.c.a;
-            if (b != z) {
-                return;
-            }
+        if (this.a) {
+            return;
+        }
+        boolean b = this.d.b(i);
+        z = this.c.a;
+        if (b == z) {
             this.a = true;
             z2 = this.c.b;
             this.b = z2;

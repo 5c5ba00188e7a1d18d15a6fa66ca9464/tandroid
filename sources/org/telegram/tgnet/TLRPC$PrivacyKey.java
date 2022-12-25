@@ -98,12 +98,12 @@ public abstract class TLRPC$PrivacyKey extends TLObject {
                 tLRPC$PrivacyKey = null;
                 break;
         }
-        if (tLRPC$PrivacyKey != null || !z) {
-            if (tLRPC$PrivacyKey != null) {
-                tLRPC$PrivacyKey.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$PrivacyKey;
+        if (tLRPC$PrivacyKey == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in PrivacyKey", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in PrivacyKey", Integer.valueOf(i)));
+        if (tLRPC$PrivacyKey != null) {
+            tLRPC$PrivacyKey.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$PrivacyKey;
     }
 }

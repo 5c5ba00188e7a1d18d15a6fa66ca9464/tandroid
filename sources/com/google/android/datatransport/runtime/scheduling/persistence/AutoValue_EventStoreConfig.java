@@ -50,11 +50,11 @@ final class AutoValue_EventStoreConfig extends EventStoreConfig {
         if (obj == this) {
             return true;
         }
-        if (!(obj instanceof EventStoreConfig)) {
-            return false;
+        if (obj instanceof EventStoreConfig) {
+            EventStoreConfig eventStoreConfig = (EventStoreConfig) obj;
+            return this.maxStorageSizeInBytes == eventStoreConfig.getMaxStorageSizeInBytes() && this.loadBatchSize == eventStoreConfig.getLoadBatchSize() && this.criticalSectionEnterTimeoutMs == eventStoreConfig.getCriticalSectionEnterTimeoutMs() && this.eventCleanUpAge == eventStoreConfig.getEventCleanUpAge() && this.maxBlobByteSizePerRow == eventStoreConfig.getMaxBlobByteSizePerRow();
         }
-        EventStoreConfig eventStoreConfig = (EventStoreConfig) obj;
-        return this.maxStorageSizeInBytes == eventStoreConfig.getMaxStorageSizeInBytes() && this.loadBatchSize == eventStoreConfig.getLoadBatchSize() && this.criticalSectionEnterTimeoutMs == eventStoreConfig.getCriticalSectionEnterTimeoutMs() && this.eventCleanUpAge == eventStoreConfig.getEventCleanUpAge() && this.maxBlobByteSizePerRow == eventStoreConfig.getMaxBlobByteSizePerRow();
+        return false;
     }
 
     public int hashCode() {
@@ -105,7 +105,7 @@ final class AutoValue_EventStoreConfig extends EventStoreConfig {
         EventStoreConfig build() {
             String str = "";
             if (this.maxStorageSizeInBytes == null) {
-                str = str + " maxStorageSizeInBytes";
+                str = " maxStorageSizeInBytes";
             }
             if (this.loadBatchSize == null) {
                 str = str + " loadBatchSize";

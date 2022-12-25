@@ -36,11 +36,11 @@ public final class zzep implements Comparable<zzep>, Map.Entry<K, V> {
         if (obj == this) {
             return true;
         }
-        if (!(obj instanceof Map.Entry)) {
-            return false;
+        if (obj instanceof Map.Entry) {
+            Map.Entry entry = (Map.Entry) obj;
+            return equals(this.zzov, entry.getKey()) && equals(this.value, entry.getValue());
         }
-        Map.Entry entry = (Map.Entry) obj;
-        return equals(this.zzov, entry.getKey()) && equals(this.value, entry.getValue());
+        return false;
     }
 
     @Override // java.util.Map.Entry
@@ -56,13 +56,9 @@ public final class zzep implements Comparable<zzep>, Map.Entry<K, V> {
     @Override // java.util.Map.Entry
     public final int hashCode() {
         Comparable comparable = this.zzov;
-        int i = 0;
         int hashCode = comparable == null ? 0 : comparable.hashCode();
         V v = this.value;
-        if (v != 0) {
-            i = v.hashCode();
-        }
-        return hashCode ^ i;
+        return hashCode ^ (v != 0 ? v.hashCode() : 0);
     }
 
     @Override // java.util.Map.Entry

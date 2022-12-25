@@ -35,10 +35,9 @@ public class CircularViewPager extends ViewPager {
                 if (CircularViewPager.this.adapter != null) {
                     int currentItem = CircularViewPager.this.getCurrentItem();
                     int extraCount = CircularViewPager.this.adapter.getExtraCount() + CircularViewPager.this.adapter.getRealPosition(currentItem);
-                    if (currentItem == extraCount) {
-                        return;
+                    if (currentItem != extraCount) {
+                        CircularViewPager.this.setCurrentItem(extraCount, false);
                     }
-                    CircularViewPager.this.setCurrentItem(extraCount, false);
                 }
             }
         });

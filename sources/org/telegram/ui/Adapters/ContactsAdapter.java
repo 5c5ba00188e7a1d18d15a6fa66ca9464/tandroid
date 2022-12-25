@@ -57,9 +57,8 @@ public class ContactsAdapter extends RecyclerListView.SectionsAdapter {
         this.onlyUsers = i;
         this.needPhonebook = z;
         this.ignoreUsers = longSparseArray;
-        boolean z3 = true;
         this.isAdmin = i2 != 0;
-        this.isChannel = i2 != 2 ? false : z3;
+        this.isChannel = i2 == 2;
         this.hasGps = z2;
     }
 
@@ -114,11 +113,11 @@ public class ContactsAdapter extends RecyclerListView.SectionsAdapter {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:12:0x003d A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x0048 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:27:0x0053 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:32:0x005c A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:7:0x002b  */
+    /* JADX WARN: Removed duplicated region for block: B:12:0x002b  */
+    /* JADX WARN: Removed duplicated region for block: B:21:0x003d A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x0048 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x0053 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x005c A[ADDED_TO_REGION] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -155,10 +154,10 @@ public class ContactsAdapter extends RecyclerListView.SectionsAdapter {
                         return 1;
                     }
                     return i2 < i3 ? -1 : 0;
-                } else if ((i2 >= 0 && i3 > 0) || (i2 == 0 && i3 != 0)) {
-                    return -1;
-                } else {
+                } else if ((i2 < 0 || i3 <= 0) && (i2 != 0 || i3 == 0)) {
                     return ((i3 < 0 || i2 <= 0) && (i3 != 0 || i2 == 0)) ? 0 : 1;
+                } else {
+                    return -1;
                 }
             }
             i3 = 0;
@@ -166,7 +165,7 @@ public class ContactsAdapter extends RecyclerListView.SectionsAdapter {
             }
             if (i2 >= 0) {
             }
-            if (i2 >= 0) {
+            if (i2 < 0) {
             }
             if (i3 < 0) {
             }
@@ -179,7 +178,7 @@ public class ContactsAdapter extends RecyclerListView.SectionsAdapter {
         }
         if (i2 >= 0) {
         }
-        if (i2 >= 0) {
+        if (i2 < 0) {
         }
         if (i3 < 0) {
         }
@@ -204,21 +203,21 @@ public class ContactsAdapter extends RecyclerListView.SectionsAdapter {
                 int i3 = i - 1;
                 if (i3 < arrayList.size()) {
                     ArrayList<TLRPC$TL_contact> arrayList3 = hashMap.get(arrayList.get(i3));
-                    if (i2 >= arrayList3.size()) {
-                        return null;
+                    if (i2 < arrayList3.size()) {
+                        return MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(arrayList3.get(i2).user_id));
                     }
-                    return MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(arrayList3.get(i2).user_id));
-                }
-            } else if (i == 1) {
-                if (i2 >= this.onlineContacts.size()) {
                     return null;
                 }
-                return MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(this.onlineContacts.get(i2).user_id));
+            } else if (i == 1) {
+                if (i2 < this.onlineContacts.size()) {
+                    return MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(this.onlineContacts.get(i2).user_id));
+                }
+                return null;
             }
-            if (this.needPhonebook && i2 >= 0 && i2 < ContactsController.getInstance(this.currentAccount).phoneBookContacts.size()) {
-                return ContactsController.getInstance(this.currentAccount).phoneBookContacts.get(i2);
+            if (!this.needPhonebook || i2 < 0 || i2 >= ContactsController.getInstance(this.currentAccount).phoneBookContacts.size()) {
+                return null;
             }
-            return null;
+            return ContactsController.getInstance(this.currentAccount).phoneBookContacts.get(i2);
         }
     }
 
@@ -235,7 +234,7 @@ public class ContactsAdapter extends RecyclerListView.SectionsAdapter {
                 return i2 != 3;
             } else {
                 boolean z = this.hasGps;
-                return (z && i2 != 2) || (!z && i2 != 1);
+                return (z && i2 != 2) || !(z || i2 == 1);
             }
         } else if (this.isEmpty) {
             return false;
@@ -278,10 +277,10 @@ public class ContactsAdapter extends RecyclerListView.SectionsAdapter {
                 if (this.isAdmin) {
                     return 2;
                 }
-                if (!this.needPhonebook) {
-                    return 4;
+                if (this.needPhonebook) {
+                    return this.hasGps ? 3 : 2;
                 }
-                return this.hasGps ? 3 : 2;
+                return 4;
             } else if (this.isEmpty) {
                 return 1;
             } else {
@@ -292,10 +291,10 @@ public class ContactsAdapter extends RecyclerListView.SectionsAdapter {
                         return (i2 != arrayList.size() - 1 || this.needPhonebook) ? size + 1 : size;
                     }
                 } else if (i == 1) {
-                    if (!this.onlineContacts.isEmpty()) {
-                        return this.onlineContacts.size() + 1;
+                    if (this.onlineContacts.isEmpty()) {
+                        return 0;
                     }
-                    return 0;
+                    return this.onlineContacts.size() + 1;
                 }
             }
         } else if (this.isEmpty) {
@@ -356,13 +355,7 @@ public class ContactsAdapter extends RecyclerListView.SectionsAdapter {
             userCell = new GraySectionCell(this.mContext);
         } else if (i == 3) {
             userCell = new DividerCell(this.mContext);
-            float f = 28.0f;
-            int dp = AndroidUtilities.dp(LocaleController.isRTL ? 28.0f : 72.0f);
-            int dp2 = AndroidUtilities.dp(8.0f);
-            if (LocaleController.isRTL) {
-                f = 72.0f;
-            }
-            userCell.setPadding(dp, dp2, AndroidUtilities.dp(f), AndroidUtilities.dp(8.0f));
+            userCell.setPadding(AndroidUtilities.dp(LocaleController.isRTL ? 28.0f : 72.0f), AndroidUtilities.dp(8.0f), AndroidUtilities.dp(LocaleController.isRTL ? 72.0f : 28.0f), AndroidUtilities.dp(8.0f));
         } else if (i == 4) {
             FrameLayout frameLayout = new FrameLayout(this.mContext) { // from class: org.telegram.ui.Adapters.ContactsAdapter.1
                 @Override // android.widget.FrameLayout, android.view.View
@@ -371,22 +364,18 @@ public class ContactsAdapter extends RecyclerListView.SectionsAdapter {
                     if (size == 0) {
                         size = viewGroup.getMeasuredHeight();
                     }
-                    int i4 = 0;
                     if (size == 0) {
                         size = (AndroidUtilities.displaySize.y - ActionBar.getCurrentActionBarHeight()) - (Build.VERSION.SDK_INT >= 21 ? AndroidUtilities.statusBarHeight : 0);
                     }
-                    int dp3 = AndroidUtilities.dp(50.0f);
-                    int dp4 = ContactsAdapter.this.onlyUsers != 0 ? 0 : AndroidUtilities.dp(30.0f) + dp3;
+                    int dp = AndroidUtilities.dp(50.0f);
+                    int dp2 = ContactsAdapter.this.onlyUsers != 0 ? 0 : AndroidUtilities.dp(30.0f) + dp;
                     if (ContactsAdapter.this.hasGps) {
-                        dp4 += dp3;
+                        dp2 += dp;
                     }
                     if (!ContactsAdapter.this.isAdmin && !ContactsAdapter.this.needPhonebook) {
-                        dp4 += dp3;
+                        dp2 += dp;
                     }
-                    if (dp4 < size) {
-                        i4 = size - dp4;
-                    }
-                    super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i2), 1073741824), View.MeasureSpec.makeMeasureSpec(i4, 1073741824));
+                    super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i2), 1073741824), View.MeasureSpec.makeMeasureSpec(dp2 < size ? size - dp2 : 0, 1073741824));
                 }
             };
             frameLayout.addView(new ContactsEmptyView(this.mContext), LayoutHelper.createFrame(-2, -2, 17));
@@ -404,7 +393,6 @@ public class ContactsAdapter extends RecyclerListView.SectionsAdapter {
     public void onBindViewHolder(int i, int i2, RecyclerView.ViewHolder viewHolder) {
         ArrayList<TLRPC$TL_contact> arrayList;
         int itemViewType = viewHolder.getItemViewType();
-        boolean z = false;
         if (itemViewType == 0) {
             UserCell userCell = (UserCell) viewHolder.itemView;
             userCell.setAvatarPadding((this.sortType == 2 || this.disableSections) ? 6 : 58);
@@ -417,19 +405,15 @@ public class ContactsAdapter extends RecyclerListView.SectionsAdapter {
             userCell.setData(user, null, null, 0);
             LongSparseArray<?> longSparseArray = this.checkedMap;
             if (longSparseArray != null) {
-                if (longSparseArray.indexOfKey(user.id) >= 0) {
-                    z = true;
-                }
-                userCell.setChecked(z, !this.scrolling);
+                userCell.setChecked(longSparseArray.indexOfKey(user.id) >= 0, !this.scrolling);
             }
             LongSparseArray<TLRPC$User> longSparseArray2 = this.ignoreUsers;
-            if (longSparseArray2 == null) {
-                return;
-            }
-            if (longSparseArray2.indexOfKey(user.id) >= 0) {
-                userCell.setAlpha(0.5f);
-            } else {
-                userCell.setAlpha(1.0f);
+            if (longSparseArray2 != null) {
+                if (longSparseArray2.indexOfKey(user.id) >= 0) {
+                    userCell.setAlpha(0.5f);
+                } else {
+                    userCell.setAlpha(1.0f);
+                }
             }
         } else if (itemViewType != 1) {
             if (itemViewType != 2) {
@@ -451,10 +435,10 @@ public class ContactsAdapter extends RecyclerListView.SectionsAdapter {
                     if (i2 == 0) {
                         textCell.setTextAndIcon(LocaleController.getString("InviteFriends", R.string.InviteFriends), R.drawable.msg_invite, false);
                         return;
-                    } else if (i2 != 1) {
+                    } else if (i2 == 1) {
+                        textCell.setTextAndIcon(LocaleController.getString("AddPeopleNearby", R.string.AddPeopleNearby), R.drawable.msg_location, false);
                         return;
                     } else {
-                        textCell.setTextAndIcon(LocaleController.getString("AddPeopleNearby", R.string.AddPeopleNearby), R.drawable.msg_location, false);
                         return;
                     }
                 } else if (this.isAdmin) {
@@ -471,10 +455,10 @@ public class ContactsAdapter extends RecyclerListView.SectionsAdapter {
                 } else if (i2 == 1) {
                     textCell.setTextAndIcon(LocaleController.getString("NewSecretChat", R.string.NewSecretChat), R.drawable.msg_secret, false);
                     return;
-                } else if (i2 != 2) {
+                } else if (i2 == 2) {
+                    textCell.setTextAndIcon(LocaleController.getString("NewChannel", R.string.NewChannel), R.drawable.msg_channel, false);
                     return;
                 } else {
-                    textCell.setTextAndIcon(LocaleController.getString("NewChannel", R.string.NewChannel), R.drawable.msg_channel, false);
                     return;
                 }
             }

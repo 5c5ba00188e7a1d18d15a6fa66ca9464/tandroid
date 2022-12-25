@@ -241,56 +241,50 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
             MessageObject messageObject3;
             int childCount = ChannelAdminLogActivity.this.chatListView.getChildCount();
             int i2 = 0;
-            int i3 = 0;
             while (true) {
                 ImageReceiver imageReceiver = null;
-                if (i3 < childCount) {
-                    View childAt = ChannelAdminLogActivity.this.chatListView.getChildAt(i3);
-                    if (childAt instanceof ChatMessageCell) {
-                        if (messageObject != null && (messageObject3 = (chatMessageCell = (ChatMessageCell) childAt).getMessageObject()) != null && messageObject3.getId() == messageObject.getId()) {
-                            imageReceiver = chatMessageCell.getPhotoImage();
-                        }
-                    } else if ((childAt instanceof ChatActionCell) && (messageObject2 = (chatActionCell = (ChatActionCell) childAt).getMessageObject()) != null) {
-                        if (messageObject != null) {
-                            if (messageObject2.getId() == messageObject.getId()) {
-                                imageReceiver = chatActionCell.getPhotoImage();
-                            }
-                        } else if (tLRPC$FileLocation != null && messageObject2.photoThumbs != null) {
-                            int i4 = 0;
-                            while (true) {
-                                if (i4 >= messageObject2.photoThumbs.size()) {
-                                    break;
-                                }
-                                TLRPC$FileLocation tLRPC$FileLocation2 = messageObject2.photoThumbs.get(i4).location;
-                                if (tLRPC$FileLocation2.volume_id == tLRPC$FileLocation.volume_id && tLRPC$FileLocation2.local_id == tLRPC$FileLocation.local_id) {
-                                    imageReceiver = chatActionCell.getPhotoImage();
-                                    break;
-                                }
-                                i4++;
-                            }
-                        }
-                    }
-                    if (imageReceiver != null) {
-                        int[] iArr = new int[2];
-                        childAt.getLocationInWindow(iArr);
-                        PhotoViewer.PlaceProviderObject placeProviderObject = new PhotoViewer.PlaceProviderObject();
-                        placeProviderObject.viewX = iArr[0];
-                        int i5 = iArr[1];
-                        if (Build.VERSION.SDK_INT < 21) {
-                            i2 = AndroidUtilities.statusBarHeight;
-                        }
-                        placeProviderObject.viewY = i5 - i2;
-                        placeProviderObject.parentView = ChannelAdminLogActivity.this.chatListView;
-                        placeProviderObject.imageReceiver = imageReceiver;
-                        placeProviderObject.thumb = imageReceiver.getBitmapSafe();
-                        placeProviderObject.radius = imageReceiver.getRoundRadius();
-                        placeProviderObject.isEvent = true;
-                        return placeProviderObject;
-                    }
-                    i3++;
-                } else {
+                if (i2 >= childCount) {
                     return null;
                 }
+                View childAt = ChannelAdminLogActivity.this.chatListView.getChildAt(i2);
+                if (childAt instanceof ChatMessageCell) {
+                    if (messageObject != null && (messageObject3 = (chatMessageCell = (ChatMessageCell) childAt).getMessageObject()) != null && messageObject3.getId() == messageObject.getId()) {
+                        imageReceiver = chatMessageCell.getPhotoImage();
+                    }
+                } else if ((childAt instanceof ChatActionCell) && (messageObject2 = (chatActionCell = (ChatActionCell) childAt).getMessageObject()) != null) {
+                    if (messageObject != null) {
+                        if (messageObject2.getId() == messageObject.getId()) {
+                            imageReceiver = chatActionCell.getPhotoImage();
+                        }
+                    } else if (tLRPC$FileLocation != null && messageObject2.photoThumbs != null) {
+                        int i3 = 0;
+                        while (true) {
+                            if (i3 >= messageObject2.photoThumbs.size()) {
+                                break;
+                            }
+                            TLRPC$FileLocation tLRPC$FileLocation2 = messageObject2.photoThumbs.get(i3).location;
+                            if (tLRPC$FileLocation2.volume_id == tLRPC$FileLocation.volume_id && tLRPC$FileLocation2.local_id == tLRPC$FileLocation.local_id) {
+                                imageReceiver = chatActionCell.getPhotoImage();
+                                break;
+                            }
+                            i3++;
+                        }
+                    }
+                }
+                if (imageReceiver != null) {
+                    int[] iArr = new int[2];
+                    childAt.getLocationInWindow(iArr);
+                    PhotoViewer.PlaceProviderObject placeProviderObject = new PhotoViewer.PlaceProviderObject();
+                    placeProviderObject.viewX = iArr[0];
+                    placeProviderObject.viewY = iArr[1] - (Build.VERSION.SDK_INT < 21 ? AndroidUtilities.statusBarHeight : 0);
+                    placeProviderObject.parentView = ChannelAdminLogActivity.this.chatListView;
+                    placeProviderObject.imageReceiver = imageReceiver;
+                    placeProviderObject.thumb = imageReceiver.getBitmapSafe();
+                    placeProviderObject.radius = imageReceiver.getRoundRadius();
+                    placeProviderObject.isEvent = true;
+                    return placeProviderObject;
+                }
+                i2++;
             }
         }
     };
@@ -449,14 +443,13 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadMessages$0(TLRPC$TL_channels_adminLogResults tLRPC$TL_channels_adminLogResults) {
         int i;
-        int i2 = 0;
         this.chatListItemAnimator.setShouldAnimateEnterFromBottom(false);
         MessagesController.getInstance(this.currentAccount).putUsers(tLRPC$TL_channels_adminLogResults.users, false);
         MessagesController.getInstance(this.currentAccount).putChats(tLRPC$TL_channels_adminLogResults.chats, false);
         int size = this.messages.size();
         boolean z = false;
-        for (int i3 = 0; i3 < tLRPC$TL_channels_adminLogResults.events.size(); i3++) {
-            TLRPC$TL_channelAdminLogEvent tLRPC$TL_channelAdminLogEvent = tLRPC$TL_channels_adminLogResults.events.get(i3);
+        for (int i2 = 0; i2 < tLRPC$TL_channels_adminLogResults.events.size(); i2++) {
+            TLRPC$TL_channelAdminLogEvent tLRPC$TL_channelAdminLogEvent = tLRPC$TL_channels_adminLogResults.events.get(i2);
             if (this.messagesDict.indexOfKey(tLRPC$TL_channelAdminLogEvent.id) < 0) {
                 TLRPC$ChannelAdminLogEventAction tLRPC$ChannelAdminLogEventAction = tLRPC$TL_channelAdminLogEvent.action;
                 if (tLRPC$ChannelAdminLogEventAction instanceof TLRPC$TL_channelAdminLogEventActionParticipantToggleAdmin) {
@@ -488,19 +481,15 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
             }
             int findLastVisibleItemPosition = this.chatLayoutManager.findLastVisibleItemPosition();
             View findViewByPosition = this.chatLayoutManager.findViewByPosition(findLastVisibleItemPosition);
-            if (findViewByPosition != null) {
-                i2 = findViewByPosition.getTop();
-            }
-            int paddingTop = i2 - this.chatListView.getPaddingTop();
+            int top = (findViewByPosition != null ? findViewByPosition.getTop() : 0) - this.chatListView.getPaddingTop();
             if (size2 - i > 0) {
-                int i4 = (i ^ 1) + 1;
-                this.chatAdapter.notifyItemChanged(i4);
-                this.chatAdapter.notifyItemRangeInserted(i4, size2 - i);
+                int i3 = (i ^ 1) + 1;
+                this.chatAdapter.notifyItemChanged(i3);
+                this.chatAdapter.notifyItemRangeInserted(i3, size2 - i);
             }
-            if (findLastVisibleItemPosition == -1) {
-                return;
+            if (findLastVisibleItemPosition != -1) {
+                this.chatLayoutManager.scrollToPositionWithOffset((findLastVisibleItemPosition + size2) - i, top);
             }
-            this.chatLayoutManager.scrollToPositionWithOffset((findLastVisibleItemPosition + size2) - i, paddingTop);
         } else if (this.endReached) {
             this.chatAdapter.notifyItemRemoved(0);
         }
@@ -516,10 +505,10 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         MessageObject messageObject3;
         if (i == NotificationCenter.emojiLoaded) {
             RecyclerListView recyclerListView = this.chatListView;
-            if (recyclerListView == null) {
+            if (recyclerListView != null) {
+                recyclerListView.invalidateViews();
                 return;
             }
-            recyclerListView.invalidateViews();
             return;
         }
         if (i == NotificationCenter.messagePlayingDidStart) {
@@ -528,59 +517,56 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                 updateTextureViewPosition();
             }
             RecyclerListView recyclerListView2 = this.chatListView;
-            if (recyclerListView2 == null) {
-                return;
-            }
-            int childCount = recyclerListView2.getChildCount();
-            for (int i3 = 0; i3 < childCount; i3++) {
-                View childAt = this.chatListView.getChildAt(i3);
-                if ((childAt instanceof ChatMessageCell) && (messageObject3 = (chatMessageCell3 = (ChatMessageCell) childAt).getMessageObject()) != null) {
-                    if (messageObject3.isVoice() || messageObject3.isMusic()) {
-                        chatMessageCell3.updateButtonState(false, true, false);
-                    } else if (messageObject3.isRoundVideo()) {
-                        chatMessageCell3.checkVideoPlayback(false, null);
-                        if (!MediaController.getInstance().isPlayingMessage(messageObject3) && messageObject3.audioProgress != 0.0f) {
-                            messageObject3.resetPlayingProgress();
-                            chatMessageCell3.invalidate();
+            if (recyclerListView2 != null) {
+                int childCount = recyclerListView2.getChildCount();
+                for (int i3 = 0; i3 < childCount; i3++) {
+                    View childAt = this.chatListView.getChildAt(i3);
+                    if ((childAt instanceof ChatMessageCell) && (messageObject3 = (chatMessageCell3 = (ChatMessageCell) childAt).getMessageObject()) != null) {
+                        if (messageObject3.isVoice() || messageObject3.isMusic()) {
+                            chatMessageCell3.updateButtonState(false, true, false);
+                        } else if (messageObject3.isRoundVideo()) {
+                            chatMessageCell3.checkVideoPlayback(false, null);
+                            if (!MediaController.getInstance().isPlayingMessage(messageObject3) && messageObject3.audioProgress != 0.0f) {
+                                messageObject3.resetPlayingProgress();
+                                chatMessageCell3.invalidate();
+                            }
                         }
                     }
                 }
             }
         } else if (i == NotificationCenter.messagePlayingDidReset || i == NotificationCenter.messagePlayingPlayStateChanged) {
             RecyclerListView recyclerListView3 = this.chatListView;
-            if (recyclerListView3 == null) {
-                return;
-            }
-            int childCount2 = recyclerListView3.getChildCount();
-            for (int i4 = 0; i4 < childCount2; i4++) {
-                View childAt2 = this.chatListView.getChildAt(i4);
-                if ((childAt2 instanceof ChatMessageCell) && (messageObject = (chatMessageCell = (ChatMessageCell) childAt2).getMessageObject()) != null) {
-                    if (messageObject.isVoice() || messageObject.isMusic()) {
-                        chatMessageCell.updateButtonState(false, true, false);
-                    } else if (messageObject.isRoundVideo() && !MediaController.getInstance().isPlayingMessage(messageObject)) {
-                        chatMessageCell.checkVideoPlayback(true, null);
+            if (recyclerListView3 != null) {
+                int childCount2 = recyclerListView3.getChildCount();
+                for (int i4 = 0; i4 < childCount2; i4++) {
+                    View childAt2 = this.chatListView.getChildAt(i4);
+                    if ((childAt2 instanceof ChatMessageCell) && (messageObject = (chatMessageCell = (ChatMessageCell) childAt2).getMessageObject()) != null) {
+                        if (messageObject.isVoice() || messageObject.isMusic()) {
+                            chatMessageCell.updateButtonState(false, true, false);
+                        } else if (messageObject.isRoundVideo() && !MediaController.getInstance().isPlayingMessage(messageObject)) {
+                            chatMessageCell.checkVideoPlayback(true, null);
+                        }
                     }
                 }
             }
         } else if (i == NotificationCenter.messagePlayingProgressDidChanged) {
             Integer num = (Integer) objArr[0];
             RecyclerListView recyclerListView4 = this.chatListView;
-            if (recyclerListView4 == null) {
-                return;
-            }
-            int childCount3 = recyclerListView4.getChildCount();
-            for (int i5 = 0; i5 < childCount3; i5++) {
-                View childAt3 = this.chatListView.getChildAt(i5);
-                if ((childAt3 instanceof ChatMessageCell) && (messageObject2 = (chatMessageCell2 = (ChatMessageCell) childAt3).getMessageObject()) != null && messageObject2.getId() == num.intValue()) {
-                    MessageObject playingMessageObject = MediaController.getInstance().getPlayingMessageObject();
-                    if (playingMessageObject == null) {
+            if (recyclerListView4 != null) {
+                int childCount3 = recyclerListView4.getChildCount();
+                for (int i5 = 0; i5 < childCount3; i5++) {
+                    View childAt3 = this.chatListView.getChildAt(i5);
+                    if ((childAt3 instanceof ChatMessageCell) && (messageObject2 = (chatMessageCell2 = (ChatMessageCell) childAt3).getMessageObject()) != null && messageObject2.getId() == num.intValue()) {
+                        MessageObject playingMessageObject = MediaController.getInstance().getPlayingMessageObject();
+                        if (playingMessageObject != null) {
+                            messageObject2.audioProgress = playingMessageObject.audioProgress;
+                            messageObject2.audioProgressSec = playingMessageObject.audioProgressSec;
+                            messageObject2.audioPlayerDuration = playingMessageObject.audioPlayerDuration;
+                            chatMessageCell2.updatePlayingMessageProgress();
+                            return;
+                        }
                         return;
                     }
-                    messageObject2.audioProgress = playingMessageObject.audioProgress;
-                    messageObject2.audioProgressSec = playingMessageObject.audioProgressSec;
-                    messageObject2.audioPlayerDuration = playingMessageObject.audioPlayerDuration;
-                    chatMessageCell2.updatePlayingMessageProgress();
-                    return;
                 }
             }
         } else if (i == NotificationCenter.didSetNewWallpapper && this.fragmentView != null) {
@@ -705,10 +691,10 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
             }
 
             /* JADX INFO: Access modifiers changed from: protected */
-            /* JADX WARN: Removed duplicated region for block: B:15:0x004e  */
-            /* JADX WARN: Removed duplicated region for block: B:22:0x009a  */
-            /* JADX WARN: Removed duplicated region for block: B:31:0x00bc  */
-            /* JADX WARN: Removed duplicated region for block: B:44:0x0086  */
+            /* JADX WARN: Removed duplicated region for block: B:20:0x004e  */
+            /* JADX WARN: Removed duplicated region for block: B:31:0x0086  */
+            /* JADX WARN: Removed duplicated region for block: B:35:0x009a  */
+            /* JADX WARN: Removed duplicated region for block: B:40:0x00bc  */
             @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
@@ -950,8 +936,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                 if (i2 == 1) {
                     ChannelAdminLogActivity.this.scrollingFloatingDate = true;
                     ChannelAdminLogActivity.this.checkTextureViewPosition = true;
-                } else if (i2 != 0) {
-                } else {
+                } else if (i2 == 0) {
                     ChannelAdminLogActivity.this.scrollingFloatingDate = false;
                     ChannelAdminLogActivity.this.checkTextureViewPosition = false;
                     ChannelAdminLogActivity.this.hideFloatingDateView(true);
@@ -1102,10 +1087,11 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
     /* loaded from: classes3.dex */
     public class 8 extends ChatListItemAnimator {
         Runnable finishRunnable;
-        int scrollAnimationIndex = -1;
+        int scrollAnimationIndex;
 
         8(ChatActivity chatActivity, RecyclerListView recyclerListView, Theme.ResourcesProvider resourcesProvider) {
             super(chatActivity, recyclerListView, resourcesProvider);
+            this.scrollAnimationIndex = -1;
         }
 
         @Override // androidx.recyclerview.widget.ChatListItemAnimator
@@ -1227,8 +1213,8 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:7:0x0022 A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:9:0x0023  */
+    /* JADX WARN: Removed duplicated region for block: B:12:0x0022 A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x0023  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1470,19 +1456,13 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         int size = arrayList2.size();
         final int i3 = 0;
         while (true) {
-            boolean z = true;
             if (i3 >= size) {
                 break;
             }
             if (arrayList.get(i3) == null) {
                 actionBarPopupWindowLayout.addView((View) new ActionBarPopupWindow.GapView(getContext(), getResourceProvider()), LayoutHelper.createLinear(-1, 8));
             } else {
-                Activity parentActivity2 = getParentActivity();
-                boolean z2 = i3 == 0;
-                if (i3 != size - 1) {
-                    z = false;
-                }
-                ActionBarMenuSubItem actionBarMenuSubItem = new ActionBarMenuSubItem(parentActivity2, z2, z, getResourceProvider());
+                ActionBarMenuSubItem actionBarMenuSubItem = new ActionBarMenuSubItem(getParentActivity(), i3 == 0, i3 == size + (-1), getResourceProvider());
                 actionBarMenuSubItem.setMinimumWidth(AndroidUtilities.dp(200.0f));
                 actionBarMenuSubItem.setTextAndIcon((CharSequence) arrayList2.get(i3), ((Integer) arrayList3.get(i3)).intValue());
                 final Integer num = (Integer) arrayList.get(i3);
@@ -1704,7 +1684,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         return this.videoTextureView;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:121:0x02ff, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:117:0x02ff, code lost:
         if (r12.exists() != false) goto L122;
      */
     /*
@@ -1718,8 +1698,6 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         if (messageObject == null) {
             return;
         }
-        int i2 = 0;
-        int i3 = 3;
         if (i == 3) {
             AndroidUtilities.addToClipboard(getMessageContent(messageObject, 0, true));
             BulletinFactory.of(this).createCopyBulletin(LocaleController.getString("MessageCopied", R.string.MessageCopied)).show();
@@ -1731,19 +1709,15 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
             if (str == null || str.length() == 0) {
                 str = getFileLoader().getPathToMessage(this.selectedObject.messageOwner).toString();
             }
-            int i4 = this.selectedObject.type;
-            if (i4 == 3 || i4 == 1) {
-                int i5 = Build.VERSION.SDK_INT;
-                if (i5 >= 23 && ((i5 <= 28 || BuildVars.NO_SCOPED_STORAGE) && getParentActivity().checkSelfPermission("android.permission.WRITE_EXTERNAL_STORAGE") != 0)) {
+            int i2 = this.selectedObject.type;
+            if (i2 == 3 || i2 == 1) {
+                int i3 = Build.VERSION.SDK_INT;
+                if (i3 >= 23 && ((i3 <= 28 || BuildVars.NO_SCOPED_STORAGE) && getParentActivity().checkSelfPermission("android.permission.WRITE_EXTERNAL_STORAGE") != 0)) {
                     getParentActivity().requestPermissions(new String[]{"android.permission.WRITE_EXTERNAL_STORAGE"}, 4);
                     this.selectedObject = null;
                     return;
                 }
-                Activity parentActivity = getParentActivity();
-                if (this.selectedObject.type == 3) {
-                    i2 = 1;
-                }
-                MediaController.saveFile(str, parentActivity, i2, null, null);
+                MediaController.saveFile(str, getParentActivity(), this.selectedObject.type == 3 ? 1 : 0, null, null);
             }
         } else if (i == 5) {
             String str2 = messageObject.messageOwner.attachPath;
@@ -1834,8 +1808,8 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
             if (str4 == null || str4.length() == 0) {
                 str4 = getFileLoader().getPathToMessage(this.selectedObject.messageOwner).toString();
             }
-            int i6 = Build.VERSION.SDK_INT;
-            if (i6 >= 23 && ((i6 <= 28 || BuildVars.NO_SCOPED_STORAGE) && getParentActivity().checkSelfPermission("android.permission.WRITE_EXTERNAL_STORAGE") != 0)) {
+            int i4 = Build.VERSION.SDK_INT;
+            if (i4 >= 23 && ((i4 <= 28 || BuildVars.NO_SCOPED_STORAGE) && getParentActivity().checkSelfPermission("android.permission.WRITE_EXTERNAL_STORAGE") != 0)) {
                 getParentActivity().requestPermissions(new String[]{"android.permission.WRITE_EXTERNAL_STORAGE"}, 4);
                 this.selectedObject = null;
                 return;
@@ -1852,8 +1826,8 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                     showDialog(new StickersAlert(getParentActivity(), this, this.selectedObject.getInputStickerSet(), (TLRPC$TL_messages_stickerSet) null, (StickersAlert.StickersAlertDelegate) null));
                     break;
                 case 10:
-                    int i7 = Build.VERSION.SDK_INT;
-                    if (i7 >= 23 && ((i7 <= 28 || BuildVars.NO_SCOPED_STORAGE) && getParentActivity().checkSelfPermission("android.permission.WRITE_EXTERNAL_STORAGE") != 0)) {
+                    int i5 = Build.VERSION.SDK_INT;
+                    if (i5 >= 23 && ((i5 <= 28 || BuildVars.NO_SCOPED_STORAGE) && getParentActivity().checkSelfPermission("android.permission.WRITE_EXTERNAL_STORAGE") != 0)) {
                         getParentActivity().requestPermissions(new String[]{"android.permission.WRITE_EXTERNAL_STORAGE"}, 4);
                         this.selectedObject = null;
                         return;
@@ -1869,11 +1843,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                     if (str5 == null || str5.length() == 0) {
                         str5 = getFileLoader().getPathToMessage(this.selectedObject.messageOwner).toString();
                     }
-                    Activity parentActivity2 = getParentActivity();
-                    if (!this.selectedObject.isMusic()) {
-                        i3 = 2;
-                    }
-                    MediaController.saveFile(str5, parentActivity2, i3, documentFileName, this.selectedObject.getDocument() != null ? this.selectedObject.getDocument().mime_type : "");
+                    MediaController.saveFile(str5, getParentActivity(), this.selectedObject.isMusic() ? 3 : 2, documentFileName, this.selectedObject.getDocument() != null ? this.selectedObject.getDocument().mime_type : "");
                     break;
                     break;
                 case 11:
@@ -2033,10 +2003,9 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                 this.admins.add(0, tLRPC$ChannelParticipant);
             }
             Dialog dialog = this.visibleDialog;
-            if (!(dialog instanceof AdminLogFilterAlert)) {
-                return;
+            if (dialog instanceof AdminLogFilterAlert) {
+                ((AdminLogFilterAlert) dialog).setCurrentAdmins(this.admins);
             }
-            ((AdminLogFilterAlert) dialog).setCurrentAdmins(this.admins);
         }
     }
 
@@ -2080,33 +2049,32 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         if (this.floatingDateView.getTag() == null || this.currentFloatingDateOnScreen) {
             return;
         }
-        if (this.scrollingFloatingDate && !this.currentFloatingTopIsNotMessage) {
-            return;
-        }
-        this.floatingDateView.setTag(null);
-        if (z) {
-            AnimatorSet animatorSet = new AnimatorSet();
-            this.floatingDateAnimation = animatorSet;
-            animatorSet.setDuration(150L);
-            this.floatingDateAnimation.playTogether(ObjectAnimator.ofFloat(this.floatingDateView, "alpha", 0.0f));
-            this.floatingDateAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ChannelAdminLogActivity.21
-                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                public void onAnimationEnd(Animator animator) {
-                    if (animator.equals(ChannelAdminLogActivity.this.floatingDateAnimation)) {
-                        ChannelAdminLogActivity.this.floatingDateAnimation = null;
+        if (!this.scrollingFloatingDate || this.currentFloatingTopIsNotMessage) {
+            this.floatingDateView.setTag(null);
+            if (z) {
+                AnimatorSet animatorSet = new AnimatorSet();
+                this.floatingDateAnimation = animatorSet;
+                animatorSet.setDuration(150L);
+                this.floatingDateAnimation.playTogether(ObjectAnimator.ofFloat(this.floatingDateView, "alpha", 0.0f));
+                this.floatingDateAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ChannelAdminLogActivity.21
+                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                    public void onAnimationEnd(Animator animator) {
+                        if (animator.equals(ChannelAdminLogActivity.this.floatingDateAnimation)) {
+                            ChannelAdminLogActivity.this.floatingDateAnimation = null;
+                        }
                     }
-                }
-            });
-            this.floatingDateAnimation.setStartDelay(500L);
-            this.floatingDateAnimation.start();
-            return;
+                });
+                this.floatingDateAnimation.setStartDelay(500L);
+                this.floatingDateAnimation.start();
+                return;
+            }
+            AnimatorSet animatorSet2 = this.floatingDateAnimation;
+            if (animatorSet2 != null) {
+                animatorSet2.cancel();
+                this.floatingDateAnimation = null;
+            }
+            this.floatingDateView.setAlpha(0.0f);
         }
-        AnimatorSet animatorSet2 = this.floatingDateAnimation;
-        if (animatorSet2 != null) {
-            animatorSet2.cancel();
-            this.floatingDateAnimation = null;
-        }
-        this.floatingDateView.setAlpha(0.0f);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -2116,14 +2084,13 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
             return;
         }
         int findFirstVisibleItemPosition = linearLayoutManager.findFirstVisibleItemPosition();
-        if ((findFirstVisibleItemPosition == -1 ? 0 : Math.abs(this.chatLayoutManager.findLastVisibleItemPosition() - findFirstVisibleItemPosition) + 1) <= 0) {
-            return;
+        if ((findFirstVisibleItemPosition == -1 ? 0 : Math.abs(this.chatLayoutManager.findLastVisibleItemPosition() - findFirstVisibleItemPosition) + 1) > 0) {
+            this.chatAdapter.getItemCount();
+            if (findFirstVisibleItemPosition > (z ? 25 : 5) || this.loading || this.endReached) {
+                return;
+            }
+            loadMessages(false);
         }
-        this.chatAdapter.getItemCount();
-        if (findFirstVisibleItemPosition > (z ? 25 : 5) || this.loading || this.endReached) {
-            return;
-        }
-        loadMessages(false);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -2167,10 +2134,10 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                 if (playingMessageObject == null || !playingMessageObject.isRoundVideo()) {
                     return;
                 }
-                if (!this.checkTextureViewPosition && PipRoundVideoView.getInstance() == null) {
+                if (this.checkTextureViewPosition || PipRoundVideoView.getInstance() != null) {
+                    MediaController.getInstance().setCurrentVideoVisible(false);
                     return;
                 }
-                MediaController.getInstance().setCurrentVideoVisible(false);
                 return;
             }
             MediaController.getInstance().setCurrentVideoVisible(true);
@@ -2263,7 +2230,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
             z = false;
         }
         this.currentFloatingDateOnScreen = z;
-        this.currentFloatingTopIsNotMessage = !(view2 instanceof ChatMessageCell) && !(view2 instanceof ChatActionCell);
+        this.currentFloatingTopIsNotMessage = ((view2 instanceof ChatMessageCell) || (view2 instanceof ChatActionCell)) ? false : true;
         if (view != null) {
             if (view.getTop() > this.chatListView.getPaddingTop() || this.currentFloatingTopIsNotMessage) {
                 if (view.getAlpha() != 1.0f) {
@@ -2326,10 +2293,9 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         if (this.wasPaused) {
             this.wasPaused = false;
             ChatActivityAdapter chatActivityAdapter = this.chatAdapter;
-            if (chatActivityAdapter == null) {
-                return;
+            if (chatActivityAdapter != null) {
+                chatActivityAdapter.notifyDataSetChanged();
             }
-            chatActivityAdapter.notifyDataSetChanged();
         }
     }
 
@@ -2400,22 +2366,21 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
     /* JADX INFO: Access modifiers changed from: private */
     public void addCanBanUser(Bundle bundle, long j) {
         TLRPC$Chat tLRPC$Chat = this.currentChat;
-        if (!tLRPC$Chat.megagroup || this.admins == null || !ChatObject.canBlockUsers(tLRPC$Chat)) {
-            return;
-        }
-        int i = 0;
-        while (true) {
-            if (i >= this.admins.size()) {
-                break;
+        if (tLRPC$Chat.megagroup && this.admins != null && ChatObject.canBlockUsers(tLRPC$Chat)) {
+            int i = 0;
+            while (true) {
+                if (i >= this.admins.size()) {
+                    break;
+                }
+                TLRPC$ChannelParticipant tLRPC$ChannelParticipant = this.admins.get(i);
+                if (MessageObject.getPeerId(tLRPC$ChannelParticipant.peer) != j) {
+                    i++;
+                } else if (!tLRPC$ChannelParticipant.can_edit) {
+                    return;
+                }
             }
-            TLRPC$ChannelParticipant tLRPC$ChannelParticipant = this.admins.get(i);
-            if (MessageObject.getPeerId(tLRPC$ChannelParticipant.peer) != j) {
-                i++;
-            } else if (!tLRPC$ChannelParticipant.can_edit) {
-                return;
-            }
+            bundle.putLong("ban_chat_id", this.currentChat.id);
         }
-        bundle.putLong("ban_chat_id", this.currentChat.id);
     }
 
     public void showOpenUrlAlert(final String str, boolean z) {
@@ -2722,10 +2687,10 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                     boolean playMessage = MediaController.getInstance().playMessage(messageObject, z);
                     MediaController.getInstance().setVoiceMessagesPlaylist(null, false);
                     return playMessage;
-                } else if (!messageObject.isMusic()) {
-                    return false;
-                } else {
+                } else if (messageObject.isMusic()) {
                     return MediaController.getInstance().setPlaylist(ChannelAdminLogActivity.this.messages, messageObject, 0L);
+                } else {
+                    return false;
                 }
             }
 
@@ -2739,10 +2704,9 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                 if (i != 0) {
                     bundle.putInt("message_id", i);
                 }
-                if (!MessagesController.getInstance(((BaseFragment) ChannelAdminLogActivity.this).currentAccount).checkCanOpenChat(bundle, ChannelAdminLogActivity.this)) {
-                    return;
+                if (MessagesController.getInstance(((BaseFragment) ChannelAdminLogActivity.this).currentAccount).checkCanOpenChat(bundle, ChannelAdminLogActivity.this)) {
+                    ChannelAdminLogActivity.this.presentFragment(new ChatActivity(bundle), true);
                 }
-                ChannelAdminLogActivity.this.presentFragment(new ChatActivity(bundle), true);
             }
 
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
@@ -2806,10 +2770,9 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                 if (tLRPC$User != null) {
                     Bundle bundle = new Bundle();
                     bundle.putLong("user_id", tLRPC$User.id);
-                    if (!ChannelAdminLogActivity.this.getMessagesController().checkCanOpenChat(bundle, ChannelAdminLogActivity.this)) {
-                        return;
+                    if (ChannelAdminLogActivity.this.getMessagesController().checkCanOpenChat(bundle, ChannelAdminLogActivity.this)) {
+                        ChannelAdminLogActivity.this.presentFragment(new ChatActivity(bundle));
                     }
-                    ChannelAdminLogActivity.this.presentFragment(new ChatActivity(bundle));
                 }
             }
 
@@ -2827,31 +2790,28 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                 MessageObject messageObject = chatMessageCell.getMessageObject();
                 if (characterStyle instanceof URLSpanMono) {
                     ((URLSpanMono) characterStyle).copyToClipboard();
-                    if (!AndroidUtilities.shouldShowClipboardToast()) {
-                        return;
+                    if (AndroidUtilities.shouldShowClipboardToast()) {
+                        Toast.makeText(ChannelAdminLogActivity.this.getParentActivity(), LocaleController.getString("TextCopied", R.string.TextCopied), 0).show();
                     }
-                    Toast.makeText(ChannelAdminLogActivity.this.getParentActivity(), LocaleController.getString("TextCopied", R.string.TextCopied), 0).show();
                 } else if (characterStyle instanceof URLSpanUserMention) {
                     long longValue = Utilities.parseLong(((URLSpanUserMention) characterStyle).getURL()).longValue();
                     if (longValue > 0) {
                         TLRPC$User user = MessagesController.getInstance(((BaseFragment) ChannelAdminLogActivity.this).currentAccount).getUser(Long.valueOf(longValue));
-                        if (user == null) {
+                        if (user != null) {
+                            MessagesController.openChatOrProfileWith(user, null, ChannelAdminLogActivity.this, 0, false);
                             return;
                         }
-                        MessagesController.openChatOrProfileWith(user, null, ChannelAdminLogActivity.this, 0, false);
                         return;
                     }
                     TLRPC$Chat chat = MessagesController.getInstance(((BaseFragment) ChannelAdminLogActivity.this).currentAccount).getChat(Long.valueOf(-longValue));
-                    if (chat == null) {
-                        return;
+                    if (chat != null) {
+                        MessagesController.openChatOrProfileWith(null, chat, ChannelAdminLogActivity.this, 0, false);
                     }
-                    MessagesController.openChatOrProfileWith(null, chat, ChannelAdminLogActivity.this, 0, false);
                 } else if (characterStyle instanceof URLSpanNoUnderline) {
                     String url = ((URLSpanNoUnderline) characterStyle).getURL();
                     if (url.startsWith("@")) {
                         MessagesController.getInstance(((BaseFragment) ChannelAdminLogActivity.this).currentAccount).openByUserName(url.substring(1), ChannelAdminLogActivity.this, 0);
-                    } else if (!url.startsWith("#")) {
-                    } else {
+                    } else if (url.startsWith("#")) {
                         DialogsActivity dialogsActivity = new DialogsActivity(null);
                         dialogsActivity.setSearchString(url);
                         ChannelAdminLogActivity.this.presentFragment(dialogsActivity);
@@ -2890,8 +2850,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
             public /* synthetic */ void lambda$didPressUrl$1(String str, DialogInterface dialogInterface, int i) {
                 if (i == 0) {
                     Browser.openUrl((Context) ChannelAdminLogActivity.this.getParentActivity(), str, true);
-                } else if (i != 1) {
-                } else {
+                } else if (i == 1) {
                     if (str.startsWith("mailto:")) {
                         str = str.substring(7);
                     } else if (str.startsWith("tel:")) {
@@ -2907,7 +2866,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                 EmbedBottomSheet.show(channelAdminLogActivity, messageObject, channelAdminLogActivity.provider, str2, str3, str4, str, i, i2, false);
             }
 
-            /* JADX WARN: Code restructure failed: missing block: B:35:0x011c, code lost:
+            /* JADX WARN: Code restructure failed: missing block: B:50:0x011c, code lost:
                 if (r10.exists() != false) goto L36;
              */
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
@@ -2947,14 +2906,12 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                             ChannelAdminLogActivity.this.alertUserOpenError(messageObject);
                         }
                     } else if (i2 == 4) {
-                        if (!AndroidUtilities.isMapsInstalled(ChannelAdminLogActivity.this)) {
-                            return;
+                        if (AndroidUtilities.isMapsInstalled(ChannelAdminLogActivity.this)) {
+                            LocationActivity locationActivity = new LocationActivity(0);
+                            locationActivity.setMessageObject(messageObject);
+                            ChannelAdminLogActivity.this.presentFragment(locationActivity);
                         }
-                        LocationActivity locationActivity = new LocationActivity(0);
-                        locationActivity.setMessageObject(messageObject);
-                        ChannelAdminLogActivity.this.presentFragment(locationActivity);
-                    } else if (i2 != 9 && i2 != 0) {
-                    } else {
+                    } else if (i2 == 9 || i2 == 0) {
                         if (messageObject.getDocumentName().toLowerCase().endsWith("attheme")) {
                             String str2 = messageObject.messageOwner.attachPath;
                             if (str2 != null && str2.length() != 0) {
@@ -3074,23 +3031,22 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
             @Override // org.telegram.ui.Cells.ChatActionCell.ChatActionCellDelegate
             public void needOpenUserProfile(long j) {
                 if (j >= 0) {
-                    if (j == UserConfig.getInstance(((BaseFragment) ChannelAdminLogActivity.this).currentAccount).getClientUserId()) {
+                    if (j != UserConfig.getInstance(((BaseFragment) ChannelAdminLogActivity.this).currentAccount).getClientUserId()) {
+                        Bundle bundle = new Bundle();
+                        bundle.putLong("user_id", j);
+                        ChannelAdminLogActivity.this.addCanBanUser(bundle, j);
+                        ProfileActivity profileActivity = new ProfileActivity(bundle);
+                        profileActivity.setPlayProfileAnimation(0);
+                        ChannelAdminLogActivity.this.presentFragment(profileActivity);
                         return;
                     }
-                    Bundle bundle = new Bundle();
-                    bundle.putLong("user_id", j);
-                    ChannelAdminLogActivity.this.addCanBanUser(bundle, j);
-                    ProfileActivity profileActivity = new ProfileActivity(bundle);
-                    profileActivity.setPlayProfileAnimation(0);
-                    ChannelAdminLogActivity.this.presentFragment(profileActivity);
                     return;
                 }
                 Bundle bundle2 = new Bundle();
                 bundle2.putLong("chat_id", -j);
-                if (!MessagesController.getInstance(((BaseFragment) ChannelAdminLogActivity.this).currentAccount).checkCanOpenChat(bundle2, ChannelAdminLogActivity.this)) {
-                    return;
+                if (MessagesController.getInstance(((BaseFragment) ChannelAdminLogActivity.this).currentAccount).checkCanOpenChat(bundle2, ChannelAdminLogActivity.this)) {
+                    ChannelAdminLogActivity.this.presentFragment(new ChatActivity(bundle2), true);
                 }
-                ChannelAdminLogActivity.this.presentFragment(new ChatActivity(bundle2), true);
             }
 
             @Override // org.telegram.ui.Cells.ChatActionCell.ChatActionCellDelegate
@@ -3194,14 +3150,9 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         */
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
             boolean z;
-            boolean z2 = false;
-            boolean z3 = true;
+            boolean z2 = true;
             if (i == this.loadingUpRow) {
-                ChatLoadingCell chatLoadingCell = (ChatLoadingCell) viewHolder.itemView;
-                if (ChannelAdminLogActivity.this.loadsCount > 1) {
-                    z2 = true;
-                }
-                chatLoadingCell.setProgressVisible(z2);
+                ((ChatLoadingCell) viewHolder.itemView).setProgressVisible(ChannelAdminLogActivity.this.loadsCount > 1);
             } else if (i < this.messagesStartRow || i >= this.messagesEndRow) {
             } else {
                 ArrayList<MessageObject> arrayList = ChannelAdminLogActivity.this.messages;
@@ -3228,8 +3179,8 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                                     }
                                 }
                             }
-                            z3 = false;
-                            chatMessageCell.setMessageObject(messageObject, null, z, z3);
+                            z2 = false;
+                            chatMessageCell.setMessageObject(messageObject, null, z, z2);
                             chatMessageCell.setHighlighted(false);
                             chatMessageCell.setHighlightedText(null);
                         }
@@ -3237,12 +3188,11 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                     z = false;
                     if (itemViewType2 == viewHolder.getItemViewType()) {
                     }
-                    z3 = false;
-                    chatMessageCell.setMessageObject(messageObject, null, z, z3);
+                    z2 = false;
+                    chatMessageCell.setMessageObject(messageObject, null, z, z2);
                     chatMessageCell.setHighlighted(false);
                     chatMessageCell.setHighlightedText(null);
-                } else if (!(view instanceof ChatActionCell)) {
-                } else {
+                } else if (view instanceof ChatActionCell) {
                     ChatActionCell chatActionCell = (ChatActionCell) view;
                     chatActionCell.setMessageObject(messageObject);
                     chatActionCell.setAlpha(1.0f);
@@ -3694,13 +3644,9 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         arrayList.add(new ThemeDescription(this.progressView2, ThemeDescription.FLAG_SERVICEBACKGROUND, null, null, null, null, "chat_serviceBackground"));
         arrayList.add(new ThemeDescription(this.emptyView, ThemeDescription.FLAG_SERVICEBACKGROUND, null, null, null, null, "chat_serviceBackground"));
         ChatAvatarContainer chatAvatarContainer = this.avatarContainer;
-        ImageView imageView = null;
         arrayList.add(new ThemeDescription(chatAvatarContainer != null ? chatAvatarContainer.getTimeItem() : null, 0, null, null, null, null, "chat_secretTimerBackground"));
         ChatAvatarContainer chatAvatarContainer2 = this.avatarContainer;
-        if (chatAvatarContainer2 != null) {
-            imageView = chatAvatarContainer2.getTimeItem();
-        }
-        arrayList.add(new ThemeDescription(imageView, 0, null, null, null, null, "chat_secretTimerText"));
+        arrayList.add(new ThemeDescription(chatAvatarContainer2 != null ? chatAvatarContainer2.getTimeItem() : null, 0, null, null, null, null, "chat_secretTimerText"));
         arrayList.add(new ThemeDescription(this.undoView, ThemeDescription.FLAG_BACKGROUNDFILTER, null, null, null, null, "undo_background"));
         arrayList.add(new ThemeDescription(this.undoView, 0, new Class[]{UndoView.class}, new String[]{"undoImageView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "undo_cancelColor"));
         arrayList.add(new ThemeDescription(this.undoView, 0, new Class[]{UndoView.class}, new String[]{"undoTextView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "undo_cancelColor"));

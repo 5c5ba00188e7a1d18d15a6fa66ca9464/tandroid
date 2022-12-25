@@ -10,12 +10,11 @@ public class D1 implements A1 {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public D1(long j, j$.util.function.m mVar) {
-        if (j < 2147483639) {
-            this.a = (Object[]) mVar.apply((int) j);
-            this.b = 0;
-            return;
+        if (j >= 2147483639) {
+            throw new IllegalArgumentException("Stream size exceeds max array size");
         }
-        throw new IllegalArgumentException("Stream size exceeds max array size");
+        this.a = (Object[]) mVar.apply((int) j);
+        this.b = 0;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

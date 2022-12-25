@@ -224,13 +224,12 @@ public class SharingLocationsAlert extends BottomSheet implements NotificationCe
         if (top > 0 && holder != null && holder.getAdapterPosition() == 0) {
             i = top;
         }
-        if (this.scrollOffsetY == i) {
-            return;
+        if (this.scrollOffsetY != i) {
+            RecyclerListView recyclerListView2 = this.listView;
+            this.scrollOffsetY = i;
+            recyclerListView2.setTopGlowOffset(i);
+            this.containerView.invalidate();
         }
-        RecyclerListView recyclerListView2 = this.listView;
-        this.scrollOffsetY = i;
-        recyclerListView2.setTopGlowOffset(i);
-        this.containerView.invalidate();
     }
 
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
@@ -318,10 +317,10 @@ public class SharingLocationsAlert extends BottomSheet implements NotificationCe
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
             int itemViewType = viewHolder.getItemViewType();
             if (itemViewType != 0) {
-                if (itemViewType != 1 || SharingLocationsAlert.this.textView == null) {
+                if (itemViewType == 1 && SharingLocationsAlert.this.textView != null) {
+                    SharingLocationsAlert.this.textView.setText(LocaleController.formatString("SharingLiveLocationTitle", R.string.SharingLiveLocationTitle, LocaleController.formatPluralString("Chats", LocationController.getLocationsCount(), new Object[0])));
                     return;
                 }
-                SharingLocationsAlert.this.textView.setText(LocaleController.formatString("SharingLiveLocationTitle", R.string.SharingLiveLocationTitle, LocaleController.formatPluralString("Chats", LocationController.getLocationsCount(), new Object[0])));
                 return;
             }
             ((SharingLiveLocationCell) viewHolder.itemView).setDialog(SharingLocationsAlert.this.getLocation(i - 1));

@@ -127,13 +127,12 @@ public final class DataHolder extends AbstractSafeParcelable implements Closeabl
         int i3 = 0;
         while (true) {
             CursorWindow[] cursorWindowArr = this.zah;
-            if (i < cursorWindowArr.length) {
-                this.zac[i] = i3;
-                i3 += this.zah[i].getNumRows() - (i3 - cursorWindowArr[i].getStartPosition());
-                i++;
-            } else {
+            if (i >= cursorWindowArr.length) {
                 return;
             }
+            this.zac[i] = i3;
+            i3 += this.zah[i].getNumRows() - (i3 - cursorWindowArr[i].getStartPosition());
+            i++;
         }
     }
 }

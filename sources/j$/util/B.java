@@ -51,13 +51,12 @@ final class B implements u {
             return;
         }
         this.b = i2;
-        if (i >= i2) {
-            return;
+        if (i < i2) {
+            do {
+                consumer.accept(objArr[i]);
+                i++;
+            } while (i < i2);
         }
-        do {
-            consumer.accept(objArr[i]);
-            i++;
-        } while (i < i2);
     }
 
     @Override // j$.util.u

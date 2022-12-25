@@ -30,10 +30,10 @@ public final class GapWorker implements Runnable {
                 return i;
             }
             int i2 = task.distanceToItem - task2.distanceToItem;
-            if (i2 == 0) {
-                return 0;
+            if (i2 != 0) {
+                return i2;
             }
-            return i2;
+            return 0;
         }
     };
     long mFrameIntervalNs;
@@ -94,38 +94,36 @@ public final class GapWorker implements Runnable {
                 layoutManager.collectAdjacentPrefetchPositions(this.mPrefetchDx, this.mPrefetchDy, recyclerView.mState, this);
             }
             int i = this.mCount;
-            if (i <= layoutManager.mPrefetchMaxCountObserved) {
-                return;
+            if (i > layoutManager.mPrefetchMaxCountObserved) {
+                layoutManager.mPrefetchMaxCountObserved = i;
+                layoutManager.mPrefetchMaxObservedInInitialPrefetch = z;
+                recyclerView.mRecycler.updateViewCacheSize();
             }
-            layoutManager.mPrefetchMaxCountObserved = i;
-            layoutManager.mPrefetchMaxObservedInInitialPrefetch = z;
-            recyclerView.mRecycler.updateViewCacheSize();
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.LayoutManager.LayoutPrefetchRegistry
         public void addPosition(int i, int i2) {
-            if (i >= 0) {
-                if (i2 < 0) {
-                    throw new IllegalArgumentException("Pixel distance must be non-negative");
-                }
-                int i3 = this.mCount * 2;
-                int[] iArr = this.mPrefetchArray;
-                if (iArr == null) {
-                    int[] iArr2 = new int[4];
-                    this.mPrefetchArray = iArr2;
-                    Arrays.fill(iArr2, -1);
-                } else if (i3 >= iArr.length) {
-                    int[] iArr3 = new int[i3 * 2];
-                    this.mPrefetchArray = iArr3;
-                    System.arraycopy(iArr, 0, iArr3, 0, iArr.length);
-                }
-                int[] iArr4 = this.mPrefetchArray;
-                iArr4[i3] = i;
-                iArr4[i3 + 1] = i2;
-                this.mCount++;
-                return;
+            if (i < 0) {
+                throw new IllegalArgumentException("Layout positions must be non-negative");
             }
-            throw new IllegalArgumentException("Layout positions must be non-negative");
+            if (i2 < 0) {
+                throw new IllegalArgumentException("Pixel distance must be non-negative");
+            }
+            int i3 = this.mCount * 2;
+            int[] iArr = this.mPrefetchArray;
+            if (iArr == null) {
+                int[] iArr2 = new int[4];
+                this.mPrefetchArray = iArr2;
+                Arrays.fill(iArr2, -1);
+            } else if (i3 >= iArr.length) {
+                int[] iArr3 = new int[i3 * 2];
+                this.mPrefetchArray = iArr3;
+                System.arraycopy(iArr, 0, iArr3, 0, iArr.length);
+            }
+            int[] iArr4 = this.mPrefetchArray;
+            iArr4[i3] = i;
+            iArr4[i3 + 1] = i2;
+            this.mCount++;
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
@@ -265,17 +263,16 @@ public final class GapWorker implements Runnable {
         }
         LayoutPrefetchRegistryImpl layoutPrefetchRegistryImpl = recyclerView.mPrefetchRegistry;
         layoutPrefetchRegistryImpl.collectPrefetchPositionsFromView(recyclerView, true);
-        if (layoutPrefetchRegistryImpl.mCount == 0) {
-            return;
-        }
-        try {
-            TraceCompat.beginSection("RV Nested Prefetch");
-            recyclerView.mState.prepareForNestedPrefetch(recyclerView.mAdapter);
-            for (int i = 0; i < layoutPrefetchRegistryImpl.mCount * 2; i += 2) {
-                prefetchPositionWithDeadline(recyclerView, layoutPrefetchRegistryImpl.mPrefetchArray[i], j);
+        if (layoutPrefetchRegistryImpl.mCount != 0) {
+            try {
+                TraceCompat.beginSection("RV Nested Prefetch");
+                recyclerView.mState.prepareForNestedPrefetch(recyclerView.mAdapter);
+                for (int i = 0; i < layoutPrefetchRegistryImpl.mCount * 2; i += 2) {
+                    prefetchPositionWithDeadline(recyclerView, layoutPrefetchRegistryImpl.mPrefetchArray[i], j);
+                }
+            } finally {
+                TraceCompat.endSection();
             }
-        } finally {
-            TraceCompat.endSection();
         }
     }
 

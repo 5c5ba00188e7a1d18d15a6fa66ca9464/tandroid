@@ -38,11 +38,11 @@ public class HeartBeatInfoStorage {
     /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized boolean shouldSendSdkHeartBeat(String str, long j) {
         if (this.sharedPreferences.contains(str)) {
-            if (!isSameDateUtc(this.sharedPreferences.getLong(str, -1L), j)) {
-                return false;
+            if (isSameDateUtc(this.sharedPreferences.getLong(str, -1L), j)) {
+                this.sharedPreferences.edit().putLong(str, j).apply();
+                return true;
             }
-            this.sharedPreferences.edit().putLong(str, j).apply();
-            return true;
+            return false;
         }
         this.sharedPreferences.edit().putLong(str, j).apply();
         return true;

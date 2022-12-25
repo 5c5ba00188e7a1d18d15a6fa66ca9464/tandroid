@@ -127,30 +127,29 @@ public class FilesMigrationService extends Service {
 
     private void moveDirectory(File file, final File file2) {
         if (file.exists()) {
-            if (!file2.exists() && !file2.mkdir()) {
-                return;
-            }
-            try {
-                Stream convert = $r8$wrapper$java$util$stream$Stream$-V-WRP.convert(Files.list(file.toPath()));
-                convert.forEach(new Consumer() { // from class: org.telegram.messenger.FilesMigrationService$$ExternalSyntheticLambda1
-                    @Override // j$.util.function.Consumer
-                    public final void accept(Object obj) {
-                        FilesMigrationService.this.lambda$moveDirectory$0(file2, (Path) obj);
-                    }
+            if (file2.exists() || file2.mkdir()) {
+                try {
+                    Stream convert = $r8$wrapper$java$util$stream$Stream$-V-WRP.convert(Files.list(file.toPath()));
+                    convert.forEach(new Consumer() { // from class: org.telegram.messenger.FilesMigrationService$$ExternalSyntheticLambda1
+                        @Override // j$.util.function.Consumer
+                        public final void accept(Object obj) {
+                            FilesMigrationService.this.lambda$moveDirectory$0(file2, (Path) obj);
+                        }
 
-                    @Override // j$.util.function.Consumer
-                    public /* synthetic */ Consumer andThen(Consumer consumer) {
-                        return Objects.requireNonNull(consumer);
-                    }
-                });
-                convert.close();
-            } catch (Exception e) {
-                FileLog.e(e);
-            }
-            try {
-                file.delete();
-            } catch (Exception e2) {
-                FileLog.e(e2);
+                        @Override // j$.util.function.Consumer
+                        public /* synthetic */ Consumer andThen(Consumer consumer) {
+                            return Objects.requireNonNull(consumer);
+                        }
+                    });
+                    convert.close();
+                } catch (Exception e) {
+                    FileLog.e(e);
+                }
+                try {
+                    file.delete();
+                } catch (Exception e2) {
+                    FileLog.e(e2);
+                }
             }
         }
     }
@@ -294,17 +293,14 @@ public class FilesMigrationService extends Service {
 
         public void migrateOldFolder() {
             Activity parentActivity = this.fragment.getParentActivity();
-            boolean z = true;
-            boolean z2 = parentActivity.checkSelfPermission("android.permission.WRITE_EXTERNAL_STORAGE") == 0;
-            if (parentActivity.checkSelfPermission("android.permission.READ_EXTERNAL_STORAGE") != 0) {
-                z = false;
-            }
-            if (!z || !z2) {
+            boolean z = parentActivity.checkSelfPermission("android.permission.WRITE_EXTERNAL_STORAGE") == 0;
+            boolean z2 = parentActivity.checkSelfPermission("android.permission.READ_EXTERNAL_STORAGE") == 0;
+            if (!z2 || !z) {
                 ArrayList arrayList = new ArrayList();
-                if (!z) {
+                if (!z2) {
                     arrayList.add("android.permission.READ_EXTERNAL_STORAGE");
                 }
-                if (!z2) {
+                if (!z) {
                     arrayList.add("android.permission.WRITE_EXTERNAL_STORAGE");
                 }
                 parentActivity.requestPermissions((String[]) arrayList.toArray(new String[arrayList.size()]), 4);

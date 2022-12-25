@@ -19,16 +19,16 @@ public abstract class BillingClient {
 
         public BillingClient build() {
             if (this.zzc != null) {
-                if (this.zzd == null) {
-                    throw new IllegalArgumentException("Please provide a valid listener for purchases updates.");
-                }
-                if (this.zzb) {
-                    if (this.zzd != null) {
-                        return new BillingClientImpl(null, this.zzb, this.zzc, this.zzd, null);
+                if (this.zzd != null) {
+                    if (this.zzb) {
+                        if (this.zzd != null) {
+                            return new BillingClientImpl(null, this.zzb, this.zzc, this.zzd, null);
+                        }
+                        return new BillingClientImpl(null, this.zzb, this.zzc, null);
                     }
-                    return new BillingClientImpl(null, this.zzb, this.zzc, null);
+                    throw new IllegalArgumentException("Support for pending purchases must be enabled. Enable this by calling 'enablePendingPurchases()' on BillingClientBuilder.");
                 }
-                throw new IllegalArgumentException("Support for pending purchases must be enabled. Enable this by calling 'enablePendingPurchases()' on BillingClientBuilder.");
+                throw new IllegalArgumentException("Please provide a valid listener for purchases updates.");
             }
             throw new IllegalArgumentException("Please provide a valid Context.");
         }

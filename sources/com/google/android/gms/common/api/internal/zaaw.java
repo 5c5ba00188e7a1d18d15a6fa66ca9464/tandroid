@@ -124,25 +124,24 @@ public final class zaaw implements zabf {
         if (this.zah != 0) {
             return;
         }
-        if (this.zam && !this.zan) {
-            return;
-        }
-        ArrayList arrayList = new ArrayList();
-        this.zag = 1;
-        this.zah = this.zaa.zaa.size();
-        for (Api.AnyClientKey anyClientKey : this.zaa.zaa.keySet()) {
-            if (this.zaa.zab.containsKey(anyClientKey)) {
-                if (zaH()) {
-                    zaC();
+        if (!this.zam || this.zan) {
+            ArrayList arrayList = new ArrayList();
+            this.zag = 1;
+            this.zah = this.zaa.zaa.size();
+            for (Api.AnyClientKey anyClientKey : this.zaa.zaa.keySet()) {
+                if (this.zaa.zab.containsKey(anyClientKey)) {
+                    if (zaH()) {
+                        zaC();
+                    }
+                } else {
+                    arrayList.add((Api.Client) this.zaa.zaa.get(anyClientKey));
                 }
-            } else {
-                arrayList.add((Api.Client) this.zaa.zaa.get(anyClientKey));
             }
+            if (arrayList.isEmpty()) {
+                return;
+            }
+            this.zau.add(zabj.zaa().submit(new zaap(this, arrayList)));
         }
-        if (arrayList.isEmpty()) {
-            return;
-        }
-        this.zau.add(zabj.zaa().submit(new zaap(this, arrayList)));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -176,12 +175,12 @@ public final class zaaw implements zabf {
             return false;
         }
         ConnectionResult connectionResult = this.zae;
-        if (connectionResult == null) {
-            return true;
+        if (connectionResult != null) {
+            this.zaa.zaf = this.zaf;
+            zaD(connectionResult);
+            return false;
         }
-        this.zaa.zaf = this.zaf;
-        zaD(connectionResult);
-        return false;
+        return true;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -212,29 +211,28 @@ public final class zaaw implements zabf {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static /* bridge */ /* synthetic */ void zar(zaaw zaawVar, com.google.android.gms.signin.internal.zak zakVar) {
-        if (!zaawVar.zaG(0)) {
-            return;
-        }
-        ConnectionResult zaa = zakVar.zaa();
-        if (zaa.isSuccess()) {
-            com.google.android.gms.common.internal.zav zavVar = (com.google.android.gms.common.internal.zav) Preconditions.checkNotNull(zakVar.zab());
-            ConnectionResult zaa2 = zavVar.zaa();
-            if (!zaa2.isSuccess()) {
-                String valueOf = String.valueOf(zaa2);
-                Log.wtf("GACConnecting", "Sign-in succeeded with resolve account failure: ".concat(valueOf), new Exception());
-                zaawVar.zaD(zaa2);
-                return;
+        if (zaawVar.zaG(0)) {
+            ConnectionResult zaa = zakVar.zaa();
+            if (zaa.isSuccess()) {
+                com.google.android.gms.common.internal.zav zavVar = (com.google.android.gms.common.internal.zav) Preconditions.checkNotNull(zakVar.zab());
+                ConnectionResult zaa2 = zavVar.zaa();
+                if (!zaa2.isSuccess()) {
+                    String valueOf = String.valueOf(zaa2);
+                    Log.wtf("GACConnecting", "Sign-in succeeded with resolve account failure: ".concat(valueOf), new Exception());
+                    zaawVar.zaD(zaa2);
+                    return;
+                }
+                zaawVar.zan = true;
+                zaawVar.zao = (IAccountAccessor) Preconditions.checkNotNull(zavVar.zab());
+                zaawVar.zap = zavVar.zac();
+                zaawVar.zaq = zavVar.zad();
+                zaawVar.zaF();
+            } else if (zaawVar.zaI(zaa)) {
+                zaawVar.zaA();
+                zaawVar.zaF();
+            } else {
+                zaawVar.zaD(zaa);
             }
-            zaawVar.zan = true;
-            zaawVar.zao = (IAccountAccessor) Preconditions.checkNotNull(zavVar.zab());
-            zaawVar.zap = zavVar.zac();
-            zaawVar.zaq = zavVar.zad();
-            zaawVar.zaF();
-        } else if (zaawVar.zaI(zaa)) {
-            zaawVar.zaA();
-            zaawVar.zaF();
-        } else {
-            zaawVar.zaD(zaa);
         }
     }
 
@@ -304,29 +302,25 @@ public final class zaaw implements zabf {
     @Override // com.google.android.gms.common.api.internal.zabf
     @GuardedBy("mLock")
     public final void zag(Bundle bundle) {
-        if (!zaG(1)) {
-            return;
+        if (zaG(1)) {
+            if (bundle != null) {
+                this.zai.putAll(bundle);
+            }
+            if (zaH()) {
+                zaC();
+            }
         }
-        if (bundle != null) {
-            this.zai.putAll(bundle);
-        }
-        if (!zaH()) {
-            return;
-        }
-        zaC();
     }
 
     @Override // com.google.android.gms.common.api.internal.zabf
     @GuardedBy("mLock")
     public final void zah(ConnectionResult connectionResult, Api api, boolean z) {
-        if (!zaG(1)) {
-            return;
+        if (zaG(1)) {
+            zaE(connectionResult, api, z);
+            if (zaH()) {
+                zaC();
+            }
         }
-        zaE(connectionResult, api, z);
-        if (!zaH()) {
-            return;
-        }
-        zaC();
     }
 
     @Override // com.google.android.gms.common.api.internal.zabf

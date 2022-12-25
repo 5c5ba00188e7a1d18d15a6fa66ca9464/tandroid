@@ -35,7 +35,6 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.ViewOutlineProvider;
-import android.view.ViewPropertyAnimator;
 import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowInsets;
@@ -343,17 +342,15 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
             if (this.mSuperScrollListener != null) {
                 ViewTreeObserver viewTreeObserver = view.getWindowToken() != null ? view.getViewTreeObserver() : null;
                 ViewTreeObserver viewTreeObserver2 = this.mViewTreeObserver;
-                if (viewTreeObserver == viewTreeObserver2) {
-                    return;
+                if (viewTreeObserver != viewTreeObserver2) {
+                    if (viewTreeObserver2 != null && viewTreeObserver2.isAlive()) {
+                        this.mViewTreeObserver.removeOnScrollChangedListener(this.mSuperScrollListener);
+                    }
+                    this.mViewTreeObserver = viewTreeObserver;
+                    if (viewTreeObserver != null) {
+                        viewTreeObserver.addOnScrollChangedListener(this.mSuperScrollListener);
+                    }
                 }
-                if (viewTreeObserver2 != null && viewTreeObserver2.isAlive()) {
-                    this.mViewTreeObserver.removeOnScrollChangedListener(this.mSuperScrollListener);
-                }
-                this.mViewTreeObserver = viewTreeObserver;
-                if (viewTreeObserver == null) {
-                    return;
-                }
-                viewTreeObserver.addOnScrollChangedListener(this.mSuperScrollListener);
             }
         }
 
@@ -374,12 +371,11 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
             WindowManager.LayoutParams layoutParams = (WindowManager.LayoutParams) rootView.getLayoutParams();
             try {
                 int i = layoutParams.flags;
-                if ((i & 2) == 0) {
-                    return;
+                if ((i & 2) != 0) {
+                    layoutParams.flags = i & (-3);
+                    layoutParams.dimAmount = 0.0f;
+                    windowManager.updateViewLayout(rootView, layoutParams);
                 }
-                layoutParams.flags = i & (-3);
-                layoutParams.dimAmount = 0.0f;
-                windowManager.updateViewLayout(rootView, layoutParams);
             } catch (Exception unused) {
             }
         }
@@ -574,13 +570,10 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
 
             @Override // org.telegram.ui.Components.EmojiTabsStrip
             protected boolean onTabClick(int i3) {
-                int i4 = 0;
                 if (SelectAnimatedEmojiDialog.this.smoothScrolling) {
                     return false;
                 }
-                if (SelectAnimatedEmojiDialog.this.searchRow == -1) {
-                    i4 = 1;
-                }
+                int i4 = SelectAnimatedEmojiDialog.this.searchRow == -1 ? 1 : 0;
                 if (i3 > 0) {
                     int i5 = i3 - 1;
                     if (SelectAnimatedEmojiDialog.this.sectionToPosition.indexOfKey(i5) >= 0) {
@@ -895,11 +888,11 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                             protected boolean getOutBounds(Rect rect) {
                                 if (SelectAnimatedEmojiDialog.this.scrimDrawable != null) {
                                     13 r0 = 13.this;
-                                    if (r0.val$emojiX == null) {
-                                        return false;
+                                    if (r0.val$emojiX != null) {
+                                        rect.set(SelectAnimatedEmojiDialog.this.drawableToBounds);
+                                        return true;
                                     }
-                                    rect.set(SelectAnimatedEmojiDialog.this.drawableToBounds);
-                                    return true;
+                                    return false;
                                 }
                                 return false;
                             }
@@ -1020,10 +1013,9 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                 }
                 performHapticFeedback(3, 1);
             } else if (!(view instanceof EmojiPackExpand)) {
-                if (view == null) {
-                    return;
+                if (view != null) {
+                    view.callOnClick();
                 }
-                view.callOnClick();
             } else {
                 expand(i2, (EmojiPackExpand) view);
                 if (i == 1) {
@@ -1049,10 +1041,9 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                 animatedEmojiDrawable2.removeView(this);
             }
             this.bigReactionAnimatedEmoji = animatedEmojiDrawable;
-            if (animatedEmojiDrawable == null) {
-                return;
+            if (animatedEmojiDrawable != null) {
+                animatedEmojiDrawable.addView(this);
             }
-            animatedEmojiDrawable.addView(this);
         }
     }
 
@@ -1129,10 +1120,9 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
             view.getBackground().setColorFilter(new PorterDuffColorFilter(blendOver, PorterDuff.Mode.MULTIPLY));
         }
         View view2 = this.bubble2View;
-        if (view2 == null) {
-            return;
+        if (view2 != null) {
+            view2.getBackground().setColorFilter(new PorterDuffColorFilter(blendOver, PorterDuff.Mode.MULTIPLY));
         }
-        view2.getBackground().setColorFilter(new PorterDuffColorFilter(blendOver, PorterDuff.Mode.MULTIPLY));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1223,16 +1213,13 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
             Rect bounds = swapAnimatedEmojiDrawable.getBounds();
             View view = this.scrimDrawableParent;
             float scaleY = view == null ? 1.0f : view.getScaleY();
-            int i = 255;
-            if (Build.VERSION.SDK_INT >= 19) {
-                i = this.scrimDrawable.getAlpha();
-            }
+            int alpha = Build.VERSION.SDK_INT >= 19 ? this.scrimDrawable.getAlpha() : 255;
             View view2 = this.scrimDrawableParent;
             int height = view2 == null ? bounds.height() : view2.getHeight();
             canvas.save();
             canvas.translate(0.0f, -getTranslationY());
             AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable2 = this.scrimDrawable;
-            double d = i;
+            double d = alpha;
             double pow = Math.pow(this.contentView.getAlpha(), 0.25d);
             Double.isNaN(d);
             double d2 = d * pow;
@@ -1245,13 +1232,13 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
             this.drawableToBounds.set((int) (((bounds.centerX() - ((bounds.width() / 2.0f) * scaleY)) - bounds.centerX()) + this.emojiX.intValue() + ((scaleY <= 1.0f || scaleY >= 1.5f) ? 0 : 2)), (int) (((((((height - (height - bounds.bottom)) * scaleY) - (scaleY > 1.5f ? (bounds.height() * 0.81f) + 1.0f : 0.0f)) - bounds.top) - (bounds.height() / 2.0f)) + AndroidUtilities.dp(this.topMarginDp)) - (bounds.height() * scaleY)), (int) (((bounds.centerX() + ((bounds.width() / 2.0f) * scaleY)) - bounds.centerX()) + this.emojiX.intValue() + ((scaleY <= 1.0f || scaleY >= 1.5f) ? 0 : 2)), (int) ((((((height - (height - bounds.bottom)) * scaleY) - (scaleY > 1.5f ? (bounds.height() * 0.81f) + 1.0f : 0.0f)) - bounds.top) - (bounds.height() / 2.0f)) + AndroidUtilities.dp(this.topMarginDp)));
             AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable3 = this.scrimDrawable;
             Rect rect = this.drawableToBounds;
-            int i2 = rect.left;
+            int i = rect.left;
             Rect rect2 = this.drawableToBounds;
-            swapAnimatedEmojiDrawable3.setBounds(i2, rect.top, (int) (i2 + (rect.width() / scaleY)), (int) (rect2.top + (rect2.height() / scaleY)));
+            swapAnimatedEmojiDrawable3.setBounds(i, rect.top, (int) (i + (rect.width() / scaleY)), (int) (rect2.top + (rect2.height() / scaleY)));
             Rect rect3 = this.drawableToBounds;
             canvas.scale(scaleY, scaleY, rect3.left, rect3.top);
             this.scrimDrawable.draw(canvas);
-            this.scrimDrawable.setAlpha(i);
+            this.scrimDrawable.setAlpha(alpha);
             this.scrimDrawable.setBounds(bounds);
             canvas.restore();
         }
@@ -1298,10 +1285,11 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                 SelectAnimatedEmojiDialog.this.emojiSelectView = null;
                 SelectAnimatedEmojiDialog.this.invalidate();
                 boolean[] zArr2 = zArr;
-                if (!zArr2[0]) {
-                    zArr2[0] = true;
-                    runnable.run();
+                if (zArr2[0]) {
+                    return;
                 }
+                zArr2[0] = true;
+                runnable.run();
             }
         });
         this.emojiSelectAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
@@ -1392,13 +1380,8 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
         this.gridSwitchAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.SelectAnimatedEmojiDialog.17
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             public void onAnimationEnd(Animator animator) {
-                int i = 8;
                 SelectAnimatedEmojiDialog.this.emojiSearchGridView.setVisibility(z ? 0 : 8);
-                EmojiListView emojiListView = SelectAnimatedEmojiDialog.this.emojiGridView;
-                if (!z) {
-                    i = 0;
-                }
-                emojiListView.setVisibility(i);
+                SelectAnimatedEmojiDialog.this.emojiGridView.setVisibility(z ? 8 : 0);
                 SelectAnimatedEmojiDialog.this.gridSwitchAnimator = null;
                 if (z || SelectAnimatedEmojiDialog.this.searchResult == null) {
                     return;
@@ -1480,29 +1463,28 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
             }
         }
         TLRPC$Document tLRPC$Document4 = tLRPC$Document;
-        if (tLRPC$Document4 == null) {
-            return;
-        }
-        String str = "36_36";
-        SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(tLRPC$Document4.thumbs, "windowBackgroundWhiteGrayIcon", 0.2f);
-        TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document4.thumbs, 90);
-        if ("video/webm".equals(tLRPC$Document4.mime_type)) {
-            forDocument = ImageLocation.getForDocument(tLRPC$Document4);
-            str = str + "_" + ImageLoader.AUTOPLAY_FILTER;
-            if (svgThumb != null) {
-                svgThumb.overrideWidthAndHeight(512, 512);
+        if (tLRPC$Document4 != null) {
+            String str = "36_36";
+            SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(tLRPC$Document4.thumbs, "windowBackgroundWhiteGrayIcon", 0.2f);
+            TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document4.thumbs, 90);
+            if ("video/webm".equals(tLRPC$Document4.mime_type)) {
+                forDocument = ImageLocation.getForDocument(tLRPC$Document4);
+                str = "36_36_" + ImageLoader.AUTOPLAY_FILTER;
+                if (svgThumb != null) {
+                    svgThumb.overrideWidthAndHeight(512, 512);
+                }
+            } else {
+                if (svgThumb != null && MessageObject.isAnimatedStickerDocument(tLRPC$Document4, false)) {
+                    svgThumb.overrideWidthAndHeight(512, 512);
+                }
+                forDocument = ImageLocation.getForDocument(tLRPC$Document4);
             }
-        } else {
-            if (svgThumb != null && MessageObject.isAnimatedStickerDocument(tLRPC$Document4, false)) {
-                svgThumb.overrideWidthAndHeight(512, 512);
-            }
-            forDocument = ImageLocation.getForDocument(tLRPC$Document4);
+            String str2 = str;
+            ImageLocation imageLocation = forDocument;
+            this.emojiSearchEmptyViewImageView.setLayerNum(7);
+            this.emojiSearchEmptyViewImageView.setRoundRadius(AndroidUtilities.dp(4.0f));
+            this.emojiSearchEmptyViewImageView.setImage(imageLocation, str2, ImageLocation.getForDocument(closestPhotoSizeWithSize, tLRPC$Document4), "36_36", svgThumb, tLRPC$Document4);
         }
-        String str2 = str;
-        ImageLocation imageLocation = forDocument;
-        this.emojiSearchEmptyViewImageView.setLayerNum(7);
-        this.emojiSearchEmptyViewImageView.setRoundRadius(AndroidUtilities.dp(4.0f));
-        this.emojiSearchEmptyViewImageView.setImage(imageLocation, str2, ImageLocation.getForDocument(closestPhotoSizeWithSize, tLRPC$Document4), "36_36", svgThumb, tLRPC$Document4);
     }
 
     public void switchSearchEmptyView(final boolean z) {
@@ -1526,17 +1508,16 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             public void onAnimationEnd(Animator animator) {
                 SelectAnimatedEmojiDialog selectAnimatedEmojiDialog = SelectAnimatedEmojiDialog.this;
-                selectAnimatedEmojiDialog.emojiSearchEmptyView.setVisibility((!z || selectAnimatedEmojiDialog.emojiSearchGridView.getVisibility() != 0) ? 8 : 0);
+                selectAnimatedEmojiDialog.emojiSearchEmptyView.setVisibility((z && selectAnimatedEmojiDialog.emojiSearchGridView.getVisibility() == 0) ? 0 : 8);
                 SelectAnimatedEmojiDialog.this.searchEmptyViewAnimator = null;
             }
         });
         this.searchEmptyViewAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
         this.searchEmptyViewAnimator.setDuration(100L);
         this.searchEmptyViewAnimator.start();
-        if (!z) {
-            return;
+        if (z) {
+            updateSearchEmptyViewImage();
         }
-        updateSearchEmptyViewImage();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1559,7 +1540,6 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
             AndroidUtilities.cancelRunOnUIThread(runnable2);
             this.searchRunnable = null;
         }
-        boolean z = true;
         if (str == null) {
             this.searching = false;
             this.searched = false;
@@ -1571,14 +1551,14 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
             this.searchAdapter.updateRows(true);
             this.lastQuery = null;
         } else {
-            final boolean z2 = !this.searching;
+            final boolean z = !this.searching;
             this.searching = true;
             this.searched = false;
             SearchBox searchBox2 = this.searchBox;
             if (searchBox2 != null && searchBox2.clearDrawable != null) {
                 this.searchBox.clearDrawable.startAnimation();
             }
-            if (z2) {
+            if (z) {
                 ArrayList<ReactionsLayoutInBubble.VisibleReaction> arrayList = this.searchResult;
                 if (arrayList != null) {
                     arrayList.clear();
@@ -1603,7 +1583,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
             Runnable runnable4 = new Runnable() { // from class: org.telegram.ui.SelectAnimatedEmojiDialog$$ExternalSyntheticLambda15
                 @Override // java.lang.Runnable
                 public final void run() {
-                    SelectAnimatedEmojiDialog.this.lambda$search$14(str, z2);
+                    SelectAnimatedEmojiDialog.this.lambda$search$14(str, z);
                 }
             };
             this.searchRunnable = runnable4;
@@ -1614,23 +1594,9 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
         if (searchBox3 == null || searchBox3.clear == null) {
             return;
         }
-        float f = 0.0f;
-        if (this.searchBox.clear.getAlpha() == 0.0f) {
-            z = false;
+        if (this.searching != (this.searchBox.clear.getAlpha() != 0.0f)) {
+            this.searchBox.clear.animate().alpha(this.searching ? 1.0f : 0.0f).setDuration(150L).scaleX(this.searching ? 1.0f : 0.1f).scaleY(this.searching ? 1.0f : 0.1f).start();
         }
-        if (this.searching == z) {
-            return;
-        }
-        ViewPropertyAnimator animate = this.searchBox.clear.animate();
-        float f2 = 1.0f;
-        if (this.searching) {
-            f = 1.0f;
-        }
-        ViewPropertyAnimator scaleX = animate.alpha(f).setDuration(150L).scaleX(this.searching ? 1.0f : 0.1f);
-        if (!this.searching) {
-            f2 = 0.1f;
-        }
-        scaleX.scaleY(f2).start();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1864,11 +1830,11 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                     imageViewEmoji.document = null;
                     imageViewEmoji.setDrawable(null);
                     PremiumLockIconView premiumLockIconView = imageViewEmoji.premiumLockIconView;
-                    if (premiumLockIconView == null) {
+                    if (premiumLockIconView != null) {
+                        premiumLockIconView.setVisibility(8);
+                        imageViewEmoji.premiumLockIconView.setImageReceiver(null);
                         return;
                     }
-                    premiumLockIconView.setVisibility(8);
-                    imageViewEmoji.premiumLockIconView.setImageReceiver(null);
                     return;
                 }
                 imageViewEmoji.isDefaultReaction = false;
@@ -1891,8 +1857,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                     imageViewEmoji.addView(premiumLockIconView2, LayoutHelper.createFrame(12, 12, 85));
                 }
                 imageViewEmoji.premiumLockIconView.setVisibility(0);
-            } else if (viewHolder.getItemViewType() != this.VIEW_TYPE_EMOJI) {
-            } else {
+            } else if (viewHolder.getItemViewType() == this.VIEW_TYPE_EMOJI) {
                 ImageViewEmoji imageViewEmoji2 = (ImageViewEmoji) viewHolder.itemView;
                 imageViewEmoji2.empty = false;
                 imageViewEmoji2.position = i;
@@ -2094,17 +2059,17 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
             return this.VIEW_TYPE_SEARCH;
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:153:0x0471, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:141:0x0471, code lost:
             if (r21.this$0.selectedDocumentIds.contains(java.lang.Long.valueOf(r2.getDocumentId())) != false) goto L154;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:179:0x04f8, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:168:0x04f8, code lost:
             if (r21.this$0.selectedDocumentIds.contains(java.lang.Long.valueOf(r2.getDocumentId())) != false) goto L154;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:212:0x057c, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:193:0x057c, code lost:
             if (r21.this$0.selectedDocumentIds.contains(java.lang.Long.valueOf(r2.getDocumentId())) != false) goto L154;
          */
-        /* JADX WARN: Removed duplicated region for block: B:131:0x0585  */
-        /* JADX WARN: Removed duplicated region for block: B:137:0x05c6  */
+        /* JADX WARN: Removed duplicated region for block: B:199:0x0585  */
+        /* JADX WARN: Removed duplicated region for block: B:203:0x05c6  */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -2122,10 +2087,10 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                 boolean z2 = true;
                 if (itemViewType == this.VIEW_TYPE_HINT) {
                     TextView textView = (TextView) viewHolder.itemView;
-                    if (SelectAnimatedEmojiDialog.this.hintExpireDate == null) {
+                    if (SelectAnimatedEmojiDialog.this.hintExpireDate != null) {
+                        textView.setText(LocaleController.formatString("EmojiStatusExpireHint", R.string.EmojiStatusExpireHint, LocaleController.formatStatusExpireDateTime(SelectAnimatedEmojiDialog.this.hintExpireDate.intValue())));
                         return;
                     }
-                    textView.setText(LocaleController.formatString("EmojiStatusExpireHint", R.string.EmojiStatusExpireHint, LocaleController.formatStatusExpireDateTime(SelectAnimatedEmojiDialog.this.hintExpireDate.intValue())));
                     return;
                 } else if (itemViewType == this.VIEW_TYPE_HEADER) {
                     HeaderView headerView = (HeaderView) viewHolder.itemView;
@@ -2146,11 +2111,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                             int i2 = SelectAnimatedEmojiDialog.this.positionToSection.get(i);
                             if (i2 >= 0) {
                                 EmojiView.EmojiPack emojiPack2 = (EmojiView.EmojiPack) SelectAnimatedEmojiDialog.this.packs.get(i2);
-                                String str = emojiPack2.set.title;
-                                if (emojiPack2.free || UserConfig.getInstance(SelectAnimatedEmojiDialog.this.currentAccount).isPremium()) {
-                                    z2 = false;
-                                }
-                                headerView.setText(str, z2);
+                                headerView.setText(emojiPack2.set.title, (emojiPack2.free || UserConfig.getInstance(SelectAnimatedEmojiDialog.this.currentAccount).isPremium()) ? false : false);
                                 return;
                             }
                             headerView.setText(null, false);
@@ -2187,11 +2148,11 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                         imageViewEmoji.document = null;
                         imageViewEmoji.setDrawable(null);
                         PremiumLockIconView premiumLockIconView = imageViewEmoji.premiumLockIconView;
-                        if (premiumLockIconView == null) {
+                        if (premiumLockIconView != null) {
+                            premiumLockIconView.setVisibility(8);
+                            imageViewEmoji.premiumLockIconView.setImageReceiver(null);
                             return;
                         }
-                        premiumLockIconView.setVisibility(8);
-                        imageViewEmoji.premiumLockIconView.setImageReceiver(null);
                         return;
                     }
                     imageViewEmoji.isDefaultReaction = false;
@@ -2230,10 +2191,10 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                         TextView textView3 = emojiPackExpand.textView;
                         textView3.setText("+" + ((emojiPack3.documents.size() - (SelectAnimatedEmojiDialog.this.layoutManager.getSpanCount() * 3)) + 1));
                         return;
-                    } else if (SelectAnimatedEmojiDialog.this.recentExpandButton != emojiPackExpand) {
+                    } else if (SelectAnimatedEmojiDialog.this.recentExpandButton == emojiPackExpand) {
+                        SelectAnimatedEmojiDialog.this.recentExpandButton = null;
                         return;
                     } else {
-                        SelectAnimatedEmojiDialog.this.recentExpandButton = null;
                         return;
                     }
                 } else if (itemViewType == this.VIEW_TYPE_BUTTON) {
@@ -2242,11 +2203,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                     if (i4 < 0 || i4 >= SelectAnimatedEmojiDialog.this.packs.size() || (emojiPack = (EmojiView.EmojiPack) SelectAnimatedEmojiDialog.this.packs.get(i4)) == null) {
                         return;
                     }
-                    String str2 = emojiPack.set.title;
-                    if (emojiPack.free || UserConfig.getInstance(SelectAnimatedEmojiDialog.this.currentAccount).isPremium()) {
-                        z2 = false;
-                    }
-                    emojiPackButton.set(str2, z2, emojiPack.installed, new View.OnClickListener() { // from class: org.telegram.ui.SelectAnimatedEmojiDialog$Adapter$$ExternalSyntheticLambda1
+                    emojiPackButton.set(emojiPack.set.title, (emojiPack.free || UserConfig.getInstance(SelectAnimatedEmojiDialog.this.currentAccount).isPremium()) ? false : false, emojiPack.installed, new View.OnClickListener() { // from class: org.telegram.ui.SelectAnimatedEmojiDialog$Adapter$$ExternalSyntheticLambda1
                         @Override // android.view.View.OnClickListener
                         public final void onClick(View view) {
                             SelectAnimatedEmojiDialog.Adapter.this.lambda$onBindViewHolder$1(emojiPack, i4, view);
@@ -2445,14 +2402,10 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                 valueAnimator.cancel();
                 this.lockAnimator = null;
             }
-            float f = 0.0f;
             if (z2) {
                 float[] fArr = new float[2];
                 fArr[0] = this.lockT;
-                if (z) {
-                    f = 1.0f;
-                }
-                fArr[1] = f;
+                fArr[1] = z ? 1.0f : 0.0f;
                 ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
                 this.lockAnimator = ofFloat;
                 ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.SelectAnimatedEmojiDialog$HeaderView$$ExternalSyntheticLambda0
@@ -2466,10 +2419,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                 this.lockAnimator.start();
                 return;
             }
-            if (z) {
-                f = 1.0f;
-            }
-            this.lockT = f;
+            this.lockT = z ? 1.0f : 0.0f;
             this.lockView.setTranslationX(AndroidUtilities.dp(-8.0f) * (1.0f - this.lockT));
             this.textView.setTranslationX(AndroidUtilities.dp(-8.0f) * (1.0f - this.lockT));
             this.lockView.setAlpha(this.lockT);
@@ -2551,14 +2501,10 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                 this.installFadeAway = null;
             }
             this.addButtonView.setEnabled(!z);
-            float f = 0.6f;
             if (z2) {
                 float[] fArr = new float[2];
                 fArr[0] = this.addButtonView.getAlpha();
-                if (!z) {
-                    f = 1.0f;
-                }
-                fArr[1] = f;
+                fArr[1] = z ? 0.6f : 1.0f;
                 this.installFadeAway = ValueAnimator.ofFloat(fArr);
                 FrameLayout frameLayout = this.addButtonView;
                 frameLayout.setAlpha(frameLayout.getAlpha());
@@ -2573,11 +2519,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                 this.installFadeAway.start();
                 return;
             }
-            FrameLayout frameLayout2 = this.addButtonView;
-            if (!z) {
-                f = 1.0f;
-            }
-            frameLayout2.setAlpha(f);
+            this.addButtonView.setAlpha(z ? 0.6f : 1.0f);
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -2598,16 +2540,11 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
             if (bool == null || bool.booleanValue() != z) {
                 Boolean valueOf = Boolean.valueOf(z);
                 this.lockShow = valueOf;
-                float f = 0.0f;
-                int i = 0;
                 if (z2) {
                     this.premiumButtonView.setVisibility(0);
                     float[] fArr = new float[2];
                     fArr[0] = this.lockT;
-                    if (z) {
-                        f = 1.0f;
-                    }
-                    fArr[1] = f;
+                    fArr[1] = z ? 1.0f : 0.0f;
                     ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
                     this.lockAnimator = ofFloat;
                     ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.SelectAnimatedEmojiDialog$EmojiPackButton$$ExternalSyntheticLambda0
@@ -2619,9 +2556,10 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                     this.lockAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.SelectAnimatedEmojiDialog.EmojiPackButton.1
                         @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                         public void onAnimationEnd(Animator animator) {
-                            if (!z) {
-                                EmojiPackButton.this.premiumButtonView.setVisibility(8);
+                            if (z) {
+                                return;
                             }
+                            EmojiPackButton.this.premiumButtonView.setVisibility(8);
                         }
                     });
                     this.lockAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
@@ -2629,19 +2567,13 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                     this.lockAnimator.start();
                     return;
                 }
-                if (valueOf.booleanValue()) {
-                    f = 1.0f;
-                }
+                float f = valueOf.booleanValue() ? 1.0f : 0.0f;
                 this.lockT = f;
                 this.addButtonView.setAlpha(1.0f - f);
                 this.premiumButtonView.setAlpha(this.lockT);
                 this.premiumButtonView.setScaleX(this.lockT);
                 this.premiumButtonView.setScaleY(this.lockT);
-                PremiumButtonView premiumButtonView = this.premiumButtonView;
-                if (!this.lockShow.booleanValue()) {
-                    i = 8;
-                }
-                premiumButtonView.setVisibility(i);
+                this.premiumButtonView.setVisibility(this.lockShow.booleanValue() ? 0 : 8);
             }
         }
 
@@ -2693,14 +2625,18 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
     public class ImageViewEmoji extends FrameLayout {
         public boolean attached;
         ValueAnimator backAnimator;
+        public ImageReceiver.BackgroundThreadDrawHolder[] backgroundThreadDrawHolder;
         public float bigReactionSelectedProgress;
         public TLRPC$Document document;
         public Drawable drawable;
         public Rect drawableBounds;
+        public boolean empty;
         public ImageReceiver imageReceiver;
         public ImageReceiver imageReceiverToDraw;
+        final AnimatedEmojiSpan.InvalidateHolder invalidateHolder;
         public boolean isDefaultReaction;
         public boolean isStaticIcon;
+        public boolean notDraw;
         public int position;
         PremiumLockIconView premiumLockIconView;
         private float pressedProgress;
@@ -2710,21 +2646,21 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
         public float skewAlpha;
         public int skewIndex;
         public AnimatedEmojiSpan span;
-        public boolean empty = false;
-        public boolean notDraw = false;
-        public ImageReceiver.BackgroundThreadDrawHolder[] backgroundThreadDrawHolder = new ImageReceiver.BackgroundThreadDrawHolder[2];
-        final AnimatedEmojiSpan.InvalidateHolder invalidateHolder = new AnimatedEmojiSpan.InvalidateHolder() { // from class: org.telegram.ui.SelectAnimatedEmojiDialog.ImageViewEmoji.1
-            @Override // org.telegram.ui.Components.AnimatedEmojiSpan.InvalidateHolder
-            public void invalidate() {
-                EmojiListView emojiListView = SelectAnimatedEmojiDialog.this.emojiGridView;
-                if (emojiListView != null) {
-                    emojiListView.invalidate();
-                }
-            }
-        };
 
         public ImageViewEmoji(Context context) {
             super(context);
+            this.empty = false;
+            this.notDraw = false;
+            this.backgroundThreadDrawHolder = new ImageReceiver.BackgroundThreadDrawHolder[2];
+            this.invalidateHolder = new AnimatedEmojiSpan.InvalidateHolder() { // from class: org.telegram.ui.SelectAnimatedEmojiDialog.ImageViewEmoji.1
+                @Override // org.telegram.ui.Components.AnimatedEmojiSpan.InvalidateHolder
+                public void invalidate() {
+                    EmojiListView emojiListView = SelectAnimatedEmojiDialog.this.emojiGridView;
+                    if (emojiListView != null) {
+                        emojiListView.invalidate();
+                    }
+                }
+            };
         }
 
         @Override // android.widget.FrameLayout, android.view.View
@@ -2746,27 +2682,26 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                     return;
                 }
                 float f = this.pressedProgress;
-                if (f == 0.0f) {
-                    return;
+                if (f != 0.0f) {
+                    ValueAnimator ofFloat = ValueAnimator.ofFloat(f, 0.0f);
+                    this.backAnimator = ofFloat;
+                    ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.SelectAnimatedEmojiDialog$ImageViewEmoji$$ExternalSyntheticLambda0
+                        @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                        public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
+                            SelectAnimatedEmojiDialog.ImageViewEmoji.this.lambda$setPressed$0(valueAnimator2);
+                        }
+                    });
+                    this.backAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.SelectAnimatedEmojiDialog.ImageViewEmoji.2
+                        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                        public void onAnimationEnd(Animator animator) {
+                            super.onAnimationEnd(animator);
+                            ImageViewEmoji.this.backAnimator = null;
+                        }
+                    });
+                    this.backAnimator.setInterpolator(new OvershootInterpolator(5.0f));
+                    this.backAnimator.setDuration(350L);
+                    this.backAnimator.start();
                 }
-                ValueAnimator ofFloat = ValueAnimator.ofFloat(f, 0.0f);
-                this.backAnimator = ofFloat;
-                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.SelectAnimatedEmojiDialog$ImageViewEmoji$$ExternalSyntheticLambda0
-                    @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                    public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                        SelectAnimatedEmojiDialog.ImageViewEmoji.this.lambda$setPressed$0(valueAnimator2);
-                    }
-                });
-                this.backAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.SelectAnimatedEmojiDialog.ImageViewEmoji.2
-                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                    public void onAnimationEnd(Animator animator) {
-                        super.onAnimationEnd(animator);
-                        ImageViewEmoji.this.backAnimator = null;
-                    }
-                });
-                this.backAnimator.setInterpolator(new OvershootInterpolator(5.0f));
-                this.backAnimator.setDuration(350L);
-                this.backAnimator.start();
             }
         }
 
@@ -2779,11 +2714,10 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
         public void updatePressedProgress() {
             if (isPressed()) {
                 float f = this.pressedProgress;
-                if (f == 1.0f) {
-                    return;
+                if (f != 1.0f) {
+                    this.pressedProgress = Utilities.clamp(f + 0.16f, 1.0f, 0.0f);
+                    invalidate();
                 }
-                this.pressedProgress = Utilities.clamp(f + 0.16f, 1.0f, 0.0f);
-                invalidate();
             }
         }
 
@@ -2793,10 +2727,9 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                 if (imageReceiver.getLottieAnimation() != null) {
                     this.imageReceiverToDraw.getLottieAnimation().updateCurrentFrame(j, true);
                 }
-                if (this.imageReceiverToDraw.getAnimation() == null) {
-                    return;
+                if (this.imageReceiverToDraw.getAnimation() != null) {
+                    this.imageReceiverToDraw.getAnimation().updateCurrentFrame(j, true);
                 }
-                this.imageReceiverToDraw.getAnimation().updateCurrentFrame(j, true);
             }
         }
 
@@ -2877,10 +2810,9 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                     ((AnimatedEmojiDrawable) drawable2).removeView(this.invalidateHolder);
                 }
                 this.drawable = drawable;
-                if (!this.attached || !(drawable instanceof AnimatedEmojiDrawable)) {
-                    return;
+                if (this.attached && (drawable instanceof AnimatedEmojiDrawable)) {
+                    ((AnimatedEmojiDrawable) drawable).addView(this.invalidateHolder);
                 }
-                ((AnimatedEmojiDrawable) drawable).addView(this.invalidateHolder);
             }
         }
     }
@@ -2934,10 +2866,9 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
         sb.append("usehint");
         String sb2 = sb.toString();
         int i = MessagesController.getGlobalMainSettings().getInt(sb2, 0);
-        if (i > 3) {
-            return;
+        if (i <= 3) {
+            MessagesController.getGlobalMainSettings().edit().putInt(sb2, i + 1).apply();
         }
-        MessagesController.getGlobalMainSettings().edit().putInt(sb2, i + 1).apply();
     }
 
     public void preload(int i, int i2) {
@@ -3372,32 +3303,31 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
         this.emojiTabs.updateEmojiPacks(this.packs);
     }
 
-    /* JADX WARN: Type inference failed for: r5v2, types: [boolean, int] */
     public void expand(int i, View view) {
-        ?? r5;
+        int min;
+        int i2;
         int size;
-        int size2;
         Integer num;
         boolean z;
-        int i2;
         int i3;
-        int i4 = this.positionToExpand.get(i);
+        int i4;
+        int i5 = this.positionToExpand.get(i);
         this.animateExpandFromButtonTranslate = 0.0f;
         Integer num2 = null;
-        if (i4 >= 0 && i4 < this.packs.size()) {
-            i2 = this.layoutManager.getSpanCount() * 3;
-            EmojiView.EmojiPack emojiPack = this.packs.get(i4);
+        if (i5 >= 0 && i5 < this.packs.size()) {
+            i3 = this.layoutManager.getSpanCount() * 3;
+            EmojiView.EmojiPack emojiPack = this.packs.get(i5);
             if (emojiPack.expanded) {
                 return;
             }
-            z = i4 + 1 == this.packs.size();
-            i3 = this.sectionToPosition.get(i4);
+            z = i5 + 1 == this.packs.size();
+            i4 = this.sectionToPosition.get(i5);
             this.expandedEmojiSets.add(Long.valueOf(emojiPack.set.id));
-            size = emojiPack.expanded ? emojiPack.documents.size() : Math.min(i2, emojiPack.documents.size());
-            num = emojiPack.documents.size() > i2 ? Integer.valueOf(i3 + 1 + size) : null;
+            i2 = emojiPack.expanded ? emojiPack.documents.size() : Math.min(i3, emojiPack.documents.size());
+            num = emojiPack.documents.size() > i3 ? Integer.valueOf(i4 + 1 + i2) : null;
             emojiPack.expanded = true;
-            size2 = emojiPack.documents.size();
-        } else if (i4 != -1) {
+            size = emojiPack.documents.size();
+        } else if (i5 != -1) {
             return;
         } else {
             int spanCount = this.layoutManager.getSpanCount() * 5;
@@ -3405,18 +3335,25 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
             if (z2) {
                 return;
             }
-            int i5 = (this.searchRow != -1 ? 1 : 0) + (this.includeHint ? 1 : 0) + (this.includeEmpty == true ? 1 : 0);
-            size = z2 ? this.recent.size() : Math.min((spanCount - r5) - 2, this.recent.size());
-            size2 = this.recent.size();
+            int i6 = (this.searchRow != -1 ? 1 : 0) + (this.includeHint ? 1 : 0);
+            boolean z3 = this.includeEmpty;
+            int i7 = i6 + (z3 ? 1 : 0);
+            if (z2) {
+                min = this.recent.size();
+            } else {
+                min = Math.min((spanCount - (z3 ? 1 : 0)) - 2, this.recent.size());
+            }
+            i2 = min;
+            size = this.recent.size();
             this.recentExpanded = true;
             num = null;
             z = false;
-            i2 = spanCount;
-            i3 = i5;
+            i3 = spanCount;
+            i4 = i7;
         }
-        if (size2 > size) {
-            num = Integer.valueOf(i3 + 1 + size);
-            num2 = Integer.valueOf(size2 - size);
+        if (size > i2) {
+            num = Integer.valueOf(i4 + 1 + i2);
+            num2 = Integer.valueOf(size - i2);
         }
         updateRows(false, true);
         if (num == null || num2 == null) {
@@ -3426,17 +3363,16 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
         this.animateExpandFromPosition = num.intValue();
         this.animateExpandToPosition = num.intValue() + num2.intValue();
         this.animateExpandStartTime = SystemClock.elapsedRealtime();
-        if (!z) {
-            return;
+        if (z) {
+            final int intValue = num.intValue();
+            final float f = num2.intValue() > i3 / 2 ? 1.5f : 3.5f;
+            post(new Runnable() { // from class: org.telegram.ui.SelectAnimatedEmojiDialog$$ExternalSyntheticLambda12
+                @Override // java.lang.Runnable
+                public final void run() {
+                    SelectAnimatedEmojiDialog.this.lambda$expand$17(f, intValue);
+                }
+            });
         }
-        final int intValue = num.intValue();
-        final float f = num2.intValue() > i2 / 2 ? 1.5f : 3.5f;
-        post(new Runnable() { // from class: org.telegram.ui.SelectAnimatedEmojiDialog$$ExternalSyntheticLambda12
-            @Override // java.lang.Runnable
-            public final void run() {
-                SelectAnimatedEmojiDialog.this.lambda$expand$17(f, intValue);
-            }
-        });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -3467,16 +3403,23 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
 
     /* loaded from: classes3.dex */
     public class EmojiListView extends RecyclerListView {
-        SparseArray<ArrayList<ImageViewEmoji>> viewsGroupedByLines = new SparseArray<>();
-        ArrayList<ArrayList<ImageViewEmoji>> unusedArrays = new ArrayList<>();
-        ArrayList<DrawingInBackgroundLine> unusedLineDrawables = new ArrayList<>();
-        ArrayList<DrawingInBackgroundLine> lineDrawables = new ArrayList<>();
-        ArrayList<DrawingInBackgroundLine> lineDrawablesTmp = new ArrayList<>();
-        private LongSparseArray<AnimatedEmojiDrawable> animatedEmojiDrawables = new LongSparseArray<>();
-        private int lastChildCount = -1;
+        private LongSparseArray<AnimatedEmojiDrawable> animatedEmojiDrawables;
+        private int lastChildCount;
+        ArrayList<DrawingInBackgroundLine> lineDrawables;
+        ArrayList<DrawingInBackgroundLine> lineDrawablesTmp;
+        ArrayList<ArrayList<ImageViewEmoji>> unusedArrays;
+        ArrayList<DrawingInBackgroundLine> unusedLineDrawables;
+        SparseArray<ArrayList<ImageViewEmoji>> viewsGroupedByLines;
 
         public EmojiListView(Context context) {
             super(context);
+            this.viewsGroupedByLines = new SparseArray<>();
+            this.unusedArrays = new ArrayList<>();
+            this.unusedLineDrawables = new ArrayList<>();
+            this.lineDrawables = new ArrayList<>();
+            this.lineDrawablesTmp = new ArrayList<>();
+            this.animatedEmojiDrawables = new LongSparseArray<>();
+            this.lastChildCount = -1;
             setDrawSelectorBehind(true);
             setClipToPadding(false);
             setSelectorRadius(AndroidUtilities.dp(4.0f));
@@ -3504,7 +3447,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
         }
 
         /* JADX INFO: Access modifiers changed from: protected */
-        /* JADX WARN: Code restructure failed: missing block: B:8:0x0017, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:9:0x0017, code lost:
             if (((org.telegram.ui.Components.AnimatedEmojiDrawable) r0).canOverrideColor() != false) goto L9;
          */
         @Override // org.telegram.ui.Components.RecyclerListView
@@ -3706,12 +3649,12 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
             public DrawingInBackgroundLine() {
             }
 
-            /* JADX WARN: Code restructure failed: missing block: B:49:0x0120, code lost:
+            /* JADX WARN: Code restructure failed: missing block: B:55:0x0120, code lost:
                 prepareDraw(java.lang.System.currentTimeMillis());
                 drawInUiThread(r12, r17);
                 reset();
              */
-            /* JADX WARN: Code restructure failed: missing block: B:50:?, code lost:
+            /* JADX WARN: Code restructure failed: missing block: B:67:?, code lost:
                 return;
              */
             @Override // org.telegram.ui.Components.DrawingInBackgroundThreadDrawable
@@ -3806,11 +3749,8 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                             }
                             if (!imageViewEmoji.isDefaultReaction && !imageViewEmoji.isStaticIcon) {
                                 if (imageViewEmoji.span != null) {
-                                    AnimatedEmojiDrawable animatedEmojiDrawable = null;
                                     Drawable drawable = imageViewEmoji.drawable;
-                                    if (drawable instanceof AnimatedEmojiDrawable) {
-                                        animatedEmojiDrawable = (AnimatedEmojiDrawable) drawable;
-                                    }
+                                    AnimatedEmojiDrawable animatedEmojiDrawable = drawable instanceof AnimatedEmojiDrawable ? (AnimatedEmojiDrawable) drawable : null;
                                     if (animatedEmojiDrawable != null && animatedEmojiDrawable.getImageReceiver() != null) {
                                         imageReceiver = animatedEmojiDrawable.getImageReceiver();
                                         animatedEmojiDrawable.setAlpha((int) (alpha * 255.0f));
@@ -3889,10 +3829,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                             }
                             boolean z = true;
                             boolean z2 = SelectAnimatedEmojiDialog.this.animateExpandStartTime > 0 && SystemClock.elapsedRealtime() - SelectAnimatedEmojiDialog.this.animateExpandStartTime < SelectAnimatedEmojiDialog.this.animateExpandDuration();
-                            if (!z2 || SelectAnimatedEmojiDialog.this.animateExpandFromPosition < 0 || SelectAnimatedEmojiDialog.this.animateExpandToPosition < 0 || SelectAnimatedEmojiDialog.this.animateExpandStartTime <= 0) {
-                                z = false;
-                            }
-                            if (z) {
+                            if ((!z2 || SelectAnimatedEmojiDialog.this.animateExpandFromPosition < 0 || SelectAnimatedEmojiDialog.this.animateExpandToPosition < 0 || SelectAnimatedEmojiDialog.this.animateExpandStartTime <= 0) ? false : false) {
                                 int childAdapterPosition = EmojiListView.this.getChildAdapterPosition(imageViewEmoji) - SelectAnimatedEmojiDialog.this.animateExpandFromPosition;
                                 int i2 = SelectAnimatedEmojiDialog.this.animateExpandToPosition - SelectAnimatedEmojiDialog.this.animateExpandFromPosition;
                                 if (childAdapterPosition >= 0 && childAdapterPosition < i2) {
@@ -3971,8 +3908,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                     drawable.draw(canvas);
                     drawable.setColorFilter(SelectAnimatedEmojiDialog.this.premiumStarColorFilter);
                     PremiumLockIconView premiumLockIconView = imageViewEmoji.premiumLockIconView;
-                } else if ((!imageViewEmoji.isDefaultReaction && !imageViewEmoji.isStaticIcon) || (imageReceiver = imageViewEmoji.imageReceiver) == null) {
-                } else {
+                } else if ((imageViewEmoji.isDefaultReaction || imageViewEmoji.isStaticIcon) && (imageReceiver = imageViewEmoji.imageReceiver) != null) {
                     imageReceiver.setAlpha(f);
                     imageViewEmoji.imageReceiver.draw(canvas);
                 }
@@ -4041,16 +3977,14 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     public void didReceivedNotification(int i, int i2, Object... objArr) {
         if (i == NotificationCenter.stickersDidLoad) {
-            if (((Integer) objArr[0]).intValue() != 5) {
-                return;
+            if (((Integer) objArr[0]).intValue() == 5) {
+                updateRows(true, true);
             }
-            updateRows(true, true);
         } else if (i == NotificationCenter.featuredEmojiDidLoad) {
             updateRows(false, true);
         } else if (i == NotificationCenter.recentEmojiStatusesUpdate) {
             updateRows(false, true);
-        } else if (i != NotificationCenter.groupStickersDidLoad || !this.defaultSetLoading) {
-        } else {
+        } else if (i == NotificationCenter.groupStickersDidLoad && this.defaultSetLoading) {
             updateRows(true, true);
             this.defaultSetLoading = false;
         }
@@ -4062,14 +3996,13 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
             listStates.get(num);
         }
         this.dismiss = runnable;
-        int i = 0;
         if (!this.drawBackground) {
             checkScroll();
-            while (i < this.emojiGridView.getChildCount()) {
-                View childAt = this.emojiGridView.getChildAt(i);
+            while (r0 < this.emojiGridView.getChildCount()) {
+                View childAt = this.emojiGridView.getChildAt(r0);
                 childAt.setScaleX(1.0f);
                 childAt.setScaleY(1.0f);
-                i++;
+                r0++;
             }
             return;
         }
@@ -4083,10 +4016,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
             valueAnimator2.cancel();
             this.hideAnimator = null;
         }
-        if (this.type != 3) {
-            i = 1;
-        }
-        if (i != 0) {
+        if ((this.type != 3 ? 1 : 0) != 0) {
             ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
             this.showAnimator = ofFloat;
             ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.SelectAnimatedEmojiDialog$$ExternalSyntheticLambda0
@@ -4100,13 +4030,13 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                 public void onAnimationEnd(Animator animator) {
                     SelectAnimatedEmojiDialog.this.checkScroll();
                     SelectAnimatedEmojiDialog.this.updateShow(1.0f);
-                    for (int i2 = 0; i2 < SelectAnimatedEmojiDialog.this.emojiGridView.getChildCount(); i2++) {
-                        View childAt2 = SelectAnimatedEmojiDialog.this.emojiGridView.getChildAt(i2);
+                    for (int i = 0; i < SelectAnimatedEmojiDialog.this.emojiGridView.getChildCount(); i++) {
+                        View childAt2 = SelectAnimatedEmojiDialog.this.emojiGridView.getChildAt(i);
                         childAt2.setScaleX(1.0f);
                         childAt2.setScaleY(1.0f);
                     }
-                    for (int i3 = 0; i3 < SelectAnimatedEmojiDialog.this.emojiTabs.contentView.getChildCount(); i3++) {
-                        View childAt3 = SelectAnimatedEmojiDialog.this.emojiTabs.contentView.getChildAt(i3);
+                    for (int i2 = 0; i2 < SelectAnimatedEmojiDialog.this.emojiTabs.contentView.getChildCount(); i2++) {
+                        View childAt3 = SelectAnimatedEmojiDialog.this.emojiTabs.contentView.getChildAt(i2);
                         childAt3.setScaleX(1.0f);
                         childAt3.setScaleY(1.0f);
                     }
@@ -4478,40 +4408,39 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
         }
         this.bigReactionImageReceiver.setParentView(view);
         ImageViewEmoji imageViewEmoji = this.selectedReactionView;
-        if (imageViewEmoji == null) {
-            return;
-        }
-        float f = this.pressedProgress;
-        if (f != 1.0f && !this.cancelPressed) {
-            float f2 = f + 0.010666667f;
-            this.pressedProgress = f2;
-            if (f2 >= 1.0f) {
-                this.pressedProgress = 1.0f;
-                onLongPressedListener onlongpressedlistener = this.bigReactionListener;
-                if (onlongpressedlistener != null) {
-                    onlongpressedlistener.onLongPressed(imageViewEmoji);
+        if (imageViewEmoji != null) {
+            float f = this.pressedProgress;
+            if (f != 1.0f && !this.cancelPressed) {
+                float f2 = f + 0.010666667f;
+                this.pressedProgress = f2;
+                if (f2 >= 1.0f) {
+                    this.pressedProgress = 1.0f;
+                    onLongPressedListener onlongpressedlistener = this.bigReactionListener;
+                    if (onlongpressedlistener != null) {
+                        onlongpressedlistener.onLongPressed(imageViewEmoji);
+                    }
                 }
+                this.selectedReactionView.bigReactionSelectedProgress = this.pressedProgress;
             }
-            this.selectedReactionView.bigReactionSelectedProgress = this.pressedProgress;
+            float f3 = (this.pressedProgress * 2.0f) + 1.0f;
+            canvas.save();
+            canvas.translate(this.emojiGridView.getX() + this.selectedReactionView.getX(), this.gridViewContainer.getY() + this.emojiGridView.getY() + this.selectedReactionView.getY());
+            this.paint.setColor(Theme.getColor("actionBarDefaultSubmenuBackground", this.resourcesProvider));
+            canvas.drawRect(0.0f, 0.0f, this.selectedReactionView.getMeasuredWidth(), this.selectedReactionView.getMeasuredHeight(), this.paint);
+            canvas.scale(f3, f3, this.selectedReactionView.getMeasuredWidth() / 2.0f, this.selectedReactionView.getMeasuredHeight());
+            ImageViewEmoji imageViewEmoji2 = this.selectedReactionView;
+            ImageReceiver imageReceiver = imageViewEmoji2.isDefaultReaction ? this.bigReactionImageReceiver : imageViewEmoji2.imageReceiverToDraw;
+            AnimatedEmojiDrawable animatedEmojiDrawable = this.bigReactionAnimatedEmoji;
+            if (animatedEmojiDrawable != null && animatedEmojiDrawable.getImageReceiver() != null && this.bigReactionAnimatedEmoji.getImageReceiver().hasBitmapImage()) {
+                imageReceiver = this.bigReactionAnimatedEmoji.getImageReceiver();
+            }
+            if (imageReceiver != null) {
+                imageReceiver.setImageCoords(0.0f, 0.0f, this.selectedReactionView.getMeasuredWidth(), this.selectedReactionView.getMeasuredHeight());
+                imageReceiver.draw(canvas);
+            }
+            canvas.restore();
+            view.invalidate();
         }
-        float f3 = (this.pressedProgress * 2.0f) + 1.0f;
-        canvas.save();
-        canvas.translate(this.emojiGridView.getX() + this.selectedReactionView.getX(), this.gridViewContainer.getY() + this.emojiGridView.getY() + this.selectedReactionView.getY());
-        this.paint.setColor(Theme.getColor("actionBarDefaultSubmenuBackground", this.resourcesProvider));
-        canvas.drawRect(0.0f, 0.0f, this.selectedReactionView.getMeasuredWidth(), this.selectedReactionView.getMeasuredHeight(), this.paint);
-        canvas.scale(f3, f3, this.selectedReactionView.getMeasuredWidth() / 2.0f, this.selectedReactionView.getMeasuredHeight());
-        ImageViewEmoji imageViewEmoji2 = this.selectedReactionView;
-        ImageReceiver imageReceiver = imageViewEmoji2.isDefaultReaction ? this.bigReactionImageReceiver : imageViewEmoji2.imageReceiverToDraw;
-        AnimatedEmojiDrawable animatedEmojiDrawable = this.bigReactionAnimatedEmoji;
-        if (animatedEmojiDrawable != null && animatedEmojiDrawable.getImageReceiver() != null && this.bigReactionAnimatedEmoji.getImageReceiver().hasBitmapImage()) {
-            imageReceiver = this.bigReactionAnimatedEmoji.getImageReceiver();
-        }
-        if (imageReceiver != null) {
-            imageReceiver.setImageCoords(0.0f, 0.0f, this.selectedReactionView.getMeasuredWidth(), this.selectedReactionView.getMeasuredHeight());
-            imageReceiver.draw(canvas);
-        }
-        canvas.restore();
-        view.invalidate();
     }
 
     public void setSaveState(int i) {
@@ -4534,8 +4463,12 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
         private boolean changeToScrimColor;
         private int clipBottom;
         private ContentView contentView;
+        private Rect current;
         private BottomSheet dateBottomSheet;
+        private boolean dismissed;
+        private boolean done;
         private View emojiPreviewView;
+        private Rect from;
         private ImageReceiver imageReceiver;
         private ImageViewEmoji imageViewEmoji;
         private WindowInsets lastInsets;
@@ -4552,12 +4485,8 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
         private float showT;
         private boolean showing;
         private boolean showingMenu;
-        private Rect from = new Rect();
-        private Rect to = new Rect();
-        private Rect current = new Rect();
-        private int[] tempLocation = new int[2];
-        private boolean done = false;
-        private boolean dismissed = false;
+        private int[] tempLocation;
+        private Rect to;
 
         protected boolean getOutBounds(Rect rect) {
             throw null;
@@ -4697,6 +4626,12 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
             super(context);
             String str;
             ImageLocation forDocument;
+            this.from = new Rect();
+            this.to = new Rect();
+            this.current = new Rect();
+            this.tempLocation = new int[2];
+            this.done = false;
+            this.dismissed = false;
             this.imageViewEmoji = imageViewEmoji;
             this.resourcesProvider = resourcesProvider;
             this.parentDialogDismiss = runnable;
@@ -5000,10 +4935,10 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
 
         private void animateShow(final boolean z, final Runnable runnable, final Runnable runnable2, final boolean z2) {
             if (this.imageViewEmoji == null) {
-                if (runnable == null) {
+                if (runnable != null) {
+                    runnable.run();
                     return;
                 }
-                runnable.run();
                 return;
             }
             ValueAnimator valueAnimator = this.showAnimator;

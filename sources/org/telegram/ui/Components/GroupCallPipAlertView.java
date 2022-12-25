@@ -39,19 +39,19 @@ public class GroupCallPipAlertView extends LinearLayout implements VoIPService.S
     float cx;
     float cy;
     FrameLayout groupInfoContainer;
+    private boolean invalidateGradient;
     VoIPToggleButton leaveButton;
     LinearGradient linearGradient;
     VoIPToggleButton muteButton;
     float muteProgress;
     private boolean mutedByAdmin;
     float mutedByAdminProgress;
+    Paint paint;
     private int position;
+    RectF rectF;
     VoIPToggleButton soundButton;
     TextView subtitleView;
     TextView titleView;
-    RectF rectF = new RectF();
-    Paint paint = new Paint(1);
-    private boolean invalidateGradient = true;
 
     @Override // org.telegram.messenger.voip.VoIPService.StateListener
     public /* synthetic */ void onCameraFirstFrameAvailable() {
@@ -85,6 +85,9 @@ public class GroupCallPipAlertView extends LinearLayout implements VoIPService.S
 
     public GroupCallPipAlertView(final Context context, int i) {
         super(context);
+        this.rectF = new RectF();
+        this.paint = new Paint(1);
+        this.invalidateGradient = true;
         setOrientation(1);
         this.currentAccount = i;
         this.paint.setAlpha(234);
@@ -196,10 +199,10 @@ public class GroupCallPipAlertView extends LinearLayout implements VoIPService.S
                 this.muteButton.shakeView();
                 try {
                     Vibrator vibrator = (Vibrator) context.getSystemService("vibrator");
-                    if (vibrator == null) {
+                    if (vibrator != null) {
+                        vibrator.vibrate(200L);
                         return;
                     }
-                    vibrator.vibrate(200L);
                     return;
                 } catch (Exception e) {
                     FileLog.e(e);
@@ -220,13 +223,13 @@ public class GroupCallPipAlertView extends LinearLayout implements VoIPService.S
         }, Build.VERSION.SDK_INT < 23 || Settings.canDrawOverlays(context));
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:18:0x0055  */
-    /* JADX WARN: Removed duplicated region for block: B:26:0x0085  */
-    /* JADX WARN: Removed duplicated region for block: B:36:0x01c3  */
-    /* JADX WARN: Removed duplicated region for block: B:39:0x0207  */
-    /* JADX WARN: Removed duplicated region for block: B:43:0x022a  */
-    /* JADX WARN: Removed duplicated region for block: B:48:0x01cc  */
-    /* JADX WARN: Removed duplicated region for block: B:54:0x006c  */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x0055  */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x006c  */
+    /* JADX WARN: Removed duplicated region for block: B:43:0x0085  */
+    /* JADX WARN: Removed duplicated region for block: B:53:0x01c3  */
+    /* JADX WARN: Removed duplicated region for block: B:54:0x01cc  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x0207  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x022a  */
     @Override // android.widget.LinearLayout, android.view.View
     @SuppressLint({"DrawAllocation"})
     /*
@@ -419,12 +422,8 @@ public class GroupCallPipAlertView extends LinearLayout implements VoIPService.S
             if (VoIPService.getSharedInstance() != null) {
                 this.mutedByAdmin = VoIPService.getSharedInstance().mutedByAdmin();
             }
-            float f = 1.0f;
             this.mutedByAdminProgress = this.mutedByAdmin ? 1.0f : 0.0f;
-            if (!(VoIPService.getSharedInstance() == null || VoIPService.getSharedInstance().isMicMute() || this.mutedByAdmin)) {
-                f = 0.0f;
-            }
-            this.muteProgress = f;
+            this.muteProgress = VoIPService.getSharedInstance() == null || VoIPService.getSharedInstance().isMicMute() || this.mutedByAdmin ? 1.0f : 0.0f;
         }
         NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.groupCallUpdated);
         updateButtons(false);

@@ -47,11 +47,7 @@ public abstract class TLRPC$Update extends TLObject {
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
                         this.flags = readInt32;
-                        boolean z3 = true;
-                        if ((readInt32 & 1) == 0) {
-                            z3 = false;
-                        }
-                        this.isFinal = z3;
+                        this.isFinal = (readInt32 & 1) != 0;
                         this.transcription_id = abstractSerializedData2.readInt64(z2);
                         this.text = abstractSerializedData2.readString(z2);
                     }
@@ -458,12 +454,8 @@ public abstract class TLRPC$Update extends TLObject {
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
                         this.flags = readInt32;
-                        boolean z3 = false;
                         this.masks = (readInt32 & 1) != 0;
-                        if ((readInt32 & 2) != 0) {
-                            z3 = true;
-                        }
-                        this.emojis = z3;
+                        this.emojis = (readInt32 & 2) != 0;
                     }
 
                     @Override // org.telegram.tgnet.TLObject
@@ -601,12 +593,12 @@ public abstract class TLRPC$Update extends TLObject {
                 tLRPC$TL_updateTheme = null;
                 break;
         }
-        if (tLRPC$TL_updateTheme != null || !z) {
-            if (tLRPC$TL_updateTheme != null) {
-                tLRPC$TL_updateTheme.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_updateTheme;
+        if (tLRPC$TL_updateTheme == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in Update", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in Update", Integer.valueOf(i)));
+        if (tLRPC$TL_updateTheme != null) {
+            tLRPC$TL_updateTheme.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_updateTheme;
     }
 }

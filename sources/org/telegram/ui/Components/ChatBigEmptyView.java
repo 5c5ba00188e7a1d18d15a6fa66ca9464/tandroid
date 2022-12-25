@@ -15,14 +15,16 @@ import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
 public class ChatBigEmptyView extends LinearLayout {
+    private ArrayList<ImageView> imageViews;
     private final Theme.ResourcesProvider resourcesProvider;
     private TextView statusTextView;
-    private ArrayList<TextView> textViews = new ArrayList<>();
-    private ArrayList<ImageView> imageViews = new ArrayList<>();
+    private ArrayList<TextView> textViews;
 
     public ChatBigEmptyView(Context context, View view, int i, Theme.ResourcesProvider resourcesProvider) {
         super(context);
         int i2;
+        this.textViews = new ArrayList<>();
+        this.imageViews = new ArrayList<>();
         this.resourcesProvider = resourcesProvider;
         setBackground(Theme.createServiceDrawable(AndroidUtilities.dp(18.0f), this, view, getThemedPaint("paintChatActionBackground")));
         setPadding(AndroidUtilities.dp(16.0f), AndroidUtilities.dp(12.0f), AndroidUtilities.dp(16.0f), AndroidUtilities.dp(12.0f));

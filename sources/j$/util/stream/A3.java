@@ -43,12 +43,8 @@ final class A3 extends d {
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // j$.util.stream.f
     public Object a() {
-        long j = -1;
         if (e()) {
-            if (d4.SIZED.e(this.j.c)) {
-                j = this.j.q0(this.b);
-            }
-            s1 t0 = this.j.t0(j, this.k);
+            s1 t0 = this.j.t0(d4.SIZED.e(this.j.c) ? this.j.q0(this.b) : -1L, this.k);
             m3 H0 = this.j.H0(this.a.s0(), t0);
             y2 y2Var = this.a;
             y2Var.o0(y2Var.v0(H0), this.b);
@@ -85,7 +81,7 @@ final class A3 extends d {
         return x2.k(this.j.B0());
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:10:0x0065  */
+    /* JADX WARN: Removed duplicated region for block: B:18:0x0065  */
     @Override // j$.util.stream.f, java.util.concurrent.CountedCompleter
     /*
         Code decompiled incorrectly, please refer to instructions dump.

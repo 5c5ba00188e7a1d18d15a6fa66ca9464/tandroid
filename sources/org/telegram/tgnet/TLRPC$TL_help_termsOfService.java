@@ -45,10 +45,9 @@ public class TLRPC$TL_help_termsOfService extends TLObject {
             }
             this.entities.add(TLdeserialize);
         }
-        if ((this.flags & 2) == 0) {
-            return;
+        if ((this.flags & 2) != 0) {
+            this.min_age_confirm = abstractSerializedData.readInt32(z);
         }
-        this.min_age_confirm = abstractSerializedData.readInt32(z);
     }
 
     @Override // org.telegram.tgnet.TLObject

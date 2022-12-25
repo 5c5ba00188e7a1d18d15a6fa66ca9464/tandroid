@@ -51,6 +51,7 @@ import org.telegram.ui.Cells.DialogCell;
 public class LinkActionView extends LinearLayout {
     private ActionBarPopupWindow actionBarPopupWindow;
     private final AvatarsContainer avatarsContainer;
+    private boolean canEdit;
     private final TextView copyView;
     private Delegate delegate;
     BaseFragment fragment;
@@ -62,12 +63,11 @@ public class LinkActionView extends LinearLayout {
     boolean loadingImporters;
     ImageView optionsView;
     private boolean permanent;
+    float[] point;
     private QRCodeBottomSheet qrCodeBottomSheet;
     private final TextView removeView;
     private final TextView shareView;
     private int usersCount;
-    private boolean canEdit = true;
-    float[] point = new float[2];
 
     /* loaded from: classes3.dex */
     public interface Delegate {
@@ -95,6 +95,8 @@ public class LinkActionView extends LinearLayout {
 
     public LinkActionView(final Context context, final BaseFragment baseFragment, final BottomSheet bottomSheet, long j, boolean z, boolean z2) {
         super(context);
+        this.canEdit = true;
+        this.point = new float[2];
         this.fragment = baseFragment;
         this.permanent = z;
         this.isChannel = z2;
@@ -313,77 +315,76 @@ public class LinkActionView extends LinearLayout {
         } else {
             container = bottomSheet.getContainer();
         }
-        if (container == null) {
-            return;
-        }
-        getPointOnScreen(this.frameLayout, container, this.point);
-        float f = this.point[1];
-        final View view2 = new View(context) { // from class: org.telegram.ui.Components.LinkActionView.1
-            @Override // android.view.View
-            protected void onDraw(Canvas canvas) {
-                canvas.drawColor(AndroidUtilities.DARK_STATUS_BAR_OVERLAY);
-                LinkActionView linkActionView = LinkActionView.this;
-                linkActionView.getPointOnScreen(linkActionView.frameLayout, container, LinkActionView.this.point);
-                canvas.save();
-                float y = ((View) LinkActionView.this.frameLayout.getParent()).getY() + LinkActionView.this.frameLayout.getY();
-                if (y < 1.0f) {
-                    canvas.clipRect(0.0f, (LinkActionView.this.point[1] - y) + 1.0f, getMeasuredWidth(), getMeasuredHeight());
-                }
-                float[] fArr = LinkActionView.this.point;
-                canvas.translate(fArr[0], fArr[1]);
-                LinkActionView.this.frameLayout.draw(canvas);
-                canvas.restore();
-            }
-        };
-        final ViewTreeObserver.OnPreDrawListener onPreDrawListener = new ViewTreeObserver.OnPreDrawListener(this) { // from class: org.telegram.ui.Components.LinkActionView.2
-            @Override // android.view.ViewTreeObserver.OnPreDrawListener
-            public boolean onPreDraw() {
-                view2.invalidate();
-                return true;
-            }
-        };
-        container.getViewTreeObserver().addOnPreDrawListener(onPreDrawListener);
-        container.addView(view2, LayoutHelper.createFrame(-1, -1.0f));
-        float f2 = 0.0f;
-        view2.setAlpha(0.0f);
-        view2.animate().alpha(1.0f).setDuration(150L);
-        actionBarPopupWindowLayout.measure(View.MeasureSpec.makeMeasureSpec(container.getMeasuredWidth(), 0), View.MeasureSpec.makeMeasureSpec(container.getMeasuredHeight(), 0));
-        ActionBarPopupWindow actionBarPopupWindow = new ActionBarPopupWindow(actionBarPopupWindowLayout, -2, -2);
-        this.actionBarPopupWindow = actionBarPopupWindow;
-        actionBarPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() { // from class: org.telegram.ui.Components.LinkActionView.3
-            @Override // android.widget.PopupWindow.OnDismissListener
-            public void onDismiss() {
-                LinkActionView.this.actionBarPopupWindow = null;
-                view2.animate().cancel();
-                view2.animate().alpha(0.0f).setDuration(150L).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.LinkActionView.3.1
-                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                    public void onAnimationEnd(Animator animator) {
-                        if (view2.getParent() != null) {
-                            3 r2 = 3.this;
-                            container.removeView(view2);
-                        }
-                        container.getViewTreeObserver().removeOnPreDrawListener(onPreDrawListener);
+        if (container != null) {
+            getPointOnScreen(this.frameLayout, container, this.point);
+            float f = this.point[1];
+            final View view2 = new View(context) { // from class: org.telegram.ui.Components.LinkActionView.1
+                @Override // android.view.View
+                protected void onDraw(Canvas canvas) {
+                    canvas.drawColor(AndroidUtilities.DARK_STATUS_BAR_OVERLAY);
+                    LinkActionView linkActionView = LinkActionView.this;
+                    linkActionView.getPointOnScreen(linkActionView.frameLayout, container, LinkActionView.this.point);
+                    canvas.save();
+                    float y = ((View) LinkActionView.this.frameLayout.getParent()).getY() + LinkActionView.this.frameLayout.getY();
+                    if (y < 1.0f) {
+                        canvas.clipRect(0.0f, (LinkActionView.this.point[1] - y) + 1.0f, getMeasuredWidth(), getMeasuredHeight());
                     }
-                });
+                    float[] fArr = LinkActionView.this.point;
+                    canvas.translate(fArr[0], fArr[1]);
+                    LinkActionView.this.frameLayout.draw(canvas);
+                    canvas.restore();
+                }
+            };
+            final ViewTreeObserver.OnPreDrawListener onPreDrawListener = new ViewTreeObserver.OnPreDrawListener(this) { // from class: org.telegram.ui.Components.LinkActionView.2
+                @Override // android.view.ViewTreeObserver.OnPreDrawListener
+                public boolean onPreDraw() {
+                    view2.invalidate();
+                    return true;
+                }
+            };
+            container.getViewTreeObserver().addOnPreDrawListener(onPreDrawListener);
+            container.addView(view2, LayoutHelper.createFrame(-1, -1.0f));
+            float f2 = 0.0f;
+            view2.setAlpha(0.0f);
+            view2.animate().alpha(1.0f).setDuration(150L);
+            actionBarPopupWindowLayout.measure(View.MeasureSpec.makeMeasureSpec(container.getMeasuredWidth(), 0), View.MeasureSpec.makeMeasureSpec(container.getMeasuredHeight(), 0));
+            ActionBarPopupWindow actionBarPopupWindow = new ActionBarPopupWindow(actionBarPopupWindowLayout, -2, -2);
+            this.actionBarPopupWindow = actionBarPopupWindow;
+            actionBarPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() { // from class: org.telegram.ui.Components.LinkActionView.3
+                @Override // android.widget.PopupWindow.OnDismissListener
+                public void onDismiss() {
+                    LinkActionView.this.actionBarPopupWindow = null;
+                    view2.animate().cancel();
+                    view2.animate().alpha(0.0f).setDuration(150L).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.LinkActionView.3.1
+                        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                        public void onAnimationEnd(Animator animator) {
+                            if (view2.getParent() != null) {
+                                3 r2 = 3.this;
+                                container.removeView(view2);
+                            }
+                            container.getViewTreeObserver().removeOnPreDrawListener(onPreDrawListener);
+                        }
+                    });
+                }
+            });
+            this.actionBarPopupWindow.setOutsideTouchable(true);
+            this.actionBarPopupWindow.setFocusable(true);
+            this.actionBarPopupWindow.setBackgroundDrawable(new ColorDrawable(0));
+            this.actionBarPopupWindow.setAnimationStyle(R.style.PopupContextAnimation);
+            this.actionBarPopupWindow.setInputMethodMode(2);
+            this.actionBarPopupWindow.setSoftInputMode(0);
+            actionBarPopupWindowLayout.setDispatchKeyEventListener(new ActionBarPopupWindow.OnDispatchKeyEventListener() { // from class: org.telegram.ui.Components.LinkActionView$$ExternalSyntheticLambda12
+                @Override // org.telegram.ui.ActionBar.ActionBarPopupWindow.OnDispatchKeyEventListener
+                public final void onDispatchKeyEvent(KeyEvent keyEvent) {
+                    LinkActionView.this.lambda$new$8(keyEvent);
+                }
+            });
+            if (AndroidUtilities.isTablet()) {
+                f += container.getPaddingTop();
+                f2 = 0.0f - container.getPaddingLeft();
             }
-        });
-        this.actionBarPopupWindow.setOutsideTouchable(true);
-        this.actionBarPopupWindow.setFocusable(true);
-        this.actionBarPopupWindow.setBackgroundDrawable(new ColorDrawable(0));
-        this.actionBarPopupWindow.setAnimationStyle(R.style.PopupContextAnimation);
-        this.actionBarPopupWindow.setInputMethodMode(2);
-        this.actionBarPopupWindow.setSoftInputMode(0);
-        actionBarPopupWindowLayout.setDispatchKeyEventListener(new ActionBarPopupWindow.OnDispatchKeyEventListener() { // from class: org.telegram.ui.Components.LinkActionView$$ExternalSyntheticLambda12
-            @Override // org.telegram.ui.ActionBar.ActionBarPopupWindow.OnDispatchKeyEventListener
-            public final void onDispatchKeyEvent(KeyEvent keyEvent) {
-                LinkActionView.this.lambda$new$8(keyEvent);
-            }
-        });
-        if (AndroidUtilities.isTablet()) {
-            f += container.getPaddingTop();
-            f2 = 0.0f - container.getPaddingLeft();
+            this.actionBarPopupWindow.showAtLocation(container, 0, (int) (((container.getMeasuredWidth() - actionBarPopupWindowLayout.getMeasuredWidth()) - AndroidUtilities.dp(16.0f)) + container.getX() + f2), (int) (f + this.frameLayout.getMeasuredHeight() + container.getY()));
         }
-        this.actionBarPopupWindow.showAtLocation(container, 0, (int) (((container.getMeasuredWidth() - actionBarPopupWindowLayout.getMeasuredWidth()) - AndroidUtilities.dp(16.0f)) + container.getX() + f2), (int) (f + this.frameLayout.getMeasuredHeight() + container.getY()));
     }
 
     /* JADX INFO: Access modifiers changed from: private */

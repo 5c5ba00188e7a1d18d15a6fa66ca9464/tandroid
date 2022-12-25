@@ -11,14 +11,14 @@ import org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble;
 /* loaded from: classes3.dex */
 public class ReactionsUtils {
     public static boolean compare(TLRPC$Reaction tLRPC$Reaction, ReactionsLayoutInBubble.VisibleReaction visibleReaction) {
-        if (!(tLRPC$Reaction instanceof TLRPC$TL_reactionEmoji) || visibleReaction.documentId != 0 || !TextUtils.equals(((TLRPC$TL_reactionEmoji) tLRPC$Reaction).emoticon, visibleReaction.emojicon)) {
-            if (!(tLRPC$Reaction instanceof TLRPC$TL_reactionCustomEmoji)) {
-                return false;
-            }
+        if ((tLRPC$Reaction instanceof TLRPC$TL_reactionEmoji) && visibleReaction.documentId == 0 && TextUtils.equals(((TLRPC$TL_reactionEmoji) tLRPC$Reaction).emoticon, visibleReaction.emojicon)) {
+            return true;
+        }
+        if (tLRPC$Reaction instanceof TLRPC$TL_reactionCustomEmoji) {
             long j = visibleReaction.documentId;
             return j != 0 && ((TLRPC$TL_reactionCustomEmoji) tLRPC$Reaction).document_id == j;
         }
-        return true;
+        return false;
     }
 
     public static TLRPC$Reaction toTLReaction(ReactionsLayoutInBubble.VisibleReaction visibleReaction) {
@@ -36,11 +36,11 @@ public class ReactionsUtils {
         if (tLRPC$Reaction instanceof TLRPC$TL_reactionEmoji) {
             return ((TLRPC$TL_reactionEmoji) tLRPC$Reaction).emoticon;
         }
-        if (!(tLRPC$Reaction instanceof TLRPC$TL_reactionCustomEmoji)) {
-            return "";
+        if (tLRPC$Reaction instanceof TLRPC$TL_reactionCustomEmoji) {
+            SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder("d");
+            spannableStringBuilder.setSpan(new AnimatedEmojiSpan(((TLRPC$TL_reactionCustomEmoji) tLRPC$Reaction).document_id, (Paint.FontMetricsInt) null), 0, 1, 0);
+            return spannableStringBuilder;
         }
-        SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder("d");
-        spannableStringBuilder.setSpan(new AnimatedEmojiSpan(((TLRPC$TL_reactionCustomEmoji) tLRPC$Reaction).document_id, (Paint.FontMetricsInt) null), 0, 1, 0);
-        return spannableStringBuilder;
+        return "";
     }
 }

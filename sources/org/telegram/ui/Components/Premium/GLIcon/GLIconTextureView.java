@@ -30,11 +30,17 @@ import org.telegram.ui.Components.Premium.GLIcon.GLIconTextureView;
 import org.telegram.ui.Components.Premium.StarParticlesView;
 /* loaded from: classes3.dex */
 public class GLIconTextureView extends TextureView implements TextureView.SurfaceTextureListener {
+    ArrayList<Integer> animationIndexes;
     int animationPointer;
+    AnimatorSet animatorSet;
     boolean attached;
     ValueAnimator backAnimation;
+    private boolean dialogIsVisible;
     private EGLConfig eglConfig;
     GestureDetector gestureDetector;
+    Runnable idleAnimation;
+    private long idleDelay;
+    public boolean isRunning;
     private EGL10 mEgl;
     private EGLContext mEglContext;
     private EGLDisplay mEglDisplay;
@@ -42,6 +48,8 @@ public class GLIconTextureView extends TextureView implements TextureView.Surfac
     private GL10 mGl;
     public GLIconRenderer mRenderer;
     private SurfaceTexture mSurface;
+    private boolean paused;
+    private boolean rendererChanged;
     StarParticlesView starParticlesView;
     private int surfaceHeight;
     private int surfaceWidth;
@@ -49,44 +57,9 @@ public class GLIconTextureView extends TextureView implements TextureView.Surfac
     private int targetFrameDurationMillis;
     private RenderThread thread;
     public boolean touched;
-    public boolean isRunning = false;
-    private boolean paused = true;
-    private boolean rendererChanged = false;
-    private boolean dialogIsVisible = false;
-    private long idleDelay = 2000;
-    ArrayList<Integer> animationIndexes = new ArrayList<>();
-    AnimatorSet animatorSet = new AnimatorSet();
-    Runnable idleAnimation = new Runnable() { // from class: org.telegram.ui.Components.Premium.GLIcon.GLIconTextureView.2
-        @Override // java.lang.Runnable
-        public void run() {
-            ValueAnimator valueAnimator;
-            AnimatorSet animatorSet = GLIconTextureView.this.animatorSet;
-            if ((animatorSet == null || !animatorSet.isRunning()) && ((valueAnimator = GLIconTextureView.this.backAnimation) == null || !valueAnimator.isRunning())) {
-                GLIconTextureView.this.startIdleAnimation();
-                return;
-            }
-            GLIconTextureView gLIconTextureView = GLIconTextureView.this;
-            gLIconTextureView.scheduleIdleAnimation(gLIconTextureView.idleDelay);
-        }
-    };
-    ValueAnimator.AnimatorUpdateListener xUpdater2 = new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Premium.GLIcon.GLIconTextureView$$ExternalSyntheticLambda0
-        @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-        public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-            GLIconTextureView.this.lambda$new$1(valueAnimator);
-        }
-    };
-    ValueAnimator.AnimatorUpdateListener xUpdater = new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Premium.GLIcon.GLIconTextureView$$ExternalSyntheticLambda1
-        @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-        public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-            GLIconTextureView.this.lambda$new$2(valueAnimator);
-        }
-    };
-    ValueAnimator.AnimatorUpdateListener yUpdater = new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Premium.GLIcon.GLIconTextureView$$ExternalSyntheticLambda2
-        @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-        public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-            GLIconTextureView.this.lambda$new$3(valueAnimator);
-        }
-    };
+    ValueAnimator.AnimatorUpdateListener xUpdater;
+    ValueAnimator.AnimatorUpdateListener xUpdater2;
+    ValueAnimator.AnimatorUpdateListener yUpdater;
 
     public void onLongPress() {
     }
@@ -97,6 +70,44 @@ public class GLIconTextureView extends TextureView implements TextureView.Surfac
 
     public GLIconTextureView(Context context, int i) {
         super(context);
+        this.isRunning = false;
+        this.paused = true;
+        this.rendererChanged = false;
+        this.dialogIsVisible = false;
+        this.idleDelay = 2000L;
+        this.animationIndexes = new ArrayList<>();
+        this.animatorSet = new AnimatorSet();
+        this.idleAnimation = new Runnable() { // from class: org.telegram.ui.Components.Premium.GLIcon.GLIconTextureView.2
+            @Override // java.lang.Runnable
+            public void run() {
+                ValueAnimator valueAnimator;
+                AnimatorSet animatorSet = GLIconTextureView.this.animatorSet;
+                if ((animatorSet == null || !animatorSet.isRunning()) && ((valueAnimator = GLIconTextureView.this.backAnimation) == null || !valueAnimator.isRunning())) {
+                    GLIconTextureView.this.startIdleAnimation();
+                    return;
+                }
+                GLIconTextureView gLIconTextureView = GLIconTextureView.this;
+                gLIconTextureView.scheduleIdleAnimation(gLIconTextureView.idleDelay);
+            }
+        };
+        this.xUpdater2 = new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Premium.GLIcon.GLIconTextureView$$ExternalSyntheticLambda0
+            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+            public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                GLIconTextureView.this.lambda$new$1(valueAnimator);
+            }
+        };
+        this.xUpdater = new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Premium.GLIcon.GLIconTextureView$$ExternalSyntheticLambda1
+            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+            public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                GLIconTextureView.this.lambda$new$2(valueAnimator);
+            }
+        };
+        this.yUpdater = new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Premium.GLIcon.GLIconTextureView$$ExternalSyntheticLambda2
+            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+            public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                GLIconTextureView.this.lambda$new$3(valueAnimator);
+            }
+        };
         setOpaque(false);
         setRenderer(new GLIconRenderer(context, i));
         initialize(context);
@@ -375,16 +386,17 @@ public class GLIconTextureView extends TextureView implements TextureView.Surfac
     }
 
     private void checkCurrent() {
-        if (!this.mEglContext.equals(this.mEgl.eglGetCurrentContext()) || !this.mEglSurface.equals(this.mEgl.eglGetCurrentSurface(12377))) {
-            checkEglError();
-            EGL10 egl10 = this.mEgl;
-            EGLDisplay eGLDisplay = this.mEglDisplay;
-            EGLSurface eGLSurface = this.mEglSurface;
-            if (!egl10.eglMakeCurrent(eGLDisplay, eGLSurface, eGLSurface, this.mEglContext)) {
-                throw new RuntimeException("eglMakeCurrent failed " + GLUtils.getEGLErrorString(this.mEgl.eglGetError()));
-            }
-            checkEglError();
+        if (this.mEglContext.equals(this.mEgl.eglGetCurrentContext()) && this.mEglSurface.equals(this.mEgl.eglGetCurrentSurface(12377))) {
+            return;
         }
+        checkEglError();
+        EGL10 egl10 = this.mEgl;
+        EGLDisplay eGLDisplay = this.mEglDisplay;
+        EGLSurface eGLSurface = this.mEglSurface;
+        if (!egl10.eglMakeCurrent(eGLDisplay, eGLSurface, eGLSurface, this.mEglContext)) {
+            throw new RuntimeException("eglMakeCurrent failed " + GLUtils.getEGLErrorString(this.mEgl.eglGetError()));
+        }
+        checkEglError();
     }
 
     private void checkEglError() {
@@ -553,24 +565,23 @@ public class GLIconTextureView extends TextureView implements TextureView.Surfac
 
     /* JADX INFO: Access modifiers changed from: private */
     public void startIdleAnimation() {
-        if (!this.attached) {
-            return;
-        }
-        int intValue = this.animationIndexes.get(this.animationPointer).intValue();
-        int i = this.animationPointer + 1;
-        this.animationPointer = i;
-        if (i >= this.animationIndexes.size()) {
-            Collections.shuffle(this.animationIndexes);
-            this.animationPointer = 0;
-        }
-        if (intValue == 0) {
-            pullAnimation();
-        } else if (intValue == 1) {
-            slowFlipAination();
-        } else if (intValue == 2) {
-            sleepAnimation();
-        } else {
-            flipAnimation();
+        if (this.attached) {
+            int intValue = this.animationIndexes.get(this.animationPointer).intValue();
+            int i = this.animationPointer + 1;
+            this.animationPointer = i;
+            if (i >= this.animationIndexes.size()) {
+                Collections.shuffle(this.animationIndexes);
+                this.animationPointer = 0;
+            }
+            if (intValue == 0) {
+                pullAnimation();
+            } else if (intValue == 1) {
+                slowFlipAination();
+            } else if (intValue == 2) {
+                sleepAnimation();
+            } else {
+                flipAnimation();
+            }
         }
     }
 
@@ -610,11 +621,7 @@ public class GLIconTextureView extends TextureView implements TextureView.Surfac
             ofFloat2.setInterpolator(AndroidUtilities.overshootInterpolator);
             this.animatorSet.playTogether(ofFloat, ofFloat2);
         } else {
-            int i = 485;
-            if (abs == 2) {
-                i = -485;
-            }
-            float f2 = i;
+            float f2 = abs == 2 ? -485 : 485;
             ValueAnimator ofFloat3 = ValueAnimator.ofFloat(this.mRenderer.angleY, f2);
             ofFloat3.addUpdateListener(this.xUpdater);
             ofFloat3.setDuration(3000L);

@@ -15,12 +15,12 @@ public abstract class TLRPC$help_PassportConfig extends TLObject {
         } else {
             tLRPC$TL_help_passportConfig = new TLRPC$TL_help_passportConfig();
         }
-        if (tLRPC$TL_help_passportConfig != null || !z) {
-            if (tLRPC$TL_help_passportConfig != null) {
-                tLRPC$TL_help_passportConfig.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_help_passportConfig;
+        if (tLRPC$TL_help_passportConfig == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in help_PassportConfig", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in help_PassportConfig", Integer.valueOf(i)));
+        if (tLRPC$TL_help_passportConfig != null) {
+            tLRPC$TL_help_passportConfig.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_help_passportConfig;
     }
 }

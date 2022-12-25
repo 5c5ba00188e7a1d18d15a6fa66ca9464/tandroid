@@ -17,13 +17,12 @@ final class r2 extends s2 {
     @Override // j$.util.function.Consumer
     public void accept(Object obj) {
         int i = this.f;
-        if (i < this.g) {
-            Object[] objArr = this.h;
-            this.f = i + 1;
-            objArr[i] = obj;
-            return;
+        if (i >= this.g) {
+            throw new IndexOutOfBoundsException(Integer.toString(this.f));
         }
-        throw new IndexOutOfBoundsException(Integer.toString(this.f));
+        Object[] objArr = this.h;
+        this.f = i + 1;
+        objArr[i] = obj;
     }
 
     @Override // j$.util.stream.s2

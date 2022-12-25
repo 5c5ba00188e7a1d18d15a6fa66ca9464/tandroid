@@ -39,16 +39,16 @@ class J extends f3 {
                         throw th;
                     }
                 }
-                if (u == null) {
+                if (u != null) {
+                    u.close();
                     return;
                 }
-                u.close();
                 return;
             case 5:
-                if (!((j$.wrappers.D) ((K) this.c).m).b(d)) {
+                if (((j$.wrappers.D) ((K) this.c).m).b(d)) {
+                    this.a.accept(d);
                     return;
                 }
-                this.a.accept(d);
                 return;
             default:
                 ((j$.util.function.f) ((K) this.c).m).accept(d);

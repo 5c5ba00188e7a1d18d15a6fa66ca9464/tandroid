@@ -59,13 +59,13 @@ final class AudioTagPayloadReader extends TagPayloadReader {
             this.output.format(Format.createAudioSampleFormat(null, MediaController.AUIDO_MIME_TYPE, null, -1, -1, ((Integer) parseAacAudioSpecificConfig.second).intValue(), ((Integer) parseAacAudioSpecificConfig.first).intValue(), Collections.singletonList(bArr), null, 0, null));
             this.hasOutputFormat = true;
             return false;
-        } else if (this.audioFormat == 10 && readUnsignedByte != 1) {
-            return false;
-        } else {
+        } else if (this.audioFormat != 10 || readUnsignedByte == 1) {
             int bytesLeft3 = parsableByteArray.bytesLeft();
             this.output.sampleData(parsableByteArray, bytesLeft3);
             this.output.sampleMetadata(j, 1, bytesLeft3, 0, null);
             return true;
+        } else {
+            return false;
         }
     }
 }

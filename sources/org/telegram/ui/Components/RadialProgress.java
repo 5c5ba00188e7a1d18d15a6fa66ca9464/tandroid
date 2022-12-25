@@ -71,85 +71,70 @@ public class RadialProgress {
         long j = currentTimeMillis - this.lastUpdateTime;
         this.lastUpdateTime = currentTimeMillis;
         Drawable drawable = this.checkBackgroundDrawable;
-        if (drawable == null || !(this.currentDrawable == drawable || this.previousDrawable == drawable)) {
-            boolean z2 = true;
-            if (z) {
-                if (this.animatedProgressValue != 1.0f) {
-                    this.radOffset += ((float) (360 * j)) / 3000.0f;
-                    float f = this.currentProgress;
-                    float f2 = this.animationProgressStart;
-                    float f3 = f - f2;
-                    if (f3 > 0.0f) {
-                        long j2 = this.currentProgressTime + j;
-                        this.currentProgressTime = j2;
-                        if (j2 >= 300) {
-                            this.animatedProgressValue = f;
-                            this.animationProgressStart = f;
-                            this.currentProgressTime = 0L;
-                        } else {
-                            this.animatedProgressValue = f2 + (f3 * decelerateInterpolator.getInterpolation(((float) j2) / 300.0f));
-                        }
+        if (drawable != null && (this.currentDrawable == drawable || this.previousDrawable == drawable)) {
+            throw null;
+        }
+        if (z) {
+            if (this.animatedProgressValue != 1.0f) {
+                this.radOffset += ((float) (360 * j)) / 3000.0f;
+                float f = this.currentProgress;
+                float f2 = this.animationProgressStart;
+                float f3 = f - f2;
+                if (f3 > 0.0f) {
+                    long j2 = this.currentProgressTime + j;
+                    this.currentProgressTime = j2;
+                    if (j2 >= 300) {
+                        this.animatedProgressValue = f;
+                        this.animationProgressStart = f;
+                        this.currentProgressTime = 0L;
+                    } else {
+                        this.animatedProgressValue = f2 + (f3 * decelerateInterpolator.getInterpolation(((float) j2) / 300.0f));
                     }
-                    invalidateParent();
                 }
-                if (this.drawMiniProgress) {
-                    if (this.animatedProgressValue < 1.0f || this.previousMiniDrawable == null) {
-                        return;
-                    }
-                    float f4 = this.animatedAlphaValue - (((float) j) / 200.0f);
-                    this.animatedAlphaValue = f4;
-                    if (f4 <= 0.0f) {
-                        this.animatedAlphaValue = 0.0f;
-                        this.previousMiniDrawable = null;
-                        if (this.currentMiniDrawable == null) {
-                            z2 = false;
-                        }
-                        this.drawMiniProgress = z2;
-                    }
-                    invalidateParent();
-                    return;
-                } else if (this.animatedProgressValue < 1.0f || this.previousDrawable == null) {
-                    return;
-                } else {
-                    float f5 = this.animatedAlphaValue - (((float) j) / 200.0f);
-                    this.animatedAlphaValue = f5;
-                    if (f5 <= 0.0f) {
-                        this.animatedAlphaValue = 0.0f;
-                        this.previousDrawable = null;
-                    }
-                    invalidateParent();
+                invalidateParent();
+            }
+            if (this.drawMiniProgress) {
+                if (this.animatedProgressValue < 1.0f || this.previousMiniDrawable == null) {
                     return;
                 }
-            } else if (this.drawMiniProgress) {
-                if (this.previousMiniDrawable == null) {
-                    return;
+                float f4 = this.animatedAlphaValue - (((float) j) / 200.0f);
+                this.animatedAlphaValue = f4;
+                if (f4 <= 0.0f) {
+                    this.animatedAlphaValue = 0.0f;
+                    this.previousMiniDrawable = null;
+                    this.drawMiniProgress = this.currentMiniDrawable != null;
                 }
+                invalidateParent();
+            } else if (this.animatedProgressValue < 1.0f || this.previousDrawable == null) {
+            } else {
+                float f5 = this.animatedAlphaValue - (((float) j) / 200.0f);
+                this.animatedAlphaValue = f5;
+                if (f5 <= 0.0f) {
+                    this.animatedAlphaValue = 0.0f;
+                    this.previousDrawable = null;
+                }
+                invalidateParent();
+            }
+        } else if (this.drawMiniProgress) {
+            if (this.previousMiniDrawable != null) {
                 float f6 = this.animatedAlphaValue - (((float) j) / 200.0f);
                 this.animatedAlphaValue = f6;
                 if (f6 <= 0.0f) {
                     this.animatedAlphaValue = 0.0f;
                     this.previousMiniDrawable = null;
-                    if (this.currentMiniDrawable == null) {
-                        z2 = false;
-                    }
-                    this.drawMiniProgress = z2;
+                    this.drawMiniProgress = this.currentMiniDrawable != null;
                 }
                 invalidateParent();
-                return;
-            } else if (this.previousDrawable == null) {
-                return;
-            } else {
-                float f7 = this.animatedAlphaValue - (((float) j) / 200.0f);
-                this.animatedAlphaValue = f7;
-                if (f7 <= 0.0f) {
-                    this.animatedAlphaValue = 0.0f;
-                    this.previousDrawable = null;
-                }
-                invalidateParent();
-                return;
             }
+        } else if (this.previousDrawable != null) {
+            float f7 = this.animatedAlphaValue - (((float) j) / 200.0f);
+            this.animatedAlphaValue = f7;
+            if (f7 <= 0.0f) {
+                this.animatedAlphaValue = 0.0f;
+                this.previousDrawable = null;
+            }
+            invalidateParent();
         }
-        throw null;
     }
 
     public void setProgressColor(int i) {

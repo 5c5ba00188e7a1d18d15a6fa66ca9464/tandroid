@@ -198,18 +198,15 @@ public class Painting {
             if (paintingDelegate != null) {
                 paintingDelegate.contentChanged();
             }
-            if (!this.helperShown) {
-                return;
+            if (this.helperShown) {
+                BotWebViewVibrationEffect.SELECTION_CHANGE.vibrate();
             }
-            BotWebViewVibrationEffect.SELECTION_CHANGE.vibrate();
-        } else if (shape == this.helperShape) {
-        } else {
+        } else if (shape != this.helperShape) {
             this.helperShape = shape;
             PaintingDelegate paintingDelegate2 = this.delegate;
-            if (paintingDelegate2 == null) {
-                return;
+            if (paintingDelegate2 != null) {
+                paintingDelegate2.contentChanged();
             }
-            paintingDelegate2.contentChanged();
         }
     }
 
@@ -711,10 +708,9 @@ public class Painting {
         if (!isSuppressingChanges() && (paintingDelegate = this.delegate) != null) {
             paintingDelegate.contentChanged();
         }
-        if (!z) {
-            return;
+        if (z) {
+            slice.cleanResources();
         }
-        slice.cleanResources();
     }
 
     public void setRenderProjection(float[] fArr) {

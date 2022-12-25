@@ -52,13 +52,9 @@ public final class ApicFrame extends Id3Frame {
     public int hashCode() {
         int i = (527 + this.pictureType) * 31;
         String str = this.mimeType;
-        int i2 = 0;
         int hashCode = (i + (str != null ? str.hashCode() : 0)) * 31;
         String str2 = this.description;
-        if (str2 != null) {
-            i2 = str2.hashCode();
-        }
-        return ((hashCode + i2) * 31) + Arrays.hashCode(this.pictureData);
+        return ((hashCode + (str2 != null ? str2.hashCode() : 0)) * 31) + Arrays.hashCode(this.pictureData);
     }
 
     @Override // com.google.android.exoplayer2.metadata.id3.Id3Frame

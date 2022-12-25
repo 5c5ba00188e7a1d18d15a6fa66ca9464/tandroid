@@ -82,17 +82,15 @@ public final class LoopingMediaSource extends CompositeMediaSource<Void> {
         private final int childWindowCount;
         private final int loopCount;
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public LoopingTimeline(Timeline timeline, int i) {
             super(false, new ShuffleOrder.UnshuffledShuffleOrder(i));
-            boolean z = false;
             this.childTimeline = timeline;
             int periodCount = timeline.getPeriodCount();
             this.childPeriodCount = periodCount;
             this.childWindowCount = timeline.getWindowCount();
             this.loopCount = i;
             if (periodCount > 0) {
-                Assertions.checkState(i <= ConnectionsManager.DEFAULT_DATACENTER_ID / periodCount ? true : z, "LoopingMediaSource contains too many periods");
+                Assertions.checkState(i <= ConnectionsManager.DEFAULT_DATACENTER_ID / periodCount, "LoopingMediaSource contains too many periods");
             }
         }
 
@@ -118,10 +116,10 @@ public final class LoopingMediaSource extends CompositeMediaSource<Void> {
 
         @Override // com.google.android.exoplayer2.source.AbstractConcatenatedTimeline
         protected int getChildIndexByChildUid(Object obj) {
-            if (!(obj instanceof Integer)) {
-                return -1;
+            if (obj instanceof Integer) {
+                return ((Integer) obj).intValue();
             }
-            return ((Integer) obj).intValue();
+            return -1;
         }
 
         @Override // com.google.android.exoplayer2.source.AbstractConcatenatedTimeline

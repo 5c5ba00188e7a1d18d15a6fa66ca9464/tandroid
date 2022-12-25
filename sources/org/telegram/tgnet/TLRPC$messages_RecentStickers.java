@@ -15,12 +15,12 @@ public abstract class TLRPC$messages_RecentStickers extends TLObject {
                 }
             };
         }
-        if (tLRPC$TL_messages_recentStickers != null || !z) {
-            if (tLRPC$TL_messages_recentStickers != null) {
-                tLRPC$TL_messages_recentStickers.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_messages_recentStickers;
+        if (tLRPC$TL_messages_recentStickers == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in messages_RecentStickers", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in messages_RecentStickers", Integer.valueOf(i)));
+        if (tLRPC$TL_messages_recentStickers != null) {
+            tLRPC$TL_messages_recentStickers.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_messages_recentStickers;
     }
 }

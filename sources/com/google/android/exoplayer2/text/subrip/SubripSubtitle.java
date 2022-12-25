@@ -32,12 +32,8 @@ final class SubripSubtitle implements Subtitle {
 
     @Override // com.google.android.exoplayer2.text.Subtitle
     public long getEventTime(int i) {
-        boolean z = true;
         Assertions.checkArgument(i >= 0);
-        if (i >= this.cueTimesUs.length) {
-            z = false;
-        }
-        Assertions.checkArgument(z);
+        Assertions.checkArgument(i < this.cueTimesUs.length);
         return this.cueTimesUs[i];
     }
 

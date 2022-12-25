@@ -57,12 +57,12 @@ public abstract class TLRPC$Updates extends TLObject {
                 tLRPC$TL_updateShortSentMessage = null;
                 break;
         }
-        if (tLRPC$TL_updateShortSentMessage != null || !z) {
-            if (tLRPC$TL_updateShortSentMessage != null) {
-                tLRPC$TL_updateShortSentMessage.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_updateShortSentMessage;
+        if (tLRPC$TL_updateShortSentMessage == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in Updates", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in Updates", Integer.valueOf(i)));
+        if (tLRPC$TL_updateShortSentMessage != null) {
+            tLRPC$TL_updateShortSentMessage.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_updateShortSentMessage;
     }
 }

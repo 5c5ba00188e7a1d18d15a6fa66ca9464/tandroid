@@ -27,25 +27,18 @@ public final class RangedUri {
         String resolveUriString = resolveUriString(str);
         if (rangedUri != null && resolveUriString.equals(rangedUri.resolveUriString(str))) {
             long j = this.length;
-            long j2 = -1;
             if (j != -1) {
-                long j3 = this.start;
-                if (j3 + j == rangedUri.start) {
-                    long j4 = rangedUri.length;
-                    if (j4 != -1) {
-                        j2 = j + j4;
-                    }
-                    return new RangedUri(resolveUriString, j3, j2);
+                long j2 = this.start;
+                if (j2 + j == rangedUri.start) {
+                    long j3 = rangedUri.length;
+                    return new RangedUri(resolveUriString, j2, j3 != -1 ? j + j3 : -1L);
                 }
             }
-            long j5 = rangedUri.length;
-            if (j5 != -1) {
-                long j6 = rangedUri.start;
-                if (j6 + j5 == this.start) {
-                    if (j != -1) {
-                        j2 = j5 + j;
-                    }
-                    return new RangedUri(resolveUriString, j6, j2);
+            long j4 = rangedUri.length;
+            if (j4 != -1) {
+                long j5 = rangedUri.start;
+                if (j5 + j4 == this.start) {
+                    return new RangedUri(resolveUriString, j5, j != -1 ? j4 + j : -1L);
                 }
             }
         }

@@ -19,10 +19,10 @@ public final class DummyTrackOutput implements TrackOutput {
     public int sampleData(ExtractorInput extractorInput, int i, boolean z) throws IOException, InterruptedException {
         int skip = extractorInput.skip(i);
         if (skip == -1) {
-            if (!z) {
-                throw new EOFException();
+            if (z) {
+                return -1;
             }
-            return -1;
+            throw new EOFException();
         }
         return skip;
     }

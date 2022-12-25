@@ -199,7 +199,6 @@ public class ChatActivityMemberRequestsDelegate {
     }
 
     private void animatePendingRequests(final boolean z, boolean z2) {
-        int i = 0;
         if (z == (this.root.getVisibility() == 0)) {
             return;
         }
@@ -207,12 +206,12 @@ public class ChatActivityMemberRequestsDelegate {
             if (this.closePendingRequestsCount == -1 && this.currentChat != null) {
                 this.closePendingRequestsCount = this.fragment.getMessagesController().getChatPendingRequestsOnClosed(this.currentChat.id);
             }
-            int i2 = this.pendingRequestsCount;
-            int i3 = this.closePendingRequestsCount;
-            if (i2 == i3) {
+            int i = this.pendingRequestsCount;
+            int i2 = this.closePendingRequestsCount;
+            if (i == i2) {
                 return;
             }
-            if (i3 != 0 && this.currentChat != null) {
+            if (i2 != 0 && this.currentChat != null) {
                 this.fragment.getMessagesController().setChatPendingRequestsOnClose(this.currentChat.id, 0);
             }
         }
@@ -220,14 +219,10 @@ public class ChatActivityMemberRequestsDelegate {
         if (valueAnimator != null) {
             valueAnimator.cancel();
         }
-        float f = 0.0f;
         if (z2) {
             float[] fArr = new float[2];
             fArr[0] = z ? 0.0f : 1.0f;
-            if (z) {
-                f = 1.0f;
-            }
-            fArr[1] = f;
+            fArr[1] = z ? 1.0f : 0.0f;
             ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
             this.pendingRequestsAnimator = ofFloat;
             ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Delegates.ChatActivityMemberRequestsDelegate$$ExternalSyntheticLambda0
@@ -258,20 +253,12 @@ public class ChatActivityMemberRequestsDelegate {
             this.pendingRequestsAnimator.start();
             return;
         }
-        FrameLayout frameLayout = this.root;
-        if (!z) {
-            i = 8;
-        }
-        frameLayout.setVisibility(i);
-        if (!z) {
-            f = -getViewHeight();
-        }
-        this.pendingRequestsEnterOffset = f;
+        this.root.setVisibility(z ? 0 : 8);
+        this.pendingRequestsEnterOffset = z ? 0.0f : -getViewHeight();
         Callback callback = this.callback;
-        if (callback == null) {
-            return;
+        if (callback != null) {
+            callback.onEnterOffsetChanged();
         }
-        callback.onEnterOffsetChanged();
     }
 
     /* JADX INFO: Access modifiers changed from: private */

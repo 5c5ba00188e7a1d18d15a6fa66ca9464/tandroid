@@ -12,12 +12,12 @@ import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
 public class BetterRatingView extends View {
+    private Bitmap filledStar;
+    private Bitmap hollowStar;
     private OnRatingChangeListener listener;
-    private Paint paint = new Paint();
-    private int numStars = 5;
-    private int selectedRating = 0;
-    private Bitmap filledStar = BitmapFactory.decodeResource(getResources(), R.drawable.ic_rating_star_filled).extractAlpha();
-    private Bitmap hollowStar = BitmapFactory.decodeResource(getResources(), R.drawable.ic_rating_star).extractAlpha();
+    private int numStars;
+    private Paint paint;
+    private int selectedRating;
 
     /* loaded from: classes3.dex */
     public interface OnRatingChangeListener {
@@ -26,6 +26,11 @@ public class BetterRatingView extends View {
 
     public BetterRatingView(Context context) {
         super(context);
+        this.paint = new Paint();
+        this.numStars = 5;
+        this.selectedRating = 0;
+        this.filledStar = BitmapFactory.decodeResource(getResources(), R.drawable.ic_rating_star_filled).extractAlpha();
+        this.hollowStar = BitmapFactory.decodeResource(getResources(), R.drawable.ic_rating_star).extractAlpha();
     }
 
     @Override // android.view.View

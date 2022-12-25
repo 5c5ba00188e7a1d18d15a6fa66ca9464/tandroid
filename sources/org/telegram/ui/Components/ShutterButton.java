@@ -18,25 +18,17 @@ import org.telegram.messenger.R;
 /* loaded from: classes3.dex */
 public class ShutterButton extends View {
     private ShutterButtonDelegate delegate;
+    private DecelerateInterpolator interpolator;
     private long lastUpdateTime;
+    private Runnable longPressed;
     private boolean pressed;
     private boolean processRelease;
     private Paint redPaint;
     private float redProgress;
+    private Drawable shadowDrawable;
+    private State state;
     private long totalTime;
     private Paint whitePaint;
-    private DecelerateInterpolator interpolator = new DecelerateInterpolator();
-    private Runnable longPressed = new Runnable() { // from class: org.telegram.ui.Components.ShutterButton.1
-        @Override // java.lang.Runnable
-        public void run() {
-            if (ShutterButton.this.delegate == null || ShutterButton.this.delegate.shutterLongPressed()) {
-                return;
-            }
-            ShutterButton.this.processRelease = false;
-        }
-    };
-    private Drawable shadowDrawable = getResources().getDrawable(R.drawable.camera_btn);
-    private State state = State.DEFAULT;
 
     /* loaded from: classes3.dex */
     public interface ShutterButtonDelegate {
@@ -57,6 +49,17 @@ public class ShutterButton extends View {
 
     public ShutterButton(Context context) {
         super(context);
+        this.interpolator = new DecelerateInterpolator();
+        this.longPressed = new Runnable() { // from class: org.telegram.ui.Components.ShutterButton.1
+            @Override // java.lang.Runnable
+            public void run() {
+                if (ShutterButton.this.delegate == null || ShutterButton.this.delegate.shutterLongPressed()) {
+                    return;
+                }
+                ShutterButton.this.processRelease = false;
+            }
+        };
+        this.shadowDrawable = getResources().getDrawable(R.drawable.camera_btn);
         Paint paint = new Paint(1);
         this.whitePaint = paint;
         paint.setStyle(Paint.Style.FILL);
@@ -65,6 +68,7 @@ public class ShutterButton extends View {
         this.redPaint = paint2;
         paint2.setStyle(Paint.Style.FILL);
         this.redPaint.setColor(-3324089);
+        this.state = State.DEFAULT;
     }
 
     public void setDelegate(ShutterButtonDelegate shutterButtonDelegate) {
@@ -126,12 +130,10 @@ public class ShutterButton extends View {
                     invalidate();
                 }
                 canvas.drawCircle(f, f2, AndroidUtilities.dp(26.5f) * scaleX * this.redProgress, this.redPaint);
-            } else if (this.redProgress == 0.0f) {
-            } else {
+            } else if (this.redProgress != 0.0f) {
                 canvas.drawCircle(f, f2, AndroidUtilities.dp(26.5f) * scaleX, this.redPaint);
             }
-        } else if (this.redProgress == 0.0f) {
-        } else {
+        } else if (this.redProgress != 0.0f) {
             this.redProgress = 0.0f;
         }
     }

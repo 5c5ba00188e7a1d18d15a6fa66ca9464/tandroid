@@ -72,9 +72,10 @@ public class VideoEditedInfo {
         public void serializeToStream(AbstractSerializedData abstractSerializedData) {
             super.serializeToStream(abstractSerializedData);
             abstractSerializedData.writeBool(!TextUtils.isEmpty(this.documentAbsolutePath));
-            if (!TextUtils.isEmpty(this.documentAbsolutePath)) {
-                abstractSerializedData.writeString(this.documentAbsolutePath);
+            if (TextUtils.isEmpty(this.documentAbsolutePath)) {
+                return;
             }
+            abstractSerializedData.writeString(this.documentAbsolutePath);
         }
     }
 

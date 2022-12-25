@@ -157,7 +157,7 @@ public abstract class JobIntentService extends Service {
     static final class JobServiceEngineImpl extends JobServiceEngine implements CompatJobEngine {
         static final boolean DEBUG = false;
         static final String TAG = "JobServiceEngineImpl";
-        final Object mLock = new Object();
+        final Object mLock;
         JobParameters mParams;
         final JobIntentService mService;
 
@@ -187,6 +187,7 @@ public abstract class JobIntentService extends Service {
 
         JobServiceEngineImpl(JobIntentService jobIntentService) {
             super(jobIntentService);
+            this.mLock = new Object();
             this.mService = jobIntentService;
         }
 
@@ -224,11 +225,11 @@ public abstract class JobIntentService extends Service {
                 } catch (Throwable unused) {
                     jobWorkItem = null;
                 }
-                if (jobWorkItem == null) {
-                    return null;
+                if (jobWorkItem != null) {
+                    jobWorkItem.getIntent().setExtrasClassLoader(this.mService.getClassLoader());
+                    return new WrapperWorkItem(jobWorkItem);
                 }
-                jobWorkItem.getIntent().setExtrasClassLoader(this.mService.getClassLoader());
-                return new WrapperWorkItem(jobWorkItem);
+                return null;
             }
         }
     }
@@ -285,14 +286,13 @@ public abstract class JobIntentService extends Service {
         public Void doInBackground(Void... voidArr) {
             while (true) {
                 GenericWorkItem dequeueWork = JobIntentService.this.dequeueWork();
-                if (dequeueWork != null) {
-                    JobIntentService.this.onHandleWork(dequeueWork.getIntent());
-                    try {
-                        dequeueWork.complete();
-                    } catch (Throwable unused) {
-                    }
-                } else {
+                if (dequeueWork == null) {
                     return null;
+                }
+                JobIntentService.this.onHandleWork(dequeueWork.getIntent());
+                try {
+                    dequeueWork.complete();
+                } catch (Throwable unused) {
                 }
             }
         }
@@ -451,10 +451,10 @@ public abstract class JobIntentService extends Service {
             return compatJobEngine.dequeueWork();
         }
         synchronized (this.mCompatQueue) {
-            if (this.mCompatQueue.size() <= 0) {
-                return null;
+            if (this.mCompatQueue.size() > 0) {
+                return this.mCompatQueue.remove(0);
             }
-            return this.mCompatQueue.remove(0);
+            return null;
         }
     }
 }

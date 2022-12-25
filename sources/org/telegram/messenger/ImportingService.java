@@ -41,9 +41,10 @@ public class ImportingService extends Service implements NotificationCenter.Noti
 
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     public void didReceivedNotification(int i, int i2, Object... objArr) {
-        if ((i == NotificationCenter.historyImportProgressChanged || i == NotificationCenter.stickersImportProgressChanged) && !hasImportingStickers() && !hasImportingStickers()) {
-            stopSelf();
+        if ((i != NotificationCenter.historyImportProgressChanged && i != NotificationCenter.stickersImportProgressChanged) || hasImportingStickers() || hasImportingStickers()) {
+            return;
         }
+        stopSelf();
     }
 
     private boolean hasImportingHistory() {

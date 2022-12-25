@@ -37,23 +37,23 @@ abstract class zzav<E> extends AbstractList<E> implements zzcn<E> {
         if (obj == this) {
             return true;
         }
-        if (!(obj instanceof List)) {
-            return false;
-        }
-        if (!(obj instanceof RandomAccess)) {
+        if (obj instanceof List) {
+            if (obj instanceof RandomAccess) {
+                List list = (List) obj;
+                int size = size();
+                if (size != list.size()) {
+                    return false;
+                }
+                for (int i = 0; i < size; i++) {
+                    if (!get(i).equals(list.get(i))) {
+                        return false;
+                    }
+                }
+                return true;
+            }
             return super.equals(obj);
         }
-        List list = (List) obj;
-        int size = size();
-        if (size != list.size()) {
-            return false;
-        }
-        for (int i = 0; i < size; i++) {
-            if (!get(i).equals(list.get(i))) {
-                return false;
-            }
-        }
-        return true;
+        return false;
     }
 
     @Override // java.util.AbstractList, java.util.Collection, java.util.List
@@ -96,9 +96,8 @@ abstract class zzav<E> extends AbstractList<E> implements zzcn<E> {
 
     /* JADX INFO: Access modifiers changed from: protected */
     public final void zzw() {
-        if (this.zzfa) {
-            return;
+        if (!this.zzfa) {
+            throw new UnsupportedOperationException();
         }
-        throw new UnsupportedOperationException();
     }
 }

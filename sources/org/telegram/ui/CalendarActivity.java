@@ -18,7 +18,6 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewPropertyAnimator;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import androidx.core.content.ContextCompat;
@@ -72,8 +71,10 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
 /* loaded from: classes3.dex */
 public class CalendarActivity extends BaseFragment {
+    TextPaint activeTextPaint;
     CalendarAdapter adapter;
     BackDrawable backDrawable;
+    Paint blackoutPaint;
     private View blurredView;
     private FrameLayout bottomBar;
     private int calendarType;
@@ -93,6 +94,7 @@ public class CalendarActivity extends BaseFragment {
     LinearLayoutManager layoutManager;
     RecyclerListView listView;
     private boolean loading;
+    SparseArray<SparseArray<PeriodDay>> messagesByYearMounth;
     private int minDate;
     int minMontYear;
     int monthCount;
@@ -100,19 +102,16 @@ public class CalendarActivity extends BaseFragment {
     TextView removeDaysButton;
     TextView selectDaysButton;
     HintView selectDaysHint;
+    private Paint selectOutlinePaint;
+    private Paint selectPaint;
     int selectedMonth;
     int selectedYear;
     private ValueAnimator selectionAnimator;
     int startFromMonth;
     int startFromYear;
-    TextPaint textPaint = new TextPaint(1);
-    TextPaint activeTextPaint = new TextPaint(1);
-    TextPaint textPaint2 = new TextPaint(1);
-    private Paint selectOutlinePaint = new Paint(1);
-    private Paint selectPaint = new Paint(1);
-    Paint blackoutPaint = new Paint(1);
-    SparseArray<SparseArray<PeriodDay>> messagesByYearMounth = new SparseArray<>();
-    int startOffset = 0;
+    int startOffset;
+    TextPaint textPaint;
+    TextPaint textPaint2;
 
     /* loaded from: classes3.dex */
     public interface Callback {
@@ -126,6 +125,14 @@ public class CalendarActivity extends BaseFragment {
 
     public CalendarActivity(Bundle bundle, int i, int i2) {
         super(bundle);
+        this.textPaint = new TextPaint(1);
+        this.activeTextPaint = new TextPaint(1);
+        this.textPaint2 = new TextPaint(1);
+        this.selectOutlinePaint = new Paint(1);
+        this.selectPaint = new Paint(1);
+        this.blackoutPaint = new Paint(1);
+        this.messagesByYearMounth = new SparseArray<>();
+        this.startOffset = 0;
         this.photosVideosTypeFilter = i;
         if (i2 != 0) {
             Calendar calendar = Calendar.getInstance();
@@ -329,10 +336,9 @@ public class CalendarActivity extends BaseFragment {
                 CalendarActivity.this.finishFragment();
                 if (((BaseFragment) CalendarActivity.this).parentLayout.getFragmentStack().size() >= 2) {
                     BaseFragment baseFragment = ((BaseFragment) CalendarActivity.this).parentLayout.getFragmentStack().get(((BaseFragment) CalendarActivity.this).parentLayout.getFragmentStack().size() - 2);
-                    if (!(baseFragment instanceof ChatActivity)) {
-                        return;
+                    if (baseFragment instanceof ChatActivity) {
+                        ((ChatActivity) baseFragment).deleteHistory(CalendarActivity.this.dateSelectedStart, CalendarActivity.this.dateSelectedEnd + 86400, z);
                     }
-                    ((ChatActivity) baseFragment).deleteHistory(CalendarActivity.this.dateSelectedStart, CalendarActivity.this.dateSelectedEnd + 86400, z);
                 }
             }
         }, null);
@@ -468,10 +474,9 @@ public class CalendarActivity extends BaseFragment {
                 this.adapter.notifyItemRangeInserted(i11 + 1, timeInMillis);
                 this.monthCount = timeInMillis;
             }
-            if (!this.endReached) {
-                return;
+            if (this.endReached) {
+                resumeDelayedFragmentAnimation();
             }
-            resumeDelayedFragmentAnimation();
         }
     }
 
@@ -492,10 +497,9 @@ public class CalendarActivity extends BaseFragment {
             }
         }
         int i4 = this.minMontYear;
-        if (((i4 / 100) * 12) + (i4 % 100) + 3 < ((i / 100) * 12) + (i % 100)) {
-            return;
+        if (((i4 / 100) * 12) + (i4 % 100) + 3 >= ((i / 100) * 12) + (i % 100)) {
+            loadNext();
         }
-        loadNext();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -545,17 +549,20 @@ public class CalendarActivity extends BaseFragment {
         int currentYear;
         int daysInMonth;
         GestureDetectorCompat gestureDetector;
+        SparseArray<ImageReceiver> imagesByDays;
+        SparseArray<PeriodDay> messagesByDays;
+        private SparseArray<ValueAnimator> rowAnimators;
+        private SparseArray<RowAnimationValue> rowSelectionPos;
         int startDayOfWeek;
         int startMonthTime;
         SimpleTextView titleView;
-        SparseArray<PeriodDay> messagesByDays = new SparseArray<>();
-        SparseArray<ImageReceiver> imagesByDays = new SparseArray<>();
-        private SparseArray<ValueAnimator> rowAnimators = new SparseArray<>();
-        private SparseArray<RowAnimationValue> rowSelectionPos = new SparseArray<>();
 
         public MonthView(Context context) {
             super(context);
-            boolean z = false;
+            this.messagesByDays = new SparseArray<>();
+            this.imagesByDays = new SparseArray<>();
+            this.rowAnimators = new SparseArray<>();
+            this.rowSelectionPos = new SparseArray<>();
             setWillNotDraw(false);
             this.titleView = new SimpleTextView(context);
             if (CalendarActivity.this.calendarType == 0 && CalendarActivity.this.canClearHistory) {
@@ -609,7 +616,7 @@ public class CalendarActivity extends BaseFragment {
             addView(this.titleView, LayoutHelper.createFrame(-1, 28.0f, 0, 0.0f, 12.0f, 0.0f, 4.0f));
             GestureDetectorCompat gestureDetectorCompat = new GestureDetectorCompat(context, new 2(CalendarActivity.this, context));
             this.gestureDetector = gestureDetectorCompat;
-            gestureDetectorCompat.setIsLongpressEnabled(CalendarActivity.this.calendarType == 0 ? true : z);
+            gestureDetectorCompat.setIsLongpressEnabled(CalendarActivity.this.calendarType == 0);
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -973,9 +980,10 @@ public class CalendarActivity extends BaseFragment {
                     @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                     public void onAnimationEnd(Animator animator) {
                         MonthView.this.rowAnimators.remove(i);
-                        if (!z) {
-                            MonthView.this.rowSelectionPos.remove(i);
+                        if (z) {
+                            return;
                         }
+                        MonthView.this.rowSelectionPos.remove(i);
                     }
                 });
                 duration.start();
@@ -1051,21 +1059,15 @@ public class CalendarActivity extends BaseFragment {
                                         if (closestPhotoSizeWithSize4 == closestPhotoSizeWithSize3) {
                                             closestPhotoSizeWithSize3 = null;
                                         }
-                                        long j = 0;
                                         if (messageObject.strippedThumb != null) {
-                                            ImageLocation forObject = ImageLocation.getForObject(closestPhotoSizeWithSize4, messageObject.photoThumbsObject);
-                                            BitmapDrawable bitmapDrawable = messageObject.strippedThumb;
-                                            if (closestPhotoSizeWithSize4 != null) {
-                                                j = closestPhotoSizeWithSize4.size;
-                                            }
-                                            imageReceiver.setImage(forObject, "44_44", null, null, bitmapDrawable, j, null, messageObject, messageObject.shouldEncryptPhotoOrVideo() ? 2 : 1);
+                                            imageReceiver.setImage(ImageLocation.getForObject(closestPhotoSizeWithSize4, messageObject.photoThumbsObject), "44_44", null, null, messageObject.strippedThumb, closestPhotoSizeWithSize4 != null ? closestPhotoSizeWithSize4.size : 0L, null, messageObject, messageObject.shouldEncryptPhotoOrVideo() ? 2 : 1);
                                         } else {
                                             imageReceiver.setImage(ImageLocation.getForObject(closestPhotoSizeWithSize4, messageObject.photoThumbsObject), "44_44", ImageLocation.getForObject(closestPhotoSizeWithSize3, messageObject.photoThumbsObject), "b", closestPhotoSizeWithSize4 != null ? closestPhotoSizeWithSize4.size : 0L, null, messageObject, messageObject.shouldEncryptPhotoOrVideo() ? 2 : 1);
                                         }
                                     } else {
-                                        BitmapDrawable bitmapDrawable2 = messageObject.strippedThumb;
-                                        if (bitmapDrawable2 != null) {
-                                            imageReceiver.setImage(null, null, bitmapDrawable2, null, messageObject, 0);
+                                        BitmapDrawable bitmapDrawable = messageObject.strippedThumb;
+                                        if (bitmapDrawable != null) {
+                                            imageReceiver.setImage(null, null, bitmapDrawable, null, messageObject, 0);
                                         } else {
                                             imageReceiver.setImage((ImageLocation) null, (String) null, ImageLocation.getForObject(closestPhotoSizeWithSize3, messageObject.photoThumbsObject), "b", (String) null, messageObject, 0);
                                         }
@@ -1136,10 +1138,7 @@ public class CalendarActivity extends BaseFragment {
                 float dp5 = (i5 * dp) + (dp / 2.0f) + AndroidUtilities.dp(f8);
                 int currentTimeMillis = (int) (System.currentTimeMillis() / 1000);
                 SparseArray<PeriodDay> sparseArray = this.messagesByDays;
-                PeriodDay periodDay2 = null;
-                if (sparseArray != null) {
-                    periodDay2 = sparseArray.get(i6, null);
-                }
+                PeriodDay periodDay2 = sparseArray != null ? sparseArray.get(i6, null) : null;
                 int i7 = i6 + 1;
                 if (currentTimeMillis < this.startMonthTime + (i7 * 86400) || (CalendarActivity.this.minDate > 0 && CalendarActivity.this.minDate > this.startMonthTime + ((i6 + 2) * 86400))) {
                     f = measuredWidth;
@@ -1328,7 +1327,6 @@ public class CalendarActivity extends BaseFragment {
         this.lastDaysSelected = abs;
         boolean z3 = this.inSelectionMode;
         this.lastInSelectionMode = z3;
-        float f = 1.0f;
         if (abs > 0) {
             string = LocaleController.formatPluralString("Days", abs, new Object[0]);
             this.backDrawable.setRotation(1.0f, true);
@@ -1357,11 +1355,7 @@ public class CalendarActivity extends BaseFragment {
             this.selectDaysButton.animate().setListener(null).cancel();
             this.removeDaysButton.animate().setListener(null).cancel();
             this.selectDaysButton.animate().alpha(0.0f).translationY(AndroidUtilities.dp(20.0f)).setDuration(150L).setListener(new HideViewAfterAnimation(this.selectDaysButton)).start();
-            ViewPropertyAnimator animate = this.removeDaysButton.animate();
-            if (abs == 0) {
-                f = 0.5f;
-            }
-            animate.alpha(f).translationY(0.0f).start();
+            this.removeDaysButton.animate().alpha(abs == 0 ? 0.5f : 1.0f).translationY(0.0f).start();
             this.selectDaysButton.setEnabled(false);
             this.removeDaysButton.setEnabled(true);
             return;
@@ -1450,11 +1444,10 @@ public class CalendarActivity extends BaseFragment {
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public void onTransitionAnimationEnd(boolean z, boolean z2) {
         View view;
-        if (!z || (view = this.blurredView) == null || view.getVisibility() != 0) {
-            return;
+        if (z && (view = this.blurredView) != null && view.getVisibility() == 0) {
+            this.blurredView.setVisibility(8);
+            this.blurredView.setBackground(null);
         }
-        this.blurredView.setVisibility(8);
-        this.blurredView.setBackground(null);
     }
 
     /* JADX INFO: Access modifiers changed from: private */

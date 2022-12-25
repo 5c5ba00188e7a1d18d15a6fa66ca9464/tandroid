@@ -8,11 +8,12 @@ import com.google.android.gms.common.internal.Preconditions;
 /* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 public final class zaae extends zap {
-    private final ArraySet zad = new ArraySet();
+    private final ArraySet zad;
     private final GoogleApiManager zae;
 
     zaae(LifecycleFragment lifecycleFragment, GoogleApiManager googleApiManager, GoogleApiAvailability googleApiAvailability) {
         super(lifecycleFragment, googleApiAvailability);
+        this.zad = new ArraySet();
         this.zae = googleApiManager;
         this.mLifecycleFragment.addCallback("ConnectionlessLifecycleHelper", this);
     }
@@ -29,9 +30,10 @@ public final class zaae extends zap {
     }
 
     private final void zae() {
-        if (!this.zad.isEmpty()) {
-            this.zae.zaC(this);
+        if (this.zad.isEmpty()) {
+            return;
         }
+        this.zae.zaC(this);
     }
 
     @Override // com.google.android.gms.common.api.internal.LifecycleCallback

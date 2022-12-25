@@ -150,11 +150,11 @@ public abstract class MapCollections<K, V> {
             if (!this.mEntryValid) {
                 throw new IllegalStateException("This container does not support retaining Map.Entry objects");
             }
-            if (!(obj instanceof Map.Entry)) {
-                return false;
+            if (obj instanceof Map.Entry) {
+                Map.Entry entry = (Map.Entry) obj;
+                return ContainerHelpers.equal(entry.getKey(), MapCollections.this.colGetEntry(this.mIndex, 0)) && ContainerHelpers.equal(entry.getValue(), MapCollections.this.colGetEntry(this.mIndex, 1));
             }
-            Map.Entry entry = (Map.Entry) obj;
-            return ContainerHelpers.equal(entry.getKey(), MapCollections.this.colGetEntry(this.mIndex, 0)) && ContainerHelpers.equal(entry.getValue(), MapCollections.this.colGetEntry(this.mIndex, 1));
+            return false;
         }
 
         @Override // java.util.Map.Entry, j$.util.Map.Entry
@@ -162,14 +162,9 @@ public abstract class MapCollections<K, V> {
             if (!this.mEntryValid) {
                 throw new IllegalStateException("This container does not support retaining Map.Entry objects");
             }
-            int i = 0;
             Object colGetEntry = MapCollections.this.colGetEntry(this.mIndex, 0);
             Object colGetEntry2 = MapCollections.this.colGetEntry(this.mIndex, 1);
-            int hashCode = colGetEntry == null ? 0 : colGetEntry.hashCode();
-            if (colGetEntry2 != null) {
-                i = colGetEntry2.hashCode();
-            }
-            return hashCode ^ i;
+            return (colGetEntry == null ? 0 : colGetEntry.hashCode()) ^ (colGetEntry2 != null ? colGetEntry2.hashCode() : 0);
         }
 
         public String toString() {
@@ -208,12 +203,12 @@ public abstract class MapCollections<K, V> {
 
         @Override // java.util.Set, java.util.Collection
         public boolean contains(Object obj) {
-            if (!(obj instanceof Map.Entry)) {
-                return false;
-            }
-            Map.Entry entry = (Map.Entry) obj;
-            int colIndexOfKey = MapCollections.this.colIndexOfKey(entry.getKey());
-            if (colIndexOfKey >= 0) {
+            if (obj instanceof Map.Entry) {
+                Map.Entry entry = (Map.Entry) obj;
+                int colIndexOfKey = MapCollections.this.colIndexOfKey(entry.getKey());
+                if (colIndexOfKey < 0) {
+                    return false;
+                }
                 return ContainerHelpers.equal(MapCollections.this.colGetEntry(colIndexOfKey, 1), entry.getValue());
             }
             return false;

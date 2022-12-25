@@ -146,7 +146,6 @@ public class TimerDrawable extends Drawable {
         double d;
         int intrinsicWidth = getIntrinsicWidth();
         int intrinsicHeight = getIntrinsicHeight();
-        int i = -1;
         if (this.isDialog) {
             this.timePaint.setColor(-1);
         } else if (!this.isStaticIcon) {
@@ -179,9 +178,7 @@ public class TimerDrawable extends Drawable {
         if (this.time == 0 || this.timeLayout == null) {
             return;
         }
-        if (AndroidUtilities.density != 3.0f) {
-            i = 0;
-        }
+        int i = AndroidUtilities.density != 3.0f ? 0 : -1;
         if (this.isDialog) {
             double width = getBounds().width() / 2;
             double ceil = Math.ceil(this.timeWidth / 2.0f);

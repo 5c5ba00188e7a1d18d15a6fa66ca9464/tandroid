@@ -10,22 +10,11 @@ public abstract class LiveData<T> {
     private boolean mDispatchInvalidated;
     private boolean mDispatchingValue;
     volatile Object mPendingData;
+    private final Runnable mPostValueRunnable;
+    private int mVersion;
     final Object mDataLock = new Object();
     private SafeIterableMap<Observer<? super T>, LiveData<T>.ObserverWrapper> mObservers = new SafeIterableMap<>();
     int mActiveCount = 0;
-    private int mVersion = -1;
-    private final Runnable mPostValueRunnable = new Runnable() { // from class: androidx.lifecycle.LiveData.1
-        /* JADX WARN: Multi-variable type inference failed */
-        @Override // java.lang.Runnable
-        public void run() {
-            Object obj;
-            synchronized (LiveData.this.mDataLock) {
-                obj = LiveData.this.mPendingData;
-                LiveData.this.mPendingData = LiveData.NOT_SET;
-            }
-            LiveData.this.setValue(obj);
-        }
-    };
 
     protected void onActive() {
     }
@@ -37,23 +26,35 @@ public abstract class LiveData<T> {
         Object obj = NOT_SET;
         this.mData = obj;
         this.mPendingData = obj;
+        this.mVersion = -1;
+        this.mPostValueRunnable = new Runnable() { // from class: androidx.lifecycle.LiveData.1
+            /* JADX WARN: Multi-variable type inference failed */
+            @Override // java.lang.Runnable
+            public void run() {
+                Object obj2;
+                synchronized (LiveData.this.mDataLock) {
+                    obj2 = LiveData.this.mPendingData;
+                    LiveData.this.mPendingData = LiveData.NOT_SET;
+                }
+                LiveData.this.setValue(obj2);
+            }
+        };
     }
 
     private void considerNotify(LiveData<T>.ObserverWrapper observerWrapper) {
-        if (!observerWrapper.mActive) {
-            return;
+        if (observerWrapper.mActive) {
+            if (!observerWrapper.shouldBeActive()) {
+                observerWrapper.activeStateChanged(false);
+                return;
+            }
+            int i = observerWrapper.mLastVersion;
+            int i2 = this.mVersion;
+            if (i >= i2) {
+                return;
+            }
+            observerWrapper.mLastVersion = i2;
+            observerWrapper.mObserver.onChanged((Object) this.mData);
         }
-        if (!observerWrapper.shouldBeActive()) {
-            observerWrapper.activeStateChanged(false);
-            return;
-        }
-        int i = observerWrapper.mLastVersion;
-        int i2 = this.mVersion;
-        if (i >= i2) {
-            return;
-        }
-        observerWrapper.mLastVersion = i2;
-        observerWrapper.mObserver.onChanged((Object) this.mData);
     }
 
     void dispatchingValue(LiveData<T>.ObserverWrapper observerWrapper) {
@@ -113,10 +114,9 @@ public abstract class LiveData<T> {
             z = this.mPendingData == NOT_SET;
             this.mPendingData = t;
         }
-        if (!z) {
-            return;
+        if (z) {
+            ArchTaskExecutor.getInstance().postToMainThread(this.mPostValueRunnable);
         }
-        ArchTaskExecutor.getInstance().postToMainThread(this.mPostValueRunnable);
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
@@ -200,12 +200,8 @@ public abstract class LiveData<T> {
             this.mActive = z;
             LiveData liveData = LiveData.this;
             int i = liveData.mActiveCount;
-            int i2 = 1;
             boolean z2 = i == 0;
-            if (!z) {
-                i2 = -1;
-            }
-            liveData.mActiveCount = i + i2;
+            liveData.mActiveCount = i + (z ? 1 : -1);
             if (z2 && z) {
                 liveData.onActive();
             }
@@ -213,10 +209,9 @@ public abstract class LiveData<T> {
             if (liveData2.mActiveCount == 0 && !this.mActive) {
                 liveData2.onInactive();
             }
-            if (!this.mActive) {
-                return;
+            if (this.mActive) {
+                LiveData.this.dispatchingValue(this);
             }
-            LiveData.this.dispatchingValue(this);
         }
     }
 

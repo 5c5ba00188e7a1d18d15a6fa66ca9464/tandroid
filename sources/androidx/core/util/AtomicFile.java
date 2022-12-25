@@ -85,8 +85,9 @@ public class AtomicFile {
         if (target.isDirectory() && !target.delete()) {
             Log.e("AtomicFile", "Failed to delete file which is a directory " + target);
         }
-        if (!source.renameTo(target)) {
-            Log.e("AtomicFile", "Failed to rename " + source + " to " + target);
+        if (source.renameTo(target)) {
+            return;
         }
+        Log.e("AtomicFile", "Failed to rename " + source + " to " + target);
     }
 }

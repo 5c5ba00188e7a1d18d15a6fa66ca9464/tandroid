@@ -9,11 +9,7 @@ public class TLRPC$TL_chatReactionsAll extends TLRPC$ChatReactions {
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
         int readInt32 = abstractSerializedData.readInt32(z);
         this.flags = readInt32;
-        boolean z2 = true;
-        if ((readInt32 & 1) == 0) {
-            z2 = false;
-        }
-        this.allow_custom = z2;
+        this.allow_custom = (readInt32 & 1) != 0;
     }
 
     @Override // org.telegram.tgnet.TLObject

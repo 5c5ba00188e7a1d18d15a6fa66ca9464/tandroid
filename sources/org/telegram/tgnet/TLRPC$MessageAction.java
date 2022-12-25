@@ -80,12 +80,8 @@ public abstract class TLRPC$MessageAction extends TLObject {
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
                         this.flags = readInt32;
-                        boolean z3 = false;
                         this.recurring_init = (readInt32 & 4) != 0;
-                        if ((readInt32 & 8) != 0) {
-                            z3 = true;
-                        }
-                        this.recurring_used = z3;
+                        this.recurring_used = (readInt32 & 8) != 0;
                         this.currency = abstractSerializedData2.readString(z2);
                         this.total_amount = abstractSerializedData2.readInt64(z2);
                         this.payload = abstractSerializedData2.readByteArray(z2);
@@ -681,12 +677,12 @@ public abstract class TLRPC$MessageAction extends TLObject {
                 tLRPC$MessageAction = null;
                 break;
         }
-        if (tLRPC$MessageAction != null || !z) {
-            if (tLRPC$MessageAction != null) {
-                tLRPC$MessageAction.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$MessageAction;
+        if (tLRPC$MessageAction == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in MessageAction", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in MessageAction", Integer.valueOf(i)));
+        if (tLRPC$MessageAction != null) {
+            tLRPC$MessageAction.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$MessageAction;
     }
 }

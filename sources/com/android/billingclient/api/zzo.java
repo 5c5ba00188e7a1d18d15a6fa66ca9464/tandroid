@@ -32,10 +32,10 @@ public final class zzo extends BroadcastReceiver {
         if (extras == null) {
             zzb.zzo("BillingBroadcastManager", "Bundle is null.");
             PurchasesUpdatedListener purchasesUpdatedListener = this.zzb;
-            if (purchasesUpdatedListener == null) {
+            if (purchasesUpdatedListener != null) {
+                purchasesUpdatedListener.onPurchasesUpdated(zzbc.zzj, null);
                 return;
             }
-            purchasesUpdatedListener.onPurchasesUpdated(zzbc.zzj, null);
             return;
         }
         BillingResult zzi = zzb.zzi(intent, "BillingBroadcastManager");
@@ -82,11 +82,12 @@ public final class zzo extends BroadcastReceiver {
 
     public final void zzc(Context context, IntentFilter intentFilter) {
         zzo zzoVar;
-        if (!this.zze) {
-            zzoVar = this.zza.zzb;
-            context.registerReceiver(zzoVar, intentFilter);
-            this.zze = true;
+        if (this.zze) {
+            return;
         }
+        zzoVar = this.zza.zzb;
+        context.registerReceiver(zzoVar, intentFilter);
+        this.zze = true;
     }
 
     public /* synthetic */ zzo(zzp zzpVar, PurchasesUpdatedListener purchasesUpdatedListener, zzc zzcVar, zzn zznVar) {

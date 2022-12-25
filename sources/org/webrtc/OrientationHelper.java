@@ -15,11 +15,10 @@ public class OrientationHelper {
             }
             OrientationHelper orientationHelper = OrientationHelper.this;
             int roundOrientation = orientationHelper.roundOrientation(i, orientationHelper.rotation);
-            if (roundOrientation == OrientationHelper.this.rotation) {
-                return;
+            if (roundOrientation != OrientationHelper.this.rotation) {
+                OrientationHelper orientationHelper2 = OrientationHelper.this;
+                orientationHelper2.onOrientationUpdate(orientationHelper2.rotation = roundOrientation);
             }
-            OrientationHelper orientationHelper2 = OrientationHelper.this;
-            orientationHelper2.onOrientationUpdate(orientationHelper2.rotation = roundOrientation);
         }
     };
     private int rotation;

@@ -39,15 +39,14 @@ public class TopicsSyncTask implements Runnable {
             if (topicsSyncTask == null) {
                 return;
             }
-            if (!topicsSyncTask.isDeviceConnected()) {
-                return;
+            if (topicsSyncTask.isDeviceConnected()) {
+                if (TopicsSyncTask.isLoggable()) {
+                    Log.d("FirebaseMessaging", "Connectivity changed. Starting background sync.");
+                }
+                this.task.topicsSubscriber.scheduleSyncTaskWithDelaySeconds(this.task, 0L);
+                context.unregisterReceiver(this);
+                this.task = null;
             }
-            if (TopicsSyncTask.isLoggable()) {
-                Log.d("FirebaseMessaging", "Connectivity changed. Starting background sync.");
-            }
-            this.task.topicsSubscriber.scheduleSyncTaskWithDelaySeconds(this.task, 0L);
-            context.unregisterReceiver(this);
-            this.task = null;
         }
 
         public void registerReceiver() {
@@ -127,11 +126,8 @@ public class TopicsSyncTask implements Runnable {
         ConnectivityManager connectivityManager = (ConnectivityManager) this.context.getSystemService("connectivity");
         NetworkInfo activeNetworkInfo = connectivityManager != null ? connectivityManager.getActiveNetworkInfo() : null;
         if (activeNetworkInfo != null) {
-            if (activeNetworkInfo.isConnected()) {
-                z = true;
-            }
+            z = activeNetworkInfo.isConnected();
         }
-        z = false;
         return z;
     }
 
@@ -151,23 +147,21 @@ public class TopicsSyncTask implements Runnable {
                 this.topicsSubscriber.setSyncScheduledOrRunning(true);
                 if (!this.metadata.isGmscorePresent()) {
                     this.topicsSubscriber.setSyncScheduledOrRunning(false);
-                    if (!hasWakeLockPermission(this.context)) {
-                        return;
-                    }
-                    try {
-                        this.syncWakeLock.release();
-                    } catch (RuntimeException unused) {
-                        Log.i("FirebaseMessaging", "TopicsSyncTask's wakelock was already released due to timeout.");
+                    if (hasWakeLockPermission(this.context)) {
+                        try {
+                            this.syncWakeLock.release();
+                        } catch (RuntimeException unused) {
+                            Log.i("FirebaseMessaging", "TopicsSyncTask's wakelock was already released due to timeout.");
+                        }
                     }
                 } else if (hasAccessNetworkStatePermission(this.context) && !isDeviceConnected()) {
                     new ConnectivityChangeReceiver(this).registerReceiver();
-                    if (!hasWakeLockPermission(this.context)) {
-                        return;
-                    }
-                    try {
-                        this.syncWakeLock.release();
-                    } catch (RuntimeException unused2) {
-                        Log.i("FirebaseMessaging", "TopicsSyncTask's wakelock was already released due to timeout.");
+                    if (hasWakeLockPermission(this.context)) {
+                        try {
+                            this.syncWakeLock.release();
+                        } catch (RuntimeException unused2) {
+                            Log.i("FirebaseMessaging", "TopicsSyncTask's wakelock was already released due to timeout.");
+                        }
                     }
                 } else {
                     if (this.topicsSubscriber.syncTopics()) {
@@ -175,26 +169,24 @@ public class TopicsSyncTask implements Runnable {
                     } else {
                         this.topicsSubscriber.syncWithDelaySecondsInternal(this.nextDelaySeconds);
                     }
-                    if (!hasWakeLockPermission(this.context)) {
-                        return;
-                    }
-                    try {
-                        this.syncWakeLock.release();
-                    } catch (RuntimeException unused3) {
-                        Log.i("FirebaseMessaging", "TopicsSyncTask's wakelock was already released due to timeout.");
+                    if (hasWakeLockPermission(this.context)) {
+                        try {
+                            this.syncWakeLock.release();
+                        } catch (RuntimeException unused3) {
+                            Log.i("FirebaseMessaging", "TopicsSyncTask's wakelock was already released due to timeout.");
+                        }
                     }
                 }
             } catch (IOException e) {
                 String valueOf = String.valueOf(e.getMessage());
                 Log.e("FirebaseMessaging", valueOf.length() != 0 ? "Failed to sync topics. Won't retry sync. ".concat(valueOf) : new String("Failed to sync topics. Won't retry sync. "));
                 this.topicsSubscriber.setSyncScheduledOrRunning(false);
-                if (!hasWakeLockPermission(this.context)) {
-                    return;
-                }
-                try {
-                    this.syncWakeLock.release();
-                } catch (RuntimeException unused4) {
-                    Log.i("FirebaseMessaging", "TopicsSyncTask's wakelock was already released due to timeout.");
+                if (hasWakeLockPermission(this.context)) {
+                    try {
+                        this.syncWakeLock.release();
+                    } catch (RuntimeException unused4) {
+                        Log.i("FirebaseMessaging", "TopicsSyncTask's wakelock was already released due to timeout.");
+                    }
                 }
             }
         } catch (Throwable th) {

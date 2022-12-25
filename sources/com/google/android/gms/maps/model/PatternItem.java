@@ -27,11 +27,11 @@ public class PatternItem extends AbstractSafeParcelable {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof PatternItem)) {
-            return false;
+        if (obj instanceof PatternItem) {
+            PatternItem patternItem = (PatternItem) obj;
+            return this.zzb == patternItem.zzb && Objects.equal(this.zzc, patternItem.zzc);
         }
-        PatternItem patternItem = (PatternItem) obj;
-        return this.zzb == patternItem.zzb && Objects.equal(this.zzc, patternItem.zzc);
+        return false;
     }
 
     public int hashCode() {

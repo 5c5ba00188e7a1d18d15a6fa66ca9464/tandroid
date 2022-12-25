@@ -61,8 +61,7 @@ public class DialogObject {
             } else {
                 tLRPC$Dialog.id = -tLRPC$Peer.channel_id;
             }
-        } else if (!(tLRPC$Dialog instanceof TLRPC$TL_dialogFolder)) {
-        } else {
+        } else if (tLRPC$Dialog instanceof TLRPC$TL_dialogFolder) {
             tLRPC$Dialog.id = makeFolderDialogId(((TLRPC$TL_dialogFolder) tLRPC$Dialog).folder.id);
         }
     }
@@ -97,11 +96,11 @@ public class DialogObject {
     }
 
     public static boolean isChatDialog(long j) {
-        return !isEncryptedDialog(j) && !isFolderDialogId(j) && j < 0;
+        return (isEncryptedDialog(j) || isFolderDialogId(j) || j >= 0) ? false : true;
     }
 
     public static boolean isUserDialog(long j) {
-        return !isEncryptedDialog(j) && !isFolderDialogId(j) && j > 0;
+        return (isEncryptedDialog(j) || isFolderDialogId(j) || j <= 0) ? false : true;
     }
 
     public static String getDialogTitle(TLObject tLObject) {
@@ -117,20 +116,20 @@ public class DialogObject {
                 if (avatarDrawable != null) {
                     avatarDrawable.setAvatarType(12);
                 }
-                if (imageReceiver == null) {
+                if (imageReceiver != null) {
+                    imageReceiver.setForUserOrChat(null, avatarDrawable);
                     return string;
                 }
-                imageReceiver.setForUserOrChat(null, avatarDrawable);
                 return string;
             } else if (UserObject.isUserSelf(tLRPC$User)) {
                 String string2 = LocaleController.getString("SavedMessages", R.string.SavedMessages);
                 if (avatarDrawable != null) {
                     avatarDrawable.setAvatarType(1);
                 }
-                if (imageReceiver == null) {
+                if (imageReceiver != null) {
+                    imageReceiver.setForUserOrChat(null, avatarDrawable);
                     return string2;
                 }
-                imageReceiver.setForUserOrChat(null, avatarDrawable);
                 return string2;
             } else {
                 str = UserObject.getUserName(tLRPC$User);
@@ -167,9 +166,9 @@ public class DialogObject {
         if (tLObject instanceof TLRPC$Chat) {
             return ChatObject.getPublicUsername((TLRPC$Chat) tLObject);
         }
-        if (!(tLObject instanceof TLRPC$User)) {
-            return null;
+        if (tLObject instanceof TLRPC$User) {
+            return UserObject.getPublicUsername((TLRPC$User) tLObject);
         }
-        return UserObject.getPublicUsername((TLRPC$User) tLObject);
+        return null;
     }
 }

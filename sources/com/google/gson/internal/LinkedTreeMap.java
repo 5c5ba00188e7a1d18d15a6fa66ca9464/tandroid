@@ -120,28 +120,28 @@ public final class LinkedTreeMap<K, V> extends AbstractMap<K, V> implements Seri
         } else {
             i = 0;
         }
-        if (!z) {
-            return null;
-        }
-        Node<K, V> node4 = this.header;
-        if (node2 == null) {
-            if (comparator == NATURAL_ORDER && !(k instanceof Comparable)) {
-                throw new ClassCastException(k.getClass().getName() + " is not Comparable");
-            }
-            node = new Node<>(this.allowNullValues, node2, k, node4, node4.prev);
-            this.root = node;
-        } else {
-            node = new Node<>(this.allowNullValues, node2, k, node4, node4.prev);
-            if (i < 0) {
-                node2.left = node;
+        if (z) {
+            Node<K, V> node4 = this.header;
+            if (node2 == null) {
+                if (comparator == NATURAL_ORDER && !(k instanceof Comparable)) {
+                    throw new ClassCastException(k.getClass().getName() + " is not Comparable");
+                }
+                node = new Node<>(this.allowNullValues, node2, k, node4, node4.prev);
+                this.root = node;
             } else {
-                node2.right = node;
+                node = new Node<>(this.allowNullValues, node2, k, node4, node4.prev);
+                if (i < 0) {
+                    node2.left = node;
+                } else {
+                    node2.right = node;
+                }
+                rebalance(node2, true);
             }
-            rebalance(node2, true);
+            this.size++;
+            this.modCount++;
+            return node;
         }
-        this.size++;
-        this.modCount++;
-        return node;
+        return null;
     }
 
     /* JADX WARN: Multi-variable type inference failed */
@@ -246,19 +246,14 @@ public final class LinkedTreeMap<K, V> extends AbstractMap<K, V> implements Seri
         while (node != null) {
             Node<K, V> node2 = node.left;
             Node<K, V> node3 = node.right;
-            int i = 0;
-            int i2 = node2 != null ? node2.height : 0;
-            int i3 = node3 != null ? node3.height : 0;
-            int i4 = i2 - i3;
-            if (i4 == -2) {
+            int i = node2 != null ? node2.height : 0;
+            int i2 = node3 != null ? node3.height : 0;
+            int i3 = i - i2;
+            if (i3 == -2) {
                 Node<K, V> node4 = node3.left;
                 Node<K, V> node5 = node3.right;
-                int i5 = node5 != null ? node5.height : 0;
-                if (node4 != null) {
-                    i = node4.height;
-                }
-                int i6 = i - i5;
-                if (i6 == -1 || (i6 == 0 && !z)) {
+                int i4 = (node4 != null ? node4.height : 0) - (node5 != null ? node5.height : 0);
+                if (i4 == -1 || (i4 == 0 && !z)) {
                     rotateLeft(node);
                 } else {
                     rotateRight(node3);
@@ -267,15 +262,11 @@ public final class LinkedTreeMap<K, V> extends AbstractMap<K, V> implements Seri
                 if (z) {
                     return;
                 }
-            } else if (i4 == 2) {
+            } else if (i3 == 2) {
                 Node<K, V> node6 = node2.left;
                 Node<K, V> node7 = node2.right;
-                int i7 = node7 != null ? node7.height : 0;
-                if (node6 != null) {
-                    i = node6.height;
-                }
-                int i8 = i - i7;
-                if (i8 == 1 || (i8 == 0 && !z)) {
+                int i5 = (node6 != null ? node6.height : 0) - (node7 != null ? node7.height : 0);
+                if (i5 == 1 || (i5 == 0 && !z)) {
                     rotateRight(node);
                 } else {
                     rotateLeft(node2);
@@ -284,13 +275,13 @@ public final class LinkedTreeMap<K, V> extends AbstractMap<K, V> implements Seri
                 if (z) {
                     return;
                 }
-            } else if (i4 == 0) {
-                node.height = i2 + 1;
+            } else if (i3 == 0) {
+                node.height = i + 1;
                 if (z) {
                     return;
                 }
             } else {
-                node.height = Math.max(i2, i3) + 1;
+                node.height = Math.max(i, i2) + 1;
                 if (!z) {
                     return;
                 }
@@ -311,13 +302,9 @@ public final class LinkedTreeMap<K, V> extends AbstractMap<K, V> implements Seri
         replaceInParent(node, node3);
         node3.left = node;
         node.parent = node3;
-        int i = 0;
         int max = Math.max(node2 != null ? node2.height : 0, node4 != null ? node4.height : 0) + 1;
         node.height = max;
-        if (node5 != null) {
-            i = node5.height;
-        }
-        node3.height = Math.max(max, i) + 1;
+        node3.height = Math.max(max, node5 != null ? node5.height : 0) + 1;
     }
 
     private void rotateRight(Node<K, V> node) {
@@ -332,13 +319,9 @@ public final class LinkedTreeMap<K, V> extends AbstractMap<K, V> implements Seri
         replaceInParent(node, node2);
         node2.right = node;
         node.parent = node2;
-        int i = 0;
         int max = Math.max(node3 != null ? node3.height : 0, node5 != null ? node5.height : 0) + 1;
         node.height = max;
-        if (node4 != null) {
-            i = node4.height;
-        }
-        node2.height = Math.max(max, i) + 1;
+        node2.height = Math.max(max, node4 != null ? node4.height : 0) + 1;
     }
 
     @Override // java.util.AbstractMap, java.util.Map
@@ -442,13 +425,9 @@ public final class LinkedTreeMap<K, V> extends AbstractMap<K, V> implements Seri
         @Override // java.util.Map.Entry
         public int hashCode() {
             K k = this.key;
-            int i = 0;
             int hashCode = k == null ? 0 : k.hashCode();
             V v = this.value;
-            if (v != null) {
-                i = v.hashCode();
-            }
-            return hashCode ^ i;
+            return hashCode ^ (v != null ? v.hashCode() : 0);
         }
 
         public String toString() {

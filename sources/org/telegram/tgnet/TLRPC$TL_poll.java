@@ -31,10 +31,9 @@ public class TLRPC$TL_poll extends TLRPC$Poll {
         if ((this.flags & 16) != 0) {
             this.close_period = abstractSerializedData.readInt32(z);
         }
-        if ((this.flags & 32) == 0) {
-            return;
+        if ((this.flags & 32) != 0) {
+            this.close_date = abstractSerializedData.readInt32(z);
         }
-        this.close_date = abstractSerializedData.readInt32(z);
     }
 
     @Override // org.telegram.tgnet.TLObject

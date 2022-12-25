@@ -13,10 +13,10 @@ public final class TimeUtils {
         if (amt > 9 || (always && zeropad >= 2)) {
             return suffix + 2;
         }
-        if (!always && amt <= 0) {
-            return 0;
+        if (always || amt > 0) {
+            return suffix + 1;
         }
-        return suffix + 1;
+        return 0;
     }
 
     private static int printField(char[] formatStr, int amt, char suffix, int pos, boolean always, int zeropad) {

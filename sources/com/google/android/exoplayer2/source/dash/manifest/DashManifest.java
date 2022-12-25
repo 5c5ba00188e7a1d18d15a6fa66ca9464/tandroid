@@ -71,34 +71,29 @@ public class DashManifest implements FilterableManifest<DashManifest> {
 
     @Override // com.google.android.exoplayer2.offline.FilterableManifest
     public final DashManifest copy(List<StreamKey> list) {
-        long j;
         LinkedList linkedList = new LinkedList(list);
         Collections.sort(linkedList);
         linkedList.add(new StreamKey(-1, -1, -1));
         ArrayList arrayList = new ArrayList();
-        long j2 = 0;
+        long j = 0;
         int i = 0;
         while (true) {
-            j = -9223372036854775807L;
             if (i >= getPeriodCount()) {
                 break;
             }
             if (((StreamKey) linkedList.peek()).periodIndex != i) {
                 long periodDurationMs = getPeriodDurationMs(i);
                 if (periodDurationMs != -9223372036854775807L) {
-                    j2 += periodDurationMs;
+                    j += periodDurationMs;
                 }
             } else {
                 Period period = getPeriod(i);
-                arrayList.add(new Period(period.id, period.startMs - j2, copyAdaptationSets(period.adaptationSets, linkedList), period.eventStreams));
+                arrayList.add(new Period(period.id, period.startMs - j, copyAdaptationSets(period.adaptationSets, linkedList), period.eventStreams));
             }
             i++;
         }
-        long j3 = this.durationMs;
-        if (j3 != -9223372036854775807L) {
-            j = j3 - j2;
-        }
-        return new DashManifest(this.availabilityStartTimeMs, j, this.minBufferTimeMs, this.dynamic, this.minUpdatePeriodMs, this.timeShiftBufferDepthMs, this.suggestedPresentationDelayMs, this.publishTimeMs, this.programInformation, this.utcTiming, this.location, arrayList);
+        long j2 = this.durationMs;
+        return new DashManifest(this.availabilityStartTimeMs, j2 != -9223372036854775807L ? j2 - j : -9223372036854775807L, this.minBufferTimeMs, this.dynamic, this.minUpdatePeriodMs, this.timeShiftBufferDepthMs, this.suggestedPresentationDelayMs, this.publishTimeMs, this.programInformation, this.utcTiming, this.location, arrayList);
     }
 
     private static ArrayList<AdaptationSet> copyAdaptationSets(List<AdaptationSet> list, LinkedList<StreamKey> linkedList) {

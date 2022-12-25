@@ -102,11 +102,7 @@ public abstract class BaseRenderer implements Renderer, RendererCapabilities {
 
     @Override // com.google.android.exoplayer2.Renderer
     public final void start() throws ExoPlaybackException {
-        boolean z = true;
-        if (this.state != 1) {
-            z = false;
-        }
-        Assertions.checkState(z);
+        Assertions.checkState(this.state == 1);
         this.state = 2;
         onStarted();
     }
@@ -167,11 +163,7 @@ public abstract class BaseRenderer implements Renderer, RendererCapabilities {
 
     @Override // com.google.android.exoplayer2.Renderer
     public final void disable() {
-        boolean z = true;
-        if (this.state != 1) {
-            z = false;
-        }
-        Assertions.checkState(z);
+        Assertions.checkState(this.state == 1);
         this.formatHolder.clear();
         this.state = 0;
         this.stream = null;
@@ -206,19 +198,19 @@ public abstract class BaseRenderer implements Renderer, RendererCapabilities {
     /* JADX INFO: Access modifiers changed from: protected */
     public final <T extends ExoMediaCrypto> DrmSession<T> getUpdatedSourceDrmSession(Format format, Format format2, DrmSessionManager<T> drmSessionManager, DrmSession<T> drmSession) throws ExoPlaybackException {
         DrmSession<T> drmSession2 = null;
-        if (!(!Util.areEqual(format2.drmInitData, format == null ? null : format.drmInitData))) {
-            return drmSession;
-        }
-        if (format2.drmInitData != null) {
-            if (drmSessionManager == null) {
-                throw createRendererException(new IllegalStateException("Media requires a DrmSessionManager"), format2);
+        if (!Util.areEqual(format2.drmInitData, format == null ? null : format.drmInitData)) {
+            if (format2.drmInitData != null) {
+                if (drmSessionManager == null) {
+                    throw createRendererException(new IllegalStateException("Media requires a DrmSessionManager"), format2);
+                }
+                drmSession2 = drmSessionManager.acquireSession((Looper) Assertions.checkNotNull(Looper.myLooper()), format2.drmInitData);
             }
-            drmSession2 = drmSessionManager.acquireSession((Looper) Assertions.checkNotNull(Looper.myLooper()), format2.drmInitData);
+            if (drmSession != null) {
+                drmSession.release();
+            }
+            return drmSession2;
         }
-        if (drmSession != null) {
-            drmSession.release();
-        }
-        return drmSession2;
+        return drmSession;
     }
 
     protected final int getIndex() {
@@ -278,9 +270,9 @@ public abstract class BaseRenderer implements Renderer, RendererCapabilities {
         if (drmInitData == null) {
             return true;
         }
-        if (drmSessionManager != null) {
-            return drmSessionManager.canAcquireSession(drmInitData);
+        if (drmSessionManager == null) {
+            return false;
         }
-        return false;
+        return drmSessionManager.canAcquireSession(drmInitData);
     }
 }

@@ -21,20 +21,20 @@ final class H3 extends D3 {
         Arrays.sort(iArr);
         this.a.n(iArr.length);
         int i = 0;
-        if (!this.b) {
+        if (this.b) {
             int length = iArr.length;
             while (i < length) {
-                this.a.accept(iArr[i]);
-                i++;
-            }
-        } else {
-            int length2 = iArr.length;
-            while (i < length2) {
                 int i2 = iArr[i];
                 if (this.a.o()) {
                     break;
                 }
                 this.a.accept(i2);
+                i++;
+            }
+        } else {
+            int length2 = iArr.length;
+            while (i < length2) {
+                this.a.accept(iArr[i]);
                 i++;
             }
         }
@@ -43,10 +43,9 @@ final class H3 extends D3 {
 
     @Override // j$.util.stream.m3
     public void n(long j) {
-        if (j < 2147483639) {
-            this.c = j > 0 ? new W3((int) j) : new W3();
-            return;
+        if (j >= 2147483639) {
+            throw new IllegalArgumentException("Stream size exceeds max array size");
         }
-        throw new IllegalArgumentException("Stream size exceeds max array size");
+        this.c = j > 0 ? new W3((int) j) : new W3();
     }
 }

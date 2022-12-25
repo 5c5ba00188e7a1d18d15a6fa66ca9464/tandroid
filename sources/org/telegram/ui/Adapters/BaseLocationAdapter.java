@@ -152,51 +152,50 @@ public abstract class BaseLocationAdapter extends RecyclerListView.SelectionAdap
     public void searchPlacesWithQuery(final String str, Location location, boolean z, boolean z2) {
         if (location != null) {
             Location location2 = this.lastSearchLocation;
-            if (location2 != null && location.distanceTo(location2) < 200.0f) {
-                return;
-            }
-            this.lastSearchLocation = new Location(location);
-            this.lastSearchQuery = str;
-            if (this.searching) {
-                this.searching = false;
-                if (this.currentRequestNum != 0) {
-                    ConnectionsManager.getInstance(this.currentAccount).cancelRequest(this.currentRequestNum, true);
-                    this.currentRequestNum = 0;
+            if (location2 == null || location.distanceTo(location2) >= 200.0f) {
+                this.lastSearchLocation = new Location(location);
+                this.lastSearchQuery = str;
+                if (this.searching) {
+                    this.searching = false;
+                    if (this.currentRequestNum != 0) {
+                        ConnectionsManager.getInstance(this.currentAccount).cancelRequest(this.currentRequestNum, true);
+                        this.currentRequestNum = 0;
+                    }
                 }
-            }
-            getItemCount();
-            this.searching = true;
-            this.searched = true;
-            TLObject userOrChat = MessagesController.getInstance(this.currentAccount).getUserOrChat(MessagesController.getInstance(this.currentAccount).venueSearchBot);
-            if (!(userOrChat instanceof TLRPC$User)) {
-                if (!z) {
+                getItemCount();
+                this.searching = true;
+                this.searched = true;
+                TLObject userOrChat = MessagesController.getInstance(this.currentAccount).getUserOrChat(MessagesController.getInstance(this.currentAccount).venueSearchBot);
+                if (!(userOrChat instanceof TLRPC$User)) {
+                    if (z) {
+                        searchBotUser();
+                        return;
+                    }
                     return;
                 }
-                searchBotUser();
-                return;
-            }
-            TLRPC$User tLRPC$User = (TLRPC$User) userOrChat;
-            TLRPC$TL_messages_getInlineBotResults tLRPC$TL_messages_getInlineBotResults = new TLRPC$TL_messages_getInlineBotResults();
-            tLRPC$TL_messages_getInlineBotResults.query = str == null ? "" : str;
-            tLRPC$TL_messages_getInlineBotResults.bot = MessagesController.getInstance(this.currentAccount).getInputUser(tLRPC$User);
-            tLRPC$TL_messages_getInlineBotResults.offset = "";
-            TLRPC$TL_inputGeoPoint tLRPC$TL_inputGeoPoint = new TLRPC$TL_inputGeoPoint();
-            tLRPC$TL_messages_getInlineBotResults.geo_point = tLRPC$TL_inputGeoPoint;
-            tLRPC$TL_inputGeoPoint.lat = AndroidUtilities.fixLocationCoord(location.getLatitude());
-            tLRPC$TL_messages_getInlineBotResults.geo_point._long = AndroidUtilities.fixLocationCoord(location.getLongitude());
-            tLRPC$TL_messages_getInlineBotResults.flags |= 1;
-            if (DialogObject.isEncryptedDialog(this.dialogId)) {
-                tLRPC$TL_messages_getInlineBotResults.peer = new TLRPC$TL_inputPeerEmpty();
-            } else {
-                tLRPC$TL_messages_getInlineBotResults.peer = MessagesController.getInstance(this.currentAccount).getInputPeer(this.dialogId);
-            }
-            this.currentRequestNum = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_getInlineBotResults, new RequestDelegate() { // from class: org.telegram.ui.Adapters.BaseLocationAdapter$$ExternalSyntheticLambda5
-                @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    BaseLocationAdapter.this.lambda$searchPlacesWithQuery$5(str, tLObject, tLRPC$TL_error);
+                TLRPC$User tLRPC$User = (TLRPC$User) userOrChat;
+                TLRPC$TL_messages_getInlineBotResults tLRPC$TL_messages_getInlineBotResults = new TLRPC$TL_messages_getInlineBotResults();
+                tLRPC$TL_messages_getInlineBotResults.query = str == null ? "" : str;
+                tLRPC$TL_messages_getInlineBotResults.bot = MessagesController.getInstance(this.currentAccount).getInputUser(tLRPC$User);
+                tLRPC$TL_messages_getInlineBotResults.offset = "";
+                TLRPC$TL_inputGeoPoint tLRPC$TL_inputGeoPoint = new TLRPC$TL_inputGeoPoint();
+                tLRPC$TL_messages_getInlineBotResults.geo_point = tLRPC$TL_inputGeoPoint;
+                tLRPC$TL_inputGeoPoint.lat = AndroidUtilities.fixLocationCoord(location.getLatitude());
+                tLRPC$TL_messages_getInlineBotResults.geo_point._long = AndroidUtilities.fixLocationCoord(location.getLongitude());
+                tLRPC$TL_messages_getInlineBotResults.flags |= 1;
+                if (DialogObject.isEncryptedDialog(this.dialogId)) {
+                    tLRPC$TL_messages_getInlineBotResults.peer = new TLRPC$TL_inputPeerEmpty();
+                } else {
+                    tLRPC$TL_messages_getInlineBotResults.peer = MessagesController.getInstance(this.currentAccount).getInputPeer(this.dialogId);
                 }
-            });
-            notifyDataSetChanged();
+                this.currentRequestNum = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_getInlineBotResults, new RequestDelegate() { // from class: org.telegram.ui.Adapters.BaseLocationAdapter$$ExternalSyntheticLambda5
+                    @Override // org.telegram.tgnet.RequestDelegate
+                    public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                        BaseLocationAdapter.this.lambda$searchPlacesWithQuery$5(str, tLObject, tLRPC$TL_error);
+                    }
+                });
+                notifyDataSetChanged();
+            }
         }
     }
 

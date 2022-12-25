@@ -55,10 +55,10 @@ public final class CommonNotificationBuilder {
     }
 
     private static PendingIntent createDeleteIntent(Context context, NotificationParams notificationParams) {
-        if (!shouldUploadMetrics(notificationParams)) {
-            return null;
+        if (shouldUploadMetrics(notificationParams)) {
+            return createMessagingPendingIntent(context, new Intent("com.google.firebase.messaging.NOTIFICATION_DISMISS").putExtras(notificationParams.paramsForAnalyticsIntent()));
         }
-        return createMessagingPendingIntent(context, new Intent("com.google.firebase.messaging.NOTIFICATION_DISMISS").putExtras(notificationParams.paramsForAnalyticsIntent()));
+        return null;
     }
 
     private static PendingIntent createMessagingPendingIntent(Context context, Intent intent) {
@@ -123,17 +123,17 @@ public final class CommonNotificationBuilder {
         return null;
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
+    /* JADX WARN: Type inference failed for: r0v2, types: [int] */
+    /* JADX WARN: Type inference failed for: r0v5 */
+    /* JADX WARN: Type inference failed for: r0v6 */
     private static int getConsolidatedDefaults(NotificationParams notificationParams) {
         boolean z = notificationParams.getBoolean("gcm.n.default_sound");
+        ?? r0 = z;
         if (notificationParams.getBoolean("gcm.n.default_vibrate_timings")) {
-            z = (z ? 1 : 0) | true;
+            r0 = (z ? 1 : 0) | true;
         }
-        if (notificationParams.getBoolean("gcm.n.default_light_settings")) {
-            return (z ? 1 : 0) | 4;
-        }
-        int i = z ? 1 : 0;
-        int i2 = z ? 1 : 0;
-        return i;
+        return notificationParams.getBoolean("gcm.n.default_light_settings") ? r0 | 4 : r0;
     }
 
     private static Bundle getManifestMetadata(PackageManager packageManager, String str) {
@@ -256,14 +256,14 @@ public final class CommonNotificationBuilder {
 
     private static String getTag(NotificationParams notificationParams) {
         String string = notificationParams.getString("gcm.n.tag");
-        if (!TextUtils.isEmpty(string)) {
-            return string;
+        if (TextUtils.isEmpty(string)) {
+            long uptimeMillis = SystemClock.uptimeMillis();
+            StringBuilder sb = new StringBuilder(37);
+            sb.append("FCM-Notification:");
+            sb.append(uptimeMillis);
+            return sb.toString();
         }
-        long uptimeMillis = SystemClock.uptimeMillis();
-        StringBuilder sb = new StringBuilder(37);
-        sb.append("FCM-Notification:");
-        sb.append(uptimeMillis);
-        return sb.toString();
+        return string;
     }
 
     @TargetApi(26)
@@ -272,14 +272,14 @@ public final class CommonNotificationBuilder {
             return true;
         }
         try {
-            if (!(resources.getDrawable(i, null) instanceof AdaptiveIconDrawable)) {
-                return true;
+            if (resources.getDrawable(i, null) instanceof AdaptiveIconDrawable) {
+                StringBuilder sb = new StringBuilder(77);
+                sb.append("Adaptive icons cannot be used in notifications. Ignoring icon id: ");
+                sb.append(i);
+                Log.e("FirebaseMessaging", sb.toString());
+                return false;
             }
-            StringBuilder sb = new StringBuilder(77);
-            sb.append("Adaptive icons cannot be used in notifications. Ignoring icon id: ");
-            sb.append(i);
-            Log.e("FirebaseMessaging", sb.toString());
-            return false;
+            return true;
         } catch (Resources.NotFoundException unused) {
             StringBuilder sb2 = new StringBuilder(66);
             sb2.append("Couldn't find resource ");

@@ -59,29 +59,25 @@ public class HandledErrorLog extends LogWithProperties {
         if (this == obj) {
             return true;
         }
-        if (obj == null || HandledErrorLog.class != obj.getClass() || !super.equals(obj)) {
+        if (obj != null && HandledErrorLog.class == obj.getClass() && super.equals(obj)) {
+            HandledErrorLog handledErrorLog = (HandledErrorLog) obj;
+            UUID uuid = this.id;
+            if (uuid == null ? handledErrorLog.id == null : uuid.equals(handledErrorLog.id)) {
+                Exception exception = this.exception;
+                Exception exception2 = handledErrorLog.exception;
+                return exception != null ? exception.equals(exception2) : exception2 == null;
+            }
             return false;
         }
-        HandledErrorLog handledErrorLog = (HandledErrorLog) obj;
-        UUID uuid = this.id;
-        if (uuid == null ? handledErrorLog.id != null : !uuid.equals(handledErrorLog.id)) {
-            return false;
-        }
-        Exception exception = this.exception;
-        Exception exception2 = handledErrorLog.exception;
-        return exception != null ? exception.equals(exception2) : exception2 == null;
+        return false;
     }
 
     @Override // com.microsoft.appcenter.ingestion.models.LogWithProperties, com.microsoft.appcenter.ingestion.models.AbstractLog
     public int hashCode() {
         int hashCode = super.hashCode() * 31;
         UUID uuid = this.id;
-        int i = 0;
         int hashCode2 = (hashCode + (uuid != null ? uuid.hashCode() : 0)) * 31;
         Exception exception = this.exception;
-        if (exception != null) {
-            i = exception.hashCode();
-        }
-        return hashCode2 + i;
+        return hashCode2 + (exception != null ? exception.hashCode() : 0);
     }
 }

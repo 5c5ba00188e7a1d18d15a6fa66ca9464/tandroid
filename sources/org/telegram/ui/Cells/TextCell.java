@@ -68,7 +68,6 @@ public class TextCell extends FrameLayout {
         this.textView = simpleTextView;
         simpleTextView.setTextColor(Theme.getColor(z ? "dialogTextBlack" : "windowBackgroundWhiteBlackText", resourcesProvider));
         simpleTextView.setTextSize(16);
-        int i2 = 5;
         simpleTextView.setGravity(LocaleController.isRTL ? 5 : 3);
         simpleTextView.setImportantForAccessibility(2);
         addView(simpleTextView, LayoutHelper.createFrame(-2, -1.0f));
@@ -93,7 +92,7 @@ public class TextCell extends FrameLayout {
             Switch r3 = new Switch(context, resourcesProvider);
             this.checkBox = r3;
             r3.setColors("switchTrack", "switchTrackChecked", "windowBackgroundWhite", "windowBackgroundWhite");
-            addView(this.checkBox, LayoutHelper.createFrame(37, 20.0f, (LocaleController.isRTL ? 3 : i2) | 16, 22.0f, 0.0f, 22.0f, 0.0f));
+            addView(this.checkBox, LayoutHelper.createFrame(37, 20.0f, (LocaleController.isRTL ? 3 : 5) | 16, 22.0f, 0.0f, 22.0f, 0.0f));
         }
         setFocusable(true);
     }
@@ -383,7 +382,6 @@ public class TextCell extends FrameLayout {
         float dp;
         int i;
         if (this.needDivider) {
-            int i2 = 72;
             float f2 = 20.0f;
             if (LocaleController.isRTL) {
                 dp = 0.0f;
@@ -399,10 +397,7 @@ public class TextCell extends FrameLayout {
             int measuredWidth = getMeasuredWidth();
             if (LocaleController.isRTL) {
                 if (this.imageView.getVisibility() == 0) {
-                    if (!this.inDialogs) {
-                        i2 = 68;
-                    }
-                    f2 = i2;
+                    f2 = this.inDialogs ? 72 : 68;
                 }
                 i = AndroidUtilities.dp(f2);
             } else {

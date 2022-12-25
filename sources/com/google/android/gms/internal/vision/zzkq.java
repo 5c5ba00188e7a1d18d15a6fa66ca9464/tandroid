@@ -31,13 +31,13 @@ final class zzkq<T> implements zzlc<T> {
 
     @Override // com.google.android.gms.internal.vision.zzlc
     public final boolean zza(T t, T t2) {
-        if (!this.zzb.zzb(t).equals(this.zzb.zzb(t2))) {
-            return false;
-        }
-        if (!this.zzc) {
+        if (this.zzb.zzb(t).equals(this.zzb.zzb(t2))) {
+            if (this.zzc) {
+                return this.zzd.zza(t).equals(this.zzd.zza(t2));
+            }
             return true;
         }
-        return this.zzd.zza(t).equals(this.zzd.zza(t2));
+        return false;
     }
 
     @Override // com.google.android.gms.internal.vision.zzlc
@@ -73,8 +73,8 @@ final class zzkq<T> implements zzlc<T> {
         zzluVar.zzb((zzlu<?, ?>) zzluVar.zzb(t), zzmrVar);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:22:0x00b9  */
-    /* JADX WARN: Removed duplicated region for block: B:24:0x00be A[EDGE_INSN: B:24:0x00be->B:25:0x00be ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x00b9  */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x00be A[EDGE_INSN: B:58:0x00be->B:33:0x00be ?: BREAK  , SYNTHETIC] */
     @Override // com.google.android.gms.internal.vision.zzlc
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -137,10 +137,9 @@ final class zzkq<T> implements zzlc<T> {
                 i = zzhl.zza(i3, bArr, zza2, i2, zzhnVar);
             }
         }
-        if (i == i2) {
-            return;
+        if (i != i2) {
+            throw zzjk.zzg();
         }
-        throw zzjk.zzg();
     }
 
     @Override // com.google.android.gms.internal.vision.zzlc

@@ -16,9 +16,9 @@ final class ResamplingAudioProcessor extends BaseAudioProcessor {
         throw new AudioProcessor.UnhandledAudioFormatException(audioFormat);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:13:0x0039  */
-    /* JADX WARN: Removed duplicated region for block: B:33:0x00a8 A[LOOP:4: B:33:0x00a8->B:34:0x00aa, LOOP_START, PHI: r0 
-      PHI: (r0v1 int) = (r0v0 int), (r0v2 int) binds: [B:12:0x0037, B:34:0x00aa] A[DONT_GENERATE, DONT_INLINE]] */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x0039  */
+    /* JADX WARN: Removed duplicated region for block: B:30:0x00a8 A[LOOP:4: B:30:0x00a8->B:31:0x00aa, LOOP_START, PHI: r0 
+      PHI: (r0v1 int) = (r0v0 int), (r0v2 int) binds: [B:15:0x0037, B:31:0x00aa] A[DONT_GENERATE, DONT_INLINE]] */
     @Override // com.google.android.exoplayer2.audio.AudioProcessor
     /*
         Code decompiled incorrectly, please refer to instructions dump.

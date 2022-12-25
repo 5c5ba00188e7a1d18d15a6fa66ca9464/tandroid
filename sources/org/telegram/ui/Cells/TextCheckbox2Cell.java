@@ -62,12 +62,10 @@ public class TextCheckbox2Cell extends FrameLayout {
         this.textView.setLines(1);
         this.textView.setMaxLines(1);
         this.textView.setSingleLine(true);
-        int i2 = 5;
         this.textView.setGravity((LocaleController.isRTL ? 5 : 3) | 16);
         this.textView.setEllipsize(TextUtils.TruncateAt.END);
         TextView textView2 = this.textView;
         boolean z2 = LocaleController.isRTL;
-        float f = 64.0f;
         addView(textView2, LayoutHelper.createFrame(-1, -1.0f, (z2 ? 5 : 3) | 48, z2 ? i : 64.0f, 0.0f, z2 ? 64.0f : i, 0.0f));
         TextView textView3 = new TextView(context);
         this.valueTextView = textView3;
@@ -81,14 +79,14 @@ public class TextCheckbox2Cell extends FrameLayout {
         this.valueTextView.setEllipsize(TextUtils.TruncateAt.END);
         TextView textView4 = this.valueTextView;
         boolean z3 = LocaleController.isRTL;
-        addView(textView4, LayoutHelper.createFrame(-2, -2.0f, (z3 ? 5 : 3) | 48, z3 ? i : 64.0f, 36.0f, !z3 ? i : f, 0.0f));
+        addView(textView4, LayoutHelper.createFrame(-2, -2.0f, (z3 ? 5 : 3) | 48, z3 ? i : 64.0f, 36.0f, z3 ? 64.0f : i, 0.0f));
         CheckBox2 checkBox2 = new CheckBox2(context, 21);
         this.checkbox = checkBox2;
         checkBox2.setDrawUnchecked(true);
         this.checkbox.setDrawBackgroundAsArc(10);
         this.checkbox.setDuration(100L);
         this.checkbox.setColor("radioBackgroundChecked", "checkboxDisabled", "checkboxCheck");
-        addView(this.checkbox, LayoutHelper.createFrame(20, 20.0f, (!LocaleController.isRTL ? 3 : i2) | 16, 22.0f, 0.0f, 22.0f, 0.0f));
+        addView(this.checkbox, LayoutHelper.createFrame(20, 20.0f, (LocaleController.isRTL ? 5 : 3) | 16, 22.0f, 0.0f, 22.0f, 0.0f));
         setClipChildren(false);
     }
 

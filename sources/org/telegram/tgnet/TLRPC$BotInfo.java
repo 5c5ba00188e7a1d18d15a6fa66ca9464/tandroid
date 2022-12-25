@@ -194,12 +194,12 @@ public abstract class TLRPC$BotInfo extends TLObject {
                 tLRPC$TL_botInfo = null;
                 break;
         }
-        if (tLRPC$TL_botInfo != null || !z) {
-            if (tLRPC$TL_botInfo != null) {
-                tLRPC$TL_botInfo.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_botInfo;
+        if (tLRPC$TL_botInfo == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in BotInfo", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in BotInfo", Integer.valueOf(i)));
+        if (tLRPC$TL_botInfo != null) {
+            tLRPC$TL_botInfo.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_botInfo;
     }
 }

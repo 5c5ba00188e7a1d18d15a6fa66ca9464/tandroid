@@ -29,23 +29,23 @@ final class OggPageHeader {
         this.scratch.reset();
         reset();
         if (!(extractorInput.getLength() == -1 || extractorInput.getLength() - extractorInput.getPeekPosition() >= 27) || !extractorInput.peekFully(this.scratch.data, 0, 27, true)) {
-            if (!z) {
-                throw new EOFException();
+            if (z) {
+                return false;
             }
-            return false;
+            throw new EOFException();
         } else if (this.scratch.readUnsignedInt() != 1332176723) {
-            if (!z) {
-                throw new ParserException("expected OggS capture pattern at begin of page");
+            if (z) {
+                return false;
             }
-            return false;
+            throw new ParserException("expected OggS capture pattern at begin of page");
         } else {
             int readUnsignedByte = this.scratch.readUnsignedByte();
             this.revision = readUnsignedByte;
             if (readUnsignedByte != 0) {
-                if (!z) {
-                    throw new ParserException("unsupported bit stream revision");
+                if (z) {
+                    return false;
                 }
-                return false;
+                throw new ParserException("unsupported bit stream revision");
             }
             this.type = this.scratch.readUnsignedByte();
             this.granulePosition = this.scratch.readLittleEndianLong();

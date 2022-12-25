@@ -53,11 +53,11 @@ public final class FirebaseOptions {
     }
 
     public boolean equals(Object obj) {
-        if (!(obj instanceof FirebaseOptions)) {
-            return false;
+        if (obj instanceof FirebaseOptions) {
+            FirebaseOptions firebaseOptions = (FirebaseOptions) obj;
+            return Objects.equal(this.applicationId, firebaseOptions.applicationId) && Objects.equal(this.apiKey, firebaseOptions.apiKey) && Objects.equal(this.databaseUrl, firebaseOptions.databaseUrl) && Objects.equal(this.gaTrackingId, firebaseOptions.gaTrackingId) && Objects.equal(this.gcmSenderId, firebaseOptions.gcmSenderId) && Objects.equal(this.storageBucket, firebaseOptions.storageBucket) && Objects.equal(this.projectId, firebaseOptions.projectId);
         }
-        FirebaseOptions firebaseOptions = (FirebaseOptions) obj;
-        return Objects.equal(this.applicationId, firebaseOptions.applicationId) && Objects.equal(this.apiKey, firebaseOptions.apiKey) && Objects.equal(this.databaseUrl, firebaseOptions.databaseUrl) && Objects.equal(this.gaTrackingId, firebaseOptions.gaTrackingId) && Objects.equal(this.gcmSenderId, firebaseOptions.gcmSenderId) && Objects.equal(this.storageBucket, firebaseOptions.storageBucket) && Objects.equal(this.projectId, firebaseOptions.projectId);
+        return false;
     }
 
     public int hashCode() {

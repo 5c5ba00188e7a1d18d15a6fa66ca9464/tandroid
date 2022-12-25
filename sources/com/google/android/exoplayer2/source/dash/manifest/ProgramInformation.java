@@ -30,7 +30,6 @@ public class ProgramInformation {
 
     public int hashCode() {
         String str = this.title;
-        int i = 0;
         int hashCode = (527 + (str != null ? str.hashCode() : 0)) * 31;
         String str2 = this.source;
         int hashCode2 = (hashCode + (str2 != null ? str2.hashCode() : 0)) * 31;
@@ -39,9 +38,6 @@ public class ProgramInformation {
         String str4 = this.moreInformationURL;
         int hashCode4 = (hashCode3 + (str4 != null ? str4.hashCode() : 0)) * 31;
         String str5 = this.lang;
-        if (str5 != null) {
-            i = str5.hashCode();
-        }
-        return hashCode4 + i;
+        return hashCode4 + (str5 != null ? str5.hashCode() : 0);
     }
 }

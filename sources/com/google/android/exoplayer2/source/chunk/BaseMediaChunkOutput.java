@@ -37,14 +37,13 @@ public final class BaseMediaChunkOutput implements ChunkExtractorWrapper.TrackOu
         int i = 0;
         while (true) {
             SampleQueue[] sampleQueueArr = this.sampleQueues;
-            if (i < sampleQueueArr.length) {
-                if (sampleQueueArr[i] != null) {
-                    iArr[i] = sampleQueueArr[i].getWriteIndex();
-                }
-                i++;
-            } else {
+            if (i >= sampleQueueArr.length) {
                 return iArr;
             }
+            if (sampleQueueArr[i] != null) {
+                iArr[i] = sampleQueueArr[i].getWriteIndex();
+            }
+            i++;
         }
     }
 

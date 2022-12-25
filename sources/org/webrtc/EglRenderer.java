@@ -102,7 +102,7 @@ public class EglRenderer implements VideoSink {
             this.surface = obj;
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:31:0x0028, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:13:0x0028, code lost:
             if (r3.this$0.eglBase.hasSurface() == false) goto L12;
          */
         @Override // java.lang.Runnable
@@ -480,8 +480,7 @@ public class EglRenderer implements VideoSink {
                         EglRenderer.this.lambda$releaseEglSurface$5(z, runnable);
                     }
                 });
-            } else if (runnable == null) {
-            } else {
+            } else if (runnable != null) {
                 runnable.run();
             }
         }
@@ -606,7 +605,6 @@ public class EglRenderer implements VideoSink {
                     f = rotatedHeight;
                 }
             }
-            float f4 = 1.0f;
             if (rotatedHeight > f) {
                 f3 = f / rotatedHeight;
                 f2 = 1.0f;
@@ -617,12 +615,7 @@ public class EglRenderer implements VideoSink {
             this.drawMatrix.reset();
             this.drawMatrix.preTranslate(0.5f, 0.5f);
             this.drawMatrix.preRotate(this.rotation);
-            Matrix matrix = this.drawMatrix;
-            float f5 = this.mirrorHorizontally ? -1.0f : 1.0f;
-            if (this.mirrorVertically) {
-                f4 = -1.0f;
-            }
-            matrix.preScale(f5, f4);
+            this.drawMatrix.preScale(this.mirrorHorizontally ? -1.0f : 1.0f, this.mirrorVertically ? -1.0f : 1.0f);
             this.drawMatrix.preScale(f3, f2);
             this.drawMatrix.preTranslate(-0.5f, -0.5f);
             try {

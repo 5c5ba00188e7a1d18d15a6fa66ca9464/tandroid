@@ -39,12 +39,12 @@ public abstract class TLRPC$InputStickerSet extends TLObject {
                 tLRPC$TL_inputStickerSetShortName = null;
                 break;
         }
-        if (tLRPC$TL_inputStickerSetShortName != null || !z) {
-            if (tLRPC$TL_inputStickerSetShortName != null) {
-                tLRPC$TL_inputStickerSetShortName.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_inputStickerSetShortName;
+        if (tLRPC$TL_inputStickerSetShortName == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in InputStickerSet", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in InputStickerSet", Integer.valueOf(i)));
+        if (tLRPC$TL_inputStickerSetShortName != null) {
+            tLRPC$TL_inputStickerSetShortName.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_inputStickerSetShortName;
     }
 }

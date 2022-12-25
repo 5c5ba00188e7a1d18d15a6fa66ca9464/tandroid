@@ -80,7 +80,7 @@ public class DatabasePersistence extends Persistence {
         return this.mDatabaseManager.setMaxSize(j);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:20:0x00aa, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:23:0x00aa, code lost:
         r8 = null;
      */
     @Override // com.microsoft.appcenter.persistence.Persistence

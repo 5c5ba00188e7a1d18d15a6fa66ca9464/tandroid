@@ -14,10 +14,11 @@ import com.google.android.gms.tasks.Task;
 /* compiled from: com.google.android.gms:play-services-auth@@20.4.0 */
 /* loaded from: classes.dex */
 public class GoogleSignInClient extends GoogleApi<GoogleSignInOptions> {
-    static int zba = 1;
+    static int zba;
 
     static {
         new zbb(null);
+        zba = 1;
     }
 
     private final synchronized int zba() {
@@ -46,13 +47,13 @@ public class GoogleSignInClient extends GoogleApi<GoogleSignInOptions> {
         int zba2 = zba();
         int i = zba2 - 1;
         if (zba2 != 0) {
-            if (i == 2) {
-                return zbm.zba(applicationContext, getApiOptions());
+            if (i != 2) {
+                if (i == 3) {
+                    return zbm.zbc(applicationContext, getApiOptions());
+                }
+                return zbm.zbb(applicationContext, getApiOptions());
             }
-            if (i == 3) {
-                return zbm.zbc(applicationContext, getApiOptions());
-            }
-            return zbm.zbb(applicationContext, getApiOptions());
+            return zbm.zba(applicationContext, getApiOptions());
         }
         throw null;
     }

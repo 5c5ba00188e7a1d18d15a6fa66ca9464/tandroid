@@ -141,12 +141,12 @@ public abstract class TLRPC$SendMessageAction extends TLObject {
                 tLRPC$TL_sendMessageRecordRoundAction = null;
                 break;
         }
-        if (tLRPC$TL_sendMessageRecordRoundAction != null || !z) {
-            if (tLRPC$TL_sendMessageRecordRoundAction != null) {
-                tLRPC$TL_sendMessageRecordRoundAction.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_sendMessageRecordRoundAction;
+        if (tLRPC$TL_sendMessageRecordRoundAction == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in SendMessageAction", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in SendMessageAction", Integer.valueOf(i)));
+        if (tLRPC$TL_sendMessageRecordRoundAction != null) {
+            tLRPC$TL_sendMessageRecordRoundAction.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_sendMessageRecordRoundAction;
     }
 }

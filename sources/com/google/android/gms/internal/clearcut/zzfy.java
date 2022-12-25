@@ -4,11 +4,12 @@ import java.nio.charset.Charset;
 import java.util.Arrays;
 /* loaded from: classes.dex */
 public final class zzfy {
-    public static final Object zzrr = new Object();
+    public static final Object zzrr;
 
     static {
         Charset.forName("UTF-8");
         Charset.forName("ISO-8859-1");
+        zzrr = new Object();
     }
 
     public static boolean equals(int[] iArr, int[] iArr2) {

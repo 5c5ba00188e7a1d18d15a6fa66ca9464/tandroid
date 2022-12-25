@@ -55,21 +55,21 @@ public class Frame {
             if (byteBuffer == null) {
                 throw new IllegalArgumentException("Null image data supplied.");
             }
-            if (byteBuffer.capacity() < i * i2) {
-                throw new IllegalArgumentException("Invalid image data size.");
+            if (byteBuffer.capacity() >= i * i2) {
+                if (i3 != 16 && i3 != 17 && i3 != 842094169) {
+                    StringBuilder sb = new StringBuilder(37);
+                    sb.append("Unsupported image format: ");
+                    sb.append(i3);
+                    throw new IllegalArgumentException(sb.toString());
+                }
+                this.zza.zzb = byteBuffer;
+                Metadata metadata = this.zza.getMetadata();
+                metadata.zza = i;
+                metadata.zzb = i2;
+                metadata.zzf = i3;
+                return this;
             }
-            if (i3 != 16 && i3 != 17 && i3 != 842094169) {
-                StringBuilder sb = new StringBuilder(37);
-                sb.append("Unsupported image format: ");
-                sb.append(i3);
-                throw new IllegalArgumentException(sb.toString());
-            }
-            this.zza.zzb = byteBuffer;
-            Metadata metadata = this.zza.getMetadata();
-            metadata.zza = i;
-            metadata.zzb = i2;
-            metadata.zzf = i3;
-            return this;
+            throw new IllegalArgumentException("Invalid image data size.");
         }
 
         @RecentlyNonNull

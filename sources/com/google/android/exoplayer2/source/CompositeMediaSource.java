@@ -85,9 +85,10 @@ public abstract class CompositeMediaSource<T> extends BaseMediaSource {
         this.childSources.put(t, new MediaSourceAndListener(mediaSource, mediaSourceCaller, forwardingEventListener));
         mediaSource.addEventListener((Handler) Assertions.checkNotNull(this.eventHandler), forwardingEventListener);
         mediaSource.prepareSource(mediaSourceCaller, this.mediaTransferListener);
-        if (!isEnabled()) {
-            mediaSource.disable(mediaSourceCaller);
+        if (isEnabled()) {
+            return;
         }
+        mediaSource.disable(mediaSourceCaller);
     }
 
     /* loaded from: classes.dex */
@@ -115,18 +116,16 @@ public abstract class CompositeMediaSource<T> extends BaseMediaSource {
 
         @Override // com.google.android.exoplayer2.source.MediaSourceEventListener
         public void onMediaPeriodCreated(int i, MediaSource.MediaPeriodId mediaPeriodId) {
-            if (!maybeUpdateEventDispatcher(i, mediaPeriodId) || !CompositeMediaSource.this.shouldDispatchCreateOrReleaseEvent((MediaSource.MediaPeriodId) Assertions.checkNotNull(this.eventDispatcher.mediaPeriodId))) {
-                return;
+            if (maybeUpdateEventDispatcher(i, mediaPeriodId) && CompositeMediaSource.this.shouldDispatchCreateOrReleaseEvent((MediaSource.MediaPeriodId) Assertions.checkNotNull(this.eventDispatcher.mediaPeriodId))) {
+                this.eventDispatcher.mediaPeriodCreated();
             }
-            this.eventDispatcher.mediaPeriodCreated();
         }
 
         @Override // com.google.android.exoplayer2.source.MediaSourceEventListener
         public void onMediaPeriodReleased(int i, MediaSource.MediaPeriodId mediaPeriodId) {
-            if (!maybeUpdateEventDispatcher(i, mediaPeriodId) || !CompositeMediaSource.this.shouldDispatchCreateOrReleaseEvent((MediaSource.MediaPeriodId) Assertions.checkNotNull(this.eventDispatcher.mediaPeriodId))) {
-                return;
+            if (maybeUpdateEventDispatcher(i, mediaPeriodId) && CompositeMediaSource.this.shouldDispatchCreateOrReleaseEvent((MediaSource.MediaPeriodId) Assertions.checkNotNull(this.eventDispatcher.mediaPeriodId))) {
+                this.eventDispatcher.mediaPeriodReleased();
             }
-            this.eventDispatcher.mediaPeriodReleased();
         }
 
         @Override // com.google.android.exoplayer2.source.MediaSourceEventListener
@@ -190,10 +189,10 @@ public abstract class CompositeMediaSource<T> extends BaseMediaSource {
             }
             int windowIndexForChildWindowIndex = CompositeMediaSource.this.getWindowIndexForChildWindowIndex(this.id, i);
             MediaSourceEventListener.EventDispatcher eventDispatcher = this.eventDispatcher;
-            if (eventDispatcher.windowIndex != windowIndexForChildWindowIndex || !Util.areEqual(eventDispatcher.mediaPeriodId, mediaPeriodId2)) {
-                this.eventDispatcher = CompositeMediaSource.this.createEventDispatcher(windowIndexForChildWindowIndex, mediaPeriodId2, 0L);
+            if (eventDispatcher.windowIndex == windowIndexForChildWindowIndex && Util.areEqual(eventDispatcher.mediaPeriodId, mediaPeriodId2)) {
                 return true;
             }
+            this.eventDispatcher = CompositeMediaSource.this.createEventDispatcher(windowIndexForChildWindowIndex, mediaPeriodId2, 0L);
             return true;
         }
 

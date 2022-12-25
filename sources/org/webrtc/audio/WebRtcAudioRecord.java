@@ -74,10 +74,11 @@ public class WebRtcAudioRecord {
 
     /* loaded from: classes.dex */
     private class AudioRecordThread extends Thread {
-        private volatile boolean keepAlive = true;
+        private volatile boolean keepAlive;
 
         public AudioRecordThread(String str) {
             super(str);
+            this.keepAlive = true;
         }
 
         @Override // java.lang.Thread, java.lang.Runnable
@@ -111,11 +112,10 @@ public class WebRtcAudioRecord {
                 }
             }
             try {
-                if (WebRtcAudioRecord.this.audioRecord == null) {
-                    return;
+                if (WebRtcAudioRecord.this.audioRecord != null) {
+                    WebRtcAudioRecord.this.audioRecord.stop();
+                    WebRtcAudioRecord.this.doAudioRecordStateCallback(1);
                 }
-                WebRtcAudioRecord.this.audioRecord.stop();
-                WebRtcAudioRecord.this.doAudioRecordStateCallback(1);
             } catch (IllegalStateException e) {
                 Logging.e(WebRtcAudioRecord.TAG, "AudioRecord.stop failed: " + e.getMessage());
             }
@@ -361,10 +361,9 @@ public class WebRtcAudioRecord {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static void assertTrue(boolean z) {
-        if (z) {
-            return;
+        if (!z) {
+            throw new AssertionError("Expected condition to be true");
         }
-        throw new AssertionError("Expected condition to be true");
     }
 
     public void setMicrophoneMute(boolean z) {

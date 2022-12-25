@@ -75,15 +75,12 @@ public class GoogleApiAvailability extends GoogleApiAvailabilityLight {
     }
 
     final Dialog zaa(Context context, int i, zag zagVar, DialogInterface.OnCancelListener onCancelListener) {
-        AlertDialog.Builder builder = null;
         if (i == 0) {
             return null;
         }
         TypedValue typedValue = new TypedValue();
         context.getTheme().resolveAttribute(16843529, typedValue, true);
-        if ("Theme.Dialog.Alert".equals(context.getResources().getResourceEntryName(typedValue.resourceId))) {
-            builder = new AlertDialog.Builder(context, 5);
-        }
+        AlertDialog.Builder builder = "Theme.Dialog.Alert".equals(context.getResources().getResourceEntryName(typedValue.resourceId)) ? new AlertDialog.Builder(context, 5) : null;
         if (builder == null) {
             builder = new AlertDialog.Builder(context);
         }
@@ -122,12 +119,12 @@ public class GoogleApiAvailability extends GoogleApiAvailabilityLight {
         zabx zabxVar = new zabx(zabwVar);
         zao.zaa(context, zabxVar, intentFilter);
         zabxVar.zaa(context);
-        if (!isUninstalledAppPossiblyUpdating(context, "com.google.android.gms")) {
-            zabwVar.zaa();
-            zabxVar.zab();
-            return null;
+        if (isUninstalledAppPossiblyUpdating(context, "com.google.android.gms")) {
+            return zabxVar;
         }
-        return zabxVar;
+        zabwVar.zaa();
+        zabxVar.zab();
+        return null;
     }
 
     final void zad(Activity activity, Dialog dialog, String str, DialogInterface.OnCancelListener onCancelListener) {
@@ -149,10 +146,9 @@ public class GoogleApiAvailability extends GoogleApiAvailabilityLight {
         if (i == 18) {
             zaf(context);
         } else if (pendingIntent == null) {
-            if (i != 6) {
-                return;
+            if (i == 6) {
+                Log.w("GoogleApiAvailability", "Missing resolution for ConnectionResult.RESOLUTION_REQUIRED. Call GoogleApiAvailability#showErrorNotification(Context, ConnectionResult) instead.");
             }
-            Log.w("GoogleApiAvailability", "Missing resolution for ConnectionResult.RESOLUTION_REQUIRED. Call GoogleApiAvailability#showErrorNotification(Context, ConnectionResult) instead.");
         } else {
             String zaf = com.google.android.gms.common.internal.zac.zaf(context, i);
             String zae = com.google.android.gms.common.internal.zac.zae(context, i);
@@ -177,10 +173,10 @@ public class GoogleApiAvailability extends GoogleApiAvailabilityLight {
                 }
                 if (str2 == null) {
                     str2 = "com.google.android.gms.availability";
-                    NotificationChannel notificationChannel = notificationManager.getNotificationChannel(str2);
+                    NotificationChannel notificationChannel = notificationManager.getNotificationChannel("com.google.android.gms.availability");
                     String zab2 = com.google.android.gms.common.internal.zac.zab(context);
                     if (notificationChannel == null) {
-                        notificationManager.createNotificationChannel(new NotificationChannel(str2, zab2, 4));
+                        notificationManager.createNotificationChannel(new NotificationChannel("com.google.android.gms.availability", zab2, 4));
                     } else if (!zab2.contentEquals(notificationChannel.getName())) {
                         notificationChannel.setName(zab2);
                         notificationManager.createNotificationChannel(notificationChannel);
@@ -214,11 +210,11 @@ public class GoogleApiAvailability extends GoogleApiAvailabilityLight {
 
     public final boolean zah(Context context, ConnectionResult connectionResult, int i) {
         PendingIntent errorResolutionPendingIntent;
-        if (!InstantApps.isInstantApp(context) && (errorResolutionPendingIntent = getErrorResolutionPendingIntent(context, connectionResult)) != null) {
-            zae(context, connectionResult.getErrorCode(), null, PendingIntent.getActivity(context, 0, GoogleApiActivity.zaa(context, errorResolutionPendingIntent, i, true), zap.zaa | 134217728));
-            return true;
+        if (InstantApps.isInstantApp(context) || (errorResolutionPendingIntent = getErrorResolutionPendingIntent(context, connectionResult)) == null) {
+            return false;
         }
-        return false;
+        zae(context, connectionResult.getErrorCode(), null, PendingIntent.getActivity(context, 0, GoogleApiActivity.zaa(context, errorResolutionPendingIntent, i, true), zap.zaa | 134217728));
+        return true;
     }
 
     public Dialog getErrorDialog(Activity activity, int i, int i2, DialogInterface.OnCancelListener onCancelListener) {

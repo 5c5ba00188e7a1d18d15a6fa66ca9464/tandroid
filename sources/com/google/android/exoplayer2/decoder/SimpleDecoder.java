@@ -149,10 +149,9 @@ public abstract class SimpleDecoder<I extends DecoderInputBuffer, O extends Outp
 
     private void maybeThrowException() throws Exception {
         E e = this.exception;
-        if (e == null) {
-            return;
+        if (e != null) {
+            throw e;
         }
-        throw e;
     }
 
     private void maybeNotifyDecodeLoop() {

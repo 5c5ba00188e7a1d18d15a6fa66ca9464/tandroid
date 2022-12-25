@@ -32,10 +32,11 @@ final class MultiDexExtractor implements Closeable {
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class ExtractedDex extends File {
-        public long crc = -1;
+        public long crc;
 
         public ExtractedDex(File file, String str) {
             super(file, str);
+            this.crc = -1L;
         }
     }
 
@@ -260,10 +261,10 @@ final class MultiDexExtractor implements Closeable {
         }
         for (File file : listFiles) {
             Log.i("MultiDex", "Trying to delete old file " + file.getPath() + " of size " + file.length());
-            if (!file.delete()) {
-                Log.w("MultiDex", "Failed to delete old file " + file.getPath());
-            } else {
+            if (file.delete()) {
                 Log.i("MultiDex", "Deleted old file " + file.getPath());
+            } else {
+                Log.w("MultiDex", "Failed to delete old file " + file.getPath());
             }
         }
     }

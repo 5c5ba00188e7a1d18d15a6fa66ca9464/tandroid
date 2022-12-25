@@ -144,10 +144,10 @@ public class AnimatedFloat {
     }
 
     public float getTransitionProgress() {
-        if (!this.transition) {
-            return 0.0f;
+        if (this.transition) {
+            return MathUtils.clamp(((float) ((SystemClock.elapsedRealtime() - this.transitionStart) - this.transitionDelay)) / ((float) this.transitionDuration), 0.0f, 1.0f);
         }
-        return MathUtils.clamp(((float) ((SystemClock.elapsedRealtime() - this.transitionStart) - this.transitionDelay)) / ((float) this.transitionDuration), 0.0f, 1.0f);
+        return 0.0f;
     }
 
     public float getTransitionProgressInterpolated() {

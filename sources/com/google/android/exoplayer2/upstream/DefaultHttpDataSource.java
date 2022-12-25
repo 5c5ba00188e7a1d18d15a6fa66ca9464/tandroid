@@ -42,13 +42,14 @@ public class DefaultHttpDataSource extends BaseDataSource implements HttpDataSou
     private InputStream inputStream;
     private boolean opened;
     private final int readTimeoutMillis;
-    private final HttpDataSource.RequestProperties requestProperties = new HttpDataSource.RequestProperties();
+    private final HttpDataSource.RequestProperties requestProperties;
     private int responseCode;
     private final String userAgent;
 
     public DefaultHttpDataSource(String str, int i, int i2, boolean z, HttpDataSource.RequestProperties requestProperties) {
         super(true);
         this.userAgent = Assertions.checkNotEmpty(str);
+        this.requestProperties = new HttpDataSource.RequestProperties();
         this.connectTimeoutMillis = i;
         this.readTimeoutMillis = i2;
         this.allowCrossProtocolRedirects = z;
@@ -60,6 +61,7 @@ public class DefaultHttpDataSource extends BaseDataSource implements HttpDataSou
         super(true);
         this.userAgent = Assertions.checkNotEmpty(str);
         this.contentTypePredicate = predicate;
+        this.requestProperties = new HttpDataSource.RequestProperties();
         this.connectTimeoutMillis = i;
         this.readTimeoutMillis = i2;
         this.allowCrossProtocolRedirects = z;
@@ -120,15 +122,11 @@ public class DefaultHttpDataSource extends BaseDataSource implements HttpDataSou
                 boolean isCompressed = isCompressed(this.connection);
                 if (!isCompressed) {
                     long j3 = dataSpec.length;
-                    long j4 = -1;
                     if (j3 != -1) {
                         this.bytesToRead = j3;
                     } else {
                         long contentLength = getContentLength(this.connection);
-                        if (contentLength != -1) {
-                            j4 = contentLength - this.bytesToSkip;
-                        }
-                        this.bytesToRead = j4;
+                        this.bytesToRead = contentLength != -1 ? contentLength - this.bytesToSkip : -1L;
                     }
                 } else {
                     this.bytesToRead = dataSpec.length;
@@ -199,40 +197,40 @@ public class DefaultHttpDataSource extends BaseDataSource implements HttpDataSou
         long j = dataSpec2.position;
         long j2 = dataSpec2.length;
         boolean isFlagSet = dataSpec2.isFlagSet(1);
-        if (!this.allowCrossProtocolRedirects) {
-            return makeConnection(url, i, bArr, j, j2, isFlagSet, true, dataSpec2.httpRequestHeaders);
-        }
-        int i2 = 0;
-        while (true) {
-            int i3 = i2 + 1;
-            if (i2 <= 20) {
-                byte[] bArr2 = bArr;
-                long j3 = j2;
-                long j4 = j;
-                makeConnection = makeConnection(url, i, bArr, j, j2, isFlagSet, false, dataSpec2.httpRequestHeaders);
-                int responseCode = makeConnection.getResponseCode();
-                String headerField = makeConnection.getHeaderField("Location");
-                if ((i == 1 || i == 3) && (responseCode == 300 || responseCode == 301 || responseCode == 302 || responseCode == 303 || responseCode == 307 || responseCode == 308)) {
-                    makeConnection.disconnect();
-                    url = handleRedirect(url, headerField);
-                } else if (i != 2 || (responseCode != 300 && responseCode != 301 && responseCode != 302 && responseCode != 303)) {
-                    break;
+        if (this.allowCrossProtocolRedirects) {
+            int i2 = 0;
+            while (true) {
+                int i3 = i2 + 1;
+                if (i2 <= 20) {
+                    byte[] bArr2 = bArr;
+                    long j3 = j2;
+                    long j4 = j;
+                    makeConnection = makeConnection(url, i, bArr, j, j2, isFlagSet, false, dataSpec2.httpRequestHeaders);
+                    int responseCode = makeConnection.getResponseCode();
+                    String headerField = makeConnection.getHeaderField("Location");
+                    if ((i == 1 || i == 3) && (responseCode == 300 || responseCode == 301 || responseCode == 302 || responseCode == 303 || responseCode == 307 || responseCode == 308)) {
+                        makeConnection.disconnect();
+                        url = handleRedirect(url, headerField);
+                    } else if (i != 2 || (responseCode != 300 && responseCode != 301 && responseCode != 302 && responseCode != 303)) {
+                        break;
+                    } else {
+                        makeConnection.disconnect();
+                        url = handleRedirect(url, headerField);
+                        bArr2 = null;
+                        i = 1;
+                    }
+                    i2 = i3;
+                    bArr = bArr2;
+                    j2 = j3;
+                    j = j4;
+                    dataSpec2 = dataSpec;
                 } else {
-                    makeConnection.disconnect();
-                    url = handleRedirect(url, headerField);
-                    bArr2 = null;
-                    i = 1;
+                    throw new NoRouteToHostException("Too many redirects: " + i3);
                 }
-                i2 = i3;
-                bArr = bArr2;
-                j2 = j3;
-                j = j4;
-                dataSpec2 = dataSpec;
-            } else {
-                throw new NoRouteToHostException("Too many redirects: " + i3);
             }
+            return makeConnection;
         }
-        return makeConnection;
+        return makeConnection(url, i, bArr, j, j2, isFlagSet, true, dataSpec2.httpRequestHeaders);
     }
 
     private HttpURLConnection makeConnection(URL url, int i, byte[] bArr, long j, long j2, boolean z, boolean z2, Map<String, String> map) throws IOException {
@@ -289,8 +287,8 @@ public class DefaultHttpDataSource extends BaseDataSource implements HttpDataSou
         throw new ProtocolException("Unsupported protocol redirect: " + protocol);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:25:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:6:0x003a  */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x003a  */
+    /* JADX WARN: Removed duplicated region for block: B:26:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -305,31 +303,31 @@ public class DefaultHttpDataSource extends BaseDataSource implements HttpDataSou
                 Log.e("DefaultHttpDataSource", "Unexpected Content-Length [" + headerField2 + "]");
             }
             headerField = httpURLConnection.getHeaderField("Content-Range");
-            if (!TextUtils.isEmpty(headerField)) {
-                return parseLong;
-            }
-            Matcher matcher = CONTENT_RANGE_HEADER.matcher(headerField);
-            if (!matcher.find()) {
-                return parseLong;
-            }
-            try {
-                long parseLong2 = (Long.parseLong(matcher.group(2)) - Long.parseLong(matcher.group(1))) + 1;
-                if (parseLong < 0) {
-                    return parseLong2;
+            if (TextUtils.isEmpty(headerField)) {
+                Matcher matcher = CONTENT_RANGE_HEADER.matcher(headerField);
+                if (matcher.find()) {
+                    try {
+                        long parseLong2 = (Long.parseLong(matcher.group(2)) - Long.parseLong(matcher.group(1))) + 1;
+                        if (parseLong < 0) {
+                            return parseLong2;
+                        }
+                        if (parseLong != parseLong2) {
+                            Log.w("DefaultHttpDataSource", "Inconsistent headers [" + headerField2 + "] [" + headerField + "]");
+                            return Math.max(parseLong, parseLong2);
+                        }
+                        return parseLong;
+                    } catch (NumberFormatException unused2) {
+                        Log.e("DefaultHttpDataSource", "Unexpected Content-Range [" + headerField + "]");
+                        return parseLong;
+                    }
                 }
-                if (parseLong == parseLong2) {
-                    return parseLong;
-                }
-                Log.w("DefaultHttpDataSource", "Inconsistent headers [" + headerField2 + "] [" + headerField + "]");
-                return Math.max(parseLong, parseLong2);
-            } catch (NumberFormatException unused2) {
-                Log.e("DefaultHttpDataSource", "Unexpected Content-Range [" + headerField + "]");
                 return parseLong;
             }
+            return parseLong;
         }
         parseLong = -1;
         headerField = httpURLConnection.getHeaderField("Content-Range");
-        if (!TextUtils.isEmpty(headerField)) {
+        if (TextUtils.isEmpty(headerField)) {
         }
     }
 
@@ -375,10 +373,10 @@ public class DefaultHttpDataSource extends BaseDataSource implements HttpDataSou
         }
         int read = this.inputStream.read(bArr, i, i2);
         if (read == -1) {
-            if (this.bytesToRead != -1) {
-                throw new EOFException();
+            if (this.bytesToRead == -1) {
+                return -1;
             }
-            return -1;
+            throw new EOFException();
         }
         this.bytesRead += read;
         bytesTransferred(read);
@@ -398,12 +396,11 @@ public class DefaultHttpDataSource extends BaseDataSource implements HttpDataSou
                     return;
                 }
                 String name = inputStream.getClass().getName();
-                if (!"com.android.okhttp.internal.http.HttpTransport$ChunkedInputStream".equals(name) && !"com.android.okhttp.internal.http.HttpTransport$FixedLengthInputStream".equals(name)) {
-                    return;
+                if ("com.android.okhttp.internal.http.HttpTransport$ChunkedInputStream".equals(name) || "com.android.okhttp.internal.http.HttpTransport$FixedLengthInputStream".equals(name)) {
+                    Method declaredMethod = inputStream.getClass().getSuperclass().getDeclaredMethod("unexpectedEndOfInput", new Class[0]);
+                    declaredMethod.setAccessible(true);
+                    declaredMethod.invoke(inputStream, new Object[0]);
                 }
-                Method declaredMethod = inputStream.getClass().getSuperclass().getDeclaredMethod("unexpectedEndOfInput", new Class[0]);
-                declaredMethod.setAccessible(true);
-                declaredMethod.invoke(inputStream, new Object[0]);
             } catch (Exception unused) {
             }
         }

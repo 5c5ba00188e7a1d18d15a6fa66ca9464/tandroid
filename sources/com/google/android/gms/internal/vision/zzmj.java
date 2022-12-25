@@ -4,10 +4,10 @@ import org.telegram.tgnet.ConnectionsManager;
 /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
 final class zzmj extends zzme {
-    /* JADX WARN: Code restructure failed: missing block: B:55:0x00b6, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:33:0x0061, code lost:
         return -1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:69:0x0061, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:61:0x00b6, code lost:
         return -1;
      */
     @Override // com.google.android.gms.internal.vision.zzme

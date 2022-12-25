@@ -3,7 +3,7 @@ package org.webrtc;
 import java.util.IdentityHashMap;
 /* loaded from: classes.dex */
 public class VideoTrack extends MediaStreamTrack {
-    private final IdentityHashMap<VideoSink, Long> sinks = new IdentityHashMap<>();
+    private final IdentityHashMap<VideoSink, Long> sinks;
 
     private static native void nativeAddSink(long j, long j2);
 
@@ -15,6 +15,7 @@ public class VideoTrack extends MediaStreamTrack {
 
     public VideoTrack(long j) {
         super(j);
+        this.sinks = new IdentityHashMap<>();
     }
 
     public void addSink(VideoSink videoSink) {

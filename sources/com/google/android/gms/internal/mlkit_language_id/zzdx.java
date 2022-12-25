@@ -66,22 +66,22 @@ public class zzdx extends zzdu {
         if (obj == this) {
             return true;
         }
-        if (!(obj instanceof zzdn) || zza() != ((zzdn) obj).zza()) {
-            return false;
-        }
-        if (zza() == 0) {
-            return true;
-        }
-        if (obj instanceof zzdx) {
-            zzdx zzdxVar = (zzdx) obj;
-            int zzd = zzd();
-            int zzd2 = zzdxVar.zzd();
-            if (zzd != 0 && zzd2 != 0 && zzd != zzd2) {
+        if ((obj instanceof zzdn) && zza() == ((zzdn) obj).zza()) {
+            if (zza() == 0) {
+                return true;
+            }
+            if (obj instanceof zzdx) {
+                zzdx zzdxVar = (zzdx) obj;
+                int zzd = zzd();
+                int zzd2 = zzdxVar.zzd();
+                if (zzd == 0 || zzd2 == 0 || zzd == zzd2) {
+                    return zza(zzdxVar, 0, zza());
+                }
                 return false;
             }
-            return zza(zzdxVar, 0, zza());
+            return obj.equals(this);
         }
-        return obj.equals(this);
+        return false;
     }
 
     @Override // com.google.android.gms.internal.mlkit_language_id.zzdu

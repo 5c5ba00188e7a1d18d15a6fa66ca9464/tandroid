@@ -31,12 +31,12 @@ public abstract class TLRPC$FileLocation extends TLObject {
                 tLRPC$TL_fileLocationToBeDeprecated = null;
                 break;
         }
-        if (tLRPC$TL_fileLocationToBeDeprecated != null || !z) {
-            if (tLRPC$TL_fileLocationToBeDeprecated != null) {
-                tLRPC$TL_fileLocationToBeDeprecated.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_fileLocationToBeDeprecated;
+        if (tLRPC$TL_fileLocationToBeDeprecated == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in FileLocation", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in FileLocation", Integer.valueOf(i)));
+        if (tLRPC$TL_fileLocationToBeDeprecated != null) {
+            tLRPC$TL_fileLocationToBeDeprecated.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_fileLocationToBeDeprecated;
     }
 }

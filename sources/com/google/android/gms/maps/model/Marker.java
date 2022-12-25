@@ -14,14 +14,14 @@ public final class Marker {
     }
 
     public boolean equals(Object obj) {
-        if (!(obj instanceof Marker)) {
-            return false;
+        if (obj instanceof Marker) {
+            try {
+                return this.zza.zzC(((Marker) obj).zza);
+            } catch (RemoteException e) {
+                throw new RuntimeRemoteException(e);
+            }
         }
-        try {
-            return this.zza.zzC(((Marker) obj).zza);
-        } catch (RemoteException e) {
-            throw new RuntimeRemoteException(e);
-        }
+        return false;
     }
 
     public LatLng getPosition() {

@@ -33,8 +33,8 @@ public final class QRCodeWriter {
         return encode(str, i, i2, map, bitmap, 1.0f, -1, -16777216);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:104:0x02b1  */
-    /* JADX WARN: Removed duplicated region for block: B:15:0x0054  */
+    /* JADX WARN: Removed duplicated region for block: B:17:0x0054  */
+    /* JADX WARN: Removed duplicated region for block: B:99:0x02b1  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -185,13 +185,13 @@ public final class QRCodeWriter {
                             Arrays.fill(this.radii, 0.0f);
                             int i21 = i19 - 1;
                             int i22 = i17 - 1;
-                            if (!has(i21, i22) || !has(i21, i17) || !has(i19, i22)) {
-                                z = false;
-                            } else {
+                            if (has(i21, i22) && has(i21, i17) && has(i19, i22)) {
                                 float[] fArr5 = this.radii;
                                 fArr5[c] = f5;
                                 fArr5[0] = f5;
                                 z = true;
+                            } else {
+                                z = false;
                             }
                             int i23 = i19 + 1;
                             if (has(i23, i22) && has(i23, i17) && has(i19, i22)) {
@@ -207,13 +207,13 @@ public final class QRCodeWriter {
                                 fArr7[6] = f5;
                                 z = true;
                             }
-                            if (!has(i23, i24) || !has(i23, i17) || !has(i19, i24)) {
-                                z2 = z;
-                            } else {
+                            if (has(i23, i24) && has(i23, i17) && has(i19, i24)) {
                                 float[] fArr8 = this.radii;
                                 fArr8[5] = f5;
                                 fArr8[4] = f5;
                                 z2 = true;
+                            } else {
+                                z2 = z;
                             }
                             if (!z2 || z4) {
                                 f3 = f5;

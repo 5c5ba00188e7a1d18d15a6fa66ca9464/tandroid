@@ -30,14 +30,11 @@ final class ZipUtil {
 
     static CentralDirectory findCentralDirectory(RandomAccessFile randomAccessFile) throws IOException, ZipException {
         long length = randomAccessFile.length() - 22;
-        long j = 0;
         if (length < 0) {
             throw new ZipException("File too short to be a zip file: " + randomAccessFile.length());
         }
-        long j2 = length - 65536;
-        if (j2 >= 0) {
-            j = j2;
-        }
+        long j = length - 65536;
+        long j2 = j >= 0 ? j : 0L;
         int reverseBytes = Integer.reverseBytes(101010256);
         do {
             randomAccessFile.seek(length);
@@ -52,7 +49,7 @@ final class ZipUtil {
                 return centralDirectory;
             }
             length--;
-        } while (length >= j);
+        } while (length >= j2);
         throw new ZipException("End Of Central Directory signature not found");
     }
 

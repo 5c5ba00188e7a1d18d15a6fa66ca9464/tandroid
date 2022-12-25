@@ -18,11 +18,16 @@ public final class InputConnectionCompat {
         boolean onCommitContent(InputContentInfoCompat inputContentInfo, int flags, Bundle opts);
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
+    /* JADX WARN: Type inference failed for: r0v0 */
+    /* JADX WARN: Type inference failed for: r0v3, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r0v5 */
+    /* JADX WARN: Type inference failed for: r0v6 */
     static boolean handlePerformPrivateCommand(String action, Bundle data, OnCommitContentListener onCommitContentListener) {
         boolean z;
         ResultReceiver resultReceiver;
-        boolean z2 = false;
-        z2 = false;
+        ?? r0 = 0;
+        r0 = 0;
         if (data == null) {
             return false;
         }
@@ -42,56 +47,53 @@ public final class InputConnectionCompat {
                 int i = data.getInt(z ? "android.support.v13.view.inputmethod.InputConnectionCompat.CONTENT_FLAGS" : "androidx.core.view.inputmethod.InputConnectionCompat.CONTENT_FLAGS");
                 Bundle bundle = (Bundle) data.getParcelable(z ? "android.support.v13.view.inputmethod.InputConnectionCompat.CONTENT_OPTS" : "androidx.core.view.inputmethod.InputConnectionCompat.CONTENT_OPTS");
                 if (uri != null && clipDescription != null) {
-                    z2 = onCommitContentListener.onCommitContent(new InputContentInfoCompat(uri, clipDescription, uri2), i, bundle);
+                    r0 = onCommitContentListener.onCommitContent(new InputContentInfoCompat(uri, clipDescription, uri2), i, bundle);
                 }
-                if (resultReceiver != null) {
-                    int i2 = z2 ? 1 : 0;
-                    int i3 = z2 ? 1 : 0;
-                    int i4 = z2 ? 1 : 0;
-                    resultReceiver.send(i2, null);
+                if (resultReceiver != 0) {
+                    resultReceiver.send(r0, null);
                 }
-                return z2;
+                return r0;
             } catch (Throwable th) {
                 th = th;
-                if (resultReceiver != null) {
+                if (resultReceiver != 0) {
                     resultReceiver.send(0, null);
                 }
                 throw th;
             }
         } catch (Throwable th2) {
             th = th2;
-            resultReceiver = null;
+            resultReceiver = 0;
         }
     }
 
     public static InputConnection createWrapper(InputConnection inputConnection, EditorInfo editorInfo, final OnCommitContentListener onCommitContentListener) {
         if (inputConnection != null) {
-            if (editorInfo == null) {
-                throw new IllegalArgumentException("editorInfo must be non-null");
-            }
-            if (onCommitContentListener == null) {
-                throw new IllegalArgumentException("onCommitContentListener must be non-null");
-            }
-            if (Build.VERSION.SDK_INT >= 25) {
-                return new InputConnectionWrapper(inputConnection, false) { // from class: androidx.core.view.inputmethod.InputConnectionCompat.1
+            if (editorInfo != null) {
+                if (onCommitContentListener == null) {
+                    throw new IllegalArgumentException("onCommitContentListener must be non-null");
+                }
+                if (Build.VERSION.SDK_INT >= 25) {
+                    return new InputConnectionWrapper(inputConnection, false) { // from class: androidx.core.view.inputmethod.InputConnectionCompat.1
+                        @Override // android.view.inputmethod.InputConnectionWrapper, android.view.inputmethod.InputConnection
+                        public boolean commitContent(InputContentInfo inputContentInfo, int flags, Bundle opts) {
+                            if (onCommitContentListener.onCommitContent(InputContentInfoCompat.wrap(inputContentInfo), flags, opts)) {
+                                return true;
+                            }
+                            return super.commitContent(inputContentInfo, flags, opts);
+                        }
+                    };
+                }
+                return EditorInfoCompat.getContentMimeTypes(editorInfo).length == 0 ? inputConnection : new InputConnectionWrapper(inputConnection, false) { // from class: androidx.core.view.inputmethod.InputConnectionCompat.2
                     @Override // android.view.inputmethod.InputConnectionWrapper, android.view.inputmethod.InputConnection
-                    public boolean commitContent(InputContentInfo inputContentInfo, int flags, Bundle opts) {
-                        if (onCommitContentListener.onCommitContent(InputContentInfoCompat.wrap(inputContentInfo), flags, opts)) {
+                    public boolean performPrivateCommand(String action, Bundle data) {
+                        if (InputConnectionCompat.handlePerformPrivateCommand(action, data, onCommitContentListener)) {
                             return true;
                         }
-                        return super.commitContent(inputContentInfo, flags, opts);
+                        return super.performPrivateCommand(action, data);
                     }
                 };
             }
-            return EditorInfoCompat.getContentMimeTypes(editorInfo).length == 0 ? inputConnection : new InputConnectionWrapper(inputConnection, false) { // from class: androidx.core.view.inputmethod.InputConnectionCompat.2
-                @Override // android.view.inputmethod.InputConnectionWrapper, android.view.inputmethod.InputConnection
-                public boolean performPrivateCommand(String action, Bundle data) {
-                    if (InputConnectionCompat.handlePerformPrivateCommand(action, data, onCommitContentListener)) {
-                        return true;
-                    }
-                    return super.performPrivateCommand(action, data);
-                }
-            };
+            throw new IllegalArgumentException("editorInfo must be non-null");
         }
         throw new IllegalArgumentException("inputConnection must be non-null");
     }

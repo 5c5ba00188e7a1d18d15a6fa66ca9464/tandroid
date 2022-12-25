@@ -26,13 +26,9 @@ public class TLRPC$TL_folder extends TLObject {
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
         int readInt32 = abstractSerializedData.readInt32(z);
         this.flags = readInt32;
-        boolean z2 = false;
         this.autofill_new_broadcasts = (readInt32 & 1) != 0;
         this.autofill_public_groups = (readInt32 & 2) != 0;
-        if ((readInt32 & 4) != 0) {
-            z2 = true;
-        }
-        this.autofill_new_correspondents = z2;
+        this.autofill_new_correspondents = (readInt32 & 4) != 0;
         this.id = abstractSerializedData.readInt32(z);
         this.title = abstractSerializedData.readString(z);
         if ((this.flags & 8) != 0) {

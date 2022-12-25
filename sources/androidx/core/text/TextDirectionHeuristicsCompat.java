@@ -71,10 +71,10 @@ public final class TextDirectionHeuristicsCompat {
         private boolean doCheck(CharSequence cs, int start, int count) {
             int checkRtl = this.mAlgorithm.checkRtl(cs, start, count);
             if (checkRtl != 0) {
-                if (checkRtl == 1) {
-                    return false;
+                if (checkRtl != 1) {
+                    return defaultIsRtl();
                 }
-                return defaultIsRtl();
+                return false;
             }
             return true;
         }

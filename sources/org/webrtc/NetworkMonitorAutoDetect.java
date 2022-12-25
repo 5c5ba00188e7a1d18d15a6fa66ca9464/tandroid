@@ -32,7 +32,7 @@ public class NetworkMonitorAutoDetect extends BroadcastReceiver implements Netwo
     private NetworkChangeDetector.ConnectionType connectionType;
     private ConnectivityManagerDelegate connectivityManagerDelegate;
     private final Context context;
-    private final IntentFilter intentFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
+    private final IntentFilter intentFilter;
     private boolean isRegistered;
     private final ConnectivityManager.NetworkCallback mobileNetworkCallback;
     private final NetworkChangeDetector.Observer observer;
@@ -183,17 +183,17 @@ public class NetworkMonitorAutoDetect extends BroadcastReceiver implements Netwo
         }
 
         List<NetworkChangeDetector.NetworkInformation> getActiveNetworkList() {
-            if (!supportNetworkCallback()) {
-                return null;
-            }
-            ArrayList arrayList = new ArrayList();
-            for (Network network : getAllNetworks()) {
-                NetworkChangeDetector.NetworkInformation networkToInfo = networkToInfo(network);
-                if (networkToInfo != null) {
-                    arrayList.add(networkToInfo);
+            if (supportNetworkCallback()) {
+                ArrayList arrayList = new ArrayList();
+                for (Network network : getAllNetworks()) {
+                    NetworkChangeDetector.NetworkInformation networkToInfo = networkToInfo(network);
+                    if (networkToInfo != null) {
+                        arrayList.add(networkToInfo);
+                    }
                 }
+                return arrayList;
             }
-            return arrayList;
+            return null;
         }
 
         @SuppressLint({"NewApi"})
@@ -340,8 +340,7 @@ public class NetworkMonitorAutoDetect extends BroadcastReceiver implements Netwo
         public void onReceive(Context context, Intent intent) {
             if ("android.net.wifi.p2p.CONNECTION_STATE_CHANGE".equals(intent.getAction())) {
                 lambda$new$0((WifiP2pGroup) intent.getParcelableExtra("p2pGroupInfo"));
-            } else if (!"android.net.wifi.p2p.STATE_CHANGED".equals(intent.getAction())) {
-            } else {
+            } else if ("android.net.wifi.p2p.STATE_CHANGED".equals(intent.getAction())) {
                 onWifiP2pStateChange(intent.getIntExtra("wifi_p2p_state", 0));
             }
         }
@@ -395,6 +394,7 @@ public class NetworkMonitorAutoDetect extends BroadcastReceiver implements Netwo
         NetworkState networkState = this.connectivityManagerDelegate.getNetworkState();
         this.connectionType = getConnectionType(networkState);
         this.wifiSSID = getWifiSSID(networkState);
+        this.intentFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
         if (PeerConnectionFactory.fieldTrialsFindFullName("IncludeWifiDirect").equals(PeerConnectionFactory.TRIAL_ENABLED)) {
             this.wifiDirectManagerDelegate = new WifiDirectManagerDelegate(observer, context);
         }
@@ -474,11 +474,10 @@ public class NetworkMonitorAutoDetect extends BroadcastReceiver implements Netwo
     }
 
     private void unregisterReceiver() {
-        if (!this.isRegistered) {
-            return;
+        if (this.isRegistered) {
+            this.isRegistered = false;
+            this.context.unregisterReceiver(this);
         }
-        this.isRegistered = false;
-        this.context.unregisterReceiver(this);
     }
 
     public NetworkState getCurrentNetworkState() {
@@ -490,55 +489,55 @@ public class NetworkMonitorAutoDetect extends BroadcastReceiver implements Netwo
     }
 
     private static NetworkChangeDetector.ConnectionType getConnectionType(boolean z, int i, int i2) {
-        if (!z) {
-            return NetworkChangeDetector.ConnectionType.CONNECTION_NONE;
-        }
-        if (i == 0) {
-            switch (i2) {
-                case 1:
-                case 2:
-                case 4:
-                case 7:
-                case 11:
-                case 16:
-                    return NetworkChangeDetector.ConnectionType.CONNECTION_2G;
-                case 3:
-                case 5:
-                case 6:
-                case 8:
-                case 9:
-                case 10:
-                case 12:
-                case 14:
-                case 15:
-                case 17:
-                    return NetworkChangeDetector.ConnectionType.CONNECTION_3G;
-                case 13:
-                case 18:
-                    return NetworkChangeDetector.ConnectionType.CONNECTION_4G;
-                case 19:
-                default:
-                    return NetworkChangeDetector.ConnectionType.CONNECTION_UNKNOWN_CELLULAR;
-                case 20:
-                    return NetworkChangeDetector.ConnectionType.CONNECTION_5G;
-            }
-        } else if (i == 1) {
-            return NetworkChangeDetector.ConnectionType.CONNECTION_WIFI;
-        } else {
-            if (i == 6) {
+        if (z) {
+            if (i == 0) {
+                switch (i2) {
+                    case 1:
+                    case 2:
+                    case 4:
+                    case 7:
+                    case 11:
+                    case 16:
+                        return NetworkChangeDetector.ConnectionType.CONNECTION_2G;
+                    case 3:
+                    case 5:
+                    case 6:
+                    case 8:
+                    case 9:
+                    case 10:
+                    case 12:
+                    case 14:
+                    case 15:
+                    case 17:
+                        return NetworkChangeDetector.ConnectionType.CONNECTION_3G;
+                    case 13:
+                    case 18:
+                        return NetworkChangeDetector.ConnectionType.CONNECTION_4G;
+                    case 19:
+                    default:
+                        return NetworkChangeDetector.ConnectionType.CONNECTION_UNKNOWN_CELLULAR;
+                    case 20:
+                        return NetworkChangeDetector.ConnectionType.CONNECTION_5G;
+                }
+            } else if (i != 1) {
+                if (i != 6) {
+                    if (i != 7) {
+                        if (i != 9) {
+                            if (i == 17) {
+                                return NetworkChangeDetector.ConnectionType.CONNECTION_VPN;
+                            }
+                            return NetworkChangeDetector.ConnectionType.CONNECTION_UNKNOWN;
+                        }
+                        return NetworkChangeDetector.ConnectionType.CONNECTION_ETHERNET;
+                    }
+                    return NetworkChangeDetector.ConnectionType.CONNECTION_BLUETOOTH;
+                }
                 return NetworkChangeDetector.ConnectionType.CONNECTION_4G;
+            } else {
+                return NetworkChangeDetector.ConnectionType.CONNECTION_WIFI;
             }
-            if (i == 7) {
-                return NetworkChangeDetector.ConnectionType.CONNECTION_BLUETOOTH;
-            }
-            if (i == 9) {
-                return NetworkChangeDetector.ConnectionType.CONNECTION_ETHERNET;
-            }
-            if (i == 17) {
-                return NetworkChangeDetector.ConnectionType.CONNECTION_VPN;
-            }
-            return NetworkChangeDetector.ConnectionType.CONNECTION_UNKNOWN;
         }
+        return NetworkChangeDetector.ConnectionType.CONNECTION_NONE;
     }
 
     public static NetworkChangeDetector.ConnectionType getConnectionType(NetworkState networkState) {
@@ -573,12 +572,13 @@ public class NetworkMonitorAutoDetect extends BroadcastReceiver implements Netwo
     private void connectionTypeChanged(NetworkState networkState) {
         NetworkChangeDetector.ConnectionType connectionType = getConnectionType(networkState);
         String wifiSSID = getWifiSSID(networkState);
-        if (connectionType != this.connectionType || !wifiSSID.equals(this.wifiSSID)) {
-            this.connectionType = connectionType;
-            this.wifiSSID = wifiSSID;
-            Logging.d(TAG, "Network connectivity changed, type is: " + this.connectionType);
-            this.observer.onConnectionTypeChanged(connectionType);
+        if (connectionType == this.connectionType && wifiSSID.equals(this.wifiSSID)) {
+            return;
         }
+        this.connectionType = connectionType;
+        this.wifiSSID = wifiSSID;
+        Logging.d(TAG, "Network connectivity changed, type is: " + this.connectionType);
+        this.observer.onConnectionTypeChanged(connectionType);
     }
 
     /* JADX INFO: Access modifiers changed from: private */

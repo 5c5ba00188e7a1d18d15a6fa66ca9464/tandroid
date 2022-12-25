@@ -74,18 +74,18 @@ public class WallpaperUpdater {
                 if (i == 1) {
                     openGallery();
                     return;
-                } else if (!z) {
-                    return;
-                } else {
+                } else if (z) {
                     if (i == 2) {
                         this.delegate.needOpenColorPicker();
                         return;
-                    } else if (i != 3) {
-                        return;
-                    } else {
+                    } else if (i == 3) {
                         this.delegate.didSelectWallpaper(null, null, false);
                         return;
+                    } else {
+                        return;
                     }
+                } else {
+                    return;
                 }
             }
             try {
@@ -152,15 +152,14 @@ public class WallpaperUpdater {
                 return;
             }
             SendMessagesHelper.SendingMediaInfo sendingMediaInfo = arrayList.get(0);
-            if (sendingMediaInfo.path == null) {
-                return;
+            if (sendingMediaInfo.path != null) {
+                File directory = FileLoader.getDirectory(4);
+                this.currentWallpaperPath = new File(directory, Utilities.random.nextInt() + ".jpg");
+                android.graphics.Point realScreenSize = AndroidUtilities.getRealScreenSize();
+                Bitmap loadBitmap = ImageLoader.loadBitmap(sendingMediaInfo.path, null, (float) realScreenSize.x, (float) realScreenSize.y, true);
+                loadBitmap.compress(Bitmap.CompressFormat.JPEG, 87, new FileOutputStream(this.currentWallpaperPath));
+                this.delegate.didSelectWallpaper(this.currentWallpaperPath, loadBitmap, true);
             }
-            File directory = FileLoader.getDirectory(4);
-            this.currentWallpaperPath = new File(directory, Utilities.random.nextInt() + ".jpg");
-            android.graphics.Point realScreenSize = AndroidUtilities.getRealScreenSize();
-            Bitmap loadBitmap = ImageLoader.loadBitmap(sendingMediaInfo.path, null, (float) realScreenSize.x, (float) realScreenSize.y, true);
-            loadBitmap.compress(Bitmap.CompressFormat.JPEG, 87, new FileOutputStream(this.currentWallpaperPath));
-            this.delegate.didSelectWallpaper(this.currentWallpaperPath, loadBitmap, true);
         } catch (Throwable th) {
             FileLog.e(th);
         }
@@ -175,7 +174,7 @@ public class WallpaperUpdater {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:28:0x0075 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x0075 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Type inference failed for: r10v12, types: [org.telegram.ui.Components.WallpaperUpdater$WallpaperUpdaterDelegate] */
     /* JADX WARN: Type inference failed for: r8v19, types: [android.graphics.Bitmap] */
     /* JADX WARN: Type inference failed for: r9v1 */

@@ -25,6 +25,7 @@ public class FragmentContextViewWavesDrawable {
     private float animateToAmplitude;
     WeavingState currentState;
     private long lastUpdateTime;
+    Path path;
     WeavingState pausedState;
     WeavingState previousState;
     WeavingState[] states = new WeavingState[4];
@@ -34,18 +35,18 @@ public class FragmentContextViewWavesDrawable {
     LineBlobDrawable lineBlobDrawable = new LineBlobDrawable(5);
     LineBlobDrawable lineBlobDrawable1 = new LineBlobDrawable(7);
     LineBlobDrawable lineBlobDrawable2 = new LineBlobDrawable(8);
-    Path path = new Path();
 
     public FragmentContextViewWavesDrawable() {
         new RectF();
+        this.path = new Path();
         new Paint(1);
         for (int i = 0; i < 4; i++) {
             this.states[i] = new WeavingState(i);
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:26:0x006a  */
-    /* JADX WARN: Removed duplicated region for block: B:57:0x00cf  */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x006a  */
+    /* JADX WARN: Removed duplicated region for block: B:67:0x00cf  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -193,12 +194,11 @@ public class FragmentContextViewWavesDrawable {
         int i = 0;
         while (true) {
             WeavingState[] weavingStateArr = this.states;
-            if (i < weavingStateArr.length) {
-                weavingStateArr[i].checkColor();
-                i++;
-            } else {
+            if (i >= weavingStateArr.length) {
                 return;
             }
+            weavingStateArr[i].checkColor();
+            i++;
         }
     }
 
@@ -228,9 +228,10 @@ public class FragmentContextViewWavesDrawable {
     }
 
     public void addParent(View view) {
-        if (!this.parents.contains(view)) {
-            this.parents.add(view);
+        if (this.parents.contains(view)) {
+            return;
         }
+        this.parents.add(view);
     }
 
     public void removeParent(View view) {
@@ -313,8 +314,7 @@ public class FragmentContextViewWavesDrawable {
                 int color4 = Theme.getColor(this.blueKey2);
                 this.color2 = color4;
                 this.shader = new RadialGradient(200.0f, 200.0f, 200.0f, new int[]{color3, color4}, (float[]) null, Shader.TileMode.CLAMP);
-            } else if (i != 3) {
-            } else {
+            } else if (i == 3) {
                 int color5 = Theme.getColor(this.mutedByAdmin);
                 this.color1 = color5;
                 int color6 = Theme.getColor(this.mutedByAdmin2);
@@ -392,8 +392,7 @@ public class FragmentContextViewWavesDrawable {
                     return;
                 }
                 createGradients();
-            } else if (i != 3) {
-            } else {
+            } else if (i == 3) {
                 if (this.color1 == Theme.getColor(this.mutedByAdmin) && this.color2 == Theme.getColor(this.mutedByAdmin2)) {
                     return;
                 }

@@ -28,8 +28,11 @@ import org.telegram.ui.Components.CounterView;
 import org.telegram.ui.Components.LayoutHelper;
 /* loaded from: classes3.dex */
 public class HintDialogCell extends FrameLayout {
+    private AvatarDrawable avatarDrawable;
+    private String backgroundColorKey;
     CheckBox2 checkBox;
     CounterView counterView;
+    private int currentAccount;
     private TLRPC$User currentUser;
     private long dialogId;
     private final boolean drawCheckbox;
@@ -38,13 +41,13 @@ public class HintDialogCell extends FrameLayout {
     private TextView nameTextView;
     float showOnlineProgress;
     boolean wasDraw;
-    private AvatarDrawable avatarDrawable = new AvatarDrawable();
-    private int currentAccount = UserConfig.selectedAccount;
-    private String backgroundColorKey = "windowBackgroundWhite";
 
     public HintDialogCell(Context context, boolean z) {
         super(context);
+        this.avatarDrawable = new AvatarDrawable();
         new RectF();
+        this.currentAccount = UserConfig.selectedAccount;
+        this.backgroundColorKey = "windowBackgroundWhite";
         this.drawCheckbox = z;
         BackupImageView backupImageView = new BackupImageView(context);
         this.imageView = backupImageView;
@@ -114,11 +117,11 @@ public class HintDialogCell extends FrameLayout {
         }
         TLRPC$Dialog tLRPC$Dialog = MessagesController.getInstance(this.currentAccount).dialogs_dict.get(this.dialogId);
         if (tLRPC$Dialog != null && (i2 = tLRPC$Dialog.unread_count) != 0) {
-            if (this.lastUnreadCount == i2) {
+            if (this.lastUnreadCount != i2) {
+                this.lastUnreadCount = i2;
+                this.counterView.setCount(i2, this.wasDraw);
                 return;
             }
-            this.lastUnreadCount = i2;
-            this.counterView.setCount(i2, this.wasDraw);
             return;
         }
         this.lastUnreadCount = 0;
@@ -178,7 +181,7 @@ public class HintDialogCell extends FrameLayout {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:28:0x007d  */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x007d  */
     @Override // android.view.ViewGroup
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -188,7 +191,7 @@ public class HintDialogCell extends FrameLayout {
         boolean drawChild = super.drawChild(canvas, view, j);
         if (view == this.imageView) {
             TLRPC$User tLRPC$User = this.currentUser;
-            boolean z = tLRPC$User != null && !tLRPC$User.bot && (((tLRPC$UserStatus = tLRPC$User.status) != null && tLRPC$UserStatus.expires > ConnectionsManager.getInstance(this.currentAccount).getCurrentTime()) || MessagesController.getInstance(this.currentAccount).onlinePrivacy.containsKey(Long.valueOf(this.currentUser.id)));
+            boolean z = (tLRPC$User == null || tLRPC$User.bot || (((tLRPC$UserStatus = tLRPC$User.status) == null || tLRPC$UserStatus.expires <= ConnectionsManager.getInstance(this.currentAccount).getCurrentTime()) && !MessagesController.getInstance(this.currentAccount).onlinePrivacy.containsKey(Long.valueOf(this.currentUser.id)))) ? false : true;
             if (!this.wasDraw) {
                 this.showOnlineProgress = z ? 1.0f : 0.0f;
             }

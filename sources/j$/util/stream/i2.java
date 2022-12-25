@@ -39,18 +39,18 @@ abstract class i2 extends k2 implements j$.util.w {
     /* renamed from: tryAdvance */
     public boolean k(Object obj) {
         z1 z1Var;
-        if (!h()) {
-            return false;
-        }
-        boolean tryAdvance = ((j$.util.w) this.d).tryAdvance(obj);
-        if (!tryAdvance) {
-            if (this.c == null && (z1Var = (z1) a(this.e)) != null) {
-                j$.util.w spliterator = z1Var.spliterator();
-                this.d = spliterator;
-                return spliterator.tryAdvance(obj);
+        if (h()) {
+            boolean tryAdvance = ((j$.util.w) this.d).tryAdvance(obj);
+            if (!tryAdvance) {
+                if (this.c == null && (z1Var = (z1) a(this.e)) != null) {
+                    j$.util.w spliterator = z1Var.spliterator();
+                    this.d = spliterator;
+                    return spliterator.tryAdvance(obj);
+                }
+                this.a = null;
             }
-            this.a = null;
+            return tryAdvance;
         }
-        return tryAdvance;
+        return false;
     }
 }

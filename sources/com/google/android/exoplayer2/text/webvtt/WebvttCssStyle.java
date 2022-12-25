@@ -64,14 +64,14 @@ public final class WebvttCssStyle {
     }
 
     public int getSpecificityScore(String str, String str2, String[] strArr, String str3) {
-        if (!this.targetId.isEmpty() || !this.targetTag.isEmpty() || !this.targetClasses.isEmpty() || !this.targetVoice.isEmpty()) {
-            int updateScoreForMatch = updateScoreForMatch(updateScoreForMatch(updateScoreForMatch(0, this.targetId, str, 1073741824), this.targetTag, str2, 2), this.targetVoice, str3, 4);
-            if (updateScoreForMatch != -1 && Arrays.asList(strArr).containsAll(this.targetClasses)) {
-                return updateScoreForMatch + (this.targetClasses.size() * 4);
-            }
+        if (this.targetId.isEmpty() && this.targetTag.isEmpty() && this.targetClasses.isEmpty() && this.targetVoice.isEmpty()) {
+            return TextUtils.isEmpty(str2) ? 1 : 0;
+        }
+        int updateScoreForMatch = updateScoreForMatch(updateScoreForMatch(updateScoreForMatch(0, this.targetId, str, 1073741824), this.targetTag, str2, 2), this.targetVoice, str3, 4);
+        if (updateScoreForMatch == -1 || !Arrays.asList(strArr).containsAll(this.targetClasses)) {
             return 0;
         }
-        return TextUtils.isEmpty(str2) ? 1 : 0;
+        return updateScoreForMatch + (this.targetClasses.size() * 4);
     }
 
     public int getStyle() {
@@ -79,12 +79,7 @@ public final class WebvttCssStyle {
         if (i == -1 && this.italic == -1) {
             return -1;
         }
-        int i2 = 0;
-        int i3 = i == 1 ? 1 : 0;
-        if (this.italic == 1) {
-            i2 = 2;
-        }
-        return i3 | i2;
+        return (i == 1 ? 1 : 0) | (this.italic == 1 ? 2 : 0);
     }
 
     public boolean isLinethrough() {
@@ -169,9 +164,9 @@ public final class WebvttCssStyle {
         if (str.isEmpty() || i == -1) {
             return i;
         }
-        if (!str.equals(str2)) {
-            return -1;
+        if (str.equals(str2)) {
+            return i + i2;
         }
-        return i + i2;
+        return -1;
     }
 }

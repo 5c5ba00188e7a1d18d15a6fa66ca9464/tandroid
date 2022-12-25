@@ -24,12 +24,7 @@ final class TtmlStyle {
         if (i == -1 && this.italic == -1) {
             return -1;
         }
-        int i2 = 0;
-        int i3 = i == 1 ? 1 : 0;
-        if (this.italic == 1) {
-            i2 = 2;
-        }
-        return i3 | i2;
+        return (i == 1 ? 1 : 0) | (this.italic == 1 ? 2 : 0);
     }
 
     public boolean isLinethrough() {

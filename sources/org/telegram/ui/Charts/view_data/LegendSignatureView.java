@@ -27,39 +27,46 @@ import org.telegram.ui.Components.RadialProgressView;
 /* loaded from: classes3.dex */
 public class LegendSignatureView extends FrameLayout {
     Drawable backgroundDrawable;
+    public boolean canGoZoom;
     public ImageView chevron;
     LinearLayout content;
+    SimpleDateFormat format;
+    SimpleDateFormat format2;
+    SimpleDateFormat format3;
+    SimpleDateFormat format4;
     Holder[] holdes;
+    SimpleDateFormat hourFormat;
     TextView hourTime;
     public boolean isTopHourChart;
     private RadialProgressView progressView;
     Drawable shadowDrawable;
     public boolean showPercentage;
+    Runnable showProgressRunnable;
     TextView time;
     public boolean useHour;
     public boolean useWeek;
     public boolean zoomEnabled;
-    SimpleDateFormat format = new SimpleDateFormat("E, ");
-    SimpleDateFormat format2 = new SimpleDateFormat("MMM dd");
-    SimpleDateFormat format3 = new SimpleDateFormat("d MMM yyyy");
-    SimpleDateFormat format4 = new SimpleDateFormat("d MMM");
-    SimpleDateFormat hourFormat = new SimpleDateFormat(" HH:mm");
-    public boolean canGoZoom = true;
-    Runnable showProgressRunnable = new Runnable() { // from class: org.telegram.ui.Charts.view_data.LegendSignatureView.1
-        @Override // java.lang.Runnable
-        public void run() {
-            LegendSignatureView.this.chevron.animate().setDuration(120L).alpha(0.0f);
-            LegendSignatureView.this.progressView.animate().setListener(null).start();
-            if (LegendSignatureView.this.progressView.getVisibility() != 0) {
-                LegendSignatureView.this.progressView.setVisibility(0);
-                LegendSignatureView.this.progressView.setAlpha(0.0f);
-            }
-            LegendSignatureView.this.progressView.animate().setDuration(120L).alpha(1.0f).start();
-        }
-    };
 
     public LegendSignatureView(Context context) {
         super(context);
+        this.format = new SimpleDateFormat("E, ");
+        this.format2 = new SimpleDateFormat("MMM dd");
+        this.format3 = new SimpleDateFormat("d MMM yyyy");
+        this.format4 = new SimpleDateFormat("d MMM");
+        this.hourFormat = new SimpleDateFormat(" HH:mm");
+        this.canGoZoom = true;
+        this.showProgressRunnable = new Runnable() { // from class: org.telegram.ui.Charts.view_data.LegendSignatureView.1
+            @Override // java.lang.Runnable
+            public void run() {
+                LegendSignatureView.this.chevron.animate().setDuration(120L).alpha(0.0f);
+                LegendSignatureView.this.progressView.animate().setListener(null).start();
+                if (LegendSignatureView.this.progressView.getVisibility() != 0) {
+                    LegendSignatureView.this.progressView.setVisibility(0);
+                    LegendSignatureView.this.progressView.setAlpha(0.0f);
+                }
+                LegendSignatureView.this.progressView.animate().setDuration(120L).alpha(1.0f).start();
+            }
+        };
         setPadding(AndroidUtilities.dp(8.0f), AndroidUtilities.dp(8.0f), AndroidUtilities.dp(8.0f), AndroidUtilities.dp(8.0f));
         LinearLayout linearLayout = new LinearLayout(getContext());
         this.content = linearLayout;
@@ -112,8 +119,6 @@ public class LegendSignatureView extends FrameLayout {
     public void setData(int i, long j, ArrayList<LineViewData> arrayList, boolean z) {
         TextView textView;
         int length = this.holdes.length;
-        boolean z2 = true;
-        int i2 = 0;
         if (z && Build.VERSION.SDK_INT >= 19) {
             TransitionSet transitionSet = new TransitionSet();
             transitionSet.addTransition(new Fade(2).setDuration(150L)).addTransition(new ChangeBounds().setDuration(150L)).addTransition(new Fade(1).setDuration(150L));
@@ -132,18 +137,18 @@ public class LegendSignatureView extends FrameLayout {
                 this.hourTime.setText(this.hourFormat.format(Long.valueOf(j)));
             }
         }
-        int i3 = 0;
-        for (int i4 = 0; i4 < length; i4++) {
-            if (arrayList.get(i4).enabled) {
-                i3 += arrayList.get(i4).line.y[i];
+        int i2 = 0;
+        for (int i3 = 0; i3 < length; i3++) {
+            if (arrayList.get(i3).enabled) {
+                i2 += arrayList.get(i3).line.y[i];
             }
         }
-        for (int i5 = 0; i5 < length; i5++) {
-            Holder holder = this.holdes[i5];
-            if (!arrayList.get(i5).enabled) {
+        for (int i4 = 0; i4 < length; i4++) {
+            Holder holder = this.holdes[i4];
+            if (!arrayList.get(i4).enabled) {
                 holder.root.setVisibility(8);
             } else {
-                ChartData.Line line = arrayList.get(i5).line;
+                ChartData.Line line = arrayList.get(i4).line;
                 if (holder.root.getMeasuredHeight() == 0) {
                     holder.root.requestLayout();
                 }
@@ -160,7 +165,7 @@ public class LegendSignatureView extends FrameLayout {
                 if (this.showPercentage && (textView = holder.percentage) != null) {
                     textView.setVisibility(0);
                     holder.percentage.setTextColor(Theme.getColor("dialogTextBlack"));
-                    float f = arrayList.get(i5).line.y[i] / i3;
+                    float f = arrayList.get(i4).line.y[i] / i2;
                     if (f < 0.1f && f != 0.0f) {
                         holder.percentage.setText(String.format(Locale.ENGLISH, "%.1f%s", Float.valueOf(f * 100.0f), "%"));
                     } else {
@@ -170,15 +175,8 @@ public class LegendSignatureView extends FrameLayout {
             }
         }
         if (this.zoomEnabled) {
-            if (i3 <= 0) {
-                z2 = false;
-            }
-            this.canGoZoom = z2;
-            ImageView imageView = this.chevron;
-            if (i3 <= 0) {
-                i2 = 8;
-            }
-            imageView.setVisibility(i2);
+            this.canGoZoom = i2 > 0;
+            this.chevron.setVisibility(i2 <= 0 ? 8 : 0);
             return;
         }
         this.canGoZoom = false;
@@ -223,15 +221,14 @@ public class LegendSignatureView extends FrameLayout {
             return;
         }
         this.chevron.animate().setDuration(80L).alpha(1.0f).start();
-        if (this.progressView.getVisibility() != 0) {
-            return;
+        if (this.progressView.getVisibility() == 0) {
+            this.progressView.animate().setDuration(80L).alpha(0.0f).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Charts.view_data.LegendSignatureView.2
+                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                public void onAnimationEnd(Animator animator) {
+                    LegendSignatureView.this.progressView.setVisibility(8);
+                }
+            }).start();
         }
-        this.progressView.animate().setDuration(80L).alpha(0.0f).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Charts.view_data.LegendSignatureView.2
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                LegendSignatureView.this.progressView.setVisibility(8);
-            }
-        }).start();
     }
 
     public void setUseWeek(boolean z) {

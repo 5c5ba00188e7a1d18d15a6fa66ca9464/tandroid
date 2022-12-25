@@ -22,20 +22,25 @@ import org.telegram.ui.Components.RLottieDrawable;
 public class DownloadProgressIcon extends View implements NotificationCenter.NotificationCenterDelegate {
     private int currentAccount;
     int currentColor;
+    ArrayList<ProgressObserver> currentListeners;
     float currentProgress;
     RLottieDrawable downloadCompleteDrawable;
+    ImageReceiver downloadCompleteImageReceiver;
     RLottieDrawable downloadDrawable;
+    ImageReceiver downloadImageReceiver;
+    Paint paint;
+    Paint paint2;
     float progress;
     float progressDt;
     boolean showCompletedIcon;
-    Paint paint = new Paint(1);
-    Paint paint2 = new Paint(1);
-    ArrayList<ProgressObserver> currentListeners = new ArrayList<>();
-    ImageReceiver downloadImageReceiver = new ImageReceiver(this);
-    ImageReceiver downloadCompleteImageReceiver = new ImageReceiver(this);
 
     public DownloadProgressIcon(int i, Context context) {
         super(context);
+        this.paint = new Paint(1);
+        this.paint2 = new Paint(1);
+        this.currentListeners = new ArrayList<>();
+        this.downloadImageReceiver = new ImageReceiver(this);
+        this.downloadCompleteImageReceiver = new ImageReceiver(this);
         this.currentAccount = i;
         RLottieDrawable rLottieDrawable = new RLottieDrawable(R.raw.download_progress, "download_progress", AndroidUtilities.dp(28.0f), AndroidUtilities.dp(28.0f), true, null);
         this.downloadDrawable = rLottieDrawable;

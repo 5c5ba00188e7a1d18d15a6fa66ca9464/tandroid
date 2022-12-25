@@ -191,19 +191,19 @@ public class LifecycleRegistry extends Lifecycle {
     private static Lifecycle.Event downEvent(Lifecycle.State state) {
         int i = 1.$SwitchMap$androidx$lifecycle$Lifecycle$State[state.ordinal()];
         if (i != 1) {
-            if (i == 2) {
-                return Lifecycle.Event.ON_DESTROY;
-            }
-            if (i == 3) {
+            if (i != 2) {
+                if (i != 3) {
+                    if (i != 4) {
+                        if (i == 5) {
+                            throw new IllegalArgumentException();
+                        }
+                        throw new IllegalArgumentException("Unexpected state value " + state);
+                    }
+                    return Lifecycle.Event.ON_PAUSE;
+                }
                 return Lifecycle.Event.ON_STOP;
             }
-            if (i == 4) {
-                return Lifecycle.Event.ON_PAUSE;
-            }
-            if (i == 5) {
-                throw new IllegalArgumentException();
-            }
-            throw new IllegalArgumentException("Unexpected state value " + state);
+            return Lifecycle.Event.ON_DESTROY;
         }
         throw new IllegalArgumentException();
     }

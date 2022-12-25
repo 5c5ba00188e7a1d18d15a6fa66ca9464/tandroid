@@ -226,46 +226,46 @@ public class AudioSpecificConfig extends BaseDescriptor {
                 case 27:
                     break;
                 default:
-                    if (this.extensionAudioObjectType == 5 || bitReaderBuffer.remainingBits() < 16) {
+                    if (this.extensionAudioObjectType != 5 || bitReaderBuffer.remainingBits() < 16) {
                     }
                     int readBits3 = bitReaderBuffer.readBits(11);
                     this.syncExtensionType = readBits3;
-                    if (readBits3 != 695) {
-                        return;
-                    }
-                    int audioObjectType2 = getAudioObjectType(bitReaderBuffer);
-                    this.extensionAudioObjectType = audioObjectType2;
-                    if (audioObjectType2 == 5) {
-                        boolean readBool = bitReaderBuffer.readBool();
-                        this.sbrPresentFlag = readBool;
-                        if (readBool) {
-                            int readBits4 = bitReaderBuffer.readBits(4);
-                            this.extensionSamplingFrequencyIndex = readBits4;
-                            if (readBits4 == 15) {
-                                this.extensionSamplingFrequency = bitReaderBuffer.readBits(24);
-                            }
-                            if (bitReaderBuffer.remainingBits() >= 12) {
-                                int readBits5 = bitReaderBuffer.readBits(11);
-                                this.syncExtensionType = readBits5;
-                                if (readBits5 == 1352) {
-                                    this.psPresentFlag = bitReaderBuffer.readBool();
+                    if (readBits3 == 695) {
+                        int audioObjectType2 = getAudioObjectType(bitReaderBuffer);
+                        this.extensionAudioObjectType = audioObjectType2;
+                        if (audioObjectType2 == 5) {
+                            boolean readBool = bitReaderBuffer.readBool();
+                            this.sbrPresentFlag = readBool;
+                            if (readBool) {
+                                int readBits4 = bitReaderBuffer.readBits(4);
+                                this.extensionSamplingFrequencyIndex = readBits4;
+                                if (readBits4 == 15) {
+                                    this.extensionSamplingFrequency = bitReaderBuffer.readBits(24);
+                                }
+                                if (bitReaderBuffer.remainingBits() >= 12) {
+                                    int readBits5 = bitReaderBuffer.readBits(11);
+                                    this.syncExtensionType = readBits5;
+                                    if (readBits5 == 1352) {
+                                        this.psPresentFlag = bitReaderBuffer.readBool();
+                                    }
                                 }
                             }
                         }
-                    }
-                    if (this.extensionAudioObjectType != 22) {
+                        if (this.extensionAudioObjectType == 22) {
+                            boolean readBool2 = bitReaderBuffer.readBool();
+                            this.sbrPresentFlag = readBool2;
+                            if (readBool2) {
+                                int readBits6 = bitReaderBuffer.readBits(4);
+                                this.extensionSamplingFrequencyIndex = readBits6;
+                                if (readBits6 == 15) {
+                                    this.extensionSamplingFrequency = bitReaderBuffer.readBits(24);
+                                }
+                            }
+                            this.extensionChannelConfiguration = bitReaderBuffer.readBits(4);
+                            return;
+                        }
                         return;
                     }
-                    boolean readBool2 = bitReaderBuffer.readBool();
-                    this.sbrPresentFlag = readBool2;
-                    if (readBool2) {
-                        int readBits6 = bitReaderBuffer.readBits(4);
-                        this.extensionSamplingFrequencyIndex = readBits6;
-                        if (readBits6 == 15) {
-                            this.extensionSamplingFrequency = bitReaderBuffer.readBits(24);
-                        }
-                    }
-                    this.extensionChannelConfiguration = bitReaderBuffer.readBits(4);
                     return;
             }
         }
@@ -281,7 +281,7 @@ public class AudioSpecificConfig extends BaseDescriptor {
                 throw new RuntimeException("not implemented");
             }
         }
-        if (this.extensionAudioObjectType == 5) {
+        if (this.extensionAudioObjectType != 5) {
         }
     }
 

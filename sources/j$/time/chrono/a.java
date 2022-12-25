@@ -21,11 +21,11 @@ public abstract class a implements b {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof a)) {
-            return false;
+        if (obj instanceof a) {
+            Objects.requireNonNull((a) obj);
+            return true;
         }
-        Objects.requireNonNull((a) obj);
-        return true;
+        return false;
     }
 
     public int hashCode() {

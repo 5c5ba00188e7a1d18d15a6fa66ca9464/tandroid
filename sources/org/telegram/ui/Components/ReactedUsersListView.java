@@ -56,7 +56,10 @@ import org.telegram.ui.Components.RecyclerListView;
 /* loaded from: classes3.dex */
 public class ReactedUsersListView extends FrameLayout {
     private RecyclerView.Adapter adapter;
+    public boolean canLoadMore;
     private int currentAccount;
+    ArrayList<TLRPC$InputStickerSet> customEmojiStickerSets;
+    ArrayList<ReactionsLayoutInBubble.VisibleReaction> customReactionsEmoji;
     private TLRPC$Reaction filter;
     public boolean isLoaded;
     public boolean isLoading;
@@ -68,13 +71,10 @@ public class ReactedUsersListView extends FrameLayout {
     private OnCustomEmojiSelectedListener onCustomEmojiSelectedListener;
     private OnHeightChangedListener onHeightChangedListener;
     private OnProfileSelectedListener onProfileSelectedListener;
+    private LongSparseArray<ArrayList<TLRPC$MessagePeerReaction>> peerReactionMap;
     private int predictiveCount;
     Theme.ResourcesProvider resourcesProvider;
-    private List<TLRPC$MessagePeerReaction> userReactions = new ArrayList();
-    private LongSparseArray<ArrayList<TLRPC$MessagePeerReaction>> peerReactionMap = new LongSparseArray<>();
-    public boolean canLoadMore = true;
-    ArrayList<ReactionsLayoutInBubble.VisibleReaction> customReactionsEmoji = new ArrayList<>();
-    ArrayList<TLRPC$InputStickerSet> customEmojiStickerSets = new ArrayList<>();
+    private List<TLRPC$MessagePeerReaction> userReactions;
 
     /* loaded from: classes3.dex */
     public interface OnCustomEmojiSelectedListener {
@@ -94,6 +94,11 @@ public class ReactedUsersListView extends FrameLayout {
     public ReactedUsersListView(final Context context, final Theme.ResourcesProvider resourcesProvider, final int i, MessageObject messageObject, TLRPC$ReactionCount tLRPC$ReactionCount, boolean z) {
         super(context);
         TLRPC$Reaction tLRPC$Reaction;
+        this.userReactions = new ArrayList();
+        this.peerReactionMap = new LongSparseArray<>();
+        this.canLoadMore = true;
+        this.customReactionsEmoji = new ArrayList<>();
+        this.customEmojiStickerSets = new ArrayList<>();
         this.currentAccount = i;
         this.message = messageObject;
         this.filter = tLRPC$ReactionCount == null ? null : tLRPC$ReactionCount.reaction;
@@ -211,10 +216,9 @@ public class ReactedUsersListView extends FrameLayout {
         int itemViewType = this.adapter.getItemViewType(i);
         if (itemViewType == 0) {
             OnProfileSelectedListener onProfileSelectedListener = this.onProfileSelectedListener;
-            if (onProfileSelectedListener == null) {
-                return;
+            if (onProfileSelectedListener != null) {
+                onProfileSelectedListener.onProfileSelected(this, MessageObject.getPeerId(this.userReactions.get(i).peer_id), this.userReactions.get(i));
             }
-            onProfileSelectedListener.onProfileSelected(this, MessageObject.getPeerId(this.userReactions.get(i).peer_id), this.userReactions.get(i));
         } else if (itemViewType != 1 || (onCustomEmojiSelectedListener = this.onCustomEmojiSelectedListener) == null) {
         } else {
             onCustomEmojiSelectedListener.showCustomEmojiAlert(this, this.customEmojiStickerSets);
@@ -433,7 +437,7 @@ public class ReactedUsersListView extends FrameLayout {
 
     /* loaded from: classes3.dex */
     private final class ReactedUserHolderView extends FrameLayout {
-        AvatarDrawable avatarDrawable = new AvatarDrawable();
+        AvatarDrawable avatarDrawable;
         BackupImageView avatarView;
         View overlaySelectorView;
         BackupImageView reactView;
@@ -441,6 +445,7 @@ public class ReactedUsersListView extends FrameLayout {
 
         ReactedUserHolderView(Context context) {
             super(context);
+            this.avatarDrawable = new AvatarDrawable();
             setLayoutParams(new RecyclerView.LayoutParams(-1, AndroidUtilities.dp(48.0f)));
             BackupImageView backupImageView = new BackupImageView(context);
             this.avatarView = backupImageView;
@@ -560,7 +565,9 @@ public class ReactedUsersListView extends FrameLayout {
         protected void onMeasure(int i, int i2) {
             int i3;
             RecyclerListView recyclerListView = null;
-            if (!this.hasHeader) {
+            if (this.hasHeader) {
+                i3 = 0;
+            } else {
                 i3 = 0;
                 for (int i4 = 0; i4 < getChildCount(); i4++) {
                     if (getChildAt(i4) instanceof ReactedUsersListView) {
@@ -577,8 +584,6 @@ public class ReactedUsersListView extends FrameLayout {
                         }
                     }
                 }
-            } else {
-                i3 = 0;
             }
             int size = View.MeasureSpec.getSize(i);
             if (size < AndroidUtilities.dp(240.0f)) {

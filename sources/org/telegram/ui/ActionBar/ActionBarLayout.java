@@ -59,9 +59,12 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
     private static Drawable headerShadowDrawable;
     private static Drawable layerShadowDrawable;
     private static Paint scrimPaint;
+    private AccelerateDecelerateInterpolator accelerateDecelerateInterpolator;
+    private ArrayList<int[]> animateEndColors;
     private int animateSetThemeAccentIdAfterAnimation;
     private Theme.ThemeInfo animateSetThemeAfterAnimation;
     private boolean animateSetThemeNightAfterAnimation;
+    private ArrayList<int[]> animateStartColors;
     private boolean animateThemeAfterAnimation;
     protected boolean animationInProgress;
     private float animationProgress;
@@ -73,17 +76,20 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
     private LayoutContainer containerViewBack;
     private ActionBar currentActionBar;
     private AnimatorSet currentAnimation;
+    private DecelerateInterpolator decelerateInterpolator;
     private boolean delayedAnimationResumed;
     private Runnable delayedOpenAnimationRunnable;
     private INavigationLayout.INavigationLayoutDelegate delegate;
     private DrawerLayoutContainer drawerLayoutContainer;
     private List<BaseFragment> fragmentsStack;
+    public boolean highlightActionButtons;
     private boolean inActionMode;
     private boolean inBubbleMode;
     private boolean inPreviewMode;
     public float innerTranslationX;
     private long lastFrameTime;
     private boolean maybeStartTracking;
+    private int[] measureSpec;
     public Theme.MessageDrawable messageDrawableOutMediaStart;
     public Theme.MessageDrawable messageDrawableOutStart;
     private BaseFragment newFragment;
@@ -92,6 +98,8 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
     private Runnable onFragmentStackChangedListener;
     private Runnable onOpenAnimationEndRunnable;
     private Runnable overlayAction;
+    private int overrideWidthOffset;
+    private OvershootInterpolator overshootInterpolator;
     protected Activity parentActivity;
     private ArrayList<ThemeDescription> presentingFragmentDescriptions;
     private ColorDrawable previewBackgroundDrawable;
@@ -102,11 +110,14 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
     private boolean rebuildLastAfterAnimation;
     private boolean removeActionBarExtraHeight;
     private boolean showLastAfterAnimation;
+    INavigationLayout.StartColorsProvider startColorsProvider;
     protected boolean startedTracking;
     private int startedTrackingPointerId;
     private int startedTrackingX;
     private int startedTrackingY;
     private float themeAnimationValue;
+    private ArrayList<ThemeDescription.ThemeDescriptionDelegate> themeAnimatorDelegate;
+    private ArrayList<ArrayList<ThemeDescription>> themeAnimatorDescriptions;
     private AnimatorSet themeAnimatorSet;
     private String titleOverlayText;
     private int titleOverlayTextId;
@@ -116,17 +127,6 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
     private boolean useAlphaAnimations;
     private VelocityTracker velocityTracker;
     private Runnable waitingForKeyboardCloseRunnable;
-    public boolean highlightActionButtons = false;
-    private DecelerateInterpolator decelerateInterpolator = new DecelerateInterpolator(1.5f);
-    private OvershootInterpolator overshootInterpolator = new OvershootInterpolator(1.02f);
-    private AccelerateDecelerateInterpolator accelerateDecelerateInterpolator = new AccelerateDecelerateInterpolator();
-    private ArrayList<int[]> animateStartColors = new ArrayList<>();
-    private ArrayList<int[]> animateEndColors = new ArrayList<>();
-    INavigationLayout.StartColorsProvider startColorsProvider = new INavigationLayout.StartColorsProvider();
-    private ArrayList<ArrayList<ThemeDescription>> themeAnimatorDescriptions = new ArrayList<>();
-    private ArrayList<ThemeDescription.ThemeDescriptionDelegate> themeAnimatorDelegate = new ArrayList<>();
-    private int overrideWidthOffset = -1;
-    private int[] measureSpec = new int[2];
 
     @Override // org.telegram.ui.ActionBar.INavigationLayout
     public /* synthetic */ boolean addFragmentToStack(BaseFragment baseFragment) {
@@ -261,16 +261,18 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
     public class LayoutContainer extends FrameLayout {
         private boolean allowToPressByHover;
         private int backgroundColor;
+        private Paint backgroundPaint;
         private int fragmentPanTranslationOffset;
         private boolean isKeyboardVisible;
         private float pressX;
         private float pressY;
+        private Rect rect;
         private boolean wasPortrait;
-        private Rect rect = new Rect();
-        private Paint backgroundPaint = new Paint();
 
         public LayoutContainer(Context context) {
             super(context);
+            this.rect = new Rect();
+            this.backgroundPaint = new Paint();
             setWillNotDraw(false);
         }
 
@@ -353,7 +355,6 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
         protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
             int i5;
             int childCount = getChildCount();
-            boolean z2 = false;
             int i6 = 0;
             while (true) {
                 if (i6 >= childCount) {
@@ -385,10 +386,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
             getWindowVisibleDisplayFrame(this.rect);
             int height = (rootView.getHeight() - (this.rect.top != 0 ? AndroidUtilities.statusBarHeight : 0)) - AndroidUtilities.getViewInset(rootView);
             Rect rect = this.rect;
-            if (height - (rect.bottom - rect.top) > 0) {
-                z2 = true;
-            }
-            this.isKeyboardVisible = z2;
+            this.isKeyboardVisible = height - (rect.bottom - rect.top) > 0;
             if (ActionBarLayout.this.waitingForKeyboardCloseRunnable != null) {
                 ActionBarLayout actionBarLayout = ActionBarLayout.this;
                 if (actionBarLayout.containerView.isKeyboardVisible || actionBarLayout.containerViewBack.isKeyboardVisible) {
@@ -400,7 +398,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
             }
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:21:0x0036, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:18:0x0036, code lost:
             if (r5 != r5.this$0.containerView) goto L10;
          */
         @Override // android.view.ViewGroup, android.view.View
@@ -478,11 +476,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
             }
             if (motionEvent.getAction() == 1 || motionEvent.getAction() == 3) {
                 if (ActionBarLayout.this.previewMenu != null && ActionBarLayout.this.highlightActionButtons) {
-                    int i2 = 255;
-                    if (Build.VERSION.SDK_INT >= 19) {
-                        i2 = Theme.moveUpDrawable.getAlpha();
-                    }
-                    ValueAnimator ofFloat = ValueAnimator.ofFloat(i2, 0.0f);
+                    ValueAnimator ofFloat = ValueAnimator.ofFloat(Build.VERSION.SDK_INT >= 19 ? Theme.moveUpDrawable.getAlpha() : 255, 0.0f);
                     ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ActionBar.ActionBarLayout$LayoutContainer$$ExternalSyntheticLambda0
                         @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                         public final void onAnimationUpdate(ValueAnimator valueAnimator) {
@@ -518,7 +512,18 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
 
     public ActionBarLayout(Context context) {
         super(context);
+        this.highlightActionButtons = false;
+        this.decelerateInterpolator = new DecelerateInterpolator(1.5f);
+        this.overshootInterpolator = new OvershootInterpolator(1.02f);
+        this.accelerateDecelerateInterpolator = new AccelerateDecelerateInterpolator();
+        this.animateStartColors = new ArrayList<>();
+        this.animateEndColors = new ArrayList<>();
+        this.startColorsProvider = new INavigationLayout.StartColorsProvider();
+        this.themeAnimatorDescriptions = new ArrayList<>();
+        this.themeAnimatorDelegate = new ArrayList<>();
         new Rect();
+        this.overrideWidthOffset = -1;
+        this.measureSpec = new int[2];
         this.parentActivity = (Activity) context;
         if (layerShadowDrawable == null) {
             layerShadowDrawable = getResources().getDrawable(R.drawable.layer_shadow);
@@ -554,15 +559,16 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
     @Override // android.view.View
     public void onConfigurationChanged(Configuration configuration) {
         super.onConfigurationChanged(configuration);
-        if (!this.fragmentsStack.isEmpty()) {
-            int size = this.fragmentsStack.size();
-            for (int i = 0; i < size; i++) {
-                BaseFragment baseFragment = this.fragmentsStack.get(i);
-                baseFragment.onConfigurationChanged(configuration);
-                Dialog dialog = baseFragment.visibleDialog;
-                if (dialog instanceof BottomSheet) {
-                    ((BottomSheet) dialog).onConfigurationChanged(configuration);
-                }
+        if (this.fragmentsStack.isEmpty()) {
+            return;
+        }
+        int size = this.fragmentsStack.size();
+        for (int i = 0; i < size; i++) {
+            BaseFragment baseFragment = this.fragmentsStack.get(i);
+            baseFragment.onConfigurationChanged(configuration);
+            Dialog dialog = baseFragment.visibleDialog;
+            if (dialog instanceof BottomSheet) {
+                ((BottomSheet) dialog).onConfigurationChanged(configuration);
             }
         }
     }
@@ -621,7 +627,6 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
         float measuredWidth = f / this.containerView.getMeasuredWidth();
         List<BaseFragment> list = this.fragmentsStack;
         BaseFragment baseFragment = list.get(list.size() - 2);
-        int i = 0;
         baseFragment.onSlideProgress(false, measuredWidth);
         List<BaseFragment> list2 = this.fragmentsStack;
         BaseFragment baseFragment2 = list2.get(list2.size() - 1);
@@ -632,12 +637,8 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
         if (baseFragment2.inPreviewMode || Build.VERSION.SDK_INT < 23 || SharedConfig.noStatusBar) {
             return;
         }
-        int i2 = Theme.getColor("actionBarDefault") == -1 ? AndroidUtilities.LIGHT_STATUS_BAR_OVERLAY : AndroidUtilities.DARK_STATUS_BAR_OVERLAY;
-        int i3 = baseFragment.hasForceLightStatusBar() ? 0 : i2;
-        if (!baseFragment2.hasForceLightStatusBar()) {
-            i = i2;
-        }
-        this.parentActivity.getWindow().setStatusBarColor(ColorUtils.blendARGB(i, i3, clamp));
+        int i = Theme.getColor("actionBarDefault") == -1 ? AndroidUtilities.LIGHT_STATUS_BAR_OVERLAY : AndroidUtilities.DARK_STATUS_BAR_OVERLAY;
+        this.parentActivity.getWindow().setStatusBarColor(ColorUtils.blendARGB(baseFragment2.hasForceLightStatusBar() ? 0 : i, baseFragment.hasForceLightStatusBar() ? 0 : i, clamp));
     }
 
     @Keep
@@ -647,26 +648,29 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
 
     @Override // org.telegram.ui.ActionBar.INavigationLayout
     public void onResume() {
-        if (!this.fragmentsStack.isEmpty()) {
-            List<BaseFragment> list = this.fragmentsStack;
-            list.get(list.size() - 1).onResume();
+        if (this.fragmentsStack.isEmpty()) {
+            return;
         }
+        List<BaseFragment> list = this.fragmentsStack;
+        list.get(list.size() - 1).onResume();
     }
 
     @Override // org.telegram.ui.ActionBar.INavigationLayout
     public void onUserLeaveHint() {
-        if (!this.fragmentsStack.isEmpty()) {
-            List<BaseFragment> list = this.fragmentsStack;
-            list.get(list.size() - 1).onUserLeaveHint();
+        if (this.fragmentsStack.isEmpty()) {
+            return;
         }
+        List<BaseFragment> list = this.fragmentsStack;
+        list.get(list.size() - 1).onUserLeaveHint();
     }
 
     @Override // org.telegram.ui.ActionBar.INavigationLayout
     public void onPause() {
-        if (!this.fragmentsStack.isEmpty()) {
-            List<BaseFragment> list = this.fragmentsStack;
-            list.get(list.size() - 1).onPause();
+        if (this.fragmentsStack.isEmpty()) {
+            return;
         }
+        List<BaseFragment> list = this.fragmentsStack;
+        list.get(list.size() - 1).onPause();
     }
 
     @Override // android.view.ViewGroup
@@ -769,18 +773,13 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
             canvas.concat(layoutContainer.getMatrix());
             layoutContainer.draw(canvas);
             if (drawable != null) {
-                int i = 0;
                 View childAt = layoutContainer.getChildAt(0);
                 if (childAt != null) {
                     ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams) childAt.getLayoutParams();
                     Rect rect = new Rect();
                     childAt.getLocalVisibleRect(rect);
                     rect.offset(marginLayoutParams.leftMargin, marginLayoutParams.topMargin);
-                    int i2 = rect.top;
-                    if (Build.VERSION.SDK_INT >= 21) {
-                        i = AndroidUtilities.statusBarHeight - 1;
-                    }
-                    rect.top = i2 + i;
+                    rect.top += Build.VERSION.SDK_INT >= 21 ? AndroidUtilities.statusBarHeight - 1 : 0;
                     drawable.setAlpha((int) (layoutContainer.getAlpha() * 255.0f));
                     drawable.setBounds(rect);
                     drawable.draw(canvas);
@@ -791,24 +790,18 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
     }
 
     private void drawPreviewDrawables(Canvas canvas, ViewGroup viewGroup) {
-        int i = 0;
         View childAt = viewGroup.getChildAt(0);
         if (childAt != null) {
             this.previewBackgroundDrawable.setBounds(0, 0, getMeasuredWidth(), getMeasuredHeight());
             this.previewBackgroundDrawable.draw(canvas);
-            if (this.previewMenu != null) {
-                return;
+            if (this.previewMenu == null) {
+                int dp = AndroidUtilities.dp(32.0f);
+                int i = dp / 2;
+                int measuredWidth = (getMeasuredWidth() - dp) / 2;
+                int top = (int) ((childAt.getTop() + viewGroup.getTranslationY()) - AndroidUtilities.dp((Build.VERSION.SDK_INT < 21 ? 20 : 0) + 12));
+                Theme.moveUpDrawable.setBounds(measuredWidth, top, dp + measuredWidth, i + top);
+                Theme.moveUpDrawable.draw(canvas);
             }
-            int dp = AndroidUtilities.dp(32.0f);
-            int i2 = dp / 2;
-            int measuredWidth = (getMeasuredWidth() - dp) / 2;
-            float top = childAt.getTop() + viewGroup.getTranslationY();
-            if (Build.VERSION.SDK_INT < 21) {
-                i = 20;
-            }
-            int dp2 = (int) (top - AndroidUtilities.dp(i + 12));
-            Theme.moveUpDrawable.setBounds(measuredWidth, dp2, dp + measuredWidth, i2 + dp2);
-            Theme.moveUpDrawable.draw(canvas);
         }
     }
 
@@ -1190,7 +1183,6 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                 if (ActionBarLayout.this.animationRunnable != this) {
                     return;
                 }
-                Integer num = null;
                 ActionBarLayout.this.animationRunnable = null;
                 if (z2) {
                     ActionBarLayout.this.transitionAnimationStartTime = System.currentTimeMillis();
@@ -1201,7 +1193,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                     j = 18;
                 }
                 ActionBarLayout.this.lastFrameTime = nanoTime;
-                ActionBarLayout.access$1116(ActionBarLayout.this, ((float) j) / ((!z3 || !z) ? 150.0f : 190.0f));
+                ActionBarLayout.access$1116(ActionBarLayout.this, ((float) j) / ((z3 && z) ? 190.0f : 150.0f));
                 if (ActionBarLayout.this.animationProgress > 1.0f) {
                     ActionBarLayout.this.animationProgress = 1.0f;
                 }
@@ -1212,11 +1204,9 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                     ActionBarLayout.this.oldFragment.onTransitionAnimationProgress(false, ActionBarLayout.this.animationProgress);
                 }
                 Integer valueOf = ActionBarLayout.this.oldFragment != null ? Integer.valueOf(ActionBarLayout.this.oldFragment.getNavigationBarColor()) : null;
-                if (ActionBarLayout.this.newFragment != null) {
-                    num = Integer.valueOf(ActionBarLayout.this.newFragment.getNavigationBarColor());
-                }
+                Integer valueOf2 = ActionBarLayout.this.newFragment != null ? Integer.valueOf(ActionBarLayout.this.newFragment.getNavigationBarColor()) : null;
                 if (ActionBarLayout.this.newFragment != null && valueOf != null) {
-                    ActionBarLayout.this.newFragment.setNavigationBarColor(ColorUtils.blendARGB(valueOf.intValue(), num.intValue(), MathUtils.clamp((ActionBarLayout.this.animationProgress * 2.0f) - (z ? 1.0f : 0.0f), 0.0f, 1.0f)));
+                    ActionBarLayout.this.newFragment.setNavigationBarColor(ColorUtils.blendARGB(valueOf.intValue(), valueOf2.intValue(), MathUtils.clamp((ActionBarLayout.this.animationProgress * 2.0f) - (z ? 1.0f : 0.0f), 0.0f, 1.0f)));
                 }
                 if (!z3) {
                     interpolation = ActionBarLayout.this.decelerateInterpolator.getInterpolation(ActionBarLayout.this.animationProgress);
@@ -1302,7 +1292,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
         boolean z3 = navigationParams.checkPresentFromDelegate;
         final boolean z4 = navigationParams.preview;
         final ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = navigationParams.menuView;
-        if (baseFragment2 == null || checkTransitionAnimation() || (((iNavigationLayoutDelegate = this.delegate) != null && z3 && !iNavigationLayoutDelegate.needPresentFragment(this, navigationParams)) || !baseFragment2.onFragmentCreate())) {
+        if (baseFragment2 == null || checkTransitionAnimation() || !(((iNavigationLayoutDelegate = this.delegate) == null || !z3 || iNavigationLayoutDelegate.needPresentFragment(this, navigationParams)) && baseFragment2.onFragmentCreate())) {
             return false;
         }
         if (this.inPreviewMode && this.transitionAnimationPreviewMode) {
@@ -1327,11 +1317,11 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
             AndroidUtilities.hideKeyboard(this.parentActivity.getCurrentFocus());
         }
         boolean z5 = z4 || (!z2 && MessagesController.getGlobalMainSettings().getBoolean("view_animations", true));
-        if (!this.fragmentsStack.isEmpty()) {
+        if (this.fragmentsStack.isEmpty()) {
+            baseFragment = null;
+        } else {
             List<BaseFragment> list = this.fragmentsStack;
             baseFragment = list.get(list.size() - 1);
-        } else {
-            baseFragment = null;
         }
         baseFragment2.setParentLayout(this);
         View view = baseFragment2.fragmentView;
@@ -1530,17 +1520,17 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                                 }
                                 ActionBarLayout.this.waitingForKeyboardCloseRunnable = null;
                                 if (!z6) {
-                                    if (ActionBarLayout.this.delayedOpenAnimationRunnable == null) {
-                                        return;
+                                    if (ActionBarLayout.this.delayedOpenAnimationRunnable != null) {
+                                        AndroidUtilities.cancelRunOnUIThread(ActionBarLayout.this.delayedOpenAnimationRunnable);
+                                        if (ActionBarLayout.this.delayedAnimationResumed) {
+                                            ActionBarLayout.this.delayedOpenAnimationRunnable.run();
+                                            return;
+                                        } else {
+                                            AndroidUtilities.runOnUIThread(ActionBarLayout.this.delayedOpenAnimationRunnable, 200L);
+                                            return;
+                                        }
                                     }
-                                    AndroidUtilities.cancelRunOnUIThread(ActionBarLayout.this.delayedOpenAnimationRunnable);
-                                    if (ActionBarLayout.this.delayedAnimationResumed) {
-                                        ActionBarLayout.this.delayedOpenAnimationRunnable.run();
-                                        return;
-                                    } else {
-                                        AndroidUtilities.runOnUIThread(ActionBarLayout.this.delayedOpenAnimationRunnable, 200L);
-                                        return;
-                                    }
+                                    return;
                                 }
                                 BaseFragment baseFragment5 = baseFragment4;
                                 if (baseFragment5 != null) {
@@ -1700,8 +1690,8 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
         onFragmentStackChanged();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:12:0x002f  */
-    /* JADX WARN: Removed duplicated region for block: B:15:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:17:0x002f  */
+    /* JADX WARN: Removed duplicated region for block: B:21:? A[RETURN, SYNTHETIC] */
     @Override // org.telegram.ui.ActionBar.INavigationLayout
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1716,15 +1706,15 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
             if (f2 < (-AndroidUtilities.dp(60.0f))) {
                 expandPreviewFragment();
             }
-            if (translationY != f2) {
+            if (translationY == f2) {
+                this.containerView.setTranslationY(f2);
+                invalidate();
                 return;
             }
-            this.containerView.setTranslationY(f2);
-            invalidate();
             return;
         }
         f2 = 0.0f;
-        if (translationY != f2) {
+        if (translationY == f2) {
         }
     }
 
@@ -1944,10 +1934,9 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                 removeFragmentFromStackInternal(baseFragment2);
                 setVisibility(8);
                 View view3 = this.backgroundView;
-                if (view3 == null) {
-                    return;
+                if (view3 != null) {
+                    view3.setVisibility(8);
                 }
-                view3.setVisibility(8);
             }
         }
     }
@@ -2180,10 +2169,10 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
             this.animateSetThemeAfterAnimation = themeAnimationSettings.theme;
             this.animateSetThemeNightAfterAnimation = themeAnimationSettings.nightTheme;
             this.animateSetThemeAccentIdAfterAnimation = themeAnimationSettings.accentId;
-            if (runnable == null) {
+            if (runnable != null) {
+                runnable.run();
                 return;
             }
-            runnable.run();
             return;
         }
         AnimatorSet animatorSet = this.themeAnimatorSet;
@@ -2287,10 +2276,10 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                 if (runnable3 != null) {
                     runnable3.run();
                 }
-                if (runnable == null) {
+                if (runnable != null) {
+                    runnable.run();
                     return;
                 }
-                runnable.run();
                 return;
             }
             Theme.setAnimatingColor(true);
@@ -2317,10 +2306,9 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                         ActionBarLayout.this.presentingFragmentDescriptions = null;
                         ActionBarLayout.this.themeAnimatorSet = null;
                         Runnable runnable5 = themeAnimationSettings.afterAnimationRunnable;
-                        if (runnable5 == null) {
-                            return;
+                        if (runnable5 != null) {
+                            runnable5.run();
                         }
-                        runnable5.run();
                     }
                 }
 
@@ -2335,10 +2323,9 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                         ActionBarLayout.this.presentingFragmentDescriptions = null;
                         ActionBarLayout.this.themeAnimatorSet = null;
                         Runnable runnable5 = themeAnimationSettings.afterAnimationRunnable;
-                        if (runnable5 == null) {
-                            return;
+                        if (runnable5 != null) {
+                            runnable5.run();
                         }
-                        runnable5.run();
                     }
                 }
             });
@@ -2383,10 +2370,9 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
         if (iNavigationLayoutDelegate != null) {
             iNavigationLayoutDelegate.onRebuildAllFragments(this, z);
         }
-        if (!z2) {
-            return;
+        if (z2) {
+            showLastFragment();
         }
-        showLastFragment();
     }
 
     @Override // android.view.View, android.view.KeyEvent.Callback
@@ -2443,8 +2429,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
         if (this.rebuildAfterAnimation) {
             rebuildAllFragmentViews(this.rebuildLastAfterAnimation, this.showLastAfterAnimation);
             this.rebuildAfterAnimation = false;
-        } else if (!this.animateThemeAfterAnimation) {
-        } else {
+        } else if (this.animateThemeAfterAnimation) {
             animateThemedValues(this.animateSetThemeAfterAnimation, this.animateSetThemeAccentIdAfterAnimation, this.animateSetThemeNightAfterAnimation, false);
             this.animateSetThemeAfterAnimation = null;
             this.animateThemeAfterAnimation = false;
@@ -2484,10 +2469,9 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
             }
             this.containerView.invalidate();
         }
-        if (intent == null) {
-            return;
+        if (intent != null) {
+            this.parentActivity.startActivityForResult(intent, i);
         }
-        this.parentActivity.startActivityForResult(intent, i);
     }
 
     @Override // org.telegram.ui.ActionBar.INavigationLayout

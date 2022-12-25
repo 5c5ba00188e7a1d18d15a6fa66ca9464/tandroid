@@ -7,7 +7,7 @@ final class zzhi {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static boolean zza() {
-        return zza != null && !zzb;
+        return (zza == null || zzb) ? false : true;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

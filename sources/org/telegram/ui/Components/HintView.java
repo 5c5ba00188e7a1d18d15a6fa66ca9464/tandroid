@@ -347,24 +347,24 @@ public class HintView extends FrameLayout {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:55:0x0140, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:57:0x0140, code lost:
         if (r1 < 0) goto L30;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:56:0x0161, code lost:
-        r11 = r1;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:61:0x015e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:63:0x015e, code lost:
         if (r1 >= 0) goto L56;
      */
-    /* JADX WARN: Removed duplicated region for block: B:24:0x0104  */
-    /* JADX WARN: Removed duplicated region for block: B:32:0x0176  */
-    /* JADX WARN: Removed duplicated region for block: B:35:0x018a  */
-    /* JADX WARN: Removed duplicated region for block: B:41:0x01a9  */
-    /* JADX WARN: Removed duplicated region for block: B:52:0x0130  */
-    /* JADX WARN: Removed duplicated region for block: B:58:0x014c  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x0115  */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x00b0  */
-    /* JADX WARN: Removed duplicated region for block: B:71:0x00b3  */
+    /* JADX WARN: Code restructure failed: missing block: B:65:0x0161, code lost:
+        r11 = r1;
+     */
+    /* JADX WARN: Removed duplicated region for block: B:33:0x00b0  */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x00b3  */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x0104  */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x0115  */
+    /* JADX WARN: Removed duplicated region for block: B:54:0x0130  */
+    /* JADX WARN: Removed duplicated region for block: B:60:0x014c  */
+    /* JADX WARN: Removed duplicated region for block: B:68:0x0176  */
+    /* JADX WARN: Removed duplicated region for block: B:71:0x018a  */
+    /* JADX WARN: Removed duplicated region for block: B:74:0x01a9  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -431,12 +431,12 @@ public class HintView extends FrameLayout {
                     this.translationY = measuredHeight2;
                     setTranslationY(f2 + measuredHeight2);
                 }
-                if (!(getLayoutParams() instanceof ViewGroup.MarginLayoutParams)) {
-                    i4 = ((ViewGroup.MarginLayoutParams) getLayoutParams()).leftMargin;
-                    i5 = ((ViewGroup.MarginLayoutParams) getLayoutParams()).rightMargin;
-                } else {
+                if (getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
                     i4 = 0;
                     i5 = 0;
+                } else {
+                    i4 = ((ViewGroup.MarginLayoutParams) getLayoutParams()).leftMargin;
+                    i5 = ((ViewGroup.MarginLayoutParams) getLayoutParams()).rightMargin;
                 }
                 if (this.currentType != 8 && !this.isTopArrow) {
                     i8 = (((measuredWidth3 - i4) - i5) - getMeasuredWidth()) / 2;
@@ -456,24 +456,24 @@ public class HintView extends FrameLayout {
                 }
                 this.arrowImageView.setTranslationX(measuredWidth4);
                 if (i3 <= view2.getMeasuredWidth() / 2) {
-                    if (measuredWidth4 >= AndroidUtilities.dp(10.0f)) {
+                    if (measuredWidth4 < AndroidUtilities.dp(10.0f)) {
+                        float dp4 = measuredWidth4 - AndroidUtilities.dp(10.0f);
+                        setTranslationX(getTranslationX() + dp4);
+                        this.arrowImageView.setTranslationX(measuredWidth4 - dp4);
                         return;
                     }
-                    float dp4 = measuredWidth4 - AndroidUtilities.dp(10.0f);
-                    setTranslationX(getTranslationX() + dp4);
-                    this.arrowImageView.setTranslationX(measuredWidth4 - dp4);
                     return;
                 } else if (measuredWidth4 > getMeasuredWidth() - AndroidUtilities.dp(24.0f)) {
                     float measuredWidth5 = (measuredWidth4 - getMeasuredWidth()) + AndroidUtilities.dp(24.0f);
                     setTranslationX(measuredWidth5);
                     this.arrowImageView.setTranslationX(measuredWidth4 - measuredWidth5);
                     return;
-                } else if (measuredWidth4 >= AndroidUtilities.dp(10.0f)) {
-                    return;
-                } else {
+                } else if (measuredWidth4 < AndroidUtilities.dp(10.0f)) {
                     float dp5 = measuredWidth4 - AndroidUtilities.dp(10.0f);
                     setTranslationX(getTranslationX() + dp5);
                     this.arrowImageView.setTranslationX(measuredWidth4 - dp5);
+                    return;
+                } else {
                     return;
                 }
             }
@@ -497,7 +497,7 @@ public class HintView extends FrameLayout {
         float measuredHeight22 = i92 - getMeasuredHeight();
         this.translationY = measuredHeight22;
         setTranslationY(f22 + measuredHeight22);
-        if (!(getLayoutParams() instanceof ViewGroup.MarginLayoutParams)) {
+        if (getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
         }
         if (this.currentType != 8) {
         }

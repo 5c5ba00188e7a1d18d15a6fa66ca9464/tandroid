@@ -121,6 +121,6 @@ public final class StringUtils {
         if (z3 && i5 > 0) {
             z3 = false;
         }
-        return (!z4 || (!z2 && (i6 + i7) + i8 <= 0)) ? (!z3 || (!ASSUME_SHIFT_JIS && i9 < 3 && i < 3)) ? (!z || !z3) ? z ? "ISO8859_1" : z3 ? "SJIS" : z4 ? "UTF8" : PLATFORM_DEFAULT_ENCODING : (!(i9 == 2 && i2 == 2) && i10 * 10 < length) ? "ISO8859_1" : "SJIS" : "SJIS" : "UTF8";
+        return (!z4 || (!z2 && (i6 + i7) + i8 <= 0)) ? (!z3 || (!ASSUME_SHIFT_JIS && i9 < 3 && i < 3)) ? (z && z3) ? (!(i9 == 2 && i2 == 2) && i10 * 10 < length) ? "ISO8859_1" : "SJIS" : z ? "ISO8859_1" : z3 ? "SJIS" : z4 ? "UTF8" : PLATFORM_DEFAULT_ENCODING : "SJIS" : "UTF8";
     }
 }

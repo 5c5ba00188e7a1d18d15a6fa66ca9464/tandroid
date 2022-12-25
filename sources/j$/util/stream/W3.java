@@ -40,11 +40,11 @@ public class W3 extends Z3 implements j$.util.function.l {
     public void forEach(Consumer consumer) {
         if (consumer instanceof j$.util.function.l) {
             g((j$.util.function.l) consumer);
-        } else if (!Q4.a) {
-            spliterator().forEachRemaining(consumer);
-        } else {
+        } else if (Q4.a) {
             Q4.a(getClass(), "{0} calling SpinedBuffer.OfInt.forEach(Consumer)");
             throw null;
+        } else {
+            spliterator().forEachRemaining(consumer);
         }
     }
 

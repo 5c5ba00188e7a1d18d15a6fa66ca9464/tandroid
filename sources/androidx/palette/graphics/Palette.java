@@ -15,7 +15,7 @@ public final class Palette {
     static final Filter DEFAULT_FILTER = new Filter() { // from class: androidx.palette.graphics.Palette.1
         @Override // androidx.palette.graphics.Palette.Filter
         public boolean isAllowed(int i, float[] fArr) {
-            return !isWhite(fArr) && !isBlack(fArr) && !isNearRedILine(fArr);
+            return (isWhite(fArr) || isBlack(fArr) || isNearRedILine(fArr)) ? false : true;
         }
 
         private boolean isBlack(float[] fArr) {
@@ -107,13 +107,7 @@ public final class Palette {
         float[] hsl = swatch.getHsl();
         Swatch swatch2 = this.mDominantSwatch;
         int population = swatch2 != null ? swatch2.getPopulation() : 1;
-        float f = 0.0f;
-        float saturationWeight = target.getSaturationWeight() > 0.0f ? target.getSaturationWeight() * (1.0f - Math.abs(hsl[1] - target.getTargetSaturation())) : 0.0f;
-        float lightnessWeight = target.getLightnessWeight() > 0.0f ? target.getLightnessWeight() * (1.0f - Math.abs(hsl[2] - target.getTargetLightness())) : 0.0f;
-        if (target.getPopulationWeight() > 0.0f) {
-            f = target.getPopulationWeight() * (swatch.getPopulation() / population);
-        }
-        return saturationWeight + lightnessWeight + f;
+        return (target.getSaturationWeight() > 0.0f ? target.getSaturationWeight() * (1.0f - Math.abs(hsl[1] - target.getTargetSaturation())) : 0.0f) + (target.getLightnessWeight() > 0.0f ? target.getLightnessWeight() * (1.0f - Math.abs(hsl[2] - target.getTargetLightness())) : 0.0f) + (target.getPopulationWeight() > 0.0f ? target.getPopulationWeight() * (swatch.getPopulation() / population) : 0.0f);
     }
 
     private Swatch findDominantSwatch() {
@@ -179,37 +173,38 @@ public final class Palette {
         private void ensureTextColorsGenerated() {
             int alphaComponent;
             int alphaComponent2;
-            if (!this.mGeneratedTextColors) {
-                int calculateMinimumAlpha = ColorUtils.calculateMinimumAlpha(-1, this.mRgb, 4.5f);
-                int calculateMinimumAlpha2 = ColorUtils.calculateMinimumAlpha(-1, this.mRgb, 3.0f);
-                if (calculateMinimumAlpha != -1 && calculateMinimumAlpha2 != -1) {
-                    this.mBodyTextColor = ColorUtils.setAlphaComponent(-1, calculateMinimumAlpha);
-                    this.mTitleTextColor = ColorUtils.setAlphaComponent(-1, calculateMinimumAlpha2);
-                    this.mGeneratedTextColors = true;
-                    return;
-                }
-                int calculateMinimumAlpha3 = ColorUtils.calculateMinimumAlpha(-16777216, this.mRgb, 4.5f);
-                int calculateMinimumAlpha4 = ColorUtils.calculateMinimumAlpha(-16777216, this.mRgb, 3.0f);
-                if (calculateMinimumAlpha3 != -1 && calculateMinimumAlpha4 != -1) {
-                    this.mBodyTextColor = ColorUtils.setAlphaComponent(-16777216, calculateMinimumAlpha3);
-                    this.mTitleTextColor = ColorUtils.setAlphaComponent(-16777216, calculateMinimumAlpha4);
-                    this.mGeneratedTextColors = true;
-                    return;
-                }
-                if (calculateMinimumAlpha != -1) {
-                    alphaComponent = ColorUtils.setAlphaComponent(-1, calculateMinimumAlpha);
-                } else {
-                    alphaComponent = ColorUtils.setAlphaComponent(-16777216, calculateMinimumAlpha3);
-                }
-                this.mBodyTextColor = alphaComponent;
-                if (calculateMinimumAlpha2 != -1) {
-                    alphaComponent2 = ColorUtils.setAlphaComponent(-1, calculateMinimumAlpha2);
-                } else {
-                    alphaComponent2 = ColorUtils.setAlphaComponent(-16777216, calculateMinimumAlpha4);
-                }
-                this.mTitleTextColor = alphaComponent2;
-                this.mGeneratedTextColors = true;
+            if (this.mGeneratedTextColors) {
+                return;
             }
+            int calculateMinimumAlpha = ColorUtils.calculateMinimumAlpha(-1, this.mRgb, 4.5f);
+            int calculateMinimumAlpha2 = ColorUtils.calculateMinimumAlpha(-1, this.mRgb, 3.0f);
+            if (calculateMinimumAlpha != -1 && calculateMinimumAlpha2 != -1) {
+                this.mBodyTextColor = ColorUtils.setAlphaComponent(-1, calculateMinimumAlpha);
+                this.mTitleTextColor = ColorUtils.setAlphaComponent(-1, calculateMinimumAlpha2);
+                this.mGeneratedTextColors = true;
+                return;
+            }
+            int calculateMinimumAlpha3 = ColorUtils.calculateMinimumAlpha(-16777216, this.mRgb, 4.5f);
+            int calculateMinimumAlpha4 = ColorUtils.calculateMinimumAlpha(-16777216, this.mRgb, 3.0f);
+            if (calculateMinimumAlpha3 != -1 && calculateMinimumAlpha4 != -1) {
+                this.mBodyTextColor = ColorUtils.setAlphaComponent(-16777216, calculateMinimumAlpha3);
+                this.mTitleTextColor = ColorUtils.setAlphaComponent(-16777216, calculateMinimumAlpha4);
+                this.mGeneratedTextColors = true;
+                return;
+            }
+            if (calculateMinimumAlpha != -1) {
+                alphaComponent = ColorUtils.setAlphaComponent(-1, calculateMinimumAlpha);
+            } else {
+                alphaComponent = ColorUtils.setAlphaComponent(-16777216, calculateMinimumAlpha3);
+            }
+            this.mBodyTextColor = alphaComponent;
+            if (calculateMinimumAlpha2 != -1) {
+                alphaComponent2 = ColorUtils.setAlphaComponent(-1, calculateMinimumAlpha2);
+            } else {
+                alphaComponent2 = ColorUtils.setAlphaComponent(-16777216, calculateMinimumAlpha4);
+            }
+            this.mTitleTextColor = alphaComponent2;
+            this.mGeneratedTextColors = true;
         }
 
         public String toString() {
@@ -236,16 +231,19 @@ public final class Palette {
     public static final class Builder {
         private final Bitmap mBitmap;
         private final List<Filter> mFilters;
+        private int mMaxColors;
         private Rect mRegion;
+        private int mResizeArea;
+        private int mResizeMaxDimension;
         private final List<Swatch> mSwatches;
         private final List<Target> mTargets;
-        private int mMaxColors = 16;
-        private int mResizeArea = 12544;
-        private int mResizeMaxDimension = -1;
 
         public Builder(Bitmap bitmap) {
             ArrayList arrayList = new ArrayList();
             this.mTargets = arrayList;
+            this.mMaxColors = 16;
+            this.mResizeArea = 12544;
+            this.mResizeMaxDimension = -1;
             ArrayList arrayList2 = new ArrayList();
             this.mFilters = arrayList2;
             if (bitmap == null || bitmap.isRecycled()) {

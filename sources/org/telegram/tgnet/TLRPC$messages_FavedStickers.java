@@ -76,12 +76,12 @@ public abstract class TLRPC$messages_FavedStickers extends TLObject {
                 }
             };
         }
-        if (tLRPC$messages_FavedStickers != null || !z) {
-            if (tLRPC$messages_FavedStickers != null) {
-                tLRPC$messages_FavedStickers.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$messages_FavedStickers;
+        if (tLRPC$messages_FavedStickers == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in messages_FavedStickers", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in messages_FavedStickers", Integer.valueOf(i)));
+        if (tLRPC$messages_FavedStickers != null) {
+            tLRPC$messages_FavedStickers.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$messages_FavedStickers;
     }
 }

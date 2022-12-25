@@ -33,8 +33,8 @@ abstract class SignatureImpl implements Signature {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* JADX WARN: Removed duplicated region for block: B:10:0x0026  */
-    /* JADX WARN: Removed duplicated region for block: B:7:0x001e  */
+    /* JADX WARN: Removed duplicated region for block: B:12:0x001e  */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x0026  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

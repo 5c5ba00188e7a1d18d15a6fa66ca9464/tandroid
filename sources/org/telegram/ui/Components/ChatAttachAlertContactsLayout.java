@@ -101,7 +101,6 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
             backupImageView.setRoundRadius(AndroidUtilities.dp(23.0f));
             BackupImageView backupImageView2 = this.avatarImageView;
             boolean z = LocaleController.isRTL;
-            int i2 = 5;
             addView(backupImageView2, LayoutHelper.createFrame(46, 46.0f, (z ? 5 : 3) | 48, z ? 0.0f : 14.0f, 9.0f, z ? 14.0f : 0.0f, 0.0f));
             SimpleTextView simpleTextView = new SimpleTextView(this, context) { // from class: org.telegram.ui.Components.ChatAttachAlertContactsLayout.UserCell.1
                 @Override // org.telegram.ui.ActionBar.SimpleTextView
@@ -125,7 +124,7 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
             this.statusTextView.setGravity((LocaleController.isRTL ? 5 : 3) | 48);
             SimpleTextView simpleTextView4 = this.statusTextView;
             boolean z3 = LocaleController.isRTL;
-            addView(simpleTextView4, LayoutHelper.createFrame(-1, 20.0f, (!z3 ? 3 : i2) | 48, z3 ? 28.0f : 72.0f, 36.0f, z3 ? 72.0f : 28.0f, 0.0f));
+            addView(simpleTextView4, LayoutHelper.createFrame(-1, 20.0f, (z3 ? 5 : 3) | 48, z3 ? 28.0f : 72.0f, 36.0f, z3 ? 72.0f : 28.0f, 0.0f));
         }
 
         public void setCurrentId(int i) {
@@ -179,21 +178,20 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
                 return;
             }
             TLRPC$User tLRPC$User = this.currentUser;
-            if (tLRPC$User == null) {
-                return;
-            }
-            if (TextUtils.isEmpty(tLRPC$User.phone)) {
-                this.statusTextView.setText(LocaleController.getString("NumberUnknown", R.string.NumberUnknown));
-            } else if (this.formattedPhoneNumberUser != this.currentUser && (charSequence2 = this.formattedPhoneNumber) != null) {
-                this.statusTextView.setText(charSequence2);
-            } else {
-                this.statusTextView.setText("");
-                Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertContactsLayout$UserCell$$ExternalSyntheticLambda0
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        ChatAttachAlertContactsLayout.UserCell.this.lambda$setStatus$3();
-                    }
-                });
+            if (tLRPC$User != null) {
+                if (TextUtils.isEmpty(tLRPC$User.phone)) {
+                    this.statusTextView.setText(LocaleController.getString("NumberUnknown", R.string.NumberUnknown));
+                } else if (this.formattedPhoneNumberUser != this.currentUser && (charSequence2 = this.formattedPhoneNumber) != null) {
+                    this.statusTextView.setText(charSequence2);
+                } else {
+                    this.statusTextView.setText("");
+                    Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertContactsLayout$UserCell$$ExternalSyntheticLambda0
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            ChatAttachAlertContactsLayout.UserCell.this.lambda$setStatus$3();
+                        }
+                    });
+                }
             }
         }
 
@@ -222,7 +220,7 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
             super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(64.0f) + (this.needDivider ? 1 : 0), 1073741824));
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:35:0x0068, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:47:0x0068, code lost:
             if (r12.equals(r11.lastName) == false) goto L37;
          */
         /*
@@ -622,14 +620,14 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
             int i = 0;
             View childAt = this.listView.getChildAt(0);
             RecyclerListView.Holder holder = (RecyclerListView.Holder) this.listView.findContainingViewHolder(childAt);
-            if (holder == null) {
-                return -1000;
+            if (holder != null) {
+                int paddingTop = this.listView.getPaddingTop();
+                if (holder.getAdapterPosition() == 0 && childAt.getTop() >= 0) {
+                    i = childAt.getTop();
+                }
+                return paddingTop - i;
             }
-            int paddingTop = this.listView.getPaddingTop();
-            if (holder.getAdapterPosition() == 0 && childAt.getTop() >= 0) {
-                i = childAt.getTop();
-            }
-            return paddingTop - i;
+            return -1000;
         }
         return -1000;
     }
@@ -674,13 +672,7 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
 
     /* JADX INFO: Access modifiers changed from: private */
     public void updateEmptyView() {
-        int i = 0;
-        boolean z = this.listView.getAdapter().getItemCount() == 2;
-        EmptyTextProgressView emptyTextProgressView = this.emptyView;
-        if (!z) {
-            i = 8;
-        }
-        emptyTextProgressView.setVisibility(i);
+        this.emptyView.setVisibility(this.listView.getAdapter().getItemCount() == 2 ? 0 : 8);
         updateEmptyViewPosition();
     }
 
@@ -741,10 +733,10 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
             int i2 = i - 1;
             HashMap<String, ArrayList<Object>> hashMap = ContactsController.getInstance(this.currentAccount).phoneBookSectionsDict;
             ArrayList<String> arrayList = ContactsController.getInstance(this.currentAccount).phoneBookSectionsArray;
-            if (i2 >= arrayList.size()) {
-                return 0;
+            if (i2 < arrayList.size()) {
+                return hashMap.get(arrayList.get(i2)).size();
             }
-            return hashMap.get(arrayList.get(i2)).size();
+            return 0;
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -789,17 +781,16 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
                 } else {
                     tLRPC$User = (TLRPC$User) item;
                 }
-                if (tLRPC$User == null) {
-                    return;
+                if (tLRPC$User != null) {
+                    userCell.setData(tLRPC$User, (CharSequence) null, new UserCell.CharSequenceCallback() { // from class: org.telegram.ui.Components.ChatAttachAlertContactsLayout$ShareAdapter$$ExternalSyntheticLambda1
+                        @Override // org.telegram.ui.Components.ChatAttachAlertContactsLayout.UserCell.CharSequenceCallback
+                        public final CharSequence run() {
+                            CharSequence lambda$onBindViewHolder$1;
+                            lambda$onBindViewHolder$1 = ChatAttachAlertContactsLayout.ShareAdapter.lambda$onBindViewHolder$1(TLRPC$User.this);
+                            return lambda$onBindViewHolder$1;
+                        }
+                    }, z);
                 }
-                userCell.setData(tLRPC$User, (CharSequence) null, new UserCell.CharSequenceCallback() { // from class: org.telegram.ui.Components.ChatAttachAlertContactsLayout$ShareAdapter$$ExternalSyntheticLambda1
-                    @Override // org.telegram.ui.Components.ChatAttachAlertContactsLayout.UserCell.CharSequenceCallback
-                    public final CharSequence run() {
-                        CharSequence lambda$onBindViewHolder$1;
-                        lambda$onBindViewHolder$1 = ChatAttachAlertContactsLayout.ShareAdapter.lambda$onBindViewHolder$1(TLRPC$User.this);
-                        return lambda$onBindViewHolder$1;
-                    }
-                }, z);
             }
         }
 
@@ -896,20 +887,20 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* JADX WARN: Code restructure failed: missing block: B:105:0x0238, code lost:
-            if (r6.contains(" " + r12) != false) goto L124;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:32:0x00c4, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:35:0x00c4, code lost:
             if (r5.contains(" " + r0) == false) goto L58;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:62:0x00e1, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:40:0x00e1, code lost:
             if (r6.contains(" " + r0) != false) goto L33;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:78:0x012d, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:57:0x012d, code lost:
             if (r12.contains(" " + r0) != false) goto L80;
          */
-        /* JADX WARN: Removed duplicated region for block: B:36:0x0138  */
-        /* JADX WARN: Removed duplicated region for block: B:57:0x01a2 A[ADDED_TO_REGION, SYNTHETIC] */
+        /* JADX WARN: Code restructure failed: missing block: B:99:0x0238, code lost:
+            if (r6.contains(" " + r12) != false) goto L124;
+         */
+        /* JADX WARN: Removed duplicated region for block: B:124:0x01a2 A[ADDED_TO_REGION, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:63:0x0138  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -925,9 +916,7 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
                 return;
             }
             String translitString = LocaleController.getInstance().getTranslitString(lowerCase);
-            if (lowerCase.equals(translitString) || translitString.length() == 0) {
-                translitString = null;
-            }
+            translitString = (lowerCase.equals(translitString) || translitString.length() == 0) ? null : null;
             int i3 = (translitString != null ? 1 : 0) + 1;
             String[] strArr = new String[i3];
             strArr[0] = lowerCase;
@@ -1130,17 +1119,16 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
                 } else {
                     tLRPC$User = (TLRPC$User) item;
                 }
-                if (tLRPC$User == null) {
-                    return;
+                if (tLRPC$User != null) {
+                    userCell.setData(tLRPC$User, this.searchResultNames.get(i - 1), new UserCell.CharSequenceCallback() { // from class: org.telegram.ui.Components.ChatAttachAlertContactsLayout$ShareSearchAdapter$$ExternalSyntheticLambda5
+                        @Override // org.telegram.ui.Components.ChatAttachAlertContactsLayout.UserCell.CharSequenceCallback
+                        public final CharSequence run() {
+                            CharSequence lambda$onBindViewHolder$5;
+                            lambda$onBindViewHolder$5 = ChatAttachAlertContactsLayout.ShareSearchAdapter.lambda$onBindViewHolder$5(TLRPC$User.this);
+                            return lambda$onBindViewHolder$5;
+                        }
+                    }, z);
                 }
-                userCell.setData(tLRPC$User, this.searchResultNames.get(i - 1), new UserCell.CharSequenceCallback() { // from class: org.telegram.ui.Components.ChatAttachAlertContactsLayout$ShareSearchAdapter$$ExternalSyntheticLambda5
-                    @Override // org.telegram.ui.Components.ChatAttachAlertContactsLayout.UserCell.CharSequenceCallback
-                    public final CharSequence run() {
-                        CharSequence lambda$onBindViewHolder$5;
-                        lambda$onBindViewHolder$5 = ChatAttachAlertContactsLayout.ShareSearchAdapter.lambda$onBindViewHolder$5(TLRPC$User.this);
-                        return lambda$onBindViewHolder$5;
-                    }
-                }, z);
             }
         }
 

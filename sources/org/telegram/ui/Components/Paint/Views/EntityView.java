@@ -23,6 +23,8 @@ import org.telegram.ui.Components.Rect;
 public class EntityView extends FrameLayout {
     private static final List<Integer> STICKY_ANGLES = Arrays.asList(-90, 0, 90, 180);
     private ValueAnimator angleAnimator;
+    private boolean announcedSelection;
+    private int currentStickyAngle;
     private EntityViewDelegate delegate;
     private ValueAnimator fromStickyAngleAnimator;
     private float fromStickyAnimatedAngle;
@@ -32,23 +34,21 @@ public class EntityView extends FrameLayout {
     private GestureDetector gestureDetector;
     private boolean hasFromStickyXAnimation;
     private boolean hasFromStickyYAnimation;
+    private boolean hasPanned;
+    private boolean hasReleased;
+    private boolean hasStickyAngle;
     private boolean hasStickyX;
     private boolean hasStickyY;
+    private boolean hasTransformed;
     private Point position;
     private float previousLocationX;
     private float previousLocationY;
+    private boolean recognizedLongPress;
     protected SelectionView selectionView;
     private float stickyAnimatedAngle;
     private ValueAnimator stickyXAnimator;
     private ValueAnimator stickyYAnimator;
-    private boolean hasPanned = false;
-    private boolean hasReleased = false;
-    private boolean hasTransformed = false;
-    private boolean announcedSelection = false;
-    private boolean recognizedLongPress = false;
-    private boolean hasStickyAngle = true;
-    private int currentStickyAngle = 0;
-    private UUID uuid = UUID.randomUUID();
+    private UUID uuid;
 
     /* loaded from: classes3.dex */
     public interface EntityViewDelegate {
@@ -71,6 +71,14 @@ public class EntityView extends FrameLayout {
 
     public EntityView(Context context, Point point) {
         super(context);
+        this.hasPanned = false;
+        this.hasReleased = false;
+        this.hasTransformed = false;
+        this.announcedSelection = false;
+        this.recognizedLongPress = false;
+        this.hasStickyAngle = true;
+        this.currentStickyAngle = 0;
+        this.uuid = UUID.randomUUID();
         this.position = point;
         this.gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() { // from class: org.telegram.ui.Components.Paint.Views.EntityView.1
             @Override // android.view.GestureDetector.SimpleOnGestureListener, android.view.GestureDetector.OnGestureListener
@@ -79,11 +87,10 @@ public class EntityView extends FrameLayout {
                     return;
                 }
                 EntityView.this.recognizedLongPress = true;
-                if (EntityView.this.delegate == null) {
-                    return;
+                if (EntityView.this.delegate != null) {
+                    EntityView.this.performHapticFeedback(0);
+                    EntityView.this.delegate.onEntityLongClicked(EntityView.this);
                 }
-                EntityView.this.performHapticFeedback(0);
-                EntityView.this.delegate.onEntityLongClicked(EntityView.this);
             }
         });
     }
@@ -177,7 +184,7 @@ public class EntityView extends FrameLayout {
         return this.hasPanned;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:15:0x0031, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:17:0x0031, code lost:
         if (r3 != 6) goto L16;
      */
     @Override // android.view.View
@@ -548,9 +555,9 @@ public class EntityView extends FrameLayout {
     /* loaded from: classes3.dex */
     public class SelectionView extends FrameLayout {
         private int currentHandle;
-        protected Paint paint = new Paint(1);
-        protected Paint dotPaint = new Paint(1);
-        protected Paint dotStrokePaint = new Paint(1);
+        protected Paint dotPaint;
+        protected Paint dotStrokePaint;
+        protected Paint paint;
 
         protected int pointInsideHandle(float f, float f2) {
             throw null;
@@ -558,6 +565,9 @@ public class EntityView extends FrameLayout {
 
         public SelectionView(Context context) {
             super(context);
+            this.paint = new Paint(1);
+            this.dotPaint = new Paint(1);
+            this.dotStrokePaint = new Paint(1);
             setWillNotDraw(false);
             this.paint.setColor(-1);
             this.paint.setStyle(Paint.Style.STROKE);
@@ -583,10 +593,10 @@ public class EntityView extends FrameLayout {
             setRotation(EntityView.this.getRotation());
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:10:0x002c, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:11:0x002c, code lost:
             if (r1 != 6) goto L11;
          */
-        /* JADX WARN: Removed duplicated region for block: B:13:0x0143  */
+        /* JADX WARN: Removed duplicated region for block: B:43:0x0143  */
         @Override // android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.

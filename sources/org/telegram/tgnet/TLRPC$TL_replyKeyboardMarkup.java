@@ -25,10 +25,9 @@ public class TLRPC$TL_replyKeyboardMarkup extends TLRPC$ReplyMarkup {
             }
             this.rows.add(TLdeserialize);
         }
-        if ((this.flags & 8) == 0) {
-            return;
+        if ((this.flags & 8) != 0) {
+            this.placeholder = abstractSerializedData.readString(z);
         }
-        this.placeholder = abstractSerializedData.readString(z);
     }
 
     @Override // org.telegram.tgnet.TLObject

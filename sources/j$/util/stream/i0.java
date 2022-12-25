@@ -27,10 +27,11 @@ abstract class i0 implements O4 {
 
     @Override // j$.util.function.Consumer
     public void accept(Object obj) {
-        if (!this.a) {
-            this.a = true;
-            this.b = obj;
+        if (this.a) {
+            return;
         }
+        this.a = true;
+        this.b = obj;
     }
 
     @Override // j$.util.function.Consumer

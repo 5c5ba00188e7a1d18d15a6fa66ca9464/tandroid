@@ -240,7 +240,6 @@ public class IdenticonActivity extends BaseFragment implements NotificationCente
             animatorSet.cancel();
             this.animatorSet = null;
         }
-        float f = 1.0f;
         if (z) {
             AnimatorSet animatorSet2 = new AnimatorSet();
             this.animatorSet = animatorSet2;
@@ -267,10 +266,7 @@ public class IdenticonActivity extends BaseFragment implements NotificationCente
             animatorArr[4] = ObjectAnimator.ofFloat(textView5, "scaleX", fArr5);
             TextView textView6 = this.codeTextView;
             float[] fArr6 = new float[1];
-            if (this.emojiSelected) {
-                f = 0.0f;
-            }
-            fArr6[0] = f;
+            fArr6[0] = this.emojiSelected ? 0.0f : 1.0f;
             animatorArr[5] = ObjectAnimator.ofFloat(textView6, "scaleY", fArr6);
             animatorSet2.playTogether(animatorArr);
             this.animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.IdenticonActivity.3
@@ -290,11 +286,7 @@ public class IdenticonActivity extends BaseFragment implements NotificationCente
             this.emojiTextView.setScaleX(this.emojiSelected ? 1.0f : 0.0f);
             this.emojiTextView.setScaleY(this.emojiSelected ? 1.0f : 0.0f);
             this.codeTextView.setScaleX(this.emojiSelected ? 0.0f : 1.0f);
-            TextView textView7 = this.codeTextView;
-            if (this.emojiSelected) {
-                f = 0.0f;
-            }
-            textView7.setScaleY(f);
+            this.codeTextView.setScaleY(this.emojiSelected ? 0.0f : 1.0f);
         }
         this.emojiTextView.setTag(!this.emojiSelected ? "chat_emojiPanelIcon" : "chat_emojiPanelIconSelected");
     }

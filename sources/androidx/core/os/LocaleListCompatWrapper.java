@@ -64,12 +64,11 @@ final class LocaleListCompatWrapper implements LocaleListInterface {
         int i2 = 0;
         while (true) {
             Locale[] localeArr = this.mList;
-            if (i2 < localeArr.length) {
-                i = (i * 31) + localeArr[i2].hashCode();
-                i2++;
-            } else {
+            if (i2 >= localeArr.length) {
                 return i;
             }
+            i = (i * 31) + localeArr[i2].hashCode();
+            i2++;
         }
     }
 

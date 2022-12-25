@@ -210,18 +210,19 @@ public final class WebRtcAudioUtils {
         Logging.d(str, "Audio State: ");
         boolean isVolumeFixed = isVolumeFixed(audioManager);
         Logging.d(str, "  fixed volume=" + isVolumeFixed);
-        if (!isVolumeFixed) {
-            for (int i = 0; i < 6; i++) {
-                int i2 = iArr[i];
-                StringBuilder sb = new StringBuilder();
-                sb.append("  " + streamTypeToString(i2) + ": ");
-                sb.append("volume=");
-                sb.append(audioManager.getStreamVolume(i2));
-                sb.append(", max=");
-                sb.append(audioManager.getStreamMaxVolume(i2));
-                logIsStreamMute(str, audioManager, i2, sb);
-                Logging.d(str, sb.toString());
-            }
+        if (isVolumeFixed) {
+            return;
+        }
+        for (int i = 0; i < 6; i++) {
+            int i2 = iArr[i];
+            StringBuilder sb = new StringBuilder();
+            sb.append("  " + streamTypeToString(i2) + ": ");
+            sb.append("volume=");
+            sb.append(audioManager.getStreamVolume(i2));
+            sb.append(", max=");
+            sb.append(audioManager.getStreamMaxVolume(i2));
+            logIsStreamMute(str, audioManager, i2, sb);
+            Logging.d(str, sb.toString());
         }
     }
 

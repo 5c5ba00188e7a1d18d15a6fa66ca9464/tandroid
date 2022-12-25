@@ -72,10 +72,10 @@ public final class Version {
         while (true) {
             int[] iArr = VERSION_DECODE_INFO;
             if (i2 >= iArr.length) {
-                if (i4 > 3) {
-                    return null;
+                if (i4 <= 3) {
+                    return getVersionForNumber(i3);
                 }
-                return getVersionForNumber(i3);
+                return null;
             }
             int i5 = iArr[i2];
             if (i5 == i) {

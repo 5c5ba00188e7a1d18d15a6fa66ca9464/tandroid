@@ -226,25 +226,22 @@ public class LogoutActivity extends BaseFragment {
             int itemViewType = viewHolder.getItemViewType();
             if (itemViewType == 0) {
                 HeaderCell headerCell = (HeaderCell) viewHolder.itemView;
-                if (i != LogoutActivity.this.alternativeHeaderRow) {
-                    return;
+                if (i == LogoutActivity.this.alternativeHeaderRow) {
+                    headerCell.setText(LocaleController.getString("AlternativeOptions", R.string.AlternativeOptions));
                 }
-                headerCell.setText(LocaleController.getString("AlternativeOptions", R.string.AlternativeOptions));
             } else if (itemViewType != 1) {
                 if (itemViewType == 3) {
                     TextSettingsCell textSettingsCell = (TextSettingsCell) viewHolder.itemView;
-                    if (i != LogoutActivity.this.logoutRow) {
-                        return;
+                    if (i == LogoutActivity.this.logoutRow) {
+                        textSettingsCell.setTextColor(Theme.getColor("windowBackgroundWhiteRedText5"));
+                        textSettingsCell.setText(LocaleController.getString("LogOutTitle", R.string.LogOutTitle), false);
                     }
-                    textSettingsCell.setTextColor(Theme.getColor("windowBackgroundWhiteRedText5"));
-                    textSettingsCell.setText(LocaleController.getString("LogOutTitle", R.string.LogOutTitle), false);
                 } else if (itemViewType != 4) {
                 } else {
                     TextInfoPrivacyCell textInfoPrivacyCell = (TextInfoPrivacyCell) viewHolder.itemView;
-                    if (i != LogoutActivity.this.logoutSectionRow) {
-                        return;
+                    if (i == LogoutActivity.this.logoutSectionRow) {
+                        textInfoPrivacyCell.setText(LocaleController.getString("LogOutInfo", R.string.LogOutInfo));
                     }
-                    textInfoPrivacyCell.setText(LocaleController.getString("LogOutInfo", R.string.LogOutInfo));
                 }
             } else {
                 TextDetailSettingsCell textDetailSettingsCell = (TextDetailSettingsCell) viewHolder.itemView;
@@ -252,10 +249,10 @@ public class LogoutActivity extends BaseFragment {
                     if (i != LogoutActivity.this.passcodeRow) {
                         if (i != LogoutActivity.this.cacheRow) {
                             if (i != LogoutActivity.this.phoneRow) {
-                                if (i != LogoutActivity.this.supportRow) {
+                                if (i == LogoutActivity.this.supportRow) {
+                                    textDetailSettingsCell.setTextAndValueAndIcon(LocaleController.getString("ContactSupport", R.string.ContactSupport), LocaleController.getString("ContactSupportInfo", R.string.ContactSupportInfo), R.drawable.msg_help, false);
                                     return;
                                 }
-                                textDetailSettingsCell.setTextAndValueAndIcon(LocaleController.getString("ContactSupport", R.string.ContactSupport), LocaleController.getString("ContactSupportInfo", R.string.ContactSupportInfo), R.drawable.msg_help, false);
                                 return;
                             }
                             textDetailSettingsCell.setTextAndValueAndIcon(LocaleController.getString("ChangePhoneNumber", R.string.ChangePhoneNumber), LocaleController.getString("ChangePhoneNumberInfo", R.string.ChangePhoneNumberInfo), R.drawable.msg_newphone, true);

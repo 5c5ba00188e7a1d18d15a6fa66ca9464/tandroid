@@ -128,14 +128,13 @@ public class SignInHubActivity extends FragmentActivity {
             }
             boolean z = bundle.getBoolean("signingInGoogleApiClients");
             this.zbd = z;
-            if (!z) {
-                return;
+            if (z) {
+                this.zbe = bundle.getInt("signInResultCode");
+                Intent intent2 = (Intent) bundle.getParcelable("signInResultData");
+                Objects.requireNonNull(intent2);
+                this.zbf = intent2;
+                zbc();
             }
-            this.zbe = bundle.getInt("signInResultCode");
-            Intent intent2 = (Intent) bundle.getParcelable("signInResultData");
-            Objects.requireNonNull(intent2);
-            this.zbf = intent2;
-            zbc();
         } else {
             Log.e("AuthSignInClient", "Unknown action: ".concat(String.valueOf(intent.getAction())));
             finish();

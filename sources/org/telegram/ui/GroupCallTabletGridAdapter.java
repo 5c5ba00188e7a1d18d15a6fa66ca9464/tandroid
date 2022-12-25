@@ -95,8 +95,7 @@ public class GroupCallTabletGridAdapter extends RecyclerListView.SelectionAdapte
         if (participant != null && !participant.equals(videoParticipant) && groupCallGridCell.attached && groupCallGridCell.getRenderer() != null) {
             attachRenderer(groupCallGridCell, false);
             attachRenderer(groupCallGridCell, true);
-        } else if (groupCallGridCell.getRenderer() == null) {
-        } else {
+        } else if (groupCallGridCell.getRenderer() != null) {
             groupCallGridCell.getRenderer().updateAttachState(true);
         }
     }

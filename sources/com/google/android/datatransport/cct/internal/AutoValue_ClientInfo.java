@@ -29,33 +29,29 @@ final class AutoValue_ClientInfo extends ClientInfo {
         if (obj == this) {
             return true;
         }
-        if (!(obj instanceof ClientInfo)) {
-            return false;
-        }
-        ClientInfo clientInfo = (ClientInfo) obj;
-        ClientInfo.ClientType clientType = this.clientType;
-        if (clientType != null ? clientType.equals(clientInfo.getClientType()) : clientInfo.getClientType() == null) {
-            AndroidClientInfo androidClientInfo = this.androidClientInfo;
-            if (androidClientInfo == null) {
-                if (clientInfo.getAndroidClientInfo() == null) {
+        if (obj instanceof ClientInfo) {
+            ClientInfo clientInfo = (ClientInfo) obj;
+            ClientInfo.ClientType clientType = this.clientType;
+            if (clientType != null ? clientType.equals(clientInfo.getClientType()) : clientInfo.getClientType() == null) {
+                AndroidClientInfo androidClientInfo = this.androidClientInfo;
+                if (androidClientInfo == null) {
+                    if (clientInfo.getAndroidClientInfo() == null) {
+                        return true;
+                    }
+                } else if (androidClientInfo.equals(clientInfo.getAndroidClientInfo())) {
                     return true;
                 }
-            } else if (androidClientInfo.equals(clientInfo.getAndroidClientInfo())) {
-                return true;
             }
+            return false;
         }
         return false;
     }
 
     public int hashCode() {
         ClientInfo.ClientType clientType = this.clientType;
-        int i = 0;
         int hashCode = ((clientType == null ? 0 : clientType.hashCode()) ^ 1000003) * 1000003;
         AndroidClientInfo androidClientInfo = this.androidClientInfo;
-        if (androidClientInfo != null) {
-            i = androidClientInfo.hashCode();
-        }
-        return hashCode ^ i;
+        return hashCode ^ (androidClientInfo != null ? androidClientInfo.hashCode() : 0);
     }
 
     /* loaded from: classes.dex */

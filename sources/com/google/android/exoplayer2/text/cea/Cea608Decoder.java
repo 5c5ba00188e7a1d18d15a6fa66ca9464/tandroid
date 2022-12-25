@@ -142,8 +142,8 @@ public final class Cea608Decoder extends CeaDecoder {
         return new CeaSubtitle(list);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:26:0x006a A[SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x0014 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:76:0x006a A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:86:0x0014 A[SYNTHETIC] */
     @Override // com.google.android.exoplayer2.text.cea.CeaDecoder
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -216,10 +216,9 @@ public final class Cea608Decoder extends CeaDecoder {
         }
         if (z2) {
             int i2 = this.captionMode;
-            if (i2 != 1 && i2 != 3) {
-                return;
+            if (i2 == 1 || i2 == 3) {
+                this.cues = getDisplayCues();
             }
-            this.cues = getDisplayCues();
         }
     }
 
@@ -252,7 +251,6 @@ public final class Cea608Decoder extends CeaDecoder {
 
     private void handlePreambleAddressCode(byte b, byte b2) {
         int i = ROW_INDICES[b & 7];
-        boolean z = false;
         if ((b2 & 32) != 0) {
             i++;
         }
@@ -264,13 +262,11 @@ public final class Cea608Decoder extends CeaDecoder {
             }
             this.currentCueBuilder.row = i;
         }
-        boolean z2 = (b2 & 16) == 16;
-        if ((b2 & 1) == 1) {
-            z = true;
-        }
+        boolean z = (b2 & 16) == 16;
+        boolean z2 = (b2 & 1) == 1;
         int i2 = (b2 >> 1) & 7;
-        this.currentCueBuilder.setStyle(z2 ? 8 : i2, z);
-        if (z2) {
+        this.currentCueBuilder.setStyle(z ? 8 : i2, z2);
+        if (z) {
             this.currentCueBuilder.indent = COLUMN_INDICES[i2];
         }
     }
@@ -302,10 +298,10 @@ public final class Cea608Decoder extends CeaDecoder {
                             case 44:
                                 this.cues = Collections.emptyList();
                                 int i2 = this.captionMode;
-                                if (i2 != 1 && i2 != 3) {
+                                if (i2 == 1 || i2 == 3) {
+                                    resetCueBuilders();
                                     return;
                                 }
-                                resetCueBuilders();
                                 return;
                             case 45:
                                 if (i != 1 || this.currentCueBuilder.isEmpty()) {
@@ -369,10 +365,9 @@ public final class Cea608Decoder extends CeaDecoder {
             return;
         }
         resetCueBuilders();
-        if (i2 != 3 && i != 1 && i != 0) {
-            return;
+        if (i2 == 3 || i == 1 || i == 0) {
+            this.cues = Collections.emptyList();
         }
-        this.cues = Collections.emptyList();
     }
 
     private void setCaptionRowCount(int i) {
@@ -389,8 +384,7 @@ public final class Cea608Decoder extends CeaDecoder {
     private void maybeUpdateIsInCaptionService(byte b, byte b2) {
         if (isXdsControlCode(b)) {
             this.isInCaptionService = false;
-        } else if (!isServiceSwitchCommand(b)) {
-        } else {
+        } else if (isServiceSwitchCommand(b)) {
             if (b2 != 32 && b2 != 47) {
                 switch (b2) {
                     case 37:

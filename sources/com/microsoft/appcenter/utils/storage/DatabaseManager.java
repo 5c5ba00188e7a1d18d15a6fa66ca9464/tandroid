@@ -69,11 +69,7 @@ public class DatabaseManager implements Closeable {
                     } else if (obj instanceof Short) {
                         contentValues2.put(columnName, Short.valueOf(cursor.getShort(i)));
                     } else if (obj instanceof Boolean) {
-                        boolean z = true;
-                        if (cursor.getInt(i) != 1) {
-                            z = false;
-                        }
-                        contentValues2.put(columnName, Boolean.valueOf(z));
+                        contentValues2.put(columnName, Boolean.valueOf(cursor.getInt(i) == 1));
                     } else {
                         contentValues2.put(columnName, cursor.getString(i));
                     }
@@ -89,10 +85,10 @@ public class DatabaseManager implements Closeable {
 
     public ContentValues nextValues(Cursor cursor) {
         try {
-            if (!cursor.moveToNext()) {
-                return null;
+            if (cursor.moveToNext()) {
+                return buildValues(cursor);
             }
-            return buildValues(cursor);
+            return null;
         } catch (RuntimeException e) {
             AppCenterLog.error("AppCenter", "Failed to get next cursor value: ", e);
             return null;

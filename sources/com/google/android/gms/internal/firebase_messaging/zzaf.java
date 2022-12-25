@@ -18,11 +18,10 @@ final class zzaf implements ValueEncoderContext {
     }
 
     private final void zzb() {
-        if (!this.zza) {
-            this.zza = true;
-            return;
+        if (this.zza) {
+            throw new EncodingException("Cannot encode a second value in the ValueEncoderContext");
         }
-        throw new EncodingException("Cannot encode a second value in the ValueEncoderContext");
+        this.zza = true;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

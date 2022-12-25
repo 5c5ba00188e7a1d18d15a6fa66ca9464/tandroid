@@ -54,9 +54,10 @@ class N2 implements S2, k3 {
     @Override // j$.util.stream.S2
     public void h(S2 s2) {
         N2 n2 = (N2) s2;
-        if (!n2.a) {
-            accept(n2.b);
+        if (n2.a) {
+            return;
         }
+        accept(n2.b);
     }
 
     @Override // j$.util.function.l

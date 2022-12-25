@@ -72,29 +72,29 @@ public class FileLoader extends BaseController {
     public static final int PRIORITY_NORMAL_UP = 2;
     private static final int PRIORITY_STREAM = 4;
     private static Pattern sentPattern;
+    private final FileLoaderPriorityQueue audioQueue;
+    private int currentUploadOperationsCount;
+    private int currentUploadSmallOperationsCount;
+    private FileLoaderDelegate delegate;
     private final FilePathDatabase filePathDatabase;
+    private final FileLoaderPriorityQueue filesQueue;
     private String forceLoadingFile;
+    private final FileLoaderPriorityQueue imagesQueue;
+    private final FileLoaderPriorityQueue largeFilesQueue;
     private int lastReferenceId;
+    private ConcurrentHashMap<String, FileLoadOperation> loadOperationPaths;
+    private ConcurrentHashMap<String, LoadOperationUIObject> loadOperationPathsUI;
+    private HashMap<String, Boolean> loadingVideos;
+    private ConcurrentHashMap<Integer, Object> parentObjectReferences;
     private int priorityIncreasePointer;
+    private ConcurrentHashMap<String, FileUploadOperation> uploadOperationPaths;
+    private ConcurrentHashMap<String, FileUploadOperation> uploadOperationPathsEnc;
+    private LinkedList<FileUploadOperation> uploadOperationQueue;
+    private HashMap<String, Long> uploadSizes;
+    private LinkedList<FileUploadOperation> uploadSmallOperationQueue;
     private static volatile DispatchQueue fileLoaderQueue = new DispatchQueue("fileUploadQueue");
     private static SparseArray<File> mediaDirs = null;
     private static final FileLoader[] Instance = new FileLoader[4];
-    private final FileLoaderPriorityQueue largeFilesQueue = new FileLoaderPriorityQueue("large files queue", 2);
-    private final FileLoaderPriorityQueue filesQueue = new FileLoaderPriorityQueue("files queue", 3);
-    private final FileLoaderPriorityQueue imagesQueue = new FileLoaderPriorityQueue("imagesQueue queue", 6);
-    private final FileLoaderPriorityQueue audioQueue = new FileLoaderPriorityQueue("audioQueue queue", 3);
-    private LinkedList<FileUploadOperation> uploadOperationQueue = new LinkedList<>();
-    private LinkedList<FileUploadOperation> uploadSmallOperationQueue = new LinkedList<>();
-    private ConcurrentHashMap<String, FileUploadOperation> uploadOperationPaths = new ConcurrentHashMap<>();
-    private ConcurrentHashMap<String, FileUploadOperation> uploadOperationPathsEnc = new ConcurrentHashMap<>();
-    private int currentUploadOperationsCount = 0;
-    private int currentUploadSmallOperationsCount = 0;
-    private ConcurrentHashMap<String, FileLoadOperation> loadOperationPaths = new ConcurrentHashMap<>();
-    private ConcurrentHashMap<String, LoadOperationUIObject> loadOperationPathsUI = new ConcurrentHashMap<>(10, 1.0f, 2);
-    private HashMap<String, Long> uploadSizes = new HashMap<>();
-    private HashMap<String, Boolean> loadingVideos = new HashMap<>();
-    private FileLoaderDelegate delegate = null;
-    private ConcurrentHashMap<Integer, Object> parentObjectReferences = new ConcurrentHashMap<>();
 
     /* loaded from: classes.dex */
     public interface FileLoaderDelegate {
@@ -143,26 +143,26 @@ public class FileLoader extends BaseController {
     public static long getDialogIdFromParent(int i, Object obj) {
         if (obj instanceof String) {
             String str = (String) obj;
-            if (!str.startsWith("sent_")) {
-                return 0L;
-            }
-            if (sentPattern == null) {
-                sentPattern = Pattern.compile("sent_.*_.*_([0-9]+)");
-            }
-            try {
-                Matcher matcher = sentPattern.matcher(str);
-                if (!matcher.matches()) {
+            if (str.startsWith("sent_")) {
+                if (sentPattern == null) {
+                    sentPattern = Pattern.compile("sent_.*_.*_([0-9]+)");
+                }
+                try {
+                    Matcher matcher = sentPattern.matcher(str);
+                    if (matcher.matches()) {
+                        return Long.parseLong(matcher.group(1));
+                    }
+                    return 0L;
+                } catch (Exception e) {
+                    FileLog.e(e);
                     return 0L;
                 }
-                return Long.parseLong(matcher.group(1));
-            } catch (Exception e) {
-                FileLog.e(e);
-                return 0L;
             }
-        } else if (!(obj instanceof MessageObject)) {
             return 0L;
-        } else {
+        } else if (obj instanceof MessageObject) {
             return ((MessageObject) obj).getDialogId();
+        } else {
+            return 0L;
         }
     }
 
@@ -178,10 +178,10 @@ public class FileLoader extends BaseController {
             int i3 = this.priorityIncreasePointer + 1;
             this.priorityIncreasePointer = i3;
             return i3 + CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT;
-        } else if (i != 1) {
-            return 0;
-        } else {
+        } else if (i == 1) {
             return CharacterCompat.MIN_SUPPLEMENTARY_CODE_POINT;
+        } else {
+            return 0;
         }
     }
 
@@ -206,6 +206,22 @@ public class FileLoader extends BaseController {
 
     public FileLoader(int i) {
         super(i);
+        this.largeFilesQueue = new FileLoaderPriorityQueue("large files queue", 2);
+        this.filesQueue = new FileLoaderPriorityQueue("files queue", 3);
+        this.imagesQueue = new FileLoaderPriorityQueue("imagesQueue queue", 6);
+        this.audioQueue = new FileLoaderPriorityQueue("audioQueue queue", 3);
+        this.uploadOperationQueue = new LinkedList<>();
+        this.uploadSmallOperationQueue = new LinkedList<>();
+        this.uploadOperationPaths = new ConcurrentHashMap<>();
+        this.uploadOperationPathsEnc = new ConcurrentHashMap<>();
+        this.currentUploadOperationsCount = 0;
+        this.currentUploadSmallOperationsCount = 0;
+        this.loadOperationPaths = new ConcurrentHashMap<>();
+        this.loadOperationPathsUI = new ConcurrentHashMap<>(10, 1.0f, 2);
+        this.uploadSizes = new HashMap<>();
+        this.loadingVideos = new HashMap<>();
+        this.delegate = null;
+        this.parentObjectReferences = new ConcurrentHashMap<>();
         this.filePathDatabase = new FilePathDatabase(i);
     }
 
@@ -278,19 +294,14 @@ public class FileLoader extends BaseController {
         HashMap<String, Boolean> hashMap = this.loadingVideos;
         StringBuilder sb = new StringBuilder();
         sb.append(attachFileName);
-        String str = "";
-        sb.append(z ? str : "p");
-        if (!hashMap.containsKey(sb.toString())) {
-            return;
+        sb.append(z ? "" : "p");
+        if (hashMap.containsKey(sb.toString())) {
+            HashMap<String, Boolean> hashMap2 = this.loadingVideos;
+            StringBuilder sb2 = new StringBuilder();
+            sb2.append(attachFileName);
+            sb2.append(z ? "p" : "");
+            hashMap2.put(sb2.toString(), Boolean.TRUE);
         }
-        HashMap<String, Boolean> hashMap2 = this.loadingVideos;
-        StringBuilder sb2 = new StringBuilder();
-        sb2.append(attachFileName);
-        if (z) {
-            str = "p";
-        }
-        sb2.append(str);
-        hashMap2.put(sb2.toString(), Boolean.TRUE);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -383,8 +394,7 @@ public class FileLoader extends BaseController {
         }
         if (fileUploadOperation != null) {
             fileUploadOperation.checkNewDataAvailable(j, j2);
-        } else if (j2 == 0) {
-        } else {
+        } else if (j2 != 0) {
             this.uploadSizes.put(str, Long.valueOf(j2));
         }
     }
@@ -728,10 +738,10 @@ public class FileLoader extends BaseController {
 
     public float getBufferedProgressFromPosition(float f, String str) {
         FileLoadOperation fileLoadOperation;
-        if (!TextUtils.isEmpty(str) && (fileLoadOperation = this.loadOperationPaths.get(str)) != null) {
-            return fileLoadOperation.getDownloadedLengthFromOffset(f);
+        if (TextUtils.isEmpty(str) || (fileLoadOperation = this.loadOperationPaths.get(str)) == null) {
+            return 0.0f;
         }
-        return 0.0f;
+        return fileLoadOperation.getDownloadedLengthFromOffset(f);
     }
 
     public void loadFile(ImageLocation imageLocation, Object obj, String str, int i, int i2) {
@@ -759,10 +769,10 @@ public class FileLoader extends BaseController {
         loadFile(null, null, webFile, null, null, null, null, 0L, i, i2);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:58:0x02b6  */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x02e1  */
-    /* JADX WARN: Removed duplicated region for block: B:72:0x0241  */
-    /* JADX WARN: Removed duplicated region for block: B:84:0x0290  */
+    /* JADX WARN: Removed duplicated region for block: B:129:0x0241  */
+    /* JADX WARN: Removed duplicated region for block: B:150:0x0290  */
+    /* JADX WARN: Removed duplicated region for block: B:157:0x02b6  */
+    /* JADX WARN: Removed duplicated region for block: B:160:0x02e1  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1013,8 +1023,7 @@ public class FileLoader extends BaseController {
                                     }
                                     if (tLRPC$Document != null && (obj instanceof MessageObject) && i11 == 0) {
                                         FileLoader.this.getDownloadController().onDownloadFail((MessageObject) obj, i11);
-                                    } else if (i11 != -1) {
-                                    } else {
+                                    } else if (i11 == -1) {
                                         LaunchActivity.checkFreeDiscSpaceStatic(2);
                                     }
                                 }
@@ -1095,8 +1104,7 @@ public class FileLoader extends BaseController {
                             }
                             if (tLRPC$Document != null && (obj instanceof MessageObject) && i11 == 0) {
                                 FileLoader.this.getDownloadController().onDownloadFail((MessageObject) obj, i11);
-                            } else if (i11 != -1) {
-                            } else {
+                            } else if (i11 == -1) {
                                 LaunchActivity.checkFreeDiscSpaceStatic(2);
                             }
                         }
@@ -1171,8 +1179,7 @@ public class FileLoader extends BaseController {
                         }
                         if (tLRPC$Document != null && (obj instanceof MessageObject) && i11 == 0) {
                             FileLoader.this.getDownloadController().onDownloadFail((MessageObject) obj, i11);
-                        } else if (i11 != -1) {
-                        } else {
+                        } else if (i11 == -1) {
                             LaunchActivity.checkFreeDiscSpaceStatic(2);
                         }
                     }
@@ -1399,7 +1406,6 @@ public class FileLoader extends BaseController {
         if (tLRPC$Message == null) {
             return new File("");
         }
-        boolean z2 = false;
         if (tLRPC$Message instanceof TLRPC$TL_messageService) {
             TLRPC$Photo tLRPC$Photo = tLRPC$Message.action.photo;
             if (tLRPC$Photo != null) {
@@ -1409,18 +1415,11 @@ public class FileLoader extends BaseController {
                 }
             }
         } else if (MessageObject.getMedia(tLRPC$Message) instanceof TLRPC$TL_messageMediaDocument) {
-            TLRPC$Document tLRPC$Document = MessageObject.getMedia(tLRPC$Message).document;
-            if (MessageObject.getMedia(tLRPC$Message).ttl_seconds != 0) {
-                z2 = true;
-            }
-            return getPathToAttach(tLRPC$Document, null, z2, z);
+            return getPathToAttach(MessageObject.getMedia(tLRPC$Message).document, null, MessageObject.getMedia(tLRPC$Message).ttl_seconds != 0, z);
         } else if (MessageObject.getMedia(tLRPC$Message) instanceof TLRPC$TL_messageMediaPhoto) {
             ArrayList<TLRPC$PhotoSize> arrayList2 = MessageObject.getMedia(tLRPC$Message).photo.sizes;
             if (arrayList2.size() > 0 && (closestPhotoSizeWithSize2 = getClosestPhotoSizeWithSize(arrayList2, AndroidUtilities.getPhotoSize(), false, null, true)) != null) {
-                if (MessageObject.getMedia(tLRPC$Message).ttl_seconds != 0) {
-                    z2 = true;
-                }
-                return getPathToAttach(closestPhotoSizeWithSize2, null, z2, z);
+                return getPathToAttach(closestPhotoSizeWithSize2, null, MessageObject.getMedia(tLRPC$Message).ttl_seconds != 0, z);
             }
         } else if (MessageObject.getMedia(tLRPC$Message) instanceof TLRPC$TL_messageMediaWebPage) {
             if (MessageObject.getMedia(tLRPC$Message).webpage.document != null) {
@@ -1454,8 +1453,8 @@ public class FileLoader extends BaseController {
         return getPathToAttach(tLObject, null, str, z, z2);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:6:0x0167  */
-    /* JADX WARN: Removed duplicated region for block: B:9:0x016f  */
+    /* JADX WARN: Removed duplicated region for block: B:109:0x0167  */
+    /* JADX WARN: Removed duplicated region for block: B:111:0x016f  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1596,10 +1595,10 @@ public class FileLoader extends BaseController {
         return getClosestPhotoSizeWithSize(arrayList, i, z, null, false);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:28:0x0044, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:29:0x0044, code lost:
         if (r5.dc_id != Integer.MIN_VALUE) goto L29;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:43:0x0061, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:41:0x0061, code lost:
         if (r5.dc_id != Integer.MIN_VALUE) goto L44;
      */
     /*
@@ -1770,19 +1769,16 @@ public class FileLoader extends BaseController {
     }
 
     public static String getAttachFileName(TLObject tLObject, String str, String str2) {
-        String str3 = "";
         if (tLObject instanceof TLRPC$Document) {
             TLRPC$Document tLRPC$Document = (TLRPC$Document) tLObject;
             String documentFileName = getDocumentFileName(tLRPC$Document);
             int lastIndexOf = documentFileName.lastIndexOf(46);
-            if (lastIndexOf != -1) {
-                str3 = documentFileName.substring(lastIndexOf);
+            String substring = lastIndexOf != -1 ? documentFileName.substring(lastIndexOf) : "";
+            if (substring.length() <= 1) {
+                substring = getExtensionByMimeType(tLRPC$Document.mime_type);
             }
-            if (str3.length() <= 1) {
-                str3 = getExtensionByMimeType(tLRPC$Document.mime_type);
-            }
-            if (str3.length() > 1) {
-                return tLRPC$Document.dc_id + "_" + tLRPC$Document.id + str3;
+            if (substring.length() > 1) {
+                return tLRPC$Document.dc_id + "_" + tLRPC$Document.id + substring;
             }
             return tLRPC$Document.dc_id + "_" + tLRPC$Document.id;
         } else if (tLObject instanceof SecureDocument) {
@@ -1798,7 +1794,7 @@ public class FileLoader extends BaseController {
             TLRPC$PhotoSize tLRPC$PhotoSize = (TLRPC$PhotoSize) tLObject;
             TLRPC$FileLocation tLRPC$FileLocation = tLRPC$PhotoSize.location;
             if (tLRPC$FileLocation == null || (tLRPC$FileLocation instanceof TLRPC$TL_fileLocationUnavailable)) {
-                return str3;
+                return "";
             }
             StringBuilder sb = new StringBuilder();
             sb.append(tLRPC$PhotoSize.location.volume_id);
@@ -1814,7 +1810,7 @@ public class FileLoader extends BaseController {
             TLRPC$TL_videoSize tLRPC$TL_videoSize = (TLRPC$TL_videoSize) tLObject;
             TLRPC$FileLocation tLRPC$FileLocation2 = tLRPC$TL_videoSize.location;
             if (tLRPC$FileLocation2 == null || (tLRPC$FileLocation2 instanceof TLRPC$TL_fileLocationUnavailable)) {
-                return str3;
+                return "";
             }
             StringBuilder sb2 = new StringBuilder();
             sb2.append(tLRPC$TL_videoSize.location.volume_id);
@@ -1828,7 +1824,7 @@ public class FileLoader extends BaseController {
             return sb2.toString();
         } else if (tLObject instanceof TLRPC$FileLocation) {
             if (tLObject instanceof TLRPC$TL_fileLocationUnavailable) {
-                return str3;
+                return "";
             }
             TLRPC$FileLocation tLRPC$FileLocation3 = (TLRPC$FileLocation) tLObject;
             StringBuilder sb3 = new StringBuilder();
@@ -1862,9 +1858,7 @@ public class FileLoader extends BaseController {
             }
             sb4.append(str2);
             return sb4.toString();
-        } else if (!(tLObject instanceof TLRPC$ChatPhoto)) {
-            return str3;
-        } else {
+        } else if (tLObject instanceof TLRPC$ChatPhoto) {
             TLRPC$ChatPhoto tLRPC$ChatPhoto = (TLRPC$ChatPhoto) tLObject;
             if (tLRPC$ChatPhoto.photo_small != null) {
                 if ("s".equals(str)) {
@@ -1882,6 +1876,8 @@ public class FileLoader extends BaseController {
             }
             sb5.append(str2);
             return sb5.toString();
+        } else {
+            return "";
         }
     }
 
@@ -2008,10 +2004,10 @@ public class FileLoader extends BaseController {
         if (tLObject instanceof TLRPC$ChatPhoto) {
             return ((TLRPC$ChatPhoto) tLObject).photo_id;
         }
-        if (!(tLObject instanceof TLRPC$UserProfilePhoto)) {
-            return 0L;
+        if (tLObject instanceof TLRPC$UserProfilePhoto) {
+            return ((TLRPC$UserProfilePhoto) tLObject).photo_id;
         }
-        return ((TLRPC$UserProfilePhoto) tLObject).photo_id;
+        return 0L;
     }
 
     public void getCurrentLoadingFiles(ArrayList<MessageObject> arrayList) {
@@ -2039,14 +2035,15 @@ public class FileLoader extends BaseController {
                 arrayList.add((MessageObject) arrayList2.get(i));
             }
         }
-        if (!arrayList.isEmpty()) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.FileLoader$$ExternalSyntheticLambda5
-                @Override // java.lang.Runnable
-                public final void run() {
-                    FileLoader.this.lambda$checkCurrentDownloadsFiles$14(arrayList);
-                }
-            });
+        if (arrayList.isEmpty()) {
+            return;
         }
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.FileLoader$$ExternalSyntheticLambda5
+            @Override // java.lang.Runnable
+            public final void run() {
+                FileLoader.this.lambda$checkCurrentDownloadsFiles$14(arrayList);
+            }
+        });
     }
 
     /* JADX INFO: Access modifiers changed from: private */

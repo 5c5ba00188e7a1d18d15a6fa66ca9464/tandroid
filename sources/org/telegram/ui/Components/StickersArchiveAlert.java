@@ -101,13 +101,7 @@ public class StickersArchiveAlert extends AlertDialog.Builder {
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
-            ArchivedStickerSetCell archivedStickerSetCell = (ArchivedStickerSetCell) viewHolder.itemView;
-            TLRPC$StickerSetCovered tLRPC$StickerSetCovered = (TLRPC$StickerSetCovered) StickersArchiveAlert.this.stickerSets.get(i);
-            boolean z = true;
-            if (i == StickersArchiveAlert.this.stickerSets.size() - 1) {
-                z = false;
-            }
-            archivedStickerSetCell.setStickersSet(tLRPC$StickerSetCovered, z);
+            ((ArchivedStickerSetCell) viewHolder.itemView).setStickersSet((TLRPC$StickerSetCovered) StickersArchiveAlert.this.stickerSets.get(i), i != StickersArchiveAlert.this.stickerSets.size() - 1);
         }
     }
 }

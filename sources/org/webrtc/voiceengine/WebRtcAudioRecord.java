@@ -34,11 +34,11 @@ public class WebRtcAudioRecord {
     private int captureType;
     private AudioRecord deviceAudioRecord;
     private ByteBuffer deviceByteBuffer;
+    private WebRtcAudioEffects effects;
     private byte[] emptyBytes;
     private final long nativeAudioRecord;
     private int requestedSampleRate = 48000;
     private int requestedChannels = 1;
-    private WebRtcAudioEffects effects = WebRtcAudioEffects.create();
 
     /* loaded from: classes.dex */
     public enum AudioRecordStartErrorCode {
@@ -121,10 +121,11 @@ public class WebRtcAudioRecord {
 
     /* loaded from: classes.dex */
     private class AudioRecordThread extends Thread {
-        private volatile boolean keepAlive = true;
+        private volatile boolean keepAlive;
 
         public AudioRecordThread(String str) {
             super(str);
+            this.keepAlive = true;
         }
 
         @Override // java.lang.Thread, java.lang.Runnable
@@ -177,10 +178,9 @@ public class WebRtcAudioRecord {
                 }
             }
             try {
-                if (WebRtcAudioRecord.this.audioRecord == null) {
-                    return;
+                if (WebRtcAudioRecord.this.audioRecord != null) {
+                    WebRtcAudioRecord.this.audioRecord.stop();
                 }
-                WebRtcAudioRecord.this.audioRecord.stop();
             } catch (IllegalStateException e2) {
                 Logging.e(WebRtcAudioRecord.TAG, "AudioRecord.stop failed: " + e2.getMessage());
             }
@@ -195,6 +195,7 @@ public class WebRtcAudioRecord {
     WebRtcAudioRecord(long j, int i) {
         Logging.d(TAG, "ctor" + WebRtcAudioUtils.getThreadInfo());
         this.nativeAudioRecord = j;
+        this.effects = WebRtcAudioEffects.create();
         this.captureType = i;
         if (i == 2 && Instance == null) {
             Instance = this;
@@ -333,11 +334,10 @@ public class WebRtcAudioRecord {
             }
             try {
                 this.deviceAudioRecord.startRecording();
-                if (this.deviceAudioRecord.getRecordingState() == 3) {
-                    return;
+                if (this.deviceAudioRecord.getRecordingState() != 3) {
+                    AudioRecordStartErrorCode audioRecordStartErrorCode = AudioRecordStartErrorCode.AUDIO_RECORD_START_STATE_MISMATCH;
+                    reportWebRtcAudioRecordStartError(audioRecordStartErrorCode, "AudioRecord.startRecording failed - incorrect state :" + this.deviceAudioRecord.getRecordingState());
                 }
-                AudioRecordStartErrorCode audioRecordStartErrorCode = AudioRecordStartErrorCode.AUDIO_RECORD_START_STATE_MISMATCH;
-                reportWebRtcAudioRecordStartError(audioRecordStartErrorCode, "AudioRecord.startRecording failed - incorrect state :" + this.deviceAudioRecord.getRecordingState());
             } catch (IllegalStateException e) {
                 AudioRecordStartErrorCode audioRecordStartErrorCode2 = AudioRecordStartErrorCode.AUDIO_RECORD_START_EXCEPTION;
                 reportWebRtcAudioRecordStartError(audioRecordStartErrorCode2, "AudioRecord.startRecording failed: " + e.getMessage());
@@ -417,10 +417,9 @@ public class WebRtcAudioRecord {
     }
 
     private static void assertTrue(boolean z) {
-        if (z) {
-            return;
+        if (!z) {
+            throw new AssertionError("Expected condition to be true");
         }
-        throw new AssertionError("Expected condition to be true");
     }
 
     public static synchronized void setAudioSource(int i) {
@@ -439,19 +438,18 @@ public class WebRtcAudioRecord {
         Logging.d(TAG, "releaseAudioResources " + z);
         if (z) {
             AudioRecord audioRecord = this.deviceAudioRecord;
-            if (audioRecord == null) {
+            if (audioRecord != null) {
+                audioRecord.release();
+                this.deviceAudioRecord = null;
                 return;
             }
-            audioRecord.release();
-            this.deviceAudioRecord = null;
             return;
         }
         AudioRecord audioRecord2 = this.audioRecord;
-        if (audioRecord2 == null) {
-            return;
+        if (audioRecord2 != null) {
+            audioRecord2.release();
+            this.audioRecord = null;
         }
-        audioRecord2.release();
-        this.audioRecord = null;
     }
 
     private void reportWebRtcAudioRecordInitError(String str) {

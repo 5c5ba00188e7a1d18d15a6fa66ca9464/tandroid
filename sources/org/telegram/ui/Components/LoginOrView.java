@@ -11,14 +11,18 @@ import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
 public class LoginOrView extends View {
+    private Paint linePaint;
     private View measureAfter;
-    private TextPaint textPaint = new TextPaint(1);
-    private Paint linePaint = new Paint(1);
-    private android.graphics.Rect textBounds = new android.graphics.Rect();
-    private String string = LocaleController.getString(R.string.LoginOrSingInWithGoogle);
+    private String string;
+    private android.graphics.Rect textBounds;
+    private TextPaint textPaint;
 
     public LoginOrView(Context context) {
         super(context);
+        this.textPaint = new TextPaint(1);
+        this.linePaint = new Paint(1);
+        this.textBounds = new android.graphics.Rect();
+        this.string = LocaleController.getString(R.string.LoginOrSingInWithGoogle);
         this.textPaint.setTextSize(AndroidUtilities.dp(14.0f));
         updateColors();
     }

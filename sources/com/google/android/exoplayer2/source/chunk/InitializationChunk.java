@@ -43,15 +43,11 @@ public final class InitializationChunk extends Chunk {
             StatsDataSource statsDataSource = this.dataSource;
             DefaultExtractorInput defaultExtractorInput = new DefaultExtractorInput(statsDataSource, subrange.absoluteStreamPosition, statsDataSource.open(subrange));
             Extractor extractor = this.extractorWrapper.extractor;
-            boolean z = false;
             int i = 0;
             while (i == 0 && !this.loadCanceled) {
                 i = extractor.read(defaultExtractorInput, DUMMY_POSITION_HOLDER);
             }
-            if (i != 1) {
-                z = true;
-            }
-            Assertions.checkState(z);
+            Assertions.checkState(i != 1);
             this.nextLoadPosition = defaultExtractorInput.getPosition() - this.dataSpec.absoluteStreamPosition;
         } finally {
             Util.closeQuietly(this.dataSource);

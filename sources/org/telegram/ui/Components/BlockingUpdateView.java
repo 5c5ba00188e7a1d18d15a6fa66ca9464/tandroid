@@ -50,17 +50,19 @@ public class BlockingUpdateView extends FrameLayout implements NotificationCente
     private int accountNum;
     private TLRPC$TL_help_appUpdate appUpdate;
     private String fileName;
+    Drawable gradientDrawableBottom;
+    Drawable gradientDrawableTop;
     private int pressCount;
     private AnimatorSet progressAnimation;
     private RadialProgress radialProgress;
     private FrameLayout radialProgressView;
     private ScrollView scrollView;
     private TextView textView;
-    Drawable gradientDrawableTop = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{Theme.getColor("windowBackgroundWhite"), 0});
-    Drawable gradientDrawableBottom = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP, new int[]{Theme.getColor("windowBackgroundWhite"), 0});
 
     public BlockingUpdateView(Context context) {
         super(context);
+        this.gradientDrawableTop = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{Theme.getColor("windowBackgroundWhite"), 0});
+        this.gradientDrawableBottom = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP, new int[]{Theme.getColor("windowBackgroundWhite"), 0});
         setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
         int i = Build.VERSION.SDK_INT;
         int i2 = i >= 21 ? (int) (AndroidUtilities.statusBarHeight / AndroidUtilities.density) : 0;
@@ -190,19 +192,17 @@ public class BlockingUpdateView extends FrameLayout implements NotificationCente
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(View view) {
-        if (!checkApkInstallPermissions(getContext())) {
-            return;
-        }
-        TLRPC$TL_help_appUpdate tLRPC$TL_help_appUpdate = this.appUpdate;
-        if (tLRPC$TL_help_appUpdate.document instanceof TLRPC$TL_document) {
-            if (openApkInstall((Activity) getContext(), this.appUpdate.document)) {
-                return;
+        if (checkApkInstallPermissions(getContext())) {
+            TLRPC$TL_help_appUpdate tLRPC$TL_help_appUpdate = this.appUpdate;
+            if (tLRPC$TL_help_appUpdate.document instanceof TLRPC$TL_document) {
+                if (openApkInstall((Activity) getContext(), this.appUpdate.document)) {
+                    return;
+                }
+                FileLoader.getInstance(this.accountNum).loadFile(this.appUpdate.document, "update", 3, 1);
+                showProgress(true);
+            } else if (tLRPC$TL_help_appUpdate.url != null) {
+                Browser.openUrl(getContext(), this.appUpdate.url);
             }
-            FileLoader.getInstance(this.accountNum).loadFile(this.appUpdate.document, "update", 3, 1);
-            showProgress(true);
-        } else if (tLRPC$TL_help_appUpdate.url == null) {
-        } else {
-            Browser.openUrl(getContext(), this.appUpdate.url);
         }
     }
 
@@ -233,8 +233,7 @@ public class BlockingUpdateView extends FrameLayout implements NotificationCente
                 return;
             }
             showProgress(false);
-        } else if (i != NotificationCenter.fileLoadProgressChanged) {
-        } else {
+        } else if (i == NotificationCenter.fileLoadProgressChanged) {
             String str5 = (String) objArr[0];
             String str6 = this.fileName;
             if (str6 == null || !str6.equals(str5)) {

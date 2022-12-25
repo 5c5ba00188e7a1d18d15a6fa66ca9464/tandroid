@@ -195,45 +195,44 @@ public class Extensions implements Model {
         }
         Extensions extensions = (Extensions) obj;
         MetadataExtension metadataExtension = this.metadata;
-        if (metadataExtension == null ? extensions.metadata != null : !metadataExtension.equals(extensions.metadata)) {
+        if (metadataExtension == null ? extensions.metadata == null : metadataExtension.equals(extensions.metadata)) {
+            ProtocolExtension protocolExtension = this.protocol;
+            if (protocolExtension == null ? extensions.protocol == null : protocolExtension.equals(extensions.protocol)) {
+                UserExtension userExtension = this.user;
+                if (userExtension == null ? extensions.user == null : userExtension.equals(extensions.user)) {
+                    DeviceExtension deviceExtension = this.device;
+                    if (deviceExtension == null ? extensions.device == null : deviceExtension.equals(extensions.device)) {
+                        OsExtension osExtension = this.os;
+                        if (osExtension == null ? extensions.os == null : osExtension.equals(extensions.os)) {
+                            AppExtension appExtension = this.app;
+                            if (appExtension == null ? extensions.app == null : appExtension.equals(extensions.app)) {
+                                NetExtension netExtension = this.net;
+                                if (netExtension == null ? extensions.net == null : netExtension.equals(extensions.net)) {
+                                    SdkExtension sdkExtension = this.sdk;
+                                    if (sdkExtension == null ? extensions.sdk == null : sdkExtension.equals(extensions.sdk)) {
+                                        LocExtension locExtension = this.loc;
+                                        LocExtension locExtension2 = extensions.loc;
+                                        return locExtension != null ? locExtension.equals(locExtension2) : locExtension2 == null;
+                                    }
+                                    return false;
+                                }
+                                return false;
+                            }
+                            return false;
+                        }
+                        return false;
+                    }
+                    return false;
+                }
+                return false;
+            }
             return false;
         }
-        ProtocolExtension protocolExtension = this.protocol;
-        if (protocolExtension == null ? extensions.protocol != null : !protocolExtension.equals(extensions.protocol)) {
-            return false;
-        }
-        UserExtension userExtension = this.user;
-        if (userExtension == null ? extensions.user != null : !userExtension.equals(extensions.user)) {
-            return false;
-        }
-        DeviceExtension deviceExtension = this.device;
-        if (deviceExtension == null ? extensions.device != null : !deviceExtension.equals(extensions.device)) {
-            return false;
-        }
-        OsExtension osExtension = this.os;
-        if (osExtension == null ? extensions.os != null : !osExtension.equals(extensions.os)) {
-            return false;
-        }
-        AppExtension appExtension = this.app;
-        if (appExtension == null ? extensions.app != null : !appExtension.equals(extensions.app)) {
-            return false;
-        }
-        NetExtension netExtension = this.net;
-        if (netExtension == null ? extensions.net != null : !netExtension.equals(extensions.net)) {
-            return false;
-        }
-        SdkExtension sdkExtension = this.sdk;
-        if (sdkExtension == null ? extensions.sdk != null : !sdkExtension.equals(extensions.sdk)) {
-            return false;
-        }
-        LocExtension locExtension = this.loc;
-        LocExtension locExtension2 = extensions.loc;
-        return locExtension != null ? locExtension.equals(locExtension2) : locExtension2 == null;
+        return false;
     }
 
     public int hashCode() {
         MetadataExtension metadataExtension = this.metadata;
-        int i = 0;
         int hashCode = (metadataExtension != null ? metadataExtension.hashCode() : 0) * 31;
         ProtocolExtension protocolExtension = this.protocol;
         int hashCode2 = (hashCode + (protocolExtension != null ? protocolExtension.hashCode() : 0)) * 31;
@@ -250,9 +249,6 @@ public class Extensions implements Model {
         SdkExtension sdkExtension = this.sdk;
         int hashCode8 = (hashCode7 + (sdkExtension != null ? sdkExtension.hashCode() : 0)) * 31;
         LocExtension locExtension = this.loc;
-        if (locExtension != null) {
-            i = locExtension.hashCode();
-        }
-        return hashCode8 + i;
+        return hashCode8 + (locExtension != null ? locExtension.hashCode() : 0);
     }
 }

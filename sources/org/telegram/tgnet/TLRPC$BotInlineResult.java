@@ -113,12 +113,12 @@ public abstract class TLRPC$BotInlineResult extends TLObject {
                 }
             };
         }
-        if (tLRPC$BotInlineResult != null || !z) {
-            if (tLRPC$BotInlineResult != null) {
-                tLRPC$BotInlineResult.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$BotInlineResult;
+        if (tLRPC$BotInlineResult == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in BotInlineResult", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in BotInlineResult", Integer.valueOf(i)));
+        if (tLRPC$BotInlineResult != null) {
+            tLRPC$BotInlineResult.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$BotInlineResult;
     }
 }

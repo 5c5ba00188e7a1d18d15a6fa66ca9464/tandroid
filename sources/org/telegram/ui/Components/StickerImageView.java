@@ -13,10 +13,11 @@ import org.telegram.tgnet.TLRPC$TL_messages_stickerSet;
 public class StickerImageView extends BackupImageView implements NotificationCenter.NotificationCenterDelegate {
     int currentAccount;
     int stickerNum;
-    String stickerPackName = AndroidUtilities.STICKERS_PLACEHOLDER_PACK_NAME;
+    String stickerPackName;
 
     public StickerImageView(Context context, int i) {
         super(context);
+        this.stickerPackName = AndroidUtilities.STICKERS_PLACEHOLDER_PACK_NAME;
         this.currentAccount = i;
     }
 
@@ -49,43 +50,38 @@ public class StickerImageView extends BackupImageView implements NotificationCen
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     public void didReceivedNotification(int i, int i2, Object... objArr) {
         if (i == NotificationCenter.diceStickersDidLoad) {
-            if (!this.stickerPackName.equals((String) objArr[0])) {
-                return;
+            if (this.stickerPackName.equals((String) objArr[0])) {
+                setSticker();
             }
-            setSticker();
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:10:0x0034  */
-    /* JADX WARN: Removed duplicated region for block: B:13:0x0042  */
-    /* JADX WARN: Removed duplicated region for block: B:15:0x0049  */
+    /* JADX WARN: Removed duplicated region for block: B:12:0x0034  */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x0042  */
+    /* JADX WARN: Removed duplicated region for block: B:17:0x0049  */
     /* JADX WARN: Removed duplicated region for block: B:18:0x0056  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void setSticker() {
         TLRPC$Document tLRPC$Document;
-        SvgHelper.SvgDrawable svgDrawable;
+        SvgHelper.SvgDrawable svgThumb;
         TLRPC$TL_messages_stickerSet stickerSetByName = MediaDataController.getInstance(this.currentAccount).getStickerSetByName(this.stickerPackName);
         if (stickerSetByName == null) {
             stickerSetByName = MediaDataController.getInstance(this.currentAccount).getStickerSetByEmojiOrName(this.stickerPackName);
         }
         TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet = stickerSetByName;
-        SvgHelper.SvgDrawable svgDrawable2 = null;
         if (tLRPC$TL_messages_stickerSet != null) {
             int size = tLRPC$TL_messages_stickerSet.documents.size();
             int i = this.stickerNum;
             if (size > i) {
                 tLRPC$Document = tLRPC$TL_messages_stickerSet.documents.get(i);
-                if (tLRPC$Document != null) {
-                    svgDrawable2 = DocumentObject.getSvgThumb(tLRPC$Document.thumbs, "emptyListPlaceholder", 0.2f);
-                }
-                svgDrawable = svgDrawable2;
-                if (svgDrawable != null) {
-                    svgDrawable.overrideWidthAndHeight(512, 512);
+                svgThumb = tLRPC$Document != null ? DocumentObject.getSvgThumb(tLRPC$Document.thumbs, "emptyListPlaceholder", 0.2f) : null;
+                if (svgThumb != null) {
+                    svgThumb.overrideWidthAndHeight(512, 512);
                 }
                 if (tLRPC$Document == null) {
-                    setImage(ImageLocation.getForDocument(tLRPC$Document), "130_130", "tgs", svgDrawable, tLRPC$TL_messages_stickerSet);
+                    setImage(ImageLocation.getForDocument(tLRPC$Document), "130_130", "tgs", svgThumb, tLRPC$TL_messages_stickerSet);
                     return;
                 }
                 this.imageReceiver.clearImage();
@@ -94,10 +90,8 @@ public class StickerImageView extends BackupImageView implements NotificationCen
             }
         }
         tLRPC$Document = null;
-        if (tLRPC$Document != null) {
-        }
-        svgDrawable = svgDrawable2;
-        if (svgDrawable != null) {
+        svgThumb = tLRPC$Document != null ? DocumentObject.getSvgThumb(tLRPC$Document.thumbs, "emptyListPlaceholder", 0.2f) : null;
+        if (svgThumb != null) {
         }
         if (tLRPC$Document == null) {
         }

@@ -20,6 +20,6 @@ public class CodepointsLengthInputFilter implements InputFilter {
             return null;
         }
         int i5 = codePointCount + i;
-        return (!Character.isHighSurrogate(charSequence.charAt(i5 + (-1))) || (i5 = i5 + (-1)) != i) ? charSequence.subSequence(i, i5) : "";
+        return (Character.isHighSurrogate(charSequence.charAt(i5 + (-1))) && (i5 = i5 + (-1)) == i) ? "" : charSequence.subSequence(i, i5);
     }
 }

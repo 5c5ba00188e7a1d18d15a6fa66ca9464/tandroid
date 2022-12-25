@@ -18,7 +18,15 @@ public class StatsController extends BaseController {
     public static final int TYPE_TOTAL = 6;
     public static final int TYPE_VIDEOS = 2;
     public static final int TYPE_WIFI = 1;
+    private byte[] buffer;
+    private int[] callsTotalTime;
     private long lastInternalStatsSaveTime;
+    private long[][] receivedBytes;
+    private int[][] receivedItems;
+    private long[] resetStatsDate;
+    private Runnable saveRunnable;
+    private long[][] sentBytes;
+    private int[][] sentItems;
     private RandomAccessFile statsFile;
     private static DispatchQueue statsSaveQueue = new DispatchQueue("statsSaveQueue");
     private static final ThreadLocal<Long> lastStatsSaveTime = new ThreadLocal<Long>() { // from class: org.telegram.messenger.StatsController.1
@@ -29,50 +37,6 @@ public class StatsController extends BaseController {
         }
     };
     private static volatile StatsController[] Instance = new StatsController[4];
-    private byte[] buffer = new byte[8];
-    private long[][] sentBytes = (long[][]) Array.newInstance(long.class, 3, 7);
-    private long[][] receivedBytes = (long[][]) Array.newInstance(long.class, 3, 7);
-    private int[][] sentItems = (int[][]) Array.newInstance(int.class, 3, 7);
-    private int[][] receivedItems = (int[][]) Array.newInstance(int.class, 3, 7);
-    private long[] resetStatsDate = new long[3];
-    private int[] callsTotalTime = new int[3];
-    private Runnable saveRunnable = new Runnable() { // from class: org.telegram.messenger.StatsController.2
-        @Override // java.lang.Runnable
-        public void run() {
-            long currentTimeMillis = System.currentTimeMillis();
-            if (Math.abs(currentTimeMillis - StatsController.this.lastInternalStatsSaveTime) < 2000) {
-                return;
-            }
-            StatsController.this.lastInternalStatsSaveTime = currentTimeMillis;
-            try {
-                StatsController.this.statsFile.seek(0L);
-                for (int i = 0; i < 3; i++) {
-                    for (int i2 = 0; i2 < 7; i2++) {
-                        RandomAccessFile randomAccessFile = StatsController.this.statsFile;
-                        StatsController statsController = StatsController.this;
-                        randomAccessFile.write(statsController.longToBytes(statsController.sentBytes[i][i2]), 0, 8);
-                        RandomAccessFile randomAccessFile2 = StatsController.this.statsFile;
-                        StatsController statsController2 = StatsController.this;
-                        randomAccessFile2.write(statsController2.longToBytes(statsController2.receivedBytes[i][i2]), 0, 8);
-                        RandomAccessFile randomAccessFile3 = StatsController.this.statsFile;
-                        StatsController statsController3 = StatsController.this;
-                        randomAccessFile3.write(statsController3.intToBytes(statsController3.sentItems[i][i2]), 0, 4);
-                        RandomAccessFile randomAccessFile4 = StatsController.this.statsFile;
-                        StatsController statsController4 = StatsController.this;
-                        randomAccessFile4.write(statsController4.intToBytes(statsController4.receivedItems[i][i2]), 0, 4);
-                    }
-                    RandomAccessFile randomAccessFile5 = StatsController.this.statsFile;
-                    StatsController statsController5 = StatsController.this;
-                    randomAccessFile5.write(statsController5.intToBytes(statsController5.callsTotalTime[i]), 0, 4);
-                    RandomAccessFile randomAccessFile6 = StatsController.this.statsFile;
-                    StatsController statsController6 = StatsController.this;
-                    randomAccessFile6.write(statsController6.longToBytes(statsController6.resetStatsDate[i]), 0, 8);
-                }
-                StatsController.this.statsFile.getFD().sync();
-            } catch (Exception unused) {
-            }
-        }
-    };
 
     /* JADX INFO: Access modifiers changed from: private */
     public byte[] intToBytes(int i) {
@@ -122,8 +86,8 @@ public class StatsController extends BaseController {
         return statsController;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:27:0x012d  */
-    /* JADX WARN: Removed duplicated region for block: B:49:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x012d  */
+    /* JADX WARN: Removed duplicated region for block: B:50:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -132,6 +96,50 @@ public class StatsController extends BaseController {
         boolean z;
         SharedPreferences sharedPreferences;
         RandomAccessFile randomAccessFile;
+        this.buffer = new byte[8];
+        this.sentBytes = (long[][]) Array.newInstance(long.class, 3, 7);
+        this.receivedBytes = (long[][]) Array.newInstance(long.class, 3, 7);
+        this.sentItems = (int[][]) Array.newInstance(int.class, 3, 7);
+        this.receivedItems = (int[][]) Array.newInstance(int.class, 3, 7);
+        this.resetStatsDate = new long[3];
+        this.callsTotalTime = new int[3];
+        this.saveRunnable = new Runnable() { // from class: org.telegram.messenger.StatsController.2
+            @Override // java.lang.Runnable
+            public void run() {
+                long currentTimeMillis = System.currentTimeMillis();
+                if (Math.abs(currentTimeMillis - StatsController.this.lastInternalStatsSaveTime) < 2000) {
+                    return;
+                }
+                StatsController.this.lastInternalStatsSaveTime = currentTimeMillis;
+                try {
+                    StatsController.this.statsFile.seek(0L);
+                    for (int i2 = 0; i2 < 3; i2++) {
+                        for (int i3 = 0; i3 < 7; i3++) {
+                            RandomAccessFile randomAccessFile2 = StatsController.this.statsFile;
+                            StatsController statsController = StatsController.this;
+                            randomAccessFile2.write(statsController.longToBytes(statsController.sentBytes[i2][i3]), 0, 8);
+                            RandomAccessFile randomAccessFile3 = StatsController.this.statsFile;
+                            StatsController statsController2 = StatsController.this;
+                            randomAccessFile3.write(statsController2.longToBytes(statsController2.receivedBytes[i2][i3]), 0, 8);
+                            RandomAccessFile randomAccessFile4 = StatsController.this.statsFile;
+                            StatsController statsController3 = StatsController.this;
+                            randomAccessFile4.write(statsController3.intToBytes(statsController3.sentItems[i2][i3]), 0, 4);
+                            RandomAccessFile randomAccessFile5 = StatsController.this.statsFile;
+                            StatsController statsController4 = StatsController.this;
+                            randomAccessFile5.write(statsController4.intToBytes(statsController4.receivedItems[i2][i3]), 0, 4);
+                        }
+                        RandomAccessFile randomAccessFile6 = StatsController.this.statsFile;
+                        StatsController statsController5 = StatsController.this;
+                        randomAccessFile6.write(statsController5.intToBytes(statsController5.callsTotalTime[i2]), 0, 4);
+                        RandomAccessFile randomAccessFile7 = StatsController.this.statsFile;
+                        StatsController statsController6 = StatsController.this;
+                        randomAccessFile7.write(statsController6.longToBytes(statsController6.resetStatsDate[i2]), 0, 8);
+                    }
+                    StatsController.this.statsFile.getFD().sync();
+                } catch (Exception unused) {
+                }
+            }
+        };
         File filesDirFixed = ApplicationLoader.getFilesDirFixed();
         if (i != 0) {
             File filesDirFixed2 = ApplicationLoader.getFilesDirFixed();
@@ -201,10 +209,10 @@ public class StatsController extends BaseController {
                     z3 = true;
                 }
             }
-            if (!z3) {
+            if (z3) {
+                saveStats();
                 return;
             }
-            saveStats();
             return;
         }
         z = true;

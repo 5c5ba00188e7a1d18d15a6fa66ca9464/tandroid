@@ -28,12 +28,12 @@ public abstract class TLRPC$InputGame extends TLObject {
                 }
             };
         }
-        if (tLRPC$TL_inputGameShortName != null || !z) {
-            if (tLRPC$TL_inputGameShortName != null) {
-                tLRPC$TL_inputGameShortName.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_inputGameShortName;
+        if (tLRPC$TL_inputGameShortName == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in InputGame", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in InputGame", Integer.valueOf(i)));
+        if (tLRPC$TL_inputGameShortName != null) {
+            tLRPC$TL_inputGameShortName.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_inputGameShortName;
     }
 }

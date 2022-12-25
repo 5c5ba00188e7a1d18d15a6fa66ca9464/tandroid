@@ -13,12 +13,12 @@ public abstract class TLRPC$InputFile extends TLObject {
         } else {
             tLRPC$TL_inputFile = new TLRPC$TL_inputFile();
         }
-        if (tLRPC$TL_inputFile != null || !z) {
-            if (tLRPC$TL_inputFile != null) {
-                tLRPC$TL_inputFile.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_inputFile;
+        if (tLRPC$TL_inputFile == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in InputFile", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in InputFile", Integer.valueOf(i)));
+        if (tLRPC$TL_inputFile != null) {
+            tLRPC$TL_inputFile.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_inputFile;
     }
 }

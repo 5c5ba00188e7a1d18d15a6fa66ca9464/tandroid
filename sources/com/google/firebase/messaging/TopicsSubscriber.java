@@ -109,24 +109,24 @@ public class TopicsSubscriber {
     private void markCompletePendingOperation(TopicOperation topicOperation) {
         synchronized (this.pendingOperations) {
             String serialize = topicOperation.serialize();
-            if (!this.pendingOperations.containsKey(serialize)) {
-                return;
-            }
-            ArrayDeque<TaskCompletionSource<Void>> arrayDeque = this.pendingOperations.get(serialize);
-            TaskCompletionSource<Void> poll = arrayDeque.poll();
-            if (poll != null) {
-                poll.setResult(null);
-            }
-            if (arrayDeque.isEmpty()) {
-                this.pendingOperations.remove(serialize);
+            if (this.pendingOperations.containsKey(serialize)) {
+                ArrayDeque<TaskCompletionSource<Void>> arrayDeque = this.pendingOperations.get(serialize);
+                TaskCompletionSource<Void> poll = arrayDeque.poll();
+                if (poll != null) {
+                    poll.setResult(null);
+                }
+                if (arrayDeque.isEmpty()) {
+                    this.pendingOperations.remove(serialize);
+                }
             }
         }
     }
 
     private void startSync() {
-        if (!isSyncScheduledOrRunning()) {
-            syncWithDelaySecondsInternal(0L);
+        if (isSyncScheduledOrRunning()) {
+            return;
         }
+        syncWithDelaySecondsInternal(0L);
     }
 
     boolean hasPendingOperation() {
@@ -218,13 +218,13 @@ public class TopicsSubscriber {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* JADX WARN: Code restructure failed: missing block: B:14:0x000d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:6:0x000d, code lost:
         if (isDebugLogEnabled() == false) goto L16;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:15:0x000f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:7:0x000f, code lost:
         android.util.Log.d("FirebaseMessaging", "topic sync succeeded");
      */
-    /* JADX WARN: Code restructure failed: missing block: B:17:0x0018, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:9:0x0018, code lost:
         return true;
      */
     /*

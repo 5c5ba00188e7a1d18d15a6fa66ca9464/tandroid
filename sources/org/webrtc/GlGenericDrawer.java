@@ -333,13 +333,8 @@ public class GlGenericDrawer implements RendererCommon.GlDrawer {
         GlShader glShader = createShader;
         glShader.useProgram();
         if (z) {
-            float f = 0.0f;
             GLES20.glUniform1f(this.texelLocation[i][0], i8 == 1 ? 1.0f / i2 : 0.0f);
-            int i9 = this.texelLocation[i][1];
-            if (i8 == 2) {
-                f = 1.0f / i3;
-            }
-            GLES20.glUniform1f(i9, f);
+            GLES20.glUniform1f(this.texelLocation[i][1], i8 == 2 ? 1.0f / i3 : 0.0f);
         }
         GLES20.glEnableVertexAttribArray(this.inPosLocation[i][i8]);
         GLES20.glVertexAttribPointer(this.inPosLocation[i][i8], 2, 5126, false, 0, (Buffer) FULL_RECTANGLE_BUFFER);

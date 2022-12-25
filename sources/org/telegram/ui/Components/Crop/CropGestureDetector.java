@@ -88,7 +88,6 @@ public class CropGestureDetector {
     public boolean onTouchEvent(MotionEvent motionEvent) {
         this.mDetector.onTouchEvent(motionEvent);
         int action = motionEvent.getAction() & 255;
-        boolean z = false;
         if (action == 0) {
             this.mActivePointerId = motionEvent.getPointerId(0);
             this.touchTime = SystemClock.elapsedRealtime();
@@ -164,10 +163,7 @@ public class CropGestureDetector {
         float f = activeX - this.mLastTouchX;
         float f2 = activeY - this.mLastTouchY;
         if (!this.mIsDragging) {
-            if (((float) Math.sqrt((f * f) + (f2 * f2))) >= this.mTouchSlop) {
-                z = true;
-            }
-            this.mIsDragging = z;
+            this.mIsDragging = ((float) Math.sqrt((double) ((f * f) + (f2 * f2)))) >= this.mTouchSlop;
         }
         if (this.mIsDragging) {
             this.mListener.onDrag(f, f2);

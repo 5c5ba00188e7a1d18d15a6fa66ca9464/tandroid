@@ -28,8 +28,8 @@ public class PremiumGradient {
     private final Paint mainGradientPaint;
     public Drawable premiumStarColoredDrawable;
     public Drawable premiumStarDrawableMini;
-    public InternalDrawable premiumStarMenuDrawable = createGradientDrawable(ContextCompat.getDrawable(ApplicationLoader.applicationContext, R.drawable.msg_settings_premium));
-    public InternalDrawable premiumStarMenuDrawable2 = createGradientDrawable(ContextCompat.getDrawable(ApplicationLoader.applicationContext, R.drawable.msg_premium_normal));
+    public InternalDrawable premiumStarMenuDrawable;
+    public InternalDrawable premiumStarMenuDrawable2;
 
     public static PremiumGradient getInstance() {
         if (instance == null) {
@@ -45,6 +45,8 @@ public class PremiumGradient {
         Context context = ApplicationLoader.applicationContext;
         int i = R.drawable.msg_premium_liststar;
         this.premiumStarDrawableMini = ContextCompat.getDrawable(context, i).mutate();
+        this.premiumStarMenuDrawable = createGradientDrawable(ContextCompat.getDrawable(ApplicationLoader.applicationContext, R.drawable.msg_settings_premium));
+        this.premiumStarMenuDrawable2 = createGradientDrawable(ContextCompat.getDrawable(ApplicationLoader.applicationContext, R.drawable.msg_premium_normal));
         this.premiumStarColoredDrawable = ContextCompat.getDrawable(ApplicationLoader.applicationContext, i).mutate();
         gradientTools.chekColors();
         checkIconColors();

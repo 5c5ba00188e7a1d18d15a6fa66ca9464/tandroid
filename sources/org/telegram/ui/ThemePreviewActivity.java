@@ -426,20 +426,20 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         this.isMotion = z2;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:291:0x029f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:56:0x029f, code lost:
         if ("d".equals(((org.telegram.ui.WallpapersListActivity.ColorWallpaper) r0).slug) == false) goto L287;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:293:0x02a5, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:58:0x02a5, code lost:
         if ((r37.currentWallpaper instanceof org.telegram.tgnet.TLRPC$TL_wallPaper) != false) goto L287;
      */
-    /* JADX WARN: Removed duplicated region for block: B:113:0x06e7  */
-    /* JADX WARN: Removed duplicated region for block: B:162:0x07d4  */
-    /* JADX WARN: Removed duplicated region for block: B:205:0x0909  */
-    /* JADX WARN: Removed duplicated region for block: B:209:0x0c60  */
-    /* JADX WARN: Removed duplicated region for block: B:212:0x0c6b  */
-    /* JADX WARN: Removed duplicated region for block: B:218:0x0915  */
-    /* JADX WARN: Removed duplicated region for block: B:269:0x06e1  */
-    /* JADX WARN: Removed duplicated region for block: B:86:0x05f4  */
+    /* JADX WARN: Removed duplicated region for block: B:120:0x05f4  */
+    /* JADX WARN: Removed duplicated region for block: B:151:0x06e1  */
+    /* JADX WARN: Removed duplicated region for block: B:154:0x06e7  */
+    /* JADX WARN: Removed duplicated region for block: B:203:0x07d4  */
+    /* JADX WARN: Removed duplicated region for block: B:242:0x0909  */
+    /* JADX WARN: Removed duplicated region for block: B:247:0x0915  */
+    /* JADX WARN: Removed duplicated region for block: B:289:0x0c60  */
+    /* JADX WARN: Removed duplicated region for block: B:292:0x0c6b  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     @SuppressLint({"Recycle"})
     /*
@@ -630,10 +630,9 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 String url;
                 int i10 = 0;
                 if (i9 == -1) {
-                    if (!ThemePreviewActivity.this.checkDiscard()) {
-                        return;
+                    if (ThemePreviewActivity.this.checkDiscard()) {
+                        ThemePreviewActivity.this.cancelThemeApply(false);
                     }
-                    ThemePreviewActivity.this.cancelThemeApply(false);
                 } else if (i9 >= 1 && i9 <= 3) {
                     ThemePreviewActivity.this.selectColorType(i9);
                 } else if (i9 == 4) {
@@ -917,11 +916,9 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                     translationX = Math.min(childViewHolder2.itemView.getTranslationX(), translationX);
                                 }
                                 View view2 = childViewHolder2.itemView;
-                                if (view2 instanceof ChatMessageCell) {
-                                    if (!((ChatMessageCell) view2).isPinnedTop()) {
-                                        break;
-                                    }
-                                } else {
+                                if (!(view2 instanceof ChatMessageCell)) {
+                                    break;
+                                } else if (!((ChatMessageCell) view2).isPinnedTop()) {
                                     break;
                                 }
                             }
@@ -967,9 +964,10 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RecyclerListView
             public void onChildPressed(View view, float f2, float f3, boolean z2) {
-                if (!z2 || !(view instanceof ChatMessageCell) || ((ChatMessageCell) view).isInsideBackground(f2, f3)) {
-                    super.onChildPressed(view, f2, f3, z2);
+                if (z2 && (view instanceof ChatMessageCell) && !((ChatMessageCell) view).isInsideBackground(f2, f3)) {
+                    return;
                 }
+                super.onChildPressed(view, f2, f3, z2);
             }
 
             /* JADX INFO: Access modifiers changed from: protected */
@@ -1094,7 +1092,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 this.bottomOverlayChatText = textView2;
                 textView2.setTextSize(1, 15.0f);
                 this.bottomOverlayChatText.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
-                this.bottomOverlayChatText.setTextColor(Theme.getColor(str2));
+                this.bottomOverlayChatText.setTextColor(Theme.getColor("chat_fieldOverlayText"));
                 this.bottomOverlayChatText.setText(LocaleController.getString("SetBackground", R.string.SetBackground));
                 this.bottomOverlayChat.addView(this.bottomOverlayChatText, LayoutHelper.createFrame(-2, -2, 17));
             }
@@ -1176,18 +1174,18 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                             this.backgroundPlayAnimationImageView.setImageResource(R.drawable.bg_rotate_large);
                             this.backgroundPlayAnimationView.addView(this.backgroundPlayAnimationImageView, LayoutHelper.createFrame(-2, -2, 17));
                         } else {
-                            str = str2;
+                            str = "chat_fieldOverlayText";
                             i4 = 0;
                         }
                         i5 = 0;
                         while (i5 < i3) {
-                            this.backgroundCheckBoxView[i5] = new WallpaperCheckBoxView(context, (this.screenType != 1 && !(this.currentWallpaper instanceof WallpapersListActivity.ColorWallpaper)) || i5 != 0, this.backgroundImage);
+                            this.backgroundCheckBoxView[i5] = new WallpaperCheckBoxView(context, ((this.screenType == 1 || (this.currentWallpaper instanceof WallpapersListActivity.ColorWallpaper)) && i5 == 0) ? false : true, this.backgroundImage);
                             this.backgroundCheckBoxView[i5].setBackgroundColor(this.backgroundColor);
                             this.backgroundCheckBoxView[i5].setText(strArr[i5], iArr[i5], i4);
                             if (this.screenType != 1 && !(this.currentWallpaper instanceof WallpapersListActivity.ColorWallpaper)) {
                                 this.backgroundCheckBoxView[i5].setChecked(i5 == 0 ? this.isBlurred : this.isMotion, false);
                             } else if (i5 == 1) {
-                                this.backgroundCheckBoxView[i5].setChecked(this.selectedPattern != null || ((themeAccent = this.accent) != null && !TextUtils.isEmpty(themeAccent.patternSlug)), false);
+                                this.backgroundCheckBoxView[i5].setChecked((this.selectedPattern == null && ((themeAccent = this.accent) == null || TextUtils.isEmpty(themeAccent.patternSlug))) ? false : true, false);
                             } else if (i5 == 2) {
                                 this.backgroundCheckBoxView[i5].setChecked(this.isMotion, false);
                             }
@@ -1282,8 +1280,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                             ThemePreviewActivity.this.messagesCheckBoxView[1].setColor(3, ThemePreviewActivity.this.accent.myMessagesGradientAccentColor3);
                                             Theme.refreshThemeColors(true, true);
                                             ThemePreviewActivity.this.listView2.invalidateViews();
-                                        } else if (ThemePreviewActivity.this.msgOutDrawable.getMotionBackgroundDrawable() == null) {
-                                        } else {
+                                        } else if (ThemePreviewActivity.this.msgOutDrawable.getMotionBackgroundDrawable() != null) {
                                             ThemePreviewActivity.this.msgOutDrawable.getMotionBackgroundDrawable().switchToNextPosition();
                                         }
                                     }
@@ -1490,10 +1487,9 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                             if (Build.VERSION.SDK_INT >= 29) {
                                                 ThemePreviewActivity.this.backgroundImage.getImageReceiver().setBlendMode(null);
                                             }
-                                            if (!(ThemePreviewActivity.this.backgroundImage.getBackground() instanceof MotionBackgroundDrawable)) {
-                                                return;
+                                            if (ThemePreviewActivity.this.backgroundImage.getBackground() instanceof MotionBackgroundDrawable) {
+                                                ThemePreviewActivity.this.backgroundImage.getImageReceiver().setGradientBitmap(((MotionBackgroundDrawable) ThemePreviewActivity.this.backgroundImage.getBackground()).getBitmap());
                                             }
-                                            ThemePreviewActivity.this.backgroundImage.getImageReceiver().setGradientBitmap(((MotionBackgroundDrawable) ThemePreviewActivity.this.backgroundImage.getBackground()).getBitmap());
                                         }
                                     });
                                     this.patternLayout[i6].addView(this.intensitySeekBar, LayoutHelper.createFrame(-1, 38.0f, 51, 5.0f, 211.0f, 5.0f, 0.0f));
@@ -1602,7 +1598,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             if (this.screenType != 1) {
             }
         } else {
-            str = str2;
+            str = "chat_fieldOverlayText";
         }
         this.listView2.setAdapter(this.messagesAdapter);
         FrameLayout frameLayout6 = new FrameLayout(context) { // from class: org.telegram.ui.ThemePreviewActivity.23
@@ -1618,19 +1614,19 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
 
             @Override // android.view.View
             protected void onDraw(Canvas canvas) {
-                if (!AndroidUtilities.usingHardwareInput) {
-                    getLocationInWindow(this.loc);
-                    if (Build.VERSION.SDK_INT < 21 && !AndroidUtilities.isTablet()) {
-                        int[] iArr4 = this.loc;
-                        iArr4[1] = iArr4[1] - AndroidUtilities.statusBarHeight;
-                    }
-                    if (ThemePreviewActivity.this.actionBar2.getTranslationY() != this.loc[1]) {
-                        ThemePreviewActivity.this.actionBar2.setTranslationY(-this.loc[1]);
-                        ThemePreviewActivity.this.page2.invalidate();
-                    }
-                    if (SystemClock.elapsedRealtime() >= ThemePreviewActivity.this.watchForKeyboardEndTime) {
-                        return;
-                    }
+                if (AndroidUtilities.usingHardwareInput) {
+                    return;
+                }
+                getLocationInWindow(this.loc);
+                if (Build.VERSION.SDK_INT < 21 && !AndroidUtilities.isTablet()) {
+                    int[] iArr4 = this.loc;
+                    iArr4[1] = iArr4[1] - AndroidUtilities.statusBarHeight;
+                }
+                if (ThemePreviewActivity.this.actionBar2.getTranslationY() != this.loc[1]) {
+                    ThemePreviewActivity.this.actionBar2.setTranslationY(-this.loc[1]);
+                    ThemePreviewActivity.this.page2.invalidate();
+                }
+                if (SystemClock.elapsedRealtime() < ThemePreviewActivity.this.watchForKeyboardEndTime) {
                     invalidate();
                 }
             }
@@ -1773,36 +1769,36 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$2(ImageReceiver imageReceiver, boolean z, boolean z2, boolean z3) {
-        if (!(this.currentWallpaper instanceof WallpapersListActivity.ColorWallpaper)) {
-            Drawable drawable = imageReceiver.getDrawable();
-            if (!z || drawable == null) {
-                return;
+        if (this.currentWallpaper instanceof WallpapersListActivity.ColorWallpaper) {
+            return;
+        }
+        Drawable drawable = imageReceiver.getDrawable();
+        if (!z || drawable == null) {
+            return;
+        }
+        if (!Theme.hasThemeKey("chat_serviceBackground") || (this.backgroundImage.getBackground() instanceof MotionBackgroundDrawable)) {
+            Theme.applyChatServiceMessageColor(AndroidUtilities.calcDrawableColor(drawable), drawable);
+        }
+        this.listView2.invalidateViews();
+        FrameLayout frameLayout = this.backgroundButtonsContainer;
+        if (frameLayout != null) {
+            int childCount = frameLayout.getChildCount();
+            for (int i = 0; i < childCount; i++) {
+                this.backgroundButtonsContainer.getChildAt(i).invalidate();
             }
-            if (!Theme.hasThemeKey("chat_serviceBackground") || (this.backgroundImage.getBackground() instanceof MotionBackgroundDrawable)) {
-                Theme.applyChatServiceMessageColor(AndroidUtilities.calcDrawableColor(drawable), drawable);
+        }
+        FrameLayout frameLayout2 = this.messagesButtonsContainer;
+        if (frameLayout2 != null) {
+            int childCount2 = frameLayout2.getChildCount();
+            for (int i2 = 0; i2 < childCount2; i2++) {
+                this.messagesButtonsContainer.getChildAt(i2).invalidate();
             }
-            this.listView2.invalidateViews();
-            FrameLayout frameLayout = this.backgroundButtonsContainer;
-            if (frameLayout != null) {
-                int childCount = frameLayout.getChildCount();
-                for (int i = 0; i < childCount; i++) {
-                    this.backgroundButtonsContainer.getChildAt(i).invalidate();
-                }
-            }
-            FrameLayout frameLayout2 = this.messagesButtonsContainer;
-            if (frameLayout2 != null) {
-                int childCount2 = frameLayout2.getChildCount();
-                for (int i2 = 0; i2 < childCount2; i2++) {
-                    this.messagesButtonsContainer.getChildAt(i2).invalidate();
-                }
-            }
-            RadialProgress2 radialProgress2 = this.radialProgress;
-            if (radialProgress2 != null) {
-                radialProgress2.setColors("chat_serviceBackground", "chat_serviceBackground", "chat_serviceText", "chat_serviceText");
-            }
-            if (z2 || !this.isBlurred || this.blurredBitmap != null) {
-                return;
-            }
+        }
+        RadialProgress2 radialProgress2 = this.radialProgress;
+        if (radialProgress2 != null) {
+            radialProgress2.setColors("chat_serviceBackground", "chat_serviceBackground", "chat_serviceText", "chat_serviceText");
+        }
+        if (!z2 && this.isBlurred && this.blurredBitmap == null) {
             this.backgroundImage.getImageReceiver().setCrossfadeWithOldImage(false);
             updateBlurred();
             this.backgroundImage.getImageReceiver().setCrossfadeWithOldImage(true);
@@ -1833,28 +1829,24 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$5(int i, int i2, float f) {
-        if (!this.isMotion) {
-            return;
+        if (this.isMotion) {
+            this.backgroundImage.getBackground();
+            float scaleX = this.motionAnimation != null ? (this.backgroundImage.getScaleX() - 1.0f) / (this.parallaxScale - 1.0f) : 1.0f;
+            this.backgroundImage.setTranslationX(i * scaleX);
+            this.backgroundImage.setTranslationY(i2 * scaleX);
         }
-        this.backgroundImage.getBackground();
-        float f2 = 1.0f;
-        if (this.motionAnimation != null) {
-            f2 = (this.backgroundImage.getScaleX() - 1.0f) / (this.parallaxScale - 1.0f);
-        }
-        this.backgroundImage.setTranslationX(i * f2);
-        this.backgroundImage.setTranslationY(i2 * f2);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:104:0x0198 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:14:0x0077  */
-    /* JADX WARN: Removed duplicated region for block: B:26:0x01c5  */
-    /* JADX WARN: Removed duplicated region for block: B:31:0x025a  */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x02ca  */
-    /* JADX WARN: Removed duplicated region for block: B:68:0x02da  */
-    /* JADX WARN: Removed duplicated region for block: B:77:0x031d  */
-    /* JADX WARN: Removed duplicated region for block: B:81:0x02cd  */
-    /* JADX WARN: Removed duplicated region for block: B:82:0x01d0  */
+    /* JADX WARN: Removed duplicated region for block: B:119:0x025a  */
+    /* JADX WARN: Removed duplicated region for block: B:153:0x02ca  */
+    /* JADX WARN: Removed duplicated region for block: B:154:0x02cd  */
+    /* JADX WARN: Removed duplicated region for block: B:157:0x02da  */
+    /* JADX WARN: Removed duplicated region for block: B:166:0x031d  */
+    /* JADX WARN: Removed duplicated region for block: B:179:0x0198 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x0077  */
+    /* JADX WARN: Removed duplicated region for block: B:92:0x01c5  */
+    /* JADX WARN: Removed duplicated region for block: B:95:0x01d0  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2207,7 +2199,6 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 animateMotionChange();
                 return;
             }
-            boolean z = false;
             if (i == 1 && (i2 == 1 || (this.currentWallpaper instanceof WallpapersListActivity.ColorWallpaper))) {
                 if (this.backgroundCheckBoxView[1].isChecked()) {
                     this.lastSelectedPattern = this.selectedPattern;
@@ -2231,21 +2222,13 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                         showPatternsView(i, this.patternLayout[i].getVisibility() != 0, true);
                     }
                 }
-                WallpaperCheckBoxView wallpaperCheckBoxView2 = this.backgroundCheckBoxView[1];
-                if (this.selectedPattern != null) {
-                    z = true;
-                }
-                wallpaperCheckBoxView2.setChecked(z, true);
+                this.backgroundCheckBoxView[1].setChecked(this.selectedPattern != null, true);
                 updateSelectedPattern(true);
                 this.patternsListView.invalidateViews();
                 updateMotionButton();
             } else if (this.currentWallpaper instanceof WallpapersListActivity.ColorWallpaper) {
-                if (this.patternLayout[i].getVisibility() != 0) {
-                    z = true;
-                }
-                showPatternsView(i, z, true);
-            } else if (i2 == 1) {
-            } else {
+                showPatternsView(i, this.patternLayout[i].getVisibility() != 0, true);
+            } else if (i2 != 1) {
                 wallpaperCheckBoxView.setChecked(!wallpaperCheckBoxView.isChecked(), true);
                 if (i == 0) {
                     boolean isChecked2 = wallpaperCheckBoxView.isChecked();
@@ -2352,11 +2335,10 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             return;
         }
         int i3 = right + dp;
-        if (i3 <= this.patternsListView.getMeasuredWidth()) {
-            return;
+        if (i3 > this.patternsListView.getMeasuredWidth()) {
+            RecyclerListView recyclerListView = this.patternsListView;
+            recyclerListView.smoothScrollBy(i3 - recyclerListView.getMeasuredWidth(), 0);
         }
-        RecyclerListView recyclerListView = this.patternsListView;
-        recyclerListView.smoothScrollBy(i3 - recyclerListView.getMeasuredWidth(), 0);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -2408,10 +2390,9 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             AlertDialog create = builder.create();
             ThemePreviewActivity.this.showDialog(create);
             TextView textView = (TextView) create.getButton(-1);
-            if (textView == null) {
-                return;
+            if (textView != null) {
+                textView.setTextColor(Theme.getColor("dialogTextRed2"));
             }
-            textView.setTextColor(Theme.getColor("dialogTextRed2"));
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -2426,10 +2407,10 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         @Override // org.telegram.ui.Components.ColorPicker.ColorPickerDelegate
         public int getDefaultColor(int i) {
             Theme.ThemeAccent themeAccent;
-            if (ThemePreviewActivity.this.colorType != 3 || !ThemePreviewActivity.this.applyingTheme.firstAccentIsDefault || i != 0 || (themeAccent = ThemePreviewActivity.this.applyingTheme.themeAccentsMap.get(Theme.DEFALT_THEME_ACCENT_ID)) == null) {
-                return 0;
+            if (ThemePreviewActivity.this.colorType == 3 && ThemePreviewActivity.this.applyingTheme.firstAccentIsDefault && i == 0 && (themeAccent = ThemePreviewActivity.this.applyingTheme.themeAccentsMap.get(Theme.DEFALT_THEME_ACCENT_ID)) != null) {
+                return themeAccent.myMessagesAccentColor;
             }
-            return themeAccent.myMessagesAccentColor;
+            return 0;
         }
     }
 
@@ -2474,10 +2455,9 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             edit.commit();
         }
         finishFragment();
-        if (this.screenType != 0) {
-            return;
+        if (this.screenType == 0) {
+            NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.didApplyNewTheme, previousTheme, accent, Boolean.valueOf(this.deleteOnCancel));
         }
-        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.didApplyNewTheme, previousTheme, accent, Boolean.valueOf(this.deleteOnCancel));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -2917,10 +2897,10 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:37:0x0084, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:39:0x0084, code lost:
         if (r7.accent.patternMotion == r7.isMotion) goto L38;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:40:0x0090, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:42:0x0090, code lost:
         if (r7.accent.patternIntensity == r7.currentIntensity) goto L45;
      */
     /*
@@ -3093,10 +3073,9 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         RadialProgress2 radialProgress2 = this.radialProgress;
         if (radialProgress2 != null) {
             radialProgress2.setProgress(Math.min(1.0f, ((float) j) / ((float) j2)), this.progressVisible);
-            if (this.radialProgress.getIcon() == 10) {
-                return;
+            if (this.radialProgress.getIcon() != 10) {
+                updateButtonState(false, true);
             }
-            updateButtonState(false, true);
         }
     }
 
@@ -3121,10 +3100,10 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         }
         if (this.isBlurred) {
             Bitmap bitmap2 = this.blurredBitmap;
-            if (bitmap2 == null) {
+            if (bitmap2 != null) {
+                this.backgroundImage.setImageBitmap(bitmap2);
                 return;
             }
-            this.backgroundImage.setImageBitmap(bitmap2);
             return;
         }
         setCurrentImage(false);
@@ -3132,11 +3111,11 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public boolean onBackPressed() {
-        if (!checkDiscard()) {
-            return false;
+        if (checkDiscard()) {
+            cancelThemeApply(true);
+            return true;
         }
-        cancelThemeApply(true);
-        return true;
+        return false;
     }
 
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
@@ -3156,25 +3135,21 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             }
         } else if (i == NotificationCenter.invalidateMotionBackground) {
             RecyclerListView recyclerListView2 = this.listView2;
-            if (recyclerListView2 == null) {
-                return;
+            if (recyclerListView2 != null) {
+                recyclerListView2.invalidateViews();
             }
-            recyclerListView2.invalidateViews();
         } else if (i == NotificationCenter.didSetNewWallpapper) {
-            if (this.page2 == null) {
-                return;
+            if (this.page2 != null) {
+                setCurrentImage(true);
             }
-            setCurrentImage(true);
         } else if (i == NotificationCenter.wallpapersNeedReload) {
             Object obj = this.currentWallpaper;
-            if (!(obj instanceof WallpapersListActivity.FileWallpaper)) {
-                return;
+            if (obj instanceof WallpapersListActivity.FileWallpaper) {
+                WallpapersListActivity.FileWallpaper fileWallpaper = (WallpapersListActivity.FileWallpaper) obj;
+                if (fileWallpaper.slug == null) {
+                    fileWallpaper.slug = (String) objArr[0];
+                }
             }
-            WallpapersListActivity.FileWallpaper fileWallpaper = (WallpapersListActivity.FileWallpaper) obj;
-            if (fileWallpaper.slug != null) {
-                return;
-            }
-            fileWallpaper.slug = (String) objArr[0];
         } else if (i == NotificationCenter.wallpapersDidLoad) {
             ArrayList arrayList = (ArrayList) objArr[0];
             this.patterns.clear();
@@ -3313,18 +3288,16 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
     public /* synthetic */ void lambda$didReceivedNotification$21(TLObject tLObject) {
         if (tLObject instanceof TLRPC$TL_wallPaper) {
             TLRPC$TL_wallPaper tLRPC$TL_wallPaper = (TLRPC$TL_wallPaper) tLObject;
-            if (!tLRPC$TL_wallPaper.pattern) {
-                return;
+            if (tLRPC$TL_wallPaper.pattern) {
+                this.selectedPattern = tLRPC$TL_wallPaper;
+                setCurrentImage(false);
+                updateButtonState(false, false);
+                this.patterns.add(0, this.selectedPattern);
+                PatternsAdapter patternsAdapter = this.patternsAdapter;
+                if (patternsAdapter != null) {
+                    patternsAdapter.notifyDataSetChanged();
+                }
             }
-            this.selectedPattern = tLRPC$TL_wallPaper;
-            setCurrentImage(false);
-            updateButtonState(false, false);
-            this.patterns.add(0, this.selectedPattern);
-            PatternsAdapter patternsAdapter = this.patternsAdapter;
-            if (patternsAdapter == null) {
-                return;
-            }
-            patternsAdapter.notifyDataSetChanged();
         }
     }
 
@@ -3630,7 +3603,6 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 }
             }
             boolean exists = file.exists();
-            float f = 1.0f;
             if (exists) {
                 DownloadController.getInstance(this.currentAccount).removeLoadingFileObserver(this);
                 RadialProgress2 radialProgress2 = this.radialProgress;
@@ -3669,35 +3641,22 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             int i2 = this.screenType;
             if (i2 == 0) {
                 this.doneButton.setEnabled(exists);
-                TextView textView = this.doneButton;
-                if (!exists) {
-                    f = 0.5f;
-                }
-                textView.setAlpha(f);
+                this.doneButton.setAlpha(exists ? 1.0f : 0.5f);
                 return;
             } else if (i2 == 2) {
                 this.bottomOverlayChat.setEnabled(exists);
-                TextView textView2 = this.bottomOverlayChatText;
-                if (!exists) {
-                    f = 0.5f;
-                }
-                textView2.setAlpha(f);
+                this.bottomOverlayChatText.setAlpha(exists ? 1.0f : 0.5f);
                 return;
             } else {
                 this.saveItem.setEnabled(exists);
-                ActionBarMenuItem actionBarMenuItem = this.saveItem;
-                if (!exists) {
-                    f = 0.5f;
-                }
-                actionBarMenuItem.setAlpha(f);
+                this.saveItem.setAlpha(exists ? 1.0f : 0.5f);
                 return;
             }
         }
         RadialProgress2 radialProgress22 = this.radialProgress;
-        if (radialProgress22 == null) {
-            return;
+        if (radialProgress22 != null) {
+            radialProgress22.setIcon(4, z, z2);
         }
-        radialProgress22.setIcon(4, z, z2);
     }
 
     public void setDelegate(WallpaperActivityDelegate wallpaperActivityDelegate) {
@@ -3708,23 +3667,22 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         this.patterns = arrayList;
         if (this.screenType == 1 || (this.currentWallpaper instanceof WallpapersListActivity.ColorWallpaper)) {
             WallpapersListActivity.ColorWallpaper colorWallpaper = (WallpapersListActivity.ColorWallpaper) this.currentWallpaper;
-            if (colorWallpaper.patternId == 0) {
-                return;
-            }
-            int i = 0;
-            int size = arrayList.size();
-            while (true) {
-                if (i >= size) {
-                    break;
+            if (colorWallpaper.patternId != 0) {
+                int i = 0;
+                int size = arrayList.size();
+                while (true) {
+                    if (i >= size) {
+                        break;
+                    }
+                    TLRPC$TL_wallPaper tLRPC$TL_wallPaper = (TLRPC$TL_wallPaper) this.patterns.get(i);
+                    if (tLRPC$TL_wallPaper.id == colorWallpaper.patternId) {
+                        this.selectedPattern = tLRPC$TL_wallPaper;
+                        break;
+                    }
+                    i++;
                 }
-                TLRPC$TL_wallPaper tLRPC$TL_wallPaper = (TLRPC$TL_wallPaper) this.patterns.get(i);
-                if (tLRPC$TL_wallPaper.id == colorWallpaper.patternId) {
-                    this.selectedPattern = tLRPC$TL_wallPaper;
-                    break;
-                }
-                i++;
+                this.currentIntensity = colorWallpaper.intensity;
             }
-            this.currentIntensity = colorWallpaper.intensity;
         }
     }
 
@@ -3775,8 +3733,6 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
 
     private void updateMotionButton() {
         int i = this.screenType;
-        float f = 1.0f;
-        float f2 = 0.0f;
         if (i == 1 || i == 2) {
             if (this.selectedPattern == null && (this.currentWallpaper instanceof WallpapersListActivity.ColorWallpaper)) {
                 this.backgroundCheckBoxView[2].setChecked(false, true);
@@ -3792,10 +3748,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             WallpaperCheckBoxView wallpaperCheckBoxView2 = this.backgroundCheckBoxView[0];
             Property property2 = View.ALPHA;
             float[] fArr2 = new float[1];
-            if (this.selectedPattern != null) {
-                f = 0.0f;
-            }
-            fArr2[0] = f;
+            fArr2[0] = this.selectedPattern != null ? 0.0f : 1.0f;
             animatorArr[1] = ObjectAnimator.ofFloat(wallpaperCheckBoxView2, property2, fArr2);
             animatorSet.playTogether(animatorArr);
             animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ThemePreviewActivity.27
@@ -3827,10 +3780,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         WallpaperCheckBoxView wallpaperCheckBoxView3 = this.backgroundCheckBoxView[0];
         Property property3 = View.ALPHA;
         float[] fArr3 = new float[1];
-        if (this.selectedPattern == null) {
-            f = 0.0f;
-        }
-        fArr3[0] = f;
+        fArr3[0] = this.selectedPattern == null ? 0.0f : 1.0f;
         animatorArr2[0] = ObjectAnimator.ofFloat(wallpaperCheckBoxView3, property3, fArr3);
         animatorSet2.playTogether(animatorArr2);
         Animator[] animatorArr3 = new Animator[1];
@@ -3844,10 +3794,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         WallpaperCheckBoxView wallpaperCheckBoxView5 = this.backgroundCheckBoxView[1];
         Property property5 = View.TRANSLATION_X;
         float[] fArr5 = new float[1];
-        if (this.selectedPattern == null) {
-            f2 = -dp;
-        }
-        fArr5[0] = f2;
+        fArr5[0] = this.selectedPattern == null ? -dp : 0.0f;
         animatorArr4[0] = ObjectAnimator.ofFloat(wallpaperCheckBoxView5, property5, fArr5);
         animatorSet2.playTogether(animatorArr4);
         animatorSet2.setInterpolator(CubicBezierInterpolator.EASE_OUT);
@@ -3866,7 +3813,6 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
     /* JADX INFO: Access modifiers changed from: private */
     public void showPatternsView(final int i, final boolean z, boolean z2) {
         int indexOf;
-        char c = 0;
         final boolean z3 = z && i == 1 && this.selectedPattern != null;
         if (z) {
             if (i == 0) {
@@ -3914,7 +3860,6 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 this.intensitySeekBar.setProgress(f2);
             }
         }
-        float f3 = 1.0f;
         if (z2) {
             this.patternViewAnimation = new AnimatorSet();
             ArrayList arrayList2 = new ArrayList();
@@ -3955,10 +3900,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     WallpaperCheckBoxView wallpaperCheckBoxView4 = this.backgroundCheckBoxView[0];
                     Property property5 = View.ALPHA;
                     float[] fArr5 = new float[1];
-                    if (z3) {
-                        f3 = 0.0f;
-                    }
-                    fArr5[0] = f3;
+                    fArr5[0] = z3 ? 0.0f : 1.0f;
                     arrayList2.add(ObjectAnimator.ofFloat(wallpaperCheckBoxView4, property5, fArr5));
                     arrayList2.add(ObjectAnimator.ofFloat(this.backgroundImage, View.ALPHA, 0.0f));
                     if (this.patternLayout[i7].getVisibility() == 0) {
@@ -3998,15 +3940,9 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     } else if (!z) {
                         ThemePreviewActivity.this.patternLayout[i].setVisibility(4);
                     }
-                    char c2 = 2;
                     if (ThemePreviewActivity.this.screenType == 1 || ThemePreviewActivity.this.screenType == 2) {
-                        WallpaperCheckBoxView[] wallpaperCheckBoxViewArr = ThemePreviewActivity.this.backgroundCheckBoxView;
-                        if (z3) {
-                            c2 = 0;
-                        }
-                        wallpaperCheckBoxViewArr[c2].setVisibility(4);
-                    } else if (i != 1) {
-                    } else {
+                        ThemePreviewActivity.this.backgroundCheckBoxView[z3 ? (char) 0 : (char) 2].setVisibility(4);
+                    } else if (i == 1) {
                         ThemePreviewActivity.this.patternLayout[i9].setAlpha(0.0f);
                     }
                 }
@@ -4016,7 +3952,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             this.patternViewAnimation.start();
             return;
         }
-        char c2 = i == 0 ? (char) 1 : (char) 0;
+        char c = i == 0 ? (char) 1 : (char) 0;
         if (z) {
             this.patternLayout[i].setVisibility(0);
             int i10 = this.screenType;
@@ -4028,7 +3964,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     this.patternLayout[i].setAlpha(1.0f);
                 } else {
                     this.patternLayout[i].setAlpha(1.0f);
-                    this.patternLayout[c2].setAlpha(0.0f);
+                    this.patternLayout[c].setAlpha(0.0f);
                 }
                 this.colorPicker.hideKeyboard();
             } else if (i10 == 2) {
@@ -4036,8 +3972,8 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 this.backgroundCheckBoxView[2].setAlpha(z3 ? 1.0f : 0.0f);
                 this.backgroundCheckBoxView[0].setAlpha(z3 ? 0.0f : 1.0f);
                 this.backgroundImage.setAlpha(0.0f);
-                if (this.patternLayout[c2].getVisibility() == 0) {
-                    this.patternLayout[c2].setAlpha(0.0f);
+                if (this.patternLayout[c].getVisibility() == 0) {
+                    this.patternLayout[c].setAlpha(0.0f);
                     this.patternLayout[i].setAlpha(1.0f);
                     this.patternLayout[i].setTranslationY(0.0f);
                 } else {
@@ -4048,7 +3984,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     this.patternLayout[i].setAlpha(1.0f);
                 } else {
                     this.patternLayout[i].setAlpha(1.0f);
-                    this.patternLayout[c2].setAlpha(0.0f);
+                    this.patternLayout[c].setAlpha(0.0f);
                 }
                 this.colorPicker.hideKeyboard();
             }
@@ -4060,25 +3996,18 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             this.backgroundCheckBoxView[2].setAlpha(1.0f);
             this.backgroundImage.setAlpha(1.0f);
         }
-        if (z && this.patternLayout[c2].getVisibility() == 0) {
-            this.patternLayout[c2].setAlpha(1.0f);
-            this.patternLayout[c2].setVisibility(4);
+        if (z && this.patternLayout[c].getVisibility() == 0) {
+            this.patternLayout[c].setAlpha(1.0f);
+            this.patternLayout[c].setVisibility(4);
         } else if (!z) {
             this.patternLayout[i].setVisibility(4);
         }
         int i11 = this.screenType;
-        if (i11 != 1 && i11 != 2) {
-            if (i != 1) {
-                return;
-            }
-            this.patternLayout[c2].setAlpha(0.0f);
-            return;
+        if (i11 == 1 || i11 == 2) {
+            this.backgroundCheckBoxView[z3 ? (char) 0 : (char) 2].setVisibility(4);
+        } else if (i == 1) {
+            this.patternLayout[c].setAlpha(0.0f);
         }
-        WallpaperCheckBoxView[] wallpaperCheckBoxViewArr = this.backgroundCheckBoxView;
-        if (!z3) {
-            c = 2;
-        }
-        wallpaperCheckBoxViewArr[c].setVisibility(4);
     }
 
     private void animateMotionChange() {
@@ -4103,14 +4032,14 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         this.motionAnimation.start();
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:105:0x0090, code lost:
-        if (r1 != 0) goto L31;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:30:0x0074, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:32:0x0074, code lost:
         if (r19.backgroundGradientColor1 != 0) goto L31;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:31:0x0076, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:33:0x0076, code lost:
         r1 = true;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:42:0x0090, code lost:
+        if (r1 != 0) goto L31;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -4237,37 +4166,36 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         if (frameLayout4 != null) {
             boolean z4 = frameLayout4.getTag() != null;
             this.messagesPlayAnimationView.setTag(1);
-            if (z4) {
-                return;
-            }
-            this.messagesPlayAnimationView.setVisibility(0);
-            AnimatorSet animatorSet3 = this.messagesPlayViewAnimator;
-            if (animatorSet3 != null) {
-                animatorSet3.cancel();
-            }
-            if (z) {
-                AnimatorSet animatorSet4 = new AnimatorSet();
-                this.messagesPlayViewAnimator = animatorSet4;
-                animatorSet4.playTogether(ObjectAnimator.ofFloat(this.messagesPlayAnimationView, View.ALPHA, 1.0f), ObjectAnimator.ofFloat(this.messagesPlayAnimationView, View.SCALE_X, 1.0f), ObjectAnimator.ofFloat(this.messagesPlayAnimationView, View.SCALE_Y, 1.0f), ObjectAnimator.ofFloat(this.messagesCheckBoxView[0], View.TRANSLATION_X, -AndroidUtilities.dp(34.0f)), ObjectAnimator.ofFloat(this.messagesCheckBoxView[1], View.TRANSLATION_X, AndroidUtilities.dp(34.0f)));
-                this.messagesPlayViewAnimator.setDuration(180L);
-                this.messagesPlayViewAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ThemePreviewActivity.32
-                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                    public void onAnimationEnd(Animator animator) {
-                        if (ThemePreviewActivity.this.messagesPlayAnimationView.getTag() == null) {
-                            ThemePreviewActivity.this.messagesPlayAnimationView.setVisibility(4);
+            if (!z4) {
+                this.messagesPlayAnimationView.setVisibility(0);
+                AnimatorSet animatorSet3 = this.messagesPlayViewAnimator;
+                if (animatorSet3 != null) {
+                    animatorSet3.cancel();
+                }
+                if (z) {
+                    AnimatorSet animatorSet4 = new AnimatorSet();
+                    this.messagesPlayViewAnimator = animatorSet4;
+                    animatorSet4.playTogether(ObjectAnimator.ofFloat(this.messagesPlayAnimationView, View.ALPHA, 1.0f), ObjectAnimator.ofFloat(this.messagesPlayAnimationView, View.SCALE_X, 1.0f), ObjectAnimator.ofFloat(this.messagesPlayAnimationView, View.SCALE_Y, 1.0f), ObjectAnimator.ofFloat(this.messagesCheckBoxView[0], View.TRANSLATION_X, -AndroidUtilities.dp(34.0f)), ObjectAnimator.ofFloat(this.messagesCheckBoxView[1], View.TRANSLATION_X, AndroidUtilities.dp(34.0f)));
+                    this.messagesPlayViewAnimator.setDuration(180L);
+                    this.messagesPlayViewAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ThemePreviewActivity.32
+                        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                        public void onAnimationEnd(Animator animator) {
+                            if (ThemePreviewActivity.this.messagesPlayAnimationView.getTag() == null) {
+                                ThemePreviewActivity.this.messagesPlayAnimationView.setVisibility(4);
+                            }
+                            ThemePreviewActivity.this.messagesPlayViewAnimator = null;
                         }
-                        ThemePreviewActivity.this.messagesPlayViewAnimator = null;
-                    }
-                });
-                this.messagesPlayViewAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT);
-                this.messagesPlayViewAnimator.start();
-                return;
+                    });
+                    this.messagesPlayViewAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT);
+                    this.messagesPlayViewAnimator.start();
+                    return;
+                }
+                this.messagesPlayAnimationView.setAlpha(1.0f);
+                this.messagesPlayAnimationView.setScaleX(1.0f);
+                this.messagesPlayAnimationView.setScaleY(1.0f);
+                this.messagesCheckBoxView[0].setTranslationX(-AndroidUtilities.dp(34.0f));
+                this.messagesCheckBoxView[1].setTranslationX(AndroidUtilities.dp(34.0f));
             }
-            this.messagesPlayAnimationView.setAlpha(1.0f);
-            this.messagesPlayAnimationView.setScaleX(1.0f);
-            this.messagesPlayAnimationView.setScaleY(1.0f);
-            this.messagesCheckBoxView[0].setTranslationX(-AndroidUtilities.dp(34.0f));
-            this.messagesCheckBoxView[1].setTranslationX(AndroidUtilities.dp(34.0f));
         }
     }
 
@@ -4397,239 +4325,226 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         int i = this.screenType;
         if (i == 0 && this.accent == null) {
             this.backgroundImage.setBackground(Theme.getCachedWallpaper());
-        } else {
-            TLRPC$PhotoSize tLRPC$PhotoSize = null;
-            if (i == 2) {
-                Object obj = this.currentWallpaper;
-                if (obj instanceof TLRPC$TL_wallPaper) {
-                    TLRPC$TL_wallPaper tLRPC$TL_wallPaper = (TLRPC$TL_wallPaper) obj;
-                    if (z) {
-                        tLRPC$PhotoSize = FileLoader.getClosestPhotoSizeWithSize(tLRPC$TL_wallPaper.document.thumbs, 100);
-                    }
-                    this.backgroundImage.setImage(ImageLocation.getForDocument(tLRPC$TL_wallPaper.document), this.imageFilter, ImageLocation.getForDocument(tLRPC$PhotoSize, tLRPC$TL_wallPaper.document), "100_100_b", "jpg", tLRPC$TL_wallPaper.document.size, 1, tLRPC$TL_wallPaper);
-                } else if (obj instanceof WallpapersListActivity.ColorWallpaper) {
-                    WallpapersListActivity.ColorWallpaper colorWallpaper = (WallpapersListActivity.ColorWallpaper) obj;
-                    this.backgroundRotation = colorWallpaper.gradientRotation;
-                    setBackgroundColor(colorWallpaper.color, 0, true, false);
-                    int i2 = colorWallpaper.gradientColor1;
-                    if (i2 != 0) {
-                        setBackgroundColor(i2, 1, true, false);
-                    }
-                    setBackgroundColor(colorWallpaper.gradientColor2, 2, true, false);
-                    setBackgroundColor(colorWallpaper.gradientColor3, 3, true, false);
-                    TLRPC$TL_wallPaper tLRPC$TL_wallPaper2 = this.selectedPattern;
-                    if (tLRPC$TL_wallPaper2 != null) {
-                        BackupImageView backupImageView = this.backgroundImage;
-                        ImageLocation forDocument = ImageLocation.getForDocument(tLRPC$TL_wallPaper2.document);
-                        String str = this.imageFilter;
-                        TLRPC$TL_wallPaper tLRPC$TL_wallPaper3 = this.selectedPattern;
-                        backupImageView.setImage(forDocument, str, null, null, "jpg", tLRPC$TL_wallPaper3.document.size, 1, tLRPC$TL_wallPaper3);
-                    } else if ("d".equals(colorWallpaper.slug)) {
-                        Point point = AndroidUtilities.displaySize;
-                        int min = Math.min(point.x, point.y);
-                        Point point2 = AndroidUtilities.displaySize;
-                        this.backgroundImage.setImageBitmap(SvgHelper.getBitmap(R.raw.default_pattern, min, Math.max(point2.x, point2.y), Build.VERSION.SDK_INT >= 29 ? 1459617792 : MotionBackgroundDrawable.getPatternColor(colorWallpaper.color, colorWallpaper.gradientColor1, colorWallpaper.gradientColor2, colorWallpaper.gradientColor3)));
-                    }
-                } else if (obj instanceof WallpapersListActivity.FileWallpaper) {
-                    Bitmap bitmap = this.currentWallpaperBitmap;
-                    if (bitmap != null) {
-                        this.backgroundImage.setImageBitmap(bitmap);
+        } else if (i == 2) {
+            Object obj = this.currentWallpaper;
+            if (obj instanceof TLRPC$TL_wallPaper) {
+                TLRPC$TL_wallPaper tLRPC$TL_wallPaper = (TLRPC$TL_wallPaper) obj;
+                this.backgroundImage.setImage(ImageLocation.getForDocument(tLRPC$TL_wallPaper.document), this.imageFilter, ImageLocation.getForDocument(z ? FileLoader.getClosestPhotoSizeWithSize(tLRPC$TL_wallPaper.document.thumbs, 100) : null, tLRPC$TL_wallPaper.document), "100_100_b", "jpg", tLRPC$TL_wallPaper.document.size, 1, tLRPC$TL_wallPaper);
+            } else if (obj instanceof WallpapersListActivity.ColorWallpaper) {
+                WallpapersListActivity.ColorWallpaper colorWallpaper = (WallpapersListActivity.ColorWallpaper) obj;
+                this.backgroundRotation = colorWallpaper.gradientRotation;
+                setBackgroundColor(colorWallpaper.color, 0, true, false);
+                int i2 = colorWallpaper.gradientColor1;
+                if (i2 != 0) {
+                    setBackgroundColor(i2, 1, true, false);
+                }
+                setBackgroundColor(colorWallpaper.gradientColor2, 2, true, false);
+                setBackgroundColor(colorWallpaper.gradientColor3, 3, true, false);
+                TLRPC$TL_wallPaper tLRPC$TL_wallPaper2 = this.selectedPattern;
+                if (tLRPC$TL_wallPaper2 != null) {
+                    BackupImageView backupImageView = this.backgroundImage;
+                    ImageLocation forDocument = ImageLocation.getForDocument(tLRPC$TL_wallPaper2.document);
+                    String str = this.imageFilter;
+                    TLRPC$TL_wallPaper tLRPC$TL_wallPaper3 = this.selectedPattern;
+                    backupImageView.setImage(forDocument, str, null, null, "jpg", tLRPC$TL_wallPaper3.document.size, 1, tLRPC$TL_wallPaper3);
+                } else if ("d".equals(colorWallpaper.slug)) {
+                    Point point = AndroidUtilities.displaySize;
+                    int min = Math.min(point.x, point.y);
+                    Point point2 = AndroidUtilities.displaySize;
+                    this.backgroundImage.setImageBitmap(SvgHelper.getBitmap(R.raw.default_pattern, min, Math.max(point2.x, point2.y), Build.VERSION.SDK_INT >= 29 ? 1459617792 : MotionBackgroundDrawable.getPatternColor(colorWallpaper.color, colorWallpaper.gradientColor1, colorWallpaper.gradientColor2, colorWallpaper.gradientColor3)));
+                }
+            } else if (obj instanceof WallpapersListActivity.FileWallpaper) {
+                Bitmap bitmap = this.currentWallpaperBitmap;
+                if (bitmap != null) {
+                    this.backgroundImage.setImageBitmap(bitmap);
+                } else {
+                    WallpapersListActivity.FileWallpaper fileWallpaper = (WallpapersListActivity.FileWallpaper) obj;
+                    File file = fileWallpaper.originalPath;
+                    if (file != null) {
+                        this.backgroundImage.setImage(file.getAbsolutePath(), this.imageFilter, null);
                     } else {
-                        WallpapersListActivity.FileWallpaper fileWallpaper = (WallpapersListActivity.FileWallpaper) obj;
-                        File file = fileWallpaper.originalPath;
-                        if (file != null) {
-                            this.backgroundImage.setImage(file.getAbsolutePath(), this.imageFilter, null);
+                        File file2 = fileWallpaper.path;
+                        if (file2 != null) {
+                            this.backgroundImage.setImage(file2.getAbsolutePath(), this.imageFilter, null);
+                        } else if ("t".equals(fileWallpaper.slug)) {
+                            BackupImageView backupImageView2 = this.backgroundImage;
+                            backupImageView2.setImageDrawable(Theme.getThemedWallpaper(false, backupImageView2));
                         } else {
-                            File file2 = fileWallpaper.path;
-                            if (file2 != null) {
-                                this.backgroundImage.setImage(file2.getAbsolutePath(), this.imageFilter, null);
-                            } else if ("t".equals(fileWallpaper.slug)) {
-                                BackupImageView backupImageView2 = this.backgroundImage;
-                                backupImageView2.setImageDrawable(Theme.getThemedWallpaper(false, backupImageView2));
-                            } else {
-                                int i3 = fileWallpaper.resId;
-                                if (i3 != 0) {
-                                    this.backgroundImage.setImageResource(i3);
-                                }
+                            int i3 = fileWallpaper.resId;
+                            if (i3 != 0) {
+                                this.backgroundImage.setImageResource(i3);
                             }
                         }
                     }
-                } else if (obj instanceof MediaController.SearchImage) {
-                    MediaController.SearchImage searchImage = (MediaController.SearchImage) obj;
-                    TLRPC$Photo tLRPC$Photo = searchImage.photo;
-                    if (tLRPC$Photo != null) {
-                        TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Photo.sizes, 100);
-                        TLRPC$PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(searchImage.photo.sizes, this.maxWallpaperSize, true);
-                        if (closestPhotoSizeWithSize2 != closestPhotoSizeWithSize) {
-                            tLRPC$PhotoSize = closestPhotoSizeWithSize2;
-                        }
-                        this.backgroundImage.setImage(ImageLocation.getForPhoto(tLRPC$PhotoSize, searchImage.photo), this.imageFilter, ImageLocation.getForPhoto(closestPhotoSizeWithSize, searchImage.photo), "100_100_b", "jpg", tLRPC$PhotoSize != null ? tLRPC$PhotoSize.size : 0, 1, searchImage);
+                }
+            } else if (obj instanceof MediaController.SearchImage) {
+                MediaController.SearchImage searchImage = (MediaController.SearchImage) obj;
+                TLRPC$Photo tLRPC$Photo = searchImage.photo;
+                if (tLRPC$Photo != null) {
+                    TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Photo.sizes, 100);
+                    TLRPC$PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(searchImage.photo.sizes, this.maxWallpaperSize, true);
+                    TLRPC$PhotoSize tLRPC$PhotoSize = closestPhotoSizeWithSize2 != closestPhotoSizeWithSize ? closestPhotoSizeWithSize2 : null;
+                    this.backgroundImage.setImage(ImageLocation.getForPhoto(tLRPC$PhotoSize, searchImage.photo), this.imageFilter, ImageLocation.getForPhoto(closestPhotoSizeWithSize, searchImage.photo), "100_100_b", "jpg", tLRPC$PhotoSize != null ? tLRPC$PhotoSize.size : 0, 1, searchImage);
+                } else {
+                    this.backgroundImage.setImage(searchImage.imageUrl, this.imageFilter, searchImage.thumbUrl, "100_100_b");
+                }
+            }
+        } else {
+            BackgroundGradientDrawable.Disposable disposable = this.backgroundGradientDisposable;
+            if (disposable != null) {
+                disposable.dispose();
+                this.backgroundGradientDisposable = null;
+            }
+            int defaultAccentColor = Theme.getDefaultAccentColor("chat_wallpaper");
+            int i4 = (int) this.accent.backgroundOverrideColor;
+            if (i4 != 0) {
+                defaultAccentColor = i4;
+            }
+            int defaultAccentColor2 = Theme.getDefaultAccentColor("chat_wallpaper_gradient_to");
+            long j = this.accent.backgroundGradientOverrideColor1;
+            int i5 = (int) j;
+            if (i5 == 0 && j != 0) {
+                defaultAccentColor2 = 0;
+            } else if (i5 != 0) {
+                defaultAccentColor2 = i5;
+            }
+            int defaultAccentColor3 = Theme.getDefaultAccentColor("key_chat_wallpaper_gradient_to2");
+            long j2 = this.accent.backgroundGradientOverrideColor2;
+            int i6 = (int) j2;
+            if (i6 == 0 && j2 != 0) {
+                defaultAccentColor3 = 0;
+            } else if (i6 != 0) {
+                defaultAccentColor3 = i6;
+            }
+            int defaultAccentColor4 = Theme.getDefaultAccentColor("key_chat_wallpaper_gradient_to3");
+            Theme.ThemeAccent themeAccent = this.accent;
+            long j3 = themeAccent.backgroundGradientOverrideColor3;
+            int i7 = (int) j3;
+            if (i7 == 0 && j3 != 0) {
+                defaultAccentColor4 = 0;
+            } else if (i7 != 0) {
+                defaultAccentColor4 = i7;
+            }
+            if (!TextUtils.isEmpty(themeAccent.patternSlug) && !Theme.hasCustomWallpaper()) {
+                if (defaultAccentColor3 != 0) {
+                    Drawable background = this.backgroundImage.getBackground();
+                    if (background instanceof MotionBackgroundDrawable) {
+                        motionBackgroundDrawable2 = (MotionBackgroundDrawable) background;
                     } else {
-                        this.backgroundImage.setImage(searchImage.imageUrl, this.imageFilter, searchImage.thumbUrl, "100_100_b");
+                        MotionBackgroundDrawable motionBackgroundDrawable3 = new MotionBackgroundDrawable();
+                        motionBackgroundDrawable3.setParentView(this.backgroundImage);
+                        motionBackgroundDrawable2 = motionBackgroundDrawable3;
+                        if (this.rotatePreview) {
+                            motionBackgroundDrawable3.rotatePreview(false);
+                            motionBackgroundDrawable2 = motionBackgroundDrawable3;
+                        }
                     }
+                    motionBackgroundDrawable2.setColors(defaultAccentColor, defaultAccentColor2, defaultAccentColor3, defaultAccentColor4);
+                    motionBackgroundDrawable = motionBackgroundDrawable2;
+                } else if (defaultAccentColor2 != 0) {
+                    BackgroundGradientDrawable backgroundGradientDrawable = new BackgroundGradientDrawable(BackgroundGradientDrawable.getGradientOrientation(this.accent.backgroundRotation), new int[]{defaultAccentColor, defaultAccentColor2});
+                    this.backgroundGradientDisposable = backgroundGradientDrawable.startDithering(BackgroundGradientDrawable.Sizes.ofDeviceScreen(), new BackgroundGradientDrawable.ListenerAdapter() { // from class: org.telegram.ui.ThemePreviewActivity.33
+                        @Override // org.telegram.ui.Components.BackgroundGradientDrawable.ListenerAdapter, org.telegram.ui.Components.BackgroundGradientDrawable.Listener
+                        public void onSizeReady(int i8, int i9) {
+                            Point point3 = AndroidUtilities.displaySize;
+                            if ((point3.x <= point3.y) == (i8 <= i9)) {
+                                ThemePreviewActivity.this.backgroundImage.invalidate();
+                            }
+                        }
+                    }, 100L);
+                    motionBackgroundDrawable = backgroundGradientDrawable;
+                } else {
+                    motionBackgroundDrawable = new ColorDrawable(defaultAccentColor);
+                }
+                this.backgroundImage.setBackground(motionBackgroundDrawable);
+                TLRPC$TL_wallPaper tLRPC$TL_wallPaper4 = this.selectedPattern;
+                if (tLRPC$TL_wallPaper4 != null) {
+                    BackupImageView backupImageView3 = this.backgroundImage;
+                    ImageLocation forDocument2 = ImageLocation.getForDocument(tLRPC$TL_wallPaper4.document);
+                    String str2 = this.imageFilter;
+                    TLRPC$TL_wallPaper tLRPC$TL_wallPaper5 = this.selectedPattern;
+                    backupImageView3.setImage(forDocument2, str2, null, null, "jpg", tLRPC$TL_wallPaper5.document.size, 1, tLRPC$TL_wallPaper5);
                 }
             } else {
-                BackgroundGradientDrawable.Disposable disposable = this.backgroundGradientDisposable;
-                if (disposable != null) {
-                    disposable.dispose();
-                    this.backgroundGradientDisposable = null;
-                }
-                int defaultAccentColor = Theme.getDefaultAccentColor("chat_wallpaper");
-                int i4 = (int) this.accent.backgroundOverrideColor;
-                if (i4 != 0) {
-                    defaultAccentColor = i4;
-                }
-                int defaultAccentColor2 = Theme.getDefaultAccentColor("chat_wallpaper_gradient_to");
-                long j = this.accent.backgroundGradientOverrideColor1;
-                int i5 = (int) j;
-                if (i5 == 0 && j != 0) {
-                    defaultAccentColor2 = 0;
-                } else if (i5 != 0) {
-                    defaultAccentColor2 = i5;
-                }
-                int defaultAccentColor3 = Theme.getDefaultAccentColor("key_chat_wallpaper_gradient_to2");
-                long j2 = this.accent.backgroundGradientOverrideColor2;
-                int i6 = (int) j2;
-                if (i6 == 0 && j2 != 0) {
-                    defaultAccentColor3 = 0;
-                } else if (i6 != 0) {
-                    defaultAccentColor3 = i6;
-                }
-                int defaultAccentColor4 = Theme.getDefaultAccentColor("key_chat_wallpaper_gradient_to3");
-                Theme.ThemeAccent themeAccent = this.accent;
-                long j3 = themeAccent.backgroundGradientOverrideColor3;
-                int i7 = (int) j3;
-                if (i7 == 0 && j3 != 0) {
-                    defaultAccentColor4 = 0;
-                } else if (i7 != 0) {
-                    defaultAccentColor4 = i7;
-                }
-                if (!TextUtils.isEmpty(themeAccent.patternSlug) && !Theme.hasCustomWallpaper()) {
-                    if (defaultAccentColor3 != 0) {
-                        Drawable background = this.backgroundImage.getBackground();
-                        if (background instanceof MotionBackgroundDrawable) {
-                            motionBackgroundDrawable2 = (MotionBackgroundDrawable) background;
-                        } else {
-                            MotionBackgroundDrawable motionBackgroundDrawable3 = new MotionBackgroundDrawable();
-                            motionBackgroundDrawable3.setParentView(this.backgroundImage);
-                            motionBackgroundDrawable2 = motionBackgroundDrawable3;
-                            if (this.rotatePreview) {
-                                motionBackgroundDrawable3.rotatePreview(false);
-                                motionBackgroundDrawable2 = motionBackgroundDrawable3;
-                            }
-                        }
-                        motionBackgroundDrawable2.setColors(defaultAccentColor, defaultAccentColor2, defaultAccentColor3, defaultAccentColor4);
-                        motionBackgroundDrawable = motionBackgroundDrawable2;
-                    } else if (defaultAccentColor2 != 0) {
-                        BackgroundGradientDrawable backgroundGradientDrawable = new BackgroundGradientDrawable(BackgroundGradientDrawable.getGradientOrientation(this.accent.backgroundRotation), new int[]{defaultAccentColor, defaultAccentColor2});
-                        this.backgroundGradientDisposable = backgroundGradientDrawable.startDithering(BackgroundGradientDrawable.Sizes.ofDeviceScreen(), new BackgroundGradientDrawable.ListenerAdapter() { // from class: org.telegram.ui.ThemePreviewActivity.33
-                            @Override // org.telegram.ui.Components.BackgroundGradientDrawable.ListenerAdapter, org.telegram.ui.Components.BackgroundGradientDrawable.Listener
-                            public void onSizeReady(int i8, int i9) {
-                                Point point3 = AndroidUtilities.displaySize;
-                                boolean z2 = true;
-                                boolean z3 = point3.x <= point3.y;
-                                if (i8 > i9) {
-                                    z2 = false;
-                                }
-                                if (z3 == z2) {
-                                    ThemePreviewActivity.this.backgroundImage.invalidate();
-                                }
-                            }
-                        }, 100L);
-                        motionBackgroundDrawable = backgroundGradientDrawable;
-                    } else {
-                        motionBackgroundDrawable = new ColorDrawable(defaultAccentColor);
+                Drawable cachedWallpaperNonBlocking = Theme.getCachedWallpaperNonBlocking();
+                if (cachedWallpaperNonBlocking != null) {
+                    if (cachedWallpaperNonBlocking instanceof MotionBackgroundDrawable) {
+                        ((MotionBackgroundDrawable) cachedWallpaperNonBlocking).setParentView(this.backgroundImage);
                     }
-                    this.backgroundImage.setBackground(motionBackgroundDrawable);
-                    TLRPC$TL_wallPaper tLRPC$TL_wallPaper4 = this.selectedPattern;
-                    if (tLRPC$TL_wallPaper4 != null) {
-                        BackupImageView backupImageView3 = this.backgroundImage;
-                        ImageLocation forDocument2 = ImageLocation.getForDocument(tLRPC$TL_wallPaper4.document);
-                        String str2 = this.imageFilter;
-                        TLRPC$TL_wallPaper tLRPC$TL_wallPaper5 = this.selectedPattern;
-                        backupImageView3.setImage(forDocument2, str2, null, null, "jpg", tLRPC$TL_wallPaper5.document.size, 1, tLRPC$TL_wallPaper5);
+                    this.backgroundImage.setBackground(cachedWallpaperNonBlocking);
+                }
+            }
+            if (defaultAccentColor2 == 0) {
+                int patternColor = AndroidUtilities.getPatternColor(defaultAccentColor);
+                this.checkColor = patternColor;
+                this.patternColor = patternColor;
+            } else if (defaultAccentColor3 != 0) {
+                this.patternColor = MotionBackgroundDrawable.getPatternColor(defaultAccentColor, defaultAccentColor2, defaultAccentColor3, defaultAccentColor4);
+                this.checkColor = 754974720;
+            } else {
+                int patternColor2 = AndroidUtilities.getPatternColor(AndroidUtilities.getAverageColor(defaultAccentColor, defaultAccentColor2));
+                this.checkColor = patternColor2;
+                this.patternColor = patternColor2;
+            }
+            BackupImageView backupImageView4 = this.backgroundImage;
+            if (backupImageView4 != null) {
+                backupImageView4.getImageReceiver().setColorFilter(new PorterDuffColorFilter(this.patternColor, this.blendMode));
+                this.backgroundImage.getImageReceiver().setAlpha(Math.abs(this.currentIntensity));
+                this.backgroundImage.invalidate();
+                if (Theme.getActiveTheme().isDark() && (this.backgroundImage.getBackground() instanceof MotionBackgroundDrawable)) {
+                    SeekBarView seekBarView = this.intensitySeekBar;
+                    if (seekBarView != null) {
+                        seekBarView.setTwoSided(true);
+                    }
+                    if (this.currentIntensity < 0.0f) {
+                        this.backgroundImage.getImageReceiver().setGradientBitmap(((MotionBackgroundDrawable) this.backgroundImage.getBackground()).getBitmap());
                     }
                 } else {
-                    Drawable cachedWallpaperNonBlocking = Theme.getCachedWallpaperNonBlocking();
-                    if (cachedWallpaperNonBlocking != null) {
-                        if (cachedWallpaperNonBlocking instanceof MotionBackgroundDrawable) {
-                            ((MotionBackgroundDrawable) cachedWallpaperNonBlocking).setParentView(this.backgroundImage);
-                        }
-                        this.backgroundImage.setBackground(cachedWallpaperNonBlocking);
+                    this.backgroundImage.getImageReceiver().setGradientBitmap(null);
+                    SeekBarView seekBarView2 = this.intensitySeekBar;
+                    if (seekBarView2 != null) {
+                        seekBarView2.setTwoSided(false);
                     }
                 }
-                if (defaultAccentColor2 == 0) {
-                    int patternColor = AndroidUtilities.getPatternColor(defaultAccentColor);
-                    this.checkColor = patternColor;
-                    this.patternColor = patternColor;
-                } else if (defaultAccentColor3 != 0) {
-                    this.patternColor = MotionBackgroundDrawable.getPatternColor(defaultAccentColor, defaultAccentColor2, defaultAccentColor3, defaultAccentColor4);
-                    this.checkColor = 754974720;
-                } else {
-                    int patternColor2 = AndroidUtilities.getPatternColor(AndroidUtilities.getAverageColor(defaultAccentColor, defaultAccentColor2));
-                    this.checkColor = patternColor2;
-                    this.patternColor = patternColor2;
+                SeekBarView seekBarView3 = this.intensitySeekBar;
+                if (seekBarView3 != null) {
+                    seekBarView3.setProgress(this.currentIntensity);
                 }
-                BackupImageView backupImageView4 = this.backgroundImage;
-                if (backupImageView4 != null) {
-                    backupImageView4.getImageReceiver().setColorFilter(new PorterDuffColorFilter(this.patternColor, this.blendMode));
-                    this.backgroundImage.getImageReceiver().setAlpha(Math.abs(this.currentIntensity));
-                    this.backgroundImage.invalidate();
-                    if (Theme.getActiveTheme().isDark() && (this.backgroundImage.getBackground() instanceof MotionBackgroundDrawable)) {
-                        SeekBarView seekBarView = this.intensitySeekBar;
-                        if (seekBarView != null) {
-                            seekBarView.setTwoSided(true);
-                        }
-                        if (this.currentIntensity < 0.0f) {
-                            this.backgroundImage.getImageReceiver().setGradientBitmap(((MotionBackgroundDrawable) this.backgroundImage.getBackground()).getBitmap());
-                        }
-                    } else {
-                        this.backgroundImage.getImageReceiver().setGradientBitmap(null);
-                        SeekBarView seekBarView2 = this.intensitySeekBar;
-                        if (seekBarView2 != null) {
-                            seekBarView2.setTwoSided(false);
-                        }
+            }
+            if (this.backgroundCheckBoxView != null) {
+                int i8 = 0;
+                while (true) {
+                    WallpaperCheckBoxView[] wallpaperCheckBoxViewArr = this.backgroundCheckBoxView;
+                    if (i8 >= wallpaperCheckBoxViewArr.length) {
+                        break;
                     }
-                    SeekBarView seekBarView3 = this.intensitySeekBar;
-                    if (seekBarView3 != null) {
-                        seekBarView3.setProgress(this.currentIntensity);
-                    }
+                    wallpaperCheckBoxViewArr[i8].setColor(0, defaultAccentColor);
+                    this.backgroundCheckBoxView[i8].setColor(1, defaultAccentColor2);
+                    this.backgroundCheckBoxView[i8].setColor(2, defaultAccentColor3);
+                    this.backgroundCheckBoxView[i8].setColor(3, defaultAccentColor4);
+                    i8++;
                 }
-                if (this.backgroundCheckBoxView != null) {
-                    int i8 = 0;
-                    while (true) {
-                        WallpaperCheckBoxView[] wallpaperCheckBoxViewArr = this.backgroundCheckBoxView;
-                        if (i8 >= wallpaperCheckBoxViewArr.length) {
-                            break;
-                        }
-                        wallpaperCheckBoxViewArr[i8].setColor(0, defaultAccentColor);
-                        this.backgroundCheckBoxView[i8].setColor(1, defaultAccentColor2);
-                        this.backgroundCheckBoxView[i8].setColor(2, defaultAccentColor3);
-                        this.backgroundCheckBoxView[i8].setColor(3, defaultAccentColor4);
-                        i8++;
-                    }
+            }
+            ImageView imageView = this.backgroundPlayAnimationImageView;
+            if (imageView != null) {
+                imageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor("chat_serviceText"), PorterDuff.Mode.MULTIPLY));
+            }
+            ImageView imageView2 = this.messagesPlayAnimationImageView;
+            if (imageView2 != null) {
+                imageView2.setColorFilter(new PorterDuffColorFilter(Theme.getColor("chat_serviceText"), PorterDuff.Mode.MULTIPLY));
+            }
+            FrameLayout frameLayout = this.backgroundButtonsContainer;
+            if (frameLayout != null) {
+                int childCount = frameLayout.getChildCount();
+                for (int i9 = 0; i9 < childCount; i9++) {
+                    this.backgroundButtonsContainer.getChildAt(i9).invalidate();
                 }
-                ImageView imageView = this.backgroundPlayAnimationImageView;
-                if (imageView != null) {
-                    imageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor("chat_serviceText"), PorterDuff.Mode.MULTIPLY));
-                }
-                ImageView imageView2 = this.messagesPlayAnimationImageView;
-                if (imageView2 != null) {
-                    imageView2.setColorFilter(new PorterDuffColorFilter(Theme.getColor("chat_serviceText"), PorterDuff.Mode.MULTIPLY));
-                }
-                FrameLayout frameLayout = this.backgroundButtonsContainer;
-                if (frameLayout != null) {
-                    int childCount = frameLayout.getChildCount();
-                    for (int i9 = 0; i9 < childCount; i9++) {
-                        this.backgroundButtonsContainer.getChildAt(i9).invalidate();
-                    }
-                }
-                FrameLayout frameLayout2 = this.messagesButtonsContainer;
-                if (frameLayout2 != null) {
-                    int childCount2 = frameLayout2.getChildCount();
-                    for (int i10 = 0; i10 < childCount2; i10++) {
-                        this.messagesButtonsContainer.getChildAt(i10).invalidate();
-                    }
+            }
+            FrameLayout frameLayout2 = this.messagesButtonsContainer;
+            if (frameLayout2 != null) {
+                int childCount2 = frameLayout2.getChildCount();
+                for (int i10 = 0; i10 < childCount2; i10++) {
+                    this.messagesButtonsContainer.getChildAt(i10).invalidate();
                 }
             }
         }
@@ -4776,11 +4691,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
             if (viewHolder.getItemViewType() == 0) {
                 DialogCell dialogCell = (DialogCell) viewHolder.itemView;
-                boolean z = true;
-                if (i == getItemCount() - 1) {
-                    z = false;
-                }
-                dialogCell.useSeparator = z;
+                dialogCell.useSeparator = i != getItemCount() - 1;
                 dialogCell.setDialog(this.dialogs.get(i));
             }
         }
@@ -5639,8 +5550,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 chatMessageCell.isChat = this.showSecretMessages;
                 chatMessageCell.setFullyDraw(true);
                 chatMessageCell.setMessageObject(messageObject2, null, z, z2);
-            } else if (!(view instanceof ChatActionCell)) {
-            } else {
+            } else if (view instanceof ChatActionCell) {
                 ChatActionCell chatActionCell = (ChatActionCell) view;
                 chatActionCell.setMessageObject(messageObject2);
                 chatActionCell.setAlpha(1.0f);

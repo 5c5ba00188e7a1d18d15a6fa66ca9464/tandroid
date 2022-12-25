@@ -16,25 +16,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.PhotoEditorSeekBar;
 /* loaded from: classes3.dex */
 public class PhotoEditToolCell extends FrameLayout {
-    private Runnable hideValueRunnable = new Runnable() { // from class: org.telegram.ui.Cells.PhotoEditToolCell.1
-        @Override // java.lang.Runnable
-        public void run() {
-            PhotoEditToolCell.this.valueTextView.setTag(null);
-            PhotoEditToolCell.this.valueAnimation = new AnimatorSet();
-            PhotoEditToolCell.this.valueAnimation.playTogether(ObjectAnimator.ofFloat(PhotoEditToolCell.this.valueTextView, View.ALPHA, 0.0f), ObjectAnimator.ofFloat(PhotoEditToolCell.this.nameTextView, View.ALPHA, 1.0f));
-            PhotoEditToolCell.this.valueAnimation.setDuration(250L);
-            PhotoEditToolCell.this.valueAnimation.setInterpolator(new DecelerateInterpolator());
-            PhotoEditToolCell.this.valueAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.PhotoEditToolCell.1.1
-                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                public void onAnimationEnd(Animator animator) {
-                    if (animator.equals(PhotoEditToolCell.this.valueAnimation)) {
-                        PhotoEditToolCell.this.valueAnimation = null;
-                    }
-                }
-            });
-            PhotoEditToolCell.this.valueAnimation.start();
-        }
-    };
+    private Runnable hideValueRunnable;
     private TextView nameTextView;
     private final Theme.ResourcesProvider resourcesProvider;
     private PhotoEditorSeekBar seekBar;
@@ -43,6 +25,25 @@ public class PhotoEditToolCell extends FrameLayout {
 
     public PhotoEditToolCell(Context context, Theme.ResourcesProvider resourcesProvider) {
         super(context);
+        this.hideValueRunnable = new Runnable() { // from class: org.telegram.ui.Cells.PhotoEditToolCell.1
+            @Override // java.lang.Runnable
+            public void run() {
+                PhotoEditToolCell.this.valueTextView.setTag(null);
+                PhotoEditToolCell.this.valueAnimation = new AnimatorSet();
+                PhotoEditToolCell.this.valueAnimation.playTogether(ObjectAnimator.ofFloat(PhotoEditToolCell.this.valueTextView, View.ALPHA, 0.0f), ObjectAnimator.ofFloat(PhotoEditToolCell.this.nameTextView, View.ALPHA, 1.0f));
+                PhotoEditToolCell.this.valueAnimation.setDuration(250L);
+                PhotoEditToolCell.this.valueAnimation.setInterpolator(new DecelerateInterpolator());
+                PhotoEditToolCell.this.valueAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.PhotoEditToolCell.1.1
+                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                    public void onAnimationEnd(Animator animator) {
+                        if (animator.equals(PhotoEditToolCell.this.valueAnimation)) {
+                            PhotoEditToolCell.this.valueAnimation = null;
+                        }
+                    }
+                });
+                PhotoEditToolCell.this.valueAnimation.start();
+            }
+        };
         this.resourcesProvider = resourcesProvider;
         TextView textView = new TextView(context);
         this.nameTextView = textView;

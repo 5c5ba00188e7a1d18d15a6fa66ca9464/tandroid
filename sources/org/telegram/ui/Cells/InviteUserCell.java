@@ -14,7 +14,7 @@ import org.telegram.ui.Components.CheckBox2;
 import org.telegram.ui.Components.LayoutHelper;
 /* loaded from: classes3.dex */
 public class InviteUserCell extends FrameLayout {
-    private AvatarDrawable avatarDrawable = new AvatarDrawable();
+    private AvatarDrawable avatarDrawable;
     private BackupImageView avatarImageView;
     private CheckBox2 checkBox;
     private ContactsController.Contact currentContact;
@@ -29,12 +29,12 @@ public class InviteUserCell extends FrameLayout {
 
     public InviteUserCell(Context context, boolean z) {
         super(context);
+        this.avatarDrawable = new AvatarDrawable();
         BackupImageView backupImageView = new BackupImageView(context);
         this.avatarImageView = backupImageView;
         backupImageView.setRoundRadius(AndroidUtilities.dp(24.0f));
         BackupImageView backupImageView2 = this.avatarImageView;
         boolean z2 = LocaleController.isRTL;
-        int i = 5;
         addView(backupImageView2, LayoutHelper.createFrame(50, 50.0f, (z2 ? 5 : 3) | 48, z2 ? 0.0f : 11.0f, 11.0f, z2 ? 11.0f : 0.0f, 0.0f));
         SimpleTextView simpleTextView = new SimpleTextView(context);
         this.nameTextView = simpleTextView;
@@ -60,7 +60,7 @@ public class InviteUserCell extends FrameLayout {
             this.checkBox.setDrawBackgroundAsArc(3);
             CheckBox2 checkBox22 = this.checkBox;
             boolean z5 = LocaleController.isRTL;
-            addView(checkBox22, LayoutHelper.createFrame(24, 24.0f, (!z5 ? 3 : i) | 48, z5 ? 0.0f : 40.0f, 40.0f, z5 ? 39.0f : 0.0f, 0.0f));
+            addView(checkBox22, LayoutHelper.createFrame(24, 24.0f, (z5 ? 5 : 3) | 48, z5 ? 0.0f : 40.0f, 40.0f, z5 ? 39.0f : 0.0f, 0.0f));
         }
     }
 

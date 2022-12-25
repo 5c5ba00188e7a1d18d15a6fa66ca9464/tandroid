@@ -25,7 +25,7 @@ public class BarChartView extends BaseChartView<ChartData, BarViewData> {
         this.useAlphaSignature = true;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:16:0x0093  */
+    /* JADX WARN: Removed duplicated region for block: B:21:0x0093  */
     @Override // org.telegram.ui.Charts.BaseChartView
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -88,7 +88,11 @@ public class BarChartView extends BaseChartView<ChartData, BarViewData> {
                             float f15 = ((f11 / f9) + (this.chartData.xPercentage[i10] * f6)) - f7;
                             int[] iArr2 = iArr;
                             float measuredHeight = (getMeasuredHeight() - this.chartBottom) - (((iArr[i10] / this.currentMaxHeight) * f12) * ((getMeasuredHeight() - this.chartBottom) - BaseChartView.SIGNATURE_TEXT_HEIGHT));
-                            if (i10 != this.selectedIndex || !this.legendShowing) {
+                            if (i10 == this.selectedIndex && this.legendShowing) {
+                                f13 = measuredHeight;
+                                f14 = f15;
+                                z = true;
+                            } else {
                                 float[] fArr2 = barViewData.linesPath;
                                 int i11 = i4 + 1;
                                 fArr2[i4] = f15;
@@ -98,10 +102,6 @@ public class BarChartView extends BaseChartView<ChartData, BarViewData> {
                                 fArr2[i12] = f15;
                                 i4 = i13 + 1;
                                 fArr2[i13] = getMeasuredHeight() - this.chartBottom;
-                            } else {
-                                f13 = measuredHeight;
-                                f14 = f15;
-                                z = true;
                             }
                             i10++;
                             iArr = iArr2;

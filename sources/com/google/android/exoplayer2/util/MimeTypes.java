@@ -19,60 +19,60 @@ public final class MimeTypes {
 
     public static String getMimeTypeFromMp4ObjectType(int i) {
         if (i != 32) {
-            if (i == 33) {
-                return MediaController.VIDEO_MIME_TYPE;
-            }
-            if (i == 35) {
+            if (i != 33) {
+                if (i != 35) {
+                    if (i != 64) {
+                        if (i != 163) {
+                            if (i != 177) {
+                                if (i != 165) {
+                                    if (i != 166) {
+                                        switch (i) {
+                                            case 96:
+                                            case 97:
+                                            case 98:
+                                            case 99:
+                                            case FileLoader.MEDIA_DIR_IMAGE_PUBLIC /* 100 */:
+                                            case FileLoader.MEDIA_DIR_VIDEO_PUBLIC /* 101 */:
+                                                return "video/mpeg2";
+                                            case 102:
+                                            case 103:
+                                            case 104:
+                                                return MediaController.AUIDO_MIME_TYPE;
+                                            case 105:
+                                            case 107:
+                                                return "audio/mpeg";
+                                            case 106:
+                                                return "video/mpeg";
+                                            default:
+                                                switch (i) {
+                                                    case 169:
+                                                    case 172:
+                                                        return "audio/vnd.dts";
+                                                    case 170:
+                                                    case 171:
+                                                        return "audio/vnd.dts.hd";
+                                                    case 173:
+                                                        return "audio/opus";
+                                                    case 174:
+                                                        return "audio/ac4";
+                                                    default:
+                                                        return null;
+                                                }
+                                        }
+                                    }
+                                    return "audio/eac3";
+                                }
+                                return "audio/ac3";
+                            }
+                            return "video/x-vnd.on2.vp9";
+                        }
+                        return "video/wvc1";
+                    }
+                    return MediaController.AUIDO_MIME_TYPE;
+                }
                 return "video/hevc";
             }
-            if (i == 64) {
-                return MediaController.AUIDO_MIME_TYPE;
-            }
-            if (i == 163) {
-                return "video/wvc1";
-            }
-            if (i == 177) {
-                return "video/x-vnd.on2.vp9";
-            }
-            if (i == 165) {
-                return "audio/ac3";
-            }
-            if (i == 166) {
-                return "audio/eac3";
-            }
-            switch (i) {
-                case 96:
-                case 97:
-                case 98:
-                case 99:
-                case FileLoader.MEDIA_DIR_IMAGE_PUBLIC /* 100 */:
-                case FileLoader.MEDIA_DIR_VIDEO_PUBLIC /* 101 */:
-                    return "video/mpeg2";
-                case 102:
-                case 103:
-                case 104:
-                    return MediaController.AUIDO_MIME_TYPE;
-                case 105:
-                case 107:
-                    return "audio/mpeg";
-                case 106:
-                    return "video/mpeg";
-                default:
-                    switch (i) {
-                        case 169:
-                        case 172:
-                            return "audio/vnd.dts";
-                        case 170:
-                        case 171:
-                            return "audio/vnd.dts.hd";
-                        case 173:
-                            return "audio/opus";
-                        case 174:
-                            return "audio/ac4";
-                        default:
-                            return null;
-                    }
-            }
+            return MediaController.VIDEO_MIME_TYPE;
         }
         return "video/mp4v-es";
     }
@@ -261,10 +261,10 @@ public final class MimeTypes {
         if ("application/id3".equals(str) || "application/x-emsg".equals(str) || "application/x-scte35".equals(str)) {
             return 4;
         }
-        if (!"application/x-camera-motion".equals(str)) {
-            return getTrackTypeForCustomMimeType(str);
+        if ("application/x-camera-motion".equals(str)) {
+            return 5;
         }
-        return 5;
+        return getTrackTypeForCustomMimeType(str);
     }
 
     public static int getEncoding(String str) {

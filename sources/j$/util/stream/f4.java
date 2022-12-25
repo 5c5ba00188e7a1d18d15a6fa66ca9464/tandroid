@@ -69,7 +69,6 @@ public abstract class f4 implements j$.util.u {
     /* JADX INFO: Access modifiers changed from: package-private */
     public final boolean a() {
         e eVar = this.h;
-        boolean z = false;
         if (eVar == null) {
             if (this.i) {
                 return false;
@@ -82,9 +81,7 @@ public abstract class f4 implements j$.util.u {
         }
         long j = this.g + 1;
         this.g = j;
-        if (j < eVar.count()) {
-            z = true;
-        }
+        boolean z = j < eVar.count();
         if (z) {
             return z;
         }
@@ -151,9 +148,9 @@ public abstract class f4 implements j$.util.u {
         }
         h();
         j$.util.u trySplit = this.d.trySplit();
-        if (trySplit != null) {
-            return l(trySplit);
+        if (trySplit == null) {
+            return null;
         }
-        return null;
+        return l(trySplit);
     }
 }

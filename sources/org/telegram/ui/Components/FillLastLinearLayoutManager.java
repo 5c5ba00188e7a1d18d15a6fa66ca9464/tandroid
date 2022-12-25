@@ -9,25 +9,33 @@ import androidx.recyclerview.widget.RecyclerView;
 /* loaded from: classes3.dex */
 public class FillLastLinearLayoutManager extends LinearLayoutManager {
     private int additionalHeight;
+    private boolean bind;
+    private boolean canScrollVertically;
     boolean fixedLastItemHeight;
+    private SparseArray<RecyclerView.ViewHolder> heights;
+    private int lastItemHeight;
     private int listHeight;
     private RecyclerView listView;
     private int listWidth;
     private int minimumHeight;
     private boolean skipFirstItem;
-    private SparseArray<RecyclerView.ViewHolder> heights = new SparseArray<>();
-    private int lastItemHeight = -1;
-    private boolean bind = true;
-    private boolean canScrollVertically = true;
 
     public FillLastLinearLayoutManager(Context context, int i, RecyclerView recyclerView) {
         super(context);
+        this.heights = new SparseArray<>();
+        this.lastItemHeight = -1;
+        this.bind = true;
+        this.canScrollVertically = true;
         this.listView = recyclerView;
         this.additionalHeight = i;
     }
 
     public FillLastLinearLayoutManager(Context context, int i, boolean z, int i2, RecyclerView recyclerView) {
         super(context, i, z);
+        this.heights = new SparseArray<>();
+        this.lastItemHeight = -1;
+        this.bind = true;
+        this.canScrollVertically = true;
         this.listView = recyclerView;
         this.additionalHeight = i2;
     }

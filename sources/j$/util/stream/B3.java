@@ -8,16 +8,16 @@ abstract class B3 {
         long d = d(j, j2);
         int i = z3.a[e4Var.ordinal()];
         if (i != 1) {
-            if (i == 2) {
-                return new w4((u.a) uVar, j, d);
-            }
-            if (i == 3) {
+            if (i != 2) {
+                if (i != 3) {
+                    if (i == 4) {
+                        return new u4((j$.util.t) uVar, j, d);
+                    }
+                    throw new IllegalStateException("Unknown shape " + e4Var);
+                }
                 return new y4((j$.util.v) uVar, j, d);
             }
-            if (i == 4) {
-                return new u4((j$.util.t) uVar, j, d);
-            }
-            throw new IllegalStateException("Unknown shape " + e4Var);
+            return new w4((u.a) uVar, j, d);
         }
         return new C4(uVar, j, d);
     }

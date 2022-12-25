@@ -78,13 +78,13 @@ public class CloseProgressDrawable2 extends Drawable {
         this.side = i;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:31:0x0132  */
-    /* JADX WARN: Removed duplicated region for block: B:34:0x0145  */
-    /* JADX WARN: Removed duplicated region for block: B:37:0x0159  */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x016d  */
-    /* JADX WARN: Removed duplicated region for block: B:43:0x01a9  */
-    /* JADX WARN: Removed duplicated region for block: B:46:0x01b3  */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x01b5  */
+    /* JADX WARN: Removed duplicated region for block: B:72:0x0132  */
+    /* JADX WARN: Removed duplicated region for block: B:75:0x0145  */
+    /* JADX WARN: Removed duplicated region for block: B:78:0x0159  */
+    /* JADX WARN: Removed duplicated region for block: B:81:0x016d  */
+    /* JADX WARN: Removed duplicated region for block: B:85:0x01a9  */
+    /* JADX WARN: Removed duplicated region for block: B:88:0x01b3  */
+    /* JADX WARN: Removed duplicated region for block: B:89:0x01b5  */
     @Override // android.graphics.drawable.Drawable
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -95,21 +95,19 @@ public class CloseProgressDrawable2 extends Drawable {
         float f3;
         float f4;
         float f5;
-        float f6;
         long currentTimeMillis = System.currentTimeMillis();
         setColor(getCurrentColor());
         long j = this.lastFrameTime;
-        float f7 = 0.0f;
         if (j != 0) {
             long j2 = currentTimeMillis - j;
             boolean z = this.animating;
             if (z || this.angle != 0.0f) {
-                float f8 = this.angle + (((float) (j2 * 360)) / 500.0f);
-                this.angle = f8;
-                if (!z && f8 >= 720.0f) {
+                float f6 = this.angle + (((float) (j2 * 360)) / 500.0f);
+                this.angle = f6;
+                if (!z && f6 >= 720.0f) {
                     this.angle = 0.0f;
                 } else {
-                    this.angle = f8 - (((int) (f8 / 720.0f)) * 720);
+                    this.angle = f6 - (((int) (f6 / 720.0f)) * 720);
                 }
                 invalidateSelf();
             }
@@ -121,29 +119,29 @@ public class CloseProgressDrawable2 extends Drawable {
         }
         canvas.translate(getIntrinsicWidth() / 2, getIntrinsicHeight() / 2);
         canvas.rotate(-45.0f);
-        float f9 = this.angle;
-        if (f9 < 0.0f || f9 >= 90.0f) {
-            if (f9 < 90.0f || f9 >= 180.0f) {
-                if (f9 < 180.0f || f9 >= 270.0f) {
-                    if (f9 >= 270.0f && f9 < 360.0f) {
-                        f4 = (f9 - 270.0f) / 90.0f;
-                    } else if (f9 < 360.0f || f9 >= 450.0f) {
-                        if (f9 >= 450.0f && f9 < 540.0f) {
-                            f = (f9 - 450.0f) / 90.0f;
+        float f7 = this.angle;
+        if (f7 < 0.0f || f7 >= 90.0f) {
+            if (f7 < 90.0f || f7 >= 180.0f) {
+                if (f7 < 180.0f || f7 >= 270.0f) {
+                    if (f7 >= 270.0f && f7 < 360.0f) {
+                        f4 = (f7 - 270.0f) / 90.0f;
+                    } else if (f7 < 360.0f || f7 >= 450.0f) {
+                        if (f7 >= 450.0f && f7 < 540.0f) {
+                            f = (f7 - 450.0f) / 90.0f;
                             f3 = 0.0f;
-                        } else if (f9 >= 540.0f && f9 < 630.0f) {
-                            f3 = (f9 - 540.0f) / 90.0f;
+                        } else if (f7 >= 540.0f && f7 < 630.0f) {
+                            f3 = (f7 - 540.0f) / 90.0f;
                             f = 1.0f;
-                        } else if (f9 < 630.0f || f9 >= 720.0f) {
+                        } else if (f7 < 630.0f || f7 >= 720.0f) {
                             f = 1.0f;
                         } else {
-                            f2 = (f9 - 630.0f) / 90.0f;
+                            f2 = (f7 - 630.0f) / 90.0f;
                             f = 1.0f;
                             f3 = 1.0f;
                         }
                         f2 = 0.0f;
                     } else {
-                        f4 = 1.0f - ((f9 - 360.0f) / 90.0f);
+                        f4 = 1.0f - ((f7 - 360.0f) / 90.0f);
                     }
                     f5 = f4;
                     f = 0.0f;
@@ -169,14 +167,11 @@ public class CloseProgressDrawable2 extends Drawable {
                     int i2 = this.side;
                     rectF.set(centerX - i2, centerY - i2, centerX + i2, centerY + i2);
                     RectF rectF2 = this.rect;
-                    f6 = this.angle;
-                    if (f6 >= 360.0f) {
-                        f7 = f6 - 360.0f;
-                    }
-                    canvas.drawArc(rectF2, f7 - 45.0f, f6 >= 360.0f ? f6 : 720.0f - f6, false, this.paint);
+                    float f8 = this.angle;
+                    canvas.drawArc(rectF2, (f8 >= 360.0f ? f8 - 360.0f : 0.0f) - 45.0f, f8 >= 360.0f ? f8 : 720.0f - f8, false, this.paint);
                     this.lastFrameTime = currentTimeMillis;
                 }
-                f2 = 1.0f - ((f9 - 180.0f) / 90.0f);
+                f2 = 1.0f - ((f7 - 180.0f) / 90.0f);
                 f = 0.0f;
                 f3 = 0.0f;
                 f5 = 0.0f;
@@ -195,13 +190,11 @@ public class CloseProgressDrawable2 extends Drawable {
                 int i22 = this.side;
                 rectF3.set(centerX2 - i22, centerY2 - i22, centerX2 + i22, centerY2 + i22);
                 RectF rectF22 = this.rect;
-                f6 = this.angle;
-                if (f6 >= 360.0f) {
-                }
-                canvas.drawArc(rectF22, f7 - 45.0f, f6 >= 360.0f ? f6 : 720.0f - f6, false, this.paint);
+                float f82 = this.angle;
+                canvas.drawArc(rectF22, (f82 >= 360.0f ? f82 - 360.0f : 0.0f) - 45.0f, f82 >= 360.0f ? f82 : 720.0f - f82, false, this.paint);
                 this.lastFrameTime = currentTimeMillis;
             }
-            f3 = 1.0f - ((f9 - 90.0f) / 90.0f);
+            f3 = 1.0f - ((f7 - 90.0f) / 90.0f);
             f = 0.0f;
             f2 = 1.0f;
             f5 = 0.0f;
@@ -220,13 +213,11 @@ public class CloseProgressDrawable2 extends Drawable {
             int i222 = this.side;
             rectF32.set(centerX22 - i222, centerY22 - i222, centerX22 + i222, centerY22 + i222);
             RectF rectF222 = this.rect;
-            f6 = this.angle;
-            if (f6 >= 360.0f) {
-            }
-            canvas.drawArc(rectF222, f7 - 45.0f, f6 >= 360.0f ? f6 : 720.0f - f6, false, this.paint);
+            float f822 = this.angle;
+            canvas.drawArc(rectF222, (f822 >= 360.0f ? f822 - 360.0f : 0.0f) - 45.0f, f822 >= 360.0f ? f822 : 720.0f - f822, false, this.paint);
             this.lastFrameTime = currentTimeMillis;
         }
-        f = 1.0f - (f9 / 90.0f);
+        f = 1.0f - (f7 / 90.0f);
         f3 = 1.0f;
         f2 = 1.0f;
         f5 = 0.0f;
@@ -245,10 +236,8 @@ public class CloseProgressDrawable2 extends Drawable {
         int i2222 = this.side;
         rectF322.set(centerX222 - i2222, centerY222 - i2222, centerX222 + i2222, centerY222 + i2222);
         RectF rectF2222 = this.rect;
-        f6 = this.angle;
-        if (f6 >= 360.0f) {
-        }
-        canvas.drawArc(rectF2222, f7 - 45.0f, f6 >= 360.0f ? f6 : 720.0f - f6, false, this.paint);
+        float f8222 = this.angle;
+        canvas.drawArc(rectF2222, (f8222 >= 360.0f ? f8222 - 360.0f : 0.0f) - 45.0f, f8222 >= 360.0f ? f8222 : 720.0f - f8222, false, this.paint);
         this.lastFrameTime = currentTimeMillis;
     }
 

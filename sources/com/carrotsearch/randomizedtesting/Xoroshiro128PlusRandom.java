@@ -21,10 +21,9 @@ public class Xoroshiro128PlusRandom extends Random {
 
     @Override // java.util.Random
     public void setSeed(long j) {
-        if (this.s0 == 0 && this.s1 == 0) {
-            return;
+        if (this.s0 != 0 || this.s1 != 0) {
+            throw new RuntimeException("No seed set");
         }
-        throw new RuntimeException("No seed set");
     }
 
     @Override // java.util.Random

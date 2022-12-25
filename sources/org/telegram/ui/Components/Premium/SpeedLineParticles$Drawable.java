@@ -86,22 +86,21 @@ public class SpeedLineParticles$Drawable {
             SpeedLineParticles$Drawable.this.lines[i2 + 1] = this.y;
             SpeedLineParticles$Drawable.this.lines[i2 + 2] = this.x + (AndroidUtilities.dp(30.0f) * this.vecX);
             SpeedLineParticles$Drawable.this.lines[i2 + 3] = this.y + (AndroidUtilities.dp(30.0f) * this.vecY);
-            if (!SpeedLineParticles$Drawable.this.paused) {
-                float dp = AndroidUtilities.dp(4.0f) * (SpeedLineParticles$Drawable.this.dt / 660.0f);
-                SpeedLineParticles$Drawable speedLineParticles$Drawable = SpeedLineParticles$Drawable.this;
-                float f = dp * speedLineParticles$Drawable.speedScale;
-                this.x += this.vecX * f;
-                this.y += this.vecY * f;
-                float f2 = this.inProgress;
-                if (f2 == 1.0f) {
-                    return;
-                }
+            if (SpeedLineParticles$Drawable.this.paused) {
+                return;
+            }
+            float dp = AndroidUtilities.dp(4.0f) * (SpeedLineParticles$Drawable.this.dt / 660.0f);
+            SpeedLineParticles$Drawable speedLineParticles$Drawable = SpeedLineParticles$Drawable.this;
+            float f = dp * speedLineParticles$Drawable.speedScale;
+            this.x += this.vecX * f;
+            this.y += this.vecY * f;
+            float f2 = this.inProgress;
+            if (f2 != 1.0f) {
                 float f3 = f2 + (speedLineParticles$Drawable.dt / 200.0f);
                 this.inProgress = f3;
-                if (f3 <= 1.0f) {
-                    return;
+                if (f3 > 1.0f) {
+                    this.inProgress = 1.0f;
                 }
-                this.inProgress = 1.0f;
             }
         }
 

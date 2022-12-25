@@ -196,23 +196,23 @@ public class TLRPC$TL_help_premiumPromo extends TLObject {
                 }
             };
         }
-        if (tLRPC$TL_help_premiumPromo != null || !z) {
-            if (tLRPC$TL_help_premiumPromo != null) {
-                tLRPC$TL_help_premiumPromo.readParams(abstractSerializedData, z);
-                if (tLRPC$TL_help_premiumPromo.currency != null) {
-                    tLRPC$TL_help_premiumPromo.period_options.add(new TLRPC$TL_premiumSubscriptionOption() { // from class: org.telegram.tgnet.TLRPC$TL_help_premiumPromo.1
-                        {
-                            this.months = 1;
-                            this.currency = TLRPC$TL_help_premiumPromo.this.currency;
-                            this.amount = TLRPC$TL_help_premiumPromo.this.monthly_amount;
-                            this.store_product = BillingController.PREMIUM_PRODUCT_ID;
-                        }
-                    });
-                }
-            }
-            return tLRPC$TL_help_premiumPromo;
+        if (tLRPC$TL_help_premiumPromo == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in TL_help_premiumPromo", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in TL_help_premiumPromo", Integer.valueOf(i)));
+        if (tLRPC$TL_help_premiumPromo != null) {
+            tLRPC$TL_help_premiumPromo.readParams(abstractSerializedData, z);
+            if (tLRPC$TL_help_premiumPromo.currency != null) {
+                tLRPC$TL_help_premiumPromo.period_options.add(new TLRPC$TL_premiumSubscriptionOption() { // from class: org.telegram.tgnet.TLRPC$TL_help_premiumPromo.1
+                    {
+                        this.months = 1;
+                        this.currency = TLRPC$TL_help_premiumPromo.this.currency;
+                        this.amount = TLRPC$TL_help_premiumPromo.this.monthly_amount;
+                        this.store_product = BillingController.PREMIUM_PRODUCT_ID;
+                    }
+                });
+            }
+        }
+        return tLRPC$TL_help_premiumPromo;
     }
 
     @Override // org.telegram.tgnet.TLObject

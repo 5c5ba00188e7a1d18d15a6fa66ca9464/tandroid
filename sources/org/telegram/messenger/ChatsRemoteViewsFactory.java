@@ -87,7 +87,7 @@ class ChatsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         StringBuilder sb = new StringBuilder();
         sb.append("deleted");
         sb.append(this.appWidgetId);
-        this.deleted = (sharedPreferences.getBoolean(sb.toString(), false) || this.accountInstance == null) ? true : z;
+        this.deleted = (sharedPreferences.getBoolean(sb.toString(), false) || this.accountInstance == null) ? true : true;
     }
 
     @Override // android.widget.RemoteViewsService.RemoteViewsFactory
@@ -103,7 +103,7 @@ class ChatsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         return this.dids.size() + 1;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:53:0x024c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:89:0x024c, code lost:
         if ((r0 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChannelMigrateFrom) != false) goto L54;
      */
     @Override // android.widget.RemoteViewsService.RemoteViewsFactory
@@ -112,7 +112,7 @@ class ChatsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     */
     public RemoteViews getViewAt(int i) {
         TLRPC$Chat tLRPC$Chat;
-        CharSequence charSequence;
+        String str;
         TLRPC$User tLRPC$User;
         TLRPC$FileLocation tLRPC$FileLocation;
         Bitmap decodeFile;
@@ -120,19 +120,19 @@ class ChatsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         int i3;
         TLRPC$Chat chat;
         TLRPC$User tLRPC$User2;
-        CharSequence charSequence2;
+        CharSequence charSequence;
         String replace;
         SpannableStringBuilder valueOf;
         char c;
         char c2;
         int i4;
         char c3;
-        String charSequence3;
+        String charSequence2;
         char c4;
         String format;
         SpannableStringBuilder spannableStringBuilder;
+        CharSequence charSequence3;
         CharSequence charSequence4;
-        CharSequence charSequence5;
         AvatarDrawable avatarDrawable;
         TLRPC$UserProfilePhoto tLRPC$UserProfilePhoto;
         if (this.deleted) {
@@ -152,31 +152,31 @@ class ChatsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
             return remoteViews2;
         } else {
             Long l = this.dids.get(i);
-            CharSequence charSequence6 = "";
+            CharSequence charSequence5 = "";
             if (DialogObject.isUserDialog(l.longValue())) {
                 tLRPC$User = this.accountInstance.getMessagesController().getUser(l);
                 if (tLRPC$User != null) {
                     if (UserObject.isUserSelf(tLRPC$User)) {
-                        charSequence = LocaleController.getString("SavedMessages", R.string.SavedMessages);
+                        str = LocaleController.getString("SavedMessages", R.string.SavedMessages);
                     } else if (UserObject.isReplyUser(tLRPC$User)) {
-                        charSequence = LocaleController.getString("RepliesTitle", R.string.RepliesTitle);
+                        str = LocaleController.getString("RepliesTitle", R.string.RepliesTitle);
                     } else if (UserObject.isDeleted(tLRPC$User)) {
-                        charSequence = LocaleController.getString("HiddenName", R.string.HiddenName);
+                        str = LocaleController.getString("HiddenName", R.string.HiddenName);
                     } else {
-                        charSequence = ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name);
+                        str = ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name);
                     }
                     if (!UserObject.isReplyUser(tLRPC$User) && !UserObject.isUserSelf(tLRPC$User) && (tLRPC$UserProfilePhoto = tLRPC$User.photo) != null && (tLRPC$FileLocation = tLRPC$UserProfilePhoto.photo_small) != null && tLRPC$FileLocation.volume_id != 0 && tLRPC$FileLocation.local_id != 0) {
                         tLRPC$Chat = null;
                     }
                 } else {
-                    charSequence = charSequence6;
+                    str = "";
                 }
                 tLRPC$Chat = null;
                 tLRPC$FileLocation = null;
             } else {
                 TLRPC$Chat chat2 = this.accountInstance.getMessagesController().getChat(Long.valueOf(-l.longValue()));
                 if (chat2 != null) {
-                    charSequence = chat2.title;
+                    str = chat2.title;
                     TLRPC$ChatPhoto tLRPC$ChatPhoto = chat2.photo;
                     if (tLRPC$ChatPhoto == null || (tLRPC$FileLocation = tLRPC$ChatPhoto.photo_small) == null || tLRPC$FileLocation.volume_id == 0 || tLRPC$FileLocation.local_id == 0) {
                         tLRPC$Chat = chat2;
@@ -186,13 +186,13 @@ class ChatsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
                     }
                 } else {
                     tLRPC$Chat = chat2;
-                    charSequence = charSequence6;
+                    str = "";
                 }
                 tLRPC$User = null;
                 tLRPC$FileLocation = null;
             }
             RemoteViews remoteViews3 = new RemoteViews(this.mContext.getPackageName(), R.layout.shortcut_widget_item);
-            remoteViews3.setTextViewText(R.id.shortcut_widget_item_text, charSequence);
+            remoteViews3.setTextViewText(R.id.shortcut_widget_item_text, str);
             if (tLRPC$FileLocation != null) {
                 try {
                     decodeFile = BitmapFactory.decodeFile(FileLoader.getInstance(UserConfig.selectedAccount).getPathToAttach(tLRPC$FileLocation, true).toString());
@@ -251,48 +251,48 @@ class ChatsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
                 if (messageObject.messageOwner instanceof TLRPC$TL_messageService) {
                     if (ChatObject.isChannel(tLRPC$Chat)) {
                         TLRPC$MessageAction tLRPC$MessageAction = messageObject.messageOwner.action;
-                        charSequence5 = charSequence6;
+                        charSequence4 = charSequence5;
                         if (!(tLRPC$MessageAction instanceof TLRPC$TL_messageActionHistoryClear)) {
-                            charSequence5 = charSequence6;
+                            charSequence4 = charSequence5;
                         }
                         color = this.mContext.getResources().getColor(R.color.widget_action_text);
-                        charSequence4 = charSequence5;
+                        charSequence3 = charSequence4;
                     }
-                    charSequence5 = messageObject.messageText;
+                    charSequence4 = messageObject.messageText;
                     color = this.mContext.getResources().getColor(R.color.widget_action_text);
-                    charSequence4 = charSequence5;
+                    charSequence3 = charSequence4;
                 } else {
-                    String str = "🖼 ";
+                    String str2 = "🖼 ";
                     if (tLRPC$Chat != null && chat == null && (!ChatObject.isChannel(tLRPC$Chat) || ChatObject.isMegagroup(tLRPC$Chat))) {
                         if (messageObject.isOutOwner()) {
                             replace = LocaleController.getString("FromYou", R.string.FromYou);
                         } else {
-                            replace = tLRPC$User2 != null ? UserObject.getFirstName(tLRPC$User2).replace("\n", charSequence6) : "DELETED";
+                            replace = tLRPC$User2 != null ? UserObject.getFirstName(tLRPC$User2).replace("\n", "") : "DELETED";
                         }
-                        String str2 = replace;
-                        CharSequence charSequence7 = messageObject.caption;
+                        String str3 = replace;
+                        CharSequence charSequence6 = messageObject.caption;
                         try {
-                            if (charSequence7 != null) {
-                                String charSequence8 = charSequence7.toString();
-                                if (charSequence8.length() > 150) {
-                                    charSequence8 = charSequence8.substring(0, ImageReceiver.DEFAULT_CROSSFADE_DURATION);
+                            if (charSequence6 != null) {
+                                String charSequence7 = charSequence6.toString();
+                                if (charSequence7.length() > 150) {
+                                    charSequence7 = charSequence7.substring(0, ImageReceiver.DEFAULT_CROSSFADE_DURATION);
                                 }
                                 if (messageObject.isVideo()) {
-                                    str = "📹 ";
+                                    str2 = "📹 ";
                                 } else if (messageObject.isVoice()) {
-                                    str = "🎤 ";
+                                    str2 = "🎤 ";
                                 } else if (messageObject.isMusic()) {
-                                    str = "🎧 ";
+                                    str2 = "🎧 ";
                                 } else if (!messageObject.isPhoto()) {
-                                    str = "📎 ";
+                                    str2 = "📎 ";
                                 }
-                                valueOf = SpannableStringBuilder.valueOf(String.format("%2$s: \u2068%1$s\u2069", str + charSequence8.replace('\n', ' '), str2));
+                                valueOf = SpannableStringBuilder.valueOf(String.format("%2$s: \u2068%1$s\u2069", str2 + charSequence7.replace('\n', ' '), str3));
                             } else if (messageObject.messageOwner.media != null && !messageObject.isMediaEmpty()) {
                                 int color2 = this.mContext.getResources().getColor(R.color.widget_action_text);
                                 TLRPC$MessageMedia tLRPC$MessageMedia = messageObject.messageOwner.media;
                                 if (tLRPC$MessageMedia instanceof TLRPC$TL_messageMediaPoll) {
                                     TLRPC$TL_messageMediaPoll tLRPC$TL_messageMediaPoll = (TLRPC$TL_messageMediaPoll) tLRPC$MessageMedia;
-                                    charSequence3 = Build.VERSION.SDK_INT >= 18 ? String.format("📊 \u2068%s\u2069", tLRPC$TL_messageMediaPoll.poll.question) : String.format("📊 %s", tLRPC$TL_messageMediaPoll.poll.question);
+                                    charSequence2 = Build.VERSION.SDK_INT >= 18 ? String.format("📊 \u2068%s\u2069", tLRPC$TL_messageMediaPoll.poll.question) : String.format("📊 %s", tLRPC$TL_messageMediaPoll.poll.question);
                                     i4 = 2;
                                     c4 = ' ';
                                     c3 = 1;
@@ -305,7 +305,7 @@ class ChatsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
                                         c2 = 0;
                                         format = String.format("🎮 %s", tLRPC$MessageMedia.game.title);
                                     }
-                                    charSequence3 = format;
+                                    charSequence2 = format;
                                     i4 = 2;
                                     c4 = ' ';
                                     c3 = 1;
@@ -315,92 +315,92 @@ class ChatsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
                                         if (Build.VERSION.SDK_INT >= 18) {
                                             i4 = 2;
                                             c3 = 1;
-                                            charSequence3 = String.format("🎧 \u2068%s - %s\u2069", messageObject.getMusicAuthor(), messageObject.getMusicTitle());
+                                            charSequence2 = String.format("🎧 \u2068%s - %s\u2069", messageObject.getMusicAuthor(), messageObject.getMusicTitle());
                                         } else {
                                             i4 = 2;
                                             c3 = 1;
-                                            charSequence3 = String.format("🎧 %s - %s", messageObject.getMusicAuthor(), messageObject.getMusicTitle());
+                                            charSequence2 = String.format("🎧 %s - %s", messageObject.getMusicAuthor(), messageObject.getMusicTitle());
                                         }
                                     } else {
                                         i4 = 2;
                                         c3 = 1;
-                                        charSequence3 = messageObject.messageText.toString();
+                                        charSequence2 = messageObject.messageText.toString();
                                     }
                                     c4 = ' ';
                                 }
-                                String replace2 = charSequence3.replace('\n', c4);
+                                String replace2 = charSequence2.replace('\n', c4);
                                 Object[] objArr = new Object[i4];
                                 objArr[c2] = replace2;
-                                objArr[c3] = str2;
+                                objArr[c3] = str3;
                                 SpannableStringBuilder valueOf2 = SpannableStringBuilder.valueOf(String.format("%2$s: \u2068%1$s\u2069", objArr));
                                 try {
-                                    valueOf2.setSpan(new ForegroundColorSpanThemable("chats_attachMessage"), str2.length() + 2, valueOf2.length(), 33);
+                                    valueOf2.setSpan(new ForegroundColorSpanThemable("chats_attachMessage"), str3.length() + 2, valueOf2.length(), 33);
                                 } catch (Exception e) {
                                     FileLog.e(e);
                                 }
                                 color = color2;
                                 spannableStringBuilder = valueOf2;
-                                spannableStringBuilder.setSpan(new ForegroundColorSpanThemable("chats_nameMessage"), 0, str2.length() + 1, 33);
-                                charSequence4 = spannableStringBuilder;
+                                spannableStringBuilder.setSpan(new ForegroundColorSpanThemable("chats_nameMessage"), 0, str3.length() + 1, 33);
+                                charSequence3 = spannableStringBuilder;
                             } else {
-                                String str3 = messageObject.messageOwner.message;
-                                if (str3 != null) {
-                                    if (str3.length() > 150) {
+                                String str4 = messageObject.messageOwner.message;
+                                if (str4 != null) {
+                                    if (str4.length() > 150) {
                                         c = 0;
-                                        str3 = str3.substring(0, ImageReceiver.DEFAULT_CROSSFADE_DURATION);
+                                        str4 = str4.substring(0, ImageReceiver.DEFAULT_CROSSFADE_DURATION);
                                     } else {
                                         c = 0;
                                     }
                                     Object[] objArr2 = new Object[2];
-                                    objArr2[c] = str3.replace('\n', ' ').trim();
-                                    objArr2[1] = str2;
+                                    objArr2[c] = str4.replace('\n', ' ').trim();
+                                    objArr2[1] = str3;
                                     valueOf = SpannableStringBuilder.valueOf(String.format("%2$s: \u2068%1$s\u2069", objArr2));
                                 } else {
-                                    valueOf = SpannableStringBuilder.valueOf(charSequence6);
+                                    valueOf = SpannableStringBuilder.valueOf("");
                                 }
                             }
-                            spannableStringBuilder.setSpan(new ForegroundColorSpanThemable("chats_nameMessage"), 0, str2.length() + 1, 33);
-                            charSequence4 = spannableStringBuilder;
+                            spannableStringBuilder.setSpan(new ForegroundColorSpanThemable("chats_nameMessage"), 0, str3.length() + 1, 33);
+                            charSequence3 = spannableStringBuilder;
                         } catch (Exception e2) {
                             FileLog.e(e2);
-                            charSequence4 = spannableStringBuilder;
+                            charSequence3 = spannableStringBuilder;
                         }
                         spannableStringBuilder = valueOf;
                     } else {
                         TLRPC$MessageMedia tLRPC$MessageMedia2 = messageObject.messageOwner.media;
                         if ((tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaPhoto) && (tLRPC$MessageMedia2.photo instanceof TLRPC$TL_photoEmpty) && tLRPC$MessageMedia2.ttl_seconds != 0) {
-                            charSequence4 = LocaleController.getString("AttachPhotoExpired", R.string.AttachPhotoExpired);
+                            charSequence3 = LocaleController.getString("AttachPhotoExpired", R.string.AttachPhotoExpired);
                         } else if ((tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaDocument) && (tLRPC$MessageMedia2.document instanceof TLRPC$TL_documentEmpty) && tLRPC$MessageMedia2.ttl_seconds != 0) {
-                            charSequence4 = LocaleController.getString("AttachVideoExpired", R.string.AttachVideoExpired);
+                            charSequence3 = LocaleController.getString("AttachVideoExpired", R.string.AttachVideoExpired);
                         } else if (messageObject.caption != null) {
                             if (messageObject.isVideo()) {
-                                str = "📹 ";
+                                str2 = "📹 ";
                             } else if (messageObject.isVoice()) {
-                                str = "🎤 ";
+                                str2 = "🎤 ";
                             } else if (messageObject.isMusic()) {
-                                str = "🎧 ";
+                                str2 = "🎧 ";
                             } else if (!messageObject.isPhoto()) {
-                                str = "📎 ";
+                                str2 = "📎 ";
                             }
-                            charSequence4 = str + ((Object) messageObject.caption);
+                            charSequence3 = str2 + ((Object) messageObject.caption);
                         } else {
                             if (tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaPoll) {
-                                charSequence2 = "📊 " + ((TLRPC$TL_messageMediaPoll) tLRPC$MessageMedia2).poll.question;
+                                charSequence = "📊 " + ((TLRPC$TL_messageMediaPoll) tLRPC$MessageMedia2).poll.question;
                             } else if (tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaGame) {
-                                charSequence2 = "🎮 " + messageObject.messageOwner.media.game.title;
+                                charSequence = "🎮 " + messageObject.messageOwner.media.game.title;
                             } else if (messageObject.type == 14) {
-                                charSequence2 = String.format("🎧 %s - %s", messageObject.getMusicAuthor(), messageObject.getMusicTitle());
+                                charSequence = String.format("🎧 %s - %s", messageObject.getMusicAuthor(), messageObject.getMusicTitle());
                             } else {
-                                charSequence2 = messageObject.messageText;
-                                AndroidUtilities.highlightText(charSequence2, messageObject.highlightedWords, (Theme.ResourcesProvider) null);
+                                charSequence = messageObject.messageText;
+                                AndroidUtilities.highlightText(charSequence, messageObject.highlightedWords, (Theme.ResourcesProvider) null);
                             }
-                            CharSequence charSequence9 = charSequence2;
-                            charSequence4 = charSequence9;
+                            CharSequence charSequence8 = charSequence;
+                            charSequence3 = charSequence8;
                             if (messageObject.messageOwner.media != null) {
-                                charSequence4 = charSequence9;
+                                charSequence3 = charSequence8;
                                 if (!messageObject.isMediaEmpty()) {
                                     color = this.mContext.getResources().getColor(R.color.widget_action_text);
-                                    charSequence4 = charSequence9;
+                                    charSequence3 = charSequence8;
                                 }
                             }
                         }
@@ -408,15 +408,15 @@ class ChatsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
                 }
                 remoteViews3.setTextViewText(R.id.shortcut_widget_item_time, LocaleController.stringForMessageListDate(messageObject.messageOwner.date));
                 int i5 = R.id.shortcut_widget_item_message;
-                remoteViews3.setTextViewText(i5, charSequence4.toString());
+                remoteViews3.setTextViewText(i5, charSequence3.toString());
                 remoteViews3.setTextColor(i5, color);
             } else {
                 if (tLRPC$Dialog != null && (i2 = tLRPC$Dialog.last_message_date) != 0) {
                     remoteViews3.setTextViewText(R.id.shortcut_widget_item_time, LocaleController.stringForMessageListDate(i2));
                 } else {
-                    remoteViews3.setTextViewText(R.id.shortcut_widget_item_time, charSequence6);
+                    remoteViews3.setTextViewText(R.id.shortcut_widget_item_time, "");
                 }
-                remoteViews3.setTextViewText(R.id.shortcut_widget_item_message, charSequence6);
+                remoteViews3.setTextViewText(R.id.shortcut_widget_item_message, "");
             }
             if (tLRPC$Dialog != null && (i3 = tLRPC$Dialog.unread_count) > 0) {
                 int i6 = R.id.shortcut_widget_item_badge;

@@ -58,26 +58,24 @@ public class ApplicationLifecycleListener implements Application.ActivityLifecyc
 
     /* JADX INFO: Access modifiers changed from: private */
     public void dispatchStopIfNeeded() {
-        if (this.mStartedCounter != 0 || !this.mPauseSent) {
-            return;
+        if (this.mStartedCounter == 0 && this.mPauseSent) {
+            for (ApplicationLifecycleCallbacks applicationLifecycleCallbacks : this.mLifecycleCallbacks) {
+                applicationLifecycleCallbacks.onApplicationEnterBackground();
+            }
+            this.mStopSent = true;
         }
-        for (ApplicationLifecycleCallbacks applicationLifecycleCallbacks : this.mLifecycleCallbacks) {
-            applicationLifecycleCallbacks.onApplicationEnterBackground();
-        }
-        this.mStopSent = true;
     }
 
     @Override // android.app.Application.ActivityLifecycleCallbacks
     public void onActivityStarted(Activity activity) {
         int i = this.mStartedCounter + 1;
         this.mStartedCounter = i;
-        if (i != 1 || !this.mStopSent) {
-            return;
+        if (i == 1 && this.mStopSent) {
+            for (ApplicationLifecycleCallbacks applicationLifecycleCallbacks : this.mLifecycleCallbacks) {
+                applicationLifecycleCallbacks.onApplicationEnterForeground();
+            }
+            this.mStopSent = false;
         }
-        for (ApplicationLifecycleCallbacks applicationLifecycleCallbacks : this.mLifecycleCallbacks) {
-            applicationLifecycleCallbacks.onApplicationEnterForeground();
-        }
-        this.mStopSent = false;
     }
 
     @Override // android.app.Application.ActivityLifecycleCallbacks

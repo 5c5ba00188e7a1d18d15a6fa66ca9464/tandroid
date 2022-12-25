@@ -141,45 +141,42 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
 
     @Override // com.google.android.exoplayer2.upstream.TransferListener
     public synchronized void onTransferStart(DataSource dataSource, DataSpec dataSpec, boolean z) {
-        if (!z) {
-            return;
+        if (z) {
+            if (this.streamCount == 0) {
+                this.sampleStartTimeMs = this.clock.elapsedRealtime();
+            }
+            this.streamCount++;
         }
-        if (this.streamCount == 0) {
-            this.sampleStartTimeMs = this.clock.elapsedRealtime();
-        }
-        this.streamCount++;
     }
 
     @Override // com.google.android.exoplayer2.upstream.TransferListener
     public synchronized void onBytesTransferred(DataSource dataSource, DataSpec dataSpec, boolean z, int i) {
-        if (!z) {
-            return;
+        if (z) {
+            this.sampleBytesTransferred += i;
         }
-        this.sampleBytesTransferred += i;
     }
 
     @Override // com.google.android.exoplayer2.upstream.TransferListener
     public synchronized void onTransferEnd(DataSource dataSource, DataSpec dataSpec, boolean z) {
-        if (!z) {
-            return;
-        }
-        Assertions.checkState(this.streamCount > 0);
-        long elapsedRealtime = this.clock.elapsedRealtime();
-        int i = (int) (elapsedRealtime - this.sampleStartTimeMs);
-        this.totalElapsedTimeMs += i;
-        long j = this.totalBytesTransferred;
-        long j2 = this.sampleBytesTransferred;
-        this.totalBytesTransferred = j + j2;
-        if (i > 0) {
-            this.slidingPercentile.addSample((int) Math.sqrt(j2), (((float) j2) * 8000.0f) / i);
-            if (this.totalElapsedTimeMs >= 2000 || this.totalBytesTransferred >= 524288) {
-                this.bitrateEstimate = this.slidingPercentile.getPercentile(0.5f);
+        if (z) {
+            Assertions.checkState(this.streamCount > 0);
+            long elapsedRealtime = this.clock.elapsedRealtime();
+            int i = (int) (elapsedRealtime - this.sampleStartTimeMs);
+            this.totalElapsedTimeMs += i;
+            long j = this.totalBytesTransferred;
+            long j2 = this.sampleBytesTransferred;
+            this.totalBytesTransferred = j + j2;
+            if (i > 0) {
+                this.slidingPercentile.addSample((int) Math.sqrt(j2), (((float) j2) * 8000.0f) / i);
+                if (this.totalElapsedTimeMs >= 2000 || this.totalBytesTransferred >= 524288) {
+                    this.bitrateEstimate = this.slidingPercentile.getPercentile(0.5f);
+                }
+                maybeNotifyBandwidthSample(i, this.sampleBytesTransferred, this.bitrateEstimate);
+                this.sampleStartTimeMs = elapsedRealtime;
+                this.sampleBytesTransferred = 0L;
             }
-            maybeNotifyBandwidthSample(i, this.sampleBytesTransferred, this.bitrateEstimate);
-            this.sampleStartTimeMs = elapsedRealtime;
-            this.sampleBytesTransferred = 0L;
+            this.streamCount--;
         }
-        this.streamCount--;
     }
 
     /* JADX INFO: Access modifiers changed from: private */

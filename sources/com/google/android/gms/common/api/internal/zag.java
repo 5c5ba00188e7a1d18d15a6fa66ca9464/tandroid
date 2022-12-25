@@ -17,10 +17,9 @@ public final class zag extends zac {
         this.zab = taskCompletionSource;
         this.zaa = taskApiCall;
         this.zad = statusExceptionMapper;
-        if (i != 2 || !taskApiCall.shouldAutoResolveMissingFeatures()) {
-            return;
+        if (i == 2 && taskApiCall.shouldAutoResolveMissingFeatures()) {
+            throw new IllegalArgumentException("Best-effort write calls cannot pass methods that should auto-resolve missing features.");
         }
-        throw new IllegalArgumentException("Best-effort write calls cannot pass methods that should auto-resolve missing features.");
     }
 
     @Override // com.google.android.gms.common.api.internal.zac

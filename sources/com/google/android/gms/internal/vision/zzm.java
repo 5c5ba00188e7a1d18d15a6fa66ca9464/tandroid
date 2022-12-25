@@ -23,27 +23,27 @@ public final class zzm extends zzt<zzl> {
     }
 
     public final Barcode[] zza(ByteBuffer byteBuffer, zzs zzsVar) {
-        if (!zzb()) {
-            return new Barcode[0];
+        if (zzb()) {
+            try {
+                return ((zzl) Preconditions.checkNotNull(zzd())).zza(ObjectWrapper.wrap(byteBuffer), zzsVar);
+            } catch (RemoteException e) {
+                Log.e("BarcodeNativeHandle", "Error calling native barcode detector", e);
+                return new Barcode[0];
+            }
         }
-        try {
-            return ((zzl) Preconditions.checkNotNull(zzd())).zza(ObjectWrapper.wrap(byteBuffer), zzsVar);
-        } catch (RemoteException e) {
-            Log.e("BarcodeNativeHandle", "Error calling native barcode detector", e);
-            return new Barcode[0];
-        }
+        return new Barcode[0];
     }
 
     public final Barcode[] zza(Bitmap bitmap, zzs zzsVar) {
-        if (!zzb()) {
-            return new Barcode[0];
+        if (zzb()) {
+            try {
+                return ((zzl) Preconditions.checkNotNull(zzd())).zzb(ObjectWrapper.wrap(bitmap), zzsVar);
+            } catch (RemoteException e) {
+                Log.e("BarcodeNativeHandle", "Error calling native barcode detector", e);
+                return new Barcode[0];
+            }
         }
-        try {
-            return ((zzl) Preconditions.checkNotNull(zzd())).zzb(ObjectWrapper.wrap(bitmap), zzsVar);
-        } catch (RemoteException e) {
-            Log.e("BarcodeNativeHandle", "Error calling native barcode detector", e);
-            return new Barcode[0];
-        }
+        return new Barcode[0];
     }
 
     @Override // com.google.android.gms.internal.vision.zzt

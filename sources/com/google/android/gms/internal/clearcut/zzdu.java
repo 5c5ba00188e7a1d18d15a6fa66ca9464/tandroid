@@ -24,13 +24,13 @@ final class zzdu<T> implements zzef<T> {
 
     @Override // com.google.android.gms.internal.clearcut.zzef
     public final boolean equals(T t, T t2) {
-        if (!this.zzmx.zzq(t).equals(this.zzmx.zzq(t2))) {
-            return false;
-        }
-        if (!this.zzmo) {
+        if (this.zzmx.zzq(t).equals(this.zzmx.zzq(t2))) {
+            if (this.zzmo) {
+                return this.zzmy.zza(t).equals(this.zzmy.zza(t2));
+            }
             return true;
         }
-        return this.zzmy.zza(t).equals(this.zzmy.zza(t2));
+        return false;
     }
 
     @Override // com.google.android.gms.internal.clearcut.zzef
@@ -59,8 +59,8 @@ final class zzdu<T> implements zzef<T> {
         zzexVar.zzc(zzexVar.zzq(t), zzfrVar);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:22:0x005c  */
-    /* JADX WARN: Removed duplicated region for block: B:24:0x0061 A[EDGE_INSN: B:24:0x0061->B:25:0x0061 ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x005c  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x0061 A[EDGE_INSN: B:50:0x0061->B:27:0x0061 ?: BREAK  , SYNTHETIC] */
     @Override // com.google.android.gms.internal.clearcut.zzef
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -107,10 +107,9 @@ final class zzdu<T> implements zzef<T> {
                 i = zza;
             }
         }
-        if (i == i2) {
-            return;
+        if (i != i2) {
+            throw zzco.zzbo();
         }
-        throw zzco.zzbo();
     }
 
     @Override // com.google.android.gms.internal.clearcut.zzef

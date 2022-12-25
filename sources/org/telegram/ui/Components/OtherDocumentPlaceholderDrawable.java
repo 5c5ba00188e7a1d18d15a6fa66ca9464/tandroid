@@ -299,15 +299,14 @@ public class OtherDocumentPlaceholderDrawable extends RecyclableDrawable impleme
             return;
         }
         float f6 = this.animatedAlphaValue;
-        if (f6 == 0.0f) {
-            return;
+        if (f6 != 0.0f) {
+            float f7 = f6 - (((float) j) / 200.0f);
+            this.animatedAlphaValue = f7;
+            if (f7 <= 0.0f) {
+                this.animatedAlphaValue = 0.0f;
+            }
+            this.parentView.invalidate();
         }
-        float f7 = f6 - (((float) j) / 200.0f);
-        this.animatedAlphaValue = f7;
-        if (f7 <= 0.0f) {
-            this.animatedAlphaValue = 0.0f;
-        }
-        this.parentView.invalidate();
     }
 
     public void setProgress(float f, boolean z) {

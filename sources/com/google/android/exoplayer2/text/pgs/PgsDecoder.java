@@ -14,13 +14,16 @@ import java.util.zip.Inflater;
 import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public final class PgsDecoder extends SimpleSubtitleDecoder {
+    private final ParsableByteArray buffer;
+    private final CueBuilder cueBuilder;
+    private final ParsableByteArray inflatedBuffer;
     private Inflater inflater;
-    private final ParsableByteArray buffer = new ParsableByteArray();
-    private final ParsableByteArray inflatedBuffer = new ParsableByteArray();
-    private final CueBuilder cueBuilder = new CueBuilder();
 
     public PgsDecoder() {
         super("PgsDecoder");
+        this.buffer = new ParsableByteArray();
+        this.inflatedBuffer = new ParsableByteArray();
+        this.cueBuilder = new CueBuilder();
     }
 
     @Override // com.google.android.exoplayer2.text.SimpleSubtitleDecoder
@@ -45,11 +48,10 @@ public final class PgsDecoder extends SimpleSubtitleDecoder {
         if (this.inflater == null) {
             this.inflater = new Inflater();
         }
-        if (!Util.inflate(parsableByteArray, this.inflatedBuffer, this.inflater)) {
-            return;
+        if (Util.inflate(parsableByteArray, this.inflatedBuffer, this.inflater)) {
+            ParsableByteArray parsableByteArray2 = this.inflatedBuffer;
+            parsableByteArray.reset(parsableByteArray2.data, parsableByteArray2.limit());
         }
-        ParsableByteArray parsableByteArray2 = this.inflatedBuffer;
-        parsableByteArray.reset(parsableByteArray2.data, parsableByteArray2.limit());
     }
 
     private static Cue readNextSection(ParsableByteArray parsableByteArray, CueBuilder cueBuilder) {

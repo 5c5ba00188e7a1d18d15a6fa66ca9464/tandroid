@@ -17,23 +17,23 @@ abstract class zzhj<E> extends AbstractList<E> implements zzjl<E> {
         if (obj == this) {
             return true;
         }
-        if (!(obj instanceof List)) {
-            return false;
-        }
-        if (!(obj instanceof RandomAccess)) {
-            return super.equals(obj);
-        }
-        List list = (List) obj;
-        int size = size();
-        if (size != list.size()) {
-            return false;
-        }
-        for (int i = 0; i < size; i++) {
-            if (!get(i).equals(list.get(i))) {
+        if (obj instanceof List) {
+            if (!(obj instanceof RandomAccess)) {
+                return super.equals(obj);
+            }
+            List list = (List) obj;
+            int size = size();
+            if (size != list.size()) {
                 return false;
             }
+            for (int i = 0; i < size; i++) {
+                if (!get(i).equals(list.get(i))) {
+                    return false;
+                }
+            }
+            return true;
         }
-        return true;
+        return false;
     }
 
     @Override // java.util.AbstractList, java.util.Collection, java.util.List
@@ -105,9 +105,8 @@ abstract class zzhj<E> extends AbstractList<E> implements zzjl<E> {
 
     /* JADX INFO: Access modifiers changed from: protected */
     public final void zzc() {
-        if (this.zza) {
-            return;
+        if (!this.zza) {
+            throw new UnsupportedOperationException();
         }
-        throw new UnsupportedOperationException();
     }
 }

@@ -48,11 +48,11 @@ public class EditTextCaption extends EditTextBoldCursor {
     private int lineCount;
     private float offsetY;
     private final Theme.ResourcesProvider resourcesProvider;
+    private int selectionEnd;
+    private int selectionStart;
     private int userNameLength;
     private int xOffset;
     private int yOffset;
-    private int selectionStart = -1;
-    private int selectionEnd = -1;
 
     /* loaded from: classes3.dex */
     public interface EditTextCaptionDelegate {
@@ -70,6 +70,8 @@ public class EditTextCaption extends EditTextBoldCursor {
 
     public EditTextCaption(Context context, Theme.ResourcesProvider resourcesProvider) {
         super(context);
+        this.selectionStart = -1;
+        this.selectionEnd = -1;
         this.resourcesProvider = resourcesProvider;
         addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.Components.EditTextCaption.1
             @Override // android.text.TextWatcher
@@ -101,14 +103,13 @@ public class EditTextCaption extends EditTextBoldCursor {
             return;
         }
         String str3 = this.caption;
-        if (str3 != null && str3.equals(str)) {
-            return;
+        if (str3 == null || !str3.equals(str)) {
+            this.caption = str;
+            if (str != null) {
+                this.caption = str.replace('\n', ' ');
+            }
+            requestLayout();
         }
-        this.caption = str;
-        if (str != null) {
-            this.caption = str.replace('\n', ' ');
-        }
-        requestLayout();
     }
 
     public void setDelegate(EditTextCaptionDelegate editTextCaptionDelegate) {
@@ -377,11 +378,11 @@ public class EditTextCaption extends EditTextBoldCursor {
         } else if (i == R.id.menu_underline) {
             makeSelectedUnderline();
             return true;
-        } else if (i != R.id.menu_spoiler) {
-            return false;
-        } else {
+        } else if (i == R.id.menu_spoiler) {
             makeSelectedSpoiler();
             return true;
+        } else {
+            return false;
         }
     }
 

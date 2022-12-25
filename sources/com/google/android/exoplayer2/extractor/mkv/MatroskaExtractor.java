@@ -217,7 +217,7 @@ public class MatroskaExtractor implements Extractor {
         this.clusterTimecodeUs = -9223372036854775807L;
         this.reader = ebmlReader;
         ebmlReader.init(new InnerEbmlProcessor());
-        this.seekForCuesEnabled = (i & 1) != 0 ? false : true;
+        this.seekForCuesEnabled = (i & 1) == 0;
         this.varintReader = new VarintReader();
         this.tracks = new SparseArray<>();
         this.scratch = new ParsableByteArray(4);
@@ -264,13 +264,13 @@ public class MatroskaExtractor implements Extractor {
                 return 1;
             }
         }
-        if (!z) {
-            for (int i = 0; i < this.tracks.size(); i++) {
-                this.tracks.valueAt(i).outputPendingSampleMetadata();
-            }
-            return -1;
+        if (z) {
+            return 0;
         }
-        return 0;
+        for (int i = 0; i < this.tracks.size(); i++) {
+            this.tracks.valueAt(i).outputPendingSampleMetadata();
+        }
+        return -1;
     }
 
     protected void startMasterElement(int i, long j, long j2) throws ParserException {
@@ -297,8 +297,7 @@ public class MatroskaExtractor implements Extractor {
         } else if (i == 475249515) {
             this.cueTimesUs = new LongArray();
             this.cueClusterPositions = new LongArray();
-        } else if (i != 524531317 || this.sentSeekMap) {
-        } else {
+        } else if (i == 524531317 && !this.sentSeekMap) {
             if (this.seekForCuesEnabled && this.cuesContentPosition != -1) {
                 this.seekForCues = true;
                 return;
@@ -343,23 +342,22 @@ public class MatroskaExtractor implements Extractor {
             if (i7 != -1) {
                 long j2 = this.seekEntryPosition;
                 if (j2 != -1) {
-                    if (i7 != 475249515) {
+                    if (i7 == 475249515) {
+                        this.cuesContentPosition = j2;
                         return;
                     }
-                    this.cuesContentPosition = j2;
                     return;
                 }
             }
             throw new ParserException("Mandatory element SeekID or SeekPosition not found");
         } else if (i == 25152) {
             Track track4 = this.currentTrack;
-            if (!track4.hasContentEncryption) {
-                return;
+            if (track4.hasContentEncryption) {
+                if (track4.cryptoData == null) {
+                    throw new ParserException("Encrypted Track found but ContentEncKeyID was not found");
+                }
+                track4.drmInitData = new DrmInitData(new DrmInitData.SchemeData(C.UUID_NIL, "video/webm", this.currentTrack.cryptoData.encryptionKey));
             }
-            if (track4.cryptoData == null) {
-                throw new ParserException("Encrypted Track found but ContentEncKeyID was not found");
-            }
-            track4.drmInitData = new DrmInitData(new DrmInitData.SchemeData(C.UUID_NIL, "video/webm", this.currentTrack.cryptoData.encryptionKey));
         } else if (i == 28032) {
             Track track5 = this.currentTrack;
             if (track5.hasContentEncryption && track5.sampleStrippedBytes != null) {
@@ -370,16 +368,14 @@ public class MatroskaExtractor implements Extractor {
                 this.timecodeScale = 1000000L;
             }
             long j3 = this.durationTimecode;
-            if (j3 == -9223372036854775807L) {
-                return;
+            if (j3 != -9223372036854775807L) {
+                this.durationUs = scaleTimecodeToUs(j3);
             }
-            this.durationUs = scaleTimecodeToUs(j3);
         } else if (i != 374648427) {
-            if (i != 475249515 || this.sentSeekMap) {
-                return;
+            if (i == 475249515 && !this.sentSeekMap) {
+                this.extractorOutput.seekMap(buildSeekMap());
+                this.sentSeekMap = true;
             }
-            this.extractorOutput.seekMap(buildSeekMap());
-            this.sentSeekMap = true;
         } else if (this.tracks.size() == 0) {
             throw new ParserException("No valid tracks were found");
         } else {
@@ -399,17 +395,12 @@ public class MatroskaExtractor implements Extractor {
             }
             throw new ParserException("ContentEncodingScope " + j + " not supported");
         } else {
-            boolean z = false;
             switch (i) {
                 case 131:
                     this.currentTrack.type = (int) j;
                     return;
                 case 136:
-                    Track track = this.currentTrack;
-                    if (j == 1) {
-                        z = true;
-                    }
-                    track.flagDefault = z;
+                    this.currentTrack.flagDefault = j == 1;
                     return;
                 case 155:
                     this.blockDurationUs = scaleTimecodeToUs(j);
@@ -451,10 +442,10 @@ public class MatroskaExtractor implements Extractor {
                     }
                     throw new ParserException("ContentCompAlgo " + j + " not supported");
                 case 17029:
-                    if (j >= 1 && j <= 2) {
-                        return;
+                    if (j < 1 || j > 2) {
+                        throw new ParserException("DocTypeReadVersion " + j + " not supported");
                     }
-                    throw new ParserException("DocTypeReadVersion " + j + " not supported");
+                    return;
                 case 17143:
                     if (j == 1) {
                         return;
@@ -500,11 +491,7 @@ public class MatroskaExtractor implements Extractor {
                     this.currentTrack.displayHeight = (int) j;
                     return;
                 case 21930:
-                    Track track2 = this.currentTrack;
-                    if (j == 1) {
-                        z = true;
-                    }
-                    track2.flagForced = z;
+                    this.currentTrack.flagForced = j == 1;
                     return;
                 case 21998:
                     this.currentTrack.maxBlockAdditionId = (int) j;
@@ -570,19 +557,19 @@ public class MatroskaExtractor implements Extractor {
                             this.currentTrack.colorTransfer = 3;
                             return;
                         case 21947:
-                            Track track3 = this.currentTrack;
-                            track3.hasColorInfo = true;
+                            Track track = this.currentTrack;
+                            track.hasColorInfo = true;
                             int i6 = (int) j;
                             if (i6 == 1) {
-                                track3.colorSpace = 1;
+                                track.colorSpace = 1;
                                 return;
                             } else if (i6 == 9) {
-                                track3.colorSpace = 6;
+                                track.colorSpace = 6;
                                 return;
-                            } else if (i6 != 4 && i6 != 5 && i6 != 6 && i6 != 7) {
+                            } else if (i6 == 4 || i6 == 5 || i6 == 6 || i6 == 7) {
+                                track.colorSpace = 2;
                                 return;
                             } else {
-                                track3.colorSpace = 2;
                                 return;
                             }
                         case 21948:
@@ -669,13 +656,13 @@ public class MatroskaExtractor implements Extractor {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:110:0x0211, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:83:0x0211, code lost:
         throw new com.google.android.exoplayer2.ParserException("EBML lacing sample size out of range.");
      */
-    /* JADX WARN: Removed duplicated region for block: B:49:0x0247  */
-    /* JADX WARN: Removed duplicated region for block: B:58:0x025f  */
-    /* JADX WARN: Removed duplicated region for block: B:60:0x0262  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x0249  */
+    /* JADX WARN: Removed duplicated region for block: B:101:0x025f  */
+    /* JADX WARN: Removed duplicated region for block: B:102:0x0262  */
+    /* JADX WARN: Removed duplicated region for block: B:89:0x0247  */
+    /* JADX WARN: Removed duplicated region for block: B:90:0x0249  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -956,13 +943,12 @@ public class MatroskaExtractor implements Extractor {
             return finishWriteSampleData();
         } else {
             TrackOutput trackOutput = track.output;
-            boolean z = true;
             if (!this.sampleEncodingHandled) {
                 if (track.hasContentEncryption) {
                     this.blockFlags &= -1073741825;
-                    boolean z2 = this.sampleSignalByteRead;
+                    boolean z = this.sampleSignalByteRead;
                     int i3 = ConnectionsManager.RequestFlagNeedQuickAck;
-                    if (!z2) {
+                    if (!z) {
                         extractorInput.readFully(this.scratch.data, 0, 1);
                         this.sampleBytesRead++;
                         byte[] bArr = this.scratch.data;
@@ -974,7 +960,7 @@ public class MatroskaExtractor implements Extractor {
                     }
                     byte b = this.sampleSignalByte;
                     if ((b & 1) == 1) {
-                        boolean z3 = (b & 2) == 2;
+                        boolean z2 = (b & 2) == 2;
                         this.blockFlags |= 1073741824;
                         if (!this.sampleInitializationVectorRead) {
                             extractorInput.readFully(this.encryptionInitializationVector.data, 0, 8);
@@ -982,7 +968,7 @@ public class MatroskaExtractor implements Extractor {
                             this.sampleInitializationVectorRead = true;
                             ParsableByteArray parsableByteArray = this.scratch;
                             byte[] bArr2 = parsableByteArray.data;
-                            if (!z3) {
+                            if (!z2) {
                                 i3 = 0;
                             }
                             bArr2[0] = (byte) (i3 | 8);
@@ -993,7 +979,7 @@ public class MatroskaExtractor implements Extractor {
                             trackOutput.sampleData(this.encryptionInitializationVector, 8);
                             this.sampleBytesWritten += 8;
                         }
-                        if (z3) {
+                        if (z2) {
                             if (!this.samplePartitionCountRead) {
                                 extractorInput.readFully(this.scratch.data, 0, 1);
                                 this.sampleBytesRead++;
@@ -1089,10 +1075,7 @@ public class MatroskaExtractor implements Extractor {
                 }
             } else {
                 if (track.trueHdSampleRechunker != null) {
-                    if (this.sampleStrippedBytes.limit() != 0) {
-                        z = false;
-                    }
-                    Assertions.checkState(z);
+                    Assertions.checkState(this.sampleStrippedBytes.limit() == 0);
                     track.trueHdSampleRechunker.startSample(extractorInput);
                 }
                 while (true) {
@@ -1344,23 +1327,21 @@ public class MatroskaExtractor implements Extractor {
         }
 
         public void sampleMetadata(Track track, long j, int i, int i2, int i3) {
-            if (!this.foundSyncframe) {
-                return;
+            if (this.foundSyncframe) {
+                int i4 = this.chunkSampleCount;
+                int i5 = i4 + 1;
+                this.chunkSampleCount = i5;
+                if (i4 == 0) {
+                    this.chunkTimeUs = j;
+                    this.chunkFlags = i;
+                    this.chunkSize = 0;
+                }
+                this.chunkSize += i2;
+                this.chunkOffset = i3;
+                if (i5 >= 16) {
+                    outputPendingSampleMetadata(track);
+                }
             }
-            int i4 = this.chunkSampleCount;
-            int i5 = i4 + 1;
-            this.chunkSampleCount = i5;
-            if (i4 == 0) {
-                this.chunkTimeUs = j;
-                this.chunkFlags = i;
-                this.chunkSize = 0;
-            }
-            this.chunkSize += i2;
-            this.chunkOffset = i3;
-            if (i5 < 16) {
-                return;
-            }
-            outputPendingSampleMetadata(track);
         }
 
         public void outputPendingSampleMetadata(Track track) {
@@ -1712,7 +1693,7 @@ public class MatroskaExtractor implements Extractor {
                     if (parseMsAcmCodecPrivate(new ParsableByteArray(this.codecPrivate))) {
                         pcmEncoding = Util.getPcmEncoding(this.audioBitDepth);
                         if (pcmEncoding == 0) {
-                            Log.w("MatroskaExtractor", "Unsupported PCM bit depth: " + this.audioBitDepth + ". Setting mimeType to " + str5);
+                            Log.w("MatroskaExtractor", "Unsupported PCM bit depth: " + this.audioBitDepth + ". Setting mimeType to audio/x-unknown");
                         }
                         i2 = pcmEncoding;
                         str5 = "audio/raw";
@@ -1720,7 +1701,7 @@ public class MatroskaExtractor implements Extractor {
                         i3 = -1;
                         break;
                     } else {
-                        Log.w("MatroskaExtractor", "Non-PCM MS/ACM is unsupported. Setting mimeType to " + str5);
+                        Log.w("MatroskaExtractor", "Non-PCM MS/ACM is unsupported. Setting mimeType to audio/x-unknown");
                     }
                     singletonList = null;
                     i2 = -1;
@@ -1850,7 +1831,7 @@ public class MatroskaExtractor implements Extractor {
                 case 22:
                     pcmEncoding = Util.getPcmEncoding(this.audioBitDepth);
                     if (pcmEncoding == 0) {
-                        Log.w("MatroskaExtractor", "Unsupported PCM bit depth: " + this.audioBitDepth + ". Setting mimeType to " + str5);
+                        Log.w("MatroskaExtractor", "Unsupported PCM bit depth: " + this.audioBitDepth + ". Setting mimeType to audio/x-unknown");
                         singletonList = null;
                         i2 = -1;
                         i3 = -1;
@@ -2095,14 +2076,14 @@ public class MatroskaExtractor implements Extractor {
                 if (readLittleEndianUnsignedShort == 1) {
                     return true;
                 }
-                if (readLittleEndianUnsignedShort != 65534) {
-                    return false;
-                }
-                parsableByteArray.setPosition(24);
-                if (parsableByteArray.readLong() == MatroskaExtractor.WAVE_SUBFORMAT_PCM.getMostSignificantBits()) {
-                    if (parsableByteArray.readLong() == MatroskaExtractor.WAVE_SUBFORMAT_PCM.getLeastSignificantBits()) {
-                        return true;
+                if (readLittleEndianUnsignedShort == 65534) {
+                    parsableByteArray.setPosition(24);
+                    if (parsableByteArray.readLong() == MatroskaExtractor.WAVE_SUBFORMAT_PCM.getMostSignificantBits()) {
+                        if (parsableByteArray.readLong() == MatroskaExtractor.WAVE_SUBFORMAT_PCM.getLeastSignificantBits()) {
+                            return true;
+                        }
                     }
+                    return false;
                 }
                 return false;
             } catch (ArrayIndexOutOfBoundsException unused) {

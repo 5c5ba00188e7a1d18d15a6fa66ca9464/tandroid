@@ -46,10 +46,10 @@ public final class zzd extends Fragment implements LifecycleFragment {
     public final void addCallback(String str, LifecycleCallback lifecycleCallback) {
         if (!this.zzb.containsKey(str)) {
             this.zzb.put(str, lifecycleCallback);
-            if (this.zzc <= 0) {
+            if (this.zzc > 0) {
+                new zzi(Looper.getMainLooper()).post(new zzc(this, lifecycleCallback, str));
                 return;
             }
-            new zzi(Looper.getMainLooper()).post(new zzc(this, lifecycleCallback, str));
             return;
         }
         throw new IllegalArgumentException("LifecycleCallback with tag " + str + " already added to this fragment.");

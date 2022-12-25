@@ -58,12 +58,11 @@ public class ForumUtilities {
         } else if (tLRPC$TL_forumTopic.icon_emoji_id != 0) {
             backupImageView.setImageDrawable(null);
             AnimatedEmojiDrawable animatedEmojiDrawable = backupImageView.animatedEmojiDrawable;
-            if (animatedEmojiDrawable != null && tLRPC$TL_forumTopic.icon_emoji_id == animatedEmojiDrawable.getDocumentId()) {
-                return;
+            if (animatedEmojiDrawable == null || tLRPC$TL_forumTopic.icon_emoji_id != animatedEmojiDrawable.getDocumentId()) {
+                AnimatedEmojiDrawable animatedEmojiDrawable2 = new AnimatedEmojiDrawable(z2 ? 11 : 10, UserConfig.selectedAccount, tLRPC$TL_forumTopic.icon_emoji_id);
+                animatedEmojiDrawable2.setColorFilter(z ? new PorterDuffColorFilter(Theme.getColor("actionBarDefaultTitle"), PorterDuff.Mode.SRC_IN) : Theme.chat_animatedEmojiTextColorFilter);
+                backupImageView.setAnimatedEmojiDrawable(animatedEmojiDrawable2);
             }
-            AnimatedEmojiDrawable animatedEmojiDrawable2 = new AnimatedEmojiDrawable(z2 ? 11 : 10, UserConfig.selectedAccount, tLRPC$TL_forumTopic.icon_emoji_id);
-            animatedEmojiDrawable2.setColorFilter(z ? new PorterDuffColorFilter(Theme.getColor("actionBarDefaultTitle"), PorterDuff.Mode.SRC_IN) : Theme.chat_animatedEmojiTextColorFilter);
-            backupImageView.setAnimatedEmojiDrawable(animatedEmojiDrawable2);
         } else {
             backupImageView.setAnimatedEmojiDrawable(null);
             backupImageView.setImageDrawable(createTopicDrawable(tLRPC$TL_forumTopic));
@@ -310,10 +309,9 @@ public class ForumUtilities {
         TLRPC$TL_forumTopic findTopic;
         if (messageObject.getDialogId() <= 0 && (findTopic = MessagesController.getInstance(messageObject.currentAccount).getTopicsController().findTopic(-messageObject.getDialogId(), MessageObject.getTopicId(messageObject.messageOwner, true))) != null) {
             Drawable[] drawableArr = messageObject.topicIconDrawable;
-            if (!(drawableArr[0] instanceof ForumBubbleDrawable)) {
-                return;
+            if (drawableArr[0] instanceof ForumBubbleDrawable) {
+                ((ForumBubbleDrawable) drawableArr[0]).setColor(findTopic.icon_color);
             }
-            ((ForumBubbleDrawable) drawableArr[0]).setColor(findTopic.icon_color);
         }
     }
 

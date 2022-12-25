@@ -67,27 +67,27 @@ final class zzdc extends zzav<Long> implements zzcn<Long> {
     public final boolean addAll(Collection<? extends Long> collection) {
         zzw();
         zzci.checkNotNull(collection);
-        if (!(collection instanceof zzdc)) {
-            return super.addAll(collection);
-        }
-        zzdc zzdcVar = (zzdc) collection;
-        int i = zzdcVar.size;
-        if (i == 0) {
-            return false;
-        }
-        int i2 = this.size;
-        if (ConnectionsManager.DEFAULT_DATACENTER_ID - i2 < i) {
+        if (collection instanceof zzdc) {
+            zzdc zzdcVar = (zzdc) collection;
+            int i = zzdcVar.size;
+            if (i == 0) {
+                return false;
+            }
+            int i2 = this.size;
+            if (ConnectionsManager.DEFAULT_DATACENTER_ID - i2 >= i) {
+                int i3 = i2 + i;
+                long[] jArr = this.zzlx;
+                if (i3 > jArr.length) {
+                    this.zzlx = Arrays.copyOf(jArr, i3);
+                }
+                System.arraycopy(zzdcVar.zzlx, 0, this.zzlx, this.size, zzdcVar.size);
+                this.size = i3;
+                ((AbstractList) this).modCount++;
+                return true;
+            }
             throw new OutOfMemoryError();
         }
-        int i3 = i2 + i;
-        long[] jArr = this.zzlx;
-        if (i3 > jArr.length) {
-            this.zzlx = Arrays.copyOf(jArr, i3);
-        }
-        System.arraycopy(zzdcVar.zzlx, 0, this.zzlx, this.size, zzdcVar.size);
-        this.size = i3;
-        ((AbstractList) this).modCount++;
-        return true;
+        return super.addAll(collection);
     }
 
     @Override // com.google.android.gms.internal.clearcut.zzav, java.util.AbstractList, java.util.Collection, java.util.List
@@ -95,20 +95,20 @@ final class zzdc extends zzav<Long> implements zzcn<Long> {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof zzdc)) {
-            return super.equals(obj);
-        }
-        zzdc zzdcVar = (zzdc) obj;
-        if (this.size != zzdcVar.size) {
-            return false;
-        }
-        long[] jArr = zzdcVar.zzlx;
-        for (int i = 0; i < this.size; i++) {
-            if (this.zzlx[i] != jArr[i]) {
+        if (obj instanceof zzdc) {
+            zzdc zzdcVar = (zzdc) obj;
+            if (this.size != zzdcVar.size) {
                 return false;
             }
+            long[] jArr = zzdcVar.zzlx;
+            for (int i = 0; i < this.size; i++) {
+                if (this.zzlx[i] != jArr[i]) {
+                    return false;
+                }
+            }
+            return true;
         }
-        return true;
+        return super.equals(obj);
     }
 
     @Override // java.util.AbstractList, java.util.List
@@ -163,14 +163,13 @@ final class zzdc extends zzav<Long> implements zzcn<Long> {
     @Override // java.util.AbstractList
     protected final void removeRange(int i, int i2) {
         zzw();
-        if (i2 >= i) {
-            long[] jArr = this.zzlx;
-            System.arraycopy(jArr, i2, jArr, i, this.size - i2);
-            this.size -= i2 - i;
-            ((AbstractList) this).modCount++;
-            return;
+        if (i2 < i) {
+            throw new IndexOutOfBoundsException("toIndex < fromIndex");
         }
-        throw new IndexOutOfBoundsException("toIndex < fromIndex");
+        long[] jArr = this.zzlx;
+        System.arraycopy(jArr, i2, jArr, i, this.size - i2);
+        this.size -= i2 - i;
+        ((AbstractList) this).modCount++;
     }
 
     @Override // java.util.AbstractList, java.util.List

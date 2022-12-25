@@ -317,10 +317,11 @@ public class FirebaseInstallationServiceClient {
 
     private static void logFisCommunicationError(HttpURLConnection httpURLConnection, String str, String str2, String str3) {
         String readErrorResponse = readErrorResponse(httpURLConnection);
-        if (!TextUtils.isEmpty(readErrorResponse)) {
-            Log.w("Firebase-Installations", readErrorResponse);
-            Log.w("Firebase-Installations", availableFirebaseOptions(str, str2, str3));
+        if (TextUtils.isEmpty(readErrorResponse)) {
+            return;
         }
+        Log.w("Firebase-Installations", readErrorResponse);
+        Log.w("Firebase-Installations", availableFirebaseOptions(str, str2, str3));
     }
 
     private static String availableFirebaseOptions(String str, String str2, String str3) {

@@ -47,22 +47,18 @@ public class UserExtension implements Model {
         }
         UserExtension userExtension = (UserExtension) obj;
         String str = this.localId;
-        if (str == null ? userExtension.localId != null : !str.equals(userExtension.localId)) {
-            return false;
+        if (str == null ? userExtension.localId == null : str.equals(userExtension.localId)) {
+            String str2 = this.locale;
+            String str3 = userExtension.locale;
+            return str2 != null ? str2.equals(str3) : str3 == null;
         }
-        String str2 = this.locale;
-        String str3 = userExtension.locale;
-        return str2 != null ? str2.equals(str3) : str3 == null;
+        return false;
     }
 
     public int hashCode() {
         String str = this.localId;
-        int i = 0;
         int hashCode = (str != null ? str.hashCode() : 0) * 31;
         String str2 = this.locale;
-        if (str2 != null) {
-            i = str2.hashCode();
-        }
-        return hashCode + i;
+        return hashCode + (str2 != null ? str2.hashCode() : 0);
     }
 }

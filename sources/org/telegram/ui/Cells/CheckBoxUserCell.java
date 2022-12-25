@@ -33,7 +33,6 @@ public class CheckBoxUserCell extends FrameLayout {
         simpleTextView.setTextColor(Theme.getColor(z ? "dialogTextBlack" : "windowBackgroundWhiteBlackText"));
         this.textView.setTextSize(16);
         this.textView.setEllipsizeByGradient(true);
-        int i = 5;
         this.textView.setGravity((LocaleController.isRTL ? 5 : 3) | 16);
         SimpleTextView simpleTextView2 = this.textView;
         boolean z2 = LocaleController.isRTL;
@@ -46,7 +45,7 @@ public class CheckBoxUserCell extends FrameLayout {
         Switch r14 = new Switch(context, null);
         this.checkBox = r14;
         r14.setColors("switchTrack", "switchTrackChecked", "windowBackgroundWhite", "windowBackgroundWhite");
-        addView(this.checkBox, LayoutHelper.createFrame(37, 20.0f, (LocaleController.isRTL ? 3 : i) | 16, 22.0f, 0.0f, 22.0f, 0.0f));
+        addView(this.checkBox, LayoutHelper.createFrame(37, 20.0f, (LocaleController.isRTL ? 3 : 5) | 16, 22.0f, 0.0f, 22.0f, 0.0f));
     }
 
     @Override // android.widget.FrameLayout, android.view.View

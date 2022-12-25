@@ -41,26 +41,27 @@ public final class AudioFocusManager {
     }
 
     public void setAudioAttributes(AudioAttributes audioAttributes) {
-        if (!Util.areEqual(this.audioAttributes, audioAttributes)) {
-            this.audioAttributes = audioAttributes;
-            int convertAudioAttributesToFocusGain = convertAudioAttributesToFocusGain(audioAttributes);
-            this.focusGain = convertAudioAttributesToFocusGain;
-            boolean z = true;
-            if (convertAudioAttributesToFocusGain != 1 && convertAudioAttributesToFocusGain != 0) {
-                z = false;
-            }
-            Assertions.checkArgument(z, "Automatic handling of audio focus is only available for USAGE_MEDIA and USAGE_GAME.");
+        if (Util.areEqual(this.audioAttributes, audioAttributes)) {
+            return;
         }
+        this.audioAttributes = audioAttributes;
+        int convertAudioAttributesToFocusGain = convertAudioAttributesToFocusGain(audioAttributes);
+        this.focusGain = convertAudioAttributesToFocusGain;
+        boolean z = true;
+        if (convertAudioAttributesToFocusGain != 1 && convertAudioAttributesToFocusGain != 0) {
+            z = false;
+        }
+        Assertions.checkArgument(z, "Automatic handling of audio focus is only available for USAGE_MEDIA and USAGE_GAME.");
     }
 
     public int updateAudioFocus(boolean z, int i) {
         if (shouldAbandonAudioFocus(i)) {
             abandonAudioFocus();
             return z ? 1 : -1;
-        } else if (!z) {
-            return -1;
-        } else {
+        } else if (z) {
             return requestAudioFocus();
+        } else {
+            return -1;
         }
     }
 
@@ -184,10 +185,9 @@ public final class AudioFocusManager {
         }
         this.volumeMultiplier = f;
         PlayerControl playerControl = this.playerControl;
-        if (playerControl == null) {
-            return;
+        if (playerControl != null) {
+            playerControl.setVolumeMultiplier(f);
         }
-        playerControl.setVolumeMultiplier(f);
     }
 
     /* JADX INFO: Access modifiers changed from: private */

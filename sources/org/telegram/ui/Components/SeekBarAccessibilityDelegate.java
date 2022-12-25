@@ -43,12 +43,8 @@ public abstract class SeekBarAccessibilityDelegate extends View.AccessibilityDel
     }
 
     public boolean performAccessibilityActionInternal(View view, int i, Bundle bundle) {
-        boolean z = false;
         if (i == 4096 || i == 8192) {
-            if (i == 8192) {
-                z = true;
-            }
-            doScroll(view, z);
+            doScroll(view, i == 8192);
             if (view != null) {
                 postAccessibilityEventRunnable(view);
             }
@@ -62,25 +58,24 @@ public abstract class SeekBarAccessibilityDelegate extends View.AccessibilityDel
     }
 
     private void postAccessibilityEventRunnable(final View view) {
-        if (!ViewCompat.isAttachedToWindow(view)) {
-            return;
+        if (ViewCompat.isAttachedToWindow(view)) {
+            Runnable runnable = this.accessibilityEventRunnables.get(view);
+            if (runnable == null) {
+                Map<View, Runnable> map = this.accessibilityEventRunnables;
+                Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Components.SeekBarAccessibilityDelegate$$ExternalSyntheticLambda0
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        SeekBarAccessibilityDelegate.this.lambda$postAccessibilityEventRunnable$0(view);
+                    }
+                };
+                map.put(view, runnable2);
+                view.addOnAttachStateChangeListener(this.onAttachStateChangeListener);
+                runnable = runnable2;
+            } else {
+                view.removeCallbacks(runnable);
+            }
+            view.postDelayed(runnable, 400L);
         }
-        Runnable runnable = this.accessibilityEventRunnables.get(view);
-        if (runnable == null) {
-            Map<View, Runnable> map = this.accessibilityEventRunnables;
-            Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Components.SeekBarAccessibilityDelegate$$ExternalSyntheticLambda0
-                @Override // java.lang.Runnable
-                public final void run() {
-                    SeekBarAccessibilityDelegate.this.lambda$postAccessibilityEventRunnable$0(view);
-                }
-            };
-            map.put(view, runnable2);
-            view.addOnAttachStateChangeListener(this.onAttachStateChangeListener);
-            runnable = runnable2;
-        } else {
-            view.removeCallbacks(runnable);
-        }
-        view.postDelayed(runnable, 400L);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -104,10 +99,9 @@ public abstract class SeekBarAccessibilityDelegate extends View.AccessibilityDel
             if (canScrollBackward(view)) {
                 accessibilityNodeInfo.addAction(AccessibilityNodeInfo.AccessibilityAction.ACTION_SCROLL_BACKWARD);
             }
-            if (!canScrollForward(view)) {
-                return;
+            if (canScrollForward(view)) {
+                accessibilityNodeInfo.addAction(AccessibilityNodeInfo.AccessibilityAction.ACTION_SCROLL_FORWARD);
             }
-            accessibilityNodeInfo.addAction(AccessibilityNodeInfo.AccessibilityAction.ACTION_SCROLL_FORWARD);
         }
     }
 

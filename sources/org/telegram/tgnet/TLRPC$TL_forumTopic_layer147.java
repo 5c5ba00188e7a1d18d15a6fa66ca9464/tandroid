@@ -7,13 +7,9 @@ public class TLRPC$TL_forumTopic_layer147 extends TLRPC$TL_forumTopic {
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
         int readInt32 = abstractSerializedData.readInt32(z);
         this.flags = readInt32;
-        boolean z2 = false;
         this.my = (readInt32 & 2) != 0;
         this.closed = (readInt32 & 4) != 0;
-        if ((readInt32 & 8) != 0) {
-            z2 = true;
-        }
-        this.pinned = z2;
+        this.pinned = (readInt32 & 8) != 0;
         this.id = abstractSerializedData.readInt32(z);
         this.date = abstractSerializedData.readInt32(z);
         this.title = abstractSerializedData.readString(z);

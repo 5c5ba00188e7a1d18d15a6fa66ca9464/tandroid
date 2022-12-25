@@ -27,12 +27,12 @@ public final class EncodedPayload {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof EncodedPayload)) {
+        if (obj instanceof EncodedPayload) {
+            EncodedPayload encodedPayload = (EncodedPayload) obj;
+            if (this.encoding.equals(encodedPayload.encoding)) {
+                return Arrays.equals(this.bytes, encodedPayload.bytes);
+            }
             return false;
-        }
-        EncodedPayload encodedPayload = (EncodedPayload) obj;
-        if (this.encoding.equals(encodedPayload.encoding)) {
-            return Arrays.equals(this.bytes, encodedPayload.bytes);
         }
         return false;
     }

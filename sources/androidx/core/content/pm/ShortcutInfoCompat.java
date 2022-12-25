@@ -215,10 +215,10 @@ public class ShortcutInfoCompat {
 
     static LocusIdCompat getLocusId(final ShortcutInfo shortcutInfo) {
         if (Build.VERSION.SDK_INT >= 29) {
-            if (shortcutInfo.getLocusId() != null) {
-                return LocusIdCompat.toLocusIdCompat(shortcutInfo.getLocusId());
+            if (shortcutInfo.getLocusId() == null) {
+                return null;
             }
-            return null;
+            return LocusIdCompat.toLocusIdCompat(shortcutInfo.getLocusId());
         }
         return getLocusIdFromExtra(shortcutInfo.getExtras());
     }

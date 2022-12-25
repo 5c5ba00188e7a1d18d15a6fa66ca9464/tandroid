@@ -11,12 +11,8 @@ public class TLRPC$TL_updateMoveStickerSetToTop extends TLRPC$Update {
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
         int readInt32 = abstractSerializedData.readInt32(z);
         this.flags = readInt32;
-        boolean z2 = false;
         this.masks = (readInt32 & 1) != 0;
-        if ((readInt32 & 2) != 0) {
-            z2 = true;
-        }
-        this.emojis = z2;
+        this.emojis = (readInt32 & 2) != 0;
         this.stickerset = abstractSerializedData.readInt64(z);
     }
 

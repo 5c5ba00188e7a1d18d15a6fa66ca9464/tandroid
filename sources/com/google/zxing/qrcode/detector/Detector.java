@@ -146,12 +146,9 @@ public class Detector {
         int abs = Math.abs(i7 - i5);
         int abs2 = Math.abs(i8 - i6);
         int i11 = (-abs) / 2;
-        int i12 = -1;
-        int i13 = i5 < i7 ? 1 : -1;
-        if (i6 < i8) {
-            i12 = 1;
-        }
-        int i14 = i7 + i13;
+        int i12 = i5 < i7 ? 1 : -1;
+        int i13 = i6 < i8 ? 1 : -1;
+        int i14 = i7 + i12;
         int i15 = i5;
         int i16 = i6;
         int i17 = 0;
@@ -184,10 +181,10 @@ public class Detector {
                 if (i16 == i8) {
                     break;
                 }
-                i16 += i12;
+                i16 += i13;
                 i11 -= abs;
             }
-            i15 += i13;
+            i15 += i12;
             i14 = i9;
             z3 = z;
             i10 = 1;

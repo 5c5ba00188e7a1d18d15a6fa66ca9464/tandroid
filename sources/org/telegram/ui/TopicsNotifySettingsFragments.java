@@ -40,9 +40,9 @@ import org.telegram.ui.TopicsNotifySettingsFragments;
 public class TopicsNotifySettingsFragments extends BaseFragment {
     Adapter adapter;
     long dialogId;
+    HashSet<Integer> exceptionsTopics;
+    ArrayList<Item> items;
     RecyclerListView recyclerListView;
-    ArrayList<Item> items = new ArrayList<>();
-    HashSet<Integer> exceptionsTopics = new HashSet<>();
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$removeException$0(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
@@ -50,6 +50,8 @@ public class TopicsNotifySettingsFragments extends BaseFragment {
 
     public TopicsNotifySettingsFragments(Bundle bundle) {
         super(bundle);
+        this.items = new ArrayList<>();
+        this.exceptionsTopics = new HashSet<>();
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -128,10 +130,9 @@ public class TopicsNotifySettingsFragments extends BaseFragment {
                 AlertDialog create = builder.create();
                 TopicsNotifySettingsFragments.this.showDialog(create);
                 TextView textView = (TextView) create.getButton(-1);
-                if (textView == null) {
-                    return;
+                if (textView != null) {
+                    textView.setTextColor(Theme.getColor("dialogTextRed2"));
                 }
-                textView.setTextColor(Theme.getColor("dialogTextRed2"));
             }
         }
 
@@ -228,7 +229,7 @@ public class TopicsNotifySettingsFragments extends BaseFragment {
     public void updateRows() {
         ArrayList<? extends AdapterWithDiffUtils.Item> arrayList;
         int i = 0;
-        if (!this.isPaused && this.adapter != null) {
+        if ((this.isPaused || this.adapter == null) ? false : true) {
             arrayList = new ArrayList<>();
             arrayList.addAll(this.items);
         } else {

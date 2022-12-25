@@ -72,10 +72,10 @@ public interface EglBase {
             for (int i = 0; i < iArr.length - 1; i++) {
                 if (iArr[i] == 12352) {
                     int i2 = iArr[i + 1];
-                    if (i2 == 4) {
-                        return 2;
+                    if (i2 != 4) {
+                        return i2 != 64 ? 1 : 3;
                     }
-                    return i2 != 64 ? 1 : 3;
+                    return 2;
                 }
             }
             return 1;

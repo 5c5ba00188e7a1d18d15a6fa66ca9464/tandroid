@@ -104,10 +104,9 @@ public class FirebaseABTesting {
     }
 
     private void throwAbtExceptionIfAnalyticsIsNull() throws AbtException {
-        if (this.analyticsConnector.get() != null) {
-            return;
+        if (this.analyticsConnector.get() == null) {
+            throw new AbtException("The Analytics SDK is not available. Please check that the Analytics SDK is included in your app dependencies.");
         }
-        throw new AbtException("The Analytics SDK is not available. Please check that the Analytics SDK is included in your app dependencies.");
     }
 
     private void removeExperimentFromAnalytics(String str) {

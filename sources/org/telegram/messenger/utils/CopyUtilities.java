@@ -140,9 +140,10 @@ public class CopyUtilities {
         public void startElement(String str, String str2, String str3, Attributes attributes) throws SAXException {
             boolean handleTag = this.handler.handleTag(true, str2, this.text, attributes);
             this.tagStatus.addLast(Boolean.valueOf(handleTag));
-            if (!handleTag) {
-                this.wrapped.startElement(str, str2, str3, attributes);
+            if (handleTag) {
+                return;
             }
+            this.wrapped.startElement(str, str2, str3, attributes);
         }
 
         @Override // org.xml.sax.ContentHandler

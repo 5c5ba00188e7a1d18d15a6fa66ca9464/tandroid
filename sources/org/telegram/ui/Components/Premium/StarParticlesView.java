@@ -70,9 +70,10 @@ public class StarParticlesView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         this.drawable.onDraw(canvas);
-        if (!this.drawable.paused) {
-            invalidate();
+        if (this.drawable.paused) {
+            return;
         }
+        invalidate();
     }
 
     public void flingParticles(float f) {
@@ -151,9 +152,8 @@ public class StarParticlesView extends View {
         public String colorKey = "premiumStartSmallStarsColor";
 
         public Drawable(int i) {
-            boolean z = false;
             this.count = i;
-            this.distributionAlgorithm = i < 50 ? true : z;
+            this.distributionAlgorithm = i < 50;
         }
 
         public void init() {
@@ -405,8 +405,7 @@ public class StarParticlesView extends View {
                     fArr2[i3 * 2] = this.x;
                     fArr2[(i3 * 2) + 1] = this.y;
                     drawable2.pointsCount2 = i3 + 1;
-                } else if (i != 2) {
-                } else {
+                } else if (i == 2) {
                     Drawable drawable3 = Drawable.this;
                     float[] fArr3 = drawable3.points3;
                     int i4 = drawable3.pointsCount3;
@@ -475,22 +474,21 @@ public class StarParticlesView extends View {
                     canvas.drawBitmap(Drawable.this.stars[this.starIndex], -(Drawable.this.stars[this.starIndex].getWidth() >> 1), -(Drawable.this.stars[this.starIndex].getHeight() >> 1), paint);
                     canvas.restore();
                 }
-                if (!Drawable.this.paused) {
-                    float dp = AndroidUtilities.dp(4.0f) * (Drawable.this.dt / 660.0f);
-                    Drawable drawable3 = Drawable.this;
-                    float f5 = dp * drawable3.speedScale;
-                    this.x += this.vecX * f5;
-                    this.y += this.vecY * f5;
-                    float f6 = this.inProgress;
-                    if (f6 == 1.0f) {
-                        return;
-                    }
+                if (Drawable.this.paused) {
+                    return;
+                }
+                float dp = AndroidUtilities.dp(4.0f) * (Drawable.this.dt / 660.0f);
+                Drawable drawable3 = Drawable.this;
+                float f5 = dp * drawable3.speedScale;
+                this.x += this.vecX * f5;
+                this.y += this.vecY * f5;
+                float f6 = this.inProgress;
+                if (f6 != 1.0f) {
                     float f7 = f6 + (drawable3.dt / 200.0f);
                     this.inProgress = f7;
-                    if (f7 <= 1.0f) {
-                        return;
+                    if (f7 > 1.0f) {
+                        this.inProgress = 1.0f;
                     }
-                    this.inProgress = 1.0f;
                 }
             }
 

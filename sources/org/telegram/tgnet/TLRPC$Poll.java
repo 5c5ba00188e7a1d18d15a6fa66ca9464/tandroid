@@ -47,10 +47,9 @@ public abstract class TLRPC$Poll extends TLObject {
                         }
                         this.answers.add(TLdeserialize);
                     }
-                    if ((this.flags & 16) == 0) {
-                        return;
+                    if ((this.flags & 16) != 0) {
+                        this.close_date = abstractSerializedData2.readInt32(z2);
                     }
-                    this.close_date = abstractSerializedData2.readInt32(z2);
                 }
 
                 @Override // org.telegram.tgnet.TLRPC$TL_poll, org.telegram.tgnet.TLObject
@@ -132,12 +131,12 @@ public abstract class TLRPC$Poll extends TLObject {
                 }
             };
         }
-        if (tLRPC$TL_poll != null || !z) {
-            if (tLRPC$TL_poll != null) {
-                tLRPC$TL_poll.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_poll;
+        if (tLRPC$TL_poll == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in Poll", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in Poll", Integer.valueOf(i)));
+        if (tLRPC$TL_poll != null) {
+            tLRPC$TL_poll.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_poll;
     }
 }

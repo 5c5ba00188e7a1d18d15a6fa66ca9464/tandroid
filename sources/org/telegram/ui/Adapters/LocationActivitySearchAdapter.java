@@ -43,14 +43,7 @@ public class LocationActivitySearchAdapter extends BaseLocationAdapter {
 
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
-        TLRPC$TL_messageMediaVenue item = getItem(i);
-        String str = (isSearching() || i < 0 || i >= this.iconUrls.size()) ? null : this.iconUrls.get(i);
-        LocationCell locationCell = (LocationCell) viewHolder.itemView;
-        boolean z = true;
-        if (i == getItemCount() - 1) {
-            z = false;
-        }
-        locationCell.setLocation(item, str, i, z);
+        ((LocationCell) viewHolder.itemView).setLocation(getItem(i), (isSearching() || i < 0 || i >= this.iconUrls.size()) ? null : this.iconUrls.get(i), i, i != getItemCount() - 1);
     }
 
     public TLRPC$TL_messageMediaVenue getItem(int i) {

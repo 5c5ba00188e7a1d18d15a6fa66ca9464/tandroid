@@ -21,10 +21,9 @@ public class FcmLifecycleCallbacks implements Application.ActivityLifecycleCallb
             return;
         }
         Bundle bundle2 = extras.getBundle("gcm.n.analytics_data");
-        if (!MessagingAnalytics.shouldUploadScionMetrics(bundle2)) {
-            return;
+        if (MessagingAnalytics.shouldUploadScionMetrics(bundle2)) {
+            MessagingAnalytics.logNotificationOpen(bundle2);
         }
-        MessagingAnalytics.logNotificationOpen(bundle2);
     }
 
     @Override // android.app.Application.ActivityLifecycleCallbacks

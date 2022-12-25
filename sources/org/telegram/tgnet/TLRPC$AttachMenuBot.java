@@ -50,12 +50,12 @@ public abstract class TLRPC$AttachMenuBot extends TLObject {
         } else {
             tLRPC$TL_attachMenuBot = new TLRPC$TL_attachMenuBot();
         }
-        if (tLRPC$TL_attachMenuBot != null || !z) {
-            if (tLRPC$TL_attachMenuBot != null) {
-                tLRPC$TL_attachMenuBot.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_attachMenuBot;
+        if (tLRPC$TL_attachMenuBot == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in AttachMenuBot", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in AttachMenuBot", Integer.valueOf(i)));
+        if (tLRPC$TL_attachMenuBot != null) {
+            tLRPC$TL_attachMenuBot.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_attachMenuBot;
     }
 }

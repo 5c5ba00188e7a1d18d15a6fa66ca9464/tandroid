@@ -7,7 +7,6 @@ import android.graphics.Canvas;
 import android.graphics.Path;
 import android.graphics.RectF;
 import android.view.View;
-import android.view.ViewPropertyAnimator;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import androidx.core.graphics.ColorUtils;
@@ -17,18 +16,20 @@ import org.telegram.ui.ActionBar.Theme;
 public class ChatActivityBotWebViewButton extends FrameLayout {
     public static final SimpleFloatPropertyCompat<ChatActivityBotWebViewButton> PROGRESS_PROPERTY = new SimpleFloatPropertyCompat("progress", ChatActivityBotWebViewButton$$ExternalSyntheticLambda0.INSTANCE, ChatActivityBotWebViewButton$$ExternalSyntheticLambda1.INSTANCE).setMultiplier(100.0f);
     private int backgroundColor;
+    private int buttonColor;
     private BotCommandsMenuView menuButton;
     private int menuButtonWidth;
+    private Path path;
     private float progress;
     private RadialProgressView progressView;
     private boolean progressWasVisible;
     private View rippleView;
     private TextView textView;
-    private Path path = new Path();
-    private int buttonColor = Theme.getColor("featuredStickers_addButton");
 
     public ChatActivityBotWebViewButton(Context context) {
         super(context);
+        this.path = new Path();
+        this.buttonColor = Theme.getColor("featuredStickers_addButton");
         TextView textView = new TextView(context);
         this.textView = textView;
         textView.setTextSize(1, 14.0f);
@@ -67,26 +68,17 @@ public class ChatActivityBotWebViewButton extends FrameLayout {
         if (this.progressWasVisible != z2) {
             this.progressWasVisible = z2;
             this.progressView.animate().cancel();
-            float f = 0.0f;
             if (z2) {
                 this.progressView.setAlpha(0.0f);
                 this.progressView.setVisibility(0);
             }
-            ViewPropertyAnimator animate = this.progressView.animate();
-            float f2 = 1.0f;
-            if (z2) {
-                f = 1.0f;
-            }
-            ViewPropertyAnimator scaleX = animate.alpha(f).scaleX(z2 ? 1.0f : 0.1f);
-            if (!z2) {
-                f2 = 0.1f;
-            }
-            scaleX.scaleY(f2).setDuration(250L).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ChatActivityBotWebViewButton.1
+            this.progressView.animate().alpha(z2 ? 1.0f : 0.0f).scaleX(z2 ? 1.0f : 0.1f).scaleY(z2 ? 1.0f : 0.1f).setDuration(250L).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ChatActivityBotWebViewButton.1
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                 public void onAnimationEnd(Animator animator) {
-                    if (!z2) {
-                        ChatActivityBotWebViewButton.this.progressView.setVisibility(8);
+                    if (z2) {
+                        return;
                     }
+                    ChatActivityBotWebViewButton.this.progressView.setVisibility(8);
                 }
             }).start();
         }

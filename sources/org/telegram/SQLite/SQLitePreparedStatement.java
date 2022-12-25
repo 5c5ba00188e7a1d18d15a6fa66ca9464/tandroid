@@ -90,10 +90,9 @@ public class SQLitePreparedStatement {
     }
 
     void checkFinalized() throws SQLiteException {
-        if (!this.isFinalized) {
-            return;
+        if (this.isFinalized) {
+            throw new SQLiteException("Prepared query finalized");
         }
-        throw new SQLiteException("Prepared query finalized");
     }
 
     public void finalizeQuery() {
@@ -110,10 +109,9 @@ public class SQLitePreparedStatement {
             this.isFinalized = true;
             finalize(this.sqliteStatementHandle);
         } catch (SQLiteException e) {
-            if (!BuildVars.LOGS_ENABLED) {
-                return;
+            if (BuildVars.LOGS_ENABLED) {
+                FileLog.e(e.getMessage(), e);
             }
-            FileLog.e(e.getMessage(), e);
         }
     }
 

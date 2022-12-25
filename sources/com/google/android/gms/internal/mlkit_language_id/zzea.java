@@ -682,10 +682,9 @@ public abstract class zzea extends zzdk {
     }
 
     public final void zzb() {
-        if (zza() == 0) {
-            return;
+        if (zza() != 0) {
+            throw new IllegalStateException("Did not write as much data as expected.");
         }
-        throw new IllegalStateException("Did not write as much data as expected.");
     }
 
     final void zza(String str, zzhq zzhqVar) throws IOException {

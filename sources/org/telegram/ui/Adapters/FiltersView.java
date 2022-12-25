@@ -47,7 +47,10 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
 /* loaded from: classes3.dex */
 public class FiltersView extends RecyclerListView {
+    DiffUtil.Callback diffUtilsCallback;
     LinearLayoutManager layoutManager;
+    private ArrayList<MediaFilterData> oldItems;
+    private ArrayList<MediaFilterData> usersFilters;
     public static final MediaFilterData[] filters = {new MediaFilterData(R.drawable.search_media_filled, LocaleController.getString("SharedMediaTab2", R.string.SharedMediaTab2), new TLRPC$TL_inputMessagesFilterPhotoVideo(), 0), new MediaFilterData(R.drawable.search_links_filled, LocaleController.getString("SharedLinksTab2", R.string.SharedLinksTab2), new TLRPC$TL_inputMessagesFilterUrl(), 2), new MediaFilterData(R.drawable.search_files_filled, LocaleController.getString("SharedFilesTab2", R.string.SharedFilesTab2), new TLRPC$TL_inputMessagesFilterDocument(), 1), new MediaFilterData(R.drawable.search_music_filled, LocaleController.getString("SharedMusicTab2", R.string.SharedMusicTab2), new TLRPC$TL_inputMessagesFilterMusic(), 3), new MediaFilterData(R.drawable.search_voice_filled, LocaleController.getString("SharedVoiceTab2", R.string.SharedVoiceTab2), new TLRPC$TL_inputMessagesFilterRoundVoice(), 5)};
     private static final Pattern yearPatter = Pattern.compile("20[0-9]{1,2}");
     private static final Pattern monthYearOrDayPatter = Pattern.compile("(\\w{3,}) ([0-9]{0,4})");
@@ -55,56 +58,56 @@ public class FiltersView extends RecyclerListView {
     private static final Pattern shortDate = Pattern.compile("^([0-9]{1,4})(\\.| |/|\\-)([0-9]{1,4})$");
     private static final Pattern longDate = Pattern.compile("^([0-9]{1,2})(\\.| |/|\\-)([0-9]{1,2})(\\.| |/|\\-)([0-9]{1,4})$");
     private static final int[] numberOfDaysEachMonth = {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-    private ArrayList<MediaFilterData> usersFilters = new ArrayList<>();
-    private ArrayList<MediaFilterData> oldItems = new ArrayList<>();
-    DiffUtil.Callback diffUtilsCallback = new DiffUtil.Callback() { // from class: org.telegram.ui.Adapters.FiltersView.4
-        @Override // androidx.recyclerview.widget.DiffUtil.Callback
-        public boolean areContentsTheSame(int i, int i2) {
-            return true;
-        }
-
-        @Override // androidx.recyclerview.widget.DiffUtil.Callback
-        public int getOldListSize() {
-            return FiltersView.this.oldItems.size();
-        }
-
-        @Override // androidx.recyclerview.widget.DiffUtil.Callback
-        public int getNewListSize() {
-            return FiltersView.this.usersFilters.size();
-        }
-
-        @Override // androidx.recyclerview.widget.DiffUtil.Callback
-        public boolean areItemsTheSame(int i, int i2) {
-            MediaFilterData mediaFilterData = (MediaFilterData) FiltersView.this.oldItems.get(i);
-            MediaFilterData mediaFilterData2 = (MediaFilterData) FiltersView.this.usersFilters.get(i2);
-            if (mediaFilterData.isSameType(mediaFilterData2)) {
-                int i3 = mediaFilterData.filterType;
-                if (i3 == 4) {
-                    TLObject tLObject = mediaFilterData.chat;
-                    if (tLObject instanceof TLRPC$User) {
-                        TLObject tLObject2 = mediaFilterData2.chat;
-                        if (tLObject2 instanceof TLRPC$User) {
-                            return ((TLRPC$User) tLObject).id == ((TLRPC$User) tLObject2).id;
-                        }
-                    }
-                    if (tLObject instanceof TLRPC$Chat) {
-                        TLObject tLObject3 = mediaFilterData2.chat;
-                        return (tLObject3 instanceof TLRPC$Chat) && ((TLRPC$Chat) tLObject).id == ((TLRPC$Chat) tLObject3).id;
-                    }
-                } else if (i3 == 6) {
-                    return mediaFilterData.title.equals(mediaFilterData2.title);
-                } else {
-                    if (i3 == 7) {
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
-    };
 
     public FiltersView(Context context, Theme.ResourcesProvider resourcesProvider) {
         super(context, resourcesProvider);
+        this.usersFilters = new ArrayList<>();
+        this.oldItems = new ArrayList<>();
+        this.diffUtilsCallback = new DiffUtil.Callback() { // from class: org.telegram.ui.Adapters.FiltersView.4
+            @Override // androidx.recyclerview.widget.DiffUtil.Callback
+            public boolean areContentsTheSame(int i, int i2) {
+                return true;
+            }
+
+            @Override // androidx.recyclerview.widget.DiffUtil.Callback
+            public int getOldListSize() {
+                return FiltersView.this.oldItems.size();
+            }
+
+            @Override // androidx.recyclerview.widget.DiffUtil.Callback
+            public int getNewListSize() {
+                return FiltersView.this.usersFilters.size();
+            }
+
+            @Override // androidx.recyclerview.widget.DiffUtil.Callback
+            public boolean areItemsTheSame(int i, int i2) {
+                MediaFilterData mediaFilterData = (MediaFilterData) FiltersView.this.oldItems.get(i);
+                MediaFilterData mediaFilterData2 = (MediaFilterData) FiltersView.this.usersFilters.get(i2);
+                if (mediaFilterData.isSameType(mediaFilterData2)) {
+                    int i3 = mediaFilterData.filterType;
+                    if (i3 == 4) {
+                        TLObject tLObject = mediaFilterData.chat;
+                        if (tLObject instanceof TLRPC$User) {
+                            TLObject tLObject2 = mediaFilterData2.chat;
+                            if (tLObject2 instanceof TLRPC$User) {
+                                return ((TLRPC$User) tLObject).id == ((TLRPC$User) tLObject2).id;
+                            }
+                        }
+                        if (tLObject instanceof TLRPC$Chat) {
+                            TLObject tLObject3 = mediaFilterData2.chat;
+                            return (tLObject3 instanceof TLRPC$Chat) && ((TLRPC$Chat) tLObject).id == ((TLRPC$Chat) tLObject3).id;
+                        }
+                    } else if (i3 == 6) {
+                        return mediaFilterData.title.equals(mediaFilterData2.title);
+                    } else {
+                        if (i3 == 7) {
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            }
+        };
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context) { // from class: org.telegram.ui.Adapters.FiltersView.1
             @Override // androidx.recyclerview.widget.LinearLayoutManager, androidx.recyclerview.widget.RecyclerView.LayoutManager
             public boolean supportsPredictiveItemAnimations() {
@@ -114,9 +117,10 @@ public class FiltersView extends RecyclerListView {
             @Override // androidx.recyclerview.widget.RecyclerView.LayoutManager
             public void onInitializeAccessibilityNodeInfo(RecyclerView.Recycler recycler, RecyclerView.State state, AccessibilityNodeInfoCompat accessibilityNodeInfoCompat) {
                 super.onInitializeAccessibilityNodeInfo(recycler, state, accessibilityNodeInfoCompat);
-                if (!FiltersView.this.isEnabled()) {
-                    accessibilityNodeInfoCompat.setVisibleToUser(false);
+                if (FiltersView.this.isEnabled()) {
+                    return;
                 }
+                accessibilityNodeInfoCompat.setVisibleToUser(false);
             }
         };
         this.layoutManager = linearLayoutManager;
@@ -354,10 +358,10 @@ public class FiltersView extends RecyclerListView {
             } else if (parseInt2 >= 2013 && parseInt <= 12) {
                 createForMonthYear(arrayList, parseInt - 1, parseInt2);
                 return;
-            } else if (parseInt2 > 12) {
+            } else if (parseInt2 <= 12) {
+                createForDayMonth(arrayList, parseInt - 1, parseInt2 - 1);
                 return;
             } else {
-                createForDayMonth(arrayList, parseInt - 1, parseInt2 - 1);
                 return;
             }
         }
@@ -366,25 +370,24 @@ public class FiltersView extends RecyclerListView {
             String group3 = matcher2.group(1);
             String group4 = matcher2.group(3);
             String group5 = matcher2.group(5);
-            if (!matcher2.group(2).equals(matcher2.group(4))) {
-                return;
+            if (matcher2.group(2).equals(matcher2.group(4))) {
+                int parseInt3 = Integer.parseInt(group3);
+                int parseInt4 = Integer.parseInt(group4) - 1;
+                int parseInt5 = Integer.parseInt(group5);
+                if (parseInt5 >= 10 && parseInt5 <= 99) {
+                    parseInt5 += 2000;
+                }
+                int i12 = Calendar.getInstance().get(1);
+                if (!validDateForMont(parseInt3 - 1, parseInt4) || parseInt5 < 2013 || parseInt5 > i12) {
+                    return;
+                }
+                Calendar calendar4 = Calendar.getInstance();
+                int i13 = parseInt5;
+                calendar4.set(i13, parseInt4, parseInt3, 0, 0, 0);
+                long timeInMillis4 = calendar4.getTimeInMillis();
+                calendar4.set(i13, parseInt4, parseInt3 + 1, 0, 0, 0);
+                arrayList.add(new DateData(LocaleController.getInstance().formatterYearMax.format(timeInMillis4), timeInMillis4, calendar4.getTimeInMillis() - 1));
             }
-            int parseInt3 = Integer.parseInt(group3);
-            int parseInt4 = Integer.parseInt(group4) - 1;
-            int parseInt5 = Integer.parseInt(group5);
-            if (parseInt5 >= 10 && parseInt5 <= 99) {
-                parseInt5 += 2000;
-            }
-            int i12 = Calendar.getInstance().get(1);
-            if (!validDateForMont(parseInt3 - 1, parseInt4) || parseInt5 < 2013 || parseInt5 > i12) {
-                return;
-            }
-            Calendar calendar4 = Calendar.getInstance();
-            int i13 = parseInt5;
-            calendar4.set(i13, parseInt4, parseInt3, 0, 0, 0);
-            long timeInMillis4 = calendar4.getTimeInMillis();
-            calendar4.set(i13, parseInt4, parseInt3 + 1, 0, 0, 0);
-            arrayList.add(new DateData(LocaleController.getInstance().formatterYearMax.format(timeInMillis4), timeInMillis4, calendar4.getTimeInMillis() - 1));
         } else if (yearPatter.matcher(trim).matches()) {
             int intValue = Integer.valueOf(trim).intValue();
             int i14 = Calendar.getInstance().get(1);
@@ -440,16 +443,15 @@ public class FiltersView extends RecyclerListView {
             }
             int month3 = getMonth(trim);
             long timeInMillis7 = Calendar.getInstance().getTimeInMillis();
-            if (month3 < 0) {
-                return;
-            }
-            for (int i15 = Calendar.getInstance().get(1); i15 >= 2013; i15--) {
-                Calendar calendar7 = Calendar.getInstance();
-                calendar7.set(i15, month3, 1, 0, 0, 0);
-                long timeInMillis8 = calendar7.getTimeInMillis();
-                if (timeInMillis8 <= timeInMillis7) {
-                    calendar7.add(2, 1);
-                    arrayList.add(new DateData(LocaleController.getInstance().formatterMonthYear.format(timeInMillis8), timeInMillis8, calendar7.getTimeInMillis() - 1));
+            if (month3 >= 0) {
+                for (int i15 = Calendar.getInstance().get(1); i15 >= 2013; i15--) {
+                    Calendar calendar7 = Calendar.getInstance();
+                    calendar7.set(i15, month3, 1, 0, 0, 0);
+                    long timeInMillis8 = calendar7.getTimeInMillis();
+                    if (timeInMillis8 <= timeInMillis7) {
+                        calendar7.add(2, 1);
+                        arrayList.add(new DateData(LocaleController.getInstance().formatterMonthYear.format(timeInMillis8), timeInMillis8, calendar7.getTimeInMillis() - 1));
+                    }
                 }
             }
         }
@@ -759,18 +761,18 @@ public class FiltersView extends RecyclerListView {
 
     @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup
     public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
-        if (!isEnabled()) {
-            return false;
+        if (isEnabled()) {
+            return super.onInterceptTouchEvent(motionEvent);
         }
-        return super.onInterceptTouchEvent(motionEvent);
+        return false;
     }
 
     @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.View
     public boolean onTouchEvent(MotionEvent motionEvent) {
-        if (!isEnabled()) {
-            return false;
+        if (isEnabled()) {
+            return super.onTouchEvent(motionEvent);
         }
-        return super.onTouchEvent(motionEvent);
+        return false;
     }
 
     /* JADX INFO: Access modifiers changed from: private */

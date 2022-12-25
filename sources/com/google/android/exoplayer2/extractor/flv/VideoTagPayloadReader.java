@@ -13,12 +13,14 @@ final class VideoTagPayloadReader extends TagPayloadReader {
     private int frameType;
     private boolean hasOutputFormat;
     private boolean hasOutputKeyframe;
+    private final ParsableByteArray nalLength;
+    private final ParsableByteArray nalStartCode;
     private int nalUnitLengthFieldLength;
-    private final ParsableByteArray nalStartCode = new ParsableByteArray(NalUnitUtil.NAL_START_CODE);
-    private final ParsableByteArray nalLength = new ParsableByteArray(4);
 
     public VideoTagPayloadReader(TrackOutput trackOutput) {
         super(trackOutput);
+        this.nalStartCode = new ParsableByteArray(NalUnitUtil.NAL_START_CODE);
+        this.nalLength = new ParsableByteArray(4);
     }
 
     @Override // com.google.android.exoplayer2.extractor.flv.TagPayloadReader
@@ -45,31 +47,31 @@ final class VideoTagPayloadReader extends TagPayloadReader {
             this.output.format(Format.createVideoSampleFormat(null, MediaController.VIDEO_MIME_TYPE, null, -1, -1, parse.width, parse.height, -1.0f, parse.initializationData, -1, parse.pixelWidthAspectRatio, null));
             this.hasOutputFormat = true;
             return false;
-        } else if (readUnsignedByte != 1 || !this.hasOutputFormat) {
+        } else if (readUnsignedByte == 1 && this.hasOutputFormat) {
+            int i = this.frameType == 1 ? 1 : 0;
+            if (this.hasOutputKeyframe || i != 0) {
+                byte[] bArr = this.nalLength.data;
+                bArr[0] = 0;
+                bArr[1] = 0;
+                bArr[2] = 0;
+                int i2 = 4 - this.nalUnitLengthFieldLength;
+                int i3 = 0;
+                while (parsableByteArray.bytesLeft() > 0) {
+                    parsableByteArray.readBytes(this.nalLength.data, i2, this.nalUnitLengthFieldLength);
+                    this.nalLength.setPosition(0);
+                    int readUnsignedIntToInt = this.nalLength.readUnsignedIntToInt();
+                    this.nalStartCode.setPosition(0);
+                    this.output.sampleData(this.nalStartCode, 4);
+                    this.output.sampleData(parsableByteArray, readUnsignedIntToInt);
+                    i3 = i3 + 4 + readUnsignedIntToInt;
+                }
+                this.output.sampleMetadata(readInt24, i, i3, 0, null);
+                this.hasOutputKeyframe = true;
+                return true;
+            }
             return false;
         } else {
-            int i = this.frameType == 1 ? 1 : 0;
-            if (!this.hasOutputKeyframe && i == 0) {
-                return false;
-            }
-            byte[] bArr = this.nalLength.data;
-            bArr[0] = 0;
-            bArr[1] = 0;
-            bArr[2] = 0;
-            int i2 = 4 - this.nalUnitLengthFieldLength;
-            int i3 = 0;
-            while (parsableByteArray.bytesLeft() > 0) {
-                parsableByteArray.readBytes(this.nalLength.data, i2, this.nalUnitLengthFieldLength);
-                this.nalLength.setPosition(0);
-                int readUnsignedIntToInt = this.nalLength.readUnsignedIntToInt();
-                this.nalStartCode.setPosition(0);
-                this.output.sampleData(this.nalStartCode, 4);
-                this.output.sampleData(parsableByteArray, readUnsignedIntToInt);
-                i3 = i3 + 4 + readUnsignedIntToInt;
-            }
-            this.output.sampleMetadata(readInt24, i, i3, 0, null);
-            this.hasOutputKeyframe = true;
-            return true;
+            return false;
         }
     }
 }

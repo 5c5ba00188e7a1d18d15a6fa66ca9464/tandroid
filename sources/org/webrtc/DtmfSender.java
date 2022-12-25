@@ -49,9 +49,8 @@ public class DtmfSender {
     }
 
     private void checkDtmfSenderExists() {
-        if (this.nativeDtmfSender != 0) {
-            return;
+        if (this.nativeDtmfSender == 0) {
+            throw new IllegalStateException("DtmfSender has been disposed.");
         }
-        throw new IllegalStateException("DtmfSender has been disposed.");
     }
 }

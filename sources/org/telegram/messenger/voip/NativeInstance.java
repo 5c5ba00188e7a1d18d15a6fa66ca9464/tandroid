@@ -235,14 +235,15 @@ public class NativeInstance {
     }
 
     private void onAudioLevelsUpdated(final int[] iArr, final float[] fArr, final boolean[] zArr) {
-        if (!this.isGroup || iArr == null || iArr.length != 0) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.voip.NativeInstance$$ExternalSyntheticLambda3
-                @Override // java.lang.Runnable
-                public final void run() {
-                    NativeInstance.this.lambda$onAudioLevelsUpdated$1(iArr, fArr, zArr);
-                }
-            });
+        if (this.isGroup && iArr != null && iArr.length == 0) {
+            return;
         }
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.voip.NativeInstance$$ExternalSyntheticLambda3
+            @Override // java.lang.Runnable
+            public final void run() {
+                NativeInstance.this.lambda$onAudioLevelsUpdated$1(iArr, fArr, zArr);
+            }
+        });
     }
 
     /* JADX INFO: Access modifiers changed from: private */

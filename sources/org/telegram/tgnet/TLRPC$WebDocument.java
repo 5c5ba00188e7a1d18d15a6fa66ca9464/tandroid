@@ -98,12 +98,12 @@ public abstract class TLRPC$WebDocument extends TLObject {
         } else {
             tLRPC$WebDocument = i != 475467473 ? null : new TLRPC$TL_webDocument();
         }
-        if (tLRPC$WebDocument != null || !z) {
-            if (tLRPC$WebDocument != null) {
-                tLRPC$WebDocument.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$WebDocument;
+        if (tLRPC$WebDocument == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in WebDocument", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in WebDocument", Integer.valueOf(i)));
+        if (tLRPC$WebDocument != null) {
+            tLRPC$WebDocument.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$WebDocument;
     }
 }

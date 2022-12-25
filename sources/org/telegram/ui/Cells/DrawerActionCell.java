@@ -27,11 +27,12 @@ public class DrawerActionCell extends FrameLayout {
     private int currentLottieId;
     private ImageView imageView;
     private RLottieImageView lottieImageView;
-    private RectF rect = new RectF();
+    private RectF rect;
     private AnimatedTextView textView;
 
     public DrawerActionCell(Context context) {
         super(context);
+        this.rect = new RectF();
         ImageView imageView = new ImageView(context);
         this.imageView = imageView;
         addView(imageView, LayoutHelper.createFrame(24, 24.0f, 51, 19.0f, 12.0f, 0.0f, 0.0f));
@@ -57,19 +58,18 @@ public class DrawerActionCell extends FrameLayout {
         super.onDraw(canvas);
         if (this.currentId == 8) {
             Set<String> set = MessagesController.getInstance(UserConfig.selectedAccount).pendingSuggestions;
-            if (!set.contains("VALIDATE_PHONE_NUMBER") && !set.contains("VALIDATE_PASSWORD")) {
-                return;
+            if (set.contains("VALIDATE_PHONE_NUMBER") || set.contains("VALIDATE_PASSWORD")) {
+                int dp2 = AndroidUtilities.dp(12.5f);
+                this.rect.set(((getMeasuredWidth() - AndroidUtilities.dp(9.0f)) - AndroidUtilities.dp(25.0f)) - AndroidUtilities.dp(5.5f), dp2, measuredWidth + dp + AndroidUtilities.dp(14.0f), dp2 + AndroidUtilities.dp(23.0f));
+                Theme.chat_docBackPaint.setColor(Theme.getColor("chats_archiveBackground"));
+                RectF rectF = this.rect;
+                float f = AndroidUtilities.density;
+                canvas.drawRoundRect(rectF, f * 11.5f, f * 11.5f, Theme.chat_docBackPaint);
+                float intrinsicWidth = Theme.dialogs_errorDrawable.getIntrinsicWidth() / 2;
+                float intrinsicHeight = Theme.dialogs_errorDrawable.getIntrinsicHeight() / 2;
+                Theme.dialogs_errorDrawable.setBounds((int) (this.rect.centerX() - intrinsicWidth), (int) (this.rect.centerY() - intrinsicHeight), (int) (this.rect.centerX() + intrinsicWidth), (int) (this.rect.centerY() + intrinsicHeight));
+                Theme.dialogs_errorDrawable.draw(canvas);
             }
-            int dp2 = AndroidUtilities.dp(12.5f);
-            this.rect.set(((getMeasuredWidth() - AndroidUtilities.dp(9.0f)) - AndroidUtilities.dp(25.0f)) - AndroidUtilities.dp(5.5f), dp2, measuredWidth + dp + AndroidUtilities.dp(14.0f), dp2 + AndroidUtilities.dp(23.0f));
-            Theme.chat_docBackPaint.setColor(Theme.getColor("chats_archiveBackground"));
-            RectF rectF = this.rect;
-            float f = AndroidUtilities.density;
-            canvas.drawRoundRect(rectF, f * 11.5f, f * 11.5f, Theme.chat_docBackPaint);
-            float intrinsicWidth = Theme.dialogs_errorDrawable.getIntrinsicWidth() / 2;
-            float intrinsicHeight = Theme.dialogs_errorDrawable.getIntrinsicHeight() / 2;
-            Theme.dialogs_errorDrawable.setBounds((int) (this.rect.centerX() - intrinsicWidth), (int) (this.rect.centerY() - intrinsicHeight), (int) (this.rect.centerX() + intrinsicWidth), (int) (this.rect.centerY() + intrinsicHeight));
-            Theme.dialogs_errorDrawable.draw(canvas);
         }
     }
 
@@ -113,16 +113,15 @@ public class DrawerActionCell extends FrameLayout {
 
     public void updateIcon(final int i) {
         try {
-            if (i == this.currentLottieId) {
-                return;
+            if (i != this.currentLottieId) {
+                this.lottieImageView.setOnAnimationEndListener(new Runnable() { // from class: org.telegram.ui.Cells.DrawerActionCell$$ExternalSyntheticLambda0
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        DrawerActionCell.this.lambda$updateIcon$0(i);
+                    }
+                });
+                this.lottieImageView.playAnimation();
             }
-            this.lottieImageView.setOnAnimationEndListener(new Runnable() { // from class: org.telegram.ui.Cells.DrawerActionCell$$ExternalSyntheticLambda0
-                @Override // java.lang.Runnable
-                public final void run() {
-                    DrawerActionCell.this.lambda$updateIcon$0(i);
-                }
-            });
-            this.lottieImageView.playAnimation();
         } catch (Throwable th) {
             FileLog.e(th);
         }

@@ -73,15 +73,8 @@ public class CallSwipeView extends View {
                 stopAnimatingArrows();
             }
         } else {
-            float f = 0.0f;
             if (motionEvent.getAction() == 2) {
-                View view = this.viewToDrag;
-                float f2 = this.dragFromRight ? -(getWidth() - getDraggedViewWidth()) : 0.0f;
-                float x = motionEvent.getX() - this.dragStartX;
-                if (!this.dragFromRight) {
-                    f = getWidth() - getDraggedViewWidth();
-                }
-                view.setTranslationX(Math.max(f2, Math.min(x, f)));
+                this.viewToDrag.setTranslationX(Math.max(this.dragFromRight ? -(getWidth() - getDraggedViewWidth()) : 0.0f, Math.min(motionEvent.getX() - this.dragStartX, this.dragFromRight ? 0.0f : getWidth() - getDraggedViewWidth())));
                 invalidate();
             } else if (motionEvent.getAction() == 1 || motionEvent.getAction() == 3) {
                 if (Math.abs(this.viewToDrag.getTranslationX()) >= getWidth() - getDraggedViewWidth() && motionEvent.getAction() == 1) {
@@ -108,10 +101,9 @@ public class CallSwipeView extends View {
             return;
         }
         this.animatingArrows = true;
-        if (animatorSet == null) {
-            return;
+        if (animatorSet != null) {
+            animatorSet.start();
         }
-        animatorSet.start();
     }
 
     @Override // android.view.View
@@ -133,11 +125,7 @@ public class CallSwipeView extends View {
         float abs = Math.abs(this.viewToDrag.getTranslationX());
         for (int i = 0; i < 3; i++) {
             float f = 16.0f;
-            float f2 = 1.0f;
-            if (abs > AndroidUtilities.dp(i * 16)) {
-                f2 = 1.0f - Math.min(1.0f, Math.max(0.0f, (abs - (AndroidUtilities.dp(16.0f) * i)) / AndroidUtilities.dp(16.0f)));
-            }
-            this.arrowsPaint.setAlpha(Math.round(this.arrowAlphas[i] * f2));
+            this.arrowsPaint.setAlpha(Math.round(this.arrowAlphas[i] * (abs > ((float) AndroidUtilities.dp((float) (i * 16))) ? 1.0f - Math.min(1.0f, Math.max(0.0f, (abs - (AndroidUtilities.dp(16.0f) * i)) / AndroidUtilities.dp(16.0f))) : 1.0f)));
             canvas.drawPath(this.arrow, this.arrowsPaint);
             if (this.dragFromRight) {
                 f = -16.0f;

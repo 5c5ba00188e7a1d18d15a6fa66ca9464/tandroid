@@ -111,10 +111,9 @@ public class TooManyCommunitiesActivity extends BaseFragment {
             RecyclerListView recyclerListView = this.searchViewContainer.getVisibility() == 0 ? this.searchListView : this.listView;
             int height = recyclerListView.getHeight() - view.getBottom();
             int i2 = this.buttonHeight;
-            if (height >= i2) {
-                return;
+            if (height < i2) {
+                recyclerListView.smoothScrollBy(0, i2 - height);
             }
-            recyclerListView.smoothScrollBy(0, i2 - height);
         }
     }
 
@@ -186,8 +185,7 @@ public class TooManyCommunitiesActivity extends BaseFragment {
                     TooManyCommunitiesActivity.this.searchAdapter.notifyDataSetChanged();
                     TooManyCommunitiesActivity.this.searchViewContainer.animate().setListener(null).alpha(1.0f).setDuration(150L).start();
                     this.expanded = true;
-                } else if (!this.expanded || !TextUtils.isEmpty(obj)) {
-                } else {
+                } else if (this.expanded && TextUtils.isEmpty(obj)) {
                     onSearchCollapse();
                 }
             }
@@ -334,9 +332,10 @@ public class TooManyCommunitiesActivity extends BaseFragment {
             this.listView.setPadding(0, 0, 0, this.buttonHeight - AndroidUtilities.dp(12.0f));
             this.searchListView.setPadding(0, 0, 0, this.buttonHeight);
         }
-        if (!this.selectedIds.isEmpty()) {
-            this.buttonTextView.setText(LocaleController.formatString("LeaveChats", R.string.LeaveChats, LocaleController.formatPluralString("Chats", this.selectedIds.size(), new Object[0])));
+        if (this.selectedIds.isEmpty()) {
+            return;
         }
+        this.buttonTextView.setText(LocaleController.formatString("LeaveChats", R.string.LeaveChats, LocaleController.formatPluralString("Chats", this.selectedIds.size(), new Object[0])));
     }
 
     private void loadInactiveChannels() {
@@ -465,20 +464,21 @@ public class TooManyCommunitiesActivity extends BaseFragment {
             this.hintPosition = 0;
             this.rowCount = i + 1;
             this.shadowPosition = i;
-            if (!TooManyCommunitiesActivity.this.inactiveChats.isEmpty()) {
-                int i2 = this.rowCount;
-                int i3 = i2 + 1;
-                this.rowCount = i3;
-                this.headerPosition = i2;
-                int i4 = i3 + 1;
-                this.rowCount = i4;
-                this.inactiveChatsStartRow = i3;
-                int size = i4 + (TooManyCommunitiesActivity.this.inactiveChats.size() - 1);
-                this.rowCount = size;
-                this.inactiveChatsEndRow = size;
-                this.rowCount = size + 1;
-                this.endPaddingPosition = size;
+            if (TooManyCommunitiesActivity.this.inactiveChats.isEmpty()) {
+                return;
             }
+            int i2 = this.rowCount;
+            int i3 = i2 + 1;
+            this.rowCount = i3;
+            this.headerPosition = i2;
+            int i4 = i3 + 1;
+            this.rowCount = i4;
+            this.inactiveChatsStartRow = i3;
+            int size = i4 + (TooManyCommunitiesActivity.this.inactiveChats.size() - 1);
+            this.rowCount = size;
+            this.inactiveChatsEndRow = size;
+            this.rowCount = size + 1;
+            this.endPaddingPosition = size;
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -532,13 +532,7 @@ public class TooManyCommunitiesActivity extends BaseFragment {
             if (getItemViewType(i) == 4) {
                 GroupCreateUserCell groupCreateUserCell = (GroupCreateUserCell) viewHolder.itemView;
                 TLRPC$Chat tLRPC$Chat = (TLRPC$Chat) TooManyCommunitiesActivity.this.inactiveChats.get(i - this.inactiveChatsStartRow);
-                String str = (String) TooManyCommunitiesActivity.this.inactiveChatsSignatures.get(i - this.inactiveChatsStartRow);
-                String str2 = tLRPC$Chat.title;
-                boolean z = true;
-                if (i == this.inactiveChatsEndRow - 1) {
-                    z = false;
-                }
-                groupCreateUserCell.setObject(tLRPC$Chat, str2, str, z);
+                groupCreateUserCell.setObject(tLRPC$Chat, tLRPC$Chat.title, (String) TooManyCommunitiesActivity.this.inactiveChatsSignatures.get(i - this.inactiveChatsStartRow), i != this.inactiveChatsEndRow - 1);
                 groupCreateUserCell.setChecked(TooManyCommunitiesActivity.this.selectedIds.contains(Long.valueOf(tLRPC$Chat.id)), false);
             }
         }
@@ -594,12 +588,7 @@ public class TooManyCommunitiesActivity extends BaseFragment {
             TLRPC$Chat tLRPC$Chat = this.searchResults.get(i);
             String str = this.searchResultsSignatures.get(i);
             GroupCreateUserCell groupCreateUserCell = (GroupCreateUserCell) viewHolder.itemView;
-            String str2 = tLRPC$Chat.title;
-            boolean z = true;
-            if (i == this.searchResults.size() - 1) {
-                z = false;
-            }
-            groupCreateUserCell.setObject(tLRPC$Chat, str2, str, z);
+            groupCreateUserCell.setObject(tLRPC$Chat, tLRPC$Chat.title, str, i != this.searchResults.size() - 1);
             groupCreateUserCell.setChecked(TooManyCommunitiesActivity.this.selectedIds.contains(Long.valueOf(tLRPC$Chat.id)), false);
         }
 

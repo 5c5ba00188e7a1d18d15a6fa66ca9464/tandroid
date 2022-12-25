@@ -83,7 +83,6 @@ public class GroupCreateUserCell extends FrameLayout {
         backupImageView.setRoundRadius(AndroidUtilities.dp(24.0f));
         BackupImageView backupImageView2 = this.avatarImageView;
         boolean z3 = LocaleController.isRTL;
-        int i3 = 5;
         addView(backupImageView2, LayoutHelper.createFrame(46, 46.0f, (z3 ? 5 : 3) | 48, z3 ? 0.0f : this.padding + 13, 6.0f, z3 ? this.padding + 13 : 0.0f, 0.0f));
         SimpleTextView simpleTextView = new SimpleTextView(this, context) { // from class: org.telegram.ui.Cells.GroupCreateUserCell.1
             @Override // org.telegram.ui.ActionBar.SimpleTextView
@@ -99,21 +98,20 @@ public class GroupCreateUserCell extends FrameLayout {
         this.nameTextView.setGravity((LocaleController.isRTL ? 5 : 3) | 48);
         SimpleTextView simpleTextView2 = this.nameTextView;
         boolean z4 = LocaleController.isRTL;
-        int i4 = (z4 ? 5 : 3) | 48;
-        int i5 = 28;
-        int i6 = z4 ? 28 : 72;
-        int i7 = this.padding;
-        addView(simpleTextView2, LayoutHelper.createFrame(-1, 20.0f, i4, i6 + i7, 10.0f, (z4 ? 72 : 28) + i7, 0.0f));
+        int i3 = (z4 ? 5 : 3) | 48;
+        int i4 = z4 ? 28 : 72;
+        int i5 = this.padding;
+        addView(simpleTextView2, LayoutHelper.createFrame(-1, 20.0f, i3, i4 + i5, 10.0f, (z4 ? 72 : 28) + i5, 0.0f));
         SimpleTextView simpleTextView3 = new SimpleTextView(context);
         this.statusTextView = simpleTextView3;
         simpleTextView3.setTextSize(14);
         this.statusTextView.setGravity((LocaleController.isRTL ? 5 : 3) | 48);
         SimpleTextView simpleTextView4 = this.statusTextView;
         boolean z5 = LocaleController.isRTL;
-        int i8 = (z5 ? 5 : 3) | 48;
-        int i9 = z5 ? 28 : 72;
-        int i10 = this.padding;
-        addView(simpleTextView4, LayoutHelper.createFrame(-1, 20.0f, i8, i9 + i10, 32.0f, (z5 ? 72 : i5) + i10, 0.0f));
+        int i6 = (z5 ? 5 : 3) | 48;
+        int i7 = z5 ? 28 : 72;
+        int i8 = this.padding;
+        addView(simpleTextView4, LayoutHelper.createFrame(-1, 20.0f, i6, i7 + i8, 32.0f, (z5 ? 72 : 28) + i8, 0.0f));
         if (i == 1) {
             CheckBox2 checkBox2 = new CheckBox2(context, 21);
             this.checkBox = checkBox2;
@@ -122,7 +120,7 @@ public class GroupCreateUserCell extends FrameLayout {
             this.checkBox.setDrawBackgroundAsArc(3);
             CheckBox2 checkBox22 = this.checkBox;
             boolean z6 = LocaleController.isRTL;
-            addView(checkBox22, LayoutHelper.createFrame(24, 24.0f, (!z6 ? 3 : i3) | 48, z6 ? 0.0f : this.padding + 40, 33.0f, z6 ? this.padding + 39 : 0.0f, 0.0f));
+            addView(checkBox22, LayoutHelper.createFrame(24, 24.0f, (z6 ? 5 : 3) | 48, z6 ? 0.0f : this.padding + 40, 33.0f, z6 ? this.padding + 39 : 0.0f, 0.0f));
         } else if (i == 2) {
             Paint paint = new Paint(1);
             this.paint = paint;
@@ -175,18 +173,9 @@ public class GroupCreateUserCell extends FrameLayout {
                 this.animator.setInterpolator(CubicBezierInterpolator.EASE_OUT);
                 this.animator.start();
             } else {
-                float f = 0.82f;
-                float f2 = 1.0f;
                 this.avatarImageView.setScaleX(this.isChecked ? 0.82f : 1.0f);
-                BackupImageView backupImageView = this.avatarImageView;
-                if (!this.isChecked) {
-                    f = 1.0f;
-                }
-                backupImageView.setScaleY(f);
-                if (!this.isChecked) {
-                    f2 = 0.0f;
-                }
-                this.checkProgress = f2;
+                this.avatarImageView.setScaleY(this.isChecked ? 0.82f : 1.0f);
+                this.checkProgress = this.isChecked ? 1.0f : 0.0f;
             }
             invalidate();
         }
@@ -239,7 +228,7 @@ public class GroupCreateUserCell extends FrameLayout {
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:62:0x00d7, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:45:0x00d7, code lost:
         if (r14.equals("archived") == false) goto L15;
      */
     /*
@@ -256,8 +245,6 @@ public class GroupCreateUserCell extends FrameLayout {
         if (obj == null) {
             return;
         }
-        String str4 = "voipgroup_lastSeenText";
-        int i2 = 0;
         TLRPC$Chat tLRPC$Chat = null;
         if (obj instanceof String) {
             ((FrameLayout.LayoutParams) this.nameTextView.getLayoutParams()).topMargin = AndroidUtilities.dp(15.0f);
@@ -275,65 +262,65 @@ public class GroupCreateUserCell extends FrameLayout {
                     ((FrameLayout.LayoutParams) this.checkBox.getLayoutParams()).leftMargin = AndroidUtilities.dp(32.0f);
                 }
             }
-            String str5 = (String) this.currentObject;
-            str5.hashCode();
-            switch (str5.hashCode()) {
+            String str4 = (String) this.currentObject;
+            str4.hashCode();
+            switch (str4.hashCode()) {
                 case -1716307998:
                     break;
                 case -1237460524:
-                    if (str5.equals("groups")) {
-                        i2 = 1;
+                    if (str4.equals("groups")) {
+                        r3 = 1;
                         break;
                     }
-                    i2 = -1;
+                    r3 = -1;
                     break;
                 case -1197490811:
-                    if (str5.equals("non_contacts")) {
-                        i2 = 2;
+                    if (str4.equals("non_contacts")) {
+                        r3 = 2;
                         break;
                     }
-                    i2 = -1;
+                    r3 = -1;
                     break;
                 case -567451565:
-                    if (str5.equals("contacts")) {
-                        i2 = 3;
+                    if (str4.equals("contacts")) {
+                        r3 = 3;
                         break;
                     }
-                    i2 = -1;
+                    r3 = -1;
                     break;
                 case 3029900:
-                    if (str5.equals("bots")) {
-                        i2 = 4;
+                    if (str4.equals("bots")) {
+                        r3 = 4;
                         break;
                     }
-                    i2 = -1;
+                    r3 = -1;
                     break;
                 case 3496342:
-                    if (str5.equals("read")) {
-                        i2 = 5;
+                    if (str4.equals("read")) {
+                        r3 = 5;
                         break;
                     }
-                    i2 = -1;
+                    r3 = -1;
                     break;
                 case 104264043:
-                    if (str5.equals("muted")) {
-                        i2 = 6;
+                    if (str4.equals("muted")) {
+                        r3 = 6;
                         break;
                     }
-                    i2 = -1;
+                    r3 = -1;
                     break;
                 case 1432626128:
-                    if (str5.equals("channels")) {
-                        i2 = 7;
+                    if (str4.equals("channels")) {
+                        r3 = 7;
                         break;
                     }
-                    i2 = -1;
+                    r3 = -1;
                     break;
                 default:
-                    i2 = -1;
+                    r3 = -1;
                     break;
             }
-            switch (i2) {
+            switch (r3) {
                 case 0:
                     this.avatarDrawable.setAvatarType(11);
                     break;
@@ -421,10 +408,7 @@ public class GroupCreateUserCell extends FrameLayout {
                 }
                 this.avatarDrawable.setInfo(tLRPC$User);
                 TLRPC$UserStatus tLRPC$UserStatus3 = tLRPC$User.status;
-                if (tLRPC$UserStatus3 != null) {
-                    i2 = tLRPC$UserStatus3.expires;
-                }
-                this.lastStatus = i2;
+                this.lastStatus = tLRPC$UserStatus3 != null ? tLRPC$UserStatus3.expires : 0;
                 CharSequence charSequence2 = this.currentName;
                 if (charSequence2 != null) {
                     this.lastName = null;
@@ -439,20 +423,15 @@ public class GroupCreateUserCell extends FrameLayout {
                 if (this.currentStatus == null) {
                     if (tLRPC$User.bot) {
                         this.statusTextView.setTag("windowBackgroundWhiteGrayText");
-                        this.statusTextView.setTextColor(Theme.getColor(this.forceDarkTheme ? str4 : "windowBackgroundWhiteGrayText"));
+                        this.statusTextView.setTextColor(Theme.getColor(this.forceDarkTheme ? "voipgroup_lastSeenText" : "windowBackgroundWhiteGrayText"));
                         this.statusTextView.setText(LocaleController.getString("Bot", R.string.Bot));
                     } else if (tLRPC$User.id == UserConfig.getInstance(this.currentAccount).getClientUserId() || (((tLRPC$UserStatus = tLRPC$User.status) != null && tLRPC$UserStatus.expires > ConnectionsManager.getInstance(this.currentAccount).getCurrentTime()) || MessagesController.getInstance(this.currentAccount).onlinePrivacy.containsKey(Long.valueOf(tLRPC$User.id)))) {
-                        String str6 = "windowBackgroundWhiteBlueText";
-                        this.statusTextView.setTag(str6);
-                        SimpleTextView simpleTextView = this.statusTextView;
-                        if (this.forceDarkTheme) {
-                            str6 = "voipgroup_listeningText";
-                        }
-                        simpleTextView.setTextColor(Theme.getColor(str6));
+                        this.statusTextView.setTag("windowBackgroundWhiteBlueText");
+                        this.statusTextView.setTextColor(Theme.getColor(this.forceDarkTheme ? "voipgroup_listeningText" : "windowBackgroundWhiteBlueText"));
                         this.statusTextView.setText(LocaleController.getString("Online", R.string.Online));
                     } else {
                         this.statusTextView.setTag("windowBackgroundWhiteGrayText");
-                        this.statusTextView.setTextColor(Theme.getColor(this.forceDarkTheme ? str4 : "windowBackgroundWhiteGrayText"));
+                        this.statusTextView.setTextColor(Theme.getColor(this.forceDarkTheme ? "voipgroup_lastSeenText" : "windowBackgroundWhiteGrayText"));
                         this.statusTextView.setText(LocaleController.formatUserStatus(this.currentAccount, tLRPC$User));
                     }
                 }
@@ -491,7 +470,7 @@ public class GroupCreateUserCell extends FrameLayout {
                 }
                 if (this.currentStatus == null) {
                     this.statusTextView.setTag("windowBackgroundWhiteGrayText");
-                    this.statusTextView.setTextColor(Theme.getColor(this.forceDarkTheme ? str4 : "windowBackgroundWhiteGrayText"));
+                    this.statusTextView.setTextColor(Theme.getColor(this.forceDarkTheme ? "voipgroup_lastSeenText" : "windowBackgroundWhiteGrayText"));
                     if (tLRPC$Chat2.participants_count != 0) {
                         if (ChatObject.isChannel(tLRPC$Chat2) && !tLRPC$Chat2.megagroup) {
                             this.statusTextView.setText(LocaleController.formatPluralString("Subscribers", tLRPC$Chat2.participants_count, new Object[0]));
@@ -518,39 +497,29 @@ public class GroupCreateUserCell extends FrameLayout {
         }
         this.avatarImageView.setRoundRadius(AndroidUtilities.dp((tLRPC$Chat == null || !tLRPC$Chat.forum) ? 24.0f : 14.0f));
         CharSequence charSequence4 = this.currentStatus;
-        if (charSequence4 == null) {
-            return;
+        if (charSequence4 != null) {
+            this.statusTextView.setText(charSequence4, true);
+            this.statusTextView.setTag("windowBackgroundWhiteGrayText");
+            this.statusTextView.setTextColor(Theme.getColor(this.forceDarkTheme ? "voipgroup_lastSeenText" : "windowBackgroundWhiteGrayText"));
         }
-        this.statusTextView.setText(charSequence4, true);
-        this.statusTextView.setTag("windowBackgroundWhiteGrayText");
-        SimpleTextView simpleTextView2 = this.statusTextView;
-        if (!this.forceDarkTheme) {
-            str4 = "windowBackgroundWhiteGrayText";
-        }
-        simpleTextView2.setTextColor(Theme.getColor(str4));
     }
 
     @Override // android.view.View
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        float f = 0.0f;
         if (this.checkBoxType == 2 && (this.isChecked || this.checkProgress > 0.0f)) {
             this.paint.setColor(Theme.getColor("checkboxSquareBackground"));
             canvas.drawCircle(this.avatarImageView.getLeft() + (this.avatarImageView.getMeasuredWidth() / 2), this.avatarImageView.getTop() + (this.avatarImageView.getMeasuredHeight() / 2), AndroidUtilities.dp(18.0f) + (AndroidUtilities.dp(4.0f) * this.checkProgress), this.paint);
         }
         if (this.drawDivider) {
             int dp = AndroidUtilities.dp(LocaleController.isRTL ? 0.0f : this.padding + 72);
-            int measuredWidth = getMeasuredWidth();
-            if (LocaleController.isRTL) {
-                f = this.padding + 72;
-            }
-            int dp2 = measuredWidth - AndroidUtilities.dp(f);
+            int measuredWidth = getMeasuredWidth() - AndroidUtilities.dp(LocaleController.isRTL ? this.padding + 72 : 0.0f);
             if (this.forceDarkTheme) {
                 Theme.dividerExtraPaint.setColor(Theme.getColor("voipgroup_actionBar"));
-                canvas.drawRect(dp, getMeasuredHeight() - 1, dp2, getMeasuredHeight(), Theme.dividerExtraPaint);
+                canvas.drawRect(dp, getMeasuredHeight() - 1, measuredWidth, getMeasuredHeight(), Theme.dividerExtraPaint);
                 return;
             }
-            canvas.drawRect(dp, getMeasuredHeight() - 1, dp2, getMeasuredHeight(), Theme.dividerPaint);
+            canvas.drawRect(dp, getMeasuredHeight() - 1, measuredWidth, getMeasuredHeight(), Theme.dividerPaint);
         }
     }
 

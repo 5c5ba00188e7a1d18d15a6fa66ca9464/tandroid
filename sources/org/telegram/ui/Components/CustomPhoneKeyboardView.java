@@ -22,23 +22,13 @@ import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
 public class CustomPhoneKeyboardView extends ViewGroup {
     private ImageView backButton;
+    private Runnable detectLongClick;
     private boolean dispatchBackWhenEmpty;
     private EditText editText;
+    private Runnable onBackButton;
     private boolean postedLongClick;
     private boolean runningLongClick;
-    private View[] views = new View[12];
-    private Runnable onBackButton = new Runnable() { // from class: org.telegram.ui.Components.CustomPhoneKeyboardView$$ExternalSyntheticLambda3
-        @Override // java.lang.Runnable
-        public final void run() {
-            CustomPhoneKeyboardView.this.lambda$new$0();
-        }
-    };
-    private Runnable detectLongClick = new Runnable() { // from class: org.telegram.ui.Components.CustomPhoneKeyboardView$$ExternalSyntheticLambda2
-        @Override // java.lang.Runnable
-        public final void run() {
-            CustomPhoneKeyboardView.this.lambda$new$1();
-        }
-    };
+    private View[] views;
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$new$3(View view) {
@@ -53,17 +43,15 @@ public class CustomPhoneKeyboardView extends ViewGroup {
     public /* synthetic */ void lambda$new$0() {
         EditText editText = this.editText;
         if (editText != null) {
-            if (editText.length() == 0 && !this.dispatchBackWhenEmpty) {
-                return;
+            if (editText.length() != 0 || this.dispatchBackWhenEmpty) {
+                performHapticFeedback(3, 2);
+                playSoundEffect(0);
+                this.editText.dispatchKeyEvent(new KeyEvent(0, 67));
+                this.editText.dispatchKeyEvent(new KeyEvent(1, 67));
+                if (this.runningLongClick) {
+                    postDelayed(this.onBackButton, 50L);
+                }
             }
-            performHapticFeedback(3, 2);
-            playSoundEffect(0);
-            this.editText.dispatchKeyEvent(new KeyEvent(0, 67));
-            this.editText.dispatchKeyEvent(new KeyEvent(1, 67));
-            if (!this.runningLongClick) {
-                return;
-            }
-            postDelayed(this.onBackButton, 50L);
         }
     }
 
@@ -77,6 +65,19 @@ public class CustomPhoneKeyboardView extends ViewGroup {
     public CustomPhoneKeyboardView(Context context) {
         super(context);
         String str;
+        this.views = new View[12];
+        this.onBackButton = new Runnable() { // from class: org.telegram.ui.Components.CustomPhoneKeyboardView$$ExternalSyntheticLambda3
+            @Override // java.lang.Runnable
+            public final void run() {
+                CustomPhoneKeyboardView.this.lambda$new$0();
+            }
+        };
+        this.detectLongClick = new Runnable() { // from class: org.telegram.ui.Components.CustomPhoneKeyboardView$$ExternalSyntheticLambda2
+            @Override // java.lang.Runnable
+            public final void run() {
+                CustomPhoneKeyboardView.this.lambda$new$1();
+            }
+        };
         int i = 0;
         while (i < 11) {
             if (i != 9) {
@@ -179,10 +180,9 @@ public class CustomPhoneKeyboardView extends ViewGroup {
             editText4.setSelection(editText4.length());
         }
         EditText editText5 = this.editText;
-        if (!(editText5 instanceof EditTextBoldCursor)) {
-            return;
+        if (editText5 instanceof EditTextBoldCursor) {
+            ((EditTextBoldCursor) editText5).setTextWatchersSuppressed(false, true);
         }
-        ((EditTextBoldCursor) editText5).setTextWatchersSuppressed(false, true);
     }
 
     public void setDispatchBackWhenEmpty(boolean z) {
@@ -274,12 +274,15 @@ public class CustomPhoneKeyboardView extends ViewGroup {
     private static final class NumberButtonView extends View {
         private String mNumber;
         private String mSymbols;
-        private TextPaint numberTextPaint = new TextPaint(1);
-        private TextPaint symbolsTextPaint = new TextPaint(1);
-        private android.graphics.Rect rect = new android.graphics.Rect();
+        private TextPaint numberTextPaint;
+        private android.graphics.Rect rect;
+        private TextPaint symbolsTextPaint;
 
         public NumberButtonView(Context context, String str, String str2) {
             super(context);
+            this.numberTextPaint = new TextPaint(1);
+            this.symbolsTextPaint = new TextPaint(1);
+            this.rect = new android.graphics.Rect();
             this.mNumber = str;
             this.mSymbols = str2;
             this.numberTextPaint.setTextSize(AndroidUtilities.dp(24.0f));

@@ -19,7 +19,7 @@ public class SampleDataQueue {
     private final Allocator allocator;
     private AllocationNode firstAllocationNode;
     private AllocationNode readAllocationNode;
-    private final ParsableByteArray scratch = new ParsableByteArray(32);
+    private final ParsableByteArray scratch;
     private long totalBytesWritten;
     private AllocationNode writeAllocationNode;
 
@@ -27,6 +27,7 @@ public class SampleDataQueue {
         this.allocator = allocator;
         int individualAllocationLength = allocator.getIndividualAllocationLength();
         this.allocationLength = individualAllocationLength;
+        this.scratch = new ParsableByteArray(32);
         AllocationNode allocationNode = new AllocationNode(0L, individualAllocationLength);
         this.firstAllocationNode = allocationNode;
         this.readAllocationNode = allocationNode;
@@ -59,10 +60,10 @@ public class SampleDataQueue {
                     allocationNode = allocationNode3;
                 }
                 this.writeAllocationNode = allocationNode;
-                if (this.readAllocationNode != allocationNode2) {
+                if (this.readAllocationNode == allocationNode2) {
+                    this.readAllocationNode = allocationNode3;
                     return;
                 }
-                this.readAllocationNode = allocationNode3;
                 return;
             }
         }
@@ -113,10 +114,9 @@ public class SampleDataQueue {
             this.allocator.release(allocationNode.allocation);
             this.firstAllocationNode = this.firstAllocationNode.clear();
         }
-        if (this.readAllocationNode.startPosition >= allocationNode.startPosition) {
-            return;
+        if (this.readAllocationNode.startPosition < allocationNode.startPosition) {
+            this.readAllocationNode = allocationNode;
         }
-        this.readAllocationNode = allocationNode;
     }
 
     public long getTotalBytesWritten() {
@@ -130,10 +130,10 @@ public class SampleDataQueue {
         if (read != -1) {
             postAppend(read);
             return read;
-        } else if (!z) {
-            throw new EOFException();
-        } else {
+        } else if (z) {
             return -1;
+        } else {
+            throw new EOFException();
         }
     }
 
@@ -239,26 +239,24 @@ public class SampleDataQueue {
     private void advanceReadTo(long j) {
         while (true) {
             AllocationNode allocationNode = this.readAllocationNode;
-            if (j >= allocationNode.endPosition) {
-                this.readAllocationNode = allocationNode.next;
-            } else {
+            if (j < allocationNode.endPosition) {
                 return;
             }
+            this.readAllocationNode = allocationNode.next;
         }
     }
 
     private void clearAllocationNodes(AllocationNode allocationNode) {
-        if (!allocationNode.wasInitialized) {
-            return;
+        if (allocationNode.wasInitialized) {
+            AllocationNode allocationNode2 = this.writeAllocationNode;
+            int i = (allocationNode2.wasInitialized ? 1 : 0) + (((int) (allocationNode2.startPosition - allocationNode.startPosition)) / this.allocationLength);
+            Allocation[] allocationArr = new Allocation[i];
+            for (int i2 = 0; i2 < i; i2++) {
+                allocationArr[i2] = allocationNode.allocation;
+                allocationNode = allocationNode.clear();
+            }
+            this.allocator.release(allocationArr);
         }
-        AllocationNode allocationNode2 = this.writeAllocationNode;
-        int i = (allocationNode2.wasInitialized ? 1 : 0) + (((int) (allocationNode2.startPosition - allocationNode.startPosition)) / this.allocationLength);
-        Allocation[] allocationArr = new Allocation[i];
-        for (int i2 = 0; i2 < i; i2++) {
-            allocationArr[i2] = allocationNode.allocation;
-            allocationNode = allocationNode.clear();
-        }
-        this.allocator.release(allocationArr);
     }
 
     private int preAppend(int i) {

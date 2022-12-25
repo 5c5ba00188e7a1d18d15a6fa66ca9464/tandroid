@@ -7,29 +7,29 @@ import java.util.Objects;
 /* loaded from: classes2.dex */
 public abstract /* synthetic */ class o1 {
     public static void a(j3 j3Var, Double d) {
-        if (!Q4.a) {
-            j3Var.accept(d.doubleValue());
-        } else {
+        if (Q4.a) {
             Q4.a(j3Var.getClass(), "{0} calling Sink.OfDouble.accept(Double)");
             throw null;
+        } else {
+            j3Var.accept(d.doubleValue());
         }
     }
 
     public static void b(k3 k3Var, Integer num) {
-        if (!Q4.a) {
-            k3Var.accept(num.intValue());
-        } else {
+        if (Q4.a) {
             Q4.a(k3Var.getClass(), "{0} calling Sink.OfInt.accept(Integer)");
             throw null;
+        } else {
+            k3Var.accept(num.intValue());
         }
     }
 
     public static void c(l3 l3Var, Long l) {
-        if (!Q4.a) {
-            l3Var.accept(l.longValue());
-        } else {
+        if (Q4.a) {
             Q4.a(l3Var.getClass(), "{0} calling Sink.OfLong.accept(Long)");
             throw null;
+        } else {
+            l3Var.accept(l.longValue());
         }
     }
 
@@ -49,12 +49,12 @@ public abstract /* synthetic */ class o1 {
         if (Q4.a) {
             Q4.a(z1Var.getClass(), "{0} calling Node.OfPrimitive.asArray");
             throw null;
-        } else if (z1Var.count() >= 2147483639) {
-            throw new IllegalArgumentException("Stream size exceeds max array size");
-        } else {
+        } else if (z1Var.count() < 2147483639) {
             Object[] objArr = (Object[]) mVar.apply((int) z1Var.count());
             z1Var.i(objArr, 0);
             return objArr;
+        } else {
+            throw new IllegalArgumentException("Stream size exceeds max array size");
         }
     }
 
@@ -94,33 +94,33 @@ public abstract /* synthetic */ class o1 {
     public static void k(u1 u1Var, Consumer consumer) {
         if (consumer instanceof j$.util.function.f) {
             u1Var.g((j$.util.function.f) consumer);
-        } else if (!Q4.a) {
-            ((j$.util.t) u1Var.spliterator()).forEachRemaining(consumer);
-        } else {
+        } else if (Q4.a) {
             Q4.a(u1Var.getClass(), "{0} calling Node.OfLong.forEachRemaining(Consumer)");
             throw null;
+        } else {
+            ((j$.util.t) u1Var.spliterator()).forEachRemaining(consumer);
         }
     }
 
     public static void l(w1 w1Var, Consumer consumer) {
         if (consumer instanceof j$.util.function.l) {
             w1Var.g((j$.util.function.l) consumer);
-        } else if (!Q4.a) {
-            ((u.a) w1Var.spliterator()).forEachRemaining(consumer);
-        } else {
+        } else if (Q4.a) {
             Q4.a(w1Var.getClass(), "{0} calling Node.OfInt.forEachRemaining(Consumer)");
             throw null;
+        } else {
+            ((u.a) w1Var.spliterator()).forEachRemaining(consumer);
         }
     }
 
     public static void m(y1 y1Var, Consumer consumer) {
         if (consumer instanceof j$.util.function.q) {
             y1Var.g((j$.util.function.q) consumer);
-        } else if (!Q4.a) {
-            ((j$.util.v) y1Var.spliterator()).forEachRemaining(consumer);
-        } else {
+        } else if (Q4.a) {
             Q4.a(y1Var.getClass(), "{0} calling Node.OfLong.forEachRemaining(Consumer)");
             throw null;
+        } else {
+            ((j$.util.v) y1Var.spliterator()).forEachRemaining(consumer);
         }
     }
 

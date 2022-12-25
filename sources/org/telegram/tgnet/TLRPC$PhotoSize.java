@@ -124,30 +124,30 @@ public abstract class TLRPC$PhotoSize extends TLObject {
                 tLRPC$PhotoSize = null;
                 break;
         }
-        if (tLRPC$PhotoSize != null || !z) {
-            if (tLRPC$PhotoSize != null) {
-                tLRPC$PhotoSize.readParams(abstractSerializedData, z);
-                if (tLRPC$PhotoSize.location == null) {
-                    if (!TextUtils.isEmpty(tLRPC$PhotoSize.type) && (j != 0 || j2 != 0 || j3 != 0)) {
-                        TLRPC$TL_fileLocationToBeDeprecated tLRPC$TL_fileLocationToBeDeprecated = new TLRPC$TL_fileLocationToBeDeprecated();
-                        tLRPC$PhotoSize.location = tLRPC$TL_fileLocationToBeDeprecated;
-                        if (j != 0) {
-                            tLRPC$TL_fileLocationToBeDeprecated.volume_id = -j;
-                            tLRPC$TL_fileLocationToBeDeprecated.local_id = tLRPC$PhotoSize.type.charAt(0);
-                        } else if (j2 != 0) {
-                            tLRPC$TL_fileLocationToBeDeprecated.volume_id = -j2;
-                            tLRPC$TL_fileLocationToBeDeprecated.local_id = tLRPC$PhotoSize.type.charAt(0) + 1000;
-                        } else if (j3 != 0) {
-                            tLRPC$TL_fileLocationToBeDeprecated.volume_id = -j3;
-                            tLRPC$TL_fileLocationToBeDeprecated.local_id = tLRPC$PhotoSize.type.charAt(0) + 2000;
-                        }
-                    } else {
-                        tLRPC$PhotoSize.location = new TLRPC$TL_fileLocationUnavailable();
+        if (tLRPC$PhotoSize == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in PhotoSize", Integer.valueOf(i)));
+        }
+        if (tLRPC$PhotoSize != null) {
+            tLRPC$PhotoSize.readParams(abstractSerializedData, z);
+            if (tLRPC$PhotoSize.location == null) {
+                if (!TextUtils.isEmpty(tLRPC$PhotoSize.type) && (j != 0 || j2 != 0 || j3 != 0)) {
+                    TLRPC$TL_fileLocationToBeDeprecated tLRPC$TL_fileLocationToBeDeprecated = new TLRPC$TL_fileLocationToBeDeprecated();
+                    tLRPC$PhotoSize.location = tLRPC$TL_fileLocationToBeDeprecated;
+                    if (j != 0) {
+                        tLRPC$TL_fileLocationToBeDeprecated.volume_id = -j;
+                        tLRPC$TL_fileLocationToBeDeprecated.local_id = tLRPC$PhotoSize.type.charAt(0);
+                    } else if (j2 != 0) {
+                        tLRPC$TL_fileLocationToBeDeprecated.volume_id = -j2;
+                        tLRPC$TL_fileLocationToBeDeprecated.local_id = tLRPC$PhotoSize.type.charAt(0) + 1000;
+                    } else if (j3 != 0) {
+                        tLRPC$TL_fileLocationToBeDeprecated.volume_id = -j3;
+                        tLRPC$TL_fileLocationToBeDeprecated.local_id = tLRPC$PhotoSize.type.charAt(0) + 2000;
                     }
+                } else {
+                    tLRPC$PhotoSize.location = new TLRPC$TL_fileLocationUnavailable();
                 }
             }
-            return tLRPC$PhotoSize;
         }
-        throw new RuntimeException(String.format("can't parse magic %x in PhotoSize", Integer.valueOf(i)));
+        return tLRPC$PhotoSize;
     }
 }

@@ -7,12 +7,8 @@ public class TLRPC$TL_dialog extends TLRPC$Dialog {
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
         int readInt32 = abstractSerializedData.readInt32(z);
         this.flags = readInt32;
-        boolean z2 = false;
         this.pinned = (readInt32 & 4) != 0;
-        if ((readInt32 & 8) != 0) {
-            z2 = true;
-        }
-        this.unread_mark = z2;
+        this.unread_mark = (readInt32 & 8) != 0;
         this.peer = TLRPC$Peer.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
         this.top_message = abstractSerializedData.readInt32(z);
         this.read_inbox_max_id = abstractSerializedData.readInt32(z);

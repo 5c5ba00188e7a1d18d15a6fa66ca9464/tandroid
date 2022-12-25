@@ -13,10 +13,11 @@ import androidx.lifecycle.LifecycleRegistry;
 import androidx.lifecycle.ReportFragment;
 /* loaded from: classes.dex */
 public class ComponentActivity extends Activity implements LifecycleOwner, KeyEventDispatcher.Component {
-    private LifecycleRegistry mLifecycleRegistry = new LifecycleRegistry(this);
+    private LifecycleRegistry mLifecycleRegistry;
 
     public ComponentActivity() {
         new SimpleArrayMap();
+        this.mLifecycleRegistry = new LifecycleRegistry(this);
     }
 
     /* JADX INFO: Access modifiers changed from: protected */

@@ -44,17 +44,17 @@ public final class IcyHeaders implements Metadata.Entry {
         return Metadata.Entry.-CC.$default$getWrappedMetadataFormat(this);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:12:0x005e  */
-    /* JADX WARN: Removed duplicated region for block: B:15:0x0072  */
-    /* JADX WARN: Removed duplicated region for block: B:18:0x0086  */
-    /* JADX WARN: Removed duplicated region for block: B:21:0x009a  */
-    /* JADX WARN: Removed duplicated region for block: B:24:0x00b4  */
-    /* JADX WARN: Removed duplicated region for block: B:39:0x00ec  */
-    /* JADX WARN: Removed duplicated region for block: B:42:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:43:0x00a9  */
-    /* JADX WARN: Removed duplicated region for block: B:44:0x008f  */
-    /* JADX WARN: Removed duplicated region for block: B:45:0x007b  */
-    /* JADX WARN: Removed duplicated region for block: B:46:0x0067  */
+    /* JADX WARN: Removed duplicated region for block: B:17:0x005e  */
+    /* JADX WARN: Removed duplicated region for block: B:18:0x0067  */
+    /* JADX WARN: Removed duplicated region for block: B:21:0x0072  */
+    /* JADX WARN: Removed duplicated region for block: B:22:0x007b  */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x0086  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x008f  */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x009a  */
+    /* JADX WARN: Removed duplicated region for block: B:30:0x00a9  */
+    /* JADX WARN: Removed duplicated region for block: B:33:0x00b4  */
+    /* JADX WARN: Removed duplicated region for block: B:43:0x00ec  */
+    /* JADX WARN: Removed duplicated region for block: B:55:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -205,15 +205,11 @@ public final class IcyHeaders implements Metadata.Entry {
     public int hashCode() {
         int i = (527 + this.bitrate) * 31;
         String str = this.genre;
-        int i2 = 0;
         int hashCode = (i + (str != null ? str.hashCode() : 0)) * 31;
         String str2 = this.name;
         int hashCode2 = (hashCode + (str2 != null ? str2.hashCode() : 0)) * 31;
         String str3 = this.url;
-        if (str3 != null) {
-            i2 = str3.hashCode();
-        }
-        return ((((hashCode2 + i2) * 31) + (this.isPublic ? 1 : 0)) * 31) + this.metadataInterval;
+        return ((((hashCode2 + (str3 != null ? str3.hashCode() : 0)) * 31) + (this.isPublic ? 1 : 0)) * 31) + this.metadataInterval;
     }
 
     public String toString() {

@@ -222,13 +222,12 @@ final class JsonValueObjectEncoderContext implements ObjectEncoderContext, Value
             throw new IllegalStateException("Parent context used since this context was created. Cannot use this context anymore.");
         }
         JsonValueObjectEncoderContext jsonValueObjectEncoderContext = this.childContext;
-        if (jsonValueObjectEncoderContext == null) {
-            return;
+        if (jsonValueObjectEncoderContext != null) {
+            jsonValueObjectEncoderContext.maybeUnNest();
+            this.childContext.active = false;
+            this.childContext = null;
+            this.jsonWriter.endObject();
         }
-        jsonValueObjectEncoderContext.maybeUnNest();
-        this.childContext.active = false;
-        this.childContext = null;
-        this.jsonWriter.endObject();
     }
 
     private JsonValueObjectEncoderContext internalAdd(String str, Object obj) throws IOException, EncodingException {

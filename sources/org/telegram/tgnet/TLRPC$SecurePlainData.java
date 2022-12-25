@@ -8,12 +8,12 @@ public abstract class TLRPC$SecurePlainData extends TLObject {
         } else {
             tLRPC$TL_securePlainEmail = i != 2103482845 ? null : new TLRPC$TL_securePlainPhone();
         }
-        if (tLRPC$TL_securePlainEmail != null || !z) {
-            if (tLRPC$TL_securePlainEmail != null) {
-                tLRPC$TL_securePlainEmail.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_securePlainEmail;
+        if (tLRPC$TL_securePlainEmail == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in SecurePlainData", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in SecurePlainData", Integer.valueOf(i)));
+        if (tLRPC$TL_securePlainEmail != null) {
+            tLRPC$TL_securePlainEmail.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_securePlainEmail;
     }
 }

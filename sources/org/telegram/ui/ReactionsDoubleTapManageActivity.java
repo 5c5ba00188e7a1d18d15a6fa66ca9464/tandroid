@@ -172,8 +172,7 @@ public class ReactionsDoubleTapManageActivity extends BaseFragment implements No
             }
             MediaDataController.getInstance(this.currentAccount).setDoubleTapReaction(availableReactionCell.react.reaction);
             this.listView.getAdapter().notifyItemRangeChanged(0, this.listView.getAdapter().getItemCount());
-        } else if (!(view instanceof SetDefaultReactionCell)) {
-        } else {
+        } else if (view instanceof SetDefaultReactionCell) {
             showSelectStatusDialog((SetDefaultReactionCell) view);
         }
     }
@@ -181,7 +180,7 @@ public class ReactionsDoubleTapManageActivity extends BaseFragment implements No
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class SetDefaultReactionCell extends FrameLayout {
-        private AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable imageDrawable = new AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable(this, AndroidUtilities.dp(24.0f));
+        private AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable imageDrawable;
         private TextView textView;
 
         public SetDefaultReactionCell(Context context) {
@@ -193,6 +192,7 @@ public class ReactionsDoubleTapManageActivity extends BaseFragment implements No
             this.textView.setTextColor(ReactionsDoubleTapManageActivity.this.getThemedColor("windowBackgroundWhiteBlackText"));
             this.textView.setText(LocaleController.getString("DoubleTapSetting", R.string.DoubleTapSetting));
             addView(this.textView, LayoutHelper.createFrame(-1, -2.0f, 23, 20.0f, 0.0f, 48.0f, 0.0f));
+            this.imageDrawable = new AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable(this, AndroidUtilities.dp(24.0f));
         }
 
         public void update(boolean z) {
@@ -281,11 +281,10 @@ public class ReactionsDoubleTapManageActivity extends BaseFragment implements No
                         if (setDefaultReactionCell3 != null) {
                             setDefaultReactionCell3.update(true);
                         }
-                        if (selectAnimatedEmojiDialogWindowArr[0] == null) {
-                            return;
+                        if (selectAnimatedEmojiDialogWindowArr[0] != null) {
+                            ReactionsDoubleTapManageActivity.this.selectAnimatedEmojiDialog = null;
+                            selectAnimatedEmojiDialogWindowArr[0].dismiss();
                         }
-                        ReactionsDoubleTapManageActivity.this.selectAnimatedEmojiDialog = null;
-                        selectAnimatedEmojiDialogWindowArr[0].dismiss();
                     }
 
                     @Override // org.telegram.ui.SelectAnimatedEmojiDialog
@@ -351,11 +350,10 @@ public class ReactionsDoubleTapManageActivity extends BaseFragment implements No
                 if (setDefaultReactionCell3 != null) {
                     setDefaultReactionCell3.update(true);
                 }
-                if (selectAnimatedEmojiDialogWindowArr[0] == null) {
-                    return;
+                if (selectAnimatedEmojiDialogWindowArr[0] != null) {
+                    ReactionsDoubleTapManageActivity.this.selectAnimatedEmojiDialog = null;
+                    selectAnimatedEmojiDialogWindowArr[0].dismiss();
                 }
-                ReactionsDoubleTapManageActivity.this.selectAnimatedEmojiDialog = null;
-                selectAnimatedEmojiDialogWindowArr[0].dismiss();
             }
 
             @Override // org.telegram.ui.SelectAnimatedEmojiDialog
@@ -455,8 +453,7 @@ public class ReactionsDoubleTapManageActivity extends BaseFragment implements No
         }
         if (i == NotificationCenter.reactionsDidLoad) {
             this.listAdapter.notifyDataSetChanged();
-        } else if (i != NotificationCenter.currentUserPremiumStatusChanged) {
-        } else {
+        } else if (i == NotificationCenter.currentUserPremiumStatusChanged) {
             updateRows();
             this.listAdapter.notifyDataSetChanged();
         }

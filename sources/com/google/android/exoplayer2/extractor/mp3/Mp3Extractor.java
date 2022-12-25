@@ -180,14 +180,14 @@ public final class Mp3Extractor implements Extractor {
     /* JADX WARN: Code restructure failed: missing block: B:51:0x009f, code lost:
         r11.skipFully(r2 + r4);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:52:0x00a7, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:52:0x00a4, code lost:
+        r11.resetPeekPosition();
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:53:0x00a7, code lost:
         r10.synchronizedHeaderData = r1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:53:0x00a9, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:54:0x00a9, code lost:
         return true;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:54:0x00a4, code lost:
-        r11.resetPeekPosition();
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -233,10 +233,10 @@ public final class Mp3Extractor implements Extractor {
                 } else {
                     int i6 = i5 + 1;
                     if (i5 == i3) {
-                        if (!z) {
-                            throw new ParserException("Searched too many bytes.");
+                        if (z) {
+                            return false;
                         }
-                        return false;
+                        throw new ParserException("Searched too many bytes.");
                     }
                     if (z) {
                         extractorInput.resetPeekPosition();

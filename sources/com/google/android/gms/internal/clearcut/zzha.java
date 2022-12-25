@@ -5,31 +5,42 @@ import java.util.Arrays;
 /* loaded from: classes.dex */
 public final class zzha extends zzfu<zzha> implements Cloneable {
     private byte[] zzbjn;
+    private zzge$zzd zzbjo;
     public byte[] zzbjp;
+    private String zzbjq;
+    private String zzbjr;
+    private zzgy zzbjs;
+    private String zzbjt;
+    public long zzbju;
+    private zzgz zzbjv;
     public byte[] zzbjw;
+    private String zzbjx;
+    private int[] zzbjz;
+    private zzge$zzs zzbkb;
+    public boolean zzbkc;
     public long zzbjf = 0;
     public long zzbjg = 0;
     private String tag = "";
     public int zzbji = 0;
     private String zzbjj = "";
     private zzhb[] zzbjm = zzhb.zzge();
-    private zzge$zzd zzbjo = null;
-    private String zzbjq = "";
-    private String zzbjr = "";
-    private zzgy zzbjs = null;
-    private String zzbjt = "";
-    public long zzbju = 180000;
-    private zzgz zzbjv = null;
-    private String zzbjx = "";
-    private int[] zzbjz = zzgb.zzrx;
-    private zzge$zzs zzbkb = null;
-    public boolean zzbkc = false;
 
     public zzha() {
         byte[] bArr = zzgb.zzse;
         this.zzbjn = bArr;
+        this.zzbjo = null;
         this.zzbjp = bArr;
+        this.zzbjq = "";
+        this.zzbjr = "";
+        this.zzbjs = null;
+        this.zzbjt = "";
+        this.zzbju = 180000L;
+        this.zzbjv = null;
         this.zzbjw = bArr;
+        this.zzbjx = "";
+        this.zzbjz = zzgb.zzrx;
+        this.zzbkb = null;
+        this.zzbkc = false;
         this.zzrj = null;
         this.zzrs = -1;
     }
@@ -85,120 +96,120 @@ public final class zzha extends zzfu<zzha> implements Cloneable {
         if (obj == this) {
             return true;
         }
-        if (!(obj instanceof zzha)) {
-            return false;
-        }
-        zzha zzhaVar = (zzha) obj;
-        if (this.zzbjf != zzhaVar.zzbjf || this.zzbjg != zzhaVar.zzbjg) {
-            return false;
-        }
-        String str = this.tag;
-        if (str == null) {
-            if (zzhaVar.tag != null) {
+        if (obj instanceof zzha) {
+            zzha zzhaVar = (zzha) obj;
+            if (this.zzbjf == zzhaVar.zzbjf && this.zzbjg == zzhaVar.zzbjg) {
+                String str = this.tag;
+                if (str == null) {
+                    if (zzhaVar.tag != null) {
+                        return false;
+                    }
+                } else if (!str.equals(zzhaVar.tag)) {
+                    return false;
+                }
+                if (this.zzbji != zzhaVar.zzbji) {
+                    return false;
+                }
+                String str2 = this.zzbjj;
+                if (str2 == null) {
+                    if (zzhaVar.zzbjj != null) {
+                        return false;
+                    }
+                } else if (!str2.equals(zzhaVar.zzbjj)) {
+                    return false;
+                }
+                if (zzfy.equals(this.zzbjm, zzhaVar.zzbjm) && Arrays.equals(this.zzbjn, zzhaVar.zzbjn)) {
+                    zzge$zzd zzge_zzd = this.zzbjo;
+                    if (zzge_zzd == null) {
+                        if (zzhaVar.zzbjo != null) {
+                            return false;
+                        }
+                    } else if (!zzge_zzd.equals(zzhaVar.zzbjo)) {
+                        return false;
+                    }
+                    if (Arrays.equals(this.zzbjp, zzhaVar.zzbjp)) {
+                        String str3 = this.zzbjq;
+                        if (str3 == null) {
+                            if (zzhaVar.zzbjq != null) {
+                                return false;
+                            }
+                        } else if (!str3.equals(zzhaVar.zzbjq)) {
+                            return false;
+                        }
+                        String str4 = this.zzbjr;
+                        if (str4 == null) {
+                            if (zzhaVar.zzbjr != null) {
+                                return false;
+                            }
+                        } else if (!str4.equals(zzhaVar.zzbjr)) {
+                            return false;
+                        }
+                        zzgy zzgyVar = this.zzbjs;
+                        if (zzgyVar == null) {
+                            if (zzhaVar.zzbjs != null) {
+                                return false;
+                            }
+                        } else if (!zzgyVar.equals(zzhaVar.zzbjs)) {
+                            return false;
+                        }
+                        String str5 = this.zzbjt;
+                        if (str5 == null) {
+                            if (zzhaVar.zzbjt != null) {
+                                return false;
+                            }
+                        } else if (!str5.equals(zzhaVar.zzbjt)) {
+                            return false;
+                        }
+                        if (this.zzbju != zzhaVar.zzbju) {
+                            return false;
+                        }
+                        zzgz zzgzVar = this.zzbjv;
+                        if (zzgzVar == null) {
+                            if (zzhaVar.zzbjv != null) {
+                                return false;
+                            }
+                        } else if (!zzgzVar.equals(zzhaVar.zzbjv)) {
+                            return false;
+                        }
+                        if (Arrays.equals(this.zzbjw, zzhaVar.zzbjw)) {
+                            String str6 = this.zzbjx;
+                            if (str6 == null) {
+                                if (zzhaVar.zzbjx != null) {
+                                    return false;
+                                }
+                            } else if (!str6.equals(zzhaVar.zzbjx)) {
+                                return false;
+                            }
+                            if (zzfy.equals(this.zzbjz, zzhaVar.zzbjz)) {
+                                zzge$zzs zzge_zzs = this.zzbkb;
+                                if (zzge_zzs == null) {
+                                    if (zzhaVar.zzbkb != null) {
+                                        return false;
+                                    }
+                                } else if (!zzge_zzs.equals(zzhaVar.zzbkb)) {
+                                    return false;
+                                }
+                                if (this.zzbkc != zzhaVar.zzbkc) {
+                                    return false;
+                                }
+                                zzfw zzfwVar = this.zzrj;
+                                if (zzfwVar == null || zzfwVar.isEmpty()) {
+                                    zzfw zzfwVar2 = zzhaVar.zzrj;
+                                    return zzfwVar2 == null || zzfwVar2.isEmpty();
+                                }
+                                return this.zzrj.equals(zzhaVar.zzrj);
+                            }
+                            return false;
+                        }
+                        return false;
+                    }
+                    return false;
+                }
                 return false;
             }
-        } else if (!str.equals(zzhaVar.tag)) {
             return false;
         }
-        if (this.zzbji != zzhaVar.zzbji) {
-            return false;
-        }
-        String str2 = this.zzbjj;
-        if (str2 == null) {
-            if (zzhaVar.zzbjj != null) {
-                return false;
-            }
-        } else if (!str2.equals(zzhaVar.zzbjj)) {
-            return false;
-        }
-        if (!zzfy.equals(this.zzbjm, zzhaVar.zzbjm) || !Arrays.equals(this.zzbjn, zzhaVar.zzbjn)) {
-            return false;
-        }
-        zzge$zzd zzge_zzd = this.zzbjo;
-        if (zzge_zzd == null) {
-            if (zzhaVar.zzbjo != null) {
-                return false;
-            }
-        } else if (!zzge_zzd.equals(zzhaVar.zzbjo)) {
-            return false;
-        }
-        if (!Arrays.equals(this.zzbjp, zzhaVar.zzbjp)) {
-            return false;
-        }
-        String str3 = this.zzbjq;
-        if (str3 == null) {
-            if (zzhaVar.zzbjq != null) {
-                return false;
-            }
-        } else if (!str3.equals(zzhaVar.zzbjq)) {
-            return false;
-        }
-        String str4 = this.zzbjr;
-        if (str4 == null) {
-            if (zzhaVar.zzbjr != null) {
-                return false;
-            }
-        } else if (!str4.equals(zzhaVar.zzbjr)) {
-            return false;
-        }
-        zzgy zzgyVar = this.zzbjs;
-        if (zzgyVar == null) {
-            if (zzhaVar.zzbjs != null) {
-                return false;
-            }
-        } else if (!zzgyVar.equals(zzhaVar.zzbjs)) {
-            return false;
-        }
-        String str5 = this.zzbjt;
-        if (str5 == null) {
-            if (zzhaVar.zzbjt != null) {
-                return false;
-            }
-        } else if (!str5.equals(zzhaVar.zzbjt)) {
-            return false;
-        }
-        if (this.zzbju != zzhaVar.zzbju) {
-            return false;
-        }
-        zzgz zzgzVar = this.zzbjv;
-        if (zzgzVar == null) {
-            if (zzhaVar.zzbjv != null) {
-                return false;
-            }
-        } else if (!zzgzVar.equals(zzhaVar.zzbjv)) {
-            return false;
-        }
-        if (!Arrays.equals(this.zzbjw, zzhaVar.zzbjw)) {
-            return false;
-        }
-        String str6 = this.zzbjx;
-        if (str6 == null) {
-            if (zzhaVar.zzbjx != null) {
-                return false;
-            }
-        } else if (!str6.equals(zzhaVar.zzbjx)) {
-            return false;
-        }
-        if (!zzfy.equals(this.zzbjz, zzhaVar.zzbjz)) {
-            return false;
-        }
-        zzge$zzs zzge_zzs = this.zzbkb;
-        if (zzge_zzs == null) {
-            if (zzhaVar.zzbkb != null) {
-                return false;
-            }
-        } else if (!zzge_zzs.equals(zzhaVar.zzbkb)) {
-            return false;
-        }
-        if (this.zzbkc != zzhaVar.zzbkc) {
-            return false;
-        }
-        zzfw zzfwVar = this.zzrj;
-        if (zzfwVar != null && !zzfwVar.isEmpty()) {
-            return this.zzrj.equals(zzhaVar.zzrj);
-        }
-        zzfw zzfwVar2 = zzhaVar.zzrj;
-        return zzfwVar2 == null || zzfwVar2.isEmpty();
+        return false;
     }
 
     public final int hashCode() {
@@ -209,35 +220,29 @@ public final class zzha extends zzfu<zzha> implements Cloneable {
         int i = 0;
         int hashCode2 = (((hashCode + (str == null ? 0 : str.hashCode())) * 31) + this.zzbji) * 31;
         String str2 = this.zzbjj;
-        int hashCode3 = str2 == null ? 0 : str2.hashCode();
-        int i2 = 1237;
-        int hashCode4 = ((((((hashCode2 + hashCode3) * 31 * 31) + 1237) * 31) + zzfy.hashCode(this.zzbjm)) * 31) + Arrays.hashCode(this.zzbjn);
+        int hashCode3 = ((((((hashCode2 + (str2 == null ? 0 : str2.hashCode())) * 31 * 31) + 1237) * 31) + zzfy.hashCode(this.zzbjm)) * 31) + Arrays.hashCode(this.zzbjn);
         zzge$zzd zzge_zzd = this.zzbjo;
-        int hashCode5 = ((((hashCode4 * 31) + (zzge_zzd == null ? 0 : zzge_zzd.hashCode())) * 31) + Arrays.hashCode(this.zzbjp)) * 31;
+        int hashCode4 = ((((hashCode3 * 31) + (zzge_zzd == null ? 0 : zzge_zzd.hashCode())) * 31) + Arrays.hashCode(this.zzbjp)) * 31;
         String str3 = this.zzbjq;
-        int hashCode6 = (hashCode5 + (str3 == null ? 0 : str3.hashCode())) * 31;
+        int hashCode5 = (hashCode4 + (str3 == null ? 0 : str3.hashCode())) * 31;
         String str4 = this.zzbjr;
-        int hashCode7 = hashCode6 + (str4 == null ? 0 : str4.hashCode());
+        int hashCode6 = hashCode5 + (str4 == null ? 0 : str4.hashCode());
         zzgy zzgyVar = this.zzbjs;
-        int hashCode8 = ((hashCode7 * 31) + (zzgyVar == null ? 0 : zzgyVar.hashCode())) * 31;
+        int hashCode7 = ((hashCode6 * 31) + (zzgyVar == null ? 0 : zzgyVar.hashCode())) * 31;
         String str5 = this.zzbjt;
-        int hashCode9 = str5 == null ? 0 : str5.hashCode();
+        int hashCode8 = str5 == null ? 0 : str5.hashCode();
         long j3 = this.zzbju;
         zzgz zzgzVar = this.zzbjv;
-        int hashCode10 = (((((((hashCode8 + hashCode9) * 31) + ((int) (j3 ^ (j3 >>> 32)))) * 31) + (zzgzVar == null ? 0 : zzgzVar.hashCode())) * 31) + Arrays.hashCode(this.zzbjw)) * 31;
+        int hashCode9 = (((((((hashCode7 + hashCode8) * 31) + ((int) (j3 ^ (j3 >>> 32)))) * 31) + (zzgzVar == null ? 0 : zzgzVar.hashCode())) * 31) + Arrays.hashCode(this.zzbjw)) * 31;
         String str6 = this.zzbjx;
-        int hashCode11 = str6 == null ? 0 : str6.hashCode();
+        int hashCode10 = str6 == null ? 0 : str6.hashCode();
         zzge$zzs zzge_zzs = this.zzbkb;
-        int hashCode12 = (((((hashCode10 + hashCode11) * 31 * 31) + zzfy.hashCode(this.zzbjz)) * 31 * 31) + (zzge_zzs == null ? 0 : zzge_zzs.hashCode())) * 31;
-        if (this.zzbkc) {
-            i2 = 1231;
-        }
-        int i3 = (hashCode12 + i2) * 31;
+        int hashCode11 = (((((((hashCode9 + hashCode10) * 31 * 31) + zzfy.hashCode(this.zzbjz)) * 31 * 31) + (zzge_zzs == null ? 0 : zzge_zzs.hashCode())) * 31) + (this.zzbkc ? 1231 : 1237)) * 31;
         zzfw zzfwVar = this.zzrj;
         if (zzfwVar != null && !zzfwVar.isEmpty()) {
             i = this.zzrj.hashCode();
         }
-        return i3 + i;
+        return hashCode11 + i;
     }
 
     @Override // com.google.android.gms.internal.clearcut.zzfu, com.google.android.gms.internal.clearcut.zzfz

@@ -11,7 +11,7 @@ import com.google.firebase.events.Publisher;
 import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public class DataCollectionConfigStorage {
-    private boolean dataCollectionDefaultEnabled = readAutoDataCollectionEnabled();
+    private boolean dataCollectionDefaultEnabled;
     private final Context deviceProtectedContext;
     private final Publisher publisher;
     private final SharedPreferences sharedPreferences;
@@ -21,6 +21,7 @@ public class DataCollectionConfigStorage {
         this.deviceProtectedContext = directBootSafe;
         this.sharedPreferences = directBootSafe.getSharedPreferences("com.google.firebase.common.prefs:" + str, 0);
         this.publisher = publisher;
+        this.dataCollectionDefaultEnabled = readAutoDataCollectionEnabled();
     }
 
     private static Context directBootSafe(Context context) {
@@ -36,10 +37,10 @@ public class DataCollectionConfigStorage {
         Bundle bundle;
         try {
             PackageManager packageManager = this.deviceProtectedContext.getPackageManager();
-            if (packageManager != null && (applicationInfo = packageManager.getApplicationInfo(this.deviceProtectedContext.getPackageName(), ConnectionsManager.RequestFlagNeedQuickAck)) != null && (bundle = applicationInfo.metaData) != null && bundle.containsKey("firebase_data_collection_default_enabled")) {
-                return applicationInfo.metaData.getBoolean("firebase_data_collection_default_enabled");
+            if (packageManager == null || (applicationInfo = packageManager.getApplicationInfo(this.deviceProtectedContext.getPackageName(), ConnectionsManager.RequestFlagNeedQuickAck)) == null || (bundle = applicationInfo.metaData) == null || !bundle.containsKey("firebase_data_collection_default_enabled")) {
+                return true;
             }
-            return true;
+            return applicationInfo.metaData.getBoolean("firebase_data_collection_default_enabled");
         } catch (PackageManager.NameNotFoundException unused) {
             return true;
         }

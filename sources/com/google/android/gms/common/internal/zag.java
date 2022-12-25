@@ -23,11 +23,7 @@ public abstract class zag implements DialogInterface.OnClickListener {
         try {
             zaa();
         } catch (ActivityNotFoundException e) {
-            String str = "Failed to start resolution intent.";
-            if (true == Build.FINGERPRINT.contains("generic")) {
-                str = "Failed to start resolution intent. This may occur when resolving Google Play services connection issues on emulators with Google APIs but not Google Play Store.";
-            }
-            Log.e("DialogRedirect", str, e);
+            Log.e("DialogRedirect", true == Build.FINGERPRINT.contains("generic") ? "Failed to start resolution intent. This may occur when resolving Google Play services connection issues on emulators with Google APIs but not Google Play Store." : "Failed to start resolution intent.", e);
         } finally {
             dialogInterface.dismiss();
         }

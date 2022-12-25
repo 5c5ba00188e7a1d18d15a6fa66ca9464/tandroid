@@ -44,34 +44,33 @@ abstract class D4 {
     public j$.util.u trySplit() {
         long j = this.a;
         long j2 = this.e;
-        if (j < j2 && this.d < j2) {
-            while (true) {
-                j$.util.u trySplit = this.c.trySplit();
-                if (trySplit == null) {
-                    return null;
-                }
-                long estimateSize = trySplit.estimateSize() + this.d;
-                long min = Math.min(estimateSize, this.b);
-                long j3 = this.a;
-                if (j3 >= min) {
-                    this.d = min;
-                } else {
-                    long j4 = this.b;
-                    if (min < j4) {
-                        long j5 = this.d;
-                        if (j5 < j3 || estimateSize > j4) {
-                            this.d = min;
-                            return a(trySplit, j3, j4, j5, min);
-                        }
-                        this.d = min;
-                        return trySplit;
-                    }
-                    this.c = trySplit;
-                    this.e = min;
-                }
-            }
-        } else {
+        if (j >= j2 || this.d >= j2) {
             return null;
+        }
+        while (true) {
+            j$.util.u trySplit = this.c.trySplit();
+            if (trySplit == null) {
+                return null;
+            }
+            long estimateSize = trySplit.estimateSize() + this.d;
+            long min = Math.min(estimateSize, this.b);
+            long j3 = this.a;
+            if (j3 >= min) {
+                this.d = min;
+            } else {
+                long j4 = this.b;
+                if (min < j4) {
+                    long j5 = this.d;
+                    if (j5 < j3 || estimateSize > j4) {
+                        this.d = min;
+                        return a(trySplit, j3, j4, j5, min);
+                    }
+                    this.d = min;
+                    return trySplit;
+                }
+                this.c = trySplit;
+                this.e = min;
+            }
         }
     }
 

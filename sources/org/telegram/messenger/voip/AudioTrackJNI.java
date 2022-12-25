@@ -27,18 +27,17 @@ public class AudioTrackJNI {
         }
         AudioTrack audioTrack = new AudioTrack(0, 48000, i3 == 1 ? 4 : 12, 2, getBufferSize(i4, 48000), 1);
         this.audioTrack = audioTrack;
-        if (audioTrack.getState() == 1) {
-            return;
+        if (audioTrack.getState() != 1) {
+            VLog.w("Error initializing AudioTrack with 48k, trying 44.1k with resampling");
+            try {
+                this.audioTrack.release();
+            } catch (Throwable unused) {
+            }
+            int bufferSize = getBufferSize(i4 * 6, 44100);
+            VLog.d("buffer size: " + bufferSize);
+            this.audioTrack = new AudioTrack(0, 44100, i3 == 1 ? 4 : 12, 2, bufferSize, 1);
+            this.needResampling = true;
         }
-        VLog.w("Error initializing AudioTrack with 48k, trying 44.1k with resampling");
-        try {
-            this.audioTrack.release();
-        } catch (Throwable unused) {
-        }
-        int bufferSize = getBufferSize(i4 * 6, 44100);
-        VLog.d("buffer size: " + bufferSize);
-        this.audioTrack = new AudioTrack(0, 44100, i3 == 1 ? 4 : 12, 2, bufferSize, 1);
-        this.needResampling = true;
     }
 
     public void stop() {
@@ -96,20 +95,17 @@ public class AudioTrackJNI {
     public /* synthetic */ void lambda$startThread$0() {
         try {
             this.audioTrack.play();
-            ByteBuffer byteBuffer = null;
             ByteBuffer allocateDirect = this.needResampling ? ByteBuffer.allocateDirect(1920) : null;
-            if (this.needResampling) {
-                byteBuffer = ByteBuffer.allocateDirect(1764);
-            }
+            ByteBuffer allocateDirect2 = this.needResampling ? ByteBuffer.allocateDirect(1764) : null;
             while (this.running) {
                 try {
                     if (this.needResampling) {
                         nativeCallback(this.buffer);
                         allocateDirect.rewind();
                         allocateDirect.put(this.buffer);
-                        Resampler.convert48to44(allocateDirect, byteBuffer);
-                        byteBuffer.rewind();
-                        byteBuffer.get(this.buffer, 0, 1764);
+                        Resampler.convert48to44(allocateDirect, allocateDirect2);
+                        allocateDirect2.rewind();
+                        allocateDirect2.get(this.buffer, 0, 1764);
                         this.audioTrack.write(this.buffer, 0, 1764);
                     } else {
                         nativeCallback(this.buffer);

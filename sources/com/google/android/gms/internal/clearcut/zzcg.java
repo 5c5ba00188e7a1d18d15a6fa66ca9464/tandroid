@@ -171,9 +171,8 @@ public abstract class zzcg<MessageType extends zzcg<MessageType, BuilderType>, B
         }
     }
 
-    /* JADX WARN: Failed to restore enum class, 'enum' modifier removed */
     /* loaded from: classes.dex */
-    public static final class zzg {
+    public enum zzg {
         public static final int zzkd = 1;
         public static final int zzke = 2;
         public static final int zzkf = 3;
@@ -202,10 +201,10 @@ public abstract class zzcg<MessageType extends zzcg<MessageType, BuilderType>, B
             }
             throw new RuntimeException();
         } catch (IOException e) {
-            if (!(e.getCause() instanceof zzco)) {
-                throw new zzco(e.getMessage()).zzg(t2);
+            if (e.getCause() instanceof zzco) {
+                throw ((zzco) e.getCause());
             }
-            throw ((zzco) e.getCause());
+            throw new zzco(e.getMessage()).zzg(t2);
         } catch (IndexOutOfBoundsException unused) {
             throw zzco.zzbl().zzg(t2);
         }
@@ -227,10 +226,10 @@ public abstract class zzcg<MessageType extends zzcg<MessageType, BuilderType>, B
             if (cause instanceof RuntimeException) {
                 throw ((RuntimeException) cause);
             }
-            if (!(cause instanceof Error)) {
-                throw new RuntimeException("Unexpected exception thrown by generated accessor method.", cause);
+            if (cause instanceof Error) {
+                throw ((Error) cause);
             }
-            throw ((Error) cause);
+            throw new RuntimeException("Unexpected exception thrown by generated accessor method.", cause);
         }
     }
 

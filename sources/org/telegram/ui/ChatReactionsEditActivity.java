@@ -42,7 +42,9 @@ import org.telegram.ui.Components.SimpleThemeDescription;
 /* loaded from: classes3.dex */
 public class ChatReactionsEditActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     private RadioCell allReactions;
+    private ArrayList<TLRPC$TL_availableReaction> availableReactions;
     private long chatId;
+    private List<String> chatReactions;
     private LinearLayout contentView;
     LinearLayout contorlsLayout;
     private TLRPC$Chat currentChat;
@@ -52,19 +54,21 @@ public class ChatReactionsEditActivity extends BaseFragment implements Notificat
     boolean isChannel;
     private RecyclerView.Adapter listAdapter;
     private RecyclerListView listView;
+    ArrayList<RadioCell> radioCells;
+    int selectedType;
     private RadioCell someReactions;
     int startFromType;
-    private List<String> chatReactions = new ArrayList();
-    private ArrayList<TLRPC$TL_availableReaction> availableReactions = new ArrayList<>();
-    int selectedType = -1;
-    ArrayList<RadioCell> radioCells = new ArrayList<>();
 
     public ChatReactionsEditActivity(Bundle bundle) {
         super(bundle);
+        this.chatReactions = new ArrayList();
+        this.availableReactions = new ArrayList<>();
+        this.selectedType = -1;
+        this.radioCells = new ArrayList<>();
         this.chatId = bundle.getLong("chat_id", 0L);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:8:0x004c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:9:0x004c, code lost:
         if (r0 == null) goto L9;
      */
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -176,19 +180,19 @@ public class ChatReactionsEditActivity extends BaseFragment implements Notificat
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
             public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
                 if (i != 0) {
-                    if (i == 1) {
-                        return new RecyclerListView.Holder(new HeaderCell(context, 23));
+                    if (i != 1) {
+                        if (i != 3) {
+                            return new RecyclerListView.Holder(new AvailableReactionCell(context, false, false));
+                        }
+                        FrameLayout frameLayout = new FrameLayout(context);
+                        if (ChatReactionsEditActivity.this.contorlsLayout.getParent() != null) {
+                            ((ViewGroup) ChatReactionsEditActivity.this.contorlsLayout.getParent()).removeView(ChatReactionsEditActivity.this.contorlsLayout);
+                        }
+                        frameLayout.addView(ChatReactionsEditActivity.this.contorlsLayout);
+                        frameLayout.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
+                        return new RecyclerListView.Holder(frameLayout);
                     }
-                    if (i != 3) {
-                        return new RecyclerListView.Holder(new AvailableReactionCell(context, false, false));
-                    }
-                    FrameLayout frameLayout = new FrameLayout(context);
-                    if (ChatReactionsEditActivity.this.contorlsLayout.getParent() != null) {
-                        ((ViewGroup) ChatReactionsEditActivity.this.contorlsLayout.getParent()).removeView(ChatReactionsEditActivity.this.contorlsLayout);
-                    }
-                    frameLayout.addView(ChatReactionsEditActivity.this.contorlsLayout);
-                    frameLayout.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
-                    return new RecyclerListView.Holder(frameLayout);
+                    return new RecyclerListView.Holder(new HeaderCell(context, 23));
                 }
                 return new RecyclerListView.Holder(new TextInfoPrivacyCell(context));
             }
@@ -196,7 +200,6 @@ public class ChatReactionsEditActivity extends BaseFragment implements Notificat
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
             public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
                 int itemViewType = getItemViewType(i);
-                int i2 = 2;
                 if (itemViewType != 0) {
                     if (itemViewType == 1) {
                         HeaderCell headerCell2 = (HeaderCell) viewHolder.itemView;
@@ -207,11 +210,7 @@ public class ChatReactionsEditActivity extends BaseFragment implements Notificat
                         return;
                     } else {
                         AvailableReactionCell availableReactionCell = (AvailableReactionCell) viewHolder.itemView;
-                        ArrayList arrayList = ChatReactionsEditActivity.this.availableReactions;
-                        if (!ChatReactionsEditActivity.this.isChannel) {
-                            i2 = 3;
-                        }
-                        TLRPC$TL_availableReaction tLRPC$TL_availableReaction = (TLRPC$TL_availableReaction) arrayList.get(i - i2);
+                        TLRPC$TL_availableReaction tLRPC$TL_availableReaction = (TLRPC$TL_availableReaction) ChatReactionsEditActivity.this.availableReactions.get(i - (ChatReactionsEditActivity.this.isChannel ? 2 : 3));
                         availableReactionCell.bind(tLRPC$TL_availableReaction, ChatReactionsEditActivity.this.chatReactions.contains(tLRPC$TL_availableReaction.reaction), ((BaseFragment) ChatReactionsEditActivity.this).currentAccount);
                         return;
                     }
@@ -223,13 +222,12 @@ public class ChatReactionsEditActivity extends BaseFragment implements Notificat
                     textInfoPrivacyCell.setText(ChatObject.isChannelAndNotMegaGroup(chatReactionsEditActivity.currentChat) ? LocaleController.getString("EnableReactionsChannelInfo", R.string.EnableReactionsChannelInfo) : LocaleController.getString("EnableReactionsGroupInfo", R.string.EnableReactionsGroupInfo));
                     return;
                 }
-                int i3 = chatReactionsEditActivity.selectedType;
-                if (i3 == 1) {
+                int i2 = chatReactionsEditActivity.selectedType;
+                if (i2 == 1) {
                     textInfoPrivacyCell.setText(LocaleController.getString("EnableSomeReactionsInfo", R.string.EnableSomeReactionsInfo));
-                } else if (i3 == 0) {
+                } else if (i2 == 0) {
                     textInfoPrivacyCell.setText(LocaleController.getString("EnableAllReactionsInfo", R.string.EnableAllReactionsInfo));
-                } else if (i3 != 2) {
-                } else {
+                } else if (i2 == 2) {
                     textInfoPrivacyCell.setText(LocaleController.getString("DisableReactionsInfo", R.string.DisableReactionsInfo));
                 }
             }
@@ -237,17 +235,10 @@ public class ChatReactionsEditActivity extends BaseFragment implements Notificat
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
             public int getItemCount() {
                 ChatReactionsEditActivity chatReactionsEditActivity = ChatReactionsEditActivity.this;
-                int i = 0;
                 if (chatReactionsEditActivity.isChannel) {
-                    if (!chatReactionsEditActivity.chatReactions.isEmpty()) {
-                        i = ChatReactionsEditActivity.this.availableReactions.size() + 1;
-                    }
-                    return i + 1;
+                    return (chatReactionsEditActivity.chatReactions.isEmpty() ? 0 : ChatReactionsEditActivity.this.availableReactions.size() + 1) + 1;
                 }
-                if (!chatReactionsEditActivity.chatReactions.isEmpty()) {
-                    i = ChatReactionsEditActivity.this.availableReactions.size() + 1;
-                }
-                return i + 2;
+                return (chatReactionsEditActivity.chatReactions.isEmpty() ? 0 : ChatReactionsEditActivity.this.availableReactions.size() + 1) + 2;
             }
 
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -378,7 +369,6 @@ public class ChatReactionsEditActivity extends BaseFragment implements Notificat
             this.radioCells.get(i2).setChecked(i == i2, z);
             i2++;
         }
-        int i3 = 2;
         if (i == 1) {
             if (z) {
                 this.chatReactions.clear();
@@ -396,19 +386,13 @@ public class ChatReactionsEditActivity extends BaseFragment implements Notificat
             }
             RecyclerView.Adapter adapter2 = this.listAdapter;
             if (adapter2 != null && z) {
-                if (this.isChannel) {
-                    i3 = 1;
-                }
-                adapter2.notifyItemRangeInserted(i3, this.availableReactions.size() + 1);
+                adapter2.notifyItemRangeInserted(this.isChannel ? 1 : 2, this.availableReactions.size() + 1);
             }
         } else if (!this.chatReactions.isEmpty()) {
             this.chatReactions.clear();
             RecyclerView.Adapter adapter3 = this.listAdapter;
             if (adapter3 != null && z) {
-                if (this.isChannel) {
-                    i3 = 1;
-                }
-                adapter3.notifyItemRangeRemoved(i3, this.availableReactions.size() + 1);
+                adapter3.notifyItemRangeRemoved(this.isChannel ? 1 : 2, this.availableReactions.size() + 1);
             }
         }
         if (!this.isChannel && (adapter = this.listAdapter) != null && z) {

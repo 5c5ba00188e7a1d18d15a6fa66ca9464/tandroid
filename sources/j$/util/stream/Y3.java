@@ -45,11 +45,11 @@ public class Y3 extends Z3 implements j$.util.function.q {
     public void forEach(Consumer consumer) {
         if (consumer instanceof j$.util.function.q) {
             g((j$.util.function.q) consumer);
-        } else if (!Q4.a) {
-            spliterator().forEachRemaining(consumer);
-        } else {
+        } else if (Q4.a) {
             Q4.a(getClass(), "{0} calling SpinedBuffer.OfLong.forEach(Consumer)");
             throw null;
+        } else {
+            spliterator().forEachRemaining(consumer);
         }
     }
 

@@ -38,13 +38,13 @@ public final class zac {
     public static String zac(Context context, int i) {
         Resources resources = context.getResources();
         if (i != 1) {
-            if (i == 2) {
-                return resources.getString(R$string.common_google_play_services_update_button);
+            if (i != 2) {
+                if (i == 3) {
+                    return resources.getString(R$string.common_google_play_services_enable_button);
+                }
+                return resources.getString(17039370);
             }
-            if (i == 3) {
-                return resources.getString(R$string.common_google_play_services_enable_button);
-            }
-            return resources.getString(17039370);
+            return resources.getString(R$string.common_google_play_services_update_button);
         }
         return resources.getString(R$string.common_google_play_services_install_button);
     }
@@ -55,31 +55,31 @@ public final class zac {
         if (i != 1) {
             if (i == 2) {
                 return DeviceProperties.isWearableWithoutPlayStore(context) ? resources.getString(R$string.common_google_play_services_wear_update_text) : resources.getString(R$string.common_google_play_services_update_text, zaa2);
-            } else if (i == 3) {
-                return resources.getString(R$string.common_google_play_services_enable_text, zaa2);
-            } else {
-                if (i == 5) {
-                    return zah(context, "common_google_play_services_invalid_account_text", zaa2);
-                }
-                if (i == 7) {
+            } else if (i != 3) {
+                if (i != 5) {
+                    if (i != 7) {
+                        if (i != 9) {
+                            if (i == 20) {
+                                return zah(context, "common_google_play_services_restricted_profile_text", zaa2);
+                            }
+                            switch (i) {
+                                case 16:
+                                    return zah(context, "common_google_play_services_api_unavailable_text", zaa2);
+                                case 17:
+                                    return zah(context, "common_google_play_services_sign_in_failed_text", zaa2);
+                                case 18:
+                                    return resources.getString(R$string.common_google_play_services_updating_text, zaa2);
+                                default:
+                                    return resources.getString(com.google.android.gms.common.R$string.common_google_play_services_unknown_issue, zaa2);
+                            }
+                        }
+                        return resources.getString(R$string.common_google_play_services_unsupported_text, zaa2);
+                    }
                     return zah(context, "common_google_play_services_network_error_text", zaa2);
                 }
-                if (i == 9) {
-                    return resources.getString(R$string.common_google_play_services_unsupported_text, zaa2);
-                }
-                if (i == 20) {
-                    return zah(context, "common_google_play_services_restricted_profile_text", zaa2);
-                }
-                switch (i) {
-                    case 16:
-                        return zah(context, "common_google_play_services_api_unavailable_text", zaa2);
-                    case 17:
-                        return zah(context, "common_google_play_services_sign_in_failed_text", zaa2);
-                    case 18:
-                        return resources.getString(R$string.common_google_play_services_updating_text, zaa2);
-                    default:
-                        return resources.getString(com.google.android.gms.common.R$string.common_google_play_services_unknown_issue, zaa2);
-                }
+                return zah(context, "common_google_play_services_invalid_account_text", zaa2);
+            } else {
+                return resources.getString(R$string.common_google_play_services_enable_text, zaa2);
             }
         }
         return resources.getString(R$string.common_google_play_services_install_text, zaa2);

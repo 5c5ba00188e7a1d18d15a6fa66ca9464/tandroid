@@ -52,6 +52,7 @@ import org.telegram.ui.PremiumPreviewFragment;
 public class SenderSelectPopup extends ActionBarPopupWindow {
     private FrameLayout bulletinContainer;
     private Runnable bulletinHideCallback;
+    private List<Bulletin> bulletins;
     private TLRPC$ChatFull chatFull;
     private boolean clicked;
     public View dimView;
@@ -68,8 +69,7 @@ public class SenderSelectPopup extends ActionBarPopupWindow {
     protected boolean runningCustomSprings;
     private FrameLayout scrimPopupContainerLayout;
     private TLRPC$TL_channels_sendAsPeers sendAsPeers;
-    protected List<SpringAnimation> springAnimations = new ArrayList();
-    private List<Bulletin> bulletins = new ArrayList();
+    protected List<SpringAnimation> springAnimations;
 
     /* loaded from: classes3.dex */
     public interface OnSelectCallback {
@@ -79,6 +79,8 @@ public class SenderSelectPopup extends ActionBarPopupWindow {
     @SuppressLint({"WrongConstant"})
     public SenderSelectPopup(final Context context, final ChatActivity chatActivity, final MessagesController messagesController, final TLRPC$ChatFull tLRPC$ChatFull, TLRPC$TL_channels_sendAsPeers tLRPC$TL_channels_sendAsPeers, final OnSelectCallback onSelectCallback) {
         super(context);
+        this.springAnimations = new ArrayList();
+        this.bulletins = new ArrayList();
         this.chatFull = tLRPC$ChatFull;
         this.sendAsPeers = tLRPC$TL_channels_sendAsPeers;
         BackButtonFrameLayout backButtonFrameLayout = new BackButtonFrameLayout(context);
@@ -465,10 +467,11 @@ public class SenderSelectPopup extends ActionBarPopupWindow {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$startShowAnimation$5(SpringAnimation springAnimation, DynamicAnimation dynamicAnimation, boolean z, float f, float f2) {
-        if (!z) {
-            this.springAnimations.remove(springAnimation);
-            dynamicAnimation.cancel();
+        if (z) {
+            return;
         }
+        this.springAnimations.remove(springAnimation);
+        dynamicAnimation.cancel();
     }
 
     public void startDismissAnimation(SpringAnimation... springAnimationArr) {
@@ -487,7 +490,6 @@ public class SenderSelectPopup extends ActionBarPopupWindow {
         this.recyclerContainer.setAlpha(1.0f);
         this.dimView.setAlpha(1.0f);
         ArrayList<SpringAnimation> arrayList = new ArrayList();
-        boolean z = true;
         FrameLayout frameLayout2 = this.scrimPopupContainerLayout;
         DynamicAnimation.ViewProperty viewProperty = DynamicAnimation.ALPHA;
         arrayList.addAll(Arrays.asList(new SpringAnimation(this.scrimPopupContainerLayout, DynamicAnimation.SCALE_X).setSpring(new SpringForce(0.25f).setStiffness(750.0f).setDampingRatio(1.0f)).addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() { // from class: org.telegram.ui.Components.SenderSelectPopup$$ExternalSyntheticLambda7
@@ -502,27 +504,24 @@ public class SenderSelectPopup extends ActionBarPopupWindow {
             }
         }), new SpringAnimation(frameLayout2, viewProperty).setSpring(new SpringForce(0.0f).setStiffness(750.0f).setDampingRatio(1.0f)), new SpringAnimation(this.recyclerContainer, viewProperty).setSpring(new SpringForce(0.25f).setStiffness(750.0f).setDampingRatio(1.0f)), new SpringAnimation(this.dimView, viewProperty).setSpring(new SpringForce(0.0f).setStiffness(750.0f).setDampingRatio(1.0f)).addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.Components.SenderSelectPopup$$ExternalSyntheticLambda1
             @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationEndListener
-            public final void onAnimationEnd(DynamicAnimation dynamicAnimation, boolean z2, float f, float f2) {
-                SenderSelectPopup.this.lambda$startDismissAnimation$8(dynamicAnimation, z2, f, f2);
+            public final void onAnimationEnd(DynamicAnimation dynamicAnimation, boolean z, float f, float f2) {
+                SenderSelectPopup.this.lambda$startDismissAnimation$8(dynamicAnimation, z, f, f2);
             }
         })));
         arrayList.addAll(Arrays.asList(springAnimationArr));
-        if (springAnimationArr.length <= 0) {
-            z = false;
-        }
-        this.runningCustomSprings = z;
+        this.runningCustomSprings = springAnimationArr.length > 0;
         ((SpringAnimation) arrayList.get(0)).addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.Components.SenderSelectPopup$$ExternalSyntheticLambda0
             @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationEndListener
-            public final void onAnimationEnd(DynamicAnimation dynamicAnimation, boolean z2, float f, float f2) {
-                SenderSelectPopup.this.lambda$startDismissAnimation$9(dynamicAnimation, z2, f, f2);
+            public final void onAnimationEnd(DynamicAnimation dynamicAnimation, boolean z, float f, float f2) {
+                SenderSelectPopup.this.lambda$startDismissAnimation$9(dynamicAnimation, z, f, f2);
             }
         });
         for (final SpringAnimation springAnimation : arrayList) {
             this.springAnimations.add(springAnimation);
             springAnimation.addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.Components.SenderSelectPopup$$ExternalSyntheticLambda2
                 @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationEndListener
-                public final void onAnimationEnd(DynamicAnimation dynamicAnimation, boolean z2, float f, float f2) {
-                    SenderSelectPopup.this.lambda$startDismissAnimation$10(springAnimation, dynamicAnimation, z2, f, f2);
+                public final void onAnimationEnd(DynamicAnimation dynamicAnimation, boolean z, float f, float f2) {
+                    SenderSelectPopup.this.lambda$startDismissAnimation$10(springAnimation, dynamicAnimation, z, f, f2);
                 }
             });
             springAnimation.start();
@@ -554,10 +553,11 @@ public class SenderSelectPopup extends ActionBarPopupWindow {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$startDismissAnimation$10(SpringAnimation springAnimation, DynamicAnimation dynamicAnimation, boolean z, float f, float f2) {
-        if (!z) {
-            this.springAnimations.remove(springAnimation);
-            dynamicAnimation.cancel();
+        if (z) {
+            return;
         }
+        this.springAnimations.remove(springAnimation);
+        dynamicAnimation.cancel();
     }
 
     /* loaded from: classes3.dex */

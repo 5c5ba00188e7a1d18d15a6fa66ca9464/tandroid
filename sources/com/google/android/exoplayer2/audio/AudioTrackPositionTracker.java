@@ -214,19 +214,18 @@ final class AudioTrackPositionTracker {
 
     private void maybePollAndCheckTimestamp(long j, long j2) {
         AudioTimestampPoller audioTimestampPoller = (AudioTimestampPoller) Assertions.checkNotNull(this.audioTimestampPoller);
-        if (!audioTimestampPoller.maybePollTimestamp(j)) {
-            return;
-        }
-        long timestampSystemTimeUs = audioTimestampPoller.getTimestampSystemTimeUs();
-        long timestampPositionFrames = audioTimestampPoller.getTimestampPositionFrames();
-        if (Math.abs(timestampSystemTimeUs - j) > 5000000) {
-            this.listener.onSystemTimeUsMismatch(timestampPositionFrames, timestampSystemTimeUs, j, j2);
-            audioTimestampPoller.rejectTimestamp();
-        } else if (Math.abs(framesToDurationUs(timestampPositionFrames) - j2) > 5000000) {
-            this.listener.onPositionFramesMismatch(timestampPositionFrames, timestampSystemTimeUs, j, j2);
-            audioTimestampPoller.rejectTimestamp();
-        } else {
-            audioTimestampPoller.acceptTimestamp();
+        if (audioTimestampPoller.maybePollTimestamp(j)) {
+            long timestampSystemTimeUs = audioTimestampPoller.getTimestampSystemTimeUs();
+            long timestampPositionFrames = audioTimestampPoller.getTimestampPositionFrames();
+            if (Math.abs(timestampSystemTimeUs - j) > 5000000) {
+                this.listener.onSystemTimeUsMismatch(timestampPositionFrames, timestampSystemTimeUs, j, j2);
+                audioTimestampPoller.rejectTimestamp();
+            } else if (Math.abs(framesToDurationUs(timestampPositionFrames) - j2) > 5000000) {
+                this.listener.onPositionFramesMismatch(timestampPositionFrames, timestampSystemTimeUs, j, j2);
+                audioTimestampPoller.rejectTimestamp();
+            } else {
+                audioTimestampPoller.acceptTimestamp();
+            }
         }
     }
 

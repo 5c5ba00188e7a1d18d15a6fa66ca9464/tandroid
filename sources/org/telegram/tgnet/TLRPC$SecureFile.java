@@ -15,12 +15,12 @@ public abstract class TLRPC$SecureFile extends TLObject {
         } else {
             tLRPC$SecureFile = i != 2097791614 ? null : new TLRPC$TL_secureFile();
         }
-        if (tLRPC$SecureFile != null || !z) {
-            if (tLRPC$SecureFile != null) {
-                tLRPC$SecureFile.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$SecureFile;
+        if (tLRPC$SecureFile == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in SecureFile", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in SecureFile", Integer.valueOf(i)));
+        if (tLRPC$SecureFile != null) {
+            tLRPC$SecureFile.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$SecureFile;
     }
 }

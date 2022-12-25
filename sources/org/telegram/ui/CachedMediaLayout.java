@@ -65,6 +65,7 @@ import org.telegram.ui.Storage.CacheModel;
 /* loaded from: classes3.dex */
 public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifierLayout.ChildLayout {
     private final LinearLayout actionModeLayout;
+    private final ArrayList<View> actionModeViews;
     Page[] allPages;
     private final BackDrawable backDrawable;
     private int bottomPadding;
@@ -73,13 +74,12 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
     private final ImageView closeButton;
     Delegate delegate;
     private final View divider;
+    ArrayList<Page> pages;
     BaseFragment parentFragment;
     BasePlaceProvider placeProvider;
     public final AnimatedTextView selectedMessagesCountTextView;
     private final ViewPagerFixed.TabsView tabs;
     ViewPagerFixed viewPagerFixed;
-    private final ArrayList<View> actionModeViews = new ArrayList<>();
-    ArrayList<Page> pages = new ArrayList<>();
 
     /* loaded from: classes3.dex */
     public interface Delegate {
@@ -101,6 +101,8 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
 
     public CachedMediaLayout(Context context, BaseFragment baseFragment) {
         super(context);
+        this.actionModeViews = new ArrayList<>();
+        this.pages = new ArrayList<>();
         Page[] pageArr = new Page[5];
         this.allPages = pageArr;
         this.parentFragment = baseFragment;
@@ -236,10 +238,9 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
                         return;
                     }
                     Delegate delegate = CachedMediaLayout.this.delegate;
-                    if (delegate == null) {
-                        return;
+                    if (delegate != null) {
+                        delegate.onItemSelected(itemInner.entities, itemInner.file, false);
                     }
-                    delegate.onItemSelected(itemInner.entities, itemInner.file, false);
                 }
             });
             final BaseFragment baseFragment = this.val$parentFragment;
@@ -287,12 +288,12 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
                     });
                 }
                 int i3 = R.drawable.msg_select;
-                if (!CachedMediaLayout.this.cacheModel.selectedFiles.contains(itemInner.file)) {
-                    i2 = R.string.Select;
-                    str = "Select";
-                } else {
+                if (CachedMediaLayout.this.cacheModel.selectedFiles.contains(itemInner.file)) {
                     i2 = R.string.Deselect;
                     str = "Deselect";
+                } else {
+                    i2 = R.string.Select;
+                    str = "Select";
                 }
                 ActionBarMenuItem.addItem(actionBarPopupWindowLayout, i3, LocaleController.getString(str, i2), false, null).setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.CachedMediaLayout$1$$ExternalSyntheticLambda0
                     @Override // android.view.View.OnClickListener
@@ -422,8 +423,8 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
         super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i2), 1073741824));
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:60:0x010b  */
-    /* JADX WARN: Removed duplicated region for block: B:64:0x0118  */
+    /* JADX WARN: Removed duplicated region for block: B:53:0x010b  */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x0118  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -597,7 +598,6 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
             String dialogPhotoTitle;
-            boolean z = true;
             if (viewHolder.getItemViewType() != 1) {
                 return;
             }
@@ -605,7 +605,7 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
             CacheControlActivity.DialogFileEntities dialogFileEntities = this.itemInners.get(i).entities;
             TLObject userOrChat = CachedMediaLayout.this.parentFragment.getMessagesController().getUserOrChat(dialogFileEntities.dialogId);
             CacheControlActivity.DialogFileEntities dialogFileEntities2 = userCell.dialogFileEntities;
-            boolean z2 = dialogFileEntities2 != null && dialogFileEntities2.dialogId == dialogFileEntities.dialogId;
+            boolean z = dialogFileEntities2 != null && dialogFileEntities2.dialogId == dialogFileEntities.dialogId;
             if (dialogFileEntities.dialogId == Long.MAX_VALUE) {
                 dialogPhotoTitle = LocaleController.getString("CacheOtherChats", R.string.CacheOtherChats);
                 userCell.getImageView().getAvatarDrawable().setAvatarType(14);
@@ -614,19 +614,15 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
                 dialogPhotoTitle = DialogObject.setDialogPhotoTitle(userCell.getImageView(), userOrChat);
             }
             userCell.dialogFileEntities = dialogFileEntities;
-            userCell.getImageView().setRoundRadius(AndroidUtilities.dp((!(userOrChat instanceof TLRPC$Chat) || !((TLRPC$Chat) userOrChat).forum) ? 19.0f : 12.0f));
-            String formatFileSize = AndroidUtilities.formatFileSize(dialogFileEntities.totalSize);
-            if (i >= getItemCount() - 2) {
-                z = false;
-            }
-            userCell.setTextAndValue(dialogPhotoTitle, formatFileSize, z);
-            userCell.setChecked(CachedMediaLayout.this.cacheModel.isSelected(dialogFileEntities.dialogId), z2);
+            userCell.getImageView().setRoundRadius(AndroidUtilities.dp(((userOrChat instanceof TLRPC$Chat) && ((TLRPC$Chat) userOrChat).forum) ? 12.0f : 19.0f));
+            userCell.setTextAndValue(dialogPhotoTitle, AndroidUtilities.formatFileSize(dialogFileEntities.totalSize), i < getItemCount() + (-2));
+            userCell.setChecked(CachedMediaLayout.this.cacheModel.isSelected(dialogFileEntities.dialogId), z);
         }
     }
 
     /* loaded from: classes3.dex */
     private abstract class BaseFilesAdapter extends BaseAdapter {
-        ArrayList<ItemInner> oldItems = new ArrayList<>();
+        ArrayList<ItemInner> oldItems;
         final int type;
 
         @Override // org.telegram.ui.Components.RecyclerListView.SelectionAdapter
@@ -636,6 +632,7 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
 
         protected BaseFilesAdapter(int i) {
             super(CachedMediaLayout.this, null);
+            this.oldItems = new ArrayList<>();
             this.type = i;
         }
 
@@ -833,21 +830,18 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
             CacheCell cacheCell = (CacheCell) viewHolder.itemView;
-            boolean z = false;
             SharedDocumentCell sharedDocumentCell = (SharedDocumentCell) cacheCell.container.getChildAt(0);
             CacheModel.FileInfo fileInfo = this.itemInners.get(i).file;
-            boolean z2 = fileInfo == viewHolder.itemView.getTag();
-            if (i != this.itemInners.size() - 1) {
-                z = true;
-            }
+            boolean z = fileInfo == viewHolder.itemView.getTag();
+            boolean z2 = i != this.itemInners.size() - 1;
             viewHolder.itemView.setTag(fileInfo);
-            sharedDocumentCell.setTextAndValueAndTypeAndThumb(fileInfo.file.getName(), LocaleController.formatDateAudio(fileInfo.file.lastModified(), true), Utilities.getExtension(fileInfo.file.getName()), null, 0, z);
-            if (!z2) {
+            sharedDocumentCell.setTextAndValueAndTypeAndThumb(fileInfo.file.getName(), LocaleController.formatDateAudio(fileInfo.file.lastModified(), true), Utilities.getExtension(fileInfo.file.getName()), null, 0, z2);
+            if (!z) {
                 sharedDocumentCell.setPhoto(fileInfo.file.getPath());
             }
-            cacheCell.drawDivider = z;
+            cacheCell.drawDivider = z2;
             cacheCell.sizeTextView.setText(AndroidUtilities.formatFileSize(fileInfo.size));
-            cacheCell.checkBox.setChecked(CachedMediaLayout.this.cacheModel.isSelected(fileInfo), z2);
+            cacheCell.checkBox.setChecked(CachedMediaLayout.this.cacheModel.isSelected(fileInfo), z);
         }
     }
 
@@ -888,19 +882,16 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
             CacheCell cacheCell = (CacheCell) viewHolder.itemView;
-            boolean z = false;
             SharedAudioCell sharedAudioCell = (SharedAudioCell) cacheCell.container.getChildAt(0);
             CacheModel.FileInfo fileInfo = this.itemInners.get(i).file;
-            boolean z2 = fileInfo == cacheCell.getTag();
-            if (i != this.itemInners.size() - 1) {
-                z = true;
-            }
+            boolean z = fileInfo == cacheCell.getTag();
+            boolean z2 = i != this.itemInners.size() - 1;
             cacheCell.setTag(fileInfo);
             CachedMediaLayout.this.checkMessageObjectForAudio(fileInfo, i);
-            sharedAudioCell.setMessageObject(fileInfo.messageObject, z);
-            cacheCell.drawDivider = z;
+            sharedAudioCell.setMessageObject(fileInfo.messageObject, z2);
+            cacheCell.drawDivider = z2;
             cacheCell.sizeTextView.setText(AndroidUtilities.formatFileSize(fileInfo.size));
-            cacheCell.checkBox.setChecked(CachedMediaLayout.this.cacheModel.isSelected(fileInfo), z2);
+            cacheCell.checkBox.setChecked(CachedMediaLayout.this.cacheModel.isSelected(fileInfo), z);
         }
     }
 

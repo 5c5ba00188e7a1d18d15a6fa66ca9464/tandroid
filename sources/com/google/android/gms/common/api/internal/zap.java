@@ -13,13 +13,15 @@ import java.util.concurrent.atomic.AtomicReference;
 /* loaded from: classes.dex */
 public abstract class zap extends LifecycleCallback implements DialogInterface.OnCancelListener {
     protected volatile boolean zaa;
+    protected final AtomicReference zab;
     protected final GoogleApiAvailability zac;
-    protected final AtomicReference zab = new AtomicReference(null);
-    private final Handler zad = new com.google.android.gms.internal.base.zau(Looper.getMainLooper());
+    private final Handler zad;
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public zap(LifecycleFragment lifecycleFragment, GoogleApiAvailability googleApiAvailability) {
         super(lifecycleFragment);
+        this.zab = new AtomicReference(null);
+        this.zad = new com.google.android.gms.internal.base.zau(Looper.getMainLooper());
         this.zac = googleApiAvailability;
     }
 
@@ -66,11 +68,7 @@ public abstract class zap extends LifecycleCallback implements DialogInterface.O
             if (zamVar == null) {
                 return;
             }
-            int i3 = 13;
-            if (intent != null) {
-                i3 = intent.getIntExtra("<<ResolutionFailureErrorDetail>>", 13);
-            }
-            zaa(new ConnectionResult(i3, null, zamVar.zab().toString()), zae(zamVar));
+            zaa(new ConnectionResult(intent != null ? intent.getIntExtra("<<ResolutionFailureErrorDetail>>", 13) : 13, null, zamVar.zab().toString()), zae(zamVar));
             return;
         }
         if (zamVar != null) {

@@ -247,9 +247,9 @@ public class CameraSession {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:35:0x0050  */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x0056  */
-    /* JADX WARN: Removed duplicated region for block: B:39:0x0061  */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x0050  */
+    /* JADX WARN: Removed duplicated region for block: B:31:0x0056  */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x0061  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -300,10 +300,9 @@ public class CameraSession {
             }
             int i4 = this.currentOrientation - this.displayOrientation;
             this.diffOrientation = i4;
-            if (i4 >= 0) {
-                return;
+            if (i4 < 0) {
+                this.diffOrientation = i4 + 360;
             }
-            this.diffOrientation = i4 + 360;
         } catch (Throwable th) {
             FileLog.e(th);
         }
@@ -314,75 +313,66 @@ public class CameraSession {
         int i;
         try {
             Camera camera = this.cameraInfo.camera;
-            if (camera == null) {
-                return;
-            }
-            Camera.Parameters parameters = null;
-            try {
-                parameters = camera.getParameters();
-            } catch (Exception e) {
-                FileLog.e(e);
-            }
-            updateCameraInfo();
-            updateRotation();
-            int i2 = this.currentOrientation - this.displayOrientation;
-            this.diffOrientation = i2;
-            if (i2 < 0) {
-                this.diffOrientation = i2 + 360;
-            }
-            if (parameters == null) {
-                return;
-            }
-            parameters.setPreviewSize(this.previewSize.getWidth(), this.previewSize.getHeight());
-            parameters.setPictureSize(this.pictureSize.getWidth(), this.pictureSize.getHeight());
-            parameters.setPictureFormat(this.pictureFormat);
-            parameters.setJpegQuality(100);
-            parameters.setJpegThumbnailQuality(100);
-            int maxZoom = parameters.getMaxZoom();
-            this.maxZoom = maxZoom;
-            parameters.setZoom((int) (this.currentZoom * maxZoom));
-            if (this.optimizeForBarcode) {
-                List<String> supportedSceneModes = parameters.getSupportedSceneModes();
-                if (supportedSceneModes != null && supportedSceneModes.contains("barcode")) {
-                    parameters.setSceneMode("barcode");
+            if (camera != null) {
+                Camera.Parameters parameters = null;
+                try {
+                    parameters = camera.getParameters();
+                } catch (Exception e) {
+                    FileLog.e(e);
                 }
-                if (parameters.getSupportedFocusModes().contains("continuous-video")) {
-                    parameters.setFocusMode("continuous-video");
+                updateCameraInfo();
+                updateRotation();
+                int i2 = this.currentOrientation - this.displayOrientation;
+                this.diffOrientation = i2;
+                if (i2 < 0) {
+                    this.diffOrientation = i2 + 360;
                 }
-            } else if (parameters.getSupportedFocusModes().contains("continuous-picture")) {
-                parameters.setFocusMode("continuous-picture");
-            }
-            int i3 = this.jpegOrientation;
-            boolean z = false;
-            if (i3 != -1) {
-                Camera.CameraInfo cameraInfo = this.info;
-                if (cameraInfo.facing == 1) {
-                    i = ((cameraInfo.orientation - i3) + 360) % 360;
-                } else {
-                    i = (cameraInfo.orientation + i3) % 360;
-                }
-            } else {
-                i = 0;
-            }
-            try {
-                parameters.setRotation(i);
-                if (this.info.facing == 1) {
-                    if ((360 - this.displayOrientation) % 360 == i) {
-                        z = true;
+                if (parameters != null) {
+                    parameters.setPreviewSize(this.previewSize.getWidth(), this.previewSize.getHeight());
+                    parameters.setPictureSize(this.pictureSize.getWidth(), this.pictureSize.getHeight());
+                    parameters.setPictureFormat(this.pictureFormat);
+                    parameters.setJpegQuality(100);
+                    parameters.setJpegThumbnailQuality(100);
+                    int maxZoom = parameters.getMaxZoom();
+                    this.maxZoom = maxZoom;
+                    parameters.setZoom((int) (this.currentZoom * maxZoom));
+                    if (this.optimizeForBarcode) {
+                        List<String> supportedSceneModes = parameters.getSupportedSceneModes();
+                        if (supportedSceneModes != null && supportedSceneModes.contains("barcode")) {
+                            parameters.setSceneMode("barcode");
+                        }
+                        if (parameters.getSupportedFocusModes().contains("continuous-video")) {
+                            parameters.setFocusMode("continuous-video");
+                        }
+                    } else if (parameters.getSupportedFocusModes().contains("continuous-picture")) {
+                        parameters.setFocusMode("continuous-picture");
                     }
-                    this.sameTakePictureOrientation = z;
-                } else {
-                    if (this.displayOrientation == i) {
-                        z = true;
+                    int i3 = this.jpegOrientation;
+                    if (i3 != -1) {
+                        Camera.CameraInfo cameraInfo = this.info;
+                        if (cameraInfo.facing == 1) {
+                            i = ((cameraInfo.orientation - i3) + 360) % 360;
+                        } else {
+                            i = (cameraInfo.orientation + i3) % 360;
+                        }
+                    } else {
+                        i = 0;
                     }
-                    this.sameTakePictureOrientation = z;
+                    try {
+                        parameters.setRotation(i);
+                        if (this.info.facing == 1) {
+                            this.sameTakePictureOrientation = (360 - this.displayOrientation) % 360 == i;
+                        } else {
+                            this.sameTakePictureOrientation = this.displayOrientation == i;
+                        }
+                    } catch (Exception unused) {
+                    }
+                    parameters.setFlashMode(this.useTorch ? "torch" : this.currentFlashMode);
+                    try {
+                        camera.setParameters(parameters);
+                    } catch (Exception unused2) {
+                    }
                 }
-            } catch (Exception unused) {
-            }
-            parameters.setFlashMode(this.useTorch ? "torch" : this.currentFlashMode);
-            try {
-                camera.setParameters(parameters);
-            } catch (Exception unused2) {
             }
         } catch (Throwable th) {
             FileLog.e(th);
@@ -393,33 +383,31 @@ public class CameraSession {
     public void focusToRect(Rect rect, Rect rect2) {
         try {
             Camera camera = this.cameraInfo.camera;
-            if (camera == null) {
-                return;
-            }
-            camera.cancelAutoFocus();
-            Camera.Parameters parameters = null;
-            try {
-                parameters = camera.getParameters();
-            } catch (Exception e) {
-                FileLog.e(e);
-            }
-            if (parameters == null) {
-                return;
-            }
-            parameters.setFocusMode("auto");
-            ArrayList arrayList = new ArrayList();
-            arrayList.add(new Camera.Area(rect, 1000));
-            parameters.setFocusAreas(arrayList);
-            if (this.meteringAreaSupported) {
-                ArrayList arrayList2 = new ArrayList();
-                arrayList2.add(new Camera.Area(rect2, 1000));
-                parameters.setMeteringAreas(arrayList2);
-            }
-            try {
-                camera.setParameters(parameters);
-                camera.autoFocus(this.autoFocusCallback);
-            } catch (Exception e2) {
-                FileLog.e(e2);
+            if (camera != null) {
+                camera.cancelAutoFocus();
+                Camera.Parameters parameters = null;
+                try {
+                    parameters = camera.getParameters();
+                } catch (Exception e) {
+                    FileLog.e(e);
+                }
+                if (parameters != null) {
+                    parameters.setFocusMode("auto");
+                    ArrayList arrayList = new ArrayList();
+                    arrayList.add(new Camera.Area(rect, 1000));
+                    parameters.setFocusAreas(arrayList);
+                    if (this.meteringAreaSupported) {
+                        ArrayList arrayList2 = new ArrayList();
+                        arrayList2.add(new Camera.Area(rect2, 1000));
+                        parameters.setMeteringAreas(arrayList2);
+                    }
+                    try {
+                        camera.setParameters(parameters);
+                        camera.autoFocus(this.autoFocusCallback);
+                    } catch (Exception e2) {
+                        FileLog.e(e2);
+                    }
+                }
             }
         } catch (Exception e3) {
             FileLog.e(e3);
@@ -483,7 +471,7 @@ public class CameraSession {
     }
 
     private int getHigh() {
-        return (!"LGE".equals(Build.MANUFACTURER) || !"g3_tmo_us".equals(Build.PRODUCT)) ? 1 : 4;
+        return ("LGE".equals(Build.MANUFACTURER) && "g3_tmo_us".equals(Build.PRODUCT)) ? 4 : 1;
     }
 
     private int getDisplayOrientation(Camera.CameraInfo cameraInfo, boolean z) {

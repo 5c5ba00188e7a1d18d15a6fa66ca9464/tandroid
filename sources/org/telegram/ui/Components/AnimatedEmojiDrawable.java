@@ -152,10 +152,9 @@ public class AnimatedEmojiDrawable extends Drawable {
             if (imageReceiver.getLottieAnimation() != null) {
                 this.imageReceiver.getLottieAnimation().updateCurrentFrame(j, true);
             }
-            if (this.imageReceiver.getAnimation() == null) {
-                return;
+            if (this.imageReceiver.getAnimation() != null) {
+                this.imageReceiver.getAnimation().updateCurrentFrame(j, true);
             }
-            this.imageReceiver.getAnimation().updateCurrentFrame(j, true);
         }
     }
 
@@ -192,8 +191,7 @@ public class AnimatedEmojiDrawable extends Drawable {
                 HashMap<Long, TLRPC$Document> hashMap = this.emojiDocumentsCache;
                 if (hashMap != null && (tLRPC$Document = hashMap.get(Long.valueOf(j))) != null) {
                     receivedDocument.run(tLRPC$Document);
-                } else if (!checkThread()) {
-                } else {
+                } else if (checkThread()) {
                     if (receivedDocument != null) {
                         if (this.loadingDocuments == null) {
                             this.loadingDocuments = new HashMap<>();
@@ -236,10 +234,10 @@ public class AnimatedEmojiDrawable extends Drawable {
 
         private boolean checkThread() {
             if (Thread.currentThread() != Looper.getMainLooper().getThread()) {
-                if (!BuildVars.DEBUG_VERSION) {
+                if (BuildVars.DEBUG_VERSION) {
+                    FileLog.e("EmojiDocumentFetcher", new IllegalStateException("Wrong thread"));
                     return false;
                 }
-                FileLog.e("EmojiDocumentFetcher", new IllegalStateException("Wrong thread"));
                 return false;
             }
             return true;
@@ -291,9 +289,10 @@ public class AnimatedEmojiDrawable extends Drawable {
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$loadFromDatabase$1(ArrayList arrayList, HashSet hashSet) {
             processDocuments(arrayList);
-            if (!hashSet.isEmpty()) {
-                loadFromServer(new ArrayList<>(hashSet));
+            if (hashSet.isEmpty()) {
+                return;
             }
+            loadFromServer(new ArrayList<>(hashSet));
         }
 
         private void loadFromServer(final ArrayList<Long> arrayList) {
@@ -346,8 +345,8 @@ public class AnimatedEmojiDrawable extends Drawable {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* JADX WARN: Removed duplicated region for block: B:16:0x004d A[Catch: SQLiteException -> 0x0057, TryCatch #2 {SQLiteException -> 0x0057, blocks: (B:3:0x000a, B:4:0x0011, B:6:0x0017, B:8:0x001f, B:16:0x004d, B:23:0x0047, B:18:0x0050, B:27:0x0053), top: B:2:0x000a }] */
-        /* JADX WARN: Removed duplicated region for block: B:19:0x0050 A[SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:18:0x004d A[Catch: SQLiteException -> 0x0057, TryCatch #2 {SQLiteException -> 0x0057, blocks: (B:3:0x000a, B:4:0x0011, B:6:0x0017, B:8:0x001f, B:18:0x004d, B:16:0x0047, B:19:0x0050, B:20:0x0053), top: B:29:0x000a }] */
+        /* JADX WARN: Removed duplicated region for block: B:34:0x0050 A[SYNTHETIC] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -391,19 +390,18 @@ public class AnimatedEmojiDrawable extends Drawable {
 
         public void processDocuments(ArrayList<?> arrayList) {
             ArrayList<ReceivedDocument> remove;
-            if (!checkThread()) {
-                return;
-            }
-            for (int i = 0; i < arrayList.size(); i++) {
-                if (arrayList.get(i) instanceof TLRPC$Document) {
-                    TLRPC$Document tLRPC$Document = (TLRPC$Document) arrayList.get(i);
-                    putDocument(tLRPC$Document);
-                    HashMap<Long, ArrayList<ReceivedDocument>> hashMap = this.loadingDocuments;
-                    if (hashMap != null && (remove = hashMap.remove(Long.valueOf(tLRPC$Document.id))) != null) {
-                        for (int i2 = 0; i2 < remove.size(); i2++) {
-                            remove.get(i2).run(tLRPC$Document);
+            if (checkThread()) {
+                for (int i = 0; i < arrayList.size(); i++) {
+                    if (arrayList.get(i) instanceof TLRPC$Document) {
+                        TLRPC$Document tLRPC$Document = (TLRPC$Document) arrayList.get(i);
+                        putDocument(tLRPC$Document);
+                        HashMap<Long, ArrayList<ReceivedDocument>> hashMap = this.loadingDocuments;
+                        if (hashMap != null && (remove = hashMap.remove(Long.valueOf(tLRPC$Document.id))) != null) {
+                            for (int i2 = 0; i2 < remove.size(); i2++) {
+                                remove.get(i2).run(tLRPC$Document);
+                            }
+                            remove.clear();
                         }
-                        remove.clear();
                     }
                 }
             }
@@ -499,11 +497,11 @@ public class AnimatedEmojiDrawable extends Drawable {
         return this.document;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:48:0x01ab  */
-    /* JADX WARN: Removed duplicated region for block: B:51:0x01b4  */
-    /* JADX WARN: Removed duplicated region for block: B:68:0x026d  */
-    /* JADX WARN: Removed duplicated region for block: B:85:0x01e2  */
-    /* JADX WARN: Removed duplicated region for block: B:89:0x01ae  */
+    /* JADX WARN: Removed duplicated region for block: B:106:0x026d  */
+    /* JADX WARN: Removed duplicated region for block: B:78:0x01ab  */
+    /* JADX WARN: Removed duplicated region for block: B:79:0x01ae  */
+    /* JADX WARN: Removed duplicated region for block: B:82:0x01b4  */
+    /* JADX WARN: Removed duplicated region for block: B:83:0x01e2  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -526,8 +524,9 @@ public class AnimatedEmojiDrawable extends Drawable {
                 super.invalidate();
             }
 
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.messenger.ImageReceiver
-            protected boolean setImageBitmapByKey(Drawable drawable, String str2, int i5, boolean z, int i6) {
+            public boolean setImageBitmapByKey(Drawable drawable, String str2, int i5, boolean z, int i6) {
                 AnimatedEmojiDrawable.this.invalidate();
                 return super.setImageBitmapByKey(drawable, str2, i5, z, i6);
             }
@@ -580,14 +579,14 @@ public class AnimatedEmojiDrawable extends Drawable {
             sb.append("@");
             sb.append(str2);
             String sb2 = sb.toString();
-            if (SharedConfig.getDevicePerformanceClass() != 0 || this.cacheType == 2 || !ImageLoader.getInstance().hasLottieMemCache(sb2)) {
+            if (SharedConfig.getDevicePerformanceClass() == 0 && this.cacheType != 2 && ImageLoader.getInstance().hasLottieMemCache(sb2)) {
+                svgDrawable2 = null;
+            } else {
                 SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(this.document.thumbs, "windowBackgroundWhiteGrayIcon", 0.2f);
                 if (svgThumb != null && MessageObject.isAnimatedStickerDocument(this.document, true)) {
                     svgThumb.overrideWidthAndHeight(512, 512);
                 }
                 svgDrawable2 = svgThumb;
-            } else {
-                svgDrawable2 = null;
             }
             imageLocation = ImageLocation.getForDocument(this.document);
         } else {
@@ -789,14 +788,13 @@ public class AnimatedEmojiDrawable extends Drawable {
         }
         ArrayList<View> arrayList2 = this.views;
         boolean z = (arrayList2 != null && arrayList2.size() > 0) || ((arrayList = this.holders) != null && arrayList.size() > 0);
-        if (z == this.attached) {
-            return;
-        }
-        this.attached = z;
-        if (z) {
-            this.imageReceiver.onAttachedToWindow();
-        } else {
-            this.imageReceiver.onDetachedFromWindow();
+        if (z != this.attached) {
+            this.attached = z;
+            if (z) {
+                this.imageReceiver.onAttachedToWindow();
+            } else {
+                this.imageReceiver.onDetachedFromWindow();
+            }
         }
     }
 
@@ -806,15 +804,12 @@ public class AnimatedEmojiDrawable extends Drawable {
             return bool.booleanValue();
         }
         boolean z = false;
-        if (this.document == null) {
-            return false;
+        if (this.document != null) {
+            Boolean valueOf = Boolean.valueOf((isDefaultStatusEmoji() || MessageObject.isTextColorEmoji(this.document)) ? true : true);
+            this.canOverrideColorCached = valueOf;
+            return valueOf.booleanValue();
         }
-        if (isDefaultStatusEmoji() || MessageObject.isTextColorEmoji(this.document)) {
-            z = true;
-        }
-        Boolean valueOf = Boolean.valueOf(z);
-        this.canOverrideColorCached = valueOf;
-        return valueOf.booleanValue();
+        return false;
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:15:0x002c, code lost:
@@ -830,31 +825,31 @@ public class AnimatedEmojiDrawable extends Drawable {
         }
         TLRPC$Document tLRPC$Document = this.document;
         boolean z = false;
-        if (tLRPC$Document == null) {
-            return false;
-        }
-        TLRPC$InputStickerSet inputStickerSet = MessageObject.getInputStickerSet(tLRPC$Document);
-        if (!(inputStickerSet instanceof TLRPC$TL_inputStickerSetEmojiDefaultStatuses)) {
-            if (inputStickerSet instanceof TLRPC$TL_inputStickerSetID) {
-                long j = inputStickerSet.id;
-                if (j != 773947703670341676L) {
+        if (tLRPC$Document != null) {
+            TLRPC$InputStickerSet inputStickerSet = MessageObject.getInputStickerSet(tLRPC$Document);
+            if (!(inputStickerSet instanceof TLRPC$TL_inputStickerSetEmojiDefaultStatuses)) {
+                if (inputStickerSet instanceof TLRPC$TL_inputStickerSetID) {
+                    long j = inputStickerSet.id;
+                    if (j != 773947703670341676L) {
+                    }
                 }
+                Boolean valueOf = Boolean.valueOf(z);
+                this.isDefaultStatusEmojiCached = valueOf;
+                return valueOf.booleanValue();
             }
-            Boolean valueOf = Boolean.valueOf(z);
-            this.isDefaultStatusEmojiCached = valueOf;
-            return valueOf.booleanValue();
+            z = true;
+            Boolean valueOf2 = Boolean.valueOf(z);
+            this.isDefaultStatusEmojiCached = valueOf2;
+            return valueOf2.booleanValue();
         }
-        z = true;
-        Boolean valueOf2 = Boolean.valueOf(z);
-        this.isDefaultStatusEmojiCached = valueOf2;
-        return valueOf2.booleanValue();
+        return false;
     }
 
     public static boolean isDefaultStatusEmoji(Drawable drawable) {
-        if (!(drawable instanceof AnimatedEmojiDrawable)) {
-            return false;
+        if (drawable instanceof AnimatedEmojiDrawable) {
+            return isDefaultStatusEmoji((AnimatedEmojiDrawable) drawable);
         }
-        return isDefaultStatusEmoji((AnimatedEmojiDrawable) drawable);
+        return false;
     }
 
     public static boolean isDefaultStatusEmoji(AnimatedEmojiDrawable animatedEmojiDrawable) {
@@ -880,8 +875,7 @@ public class AnimatedEmojiDrawable extends Drawable {
     public void setColorFilter(ColorFilter colorFilter) {
         if (this.imageReceiver == null || this.document == null) {
             this.colorFilterToSet = colorFilter;
-        } else if (!canOverrideColor()) {
-        } else {
+        } else if (canOverrideColor()) {
             this.imageReceiver.setColorFilter(colorFilter);
         }
     }
@@ -909,10 +903,10 @@ public class AnimatedEmojiDrawable extends Drawable {
             hashMap.put(valueOf, valueOf2);
             num = valueOf2;
         }
-        if (num != null) {
-            return num.intValue();
+        if (num == null) {
+            return 0;
         }
-        return 0;
+        return num.intValue();
     }
 
     /* loaded from: classes3.dex */
@@ -1077,11 +1071,10 @@ public class AnimatedEmojiDrawable extends Drawable {
             if (num2 == null && num == null) {
                 return;
             }
-            if (num2 != null && num2.equals(num)) {
-                return;
+            if (num2 == null || !num2.equals(num)) {
+                this.lastColor = num;
+                this.colorFilter = num != null ? new PorterDuffColorFilter(num.intValue(), PorterDuff.Mode.SRC_IN) : null;
             }
-            this.lastColor = num;
-            this.colorFilter = num != null ? new PorterDuffColorFilter(num.intValue(), PorterDuff.Mode.SRC_IN) : null;
         }
 
         public Integer getColor() {
@@ -1150,31 +1143,32 @@ public class AnimatedEmojiDrawable extends Drawable {
 
         public void set(long j, int i, boolean z) {
             Drawable[] drawableArr = this.drawables;
-            if (!(drawableArr[0] instanceof AnimatedEmojiDrawable) || ((AnimatedEmojiDrawable) drawableArr[0]).getDocumentId() != j) {
-                if (z) {
-                    this.changeProgress.set(0.0f, true);
-                    Drawable[] drawableArr2 = this.drawables;
-                    if (drawableArr2[1] != null) {
-                        if (drawableArr2[1] instanceof AnimatedEmojiDrawable) {
-                            ((AnimatedEmojiDrawable) drawableArr2[1]).removeView(this);
-                        }
-                        this.drawables[1] = null;
-                    }
-                    Drawable[] drawableArr3 = this.drawables;
-                    drawableArr3[1] = drawableArr3[0];
-                    drawableArr3[0] = AnimatedEmojiDrawable.make(UserConfig.selectedAccount, i, j);
-                    ((AnimatedEmojiDrawable) this.drawables[0]).addView(this);
-                } else {
-                    this.changeProgress.set(1.0f, true);
-                    detach();
-                    this.drawables[0] = AnimatedEmojiDrawable.make(UserConfig.selectedAccount, i, j);
-                    ((AnimatedEmojiDrawable) this.drawables[0]).addView(this);
-                }
-                this.lastColor = -1;
-                this.colorFilter = null;
-                play();
-                invalidate();
+            if ((drawableArr[0] instanceof AnimatedEmojiDrawable) && ((AnimatedEmojiDrawable) drawableArr[0]).getDocumentId() == j) {
+                return;
             }
+            if (z) {
+                this.changeProgress.set(0.0f, true);
+                Drawable[] drawableArr2 = this.drawables;
+                if (drawableArr2[1] != null) {
+                    if (drawableArr2[1] instanceof AnimatedEmojiDrawable) {
+                        ((AnimatedEmojiDrawable) drawableArr2[1]).removeView(this);
+                    }
+                    this.drawables[1] = null;
+                }
+                Drawable[] drawableArr3 = this.drawables;
+                drawableArr3[1] = drawableArr3[0];
+                drawableArr3[0] = AnimatedEmojiDrawable.make(UserConfig.selectedAccount, i, j);
+                ((AnimatedEmojiDrawable) this.drawables[0]).addView(this);
+            } else {
+                this.changeProgress.set(1.0f, true);
+                detach();
+                this.drawables[0] = AnimatedEmojiDrawable.make(UserConfig.selectedAccount, i, j);
+                ((AnimatedEmojiDrawable) this.drawables[0]).addView(this);
+            }
+            this.lastColor = -1;
+            this.colorFilter = null;
+            play();
+            invalidate();
         }
 
         public void set(TLRPC$Document tLRPC$Document, boolean z) {
@@ -1183,39 +1177,40 @@ public class AnimatedEmojiDrawable extends Drawable {
 
         public void set(TLRPC$Document tLRPC$Document, int i, boolean z) {
             Drawable[] drawableArr = this.drawables;
-            if (!(drawableArr[0] instanceof AnimatedEmojiDrawable) || tLRPC$Document == null || ((AnimatedEmojiDrawable) drawableArr[0]).getDocumentId() != tLRPC$Document.id) {
-                if (z) {
-                    this.changeProgress.set(0.0f, true);
-                    Drawable[] drawableArr2 = this.drawables;
-                    if (drawableArr2[1] != null) {
-                        if (drawableArr2[1] instanceof AnimatedEmojiDrawable) {
-                            ((AnimatedEmojiDrawable) drawableArr2[1]).removeView(this);
-                        }
-                        this.drawables[1] = null;
-                    }
-                    Drawable[] drawableArr3 = this.drawables;
-                    drawableArr3[1] = drawableArr3[0];
-                    if (tLRPC$Document != null) {
-                        drawableArr3[0] = AnimatedEmojiDrawable.make(UserConfig.selectedAccount, i, tLRPC$Document);
-                        ((AnimatedEmojiDrawable) this.drawables[0]).addView(this);
-                    } else {
-                        drawableArr3[0] = null;
-                    }
-                } else {
-                    this.changeProgress.set(1.0f, true);
-                    detach();
-                    if (tLRPC$Document != null) {
-                        this.drawables[0] = AnimatedEmojiDrawable.make(UserConfig.selectedAccount, i, tLRPC$Document);
-                        ((AnimatedEmojiDrawable) this.drawables[0]).addView(this);
-                    } else {
-                        this.drawables[0] = null;
-                    }
-                }
-                this.lastColor = -1;
-                this.colorFilter = null;
-                play();
-                invalidate();
+            if ((drawableArr[0] instanceof AnimatedEmojiDrawable) && tLRPC$Document != null && ((AnimatedEmojiDrawable) drawableArr[0]).getDocumentId() == tLRPC$Document.id) {
+                return;
             }
+            if (z) {
+                this.changeProgress.set(0.0f, true);
+                Drawable[] drawableArr2 = this.drawables;
+                if (drawableArr2[1] != null) {
+                    if (drawableArr2[1] instanceof AnimatedEmojiDrawable) {
+                        ((AnimatedEmojiDrawable) drawableArr2[1]).removeView(this);
+                    }
+                    this.drawables[1] = null;
+                }
+                Drawable[] drawableArr3 = this.drawables;
+                drawableArr3[1] = drawableArr3[0];
+                if (tLRPC$Document != null) {
+                    drawableArr3[0] = AnimatedEmojiDrawable.make(UserConfig.selectedAccount, i, tLRPC$Document);
+                    ((AnimatedEmojiDrawable) this.drawables[0]).addView(this);
+                } else {
+                    drawableArr3[0] = null;
+                }
+            } else {
+                this.changeProgress.set(1.0f, true);
+                detach();
+                if (tLRPC$Document != null) {
+                    this.drawables[0] = AnimatedEmojiDrawable.make(UserConfig.selectedAccount, i, tLRPC$Document);
+                    ((AnimatedEmojiDrawable) this.drawables[0]).addView(this);
+                } else {
+                    this.drawables[0] = null;
+                }
+            }
+            this.lastColor = -1;
+            this.colorFilter = null;
+            play();
+            invalidate();
         }
 
         public void set(Drawable drawable, boolean z) {

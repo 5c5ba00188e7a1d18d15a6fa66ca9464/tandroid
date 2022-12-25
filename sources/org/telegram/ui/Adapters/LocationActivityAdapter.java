@@ -124,9 +124,10 @@ public class LocationActivityAdapter extends BaseLocationAdapter implements Loca
     }
 
     public void updateLiveLocations() {
-        if (!this.currentLiveLocations.isEmpty()) {
-            notifyItemRangeChanged(2, this.currentLiveLocations.size(), new Object());
+        if (this.currentLiveLocations.isEmpty()) {
+            return;
         }
+        notifyItemRangeChanged(2, this.currentLiveLocations.size(), new Object());
     }
 
     public void setCustomLocation(Location location) {
@@ -157,9 +158,10 @@ public class LocationActivityAdapter extends BaseLocationAdapter implements Loca
     }
 
     private void updateCell() {
+        String str;
         SendLocationCell sendLocationCell = this.sendLocationCell;
         if (sendLocationCell != null) {
-            String str = "";
+            str = "";
             if (this.locationType == 4 || this.customLocation != null) {
                 if (!TextUtils.isEmpty(this.addressName)) {
                     str = this.addressName;
@@ -188,11 +190,7 @@ public class LocationActivityAdapter extends BaseLocationAdapter implements Loca
                 sendLocationCell.setText(LocaleController.getString("SendLocation", R.string.SendLocation), LocaleController.formatString("AccurateTo", R.string.AccurateTo, LocaleController.formatPluralString("Meters", (int) this.gpsLocation.getAccuracy(), new Object[0])));
                 this.sendLocationCell.setHasLocation(true);
             } else {
-                String string = LocaleController.getString("SendLocation", R.string.SendLocation);
-                if (!this.myLocationDenied) {
-                    str = LocaleController.getString("Loading", R.string.Loading);
-                }
-                sendLocationCell.setText(string, str);
+                sendLocationCell.setText(LocaleController.getString("SendLocation", R.string.SendLocation), this.myLocationDenied ? "" : LocaleController.getString("Loading", R.string.Loading));
                 this.sendLocationCell.setHasLocation(!this.myLocationDenied);
             }
         }
@@ -222,50 +220,34 @@ public class LocationActivityAdapter extends BaseLocationAdapter implements Loca
             return;
         }
         Location location3 = this.customLocation;
-        if (location3 == null) {
-            return;
+        if (location3 != null) {
+            Location location4 = this.previousFetchedLocation;
+            if (location4 == null || location4.distanceTo(location3) > 20.0f) {
+                this.addressName = null;
+            }
+            this.fetchingLocation = true;
+            updateCell();
+            LocationController.fetchLocationAddress(location3, this);
         }
-        Location location4 = this.previousFetchedLocation;
-        if (location4 == null || location4.distanceTo(location3) > 20.0f) {
-            this.addressName = null;
-        }
-        this.fetchingLocation = true;
-        updateCell();
-        LocationController.fetchLocationAddress(location3, this);
     }
 
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter
     public int getItemCount() {
         int i = this.locationType;
-        int i2 = 6;
-        int i3 = 2;
         if (i == 6 || i == 5 || i == 4) {
             return 2;
         }
-        int i4 = 1;
         if (this.currentMessageObject != null) {
-            if (!this.currentLiveLocations.isEmpty()) {
-                i4 = this.currentLiveLocations.size() + 3;
-            }
-            return i4 + 2;
+            return (this.currentLiveLocations.isEmpty() ? 1 : this.currentLiveLocations.size() + 3) + 2;
         } else if (i == 2) {
             return this.currentLiveLocations.size() + 2;
         } else {
-            if (this.searching || !this.searched || this.places.isEmpty()) {
-                if (this.locationType == 0) {
-                    i2 = 5;
-                }
-                boolean z = this.myLocationDenied;
-                int i5 = i2 + ((z || (!this.searching && this.searched)) ? 0 : 2) + (this.needEmptyView ? 1 : 0);
-                if (!z) {
-                    i3 = 0;
-                }
-                return i5 - i3;
+            if (!this.searching && this.searched && !this.places.isEmpty()) {
+                return (this.locationType != 1 ? 5 : 6) + this.places.size() + (this.needEmptyView ? 1 : 0);
             }
-            if (this.locationType != 1) {
-                i2 = 5;
-            }
-            return i2 + this.places.size() + (this.needEmptyView ? 1 : 0);
+            int i2 = this.locationType == 0 ? 5 : 6;
+            boolean z = this.myLocationDenied;
+            return ((i2 + ((z || (!this.searching && this.searched)) ? 0 : 2)) + (this.needEmptyView ? 1 : 0)) - (z ? 2 : 0);
         }
     }
 
@@ -349,13 +331,11 @@ public class LocationActivityAdapter extends BaseLocationAdapter implements Loca
             viewHolder.itemView.setLayoutParams(layoutParams);
             return;
         }
-        boolean z = true;
         if (itemViewType == 1) {
             this.sendLocationCell = (SendLocationCell) viewHolder.itemView;
             updateCell();
             return;
         }
-        int i2 = 2;
         if (itemViewType == 2) {
             HeaderCell headerCell = (HeaderCell) viewHolder.itemView;
             if (this.currentMessageObject != null) {
@@ -365,21 +345,17 @@ public class LocationActivityAdapter extends BaseLocationAdapter implements Loca
             }
         } else if (itemViewType == 3) {
             LocationCell locationCell = (LocationCell) viewHolder.itemView;
-            int i3 = this.locationType == 0 ? i - 4 : i - 5;
+            int i2 = this.locationType == 0 ? i - 4 : i - 5;
             String str = null;
-            TLRPC$TL_messageMediaVenue tLRPC$TL_messageMediaVenue = (i3 < 0 || i3 >= this.places.size() || !this.searched) ? null : this.places.get(i3);
-            if (i3 >= 0 && i3 < this.iconUrls.size() && this.searched) {
-                str = this.iconUrls.get(i3);
+            TLRPC$TL_messageMediaVenue tLRPC$TL_messageMediaVenue = (i2 < 0 || i2 >= this.places.size() || !this.searched) ? null : this.places.get(i2);
+            if (i2 >= 0 && i2 < this.iconUrls.size() && this.searched) {
+                str = this.iconUrls.get(i2);
             }
-            locationCell.setLocation(tLRPC$TL_messageMediaVenue, str, i3, true);
+            locationCell.setLocation(tLRPC$TL_messageMediaVenue, str, i2, true);
         } else if (itemViewType == 4) {
             ((LocationLoadingCell) viewHolder.itemView).setLoading(this.searching);
         } else if (itemViewType == 6) {
-            SendLocationCell sendLocationCell = (SendLocationCell) viewHolder.itemView;
-            if (this.gpsLocation == null) {
-                z = false;
-            }
-            sendLocationCell.setHasLocation(z);
+            ((SendLocationCell) viewHolder.itemView).setHasLocation(this.gpsLocation != null);
         } else if (itemViewType != 7) {
             if (itemViewType != 10) {
                 return;
@@ -397,15 +373,11 @@ public class LocationActivityAdapter extends BaseLocationAdapter implements Loca
                 return;
             }
             MessageObject messageObject = this.currentMessageObject;
-            if (messageObject != null && i == 1) {
+            if (messageObject == null || i != 1) {
+                sharingLiveLocationCell.setDialog(this.currentLiveLocations.get(i - (messageObject != null ? 5 : 2)), this.gpsLocation);
+            } else {
                 sharingLiveLocationCell.setDialog(messageObject, this.gpsLocation, this.myLocationDenied);
-                return;
             }
-            ArrayList<LocationActivity.LiveLocation> arrayList = this.currentLiveLocations;
-            if (messageObject != null) {
-                i2 = 5;
-            }
-            sharingLiveLocationCell.setDialog(arrayList.get(i - i2), this.gpsLocation);
         }
     }
 
@@ -441,10 +413,10 @@ public class LocationActivityAdapter extends BaseLocationAdapter implements Loca
                 return this.currentLiveLocations.get(i - 5);
             }
         } else if (i2 == 2) {
-            if (i < 2) {
-                return null;
+            if (i >= 2) {
+                return this.currentLiveLocations.get(i - 2);
             }
-            return this.currentLiveLocations.get(i - 2);
+            return null;
         } else if (i2 == 1) {
             if (i > 4 && i < this.places.size() + 5) {
                 return this.places.get(i - 5);
@@ -491,11 +463,11 @@ public class LocationActivityAdapter extends BaseLocationAdapter implements Loca
             }
             return 7;
         } else if (i2 == 2) {
-            if (i != 1) {
-                return 7;
+            if (i == 1) {
+                this.shareLiveLocationPotistion = i;
+                return 6;
             }
-            this.shareLiveLocationPotistion = i;
-            return 6;
+            return 7;
         } else {
             if (i2 == 1) {
                 if (i == 1) {

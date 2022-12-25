@@ -30,7 +30,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 @SuppressLint({"PrivateConstructorForUtilityClass"})
 /* loaded from: classes.dex */
 public class ViewCompat {
-    private static boolean sAccessibilityDelegateCheckFailed = false;
+    private static boolean sAccessibilityDelegateCheckFailed;
     private static Field sAccessibilityDelegateField;
     private static Field sMinHeightField;
     private static boolean sMinHeightFieldFetched;
@@ -45,6 +45,7 @@ public class ViewCompat {
 
     static {
         new AtomicInteger(1);
+        sAccessibilityDelegateCheckFailed = false;
         new Object() { // from class: androidx.core.view.ViewCompat.1
         };
         new AccessibilityPaneVisibilityManager();
@@ -118,10 +119,10 @@ public class ViewCompat {
         }
         try {
             Object obj = sAccessibilityDelegateField.get(v);
-            if (!(obj instanceof View.AccessibilityDelegate)) {
-                return null;
+            if (obj instanceof View.AccessibilityDelegate) {
+                return (View.AccessibilityDelegate) obj;
             }
-            return (View.AccessibilityDelegate) obj;
+            return null;
         } catch (Throwable unused2) {
             sAccessibilityDelegateCheckFailed = true;
             return null;
@@ -170,8 +171,7 @@ public class ViewCompat {
         int i = Build.VERSION.SDK_INT;
         if (i >= 19) {
             view.setImportantForAccessibility(mode);
-        } else if (i < 16) {
-        } else {
+        } else if (i >= 16) {
             if (mode == 4) {
                 mode = 2;
             }
@@ -218,14 +218,14 @@ public class ViewCompat {
             sMinWidthFieldFetched = true;
         }
         Field field = sMinWidthField;
-        if (field == null) {
-            return 0;
+        if (field != null) {
+            try {
+                return ((Integer) field.get(view)).intValue();
+            } catch (Exception unused2) {
+                return 0;
+            }
         }
-        try {
-            return ((Integer) field.get(view)).intValue();
-        } catch (Exception unused2) {
-            return 0;
-        }
+        return 0;
     }
 
     public static int getMinimumHeight(View view) {
@@ -242,14 +242,14 @@ public class ViewCompat {
             sMinHeightFieldFetched = true;
         }
         Field field = sMinHeightField;
-        if (field == null) {
-            return 0;
+        if (field != null) {
+            try {
+                return ((Integer) field.get(view)).intValue();
+            } catch (Exception unused2) {
+                return 0;
+            }
         }
-        try {
-            return ((Integer) field.get(view)).intValue();
-        } catch (Exception unused2) {
-            return 0;
-        }
+        return 0;
     }
 
     public static void setElevation(View view, float elevation) {
@@ -294,18 +294,17 @@ public class ViewCompat {
             return view.getTransitionName();
         }
         WeakHashMap<View, String> weakHashMap = sTransitionNameMap;
-        if (weakHashMap != null) {
-            return weakHashMap.get(view);
+        if (weakHashMap == null) {
+            return null;
         }
-        return null;
+        return weakHashMap.get(view);
     }
 
     public static void requestApplyInsets(View view) {
         int i = Build.VERSION.SDK_INT;
         if (i >= 20) {
             view.requestApplyInsets();
-        } else if (i < 16) {
-        } else {
+        } else if (i >= 16) {
             view.requestFitSystemWindows();
         }
     }
@@ -343,10 +342,10 @@ public class ViewCompat {
         if (i >= 23) {
             return Api23Impl.getRootWindowInsets(view);
         }
-        if (i < 21) {
-            return null;
+        if (i >= 21) {
+            return Api21Impl.getRootWindowInsets(view);
         }
-        return Api21Impl.getRootWindowInsets(view);
+        return null;
     }
 
     public static boolean hasOverlappingRendering(View view) {
@@ -359,8 +358,7 @@ public class ViewCompat {
     public static void stopNestedScroll(View view) {
         if (Build.VERSION.SDK_INT >= 21) {
             view.stopNestedScroll();
-        } else if (!(view instanceof NestedScrollingChild)) {
-        } else {
+        } else if (view instanceof NestedScrollingChild) {
             ((NestedScrollingChild) view).stopNestedScroll();
         }
     }
@@ -396,10 +394,10 @@ public class ViewCompat {
         if (Build.VERSION.SDK_INT >= 17) {
             return view.getDisplay();
         }
-        if (!isAttachedToWindow(view)) {
-            return null;
+        if (isAttachedToWindow(view)) {
+            return ((WindowManager) view.getContext().getSystemService("window")).getDefaultDisplay();
         }
-        return ((WindowManager) view.getContext().getSystemService("window")).getDefaultDisplay();
+        return null;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -558,8 +556,7 @@ public class ViewCompat {
         void set(View view, T value) {
             if (frameworkAvailable()) {
                 frameworkSet(view, value);
-            } else if (!extrasAvailable() || !shouldUpdate(get(view), value)) {
-            } else {
+            } else if (extrasAvailable() && shouldUpdate(get(view), value)) {
                 ViewCompat.getOrCreateAccessibilityDelegateCompat(view);
                 view.setTag(this.mTagKey, value);
                 ViewCompat.notifyViewAccessibilityStateChangedIfNeeded(view, this.mContentChangeType);
@@ -570,14 +567,14 @@ public class ViewCompat {
             if (frameworkAvailable()) {
                 return frameworkGet(view);
             }
-            if (!extrasAvailable()) {
+            if (extrasAvailable()) {
+                T t = (T) view.getTag(this.mTagKey);
+                if (this.mType.isInstance(t)) {
+                    return t;
+                }
                 return null;
             }
-            T t = (T) view.getTag(this.mTagKey);
-            if (!this.mType.isInstance(t)) {
-                return null;
-            }
-            return t;
+            return null;
         }
 
         private boolean frameworkAvailable() {
@@ -595,38 +592,32 @@ public class ViewCompat {
 
     static void notifyViewAccessibilityStateChangedIfNeeded(View view, int changeType) {
         AccessibilityManager accessibilityManager = (AccessibilityManager) view.getContext().getSystemService("accessibility");
-        if (!accessibilityManager.isEnabled()) {
-            return;
-        }
-        boolean z = getAccessibilityPaneTitle(view) != null && view.getVisibility() == 0;
-        int i = 32;
-        if (getAccessibilityLiveRegion(view) != 0 || z) {
-            AccessibilityEvent obtain = AccessibilityEvent.obtain();
-            if (!z) {
-                i = 2048;
-            }
-            obtain.setEventType(i);
-            obtain.setContentChangeTypes(changeType);
-            if (z) {
-                obtain.getText().add(getAccessibilityPaneTitle(view));
-                setViewImportanceForAccessibilityIfNeeded(view);
-            }
-            view.sendAccessibilityEventUnchecked(obtain);
-        } else if (changeType == 32) {
-            AccessibilityEvent obtain2 = AccessibilityEvent.obtain();
-            view.onInitializeAccessibilityEvent(obtain2);
-            obtain2.setEventType(32);
-            obtain2.setContentChangeTypes(changeType);
-            obtain2.setSource(view);
-            view.onPopulateAccessibilityEvent(obtain2);
-            obtain2.getText().add(getAccessibilityPaneTitle(view));
-            accessibilityManager.sendAccessibilityEvent(obtain2);
-        } else if (view.getParent() == null) {
-        } else {
-            try {
-                view.getParent().notifySubtreeAccessibilityStateChanged(view, view, changeType);
-            } catch (AbstractMethodError e) {
-                Log.e("ViewCompat", view.getParent().getClass().getSimpleName() + " does not fully implement ViewParent", e);
+        if (accessibilityManager.isEnabled()) {
+            boolean z = getAccessibilityPaneTitle(view) != null && view.getVisibility() == 0;
+            if (getAccessibilityLiveRegion(view) != 0 || z) {
+                AccessibilityEvent obtain = AccessibilityEvent.obtain();
+                obtain.setEventType(z ? 32 : 2048);
+                obtain.setContentChangeTypes(changeType);
+                if (z) {
+                    obtain.getText().add(getAccessibilityPaneTitle(view));
+                    setViewImportanceForAccessibilityIfNeeded(view);
+                }
+                view.sendAccessibilityEventUnchecked(obtain);
+            } else if (changeType == 32) {
+                AccessibilityEvent obtain2 = AccessibilityEvent.obtain();
+                view.onInitializeAccessibilityEvent(obtain2);
+                obtain2.setEventType(32);
+                obtain2.setContentChangeTypes(changeType);
+                obtain2.setSource(view);
+                view.onPopulateAccessibilityEvent(obtain2);
+                obtain2.getText().add(getAccessibilityPaneTitle(view));
+                accessibilityManager.sendAccessibilityEvent(obtain2);
+            } else if (view.getParent() != null) {
+                try {
+                    view.getParent().notifySubtreeAccessibilityStateChanged(view, view, changeType);
+                } catch (AbstractMethodError e) {
+                    Log.e("ViewCompat", view.getParent().getClass().getSimpleName() + " does not fully implement ViewParent", e);
+                }
             }
         }
     }
@@ -756,14 +747,14 @@ public class ViewCompat {
                 if (weakReference2 == null) {
                     weakReference2 = capturedKeys.get(event.getKeyCode());
                 }
-                if (weakReference2 == null) {
-                    return false;
+                if (weakReference2 != null) {
+                    View view = weakReference2.get();
+                    if (view != null && ViewCompat.isAttachedToWindow(view)) {
+                        onUnhandledKeyEvent(view, event);
+                    }
+                    return true;
                 }
-                View view = weakReference2.get();
-                if (view != null && ViewCompat.isAttachedToWindow(view)) {
-                    onUnhandledKeyEvent(view, event);
-                }
-                return true;
+                return false;
             }
             return false;
         }

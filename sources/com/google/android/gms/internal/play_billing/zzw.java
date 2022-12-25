@@ -40,10 +40,10 @@ public final class zzw {
         if (zzvVar == null) {
             zzaf zzf = zzaf.zzf(this.zzb, this.zza, this);
             zzv zzvVar2 = this.zzc;
-            if (zzvVar2 != null) {
-                throw zzvVar2.zza();
+            if (zzvVar2 == null) {
+                return zzf;
             }
-            return zzf;
+            throw zzvVar2.zza();
         }
         throw zzvVar.zza();
     }

@@ -22,23 +22,23 @@ import org.telegram.ui.Cells.BaseCell;
 import org.telegram.ui.Components.SeekBar;
 /* loaded from: classes3.dex */
 public class PopupAudioView extends BaseCell implements SeekBar.SeekBarDelegate, DownloadController.FileDownloadProgressListener {
+    private int TAG;
+    private int buttonPressed;
+    private int buttonState;
     private int buttonX;
     private int buttonY;
+    private int currentAccount;
     protected MessageObject currentMessageObject;
+    private String lastTimeString;
+    private ProgressView progressView;
     private SeekBar seekBar;
     private int seekBarX;
     private int seekBarY;
     private StaticLayout timeLayout;
     private TextPaint timePaint;
+    int timeWidth;
     private int timeX;
-    private boolean wasLayout = false;
-    private int buttonState = 0;
-    private int buttonPressed = 0;
-    int timeWidth = 0;
-    private String lastTimeString = null;
-    private int currentAccount;
-    private int TAG = DownloadController.getInstance(this.currentAccount).generateObserverTag();
-    private ProgressView progressView = new ProgressView();
+    private boolean wasLayout;
 
     @Override // org.telegram.messenger.DownloadController.FileDownloadProgressListener
     public void onProgressUpload(String str, long j, long j2, boolean z) {
@@ -61,12 +61,19 @@ public class PopupAudioView extends BaseCell implements SeekBar.SeekBarDelegate,
 
     public PopupAudioView(Context context) {
         super(context);
+        this.wasLayout = false;
+        this.buttonState = 0;
+        this.buttonPressed = 0;
+        this.timeWidth = 0;
+        this.lastTimeString = null;
         TextPaint textPaint = new TextPaint(1);
         this.timePaint = textPaint;
         textPaint.setTextSize(AndroidUtilities.dp(16.0f));
+        this.TAG = DownloadController.getInstance(this.currentAccount).generateObserverTag();
         SeekBar seekBar = new SeekBar(this);
         this.seekBar = seekBar;
         seekBar.setDelegate(this);
+        this.progressView = new ProgressView();
     }
 
     public void setMessageObject(MessageObject messageObject) {
@@ -104,10 +111,9 @@ public class PopupAudioView extends BaseCell implements SeekBar.SeekBarDelegate,
         this.seekBarY = AndroidUtilities.dp(13.0f);
         this.buttonY = AndroidUtilities.dp(10.0f);
         updateProgress();
-        if (!z && this.wasLayout) {
-            return;
+        if (z || !this.wasLayout) {
+            this.wasLayout = true;
         }
-        this.wasLayout = true;
     }
 
     @Override // android.view.View
@@ -166,7 +172,7 @@ public class PopupAudioView extends BaseCell implements SeekBar.SeekBarDelegate,
         DownloadController.getInstance(this.currentAccount).removeLoadingFileObserver(this);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:41:0x00a7, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:36:0x00a7, code lost:
         if (r1 <= (r0 + r4)) goto L20;
      */
     @Override // android.view.View
@@ -226,23 +232,20 @@ public class PopupAudioView extends BaseCell implements SeekBar.SeekBarDelegate,
                 MessagesController.getInstance(this.currentAccount).markMessageContentAsRead(this.currentMessageObject);
                 this.currentMessageObject.setContentIsRead();
             }
-            if (!playMessage) {
-                return;
+            if (playMessage) {
+                this.buttonState = 1;
+                invalidate();
             }
-            this.buttonState = 1;
-            invalidate();
         } else if (i == 1) {
-            if (!MediaController.getInstance().lambda$startAudioAgain$7(this.currentMessageObject)) {
-                return;
+            if (MediaController.getInstance().lambda$startAudioAgain$7(this.currentMessageObject)) {
+                this.buttonState = 0;
+                invalidate();
             }
-            this.buttonState = 0;
-            invalidate();
         } else if (i == 2) {
             FileLoader.getInstance(this.currentAccount).loadFile(this.currentMessageObject.getDocument(), this.currentMessageObject, 1, 0);
             this.buttonState = 4;
             invalidate();
-        } else if (i != 3) {
-        } else {
+        } else if (i == 3) {
             FileLoader.getInstance(this.currentAccount).cancelLoadFile(this.currentMessageObject.getDocument());
             this.buttonState = 2;
             invalidate();

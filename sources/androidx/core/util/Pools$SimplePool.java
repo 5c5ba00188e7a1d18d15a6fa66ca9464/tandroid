@@ -32,12 +32,12 @@ public class Pools$SimplePool<T> implements Pools$Pool<T> {
         }
         int i = this.mPoolSize;
         Object[] objArr = this.mPool;
-        if (i >= objArr.length) {
-            return false;
+        if (i < objArr.length) {
+            objArr[i] = instance;
+            this.mPoolSize = i + 1;
+            return true;
         }
-        objArr[i] = instance;
-        this.mPoolSize = i + 1;
-        return true;
+        return false;
     }
 
     private boolean isInPool(T instance) {

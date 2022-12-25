@@ -106,6 +106,7 @@ public class CameraController implements MediaRecorder.OnInfoListener {
         String str;
         Camera.CameraInfo cameraInfo;
         int i;
+        int i2;
         String str2;
         final CameraController cameraController = this;
         String str3 = "cameraCache";
@@ -113,20 +114,20 @@ public class CameraController implements MediaRecorder.OnInfoListener {
         try {
             if (cameraController.cameraInfos == null) {
                 SharedPreferences globalMainSettings = MessagesController.getGlobalMainSettings();
-                String string = globalMainSettings.getString(str3, null);
+                String string = globalMainSettings.getString("cameraCache", null);
                 CameraController$$ExternalSyntheticLambda17 cameraController$$ExternalSyntheticLambda17 = CameraController$$ExternalSyntheticLambda17.INSTANCE;
                 ArrayList<CameraInfo> arrayList = new ArrayList<>();
                 if (string != null) {
                     SerializedData serializedData = new SerializedData(Base64.decode(string, 0));
                     int readInt32 = serializedData.readInt32(false);
-                    for (int i2 = 0; i2 < readInt32; i2++) {
+                    for (int i3 = 0; i3 < readInt32; i3++) {
                         CameraInfo cameraInfo2 = new CameraInfo(serializedData.readInt32(false), serializedData.readInt32(false));
                         int readInt322 = serializedData.readInt32(false);
-                        for (int i3 = 0; i3 < readInt322; i3++) {
+                        for (int i4 = 0; i4 < readInt322; i4++) {
                             cameraInfo2.previewSizes.add(new Size(serializedData.readInt32(false), serializedData.readInt32(false)));
                         }
                         int readInt323 = serializedData.readInt32(false);
-                        for (int i4 = 0; i4 < readInt323; i4++) {
+                        for (int i5 = 0; i5 < readInt323; i5++) {
                             cameraInfo2.pictureSizes.add(new Size(serializedData.readInt32(false), serializedData.readInt32(false)));
                         }
                         arrayList.add(cameraInfo2);
@@ -134,47 +135,47 @@ public class CameraController implements MediaRecorder.OnInfoListener {
                         Collections.sort(cameraInfo2.pictureSizes, cameraController$$ExternalSyntheticLambda17);
                     }
                     serializedData.cleanup();
-                    str = str4;
+                    str = "APP_PAUSED";
                 } else {
                     int numberOfCameras = Camera.getNumberOfCameras();
                     Camera.CameraInfo cameraInfo3 = new Camera.CameraInfo();
-                    int i5 = 4;
-                    int i6 = 0;
-                    while (i6 < numberOfCameras) {
+                    int i6 = 4;
+                    int i7 = 0;
+                    while (i7 < numberOfCameras) {
                         try {
-                            Camera.getCameraInfo(i6, cameraInfo3);
-                            CameraInfo cameraInfo4 = new CameraInfo(i6, cameraInfo3.facing);
+                            Camera.getCameraInfo(i7, cameraInfo3);
+                            CameraInfo cameraInfo4 = new CameraInfo(i7, cameraInfo3.facing);
                             if (ApplicationLoader.mainInterfacePaused && ApplicationLoader.externalInterfacePaused) {
                                 throw new RuntimeException(str4);
                             }
                             Camera open = Camera.open(cameraInfo4.getCameraId());
                             Camera.Parameters parameters = open.getParameters();
                             List<Camera.Size> supportedPreviewSizes = parameters.getSupportedPreviewSizes();
-                            int i7 = 0;
+                            int i8 = 0;
                             while (true) {
                                 cameraInfo = cameraInfo3;
                                 str = str4;
-                                if (i7 >= supportedPreviewSizes.size()) {
+                                if (i8 >= supportedPreviewSizes.size()) {
                                     break;
                                 }
                                 try {
-                                    Camera.Size size = supportedPreviewSizes.get(i7);
-                                    int i8 = size.width;
+                                    Camera.Size size = supportedPreviewSizes.get(i8);
+                                    int i9 = size.width;
                                     List<Camera.Size> list = supportedPreviewSizes;
-                                    if ((i8 != 1280 || size.height == 720) && (i = size.height) < 2160 && i8 < 2160) {
+                                    if ((i9 != 1280 || size.height == 720) && (i2 = size.height) < 2160 && i9 < 2160) {
                                         str2 = str3;
-                                        cameraInfo4.previewSizes.add(new Size(i8, i));
+                                        cameraInfo4.previewSizes.add(new Size(i9, i2));
                                         if (BuildVars.LOGS_ENABLED) {
                                             FileLog.d("preview size = " + size.width + " " + size.height);
                                         }
-                                        i7++;
+                                        i8++;
                                         cameraInfo3 = cameraInfo;
                                         str4 = str;
                                         supportedPreviewSizes = list;
                                         str3 = str2;
                                     }
                                     str2 = str3;
-                                    i7++;
+                                    i8++;
                                     cameraInfo3 = cameraInfo;
                                     str4 = str;
                                     supportedPreviewSizes = list;
@@ -194,10 +195,9 @@ public class CameraController implements MediaRecorder.OnInfoListener {
                             }
                             String str5 = str3;
                             List<Camera.Size> supportedPictureSizes = parameters.getSupportedPictureSizes();
-                            for (int i9 = 0; i9 < supportedPictureSizes.size(); i9++) {
-                                Camera.Size size2 = supportedPictureSizes.get(i9);
-                                if (size2.width == 1280 && size2.height != 720) {
-                                }
+                            while (i < supportedPictureSizes.size()) {
+                                Camera.Size size2 = supportedPictureSizes.get(i);
+                                i = (size2.width == 1280 && size2.height != 720) ? i + 1 : 0;
                                 if (!"samsung".equals(Build.MANUFACTURER) || !"jflteuc".equals(Build.PRODUCT) || size2.width < 2048) {
                                     cameraInfo4.pictureSizes.add(new Size(size2.width, size2.height));
                                     if (BuildVars.LOGS_ENABLED) {
@@ -209,8 +209,8 @@ public class CameraController implements MediaRecorder.OnInfoListener {
                             arrayList.add(cameraInfo4);
                             Collections.sort(cameraInfo4.previewSizes, cameraController$$ExternalSyntheticLambda17);
                             Collections.sort(cameraInfo4.pictureSizes, cameraController$$ExternalSyntheticLambda17);
-                            i5 += ((cameraInfo4.previewSizes.size() + cameraInfo4.pictureSizes.size()) * 8) + 8;
-                            i6++;
+                            i6 += ((cameraInfo4.previewSizes.size() + cameraInfo4.pictureSizes.size()) * 8) + 8;
+                            i7++;
                             cameraInfo3 = cameraInfo;
                             str4 = str;
                             str3 = str5;
@@ -230,7 +230,7 @@ public class CameraController implements MediaRecorder.OnInfoListener {
                     }
                     String str6 = str3;
                     str = str4;
-                    SerializedData serializedData2 = new SerializedData(i5);
+                    SerializedData serializedData2 = new SerializedData(i6);
                     serializedData2.writeInt32(arrayList.size());
                     for (int i10 = 0; i10 < numberOfCameras; i10++) {
                         CameraInfo cameraInfo5 = arrayList.get(i10);
@@ -269,7 +269,7 @@ public class CameraController implements MediaRecorder.OnInfoListener {
                     return;
                 }
             } else {
-                str = str4;
+                str = "APP_PAUSED";
             }
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.camera.CameraController$$ExternalSyntheticLambda4
                 @Override // java.lang.Runnable
@@ -279,7 +279,7 @@ public class CameraController implements MediaRecorder.OnInfoListener {
             });
         } catch (Exception e4) {
             e = e4;
-            str = str4;
+            str = "APP_PAUSED";
         }
     }
 
@@ -336,7 +336,7 @@ public class CameraController implements MediaRecorder.OnInfoListener {
     }
 
     public boolean isCameraInitied() {
-        return this.cameraInitied && this.cameraInfos != null && !this.cameraInfos.isEmpty();
+        return (!this.cameraInitied || this.cameraInfos == null || this.cameraInfos.isEmpty()) ? false : true;
     }
 
     public void close(final CameraSession cameraSession, final CountDownLatch countDownLatch, final Runnable runnable) {
@@ -385,90 +385,90 @@ public class CameraController implements MediaRecorder.OnInfoListener {
         return this.cameraInfos;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:37:0x0061, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:38:0x005f, code lost:
+        r1 = r2;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:39:0x0060, code lost:
+        r3 = 0;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:40:0x0061, code lost:
         if (r3 <= 8) goto L68;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:38:0x0063, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:41:0x0063, code lost:
         r2 = pack(r10, r1, 4, false);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:39:0x006a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:42:0x006a, code lost:
         if (r2 == 1229531648) goto L43;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:41:0x006f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:44:0x006f, code lost:
         if (r2 == 1296891946) goto L43;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:42:0x0071, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:45:0x0071, code lost:
         return 0;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:43:0x0072, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:46:0x0072, code lost:
         if (r2 != 1229531648) goto L44;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:44:0x0075, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:48:0x0075, code lost:
         r5 = false;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:45:0x0076, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:49:0x0076, code lost:
         r2 = pack(r10, r1 + 4, 4, r5) + 2;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:46:0x007f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:50:0x007f, code lost:
         if (r2 < 10) goto L68;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:47:0x0081, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:51:0x0081, code lost:
         if (r2 <= r3) goto L48;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:48:0x0084, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:53:0x0084, code lost:
         r1 = r1 + r2;
         r3 = r3 - r2;
         r2 = pack(r10, r1 - 2, 2, r5);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:49:0x008c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:54:0x008c, code lost:
         r4 = r2 - 1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:50:0x008e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:55:0x008e, code lost:
         if (r2 <= 0) goto L67;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:52:0x0092, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:57:0x0092, code lost:
         if (r3 < 12) goto L66;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:54:0x009a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:59:0x009a, code lost:
         if (pack(r10, r1, 2, r5) != 274) goto L55;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:55:0x00b3, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:60:0x009c, code lost:
+        r10 = pack(r10, r1 + 8, 2, r5);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:61:0x00a2, code lost:
+        if (r10 == 3) goto L65;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:63:0x00a5, code lost:
+        if (r10 == 6) goto L64;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:64:0x00a7, code lost:
+        if (r10 == 8) goto L63;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:65:0x00a9, code lost:
+        return 0;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:66:0x00aa, code lost:
+        return 270;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:68:0x00ad, code lost:
+        return 90;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:70:0x00b0, code lost:
+        return 180;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:72:0x00b3, code lost:
         r1 = r1 + 12;
         r3 = r3 - 12;
         r2 = r4;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:57:0x009c, code lost:
-        r10 = pack(r10, r1 + 8, 2, r5);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:58:0x00a2, code lost:
-        if (r10 == 3) goto L65;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:60:0x00a5, code lost:
-        if (r10 == 6) goto L64;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:61:0x00a7, code lost:
-        if (r10 == 8) goto L63;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:62:0x00a9, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:73:0x00b9, code lost:
         return 0;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:63:0x00aa, code lost:
-        return 270;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:64:0x00ad, code lost:
-        return 90;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:65:0x00b0, code lost:
-        return 180;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:68:0x00b9, code lost:
-        return 0;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:75:0x005f, code lost:
-        r1 = r2;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:76:0x0060, code lost:
-        r3 = 0;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -525,13 +525,12 @@ public class CameraController implements MediaRecorder.OnInfoListener {
         int i4 = 0;
         while (true) {
             int i5 = i2 - 1;
-            if (i2 > 0) {
-                i4 = (bArr[i] & 255) | (i4 << 8);
-                i += i3;
-                i2 = i5;
-            } else {
+            if (i2 <= 0) {
                 return i4;
             }
+            i4 = (bArr[i] & 255) | (i4 << 8);
+            i += i3;
+            i2 = i5;
         }
     }
 
@@ -590,10 +589,10 @@ public class CameraController implements MediaRecorder.OnInfoListener {
             fileOutputStream.getFD().sync();
             fileOutputStream.close();
             ImageLoader.getInstance().putImageToCache(new BitmapDrawable(createBitmap), format, false);
-            if (runnable == null) {
+            if (runnable != null) {
+                runnable.run();
                 return;
             }
-            runnable.run();
             return;
         }
         FileOutputStream fileOutputStream2 = new FileOutputStream(file);
@@ -604,10 +603,9 @@ public class CameraController implements MediaRecorder.OnInfoListener {
         if (bitmap2 != null) {
             ImageLoader.getInstance().putImageToCache(new BitmapDrawable(bitmap2), format, false);
         }
-        if (runnable == null) {
-            return;
+        if (runnable != null) {
+            runnable.run();
         }
-        runnable.run();
     }
 
     public void startPreview(final CameraSession cameraSession) {
@@ -678,10 +676,10 @@ public class CameraController implements MediaRecorder.OnInfoListener {
 
     public void openRound(final CameraSession cameraSession, final SurfaceTexture surfaceTexture, final Runnable runnable, final Runnable runnable2) {
         if (cameraSession == null || surfaceTexture == null) {
-            if (!BuildVars.LOGS_ENABLED) {
+            if (BuildVars.LOGS_ENABLED) {
+                FileLog.d("failed to open round " + cameraSession + " tex = " + surfaceTexture);
                 return;
             }
-            FileLog.d("failed to open round " + cameraSession + " tex = " + surfaceTexture);
             return;
         }
         this.threadPool.execute(new Runnable() { // from class: org.telegram.messenger.camera.CameraController$$ExternalSyntheticLambda16
@@ -715,10 +713,9 @@ public class CameraController implements MediaRecorder.OnInfoListener {
             if (runnable2 != null) {
                 AndroidUtilities.runOnUIThread(runnable2);
             }
-            if (!BuildVars.LOGS_ENABLED) {
-                return;
+            if (BuildVars.LOGS_ENABLED) {
+                FileLog.d("round camera session created");
             }
-            FileLog.d("round camera session created");
         } catch (Exception e) {
             cameraSession.cameraInfo.camera = null;
             if (camera != null) {
@@ -809,23 +806,22 @@ public class CameraController implements MediaRecorder.OnInfoListener {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$recordVideo$12(Camera camera, CameraSession cameraSession, final CameraView cameraView, final File file, final Runnable runnable) {
         try {
-            if (camera == null) {
-                return;
-            }
-            try {
-                Camera.Parameters parameters = camera.getParameters();
-                parameters.setFlashMode(cameraSession.getCurrentFlashMode().equals("on") ? "torch" : "off");
-                camera.setParameters(parameters);
-                cameraSession.onStartRecord();
-            } catch (Exception e) {
-                FileLog.e(e);
-            }
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.camera.CameraController$$ExternalSyntheticLambda11
-                @Override // java.lang.Runnable
-                public final void run() {
-                    CameraController.this.lambda$recordVideo$11(cameraView, file, runnable);
+            if (camera != null) {
+                try {
+                    Camera.Parameters parameters = camera.getParameters();
+                    parameters.setFlashMode(cameraSession.getCurrentFlashMode().equals("on") ? "torch" : "off");
+                    camera.setParameters(parameters);
+                    cameraSession.onStartRecord();
+                } catch (Exception e) {
+                    FileLog.e(e);
                 }
-            });
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.camera.CameraController$$ExternalSyntheticLambda11
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        CameraController.this.lambda$recordVideo$11(cameraView, file, runnable);
+                    }
+                });
+            }
         } catch (Exception e2) {
             FileLog.e(e2);
         }
@@ -876,10 +872,9 @@ public class CameraController implements MediaRecorder.OnInfoListener {
                     this.recorder.start();
                     this.onVideoTakeCallback = videoTakeCallback;
                     this.recordedFile = file.getAbsolutePath();
-                    if (runnable == null) {
-                        return;
+                    if (runnable != null) {
+                        AndroidUtilities.runOnUIThread(runnable);
                     }
-                    AndroidUtilities.runOnUIThread(runnable);
                 } catch (Exception e2) {
                     this.recorder.release();
                     this.recorder = null;
@@ -892,9 +887,9 @@ public class CameraController implements MediaRecorder.OnInfoListener {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:14:0x004c  */
-    /* JADX WARN: Removed duplicated region for block: B:24:0x007d  */
-    /* JADX WARN: Removed duplicated region for block: B:39:0x00c4 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x004c  */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x007d  */
+    /* JADX WARN: Removed duplicated region for block: B:47:0x00c4 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -904,15 +899,12 @@ public class CameraController implements MediaRecorder.OnInfoListener {
         final Bitmap bitmap;
         String extractMetadata;
         MediaMetadataRetriever mediaMetadataRetriever2 = null;
-        long j = 0;
         try {
             try {
                 mediaMetadataRetriever = new MediaMetadataRetriever();
                 try {
                     mediaMetadataRetriever.setDataSource(this.recordedFile);
-                    if (mediaMetadataRetriever.extractMetadata(9) != null) {
-                        j = (int) Math.ceil(((float) Long.parseLong(extractMetadata)) / 1000.0f);
-                    }
+                    r1 = mediaMetadataRetriever.extractMetadata(9) != null ? (int) Math.ceil(((float) Long.parseLong(extractMetadata)) / 1000.0f) : 0L;
                 } catch (Exception e) {
                     e = e;
                     FileLog.e(e);
@@ -922,9 +914,9 @@ public class CameraController implements MediaRecorder.OnInfoListener {
                         } catch (Exception e2) {
                             e = e2;
                             FileLog.e(e);
-                            final long j2 = j;
+                            final long j = r1;
                             Bitmap createVideoThumbnail = SendMessagesHelper.createVideoThumbnail(this.recordedFile, 1);
-                            if (!this.mirrorRecorderVideo) {
+                            if (this.mirrorRecorderVideo) {
                             }
                             final File file = new File(FileLoader.getDirectory(4), "-2147483648_" + SharedConfig.getLastLocalId() + ".jpg");
                             bitmap.compress(Bitmap.CompressFormat.JPEG, 87, new FileOutputStream(file));
@@ -932,14 +924,14 @@ public class CameraController implements MediaRecorder.OnInfoListener {
                             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.camera.CameraController$$ExternalSyntheticLambda7
                                 @Override // java.lang.Runnable
                                 public final void run() {
-                                    CameraController.this.lambda$finishRecordingVideo$14(file, bitmap, j2);
+                                    CameraController.this.lambda$finishRecordingVideo$14(file, bitmap, j);
                                 }
                             });
                         }
                     }
-                    final long j22 = j;
+                    final long j2 = r1;
                     Bitmap createVideoThumbnail2 = SendMessagesHelper.createVideoThumbnail(this.recordedFile, 1);
-                    if (!this.mirrorRecorderVideo) {
+                    if (this.mirrorRecorderVideo) {
                     }
                     final File file2 = new File(FileLoader.getDirectory(4), "-2147483648_" + SharedConfig.getLastLocalId() + ".jpg");
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 87, new FileOutputStream(file2));
@@ -947,7 +939,7 @@ public class CameraController implements MediaRecorder.OnInfoListener {
                     AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.camera.CameraController$$ExternalSyntheticLambda7
                         @Override // java.lang.Runnable
                         public final void run() {
-                            CameraController.this.lambda$finishRecordingVideo$14(file2, bitmap, j22);
+                            CameraController.this.lambda$finishRecordingVideo$14(file2, bitmap, j2);
                         }
                     });
                 }
@@ -956,9 +948,9 @@ public class CameraController implements MediaRecorder.OnInfoListener {
                 } catch (Exception e3) {
                     e = e3;
                     FileLog.e(e);
-                    final long j222 = j;
+                    final long j22 = r1;
                     Bitmap createVideoThumbnail22 = SendMessagesHelper.createVideoThumbnail(this.recordedFile, 1);
-                    if (!this.mirrorRecorderVideo) {
+                    if (this.mirrorRecorderVideo) {
                     }
                     final File file22 = new File(FileLoader.getDirectory(4), "-2147483648_" + SharedConfig.getLastLocalId() + ".jpg");
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 87, new FileOutputStream(file22));
@@ -966,7 +958,7 @@ public class CameraController implements MediaRecorder.OnInfoListener {
                     AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.camera.CameraController$$ExternalSyntheticLambda7
                         @Override // java.lang.Runnable
                         public final void run() {
-                            CameraController.this.lambda$finishRecordingVideo$14(file22, bitmap, j222);
+                            CameraController.this.lambda$finishRecordingVideo$14(file22, bitmap, j22);
                         }
                     });
                 }
@@ -990,17 +982,17 @@ public class CameraController implements MediaRecorder.OnInfoListener {
             }
             throw th;
         }
-        final long j2222 = j;
+        final long j222 = r1;
         Bitmap createVideoThumbnail222 = SendMessagesHelper.createVideoThumbnail(this.recordedFile, 1);
-        if (!this.mirrorRecorderVideo) {
+        if (this.mirrorRecorderVideo) {
+            bitmap = createVideoThumbnail222;
+        } else {
             Bitmap createBitmap = Bitmap.createBitmap(createVideoThumbnail222.getWidth(), createVideoThumbnail222.getHeight(), Bitmap.Config.ARGB_8888);
             Canvas canvas = new Canvas(createBitmap);
             canvas.scale(-1.0f, 1.0f, createBitmap.getWidth() / 2, createBitmap.getHeight() / 2);
             canvas.drawBitmap(createVideoThumbnail222, 0.0f, 0.0f, (Paint) null);
             createVideoThumbnail222.recycle();
             bitmap = createBitmap;
-        } else {
-            bitmap = createVideoThumbnail222;
         }
         final File file222 = new File(FileLoader.getDirectory(4), "-2147483648_" + SharedConfig.getLastLocalId() + ".jpg");
         try {
@@ -1012,7 +1004,7 @@ public class CameraController implements MediaRecorder.OnInfoListener {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.camera.CameraController$$ExternalSyntheticLambda7
             @Override // java.lang.Runnable
             public final void run() {
-                CameraController.this.lambda$finishRecordingVideo$14(file222, bitmap, j2222);
+                CameraController.this.lambda$finishRecordingVideo$14(file222, bitmap, j222);
             }
         });
     }
@@ -1038,10 +1030,9 @@ public class CameraController implements MediaRecorder.OnInfoListener {
                 mediaRecorder2.stop();
                 mediaRecorder2.release();
             }
-            if (this.onVideoTakeCallback == null) {
-                return;
+            if (this.onVideoTakeCallback != null) {
+                finishRecordingVideo();
             }
-            finishRecordingVideo();
         }
     }
 

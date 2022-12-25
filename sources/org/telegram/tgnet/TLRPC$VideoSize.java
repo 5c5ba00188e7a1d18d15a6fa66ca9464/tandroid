@@ -70,27 +70,27 @@ public abstract class TLRPC$VideoSize extends TLObject {
                 }
             };
         }
-        if (tLRPC$TL_videoSize != null || !z) {
-            if (tLRPC$TL_videoSize != null) {
-                tLRPC$TL_videoSize.readParams(abstractSerializedData, z);
-                if (tLRPC$TL_videoSize.location == null) {
-                    if (!TextUtils.isEmpty(tLRPC$TL_videoSize.type) && (j != 0 || j2 != 0)) {
-                        TLRPC$TL_fileLocationToBeDeprecated tLRPC$TL_fileLocationToBeDeprecated = new TLRPC$TL_fileLocationToBeDeprecated();
-                        tLRPC$TL_videoSize.location = tLRPC$TL_fileLocationToBeDeprecated;
-                        if (j != 0) {
-                            tLRPC$TL_fileLocationToBeDeprecated.volume_id = -j;
-                            tLRPC$TL_fileLocationToBeDeprecated.local_id = tLRPC$TL_videoSize.type.charAt(0);
-                        } else {
-                            tLRPC$TL_fileLocationToBeDeprecated.volume_id = -j2;
-                            tLRPC$TL_fileLocationToBeDeprecated.local_id = tLRPC$TL_videoSize.type.charAt(0) + 1000;
-                        }
+        if (tLRPC$TL_videoSize == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in VideoSize", Integer.valueOf(i)));
+        }
+        if (tLRPC$TL_videoSize != null) {
+            tLRPC$TL_videoSize.readParams(abstractSerializedData, z);
+            if (tLRPC$TL_videoSize.location == null) {
+                if (!TextUtils.isEmpty(tLRPC$TL_videoSize.type) && (j != 0 || j2 != 0)) {
+                    TLRPC$TL_fileLocationToBeDeprecated tLRPC$TL_fileLocationToBeDeprecated = new TLRPC$TL_fileLocationToBeDeprecated();
+                    tLRPC$TL_videoSize.location = tLRPC$TL_fileLocationToBeDeprecated;
+                    if (j != 0) {
+                        tLRPC$TL_fileLocationToBeDeprecated.volume_id = -j;
+                        tLRPC$TL_fileLocationToBeDeprecated.local_id = tLRPC$TL_videoSize.type.charAt(0);
                     } else {
-                        tLRPC$TL_videoSize.location = new TLRPC$TL_fileLocationUnavailable();
+                        tLRPC$TL_fileLocationToBeDeprecated.volume_id = -j2;
+                        tLRPC$TL_fileLocationToBeDeprecated.local_id = tLRPC$TL_videoSize.type.charAt(0) + 1000;
                     }
+                } else {
+                    tLRPC$TL_videoSize.location = new TLRPC$TL_fileLocationUnavailable();
                 }
             }
-            return tLRPC$TL_videoSize;
         }
-        throw new RuntimeException(String.format("can't parse magic %x in VideoSize", Integer.valueOf(i)));
+        return tLRPC$TL_videoSize;
     }
 }

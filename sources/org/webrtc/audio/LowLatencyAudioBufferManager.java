@@ -25,21 +25,19 @@ class LowLatencyAudioBufferManager {
                 this.keepLoweringBufferSize = false;
                 this.prevUnderrunCount = underrunCount;
                 this.ticksUntilNextDecrease = 10;
-            } else if (!this.keepLoweringBufferSize) {
-            } else {
+            } else if (this.keepLoweringBufferSize) {
                 int i = this.ticksUntilNextDecrease - 1;
                 this.ticksUntilNextDecrease = i;
-                if (i > 0) {
-                    return;
+                if (i <= 0) {
+                    int playbackRate2 = audioTrack.getPlaybackRate() / 100;
+                    int bufferSizeInFrames2 = audioTrack.getBufferSizeInFrames();
+                    int max = Math.max(playbackRate2, bufferSizeInFrames2 - playbackRate2);
+                    if (max != bufferSizeInFrames2) {
+                        Logging.d(TAG, "Lowering AudioTrack buffer size from " + bufferSizeInFrames2 + " to " + max);
+                        audioTrack.setBufferSizeInFrames(max);
+                    }
+                    this.ticksUntilNextDecrease = 10;
                 }
-                int playbackRate2 = audioTrack.getPlaybackRate() / 100;
-                int bufferSizeInFrames2 = audioTrack.getBufferSizeInFrames();
-                int max = Math.max(playbackRate2, bufferSizeInFrames2 - playbackRate2);
-                if (max != bufferSizeInFrames2) {
-                    Logging.d(TAG, "Lowering AudioTrack buffer size from " + bufferSizeInFrames2 + " to " + max);
-                    audioTrack.setBufferSizeInFrames(max);
-                }
-                this.ticksUntilNextDecrease = 10;
             }
         }
     }

@@ -17,15 +17,19 @@ import org.telegram.ui.Components.PhotoCropView;
 /* loaded from: classes3.dex */
 public class SuggestUserPhotoView extends View {
     Drawable arrowDrawable;
+    AvatarDrawable avatarDrawable;
     View containterView;
+    ImageReceiver currentPhoto;
+    ImageReceiver newPhoto;
+    Path path;
     PhotoCropView photoCropView;
-    ImageReceiver currentPhoto = new ImageReceiver(this);
-    ImageReceiver newPhoto = new ImageReceiver(this);
-    AvatarDrawable avatarDrawable = new AvatarDrawable();
-    Path path = new Path();
 
     public SuggestUserPhotoView(Context context) {
         super(context);
+        this.currentPhoto = new ImageReceiver(this);
+        this.newPhoto = new ImageReceiver(this);
+        this.avatarDrawable = new AvatarDrawable();
+        this.path = new Path();
         this.avatarDrawable.setInfo(UserConfig.getInstance(UserConfig.selectedAccount).getCurrentUser());
         this.currentPhoto.setForUserOrChat(UserConfig.getInstance(UserConfig.selectedAccount).getCurrentUser(), this.avatarDrawable);
         this.newPhoto.setForUserOrChat(UserConfig.getInstance(UserConfig.selectedAccount).getCurrentUser(), this.avatarDrawable);

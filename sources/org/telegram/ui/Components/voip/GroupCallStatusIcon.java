@@ -154,9 +154,9 @@ public class GroupCallStatusIcon {
         } else {
             z2 = tLRPC$TL_groupCallParticipant2.hasVoice;
         }
-        boolean z5 = !tLRPC$TL_groupCallParticipant2.self ? !((!tLRPC$TL_groupCallParticipant2.muted || (this.isSpeaking && z2)) && !z4) : !(VoIPService.getSharedInstance() == null || !VoIPService.getSharedInstance().isMicMute() || (this.isSpeaking && z2));
+        boolean z5 = !tLRPC$TL_groupCallParticipant2.self ? (!tLRPC$TL_groupCallParticipant2.muted || (this.isSpeaking && z2)) && !z4 : VoIPService.getSharedInstance() == null || !VoIPService.getSharedInstance().isMicMute() || (this.isSpeaking && z2);
         TLRPC$TL_groupCallParticipant tLRPC$TL_groupCallParticipant3 = this.participant;
-        boolean z6 = ((tLRPC$TL_groupCallParticipant3.muted && !this.isSpeaking) || z4) && (!(z3 = tLRPC$TL_groupCallParticipant3.can_self_unmute) || z4) && !z3 && tLRPC$TL_groupCallParticipant3.raise_hand_rating != 0;
+        boolean z6 = ((tLRPC$TL_groupCallParticipant3.muted && !this.isSpeaking) || z4) && !(((z3 = tLRPC$TL_groupCallParticipant3.can_self_unmute) && !z4) || z3 || tLRPC$TL_groupCallParticipant3.raise_hand_rating == 0);
         if (z6) {
             long elapsedRealtime2 = SystemClock.elapsedRealtime();
             long j = this.participant.lastRaiseHandDate;
@@ -197,15 +197,13 @@ public class GroupCallStatusIcon {
         }
         this.iconView.setAnimation(this.micDrawable);
         this.lastRaisedHand = z6;
-        if (this.mutedByMe == z4) {
-            return;
+        if (this.mutedByMe != z4) {
+            this.mutedByMe = z4;
+            Callback callback = this.callback;
+            if (callback != null) {
+                callback.onStatusChanged();
+            }
         }
-        this.mutedByMe = z4;
-        Callback callback = this.callback;
-        if (callback == null) {
-            return;
-        }
-        callback.onStatusChanged();
     }
 
     public boolean isSpeaking() {
@@ -218,7 +216,7 @@ public class GroupCallStatusIcon {
 
     public boolean isMutedByAdmin() {
         TLRPC$TL_groupCallParticipant tLRPC$TL_groupCallParticipant = this.participant;
-        return tLRPC$TL_groupCallParticipant != null && tLRPC$TL_groupCallParticipant.muted && !tLRPC$TL_groupCallParticipant.can_self_unmute;
+        return (tLRPC$TL_groupCallParticipant == null || !tLRPC$TL_groupCallParticipant.muted || tLRPC$TL_groupCallParticipant.can_self_unmute) ? false : true;
     }
 
     public void setCallback(Callback callback) {

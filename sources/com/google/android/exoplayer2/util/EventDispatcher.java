@@ -64,9 +64,10 @@ public final class EventDispatcher<T> {
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$dispatch$0(Event event) {
-            if (!this.released) {
-                event.sendTo(this.listener);
+            if (this.released) {
+                return;
             }
+            event.sendTo(this.listener);
         }
     }
 }

@@ -63,15 +63,15 @@ final class zzhr extends zzhj<Boolean> implements zzjl<Boolean>, zzkw {
 
     @Override // java.util.AbstractList, java.util.List
     public final int indexOf(Object obj) {
-        if (!(obj instanceof Boolean)) {
-            return -1;
-        }
-        boolean booleanValue = ((Boolean) obj).booleanValue();
-        int size = size();
-        for (int i = 0; i < size; i++) {
-            if (this.zzb[i] == booleanValue) {
-                return i;
+        if (obj instanceof Boolean) {
+            boolean booleanValue = ((Boolean) obj).booleanValue();
+            int size = size();
+            for (int i = 0; i < size; i++) {
+                if (this.zzb[i] == booleanValue) {
+                    return i;
+                }
             }
+            return -1;
         }
         return -1;
     }

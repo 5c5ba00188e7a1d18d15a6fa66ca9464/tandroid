@@ -40,10 +40,10 @@ class r extends i3 {
                         throw th;
                     }
                 }
-                if (e1Var == null) {
+                if (e1Var != null) {
+                    e1Var.close();
                     return;
                 }
-                e1Var.close();
                 return;
             case 2:
                 IntStream intStream = (IntStream) ((Function) ((M) this.d).m).apply(obj);
@@ -59,10 +59,10 @@ class r extends i3 {
                         throw th3;
                     }
                 }
-                if (intStream == null) {
+                if (intStream != null) {
+                    intStream.close();
                     return;
                 }
-                intStream.close();
                 return;
             default:
                 U u = (U) ((Function) ((K) this.d).m).apply(obj);
@@ -78,10 +78,10 @@ class r extends i3 {
                         throw th5;
                     }
                 }
-                if (u == null) {
+                if (u != null) {
+                    u.close();
                     return;
                 }
-                u.close();
                 return;
         }
     }

@@ -214,10 +214,9 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         if ((this.flags & 16) != 0) {
                             this.migrated_from_max_id = abstractSerializedData2.readInt32(z2);
                         }
-                        if ((this.flags & 32) == 0) {
-                            return;
+                        if ((this.flags & 32) != 0) {
+                            this.pinned_msg_id = abstractSerializedData2.readInt32(z2);
                         }
-                        this.pinned_msg_id = abstractSerializedData2.readInt32(z2);
                     }
 
                     @Override // org.telegram.tgnet.TLRPC$TL_channelFull, org.telegram.tgnet.TLObject
@@ -317,10 +316,9 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         if ((this.flags & 16) != 0) {
                             this.migrated_from_max_id = abstractSerializedData2.readInt32(z2);
                         }
-                        if ((this.flags & 32) == 0) {
-                            return;
+                        if ((this.flags & 32) != 0) {
+                            this.pinned_msg_id = abstractSerializedData2.readInt32(z2);
                         }
-                        this.pinned_msg_id = abstractSerializedData2.readInt32(z2);
                     }
 
                     @Override // org.telegram.tgnet.TLRPC$TL_channelFull, org.telegram.tgnet.TLObject
@@ -559,10 +557,9 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         if ((this.flags & 16) != 0) {
                             this.migrated_from_chat_id = abstractSerializedData2.readInt32(z2);
                         }
-                        if ((this.flags & 16) == 0) {
-                            return;
+                        if ((this.flags & 16) != 0) {
+                            this.migrated_from_max_id = abstractSerializedData2.readInt32(z2);
                         }
-                        this.migrated_from_max_id = abstractSerializedData2.readInt32(z2);
                     }
 
                     @Override // org.telegram.tgnet.TLRPC$TL_channelFull, org.telegram.tgnet.TLObject
@@ -654,10 +651,9 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         if ((this.flags & 16) != 0) {
                             this.migrated_from_max_id = abstractSerializedData2.readInt32(z2);
                         }
-                        if ((this.flags & 32) == 0) {
-                            return;
+                        if ((this.flags & 32) != 0) {
+                            this.pinned_msg_id = abstractSerializedData2.readInt32(z2);
                         }
-                        this.pinned_msg_id = abstractSerializedData2.readInt32(z2);
                     }
 
                     @Override // org.telegram.tgnet.TLRPC$TL_channelFull, org.telegram.tgnet.TLObject
@@ -771,10 +767,9 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         if ((this.flags & 512) != 0) {
                             this.available_min_id = abstractSerializedData2.readInt32(z2);
                         }
-                        if ((this.flags & 2048) == 0) {
-                            return;
+                        if ((this.flags & 2048) != 0) {
+                            this.call_msg_id = abstractSerializedData2.readInt32(z2);
                         }
-                        this.call_msg_id = abstractSerializedData2.readInt32(z2);
                     }
 
                     @Override // org.telegram.tgnet.TLRPC$TL_channelFull, org.telegram.tgnet.TLObject
@@ -1122,19 +1117,18 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         if ((this.flags & 536870912) != 0) {
                             this.default_send_as = TLRPC$Peer.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
-                        if ((this.flags & 1073741824) == 0) {
-                            return;
-                        }
-                        int readInt328 = abstractSerializedData2.readInt32(z2);
-                        if (readInt328 != 481674261) {
-                            if (z2) {
-                                throw new RuntimeException(String.format("wrong Vector magic, got %x", Integer.valueOf(readInt328)));
+                        if ((this.flags & 1073741824) != 0) {
+                            int readInt328 = abstractSerializedData2.readInt32(z2);
+                            if (readInt328 != 481674261) {
+                                if (z2) {
+                                    throw new RuntimeException(String.format("wrong Vector magic, got %x", Integer.valueOf(readInt328)));
+                                }
+                                return;
                             }
-                            return;
-                        }
-                        int readInt329 = abstractSerializedData2.readInt32(z2);
-                        for (int i5 = 0; i5 < readInt329; i5++) {
-                            this.available_reactions_legacy.add(abstractSerializedData2.readString(z2));
+                            int readInt329 = abstractSerializedData2.readInt32(z2);
+                            for (int i5 = 0; i5 < readInt329; i5++) {
+                                this.available_reactions_legacy.add(abstractSerializedData2.readString(z2));
+                            }
                         }
                     }
 
@@ -1380,10 +1374,9 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         if ((this.flags & ConnectionsManager.FileTypeFile) != 0) {
                             this.groupcall_default_join_as = TLRPC$Peer.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
-                        if ((this.flags & 134217728) == 0) {
-                            return;
+                        if ((this.flags & 134217728) != 0) {
+                            this.theme_emoticon = abstractSerializedData2.readString(z2);
                         }
-                        this.theme_emoticon = abstractSerializedData2.readString(z2);
                     }
 
                     @Override // org.telegram.tgnet.TLObject
@@ -1631,19 +1624,18 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         if ((this.flags & 536870912) != 0) {
                             this.default_send_as = TLRPC$Peer.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
-                        if ((this.flags & 1073741824) == 0) {
-                            return;
-                        }
-                        int readInt329 = abstractSerializedData2.readInt32(z2);
-                        if (readInt329 != 481674261) {
-                            if (z2) {
-                                throw new RuntimeException(String.format("wrong Vector magic, got %x", Integer.valueOf(readInt329)));
+                        if ((this.flags & 1073741824) != 0) {
+                            int readInt329 = abstractSerializedData2.readInt32(z2);
+                            if (readInt329 != 481674261) {
+                                if (z2) {
+                                    throw new RuntimeException(String.format("wrong Vector magic, got %x", Integer.valueOf(readInt329)));
+                                }
+                                return;
                             }
-                            return;
-                        }
-                        int readInt3210 = abstractSerializedData2.readInt32(z2);
-                        for (int i5 = 0; i5 < readInt3210; i5++) {
-                            this.available_reactions_legacy.add(abstractSerializedData2.readString(z2));
+                            int readInt3210 = abstractSerializedData2.readInt32(z2);
+                            for (int i5 = 0; i5 < readInt3210; i5++) {
+                                this.available_reactions_legacy.add(abstractSerializedData2.readString(z2));
+                            }
                         }
                     }
 
@@ -1935,10 +1927,9 @@ public abstract class TLRPC$ChatFull extends TLObject {
                             this.stats_dc = abstractSerializedData2.readInt32(z2);
                         }
                         this.pts = abstractSerializedData2.readInt32(z2);
-                        if ((this.flags & 2097152) == 0) {
-                            return;
+                        if ((this.flags & 2097152) != 0) {
+                            this.call = TLRPC$TL_inputGroupCall.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
-                        this.call = TLRPC$TL_inputGroupCall.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                     }
 
                     @Override // org.telegram.tgnet.TLRPC$TL_channelFull, org.telegram.tgnet.TLObject
@@ -2890,10 +2881,9 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         if ((this.flags & 32) != 0) {
                             this.pinned_msg_id = abstractSerializedData2.readInt32(z2);
                         }
-                        if ((this.flags & 256) == 0) {
-                            return;
+                        if ((this.flags & 256) != 0) {
+                            this.stickerset = TLRPC$StickerSet.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
-                        this.stickerset = TLRPC$StickerSet.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                     }
 
                     @Override // org.telegram.tgnet.TLRPC$TL_channelFull, org.telegram.tgnet.TLObject
@@ -3092,10 +3082,9 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         if ((this.flags & 256) != 0) {
                             this.stickerset = TLRPC$StickerSet.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
-                        if ((this.flags & 512) == 0) {
-                            return;
+                        if ((this.flags & 512) != 0) {
+                            this.available_min_id = abstractSerializedData2.readInt32(z2);
                         }
-                        this.available_min_id = abstractSerializedData2.readInt32(z2);
                     }
 
                     @Override // org.telegram.tgnet.TLRPC$TL_channelFull, org.telegram.tgnet.TLObject
@@ -3325,19 +3314,18 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         if ((this.flags & ConnectionsManager.FileTypePhoto) != 0) {
                             this.ttl_period = abstractSerializedData2.readInt32(z2);
                         }
-                        if ((this.flags & ConnectionsManager.FileTypeVideo) == 0) {
-                            return;
-                        }
-                        int readInt324 = abstractSerializedData2.readInt32(z2);
-                        if (readInt324 != 481674261) {
-                            if (z2) {
-                                throw new RuntimeException(String.format("wrong Vector magic, got %x", Integer.valueOf(readInt324)));
+                        if ((this.flags & ConnectionsManager.FileTypeVideo) != 0) {
+                            int readInt324 = abstractSerializedData2.readInt32(z2);
+                            if (readInt324 != 481674261) {
+                                if (z2) {
+                                    throw new RuntimeException(String.format("wrong Vector magic, got %x", Integer.valueOf(readInt324)));
+                                }
+                                return;
                             }
-                            return;
-                        }
-                        int readInt325 = abstractSerializedData2.readInt32(z2);
-                        for (int i3 = 0; i3 < readInt325; i3++) {
-                            this.pending_suggestions.add(abstractSerializedData2.readString(z2));
+                            int readInt325 = abstractSerializedData2.readInt32(z2);
+                            for (int i3 = 0; i3 < readInt325; i3++) {
+                                this.pending_suggestions.add(abstractSerializedData2.readString(z2));
+                            }
                         }
                     }
 
@@ -3773,10 +3761,9 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         if ((this.flags & ConnectionsManager.FileTypeFile) != 0) {
                             this.groupcall_default_join_as = TLRPC$Peer.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
-                        if ((this.flags & 134217728) == 0) {
-                            return;
+                        if ((this.flags & 134217728) != 0) {
+                            this.theme_emoticon = abstractSerializedData2.readString(z2);
                         }
-                        this.theme_emoticon = abstractSerializedData2.readString(z2);
                     }
 
                     @Override // org.telegram.tgnet.TLRPC$TL_channelFull, org.telegram.tgnet.TLObject
@@ -4335,10 +4322,9 @@ public abstract class TLRPC$ChatFull extends TLObject {
                                 this.pending_suggestions.add(abstractSerializedData2.readString(z2));
                             }
                         }
-                        if ((this.flags & ConnectionsManager.FileTypeFile) == 0) {
-                            return;
+                        if ((this.flags & ConnectionsManager.FileTypeFile) != 0) {
+                            this.groupcall_default_join_as = TLRPC$Peer.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
-                        this.groupcall_default_join_as = TLRPC$Peer.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                     }
 
                     @Override // org.telegram.tgnet.TLRPC$TL_channelFull, org.telegram.tgnet.TLObject
@@ -4577,10 +4563,9 @@ public abstract class TLRPC$ChatFull extends TLObject {
                                 this.recent_requesters.add(Long.valueOf(abstractSerializedData2.readInt64(z2)));
                             }
                         }
-                        if ((this.flags & 536870912) == 0) {
-                            return;
+                        if ((this.flags & 536870912) != 0) {
+                            this.default_send_as = TLRPC$Peer.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
-                        this.default_send_as = TLRPC$Peer.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                     }
 
                     @Override // org.telegram.tgnet.TLObject
@@ -4823,19 +4808,18 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         if ((this.flags & 268435456) != 0) {
                             this.requests_pending = abstractSerializedData2.readInt32(z2);
                         }
-                        if ((this.flags & 268435456) == 0) {
-                            return;
-                        }
-                        int readInt326 = abstractSerializedData2.readInt32(z2);
-                        if (readInt326 != 481674261) {
-                            if (z2) {
-                                throw new RuntimeException(String.format("wrong Vector magic, got %x", Integer.valueOf(readInt326)));
+                        if ((this.flags & 268435456) != 0) {
+                            int readInt326 = abstractSerializedData2.readInt32(z2);
+                            if (readInt326 != 481674261) {
+                                if (z2) {
+                                    throw new RuntimeException(String.format("wrong Vector magic, got %x", Integer.valueOf(readInt326)));
+                                }
+                                return;
                             }
-                            return;
-                        }
-                        int readInt327 = abstractSerializedData2.readInt32(z2);
-                        for (int i4 = 0; i4 < readInt327; i4++) {
-                            this.recent_requesters.add(Long.valueOf(abstractSerializedData2.readInt64(z2)));
+                            int readInt327 = abstractSerializedData2.readInt32(z2);
+                            for (int i4 = 0; i4 < readInt327; i4++) {
+                                this.recent_requesters.add(Long.valueOf(abstractSerializedData2.readInt64(z2)));
+                            }
                         }
                     }
 
@@ -5020,10 +5004,9 @@ public abstract class TLRPC$ChatFull extends TLObject {
                         if ((this.flags & 256) != 0) {
                             this.stickerset = TLRPC$StickerSet.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
-                        if ((this.flags & 512) == 0) {
-                            return;
+                        if ((this.flags & 512) != 0) {
+                            this.available_min_id = abstractSerializedData2.readInt32(z2);
                         }
-                        this.available_min_id = abstractSerializedData2.readInt32(z2);
                     }
 
                     @Override // org.telegram.tgnet.TLRPC$TL_channelFull, org.telegram.tgnet.TLObject
@@ -5172,10 +5155,9 @@ public abstract class TLRPC$ChatFull extends TLObject {
                             this.stats_dc = abstractSerializedData2.readInt32(z2);
                         }
                         this.pts = abstractSerializedData2.readInt32(z2);
-                        if ((this.flags & 2097152) == 0) {
-                            return;
+                        if ((this.flags & 2097152) != 0) {
+                            this.call = TLRPC$TL_inputGroupCall.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
-                        this.call = TLRPC$TL_inputGroupCall.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                     }
 
                     @Override // org.telegram.tgnet.TLRPC$TL_channelFull, org.telegram.tgnet.TLObject
@@ -5273,25 +5255,25 @@ public abstract class TLRPC$ChatFull extends TLObject {
                 tLRPC$ChatFull = null;
                 break;
         }
-        if (tLRPC$ChatFull != null || !z) {
-            if (tLRPC$ChatFull != null) {
-                tLRPC$ChatFull.readParams(abstractSerializedData, z);
-                if (tLRPC$ChatFull.available_reactions == null) {
-                    if (!tLRPC$ChatFull.available_reactions_legacy.isEmpty()) {
-                        TLRPC$TL_chatReactionsSome tLRPC$TL_chatReactionsSome = new TLRPC$TL_chatReactionsSome();
-                        for (int i2 = 0; i2 < tLRPC$ChatFull.available_reactions_legacy.size(); i2++) {
-                            TLRPC$TL_reactionEmoji tLRPC$TL_reactionEmoji = new TLRPC$TL_reactionEmoji();
-                            tLRPC$TL_reactionEmoji.emoticon = tLRPC$ChatFull.available_reactions_legacy.get(i2);
-                            tLRPC$TL_chatReactionsSome.reactions.add(tLRPC$TL_reactionEmoji);
-                        }
-                        tLRPC$ChatFull.available_reactions = tLRPC$TL_chatReactionsSome;
-                    } else {
-                        tLRPC$ChatFull.available_reactions = new TLRPC$TL_chatReactionsNone();
+        if (tLRPC$ChatFull == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in ChatFull", Integer.valueOf(i)));
+        }
+        if (tLRPC$ChatFull != null) {
+            tLRPC$ChatFull.readParams(abstractSerializedData, z);
+            if (tLRPC$ChatFull.available_reactions == null) {
+                if (!tLRPC$ChatFull.available_reactions_legacy.isEmpty()) {
+                    TLRPC$TL_chatReactionsSome tLRPC$TL_chatReactionsSome = new TLRPC$TL_chatReactionsSome();
+                    for (int i2 = 0; i2 < tLRPC$ChatFull.available_reactions_legacy.size(); i2++) {
+                        TLRPC$TL_reactionEmoji tLRPC$TL_reactionEmoji = new TLRPC$TL_reactionEmoji();
+                        tLRPC$TL_reactionEmoji.emoticon = tLRPC$ChatFull.available_reactions_legacy.get(i2);
+                        tLRPC$TL_chatReactionsSome.reactions.add(tLRPC$TL_reactionEmoji);
                     }
+                    tLRPC$ChatFull.available_reactions = tLRPC$TL_chatReactionsSome;
+                } else {
+                    tLRPC$ChatFull.available_reactions = new TLRPC$TL_chatReactionsNone();
                 }
             }
-            return tLRPC$ChatFull;
         }
-        throw new RuntimeException(String.format("can't parse magic %x in ChatFull", Integer.valueOf(i)));
+        return tLRPC$ChatFull;
     }
 }

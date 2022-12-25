@@ -37,6 +37,7 @@ public class ProximitySheet extends FrameLayout {
     private int backgroundPaddingLeft;
     private TextView buttonTextView;
     private ViewGroup containerView;
+    private AnimatorSet currentAnimation;
     private AnimatorSet currentSheetAnimation;
     private int currentSheetAnimationType;
     private TLRPC$User currentUser;
@@ -45,23 +46,22 @@ public class ProximitySheet extends FrameLayout {
     private TextView infoTextView;
     private NumberPicker kmPicker;
     private NumberPicker mPicker;
+    private boolean maybeStartTracking;
     private Runnable onDismissCallback;
     private onRadiusPickerChange onRadiusChange;
+    private Interpolator openInterpolator;
     private boolean radiusSet;
+    private android.graphics.Rect rect;
+    private boolean startedTracking;
+    private int startedTrackingPointerId;
     private int startedTrackingX;
     private int startedTrackingY;
     private int totalWidth;
     private int touchSlop;
     private boolean useFastDismiss;
-    private VelocityTracker velocityTracker = null;
-    private int startedTrackingPointerId = -1;
-    private boolean maybeStartTracking = false;
-    private boolean startedTracking = false;
-    private AnimatorSet currentAnimation = null;
-    private android.graphics.Rect rect = new android.graphics.Rect();
-    private boolean useHardwareLayer = true;
-    private Interpolator openInterpolator = CubicBezierInterpolator.EASE_OUT_QUINT;
-    private boolean useImperialSystem = LocaleController.getUseImperialSystemType();
+    private boolean useHardwareLayer;
+    private boolean useImperialSystem;
+    private VelocityTracker velocityTracker;
 
     /* loaded from: classes3.dex */
     public interface onRadiusPickerChange {
@@ -80,7 +80,15 @@ public class ProximitySheet extends FrameLayout {
 
     public ProximitySheet(Context context, TLRPC$User tLRPC$User, onRadiusPickerChange onradiuspickerchange, final onRadiusPickerChange onradiuspickerchange2, Runnable runnable) {
         super(context);
+        this.velocityTracker = null;
+        this.startedTrackingPointerId = -1;
+        this.maybeStartTracking = false;
+        this.startedTracking = false;
+        this.currentAnimation = null;
+        this.rect = new android.graphics.Rect();
         new Paint();
+        this.useHardwareLayer = true;
+        this.openInterpolator = CubicBezierInterpolator.EASE_OUT_QUINT;
         setWillNotDraw(false);
         this.onDismissCallback = runnable;
         this.touchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
@@ -100,6 +108,7 @@ public class ProximitySheet extends FrameLayout {
         this.containerView.setPadding(this.backgroundPaddingLeft, (AndroidUtilities.dp(8.0f) + rect.top) - 1, this.backgroundPaddingLeft, 0);
         this.containerView.setVisibility(4);
         addView(this.containerView, 0, LayoutHelper.createFrame(-1, -2, 80));
+        this.useImperialSystem = LocaleController.getUseImperialSystemType();
         this.currentUser = tLRPC$User;
         this.onRadiusChange = onradiuspickerchange;
         NumberPicker numberPicker = new NumberPicker(context);
@@ -269,16 +278,16 @@ public class ProximitySheet extends FrameLayout {
         return this.customView;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:11:0x001a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:11:0x0023, code lost:
         if (r1 > 1) goto L13;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:12:0x0027, code lost:
-        r1 = r1 * 100;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:13:0x0025, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:12:0x0025, code lost:
         r1 = r1 - 1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:16:0x0023, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:13:0x0027, code lost:
+        r1 = r1 * 100;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:6:0x001a, code lost:
         if (r1 > 1) goto L13;
      */
     /*
@@ -318,21 +327,20 @@ public class ProximitySheet extends FrameLayout {
                 int i = R.string.LocationNotifiationButtonUser;
                 this.buttonTextView.setText(LocaleController.formatString("LocationNotifiationButtonUser", i, TextUtils.ellipsize(UserObject.getFirstName(this.currentUser), this.buttonTextView.getPaint(), Math.max(AndroidUtilities.dp(10.0f), (int) (((this.totalWidth - AndroidUtilities.dp(94.0f)) * 1.5f) - ((int) Math.ceil(this.buttonTextView.getPaint().measureText(LocaleController.getString("LocationNotifiationButtonUser", i)))))), TextUtils.TruncateAt.END), formatDistance));
             }
-            if (this.buttonTextView.getTag() == null) {
+            if (this.buttonTextView.getTag() != null) {
+                this.buttonTextView.setTag(null);
+                this.buttonTextView.animate().setDuration(180L).alpha(1.0f).scaleX(1.0f).scaleY(1.0f).start();
+                this.infoTextView.animate().setDuration(180L).alpha(0.0f).scaleX(0.5f).scaleY(0.5f).start();
                 return;
             }
-            this.buttonTextView.setTag(null);
-            this.buttonTextView.animate().setDuration(180L).alpha(1.0f).scaleX(1.0f).scaleY(1.0f).start();
-            this.infoTextView.animate().setDuration(180L).alpha(0.0f).scaleX(0.5f).scaleY(0.5f).start();
             return;
         }
         this.infoTextView.setText(LocaleController.formatString("LocationNotifiationCloser", R.string.LocationNotifiationCloser, formatDistance));
-        if (this.buttonTextView.getTag() != null) {
-            return;
+        if (this.buttonTextView.getTag() == null) {
+            this.buttonTextView.setTag(1);
+            this.buttonTextView.animate().setDuration(180L).alpha(0.0f).scaleX(0.5f).scaleY(0.5f).start();
+            this.infoTextView.animate().setDuration(180L).alpha(1.0f).scaleX(1.0f).scaleY(1.0f).start();
         }
-        this.buttonTextView.setTag(1);
-        this.buttonTextView.animate().setDuration(180L).alpha(0.0f).scaleX(0.5f).scaleY(0.5f).start();
-        this.infoTextView.animate().setDuration(180L).alpha(1.0f).scaleX(1.0f).scaleY(1.0f).start();
     }
 
     private void checkDismiss(float f, float f2) {
@@ -389,7 +397,6 @@ public class ProximitySheet extends FrameLayout {
                 velocityTracker.clear();
             }
         } else {
-            float f = 0.0f;
             if (motionEvent != null && motionEvent.getAction() == 2 && motionEvent.getPointerId(0) == this.startedTrackingPointerId) {
                 if (this.velocityTracker == null) {
                     this.velocityTracker = VelocityTracker.obtain();
@@ -404,10 +411,7 @@ public class ProximitySheet extends FrameLayout {
                     requestDisallowInterceptTouchEvent(true);
                 } else if (this.startedTracking) {
                     float translationY = this.containerView.getTranslationY() + y2;
-                    if (translationY >= 0.0f) {
-                        f = translationY;
-                    }
-                    this.containerView.setTranslationY(f);
+                    this.containerView.setTranslationY(translationY >= 0.0f ? translationY : 0.0f);
                     this.startedTrackingY = (int) motionEvent.getY();
                 }
             } else if (motionEvent == null || (motionEvent.getPointerId(0) == this.startedTrackingPointerId && (motionEvent.getAction() == 3 || motionEvent.getAction() == 1 || motionEvent.getAction() == 6))) {
@@ -456,8 +460,8 @@ public class ProximitySheet extends FrameLayout {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:17:0x0075  */
-    /* JADX WARN: Removed duplicated region for block: B:25:0x0081  */
+    /* JADX WARN: Removed duplicated region for block: B:22:0x0075  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x0081  */
     @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.

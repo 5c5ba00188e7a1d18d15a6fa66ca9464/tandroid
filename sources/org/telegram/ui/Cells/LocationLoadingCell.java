@@ -47,14 +47,9 @@ public class LocationLoadingCell extends FrameLayout {
     }
 
     public void setLoading(boolean z) {
-        int i = 0;
         this.progressBar.setVisibility(z ? 0 : 4);
         this.textView.setVisibility(z ? 4 : 0);
-        ImageView imageView = this.imageView;
-        if (z) {
-            i = 4;
-        }
-        imageView.setVisibility(i);
+        this.imageView.setVisibility(z ? 4 : 0);
     }
 
     private int getThemedColor(String str) {

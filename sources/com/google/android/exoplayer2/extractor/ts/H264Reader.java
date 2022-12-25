@@ -225,12 +225,12 @@ public final class H264Reader implements ElementaryStreamReader {
             this.isFilling = true;
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:50:0x00ff  */
-        /* JADX WARN: Removed duplicated region for block: B:52:0x0106  */
-        /* JADX WARN: Removed duplicated region for block: B:58:0x011e  */
+        /* JADX WARN: Removed duplicated region for block: B:53:0x00ff  */
+        /* JADX WARN: Removed duplicated region for block: B:54:0x0102  */
+        /* JADX WARN: Removed duplicated region for block: B:56:0x0106  */
+        /* JADX WARN: Removed duplicated region for block: B:60:0x0118  */
+        /* JADX WARN: Removed duplicated region for block: B:63:0x011e  */
         /* JADX WARN: Removed duplicated region for block: B:74:0x014e  */
-        /* JADX WARN: Removed duplicated region for block: B:89:0x0118  */
-        /* JADX WARN: Removed duplicated region for block: B:90:0x0102  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -245,142 +245,136 @@ public final class H264Reader implements ElementaryStreamReader {
             int i6;
             int i7;
             int readSignedExpGolombCodedInt;
-            if (!this.isFilling) {
-                return;
-            }
-            int i8 = i2 - i;
-            byte[] bArr2 = this.buffer;
-            int length = bArr2.length;
-            int i9 = this.bufferLength;
-            if (length < i9 + i8) {
-                this.buffer = Arrays.copyOf(bArr2, (i9 + i8) * 2);
-            }
-            System.arraycopy(bArr, i, this.buffer, this.bufferLength, i8);
-            int i10 = this.bufferLength + i8;
-            this.bufferLength = i10;
-            this.bitArray.reset(this.buffer, 0, i10);
-            if (!this.bitArray.canReadBits(8)) {
-                return;
-            }
-            this.bitArray.skipBit();
-            int readBits = this.bitArray.readBits(2);
-            this.bitArray.skipBits(5);
-            if (!this.bitArray.canReadExpGolombCodedNum()) {
-                return;
-            }
-            this.bitArray.readUnsignedExpGolombCodedInt();
-            if (!this.bitArray.canReadExpGolombCodedNum()) {
-                return;
-            }
-            int readUnsignedExpGolombCodedInt = this.bitArray.readUnsignedExpGolombCodedInt();
-            if (!this.detectAccessUnits) {
-                this.isFilling = false;
-                this.sliceHeader.setSliceType(readUnsignedExpGolombCodedInt);
-            } else if (!this.bitArray.canReadExpGolombCodedNum()) {
-            } else {
-                int readUnsignedExpGolombCodedInt2 = this.bitArray.readUnsignedExpGolombCodedInt();
-                if (this.pps.indexOfKey(readUnsignedExpGolombCodedInt2) < 0) {
-                    this.isFilling = false;
-                    return;
+            if (this.isFilling) {
+                int i8 = i2 - i;
+                byte[] bArr2 = this.buffer;
+                int length = bArr2.length;
+                int i9 = this.bufferLength;
+                if (length < i9 + i8) {
+                    this.buffer = Arrays.copyOf(bArr2, (i9 + i8) * 2);
                 }
-                NalUnitUtil.PpsData ppsData = this.pps.get(readUnsignedExpGolombCodedInt2);
-                NalUnitUtil.SpsData spsData = this.sps.get(ppsData.seqParameterSetId);
-                if (spsData.separateColorPlaneFlag) {
-                    if (!this.bitArray.canReadBits(2)) {
-                        return;
-                    }
-                    this.bitArray.skipBits(2);
-                }
-                if (!this.bitArray.canReadBits(spsData.frameNumLength)) {
-                    return;
-                }
-                int readBits2 = this.bitArray.readBits(spsData.frameNumLength);
-                if (spsData.frameMbsOnlyFlag) {
-                    z = false;
-                } else if (!this.bitArray.canReadBits(1)) {
-                    return;
-                } else {
-                    boolean readBit = this.bitArray.readBit();
-                    if (readBit) {
-                        if (!this.bitArray.canReadBits(1)) {
-                            return;
-                        }
-                        z = readBit;
-                        z3 = this.bitArray.readBit();
-                        z2 = true;
-                        z4 = this.nalUnitType != 5;
-                        if (z4) {
-                            i3 = 0;
-                        } else if (!this.bitArray.canReadExpGolombCodedNum()) {
-                            return;
-                        } else {
-                            i3 = this.bitArray.readUnsignedExpGolombCodedInt();
-                        }
-                        i4 = spsData.picOrderCountType;
-                        if (i4 != 0) {
-                            if (!this.bitArray.canReadBits(spsData.picOrderCntLsbLength)) {
-                                return;
-                            }
-                            int readBits3 = this.bitArray.readBits(spsData.picOrderCntLsbLength);
-                            if (ppsData.bottomFieldPicOrderInFramePresentFlag && !z) {
-                                if (!this.bitArray.canReadExpGolombCodedNum()) {
+                System.arraycopy(bArr, i, this.buffer, this.bufferLength, i8);
+                int i10 = this.bufferLength + i8;
+                this.bufferLength = i10;
+                this.bitArray.reset(this.buffer, 0, i10);
+                if (this.bitArray.canReadBits(8)) {
+                    this.bitArray.skipBit();
+                    int readBits = this.bitArray.readBits(2);
+                    this.bitArray.skipBits(5);
+                    if (this.bitArray.canReadExpGolombCodedNum()) {
+                        this.bitArray.readUnsignedExpGolombCodedInt();
+                        if (this.bitArray.canReadExpGolombCodedNum()) {
+                            int readUnsignedExpGolombCodedInt = this.bitArray.readUnsignedExpGolombCodedInt();
+                            if (!this.detectAccessUnits) {
+                                this.isFilling = false;
+                                this.sliceHeader.setSliceType(readUnsignedExpGolombCodedInt);
+                            } else if (this.bitArray.canReadExpGolombCodedNum()) {
+                                int readUnsignedExpGolombCodedInt2 = this.bitArray.readUnsignedExpGolombCodedInt();
+                                if (this.pps.indexOfKey(readUnsignedExpGolombCodedInt2) < 0) {
+                                    this.isFilling = false;
                                     return;
                                 }
-                                i7 = this.bitArray.readSignedExpGolombCodedInt();
-                                i5 = readBits3;
-                                i6 = 0;
-                                readSignedExpGolombCodedInt = 0;
-                                this.sliceHeader.setAll(spsData, readBits, readUnsignedExpGolombCodedInt, readBits2, readUnsignedExpGolombCodedInt2, z, z2, z3, z4, i3, i5, i7, i6, readSignedExpGolombCodedInt);
-                                this.isFilling = false;
-                            }
-                            i5 = readBits3;
-                        } else if (i4 == 1 && !spsData.deltaPicOrderAlwaysZeroFlag) {
-                            if (!this.bitArray.canReadExpGolombCodedNum()) {
-                                return;
-                            }
-                            int readSignedExpGolombCodedInt2 = this.bitArray.readSignedExpGolombCodedInt();
-                            if (ppsData.bottomFieldPicOrderInFramePresentFlag && !z) {
-                                if (!this.bitArray.canReadExpGolombCodedNum()) {
-                                    return;
+                                NalUnitUtil.PpsData ppsData = this.pps.get(readUnsignedExpGolombCodedInt2);
+                                NalUnitUtil.SpsData spsData = this.sps.get(ppsData.seqParameterSetId);
+                                if (spsData.separateColorPlaneFlag) {
+                                    if (!this.bitArray.canReadBits(2)) {
+                                        return;
+                                    }
+                                    this.bitArray.skipBits(2);
                                 }
-                                readSignedExpGolombCodedInt = this.bitArray.readSignedExpGolombCodedInt();
-                                i6 = readSignedExpGolombCodedInt2;
-                                i5 = 0;
-                                i7 = 0;
-                                this.sliceHeader.setAll(spsData, readBits, readUnsignedExpGolombCodedInt, readBits2, readUnsignedExpGolombCodedInt2, z, z2, z3, z4, i3, i5, i7, i6, readSignedExpGolombCodedInt);
-                                this.isFilling = false;
+                                if (this.bitArray.canReadBits(spsData.frameNumLength)) {
+                                    int readBits2 = this.bitArray.readBits(spsData.frameNumLength);
+                                    if (spsData.frameMbsOnlyFlag) {
+                                        z = false;
+                                    } else if (!this.bitArray.canReadBits(1)) {
+                                        return;
+                                    } else {
+                                        boolean readBit = this.bitArray.readBit();
+                                        if (readBit) {
+                                            if (this.bitArray.canReadBits(1)) {
+                                                z = readBit;
+                                                z3 = this.bitArray.readBit();
+                                                z2 = true;
+                                                z4 = this.nalUnitType != 5;
+                                                if (z4) {
+                                                    i3 = 0;
+                                                } else if (!this.bitArray.canReadExpGolombCodedNum()) {
+                                                    return;
+                                                } else {
+                                                    i3 = this.bitArray.readUnsignedExpGolombCodedInt();
+                                                }
+                                                i4 = spsData.picOrderCountType;
+                                                if (i4 != 0) {
+                                                    if (!this.bitArray.canReadBits(spsData.picOrderCntLsbLength)) {
+                                                        return;
+                                                    }
+                                                    int readBits3 = this.bitArray.readBits(spsData.picOrderCntLsbLength);
+                                                    if (ppsData.bottomFieldPicOrderInFramePresentFlag && !z) {
+                                                        if (this.bitArray.canReadExpGolombCodedNum()) {
+                                                            i7 = this.bitArray.readSignedExpGolombCodedInt();
+                                                            i5 = readBits3;
+                                                            i6 = 0;
+                                                            readSignedExpGolombCodedInt = 0;
+                                                            this.sliceHeader.setAll(spsData, readBits, readUnsignedExpGolombCodedInt, readBits2, readUnsignedExpGolombCodedInt2, z, z2, z3, z4, i3, i5, i7, i6, readSignedExpGolombCodedInt);
+                                                            this.isFilling = false;
+                                                        }
+                                                        return;
+                                                    }
+                                                    i5 = readBits3;
+                                                } else if (i4 == 1 && !spsData.deltaPicOrderAlwaysZeroFlag) {
+                                                    if (this.bitArray.canReadExpGolombCodedNum()) {
+                                                        int readSignedExpGolombCodedInt2 = this.bitArray.readSignedExpGolombCodedInt();
+                                                        if (ppsData.bottomFieldPicOrderInFramePresentFlag && !z) {
+                                                            if (this.bitArray.canReadExpGolombCodedNum()) {
+                                                                readSignedExpGolombCodedInt = this.bitArray.readSignedExpGolombCodedInt();
+                                                                i6 = readSignedExpGolombCodedInt2;
+                                                                i5 = 0;
+                                                                i7 = 0;
+                                                                this.sliceHeader.setAll(spsData, readBits, readUnsignedExpGolombCodedInt, readBits2, readUnsignedExpGolombCodedInt2, z, z2, z3, z4, i3, i5, i7, i6, readSignedExpGolombCodedInt);
+                                                                this.isFilling = false;
+                                                            }
+                                                            return;
+                                                        }
+                                                        i6 = readSignedExpGolombCodedInt2;
+                                                        i5 = 0;
+                                                        i7 = 0;
+                                                        readSignedExpGolombCodedInt = 0;
+                                                        this.sliceHeader.setAll(spsData, readBits, readUnsignedExpGolombCodedInt, readBits2, readUnsignedExpGolombCodedInt2, z, z2, z3, z4, i3, i5, i7, i6, readSignedExpGolombCodedInt);
+                                                        this.isFilling = false;
+                                                    }
+                                                    return;
+                                                } else {
+                                                    i5 = 0;
+                                                }
+                                                i7 = 0;
+                                                i6 = 0;
+                                                readSignedExpGolombCodedInt = 0;
+                                                this.sliceHeader.setAll(spsData, readBits, readUnsignedExpGolombCodedInt, readBits2, readUnsignedExpGolombCodedInt2, z, z2, z3, z4, i3, i5, i7, i6, readSignedExpGolombCodedInt);
+                                                this.isFilling = false;
+                                            }
+                                            return;
+                                        }
+                                        z = readBit;
+                                    }
+                                    z2 = false;
+                                    z3 = false;
+                                    if (this.nalUnitType != 5) {
+                                    }
+                                    if (z4) {
+                                    }
+                                    i4 = spsData.picOrderCountType;
+                                    if (i4 != 0) {
+                                    }
+                                    i7 = 0;
+                                    i6 = 0;
+                                    readSignedExpGolombCodedInt = 0;
+                                    this.sliceHeader.setAll(spsData, readBits, readUnsignedExpGolombCodedInt, readBits2, readUnsignedExpGolombCodedInt2, z, z2, z3, z4, i3, i5, i7, i6, readSignedExpGolombCodedInt);
+                                    this.isFilling = false;
+                                }
                             }
-                            i6 = readSignedExpGolombCodedInt2;
-                            i5 = 0;
-                            i7 = 0;
-                            readSignedExpGolombCodedInt = 0;
-                            this.sliceHeader.setAll(spsData, readBits, readUnsignedExpGolombCodedInt, readBits2, readUnsignedExpGolombCodedInt2, z, z2, z3, z4, i3, i5, i7, i6, readSignedExpGolombCodedInt);
-                            this.isFilling = false;
-                        } else {
-                            i5 = 0;
                         }
-                        i7 = 0;
-                        i6 = 0;
-                        readSignedExpGolombCodedInt = 0;
-                        this.sliceHeader.setAll(spsData, readBits, readUnsignedExpGolombCodedInt, readBits2, readUnsignedExpGolombCodedInt2, z, z2, z3, z4, i3, i5, i7, i6, readSignedExpGolombCodedInt);
-                        this.isFilling = false;
                     }
-                    z = readBit;
                 }
-                z2 = false;
-                z3 = false;
-                if (this.nalUnitType != 5) {
-                }
-                if (z4) {
-                }
-                i4 = spsData.picOrderCountType;
-                if (i4 != 0) {
-                }
-                i7 = 0;
-                i6 = 0;
-                readSignedExpGolombCodedInt = 0;
-                this.sliceHeader.setAll(spsData, readBits, readUnsignedExpGolombCodedInt, readBits2, readUnsignedExpGolombCodedInt2, z, z2, z3, z4, i3, i5, i7, i6, readSignedExpGolombCodedInt);
-                this.isFilling = false;
             }
         }
 

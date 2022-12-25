@@ -36,18 +36,25 @@ public class LauncherIconController {
         }
     }
 
-    /* JADX WARN: Init of enum AQUA can be incorrect */
-    /* JADX WARN: Init of enum DEFAULT can be incorrect */
-    /* JADX WARN: Init of enum NOX can be incorrect */
+    /* JADX WARN: Enum visitor error
+    jadx.core.utils.exceptions.JadxRuntimeException: Init of enum DEFAULT uses external variables
+    	at jadx.core.dex.visitors.EnumVisitor.createEnumFieldByConstructor(EnumVisitor.java:444)
+    	at jadx.core.dex.visitors.EnumVisitor.processEnumFieldByRegister(EnumVisitor.java:391)
+    	at jadx.core.dex.visitors.EnumVisitor.extractEnumFieldsFromFilledArray(EnumVisitor.java:320)
+    	at jadx.core.dex.visitors.EnumVisitor.extractEnumFieldsFromInsn(EnumVisitor.java:258)
+    	at jadx.core.dex.visitors.EnumVisitor.convertToEnum(EnumVisitor.java:151)
+    	at jadx.core.dex.visitors.EnumVisitor.visit(EnumVisitor.java:100)
+     */
+    /* JADX WARN: Failed to restore enum class, 'enum' modifier and super class removed */
     /* loaded from: classes3.dex */
-    public enum LauncherIcon {
-        DEFAULT("DefaultIcon", r4, r15, R.string.AppIconDefault),
-        VINTAGE("VintageIcon", R.drawable.icon_6_background_sa, R.mipmap.icon_6_foreground_sa, R.string.AppIconVintage),
-        AQUA("AquaIcon", R.drawable.icon_4_background_sa, r15, R.string.AppIconAqua),
-        PREMIUM("PremiumIcon", R.drawable.icon_3_background_sa, R.mipmap.icon_3_foreground_sa, R.string.AppIconPremium, true),
-        TURBO("TurboIcon", R.drawable.icon_5_background_sa, R.mipmap.icon_5_foreground_sa, R.string.AppIconTurbo, true),
-        NOX("NoxIcon", R.drawable.icon_2_background_sa, r15, R.string.AppIconNox, true);
-        
+    public static final class LauncherIcon {
+        private static final /* synthetic */ LauncherIcon[] $VALUES;
+        public static final LauncherIcon AQUA;
+        public static final LauncherIcon DEFAULT;
+        public static final LauncherIcon NOX;
+        public static final LauncherIcon PREMIUM;
+        public static final LauncherIcon TURBO;
+        public static final LauncherIcon VINTAGE;
         public final int background;
         private ComponentName componentName;
         public final int foreground;
@@ -55,9 +62,30 @@ public class LauncherIconController {
         public final boolean premium;
         public final int title;
 
+        public static LauncherIcon valueOf(String str) {
+            return (LauncherIcon) Enum.valueOf(LauncherIcon.class, str);
+        }
+
+        public static LauncherIcon[] values() {
+            return (LauncherIcon[]) $VALUES.clone();
+        }
+
         static {
             int i = R.drawable.icon_background_sa;
             int i2 = R.mipmap.icon_foreground_sa;
+            LauncherIcon launcherIcon = new LauncherIcon("DEFAULT", 0, "DefaultIcon", i, i2, R.string.AppIconDefault);
+            DEFAULT = launcherIcon;
+            LauncherIcon launcherIcon2 = new LauncherIcon("VINTAGE", 1, "VintageIcon", R.drawable.icon_6_background_sa, R.mipmap.icon_6_foreground_sa, R.string.AppIconVintage);
+            VINTAGE = launcherIcon2;
+            LauncherIcon launcherIcon3 = new LauncherIcon("AQUA", 2, "AquaIcon", R.drawable.icon_4_background_sa, i2, R.string.AppIconAqua);
+            AQUA = launcherIcon3;
+            LauncherIcon launcherIcon4 = new LauncherIcon("PREMIUM", 3, "PremiumIcon", R.drawable.icon_3_background_sa, R.mipmap.icon_3_foreground_sa, R.string.AppIconPremium, true);
+            PREMIUM = launcherIcon4;
+            LauncherIcon launcherIcon5 = new LauncherIcon("TURBO", 4, "TurboIcon", R.drawable.icon_5_background_sa, R.mipmap.icon_5_foreground_sa, R.string.AppIconTurbo, true);
+            TURBO = launcherIcon5;
+            LauncherIcon launcherIcon6 = new LauncherIcon("NOX", 5, "NoxIcon", R.drawable.icon_2_background_sa, i2, R.string.AppIconNox, true);
+            NOX = launcherIcon6;
+            $VALUES = new LauncherIcon[]{launcherIcon, launcherIcon2, launcherIcon3, launcherIcon4, launcherIcon5, launcherIcon6};
         }
 
         public ComponentName getComponentName(Context context) {
@@ -68,15 +96,15 @@ public class LauncherIconController {
             return this.componentName;
         }
 
-        LauncherIcon(String str, int i, int i2, int i3) {
-            this(str, i, i2, i3, false);
+        private LauncherIcon(String str, int i, String str2, int i2, int i3, int i4) {
+            this(str, i, str2, i2, i3, i4, false);
         }
 
-        LauncherIcon(String str, int i, int i2, int i3, boolean z) {
-            this.key = str;
-            this.background = i;
-            this.foreground = i2;
-            this.title = i3;
+        private LauncherIcon(String str, int i, String str2, int i2, int i3, int i4, boolean z) {
+            this.key = str2;
+            this.background = i2;
+            this.foreground = i3;
+            this.title = i4;
             this.premium = z;
         }
     }

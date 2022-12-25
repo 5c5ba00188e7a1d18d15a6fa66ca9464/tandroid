@@ -91,12 +91,10 @@ public class GroupCallFullscreenAdapter extends RecyclerListView.SelectionAdapte
         groupCallUserCell.setParticipant(videoParticipant, tLRPC$TL_groupCallParticipant);
         if (videoParticipant2 != null && !videoParticipant2.equals(videoParticipant) && groupCallUserCell.attached && groupCallUserCell.getRenderer() != null) {
             groupCallUserCell.attachRenderer(false);
-            if (videoParticipant == null) {
-                return;
+            if (videoParticipant != null) {
+                groupCallUserCell.attachRenderer(true);
             }
-            groupCallUserCell.attachRenderer(true);
-        } else if (!groupCallUserCell.attached) {
-        } else {
+        } else if (groupCallUserCell.attached) {
             if (groupCallUserCell.getRenderer() == null && videoParticipant != null && this.visible) {
                 groupCallUserCell.attachRenderer(true);
             } else if (groupCallUserCell.getRenderer() == null || videoParticipant != null) {
@@ -140,7 +138,10 @@ public class GroupCallFullscreenAdapter extends RecyclerListView.SelectionAdapte
     /* loaded from: classes3.dex */
     public class GroupCallUserCell extends FrameLayout implements GroupCallStatusIcon.Callback {
         boolean attached;
+        AvatarDrawable avatarDrawable;
         private BackupImageView avatarImageView;
+        GroupCallUserCell.AvatarWavesDrawable avatarWavesDrawable;
+        Paint backgroundPaint;
         ValueAnimator colorAnimator;
         private TLRPC$Chat currentChat;
         private TLRPC$User currentUser;
@@ -152,21 +153,24 @@ public class GroupCallFullscreenAdapter extends RecyclerListView.SelectionAdapte
         int nameWidth;
         TLRPC$TL_groupCallParticipant participant;
         long peerId;
+        float progress;
         GroupCallMiniTextureView renderer;
         boolean selected;
+        Paint selectionPaint;
         float selectionProgress;
         boolean skipInvalidate;
         GroupCallStatusIcon statusIcon;
+        TextPaint textPaint;
         ChatObject.VideoParticipant videoParticipant;
-        AvatarDrawable avatarDrawable = new AvatarDrawable();
-        Paint backgroundPaint = new Paint(1);
-        Paint selectionPaint = new Paint(1);
-        float progress = 1.0f;
-        TextPaint textPaint = new TextPaint(1);
-        GroupCallUserCell.AvatarWavesDrawable avatarWavesDrawable = new GroupCallUserCell.AvatarWavesDrawable(AndroidUtilities.dp(26.0f), AndroidUtilities.dp(29.0f));
 
         public GroupCallUserCell(Context context) {
             super(context);
+            this.avatarDrawable = new AvatarDrawable();
+            this.backgroundPaint = new Paint(1);
+            this.selectionPaint = new Paint(1);
+            this.progress = 1.0f;
+            this.textPaint = new TextPaint(1);
+            this.avatarWavesDrawable = new GroupCallUserCell.AvatarWavesDrawable(AndroidUtilities.dp(26.0f), AndroidUtilities.dp(29.0f));
             this.avatarDrawable.setTextSize((int) (AndroidUtilities.dp(18.0f) / 1.15f));
             BackupImageView backupImageView = new BackupImageView(context);
             this.avatarImageView = backupImageView;
@@ -207,7 +211,6 @@ public class GroupCallFullscreenAdapter extends RecyclerListView.SelectionAdapte
             long j = this.peerId;
             long peerId = MessageObject.getPeerId(tLRPC$TL_groupCallParticipant.peer);
             this.peerId = peerId;
-            boolean z = true;
             if (peerId > 0) {
                 TLRPC$User user = AccountInstance.getInstance(GroupCallFullscreenAdapter.this.currentAccount).getMessagesController().getUser(Long.valueOf(this.peerId));
                 this.currentUser = user;
@@ -228,24 +231,21 @@ public class GroupCallFullscreenAdapter extends RecyclerListView.SelectionAdapte
                     this.avatarImageView.setImage(ImageLocation.getForChat(this.currentChat, 1), "50_50", this.avatarDrawable, this.currentChat);
                 }
             }
-            boolean z2 = j == this.peerId;
+            boolean z = j == this.peerId;
             if (videoParticipant == null) {
-                if (GroupCallFullscreenAdapter.this.renderersContainer.fullscreenPeerId != MessageObject.getPeerId(tLRPC$TL_groupCallParticipant.peer)) {
-                    z = false;
-                }
-                this.selected = z;
+                this.selected = GroupCallFullscreenAdapter.this.renderersContainer.fullscreenPeerId == MessageObject.getPeerId(tLRPC$TL_groupCallParticipant.peer);
             } else if (GroupCallFullscreenAdapter.this.renderersContainer.fullscreenParticipant != null) {
                 this.selected = GroupCallFullscreenAdapter.this.renderersContainer.fullscreenParticipant.equals(videoParticipant);
             } else {
                 this.selected = false;
             }
-            if (!z2) {
+            if (!z) {
                 setSelectedProgress(this.selected ? 1.0f : 0.0f);
             }
             GroupCallStatusIcon groupCallStatusIcon = this.statusIcon;
             if (groupCallStatusIcon != null) {
-                groupCallStatusIcon.setParticipant(tLRPC$TL_groupCallParticipant, z2);
-                updateState(z2);
+                groupCallStatusIcon.setParticipant(tLRPC$TL_groupCallParticipant, z);
+                updateState(z);
             }
         }
 
@@ -266,10 +266,10 @@ public class GroupCallFullscreenAdapter extends RecyclerListView.SelectionAdapte
                 this.backgroundPaint.setAlpha(255);
                 invalidate();
                 GroupCallMiniTextureView groupCallMiniTextureView = this.renderer;
-                if (groupCallMiniTextureView == null) {
+                if (groupCallMiniTextureView != null) {
+                    groupCallMiniTextureView.invalidate();
                     return;
                 }
-                groupCallMiniTextureView.invalidate();
                 return;
             }
             float top = (this.avatarImageView.getTop() + (this.avatarImageView.getMeasuredHeight() / 2.0f)) - (getMeasuredHeight() / 2.0f);
@@ -281,10 +281,9 @@ public class GroupCallFullscreenAdapter extends RecyclerListView.SelectionAdapte
             this.backgroundPaint.setAlpha((int) (f * 255.0f));
             invalidate();
             GroupCallMiniTextureView groupCallMiniTextureView2 = this.renderer;
-            if (groupCallMiniTextureView2 == null) {
-                return;
+            if (groupCallMiniTextureView2 != null) {
+                groupCallMiniTextureView2.invalidate();
             }
-            groupCallMiniTextureView2.invalidate();
         }
 
         @Override // android.view.ViewGroup, android.view.View
@@ -313,8 +312,8 @@ public class GroupCallFullscreenAdapter extends RecyclerListView.SelectionAdapte
             super.dispatchDraw(canvas);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:11:0x003a  */
-        /* JADX WARN: Removed duplicated region for block: B:14:? A[RETURN, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:21:0x003a  */
+        /* JADX WARN: Removed duplicated region for block: B:23:? A[RETURN, SYNTHETIC] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -330,14 +329,14 @@ public class GroupCallFullscreenAdapter extends RecyclerListView.SelectionAdapte
                         invalidate();
                     }
                     setSelectedProgress(f2);
-                    if (this.selectionProgress > 0.0f) {
+                    if (this.selectionProgress <= 0.0f) {
+                        float measuredWidth = (getMeasuredWidth() / 2.0f) * (1.0f - this.progress);
+                        RectF rectF = AndroidUtilities.rectTmp;
+                        rectF.set(measuredWidth, measuredWidth, getMeasuredWidth() - measuredWidth, getMeasuredHeight() - measuredWidth);
+                        rectF.inset(this.selectionPaint.getStrokeWidth() / 2.0f, this.selectionPaint.getStrokeWidth() / 2.0f);
+                        canvas.drawRoundRect(rectF, AndroidUtilities.dp(12.0f), AndroidUtilities.dp(12.0f), this.selectionPaint);
                         return;
                     }
-                    float measuredWidth = (getMeasuredWidth() / 2.0f) * (1.0f - this.progress);
-                    RectF rectF = AndroidUtilities.rectTmp;
-                    rectF.set(measuredWidth, measuredWidth, getMeasuredWidth() - measuredWidth, getMeasuredHeight() - measuredWidth);
-                    rectF.inset(this.selectionPaint.getStrokeWidth() / 2.0f, this.selectionPaint.getStrokeWidth() / 2.0f);
-                    canvas.drawRoundRect(rectF, AndroidUtilities.dp(12.0f), AndroidUtilities.dp(12.0f), this.selectionPaint);
                     return;
                 }
             }
@@ -353,7 +352,7 @@ public class GroupCallFullscreenAdapter extends RecyclerListView.SelectionAdapte
                     setSelectedProgress(f4);
                 }
             }
-            if (this.selectionProgress > 0.0f) {
+            if (this.selectionProgress <= 0.0f) {
             }
         }
 
@@ -397,9 +396,10 @@ public class GroupCallFullscreenAdapter extends RecyclerListView.SelectionAdapte
             this.statusIcon.setParticipant(this.participant, false);
             updateState(false);
             this.avatarWavesDrawable.setShowWaves(this.statusIcon.isSpeaking(), this);
-            if (!this.statusIcon.isSpeaking()) {
-                this.avatarWavesDrawable.setAmplitude(0.0d);
+            if (this.statusIcon.isSpeaking()) {
+                return;
             }
+            this.avatarWavesDrawable.setAmplitude(0.0d);
         }
 
         @Override // android.view.ViewGroup, android.view.View
@@ -477,8 +477,8 @@ public class GroupCallFullscreenAdapter extends RecyclerListView.SelectionAdapte
             this.avatarWavesDrawable.setAmplitude(d);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:10:0x0035  */
-        /* JADX WARN: Removed duplicated region for block: B:15:0x006c  */
+        /* JADX WARN: Removed duplicated region for block: B:14:0x0035  */
+        /* JADX WARN: Removed duplicated region for block: B:18:0x006c  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */

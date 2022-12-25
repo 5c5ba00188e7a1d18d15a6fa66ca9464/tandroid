@@ -21,22 +21,24 @@ public final class SsaDecoder extends SimpleSubtitleDecoder {
     private static final Pattern SSA_TIMECODE_PATTERN = Pattern.compile("(?:(\\d+):)?(\\d+):(\\d+)[:.](\\d+)");
     private final SsaDialogueFormat dialogueFormatFromInitializationData;
     private final boolean haveInitializationData;
+    private float screenHeight;
+    private float screenWidth;
     private Map<String, SsaStyle> styles;
-    private float screenWidth = -3.4028235E38f;
-    private float screenHeight = -3.4028235E38f;
 
     private static float computeDefaultLineOrPosition(int i) {
         if (i != 0) {
-            if (i == 1) {
-                return 0.5f;
+            if (i != 1) {
+                return i != 2 ? -3.4028235E38f : 0.95f;
             }
-            return i != 2 ? -3.4028235E38f : 0.95f;
+            return 0.5f;
         }
         return 0.05f;
     }
 
     public SsaDecoder(List<byte[]> list) {
         super("SsaDecoder");
+        this.screenWidth = -3.4028235E38f;
+        this.screenHeight = -3.4028235E38f;
         if (list != null && !list.isEmpty()) {
             this.haveInitializationData = true;
             String fromUtf8Bytes = Util.fromUtf8Bytes(list.get(0));
@@ -64,17 +66,16 @@ public final class SsaDecoder extends SimpleSubtitleDecoder {
     private void parseHeader(ParsableByteArray parsableByteArray) {
         while (true) {
             String readLine = parsableByteArray.readLine();
-            if (readLine != null) {
-                if ("[Script Info]".equalsIgnoreCase(readLine)) {
-                    parseScriptInfo(parsableByteArray);
-                } else if ("[V4+ Styles]".equalsIgnoreCase(readLine)) {
-                    this.styles = parseStyles(parsableByteArray);
-                } else if ("[V4 Styles]".equalsIgnoreCase(readLine)) {
-                    Log.i("SsaDecoder", "[V4 Styles] are not supported");
-                } else if ("[Events]".equalsIgnoreCase(readLine)) {
-                    return;
-                }
-            } else {
+            if (readLine == null) {
+                return;
+            }
+            if ("[Script Info]".equalsIgnoreCase(readLine)) {
+                parseScriptInfo(parsableByteArray);
+            } else if ("[V4+ Styles]".equalsIgnoreCase(readLine)) {
+                this.styles = parseStyles(parsableByteArray);
+            } else if ("[V4 Styles]".equalsIgnoreCase(readLine)) {
+                Log.i("SsaDecoder", "[V4 Styles] are not supported");
+            } else if ("[Events]".equalsIgnoreCase(readLine)) {
                 return;
             }
         }
@@ -83,25 +84,24 @@ public final class SsaDecoder extends SimpleSubtitleDecoder {
     private void parseScriptInfo(ParsableByteArray parsableByteArray) {
         while (true) {
             String readLine = parsableByteArray.readLine();
-            if (readLine != null) {
-                if (parsableByteArray.bytesLeft() != 0 && parsableByteArray.peekUnsignedByte() == 91) {
-                    return;
-                }
-                String[] split = readLine.split(":");
-                if (split.length == 2) {
-                    String lowerInvariant = Util.toLowerInvariant(split[0].trim());
-                    lowerInvariant.hashCode();
-                    if (lowerInvariant.equals("playresx")) {
-                        this.screenWidth = Float.parseFloat(split[1].trim());
-                    } else if (lowerInvariant.equals("playresy")) {
-                        try {
-                            this.screenHeight = Float.parseFloat(split[1].trim());
-                        } catch (NumberFormatException unused) {
-                        }
+            if (readLine == null) {
+                return;
+            }
+            if (parsableByteArray.bytesLeft() != 0 && parsableByteArray.peekUnsignedByte() == 91) {
+                return;
+            }
+            String[] split = readLine.split(":");
+            if (split.length == 2) {
+                String lowerInvariant = Util.toLowerInvariant(split[0].trim());
+                lowerInvariant.hashCode();
+                if (lowerInvariant.equals("playresx")) {
+                    this.screenWidth = Float.parseFloat(split[1].trim());
+                } else if (lowerInvariant.equals("playresy")) {
+                    try {
+                        this.screenHeight = Float.parseFloat(split[1].trim());
+                    } catch (NumberFormatException unused) {
                     }
                 }
-            } else {
-                return;
             }
         }
     }
@@ -133,18 +133,17 @@ public final class SsaDecoder extends SimpleSubtitleDecoder {
         SsaDialogueFormat ssaDialogueFormat = this.haveInitializationData ? this.dialogueFormatFromInitializationData : null;
         while (true) {
             String readLine = parsableByteArray.readLine();
-            if (readLine != null) {
-                if (readLine.startsWith("Format:")) {
-                    ssaDialogueFormat = SsaDialogueFormat.fromFormatLine(readLine);
-                } else if (readLine.startsWith("Dialogue:")) {
-                    if (ssaDialogueFormat == null) {
-                        Log.w("SsaDecoder", "Skipping dialogue line before complete format: " + readLine);
-                    } else {
-                        parseDialogueLine(readLine, ssaDialogueFormat, list, list2);
-                    }
-                }
-            } else {
+            if (readLine == null) {
                 return;
+            }
+            if (readLine.startsWith("Format:")) {
+                ssaDialogueFormat = SsaDialogueFormat.fromFormatLine(readLine);
+            } else if (readLine.startsWith("Dialogue:")) {
+                if (ssaDialogueFormat == null) {
+                    Log.w("SsaDecoder", "Skipping dialogue line before complete format: " + readLine);
+                } else {
+                    parseDialogueLine(readLine, ssaDialogueFormat, list, list2);
+                }
             }
         }
     }
@@ -179,10 +178,10 @@ public final class SsaDecoder extends SimpleSubtitleDecoder {
 
     private static long parseTimecodeUs(String str) {
         Matcher matcher = SSA_TIMECODE_PATTERN.matcher(str.trim());
-        if (!matcher.matches()) {
-            return -9223372036854775807L;
+        if (matcher.matches()) {
+            return (Long.parseLong((String) Util.castNonNull(matcher.group(1))) * 60 * 60 * 1000000) + (Long.parseLong((String) Util.castNonNull(matcher.group(2))) * 60 * 1000000) + (Long.parseLong((String) Util.castNonNull(matcher.group(3))) * 1000000) + (Long.parseLong((String) Util.castNonNull(matcher.group(4))) * 10000);
         }
-        return (Long.parseLong((String) Util.castNonNull(matcher.group(1))) * 60 * 60 * 1000000) + (Long.parseLong((String) Util.castNonNull(matcher.group(2))) * 60 * 1000000) + (Long.parseLong((String) Util.castNonNull(matcher.group(3))) * 1000000) + (Long.parseLong((String) Util.castNonNull(matcher.group(4))) * 10000);
+        return -9223372036854775807L;
     }
 
     private static Cue createCue(String str, SsaStyle ssaStyle, SsaStyle.Overrides overrides, float f, float f2) {

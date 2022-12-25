@@ -43,16 +43,12 @@ public abstract class TLRPC$UserFull extends TLObject {
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
                         this.flags = readInt32;
-                        boolean z3 = false;
                         this.blocked = (readInt32 & 1) != 0;
                         this.phone_calls_available = (readInt32 & 16) != 0;
                         this.phone_calls_private = (readInt32 & 32) != 0;
                         this.can_pin_message = (readInt32 & ConnectionsManager.RequestFlagNeedQuickAck) != 0;
                         this.has_scheduled = (readInt32 & 4096) != 0;
-                        if ((readInt32 & 8192) != 0) {
-                            z3 = true;
-                        }
-                        this.video_calls_available = z3;
+                        this.video_calls_available = (readInt32 & 8192) != 0;
                         this.id = abstractSerializedData2.readInt64(z2);
                         if ((this.flags & 2) != 0) {
                             this.about = abstractSerializedData2.readString(z2);
@@ -150,14 +146,10 @@ public abstract class TLRPC$UserFull extends TLObject {
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
                         this.flags = readInt32;
-                        boolean z3 = false;
                         this.blocked = (readInt32 & 1) != 0;
                         this.phone_calls_available = (readInt32 & 16) != 0;
                         this.phone_calls_private = (readInt32 & 32) != 0;
-                        if ((readInt32 & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
-                            z3 = true;
-                        }
-                        this.can_pin_message = z3;
+                        this.can_pin_message = (readInt32 & ConnectionsManager.RequestFlagNeedQuickAck) != 0;
                         this.user = TLRPC$User.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         if ((this.flags & 2) != 0) {
                             this.about = abstractSerializedData2.readString(z2);
@@ -346,16 +338,12 @@ public abstract class TLRPC$UserFull extends TLObject {
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
                         this.flags = readInt32;
-                        boolean z3 = false;
                         this.blocked = (readInt32 & 1) != 0;
                         this.phone_calls_available = (readInt32 & 16) != 0;
                         this.phone_calls_private = (readInt32 & 32) != 0;
                         this.can_pin_message = (readInt32 & ConnectionsManager.RequestFlagNeedQuickAck) != 0;
                         this.has_scheduled = (readInt32 & 4096) != 0;
-                        if ((readInt32 & 8192) != 0) {
-                            z3 = true;
-                        }
-                        this.video_calls_available = z3;
+                        this.video_calls_available = (readInt32 & 8192) != 0;
                         this.id = abstractSerializedData2.readInt64(z2);
                         if ((this.flags & 2) != 0) {
                             this.about = abstractSerializedData2.readString(z2);
@@ -441,16 +429,12 @@ public abstract class TLRPC$UserFull extends TLObject {
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
                         this.flags = readInt32;
-                        boolean z3 = false;
                         this.blocked = (readInt32 & 1) != 0;
                         this.phone_calls_available = (readInt32 & 16) != 0;
                         this.phone_calls_private = (readInt32 & 32) != 0;
                         this.can_pin_message = (readInt32 & ConnectionsManager.RequestFlagNeedQuickAck) != 0;
                         this.has_scheduled = (readInt32 & 4096) != 0;
-                        if ((readInt32 & 8192) != 0) {
-                            z3 = true;
-                        }
-                        this.video_calls_available = z3;
+                        this.video_calls_available = (readInt32 & 8192) != 0;
                         this.user = TLRPC$User.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         if ((this.flags & 2) != 0) {
                             this.about = abstractSerializedData2.readString(z2);
@@ -667,16 +651,12 @@ public abstract class TLRPC$UserFull extends TLObject {
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
                         this.flags = readInt32;
-                        boolean z3 = false;
                         this.blocked = (readInt32 & 1) != 0;
                         this.phone_calls_available = (readInt32 & 16) != 0;
                         this.phone_calls_private = (readInt32 & 32) != 0;
                         this.can_pin_message = (readInt32 & ConnectionsManager.RequestFlagNeedQuickAck) != 0;
                         this.has_scheduled = (readInt32 & 4096) != 0;
-                        if ((readInt32 & 8192) != 0) {
-                            z3 = true;
-                        }
-                        this.video_calls_available = z3;
+                        this.video_calls_available = (readInt32 & 8192) != 0;
                         this.user = TLRPC$User.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         if ((this.flags & 2) != 0) {
                             this.about = abstractSerializedData2.readString(z2);
@@ -745,16 +725,12 @@ public abstract class TLRPC$UserFull extends TLObject {
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
                         this.flags = readInt32;
-                        boolean z3 = false;
                         this.blocked = (readInt32 & 1) != 0;
                         this.phone_calls_available = (readInt32 & 16) != 0;
                         this.phone_calls_private = (readInt32 & 32) != 0;
                         this.can_pin_message = (readInt32 & ConnectionsManager.RequestFlagNeedQuickAck) != 0;
                         this.has_scheduled = (readInt32 & 4096) != 0;
-                        if ((readInt32 & 8192) != 0) {
-                            z3 = true;
-                        }
-                        this.video_calls_available = z3;
+                        this.video_calls_available = (readInt32 & 8192) != 0;
                         this.user = TLRPC$User.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         if ((this.flags & 2) != 0) {
                             this.about = abstractSerializedData2.readString(z2);
@@ -828,14 +804,10 @@ public abstract class TLRPC$UserFull extends TLObject {
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
                         this.flags = readInt32;
-                        boolean z3 = false;
                         this.blocked = (readInt32 & 1) != 0;
                         this.phone_calls_available = (readInt32 & 16) != 0;
                         this.phone_calls_private = (readInt32 & 32) != 0;
-                        if ((readInt32 & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
-                            z3 = true;
-                        }
-                        this.can_pin_message = z3;
+                        this.can_pin_message = (readInt32 & ConnectionsManager.RequestFlagNeedQuickAck) != 0;
                         this.user = TLRPC$User.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         if ((this.flags & 2) != 0) {
                             this.about = abstractSerializedData2.readString(z2);
@@ -895,12 +867,12 @@ public abstract class TLRPC$UserFull extends TLObject {
                 tLRPC$UserFull = null;
                 break;
         }
-        if (tLRPC$UserFull != null || !z) {
-            if (tLRPC$UserFull != null) {
-                tLRPC$UserFull.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$UserFull;
+        if (tLRPC$UserFull == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in UserFull", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in UserFull", Integer.valueOf(i)));
+        if (tLRPC$UserFull != null) {
+            tLRPC$UserFull.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$UserFull;
     }
 }

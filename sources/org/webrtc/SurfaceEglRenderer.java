@@ -11,13 +11,14 @@ public class SurfaceEglRenderer extends EglRenderer implements SurfaceHolder.Cal
     private int frameRotation;
     private boolean isFirstFrameRendered;
     private boolean isRenderingPaused;
-    private final Object layoutLock = new Object();
+    private final Object layoutLock;
     private RendererCommon.RendererEvents rendererEvents;
     private int rotatedFrameHeight;
     private int rotatedFrameWidth;
 
     public SurfaceEglRenderer(String str) {
         super(str);
+        this.layoutLock = new Object();
     }
 
     public void init(EglBase.Context context, RendererCommon.RendererEvents rendererEvents, int[] iArr, RendererCommon.GlDrawer glDrawer) {

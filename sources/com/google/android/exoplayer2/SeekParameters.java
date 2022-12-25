@@ -18,9 +18,8 @@ public final class SeekParameters {
     }
 
     public SeekParameters(long j, long j2) {
-        boolean z = true;
         Assertions.checkArgument(j >= 0);
-        Assertions.checkArgument(j2 < 0 ? false : z);
+        Assertions.checkArgument(j2 >= 0);
         this.toleranceBeforeUs = j;
         this.toleranceAfterUs = j2;
     }

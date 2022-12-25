@@ -9,12 +9,8 @@ public class TLRPC$TL_channelForbidden extends TLRPC$Chat {
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
         int readInt32 = abstractSerializedData.readInt32(z);
         this.flags = readInt32;
-        boolean z2 = true;
         this.broadcast = (readInt32 & 32) != 0;
-        if ((readInt32 & 256) == 0) {
-            z2 = false;
-        }
-        this.megagroup = z2;
+        this.megagroup = (readInt32 & 256) != 0;
         this.id = abstractSerializedData.readInt64(z);
         this.access_hash = abstractSerializedData.readInt64(z);
         this.title = abstractSerializedData.readString(z);

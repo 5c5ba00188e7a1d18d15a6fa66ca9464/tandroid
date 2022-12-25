@@ -393,13 +393,13 @@ public abstract class TLRPC$Document extends TLObject {
                 tLRPC$TL_document_layer82 = null;
                 break;
         }
-        if (tLRPC$TL_document_layer82 != null || !z) {
-            if (tLRPC$TL_document_layer82 != null) {
-                tLRPC$TL_document_layer82.readParams(abstractSerializedData, z);
-                tLRPC$TL_document_layer82.file_name_fixed = FileLoader.getDocumentFileName(tLRPC$TL_document_layer82);
-            }
-            return tLRPC$TL_document_layer82;
+        if (tLRPC$TL_document_layer82 == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in Document", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in Document", Integer.valueOf(i)));
+        if (tLRPC$TL_document_layer82 != null) {
+            tLRPC$TL_document_layer82.readParams(abstractSerializedData, z);
+            tLRPC$TL_document_layer82.file_name_fixed = FileLoader.getDocumentFileName(tLRPC$TL_document_layer82);
+        }
+        return tLRPC$TL_document_layer82;
     }
 }

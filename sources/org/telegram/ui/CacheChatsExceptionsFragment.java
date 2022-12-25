@@ -36,12 +36,14 @@ import org.telegram.ui.KeepMediaPopupView;
 public class CacheChatsExceptionsFragment extends BaseFragment {
     Adapter adapter;
     int currentType;
+    ArrayList<CacheByChatsController.KeepMediaException> exceptionsDialogs;
+    ArrayList<Item> items;
     RecyclerListView recyclerListView;
-    ArrayList<Item> items = new ArrayList<>();
-    ArrayList<CacheByChatsController.KeepMediaException> exceptionsDialogs = new ArrayList<>();
 
     public CacheChatsExceptionsFragment(Bundle bundle) {
         super(bundle);
+        this.items = new ArrayList<>();
+        this.exceptionsDialogs = new ArrayList<>();
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -124,8 +126,7 @@ public class CacheChatsExceptionsFragment extends BaseFragment {
                     CacheChatsExceptionsFragment.this.lambda$createView$1(keepMediaException, i3, i4);
                 }
             });
-        } else if (this.items.get(i).viewType != 4) {
-        } else {
+        } else if (this.items.get(i).viewType == 4) {
             AlertDialog create = AlertsCreator.createSimpleAlert(getContext(), LocaleController.getString("NotificationsDeleteAllExceptionTitle", R.string.NotificationsDeleteAllExceptionTitle), LocaleController.getString("NotificationsDeleteAllExceptionAlert", R.string.NotificationsDeleteAllExceptionAlert), LocaleController.getString("Delete", R.string.Delete), new Runnable() { // from class: org.telegram.ui.CacheChatsExceptionsFragment$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
@@ -263,7 +264,7 @@ public class CacheChatsExceptionsFragment extends BaseFragment {
     private void updateRows() {
         ArrayList<? extends AdapterWithDiffUtils.Item> arrayList;
         boolean z = false;
-        if (!this.isPaused && this.adapter != null) {
+        if ((this.isPaused || this.adapter == null) ? false : true) {
             arrayList = new ArrayList<>();
             arrayList.addAll(this.items);
         } else {

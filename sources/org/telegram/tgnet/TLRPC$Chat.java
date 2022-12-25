@@ -208,12 +208,8 @@ public abstract class TLRPC$Chat extends TLObject {
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
                         this.flags = readInt32;
-                        boolean z3 = true;
                         this.broadcast = (readInt32 & 32) != 0;
-                        if ((readInt32 & 256) == 0) {
-                            z3 = false;
-                        }
-                        this.megagroup = z3;
+                        this.megagroup = (readInt32 & 256) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
                         this.access_hash = abstractSerializedData2.readInt64(z2);
                         this.title = abstractSerializedData2.readString(z2);
@@ -258,7 +254,6 @@ public abstract class TLRPC$Chat extends TLObject {
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
                         this.flags = readInt32;
-                        boolean z3 = false;
                         this.creator = (readInt32 & 1) != 0;
                         this.kicked = (readInt32 & 2) != 0;
                         this.left = (readInt32 & 4) != 0;
@@ -268,10 +263,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         this.megagroup = (readInt32 & 256) != 0;
                         this.restricted = (readInt32 & 512) != 0;
                         this.signatures = (readInt32 & 2048) != 0;
-                        if ((readInt32 & 4096) != 0) {
-                            z3 = true;
-                        }
-                        this.min = z3;
+                        this.min = (readInt32 & 4096) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
                         if ((this.flags & 8192) != 0) {
                             this.access_hash = abstractSerializedData2.readInt64(z2);
@@ -337,7 +329,6 @@ public abstract class TLRPC$Chat extends TLObject {
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
                         this.flags = readInt32;
-                        boolean z3 = false;
                         this.creator = (readInt32 & 1) != 0;
                         this.left = (readInt32 & 4) != 0;
                         this.broadcast = (readInt32 & 32) != 0;
@@ -345,10 +336,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         this.megagroup = (readInt32 & 256) != 0;
                         this.restricted = (readInt32 & 512) != 0;
                         this.signatures = (readInt32 & 2048) != 0;
-                        if ((readInt32 & 4096) != 0) {
-                            z3 = true;
-                        }
-                        this.min = z3;
+                        this.min = (readInt32 & 4096) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
                         if ((this.flags & 8192) != 0) {
                             this.access_hash = abstractSerializedData2.readInt64(z2);
@@ -568,14 +556,10 @@ public abstract class TLRPC$Chat extends TLObject {
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
                         this.flags = readInt32;
-                        boolean z3 = false;
                         this.creator = (readInt32 & 1) != 0;
                         this.kicked = (readInt32 & 2) != 0;
                         this.left = (readInt32 & 4) != 0;
-                        if ((readInt32 & 32) != 0) {
-                            z3 = true;
-                        }
-                        this.deactivated = z3;
+                        this.deactivated = (readInt32 & 32) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
                         this.title = abstractSerializedData2.readString(z2);
                         this.photo = TLRPC$ChatPhoto.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
@@ -657,7 +641,6 @@ public abstract class TLRPC$Chat extends TLObject {
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
                         this.flags = readInt32;
-                        boolean z3 = false;
                         this.creator = (readInt32 & 1) != 0;
                         this.left = (readInt32 & 4) != 0;
                         this.broadcast = (readInt32 & 32) != 0;
@@ -665,10 +648,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         this.megagroup = (readInt32 & 256) != 0;
                         this.restricted = (readInt32 & 512) != 0;
                         this.signatures = (readInt32 & 2048) != 0;
-                        if ((readInt32 & 4096) != 0) {
-                            z3 = true;
-                        }
-                        this.min = z3;
+                        this.min = (readInt32 & 4096) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
                         if ((this.flags & 8192) != 0) {
                             this.access_hash = abstractSerializedData2.readInt64(z2);
@@ -751,12 +731,8 @@ public abstract class TLRPC$Chat extends TLObject {
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
                         this.flags = readInt32;
-                        boolean z3 = true;
                         this.broadcast = (readInt32 & 32) != 0;
-                        if ((readInt32 & 256) == 0) {
-                            z3 = false;
-                        }
-                        this.megagroup = z3;
+                        this.megagroup = (readInt32 & 256) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
                         this.access_hash = abstractSerializedData2.readInt64(z2);
                         this.title = abstractSerializedData2.readString(z2);
@@ -813,16 +789,12 @@ public abstract class TLRPC$Chat extends TLObject {
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
                         this.flags = readInt32;
-                        boolean z3 = false;
                         this.creator = (readInt32 & 1) != 0;
                         this.kicked = (readInt32 & 2) != 0;
                         this.left = (readInt32 & 4) != 0;
                         this.deactivated = (readInt32 & 32) != 0;
                         this.call_active = (8388608 & readInt32) != 0;
-                        if ((readInt32 & ConnectionsManager.FileTypePhoto) != 0) {
-                            z3 = true;
-                        }
-                        this.call_not_empty = z3;
+                        this.call_not_empty = (readInt32 & ConnectionsManager.FileTypePhoto) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
                         this.title = abstractSerializedData2.readString(z2);
                         this.photo = TLRPC$ChatPhoto.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
@@ -885,7 +857,6 @@ public abstract class TLRPC$Chat extends TLObject {
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
                         this.flags = readInt32;
-                        boolean z3 = false;
                         this.creator = (readInt32 & 1) != 0;
                         this.left = (readInt32 & 4) != 0;
                         this.broadcast = (readInt32 & 32) != 0;
@@ -893,10 +864,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         this.megagroup = (readInt32 & 256) != 0;
                         this.restricted = (readInt32 & 512) != 0;
                         this.signatures = (readInt32 & 2048) != 0;
-                        if ((readInt32 & 4096) != 0) {
-                            z3 = true;
-                        }
-                        this.min = z3;
+                        this.min = (readInt32 & 4096) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
                         if ((this.flags & 8192) != 0) {
                             this.access_hash = abstractSerializedData2.readInt64(z2);
@@ -980,7 +948,6 @@ public abstract class TLRPC$Chat extends TLObject {
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
                         this.flags = readInt32;
-                        boolean z3 = false;
                         this.creator = (readInt32 & 1) != 0;
                         this.kicked = (readInt32 & 2) != 0;
                         this.left = (readInt32 & 4) != 0;
@@ -989,10 +956,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         this.verified = (readInt32 & ConnectionsManager.RequestFlagNeedQuickAck) != 0;
                         this.megagroup = (readInt32 & 256) != 0;
                         this.restricted = (readInt32 & 512) != 0;
-                        if ((readInt32 & 2048) != 0) {
-                            z3 = true;
-                        }
-                        this.signatures = z3;
+                        this.signatures = (readInt32 & 2048) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
                         this.access_hash = abstractSerializedData2.readInt64(z2);
                         this.title = abstractSerializedData2.readString(z2);
@@ -1052,7 +1016,6 @@ public abstract class TLRPC$Chat extends TLObject {
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
                         this.flags = readInt32;
-                        boolean z3 = false;
                         this.creator = (readInt32 & 1) != 0;
                         this.left = (readInt32 & 4) != 0;
                         this.broadcast = (readInt32 & 32) != 0;
@@ -1064,10 +1027,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         this.scam = (524288 & readInt32) != 0;
                         this.has_link = (1048576 & readInt32) != 0;
                         this.has_geo = (2097152 & readInt32) != 0;
-                        if ((readInt32 & 4194304) != 0) {
-                            z3 = true;
-                        }
-                        this.slowmode_enabled = z3;
+                        this.slowmode_enabled = (readInt32 & 4194304) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
                         if ((this.flags & 8192) != 0) {
                             this.access_hash = abstractSerializedData2.readInt64(z2);
@@ -1164,7 +1124,6 @@ public abstract class TLRPC$Chat extends TLObject {
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
                         this.flags = readInt32;
-                        boolean z3 = false;
                         this.creator = (readInt32 & 1) != 0;
                         this.kicked = (readInt32 & 2) != 0;
                         this.left = (readInt32 & 4) != 0;
@@ -1172,10 +1131,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         this.broadcast = (readInt32 & 32) != 0;
                         this.verified = (readInt32 & ConnectionsManager.RequestFlagNeedQuickAck) != 0;
                         this.megagroup = (readInt32 & 256) != 0;
-                        if ((readInt32 & 512) != 0) {
-                            z3 = true;
-                        }
-                        this.explicit_content = z3;
+                        this.explicit_content = (readInt32 & 512) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
                         this.access_hash = abstractSerializedData2.readInt64(z2);
                         this.title = abstractSerializedData2.readString(z2);
@@ -1255,14 +1211,10 @@ public abstract class TLRPC$Chat extends TLObject {
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
                         this.flags = readInt32;
-                        boolean z3 = false;
                         this.creator = (readInt32 & 1) != 0;
                         this.kicked = (readInt32 & 2) != 0;
                         this.left = (readInt32 & 4) != 0;
-                        if ((readInt32 & 32) != 0) {
-                            z3 = true;
-                        }
-                        this.deactivated = z3;
+                        this.deactivated = (readInt32 & 32) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
                         this.title = abstractSerializedData2.readString(z2);
                         this.photo = TLRPC$ChatPhoto.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
@@ -1296,13 +1248,13 @@ public abstract class TLRPC$Chat extends TLObject {
                 tLRPC$Chat = null;
                 break;
         }
-        if (tLRPC$Chat != null || !z) {
-            if (tLRPC$Chat != null) {
-                tLRPC$Chat.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$Chat;
+        if (tLRPC$Chat == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in Chat", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in Chat", Integer.valueOf(i)));
+        if (tLRPC$Chat != null) {
+            tLRPC$Chat.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$Chat;
     }
 
     /* JADX INFO: Access modifiers changed from: protected */

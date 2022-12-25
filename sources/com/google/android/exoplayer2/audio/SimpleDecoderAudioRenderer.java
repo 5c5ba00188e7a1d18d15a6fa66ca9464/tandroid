@@ -106,7 +106,6 @@ public abstract class SimpleDecoderAudioRenderer extends BaseRenderer implements
 
     @Override // com.google.android.exoplayer2.RendererCapabilities
     public final int supportsFormat(Format format) {
-        int i = 0;
         if (!MimeTypes.isAudio(format.sampleMimeType)) {
             return RendererCapabilities.-CC.create(0);
         }
@@ -114,10 +113,7 @@ public abstract class SimpleDecoderAudioRenderer extends BaseRenderer implements
         if (supportsFormatInternal <= 2) {
             return RendererCapabilities.-CC.create(supportsFormatInternal);
         }
-        if (Util.SDK_INT >= 21) {
-            i = 32;
-        }
-        return RendererCapabilities.-CC.create(supportsFormatInternal, 8, i);
+        return RendererCapabilities.-CC.create(supportsFormatInternal, 8, Util.SDK_INT >= 21 ? 32 : 0);
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
@@ -140,30 +136,29 @@ public abstract class SimpleDecoderAudioRenderer extends BaseRenderer implements
             this.flagsOnlyBuffer.clear();
             int readSource = readSource(formatHolder, this.flagsOnlyBuffer, true);
             if (readSource != -5) {
-                if (readSource != -4) {
+                if (readSource == -4) {
+                    Assertions.checkState(this.flagsOnlyBuffer.isEndOfStream());
+                    this.inputStreamEnded = true;
+                    processEndOfStream();
                     return;
                 }
-                Assertions.checkState(this.flagsOnlyBuffer.isEndOfStream());
-                this.inputStreamEnded = true;
-                processEndOfStream();
                 return;
             }
             onInputFormatChanged(formatHolder);
         }
         maybeInitDecoder();
-        if (this.decoder == null) {
-            return;
-        }
-        try {
-            TraceUtil.beginSection("drainAndFeed");
-            while (drainOutputBuffer()) {
+        if (this.decoder != null) {
+            try {
+                TraceUtil.beginSection("drainAndFeed");
+                while (drainOutputBuffer()) {
+                }
+                while (feedInputBuffer()) {
+                }
+                TraceUtil.endSection();
+                this.decoderCounters.ensureUpdated();
+            } catch (AudioDecoderException | AudioSink.ConfigurationException | AudioSink.InitializationException | AudioSink.WriteException e2) {
+                throw createRendererException(e2, this.inputFormat);
             }
-            while (feedInputBuffer()) {
-            }
-            TraceUtil.endSection();
-            this.decoderCounters.ensureUpdated();
-        } catch (AudioDecoderException | AudioSink.ConfigurationException | AudioSink.InitializationException | AudioSink.WriteException e2) {
-            throw createRendererException(e2, this.inputFormat);
         }
     }
 
@@ -199,13 +194,13 @@ public abstract class SimpleDecoderAudioRenderer extends BaseRenderer implements
         }
         AudioSink audioSink = this.audioSink;
         SimpleOutputBuffer simpleOutputBuffer = this.outputBuffer;
-        if (!audioSink.handleBuffer(simpleOutputBuffer.data, simpleOutputBuffer.timeUs)) {
-            return false;
+        if (audioSink.handleBuffer(simpleOutputBuffer.data, simpleOutputBuffer.timeUs)) {
+            this.decoderCounters.renderedOutputBufferCount++;
+            this.outputBuffer.release();
+            this.outputBuffer = null;
+            return true;
         }
-        this.decoderCounters.renderedOutputBufferCount++;
-        this.outputBuffer.release();
-        this.outputBuffer = null;
-        return true;
+        return false;
     }
 
     private boolean feedInputBuffer() throws AudioDecoderException, ExoPlaybackException {
@@ -262,10 +257,10 @@ public abstract class SimpleDecoderAudioRenderer extends BaseRenderer implements
             return false;
         }
         int state = this.decoderDrmSession.getState();
-        if (state == 1) {
-            throw createRendererException(this.decoderDrmSession.getError(), this.inputFormat);
+        if (state != 1) {
+            return state != 4;
         }
-        return state != 4;
+        throw createRendererException(this.decoderDrmSession.getError(), this.inputFormat);
     }
 
     private void processEndOfStream() throws ExoPlaybackException {
@@ -301,7 +296,7 @@ public abstract class SimpleDecoderAudioRenderer extends BaseRenderer implements
 
     @Override // com.google.android.exoplayer2.Renderer
     public boolean isReady() {
-        return this.audioSink.hasPendingData() || (this.inputFormat != null && !this.waitingForKeys && (isSourceReady() || this.outputBuffer != null));
+        return this.audioSink.hasPendingData() || !(this.inputFormat == null || this.waitingForKeys || (!isSourceReady() && this.outputBuffer == null));
     }
 
     @Override // com.google.android.exoplayer2.util.MediaClock

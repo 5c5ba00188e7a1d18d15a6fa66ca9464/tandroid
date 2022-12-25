@@ -46,8 +46,11 @@ public class Crashes extends AbstractAppCenterService {
     private static final CrashesListener DEFAULT_ERROR_REPORTING_LISTENER = new DefaultCrashesListener(null);
     @SuppressLint({"StaticFieldLeak"})
     private static Crashes sInstance = null;
+    private boolean mAutomaticProcessing = true;
     private Context mContext;
+    private CrashesListener mCrashesListener;
     private Device mDevice;
+    private final Map<UUID, ErrorLogReport> mErrorReportCache;
     private final Map<String, LogFactory> mFactories;
     private boolean mHasReceivedMemoryWarningInLastSession;
     private long mInitializeTimestamp;
@@ -55,10 +58,7 @@ public class Crashes extends AbstractAppCenterService {
     private ComponentCallbacks2 mMemoryWarningListener;
     private boolean mSavedUncaughtException;
     private UncaughtExceptionHandler mUncaughtExceptionHandler;
-    private boolean mAutomaticProcessing = true;
-    private CrashesListener mCrashesListener = DEFAULT_ERROR_REPORTING_LISTENER;
-    private final Map<UUID, ErrorLogReport> mUnprocessedErrorReports = new LinkedHashMap();
-    private final Map<UUID, ErrorLogReport> mErrorReportCache = new LinkedHashMap();
+    private final Map<UUID, ErrorLogReport> mUnprocessedErrorReports;
 
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
@@ -113,6 +113,9 @@ public class Crashes extends AbstractAppCenterService {
         this.mLogSerializer = defaultLogSerializer;
         defaultLogSerializer.addLogFactory("managedError", ManagedErrorLogFactory.getInstance());
         this.mLogSerializer.addLogFactory("errorAttachment", ErrorAttachmentLogFactory.getInstance());
+        this.mCrashesListener = DEFAULT_ERROR_REPORTING_LISTENER;
+        this.mUnprocessedErrorReports = new LinkedHashMap();
+        this.mErrorReportCache = new LinkedHashMap();
     }
 
     public static synchronized Crashes getInstance() {
@@ -316,11 +319,11 @@ public class Crashes extends AbstractAppCenterService {
         this.mInitializeTimestamp = isInstanceEnabled ? System.currentTimeMillis() : -1L;
         if (!isInstanceEnabled) {
             UncaughtExceptionHandler uncaughtExceptionHandler = this.mUncaughtExceptionHandler;
-            if (uncaughtExceptionHandler == null) {
+            if (uncaughtExceptionHandler != null) {
+                uncaughtExceptionHandler.unregister();
+                this.mUncaughtExceptionHandler = null;
                 return;
             }
-            uncaughtExceptionHandler.unregister();
-            this.mUncaughtExceptionHandler = null;
             return;
         }
         UncaughtExceptionHandler uncaughtExceptionHandler2 = new UncaughtExceptionHandler();
@@ -496,12 +499,12 @@ public class Crashes extends AbstractAppCenterService {
         UUID id = managedErrorLog.getId();
         if (!this.mErrorReportCache.containsKey(id)) {
             File storedThrowableFile = ErrorLogHelper.getStoredThrowableFile(id);
-            if (storedThrowableFile == null) {
-                return null;
+            if (storedThrowableFile != null) {
+                ErrorReport errorReportFromErrorLog = ErrorLogHelper.getErrorReportFromErrorLog(managedErrorLog, storedThrowableFile.length() > 0 ? FileManager.read(storedThrowableFile) : null);
+                this.mErrorReportCache.put(id, new ErrorLogReport(managedErrorLog, errorReportFromErrorLog, null));
+                return errorReportFromErrorLog;
             }
-            ErrorReport errorReportFromErrorLog = ErrorLogHelper.getErrorReportFromErrorLog(managedErrorLog, storedThrowableFile.length() > 0 ? FileManager.read(storedThrowableFile) : null);
-            this.mErrorReportCache.put(id, new ErrorLogReport(managedErrorLog, errorReportFromErrorLog, null));
-            return errorReportFromErrorLog;
+            return null;
         }
         ErrorReport errorReport = this.mErrorReportCache.get(id).report;
         errorReport.setDevice(managedErrorLog.getDevice());
@@ -513,7 +516,7 @@ public class Crashes extends AbstractAppCenterService {
         post(new Runnable() { // from class: com.microsoft.appcenter.crashes.Crashes.12
             /* JADX WARN: Removed duplicated region for block: B:28:0x00bc  */
             /* JADX WARN: Removed duplicated region for block: B:31:0x00d8  */
-            /* JADX WARN: Removed duplicated region for block: B:34:0x00f3 A[SYNTHETIC] */
+            /* JADX WARN: Removed duplicated region for block: B:37:0x00f3 A[SYNTHETIC] */
             @Override // java.lang.Runnable
             /*
                 Code decompiled incorrectly, please refer to instructions dump.

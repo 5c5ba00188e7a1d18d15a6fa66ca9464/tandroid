@@ -7,7 +7,7 @@ import java.io.IOException;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class zzal extends zzae<T> {
-    private final Object lock = new Object();
+    private final Object lock;
     private String zzec;
     private T zzed;
     private final /* synthetic */ zzan zzee;
@@ -17,6 +17,7 @@ public final class zzal extends zzae<T> {
     public zzal(zzao zzaoVar, String str, Object obj, zzan zzanVar) {
         super(zzaoVar, str, obj, null);
         this.zzee = zzanVar;
+        this.lock = new Object();
     }
 
     @Override // com.google.android.gms.internal.clearcut.zzae

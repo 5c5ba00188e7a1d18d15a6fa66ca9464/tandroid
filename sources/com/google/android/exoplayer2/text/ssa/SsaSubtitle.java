@@ -32,12 +32,8 @@ final class SsaSubtitle implements Subtitle {
 
     @Override // com.google.android.exoplayer2.text.Subtitle
     public long getEventTime(int i) {
-        boolean z = true;
         Assertions.checkArgument(i >= 0);
-        if (i >= this.cueTimesUs.size()) {
-            z = false;
-        }
-        Assertions.checkArgument(z);
+        Assertions.checkArgument(i < this.cueTimesUs.size());
         return this.cueTimesUs.get(i).longValue();
     }
 

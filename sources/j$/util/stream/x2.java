@@ -75,16 +75,16 @@ public abstract class x2 {
     public static A1 i(e4 e4Var, A1 a1, A1 a12) {
         int i = B1.a[e4Var.ordinal()];
         if (i != 1) {
-            if (i == 2) {
-                return new P1((w1) a1, (w1) a12);
-            }
-            if (i == 3) {
+            if (i != 2) {
+                if (i != 3) {
+                    if (i == 4) {
+                        return new O1((u1) a1, (u1) a12);
+                    }
+                    throw new IllegalStateException("Unknown shape " + e4Var);
+                }
                 return new Q1((y1) a1, (y1) a12);
             }
-            if (i == 4) {
-                return new O1((u1) a1, (u1) a12);
-            }
-            throw new IllegalStateException("Unknown shape " + e4Var);
+            return new P1((w1) a1, (w1) a12);
         }
         return new S1(a1, a12);
     }
@@ -98,16 +98,16 @@ public abstract class x2 {
     public static A1 k(e4 e4Var) {
         int i = B1.a[e4Var.ordinal()];
         if (i != 1) {
-            if (i == 2) {
-                return b;
-            }
-            if (i == 3) {
+            if (i != 2) {
+                if (i != 3) {
+                    if (i == 4) {
+                        return d;
+                    }
+                    throw new IllegalStateException("Unknown shape " + e4Var);
+                }
                 return c;
             }
-            if (i == 4) {
-                return d;
-            }
-            throw new IllegalStateException("Unknown shape " + e4Var);
+            return b;
         }
         return a;
     }

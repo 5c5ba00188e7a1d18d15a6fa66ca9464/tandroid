@@ -9,7 +9,6 @@ public class TLRPC$TL_groupCall extends TLRPC$GroupCall {
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
         int readInt32 = abstractSerializedData.readInt32(z);
         this.flags = readInt32;
-        boolean z2 = false;
         this.join_muted = (readInt32 & 2) != 0;
         this.can_change_join_muted = (readInt32 & 4) != 0;
         this.join_date_asc = (readInt32 & 64) != 0;
@@ -17,10 +16,7 @@ public class TLRPC$TL_groupCall extends TLRPC$GroupCall {
         this.can_start_video = (readInt32 & 512) != 0;
         this.record_video_active = (readInt32 & 2048) != 0;
         this.rtmp_stream = (readInt32 & 4096) != 0;
-        if ((readInt32 & 8192) != 0) {
-            z2 = true;
-        }
-        this.listeners_hidden = z2;
+        this.listeners_hidden = (readInt32 & 8192) != 0;
         if (SharedConfig.forceRtmpStream) {
             this.rtmp_stream = true;
         }

@@ -36,13 +36,15 @@ abstract class Atom {
 
     /* loaded from: classes.dex */
     static final class ContainerAtom extends Atom {
+        public final List<ContainerAtom> containerChildren;
         public final long endPosition;
-        public final List<LeafAtom> leafChildren = new ArrayList();
-        public final List<ContainerAtom> containerChildren = new ArrayList();
+        public final List<LeafAtom> leafChildren;
 
         public ContainerAtom(int i, long j) {
             super(i);
             this.endPosition = j;
+            this.leafChildren = new ArrayList();
+            this.containerChildren = new ArrayList();
         }
 
         public void add(LeafAtom leafAtom) {

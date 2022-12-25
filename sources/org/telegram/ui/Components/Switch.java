@@ -148,7 +148,6 @@ public class Switch extends View {
             return;
         }
         this.drawRipple = z;
-        int i2 = 1;
         if (this.rippleDrawable == null) {
             Paint paint = new Paint(1);
             this.ripplePaint = paint;
@@ -160,7 +159,7 @@ public class Switch extends View {
                 }
 
                 @Override // android.graphics.drawable.Drawable
-                public void setAlpha(int i3) {
+                public void setAlpha(int i2) {
                 }
 
                 @Override // android.graphics.drawable.Drawable
@@ -189,10 +188,7 @@ public class Switch extends View {
                 str = "switchTrackBlueSelector";
             }
             this.rippleDrawable.setColor(new ColorStateList(new int[][]{StateSet.WILD_CARD}, new int[]{Theme.getColor(str, resourcesProvider)}));
-            if (this.isChecked) {
-                i2 = 2;
-            }
-            this.colorSet = i2;
+            this.colorSet = this.isChecked ? 2 : 1;
         }
         if (i >= 28 && z) {
             this.rippleDrawable.setHotspot(this.isChecked ? 0.0f : AndroidUtilities.dp(100.0f), AndroidUtilities.dp(18.0f));
@@ -342,14 +338,13 @@ public class Switch extends View {
                 return;
             }
         }
-        if (!this.bitmapsCreated) {
-            return;
+        if (this.bitmapsCreated) {
+            this.overrideColorProgress = i;
+            this.overlayCx = 0.0f;
+            this.overlayCy = 0.0f;
+            this.overlayRad = 0.0f;
+            invalidate();
         }
-        this.overrideColorProgress = i;
-        this.overlayCx = 0.0f;
-        this.overlayCy = 0.0f;
-        this.overlayRad = 0.0f;
-        invalidate();
     }
 
     public void setOverrideColorProgress(float f, float f2, float f3) {
@@ -359,32 +354,32 @@ public class Switch extends View {
         invalidate();
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:20:0x00a8, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:19:0x00a8, code lost:
         if (r12 == 0) goto L21;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:21:0x00aa, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:20:0x00aa, code lost:
         r16 = 0.0f;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:47:0x00ad, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:21:0x00ad, code lost:
         r16 = 1.0f;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:49:0x00b2, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:23:0x00b2, code lost:
         if (r12 == 0) goto L47;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:72:0x01f1, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:69:0x01f1, code lost:
         if (r1 == 0) goto L73;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:73:0x01f3, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:70:0x01f3, code lost:
         r6 = 0.0f;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:95:0x01f5, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:71:0x01f5, code lost:
         r6 = 1.0f;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:98:0x01fb, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:74:0x01fb, code lost:
         if (r1 == 0) goto L95;
      */
-    /* JADX WARN: Removed duplicated region for block: B:83:0x03d4  */
-    /* JADX WARN: Removed duplicated region for block: B:85:0x03dd  */
+    /* JADX WARN: Removed duplicated region for block: B:94:0x03d4  */
+    /* JADX WARN: Removed duplicated region for block: B:95:0x03dd  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -544,10 +539,9 @@ public class Switch extends View {
             }
             i7++;
         }
-        if (this.overrideColorProgress == 0) {
-            return;
+        if (this.overrideColorProgress != 0) {
+            canvas2.drawBitmap(this.overlayBitmap[1], 0.0f, 0.0f, (Paint) null);
         }
-        canvas2.drawBitmap(this.overlayBitmap[1], 0.0f, 0.0f, (Paint) null);
     }
 
     @Override // android.view.View

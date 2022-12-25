@@ -203,10 +203,9 @@ public class ChatGreetingsView extends LinearLayout {
         if (this.preloadedGreetingsSticker == null) {
             TLRPC$Document greetingsSticker = MediaDataController.getInstance(this.currentAccount).getGreetingsSticker();
             this.preloadedGreetingsSticker = greetingsSticker;
-            if (!this.wasDraw) {
-                return;
+            if (this.wasDraw) {
+                setSticker(greetingsSticker);
             }
-            setSticker(greetingsSticker);
         }
     }
 

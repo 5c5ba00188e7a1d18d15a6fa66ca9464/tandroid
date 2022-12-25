@@ -43,12 +43,12 @@ final class zzfv implements zzfs {
             return 0;
         }
         Iterator it = zzftVar.entrySet().iterator();
-        if (!it.hasNext()) {
-            return 0;
+        if (it.hasNext()) {
+            Map.Entry entry = (Map.Entry) it.next();
+            entry.getKey();
+            entry.getValue();
+            throw new NoSuchMethodError();
         }
-        Map.Entry entry = (Map.Entry) it.next();
-        entry.getKey();
-        entry.getValue();
-        throw new NoSuchMethodError();
+        return 0;
     }
 }

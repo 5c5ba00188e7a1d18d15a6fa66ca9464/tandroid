@@ -220,8 +220,8 @@ public final class zzaf extends zzx {
         return new zzaf(obj15, objArr3, i2);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:5:0x009e A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:7:0x009f A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x009e A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x009f A[RETURN] */
     @Override // com.google.android.gms.internal.play_billing.zzx, java.util.Map, j$.util.Map
     @CheckForNull
     /*
@@ -291,13 +291,13 @@ public final class zzaf extends zzx {
                     }
                 }
             }
-            if (obj2 == null) {
-                return obj2;
+            if (obj2 != null) {
+                return null;
             }
-            return null;
+            return obj2;
         }
         obj2 = null;
-        if (obj2 == null) {
+        if (obj2 != null) {
         }
     }
 

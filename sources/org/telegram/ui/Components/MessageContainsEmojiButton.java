@@ -27,8 +27,10 @@ import org.telegram.tgnet.TLRPC$TL_messages_stickerSet;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
 public class MessageContainsEmojiButton extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
+    public boolean checkWidth;
     private int currentAccount;
     private AnimatedEmojiDrawable emojiDrawable;
+    private android.graphics.Rect emojiDrawableBounds;
     private CharSequence endText;
     private TLRPC$InputStickerSet inputStickerSet;
     private int lastLineHeight;
@@ -38,21 +40,19 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
     private int lastMainTextWidth;
     private CharSequence lastSecondPartText;
     private int lastSecondPartTextWidth;
+    private int lastWidth;
     private ValueAnimator loadAnimator;
     private float loadT;
     private android.graphics.Rect loadingBoundsFrom;
     private android.graphics.Rect loadingBoundsTo;
     private LoadingDrawable loadingDrawable;
+    private boolean loadingDrawableBoundsSet;
     private CharSequence mainText;
     private StaticLayout mainTextLayout;
     private Theme.ResourcesProvider resourcesProvider;
     private CharSequence secondPartText;
     private StaticLayout secondPartTextLayout;
     private TextPaint textPaint;
-    private android.graphics.Rect emojiDrawableBounds = new android.graphics.Rect();
-    private boolean loadingDrawableBoundsSet = false;
-    private int lastWidth = -1;
-    public boolean checkWidth = true;
 
     /* loaded from: classes3.dex */
     private class BoldAndAccent extends CharacterStyle {
@@ -77,6 +77,10 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
         TLRPC$StickerSet tLRPC$StickerSet;
         ArrayList<TLRPC$Document> arrayList2;
         String formatPluralString;
+        this.emojiDrawableBounds = new android.graphics.Rect();
+        this.loadingDrawableBoundsSet = false;
+        this.lastWidth = -1;
+        this.checkWidth = true;
         this.loadT = 0.0f;
         this.currentAccount = i;
         setBackground(Theme.createRadSelectorDrawable(Theme.getColor("listSelectorSDK21", resourcesProvider), 0, 6));
@@ -170,7 +174,6 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
         StaticLayout staticLayout;
         float f;
         CharSequence charSequence = this.mainText;
-        int i2 = 0;
         if (charSequence != this.lastMainTextText || this.lastMainTextWidth != i) {
             if (charSequence != null) {
                 CharSequence charSequence2 = this.mainText;
@@ -186,8 +189,8 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
                         this.loadingBoundsFrom = new android.graphics.Rect();
                     }
                     android.graphics.Rect rect = this.loadingBoundsFrom;
-                    int i3 = this.lastLineMargin;
-                    rect.set(i3, this.lastLineTop, (int) (i3 + min), r1);
+                    int i2 = this.lastLineMargin;
+                    rect.set(i2, this.lastLineTop, (int) (i2 + min), r1);
                     this.loadingDrawable.setBounds(this.loadingBoundsFrom);
                     this.loadingDrawableBoundsSet = true;
                 }
@@ -210,15 +213,13 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
             this.lastSecondPartTextWidth = i;
         }
         StaticLayout staticLayout3 = this.mainTextLayout;
-        if (staticLayout3 != null) {
-            i2 = staticLayout3.getHeight();
-        }
+        int height = staticLayout3 != null ? staticLayout3.getHeight() : 0;
         if (this.secondPartTextLayout != null) {
             f = (staticLayout.getHeight() - this.lastLineHeight) * (z ? 1.0f : this.loadT);
         } else {
             f = 0.0f;
         }
-        return i2 + ((int) f);
+        return height + ((int) f);
     }
 
     @Override // android.widget.FrameLayout, android.view.View
@@ -276,7 +277,7 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:49:0x0048, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:20:0x0048, code lost:
         r1 = null;
      */
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate

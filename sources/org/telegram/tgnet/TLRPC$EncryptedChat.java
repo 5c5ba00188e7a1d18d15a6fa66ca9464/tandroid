@@ -252,12 +252,12 @@ public abstract class TLRPC$EncryptedChat extends TLObject {
                 tLRPC$EncryptedChat = null;
                 break;
         }
-        if (tLRPC$EncryptedChat != null || !z) {
-            if (tLRPC$EncryptedChat != null) {
-                tLRPC$EncryptedChat.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$EncryptedChat;
+        if (tLRPC$EncryptedChat == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in EncryptedChat", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in EncryptedChat", Integer.valueOf(i)));
+        if (tLRPC$EncryptedChat != null) {
+            tLRPC$EncryptedChat.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$EncryptedChat;
     }
 }

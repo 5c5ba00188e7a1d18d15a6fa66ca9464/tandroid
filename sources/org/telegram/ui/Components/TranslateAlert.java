@@ -33,7 +33,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
-import android.view.ViewPropertyAnimator;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
@@ -67,7 +66,7 @@ import org.telegram.ui.Components.LinkSpanDrawable;
 import org.telegram.ui.Components.TranslateAlert;
 /* loaded from: classes3.dex */
 public class TranslateAlert extends Dialog {
-    private static final int MOST_SPEC = View.MeasureSpec.makeMeasureSpec(999999, Integer.MIN_VALUE);
+    private static final int MOST_SPEC;
     private Spannable allTexts;
     private TextView allTextsView;
     private boolean allowScroll;
@@ -148,10 +147,10 @@ public class TranslateAlert extends Dialog {
 
     static {
         new DispatchQueue("translateQueue", false);
+        MOST_SPEC = View.MeasureSpec.makeMeasureSpec(999999, Integer.MIN_VALUE);
     }
 
     public void openAnimation(float f) {
-        float f2 = 1.0f;
         float min = Math.min(Math.max(f, 0.0f), 1.0f);
         if (this.containerOpenAnimationT == min) {
             return;
@@ -172,15 +171,11 @@ public class TranslateAlert extends Dialog {
         layoutParams3.setMargins(dp3, dp4, layoutParams4.rightMargin, layoutParams4.bottomMargin);
         this.subtitleView.setLayoutParams(this.subtitleLayout);
         this.backButton.setAlpha(min);
-        float f3 = (0.25f * min) + 0.75f;
-        this.backButton.setScaleX(f3);
-        this.backButton.setScaleY(f3);
+        float f2 = (0.25f * min) + 0.75f;
+        this.backButton.setScaleX(f2);
+        this.backButton.setScaleY(f2);
         this.backButton.setClickable(min > 0.5f);
-        FrameLayout frameLayout = this.headerShadowView;
-        if (this.scrollView.getScrollY() <= 0) {
-            f2 = min;
-        }
-        frameLayout.setAlpha(f2);
+        this.headerShadowView.setAlpha(this.scrollView.getScrollY() <= 0 ? min : 1.0f);
         this.headerLayout.height = AndroidUtilities.lerp(AndroidUtilities.dp(70.0f), AndroidUtilities.dp(56.0f), min);
         this.header.setLayoutParams(this.headerLayout);
         FrameLayout.LayoutParams layoutParams5 = this.scrollViewLayout;
@@ -264,16 +259,10 @@ public class TranslateAlert extends Dialog {
 
     public void updateCanExpand() {
         boolean canExpand = canExpand();
-        float f = 0.0f;
         if (this.containerOpenAnimationT > 0.0f && !canExpand) {
             openAnimationTo(0.0f, false);
         }
-        ViewPropertyAnimator alpha = this.buttonShadowView.animate().alpha(canExpand ? 1.0f : 0.0f);
-        float alpha2 = this.buttonShadowView.getAlpha();
-        if (canExpand) {
-            f = 1.0f;
-        }
-        alpha.setDuration(Math.abs(alpha2 - f) * 220.0f).start();
+        this.buttonShadowView.animate().alpha(canExpand ? 1.0f : 0.0f).setDuration(Math.abs(this.buttonShadowView.getAlpha() - (canExpand ? 1.0f : 0.0f)) * 220.0f).start();
     }
 
     public TranslateAlert(BaseFragment baseFragment, Context context, String str, String str2, CharSequence charSequence, boolean z, OnLinkPress onLinkPress, Runnable runnable) {
@@ -358,12 +347,13 @@ public class TranslateAlert extends Dialog {
         paint.setColor(Theme.getColor("dialogBackground"));
         paint.setShadowLayer(AndroidUtilities.dp(2.0f), 0.0f, AndroidUtilities.dp(-0.66f), 503316480);
         FrameLayout frameLayout2 = new FrameLayout(context) { // from class: org.telegram.ui.Components.TranslateAlert.2
+            private RectF containerRect;
             private int contentHeight = ConnectionsManager.DEFAULT_DATACENTER_ID;
-            private RectF containerRect = new RectF();
 
             {
                 TranslateAlert.this = this;
                 new Path();
+                this.containerRect = new RectF();
                 new RectF();
             }
 
@@ -798,27 +788,22 @@ public class TranslateAlert extends Dialog {
                     }
                     float f3 = AndroidUtilities.displayMetrics.heightPixels;
                     float min = Math.min(minHeight(), this.heightMaxPercent * f3);
-                    float f4 = -1.0f;
-                    float f5 = f3 - min;
-                    float min2 = ((1.0f - (-Math.min(Math.max(this.fromScrollY, -1.0f), 0.0f))) * min) + (Math.min(1.0f, Math.max(this.fromScrollY, 0.0f)) * f5) + f2;
-                    float f6 = min2 > min ? (min2 - min) / f5 : -(1.0f - (min2 / min));
+                    float f4 = f3 - min;
+                    float min2 = ((1.0f - (-Math.min(Math.max(this.fromScrollY, -1.0f), 0.0f))) * min) + (Math.min(1.0f, Math.max(this.fromScrollY, 0.0f)) * f4) + f2;
+                    float f5 = min2 > min ? (min2 - min) / f4 : -(1.0f - (min2 / min));
                     if (!canExpand()) {
-                        f6 = Math.min(f6, 0.0f);
+                        f5 = Math.min(f5, 0.0f);
                     }
                     updateCanExpand();
                     if (this.scrolling) {
-                        setScrollY(f6);
+                        setScrollY(f5);
                         if (motionEvent.getAction() == 1) {
                             this.scrolling = false;
                             this.allTextsView.setTextIsSelectable(!this.noforwards);
                             this.maybeScrolling = false;
                             this.allowScroll = true;
                             if (Math.abs(f2) > AndroidUtilities.dp(16.0f)) {
-                                float round2 = Math.round(this.fromScrollY);
-                                if (f6 > this.fromScrollY) {
-                                    f4 = 1.0f;
-                                }
-                                round = round2 + (f4 * ((float) Math.ceil(Math.abs(f - f6))));
+                                round = Math.round(this.fromScrollY) + ((f5 > this.fromScrollY ? 1.0f : -1.0f) * ((float) Math.ceil(Math.abs(f - f5))));
                             } else {
                                 round = Math.round(this.fromScrollY);
                             }
@@ -853,9 +838,7 @@ public class TranslateAlert extends Dialog {
 
     @Override // android.app.Dialog
     protected void onCreate(Bundle bundle) {
-        int color;
         super.onCreate(bundle);
-        boolean z = false;
         this.contentView.setPadding(0, 0, 0, 0);
         setContentView(this.contentView, new ViewGroup.LayoutParams(-1, -1));
         Window window = getWindow();
@@ -874,11 +857,9 @@ public class TranslateAlert extends Dialog {
         attributes.flags |= 256;
         attributes.height = -1;
         window.setAttributes(attributes);
-        AndroidUtilities.setNavigationBarColor(window, Theme.getColor("windowBackgroundWhite"));
-        if (AndroidUtilities.computePerceivedBrightness(color) > 0.721d) {
-            z = true;
-        }
-        AndroidUtilities.setLightNavigationBar(window, z);
+        int color = Theme.getColor("windowBackgroundWhite");
+        AndroidUtilities.setNavigationBarColor(window, color);
+        AndroidUtilities.setLightNavigationBar(window, ((double) AndroidUtilities.computePerceivedBrightness(color)) > 0.721d);
         this.container.forceLayout();
     }
 
@@ -985,8 +966,7 @@ public class TranslateAlert extends Dialog {
                 return;
             }
             inlineLoadingTextView.loaded(languageName(this.fromLanguage));
-        } else if (!this.loaded) {
-        } else {
+        } else if (this.loaded) {
             this.subtitleView.animate().alpha(0.0f).setDuration(150L).start();
         }
     }
@@ -1034,11 +1014,11 @@ public class TranslateAlert extends Dialog {
                         @Override // android.text.style.ClickableSpan
                         public void onClick(View view) {
                             if (TranslateAlert.this.onLinkPress != null) {
-                                if (!TranslateAlert.this.onLinkPress.run(uRLSpan)) {
+                                if (TranslateAlert.this.onLinkPress.run(uRLSpan)) {
+                                    TranslateAlert.this.fastHide = true;
+                                    TranslateAlert.this.dismiss();
                                     return;
                                 }
-                                TranslateAlert.this.fastHide = true;
-                                TranslateAlert.this.dismiss();
                                 return;
                             }
                             AlertsCreator.showOpenUrlAlert(TranslateAlert.this.fragment, uRLSpan.getURL(), false, false);
@@ -1181,9 +1161,7 @@ public class TranslateAlert extends Dialog {
         if (callback == null) {
             return;
         }
-        if (str == null || str.equals("und")) {
-            str = null;
-        }
+        str = (str == null || str.equals("und")) ? null : null;
         TLRPC$TL_messages_translateText tLRPC$TL_messages_translateText = new TLRPC$TL_messages_translateText();
         tLRPC$TL_messages_translateText.peer = tLRPC$InputPeer;
         tLRPC$TL_messages_translateText.msg_id = i2;
@@ -1218,9 +1196,7 @@ public class TranslateAlert extends Dialog {
         if (callback == null) {
             return;
         }
-        if (str2 == null || str2.equals("und")) {
-            str2 = null;
-        }
+        str2 = (str2 == null || str2.equals("und")) ? null : null;
         TLRPC$TL_messages_translateText tLRPC$TL_messages_translateText = new TLRPC$TL_messages_translateText();
         int i2 = tLRPC$TL_messages_translateText.flags | 2;
         tLRPC$TL_messages_translateText.flags = i2;
@@ -1348,16 +1324,13 @@ public class TranslateAlert extends Dialog {
         public void updateHeight() {
             int height = height();
             FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) getLayoutParams();
-            boolean z = true;
             if (layoutParams == null) {
                 layoutParams = new FrameLayout.LayoutParams(-1, height);
             } else {
-                if (layoutParams.height == height) {
-                    z = false;
-                }
+                r2 = layoutParams.height != height;
                 layoutParams.height = height;
             }
-            if (z) {
+            if (r2) {
                 setLayoutParams(layoutParams);
                 onHeightUpdated(height);
             }
@@ -1400,19 +1373,19 @@ public class TranslateAlert extends Dialog {
         public static final int paddingHorizontal = AndroidUtilities.dp(6.0f);
         private final TextView fromTextView;
         private final float gradientWidth;
+        private final Path inPath;
+        public boolean loaded;
+        private ValueAnimator loadedAnimator;
         private final ValueAnimator loadingAnimator;
         private final Paint loadingPaint;
+        private final Path loadingPath;
+        public float loadingT;
+        private final RectF rect;
+        private final Path shadePath;
+        public boolean showLoadingText;
+        private final long start;
+        private final Path tempPath;
         private final TextView toTextView;
-        public boolean showLoadingText = true;
-        private final long start = SystemClock.elapsedRealtime();
-        public boolean loaded = false;
-        public float loadingT = 0.0f;
-        private ValueAnimator loadedAnimator = null;
-        private final RectF rect = new RectF();
-        private final Path inPath = new Path();
-        private final Path tempPath = new Path();
-        private final Path loadingPath = new Path();
-        private final Path shadePath = new Path();
 
         @Override // android.view.ViewGroup
         protected boolean drawChild(Canvas canvas, View view, long j) {
@@ -1424,6 +1397,16 @@ public class TranslateAlert extends Dialog {
 
         public InlineLoadingTextView(Context context, CharSequence charSequence, int i, int i2) {
             super(context);
+            this.showLoadingText = true;
+            this.start = SystemClock.elapsedRealtime();
+            this.loaded = false;
+            this.loadingT = 0.0f;
+            this.loadedAnimator = null;
+            this.rect = new RectF();
+            this.inPath = new Path();
+            this.tempPath = new Path();
+            this.loadingPath = new Path();
+            this.shadePath = new Path();
             Paint paint = new Paint();
             this.loadingPaint = paint;
             float dp = AndroidUtilities.dp(350.0f);
@@ -1635,24 +1618,24 @@ public class TranslateAlert extends Dialog {
     public static class LoadingTextView2 extends ViewGroup {
         public static final int paddingHorizontal = AndroidUtilities.dp(6.0f);
         public static final int paddingVertical = AndroidUtilities.dp(1.5f);
+        private RectF fetchedPathRect;
         private final TextView fromTextView;
         private final float gradientWidth;
+        private final Path inPath;
+        int lastWidth;
+        public boolean loaded;
+        private ValueAnimator loadedAnimator;
         private final ValueAnimator loadingAnimator;
         private final Paint loadingPaint;
+        private final Path loadingPath;
+        private float loadingT;
+        private final RectF rect;
         private float scaleT;
+        private final Path shadePath;
+        public boolean showLoadingText;
+        private final long start;
+        private final Path tempPath;
         private final TextView toTextView;
-        public boolean showLoadingText = true;
-        private final long start = SystemClock.elapsedRealtime();
-        public boolean loaded = false;
-        private float loadingT = 0.0f;
-        private ValueAnimator loadedAnimator = null;
-        int lastWidth = 0;
-        private RectF fetchedPathRect = new RectF();
-        private final RectF rect = new RectF();
-        private final Path inPath = new Path();
-        private final Path tempPath = new Path();
-        private final Path loadingPath = new Path();
-        private final Path shadePath = new Path();
 
         @Override // android.view.ViewGroup
         protected boolean drawChild(Canvas canvas, View view, long j) {
@@ -1661,7 +1644,19 @@ public class TranslateAlert extends Dialog {
 
         public LoadingTextView2(Context context, CharSequence charSequence, final boolean z, int i, int i2) {
             super(context);
+            this.showLoadingText = true;
+            this.start = SystemClock.elapsedRealtime();
             this.scaleT = 1.0f;
+            this.loaded = false;
+            this.loadingT = 0.0f;
+            this.loadedAnimator = null;
+            this.lastWidth = 0;
+            this.fetchedPathRect = new RectF();
+            this.rect = new RectF();
+            this.inPath = new Path();
+            this.tempPath = new Path();
+            this.loadingPath = new Path();
+            this.shadePath = new Path();
             Paint paint = new Paint();
             this.loadingPaint = paint;
             float dp = AndroidUtilities.dp(350.0f);
@@ -1728,10 +1723,9 @@ public class TranslateAlert extends Dialog {
             if (z) {
                 boolean z2 = this.scaleT < 1.0f;
                 this.scaleT = Math.min(1.0f, ((float) (SystemClock.elapsedRealtime() - this.start)) / 400.0f);
-                if (!z2) {
-                    return;
+                if (z2) {
+                    updateHeight();
                 }
-                updateHeight();
             }
         }
 
@@ -1843,37 +1837,36 @@ public class TranslateAlert extends Dialog {
             }
             this.loadingPath.reset();
             Layout layout = this.fromTextView.getLayout();
-            if (layout == null) {
-                return;
-            }
-            CharSequence text = layout.getText();
-            int lineCount = layout.getLineCount();
-            for (int i = 0; i < lineCount; i++) {
-                float lineLeft = layout.getLineLeft(i);
-                float lineRight = layout.getLineRight(i);
-                float min = Math.min(lineLeft, lineRight);
-                float max = Math.max(lineLeft, lineRight);
-                int lineStart = layout.getLineStart(i);
-                int lineEnd = layout.getLineEnd(i);
-                while (true) {
-                    if (lineStart >= lineEnd) {
-                        z = false;
-                        break;
+            if (layout != null) {
+                CharSequence text = layout.getText();
+                int lineCount = layout.getLineCount();
+                for (int i = 0; i < lineCount; i++) {
+                    float lineLeft = layout.getLineLeft(i);
+                    float lineRight = layout.getLineRight(i);
+                    float min = Math.min(lineLeft, lineRight);
+                    float max = Math.max(lineLeft, lineRight);
+                    int lineStart = layout.getLineStart(i);
+                    int lineEnd = layout.getLineEnd(i);
+                    while (true) {
+                        if (lineStart >= lineEnd) {
+                            z = false;
+                            break;
+                        }
+                        char charAt = text.charAt(lineStart);
+                        if (charAt != '\n' && charAt != '\t' && charAt != ' ') {
+                            z = true;
+                            break;
+                        }
+                        lineStart++;
                     }
-                    char charAt = text.charAt(lineStart);
-                    if (charAt != '\n' && charAt != '\t' && charAt != ' ') {
-                        z = true;
-                        break;
+                    if (z) {
+                        RectF rectF = this.fetchedPathRect;
+                        int i2 = paddingHorizontal;
+                        int lineTop = layout.getLineTop(i);
+                        int i3 = paddingVertical;
+                        rectF.set(min - i2, lineTop - i3, max + i2, layout.getLineBottom(i) + i3);
+                        this.loadingPath.addRoundRect(this.fetchedPathRect, AndroidUtilities.dp(4.0f), AndroidUtilities.dp(4.0f), Path.Direction.CW);
                     }
-                    lineStart++;
-                }
-                if (z) {
-                    RectF rectF = this.fetchedPathRect;
-                    int i2 = paddingHorizontal;
-                    int lineTop = layout.getLineTop(i);
-                    int i3 = paddingVertical;
-                    rectF.set(min - i2, lineTop - i3, max + i2, layout.getLineBottom(i) + i3);
-                    this.loadingPath.addRoundRect(this.fetchedPathRect, AndroidUtilities.dp(4.0f), AndroidUtilities.dp(4.0f), Path.Direction.CW);
                 }
             }
         }

@@ -28,10 +28,9 @@ public interface DrmSession<T extends ExoMediaCrypto> {
             if (drmSession2 != null) {
                 drmSession2.acquire();
             }
-            if (drmSession == null) {
-                return;
+            if (drmSession != null) {
+                drmSession.release();
             }
-            drmSession.release();
         }
     }
 

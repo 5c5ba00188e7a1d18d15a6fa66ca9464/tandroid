@@ -60,12 +60,11 @@ public final class Metadata implements Parcelable {
         int i = 0;
         while (true) {
             Entry[] entryArr = this.entries;
-            if (i < entryArr.length) {
-                entryArr[i] = (Entry) parcel.readParcelable(Entry.class.getClassLoader());
-                i++;
-            } else {
+            if (i >= entryArr.length) {
                 return;
             }
+            entryArr[i] = (Entry) parcel.readParcelable(Entry.class.getClassLoader());
+            i++;
         }
     }
 
@@ -89,10 +88,10 @@ public final class Metadata implements Parcelable {
         if (this == obj) {
             return true;
         }
-        if (obj != null && Metadata.class == obj.getClass()) {
-            return Arrays.equals(this.entries, ((Metadata) obj).entries);
+        if (obj == null || Metadata.class != obj.getClass()) {
+            return false;
         }
-        return false;
+        return Arrays.equals(this.entries, ((Metadata) obj).entries);
     }
 
     public int hashCode() {

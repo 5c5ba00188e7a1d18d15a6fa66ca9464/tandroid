@@ -84,7 +84,6 @@ public class GigagroupConvertAlert extends BottomSheet {
         linearLayout.addView(linearLayout2, LayoutHelper.createLinear(-2, -2, 1, 0, 12, 0, 0));
         int i = 0;
         while (true) {
-            int i2 = 3;
             if (i < 3) {
                 LinearLayout linearLayout3 = new LinearLayout(context);
                 linearLayout3.setOrientation(0);
@@ -95,7 +94,7 @@ public class GigagroupConvertAlert extends BottomSheet {
                 TextView textView2 = new TextView(context);
                 textView2.setTextSize(1, 15.0f);
                 textView2.setTextColor(Theme.getColor("dialogTextGray3"));
-                textView2.setGravity((LocaleController.isRTL ? 5 : i2) | 16);
+                textView2.setGravity((LocaleController.isRTL ? 5 : 3) | 16);
                 textView2.setMaxWidth(AndroidUtilities.dp(260.0f));
                 if (i == 0) {
                     textView2.setText(LocaleController.getString("GigagroupConvertInfo1", R.string.GigagroupConvertInfo1));

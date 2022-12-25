@@ -29,13 +29,16 @@ public abstract class BaseProxy implements IInterface {
 
     /* JADX INFO: Access modifiers changed from: protected */
     public Parcel transactAndReadException(int code, Parcel in) throws RemoteException {
-        in = Parcel.obtain();
+        Parcel obtain = Parcel.obtain();
         try {
-            this.mRemote.transact(code, in, in, 0);
-            in.readException();
-            return in;
-        } catch (RuntimeException e) {
-            throw e;
+            try {
+                this.mRemote.transact(code, in, obtain, 0);
+                obtain.readException();
+                return obtain;
+            } catch (RuntimeException e) {
+                obtain.recycle();
+                throw e;
+            }
         } finally {
             in.recycle();
         }

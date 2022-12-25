@@ -58,9 +58,8 @@ public class MediaSource {
     }
 
     private void checkMediaSourceExists() {
-        if (this.nativeSource != 0) {
-            return;
+        if (this.nativeSource == 0) {
+            throw new IllegalStateException("MediaSource has been disposed.");
         }
-        throw new IllegalStateException("MediaSource has been disposed.");
     }
 }

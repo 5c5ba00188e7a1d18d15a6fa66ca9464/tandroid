@@ -97,6 +97,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
     private Runnable searchRunnable;
     private Runnable searchRunnable2;
     private boolean searchWas;
+    private long selfUserId;
     public View showMoreHeader;
     int waitingResponseCount;
     private ArrayList<Object> searchResult = new ArrayList<>();
@@ -119,7 +120,6 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
     private ArrayList<FiltersView.DateData> localTipDates = new ArrayList<>();
     boolean globalSearchCollapsed = true;
     boolean phoneCollapsed = true;
-    private long selfUserId = UserConfig.getInstance(this.currentAccount).getClientUserId();
 
     /* loaded from: classes3.dex */
     public static class DialogSearchResult {
@@ -298,6 +298,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         this.mContext = context;
         this.needMessagesSearch = i;
         this.dialogsType = i2;
+        this.selfUserId = UserConfig.getInstance(this.currentAccount).getClientUserId();
         loadRecentSearch();
         MediaDataController.getInstance(this.currentAccount).loadHints(true);
     }
@@ -959,7 +960,6 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         }
         this.searchWas = true;
         int size = this.filtered2RecentSearchObjects.size();
-        boolean z = false;
         int i2 = 0;
         while (i2 < arrayList.size()) {
             final Object obj = arrayList.get(i2);
@@ -986,14 +986,14 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
                 });
             }
             DialogsSearchAdapterDelegate dialogsSearchAdapterDelegate = this.delegate;
-            boolean z2 = dialogsSearchAdapterDelegate != null && dialogsSearchAdapterDelegate.getSearchForumDialogId() == j;
-            for (int i3 = 0; !z2 && i3 < size; i3++) {
+            boolean z = dialogsSearchAdapterDelegate != null && dialogsSearchAdapterDelegate.getSearchForumDialogId() == j;
+            for (int i3 = 0; !z && i3 < size; i3++) {
                 RecentSearchObject recentSearchObject = this.filtered2RecentSearchObjects.get(i3);
                 if (recentSearchObject != null && recentSearchObject.did == j) {
-                    z2 = true;
+                    z = true;
                 }
             }
-            if (z2) {
+            if (z) {
                 arrayList.remove(i2);
                 arrayList2.remove(i2);
                 i2--;
@@ -1006,14 +1006,10 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         this.searchAdapterHelper.mergeResults(arrayList, this.filtered2RecentSearchObjects);
         notifyDataSetChanged();
         DialogsSearchAdapterDelegate dialogsSearchAdapterDelegate2 = this.delegate;
-        if (dialogsSearchAdapterDelegate2 == null) {
-            return;
+        if (dialogsSearchAdapterDelegate2 != null) {
+            dialogsSearchAdapterDelegate2.searchStateChanged(this.waitingResponseCount > 0, true);
+            this.delegate.runResultsEnterAnimation();
         }
-        if (this.waitingResponseCount > 0) {
-            z = true;
-        }
-        dialogsSearchAdapterDelegate2.searchStateChanged(z, true);
-        this.delegate.runResultsEnterAnimation();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1044,99 +1040,100 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
     }
 
     public void searchDialogs(final String str, int i) {
-        if (str == null || !str.equals(this.lastSearchText) || (i != this.folderId && !TextUtils.isEmpty(str))) {
-            this.lastSearchText = str;
-            this.folderId = i;
-            if (this.searchRunnable != null) {
-                Utilities.searchQueue.cancelRunnable(this.searchRunnable);
-                this.searchRunnable = null;
+        if (str != null && str.equals(this.lastSearchText) && (i == this.folderId || TextUtils.isEmpty(str))) {
+            return;
+        }
+        this.lastSearchText = str;
+        this.folderId = i;
+        if (this.searchRunnable != null) {
+            Utilities.searchQueue.cancelRunnable(this.searchRunnable);
+            this.searchRunnable = null;
+        }
+        Runnable runnable = this.searchRunnable2;
+        if (runnable != null) {
+            AndroidUtilities.cancelRunOnUIThread(runnable);
+            this.searchRunnable2 = null;
+        }
+        final String trim = str != null ? str.trim() : null;
+        filterRecent(trim);
+        if (TextUtils.isEmpty(trim)) {
+            this.filteredRecentQuery = null;
+            this.searchAdapterHelper.unloadRecentHashtags();
+            this.searchResult.clear();
+            this.searchResultNames.clear();
+            this.searchResultHashtags.clear();
+            this.searchAdapterHelper.mergeResults(null, null);
+            SearchAdapterHelper searchAdapterHelper = this.searchAdapterHelper;
+            int i2 = this.dialogsType;
+            boolean z = i2 != 11;
+            boolean z2 = i2 != 11;
+            boolean z3 = i2 == 2 || i2 == 11;
+            boolean z4 = i2 == 0;
+            DialogsSearchAdapterDelegate dialogsSearchAdapterDelegate = this.delegate;
+            searchAdapterHelper.queryServerSearch(null, true, true, z, z2, z3, 0L, z4, 0, 0, dialogsSearchAdapterDelegate != null ? dialogsSearchAdapterDelegate.getSearchForumDialogId() : 0L);
+            this.searchWas = false;
+            this.lastSearchId = 0;
+            this.waitingResponseCount = 0;
+            this.globalSearchCollapsed = true;
+            this.phoneCollapsed = true;
+            DialogsSearchAdapterDelegate dialogsSearchAdapterDelegate2 = this.delegate;
+            if (dialogsSearchAdapterDelegate2 != null) {
+                dialogsSearchAdapterDelegate2.searchStateChanged(false, true);
             }
-            Runnable runnable = this.searchRunnable2;
-            if (runnable != null) {
-                AndroidUtilities.cancelRunOnUIThread(runnable);
-                this.searchRunnable2 = null;
-            }
-            final String trim = str != null ? str.trim() : null;
-            filterRecent(trim);
-            if (TextUtils.isEmpty(trim)) {
-                this.filteredRecentQuery = null;
-                this.searchAdapterHelper.unloadRecentHashtags();
-                this.searchResult.clear();
-                this.searchResultNames.clear();
-                this.searchResultHashtags.clear();
-                this.searchAdapterHelper.mergeResults(null, null);
-                SearchAdapterHelper searchAdapterHelper = this.searchAdapterHelper;
-                int i2 = this.dialogsType;
-                boolean z = i2 != 11;
-                boolean z2 = i2 != 11;
-                boolean z3 = i2 == 2 || i2 == 11;
-                boolean z4 = i2 == 0;
-                DialogsSearchAdapterDelegate dialogsSearchAdapterDelegate = this.delegate;
-                searchAdapterHelper.queryServerSearch(null, true, true, z, z2, z3, 0L, z4, 0, 0, dialogsSearchAdapterDelegate != null ? dialogsSearchAdapterDelegate.getSearchForumDialogId() : 0L);
-                this.searchWas = false;
-                this.lastSearchId = 0;
-                this.waitingResponseCount = 0;
-                this.globalSearchCollapsed = true;
-                this.phoneCollapsed = true;
-                DialogsSearchAdapterDelegate dialogsSearchAdapterDelegate2 = this.delegate;
-                if (dialogsSearchAdapterDelegate2 != null) {
-                    dialogsSearchAdapterDelegate2.searchStateChanged(false, true);
-                }
-                searchTopics(null);
-                searchMessagesInternal(null, 0);
-                searchForumMessagesInternal(null, 0);
-                notifyDataSetChanged();
-                this.localTipDates.clear();
-                this.localTipArchive = false;
-                FilteredSearchView.Delegate delegate = this.filtersDelegate;
-                if (delegate == null) {
-                    return;
-                }
+            searchTopics(null);
+            searchMessagesInternal(null, 0);
+            searchForumMessagesInternal(null, 0);
+            notifyDataSetChanged();
+            this.localTipDates.clear();
+            this.localTipArchive = false;
+            FilteredSearchView.Delegate delegate = this.filtersDelegate;
+            if (delegate != null) {
                 delegate.updateFiltersView(false, null, this.localTipDates, false);
                 return;
             }
-            this.searchAdapterHelper.mergeResults(this.searchResult, this.filtered2RecentSearchObjects);
-            if (this.needMessagesSearch != 2 && trim.startsWith("#") && trim.length() == 1) {
-                this.messagesSearchEndReached = true;
-                if (this.searchAdapterHelper.loadRecentHashtags()) {
-                    this.searchResultMessages.clear();
-                    this.searchResultHashtags.clear();
-                    ArrayList<SearchAdapterHelper.HashtagObject> hashtags = this.searchAdapterHelper.getHashtags();
-                    for (int i3 = 0; i3 < hashtags.size(); i3++) {
-                        this.searchResultHashtags.add(hashtags.get(i3).hashtag);
-                    }
-                    this.globalSearchCollapsed = true;
-                    this.phoneCollapsed = true;
-                    this.waitingResponseCount = 0;
-                    notifyDataSetChanged();
-                    DialogsSearchAdapterDelegate dialogsSearchAdapterDelegate3 = this.delegate;
-                    if (dialogsSearchAdapterDelegate3 != null) {
-                        dialogsSearchAdapterDelegate3.searchStateChanged(false, false);
-                    }
-                }
-            } else {
-                this.searchResultHashtags.clear();
-            }
-            final int i4 = this.lastSearchId + 1;
-            this.lastSearchId = i4;
-            this.waitingResponseCount = 3;
-            this.globalSearchCollapsed = true;
-            this.phoneCollapsed = true;
-            notifyDataSetChanged();
-            DialogsSearchAdapterDelegate dialogsSearchAdapterDelegate4 = this.delegate;
-            if (dialogsSearchAdapterDelegate4 != null) {
-                dialogsSearchAdapterDelegate4.searchStateChanged(true, false);
-            }
-            DispatchQueue dispatchQueue = Utilities.searchQueue;
-            Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda16
-                @Override // java.lang.Runnable
-                public final void run() {
-                    DialogsSearchAdapter.this.lambda$searchDialogs$16(trim, i4, str);
-                }
-            };
-            this.searchRunnable = runnable2;
-            dispatchQueue.postRunnable(runnable2, 300L);
+            return;
         }
+        this.searchAdapterHelper.mergeResults(this.searchResult, this.filtered2RecentSearchObjects);
+        if (this.needMessagesSearch != 2 && trim.startsWith("#") && trim.length() == 1) {
+            this.messagesSearchEndReached = true;
+            if (this.searchAdapterHelper.loadRecentHashtags()) {
+                this.searchResultMessages.clear();
+                this.searchResultHashtags.clear();
+                ArrayList<SearchAdapterHelper.HashtagObject> hashtags = this.searchAdapterHelper.getHashtags();
+                for (int i3 = 0; i3 < hashtags.size(); i3++) {
+                    this.searchResultHashtags.add(hashtags.get(i3).hashtag);
+                }
+                this.globalSearchCollapsed = true;
+                this.phoneCollapsed = true;
+                this.waitingResponseCount = 0;
+                notifyDataSetChanged();
+                DialogsSearchAdapterDelegate dialogsSearchAdapterDelegate3 = this.delegate;
+                if (dialogsSearchAdapterDelegate3 != null) {
+                    dialogsSearchAdapterDelegate3.searchStateChanged(false, false);
+                }
+            }
+        } else {
+            this.searchResultHashtags.clear();
+        }
+        final int i4 = this.lastSearchId + 1;
+        this.lastSearchId = i4;
+        this.waitingResponseCount = 3;
+        this.globalSearchCollapsed = true;
+        this.phoneCollapsed = true;
+        notifyDataSetChanged();
+        DialogsSearchAdapterDelegate dialogsSearchAdapterDelegate4 = this.delegate;
+        if (dialogsSearchAdapterDelegate4 != null) {
+            dialogsSearchAdapterDelegate4.searchStateChanged(true, false);
+        }
+        DispatchQueue dispatchQueue = Utilities.searchQueue;
+        Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda16
+            @Override // java.lang.Runnable
+            public final void run() {
+                DialogsSearchAdapter.this.lambda$searchDialogs$16(trim, i4, str);
+            }
+        };
+        this.searchRunnable = runnable2;
+        dispatchQueue.postRunnable(runnable2, 300L);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1187,11 +1184,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
     public int getRecentItemsCount() {
         ArrayList<RecentSearchObject> arrayList = this.searchWas ? this.filtered2RecentSearchObjects : this.filteredRecentSearchObjects;
         int i = 1;
-        int size = !arrayList.isEmpty() ? arrayList.size() + 1 : 0;
-        if (this.searchWas || MediaDataController.getInstance(this.currentAccount).hints.isEmpty()) {
-            i = 0;
-        }
-        return size + i;
+        return (!arrayList.isEmpty() ? arrayList.size() + 1 : 0) + ((this.searchWas || MediaDataController.getInstance(this.currentAccount).hints.isEmpty()) ? 0 : 0);
     }
 
     public int getRecentResultsCount() {
@@ -1272,10 +1265,10 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         int i2;
         Object chat;
         if (!this.searchResultHashtags.isEmpty()) {
-            if (i <= 0) {
-                return null;
+            if (i > 0) {
+                return this.searchResultHashtags.get(i - 1);
             }
-            return this.searchResultHashtags.get(i - 1);
+            return null;
         }
         int i3 = 0;
         if (isRecentSearchDisplayed()) {
@@ -1326,37 +1319,37 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         if (size4 > 4 && this.globalSearchCollapsed) {
             size4 = 4;
         }
-        if (i >= 0 && i < size) {
-            return this.searchResult.get(i);
-        }
-        int i5 = i - size;
-        if (i5 >= 0 && i5 < size2) {
+        if (i < 0 || i >= size) {
+            int i5 = i - size;
+            if (i5 < 0 || i5 >= size2) {
+                int i6 = i5 - size2;
+                if (i6 < 0 || i6 >= size3) {
+                    int i7 = i6 - size3;
+                    if (i7 > 0 && i7 < size4) {
+                        return globalSearch.get(i7 - 1);
+                    }
+                    int i8 = i7 - size4;
+                    int size5 = this.searchForumResultMessages.isEmpty() ? 0 : this.searchForumResultMessages.size() + 1;
+                    if (i8 > 0 && i8 <= this.searchForumResultMessages.size()) {
+                        return this.searchForumResultMessages.get(i8 - 1);
+                    }
+                    if (!this.localMessagesSearchEndReached && !this.searchForumResultMessages.isEmpty()) {
+                        i3 = 1;
+                    }
+                    int i9 = i8 - (size5 + i3);
+                    if (!this.searchResultMessages.isEmpty()) {
+                        this.searchResultMessages.size();
+                    }
+                    if (i9 <= 0 || i9 > this.searchResultMessages.size()) {
+                        return null;
+                    }
+                    return this.searchResultMessages.get(i9 - 1);
+                }
+                return phoneSearch.get(i6);
+            }
             return localServerSearch.get(i5);
         }
-        int i6 = i5 - size2;
-        if (i6 >= 0 && i6 < size3) {
-            return phoneSearch.get(i6);
-        }
-        int i7 = i6 - size3;
-        if (i7 > 0 && i7 < size4) {
-            return globalSearch.get(i7 - 1);
-        }
-        int i8 = i7 - size4;
-        int size5 = this.searchForumResultMessages.isEmpty() ? 0 : this.searchForumResultMessages.size() + 1;
-        if (i8 > 0 && i8 <= this.searchForumResultMessages.size()) {
-            return this.searchForumResultMessages.get(i8 - 1);
-        }
-        if (!this.localMessagesSearchEndReached && !this.searchForumResultMessages.isEmpty()) {
-            i3 = 1;
-        }
-        int i9 = i8 - (size5 + i3);
-        if (!this.searchResultMessages.isEmpty()) {
-            this.searchResultMessages.size();
-        }
-        if (i9 > 0 && i9 <= this.searchResultMessages.size()) {
-            return this.searchResultMessages.get(i9 - 1);
-        }
-        return null;
+        return this.searchResult.get(i);
     }
 
     public boolean isGlobalSearch(int i) {
@@ -1382,29 +1375,29 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
                 size4 = 4;
             }
             int size5 = this.searchContacts.size();
-            if (i >= 0 && i < size5) {
+            if (i < 0 || i >= size5) {
+                int i3 = i - (size5 + 1);
+                if (i3 < 0 || i3 >= size) {
+                    int i4 = i3 - size;
+                    if (i4 < 0 || i4 >= size2) {
+                        int i5 = i4 - size2;
+                        if (i5 <= 0 || i5 >= size3) {
+                            int i6 = i5 - size3;
+                            if (i6 <= 0 || i6 >= size4) {
+                                int i7 = i6 - size4;
+                                int size6 = this.searchForumResultMessages.isEmpty() ? 0 : this.searchForumResultMessages.size() + 1;
+                                if ((i7 <= 0 || i7 >= size6) && !this.searchResultMessages.isEmpty()) {
+                                    this.searchResultMessages.size();
+                                }
+                                return false;
+                            }
+                            return true;
+                        }
+                        return false;
+                    }
+                    return false;
+                }
                 return false;
-            }
-            int i3 = i - (size5 + 1);
-            if (i3 >= 0 && i3 < size) {
-                return false;
-            }
-            int i4 = i3 - size;
-            if (i4 >= 0 && i4 < size2) {
-                return false;
-            }
-            int i5 = i4 - size2;
-            if (i5 > 0 && i5 < size3) {
-                return false;
-            }
-            int i6 = i5 - size3;
-            if (i6 > 0 && i6 < size4) {
-                return true;
-            }
-            int i7 = i6 - size4;
-            int size6 = this.searchForumResultMessages.isEmpty() ? 0 : this.searchForumResultMessages.size() + 1;
-            if ((i7 <= 0 || i7 >= size6) && !this.searchResultMessages.isEmpty()) {
-                this.searchResultMessages.size();
             }
             return false;
         }
@@ -1529,19 +1522,19 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         return new RecyclerListView.Holder(flickerLoadingView);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:189:0x0480, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:200:0x0480, code lost:
         if (r8.startsWith("@" + r7) != false) goto L190;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:192:0x048a  */
-    /* JADX WARN: Removed duplicated region for block: B:224:0x0512  */
-    /* JADX WARN: Removed duplicated region for block: B:228:0x0530  */
-    /* JADX WARN: Removed duplicated region for block: B:237:0x0557  */
-    /* JADX WARN: Removed duplicated region for block: B:238:0x0562  */
-    /* JADX WARN: Removed duplicated region for block: B:243:0x0584  */
-    /* JADX WARN: Removed duplicated region for block: B:246:0x05a1  */
-    /* JADX WARN: Removed duplicated region for block: B:249:0x0586  */
-    /* JADX WARN: Removed duplicated region for block: B:254:0x0528  */
+    /* JADX WARN: Removed duplicated region for block: B:206:0x048a  */
+    /* JADX WARN: Removed duplicated region for block: B:242:0x0512  */
+    /* JADX WARN: Removed duplicated region for block: B:245:0x0528  */
+    /* JADX WARN: Removed duplicated region for block: B:248:0x0530  */
+    /* JADX WARN: Removed duplicated region for block: B:258:0x0557  */
+    /* JADX WARN: Removed duplicated region for block: B:259:0x0562  */
+    /* JADX WARN: Removed duplicated region for block: B:266:0x0584  */
+    /* JADX WARN: Removed duplicated region for block: B:267:0x0586  */
+    /* JADX WARN: Removed duplicated region for block: B:270:0x05a1  */
     /* JADX WARN: Type inference failed for: r2v12, types: [android.text.SpannableStringBuilder] */
     /* JADX WARN: Type inference failed for: r2v15, types: [java.lang.CharSequence] */
     /* JADX WARN: Type inference failed for: r2v16 */
@@ -1577,7 +1570,6 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         final int i3 = i;
         int i4 = 4;
         final Runnable runnable = null;
-        boolean z5 = false;
         switch (viewHolder.getItemViewType()) {
             case 0:
                 ProfileSearchCell profileSearchCell = (ProfileSearchCell) viewHolder.itemView;
@@ -1708,11 +1700,11 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
                                 if (!(str3 instanceof SpannableStringBuilder)) {
                                     ((SpannableStringBuilder) str3).append((CharSequence) ", ").append(formatPluralStringComma);
                                 } else {
-                                    if (!TextUtils.isEmpty(str3)) {
+                                    if (TextUtils.isEmpty(str3)) {
                                         z4 = false;
-                                        formatPluralStringComma = TextUtils.concat(str3, ", ", formatPluralStringComma);
                                     } else {
                                         z4 = false;
+                                        formatPluralStringComma = TextUtils.concat(str3, ", ", formatPluralStringComma);
                                     }
                                     str5 = formatPluralStringComma;
                                     profileSearchCell.setData(tLRPC$User == null ? tLRPC$User : tLRPC$Chat, tLRPC$EncryptedChat, str4, str5, true, z3);
@@ -1788,7 +1780,9 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
                     });
                     return;
                 }
-                if (isRecentSearchDisplayed() || !this.searchTopics.isEmpty() || !this.searchContacts.isEmpty()) {
+                if (!isRecentSearchDisplayed() && this.searchTopics.isEmpty() && this.searchContacts.isEmpty()) {
+                    recentItemsCount = i3;
+                } else {
                     int i6 = (this.searchWas || MediaDataController.getInstance(this.currentAccount).hints.isEmpty()) ? 0 : 1;
                     if (i3 < i6) {
                         graySectionCell.setText(LocaleController.getString("ChatHints", R.string.ChatHints));
@@ -1818,8 +1812,6 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
                         }
                         recentItemsCount = i3 - getRecentItemsCount();
                     }
-                } else {
-                    recentItemsCount = i3;
                 }
                 final ArrayList<TLObject> globalSearch2 = this.searchAdapterHelper.getGlobalSearch();
                 int size5 = this.searchResult.size();
@@ -1836,11 +1828,11 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
                 if (!this.searchResultMessages.isEmpty()) {
                     this.searchResultMessages.size();
                 }
-                if (!this.searchTopics.isEmpty()) {
+                if (this.searchTopics.isEmpty()) {
+                    str7 = null;
+                } else {
                     str7 = recentItemsCount == 0 ? LocaleController.getString("Topics", R.string.Topics) : null;
                     recentItemsCount -= this.searchTopics.size() + 1;
-                } else {
-                    str7 = null;
                 }
                 if (!this.searchContacts.isEmpty()) {
                     if (recentItemsCount == 0) {
@@ -1855,7 +1847,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
                         if (i8 >= 0 && i8 < i4) {
                             str7 = LocaleController.getString("GlobalSearch", R.string.GlobalSearch);
                             if (this.searchAdapterHelper.getGlobalSearch().size() > 3) {
-                                z5 = this.globalSearchCollapsed;
+                                r10 = this.globalSearchCollapsed;
                                 runnable = new Runnable() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda18
                                     @Override // java.lang.Runnable
                                     public final void run() {
@@ -1875,7 +1867,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
                     } else {
                         str7 = LocaleController.getString("PhoneNumberSearch", R.string.PhoneNumberSearch);
                         if (this.searchAdapterHelper.getPhoneSearch().size() > 3) {
-                            z5 = this.phoneCollapsed;
+                            r10 = this.phoneCollapsed;
                             runnable = new Runnable() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda19
                                 @Override // java.lang.Runnable
                                 public final void run() {
@@ -1889,7 +1881,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
                     graySectionCell.setText(str7);
                     return;
                 }
-                if (z5) {
+                if (r10) {
                     i2 = R.string.ShowMore;
                     str8 = "ShowMore";
                 } else {
@@ -1906,10 +1898,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
             case 2:
                 DialogCell dialogCell = (DialogCell) viewHolder.itemView;
                 dialogCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
-                if (i3 != getItemCount() - 1) {
-                    z5 = true;
-                }
-                dialogCell.useSeparator = z5;
+                dialogCell.useSeparator = i3 != getItemCount() - 1;
                 MessageObject messageObject = (MessageObject) getItem(i3);
                 dialogCell.useFromUserAsAvatar = this.searchForumResultMessages.contains(messageObject);
                 if (messageObject == null) {
@@ -1929,10 +1918,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
                 HashtagSearchCell hashtagSearchCell = (HashtagSearchCell) viewHolder.itemView;
                 hashtagSearchCell.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
                 hashtagSearchCell.setText(this.searchResultHashtags.get(i3 - 1));
-                if (i3 != this.searchResultHashtags.size()) {
-                    z5 = true;
-                }
-                hashtagSearchCell.setNeedDivider(z5);
+                hashtagSearchCell.setNeedDivider(i3 != this.searchResultHashtags.size());
                 return;
             case 6:
                 ((CategoryAdapterRecycler) ((RecyclerListView) viewHolder.itemView).getAdapter()).setIndex(i3 / 2);
@@ -2004,13 +1990,8 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         boolean z = getItemCount() > (Math.min(size, this.globalSearchCollapsed ? 4 : ConnectionsManager.DEFAULT_DATACENTER_ID) + i) + 1;
         DefaultItemAnimator defaultItemAnimator = this.itemAnimator;
         if (defaultItemAnimator != null) {
-            long j = 200;
             defaultItemAnimator.setAddDuration(z ? 45L : 200L);
-            DefaultItemAnimator defaultItemAnimator2 = this.itemAnimator;
-            if (z) {
-                j = 80;
-            }
-            defaultItemAnimator2.setRemoveDuration(j);
+            this.itemAnimator.setRemoveDuration(z ? 80L : 200L);
             this.itemAnimator.setRemoveDelay(z ? 270L : 0L);
         }
         boolean z2 = !this.globalSearchCollapsed;
@@ -2090,19 +2071,19 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:100:0x0139, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:111:0x0139, code lost:
         if (r10 != 0) goto L102;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:101:0x013b, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:112:0x013b, code lost:
         return 1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:102:0x013c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:113:0x013c, code lost:
         if (r10 != r8) goto L104;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:103:0x013e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:114:0x013e, code lost:
         return 4;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:104:0x013f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:115:0x013f, code lost:
         return 2;
      */
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -2167,37 +2148,37 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
             size5 = 0;
         }
         int size6 = this.searchForumResultMessages.isEmpty() ? 0 : this.searchForumResultMessages.size() + 1;
-        if (i >= 0 && i < size) {
-            return 0;
-        }
-        int i4 = i - size;
-        if (i4 >= 0 && i4 < size2) {
-            return 0;
-        }
-        int i5 = i4 - size2;
-        if (i5 >= 0 && i5 < i3) {
-            Object item = getItem(i5);
-            if (!(item instanceof String)) {
-                return 0;
-            }
-            return "section".equals((String) item) ? 1 : 7;
-        }
-        int i6 = i5 - i3;
-        if (i6 >= 0 && i6 < size4) {
-            return i6 == 0 ? 1 : 0;
-        }
-        int i7 = i6 - size4;
-        if (size6 > 0) {
-            if (i7 >= 0) {
-                if (this.localMessagesSearchEndReached) {
+        if (i < 0 || i >= size) {
+            int i4 = i - size;
+            if (i4 < 0 || i4 >= size2) {
+                int i5 = i4 - size2;
+                if (i5 >= 0 && i5 < i3) {
+                    Object item = getItem(i5);
+                    if (item instanceof String) {
+                        return "section".equals((String) item) ? 1 : 7;
+                    }
+                    return 0;
                 }
+                int i6 = i5 - i3;
+                if (i6 >= 0 && i6 < size4) {
+                    return i6 == 0 ? 1 : 0;
+                }
+                int i7 = i6 - size4;
+                if (size6 > 0) {
+                    if (i7 >= 0) {
+                        if (this.localMessagesSearchEndReached) {
+                        }
+                    }
+                    i7 -= size6 + (!this.localMessagesSearchEndReached ? 1 : 0);
+                }
+                if (i7 < 0 || i7 >= size5) {
+                    return 4;
+                }
+                return i7 == 0 ? 1 : 2;
             }
-            i7 -= size6 + (!this.localMessagesSearchEndReached ? 1 : 0);
+            return 0;
         }
-        if (i7 < 0 || i7 >= size5) {
-            return 4;
-        }
-        return i7 == 0 ? 1 : 2;
+        return 0;
     }
 
     public void setFiltersDelegate(FilteredSearchView.Delegate delegate, boolean z) {

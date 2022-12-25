@@ -26,26 +26,23 @@ public final class zzw<TResult> extends Task<TResult> {
 
     @GuardedBy("mLock")
     private final void zzg() {
-        if (!this.zzd) {
-            return;
+        if (this.zzd) {
+            throw new CancellationException("Task is already canceled.");
         }
-        throw new CancellationException("Task is already canceled.");
     }
 
     @GuardedBy("mLock")
     private final void zzh() {
-        if (!this.zzc) {
-            return;
+        if (this.zzc) {
+            throw DuplicateTaskCompletionException.of(this);
         }
-        throw DuplicateTaskCompletionException.of(this);
     }
 
     private final void zzi() {
         synchronized (this.zza) {
-            if (!this.zzc) {
-                return;
+            if (this.zzc) {
+                this.zzb.zzb(this);
             }
-            this.zzb.zzb(this);
         }
     }
 

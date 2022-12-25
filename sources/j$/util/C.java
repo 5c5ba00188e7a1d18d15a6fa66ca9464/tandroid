@@ -39,13 +39,12 @@ final class C implements t {
             return;
         }
         this.b = i2;
-        if (i >= i2) {
-            return;
+        if (i < i2) {
+            do {
+                fVar.accept(dArr[i]);
+                i++;
+            } while (i < i2);
         }
-        do {
-            fVar.accept(dArr[i]);
-            i++;
-        } while (i < i2);
     }
 
     @Override // j$.util.u

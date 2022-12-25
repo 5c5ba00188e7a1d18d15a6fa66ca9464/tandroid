@@ -231,12 +231,12 @@ public abstract class TLRPC$BotInlineMessage extends TLObject {
                 tLRPC$TL_botInlineMessageMediaVenue = null;
                 break;
         }
-        if (tLRPC$TL_botInlineMessageMediaVenue != null || !z) {
-            if (tLRPC$TL_botInlineMessageMediaVenue != null) {
-                tLRPC$TL_botInlineMessageMediaVenue.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_botInlineMessageMediaVenue;
+        if (tLRPC$TL_botInlineMessageMediaVenue == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in BotInlineMessage", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in BotInlineMessage", Integer.valueOf(i)));
+        if (tLRPC$TL_botInlineMessageMediaVenue != null) {
+            tLRPC$TL_botInlineMessageMediaVenue.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_botInlineMessageMediaVenue;
     }
 }

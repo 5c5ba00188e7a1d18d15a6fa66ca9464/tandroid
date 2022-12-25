@@ -18,10 +18,10 @@ public class SoftwareVideoDecoderFactory implements VideoDecoderFactory {
         if (videoCodecInfo.getName().equalsIgnoreCase("VP9") && LibvpxVp9Decoder.nativeIsSupported()) {
             return new LibvpxVp9Decoder();
         }
-        if (!videoCodecInfo.getName().equalsIgnoreCase("H264")) {
-            return null;
+        if (videoCodecInfo.getName().equalsIgnoreCase("H264")) {
+            return new OpenH264Decoder();
         }
-        return new OpenH264Decoder();
+        return null;
     }
 
     @Override // org.webrtc.VideoDecoderFactory

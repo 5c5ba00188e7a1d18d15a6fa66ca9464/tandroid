@@ -42,11 +42,11 @@ public final class ClippingMediaPeriod implements MediaPeriod, MediaPeriod.Callb
         return this.mediaPeriod.getTrackGroups();
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:25:0x0062, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:24:0x0062, code lost:
         if (r2 > r4) goto L26;
      */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x0052  */
-    /* JADX WARN: Removed duplicated region for block: B:30:0x006e  */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x0052  */
+    /* JADX WARN: Removed duplicated region for block: B:31:0x006e  */
     @Override // com.google.android.exoplayer2.source.MediaPeriod
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -159,7 +159,7 @@ public final class ClippingMediaPeriod implements MediaPeriod, MediaPeriod.Callb
         return Long.MIN_VALUE;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:17:0x0032, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:15:0x0032, code lost:
         if (r0 > r7) goto L18;
      */
     @Override // com.google.android.exoplayer2.source.MediaPeriod
@@ -292,14 +292,10 @@ public final class ClippingMediaPeriod implements MediaPeriod, MediaPeriod.Callb
                 int i = format.encoderDelay;
                 if (i != 0 || format.encoderPadding != 0) {
                     ClippingMediaPeriod clippingMediaPeriod = ClippingMediaPeriod.this;
-                    int i2 = 0;
                     if (clippingMediaPeriod.startUs != 0) {
                         i = 0;
                     }
-                    if (clippingMediaPeriod.endUs == Long.MIN_VALUE) {
-                        i2 = format.encoderPadding;
-                    }
-                    formatHolder.format = format.copyWithGaplessInfo(i, i2);
+                    formatHolder.format = format.copyWithGaplessInfo(i, clippingMediaPeriod.endUs == Long.MIN_VALUE ? format.encoderPadding : 0);
                 }
                 return -5;
             }

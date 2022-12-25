@@ -127,10 +127,10 @@ public final class NalUnitUtil {
     }
 
     public static boolean isNalUnitSei(String str, byte b) {
-        if (!MediaController.VIDEO_MIME_TYPE.equals(str) || (b & 31) != 6) {
-            return "video/hevc".equals(str) && ((b & 126) >> 1) == 39;
+        if (MediaController.VIDEO_MIME_TYPE.equals(str) && (b & 31) == 6) {
+            return true;
         }
-        return true;
+        return "video/hevc".equals(str) && ((b & 126) >> 1) == 39;
     }
 
     public static int getNalUnitType(byte[] bArr, int i) {
@@ -141,11 +141,10 @@ public final class NalUnitUtil {
         return (bArr[i + 3] & 126) >> 1;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:28:0x00d6  */
-    /* JADX WARN: Removed duplicated region for block: B:31:0x00e8  */
-    /* JADX WARN: Removed duplicated region for block: B:48:0x0136  */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x0149  */
-    /* JADX WARN: Type inference failed for: r16v0, types: [boolean, int] */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x00d6  */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x00e8  */
+    /* JADX WARN: Removed duplicated region for block: B:76:0x0136  */
+    /* JADX WARN: Removed duplicated region for block: B:81:0x0149  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -154,7 +153,7 @@ public final class NalUnitUtil {
         boolean readBit;
         int i3;
         boolean z;
-        ?? readBit2;
+        boolean readBit2;
         float f;
         int readBits;
         int i4;
@@ -205,8 +204,8 @@ public final class NalUnitUtil {
             parsableNalUnitBitArray.skipBit();
             int readUnsignedExpGolombCodedInt6 = parsableNalUnitBitArray.readUnsignedExpGolombCodedInt() + 1;
             readBit2 = parsableNalUnitBitArray.readBit();
-            int readUnsignedExpGolombCodedInt7 = (2 - (readBit2 == true ? 1 : 0)) * (parsableNalUnitBitArray.readUnsignedExpGolombCodedInt() + 1);
-            if (readBit2 == 0) {
+            int readUnsignedExpGolombCodedInt7 = (2 - (readBit2 ? 1 : 0)) * (parsableNalUnitBitArray.readUnsignedExpGolombCodedInt() + 1);
+            if (!readBit2) {
                 parsableNalUnitBitArray.skipBit();
             }
             parsableNalUnitBitArray.skipBit();
@@ -218,7 +217,7 @@ public final class NalUnitUtil {
                 int readUnsignedExpGolombCodedInt10 = parsableNalUnitBitArray.readUnsignedExpGolombCodedInt();
                 int readUnsignedExpGolombCodedInt11 = parsableNalUnitBitArray.readUnsignedExpGolombCodedInt();
                 if (readUnsignedExpGolombCodedInt == 0) {
-                    i6 = 2 - readBit2;
+                    i6 = 2 - (readBit2 ? 1 : 0);
                 } else {
                     if (readUnsignedExpGolombCodedInt == 3) {
                         i4 = 1;
@@ -230,7 +229,7 @@ public final class NalUnitUtil {
                     if (readUnsignedExpGolombCodedInt == i4) {
                         i4 = 2;
                     }
-                    i6 = (2 - readBit2) * i4;
+                    i6 = (2 - (readBit2 ? 1 : 0)) * i4;
                     i7 = i5;
                 }
                 i11 -= (readUnsignedExpGolombCodedInt8 + readUnsignedExpGolombCodedInt9) * i7;
@@ -268,8 +267,8 @@ public final class NalUnitUtil {
         parsableNalUnitBitArray.skipBit();
         int readUnsignedExpGolombCodedInt62 = parsableNalUnitBitArray.readUnsignedExpGolombCodedInt() + 1;
         readBit2 = parsableNalUnitBitArray.readBit();
-        int readUnsignedExpGolombCodedInt72 = (2 - (readBit2 == true ? 1 : 0)) * (parsableNalUnitBitArray.readUnsignedExpGolombCodedInt() + 1);
-        if (readBit2 == 0) {
+        int readUnsignedExpGolombCodedInt72 = (2 - (readBit2 ? 1 : 0)) * (parsableNalUnitBitArray.readUnsignedExpGolombCodedInt() + 1);
+        if (!readBit2) {
         }
         parsableNalUnitBitArray.skipBit();
         int i112 = readUnsignedExpGolombCodedInt62 * 16;
@@ -298,7 +297,7 @@ public final class NalUnitUtil {
         return new PpsData(readUnsignedExpGolombCodedInt, readUnsignedExpGolombCodedInt2, parsableNalUnitBitArray.readBit());
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:57:0x0097, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:69:0x0097, code lost:
         r8 = true;
      */
     /*
@@ -306,7 +305,6 @@ public final class NalUnitUtil {
     */
     public static int findNalUnit(byte[] bArr, int i, int i2, boolean[] zArr) {
         int i3 = i2 - i;
-        boolean z = false;
         Assertions.checkState(i3 >= 0);
         if (i3 == 0) {
             return i2;
@@ -339,13 +337,10 @@ public final class NalUnitUtil {
             i5 += 3;
         }
         if (zArr != null) {
-            boolean z2 = i3 > 2 ? false : false;
-            zArr[0] = z2;
-            zArr[1] = i3 <= 1 ? !(!zArr[2] || bArr[i4] != 0) : bArr[i2 + (-2)] == 0 && bArr[i4] == 0;
-            if (bArr[i4] == 0) {
-                z = true;
-            }
-            zArr[2] = z;
+            boolean z = i3 > 2 ? false : false;
+            zArr[0] = z;
+            zArr[1] = i3 <= 1 ? zArr[2] && bArr[i4] == 0 : bArr[i2 + (-2)] == 0 && bArr[i4] == 0;
+            zArr[2] = bArr[i4] == 0;
         }
         return i2;
     }

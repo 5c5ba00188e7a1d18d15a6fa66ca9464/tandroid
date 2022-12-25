@@ -146,12 +146,12 @@ public abstract class TLRPC$StickerSetCovered extends TLObject {
                 tLRPC$StickerSetCovered = null;
                 break;
         }
-        if (tLRPC$StickerSetCovered != null || !z) {
-            if (tLRPC$StickerSetCovered != null) {
-                tLRPC$StickerSetCovered.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$StickerSetCovered;
+        if (tLRPC$StickerSetCovered == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in StickerSetCovered", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in StickerSetCovered", Integer.valueOf(i)));
+        if (tLRPC$StickerSetCovered != null) {
+            tLRPC$StickerSetCovered.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$StickerSetCovered;
     }
 }

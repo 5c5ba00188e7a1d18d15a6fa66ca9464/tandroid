@@ -21,13 +21,13 @@ public final class zzo {
 
     public static String zzb(int i) {
         if (i != 0) {
-            if (i == 1) {
-                return "GRANULARITY_COARSE";
-            }
-            if (i != 2) {
+            if (i != 1) {
+                if (i == 2) {
+                    return "GRANULARITY_FINE";
+                }
                 throw new IllegalArgumentException();
             }
-            return "GRANULARITY_FINE";
+            return "GRANULARITY_COARSE";
         }
         return "GRANULARITY_PERMISSION_LEVEL";
     }

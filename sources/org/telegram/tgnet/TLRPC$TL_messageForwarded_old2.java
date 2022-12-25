@@ -9,14 +9,10 @@ public class TLRPC$TL_messageForwarded_old2 extends TLRPC$Message {
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
         int readInt32 = abstractSerializedData.readInt32(z);
         this.flags = readInt32;
-        boolean z2 = false;
         this.unread = (readInt32 & 1) != 0;
         this.out = (readInt32 & 2) != 0;
         this.mentioned = (readInt32 & 16) != 0;
-        if ((readInt32 & 32) != 0) {
-            z2 = true;
-        }
-        this.media_unread = z2;
+        this.media_unread = (readInt32 & 32) != 0;
         this.id = abstractSerializedData.readInt32(z);
         TLRPC$TL_messageFwdHeader tLRPC$TL_messageFwdHeader = new TLRPC$TL_messageFwdHeader();
         this.fwd_from = tLRPC$TL_messageFwdHeader;

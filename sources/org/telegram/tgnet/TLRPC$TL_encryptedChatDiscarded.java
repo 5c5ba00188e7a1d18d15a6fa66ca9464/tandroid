@@ -7,11 +7,7 @@ public class TLRPC$TL_encryptedChatDiscarded extends TLRPC$EncryptedChat {
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
         int readInt32 = abstractSerializedData.readInt32(z);
         this.flags = readInt32;
-        boolean z2 = true;
-        if ((readInt32 & 1) == 0) {
-            z2 = false;
-        }
-        this.history_deleted = z2;
+        this.history_deleted = (readInt32 & 1) != 0;
         this.id = abstractSerializedData.readInt32(z);
     }
 

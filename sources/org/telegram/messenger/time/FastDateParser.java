@@ -157,11 +157,11 @@ public class FastDateParser implements DateParser, Serializable {
     }
 
     public boolean equals(Object obj) {
-        if (!(obj instanceof FastDateParser)) {
-            return false;
+        if (obj instanceof FastDateParser) {
+            FastDateParser fastDateParser = (FastDateParser) obj;
+            return this.pattern.equals(fastDateParser.pattern) && this.timeZone.equals(fastDateParser.timeZone) && this.locale.equals(fastDateParser.locale);
         }
-        FastDateParser fastDateParser = (FastDateParser) obj;
-        return this.pattern.equals(fastDateParser.pattern) && this.timeZone.equals(fastDateParser.timeZone) && this.locale.equals(fastDateParser.locale);
+        return false;
     }
 
     public int hashCode() {
@@ -237,14 +237,14 @@ public class FastDateParser implements DateParser, Serializable {
                         charAt = 'Q';
                     }
                 }
-            } else if (!z) {
-                continue;
-            } else {
+            } else if (z) {
                 i++;
                 if (i == str.length()) {
                     return sb;
                 }
                 charAt = str.charAt(i);
+            } else {
+                continue;
             }
             sb.append(charAt);
             i++;
@@ -260,10 +260,10 @@ public class FastDateParser implements DateParser, Serializable {
                 return z ? dateFormatSymbols.getMonths() : dateFormatSymbols.getShortMonths();
             } else if (i == 7) {
                 return z ? dateFormatSymbols.getWeekdays() : dateFormatSymbols.getShortWeekdays();
-            } else if (i == 9) {
-                return dateFormatSymbols.getAmPmStrings();
-            } else {
+            } else if (i != 9) {
                 return null;
+            } else {
+                return dateFormatSymbols.getAmPmStrings();
             }
         }
         return dateFormatSymbols.getEras();
@@ -523,12 +523,13 @@ public class FastDateParser implements DateParser, Serializable {
         private static final int LONG_STD = 1;
         private static final int SHORT_DST = 4;
         private static final int SHORT_STD = 2;
-        private final SortedMap<String, TimeZone> tzNames = new TreeMap(String.CASE_INSENSITIVE_ORDER);
+        private final SortedMap<String, TimeZone> tzNames;
         private final String validTimeZoneChars;
 
         TimeZoneStrategy(Locale locale) {
             super();
             String[][] zoneStrings;
+            this.tzNames = new TreeMap(String.CASE_INSENSITIVE_ORDER);
             for (String[] strArr : DateFormatSymbols.getInstance(locale).getZoneStrings()) {
                 if (!strArr[0].startsWith("GMT")) {
                     TimeZone timeZone = DesugarTimeZone.getTimeZone(strArr[0]);

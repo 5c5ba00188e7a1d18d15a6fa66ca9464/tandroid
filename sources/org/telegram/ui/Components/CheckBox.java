@@ -34,14 +34,16 @@ public class CheckBox extends View {
     private boolean drawBackground;
     private Bitmap drawBitmap;
     private boolean hasBorder;
+    private boolean isCheckAnimation;
     private boolean isChecked;
     private float progress;
+    private int size;
     private TextPaint textPaint;
-    private boolean isCheckAnimation = true;
-    private int size = 22;
 
     public CheckBox(Context context, int i) {
         super(context);
+        this.isCheckAnimation = true;
+        this.size = 22;
         if (paint == null) {
             paint = new Paint(1);
             Paint paint2 = new Paint(1);
@@ -157,9 +159,10 @@ public class CheckBox extends View {
                 if (animator.equals(CheckBox.this.checkAnimator)) {
                     CheckBox.this.checkAnimator = null;
                 }
-                if (!CheckBox.this.isChecked) {
-                    CheckBox.this.checkedText = null;
+                if (CheckBox.this.isChecked) {
+                    return;
                 }
+                CheckBox.this.checkedText = null;
             }
         });
         this.checkAnimator.setDuration(300L);
@@ -217,10 +220,10 @@ public class CheckBox extends View {
         return this.isChecked;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:28:0x0084  */
-    /* JADX WARN: Removed duplicated region for block: B:31:0x00ca  */
-    /* JADX WARN: Removed duplicated region for block: B:34:0x010d  */
-    /* JADX WARN: Removed duplicated region for block: B:41:0x013b  */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x0084  */
+    /* JADX WARN: Removed duplicated region for block: B:37:0x00ca  */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x010d  */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x013b  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -231,66 +234,65 @@ public class CheckBox extends View {
         if (getVisibility() != 0 || this.drawBitmap == null || this.checkBitmap == null) {
             return;
         }
-        if (!this.drawBackground && this.progress == 0.0f) {
-            return;
-        }
-        eraser2.setStrokeWidth(AndroidUtilities.dp(this.size + 6));
-        this.drawBitmap.eraseColor(0);
-        float measuredWidth = getMeasuredWidth() / 2;
-        float f = this.progress;
-        float f2 = f >= 0.5f ? 1.0f : f / 0.5f;
-        float f3 = f < 0.5f ? 0.0f : (f - 0.5f) / 0.5f;
-        if (!this.isCheckAnimation) {
-            f = 1.0f - f;
-        }
-        if (f < 0.2f) {
-            dp = (AndroidUtilities.dp(2.0f) * f) / 0.2f;
-        } else {
-            if (f < 0.4f) {
-                dp = AndroidUtilities.dp(2.0f) - ((AndroidUtilities.dp(2.0f) * (f - 0.2f)) / 0.2f);
+        if (this.drawBackground || this.progress != 0.0f) {
+            eraser2.setStrokeWidth(AndroidUtilities.dp(this.size + 6));
+            this.drawBitmap.eraseColor(0);
+            float measuredWidth = getMeasuredWidth() / 2;
+            float f = this.progress;
+            float f2 = f >= 0.5f ? 1.0f : f / 0.5f;
+            float f3 = f < 0.5f ? 0.0f : (f - 0.5f) / 0.5f;
+            if (!this.isCheckAnimation) {
+                f = 1.0f - f;
             }
+            if (f < 0.2f) {
+                dp = (AndroidUtilities.dp(2.0f) * f) / 0.2f;
+            } else {
+                if (f < 0.4f) {
+                    dp = AndroidUtilities.dp(2.0f) - ((AndroidUtilities.dp(2.0f) * (f - 0.2f)) / 0.2f);
+                }
+                if (this.drawBackground) {
+                    paint.setColor(1140850688);
+                    canvas.drawCircle(getMeasuredWidth() / 2, getMeasuredHeight() / 2, measuredWidth - AndroidUtilities.dp(1.0f), paint);
+                    canvas.drawCircle(getMeasuredWidth() / 2, getMeasuredHeight() / 2, measuredWidth - AndroidUtilities.dp(1.0f), backgroundPaint);
+                }
+                paint.setColor(this.color);
+                if (this.hasBorder) {
+                    measuredWidth -= AndroidUtilities.dp(2.0f);
+                }
+                this.bitmapCanvas.drawCircle(getMeasuredWidth() / 2, getMeasuredHeight() / 2, measuredWidth, paint);
+                this.bitmapCanvas.drawCircle(getMeasuredWidth() / 2, getMeasuredHeight() / 2, measuredWidth * (1.0f - f2), eraser);
+                canvas.drawBitmap(this.drawBitmap, 0.0f, 0.0f, (Paint) null);
+                this.checkBitmap.eraseColor(0);
+                if (this.checkedText == null) {
+                    this.checkCanvas.drawText(this.checkedText, (getMeasuredWidth() - ((int) Math.ceil(this.textPaint.measureText(str)))) / 2, AndroidUtilities.dp(this.size == 40 ? 28.0f : 21.0f), this.textPaint);
+                } else {
+                    int intrinsicWidth = this.checkDrawable.getIntrinsicWidth();
+                    int intrinsicHeight = this.checkDrawable.getIntrinsicHeight();
+                    int measuredWidth2 = (getMeasuredWidth() - intrinsicWidth) / 2;
+                    int measuredHeight = (getMeasuredHeight() - intrinsicHeight) / 2;
+                    Drawable drawable = this.checkDrawable;
+                    int i = this.checkOffset;
+                    drawable.setBounds(measuredWidth2, measuredHeight + i, intrinsicWidth + measuredWidth2, measuredHeight + intrinsicHeight + i);
+                    this.checkDrawable.draw(this.checkCanvas);
+                }
+                this.checkCanvas.drawCircle((getMeasuredWidth() / 2) - AndroidUtilities.dp(2.5f), (getMeasuredHeight() / 2) + AndroidUtilities.dp(4.0f), ((getMeasuredWidth() + AndroidUtilities.dp(6.0f)) / 2) * (1.0f - f3), eraser2);
+                canvas.drawBitmap(this.checkBitmap, 0.0f, 0.0f, (Paint) null);
+            }
+            measuredWidth -= dp;
             if (this.drawBackground) {
-                paint.setColor(1140850688);
-                canvas.drawCircle(getMeasuredWidth() / 2, getMeasuredHeight() / 2, measuredWidth - AndroidUtilities.dp(1.0f), paint);
-                canvas.drawCircle(getMeasuredWidth() / 2, getMeasuredHeight() / 2, measuredWidth - AndroidUtilities.dp(1.0f), backgroundPaint);
             }
             paint.setColor(this.color);
             if (this.hasBorder) {
-                measuredWidth -= AndroidUtilities.dp(2.0f);
             }
             this.bitmapCanvas.drawCircle(getMeasuredWidth() / 2, getMeasuredHeight() / 2, measuredWidth, paint);
             this.bitmapCanvas.drawCircle(getMeasuredWidth() / 2, getMeasuredHeight() / 2, measuredWidth * (1.0f - f2), eraser);
             canvas.drawBitmap(this.drawBitmap, 0.0f, 0.0f, (Paint) null);
             this.checkBitmap.eraseColor(0);
             if (this.checkedText == null) {
-                this.checkCanvas.drawText(this.checkedText, (getMeasuredWidth() - ((int) Math.ceil(this.textPaint.measureText(str)))) / 2, AndroidUtilities.dp(this.size == 40 ? 28.0f : 21.0f), this.textPaint);
-            } else {
-                int intrinsicWidth = this.checkDrawable.getIntrinsicWidth();
-                int intrinsicHeight = this.checkDrawable.getIntrinsicHeight();
-                int measuredWidth2 = (getMeasuredWidth() - intrinsicWidth) / 2;
-                int measuredHeight = (getMeasuredHeight() - intrinsicHeight) / 2;
-                Drawable drawable = this.checkDrawable;
-                int i = this.checkOffset;
-                drawable.setBounds(measuredWidth2, measuredHeight + i, intrinsicWidth + measuredWidth2, measuredHeight + intrinsicHeight + i);
-                this.checkDrawable.draw(this.checkCanvas);
             }
             this.checkCanvas.drawCircle((getMeasuredWidth() / 2) - AndroidUtilities.dp(2.5f), (getMeasuredHeight() / 2) + AndroidUtilities.dp(4.0f), ((getMeasuredWidth() + AndroidUtilities.dp(6.0f)) / 2) * (1.0f - f3), eraser2);
             canvas.drawBitmap(this.checkBitmap, 0.0f, 0.0f, (Paint) null);
         }
-        measuredWidth -= dp;
-        if (this.drawBackground) {
-        }
-        paint.setColor(this.color);
-        if (this.hasBorder) {
-        }
-        this.bitmapCanvas.drawCircle(getMeasuredWidth() / 2, getMeasuredHeight() / 2, measuredWidth, paint);
-        this.bitmapCanvas.drawCircle(getMeasuredWidth() / 2, getMeasuredHeight() / 2, measuredWidth * (1.0f - f2), eraser);
-        canvas.drawBitmap(this.drawBitmap, 0.0f, 0.0f, (Paint) null);
-        this.checkBitmap.eraseColor(0);
-        if (this.checkedText == null) {
-        }
-        this.checkCanvas.drawCircle((getMeasuredWidth() / 2) - AndroidUtilities.dp(2.5f), (getMeasuredHeight() / 2) + AndroidUtilities.dp(4.0f), ((getMeasuredWidth() + AndroidUtilities.dp(6.0f)) / 2) * (1.0f - f3), eraser2);
-        canvas.drawBitmap(this.checkBitmap, 0.0f, 0.0f, (Paint) null);
     }
 
     @Override // android.view.View

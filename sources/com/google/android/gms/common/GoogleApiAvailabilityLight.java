@@ -54,10 +54,10 @@ public class GoogleApiAvailabilityLight {
 
     public Intent getErrorResolutionIntent(Context context, int i, String str) {
         if (i != 1 && i != 2) {
-            if (i == 3) {
-                return zzt.zzc("com.google.android.gms");
+            if (i != 3) {
+                return null;
             }
-            return null;
+            return zzt.zzc("com.google.android.gms");
         } else if (context == null || !DeviceProperties.isWearableWithoutPlayStore(context)) {
             StringBuilder sb = new StringBuilder();
             sb.append("gcore_");

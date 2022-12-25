@@ -33,11 +33,11 @@ public final class zav extends AbstractSafeParcelable {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof zav)) {
-            return false;
+        if (obj instanceof zav) {
+            zav zavVar = (zav) obj;
+            return this.zac.equals(zavVar.zac) && Objects.equal(zab(), zavVar.zab());
         }
-        zav zavVar = (zav) obj;
-        return this.zac.equals(zavVar.zac) && Objects.equal(zab(), zavVar.zab());
+        return false;
     }
 
     @Override // android.os.Parcelable

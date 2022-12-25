@@ -118,9 +118,7 @@ public class DoubleLinearChartView extends BaseChartView<DoubleLinearChartData, 
                         lineViewData.paint.setStrokeCap(Paint.Cap.ROUND);
                     }
                     lineViewData.paint.setAlpha((int) (lineViewData.alpha * 255.0f * f));
-                    if (!BaseChartView.USE_LINES) {
-                        canvas.drawPath(lineViewData.chartPath, lineViewData.paint);
-                    } else {
+                    if (BaseChartView.USE_LINES) {
                         canvas.drawLines(lineViewData.linesPath, 0, i7, lineViewData.paint);
                         i5++;
                         f7 = f2;
@@ -128,6 +126,8 @@ public class DoubleLinearChartView extends BaseChartView<DoubleLinearChartData, 
                         i2 = 2;
                         f9 = 0.0f;
                         i3 = 1;
+                    } else {
+                        canvas.drawPath(lineViewData.chartPath, lineViewData.paint);
                     }
                 } else {
                     f2 = f7;
@@ -241,9 +241,9 @@ public class DoubleLinearChartView extends BaseChartView<DoubleLinearChartData, 
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Removed duplicated region for block: B:11:0x0043  */
-    /* JADX WARN: Removed duplicated region for block: B:14:0x0079  */
-    /* JADX WARN: Removed duplicated region for block: B:39:0x0049  */
+    /* JADX WARN: Removed duplicated region for block: B:14:0x0043  */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x0049  */
+    /* JADX WARN: Removed duplicated region for block: B:22:0x0079  */
     @Override // org.telegram.ui.Charts.BaseChartView
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -348,47 +348,44 @@ public class DoubleLinearChartView extends BaseChartView<DoubleLinearChartData, 
     @Override // org.telegram.ui.Charts.BaseChartView
     public void updatePickerMinMaxHeight() {
         int i;
-        if (!BaseChartView.ANIMATE_PICKER_SIZES) {
-            return;
-        }
-        int i2 = 0;
-        if (((LineViewData) this.lines.get(0)).enabled) {
-            super.updatePickerMinMaxHeight();
-            return;
-        }
-        Iterator it = this.lines.iterator();
-        while (it.hasNext()) {
-            LineViewData lineViewData = (LineViewData) it.next();
-            if (lineViewData.enabled && (i = lineViewData.line.maxValue) > i2) {
-                i2 = i;
+        if (BaseChartView.ANIMATE_PICKER_SIZES) {
+            int i2 = 0;
+            if (((LineViewData) this.lines.get(0)).enabled) {
+                super.updatePickerMinMaxHeight();
+                return;
+            }
+            Iterator it = this.lines.iterator();
+            while (it.hasNext()) {
+                LineViewData lineViewData = (LineViewData) it.next();
+                if (lineViewData.enabled && (i = lineViewData.line.maxValue) > i2) {
+                    i2 = i;
+                }
+            }
+            if (this.lines.size() > 1) {
+                i2 = (int) (i2 * ((DoubleLinearChartData) this.chartData).linesK[1]);
+            }
+            if (i2 > 0) {
+                float f = i2;
+                if (f != this.animatedToPickerMaxHeight) {
+                    this.animatedToPickerMaxHeight = f;
+                    Animator animator = this.pickerAnimator;
+                    if (animator != null) {
+                        animator.cancel();
+                    }
+                    ValueAnimator createAnimator = createAnimator(this.pickerMaxHeight, this.animatedToPickerMaxHeight, new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Charts.DoubleLinearChartView.1
+                        @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                        public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                            DoubleLinearChartView.this.pickerMaxHeight = ((Float) valueAnimator.getAnimatedValue()).floatValue();
+                            DoubleLinearChartView doubleLinearChartView = DoubleLinearChartView.this;
+                            doubleLinearChartView.invalidatePickerChart = true;
+                            doubleLinearChartView.invalidate();
+                        }
+                    });
+                    this.pickerAnimator = createAnimator;
+                    createAnimator.start();
+                }
             }
         }
-        if (this.lines.size() > 1) {
-            i2 = (int) (i2 * ((DoubleLinearChartData) this.chartData).linesK[1]);
-        }
-        if (i2 <= 0) {
-            return;
-        }
-        float f = i2;
-        if (f == this.animatedToPickerMaxHeight) {
-            return;
-        }
-        this.animatedToPickerMaxHeight = f;
-        Animator animator = this.pickerAnimator;
-        if (animator != null) {
-            animator.cancel();
-        }
-        ValueAnimator createAnimator = createAnimator(this.pickerMaxHeight, this.animatedToPickerMaxHeight, new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Charts.DoubleLinearChartView.1
-            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                DoubleLinearChartView.this.pickerMaxHeight = ((Float) valueAnimator.getAnimatedValue()).floatValue();
-                DoubleLinearChartView doubleLinearChartView = DoubleLinearChartView.this;
-                doubleLinearChartView.invalidatePickerChart = true;
-                doubleLinearChartView.invalidate();
-            }
-        });
-        this.pickerAnimator = createAnimator;
-        createAnimator.start();
     }
 
     @Override // org.telegram.ui.Charts.BaseChartView
@@ -396,11 +393,7 @@ public class DoubleLinearChartView extends BaseChartView<DoubleLinearChartData, 
         T t = this.chartData;
         float f = 1.0f;
         if (((DoubleLinearChartData) t).linesK.length >= 2) {
-            char c = 0;
-            if (((DoubleLinearChartData) t).linesK[0] == 1.0f) {
-                c = 1;
-            }
-            f = ((DoubleLinearChartData) t).linesK[c];
+            f = ((DoubleLinearChartData) t).linesK[((DoubleLinearChartData) t).linesK[0] == 1.0f ? (char) 1 : (char) 0];
         }
         return new ChartHorizontalLinesData(i, i2, this.useMinHeight, f);
     }

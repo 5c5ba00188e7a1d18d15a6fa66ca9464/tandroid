@@ -52,9 +52,6 @@ public abstract class AbstractBox implements Box {
 
     @Override // com.coremedia.iso.boxes.Box
     public void getBox(WritableByteChannel writableByteChannel) throws IOException {
-        int i = 8;
-        int i2 = 0;
-        int i3 = 16;
         if (this.isRead) {
             if (this.isParsed) {
                 ByteBuffer allocate = ByteBuffer.allocate(CastUtils.l2i(getSize()));
@@ -70,25 +67,13 @@ public abstract class AbstractBox implements Box {
                 writableByteChannel.write((ByteBuffer) allocate.rewind());
                 return;
             }
-            if (!isSmallBox()) {
-                i = 16;
-            }
-            if (!"uuid".equals(getType())) {
-                i3 = 0;
-            }
-            ByteBuffer allocate2 = ByteBuffer.allocate(i + i3);
+            ByteBuffer allocate2 = ByteBuffer.allocate((isSmallBox() ? 8 : 16) + ("uuid".equals(getType()) ? 16 : 0));
             getHeader(allocate2);
             writableByteChannel.write((ByteBuffer) allocate2.rewind());
             writableByteChannel.write((ByteBuffer) this.content.position(0));
             return;
         }
-        if (!isSmallBox()) {
-            i = 16;
-        }
-        if ("uuid".equals(getType())) {
-            i2 = 16;
-        }
-        ByteBuffer allocate3 = ByteBuffer.allocate(i + i2);
+        ByteBuffer allocate3 = ByteBuffer.allocate((isSmallBox() ? 8 : 16) + ("uuid".equals(getType()) ? 16 : 0));
         getHeader(allocate3);
         writableByteChannel.write((ByteBuffer) allocate3.rewind());
         this.dataSource.transferTo(this.contentStartPosition, this.memMapSize, writableByteChannel);
@@ -113,21 +98,16 @@ public abstract class AbstractBox implements Box {
     @Override // com.coremedia.iso.boxes.Box
     public long getSize() {
         long j;
-        int i = 0;
+        ByteBuffer byteBuffer;
         if (!this.isRead) {
             j = this.memMapSize;
         } else if (this.isParsed) {
             j = getContentSize();
         } else {
-            ByteBuffer byteBuffer = this.content;
-            j = byteBuffer != null ? byteBuffer.limit() : 0;
+            ByteBuffer byteBuffer2 = this.content;
+            j = byteBuffer2 != null ? byteBuffer2.limit() : 0;
         }
-        long j2 = j + (j >= 4294967288L ? 8 : 0) + 8 + ("uuid".equals(getType()) ? 16 : 0);
-        ByteBuffer byteBuffer2 = this.deadBytes;
-        if (byteBuffer2 != null) {
-            i = byteBuffer2.limit();
-        }
-        return j2 + i;
+        return j + (j >= 4294967288L ? 8 : 0) + 8 + ("uuid".equals(getType()) ? 16 : 0) + (this.deadBytes != null ? byteBuffer.limit() : 0);
     }
 
     public String getType() {

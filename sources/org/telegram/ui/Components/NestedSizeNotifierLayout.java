@@ -12,7 +12,7 @@ public class NestedSizeNotifierLayout extends SizeNotifierFrameLayout implements
     BottomSheet.ContainerView bottomSheetContainerView;
     ChildLayout childLayout;
     int maxTop;
-    private NestedScrollingParentHelper nestedScrollingParentHelper = new NestedScrollingParentHelper(this);
+    private NestedScrollingParentHelper nestedScrollingParentHelper;
     View targetListView;
 
     /* loaded from: classes3.dex */
@@ -36,6 +36,7 @@ public class NestedSizeNotifierLayout extends SizeNotifierFrameLayout implements
 
     public NestedSizeNotifierLayout(Context context) {
         super(context);
+        this.nestedScrollingParentHelper = new NestedScrollingParentHelper(this);
     }
 
     private boolean childAttached() {
@@ -56,15 +57,13 @@ public class NestedSizeNotifierLayout extends SizeNotifierFrameLayout implements
 
     @Override // androidx.core.view.NestedScrollingParent3
     public void onNestedScroll(View view, int i, int i2, int i3, int i4, int i5, int[] iArr) {
-        if (view != this.targetListView || !childAttached()) {
-            return;
+        if (view == this.targetListView && childAttached()) {
+            RecyclerListView listView = this.childLayout.getListView();
+            if (this.childLayout.getTop() == this.maxTop) {
+                iArr[1] = i4;
+                listView.scrollBy(0, i4);
+            }
         }
-        RecyclerListView listView = this.childLayout.getListView();
-        if (this.childLayout.getTop() != this.maxTop) {
-            return;
-        }
-        iArr[1] = i4;
-        listView.scrollBy(0, i4);
     }
 
     @Override // android.view.ViewGroup, android.view.ViewParent, androidx.core.view.NestedScrollingParent
@@ -74,41 +73,36 @@ public class NestedSizeNotifierLayout extends SizeNotifierFrameLayout implements
 
     @Override // androidx.core.view.NestedScrollingParent2
     public void onNestedPreScroll(View view, int i, int i2, int[] iArr, int i3) {
-        if (view != this.targetListView || !childAttached()) {
-            return;
-        }
-        int top = this.childLayout.getTop();
-        if (i2 < 0) {
-            if (top <= this.maxTop) {
-                RecyclerListView listView = this.childLayout.getListView();
-                int findFirstVisibleItemPosition = ((LinearLayoutManager) listView.getLayoutManager()).findFirstVisibleItemPosition();
-                int i4 = -1;
-                if (findFirstVisibleItemPosition == -1) {
+        if (view == this.targetListView && childAttached()) {
+            int top = this.childLayout.getTop();
+            if (i2 < 0) {
+                if (top <= this.maxTop) {
+                    RecyclerListView listView = this.childLayout.getListView();
+                    int findFirstVisibleItemPosition = ((LinearLayoutManager) listView.getLayoutManager()).findFirstVisibleItemPosition();
+                    if (findFirstVisibleItemPosition != -1) {
+                        RecyclerView.ViewHolder findViewHolderForAdapterPosition = listView.findViewHolderForAdapterPosition(findFirstVisibleItemPosition);
+                        int top2 = findViewHolderForAdapterPosition != null ? findViewHolderForAdapterPosition.itemView.getTop() : -1;
+                        int paddingTop = listView.getPaddingTop();
+                        if (top2 == paddingTop && findFirstVisibleItemPosition == 0) {
+                            return;
+                        }
+                        iArr[1] = findFirstVisibleItemPosition != 0 ? i2 : Math.max(i2, top2 - paddingTop);
+                        listView.scrollBy(0, i2);
+                        return;
+                    }
+                    return;
+                } else if (this.bottomSheetContainerView == null || this.targetListView.canScrollVertically(i2)) {
+                    return;
+                } else {
+                    this.bottomSheetContainerView.onNestedScroll(view, 0, 0, i, i2);
                     return;
                 }
-                RecyclerView.ViewHolder findViewHolderForAdapterPosition = listView.findViewHolderForAdapterPosition(findFirstVisibleItemPosition);
-                if (findViewHolderForAdapterPosition != null) {
-                    i4 = findViewHolderForAdapterPosition.itemView.getTop();
-                }
-                int paddingTop = listView.getPaddingTop();
-                if (i4 == paddingTop && findFirstVisibleItemPosition == 0) {
-                    return;
-                }
-                iArr[1] = findFirstVisibleItemPosition != 0 ? i2 : Math.max(i2, i4 - paddingTop);
-                listView.scrollBy(0, i2);
-                return;
-            } else if (this.bottomSheetContainerView == null || this.targetListView.canScrollVertically(i2)) {
-                return;
-            } else {
-                this.bottomSheetContainerView.onNestedScroll(view, 0, 0, i, i2);
-                return;
+            }
+            BottomSheet.ContainerView containerView = this.bottomSheetContainerView;
+            if (containerView != null) {
+                containerView.onNestedPreScroll(view, i, i2, iArr);
             }
         }
-        BottomSheet.ContainerView containerView = this.bottomSheetContainerView;
-        if (containerView == null) {
-            return;
-        }
-        containerView.onNestedPreScroll(view, i, i2, iArr);
     }
 
     @Override // androidx.core.view.NestedScrollingParent2

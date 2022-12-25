@@ -99,26 +99,20 @@ public class BackDrawable extends Drawable {
             this.lastFrameTime = System.currentTimeMillis();
             invalidateSelf();
         }
-        int i = 0;
-        int red = this.rotated ? (int) ((Color.red(this.rotatedColor) - Color.red(this.color)) * this.currentRotation) : 0;
-        int green = this.rotated ? (int) ((Color.green(this.rotatedColor) - Color.green(this.color)) * this.currentRotation) : 0;
-        if (this.rotated) {
-            i = (int) ((Color.blue(this.rotatedColor) - Color.blue(this.color)) * this.currentRotation);
-        }
-        this.paint.setColor(Color.rgb(Color.red(this.color) + red, Color.green(this.color) + green, Color.blue(this.color) + i));
+        this.paint.setColor(Color.rgb(Color.red(this.color) + (this.rotated ? (int) ((Color.red(this.rotatedColor) - Color.red(this.color)) * this.currentRotation) : 0), Color.green(this.color) + (this.rotated ? (int) ((Color.green(this.rotatedColor) - Color.green(this.color)) * this.currentRotation) : 0), Color.blue(this.color) + (this.rotated ? (int) ((Color.blue(this.rotatedColor) - Color.blue(this.color)) * this.currentRotation) : 0)));
         canvas.save();
         canvas.translate(getIntrinsicWidth() / 2, getIntrinsicHeight() / 2);
-        int i2 = this.arrowRotation;
-        if (i2 != 0) {
-            canvas.rotate(i2);
+        int i = this.arrowRotation;
+        if (i != 0) {
+            canvas.rotate(i);
         }
         float f3 = this.currentRotation;
-        if (!this.alwaysClose) {
-            canvas.rotate((this.reverseAngle ? -225 : 135) * f3);
-            f = f3;
-        } else {
+        if (this.alwaysClose) {
             canvas.rotate((f3 * (this.reverseAngle ? -180 : 180)) + 135.0f);
             f = 1.0f;
+        } else {
+            canvas.rotate((this.reverseAngle ? -225 : 135) * f3);
+            f = f3;
         }
         float f4 = 1.0f - f;
         canvas.drawLine(AndroidUtilities.dp(AndroidUtilities.lerp(-6.75f, -8.0f, f)), 0.0f, AndroidUtilities.dp(8.0f) - ((this.paint.getStrokeWidth() / 2.0f) * f4), 0.0f, this.paint);

@@ -22,7 +22,7 @@ public class SurfaceViewRenderer extends SurfaceView implements SurfaceHolder.Ca
     private int rotatedFrameWidth;
     private int surfaceHeight;
     private int surfaceWidth;
-    private final RendererCommon.VideoLayoutMeasure videoLayoutMeasure = new RendererCommon.VideoLayoutMeasure();
+    private final RendererCommon.VideoLayoutMeasure videoLayoutMeasure;
 
     @Override // org.webrtc.VideoSink
     public /* synthetic */ void setParentSink(VideoSink videoSink) {
@@ -39,6 +39,7 @@ public class SurfaceViewRenderer extends SurfaceView implements SurfaceHolder.Ca
 
     public SurfaceViewRenderer(Context context) {
         super(context);
+        this.videoLayoutMeasure = new RendererCommon.VideoLayoutMeasure();
         String resourceName = getResourceName();
         this.resourceName = resourceName;
         SurfaceEglRenderer surfaceEglRenderer = new SurfaceEglRenderer(resourceName);
@@ -49,6 +50,7 @@ public class SurfaceViewRenderer extends SurfaceView implements SurfaceHolder.Ca
 
     public SurfaceViewRenderer(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
+        this.videoLayoutMeasure = new RendererCommon.VideoLayoutMeasure();
         String resourceName = getResourceName();
         this.resourceName = resourceName;
         SurfaceEglRenderer surfaceEglRenderer = new SurfaceEglRenderer(resourceName);

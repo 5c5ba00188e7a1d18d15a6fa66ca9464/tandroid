@@ -103,9 +103,10 @@ final class zzeh {
     /* JADX INFO: Access modifiers changed from: package-private */
     public static <T, FT extends zzca<FT>> void zza(zzbu<FT> zzbuVar, T t, T t2) {
         zzby<FT> zza = zzbuVar.zza(t2);
-        if (!zza.isEmpty()) {
-            zzbuVar.zzb(t).zza(zza);
+        if (zza.isEmpty()) {
+            return;
         }
+        zzbuVar.zzb(t).zza(zza);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -302,10 +303,10 @@ final class zzeh {
     private static zzex<?, ?> zzd(boolean z) {
         try {
             Class<?> zzdq = zzdq();
-            if (zzdq != null) {
-                return (zzex) zzdq.getConstructor(Boolean.TYPE).newInstance(Boolean.valueOf(z));
+            if (zzdq == null) {
+                return null;
             }
-            return null;
+            return (zzex) zzdq.getConstructor(Boolean.TYPE).newInstance(Boolean.valueOf(z));
         } catch (Throwable unused) {
             return null;
         }
@@ -420,10 +421,9 @@ final class zzeh {
 
     public static void zzf(Class<?> cls) {
         Class<?> cls2;
-        if (zzcg.class.isAssignableFrom(cls) || (cls2 = zzoh) == null || cls2.isAssignableFrom(cls)) {
-            return;
+        if (!zzcg.class.isAssignableFrom(cls) && (cls2 = zzoh) != null && !cls2.isAssignableFrom(cls)) {
+            throw new IllegalArgumentException("Message classes must extend GeneratedMessage or GeneratedMessageLite");
         }
-        throw new IllegalArgumentException("Message classes must extend GeneratedMessage or GeneratedMessageLite");
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

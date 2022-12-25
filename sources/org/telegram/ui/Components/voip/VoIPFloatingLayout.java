@@ -28,6 +28,7 @@ import org.telegram.messenger.R;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 /* loaded from: classes.dex */
 public class VoIPFloatingLayout extends FrameLayout {
+    private boolean active;
     public boolean alwaysFloating;
     public int bottomOffset;
     float bottomPadding;
@@ -41,6 +42,15 @@ public class VoIPFloatingLayout extends FrameLayout {
     boolean moving;
     ValueAnimator mutedAnimator;
     Drawable mutedDrawable;
+    Paint mutedPaint;
+    float mutedProgress;
+    private ValueAnimator.AnimatorUpdateListener mutedUpdateListener;
+    private float overrideCornerRadius;
+    final Path path;
+    private ValueAnimator.AnimatorUpdateListener progressUpdateListener;
+    final RectF rectF;
+    public float relativePositionToSetX;
+    float relativePositionToSetY;
     float rightPadding;
     public float savedRelativePositionX;
     public float savedRelativePositionY;
@@ -54,38 +64,12 @@ public class VoIPFloatingLayout extends FrameLayout {
     private boolean switchingToFloatingMode;
     public boolean switchingToPip;
     View.OnClickListener tapListener;
+    float toFloatingModeProgress;
     float topPadding;
     float touchSlop;
     private boolean uiVisible;
     public float updatePositionFromX;
     public float updatePositionFromY;
-    final Path path = new Path();
-    final RectF rectF = new RectF();
-    Paint mutedPaint = new Paint(1);
-    public float relativePositionToSetX = -1.0f;
-    float relativePositionToSetY = -1.0f;
-    float toFloatingModeProgress = 0.0f;
-    float mutedProgress = 0.0f;
-    private float overrideCornerRadius = -1.0f;
-    private boolean active = true;
-    private ValueAnimator.AnimatorUpdateListener progressUpdateListener = new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoIPFloatingLayout.1
-        @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-        public void onAnimationUpdate(ValueAnimator valueAnimator) {
-            VoIPFloatingLayout.this.toFloatingModeProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
-            if (VoIPFloatingLayout.this.delegate != null) {
-                VoIPFloatingLayoutDelegate voIPFloatingLayoutDelegate = VoIPFloatingLayout.this.delegate;
-                VoIPFloatingLayout voIPFloatingLayout = VoIPFloatingLayout.this;
-                voIPFloatingLayoutDelegate.onChange(voIPFloatingLayout.toFloatingModeProgress, voIPFloatingLayout.measuredAsFloatingMode);
-            }
-            VoIPFloatingLayout.this.invalidate();
-        }
-    };
-    private ValueAnimator.AnimatorUpdateListener mutedUpdateListener = new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoIPFloatingLayout$$ExternalSyntheticLambda0
-        @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-        public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-            VoIPFloatingLayout.this.lambda$new$0(valueAnimator);
-        }
-    };
 
     /* loaded from: classes.dex */
     public interface VoIPFloatingLayoutDelegate {
@@ -105,7 +89,34 @@ public class VoIPFloatingLayout extends FrameLayout {
 
     public VoIPFloatingLayout(Context context) {
         super(context);
+        this.path = new Path();
+        this.rectF = new RectF();
         new Paint(1);
+        this.mutedPaint = new Paint(1);
+        this.relativePositionToSetX = -1.0f;
+        this.relativePositionToSetY = -1.0f;
+        this.toFloatingModeProgress = 0.0f;
+        this.mutedProgress = 0.0f;
+        this.overrideCornerRadius = -1.0f;
+        this.active = true;
+        this.progressUpdateListener = new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoIPFloatingLayout.1
+            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                VoIPFloatingLayout.this.toFloatingModeProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
+                if (VoIPFloatingLayout.this.delegate != null) {
+                    VoIPFloatingLayoutDelegate voIPFloatingLayoutDelegate = VoIPFloatingLayout.this.delegate;
+                    VoIPFloatingLayout voIPFloatingLayout = VoIPFloatingLayout.this;
+                    voIPFloatingLayoutDelegate.onChange(voIPFloatingLayout.toFloatingModeProgress, voIPFloatingLayout.measuredAsFloatingMode);
+                }
+                VoIPFloatingLayout.this.invalidate();
+            }
+        };
+        this.mutedUpdateListener = new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoIPFloatingLayout$$ExternalSyntheticLambda0
+            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+            public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                VoIPFloatingLayout.this.lambda$new$0(valueAnimator);
+            }
+        };
         this.touchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
         if (Build.VERSION.SDK_INT >= 21) {
             setOutlineProvider(new ViewOutlineProvider() { // from class: org.telegram.ui.Components.voip.VoIPFloatingLayout.2
@@ -161,21 +172,17 @@ public class VoIPFloatingLayout extends FrameLayout {
     }
 
     private void updatePadding() {
-        float f = 16.0f;
         this.leftPadding = AndroidUtilities.dp(16.0f);
         this.rightPadding = AndroidUtilities.dp(16.0f);
         this.topPadding = this.uiVisible ? AndroidUtilities.dp(60.0f) : AndroidUtilities.dp(16.0f);
-        if (this.uiVisible) {
-            f = 100.0f;
-        }
-        this.bottomPadding = AndroidUtilities.dp(f) + this.bottomOffset;
+        this.bottomPadding = AndroidUtilities.dp(this.uiVisible ? 100.0f : 16.0f) + this.bottomOffset;
     }
 
     public void setDelegate(VoIPFloatingLayoutDelegate voIPFloatingLayoutDelegate) {
         this.delegate = voIPFloatingLayoutDelegate;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:13:0x0025, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:15:0x0025, code lost:
         if (r1 != 3) goto L14;
      */
     @Override // android.view.View
@@ -185,77 +192,77 @@ public class VoIPFloatingLayout extends FrameLayout {
     public boolean onTouchEvent(MotionEvent motionEvent) {
         WindowInsets windowInsets;
         ViewParent parent = getParent();
-        if (!this.floatingMode || this.switchingToFloatingMode || !this.active) {
-            return false;
-        }
-        int action = motionEvent.getAction();
-        if (action == 0) {
-            if (this.floatingMode && !this.switchingToFloatingMode) {
-                this.startTime = System.currentTimeMillis();
-                this.starX = motionEvent.getX() + getX();
-                this.starY = motionEvent.getY() + getY();
-                animate().setListener(null).cancel();
-                animate().scaleY(1.05f).scaleX(1.05f).alpha(1.0f).setStartDelay(0L).start();
-            }
-        } else {
-            if (action != 1) {
-                if (action == 2) {
-                    float x = (motionEvent.getX() + getX()) - this.starX;
-                    float y = (motionEvent.getY() + getY()) - this.starY;
-                    if (!this.moving) {
-                        float f = (x * x) + (y * y);
-                        float f2 = this.touchSlop;
-                        if (f > f2 * f2) {
-                            if (parent != null) {
-                                parent.requestDisallowInterceptTouchEvent(true);
+        if (this.floatingMode && !this.switchingToFloatingMode && this.active) {
+            int action = motionEvent.getAction();
+            if (action == 0) {
+                if (this.floatingMode && !this.switchingToFloatingMode) {
+                    this.startTime = System.currentTimeMillis();
+                    this.starX = motionEvent.getX() + getX();
+                    this.starY = motionEvent.getY() + getY();
+                    animate().setListener(null).cancel();
+                    animate().scaleY(1.05f).scaleX(1.05f).alpha(1.0f).setStartDelay(0L).start();
+                }
+            } else {
+                if (action != 1) {
+                    if (action == 2) {
+                        float x = (motionEvent.getX() + getX()) - this.starX;
+                        float y = (motionEvent.getY() + getY()) - this.starY;
+                        if (!this.moving) {
+                            float f = (x * x) + (y * y);
+                            float f2 = this.touchSlop;
+                            if (f > f2 * f2) {
+                                if (parent != null) {
+                                    parent.requestDisallowInterceptTouchEvent(true);
+                                }
+                                this.moving = true;
+                                this.starX = motionEvent.getX() + getX();
+                                this.starY = motionEvent.getY() + getY();
+                                this.startMovingFromX = getTranslationX();
+                                this.startMovingFromY = getTranslationY();
+                                x = 0.0f;
+                                y = 0.0f;
                             }
-                            this.moving = true;
-                            this.starX = motionEvent.getX() + getX();
-                            this.starY = motionEvent.getY() + getY();
-                            this.startMovingFromX = getTranslationX();
-                            this.startMovingFromY = getTranslationY();
-                            x = 0.0f;
-                            y = 0.0f;
+                        }
+                        if (this.moving) {
+                            setTranslationX(this.startMovingFromX + x);
+                            setTranslationY(this.startMovingFromY + y);
                         }
                     }
-                    if (this.moving) {
-                        setTranslationX(this.startMovingFromX + x);
-                        setTranslationY(this.startMovingFromY + y);
+                }
+                if (parent != null && this.floatingMode && !this.switchingToFloatingMode) {
+                    parent.requestDisallowInterceptTouchEvent(false);
+                    animate().setListener(null).cancel();
+                    ViewPropertyAnimator startDelay = animate().scaleX(1.0f).scaleY(1.0f).alpha(1.0f).setStartDelay(0L);
+                    if (this.tapListener != null && !this.moving && System.currentTimeMillis() - this.startTime < 200) {
+                        this.tapListener.onClick(this);
                     }
+                    int measuredWidth = ((View) getParent()).getMeasuredWidth();
+                    int measuredHeight = ((View) getParent()).getMeasuredHeight();
+                    float f3 = this.topPadding;
+                    float f4 = this.bottomPadding;
+                    if (Build.VERSION.SDK_INT > 20 && (windowInsets = this.lastInsets) != null) {
+                        f3 += windowInsets.getSystemWindowInsetTop();
+                        f4 += this.lastInsets.getSystemWindowInsetBottom();
+                    }
+                    float x2 = getX();
+                    float f5 = this.leftPadding;
+                    if (x2 < f5) {
+                        startDelay.translationX(f5);
+                    } else if (getX() + getMeasuredWidth() > measuredWidth - this.rightPadding) {
+                        startDelay.translationX((measuredWidth - getMeasuredWidth()) - this.rightPadding);
+                    }
+                    if (getY() < f3) {
+                        startDelay.translationY(f3);
+                    } else if (getY() + getMeasuredHeight() > measuredHeight - f4) {
+                        startDelay.translationY((measuredHeight - getMeasuredHeight()) - f4);
+                    }
+                    startDelay.setDuration(150L).setInterpolator(CubicBezierInterpolator.DEFAULT).start();
                 }
+                this.moving = false;
             }
-            if (parent != null && this.floatingMode && !this.switchingToFloatingMode) {
-                parent.requestDisallowInterceptTouchEvent(false);
-                animate().setListener(null).cancel();
-                ViewPropertyAnimator startDelay = animate().scaleX(1.0f).scaleY(1.0f).alpha(1.0f).setStartDelay(0L);
-                if (this.tapListener != null && !this.moving && System.currentTimeMillis() - this.startTime < 200) {
-                    this.tapListener.onClick(this);
-                }
-                int measuredWidth = ((View) getParent()).getMeasuredWidth();
-                int measuredHeight = ((View) getParent()).getMeasuredHeight();
-                float f3 = this.topPadding;
-                float f4 = this.bottomPadding;
-                if (Build.VERSION.SDK_INT > 20 && (windowInsets = this.lastInsets) != null) {
-                    f3 += windowInsets.getSystemWindowInsetTop();
-                    f4 += this.lastInsets.getSystemWindowInsetBottom();
-                }
-                float x2 = getX();
-                float f5 = this.leftPadding;
-                if (x2 < f5) {
-                    startDelay.translationX(f5);
-                } else if (getX() + getMeasuredWidth() > measuredWidth - this.rightPadding) {
-                    startDelay.translationX((measuredWidth - getMeasuredWidth()) - this.rightPadding);
-                }
-                if (getY() < f3) {
-                    startDelay.translationY(f3);
-                } else if (getY() + getMeasuredHeight() > measuredHeight - f4) {
-                    startDelay.translationY((measuredHeight - getMeasuredHeight()) - f4);
-                }
-                startDelay.setDuration(150L).setInterpolator(CubicBezierInterpolator.DEFAULT).start();
-            }
-            this.moving = false;
+            return true;
         }
-        return true;
+        return false;
     }
 
     @Override // android.view.ViewGroup, android.view.View
@@ -361,34 +368,25 @@ public class VoIPFloatingLayout extends FrameLayout {
     }
 
     public void setFloatingMode(boolean z, boolean z2) {
-        if (getMeasuredWidth() <= 0 || getVisibility() != 0) {
-            z2 = false;
-        }
-        float f = 1.0f;
-        if (!z2) {
-            if (this.floatingMode == z) {
-                return;
+        if (!((getMeasuredWidth() <= 0 || getVisibility() != 0) ? false : false)) {
+            if (this.floatingMode != z) {
+                this.floatingMode = z;
+                this.setedFloatingMode = z;
+                this.toFloatingModeProgress = z ? 1.0f : 0.0f;
+                requestLayout();
+                if (Build.VERSION.SDK_INT >= 21) {
+                    invalidateOutline();
+                }
             }
-            this.floatingMode = z;
-            this.setedFloatingMode = z;
-            if (!z) {
-                f = 0.0f;
-            }
-            this.toFloatingModeProgress = f;
-            requestLayout();
-            if (Build.VERSION.SDK_INT < 21) {
-                return;
-            }
-            invalidateOutline();
         } else if (this.switchingToFloatingMode) {
             this.setedFloatingMode = z;
         } else if (z && !this.floatingMode) {
             this.floatingMode = true;
             this.setedFloatingMode = z;
             updatePadding();
-            float f2 = this.relativePositionToSetX;
-            if (f2 >= 0.0f) {
-                setRelativePositionInternal(f2, this.relativePositionToSetY, (int) (getMeasuredWidth() * 0.23f), (int) (getMeasuredHeight() * 0.23f), false);
+            float f = this.relativePositionToSetX;
+            if (f >= 0.0f) {
+                setRelativePositionInternal(f, this.relativePositionToSetY, (int) (getMeasuredWidth() * 0.23f), (int) (getMeasuredHeight() * 0.23f), false);
             }
             this.floatingMode = false;
             this.switchingToFloatingMode = true;
@@ -466,10 +464,7 @@ public class VoIPFloatingLayout extends FrameLayout {
                 }
             });
         } else {
-            if (!this.floatingMode) {
-                f = 0.0f;
-            }
-            this.toFloatingModeProgress = f;
+            this.toFloatingModeProgress = this.floatingMode ? 1.0f : 0.0f;
             this.floatingMode = z;
             this.setedFloatingMode = z;
             requestLayout();
@@ -477,16 +472,12 @@ public class VoIPFloatingLayout extends FrameLayout {
     }
 
     public void setMuted(boolean z, boolean z2) {
-        float f = 1.0f;
         if (!z2) {
             ValueAnimator valueAnimator = this.mutedAnimator;
             if (valueAnimator != null) {
                 valueAnimator.cancel();
             }
-            if (!z) {
-                f = 0.0f;
-            }
-            this.mutedProgress = f;
+            this.mutedProgress = z ? 1.0f : 0.0f;
             invalidate();
             return;
         }
@@ -496,10 +487,7 @@ public class VoIPFloatingLayout extends FrameLayout {
         }
         float[] fArr = new float[2];
         fArr[0] = this.mutedProgress;
-        if (!z) {
-            f = 0.0f;
-        }
-        fArr[1] = f;
+        fArr[1] = z ? 1.0f : 0.0f;
         ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
         this.mutedAnimator = ofFloat;
         ofFloat.addUpdateListener(this.mutedUpdateListener);

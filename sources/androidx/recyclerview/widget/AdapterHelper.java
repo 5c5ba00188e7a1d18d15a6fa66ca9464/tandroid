@@ -217,12 +217,11 @@ public class AdapterHelper implements OpReorderer.Callback {
         }
         Object obj = updateOp.payload;
         recycleUpdateOp(updateOp);
-        if (i5 <= 0) {
-            return;
+        if (i5 > 0) {
+            UpdateOp obtainUpdateOp2 = obtainUpdateOp(updateOp.cmd, updatePositionWithPostponed, i5, obj);
+            dispatchFirstPassAndUpdateViewHolders(obtainUpdateOp2, i3);
+            recycleUpdateOp(obtainUpdateOp2);
         }
-        UpdateOp obtainUpdateOp2 = obtainUpdateOp(updateOp.cmd, updatePositionWithPostponed, i5, obj);
-        dispatchFirstPassAndUpdateViewHolders(obtainUpdateOp2, i3);
-        recycleUpdateOp(obtainUpdateOp2);
     }
 
     void dispatchFirstPassAndUpdateViewHolders(UpdateOp updateOp, int i) {
@@ -517,7 +516,7 @@ public class AdapterHelper implements OpReorderer.Callback {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public boolean hasUpdates() {
-        return !this.mPostponedList.isEmpty() && !this.mPendingUpdates.isEmpty();
+        return (this.mPostponedList.isEmpty() || this.mPendingUpdates.isEmpty()) ? false : true;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -559,18 +558,18 @@ public class AdapterHelper implements OpReorderer.Callback {
             if (i == 8 && Math.abs(this.itemCount - this.positionStart) == 1 && this.itemCount == updateOp.positionStart && this.positionStart == updateOp.itemCount) {
                 return true;
             }
-            if (this.itemCount != updateOp.itemCount || this.positionStart != updateOp.positionStart) {
-                return false;
-            }
-            Object obj2 = this.payload;
-            if (obj2 != null) {
-                if (!obj2.equals(updateOp.payload)) {
+            if (this.itemCount == updateOp.itemCount && this.positionStart == updateOp.positionStart) {
+                Object obj2 = this.payload;
+                if (obj2 != null) {
+                    if (!obj2.equals(updateOp.payload)) {
+                        return false;
+                    }
+                } else if (updateOp.payload != null) {
                     return false;
                 }
-            } else if (updateOp.payload != null) {
-                return false;
+                return true;
             }
-            return true;
+            return false;
         }
 
         public int hashCode() {
@@ -593,10 +592,11 @@ public class AdapterHelper implements OpReorderer.Callback {
 
     @Override // androidx.recyclerview.widget.OpReorderer.Callback
     public void recycleUpdateOp(UpdateOp updateOp) {
-        if (!this.mDisableRecycler) {
-            updateOp.payload = null;
-            this.mUpdateOpPool.release(updateOp);
+        if (this.mDisableRecycler) {
+            return;
         }
+        updateOp.payload = null;
+        this.mUpdateOpPool.release(updateOp);
     }
 
     void recycleUpdateOpsAndClearList(List<UpdateOp> list) {

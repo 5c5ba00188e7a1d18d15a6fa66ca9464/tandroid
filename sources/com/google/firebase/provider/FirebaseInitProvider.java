@@ -54,9 +54,8 @@ public class FirebaseInitProvider extends ContentProvider {
 
     private static void checkContentProviderAuthority(ProviderInfo providerInfo) {
         Preconditions.checkNotNull(providerInfo, "FirebaseInitProvider ProviderInfo cannot be null.");
-        if (!"com.google.firebase.firebaseinitprovider".equals(providerInfo.authority)) {
-            return;
+        if ("com.google.firebase.firebaseinitprovider".equals(providerInfo.authority)) {
+            throw new IllegalStateException("Incorrect provider authority in manifest. Most likely due to a missing applicationId variable in application's build.gradle.");
         }
-        throw new IllegalStateException("Incorrect provider authority in manifest. Most likely due to a missing applicationId variable in application's build.gradle.");
     }
 }

@@ -66,12 +66,12 @@ public abstract class TLRPC$MessageUserVote extends TLObject {
         } else {
             tLRPC$MessageUserVote = i != 1017491692 ? null : new TLRPC$TL_messageUserVoteInputOption();
         }
-        if (tLRPC$MessageUserVote != null || !z) {
-            if (tLRPC$MessageUserVote != null) {
-                tLRPC$MessageUserVote.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$MessageUserVote;
+        if (tLRPC$MessageUserVote == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in MessageUserVote", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in MessageUserVote", Integer.valueOf(i)));
+        if (tLRPC$MessageUserVote != null) {
+            tLRPC$MessageUserVote.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$MessageUserVote;
     }
 }

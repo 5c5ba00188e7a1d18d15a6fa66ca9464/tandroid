@@ -277,9 +277,10 @@ public class SurfaceTextureHelper {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$dispose$6() {
         this.isQuitting = true;
-        if (!this.isTextureInUse) {
-            release();
+        if (this.isTextureInUse) {
+            return;
         }
+        release();
     }
 
     @Deprecated
@@ -341,9 +342,8 @@ public class SurfaceTextureHelper {
         this.eglBase.release();
         this.handler.getLooper().quit();
         TimestampAligner timestampAligner = this.timestampAligner;
-        if (timestampAligner == null) {
-            return;
+        if (timestampAligner != null) {
+            timestampAligner.dispose();
         }
-        timestampAligner.dispose();
     }
 }

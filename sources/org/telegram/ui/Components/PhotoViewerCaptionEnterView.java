@@ -63,6 +63,7 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
     public int currentAccount;
     private PhotoViewerCaptionEnterViewDelegate delegate;
     private final ImageView doneButton;
+    private Drawable doneDrawable;
     private ImageView emojiButton;
     private ReplaceableIconDrawable emojiIconDrawable;
     private int emojiPadding;
@@ -82,18 +83,17 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
     ValueAnimator messageEditTextAnimator;
     private int messageEditTextPredrawHeigth;
     private int messageEditTextPredrawScrollY;
+    float offset;
+    Paint paint;
     private boolean popupAnimating;
+    private final Theme.ResourcesProvider resourcesProvider;
     private ValueAnimator sendButtonColorAnimator;
+    boolean sendButtonEnabled;
+    private float sendButtonEnabledProgress;
     private boolean shouldAnimateEditTextWithBounds;
     private SizeNotifierFrameLayoutPhoto sizeNotifierLayout;
     ValueAnimator topBackgroundAnimator;
     private View windowView;
-    boolean sendButtonEnabled = true;
-    private float sendButtonEnabledProgress = 1.0f;
-    Paint paint = new Paint();
-    float offset = 0.0f;
-    private final Theme.ResourcesProvider resourcesProvider = new DarkTheme();
-    private Drawable doneDrawable = Theme.createCircleDrawable(AndroidUtilities.dp(16.0f), -10043398);
 
     /* loaded from: classes3.dex */
     public interface PhotoViewerCaptionEnterViewDelegate {
@@ -127,7 +127,12 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
 
     public PhotoViewerCaptionEnterView(final PhotoViewer photoViewer, Context context, final SizeNotifierFrameLayoutPhoto sizeNotifierFrameLayoutPhoto, View view, Theme.ResourcesProvider resourcesProvider) {
         super(context);
+        this.sendButtonEnabled = true;
+        this.sendButtonEnabledProgress = 1.0f;
         this.currentAccount = UserConfig.selectedAccount;
+        this.paint = new Paint();
+        this.offset = 0.0f;
+        this.resourcesProvider = new DarkTheme();
         this.paint.setColor(2130706432);
         setWillNotDraw(false);
         setFocusable(true);
@@ -263,6 +268,7 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
             }
         });
         this.messageEditText.addTextChangedListener(new 2(photoViewer, sizeNotifierFrameLayoutPhoto));
+        this.doneDrawable = Theme.createCircleDrawable(AndroidUtilities.dp(16.0f), -10043398);
         this.checkDrawable = context.getResources().getDrawable(R.drawable.input_done).mutate();
         CombinedDrawable combinedDrawable = new CombinedDrawable(this.doneDrawable, this.checkDrawable, 0, AndroidUtilities.dp(1.0f));
         combinedDrawable.setCustomSize(AndroidUtilities.dp(32.0f), AndroidUtilities.dp(32.0f));
@@ -356,12 +362,8 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
 
         @Override // android.text.TextWatcher
         public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-            boolean z = false;
             if (PhotoViewerCaptionEnterView.this.lineCount != PhotoViewerCaptionEnterView.this.messageEditText.getLineCount()) {
-                if ((PhotoViewerCaptionEnterView.this.messageEditText.getLineCount() >= 4) != (PhotoViewerCaptionEnterView.this.lineCount >= 4)) {
-                    z = true;
-                }
-                this.heightShouldBeChanged = z;
+                this.heightShouldBeChanged = (PhotoViewerCaptionEnterView.this.messageEditText.getLineCount() >= 4) != (PhotoViewerCaptionEnterView.this.lineCount >= 4);
                 if (!PhotoViewerCaptionEnterView.this.isInitLineCount && PhotoViewerCaptionEnterView.this.messageEditText.getMeasuredWidth() > 0) {
                     PhotoViewerCaptionEnterView photoViewerCaptionEnterView = PhotoViewerCaptionEnterView.this;
                     photoViewerCaptionEnterView.onLineCountChanged(photoViewerCaptionEnterView.lineCount, PhotoViewerCaptionEnterView.this.messageEditText.getLineCount());
@@ -377,13 +379,12 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
             if (PhotoViewerCaptionEnterView.this.delegate != null) {
                 PhotoViewerCaptionEnterView.this.delegate.onTextChanged(charSequence);
             }
-            if (i3 - i2 <= 1) {
-                return;
+            if (i3 - i2 > 1) {
+                this.processChange = true;
             }
-            this.processChange = true;
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:32:0x0172  */
+        /* JADX WARN: Removed duplicated region for block: B:37:0x0172  */
         @Override // android.text.TextWatcher
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -407,7 +408,6 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
                 this.processChange = false;
             }
             PhotoViewerCaptionEnterView.this.codePointCount = Character.codePointCount(editable, 0, editable.length());
-            float f = 0.0f;
             if (MessagesController.getInstance(PhotoViewerCaptionEnterView.this.currentAccount).getCaptionMaxLengthLimit() <= 0 || (captionMaxLengthLimit = MessagesController.getInstance(PhotoViewerCaptionEnterView.this.currentAccount).getCaptionMaxLengthLimit() - PhotoViewerCaptionEnterView.this.codePointCount) > 100) {
                 PhotoViewerCaptionEnterView.this.captionLimitView.animate().alpha(0.0f).scaleX(0.5f).scaleY(0.5f).setDuration(100L).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.PhotoViewerCaptionEnterView.2.1
                     @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -441,10 +441,7 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
                         float[] fArr = new float[2];
                         boolean z2 = photoViewerCaptionEnterView2.sendButtonEnabled;
                         fArr[0] = z2 ? 0.0f : 1.0f;
-                        if (z2) {
-                            f = 1.0f;
-                        }
-                        fArr[1] = f;
+                        fArr[1] = z2 ? 1.0f : 0.0f;
                         photoViewerCaptionEnterView2.sendButtonColorAnimator = ValueAnimator.ofFloat(fArr);
                         PhotoViewerCaptionEnterView.this.sendButtonColorAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.PhotoViewerCaptionEnterView$2$$ExternalSyntheticLambda0
                             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
@@ -647,10 +644,9 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
         EditTextCaption editTextCaption2 = this.messageEditText;
         editTextCaption2.setSelection(editTextCaption2.getText().length());
         PhotoViewerCaptionEnterViewDelegate photoViewerCaptionEnterViewDelegate = this.delegate;
-        if (photoViewerCaptionEnterViewDelegate == null) {
-            return;
+        if (photoViewerCaptionEnterViewDelegate != null) {
+            photoViewerCaptionEnterViewDelegate.onTextChanged(this.messageEditText.getText());
         }
-        photoViewerCaptionEnterViewDelegate.onTextChanged(this.messageEditText.getText());
     }
 
     public int getSelectionLength() {
@@ -1205,59 +1201,58 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
                 AndroidUtilities.hideKeyboard(this.messageEditText);
             }
             SizeNotifierFrameLayoutPhoto sizeNotifierFrameLayoutPhoto = this.sizeNotifierLayout;
-            if (sizeNotifierFrameLayoutPhoto == null) {
+            if (sizeNotifierFrameLayoutPhoto != null) {
+                this.emojiPadding = i2;
+                sizeNotifierFrameLayoutPhoto.requestLayout();
+                this.emojiIconDrawable.setIcon(R.drawable.input_keyboard, true);
+                onWindowSizeChanged();
                 return;
             }
-            this.emojiPadding = i2;
-            sizeNotifierFrameLayoutPhoto.requestLayout();
-            this.emojiIconDrawable.setIcon(R.drawable.input_keyboard, true);
-            onWindowSizeChanged();
             return;
         }
         if (this.emojiButton != null) {
             this.emojiIconDrawable.setIcon(R.drawable.input_smile, true);
         }
-        if (this.sizeNotifierLayout == null) {
-            return;
-        }
-        if (z && SharedConfig.smoothKeyboard && i == 0 && this.emojiView != null) {
-            ValueAnimator ofFloat = ValueAnimator.ofFloat(this.emojiPadding, 0.0f);
-            final float f = this.emojiPadding;
-            this.popupAnimating = true;
-            this.delegate.onEmojiViewCloseStart();
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.PhotoViewerCaptionEnterView$$ExternalSyntheticLambda2
-                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                    PhotoViewerCaptionEnterView.this.lambda$showPopup$9(f, valueAnimator);
+        if (this.sizeNotifierLayout != null) {
+            if (z && SharedConfig.smoothKeyboard && i == 0 && this.emojiView != null) {
+                ValueAnimator ofFloat = ValueAnimator.ofFloat(this.emojiPadding, 0.0f);
+                final float f = this.emojiPadding;
+                this.popupAnimating = true;
+                this.delegate.onEmojiViewCloseStart();
+                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.PhotoViewerCaptionEnterView$$ExternalSyntheticLambda2
+                    @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                    public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                        PhotoViewerCaptionEnterView.this.lambda$showPopup$9(f, valueAnimator);
+                    }
+                });
+                ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.PhotoViewerCaptionEnterView.4
+                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                    public void onAnimationEnd(Animator animator) {
+                        PhotoViewerCaptionEnterView.this.emojiPadding = 0;
+                        PhotoViewerCaptionEnterView.this.setTranslationY(0.0f);
+                        PhotoViewerCaptionEnterView.this.setAlpha(1.0f);
+                        PhotoViewerCaptionEnterView.this.emojiView.setTranslationY(0.0f);
+                        PhotoViewerCaptionEnterView.this.popupAnimating = false;
+                        PhotoViewerCaptionEnterView.this.delegate.onEmojiViewCloseEnd();
+                        PhotoViewerCaptionEnterView.this.emojiView.setVisibility(8);
+                        PhotoViewerCaptionEnterView.this.emojiView.setAlpha(1.0f);
+                    }
+                });
+                ofFloat.setDuration(210L);
+                ofFloat.setInterpolator(AdjustPanLayoutHelper.keyboardInterpolator);
+                ofFloat.start();
+            } else if (i == 0) {
+                EmojiView emojiView2 = this.emojiView;
+                if (emojiView2 != null) {
+                    emojiView2.setVisibility(8);
                 }
-            });
-            ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.PhotoViewerCaptionEnterView.4
-                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                public void onAnimationEnd(Animator animator) {
-                    PhotoViewerCaptionEnterView.this.emojiPadding = 0;
-                    PhotoViewerCaptionEnterView.this.setTranslationY(0.0f);
-                    PhotoViewerCaptionEnterView.this.setAlpha(1.0f);
-                    PhotoViewerCaptionEnterView.this.emojiView.setTranslationY(0.0f);
-                    PhotoViewerCaptionEnterView.this.popupAnimating = false;
-                    PhotoViewerCaptionEnterView.this.delegate.onEmojiViewCloseEnd();
-                    PhotoViewerCaptionEnterView.this.emojiView.setVisibility(8);
-                    PhotoViewerCaptionEnterView.this.emojiView.setAlpha(1.0f);
-                }
-            });
-            ofFloat.setDuration(210L);
-            ofFloat.setInterpolator(AdjustPanLayoutHelper.keyboardInterpolator);
-            ofFloat.start();
-        } else if (i == 0) {
-            EmojiView emojiView2 = this.emojiView;
-            if (emojiView2 != null) {
-                emojiView2.setVisibility(8);
+                this.emojiPadding = 0;
+            } else if (!SharedConfig.smoothKeyboard && (emojiView = this.emojiView) != null) {
+                emojiView.setVisibility(8);
             }
-            this.emojiPadding = 0;
-        } else if (!SharedConfig.smoothKeyboard && (emojiView = this.emojiView) != null) {
-            emojiView.setVisibility(8);
+            this.sizeNotifierLayout.requestLayout();
+            onWindowSizeChanged();
         }
-        this.sizeNotifierLayout.requestLayout();
-        onWindowSizeChanged();
     }
 
     /* JADX INFO: Access modifiers changed from: private */

@@ -12,13 +12,14 @@ import org.telegram.ui.Components.LayoutHelper;
 /* loaded from: classes3.dex */
 public class TextColorThemeCell extends FrameLayout {
     private static Paint colorPaint;
-    private float alpha = 1.0f;
+    private float alpha;
     private int currentColor;
     private boolean needDivider;
     private TextView textView;
 
     public TextColorThemeCell(Context context) {
         super(context);
+        this.alpha = 1.0f;
         if (colorPaint == null) {
             colorPaint = new Paint(1);
         }
@@ -29,12 +30,11 @@ public class TextColorThemeCell extends FrameLayout {
         this.textView.setLines(1);
         this.textView.setMaxLines(1);
         this.textView.setSingleLine(true);
-        int i = 5;
         this.textView.setGravity((LocaleController.isRTL ? 5 : 3) | 16);
         this.textView.setPadding(0, 0, 0, AndroidUtilities.dp(3.0f));
         TextView textView2 = this.textView;
         boolean z = LocaleController.isRTL;
-        addView(textView2, LayoutHelper.createFrame(-1, -1.0f, (!z ? 3 : i) | 48, z ? 21 : 57, 0.0f, z ? 57 : 21, 0.0f));
+        addView(textView2, LayoutHelper.createFrame(-1, -1.0f, (z ? 5 : 3) | 48, z ? 21 : 57, 0.0f, z ? 57 : 21, 0.0f));
     }
 
     @Override // android.view.View

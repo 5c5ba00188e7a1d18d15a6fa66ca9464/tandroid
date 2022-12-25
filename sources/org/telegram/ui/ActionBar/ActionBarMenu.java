@@ -12,12 +12,13 @@ import org.telegram.ui.Adapters.FiltersView;
 import org.telegram.ui.Components.RLottieDrawable;
 /* loaded from: classes3.dex */
 public class ActionBarMenu extends LinearLayout {
-    public boolean drawBlur = true;
+    public boolean drawBlur;
     protected boolean isActionMode;
     protected ActionBar parentActionBar;
 
     public ActionBarMenu(Context context, ActionBar actionBar) {
         super(context);
+        this.drawBlur = true;
         setOrientation(0);
         this.parentActionBar = actionBar;
     }
@@ -122,10 +123,9 @@ public class ActionBarMenu extends LinearLayout {
     public /* synthetic */ void lambda$addItem$0(View view) {
         ActionBarMenuItem actionBarMenuItem = (ActionBarMenuItem) view;
         if (actionBarMenuItem.hasSubMenu()) {
-            if (!this.parentActionBar.actionBarMenuOnItemClick.canOpenMenu()) {
-                return;
+            if (this.parentActionBar.actionBarMenuOnItemClick.canOpenMenu()) {
+                actionBarMenuItem.toggleSubMenu();
             }
-            actionBarMenuItem.toggleSubMenu();
         } else if (actionBarMenuItem.isSearchField()) {
             this.parentActionBar.onSearchFieldVisibilityChanged(actionBarMenuItem.toggleSearch(true));
         } else {
@@ -214,11 +214,11 @@ public class ActionBarMenu extends LinearLayout {
                 ActionBarMenuItem actionBarMenuItem = (ActionBarMenuItem) childAt;
                 if (actionBarMenuItem.isSearchField() && actionBarMenuItem.isSearchFieldVisible()) {
                     ActionBarMenuItem.ActionBarMenuItemSearchListener actionBarMenuItemSearchListener = actionBarMenuItem.listener;
-                    if (actionBarMenuItemSearchListener != null && !actionBarMenuItemSearchListener.canCollapseSearch()) {
+                    if (actionBarMenuItemSearchListener == null || actionBarMenuItemSearchListener.canCollapseSearch()) {
+                        this.parentActionBar.onSearchFieldVisibilityChanged(false);
+                        actionBarMenuItem.toggleSearch(z);
                         return;
                     }
-                    this.parentActionBar.onSearchFieldVisibilityChanged(false);
-                    actionBarMenuItem.toggleSearch(z);
                     return;
                 }
             }

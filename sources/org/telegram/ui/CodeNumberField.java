@@ -29,27 +29,27 @@ import org.telegram.ui.Components.EditTextBoldCursor;
 import org.telegram.ui.Components.SimpleFloatPropertyCompat;
 /* loaded from: classes3.dex */
 public class CodeNumberField extends EditTextBoldCursor {
+    float enterAnimation;
     ValueAnimator enterAnimator;
     private float errorProgress;
+    private SpringAnimation errorSpringAnimation;
+    float exitAnimation;
     ValueAnimator exitAnimator;
     Bitmap exitBitmap;
     Canvas exitCanvas;
     private float focusedProgress;
+    private SpringAnimation focusedSpringAnimation;
+    boolean pressed;
     boolean replaceAnimation;
+    private boolean showSoftInputOnFocusInternal;
     private float successProgress;
+    private float successScaleProgress;
+    private SpringAnimation successScaleSpringAnimation;
+    private SpringAnimation successSpringAnimation;
     private static final FloatPropertyCompat<CodeNumberField> FOCUSED_PROGRESS = new SimpleFloatPropertyCompat("focusedProgress", CodeNumberField$$ExternalSyntheticLambda4.INSTANCE, CodeNumberField$$ExternalSyntheticLambda6.INSTANCE).setMultiplier(100.0f);
     private static final FloatPropertyCompat<CodeNumberField> ERROR_PROGRESS = new SimpleFloatPropertyCompat("errorProgress", CodeNumberField$$ExternalSyntheticLambda3.INSTANCE, CodeNumberField$$ExternalSyntheticLambda9.INSTANCE).setMultiplier(100.0f);
     private static final FloatPropertyCompat<CodeNumberField> SUCCESS_PROGRESS = new SimpleFloatPropertyCompat("successProgress", CodeNumberField$$ExternalSyntheticLambda2.INSTANCE, CodeNumberField$$ExternalSyntheticLambda7.INSTANCE).setMultiplier(100.0f);
     private static final FloatPropertyCompat<CodeNumberField> SUCCESS_SCALE_PROGRESS = new SimpleFloatPropertyCompat("successScaleProgress", CodeNumberField$$ExternalSyntheticLambda5.INSTANCE, CodeNumberField$$ExternalSyntheticLambda8.INSTANCE).setMultiplier(100.0f);
-    private float successScaleProgress = 1.0f;
-    private SpringAnimation focusedSpringAnimation = new SpringAnimation(this, FOCUSED_PROGRESS);
-    private SpringAnimation errorSpringAnimation = new SpringAnimation(this, ERROR_PROGRESS);
-    private SpringAnimation successSpringAnimation = new SpringAnimation(this, SUCCESS_PROGRESS);
-    private SpringAnimation successScaleSpringAnimation = new SpringAnimation(this, SUCCESS_SCALE_PROGRESS);
-    private boolean showSoftInputOnFocusInternal = true;
-    float enterAnimation = 1.0f;
-    float exitAnimation = 1.0f;
-    boolean pressed = false;
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$static$1(CodeNumberField codeNumberField, float f) {
@@ -85,6 +85,15 @@ public class CodeNumberField extends EditTextBoldCursor {
 
     public CodeNumberField(Context context) {
         super(context);
+        this.successScaleProgress = 1.0f;
+        this.focusedSpringAnimation = new SpringAnimation(this, FOCUSED_PROGRESS);
+        this.errorSpringAnimation = new SpringAnimation(this, ERROR_PROGRESS);
+        this.successSpringAnimation = new SpringAnimation(this, SUCCESS_PROGRESS);
+        this.successScaleSpringAnimation = new SpringAnimation(this, SUCCESS_SCALE_PROGRESS);
+        this.showSoftInputOnFocusInternal = true;
+        this.enterAnimation = 1.0f;
+        this.exitAnimation = 1.0f;
+        this.pressed = false;
         setBackground(null);
         setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
         setMovementMethod(null);
@@ -246,10 +255,7 @@ public class CodeNumberField extends EditTextBoldCursor {
             motionEvent.getY();
         }
         if (motionEvent.getAction() == 1 || motionEvent.getAction() == 3) {
-            CodeFieldContainer codeFieldContainer = null;
-            if (getParent() instanceof CodeFieldContainer) {
-                codeFieldContainer = (CodeFieldContainer) getParent();
-            }
+            CodeFieldContainer codeFieldContainer = getParent() instanceof CodeFieldContainer ? (CodeFieldContainer) getParent() : null;
             if (motionEvent.getAction() == 1 && this.pressed) {
                 if (isFocused() && codeFieldContainer != null) {
                     ClipboardManager clipboardManager = (ClipboardManager) ContextCompat.getSystemService(getContext(), ClipboardManager.class);
@@ -318,18 +324,18 @@ public class CodeNumberField extends EditTextBoldCursor {
             i = Integer.parseInt(charSequence);
         } catch (Exception unused) {
         }
-        if (i <= 0) {
-            return;
+        if (i > 0) {
+            codeFieldContainer.setText(charSequence, true);
         }
-        codeFieldContainer.setText(charSequence, true);
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
     public void onFocusChanged(boolean z, int i, Rect rect) {
         super.onFocusChanged(z, i, rect);
-        if (!isFocused()) {
-            hideActionMode();
+        if (isFocused()) {
+            return;
         }
+        hideActionMode();
     }
 }

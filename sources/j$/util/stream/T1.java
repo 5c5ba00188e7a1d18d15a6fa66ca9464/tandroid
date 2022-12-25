@@ -10,12 +10,11 @@ public class T1 implements u1 {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public T1(long j) {
-        if (j < 2147483639) {
-            this.a = new double[(int) j];
-            this.b = 0;
-            return;
+        if (j >= 2147483639) {
+            throw new IllegalArgumentException("Stream size exceeds max array size");
         }
-        throw new IllegalArgumentException("Stream size exceeds max array size");
+        this.a = new double[(int) j];
+        this.b = 0;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

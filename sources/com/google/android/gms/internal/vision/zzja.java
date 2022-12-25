@@ -63,15 +63,15 @@ final class zzja extends zzhj<Float> implements zzjl<Float>, zzkw {
 
     @Override // java.util.AbstractList, java.util.List
     public final int indexOf(Object obj) {
-        if (!(obj instanceof Float)) {
-            return -1;
-        }
-        float floatValue = ((Float) obj).floatValue();
-        int size = size();
-        for (int i = 0; i < size; i++) {
-            if (this.zzb[i] == floatValue) {
-                return i;
+        if (obj instanceof Float) {
+            float floatValue = ((Float) obj).floatValue();
+            int size = size();
+            for (int i = 0; i < size; i++) {
+                if (this.zzb[i] == floatValue) {
+                    return i;
+                }
             }
+            return -1;
         }
         return -1;
     }

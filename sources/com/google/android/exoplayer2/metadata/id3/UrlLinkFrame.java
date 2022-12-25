@@ -45,13 +45,9 @@ public final class UrlLinkFrame extends Id3Frame {
     public int hashCode() {
         int hashCode = (527 + this.id.hashCode()) * 31;
         String str = this.description;
-        int i = 0;
         int hashCode2 = (hashCode + (str != null ? str.hashCode() : 0)) * 31;
         String str2 = this.url;
-        if (str2 != null) {
-            i = str2.hashCode();
-        }
-        return hashCode2 + i;
+        return hashCode2 + (str2 != null ? str2.hashCode() : 0);
     }
 
     @Override // com.google.android.exoplayer2.metadata.id3.Id3Frame

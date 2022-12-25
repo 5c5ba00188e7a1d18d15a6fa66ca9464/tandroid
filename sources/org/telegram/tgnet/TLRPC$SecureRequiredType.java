@@ -8,12 +8,12 @@ public abstract class TLRPC$SecureRequiredType extends TLObject {
         } else {
             tLRPC$TL_secureRequiredType = i != 41187252 ? null : new TLRPC$TL_secureRequiredTypeOneOf();
         }
-        if (tLRPC$TL_secureRequiredType != null || !z) {
-            if (tLRPC$TL_secureRequiredType != null) {
-                tLRPC$TL_secureRequiredType.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_secureRequiredType;
+        if (tLRPC$TL_secureRequiredType == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in SecureRequiredType", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in SecureRequiredType", Integer.valueOf(i)));
+        if (tLRPC$TL_secureRequiredType != null) {
+            tLRPC$TL_secureRequiredType.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_secureRequiredType;
     }
 }

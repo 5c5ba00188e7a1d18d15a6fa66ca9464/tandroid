@@ -103,14 +103,14 @@ public class MessagingAnalytics {
 
     static String getInstanceId(Bundle bundle) {
         String string = bundle.getString("google.to");
-        if (!TextUtils.isEmpty(string)) {
-            return string;
+        if (TextUtils.isEmpty(string)) {
+            try {
+                return (String) Tasks.await(FirebaseInstallations.getInstance(FirebaseApp.getInstance()).getId());
+            } catch (InterruptedException | ExecutionException e) {
+                throw new RuntimeException(e);
+            }
         }
-        try {
-            return (String) Tasks.await(FirebaseInstallations.getInstance(FirebaseApp.getInstance()).getId());
-        } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
-        }
+        return string;
     }
 
     static String getMessageChannel(Bundle bundle) {
@@ -200,19 +200,19 @@ public class MessagingAnalytics {
         if (obj instanceof Integer) {
             return ((Integer) obj).intValue();
         }
-        if (!(obj instanceof String)) {
-            return 0;
+        if (obj instanceof String) {
+            try {
+                return Integer.parseInt((String) obj);
+            } catch (NumberFormatException unused) {
+                String valueOf = String.valueOf(obj);
+                StringBuilder sb = new StringBuilder(valueOf.length() + 13);
+                sb.append("Invalid TTL: ");
+                sb.append(valueOf);
+                Log.w("FirebaseMessaging", sb.toString());
+                return 0;
+            }
         }
-        try {
-            return Integer.parseInt((String) obj);
-        } catch (NumberFormatException unused) {
-            String valueOf = String.valueOf(obj);
-            StringBuilder sb = new StringBuilder(valueOf.length() + 13);
-            sb.append("Invalid TTL: ");
-            sb.append(valueOf);
-            Log.w("FirebaseMessaging", sb.toString());
-            return 0;
-        }
+        return 0;
     }
 
     static String getUseDeviceTime(Bundle bundle) {
@@ -349,8 +349,7 @@ public class MessagingAnalytics {
                 return;
             }
             Log.w("FirebaseMessaging", "Unable to set user property for conversion tracking:  analytics library is missing");
-        } else if (!Log.isLoggable("FirebaseMessaging", 3)) {
-        } else {
+        } else if (Log.isLoggable("FirebaseMessaging", 3)) {
             Log.d("FirebaseMessaging", "Received event with track-conversion=false. Do not set user property");
         }
     }

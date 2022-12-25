@@ -10,12 +10,12 @@ public abstract class TLRPC$StatsGraph extends TLObject {
         } else {
             tLRPC$TL_statsGraph = new TLRPC$TL_statsGraphError();
         }
-        if (tLRPC$TL_statsGraph != null || !z) {
-            if (tLRPC$TL_statsGraph != null) {
-                tLRPC$TL_statsGraph.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_statsGraph;
+        if (tLRPC$TL_statsGraph == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in StatsGraph", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in StatsGraph", Integer.valueOf(i)));
+        if (tLRPC$TL_statsGraph != null) {
+            tLRPC$TL_statsGraph.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_statsGraph;
     }
 }

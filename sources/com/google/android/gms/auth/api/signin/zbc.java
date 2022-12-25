@@ -11,7 +11,7 @@ public final class zbc implements Parcelable.Creator {
         int validateObjectHeader = SafeParcelReader.validateObjectHeader(parcel);
         String str = "";
         GoogleSignInAccount googleSignInAccount = null;
-        String str2 = str;
+        String str2 = "";
         while (parcel.dataPosition() < validateObjectHeader) {
             int readHeader = SafeParcelReader.readHeader(parcel);
             int fieldId = SafeParcelReader.getFieldId(readHeader);

@@ -297,12 +297,12 @@ public abstract class TLRPC$updates_Difference extends TLObject {
                 tLRPC$updates_Difference = null;
                 break;
         }
-        if (tLRPC$updates_Difference != null || !z) {
-            if (tLRPC$updates_Difference != null) {
-                tLRPC$updates_Difference.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$updates_Difference;
+        if (tLRPC$updates_Difference == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in updates_Difference", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in updates_Difference", Integer.valueOf(i)));
+        if (tLRPC$updates_Difference != null) {
+            tLRPC$updates_Difference.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$updates_Difference;
     }
 }

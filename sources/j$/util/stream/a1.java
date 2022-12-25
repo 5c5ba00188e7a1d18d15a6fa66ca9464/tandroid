@@ -32,10 +32,10 @@ public class a1 extends d1 {
 
     @Override // j$.util.stream.d1, j$.util.stream.e1
     public void d(j$.util.function.q qVar) {
-        if (!isParallel()) {
-            d1.L0(J0()).d(qVar);
-        } else {
+        if (isParallel()) {
             super.d(qVar);
+        } else {
+            d1.L0(J0()).d(qVar);
         }
     }
 

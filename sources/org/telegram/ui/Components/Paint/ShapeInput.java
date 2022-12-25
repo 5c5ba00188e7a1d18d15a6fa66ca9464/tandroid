@@ -66,32 +66,31 @@ public class ShapeInput {
         Shape shape = this.shape;
         if (shape != null) {
             float f = shape.rotation;
-            if (f == 0.0f) {
-                return;
+            if (f != 0.0f) {
+                float[] fArr = this.tempPoint;
+                fArr[0] = fArr[0] - shape.centerX;
+                fArr[1] = fArr[1] - shape.centerY;
+                double d = fArr[0];
+                double d2 = f * (z ? -1 : 1);
+                double cos = Math.cos(d2);
+                Double.isNaN(d);
+                double d3 = d * cos;
+                double d4 = this.tempPoint[1];
+                double sin = Math.sin(d2);
+                Double.isNaN(d4);
+                float f2 = (float) (d3 - (d4 * sin));
+                double d5 = this.tempPoint[0];
+                double sin2 = Math.sin(d2);
+                Double.isNaN(d5);
+                double d6 = d5 * sin2;
+                double d7 = this.tempPoint[1];
+                double cos2 = Math.cos(d2);
+                Double.isNaN(d7);
+                float[] fArr2 = this.tempPoint;
+                Shape shape2 = this.shape;
+                fArr2[0] = f2 + shape2.centerX;
+                fArr2[1] = ((float) (d6 + (d7 * cos2))) + shape2.centerY;
             }
-            float[] fArr = this.tempPoint;
-            fArr[0] = fArr[0] - shape.centerX;
-            fArr[1] = fArr[1] - shape.centerY;
-            double d = fArr[0];
-            double d2 = f * (z ? -1 : 1);
-            double cos = Math.cos(d2);
-            Double.isNaN(d);
-            double d3 = d * cos;
-            double d4 = this.tempPoint[1];
-            double sin = Math.sin(d2);
-            Double.isNaN(d4);
-            float f2 = (float) (d3 - (d4 * sin));
-            double d5 = this.tempPoint[0];
-            double sin2 = Math.sin(d2);
-            Double.isNaN(d5);
-            double d6 = d5 * sin2;
-            double d7 = this.tempPoint[1];
-            double cos2 = Math.cos(d2);
-            Double.isNaN(d7);
-            float[] fArr2 = this.tempPoint;
-            Shape shape2 = this.shape;
-            fArr2[0] = f2 + shape2.centerX;
-            fArr2[1] = ((float) (d6 + (d7 * cos2))) + shape2.centerY;
         }
     }
 
@@ -174,14 +173,14 @@ public class ShapeInput {
                 f3 = Math.min(f3, distToLine(f, f2, shape4.centerX, shape4.centerY, shape4.middleX, shape4.middleY));
             }
             return f3 < ((float) AndroidUtilities.dp(30.0f));
-        } else if (this.shape.getType() != 4) {
-            return false;
-        } else {
+        } else if (this.shape.getType() == 4) {
             Size size = this.renderView.getPainting().getSize();
             Shape shape5 = this.shape;
             float distToLine = distToLine(f, f2, shape5.centerX, shape5.centerY, shape5.middleX, shape5.middleY);
             Shape shape6 = this.shape;
             return Math.min(distToLine, distToLine(f, f2, shape6.radiusX, shape6.radiusY, shape6.middleX, shape6.middleY)) - (this.shape.thickness / 2.0f) < Math.min(size.width, size.height) * 0.1f;
+        } else {
+            return false;
         }
     }
 
@@ -204,10 +203,10 @@ public class ShapeInput {
         Point point = null;
         if (actionMasked != 0) {
             if (actionMasked != 2) {
-                if (actionMasked != 1 && actionMasked != 3) {
+                if (actionMasked == 1 || actionMasked == 3) {
+                    this.movingPoint = null;
                     return;
                 }
-                this.movingPoint = null;
                 return;
             }
             Point point2 = this.movingPoint;
@@ -283,17 +282,16 @@ public class ShapeInput {
             return;
         }
         Point point9 = this.center;
-        if (point9 == null) {
-            return;
+        if (point9 != null) {
+            if (point9.rotate) {
+                rotate(f2, f3, false);
+            }
+            Point point10 = this.center;
+            float f10 = point10.x;
+            float[] fArr10 = this.tempPoint;
+            this.touchOffsetX = f10 - fArr10[0];
+            this.touchOffsetY = point10.y - fArr10[1];
         }
-        if (point9.rotate) {
-            rotate(f2, f3, false);
-        }
-        Point point10 = this.center;
-        float f10 = point10.x;
-        float[] fArr10 = this.tempPoint;
-        this.touchOffsetX = f10 - fArr10[0];
-        this.touchOffsetY = point10.y - fArr10[1];
     }
 
     public void onWeightChange() {
@@ -648,9 +646,8 @@ public class ShapeInput {
             super(ShapeInput.this);
             this.rotate = false;
             this.shape = shape;
-            float f = -1.0f;
             this.rx = z ? -1.0f : 1.0f;
-            this.ry = !z2 ? 1.0f : f;
+            this.ry = z2 ? -1.0f : 1.0f;
             set();
         }
 

@@ -30,12 +30,12 @@ public class DilogCacheBottomSheet extends BottomSheetWithRecyclerListView {
     private final Delegate cacheDelegate;
     private final CacheModel cacheModel;
     CachedMediaLayout cachedMediaLayout;
+    CheckBoxCell[] checkBoxes;
     private final StorageDiagramView circleDiagramView;
+    private StorageDiagramView.ClearViewData[] clearViewData;
     long dialogId;
     CacheControlActivity.DialogFileEntities entities;
     LinearLayout linearLayout;
-    private StorageDiagramView.ClearViewData[] clearViewData = new StorageDiagramView.ClearViewData[8];
-    CheckBoxCell[] checkBoxes = new CheckBoxCell[8];
 
     /* loaded from: classes3.dex */
     public interface Delegate {
@@ -106,6 +106,8 @@ public class DilogCacheBottomSheet extends BottomSheetWithRecyclerListView {
         String str;
         String str2;
         long j;
+        this.clearViewData = new StorageDiagramView.ClearViewData[8];
+        this.checkBoxes = new CheckBoxCell[8];
         this.cacheDelegate = delegate;
         this.entities = dialogFileEntities;
         this.cacheModel = cacheModel;

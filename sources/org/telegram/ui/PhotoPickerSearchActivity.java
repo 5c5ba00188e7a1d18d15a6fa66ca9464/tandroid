@@ -87,7 +87,6 @@ public class PhotoPickerSearchActivity extends BaseFragment {
         View view;
         this.actionBar.setBackgroundColor(Theme.getColor("dialogBackground"));
         this.actionBar.setTitleColor(Theme.getColor("dialogTextBlack"));
-        boolean z = false;
         this.actionBar.setItemsColor(Theme.getColor("dialogTextBlack"), false);
         this.actionBar.setItemsBackgroundColor(Theme.getColor("dialogButtonSelector"), false);
         this.actionBar.setBackButtonImage(R.drawable.ic_ab_back);
@@ -151,7 +150,7 @@ public class PhotoPickerSearchActivity extends BaseFragment {
             }
 
             @Override // org.telegram.ui.Components.ScrollSlidingTextTabStrip.ScrollSlidingTabStripDelegate
-            public void onPageSelected(int i, boolean z2) {
+            public void onPageSelected(int i, boolean z) {
                 if (PhotoPickerSearchActivity.this.viewPages[0].selectedType == i) {
                     return;
                 }
@@ -160,7 +159,7 @@ public class PhotoPickerSearchActivity extends BaseFragment {
                 PhotoPickerSearchActivity.this.viewPages[1].selectedType = i;
                 PhotoPickerSearchActivity.this.viewPages[1].setVisibility(0);
                 PhotoPickerSearchActivity.this.switchToCurrentSelectedMode(true);
-                PhotoPickerSearchActivity.this.animatingForward = z2;
+                PhotoPickerSearchActivity.this.animatingForward = z;
                 if (i == 0) {
                     PhotoPickerSearchActivity.this.searchItem.setSearchFieldHint(LocaleController.getString("SearchImagesTitle", R.string.SearchImagesTitle));
                 } else {
@@ -178,13 +177,12 @@ public class PhotoPickerSearchActivity extends BaseFragment {
                         PhotoPickerSearchActivity.this.viewPages[0].setTranslationX(PhotoPickerSearchActivity.this.viewPages[0].getMeasuredWidth() * f);
                         PhotoPickerSearchActivity.this.viewPages[1].setTranslationX((PhotoPickerSearchActivity.this.viewPages[0].getMeasuredWidth() * f) - PhotoPickerSearchActivity.this.viewPages[0].getMeasuredWidth());
                     }
-                    if (f != 1.0f) {
-                        return;
+                    if (f == 1.0f) {
+                        ViewPage viewPage = PhotoPickerSearchActivity.this.viewPages[0];
+                        PhotoPickerSearchActivity.this.viewPages[0] = PhotoPickerSearchActivity.this.viewPages[1];
+                        PhotoPickerSearchActivity.this.viewPages[1] = viewPage;
+                        PhotoPickerSearchActivity.this.viewPages[1].setVisibility(8);
                     }
-                    ViewPage viewPage = PhotoPickerSearchActivity.this.viewPages[0];
-                    PhotoPickerSearchActivity.this.viewPages[0] = PhotoPickerSearchActivity.this.viewPages[1];
-                    PhotoPickerSearchActivity.this.viewPages[1] = viewPage;
-                    PhotoPickerSearchActivity.this.viewPages[1].setVisibility(8);
                 }
             }
         });
@@ -198,8 +196,8 @@ public class PhotoPickerSearchActivity extends BaseFragment {
             private int startedTrackingY;
             private VelocityTracker velocityTracker;
 
-            private boolean prepareForMoving(MotionEvent motionEvent, boolean z2) {
-                int nextPageId = PhotoPickerSearchActivity.this.scrollSlidingTextTabStrip.getNextPageId(z2);
+            private boolean prepareForMoving(MotionEvent motionEvent, boolean z) {
+                int nextPageId = PhotoPickerSearchActivity.this.scrollSlidingTextTabStrip.getNextPageId(z);
                 if (nextPageId < 0) {
                     return false;
                 }
@@ -211,9 +209,9 @@ public class PhotoPickerSearchActivity extends BaseFragment {
                 PhotoPickerSearchActivity.this.scrollSlidingTextTabStrip.setEnabled(false);
                 PhotoPickerSearchActivity.this.viewPages[1].selectedType = nextPageId;
                 PhotoPickerSearchActivity.this.viewPages[1].setVisibility(0);
-                PhotoPickerSearchActivity.this.animatingForward = z2;
+                PhotoPickerSearchActivity.this.animatingForward = z;
                 PhotoPickerSearchActivity.this.switchToCurrentSelectedMode(true);
-                if (z2) {
+                if (z) {
                     PhotoPickerSearchActivity.this.viewPages[1].setTranslationX(PhotoPickerSearchActivity.this.viewPages[0].getMeasuredWidth());
                 } else {
                     PhotoPickerSearchActivity.this.viewPages[1].setTranslationX(-PhotoPickerSearchActivity.this.viewPages[0].getMeasuredWidth());
@@ -222,8 +220,8 @@ public class PhotoPickerSearchActivity extends BaseFragment {
             }
 
             @Override // android.view.View
-            public void forceHasOverlappingRendering(boolean z2) {
-                super.forceHasOverlappingRendering(z2);
+            public void forceHasOverlappingRendering(boolean z) {
+                super.forceHasOverlappingRendering(z);
             }
 
             @Override // android.widget.FrameLayout, android.view.View
@@ -272,16 +270,16 @@ public class PhotoPickerSearchActivity extends BaseFragment {
             }
 
             /* JADX INFO: Access modifiers changed from: protected */
-            /* JADX WARN: Removed duplicated region for block: B:25:0x0083  */
-            /* JADX WARN: Removed duplicated region for block: B:32:0x00b2  */
-            /* JADX WARN: Removed duplicated region for block: B:36:0x00c4  */
-            /* JADX WARN: Removed duplicated region for block: B:38:0x00cd  */
-            /* JADX WARN: Removed duplicated region for block: B:45:0x009d  */
+            /* JADX WARN: Removed duplicated region for block: B:32:0x0083  */
+            /* JADX WARN: Removed duplicated region for block: B:39:0x009d  */
+            /* JADX WARN: Removed duplicated region for block: B:43:0x00b2  */
+            /* JADX WARN: Removed duplicated region for block: B:47:0x00c4  */
+            /* JADX WARN: Removed duplicated region for block: B:48:0x00cd  */
             @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
             */
-            public void onLayout(boolean z2, int i, int i2, int i3, int i4) {
+            public void onLayout(boolean z, int i, int i2, int i3, int i4) {
                 int i5;
                 int i6;
                 int i7;
@@ -377,32 +375,21 @@ public class PhotoPickerSearchActivity extends BaseFragment {
 
             public boolean checkTabsAnimationInProgress() {
                 if (PhotoPickerSearchActivity.this.tabsAnimationInProgress) {
-                    int i = -1;
-                    boolean z2 = true;
+                    boolean z = true;
                     if (PhotoPickerSearchActivity.this.backAnimation) {
                         if (Math.abs(PhotoPickerSearchActivity.this.viewPages[0].getTranslationX()) < 1.0f) {
                             PhotoPickerSearchActivity.this.viewPages[0].setTranslationX(0.0f);
-                            ViewPage viewPage = PhotoPickerSearchActivity.this.viewPages[1];
-                            int measuredWidth = PhotoPickerSearchActivity.this.viewPages[0].getMeasuredWidth();
-                            if (PhotoPickerSearchActivity.this.animatingForward) {
-                                i = 1;
-                            }
-                            viewPage.setTranslationX(measuredWidth * i);
+                            PhotoPickerSearchActivity.this.viewPages[1].setTranslationX(PhotoPickerSearchActivity.this.viewPages[0].getMeasuredWidth() * (PhotoPickerSearchActivity.this.animatingForward ? 1 : -1));
                         }
-                        z2 = false;
+                        z = false;
                     } else {
                         if (Math.abs(PhotoPickerSearchActivity.this.viewPages[1].getTranslationX()) < 1.0f) {
-                            ViewPage viewPage2 = PhotoPickerSearchActivity.this.viewPages[0];
-                            int measuredWidth2 = PhotoPickerSearchActivity.this.viewPages[0].getMeasuredWidth();
-                            if (!PhotoPickerSearchActivity.this.animatingForward) {
-                                i = 1;
-                            }
-                            viewPage2.setTranslationX(measuredWidth2 * i);
+                            PhotoPickerSearchActivity.this.viewPages[0].setTranslationX(PhotoPickerSearchActivity.this.viewPages[0].getMeasuredWidth() * (PhotoPickerSearchActivity.this.animatingForward ? -1 : 1));
                             PhotoPickerSearchActivity.this.viewPages[1].setTranslationX(0.0f);
                         }
-                        z2 = false;
+                        z = false;
                     }
-                    if (z2) {
+                    if (z) {
                         if (PhotoPickerSearchActivity.this.tabsAnimation != null) {
                             PhotoPickerSearchActivity.this.tabsAnimation.cancel();
                             PhotoPickerSearchActivity.this.tabsAnimation = null;
@@ -431,7 +418,6 @@ public class PhotoPickerSearchActivity extends BaseFragment {
                 float f2;
                 float measuredWidth;
                 int measuredWidth2;
-                boolean z2 = false;
                 if (((BaseFragment) PhotoPickerSearchActivity.this).parentLayout.checkTransitionAnimation() || checkTabsAnimationInProgress()) {
                     return false;
                 }
@@ -461,10 +447,7 @@ public class PhotoPickerSearchActivity extends BaseFragment {
                     }
                     if (this.maybeStartTracking && !this.startedTracking) {
                         if (Math.abs(x) >= AndroidUtilities.getPixelsInCM(0.3f, true) && Math.abs(x) > abs) {
-                            if (x < 0) {
-                                z2 = true;
-                            }
-                            prepareForMoving(motionEvent, z2);
+                            prepareForMoving(motionEvent, x < 0);
                         }
                     } else if (this.startedTracking) {
                         PhotoPickerSearchActivity.this.viewPages[0].setTranslationX(x);
@@ -588,10 +571,9 @@ public class PhotoPickerSearchActivity extends BaseFragment {
                 @Override // android.view.View
                 public void setTranslationX(float f) {
                     super.setTranslationX(f);
-                    if (!PhotoPickerSearchActivity.this.tabsAnimationInProgress || PhotoPickerSearchActivity.this.viewPages[0] != this) {
-                        return;
+                    if (PhotoPickerSearchActivity.this.tabsAnimationInProgress && PhotoPickerSearchActivity.this.viewPages[0] == this) {
+                        PhotoPickerSearchActivity.this.scrollSlidingTextTabStrip.selectTabWithId(PhotoPickerSearchActivity.this.viewPages[1].selectedType, Math.abs(PhotoPickerSearchActivity.this.viewPages[0].getTranslationX()) / PhotoPickerSearchActivity.this.viewPages[0].getMeasuredWidth());
                     }
-                    PhotoPickerSearchActivity.this.scrollSlidingTextTabStrip.selectTabWithId(PhotoPickerSearchActivity.this.viewPages[1].selectedType, Math.abs(PhotoPickerSearchActivity.this.viewPages[0].getTranslationX()) / PhotoPickerSearchActivity.this.viewPages[0].getMeasuredWidth());
                 }
             };
             sizeNotifierFrameLayout.addView(this.viewPages[i2], LayoutHelper.createFrame(-1, -1.0f));
@@ -644,10 +626,9 @@ public class PhotoPickerSearchActivity extends BaseFragment {
                         } else if (f > 0.0f) {
                             f = 0.0f;
                         }
-                        if (f == translationY) {
-                            return;
+                        if (f != translationY) {
+                            PhotoPickerSearchActivity.this.setScrollY(f);
                         }
-                        PhotoPickerSearchActivity.this.setScrollY(f);
                     }
                 }
             });
@@ -659,10 +640,7 @@ public class PhotoPickerSearchActivity extends BaseFragment {
         sizeNotifierFrameLayout.addView(this.imagesSearch.selectedCountView, LayoutHelper.createFrame(42, 24.0f, 85, 0.0f, 0.0f, -2.0f, 9.0f));
         updateTabs();
         switchToCurrentSelectedMode(false);
-        if (this.scrollSlidingTextTabStrip.getCurrentTabId() == this.scrollSlidingTextTabStrip.getFirstTabId()) {
-            z = true;
-        }
-        this.swipeBackEnabled = z;
+        this.swipeBackEnabled = this.scrollSlidingTextTabStrip.getCurrentTabId() == this.scrollSlidingTextTabStrip.getFirstTabId();
         int color = Theme.getColor("dialogBackground");
         if (Build.VERSION.SDK_INT >= 23 && AndroidUtilities.computePerceivedBrightness(color) >= 0.721f) {
             View view2 = this.fragmentView;
@@ -826,9 +804,9 @@ public class PhotoPickerSearchActivity extends BaseFragment {
             i++;
         }
         viewPageArr[z ? 1 : 0].listView.getAdapter();
-        this.viewPages[z].listView.setPinnedHeaderShadowDrawable(null);
+        this.viewPages[z ? 1 : 0].listView.setPinnedHeaderShadowDrawable(null);
         if (this.actionBar.getTranslationY() != 0.0f) {
-            ((LinearLayoutManager) this.viewPages[z].listView.getLayoutManager()).scrollToPositionWithOffset(0, (int) this.actionBar.getTranslationY());
+            ((LinearLayoutManager) this.viewPages[z ? 1 : 0].listView.getLayoutManager()).scrollToPositionWithOffset(0, (int) this.actionBar.getTranslationY());
         }
     }
 

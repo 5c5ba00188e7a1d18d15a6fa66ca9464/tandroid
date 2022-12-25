@@ -13,12 +13,7 @@ import org.telegram.ui.ActionBar.Theme;
 public class Tooltip extends TextView {
     private View anchor;
     private ViewPropertyAnimator animator;
-    Runnable dismissRunnable = new Runnable() { // from class: org.telegram.ui.Components.Tooltip$$ExternalSyntheticLambda0
-        @Override // java.lang.Runnable
-        public final void run() {
-            Tooltip.this.lambda$new$0();
-        }
-    };
+    Runnable dismissRunnable;
     private boolean showing;
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -35,6 +30,12 @@ public class Tooltip extends TextView {
 
     public Tooltip(Context context, ViewGroup viewGroup, int i, int i2) {
         super(context);
+        this.dismissRunnable = new Runnable() { // from class: org.telegram.ui.Components.Tooltip$$ExternalSyntheticLambda0
+            @Override // java.lang.Runnable
+            public final void run() {
+                Tooltip.this.lambda$new$0();
+            }
+        };
         setBackgroundDrawable(Theme.createRoundRectDrawable(AndroidUtilities.dp(3.0f), i));
         setTextColor(i2);
         setTextSize(1, 14.0f);
@@ -85,14 +86,13 @@ public class Tooltip extends TextView {
             this.animator.cancel();
             this.animator = null;
         }
-        if (getVisibility() == 0) {
-            return;
+        if (getVisibility() != 0) {
+            setAlpha(0.0f);
+            setVisibility(0);
+            ViewPropertyAnimator listener = animate().setDuration(300L).alpha(1.0f).setListener(null);
+            this.animator = listener;
+            listener.start();
         }
-        setAlpha(0.0f);
-        setVisibility(0);
-        ViewPropertyAnimator listener = animate().setDuration(300L).alpha(1.0f).setListener(null);
-        this.animator = listener;
-        listener.start();
     }
 
     public void hide() {

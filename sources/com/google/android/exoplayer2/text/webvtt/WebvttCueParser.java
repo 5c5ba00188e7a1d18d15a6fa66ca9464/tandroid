@@ -44,10 +44,10 @@ public final class WebvttCueParser {
             return false;
         }
         Matcher matcher2 = pattern.matcher(readLine2);
-        if (!matcher2.matches()) {
-            return false;
+        if (matcher2.matches()) {
+            return parseCue(readLine.trim(), matcher2, parsableByteArray, builder, this.textBuilder, list);
         }
-        return parseCue(readLine.trim(), matcher2, parsableByteArray, builder, this.textBuilder, list);
+        return false;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -103,19 +103,15 @@ public final class WebvttCueParser {
             } else if (charAt == '<') {
                 int i2 = i + 1;
                 if (i2 < str2.length()) {
-                    int i3 = 1;
                     boolean z = str2.charAt(i2) == '/';
                     i2 = findEndOfTag(str2, i2);
-                    int i4 = i2 - 2;
-                    boolean z2 = str2.charAt(i4) == '/';
-                    if (z) {
-                        i3 = 2;
-                    }
-                    int i5 = i + i3;
+                    int i3 = i2 - 2;
+                    boolean z2 = str2.charAt(i3) == '/';
+                    int i4 = i + (z ? 2 : 1);
                     if (!z2) {
-                        i4 = i2 - 1;
+                        i3 = i2 - 1;
                     }
-                    String substring = str2.substring(i5, i4);
+                    String substring = str2.substring(i4, i3);
                     if (!substring.trim().isEmpty()) {
                         String tagName = getTagName(substring);
                         if (isSupportedTag(tagName)) {

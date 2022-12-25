@@ -279,11 +279,11 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
                                 if (trim.charAt(trim.length() - 1) != ')') {
                                     throw new Exception("last char not ')'");
                                 }
-                                if (group5.length() == 0) {
+                                if (group5.length() != 0) {
+                                    for (String str2 : group5.split(",")) {
+                                        interpretExpression(str2, hashMap, i);
+                                    }
                                     return;
-                                }
-                                for (String str2 : group5.split(",")) {
-                                    interpretExpression(str2, hashMap, i);
                                 }
                                 return;
                             }
@@ -425,14 +425,14 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
         return downloadUrlContent(asyncTask, str, null, true);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:85:0x0168, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:87:0x0168, code lost:
         if (r3 == (-1)) goto L81;
      */
-    /* JADX WARN: Removed duplicated region for block: B:39:0x0190  */
-    /* JADX WARN: Removed duplicated region for block: B:41:0x0195  */
-    /* JADX WARN: Removed duplicated region for block: B:44:0x019a A[ORIG_RETURN, RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:45:0x0129 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:73:0x0186 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:109:0x0190  */
+    /* JADX WARN: Removed duplicated region for block: B:111:0x0195  */
+    /* JADX WARN: Removed duplicated region for block: B:112:0x019a A[ORIG_RETURN, RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:125:0x0186 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:129:0x0129 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -502,20 +502,23 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
                 z2 = true;
             } catch (Throwable th) {
                 th = th;
-                boolean z5 = !(th instanceof SocketTimeoutException) ? !(th instanceof UnknownHostException) && (!(th instanceof SocketException) ? !(th instanceof FileNotFoundException) : th.getMessage() == null || !th.getMessage().contains("ECONNRESET")) : !ApplicationLoader.isNetworkOnline();
+                boolean z5 = !(th instanceof SocketTimeoutException) ? !(!(th instanceof UnknownHostException) && (!(th instanceof SocketException) ? (th instanceof FileNotFoundException) : !(th.getMessage() == null || !th.getMessage().contains("ECONNRESET")))) : ApplicationLoader.isNetworkOnline();
                 FileLog.e(th);
                 z2 = z5;
                 inputStream = null;
-                if (!z2) {
+                if (z2) {
                 }
-                if (!z3) {
+                if (z3) {
                 }
             }
         } catch (Throwable th2) {
             th = th2;
             httpURLConnection = null;
         }
-        if (!z2) {
+        if (z2) {
+            sb = null;
+            z3 = false;
+        } else {
             try {
                 if (httpURLConnection instanceof HttpURLConnection) {
                     httpURLConnection.getResponseCode();
@@ -547,7 +550,7 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
                                             z3 = false;
                                             if (inputStream != null) {
                                             }
-                                            if (!z3) {
+                                            if (z3) {
                                             }
                                         }
                                     } catch (Exception e2) {
@@ -557,7 +560,7 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
                                         z3 = z4;
                                         if (inputStream != null) {
                                         }
-                                        if (!z3) {
+                                        if (z3) {
                                         }
                                     }
                                 }
@@ -586,14 +589,11 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
             z3 = false;
             if (inputStream != null) {
             }
-        } else {
-            sb = null;
-            z3 = false;
         }
-        if (!z3) {
-            return sb.toString();
+        if (z3) {
+            return null;
         }
-        return null;
+        return sb.toString();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -609,217 +609,217 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
         }
 
         /* JADX INFO: Access modifiers changed from: protected */
-        /* JADX WARN: Code restructure failed: missing block: B:126:0x0269, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:102:0x0269, code lost:
             r2 = r23.result;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:127:0x026e, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:103:0x026e, code lost:
             if (r2[0] != null) goto L130;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:128:0x0270, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:104:0x0270, code lost:
             if (r11 == null) goto L130;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:129:0x0272, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:105:0x0272, code lost:
             r2[0] = r11;
             r2[1] = "other";
          */
-        /* JADX WARN: Code restructure failed: missing block: B:131:0x027b, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:107:0x027b, code lost:
             if (r2[0] == null) goto L211;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:132:0x027d, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:108:0x027d, code lost:
             if (r0 != false) goto L135;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:134:0x0285, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:110:0x0285, code lost:
             if (r2[0].contains("/s/") == false) goto L211;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:135:0x0287, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:111:0x0287, code lost:
             if (r3 == null) goto L211;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:136:0x0289, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:112:0x0289, code lost:
             r0 = r23.result[0].indexOf("/s/");
             r2 = r23.result[0].indexOf(47, r0 + 10);
          */
-        /* JADX WARN: Code restructure failed: missing block: B:137:0x029e, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:113:0x029e, code lost:
             if (r0 == (-1)) goto L210;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:138:0x02a0, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:114:0x02a0, code lost:
             if (r2 != (-1)) goto L140;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:139:0x02a2, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:115:0x02a2, code lost:
             r2 = r23.result[0].length();
          */
-        /* JADX WARN: Code restructure failed: missing block: B:140:0x02aa, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:116:0x02aa, code lost:
             r23.sig = r23.result[0].substring(r0, r2);
             r0 = org.telegram.ui.Components.WebPlayerView.jsPattern.matcher(r3);
          */
-        /* JADX WARN: Code restructure failed: missing block: B:141:0x02c0, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:117:0x02c0, code lost:
             if (r0.find() == false) goto L142;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:142:0x02de, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:118:0x02c2, code lost:
+            r0 = new org.json.JSONTokener(r0.group(1)).nextValue();
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:119:0x02d2, code lost:
+            if ((r0 instanceof java.lang.String) == false) goto L207;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:120:0x02d4, code lost:
+            r0 = (java.lang.String) r0;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:122:0x02d7, code lost:
+            r0 = null;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:123:0x02d8, code lost:
+            r2 = r0;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:124:0x02da, code lost:
+            r0 = move-exception;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:125:0x02db, code lost:
+            org.telegram.messenger.FileLog.e(r0);
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:126:0x02de, code lost:
             r2 = null;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:143:0x02df, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:127:0x02df, code lost:
             if (r2 != null) goto L144;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:145:0x02ed, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:129:0x02ed, code lost:
             if (org.telegram.ui.Components.WebPlayerView.playerIdPattern.matcher(r2).find() != false) goto L146;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:146:0x02ef, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:130:0x02ef, code lost:
             r0 = r0.group(1) + r0.group(2);
          */
-        /* JADX WARN: Code restructure failed: missing block: B:147:0x030a, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:131:0x0309, code lost:
+            r0 = null;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:132:0x030a, code lost:
             r3 = org.telegram.messenger.ApplicationLoader.applicationContext.getSharedPreferences("youtubecode", 0);
          */
-        /* JADX WARN: Code restructure failed: missing block: B:148:0x0315, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:133:0x0315, code lost:
             if (r0 != null) goto L149;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:149:0x0317, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:134:0x0317, code lost:
             r7 = r3.getString(r0, null);
             r8 = r3.getString(r0 + "n", null);
          */
-        /* JADX WARN: Code restructure failed: missing block: B:150:0x0332, code lost:
-            if (r7 == null) goto L151;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:152:0x033a, code lost:
-            if (r2.startsWith("//") != false) goto L153;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:153:0x033c, code lost:
-            r2 = "https:" + r2;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:154:0x0367, code lost:
-            r2 = r23.this$0.downloadUrlContent(r23, r2);
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:155:0x0371, code lost:
-            if (isCancelled() != false) goto L156;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:156:0x0373, code lost:
-            return null;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:157:0x0375, code lost:
-            r6 = null;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:158:0x0376, code lost:
-            if (r2 != null) goto L159;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:159:0x0378, code lost:
-            r9 = org.telegram.ui.Components.WebPlayerView.sigPattern.matcher(r2);
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:160:0x0384, code lost:
-            if (r9.find() != false) goto L161;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:161:0x0386, code lost:
-            r8 = r9.group(1);
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:162:0x039f, code lost:
-            if (r8 != null) goto L183;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:164:0x03dc, code lost:
-            if (android.text.TextUtils.isEmpty(r7) == false) goto L165;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:166:0x03e5, code lost:
-            if (android.os.Build.VERSION.SDK_INT >= 21) goto L167;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:167:0x03e7, code lost:
-            r0 = r7 + r8 + "('" + r23.sig.substring(3) + "');";
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:169:0x043b, code lost:
-            org.telegram.messenger.AndroidUtilities.runOnUIThread(new org.telegram.ui.Components.WebPlayerView$YoutubeVideoTask$$ExternalSyntheticLambda1(r23, r0));
-            r23.countDownLatch.await();
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:170:0x0448, code lost:
-            r7 = false;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:172:0x0459, code lost:
-            if (isCancelled() == false) goto L173;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:175:?, code lost:
-            return r23.result;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:177:0x0462, code lost:
-            return r6;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:179:0x044a, code lost:
-            r0 = move-exception;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:180:0x044b, code lost:
-            org.telegram.messenger.FileLog.e(r0);
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:181:0x0408, code lost:
-            r0 = r7 + "window." + r23.this$0.interfaceName + ".returnResultToJava(" + r8 + "('" + r23.sig.substring(3) + "'));";
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:182:0x0451, code lost:
-            r7 = true;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:184:0x03a1, code lost:
-            r7 = new org.telegram.ui.Components.WebPlayerView.JSExtractor(r2).extractFunction(r8);
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:185:0x03ae, code lost:
-            if (android.text.TextUtils.isEmpty(r7) == false) goto L186;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:187:0x03b2, code lost:
-            r3.edit().putString(r0, r7).putString(r0 + "n", r8).commit();
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:189:0x03d1, code lost:
-            r0 = move-exception;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:190:0x03d2, code lost:
-            org.telegram.messenger.FileLog.e(r0);
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:191:0x038c, code lost:
-            r9 = org.telegram.ui.Components.WebPlayerView.sigPattern2.matcher(r2);
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:192:0x0399, code lost:
-            if (r9.find() != false) goto L193;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:193:0x039b, code lost:
-            r8 = r9.group(1);
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:196:0x0354, code lost:
-            if (r2.startsWith("/") != false) goto L197;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:197:0x0356, code lost:
-            r2 = "https://www.youtube.com" + r2;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:198:0x03d6, code lost:
-            r6 = null;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:199:0x0330, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:135:0x0330, code lost:
             r7 = null;
             r8 = null;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:200:0x0309, code lost:
-            r0 = null;
+        /* JADX WARN: Code restructure failed: missing block: B:136:0x0332, code lost:
+            if (r7 == null) goto L151;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:202:0x02c2, code lost:
-            r0 = new org.json.JSONTokener(r0.group(1)).nextValue();
+        /* JADX WARN: Code restructure failed: missing block: B:138:0x033a, code lost:
+            if (r2.startsWith("//") != false) goto L153;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:203:0x02d2, code lost:
-            if ((r0 instanceof java.lang.String) == false) goto L207;
+        /* JADX WARN: Code restructure failed: missing block: B:139:0x033c, code lost:
+            r2 = "https:" + r2;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:204:0x02d4, code lost:
-            r0 = (java.lang.String) r0;
+        /* JADX WARN: Code restructure failed: missing block: B:141:0x0354, code lost:
+            if (r2.startsWith("/") != false) goto L197;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:205:0x02d8, code lost:
-            r2 = r0;
+        /* JADX WARN: Code restructure failed: missing block: B:142:0x0356, code lost:
+            r2 = "https://www.youtube.com" + r2;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:207:0x02d7, code lost:
-            r0 = null;
+        /* JADX WARN: Code restructure failed: missing block: B:143:0x0367, code lost:
+            r2 = r23.this$0.downloadUrlContent(r23, r2);
          */
-        /* JADX WARN: Code restructure failed: missing block: B:208:0x02da, code lost:
-            r0 = move-exception;
+        /* JADX WARN: Code restructure failed: missing block: B:144:0x0371, code lost:
+            if (isCancelled() != false) goto L156;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:209:0x02db, code lost:
-            org.telegram.messenger.FileLog.e(r0);
+        /* JADX WARN: Code restructure failed: missing block: B:145:0x0373, code lost:
+            return null;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:210:0x044f, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:147:0x0375, code lost:
             r6 = null;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:211:0x0453, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:148:0x0376, code lost:
+            if (r2 != null) goto L159;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:149:0x0378, code lost:
+            r9 = org.telegram.ui.Components.WebPlayerView.sigPattern.matcher(r2);
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:150:0x0384, code lost:
+            if (r9.find() != false) goto L161;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:151:0x0386, code lost:
+            r8 = r9.group(1);
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:152:0x038c, code lost:
+            r9 = org.telegram.ui.Components.WebPlayerView.sigPattern2.matcher(r2);
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:153:0x0399, code lost:
+            if (r9.find() != false) goto L193;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:154:0x039b, code lost:
+            r8 = r9.group(1);
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:155:0x039f, code lost:
+            if (r8 != null) goto L183;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:156:0x03a1, code lost:
+            r7 = new org.telegram.ui.Components.WebPlayerView.JSExtractor(r2).extractFunction(r8);
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:157:0x03ae, code lost:
+            if (android.text.TextUtils.isEmpty(r7) == false) goto L186;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:159:0x03b2, code lost:
+            r3.edit().putString(r0, r7).putString(r0 + "n", r8).commit();
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:161:0x03d1, code lost:
+            r0 = move-exception;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:162:0x03d2, code lost:
+            org.telegram.messenger.FileLog.e(r0);
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:163:0x03d6, code lost:
+            r6 = null;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:166:0x03dc, code lost:
+            if (android.text.TextUtils.isEmpty(r7) == false) goto L165;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:168:0x03e5, code lost:
+            if (android.os.Build.VERSION.SDK_INT >= 21) goto L167;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:169:0x03e7, code lost:
+            r0 = r7 + r8 + "('" + r23.sig.substring(3) + "');";
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:170:0x0408, code lost:
+            r0 = r7 + "window." + r23.this$0.interfaceName + ".returnResultToJava(" + r8 + "('" + r23.sig.substring(3) + "'));";
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:171:0x043b, code lost:
+            org.telegram.messenger.AndroidUtilities.runOnUIThread(new org.telegram.ui.Components.WebPlayerView$YoutubeVideoTask$$ExternalSyntheticLambda1(r23, r0));
+            r23.countDownLatch.await();
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:172:0x0448, code lost:
+            r7 = false;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:173:0x044a, code lost:
+            r0 = move-exception;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:174:0x044b, code lost:
+            org.telegram.messenger.FileLog.e(r0);
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:175:0x044f, code lost:
+            r6 = null;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:176:0x0451, code lost:
+            r7 = true;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:177:0x0453, code lost:
             r6 = null;
             r7 = r0;
          */
+        /* JADX WARN: Code restructure failed: missing block: B:179:0x0459, code lost:
+            if (isCancelled() == false) goto L173;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:184:0x0462, code lost:
+            return r6;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:226:?, code lost:
+            return r23.result;
+         */
         /* JADX WARN: Multi-variable type inference failed */
-        /* JADX WARN: Removed duplicated region for block: B:165:0x03de  */
-        /* JADX WARN: Removed duplicated region for block: B:173:0x045b A[ADDED_TO_REGION] */
+        /* JADX WARN: Removed duplicated region for block: B:167:0x03de  */
+        /* JADX WARN: Removed duplicated region for block: B:180:0x045b A[ADDED_TO_REGION] */
         @Override // android.os.AsyncTask
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -1093,10 +1093,10 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
             } catch (Exception e) {
                 FileLog.e(e);
             }
-            if (!isCancelled()) {
-                return this.results[0];
+            if (isCancelled()) {
+                return null;
             }
-            return null;
+            return this.results[0];
         }
 
         /* JADX INFO: Access modifiers changed from: protected */
@@ -1153,10 +1153,10 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
             } catch (Exception e) {
                 FileLog.e(e);
             }
-            if (!isCancelled()) {
-                return this.results[0];
+            if (isCancelled()) {
+                return null;
             }
-            return null;
+            return this.results[0];
         }
 
         /* JADX INFO: Access modifiers changed from: protected */
@@ -1204,10 +1204,10 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
             } catch (Exception e) {
                 FileLog.e(e);
             }
-            if (!isCancelled()) {
-                return this.results[0];
+            if (isCancelled()) {
+                return null;
             }
-            return null;
+            return this.results[0];
         }
 
         /* JADX INFO: Access modifiers changed from: protected */
@@ -1267,10 +1267,10 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
             } catch (Exception e) {
                 FileLog.e(e);
             }
-            if (!isCancelled()) {
-                return this.results[0];
+            if (isCancelled()) {
+                return null;
             }
-            return null;
+            return this.results[0];
         }
 
         /* JADX INFO: Access modifiers changed from: protected */
@@ -1323,10 +1323,10 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
             } catch (Exception e) {
                 FileLog.e(e);
             }
-            if (!isCancelled()) {
-                return this.results[0];
+            if (isCancelled()) {
+                return null;
             }
-            return null;
+            return this.results[0];
         }
 
         /* JADX INFO: Access modifiers changed from: protected */
@@ -1359,6 +1359,9 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
         private int duration;
         private StaticLayout durationLayout;
         private int durationWidth;
+        private Runnable hideRunnable;
+        private ImageReceiver imageReceiver;
+        private boolean isVisible;
         private int lastProgressX;
         private int progress;
         private Paint progressBufferedPaint;
@@ -1367,14 +1370,6 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
         private Paint progressPaint;
         private boolean progressPressed;
         private TextPaint textPaint;
-        private boolean isVisible = true;
-        private Runnable hideRunnable = new Runnable() { // from class: org.telegram.ui.Components.WebPlayerView$ControlsView$$ExternalSyntheticLambda0
-            @Override // java.lang.Runnable
-            public final void run() {
-                WebPlayerView.ControlsView.this.lambda$new$0();
-            }
-        };
-        private ImageReceiver imageReceiver = new ImageReceiver(this);
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$new$0() {
@@ -1383,6 +1378,13 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
 
         public ControlsView(Context context) {
             super(context);
+            this.isVisible = true;
+            this.hideRunnable = new Runnable() { // from class: org.telegram.ui.Components.WebPlayerView$ControlsView$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    WebPlayerView.ControlsView.this.lambda$new$0();
+                }
+            };
             setWillNotDraw(false);
             TextPaint textPaint = new TextPaint(1);
             this.textPaint = textPaint;
@@ -1397,6 +1399,7 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
             Paint paint3 = new Paint(1);
             this.progressBufferedPaint = paint3;
             paint3.setColor(-1);
+            this.imageReceiver = new ImageReceiver(this);
         }
 
         public void setDuration(int i) {
@@ -1472,10 +1475,9 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
         /* JADX INFO: Access modifiers changed from: private */
         public void checkNeedHide() {
             AndroidUtilities.cancelRunOnUIThread(this.hideRunnable);
-            if (!this.isVisible || !WebPlayerView.this.videoPlayer.isPlaying()) {
-                return;
+            if (this.isVisible && WebPlayerView.this.videoPlayer.isPlaying()) {
+                AndroidUtilities.runOnUIThread(this.hideRunnable, 3000L);
             }
-            AndroidUtilities.runOnUIThread(this.hideRunnable, 3000L);
         }
 
         @Override // android.view.ViewGroup
@@ -1558,13 +1560,13 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
             return true;
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:39:0x014a  */
-        /* JADX WARN: Removed duplicated region for block: B:42:0x015e  */
-        /* JADX WARN: Removed duplicated region for block: B:49:0x0190  */
-        /* JADX WARN: Removed duplicated region for block: B:51:0x0193  */
-        /* JADX WARN: Removed duplicated region for block: B:54:0x01b9  */
-        /* JADX WARN: Removed duplicated region for block: B:60:? A[RETURN, SYNTHETIC] */
-        /* JADX WARN: Removed duplicated region for block: B:61:0x0161  */
+        /* JADX WARN: Removed duplicated region for block: B:45:0x014a  */
+        /* JADX WARN: Removed duplicated region for block: B:48:0x015e  */
+        /* JADX WARN: Removed duplicated region for block: B:49:0x0161  */
+        /* JADX WARN: Removed duplicated region for block: B:56:0x0190  */
+        /* JADX WARN: Removed duplicated region for block: B:57:0x0193  */
+        /* JADX WARN: Removed duplicated region for block: B:61:0x01b9  */
+        /* JADX WARN: Removed duplicated region for block: B:70:? A[RETURN, SYNTHETIC] */
         @Override // android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -1598,7 +1600,6 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
             int measuredWidth = getMeasuredWidth();
             int measuredHeight = getMeasuredHeight();
             if (!WebPlayerView.this.isInline) {
-                int i6 = 6;
                 if (this.durationLayout != null) {
                     canvas.save();
                     canvas.translate((measuredWidth - AndroidUtilities.dp(58.0f)) - this.durationWidth, measuredHeight - AndroidUtilities.dp((WebPlayerView.this.inFullscreen ? 6 : 10) + 29));
@@ -1607,11 +1608,7 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
                 }
                 if (this.progressLayout != null) {
                     canvas.save();
-                    float dp5 = AndroidUtilities.dp(18.0f);
-                    if (!WebPlayerView.this.inFullscreen) {
-                        i6 = 10;
-                    }
-                    canvas.translate(dp5, measuredHeight - AndroidUtilities.dp(i6 + 29));
+                    canvas.translate(AndroidUtilities.dp(18.0f), measuredHeight - AndroidUtilities.dp((WebPlayerView.this.inFullscreen ? 6 : 10) + 29));
                     this.progressLayout.draw(canvas);
                     canvas.restore();
                 }
@@ -1619,15 +1616,14 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
             if (this.duration == 0) {
                 return;
             }
-            float f = 7.0f;
             if (!WebPlayerView.this.isInline) {
                 if (WebPlayerView.this.inFullscreen) {
-                    int dp6 = measuredHeight - AndroidUtilities.dp(29.0f);
-                    int dp7 = AndroidUtilities.dp(36.0f) + this.durationWidth;
+                    int dp5 = measuredHeight - AndroidUtilities.dp(29.0f);
+                    int dp6 = AndroidUtilities.dp(36.0f) + this.durationWidth;
                     dp3 = (measuredWidth - AndroidUtilities.dp(76.0f)) - this.durationWidth;
                     dp4 = measuredHeight - AndroidUtilities.dp(28.0f);
-                    i = dp6;
-                    i2 = dp7;
+                    i = dp5;
+                    i2 = dp6;
                     if (WebPlayerView.this.inFullscreen) {
                         canvas.drawRect(i2, i, dp3, AndroidUtilities.dp(3.0f) + i, this.progressInnerPaint);
                     }
@@ -1636,22 +1632,18 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
                     } else {
                         i3 = ((int) ((dp3 - i2) * (this.progress / this.duration))) + i2;
                     }
-                    int i7 = i3;
+                    int i6 = i3;
                     i4 = this.bufferedPosition;
                     if (i4 != 0 && (i5 = this.duration) != 0) {
-                        float f2 = i2;
-                        canvas.drawRect(f2, i, ((dp3 - i2) * (i4 / i5)) + f2, AndroidUtilities.dp(3.0f) + i, !WebPlayerView.this.inFullscreen ? this.progressBufferedPaint : this.progressInnerPaint);
+                        float f = i2;
+                        canvas.drawRect(f, i, ((dp3 - i2) * (i4 / i5)) + f, AndroidUtilities.dp(3.0f) + i, !WebPlayerView.this.inFullscreen ? this.progressBufferedPaint : this.progressInnerPaint);
                     }
-                    float f3 = i7;
-                    canvas.drawRect(i2, i, f3, i + AndroidUtilities.dp(3.0f), this.progressPaint);
-                    if (!WebPlayerView.this.isInline) {
+                    float f2 = i6;
+                    canvas.drawRect(i2, i, f2, i + AndroidUtilities.dp(3.0f), this.progressPaint);
+                    if (WebPlayerView.this.isInline) {
+                        canvas.drawCircle(f2, dp4, AndroidUtilities.dp(this.progressPressed ? 7.0f : 5.0f), this.progressPaint);
                         return;
                     }
-                    float f4 = dp4;
-                    if (!this.progressPressed) {
-                        f = 5.0f;
-                    }
-                    canvas.drawCircle(f3, f4, AndroidUtilities.dp(f), this.progressPaint);
                     return;
                 }
                 dp = measuredHeight - AndroidUtilities.dp(13.0f);
@@ -1668,15 +1660,15 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
             }
             if (!this.progressPressed) {
             }
-            int i72 = i3;
+            int i62 = i3;
             i4 = this.bufferedPosition;
             if (i4 != 0) {
-                float f22 = i2;
-                canvas.drawRect(f22, i, ((dp3 - i2) * (i4 / i5)) + f22, AndroidUtilities.dp(3.0f) + i, !WebPlayerView.this.inFullscreen ? this.progressBufferedPaint : this.progressInnerPaint);
+                float f3 = i2;
+                canvas.drawRect(f3, i, ((dp3 - i2) * (i4 / i5)) + f3, AndroidUtilities.dp(3.0f) + i, !WebPlayerView.this.inFullscreen ? this.progressBufferedPaint : this.progressInnerPaint);
             }
-            float f32 = i72;
-            canvas.drawRect(i2, i, f32, i + AndroidUtilities.dp(3.0f), this.progressPaint);
-            if (!WebPlayerView.this.isInline) {
+            float f22 = i62;
+            canvas.drawRect(i2, i, f22, i + AndroidUtilities.dp(3.0f), this.progressPaint);
+            if (WebPlayerView.this.isInline) {
             }
         }
     }
@@ -1821,12 +1813,11 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
                     ViewGroup.LayoutParams layoutParams = WebPlayerView.this.textureView.getLayoutParams();
                     layoutParams.width = getMeasuredWidth();
                     layoutParams.height = getMeasuredHeight();
-                    if (WebPlayerView.this.textureImageView == null) {
-                        return;
+                    if (WebPlayerView.this.textureImageView != null) {
+                        ViewGroup.LayoutParams layoutParams2 = WebPlayerView.this.textureImageView.getLayoutParams();
+                        layoutParams2.width = getMeasuredWidth();
+                        layoutParams2.height = getMeasuredHeight();
                     }
-                    ViewGroup.LayoutParams layoutParams2 = WebPlayerView.this.textureImageView.getLayoutParams();
-                    layoutParams2.width = getMeasuredWidth();
-                    layoutParams2.height = getMeasuredHeight();
                 }
             }
         };
@@ -1938,10 +1929,9 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
             return;
         }
         AsyncTask asyncTask2 = this.currentTask;
-        if (!(asyncTask2 instanceof YoutubeVideoTask)) {
-            return;
+        if (asyncTask2 instanceof YoutubeVideoTask) {
+            ((YoutubeVideoTask) asyncTask2).onInterfaceResult(str);
         }
-        ((YoutubeVideoTask) asyncTask2).onInterfaceResult(str);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -2083,8 +2073,7 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
         }
         if (this.videoPlayer.isPlaying() && i != 4) {
             updatePlayButton();
-        } else if (i != 4) {
-        } else {
+        } else if (i == 4) {
             this.isCompleted = true;
             this.videoPlayer.pause();
             this.videoPlayer.seekTo(0L);
@@ -2117,10 +2106,9 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
             this.videoHeight = i2;
             float f3 = i2 == 0 ? 1.0f : f2 / i2;
             aspectRatioFrameLayout.setAspectRatio(f3, i3);
-            if (!this.inFullscreen) {
-                return;
+            if (this.inFullscreen) {
+                this.delegate.onVideoSizeChanged(f3, i3);
             }
-            this.delegate.onVideoSizeChanged(f3, i3);
         }
     }
 
@@ -2217,10 +2205,11 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
     }
 
     private void checkAudioFocus() {
-        if (!this.hasAudioFocus) {
-            this.hasAudioFocus = true;
-            ((AudioManager) ApplicationLoader.applicationContext.getSystemService(MediaStreamTrack.AUDIO_TRACK_KIND)).requestAudioFocus(this, 3, 1);
+        if (this.hasAudioFocus) {
+            return;
         }
+        this.hasAudioFocus = true;
+        ((AudioManager) ApplicationLoader.applicationContext.getSystemService(MediaStreamTrack.AUDIO_TRACK_KIND)).requestAudioFocus(this, 3, 1);
     }
 
     @Override // android.media.AudioManager.OnAudioFocusChangeListener
@@ -2242,13 +2231,11 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
             }
             this.hasAudioFocus = false;
         } else if (i == 1) {
-            if (!this.resumeAudioOnFocusGain) {
-                return;
+            if (this.resumeAudioOnFocusGain) {
+                this.resumeAudioOnFocusGain = false;
+                this.videoPlayer.play();
             }
-            this.resumeAudioOnFocusGain = false;
-            this.videoPlayer.play();
-        } else if (i == -3 || i != -2 || !this.videoPlayer.isPlaying()) {
-        } else {
+        } else if (i != -3 && i == -2 && this.videoPlayer.isPlaying()) {
             this.resumeAudioOnFocusGain = true;
             this.videoPlayer.pause();
             updatePlayButton();
@@ -2325,10 +2312,9 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
         updateInlineButton();
         this.controlsView.invalidate();
         int i = this.seekToTime;
-        if (i == -1) {
-            return;
+        if (i != -1) {
+            this.videoPlayer.seekTo(i * 1000);
         }
-        this.videoPlayer.seekTo(i * 1000);
     }
 
     public void pause() {
@@ -2399,12 +2385,11 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
     }
 
     public void exitFullscreen() {
-        if (!this.inFullscreen) {
-            return;
+        if (this.inFullscreen) {
+            this.inFullscreen = false;
+            updateInlineButton();
+            updateFullscreenState(false);
         }
-        this.inFullscreen = false;
-        updateInlineButton();
-        updateFullscreenState(false);
     }
 
     public boolean isInitied() {
@@ -2441,7 +2426,6 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
             if (str.endsWith(".mp4")) {
                 return true;
             }
-            String str2 = null;
             try {
                 Matcher matcher = youtubeIdRegex.matcher(str);
                 if ((matcher.find() ? matcher.group(1) : null) != null) {
@@ -2484,10 +2468,7 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
             }
             try {
                 Matcher matcher6 = coubIdRegex.matcher(str);
-                if (matcher6.find()) {
-                    str2 = matcher6.group(1);
-                }
-                return str2 != null;
+                return (matcher6.find() ? matcher6.group(1) : null) != null;
             } catch (Exception e6) {
                 FileLog.e(e6);
                 return false;
@@ -2502,18 +2483,18 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
         showProgress(true, false);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:107:0x00b2 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:13:0x014a  */
-    /* JADX WARN: Removed duplicated region for block: B:16:0x015d  */
-    /* JADX WARN: Removed duplicated region for block: B:21:0x018b  */
-    /* JADX WARN: Removed duplicated region for block: B:24:0x0197  */
-    /* JADX WARN: Removed duplicated region for block: B:26:0x019c  */
-    /* JADX WARN: Removed duplicated region for block: B:31:0x024e A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x01b5  */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x0185  */
-    /* JADX WARN: Removed duplicated region for block: B:75:0x010f A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:85:0x00f0 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:96:0x00d1 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:101:0x014a  */
+    /* JADX WARN: Removed duplicated region for block: B:104:0x015d  */
+    /* JADX WARN: Removed duplicated region for block: B:107:0x0185  */
+    /* JADX WARN: Removed duplicated region for block: B:110:0x018b  */
+    /* JADX WARN: Removed duplicated region for block: B:113:0x0197  */
+    /* JADX WARN: Removed duplicated region for block: B:115:0x019c  */
+    /* JADX WARN: Removed duplicated region for block: B:119:0x01b5  */
+    /* JADX WARN: Removed duplicated region for block: B:134:0x024e A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:150:0x00b2 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:152:0x00d1 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:154:0x00f0 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:156:0x010f A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2907,10 +2888,10 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
         } catch (Exception e) {
             FileLog.e(e);
         }
-        if (group == null) {
-            return null;
+        if (group != null) {
+            return group;
         }
-        return group;
+        return null;
     }
 
     public View getAspectRatioView() {
@@ -2941,7 +2922,6 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
 
     /* JADX INFO: Access modifiers changed from: private */
     public void showProgress(boolean z, boolean z2) {
-        float f = 1.0f;
         if (z2) {
             AnimatorSet animatorSet = this.progressAnimation;
             if (animatorSet != null) {
@@ -2952,10 +2932,7 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
             Animator[] animatorArr = new Animator[1];
             RadialProgressView radialProgressView = this.progressView;
             float[] fArr = new float[1];
-            if (!z) {
-                f = 0.0f;
-            }
-            fArr[0] = f;
+            fArr[0] = z ? 1.0f : 0.0f;
             animatorArr[0] = ObjectAnimator.ofFloat(radialProgressView, "alpha", fArr);
             animatorSet2.playTogether(animatorArr);
             this.progressAnimation.setDuration(150L);
@@ -2968,10 +2945,6 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
             this.progressAnimation.start();
             return;
         }
-        RadialProgressView radialProgressView2 = this.progressView;
-        if (!z) {
-            f = 0.0f;
-        }
-        radialProgressView2.setAlpha(f);
+        this.progressView.setAlpha(z ? 1.0f : 0.0f);
     }
 }

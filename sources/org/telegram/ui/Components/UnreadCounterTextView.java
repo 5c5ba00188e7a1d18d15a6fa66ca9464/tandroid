@@ -24,21 +24,21 @@ public class UnreadCounterTextView extends View {
     private Drawable icon;
     private Drawable iconOut;
     CharSequence lastText;
+    private TextPaint layoutPaint;
     private int layoutTextWidth;
+    private Paint paint;
     int panelBackgroundColor;
+    private RectF rect;
     ValueAnimator replaceAnimator;
+    float replaceProgress;
     private int rippleColor;
     Drawable selectableBackground;
     int textColor;
+    String textColorKey;
     private StaticLayout textLayout;
     private StaticLayout textLayoutOut;
+    private TextPaint textPaint;
     private int textWidth;
-    private TextPaint textPaint = new TextPaint(1);
-    private Paint paint = new Paint(1);
-    private RectF rect = new RectF();
-    private TextPaint layoutPaint = new TextPaint(1);
-    float replaceProgress = 1.0f;
-    String textColorKey = "chat_fieldOverlayText";
 
     protected Theme.ResourcesProvider getResourceProvider() {
         return null;
@@ -54,6 +54,12 @@ public class UnreadCounterTextView extends View {
 
     public UnreadCounterTextView(Context context) {
         super(context);
+        this.textPaint = new TextPaint(1);
+        this.paint = new Paint(1);
+        this.rect = new RectF();
+        this.layoutPaint = new TextPaint(1);
+        this.replaceProgress = 1.0f;
+        this.textColorKey = "chat_fieldOverlayText";
         this.textPaint.setTextSize(AndroidUtilities.dp(13.0f));
         this.textPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.layoutPaint.setTextSize(AndroidUtilities.dp(15.0f));
@@ -203,6 +209,7 @@ public class UnreadCounterTextView extends View {
         int measuredWidth;
         Drawable drawable;
         Drawable drawable2;
+        Drawable drawable3;
         StaticLayout staticLayout = this.textLayout;
         int color = Theme.getColor(isEnabled() ? this.textColorKey : "windowBackgroundWhiteGrayText", getResourceProvider());
         if (this.textColor != color) {
@@ -248,33 +255,27 @@ public class UnreadCounterTextView extends View {
                 int alpha = this.layoutPaint.getAlpha();
                 canvas.save();
                 canvas.translate(((getMeasuredWidth() - this.textLayoutOut.getWidth()) / 2) - (this.circleWidth / 2), ((getMeasuredHeight() - this.textLayout.getHeight()) / 2) + getTopOffset());
-                float f = -1.0f;
                 canvas.translate(this.iconOut != null ? (drawable2.getIntrinsicWidth() / 2) + AndroidUtilities.dp(3.0f) : 0, (this.animatedFromBottom ? -1.0f : 1.0f) * AndroidUtilities.dp(18.0f) * this.replaceProgress);
-                Drawable drawable3 = this.iconOut;
-                if (drawable3 != null) {
-                    drawable3.setBounds((-drawable3.getIntrinsicWidth()) - AndroidUtilities.dp(6.0f), ((this.textLayout.getHeight() - this.iconOut.getIntrinsicHeight()) / 2) + AndroidUtilities.dp(1.0f), -AndroidUtilities.dp(6.0f), ((this.textLayout.getHeight() + this.iconOut.getIntrinsicHeight()) / 2) + AndroidUtilities.dp(1.0f));
+                Drawable drawable4 = this.iconOut;
+                if (drawable4 != null) {
+                    drawable4.setBounds((-drawable4.getIntrinsicWidth()) - AndroidUtilities.dp(6.0f), ((this.textLayout.getHeight() - this.iconOut.getIntrinsicHeight()) / 2) + AndroidUtilities.dp(1.0f), -AndroidUtilities.dp(6.0f), ((this.textLayout.getHeight() + this.iconOut.getIntrinsicHeight()) / 2) + AndroidUtilities.dp(1.0f));
                     this.iconOut.setAlpha((int) (alpha * (1.0f - this.replaceProgress)));
                     this.iconOut.draw(canvas);
                 }
-                float f2 = alpha;
-                this.layoutPaint.setAlpha((int) ((1.0f - this.replaceProgress) * f2));
+                float f = alpha;
+                this.layoutPaint.setAlpha((int) ((1.0f - this.replaceProgress) * f));
                 this.textLayoutOut.draw(canvas);
                 canvas.restore();
                 canvas.save();
                 canvas.translate(((getMeasuredWidth() - this.layoutTextWidth) / 2) - (this.circleWidth / 2), ((getMeasuredHeight() - this.textLayout.getHeight()) / 2) + getTopOffset());
-                Drawable drawable4 = this.icon;
-                float intrinsicWidth = drawable4 != null ? (drawable4.getIntrinsicWidth() / 2) + AndroidUtilities.dp(3.0f) : 0;
-                if (this.animatedFromBottom) {
-                    f = 1.0f;
-                }
-                canvas.translate(intrinsicWidth, f * AndroidUtilities.dp(18.0f) * (1.0f - this.replaceProgress));
+                canvas.translate(this.icon != null ? (drawable3.getIntrinsicWidth() / 2) + AndroidUtilities.dp(3.0f) : 0, (this.animatedFromBottom ? 1.0f : -1.0f) * AndroidUtilities.dp(18.0f) * (1.0f - this.replaceProgress));
                 Drawable drawable5 = this.icon;
                 if (drawable5 != null) {
                     drawable5.setBounds((-drawable5.getIntrinsicWidth()) - AndroidUtilities.dp(6.0f), ((this.textLayout.getHeight() - this.icon.getIntrinsicHeight()) / 2) + AndroidUtilities.dp(1.0f), -AndroidUtilities.dp(6.0f), ((this.textLayout.getHeight() + this.icon.getIntrinsicHeight()) / 2) + AndroidUtilities.dp(1.0f));
-                    this.icon.setAlpha((int) (this.replaceProgress * f2));
+                    this.icon.setAlpha((int) (this.replaceProgress * f));
                     this.icon.draw(canvas);
                 }
-                this.layoutPaint.setAlpha((int) (f2 * this.replaceProgress));
+                this.layoutPaint.setAlpha((int) (f * this.replaceProgress));
                 this.textLayout.draw(canvas);
                 canvas.restore();
                 this.layoutPaint.setAlpha(alpha);

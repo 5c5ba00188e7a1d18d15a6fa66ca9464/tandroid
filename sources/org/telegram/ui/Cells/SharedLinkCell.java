@@ -147,19 +147,18 @@ public class SharedLinkCell extends FrameLayout {
 
         @Override // java.lang.Runnable
         public void run() {
-            if (!SharedLinkCell.this.checkingForLongPress || SharedLinkCell.this.getParent() == null || this.currentPressCount != SharedLinkCell.this.pressCount) {
-                return;
+            if (SharedLinkCell.this.checkingForLongPress && SharedLinkCell.this.getParent() != null && this.currentPressCount == SharedLinkCell.this.pressCount) {
+                SharedLinkCell.this.checkingForLongPress = false;
+                SharedLinkCell.this.performHapticFeedback(0);
+                if (SharedLinkCell.this.pressedLinkIndex >= 0) {
+                    SharedLinkCellDelegate sharedLinkCellDelegate = SharedLinkCell.this.delegate;
+                    SharedLinkCell sharedLinkCell = SharedLinkCell.this;
+                    sharedLinkCellDelegate.onLinkPress(sharedLinkCell.links.get(sharedLinkCell.pressedLinkIndex).toString(), true);
+                }
+                MotionEvent obtain = MotionEvent.obtain(0L, 0L, 3, 0.0f, 0.0f, 0);
+                SharedLinkCell.this.onTouchEvent(obtain);
+                obtain.recycle();
             }
-            SharedLinkCell.this.checkingForLongPress = false;
-            SharedLinkCell.this.performHapticFeedback(0);
-            if (SharedLinkCell.this.pressedLinkIndex >= 0) {
-                SharedLinkCellDelegate sharedLinkCellDelegate = SharedLinkCell.this.delegate;
-                SharedLinkCell sharedLinkCell = SharedLinkCell.this;
-                sharedLinkCellDelegate.onLinkPress(sharedLinkCell.links.get(sharedLinkCell.pressedLinkIndex).toString(), true);
-            }
-            MotionEvent obtain = MotionEvent.obtain(0L, 0L, 3, 0.0f, 0.0f, 0);
-            SharedLinkCell.this.onTouchEvent(obtain);
-            obtain.recycle();
         }
     }
 
@@ -247,27 +246,27 @@ public class SharedLinkCell extends FrameLayout {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:147:0x02cf  */
-    /* JADX WARN: Removed duplicated region for block: B:152:0x035e  */
-    /* JADX WARN: Removed duplicated region for block: B:155:0x036f  */
-    /* JADX WARN: Removed duplicated region for block: B:169:0x047b  */
-    /* JADX WARN: Removed duplicated region for block: B:172:0x049b  */
-    /* JADX WARN: Removed duplicated region for block: B:208:0x056a  */
-    /* JADX WARN: Removed duplicated region for block: B:211:0x058e  */
-    /* JADX WARN: Removed duplicated region for block: B:220:0x0612  */
-    /* JADX WARN: Removed duplicated region for block: B:242:0x06ac  */
-    /* JADX WARN: Removed duplicated region for block: B:246:0x06ba  */
-    /* JADX WARN: Removed duplicated region for block: B:255:0x06db  */
-    /* JADX WARN: Removed duplicated region for block: B:260:0x060d  */
-    /* JADX WARN: Removed duplicated region for block: B:261:0x0575  */
-    /* JADX WARN: Removed duplicated region for block: B:263:0x03c3 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:273:0x0377 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:283:0x0372  */
-    /* JADX WARN: Removed duplicated region for block: B:284:0x0363  */
-    /* JADX WARN: Removed duplicated region for block: B:285:0x030a A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:297:0x0305  */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x02a1  */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x01fd A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:122:0x02a1  */
+    /* JADX WARN: Removed duplicated region for block: B:137:0x02cf  */
+    /* JADX WARN: Removed duplicated region for block: B:138:0x0305  */
+    /* JADX WARN: Removed duplicated region for block: B:154:0x035e  */
+    /* JADX WARN: Removed duplicated region for block: B:155:0x0363  */
+    /* JADX WARN: Removed duplicated region for block: B:158:0x036f  */
+    /* JADX WARN: Removed duplicated region for block: B:159:0x0372  */
+    /* JADX WARN: Removed duplicated region for block: B:192:0x047b  */
+    /* JADX WARN: Removed duplicated region for block: B:195:0x049b  */
+    /* JADX WARN: Removed duplicated region for block: B:225:0x056a  */
+    /* JADX WARN: Removed duplicated region for block: B:226:0x0575  */
+    /* JADX WARN: Removed duplicated region for block: B:229:0x058e  */
+    /* JADX WARN: Removed duplicated region for block: B:236:0x060d  */
+    /* JADX WARN: Removed duplicated region for block: B:239:0x0612  */
+    /* JADX WARN: Removed duplicated region for block: B:262:0x06ac  */
+    /* JADX WARN: Removed duplicated region for block: B:266:0x06ba  */
+    /* JADX WARN: Removed duplicated region for block: B:272:0x06db  */
+    /* JADX WARN: Removed duplicated region for block: B:279:0x030a A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:281:0x01fd A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:283:0x0377 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:287:0x03c3 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Type inference failed for: r4v6, types: [java.lang.CharSequence] */
     /* JADX WARN: Type inference failed for: r7v43, types: [android.text.SpannableStringBuilder, android.text.Spannable] */
     /* JADX WARN: Type inference failed for: r7v64, types: [android.text.SpannableStringBuilder, android.text.Spannable] */
@@ -357,7 +356,38 @@ public class SharedLinkCell extends FrameLayout {
                             SpannableStringBuilder spannableStringBuilder3 = spannableStringBuilder2;
                             try {
                                 if (!(tLRPC$MessageEntity instanceof TLRPC$TL_messageEntityTextUrl) && !(tLRPC$MessageEntity instanceof TLRPC$TL_messageEntityUrl)) {
-                                    if (!(tLRPC$MessageEntity instanceof TLRPC$TL_messageEntityEmail) || !(str2 == null || str2.length() == 0)) {
+                                    if ((tLRPC$MessageEntity instanceof TLRPC$TL_messageEntityEmail) && (str2 == null || str2.length() == 0)) {
+                                        StringBuilder sb = new StringBuilder();
+                                        sb.append("mailto:");
+                                        String str9 = this.message.messageOwner.message;
+                                        int i13 = tLRPC$MessageEntity.offset;
+                                        sb.append(str9.substring(i13, tLRPC$MessageEntity.length + i13));
+                                        str5 = sb.toString();
+                                        String str10 = this.message.messageOwner.message;
+                                        int i14 = tLRPC$MessageEntity.offset;
+                                        host = str10.substring(i14, tLRPC$MessageEntity.length + i14);
+                                        try {
+                                            if (tLRPC$MessageEntity.offset != 0 || tLRPC$MessageEntity.length != this.message.messageOwner.message.length()) {
+                                                ?? valueOf = SpannableStringBuilder.valueOf(this.message.messageOwner.message);
+                                                MediaDataController.addTextStyleRuns(this.message, valueOf);
+                                                str6 = valueOf;
+                                                str3 = str6;
+                                            }
+                                            str2 = host;
+                                            if (str5 != null) {
+                                            }
+                                            spannableStringBuilder2 = spannableStringBuilder3;
+                                            str2 = str7;
+                                        } catch (Exception e) {
+                                            e = e;
+                                            str2 = host;
+                                            FileLog.e(e);
+                                            spannableStringBuilder2 = spannableStringBuilder3;
+                                            i12++;
+                                            i10 = 0;
+                                            i11 = 1;
+                                        }
+                                    } else {
                                         str5 = null;
                                         if (str5 != null) {
                                             try {
@@ -367,24 +397,24 @@ public class SharedLinkCell extends FrameLayout {
                                                     str5 = "http://" + ((Object) str5);
                                                     i9 = 7;
                                                 }
-                                                SpannableString valueOf = SpannableString.valueOf(str5);
-                                                int i13 = tLRPC$MessageEntity.offset;
-                                                int i14 = tLRPC$MessageEntity.length + i13;
+                                                SpannableString valueOf2 = SpannableString.valueOf(str5);
+                                                int i15 = tLRPC$MessageEntity.offset;
+                                                int i16 = tLRPC$MessageEntity.length + i15;
                                                 Iterator<TLRPC$MessageEntity> it = this.message.messageOwner.entities.iterator();
                                                 while (it.hasNext()) {
                                                     TLRPC$MessageEntity next = it.next();
-                                                    int i15 = next.offset;
-                                                    int i16 = next.length + i15;
-                                                    if (!(next instanceof TLRPC$TL_messageEntitySpoiler) || i13 > i16 || i14 < i15) {
+                                                    int i17 = next.offset;
+                                                    int i18 = next.length + i17;
+                                                    if (!(next instanceof TLRPC$TL_messageEntitySpoiler) || i15 > i18 || i16 < i17) {
                                                         str8 = str2;
                                                     } else {
                                                         TextStyleSpan.TextStyleRun textStyleRun = new TextStyleSpan.TextStyleRun();
                                                         str8 = str2;
                                                         try {
                                                             textStyleRun.flags |= 256;
-                                                            valueOf.setSpan(new TextStyleSpan(textStyleRun), Math.max(i13, i15), Math.min(i14, i16) + i9, 33);
-                                                        } catch (Exception e) {
-                                                            e = e;
+                                                            valueOf2.setSpan(new TextStyleSpan(textStyleRun), Math.max(i15, i17), Math.min(i16, i18) + i9, 33);
+                                                        } catch (Exception e2) {
+                                                            e = e2;
                                                             str2 = str8;
                                                             FileLog.e(e);
                                                             spannableStringBuilder2 = spannableStringBuilder3;
@@ -396,46 +426,15 @@ public class SharedLinkCell extends FrameLayout {
                                                     str2 = str8;
                                                 }
                                                 str7 = str2;
-                                                this.links.add(valueOf);
-                                            } catch (Exception e2) {
-                                                e = e2;
+                                                this.links.add(valueOf2);
+                                            } catch (Exception e3) {
+                                                e = e3;
                                             }
                                         } else {
                                             str7 = str2;
                                         }
                                         spannableStringBuilder2 = spannableStringBuilder3;
                                         str2 = str7;
-                                    } else {
-                                        StringBuilder sb = new StringBuilder();
-                                        sb.append("mailto:");
-                                        String str9 = this.message.messageOwner.message;
-                                        int i17 = tLRPC$MessageEntity.offset;
-                                        sb.append(str9.substring(i17, tLRPC$MessageEntity.length + i17));
-                                        str5 = sb.toString();
-                                        String str10 = this.message.messageOwner.message;
-                                        int i18 = tLRPC$MessageEntity.offset;
-                                        host = str10.substring(i18, tLRPC$MessageEntity.length + i18);
-                                        try {
-                                            if (tLRPC$MessageEntity.offset != 0 || tLRPC$MessageEntity.length != this.message.messageOwner.message.length()) {
-                                                ?? valueOf2 = SpannableStringBuilder.valueOf(this.message.messageOwner.message);
-                                                MediaDataController.addTextStyleRuns(this.message, valueOf2);
-                                                str6 = valueOf2;
-                                                str3 = str6;
-                                            }
-                                            str2 = host;
-                                            if (str5 != null) {
-                                            }
-                                            spannableStringBuilder2 = spannableStringBuilder3;
-                                            str2 = str7;
-                                        } catch (Exception e3) {
-                                            e = e3;
-                                            str2 = host;
-                                            FileLog.e(e);
-                                            spannableStringBuilder2 = spannableStringBuilder3;
-                                            i12++;
-                                            i10 = 0;
-                                            i11 = 1;
-                                        }
                                     }
                                 }
                                 if (tLRPC$MessageEntity instanceof TLRPC$TL_messageEntityUrl) {
@@ -613,7 +612,9 @@ public class SharedLinkCell extends FrameLayout {
                 int dp = AndroidUtilities.dp(52.0f);
                 int size2 = !LocaleController.isRTL ? (View.MeasureSpec.getSize(i) - AndroidUtilities.dp(10.0f)) - dp : AndroidUtilities.dp(10.0f);
                 this.letterDrawable.setBounds(size2, AndroidUtilities.dp(11.0f), size2 + dp, AndroidUtilities.dp(63.0f));
-                if (!z) {
+                if (z) {
+                    i4 = 1;
+                } else {
                     TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(this.message.photoThumbs, dp, true);
                     TLRPC$PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(this.message.photoThumbs, 80);
                     if (closestPhotoSizeWithSize2 == closestPhotoSizeWithSize) {
@@ -630,8 +631,6 @@ public class SharedLinkCell extends FrameLayout {
                     this.linkImageView.setImage(ImageLocation.getForObject(closestPhotoSizeWithSize, this.message.photoThumbsObject), String.format(locale, "%d_%d", Integer.valueOf(dp), Integer.valueOf(dp)), ImageLocation.getForObject(closestPhotoSizeWithSize2, this.message.photoThumbsObject), String.format(locale, "%d_%d_b", Integer.valueOf(dp), Integer.valueOf(dp)), 0L, null, this.message, 0);
                     i4 = 1;
                     this.drawLinkImageView = true;
-                } else {
-                    i4 = 1;
                 }
                 if (this.viewType == i4) {
                     StaticLayout generateStaticLayout3 = ChatMessageCell.generateStaticLayout(FilteredSearchView.createFromInfoString(this.message), this.description2TextPaint, size, size, 0, max);
@@ -719,7 +718,7 @@ public class SharedLinkCell extends FrameLayout {
         if (!LocaleController.isRTL) {
         }
         this.letterDrawable.setBounds(size2, AndroidUtilities.dp(11.0f), size2 + dp2, AndroidUtilities.dp(63.0f));
-        if (!z) {
+        if (z) {
         }
         if (this.viewType == i4) {
         }
@@ -791,7 +790,7 @@ public class SharedLinkCell extends FrameLayout {
         this.fromInfoLayoutEmojis = AnimatedEmojiSpan.update(0, this, this.fromInfoLayoutEmojis, this.fromInfoLayout);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:113:0x0222  */
+    /* JADX WARN: Removed duplicated region for block: B:133:0x0222  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -939,7 +938,7 @@ public class SharedLinkCell extends FrameLayout {
             resetPressedLink();
         }
         z = false;
-        if (!z) {
+        if (z) {
         }
     }
 
@@ -1056,7 +1055,6 @@ public class SharedLinkCell extends FrameLayout {
         if (this.viewType == 1) {
             this.description2TextPaint.setColor(Theme.getColor("windowBackgroundWhiteGrayText3", this.resourcesProvider));
         }
-        float f = 8.0f;
         if (this.dateLayout != null) {
             canvas.save();
             canvas.translate(AndroidUtilities.dp(LocaleController.isRTL ? 8.0f : AndroidUtilities.leftBaseline) + (LocaleController.isRTL ? 0 : this.dateLayoutX), this.titleY);
@@ -1138,10 +1136,7 @@ public class SharedLinkCell extends FrameLayout {
         }
         if (this.fromInfoLayout != null) {
             canvas.save();
-            if (!LocaleController.isRTL) {
-                f = AndroidUtilities.leftBaseline;
-            }
-            canvas.translate(AndroidUtilities.dp(f), this.fromInfoLayoutY);
+            canvas.translate(AndroidUtilities.dp(LocaleController.isRTL ? 8.0f : AndroidUtilities.leftBaseline), this.fromInfoLayoutY);
             this.fromInfoLayout.draw(canvas);
             AnimatedEmojiSpan.drawAnimatedEmojis(canvas, this.fromInfoLayout, this.fromInfoLayoutEmojis, 0.0f, null, 0.0f, 0.0f, 0.0f, 1.0f);
             canvas.restore();

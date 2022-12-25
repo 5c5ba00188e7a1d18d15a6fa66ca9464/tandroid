@@ -66,8 +66,8 @@ public final class zzaq implements ServiceConnection {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* JADX WARN: Removed duplicated region for block: B:74:0x0164  */
-    /* JADX WARN: Removed duplicated region for block: B:76:0x016a  */
+    /* JADX WARN: Removed duplicated region for block: B:91:0x0164  */
+    /* JADX WARN: Removed duplicated region for block: B:92:0x016a  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -78,11 +78,11 @@ public final class zzaq implements ServiceConnection {
             if (this.zzc) {
                 return null;
             }
-            if (!TextUtils.isEmpty(null)) {
+            if (TextUtils.isEmpty(null)) {
+                bundle = null;
+            } else {
                 bundle = new Bundle();
                 bundle.putString("accountName", null);
-            } else {
-                bundle = null;
             }
             int i2 = 3;
             try {

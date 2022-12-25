@@ -240,7 +240,7 @@ public class AnimatedEmojiEffect {
             return animatedEmojiEffect.bounds.width() * (Math.abs(Utilities.fastRandom.nextInt() % 100) / 100.0f);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:11:0x0096  */
+        /* JADX WARN: Removed duplicated region for block: B:14:0x0096  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */

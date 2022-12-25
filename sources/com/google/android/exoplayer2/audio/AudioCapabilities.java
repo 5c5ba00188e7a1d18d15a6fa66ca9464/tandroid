@@ -54,11 +54,11 @@ public final class AudioCapabilities {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof AudioCapabilities)) {
-            return false;
+        if (obj instanceof AudioCapabilities) {
+            AudioCapabilities audioCapabilities = (AudioCapabilities) obj;
+            return Arrays.equals(this.supportedEncodings, audioCapabilities.supportedEncodings) && this.maxChannelCount == audioCapabilities.maxChannelCount;
         }
-        AudioCapabilities audioCapabilities = (AudioCapabilities) obj;
-        return Arrays.equals(this.supportedEncodings, audioCapabilities.supportedEncodings) && this.maxChannelCount == audioCapabilities.maxChannelCount;
+        return false;
     }
 
     public int hashCode() {

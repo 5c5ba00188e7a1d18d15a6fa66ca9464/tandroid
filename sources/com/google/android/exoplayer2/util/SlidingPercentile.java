@@ -58,25 +58,24 @@ public class SlidingPercentile {
         while (true) {
             int i5 = this.totalWeight;
             int i6 = this.maxWeight;
-            if (i5 > i6) {
-                int i7 = i5 - i6;
-                Sample sample2 = this.samples.get(0);
-                int i8 = sample2.weight;
-                if (i8 <= i7) {
-                    this.totalWeight -= i8;
-                    this.samples.remove(0);
-                    int i9 = this.recycledSampleCount;
-                    if (i9 < 5) {
-                        Sample[] sampleArr2 = this.recycledSamples;
-                        this.recycledSampleCount = i9 + 1;
-                        sampleArr2[i9] = sample2;
-                    }
-                } else {
-                    sample2.weight = i8 - i7;
-                    this.totalWeight -= i7;
+            if (i5 <= i6) {
+                return;
+            }
+            int i7 = i5 - i6;
+            Sample sample2 = this.samples.get(0);
+            int i8 = sample2.weight;
+            if (i8 <= i7) {
+                this.totalWeight -= i8;
+                this.samples.remove(0);
+                int i9 = this.recycledSampleCount;
+                if (i9 < 5) {
+                    Sample[] sampleArr2 = this.recycledSamples;
+                    this.recycledSampleCount = i9 + 1;
+                    sampleArr2[i9] = sample2;
                 }
             } else {
-                return;
+                sample2.weight = i8 - i7;
+                this.totalWeight -= i7;
             }
         }
     }

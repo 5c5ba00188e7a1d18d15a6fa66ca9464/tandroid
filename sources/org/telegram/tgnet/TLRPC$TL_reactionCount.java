@@ -7,10 +7,7 @@ public class TLRPC$TL_reactionCount extends TLRPC$ReactionCount {
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
         int readInt32 = abstractSerializedData.readInt32(z);
         this.flags = readInt32;
-        boolean z2 = true;
-        if ((readInt32 & 1) == 0) {
-            z2 = false;
-        }
+        boolean z2 = (readInt32 & 1) != 0;
         this.chosen = z2;
         if (z2) {
             this.chosen_order = abstractSerializedData.readInt32(z);

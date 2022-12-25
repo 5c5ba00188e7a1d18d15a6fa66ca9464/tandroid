@@ -247,12 +247,12 @@ public abstract class TLRPC$PollResults extends TLObject {
                 tLRPC$PollResults = null;
                 break;
         }
-        if (tLRPC$PollResults != null || !z) {
-            if (tLRPC$PollResults != null) {
-                tLRPC$PollResults.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$PollResults;
+        if (tLRPC$PollResults == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in PollResults", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in PollResults", Integer.valueOf(i)));
+        if (tLRPC$PollResults != null) {
+            tLRPC$PollResults.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$PollResults;
     }
 }

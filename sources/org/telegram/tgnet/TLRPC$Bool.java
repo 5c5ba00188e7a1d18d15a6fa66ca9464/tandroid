@@ -22,12 +22,12 @@ public abstract class TLRPC$Bool extends TLObject {
                 }
             };
         }
-        if (tLRPC$Bool != null || !z) {
-            if (tLRPC$Bool != null) {
-                tLRPC$Bool.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$Bool;
+        if (tLRPC$Bool == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in Bool", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in Bool", Integer.valueOf(i)));
+        if (tLRPC$Bool != null) {
+            tLRPC$Bool.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$Bool;
     }
 }

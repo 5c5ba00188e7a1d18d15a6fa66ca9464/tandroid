@@ -11,7 +11,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.core.graphics.ColorUtils;
 import java.util.ArrayList;
@@ -69,10 +68,14 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
         return super.onFragmentCreate();
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
+    /* JADX WARN: Type inference failed for: r5v7 */
+    /* JADX WARN: Type inference failed for: r5v8, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r5v9 */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public View createView(final Context context) {
         AvatarDrawable avatarDrawable;
-        boolean z;
+        ?? r5;
         TLRPC$Chat tLRPC$Chat;
         TLRPC$User user;
         this.actionBar.setBackButtonDrawable(new BackDrawable(false));
@@ -91,13 +94,9 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
         final SizeNotifierFrameLayout sizeNotifierFrameLayout = new SizeNotifierFrameLayout(context) { // from class: org.telegram.ui.Components.MediaActivity.2
             @Override // android.widget.FrameLayout, android.view.View
             protected void onMeasure(int i, int i2) {
-                int i3 = 0;
                 ((FrameLayout.LayoutParams) MediaActivity.this.sharedMediaLayout.getLayoutParams()).topMargin = ActionBar.getCurrentActionBarHeight() + (((BaseFragment) MediaActivity.this).actionBar.getOccupyStatusBar() ? AndroidUtilities.statusBarHeight : 0);
                 FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) frameLayout.getLayoutParams();
-                if (((BaseFragment) MediaActivity.this).actionBar.getOccupyStatusBar()) {
-                    i3 = AndroidUtilities.statusBarHeight;
-                }
-                layoutParams.topMargin = i3;
+                layoutParams.topMargin = ((BaseFragment) MediaActivity.this).actionBar.getOccupyStatusBar() ? AndroidUtilities.statusBarHeight : 0;
                 layoutParams.height = ActionBar.getCurrentActionBarHeight();
                 ((FrameLayout.LayoutParams) MediaActivity.this.nameTextView.getLayoutParams()).topMargin = (((ActionBar.getCurrentActionBarHeight() / 2) - AndroidUtilities.dp(22.0f)) / 2) + AndroidUtilities.dp((AndroidUtilities.isTablet() || getResources().getConfiguration().orientation != 2) ? 5.0f : 4.0f);
                 ((FrameLayout.LayoutParams) MediaActivity.this.mediaCounterTextView.getLayoutParams()).topMargin = ((ActionBar.getCurrentActionBarHeight() / 2) + (((ActionBar.getCurrentActionBarHeight() / 2) - AndroidUtilities.dp(19.0f)) / 2)) - AndroidUtilities.dp(3.0f);
@@ -112,15 +111,15 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
                     return MediaActivity.this.sharedMediaLayout.dispatchFastScrollEvent(motionEvent);
                 }
                 SharedMediaLayout sharedMediaLayout2 = MediaActivity.this.sharedMediaLayout;
-                if (sharedMediaLayout2 != null && sharedMediaLayout2.checkPinchToZoom(motionEvent)) {
-                    return true;
+                if (sharedMediaLayout2 == null || !sharedMediaLayout2.checkPinchToZoom(motionEvent)) {
+                    return super.dispatchTouchEvent(motionEvent);
                 }
-                return super.dispatchTouchEvent(motionEvent);
+                return true;
             }
 
             /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.SizeNotifierFrameLayout
-            public void drawList(Canvas canvas, boolean z2) {
+            public void drawList(Canvas canvas, boolean z) {
                 MediaActivity.this.sharedMediaLayout.drawListForBlur(canvas);
             }
         };
@@ -141,11 +140,11 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
                 super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
                 if (getImageReceiver().hasNotThumb()) {
                     accessibilityNodeInfo.setText(LocaleController.getString("AccDescrProfilePicture", R.string.AccDescrProfilePicture));
-                    if (Build.VERSION.SDK_INT < 21) {
+                    if (Build.VERSION.SDK_INT >= 21) {
+                        accessibilityNodeInfo.addAction(new AccessibilityNodeInfo.AccessibilityAction(16, LocaleController.getString("Open", R.string.Open)));
+                        accessibilityNodeInfo.addAction(new AccessibilityNodeInfo.AccessibilityAction(32, LocaleController.getString("AccDescrOpenInPhotoViewer", R.string.AccDescrOpenInPhotoViewer)));
                         return;
                     }
-                    accessibilityNodeInfo.addAction(new AccessibilityNodeInfo.AccessibilityAction(16, LocaleController.getString("Open", R.string.Open)));
-                    accessibilityNodeInfo.addAction(new AccessibilityNodeInfo.AccessibilityAction(32, LocaleController.getString("AccDescrOpenInPhotoViewer", R.string.AccDescrOpenInPhotoViewer)));
                     return;
                 }
                 accessibilityNodeInfo.setVisibleToUser(false);
@@ -196,7 +195,7 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
             }
 
             @Override // org.telegram.ui.Components.SharedMediaLayout.Delegate
-            public boolean onMemberClick(TLRPC$ChatParticipant tLRPC$ChatParticipant, boolean z2, boolean z3) {
+            public boolean onMemberClick(TLRPC$ChatParticipant tLRPC$ChatParticipant, boolean z, boolean z2) {
                 return false;
             }
 
@@ -215,11 +214,11 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
             }
 
             @Override // org.telegram.ui.Components.SharedMediaLayout
-            protected void onSearchStateChanged(boolean z2) {
+            protected void onSearchStateChanged(boolean z) {
                 if (SharedConfig.smoothKeyboard) {
                     AndroidUtilities.removeAdjustResize(MediaActivity.this.getParentActivity(), ((BaseFragment) MediaActivity.this).classGuid);
                 }
-                AndroidUtilities.updateViewVisibilityAnimated(frameLayout, !z2, 0.95f, true);
+                AndroidUtilities.updateViewVisibilityAnimated(frameLayout, !z, 0.95f, true);
             }
 
             @Override // org.telegram.ui.Components.SharedMediaLayout
@@ -283,21 +282,18 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
             this.nameTextView.setText(LocaleController.getString("SharedContentTitle", R.string.SharedContentTitle));
         }
         if (this.sharedMediaLayout.isSearchItemVisible()) {
-            z = false;
+            r5 = 0;
             this.sharedMediaLayout.getSearchItem().setVisibility(0);
         } else {
-            z = false;
+            r5 = 0;
         }
         if (this.sharedMediaLayout.isCalendarItemVisible()) {
-            ImageView imageView = this.sharedMediaLayout.photoVideoOptionsItem;
-            int i = z ? 1 : 0;
-            int i2 = z ? 1 : 0;
-            imageView.setVisibility(i);
+            this.sharedMediaLayout.photoVideoOptionsItem.setVisibility(r5);
         } else {
             this.sharedMediaLayout.photoVideoOptionsItem.setVisibility(4);
         }
         this.actionBar.setDrawBlurBackground(sizeNotifierFrameLayout);
-        AndroidUtilities.updateViewVisibilityAnimated(frameLayout, true, 1.0f, z);
+        AndroidUtilities.updateViewVisibilityAnimated(frameLayout, true, 1.0f, r5);
         updateMediaCount();
         lambda$getThemeDescriptions$0();
         return sizeNotifierFrameLayout;
@@ -305,18 +301,18 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public boolean isSwipeBackEnabled(MotionEvent motionEvent) {
-        if (!this.sharedMediaLayout.isSwipeBackEnabled()) {
-            return false;
+        if (this.sharedMediaLayout.isSwipeBackEnabled()) {
+            return this.sharedMediaLayout.isCurrentTabFirst();
         }
-        return this.sharedMediaLayout.isCurrentTabFirst();
+        return false;
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public boolean canBeginSlide() {
-        if (!this.sharedMediaLayout.isSwipeBackEnabled()) {
-            return false;
+        if (this.sharedMediaLayout.isSwipeBackEnabled()) {
+            return super.canBeginSlide();
         }
-        return super.canBeginSlide();
+        return false;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -342,8 +338,7 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
             this.mediaCounterTextView.setText(LocaleController.formatPluralString("Links", lastMediaCount[3], new Object[0]));
         } else if (closestTab == 4) {
             this.mediaCounterTextView.setText(LocaleController.formatPluralString("MusicFiles", lastMediaCount[4], new Object[0]));
-        } else if (closestTab != 5) {
-        } else {
+        } else if (closestTab == 5) {
             this.mediaCounterTextView.setText(LocaleController.formatPluralString("GIFs", lastMediaCount[5], new Object[0]));
         }
     }

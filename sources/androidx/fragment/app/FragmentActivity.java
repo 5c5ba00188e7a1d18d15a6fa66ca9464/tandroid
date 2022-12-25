@@ -87,10 +87,9 @@ public class FragmentActivity extends ComponentActivity implements ViewModelStor
             return;
         }
         ActivityCompat.PermissionCompatDelegate permissionCompatDelegate = ActivityCompat.getPermissionCompatDelegate();
-        if (permissionCompatDelegate != null && permissionCompatDelegate.onActivityResult(this, i, i2, intent)) {
-            return;
+        if (permissionCompatDelegate == null || !permissionCompatDelegate.onActivityResult(this, i, i2, intent)) {
+            super.onActivityResult(i, i2, intent);
         }
-        super.onActivityResult(i, i2, intent);
     }
 
     @Override // android.app.Activity
@@ -98,10 +97,9 @@ public class FragmentActivity extends ComponentActivity implements ViewModelStor
         FragmentManager supportFragmentManager = this.mFragments.getSupportFragmentManager();
         boolean isStateSaved = supportFragmentManager.isStateSaved();
         if (!isStateSaved || Build.VERSION.SDK_INT > 25) {
-            if (!isStateSaved && supportFragmentManager.popBackStackImmediate()) {
-                return;
+            if (isStateSaved || !supportFragmentManager.popBackStackImmediate()) {
+                super.onBackPressed();
             }
-            super.onBackPressed();
         }
     }
 
@@ -148,7 +146,6 @@ public class FragmentActivity extends ComponentActivity implements ViewModelStor
     @Override // androidx.core.app.ComponentActivity, android.app.Activity
     public void onCreate(Bundle bundle) {
         ViewModelStore viewModelStore;
-        FragmentManagerNonConfig fragmentManagerNonConfig = null;
         this.mFragments.attachHost(null);
         super.onCreate(bundle);
         NonConfigurationInstances nonConfigurationInstances = (NonConfigurationInstances) getLastNonConfigurationInstance();
@@ -156,12 +153,7 @@ public class FragmentActivity extends ComponentActivity implements ViewModelStor
             this.mViewModelStore = viewModelStore;
         }
         if (bundle != null) {
-            Parcelable parcelable = bundle.getParcelable("android:support:fragments");
-            FragmentController fragmentController = this.mFragments;
-            if (nonConfigurationInstances != null) {
-                fragmentManagerNonConfig = nonConfigurationInstances.fragments;
-            }
-            fragmentController.restoreAllState(parcelable, fragmentManagerNonConfig);
+            this.mFragments.restoreAllState(bundle.getParcelable("android:support:fragments"), nonConfigurationInstances != null ? nonConfigurationInstances.fragments : null);
             if (bundle.containsKey("android:support:next_request_index")) {
                 this.mNextCandidateRequestIndex = bundle.getInt("android:support:next_request_index");
                 int[] intArray = bundle.getIntArray("android:support:request_indicies");
@@ -228,13 +220,13 @@ public class FragmentActivity extends ComponentActivity implements ViewModelStor
         if (super.onMenuItemSelected(i, menuItem)) {
             return true;
         }
-        if (i == 0) {
-            return this.mFragments.dispatchOptionsItemSelected(menuItem);
-        }
-        if (i == 6) {
+        if (i != 0) {
+            if (i != 6) {
+                return false;
+            }
             return this.mFragments.dispatchContextItemSelected(menuItem);
         }
-        return false;
+        return this.mFragments.dispatchOptionsItemSelected(menuItem);
     }
 
     @Override // android.app.Activity, android.view.Window.Callback
@@ -424,10 +416,9 @@ public class FragmentActivity extends ComponentActivity implements ViewModelStor
     }
 
     static void checkForValidRequestCode(int i) {
-        if ((i & (-65536)) == 0) {
-            return;
+        if ((i & (-65536)) != 0) {
+            throw new IllegalArgumentException("Can only use lower 16 bits for requestCode");
         }
-        throw new IllegalArgumentException("Can only use lower 16 bits for requestCode");
     }
 
     @Override // androidx.core.app.ActivityCompat.RequestPermissionsRequestCodeValidator

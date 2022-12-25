@@ -193,12 +193,12 @@ public abstract class TLRPC$ChannelAdminLogEventAction extends TLObject {
                 tLRPC$TL_channelAdminLogEventActionStopPoll = null;
                 break;
         }
-        if (tLRPC$TL_channelAdminLogEventActionStopPoll != null || !z) {
-            if (tLRPC$TL_channelAdminLogEventActionStopPoll != null) {
-                tLRPC$TL_channelAdminLogEventActionStopPoll.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_channelAdminLogEventActionStopPoll;
+        if (tLRPC$TL_channelAdminLogEventActionStopPoll == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in ChannelAdminLogEventAction", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in ChannelAdminLogEventAction", Integer.valueOf(i)));
+        if (tLRPC$TL_channelAdminLogEventActionStopPoll != null) {
+            tLRPC$TL_channelAdminLogEventActionStopPoll.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_channelAdminLogEventActionStopPoll;
     }
 }

@@ -58,10 +58,12 @@ import org.telegram.ui.LaunchActivity;
 /* loaded from: classes3.dex */
 public class FloatingDebugView extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
     private LinearLayout bigLayout;
+    private List<FloatingDebugController.DebugItem> debugItems;
     private SpringAnimation fabXSpring;
     private SpringAnimation fabYSpring;
     private Drawable floatingButtonBackground;
     private FrameLayout floatingButtonContainer;
+    private GestureDetector.OnGestureListener gestureListener;
     private boolean inLongPress;
     private boolean isBigMenuShown;
     private boolean isFromFling;
@@ -69,84 +71,10 @@ public class FloatingDebugView extends FrameLayout implements NotificationCenter
     private boolean isScrolling;
     private RecyclerListView listView;
     private SharedPreferences mPrefs;
+    private Runnable onLongPress;
     private TextView titleView;
     private int touchSlop;
     private int wasStatusBar;
-    private Runnable onLongPress = new Runnable() { // from class: org.telegram.ui.Components.FloatingDebug.FloatingDebugView$$ExternalSyntheticLambda4
-        @Override // java.lang.Runnable
-        public final void run() {
-            FloatingDebugView.this.lambda$new$0();
-        }
-    };
-    private List<FloatingDebugController.DebugItem> debugItems = new ArrayList();
-    private GestureDetector.OnGestureListener gestureListener = new GestureDetector.SimpleOnGestureListener() { // from class: org.telegram.ui.Components.FloatingDebug.FloatingDebugView.1
-        private float startX;
-        private float startY;
-
-        @Override // android.view.GestureDetector.SimpleOnGestureListener, android.view.GestureDetector.OnGestureListener
-        public boolean onDown(MotionEvent motionEvent) {
-            return true;
-        }
-
-        @Override // android.view.GestureDetector.SimpleOnGestureListener, android.view.GestureDetector.OnGestureListener
-        public boolean onSingleTapUp(MotionEvent motionEvent) {
-            if (!FloatingDebugView.this.inLongPress && !FloatingDebugView.this.isBigMenuShown) {
-                FloatingDebugView.this.showBigMenu(true);
-                return true;
-            }
-            return false;
-        }
-
-        @Override // android.view.GestureDetector.SimpleOnGestureListener, android.view.GestureDetector.OnGestureListener
-        public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent2, float f, float f2) {
-            FloatingDebugView floatingDebugView;
-            DisplayMetrics displayMetrics;
-            float f3;
-            if (!FloatingDebugView.this.isScrolling || FloatingDebugView.this.inLongPress) {
-                return false;
-            }
-            SpringForce spring = FloatingDebugView.this.fabXSpring.getSpring();
-            if (FloatingDebugView.this.fabXSpring.getSpring().getFinalPosition() + (f / 7.0f) >= FloatingDebugView.this.getWidth() / 2.0f) {
-                floatingDebugView = FloatingDebugView.this;
-                displayMetrics = floatingDebugView.getResources().getDisplayMetrics();
-                f3 = 2.14748365E9f;
-            } else {
-                floatingDebugView = FloatingDebugView.this;
-                displayMetrics = floatingDebugView.getResources().getDisplayMetrics();
-                f3 = -2.14748365E9f;
-            }
-            spring.setFinalPosition(floatingDebugView.clampX(displayMetrics, f3));
-            SpringForce spring2 = FloatingDebugView.this.fabYSpring.getSpring();
-            FloatingDebugView floatingDebugView2 = FloatingDebugView.this;
-            spring2.setFinalPosition(floatingDebugView2.clampY(floatingDebugView2.getResources().getDisplayMetrics(), FloatingDebugView.this.fabYSpring.getSpring().getFinalPosition() + (f2 / 10.0f)));
-            FloatingDebugView.this.fabXSpring.start();
-            FloatingDebugView.this.fabYSpring.start();
-            return FloatingDebugView.this.isFromFling = true;
-        }
-
-        @Override // android.view.GestureDetector.SimpleOnGestureListener, android.view.GestureDetector.OnGestureListener
-        public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent2, float f, float f2) {
-            if (!FloatingDebugView.this.inLongPress) {
-                AndroidUtilities.cancelRunOnUIThread(FloatingDebugView.this.onLongPress);
-            }
-            if (!FloatingDebugView.this.isScrolling && !FloatingDebugView.this.isScrollDisallowed) {
-                if (Math.abs(f) >= FloatingDebugView.this.touchSlop || Math.abs(f2) >= FloatingDebugView.this.touchSlop) {
-                    this.startX = FloatingDebugView.this.fabXSpring.getSpring().getFinalPosition();
-                    this.startY = FloatingDebugView.this.fabYSpring.getSpring().getFinalPosition();
-                    FloatingDebugView.this.isScrolling = true;
-                } else {
-                    FloatingDebugView.this.isScrollDisallowed = false;
-                }
-            }
-            if (FloatingDebugView.this.isScrolling && !FloatingDebugView.this.inLongPress) {
-                FloatingDebugView.this.fabXSpring.getSpring().setFinalPosition((this.startX + motionEvent2.getRawX()) - motionEvent.getRawX());
-                FloatingDebugView.this.fabYSpring.getSpring().setFinalPosition((this.startY + motionEvent2.getRawY()) - motionEvent.getRawY());
-                FloatingDebugView.this.fabXSpring.start();
-                FloatingDebugView.this.fabYSpring.start();
-            }
-            return FloatingDebugView.this.isScrolling;
-        }
-    };
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0() {
@@ -156,6 +84,81 @@ public class FloatingDebugView extends FrameLayout implements NotificationCenter
 
     public FloatingDebugView(final Context context) {
         super(context);
+        this.onLongPress = new Runnable() { // from class: org.telegram.ui.Components.FloatingDebug.FloatingDebugView$$ExternalSyntheticLambda4
+            @Override // java.lang.Runnable
+            public final void run() {
+                FloatingDebugView.this.lambda$new$0();
+            }
+        };
+        this.debugItems = new ArrayList();
+        this.gestureListener = new GestureDetector.SimpleOnGestureListener() { // from class: org.telegram.ui.Components.FloatingDebug.FloatingDebugView.1
+            private float startX;
+            private float startY;
+
+            @Override // android.view.GestureDetector.SimpleOnGestureListener, android.view.GestureDetector.OnGestureListener
+            public boolean onDown(MotionEvent motionEvent) {
+                return true;
+            }
+
+            @Override // android.view.GestureDetector.SimpleOnGestureListener, android.view.GestureDetector.OnGestureListener
+            public boolean onSingleTapUp(MotionEvent motionEvent) {
+                if (FloatingDebugView.this.inLongPress || FloatingDebugView.this.isBigMenuShown) {
+                    return false;
+                }
+                FloatingDebugView.this.showBigMenu(true);
+                return true;
+            }
+
+            @Override // android.view.GestureDetector.SimpleOnGestureListener, android.view.GestureDetector.OnGestureListener
+            public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent2, float f, float f2) {
+                FloatingDebugView floatingDebugView;
+                DisplayMetrics displayMetrics;
+                float f3;
+                if (!FloatingDebugView.this.isScrolling || FloatingDebugView.this.inLongPress) {
+                    return false;
+                }
+                SpringForce spring = FloatingDebugView.this.fabXSpring.getSpring();
+                if (FloatingDebugView.this.fabXSpring.getSpring().getFinalPosition() + (f / 7.0f) >= FloatingDebugView.this.getWidth() / 2.0f) {
+                    floatingDebugView = FloatingDebugView.this;
+                    displayMetrics = floatingDebugView.getResources().getDisplayMetrics();
+                    f3 = 2.14748365E9f;
+                } else {
+                    floatingDebugView = FloatingDebugView.this;
+                    displayMetrics = floatingDebugView.getResources().getDisplayMetrics();
+                    f3 = -2.14748365E9f;
+                }
+                spring.setFinalPosition(floatingDebugView.clampX(displayMetrics, f3));
+                SpringForce spring2 = FloatingDebugView.this.fabYSpring.getSpring();
+                FloatingDebugView floatingDebugView2 = FloatingDebugView.this;
+                spring2.setFinalPosition(floatingDebugView2.clampY(floatingDebugView2.getResources().getDisplayMetrics(), FloatingDebugView.this.fabYSpring.getSpring().getFinalPosition() + (f2 / 10.0f)));
+                FloatingDebugView.this.fabXSpring.start();
+                FloatingDebugView.this.fabYSpring.start();
+                return FloatingDebugView.this.isFromFling = true;
+            }
+
+            @Override // android.view.GestureDetector.SimpleOnGestureListener, android.view.GestureDetector.OnGestureListener
+            public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent2, float f, float f2) {
+                if (!FloatingDebugView.this.inLongPress) {
+                    AndroidUtilities.cancelRunOnUIThread(FloatingDebugView.this.onLongPress);
+                }
+                if (!FloatingDebugView.this.isScrolling && !FloatingDebugView.this.isScrollDisallowed) {
+                    if (Math.abs(f) >= FloatingDebugView.this.touchSlop || Math.abs(f2) >= FloatingDebugView.this.touchSlop) {
+                        this.startX = FloatingDebugView.this.fabXSpring.getSpring().getFinalPosition();
+                        this.startY = FloatingDebugView.this.fabYSpring.getSpring().getFinalPosition();
+                        FloatingDebugView.this.isScrolling = true;
+                    } else {
+                        FloatingDebugView.this.isScrollDisallowed = false;
+                    }
+                }
+                if (FloatingDebugView.this.isScrolling && !FloatingDebugView.this.inLongPress) {
+                    FloatingDebugView.this.fabXSpring.getSpring().setFinalPosition((this.startX + motionEvent2.getRawX()) - motionEvent.getRawX());
+                    FloatingDebugView.this.fabYSpring.getSpring().setFinalPosition((this.startY + motionEvent2.getRawY()) - motionEvent.getRawY());
+                    FloatingDebugView.this.fabXSpring.start();
+                    FloatingDebugView.this.fabYSpring.start();
+                }
+                return FloatingDebugView.this.isScrolling;
+            }
+        };
         this.mPrefs = context.getSharedPreferences("floating_debug", 0);
         this.touchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
         final GestureDetectorCompat gestureDetectorCompat = new GestureDetectorCompat(context, this.gestureListener);
@@ -438,21 +441,15 @@ public class FloatingDebugView extends FrameLayout implements NotificationCenter
         }
         final float translationX = this.floatingButtonContainer.getTranslationX();
         final float translationY = this.floatingButtonContainer.getTranslationY();
-        float f = 0.0f;
-        SpringAnimation springAnimation = new SpringAnimation(new FloatValueHolder(z ? 0.0f : 1000.0f));
-        SpringForce dampingRatio = new SpringForce(1000.0f).setStiffness(900.0f).setDampingRatio(1.0f);
-        if (z) {
-            f = 1000.0f;
-        }
-        springAnimation.setSpring(dampingRatio.setFinalPosition(f)).addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() { // from class: org.telegram.ui.Components.FloatingDebug.FloatingDebugView$$ExternalSyntheticLambda2
+        new SpringAnimation(new FloatValueHolder(z ? 0.0f : 1000.0f)).setSpring(new SpringForce(1000.0f).setStiffness(900.0f).setDampingRatio(1.0f).setFinalPosition(z ? 1000.0f : 0.0f)).addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() { // from class: org.telegram.ui.Components.FloatingDebug.FloatingDebugView$$ExternalSyntheticLambda2
             @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationUpdateListener
-            public final void onAnimationUpdate(DynamicAnimation dynamicAnimation, float f2, float f3) {
-                FloatingDebugView.this.lambda$showBigMenu$2(translationX, translationY, window, dynamicAnimation, f2, f3);
+            public final void onAnimationUpdate(DynamicAnimation dynamicAnimation, float f, float f2) {
+                FloatingDebugView.this.lambda$showBigMenu$2(translationX, translationY, window, dynamicAnimation, f, f2);
             }
         }).addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.Components.FloatingDebug.FloatingDebugView$$ExternalSyntheticLambda0
             @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationEndListener
-            public final void onAnimationEnd(DynamicAnimation dynamicAnimation, boolean z2, float f2, float f3) {
-                FloatingDebugView.this.lambda$showBigMenu$3(translationX, translationY, z, dynamicAnimation, z2, f2, f3);
+            public final void onAnimationEnd(DynamicAnimation dynamicAnimation, boolean z2, float f, float f2) {
+                FloatingDebugView.this.lambda$showBigMenu$3(translationX, translationY, z, dynamicAnimation, z2, f, f2);
             }
         }).start();
     }
@@ -484,9 +481,10 @@ public class FloatingDebugView extends FrameLayout implements NotificationCenter
     public /* synthetic */ void lambda$showBigMenu$3(float f, float f2, boolean z, DynamicAnimation dynamicAnimation, boolean z2, float f3, float f4) {
         this.floatingButtonContainer.setTranslationX(f);
         this.floatingButtonContainer.setTranslationY(f2);
-        if (!z) {
-            this.bigLayout.setVisibility(8);
+        if (z) {
+            return;
         }
+        this.bigLayout.setVisibility(8);
     }
 
     @Override // android.view.View
@@ -540,8 +538,8 @@ public class FloatingDebugView extends FrameLayout implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x0063  */
-    /* JADX WARN: Removed duplicated region for block: B:24:0x0068  */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x0063  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x0068  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -549,19 +547,15 @@ public class FloatingDebugView extends FrameLayout implements NotificationCenter
         final Theme.ThemeInfo theme;
         SharedPreferences sharedPreferences = ApplicationLoader.applicationContext.getSharedPreferences("themeconfig", 0);
         String str = "Blue";
-        String string = sharedPreferences.getString("lastDayTheme", str);
-        if (Theme.getTheme(string) == null || Theme.getTheme(string).isDark()) {
-            string = str;
-        }
+        String string = sharedPreferences.getString("lastDayTheme", "Blue");
+        string = (Theme.getTheme(string) == null || Theme.getTheme(string).isDark()) ? "Blue" : "Blue";
         String str2 = "Dark Blue";
-        String string2 = sharedPreferences.getString("lastDarkTheme", str2);
-        if (Theme.getTheme(string2) == null || !Theme.getTheme(string2).isDark()) {
-            string2 = str2;
-        }
+        String string2 = sharedPreferences.getString("lastDarkTheme", "Dark Blue");
+        string2 = (Theme.getTheme(string2) == null || !Theme.getTheme(string2).isDark()) ? "Dark Blue" : "Dark Blue";
         Theme.ThemeInfo activeTheme = Theme.getActiveTheme();
         if (!string.equals(string2)) {
             str2 = string2;
-        } else if (activeTheme.isDark() || string.equals(str2) || string.equals("Night")) {
+        } else if (activeTheme.isDark() || string.equals("Dark Blue") || string.equals("Night")) {
             str2 = string2;
             if (Theme.isCurrentThemeDark()) {
                 theme = Theme.getTheme(str2);

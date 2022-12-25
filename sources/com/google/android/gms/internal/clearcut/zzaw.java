@@ -18,7 +18,7 @@ final class zzaw {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static boolean zzx() {
-        return zzfb != null && !zzfc;
+        return (zzfb == null || zzfc) ? false : true;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

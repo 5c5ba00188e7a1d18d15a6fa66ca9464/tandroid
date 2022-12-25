@@ -28,9 +28,10 @@ public class CropTransform {
         this.cropOrientation = i;
         while (true) {
             int i2 = this.cropOrientation;
-            if (i2 < 0) {
-                this.cropOrientation = i2 + 360;
+            if (i2 >= 0) {
+                break;
             }
+            this.cropOrientation = i2 + 360;
         }
         while (true) {
             int i3 = this.cropOrientation;

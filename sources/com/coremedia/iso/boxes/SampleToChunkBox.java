@@ -16,7 +16,7 @@ public class SampleToChunkBox extends AbstractFullBox {
     private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_0 = null;
     private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_1 = null;
     private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_2 = null;
-    List<Entry> entries = Collections.emptyList();
+    List<Entry> entries;
 
     static {
         ajc$preClinit();
@@ -32,6 +32,7 @@ public class SampleToChunkBox extends AbstractFullBox {
 
     public SampleToChunkBox() {
         super("stsc");
+        this.entries = Collections.emptyList();
     }
 
     public List<Entry> getEntries() {

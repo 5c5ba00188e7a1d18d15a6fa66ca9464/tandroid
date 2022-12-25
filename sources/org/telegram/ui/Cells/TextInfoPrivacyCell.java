@@ -62,7 +62,6 @@ public class TextInfoPrivacyCell extends FrameLayout {
         };
         this.textView = linksTextView;
         linksTextView.setTextSize(1, 14.0f);
-        int i2 = 5;
         this.textView.setGravity(LocaleController.isRTL ? 5 : 3);
         this.textView.setPadding(0, AndroidUtilities.dp(10.0f), 0, AndroidUtilities.dp(17.0f));
         this.textView.setMovementMethod(LinkMovementMethod.getInstance());
@@ -70,7 +69,7 @@ public class TextInfoPrivacyCell extends FrameLayout {
         this.textView.setLinkTextColor(getThemedColor(this.linkTextColorKey));
         this.textView.setImportantForAccessibility(2);
         float f = i;
-        addView(this.textView, LayoutHelper.createFrame(-1, -2.0f, (!LocaleController.isRTL ? 3 : i2) | 48, f, 0.0f, f, 0.0f));
+        addView(this.textView, LayoutHelper.createFrame(-1, -2.0f, (LocaleController.isRTL ? 5 : 3) | 48, f, 0.0f, f, 0.0f));
         setWillNotDraw(false);
     }
 
@@ -113,34 +112,35 @@ public class TextInfoPrivacyCell extends FrameLayout {
     }
 
     public void setText(CharSequence charSequence) {
-        if (!TextUtils.equals(charSequence, this.text)) {
-            this.text = charSequence;
-            if (charSequence == null) {
-                this.textView.setPadding(0, AndroidUtilities.dp(2.0f), 0, 0);
-            } else {
-                this.textView.setPadding(0, AndroidUtilities.dp(this.topPadding), 0, AndroidUtilities.dp(this.bottomPadding));
-            }
-            SpannableString spannableString = null;
-            if (charSequence != null) {
-                int length = charSequence.length();
-                for (int i = 0; i < length - 1; i++) {
-                    if (charSequence.charAt(i) == '\n') {
-                        int i2 = i + 1;
-                        if (charSequence.charAt(i2) == '\n') {
-                            if (spannableString == null) {
-                                spannableString = new SpannableString(charSequence);
-                            }
-                            spannableString.setSpan(new AbsoluteSizeSpan(10, true), i2, i + 2, 33);
+        if (TextUtils.equals(charSequence, this.text)) {
+            return;
+        }
+        this.text = charSequence;
+        if (charSequence == null) {
+            this.textView.setPadding(0, AndroidUtilities.dp(2.0f), 0, 0);
+        } else {
+            this.textView.setPadding(0, AndroidUtilities.dp(this.topPadding), 0, AndroidUtilities.dp(this.bottomPadding));
+        }
+        SpannableString spannableString = null;
+        if (charSequence != null) {
+            int length = charSequence.length();
+            for (int i = 0; i < length - 1; i++) {
+                if (charSequence.charAt(i) == '\n') {
+                    int i2 = i + 1;
+                    if (charSequence.charAt(i2) == '\n') {
+                        if (spannableString == null) {
+                            spannableString = new SpannableString(charSequence);
                         }
+                        spannableString.setSpan(new AbsoluteSizeSpan(10, true), i2, i + 2, 33);
                     }
                 }
             }
-            TextView textView = this.textView;
-            if (spannableString != null) {
-                charSequence = spannableString;
-            }
-            textView.setText(charSequence);
         }
+        TextView textView = this.textView;
+        if (spannableString != null) {
+            charSequence = spannableString;
+        }
+        textView.setText(charSequence);
     }
 
     public void setTextColor(int i) {
@@ -161,23 +161,15 @@ public class TextInfoPrivacyCell extends FrameLayout {
     }
 
     public void setEnabled(boolean z, ArrayList<Animator> arrayList) {
-        float f = 1.0f;
         if (arrayList != null) {
             TextView textView = this.textView;
             Property property = View.ALPHA;
             float[] fArr = new float[1];
-            if (!z) {
-                f = 0.5f;
-            }
-            fArr[0] = f;
+            fArr[0] = z ? 1.0f : 0.5f;
             arrayList.add(ObjectAnimator.ofFloat(textView, property, fArr));
             return;
         }
-        TextView textView2 = this.textView;
-        if (!z) {
-            f = 0.5f;
-        }
-        textView2.setAlpha(f);
+        this.textView.setAlpha(z ? 1.0f : 0.5f);
     }
 
     @Override // android.view.View

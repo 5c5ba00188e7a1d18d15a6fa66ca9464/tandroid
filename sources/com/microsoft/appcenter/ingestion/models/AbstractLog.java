@@ -101,12 +101,11 @@ public abstract class AbstractLog implements Log {
         }
         setDistributionGroupId(jSONObject.optString("distributionGroupId", null));
         setUserId(jSONObject.optString("userId", null));
-        if (!jSONObject.has("device")) {
-            return;
+        if (jSONObject.has("device")) {
+            Device device = new Device();
+            device.read(jSONObject.getJSONObject("device"));
+            setDevice(device);
         }
-        Device device = new Device();
-        device.read(jSONObject.getJSONObject("device"));
-        setDevice(device);
     }
 
     public boolean equals(Object obj) {
@@ -117,38 +116,37 @@ public abstract class AbstractLog implements Log {
             return false;
         }
         AbstractLog abstractLog = (AbstractLog) obj;
-        if (!this.transmissionTargetTokens.equals(abstractLog.transmissionTargetTokens)) {
+        if (this.transmissionTargetTokens.equals(abstractLog.transmissionTargetTokens)) {
+            Date date = this.timestamp;
+            if (date == null ? abstractLog.timestamp == null : date.equals(abstractLog.timestamp)) {
+                UUID uuid = this.sid;
+                if (uuid == null ? abstractLog.sid == null : uuid.equals(abstractLog.sid)) {
+                    String str = this.distributionGroupId;
+                    if (str == null ? abstractLog.distributionGroupId == null : str.equals(abstractLog.distributionGroupId)) {
+                        String str2 = this.userId;
+                        if (str2 == null ? abstractLog.userId == null : str2.equals(abstractLog.userId)) {
+                            Device device = this.device;
+                            if (device == null ? abstractLog.device == null : device.equals(abstractLog.device)) {
+                                Object obj2 = this.tag;
+                                Object obj3 = abstractLog.tag;
+                                return obj2 != null ? obj2.equals(obj3) : obj3 == null;
+                            }
+                            return false;
+                        }
+                        return false;
+                    }
+                    return false;
+                }
+                return false;
+            }
             return false;
         }
-        Date date = this.timestamp;
-        if (date == null ? abstractLog.timestamp != null : !date.equals(abstractLog.timestamp)) {
-            return false;
-        }
-        UUID uuid = this.sid;
-        if (uuid == null ? abstractLog.sid != null : !uuid.equals(abstractLog.sid)) {
-            return false;
-        }
-        String str = this.distributionGroupId;
-        if (str == null ? abstractLog.distributionGroupId != null : !str.equals(abstractLog.distributionGroupId)) {
-            return false;
-        }
-        String str2 = this.userId;
-        if (str2 == null ? abstractLog.userId != null : !str2.equals(abstractLog.userId)) {
-            return false;
-        }
-        Device device = this.device;
-        if (device == null ? abstractLog.device != null : !device.equals(abstractLog.device)) {
-            return false;
-        }
-        Object obj2 = this.tag;
-        Object obj3 = abstractLog.tag;
-        return obj2 != null ? obj2.equals(obj3) : obj3 == null;
+        return false;
     }
 
     public int hashCode() {
         int hashCode = this.transmissionTargetTokens.hashCode() * 31;
         Date date = this.timestamp;
-        int i = 0;
         int hashCode2 = (hashCode + (date != null ? date.hashCode() : 0)) * 31;
         UUID uuid = this.sid;
         int hashCode3 = (hashCode2 + (uuid != null ? uuid.hashCode() : 0)) * 31;
@@ -159,9 +157,6 @@ public abstract class AbstractLog implements Log {
         Device device = this.device;
         int hashCode6 = (hashCode5 + (device != null ? device.hashCode() : 0)) * 31;
         Object obj = this.tag;
-        if (obj != null) {
-            i = obj.hashCode();
-        }
-        return hashCode6 + i;
+        return hashCode6 + (obj != null ? obj.hashCode() : 0);
     }
 }

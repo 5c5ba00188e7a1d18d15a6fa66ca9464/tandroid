@@ -4,13 +4,17 @@ import java.util.ArrayList;
 import java.util.Iterator;
 /* loaded from: classes.dex */
 public class CallingCodeInfo {
-    public String callingCode = "";
-    public ArrayList<String> trunkPrefixes = new ArrayList<>();
-    public ArrayList<String> intlPrefixes = new ArrayList<>();
-    public ArrayList<RuleSet> ruleSets = new ArrayList<>();
+    public String callingCode;
+    public ArrayList<String> intlPrefixes;
+    public ArrayList<RuleSet> ruleSets;
+    public ArrayList<String> trunkPrefixes;
 
     public CallingCodeInfo() {
         new ArrayList();
+        this.callingCode = "";
+        this.trunkPrefixes = new ArrayList<>();
+        this.intlPrefixes = new ArrayList<>();
+        this.ruleSets = new ArrayList<>();
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

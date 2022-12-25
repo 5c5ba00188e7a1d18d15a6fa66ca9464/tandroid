@@ -16,10 +16,10 @@ public final class WidevineUtil {
         if (map != null) {
             try {
                 String str2 = map.get(str);
-                if (str2 == null) {
-                    return -9223372036854775807L;
+                if (str2 != null) {
+                    return Long.parseLong(str2);
                 }
-                return Long.parseLong(str2);
+                return -9223372036854775807L;
             } catch (NumberFormatException unused) {
                 return -9223372036854775807L;
             }

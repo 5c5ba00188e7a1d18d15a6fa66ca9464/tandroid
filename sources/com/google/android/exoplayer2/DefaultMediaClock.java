@@ -90,10 +90,10 @@ final class DefaultMediaClock implements MediaClock {
     private void syncClocks(boolean z) {
         if (shouldUseStandaloneClock(z)) {
             this.isUsingStandaloneClock = true;
-            if (!this.standaloneClockIsStarted) {
+            if (this.standaloneClockIsStarted) {
+                this.standaloneClock.start();
                 return;
             }
-            this.standaloneClock.start();
             return;
         }
         long positionUs = this.rendererClock.getPositionUs();

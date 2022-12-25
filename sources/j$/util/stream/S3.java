@@ -124,9 +124,7 @@ public class S3 implements j$.util.u {
             this.c = 0;
             this.e = this.f.f[i4];
             return s3;
-        } else if (i != i2) {
-            return null;
-        } else {
+        } else if (i == i2) {
             int i5 = this.d;
             int i6 = this.c;
             int i7 = (i5 - i6) / 2;
@@ -136,6 +134,8 @@ public class S3 implements j$.util.u {
             j$.util.u m = j$.util.L.m(this.e, i6, i6 + i7, 1040);
             this.c += i7;
             return m;
+        } else {
+            return null;
         }
     }
 }

@@ -164,7 +164,7 @@ public class CarouselView extends View implements PagerHeaderView {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:31:0x0074, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:19:0x0074, code lost:
         if (java.lang.Math.abs(r8 % r2) > 2.0d) goto L32;
      */
     @Override // android.view.View
@@ -252,15 +252,13 @@ public class CarouselView extends View implements PagerHeaderView {
 
     void scheduleAutoscroll() {
         AndroidUtilities.cancelRunOnUIThread(this.autoScrollRunnable);
-        if (!this.autoPlayEnabled) {
-            return;
+        if (this.autoPlayEnabled) {
+            AndroidUtilities.runOnUIThread(this.autoScrollRunnable, 3000L);
         }
-        AndroidUtilities.runOnUIThread(this.autoScrollRunnable, 3000L);
     }
 
     @Override // org.telegram.ui.Components.Premium.PagerHeaderView
     public void setOffset(float f) {
-        boolean z = true;
         if (f >= getMeasuredWidth() || f <= (-getMeasuredWidth())) {
             this.overScroller.abortAnimation();
             ValueAnimator valueAnimator = this.autoScrollAnimation;
@@ -274,10 +272,7 @@ public class CarouselView extends View implements PagerHeaderView {
             this.offsetAngle = 0.0f;
         }
         setAutoPlayEnabled(f == 0.0f);
-        if (Math.abs(f) >= getMeasuredWidth() * 0.2f) {
-            z = false;
-        }
-        setFirstScrollEnabled(z);
+        setFirstScrollEnabled(Math.abs(f) < ((float) getMeasuredWidth()) * 0.2f);
         float clamp = 1.0f - Utilities.clamp(Math.abs(f) / getMeasuredWidth(), 1.0f, 0.0f);
         setScaleX(clamp);
         setScaleY(clamp);

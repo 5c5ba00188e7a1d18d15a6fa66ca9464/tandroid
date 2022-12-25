@@ -72,7 +72,6 @@ public class ReportAlert extends BottomSheet {
         textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         textView.setTextSize(1, 24.0f);
         textView.setTextColor(Theme.getColor("dialogTextBlack"));
-        int i2 = 5;
         if (i == 0) {
             textView.setText(LocaleController.getString("ReportTitleSpam", R.string.ReportTitleSpam));
         } else if (i == 6) {
@@ -104,7 +103,7 @@ public class ReportAlert extends BottomSheet {
         this.editText.setLines(1);
         this.editText.setPadding(0, 0, 0, 0);
         this.editText.setSingleLine(true);
-        this.editText.setGravity(!LocaleController.isRTL ? 3 : i2);
+        this.editText.setGravity(LocaleController.isRTL ? 5 : 3);
         this.editText.setInputType(180224);
         this.editText.setImeOptions(6);
         this.editText.setHint(LocaleController.getString("ReportHint", R.string.ReportHint));
@@ -113,9 +112,9 @@ public class ReportAlert extends BottomSheet {
         this.editText.setCursorWidth(1.5f);
         this.editText.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.Components.ReportAlert$$ExternalSyntheticLambda1
             @Override // android.widget.TextView.OnEditorActionListener
-            public final boolean onEditorAction(TextView textView3, int i3, KeyEvent keyEvent) {
+            public final boolean onEditorAction(TextView textView3, int i2, KeyEvent keyEvent) {
                 boolean lambda$new$0;
-                lambda$new$0 = ReportAlert.this.lambda$new$0(textView3, i3, keyEvent);
+                lambda$new$0 = ReportAlert.this.lambda$new$0(textView3, i2, keyEvent);
                 return lambda$new$0;
             }
         });

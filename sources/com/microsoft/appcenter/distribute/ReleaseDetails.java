@@ -25,7 +25,6 @@ public class ReleaseDetails {
         releaseDetails.version = jSONObject.getInt("version");
         releaseDetails.shortVersion = jSONObject.getString("short_version");
         releaseDetails.size = jSONObject.getLong("size");
-        String str2 = null;
         releaseDetails.releaseNotes = jSONObject.isNull("release_notes") ? null : jSONObject.getString("release_notes");
         releaseDetails.releaseNotesUrl = jSONObject.isNull("release_notes_url") ? null : Uri.parse(jSONObject.getString("release_notes_url"));
         releaseDetails.minApiLevel = jSONObject.getInt("android_min_api_level");
@@ -37,10 +36,7 @@ public class ReleaseDetails {
         }
         releaseDetails.mandatoryUpdate = jSONObject.getBoolean("mandatory_update");
         releaseDetails.releaseHash = jSONObject.getJSONArray("package_hashes").getString(0);
-        if (!jSONObject.isNull("distribution_group_id")) {
-            str2 = jSONObject.getString("distribution_group_id");
-        }
-        releaseDetails.distributionGroupId = str2;
+        releaseDetails.distributionGroupId = jSONObject.isNull("distribution_group_id") ? null : jSONObject.getString("distribution_group_id");
         return releaseDetails;
     }
 

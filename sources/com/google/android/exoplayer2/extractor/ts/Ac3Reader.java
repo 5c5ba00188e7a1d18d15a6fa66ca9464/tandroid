@@ -102,26 +102,18 @@ public final class Ac3Reader implements ElementaryStreamReader {
 
     private boolean skipToNextSync(ParsableByteArray parsableByteArray) {
         while (true) {
-            boolean z = false;
-            if (parsableByteArray.bytesLeft() > 0) {
-                if (!this.lastByteWas0B) {
-                    if (parsableByteArray.readUnsignedByte() == 11) {
-                        z = true;
-                    }
-                    this.lastByteWas0B = z;
-                } else {
-                    int readUnsignedByte = parsableByteArray.readUnsignedByte();
-                    if (readUnsignedByte == 119) {
-                        this.lastByteWas0B = false;
-                        return true;
-                    }
-                    if (readUnsignedByte == 11) {
-                        z = true;
-                    }
-                    this.lastByteWas0B = z;
-                }
-            } else {
+            if (parsableByteArray.bytesLeft() <= 0) {
                 return false;
+            }
+            if (!this.lastByteWas0B) {
+                this.lastByteWas0B = parsableByteArray.readUnsignedByte() == 11;
+            } else {
+                int readUnsignedByte = parsableByteArray.readUnsignedByte();
+                if (readUnsignedByte == 119) {
+                    this.lastByteWas0B = false;
+                    return true;
+                }
+                this.lastByteWas0B = readUnsignedByte == 11;
             }
         }
     }

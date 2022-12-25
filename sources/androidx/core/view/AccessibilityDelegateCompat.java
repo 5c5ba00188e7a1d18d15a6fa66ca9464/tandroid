@@ -168,11 +168,11 @@ public class AccessibilityDelegateCompat {
             return false;
         }
         ClickableSpan clickableSpan = (ClickableSpan) weakReference.get();
-        if (!isSpanStillValid(clickableSpan, host)) {
-            return false;
+        if (isSpanStillValid(clickableSpan, host)) {
+            clickableSpan.onClick(host);
+            return true;
         }
-        clickableSpan.onClick(host);
-        return true;
+        return false;
     }
 
     private boolean isSpanStillValid(ClickableSpan span, View view) {

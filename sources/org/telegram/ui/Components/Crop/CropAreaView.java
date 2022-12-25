@@ -29,55 +29,55 @@ import org.telegram.ui.BubbleActivity;
 /* loaded from: classes3.dex */
 public class CropAreaView extends ViewGroup {
     private Control activeControl;
+    private RectF actualRect;
     private Animator animator;
     private Paint bitmapPaint;
+    private RectF bottomEdge;
+    private RectF bottomLeftCorner;
     private float bottomPadding;
+    private RectF bottomRightCorner;
     private Bitmap circleBitmap;
     private Paint dimPaint;
+    private boolean dimVisibile;
     private Paint eraserPaint;
+    private float frameAlpha;
     private Paint framePaint;
+    private boolean frameVisible;
+    private boolean freeform;
     private Animator gridAnimator;
     private float gridProgress;
+    private GridType gridType;
     private Paint handlePaint;
     private boolean inBubbleMode;
+    private AccelerateDecelerateInterpolator interpolator;
     private boolean isDragging;
     private long lastUpdateTime;
     public float left;
+    private RectF leftEdge;
     private Paint linePaint;
     private AreaViewListener listener;
     private float lockAspectRatio;
+    private float minWidth;
     private GridType previousGridType;
     private int previousX;
     private int previousY;
+    private RectF rightEdge;
+    public float rotate;
+    public float scale;
     private Paint shadowPaint;
+    private float sidePadding;
     public int size;
     private String subtitle;
     private StaticLayout subtitleLayout;
     TextPaint subtitlePaint;
+    private RectF targetRect;
+    private RectF tempRect;
     public float top;
-    private RectF topLeftCorner = new RectF();
-    private RectF topRightCorner = new RectF();
-    private RectF bottomLeftCorner = new RectF();
-    private RectF bottomRightCorner = new RectF();
-    private RectF topEdge = new RectF();
-    private RectF leftEdge = new RectF();
-    private RectF bottomEdge = new RectF();
-    private RectF rightEdge = new RectF();
-    private RectF actualRect = new RectF();
-    private RectF tempRect = new RectF();
-    private float frameAlpha = 1.0f;
-    private AccelerateDecelerateInterpolator interpolator = new AccelerateDecelerateInterpolator();
-    private boolean freeform = true;
-    private RectF targetRect = new RectF();
-    public float rotate = 0.0f;
-    public float scale = 1.0f;
-    public float tx = 0.0f;
-    public float ty = 0.0f;
-    private boolean frameVisible = true;
-    private boolean dimVisibile = true;
-    private float sidePadding = AndroidUtilities.dp(16.0f);
-    private float minWidth = AndroidUtilities.dp(32.0f);
-    private GridType gridType = GridType.NONE;
+    private RectF topEdge;
+    private RectF topLeftCorner;
+    private RectF topRightCorner;
+    public float tx;
+    public float ty;
 
     /* loaded from: classes3.dex */
     interface AreaViewListener {
@@ -115,7 +115,30 @@ public class CropAreaView extends ViewGroup {
 
     public CropAreaView(Context context) {
         super(context);
+        this.topLeftCorner = new RectF();
+        this.topRightCorner = new RectF();
+        this.bottomLeftCorner = new RectF();
+        this.bottomRightCorner = new RectF();
+        this.topEdge = new RectF();
+        this.leftEdge = new RectF();
+        this.bottomEdge = new RectF();
+        this.rightEdge = new RectF();
+        this.actualRect = new RectF();
+        this.tempRect = new RectF();
+        this.frameAlpha = 1.0f;
+        this.interpolator = new AccelerateDecelerateInterpolator();
+        this.freeform = true;
+        this.targetRect = new RectF();
+        this.rotate = 0.0f;
+        this.scale = 1.0f;
+        this.tx = 0.0f;
+        this.ty = 0.0f;
         this.inBubbleMode = context instanceof BubbleActivity;
+        this.frameVisible = true;
+        this.dimVisibile = true;
+        this.sidePadding = AndroidUtilities.dp(16.0f);
+        this.minWidth = AndroidUtilities.dp(32.0f);
+        this.gridType = GridType.NONE;
         Paint paint = new Paint();
         this.dimPaint = paint;
         paint.setColor(2130706432);
@@ -183,12 +206,8 @@ public class CropAreaView extends ViewGroup {
 
     public void setFrameVisibility(boolean z, boolean z2) {
         this.frameVisible = z;
-        float f = 1.0f;
         if (z) {
-            if (z2) {
-                f = 0.0f;
-            }
-            this.frameAlpha = f;
+            this.frameAlpha = z2 ? 0.0f : 1.0f;
             this.lastUpdateTime = SystemClock.elapsedRealtime();
             invalidate();
             return;
@@ -729,7 +748,6 @@ public class CropAreaView extends ViewGroup {
     public boolean onTouchEvent(MotionEvent motionEvent) {
         int x = (int) (motionEvent.getX() - ((ViewGroup) getParent()).getX());
         int y = (int) (motionEvent.getY() - ((ViewGroup) getParent()).getY());
-        boolean z = false;
         float f = (Build.VERSION.SDK_INT < 21 || this.inBubbleMode) ? 0 : AndroidUtilities.statusBarHeight;
         int actionMasked = motionEvent.getActionMasked();
         if (actionMasked == 0) {
@@ -791,9 +809,7 @@ public class CropAreaView extends ViewGroup {
             float f5 = y - this.previousY;
             this.previousX = x;
             this.previousY = y;
-            if (Math.abs(f4) > Math.abs(f5)) {
-                z = true;
-            }
+            boolean z = Math.abs(f4) > Math.abs(f5);
             switch (3.$SwitchMap$org$telegram$ui$Components$Crop$CropAreaView$Control[this.activeControl.ordinal()]) {
                 case 1:
                     RectF rectF = this.tempRect;

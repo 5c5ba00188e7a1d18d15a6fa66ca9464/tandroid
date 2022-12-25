@@ -51,15 +51,11 @@ public final class GeobFrame extends Id3Frame {
 
     public int hashCode() {
         String str = this.mimeType;
-        int i = 0;
         int hashCode = (527 + (str != null ? str.hashCode() : 0)) * 31;
         String str2 = this.filename;
         int hashCode2 = (hashCode + (str2 != null ? str2.hashCode() : 0)) * 31;
         String str3 = this.description;
-        if (str3 != null) {
-            i = str3.hashCode();
-        }
-        return ((hashCode2 + i) * 31) + Arrays.hashCode(this.data);
+        return ((hashCode2 + (str3 != null ? str3.hashCode() : 0)) * 31) + Arrays.hashCode(this.data);
     }
 
     @Override // com.google.android.exoplayer2.metadata.id3.Id3Frame

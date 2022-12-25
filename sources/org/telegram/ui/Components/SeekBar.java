@@ -175,10 +175,9 @@ public class SeekBar {
         }
         int i = this.width;
         int i2 = thumbWidth;
-        if (ceil <= i - i2) {
-            return;
+        if (ceil > i - i2) {
+            this.thumbX = i - i2;
         }
-        this.thumbX = i - i2;
     }
 
     public void setBufferedProgress(float f) {
@@ -320,11 +319,11 @@ public class SeekBar {
             this.currentTimestamp = -1;
             this.timestampsAppearing = 0.0f;
             StaticLayout[] staticLayoutArr = this.timestampLabel;
-            if (staticLayoutArr == null) {
+            if (staticLayoutArr != null) {
+                staticLayoutArr[1] = null;
+                staticLayoutArr[0] = null;
                 return;
             }
-            staticLayoutArr[1] = null;
-            staticLayoutArr[0] = null;
             return;
         }
         Spanned spanned = (Spanned) charSequence;
@@ -356,11 +355,10 @@ public class SeekBar {
             this.currentTimestamp = -1;
             this.timestampsAppearing = 0.0f;
             StaticLayout[] staticLayoutArr2 = this.timestampLabel;
-            if (staticLayoutArr2 == null) {
-                return;
+            if (staticLayoutArr2 != null) {
+                staticLayoutArr2[1] = null;
+                staticLayoutArr2[0] = null;
             }
-            staticLayoutArr2[1] = null;
-            staticLayoutArr2[0] = null;
         }
     }
 
@@ -549,14 +547,13 @@ public class SeekBar {
             }
             this.lastTimestampUpdate = SystemClock.elapsedRealtime();
         }
-        if (this.timestampsAppearing >= 1.0f) {
-            return;
+        if (this.timestampsAppearing < 1.0f) {
+            this.timestampsAppearing = Math.min(this.timestampsAppearing + (((float) Math.min(17L, Math.abs(SystemClock.elapsedRealtime() - this.lastTimestampUpdate))) / 200.0f), 1.0f);
+            View view3 = this.parentView;
+            if (view3 != null) {
+                view3.invalidate();
+            }
+            SystemClock.elapsedRealtime();
         }
-        this.timestampsAppearing = Math.min(this.timestampsAppearing + (((float) Math.min(17L, Math.abs(SystemClock.elapsedRealtime() - this.lastTimestampUpdate))) / 200.0f), 1.0f);
-        View view3 = this.parentView;
-        if (view3 != null) {
-            view3.invalidate();
-        }
-        SystemClock.elapsedRealtime();
     }
 }

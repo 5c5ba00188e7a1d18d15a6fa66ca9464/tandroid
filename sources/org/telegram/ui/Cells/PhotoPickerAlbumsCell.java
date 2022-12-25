@@ -18,11 +18,11 @@ import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.LayoutHelper;
 /* loaded from: classes3.dex */
 public class PhotoPickerAlbumsCell extends FrameLayout {
+    private MediaController.AlbumEntry[] albumEntries;
+    private AlbumView[] albumViews;
     private int albumsCount;
+    private Paint backgroundPaint;
     private PhotoPickerAlbumsCellDelegate delegate;
-    private Paint backgroundPaint = new Paint();
-    private MediaController.AlbumEntry[] albumEntries = new MediaController.AlbumEntry[4];
-    private AlbumView[] albumViews = new AlbumView[4];
 
     /* loaded from: classes3.dex */
     public interface PhotoPickerAlbumsCellDelegate {
@@ -79,15 +79,19 @@ public class PhotoPickerAlbumsCell extends FrameLayout {
 
         @Override // android.view.View
         protected void onDraw(Canvas canvas) {
-            if (!this.imageView.getImageReceiver().hasNotThumb() || this.imageView.getImageReceiver().getCurrentAlpha() != 1.0f) {
-                PhotoPickerAlbumsCell.this.backgroundPaint.setColor(Theme.getColor("chat_attachPhotoBackground"));
-                canvas.drawRect(0.0f, 0.0f, this.imageView.getMeasuredWidth(), this.imageView.getMeasuredHeight(), PhotoPickerAlbumsCell.this.backgroundPaint);
+            if (this.imageView.getImageReceiver().hasNotThumb() && this.imageView.getImageReceiver().getCurrentAlpha() == 1.0f) {
+                return;
             }
+            PhotoPickerAlbumsCell.this.backgroundPaint.setColor(Theme.getColor("chat_attachPhotoBackground"));
+            canvas.drawRect(0.0f, 0.0f, this.imageView.getMeasuredWidth(), this.imageView.getMeasuredHeight(), PhotoPickerAlbumsCell.this.backgroundPaint);
         }
     }
 
     public PhotoPickerAlbumsCell(Context context) {
         super(context);
+        this.backgroundPaint = new Paint();
+        this.albumEntries = new MediaController.AlbumEntry[4];
+        this.albumViews = new AlbumView[4];
         for (int i = 0; i < 4; i++) {
             this.albumViews[i] = new AlbumView(context);
             addView(this.albumViews[i]);

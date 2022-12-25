@@ -305,8 +305,8 @@ public class SessionBottomSheet extends BottomSheet {
         BulletinFactory.of(getContainer(), null).createCopyBulletin(LocaleController.getString("TextCopied", R.string.TextCopied)).show();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:11:0x00e0  */
-    /* JADX WARN: Removed duplicated region for block: B:14:0x00f1  */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x00e0  */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x00f1  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -379,12 +379,13 @@ public class SessionBottomSheet extends BottomSheet {
     private static class ItemView extends FrameLayout {
         TextView descriptionText;
         ImageView iconView;
-        boolean needDivider = false;
+        boolean needDivider;
         Switch switchView;
         TextView valueText;
 
         public ItemView(Context context, boolean z) {
             super(context);
+            this.needDivider = false;
             ImageView imageView = new ImageView(context);
             this.iconView = imageView;
             imageView.setScaleType(ImageView.ScaleType.CENTER);

@@ -10,12 +10,12 @@ public abstract class TLRPC$EmojiStatus extends TLObject {
         } else {
             tLRPC$TL_emojiStatus = new TLRPC$TL_emojiStatusUntil();
         }
-        if (tLRPC$TL_emojiStatus != null || !z) {
-            if (tLRPC$TL_emojiStatus != null) {
-                tLRPC$TL_emojiStatus.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_emojiStatus;
+        if (tLRPC$TL_emojiStatus == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in EmojiStatus", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in EmojiStatus", Integer.valueOf(i)));
+        if (tLRPC$TL_emojiStatus != null) {
+            tLRPC$TL_emojiStatus.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_emojiStatus;
     }
 }

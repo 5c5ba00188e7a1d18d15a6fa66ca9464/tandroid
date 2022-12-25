@@ -56,26 +56,24 @@ public class KeepAliveJob extends JobIntentService {
     @Override // org.telegram.messenger.support.JobIntentService
     protected void onHandleWork(Intent intent) {
         synchronized (sync) {
-            if (!startingJob) {
-                return;
+            if (startingJob) {
+                countDownLatch = new CountDownLatch(1);
+                if (BuildVars.LOGS_ENABLED) {
+                    FileLog.d("started keep-alive job");
+                }
+                Utilities.globalQueue.postRunnable(finishJobByTimeoutRunnable, 60000L);
+                try {
+                    countDownLatch.await();
+                } catch (Throwable unused) {
+                }
+                Utilities.globalQueue.cancelRunnable(finishJobByTimeoutRunnable);
+                synchronized (sync) {
+                    countDownLatch = null;
+                }
+                if (BuildVars.LOGS_ENABLED) {
+                    FileLog.d("ended keep-alive job");
+                }
             }
-            countDownLatch = new CountDownLatch(1);
-            if (BuildVars.LOGS_ENABLED) {
-                FileLog.d("started keep-alive job");
-            }
-            Utilities.globalQueue.postRunnable(finishJobByTimeoutRunnable, 60000L);
-            try {
-                countDownLatch.await();
-            } catch (Throwable unused) {
-            }
-            Utilities.globalQueue.cancelRunnable(finishJobByTimeoutRunnable);
-            synchronized (sync) {
-                countDownLatch = null;
-            }
-            if (!BuildVars.LOGS_ENABLED) {
-                return;
-            }
-            FileLog.d("ended keep-alive job");
         }
     }
 }

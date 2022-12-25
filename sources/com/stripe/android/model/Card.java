@@ -54,11 +54,11 @@ public class Card {
             return false;
         }
         String replaceAll = this.number.trim().replaceAll("\\s+|-", "");
-        if (StripeTextUtils.isBlank(replaceAll) || !StripeTextUtils.isWholePositiveNumber(replaceAll) || !isValidLuhnNumber(replaceAll)) {
-            return false;
+        if (!StripeTextUtils.isBlank(replaceAll) && StripeTextUtils.isWholePositiveNumber(replaceAll) && isValidLuhnNumber(replaceAll)) {
+            String brand = getBrand();
+            return "American Express".equals(brand) ? replaceAll.length() == 15 : "Diners Club".equals(brand) ? replaceAll.length() == 14 : replaceAll.length() == 16;
         }
-        String brand = getBrand();
-        return "American Express".equals(brand) ? replaceAll.length() == 15 : "Diners Club".equals(brand) ? replaceAll.length() == 14 : replaceAll.length() == 16;
+        return false;
     }
 
     public boolean validateExpiryDate() {
@@ -84,7 +84,7 @@ public class Card {
 
     public boolean validateExpYear() {
         Integer num = this.expYear;
-        return num != null && !DateUtils.hasYearPassed(num.intValue());
+        return (num == null || DateUtils.hasYearPassed(num.intValue())) ? false : true;
     }
 
     public String getNumber() {

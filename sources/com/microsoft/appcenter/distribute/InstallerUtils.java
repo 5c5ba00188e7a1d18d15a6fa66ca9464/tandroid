@@ -45,7 +45,7 @@ public class InstallerUtils {
             if (sInstalledFromAppStore == null) {
                 String installerPackageName = context.getPackageManager().getInstallerPackageName(context.getPackageName());
                 AppCenterLog.debug(str, "InstallerPackageName=" + installerPackageName);
-                sInstalledFromAppStore = Boolean.valueOf(installerPackageName != null && !LOCAL_STORES.contains(installerPackageName));
+                sInstalledFromAppStore = Boolean.valueOf((installerPackageName == null || LOCAL_STORES.contains(installerPackageName)) ? false : true);
             }
             booleanValue = sInstalledFromAppStore.booleanValue();
         }

@@ -203,13 +203,9 @@ public abstract class TLRPC$PhoneCall extends TLObject {
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
                         this.flags = readInt32;
-                        boolean z3 = false;
                         this.need_rating = (readInt32 & 4) != 0;
                         this.need_debug = (readInt32 & 8) != 0;
-                        if ((readInt32 & 64) != 0) {
-                            z3 = true;
-                        }
-                        this.video = z3;
+                        this.video = (readInt32 & 64) != 0;
                         this.id = abstractSerializedData2.readInt64(z2);
                         if ((this.flags & 1) != 0) {
                             this.reason = TLRPC$PhoneCallDiscardReason.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
@@ -259,12 +255,12 @@ public abstract class TLRPC$PhoneCall extends TLObject {
                 tLRPC$PhoneCall = null;
                 break;
         }
-        if (tLRPC$PhoneCall != null || !z) {
-            if (tLRPC$PhoneCall != null) {
-                tLRPC$PhoneCall.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$PhoneCall;
+        if (tLRPC$PhoneCall == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in PhoneCall", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in PhoneCall", Integer.valueOf(i)));
+        if (tLRPC$PhoneCall != null) {
+            tLRPC$PhoneCall.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$PhoneCall;
     }
 }

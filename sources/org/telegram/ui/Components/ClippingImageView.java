@@ -22,31 +22,39 @@ public class ClippingImageView extends View {
     private float additionalTranslationY;
     private float animationProgress;
     private float[][] animationValues;
+    private RectF bitmapRect;
     private BitmapShader bitmapShader;
     private ImageReceiver.BitmapHolder bmp;
     private int clipBottom;
     private int clipLeft;
     private int clipRight;
     private int clipTop;
+    private RectF drawRect;
     private int imageX;
     private int imageY;
+    private Matrix matrix;
     private boolean needRadius;
     private int orientation;
     private Paint paint;
-    private int[] radius = new int[4];
-    private Path roundPath = new Path();
-    private Matrix matrix = new Matrix();
-    private RectF drawRect = new RectF();
-    private RectF bitmapRect = new RectF();
-    private Paint roundPaint = new Paint(3);
-    private RectF roundRect = new RectF();
-    private Matrix shaderMatrix = new Matrix();
+    private int[] radius;
+    private Paint roundPaint;
+    private Path roundPath;
+    private RectF roundRect;
+    private Matrix shaderMatrix;
 
     public ClippingImageView(Context context) {
         super(context);
+        this.radius = new int[4];
+        this.roundPath = new Path();
         Paint paint = new Paint(2);
         this.paint = paint;
         paint.setFilterBitmap(true);
+        this.matrix = new Matrix();
+        this.drawRect = new RectF();
+        this.bitmapRect = new RectF();
+        this.roundPaint = new Paint(3);
+        this.roundRect = new RectF();
+        this.shaderMatrix = new Matrix();
     }
 
     public void setAnimationValues(float[][] fArr) {
@@ -155,57 +163,58 @@ public class ClippingImageView extends View {
     @Override // android.view.View
     public void onDraw(Canvas canvas) {
         ImageReceiver.BitmapHolder bitmapHolder;
-        if (getVisibility() == 0 && (bitmapHolder = this.bmp) != null && !bitmapHolder.isRecycled()) {
-            float scaleY = getScaleY();
-            canvas.save();
-            if (this.needRadius) {
-                this.shaderMatrix.reset();
-                this.roundRect.set(this.imageX / scaleY, this.imageY / scaleY, getWidth() - (this.imageX / scaleY), getHeight() - (this.imageY / scaleY));
-                this.bitmapRect.set(0.0f, 0.0f, this.bmp.getWidth(), this.bmp.getHeight());
-                int i = 0;
-                AndroidUtilities.setRectToRect(this.shaderMatrix, this.bitmapRect, this.roundRect, this.orientation, false);
-                this.bitmapShader.setLocalMatrix(this.shaderMatrix);
-                canvas.clipRect(this.clipLeft / scaleY, this.clipTop / scaleY, getWidth() - (this.clipRight / scaleY), getHeight() - (this.clipBottom / scaleY));
-                while (true) {
-                    int[] iArr = this.radius;
-                    if (i >= iArr.length) {
-                        break;
-                    }
-                    float[] fArr = radii;
-                    int i2 = i * 2;
-                    fArr[i2] = iArr[i];
-                    fArr[i2 + 1] = iArr[i];
-                    i++;
-                }
-                this.roundPath.reset();
-                this.roundPath.addRoundRect(this.roundRect, radii, Path.Direction.CW);
-                this.roundPath.close();
-                canvas.drawPath(this.roundPath, this.roundPaint);
-            } else {
-                int i3 = this.orientation;
-                if (i3 == 90 || i3 == 270) {
-                    this.drawRect.set((-getHeight()) / 2, (-getWidth()) / 2, getHeight() / 2, getWidth() / 2);
-                    this.matrix.setRectToRect(this.bitmapRect, this.drawRect, Matrix.ScaleToFit.FILL);
-                    this.matrix.postRotate(this.orientation, 0.0f, 0.0f);
-                    this.matrix.postTranslate(getWidth() / 2, getHeight() / 2);
-                } else if (i3 == 180) {
-                    this.drawRect.set((-getWidth()) / 2, (-getHeight()) / 2, getWidth() / 2, getHeight() / 2);
-                    this.matrix.setRectToRect(this.bitmapRect, this.drawRect, Matrix.ScaleToFit.FILL);
-                    this.matrix.postRotate(this.orientation, 0.0f, 0.0f);
-                    this.matrix.postTranslate(getWidth() / 2, getHeight() / 2);
-                } else {
-                    this.drawRect.set(0.0f, 0.0f, getWidth(), getHeight());
-                    this.matrix.setRectToRect(this.bitmapRect, this.drawRect, Matrix.ScaleToFit.FILL);
-                }
-                canvas.clipRect(this.clipLeft / scaleY, this.clipTop / scaleY, getWidth() - (this.clipRight / scaleY), getHeight() - (this.clipBottom / scaleY));
-                try {
-                    canvas.drawBitmap(this.bmp.bitmap, this.matrix, this.paint);
-                } catch (Exception e) {
-                    FileLog.e(e);
-                }
-            }
-            canvas.restore();
+        if (getVisibility() != 0 || (bitmapHolder = this.bmp) == null || bitmapHolder.isRecycled()) {
+            return;
         }
+        float scaleY = getScaleY();
+        canvas.save();
+        if (this.needRadius) {
+            this.shaderMatrix.reset();
+            this.roundRect.set(this.imageX / scaleY, this.imageY / scaleY, getWidth() - (this.imageX / scaleY), getHeight() - (this.imageY / scaleY));
+            this.bitmapRect.set(0.0f, 0.0f, this.bmp.getWidth(), this.bmp.getHeight());
+            int i = 0;
+            AndroidUtilities.setRectToRect(this.shaderMatrix, this.bitmapRect, this.roundRect, this.orientation, false);
+            this.bitmapShader.setLocalMatrix(this.shaderMatrix);
+            canvas.clipRect(this.clipLeft / scaleY, this.clipTop / scaleY, getWidth() - (this.clipRight / scaleY), getHeight() - (this.clipBottom / scaleY));
+            while (true) {
+                int[] iArr = this.radius;
+                if (i >= iArr.length) {
+                    break;
+                }
+                float[] fArr = radii;
+                int i2 = i * 2;
+                fArr[i2] = iArr[i];
+                fArr[i2 + 1] = iArr[i];
+                i++;
+            }
+            this.roundPath.reset();
+            this.roundPath.addRoundRect(this.roundRect, radii, Path.Direction.CW);
+            this.roundPath.close();
+            canvas.drawPath(this.roundPath, this.roundPaint);
+        } else {
+            int i3 = this.orientation;
+            if (i3 == 90 || i3 == 270) {
+                this.drawRect.set((-getHeight()) / 2, (-getWidth()) / 2, getHeight() / 2, getWidth() / 2);
+                this.matrix.setRectToRect(this.bitmapRect, this.drawRect, Matrix.ScaleToFit.FILL);
+                this.matrix.postRotate(this.orientation, 0.0f, 0.0f);
+                this.matrix.postTranslate(getWidth() / 2, getHeight() / 2);
+            } else if (i3 == 180) {
+                this.drawRect.set((-getWidth()) / 2, (-getHeight()) / 2, getWidth() / 2, getHeight() / 2);
+                this.matrix.setRectToRect(this.bitmapRect, this.drawRect, Matrix.ScaleToFit.FILL);
+                this.matrix.postRotate(this.orientation, 0.0f, 0.0f);
+                this.matrix.postTranslate(getWidth() / 2, getHeight() / 2);
+            } else {
+                this.drawRect.set(0.0f, 0.0f, getWidth(), getHeight());
+                this.matrix.setRectToRect(this.bitmapRect, this.drawRect, Matrix.ScaleToFit.FILL);
+            }
+            canvas.clipRect(this.clipLeft / scaleY, this.clipTop / scaleY, getWidth() - (this.clipRight / scaleY), getHeight() - (this.clipBottom / scaleY));
+            try {
+                canvas.drawBitmap(this.bmp.bitmap, this.matrix, this.paint);
+            } catch (Exception e) {
+                FileLog.e(e);
+            }
+        }
+        canvas.restore();
     }
 
     public void setClipBottom(int i) {

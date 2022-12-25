@@ -104,13 +104,9 @@ public class SsManifest implements FilterableManifest<SsManifest> {
         }
 
         public Uri buildRequestUri(int i, int i2) {
-            boolean z = true;
             Assertions.checkState(this.formats != null);
             Assertions.checkState(this.chunkStartTimes != null);
-            if (i2 >= this.chunkStartTimes.size()) {
-                z = false;
-            }
-            Assertions.checkState(z);
+            Assertions.checkState(i2 < this.chunkStartTimes.size());
             String num = Integer.toString(this.formats[i].bitrate);
             String l = this.chunkStartTimes.get(i2).toString();
             return UriUtil.resolveToUri(this.baseUri, this.chunkTemplate.replace("{bitrate}", num).replace("{Bitrate}", num).replace("{start time}", l).replace("{start_time}", l));

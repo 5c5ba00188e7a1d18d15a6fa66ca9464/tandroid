@@ -9,16 +9,19 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.SharedConfig;
 /* loaded from: classes3.dex */
 public class BlurredFrameLayout extends FrameLayout {
+    public int backgroundColor;
     public int backgroundPaddingBottom;
     public int backgroundPaddingTop;
     protected Paint backgroundPaint;
+    public boolean drawBlur;
+    public boolean isTopView;
     private final SizeNotifierFrameLayout sizeNotifierFrameLayout;
-    public int backgroundColor = 0;
-    public boolean isTopView = true;
-    public boolean drawBlur = true;
 
     public BlurredFrameLayout(Context context, SizeNotifierFrameLayout sizeNotifierFrameLayout) {
         super(context);
+        this.backgroundColor = 0;
+        this.isTopView = true;
+        this.drawBlur = true;
         this.sizeNotifierFrameLayout = sizeNotifierFrameLayout;
     }
 

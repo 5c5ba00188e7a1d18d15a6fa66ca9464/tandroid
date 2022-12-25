@@ -17,25 +17,29 @@ import org.telegram.ui.Components.Paint.PersistColorPalette;
 import org.telegram.ui.Components.RecyclerListView;
 /* loaded from: classes3.dex */
 public class PaintColorsListView extends RecyclerListView {
+    private static Paint checkerboardPaint = new Paint(1);
+    private static Paint checkerboardPaintWhite = new Paint(1);
+    private static Paint colorCirclePaint;
+    private static Path colorCirclePath;
     private Consumer<Integer> colorListener;
     private PersistColorPalette colorPalette;
     private Paint outlinePaint;
-    private Paint paint = new Paint(1);
-    private int selectedColorIndex = 0;
-    private static Paint checkerboardPaint = new Paint(1);
-    private static Paint checkerboardPaintWhite = new Paint(1);
-    private static Path colorCirclePath = new Path();
-    private static Paint colorCirclePaint = new Paint(1);
+    private Paint paint;
+    private int selectedColorIndex;
 
     static {
         checkerboardPaint.setColor(-2013265920);
         checkerboardPaintWhite.setColor(-1996488705);
+        colorCirclePath = new Path();
+        colorCirclePaint = new Paint(1);
     }
 
     public PaintColorsListView(final Context context) {
         super(context);
+        this.paint = new Paint(1);
         Paint paint = new Paint(1);
         this.outlinePaint = paint;
+        this.selectedColorIndex = 0;
         paint.setStyle(Paint.Style.STROKE);
         this.outlinePaint.setStrokeWidth(AndroidUtilities.dp(2.0f));
         setPadding(AndroidUtilities.dp(8.0f), AndroidUtilities.dp(8.0f), AndroidUtilities.dp(8.0f), AndroidUtilities.dp(8.0f));

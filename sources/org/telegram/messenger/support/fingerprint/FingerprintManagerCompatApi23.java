@@ -31,10 +31,10 @@ public final class FingerprintManagerCompatApi23 {
     public static boolean hasEnrolledFingerprints(Context context) {
         try {
             FingerprintManager fingerprintManager = getFingerprintManager(context);
-            if (fingerprintManager != null) {
-                return fingerprintManager.hasEnrolledFingerprints();
+            if (fingerprintManager == null) {
+                return false;
             }
-            return false;
+            return fingerprintManager.hasEnrolledFingerprints();
         } catch (Exception e) {
             FileLog.e(e);
             return false;
@@ -44,10 +44,10 @@ public final class FingerprintManagerCompatApi23 {
     public static boolean isHardwareDetected(Context context) {
         try {
             FingerprintManager fingerprintManager = getFingerprintManager(context);
-            if (fingerprintManager != null) {
-                return fingerprintManager.isHardwareDetected();
+            if (fingerprintManager == null) {
+                return false;
             }
-            return false;
+            return fingerprintManager.isHardwareDetected();
         } catch (Exception e) {
             FileLog.e(e);
             return false;
@@ -72,10 +72,10 @@ public final class FingerprintManagerCompatApi23 {
         if (cryptoObject.getSignature() != null) {
             return new FingerprintManager.CryptoObject(cryptoObject.getSignature());
         }
-        if (cryptoObject.getMac() == null) {
-            return null;
+        if (cryptoObject.getMac() != null) {
+            return new FingerprintManager.CryptoObject(cryptoObject.getMac());
         }
-        return new FingerprintManager.CryptoObject(cryptoObject.getMac());
+        return null;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -89,10 +89,10 @@ public final class FingerprintManagerCompatApi23 {
         if (cryptoObject.getSignature() != null) {
             return new CryptoObject(cryptoObject.getSignature());
         }
-        if (cryptoObject.getMac() == null) {
-            return null;
+        if (cryptoObject.getMac() != null) {
+            return new CryptoObject(cryptoObject.getMac());
         }
-        return new CryptoObject(cryptoObject.getMac());
+        return null;
     }
 
     private static FingerprintManager.AuthenticationCallback wrapCallback(final AuthenticationCallback authenticationCallback) {

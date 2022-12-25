@@ -491,7 +491,7 @@ public final class HlsPlaylistParser implements ParsingLoadable.Parser<HlsPlayli
         boolean z2 = z;
         long j3 = -9223372036854775807L;
         long j4 = -9223372036854775807L;
-        String str4 = str3;
+        String str4 = "";
         boolean z3 = false;
         int i2 = 0;
         String str5 = null;
@@ -688,29 +688,26 @@ public final class HlsPlaylistParser implements ParsingLoadable.Parser<HlsPlayli
         }
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
+    /* JADX WARN: Type inference failed for: r0v2, types: [int] */
+    /* JADX WARN: Type inference failed for: r0v6 */
+    /* JADX WARN: Type inference failed for: r0v7 */
     private static int parseSelectionFlags(String str) {
         boolean parseOptionalBooleanAttribute = parseOptionalBooleanAttribute(str, REGEX_DEFAULT, false);
+        ?? r0 = parseOptionalBooleanAttribute;
         if (parseOptionalBooleanAttribute(str, REGEX_FORCED, false)) {
-            parseOptionalBooleanAttribute = (parseOptionalBooleanAttribute ? 1 : 0) | true;
+            r0 = (parseOptionalBooleanAttribute ? 1 : 0) | true;
         }
-        if (parseOptionalBooleanAttribute(str, REGEX_AUTOSELECT, false)) {
-            return (parseOptionalBooleanAttribute ? 1 : 0) | 4;
-        }
-        int i = parseOptionalBooleanAttribute ? 1 : 0;
-        int i2 = parseOptionalBooleanAttribute ? 1 : 0;
-        return i;
+        return parseOptionalBooleanAttribute(str, REGEX_AUTOSELECT, false) ? r0 | 4 : r0;
     }
 
     private static int parseRoleFlags(String str, Map<String, String> map) {
         String parseOptionalStringAttr = parseOptionalStringAttr(str, REGEX_CHARACTERISTICS, map);
-        int i = 0;
         if (TextUtils.isEmpty(parseOptionalStringAttr)) {
             return 0;
         }
         String[] split = Util.split(parseOptionalStringAttr, ",");
-        if (Util.contains(split, "public.accessibility.describes-video")) {
-            i = 512;
-        }
+        int i = Util.contains(split, "public.accessibility.describes-video") ? 512 : 0;
         if (Util.contains(split, "public.accessibility.transcribes-spoken-dialog")) {
             i |= 4096;
         }
@@ -728,13 +725,13 @@ public final class HlsPlaylistParser implements ParsingLoadable.Parser<HlsPlayli
         } else if ("com.widevine".equals(str2)) {
             return new DrmInitData.SchemeData(C.WIDEVINE_UUID, "hls", Util.getUtf8Bytes(str));
         } else {
-            if (!"com.microsoft.playready".equals(str2) || !"1".equals(parseOptionalStringAttr)) {
-                return null;
+            if ("com.microsoft.playready".equals(str2) && "1".equals(parseOptionalStringAttr)) {
+                String parseStringAttr2 = parseStringAttr(str, REGEX_URI, map);
+                byte[] decode = Base64.decode(parseStringAttr2.substring(parseStringAttr2.indexOf(44)), 0);
+                UUID uuid = C.PLAYREADY_UUID;
+                return new DrmInitData.SchemeData(uuid, "video/mp4", PsshAtomUtil.buildPsshAtom(uuid, decode));
             }
-            String parseStringAttr2 = parseStringAttr(str, REGEX_URI, map);
-            byte[] decode = Base64.decode(parseStringAttr2.substring(parseStringAttr2.indexOf(44)), 0);
-            UUID uuid = C.PLAYREADY_UUID;
-            return new DrmInitData.SchemeData(uuid, "video/mp4", PsshAtomUtil.buildPsshAtom(uuid, decode));
+            return null;
         }
     }
 

@@ -230,16 +230,18 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
     public class SecretDeleteTimer extends FrameLayout {
         private Paint afterDeleteProgressPaint;
         private Paint circlePaint;
+        private RectF deleteProgressRect;
         private long destroyTime;
         private long destroyTtl;
         private Drawable drawable;
         private Paint particlePaint;
+        private TimerParticles timerParticles;
         private boolean useVideoProgress;
-        private RectF deleteProgressRect = new RectF();
-        private TimerParticles timerParticles = new TimerParticles();
 
         public SecretDeleteTimer(Context context) {
             super(context);
+            this.deleteProgressRect = new RectF();
+            this.timerParticles = new TimerParticles();
             setWillNotDraw(false);
             Paint paint = new Paint(1);
             this.particlePaint = paint;
@@ -318,7 +320,7 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
         @Keep
         public void setAlpha(int i) {
             if (SecretMediaViewer.this.parentActivity instanceof LaunchActivity) {
-                ((LaunchActivity) SecretMediaViewer.this.parentActivity).drawerLayoutContainer.setAllowDrawContent(!SecretMediaViewer.this.isPhotoVisible || i != 255);
+                ((LaunchActivity) SecretMediaViewer.this.parentActivity).drawerLayoutContainer.setAllowDrawContent((SecretMediaViewer.this.isPhotoVisible && i == 255) ? false : true);
             }
             super.setAlpha(i);
         }
@@ -360,13 +362,12 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     public void didReceivedNotification(int i, int i2, Object... objArr) {
         if (i == NotificationCenter.messagesDeleted) {
-            if (((Boolean) objArr[2]).booleanValue() || this.currentMessageObject == null || ((Long) objArr[1]).longValue() != 0 || !((ArrayList) objArr[0]).contains(Integer.valueOf(this.currentMessageObject.getId()))) {
-                return;
-            }
-            if (this.isVideo && !this.videoWatchedOneTime) {
-                this.closeVideoAfterWatch = true;
-            } else if (!closePhoto(true, true)) {
-                this.closeAfterAnimation = true;
+            if (!((Boolean) objArr[2]).booleanValue() && this.currentMessageObject != null && ((Long) objArr[1]).longValue() == 0 && ((ArrayList) objArr[0]).contains(Integer.valueOf(this.currentMessageObject.getId()))) {
+                if (this.isVideo && !this.videoWatchedOneTime) {
+                    this.closeVideoAfterWatch = true;
+                } else if (!closePhoto(true, true)) {
+                    this.closeAfterAnimation = true;
+                }
             }
         } else if (i == NotificationCenter.didCreatedNewDeleteTask) {
             if (this.currentMessageObject == null || this.secretDeleteTimer == null || ((Long) objArr[0]).longValue() != this.currentDialogId) {
@@ -479,20 +480,18 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
                 SecretMediaViewer.this.aspectRatioFrameLayout.setVisibility(0);
             }
             if (!SecretMediaViewer.this.videoPlayer.isPlaying() || i == 4) {
-                if (!SecretMediaViewer.this.isPlaying) {
-                    return;
+                if (SecretMediaViewer.this.isPlaying) {
+                    SecretMediaViewer.this.isPlaying = false;
+                    if (i == 4) {
+                        SecretMediaViewer.this.videoWatchedOneTime = true;
+                        if (!SecretMediaViewer.this.closeVideoAfterWatch) {
+                            SecretMediaViewer.this.videoPlayer.seekTo(0L);
+                            SecretMediaViewer.this.videoPlayer.play();
+                            return;
+                        }
+                        SecretMediaViewer.this.closePhoto(true, true);
+                    }
                 }
-                SecretMediaViewer.this.isPlaying = false;
-                if (i != 4) {
-                    return;
-                }
-                SecretMediaViewer.this.videoWatchedOneTime = true;
-                if (!SecretMediaViewer.this.closeVideoAfterWatch) {
-                    SecretMediaViewer.this.videoPlayer.seekTo(0L);
-                    SecretMediaViewer.this.videoPlayer.play();
-                    return;
-                }
-                SecretMediaViewer.this.closePhoto(true, true);
             } else if (SecretMediaViewer.this.isPlaying) {
             } else {
                 SecretMediaViewer.this.isPlaying = true;
@@ -533,10 +532,11 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
 
         @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
         public void onRenderedFirstFrame() {
-            if (!SecretMediaViewer.this.textureUploaded) {
-                SecretMediaViewer.this.textureUploaded = true;
-                SecretMediaViewer.this.containerView.invalidate();
+            if (SecretMediaViewer.this.textureUploaded) {
+                return;
             }
+            SecretMediaViewer.this.textureUploaded = true;
+            SecretMediaViewer.this.containerView.invalidate();
         }
     }
 
@@ -948,10 +948,9 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
             frameLayoutDrawer.setLayerType(0, null);
         }
         this.containerView.invalidate();
-        if (!this.closeAfterAnimation) {
-            return;
+        if (this.closeAfterAnimation) {
+            closePhoto(true, true);
         }
-        closePhoto(true, true);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -962,7 +961,7 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
 
     public boolean isShowingImage(MessageObject messageObject) {
         MessageObject messageObject2;
-        return this.isVisible && !this.disableShowCheck && messageObject != null && (messageObject2 = this.currentMessageObject) != null && messageObject2.getId() == messageObject.getId();
+        return (!this.isVisible || this.disableShowCheck || messageObject == null || (messageObject2 = this.currentMessageObject) == null || messageObject2.getId() != messageObject.getId()) ? false : true;
     }
 
     private void toggleActionBar(boolean z, boolean z2) {
@@ -971,16 +970,12 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
         }
         this.actionBar.setEnabled(z);
         this.isActionBarVisible = z;
-        float f = 1.0f;
         if (z2) {
             ArrayList arrayList = new ArrayList();
             ActionBar actionBar = this.actionBar;
             Property property = View.ALPHA;
             float[] fArr = new float[1];
-            if (!z) {
-                f = 0.0f;
-            }
-            fArr[0] = f;
+            fArr[0] = z ? 1.0f : 0.0f;
             arrayList.add(ObjectAnimator.ofFloat(actionBar, property, fArr));
             AnimatorSet animatorSet = new AnimatorSet();
             this.currentActionBarAnimation = animatorSet;
@@ -1001,11 +996,7 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
             this.currentActionBarAnimation.start();
             return;
         }
-        ActionBar actionBar2 = this.actionBar;
-        if (!z) {
-            f = 0.0f;
-        }
-        actionBar2.setAlpha(f);
+        this.actionBar.setAlpha(z ? 1.0f : 0.0f);
         if (z) {
             return;
         }
@@ -1043,8 +1034,8 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x02d4  */
-    /* JADX WARN: Removed duplicated region for block: B:78:0x0315  */
+    /* JADX WARN: Removed duplicated region for block: B:106:0x0315  */
+    /* JADX WARN: Removed duplicated region for block: B:96:0x02d4  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1067,226 +1058,225 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
         float f12;
         float f13;
         float f14;
-        if (!this.isPhotoVisible) {
-            return;
-        }
-        if (this.imageMoveAnimation != null) {
-            if (!this.scroller.isFinished()) {
-                this.scroller.abortAnimation();
-            }
-            if (this.useOvershootForScale) {
-                float f15 = this.animationValue;
-                if (f15 < 0.9f) {
-                    f14 = f15 / 0.9f;
-                    float f16 = this.scale;
-                    f = f16 + (((this.animateToScale * 1.02f) - f16) * f14);
+        if (this.isPhotoVisible) {
+            if (this.imageMoveAnimation != null) {
+                if (!this.scroller.isFinished()) {
+                    this.scroller.abortAnimation();
+                }
+                if (this.useOvershootForScale) {
+                    float f15 = this.animationValue;
+                    if (f15 < 0.9f) {
+                        f14 = f15 / 0.9f;
+                        float f16 = this.scale;
+                        f = f16 + (((this.animateToScale * 1.02f) - f16) * f14);
+                    } else {
+                        float f17 = this.animateToScale;
+                        f = f17 + (0.01999998f * f17 * (1.0f - ((f15 - 0.9f) / 0.100000024f)));
+                        f14 = 1.0f;
+                    }
+                    float f18 = this.translationY;
+                    f2 = f18 + ((this.animateToY - f18) * f14);
+                    float f19 = this.translationX;
+                    f3 = f19 + ((this.animateToX - f19) * f14);
+                    float f20 = this.clipTop;
+                    f4 = f20 + ((this.animateToClipTop - f20) * f14);
+                    float f21 = this.clipBottom;
+                    f5 = f21 + ((this.animateToClipBottom - f21) * f14);
+                    float f22 = this.clipTopOrigin;
+                    f6 = f22 + ((this.animateToClipTopOrigin - f22) * f14);
+                    float f23 = this.clipBottomOrigin;
+                    f7 = f23 + ((this.animateToClipBottomOrigin - f23) * f14);
+                    float f24 = this.clipHorizontal;
+                    f8 = f24 + ((this.animateToClipHorizontal - f24) * f14);
                 } else {
-                    float f17 = this.animateToScale;
-                    f = f17 + (0.01999998f * f17 * (1.0f - ((f15 - 0.9f) / 0.100000024f)));
-                    f14 = 1.0f;
+                    float f25 = this.scale;
+                    float f26 = this.animationValue;
+                    f = ((this.animateToScale - f25) * f26) + f25;
+                    float f27 = this.translationY;
+                    float f28 = f27 + ((this.animateToY - f27) * f26);
+                    float f29 = this.translationX;
+                    f3 = f29 + ((this.animateToX - f29) * f26);
+                    float f30 = this.clipTop;
+                    f4 = f30 + ((this.animateToClipTop - f30) * f26);
+                    float f31 = this.clipBottom;
+                    f5 = f31 + ((this.animateToClipBottom - f31) * f26);
+                    float f32 = this.clipTopOrigin;
+                    f6 = f32 + ((this.animateToClipTopOrigin - f32) * f26);
+                    float f33 = this.clipBottomOrigin;
+                    f7 = f33 + ((this.animateToClipBottomOrigin - f33) * f26);
+                    float f34 = this.clipHorizontal;
+                    f8 = f34 + ((this.animateToClipHorizontal - f34) * f26);
+                    f2 = f28;
                 }
-                float f18 = this.translationY;
-                f2 = f18 + ((this.animateToY - f18) * f14);
-                float f19 = this.translationX;
-                f3 = f19 + ((this.animateToX - f19) * f14);
-                float f20 = this.clipTop;
-                f4 = f20 + ((this.animateToClipTop - f20) * f14);
-                float f21 = this.clipBottom;
-                f5 = f21 + ((this.animateToClipBottom - f21) * f14);
-                float f22 = this.clipTopOrigin;
-                f6 = f22 + ((this.animateToClipTopOrigin - f22) * f14);
-                float f23 = this.clipBottomOrigin;
-                f7 = f23 + ((this.animateToClipBottomOrigin - f23) * f14);
-                float f24 = this.clipHorizontal;
-                f8 = f24 + ((this.animateToClipHorizontal - f24) * f14);
-            } else {
-                float f25 = this.scale;
-                float f26 = this.animationValue;
-                f = ((this.animateToScale - f25) * f26) + f25;
-                float f27 = this.translationY;
-                float f28 = f27 + ((this.animateToY - f27) * f26);
-                float f29 = this.translationX;
-                f3 = f29 + ((this.animateToX - f29) * f26);
-                float f30 = this.clipTop;
-                f4 = f30 + ((this.animateToClipTop - f30) * f26);
-                float f31 = this.clipBottom;
-                f5 = f31 + ((this.animateToClipBottom - f31) * f26);
-                float f32 = this.clipTopOrigin;
-                f6 = f32 + ((this.animateToClipTopOrigin - f32) * f26);
-                float f33 = this.clipBottomOrigin;
-                f7 = f33 + ((this.animateToClipBottomOrigin - f33) * f26);
-                float f34 = this.clipHorizontal;
-                f8 = f34 + ((this.animateToClipHorizontal - f34) * f26);
-                f2 = f28;
-            }
-            f9 = (this.animateToScale == 1.0f && this.scale == 1.0f && this.translationX == 0.0f) ? f2 : -1.0f;
-            this.containerView.invalidate();
-        } else {
-            if (this.animationStartTime != 0) {
-                this.translationX = this.animateToX;
-                this.translationY = this.animateToY;
-                this.clipBottom = this.animateToClipBottom;
-                this.clipTop = this.animateToClipTop;
-                this.clipTopOrigin = this.animateToClipTopOrigin;
-                this.clipBottomOrigin = this.animateToClipBottomOrigin;
-                this.clipHorizontal = this.animateToClipHorizontal;
-                float f35 = this.animateToScale;
-                this.scale = f35;
-                this.animationStartTime = 0L;
-                updateMinMax(f35);
-                this.zoomAnimation = false;
-                this.useOvershootForScale = false;
-            }
-            if (!this.scroller.isFinished() && this.scroller.computeScrollOffset()) {
-                if (this.scroller.getStartX() < this.maxX && this.scroller.getStartX() > this.minX) {
-                    this.translationX = this.scroller.getCurrX();
-                }
-                if (this.scroller.getStartY() < this.maxY && this.scroller.getStartY() > this.minY) {
-                    this.translationY = this.scroller.getCurrY();
-                }
+                f9 = (this.animateToScale == 1.0f && this.scale == 1.0f && this.translationX == 0.0f) ? f2 : -1.0f;
                 this.containerView.invalidate();
-            }
-            f = this.scale;
-            f2 = this.translationY;
-            f3 = this.translationX;
-            f4 = this.clipTop;
-            f5 = this.clipBottom;
-            f6 = this.clipTopOrigin;
-            f7 = this.clipBottomOrigin;
-            f8 = this.clipHorizontal;
-            f9 = !this.moving ? f2 : -1.0f;
-        }
-        if (this.animateFromRadius != null) {
-            if (this.currentRadii == null) {
-                this.currentRadii = new float[8];
-            }
-            float f36 = this.animateToRadius ? this.animationValue : 1.0f - this.animationValue;
-            int i = 0;
-            z = true;
-            for (int i2 = 8; i < i2; i2 = 8) {
-                float[] fArr = this.currentRadii;
-                float lerp = AndroidUtilities.lerp(this.animateFromRadius[i / 2] * 2.0f, 0.0f, f36);
-                fArr[i + 1] = lerp;
-                fArr[i] = lerp;
-                if (this.currentRadii[i] > 0.0f) {
-                    z = false;
-                }
-                i += 2;
-            }
-        } else {
-            z = true;
-        }
-        if (this.photoAnimationInProgress != 3) {
-            if (this.scale == 1.0f && f9 != -1.0f && !this.zoomAnimation) {
-                float containerViewHeight = getContainerViewHeight() / 4.0f;
-                this.photoBackgroundDrawable.setAlpha((int) Math.max(127.0f, (1.0f - (Math.min(Math.abs(f9), containerViewHeight) / containerViewHeight)) * 255.0f));
             } else {
-                this.photoBackgroundDrawable.setAlpha(255);
+                if (this.animationStartTime != 0) {
+                    this.translationX = this.animateToX;
+                    this.translationY = this.animateToY;
+                    this.clipBottom = this.animateToClipBottom;
+                    this.clipTop = this.animateToClipTop;
+                    this.clipTopOrigin = this.animateToClipTopOrigin;
+                    this.clipBottomOrigin = this.animateToClipBottomOrigin;
+                    this.clipHorizontal = this.animateToClipHorizontal;
+                    float f35 = this.animateToScale;
+                    this.scale = f35;
+                    this.animationStartTime = 0L;
+                    updateMinMax(f35);
+                    this.zoomAnimation = false;
+                    this.useOvershootForScale = false;
+                }
+                if (!this.scroller.isFinished() && this.scroller.computeScrollOffset()) {
+                    if (this.scroller.getStartX() < this.maxX && this.scroller.getStartX() > this.minX) {
+                        this.translationX = this.scroller.getCurrX();
+                    }
+                    if (this.scroller.getStartY() < this.maxY && this.scroller.getStartY() > this.minY) {
+                        this.translationY = this.scroller.getCurrY();
+                    }
+                    this.containerView.invalidate();
+                }
+                f = this.scale;
+                f2 = this.translationY;
+                f3 = this.translationX;
+                f4 = this.clipTop;
+                f5 = this.clipBottom;
+                f6 = this.clipTopOrigin;
+                f7 = this.clipBottomOrigin;
+                f8 = this.clipHorizontal;
+                f9 = !this.moving ? f2 : -1.0f;
             }
-            if (!this.zoomAnimation) {
-                float f37 = this.maxX;
-                if (f3 > f37) {
-                    float min = Math.min(1.0f, (f3 - f37) / canvas.getWidth());
-                    f11 = 0.3f * min;
-                    f10 = 1.0f - min;
-                    f3 = this.maxX;
-                    AspectRatioFrameLayout aspectRatioFrameLayout = this.aspectRatioFrameLayout;
-                    z2 = aspectRatioFrameLayout == null && aspectRatioFrameLayout.getVisibility() == 0;
-                    canvas.save();
-                    float f38 = f - f11;
-                    canvas.translate((getContainerViewWidth() / 2) + f3, (getContainerViewHeight() / 2) + f2);
-                    canvas.scale(f38, f38);
-                    bitmapWidth = this.centerImage.getBitmapWidth();
-                    bitmapHeight = this.centerImage.getBitmapHeight();
-                    if (z2 && this.textureUploaded && Math.abs((bitmapWidth / bitmapHeight) - (this.videoTextureView.getMeasuredWidth() / this.videoTextureView.getMeasuredHeight())) > 0.01f) {
-                        bitmapWidth = this.videoTextureView.getMeasuredWidth();
-                        bitmapHeight = this.videoTextureView.getMeasuredHeight();
+            if (this.animateFromRadius != null) {
+                if (this.currentRadii == null) {
+                    this.currentRadii = new float[8];
+                }
+                float f36 = this.animateToRadius ? this.animationValue : 1.0f - this.animationValue;
+                int i = 0;
+                z = true;
+                for (int i2 = 8; i < i2; i2 = 8) {
+                    float[] fArr = this.currentRadii;
+                    float lerp = AndroidUtilities.lerp(this.animateFromRadius[i / 2] * 2.0f, 0.0f, f36);
+                    fArr[i + 1] = lerp;
+                    fArr[i] = lerp;
+                    if (this.currentRadii[i] > 0.0f) {
+                        z = false;
                     }
-                    float f39 = bitmapHeight;
-                    float f40 = bitmapWidth;
-                    float min2 = Math.min(getContainerViewHeight() / f39, getContainerViewWidth() / f40);
-                    int i3 = (int) (f40 * min2);
-                    int i4 = (int) (f39 * min2);
-                    f12 = (-i3) / 2;
-                    float f41 = f8 / f38;
-                    float f42 = f12 + f41;
-                    f13 = (-i4) / 2;
-                    float f43 = (i3 / 2) - f41;
-                    float f44 = i4 / 2;
-                    canvas.clipRect(f42, (f4 / f38) + f13, f43, f44 - (f5 / f38));
-                    if (!z) {
-                        this.roundRectPath.reset();
-                        RectF rectF = AndroidUtilities.rectTmp;
-                        rectF.set(f42, (f6 / f38) + f13, f43, f44 - (f7 / f38));
-                        this.roundRectPath.addRoundRect(rectF, this.currentRadii, Path.Direction.CW);
-                        canvas.clipPath(this.roundRectPath);
-                    }
-                    if (z2 || !this.textureUploaded || !this.videoCrossfadeStarted || this.videoCrossfadeAlpha != 1.0f) {
-                        this.centerImage.setAlpha(f10);
-                        this.centerImage.setImageCoords(f12, f13, i3, i4);
-                        this.centerImage.draw(canvas);
-                    }
-                    if (z2) {
-                        if (!this.videoCrossfadeStarted && this.textureUploaded) {
-                            this.videoCrossfadeStarted = true;
-                            this.videoCrossfadeAlpha = 0.0f;
-                            this.videoCrossfadeAlphaLastTime = System.currentTimeMillis();
+                    i += 2;
+                }
+            } else {
+                z = true;
+            }
+            if (this.photoAnimationInProgress != 3) {
+                if (this.scale == 1.0f && f9 != -1.0f && !this.zoomAnimation) {
+                    float containerViewHeight = getContainerViewHeight() / 4.0f;
+                    this.photoBackgroundDrawable.setAlpha((int) Math.max(127.0f, (1.0f - (Math.min(Math.abs(f9), containerViewHeight) / containerViewHeight)) * 255.0f));
+                } else {
+                    this.photoBackgroundDrawable.setAlpha(255);
+                }
+                if (!this.zoomAnimation) {
+                    float f37 = this.maxX;
+                    if (f3 > f37) {
+                        float min = Math.min(1.0f, (f3 - f37) / canvas.getWidth());
+                        f11 = 0.3f * min;
+                        f10 = 1.0f - min;
+                        f3 = this.maxX;
+                        AspectRatioFrameLayout aspectRatioFrameLayout = this.aspectRatioFrameLayout;
+                        z2 = aspectRatioFrameLayout == null && aspectRatioFrameLayout.getVisibility() == 0;
+                        canvas.save();
+                        float f38 = f - f11;
+                        canvas.translate((getContainerViewWidth() / 2) + f3, (getContainerViewHeight() / 2) + f2);
+                        canvas.scale(f38, f38);
+                        bitmapWidth = this.centerImage.getBitmapWidth();
+                        bitmapHeight = this.centerImage.getBitmapHeight();
+                        if (z2 && this.textureUploaded && Math.abs((bitmapWidth / bitmapHeight) - (this.videoTextureView.getMeasuredWidth() / this.videoTextureView.getMeasuredHeight())) > 0.01f) {
+                            bitmapWidth = this.videoTextureView.getMeasuredWidth();
+                            bitmapHeight = this.videoTextureView.getMeasuredHeight();
                         }
-                        canvas.translate(f12, f13);
-                        this.videoTextureView.setAlpha(f10 * this.videoCrossfadeAlpha);
-                        this.aspectRatioFrameLayout.draw(canvas);
-                        if (this.videoCrossfadeStarted && this.videoCrossfadeAlpha < 1.0f) {
-                            long currentTimeMillis = System.currentTimeMillis();
-                            long j = currentTimeMillis - this.videoCrossfadeAlphaLastTime;
-                            this.videoCrossfadeAlphaLastTime = currentTimeMillis;
-                            this.videoCrossfadeAlpha += ((float) j) / 200.0f;
-                            this.containerView.invalidate();
-                            if (this.videoCrossfadeAlpha > 1.0f) {
-                                this.videoCrossfadeAlpha = 1.0f;
+                        float f39 = bitmapHeight;
+                        float f40 = bitmapWidth;
+                        float min2 = Math.min(getContainerViewHeight() / f39, getContainerViewWidth() / f40);
+                        int i3 = (int) (f40 * min2);
+                        int i4 = (int) (f39 * min2);
+                        f12 = (-i3) / 2;
+                        float f41 = f8 / f38;
+                        float f42 = f12 + f41;
+                        f13 = (-i4) / 2;
+                        float f43 = (i3 / 2) - f41;
+                        float f44 = i4 / 2;
+                        canvas.clipRect(f42, (f4 / f38) + f13, f43, f44 - (f5 / f38));
+                        if (!z) {
+                            this.roundRectPath.reset();
+                            RectF rectF = AndroidUtilities.rectTmp;
+                            rectF.set(f42, (f6 / f38) + f13, f43, f44 - (f7 / f38));
+                            this.roundRectPath.addRoundRect(rectF, this.currentRadii, Path.Direction.CW);
+                            canvas.clipPath(this.roundRectPath);
+                        }
+                        if (z2 || !this.textureUploaded || !this.videoCrossfadeStarted || this.videoCrossfadeAlpha != 1.0f) {
+                            this.centerImage.setAlpha(f10);
+                            this.centerImage.setImageCoords(f12, f13, i3, i4);
+                            this.centerImage.draw(canvas);
+                        }
+                        if (z2) {
+                            if (!this.videoCrossfadeStarted && this.textureUploaded) {
+                                this.videoCrossfadeStarted = true;
+                                this.videoCrossfadeAlpha = 0.0f;
+                                this.videoCrossfadeAlphaLastTime = System.currentTimeMillis();
+                            }
+                            canvas.translate(f12, f13);
+                            this.videoTextureView.setAlpha(f10 * this.videoCrossfadeAlpha);
+                            this.aspectRatioFrameLayout.draw(canvas);
+                            if (this.videoCrossfadeStarted && this.videoCrossfadeAlpha < 1.0f) {
+                                long currentTimeMillis = System.currentTimeMillis();
+                                long j = currentTimeMillis - this.videoCrossfadeAlphaLastTime;
+                                this.videoCrossfadeAlphaLastTime = currentTimeMillis;
+                                this.videoCrossfadeAlpha += ((float) j) / 200.0f;
+                                this.containerView.invalidate();
+                                if (this.videoCrossfadeAlpha > 1.0f) {
+                                    this.videoCrossfadeAlpha = 1.0f;
+                                }
                             }
                         }
+                        canvas.restore();
                     }
-                    canvas.restore();
                 }
             }
+            f10 = 1.0f;
+            f11 = 0.0f;
+            AspectRatioFrameLayout aspectRatioFrameLayout2 = this.aspectRatioFrameLayout;
+            if (aspectRatioFrameLayout2 == null) {
+            }
+            canvas.save();
+            float f382 = f - f11;
+            canvas.translate((getContainerViewWidth() / 2) + f3, (getContainerViewHeight() / 2) + f2);
+            canvas.scale(f382, f382);
+            bitmapWidth = this.centerImage.getBitmapWidth();
+            bitmapHeight = this.centerImage.getBitmapHeight();
+            if (z2) {
+                bitmapWidth = this.videoTextureView.getMeasuredWidth();
+                bitmapHeight = this.videoTextureView.getMeasuredHeight();
+            }
+            float f392 = bitmapHeight;
+            float f402 = bitmapWidth;
+            float min22 = Math.min(getContainerViewHeight() / f392, getContainerViewWidth() / f402);
+            int i32 = (int) (f402 * min22);
+            int i42 = (int) (f392 * min22);
+            f12 = (-i32) / 2;
+            float f412 = f8 / f382;
+            float f422 = f12 + f412;
+            f13 = (-i42) / 2;
+            float f432 = (i32 / 2) - f412;
+            float f442 = i42 / 2;
+            canvas.clipRect(f422, (f4 / f382) + f13, f432, f442 - (f5 / f382));
+            if (!z) {
+            }
+            if (z2) {
+            }
+            this.centerImage.setAlpha(f10);
+            this.centerImage.setImageCoords(f12, f13, i32, i42);
+            this.centerImage.draw(canvas);
+            if (z2) {
+            }
+            canvas.restore();
         }
-        f10 = 1.0f;
-        f11 = 0.0f;
-        AspectRatioFrameLayout aspectRatioFrameLayout2 = this.aspectRatioFrameLayout;
-        if (aspectRatioFrameLayout2 == null) {
-        }
-        canvas.save();
-        float f382 = f - f11;
-        canvas.translate((getContainerViewWidth() / 2) + f3, (getContainerViewHeight() / 2) + f2);
-        canvas.scale(f382, f382);
-        bitmapWidth = this.centerImage.getBitmapWidth();
-        bitmapHeight = this.centerImage.getBitmapHeight();
-        if (z2) {
-            bitmapWidth = this.videoTextureView.getMeasuredWidth();
-            bitmapHeight = this.videoTextureView.getMeasuredHeight();
-        }
-        float f392 = bitmapHeight;
-        float f402 = bitmapWidth;
-        float min22 = Math.min(getContainerViewHeight() / f392, getContainerViewWidth() / f402);
-        int i32 = (int) (f402 * min22);
-        int i42 = (int) (f392 * min22);
-        f12 = (-i32) / 2;
-        float f412 = f8 / f382;
-        float f422 = f12 + f412;
-        f13 = (-i42) / 2;
-        float f432 = (i32 / 2) - f412;
-        float f442 = i42 / 2;
-        canvas.clipRect(f422, (f4 / f382) + f13, f432, f442 - (f5 / f382));
-        if (!z) {
-        }
-        if (z2) {
-        }
-        this.centerImage.setAlpha(f10);
-        this.centerImage.setImageCoords(f12, f13, i32, i42);
-        this.centerImage.draw(canvas);
-        if (z2) {
-        }
-        canvas.restore();
     }
 
     @Keep
@@ -1324,9 +1314,9 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
         return this.currentMessageObject;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:22:0x007a  */
-    /* JADX WARN: Removed duplicated region for block: B:25:0x0082  */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x0277  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x007a  */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x0082  */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x0277  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1586,19 +1576,19 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:117:0x027b, code lost:
-        if (r0 > r3) goto L114;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:119:0x026c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:115:0x026c, code lost:
         if (r13 > r3) goto L111;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:143:0x02ee, code lost:
-        if (r2 > r3) goto L140;
+    /* JADX WARN: Code restructure failed: missing block: B:121:0x027b, code lost:
+        if (r0 > r3) goto L114;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:145:0x02dd, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:144:0x02dd, code lost:
         if (r2 > r3) goto L137;
      */
-    /* JADX WARN: Removed duplicated region for block: B:81:0x01de  */
+    /* JADX WARN: Code restructure failed: missing block: B:150:0x02ee, code lost:
+        if (r2 > r3) goto L140;
+     */
+    /* JADX WARN: Removed duplicated region for block: B:95:0x01de  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1796,10 +1786,10 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
         return false;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:11:0x0028, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:12:0x0028, code lost:
         if (r2 > r3) goto L6;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:13:0x0017, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:6:0x0017, code lost:
         if (r2 > r3) goto L3;
      */
     /*
@@ -1883,11 +1873,11 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
         return true;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:24:0x008e, code lost:
-        if (r2 > r10) goto L20;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:26:0x007f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:20:0x007f, code lost:
         if (r0 > r10) goto L17;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:26:0x008e, code lost:
+        if (r2 > r10) goto L20;
      */
     @Override // android.view.GestureDetector.OnDoubleTapListener
     /*

@@ -11,13 +11,11 @@ public class DownloadManagerReceiver extends BroadcastReceiver {
         String action = intent.getAction();
         if ("android.intent.action.DOWNLOAD_NOTIFICATION_CLICKED".equals(action)) {
             Distribute.getInstance().resumeApp(context);
-        } else if (!"android.intent.action.DOWNLOAD_COMPLETE".equals(action)) {
-        } else {
+        } else if ("android.intent.action.DOWNLOAD_COMPLETE".equals(action)) {
             long longExtra = intent.getLongExtra("extra_download_id", -1L);
-            if (longExtra == -1) {
-                return;
+            if (longExtra != -1) {
+                AsyncTaskUtils.execute("AppCenterDistribute", new ResumeFromBackgroundTask(context, longExtra), new Void[0]);
             }
-            AsyncTaskUtils.execute("AppCenterDistribute", new ResumeFromBackgroundTask(context, longExtra), new Void[0]);
         }
     }
 }

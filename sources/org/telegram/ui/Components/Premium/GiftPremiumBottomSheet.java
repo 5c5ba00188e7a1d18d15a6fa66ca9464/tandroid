@@ -63,7 +63,9 @@ import org.telegram.ui.ProfileActivity;
 /* loaded from: classes3.dex */
 public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView {
     private int buttonRow;
+    private PremiumGiftTierCell dummyCell;
     private int footerRow;
+    private List<GiftTier> giftTiers;
     private PremiumGradient.GradientTools gradientTools;
     private int headerRow;
     private PremiumGradient.GradientTools outlineGradient;
@@ -74,8 +76,6 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView {
     private int tiersStartRow;
     private int totalGradientHeight;
     private TLRPC$User user;
-    private List<GiftTier> giftTiers = new ArrayList();
-    private PremiumGiftTierCell dummyCell = new PremiumGiftTierCell(getContext());
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$updateButtonText$4(View view) {
@@ -84,6 +84,7 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView {
     @SuppressLint({"NotifyDataSetChanged"})
     public GiftPremiumBottomSheet(BaseFragment baseFragment, TLRPC$User tLRPC$User) {
         super(baseFragment, false, true);
+        this.giftTiers = new ArrayList();
         this.selectedTierIndex = 0;
         this.user = tLRPC$User;
         PremiumGradient.GradientTools gradientTools = new PremiumGradient.GradientTools("premiumGradient1", "premiumGradient2", null, null);
@@ -99,6 +100,7 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView {
         this.outlineGradient = gradientTools2;
         gradientTools2.paint.setStyle(Paint.Style.STROKE);
         this.outlineGradient.paint.setStrokeWidth(AndroidUtilities.dp(1.5f));
+        this.dummyCell = new PremiumGiftTierCell(getContext());
         TLRPC$UserFull userFull = MessagesController.getInstance(this.currentAccount).getUserFull(tLRPC$User.id);
         if (userFull != null) {
             ArrayList arrayList = new ArrayList();
@@ -300,35 +302,33 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView {
                     }
                 }
             }
-            if (chatActivity != null && chatActivity.getDialogId() == this.user.id) {
-                return;
+            if (chatActivity == null || chatActivity.getDialogId() != this.user.id) {
+                Bundle bundle = new Bundle();
+                bundle.putLong("user_id", this.user.id);
+                parentLayout.presentFragment(new ChatActivity(bundle), true);
             }
-            Bundle bundle = new Bundle();
-            bundle.putLong("user_id", this.user.id);
-            parentLayout.presentFragment(new ChatActivity(bundle), true);
         }
     }
 
     private void onGiftPremium() {
         final GiftTier giftTier = this.giftTiers.get(this.selectedTierIndex);
         if (BuildVars.useInvoiceBilling()) {
-            if (!(getBaseFragment().getParentActivity() instanceof LaunchActivity)) {
-                return;
-            }
-            Uri parse = Uri.parse(giftTier.giftOption.bot_url);
-            if (parse.getHost().equals("t.me")) {
-                if (!parse.getPath().startsWith("/$") && !parse.getPath().startsWith("/invoice/")) {
-                    ((LaunchActivity) getBaseFragment().getParentActivity()).setNavigateToPremiumBot(true);
-                } else {
-                    ((LaunchActivity) getBaseFragment().getParentActivity()).setNavigateToPremiumGiftCallback(new Runnable() { // from class: org.telegram.ui.Components.Premium.GiftPremiumBottomSheet$$ExternalSyntheticLambda5
-                        @Override // java.lang.Runnable
-                        public final void run() {
-                            GiftPremiumBottomSheet.this.lambda$onGiftPremium$6();
-                        }
-                    });
+            if (getBaseFragment().getParentActivity() instanceof LaunchActivity) {
+                Uri parse = Uri.parse(giftTier.giftOption.bot_url);
+                if (parse.getHost().equals("t.me")) {
+                    if (!parse.getPath().startsWith("/$") && !parse.getPath().startsWith("/invoice/")) {
+                        ((LaunchActivity) getBaseFragment().getParentActivity()).setNavigateToPremiumBot(true);
+                    } else {
+                        ((LaunchActivity) getBaseFragment().getParentActivity()).setNavigateToPremiumGiftCallback(new Runnable() { // from class: org.telegram.ui.Components.Premium.GiftPremiumBottomSheet$$ExternalSyntheticLambda5
+                            @Override // java.lang.Runnable
+                            public final void run() {
+                                GiftPremiumBottomSheet.this.lambda$onGiftPremium$6();
+                            }
+                        });
+                    }
                 }
+                Browser.openUrl(getBaseFragment().getParentActivity(), giftTier.giftOption.bot_url);
             }
-            Browser.openUrl(getBaseFragment().getParentActivity(), giftTier.giftOption.bot_url);
         } else if (!BillingController.getInstance().isReady() || giftTier.googlePlayProductDetails == null) {
         } else {
             final TLRPC$TL_inputStorePaymentGiftPremium tLRPC$TL_inputStorePaymentGiftPremium = new TLRPC$TL_inputStorePaymentGiftPremium();
@@ -392,8 +392,7 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView {
     public /* synthetic */ void lambda$onGiftPremium$9(TLObject tLObject, TLRPC$TL_inputStorePaymentGiftPremium tLRPC$TL_inputStorePaymentGiftPremium, GiftTier giftTier, TLRPC$TL_error tLRPC$TL_error, TLRPC$TL_payments_canPurchasePremium tLRPC$TL_payments_canPurchasePremium) {
         if (tLObject instanceof TLRPC$TL_boolTrue) {
             BillingController.getInstance().launchBillingFlow(getBaseFragment().getParentActivity(), AccountInstance.getInstance(this.currentAccount), tLRPC$TL_inputStorePaymentGiftPremium, Collections.singletonList(BillingFlowParams.ProductDetailsParams.newBuilder().setProductDetails(giftTier.googlePlayProductDetails).build()));
-        } else if (tLRPC$TL_error == null) {
-        } else {
+        } else if (tLRPC$TL_error != null) {
             AlertsCreator.processError(this.currentAccount, tLRPC$TL_error, getBaseFragment(), tLRPC$TL_payments_canPurchasePremium, new Object[0]);
         }
     }
@@ -547,13 +546,13 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView {
             if (i == GiftPremiumBottomSheet.this.headerRow) {
                 return 0;
             }
-            if (i >= GiftPremiumBottomSheet.this.tiersStartRow && i < GiftPremiumBottomSheet.this.tiersEndRow) {
-                return 1;
+            if (i < GiftPremiumBottomSheet.this.tiersStartRow || i >= GiftPremiumBottomSheet.this.tiersEndRow) {
+                if (i == GiftPremiumBottomSheet.this.footerRow) {
+                    return 2;
+                }
+                return i == GiftPremiumBottomSheet.this.buttonRow ? 3 : 0;
             }
-            if (i == GiftPremiumBottomSheet.this.footerRow) {
-                return 2;
-            }
-            return i == GiftPremiumBottomSheet.this.buttonRow ? 3 : 0;
+            return 1;
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -667,10 +666,10 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView {
                 return this.giftOption.amount;
             }
             ProductDetails productDetails = this.googlePlayProductDetails;
-            if (productDetails != null) {
-                return productDetails.getOneTimePurchaseOfferDetails().getPriceAmountMicros();
+            if (productDetails == null) {
+                return 0L;
             }
-            return 0L;
+            return productDetails.getOneTimePurchaseOfferDetails().getPriceAmountMicros();
         }
 
         public String getCurrency() {

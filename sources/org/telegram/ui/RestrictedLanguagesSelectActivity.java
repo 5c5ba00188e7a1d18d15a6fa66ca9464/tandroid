@@ -158,19 +158,18 @@ public class RestrictedLanguagesSelectActivity extends BaseFragment implements N
                 RestrictedLanguagesSelectActivity.this.search(obj);
                 if (obj.length() != 0) {
                     RestrictedLanguagesSelectActivity.this.searchWas = true;
-                    if (RestrictedLanguagesSelectActivity.this.listView == null) {
+                    if (RestrictedLanguagesSelectActivity.this.listView != null) {
+                        RestrictedLanguagesSelectActivity.this.listView.setAdapter(RestrictedLanguagesSelectActivity.this.searchListViewAdapter);
                         return;
                     }
-                    RestrictedLanguagesSelectActivity.this.listView.setAdapter(RestrictedLanguagesSelectActivity.this.searchListViewAdapter);
                     return;
                 }
                 RestrictedLanguagesSelectActivity.this.searching = false;
                 RestrictedLanguagesSelectActivity.this.searchWas = false;
-                if (RestrictedLanguagesSelectActivity.this.listView == null) {
-                    return;
+                if (RestrictedLanguagesSelectActivity.this.listView != null) {
+                    RestrictedLanguagesSelectActivity.this.emptyView.setVisibility(8);
+                    RestrictedLanguagesSelectActivity.this.listView.setAdapter(RestrictedLanguagesSelectActivity.this.listAdapter);
                 }
-                RestrictedLanguagesSelectActivity.this.emptyView.setVisibility(8);
-                RestrictedLanguagesSelectActivity.this.listView.setAdapter(RestrictedLanguagesSelectActivity.this.listAdapter);
             }
         }).setSearchFieldHint(LocaleController.getString("Search", R.string.Search));
         this.listAdapter = new ListAdapter(context, false);
@@ -232,48 +231,47 @@ public class RestrictedLanguagesSelectActivity extends BaseFragment implements N
         } else {
             localeInfo = this.sortedLanguages.get(i);
         }
-        if (localeInfo == null) {
-            return;
-        }
-        LocaleController.LocaleInfo currentLocaleInfo = LocaleController.getInstance().getCurrentLocaleInfo();
-        final String str = localeInfo.pluralLangCode;
-        if (str != null && str.equals(currentLocaleInfo.pluralLangCode)) {
-            AndroidUtilities.shakeView(((TextCheckbox2Cell) view).checkbox);
-            return;
-        }
-        boolean contains = this.selectedLanguages.contains(str);
-        HashSet hashSet = new HashSet(this.selectedLanguages);
-        if (contains) {
-            Collection$-EL.removeIf(hashSet, new Predicate() { // from class: org.telegram.ui.RestrictedLanguagesSelectActivity$$ExternalSyntheticLambda3
-                @Override // j$.util.function.Predicate
-                public /* synthetic */ Predicate and(Predicate predicate) {
-                    return Objects.requireNonNull(predicate);
-                }
+        if (localeInfo != null) {
+            LocaleController.LocaleInfo currentLocaleInfo = LocaleController.getInstance().getCurrentLocaleInfo();
+            final String str = localeInfo.pluralLangCode;
+            if (str != null && str.equals(currentLocaleInfo.pluralLangCode)) {
+                AndroidUtilities.shakeView(((TextCheckbox2Cell) view).checkbox);
+                return;
+            }
+            boolean contains = this.selectedLanguages.contains(str);
+            HashSet hashSet = new HashSet(this.selectedLanguages);
+            if (contains) {
+                Collection$-EL.removeIf(hashSet, new Predicate() { // from class: org.telegram.ui.RestrictedLanguagesSelectActivity$$ExternalSyntheticLambda3
+                    @Override // j$.util.function.Predicate
+                    public /* synthetic */ Predicate and(Predicate predicate) {
+                        return Objects.requireNonNull(predicate);
+                    }
 
-                @Override // j$.util.function.Predicate
-                public /* synthetic */ Predicate negate() {
-                    return Predicate.-CC.$default$negate(this);
-                }
+                    @Override // j$.util.function.Predicate
+                    public /* synthetic */ Predicate negate() {
+                        return Predicate.-CC.$default$negate(this);
+                    }
 
-                @Override // j$.util.function.Predicate
-                public /* synthetic */ Predicate or(Predicate predicate) {
-                    return Objects.requireNonNull(predicate);
-                }
+                    @Override // j$.util.function.Predicate
+                    public /* synthetic */ Predicate or(Predicate predicate) {
+                        return Objects.requireNonNull(predicate);
+                    }
 
-                @Override // j$.util.function.Predicate
-                public final boolean test(Object obj) {
-                    boolean lambda$createView$0;
-                    lambda$createView$0 = RestrictedLanguagesSelectActivity.lambda$createView$0(str, (String) obj);
-                    return lambda$createView$0;
-                }
-            });
-        } else {
-            hashSet.add(str);
-        }
-        if (hashSet.size() == 1 && hashSet.contains(currentLocaleInfo.pluralLangCode)) {
-            this.preferences.edit().remove("translate_button_restricted_languages").apply();
-        } else {
-            this.preferences.edit().putStringSet("translate_button_restricted_languages", hashSet).apply();
+                    @Override // j$.util.function.Predicate
+                    public final boolean test(Object obj) {
+                        boolean lambda$createView$0;
+                        lambda$createView$0 = RestrictedLanguagesSelectActivity.lambda$createView$0(str, (String) obj);
+                        return lambda$createView$0;
+                    }
+                });
+            } else {
+                hashSet.add(str);
+            }
+            if (hashSet.size() == 1 && hashSet.contains(currentLocaleInfo.pluralLangCode)) {
+                this.preferences.edit().remove("translate_button_restricted_languages").apply();
+            } else {
+                this.preferences.edit().putStringSet("translate_button_restricted_languages", hashSet).apply();
+            }
         }
     }
 
@@ -331,10 +329,9 @@ public class RestrictedLanguagesSelectActivity extends BaseFragment implements N
                 listAdapter.notifyDataSetChanged();
             }
             ListAdapter listAdapter2 = this.searchListViewAdapter;
-            if (listAdapter2 == null) {
-                return;
+            if (listAdapter2 != null) {
+                listAdapter2.notifyDataSetChanged();
             }
-            listAdapter2.notifyDataSetChanged();
         }
     }
 
@@ -464,10 +461,10 @@ public class RestrictedLanguagesSelectActivity extends BaseFragment implements N
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public int getItemCount() {
             if (this.search) {
-                if (RestrictedLanguagesSelectActivity.this.searchResult != null) {
-                    return RestrictedLanguagesSelectActivity.this.searchResult.size();
+                if (RestrictedLanguagesSelectActivity.this.searchResult == null) {
+                    return 0;
                 }
-                return 0;
+                return RestrictedLanguagesSelectActivity.this.searchResult.size();
             }
             return RestrictedLanguagesSelectActivity.this.sortedLanguages.size() + 1;
         }
@@ -494,16 +491,16 @@ public class RestrictedLanguagesSelectActivity extends BaseFragment implements N
             return new RecyclerListView.Holder(view);
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:14:0x0042, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:13:0x0042, code lost:
             if (r10 == (r8.this$0.searchResult.size() - 1)) goto L15;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:15:0x0044, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:14:0x0044, code lost:
             r10 = true;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:30:0x0046, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:15:0x0046, code lost:
             r10 = false;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:32:0x005f, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:17:0x005f, code lost:
             if (r10 == (r8.this$0.sortedLanguages.size() - 1)) goto L15;
          */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter

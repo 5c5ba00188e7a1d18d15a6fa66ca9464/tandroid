@@ -101,10 +101,10 @@ public final class VorbisUtil {
         } else if (parsableByteArray.readUnsignedByte() == 118 && parsableByteArray.readUnsignedByte() == 111 && parsableByteArray.readUnsignedByte() == 114 && parsableByteArray.readUnsignedByte() == 98 && parsableByteArray.readUnsignedByte() == 105 && parsableByteArray.readUnsignedByte() == 115) {
             return true;
         } else {
-            if (!z) {
-                throw new ParserException("expected characters 'vorbis'");
+            if (z) {
+                return false;
             }
-            return false;
+            throw new ParserException("expected characters 'vorbis'");
         }
     }
 

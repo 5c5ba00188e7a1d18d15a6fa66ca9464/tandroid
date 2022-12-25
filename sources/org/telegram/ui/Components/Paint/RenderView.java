@@ -34,20 +34,15 @@ public class RenderView extends TextureView {
     private int color;
     private RenderViewDelegate delegate;
     private boolean firstDrawSent;
+    private Input input;
     private CanvasInternal internal;
     private Painting painting;
     private DispatchQueue queue;
+    private ShapeInput shapeInput;
     private boolean shuttingDown;
     private boolean transformedBitmap;
     private UndoStore undoStore;
     private float weight;
-    private Input input = new Input(this);
-    private ShapeInput shapeInput = new ShapeInput(this, new Runnable() { // from class: org.telegram.ui.Components.Paint.RenderView$$ExternalSyntheticLambda2
-        @Override // java.lang.Runnable
-        public final void run() {
-            RenderView.this.lambda$new$0();
-        }
-    });
 
     /* loaded from: classes3.dex */
     public interface RenderViewDelegate {
@@ -75,6 +70,13 @@ public class RenderView extends TextureView {
         this.painting = painting;
         painting.setRenderView(this);
         setSurfaceTextureListener(new 1());
+        this.input = new Input(this);
+        this.shapeInput = new ShapeInput(this, new Runnable() { // from class: org.telegram.ui.Components.Paint.RenderView$$ExternalSyntheticLambda2
+            @Override // java.lang.Runnable
+            public final void run() {
+                RenderView.this.lambda$new$0();
+            }
+        });
         this.painting.setDelegate(new Painting.PaintingDelegate() { // from class: org.telegram.ui.Components.Paint.RenderView.2
             @Override // org.telegram.ui.Components.Paint.Painting.PaintingDelegate
             public void contentChanged() {
@@ -119,10 +121,9 @@ public class RenderView extends TextureView {
                     RenderView.1.this.lambda$onSurfaceTextureAvailable$0();
                 }
             });
-            if (!RenderView.this.painting.isPaused()) {
-                return;
+            if (RenderView.this.painting.isPaused()) {
+                RenderView.this.painting.onResume();
             }
-            RenderView.this.painting.onResume();
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -295,11 +296,8 @@ public class RenderView extends TextureView {
             return;
         }
         Matrix matrix = new Matrix();
-        float f = 1.0f;
         float width = this.painting != null ? getWidth() / this.painting.getSize().width : 1.0f;
-        if (width > 0.0f) {
-            f = width;
-        }
+        float f = width > 0.0f ? width : 1.0f;
         Size size = getPainting().getSize();
         matrix.preTranslate(getWidth() / 2.0f, getHeight() / 2.0f);
         matrix.preScale(f, -f);
@@ -370,7 +368,7 @@ public class RenderView extends TextureView {
     public class CanvasInternal extends DispatchQueue {
         private int bufferHeight;
         private int bufferWidth;
-        private Runnable drawRunnable = new 1();
+        private Runnable drawRunnable;
         private EGL10 egl10;
         private EGLContext eglContext;
         private EGLDisplay eglDisplay;
@@ -382,6 +380,7 @@ public class RenderView extends TextureView {
 
         public CanvasInternal(SurfaceTexture surfaceTexture) {
             super("CanvasInternal");
+            this.drawRunnable = new 1();
             this.surfaceTexture = surfaceTexture;
         }
 
@@ -484,16 +483,16 @@ public class RenderView extends TextureView {
 
         /* JADX INFO: Access modifiers changed from: private */
         public boolean setCurrentContext() {
-            if (!this.initialized) {
-                return false;
+            if (this.initialized) {
+                if (this.eglContext.equals(this.egl10.eglGetCurrentContext()) && this.eglSurface.equals(this.egl10.eglGetCurrentSurface(12377))) {
+                    return true;
+                }
+                EGL10 egl10 = this.egl10;
+                EGLDisplay eGLDisplay = this.eglDisplay;
+                EGLSurface eGLSurface = this.eglSurface;
+                return egl10.eglMakeCurrent(eGLDisplay, eGLSurface, eGLSurface, this.eglContext);
             }
-            if (this.eglContext.equals(this.egl10.eglGetCurrentContext()) && this.eglSurface.equals(this.egl10.eglGetCurrentSurface(12377))) {
-                return true;
-            }
-            EGL10 egl10 = this.egl10;
-            EGLDisplay eGLDisplay = this.eglDisplay;
-            EGLSurface eGLSurface = this.eglSurface;
-            return egl10.eglMakeCurrent(eGLDisplay, eGLSurface, eGLSurface, this.eglContext);
+            return false;
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
@@ -617,23 +616,23 @@ public class RenderView extends TextureView {
         }
 
         public Bitmap getTexture() {
-            if (!this.initialized) {
-                return null;
+            if (this.initialized) {
+                final CountDownLatch countDownLatch = new CountDownLatch(1);
+                final Bitmap[] bitmapArr = new Bitmap[1];
+                try {
+                    postRunnable(new Runnable() { // from class: org.telegram.ui.Components.Paint.RenderView$CanvasInternal$$ExternalSyntheticLambda3
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            RenderView.CanvasInternal.this.lambda$getTexture$3(bitmapArr, countDownLatch);
+                        }
+                    });
+                    countDownLatch.await();
+                } catch (Exception e) {
+                    FileLog.e(e);
+                }
+                return bitmapArr[0];
             }
-            final CountDownLatch countDownLatch = new CountDownLatch(1);
-            final Bitmap[] bitmapArr = new Bitmap[1];
-            try {
-                postRunnable(new Runnable() { // from class: org.telegram.ui.Components.Paint.RenderView$CanvasInternal$$ExternalSyntheticLambda3
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        RenderView.CanvasInternal.this.lambda$getTexture$3(bitmapArr, countDownLatch);
-                    }
-                });
-                countDownLatch.await();
-            } catch (Exception e) {
-                FileLog.e(e);
-            }
-            return bitmapArr[0];
+            return null;
         }
 
         /* JADX INFO: Access modifiers changed from: private */

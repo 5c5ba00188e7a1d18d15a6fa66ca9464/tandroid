@@ -270,7 +270,6 @@ public class PeerConnectionFactory {
             VideoEncoderFactory videoEncoderFactory = this.videoEncoderFactory;
             VideoDecoderFactory videoDecoderFactory = this.videoDecoderFactory;
             AudioProcessingFactory audioProcessingFactory = this.audioProcessingFactory;
-            long j = 0;
             long createNative = audioProcessingFactory == null ? 0L : audioProcessingFactory.createNative();
             FecControllerFactoryFactoryInterface fecControllerFactoryFactoryInterface = this.fecControllerFactoryFactory;
             long createNative2 = fecControllerFactoryFactoryInterface == null ? 0L : fecControllerFactoryFactoryInterface.createNative();
@@ -279,10 +278,7 @@ public class PeerConnectionFactory {
             NetworkStatePredictorFactoryFactory networkStatePredictorFactoryFactory = this.networkStatePredictorFactoryFactory;
             long createNativeNetworkStatePredictorFactory = networkStatePredictorFactoryFactory == null ? 0L : networkStatePredictorFactoryFactory.createNativeNetworkStatePredictorFactory();
             NetEqFactoryFactory netEqFactoryFactory = this.neteqFactoryFactory;
-            if (netEqFactoryFactory != null) {
-                j = netEqFactoryFactory.createNativeNetEqFactory();
-            }
-            return PeerConnectionFactory.nativeCreatePeerConnectionFactory(applicationContext, options, nativeAudioDeviceModulePointer, createNativeAudioEncoderFactory, createNativeAudioDecoderFactory, videoEncoderFactory, videoDecoderFactory, createNative, createNative2, createNativeNetworkControllerFactory, createNativeNetworkStatePredictorFactory, j);
+            return PeerConnectionFactory.nativeCreatePeerConnectionFactory(applicationContext, options, nativeAudioDeviceModulePointer, createNativeAudioEncoderFactory, createNativeAudioDecoderFactory, videoEncoderFactory, videoDecoderFactory, createNative, createNative2, createNativeNetworkControllerFactory, createNativeNetworkStatePredictorFactory, netEqFactoryFactory != null ? netEqFactoryFactory.createNativeNetEqFactory() : 0L);
         }
     }
 
@@ -310,10 +306,9 @@ public class PeerConnectionFactory {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static void checkInitializeHasBeenCalled() {
-        if (ContextUtils.getApplicationContext() != null) {
-            return;
+        if (ContextUtils.getApplicationContext() == null) {
+            throw new IllegalStateException("PeerConnectionFactory.initialize was not called before creating a PeerConnectionFactory.");
         }
-        throw new IllegalStateException("PeerConnectionFactory.initialize was not called before creating a PeerConnectionFactory.");
     }
 
     private static void initializeInternalTracer() {
@@ -359,10 +354,10 @@ public class PeerConnectionFactory {
             return null;
         }
         long nativeCreatePeerConnection = nativeCreatePeerConnection(this.nativeFactory, rTCConfiguration, mediaConstraints, createNativePeerConnectionObserver, sSLCertificateVerifier);
-        if (nativeCreatePeerConnection != 0) {
-            return new PeerConnection(nativeCreatePeerConnection);
+        if (nativeCreatePeerConnection == 0) {
+            return null;
         }
-        return null;
+        return new PeerConnection(nativeCreatePeerConnection);
     }
 
     @Deprecated
@@ -446,10 +441,9 @@ public class PeerConnectionFactory {
     }
 
     private void checkPeerConnectionFactoryExists() {
-        if (this.nativeFactory != 0) {
-            return;
+        if (this.nativeFactory == 0) {
+            throw new IllegalStateException("PeerConnectionFactory has been disposed.");
         }
-        throw new IllegalStateException("PeerConnectionFactory has been disposed.");
     }
 
     private static void printStackTrace(ThreadInfo threadInfo, boolean z) {
@@ -464,12 +458,11 @@ public class PeerConnectionFactory {
                 Logging.w(TAG, stackTraceElement.toString());
             }
         }
-        if (!z) {
-            return;
+        if (z) {
+            Logging.w(TAG, "*** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***");
+            Logging.w(TAG, "pid: " + Process.myPid() + ", tid: " + threadInfo.tid + ", name: " + name + "  >>> WebRTC <<<");
+            nativePrintStackTrace(threadInfo.tid);
         }
-        Logging.w(TAG, "*** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***");
-        Logging.w(TAG, "pid: " + Process.myPid() + ", tid: " + threadInfo.tid + ", name: " + name + "  >>> WebRTC <<<");
-        nativePrintStackTrace(threadInfo.tid);
     }
 
     @Deprecated

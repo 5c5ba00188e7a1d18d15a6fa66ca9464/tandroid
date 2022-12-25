@@ -9,12 +9,12 @@ import org.telegram.ui.Components.GestureDetector2;
 /* loaded from: classes3.dex */
 public class LongPressListenerWithMovingGesture implements View.OnTouchListener {
     GestureDetector2 gestureDetector2;
+    private int[] location;
+    Rect rect = new Rect();
     private View selectedMenuView;
     boolean subItemClicked;
     ActionBarPopupWindow submenu;
     View view;
-    Rect rect = new Rect();
-    private int[] location = new int[2];
 
     public void onLongPress() {
         throw null;
@@ -92,6 +92,7 @@ public class LongPressListenerWithMovingGesture implements View.OnTouchListener 
             }
         });
         this.gestureDetector2 = gestureDetector2;
+        this.location = new int[2];
         gestureDetector2.setIsLongpressEnabled(true);
     }
 

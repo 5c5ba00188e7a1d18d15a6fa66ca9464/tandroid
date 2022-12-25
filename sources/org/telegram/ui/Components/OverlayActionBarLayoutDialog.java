@@ -112,7 +112,6 @@ public class OverlayActionBarLayoutDialog extends Dialog implements INavigationL
         attributes.flags &= -3;
         attributes.softInputMode = 16;
         attributes.height = -1;
-        boolean z = true;
         if (i >= 28) {
             attributes.layoutInDisplayCutoutMode = 1;
         }
@@ -125,10 +124,7 @@ public class OverlayActionBarLayoutDialog extends Dialog implements INavigationL
             this.frameLayout.setOnApplyWindowInsetsListener(OverlayActionBarLayoutDialog$$ExternalSyntheticLambda0.INSTANCE);
         }
         if (i >= 26) {
-            if (ColorUtils.calculateLuminance(Theme.getColor("windowBackgroundWhite", null, true)) < 0.9d) {
-                z = false;
-            }
-            AndroidUtilities.setLightNavigationBar(window, z);
+            AndroidUtilities.setLightNavigationBar(window, ColorUtils.calculateLuminance(Theme.getColor("windowBackgroundWhite", null, true)) >= 0.9d);
         }
     }
 
@@ -139,7 +135,7 @@ public class OverlayActionBarLayoutDialog extends Dialog implements INavigationL
     }
 
     public void addFragment(BaseFragment baseFragment) {
-        this.actionBarLayout.presentFragment(baseFragment, AndroidUtilities.isTablet() && !AndroidUtilities.isInMultiwindow && !AndroidUtilities.isSmallTablet());
+        this.actionBarLayout.presentFragment(baseFragment, (!AndroidUtilities.isTablet() || AndroidUtilities.isInMultiwindow || AndroidUtilities.isSmallTablet()) ? false : true);
     }
 
     @Override // android.app.Dialog

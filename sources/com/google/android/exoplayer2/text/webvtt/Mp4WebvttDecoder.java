@@ -11,11 +11,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 /* loaded from: classes.dex */
 public final class Mp4WebvttDecoder extends SimpleSubtitleDecoder {
-    private final ParsableByteArray sampleData = new ParsableByteArray();
-    private final WebvttCue.Builder builder = new WebvttCue.Builder();
+    private final WebvttCue.Builder builder;
+    private final ParsableByteArray sampleData;
 
     public Mp4WebvttDecoder() {
         super("Mp4WebvttDecoder");
+        this.sampleData = new ParsableByteArray();
+        this.builder = new WebvttCue.Builder();
     }
 
     @Override // com.google.android.exoplayer2.text.SimpleSubtitleDecoder

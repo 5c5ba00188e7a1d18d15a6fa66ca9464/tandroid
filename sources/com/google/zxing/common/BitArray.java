@@ -72,18 +72,17 @@ public final class BitArray implements Cloneable {
     }
 
     public void xor(BitArray bitArray) {
-        if (this.size == bitArray.size) {
-            int i = 0;
-            while (true) {
-                int[] iArr = this.bits;
-                if (i >= iArr.length) {
-                    return;
-                }
-                iArr[i] = iArr[i] ^ bitArray.bits[i];
-                i++;
-            }
-        } else {
+        if (this.size != bitArray.size) {
             throw new IllegalArgumentException("Sizes don't match");
+        }
+        int i = 0;
+        while (true) {
+            int[] iArr = this.bits;
+            if (i >= iArr.length) {
+                return;
+            }
+            iArr[i] = iArr[i] ^ bitArray.bits[i];
+            i++;
         }
     }
 
@@ -105,11 +104,11 @@ public final class BitArray implements Cloneable {
     }
 
     public boolean equals(Object obj) {
-        if (!(obj instanceof BitArray)) {
-            return false;
+        if (obj instanceof BitArray) {
+            BitArray bitArray = (BitArray) obj;
+            return this.size == bitArray.size && Arrays.equals(this.bits, bitArray.bits);
         }
-        BitArray bitArray = (BitArray) obj;
-        return this.size == bitArray.size && Arrays.equals(this.bits, bitArray.bits);
+        return false;
     }
 
     public int hashCode() {

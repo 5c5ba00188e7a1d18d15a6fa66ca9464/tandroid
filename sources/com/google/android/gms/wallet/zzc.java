@@ -41,10 +41,9 @@ public final class zzc implements OnCompleteListener, Runnable {
         zzb.delete(this.zzc);
         zza.removeCallbacks(this);
         zzd zzdVar = this.zze;
-        if (zzdVar == null) {
-            return;
+        if (zzdVar != null) {
+            zzdVar.zzb(this.zzf);
         }
-        zzdVar.zzb(this.zzf);
     }
 
     @Override // com.google.android.gms.tasks.OnCompleteListener

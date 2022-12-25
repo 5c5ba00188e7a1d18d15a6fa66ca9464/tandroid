@@ -195,10 +195,10 @@ public abstract class SegmentBase {
             if (j2 != -1) {
                 return (int) ((j2 - this.startNumber) + 1);
             }
-            if (j == -9223372036854775807L) {
-                return -1;
+            if (j != -9223372036854775807L) {
+                return (int) Util.ceilDivide(j, (this.duration * 1000000) / this.timescale);
             }
-            return (int) Util.ceilDivide(j, (this.duration * 1000000) / this.timescale);
+            return -1;
         }
     }
 

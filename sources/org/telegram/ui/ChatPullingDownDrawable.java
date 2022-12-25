@@ -316,36 +316,35 @@ public class ChatPullingDownDrawable implements NotificationCenter.NotificationC
     }
 
     private void drawCheck(Canvas canvas, float f, float f2) {
-        if (!this.animateCheck) {
-            return;
-        }
-        float f3 = this.checkProgress;
-        if (f3 < 1.0f) {
-            float f4 = f3 + 0.07272727f;
-            this.checkProgress = f4;
-            if (f4 > 1.0f) {
-                this.checkProgress = 1.0f;
+        if (this.animateCheck) {
+            float f3 = this.checkProgress;
+            if (f3 < 1.0f) {
+                float f4 = f3 + 0.07272727f;
+                this.checkProgress = f4;
+                if (f4 > 1.0f) {
+                    this.checkProgress = 1.0f;
+                }
             }
+            float f5 = this.checkProgress;
+            float f6 = f5 > 0.5f ? 1.0f : f5 / 0.5f;
+            float f7 = f5 < 0.5f ? 0.0f : (f5 - 0.5f) / 0.5f;
+            canvas.save();
+            canvas.clipRect(AndroidUtilities.rectTmp);
+            canvas.translate(f - AndroidUtilities.dp(24.0f), f2 - AndroidUtilities.dp(24.0f));
+            float dp = AndroidUtilities.dp(16.0f);
+            float dp2 = AndroidUtilities.dp(26.0f);
+            float dp3 = AndroidUtilities.dp(22.0f);
+            float dp4 = AndroidUtilities.dp(32.0f);
+            float dp5 = AndroidUtilities.dp(32.0f);
+            float dp6 = AndroidUtilities.dp(20.0f);
+            float f8 = 1.0f - f6;
+            canvas.drawLine(dp, dp2, (dp * f8) + (dp3 * f6), (f8 * dp2) + (f6 * dp4), this.arrowPaint);
+            if (f7 > 0.0f) {
+                float f9 = 1.0f - f7;
+                canvas.drawLine(dp3, dp4, (dp3 * f9) + (dp5 * f7), (f9 * dp4) + (dp6 * f7), this.arrowPaint);
+            }
+            canvas.restore();
         }
-        float f5 = this.checkProgress;
-        float f6 = f5 > 0.5f ? 1.0f : f5 / 0.5f;
-        float f7 = f5 < 0.5f ? 0.0f : (f5 - 0.5f) / 0.5f;
-        canvas.save();
-        canvas.clipRect(AndroidUtilities.rectTmp);
-        canvas.translate(f - AndroidUtilities.dp(24.0f), f2 - AndroidUtilities.dp(24.0f));
-        float dp = AndroidUtilities.dp(16.0f);
-        float dp2 = AndroidUtilities.dp(26.0f);
-        float dp3 = AndroidUtilities.dp(22.0f);
-        float dp4 = AndroidUtilities.dp(32.0f);
-        float dp5 = AndroidUtilities.dp(32.0f);
-        float dp6 = AndroidUtilities.dp(20.0f);
-        float f8 = 1.0f - f6;
-        canvas.drawLine(dp, dp2, (dp * f8) + (dp3 * f6), (f8 * dp2) + (f6 * dp4), this.arrowPaint);
-        if (f7 > 0.0f) {
-            float f9 = 1.0f - f7;
-            canvas.drawLine(dp3, dp4, (dp3 * f9) + (dp5 * f7), (f9 * dp4) + (dp6 * f7), this.arrowPaint);
-        }
-        canvas.restore();
     }
 
     private void drawBackground(Canvas canvas, RectF rectF) {
@@ -377,20 +376,19 @@ public class ChatPullingDownDrawable implements NotificationCenter.NotificationC
             this.path.rLineTo(0.0f, -(height - f3));
             this.path.close();
             canvas.drawPath(this.path, getThemedPaint("paintChatActionBackground"));
-            if (!hasGradientService()) {
+            if (hasGradientService()) {
+                canvas.drawPath(this.path, Theme.chat_actionBackgroundGradientDarkenPaint);
                 return;
             }
-            canvas.drawPath(this.path, Theme.chat_actionBackgroundGradientDarkenPaint);
             return;
         }
         RectF rectF2 = AndroidUtilities.rectTmp;
         float f9 = this.circleRadius;
         canvas.drawRoundRect(rectF2, f9, f9, getThemedPaint("paintChatActionBackground"));
-        if (!hasGradientService()) {
-            return;
+        if (hasGradientService()) {
+            float f10 = this.circleRadius;
+            canvas.drawRoundRect(rectF2, f10, f10, Theme.chat_actionBackgroundGradientDarkenPaint);
         }
-        float f10 = this.circleRadius;
-        canvas.drawRoundRect(rectF2, f10, f10, Theme.chat_actionBackgroundGradientDarkenPaint);
     }
 
     private void showReleaseState(boolean z, final View view) {
@@ -539,10 +537,9 @@ public class ChatPullingDownDrawable implements NotificationCenter.NotificationC
         }
         this.counterDrawable.setCount(tLRPC$Dialog.unread_count, true);
         View view = this.parentView;
-        if (view == null) {
-            return;
+        if (view != null) {
+            view.invalidate();
         }
-        view.invalidate();
     }
 
     public static TLRPC$Dialog getNextUnreadDialog(long j, int i, int i2, boolean z, int[] iArr) {
@@ -603,8 +600,8 @@ public class ChatPullingDownDrawable implements NotificationCenter.NotificationC
         return this.nextChat.id;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:10:0x0078  */
-    /* JADX WARN: Removed duplicated region for block: B:15:0x00bc  */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x0078  */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x00bc  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

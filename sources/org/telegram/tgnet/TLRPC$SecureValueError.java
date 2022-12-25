@@ -35,12 +35,12 @@ public abstract class TLRPC$SecureValueError extends TLObject {
                 tLRPC$TL_secureValueErrorReverseSide = null;
                 break;
         }
-        if (tLRPC$TL_secureValueErrorReverseSide != null || !z) {
-            if (tLRPC$TL_secureValueErrorReverseSide != null) {
-                tLRPC$TL_secureValueErrorReverseSide.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_secureValueErrorReverseSide;
+        if (tLRPC$TL_secureValueErrorReverseSide == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in SecureValueError", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in SecureValueError", Integer.valueOf(i)));
+        if (tLRPC$TL_secureValueErrorReverseSide != null) {
+            tLRPC$TL_secureValueErrorReverseSide.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_secureValueErrorReverseSide;
     }
 }

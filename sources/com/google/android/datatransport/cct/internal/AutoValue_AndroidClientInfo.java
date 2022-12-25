@@ -99,39 +99,38 @@ final class AutoValue_AndroidClientInfo extends AndroidClientInfo {
         if (obj == this) {
             return true;
         }
-        if (!(obj instanceof AndroidClientInfo)) {
-            return false;
-        }
-        AndroidClientInfo androidClientInfo = (AndroidClientInfo) obj;
-        Integer num = this.sdkVersion;
-        if (num != null ? num.equals(androidClientInfo.getSdkVersion()) : androidClientInfo.getSdkVersion() == null) {
-            String str = this.model;
-            if (str != null ? str.equals(androidClientInfo.getModel()) : androidClientInfo.getModel() == null) {
-                String str2 = this.hardware;
-                if (str2 != null ? str2.equals(androidClientInfo.getHardware()) : androidClientInfo.getHardware() == null) {
-                    String str3 = this.device;
-                    if (str3 != null ? str3.equals(androidClientInfo.getDevice()) : androidClientInfo.getDevice() == null) {
-                        String str4 = this.product;
-                        if (str4 != null ? str4.equals(androidClientInfo.getProduct()) : androidClientInfo.getProduct() == null) {
-                            String str5 = this.osBuild;
-                            if (str5 != null ? str5.equals(androidClientInfo.getOsBuild()) : androidClientInfo.getOsBuild() == null) {
-                                String str6 = this.manufacturer;
-                                if (str6 != null ? str6.equals(androidClientInfo.getManufacturer()) : androidClientInfo.getManufacturer() == null) {
-                                    String str7 = this.fingerprint;
-                                    if (str7 != null ? str7.equals(androidClientInfo.getFingerprint()) : androidClientInfo.getFingerprint() == null) {
-                                        String str8 = this.locale;
-                                        if (str8 != null ? str8.equals(androidClientInfo.getLocale()) : androidClientInfo.getLocale() == null) {
-                                            String str9 = this.country;
-                                            if (str9 != null ? str9.equals(androidClientInfo.getCountry()) : androidClientInfo.getCountry() == null) {
-                                                String str10 = this.mccMnc;
-                                                if (str10 != null ? str10.equals(androidClientInfo.getMccMnc()) : androidClientInfo.getMccMnc() == null) {
-                                                    String str11 = this.applicationBuild;
-                                                    if (str11 == null) {
-                                                        if (androidClientInfo.getApplicationBuild() == null) {
+        if (obj instanceof AndroidClientInfo) {
+            AndroidClientInfo androidClientInfo = (AndroidClientInfo) obj;
+            Integer num = this.sdkVersion;
+            if (num != null ? num.equals(androidClientInfo.getSdkVersion()) : androidClientInfo.getSdkVersion() == null) {
+                String str = this.model;
+                if (str != null ? str.equals(androidClientInfo.getModel()) : androidClientInfo.getModel() == null) {
+                    String str2 = this.hardware;
+                    if (str2 != null ? str2.equals(androidClientInfo.getHardware()) : androidClientInfo.getHardware() == null) {
+                        String str3 = this.device;
+                        if (str3 != null ? str3.equals(androidClientInfo.getDevice()) : androidClientInfo.getDevice() == null) {
+                            String str4 = this.product;
+                            if (str4 != null ? str4.equals(androidClientInfo.getProduct()) : androidClientInfo.getProduct() == null) {
+                                String str5 = this.osBuild;
+                                if (str5 != null ? str5.equals(androidClientInfo.getOsBuild()) : androidClientInfo.getOsBuild() == null) {
+                                    String str6 = this.manufacturer;
+                                    if (str6 != null ? str6.equals(androidClientInfo.getManufacturer()) : androidClientInfo.getManufacturer() == null) {
+                                        String str7 = this.fingerprint;
+                                        if (str7 != null ? str7.equals(androidClientInfo.getFingerprint()) : androidClientInfo.getFingerprint() == null) {
+                                            String str8 = this.locale;
+                                            if (str8 != null ? str8.equals(androidClientInfo.getLocale()) : androidClientInfo.getLocale() == null) {
+                                                String str9 = this.country;
+                                                if (str9 != null ? str9.equals(androidClientInfo.getCountry()) : androidClientInfo.getCountry() == null) {
+                                                    String str10 = this.mccMnc;
+                                                    if (str10 != null ? str10.equals(androidClientInfo.getMccMnc()) : androidClientInfo.getMccMnc() == null) {
+                                                        String str11 = this.applicationBuild;
+                                                        if (str11 == null) {
+                                                            if (androidClientInfo.getApplicationBuild() == null) {
+                                                                return true;
+                                                            }
+                                                        } else if (str11.equals(androidClientInfo.getApplicationBuild())) {
                                                             return true;
                                                         }
-                                                    } else if (str11.equals(androidClientInfo.getApplicationBuild())) {
-                                                        return true;
                                                     }
                                                 }
                                             }
@@ -143,13 +142,13 @@ final class AutoValue_AndroidClientInfo extends AndroidClientInfo {
                     }
                 }
             }
+            return false;
         }
         return false;
     }
 
     public int hashCode() {
         Integer num = this.sdkVersion;
-        int i = 0;
         int hashCode = ((num == null ? 0 : num.hashCode()) ^ 1000003) * 1000003;
         String str = this.model;
         int hashCode2 = (hashCode ^ (str == null ? 0 : str.hashCode())) * 1000003;
@@ -172,14 +171,12 @@ final class AutoValue_AndroidClientInfo extends AndroidClientInfo {
         String str10 = this.mccMnc;
         int hashCode11 = (hashCode10 ^ (str10 == null ? 0 : str10.hashCode())) * 1000003;
         String str11 = this.applicationBuild;
-        if (str11 != null) {
-            i = str11.hashCode();
-        }
-        return hashCode11 ^ i;
+        return hashCode11 ^ (str11 != null ? str11.hashCode() : 0);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    static final class Builder extends AndroidClientInfo.Builder {
+    public static final class Builder extends AndroidClientInfo.Builder {
         private String applicationBuild;
         private String country;
         private String device;

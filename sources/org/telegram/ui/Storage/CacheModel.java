@@ -45,8 +45,7 @@ public class CacheModel {
             this.documents.add(fileInfo);
         } else if (i == 3) {
             this.music.add(fileInfo);
-        } else if (i != 4) {
-        } else {
+        } else if (i == 4) {
             this.voice.add(fileInfo);
         }
     }
@@ -60,8 +59,7 @@ public class CacheModel {
             this.documents.remove(fileInfo);
         } else if (i == 3) {
             this.music.remove(fileInfo);
-        } else if (i != 4) {
-        } else {
+        } else if (i == 4) {
             this.voice.remove(fileInfo);
         }
     }
@@ -107,11 +105,20 @@ public class CacheModel {
     }
 
     private void checkAllFilesSelected(int i, boolean z) {
-        if (!this.isDialog) {
-            return;
-        }
-        if (!z) {
-            if (i == 0) {
+        if (this.isDialog) {
+            if (z) {
+                if (i == 0) {
+                    this.allPhotosSelected = checkAllFilesSelectedInArray(i, this.media);
+                } else if (i == 1) {
+                    this.allVideosSelected = checkAllFilesSelectedInArray(i, this.media);
+                } else if (i == 2) {
+                    this.allDocumentsSelected = checkAllFilesSelectedInArray(i, this.documents);
+                } else if (i == 3) {
+                    this.allMusicSelected = checkAllFilesSelectedInArray(i, this.music);
+                } else if (i == 4) {
+                    this.allVoiceSelected = checkAllFilesSelectedInArray(i, this.voice);
+                }
+            } else if (i == 0) {
                 this.allPhotosSelected = false;
             } else if (i == 1) {
                 this.allVideosSelected = false;
@@ -119,21 +126,9 @@ public class CacheModel {
                 this.allDocumentsSelected = false;
             } else if (i == 3) {
                 this.allMusicSelected = false;
-            } else if (i != 4) {
-            } else {
+            } else if (i == 4) {
                 this.allVoiceSelected = false;
             }
-        } else if (i == 0) {
-            this.allPhotosSelected = checkAllFilesSelectedInArray(i, this.media);
-        } else if (i == 1) {
-            this.allVideosSelected = checkAllFilesSelectedInArray(i, this.media);
-        } else if (i == 2) {
-            this.allDocumentsSelected = checkAllFilesSelectedInArray(i, this.documents);
-        } else if (i == 3) {
-            this.allMusicSelected = checkAllFilesSelectedInArray(i, this.music);
-        } else if (i != 4) {
-        } else {
-            this.allVoiceSelected = checkAllFilesSelectedInArray(i, this.voice);
         }
     }
 
@@ -268,10 +263,10 @@ public class CacheModel {
         if (i == 3) {
             return this.musicSelectedSize;
         }
-        if (i != 4) {
-            return -1L;
+        if (i == 4) {
+            return this.voiceSelectedSize;
         }
-        return this.voiceSelectedSize;
+        return -1L;
     }
 
     public void selectAllFiles() {
@@ -353,8 +348,7 @@ public class CacheModel {
             this.documentsSelectedSize += j;
         } else if (i == 3) {
             this.musicSelectedSize += j;
-        } else if (i != 4) {
-        } else {
+        } else if (i == 4) {
             this.voiceSelectedSize += j;
         }
     }

@@ -25,13 +25,13 @@ final class zzgc<T> implements zzgp<T> {
 
     @Override // com.google.android.gms.internal.mlkit_language_id.zzgp
     public final boolean zza(T t, T t2) {
-        if (!this.zzb.zza(t).equals(this.zzb.zza(t2))) {
-            return false;
-        }
-        if (!this.zzc) {
+        if (this.zzb.zza(t).equals(this.zzb.zza(t2))) {
+            if (this.zzc) {
+                return this.zzd.zza(t).equals(this.zzd.zza(t2));
+            }
             return true;
         }
-        return this.zzd.zza(t).equals(this.zzd.zza(t2));
+        return false;
     }
 
     @Override // com.google.android.gms.internal.mlkit_language_id.zzgp

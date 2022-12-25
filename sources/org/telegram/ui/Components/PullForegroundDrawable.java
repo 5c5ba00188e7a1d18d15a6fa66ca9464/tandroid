@@ -26,15 +26,20 @@ import org.telegram.ui.TopicsFragment;
 public class PullForegroundDrawable {
     private ValueAnimator accentRevalAnimatorIn;
     private ValueAnimator accentRevalAnimatorOut;
+    private float accentRevalProgress;
+    private float accentRevalProgressOut;
     private boolean animateOut;
     private boolean animateToColorize;
     private boolean animateToEndText;
     private boolean animateToTextIn;
     private boolean arrowAnimateTo;
+    private final ArrowDrawable arrowDrawable;
     private ValueAnimator arrowRotateAnimator;
+    private float arrowRotateProgress;
     private boolean bounceIn;
     private float bounceProgress;
     private View cell;
+    private final Path circleClipPath;
     private Drawable generalTopicDrawable;
     private boolean isOut;
     private RecyclerListView listView;
@@ -51,9 +56,15 @@ public class PullForegroundDrawable {
     private float releaseTooltipLayoutWidth;
     public int scrollDy;
     private float textInProgress;
+    Runnable textInRunnable;
+    private ValueAnimator.AnimatorUpdateListener textInUpdateListener;
     private ValueAnimator textIntAnimator;
+    private float textSwappingProgress;
+    private ValueAnimator.AnimatorUpdateListener textSwappingUpdateListener;
     private ValueAnimator textSwipingAnimator;
     private final TextPaint tooltipTextPaint;
+    private float touchSlop;
+    boolean wasSendCallback;
     private boolean willDraw;
     private String backgroundColorKey = "chats_archivePullDownBackground";
     private String backgroundActiveColorKey = "chats_archivePullDownBackgroundActive";
@@ -64,41 +75,6 @@ public class PullForegroundDrawable {
     private final Paint paintBackgroundAccent = new Paint(1);
     private final Paint backgroundPaint = new Paint();
     private final RectF rectF = new RectF();
-    private final ArrowDrawable arrowDrawable = new ArrowDrawable(this);
-    private final Path circleClipPath = new Path();
-    private float textSwappingProgress = 1.0f;
-    private float arrowRotateProgress = 1.0f;
-    private float accentRevalProgress = 1.0f;
-    private float accentRevalProgressOut = 1.0f;
-    private ValueAnimator.AnimatorUpdateListener textSwappingUpdateListener = new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.PullForegroundDrawable$$ExternalSyntheticLambda0
-        @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-        public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-            PullForegroundDrawable.this.lambda$new$0(valueAnimator);
-        }
-    };
-    private ValueAnimator.AnimatorUpdateListener textInUpdateListener = new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.PullForegroundDrawable$$ExternalSyntheticLambda5
-        @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-        public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-            PullForegroundDrawable.this.lambda$new$1(valueAnimator);
-        }
-    };
-    Runnable textInRunnable = new Runnable() { // from class: org.telegram.ui.Components.PullForegroundDrawable.1
-        @Override // java.lang.Runnable
-        public void run() {
-            PullForegroundDrawable.this.animateToTextIn = true;
-            if (PullForegroundDrawable.this.textIntAnimator != null) {
-                PullForegroundDrawable.this.textIntAnimator.cancel();
-            }
-            PullForegroundDrawable.this.textInProgress = 0.0f;
-            PullForegroundDrawable.this.textIntAnimator = ValueAnimator.ofFloat(0.0f, 1.0f);
-            PullForegroundDrawable.this.textIntAnimator.addUpdateListener(PullForegroundDrawable.this.textInUpdateListener);
-            PullForegroundDrawable.this.textIntAnimator.setInterpolator(new LinearInterpolator());
-            PullForegroundDrawable.this.textIntAnimator.setDuration(150L);
-            PullForegroundDrawable.this.textIntAnimator.start();
-        }
-    };
-    boolean wasSendCallback = false;
-    private float touchSlop = ViewConfiguration.get(ApplicationLoader.applicationContext).getScaledTouchSlop();
 
     protected float getViewOffset() {
         throw null;
@@ -125,8 +101,43 @@ public class PullForegroundDrawable {
     public PullForegroundDrawable(CharSequence charSequence, CharSequence charSequence2) {
         TextPaint textPaint = new TextPaint(1);
         this.tooltipTextPaint = textPaint;
+        this.arrowDrawable = new ArrowDrawable(this);
+        this.circleClipPath = new Path();
+        this.textSwappingProgress = 1.0f;
+        this.arrowRotateProgress = 1.0f;
+        this.accentRevalProgress = 1.0f;
+        this.accentRevalProgressOut = 1.0f;
+        this.textSwappingUpdateListener = new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.PullForegroundDrawable$$ExternalSyntheticLambda0
+            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+            public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                PullForegroundDrawable.this.lambda$new$0(valueAnimator);
+            }
+        };
+        this.textInUpdateListener = new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.PullForegroundDrawable$$ExternalSyntheticLambda5
+            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+            public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                PullForegroundDrawable.this.lambda$new$1(valueAnimator);
+            }
+        };
+        this.textInRunnable = new Runnable() { // from class: org.telegram.ui.Components.PullForegroundDrawable.1
+            @Override // java.lang.Runnable
+            public void run() {
+                PullForegroundDrawable.this.animateToTextIn = true;
+                if (PullForegroundDrawable.this.textIntAnimator != null) {
+                    PullForegroundDrawable.this.textIntAnimator.cancel();
+                }
+                PullForegroundDrawable.this.textInProgress = 0.0f;
+                PullForegroundDrawable.this.textIntAnimator = ValueAnimator.ofFloat(0.0f, 1.0f);
+                PullForegroundDrawable.this.textIntAnimator.addUpdateListener(PullForegroundDrawable.this.textInUpdateListener);
+                PullForegroundDrawable.this.textIntAnimator.setInterpolator(new LinearInterpolator());
+                PullForegroundDrawable.this.textIntAnimator.setDuration(150L);
+                PullForegroundDrawable.this.textIntAnimator.start();
+            }
+        };
+        this.wasSendCallback = false;
         textPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         textPaint.setTextSize(AndroidUtilities.dp(16.0f));
+        this.touchSlop = ViewConfiguration.get(ApplicationLoader.applicationContext).getScaledTouchSlop();
         StaticLayout staticLayout = new StaticLayout(charSequence, 0, charSequence.length(), textPaint, AndroidUtilities.displaySize.x, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
         this.pullTooltipLayout = staticLayout;
         this.pullTooltipLayoutWidth = staticLayout.getLineWidth(0);
@@ -400,7 +411,6 @@ public class PullForegroundDrawable {
 
     private void updateTextProgress(float f) {
         boolean z = f > 0.85f;
-        float f2 = 1.0f;
         if (this.animateToEndText != z) {
             this.animateToEndText = z;
             if (this.textInProgress == 0.0f) {
@@ -433,10 +443,7 @@ public class PullForegroundDrawable {
             }
             float[] fArr2 = new float[2];
             fArr2[0] = this.arrowRotateProgress;
-            if (this.arrowAnimateTo) {
-                f2 = 0.0f;
-            }
-            fArr2[1] = f2;
+            fArr2[1] = this.arrowAnimateTo ? 0.0f : 1.0f;
             ValueAnimator ofFloat2 = ValueAnimator.ofFloat(fArr2);
             this.arrowRotateAnimator = ofFloat2;
             ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.PullForegroundDrawable$$ExternalSyntheticLambda2
@@ -530,19 +537,20 @@ public class PullForegroundDrawable {
     }
 
     private void textIn() {
-        if (!this.animateToTextIn) {
-            if (Math.abs(this.scrollDy) < this.touchSlop * 0.5f) {
-                if (this.wasSendCallback) {
-                    return;
-                }
-                this.textInProgress = 1.0f;
-                this.animateToTextIn = true;
+        if (this.animateToTextIn) {
+            return;
+        }
+        if (Math.abs(this.scrollDy) < this.touchSlop * 0.5f) {
+            if (this.wasSendCallback) {
                 return;
             }
-            this.wasSendCallback = true;
-            this.cell.removeCallbacks(this.textInRunnable);
-            this.cell.postDelayed(this.textInRunnable, 200L);
+            this.textInProgress = 1.0f;
+            this.animateToTextIn = true;
+            return;
         }
+        this.wasSendCallback = true;
+        this.cell.removeCallbacks(this.textInRunnable);
+        this.cell.postDelayed(this.textInRunnable, 200L);
     }
 
     public void startOutAnimation() {
@@ -635,14 +643,13 @@ public class PullForegroundDrawable {
         this.outProgress = f;
         int blendARGB = ColorUtils.blendARGB(Theme.getNonAnimatedColor(this.avatarBackgroundColorKey), Theme.getNonAnimatedColor(this.backgroundActiveColorKey), 1.0f - this.outProgress);
         this.paintBackgroundAccent.setColor(blendARGB);
-        if (!this.changeAvatarColor || !isDraw()) {
-            return;
+        if (this.changeAvatarColor && isDraw()) {
+            Theme.dialogs_archiveAvatarDrawable.beginApplyLayerColors();
+            Theme.dialogs_archiveAvatarDrawable.setLayerColor("Arrow1.**", blendARGB);
+            Theme.dialogs_archiveAvatarDrawable.setLayerColor("Arrow2.**", blendARGB);
+            Theme.dialogs_archiveAvatarDrawable.commitApplyLayerColors();
+            Theme.dialogs_archiveAvatarDrawableRecolored = true;
         }
-        Theme.dialogs_archiveAvatarDrawable.beginApplyLayerColors();
-        Theme.dialogs_archiveAvatarDrawable.setLayerColor("Arrow1.**", blendARGB);
-        Theme.dialogs_archiveAvatarDrawable.setLayerColor("Arrow2.**", blendARGB);
-        Theme.dialogs_archiveAvatarDrawable.commitApplyLayerColors();
-        Theme.dialogs_archiveAvatarDrawableRecolored = true;
     }
 
     public void doNotShow() {

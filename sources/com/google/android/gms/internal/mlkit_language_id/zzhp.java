@@ -42,13 +42,13 @@ public final class zzhp {
         byte b = bArr[i - 1];
         int i3 = i2 - i;
         if (i3 != 0) {
-            if (i3 == 1) {
-                return zzb(b, bArr[i]);
+            if (i3 != 1) {
+                if (i3 == 2) {
+                    return zzb(b, bArr[i], bArr[i + 1]);
+                }
+                throw new AssertionError();
             }
-            if (i3 == 2) {
-                return zzb(b, bArr[i], bArr[i + 1]);
-            }
-            throw new AssertionError();
+            return zzb(b, bArr[i]);
         }
         return zzb(b);
     }

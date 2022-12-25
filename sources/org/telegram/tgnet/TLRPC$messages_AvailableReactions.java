@@ -15,12 +15,12 @@ public abstract class TLRPC$messages_AvailableReactions extends TLObject {
         } else {
             tLRPC$messages_AvailableReactions = i != 1989032621 ? null : new TLRPC$TL_messages_availableReactions();
         }
-        if (tLRPC$messages_AvailableReactions != null || !z) {
-            if (tLRPC$messages_AvailableReactions != null) {
-                tLRPC$messages_AvailableReactions.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$messages_AvailableReactions;
+        if (tLRPC$messages_AvailableReactions == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in messages_AvailableReactions", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in messages_AvailableReactions", Integer.valueOf(i)));
+        if (tLRPC$messages_AvailableReactions != null) {
+            tLRPC$messages_AvailableReactions.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$messages_AvailableReactions;
     }
 }

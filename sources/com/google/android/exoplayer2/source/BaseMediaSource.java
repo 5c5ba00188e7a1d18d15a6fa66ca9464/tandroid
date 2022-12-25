@@ -79,8 +79,7 @@ public abstract class BaseMediaSource implements MediaSource {
             this.looper = myLooper;
             this.enabledMediaSourceCallers.add(mediaSourceCaller);
             prepareSourceInternal(transferListener);
-        } else if (timeline == null) {
-        } else {
+        } else if (timeline != null) {
             enable(mediaSourceCaller);
             mediaSourceCaller.onSourceInfoRefreshed(this, timeline);
         }
@@ -100,10 +99,9 @@ public abstract class BaseMediaSource implements MediaSource {
     public final void disable(MediaSource.MediaSourceCaller mediaSourceCaller) {
         boolean z = !this.enabledMediaSourceCallers.isEmpty();
         this.enabledMediaSourceCallers.remove(mediaSourceCaller);
-        if (!z || !this.enabledMediaSourceCallers.isEmpty()) {
-            return;
+        if (z && this.enabledMediaSourceCallers.isEmpty()) {
+            disableInternal();
         }
-        disableInternal();
     }
 
     @Override // com.google.android.exoplayer2.source.MediaSource

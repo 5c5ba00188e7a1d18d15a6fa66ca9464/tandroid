@@ -60,10 +60,9 @@ public final class TimedValueQueue<V> {
     private void clearBufferOnTimeDiscontinuity(long j) {
         int i = this.size;
         if (i > 0) {
-            if (j > this.timestamps[((this.first + i) - 1) % this.values.length]) {
-                return;
+            if (j <= this.timestamps[((this.first + i) - 1) % this.values.length]) {
+                clear();
             }
-            clear();
         }
     }
 

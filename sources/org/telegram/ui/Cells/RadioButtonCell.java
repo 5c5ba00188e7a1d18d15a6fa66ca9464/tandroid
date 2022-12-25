@@ -34,8 +34,7 @@ public class RadioButtonCell extends FrameLayout {
         }
         RadioButton radioButton2 = this.radioButton;
         boolean z2 = LocaleController.isRTL;
-        int i = 5;
-        addView(radioButton2, LayoutHelper.createFrame(22, 22.0f, (z2 ? 5 : 3) | 48, z2 ? 0 : 20, 10.0f, !z2 ? 0 : 20, 0.0f));
+        addView(radioButton2, LayoutHelper.createFrame(22, 22.0f, (z2 ? 5 : 3) | 48, z2 ? 0 : 20, 10.0f, z2 ? 20 : 0, 0.0f));
         TextView textView = new TextView(context);
         this.textView = textView;
         if (z) {
@@ -50,7 +49,6 @@ public class RadioButtonCell extends FrameLayout {
         this.textView.setGravity((LocaleController.isRTL ? 5 : 3) | 16);
         TextView textView2 = this.textView;
         boolean z3 = LocaleController.isRTL;
-        int i2 = 61;
         addView(textView2, LayoutHelper.createFrame(-2, -2.0f, (z3 ? 5 : 3) | 48, z3 ? 23 : 61, 10.0f, z3 ? 61 : 23, 0.0f));
         TextView textView3 = new TextView(context);
         this.valueTextView = textView3;
@@ -67,7 +65,7 @@ public class RadioButtonCell extends FrameLayout {
         this.valueTextView.setPadding(0, 0, 0, AndroidUtilities.dp(12.0f));
         TextView textView4 = this.valueTextView;
         boolean z4 = LocaleController.isRTL;
-        addView(textView4, LayoutHelper.createFrame(-2, -2.0f, (!z4 ? 3 : i) | 48, z4 ? 17 : 61, 35.0f, !z4 ? 17 : i2, 0.0f));
+        addView(textView4, LayoutHelper.createFrame(-2, -2.0f, (z4 ? 5 : 3) | 48, z4 ? 17 : 61, 35.0f, z4 ? 61 : 17, 0.0f));
     }
 
     @Override // android.widget.FrameLayout, android.view.View
@@ -89,14 +87,7 @@ public class RadioButtonCell extends FrameLayout {
     @Override // android.view.View
     protected void onDraw(Canvas canvas) {
         if (this.needDivider) {
-            float f = 0.0f;
-            float dp = AndroidUtilities.dp(LocaleController.isRTL ? 0.0f : 60.0f);
-            float height = getHeight() - 1;
-            int measuredWidth = getMeasuredWidth();
-            if (LocaleController.isRTL) {
-                f = 60.0f;
-            }
-            canvas.drawLine(dp, height, measuredWidth - AndroidUtilities.dp(f), getHeight() - 1, Theme.dividerPaint);
+            canvas.drawLine(AndroidUtilities.dp(LocaleController.isRTL ? 0.0f : 60.0f), getHeight() - 1, getMeasuredWidth() - AndroidUtilities.dp(LocaleController.isRTL ? 60.0f : 0.0f), getHeight() - 1, Theme.dividerPaint);
         }
     }
 

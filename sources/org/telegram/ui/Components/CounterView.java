@@ -252,10 +252,9 @@ public class CounterView extends View {
             }
             this.currentCount = i;
             View view4 = this.parent;
-            if (view4 == null) {
-                return;
+            if (view4 != null) {
+                view4.invalidate();
             }
-            view4.invalidate();
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -279,7 +278,6 @@ public class CounterView extends View {
             Paint paint;
             float interpolation;
             int i = this.type;
-            boolean z = true;
             if (i != 1 && i != 2) {
                 int themedColor = getThemedColor(this.textColorKey);
                 int themedColor2 = getThemedColor(this.circleColorKey);
@@ -343,9 +341,7 @@ public class CounterView extends View {
                     }
                 }
                 canvas.clipRect(this.rectF);
-                if (this.reverseAnimation == this.countAnimationIncrement) {
-                    z = false;
-                }
+                boolean z = this.reverseAnimation != this.countAnimationIncrement;
                 if (this.countAnimationInLayout != null) {
                     canvas.save();
                     float f12 = this.countLeft;

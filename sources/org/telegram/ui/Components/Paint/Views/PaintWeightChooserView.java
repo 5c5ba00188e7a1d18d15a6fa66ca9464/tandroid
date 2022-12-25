@@ -18,6 +18,13 @@ import org.telegram.ui.Components.Paint.RenderView;
 import org.telegram.ui.Components.Paint.Swatch;
 /* loaded from: classes3.dex */
 public class PaintWeightChooserView extends View {
+    private AnimatedFloat animatedMax;
+    private AnimatedFloat animatedMin;
+    private AnimatedFloat animatedWeight;
+    private Paint backgroundPaint;
+    private Paint colorPaint;
+    private Swatch colorSwatch;
+    private boolean drawCenter;
     private int fromContentHeight;
     private GestureDetectorCompat gestureDetector;
     private float hideProgress;
@@ -31,19 +38,12 @@ public class PaintWeightChooserView extends View {
     private int newContentHeight;
     private Runnable onUpdate;
     private float panProgress;
+    private Path path;
     private RenderView renderView;
+    private boolean showPreview;
     private float showProgress;
+    private RectF touchRect;
     private ValueOverride valueOverride;
-    private Paint backgroundPaint = new Paint(1);
-    private Paint colorPaint = new Paint(1);
-    private Path path = new Path();
-    private RectF touchRect = new RectF();
-    private boolean showPreview = true;
-    private AnimatedFloat animatedWeight = new AnimatedFloat(this);
-    private AnimatedFloat animatedMin = new AnimatedFloat(this);
-    private AnimatedFloat animatedMax = new AnimatedFloat(this);
-    private Swatch colorSwatch = new Swatch(-1, 1.0f, 0.016773745f);
-    private boolean drawCenter = true;
 
     /* loaded from: classes3.dex */
     public interface ValueOverride {
@@ -54,6 +54,16 @@ public class PaintWeightChooserView extends View {
 
     public PaintWeightChooserView(Context context) {
         super(context);
+        this.backgroundPaint = new Paint(1);
+        this.colorPaint = new Paint(1);
+        this.path = new Path();
+        this.touchRect = new RectF();
+        this.showPreview = true;
+        this.animatedWeight = new AnimatedFloat(this);
+        this.animatedMin = new AnimatedFloat(this);
+        this.animatedMax = new AnimatedFloat(this);
+        this.colorSwatch = new Swatch(-1, 1.0f, 0.016773745f);
+        this.drawCenter = true;
         this.gestureDetector = new GestureDetectorCompat(context, new GestureDetector.SimpleOnGestureListener() { // from class: org.telegram.ui.Components.Paint.Views.PaintWeightChooserView.1
             float startDeltaY;
             float startWeight;
@@ -122,18 +132,17 @@ public class PaintWeightChooserView extends View {
     }
 
     public void updatePanTransition(float f, float f2) {
-        if (!this.isPanTransitionInProgress) {
-            return;
+        if (this.isPanTransitionInProgress) {
+            if (this.fromContentHeight < this.newContentHeight) {
+                f2 = 1.0f - f2;
+            }
+            this.panProgress = f2;
+            setTranslationY(f);
+            int lerp = AndroidUtilities.lerp(this.fromContentHeight, this.newContentHeight, this.panProgress);
+            int i = (int) (lerp * 0.3f);
+            this.touchRect.set(0.0f, (lerp - i) / 2.0f, AndroidUtilities.dp(32.0f), (lerp + i) / 2.0f);
+            invalidate();
         }
-        if (this.fromContentHeight < this.newContentHeight) {
-            f2 = 1.0f - f2;
-        }
-        this.panProgress = f2;
-        setTranslationY(f);
-        int lerp = AndroidUtilities.lerp(this.fromContentHeight, this.newContentHeight, this.panProgress);
-        int i = (int) (lerp * 0.3f);
-        this.touchRect.set(0.0f, (lerp - i) / 2.0f, AndroidUtilities.dp(32.0f), (lerp + i) / 2.0f);
-        invalidate();
     }
 
     public void setRenderView(RenderView renderView) {
@@ -196,10 +205,11 @@ public class PaintWeightChooserView extends View {
     @Override // android.view.View
     protected void onSizeChanged(int i, int i2, int i3, int i4) {
         super.onSizeChanged(i, i2, i3, i4);
-        if (!this.isPanTransitionInProgress) {
-            int height = (int) (getHeight() * 0.3f);
-            this.touchRect.set(0.0f, (getHeight() - height) / 2.0f, AndroidUtilities.dp(32.0f), (getHeight() + height) / 2.0f);
+        if (this.isPanTransitionInProgress) {
+            return;
         }
+        int height = (int) (getHeight() * 0.3f);
+        this.touchRect.set(0.0f, (getHeight() - height) / 2.0f, AndroidUtilities.dp(32.0f), (getHeight() + height) / 2.0f);
     }
 
     public void setViewHidden(boolean z) {
@@ -207,12 +217,12 @@ public class PaintWeightChooserView extends View {
         invalidate();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:11:0x0071  */
-    /* JADX WARN: Removed duplicated region for block: B:16:0x0137  */
-    /* JADX WARN: Removed duplicated region for block: B:19:0x01d2  */
-    /* JADX WARN: Removed duplicated region for block: B:26:0x0202  */
-    /* JADX WARN: Removed duplicated region for block: B:29:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:31:0x0086  */
+    /* JADX WARN: Removed duplicated region for block: B:17:0x0071  */
+    /* JADX WARN: Removed duplicated region for block: B:21:0x0086  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x0137  */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x01d2  */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x0202  */
+    /* JADX WARN: Removed duplicated region for block: B:38:? A[RETURN, SYNTHETIC] */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -278,10 +288,10 @@ public class PaintWeightChooserView extends View {
                         if (this.drawCenter && this.showProgress != 0.0f && this.showPreview) {
                             drawCircleWithShadow(canvas, getWidth() / 2.0f, getHeight() / 2.0f, this.renderView.brushWeightForSize(f), true);
                         }
-                        if (this.hideProgress == 0.0f) {
+                        if (this.hideProgress != 0.0f) {
+                            canvas.restore();
                             return;
                         }
-                        canvas.restore();
                         return;
                     }
                 }
@@ -329,7 +339,7 @@ public class PaintWeightChooserView extends View {
                 if (this.drawCenter) {
                     drawCircleWithShadow(canvas, getWidth() / 2.0f, getHeight() / 2.0f, this.renderView.brushWeightForSize(f), true);
                 }
-                if (this.hideProgress == 0.0f) {
+                if (this.hideProgress != 0.0f) {
                 }
             }
         }
@@ -381,7 +391,7 @@ public class PaintWeightChooserView extends View {
         drawCircleWithShadow(canvas, dp422, MathUtils.clamp(height222, rectF322.top + f722, rectF322.bottom - Math.min(f922, f722)), AndroidUtilities.lerp(AndroidUtilities.dp(12.0f), AndroidUtilities.lerp(Math.min(f922, f722), f722, f822), this.showProgress), false);
         if (this.drawCenter) {
         }
-        if (this.hideProgress == 0.0f) {
+        if (this.hideProgress != 0.0f) {
         }
     }
 

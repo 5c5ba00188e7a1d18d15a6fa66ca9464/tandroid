@@ -107,43 +107,39 @@ public class ErrorAttachmentLog extends AbstractLog {
         if (this == obj) {
             return true;
         }
-        if (obj == null || ErrorAttachmentLog.class != obj.getClass() || !super.equals(obj)) {
+        if (obj != null && ErrorAttachmentLog.class == obj.getClass() && super.equals(obj)) {
+            ErrorAttachmentLog errorAttachmentLog = (ErrorAttachmentLog) obj;
+            UUID uuid = this.id;
+            if (uuid == null ? errorAttachmentLog.id == null : uuid.equals(errorAttachmentLog.id)) {
+                UUID uuid2 = this.errorId;
+                if (uuid2 == null ? errorAttachmentLog.errorId == null : uuid2.equals(errorAttachmentLog.errorId)) {
+                    String str = this.contentType;
+                    if (str == null ? errorAttachmentLog.contentType == null : str.equals(errorAttachmentLog.contentType)) {
+                        String str2 = this.fileName;
+                        if (str2 == null ? errorAttachmentLog.fileName == null : str2.equals(errorAttachmentLog.fileName)) {
+                            return Arrays.equals(this.data, errorAttachmentLog.data);
+                        }
+                        return false;
+                    }
+                    return false;
+                }
+                return false;
+            }
             return false;
         }
-        ErrorAttachmentLog errorAttachmentLog = (ErrorAttachmentLog) obj;
-        UUID uuid = this.id;
-        if (uuid == null ? errorAttachmentLog.id != null : !uuid.equals(errorAttachmentLog.id)) {
-            return false;
-        }
-        UUID uuid2 = this.errorId;
-        if (uuid2 == null ? errorAttachmentLog.errorId != null : !uuid2.equals(errorAttachmentLog.errorId)) {
-            return false;
-        }
-        String str = this.contentType;
-        if (str == null ? errorAttachmentLog.contentType != null : !str.equals(errorAttachmentLog.contentType)) {
-            return false;
-        }
-        String str2 = this.fileName;
-        if (str2 == null ? errorAttachmentLog.fileName != null : !str2.equals(errorAttachmentLog.fileName)) {
-            return false;
-        }
-        return Arrays.equals(this.data, errorAttachmentLog.data);
+        return false;
     }
 
     @Override // com.microsoft.appcenter.ingestion.models.AbstractLog
     public int hashCode() {
         int hashCode = super.hashCode() * 31;
         UUID uuid = this.id;
-        int i = 0;
         int hashCode2 = (hashCode + (uuid != null ? uuid.hashCode() : 0)) * 31;
         UUID uuid2 = this.errorId;
         int hashCode3 = (hashCode2 + (uuid2 != null ? uuid2.hashCode() : 0)) * 31;
         String str = this.contentType;
         int hashCode4 = (hashCode3 + (str != null ? str.hashCode() : 0)) * 31;
         String str2 = this.fileName;
-        if (str2 != null) {
-            i = str2.hashCode();
-        }
-        return ((hashCode4 + i) * 31) + Arrays.hashCode(this.data);
+        return ((hashCode4 + (str2 != null ? str2.hashCode() : 0)) * 31) + Arrays.hashCode(this.data);
     }
 }

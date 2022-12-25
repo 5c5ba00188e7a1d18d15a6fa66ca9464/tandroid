@@ -8,12 +8,8 @@ public class TLRPC$TL_wallPaperNoFile extends TLRPC$WallPaper {
         this.id = abstractSerializedData.readInt64(z);
         int readInt32 = abstractSerializedData.readInt32(z);
         this.flags = readInt32;
-        boolean z2 = true;
         this.isDefault = (readInt32 & 2) != 0;
-        if ((readInt32 & 16) == 0) {
-            z2 = false;
-        }
-        this.dark = z2;
+        this.dark = (readInt32 & 16) != 0;
         if ((readInt32 & 4) != 0) {
             this.settings = TLRPC$WallPaperSettings.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
         }

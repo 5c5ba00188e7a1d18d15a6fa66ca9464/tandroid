@@ -28,7 +28,7 @@ public class CropRotationWheel extends FrameLayout {
     protected float rotation;
     private ImageView rotation90Button;
     private RotationWheelListener rotationListener;
-    private RectF tempRect = new RectF(0.0f, 0.0f, 0.0f, 0.0f);
+    private RectF tempRect;
     private Paint whitePaint;
 
     /* loaded from: classes3.dex */
@@ -51,6 +51,7 @@ public class CropRotationWheel extends FrameLayout {
 
     public CropRotationWheel(Context context) {
         super(context);
+        this.tempRect = new RectF(0.0f, 0.0f, 0.0f, 0.0f);
         Paint paint = new Paint();
         this.whitePaint = paint;
         paint.setStyle(Paint.Style.FILL);

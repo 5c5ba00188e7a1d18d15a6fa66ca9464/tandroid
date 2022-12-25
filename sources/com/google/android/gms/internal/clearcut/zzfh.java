@@ -94,15 +94,15 @@ final class zzfh extends zzfg {
                     bArr[i9] = (byte) ((charAt2 & '?') | ConnectionsManager.RequestFlagNeedQuickAck);
                 } else if ((charAt2 >= 55296 && 57343 >= charAt2) || i8 > i6 - 3) {
                     if (i8 > i6 - 4) {
-                        if (55296 <= charAt2 && charAt2 <= 57343 && ((i4 = i7 + 1) == charSequence.length() || !Character.isSurrogatePair(charAt2, charSequence.charAt(i4)))) {
-                            throw new zzfi(i7, length);
+                        if (55296 > charAt2 || charAt2 > 57343 || ((i4 = i7 + 1) != charSequence.length() && Character.isSurrogatePair(charAt2, charSequence.charAt(i4)))) {
+                            StringBuilder sb = new StringBuilder(37);
+                            sb.append("Failed writing ");
+                            sb.append(charAt2);
+                            sb.append(" at index ");
+                            sb.append(i8);
+                            throw new ArrayIndexOutOfBoundsException(sb.toString());
                         }
-                        StringBuilder sb = new StringBuilder(37);
-                        sb.append("Failed writing ");
-                        sb.append(charAt2);
-                        sb.append(" at index ");
-                        sb.append(i8);
-                        throw new ArrayIndexOutOfBoundsException(sb.toString());
+                        throw new zzfi(i7, length);
                     }
                     int i10 = i7 + 1;
                     if (i10 != charSequence.length()) {

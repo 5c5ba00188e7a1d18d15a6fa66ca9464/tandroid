@@ -22,38 +22,38 @@ import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.ProfileGalleryView;
 /* loaded from: classes3.dex */
 public class AvatarPreviewPagerIndicator extends View implements ProfileGalleryView.Callback {
+    private float alpha;
+    private float[] alphas;
     private final ValueAnimator animator;
+    private final float[] animatorValues;
     private final Paint backgroundPaint;
     private final Paint barPaint;
     private final GradientDrawable bottomOverlayGradient;
+    private final Rect bottomOverlayRect;
+    private int currentLoadingAnimationDirection;
     private float currentLoadingAnimationProgress;
     private float currentProgress;
+    private final RectF indicatorRect;
     private boolean isOverlaysVisible;
+    int lastCurrentItem;
     private long lastTime;
+    private int overlayCountVisible;
+    Path path;
+    private final float[] pressedOverlayAlpha;
+    private final GradientDrawable[] pressedOverlayGradient;
+    private final boolean[] pressedOverlayVisible;
+    private int previousSelectedPotision;
     private float previousSelectedProgress;
     protected ProfileGalleryView profileGalleryView;
     private float progressToCounter;
+    private final RectF rect;
+    RectF rectF;
     private final Paint selectedBarPaint;
     private int selectedPosition;
     TextPaint textPaint;
     String title;
     private final GradientDrawable topOverlayGradient;
-    private final RectF indicatorRect = new RectF();
-    private int overlayCountVisible = 1;
-    private final Rect topOverlayRect = new Rect();
-    private final Rect bottomOverlayRect = new Rect();
-    private final RectF rect = new RectF();
-    private final float[] animatorValues = {0.0f, 1.0f};
-    Path path = new Path();
-    RectF rectF = new RectF();
-    private final GradientDrawable[] pressedOverlayGradient = new GradientDrawable[2];
-    private final boolean[] pressedOverlayVisible = new boolean[2];
-    private final float[] pressedOverlayAlpha = new float[2];
-    private float alpha = 0.0f;
-    private float[] alphas = null;
-    private int previousSelectedPotision = -1;
-    private int currentLoadingAnimationDirection = 1;
-    int lastCurrentItem = -1;
+    private final Rect topOverlayRect;
 
     @Override // org.telegram.ui.Components.ProfileGalleryView.Callback
     public void onPhotosLoaded() {
@@ -61,6 +61,22 @@ public class AvatarPreviewPagerIndicator extends View implements ProfileGalleryV
 
     public AvatarPreviewPagerIndicator(Context context) {
         super(context);
+        this.indicatorRect = new RectF();
+        this.overlayCountVisible = 1;
+        this.topOverlayRect = new Rect();
+        this.bottomOverlayRect = new Rect();
+        this.rect = new RectF();
+        this.animatorValues = new float[]{0.0f, 1.0f};
+        this.path = new Path();
+        this.rectF = new RectF();
+        this.pressedOverlayGradient = new GradientDrawable[2];
+        this.pressedOverlayVisible = new boolean[2];
+        this.pressedOverlayAlpha = new float[2];
+        this.alpha = 0.0f;
+        this.alphas = null;
+        this.previousSelectedPotision = -1;
+        this.currentLoadingAnimationDirection = 1;
+        this.lastCurrentItem = -1;
         Paint paint = new Paint(1);
         this.barPaint = paint;
         paint.setColor(1442840575);
@@ -96,9 +112,10 @@ public class AvatarPreviewPagerIndicator extends View implements ProfileGalleryV
         ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.AvatarPreviewPagerIndicator.1
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             public void onAnimationEnd(Animator animator) {
-                if (!AvatarPreviewPagerIndicator.this.isOverlaysVisible) {
-                    AvatarPreviewPagerIndicator.this.setVisibility(8);
+                if (AvatarPreviewPagerIndicator.this.isOverlaysVisible) {
+                    return;
                 }
+                AvatarPreviewPagerIndicator.this.setVisibility(8);
             }
 
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -162,12 +179,12 @@ public class AvatarPreviewPagerIndicator extends View implements ProfileGalleryV
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Removed duplicated region for block: B:120:0x0304  */
-    /* JADX WARN: Removed duplicated region for block: B:122:0x0307  */
-    /* JADX WARN: Removed duplicated region for block: B:39:0x01d2  */
-    /* JADX WARN: Removed duplicated region for block: B:44:0x020b  */
-    /* JADX WARN: Removed duplicated region for block: B:47:0x020e  */
-    /* JADX WARN: Removed duplicated region for block: B:49:0x01f3  */
+    /* JADX WARN: Removed duplicated region for block: B:119:0x0304  */
+    /* JADX WARN: Removed duplicated region for block: B:120:0x0307  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x01d2  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x01f3  */
+    /* JADX WARN: Removed duplicated region for block: B:68:0x020b  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x020e  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -198,9 +215,7 @@ public class AvatarPreviewPagerIndicator extends View implements ProfileGalleryV
         }
         long elapsedRealtime = SystemClock.elapsedRealtime();
         long j = elapsedRealtime - this.lastTime;
-        if (j < 0 || j > 20) {
-            j = 17;
-        }
+        j = (j < 0 || j > 20) ? 17L : 17L;
         this.lastTime = elapsedRealtime;
         float f3 = 1.0f;
         if (realCount <= 1 || realCount > 20) {

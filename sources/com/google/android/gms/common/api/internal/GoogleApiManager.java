@@ -153,19 +153,15 @@ public class GoogleApiManager implements Handler.Callback {
 
     @Override // android.os.Handler.Callback
     public final boolean handleMessage(Message message) {
+        zabq zabqVar;
         ApiKey apiKey;
         ApiKey apiKey2;
         ApiKey apiKey3;
         ApiKey apiKey4;
         int i = message.what;
-        long j = 300000;
-        zabq zabqVar = null;
         switch (i) {
             case 1:
-                if (true == ((Boolean) message.obj).booleanValue()) {
-                    j = 10000;
-                }
-                this.zag = j;
+                this.zag = true == ((Boolean) message.obj).booleanValue() ? 10000L : 300000L;
                 this.zat.removeMessages(12);
                 for (ApiKey apiKey5 : this.zap.keySet()) {
                     Handler handler = this.zat;
@@ -228,9 +224,7 @@ public class GoogleApiManager implements Handler.Callback {
                 while (true) {
                     if (it2.hasNext()) {
                         zabq zabqVar5 = (zabq) it2.next();
-                        if (zabqVar5.zab() == i2) {
-                            zabqVar = zabqVar5;
-                        }
+                        zabqVar = zabqVar5.zab() == i2 ? zabqVar5 : null;
                     }
                 }
                 if (zabqVar == null) {
@@ -392,11 +386,11 @@ public class GoogleApiManager implements Handler.Callback {
             return false;
         }
         RootTelemetryConfiguration config = RootTelemetryConfigManager.getInstance().getConfig();
-        if (config != null && !config.getMethodInvocationTelemetryEnabled()) {
-            return false;
+        if (config == null || config.getMethodInvocationTelemetryEnabled()) {
+            int zaa2 = this.zam.zaa(this.zak, 203400000);
+            return zaa2 == -1 || zaa2 == 0;
         }
-        int zaa2 = this.zam.zaa(this.zak, 203400000);
-        return zaa2 == -1 || zaa2 == 0;
+        return false;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -451,9 +445,10 @@ public class GoogleApiManager implements Handler.Callback {
     }
 
     public final void zaz(ConnectionResult connectionResult, int i) {
-        if (!zaG(connectionResult, i)) {
-            Handler handler = this.zat;
-            handler.sendMessage(handler.obtainMessage(5, i, 0, connectionResult));
+        if (zaG(connectionResult, i)) {
+            return;
         }
+        Handler handler = this.zat;
+        handler.sendMessage(handler.obtainMessage(5, i, 0, connectionResult));
     }
 }

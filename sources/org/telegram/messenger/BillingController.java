@@ -164,14 +164,13 @@ public class BillingController implements PurchasesUpdatedListener, BillingClien
             });
             return;
         }
-        if (!(this.billingClient.launchBillingFlow(activity, BillingFlowParams.newBuilder().setProductDetailsParamsList(list).build()).getResponseCode() == 0)) {
-            return;
+        if (this.billingClient.launchBillingFlow(activity, BillingFlowParams.newBuilder().setProductDetailsParamsList(list).build()).getResponseCode() == 0) {
+            for (BillingFlowParams.ProductDetailsParams productDetailsParams : list) {
+                accountInstance.getUserConfig().billingPaymentPurpose = tLRPC$InputStorePaymentPurpose;
+                accountInstance.getUserConfig().awaitBillingProductIds.add(productDetailsParams.zza().getProductId());
+            }
+            accountInstance.getUserConfig().saveConfig(false);
         }
-        for (BillingFlowParams.ProductDetailsParams productDetailsParams : list) {
-            accountInstance.getUserConfig().billingPaymentPurpose = tLRPC$InputStorePaymentPurpose;
-            accountInstance.getUserConfig().awaitBillingProductIds.add(productDetailsParams.zza().getProductId());
-        }
-        accountInstance.getUserConfig().saveConfig(false);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -210,10 +209,9 @@ public class BillingController implements PurchasesUpdatedListener, BillingClien
                     return;
                 }
             }
-            if (atomicInteger.get() != 0) {
-                return;
+            if (atomicInteger.get() == 0) {
+                runnable.run();
             }
-            runnable.run();
         }
     }
 
@@ -226,10 +224,9 @@ public class BillingController implements PurchasesUpdatedListener, BillingClien
     public static /* synthetic */ void lambda$launchBillingFlow$1(List list, String str, AtomicInteger atomicInteger, Runnable runnable, BillingResult billingResult, String str2) {
         if (billingResult.getResponseCode() == 0) {
             list.add(str);
-            if (atomicInteger.get() != list.size()) {
-                return;
+            if (atomicInteger.get() == list.size()) {
+                runnable.run();
             }
-            runnable.run();
         }
     }
 

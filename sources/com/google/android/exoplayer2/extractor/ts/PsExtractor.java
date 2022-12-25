@@ -86,85 +86,86 @@ public final class PsExtractor implements Extractor {
         }
         extractorInput.resetPeekPosition();
         long peekPosition = length != -1 ? length - extractorInput.getPeekPosition() : -1L;
-        if ((peekPosition != -1 && peekPosition < 4) || !extractorInput.peekFully(this.psPacketBuffer.data, 0, 4, true)) {
-            return -1;
-        }
-        this.psPacketBuffer.setPosition(0);
-        int readInt = this.psPacketBuffer.readInt();
-        if (readInt == 441) {
-            return -1;
-        }
-        if (readInt == 442) {
-            extractorInput.peekFully(this.psPacketBuffer.data, 0, 10);
-            this.psPacketBuffer.setPosition(9);
-            extractorInput.skipFully((this.psPacketBuffer.readUnsignedByte() & 7) + 14);
-            return 0;
-        } else if (readInt == 443) {
-            extractorInput.peekFully(this.psPacketBuffer.data, 0, 2);
+        if ((peekPosition == -1 || peekPosition >= 4) && extractorInput.peekFully(this.psPacketBuffer.data, 0, 4, true)) {
             this.psPacketBuffer.setPosition(0);
-            extractorInput.skipFully(this.psPacketBuffer.readUnsignedShort() + 6);
-            return 0;
-        } else if (((readInt & (-256)) >> 8) != 1) {
-            extractorInput.skipFully(1);
-            return 0;
-        } else {
-            int i = readInt & 255;
-            PesReader pesReader = this.psPayloadReaders.get(i);
-            if (!this.foundAllTracks) {
-                if (pesReader == null) {
-                    ElementaryStreamReader elementaryStreamReader = null;
-                    if (i == 189) {
-                        elementaryStreamReader = new Ac3Reader();
-                        this.foundAudioTrack = true;
-                        this.lastTrackPosition = extractorInput.getPosition();
-                    } else if ((i & 224) == 192) {
-                        elementaryStreamReader = new MpegAudioReader();
-                        this.foundAudioTrack = true;
-                        this.lastTrackPosition = extractorInput.getPosition();
-                    } else if ((i & 240) == 224) {
-                        elementaryStreamReader = new H262Reader();
-                        this.foundVideoTrack = true;
-                        this.lastTrackPosition = extractorInput.getPosition();
-                    }
-                    if (elementaryStreamReader != null) {
-                        elementaryStreamReader.createTracks(this.output, new TsPayloadReader.TrackIdGenerator(i, 256));
-                        pesReader = new PesReader(elementaryStreamReader, this.timestampAdjuster);
-                        this.psPayloadReaders.put(i, pesReader);
-                    }
-                }
-                if (extractorInput.getPosition() > ((!this.foundAudioTrack || !this.foundVideoTrack) ? 1048576L : this.lastTrackPosition + 8192)) {
-                    this.foundAllTracks = true;
-                    this.output.endTracks();
-                }
+            int readInt = this.psPacketBuffer.readInt();
+            if (readInt == 441) {
+                return -1;
             }
-            extractorInput.peekFully(this.psPacketBuffer.data, 0, 2);
-            this.psPacketBuffer.setPosition(0);
-            int readUnsignedShort = this.psPacketBuffer.readUnsignedShort() + 6;
-            if (pesReader == null) {
-                extractorInput.skipFully(readUnsignedShort);
+            if (readInt == 442) {
+                extractorInput.peekFully(this.psPacketBuffer.data, 0, 10);
+                this.psPacketBuffer.setPosition(9);
+                extractorInput.skipFully((this.psPacketBuffer.readUnsignedByte() & 7) + 14);
+                return 0;
+            } else if (readInt == 443) {
+                extractorInput.peekFully(this.psPacketBuffer.data, 0, 2);
+                this.psPacketBuffer.setPosition(0);
+                extractorInput.skipFully(this.psPacketBuffer.readUnsignedShort() + 6);
+                return 0;
+            } else if (((readInt & (-256)) >> 8) != 1) {
+                extractorInput.skipFully(1);
+                return 0;
             } else {
-                this.psPacketBuffer.reset(readUnsignedShort);
-                extractorInput.readFully(this.psPacketBuffer.data, 0, readUnsignedShort);
-                this.psPacketBuffer.setPosition(6);
-                pesReader.consume(this.psPacketBuffer);
-                ParsableByteArray parsableByteArray = this.psPacketBuffer;
-                parsableByteArray.setLimit(parsableByteArray.capacity());
+                int i = readInt & 255;
+                PesReader pesReader = this.psPayloadReaders.get(i);
+                if (!this.foundAllTracks) {
+                    if (pesReader == null) {
+                        ElementaryStreamReader elementaryStreamReader = null;
+                        if (i == 189) {
+                            elementaryStreamReader = new Ac3Reader();
+                            this.foundAudioTrack = true;
+                            this.lastTrackPosition = extractorInput.getPosition();
+                        } else if ((i & 224) == 192) {
+                            elementaryStreamReader = new MpegAudioReader();
+                            this.foundAudioTrack = true;
+                            this.lastTrackPosition = extractorInput.getPosition();
+                        } else if ((i & 240) == 224) {
+                            elementaryStreamReader = new H262Reader();
+                            this.foundVideoTrack = true;
+                            this.lastTrackPosition = extractorInput.getPosition();
+                        }
+                        if (elementaryStreamReader != null) {
+                            elementaryStreamReader.createTracks(this.output, new TsPayloadReader.TrackIdGenerator(i, 256));
+                            pesReader = new PesReader(elementaryStreamReader, this.timestampAdjuster);
+                            this.psPayloadReaders.put(i, pesReader);
+                        }
+                    }
+                    if (extractorInput.getPosition() > ((this.foundAudioTrack && this.foundVideoTrack) ? this.lastTrackPosition + 8192 : 1048576L)) {
+                        this.foundAllTracks = true;
+                        this.output.endTracks();
+                    }
+                }
+                extractorInput.peekFully(this.psPacketBuffer.data, 0, 2);
+                this.psPacketBuffer.setPosition(0);
+                int readUnsignedShort = this.psPacketBuffer.readUnsignedShort() + 6;
+                if (pesReader == null) {
+                    extractorInput.skipFully(readUnsignedShort);
+                } else {
+                    this.psPacketBuffer.reset(readUnsignedShort);
+                    extractorInput.readFully(this.psPacketBuffer.data, 0, readUnsignedShort);
+                    this.psPacketBuffer.setPosition(6);
+                    pesReader.consume(this.psPacketBuffer);
+                    ParsableByteArray parsableByteArray = this.psPacketBuffer;
+                    parsableByteArray.setLimit(parsableByteArray.capacity());
+                }
+                return 0;
             }
-            return 0;
         }
+        return -1;
     }
 
     private void maybeOutputSeekMap(long j) {
-        if (!this.hasOutputSeekMap) {
-            this.hasOutputSeekMap = true;
-            if (this.durationReader.getDurationUs() != -9223372036854775807L) {
-                PsBinarySearchSeeker psBinarySearchSeeker = new PsBinarySearchSeeker(this.durationReader.getScrTimestampAdjuster(), this.durationReader.getDurationUs(), j);
-                this.psBinarySearchSeeker = psBinarySearchSeeker;
-                this.output.seekMap(psBinarySearchSeeker.getSeekMap());
-                return;
-            }
-            this.output.seekMap(new SeekMap.Unseekable(this.durationReader.getDurationUs()));
+        if (this.hasOutputSeekMap) {
+            return;
         }
+        this.hasOutputSeekMap = true;
+        if (this.durationReader.getDurationUs() != -9223372036854775807L) {
+            PsBinarySearchSeeker psBinarySearchSeeker = new PsBinarySearchSeeker(this.durationReader.getScrTimestampAdjuster(), this.durationReader.getDurationUs(), j);
+            this.psBinarySearchSeeker = psBinarySearchSeeker;
+            this.output.seekMap(psBinarySearchSeeker.getSeekMap());
+            return;
+        }
+        this.output.seekMap(new SeekMap.Unseekable(this.durationReader.getDurationUs()));
     }
 
     /* loaded from: classes.dex */

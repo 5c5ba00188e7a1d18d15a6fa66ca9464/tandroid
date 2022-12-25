@@ -69,19 +69,19 @@ final class AutoValue_LogRequest extends LogRequest {
         if (obj == this) {
             return true;
         }
-        if (!(obj instanceof LogRequest)) {
-            return false;
-        }
-        LogRequest logRequest = (LogRequest) obj;
-        if (this.requestTimeMs == logRequest.getRequestTimeMs() && this.requestUptimeMs == logRequest.getRequestUptimeMs() && ((clientInfo = this.clientInfo) != null ? clientInfo.equals(logRequest.getClientInfo()) : logRequest.getClientInfo() == null) && ((num = this.logSource) != null ? num.equals(logRequest.getLogSource()) : logRequest.getLogSource() == null) && ((str = this.logSourceName) != null ? str.equals(logRequest.getLogSourceName()) : logRequest.getLogSourceName() == null) && ((list = this.logEvents) != null ? list.equals(logRequest.getLogEvents()) : logRequest.getLogEvents() == null)) {
-            QosTier qosTier = this.qosTier;
-            if (qosTier == null) {
-                if (logRequest.getQosTier() == null) {
+        if (obj instanceof LogRequest) {
+            LogRequest logRequest = (LogRequest) obj;
+            if (this.requestTimeMs == logRequest.getRequestTimeMs() && this.requestUptimeMs == logRequest.getRequestUptimeMs() && ((clientInfo = this.clientInfo) != null ? clientInfo.equals(logRequest.getClientInfo()) : logRequest.getClientInfo() == null) && ((num = this.logSource) != null ? num.equals(logRequest.getLogSource()) : logRequest.getLogSource() == null) && ((str = this.logSourceName) != null ? str.equals(logRequest.getLogSourceName()) : logRequest.getLogSourceName() == null) && ((list = this.logEvents) != null ? list.equals(logRequest.getLogEvents()) : logRequest.getLogEvents() == null)) {
+                QosTier qosTier = this.qosTier;
+                if (qosTier == null) {
+                    if (logRequest.getQosTier() == null) {
+                        return true;
+                    }
+                } else if (qosTier.equals(logRequest.getQosTier())) {
                     return true;
                 }
-            } else if (qosTier.equals(logRequest.getQosTier())) {
-                return true;
             }
+            return false;
         }
         return false;
     }
@@ -91,7 +91,6 @@ final class AutoValue_LogRequest extends LogRequest {
         long j2 = this.requestUptimeMs;
         int i = (((((int) (j ^ (j >>> 32))) ^ 1000003) * 1000003) ^ ((int) (j2 ^ (j2 >>> 32)))) * 1000003;
         ClientInfo clientInfo = this.clientInfo;
-        int i2 = 0;
         int hashCode = (i ^ (clientInfo == null ? 0 : clientInfo.hashCode())) * 1000003;
         Integer num = this.logSource;
         int hashCode2 = (hashCode ^ (num == null ? 0 : num.hashCode())) * 1000003;
@@ -100,10 +99,7 @@ final class AutoValue_LogRequest extends LogRequest {
         List<LogEvent> list = this.logEvents;
         int hashCode4 = (hashCode3 ^ (list == null ? 0 : list.hashCode())) * 1000003;
         QosTier qosTier = this.qosTier;
-        if (qosTier != null) {
-            i2 = qosTier.hashCode();
-        }
-        return hashCode4 ^ i2;
+        return hashCode4 ^ (qosTier != null ? qosTier.hashCode() : 0);
     }
 
     /* loaded from: classes.dex */
@@ -162,7 +158,7 @@ final class AutoValue_LogRequest extends LogRequest {
         public LogRequest build() {
             String str = "";
             if (this.requestTimeMs == null) {
-                str = str + " requestTimeMs";
+                str = " requestTimeMs";
             }
             if (this.requestUptimeMs == null) {
                 str = str + " requestUptimeMs";

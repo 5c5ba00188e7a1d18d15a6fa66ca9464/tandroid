@@ -309,12 +309,12 @@ public abstract class TLRPC$Photo extends TLObject {
                 tLRPC$Photo = null;
                 break;
         }
-        if (tLRPC$Photo != null || !z) {
-            if (tLRPC$Photo != null) {
-                tLRPC$Photo.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$Photo;
+        if (tLRPC$Photo == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in Photo", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in Photo", Integer.valueOf(i)));
+        if (tLRPC$Photo != null) {
+            tLRPC$Photo.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$Photo;
     }
 }

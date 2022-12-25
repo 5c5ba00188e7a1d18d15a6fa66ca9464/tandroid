@@ -219,14 +219,14 @@ public final class DrmInitData implements Comparator<SchemeData>, Parcelable {
         }
 
         public boolean equals(Object obj) {
-            if (!(obj instanceof SchemeData)) {
-                return false;
+            if (obj instanceof SchemeData) {
+                if (obj == this) {
+                    return true;
+                }
+                SchemeData schemeData = (SchemeData) obj;
+                return Util.areEqual(this.licenseServerUrl, schemeData.licenseServerUrl) && Util.areEqual(this.mimeType, schemeData.mimeType) && Util.areEqual(this.uuid, schemeData.uuid) && Arrays.equals(this.data, schemeData.data);
             }
-            if (obj == this) {
-                return true;
-            }
-            SchemeData schemeData = (SchemeData) obj;
-            return Util.areEqual(this.licenseServerUrl, schemeData.licenseServerUrl) && Util.areEqual(this.mimeType, schemeData.mimeType) && Util.areEqual(this.uuid, schemeData.uuid) && Arrays.equals(this.data, schemeData.data);
+            return false;
         }
 
         public int hashCode() {

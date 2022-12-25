@@ -98,15 +98,13 @@ public final class Instance {
         try {
             globalServerConfig = new ServerConfig(new JSONObject(str));
             NativeInstance nativeInstance = instance;
-            if (nativeInstance == null) {
-                return;
+            if (nativeInstance != null) {
+                nativeInstance.setGlobalServerConfig(str);
             }
-            nativeInstance.setGlobalServerConfig(str);
         } catch (JSONException e) {
-            if (!BuildVars.LOGS_ENABLED) {
-                return;
+            if (BuildVars.LOGS_ENABLED) {
+                FileLog.e("failed to parse tgvoip server config", e);
             }
-            FileLog.e("failed to parse tgvoip server config", e);
         }
     }
 
@@ -141,10 +139,9 @@ public final class Instance {
     }
 
     private static void checkHasDelegate() {
-        if (instance != null) {
-            return;
+        if (instance == null) {
+            throw new IllegalStateException("tgvoip version is not set");
         }
-        throw new IllegalStateException("tgvoip version is not set");
     }
 
     /* loaded from: classes.dex */

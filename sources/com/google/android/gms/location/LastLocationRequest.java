@@ -42,11 +42,11 @@ public final class LastLocationRequest extends AbstractSafeParcelable {
     }
 
     public boolean equals(Object obj) {
-        if (!(obj instanceof LastLocationRequest)) {
-            return false;
+        if (obj instanceof LastLocationRequest) {
+            LastLocationRequest lastLocationRequest = (LastLocationRequest) obj;
+            return this.zza == lastLocationRequest.zza && this.zzb == lastLocationRequest.zzb && this.zzc == lastLocationRequest.zzc && Objects.equal(this.zzd, lastLocationRequest.zzd) && Objects.equal(this.zze, lastLocationRequest.zze);
         }
-        LastLocationRequest lastLocationRequest = (LastLocationRequest) obj;
-        return this.zza == lastLocationRequest.zza && this.zzb == lastLocationRequest.zzb && this.zzc == lastLocationRequest.zzc && Objects.equal(this.zzd, lastLocationRequest.zzd) && Objects.equal(this.zze, lastLocationRequest.zze);
+        return false;
     }
 
     @Pure

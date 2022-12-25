@@ -33,12 +33,13 @@ public class DrawerUserCell extends FrameLayout implements NotificationCenter.No
     private AvatarDrawable avatarDrawable;
     private GroupCreateCheckBox checkBox;
     private BackupImageView imageView;
-    private RectF rect = new RectF();
+    private RectF rect;
     private AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable status;
     private SimpleTextView textView;
 
     public DrawerUserCell(Context context) {
         super(context);
+        this.rect = new RectF();
         AvatarDrawable avatarDrawable = new AvatarDrawable();
         this.avatarDrawable = avatarDrawable;
         avatarDrawable.setTextSize(AndroidUtilities.dp(20.0f));
@@ -95,10 +96,9 @@ public class DrawerUserCell extends FrameLayout implements NotificationCenter.No
         NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.emojiLoaded);
         if (this.textView.getRightDrawable() instanceof AnimatedEmojiDrawable.WrapSizeDrawable) {
             Drawable drawable = ((AnimatedEmojiDrawable.WrapSizeDrawable) this.textView.getRightDrawable()).getDrawable();
-            if (!(drawable instanceof AnimatedEmojiDrawable)) {
-                return;
+            if (drawable instanceof AnimatedEmojiDrawable) {
+                ((AnimatedEmojiDrawable) drawable).removeView(this.textView);
             }
-            ((AnimatedEmojiDrawable) drawable).removeView(this.textView);
         }
     }
 
@@ -106,10 +106,9 @@ public class DrawerUserCell extends FrameLayout implements NotificationCenter.No
     public void didReceivedNotification(int i, int i2, Object... objArr) {
         if (i == NotificationCenter.currentUserPremiumStatusChanged) {
             int i3 = this.accountNumber;
-            if (i2 != i3) {
-                return;
+            if (i2 == i3) {
+                setAccount(i3);
             }
-            setAccount(i3);
         } else if (i == NotificationCenter.emojiLoaded) {
             this.textView.invalidate();
         } else if (i != NotificationCenter.updateInterfaces || (((Integer) objArr[0]).intValue() & MessagesController.UPDATE_MASK_EMOJI_STATUS) <= 0) {
@@ -126,7 +125,6 @@ public class DrawerUserCell extends FrameLayout implements NotificationCenter.No
         }
         this.avatarDrawable.setInfo(currentUser);
         CharSequence formatName = ContactsController.formatName(currentUser.first_name, currentUser.last_name);
-        int i2 = 0;
         try {
             formatName = Emoji.replaceEmoji(formatName, this.textView.getPaint().getFontMetricsInt(), AndroidUtilities.dp(20.0f), false);
         } catch (Exception unused) {
@@ -152,11 +150,7 @@ public class DrawerUserCell extends FrameLayout implements NotificationCenter.No
         this.status.setColor(Integer.valueOf(Theme.getColor("chats_verifiedBackground")));
         this.imageView.getImageReceiver().setCurrentAccount(i);
         this.imageView.setForUserOrChat(currentUser, this.avatarDrawable);
-        GroupCreateCheckBox groupCreateCheckBox = this.checkBox;
-        if (i != UserConfig.selectedAccount) {
-            i2 = 4;
-        }
-        groupCreateCheckBox.setVisibility(i2);
+        this.checkBox.setVisibility(i != UserConfig.selectedAccount ? 4 : 0);
     }
 
     public int getAccountNumber() {

@@ -26,8 +26,8 @@ public class ImportingAlert extends BottomSheet implements NotificationCenter.No
     private boolean completed;
     private RLottieDrawable completedDrawable;
     private RLottieImageView imageView;
-    private TextView[] importCountTextView = new TextView[2];
-    private TextView[] infoTextView = new TextView[2];
+    private TextView[] importCountTextView;
+    private TextView[] infoTextView;
     private LineProgressView lineProgressView;
     private final Runnable onFinishCallback;
     private ChatActivity parentFragment;
@@ -110,6 +110,8 @@ public class ImportingAlert extends BottomSheet implements NotificationCenter.No
 
     public ImportingAlert(Context context, String str, ChatActivity chatActivity, Theme.ResourcesProvider resourcesProvider) {
         super(context, false, resourcesProvider);
+        this.importCountTextView = new TextView[2];
+        this.infoTextView = new TextView[2];
         Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.ImportingAlert$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
@@ -249,8 +251,7 @@ public class ImportingAlert extends BottomSheet implements NotificationCenter.No
             this.percentTextView.setText(String.format("%d%%", Integer.valueOf(importingHistory.uploadProgress)));
             this.importCountTextView[0].setText(LocaleController.formatString("ImportCount", R.string.ImportCount, AndroidUtilities.formatFileSize(importingHistory.getUploadedCount()), AndroidUtilities.formatFileSize(importingHistory.getTotalCount())));
             this.lineProgressView.setProgress(importingHistory.uploadProgress / 100.0f, true);
-        } else if (i != NotificationCenter.stickersImportProgressChanged) {
-        } else {
+        } else if (i == NotificationCenter.stickersImportProgressChanged) {
             if (objArr.length > 1) {
                 dismiss();
                 return;

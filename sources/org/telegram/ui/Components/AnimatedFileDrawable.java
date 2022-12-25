@@ -208,24 +208,25 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
             destroyDecoder(this.nativePtr);
             this.nativePtr = 0L;
         }
-        if (!canLoadFrames()) {
-            Bitmap bitmap = this.renderingBitmap;
-            if (bitmap != null) {
-                bitmap.recycle();
-                this.renderingBitmap = null;
-            }
-            Bitmap bitmap2 = this.backgroundBitmap;
-            if (bitmap2 != null) {
-                bitmap2.recycle();
-                this.backgroundBitmap = null;
-            }
-            DispatchQueue dispatchQueue = this.decodeQueue;
-            if (dispatchQueue != null) {
-                dispatchQueue.recycle();
-                this.decodeQueue = null;
-            }
-            invalidateInternal();
+        if (canLoadFrames()) {
+            return;
         }
+        Bitmap bitmap = this.renderingBitmap;
+        if (bitmap != null) {
+            bitmap.recycle();
+            this.renderingBitmap = null;
+        }
+        Bitmap bitmap2 = this.backgroundBitmap;
+        if (bitmap2 != null) {
+            bitmap2.recycle();
+            this.backgroundBitmap = null;
+        }
+        DispatchQueue dispatchQueue = this.decodeQueue;
+        if (dispatchQueue != null) {
+            dispatchQueue.recycle();
+            this.decodeQueue = null;
+        }
+        invalidateInternal();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -270,10 +271,10 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
             if (iArr[0] > 0 && iArr[1] > 0) {
                 float max = Math.max(i2 / iArr[0], i / iArr[1]);
                 this.scaleFactor = max;
-                if (max > 0.0f && max <= 0.7d) {
+                if (max <= 0.0f || max > 0.7d) {
+                    this.scaleFactor = 1.0f;
                     return;
                 }
-                this.scaleFactor = 1.0f;
                 return;
             }
         }
@@ -298,8 +299,8 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
         this(file, z, j, tLRPC$Document, imageLocation, obj, j2, i, z2, 0, 0, cacheOptions);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:34:0x0164  */
-    /* JADX WARN: Removed duplicated region for block: B:37:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x0164  */
+    /* JADX WARN: Removed duplicated region for block: B:42:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -540,10 +541,10 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
                 j4 = j2;
                 j5 = j3;
                 z3 = false;
-                if (j4 != j5) {
+                if (j4 == j5) {
+                    seekTo(j4, z3);
                     return;
                 }
-                seekTo(j4, z3);
                 return;
             }
             z3 = false;
@@ -553,7 +554,7 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
         }
         j4 = j2;
         j5 = j3;
-        if (j4 != j5) {
+        if (j4 == j5) {
         }
     }
 
@@ -595,10 +596,10 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
             Bitmap bitmap2 = this.backgroundBitmap;
             videoFrame = getVideoFrame(j3, bitmap2, this.metaData, bitmap2.getRowBytes(), true, 0.0f, 0.0f);
         }
-        if (videoFrame == 0) {
-            return null;
+        if (videoFrame != 0) {
+            return this.backgroundBitmap;
         }
-        return this.backgroundBitmap;
+        return null;
     }
 
     public void setParentView(View view) {
@@ -675,10 +676,9 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
                 return;
             }
             int[] iArr = this.roundRadiusBackup;
-            if (iArr == null) {
-                return;
+            if (iArr != null) {
+                setRoundRadius(iArr);
             }
-            setRoundRadius(iArr);
         }
     }
 
@@ -791,10 +791,10 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
 
     @Override // android.graphics.drawable.Animatable
     public void start() {
-        if (!this.isRunning) {
-            if (this.parents.size() == 0 && !this.ignoreNoParent) {
-                return;
-            }
+        if (this.isRunning) {
+            return;
+        }
+        if (this.parents.size() != 0 || this.ignoreNoParent) {
             this.isRunning = true;
             scheduleNextGetFrame();
             AndroidUtilities.runOnUIThread(this.mStartTask);
@@ -826,46 +826,44 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
 
     /* JADX INFO: Access modifiers changed from: private */
     public void scheduleNextGetFrame() {
-        if (this.loadFrameTask != null || this.nextRenderingBitmap != null || !canLoadFrames() || this.destroyWhenDone) {
-            return;
-        }
-        if (!this.isRunning) {
-            boolean z = this.decodeSingleFrame;
-            if (!z) {
-                return;
+        if (this.loadFrameTask == null && this.nextRenderingBitmap == null && canLoadFrames() && !this.destroyWhenDone) {
+            if (!this.isRunning) {
+                boolean z = this.decodeSingleFrame;
+                if (!z) {
+                    return;
+                }
+                if (z && this.singleFrameDecoded) {
+                    return;
+                }
             }
-            if (z && this.singleFrameDecoded) {
-                return;
+            if ((this.parents.size() != 0 || this.ignoreNoParent) && !this.generatingCache) {
+                long j = 0;
+                if (this.lastFrameDecodeTime != 0) {
+                    int i = this.invalidateAfter;
+                    j = Math.min(i, Math.max(0L, i - (System.currentTimeMillis() - this.lastFrameDecodeTime)));
+                }
+                if (this.useSharedQueue) {
+                    if (this.limitFps) {
+                        Runnable runnable = this.loadFrameRunnable;
+                        this.loadFrameTask = runnable;
+                        DispatchQueuePoolBackground.execute(runnable);
+                        return;
+                    }
+                    ScheduledThreadPoolExecutor scheduledThreadPoolExecutor = executor;
+                    Runnable runnable2 = this.loadFrameRunnable;
+                    this.loadFrameTask = runnable2;
+                    scheduledThreadPoolExecutor.schedule(runnable2, j, TimeUnit.MILLISECONDS);
+                    return;
+                }
+                if (this.decodeQueue == null) {
+                    this.decodeQueue = new DispatchQueue("decodeQueue" + this);
+                }
+                DispatchQueue dispatchQueue = this.decodeQueue;
+                Runnable runnable3 = this.loadFrameRunnable;
+                this.loadFrameTask = runnable3;
+                dispatchQueue.postRunnable(runnable3, j);
             }
         }
-        if ((this.parents.size() == 0 && !this.ignoreNoParent) || this.generatingCache) {
-            return;
-        }
-        long j = 0;
-        if (this.lastFrameDecodeTime != 0) {
-            int i = this.invalidateAfter;
-            j = Math.min(i, Math.max(0L, i - (System.currentTimeMillis() - this.lastFrameDecodeTime)));
-        }
-        if (this.useSharedQueue) {
-            if (this.limitFps) {
-                Runnable runnable = this.loadFrameRunnable;
-                this.loadFrameTask = runnable;
-                DispatchQueuePoolBackground.execute(runnable);
-                return;
-            }
-            ScheduledThreadPoolExecutor scheduledThreadPoolExecutor = executor;
-            Runnable runnable2 = this.loadFrameRunnable;
-            this.loadFrameTask = runnable2;
-            scheduledThreadPoolExecutor.schedule(runnable2, j, TimeUnit.MILLISECONDS);
-            return;
-        }
-        if (this.decodeQueue == null) {
-            this.decodeQueue = new DispatchQueue("decodeQueue" + this);
-        }
-        DispatchQueue dispatchQueue = this.decodeQueue;
-        Runnable runnable3 = this.loadFrameRunnable;
-        this.loadFrameTask = runnable3;
-        dispatchQueue.postRunnable(runnable3, j);
     }
 
     public boolean isLoadingStream() {
@@ -933,8 +931,8 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
         drawInternal(canvas, true, 0L, i2);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:27:0x00b1  */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x0173  */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x00b1  */
+    /* JADX WARN: Removed duplicated region for block: B:78:0x0173  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1098,10 +1096,10 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
             return bitmap;
         }
         Bitmap bitmap2 = this.nextRenderingBitmap;
-        if (bitmap2 == null) {
-            return null;
+        if (bitmap2 != null) {
+            return bitmap2;
         }
-        return bitmap2;
+        return null;
     }
 
     public void setActualDrawRect(float f, float f2, float f3, float f4) {
@@ -1137,14 +1135,13 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
         int i = 0;
         while (true) {
             int[] iArr = this.roundRadius;
-            if (i < iArr.length) {
-                if (iArr[i] != 0) {
-                    return true;
-                }
-                i++;
-            } else {
+            if (i >= iArr.length) {
                 return false;
             }
+            if (iArr[i] != 0) {
+                return true;
+            }
+            i++;
         }
     }
 
@@ -1299,7 +1296,7 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
     }
 
     public boolean canLoadFrames() {
-        return this.precache ? this.bitmapsCache != null : this.nativePtr != 0 || !this.decoderCreated;
+        return this.precache ? this.bitmapsCache != null : (this.nativePtr == 0 && this.decoderCreated) ? false : true;
     }
 
     public void updateCurrentFrame(long j, boolean z) {

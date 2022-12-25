@@ -187,12 +187,10 @@ public class BlobDrawable {
             float f4 = f2 + (((float) j) * f3);
             this.amplitude = f4;
             if (f3 > 0.0f) {
-                if (f4 <= f) {
-                    return;
+                if (f4 > f) {
+                    this.amplitude = f;
                 }
-                this.amplitude = f;
-            } else if (f4 >= f) {
-            } else {
+            } else if (f4 < f) {
                 this.amplitude = f;
             }
         }

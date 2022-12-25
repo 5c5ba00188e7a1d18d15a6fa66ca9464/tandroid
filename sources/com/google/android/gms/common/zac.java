@@ -26,10 +26,10 @@ public final class zac extends zau {
         int i = message.what;
         if (i == 1) {
             int isGooglePlayServicesAvailable = this.zaa.isGooglePlayServicesAvailable(this.zab);
-            if (!this.zaa.isUserResolvableError(isGooglePlayServicesAvailable)) {
+            if (this.zaa.isUserResolvableError(isGooglePlayServicesAvailable)) {
+                this.zaa.showErrorNotification(this.zab, isGooglePlayServicesAvailable);
                 return;
             }
-            this.zaa.showErrorNotification(this.zab, isGooglePlayServicesAvailable);
             return;
         }
         Log.w("GoogleApiAvailability", "Don't know how to handle this message: " + i);

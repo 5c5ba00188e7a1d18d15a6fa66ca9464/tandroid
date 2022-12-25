@@ -128,12 +128,12 @@ public abstract class TLRPC$Audio extends TLObject {
                 tLRPC$Audio = null;
                 break;
         }
-        if (tLRPC$Audio != null || !z) {
-            if (tLRPC$Audio != null) {
-                tLRPC$Audio.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$Audio;
+        if (tLRPC$Audio == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in Audio", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in Audio", Integer.valueOf(i)));
+        if (tLRPC$Audio != null) {
+            tLRPC$Audio.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$Audio;
     }
 }

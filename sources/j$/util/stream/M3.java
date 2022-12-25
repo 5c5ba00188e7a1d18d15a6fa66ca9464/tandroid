@@ -26,17 +26,17 @@ final class M3 extends c3 {
 
     @Override // j$.util.stream.c
     public A1 E0(y2 y2Var, j$.util.u uVar, j$.util.function.m mVar) {
-        if (!d4.SORTED.d(y2Var.s0()) || !this.l) {
-            Object[] q = y2Var.p0(uVar, true, mVar).q(mVar);
-            Arrays.sort(q, this.m);
-            return new D1(q);
+        if (d4.SORTED.d(y2Var.s0()) && this.l) {
+            return y2Var.p0(uVar, false, mVar);
         }
-        return y2Var.p0(uVar, false, mVar);
+        Object[] q = y2Var.p0(uVar, true, mVar).q(mVar);
+        Arrays.sort(q, this.m);
+        return new D1(q);
     }
 
     @Override // j$.util.stream.c
     public m3 H0(int i, m3 m3Var) {
         Objects.requireNonNull(m3Var);
-        return (!d4.SORTED.d(i) || !this.l) ? d4.SIZED.d(i) ? new R3(m3Var, this.m) : new N3(m3Var, this.m) : m3Var;
+        return (d4.SORTED.d(i) && this.l) ? m3Var : d4.SIZED.d(i) ? new R3(m3Var, this.m) : new N3(m3Var, this.m);
     }
 }

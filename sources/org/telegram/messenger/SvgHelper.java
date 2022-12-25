@@ -157,6 +157,7 @@ public class SvgHelper {
         }
 
         public void drawInternal(Canvas canvas, boolean z, int i, long j, float f, float f2, float f3, float f4) {
+            long j2;
             int i2;
             String str = this.currentColorKey;
             if (str != null) {
@@ -166,16 +167,12 @@ public class SvgHelper {
             if (this.placeholderGradient[i] != null) {
                 float f5 = gradientWidth;
                 if (f5 > 0.0f) {
-                    long j2 = 0;
-                    long j3 = 64;
                     if (z) {
-                        long j4 = j - lastUpdateTime;
-                        if (j4 <= 64) {
-                            j3 = j4;
-                        }
-                        if (j3 > 0) {
+                        long j3 = j - lastUpdateTime;
+                        j2 = j3 <= 64 ? j3 : 64L;
+                        if (j2 > 0) {
                             lastUpdateTime = j;
-                            totalTranslation += (((float) j3) * f5) / 1800.0f;
+                            totalTranslation += (((float) j2) * f5) / 1800.0f;
                             while (true) {
                                 float f6 = totalTranslation;
                                 float f7 = gradientWidth;
@@ -186,15 +183,11 @@ public class SvgHelper {
                             }
                         }
                     } else if (shiftRunnable == null || shiftDrawable.get() == this) {
-                        long j5 = j - lastUpdateTime;
-                        if (j5 <= 64) {
-                            j3 = j5;
-                        }
-                        if (j3 >= 0) {
-                            j2 = j3;
-                        }
+                        long j4 = j - lastUpdateTime;
+                        j2 = j4 <= 64 ? j4 : 64L;
+                        long j5 = j2 >= 0 ? j2 : 0L;
                         lastUpdateTime = j;
-                        totalTranslation += (((float) j2) * gradientWidth) / 1800.0f;
+                        totalTranslation += (((float) j5) * gradientWidth) / 1800.0f;
                         while (true) {
                             float f8 = totalTranslation;
                             float f9 = gradientWidth;
@@ -329,30 +322,30 @@ public class SvgHelper {
             if (iArr[z ? 1 : 0] != color) {
                 this.colorAlpha = f;
                 this.currentColorKey = str;
-                iArr[z] = color;
+                iArr[z ? 1 : 0] = color;
                 gradientWidth = AndroidUtilities.displaySize.x * 2;
                 float dp = AndroidUtilities.dp(180.0f) / gradientWidth;
                 int argb = Color.argb((int) ((Color.alpha(color) / 2) * this.colorAlpha), Color.red(color), Color.green(color), Color.blue(color));
                 float f2 = (1.0f - dp) / 2.0f;
                 float f3 = dp / 2.0f;
-                this.placeholderGradient[z] = new LinearGradient(0.0f, 0.0f, gradientWidth, 0.0f, new int[]{0, 0, argb, 0, 0}, new float[]{0.0f, f2 - f3, f2, f2 + f3, 1.0f}, Shader.TileMode.REPEAT);
+                this.placeholderGradient[z ? 1 : 0] = new LinearGradient(0.0f, 0.0f, gradientWidth, 0.0f, new int[]{0, 0, argb, 0, 0}, new float[]{0.0f, f2 - f3, f2, f2 + f3, 1.0f}, Shader.TileMode.REPEAT);
                 int i = Build.VERSION.SDK_INT;
                 if (i >= 28) {
                     bitmapShader = new LinearGradient(0.0f, 0.0f, gradientWidth, 0.0f, new int[]{argb, argb}, (float[]) null, Shader.TileMode.REPEAT);
                 } else {
                     Bitmap[] bitmapArr = this.backgroundBitmap;
-                    if (bitmapArr[z] == null) {
-                        bitmapArr[z] = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888);
-                        this.backgroundCanvas[z] = new Canvas(this.backgroundBitmap[z]);
+                    if (bitmapArr[z ? 1 : 0] == null) {
+                        bitmapArr[z ? 1 : 0] = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888);
+                        this.backgroundCanvas[z ? 1 : 0] = new Canvas(this.backgroundBitmap[z ? 1 : 0]);
                     }
-                    this.backgroundCanvas[z].drawColor(argb);
-                    Bitmap bitmap = this.backgroundBitmap[z];
+                    this.backgroundCanvas[z ? 1 : 0].drawColor(argb);
+                    Bitmap bitmap = this.backgroundBitmap[z ? 1 : 0];
                     Shader.TileMode tileMode = Shader.TileMode.REPEAT;
                     bitmapShader = new BitmapShader(bitmap, tileMode, tileMode);
                 }
-                this.placeholderMatrix[z] = new Matrix();
-                this.placeholderGradient[z].setLocalMatrix(this.placeholderMatrix[z]);
-                if (z != 0) {
+                this.placeholderMatrix[z ? 1 : 0] = new Matrix();
+                this.placeholderGradient[z ? 1 : 0].setLocalMatrix(this.placeholderMatrix[z ? 1 : 0]);
+                if (z) {
                     if (this.backgroundPaint == null) {
                         this.backgroundPaint = new Paint(1);
                     }
@@ -360,7 +353,7 @@ public class SvgHelper {
                         this.backgroundPaint.setShader(bitmapShader);
                         return;
                     } else {
-                        this.backgroundPaint.setShader(new ComposeShader(this.placeholderGradient[z], bitmapShader, PorterDuff.Mode.ADD));
+                        this.backgroundPaint.setShader(new ComposeShader(this.placeholderGradient[z ? 1 : 0], bitmapShader, PorterDuff.Mode.ADD));
                         return;
                     }
                 }
@@ -368,7 +361,7 @@ public class SvgHelper {
                     if (Build.VERSION.SDK_INT <= 22) {
                         paint.setShader(bitmapShader);
                     } else {
-                        paint.setShader(new ComposeShader(this.placeholderGradient[z], bitmapShader, PorterDuff.Mode.ADD));
+                        paint.setShader(new ComposeShader(this.placeholderGradient[z ? 1 : 0], bitmapShader, PorterDuff.Mode.ADD));
                     }
                 }
             }
@@ -587,94 +580,89 @@ public class SvgHelper {
     /* JADX INFO: Access modifiers changed from: private */
     public static Matrix parseTransform(String str) {
         float f;
-        float f2 = 0.0f;
         if (str.startsWith("matrix(")) {
             NumberParse parseNumbers = parseNumbers(str.substring(7));
-            if (parseNumbers.numbers.size() != 6) {
-                return null;
+            if (parseNumbers.numbers.size() == 6) {
+                Matrix matrix = new Matrix();
+                matrix.setValues(new float[]{((Float) parseNumbers.numbers.get(0)).floatValue(), ((Float) parseNumbers.numbers.get(2)).floatValue(), ((Float) parseNumbers.numbers.get(4)).floatValue(), ((Float) parseNumbers.numbers.get(1)).floatValue(), ((Float) parseNumbers.numbers.get(3)).floatValue(), ((Float) parseNumbers.numbers.get(5)).floatValue(), 0.0f, 0.0f, 1.0f});
+                return matrix;
             }
-            Matrix matrix = new Matrix();
-            matrix.setValues(new float[]{((Float) parseNumbers.numbers.get(0)).floatValue(), ((Float) parseNumbers.numbers.get(2)).floatValue(), ((Float) parseNumbers.numbers.get(4)).floatValue(), ((Float) parseNumbers.numbers.get(1)).floatValue(), ((Float) parseNumbers.numbers.get(3)).floatValue(), ((Float) parseNumbers.numbers.get(5)).floatValue(), 0.0f, 0.0f, 1.0f});
-            return matrix;
+            return null;
         } else if (str.startsWith("translate(")) {
             NumberParse parseNumbers2 = parseNumbers(str.substring(10));
-            if (parseNumbers2.numbers.size() <= 0) {
-                return null;
+            if (parseNumbers2.numbers.size() > 0) {
+                float floatValue = ((Float) parseNumbers2.numbers.get(0)).floatValue();
+                r6 = parseNumbers2.numbers.size() > 1 ? ((Float) parseNumbers2.numbers.get(1)).floatValue() : 0.0f;
+                Matrix matrix2 = new Matrix();
+                matrix2.postTranslate(floatValue, r6);
+                return matrix2;
             }
-            float floatValue = ((Float) parseNumbers2.numbers.get(0)).floatValue();
-            if (parseNumbers2.numbers.size() > 1) {
-                f2 = ((Float) parseNumbers2.numbers.get(1)).floatValue();
-            }
-            Matrix matrix2 = new Matrix();
-            matrix2.postTranslate(floatValue, f2);
-            return matrix2;
+            return null;
         } else if (str.startsWith("scale(")) {
             NumberParse parseNumbers3 = parseNumbers(str.substring(6));
-            if (parseNumbers3.numbers.size() <= 0) {
-                return null;
+            if (parseNumbers3.numbers.size() > 0) {
+                float floatValue2 = ((Float) parseNumbers3.numbers.get(0)).floatValue();
+                r6 = parseNumbers3.numbers.size() > 1 ? ((Float) parseNumbers3.numbers.get(1)).floatValue() : 0.0f;
+                Matrix matrix3 = new Matrix();
+                matrix3.postScale(floatValue2, r6);
+                return matrix3;
             }
-            float floatValue2 = ((Float) parseNumbers3.numbers.get(0)).floatValue();
-            if (parseNumbers3.numbers.size() > 1) {
-                f2 = ((Float) parseNumbers3.numbers.get(1)).floatValue();
-            }
-            Matrix matrix3 = new Matrix();
-            matrix3.postScale(floatValue2, f2);
-            return matrix3;
+            return null;
         } else if (str.startsWith("skewX(")) {
             NumberParse parseNumbers4 = parseNumbers(str.substring(6));
-            if (parseNumbers4.numbers.size() <= 0) {
-                return null;
+            if (parseNumbers4.numbers.size() > 0) {
+                float floatValue3 = ((Float) parseNumbers4.numbers.get(0)).floatValue();
+                Matrix matrix4 = new Matrix();
+                matrix4.postSkew((float) Math.tan(floatValue3), 0.0f);
+                return matrix4;
             }
-            float floatValue3 = ((Float) parseNumbers4.numbers.get(0)).floatValue();
-            Matrix matrix4 = new Matrix();
-            matrix4.postSkew((float) Math.tan(floatValue3), 0.0f);
-            return matrix4;
+            return null;
         } else if (str.startsWith("skewY(")) {
             NumberParse parseNumbers5 = parseNumbers(str.substring(6));
-            if (parseNumbers5.numbers.size() <= 0) {
-                return null;
+            if (parseNumbers5.numbers.size() > 0) {
+                float floatValue4 = ((Float) parseNumbers5.numbers.get(0)).floatValue();
+                Matrix matrix5 = new Matrix();
+                matrix5.postSkew(0.0f, (float) Math.tan(floatValue4));
+                return matrix5;
             }
-            float floatValue4 = ((Float) parseNumbers5.numbers.get(0)).floatValue();
-            Matrix matrix5 = new Matrix();
-            matrix5.postSkew(0.0f, (float) Math.tan(floatValue4));
-            return matrix5;
-        } else if (!str.startsWith("rotate(")) {
+            return null;
+        } else if (str.startsWith("rotate(")) {
+            NumberParse parseNumbers6 = parseNumbers(str.substring(7));
+            if (parseNumbers6.numbers.size() > 0) {
+                float floatValue5 = ((Float) parseNumbers6.numbers.get(0)).floatValue();
+                if (parseNumbers6.numbers.size() > 2) {
+                    r6 = ((Float) parseNumbers6.numbers.get(1)).floatValue();
+                    f = ((Float) parseNumbers6.numbers.get(2)).floatValue();
+                } else {
+                    f = 0.0f;
+                }
+                Matrix matrix6 = new Matrix();
+                matrix6.postTranslate(r6, f);
+                matrix6.postRotate(floatValue5);
+                matrix6.postTranslate(-r6, -f);
+                return matrix6;
+            }
             return null;
         } else {
-            NumberParse parseNumbers6 = parseNumbers(str.substring(7));
-            if (parseNumbers6.numbers.size() <= 0) {
-                return null;
-            }
-            float floatValue5 = ((Float) parseNumbers6.numbers.get(0)).floatValue();
-            if (parseNumbers6.numbers.size() > 2) {
-                f2 = ((Float) parseNumbers6.numbers.get(1)).floatValue();
-                f = ((Float) parseNumbers6.numbers.get(2)).floatValue();
-            } else {
-                f = 0.0f;
-            }
-            Matrix matrix6 = new Matrix();
-            matrix6.postTranslate(f2, f);
-            matrix6.postRotate(floatValue5);
-            matrix6.postTranslate(-f2, -f);
-            return matrix6;
+            return null;
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:67:0x0064, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:34:0x0064, code lost:
         if (r4 != 'V') goto L9;
      */
-    /* JADX WARN: Removed duplicated region for block: B:13:0x0079  */
-    /* JADX WARN: Removed duplicated region for block: B:17:0x018d  */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x0191 A[SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:21:0x0081  */
-    /* JADX WARN: Removed duplicated region for block: B:23:0x0090  */
-    /* JADX WARN: Removed duplicated region for block: B:27:0x00a3  */
-    /* JADX WARN: Removed duplicated region for block: B:31:0x00d8  */
-    /* JADX WARN: Removed duplicated region for block: B:36:0x00f0  */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x0108  */
-    /* JADX WARN: Removed duplicated region for block: B:44:0x011c  */
-    /* JADX WARN: Removed duplicated region for block: B:48:0x0153  */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x0079  */
+    /* JADX WARN: Removed duplicated region for block: B:44:0x0081  */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x0090  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x00a3  */
+    /* JADX WARN: Removed duplicated region for block: B:54:0x00d8  */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x00f0  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x0108  */
+    /* JADX WARN: Removed duplicated region for block: B:67:0x011c  */
+    /* JADX WARN: Removed duplicated region for block: B:71:0x0153  */
+    /* JADX WARN: Removed duplicated region for block: B:73:0x018d  */
+    /* JADX WARN: Removed duplicated region for block: B:78:0x0191 A[SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -696,209 +684,210 @@ public class SvgHelper {
         float f6 = 0.0f;
         while (true) {
             int i = parserHelper.pos;
-            if (i < length) {
-                char charAt = str.charAt(i);
-                if (charAt != '+' && charAt != '-') {
-                    switch (charAt) {
-                        case '0':
-                        case '1':
-                        case '2':
-                        case '3':
-                        case '4':
-                        case '5':
-                        case '6':
-                        case '7':
-                        case '8':
-                        case '9':
-                            break;
-                        default:
-                            parserHelper.advance();
-                            c2 = charAt;
-                            c = c2;
-                            break;
-                    }
-                    z = true;
-                    switch (c2) {
-                        case VoIPService.CALL_MIN_LAYER /* 65 */:
-                        case 'a':
-                            float nextFloat3 = parserHelper.nextFloat();
-                            float nextFloat4 = parserHelper.nextFloat();
-                            drawArc(path, f, f2, nextFloat3, nextFloat4, parserHelper.nextFloat(), parserHelper.nextFloat(), parserHelper.nextFloat(), (int) parserHelper.nextFloat(), (int) parserHelper.nextFloat());
-                            f4 = f4;
-                            f = nextFloat3;
-                            f2 = nextFloat4;
-                            f3 = f3;
-                            z = false;
-                            break;
-                        case 'C':
-                        case 'c':
-                            float nextFloat5 = parserHelper.nextFloat();
-                            float nextFloat6 = parserHelper.nextFloat();
-                            float nextFloat7 = parserHelper.nextFloat();
-                            float nextFloat8 = parserHelper.nextFloat();
-                            float nextFloat9 = parserHelper.nextFloat();
-                            float nextFloat10 = parserHelper.nextFloat();
-                            if (c2 == 'c') {
-                                nextFloat5 += f;
-                                nextFloat7 += f;
-                                nextFloat9 += f;
-                                nextFloat6 += f2;
-                                nextFloat8 += f2;
-                                nextFloat10 += f2;
-                            }
-                            float f7 = nextFloat7;
-                            f6 = nextFloat8;
-                            path.cubicTo(nextFloat5, nextFloat6, f7, f6, nextFloat9, nextFloat10);
-                            f = nextFloat9;
-                            f2 = nextFloat10;
-                            f5 = f7;
-                            break;
-                        case 'H':
-                        case 'h':
-                            float nextFloat11 = parserHelper.nextFloat();
-                            if (c2 == 'h') {
-                                path.rLineTo(nextFloat11, 0.0f);
-                                f += nextFloat11;
-                            } else {
-                                path.lineTo(nextFloat11, f2);
-                                f = nextFloat11;
-                            }
-                            z = false;
-                            break;
-                        case 'L':
-                        case 'l':
-                            nextFloat = parserHelper.nextFloat();
-                            nextFloat2 = parserHelper.nextFloat();
-                            if (c2 == 'l') {
-                                path.rLineTo(nextFloat, nextFloat2);
-                                f += nextFloat;
-                                f2 += nextFloat2;
-                                z = false;
-                                break;
-                            } else {
-                                path.lineTo(nextFloat, nextFloat2);
-                                f = nextFloat;
-                                f2 = nextFloat2;
-                                z = false;
-                            }
-                        case 'M':
-                        case 'm':
-                            nextFloat = parserHelper.nextFloat();
-                            nextFloat2 = parserHelper.nextFloat();
-                            if (c2 == 'm') {
-                                f4 += nextFloat;
-                                f3 += nextFloat2;
-                                path.rMoveTo(nextFloat, nextFloat2);
-                                f += nextFloat;
-                                f2 += nextFloat2;
-                                z = false;
-                                break;
-                            } else {
-                                path.moveTo(nextFloat, nextFloat2);
-                                f = nextFloat;
-                                f4 = f;
-                                f2 = nextFloat2;
-                                f3 = f2;
-                                z = false;
-                            }
-                        case 'S':
-                        case 's':
-                            float nextFloat12 = parserHelper.nextFloat();
-                            float nextFloat13 = parserHelper.nextFloat();
-                            float nextFloat14 = parserHelper.nextFloat();
-                            float nextFloat15 = parserHelper.nextFloat();
-                            if (c2 == 's') {
-                                nextFloat12 += f;
-                                nextFloat14 += f;
-                                nextFloat13 += f2;
-                                nextFloat15 += f2;
-                            }
-                            float f8 = nextFloat13;
-                            float f9 = nextFloat14;
-                            float f10 = nextFloat15;
-                            path.cubicTo((f * 2.0f) - f5, (f2 * 2.0f) - f6, nextFloat12, f8, f9, f10);
-                            f5 = nextFloat12;
-                            f6 = f8;
-                            f = f9;
-                            f2 = f10;
-                            break;
-                        case 'V':
-                        case 'v':
-                            float nextFloat16 = parserHelper.nextFloat();
-                            if (c2 == 'v') {
-                                path.rLineTo(0.0f, nextFloat16);
-                                f2 += nextFloat16;
-                            } else {
-                                path.lineTo(f, nextFloat16);
-                                f2 = nextFloat16;
-                            }
-                            z = false;
-                            break;
-                        case 'Z':
-                        case 'z':
-                            path.close();
-                            path.moveTo(f4, f3);
-                            f2 = f3;
-                            f6 = f2;
-                            f = f4;
-                            f5 = f;
-                            break;
-                        default:
-                            z = false;
-                            break;
-                    }
-                    if (!z) {
-                        f5 = f;
-                        f6 = f2;
-                    }
-                    parserHelper.skipWhitespace();
-                    c2 = c;
+            if (i >= length) {
+                return path;
+            }
+            char charAt = str.charAt(i);
+            if (charAt != '+' && charAt != '-') {
+                switch (charAt) {
+                    case '0':
+                    case '1':
+                    case '2':
+                    case '3':
+                    case '4':
+                    case '5':
+                    case '6':
+                    case '7':
+                    case '8':
+                    case '9':
+                        break;
+                    default:
+                        parserHelper.advance();
+                        c2 = charAt;
+                        c = c2;
+                        break;
                 }
-                if (c2 == 'm' || c2 == 'M') {
-                    c = c2;
-                    c2 = (char) (c2 - 1);
-                    z = true;
-                    switch (c2) {
-                        case VoIPService.CALL_MIN_LAYER /* 65 */:
-                        case 'a':
+                z = true;
+                switch (c2) {
+                    case VoIPService.CALL_MIN_LAYER /* 65 */:
+                    case 'a':
+                        float nextFloat3 = parserHelper.nextFloat();
+                        float nextFloat4 = parserHelper.nextFloat();
+                        drawArc(path, f, f2, nextFloat3, nextFloat4, parserHelper.nextFloat(), parserHelper.nextFloat(), parserHelper.nextFloat(), (int) parserHelper.nextFloat(), (int) parserHelper.nextFloat());
+                        f4 = f4;
+                        f = nextFloat3;
+                        f2 = nextFloat4;
+                        f3 = f3;
+                        z = false;
+                        break;
+                    case 'C':
+                    case 'c':
+                        float nextFloat5 = parserHelper.nextFloat();
+                        float nextFloat6 = parserHelper.nextFloat();
+                        float nextFloat7 = parserHelper.nextFloat();
+                        float nextFloat8 = parserHelper.nextFloat();
+                        float nextFloat9 = parserHelper.nextFloat();
+                        float nextFloat10 = parserHelper.nextFloat();
+                        if (c2 == 'c') {
+                            nextFloat5 += f;
+                            nextFloat7 += f;
+                            nextFloat9 += f;
+                            nextFloat6 += f2;
+                            nextFloat8 += f2;
+                            nextFloat10 += f2;
+                        }
+                        float f7 = nextFloat7;
+                        f6 = nextFloat8;
+                        path.cubicTo(nextFloat5, nextFloat6, f7, f6, nextFloat9, nextFloat10);
+                        f = nextFloat9;
+                        f2 = nextFloat10;
+                        f5 = f7;
+                        break;
+                    case 'H':
+                    case 'h':
+                        float nextFloat11 = parserHelper.nextFloat();
+                        if (c2 == 'h') {
+                            path.rLineTo(nextFloat11, 0.0f);
+                            f += nextFloat11;
+                        } else {
+                            path.lineTo(nextFloat11, f2);
+                            f = nextFloat11;
+                        }
+                        z = false;
+                        break;
+                    case 'L':
+                    case 'l':
+                        nextFloat = parserHelper.nextFloat();
+                        nextFloat2 = parserHelper.nextFloat();
+                        if (c2 == 'l') {
+                            path.rLineTo(nextFloat, nextFloat2);
+                            f += nextFloat;
+                            f2 += nextFloat2;
+                            z = false;
                             break;
-                        case 'C':
-                        case 'c':
+                        } else {
+                            path.lineTo(nextFloat, nextFloat2);
+                            f = nextFloat;
+                            f2 = nextFloat2;
+                            z = false;
+                        }
+                    case 'M':
+                    case 'm':
+                        nextFloat = parserHelper.nextFloat();
+                        nextFloat2 = parserHelper.nextFloat();
+                        if (c2 == 'm') {
+                            f4 += nextFloat;
+                            f3 += nextFloat2;
+                            path.rMoveTo(nextFloat, nextFloat2);
+                            f += nextFloat;
+                            f2 += nextFloat2;
+                            z = false;
                             break;
-                        case 'H':
-                        case 'h':
-                            break;
-                        case 'L':
-                        case 'l':
-                            break;
-                        case 'M':
-                        case 'm':
-                            break;
-                        case 'S':
-                        case 's':
-                            break;
-                        case 'V':
-                        case 'v':
-                            break;
-                        case 'Z':
-                        case 'z':
-                            break;
-                    }
-                    if (!z) {
-                    }
-                    parserHelper.skipWhitespace();
-                    c2 = c;
-                } else {
-                    if (c2 != 'c') {
-                        if (c2 != 'C') {
-                            if (c2 != 'l') {
-                                if (c2 != 'L') {
-                                    if (c2 != 's') {
-                                        if (c2 != 'S') {
-                                            if (c2 != 'h') {
-                                                if (c2 != 'H') {
-                                                    if (c2 != 'v') {
-                                                    }
+                        } else {
+                            path.moveTo(nextFloat, nextFloat2);
+                            f = nextFloat;
+                            f4 = f;
+                            f2 = nextFloat2;
+                            f3 = f2;
+                            z = false;
+                        }
+                    case 'S':
+                    case 's':
+                        float nextFloat12 = parserHelper.nextFloat();
+                        float nextFloat13 = parserHelper.nextFloat();
+                        float nextFloat14 = parserHelper.nextFloat();
+                        float nextFloat15 = parserHelper.nextFloat();
+                        if (c2 == 's') {
+                            nextFloat12 += f;
+                            nextFloat14 += f;
+                            nextFloat13 += f2;
+                            nextFloat15 += f2;
+                        }
+                        float f8 = nextFloat13;
+                        float f9 = nextFloat14;
+                        float f10 = nextFloat15;
+                        path.cubicTo((f * 2.0f) - f5, (f2 * 2.0f) - f6, nextFloat12, f8, f9, f10);
+                        f5 = nextFloat12;
+                        f6 = f8;
+                        f = f9;
+                        f2 = f10;
+                        break;
+                    case 'V':
+                    case 'v':
+                        float nextFloat16 = parserHelper.nextFloat();
+                        if (c2 == 'v') {
+                            path.rLineTo(0.0f, nextFloat16);
+                            f2 += nextFloat16;
+                        } else {
+                            path.lineTo(f, nextFloat16);
+                            f2 = nextFloat16;
+                        }
+                        z = false;
+                        break;
+                    case 'Z':
+                    case 'z':
+                        path.close();
+                        path.moveTo(f4, f3);
+                        f2 = f3;
+                        f6 = f2;
+                        f = f4;
+                        f5 = f;
+                        break;
+                    default:
+                        z = false;
+                        break;
+                }
+                if (!z) {
+                    f5 = f;
+                    f6 = f2;
+                }
+                parserHelper.skipWhitespace();
+                c2 = c;
+            }
+            if (c2 == 'm' || c2 == 'M') {
+                c = c2;
+                c2 = (char) (c2 - 1);
+                z = true;
+                switch (c2) {
+                    case VoIPService.CALL_MIN_LAYER /* 65 */:
+                    case 'a':
+                        break;
+                    case 'C':
+                    case 'c':
+                        break;
+                    case 'H':
+                    case 'h':
+                        break;
+                    case 'L':
+                    case 'l':
+                        break;
+                    case 'M':
+                    case 'm':
+                        break;
+                    case 'S':
+                    case 's':
+                        break;
+                    case 'V':
+                    case 'v':
+                        break;
+                    case 'Z':
+                    case 'z':
+                        break;
+                }
+                if (!z) {
+                }
+                parserHelper.skipWhitespace();
+                c2 = c;
+            } else {
+                if (c2 != 'c') {
+                    if (c2 != 'C') {
+                        if (c2 != 'l') {
+                            if (c2 != 'L') {
+                                if (c2 != 's') {
+                                    if (c2 != 'S') {
+                                        if (c2 != 'h') {
+                                            if (c2 != 'H') {
+                                                if (c2 != 'v') {
                                                 }
                                             }
                                         }
@@ -907,41 +896,39 @@ public class SvgHelper {
                             }
                         }
                     }
-                    c = c2;
-                    z = true;
-                    switch (c2) {
-                        case VoIPService.CALL_MIN_LAYER /* 65 */:
-                        case 'a':
-                            break;
-                        case 'C':
-                        case 'c':
-                            break;
-                        case 'H':
-                        case 'h':
-                            break;
-                        case 'L':
-                        case 'l':
-                            break;
-                        case 'M':
-                        case 'm':
-                            break;
-                        case 'S':
-                        case 's':
-                            break;
-                        case 'V':
-                        case 'v':
-                            break;
-                        case 'Z':
-                        case 'z':
-                            break;
-                    }
-                    if (!z) {
-                    }
-                    parserHelper.skipWhitespace();
-                    c2 = c;
                 }
-            } else {
-                return path;
+                c = c2;
+                z = true;
+                switch (c2) {
+                    case VoIPService.CALL_MIN_LAYER /* 65 */:
+                    case 'a':
+                        break;
+                    case 'C':
+                    case 'c':
+                        break;
+                    case 'H':
+                    case 'h':
+                        break;
+                    case 'L':
+                    case 'l':
+                        break;
+                    case 'M':
+                    case 'm':
+                        break;
+                    case 'S':
+                    case 's':
+                        break;
+                    case 'V':
+                    case 'v':
+                        break;
+                    case 'Z':
+                    case 'z':
+                        break;
+                }
+                if (!z) {
+                }
+                parserHelper.skipWhitespace();
+                c2 = c;
             }
         }
     }
@@ -1154,15 +1141,15 @@ public class SvgHelper {
             String stringAttr = SvgHelper.getStringAttr("style", attributes);
             if (stringAttr == null) {
                 String stringAttr2 = SvgHelper.getStringAttr("class", attributes);
-                if (stringAttr2 == null) {
-                    return;
-                }
-                this.styles = new ArrayList<>();
-                for (String str : stringAttr2.split(" ")) {
-                    StyleSet styleSet = hashMap.get(str.trim());
-                    if (styleSet != null) {
-                        this.styles.add(styleSet);
+                if (stringAttr2 != null) {
+                    this.styles = new ArrayList<>();
+                    for (String str : stringAttr2.split(" ")) {
+                        StyleSet styleSet = hashMap.get(str.trim());
+                        if (styleSet != null) {
+                            this.styles.add(styleSet);
+                        }
                     }
+                    return;
                 }
                 return;
             }
@@ -1278,9 +1265,7 @@ public class SvgHelper {
                 doColor(properties, hex, true);
                 this.paint.setStyle(Paint.Style.FILL);
                 return true;
-            } else if (properties.getString("fill") != null || properties.getString("stroke") != null) {
-                return false;
-            } else {
+            } else if (properties.getString("fill") == null && properties.getString("stroke") == null) {
                 this.paint.setStyle(Paint.Style.FILL);
                 Integer num = this.paintColor;
                 if (num != null) {
@@ -1289,37 +1274,39 @@ public class SvgHelper {
                     this.paint.setColor(-16777216);
                 }
                 return true;
+            } else {
+                return false;
             }
         }
 
         private boolean doStroke(Properties properties) {
             Integer hex;
-            if (!"none".equals(properties.getString("display")) && (hex = properties.getHex("stroke")) != null) {
-                doColor(properties, hex, false);
-                Float f = properties.getFloat("stroke-width");
-                if (f != null) {
-                    this.paint.setStrokeWidth(f.floatValue());
-                }
-                String string = properties.getString("stroke-linecap");
-                if ("round".equals(string)) {
-                    this.paint.setStrokeCap(Paint.Cap.ROUND);
-                } else if ("square".equals(string)) {
-                    this.paint.setStrokeCap(Paint.Cap.SQUARE);
-                } else if ("butt".equals(string)) {
-                    this.paint.setStrokeCap(Paint.Cap.BUTT);
-                }
-                String string2 = properties.getString("stroke-linejoin");
-                if ("miter".equals(string2)) {
-                    this.paint.setStrokeJoin(Paint.Join.MITER);
-                } else if ("round".equals(string2)) {
-                    this.paint.setStrokeJoin(Paint.Join.ROUND);
-                } else if ("bevel".equals(string2)) {
-                    this.paint.setStrokeJoin(Paint.Join.BEVEL);
-                }
-                this.paint.setStyle(Paint.Style.STROKE);
-                return true;
+            if ("none".equals(properties.getString("display")) || (hex = properties.getHex("stroke")) == null) {
+                return false;
             }
-            return false;
+            doColor(properties, hex, false);
+            Float f = properties.getFloat("stroke-width");
+            if (f != null) {
+                this.paint.setStrokeWidth(f.floatValue());
+            }
+            String string = properties.getString("stroke-linecap");
+            if ("round".equals(string)) {
+                this.paint.setStrokeCap(Paint.Cap.ROUND);
+            } else if ("square".equals(string)) {
+                this.paint.setStrokeCap(Paint.Cap.SQUARE);
+            } else if ("butt".equals(string)) {
+                this.paint.setStrokeCap(Paint.Cap.BUTT);
+            }
+            String string2 = properties.getString("stroke-linejoin");
+            if ("miter".equals(string2)) {
+                this.paint.setStrokeJoin(Paint.Join.MITER);
+            } else if ("round".equals(string2)) {
+                this.paint.setStrokeJoin(Paint.Join.ROUND);
+            } else if ("bevel".equals(string2)) {
+                this.paint.setStrokeJoin(Paint.Join.BEVEL);
+            }
+            this.paint.setStyle(Paint.Style.STROKE);
+            return true;
         }
 
         private void doColor(Properties properties, Integer num, boolean z) {
@@ -1508,46 +1495,46 @@ public class SvgHelper {
                     case 2:
                     case '\n':
                         NumberParse numberParseAttr = SvgHelper.getNumberParseAttr("points", attributes);
-                        if (numberParseAttr == null) {
+                        if (numberParseAttr != null) {
+                            Path path = new Path();
+                            ArrayList arrayList = numberParseAttr.numbers;
+                            if (arrayList.size() > 1) {
+                                pushTransform(attributes);
+                                Properties properties3 = new Properties(attributes, this.globalStyles);
+                                path.moveTo(((Float) arrayList.get(0)).floatValue(), ((Float) arrayList.get(1)).floatValue());
+                                for (int i2 = 2; i2 < arrayList.size(); i2 += 2) {
+                                    path.lineTo(((Float) arrayList.get(i2)).floatValue(), ((Float) arrayList.get(i2 + 1)).floatValue());
+                                }
+                                if (str2.equals("polygon")) {
+                                    path.close();
+                                }
+                                if (doFill(properties3)) {
+                                    SvgDrawable svgDrawable5 = this.drawable;
+                                    if (svgDrawable5 != null) {
+                                        svgDrawable5.addCommand(path, this.paint);
+                                    } else {
+                                        this.canvas.drawPath(path, this.paint);
+                                    }
+                                }
+                                if (doStroke(properties3)) {
+                                    SvgDrawable svgDrawable6 = this.drawable;
+                                    if (svgDrawable6 != null) {
+                                        svgDrawable6.addCommand(path, this.paint);
+                                    } else {
+                                        this.canvas.drawPath(path, this.paint);
+                                    }
+                                }
+                                popTransform();
+                                return;
+                            }
                             return;
                         }
-                        Path path = new Path();
-                        ArrayList arrayList = numberParseAttr.numbers;
-                        if (arrayList.size() <= 1) {
-                            return;
-                        }
-                        pushTransform(attributes);
-                        Properties properties3 = new Properties(attributes, this.globalStyles);
-                        path.moveTo(((Float) arrayList.get(0)).floatValue(), ((Float) arrayList.get(1)).floatValue());
-                        for (int i2 = 2; i2 < arrayList.size(); i2 += 2) {
-                            path.lineTo(((Float) arrayList.get(i2)).floatValue(), ((Float) arrayList.get(i2 + 1)).floatValue());
-                        }
-                        if (str2.equals("polygon")) {
-                            path.close();
-                        }
-                        if (doFill(properties3)) {
-                            SvgDrawable svgDrawable5 = this.drawable;
-                            if (svgDrawable5 != null) {
-                                svgDrawable5.addCommand(path, this.paint);
-                            } else {
-                                this.canvas.drawPath(path, this.paint);
-                            }
-                        }
-                        if (doStroke(properties3)) {
-                            SvgDrawable svgDrawable6 = this.drawable;
-                            if (svgDrawable6 != null) {
-                                svgDrawable6.addCommand(path, this.paint);
-                            } else {
-                                this.canvas.drawPath(path, this.paint);
-                            }
-                        }
-                        popTransform();
                         return;
                     case 3:
-                        if (!"bounds".equalsIgnoreCase(SvgHelper.getStringAttr("id", attributes))) {
+                        if ("bounds".equalsIgnoreCase(SvgHelper.getStringAttr("id", attributes))) {
+                            this.boundsMode = true;
                             return;
                         }
-                        this.boundsMode = true;
                         return;
                     case 4:
                         Float floatAttr8 = SvgHelper.getFloatAttr("width", attributes);
@@ -1586,11 +1573,11 @@ public class SvgHelper {
                             Canvas canvas = new Canvas(this.bitmap);
                             this.canvas = canvas;
                             float f3 = this.scale;
-                            if (f3 == 0.0f) {
+                            if (f3 != 0.0f) {
+                                float f4 = this.globalScale;
+                                canvas.scale(f4 * f3, f4 * f3);
                                 return;
                             }
-                            float f4 = this.globalScale;
-                            canvas.scale(f4 * f3, f4 * f3);
                             return;
                         }
                         svgDrawable7.width = ceil;
@@ -1605,17 +1592,17 @@ public class SvgHelper {
                         Float floatAttr11 = SvgHelper.getFloatAttr("x2", attributes);
                         Float floatAttr12 = SvgHelper.getFloatAttr("y1", attributes);
                         Float floatAttr13 = SvgHelper.getFloatAttr("y2", attributes);
-                        if (!doStroke(new Properties(attributes, this.globalStyles))) {
+                        if (doStroke(new Properties(attributes, this.globalStyles))) {
+                            pushTransform(attributes);
+                            SvgDrawable svgDrawable8 = this.drawable;
+                            if (svgDrawable8 != null) {
+                                svgDrawable8.addCommand(new Line(floatAttr10.floatValue(), floatAttr12.floatValue(), floatAttr11.floatValue(), floatAttr13.floatValue()), this.paint);
+                            } else {
+                                this.canvas.drawLine(floatAttr10.floatValue(), floatAttr12.floatValue(), floatAttr11.floatValue(), floatAttr13.floatValue(), this.paint);
+                            }
+                            popTransform();
                             return;
                         }
-                        pushTransform(attributes);
-                        SvgDrawable svgDrawable8 = this.drawable;
-                        if (svgDrawable8 != null) {
-                            svgDrawable8.addCommand(new Line(floatAttr10.floatValue(), floatAttr12.floatValue(), floatAttr11.floatValue(), floatAttr13.floatValue()), this.paint);
-                        } else {
-                            this.canvas.drawLine(floatAttr10.floatValue(), floatAttr12.floatValue(), floatAttr11.floatValue(), floatAttr13.floatValue(), this.paint);
-                        }
-                        popTransform();
                         return;
                     case 7:
                         Path doPath = SvgHelper.doPath(SvgHelper.getStringAttr("d", attributes));
@@ -1741,17 +1728,17 @@ public class SvgHelper {
                     return;
                 case 2:
                     StringBuilder sb = this.styles;
-                    if (sb == null) {
+                    if (sb != null) {
+                        String[] split = sb.toString().split("\\}");
+                        for (int i = 0; i < split.length; i++) {
+                            split[i] = split[i].trim().replace("\t", "").replace("\n", "");
+                            if (split[i].length() != 0 && split[i].charAt(0) == '.' && (indexOf = split[i].indexOf(123)) >= 0) {
+                                this.globalStyles.put(split[i].substring(1, indexOf).trim(), new StyleSet(split[i].substring(indexOf + 1)));
+                            }
+                        }
+                        this.styles = null;
                         return;
                     }
-                    String[] split = sb.toString().split("\\}");
-                    for (int i = 0; i < split.length; i++) {
-                        split[i] = split[i].trim().replace("\t", "").replace("\n", "");
-                        if (split[i].length() != 0 && split[i].charAt(0) == '.' && (indexOf = split[i].indexOf(123)) >= 0) {
-                            this.globalStyles.put(split[i].substring(1, indexOf).trim(), new StyleSet(split[i].substring(indexOf + 1)));
-                        }
-                    }
-                    this.styles = null;
                     return;
                 default:
                     return;
@@ -1771,12 +1758,11 @@ public class SvgHelper {
         int i = 0;
         while (true) {
             double[] dArr = pow10;
-            if (i < dArr.length) {
-                dArr[i] = Math.pow(10.0d, i);
-                i++;
-            } else {
+            if (i >= dArr.length) {
                 return;
             }
+            dArr[i] = Math.pow(10.0d, i);
+            i++;
         }
     }
 
@@ -1820,15 +1806,14 @@ public class SvgHelper {
         public void skipNumberSeparator() {
             while (true) {
                 int i = this.pos;
-                if (i < this.n) {
-                    char charAt = this.s.charAt(i);
-                    if (charAt != '\t' && charAt != '\n' && charAt != ' ' && charAt != ',') {
-                        return;
-                    }
-                    advance();
-                } else {
+                if (i >= this.n) {
                     return;
                 }
+                char charAt = this.s.charAt(i);
+                if (charAt != '\t' && charAt != '\n' && charAt != ' ' && charAt != ',') {
+                    return;
+                }
+                advance();
             }
         }
 
@@ -1836,18 +1821,18 @@ public class SvgHelper {
             this.current = read();
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:22:0x0060  */
-        /* JADX WARN: Removed duplicated region for block: B:42:0x0099 A[ADDED_TO_REGION] */
-        /* JADX WARN: Removed duplicated region for block: B:44:0x00e4  */
-        /* JADX WARN: Removed duplicated region for block: B:47:0x00e8  */
-        /* JADX WARN: Removed duplicated region for block: B:52:0x00a4  */
-        /* JADX WARN: Removed duplicated region for block: B:58:0x00c1 A[LOOP:3: B:58:0x00c1->B:59:0x00c7, LOOP_START] */
-        /* JADX WARN: Removed duplicated region for block: B:62:0x00cb  */
-        /* JADX WARN: Removed duplicated region for block: B:73:0x00b7  */
-        /* JADX WARN: Removed duplicated region for block: B:77:0x0038  */
-        /* JADX WARN: Removed duplicated region for block: B:7:0x0025 A[RETURN] */
-        /* JADX WARN: Removed duplicated region for block: B:84:0x0058  */
-        /* JADX WARN: Removed duplicated region for block: B:9:0x0028 A[LOOP:0: B:9:0x0028->B:13:0x0034, LOOP_START] */
+        /* JADX WARN: Removed duplicated region for block: B:11:0x0025 A[RETURN] */
+        /* JADX WARN: Removed duplicated region for block: B:13:0x0028 A[LOOP:0: B:13:0x0028->B:17:0x0034, LOOP_START] */
+        /* JADX WARN: Removed duplicated region for block: B:19:0x0038  */
+        /* JADX WARN: Removed duplicated region for block: B:28:0x0058  */
+        /* JADX WARN: Removed duplicated region for block: B:31:0x0060  */
+        /* JADX WARN: Removed duplicated region for block: B:47:0x0099 A[ADDED_TO_REGION] */
+        /* JADX WARN: Removed duplicated region for block: B:51:0x00a4  */
+        /* JADX WARN: Removed duplicated region for block: B:58:0x00b7  */
+        /* JADX WARN: Removed duplicated region for block: B:63:0x00c1 A[LOOP:3: B:63:0x00c1->B:64:0x00c7, LOOP_START] */
+        /* JADX WARN: Removed duplicated region for block: B:66:0x00cb  */
+        /* JADX WARN: Removed duplicated region for block: B:74:0x00e4  */
+        /* JADX WARN: Removed duplicated region for block: B:77:0x00e8  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */

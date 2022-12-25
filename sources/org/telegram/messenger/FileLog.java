@@ -49,39 +49,37 @@ public class FileLog {
     }
 
     public FileLog() {
-        if (!BuildVars.LOGS_ENABLED) {
-            return;
+        if (BuildVars.LOGS_ENABLED) {
+            init();
         }
-        init();
     }
 
     public static void dumpResponseAndRequest(TLObject tLObject, TLObject tLObject2, TLRPC$TL_error tLRPC$TL_error, final long j, final long j2, final int i) {
-        if (!BuildVars.DEBUG_PRIVATE_VERSION || !BuildVars.LOGS_ENABLED || tLObject == null) {
-            return;
-        }
-        String simpleName = tLObject.getClass().getSimpleName();
-        checkGson();
-        if (excludeRequests.contains(simpleName) && tLRPC$TL_error == null) {
-            return;
-        }
-        try {
-            final String str = "req -> " + simpleName + " : " + gson.toJson(tLObject);
-            String str2 = "null";
-            if (tLObject2 != null) {
-                str2 = "res -> " + tLObject2.getClass().getSimpleName() + " : " + gson.toJson(tLObject2);
-            } else if (tLRPC$TL_error != null) {
-                str2 = "err -> " + TLRPC$TL_error.class.getSimpleName() + " : " + gson.toJson(tLRPC$TL_error);
+        if (BuildVars.DEBUG_PRIVATE_VERSION && BuildVars.LOGS_ENABLED && tLObject != null) {
+            String simpleName = tLObject.getClass().getSimpleName();
+            checkGson();
+            if (excludeRequests.contains(simpleName) && tLRPC$TL_error == null) {
+                return;
             }
-            final String str3 = str2;
-            final long currentTimeMillis = System.currentTimeMillis();
-            getInstance().logQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLog$$ExternalSyntheticLambda0
-                @Override // java.lang.Runnable
-                public final void run() {
-                    FileLog.lambda$dumpResponseAndRequest$0(j, j2, i, currentTimeMillis, str, str3);
+            try {
+                final String str = "req -> " + simpleName + " : " + gson.toJson(tLObject);
+                String str2 = "null";
+                if (tLObject2 != null) {
+                    str2 = "res -> " + tLObject2.getClass().getSimpleName() + " : " + gson.toJson(tLObject2);
+                } else if (tLRPC$TL_error != null) {
+                    str2 = "err -> " + TLRPC$TL_error.class.getSimpleName() + " : " + gson.toJson(tLRPC$TL_error);
                 }
-            });
-        } catch (Throwable th) {
-            e(th);
+                final String str3 = str2;
+                final long currentTimeMillis = System.currentTimeMillis();
+                getInstance().logQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLog$$ExternalSyntheticLambda0
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        FileLog.lambda$dumpResponseAndRequest$0(j, j2, i, currentTimeMillis, str, str3);
+                    }
+                });
+            } catch (Throwable th) {
+                e(th);
+            }
         }
     }
 
@@ -106,21 +104,20 @@ public class FileLog {
     }
 
     public static void dumpUnparsedMessage(TLObject tLObject, final long j) {
-        if (!BuildVars.DEBUG_PRIVATE_VERSION || !BuildVars.LOGS_ENABLED || tLObject == null) {
-            return;
-        }
-        try {
-            getInstance().dateFormat.format(System.currentTimeMillis());
-            final String str = "receive message -> " + tLObject.getClass().getSimpleName() + " : " + gson.toJson(tLObject);
-            final long currentTimeMillis = System.currentTimeMillis();
-            getInstance().logQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLog$$ExternalSyntheticLambda1
-                @Override // java.lang.Runnable
-                public final void run() {
-                    FileLog.lambda$dumpUnparsedMessage$1(currentTimeMillis, str, j);
-                }
-            });
-        } catch (Throwable th) {
-            e(th);
+        if (BuildVars.DEBUG_PRIVATE_VERSION && BuildVars.LOGS_ENABLED && tLObject != null) {
+            try {
+                getInstance().dateFormat.format(System.currentTimeMillis());
+                final String str = "receive message -> " + tLObject.getClass().getSimpleName() + " : " + gson.toJson(tLObject);
+                final long currentTimeMillis = System.currentTimeMillis();
+                getInstance().logQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLog$$ExternalSyntheticLambda1
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        FileLog.lambda$dumpUnparsedMessage$1(currentTimeMillis, str, j);
+                    }
+                });
+            } catch (Throwable th) {
+                e(th);
+            }
         }
     }
 
@@ -212,60 +209,58 @@ public class FileLog {
     }
 
     public static String getNetworkLogPath() {
-        if (!BuildVars.LOGS_ENABLED) {
-            return "";
-        }
-        try {
-            File externalFilesDir = ApplicationLoader.applicationContext.getExternalFilesDir(null);
-            if (externalFilesDir == null) {
+        if (BuildVars.LOGS_ENABLED) {
+            try {
+                File externalFilesDir = ApplicationLoader.applicationContext.getExternalFilesDir(null);
+                if (externalFilesDir == null) {
+                    return "";
+                }
+                File file = new File(externalFilesDir.getAbsolutePath() + "/logs");
+                file.mkdirs();
+                FileLog fileLog = getInstance();
+                fileLog.networkFile = new File(file, getInstance().dateFormat.format(System.currentTimeMillis()) + "_net.txt");
+                return getInstance().networkFile.getAbsolutePath();
+            } catch (Throwable th) {
+                th.printStackTrace();
                 return "";
             }
-            File file = new File(externalFilesDir.getAbsolutePath() + "/logs");
-            file.mkdirs();
-            FileLog fileLog = getInstance();
-            fileLog.networkFile = new File(file, getInstance().dateFormat.format(System.currentTimeMillis()) + "_net.txt");
-            return getInstance().networkFile.getAbsolutePath();
-        } catch (Throwable th) {
-            th.printStackTrace();
-            return "";
         }
+        return "";
     }
 
     public static String getTonlibLogPath() {
-        if (!BuildVars.LOGS_ENABLED) {
-            return "";
-        }
-        try {
-            File externalFilesDir = ApplicationLoader.applicationContext.getExternalFilesDir(null);
-            if (externalFilesDir == null) {
+        if (BuildVars.LOGS_ENABLED) {
+            try {
+                File externalFilesDir = ApplicationLoader.applicationContext.getExternalFilesDir(null);
+                if (externalFilesDir == null) {
+                    return "";
+                }
+                File file = new File(externalFilesDir.getAbsolutePath() + "/logs");
+                file.mkdirs();
+                FileLog fileLog = getInstance();
+                fileLog.tonlibFile = new File(file, getInstance().dateFormat.format(System.currentTimeMillis()) + "_tonlib.txt");
+                return getInstance().tonlibFile.getAbsolutePath();
+            } catch (Throwable th) {
+                th.printStackTrace();
                 return "";
             }
-            File file = new File(externalFilesDir.getAbsolutePath() + "/logs");
-            file.mkdirs();
-            FileLog fileLog = getInstance();
-            fileLog.tonlibFile = new File(file, getInstance().dateFormat.format(System.currentTimeMillis()) + "_tonlib.txt");
-            return getInstance().tonlibFile.getAbsolutePath();
-        } catch (Throwable th) {
-            th.printStackTrace();
-            return "";
         }
+        return "";
     }
 
     public static void e(final String str, final Throwable th) {
-        if (!BuildVars.LOGS_ENABLED) {
-            return;
-        }
-        ensureInitied();
-        Log.e(tag, str, th);
-        if (getInstance().streamWriter == null) {
-            return;
-        }
-        getInstance().logQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLog$$ExternalSyntheticLambda5
-            @Override // java.lang.Runnable
-            public final void run() {
-                FileLog.lambda$e$2(str, th);
+        if (BuildVars.LOGS_ENABLED) {
+            ensureInitied();
+            Log.e(tag, str, th);
+            if (getInstance().streamWriter != null) {
+                getInstance().logQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLog$$ExternalSyntheticLambda5
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        FileLog.lambda$e$2(str, th);
+                    }
+                });
             }
-        });
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -281,20 +276,18 @@ public class FileLog {
     }
 
     public static void e(final String str) {
-        if (!BuildVars.LOGS_ENABLED) {
-            return;
-        }
-        ensureInitied();
-        Log.e(tag, str);
-        if (getInstance().streamWriter == null) {
-            return;
-        }
-        getInstance().logQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLog$$ExternalSyntheticLambda2
-            @Override // java.lang.Runnable
-            public final void run() {
-                FileLog.lambda$e$3(str);
+        if (BuildVars.LOGS_ENABLED) {
+            ensureInitied();
+            Log.e(tag, str);
+            if (getInstance().streamWriter != null) {
+                getInstance().logQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLog$$ExternalSyntheticLambda2
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        FileLog.lambda$e$3(str);
+                    }
+                });
             }
-        });
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -313,26 +306,25 @@ public class FileLog {
     }
 
     public static void e(final Throwable th, boolean z) {
-        if (!BuildVars.LOGS_ENABLED) {
-            return;
-        }
-        if (BuildVars.DEBUG_VERSION && needSent(th) && z) {
-            AndroidUtilities.appCenterLog(th);
-        }
-        if (BuildVars.DEBUG_VERSION && (th instanceof SQLiteException) && th.getMessage() != null && th.getMessage().contains("disk image is malformed")) {
-            databaseIsMalformed = true;
-        }
-        ensureInitied();
-        th.printStackTrace();
-        if (getInstance().streamWriter != null) {
-            getInstance().logQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLog$$ExternalSyntheticLambda7
-                @Override // java.lang.Runnable
-                public final void run() {
-                    FileLog.lambda$e$4(th);
-                }
-            });
-        } else {
+        if (BuildVars.LOGS_ENABLED) {
+            if (BuildVars.DEBUG_VERSION && needSent(th) && z) {
+                AndroidUtilities.appCenterLog(th);
+            }
+            if (BuildVars.DEBUG_VERSION && (th instanceof SQLiteException) && th.getMessage() != null && th.getMessage().contains("disk image is malformed")) {
+                databaseIsMalformed = true;
+            }
+            ensureInitied();
             th.printStackTrace();
+            if (getInstance().streamWriter != null) {
+                getInstance().logQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLog$$ExternalSyntheticLambda7
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        FileLog.lambda$e$4(th);
+                    }
+                });
+            } else {
+                th.printStackTrace();
+            }
         }
     }
 
@@ -357,28 +349,26 @@ public class FileLog {
     }
 
     public static void fatal(final Throwable th, boolean z) {
-        if (!BuildVars.LOGS_ENABLED) {
-            return;
+        if (BuildVars.LOGS_ENABLED) {
+            if (BuildVars.DEBUG_VERSION && needSent(th) && z) {
+                AndroidUtilities.appCenterLog(th);
+            }
+            ensureInitied();
+            th.printStackTrace();
+            if (getInstance().streamWriter != null) {
+                getInstance().logQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLog$$ExternalSyntheticLambda6
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        FileLog.lambda$fatal$5(th);
+                    }
+                });
+                return;
+            }
+            th.printStackTrace();
+            if (BuildVars.DEBUG_PRIVATE_VERSION) {
+                System.exit(2);
+            }
         }
-        if (BuildVars.DEBUG_VERSION && needSent(th) && z) {
-            AndroidUtilities.appCenterLog(th);
-        }
-        ensureInitied();
-        th.printStackTrace();
-        if (getInstance().streamWriter != null) {
-            getInstance().logQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLog$$ExternalSyntheticLambda6
-                @Override // java.lang.Runnable
-                public final void run() {
-                    FileLog.lambda$fatal$5(th);
-                }
-            });
-            return;
-        }
-        th.printStackTrace();
-        if (!BuildVars.DEBUG_PRIVATE_VERSION) {
-            return;
-        }
-        System.exit(2);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -401,24 +391,22 @@ public class FileLog {
     }
 
     private static boolean needSent(Throwable th) {
-        return !(th instanceof InterruptedException) && !(th instanceof MediaCodecVideoConvertor.ConversionCanceledException) && !(th instanceof IgnoreSentException);
+        return ((th instanceof InterruptedException) || (th instanceof MediaCodecVideoConvertor.ConversionCanceledException) || (th instanceof IgnoreSentException)) ? false : true;
     }
 
     public static void d(final String str) {
-        if (!BuildVars.LOGS_ENABLED) {
-            return;
-        }
-        ensureInitied();
-        Log.d(tag, str);
-        if (getInstance().streamWriter == null) {
-            return;
-        }
-        getInstance().logQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLog$$ExternalSyntheticLambda4
-            @Override // java.lang.Runnable
-            public final void run() {
-                FileLog.lambda$d$6(str);
+        if (BuildVars.LOGS_ENABLED) {
+            ensureInitied();
+            Log.d(tag, str);
+            if (getInstance().streamWriter != null) {
+                getInstance().logQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLog$$ExternalSyntheticLambda4
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        FileLog.lambda$d$6(str);
+                    }
+                });
             }
-        });
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -429,28 +417,25 @@ public class FileLog {
             getInstance().streamWriter.flush();
         } catch (Exception e) {
             e.printStackTrace();
-            if (!AndroidUtilities.isENOSPC(e)) {
-                return;
+            if (AndroidUtilities.isENOSPC(e)) {
+                LaunchActivity.checkFreeDiscSpaceStatic(1);
             }
-            LaunchActivity.checkFreeDiscSpaceStatic(1);
         }
     }
 
     public static void w(final String str) {
-        if (!BuildVars.LOGS_ENABLED) {
-            return;
-        }
-        ensureInitied();
-        Log.w(tag, str);
-        if (getInstance().streamWriter == null) {
-            return;
-        }
-        getInstance().logQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLog$$ExternalSyntheticLambda3
-            @Override // java.lang.Runnable
-            public final void run() {
-                FileLog.lambda$w$7(str);
+        if (BuildVars.LOGS_ENABLED) {
+            ensureInitied();
+            Log.w(tag, str);
+            if (getInstance().streamWriter != null) {
+                getInstance().logQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLog$$ExternalSyntheticLambda3
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        FileLog.lambda$w$7(str);
+                    }
+                });
             }
-        });
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -471,12 +456,11 @@ public class FileLog {
             return;
         }
         File[] listFiles = new File(externalFilesDir.getAbsolutePath() + "/logs").listFiles();
-        if (listFiles == null) {
-            return;
-        }
-        for (File file : listFiles) {
-            if ((getInstance().currentFile == null || !file.getAbsolutePath().equals(getInstance().currentFile.getAbsolutePath())) && ((getInstance().networkFile == null || !file.getAbsolutePath().equals(getInstance().networkFile.getAbsolutePath())) && (getInstance().tonlibFile == null || !file.getAbsolutePath().equals(getInstance().tonlibFile.getAbsolutePath())))) {
-                file.delete();
+        if (listFiles != null) {
+            for (File file : listFiles) {
+                if ((getInstance().currentFile == null || !file.getAbsolutePath().equals(getInstance().currentFile.getAbsolutePath())) && ((getInstance().networkFile == null || !file.getAbsolutePath().equals(getInstance().networkFile.getAbsolutePath())) && (getInstance().tonlibFile == null || !file.getAbsolutePath().equals(getInstance().tonlibFile.getAbsolutePath())))) {
+                    file.delete();
+                }
             }
         }
     }

@@ -20,20 +20,20 @@ public final class SignInConfiguration extends AbstractSafeParcelable implements
     }
 
     public final boolean equals(Object obj) {
-        if (!(obj instanceof SignInConfiguration)) {
-            return false;
-        }
-        SignInConfiguration signInConfiguration = (SignInConfiguration) obj;
-        if (this.zba.equals(signInConfiguration.zba)) {
-            GoogleSignInOptions googleSignInOptions = this.zbb;
-            GoogleSignInOptions googleSignInOptions2 = signInConfiguration.zbb;
-            if (googleSignInOptions == null) {
-                if (googleSignInOptions2 == null) {
+        if (obj instanceof SignInConfiguration) {
+            SignInConfiguration signInConfiguration = (SignInConfiguration) obj;
+            if (this.zba.equals(signInConfiguration.zba)) {
+                GoogleSignInOptions googleSignInOptions = this.zbb;
+                GoogleSignInOptions googleSignInOptions2 = signInConfiguration.zbb;
+                if (googleSignInOptions == null) {
+                    if (googleSignInOptions2 == null) {
+                        return true;
+                    }
+                } else if (googleSignInOptions.equals(googleSignInOptions2)) {
                     return true;
                 }
-            } else if (googleSignInOptions.equals(googleSignInOptions2)) {
-                return true;
             }
+            return false;
         }
         return false;
     }

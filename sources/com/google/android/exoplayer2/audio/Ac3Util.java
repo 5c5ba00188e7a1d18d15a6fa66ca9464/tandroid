@@ -235,11 +235,11 @@ public final class Ac3Util {
             if (i11 == 0 && readBits != 3) {
                 parsableBitArray.skipBit();
             }
-            if (i11 != 2 || (readBits != 3 && !parsableBitArray.readBit())) {
-                i8 = 6;
-            } else {
+            if (i11 == 2 && (readBits == 3 || parsableBitArray.readBit())) {
                 i8 = 6;
                 parsableBitArray.skipBits(6);
+            } else {
+                i8 = 6;
             }
             str = (parsableBitArray.readBit() && parsableBitArray.readBits(i8) == 1 && parsableBitArray.readBits(8) == 1) ? "audio/eac3-joc" : "audio/eac3";
             i4 = i11;
@@ -285,12 +285,8 @@ public final class Ac3Util {
     }
 
     public static int parseAc3SyncframeAudioSampleCount(ByteBuffer byteBuffer) {
-        int i = 3;
         if (((byteBuffer.get(byteBuffer.position() + 5) & 248) >> 3) > 10) {
-            if (((byteBuffer.get(byteBuffer.position() + 4) & 192) >> 6) != 3) {
-                i = (byteBuffer.get(byteBuffer.position() + 4) & 48) >> 4;
-            }
-            return BLOCKS_PER_SYNCFRAME_BY_NUMBLKSCOD[i] * 256;
+            return BLOCKS_PER_SYNCFRAME_BY_NUMBLKSCOD[((byteBuffer.get(byteBuffer.position() + 4) & 192) >> 6) != 3 ? (byteBuffer.get(byteBuffer.position() + 4) & 48) >> 4 : 3] * 256;
         }
         return 1536;
     }
@@ -307,12 +303,8 @@ public final class Ac3Util {
     }
 
     public static int parseTrueHdSyncframeAudioSampleCount(byte[] bArr) {
-        boolean z = false;
         if (bArr[4] == -8 && bArr[5] == 114 && bArr[6] == 111 && (bArr[7] & 254) == 186) {
-            if ((bArr[7] & 255) == 187) {
-                z = true;
-            }
-            return 40 << ((bArr[z ? '\t' : '\b'] >> 4) & 7);
+            return 40 << ((bArr[(bArr[7] & 255) == 187 ? '\t' : '\b'] >> 4) & 7);
         }
         return 0;
     }

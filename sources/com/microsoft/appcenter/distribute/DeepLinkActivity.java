@@ -24,7 +24,6 @@ public class DeepLinkActivity extends Activity {
         AppCenterLog.debug("AppCenterDistribute", "Intent distributionGroupId=" + stringExtra2);
         StringBuilder sb2 = new StringBuilder();
         sb2.append("Intent updateToken passed=");
-        boolean z = true;
         sb2.append(stringExtra3 != null);
         AppCenterLog.debug("AppCenterDistribute", sb2.toString());
         StringBuilder sb3 = new StringBuilder();
@@ -33,10 +32,7 @@ public class DeepLinkActivity extends Activity {
         AppCenterLog.debug("AppCenterDistribute", sb3.toString());
         StringBuilder sb4 = new StringBuilder();
         sb4.append("Intent testerAppUpdateSetupFailed passed=");
-        if (stringExtra5 == null) {
-            z = false;
-        }
-        sb4.append(z);
+        sb4.append(stringExtra5 != null);
         AppCenterLog.debug("AppCenterDistribute", sb4.toString());
         if (stringExtra != null && stringExtra2 != null) {
             Distribute.getInstance().storeRedirectionParameters(stringExtra, stringExtra2, stringExtra3);

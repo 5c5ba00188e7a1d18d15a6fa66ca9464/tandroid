@@ -8,7 +8,6 @@ import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewPropertyAnimator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -99,13 +98,13 @@ public class SearchField extends FrameLayout {
 
             @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
             public boolean onTouchEvent(MotionEvent motionEvent) {
-                if (!isEnabled()) {
-                    return false;
+                if (isEnabled()) {
+                    if (motionEvent.getAction() == 1) {
+                        SearchField.this.onFieldTouchUp(this);
+                    }
+                    return super.onTouchEvent(motionEvent);
                 }
-                if (motionEvent.getAction() == 1) {
-                    SearchField.this.onFieldTouchUp(this);
-                }
-                return super.onTouchEvent(motionEvent);
+                return false;
             }
         };
         this.searchEditText = editTextBoldCursor;
@@ -139,23 +138,9 @@ public class SearchField extends FrameLayout {
 
             @Override // android.text.TextWatcher
             public void afterTextChanged(Editable editable) {
-                boolean z2 = true;
-                boolean z3 = SearchField.this.searchEditText.length() > 0;
-                float f = 0.0f;
-                if (SearchField.this.clearSearchImageView.getAlpha() == 0.0f) {
-                    z2 = false;
-                }
-                if (z3 != z2) {
-                    ViewPropertyAnimator animate = SearchField.this.clearSearchImageView.animate();
-                    float f2 = 1.0f;
-                    if (z3) {
-                        f = 1.0f;
-                    }
-                    ViewPropertyAnimator scaleX = animate.alpha(f).setDuration(150L).scaleX(z3 ? 1.0f : 0.1f);
-                    if (!z3) {
-                        f2 = 0.1f;
-                    }
-                    scaleX.scaleY(f2).start();
+                boolean z2 = SearchField.this.searchEditText.length() > 0;
+                if (z2 != (SearchField.this.clearSearchImageView.getAlpha() != 0.0f)) {
+                    SearchField.this.clearSearchImageView.animate().alpha(z2 ? 1.0f : 0.0f).setDuration(150L).scaleX(z2 ? 1.0f : 0.1f).scaleY(z2 ? 1.0f : 0.1f).start();
                 }
                 SearchField searchField = SearchField.this;
                 searchField.onTextChange(searchField.searchEditText.getText().toString());
@@ -180,11 +165,11 @@ public class SearchField extends FrameLayout {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$new$1(TextView textView, int i, KeyEvent keyEvent) {
         if (keyEvent != null) {
-            if ((keyEvent.getAction() != 1 || keyEvent.getKeyCode() != 84) && (keyEvent.getAction() != 0 || keyEvent.getKeyCode() != 66)) {
+            if ((keyEvent.getAction() == 1 && keyEvent.getKeyCode() == 84) || (keyEvent.getAction() == 0 && keyEvent.getKeyCode() == 66)) {
+                this.searchEditText.hideActionMode();
+                AndroidUtilities.hideKeyboard(this.searchEditText);
                 return false;
             }
-            this.searchEditText.hideActionMode();
-            AndroidUtilities.hideKeyboard(this.searchEditText);
             return false;
         }
         return false;

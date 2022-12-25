@@ -20,12 +20,12 @@ public class JsonWriter implements Closeable, Flushable {
     private String indent;
     private boolean lenient;
     private final Writer out;
-    private static final Pattern VALID_JSON_NUMBER_PATTERN = Pattern.compile("-?(?:0|[1-9][0-9]*)(?:\\.[0-9]+)?(?:[eE][-+]?[0-9]+)?");
-    private static final String[] REPLACEMENT_CHARS = new String[ConnectionsManager.RequestFlagNeedQuickAck];
+    private String separator;
+    private boolean serializeNulls;
     private int[] stack = new int[32];
     private int stackSize = 0;
-    private String separator = ":";
-    private boolean serializeNulls = true;
+    private static final Pattern VALID_JSON_NUMBER_PATTERN = Pattern.compile("-?(?:0|[1-9][0-9]*)(?:\\.[0-9]+)?(?:[eE][-+]?[0-9]+)?");
+    private static final String[] REPLACEMENT_CHARS = new String[ConnectionsManager.RequestFlagNeedQuickAck];
 
     static {
         for (int i = 0; i <= 31; i++) {
@@ -50,6 +50,8 @@ public class JsonWriter implements Closeable, Flushable {
 
     public JsonWriter(Writer writer) {
         push(6);
+        this.separator = ":";
+        this.serializeNulls = true;
         Objects.requireNonNull(writer, "out == null");
         this.out = writer;
     }
@@ -273,41 +275,41 @@ public class JsonWriter implements Closeable, Flushable {
         this.stackSize = 0;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:11:0x0034  */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x0034  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private void string(String str) throws IOException {
+        int i;
         String str2;
         String[] strArr = this.htmlSafe ? HTML_SAFE_REPLACEMENT_CHARS : REPLACEMENT_CHARS;
         this.out.write(34);
         int length = str.length();
-        int i = 0;
-        for (int i2 = 0; i2 < length; i2++) {
-            char charAt = str.charAt(i2);
+        int i2 = 0;
+        while (i < length) {
+            char charAt = str.charAt(i);
             if (charAt < 128) {
                 str2 = strArr[charAt];
-                if (str2 == null) {
-                }
-                if (i < i2) {
-                    this.out.write(str, i, i2 - i);
+                i = str2 == null ? i + 1 : 0;
+                if (i2 < i) {
+                    this.out.write(str, i2, i - i2);
                 }
                 this.out.write(str2);
-                i = i2 + 1;
+                i2 = i + 1;
             } else {
                 if (charAt == 8232) {
                     str2 = "\\u2028";
                 } else if (charAt == 8233) {
                     str2 = "\\u2029";
                 }
-                if (i < i2) {
+                if (i2 < i) {
                 }
                 this.out.write(str2);
-                i = i2 + 1;
+                i2 = i + 1;
             }
         }
-        if (i < length) {
-            this.out.write(str, i, length - i);
+        if (i2 < length) {
+            this.out.write(str, i2, length - i2);
         }
         this.out.write(34);
     }

@@ -12,10 +12,9 @@ abstract class J4 {
     /* JADX INFO: Access modifiers changed from: package-private */
     public J4(j$.util.u uVar, long j, long j2) {
         this.a = uVar;
-        long j3 = 0;
         int i = (j2 > 0L ? 1 : (j2 == 0L ? 0 : -1));
         this.b = i < 0;
-        this.c = i >= 0 ? j2 : j3;
+        this.c = i >= 0 ? j2 : 0L;
         this.d = new AtomicLong(i >= 0 ? j + j2 : j);
     }
 
@@ -46,10 +45,10 @@ abstract class J4 {
                 if (min <= 0) {
                     break;
                 }
-            } else if (!this.b) {
-                return 0L;
-            } else {
+            } else if (this.b) {
                 return j;
+            } else {
+                return 0L;
             }
         } while (!this.d.compareAndSet(j2, j2 - min));
         if (this.b) {

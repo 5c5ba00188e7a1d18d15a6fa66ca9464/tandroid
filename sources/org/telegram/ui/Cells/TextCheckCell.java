@@ -82,7 +82,6 @@ public class TextCheckCell extends FrameLayout {
         this.textView.setLines(1);
         this.textView.setMaxLines(1);
         this.textView.setSingleLine(true);
-        int i2 = 5;
         this.textView.setGravity((LocaleController.isRTL ? 5 : 3) | 16);
         this.textView.setEllipsize(TextUtils.TruncateAt.END);
         TextView textView2 = this.textView;
@@ -104,7 +103,7 @@ public class TextCheckCell extends FrameLayout {
         Switch r2 = new Switch(context, resourcesProvider);
         this.checkBox = r2;
         r2.setColors("switchTrack", "switchTrackChecked", "windowBackgroundWhite", "windowBackgroundWhite");
-        addView(this.checkBox, LayoutHelper.createFrame(37, 20.0f, (LocaleController.isRTL ? 3 : i2) | 16, 22.0f, 0.0f, 22.0f, 0.0f));
+        addView(this.checkBox, LayoutHelper.createFrame(37, 20.0f, (LocaleController.isRTL ? 3 : 5) | 16, 22.0f, 0.0f, 22.0f, 0.0f));
         setClipChildren(false);
     }
 
@@ -148,7 +147,6 @@ public class TextCheckCell extends FrameLayout {
     }
 
     public void updateRTL() {
-        int i = 5;
         this.textView.setGravity((LocaleController.isRTL ? 5 : 3) | 16);
         removeView(this.textView);
         TextView textView = this.textView;
@@ -160,11 +158,7 @@ public class TextCheckCell extends FrameLayout {
         boolean z2 = LocaleController.isRTL;
         addView(textView2, LayoutHelper.createFrame(-2, -2.0f, (z2 ? 5 : 3) | 48, z2 ? 64.0f : this.padding, 36.0f, z2 ? this.padding : 64.0f, 0.0f));
         removeView(this.checkBox);
-        Switch r0 = this.checkBox;
-        if (LocaleController.isRTL) {
-            i = 3;
-        }
-        addView(r0, LayoutHelper.createFrame(37, 20.0f, i | 16, 22.0f, 0.0f, 22.0f, 0.0f));
+        addView(this.checkBox, LayoutHelper.createFrame(37, 20.0f, (LocaleController.isRTL ? 3 : 5) | 16, 22.0f, 0.0f, 22.0f, 0.0f));
     }
 
     public void setColors(String str, String str2, String str3, String str4, String str5) {
@@ -222,7 +216,6 @@ public class TextCheckCell extends FrameLayout {
 
     public void setEnabled(boolean z, ArrayList<Animator> arrayList) {
         super.setEnabled(z);
-        float f = 1.0f;
         if (arrayList != null) {
             TextView textView = this.textView;
             Property property = View.ALPHA;
@@ -234,29 +227,21 @@ public class TextCheckCell extends FrameLayout {
             float[] fArr2 = new float[1];
             fArr2[0] = z ? 1.0f : 0.5f;
             arrayList.add(ObjectAnimator.ofFloat(r2, property2, fArr2));
-            if (this.valueTextView.getVisibility() != 0) {
+            if (this.valueTextView.getVisibility() == 0) {
+                TextView textView2 = this.valueTextView;
+                Property property3 = View.ALPHA;
+                float[] fArr3 = new float[1];
+                fArr3[0] = z ? 1.0f : 0.5f;
+                arrayList.add(ObjectAnimator.ofFloat(textView2, property3, fArr3));
                 return;
             }
-            TextView textView2 = this.valueTextView;
-            Property property3 = View.ALPHA;
-            float[] fArr3 = new float[1];
-            if (!z) {
-                f = 0.5f;
-            }
-            fArr3[0] = f;
-            arrayList.add(ObjectAnimator.ofFloat(textView2, property3, fArr3));
             return;
         }
         this.textView.setAlpha(z ? 1.0f : 0.5f);
         this.checkBox.setAlpha(z ? 1.0f : 0.5f);
-        if (this.valueTextView.getVisibility() != 0) {
-            return;
+        if (this.valueTextView.getVisibility() == 0) {
+            this.valueTextView.setAlpha(z ? 1.0f : 0.5f);
         }
-        TextView textView3 = this.valueTextView;
-        if (!z) {
-            f = 0.5f;
-        }
-        textView3.setAlpha(f);
     }
 
     public void setChecked(boolean z) {
@@ -284,15 +269,10 @@ public class TextCheckCell extends FrameLayout {
         if (i2 != 0) {
             setBackgroundColor(i2);
         }
-        int i3 = 1;
         if (this.animationPaint == null) {
             this.animationPaint = new Paint(1);
         }
-        Switch r0 = this.checkBox;
-        if (!z) {
-            i3 = 2;
-        }
-        r0.setOverrideColor(i3);
+        this.checkBox.setOverrideColor(z ? 1 : 2);
         this.animatedColorBackground = i;
         this.animationPaint.setColor(i);
         this.animationProgress = 0.0f;

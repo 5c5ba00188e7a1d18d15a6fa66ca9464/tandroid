@@ -4,10 +4,9 @@ import java.util.Objects;
 /* loaded from: classes.dex */
 public final class Preconditions {
     public static void checkArgument(boolean z, String str) {
-        if (z) {
-            return;
+        if (!z) {
+            throw new IllegalArgumentException(str);
         }
-        throw new IllegalArgumentException(str);
     }
 
     public static <T> T checkNotNull(T t) {
@@ -21,9 +20,8 @@ public final class Preconditions {
     }
 
     public static void checkState(boolean z, String str) {
-        if (z) {
-            return;
+        if (!z) {
+            throw new IllegalStateException(str);
         }
-        throw new IllegalStateException(str);
     }
 }

@@ -42,11 +42,11 @@ public class IceCandidate {
     }
 
     public boolean equals(Object obj) {
-        if (!(obj instanceof IceCandidate)) {
-            return false;
+        if (obj instanceof IceCandidate) {
+            IceCandidate iceCandidate = (IceCandidate) obj;
+            return objectEquals(this.sdpMid, iceCandidate.sdpMid) && this.sdpMLineIndex == iceCandidate.sdpMLineIndex && objectEquals(this.sdp, iceCandidate.sdp);
         }
-        IceCandidate iceCandidate = (IceCandidate) obj;
-        return objectEquals(this.sdpMid, iceCandidate.sdpMid) && this.sdpMLineIndex == iceCandidate.sdpMLineIndex && objectEquals(this.sdp, iceCandidate.sdp);
+        return false;
     }
 
     public int hashCode() {

@@ -3,14 +3,16 @@ package com.google.zxing;
 public final class RGBLuminanceSource extends LuminanceSource {
     private final int dataHeight;
     private final int dataWidth;
+    private final int left;
     private final byte[] luminances;
-    private final int left = 0;
-    private final int top = 0;
+    private final int top;
 
     public RGBLuminanceSource(int i, int i2, int[] iArr) {
         super(i, i2);
         this.dataWidth = i;
         this.dataHeight = i2;
+        this.left = 0;
+        this.top = 0;
         int i3 = i * i2;
         this.luminances = new byte[i3];
         for (int i4 = 0; i4 < i3; i4++) {

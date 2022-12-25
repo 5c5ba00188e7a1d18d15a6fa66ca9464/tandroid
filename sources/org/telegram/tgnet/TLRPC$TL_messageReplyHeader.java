@@ -26,12 +26,8 @@ public class TLRPC$TL_messageReplyHeader extends TLObject {
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
         int readInt32 = abstractSerializedData.readInt32(z);
         this.flags = readInt32;
-        boolean z2 = false;
         this.reply_to_scheduled = (readInt32 & 4) != 0;
-        if ((readInt32 & 8) != 0) {
-            z2 = true;
-        }
-        this.forum_topic = z2;
+        this.forum_topic = (readInt32 & 8) != 0;
         this.reply_to_msg_id = abstractSerializedData.readInt32(z);
         if ((this.flags & 1) != 0) {
             this.reply_to_peer_id = TLRPC$Peer.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);

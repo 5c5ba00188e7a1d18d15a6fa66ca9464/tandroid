@@ -30,9 +30,9 @@ public class BillingFlowParams {
             com.google.android.gms.internal.play_billing.zzu zzl;
             ArrayList arrayList = this.zzd;
             boolean z = true;
-            boolean z2 = arrayList != null && !arrayList.isEmpty();
+            boolean z2 = (arrayList == null || arrayList.isEmpty()) ? false : true;
             List list = this.zzc;
-            boolean z3 = list != null && !list.isEmpty();
+            boolean z3 = (list == null || list.isEmpty()) ? false : true;
             if (z2 || z3) {
                 if (!z2 || !z3) {
                     if (!z2) {
@@ -186,7 +186,7 @@ public class BillingFlowParams {
             }
 
             public SubscriptionUpdateParams build() {
-                boolean z = !TextUtils.isEmpty(this.zza) || !TextUtils.isEmpty(null);
+                boolean z = (TextUtils.isEmpty(this.zza) && TextUtils.isEmpty(null)) ? false : true;
                 boolean isEmpty = true ^ TextUtils.isEmpty(null);
                 if (!z || !isEmpty) {
                     if (this.zzb || z || isEmpty) {

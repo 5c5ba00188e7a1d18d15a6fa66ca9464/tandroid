@@ -41,12 +41,11 @@ public final class b2 extends D1 implements s1 {
     public void accept(Object obj) {
         int i = this.b;
         Object[] objArr = this.a;
-        if (i < objArr.length) {
-            this.b = i + 1;
-            objArr[i] = obj;
-            return;
+        if (i >= objArr.length) {
+            throw new IllegalStateException(String.format("Accept exceeded fixed size of %d", Integer.valueOf(this.a.length)));
         }
-        throw new IllegalStateException(String.format("Accept exceeded fixed size of %d", Integer.valueOf(this.a.length)));
+        this.b = i + 1;
+        objArr[i] = obj;
     }
 
     @Override // j$.util.function.Consumer
@@ -56,19 +55,17 @@ public final class b2 extends D1 implements s1 {
 
     @Override // j$.util.stream.m3
     public void m() {
-        if (this.b >= this.a.length) {
-            return;
+        if (this.b < this.a.length) {
+            throw new IllegalStateException(String.format("End size %d is less than fixed size %d", Integer.valueOf(this.b), Integer.valueOf(this.a.length)));
         }
-        throw new IllegalStateException(String.format("End size %d is less than fixed size %d", Integer.valueOf(this.b), Integer.valueOf(this.a.length)));
     }
 
     @Override // j$.util.stream.m3
     public void n(long j) {
-        if (j == this.a.length) {
-            this.b = 0;
-            return;
+        if (j != this.a.length) {
+            throw new IllegalStateException(String.format("Begin size %d is not equal to fixed size %d", Long.valueOf(j), Integer.valueOf(this.a.length)));
         }
-        throw new IllegalStateException(String.format("Begin size %d is not equal to fixed size %d", Long.valueOf(j), Integer.valueOf(this.a.length)));
+        this.b = 0;
     }
 
     @Override // j$.util.stream.m3

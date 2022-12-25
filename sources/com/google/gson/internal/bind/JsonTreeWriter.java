@@ -14,6 +14,8 @@ import java.util.Objects;
 /* loaded from: classes.dex */
 public final class JsonTreeWriter extends JsonWriter {
     private String pendingName;
+    private JsonElement product;
+    private final List<JsonElement> stack;
     private static final Writer UNWRITABLE_WRITER = new Writer() { // from class: com.google.gson.internal.bind.JsonTreeWriter.1
         @Override // java.io.Writer
         public void write(char[] cArr, int i, int i2) {
@@ -31,8 +33,6 @@ public final class JsonTreeWriter extends JsonWriter {
         }
     };
     private static final JsonPrimitive SENTINEL_CLOSED = new JsonPrimitive("closed");
-    private final List<JsonElement> stack = new ArrayList();
-    private JsonElement product = JsonNull.INSTANCE;
 
     @Override // com.google.gson.stream.JsonWriter, java.io.Flushable
     public void flush() throws IOException {
@@ -40,6 +40,8 @@ public final class JsonTreeWriter extends JsonWriter {
 
     public JsonTreeWriter() {
         super(UNWRITABLE_WRITER);
+        this.stack = new ArrayList();
+        this.product = JsonNull.INSTANCE;
     }
 
     public JsonElement get() {

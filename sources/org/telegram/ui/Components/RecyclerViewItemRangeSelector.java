@@ -30,8 +30,7 @@ public class RecyclerViewItemRangeSelector implements RecyclerView.OnItemTouchLi
             if (RecyclerViewItemRangeSelector.this.inTopHotspot) {
                 RecyclerViewItemRangeSelector.this.recyclerView.scrollBy(0, -RecyclerViewItemRangeSelector.this.autoScrollVelocity);
                 AndroidUtilities.runOnUIThread(this);
-            } else if (!RecyclerViewItemRangeSelector.this.inBottomHotspot) {
-            } else {
+            } else if (RecyclerViewItemRangeSelector.this.inBottomHotspot) {
                 RecyclerViewItemRangeSelector.this.recyclerView.scrollBy(0, RecyclerViewItemRangeSelector.this.autoScrollVelocity);
                 AndroidUtilities.runOnUIThread(this);
             }
@@ -127,28 +126,28 @@ public class RecyclerViewItemRangeSelector implements RecyclerView.OnItemTouchLi
     }
 
     public boolean setIsActive(View view, boolean z, int i, boolean z2) {
-        if (!z || !this.dragSelectActive) {
-            this.lastDraggedIndex = -1;
-            AndroidUtilities.cancelRunOnUIThread(this.autoScrollRunnable);
-            this.inTopHotspot = false;
-            this.inBottomHotspot = false;
-            if (!z) {
-                this.initialSelection = -1;
-                return false;
-            } else if (!this.delegate.isIndexSelectable(i)) {
-                this.dragSelectActive = false;
-                this.initialSelection = -1;
-                return false;
-            } else {
-                this.delegate.onStartStopSelection(true);
-                this.delegate.setSelected(view, this.initialSelection, z2);
-                this.dragSelectActive = z;
-                this.initialSelection = i;
-                this.lastDraggedIndex = i;
-                return true;
-            }
+        if (z && this.dragSelectActive) {
+            return false;
         }
-        return false;
+        this.lastDraggedIndex = -1;
+        AndroidUtilities.cancelRunOnUIThread(this.autoScrollRunnable);
+        this.inTopHotspot = false;
+        this.inBottomHotspot = false;
+        if (!z) {
+            this.initialSelection = -1;
+            return false;
+        } else if (!this.delegate.isIndexSelectable(i)) {
+            this.dragSelectActive = false;
+            this.initialSelection = -1;
+            return false;
+        } else {
+            this.delegate.onStartStopSelection(true);
+            this.delegate.setSelected(view, this.initialSelection, z2);
+            this.dragSelectActive = z;
+            this.initialSelection = i;
+            this.lastDraggedIndex = i;
+            return true;
+        }
     }
 
     private void onDragSelectionStop() {

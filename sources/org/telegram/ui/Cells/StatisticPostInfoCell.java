@@ -24,7 +24,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.StatisticActivity;
 /* loaded from: classes3.dex */
 public class StatisticPostInfoCell extends FrameLayout {
-    private AvatarDrawable avatarDrawable = new AvatarDrawable();
+    private AvatarDrawable avatarDrawable;
     private final TLRPC$ChatFull chat;
     private TextView date;
     private BackupImageView imageView;
@@ -34,6 +34,7 @@ public class StatisticPostInfoCell extends FrameLayout {
 
     public StatisticPostInfoCell(Context context, TLRPC$ChatFull tLRPC$ChatFull) {
         super(context);
+        this.avatarDrawable = new AvatarDrawable();
         this.chat = tLRPC$ChatFull;
         BackupImageView backupImageView = new BackupImageView(context);
         this.imageView = backupImageView;

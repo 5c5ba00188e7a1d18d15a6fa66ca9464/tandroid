@@ -58,12 +58,12 @@ public final class Auth {
             if (obj == this) {
                 return true;
             }
-            if (!(obj instanceof AuthCredentialsOptions)) {
-                return false;
+            if (obj instanceof AuthCredentialsOptions) {
+                AuthCredentialsOptions authCredentialsOptions = (AuthCredentialsOptions) obj;
+                String str = authCredentialsOptions.zbb;
+                return Objects.equal(null, null) && this.zbc == authCredentialsOptions.zbc && Objects.equal(this.zbd, authCredentialsOptions.zbd);
             }
-            AuthCredentialsOptions authCredentialsOptions = (AuthCredentialsOptions) obj;
-            String str = authCredentialsOptions.zbb;
-            return Objects.equal(null, null) && this.zbc == authCredentialsOptions.zbc && Objects.equal(this.zbd, authCredentialsOptions.zbd);
+            return false;
         }
 
         public int hashCode() {

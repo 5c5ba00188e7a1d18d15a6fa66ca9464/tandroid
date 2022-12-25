@@ -13,12 +13,11 @@ public final class zzq {
         while (true) {
             String[] strArr = zza;
             int length = strArr.length;
-            if (i < 10) {
-                zzb.put(strArr[i], Integer.valueOf(i));
-                i++;
-            } else {
+            if (i >= 10) {
                 return;
             }
+            zzb.put(strArr[i], Integer.valueOf(i));
+            i++;
         }
     }
 
@@ -26,10 +25,10 @@ public final class zzq {
         if (i >= 0) {
             String[] strArr = zza;
             int length = strArr.length;
-            if (i < 10) {
-                return strArr[i];
+            if (i >= 10) {
+                return null;
             }
-            return null;
+            return strArr[i];
         }
         return null;
     }

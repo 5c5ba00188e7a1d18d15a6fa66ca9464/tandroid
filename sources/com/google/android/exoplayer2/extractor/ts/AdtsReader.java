@@ -169,11 +169,7 @@ public final class AdtsReader implements ElementaryStreamReader {
             int i2 = bArr[position] & 255;
             if (this.matchState == 512 && isAdtsSyncBytes((byte) -1, (byte) i2) && (this.foundFirstFrame || checkSyncPositionValid(parsableByteArray, i - 2))) {
                 this.currentFrameVersion = (i2 & 8) >> 3;
-                boolean z = true;
-                if ((i2 & 1) != 0) {
-                    z = false;
-                }
-                this.hasCrc = z;
+                this.hasCrc = (i2 & 1) == 0;
                 if (!this.foundFirstFrame) {
                     setCheckingAdtsHeaderState();
                 } else {
@@ -225,58 +221,58 @@ public final class AdtsReader implements ElementaryStreamReader {
 
     private boolean checkSyncPositionValid(ParsableByteArray parsableByteArray, int i) {
         parsableByteArray.setPosition(i + 1);
-        if (!tryRead(parsableByteArray, this.adtsScratch.data, 1)) {
-            return false;
-        }
-        this.adtsScratch.setPosition(4);
-        int readBits = this.adtsScratch.readBits(1);
-        int i2 = this.firstFrameVersion;
-        if (i2 != -1 && readBits != i2) {
-            return false;
-        }
-        if (this.firstFrameSampleRateIndex != -1) {
-            if (!tryRead(parsableByteArray, this.adtsScratch.data, 1)) {
+        if (tryRead(parsableByteArray, this.adtsScratch.data, 1)) {
+            this.adtsScratch.setPosition(4);
+            int readBits = this.adtsScratch.readBits(1);
+            int i2 = this.firstFrameVersion;
+            if (i2 == -1 || readBits == i2) {
+                if (this.firstFrameSampleRateIndex != -1) {
+                    if (!tryRead(parsableByteArray, this.adtsScratch.data, 1)) {
+                        return true;
+                    }
+                    this.adtsScratch.setPosition(2);
+                    if (this.adtsScratch.readBits(4) != this.firstFrameSampleRateIndex) {
+                        return false;
+                    }
+                    parsableByteArray.setPosition(i + 2);
+                }
+                if (tryRead(parsableByteArray, this.adtsScratch.data, 4)) {
+                    this.adtsScratch.setPosition(14);
+                    int readBits2 = this.adtsScratch.readBits(13);
+                    if (readBits2 < 7) {
+                        return false;
+                    }
+                    byte[] bArr = parsableByteArray.data;
+                    int limit = parsableByteArray.limit();
+                    int i3 = i + readBits2;
+                    if (i3 >= limit) {
+                        return true;
+                    }
+                    if (bArr[i3] == -1) {
+                        int i4 = i3 + 1;
+                        if (i4 == limit) {
+                            return true;
+                        }
+                        return isAdtsSyncBytes((byte) -1, bArr[i4]) && ((bArr[i4] & 8) >> 3) == readBits;
+                    } else if (bArr[i3] != 73) {
+                        return false;
+                    } else {
+                        int i5 = i3 + 1;
+                        if (i5 == limit) {
+                            return true;
+                        }
+                        if (bArr[i5] != 68) {
+                            return false;
+                        }
+                        int i6 = i3 + 2;
+                        return i6 == limit || bArr[i6] == 51;
+                    }
+                }
                 return true;
             }
-            this.adtsScratch.setPosition(2);
-            if (this.adtsScratch.readBits(4) != this.firstFrameSampleRateIndex) {
-                return false;
-            }
-            parsableByteArray.setPosition(i + 2);
-        }
-        if (!tryRead(parsableByteArray, this.adtsScratch.data, 4)) {
-            return true;
-        }
-        this.adtsScratch.setPosition(14);
-        int readBits2 = this.adtsScratch.readBits(13);
-        if (readBits2 < 7) {
             return false;
         }
-        byte[] bArr = parsableByteArray.data;
-        int limit = parsableByteArray.limit();
-        int i3 = i + readBits2;
-        if (i3 >= limit) {
-            return true;
-        }
-        if (bArr[i3] == -1) {
-            int i4 = i3 + 1;
-            if (i4 == limit) {
-                return true;
-            }
-            return isAdtsSyncBytes((byte) -1, bArr[i4]) && ((bArr[i4] & 8) >> 3) == readBits;
-        } else if (bArr[i3] != 73) {
-            return false;
-        } else {
-            int i5 = i3 + 1;
-            if (i5 == limit) {
-                return true;
-            }
-            if (bArr[i5] != 68) {
-                return false;
-            }
-            int i6 = i3 + 2;
-            return i6 == limit || bArr[i6] == 51;
-        }
+        return false;
     }
 
     private boolean isAdtsSyncBytes(byte b, byte b2) {

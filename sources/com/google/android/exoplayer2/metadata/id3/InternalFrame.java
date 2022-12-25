@@ -47,15 +47,11 @@ public final class InternalFrame extends Id3Frame {
 
     public int hashCode() {
         String str = this.domain;
-        int i = 0;
         int hashCode = (527 + (str != null ? str.hashCode() : 0)) * 31;
         String str2 = this.description;
         int hashCode2 = (hashCode + (str2 != null ? str2.hashCode() : 0)) * 31;
         String str3 = this.text;
-        if (str3 != null) {
-            i = str3.hashCode();
-        }
-        return hashCode2 + i;
+        return hashCode2 + (str3 != null ? str3.hashCode() : 0);
     }
 
     @Override // com.google.android.exoplayer2.metadata.id3.Id3Frame

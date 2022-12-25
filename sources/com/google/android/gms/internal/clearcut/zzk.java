@@ -39,11 +39,11 @@ public final class zzk {
                 return zza((Long.rotateRight(zzb5, 37) * j2) + zzb4, (Long.rotateRight(zzb4, 25) + zzb5) * j2, j2);
             } else if (length >= 4) {
                 return zza(length + ((zza(bArr, 0) & 4294967295L) << 3), zza(bArr, (length + 0) - 4) & 4294967295L, (length << 1) - 7286425919675154353L);
-            } else if (length <= 0) {
-                return -7286425919675154353L;
-            } else {
+            } else if (length > 0) {
                 long j3 = (((bArr[0] & 255) + ((bArr[(length >> 1) + 0] & 255) << 8)) * (-7286425919675154353L)) ^ ((length + ((bArr[(length - 1) + 0] & 255) << 2)) * (-4348849565147123417L));
                 return (j3 ^ (j3 >>> 47)) * (-7286425919675154353L);
+            } else {
+                return -7286425919675154353L;
             }
         } else if (length <= 64) {
             long j4 = (length << 1) - 7286425919675154353L;

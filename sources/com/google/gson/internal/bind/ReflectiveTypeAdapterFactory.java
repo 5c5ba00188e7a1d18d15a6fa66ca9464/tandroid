@@ -49,7 +49,7 @@ public final class ReflectiveTypeAdapterFactory implements TypeAdapterFactory {
     }
 
     private boolean includeField(Field field, boolean z) {
-        return !this.excluder.excludeClass(field.getType(), z) && !this.excluder.excludeField(field, z);
+        return (this.excluder.excludeClass(field.getType(), z) || this.excluder.excludeField(field, z)) ? false : true;
     }
 
     private List<String> getFieldNames(Field field) {
@@ -71,18 +71,18 @@ public final class ReflectiveTypeAdapterFactory implements TypeAdapterFactory {
     @Override // com.google.gson.TypeAdapterFactory
     public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> typeToken) {
         Class<? super T> rawType = typeToken.getRawType();
-        if (!Object.class.isAssignableFrom(rawType)) {
-            return null;
+        if (Object.class.isAssignableFrom(rawType)) {
+            ReflectionAccessFilter.FilterResult filterResult = ReflectionAccessFilterHelper.getFilterResult(this.reflectionFilters, rawType);
+            if (filterResult == ReflectionAccessFilter.FilterResult.BLOCK_ALL) {
+                throw new JsonIOException("ReflectionAccessFilter does not permit using reflection for " + rawType + ". Register a TypeAdapter for this type or adjust the access filter.");
+            }
+            boolean z = filterResult == ReflectionAccessFilter.FilterResult.BLOCK_INACCESSIBLE;
+            if (ReflectionHelper.isRecord(rawType)) {
+                return new RecordAdapter(rawType, getBoundFields(gson, typeToken, rawType, z, true), z);
+            }
+            return new FieldReflectionAdapter(this.constructorConstructor.get(typeToken), getBoundFields(gson, typeToken, rawType, z, false));
         }
-        ReflectionAccessFilter.FilterResult filterResult = ReflectionAccessFilterHelper.getFilterResult(this.reflectionFilters, rawType);
-        if (filterResult == ReflectionAccessFilter.FilterResult.BLOCK_ALL) {
-            throw new JsonIOException("ReflectionAccessFilter does not permit using reflection for " + rawType + ". Register a TypeAdapter for this type or adjust the access filter.");
-        }
-        boolean z = filterResult == ReflectionAccessFilter.FilterResult.BLOCK_INACCESSIBLE;
-        if (ReflectionHelper.isRecord(rawType)) {
-            return new RecordAdapter(rawType, getBoundFields(gson, typeToken, rawType, z, true), z);
-        }
-        return new FieldReflectionAdapter(this.constructorConstructor.get(typeToken), getBoundFields(gson, typeToken, rawType, z, false));
+        return null;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -102,10 +102,7 @@ public final class ReflectiveTypeAdapterFactory implements TypeAdapterFactory {
         int modifiers = field.getModifiers();
         boolean z4 = Modifier.isStatic(modifiers) && Modifier.isFinal(modifiers);
         JsonAdapter jsonAdapter = (JsonAdapter) field.getAnnotation(JsonAdapter.class);
-        TypeAdapter<?> typeAdapter = null;
-        if (jsonAdapter != null) {
-            typeAdapter = this.jsonAdapterFactory.getTypeAdapter(this.constructorConstructor, gson, typeToken, jsonAdapter);
-        }
+        TypeAdapter<?> typeAdapter = jsonAdapter != null ? this.jsonAdapterFactory.getTypeAdapter(this.constructorConstructor, gson, typeToken, jsonAdapter) : null;
         return new BoundField(this, str, field.getName(), z, z2, z3, method, field, typeAdapter != null, typeAdapter == null ? gson.getAdapter(typeToken) : typeAdapter, gson, typeToken, isPrimitive, z4) { // from class: com.google.gson.internal.bind.ReflectiveTypeAdapterFactory.1
             final /* synthetic */ Method val$accessor;
             final /* synthetic */ boolean val$blockInaccessible;
@@ -118,40 +115,39 @@ public final class ReflectiveTypeAdapterFactory implements TypeAdapterFactory {
             @Override // com.google.gson.internal.bind.ReflectiveTypeAdapterFactory.BoundField
             void write(JsonWriter jsonWriter, Object obj) throws IOException, IllegalAccessException {
                 Object obj2;
-                if (!this.serialized) {
-                    return;
-                }
-                if (this.val$blockInaccessible) {
-                    Method method2 = this.val$accessor;
-                    if (method2 == null) {
-                        ReflectiveTypeAdapterFactory.checkAccessible(obj, this.val$field);
+                if (this.serialized) {
+                    if (this.val$blockInaccessible) {
+                        Method method2 = this.val$accessor;
+                        if (method2 == null) {
+                            ReflectiveTypeAdapterFactory.checkAccessible(obj, this.val$field);
+                        } else {
+                            ReflectiveTypeAdapterFactory.checkAccessible(obj, method2);
+                        }
+                    }
+                    Method method3 = this.val$accessor;
+                    if (method3 != null) {
+                        try {
+                            obj2 = method3.invoke(obj, new Object[0]);
+                        } catch (InvocationTargetException e) {
+                            String accessibleObjectDescription = ReflectionHelper.getAccessibleObjectDescription(this.val$accessor, false);
+                            throw new JsonIOException("Accessor " + accessibleObjectDescription + " threw exception", e.getCause());
+                        }
                     } else {
-                        ReflectiveTypeAdapterFactory.checkAccessible(obj, method2);
+                        obj2 = this.val$field.get(obj);
                     }
-                }
-                Method method3 = this.val$accessor;
-                if (method3 != null) {
-                    try {
-                        obj2 = method3.invoke(obj, new Object[0]);
-                    } catch (InvocationTargetException e) {
-                        String accessibleObjectDescription = ReflectionHelper.getAccessibleObjectDescription(this.val$accessor, false);
-                        throw new JsonIOException("Accessor " + accessibleObjectDescription + " threw exception", e.getCause());
+                    if (obj2 == obj) {
+                        return;
                     }
-                } else {
-                    obj2 = this.val$field.get(obj);
+                    jsonWriter.name(this.name);
+                    (this.val$jsonAdapterPresent ? this.val$typeAdapter : new TypeAdapterRuntimeTypeWrapper(this.val$context, this.val$typeAdapter, this.val$fieldType.getType())).write(jsonWriter, obj2);
                 }
-                if (obj2 == obj) {
-                    return;
-                }
-                jsonWriter.name(this.name);
-                (this.val$jsonAdapterPresent ? this.val$typeAdapter : new TypeAdapterRuntimeTypeWrapper(this.val$context, this.val$typeAdapter, this.val$fieldType.getType())).write(jsonWriter, obj2);
             }
         };
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:39:0x00ef  */
-    /* JADX WARN: Removed duplicated region for block: B:53:0x0162 A[SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x0154 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:48:0x00ef  */
+    /* JADX WARN: Removed duplicated region for block: B:67:0x0162 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x0154 A[SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -332,12 +328,13 @@ public final class ReflectiveTypeAdapterFactory implements TypeAdapterFactory {
     /* loaded from: classes.dex */
     private static final class RecordAdapter<T> extends Adapter<T, Object[]> {
         static final Map<Class<?>, Object> PRIMITIVE_DEFAULTS = primitiveDefaults();
-        private final Map<String, Integer> componentIndices = new HashMap();
+        private final Map<String, Integer> componentIndices;
         private final Constructor<T> constructor;
         private final Object[] constructorArgsDefaults;
 
         RecordAdapter(Class<T> cls, Map<String, BoundField> map, boolean z) {
             super(map);
+            this.componentIndices = new HashMap();
             Constructor<T> canonicalRecordConstructor = ReflectionHelper.getCanonicalRecordConstructor(cls);
             this.constructor = canonicalRecordConstructor;
             if (z) {

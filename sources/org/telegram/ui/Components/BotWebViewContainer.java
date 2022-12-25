@@ -94,6 +94,7 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
     private String currentPaymentSlug;
     private Delegate delegate;
     private int dialogSequentialOpenTimes;
+    private CellFlickerDrawable flickerDrawable;
     private BackupImageView flickerView;
     private boolean hasQRPending;
     private boolean hasUserPermissions;
@@ -102,6 +103,9 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
     private boolean isPageLoaded;
     private boolean isRequestingPageOpen;
     private boolean isViewPortByMeasureSuppressed;
+    private int lastButtonColor;
+    private String lastButtonText;
+    private int lastButtonTextColor;
     private long lastClickMs;
     private long lastDialogClosed;
     private long lastDialogCooldownTime;
@@ -117,10 +121,6 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
     private TextView webViewNotAvailableText;
     private Consumer<Float> webViewProgressListener;
     private WebViewScrollListener webViewScrollListener;
-    private CellFlickerDrawable flickerDrawable = new CellFlickerDrawable();
-    private int lastButtonColor = getColor("featuredStickers_addButton");
-    private int lastButtonTextColor = getColor("featuredStickers_buttonText");
-    private String lastButtonText = "";
 
     /* loaded from: classes3.dex */
     public interface Delegate {
@@ -172,6 +172,10 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
 
     public BotWebViewContainer(Context context, Theme.ResourcesProvider resourcesProvider, int i) {
         super(context);
+        this.flickerDrawable = new CellFlickerDrawable();
+        this.lastButtonColor = getColor("featuredStickers_addButton");
+        this.lastButtonTextColor = getColor("featuredStickers_buttonText");
+        this.lastButtonText = "";
         this.resourcesProvider = resourcesProvider;
         if (context instanceof Activity) {
             this.parentActivity = (Activity) context;
@@ -191,8 +195,9 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
                     super(view);
                 }
 
+                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.messenger.ImageReceiver
-                protected boolean setImageBitmapByKey(Drawable drawable, String str, int i, boolean z, int i2) {
+                public boolean setImageBitmapByKey(Drawable drawable, String str, int i, boolean z, int i2) {
                     boolean imageBitmapByKey = super.setImageBitmapByKey(drawable, str, i, z, i2);
                     ValueAnimator duration = ValueAnimator.ofFloat(0.0f, 1.0f).setDuration(300L);
                     duration.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.BotWebViewContainer$1$1$$ExternalSyntheticLambda0
@@ -219,11 +224,10 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
                     return;
                 }
                 Drawable drawable = this.imageReceiver.getDrawable();
-                if (drawable == null) {
-                    return;
+                if (drawable != null) {
+                    this.imageReceiver.setImageCoords(0.0f, 0.0f, getWidth(), drawable.getIntrinsicHeight() * (getWidth() / drawable.getIntrinsicWidth()));
+                    this.imageReceiver.draw(canvas);
                 }
-                this.imageReceiver.setImageCoords(0.0f, 0.0f, getWidth(), drawable.getIntrinsicHeight() * (getWidth() / drawable.getIntrinsicWidth()));
-                this.imageReceiver.draw(canvas);
             }
         };
         this.flickerView = backupImageView;
@@ -258,10 +262,9 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
             this.flickerView.setVisibility(8);
             this.webViewNotAvailable = true;
             this.webViewNotAvailableText.setVisibility(0);
-            if (this.webView == null) {
-                return;
+            if (this.webView != null) {
+                removeView(this.webView);
             }
-            removeView(this.webView);
         }
     }
 
@@ -339,10 +342,10 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
                 if (!BotWebViewContainer.this.isPageLoaded || (Objects.equals(parse.getHost(), parse2.getHost()) && Objects.equals(parse.getPath(), parse2.getPath()))) {
                     return false;
                 }
-                if (!BotWebViewContainer.WHITELISTED_SCHEMES.contains(parse2.getScheme())) {
+                if (BotWebViewContainer.WHITELISTED_SCHEMES.contains(parse2.getScheme())) {
+                    BotWebViewContainer.this.onOpenUri(parse2);
                     return true;
                 }
-                BotWebViewContainer.this.onOpenUri(parse2);
                 return true;
             }
 
@@ -370,23 +373,23 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
         @Override // android.webkit.WebChromeClient
         public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> valueCallback, WebChromeClient.FileChooserParams fileChooserParams) {
             Context context = BotWebViewContainer.this.getContext();
-            if (!(context instanceof Activity)) {
-                return false;
-            }
-            Activity activity = (Activity) context;
-            if (BotWebViewContainer.this.mFilePathCallback != null) {
-                BotWebViewContainer.this.mFilePathCallback.onReceiveValue(null);
-            }
-            BotWebViewContainer.this.mFilePathCallback = valueCallback;
-            if (Build.VERSION.SDK_INT >= 21) {
-                activity.startActivityForResult(fileChooserParams.createIntent(), 3000);
+            if (context instanceof Activity) {
+                Activity activity = (Activity) context;
+                if (BotWebViewContainer.this.mFilePathCallback != null) {
+                    BotWebViewContainer.this.mFilePathCallback.onReceiveValue(null);
+                }
+                BotWebViewContainer.this.mFilePathCallback = valueCallback;
+                if (Build.VERSION.SDK_INT >= 21) {
+                    activity.startActivityForResult(fileChooserParams.createIntent(), 3000);
+                    return true;
+                }
+                Intent intent = new Intent("android.intent.action.GET_CONTENT");
+                intent.addCategory("android.intent.category.OPENABLE");
+                intent.setType("*/*");
+                activity.startActivityForResult(Intent.createChooser(intent, LocaleController.getString(R.string.BotWebViewFileChooserTitle)), 3000);
                 return true;
             }
-            Intent intent = new Intent("android.intent.action.GET_CONTENT");
-            intent.addCategory("android.intent.category.OPENABLE");
-            intent.setType("*/*");
-            activity.startActivityForResult(Intent.createChooser(intent, LocaleController.getString(R.string.BotWebViewFileChooserTitle)), 3000);
-            return true;
+            return false;
         }
 
         @Override // android.webkit.WebChromeClient
@@ -470,8 +473,7 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
                     });
                     this.lastPermissionsDialog = createWebViewPermissionsRequestDialog;
                     createWebViewPermissionsRequestDialog.show();
-                } else if (!str.equals("android.webkit.resource.AUDIO_CAPTURE")) {
-                } else {
+                } else if (str.equals("android.webkit.resource.AUDIO_CAPTURE")) {
                     Dialog createWebViewPermissionsRequestDialog2 = AlertsCreator.createWebViewPermissionsRequestDialog(BotWebViewContainer.this.parentActivity, BotWebViewContainer.this.resourcesProvider, new String[]{"android.permission.RECORD_AUDIO"}, R.raw.permission_request_microphone, LocaleController.formatString(R.string.BotWebViewRequestMicrophonePermission, UserObject.getUserName(BotWebViewContainer.this.botUser)), LocaleController.formatString(R.string.BotWebViewRequestMicrophonePermissionWithHint, UserObject.getUserName(BotWebViewContainer.this.botUser)), new Consumer() { // from class: org.telegram.ui.Components.BotWebViewContainer$4$$ExternalSyntheticLambda4
                         @Override // androidx.core.util.Consumer
                         public final void accept(Object obj) {
@@ -554,10 +556,10 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
     }
 
     private void onOpenUri(final Uri uri, final boolean z, boolean z2) {
-        if (!this.isRequestingPageOpen) {
-            if (System.currentTimeMillis() - this.lastClickMs > 10000 && z2) {
-                return;
-            }
+        if (this.isRequestingPageOpen) {
+            return;
+        }
+        if (System.currentTimeMillis() - this.lastClickMs <= 10000 || !z2) {
             this.lastClickMs = 0L;
             boolean[] zArr = {false};
             if (!Browser.isInternalUri(uri, zArr) || zArr[0]) {
@@ -673,10 +675,9 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
                 }
             };
             Activity activity = this.parentActivity;
-            if (activity == null) {
-                return;
+            if (activity != null) {
+                activity.requestPermissions(strArr, 4000);
             }
-            activity.requestPermissions(strArr, 4000);
         }
     }
 
@@ -758,9 +759,10 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
     @Override // android.view.View
     protected void onSizeChanged(int i, int i2, int i3, int i4) {
         super.onSizeChanged(i, i2, i3, i4);
-        if (!this.isViewPortByMeasureSuppressed) {
-            invalidateViewPortHeight(true);
+        if (this.isViewPortByMeasureSuppressed) {
+            return;
         }
+        invalidateViewPortHeight(true);
     }
 
     public void invalidateViewPortHeight() {
@@ -836,7 +838,6 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
         TLRPC$TL_attachMenuBot tLRPC$TL_attachMenuBot;
         boolean z;
         String publicUsername = UserObject.getPublicUsername(MessagesController.getInstance(i).getUser(Long.valueOf(j)));
-        int i2 = 0;
         if (publicUsername != null && publicUsername.equals("DurgerKingBot")) {
             this.flickerView.setVisibility(0);
             this.flickerView.setAlpha(1.0f);
@@ -869,13 +870,10 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
                 this.flickerView.setImage(ImageLocation.getForDocument(placeholderStaticAttachMenuBotIcon.icon), (String) null, (Drawable) null, tLRPC$TL_attachMenuBot);
                 setupFlickerParams(z);
             }
-            if (actionBarMenuSubItem == null) {
+            if (actionBarMenuSubItem != null) {
+                actionBarMenuSubItem.setVisibility(tLRPC$TL_attachMenuBot.has_settings ? 0 : 8);
                 return;
             }
-            if (!tLRPC$TL_attachMenuBot.has_settings) {
-                i2 = 8;
-            }
-            actionBarMenuSubItem.setVisibility(i2);
             return;
         }
         TLRPC$TL_messages_getAttachMenuBot tLRPC$TL_messages_getAttachMenuBot = new TLRPC$TL_messages_getAttachMenuBot();
@@ -901,12 +899,11 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadFlickerAndSettingsItem$4(TLObject tLObject, ActionBarMenuSubItem actionBarMenuSubItem) {
         boolean z;
-        int i = 8;
         if (!(tLObject instanceof TLRPC$TL_attachMenuBotsBot)) {
-            if (actionBarMenuSubItem == null) {
+            if (actionBarMenuSubItem != null) {
+                actionBarMenuSubItem.setVisibility(8);
                 return;
             }
-            actionBarMenuSubItem.setVisibility(8);
             return;
         }
         TLRPC$TL_attachMenuBot tLRPC$TL_attachMenuBot = ((TLRPC$TL_attachMenuBotsBot) tLObject).bot;
@@ -923,13 +920,9 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
             this.flickerView.setImage(ImageLocation.getForDocument(placeholderStaticAttachMenuBotIcon.icon), (String) null, (Drawable) null, tLRPC$TL_attachMenuBot);
             setupFlickerParams(z);
         }
-        if (actionBarMenuSubItem == null) {
-            return;
+        if (actionBarMenuSubItem != null) {
+            actionBarMenuSubItem.setVisibility(tLRPC$TL_attachMenuBot.has_settings ? 0 : 8);
         }
-        if (tLRPC$TL_attachMenuBot.has_settings) {
-            i = 0;
-        }
-        actionBarMenuSubItem.setVisibility(i);
     }
 
     private void setupFlickerParams(boolean z) {
@@ -1033,8 +1026,7 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
             notifyThemeChanged();
         } else if (i == NotificationCenter.onActivityResultReceived) {
             onActivityResult(((Integer) objArr[0]).intValue(), ((Integer) objArr[1]).intValue(), (Intent) objArr[2]);
-        } else if (i != NotificationCenter.onRequestPermissionResultReceived) {
-        } else {
+        } else if (i == NotificationCenter.onRequestPermissionResultReceived) {
             onRequestPermissionsResult(((Integer) objArr[0]).intValue(), (String[]) objArr[1], (int[]) objArr[2]);
         }
     }
@@ -1059,16 +1051,16 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:190:0x018c  */
-    /* JADX WARN: Removed duplicated region for block: B:193:0x0196 A[Catch: JSONException -> 0x019d, TRY_LEAVE, TryCatch #5 {JSONException -> 0x019d, blocks: (B:183:0x015c, B:193:0x0196, B:199:0x0176, B:202:0x0180), top: B:182:0x015c }] */
-    /* JADX WARN: Removed duplicated region for block: B:196:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:198:0x0192  */
-    /* JADX WARN: Removed duplicated region for block: B:41:0x0259  */
-    /* JADX WARN: Removed duplicated region for block: B:45:0x0309 A[Catch: Exception -> 0x030e, TRY_LEAVE, TryCatch #0 {Exception -> 0x030e, blocks: (B:32:0x0219, B:45:0x0309, B:49:0x025f, B:50:0x0263, B:62:0x02a3, B:64:0x02a6, B:65:0x02a9, B:66:0x027d, B:69:0x0287, B:72:0x0290, B:75:0x02ad, B:76:0x02b7, B:85:0x02f8, B:86:0x02fb, B:87:0x02fe, B:88:0x0301, B:89:0x0304, B:90:0x02bb, B:93:0x02c5, B:96:0x02ce, B:99:0x02d8, B:102:0x02e2, B:105:0x0238, B:108:0x0242, B:111:0x024c), top: B:31:0x0219 }] */
-    /* JADX WARN: Removed duplicated region for block: B:48:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x029d  */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x02a9 A[Catch: Exception -> 0x030e, TryCatch #0 {Exception -> 0x030e, blocks: (B:32:0x0219, B:45:0x0309, B:49:0x025f, B:50:0x0263, B:62:0x02a3, B:64:0x02a6, B:65:0x02a9, B:66:0x027d, B:69:0x0287, B:72:0x0290, B:75:0x02ad, B:76:0x02b7, B:85:0x02f8, B:86:0x02fb, B:87:0x02fe, B:88:0x0301, B:89:0x0304, B:90:0x02bb, B:93:0x02c5, B:96:0x02ce, B:99:0x02d8, B:102:0x02e2, B:105:0x0238, B:108:0x0242, B:111:0x024c), top: B:31:0x0219 }] */
-    /* JADX WARN: Removed duplicated region for block: B:75:0x02ad A[Catch: Exception -> 0x030e, TryCatch #0 {Exception -> 0x030e, blocks: (B:32:0x0219, B:45:0x0309, B:49:0x025f, B:50:0x0263, B:62:0x02a3, B:64:0x02a6, B:65:0x02a9, B:66:0x027d, B:69:0x0287, B:72:0x0290, B:75:0x02ad, B:76:0x02b7, B:85:0x02f8, B:86:0x02fb, B:87:0x02fe, B:88:0x0301, B:89:0x0304, B:90:0x02bb, B:93:0x02c5, B:96:0x02ce, B:99:0x02d8, B:102:0x02e2, B:105:0x0238, B:108:0x0242, B:111:0x024c), top: B:31:0x0219 }] */
+    /* JADX WARN: Removed duplicated region for block: B:113:0x018c  */
+    /* JADX WARN: Removed duplicated region for block: B:116:0x0192  */
+    /* JADX WARN: Removed duplicated region for block: B:118:0x0196 A[Catch: JSONException -> 0x019d, TRY_LEAVE, TryCatch #5 {JSONException -> 0x019d, blocks: (B:100:0x015c, B:118:0x0196, B:105:0x0176, B:108:0x0180), top: B:357:0x015c }] */
+    /* JADX WARN: Removed duplicated region for block: B:165:0x0259  */
+    /* JADX WARN: Removed duplicated region for block: B:187:0x029d  */
+    /* JADX WARN: Removed duplicated region for block: B:192:0x02a9 A[Catch: Exception -> 0x030e, TryCatch #0 {Exception -> 0x030e, blocks: (B:147:0x0219, B:225:0x0309, B:168:0x025f, B:169:0x0263, B:190:0x02a3, B:191:0x02a6, B:192:0x02a9, B:176:0x027d, B:179:0x0287, B:182:0x0290, B:194:0x02ad, B:195:0x02b7, B:219:0x02f8, B:220:0x02fb, B:221:0x02fe, B:222:0x0301, B:223:0x0304, B:197:0x02bb, B:200:0x02c5, B:203:0x02ce, B:206:0x02d8, B:209:0x02e2, B:154:0x0238, B:157:0x0242, B:160:0x024c), top: B:351:0x0219 }] */
+    /* JADX WARN: Removed duplicated region for block: B:194:0x02ad A[Catch: Exception -> 0x030e, TryCatch #0 {Exception -> 0x030e, blocks: (B:147:0x0219, B:225:0x0309, B:168:0x025f, B:169:0x0263, B:190:0x02a3, B:191:0x02a6, B:192:0x02a9, B:176:0x027d, B:179:0x0287, B:182:0x0290, B:194:0x02ad, B:195:0x02b7, B:219:0x02f8, B:220:0x02fb, B:221:0x02fe, B:222:0x0301, B:223:0x0304, B:197:0x02bb, B:200:0x02c5, B:203:0x02ce, B:206:0x02d8, B:209:0x02e2, B:154:0x0238, B:157:0x0242, B:160:0x024c), top: B:351:0x0219 }] */
+    /* JADX WARN: Removed duplicated region for block: B:225:0x0309 A[Catch: Exception -> 0x030e, TRY_LEAVE, TryCatch #0 {Exception -> 0x030e, blocks: (B:147:0x0219, B:225:0x0309, B:168:0x025f, B:169:0x0263, B:190:0x02a3, B:191:0x02a6, B:192:0x02a9, B:176:0x027d, B:179:0x0287, B:182:0x0290, B:194:0x02ad, B:195:0x02b7, B:219:0x02f8, B:220:0x02fb, B:221:0x02fe, B:222:0x0301, B:223:0x0304, B:197:0x02bb, B:200:0x02c5, B:203:0x02ce, B:206:0x02d8, B:209:0x02e2, B:154:0x0238, B:157:0x0242, B:160:0x024c), top: B:351:0x0219 }] */
+    /* JADX WARN: Removed duplicated region for block: B:381:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:384:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1232,19 +1224,19 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
         BotWebViewVibrationEffect botWebViewVibrationEffect2 = null;
         switch (c) {
             case 0:
-                if (!this.hasQRPending) {
+                if (this.hasQRPending) {
+                    this.cameraBottomSheet.dismiss();
                     return;
                 }
-                this.cameraBottomSheet.dismiss();
                 return;
             case 1:
                 try {
                     JSONObject jSONObject = new JSONObject(str2);
                     Uri parse = Uri.parse(jSONObject.optString("url"));
-                    if (!WHITELISTED_SCHEMES.contains(parse.getScheme())) {
+                    if (WHITELISTED_SCHEMES.contains(parse.getScheme())) {
+                        onOpenUri(parse, jSONObject.optBoolean("try_instant_view"), true);
                         return;
                     }
-                    onOpenUri(parse, jSONObject.optBoolean("try_instant_view"), true);
                     return;
                 } catch (Exception e) {
                     FileLog.e(e);
@@ -1326,14 +1318,14 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
                             ((TextView) this.currentDialog.getButton(-2)).setTextColor(getColor(popupButton5.textColorKey));
                         }
                     }
-                    if (arrayList.size() != 3) {
+                    if (arrayList.size() == 3) {
+                        PopupButton popupButton6 = (PopupButton) arrayList.get(2);
+                        if (popupButton6.textColorKey != null) {
+                            ((TextView) this.currentDialog.getButton(-3)).setTextColor(getColor(popupButton6.textColorKey));
+                            return;
+                        }
                         return;
                     }
-                    PopupButton popupButton6 = (PopupButton) arrayList.get(2);
-                    if (popupButton6.textColorKey == null) {
-                        return;
-                    }
-                    ((TextView) this.currentDialog.getButton(-3)).setTextColor(getColor(popupButton6.textColorKey));
                     return;
                 } catch (JSONException e2) {
                     FileLog.e(e2);
@@ -1383,14 +1375,13 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
                                     if (i3 == i5) {
                                         int intValue = ((Integer) objArr[0]).intValue();
                                         int[] iArr = (int[]) objArr[2];
-                                        if (intValue != 5000) {
-                                            return;
-                                        }
-                                        NotificationCenter.getGlobalInstance().removeObserver(this, i5);
-                                        if (iArr[0] == 0) {
-                                            BotWebViewContainer.this.openQrScanActivity();
-                                        } else {
-                                            BotWebViewContainer.this.notifyEvent("scan_qr_popup_closed", new JSONObject());
+                                        if (intValue == 5000) {
+                                            NotificationCenter.getGlobalInstance().removeObserver(this, i5);
+                                            if (iArr[0] == 0) {
+                                                BotWebViewContainer.this.openQrScanActivity();
+                                            } else {
+                                                BotWebViewContainer.this.notifyEvent("scan_qr_popup_closed", new JSONObject());
+                                            }
                                         }
                                     }
                                 }
@@ -1461,11 +1452,11 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
             case 14:
                 try {
                     boolean optBoolean = new JSONObject(str2).optBoolean("is_visible");
-                    if (optBoolean == this.isBackButtonVisible) {
+                    if (optBoolean != this.isBackButtonVisible) {
+                        this.isBackButtonVisible = optBoolean;
+                        this.delegate.onSetBackButtonVisible(optBoolean);
                         return;
                     }
-                    this.isBackButtonVisible = optBoolean;
-                    this.delegate.onSetBackButtonVisible(optBoolean);
                     return;
                 } catch (JSONException e9) {
                     FileLog.e(e9);
@@ -1533,10 +1524,10 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
                                 } else if (c2 == 2) {
                                     botWebViewVibrationEffect2 = BotWebViewVibrationEffect.SELECTION_CHANGE;
                                 }
-                                if (botWebViewVibrationEffect2 == null) {
+                                if (botWebViewVibrationEffect2 != null) {
+                                    botWebViewVibrationEffect2.vibrate();
                                     return;
                                 }
-                                botWebViewVibrationEffect2.vibrate();
                                 return;
                             }
                             String optString6 = jSONObject3.optString("impact_style");
@@ -1589,10 +1580,10 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
                                 botWebViewVibrationEffect = BotWebViewVibrationEffect.IMPACT_RIGID;
                             } else if (c3 == 4) {
                                 botWebViewVibrationEffect = BotWebViewVibrationEffect.IMPACT_SOFT;
-                            } else if (botWebViewVibrationEffect2 == null) {
+                            } else if (botWebViewVibrationEffect2 != null) {
                             }
                             botWebViewVibrationEffect2 = botWebViewVibrationEffect;
-                            if (botWebViewVibrationEffect2 == null) {
+                            if (botWebViewVibrationEffect2 != null) {
                             }
                         }
                         c2 = 65535;
@@ -1645,28 +1636,28 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
                             } else if (c3 == 1) {
                                 str3 = "windowBackgroundGray";
                             }
-                            if (str3 != null) {
+                            if (str3 == null) {
+                                this.delegate.onWebAppSetActionBarColor(str3);
                                 return;
                             }
-                            this.delegate.onWebAppSetActionBarColor(str3);
                             return;
                         }
                         c3 = 65535;
                         if (c3 != 0) {
                         }
-                        if (str3 != null) {
+                        if (str3 == null) {
                         }
                     } else {
                         if (string3.equals("bg_color")) {
                             if (c3 != 0) {
                             }
-                            if (str3 != null) {
+                            if (str3 == null) {
                             }
                         }
                         c3 = 65535;
                         if (c3 != 0) {
                         }
-                        if (str3 != null) {
+                        if (str3 == null) {
                         }
                     }
                 } catch (JSONException e12) {
@@ -1857,8 +1848,8 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
         public String textColorKey;
 
         /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-        /* JADX WARN: Removed duplicated region for block: B:12:0x007c  */
-        /* JADX WARN: Removed duplicated region for block: B:15:? A[RETURN, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:32:0x007c  */
+        /* JADX WARN: Removed duplicated region for block: B:34:? A[RETURN, SYNTHETIC] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */

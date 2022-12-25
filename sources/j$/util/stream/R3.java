@@ -25,13 +25,13 @@ final class R3 extends F3 {
         int i = 0;
         Arrays.sort(this.d, 0, this.e, this.b);
         this.a.n(this.e);
-        if (!this.c) {
-            while (i < this.e) {
+        if (this.c) {
+            while (i < this.e && !this.a.o()) {
                 this.a.accept((m3) this.d[i]);
                 i++;
             }
         } else {
-            while (i < this.e && !this.a.o()) {
+            while (i < this.e) {
                 this.a.accept((m3) this.d[i]);
                 i++;
             }
@@ -42,10 +42,9 @@ final class R3 extends F3 {
 
     @Override // j$.util.stream.m3
     public void n(long j) {
-        if (j < 2147483639) {
-            this.d = new Object[(int) j];
-            return;
+        if (j >= 2147483639) {
+            throw new IllegalArgumentException("Stream size exceeds max array size");
         }
-        throw new IllegalArgumentException("Stream size exceeds max array size");
+        this.d = new Object[(int) j];
     }
 }

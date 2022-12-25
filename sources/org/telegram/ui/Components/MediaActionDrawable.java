@@ -252,49 +252,49 @@ public class MediaActionDrawable extends Drawable {
         gradientShader.setLocalMatrix(matrix);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:241:0x0885, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:351:0x0885, code lost:
         if (r33.nextIcon == 1) goto L242;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:242:0x0887, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:352:0x0887, code lost:
         r4 = 1.0f;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:243:0x088a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:353:0x088a, code lost:
         r4 = 0.0f;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:248:0x088d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:355:0x088d, code lost:
         if (r1 != 1) goto L243;
      */
-    /* JADX WARN: Removed duplicated region for block: B:251:0x07df  */
-    /* JADX WARN: Removed duplicated region for block: B:254:0x0808  */
-    /* JADX WARN: Removed duplicated region for block: B:261:0x084e  */
-    /* JADX WARN: Removed duplicated region for block: B:263:0x07e2  */
-    /* JADX WARN: Removed duplicated region for block: B:268:0x0765  */
-    /* JADX WARN: Removed duplicated region for block: B:271:0x077a  */
-    /* JADX WARN: Removed duplicated region for block: B:274:0x0791  */
-    /* JADX WARN: Removed duplicated region for block: B:277:0x07c8  */
-    /* JADX WARN: Removed duplicated region for block: B:278:0x077d  */
-    /* JADX WARN: Removed duplicated region for block: B:279:0x0768  */
-    /* JADX WARN: Removed duplicated region for block: B:285:0x06d3  */
-    /* JADX WARN: Removed duplicated region for block: B:288:0x06f2  */
-    /* JADX WARN: Removed duplicated region for block: B:291:0x074c  */
-    /* JADX WARN: Removed duplicated region for block: B:292:0x06ff  */
-    /* JADX WARN: Removed duplicated region for block: B:293:0x06d6  */
-    /* JADX WARN: Removed duplicated region for block: B:294:0x06a6  */
-    /* JADX WARN: Removed duplicated region for block: B:297:0x0694  */
-    /* JADX WARN: Removed duplicated region for block: B:302:0x0682  */
-    /* JADX WARN: Removed duplicated region for block: B:339:0x050f  */
-    /* JADX WARN: Removed duplicated region for block: B:342:0x051a  */
-    /* JADX WARN: Removed duplicated region for block: B:344:0x0524  */
-    /* JADX WARN: Removed duplicated region for block: B:351:0x05aa  */
-    /* JADX WARN: Removed duplicated region for block: B:354:0x05b3  */
-    /* JADX WARN: Removed duplicated region for block: B:357:0x05bb  */
-    /* JADX WARN: Removed duplicated region for block: B:367:0x05d8  */
-    /* JADX WARN: Removed duplicated region for block: B:370:0x05fc  */
-    /* JADX WARN: Removed duplicated region for block: B:376:0x05db  */
-    /* JADX WARN: Removed duplicated region for block: B:378:0x05a2  */
-    /* JADX WARN: Removed duplicated region for block: B:43:0x067f  */
-    /* JADX WARN: Removed duplicated region for block: B:46:0x068e  */
-    /* JADX WARN: Removed duplicated region for block: B:49:0x06a3  */
+    /* JADX WARN: Removed duplicated region for block: B:188:0x050f  */
+    /* JADX WARN: Removed duplicated region for block: B:191:0x051a  */
+    /* JADX WARN: Removed duplicated region for block: B:193:0x0524  */
+    /* JADX WARN: Removed duplicated region for block: B:200:0x05a2  */
+    /* JADX WARN: Removed duplicated region for block: B:203:0x05aa  */
+    /* JADX WARN: Removed duplicated region for block: B:206:0x05b3  */
+    /* JADX WARN: Removed duplicated region for block: B:209:0x05bb  */
+    /* JADX WARN: Removed duplicated region for block: B:219:0x05d8  */
+    /* JADX WARN: Removed duplicated region for block: B:220:0x05db  */
+    /* JADX WARN: Removed duplicated region for block: B:223:0x05fc  */
+    /* JADX WARN: Removed duplicated region for block: B:252:0x067f  */
+    /* JADX WARN: Removed duplicated region for block: B:253:0x0682  */
+    /* JADX WARN: Removed duplicated region for block: B:258:0x068e  */
+    /* JADX WARN: Removed duplicated region for block: B:259:0x0694  */
+    /* JADX WARN: Removed duplicated region for block: B:266:0x06a3  */
+    /* JADX WARN: Removed duplicated region for block: B:267:0x06a6  */
+    /* JADX WARN: Removed duplicated region for block: B:278:0x06d3  */
+    /* JADX WARN: Removed duplicated region for block: B:279:0x06d6  */
+    /* JADX WARN: Removed duplicated region for block: B:282:0x06f2  */
+    /* JADX WARN: Removed duplicated region for block: B:283:0x06ff  */
+    /* JADX WARN: Removed duplicated region for block: B:286:0x074c  */
+    /* JADX WARN: Removed duplicated region for block: B:293:0x0765  */
+    /* JADX WARN: Removed duplicated region for block: B:294:0x0768  */
+    /* JADX WARN: Removed duplicated region for block: B:300:0x077a  */
+    /* JADX WARN: Removed duplicated region for block: B:301:0x077d  */
+    /* JADX WARN: Removed duplicated region for block: B:304:0x0791  */
+    /* JADX WARN: Removed duplicated region for block: B:307:0x07c8  */
+    /* JADX WARN: Removed duplicated region for block: B:314:0x07df  */
+    /* JADX WARN: Removed duplicated region for block: B:315:0x07e2  */
+    /* JADX WARN: Removed duplicated region for block: B:320:0x0808  */
+    /* JADX WARN: Removed duplicated region for block: B:328:0x084e  */
     @Override // android.graphics.drawable.Drawable
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1109,10 +1109,10 @@ public class MediaActionDrawable extends Drawable {
                 }
             }
             int i46 = i7;
-            if (i46 < 1) {
+            if (i46 >= 1) {
+                canvas.restoreToCount(i46);
                 return;
             }
-            canvas.restoreToCount(i46);
             return;
         } else {
             pathArr = null;

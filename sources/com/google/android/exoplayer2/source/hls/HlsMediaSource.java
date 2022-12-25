@@ -146,15 +146,15 @@ public final class HlsMediaSource extends BaseMediaSource implements HlsPlaylist
             List<HlsMediaPlaylist.Segment> list = hlsMediaPlaylist.segments;
             if (j3 != -9223372036854775807L) {
                 j = j3;
-            } else if (!list.isEmpty()) {
+            } else if (list.isEmpty()) {
+                j = 0;
+            } else {
                 int max = Math.max(0, list.size() - 3);
                 long j5 = hlsMediaPlaylist.durationUs - (hlsMediaPlaylist.targetDurationUs * 2);
                 while (max > 0 && list.get(max).relativeStartTimeUs > j5) {
                     max--;
                 }
                 j = list.get(max).relativeStartTimeUs;
-            } else {
-                j = 0;
             }
             singlePeriodTimeline = new SinglePeriodTimeline(j2, usToMs, j4, hlsMediaPlaylist.durationUs, initialStartTimeUs, j, true, !hlsMediaPlaylist.hasEndTag, true, hlsManifest, this.tag);
         } else {

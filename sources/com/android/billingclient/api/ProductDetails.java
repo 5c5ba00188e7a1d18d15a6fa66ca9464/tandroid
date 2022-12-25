@@ -191,10 +191,9 @@ public final class ProductDetails {
             this.zzk = null;
         }
         JSONObject optJSONObject2 = this.zzb.optJSONObject("limitedQuantityInfo");
-        if (optJSONObject2 == null) {
-            return;
+        if (optJSONObject2 != null) {
+            new zzbi(optJSONObject2);
         }
-        new zzbi(optJSONObject2);
     }
 
     public boolean equals(Object obj) {

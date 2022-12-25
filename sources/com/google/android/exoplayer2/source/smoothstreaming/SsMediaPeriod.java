@@ -21,8 +21,9 @@ import com.google.android.exoplayer2.upstream.LoaderErrorThrower;
 import com.google.android.exoplayer2.upstream.TransferListener;
 import java.io.IOException;
 import java.util.ArrayList;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-final class SsMediaPeriod implements MediaPeriod, SequenceableLoader.Callback<ChunkSampleStream<SsChunkSource>> {
+public final class SsMediaPeriod implements MediaPeriod, SequenceableLoader.Callback<ChunkSampleStream<SsChunkSource>> {
     private final Allocator allocator;
     private MediaPeriod.Callback callback;
     private final SsChunkSource.Factory chunkSourceFactory;
@@ -144,11 +145,11 @@ final class SsMediaPeriod implements MediaPeriod, SequenceableLoader.Callback<Ch
 
     @Override // com.google.android.exoplayer2.source.MediaPeriod
     public long readDiscontinuity() {
-        if (!this.notifiedReadingStarted) {
-            this.eventDispatcher.readingStarted();
-            this.notifiedReadingStarted = true;
+        if (this.notifiedReadingStarted) {
             return -9223372036854775807L;
         }
+        this.eventDispatcher.readingStarted();
+        this.notifiedReadingStarted = true;
         return -9223372036854775807L;
     }
 

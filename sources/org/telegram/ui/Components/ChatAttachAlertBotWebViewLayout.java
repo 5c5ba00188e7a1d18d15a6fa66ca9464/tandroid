@@ -75,12 +75,7 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
     private boolean needReload;
     private ActionBarMenuItem otherItem;
     private long peerId;
-    private Runnable pollRunnable = new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertBotWebViewLayout$$ExternalSyntheticLambda5
-        @Override // java.lang.Runnable
-        public final void run() {
-            ChatAttachAlertBotWebViewLayout.this.lambda$new$2();
-        }
-    };
+    private Runnable pollRunnable;
     private WebProgressView progressView;
     private long queryId;
     private int replyToMsgId;
@@ -105,28 +100,29 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
     public /* synthetic */ void lambda$new$2() {
         TLRPC$ChatFull chatFull;
         TLRPC$Peer tLRPC$Peer;
-        if (!this.destroyed) {
-            TLRPC$TL_messages_prolongWebView tLRPC$TL_messages_prolongWebView = new TLRPC$TL_messages_prolongWebView();
-            tLRPC$TL_messages_prolongWebView.bot = MessagesController.getInstance(this.currentAccount).getInputUser(this.botId);
-            tLRPC$TL_messages_prolongWebView.peer = MessagesController.getInstance(this.currentAccount).getInputPeer(this.peerId);
-            tLRPC$TL_messages_prolongWebView.query_id = this.queryId;
-            tLRPC$TL_messages_prolongWebView.silent = this.silent;
-            int i = this.replyToMsgId;
-            if (i != 0) {
-                tLRPC$TL_messages_prolongWebView.reply_to_msg_id = i;
-                tLRPC$TL_messages_prolongWebView.flags |= 1;
-            }
-            if (this.peerId < 0 && (chatFull = MessagesController.getInstance(this.currentAccount).getChatFull(-this.peerId)) != null && (tLRPC$Peer = chatFull.default_send_as) != null) {
-                tLRPC$TL_messages_prolongWebView.send_as = MessagesController.getInstance(this.currentAccount).getInputPeer(tLRPC$Peer);
-                tLRPC$TL_messages_prolongWebView.flags |= 8192;
-            }
-            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_prolongWebView, new RequestDelegate() { // from class: org.telegram.ui.Components.ChatAttachAlertBotWebViewLayout$$ExternalSyntheticLambda12
-                @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    ChatAttachAlertBotWebViewLayout.this.lambda$new$1(tLObject, tLRPC$TL_error);
-                }
-            });
+        if (this.destroyed) {
+            return;
         }
+        TLRPC$TL_messages_prolongWebView tLRPC$TL_messages_prolongWebView = new TLRPC$TL_messages_prolongWebView();
+        tLRPC$TL_messages_prolongWebView.bot = MessagesController.getInstance(this.currentAccount).getInputUser(this.botId);
+        tLRPC$TL_messages_prolongWebView.peer = MessagesController.getInstance(this.currentAccount).getInputPeer(this.peerId);
+        tLRPC$TL_messages_prolongWebView.query_id = this.queryId;
+        tLRPC$TL_messages_prolongWebView.silent = this.silent;
+        int i = this.replyToMsgId;
+        if (i != 0) {
+            tLRPC$TL_messages_prolongWebView.reply_to_msg_id = i;
+            tLRPC$TL_messages_prolongWebView.flags |= 1;
+        }
+        if (this.peerId < 0 && (chatFull = MessagesController.getInstance(this.currentAccount).getChatFull(-this.peerId)) != null && (tLRPC$Peer = chatFull.default_send_as) != null) {
+            tLRPC$TL_messages_prolongWebView.send_as = MessagesController.getInstance(this.currentAccount).getInputPeer(tLRPC$Peer);
+            tLRPC$TL_messages_prolongWebView.flags |= 8192;
+        }
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_prolongWebView, new RequestDelegate() { // from class: org.telegram.ui.Components.ChatAttachAlertBotWebViewLayout$$ExternalSyntheticLambda12
+            @Override // org.telegram.tgnet.RequestDelegate
+            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                ChatAttachAlertBotWebViewLayout.this.lambda$new$1(tLObject, tLRPC$TL_error);
+            }
+        });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -153,6 +149,12 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
 
     public ChatAttachAlertBotWebViewLayout(ChatAttachAlert chatAttachAlert, Context context, Theme.ResourcesProvider resourcesProvider) {
         super(chatAttachAlert, context, resourcesProvider);
+        this.pollRunnable = new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertBotWebViewLayout$$ExternalSyntheticLambda5
+            @Override // java.lang.Runnable
+            public final void run() {
+                ChatAttachAlertBotWebViewLayout.this.lambda$new$2();
+            }
+        };
         ActionBarMenuItem addItem = this.parentAlert.actionBar.createMenu().addItem(0, R.drawable.ic_ab_other);
         this.otherItem = addItem;
         addItem.addSubItem(R.id.menu_open_bot, R.drawable.msg_bot, LocaleController.getString(R.string.BotWebViewOpenBot));
@@ -193,8 +195,7 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
                             return;
                         }
                     }
-                } else if (i != R.id.menu_settings) {
-                } else {
+                } else if (i == R.id.menu_settings) {
                     ChatAttachAlertBotWebViewLayout.this.webViewContainer.onSettingsButtonPressed();
                 }
             }
@@ -270,9 +271,10 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$5() {
-        if (!onCheckDismissByUser()) {
-            this.swipeContainer.stickTo(0.0f);
+        if (onCheckDismissByUser()) {
+            return;
         }
+        this.swipeContainer.stickTo(0.0f);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -380,55 +382,53 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
     @Override // org.telegram.ui.Components.ChatAttachAlert.AttachAlertLayout
     public void onPanTransitionStart(boolean z, int i) {
         boolean z2;
-        if (!z) {
-            return;
-        }
-        this.webViewContainer.setViewPortByMeasureSuppressed(true);
-        float topActionBarOffsetY = (-this.swipeContainer.getOffsetY()) + this.swipeContainer.getTopActionBarOffsetY();
-        if (this.swipeContainer.getSwipeOffsetY() != topActionBarOffsetY) {
-            this.swipeContainer.stickTo(topActionBarOffsetY);
-            z2 = true;
-        } else {
-            z2 = false;
-        }
-        int measureKeyboardHeight = this.parentAlert.sizeNotifierFrameLayout.measureKeyboardHeight() + i;
-        setMeasuredDimension(getMeasuredWidth(), i);
-        this.ignoreMeasure = true;
-        this.swipeContainer.setSwipeOffsetAnimationDisallowed(true);
-        if (z2) {
-            return;
-        }
-        ValueAnimator valueAnimator = this.webViewScrollAnimator;
-        if (valueAnimator != null) {
-            valueAnimator.cancel();
-            this.webViewScrollAnimator = null;
-        }
-        if (this.webViewContainer.getWebView() == null) {
-            return;
-        }
-        int scrollY = this.webViewContainer.getWebView().getScrollY();
-        final int i2 = (measureKeyboardHeight - i) + scrollY;
-        ValueAnimator duration = ValueAnimator.ofInt(scrollY, i2).setDuration(250L);
-        this.webViewScrollAnimator = duration;
-        duration.setInterpolator(ChatListItemAnimator.DEFAULT_INTERPOLATOR);
-        this.webViewScrollAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.ChatAttachAlertBotWebViewLayout$$ExternalSyntheticLambda0
-            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-            public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                ChatAttachAlertBotWebViewLayout.this.lambda$onPanTransitionStart$10(valueAnimator2);
+        if (z) {
+            this.webViewContainer.setViewPortByMeasureSuppressed(true);
+            float topActionBarOffsetY = (-this.swipeContainer.getOffsetY()) + this.swipeContainer.getTopActionBarOffsetY();
+            if (this.swipeContainer.getSwipeOffsetY() != topActionBarOffsetY) {
+                this.swipeContainer.stickTo(topActionBarOffsetY);
+                z2 = true;
+            } else {
+                z2 = false;
             }
-        });
-        this.webViewScrollAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ChatAttachAlertBotWebViewLayout.5
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                if (ChatAttachAlertBotWebViewLayout.this.webViewContainer.getWebView() != null) {
-                    ChatAttachAlertBotWebViewLayout.this.webViewContainer.getWebView().setScrollY(i2);
-                }
-                if (animator == ChatAttachAlertBotWebViewLayout.this.webViewScrollAnimator) {
-                    ChatAttachAlertBotWebViewLayout.this.webViewScrollAnimator = null;
-                }
+            int measureKeyboardHeight = this.parentAlert.sizeNotifierFrameLayout.measureKeyboardHeight() + i;
+            setMeasuredDimension(getMeasuredWidth(), i);
+            this.ignoreMeasure = true;
+            this.swipeContainer.setSwipeOffsetAnimationDisallowed(true);
+            if (z2) {
+                return;
             }
-        });
-        this.webViewScrollAnimator.start();
+            ValueAnimator valueAnimator = this.webViewScrollAnimator;
+            if (valueAnimator != null) {
+                valueAnimator.cancel();
+                this.webViewScrollAnimator = null;
+            }
+            if (this.webViewContainer.getWebView() != null) {
+                int scrollY = this.webViewContainer.getWebView().getScrollY();
+                final int i2 = (measureKeyboardHeight - i) + scrollY;
+                ValueAnimator duration = ValueAnimator.ofInt(scrollY, i2).setDuration(250L);
+                this.webViewScrollAnimator = duration;
+                duration.setInterpolator(ChatListItemAnimator.DEFAULT_INTERPOLATOR);
+                this.webViewScrollAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.ChatAttachAlertBotWebViewLayout$$ExternalSyntheticLambda0
+                    @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                    public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
+                        ChatAttachAlertBotWebViewLayout.this.lambda$onPanTransitionStart$10(valueAnimator2);
+                    }
+                });
+                this.webViewScrollAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ChatAttachAlertBotWebViewLayout.5
+                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                    public void onAnimationEnd(Animator animator) {
+                        if (ChatAttachAlertBotWebViewLayout.this.webViewContainer.getWebView() != null) {
+                            ChatAttachAlertBotWebViewLayout.this.webViewContainer.getWebView().setScrollY(i2);
+                        }
+                        if (animator == ChatAttachAlertBotWebViewLayout.this.webViewScrollAnimator) {
+                            ChatAttachAlertBotWebViewLayout.this.webViewScrollAnimator = null;
+                        }
+                    }
+                });
+                this.webViewScrollAnimator.start();
+            }
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -458,9 +458,10 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
             this.webViewContainer.setParentActivity(this.parentAlert.getBaseFragment().getParentActivity());
         }
         this.otherItem.setVisibility(0);
-        if (!this.webViewContainer.isBackButtonVisible()) {
-            AndroidUtilities.updateImageViewImageAnimated(this.parentAlert.actionBar.getBackButton(), R.drawable.ic_close_white);
+        if (this.webViewContainer.isBackButtonVisible()) {
+            return;
         }
+        AndroidUtilities.updateImageViewImageAnimated(this.parentAlert.actionBar.getBackButton(), R.drawable.ic_close_white);
     }
 
     @Override // org.telegram.ui.Components.ChatAttachAlert.AttachAlertLayout
@@ -645,9 +646,9 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
         return getListTopPadding() + AndroidUtilities.dp(56.0f);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:11:0x002d  */
-    /* JADX WARN: Removed duplicated region for block: B:14:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:8:0x0021  */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x0021  */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x002d  */
+    /* JADX WARN: Removed duplicated region for block: B:15:? A[RETURN, SYNTHETIC] */
     @Override // org.telegram.ui.Components.ChatAttachAlert.AttachAlertLayout
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -664,12 +665,12 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
                     i3 = 0;
                 }
                 f = i3;
-                if (this.swipeContainer.getOffsetY() != f) {
+                if (this.swipeContainer.getOffsetY() == f) {
+                    this.ignoreLayout = true;
+                    this.swipeContainer.setOffsetY(f);
+                    this.ignoreLayout = false;
                     return;
                 }
-                this.ignoreLayout = true;
-                this.swipeContainer.setOffsetY(f);
-                this.ignoreLayout = false;
                 return;
             }
         }
@@ -678,7 +679,7 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
         if (i3 < 0) {
         }
         f = i3;
-        if (this.swipeContainer.getOffsetY() != f) {
+        if (this.swipeContainer.getOffsetY() == f) {
         }
     }
 
@@ -727,14 +728,12 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     public void didReceivedNotification(int i, int i2, Object... objArr) {
         if (i == NotificationCenter.webViewResultSent) {
-            if (this.queryId != ((Long) objArr[0]).longValue()) {
-                return;
+            if (this.queryId == ((Long) objArr[0]).longValue()) {
+                this.webViewContainer.destroyWebView();
+                this.needReload = true;
+                this.parentAlert.dismiss();
             }
-            this.webViewContainer.destroyWebView();
-            this.needReload = true;
-            this.parentAlert.dismiss();
-        } else if (i != NotificationCenter.didSetNewTheme) {
-        } else {
+        } else if (i == NotificationCenter.didSetNewTheme) {
             this.webViewContainer.updateFlickerBackgroundColor(getThemedColor("dialogBackground"));
         }
     }
@@ -745,21 +744,21 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
         private Delegate delegate;
         private boolean flingInProgress;
         private GestureDetectorCompat gestureDetector;
+        private GenericProvider<Void, Boolean> isKeyboardVisible;
         private boolean isScrolling;
         private boolean isSwipeDisallowed;
         private boolean isSwipeOffsetAnimationDisallowed;
+        private float offsetY;
         private SpringAnimation offsetYAnimator;
+        private float pendingOffsetY;
+        private float pendingSwipeOffsetY;
         private SpringAnimation scrollAnimator;
         private Runnable scrollEndListener;
         private Runnable scrollListener;
         private float swipeOffsetY;
         private int swipeStickyRange;
+        private float topActionBarOffsetY;
         private WebView webView;
-        private float topActionBarOffsetY = ActionBar.getCurrentActionBarHeight();
-        private float offsetY = 0.0f;
-        private float pendingOffsetY = -1.0f;
-        private float pendingSwipeOffsetY = -2.14748365E9f;
-        private GenericProvider<Void, Boolean> isKeyboardVisible = ChatAttachAlertBotWebViewLayout$WebViewSwipeContainer$$ExternalSyntheticLambda3.INSTANCE;
 
         /* loaded from: classes3.dex */
         public interface Delegate {
@@ -774,6 +773,11 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
 
         public WebViewSwipeContainer(Context context) {
             super(context);
+            this.topActionBarOffsetY = ActionBar.getCurrentActionBarHeight();
+            this.offsetY = 0.0f;
+            this.pendingOffsetY = -1.0f;
+            this.pendingSwipeOffsetY = -2.14748365E9f;
+            this.isKeyboardVisible = ChatAttachAlertBotWebViewLayout$WebViewSwipeContainer$$ExternalSyntheticLambda3.INSTANCE;
             final int scaledTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
             this.gestureDetector = new GestureDetectorCompat(context, new GestureDetector.SimpleOnGestureListener() { // from class: org.telegram.ui.Components.ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer.1
                 @Override // android.view.GestureDetector.SimpleOnGestureListener, android.view.GestureDetector.OnGestureListener
@@ -1024,7 +1028,7 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
                     }
                 }
                 boolean dispatchTouchEvent = super.dispatchTouchEvent(motionEvent);
-                return (!dispatchTouchEvent && !onTouchEvent && motionEvent.getAction() == 0) || dispatchTouchEvent || onTouchEvent;
+                return !(dispatchTouchEvent || onTouchEvent || motionEvent.getAction() != 0) || dispatchTouchEvent || onTouchEvent;
             }
             return false;
         }
@@ -1040,10 +1044,10 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
                     runnable.run();
                 }
                 Runnable runnable2 = this.scrollEndListener;
-                if (runnable2 == null) {
+                if (runnable2 != null) {
+                    runnable2.run();
                     return;
                 }
-                runnable2.run();
                 return;
             }
             this.pendingSwipeOffsetY = f;
@@ -1095,7 +1099,7 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
 
     /* loaded from: classes3.dex */
     public static class WebProgressView extends View {
-        private final SimpleFloatPropertyCompat<WebProgressView> LOAD_PROGRESS_PROPERTY = new SimpleFloatPropertyCompat("loadProgress", ChatAttachAlertBotWebViewLayout$WebProgressView$$ExternalSyntheticLambda0.INSTANCE, ChatAttachAlertBotWebViewLayout$WebProgressView$$ExternalSyntheticLambda1.INSTANCE).setMultiplier(100.0f);
+        private final SimpleFloatPropertyCompat<WebProgressView> LOAD_PROGRESS_PROPERTY;
         private Paint bluePaint;
         private float loadProgress;
         private Theme.ResourcesProvider resourcesProvider;
@@ -1103,6 +1107,7 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
 
         public WebProgressView(Context context, Theme.ResourcesProvider resourcesProvider) {
             super(context);
+            this.LOAD_PROGRESS_PROPERTY = new SimpleFloatPropertyCompat("loadProgress", ChatAttachAlertBotWebViewLayout$WebProgressView$$ExternalSyntheticLambda0.INSTANCE, ChatAttachAlertBotWebViewLayout$WebProgressView$$ExternalSyntheticLambda1.INSTANCE).setMultiplier(100.0f);
             Paint paint = new Paint(1);
             this.bluePaint = paint;
             this.resourcesProvider = resourcesProvider;

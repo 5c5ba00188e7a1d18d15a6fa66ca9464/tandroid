@@ -159,10 +159,9 @@ public class TLRPC$TL_config extends TLObject {
         if ((this.flags & 4) != 0) {
             this.base_lang_pack_version = abstractSerializedData.readInt32(z);
         }
-        if ((this.flags & 32768) == 0) {
-            return;
+        if ((this.flags & 32768) != 0) {
+            this.reactions_default = TLRPC$Reaction.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
         }
-        this.reactions_default = TLRPC$Reaction.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
     }
 
     @Override // org.telegram.tgnet.TLObject

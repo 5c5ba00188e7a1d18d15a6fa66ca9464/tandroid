@@ -89,10 +89,10 @@ public class FirebaseMessaging {
             }
             try {
                 PackageManager packageManager = applicationContext.getPackageManager();
-                if (packageManager != null && (applicationInfo = packageManager.getApplicationInfo(applicationContext.getPackageName(), ConnectionsManager.RequestFlagNeedQuickAck)) != null && (bundle = applicationInfo.metaData) != null && bundle.containsKey("firebase_messaging_auto_init_enabled")) {
-                    return Boolean.valueOf(applicationInfo.metaData.getBoolean("firebase_messaging_auto_init_enabled"));
+                if (packageManager == null || (applicationInfo = packageManager.getApplicationInfo(applicationContext.getPackageName(), ConnectionsManager.RequestFlagNeedQuickAck)) == null || (bundle = applicationInfo.metaData) == null || !bundle.containsKey("firebase_messaging_auto_init_enabled")) {
+                    return null;
                 }
-                return null;
+                return Boolean.valueOf(applicationInfo.metaData.getBoolean("firebase_messaging_auto_init_enabled"));
             } catch (PackageManager.NameNotFoundException unused) {
                 return null;
             }
@@ -178,9 +178,10 @@ public class FirebaseMessaging {
     }
 
     private synchronized void startSync() {
-        if (!this.syncScheduledOrRunning) {
-            syncWithDelaySecondsInternal(0L);
+        if (this.syncScheduledOrRunning) {
+            return;
         }
+        syncWithDelaySecondsInternal(0L);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -188,8 +189,7 @@ public class FirebaseMessaging {
         FirebaseInstanceIdInternal firebaseInstanceIdInternal = this.iid;
         if (firebaseInstanceIdInternal != null) {
             firebaseInstanceIdInternal.getToken();
-        } else if (!tokenNeedsRefresh(getTokenWithoutTriggeringSync())) {
-        } else {
+        } else if (tokenNeedsRefresh(getTokenWithoutTriggeringSync())) {
             startSync();
         }
     }

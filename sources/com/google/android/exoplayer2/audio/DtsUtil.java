@@ -81,8 +81,8 @@ public final class DtsUtil {
         return (((i2 >> 2) | i) + 1) * 32;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:10:0x005f  */
-    /* JADX WARN: Removed duplicated region for block: B:13:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x005f  */
+    /* JADX WARN: Removed duplicated region for block: B:17:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

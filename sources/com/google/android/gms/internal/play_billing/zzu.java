@@ -26,11 +26,11 @@ public abstract class zzu extends zzr implements List, RandomAccess {
     public static zzu zzk(Collection collection) {
         if (collection instanceof zzr) {
             zzu zzd = ((zzr) collection).zzd();
-            if (!zzd.zzf()) {
-                return zzd;
+            if (zzd.zzf()) {
+                Object[] array = zzd.toArray();
+                return zzj(array, array.length);
             }
-            Object[] array = zzd.toArray();
-            return zzj(array, array.length);
+            return zzd;
         }
         Object[] array2 = collection.toArray();
         int length = array2.length;

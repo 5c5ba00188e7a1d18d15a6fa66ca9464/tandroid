@@ -30,17 +30,17 @@ public class MovieHeaderBox extends AbstractFullBox {
     private Date creationTime;
     private int currentTime;
     private long duration;
+    private Matrix matrix;
     private Date modificationTime;
     private long nextTrackId;
     private int posterTime;
     private int previewDuration;
     private int previewTime;
+    private double rate;
     private int selectionDuration;
     private int selectionTime;
     private long timescale;
-    private double rate = 1.0d;
-    private float volume = 1.0f;
-    private Matrix matrix = Matrix.ROTATE_0;
+    private float volume;
 
     static {
         ajc$preClinit();
@@ -81,6 +81,9 @@ public class MovieHeaderBox extends AbstractFullBox {
 
     public MovieHeaderBox() {
         super("mvhd");
+        this.rate = 1.0d;
+        this.volume = 1.0f;
+        this.matrix = Matrix.ROTATE_0;
     }
 
     public Date getCreationTime() {

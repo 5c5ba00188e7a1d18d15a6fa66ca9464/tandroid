@@ -83,12 +83,13 @@ public class InviteContactsActivity extends BaseFragment implements Notification
     public class SpansContainer extends ViewGroup {
         private View addingSpan;
         private boolean animationStarted;
-        private ArrayList<Animator> animators = new ArrayList<>();
+        private ArrayList<Animator> animators;
         private AnimatorSet currentAnimation;
         private View removingSpan;
 
         public SpansContainer(Context context) {
             super(context);
+            this.animators = new ArrayList<>();
         }
 
         @Override // android.view.View
@@ -458,12 +459,8 @@ public class InviteContactsActivity extends BaseFragment implements Notification
 
             @Override // android.view.View.OnKeyListener
             public boolean onKey(View view, int i, KeyEvent keyEvent) {
-                boolean z = true;
                 if (keyEvent.getAction() == 0) {
-                    if (InviteContactsActivity.this.editText.length() != 0) {
-                        z = false;
-                    }
-                    this.wasEmpty = z;
+                    this.wasEmpty = InviteContactsActivity.this.editText.length() == 0;
                 } else if (keyEvent.getAction() == 1 && this.wasEmpty && !InviteContactsActivity.this.allSpans.isEmpty()) {
                     InviteContactsActivity.this.spansContainer.removeSpan((GroupCreateSpan) InviteContactsActivity.this.allSpans.get(InviteContactsActivity.this.allSpans.size() - 1));
                     InviteContactsActivity.this.updateHint();
@@ -597,8 +594,7 @@ public class InviteContactsActivity extends BaseFragment implements Notification
             } catch (Exception e) {
                 FileLog.e(e);
             }
-        } else if (!(view instanceof InviteUserCell) || (contact = (inviteUserCell = (InviteUserCell) view).getContact()) == null) {
-        } else {
+        } else if ((view instanceof InviteUserCell) && (contact = (inviteUserCell = (InviteUserCell) view).getContact()) != null) {
             boolean containsKey = this.selectedContacts.containsKey(contact.key);
             if (containsKey) {
                 this.spansContainer.removeSpan(this.selectedContacts.get(contact.key));
@@ -613,10 +609,9 @@ public class InviteContactsActivity extends BaseFragment implements Notification
             } else {
                 inviteUserCell.setChecked(!containsKey, true);
             }
-            if (this.editText.length() <= 0) {
-                return;
+            if (this.editText.length() > 0) {
+                this.editText.setText((CharSequence) null);
             }
-            this.editText.setText((CharSequence) null);
         }
     }
 
@@ -869,11 +864,11 @@ public class InviteContactsActivity extends BaseFragment implements Notification
             }
 
             /* JADX INFO: Access modifiers changed from: private */
-            /* JADX WARN: Code restructure failed: missing block: B:32:0x00c6, code lost:
+            /* JADX WARN: Code restructure failed: missing block: B:34:0x00c6, code lost:
                 if (r11.contains(" " + r14) != false) goto L39;
              */
-            /* JADX WARN: Removed duplicated region for block: B:34:0x00da A[LOOP:1: B:23:0x008a->B:34:0x00da, LOOP_END] */
-            /* JADX WARN: Removed duplicated region for block: B:35:0x00cb A[SYNTHETIC] */
+            /* JADX WARN: Removed duplicated region for block: B:38:0x00da A[LOOP:1: B:25:0x008a->B:38:0x00da, LOOP_END] */
+            /* JADX WARN: Removed duplicated region for block: B:45:0x00cb A[SYNTHETIC] */
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
             */
@@ -884,9 +879,7 @@ public class InviteContactsActivity extends BaseFragment implements Notification
                     return;
                 }
                 String translitString = LocaleController.getInstance().getTranslitString(lowerCase);
-                if (lowerCase.equals(translitString) || translitString.length() == 0) {
-                    translitString = null;
-                }
+                translitString = (lowerCase.equals(translitString) || translitString.length() == 0) ? null : null;
                 int i = (translitString != null ? 1 : 0) + 1;
                 String[] strArr = new String[i];
                 strArr[0] = lowerCase;
@@ -943,25 +936,19 @@ public class InviteContactsActivity extends BaseFragment implements Notification
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$updateSearchResults$0(ArrayList arrayList, ArrayList arrayList2) {
-            if (!this.searching) {
-                return;
+            if (this.searching) {
+                this.searchResult = arrayList;
+                this.searchResultNames = arrayList2;
+                notifyDataSetChanged();
             }
-            this.searchResult = arrayList;
-            this.searchResultNames = arrayList2;
-            notifyDataSetChanged();
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public void notifyDataSetChanged() {
             super.notifyDataSetChanged();
             int itemCount = getItemCount();
-            boolean z = false;
             InviteContactsActivity.this.emptyView.setVisibility(itemCount == 1 ? 0 : 4);
-            GroupCreateDividerItemDecoration groupCreateDividerItemDecoration = InviteContactsActivity.this.decoration;
-            if (itemCount == 1) {
-                z = true;
-            }
-            groupCreateDividerItemDecoration.setSingle(z);
+            InviteContactsActivity.this.decoration.setSingle(itemCount == 1);
         }
     }
 

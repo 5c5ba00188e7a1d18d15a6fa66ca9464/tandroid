@@ -123,12 +123,12 @@ public abstract class TLRPC$ChatInvite extends TLObject {
                 }
             };
         }
-        if (tLRPC$ChatInvite != null || !z) {
-            if (tLRPC$ChatInvite != null) {
-                tLRPC$ChatInvite.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$ChatInvite;
+        if (tLRPC$ChatInvite == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in ChatInvite", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in ChatInvite", Integer.valueOf(i)));
+        if (tLRPC$ChatInvite != null) {
+            tLRPC$ChatInvite.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$ChatInvite;
     }
 }

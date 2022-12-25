@@ -331,7 +331,7 @@ public final class MediaCodecUtil {
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:43:0x0077, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:37:0x0077, code lost:
         if (r3.equals("av01") == false) goto L11;
      */
     /*
@@ -417,17 +417,17 @@ public final class MediaCodecUtil {
     }
 
     /* JADX WARN: Can't wrap try/catch for region: R(7:28|(4:(2:72|73)|53|(9:56|57|58|59|60|61|62|64|65)|9)|32|33|34|36|9) */
-    /* JADX WARN: Code restructure failed: missing block: B:37:0x00a7, code lost:
-        r0 = e;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:38:0x00a8, code lost:
-        r1 = r11;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:74:0x0084, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:32:0x0084, code lost:
         if (r1.secure == false) goto L32;
      */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x0105 A[Catch: Exception -> 0x0153, TRY_ENTER, TryCatch #5 {Exception -> 0x0153, blocks: (B:3:0x0009, B:5:0x001c, B:9:0x0124, B:10:0x002e, B:13:0x0039, B:39:0x00fd, B:42:0x0105, B:44:0x010b, B:47:0x012e, B:48:0x0151), top: B:2:0x0009 }] */
-    /* JADX WARN: Removed duplicated region for block: B:51:0x012e A[ADDED_TO_REGION, SYNTHETIC] */
+    /* JADX WARN: Code restructure failed: missing block: B:35:0x00a7, code lost:
+        r0 = e;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:36:0x00a8, code lost:
+        r1 = r11;
+     */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x0105 A[Catch: Exception -> 0x0153, TRY_ENTER, TryCatch #5 {Exception -> 0x0153, blocks: (B:3:0x0009, B:5:0x001c, B:60:0x0124, B:8:0x002e, B:11:0x0039, B:54:0x00fd, B:57:0x0105, B:59:0x010b, B:61:0x012e, B:62:0x0151), top: B:78:0x0009 }] */
+    /* JADX WARN: Removed duplicated region for block: B:80:0x012e A[ADDED_TO_REGION, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -560,10 +560,10 @@ public final class MediaCodecUtil {
             if ("OMX.MS.HEVCDV.Decoder".equals(str)) {
                 return "video/hevcdv";
             }
-            if (!"OMX.RTK.video.decoder".equals(str) && !"OMX.realtek.video.decoder.tunneled".equals(str)) {
-                return null;
+            if ("OMX.RTK.video.decoder".equals(str) || "OMX.realtek.video.decoder.tunneled".equals(str)) {
+                return "video/dv_hevc";
             }
-            return "video/dv_hevc";
+            return null;
         } else if (str2.equals("audio/alac") && "OMX.lge.alac.decoder".equals(str)) {
             return "audio/x-lg-alac";
         } else {
@@ -579,43 +579,43 @@ public final class MediaCodecUtil {
             return false;
         }
         int i = Util.SDK_INT;
-        if (i < 21 && ("CIPAACDecoder".equals(str) || "CIPMP3Decoder".equals(str) || "CIPVorbisDecoder".equals(str) || "CIPAMRNBDecoder".equals(str) || "AACDecoder".equals(str) || "MP3Decoder".equals(str))) {
-            return false;
-        }
-        if (i < 18 && "OMX.MTK.AUDIO.DECODER.AAC".equals(str)) {
-            String str3 = Util.DEVICE;
-            if ("a70".equals(str3) || ("Xiaomi".equals(Util.MANUFACTURER) && str3.startsWith("HM"))) {
+        if (i >= 21 || !("CIPAACDecoder".equals(str) || "CIPMP3Decoder".equals(str) || "CIPVorbisDecoder".equals(str) || "CIPAMRNBDecoder".equals(str) || "AACDecoder".equals(str) || "MP3Decoder".equals(str))) {
+            if (i < 18 && "OMX.MTK.AUDIO.DECODER.AAC".equals(str)) {
+                String str3 = Util.DEVICE;
+                if ("a70".equals(str3) || ("Xiaomi".equals(Util.MANUFACTURER) && str3.startsWith("HM"))) {
+                    return false;
+                }
+            }
+            if (i == 16 && "OMX.qcom.audio.decoder.mp3".equals(str)) {
+                String str4 = Util.DEVICE;
+                if ("dlxu".equals(str4) || "protou".equals(str4) || "ville".equals(str4) || "villeplus".equals(str4) || "villec2".equals(str4) || str4.startsWith("gee") || "C6602".equals(str4) || "C6603".equals(str4) || "C6606".equals(str4) || "C6616".equals(str4) || "L36h".equals(str4) || "SO-02E".equals(str4)) {
+                    return false;
+                }
+            }
+            if (i == 16 && "OMX.qcom.audio.decoder.aac".equals(str)) {
+                String str5 = Util.DEVICE;
+                if ("C1504".equals(str5) || "C1505".equals(str5) || "C1604".equals(str5) || "C1605".equals(str5)) {
+                    return false;
+                }
+            }
+            if (i < 24 && (("OMX.SEC.aac.dec".equals(str) || "OMX.Exynos.AAC.Decoder".equals(str)) && "samsung".equals(Util.MANUFACTURER))) {
+                String str6 = Util.DEVICE;
+                if (str6.startsWith("zeroflte") || str6.startsWith("zerolte") || str6.startsWith("zenlte") || "SC-05G".equals(str6) || "marinelteatt".equals(str6) || "404SC".equals(str6) || "SC-04G".equals(str6) || "SCV31".equals(str6)) {
+                    return false;
+                }
+            }
+            if (i <= 19 && "OMX.SEC.vp8.dec".equals(str) && "samsung".equals(Util.MANUFACTURER)) {
+                String str7 = Util.DEVICE;
+                if (str7.startsWith("d2") || str7.startsWith("serrano") || str7.startsWith("jflte") || str7.startsWith("santos") || str7.startsWith("t0")) {
+                    return false;
+                }
+            }
+            if (i <= 19 && Util.DEVICE.startsWith("jflte") && "OMX.qcom.video.decoder.vp8".equals(str)) {
                 return false;
             }
+            return ("audio/eac3-joc".equals(str2) && "OMX.MTK.AUDIO.DECODER.DSPAC3".equals(str)) ? false : true;
         }
-        if (i == 16 && "OMX.qcom.audio.decoder.mp3".equals(str)) {
-            String str4 = Util.DEVICE;
-            if ("dlxu".equals(str4) || "protou".equals(str4) || "ville".equals(str4) || "villeplus".equals(str4) || "villec2".equals(str4) || str4.startsWith("gee") || "C6602".equals(str4) || "C6603".equals(str4) || "C6606".equals(str4) || "C6616".equals(str4) || "L36h".equals(str4) || "SO-02E".equals(str4)) {
-                return false;
-            }
-        }
-        if (i == 16 && "OMX.qcom.audio.decoder.aac".equals(str)) {
-            String str5 = Util.DEVICE;
-            if ("C1504".equals(str5) || "C1505".equals(str5) || "C1604".equals(str5) || "C1605".equals(str5)) {
-                return false;
-            }
-        }
-        if (i < 24 && (("OMX.SEC.aac.dec".equals(str) || "OMX.Exynos.AAC.Decoder".equals(str)) && "samsung".equals(Util.MANUFACTURER))) {
-            String str6 = Util.DEVICE;
-            if (str6.startsWith("zeroflte") || str6.startsWith("zerolte") || str6.startsWith("zenlte") || "SC-05G".equals(str6) || "marinelteatt".equals(str6) || "404SC".equals(str6) || "SC-04G".equals(str6) || "SCV31".equals(str6)) {
-                return false;
-            }
-        }
-        if (i <= 19 && "OMX.SEC.vp8.dec".equals(str) && "samsung".equals(Util.MANUFACTURER)) {
-            String str7 = Util.DEVICE;
-            if (str7.startsWith("d2") || str7.startsWith("serrano") || str7.startsWith("jflte") || str7.startsWith("santos") || str7.startsWith("t0")) {
-                return false;
-            }
-        }
-        if (i <= 19 && Util.DEVICE.startsWith("jflte") && "OMX.qcom.video.decoder.vp8".equals(str)) {
-            return false;
-        }
-        return !"audio/eac3-joc".equals(str2) || !"OMX.MTK.AUDIO.DECODER.DSPAC3".equals(str);
+        return false;
     }
 
     private static void applyWorkarounds(String str, List<MediaCodecInfo> list) {
@@ -680,7 +680,7 @@ public final class MediaCodecUtil {
         if (lowerInvariant.startsWith("arc.")) {
             return false;
         }
-        return lowerInvariant.startsWith("omx.google.") || lowerInvariant.startsWith("omx.ffmpeg.") || (lowerInvariant.startsWith("omx.sec.") && lowerInvariant.contains(".sw.")) || lowerInvariant.equals("omx.qcom.video.decoder.hevcswvdec") || lowerInvariant.startsWith("c2.android.") || lowerInvariant.startsWith("c2.google.") || (!lowerInvariant.startsWith("omx.") && !lowerInvariant.startsWith("c2."));
+        return lowerInvariant.startsWith("omx.google.") || lowerInvariant.startsWith("omx.ffmpeg.") || (lowerInvariant.startsWith("omx.sec.") && lowerInvariant.contains(".sw.")) || lowerInvariant.equals("omx.qcom.video.decoder.hevcswvdec") || lowerInvariant.startsWith("c2.android.") || lowerInvariant.startsWith("c2.google.") || !(lowerInvariant.startsWith("omx.") || lowerInvariant.startsWith("c2."));
     }
 
     @TargetApi(29)
@@ -693,7 +693,7 @@ public final class MediaCodecUtil {
             return isVendorV29(mediaCodecInfo);
         }
         String lowerInvariant = Util.toLowerInvariant(mediaCodecInfo.getName());
-        return !lowerInvariant.startsWith("omx.google.") && !lowerInvariant.startsWith("c2.android.") && !lowerInvariant.startsWith("c2.google.");
+        return (lowerInvariant.startsWith("omx.google.") || lowerInvariant.startsWith("c2.android.") || lowerInvariant.startsWith("c2.google.")) ? false : true;
     }
 
     @TargetApi(29)
@@ -985,12 +985,7 @@ public final class MediaCodecUtil {
         }
 
         public int hashCode() {
-            int i = 1231;
-            int hashCode = (((this.mimeType.hashCode() + 31) * 31) + (this.secure ? 1231 : 1237)) * 31;
-            if (!this.tunneling) {
-                i = 1237;
-            }
-            return hashCode + i;
+            return ((((this.mimeType.hashCode() + 31) * 31) + (this.secure ? 1231 : 1237)) * 31) + (this.tunneling ? 1231 : 1237);
         }
 
         public boolean equals(Object obj) {

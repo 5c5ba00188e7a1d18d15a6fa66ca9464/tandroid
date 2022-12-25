@@ -191,7 +191,6 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
             this.imageView = imageView;
             imageView.setScaleType(ImageView.ScaleType.CENTER);
             this.imageView.setColorFilter(new PorterDuffColorFilter(getThemedColor("dialogIcon"), PorterDuff.Mode.MULTIPLY));
-            int i = 5;
             addView(this.imageView, LayoutHelper.createFrame(-2, 40, (LocaleController.isRTL ? 5 : 3) | 16));
             TextView textView = new TextView(context);
             this.textView = textView;
@@ -201,7 +200,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
             this.textView.setEllipsize(TextUtils.TruncateAt.END);
             this.textView.setTextColor(getThemedColor("dialogTextBlack"));
             this.textView.setTextSize(1, 16.0f);
-            addView(this.textView, LayoutHelper.createFrame(-2, -2, (!LocaleController.isRTL ? 3 : i) | 16));
+            addView(this.textView, LayoutHelper.createFrame(-2, -2, (LocaleController.isRTL ? 5 : 3) | 16));
         }
 
         @Override // android.widget.FrameLayout, android.view.View
@@ -837,10 +836,10 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
             layoutParams.width = min + rect2.left + rect2.right;
         }
         View view3 = this.customView;
-        if (view3 == null || !this.checkFocusable || !canTextInput(view3)) {
-            layoutParams.flags |= 131072;
-        } else {
+        if (view3 != null && this.checkFocusable && canTextInput(view3)) {
             layoutParams.softInputMode = 4;
+        } else {
+            layoutParams.flags |= 131072;
         }
         if (Build.VERSION.SDK_INT >= 28) {
             layoutParams.layoutInDisplayCutoutMode = 0;
@@ -873,9 +872,9 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes3.dex */
     public class 1 extends LinearLayout {
+        private Paint backgroundPaint;
+        private AnimatedFloat blurPaintAlpha;
         private boolean inLayout;
-        private AnimatedFloat blurPaintAlpha = new AnimatedFloat(0.0f, this);
-        private Paint backgroundPaint = new Paint(1);
 
         @Override // android.view.View
         public boolean hasOverlappingRendering() {
@@ -884,6 +883,8 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
 
         1(Context context) {
             super(context);
+            this.blurPaintAlpha = new AnimatedFloat(0.0f, this);
+            this.backgroundPaint = new Paint(1);
         }
 
         @Override // android.view.View
@@ -904,7 +905,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
             return super.onInterceptTouchEvent(motionEvent);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:92:0x0328  */
+        /* JADX WARN: Removed duplicated region for block: B:85:0x0328  */
         @Override // android.widget.LinearLayout, android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -1024,15 +1025,14 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
             }
             setMeasuredDimension(size, (((size2 - i3) + getPaddingTop()) + getPaddingBottom()) - (AlertDialog.this.topAnimationIsNew ? AndroidUtilities.dp(8.0f) : 0));
             this.inLayout = false;
-            if (AlertDialog.this.lastScreenWidth == AndroidUtilities.displaySize.x) {
-                return;
+            if (AlertDialog.this.lastScreenWidth != AndroidUtilities.displaySize.x) {
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ActionBar.AlertDialog$1$$ExternalSyntheticLambda1
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        AlertDialog.1.this.lambda$onMeasure$0();
+                    }
+                });
             }
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ActionBar.AlertDialog$1$$ExternalSyntheticLambda1
-                @Override // java.lang.Runnable
-                public final void run() {
-                    AlertDialog.1.this.lambda$onMeasure$0();
-                }
-            });
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -1270,28 +1270,27 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
 
     /* JADX INFO: Access modifiers changed from: private */
     public void showCancelAlert() {
-        if (!this.canCacnel || this.cancelDialog != null) {
-            return;
-        }
-        Builder builder = new Builder(getContext());
-        builder.setTitle(LocaleController.getString("StopLoadingTitle", R.string.StopLoadingTitle));
-        builder.setMessage(LocaleController.getString("StopLoading", R.string.StopLoading));
-        builder.setPositiveButton(LocaleController.getString("WaitMore", R.string.WaitMore), null);
-        builder.setNegativeButton(LocaleController.getString("Stop", R.string.Stop), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ActionBar.AlertDialog$$ExternalSyntheticLambda0
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i) {
-                AlertDialog.this.lambda$showCancelAlert$6(dialogInterface, i);
+        if (this.canCacnel && this.cancelDialog == null) {
+            Builder builder = new Builder(getContext());
+            builder.setTitle(LocaleController.getString("StopLoadingTitle", R.string.StopLoadingTitle));
+            builder.setMessage(LocaleController.getString("StopLoading", R.string.StopLoading));
+            builder.setPositiveButton(LocaleController.getString("WaitMore", R.string.WaitMore), null);
+            builder.setNegativeButton(LocaleController.getString("Stop", R.string.Stop), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ActionBar.AlertDialog$$ExternalSyntheticLambda0
+                @Override // android.content.DialogInterface.OnClickListener
+                public final void onClick(DialogInterface dialogInterface, int i) {
+                    AlertDialog.this.lambda$showCancelAlert$6(dialogInterface, i);
+                }
+            });
+            builder.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.ActionBar.AlertDialog$$ExternalSyntheticLambda1
+                @Override // android.content.DialogInterface.OnDismissListener
+                public final void onDismiss(DialogInterface dialogInterface) {
+                    AlertDialog.this.lambda$showCancelAlert$7(dialogInterface);
+                }
+            });
+            try {
+                this.cancelDialog = builder.show();
+            } catch (Exception unused) {
             }
-        });
-        builder.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.ActionBar.AlertDialog$$ExternalSyntheticLambda1
-            @Override // android.content.DialogInterface.OnDismissListener
-            public final void onDismiss(DialogInterface dialogInterface) {
-                AlertDialog.this.lambda$showCancelAlert$7(dialogInterface);
-            }
-        });
-        try {
-            this.cancelDialog = builder.show();
-        } catch (Exception unused) {
         }
     }
 
@@ -1376,16 +1375,16 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
         if (view.onCheckIsTextEditor()) {
             return true;
         }
-        if (!(view instanceof ViewGroup)) {
-            return false;
-        }
-        ViewGroup viewGroup = (ViewGroup) view;
-        int childCount = viewGroup.getChildCount();
-        while (childCount > 0) {
-            childCount--;
-            if (canTextInput(viewGroup.getChildAt(childCount))) {
-                return true;
+        if (view instanceof ViewGroup) {
+            ViewGroup viewGroup = (ViewGroup) view;
+            int childCount = viewGroup.getChildCount();
+            while (childCount > 0) {
+                childCount--;
+                if (canTextInput(viewGroup.getChildAt(childCount))) {
+                    return true;
+                }
             }
+            return false;
         }
         return false;
     }

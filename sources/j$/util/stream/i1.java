@@ -18,12 +18,12 @@ class i1 extends j1 implements j3 {
     public void accept(double d) {
         boolean z;
         boolean z2;
-        if (!this.a) {
-            boolean b = this.d.b(d);
-            z = this.c.a;
-            if (b != z) {
-                return;
-            }
+        if (this.a) {
+            return;
+        }
+        boolean b = this.d.b(d);
+        z = this.c.a;
+        if (b == z) {
             this.a = true;
             z2 = this.c.b;
             this.b = z2;

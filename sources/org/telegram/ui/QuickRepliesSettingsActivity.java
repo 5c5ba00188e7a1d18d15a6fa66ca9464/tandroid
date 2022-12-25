@@ -132,7 +132,7 @@ public class QuickRepliesSettingsActivity extends BaseFragment {
             return QuickRepliesSettingsActivity.this.rowCount;
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:14:0x0082  */
+        /* JADX WARN: Removed duplicated region for block: B:27:0x0082  */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -148,7 +148,6 @@ public class QuickRepliesSettingsActivity extends BaseFragment {
                 textInfoPrivacyCell.setText(LocaleController.getString("VoipQuickRepliesExplain", R.string.VoipQuickRepliesExplain));
                 return;
             }
-            boolean z = true;
             if (itemViewType == 1) {
                 TextSettingsCell textSettingsCell = (TextSettingsCell) viewHolder.itemView;
             } else if (itemViewType != 4) {
@@ -162,18 +161,13 @@ public class QuickRepliesSettingsActivity extends BaseFragment {
                         if (i != QuickRepliesSettingsActivity.this.reply1Row) {
                             if (i != QuickRepliesSettingsActivity.this.reply2Row) {
                                 if (i != QuickRepliesSettingsActivity.this.reply3Row) {
-                                    if (i == QuickRepliesSettingsActivity.this.reply4Row) {
-                                        string = LocaleController.getString("QuickReplyDefault4", R.string.QuickReplyDefault4);
-                                        str2 = "quick_reply_msg4";
-                                    } else {
+                                    if (i != QuickRepliesSettingsActivity.this.reply4Row) {
                                         str = null;
-                                        String string2 = QuickRepliesSettingsActivity.this.getParentActivity().getSharedPreferences("mainconfig", 0).getString(str3, "");
-                                        if (i == QuickRepliesSettingsActivity.this.reply4Row) {
-                                            z = false;
-                                        }
-                                        editTextSettingsCell.setTextAndHint(string2, str, z);
+                                        editTextSettingsCell.setTextAndHint(QuickRepliesSettingsActivity.this.getParentActivity().getSharedPreferences("mainconfig", 0).getString(str3, ""), str, i != QuickRepliesSettingsActivity.this.reply4Row);
                                         return;
                                     }
+                                    string = LocaleController.getString("QuickReplyDefault4", R.string.QuickReplyDefault4);
+                                    str2 = "quick_reply_msg4";
                                 } else {
                                     string = LocaleController.getString("QuickReplyDefault3", R.string.QuickReplyDefault3);
                                     str2 = "quick_reply_msg3";
@@ -189,10 +183,7 @@ public class QuickRepliesSettingsActivity extends BaseFragment {
                         String str4 = string;
                         str3 = str2;
                         str = str4;
-                        String string22 = QuickRepliesSettingsActivity.this.getParentActivity().getSharedPreferences("mainconfig", 0).getString(str3, "");
-                        if (i == QuickRepliesSettingsActivity.this.reply4Row) {
-                        }
-                        editTextSettingsCell.setTextAndHint(string22, str, z);
+                        editTextSettingsCell.setTextAndHint(QuickRepliesSettingsActivity.this.getParentActivity().getSharedPreferences("mainconfig", 0).getString(str3, ""), str, i != QuickRepliesSettingsActivity.this.reply4Row);
                         return;
                     default:
                         return;
@@ -242,10 +233,10 @@ public class QuickRepliesSettingsActivity extends BaseFragment {
             if (i == QuickRepliesSettingsActivity.this.explanationRow) {
                 return 0;
             }
-            if (i != QuickRepliesSettingsActivity.this.reply1Row && i != QuickRepliesSettingsActivity.this.reply2Row && i != QuickRepliesSettingsActivity.this.reply3Row && i != QuickRepliesSettingsActivity.this.reply4Row) {
-                return 1;
+            if (i == QuickRepliesSettingsActivity.this.reply1Row || i == QuickRepliesSettingsActivity.this.reply2Row || i == QuickRepliesSettingsActivity.this.reply3Row || i == QuickRepliesSettingsActivity.this.reply4Row) {
+                return (i - QuickRepliesSettingsActivity.this.reply1Row) + 9;
             }
-            return (i - QuickRepliesSettingsActivity.this.reply1Row) + 9;
+            return 1;
         }
     }
 

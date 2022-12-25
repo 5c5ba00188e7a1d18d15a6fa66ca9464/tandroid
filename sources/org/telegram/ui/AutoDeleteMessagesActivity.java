@@ -175,15 +175,16 @@ public class AutoDeleteMessagesActivity extends BaseFragment implements Notifica
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$run$0(ArrayList arrayList) {
-            if (!arrayList.isEmpty()) {
-                for (int i = 0; i < arrayList.size(); i++) {
-                    AutoDeleteMessagesActivity.this.getMessagesController().setDialogHistoryTTL(((Long) arrayList.get(i)).longValue(), AutoDeleteMessagesActivity.this.getSelectedTime() * 60);
-                }
-                if (AutoDeleteMessagesActivity.this.getSelectedTime() > 0) {
-                    BulletinFactory.of(AutoDeleteMessagesActivity.this).createSimpleBulletin(R.raw.fire_on, AndroidUtilities.replaceTags(LocaleController.formatString("AutodeleteTimerEnabledForChats", R.string.AutodeleteTimerEnabledForChats, LocaleController.formatTTLString(AutoDeleteMessagesActivity.this.getSelectedTime() * 60), LocaleController.formatPluralString("Chats", arrayList.size(), Integer.valueOf(arrayList.size()))))).show();
-                } else {
-                    BulletinFactory.of(AutoDeleteMessagesActivity.this).createSimpleBulletin(R.raw.fire_off, LocaleController.formatString("AutodeleteTimerDisabledForChats", R.string.AutodeleteTimerDisabledForChats, LocaleController.formatPluralString("Chats", arrayList.size(), Integer.valueOf(arrayList.size())))).show();
-                }
+            if (arrayList.isEmpty()) {
+                return;
+            }
+            for (int i = 0; i < arrayList.size(); i++) {
+                AutoDeleteMessagesActivity.this.getMessagesController().setDialogHistoryTTL(((Long) arrayList.get(i)).longValue(), AutoDeleteMessagesActivity.this.getSelectedTime() * 60);
+            }
+            if (AutoDeleteMessagesActivity.this.getSelectedTime() > 0) {
+                BulletinFactory.of(AutoDeleteMessagesActivity.this).createSimpleBulletin(R.raw.fire_on, AndroidUtilities.replaceTags(LocaleController.formatString("AutodeleteTimerEnabledForChats", R.string.AutodeleteTimerEnabledForChats, LocaleController.formatTTLString(AutoDeleteMessagesActivity.this.getSelectedTime() * 60), LocaleController.formatPluralString("Chats", arrayList.size(), Integer.valueOf(arrayList.size()))))).show();
+            } else {
+                BulletinFactory.of(AutoDeleteMessagesActivity.this).createSimpleBulletin(R.raw.fire_off, LocaleController.formatString("AutodeleteTimerDisabledForChats", R.string.AutodeleteTimerDisabledForChats, LocaleController.formatPluralString("Chats", arrayList.size(), Integer.valueOf(arrayList.size())))).show();
             }
         }
     }
@@ -341,19 +342,19 @@ public class AutoDeleteMessagesActivity extends BaseFragment implements Notifica
         super.onPause();
         for (int i = 0; i < this.arrayList.size(); i++) {
             if (this.arrayList.get(i).isChecked()) {
-                if (this.arrayList.get(i).time == this.startFromTtl) {
+                if (this.arrayList.get(i).time != this.startFromTtl) {
+                    this.startFromTtl = this.arrayList.get(i).time;
+                    TLRPC$TL_messages_setDefaultHistoryTTL tLRPC$TL_messages_setDefaultHistoryTTL = new TLRPC$TL_messages_setDefaultHistoryTTL();
+                    tLRPC$TL_messages_setDefaultHistoryTTL.period = this.arrayList.get(i).time * 60;
+                    getConnectionsManager().sendRequest(tLRPC$TL_messages_setDefaultHistoryTTL, new RequestDelegate(this) { // from class: org.telegram.ui.AutoDeleteMessagesActivity.4
+                        @Override // org.telegram.tgnet.RequestDelegate
+                        public void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                        }
+                    });
+                    getUserConfig().setGlobalTtl(this.startFromTtl);
+                    NotificationCenter.getInstance(this.currentAccount).postNotificationName(NotificationCenter.didUpdateGlobalAutoDeleteTimer, new Object[0]);
                     return;
                 }
-                this.startFromTtl = this.arrayList.get(i).time;
-                TLRPC$TL_messages_setDefaultHistoryTTL tLRPC$TL_messages_setDefaultHistoryTTL = new TLRPC$TL_messages_setDefaultHistoryTTL();
-                tLRPC$TL_messages_setDefaultHistoryTTL.period = this.arrayList.get(i).time * 60;
-                getConnectionsManager().sendRequest(tLRPC$TL_messages_setDefaultHistoryTTL, new RequestDelegate(this) { // from class: org.telegram.ui.AutoDeleteMessagesActivity.4
-                    @Override // org.telegram.tgnet.RequestDelegate
-                    public void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                    }
-                });
-                getUserConfig().setGlobalTtl(this.startFromTtl);
-                NotificationCenter.getInstance(this.currentAccount).postNotificationName(NotificationCenter.didUpdateGlobalAutoDeleteTimer, new Object[0]);
                 return;
             }
         }

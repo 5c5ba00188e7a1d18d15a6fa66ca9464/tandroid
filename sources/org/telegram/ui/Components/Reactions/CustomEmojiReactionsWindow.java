@@ -179,14 +179,14 @@ public class CustomEmojiReactionsWindow {
 
         @Override // org.telegram.ui.SelectAnimatedEmojiDialog
         protected void onInputFocus() {
-            if (!CustomEmojiReactionsWindow.this.wasFocused) {
-                CustomEmojiReactionsWindow.this.wasFocused = true;
-                CustomEmojiReactionsWindow customEmojiReactionsWindow = CustomEmojiReactionsWindow.this;
-                customEmojiReactionsWindow.windowManager.updateViewLayout(customEmojiReactionsWindow.windowView, customEmojiReactionsWindow.createLayoutParams(true));
-                BaseFragment baseFragment = this.val$baseFragment;
-                if (!(baseFragment instanceof ChatActivity)) {
-                    return;
-                }
+            if (CustomEmojiReactionsWindow.this.wasFocused) {
+                return;
+            }
+            CustomEmojiReactionsWindow.this.wasFocused = true;
+            CustomEmojiReactionsWindow customEmojiReactionsWindow = CustomEmojiReactionsWindow.this;
+            customEmojiReactionsWindow.windowManager.updateViewLayout(customEmojiReactionsWindow.windowView, customEmojiReactionsWindow.createLayoutParams(true));
+            BaseFragment baseFragment = this.val$baseFragment;
+            if (baseFragment instanceof ChatActivity) {
                 ((ChatActivity) baseFragment).needEnterText();
             }
         }
@@ -324,9 +324,10 @@ public class CustomEmojiReactionsWindow {
                 if (!z) {
                     CustomEmojiReactionsWindow.this.reactionsContainerLayout.setSkipDraw(false);
                 }
-                if (!z) {
-                    CustomEmojiReactionsWindow.this.removeView();
+                if (z) {
+                    return;
                 }
+                CustomEmojiReactionsWindow.this.removeView();
             }
         });
         ofFloat.setStartDelay(30L);
@@ -378,10 +379,9 @@ public class CustomEmojiReactionsWindow {
         } catch (Exception unused) {
         }
         Runnable runnable = this.onDismiss;
-        if (runnable == null) {
-            return;
+        if (runnable != null) {
+            runnable.run();
         }
-        runnable.run();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -393,14 +393,12 @@ public class CustomEmojiReactionsWindow {
         this.dismissed = true;
         AndroidUtilities.hideKeyboard(this.windowView);
         createTransition(false);
-        if (!this.wasFocused) {
-            return;
+        if (this.wasFocused) {
+            BaseFragment baseFragment = this.baseFragment;
+            if (baseFragment instanceof ChatActivity) {
+                ((ChatActivity) baseFragment).onEditTextDialogClose(true, true);
+            }
         }
-        BaseFragment baseFragment = this.baseFragment;
-        if (!(baseFragment instanceof ChatActivity)) {
-            return;
-        }
-        ((ChatActivity) baseFragment).onEditTextDialogClose(true, true);
     }
 
     public void onDismissListener(Runnable runnable) {
@@ -408,28 +406,29 @@ public class CustomEmojiReactionsWindow {
     }
 
     public void dismiss(boolean z) {
-        if (!this.dismissed || !z) {
-            this.dismissed = true;
-            if (!z) {
-                removeView();
-                return;
-            }
-            ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Reactions.CustomEmojiReactionsWindow$$ExternalSyntheticLambda0
-                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                    CustomEmojiReactionsWindow.this.lambda$dismiss$3(valueAnimator);
-                }
-            });
-            ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.Reactions.CustomEmojiReactionsWindow.7
-                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                public void onAnimationEnd(Animator animator) {
-                    CustomEmojiReactionsWindow.this.removeView();
-                }
-            });
-            ofFloat.setDuration(150L);
-            ofFloat.start();
+        if (this.dismissed && z) {
+            return;
         }
+        this.dismissed = true;
+        if (!z) {
+            removeView();
+            return;
+        }
+        ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Reactions.CustomEmojiReactionsWindow$$ExternalSyntheticLambda0
+            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+            public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                CustomEmojiReactionsWindow.this.lambda$dismiss$3(valueAnimator);
+            }
+        });
+        ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.Reactions.CustomEmojiReactionsWindow.7
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationEnd(Animator animator) {
+                CustomEmojiReactionsWindow.this.removeView();
+            }
+        });
+        ofFloat.setDuration(150L);
+        ofFloat.start();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -442,15 +441,20 @@ public class CustomEmojiReactionsWindow {
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class ContainerView extends FrameLayout {
+        Paint backgroundPaint;
+        private Paint dimPaint;
+        int[] radiusTmp;
         Drawable shadow;
-        Rect shadowPad = new Rect();
-        Paint backgroundPaint = new Paint(1);
-        private Paint dimPaint = new Paint(1);
-        int[] radiusTmp = new int[4];
-        HashMap<ReactionsLayoutInBubble.VisibleReaction, SelectAnimatedEmojiDialog.ImageViewEmoji> transitionReactions = new HashMap<>();
+        Rect shadowPad;
+        HashMap<ReactionsLayoutInBubble.VisibleReaction, SelectAnimatedEmojiDialog.ImageViewEmoji> transitionReactions;
 
         public ContainerView(Context context) {
             super(context);
+            this.shadowPad = new Rect();
+            this.backgroundPaint = new Paint(1);
+            this.dimPaint = new Paint(1);
+            this.radiusTmp = new int[4];
+            this.transitionReactions = new HashMap<>();
             this.shadow = ContextCompat.getDrawable(context, R.drawable.reactions_bubble_shadow).mutate();
             Rect rect = this.shadowPad;
             int dp = AndroidUtilities.dp(7.0f);

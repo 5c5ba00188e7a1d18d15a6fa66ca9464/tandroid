@@ -20,12 +20,12 @@ public abstract class TLRPC$PhoneCallDiscardReason extends TLObject {
                 tLRPC$TL_phoneCallDiscardReasonMissed = null;
                 break;
         }
-        if (tLRPC$TL_phoneCallDiscardReasonMissed != null || !z) {
-            if (tLRPC$TL_phoneCallDiscardReasonMissed != null) {
-                tLRPC$TL_phoneCallDiscardReasonMissed.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_phoneCallDiscardReasonMissed;
+        if (tLRPC$TL_phoneCallDiscardReasonMissed == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in PhoneCallDiscardReason", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in PhoneCallDiscardReason", Integer.valueOf(i)));
+        if (tLRPC$TL_phoneCallDiscardReasonMissed != null) {
+            tLRPC$TL_phoneCallDiscardReasonMissed.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_phoneCallDiscardReasonMissed;
     }
 }

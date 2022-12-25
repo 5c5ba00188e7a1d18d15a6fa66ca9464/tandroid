@@ -103,13 +103,13 @@ public final class zzff {
         byte b = bArr[i - 1];
         int i3 = i2 - i;
         if (i3 != 0) {
-            if (i3 == 1) {
-                return zzp(b, bArr[i]);
-            }
-            if (i3 != 2) {
+            if (i3 != 1) {
+                if (i3 == 2) {
+                    return zzd(b, bArr[i], bArr[i + 1]);
+                }
                 throw new AssertionError();
             }
-            return zzd(b, bArr[i], bArr[i + 1]);
+            return zzp(b, bArr[i]);
         }
         return zzam(b);
     }

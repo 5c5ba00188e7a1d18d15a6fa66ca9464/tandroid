@@ -4,10 +4,10 @@ import org.telegram.tgnet.ConnectionsManager;
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
 final class zzht extends zzho {
-    /* JADX WARN: Code restructure failed: missing block: B:55:0x00b6, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:33:0x0061, code lost:
         return -1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:69:0x0061, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:61:0x00b6, code lost:
         return -1;
      */
     @Override // com.google.android.gms.internal.mlkit_language_id.zzho

@@ -14,7 +14,7 @@ import org.aspectj.runtime.reflect.Factory;
 /* loaded from: classes.dex */
 public class CompositionTimeToSample extends AbstractFullBox {
     private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_1 = null;
-    List<Entry> entries = Collections.emptyList();
+    List<Entry> entries;
 
     static {
         ajc$preClinit();
@@ -28,6 +28,7 @@ public class CompositionTimeToSample extends AbstractFullBox {
 
     public CompositionTimeToSample() {
         super("ctts");
+        this.entries = Collections.emptyList();
     }
 
     @Override // com.googlecode.mp4parser.AbstractBox

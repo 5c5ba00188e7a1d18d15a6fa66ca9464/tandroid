@@ -12,7 +12,7 @@ public class VideoEditTextureView extends TextureView implements TextureView.Sur
     private FilterGLThread eglThread;
     private int videoHeight;
     private int videoWidth;
-    private Rect viewRect = new Rect();
+    private Rect viewRect;
 
     /* loaded from: classes3.dex */
     public interface VideoEditTextureViewDelegate {
@@ -25,6 +25,7 @@ public class VideoEditTextureView extends TextureView implements TextureView.Sur
 
     public VideoEditTextureView(Context context, VideoPlayer videoPlayer) {
         super(context);
+        this.viewRect = new Rect();
         this.currentVideoPlayer = videoPlayer;
         setSurfaceTextureListener(this);
     }
@@ -79,10 +80,9 @@ public class VideoEditTextureView extends TextureView implements TextureView.Sur
         this.eglThread.setSurfaceTextureSize(i, i2);
         this.eglThread.requestRender(true, true, false);
         VideoEditTextureViewDelegate videoEditTextureViewDelegate = this.delegate;
-        if (videoEditTextureViewDelegate == null) {
-            return;
+        if (videoEditTextureViewDelegate != null) {
+            videoEditTextureViewDelegate.onEGLThreadAvailable(this.eglThread);
         }
-        videoEditTextureViewDelegate.onEGLThreadAvailable(this.eglThread);
     }
 
     /* JADX INFO: Access modifiers changed from: private */

@@ -14,22 +14,34 @@ import java.util.Arrays;
 /* loaded from: classes.dex */
 public class GridLayoutManager extends LinearLayoutManager {
     protected int[] mCachedBorders;
+    final Rect mDecorInsets;
+    boolean mPendingSpanCountChange;
+    final SparseIntArray mPreLayoutSpanIndexCache;
+    final SparseIntArray mPreLayoutSpanSizeCache;
     View[] mSet;
+    int mSpanCount;
+    SpanSizeLookup mSpanSizeLookup;
     private boolean mUsingSpansToEstimateScrollBarDimensions;
-    boolean mPendingSpanCountChange = false;
-    int mSpanCount = -1;
-    final SparseIntArray mPreLayoutSpanSizeCache = new SparseIntArray();
-    final SparseIntArray mPreLayoutSpanIndexCache = new SparseIntArray();
-    SpanSizeLookup mSpanSizeLookup = new DefaultSpanSizeLookup();
-    final Rect mDecorInsets = new Rect();
 
     public GridLayoutManager(Context context, int i) {
         super(context);
+        this.mPendingSpanCountChange = false;
+        this.mSpanCount = -1;
+        this.mPreLayoutSpanSizeCache = new SparseIntArray();
+        this.mPreLayoutSpanIndexCache = new SparseIntArray();
+        this.mSpanSizeLookup = new DefaultSpanSizeLookup();
+        this.mDecorInsets = new Rect();
         setSpanCount(i);
     }
 
     public GridLayoutManager(Context context, int i, int i2, boolean z) {
         super(context, i2, z);
+        this.mPendingSpanCountChange = false;
+        this.mSpanCount = -1;
+        this.mPreLayoutSpanSizeCache = new SparseIntArray();
+        this.mPreLayoutSpanIndexCache = new SparseIntArray();
+        this.mSpanSizeLookup = new DefaultSpanSizeLookup();
+        this.mDecorInsets = new Rect();
         setSpanCount(i);
     }
 
@@ -46,10 +58,10 @@ public class GridLayoutManager extends LinearLayoutManager {
         if (this.mOrientation == 0) {
             return this.mSpanCount;
         }
-        if (state.getItemCount() >= 1) {
-            return getSpanGroupIndex(recycler, state, state.getItemCount() - 1) + 1;
+        if (state.getItemCount() < 1) {
+            return 0;
         }
-        return 0;
+        return getSpanGroupIndex(recycler, state, state.getItemCount() - 1) + 1;
     }
 
     @Override // androidx.recyclerview.widget.RecyclerView.LayoutManager
@@ -57,10 +69,10 @@ public class GridLayoutManager extends LinearLayoutManager {
         if (this.mOrientation == 1) {
             return this.mSpanCount;
         }
-        if (state.getItemCount() >= 1) {
-            return getSpanGroupIndex(recycler, state, state.getItemCount() - 1) + 1;
+        if (state.getItemCount() < 1) {
+            return 0;
         }
-        return 0;
+        return getSpanGroupIndex(recycler, state, state.getItemCount() - 1) + 1;
     }
 
     @Override // androidx.recyclerview.widget.RecyclerView.LayoutManager
@@ -391,15 +403,15 @@ public class GridLayoutManager extends LinearLayoutManager {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:30:0x009f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:37:0x009f, code lost:
         r21.mFinished = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:31:0x00a1, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:38:0x00a1, code lost:
         return;
      */
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r5v0 */
-    /* JADX WARN: Type inference failed for: r5v1, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r5v1, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r5v19 */
     @Override // androidx.recyclerview.widget.LinearLayoutManager
     /*
@@ -458,9 +470,7 @@ public class GridLayoutManager extends LinearLayoutManager {
             } else if (z2) {
                 addDisappearingView(view);
             } else {
-                int i15 = r5 == true ? 1 : 0;
-                int i16 = r5 == true ? 1 : 0;
-                addDisappearingView(view, i15);
+                addDisappearingView(view, r5);
             }
             calculateItemDecorationsForChild(view, this.mDecorInsets);
             measureChild(view, modeInOther, r5);
@@ -478,8 +488,8 @@ public class GridLayoutManager extends LinearLayoutManager {
         if (z) {
             guessMeasurement(f, i9);
             i14 = 0;
-            for (int i17 = 0; i17 < i11; i17++) {
-                View view2 = this.mSet[i17];
+            for (int i15 = 0; i15 < i11; i15++) {
+                View view2 = this.mSet[i15];
                 measureChild(view2, 1073741824, true);
                 int decoratedMeasurement2 = this.mOrientationHelper.getDecoratedMeasurement(view2);
                 if (decoratedMeasurement2 > i14) {
@@ -487,53 +497,53 @@ public class GridLayoutManager extends LinearLayoutManager {
                 }
             }
         }
-        for (int i18 = 0; i18 < i11; i18++) {
-            View view3 = this.mSet[i18];
+        for (int i16 = 0; i16 < i11; i16++) {
+            View view3 = this.mSet[i16];
             if (this.mOrientationHelper.getDecoratedMeasurement(view3) != i14) {
                 LayoutParams layoutParams = (LayoutParams) view3.getLayoutParams();
                 Rect rect = layoutParams.mDecorInsets;
-                int i19 = rect.top + rect.bottom + ((ViewGroup.MarginLayoutParams) layoutParams).topMargin + ((ViewGroup.MarginLayoutParams) layoutParams).bottomMargin;
-                int i20 = rect.left + rect.right + ((ViewGroup.MarginLayoutParams) layoutParams).leftMargin + ((ViewGroup.MarginLayoutParams) layoutParams).rightMargin;
+                int i17 = rect.top + rect.bottom + ((ViewGroup.MarginLayoutParams) layoutParams).topMargin + ((ViewGroup.MarginLayoutParams) layoutParams).bottomMargin;
+                int i18 = rect.left + rect.right + ((ViewGroup.MarginLayoutParams) layoutParams).leftMargin + ((ViewGroup.MarginLayoutParams) layoutParams).rightMargin;
                 int spaceForSpanRange = getSpaceForSpanRange(layoutParams.mSpanIndex, layoutParams.mSpanSize);
                 if (this.mOrientation == 1) {
-                    i8 = RecyclerView.LayoutManager.getChildMeasureSpec(spaceForSpanRange, 1073741824, i20, ((ViewGroup.MarginLayoutParams) layoutParams).width, false);
-                    childMeasureSpec = View.MeasureSpec.makeMeasureSpec(i14 - i19, 1073741824);
+                    i8 = RecyclerView.LayoutManager.getChildMeasureSpec(spaceForSpanRange, 1073741824, i18, ((ViewGroup.MarginLayoutParams) layoutParams).width, false);
+                    childMeasureSpec = View.MeasureSpec.makeMeasureSpec(i14 - i17, 1073741824);
                 } else {
-                    int makeMeasureSpec = View.MeasureSpec.makeMeasureSpec(i14 - i20, 1073741824);
-                    childMeasureSpec = RecyclerView.LayoutManager.getChildMeasureSpec(spaceForSpanRange, 1073741824, i19, ((ViewGroup.MarginLayoutParams) layoutParams).height, false);
+                    int makeMeasureSpec = View.MeasureSpec.makeMeasureSpec(i14 - i18, 1073741824);
+                    childMeasureSpec = RecyclerView.LayoutManager.getChildMeasureSpec(spaceForSpanRange, 1073741824, i17, ((ViewGroup.MarginLayoutParams) layoutParams).height, false);
                     i8 = makeMeasureSpec;
                 }
                 measureChildWithDecorationsAndMargin(view3, i8, childMeasureSpec, true);
             }
         }
-        int i21 = 0;
+        int i19 = 0;
         layoutChunkResult.mConsumed = i14;
         if (this.mOrientation == 1) {
             if (layoutState.mLayoutDirection == -1) {
                 i3 = layoutState.mOffset;
                 i4 = i3 - i14;
             } else {
-                int i22 = layoutState.mOffset;
-                i4 = i22;
-                i3 = i14 + i22;
+                int i20 = layoutState.mOffset;
+                i4 = i20;
+                i3 = i14 + i20;
             }
             i = 0;
             i2 = 0;
         } else if (layoutState.mLayoutDirection == -1) {
-            int i23 = layoutState.mOffset;
-            i2 = i23 - i14;
+            int i21 = layoutState.mOffset;
+            i2 = i21 - i14;
             i4 = 0;
-            i = i23;
+            i = i21;
             i3 = 0;
         } else {
-            int i24 = layoutState.mOffset;
-            i = i14 + i24;
-            i2 = i24;
+            int i22 = layoutState.mOffset;
+            i = i14 + i22;
+            i2 = i22;
             i3 = 0;
             i4 = 0;
         }
-        while (i21 < i11) {
-            View view4 = this.mSet[i21];
+        while (i19 < i11) {
+            View view4 = this.mSet[i19];
             LayoutParams layoutParams2 = (LayoutParams) view4.getLayoutParams();
             if (this.mOrientation == 1) {
                 if (isLayoutRTL()) {
@@ -553,7 +563,7 @@ public class GridLayoutManager extends LinearLayoutManager {
                         layoutChunkResult.mIgnoreConsumed = true;
                     }
                     layoutChunkResult.mFocusable |= view4.hasFocusable();
-                    i21++;
+                    i19++;
                     i3 = decoratedMeasurementInOther;
                     i = i6;
                     i4 = i5;
@@ -571,7 +581,7 @@ public class GridLayoutManager extends LinearLayoutManager {
             }
             layoutChunkResult.mIgnoreConsumed = true;
             layoutChunkResult.mFocusable |= view4.hasFocusable();
-            i21++;
+            i19++;
             i3 = decoratedMeasurementInOther;
             i = i6;
             i4 = i5;
@@ -705,10 +715,10 @@ public class GridLayoutManager extends LinearLayoutManager {
         }
 
         /* JADX WARN: Removed duplicated region for block: B:12:0x0024  */
-        /* JADX WARN: Removed duplicated region for block: B:17:0x0033  */
-        /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:14:0x002b -> B:10:0x0030). Please submit an issue!!! */
-        /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:15:0x002d -> B:10:0x0030). Please submit an issue!!! */
-        /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:16:0x002f -> B:10:0x0030). Please submit an issue!!! */
+        /* JADX WARN: Removed duplicated region for block: B:18:0x0033  */
+        /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:14:0x002b -> B:17:0x0030). Please submit an issue!!! */
+        /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:15:0x002d -> B:17:0x0030). Please submit an issue!!! */
+        /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:16:0x002f -> B:17:0x0030). Please submit an issue!!! */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -732,10 +742,10 @@ public class GridLayoutManager extends LinearLayoutManager {
                     }
                     i3++;
                     if (i3 >= i) {
-                        if (spanSize + i4 > i2) {
-                            return 0;
+                        if (spanSize + i4 <= i2) {
+                            return i4;
                         }
-                        return i4;
+                        return 0;
                     }
                 }
             } else {
@@ -764,57 +774,53 @@ public class GridLayoutManager extends LinearLayoutManager {
             return sparseIntArray.keyAt(i4);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:11:0x002d  */
-        /* JADX WARN: Removed duplicated region for block: B:23:0x0043  */
-        /* JADX WARN: Removed duplicated region for block: B:26:? A[RETURN, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:13:0x002d  */
+        /* JADX WARN: Removed duplicated region for block: B:21:0x0043  */
+        /* JADX WARN: Removed duplicated region for block: B:27:? A[RETURN, SYNTHETIC] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public int getSpanGroupIndex(int i, int i2) {
             int i3;
             int i4;
-            int i5;
             int findFirstKeyLessThan;
             if (this.mCacheSpanGroupIndices && (findFirstKeyLessThan = findFirstKeyLessThan(this.mSpanGroupIndexCache, i)) != -1) {
-                i3 = this.mSpanGroupIndexCache.get(findFirstKeyLessThan);
-                i4 = findFirstKeyLessThan + 1;
-                i5 = getCachedSpanIndex(findFirstKeyLessThan, i2) + getSpanSize(findFirstKeyLessThan);
-                if (i5 == i2) {
+                int i5 = this.mSpanGroupIndexCache.get(findFirstKeyLessThan);
+                i3 = findFirstKeyLessThan + 1;
+                i4 = getCachedSpanIndex(findFirstKeyLessThan, i2) + getSpanSize(findFirstKeyLessThan);
+                i5 = i4 == i2 ? i5 + 1 : 0;
+                int spanSize = getSpanSize(i);
+                while (i3 < i) {
+                    int spanSize2 = getSpanSize(i3);
+                    i4 += spanSize2;
+                    if (i4 == i2) {
+                        i5++;
+                        i4 = 0;
+                    } else if (i4 > i2) {
+                        i5++;
+                        i4 = spanSize2;
+                    }
                     i3++;
                 }
-                int spanSize = getSpanSize(i);
-                while (i4 < i) {
-                    int spanSize2 = getSpanSize(i4);
-                    i5 += spanSize2;
-                    if (i5 == i2) {
-                        i3++;
-                        i5 = 0;
-                    } else if (i5 > i2) {
-                        i3++;
-                        i5 = spanSize2;
-                    }
-                    i4++;
-                }
-                return i5 + spanSize <= i2 ? i3 + 1 : i3;
+                return i4 + spanSize <= i2 ? i5 + 1 : i5;
             }
             i3 = 0;
             i4 = 0;
-            i5 = 0;
             int spanSize3 = getSpanSize(i);
-            while (i4 < i) {
+            while (i3 < i) {
             }
-            if (i5 + spanSize3 <= i2) {
+            if (i4 + spanSize3 <= i2) {
             }
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:68:0x00d6, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:59:0x00d6, code lost:
         if (r13 == (r2 > r15)) goto L50;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:83:0x00f6, code lost:
-        if (r13 == r11) goto L51;
+    /* JADX WARN: Code restructure failed: missing block: B:72:0x00f6, code lost:
+        if (r13 == (r2 > r7)) goto L51;
      */
-    /* JADX WARN: Removed duplicated region for block: B:53:0x0107  */
+    /* JADX WARN: Removed duplicated region for block: B:79:0x0107  */
     @Override // androidx.recyclerview.widget.LinearLayoutManager, androidx.recyclerview.widget.RecyclerView.LayoutManager
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -874,7 +880,7 @@ public class GridLayoutManager extends LinearLayoutManager {
                 if (childAt.hasFocusable() && i15 == i8 && i16 == i9) {
                     return childAt;
                 }
-                if ((!childAt.hasFocusable() || view4 != null) && (childAt.hasFocusable() || view5 != null)) {
+                if (!(childAt.hasFocusable() && view4 == null) && (childAt.hasFocusable() || view5 != null)) {
                     view3 = view5;
                     int min = Math.min(i16, i9) - Math.max(i15, i8);
                     if (childAt.hasFocusable()) {
@@ -885,7 +891,6 @@ public class GridLayoutManager extends LinearLayoutManager {
                     } else if (view4 == null) {
                         i4 = i11;
                         i5 = childCount;
-                        z = true;
                         if (isViewPartiallyVisible(childAt, false, true)) {
                             i6 = i14;
                             if (min > i6) {
@@ -914,9 +919,6 @@ public class GridLayoutManager extends LinearLayoutManager {
                             } else {
                                 if (min == i6) {
                                     i7 = i13;
-                                    if (i15 <= i7) {
-                                        z = false;
-                                    }
                                 } else {
                                     i7 = i13;
                                 }
@@ -1043,10 +1045,10 @@ public class GridLayoutManager extends LinearLayoutManager {
                 } else {
                     max = Math.max(0, min);
                 }
-                if (!isSmoothScrollbarEnabled) {
-                    return max;
+                if (isSmoothScrollbarEnabled) {
+                    return Math.round((max * (Math.abs(this.mOrientationHelper.getDecoratedEnd(findFirstVisibleChildClosestToEnd) - this.mOrientationHelper.getDecoratedStart(findFirstVisibleChildClosestToStart)) / ((this.mSpanSizeLookup.getCachedSpanGroupIndex(getPosition(findFirstVisibleChildClosestToEnd), this.mSpanCount) - this.mSpanSizeLookup.getCachedSpanGroupIndex(getPosition(findFirstVisibleChildClosestToStart), this.mSpanCount)) + 1))) + (this.mOrientationHelper.getStartAfterPadding() - this.mOrientationHelper.getDecoratedStart(findFirstVisibleChildClosestToStart)));
                 }
-                return Math.round((max * (Math.abs(this.mOrientationHelper.getDecoratedEnd(findFirstVisibleChildClosestToEnd) - this.mOrientationHelper.getDecoratedStart(findFirstVisibleChildClosestToStart)) / ((this.mSpanSizeLookup.getCachedSpanGroupIndex(getPosition(findFirstVisibleChildClosestToEnd), this.mSpanCount) - this.mSpanSizeLookup.getCachedSpanGroupIndex(getPosition(findFirstVisibleChildClosestToStart), this.mSpanCount)) + 1))) + (this.mOrientationHelper.getStartAfterPadding() - this.mOrientationHelper.getDecoratedStart(findFirstVisibleChildClosestToStart)));
+                return max;
             }
         }
         return 0;
@@ -1067,23 +1069,31 @@ public class GridLayoutManager extends LinearLayoutManager {
 
     /* loaded from: classes.dex */
     public static class LayoutParams extends RecyclerView.LayoutParams {
-        int mSpanIndex = -1;
-        public int mSpanSize = 0;
+        int mSpanIndex;
+        public int mSpanSize;
 
         public LayoutParams(Context context, AttributeSet attributeSet) {
             super(context, attributeSet);
+            this.mSpanIndex = -1;
+            this.mSpanSize = 0;
         }
 
         public LayoutParams(int i, int i2) {
             super(i, i2);
+            this.mSpanIndex = -1;
+            this.mSpanSize = 0;
         }
 
         public LayoutParams(ViewGroup.MarginLayoutParams marginLayoutParams) {
             super(marginLayoutParams);
+            this.mSpanIndex = -1;
+            this.mSpanSize = 0;
         }
 
         public LayoutParams(ViewGroup.LayoutParams layoutParams) {
             super(layoutParams);
+            this.mSpanIndex = -1;
+            this.mSpanSize = 0;
         }
 
         public int getSpanIndex() {

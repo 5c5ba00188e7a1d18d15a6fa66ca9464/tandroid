@@ -86,18 +86,6 @@ public class ChildHelper {
         this.mCallback.addView(view, offset);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:12:0x001f, code lost:
-        if (r4.mBucket.get(r2) == false) goto L14;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:13:0x0021, code lost:
-        r2 = r2 + 1;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:15:0x0024, code lost:
-        return r2;
-     */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
     private int getOffset(int i) {
         if (i < 0) {
             return -1;
@@ -107,7 +95,10 @@ public class ChildHelper {
         while (i2 < childCount) {
             int countOnesBefore = i - (i2 - this.mBucket.countOnesBefore(i2));
             if (countOnesBefore == 0) {
-                break;
+                while (this.mBucket.get(i2)) {
+                    i2++;
+                }
+                return i2;
             }
             i2 += countOnesBefore;
         }
@@ -206,10 +197,10 @@ public class ChildHelper {
     /* JADX INFO: Access modifiers changed from: package-private */
     public int indexOfChild(View view) {
         int indexOfChild = this.mCallback.indexOfChild(view);
-        if (indexOfChild != -1 && !this.mBucket.get(indexOfChild)) {
-            return indexOfChild - this.mBucket.countOnesBefore(indexOfChild);
+        if (indexOfChild == -1 || this.mBucket.get(indexOfChild)) {
+            return -1;
         }
-        return -1;
+        return indexOfChild - this.mBucket.countOnesBefore(indexOfChild);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -250,13 +241,13 @@ public class ChildHelper {
         if (indexOfChild == -1) {
             unhideViewInternal(view);
             return true;
-        } else if (!this.mBucket.get(indexOfChild)) {
-            return false;
-        } else {
+        } else if (this.mBucket.get(indexOfChild)) {
             this.mBucket.remove(indexOfChild);
             unhideViewInternal(view);
             this.mCallback.removeViewAt(indexOfChild);
             return true;
+        } else {
+            return false;
         }
     }
 
@@ -287,10 +278,10 @@ public class ChildHelper {
         void clear(int i) {
             if (i >= 64) {
                 Bucket bucket = this.mNext;
-                if (bucket == null) {
+                if (bucket != null) {
+                    bucket.clear(i - 64);
                     return;
                 }
-                bucket.clear(i - 64);
                 return;
             }
             this.mData &= (1 << i) ^ (-1);
@@ -327,11 +318,10 @@ public class ChildHelper {
             } else {
                 clear(i);
             }
-            if (!z2 && this.mNext == null) {
-                return;
+            if (z2 || this.mNext != null) {
+                ensureNext();
+                this.mNext.insert(0, z2);
             }
-            ensureNext();
-            this.mNext.insert(0, z2);
         }
 
         boolean remove(int i) {

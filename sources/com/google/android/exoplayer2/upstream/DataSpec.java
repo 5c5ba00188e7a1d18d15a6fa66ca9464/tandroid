@@ -61,7 +61,7 @@ public final class DataSpec {
         Assertions.checkArgument(z);
         this.uri = uri;
         this.httpMethod = i;
-        this.httpBody = (bArr2 == null || bArr2.length == 0) ? null : bArr2;
+        this.httpBody = (bArr2 == null || bArr2.length == 0) ? null : null;
         this.absoluteStreamPosition = j;
         this.position = j2;
         this.length = j3;
@@ -84,24 +84,20 @@ public final class DataSpec {
 
     public static String getStringForHttpMethod(int i) {
         if (i != 1) {
-            if (i == 2) {
-                return "POST";
-            }
-            if (i != 3) {
+            if (i != 2) {
+                if (i == 3) {
+                    return "HEAD";
+                }
                 throw new AssertionError(i);
             }
-            return "HEAD";
+            return "POST";
         }
         return "GET";
     }
 
     public DataSpec subrange(long j) {
         long j2 = this.length;
-        long j3 = -1;
-        if (j2 != -1) {
-            j3 = j2 - j;
-        }
-        return subrange(j, j3);
+        return subrange(j, j2 != -1 ? j2 - j : -1L);
     }
 
     public DataSpec subrange(long j, long j2) {

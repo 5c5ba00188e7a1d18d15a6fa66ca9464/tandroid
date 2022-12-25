@@ -48,16 +48,18 @@ public final class DataSourceInputStream extends InputStream {
 
     @Override // java.io.InputStream, java.io.Closeable, java.lang.AutoCloseable
     public void close() throws IOException {
-        if (!this.closed) {
-            this.dataSource.close();
-            this.closed = true;
+        if (this.closed) {
+            return;
         }
+        this.dataSource.close();
+        this.closed = true;
     }
 
     private void checkOpened() throws IOException {
-        if (!this.opened) {
-            this.dataSource.open(this.dataSpec);
-            this.opened = true;
+        if (this.opened) {
+            return;
         }
+        this.dataSource.open(this.dataSpec);
+        this.opened = true;
     }
 }

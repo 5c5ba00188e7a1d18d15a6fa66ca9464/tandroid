@@ -48,36 +48,49 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.ChatThemeBottomSheet;
 /* loaded from: classes3.dex */
 public class ThemeSmallPreviewView extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
+    private final float BUBBLE_HEIGHT;
+    private final float BUBBLE_WIDTH;
+    private final float INNER_RADIUS;
+    private final float INNER_RECT_SPACE;
+    private final float STROKE_RADIUS;
     ThemeDrawable animateOutThemeDrawable;
     Runnable animationCancelRunnable;
+    private final Paint backgroundFillPaint;
     private BackupImageView backupImageView;
+    private float changeThemeProgress;
     public ChatThemeBottomSheet.ChatThemeItem chatThemeItem;
+    private final Path clipPath;
     private final int currentAccount;
     private int currentType;
     boolean isSelected;
     public int lastThemeIndex;
+    Theme.MessageDrawable messageDrawableIn;
+    Theme.MessageDrawable messageDrawableOut;
     private TextPaint noThemeTextPaint;
+    Paint outlineBackgroundPaint;
     int patternColor;
+    private final RectF rectF;
     private final Theme.ResourcesProvider resourcesProvider;
     private float selectionProgress;
     private ValueAnimator strokeAlphaAnimator;
     private StaticLayout textLayout;
-    private final float STROKE_RADIUS = AndroidUtilities.dp(8.0f);
-    private final float INNER_RADIUS = AndroidUtilities.dp(6.0f);
-    private final float INNER_RECT_SPACE = AndroidUtilities.dp(4.0f);
-    private final float BUBBLE_HEIGHT = AndroidUtilities.dp(21.0f);
-    private final float BUBBLE_WIDTH = AndroidUtilities.dp(41.0f);
-    ThemeDrawable themeDrawable = new ThemeDrawable();
-    private float changeThemeProgress = 1.0f;
-    Paint outlineBackgroundPaint = new Paint(1);
-    private final Paint backgroundFillPaint = new Paint(1);
-    private final RectF rectF = new RectF();
-    private final Path clipPath = new Path();
-    Theme.MessageDrawable messageDrawableOut = new Theme.MessageDrawable(0, true, false);
-    Theme.MessageDrawable messageDrawableIn = new Theme.MessageDrawable(0, false, false);
+    ThemeDrawable themeDrawable;
 
     public ThemeSmallPreviewView(Context context, int i, Theme.ResourcesProvider resourcesProvider, int i2) {
         super(context);
+        this.STROKE_RADIUS = AndroidUtilities.dp(8.0f);
+        this.INNER_RADIUS = AndroidUtilities.dp(6.0f);
+        this.INNER_RECT_SPACE = AndroidUtilities.dp(4.0f);
+        this.BUBBLE_HEIGHT = AndroidUtilities.dp(21.0f);
+        this.BUBBLE_WIDTH = AndroidUtilities.dp(41.0f);
+        this.themeDrawable = new ThemeDrawable();
+        this.changeThemeProgress = 1.0f;
+        this.outlineBackgroundPaint = new Paint(1);
+        this.backgroundFillPaint = new Paint(1);
+        this.rectF = new RectF();
+        this.clipPath = new Path();
+        this.messageDrawableOut = new Theme.MessageDrawable(0, true, false);
+        this.messageDrawableIn = new Theme.MessageDrawable(0, false, false);
         this.currentType = i2;
         this.currentAccount = i;
         this.resourcesProvider = resourcesProvider;
@@ -169,18 +182,14 @@ public class ThemeSmallPreviewView extends FrameLayout implements NotificationCe
     public void setItem(final ChatThemeBottomSheet.ChatThemeItem chatThemeItem, boolean z) {
         TLRPC$TL_theme tLRPC$TL_theme;
         TLRPC$Document tLRPC$Document;
-        boolean z2 = true;
-        boolean z3 = this.chatThemeItem != chatThemeItem;
+        boolean z2 = this.chatThemeItem != chatThemeItem;
         int i = this.lastThemeIndex;
         int i2 = chatThemeItem.themeIndex;
-        if (i == i2) {
-            z2 = false;
-        }
+        boolean z3 = i != i2;
         this.lastThemeIndex = i2;
         this.chatThemeItem = chatThemeItem;
-        Theme.ThemeAccent themeAccent = null;
         TLRPC$Document emojiAnimatedSticker = chatThemeItem.chatTheme.getEmoticon() != null ? MediaDataController.getInstance(this.currentAccount).getEmojiAnimatedSticker(chatThemeItem.chatTheme.getEmoticon()) : null;
-        if (z3) {
+        if (z2) {
             Runnable runnable = this.animationCancelRunnable;
             if (runnable != null) {
                 AndroidUtilities.cancelRunOnUIThread(runnable);
@@ -190,7 +199,7 @@ public class ThemeSmallPreviewView extends FrameLayout implements NotificationCe
             this.backupImageView.setScaleX(1.0f);
             this.backupImageView.setScaleY(1.0f);
         }
-        if (z3) {
+        if (z2) {
             Drawable svgThumb = emojiAnimatedSticker != null ? DocumentObject.getSvgThumb(emojiAnimatedSticker, "emptyListPlaceholder", 0.2f) : null;
             if (svgThumb == null) {
                 Emoji.preloadEmoji(chatThemeItem.chatTheme.getEmoticon());
@@ -198,7 +207,7 @@ public class ThemeSmallPreviewView extends FrameLayout implements NotificationCe
             }
             this.backupImageView.setImage(ImageLocation.getForDocument(emojiAnimatedSticker), "50_50", svgThumb, (Object) null);
         }
-        if (z3 || z2) {
+        if (z2 || z3) {
             if (z) {
                 this.changeThemeProgress = 0.0f;
                 this.animateOutThemeDrawable = this.themeDrawable;
@@ -228,9 +237,7 @@ public class ThemeSmallPreviewView extends FrameLayout implements NotificationCe
                 }
             } else {
                 SparseArray<Theme.ThemeAccent> sparseArray = chatThemeItem.chatTheme.getThemeInfo(this.lastThemeIndex).themeAccentsMap;
-                if (sparseArray != null) {
-                    themeAccent = sparseArray.get(chatThemeItem.chatTheme.getAccentId(this.lastThemeIndex));
-                }
+                Theme.ThemeAccent themeAccent = sparseArray != null ? sparseArray.get(chatThemeItem.chatTheme.getAccentId(this.lastThemeIndex)) : null;
                 if (themeAccent != null && (tLRPC$TL_theme = themeAccent.info) != null && tLRPC$TL_theme.settings.size() > 0) {
                     final TLRPC$WallPaper tLRPC$WallPaper = themeAccent.info.settings.get(0).wallpaper;
                     if (tLRPC$WallPaper != null && (tLRPC$Document = tLRPC$WallPaper.document) != null) {
@@ -305,14 +312,13 @@ public class ThemeSmallPreviewView extends FrameLayout implements NotificationCe
             return;
         }
         Drawable drawable = chatThemeItem.previewDrawable;
-        if (!(drawable instanceof MotionBackgroundDrawable)) {
-            return;
+        if (drawable instanceof MotionBackgroundDrawable) {
+            MotionBackgroundDrawable motionBackgroundDrawable = (MotionBackgroundDrawable) drawable;
+            TLRPC$WallPaperSettings tLRPC$WallPaperSettings = tLRPC$WallPaper.settings;
+            motionBackgroundDrawable.setPatternBitmap((tLRPC$WallPaperSettings == null || tLRPC$WallPaperSettings.intensity >= 0) ? 100 : -100, prescaleBitmap(bitmap), true);
+            motionBackgroundDrawable.setPatternColorFilter(this.patternColor);
+            invalidate();
         }
-        MotionBackgroundDrawable motionBackgroundDrawable = (MotionBackgroundDrawable) drawable;
-        TLRPC$WallPaperSettings tLRPC$WallPaperSettings = tLRPC$WallPaper.settings;
-        motionBackgroundDrawable.setPatternBitmap((tLRPC$WallPaperSettings == null || tLRPC$WallPaperSettings.intensity >= 0) ? 100 : -100, prescaleBitmap(bitmap), true);
-        motionBackgroundDrawable.setPatternColorFilter(this.patternColor);
-        invalidate();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -338,32 +344,25 @@ public class ThemeSmallPreviewView extends FrameLayout implements NotificationCe
     }
 
     public void setSelected(final boolean z, boolean z2) {
-        float f = 1.0f;
         if (!z2) {
             ValueAnimator valueAnimator = this.strokeAlphaAnimator;
             if (valueAnimator != null) {
                 valueAnimator.cancel();
             }
             this.isSelected = z;
-            if (!z) {
-                f = 0.0f;
-            }
-            this.selectionProgress = f;
+            this.selectionProgress = z ? 1.0f : 0.0f;
             invalidate();
             return;
         }
         if (this.isSelected != z) {
-            float f2 = this.selectionProgress;
+            float f = this.selectionProgress;
             ValueAnimator valueAnimator2 = this.strokeAlphaAnimator;
             if (valueAnimator2 != null) {
                 valueAnimator2.cancel();
             }
             float[] fArr = new float[2];
-            fArr[0] = f2;
-            if (!z) {
-                f = 0.0f;
-            }
-            fArr[1] = f;
+            fArr[0] = f;
+            fArr[1] = z ? 1.0f : 0.0f;
             ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
             this.strokeAlphaAnimator = ofFloat;
             ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.ThemeSmallPreviewView$$ExternalSyntheticLambda0
@@ -600,14 +599,16 @@ public class ThemeSmallPreviewView extends FrameLayout implements NotificationCe
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class ThemeDrawable {
+        private final Paint inBubblePaint;
+        private final Paint outBubblePaintSecond;
         Drawable previewDrawable;
         private final Paint strokePaint;
-        private final Paint outBubblePaintSecond = new Paint(1);
-        private final Paint inBubblePaint = new Paint(1);
 
         ThemeDrawable() {
             Paint paint = new Paint(1);
             this.strokePaint = paint;
+            this.outBubblePaintSecond = new Paint(1);
+            this.inBubblePaint = new Paint(1);
             paint.setStyle(Paint.Style.STROKE);
             paint.setStrokeWidth(AndroidUtilities.dp(2.0f));
         }
@@ -719,10 +720,9 @@ public class ThemeSmallPreviewView extends FrameLayout implements NotificationCe
                 ThemeSmallPreviewView.this.messageDrawableIn.draw(canvas, this.inBubblePaint);
             } else {
                 ThemeSmallPreviewView themeSmallPreviewView8 = ThemeSmallPreviewView.this;
-                if (themeSmallPreviewView8.chatThemeItem.icon == null) {
-                    return;
+                if (themeSmallPreviewView8.chatThemeItem.icon != null) {
+                    canvas.drawBitmap(ThemeSmallPreviewView.this.chatThemeItem.icon, (themeSmallPreviewView8.getWidth() - ThemeSmallPreviewView.this.chatThemeItem.icon.getWidth()) * 0.5f, AndroidUtilities.dp(21.0f), (Paint) null);
                 }
-                canvas.drawBitmap(ThemeSmallPreviewView.this.chatThemeItem.icon, (themeSmallPreviewView8.getWidth() - ThemeSmallPreviewView.this.chatThemeItem.icon.getWidth()) * 0.5f, AndroidUtilities.dp(21.0f), (Paint) null);
             }
         }
     }

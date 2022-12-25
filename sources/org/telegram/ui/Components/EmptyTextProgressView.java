@@ -177,9 +177,10 @@ public class EmptyTextProgressView extends FrameLayout {
 
     @Override // android.view.View, android.view.ViewParent
     public void requestLayout() {
-        if (!this.inLayout) {
-            super.requestLayout();
+        if (this.inLayout) {
+            return;
         }
+        super.requestLayout();
     }
 
     private int getThemedColor(String str) {

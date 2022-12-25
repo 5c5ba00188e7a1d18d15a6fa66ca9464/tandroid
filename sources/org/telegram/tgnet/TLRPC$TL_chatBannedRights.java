@@ -34,7 +34,6 @@ public class TLRPC$TL_chatBannedRights extends TLObject {
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
         int readInt32 = abstractSerializedData.readInt32(z);
         this.flags = readInt32;
-        boolean z2 = false;
         this.view_messages = (readInt32 & 1) != 0;
         this.send_messages = (readInt32 & 2) != 0;
         this.send_media = (readInt32 & 4) != 0;
@@ -47,10 +46,7 @@ public class TLRPC$TL_chatBannedRights extends TLObject {
         this.change_info = (readInt32 & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0;
         this.invite_users = (32768 & readInt32) != 0;
         this.pin_messages = (131072 & readInt32) != 0;
-        if ((readInt32 & 262144) != 0) {
-            z2 = true;
-        }
-        this.manage_topics = z2;
+        this.manage_topics = (readInt32 & 262144) != 0;
         this.until_date = abstractSerializedData.readInt32(z);
     }
 

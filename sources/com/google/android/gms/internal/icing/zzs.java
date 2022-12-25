@@ -37,11 +37,11 @@ public final class zzs extends AbstractSafeParcelable {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof zzs)) {
-            return false;
+        if (obj instanceof zzs) {
+            zzs zzsVar = (zzs) obj;
+            return this.zzc == zzsVar.zzc && this.zzd == zzsVar.zzd && this.zze == zzsVar.zze && Objects.equal(this.zza, zzsVar.zza) && Objects.equal(this.zzb, zzsVar.zzb) && Objects.equal(this.zzf, zzsVar.zzf) && Objects.equal(this.zzh, zzsVar.zzh) && Objects.equal(this.zzi, zzsVar.zzi) && Arrays.equals(this.zzg, zzsVar.zzg);
         }
-        zzs zzsVar = (zzs) obj;
-        return this.zzc == zzsVar.zzc && this.zzd == zzsVar.zzd && this.zze == zzsVar.zze && Objects.equal(this.zza, zzsVar.zza) && Objects.equal(this.zzb, zzsVar.zzb) && Objects.equal(this.zzf, zzsVar.zzf) && Objects.equal(this.zzh, zzsVar.zzh) && Objects.equal(this.zzi, zzsVar.zzi) && Arrays.equals(this.zzg, zzsVar.zzg);
+        return false;
     }
 
     public final int hashCode() {

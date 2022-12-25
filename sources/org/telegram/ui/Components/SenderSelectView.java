@@ -25,16 +25,16 @@ import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
 public class SenderSelectView extends View {
     private static final FloatPropertyCompat<SenderSelectView> MENU_PROGRESS = new SimpleFloatPropertyCompat("menuProgress", SenderSelectView$$ExternalSyntheticLambda3.INSTANCE, SenderSelectView$$ExternalSyntheticLambda4.INSTANCE).setMultiplier(100.0f);
+    private AvatarDrawable avatarDrawable;
+    private ImageReceiver avatarImage;
+    private Paint backgroundPaint;
     private ValueAnimator menuAnimator;
+    private Paint menuPaint;
     private float menuProgress;
     private SpringAnimation menuSpring;
     private boolean scaleIn;
     private boolean scaleOut;
     private Drawable selectorDrawable;
-    private ImageReceiver avatarImage = new ImageReceiver(this);
-    private AvatarDrawable avatarDrawable = new AvatarDrawable();
-    private Paint backgroundPaint = new Paint(1);
-    private Paint menuPaint = new Paint(1);
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$static$1(SenderSelectView senderSelectView, float f) {
@@ -44,6 +44,10 @@ public class SenderSelectView extends View {
 
     public SenderSelectView(Context context) {
         super(context);
+        this.avatarImage = new ImageReceiver(this);
+        this.avatarDrawable = new AvatarDrawable();
+        this.backgroundPaint = new Paint(1);
+        this.menuPaint = new Paint(1);
         this.avatarImage.setRoundRadius(AndroidUtilities.dp(28.0f));
         this.menuPaint.setStrokeWidth(AndroidUtilities.dp(2.0f));
         this.menuPaint.setStrokeCap(Paint.Cap.ROUND);
@@ -136,16 +140,13 @@ public class SenderSelectView extends View {
             if (valueAnimator != null) {
                 valueAnimator.cancel();
             }
-            final boolean z3 = false;
             this.scaleIn = false;
             this.scaleOut = false;
             if (z2) {
                 final float f2 = this.menuProgress * 100.0f;
                 SpringAnimation startValue = new SpringAnimation(this, MENU_PROGRESS).setStartValue(f2);
                 this.menuSpring = startValue;
-                if (f < this.menuProgress) {
-                    z3 = true;
-                }
+                final boolean z3 = f < this.menuProgress;
                 final float f3 = f * 100.0f;
                 this.scaleIn = z3;
                 this.scaleOut = !z3;

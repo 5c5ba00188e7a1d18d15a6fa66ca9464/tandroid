@@ -40,7 +40,6 @@ final class OpusReader extends StreamReader {
 
     @Override // com.google.android.exoplayer2.extractor.ogg.StreamReader
     protected boolean readHeaders(ParsableByteArray parsableByteArray, long j, StreamReader.SetupData setupData) {
-        boolean z = true;
         if (!this.headerRead) {
             byte[] copyOf = Arrays.copyOf(parsableByteArray.data, parsableByteArray.limit());
             int i = copyOf[9] & 255;
@@ -52,9 +51,7 @@ final class OpusReader extends StreamReader {
             this.headerRead = true;
             return true;
         }
-        if (parsableByteArray.readInt() != 1332770163) {
-            z = false;
-        }
+        boolean z = parsableByteArray.readInt() == 1332770163;
         parsableByteArray.setPosition(0);
         return z;
     }

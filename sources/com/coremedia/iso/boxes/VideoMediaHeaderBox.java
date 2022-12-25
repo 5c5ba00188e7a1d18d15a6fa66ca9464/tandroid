@@ -11,8 +11,8 @@ public class VideoMediaHeaderBox extends AbstractMediaHeaderBox {
     private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_0 = null;
     private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_1 = null;
     private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_2 = null;
-    private int graphicsmode = 0;
-    private int[] opcolor = new int[3];
+    private int graphicsmode;
+    private int[] opcolor;
 
     static {
         ajc$preClinit();
@@ -34,6 +34,8 @@ public class VideoMediaHeaderBox extends AbstractMediaHeaderBox {
 
     public VideoMediaHeaderBox() {
         super("vmhd");
+        this.graphicsmode = 0;
+        this.opcolor = new int[3];
         setFlags(1);
     }
 

@@ -139,8 +139,8 @@ public class EmuDetector {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:39:0x00d0 A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:41:0x00d1  */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x00d0 A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:43:0x00d1  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -155,14 +155,14 @@ public class EmuDetector {
                     String str3 = Build.PRODUCT;
                     if (!str3.equals("sdk") && !str3.equals("google_sdk") && !str3.equals("sdk_x86") && !str3.equals("vbox86p") && !str3.toLowerCase().contains("nox") && !Build.SERIAL.toLowerCase().contains("nox")) {
                         z = false;
-                        if (!z) {
-                            return true;
-                        }
-                        if (Build.BRAND.startsWith("generic") && Build.DEVICE.startsWith("generic")) {
-                            z2 = true;
-                        }
-                        boolean z3 = z | z2;
-                        if (!z3) {
+                        if (z) {
+                            if (Build.BRAND.startsWith("generic") && Build.DEVICE.startsWith("generic")) {
+                                z2 = true;
+                            }
+                            boolean z3 = z | z2;
+                            if (z3) {
+                                return true;
+                            }
                             return z3 | "google_sdk".equals(Build.PRODUCT);
                         }
                         return true;
@@ -171,7 +171,7 @@ public class EmuDetector {
             }
         }
         z = true;
-        if (!z) {
+        if (z) {
         }
     }
 

@@ -40,10 +40,10 @@ public class Data implements Model {
         if (this == obj) {
             return true;
         }
-        if (obj != null && Data.class == obj.getClass()) {
-            return this.mProperties.toString().equals(((Data) obj).mProperties.toString());
+        if (obj == null || Data.class != obj.getClass()) {
+            return false;
         }
-        return false;
+        return this.mProperties.toString().equals(((Data) obj).mProperties.toString());
     }
 
     public int hashCode() {

@@ -43,10 +43,10 @@ public final class DisplayCutoutCompat {
         if (this == o) {
             return true;
         }
-        if (o != null && DisplayCutoutCompat.class == o.getClass()) {
-            return ObjectsCompat.equals(this.mDisplayCutout, ((DisplayCutoutCompat) o).mDisplayCutout);
+        if (o == null || DisplayCutoutCompat.class != o.getClass()) {
+            return false;
         }
-        return false;
+        return ObjectsCompat.equals(this.mDisplayCutout, ((DisplayCutoutCompat) o).mDisplayCutout);
     }
 
     public int hashCode() {

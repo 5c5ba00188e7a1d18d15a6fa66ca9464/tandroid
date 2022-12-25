@@ -105,37 +105,36 @@ public class Exception implements Model {
         }
         Exception exception = (Exception) obj;
         String str = this.type;
-        if (str == null ? exception.type != null : !str.equals(exception.type)) {
+        if (str == null ? exception.type == null : str.equals(exception.type)) {
+            String str2 = this.message;
+            if (str2 == null ? exception.message == null : str2.equals(exception.message)) {
+                String str3 = this.stackTrace;
+                if (str3 == null ? exception.stackTrace == null : str3.equals(exception.stackTrace)) {
+                    List<StackFrame> list = this.frames;
+                    if (list == null ? exception.frames == null : list.equals(exception.frames)) {
+                        List<Exception> list2 = this.innerExceptions;
+                        if (list2 == null ? exception.innerExceptions == null : list2.equals(exception.innerExceptions)) {
+                            String str4 = this.wrapperSdkName;
+                            if (str4 == null ? exception.wrapperSdkName == null : str4.equals(exception.wrapperSdkName)) {
+                                String str5 = this.minidumpFilePath;
+                                String str6 = exception.minidumpFilePath;
+                                return str5 != null ? str5.equals(str6) : str6 == null;
+                            }
+                            return false;
+                        }
+                        return false;
+                    }
+                    return false;
+                }
+                return false;
+            }
             return false;
         }
-        String str2 = this.message;
-        if (str2 == null ? exception.message != null : !str2.equals(exception.message)) {
-            return false;
-        }
-        String str3 = this.stackTrace;
-        if (str3 == null ? exception.stackTrace != null : !str3.equals(exception.stackTrace)) {
-            return false;
-        }
-        List<StackFrame> list = this.frames;
-        if (list == null ? exception.frames != null : !list.equals(exception.frames)) {
-            return false;
-        }
-        List<Exception> list2 = this.innerExceptions;
-        if (list2 == null ? exception.innerExceptions != null : !list2.equals(exception.innerExceptions)) {
-            return false;
-        }
-        String str4 = this.wrapperSdkName;
-        if (str4 == null ? exception.wrapperSdkName != null : !str4.equals(exception.wrapperSdkName)) {
-            return false;
-        }
-        String str5 = this.minidumpFilePath;
-        String str6 = exception.minidumpFilePath;
-        return str5 != null ? str5.equals(str6) : str6 == null;
+        return false;
     }
 
     public int hashCode() {
         String str = this.type;
-        int i = 0;
         int hashCode = (str != null ? str.hashCode() : 0) * 31;
         String str2 = this.message;
         int hashCode2 = (hashCode + (str2 != null ? str2.hashCode() : 0)) * 31;
@@ -148,9 +147,6 @@ public class Exception implements Model {
         String str4 = this.wrapperSdkName;
         int hashCode6 = (hashCode5 + (str4 != null ? str4.hashCode() : 0)) * 31;
         String str5 = this.minidumpFilePath;
-        if (str5 != null) {
-            i = str5.hashCode();
-        }
-        return hashCode6 + i;
+        return hashCode6 + (str5 != null ? str5.hashCode() : 0);
     }
 }

@@ -28,28 +28,28 @@ public final class zzm extends AbstractSafeParcelable {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof zzm)) {
-            return false;
-        }
-        zzm zzmVar = (zzm) obj;
-        if (this.zza != zzmVar.zza) {
-            return false;
-        }
-        Bundle bundle = this.zzb;
-        if (bundle == null) {
-            return zzmVar.zzb == null;
-        } else if (zzmVar.zzb == null || bundle.size() != zzmVar.zzb.size()) {
-            return false;
-        } else {
-            for (String str : this.zzb.keySet()) {
-                if (!zzmVar.zzb.containsKey(str) || !Objects.equal(this.zzb.getString(str), zzmVar.zzb.getString(str))) {
-                    return false;
-                }
-                while (r1.hasNext()) {
-                }
+        if (obj instanceof zzm) {
+            zzm zzmVar = (zzm) obj;
+            if (this.zza != zzmVar.zza) {
+                return false;
             }
-            return true;
+            Bundle bundle = this.zzb;
+            if (bundle == null) {
+                return zzmVar.zzb == null;
+            } else if (zzmVar.zzb != null && bundle.size() == zzmVar.zzb.size()) {
+                for (String str : this.zzb.keySet()) {
+                    if (!zzmVar.zzb.containsKey(str) || !Objects.equal(this.zzb.getString(str), zzmVar.zzb.getString(str))) {
+                        return false;
+                    }
+                    while (r1.hasNext()) {
+                    }
+                }
+                return true;
+            } else {
+                return false;
+            }
         }
+        return false;
     }
 
     public final int hashCode() {

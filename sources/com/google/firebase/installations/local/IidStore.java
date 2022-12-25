@@ -29,18 +29,18 @@ public class IidStore {
             return gcmSenderId;
         }
         String applicationId = firebaseApp.getOptions().getApplicationId();
-        if (!applicationId.startsWith("1:") && !applicationId.startsWith("2:")) {
-            return applicationId;
-        }
-        String[] split = applicationId.split(":");
-        if (split.length != 4) {
-            return null;
-        }
-        String str = split[1];
-        if (!str.isEmpty()) {
+        if (applicationId.startsWith("1:") || applicationId.startsWith("2:")) {
+            String[] split = applicationId.split(":");
+            if (split.length != 4) {
+                return null;
+            }
+            String str = split[1];
+            if (str.isEmpty()) {
+                return null;
+            }
             return str;
         }
-        return null;
+        return applicationId;
     }
 
     private String createTokenKey(String str, String str2) {

@@ -33,10 +33,10 @@ public class b3 extends e3 {
 
     @Override // j$.util.stream.e3, j$.util.stream.Stream
     public void forEach(Consumer consumer) {
-        if (!isParallel()) {
-            J0().forEachRemaining(consumer);
-        } else {
+        if (isParallel()) {
             super.forEach(consumer);
+        } else {
+            J0().forEachRemaining(consumer);
         }
     }
 }

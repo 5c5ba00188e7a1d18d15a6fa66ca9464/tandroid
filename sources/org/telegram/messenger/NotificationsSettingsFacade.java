@@ -108,8 +108,8 @@ public class NotificationsSettingsFacade {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:25:0x0192  */
-    /* JADX WARN: Removed duplicated region for block: B:28:0x019d  */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x0192  */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x019d  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -133,10 +133,7 @@ public class NotificationsSettingsFacade {
         } else {
             edit.remove(PROPERTY_SILENT + sharedPrefKey);
         }
-        TLRPC$Dialog tLRPC$Dialog = null;
-        if (i == 0) {
-            tLRPC$Dialog = messagesController.dialogs_dict.get(j);
-        }
+        TLRPC$Dialog tLRPC$Dialog = i == 0 ? messagesController.dialogs_dict.get(j) : null;
         if (tLRPC$Dialog != null) {
             tLRPC$Dialog.notify_settings = tLRPC$PeerNotifySettings;
         }
@@ -260,8 +257,7 @@ public class NotificationsSettingsFacade {
             editor.putString(str, tLRPC$TL_notificationSoundLocal.title);
             editor.putString(str3, tLRPC$TL_notificationSoundLocal.data);
             editor.remove(str2);
-        } else if (!(tLRPC$NotificationSound instanceof TLRPC$TL_notificationSoundRingtone)) {
-        } else {
+        } else if (tLRPC$NotificationSound instanceof TLRPC$TL_notificationSoundRingtone) {
             TLRPC$TL_notificationSoundRingtone tLRPC$TL_notificationSoundRingtone = (TLRPC$TL_notificationSoundRingtone) tLRPC$NotificationSound;
             editor.putLong(str2, tLRPC$TL_notificationSoundRingtone.id);
             MediaDataController.getInstance(this.currentAccount).checkRingtones();

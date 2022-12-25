@@ -21,20 +21,19 @@ public final class Tx3gDecoder extends SimpleSubtitleDecoder {
     private int defaultFontFace;
     private String defaultFontFamily;
     private float defaultVerticalPlacement;
-    private final ParsableByteArray parsableByteArray = new ParsableByteArray();
+    private final ParsableByteArray parsableByteArray;
 
     public Tx3gDecoder(List<byte[]> list) {
         super("Tx3gDecoder");
-        String str = "sans-serif";
-        boolean z = false;
+        this.parsableByteArray = new ParsableByteArray();
         if (list != null && list.size() == 1 && (list.get(0).length == 48 || list.get(0).length == 53)) {
             byte[] bArr = list.get(0);
             this.defaultFontFace = bArr[24];
             this.defaultColorRgba = ((bArr[26] & 255) << 24) | ((bArr[27] & 255) << 16) | ((bArr[28] & 255) << 8) | (bArr[29] & 255);
-            this.defaultFontFamily = "Serif".equals(Util.fromUtf8Bytes(bArr, 43, bArr.length - 43)) ? "serif" : str;
+            this.defaultFontFamily = "Serif".equals(Util.fromUtf8Bytes(bArr, 43, bArr.length - 43)) ? "serif" : "sans-serif";
             int i = bArr[25] * 20;
             this.calculatedVideoTrackHeight = i;
-            z = (bArr[0] & 32) != 0 ? true : z;
+            boolean z = (bArr[0] & 32) != 0;
             this.customVerticalPlacement = z;
             if (z) {
                 float f = ((bArr[11] & 255) | ((bArr[10] & 255) << 8)) / i;
@@ -47,7 +46,7 @@ public final class Tx3gDecoder extends SimpleSubtitleDecoder {
         }
         this.defaultFontFace = 0;
         this.defaultColorRgba = -1;
-        this.defaultFontFamily = str;
+        this.defaultFontFamily = "sans-serif";
         this.customVerticalPlacement = false;
         this.defaultVerticalPlacement = 0.85f;
     }
@@ -68,21 +67,14 @@ public final class Tx3gDecoder extends SimpleSubtitleDecoder {
             int position = this.parsableByteArray.getPosition();
             int readInt = this.parsableByteArray.readInt();
             int readInt2 = this.parsableByteArray.readInt();
-            boolean z2 = true;
             if (readInt2 == 1937013100) {
-                if (this.parsableByteArray.bytesLeft() < 2) {
-                    z2 = false;
-                }
-                assertTrue(z2);
+                assertTrue(this.parsableByteArray.bytesLeft() >= 2);
                 int readUnsignedShort = this.parsableByteArray.readUnsignedShort();
                 for (int i2 = 0; i2 < readUnsignedShort; i2++) {
                     applyStyleRecord(this.parsableByteArray, spannableStringBuilder);
                 }
             } else if (readInt2 == 1952608120 && this.customVerticalPlacement) {
-                if (this.parsableByteArray.bytesLeft() < 2) {
-                    z2 = false;
-                }
-                assertTrue(z2);
+                assertTrue(this.parsableByteArray.bytesLeft() >= 2);
                 f = Util.constrainValue(this.parsableByteArray.readUnsignedShort() / this.calculatedVideoTrackHeight, 0.0f, 0.95f);
             }
             this.parsableByteArray.setPosition(position + readInt);
@@ -118,25 +110,22 @@ public final class Tx3gDecoder extends SimpleSubtitleDecoder {
     private static void attachFontFace(SpannableStringBuilder spannableStringBuilder, int i, int i2, int i3, int i4, int i5) {
         if (i != i2) {
             int i6 = i5 | 33;
-            boolean z = true;
-            boolean z2 = (i & 1) != 0;
-            boolean z3 = (i & 2) != 0;
-            if (z2) {
-                if (z3) {
+            boolean z = (i & 1) != 0;
+            boolean z2 = (i & 2) != 0;
+            if (z) {
+                if (z2) {
                     spannableStringBuilder.setSpan(new StyleSpan(3), i3, i4, i6);
                 } else {
                     spannableStringBuilder.setSpan(new StyleSpan(1), i3, i4, i6);
                 }
-            } else if (z3) {
+            } else if (z2) {
                 spannableStringBuilder.setSpan(new StyleSpan(2), i3, i4, i6);
             }
-            if ((i & 4) == 0) {
-                z = false;
-            }
-            if (z) {
+            boolean z3 = (i & 4) != 0;
+            if (z3) {
                 spannableStringBuilder.setSpan(new UnderlineSpan(), i3, i4, i6);
             }
-            if (z || z2 || z3) {
+            if (z3 || z || z2) {
                 return;
             }
             spannableStringBuilder.setSpan(new StyleSpan(0), i3, i4, i6);
@@ -156,9 +145,8 @@ public final class Tx3gDecoder extends SimpleSubtitleDecoder {
     }
 
     private static void assertTrue(boolean z) throws SubtitleDecoderException {
-        if (z) {
-            return;
+        if (!z) {
+            throw new SubtitleDecoderException("Unexpected subtitle format.");
         }
-        throw new SubtitleDecoderException("Unexpected subtitle format.");
     }
 }

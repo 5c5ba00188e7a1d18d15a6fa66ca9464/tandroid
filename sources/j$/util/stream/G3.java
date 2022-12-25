@@ -21,20 +21,20 @@ final class G3 extends C3 {
         Arrays.sort(dArr);
         this.a.n(dArr.length);
         int i = 0;
-        if (!this.b) {
+        if (this.b) {
             int length = dArr.length;
             while (i < length) {
-                this.a.accept(dArr[i]);
-                i++;
-            }
-        } else {
-            int length2 = dArr.length;
-            while (i < length2) {
                 double d = dArr[i];
                 if (this.a.o()) {
                     break;
                 }
                 this.a.accept(d);
+                i++;
+            }
+        } else {
+            int length2 = dArr.length;
+            while (i < length2) {
+                this.a.accept(dArr[i]);
                 i++;
             }
         }
@@ -43,10 +43,9 @@ final class G3 extends C3 {
 
     @Override // j$.util.stream.m3
     public void n(long j) {
-        if (j < 2147483639) {
-            this.c = j > 0 ? new U3((int) j) : new U3();
-            return;
+        if (j >= 2147483639) {
+            throw new IllegalArgumentException("Stream size exceeds max array size");
         }
-        throw new IllegalArgumentException("Stream size exceeds max array size");
+        this.c = j > 0 ? new U3((int) j) : new U3();
     }
 }

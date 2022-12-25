@@ -140,10 +140,9 @@ public class TLRPC$TL_channelFull extends TLRPC$ChatFull {
         if ((this.flags & 536870912) != 0) {
             this.default_send_as = TLRPC$Peer.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
         }
-        if ((this.flags & 1073741824) == 0) {
-            return;
+        if ((this.flags & 1073741824) != 0) {
+            this.available_reactions = TLRPC$ChatReactions.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
         }
-        this.available_reactions = TLRPC$ChatReactions.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
     }
 
     @Override // org.telegram.tgnet.TLObject

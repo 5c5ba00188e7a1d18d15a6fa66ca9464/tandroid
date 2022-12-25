@@ -16,19 +16,15 @@ public final class TsUtil {
             return -9223372036854775807L;
         }
         int readInt = parsableByteArray.readInt();
-        if ((8388608 & readInt) != 0 || ((2096896 & readInt) >> 8) != i2) {
+        if ((8388608 & readInt) == 0 && ((2096896 & readInt) >> 8) == i2) {
+            if (((readInt & 32) != 0) && parsableByteArray.readUnsignedByte() >= 7 && parsableByteArray.bytesLeft() >= 7) {
+                if ((parsableByteArray.readUnsignedByte() & 16) == 16) {
+                    byte[] bArr = new byte[6];
+                    parsableByteArray.readBytes(bArr, 0, 6);
+                    return readPcrValueFromPcrBytes(bArr);
+                }
+            }
             return -9223372036854775807L;
-        }
-        boolean z = true;
-        if (((readInt & 32) != 0) && parsableByteArray.readUnsignedByte() >= 7 && parsableByteArray.bytesLeft() >= 7) {
-            if ((parsableByteArray.readUnsignedByte() & 16) != 16) {
-                z = false;
-            }
-            if (z) {
-                byte[] bArr = new byte[6];
-                parsableByteArray.readBytes(bArr, 0, 6);
-                return readPcrValueFromPcrBytes(bArr);
-            }
         }
         return -9223372036854775807L;
     }

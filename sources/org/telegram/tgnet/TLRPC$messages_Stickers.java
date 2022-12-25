@@ -15,12 +15,12 @@ public abstract class TLRPC$messages_Stickers extends TLObject {
         } else {
             tLRPC$messages_Stickers = i != 816245886 ? null : new TLRPC$TL_messages_stickers();
         }
-        if (tLRPC$messages_Stickers != null || !z) {
-            if (tLRPC$messages_Stickers != null) {
-                tLRPC$messages_Stickers.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$messages_Stickers;
+        if (tLRPC$messages_Stickers == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in messages_Stickers", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in messages_Stickers", Integer.valueOf(i)));
+        if (tLRPC$messages_Stickers != null) {
+            tLRPC$messages_Stickers.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$messages_Stickers;
     }
 }

@@ -22,16 +22,16 @@ final class L4 extends f4 {
             a4 a4Var = (a4) this.h;
             long j = this.g;
             if (a4Var.c != 0) {
-                if (j >= a4Var.count()) {
-                    throw new IndexOutOfBoundsException(Long.toString(j));
-                }
-                for (int i = 0; i <= a4Var.c; i++) {
-                    long[] jArr = a4Var.d;
-                    long j2 = jArr[i];
-                    Object[][] objArr = a4Var.f;
-                    if (j < j2 + objArr[i].length) {
-                        obj = objArr[i][(int) (j - jArr[i])];
+                if (j < a4Var.count()) {
+                    for (int i = 0; i <= a4Var.c; i++) {
+                        long[] jArr = a4Var.d;
+                        long j2 = jArr[i];
+                        Object[][] objArr = a4Var.f;
+                        if (j < j2 + objArr[i].length) {
+                            obj = objArr[i][(int) (j - jArr[i])];
+                        }
                     }
+                    throw new IndexOutOfBoundsException(Long.toString(j));
                 }
                 throw new IndexOutOfBoundsException(Long.toString(j));
             } else if (j >= a4Var.b) {

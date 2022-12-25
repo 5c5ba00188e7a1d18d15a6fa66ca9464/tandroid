@@ -21,9 +21,10 @@ public class TLRPC$TL_upload_file extends TLRPC$upload_File {
     @Override // org.telegram.tgnet.TLObject
     public void freeResources() {
         NativeByteBuffer nativeByteBuffer;
-        if (!this.disableFree && (nativeByteBuffer = this.bytes) != null) {
-            nativeByteBuffer.reuse();
-            this.bytes = null;
+        if (this.disableFree || (nativeByteBuffer = this.bytes) == null) {
+            return;
         }
+        nativeByteBuffer.reuse();
+        this.bytes = null;
     }
 }

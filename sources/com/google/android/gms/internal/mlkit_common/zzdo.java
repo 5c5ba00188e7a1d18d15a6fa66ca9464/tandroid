@@ -9,7 +9,7 @@ import com.google.firebase.components.Dependency;
 /* compiled from: com.google.mlkit:common@@17.0.0 */
 /* loaded from: classes.dex */
 public class zzdo implements zzds.zza {
-    public static final Component<?> zza = Component.builder(zzdo.class).add(Dependency.required(Context.class)).factory(zzdn.zza).build();
+    public static final Component<?> zza;
 
     public zzdo(Context context) {
         ClearcutLogger.anonymousLogger(context, "FIREBASE_ML_SDK");
@@ -17,5 +17,6 @@ public class zzdo implements zzds.zza {
 
     static {
         new GmsLogger("ClearcutTransport", "");
+        zza = Component.builder(zzdo.class).add(Dependency.required(Context.class)).factory(zzdn.zza).build();
     }
 }

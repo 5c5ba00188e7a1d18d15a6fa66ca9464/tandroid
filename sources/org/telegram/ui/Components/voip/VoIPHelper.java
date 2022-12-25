@@ -88,13 +88,10 @@ public class VoIPHelper {
         String str;
         int i2;
         String str2;
-        boolean z3 = true;
         if (tLRPC$UserFull != null && tLRPC$UserFull.phone_calls_private) {
             new AlertDialog.Builder(activity).setTitle(LocaleController.getString("VoipFailed", R.string.VoipFailed)).setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("CallNotAvailable", R.string.CallNotAvailable, ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name)))).setPositiveButton(LocaleController.getString("OK", R.string.OK), null).show();
         } else if (ConnectionsManager.getInstance(UserConfig.selectedAccount).getConnectionState() != 3) {
-            if (Settings.System.getInt(activity.getContentResolver(), "airplane_mode_on", 0) == 0) {
-                z3 = false;
-            }
+            boolean z3 = Settings.System.getInt(activity.getContentResolver(), "airplane_mode_on", 0) != 0;
             AlertDialog.Builder builder = new AlertDialog.Builder(activity);
             if (z3) {
                 i = R.string.VoipOfflineAirplaneTitle;
@@ -158,11 +155,8 @@ public class VoIPHelper {
         if (activity == null) {
             return;
         }
-        boolean z2 = false;
         if (ConnectionsManager.getInstance(UserConfig.selectedAccount).getConnectionState() != 3) {
-            if (Settings.System.getInt(activity.getContentResolver(), "airplane_mode_on", 0) != 0) {
-                z2 = true;
-            }
+            boolean z2 = Settings.System.getInt(activity.getContentResolver(), "airplane_mode_on", 0) != 0;
             AlertDialog.Builder builder = new AlertDialog.Builder(activity);
             if (z2) {
                 i = R.string.VoipOfflineAirplaneTitle;
@@ -275,8 +269,7 @@ public class VoIPHelper {
                     }
                     GroupCallActivity.create((LaunchActivity) activity, AccountInstance.getInstance(UserConfig.selectedAccount), null, null, false, null);
                 }
-            } else if (VoIPService.callIShouldHavePutIntoIntent != null) {
-            } else {
+            } else if (VoIPService.callIShouldHavePutIntoIntent == null) {
                 doInitiateCall(tLRPC$User, tLRPC$Chat, str, null, false, z, z2, z3, activity, baseFragment, accountInstance, bool != null ? bool.booleanValue() : true, true);
             }
         }
@@ -426,10 +419,10 @@ public class VoIPHelper {
                     VoIPHelper.doInitiateCall(tLRPC$User, tLRPC$Chat, str, tLRPC$InputPeer, true, z, z2, false, activity, baseFragment, accountInstance, false, false);
                 }
             };
-            if (baseFragment == null) {
+            if (baseFragment != null) {
+                baseFragment.showDialog(joinCallByUrlAlert);
                 return;
             }
-            baseFragment.showDialog(joinCallByUrlAlert);
             return;
         }
         doInitiateCall(tLRPC$User, tLRPC$Chat, str, tLRPC$InputPeer, !z3, z, z2, false, activity, baseFragment, accountInstance, false, false);
@@ -446,10 +439,9 @@ public class VoIPHelper {
                     VoIPHelper.doInitiateCall(tLRPC$User, tLRPC$Chat, str, tLRPC$InputPeer, false, z2, z3, z, activity, baseFragment, accountInstance, false, true);
                 }
             };
-            if (baseFragment == null) {
-                return;
+            if (baseFragment != null) {
+                baseFragment.showDialog(joinCallByUrlAlert);
             }
-            baseFragment.showDialog(joinCallByUrlAlert);
         } else {
             doInitiateCall(tLRPC$User, tLRPC$Chat, str, tLRPC$InputPeer, z4, z2, z3, z, activity, baseFragment, accountInstance, false, true);
         }
@@ -779,11 +771,10 @@ public class VoIPHelper {
         if (tLObject instanceof TLRPC$TL_updates) {
             MessagesController.getInstance(i).processUpdates((TLRPC$TL_updates) tLObject, false);
         }
-        if (!zArr[0] || !file.exists() || tLRPC$TL_phone_setCallRating.rating >= 4) {
-            return;
+        if (zArr[0] && file.exists() && tLRPC$TL_phone_setCallRating.rating < 4) {
+            SendMessagesHelper.prepareSendingDocument(AccountInstance.getInstance(UserConfig.selectedAccount), file.getAbsolutePath(), file.getAbsolutePath(), null, TextUtils.join(" ", arrayList), "text/plain", 4244000L, null, null, null, null, true, 0);
+            Toast.makeText(context, LocaleController.getString("CallReportSent", R.string.CallReportSent), 1).show();
         }
-        SendMessagesHelper.prepareSendingDocument(AccountInstance.getInstance(UserConfig.selectedAccount), file.getAbsolutePath(), file.getAbsolutePath(), null, TextUtils.join(" ", arrayList), "text/plain", 4244000L, null, null, null, null, true, 0);
-        Toast.makeText(context, LocaleController.getString("CallReportSent", R.string.CallReportSent), 1).show();
     }
 
     private static File getLogFile(long j) {
@@ -874,19 +865,19 @@ public class VoIPHelper {
         boolean z2 = DownloadController.getInstance(0).mediumPreset.lessCallData;
         boolean z3 = DownloadController.getInstance(0).highPreset.lessCallData;
         if (z || z2 || z3) {
-            if (z && !z2 && !z3) {
-                return 3;
+            if (!z || z2 || z3) {
+                if (z && z2 && !z3) {
+                    return 1;
+                }
+                if (z && z2 && z3) {
+                    return 2;
+                }
+                if (BuildVars.LOGS_ENABLED) {
+                    FileLog.w("Invalid call data saving preset configuration: " + z + "/" + z2 + "/" + z3);
+                }
+                return 0;
             }
-            if (z && z2 && !z3) {
-                return 1;
-            }
-            if (z && z2 && z3) {
-                return 2;
-            }
-            if (BuildVars.LOGS_ENABLED) {
-                FileLog.w("Invalid call data saving preset configuration: " + z + "/" + z2 + "/" + z3);
-            }
-            return 0;
+            return 3;
         }
         return 0;
     }

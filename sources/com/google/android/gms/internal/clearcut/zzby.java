@@ -56,20 +56,20 @@ final class zzby<FieldDescriptorType extends zzca<FieldDescriptorType>> {
         this.zzgt.zza((zzei<FieldDescriptorType, Object>) fielddescriptortype, (FieldDescriptorType) obj);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:12:0x0026, code lost:
-        if ((r3 instanceof com.google.android.gms.internal.clearcut.zzcj) == false) goto L7;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:16:0x002f, code lost:
-        if ((r3 instanceof byte[]) == false) goto L7;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:6:0x001b, code lost:
-        if ((r3 instanceof com.google.android.gms.internal.clearcut.zzcr) == false) goto L7;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:7:0x001e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:10:0x001e, code lost:
         r0 = false;
      */
-    /* JADX WARN: Removed duplicated region for block: B:24:0x0046 A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:26:0x0047  */
+    /* JADX WARN: Code restructure failed: missing block: B:14:0x0026, code lost:
+        if ((r3 instanceof com.google.android.gms.internal.clearcut.zzcj) == false) goto L7;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:19:0x002f, code lost:
+        if ((r3 instanceof byte[]) == false) goto L7;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:8:0x001b, code lost:
+        if ((r3 instanceof com.google.android.gms.internal.clearcut.zzcr) == false) goto L7;
+     */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x0046 A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:30:0x0047  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -225,10 +225,10 @@ final class zzby<FieldDescriptorType extends zzca<FieldDescriptorType>> {
                     }
                 }
             } else if (!(value instanceof zzdo)) {
-                if (!(value instanceof zzcr)) {
-                    throw new IllegalArgumentException("Wrong object type used with protocol message reflection.");
+                if (value instanceof zzcr) {
+                    return true;
                 }
-                return true;
+                throw new IllegalArgumentException("Wrong object type used with protocol message reflection.");
             } else if (!((zzdo) value).isInitialized()) {
                 return false;
             }
@@ -278,13 +278,13 @@ final class zzby<FieldDescriptorType extends zzca<FieldDescriptorType>> {
         if (obj instanceof zzdv) {
             return ((zzdv) obj).zzci();
         }
-        if (!(obj instanceof byte[])) {
-            return obj;
+        if (obj instanceof byte[]) {
+            byte[] bArr = (byte[]) obj;
+            byte[] bArr2 = new byte[bArr.length];
+            System.arraycopy(bArr, 0, bArr2, 0, bArr.length);
+            return bArr2;
         }
-        byte[] bArr = (byte[]) obj;
-        byte[] bArr2 = new byte[bArr.length];
-        System.arraycopy(bArr, 0, bArr2, 0, bArr.length);
-        return bArr2;
+        return obj;
     }
 
     public final /* synthetic */ Object clone() throws CloneNotSupportedException {

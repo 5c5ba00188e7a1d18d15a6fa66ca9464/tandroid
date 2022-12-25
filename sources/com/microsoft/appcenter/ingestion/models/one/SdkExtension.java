@@ -72,34 +72,30 @@ public class SdkExtension implements Model {
         }
         SdkExtension sdkExtension = (SdkExtension) obj;
         String str = this.libVer;
-        if (str == null ? sdkExtension.libVer != null : !str.equals(sdkExtension.libVer)) {
+        if (str == null ? sdkExtension.libVer == null : str.equals(sdkExtension.libVer)) {
+            String str2 = this.epoch;
+            if (str2 == null ? sdkExtension.epoch == null : str2.equals(sdkExtension.epoch)) {
+                Long l = this.seq;
+                if (l == null ? sdkExtension.seq == null : l.equals(sdkExtension.seq)) {
+                    UUID uuid = this.installId;
+                    UUID uuid2 = sdkExtension.installId;
+                    return uuid != null ? uuid.equals(uuid2) : uuid2 == null;
+                }
+                return false;
+            }
             return false;
         }
-        String str2 = this.epoch;
-        if (str2 == null ? sdkExtension.epoch != null : !str2.equals(sdkExtension.epoch)) {
-            return false;
-        }
-        Long l = this.seq;
-        if (l == null ? sdkExtension.seq != null : !l.equals(sdkExtension.seq)) {
-            return false;
-        }
-        UUID uuid = this.installId;
-        UUID uuid2 = sdkExtension.installId;
-        return uuid != null ? uuid.equals(uuid2) : uuid2 == null;
+        return false;
     }
 
     public int hashCode() {
         String str = this.libVer;
-        int i = 0;
         int hashCode = (str != null ? str.hashCode() : 0) * 31;
         String str2 = this.epoch;
         int hashCode2 = (hashCode + (str2 != null ? str2.hashCode() : 0)) * 31;
         Long l = this.seq;
         int hashCode3 = (hashCode2 + (l != null ? l.hashCode() : 0)) * 31;
         UUID uuid = this.installId;
-        if (uuid != null) {
-            i = uuid.hashCode();
-        }
-        return hashCode3 + i;
+        return hashCode3 + (uuid != null ? uuid.hashCode() : 0);
     }
 }

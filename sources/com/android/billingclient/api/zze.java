@@ -23,11 +23,11 @@ public final class zze {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof zze)) {
-            return false;
+        if (obj instanceof zze) {
+            zze zzeVar = (zze) obj;
+            return this.zza.equals(zzeVar.zza) && this.zzb.equals(zzeVar.zzb) && ((str = this.zzc) == (str2 = zzeVar.zzc) || (str != null && str.equals(str2)));
         }
-        zze zzeVar = (zze) obj;
-        return this.zza.equals(zzeVar.zza) && this.zzb.equals(zzeVar.zzb) && ((str = this.zzc) == (str2 = zzeVar.zzc) || (str != null && str.equals(str2)));
+        return false;
     }
 
     public final int hashCode() {

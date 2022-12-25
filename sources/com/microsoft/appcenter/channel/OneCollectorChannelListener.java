@@ -55,31 +55,30 @@ public class OneCollectorChannelListener extends AbstractChannelListener {
 
     @Override // com.microsoft.appcenter.channel.AbstractChannelListener, com.microsoft.appcenter.channel.Channel.Listener
     public void onPreparedLog(Log log, String str, int i) {
-        if (!isOneCollectorCompatible(log)) {
-            return;
-        }
-        try {
-            Collection<CommonSchemaLog> commonSchemaLog = this.mLogSerializer.toCommonSchemaLog(log);
-            for (CommonSchemaLog commonSchemaLog2 : commonSchemaLog) {
-                commonSchemaLog2.setFlags(Long.valueOf(i));
-                EpochAndSeq epochAndSeq = this.mEpochsAndSeqsByIKey.get(commonSchemaLog2.getIKey());
-                if (epochAndSeq == null) {
-                    epochAndSeq = new EpochAndSeq(UUID.randomUUID().toString());
-                    this.mEpochsAndSeqsByIKey.put(commonSchemaLog2.getIKey(), epochAndSeq);
+        if (isOneCollectorCompatible(log)) {
+            try {
+                Collection<CommonSchemaLog> commonSchemaLog = this.mLogSerializer.toCommonSchemaLog(log);
+                for (CommonSchemaLog commonSchemaLog2 : commonSchemaLog) {
+                    commonSchemaLog2.setFlags(Long.valueOf(i));
+                    EpochAndSeq epochAndSeq = this.mEpochsAndSeqsByIKey.get(commonSchemaLog2.getIKey());
+                    if (epochAndSeq == null) {
+                        epochAndSeq = new EpochAndSeq(UUID.randomUUID().toString());
+                        this.mEpochsAndSeqsByIKey.put(commonSchemaLog2.getIKey(), epochAndSeq);
+                    }
+                    SdkExtension sdk = commonSchemaLog2.getExt().getSdk();
+                    sdk.setEpoch(epochAndSeq.epoch);
+                    long j = epochAndSeq.seq + 1;
+                    epochAndSeq.seq = j;
+                    sdk.setSeq(Long.valueOf(j));
+                    sdk.setInstallId(this.mInstallId);
                 }
-                SdkExtension sdk = commonSchemaLog2.getExt().getSdk();
-                sdk.setEpoch(epochAndSeq.epoch);
-                long j = epochAndSeq.seq + 1;
-                epochAndSeq.seq = j;
-                sdk.setSeq(Long.valueOf(j));
-                sdk.setInstallId(this.mInstallId);
+                String oneCollectorGroupName = getOneCollectorGroupName(str);
+                for (CommonSchemaLog commonSchemaLog3 : commonSchemaLog) {
+                    this.mChannel.enqueue(commonSchemaLog3, oneCollectorGroupName, i);
+                }
+            } catch (IllegalArgumentException e) {
+                AppCenterLog.error("AppCenter", "Cannot send a log to one collector: " + e.getMessage());
             }
-            String oneCollectorGroupName = getOneCollectorGroupName(str);
-            for (CommonSchemaLog commonSchemaLog3 : commonSchemaLog) {
-                this.mChannel.enqueue(commonSchemaLog3, oneCollectorGroupName, i);
-            }
-        } catch (IllegalArgumentException e) {
-            AppCenterLog.error("AppCenter", "Cannot send a log to one collector: " + e.getMessage());
         }
     }
 
@@ -105,14 +104,15 @@ public class OneCollectorChannelListener extends AbstractChannelListener {
     }
 
     private static boolean isOneCollectorCompatible(Log log) {
-        return !(log instanceof CommonSchemaLog) && !log.getTransmissionTargetTokens().isEmpty();
+        return ((log instanceof CommonSchemaLog) || log.getTransmissionTargetTokens().isEmpty()) ? false : true;
     }
 
     @Override // com.microsoft.appcenter.channel.AbstractChannelListener, com.microsoft.appcenter.channel.Channel.Listener
     public void onGloballyEnabled(boolean z) {
-        if (!z) {
-            this.mEpochsAndSeqsByIKey.clear();
+        if (z) {
+            return;
         }
+        this.mEpochsAndSeqsByIKey.clear();
     }
 
     /* loaded from: classes.dex */

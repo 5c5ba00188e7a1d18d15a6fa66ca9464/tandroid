@@ -33,13 +33,13 @@ public abstract class Brush {
 
     public String getShaderName(int i) {
         if (i != 0) {
-            if (i == 1) {
-                return "compositeWithMask";
-            }
-            if (i == 2) {
+            if (i != 1) {
+                if (i != 2) {
+                    return null;
+                }
                 return "brush";
             }
-            return null;
+            return "compositeWithMask";
         }
         return "blitWithMask";
     }
@@ -127,13 +127,13 @@ public abstract class Brush {
         @Override // org.telegram.ui.Components.Paint.Brush
         public String getShaderName(int i) {
             if (i != 0) {
-                if (i == 1) {
-                    return "compositeWithMaskLight";
-                }
-                if (i == 2) {
+                if (i != 1) {
+                    if (i != 2) {
+                        return null;
+                    }
                     return "brushLight";
                 }
-                return null;
+                return "compositeWithMaskLight";
             }
             return "blitWithMaskLight";
         }
@@ -177,13 +177,13 @@ public abstract class Brush {
         @Override // org.telegram.ui.Components.Paint.Brush
         public String getShaderName(int i) {
             if (i != 0) {
-                if (i == 1) {
-                    return "compositeWithMaskEraser";
-                }
-                if (i == 2) {
+                if (i != 1) {
+                    if (i != 2) {
+                        return null;
+                    }
                     return "brush";
                 }
-                return null;
+                return "compositeWithMaskEraser";
             }
             return "blitWithMaskEraser";
         }
@@ -209,13 +209,13 @@ public abstract class Brush {
         @Override // org.telegram.ui.Components.Paint.Brush
         public String getShaderName(int i) {
             if (i != 0) {
-                if (i == 1) {
-                    return "compositeWithMaskBlurer";
-                }
-                if (i == 2) {
+                if (i != 1) {
+                    if (i != 2) {
+                        return null;
+                    }
                     return "brush";
                 }
-                return null;
+                return "compositeWithMaskBlurer";
             }
             return "blitWithMaskBlurer";
         }
@@ -244,10 +244,10 @@ public abstract class Brush {
             if (i == 0 || i == 1) {
                 return "shape";
             }
-            if (i == 2) {
-                return "brush";
+            if (i != 2) {
+                return null;
             }
-            return null;
+            return "brush";
         }
 
         public String getShapeName() {

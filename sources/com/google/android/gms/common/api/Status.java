@@ -16,22 +16,28 @@ import com.google.errorprone.annotations.CheckReturnValue;
 /* compiled from: com.google.android.gms:play-services-basement@@18.1.0 */
 /* loaded from: classes.dex */
 public final class Status extends AbstractSafeParcelable implements Result, ReflectedParcelable {
+    public static final Parcelable.Creator<Status> CREATOR;
+    public static final Status RESULT_CANCELED;
+    public static final Status RESULT_INTERNAL_ERROR;
+    public static final Status RESULT_INTERRUPTED;
+    public static final Status RESULT_SUCCESS;
+    public static final Status RESULT_TIMEOUT;
     final int zzb;
     private final int zzc;
     private final String zzd;
     private final PendingIntent zze;
     private final ConnectionResult zzf;
-    public static final Status RESULT_SUCCESS = new Status(0);
-    public static final Status RESULT_INTERRUPTED = new Status(14);
-    public static final Status RESULT_INTERNAL_ERROR = new Status(8);
-    public static final Status RESULT_TIMEOUT = new Status(15);
-    public static final Status RESULT_CANCELED = new Status(16);
-    public static final Parcelable.Creator<Status> CREATOR = new zzb();
 
     static {
         new Status(-1);
+        RESULT_SUCCESS = new Status(0);
+        RESULT_INTERRUPTED = new Status(14);
+        RESULT_INTERNAL_ERROR = new Status(8);
+        RESULT_TIMEOUT = new Status(15);
+        RESULT_CANCELED = new Status(16);
         new Status(17);
         new Status(18);
+        CREATOR = new zzb();
     }
 
     public Status(int i) {
@@ -48,11 +54,11 @@ public final class Status extends AbstractSafeParcelable implements Result, Refl
     }
 
     public boolean equals(Object obj) {
-        if (!(obj instanceof Status)) {
-            return false;
+        if (obj instanceof Status) {
+            Status status = (Status) obj;
+            return this.zzb == status.zzb && this.zzc == status.zzc && Objects.equal(this.zzd, status.zzd) && Objects.equal(this.zze, status.zze) && Objects.equal(this.zzf, status.zzf);
         }
-        Status status = (Status) obj;
-        return this.zzb == status.zzb && this.zzc == status.zzc && Objects.equal(this.zzd, status.zzd) && Objects.equal(this.zze, status.zze) && Objects.equal(this.zzf, status.zzf);
+        return false;
     }
 
     public ConnectionResult getConnectionResult() {
@@ -87,12 +93,11 @@ public final class Status extends AbstractSafeParcelable implements Result, Refl
     }
 
     public void startResolutionForResult(Activity activity, int i) throws IntentSender.SendIntentException {
-        if (!hasResolution()) {
-            return;
+        if (hasResolution()) {
+            PendingIntent pendingIntent = this.zze;
+            Preconditions.checkNotNull(pendingIntent);
+            activity.startIntentSenderForResult(pendingIntent.getIntentSender(), i, null, 0, 0, 0);
         }
-        PendingIntent pendingIntent = this.zze;
-        Preconditions.checkNotNull(pendingIntent);
-        activity.startIntentSenderForResult(pendingIntent.getIntentSender(), i, null, 0, 0, 0);
     }
 
     public String toString() {

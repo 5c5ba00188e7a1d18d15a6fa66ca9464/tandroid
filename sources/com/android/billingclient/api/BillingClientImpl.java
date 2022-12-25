@@ -114,10 +114,9 @@ public class BillingClientImpl extends BillingClient {
                     }
                     future.cancel(true);
                     zzb.zzo("BillingClient", "Async task is taking too long, cancel it!");
-                    if (runnable3 == null) {
-                        return;
+                    if (runnable3 != null) {
+                        runnable3.run();
                     }
-                    runnable3.run();
                 }
             };
             Double.isNaN(d);
@@ -140,8 +139,7 @@ public class BillingClientImpl extends BillingClient {
             public final void run() {
                 PurchasesResponseListener.this.onQueryPurchasesResponse(zzbc.zzn, com.google.android.gms.internal.play_billing.zzu.zzl());
             }
-        }, zzF()) != null) {
-        } else {
+        }, zzF()) == null) {
             purchasesResponseListener.onQueryPurchasesResponse(zzH(), com.google.android.gms.internal.play_billing.zzu.zzl());
         }
     }
@@ -206,8 +204,7 @@ public class BillingClientImpl extends BillingClient {
             public final void run() {
                 ConsumeResponseListener.this.onConsumeResponse(zzbc.zzn, consumeParams.getPurchaseToken());
             }
-        }, zzF()) != null) {
-        } else {
+        }, zzF()) == null) {
             consumeResponseListener.onConsumeResponse(zzH(), consumeParams.getPurchaseToken());
         }
     }
@@ -217,15 +214,15 @@ public class BillingClientImpl extends BillingClient {
         return (this.zza != 2 || this.zzf == null || this.zzg == null) ? false : true;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:101:0x03a5 A[Catch: Exception -> 0x03bf, CancellationException -> 0x03cb, TimeoutException -> 0x03cd, TRY_LEAVE, TryCatch #4 {CancellationException -> 0x03cb, TimeoutException -> 0x03cd, Exception -> 0x03bf, blocks: (B:97:0x036d, B:99:0x037f, B:101:0x03a5), top: B:96:0x036d }] */
-    /* JADX WARN: Removed duplicated region for block: B:113:0x0326 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:117:0x0331  */
-    /* JADX WARN: Removed duplicated region for block: B:118:0x0336  */
-    /* JADX WARN: Removed duplicated region for block: B:119:0x02e2  */
-    /* JADX WARN: Removed duplicated region for block: B:85:0x02cf  */
-    /* JADX WARN: Removed duplicated region for block: B:88:0x02da  */
-    /* JADX WARN: Removed duplicated region for block: B:91:0x0317  */
-    /* JADX WARN: Removed duplicated region for block: B:99:0x037f A[Catch: Exception -> 0x03bf, CancellationException -> 0x03cb, TimeoutException -> 0x03cd, TryCatch #4 {CancellationException -> 0x03cb, TimeoutException -> 0x03cd, Exception -> 0x03bf, blocks: (B:97:0x036d, B:99:0x037f, B:101:0x03a5), top: B:96:0x036d }] */
+    /* JADX WARN: Removed duplicated region for block: B:283:0x02cf  */
+    /* JADX WARN: Removed duplicated region for block: B:286:0x02da  */
+    /* JADX WARN: Removed duplicated region for block: B:287:0x02e2  */
+    /* JADX WARN: Removed duplicated region for block: B:298:0x0317  */
+    /* JADX WARN: Removed duplicated region for block: B:303:0x0326 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:307:0x0331  */
+    /* JADX WARN: Removed duplicated region for block: B:308:0x0336  */
+    /* JADX WARN: Removed duplicated region for block: B:314:0x037f A[Catch: Exception -> 0x03bf, CancellationException -> 0x03cb, TimeoutException -> 0x03cd, TryCatch #4 {CancellationException -> 0x03cb, TimeoutException -> 0x03cd, Exception -> 0x03bf, blocks: (B:312:0x036d, B:314:0x037f, B:316:0x03a5), top: B:332:0x036d }] */
+    /* JADX WARN: Removed duplicated region for block: B:316:0x03a5 A[Catch: Exception -> 0x03bf, CancellationException -> 0x03cb, TimeoutException -> 0x03cd, TRY_LEAVE, TryCatch #4 {CancellationException -> 0x03cb, TimeoutException -> 0x03cd, Exception -> 0x03bf, blocks: (B:312:0x036d, B:314:0x037f, B:316:0x03a5), top: B:332:0x036d }] */
     @Override // com.android.billingclient.api.BillingClient
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -287,11 +284,11 @@ public class BillingClientImpl extends BillingClient {
                                 boolean z4 = false;
                                 boolean z5 = false;
                                 for (SkuDetails skuDetails3 : zze) {
-                                    if (!skuDetails3.zzf().isEmpty()) {
+                                    if (skuDetails3.zzf().isEmpty()) {
                                         productDetailsParams2 = productDetailsParams3;
-                                        arrayList.add(skuDetails3.zzf());
                                     } else {
                                         productDetailsParams2 = productDetailsParams3;
+                                        arrayList.add(skuDetails3.zzf());
                                     }
                                     String zzc = skuDetails3.zzc();
                                     SkuDetails skuDetails4 = skuDetails2;
@@ -547,8 +544,7 @@ public class BillingClientImpl extends BillingClient {
             public final void run() {
                 ProductDetailsResponseListener.this.onProductDetailsResponse(zzbc.zzn, new ArrayList());
             }
-        }, zzF()) != null) {
-        } else {
+        }, zzF()) == null) {
             productDetailsResponseListener.onProductDetailsResponse(zzH(), new ArrayList());
         }
     }

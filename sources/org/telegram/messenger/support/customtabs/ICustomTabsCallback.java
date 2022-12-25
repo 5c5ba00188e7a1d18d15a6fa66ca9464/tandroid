@@ -29,31 +29,19 @@ public interface ICustomTabsCallback extends IInterface {
 
         @Override // android.os.Binder
         public boolean onTransact(int i, Parcel parcel, Parcel parcel2, int i2) throws RemoteException {
-            Bundle bundle = null;
             if (i == 2) {
                 parcel.enforceInterface("android.support.customtabs.ICustomTabsCallback");
-                int readInt = parcel.readInt();
-                if (parcel.readInt() != 0) {
-                    bundle = (Bundle) Bundle.CREATOR.createFromParcel(parcel);
-                }
-                onNavigationEvent(readInt, bundle);
+                onNavigationEvent(parcel.readInt(), parcel.readInt() != 0 ? (Bundle) Bundle.CREATOR.createFromParcel(parcel) : null);
                 parcel2.writeNoException();
                 return true;
             } else if (i == 3) {
                 parcel.enforceInterface("android.support.customtabs.ICustomTabsCallback");
-                String readString = parcel.readString();
-                if (parcel.readInt() != 0) {
-                    bundle = (Bundle) Bundle.CREATOR.createFromParcel(parcel);
-                }
-                extraCallback(readString, bundle);
+                extraCallback(parcel.readString(), parcel.readInt() != 0 ? (Bundle) Bundle.CREATOR.createFromParcel(parcel) : null);
                 parcel2.writeNoException();
                 return true;
             } else if (i == 4) {
                 parcel.enforceInterface("android.support.customtabs.ICustomTabsCallback");
-                if (parcel.readInt() != 0) {
-                    bundle = (Bundle) Bundle.CREATOR.createFromParcel(parcel);
-                }
-                onMessageChannelReady(bundle);
+                onMessageChannelReady(parcel.readInt() != 0 ? (Bundle) Bundle.CREATOR.createFromParcel(parcel) : null);
                 parcel2.writeNoException();
                 return true;
             } else if (i != 5) {
@@ -64,11 +52,7 @@ public interface ICustomTabsCallback extends IInterface {
                 return super.onTransact(i, parcel, parcel2, i2);
             } else {
                 parcel.enforceInterface("android.support.customtabs.ICustomTabsCallback");
-                String readString2 = parcel.readString();
-                if (parcel.readInt() != 0) {
-                    bundle = (Bundle) Bundle.CREATOR.createFromParcel(parcel);
-                }
-                onPostMessage(readString2, bundle);
+                onPostMessage(parcel.readString(), parcel.readInt() != 0 ? (Bundle) Bundle.CREATOR.createFromParcel(parcel) : null);
                 parcel2.writeNoException();
                 return true;
             }

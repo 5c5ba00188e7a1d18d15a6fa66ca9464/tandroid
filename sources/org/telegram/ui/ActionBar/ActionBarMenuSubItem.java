@@ -59,7 +59,6 @@ public class ActionBarMenuSubItem extends FrameLayout {
         this.imageView = rLottieImageView;
         rLottieImageView.setScaleType(ImageView.ScaleType.CENTER);
         this.imageView.setColorFilter(new PorterDuffColorFilter(this.iconColor, PorterDuff.Mode.MULTIPLY));
-        int i = 5;
         addView(this.imageView, LayoutHelper.createFrame(-2, 40, (LocaleController.isRTL ? 5 : 3) | 16));
         TextView textView = new TextView(context);
         this.textView = textView;
@@ -76,7 +75,7 @@ public class ActionBarMenuSubItem extends FrameLayout {
             checkBox2.setDrawUnchecked(false);
             this.checkView.setColor(null, null, "radioBackgroundChecked");
             this.checkView.setDrawBackgroundAsArc(-1);
-            addView(this.checkView, LayoutHelper.createFrame(26, -1, (!LocaleController.isRTL ? 3 : i) | 16));
+            addView(this.checkView, LayoutHelper.createFrame(26, -1, (LocaleController.isRTL ? 5 : 3) | 16));
         }
     }
 
@@ -125,12 +124,7 @@ public class ActionBarMenuSubItem extends FrameLayout {
             }
             addView(this.rightIcon, LayoutHelper.createFrame(24, -1, (LocaleController.isRTL ? 3 : 5) | 16));
         }
-        float f = 8.0f;
-        int dp = AndroidUtilities.dp(LocaleController.isRTL ? 8.0f : 18.0f);
-        if (LocaleController.isRTL) {
-            f = 18.0f;
-        }
-        setPadding(dp, 0, AndroidUtilities.dp(f), 0);
+        setPadding(AndroidUtilities.dp(LocaleController.isRTL ? 8.0f : 18.0f), 0, AndroidUtilities.dp(LocaleController.isRTL ? 18.0f : 8.0f), 0);
         this.rightIcon.setImageResource(i);
     }
 
@@ -206,42 +200,24 @@ public class ActionBarMenuSubItem extends FrameLayout {
     }
 
     public void setSubtext(String str) {
-        int i = 8;
-        boolean z = true;
-        int i2 = 0;
         if (this.subtextView == null) {
             TextView textView = new TextView(getContext());
             this.subtextView = textView;
             textView.setLines(1);
             this.subtextView.setSingleLine(true);
-            int i3 = 3;
             this.subtextView.setGravity(3);
             this.subtextView.setEllipsize(TextUtils.TruncateAt.END);
             this.subtextView.setTextColor(-8617338);
             this.subtextView.setVisibility(8);
             this.subtextView.setTextSize(1, 13.0f);
             this.subtextView.setPadding(LocaleController.isRTL ? 0 : AndroidUtilities.dp(43.0f), 0, LocaleController.isRTL ? AndroidUtilities.dp(43.0f) : 0, 0);
-            TextView textView2 = this.subtextView;
-            if (LocaleController.isRTL) {
-                i3 = 5;
-            }
-            addView(textView2, LayoutHelper.createFrame(-2, -2.0f, i3 | 16, 0.0f, 10.0f, 0.0f, 0.0f));
+            addView(this.subtextView, LayoutHelper.createFrame(-2, -2.0f, (LocaleController.isRTL ? 5 : 3) | 16, 0.0f, 10.0f, 0.0f, 0.0f));
         }
-        boolean z2 = !TextUtils.isEmpty(str);
-        if (this.subtextView.getVisibility() != 0) {
-            z = false;
-        }
-        if (z2 != z) {
-            TextView textView3 = this.subtextView;
-            if (z2) {
-                i = 0;
-            }
-            textView3.setVisibility(i);
+        boolean z = !TextUtils.isEmpty(str);
+        if (z != (this.subtextView.getVisibility() == 0)) {
+            this.subtextView.setVisibility(z ? 0 : 8);
             FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) this.textView.getLayoutParams();
-            if (z2) {
-                i2 = AndroidUtilities.dp(10.0f);
-            }
-            layoutParams.bottomMargin = i2;
+            layoutParams.bottomMargin = z ? AndroidUtilities.dp(10.0f) : 0;
             this.textView.setLayoutParams(layoutParams);
         }
         this.subtextView.setText(str);
@@ -272,12 +248,7 @@ public class ActionBarMenuSubItem extends FrameLayout {
     }
 
     void updateBackground() {
-        int i = 6;
-        int i2 = this.top ? 6 : 0;
-        if (!this.bottom) {
-            i = 0;
-        }
-        setBackground(Theme.createRadSelectorDrawable(this.selectorColor, i2, i));
+        setBackground(Theme.createRadSelectorDrawable(this.selectorColor, this.top ? 6 : 0, this.bottom ? 6 : 0));
     }
 
     private int getThemedColor(String str) {

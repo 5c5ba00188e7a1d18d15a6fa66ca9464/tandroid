@@ -25,10 +25,10 @@ public class SoftwareVideoEncoderFactory implements VideoEncoderFactory {
         if (videoCodecInfo.name.equalsIgnoreCase("VP9") && LibvpxVp9Encoder.nativeIsSupported()) {
             return new LibvpxVp9Encoder();
         }
-        if (!videoCodecInfo.name.equalsIgnoreCase("H264")) {
-            return null;
+        if (videoCodecInfo.name.equalsIgnoreCase("H264")) {
+            return new OpenH264Encoder();
         }
-        return new OpenH264Encoder();
+        return null;
     }
 
     @Override // org.webrtc.VideoEncoderFactory

@@ -34,10 +34,10 @@ abstract class zzj extends zzy {
         if (obj != null && (obj instanceof zzz)) {
             try {
                 zzz zzzVar = (zzz) obj;
-                if (zzzVar.zzc() != this.zza || (zzd = zzzVar.zzd()) == null) {
-                    return false;
+                if (zzzVar.zzc() == this.zza && (zzd = zzzVar.zzd()) != null) {
+                    return Arrays.equals(zzf(), (byte[]) ObjectWrapper.unwrap(zzd));
                 }
-                return Arrays.equals(zzf(), (byte[]) ObjectWrapper.unwrap(zzd));
+                return false;
             } catch (RemoteException e) {
                 Log.e("GoogleCertificates", "Failed to get Google certificates from remote", e);
             }

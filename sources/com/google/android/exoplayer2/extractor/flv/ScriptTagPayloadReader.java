@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.HashMap;
 /* loaded from: classes.dex */
 final class ScriptTagPayloadReader extends TagPayloadReader {
-    private long durationUs = -9223372036854775807L;
+    private long durationUs;
 
     @Override // com.google.android.exoplayer2.extractor.flv.TagPayloadReader
     protected boolean parseHeader(ParsableByteArray parsableByteArray) {
@@ -17,6 +17,7 @@ final class ScriptTagPayloadReader extends TagPayloadReader {
 
     public ScriptTagPayloadReader() {
         super(new DummyTrackOutput());
+        this.durationUs = -9223372036854775807L;
     }
 
     public long getDurationUs() {
@@ -28,15 +29,15 @@ final class ScriptTagPayloadReader extends TagPayloadReader {
         if (readAmfType(parsableByteArray) != 2) {
             throw new ParserException();
         }
-        if (!"onMetaData".equals(readAmfString(parsableByteArray)) || readAmfType(parsableByteArray) != 8) {
-            return false;
-        }
-        HashMap<String, Object> readAmfEcmaArray = readAmfEcmaArray(parsableByteArray);
-        if (readAmfEcmaArray.containsKey("duration")) {
-            double doubleValue = ((Double) readAmfEcmaArray.get("duration")).doubleValue();
-            if (doubleValue > 0.0d) {
-                this.durationUs = (long) (doubleValue * 1000000.0d);
+        if ("onMetaData".equals(readAmfString(parsableByteArray)) && readAmfType(parsableByteArray) == 8) {
+            HashMap<String, Object> readAmfEcmaArray = readAmfEcmaArray(parsableByteArray);
+            if (readAmfEcmaArray.containsKey("duration")) {
+                double doubleValue = ((Double) readAmfEcmaArray.get("duration")).doubleValue();
+                if (doubleValue > 0.0d) {
+                    this.durationUs = (long) (doubleValue * 1000000.0d);
+                }
             }
+            return false;
         }
         return false;
     }
@@ -46,11 +47,7 @@ final class ScriptTagPayloadReader extends TagPayloadReader {
     }
 
     private static Boolean readAmfBoolean(ParsableByteArray parsableByteArray) {
-        boolean z = true;
-        if (parsableByteArray.readUnsignedByte() != 1) {
-            z = false;
-        }
-        return Boolean.valueOf(z);
+        return Boolean.valueOf(parsableByteArray.readUnsignedByte() == 1);
     }
 
     private static Double readAmfDouble(ParsableByteArray parsableByteArray) {
@@ -112,25 +109,25 @@ final class ScriptTagPayloadReader extends TagPayloadReader {
 
     private static Object readAmfData(ParsableByteArray parsableByteArray, int i) {
         if (i != 0) {
-            if (i == 1) {
-                return readAmfBoolean(parsableByteArray);
-            }
-            if (i == 2) {
+            if (i != 1) {
+                if (i != 2) {
+                    if (i != 3) {
+                        if (i != 8) {
+                            if (i != 10) {
+                                if (i != 11) {
+                                    return null;
+                                }
+                                return readAmfDate(parsableByteArray);
+                            }
+                            return readAmfStrictArray(parsableByteArray);
+                        }
+                        return readAmfEcmaArray(parsableByteArray);
+                    }
+                    return readAmfObject(parsableByteArray);
+                }
                 return readAmfString(parsableByteArray);
             }
-            if (i == 3) {
-                return readAmfObject(parsableByteArray);
-            }
-            if (i == 8) {
-                return readAmfEcmaArray(parsableByteArray);
-            }
-            if (i == 10) {
-                return readAmfStrictArray(parsableByteArray);
-            }
-            if (i == 11) {
-                return readAmfDate(parsableByteArray);
-            }
-            return null;
+            return readAmfBoolean(parsableByteArray);
         }
         return readAmfDouble(parsableByteArray);
     }

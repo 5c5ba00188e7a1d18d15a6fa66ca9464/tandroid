@@ -52,10 +52,7 @@ public class PhoneFormat {
             return null;
         }
         StringBuilder sb = new StringBuilder(str);
-        String str2 = "0123456789";
-        if (z) {
-            str2 = str2 + "+";
-        }
+        String str2 = z ? "0123456789+" : "0123456789";
         for (int length = sb.length() - 1; length >= 0; length--) {
             if (!str2.contains(sb.substring(length, length + 1))) {
                 sb.deleteCharAt(length);
@@ -140,13 +137,12 @@ public class PhoneFormat {
                     FileLog.e(e6);
                 }
             }
-            if (inputStream == null) {
-                return;
-            }
-            try {
-                inputStream.close();
-            } catch (Exception e7) {
-                FileLog.e(e7);
+            if (inputStream != null) {
+                try {
+                    inputStream.close();
+                } catch (Exception e7) {
+                    FileLog.e(e7);
+                }
             }
         } catch (Throwable th3) {
             th = th3;
@@ -183,38 +179,38 @@ public class PhoneFormat {
     }
 
     public String format(String str) {
-        if (!this.initialzed) {
-            return str;
-        }
-        try {
-            String strip = strip(str);
-            if (strip.startsWith("+")) {
-                String substring = strip.substring(1);
-                CallingCodeInfo findCallingCodeInfo = findCallingCodeInfo(substring);
-                if (findCallingCodeInfo == null) {
+        if (this.initialzed) {
+            try {
+                String strip = strip(str);
+                if (strip.startsWith("+")) {
+                    String substring = strip.substring(1);
+                    CallingCodeInfo findCallingCodeInfo = findCallingCodeInfo(substring);
+                    if (findCallingCodeInfo != null) {
+                        String format = findCallingCodeInfo.format(substring);
+                        return "+" + format;
+                    }
                     return str;
                 }
-                String format = findCallingCodeInfo.format(substring);
-                return "+" + format;
-            }
-            CallingCodeInfo callingCodeInfo = callingCodeInfo(this.defaultCallingCode);
-            if (callingCodeInfo == null) {
+                CallingCodeInfo callingCodeInfo = callingCodeInfo(this.defaultCallingCode);
+                if (callingCodeInfo == null) {
+                    return str;
+                }
+                String matchingAccessCode = callingCodeInfo.matchingAccessCode(strip);
+                if (matchingAccessCode != null) {
+                    String substring2 = strip.substring(matchingAccessCode.length());
+                    CallingCodeInfo findCallingCodeInfo2 = findCallingCodeInfo(substring2);
+                    if (findCallingCodeInfo2 != null) {
+                        substring2 = findCallingCodeInfo2.format(substring2);
+                    }
+                    return substring2.length() == 0 ? matchingAccessCode : String.format("%s %s", matchingAccessCode, substring2);
+                }
+                return callingCodeInfo.format(strip);
+            } catch (Exception e) {
+                FileLog.e(e);
                 return str;
             }
-            String matchingAccessCode = callingCodeInfo.matchingAccessCode(strip);
-            if (matchingAccessCode != null) {
-                String substring2 = strip.substring(matchingAccessCode.length());
-                CallingCodeInfo findCallingCodeInfo2 = findCallingCodeInfo(substring2);
-                if (findCallingCodeInfo2 != null) {
-                    substring2 = findCallingCodeInfo2.format(substring2);
-                }
-                return substring2.length() == 0 ? matchingAccessCode : String.format("%s %s", matchingAccessCode, substring2);
-            }
-            return callingCodeInfo.format(strip);
-        } catch (Exception e) {
-            FileLog.e(e);
-            return str;
         }
+        return str;
     }
 
     int value32(int i) {
@@ -233,17 +229,17 @@ public class PhoneFormat {
         return (short) 0;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:10:0x000d, code lost:
-        if (r5 != r1) goto L13;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:11:0x000f, code lost:
-        return "";
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:14:0x0015, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:11:0x0015, code lost:
         return new java.lang.String(r2, r5, r1);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:9:0x000c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:7:0x000c, code lost:
         r1 = r1 - r5;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:8:0x000d, code lost:
+        if (r5 != r1) goto L13;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:9:0x000f, code lost:
+        return "";
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

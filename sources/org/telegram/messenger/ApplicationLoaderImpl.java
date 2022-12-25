@@ -18,15 +18,14 @@ public class ApplicationLoaderImpl extends ApplicationLoader {
     @Override // org.telegram.messenger.ApplicationLoader
     protected void startAppCenterInternal(Activity activity) {
         try {
-            if (!BuildVars.DEBUG_VERSION) {
-                return;
+            if (BuildVars.DEBUG_VERSION) {
+                Distribute.setEnabledForDebuggableBuild(true);
+                if (TextUtils.isEmpty(BuildConfig.APP_CENTER_HASH)) {
+                    throw new RuntimeException("App Center hash is empty. add to local.properties field APP_CENTER_HASH_PRIVATE and APP_CENTER_HASH_PUBLIC");
+                }
+                AppCenter.start(activity.getApplication(), BuildConfig.APP_CENTER_HASH, Distribute.class, Crashes.class);
+                AppCenter.setUserId("uid=" + UserConfig.getInstance(UserConfig.selectedAccount).clientUserId);
             }
-            Distribute.setEnabledForDebuggableBuild(true);
-            if (TextUtils.isEmpty(BuildConfig.APP_CENTER_HASH)) {
-                throw new RuntimeException("App Center hash is empty. add to local.properties field APP_CENTER_HASH_PRIVATE and APP_CENTER_HASH_PUBLIC");
-            }
-            AppCenter.start(activity.getApplication(), BuildConfig.APP_CENTER_HASH, Distribute.class, Crashes.class);
-            AppCenter.setUserId("uid=" + UserConfig.getInstance(UserConfig.selectedAccount).clientUserId);
         } catch (Throwable th) {
             FileLog.e(th);
         }

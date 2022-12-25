@@ -10,16 +10,16 @@ enum l implements g {
     public String toString() {
         int ordinal = ordinal();
         if (ordinal != 0) {
-            if (ordinal == 1) {
-                return "ParseCaseSensitive(false)";
-            }
-            if (ordinal == 2) {
+            if (ordinal != 1) {
+                if (ordinal != 2) {
+                    if (ordinal == 3) {
+                        return "ParseStrict(false)";
+                    }
+                    throw new IllegalStateException("Unreachable");
+                }
                 return "ParseStrict(true)";
             }
-            if (ordinal != 3) {
-                throw new IllegalStateException("Unreachable");
-            }
-            return "ParseStrict(false)";
+            return "ParseCaseSensitive(false)";
         }
         return "ParseCaseSensitive(true)";
     }

@@ -8,12 +8,12 @@ public abstract class TLRPC$help_PromoData extends TLObject {
         } else {
             tLRPC$TL_help_promoData = i != -1728664459 ? null : new TLRPC$TL_help_promoDataEmpty();
         }
-        if (tLRPC$TL_help_promoData != null || !z) {
-            if (tLRPC$TL_help_promoData != null) {
-                tLRPC$TL_help_promoData.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_help_promoData;
+        if (tLRPC$TL_help_promoData == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in help_PromoData", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in help_PromoData", Integer.valueOf(i)));
+        if (tLRPC$TL_help_promoData != null) {
+            tLRPC$TL_help_promoData.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_help_promoData;
     }
 }

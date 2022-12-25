@@ -114,9 +114,8 @@ abstract class f extends CountedCompleter {
 
     @Override // java.util.concurrent.CountedCompleter, java.util.concurrent.ForkJoinTask
     protected void setRawResult(Object obj) {
-        if (obj == null) {
-            return;
+        if (obj != null) {
+            throw new IllegalStateException();
         }
-        throw new IllegalStateException();
     }
 }

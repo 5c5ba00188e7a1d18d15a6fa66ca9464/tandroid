@@ -239,8 +239,7 @@ public class LinkEditActivity extends BaseFragment {
                 if (linkEditActivity.scrollToEnd) {
                     linkEditActivity.scrollToEnd = false;
                     linkEditActivity.scrollView.smoothScrollTo(0, Math.max(0, LinkEditActivity.this.scrollView.getChildAt(0).getMeasuredHeight() - LinkEditActivity.this.scrollView.getMeasuredHeight()));
-                } else if (!linkEditActivity.scrollToStart) {
-                } else {
+                } else if (linkEditActivity.scrollToStart) {
                     linkEditActivity.scrollToStart = false;
                     linkEditActivity.scrollView.smoothScrollTo(0, 0);
                 }
@@ -608,10 +607,10 @@ public class LinkEditActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x01b1  */
-    /* JADX WARN: Removed duplicated region for block: B:74:0x01e5  */
-    /* JADX WARN: Removed duplicated region for block: B:76:0x01f0  */
-    /* JADX WARN: Removed duplicated region for block: B:78:0x020d  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x01b1  */
+    /* JADX WARN: Removed duplicated region for block: B:81:0x01e5  */
+    /* JADX WARN: Removed duplicated region for block: B:83:0x01f0  */
+    /* JADX WARN: Removed duplicated region for block: B:84:0x020d  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -627,10 +626,10 @@ public class LinkEditActivity extends BaseFragment {
         if (selectedIndex < this.dispalyedDates.size() && this.dispalyedDates.get(selectedIndex).intValue() < 0) {
             AndroidUtilities.shakeView(this.timeEditText);
             Vibrator vibrator = (Vibrator) this.timeEditText.getContext().getSystemService("vibrator");
-            if (vibrator == null) {
+            if (vibrator != null) {
+                vibrator.vibrate(200L);
                 return;
             }
-            vibrator.vibrate(200L);
             return;
         }
         int i = this.type;
@@ -662,9 +661,7 @@ public class LinkEditActivity extends BaseFragment {
                 tLRPC$TL_messages_exportChatInvite.usage_limit = 0;
             }
             TextCheckCell textCheckCell2 = this.approveCell;
-            if (textCheckCell2 == null || !textCheckCell2.isChecked()) {
-                z3 = false;
-            }
+            z3 = (textCheckCell2 == null || !textCheckCell2.isChecked()) ? false : false;
             tLRPC$TL_messages_exportChatInvite.request_needed = z3;
             if (z3) {
                 tLRPC$TL_messages_exportChatInvite.usage_limit = 0;
@@ -979,15 +976,10 @@ public class LinkEditActivity extends BaseFragment {
     }
 
     private void setUsesVisible(boolean z) {
-        int i = 0;
         this.usesHeaderCell.setVisibility(z ? 0 : 8);
         this.usesChooseView.setVisibility(z ? 0 : 8);
         this.usesEditText.setVisibility(z ? 0 : 8);
-        TextInfoPrivacyCell textInfoPrivacyCell = this.dividerUses;
-        if (!z) {
-            i = 8;
-        }
-        textInfoPrivacyCell.setVisibility(i);
+        this.dividerUses.setVisibility(z ? 0 : 8);
         this.divider.setBackground(Theme.getThemedDrawable(getParentActivity(), z ? R.drawable.greydivider : R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
     }
 

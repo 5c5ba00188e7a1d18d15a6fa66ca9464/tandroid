@@ -25,10 +25,11 @@ public class RadioButton extends View {
     private int color;
     private boolean isChecked;
     private float progress;
-    private int size = AndroidUtilities.dp(16.0f);
+    private int size;
 
     public RadioButton(Context context) {
         super(context);
+        this.size = AndroidUtilities.dp(16.0f);
         if (paint == null) {
             Paint paint2 = new Paint(1);
             paint = paint2;

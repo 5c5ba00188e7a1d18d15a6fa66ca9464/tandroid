@@ -46,14 +46,10 @@ public final class MpegAudioHeader {
         } else {
             i6 = BITRATE_V2[i4 - 1];
         }
-        int i9 = 144;
         if (i2 == 3) {
             return ((i6 * 144) / i7) + i8;
         }
-        if (i3 == 1) {
-            i9 = 72;
-        }
-        return ((i9 * i6) / i7) + i8;
+        return (((i3 == 1 ? 72 : 144) * i6) / i7) + i8;
     }
 
     public static int getFrameSampleCount(int i) {
@@ -64,10 +60,10 @@ public final class MpegAudioHeader {
         }
         int i4 = (i >>> 12) & 15;
         int i5 = (i >>> 10) & 3;
-        if (i4 != 0 && i4 != 15 && i5 != 3) {
-            return getFrameSizeInSamples(i2, i3);
+        if (i4 == 0 || i4 == 15 || i5 == 3) {
+            return -1;
         }
-        return -1;
+        return getFrameSizeInSamples(i2, i3);
     }
 
     public static boolean populateHeader(int i, MpegAudioHeader mpegAudioHeader) {
@@ -110,13 +106,13 @@ public final class MpegAudioHeader {
     private static int getFrameSizeInSamples(int i, int i2) {
         if (i2 == 1) {
             return i == 3 ? 1152 : 576;
-        } else if (i2 == 2) {
-            return 1152;
-        } else {
-            if (i2 != 3) {
-                throw new IllegalArgumentException();
+        } else if (i2 != 2) {
+            if (i2 == 3) {
+                return 384;
             }
-            return 384;
+            throw new IllegalArgumentException();
+        } else {
+            return 1152;
         }
     }
 

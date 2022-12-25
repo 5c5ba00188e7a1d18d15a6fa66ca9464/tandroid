@@ -23,27 +23,19 @@ public final class DummySurface extends Surface {
     public static synchronized boolean isSecureSupported(Context context) {
         boolean z;
         synchronized (DummySurface.class) {
-            z = true;
             if (!secureModeInitialized) {
                 secureMode = getSecureMode(context);
                 secureModeInitialized = true;
             }
-            if (secureMode == 0) {
-                z = false;
-            }
+            z = secureMode != 0;
         }
         return z;
     }
 
     public static DummySurface newInstanceV17(Context context, boolean z) {
         assertApiLevel17OrHigher();
-        int i = 0;
         Assertions.checkState(!z || isSecureSupported(context));
-        DummySurfaceThread dummySurfaceThread = new DummySurfaceThread();
-        if (z) {
-            i = secureMode;
-        }
-        return dummySurfaceThread.init(i);
+        return new DummySurfaceThread().init(z ? secureMode : 0);
     }
 
     private DummySurface(DummySurfaceThread dummySurfaceThread, SurfaceTexture surfaceTexture, boolean z) {
@@ -63,10 +55,9 @@ public final class DummySurface extends Surface {
     }
 
     private static void assertApiLevel17OrHigher() {
-        if (Util.SDK_INT >= 17) {
-            return;
+        if (Util.SDK_INT < 17) {
+            throw new UnsupportedOperationException("Unsupported prior to API level 17");
         }
-        throw new UnsupportedOperationException("Unsupported prior to API level 17");
     }
 
     private static int getSecureMode(Context context) {

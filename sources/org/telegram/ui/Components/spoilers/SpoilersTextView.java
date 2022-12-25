@@ -125,31 +125,32 @@ public class SpoilersTextView extends TextView {
         canvas.clipPath(this.path);
         super.onDraw(canvas);
         canvas.restore();
-        if (!this.spoilers.isEmpty()) {
-            boolean z = this.spoilers.get(0).getRippleProgress() != -1.0f;
-            if (z) {
-                canvas.saveLayer(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), null, 31);
-            } else {
-                canvas.save();
-            }
-            canvas.translate(getPaddingLeft(), getPaddingTop() + AndroidUtilities.dp(2.0f));
-            for (SpoilerEffect spoilerEffect2 : this.spoilers) {
-                spoilerEffect2.setColor(getPaint().getColor());
-                spoilerEffect2.draw(canvas);
-            }
-            if (z) {
-                this.path.rewind();
-                this.spoilers.get(0).getRipplePath(this.path);
-                if (this.xRefPaint == null) {
-                    Paint paint = new Paint(1);
-                    this.xRefPaint = paint;
-                    paint.setColor(-16777216);
-                    this.xRefPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-                }
-                canvas.drawPath(this.path, this.xRefPaint);
-            }
-            canvas.restore();
+        if (this.spoilers.isEmpty()) {
+            return;
         }
+        boolean z = this.spoilers.get(0).getRippleProgress() != -1.0f;
+        if (z) {
+            canvas.saveLayer(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), null, 31);
+        } else {
+            canvas.save();
+        }
+        canvas.translate(getPaddingLeft(), getPaddingTop() + AndroidUtilities.dp(2.0f));
+        for (SpoilerEffect spoilerEffect2 : this.spoilers) {
+            spoilerEffect2.setColor(getPaint().getColor());
+            spoilerEffect2.draw(canvas);
+        }
+        if (z) {
+            this.path.rewind();
+            this.spoilers.get(0).getRipplePath(this.path);
+            if (this.xRefPaint == null) {
+                Paint paint = new Paint(1);
+                this.xRefPaint = paint;
+                paint.setColor(-16777216);
+                this.xRefPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+            }
+            canvas.drawPath(this.path, this.xRefPaint);
+        }
+        canvas.restore();
     }
 
     private void invalidateSpoilers() {

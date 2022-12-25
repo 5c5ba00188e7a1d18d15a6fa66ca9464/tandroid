@@ -35,13 +35,12 @@ final class I implements u.a {
             return;
         }
         this.b = i2;
-        if (i >= i2) {
-            return;
+        if (i < i2) {
+            do {
+                lVar.accept(iArr[i]);
+                i++;
+            } while (i < i2);
         }
-        do {
-            lVar.accept(iArr[i]);
-            i++;
-        } while (i < i2);
     }
 
     @Override // j$.util.u

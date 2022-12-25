@@ -72,12 +72,12 @@ public class MessageTopicButton {
         this.resourcesProvider = resourcesProvider;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:70:0x054a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:117:0x054a, code lost:
         if (r1.type == 5) goto L97;
      */
-    /* JADX WARN: Removed duplicated region for block: B:77:0x0579  */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x0599  */
-    /* JADX WARN: Removed duplicated region for block: B:94:0x0588  */
+    /* JADX WARN: Removed duplicated region for block: B:131:0x0579  */
+    /* JADX WARN: Removed duplicated region for block: B:132:0x0588  */
+    /* JADX WARN: Removed duplicated region for block: B:135:0x0599  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -132,12 +132,8 @@ public class MessageTopicButton {
         if (this.topicPaint == null) {
             this.topicPaint = new Paint(1);
         }
-        String str3 = "chat_outReactionButtonText";
         if (tLRPC$TL_forumTopic.id == 1) {
-            if (!messageObject.isOutOwner()) {
-                str3 = "chat_inReactionButtonText";
-            }
-            i2 = getThemedColor(str3);
+            i2 = getThemedColor(messageObject.isOutOwner() ? "chat_outReactionButtonText" : "chat_inReactionButtonText");
             this.topicIconDrawable = ForumUtilities.createGeneralTopicDrawable(this.context, 0.65f, i2);
             f = textSize;
         } else {
@@ -145,18 +141,18 @@ public class MessageTopicButton {
             long j = tLRPC$TL_forumTopic.icon_emoji_id;
             if (j != 0) {
                 Drawable drawable2 = this.topicIconDrawable;
-                if (!(drawable2 instanceof AnimatedEmojiDrawable) || j != ((AnimatedEmojiDrawable) drawable2).getDocumentId()) {
+                if ((drawable2 instanceof AnimatedEmojiDrawable) && j == ((AnimatedEmojiDrawable) drawable2).getDocumentId()) {
+                    str = "chat_outReactionButtonText";
+                } else {
                     Drawable drawable3 = this.topicIconDrawable;
                     if (drawable3 instanceof AnimatedEmojiDrawable) {
                         ((AnimatedEmojiDrawable) drawable3).removeView(new MessageTopicButton$$ExternalSyntheticLambda0(chatMessageCell));
                         this.topicIconDrawable = null;
                     }
-                    str = str3;
+                    str = "chat_outReactionButtonText";
                     AnimatedEmojiDrawable make = AnimatedEmojiDrawable.make(messageObject.currentAccount, 0, tLRPC$TL_forumTopic.icon_emoji_id);
                     this.topicIconDrawable = make;
                     make.addView(new MessageTopicButton$$ExternalSyntheticLambda0(chatMessageCell));
-                } else {
-                    str = str3;
                 }
                 this.topicIconWaiting = false;
                 Drawable drawable4 = this.topicIconDrawable;
@@ -304,7 +300,7 @@ public class MessageTopicButton {
             }
         }
         this.topicWidth = (int) ((f5 - AndroidUtilities.dp(1.0f)) + f2);
-        if (!messageObject.isAnyKindOfSticker()) {
+        if (messageObject.isAnyKindOfSticker()) {
             messageObject2 = messageObject;
         } else {
             messageObject2 = messageObject;
@@ -485,7 +481,6 @@ public class MessageTopicButton {
         }
         canvas.save();
         MessageObject messageObject = this.lastMessageObject;
-        float f4 = 1.0f;
         if (messageObject != null && messageObject.shouldDrawWithoutBackground()) {
             this.topicPath.offset(f, f2);
             int i2 = -1;
@@ -555,11 +550,7 @@ public class MessageTopicButton {
                 i3 = i4;
             }
             TextPaint textPaint3 = Theme.chat_topicTextPaint;
-            float alpha2 = textPaint3.getAlpha() * f3;
-            if (this.topicClosed) {
-                f4 = 0.7f;
-            }
-            textPaint3.setAlpha((int) (alpha2 * f4));
+            textPaint3.setAlpha((int) (textPaint3.getAlpha() * f3 * (this.topicClosed ? 0.7f : 1.0f)));
             this.topicNameLayout.draw(canvas);
             canvas.restore();
         }

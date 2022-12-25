@@ -34,7 +34,6 @@ public class ID3v2FrameHeader {
             data.readByte();
             byte readByte = data.readByte();
             byte b5 = 64;
-            boolean z = false;
             if (iD3v2TagBody.getTagHeader().getVersion() == 3) {
                 b4 = 128;
                 b3 = 0;
@@ -47,7 +46,7 @@ public class ID3v2FrameHeader {
             }
             this.compression = (b4 & readByte) != 0;
             this.unsynchronization = (readByte & b3) != 0;
-            this.encryption = (readByte & b5) != 0 ? true : z;
+            this.encryption = (readByte & b5) != 0;
             if (iD3v2TagBody.getTagHeader().getVersion() == 3) {
                 if (this.compression) {
                     this.dataLengthIndicator = data.readInt();

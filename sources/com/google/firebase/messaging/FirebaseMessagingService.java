@@ -19,11 +19,11 @@ public class FirebaseMessagingService extends EnhancedIntentService {
         }
         Queue<String> queue = recentlyReceivedMessageIds;
         if (queue.contains(str)) {
-            if (!Log.isLoggable("FirebaseMessaging", 3)) {
+            if (Log.isLoggable("FirebaseMessaging", 3)) {
+                String valueOf = String.valueOf(str);
+                Log.d("FirebaseMessaging", valueOf.length() != 0 ? "Received duplicate message: ".concat(valueOf) : new String("Received duplicate message: "));
                 return true;
             }
-            String valueOf = String.valueOf(str);
-            Log.d("FirebaseMessaging", valueOf.length() != 0 ? "Received duplicate message: ".concat(valueOf) : new String("Received duplicate message: "));
             return true;
         }
         if (queue.size() >= 10) {
@@ -63,9 +63,10 @@ public class FirebaseMessagingService extends EnhancedIntentService {
     }
 
     private void handleMessageIntent(Intent intent) {
-        if (!alreadyReceivedMessage(intent.getStringExtra("google.message_id"))) {
-            passMessageIntentToSdk(intent);
+        if (alreadyReceivedMessage(intent.getStringExtra("google.message_id"))) {
+            return;
         }
+        passMessageIntentToSdk(intent);
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */

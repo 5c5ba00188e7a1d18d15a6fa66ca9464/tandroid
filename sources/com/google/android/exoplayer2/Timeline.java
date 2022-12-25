@@ -114,18 +114,15 @@ public abstract class Timeline {
         public int hashCode() {
             int hashCode = (217 + this.uid.hashCode()) * 31;
             Object obj = this.tag;
-            int i = 0;
             int hashCode2 = (hashCode + (obj == null ? 0 : obj.hashCode())) * 31;
             Object obj2 = this.manifest;
-            if (obj2 != null) {
-                i = obj2.hashCode();
-            }
+            int hashCode3 = obj2 != null ? obj2.hashCode() : 0;
             long j = this.presentationStartTimeMs;
             long j2 = this.windowStartTimeMs;
             long j3 = this.defaultPositionUs;
             long j4 = this.durationUs;
             long j5 = this.positionInFirstPeriodUs;
-            return ((((((((((((((((((((hashCode2 + i) * 31) + ((int) (j ^ (j >>> 32)))) * 31) + ((int) (j2 ^ (j2 >>> 32)))) * 31) + (this.isSeekable ? 1 : 0)) * 31) + (this.isDynamic ? 1 : 0)) * 31) + (this.isLive ? 1 : 0)) * 31) + ((int) (j3 ^ (j3 >>> 32)))) * 31) + ((int) (j4 ^ (j4 >>> 32)))) * 31) + this.firstPeriodIndex) * 31) + this.lastPeriodIndex) * 31) + ((int) (j5 ^ (j5 >>> 32)));
+            return ((((((((((((((((((((hashCode2 + hashCode3) * 31) + ((int) (j ^ (j >>> 32)))) * 31) + ((int) (j2 ^ (j2 >>> 32)))) * 31) + (this.isSeekable ? 1 : 0)) * 31) + (this.isDynamic ? 1 : 0)) * 31) + (this.isLive ? 1 : 0)) * 31) + ((int) (j3 ^ (j3 >>> 32)))) * 31) + ((int) (j4 ^ (j4 >>> 32)))) * 31) + this.firstPeriodIndex) * 31) + this.lastPeriodIndex) * 31) + ((int) (j5 ^ (j5 >>> 32)));
         }
     }
 
@@ -218,18 +215,14 @@ public abstract class Timeline {
 
         public int hashCode() {
             Object obj = this.id;
-            int i = 0;
             int hashCode = (217 + (obj == null ? 0 : obj.hashCode())) * 31;
             Object obj2 = this.uid;
             int hashCode2 = obj2 == null ? 0 : obj2.hashCode();
             long j = this.durationUs;
             long j2 = this.positionInWindowUs;
-            int i2 = (((((((hashCode + hashCode2) * 31) + this.windowIndex) * 31) + ((int) (j ^ (j >>> 32)))) * 31) + ((int) (j2 ^ (j2 >>> 32)))) * 31;
+            int i = (((((((hashCode + hashCode2) * 31) + this.windowIndex) * 31) + ((int) (j ^ (j >>> 32)))) * 31) + ((int) (j2 ^ (j2 >>> 32)))) * 31;
             AdPlaybackState adPlaybackState = this.adPlaybackState;
-            if (adPlaybackState != null) {
-                i = adPlaybackState.hashCode();
-            }
-            return i2 + i;
+            return i + (adPlaybackState != null ? adPlaybackState.hashCode() : 0);
         }
     }
 
@@ -239,17 +232,17 @@ public abstract class Timeline {
 
     public int getNextWindowIndex(int i, int i2, boolean z) {
         if (i2 == 0) {
-            if (i != getLastWindowIndex(z)) {
-                return i + 1;
+            if (i == getLastWindowIndex(z)) {
+                return -1;
             }
-            return -1;
-        } else if (i2 == 1) {
-            return i;
+            return i + 1;
+        } else if (i2 != 1) {
+            if (i2 == 2) {
+                return i == getLastWindowIndex(z) ? getFirstWindowIndex(z) : i + 1;
+            }
+            throw new IllegalStateException();
         } else {
-            if (i2 != 2) {
-                throw new IllegalStateException();
-            }
-            return i == getLastWindowIndex(z) ? getFirstWindowIndex(z) : i + 1;
+            return i;
         }
     }
 
@@ -272,10 +265,10 @@ public abstract class Timeline {
         int i3 = getPeriod(i, period).windowIndex;
         if (getWindow(i3, window).lastPeriodIndex == i) {
             int nextWindowIndex = getNextWindowIndex(i3, i2, z);
-            if (nextWindowIndex != -1) {
-                return getWindow(nextWindowIndex, window).firstPeriodIndex;
+            if (nextWindowIndex == -1) {
+                return -1;
             }
-            return -1;
+            return getWindow(nextWindowIndex, window).firstPeriodIndex;
         }
         return i + 1;
     }
@@ -320,28 +313,28 @@ public abstract class Timeline {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof Timeline)) {
+        if (obj instanceof Timeline) {
+            Timeline timeline = (Timeline) obj;
+            if (timeline.getWindowCount() == getWindowCount() && timeline.getPeriodCount() == getPeriodCount()) {
+                Window window = new Window();
+                Period period = new Period();
+                Window window2 = new Window();
+                Period period2 = new Period();
+                for (int i = 0; i < getWindowCount(); i++) {
+                    if (!getWindow(i, window).equals(timeline.getWindow(i, window2))) {
+                        return false;
+                    }
+                }
+                for (int i2 = 0; i2 < getPeriodCount(); i2++) {
+                    if (!getPeriod(i2, period, true).equals(timeline.getPeriod(i2, period2, true))) {
+                        return false;
+                    }
+                }
+                return true;
+            }
             return false;
         }
-        Timeline timeline = (Timeline) obj;
-        if (timeline.getWindowCount() != getWindowCount() || timeline.getPeriodCount() != getPeriodCount()) {
-            return false;
-        }
-        Window window = new Window();
-        Period period = new Period();
-        Window window2 = new Window();
-        Period period2 = new Period();
-        for (int i = 0; i < getWindowCount(); i++) {
-            if (!getWindow(i, window).equals(timeline.getWindow(i, window2))) {
-                return false;
-            }
-        }
-        for (int i2 = 0; i2 < getPeriodCount(); i2++) {
-            if (!getPeriod(i2, period, true).equals(timeline.getPeriod(i2, period2, true))) {
-                return false;
-            }
-        }
-        return true;
+        return false;
     }
 
     public int hashCode() {

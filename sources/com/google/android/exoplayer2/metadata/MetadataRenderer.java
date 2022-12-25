@@ -102,15 +102,14 @@ public final class MetadataRenderer extends BaseRenderer implements Handler.Call
         if (this.pendingMetadataCount > 0) {
             long[] jArr = this.pendingMetadataTimestamps;
             int i4 = this.pendingMetadataIndex;
-            if (jArr[i4] > j) {
-                return;
+            if (jArr[i4] <= j) {
+                invokeRenderer((Metadata) Util.castNonNull(this.pendingMetadata[i4]));
+                Metadata[] metadataArr = this.pendingMetadata;
+                int i5 = this.pendingMetadataIndex;
+                metadataArr[i5] = null;
+                this.pendingMetadataIndex = (i5 + 1) % 5;
+                this.pendingMetadataCount--;
             }
-            invokeRenderer((Metadata) Util.castNonNull(this.pendingMetadata[i4]));
-            Metadata[] metadataArr = this.pendingMetadata;
-            int i5 = this.pendingMetadataIndex;
-            metadataArr[i5] = null;
-            this.pendingMetadataIndex = (i5 + 1) % 5;
-            this.pendingMetadataCount--;
         }
     }
 

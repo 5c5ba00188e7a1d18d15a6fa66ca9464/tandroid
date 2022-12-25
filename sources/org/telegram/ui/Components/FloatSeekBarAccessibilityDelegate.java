@@ -48,11 +48,11 @@ public abstract class FloatSeekBarAccessibilityDelegate extends SeekBarAccessibi
         if (super.performAccessibilityActionInternal(view, i, bundle)) {
             return true;
         }
-        if (i != AccessibilityNodeInfoCompat.AccessibilityActionCompat.ACTION_SET_PROGRESS.getId()) {
-            return false;
+        if (i == AccessibilityNodeInfoCompat.AccessibilityActionCompat.ACTION_SET_PROGRESS.getId()) {
+            setProgress(bundle.getFloat("android.view.accessibility.action.ARGUMENT_PROGRESS_VALUE"));
+            return true;
         }
-        setProgress(bundle.getFloat("android.view.accessibility.action.ARGUMENT_PROGRESS_VALUE"));
-        return true;
+        return false;
     }
 
     @Override // org.telegram.ui.Components.SeekBarAccessibilityDelegate

@@ -59,10 +59,9 @@ public final class FlacDecoderJni {
     public FlacDecoderJni() throws FlacDecoderException {
         long flacInit = flacInit();
         this.nativeDecoderContext = flacInit;
-        if (flacInit != 0) {
-            return;
+        if (flacInit == 0) {
+            throw new FlacDecoderException("Failed to initialize decoder");
         }
-        throw new FlacDecoderException("Failed to initialize decoder");
     }
 
     public void setData(ByteBuffer byteBuffer) {
@@ -83,10 +82,10 @@ public final class FlacDecoderJni {
         ByteBuffer byteBuffer = this.byteBufferData;
         if (byteBuffer != null) {
             return byteBuffer.remaining() == 0;
-        } else if (this.extractorInput == null) {
-            return true;
-        } else {
+        } else if (this.extractorInput != null) {
             return this.endOfExtractorInput;
+        } else {
+            return true;
         }
     }
 
@@ -108,18 +107,18 @@ public final class FlacDecoderJni {
             return min;
         }
         ExtractorInput extractorInput = this.extractorInput;
-        if (extractorInput == null) {
-            return -1;
+        if (extractorInput != null) {
+            byte[] bArr = (byte[]) Util.castNonNull(this.tempBuffer);
+            int min2 = Math.min(remaining, (int) TEMP_BUFFER_SIZE);
+            int readFromExtractorInput = readFromExtractorInput(extractorInput, bArr, 0, min2);
+            if (readFromExtractorInput < 4) {
+                readFromExtractorInput += readFromExtractorInput(extractorInput, bArr, readFromExtractorInput, min2 - readFromExtractorInput);
+            }
+            int i = readFromExtractorInput;
+            byteBuffer.put(bArr, 0, i);
+            return i;
         }
-        byte[] bArr = (byte[]) Util.castNonNull(this.tempBuffer);
-        int min2 = Math.min(remaining, (int) TEMP_BUFFER_SIZE);
-        int readFromExtractorInput = readFromExtractorInput(extractorInput, bArr, 0, min2);
-        if (readFromExtractorInput < 4) {
-            readFromExtractorInput += readFromExtractorInput(extractorInput, bArr, readFromExtractorInput, min2 - readFromExtractorInput);
-        }
-        int i = readFromExtractorInput;
-        byteBuffer.put(bArr, 0, i);
-        return i;
+        return -1;
     }
 
     public FlacStreamMetadata decodeStreamMetadata() throws IOException, InterruptedException {
@@ -181,11 +180,11 @@ public final class FlacDecoderJni {
 
     public SeekMap.SeekPoints getSeekPoints(long j) {
         long[] jArr = new long[4];
-        if (!flacGetSeekPoints(this.nativeDecoderContext, j, jArr)) {
-            return null;
+        if (flacGetSeekPoints(this.nativeDecoderContext, j, jArr)) {
+            SeekPoint seekPoint = new SeekPoint(jArr[0], jArr[1]);
+            return new SeekMap.SeekPoints(seekPoint, jArr[2] == jArr[0] ? seekPoint : new SeekPoint(jArr[2], jArr[3]));
         }
-        SeekPoint seekPoint = new SeekPoint(jArr[0], jArr[1]);
-        return new SeekMap.SeekPoints(seekPoint, jArr[2] == jArr[0] ? seekPoint : new SeekPoint(jArr[2], jArr[3]));
+        return null;
     }
 
     public String getStateString() {

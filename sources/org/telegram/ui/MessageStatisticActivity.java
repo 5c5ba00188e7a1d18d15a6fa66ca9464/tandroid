@@ -61,7 +61,6 @@ import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.ActionBarMenu;
 import org.telegram.ui.ActionBar.BackDrawable;
 import org.telegram.ui.ActionBar.BaseFragment;
-import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ActionBar.ThemeDescription;
 import org.telegram.ui.Cells.DialogCell;
@@ -231,25 +230,24 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
     public void didReceivedNotification(int i, int i2, Object... objArr) {
         if (i == NotificationCenter.chatInfoDidLoad) {
             TLRPC$ChatFull tLRPC$ChatFull = (TLRPC$ChatFull) objArr[0];
-            if (this.chat != null || tLRPC$ChatFull.id != this.chatId) {
-                return;
+            if (this.chat == null && tLRPC$ChatFull.id == this.chatId) {
+                TLRPC$Chat chat = getMessagesController().getChat(Long.valueOf(this.chatId));
+                if (chat != null) {
+                    this.avatarContainer.setChatAvatar(chat);
+                    this.avatarContainer.setTitle(chat.title);
+                }
+                this.chat = tLRPC$ChatFull;
+                loadStat();
+                loadChats(100);
+                updateMenu();
             }
-            TLRPC$Chat chat = getMessagesController().getChat(Long.valueOf(this.chatId));
-            if (chat != null) {
-                this.avatarContainer.setChatAvatar(chat);
-                this.avatarContainer.setTitle(chat.title);
-            }
-            this.chat = tLRPC$ChatFull;
-            loadStat();
-            loadChats(100);
-            updateMenu();
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:44:0x02cc  */
-    /* JADX WARN: Removed duplicated region for block: B:46:0x030c  */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x032c  */
-    /* JADX WARN: Removed duplicated region for block: B:51:0x02d1  */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x02cc  */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x02d1  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x030c  */
+    /* JADX WARN: Removed duplicated region for block: B:67:0x032c  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -335,7 +333,6 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
         AndroidUtilities.runOnUIThread(this.showProgressbar, 300L);
         updateRows();
         this.listView.setEmptyView(this.emptyView);
-        TLRPC$PhotoSize tLRPC$PhotoSize = null;
         this.avatarContainer = new ChatAvatarContainer(context, null, false) { // from class: org.telegram.ui.MessageStatisticActivity.4
             @Override // android.view.ViewGroup, android.view.View
             protected void dispatchDraw(Canvas canvas) {
@@ -382,9 +379,7 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
             if (!"app".equals(str) && !"profile".equals(str) && !"article".equals(str) && (str == null || !str.startsWith("telegram_"))) {
                 TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(this.messageObject.photoThumbs, 40);
                 TLRPC$PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(this.messageObject.photoThumbs, AndroidUtilities.getPhotoSize());
-                if (closestPhotoSizeWithSize != closestPhotoSizeWithSize2) {
-                    tLRPC$PhotoSize = closestPhotoSizeWithSize2;
-                }
+                TLRPC$PhotoSize tLRPC$PhotoSize = closestPhotoSizeWithSize != closestPhotoSizeWithSize2 ? closestPhotoSizeWithSize2 : null;
                 if (closestPhotoSizeWithSize != null) {
                     this.drawPlay = this.messageObject.isVideo();
                     String attachFileName = FileLoader.getAttachFileName(tLRPC$PhotoSize);
@@ -420,8 +415,7 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
                         public void onItemClick(int i) {
                             if (i == -1) {
                                 MessageStatisticActivity.this.finishFragment();
-                            } else if (i != 1) {
-                            } else {
+                            } else if (i == 1) {
                                 Bundle bundle = new Bundle();
                                 if (MessageStatisticActivity.this.messageObject.messageOwner.fwd_from == null) {
                                     bundle.putLong("chat_id", MessageStatisticActivity.this.messageObject.getChatId());
@@ -459,8 +453,7 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
             public void onItemClick(int i) {
                 if (i == -1) {
                     MessageStatisticActivity.this.finishFragment();
-                } else if (i != 1) {
-                } else {
+                } else if (i == 1) {
                     Bundle bundle = new Bundle();
                     if (MessageStatisticActivity.this.messageObject.messageOwner.fwd_from == null) {
                         bundle.putLong("chat_id", MessageStatisticActivity.this.messageObject.getChatId());
@@ -502,10 +495,9 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
         }
         bundle.putInt("message_id", tLRPC$Message.id);
         bundle.putBoolean("need_remove_previous_same_chat_activity", false);
-        if (!getMessagesController().checkCanOpenChat(bundle, this)) {
-            return;
+        if (getMessagesController().checkCanOpenChat(bundle, this)) {
+            presentFragment(new ChatActivity(bundle));
         }
-        presentFragment(new ChatActivity(bundle));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -764,41 +756,40 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
                 }
                 performClick();
                 BaseChartView baseChartView = this.chartView;
-                if (!baseChartView.legendSignatureView.canGoZoom) {
-                    return;
-                }
-                long selectedDate = baseChartView.getSelectedDate();
-                if (this.chartType == 4) {
-                    StatisticActivity.ChartViewData chartViewData = this.data;
-                    chartViewData.childChartData = new StackLinearChartData(chartViewData.chartData, selectedDate);
-                    zoomChart(false);
-                } else if (this.data.zoomToken == null) {
-                } else {
-                    zoomCanceled();
-                    final String str = this.data.zoomToken + "_" + selectedDate;
-                    ChartData chartData = (ChartData) MessageStatisticActivity.this.childDataCache.get(str);
-                    if (chartData != null) {
-                        this.data.childChartData = chartData;
+                if (baseChartView.legendSignatureView.canGoZoom) {
+                    long selectedDate = baseChartView.getSelectedDate();
+                    if (this.chartType == 4) {
+                        StatisticActivity.ChartViewData chartViewData = this.data;
+                        chartViewData.childChartData = new StackLinearChartData(chartViewData.chartData, selectedDate);
                         zoomChart(false);
-                        return;
-                    }
-                    TLRPC$TL_stats_loadAsyncGraph tLRPC$TL_stats_loadAsyncGraph = new TLRPC$TL_stats_loadAsyncGraph();
-                    tLRPC$TL_stats_loadAsyncGraph.token = this.data.zoomToken;
-                    if (selectedDate != 0) {
-                        tLRPC$TL_stats_loadAsyncGraph.x = selectedDate;
-                        tLRPC$TL_stats_loadAsyncGraph.flags |= 1;
-                    }
-                    MessageStatisticActivity messageStatisticActivity = MessageStatisticActivity.this;
-                    final StatisticActivity.ZoomCancelable zoomCancelable = new StatisticActivity.ZoomCancelable();
-                    messageStatisticActivity.lastCancelable = zoomCancelable;
-                    zoomCancelable.adapterPosition = MessageStatisticActivity.this.listView.getChildAdapterPosition(this);
-                    this.chartView.legendSignatureView.showProgress(true, false);
-                    ConnectionsManager.getInstance(((BaseFragment) MessageStatisticActivity.this).currentAccount).bindRequestToGuid(ConnectionsManager.getInstance(((BaseFragment) MessageStatisticActivity.this).currentAccount).sendRequest(tLRPC$TL_stats_loadAsyncGraph, new RequestDelegate() { // from class: org.telegram.ui.MessageStatisticActivity$ListAdapter$1$$ExternalSyntheticLambda1
-                        @Override // org.telegram.tgnet.RequestDelegate
-                        public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                            MessageStatisticActivity.ListAdapter.1.this.lambda$onZoomed$1(str, zoomCancelable, tLObject, tLRPC$TL_error);
+                    } else if (this.data.zoomToken == null) {
+                    } else {
+                        zoomCanceled();
+                        final String str = this.data.zoomToken + "_" + selectedDate;
+                        ChartData chartData = (ChartData) MessageStatisticActivity.this.childDataCache.get(str);
+                        if (chartData != null) {
+                            this.data.childChartData = chartData;
+                            zoomChart(false);
+                            return;
                         }
-                    }, null, null, 0, MessageStatisticActivity.this.chat.stats_dc, 1, true), ((BaseFragment) MessageStatisticActivity.this).classGuid);
+                        TLRPC$TL_stats_loadAsyncGraph tLRPC$TL_stats_loadAsyncGraph = new TLRPC$TL_stats_loadAsyncGraph();
+                        tLRPC$TL_stats_loadAsyncGraph.token = this.data.zoomToken;
+                        if (selectedDate != 0) {
+                            tLRPC$TL_stats_loadAsyncGraph.x = selectedDate;
+                            tLRPC$TL_stats_loadAsyncGraph.flags |= 1;
+                        }
+                        MessageStatisticActivity messageStatisticActivity = MessageStatisticActivity.this;
+                        final StatisticActivity.ZoomCancelable zoomCancelable = new StatisticActivity.ZoomCancelable();
+                        messageStatisticActivity.lastCancelable = zoomCancelable;
+                        zoomCancelable.adapterPosition = MessageStatisticActivity.this.listView.getChildAdapterPosition(this);
+                        this.chartView.legendSignatureView.showProgress(true, false);
+                        ConnectionsManager.getInstance(((BaseFragment) MessageStatisticActivity.this).currentAccount).bindRequestToGuid(ConnectionsManager.getInstance(((BaseFragment) MessageStatisticActivity.this).currentAccount).sendRequest(tLRPC$TL_stats_loadAsyncGraph, new RequestDelegate() { // from class: org.telegram.ui.MessageStatisticActivity$ListAdapter$1$$ExternalSyntheticLambda1
+                            @Override // org.telegram.tgnet.RequestDelegate
+                            public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                                MessageStatisticActivity.ListAdapter.1.this.lambda$onZoomed$1(str, zoomCancelable, tLObject, tLRPC$TL_error);
+                            }
+                        }, null, null, 0, MessageStatisticActivity.this.chat.stats_dc, 1, true), ((BaseFragment) MessageStatisticActivity.this).classGuid);
+                    }
                 }
             }
 
@@ -888,8 +879,8 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
             return new RecyclerListView.Holder(headerCell);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:28:0x00e7  */
-        /* JADX WARN: Removed duplicated region for block: B:33:? A[RETURN, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:33:0x00e7  */
+        /* JADX WARN: Removed duplicated region for block: B:44:? A[RETURN, SYNTHETIC] */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -899,7 +890,6 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
             String formatPluralString;
             String format;
             int itemViewType = viewHolder.getItemViewType();
-            boolean z = true;
             if (itemViewType != 0) {
                 if (itemViewType == 1) {
                     viewHolder.itemView.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
@@ -941,19 +931,16 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
                     }
                     format = String.format("%1$s, %2$s", formatPluralString, LocaleController.formatPluralString("Views", item.views, new Object[0]));
                     tLRPC$User = chat;
-                    if (tLRPC$User != null) {
+                    if (tLRPC$User == null) {
+                        manageChatUserCell.setData(tLRPC$User, null, format, i != MessageStatisticActivity.this.endRow - 1);
                         return;
                     }
-                    if (i == MessageStatisticActivity.this.endRow - 1) {
-                        z = false;
-                    }
-                    manageChatUserCell.setData(tLRPC$User, null, format, z);
                     return;
                 }
                 tLRPC$User = chat;
             }
             format = null;
-            if (tLRPC$User != null) {
+            if (tLRPC$User == null) {
             }
         }
 
@@ -995,12 +982,15 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
 
     /* loaded from: classes3.dex */
     public class OverviewCell extends LinearLayout {
-        TextView[] primary = new TextView[3];
-        TextView[] title = new TextView[3];
-        View[] cell = new View[3];
+        View[] cell;
+        TextView[] primary;
+        TextView[] title;
 
         public OverviewCell(Context context) {
             super(context);
+            this.primary = new TextView[3];
+            this.title = new TextView[3];
+            this.cell = new View[3];
             setOrientation(1);
             setPadding(AndroidUtilities.dp(16.0f), 0, AndroidUtilities.dp(16.0f), AndroidUtilities.dp(16.0f));
             LinearLayout linearLayout = new LinearLayout(context);
@@ -1069,13 +1059,9 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
         arrayList.add(new ThemeDescription(this.fragmentView, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, "windowBackgroundGray"));
         arrayList.add(new ThemeDescription(this.actionBar, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, "windowBackgroundWhite"));
         ChatAvatarContainer chatAvatarContainer = this.avatarContainer;
-        SimpleTextView simpleTextView = null;
         arrayList.add(new ThemeDescription(chatAvatarContainer != null ? chatAvatarContainer.getTitleTextView() : null, ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, "player_actionBarTitle"));
         ChatAvatarContainer chatAvatarContainer2 = this.avatarContainer;
-        if (chatAvatarContainer2 != null) {
-            simpleTextView = chatAvatarContainer2.getSubtitleTextView();
-        }
-        arrayList.add(new ThemeDescription(simpleTextView, ThemeDescription.FLAG_TEXTCOLOR | ThemeDescription.FLAG_CHECKTAG, (Class[]) null, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "player_actionBarSubtitle", (Object) null));
+        arrayList.add(new ThemeDescription(chatAvatarContainer2 != null ? chatAvatarContainer2.getSubtitleTextView() : null, ThemeDescription.FLAG_TEXTCOLOR | ThemeDescription.FLAG_CHECKTAG, (Class[]) null, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, "player_actionBarSubtitle", (Object) null));
         arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, "statisticChartLineEmpty"));
         arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_LISTGLOWCOLOR, null, null, null, null, "actionBarDefault"));
         arrayList.add(new ThemeDescription(this.listView, ThemeDescription.FLAG_SELECTOR, null, null, null, null, "listSelectorSDK21"));

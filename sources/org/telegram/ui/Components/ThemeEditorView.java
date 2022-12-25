@@ -36,7 +36,6 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewPropertyAnimator;
 import android.view.WindowManager;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
@@ -130,8 +129,8 @@ public class ThemeEditorView {
         private SearchAdapter searchAdapter;
         private EmptyTextProgressView searchEmptyView;
         private SearchField searchField;
-        private View[] shadow = new View[2];
-        private AnimatorSet[] shadowAnimation = new AnimatorSet[2];
+        private View[] shadow;
+        private AnimatorSet[] shadowAnimation;
         private Drawable shadowDrawable;
         private boolean startedColorChange;
         private int topBeforeSwitch;
@@ -215,23 +214,9 @@ public class ThemeEditorView {
 
                     @Override // android.text.TextWatcher
                     public void afterTextChanged(Editable editable) {
-                        boolean z = true;
-                        boolean z2 = SearchField.this.searchEditText.length() > 0;
-                        float f = 0.0f;
-                        if (SearchField.this.clearSearchImageView.getAlpha() == 0.0f) {
-                            z = false;
-                        }
-                        if (z2 != z) {
-                            ViewPropertyAnimator animate = SearchField.this.clearSearchImageView.animate();
-                            float f2 = 1.0f;
-                            if (z2) {
-                                f = 1.0f;
-                            }
-                            ViewPropertyAnimator scaleX = animate.alpha(f).setDuration(150L).scaleX(z2 ? 1.0f : 0.1f);
-                            if (!z2) {
-                                f2 = 0.1f;
-                            }
-                            scaleX.scaleY(f2).start();
+                        boolean z = SearchField.this.searchEditText.length() > 0;
+                        if (z != (SearchField.this.clearSearchImageView.getAlpha() != 0.0f)) {
+                            SearchField.this.clearSearchImageView.animate().alpha(z ? 1.0f : 0.0f).setDuration(150L).scaleX(z ? 1.0f : 0.1f).scaleY(z ? 1.0f : 0.1f).start();
                         }
                         String obj = SearchField.this.searchEditText.getText().toString();
                         if (obj.length() != 0) {
@@ -272,10 +257,10 @@ public class ThemeEditorView {
             /* JADX INFO: Access modifiers changed from: private */
             public /* synthetic */ boolean lambda$new$1(TextView textView, int i, KeyEvent keyEvent) {
                 if (keyEvent != null) {
-                    if ((keyEvent.getAction() != 1 || keyEvent.getKeyCode() != 84) && (keyEvent.getAction() != 0 || keyEvent.getKeyCode() != 66)) {
+                    if ((keyEvent.getAction() == 1 && keyEvent.getKeyCode() == 84) || (keyEvent.getAction() == 0 && keyEvent.getKeyCode() == 66)) {
+                        AndroidUtilities.hideKeyboard(this.searchEditText);
                         return false;
                     }
-                    AndroidUtilities.hideKeyboard(this.searchEditText);
                     return false;
                 }
                 return false;
@@ -295,28 +280,35 @@ public class ThemeEditorView {
         /* JADX INFO: Access modifiers changed from: private */
         /* loaded from: classes3.dex */
         public class ColorPicker extends FrameLayout {
+            private float alpha;
             private LinearGradient alphaGradient;
             private boolean alphaPressed;
             private Drawable circleDrawable;
+            private Paint circlePaint;
             private boolean circlePressed;
+            private EditTextBoldCursor[] colorEditText;
             private LinearGradient colorGradient;
+            private float[] colorHSV;
             private boolean colorPressed;
             private Bitmap colorWheelBitmap;
             private Paint colorWheelPaint;
             private int colorWheelRadius;
+            private DecelerateInterpolator decelerateInterpolator;
+            private float[] hsvTemp;
             private LinearLayout linearLayout;
+            private final int paramValueSliderWidth;
             private Paint valueSliderPaint;
-            private final int paramValueSliderWidth = AndroidUtilities.dp(20.0f);
-            private EditTextBoldCursor[] colorEditText = new EditTextBoldCursor[4];
-            private float[] colorHSV = {0.0f, 0.0f, 1.0f};
-            private float alpha = 1.0f;
-            private float[] hsvTemp = new float[3];
-            private DecelerateInterpolator decelerateInterpolator = new DecelerateInterpolator();
-            private Paint circlePaint = new Paint(1);
 
             public ColorPicker(Context context) {
                 super(context);
+                this.paramValueSliderWidth = AndroidUtilities.dp(20.0f);
+                this.colorEditText = new EditTextBoldCursor[4];
+                this.colorHSV = new float[]{0.0f, 0.0f, 1.0f};
+                this.alpha = 1.0f;
+                this.hsvTemp = new float[3];
+                this.decelerateInterpolator = new DecelerateInterpolator();
                 setWillNotDraw(false);
+                this.circlePaint = new Paint(1);
                 this.circleDrawable = context.getResources().getDrawable(R.drawable.knob_shadow).mutate();
                 Paint paint = new Paint();
                 this.colorWheelPaint = paint;
@@ -371,7 +363,7 @@ public class ThemeEditorView {
                             this.val$num = i;
                         }
 
-                        /* JADX WARN: Removed duplicated region for block: B:15:0x00df A[LOOP:0: B:13:0x00cf->B:15:0x00df, LOOP_END] */
+                        /* JADX WARN: Removed duplicated region for block: B:24:0x00df A[LOOP:0: B:22:0x00cf->B:24:0x00df, LOOP_END] */
                         @Override // android.text.TextWatcher
                         /*
                             Code decompiled incorrectly, please refer to instructions dump.
@@ -564,21 +556,21 @@ public class ThemeEditorView {
                 EditorAlert.this.colorChangeAnimation.start();
             }
 
-            /* JADX WARN: Code restructure failed: missing block: B:30:0x00bd, code lost:
+            /* JADX WARN: Code restructure failed: missing block: B:35:0x00bd, code lost:
                 if (r5 <= (r8 + r7)) goto L89;
              */
-            /* JADX WARN: Code restructure failed: missing block: B:44:0x0102, code lost:
+            /* JADX WARN: Code restructure failed: missing block: B:56:0x0102, code lost:
                 if (r5 <= (r8 + r7)) goto L82;
              */
-            /* JADX WARN: Code restructure failed: missing block: B:4:0x000d, code lost:
+            /* JADX WARN: Code restructure failed: missing block: B:5:0x000d, code lost:
                 if (r1 != 2) goto L5;
              */
-            /* JADX WARN: Removed duplicated region for block: B:33:0x00e4  */
-            /* JADX WARN: Removed duplicated region for block: B:47:0x0127  */
-            /* JADX WARN: Removed duplicated region for block: B:55:0x0145  */
-            /* JADX WARN: Removed duplicated region for block: B:76:0x01b8  */
-            /* JADX WARN: Removed duplicated region for block: B:84:0x0118  */
-            /* JADX WARN: Removed duplicated region for block: B:86:0x011b  */
+            /* JADX WARN: Removed duplicated region for block: B:45:0x00e4  */
+            /* JADX WARN: Removed duplicated region for block: B:59:0x0118  */
+            /* JADX WARN: Removed duplicated region for block: B:60:0x011b  */
+            /* JADX WARN: Removed duplicated region for block: B:66:0x0127  */
+            /* JADX WARN: Removed duplicated region for block: B:73:0x0145  */
+            /* JADX WARN: Removed duplicated region for block: B:91:0x01b8  */
             @Override // android.view.View
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
@@ -760,6 +752,8 @@ public class ThemeEditorView {
 
         public EditorAlert(Context context, ArrayList<ThemeDescription> arrayList) {
             super(context, true);
+            this.shadow = new View[2];
+            this.shadowAnimation = new AnimatorSet[2];
             this.shadowDrawable = context.getResources().getDrawable(R.drawable.sheet_shadow_round).mutate();
             FrameLayout frameLayout = new FrameLayout(context, ThemeEditorView.this) { // from class: org.telegram.ui.Components.ThemeEditorView.EditorAlert.1
                 private boolean ignoreLayout = false;
@@ -819,9 +813,9 @@ public class ThemeEditorView {
                     super.requestLayout();
                 }
 
-                /* JADX WARN: Removed duplicated region for block: B:13:0x00b3  */
-                /* JADX WARN: Removed duplicated region for block: B:16:0x0154  */
-                /* JADX WARN: Removed duplicated region for block: B:19:0x0185  */
+                /* JADX WARN: Removed duplicated region for block: B:17:0x00b3  */
+                /* JADX WARN: Removed duplicated region for block: B:20:0x0154  */
+                /* JADX WARN: Removed duplicated region for block: B:23:0x0185  */
                 @Override // android.view.View
                 /*
                     Code decompiled incorrectly, please refer to instructions dump.
@@ -832,7 +826,6 @@ public class ThemeEditorView {
                     int dp = (EditorAlert.this.scrollOffsetY - ((BottomSheet) EditorAlert.this).backgroundPaddingTop) + AndroidUtilities.dp(6.0f);
                     int dp2 = (EditorAlert.this.scrollOffsetY - ((BottomSheet) EditorAlert.this).backgroundPaddingTop) - AndroidUtilities.dp(13.0f);
                     int measuredHeight = getMeasuredHeight() + AndroidUtilities.dp(30.0f) + ((BottomSheet) EditorAlert.this).backgroundPaddingTop;
-                    boolean z = false;
                     if (((BottomSheet) EditorAlert.this).isFullscreen || Build.VERSION.SDK_INT < 21) {
                         f = 1.0f;
                     } else {
@@ -870,10 +863,7 @@ public class ThemeEditorView {
                                 Theme.dialogs_onlineCirclePaint.setColor(Theme.getColor("dialogBackground"));
                                 canvas.drawRect(((BottomSheet) EditorAlert.this).backgroundPaddingLeft, AndroidUtilities.statusBarHeight - i, getMeasuredWidth() - ((BottomSheet) EditorAlert.this).backgroundPaddingLeft, AndroidUtilities.statusBarHeight, Theme.dialogs_onlineCirclePaint);
                             }
-                            if (i > AndroidUtilities.statusBarHeight / 2) {
-                                z = true;
-                            }
-                            updateLightStatusBar(z);
+                            updateLightStatusBar(i > AndroidUtilities.statusBarHeight / 2);
                         }
                     }
                     i = 0;
@@ -888,25 +878,20 @@ public class ThemeEditorView {
                     canvas.drawRoundRect(this.rect1, AndroidUtilities.dp(2.0f), AndroidUtilities.dp(2.0f), Theme.dialogs_onlineCirclePaint);
                     if (i > 0) {
                     }
-                    if (i > AndroidUtilities.statusBarHeight / 2) {
-                    }
-                    updateLightStatusBar(z);
+                    updateLightStatusBar(i > AndroidUtilities.statusBarHeight / 2);
                 }
 
                 private void updateLightStatusBar(boolean z) {
                     Boolean bool = this.statusBarOpen;
                     if (bool == null || bool.booleanValue() != z) {
-                        boolean z2 = true;
-                        boolean z3 = AndroidUtilities.computePerceivedBrightness(EditorAlert.this.getThemedColor("dialogBackground")) > 0.721f;
-                        if (AndroidUtilities.computePerceivedBrightness(Theme.blendOver(EditorAlert.this.getThemedColor("actionBarDefault"), AndroidUtilities.DARK_STATUS_BAR_OVERLAY)) <= 0.721f) {
-                            z2 = false;
-                        }
+                        boolean z2 = AndroidUtilities.computePerceivedBrightness(EditorAlert.this.getThemedColor("dialogBackground")) > 0.721f;
+                        boolean z3 = AndroidUtilities.computePerceivedBrightness(Theme.blendOver(EditorAlert.this.getThemedColor("actionBarDefault"), AndroidUtilities.DARK_STATUS_BAR_OVERLAY)) > 0.721f;
                         Boolean valueOf = Boolean.valueOf(z);
                         this.statusBarOpen = valueOf;
                         if (!valueOf.booleanValue()) {
-                            z3 = z2;
+                            z2 = z3;
                         }
-                        AndroidUtilities.setLightStatusBar(EditorAlert.this.getWindow(), z3);
+                        AndroidUtilities.setLightStatusBar(EditorAlert.this.getWindow(), z2);
                     }
                 }
             };
@@ -1187,7 +1172,6 @@ public class ThemeEditorView {
 
         /* JADX INFO: Access modifiers changed from: private */
         public void setColorPickerVisible(boolean z) {
-            float f = 0.0f;
             if (!z) {
                 if (ThemeEditorView.this.parentActivity != null) {
                     ((LaunchActivity) ThemeEditorView.this.parentActivity).rebuildAllFragments(false);
@@ -1211,10 +1195,7 @@ public class ThemeEditorView {
                 View view = viewArr[0];
                 Property property = View.ALPHA;
                 float[] fArr = new float[1];
-                if (viewArr[0].getTag() == null) {
-                    f = 1.0f;
-                }
-                fArr[0] = f;
+                fArr[0] = viewArr[0].getTag() == null ? 1.0f : 0.0f;
                 animatorArr[4] = ObjectAnimator.ofFloat(view, property, fArr);
                 animatorArr[5] = ObjectAnimator.ofFloat(this.searchEmptyView, View.ALPHA, 1.0f);
                 animatorArr[6] = ObjectAnimator.ofFloat(this.bottomSaveLayout, View.ALPHA, 1.0f);
@@ -1265,14 +1246,14 @@ public class ThemeEditorView {
                 int i = 0;
                 View childAt = this.listView.getChildAt(0);
                 RecyclerListView.Holder holder = (RecyclerListView.Holder) this.listView.findContainingViewHolder(childAt);
-                if (holder == null) {
-                    return -1000;
+                if (holder != null) {
+                    int paddingTop = this.listView.getPaddingTop();
+                    if (holder.getAdapterPosition() == 0 && childAt.getTop() >= 0) {
+                        i = childAt.getTop();
+                    }
+                    return paddingTop - i;
                 }
-                int paddingTop = this.listView.getPaddingTop();
-                if (holder.getAdapterPosition() == 0 && childAt.getTop() >= 0) {
-                    i = childAt.getTop();
-                }
-                return paddingTop - i;
+                return -1000;
             }
             return -1000;
         }
@@ -1298,10 +1279,9 @@ public class ThemeEditorView {
             } else {
                 runShadowAnimation(0, true);
             }
-            if (this.scrollOffsetY == i) {
-                return;
+            if (this.scrollOffsetY != i) {
+                setScrollOffsetY(i);
             }
-            setScrollOffsetY(i);
         }
 
         @Keep
@@ -1389,9 +1369,7 @@ public class ThemeEditorView {
                         return;
                     }
                     String translitString = LocaleController.getInstance().getTranslitString(lowerCase);
-                    if (lowerCase.equals(translitString) || translitString.length() == 0) {
-                        translitString = null;
-                    }
+                    translitString = (lowerCase.equals(translitString) || translitString.length() == 0) ? null : null;
                     int i2 = (translitString != null ? 1 : 0) + 1;
                     String[] strArr = new String[i2];
                     strArr[0] = lowerCase;
@@ -1446,9 +1424,7 @@ public class ThemeEditorView {
                 }
                 boolean z = true;
                 boolean z2 = !this.searchResult.isEmpty() && arrayList.isEmpty();
-                if (!this.searchResult.isEmpty() || !arrayList.isEmpty()) {
-                    z = false;
-                }
+                z = (this.searchResult.isEmpty() && arrayList.isEmpty()) ? false : false;
                 if (z2) {
                     EditorAlert editorAlert2 = EditorAlert.this;
                     editorAlert2.topBeforeSwitch = editorAlert2.getCurrentTop();
@@ -1522,12 +1498,8 @@ public class ThemeEditorView {
             public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
                 if (viewHolder.getItemViewType() == 0) {
                     int i2 = i - 1;
-                    int i3 = 0;
                     ThemeDescription themeDescription = this.searchResult.get(i2).get(0);
-                    if (!themeDescription.getCurrentKey().equals("chat_wallpaper")) {
-                        i3 = themeDescription.getSetColor();
-                    }
-                    ((TextColorThemeCell) viewHolder.itemView).setTextAndColor(this.searchNames.get(i2), i3);
+                    ((TextColorThemeCell) viewHolder.itemView).setTextAndColor(this.searchNames.get(i2), themeDescription.getCurrentKey().equals("chat_wallpaper") ? 0 : themeDescription.getSetColor());
                 }
             }
         }
@@ -1602,12 +1574,8 @@ public class ThemeEditorView {
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
             public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
                 if (viewHolder.getItemViewType() == 0) {
-                    int i2 = 0;
                     ThemeDescription themeDescription = this.items.get(i - 1).get(0);
-                    if (!themeDescription.getCurrentKey().equals("chat_wallpaper")) {
-                        i2 = themeDescription.getSetColor();
-                    }
-                    ((TextColorThemeCell) viewHolder.itemView).setTextAndColor(themeDescription.getTitle(), i2);
+                    ((TextColorThemeCell) viewHolder.itemView).setTextAndColor(themeDescription.getTitle(), themeDescription.getCurrentKey().equals("chat_wallpaper") ? 0 : themeDescription.getSetColor());
                 }
             }
         }
@@ -1686,11 +1654,11 @@ public class ThemeEditorView {
             super(context);
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:61:0x008c, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:31:0x008c, code lost:
             if (r6.getFragmentStack().isEmpty() != false) goto L72;
          */
-        /* JADX WARN: Removed duplicated region for block: B:63:0x0091  */
-        /* JADX WARN: Removed duplicated region for block: B:65:0x0097  */
+        /* JADX WARN: Removed duplicated region for block: B:34:0x0091  */
+        /* JADX WARN: Removed duplicated region for block: B:36:0x0097  */
         @Override // android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -1713,7 +1681,6 @@ public class ThemeEditorView {
                 }
             } else if (motionEvent.getAction() == 1 && !this.dragging && ThemeEditorView.this.editorAlert == null) {
                 LaunchActivity launchActivity = (LaunchActivity) ThemeEditorView.this.parentActivity;
-                BaseFragment baseFragment = null;
                 if (AndroidUtilities.isTablet()) {
                     iNavigationLayout = launchActivity.getLayersActionBarLayout();
                     if (iNavigationLayout != null && iNavigationLayout.getFragmentStack().isEmpty()) {
@@ -1728,9 +1695,7 @@ public class ThemeEditorView {
                         iNavigationLayout = launchActivity.getActionBarLayout();
                     }
                     if (iNavigationLayout != null) {
-                        if (!iNavigationLayout.getFragmentStack().isEmpty()) {
-                            baseFragment = iNavigationLayout.getFragmentStack().get(iNavigationLayout.getFragmentStack().size() - 1);
-                        }
+                        BaseFragment baseFragment = iNavigationLayout.getFragmentStack().isEmpty() ? null : iNavigationLayout.getFragmentStack().get(iNavigationLayout.getFragmentStack().size() - 1);
                         if (baseFragment != null && (themeDescriptions = baseFragment.getThemeDescriptions()) != null) {
                             ThemeEditorView themeEditorView = ThemeEditorView.this;
                             ThemeEditorView themeEditorView2 = ThemeEditorView.this;
@@ -1877,10 +1842,9 @@ public class ThemeEditorView {
         this.windowLayoutParams.x = getSideCoord(true, i, f, this.editorWidth);
         this.windowLayoutParams.y = getSideCoord(false, i2, f2, this.editorHeight);
         try {
-            if (this.windowView.getParent() == null) {
-                return;
+            if (this.windowView.getParent() != null) {
+                this.windowManager.updateViewLayout(this.windowView, this.windowLayoutParams);
             }
-            this.windowManager.updateViewLayout(this.windowView, this.windowLayoutParams);
         } catch (Exception e) {
             FileLog.e(e);
         }
@@ -1894,9 +1858,9 @@ public class ThemeEditorView {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x010e  */
-    /* JADX WARN: Removed duplicated region for block: B:35:0x0178  */
-    /* JADX WARN: Removed duplicated region for block: B:44:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x010e  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x0178  */
+    /* JADX WARN: Removed duplicated region for block: B:58:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1951,27 +1915,27 @@ public class ThemeEditorView {
                             }
                             edit.commit();
                         }
-                        if (arrayList != null) {
+                        if (arrayList == null) {
+                            if (this.decelerateInterpolator == null) {
+                                this.decelerateInterpolator = new DecelerateInterpolator();
+                            }
+                            AnimatorSet animatorSet = new AnimatorSet();
+                            animatorSet.setInterpolator(this.decelerateInterpolator);
+                            animatorSet.setDuration(150L);
+                            if (z) {
+                                arrayList.add(ObjectAnimator.ofFloat(this.windowView, View.ALPHA, 0.0f));
+                                animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ThemeEditorView.4
+                                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                                    public void onAnimationEnd(Animator animator) {
+                                        Theme.saveCurrentTheme(ThemeEditorView.this.themeInfo, true, false, false);
+                                        ThemeEditorView.this.destroy();
+                                    }
+                                });
+                            }
+                            animatorSet.playTogether(arrayList);
+                            animatorSet.start();
                             return;
                         }
-                        if (this.decelerateInterpolator == null) {
-                            this.decelerateInterpolator = new DecelerateInterpolator();
-                        }
-                        AnimatorSet animatorSet = new AnimatorSet();
-                        animatorSet.setInterpolator(this.decelerateInterpolator);
-                        animatorSet.setDuration(150L);
-                        if (z) {
-                            arrayList.add(ObjectAnimator.ofFloat(this.windowView, View.ALPHA, 0.0f));
-                            animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ThemeEditorView.4
-                                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                                public void onAnimationEnd(Animator animator) {
-                                    Theme.saveCurrentTheme(ThemeEditorView.this.themeInfo, true, false, false);
-                                    ThemeEditorView.this.destroy();
-                                }
-                            });
-                        }
-                        animatorSet.playTogether(arrayList);
-                        animatorSet.start();
                         return;
                     }
                     edit.putFloat("px", (this.windowLayoutParams.x - sideCoord) / (sideCoord2 - sideCoord));
@@ -1989,7 +1953,7 @@ public class ThemeEditorView {
         z = false;
         if (!z) {
         }
-        if (arrayList != null) {
+        if (arrayList == null) {
         }
     }
 

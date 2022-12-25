@@ -30,12 +30,8 @@ public class TLRPC$TL_langPackLanguage extends TLObject {
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
         int readInt32 = abstractSerializedData.readInt32(z);
         this.flags = readInt32;
-        boolean z2 = false;
         this.official = (readInt32 & 1) != 0;
-        if ((readInt32 & 4) != 0) {
-            z2 = true;
-        }
-        this.rtl = z2;
+        this.rtl = (readInt32 & 4) != 0;
         this.name = abstractSerializedData.readString(z);
         this.native_name = abstractSerializedData.readString(z);
         this.lang_code = abstractSerializedData.readString(z);

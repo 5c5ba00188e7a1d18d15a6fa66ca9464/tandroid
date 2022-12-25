@@ -61,26 +61,20 @@ public final class PesReader implements TsPayloadReader {
         while (parsableByteArray.bytesLeft() > 0) {
             int i3 = this.state;
             if (i3 != 0) {
-                int i4 = 0;
                 if (i3 != 1) {
                     if (i3 == 2) {
                         if (continueRead(parsableByteArray, this.pesScratch.data, Math.min(10, this.extendedHeaderLength)) && continueRead(parsableByteArray, null, this.extendedHeaderLength)) {
                             parseHeaderExtension();
-                            if (this.dataAlignmentIndicator) {
-                                i4 = 4;
-                            }
-                            i |= i4;
+                            i |= this.dataAlignmentIndicator ? 4 : 0;
                             this.reader.packetStarted(this.timeUs, i);
                             setState(3);
                         }
                     } else if (i3 == 3) {
                         int bytesLeft = parsableByteArray.bytesLeft();
-                        int i5 = this.payloadSize;
-                        if (i5 != -1) {
-                            i4 = bytesLeft - i5;
-                        }
-                        if (i4 > 0) {
-                            bytesLeft -= i4;
+                        int i4 = this.payloadSize;
+                        int i5 = i4 != -1 ? bytesLeft - i4 : 0;
+                        if (i5 > 0) {
+                            bytesLeft -= i5;
                             parsableByteArray.setLimit(parsableByteArray.getPosition() + bytesLeft);
                         }
                         this.reader.consume(parsableByteArray);
@@ -97,10 +91,7 @@ public final class PesReader implements TsPayloadReader {
                         throw new IllegalStateException();
                     }
                 } else if (continueRead(parsableByteArray, this.pesScratch.data, 9)) {
-                    if (parseHeader()) {
-                        i4 = 2;
-                    }
-                    setState(i4);
+                    setState(parseHeader() ? 2 : 0);
                 }
             } else {
                 parsableByteArray.skipBytes(parsableByteArray.bytesLeft());

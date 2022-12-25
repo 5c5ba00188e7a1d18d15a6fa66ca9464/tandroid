@@ -143,32 +143,31 @@ public class i extends Random {
     /* JADX INFO: Access modifiers changed from: package-private */
     public final long f(long j, long j2) {
         long i = i(j());
-        if (j < j2) {
-            long j3 = j2 - j;
-            long j4 = j3 - 1;
-            if ((j3 & j4) == 0) {
-                return (i & j4) + j;
-            }
-            if (j3 > 0) {
-                while (true) {
-                    long j5 = i >>> 1;
-                    long j6 = j5 + j4;
-                    long j7 = j5 % j3;
-                    if (j6 - j7 >= 0) {
-                        return j7 + j;
-                    }
-                    i = i(j());
+        if (j >= j2) {
+            return i;
+        }
+        long j3 = j2 - j;
+        long j4 = j3 - 1;
+        if ((j3 & j4) == 0) {
+            return (i & j4) + j;
+        }
+        if (j3 > 0) {
+            while (true) {
+                long j5 = i >>> 1;
+                long j6 = j5 + j4;
+                long j7 = j5 % j3;
+                if (j6 - j7 >= 0) {
+                    return j7 + j;
                 }
-            } else {
-                while (true) {
-                    if (i >= j && i < j2) {
-                        return i;
-                    }
-                    i = i(j());
-                }
+                i = i(j());
             }
         } else {
-            return i;
+            while (true) {
+                if (i >= j && i < j2) {
+                    return i;
+                }
+                i = i(j());
+            }
         }
     }
 
@@ -237,23 +236,22 @@ public class i extends Random {
 
     @Override // java.util.Random
     public int nextInt(int i) {
-        if (i > 0) {
-            int h = h(j());
-            int i2 = i - 1;
-            if ((i & i2) == 0) {
-                return h & i2;
-            }
-            while (true) {
-                int i3 = h >>> 1;
-                int i4 = i3 + i2;
-                int i5 = i3 % i;
-                if (i4 - i5 >= 0) {
-                    return i5;
-                }
-                h = h(j());
-            }
-        } else {
+        if (i <= 0) {
             throw new IllegalArgumentException("bound must be positive");
+        }
+        int h = h(j());
+        int i2 = i - 1;
+        if ((i & i2) == 0) {
+            return h & i2;
+        }
+        while (true) {
+            int i3 = h >>> 1;
+            int i4 = i3 + i2;
+            int i5 = i3 % i;
+            if (i4 - i5 >= 0) {
+                return i5;
+            }
+            h = h(j());
         }
     }
 
@@ -264,10 +262,9 @@ public class i extends Random {
 
     @Override // java.util.Random
     public void setSeed(long j) {
-        if (!this.c) {
-            return;
+        if (this.c) {
+            throw new UnsupportedOperationException();
         }
-        throw new UnsupportedOperationException();
     }
 
     @Override // java.util.Random

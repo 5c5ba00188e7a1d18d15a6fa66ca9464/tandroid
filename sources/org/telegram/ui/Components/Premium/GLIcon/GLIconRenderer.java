@@ -115,9 +115,6 @@ public class GLIconRenderer implements GLSurfaceView.Renderer {
         this.color1 = Theme.getColor(this.colorKey1);
         this.color2 = Theme.getColor(this.colorKey2);
         boolean z = true;
-        if (this.style != 1 || ColorUtils.calculateLuminance(Theme.getColor("dialogBackground")) >= 0.5d) {
-            z = false;
-        }
-        this.isDarkBackground = z;
+        this.isDarkBackground = (this.style != 1 || ColorUtils.calculateLuminance(Theme.getColor("dialogBackground")) >= 0.5d) ? false : false;
     }
 }

@@ -24,19 +24,19 @@ public enum zzge$zzv$zzb implements zzcj {
 
     public static zzge$zzv$zzb zzbc(int i) {
         if (i != 0) {
-            if (i == 1) {
-                return zzbhl;
-            }
-            if (i == 2) {
+            if (i != 1) {
+                if (i != 2) {
+                    if (i != 3) {
+                        if (i != 4) {
+                            return null;
+                        }
+                        return zzbho;
+                    }
+                    return zzbhn;
+                }
                 return zzbhm;
             }
-            if (i == 3) {
-                return zzbhn;
-            }
-            if (i == 4) {
-                return zzbho;
-            }
-            return null;
+            return zzbhl;
         }
         return zzbhk;
     }

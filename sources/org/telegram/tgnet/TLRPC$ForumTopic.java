@@ -10,12 +10,12 @@ public abstract class TLRPC$ForumTopic extends TLObject {
         } else {
             tLRPC$TL_forumTopicDeleted = i != 1903173033 ? null : new TLRPC$TL_forumTopic();
         }
-        if (tLRPC$TL_forumTopicDeleted != null || !z) {
-            if (tLRPC$TL_forumTopicDeleted != null) {
-                tLRPC$TL_forumTopicDeleted.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_forumTopicDeleted;
+        if (tLRPC$TL_forumTopicDeleted == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in ForumTopic", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in ForumTopic", Integer.valueOf(i)));
+        if (tLRPC$TL_forumTopicDeleted != null) {
+            tLRPC$TL_forumTopicDeleted.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_forumTopicDeleted;
     }
 }

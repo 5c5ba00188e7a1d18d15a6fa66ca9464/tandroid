@@ -34,12 +34,12 @@ public abstract class LogWithProperties extends AbstractLog {
         if (this == obj) {
             return true;
         }
-        if (obj == null || getClass() != obj.getClass() || !super.equals(obj)) {
-            return false;
+        if (obj != null && getClass() == obj.getClass() && super.equals(obj)) {
+            Map<String, String> map = this.properties;
+            Map<String, String> map2 = ((LogWithProperties) obj).properties;
+            return map != null ? map.equals(map2) : map2 == null;
         }
-        Map<String, String> map = this.properties;
-        Map<String, String> map2 = ((LogWithProperties) obj).properties;
-        return map != null ? map.equals(map2) : map2 == null;
+        return false;
     }
 
     @Override // com.microsoft.appcenter.ingestion.models.AbstractLog

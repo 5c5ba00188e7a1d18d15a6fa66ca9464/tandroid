@@ -130,48 +130,47 @@ public abstract class CommonSchemaLog extends AbstractLog {
         if (this == obj) {
             return true;
         }
-        if (obj == null || CommonSchemaLog.class != obj.getClass() || !super.equals(obj)) {
+        if (obj != null && CommonSchemaLog.class == obj.getClass() && super.equals(obj)) {
+            CommonSchemaLog commonSchemaLog = (CommonSchemaLog) obj;
+            String str = this.ver;
+            if (str == null ? commonSchemaLog.ver == null : str.equals(commonSchemaLog.ver)) {
+                String str2 = this.name;
+                if (str2 == null ? commonSchemaLog.name == null : str2.equals(commonSchemaLog.name)) {
+                    Double d = this.popSample;
+                    if (d == null ? commonSchemaLog.popSample == null : d.equals(commonSchemaLog.popSample)) {
+                        String str3 = this.iKey;
+                        if (str3 == null ? commonSchemaLog.iKey == null : str3.equals(commonSchemaLog.iKey)) {
+                            Long l = this.flags;
+                            if (l == null ? commonSchemaLog.flags == null : l.equals(commonSchemaLog.flags)) {
+                                String str4 = this.cV;
+                                if (str4 == null ? commonSchemaLog.cV == null : str4.equals(commonSchemaLog.cV)) {
+                                    Extensions extensions = this.ext;
+                                    if (extensions == null ? commonSchemaLog.ext == null : extensions.equals(commonSchemaLog.ext)) {
+                                        Data data = this.data;
+                                        Data data2 = commonSchemaLog.data;
+                                        return data != null ? data.equals(data2) : data2 == null;
+                                    }
+                                    return false;
+                                }
+                                return false;
+                            }
+                            return false;
+                        }
+                        return false;
+                    }
+                    return false;
+                }
+                return false;
+            }
             return false;
         }
-        CommonSchemaLog commonSchemaLog = (CommonSchemaLog) obj;
-        String str = this.ver;
-        if (str == null ? commonSchemaLog.ver != null : !str.equals(commonSchemaLog.ver)) {
-            return false;
-        }
-        String str2 = this.name;
-        if (str2 == null ? commonSchemaLog.name != null : !str2.equals(commonSchemaLog.name)) {
-            return false;
-        }
-        Double d = this.popSample;
-        if (d == null ? commonSchemaLog.popSample != null : !d.equals(commonSchemaLog.popSample)) {
-            return false;
-        }
-        String str3 = this.iKey;
-        if (str3 == null ? commonSchemaLog.iKey != null : !str3.equals(commonSchemaLog.iKey)) {
-            return false;
-        }
-        Long l = this.flags;
-        if (l == null ? commonSchemaLog.flags != null : !l.equals(commonSchemaLog.flags)) {
-            return false;
-        }
-        String str4 = this.cV;
-        if (str4 == null ? commonSchemaLog.cV != null : !str4.equals(commonSchemaLog.cV)) {
-            return false;
-        }
-        Extensions extensions = this.ext;
-        if (extensions == null ? commonSchemaLog.ext != null : !extensions.equals(commonSchemaLog.ext)) {
-            return false;
-        }
-        Data data = this.data;
-        Data data2 = commonSchemaLog.data;
-        return data != null ? data.equals(data2) : data2 == null;
+        return false;
     }
 
     @Override // com.microsoft.appcenter.ingestion.models.AbstractLog
     public int hashCode() {
         int hashCode = super.hashCode() * 31;
         String str = this.ver;
-        int i = 0;
         int hashCode2 = (hashCode + (str != null ? str.hashCode() : 0)) * 31;
         String str2 = this.name;
         int hashCode3 = (hashCode2 + (str2 != null ? str2.hashCode() : 0)) * 31;
@@ -186,9 +185,6 @@ public abstract class CommonSchemaLog extends AbstractLog {
         Extensions extensions = this.ext;
         int hashCode8 = (hashCode7 + (extensions != null ? extensions.hashCode() : 0)) * 31;
         Data data = this.data;
-        if (data != null) {
-            i = data.hashCode();
-        }
-        return hashCode8 + i;
+        return hashCode8 + (data != null ? data.hashCode() : 0);
     }
 }

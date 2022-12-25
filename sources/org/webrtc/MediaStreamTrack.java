@@ -63,10 +63,10 @@ public class MediaStreamTrack {
         if (nativeGetKind.equals(AUDIO_TRACK_KIND)) {
             return new AudioTrack(j);
         }
-        if (!nativeGetKind.equals(VIDEO_TRACK_KIND)) {
-            return null;
+        if (nativeGetKind.equals(VIDEO_TRACK_KIND)) {
+            return new VideoTrack(j);
         }
-        return new VideoTrack(j);
+        return null;
     }
 
     public MediaStreamTrack(long j) {
@@ -114,9 +114,8 @@ public class MediaStreamTrack {
     }
 
     private void checkMediaStreamTrackExists() {
-        if (this.nativeTrack != 0) {
-            return;
+        if (this.nativeTrack == 0) {
+            throw new IllegalStateException("MediaStreamTrack has been disposed.");
         }
-        throw new IllegalStateException("MediaStreamTrack has been disposed.");
     }
 }

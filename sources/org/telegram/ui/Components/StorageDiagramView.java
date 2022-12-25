@@ -320,27 +320,28 @@ public class StorageDiagramView extends View implements NotificationCenter.Notif
             this.text1.draw(canvas);
             this.text2.draw(canvas);
         }
-        if (this.dialogTextLayout == null) {
-            return;
+        if (this.dialogTextLayout != null) {
+            canvas.save();
+            canvas.translate(AndroidUtilities.dp(30.0f), AndroidUtilities.dp(148.0f) - ((this.dialogTextLayout.getHeight() - AndroidUtilities.dp(13.0f)) / 2.0f));
+            this.dialogTextPaint.setColor(Theme.getColor("dialogTextBlack"));
+            this.dialogTextLayout.draw(canvas);
+            canvas.restore();
         }
-        canvas.save();
-        canvas.translate(AndroidUtilities.dp(30.0f), AndroidUtilities.dp(148.0f) - ((this.dialogTextLayout.getHeight() - AndroidUtilities.dp(13.0f)) / 2.0f));
-        this.dialogTextPaint.setColor(Theme.getColor("dialogTextBlack"));
-        this.dialogTextLayout.draw(canvas);
-        canvas.restore();
     }
 
     /* loaded from: classes3.dex */
     public static class ClearViewData {
+        public boolean clear;
         public String color;
+        boolean firstDraw;
         Paint paint;
         public long size;
-        public boolean clear = true;
-        boolean firstDraw = false;
 
         public ClearViewData(StorageDiagramView storageDiagramView) {
             Paint paint = new Paint(1);
             this.paint = paint;
+            this.clear = true;
+            this.firstDraw = false;
             paint.setStyle(Paint.Style.STROKE);
             this.paint.setStrokeWidth(AndroidUtilities.dp(5.0f));
             this.paint.setStrokeCap(Paint.Cap.ROUND);
@@ -425,14 +426,13 @@ public class StorageDiagramView extends View implements NotificationCenter.Notif
                 int i4 = 0;
                 while (true) {
                     ClearViewData[] clearViewDataArr2 = clearViewDataArr;
-                    if (i4 < clearViewDataArr2.length) {
-                        if (clearViewDataArr2[i4] != null) {
-                            clearViewDataArr2[i4].firstDraw = false;
-                        }
-                        i4++;
-                    } else {
+                    if (i4 >= clearViewDataArr2.length) {
                         return;
                     }
+                    if (clearViewDataArr2[i4] != null) {
+                        clearViewDataArr2[i4].firstDraw = false;
+                    }
+                    i4++;
                 }
             }
         });
@@ -488,27 +488,26 @@ public class StorageDiagramView extends View implements NotificationCenter.Notif
                 return;
             }
             float f = this.pressedProgress;
-            if (f == 0.0f) {
-                return;
+            if (f != 0.0f) {
+                ValueAnimator ofFloat = ValueAnimator.ofFloat(f, 0.0f);
+                this.backAnimator = ofFloat;
+                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.StorageDiagramView$$ExternalSyntheticLambda0
+                    @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                    public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
+                        StorageDiagramView.this.lambda$setPressed$1(valueAnimator2);
+                    }
+                });
+                this.backAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.StorageDiagramView.2
+                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                    public void onAnimationEnd(Animator animator) {
+                        super.onAnimationEnd(animator);
+                        StorageDiagramView.this.backAnimator = null;
+                    }
+                });
+                this.backAnimator.setInterpolator(new OvershootInterpolator(2.0f));
+                this.backAnimator.setDuration(350L);
+                this.backAnimator.start();
             }
-            ValueAnimator ofFloat = ValueAnimator.ofFloat(f, 0.0f);
-            this.backAnimator = ofFloat;
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.StorageDiagramView$$ExternalSyntheticLambda0
-                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                    StorageDiagramView.this.lambda$setPressed$1(valueAnimator2);
-                }
-            });
-            this.backAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.StorageDiagramView.2
-                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                public void onAnimationEnd(Animator animator) {
-                    super.onAnimationEnd(animator);
-                    StorageDiagramView.this.backAnimator = null;
-                }
-            });
-            this.backAnimator.setInterpolator(new OvershootInterpolator(2.0f));
-            this.backAnimator.setDuration(350L);
-            this.backAnimator.start();
         }
     }
 
@@ -520,15 +519,10 @@ public class StorageDiagramView extends View implements NotificationCenter.Notif
 
     public long updateDescription() {
         long calculateSize = calculateSize();
-        String str = " ";
-        String[] split = AndroidUtilities.formatFileSize(calculateSize).split(str);
+        String[] split = AndroidUtilities.formatFileSize(calculateSize).split(" ");
         if (split.length > 1) {
-            this.text1.setText(calculateSize == 0 ? str : split[0], true, false);
-            AnimatedTextView.AnimatedTextDrawable animatedTextDrawable = this.text2;
-            if (calculateSize != 0) {
-                str = split[1];
-            }
-            animatedTextDrawable.setText(str, true, false);
+            this.text1.setText(calculateSize == 0 ? " " : split[0], true, false);
+            this.text2.setText(calculateSize != 0 ? split[1] : " ", true, false);
         }
         return calculateSize;
     }

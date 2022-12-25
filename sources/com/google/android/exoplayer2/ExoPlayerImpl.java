@@ -332,14 +332,9 @@ public final class ExoPlayerImpl extends BasePlayer {
 
     void handleEvent(Message message) {
         int i = message.what;
-        boolean z = false;
         if (i != 0) {
             if (i == 1) {
-                PlaybackParameters playbackParameters = (PlaybackParameters) message.obj;
-                if (message.arg1 != 0) {
-                    z = true;
-                }
-                handlePlaybackParameters(playbackParameters, z);
+                handlePlaybackParameters((PlaybackParameters) message.obj, message.arg1 != 0);
                 return;
             }
             throw new IllegalStateException();
@@ -347,10 +342,7 @@ public final class ExoPlayerImpl extends BasePlayer {
         PlaybackInfo playbackInfo = (PlaybackInfo) message.obj;
         int i2 = message.arg1;
         int i3 = message.arg2;
-        if (i3 != -1) {
-            z = true;
-        }
-        handlePlaybackInfo(playbackInfo, i2, z, i3);
+        handlePlaybackInfo(playbackInfo, i2, i3 != -1, i3);
     }
 
     private void handlePlaybackParameters(final PlaybackParameters playbackParameters, boolean z) {
@@ -392,7 +384,6 @@ public final class ExoPlayerImpl extends BasePlayer {
 
     private PlaybackInfo getResetPlaybackInfo(boolean z, boolean z2, boolean z3, int i) {
         MediaSource.MediaPeriodId mediaPeriodId;
-        long j = 0;
         boolean z4 = false;
         if (z) {
             this.maskingWindowIndex = 0;
@@ -403,20 +394,15 @@ public final class ExoPlayerImpl extends BasePlayer {
             this.maskingPeriodIndex = getCurrentPeriodIndex();
             this.maskingWindowPositionMs = getCurrentPosition();
         }
-        if (z || z2) {
-            z4 = true;
-        }
+        z4 = (z || z2) ? true : true;
         if (z4) {
             mediaPeriodId = this.playbackInfo.getDummyFirstMediaPeriodId(this.shuffleModeEnabled, this.window, this.period);
         } else {
             mediaPeriodId = this.playbackInfo.periodId;
         }
         MediaSource.MediaPeriodId mediaPeriodId2 = mediaPeriodId;
-        if (!z4) {
-            j = this.playbackInfo.positionUs;
-        }
-        long j2 = j;
-        return new PlaybackInfo(z2 ? Timeline.EMPTY : this.playbackInfo.timeline, mediaPeriodId2, j2, z4 ? -9223372036854775807L : this.playbackInfo.contentPositionUs, i, z3 ? null : this.playbackInfo.playbackError, false, z2 ? TrackGroupArray.EMPTY : this.playbackInfo.trackGroups, z2 ? this.emptyTrackSelectorResult : this.playbackInfo.trackSelectorResult, mediaPeriodId2, j2, 0L, j2);
+        long j = z4 ? 0L : this.playbackInfo.positionUs;
+        return new PlaybackInfo(z2 ? Timeline.EMPTY : this.playbackInfo.timeline, mediaPeriodId2, j, z4 ? -9223372036854775807L : this.playbackInfo.contentPositionUs, i, z3 ? null : this.playbackInfo.playbackError, false, z2 ? TrackGroupArray.EMPTY : this.playbackInfo.trackGroups, z2 ? this.emptyTrackSelectorResult : this.playbackInfo.trackSelectorResult, mediaPeriodId2, j, 0L, j);
     }
 
     private void updatePlaybackInfo(PlaybackInfo playbackInfo, boolean z, int i, int i2, boolean z2) {
@@ -486,14 +472,13 @@ public final class ExoPlayerImpl extends BasePlayer {
             this.seekProcessed = z2;
             this.playWhenReady = z3;
             this.isPlayingChanged = z4;
-            boolean z5 = true;
             this.playbackStateChanged = playbackInfo2.playbackState != playbackInfo.playbackState;
             ExoPlaybackException exoPlaybackException = playbackInfo2.playbackError;
             ExoPlaybackException exoPlaybackException2 = playbackInfo.playbackError;
             this.playbackErrorChanged = (exoPlaybackException == exoPlaybackException2 || exoPlaybackException2 == null) ? false : true;
             this.timelineChanged = playbackInfo2.timeline != playbackInfo.timeline;
             this.isLoadingChanged = playbackInfo2.isLoading != playbackInfo.isLoading;
-            this.trackSelectorResultChanged = playbackInfo2.trackSelectorResult == playbackInfo.trackSelectorResult ? false : z5;
+            this.trackSelectorResultChanged = playbackInfo2.trackSelectorResult != playbackInfo.trackSelectorResult;
         }
 
         @Override // java.lang.Runnable

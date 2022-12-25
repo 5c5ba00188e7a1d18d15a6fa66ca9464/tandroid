@@ -20,13 +20,12 @@ public final class o2 extends s2 implements j3 {
     @Override // j$.util.stream.s2, j$.util.stream.m3
     public void accept(double d) {
         int i = this.f;
-        if (i < this.g) {
-            double[] dArr = this.h;
-            this.f = i + 1;
-            dArr[i] = d;
-            return;
+        if (i >= this.g) {
+            throw new IndexOutOfBoundsException(Integer.toString(this.f));
         }
-        throw new IndexOutOfBoundsException(Integer.toString(this.f));
+        double[] dArr = this.h;
+        this.f = i + 1;
+        dArr[i] = d;
     }
 
     @Override // j$.util.stream.s2

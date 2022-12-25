@@ -21,16 +21,12 @@ public final class ParsableNalUnitBitArray {
     }
 
     public void skipBit() {
-        int i = 1;
-        int i2 = this.bitOffset + 1;
-        this.bitOffset = i2;
-        if (i2 == 8) {
+        int i = this.bitOffset + 1;
+        this.bitOffset = i;
+        if (i == 8) {
             this.bitOffset = 0;
-            int i3 = this.byteOffset;
-            if (shouldSkipByte(i3 + 1)) {
-                i = 2;
-            }
-            this.byteOffset = i3 + i;
+            int i2 = this.byteOffset;
+            this.byteOffset = i2 + (shouldSkipByte(i2 + 1) ? 2 : 1);
         }
         assertValidOffset();
     }
@@ -93,37 +89,32 @@ public final class ParsableNalUnitBitArray {
 
     public int readBits(int i) {
         int i2;
-        int i3;
         this.bitOffset += i;
-        int i4 = 0;
+        int i3 = 0;
         while (true) {
             i2 = this.bitOffset;
-            i3 = 2;
             if (i2 <= 8) {
                 break;
             }
-            int i5 = i2 - 8;
-            this.bitOffset = i5;
+            int i4 = i2 - 8;
+            this.bitOffset = i4;
             byte[] bArr = this.data;
-            int i6 = this.byteOffset;
-            i4 |= (bArr[i6] & 255) << i5;
-            if (!shouldSkipByte(i6 + 1)) {
-                i3 = 1;
+            int i5 = this.byteOffset;
+            i3 |= (bArr[i5] & 255) << i4;
+            if (!shouldSkipByte(i5 + 1)) {
+                r3 = 1;
             }
-            this.byteOffset = i6 + i3;
+            this.byteOffset = i5 + r3;
         }
         byte[] bArr2 = this.data;
-        int i7 = this.byteOffset;
-        int i8 = ((-1) >>> (32 - i)) & (i4 | ((bArr2[i7] & 255) >> (8 - i2)));
+        int i6 = this.byteOffset;
+        int i7 = ((-1) >>> (32 - i)) & (i3 | ((bArr2[i6] & 255) >> (8 - i2)));
         if (i2 == 8) {
             this.bitOffset = 0;
-            if (!shouldSkipByte(i7 + 1)) {
-                i3 = 1;
-            }
-            this.byteOffset = i7 + i3;
+            this.byteOffset = i6 + (shouldSkipByte(i6 + 1) ? 2 : 1);
         }
         assertValidOffset();
-        return i8;
+        return i7;
     }
 
     public boolean canReadExpGolombCodedNum() {
@@ -150,15 +141,10 @@ public final class ParsableNalUnitBitArray {
 
     private int readExpGolombCodeNum() {
         int i = 0;
-        int i2 = 0;
         while (!readBit()) {
-            i2++;
+            i++;
         }
-        int i3 = (1 << i2) - 1;
-        if (i2 > 0) {
-            i = readBits(i2);
-        }
-        return i3 + i;
+        return ((1 << i) - 1) + (i > 0 ? readBits(i) : 0);
     }
 
     private boolean shouldSkipByte(int i) {

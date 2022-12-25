@@ -18,9 +18,8 @@ public final class PlaybackParameters {
     }
 
     public PlaybackParameters(float f, float f2, boolean z) {
-        boolean z2 = true;
         Assertions.checkArgument(f > 0.0f);
-        Assertions.checkArgument(f2 <= 0.0f ? false : z2);
+        Assertions.checkArgument(f2 > 0.0f);
         this.speed = f;
         this.pitch = f2;
         this.skipSilence = z;

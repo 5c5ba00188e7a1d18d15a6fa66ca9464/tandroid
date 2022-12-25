@@ -245,8 +245,7 @@ public class TextPaintView extends EntityView {
             this.editText.setStrokeColor(0);
             this.editText.setFrameColor(0);
             this.editText.setShadowLayer(5.0f, 0.0f, 1.0f, 1711276032);
-        } else if (i != 2) {
-        } else {
+        } else if (i == 2) {
             this.editText.setTextColor(-16777216);
             this.editText.setStrokeColor(0);
             this.editText.setFrameColor(this.swatch.color);
@@ -274,10 +273,11 @@ public class TextPaintView extends EntityView {
 
     /* loaded from: classes3.dex */
     public class TextViewSelectionView extends EntityView.SelectionView {
-        private Path path = new Path();
+        private Path path;
 
         public TextViewSelectionView(TextPaintView textPaintView, Context context) {
             super(context);
+            this.path = new Path();
         }
 
         @Override // org.telegram.ui.Components.Paint.Views.EntityView.SelectionView
@@ -290,10 +290,10 @@ public class TextPaintView extends EntityView {
             float f4 = (measuredHeight / 2.0f) + dp2;
             if (f <= dp2 - dp || f2 <= f4 - dp || f >= dp2 + dp || f2 >= f4 + dp) {
                 float f5 = dp2 + measuredWidth;
-                if (f > f5 - dp && f2 > f4 - dp && f < f5 + dp && f2 < f4 + dp) {
-                    return 2;
+                if (f <= f5 - dp || f2 <= f4 - dp || f >= f5 + dp || f2 >= f4 + dp) {
+                    return (f <= dp2 || f >= measuredWidth || f2 <= dp2 || f2 >= measuredHeight) ? 0 : 3;
                 }
-                return (f <= dp2 || f >= measuredWidth || f2 <= dp2 || f2 >= measuredHeight) ? 0 : 3;
+                return 2;
             }
             return 1;
         }

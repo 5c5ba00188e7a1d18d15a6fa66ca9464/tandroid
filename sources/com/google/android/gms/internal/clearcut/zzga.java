@@ -106,12 +106,11 @@ public final class zzga {
                     }
                 }
             }
-            if (str == null) {
-                return;
+            if (str != null) {
+                stringBuffer.setLength(length2);
+                stringBuffer2.append(stringBuffer);
+                stringBuffer2.append(">\n");
             }
-            stringBuffer.setLength(length2);
-            stringBuffer2.append(stringBuffer);
-            stringBuffer2.append(">\n");
         }
     }
 

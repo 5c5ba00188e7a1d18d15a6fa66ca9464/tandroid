@@ -55,9 +55,10 @@ class H2 implements S2 {
     @Override // j$.util.stream.S2
     public void h(S2 s2) {
         H2 h2 = (H2) s2;
-        if (!h2.a) {
-            accept(h2.b);
+        if (h2.a) {
+            return;
         }
+        accept(h2.b);
     }
 
     @Override // j$.util.stream.m3

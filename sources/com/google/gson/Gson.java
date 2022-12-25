@@ -36,6 +36,8 @@ import java.util.concurrent.atomic.AtomicLongArray;
 /* loaded from: classes.dex */
 public final class Gson {
     static final String DEFAULT_DATE_PATTERN = null;
+    static final ToNumberStrategy DEFAULT_NUMBER_TO_NUMBER_STRATEGY;
+    static final ToNumberStrategy DEFAULT_OBJECT_TO_NUMBER_STRATEGY;
     final List<TypeAdapterFactory> builderFactories;
     final List<TypeAdapterFactory> builderHierarchyFactories;
     private final ConstructorConstructor constructorConstructor;
@@ -47,13 +49,13 @@ public final class Gson {
     final boolean prettyPrinting;
     final List<ReflectionAccessFilter> reflectionFilters;
     final boolean serializeNulls;
-    static final ToNumberStrategy DEFAULT_OBJECT_TO_NUMBER_STRATEGY = ToNumberPolicy.DOUBLE;
-    static final ToNumberStrategy DEFAULT_NUMBER_TO_NUMBER_STRATEGY = ToNumberPolicy.LAZILY_PARSED_NUMBER;
     private final ThreadLocal<Map<TypeToken<?>, FutureTypeAdapter<?>>> calls = new ThreadLocal<>();
     private final ConcurrentMap<TypeToken<?>, TypeAdapter<?>> typeTokenCache = new ConcurrentHashMap();
 
     static {
         FieldNamingPolicy fieldNamingPolicy = FieldNamingPolicy.IDENTITY;
+        DEFAULT_OBJECT_TO_NUMBER_STRATEGY = ToNumberPolicy.DOUBLE;
+        DEFAULT_NUMBER_TO_NUMBER_STRATEGY = ToNumberPolicy.LAZILY_PARSED_NUMBER;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

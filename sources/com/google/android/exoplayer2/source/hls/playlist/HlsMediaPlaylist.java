@@ -111,10 +111,10 @@ public final class HlsMediaPlaylist extends HlsPlaylist {
             }
             int size = this.segments.size();
             int size2 = hlsMediaPlaylist.segments.size();
-            if (size > size2) {
-                return true;
+            if (size <= size2) {
+                return size == size2 && this.hasEndTag && !hlsMediaPlaylist.hasEndTag;
             }
-            return size == size2 && this.hasEndTag && !hlsMediaPlaylist.hasEndTag;
+            return true;
         }
         return true;
     }

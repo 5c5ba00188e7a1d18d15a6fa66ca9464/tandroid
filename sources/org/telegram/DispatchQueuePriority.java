@@ -9,12 +9,7 @@ public class DispatchQueuePriority {
     ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(1, 1, 60, TimeUnit.SECONDS, new PriorityBlockingQueue(10, new Comparator<Runnable>(this) { // from class: org.telegram.DispatchQueuePriority.1
         @Override // java.util.Comparator
         public int compare(Runnable runnable, Runnable runnable2) {
-            int i = 1;
-            int i2 = runnable instanceof PriorityRunnable ? ((PriorityRunnable) runnable).priority : 1;
-            if (runnable2 instanceof PriorityRunnable) {
-                i = ((PriorityRunnable) runnable2).priority;
-            }
-            return i - i2;
+            return (runnable2 instanceof PriorityRunnable ? ((PriorityRunnable) runnable2).priority : 1) - (runnable instanceof PriorityRunnable ? ((PriorityRunnable) runnable).priority : 1);
         }
     }));
 

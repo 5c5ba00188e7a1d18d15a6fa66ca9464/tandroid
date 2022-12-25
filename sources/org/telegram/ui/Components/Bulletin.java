@@ -26,7 +26,6 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewPropertyAnimator;
 import android.view.Window;
 import android.view.WindowInsets;
 import android.view.WindowManager;
@@ -275,12 +274,12 @@ public class Bulletin {
     }
 
     public /* synthetic */ void lambda$show$2(boolean z, View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8) {
-        if (!z) {
-            Delegate delegate = this.currentDelegate;
-            int bottomOffset = delegate != null ? delegate.getBottomOffset(this.tag) : 0;
-            if (this.lastBottomOffset == bottomOffset) {
-                return;
-            }
+        if (z) {
+            return;
+        }
+        Delegate delegate = this.currentDelegate;
+        int bottomOffset = delegate != null ? delegate.getBottomOffset(this.tag) : 0;
+        if (this.lastBottomOffset != bottomOffset) {
             SpringAnimation springAnimation = this.bottomOffsetSpring;
             if (springAnimation == null || !springAnimation.isRunning()) {
                 SpringAnimation spring = new SpringAnimation(new FloatValueHolder(this.lastBottomOffset)).setSpring(new SpringForce().setFinalPosition(bottomOffset).setStiffness(900.0f).setDampingRatio(1.0f));
@@ -539,7 +538,7 @@ public class Bulletin {
         private boolean needLeftAlphaAnimation;
         private boolean needRightAlphaAnimation;
         private boolean pressed;
-        private final android.graphics.Rect rect = new android.graphics.Rect();
+        private final android.graphics.Rect rect;
         private float translationX;
 
         protected abstract void onHide();
@@ -554,6 +553,7 @@ public class Bulletin {
 
         public ParentLayout(Layout layout) {
             super(layout.getContext());
+            this.rect = new android.graphics.Rect();
             this.layout = layout;
             GestureDetector gestureDetector = new GestureDetector(layout.getContext(), new 1(layout));
             this.gestureDetector = gestureDetector;
@@ -572,12 +572,12 @@ public class Bulletin {
 
             @Override // android.view.GestureDetector.SimpleOnGestureListener, android.view.GestureDetector.OnGestureListener
             public boolean onDown(MotionEvent motionEvent) {
-                if (!ParentLayout.this.hideAnimationRunning) {
-                    ParentLayout.this.needLeftAlphaAnimation = this.val$layout.isNeedSwipeAlphaAnimation(true);
-                    ParentLayout.this.needRightAlphaAnimation = this.val$layout.isNeedSwipeAlphaAnimation(false);
-                    return true;
+                if (ParentLayout.this.hideAnimationRunning) {
+                    return false;
                 }
-                return false;
+                ParentLayout.this.needLeftAlphaAnimation = this.val$layout.isNeedSwipeAlphaAnimation(true);
+                ParentLayout.this.needRightAlphaAnimation = this.val$layout.isNeedSwipeAlphaAnimation(false);
+                return true;
             }
 
             @Override // android.view.GestureDetector.SimpleOnGestureListener, android.view.GestureDetector.OnGestureListener
@@ -672,16 +672,10 @@ public class Bulletin {
                     }
                 } else if ((actionMasked == 1 || actionMasked == 3) && this.pressed) {
                     if (!this.hideAnimationRunning) {
-                        float f = 1.0f;
                         if (Math.abs(this.translationX) > this.layout.getWidth() / 3.0f) {
                             final float signum = Math.signum(this.translationX) * this.layout.getWidth();
-                            float f2 = this.translationX;
-                            boolean z = (f2 < 0.0f && this.needLeftAlphaAnimation) || (f2 > 0.0f && this.needRightAlphaAnimation);
-                            ViewPropertyAnimator translationX = this.layout.animate().translationX(signum);
-                            if (z) {
-                                f = 0.0f;
-                            }
-                            translationX.alpha(f).setDuration(200L).setInterpolator(AndroidUtilities.accelerateInterpolator).withEndAction(new Runnable() { // from class: org.telegram.ui.Components.Bulletin$ParentLayout$$ExternalSyntheticLambda0
+                            float f = this.translationX;
+                            this.layout.animate().translationX(signum).alpha(((f > 0.0f ? 1 : (f == 0.0f ? 0 : -1)) < 0 && this.needLeftAlphaAnimation) || ((f > 0.0f ? 1 : (f == 0.0f ? 0 : -1)) > 0 && this.needRightAlphaAnimation) ? 0.0f : 1.0f).setDuration(200L).setInterpolator(AndroidUtilities.accelerateInterpolator).withEndAction(new Runnable() { // from class: org.telegram.ui.Components.Bulletin$ParentLayout$$ExternalSyntheticLambda0
                                 @Override // java.lang.Runnable
                                 public final void run() {
                                     Bulletin.ParentLayout.this.lambda$onTouchEvent$0(signum);
@@ -725,10 +719,10 @@ public class Bulletin {
             return delegate;
         }
         Delegate delegate2 = delegates.get(frameLayout);
-        if (delegate2 == null) {
-            return null;
+        if (delegate2 != null) {
+            return delegate2;
         }
-        return delegate2;
+        return null;
     }
 
     public static void removeDelegate(BaseFragment baseFragment) {
@@ -765,15 +759,15 @@ public class Bulletin {
         };
         Drawable background;
         protected Bulletin bulletin;
+        private final List<Callback> callbacks;
         Delegate delegate;
         public float inOutOffset;
         private final Theme.ResourcesProvider resourcesProvider;
         private boolean top;
         public boolean transitionRunningEnter;
         public boolean transitionRunningExit;
-        private final List<Callback> callbacks = new ArrayList();
-        private int wideScreenWidth = -2;
-        private int wideScreenGravity = 1;
+        private int wideScreenGravity;
+        private int wideScreenWidth;
 
         /* loaded from: classes3.dex */
         public interface Callback {
@@ -833,6 +827,9 @@ public class Bulletin {
 
         public Layout(Context context, Theme.ResourcesProvider resourcesProvider) {
             super(context);
+            this.callbacks = new ArrayList();
+            this.wideScreenWidth = -2;
+            this.wideScreenGravity = 1;
             this.resourcesProvider = resourcesProvider;
             setMinimumHeight(AndroidUtilities.dp(48.0f));
             setBackground(getThemedColor("undo_background"));
@@ -859,16 +856,12 @@ public class Bulletin {
         private void updateSize() {
             boolean isWideScreen = isWideScreen();
             int i = isWideScreen ? this.wideScreenWidth : -1;
-            int i2 = 48;
             if (isWideScreen) {
-                if (!this.top) {
-                    i2 = 80;
-                }
-                i2 |= this.wideScreenGravity;
+                r3 = (this.top ? 48 : 80) | this.wideScreenGravity;
             } else if (!this.top) {
-                i2 = 80;
+                r3 = 80;
             }
-            setLayoutParams(LayoutHelper.createFrame(i, -2, i2));
+            setLayoutParams(LayoutHelper.createFrame(i, -2, r3));
         }
 
         private boolean isWideScreen() {
@@ -895,10 +888,9 @@ public class Bulletin {
             } else {
                 z2 = z;
             }
-            if (!isWideScreen() || !z2) {
-                return;
+            if (isWideScreen() && z2) {
+                updateSize();
             }
-            updateSize();
         }
 
         @SuppressLint({"RtlHardcoded"})
@@ -1136,9 +1128,10 @@ public class Bulletin {
 
             public static /* synthetic */ void lambda$animateEnter$0(Layout layout, Runnable runnable, DynamicAnimation dynamicAnimation, boolean z, float f, float f2) {
                 layout.setInOutOffset(0.0f);
-                if (!z) {
-                    runnable.run();
+                if (z) {
+                    return;
                 }
+                runnable.run();
             }
 
             public static /* synthetic */ void lambda$animateEnter$1(Consumer consumer, Layout layout, DynamicAnimation dynamicAnimation, float f, float f2) {
@@ -1173,9 +1166,10 @@ public class Bulletin {
             }
 
             public static /* synthetic */ void lambda$animateExit$2(Runnable runnable, DynamicAnimation dynamicAnimation, boolean z, float f, float f2) {
-                if (!z) {
-                    runnable.run();
+                if (z) {
+                    return;
                 }
+                runnable.run();
             }
 
             public static /* synthetic */ void lambda$animateExit$3(Consumer consumer, Layout layout, DynamicAnimation dynamicAnimation, float f, float f2) {
@@ -1373,11 +1367,12 @@ public class Bulletin {
     public static class TwoLineLottieLayout extends ButtonLayout {
         public final RLottieImageView imageView;
         public final LinkSpanDrawable.LinksTextView subtitleTextView;
-        private final int textColor = getThemedColor("undo_infoColor");
+        private final int textColor;
         public final LinkSpanDrawable.LinksTextView titleTextView;
 
         public TwoLineLottieLayout(Context context, Theme.ResourcesProvider resourcesProvider) {
             super(context, resourcesProvider);
+            this.textColor = getThemedColor("undo_infoColor");
             setBackground(getThemedColor("undo_background"));
             RLottieImageView rLottieImageView = new RLottieImageView(context);
             this.imageView = rLottieImageView;
@@ -1790,6 +1785,7 @@ public class Bulletin {
         private long lastUpdateTime;
         private int prevSeconds;
         private final Paint progressPaint;
+        RectF rect;
         private TextPaint textPaint;
         private int textWidth;
         int textWidthOut;
@@ -1797,11 +1793,12 @@ public class Bulletin {
         StaticLayout timeLayoutOut;
         private long timeLeft;
         private String timeLeftString;
-        float timeReplaceProgress = 1.0f;
-        RectF rect = new RectF();
+        float timeReplaceProgress;
 
         public TimerView(Context context, Theme.ResourcesProvider resourcesProvider) {
             super(context);
+            this.timeReplaceProgress = 1.0f;
+            this.rect = new RectF();
             TextPaint textPaint = new TextPaint(1);
             this.textPaint = textPaint;
             textPaint.setTextSize(AndroidUtilities.dp(12.0f));

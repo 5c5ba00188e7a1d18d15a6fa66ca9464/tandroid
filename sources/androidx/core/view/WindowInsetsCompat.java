@@ -241,11 +241,11 @@ public class WindowInsetsCompat {
             if (this == o) {
                 return true;
             }
-            if (!(o instanceof Impl)) {
-                return false;
+            if (o instanceof Impl) {
+                Impl impl = (Impl) o;
+                return isRound() == impl.isRound() && isConsumed() == impl.isConsumed() && ObjectsCompat.equals(getSystemWindowInsets(), impl.getSystemWindowInsets()) && ObjectsCompat.equals(getStableInsets(), impl.getStableInsets()) && ObjectsCompat.equals(getDisplayCutout(), impl.getDisplayCutout());
             }
-            Impl impl = (Impl) o;
-            return isRound() == impl.isRound() && isConsumed() == impl.isConsumed() && ObjectsCompat.equals(getSystemWindowInsets(), impl.getSystemWindowInsets()) && ObjectsCompat.equals(getStableInsets(), impl.getStableInsets()) && ObjectsCompat.equals(getDisplayCutout(), impl.getDisplayCutout());
+            return false;
         }
 
         public int hashCode() {
@@ -300,6 +300,7 @@ public class WindowInsetsCompat {
         }
 
         protected Insets getInsetsForType(int type, boolean ignoreVisibility) {
+            Insets stableInsets;
             int i;
             DisplayCutoutCompat displayCutout;
             if (type == 1) {
@@ -308,53 +309,48 @@ public class WindowInsetsCompat {
                 }
                 return Insets.of(0, getSystemWindowInsets().top, 0, 0);
             }
-            Insets insets = null;
             if (type == 2) {
                 if (ignoreVisibility) {
                     Insets rootStableInsets = getRootStableInsets();
-                    Insets stableInsets = getStableInsets();
-                    return Insets.of(Math.max(rootStableInsets.left, stableInsets.left), 0, Math.max(rootStableInsets.right, stableInsets.right), Math.max(rootStableInsets.bottom, stableInsets.bottom));
+                    Insets stableInsets2 = getStableInsets();
+                    return Insets.of(Math.max(rootStableInsets.left, stableInsets2.left), 0, Math.max(rootStableInsets.right, stableInsets2.right), Math.max(rootStableInsets.bottom, stableInsets2.bottom));
                 }
                 Insets systemWindowInsets = getSystemWindowInsets();
                 WindowInsetsCompat windowInsetsCompat = this.mRootWindowInsets;
-                if (windowInsetsCompat != null) {
-                    insets = windowInsetsCompat.getStableInsets();
-                }
+                stableInsets = windowInsetsCompat != null ? windowInsetsCompat.getStableInsets() : null;
                 int i2 = systemWindowInsets.bottom;
-                if (insets != null) {
-                    i2 = Math.min(i2, insets.bottom);
+                if (stableInsets != null) {
+                    i2 = Math.min(i2, stableInsets.bottom);
                 }
                 return Insets.of(systemWindowInsets.left, 0, systemWindowInsets.right, i2);
             } else if (type != 8) {
-                if (type == 16) {
-                    return getSystemGestureInsets();
-                }
-                if (type == 32) {
+                if (type != 16) {
+                    if (type != 32) {
+                        if (type != 64) {
+                            if (type == 128) {
+                                WindowInsetsCompat windowInsetsCompat2 = this.mRootWindowInsets;
+                                if (windowInsetsCompat2 != null) {
+                                    displayCutout = windowInsetsCompat2.getDisplayCutout();
+                                } else {
+                                    displayCutout = getDisplayCutout();
+                                }
+                                if (displayCutout != null) {
+                                    return Insets.of(displayCutout.getSafeInsetLeft(), displayCutout.getSafeInsetTop(), displayCutout.getSafeInsetRight(), displayCutout.getSafeInsetBottom());
+                                }
+                                return Insets.NONE;
+                            }
+                            return Insets.NONE;
+                        }
+                        return getTappableElementInsets();
+                    }
                     return getMandatorySystemGestureInsets();
                 }
-                if (type == 64) {
-                    return getTappableElementInsets();
-                }
-                if (type == 128) {
-                    WindowInsetsCompat windowInsetsCompat2 = this.mRootWindowInsets;
-                    if (windowInsetsCompat2 != null) {
-                        displayCutout = windowInsetsCompat2.getDisplayCutout();
-                    } else {
-                        displayCutout = getDisplayCutout();
-                    }
-                    if (displayCutout != null) {
-                        return Insets.of(displayCutout.getSafeInsetLeft(), displayCutout.getSafeInsetTop(), displayCutout.getSafeInsetRight(), displayCutout.getSafeInsetBottom());
-                    }
-                    return Insets.NONE;
-                }
-                return Insets.NONE;
+                return getSystemGestureInsets();
             } else {
                 Insets[] insetsArr = this.mOverriddenInsets;
-                if (insetsArr != null) {
-                    insets = insetsArr[Type.indexOf(8)];
-                }
-                if (insets != null) {
-                    return insets;
+                stableInsets = insetsArr != null ? insetsArr[Type.indexOf(8)] : null;
+                if (stableInsets != null) {
+                    return stableInsets;
                 }
                 Insets systemWindowInsets2 = getSystemWindowInsets();
                 Insets rootStableInsets2 = getRootStableInsets();
@@ -362,8 +358,8 @@ public class WindowInsetsCompat {
                 if (i3 > rootStableInsets2.bottom) {
                     return Insets.of(0, 0, 0, i3);
                 }
-                Insets insets2 = this.mRootViewVisibleInsets;
-                if (insets2 != null && !insets2.equals(Insets.NONE) && (i = this.mRootViewVisibleInsets.bottom) > rootStableInsets2.bottom) {
+                Insets insets = this.mRootViewVisibleInsets;
+                if (insets != null && !insets.equals(Insets.NONE) && (i = this.mRootViewVisibleInsets.bottom) > rootStableInsets2.bottom) {
                     return Insets.of(0, 0, 0, i);
                 }
                 return Insets.NONE;
@@ -427,10 +423,10 @@ public class WindowInsetsCompat {
                         return null;
                     }
                     Rect rect = (Rect) sVisibleInsetsField.get(sAttachInfoField.get(invoke));
-                    if (rect == null) {
-                        return null;
+                    if (rect != null) {
+                        return Insets.of(rect);
                     }
-                    return Insets.of(rect);
+                    return null;
                 } catch (ReflectiveOperationException e) {
                     Log.e("WindowInsetsCompat", "Failed to get visible insets. (Reflection error). " + e.getMessage(), e);
                 }
@@ -462,10 +458,10 @@ public class WindowInsetsCompat {
 
         @Override // androidx.core.view.WindowInsetsCompat.Impl
         public boolean equals(Object o) {
-            if (!super.equals(o)) {
-                return false;
+            if (super.equals(o)) {
+                return Objects.equals(this.mRootViewVisibleInsets, ((Impl20) o).mRootViewVisibleInsets);
             }
-            return Objects.equals(this.mRootViewVisibleInsets, ((Impl20) o).mRootViewVisibleInsets);
+            return false;
         }
     }
 
@@ -538,11 +534,11 @@ public class WindowInsetsCompat {
             if (this == o) {
                 return true;
             }
-            if (!(o instanceof Impl28)) {
-                return false;
+            if (o instanceof Impl28) {
+                Impl28 impl28 = (Impl28) o;
+                return Objects.equals(this.mPlatformInsets, impl28.mPlatformInsets) && Objects.equals(this.mRootViewVisibleInsets, impl28.mRootViewVisibleInsets);
             }
-            Impl28 impl28 = (Impl28) o;
-            return Objects.equals(this.mPlatformInsets, impl28.mPlatformInsets) && Objects.equals(this.mRootViewVisibleInsets, impl28.mRootViewVisibleInsets);
+            return false;
         }
 
         @Override // androidx.core.view.WindowInsetsCompat.Impl
@@ -553,9 +549,9 @@ public class WindowInsetsCompat {
 
     /* loaded from: classes.dex */
     private static class Impl29 extends Impl28 {
-        private Insets mSystemGestureInsets = null;
-        private Insets mMandatorySystemGestureInsets = null;
-        private Insets mTappableElementInsets = null;
+        private Insets mMandatorySystemGestureInsets;
+        private Insets mSystemGestureInsets;
+        private Insets mTappableElementInsets;
 
         @Override // androidx.core.view.WindowInsetsCompat.Impl21, androidx.core.view.WindowInsetsCompat.Impl
         public void setStableInsets(Insets stableInsets) {
@@ -563,10 +559,16 @@ public class WindowInsetsCompat {
 
         Impl29(WindowInsetsCompat host, WindowInsets insets) {
             super(host, insets);
+            this.mSystemGestureInsets = null;
+            this.mMandatorySystemGestureInsets = null;
+            this.mTappableElementInsets = null;
         }
 
         Impl29(WindowInsetsCompat host, Impl29 other) {
             super(host, other);
+            this.mSystemGestureInsets = null;
+            this.mMandatorySystemGestureInsets = null;
+            this.mTappableElementInsets = null;
         }
 
         @Override // androidx.core.view.WindowInsetsCompat.Impl
@@ -713,10 +715,9 @@ public class WindowInsetsCompat {
                     setMandatorySystemGestureInsets(insets4);
                 }
                 Insets insets5 = this.mInsetsTypeMask[Type.indexOf(64)];
-                if (insets5 == null) {
-                    return;
+                if (insets5 != null) {
+                    setTappableElementInsets(insets5);
                 }
-                setTappableElementInsets(insets5);
             }
         }
 
@@ -886,31 +887,31 @@ public class WindowInsetsCompat {
 
         static int indexOf(int type) {
             if (type != 1) {
-                if (type == 2) {
-                    return 1;
-                }
-                if (type == 4) {
+                if (type != 2) {
+                    if (type != 4) {
+                        if (type != 8) {
+                            if (type != 16) {
+                                if (type != 32) {
+                                    if (type != 64) {
+                                        if (type != 128) {
+                                            if (type == 256) {
+                                                return 8;
+                                            }
+                                            throw new IllegalArgumentException("type needs to be >= FIRST and <= LAST, type=" + type);
+                                        }
+                                        return 7;
+                                    }
+                                    return 6;
+                                }
+                                return 5;
+                            }
+                            return 4;
+                        }
+                        return 3;
+                    }
                     return 2;
                 }
-                if (type == 8) {
-                    return 3;
-                }
-                if (type == 16) {
-                    return 4;
-                }
-                if (type == 32) {
-                    return 5;
-                }
-                if (type == 64) {
-                    return 6;
-                }
-                if (type == 128) {
-                    return 7;
-                }
-                if (type == 256) {
-                    return 8;
-                }
-                throw new IllegalArgumentException("type needs to be >= FIRST and <= LAST, type=" + type);
+                return 1;
             }
             return 0;
         }

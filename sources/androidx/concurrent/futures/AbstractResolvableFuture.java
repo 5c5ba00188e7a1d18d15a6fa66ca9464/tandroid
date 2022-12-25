@@ -167,56 +167,13 @@ public abstract class AbstractResolvableFuture<V> implements ListenableFuture<V>
             if (this.owner.value != this) {
                 return;
             }
-            if (!AbstractResolvableFuture.ATOMIC_HELPER.casValue(this.owner, this, AbstractResolvableFuture.getFutureValue(this.future))) {
-                return;
+            if (AbstractResolvableFuture.ATOMIC_HELPER.casValue(this.owner, this, AbstractResolvableFuture.getFutureValue(this.future))) {
+                AbstractResolvableFuture.complete(this.owner);
             }
-            AbstractResolvableFuture.complete(this.owner);
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:25:0x004c, code lost:
-        java.util.concurrent.locks.LockSupport.parkNanos(r19, r4);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:26:0x0053, code lost:
-        if (java.lang.Thread.interrupted() != false) goto L40;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:27:0x0055, code lost:
-        r4 = r19.value;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:28:0x0057, code lost:
-        if (r4 == null) goto L39;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:29:0x0059, code lost:
-        r5 = true;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:31:0x0060, code lost:
-        if ((r5 & (!(r4 instanceof androidx.concurrent.futures.AbstractResolvableFuture.SetFuture))) == false) goto L32;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:32:0x0067, code lost:
-        r4 = r11 - java.lang.System.nanoTime();
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:33:0x006f, code lost:
-        if (r4 >= 1000) goto L25;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:35:0x0071, code lost:
-        removeWaiter(r15);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:38:0x0066, code lost:
-        return getDoneValue(r4);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:39:0x005b, code lost:
-        r5 = false;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:41:0x0075, code lost:
-        removeWaiter(r15);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:42:0x007d, code lost:
-        throw new java.lang.InterruptedException();
-     */
     @Override // java.util.concurrent.Future
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
     public final V get(long j, TimeUnit timeUnit) throws InterruptedException, TimeoutException, ExecutionException {
         Locale locale;
         long nanos = timeUnit.toNanos(j);
@@ -235,18 +192,31 @@ public abstract class AbstractResolvableFuture<V> implements ListenableFuture<V>
                 do {
                     waiter2.setNext(waiter);
                     if (ATOMIC_HELPER.casWaiters(this, waiter, waiter2)) {
-                        break;
+                        do {
+                            LockSupport.parkNanos(this, nanos);
+                            if (Thread.interrupted()) {
+                                removeWaiter(waiter2);
+                                throw new InterruptedException();
+                            }
+                            Object obj2 = this.value;
+                            if ((obj2 != null) & (!(obj2 instanceof SetFuture))) {
+                                return getDoneValue(obj2);
+                            }
+                            nanos = nanoTime - System.nanoTime();
+                        } while (nanos >= 1000);
+                        removeWaiter(waiter2);
+                    } else {
+                        waiter = this.waiters;
                     }
-                    waiter = this.waiters;
                 } while (waiter != Waiter.TOMBSTONE);
                 return getDoneValue(this.value);
             }
             return getDoneValue(this.value);
         }
         while (nanos > 0) {
-            Object obj2 = this.value;
-            if ((obj2 != null) & (!(obj2 instanceof SetFuture))) {
-                return getDoneValue(obj2);
+            Object obj3 = this.value;
+            if ((obj3 != null) & (!(obj3 instanceof SetFuture))) {
+                return getDoneValue(obj3);
             }
             if (Thread.interrupted()) {
                 throw new InterruptedException();
@@ -280,47 +250,15 @@ public abstract class AbstractResolvableFuture<V> implements ListenableFuture<V>
         throw new TimeoutException(str + " for " + abstractResolvableFuture);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:20:0x0030, code lost:
-        java.util.concurrent.locks.LockSupport.park(r6);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:21:0x0037, code lost:
-        if (java.lang.Thread.interrupted() != false) goto L31;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:22:0x0039, code lost:
-        r0 = r6.value;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:23:0x003b, code lost:
-        if (r0 == null) goto L30;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:24:0x003d, code lost:
-        r4 = true;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:26:0x0044, code lost:
-        if ((r4 & (!(r0 instanceof androidx.concurrent.futures.AbstractResolvableFuture.SetFuture))) == false) goto L20;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:29:0x004a, code lost:
-        return getDoneValue(r0);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:30:0x003f, code lost:
-        r4 = false;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:32:0x004b, code lost:
-        removeWaiter(r3);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:33:0x0053, code lost:
-        throw new java.lang.InterruptedException();
-     */
     @Override // java.util.concurrent.Future
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
     public final V get() throws InterruptedException, ExecutionException {
+        Object obj;
         if (Thread.interrupted()) {
             throw new InterruptedException();
         }
-        Object obj = this.value;
-        if ((obj != null) & (!(obj instanceof SetFuture))) {
-            return getDoneValue(obj);
+        Object obj2 = this.value;
+        if ((obj2 != null) & (!(obj2 instanceof SetFuture))) {
+            return getDoneValue(obj2);
         }
         Waiter waiter = this.waiters;
         if (waiter != Waiter.TOMBSTONE) {
@@ -328,7 +266,15 @@ public abstract class AbstractResolvableFuture<V> implements ListenableFuture<V>
             do {
                 waiter2.setNext(waiter);
                 if (ATOMIC_HELPER.casWaiters(this, waiter, waiter2)) {
-                    break;
+                    do {
+                        LockSupport.park(this);
+                        if (Thread.interrupted()) {
+                            removeWaiter(waiter2);
+                            throw new InterruptedException();
+                        }
+                        obj = this.value;
+                    } while (!((obj != null) & (!(obj instanceof SetFuture))));
+                    return getDoneValue(obj);
                 }
                 waiter = this.waiters;
             } while (waiter != Waiter.TOMBSTONE);
@@ -345,10 +291,10 @@ public abstract class AbstractResolvableFuture<V> implements ListenableFuture<V>
         if (obj instanceof Failure) {
             throw new ExecutionException(((Failure) obj).exception);
         }
-        if (obj != NULL) {
-            return obj;
+        if (obj == NULL) {
+            return null;
         }
-        return null;
+        return obj;
     }
 
     @Override // java.util.concurrent.Future
@@ -365,40 +311,39 @@ public abstract class AbstractResolvableFuture<V> implements ListenableFuture<V>
     @Override // java.util.concurrent.Future
     public final boolean cancel(boolean z) {
         Object obj = this.value;
-        if ((obj == null) || (obj instanceof SetFuture)) {
-            Cancellation cancellation = GENERATE_CANCELLATION_CAUSES ? new Cancellation(z, new CancellationException("Future.cancel() was called.")) : z ? Cancellation.CAUSELESS_INTERRUPTED : Cancellation.CAUSELESS_CANCELLED;
-            boolean z2 = false;
-            AbstractResolvableFuture<V> abstractResolvableFuture = this;
-            while (true) {
-                if (ATOMIC_HELPER.casValue(abstractResolvableFuture, obj, cancellation)) {
-                    if (z) {
-                        abstractResolvableFuture.interruptTask();
-                    }
-                    complete(abstractResolvableFuture);
-                    if (!(obj instanceof SetFuture)) {
-                        return true;
-                    }
-                    ListenableFuture<? extends V> listenableFuture = ((SetFuture) obj).future;
-                    if (listenableFuture instanceof AbstractResolvableFuture) {
-                        abstractResolvableFuture = (AbstractResolvableFuture) listenableFuture;
-                        obj = abstractResolvableFuture.value;
-                        if (!(obj == null) && !(obj instanceof SetFuture)) {
-                            return true;
-                        }
-                        z2 = true;
-                    } else {
-                        listenableFuture.cancel(z);
-                        return true;
-                    }
-                } else {
+        if (!(obj == null) && !(obj instanceof SetFuture)) {
+            return false;
+        }
+        Cancellation cancellation = GENERATE_CANCELLATION_CAUSES ? new Cancellation(z, new CancellationException("Future.cancel() was called.")) : z ? Cancellation.CAUSELESS_INTERRUPTED : Cancellation.CAUSELESS_CANCELLED;
+        boolean z2 = false;
+        AbstractResolvableFuture<V> abstractResolvableFuture = this;
+        while (true) {
+            if (ATOMIC_HELPER.casValue(abstractResolvableFuture, obj, cancellation)) {
+                if (z) {
+                    abstractResolvableFuture.interruptTask();
+                }
+                complete(abstractResolvableFuture);
+                if (!(obj instanceof SetFuture)) {
+                    return true;
+                }
+                ListenableFuture<? extends V> listenableFuture = ((SetFuture) obj).future;
+                if (listenableFuture instanceof AbstractResolvableFuture) {
+                    abstractResolvableFuture = (AbstractResolvableFuture) listenableFuture;
                     obj = abstractResolvableFuture.value;
-                    if (!(obj instanceof SetFuture)) {
-                        return z2;
+                    if (!(obj == null) && !(obj instanceof SetFuture)) {
+                        return true;
                     }
+                    z2 = true;
+                } else {
+                    listenableFuture.cancel(z);
+                    return true;
+                }
+            } else {
+                obj = abstractResolvableFuture.value;
+                if (!(obj instanceof SetFuture)) {
+                    return z2;
                 }
             }
-        } else {
-            return false;
         }
     }
 
@@ -445,11 +390,11 @@ public abstract class AbstractResolvableFuture<V> implements ListenableFuture<V>
     static Object getFutureValue(ListenableFuture<?> listenableFuture) {
         if (listenableFuture instanceof AbstractResolvableFuture) {
             Object obj = ((AbstractResolvableFuture) listenableFuture).value;
-            if (!(obj instanceof Cancellation)) {
-                return obj;
+            if (obj instanceof Cancellation) {
+                Cancellation cancellation = (Cancellation) obj;
+                return cancellation.wasInterrupted ? cancellation.cause != null ? new Cancellation(false, cancellation.cause) : Cancellation.CAUSELESS_CANCELLED : obj;
             }
-            Cancellation cancellation = (Cancellation) obj;
-            return cancellation.wasInterrupted ? cancellation.cause != null ? new Cancellation(false, cancellation.cause) : Cancellation.CAUSELESS_CANCELLED : obj;
+            return obj;
         }
         boolean isCancelled = listenableFuture.isCancelled();
         if ((!GENERATE_CANCELLATION_CAUSES) & isCancelled) {
@@ -585,10 +530,10 @@ public abstract class AbstractResolvableFuture<V> implements ListenableFuture<V>
         Object obj = this.value;
         if (obj instanceof SetFuture) {
             return "setFuture=[" + userObjectToString(((SetFuture) obj).future) + "]";
-        } else if (!(this instanceof ScheduledFuture)) {
-            return null;
-        } else {
+        } else if (this instanceof ScheduledFuture) {
             return "remaining delay=[" + ((ScheduledFuture) this).getDelay(TimeUnit.MILLISECONDS) + " ms]";
+        } else {
+            return null;
         }
     }
 

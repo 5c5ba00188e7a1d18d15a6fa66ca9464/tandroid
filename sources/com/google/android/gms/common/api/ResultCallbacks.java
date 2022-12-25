@@ -15,13 +15,12 @@ public abstract class ResultCallbacks<R extends Result> implements ResultCallbac
             return;
         }
         onFailure(status);
-        if (!(r instanceof Releasable)) {
-            return;
-        }
-        try {
-            ((Releasable) r).release();
-        } catch (RuntimeException e) {
-            Log.w("ResultCallbacks", "Unable to release ".concat(String.valueOf(r)), e);
+        if (r instanceof Releasable) {
+            try {
+                ((Releasable) r).release();
+            } catch (RuntimeException e) {
+                Log.w("ResultCallbacks", "Unable to release ".concat(String.valueOf(r)), e);
+            }
         }
     }
 

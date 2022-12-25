@@ -27,10 +27,14 @@ import org.telegram.tgnet.TLRPC$TL_documentAttributeFilename;
 import org.telegram.tgnet.TLRPC$TL_documentAttributeVideo;
 /* loaded from: classes3.dex */
 public class VideoSeekPreviewImage extends View {
+    private Paint bitmapPaint;
+    private RectF bitmapRect;
     private BitmapShader bitmapShader;
     private Bitmap bitmapToDraw;
     private Bitmap bitmapToRecycle;
+    private int currentPixel;
     private VideoSeekPreviewImageDelegate delegate;
+    private RectF dstR;
     private long duration;
     private AnimatedFileDrawable fileDrawable;
     private Drawable frameDrawable;
@@ -38,10 +42,13 @@ public class VideoSeekPreviewImage extends View {
     private boolean isYoutube;
     private int lastYoutubePosition;
     private Runnable loadRunnable;
+    private Matrix matrix;
+    private Paint paint;
     private float pendingProgress;
     private int pixelWidth;
     private Runnable progressRunnable;
     private boolean ready;
+    private TextPaint textPaint;
     private int timeWidth;
     private Uri videoUri;
     private PhotoViewerWebView webView;
@@ -50,14 +57,7 @@ public class VideoSeekPreviewImage extends View {
     private int ytImageWidth;
     private int ytImageX;
     private int ytImageY;
-    private int currentPixel = -1;
-    private TextPaint textPaint = new TextPaint(1);
-    private RectF dstR = new RectF();
-    private Paint paint = new Paint(2);
-    private Paint bitmapPaint = new Paint(2);
-    private RectF bitmapRect = new RectF();
-    private Matrix matrix = new Matrix();
-    private Path ytPath = new Path();
+    private Path ytPath;
 
     /* loaded from: classes3.dex */
     public interface VideoSeekPreviewImageDelegate {
@@ -66,6 +66,14 @@ public class VideoSeekPreviewImage extends View {
 
     public VideoSeekPreviewImage(Context context, VideoSeekPreviewImageDelegate videoSeekPreviewImageDelegate) {
         super(context);
+        this.currentPixel = -1;
+        this.textPaint = new TextPaint(1);
+        this.dstR = new RectF();
+        this.paint = new Paint(2);
+        this.bitmapPaint = new Paint(2);
+        this.bitmapRect = new RectF();
+        this.matrix = new Matrix();
+        this.ytPath = new Path();
         setVisibility(4);
         this.frameDrawable = context.getResources().getDrawable(R.drawable.videopreview);
         this.textPaint.setTextSize(AndroidUtilities.dp(13.0f));
@@ -354,8 +362,7 @@ public class VideoSeekPreviewImage extends View {
             this.frameDrawable.setBounds(0, 0, getMeasuredWidth(), getMeasuredHeight());
             this.frameDrawable.draw(canvas);
             canvas.drawText(this.frameTime, (getMeasuredWidth() - this.timeWidth) / 2.0f, getMeasuredHeight() - AndroidUtilities.dp(9.0f), this.textPaint);
-        } else if (!this.isYoutube) {
-        } else {
+        } else if (this.isYoutube) {
             canvas.save();
             this.ytPath.rewind();
             RectF rectF = AndroidUtilities.rectTmp;

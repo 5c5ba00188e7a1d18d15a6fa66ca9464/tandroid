@@ -67,16 +67,16 @@ public class TextStyleSpan extends MetricAffectingSpan {
         public Typeface getTypeface() {
             int i = this.flags;
             if ((i & 4) == 0 && (i & 32) == 0) {
-                if ((i & 1) != 0 && (i & 2) != 0) {
-                    return AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM_ITALIC);
-                }
-                if ((i & 1) != 0) {
-                    return AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM);
-                }
-                if ((i & 2) == 0) {
+                if ((i & 1) == 0 || (i & 2) == 0) {
+                    if ((i & 1) != 0) {
+                        return AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM);
+                    }
+                    if ((i & 2) != 0) {
+                        return AndroidUtilities.getTypeface("fonts/ritalic.ttf");
+                    }
                     return null;
                 }
-                return AndroidUtilities.getTypeface("fonts/ritalic.ttf");
+                return AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM_ITALIC);
             }
             return Typeface.MONOSPACE;
         }

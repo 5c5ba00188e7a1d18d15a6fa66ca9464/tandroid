@@ -8,12 +8,12 @@ public abstract class TLRPC$auth_Authorization extends TLObject {
         } else {
             tLRPC$TL_auth_authorization = new TLRPC$TL_auth_authorization();
         }
-        if (tLRPC$TL_auth_authorization != null || !z) {
-            if (tLRPC$TL_auth_authorization != null) {
-                tLRPC$TL_auth_authorization.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_auth_authorization;
+        if (tLRPC$TL_auth_authorization == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in auth_Authorization", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in auth_Authorization", Integer.valueOf(i)));
+        if (tLRPC$TL_auth_authorization != null) {
+            tLRPC$TL_auth_authorization.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_auth_authorization;
     }
 }

@@ -168,10 +168,10 @@ public final class GoogleMapOptions extends AbstractSafeParcelable implements Re
         int i4 = R$styleable.MapAttrs_latLngBoundsNorthEastLongitude;
         Float valueOf4 = obtainAttributes.hasValue(i4) ? Float.valueOf(obtainAttributes.getFloat(i4, 0.0f)) : null;
         obtainAttributes.recycle();
-        if (valueOf != null && valueOf2 != null && valueOf3 != null && valueOf4 != null) {
-            return new LatLngBounds(new LatLng(valueOf.floatValue(), valueOf2.floatValue()), new LatLng(valueOf3.floatValue(), valueOf4.floatValue()));
+        if (valueOf == null || valueOf2 == null || valueOf3 == null || valueOf4 == null) {
+            return null;
         }
-        return null;
+        return new LatLngBounds(new LatLng(valueOf.floatValue(), valueOf2.floatValue()), new LatLng(valueOf3.floatValue(), valueOf4.floatValue()));
     }
 
     public GoogleMapOptions ambientEnabled(boolean z) {

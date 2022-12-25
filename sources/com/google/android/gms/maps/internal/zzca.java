@@ -39,10 +39,9 @@ public final class zzca {
         if (bundle.containsKey("position")) {
             bundle2.putString("position", bundle.getString("position"));
         }
-        if (!bundle.containsKey("com.google.android.wearable.compat.extra.LOWBIT_AMBIENT")) {
-            return;
+        if (bundle.containsKey("com.google.android.wearable.compat.extra.LOWBIT_AMBIENT")) {
+            bundle2.putBoolean("com.google.android.wearable.compat.extra.LOWBIT_AMBIENT", bundle.getBoolean("com.google.android.wearable.compat.extra.LOWBIT_AMBIENT", false));
         }
-        bundle2.putBoolean("com.google.android.wearable.compat.extra.LOWBIT_AMBIENT", bundle.getBoolean("com.google.android.wearable.compat.extra.LOWBIT_AMBIENT", false));
     }
 
     public static void zzc(Bundle bundle, String str, Parcelable parcelable) {

@@ -70,13 +70,14 @@ public class AnalyticsCollector implements Player.EventListener, MetadataOutput,
     }
 
     public final void notifySeekStarted() {
-        if (!this.mediaPeriodQueueTracker.isSeeking()) {
-            AnalyticsListener.EventTime generatePlayingMediaPeriodEventTime = generatePlayingMediaPeriodEventTime();
-            this.mediaPeriodQueueTracker.onSeekStarted();
-            Iterator<AnalyticsListener> it = this.listeners.iterator();
-            while (it.hasNext()) {
-                it.next().onSeekStarted(generatePlayingMediaPeriodEventTime);
-            }
+        if (this.mediaPeriodQueueTracker.isSeeking()) {
+            return;
+        }
+        AnalyticsListener.EventTime generatePlayingMediaPeriodEventTime = generatePlayingMediaPeriodEventTime();
+        this.mediaPeriodQueueTracker.onSeekStarted();
+        Iterator<AnalyticsListener> it = this.listeners.iterator();
+        while (it.hasNext()) {
+            it.next().onSeekStarted(generatePlayingMediaPeriodEventTime);
         }
     }
 
@@ -493,10 +494,7 @@ public class AnalyticsCollector implements Player.EventListener, MetadataOutput,
         boolean z2 = timeline == this.player.getCurrentTimeline() && i == this.player.getCurrentWindowIndex();
         long j = 0;
         if (mediaPeriodId2 != null && mediaPeriodId2.isAd()) {
-            if (!z2 || this.player.getCurrentAdGroupIndex() != mediaPeriodId2.adGroupIndex || this.player.getCurrentAdIndexInAdGroup() != mediaPeriodId2.adIndexInAdGroup) {
-                z = false;
-            }
-            if (z) {
+            if ((z2 && this.player.getCurrentAdGroupIndex() == mediaPeriodId2.adGroupIndex && this.player.getCurrentAdIndexInAdGroup() == mediaPeriodId2.adIndexInAdGroup) ? false : false) {
                 j = this.player.getCurrentPosition();
             }
         } else if (z2) {

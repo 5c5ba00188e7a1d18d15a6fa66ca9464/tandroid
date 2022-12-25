@@ -24,12 +24,8 @@ public class TLRPC$TL_pollAnswerVoters extends TLObject {
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
         int readInt32 = abstractSerializedData.readInt32(z);
         this.flags = readInt32;
-        boolean z2 = false;
         this.chosen = (readInt32 & 1) != 0;
-        if ((readInt32 & 2) != 0) {
-            z2 = true;
-        }
-        this.correct = z2;
+        this.correct = (readInt32 & 2) != 0;
         this.option = abstractSerializedData.readByteArray(z);
         this.voters = abstractSerializedData.readInt32(z);
     }

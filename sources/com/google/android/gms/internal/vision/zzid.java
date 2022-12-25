@@ -66,22 +66,22 @@ public class zzid extends zzia {
         if (obj == this) {
             return true;
         }
-        if (!(obj instanceof zzht) || zza() != ((zzht) obj).zza()) {
-            return false;
-        }
-        if (zza() == 0) {
-            return true;
-        }
-        if (obj instanceof zzid) {
-            zzid zzidVar = (zzid) obj;
-            int zzd = zzd();
-            int zzd2 = zzidVar.zzd();
-            if (zzd != 0 && zzd2 != 0 && zzd != zzd2) {
+        if ((obj instanceof zzht) && zza() == ((zzht) obj).zza()) {
+            if (zza() == 0) {
+                return true;
+            }
+            if (obj instanceof zzid) {
+                zzid zzidVar = (zzid) obj;
+                int zzd = zzd();
+                int zzd2 = zzidVar.zzd();
+                if (zzd == 0 || zzd2 == 0 || zzd == zzd2) {
+                    return zza(zzidVar, 0, zza());
+                }
                 return false;
             }
-            return zza(zzidVar, 0, zza());
+            return obj.equals(this);
         }
-        return obj.equals(this);
+        return false;
     }
 
     @Override // com.google.android.gms.internal.vision.zzia

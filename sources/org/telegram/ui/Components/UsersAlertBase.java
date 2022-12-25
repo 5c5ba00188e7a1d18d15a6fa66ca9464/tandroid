@@ -22,7 +22,6 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewPropertyAnimator;
 import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -47,31 +46,31 @@ public class UsersAlertBase extends BottomSheet {
     protected StickerEmptyView emptyView;
     protected FlickerLoadingView flickerLoadingView;
     protected FrameLayout frameLayout;
+    protected boolean isEmptyViewVisible;
+    protected String keyActionBarUnscrolled;
+    protected String keyInviteMembersBackground;
+    protected String keyLastSeenText;
+    protected String keyLastSeenTextUnscrolled;
+    protected String keyListSelector;
+    protected String keyListViewBackground;
+    protected String keyNameText;
+    protected String keyScrollUp;
+    protected String keySearchBackground;
+    protected String keySearchIcon;
+    protected String keySearchIconUnscrolled;
+    protected String keySearchPlaceholder;
+    protected String keySearchText;
     protected final FillLastLinearLayoutManager layoutManager;
     protected RecyclerListView listView;
     protected RecyclerView.Adapter listViewAdapter;
+    protected boolean needSnapToTop;
+    private RectF rect;
     protected int scrollOffsetY;
     protected RecyclerView.Adapter searchListViewAdapter;
     protected SearchField searchView;
     protected View shadow;
     protected AnimatorSet shadowAnimation;
     protected Drawable shadowDrawable;
-    private RectF rect = new RectF();
-    protected boolean needSnapToTop = true;
-    protected boolean isEmptyViewVisible = true;
-    protected String keyScrollUp = "key_sheet_scrollUp";
-    protected String keyListSelector = "listSelectorSDK21";
-    protected String keySearchBackground = "dialogSearchBackground";
-    protected String keyInviteMembersBackground = "windowBackgroundWhite";
-    protected String keyListViewBackground = "windowBackgroundWhite";
-    protected String keyActionBarUnscrolled = "windowBackgroundWhite";
-    protected String keyNameText = "windowBackgroundWhiteBlackText";
-    protected String keyLastSeenText = "windowBackgroundWhiteGrayText";
-    protected String keyLastSeenTextUnscrolled = "windowBackgroundWhiteGrayText";
-    protected String keySearchPlaceholder = "dialogSearchHint";
-    protected String keySearchText = "dialogSearchText";
-    protected String keySearchIcon = "dialogSearchIcon";
-    protected String keySearchIconUnscrolled = "dialogSearchIcon";
 
     @Override // org.telegram.ui.ActionBar.BottomSheet
     protected boolean canDismissWithSwipe() {
@@ -90,6 +89,22 @@ public class UsersAlertBase extends BottomSheet {
 
     public UsersAlertBase(Context context, boolean z, int i, Theme.ResourcesProvider resourcesProvider) {
         super(context, z, resourcesProvider);
+        this.rect = new RectF();
+        this.needSnapToTop = true;
+        this.isEmptyViewVisible = true;
+        this.keyScrollUp = "key_sheet_scrollUp";
+        this.keyListSelector = "listSelectorSDK21";
+        this.keySearchBackground = "dialogSearchBackground";
+        this.keyInviteMembersBackground = "windowBackgroundWhite";
+        this.keyListViewBackground = "windowBackgroundWhite";
+        this.keyActionBarUnscrolled = "windowBackgroundWhite";
+        this.keyNameText = "windowBackgroundWhiteBlackText";
+        this.keyLastSeenText = "windowBackgroundWhiteGrayText";
+        this.keyLastSeenTextUnscrolled = "windowBackgroundWhiteGrayText";
+        this.keySearchPlaceholder = "dialogSearchHint";
+        this.keySearchText = "dialogSearchText";
+        this.keySearchIcon = "dialogSearchIcon";
+        this.keySearchIconUnscrolled = "dialogSearchIcon";
         updateColorKeys();
         setDimBehindAlpha(75);
         this.currentAccount = i;
@@ -281,18 +296,8 @@ public class UsersAlertBase extends BottomSheet {
                 public void afterTextChanged(Editable editable) {
                     RecyclerListView recyclerListView;
                     boolean z = SearchField.this.searchEditText.length() > 0;
-                    float f = 0.0f;
                     if (z != (SearchField.this.clearSearchImageView.getAlpha() != 0.0f)) {
-                        ViewPropertyAnimator animate = SearchField.this.clearSearchImageView.animate();
-                        float f2 = 1.0f;
-                        if (z) {
-                            f = 1.0f;
-                        }
-                        ViewPropertyAnimator scaleX = animate.alpha(f).setDuration(150L).scaleX(z ? 1.0f : 0.1f);
-                        if (!z) {
-                            f2 = 0.1f;
-                        }
-                        scaleX.scaleY(f2).start();
+                        SearchField.this.clearSearchImageView.animate().alpha(z ? 1.0f : 0.0f).setDuration(150L).scaleX(z ? 1.0f : 0.1f).scaleY(z ? 1.0f : 0.1f).start();
                     }
                     String obj = SearchField.this.searchEditText.getText().toString();
                     int itemCount = UsersAlertBase.this.listView.getAdapter() == null ? 0 : UsersAlertBase.this.listView.getAdapter().getItemCount();
@@ -332,10 +337,10 @@ public class UsersAlertBase extends BottomSheet {
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ boolean lambda$new$1(TextView textView, int i, KeyEvent keyEvent) {
             if (keyEvent != null) {
-                if ((keyEvent.getAction() != 1 || keyEvent.getKeyCode() != 84) && (keyEvent.getAction() != 0 || keyEvent.getKeyCode() != 66)) {
+                if ((keyEvent.getAction() == 1 && keyEvent.getKeyCode() == 84) || (keyEvent.getAction() == 0 && keyEvent.getKeyCode() == 66)) {
+                    AndroidUtilities.hideKeyboard(this.searchEditText);
                     return false;
                 }
-                AndroidUtilities.hideKeyboard(this.searchEditText);
                 return false;
             }
             return false;
@@ -419,11 +424,10 @@ public class UsersAlertBase extends BottomSheet {
             runShadowAnimation(true);
             top = i;
         }
-        if (this.scrollOffsetY == top) {
-            return;
+        if (this.scrollOffsetY != top) {
+            this.scrollOffsetY = top;
+            setTranslationY(top);
         }
-        this.scrollOffsetY = top;
-        setTranslationY(top);
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
@@ -484,45 +488,45 @@ public class UsersAlertBase extends BottomSheet {
 
     /* JADX INFO: Access modifiers changed from: protected */
     public void showItemsAnimated(final int i) {
-        if (!isShowing()) {
-            return;
-        }
-        this.listView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() { // from class: org.telegram.ui.Components.UsersAlertBase.5
-            @Override // android.view.ViewTreeObserver.OnPreDrawListener
-            public boolean onPreDraw() {
-                UsersAlertBase.this.listView.getViewTreeObserver().removeOnPreDrawListener(this);
-                int childCount = UsersAlertBase.this.listView.getChildCount();
-                AnimatorSet animatorSet = new AnimatorSet();
-                for (int i2 = 0; i2 < childCount; i2++) {
-                    View childAt = UsersAlertBase.this.listView.getChildAt(i2);
-                    int childAdapterPosition = UsersAlertBase.this.listView.getChildAdapterPosition(childAt);
-                    if (childAdapterPosition >= i) {
-                        if (childAdapterPosition == 1 && UsersAlertBase.this.listView.getAdapter() == UsersAlertBase.this.searchListViewAdapter && (childAt instanceof GraySectionCell)) {
-                            childAt = ((GraySectionCell) childAt).getTextView();
+        if (isShowing()) {
+            this.listView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() { // from class: org.telegram.ui.Components.UsersAlertBase.5
+                @Override // android.view.ViewTreeObserver.OnPreDrawListener
+                public boolean onPreDraw() {
+                    UsersAlertBase.this.listView.getViewTreeObserver().removeOnPreDrawListener(this);
+                    int childCount = UsersAlertBase.this.listView.getChildCount();
+                    AnimatorSet animatorSet = new AnimatorSet();
+                    for (int i2 = 0; i2 < childCount; i2++) {
+                        View childAt = UsersAlertBase.this.listView.getChildAt(i2);
+                        int childAdapterPosition = UsersAlertBase.this.listView.getChildAdapterPosition(childAt);
+                        if (childAdapterPosition >= i) {
+                            if (childAdapterPosition == 1 && UsersAlertBase.this.listView.getAdapter() == UsersAlertBase.this.searchListViewAdapter && (childAt instanceof GraySectionCell)) {
+                                childAt = ((GraySectionCell) childAt).getTextView();
+                            }
+                            childAt.setAlpha(0.0f);
+                            ObjectAnimator ofFloat = ObjectAnimator.ofFloat(childAt, View.ALPHA, 0.0f, 1.0f);
+                            ofFloat.setStartDelay((int) ((Math.min(UsersAlertBase.this.listView.getMeasuredHeight(), Math.max(0, childAt.getTop())) / UsersAlertBase.this.listView.getMeasuredHeight()) * 100.0f));
+                            ofFloat.setDuration(200L);
+                            animatorSet.playTogether(ofFloat);
                         }
-                        childAt.setAlpha(0.0f);
-                        ObjectAnimator ofFloat = ObjectAnimator.ofFloat(childAt, View.ALPHA, 0.0f, 1.0f);
-                        ofFloat.setStartDelay((int) ((Math.min(UsersAlertBase.this.listView.getMeasuredHeight(), Math.max(0, childAt.getTop())) / UsersAlertBase.this.listView.getMeasuredHeight()) * 100.0f));
-                        ofFloat.setDuration(200L);
-                        animatorSet.playTogether(ofFloat);
                     }
+                    animatorSet.start();
+                    return true;
                 }
-                animatorSet.start();
-                return true;
-            }
-        });
+            });
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
     /* loaded from: classes3.dex */
     public class ContainerView extends FrameLayout {
-        private boolean ignoreLayout = false;
+        private boolean ignoreLayout;
         float snapToTopOffset;
         private Boolean statusBarOpen;
         ValueAnimator valueAnimator;
 
         public ContainerView(Context context) {
             super(context);
+            this.ignoreLayout = false;
         }
 
         @Override // android.view.View
@@ -629,9 +633,9 @@ public class UsersAlertBase extends BottomSheet {
             super.requestLayout();
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:11:0x00c3  */
-        /* JADX WARN: Removed duplicated region for block: B:14:0x016a  */
-        /* JADX WARN: Removed duplicated region for block: B:17:0x01a7  */
+        /* JADX WARN: Removed duplicated region for block: B:15:0x00c3  */
+        /* JADX WARN: Removed duplicated region for block: B:18:0x016a  */
+        /* JADX WARN: Removed duplicated region for block: B:21:0x01a7  */
         @Override // android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -645,7 +649,6 @@ public class UsersAlertBase extends BottomSheet {
             UsersAlertBase usersAlertBase2 = UsersAlertBase.this;
             int dp2 = (usersAlertBase2.scrollOffsetY - ((BottomSheet) usersAlertBase2).backgroundPaddingTop) - AndroidUtilities.dp(13.0f);
             int measuredHeight = getMeasuredHeight() + AndroidUtilities.dp(50.0f) + ((BottomSheet) UsersAlertBase.this).backgroundPaddingTop;
-            boolean z = false;
             if (Build.VERSION.SDK_INT >= 21) {
                 int i2 = AndroidUtilities.statusBarHeight;
                 dp2 += i2;
@@ -680,10 +683,7 @@ public class UsersAlertBase extends BottomSheet {
                         Theme.dialogs_onlineCirclePaint.setColor(UsersAlertBase.this.backgroundColor);
                         canvas.drawRect(((BottomSheet) UsersAlertBase.this).backgroundPaddingLeft, (AndroidUtilities.statusBarHeight - i) - getTranslationY(), getMeasuredWidth() - ((BottomSheet) UsersAlertBase.this).backgroundPaddingLeft, AndroidUtilities.statusBarHeight - getTranslationY(), Theme.dialogs_onlineCirclePaint);
                     }
-                    if (i > AndroidUtilities.statusBarHeight / 2) {
-                        z = true;
-                    }
-                    updateLightStatusBar(z);
+                    updateLightStatusBar(i > AndroidUtilities.statusBarHeight / 2);
                     canvas.restore();
                 }
             } else {
@@ -700,26 +700,21 @@ public class UsersAlertBase extends BottomSheet {
             canvas.drawRoundRect(UsersAlertBase.this.rect, AndroidUtilities.dp(2.0f), AndroidUtilities.dp(2.0f), Theme.dialogs_onlineCirclePaint);
             if (i > 0) {
             }
-            if (i > AndroidUtilities.statusBarHeight / 2) {
-            }
-            updateLightStatusBar(z);
+            updateLightStatusBar(i > AndroidUtilities.statusBarHeight / 2);
             canvas.restore();
         }
 
         private void updateLightStatusBar(boolean z) {
             Boolean bool = this.statusBarOpen;
             if (bool == null || bool.booleanValue() != z) {
-                boolean z2 = true;
-                boolean z3 = AndroidUtilities.computePerceivedBrightness(UsersAlertBase.this.getThemedColor("dialogBackground")) > 0.721f;
-                if (AndroidUtilities.computePerceivedBrightness(Theme.blendOver(UsersAlertBase.this.getThemedColor("actionBarDefault"), AndroidUtilities.DARK_STATUS_BAR_OVERLAY)) <= 0.721f) {
-                    z2 = false;
-                }
+                boolean z2 = AndroidUtilities.computePerceivedBrightness(UsersAlertBase.this.getThemedColor("dialogBackground")) > 0.721f;
+                boolean z3 = AndroidUtilities.computePerceivedBrightness(Theme.blendOver(UsersAlertBase.this.getThemedColor("actionBarDefault"), AndroidUtilities.DARK_STATUS_BAR_OVERLAY)) > 0.721f;
                 Boolean valueOf = Boolean.valueOf(z);
                 this.statusBarOpen = valueOf;
                 if (!valueOf.booleanValue()) {
-                    z3 = z2;
+                    z2 = z3;
                 }
-                AndroidUtilities.setLightStatusBar(UsersAlertBase.this.getWindow(), z3);
+                AndroidUtilities.setLightStatusBar(UsersAlertBase.this.getWindow(), z2);
             }
         }
 

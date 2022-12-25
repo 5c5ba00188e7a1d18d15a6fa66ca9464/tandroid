@@ -137,12 +137,12 @@ public abstract class TLRPC$DocumentAttribute extends TLObject {
                 tLRPC$TL_documentAttributeHasStickers = null;
                 break;
         }
-        if (tLRPC$TL_documentAttributeHasStickers != null || !z) {
-            if (tLRPC$TL_documentAttributeHasStickers != null) {
-                tLRPC$TL_documentAttributeHasStickers.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_documentAttributeHasStickers;
+        if (tLRPC$TL_documentAttributeHasStickers == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in DocumentAttribute", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in DocumentAttribute", Integer.valueOf(i)));
+        if (tLRPC$TL_documentAttributeHasStickers != null) {
+            tLRPC$TL_documentAttributeHasStickers.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_documentAttributeHasStickers;
     }
 }

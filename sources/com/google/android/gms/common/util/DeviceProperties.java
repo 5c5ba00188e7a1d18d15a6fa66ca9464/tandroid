@@ -46,10 +46,10 @@ public final class DeviceProperties {
     @TargetApi(26)
     public static boolean isWearableWithoutPlayStore(Context context) {
         if (!isWearable(context) || PlatformVersion.isAtLeastN()) {
-            if (!zza(context)) {
-                return false;
+            if (zza(context)) {
+                return !PlatformVersion.isAtLeastO() || PlatformVersion.isAtLeastR();
             }
-            return !PlatformVersion.isAtLeastO() || PlatformVersion.isAtLeastR();
+            return false;
         }
         return true;
     }

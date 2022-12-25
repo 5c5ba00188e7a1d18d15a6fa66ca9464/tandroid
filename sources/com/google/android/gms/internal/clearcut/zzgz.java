@@ -33,30 +33,30 @@ public final class zzgz extends zzfu<zzgz> implements Cloneable {
         if (obj == this) {
             return true;
         }
-        if (!(obj instanceof zzgz)) {
-            return false;
-        }
-        zzgz zzgzVar = (zzgz) obj;
-        if (!Arrays.equals(this.zzbjb, zzgzVar.zzbjb)) {
-            return false;
-        }
-        String str = this.zzbjc;
-        if (str == null) {
-            if (zzgzVar.zzbjc != null) {
+        if (obj instanceof zzgz) {
+            zzgz zzgzVar = (zzgz) obj;
+            if (Arrays.equals(this.zzbjb, zzgzVar.zzbjb)) {
+                String str = this.zzbjc;
+                if (str == null) {
+                    if (zzgzVar.zzbjc != null) {
+                        return false;
+                    }
+                } else if (!str.equals(zzgzVar.zzbjc)) {
+                    return false;
+                }
+                if (zzfy.zza(this.zzbjd, zzgzVar.zzbjd)) {
+                    zzfw zzfwVar = this.zzrj;
+                    if (zzfwVar == null || zzfwVar.isEmpty()) {
+                        zzfw zzfwVar2 = zzgzVar.zzrj;
+                        return zzfwVar2 == null || zzfwVar2.isEmpty();
+                    }
+                    return this.zzrj.equals(zzgzVar.zzrj);
+                }
                 return false;
             }
-        } else if (!str.equals(zzgzVar.zzbjc)) {
             return false;
         }
-        if (!zzfy.zza(this.zzbjd, zzgzVar.zzbjd)) {
-            return false;
-        }
-        zzfw zzfwVar = this.zzrj;
-        if (zzfwVar != null && !zzfwVar.isEmpty()) {
-            return this.zzrj.equals(zzgzVar.zzrj);
-        }
-        zzfw zzfwVar2 = zzgzVar.zzrj;
-        return zzfwVar2 == null || zzfwVar2.isEmpty();
+        return false;
     }
 
     public final int hashCode() {

@@ -24,13 +24,13 @@ public final class n implements Serializable {
 
     public static n d(long j, long j2, long j3) {
         if (j <= j) {
-            if (j2 > j3) {
-                throw new IllegalArgumentException("Smallest maximum value must be less than largest maximum value");
-            }
-            if (j > j3) {
+            if (j2 <= j3) {
+                if (j <= j3) {
+                    return new n(j, j, j2, j3);
+                }
                 throw new IllegalArgumentException("Minimum value must be less than maximum value");
             }
-            return new n(j, j, j2, j3);
+            throw new IllegalArgumentException("Smallest maximum value must be less than largest maximum value");
         }
         throw new IllegalArgumentException("Smallest minimum value must be less than largest minimum value");
     }
@@ -50,11 +50,11 @@ public final class n implements Serializable {
         if (obj == this) {
             return true;
         }
-        if (!(obj instanceof n)) {
-            return false;
+        if (obj instanceof n) {
+            n nVar = (n) obj;
+            return this.a == nVar.a && this.b == nVar.b && this.c == nVar.c && this.d == nVar.d;
         }
-        n nVar = (n) obj;
-        return this.a == nVar.a && this.b == nVar.b && this.c == nVar.c && this.d == nVar.d;
+        return false;
     }
 
     public int hashCode() {

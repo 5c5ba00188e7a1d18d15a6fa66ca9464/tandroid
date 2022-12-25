@@ -622,48 +622,48 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
 
     @Override // android.view.ViewGroup, android.view.View
     public boolean dispatchTouchEvent(MotionEvent motionEvent) {
-        if (!processTouchEvent(motionEvent) || this.touchCapturedView != null) {
-            if (getChildCount() < 1) {
-                return false;
-            }
-            if (getForegroundView() != null) {
-                View view = this.touchCapturedView;
-                FragmentHolderView foregroundView = getForegroundView();
-                motionEvent.offsetLocation(-getPaddingLeft(), -getPaddingTop());
-                boolean z = this.overlayLayout.dispatchTouchEvent(motionEvent) || view == this.overlayLayout;
-                if (z && motionEvent.getAction() == 0) {
-                    this.touchCapturedView = this.overlayLayout;
-                    MotionEvent obtain = MotionEvent.obtain(0L, 0L, 3, 0.0f, 0.0f, 0);
-                    for (int i = 0; i < getChildCount() - 1; i++) {
-                        getChildAt(i).dispatchTouchEvent(obtain);
-                    }
-                    obtain.recycle();
-                }
-                if (motionEvent.getAction() == 1 || motionEvent.getAction() == 3) {
-                    this.touchCapturedView = null;
-                }
-                if (z) {
-                    return true;
-                }
-                if (view != null) {
-                    return view.dispatchTouchEvent(motionEvent) || motionEvent.getActionMasked() == 0;
-                }
-                boolean dispatchTouchEvent = foregroundView.dispatchTouchEvent(motionEvent);
-                if (dispatchTouchEvent && motionEvent.getAction() == 0) {
-                    this.touchCapturedView = foregroundView;
-                }
-                return dispatchTouchEvent || motionEvent.getActionMasked() == 0;
-            }
-            return super.dispatchTouchEvent(motionEvent);
+        if (processTouchEvent(motionEvent) && this.touchCapturedView == null) {
+            return true;
         }
-        return true;
+        if (getChildCount() < 1) {
+            return false;
+        }
+        if (getForegroundView() != null) {
+            View view = this.touchCapturedView;
+            FragmentHolderView foregroundView = getForegroundView();
+            motionEvent.offsetLocation(-getPaddingLeft(), -getPaddingTop());
+            boolean z = this.overlayLayout.dispatchTouchEvent(motionEvent) || view == this.overlayLayout;
+            if (z && motionEvent.getAction() == 0) {
+                this.touchCapturedView = this.overlayLayout;
+                MotionEvent obtain = MotionEvent.obtain(0L, 0L, 3, 0.0f, 0.0f, 0);
+                for (int i = 0; i < getChildCount() - 1; i++) {
+                    getChildAt(i).dispatchTouchEvent(obtain);
+                }
+                obtain.recycle();
+            }
+            if (motionEvent.getAction() == 1 || motionEvent.getAction() == 3) {
+                this.touchCapturedView = null;
+            }
+            if (z) {
+                return true;
+            }
+            if (view != null) {
+                return view.dispatchTouchEvent(motionEvent) || motionEvent.getActionMasked() == 0;
+            }
+            boolean dispatchTouchEvent = foregroundView.dispatchTouchEvent(motionEvent);
+            if (dispatchTouchEvent && motionEvent.getAction() == 0) {
+                this.touchCapturedView = foregroundView;
+            }
+            return dispatchTouchEvent || motionEvent.getActionMasked() == 0;
+        }
+        return super.dispatchTouchEvent(motionEvent);
     }
 
     @Override // org.telegram.ui.ActionBar.INavigationLayout
     public boolean presentFragment(final INavigationLayout.NavigationParams navigationParams) {
         INavigationLayout.INavigationLayoutDelegate iNavigationLayoutDelegate;
         final BaseFragment baseFragment = navigationParams.fragment;
-        if (navigationParams.isFromDelay || (baseFragment != null && !checkTransitionAnimation() && (((iNavigationLayoutDelegate = this.delegate) == null || !navigationParams.checkPresentFromDelegate || iNavigationLayoutDelegate.needPresentFragment(this, navigationParams)) && baseFragment.onFragmentCreate() && this.delayedPresentAnimation == null))) {
+        if (navigationParams.isFromDelay || !(baseFragment == null || checkTransitionAnimation() || (((iNavigationLayoutDelegate = this.delegate) != null && navigationParams.checkPresentFromDelegate && !iNavigationLayoutDelegate.needPresentFragment(this, navigationParams)) || !baseFragment.onFragmentCreate() || this.delayedPresentAnimation != null))) {
             if (!this.fragmentStack.isEmpty() && getChildCount() < 2) {
                 lambda$rebuildFragments$12(1);
             }
@@ -942,10 +942,9 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
         if (getLastFragment() != null) {
             getLastFragment().onSlideProgressFront(false, this.swipeProgress);
         }
-        if (getBackgroundFragment() == null) {
-            return;
+        if (getBackgroundFragment() != null) {
+            getBackgroundFragment().onSlideProgress(false, this.swipeProgress);
         }
-        getBackgroundFragment().onSlideProgress(false, this.swipeProgress);
     }
 
     @Override // org.telegram.ui.Components.FloatingDebug.FloatingDebugProvider
@@ -1172,6 +1171,7 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
         lambda$rebuildFragments$12(1);
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
     @Override // org.telegram.ui.ActionBar.INavigationLayout
     /* renamed from: rebuildFragments */
     public void lambda$rebuildFragments$12(final int i) {
@@ -1193,8 +1193,8 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
                 removeViewAt(0);
             }
         } else {
-            boolean z = (i & 1) != 0;
-            boolean z2 = (i & 2) == 0 || (z && (!(getBackgroundView() == null || getBackgroundView().fragment == getBackgroundFragment()) || (getForegroundView() != null && getForegroundView().fragment == getLastFragment())));
+            boolean z = (i & 1) != 0 ? 1 : 0;
+            boolean z2 = (i & 2) == 0 || (z != 0 && (!(getBackgroundView() == null || getBackgroundView().fragment == getBackgroundFragment()) || (getForegroundView() != null && getForegroundView().fragment == getLastFragment())));
             if (z2 && getChildCount() >= 3) {
                 View childAt = getChildAt(0);
                 if (childAt instanceof FragmentHolderView) {
@@ -1209,7 +1209,7 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
                 }
                 removeViewAt(0);
             }
-            for (int size = z2 ? 0 : this.fragmentStack.size() - 1; size < this.fragmentStack.size() - (!z ? 1 : 0); size++) {
+            for (int size = z2 ? 0 : this.fragmentStack.size() - 1; size < this.fragmentStack.size() - (!z); size++) {
                 BaseFragment baseFragment = this.fragmentStack.get(size);
                 baseFragment.clearViews();
                 baseFragment.setParentLayout(this);
@@ -1223,10 +1223,9 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
             if (iNavigationLayoutDelegate != null) {
                 iNavigationLayoutDelegate.onRebuildAllFragments(this, z);
             }
-            if (getLastFragment() == null) {
-                return;
+            if (getLastFragment() != null) {
+                getLastFragment().setPaused(false);
             }
-            getLastFragment().setPaused(false);
         }
     }
 
@@ -1271,7 +1270,7 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
         this.delegate = iNavigationLayoutDelegate;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:35:0x0263  */
+    /* JADX WARN: Removed duplicated region for block: B:52:0x0263  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1449,11 +1448,11 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
 
     public void closeLastFragment(boolean z, boolean z2, float f) {
         BaseFragment lastFragment = getLastFragment();
-        if ((lastFragment == null || !lastFragment.closeLastFragment()) && !this.fragmentStack.isEmpty() && !checkTransitionAnimation()) {
-            INavigationLayout.INavigationLayoutDelegate iNavigationLayoutDelegate = this.delegate;
-            if (iNavigationLayoutDelegate != null && !iNavigationLayoutDelegate.needCloseLastFragment(this)) {
-                return;
-            }
+        if ((lastFragment != null && lastFragment.closeLastFragment()) || this.fragmentStack.isEmpty() || checkTransitionAnimation()) {
+            return;
+        }
+        INavigationLayout.INavigationLayoutDelegate iNavigationLayoutDelegate = this.delegate;
+        if (iNavigationLayoutDelegate == null || iNavigationLayoutDelegate.needCloseLastFragment(this)) {
             if (z && !z2 && MessagesController.getGlobalMainSettings().getBoolean("view_animations", true) && (this.useAlphaAnimations || this.fragmentStack.size() >= 2)) {
                 AndroidUtilities.hideKeyboard(this);
                 final BaseFragment lastFragment2 = getLastFragment();
@@ -1475,10 +1474,10 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
                     this.customAnimation = onCustomTransitionAnimation;
                     if (onCustomTransitionAnimation != null) {
                         getForegroundView().setTranslationX(0.0f);
-                        if (getBackgroundView() == null) {
+                        if (getBackgroundView() != null) {
+                            getBackgroundView().setTranslationX(0.0f);
                             return;
                         }
-                        getBackgroundView().setTranslationX(0.0f);
                         return;
                     }
                 }
@@ -1756,10 +1755,10 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
                 if (runnable3 != null) {
                     runnable3.run();
                 }
-                if (runnable == null) {
+                if (runnable != null) {
+                    runnable.run();
                     return;
                 }
-                runnable.run();
                 return;
             }
             Theme.setAnimatingColor(true);
@@ -1795,10 +1794,9 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
                         LNavigation.this.presentingFragmentDescriptions = null;
                         LNavigation.this.themeAnimator = null;
                         Runnable runnable5 = themeAnimationSettings.afterAnimationRunnable;
-                        if (runnable5 == null) {
-                            return;
+                        if (runnable5 != null) {
+                            runnable5.run();
                         }
-                        runnable5.run();
                     }
                 }
 
@@ -1813,10 +1811,9 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
                         LNavigation.this.presentingFragmentDescriptions = null;
                         LNavigation.this.themeAnimator = null;
                         Runnable runnable5 = themeAnimationSettings.afterAnimationRunnable;
-                        if (runnable5 == null) {
-                            return;
+                        if (runnable5 != null) {
+                            runnable5.run();
                         }
-                        runnable5.run();
                     }
                 }
             });
@@ -1921,8 +1918,8 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
         return isInPreviewMode() && isTransitionAnimationInProgress();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:14:0x003b  */
-    /* JADX WARN: Removed duplicated region for block: B:17:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x003b  */
+    /* JADX WARN: Removed duplicated region for block: B:24:? A[RETURN, SYNTHETIC] */
     @Override // org.telegram.ui.ActionBar.INavigationLayout
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1937,15 +1934,15 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
             if (f2 < (-AndroidUtilities.dp(60.0f))) {
                 expandPreviewFragment();
             }
-            if (translationY != f2) {
+            if (translationY == f2) {
+                getForegroundView().setTranslationY(f2);
+                invalidate();
                 return;
             }
-            getForegroundView().setTranslationY(f2);
-            invalidate();
             return;
         }
         f2 = 0.0f;
-        if (translationY != f2) {
+        if (translationY == f2) {
         }
     }
 
@@ -2023,10 +2020,9 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
             this.previewMenu = null;
             this.previewOpenCallback = null;
             this.previewExpandProgress = 0.0f;
-            if (getBackgroundView() == null) {
-                return;
+            if (getBackgroundView() != null) {
+                getBackgroundView().setVisibility(8);
             }
-            getBackgroundView().setVisibility(8);
         }
     }
 
@@ -2142,18 +2138,13 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
             canvas.clipPath(this.path);
             foregroundView.draw(canvas);
             if (drawable != null) {
-                int i = 0;
                 View childAt = foregroundView.getChildAt(0);
                 if (childAt != null) {
                     ViewGroup.MarginLayoutParams marginLayoutParams2 = (ViewGroup.MarginLayoutParams) childAt.getLayoutParams();
                     Rect rect = new Rect();
                     childAt.getLocalVisibleRect(rect);
                     rect.offset(marginLayoutParams2.leftMargin, marginLayoutParams2.topMargin);
-                    int i2 = rect.top;
-                    if (Build.VERSION.SDK_INT >= 21) {
-                        i = AndroidUtilities.statusBarHeight - 1;
-                    }
-                    rect.top = i2 + i;
+                    rect.top += Build.VERSION.SDK_INT >= 21 ? AndroidUtilities.statusBarHeight - 1 : 0;
                     drawable.setAlpha((int) (foregroundView.getAlpha() * 255.0f));
                     drawable.setBounds(rect);
                     drawable.draw(canvas);
@@ -2164,7 +2155,6 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
     }
 
     private void drawPreviewDrawables(Canvas canvas, ViewGroup viewGroup) {
-        int i = 0;
         if (viewGroup.getChildAt(0) != null) {
             ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams) viewGroup.getLayoutParams();
             float max = 1.0f - Math.max(this.swipeProgress, 0.0f);
@@ -2172,20 +2162,15 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
                 max = 1.0f - Math.min(this.previewExpandProgress, 1.0f);
             }
             canvas.drawColor(Color.argb((int) (46.0f * max), 0, 0, 0));
-            if (this.previewMenu != null) {
-                return;
+            if (this.previewMenu == null) {
+                int dp = AndroidUtilities.dp(32.0f);
+                int i = dp / 2;
+                int measuredWidth = (getMeasuredWidth() - dp) / 2;
+                int translationY = (int) ((marginLayoutParams.topMargin + viewGroup.getTranslationY()) - AndroidUtilities.dp((Build.VERSION.SDK_INT < 21 ? 20 : 0) + 12));
+                Theme.moveUpDrawable.setAlpha((int) (max * 255.0f));
+                Theme.moveUpDrawable.setBounds(measuredWidth, translationY, dp + measuredWidth, i + translationY);
+                Theme.moveUpDrawable.draw(canvas);
             }
-            int dp = AndroidUtilities.dp(32.0f);
-            int i2 = dp / 2;
-            int measuredWidth = (getMeasuredWidth() - dp) / 2;
-            float translationY = marginLayoutParams.topMargin + viewGroup.getTranslationY();
-            if (Build.VERSION.SDK_INT < 21) {
-                i = 20;
-            }
-            int dp2 = (int) (translationY - AndroidUtilities.dp(i + 12));
-            Theme.moveUpDrawable.setAlpha((int) (max * 255.0f));
-            Theme.moveUpDrawable.setBounds(measuredWidth, dp2, dp + measuredWidth, i2 + dp2);
-            Theme.moveUpDrawable.draw(canvas);
         }
     }
 
@@ -2248,8 +2233,7 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
         }
         if (getCurrentActionBar() != null && !getCurrentActionBar().isActionModeShowed() && getCurrentActionBar().isSearchFieldVisible()) {
             getCurrentActionBar().closeSearchField();
-        } else if (!getLastFragment().onBackPressed()) {
-        } else {
+        } else if (getLastFragment().onBackPressed()) {
             closeLastFragment(true);
         }
     }
@@ -2327,12 +2311,13 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
     /* loaded from: classes.dex */
     public final class FragmentHolderView extends FrameLayout {
         private int backgroundColor;
-        private Paint backgroundPaint = new Paint();
+        private Paint backgroundPaint;
         private BaseFragment fragment;
         private int fragmentPanTranslationOffset;
 
         public FragmentHolderView(Context context) {
             super(context);
+            this.backgroundPaint = new Paint();
             setWillNotDraw(false);
         }
 
@@ -2515,9 +2500,9 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
 
     private boolean isIgnoredView0(View view, MotionEvent motionEvent, Rect rect) {
         view.getGlobalVisibleRect(rect);
-        if (view.getVisibility() != 0 || !rect.contains((int) motionEvent.getX(), (int) motionEvent.getY())) {
-            return false;
+        if (view.getVisibility() == 0 && rect.contains((int) motionEvent.getX(), (int) motionEvent.getY())) {
+            return view instanceof ViewPager ? ((ViewPager) view).getCurrentItem() != 0 : view.canScrollHorizontally(-1) || (view instanceof SeekBarView);
         }
-        return view instanceof ViewPager ? ((ViewPager) view).getCurrentItem() != 0 : view.canScrollHorizontally(-1) || (view instanceof SeekBarView);
+        return false;
     }
 }

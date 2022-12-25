@@ -64,10 +64,10 @@ final class FormatInformation {
     }
 
     public boolean equals(Object obj) {
-        if (!(obj instanceof FormatInformation)) {
-            return false;
+        if (obj instanceof FormatInformation) {
+            FormatInformation formatInformation = (FormatInformation) obj;
+            return this.errorCorrectionLevel == formatInformation.errorCorrectionLevel && this.dataMask == formatInformation.dataMask;
         }
-        FormatInformation formatInformation = (FormatInformation) obj;
-        return this.errorCorrectionLevel == formatInformation.errorCorrectionLevel && this.dataMask == formatInformation.dataMask;
+        return false;
     }
 }

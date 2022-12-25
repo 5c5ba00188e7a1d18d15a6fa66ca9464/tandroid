@@ -14,13 +14,15 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 /* loaded from: classes.dex */
 public final class SubripDecoder extends SimpleSubtitleDecoder {
+    private final ArrayList<String> tags;
+    private final StringBuilder textBuilder;
     private static final Pattern SUBRIP_TIMING_LINE = Pattern.compile("\\s*((?:(\\d+):)?(\\d+):(\\d+)(?:,(\\d+))?)\\s*-->\\s*((?:(\\d+):)?(\\d+):(\\d+)(?:,(\\d+))?)\\s*");
     private static final Pattern SUBRIP_TAG_PATTERN = Pattern.compile("\\{\\\\.*?\\}");
-    private final StringBuilder textBuilder = new StringBuilder();
-    private final ArrayList<String> tags = new ArrayList<>();
 
     public SubripDecoder() {
         super("SubripDecoder");
+        this.textBuilder = new StringBuilder();
+        this.tags = new ArrayList<>();
     }
 
     @Override // com.google.android.exoplayer2.text.SimpleSubtitleDecoder
@@ -257,13 +259,13 @@ public final class SubripDecoder extends SimpleSubtitleDecoder {
 
     static float getFractionalPositionForAnchorType(int i) {
         if (i != 0) {
-            if (i == 1) {
-                return 0.5f;
-            }
-            if (i != 2) {
+            if (i != 1) {
+                if (i == 2) {
+                    return 0.92f;
+                }
                 throw new IllegalArgumentException();
             }
-            return 0.92f;
+            return 0.5f;
         }
         return 0.08f;
     }

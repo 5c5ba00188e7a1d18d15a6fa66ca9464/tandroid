@@ -30,9 +30,9 @@ public final class zzcv {
     private final String zzd;
     private final zzb zze;
     private final SharedPrefManager zzf;
+    private final Task<String> zzg;
     private final Task<String> zzh;
     private final Map<zzaj, Long> zzi = new HashMap();
-    private final Task<String> zzg = MLTaskExecutor.getInstance().scheduleCallable(zzcu.zza);
 
     /* compiled from: com.google.mlkit:language-id@@16.1.1 */
     /* loaded from: classes.dex */
@@ -52,6 +52,7 @@ public final class zzcv {
         this.zzd = CommonUtils.getAppVersion(context);
         this.zzf = sharedPrefManager;
         this.zze = zzbVar;
+        this.zzg = MLTaskExecutor.getInstance().scheduleCallable(zzcu.zza);
         MLTaskExecutor mLTaskExecutor = MLTaskExecutor.getInstance();
         sharedPrefManager.getClass();
         this.zzh = mLTaskExecutor.scheduleCallable(zzcx.zza(sharedPrefManager));
@@ -83,11 +84,10 @@ public final class zzcv {
         if (this.zzi.get(zzajVar) != null && elapsedRealtime - this.zzi.get(zzajVar).longValue() <= TimeUnit.SECONDS.toMillis(30L)) {
             z = false;
         }
-        if (!z) {
-            return;
+        if (z) {
+            this.zzi.put(zzajVar, Long.valueOf(elapsedRealtime));
+            zza(zzaVar.zza(), zzajVar);
         }
-        this.zzi.put(zzajVar, Long.valueOf(elapsedRealtime));
-        zza(zzaVar.zza(), zzajVar);
     }
 
     private static synchronized List<String> zzb() {
@@ -110,10 +110,7 @@ public final class zzcv {
         String version;
         String mlSdkInstanceId;
         String zza2 = zzaVar.zza().zza();
-        if ("NA".equals(zza2) || "".equals(zza2)) {
-            zza2 = "NA";
-        }
-        zzy$zzbh.zza zzb2 = zzy$zzbh.zzb().zza(this.zzc).zzb(this.zzd).zzd(zza2).zza(zzb()).zzb(true);
+        zzy$zzbh.zza zzb2 = zzy$zzbh.zzb().zza(this.zzc).zzb(this.zzd).zzd(("NA".equals(zza2) || "".equals(zza2)) ? "NA" : "NA").zza(zzb()).zzb(true);
         if (this.zzg.isSuccessful()) {
             version = this.zzg.getResult();
         } else {

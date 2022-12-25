@@ -241,17 +241,17 @@ public class LinkSpanDrawable<S extends CharacterStyle> {
                 return;
             }
             if (z) {
-                if (linkSpanDrawable.mReleaseStart >= 0) {
+                if (linkSpanDrawable.mReleaseStart < 0) {
+                    linkSpanDrawable.release();
+                    invalidate(pair.second);
+                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.LinkSpanDrawable$LinkCollector$$ExternalSyntheticLambda0
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            LinkSpanDrawable.LinkCollector.this.lambda$removeLink$0(linkSpanDrawable);
+                        }
+                    }, Math.max(0L, (linkSpanDrawable.mReleaseStart - SystemClock.elapsedRealtime()) + 75 + 100));
                     return;
                 }
-                linkSpanDrawable.release();
-                invalidate(pair.second);
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.LinkSpanDrawable$LinkCollector$$ExternalSyntheticLambda0
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        LinkSpanDrawable.LinkCollector.this.lambda$removeLink$0(linkSpanDrawable);
-                    }
-                }, Math.max(0L, (linkSpanDrawable.mReleaseStart - SystemClock.elapsedRealtime()) + 75 + 100));
                 return;
             }
             this.mLinks.remove(pair);
@@ -272,17 +272,17 @@ public class LinkSpanDrawable<S extends CharacterStyle> {
             if (z) {
                 Pair<LinkSpanDrawable, Object> pair = this.mLinks.get(i);
                 final LinkSpanDrawable linkSpanDrawable = (LinkSpanDrawable) pair.first;
-                if (linkSpanDrawable.mReleaseStart >= 0) {
+                if (linkSpanDrawable.mReleaseStart < 0) {
+                    linkSpanDrawable.release();
+                    invalidate(pair.second);
+                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.LinkSpanDrawable$LinkCollector$$ExternalSyntheticLambda1
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            LinkSpanDrawable.LinkCollector.this.lambda$removeLink$1(linkSpanDrawable);
+                        }
+                    }, Math.max(0L, (linkSpanDrawable.mReleaseStart - SystemClock.elapsedRealtime()) + 75 + 100));
                     return;
                 }
-                linkSpanDrawable.release();
-                invalidate(pair.second);
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.LinkSpanDrawable$LinkCollector$$ExternalSyntheticLambda1
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        LinkSpanDrawable.LinkCollector.this.lambda$removeLink$1(linkSpanDrawable);
-                    }
-                }, Math.max(0L, (linkSpanDrawable.mReleaseStart - SystemClock.elapsedRealtime()) + 75 + 100));
                 return;
             }
             Pair<LinkSpanDrawable, Object> remove = this.mLinks.remove(i);
@@ -365,10 +365,9 @@ public class LinkSpanDrawable<S extends CharacterStyle> {
                 ((View) obj).invalidate();
             } else if (obj instanceof ArticleViewer.DrawingText) {
                 View view2 = ((ArticleViewer.DrawingText) obj).latestParentView;
-                if (view2 == null) {
-                    return;
+                if (view2 != null) {
+                    view2.invalidate();
                 }
-                view2.invalidate();
             } else if (!z || (view = this.mParent) == null) {
             } else {
                 view.invalidate();
@@ -512,12 +511,7 @@ public class LinkSpanDrawable<S extends CharacterStyle> {
             if (!this.isCustomLinkCollector) {
                 canvas.save();
                 if (!this.disablePaddingsOffset) {
-                    float f = 0.0f;
-                    float paddingLeft = this.disablePaddingsOffsetX ? 0.0f : getPaddingLeft();
-                    if (!this.disablePaddingsOffsetY) {
-                        f = getPaddingTop();
-                    }
-                    canvas.translate(paddingLeft, f);
+                    canvas.translate(this.disablePaddingsOffsetX ? 0.0f : getPaddingLeft(), this.disablePaddingsOffsetY ? 0.0f : getPaddingTop());
                 }
                 if (this.links.draw(canvas)) {
                     invalidate();
@@ -560,10 +554,9 @@ public class LinkSpanDrawable<S extends CharacterStyle> {
                 canvas.drawRoundRect(rectF, AndroidUtilities.dp(4.0f), AndroidUtilities.dp(4.0f), this.linkBackgroundPaint);
             }
             super.onDraw(canvas);
-            if (!isClickable() || !this.links.draw(canvas)) {
-                return;
+            if (isClickable() && this.links.draw(canvas)) {
+                invalidate();
             }
-            invalidate();
         }
 
         @Override // org.telegram.ui.ActionBar.SimpleTextView, android.view.View

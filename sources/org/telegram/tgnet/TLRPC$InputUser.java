@@ -42,12 +42,12 @@ public abstract class TLRPC$InputUser extends TLObject {
                 tLRPC$TL_inputUserEmpty = null;
                 break;
         }
-        if (tLRPC$TL_inputUserEmpty != null || !z) {
-            if (tLRPC$TL_inputUserEmpty != null) {
-                tLRPC$TL_inputUserEmpty.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_inputUserEmpty;
+        if (tLRPC$TL_inputUserEmpty == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in InputUser", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in InputUser", Integer.valueOf(i)));
+        if (tLRPC$TL_inputUserEmpty != null) {
+            tLRPC$TL_inputUserEmpty.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_inputUserEmpty;
     }
 }

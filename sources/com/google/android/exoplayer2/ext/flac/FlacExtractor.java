@@ -56,7 +56,7 @@ public final class FlacExtractor implements Extractor {
 
     public FlacExtractor(int i) {
         this.outputBuffer = new ParsableByteArray();
-        this.id3MetadataDisabled = (i & 1) == 0 ? false : true;
+        this.id3MetadataDisabled = (i & 1) != 0;
     }
 
     @Override // com.google.android.exoplayer2.extractor.Extractor
@@ -86,26 +86,22 @@ public final class FlacExtractor implements Extractor {
         try {
             decodeStreamMetadata(extractorInput);
             FlacBinarySearchSeeker flacBinarySearchSeeker = this.binarySearchSeeker;
-            if (flacBinarySearchSeeker != null && flacBinarySearchSeeker.isSeeking()) {
-                return handlePendingSeek(extractorInput, positionHolder, this.outputBuffer, this.outputFrameHolder, this.trackOutput);
-            }
-            ByteBuffer byteBuffer = this.outputFrameHolder.byteBuffer;
-            long decodePosition = initDecoderJni.getDecodePosition();
-            try {
-                initDecoderJni.decodeSampleWithBacktrackPosition(byteBuffer, decodePosition);
-                int limit = byteBuffer.limit();
-                int i = -1;
-                if (limit == 0) {
-                    return -1;
+            if (flacBinarySearchSeeker == null || !flacBinarySearchSeeker.isSeeking()) {
+                ByteBuffer byteBuffer = this.outputFrameHolder.byteBuffer;
+                long decodePosition = initDecoderJni.getDecodePosition();
+                try {
+                    initDecoderJni.decodeSampleWithBacktrackPosition(byteBuffer, decodePosition);
+                    int limit = byteBuffer.limit();
+                    if (limit == 0) {
+                        return -1;
+                    }
+                    outputSample(this.outputBuffer, limit, initDecoderJni.getLastFrameTimestamp(), this.trackOutput);
+                    return initDecoderJni.isEndOfData() ? -1 : 0;
+                } catch (FlacDecoderJni.FlacFrameDecodeException e) {
+                    throw new IOException("Cannot read frame at position " + decodePosition, e);
                 }
-                outputSample(this.outputBuffer, limit, initDecoderJni.getLastFrameTimestamp(), this.trackOutput);
-                if (!initDecoderJni.isEndOfData()) {
-                    i = 0;
-                }
-                return i;
-            } catch (FlacDecoderJni.FlacFrameDecodeException e) {
-                throw new IOException("Cannot read frame at position " + decodePosition, e);
             }
+            return handlePendingSeek(extractorInput, positionHolder, this.outputBuffer, this.outputFrameHolder, this.trackOutput);
         } finally {
             initDecoderJni.clearData();
         }
@@ -153,14 +149,13 @@ public final class FlacExtractor implements Extractor {
         try {
             FlacStreamMetadata decodeStreamMetadata = flacDecoderJni.decodeStreamMetadata();
             this.streamMetadataDecoded = true;
-            if (this.streamMetadata != null) {
-                return;
+            if (this.streamMetadata == null) {
+                this.streamMetadata = decodeStreamMetadata;
+                this.outputBuffer.reset(decodeStreamMetadata.getMaxDecodedFrameSize());
+                this.outputFrameHolder = new FlacBinarySearchSeeker.OutputFrameHolder(ByteBuffer.wrap(this.outputBuffer.data));
+                this.binarySearchSeeker = outputSeekMap(flacDecoderJni, decodeStreamMetadata, extractorInput.getLength(), this.extractorOutput, this.outputFrameHolder);
+                outputFormat(decodeStreamMetadata, decodeStreamMetadata.getMetadataCopyWithAppendedEntriesFrom(this.id3Metadata), this.trackOutput);
             }
-            this.streamMetadata = decodeStreamMetadata;
-            this.outputBuffer.reset(decodeStreamMetadata.getMaxDecodedFrameSize());
-            this.outputFrameHolder = new FlacBinarySearchSeeker.OutputFrameHolder(ByteBuffer.wrap(this.outputBuffer.data));
-            this.binarySearchSeeker = outputSeekMap(flacDecoderJni, decodeStreamMetadata, extractorInput.getLength(), this.extractorOutput, this.outputFrameHolder);
-            outputFormat(decodeStreamMetadata, decodeStreamMetadata.getMetadataCopyWithAppendedEntriesFrom(this.id3Metadata), this.trackOutput);
         } catch (IOException e) {
             flacDecoderJni.reset(0L);
             extractorInput.setRetryPosition(0L, e);

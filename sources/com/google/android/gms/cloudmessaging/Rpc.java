@@ -69,11 +69,11 @@ public class Rpc {
                 Intent intent2 = (Intent) message.obj;
                 String action = intent2.getAction();
                 if (!"com.google.android.c2dm.intent.REGISTRATION".equals(action)) {
-                    if (!Log.isLoggable("Rpc", 3)) {
+                    if (Log.isLoggable("Rpc", 3)) {
+                        String valueOf = String.valueOf(action);
+                        Log.d("Rpc", valueOf.length() != 0 ? "Unexpected response action: ".concat(valueOf) : new String("Unexpected response action: "));
                         return;
                     }
-                    String valueOf = String.valueOf(action);
-                    Log.d("Rpc", valueOf.length() != 0 ? "Unexpected response action: ".concat(valueOf) : new String("Unexpected response action: "));
                     return;
                 }
                 String stringExtra = intent2.getStringExtra("registration_id");
@@ -116,20 +116,20 @@ public class Rpc {
                 }
                 Matcher matcher = Pattern.compile("\\|ID\\|([^|]+)\\|:?+(.*)").matcher(stringExtra);
                 if (!matcher.matches()) {
-                    if (!Log.isLoggable("Rpc", 3)) {
+                    if (Log.isLoggable("Rpc", 3)) {
+                        Log.d("Rpc", stringExtra.length() != 0 ? "Unexpected response string: ".concat(stringExtra) : new String("Unexpected response string: "));
                         return;
                     }
-                    Log.d("Rpc", stringExtra.length() != 0 ? "Unexpected response string: ".concat(stringExtra) : new String("Unexpected response string: "));
                     return;
                 }
                 String group = matcher.group(1);
                 String group2 = matcher.group(2);
-                if (group == null) {
+                if (group != null) {
+                    Bundle extras = intent2.getExtras();
+                    extras.putString("registration_id", group2);
+                    zza(group, extras);
                     return;
                 }
-                Bundle extras = intent2.getExtras();
-                extras.putString("registration_id", group2);
-                zza(group, extras);
                 return;
             }
         }
@@ -160,14 +160,10 @@ public class Rpc {
     }
 
     public Task<Bundle> send(final Bundle bundle) {
-        boolean z = true;
         if (this.zzf.zzb() >= 12000000) {
             return zze.zza(this.zze).zzb(1, bundle).continueWith(zzc, zzt.zza);
         }
-        if (this.zzf.zza() == 0) {
-            z = false;
-        }
-        if (!z) {
+        if (!(this.zzf.zza() != 0)) {
             return Tasks.forException(new IOException("MISSING_INSTANCEID_SERVICE"));
         }
         return zzc(bundle).continueWithTask(zzc, new Continuation(this, bundle) { // from class: com.google.android.gms.cloudmessaging.zzv

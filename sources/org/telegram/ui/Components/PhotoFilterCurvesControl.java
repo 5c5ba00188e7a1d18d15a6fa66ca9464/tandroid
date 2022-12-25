@@ -13,18 +13,18 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.Components.PhotoFilterView;
 /* loaded from: classes3.dex */
 public class PhotoFilterCurvesControl extends View {
+    private int activeSegment;
+    private Rect actualArea;
+    private boolean checkForMoving;
     private PhotoFilterView.CurvesToolValue curveValue;
     private PhotoFilterCurvesControlDelegate delegate;
     private boolean isMoving;
     private float lastY;
-    private int activeSegment = 0;
-    private boolean checkForMoving = true;
-    private Rect actualArea = new Rect();
-    private Paint paint = new Paint(1);
-    private Paint paintDash = new Paint(1);
-    private Paint paintCurve = new Paint(1);
-    private TextPaint textPaint = new TextPaint(1);
-    private Path path = new Path();
+    private Paint paint;
+    private Paint paintCurve;
+    private Paint paintDash;
+    private Path path;
+    private TextPaint textPaint;
 
     /* loaded from: classes3.dex */
     public interface PhotoFilterCurvesControlDelegate {
@@ -33,6 +33,14 @@ public class PhotoFilterCurvesControl extends View {
 
     public PhotoFilterCurvesControl(Context context, PhotoFilterView.CurvesToolValue curvesToolValue) {
         super(context);
+        this.activeSegment = 0;
+        this.checkForMoving = true;
+        this.actualArea = new Rect();
+        this.paint = new Paint(1);
+        this.paintDash = new Paint(1);
+        this.paintCurve = new Paint(1);
+        this.textPaint = new TextPaint(1);
+        this.path = new Path();
         setWillNotDraw(false);
         this.curveValue = curvesToolValue;
         this.paint.setColor(-1711276033);
@@ -60,7 +68,7 @@ public class PhotoFilterCurvesControl extends View {
         rect.height = f4;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:10:0x0014, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:11:0x0014, code lost:
         if (r0 != 6) goto L11;
      */
     @Override // android.view.View
@@ -120,10 +128,9 @@ public class PhotoFilterCurvesControl extends View {
         if (i == 1) {
             selectSegmentWithPoint(x);
         } else if (i != 2) {
-            if (i != 3 && i != 4 && i != 5) {
-                return;
+            if (i == 3 || i == 4 || i == 5) {
+                unselectSegments();
             }
-            unselectSegments();
         } else {
             float min = Math.min(2.0f, (this.lastY - y) / 8.0f);
             PhotoFilterView.CurvesValue curvesValue = null;

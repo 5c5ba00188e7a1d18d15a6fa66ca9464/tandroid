@@ -35,11 +35,11 @@ final class AutoValue_LibraryVersion extends LibraryVersion {
         if (obj == this) {
             return true;
         }
-        if (!(obj instanceof LibraryVersion)) {
-            return false;
+        if (obj instanceof LibraryVersion) {
+            LibraryVersion libraryVersion = (LibraryVersion) obj;
+            return this.libraryName.equals(libraryVersion.getLibraryName()) && this.version.equals(libraryVersion.getVersion());
         }
-        LibraryVersion libraryVersion = (LibraryVersion) obj;
-        return this.libraryName.equals(libraryVersion.getLibraryName()) && this.version.equals(libraryVersion.getVersion());
+        return false;
     }
 
     public int hashCode() {

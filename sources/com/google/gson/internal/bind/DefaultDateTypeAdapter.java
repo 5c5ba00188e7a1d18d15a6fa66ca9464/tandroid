@@ -47,9 +47,10 @@ public final class DefaultDateTypeAdapter<T extends Date> extends TypeAdapter<T>
         Objects.requireNonNull(dateType);
         Locale locale = Locale.US;
         arrayList.add(new SimpleDateFormat(str, locale));
-        if (!Locale.getDefault().equals(locale)) {
-            arrayList.add(new SimpleDateFormat(str));
+        if (Locale.getDefault().equals(locale)) {
+            return;
         }
+        arrayList.add(new SimpleDateFormat(str));
     }
 
     private DefaultDateTypeAdapter(DateType<T> dateType, int i, int i2) {

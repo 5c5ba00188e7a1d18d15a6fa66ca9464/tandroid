@@ -88,10 +88,10 @@ public final class ReedSolomonDecoder {
                 i++;
             }
         }
-        if (i != degree) {
-            throw new ReedSolomonException("Error locator degree does not match number of roots");
+        if (i == degree) {
+            return iArr;
         }
-        return iArr;
+        throw new ReedSolomonException("Error locator degree does not match number of roots");
     }
 
     private int[] findErrorMagnitudes(GenericGFPoly genericGFPoly, int[] iArr) {

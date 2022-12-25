@@ -48,11 +48,7 @@ public abstract class TLRPC$UserProfilePhoto extends TLObject {
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
                         this.flags = readInt32;
-                        boolean z3 = true;
-                        if ((readInt32 & 1) == 0) {
-                            z3 = false;
-                        }
-                        this.has_video = z3;
+                        this.has_video = (readInt32 & 1) != 0;
                         this.photo_id = abstractSerializedData2.readInt64(z2);
                         this.photo_small = TLRPC$FileLocation.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         this.photo_big = TLRPC$FileLocation.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
@@ -138,11 +134,7 @@ public abstract class TLRPC$UserProfilePhoto extends TLObject {
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
                         this.flags = readInt32;
-                        boolean z3 = true;
-                        if ((readInt32 & 1) == 0) {
-                            z3 = false;
-                        }
-                        this.has_video = z3;
+                        this.has_video = (readInt32 & 1) != 0;
                         this.photo_id = abstractSerializedData2.readInt64(z2);
                         this.photo_small = TLRPC$FileLocation.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         this.photo_big = TLRPC$FileLocation.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
@@ -166,12 +158,12 @@ public abstract class TLRPC$UserProfilePhoto extends TLObject {
                 tLRPC$TL_userProfilePhoto = null;
                 break;
         }
-        if (tLRPC$TL_userProfilePhoto != null || !z) {
-            if (tLRPC$TL_userProfilePhoto != null) {
-                tLRPC$TL_userProfilePhoto.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_userProfilePhoto;
+        if (tLRPC$TL_userProfilePhoto == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in UserProfilePhoto", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in UserProfilePhoto", Integer.valueOf(i)));
+        if (tLRPC$TL_userProfilePhoto != null) {
+            tLRPC$TL_userProfilePhoto.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_userProfilePhoto;
     }
 }

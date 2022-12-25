@@ -162,9 +162,8 @@ public class DataChannel {
     }
 
     private void checkDataChannelExists() {
-        if (this.nativeDataChannel != 0) {
-            return;
+        if (this.nativeDataChannel == 0) {
+            throw new IllegalStateException("DataChannel has been disposed.");
         }
-        throw new IllegalStateException("DataChannel has been disposed.");
     }
 }

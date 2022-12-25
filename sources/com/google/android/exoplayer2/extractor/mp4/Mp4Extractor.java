@@ -84,8 +84,7 @@ public final class Mp4Extractor implements Extractor, SeekMap {
         this.sampleCurrentNalBytesRemaining = 0;
         if (j == 0) {
             enterReadingAtomHeaderState();
-        } else if (this.tracks == null) {
-        } else {
+        } else if (this.tracks != null) {
             updateSampleIndices(j2);
         }
     }
@@ -249,11 +248,11 @@ public final class Mp4Extractor implements Extractor, SeekMap {
             positionHolder.position = extractorInput.getPosition() + j;
             z = true;
             processAtomEnded(position);
-            return !z && this.parserState != 2;
+            return (z || this.parserState == 2) ? false : true;
         }
         z = false;
         processAtomEnded(position);
-        if (!z) {
+        if (z) {
         }
     }
 
@@ -280,7 +279,6 @@ public final class Mp4Extractor implements Extractor, SeekMap {
         ArrayList arrayList = new ArrayList();
         GaplessInfoHolder gaplessInfoHolder = new GaplessInfoHolder();
         Atom.LeafAtom leafAtomOfType = containerAtom.getLeafAtomOfType(1969517665);
-        Metadata metadata2 = null;
         if (leafAtomOfType != null) {
             metadata = AtomParsers.parseUdta(leafAtomOfType, this.isQuickTime);
             if (metadata != null) {
@@ -290,9 +288,7 @@ public final class Mp4Extractor implements Extractor, SeekMap {
             metadata = null;
         }
         Atom.ContainerAtom containerAtomOfType = containerAtom.getContainerAtomOfType(1835365473);
-        if (containerAtomOfType != null) {
-            metadata2 = AtomParsers.parseMdtaFromMeta(containerAtomOfType);
-        }
+        Metadata parseMdtaFromMeta = containerAtomOfType != null ? AtomParsers.parseMdtaFromMeta(containerAtomOfType) : null;
         ArrayList<TrackSampleTable> trackSampleTables = getTrackSampleTables(containerAtom, gaplessInfoHolder, (this.flags & 1) != 0);
         int size = trackSampleTables.size();
         long j2 = -9223372036854775807L;
@@ -321,7 +317,7 @@ public final class Mp4Extractor implements Extractor, SeekMap {
                     copyWithMaxInputSize = copyWithMaxInputSize.copyWithFrameRate(i4 / (((float) j) / 1000000.0f));
                 }
             }
-            mp4Track.trackOutput.format(MetadataUtil.getFormatWithMetadata(track.type, copyWithMaxInputSize, metadata, metadata2, gaplessInfoHolder));
+            mp4Track.trackOutput.format(MetadataUtil.getFormatWithMetadata(track.type, copyWithMaxInputSize, metadata, parseMdtaFromMeta, gaplessInfoHolder));
             if (track.type == 2 && i2 == -1) {
                 i2 = arrayList.size();
             }

@@ -57,7 +57,7 @@ public final class zzbe extends GmsClient {
     @Override // com.google.android.gms.common.internal.BaseGmsClient, com.google.android.gms.common.api.Api.Client
     public final boolean requiresSignIn() {
         ClientSettings clientSettings = getClientSettings();
-        return !TextUtils.isEmpty(clientSettings.getAccountName()) && !clientSettings.getApplicableScopes(AuthProxy.API).isEmpty();
+        return (TextUtils.isEmpty(clientSettings.getAccountName()) || clientSettings.getApplicableScopes(AuthProxy.API).isEmpty()) ? false : true;
     }
 
     @Override // com.google.android.gms.common.internal.BaseGmsClient

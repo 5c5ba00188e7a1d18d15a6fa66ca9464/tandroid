@@ -15,12 +15,12 @@ public abstract class TLRPC$ChannelLocation extends TLObject {
         } else {
             tLRPC$ChannelLocation = i != 547062491 ? null : new TLRPC$TL_channelLocation();
         }
-        if (tLRPC$ChannelLocation != null || !z) {
-            if (tLRPC$ChannelLocation != null) {
-                tLRPC$ChannelLocation.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$ChannelLocation;
+        if (tLRPC$ChannelLocation == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in ChannelLocation", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in ChannelLocation", Integer.valueOf(i)));
+        if (tLRPC$ChannelLocation != null) {
+            tLRPC$ChannelLocation.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$ChannelLocation;
     }
 }

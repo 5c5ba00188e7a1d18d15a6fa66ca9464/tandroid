@@ -172,12 +172,8 @@ public class RTMPStreamPipOverlay implements NotificationCenter.NotificationCent
     /* JADX INFO: Access modifiers changed from: private */
     public void toggleControls(boolean z) {
         float[] fArr = new float[2];
-        float f = 0.0f;
         fArr[0] = z ? 0.0f : 1.0f;
-        if (z) {
-            f = 1.0f;
-        }
-        fArr[1] = f;
+        fArr[1] = z ? 1.0f : 0.0f;
         ValueAnimator duration = ValueAnimator.ofFloat(fArr).setDuration(200L);
         this.scaleAnimator = duration;
         duration.setInterpolator(CubicBezierInterpolator.DEFAULT);
@@ -206,39 +202,38 @@ public class RTMPStreamPipOverlay implements NotificationCenter.NotificationCent
     }
 
     private void dismissInternal() {
-        if (!this.isVisible) {
-            return;
-        }
-        this.isVisible = false;
-        AndroidUtilities.runOnUIThread(RTMPStreamPipOverlay$$ExternalSyntheticLambda4.INSTANCE, 100L);
-        this.accountInstance.getNotificationCenter().removeObserver(this, NotificationCenter.groupCallUpdated);
-        this.accountInstance.getNotificationCenter().removeObserver(this, NotificationCenter.applyGroupCallVisibleParticipants);
-        NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.didEndCall);
-        ValueAnimator valueAnimator = this.scaleAnimator;
-        if (valueAnimator != null) {
-            valueAnimator.cancel();
-        }
-        if (this.postedDismissControls) {
-            AndroidUtilities.cancelRunOnUIThread(this.dismissControlsCallback);
-            this.postedDismissControls = false;
-        }
-        AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.setDuration(250L);
-        animatorSet.setInterpolator(CubicBezierInterpolator.DEFAULT);
-        animatorSet.playTogether(ObjectAnimator.ofFloat(this.contentView, View.ALPHA, 0.0f), ObjectAnimator.ofFloat(this.contentView, View.SCALE_X, 0.1f), ObjectAnimator.ofFloat(this.contentView, View.SCALE_Y, 0.1f));
-        animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.voip.RTMPStreamPipOverlay.2
-            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-            public void onAnimationEnd(Animator animator) {
-                RTMPStreamPipOverlay.this.windowManager.removeViewImmediate(RTMPStreamPipOverlay.this.contentView);
-                RTMPStreamPipOverlay.this.textureView.renderer.release();
-                RTMPStreamPipOverlay.this.boundParticipant = null;
-                RTMPStreamPipOverlay.this.placeholderShown = true;
-                RTMPStreamPipOverlay.this.firstFrameRendered = false;
-                RTMPStreamPipOverlay.this.consumingChild = null;
-                RTMPStreamPipOverlay.this.isScrolling = false;
+        if (this.isVisible) {
+            this.isVisible = false;
+            AndroidUtilities.runOnUIThread(RTMPStreamPipOverlay$$ExternalSyntheticLambda4.INSTANCE, 100L);
+            this.accountInstance.getNotificationCenter().removeObserver(this, NotificationCenter.groupCallUpdated);
+            this.accountInstance.getNotificationCenter().removeObserver(this, NotificationCenter.applyGroupCallVisibleParticipants);
+            NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.didEndCall);
+            ValueAnimator valueAnimator = this.scaleAnimator;
+            if (valueAnimator != null) {
+                valueAnimator.cancel();
             }
-        });
-        animatorSet.start();
+            if (this.postedDismissControls) {
+                AndroidUtilities.cancelRunOnUIThread(this.dismissControlsCallback);
+                this.postedDismissControls = false;
+            }
+            AnimatorSet animatorSet = new AnimatorSet();
+            animatorSet.setDuration(250L);
+            animatorSet.setInterpolator(CubicBezierInterpolator.DEFAULT);
+            animatorSet.playTogether(ObjectAnimator.ofFloat(this.contentView, View.ALPHA, 0.0f), ObjectAnimator.ofFloat(this.contentView, View.SCALE_X, 0.1f), ObjectAnimator.ofFloat(this.contentView, View.SCALE_Y, 0.1f));
+            animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.voip.RTMPStreamPipOverlay.2
+                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                public void onAnimationEnd(Animator animator) {
+                    RTMPStreamPipOverlay.this.windowManager.removeViewImmediate(RTMPStreamPipOverlay.this.contentView);
+                    RTMPStreamPipOverlay.this.textureView.renderer.release();
+                    RTMPStreamPipOverlay.this.boundParticipant = null;
+                    RTMPStreamPipOverlay.this.placeholderShown = true;
+                    RTMPStreamPipOverlay.this.firstFrameRendered = false;
+                    RTMPStreamPipOverlay.this.consumingChild = null;
+                    RTMPStreamPipOverlay.this.isScrolling = false;
+                }
+            });
+            animatorSet.start();
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -560,10 +555,10 @@ public class RTMPStreamPipOverlay implements NotificationCenter.NotificationCent
                 RTMPStreamPipOverlay.this.pipXSpring.start();
             }
             RTMPStreamPipOverlay.this.pipYSpring.setStartValue(RTMPStreamPipOverlay.this.pipY).getSpring().setFinalPosition(MathUtils.clamp(scaleGestureDetector.getFocusY() - (RTMPStreamPipOverlay.this.pipHeight / 2.0f), AndroidUtilities.dp(16.0f), (AndroidUtilities.displaySize.y - RTMPStreamPipOverlay.this.pipHeight) - AndroidUtilities.dp(16.0f)));
-            if (!RTMPStreamPipOverlay.this.pipYSpring.isRunning()) {
-                RTMPStreamPipOverlay.this.pipYSpring.start();
+            if (RTMPStreamPipOverlay.this.pipYSpring.isRunning()) {
                 return true;
             }
+            RTMPStreamPipOverlay.this.pipYSpring.start();
             return true;
         }
 
@@ -734,18 +729,13 @@ public class RTMPStreamPipOverlay implements NotificationCenter.NotificationCent
         }
         if (this.placeholderShown != z) {
             this.flickerView.animate().cancel();
-            float f = 1.0f;
             ViewPropertyAnimator duration = this.flickerView.animate().alpha(z ? 1.0f : 0.0f).setDuration(150L);
             CubicBezierInterpolator cubicBezierInterpolator = CubicBezierInterpolator.DEFAULT;
             duration.setInterpolator(cubicBezierInterpolator).start();
             this.avatarImageView.animate().cancel();
             this.avatarImageView.animate().alpha(z ? 1.0f : 0.0f).setDuration(150L).setInterpolator(cubicBezierInterpolator).start();
             this.textureView.animate().cancel();
-            ViewPropertyAnimator animate = this.textureView.animate();
-            if (z) {
-                f = 0.0f;
-            }
-            animate.alpha(f).setDuration(150L).setInterpolator(cubicBezierInterpolator).start();
+            this.textureView.animate().alpha(z ? 0.0f : 1.0f).setDuration(150L).setInterpolator(cubicBezierInterpolator).start();
             this.placeholderShown = z;
         }
         if (this.pipWidth == getSuggestedWidth() * this.scaleFactor && this.pipHeight == getSuggestedHeight() * this.scaleFactor) {
@@ -791,8 +781,7 @@ public class RTMPStreamPipOverlay implements NotificationCenter.NotificationCent
     public void didReceivedNotification(int i, int i2, Object... objArr) {
         if (i == NotificationCenter.didEndCall) {
             dismiss();
-        } else if (i != NotificationCenter.groupCallUpdated) {
-        } else {
+        } else if (i == NotificationCenter.groupCallUpdated) {
             bindTextureView();
         }
     }

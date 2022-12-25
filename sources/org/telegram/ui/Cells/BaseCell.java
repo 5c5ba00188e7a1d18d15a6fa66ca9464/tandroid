@@ -7,10 +7,10 @@ import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 /* loaded from: classes3.dex */
 public abstract class BaseCell extends ViewGroup {
-    private boolean checkingForLongPress = false;
-    private CheckForLongPress pendingCheckForLongPress = null;
-    private int pressCount = 0;
-    private CheckForTap pendingCheckForTap = null;
+    private boolean checkingForLongPress;
+    private CheckForLongPress pendingCheckForLongPress;
+    private CheckForTap pendingCheckForTap;
+    private int pressCount;
 
     @Override // android.view.View
     public boolean hasOverlappingRendering() {
@@ -53,22 +53,24 @@ public abstract class BaseCell extends ViewGroup {
 
         @Override // java.lang.Runnable
         public void run() {
-            if (!BaseCell.this.checkingForLongPress || BaseCell.this.getParent() == null || this.currentPressCount != BaseCell.this.pressCount) {
-                return;
+            if (BaseCell.this.checkingForLongPress && BaseCell.this.getParent() != null && this.currentPressCount == BaseCell.this.pressCount) {
+                BaseCell.this.checkingForLongPress = false;
+                if (BaseCell.this.onLongPress()) {
+                    BaseCell.this.performHapticFeedback(0);
+                    MotionEvent obtain = MotionEvent.obtain(0L, 0L, 3, 0.0f, 0.0f, 0);
+                    BaseCell.this.onTouchEvent(obtain);
+                    obtain.recycle();
+                }
             }
-            BaseCell.this.checkingForLongPress = false;
-            if (!BaseCell.this.onLongPress()) {
-                return;
-            }
-            BaseCell.this.performHapticFeedback(0);
-            MotionEvent obtain = MotionEvent.obtain(0L, 0L, 3, 0.0f, 0.0f, 0);
-            BaseCell.this.onTouchEvent(obtain);
-            obtain.recycle();
         }
     }
 
     public BaseCell(Context context) {
         super(context);
+        this.checkingForLongPress = false;
+        this.pendingCheckForLongPress = null;
+        this.pressCount = 0;
+        this.pendingCheckForTap = null;
         setWillNotDraw(false);
         setFocusable(true);
         setHapticFeedbackEnabled(true);

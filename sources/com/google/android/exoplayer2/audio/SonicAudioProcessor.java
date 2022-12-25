@@ -17,12 +17,12 @@ public final class SonicAudioProcessor implements AudioProcessor {
     private long outputBytes;
     private AudioProcessor.AudioFormat pendingInputAudioFormat;
     private AudioProcessor.AudioFormat pendingOutputAudioFormat;
+    private int pendingOutputSampleRate;
     private boolean pendingSonicRecreation;
     private ShortBuffer shortBuffer;
     private Sonic sonic;
     private float speed = 1.0f;
     private float pitch = 1.0f;
-    private int pendingOutputSampleRate = -1;
 
     public SonicAudioProcessor() {
         AudioProcessor.AudioFormat audioFormat = AudioProcessor.AudioFormat.NOT_SET;
@@ -34,6 +34,7 @@ public final class SonicAudioProcessor implements AudioProcessor {
         this.buffer = byteBuffer;
         this.shortBuffer = byteBuffer.asShortBuffer();
         this.outputBuffer = byteBuffer;
+        this.pendingOutputSampleRate = -1;
     }
 
     public float setSpeed(float f) {

@@ -112,46 +112,46 @@ public class AppCenter {
             AppCenterLog.setLogLevel(5);
         }
         String str2 = this.mAppSecret;
-        if (z && !configureSecretString(str)) {
-            return false;
-        }
-        if (this.mHandler != null) {
-            String str3 = this.mAppSecret;
-            if (str3 != null && !str3.equals(str2)) {
-                this.mHandler.post(new Runnable() { // from class: com.microsoft.appcenter.AppCenter.4
-                    @Override // java.lang.Runnable
-                    public void run() {
-                        AppCenter.this.mChannel.setAppSecret(AppCenter.this.mAppSecret);
-                        AppCenter.this.applyStorageMaxSize();
-                    }
-                });
+        if (!z || configureSecretString(str)) {
+            if (this.mHandler != null) {
+                String str3 = this.mAppSecret;
+                if (str3 != null && !str3.equals(str2)) {
+                    this.mHandler.post(new Runnable() { // from class: com.microsoft.appcenter.AppCenter.4
+                        @Override // java.lang.Runnable
+                        public void run() {
+                            AppCenter.this.mChannel.setAppSecret(AppCenter.this.mAppSecret);
+                            AppCenter.this.applyStorageMaxSize();
+                        }
+                    });
+                }
+                return true;
             }
+            this.mApplication = application;
+            HandlerThread handlerThread = new HandlerThread("AppCenter.Looper");
+            this.mHandlerThread = handlerThread;
+            handlerThread.start();
+            this.mHandler = new Handler(this.mHandlerThread.getLooper());
+            this.mAppCenterHandler = new AppCenterHandler() { // from class: com.microsoft.appcenter.AppCenter.5
+                @Override // com.microsoft.appcenter.AppCenterHandler
+                public void post(Runnable runnable, Runnable runnable2) {
+                    AppCenter.this.handlerAppCenterOperation(runnable, runnable2);
+                }
+            };
+            ApplicationLifecycleListener applicationLifecycleListener = new ApplicationLifecycleListener(this.mHandler);
+            this.mApplicationLifecycleListener = applicationLifecycleListener;
+            this.mApplication.registerActivityLifecycleCallbacks(applicationLifecycleListener);
+            this.mServices = new HashSet();
+            this.mServicesStartedFromLibrary = new HashSet();
+            this.mHandler.post(new Runnable() { // from class: com.microsoft.appcenter.AppCenter.6
+                @Override // java.lang.Runnable
+                public void run() {
+                    AppCenter.this.finishConfiguration(z);
+                }
+            });
+            AppCenterLog.info("AppCenter", "App Center SDK configured successfully.");
             return true;
         }
-        this.mApplication = application;
-        HandlerThread handlerThread = new HandlerThread("AppCenter.Looper");
-        this.mHandlerThread = handlerThread;
-        handlerThread.start();
-        this.mHandler = new Handler(this.mHandlerThread.getLooper());
-        this.mAppCenterHandler = new AppCenterHandler() { // from class: com.microsoft.appcenter.AppCenter.5
-            @Override // com.microsoft.appcenter.AppCenterHandler
-            public void post(Runnable runnable, Runnable runnable2) {
-                AppCenter.this.handlerAppCenterOperation(runnable, runnable2);
-            }
-        };
-        ApplicationLifecycleListener applicationLifecycleListener = new ApplicationLifecycleListener(this.mHandler);
-        this.mApplicationLifecycleListener = applicationLifecycleListener;
-        this.mApplication.registerActivityLifecycleCallbacks(applicationLifecycleListener);
-        this.mServices = new HashSet();
-        this.mServicesStartedFromLibrary = new HashSet();
-        this.mHandler.post(new Runnable() { // from class: com.microsoft.appcenter.AppCenter.6
-            @Override // java.lang.Runnable
-            public void run() {
-                AppCenter.this.finishConfiguration(z);
-            }
-        });
-        AppCenterLog.info("AppCenter", "App Center SDK configured successfully.");
-        return true;
+        return false;
     }
 
     private boolean configureSecretString(String str) {
@@ -327,8 +327,7 @@ public class AppCenter {
         String serviceName = appCenterService.getServiceName();
         if (appCenterService.isAppSecretRequired()) {
             AppCenterLog.error("AppCenter", "This service cannot be started from a library: " + serviceName + ".");
-        } else if (!startService(appCenterService, collection)) {
-        } else {
+        } else if (startService(appCenterService, collection)) {
             this.mServicesStartedFromLibrary.add(appCenterService);
         }
     }

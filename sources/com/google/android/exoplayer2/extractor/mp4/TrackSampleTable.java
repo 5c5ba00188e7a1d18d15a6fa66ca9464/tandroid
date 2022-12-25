@@ -14,10 +14,9 @@ final class TrackSampleTable {
     public final Track track;
 
     public TrackSampleTable(Track track, long[] jArr, int[] iArr, int i, long[] jArr2, int[] iArr2, long j) {
-        boolean z = false;
         Assertions.checkArgument(iArr.length == jArr2.length);
         Assertions.checkArgument(jArr.length == jArr2.length);
-        Assertions.checkArgument(iArr2.length == jArr2.length ? true : z);
+        Assertions.checkArgument(iArr2.length == jArr2.length);
         this.track = track;
         this.offsets = jArr;
         this.sizes = iArr;

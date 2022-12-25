@@ -71,12 +71,11 @@ public final class Cea708Decoder extends CeaDecoder {
         while (this.ccData.bytesLeft() >= 3) {
             int readUnsignedByte = this.ccData.readUnsignedByte() & 7;
             int i = readUnsignedByte & 3;
-            boolean z = false;
-            boolean z2 = (readUnsignedByte & 4) == 4;
+            boolean z = (readUnsignedByte & 4) == 4;
             byte readUnsignedByte2 = (byte) this.ccData.readUnsignedByte();
             byte readUnsignedByte3 = (byte) this.ccData.readUnsignedByte();
             if (i == 2 || i == 3) {
-                if (z2) {
+                if (z) {
                     if (i == 3) {
                         finalizeCurrentPacket();
                         int i2 = (readUnsignedByte2 & 192) >> 6;
@@ -91,10 +90,7 @@ public final class Cea708Decoder extends CeaDecoder {
                         dtvCcPacket.currentIndex = i4 + 1;
                         bArr[i4] = readUnsignedByte3;
                     } else {
-                        if (i == 2) {
-                            z = true;
-                        }
-                        Assertions.checkArgument(z);
+                        Assertions.checkArgument(i == 2);
                         DtvCcPacket dtvCcPacket2 = this.currentDtvCcPacket;
                         if (dtvCcPacket2 == null) {
                             Log.e("Cea708Decoder", "Encountered DTVCC_PACKET_DATA before DTVCC_PACKET_START");
@@ -143,10 +139,9 @@ public final class Cea708Decoder extends CeaDecoder {
             }
         }
         if (readBits2 == 0) {
-            if (readBits == 0) {
-                return;
+            if (readBits != 0) {
+                Log.w("Cea708Decoder", "serviceNumber is non-zero (" + readBits + ") when blockSize is 0");
             }
-            Log.w("Cea708Decoder", "serviceNumber is non-zero (" + readBits + ") when blockSize is 0");
         } else if (readBits != this.selectedServiceNumber) {
         } else {
             boolean z = false;
@@ -183,10 +178,9 @@ public final class Cea708Decoder extends CeaDecoder {
                     z = true;
                 }
             }
-            if (!z) {
-                return;
+            if (z) {
+                this.cues = getDisplayCues();
             }
-            this.cues = getDisplayCues();
         }
     }
 
@@ -237,11 +231,11 @@ public final class Cea708Decoder extends CeaDecoder {
             case 134:
             case 135:
                 int i3 = i - 128;
-                if (this.currentWindow == i3) {
+                if (this.currentWindow != i3) {
+                    this.currentWindow = i3;
+                    this.currentCueBuilder = this.cueBuilders[i3];
                     return;
                 }
-                this.currentWindow = i3;
-                this.currentCueBuilder = this.cueBuilders[i3];
                 return;
             case 136:
                 while (i2 <= 8) {
@@ -338,11 +332,11 @@ public final class Cea708Decoder extends CeaDecoder {
             case 159:
                 int i6 = i - 152;
                 handleDefineWindow(i6);
-                if (this.currentWindow == i6) {
+                if (this.currentWindow != i6) {
+                    this.currentWindow = i6;
+                    this.currentCueBuilder = this.cueBuilders[i6];
                     return;
                 }
-                this.currentWindow = i6;
-                this.currentCueBuilder = this.cueBuilders[i6];
                 return;
         }
     }
@@ -355,8 +349,7 @@ public final class Cea708Decoder extends CeaDecoder {
             this.serviceBlockPacket.skipBits(8);
         } else if (i <= 23) {
             this.serviceBlockPacket.skipBits(16);
-        } else if (i > 31) {
-        } else {
+        } else if (i <= 31) {
             this.serviceBlockPacket.skipBits(24);
         }
     }
@@ -366,8 +359,7 @@ public final class Cea708Decoder extends CeaDecoder {
             this.serviceBlockPacket.skipBits(32);
         } else if (i <= 143) {
             this.serviceBlockPacket.skipBits(40);
-        } else if (i > 159) {
-        } else {
+        } else if (i <= 159) {
             this.serviceBlockPacket.skipBits(2);
             this.serviceBlockPacket.skipBits(this.serviceBlockPacket.readBits(6) * 8);
         }
@@ -562,9 +554,16 @@ public final class Cea708Decoder extends CeaDecoder {
     /* loaded from: classes.dex */
     public static final class CueBuilder {
         public static final int COLOR_SOLID_BLACK;
+        public static final int COLOR_SOLID_WHITE = getArgbColorFromCeaColor(2, 2, 2, 0);
         public static final int COLOR_TRANSPARENT;
         private static final int[] PEN_STYLE_BACKGROUND;
+        private static final int[] PEN_STYLE_EDGE_TYPE;
+        private static final int[] PEN_STYLE_FONT_STYLE;
         private static final int[] WINDOW_STYLE_FILL;
+        private static final int[] WINDOW_STYLE_JUSTIFICATION;
+        private static final int[] WINDOW_STYLE_PRINT_DIRECTION;
+        private static final int[] WINDOW_STYLE_SCROLL_DIRECTION;
+        private static final boolean[] WINDOW_STYLE_WORD_WRAP;
         private int anchorId;
         private int backgroundColor;
         private int backgroundColorStartPosition;
@@ -585,13 +584,6 @@ public final class Cea708Decoder extends CeaDecoder {
         private boolean visible;
         private int windowFillColor;
         private int windowStyleId;
-        public static final int COLOR_SOLID_WHITE = getArgbColorFromCeaColor(2, 2, 2, 0);
-        private static final int[] WINDOW_STYLE_JUSTIFICATION = {0, 0, 0, 0, 0, 2, 0};
-        private static final int[] WINDOW_STYLE_PRINT_DIRECTION = {0, 0, 0, 0, 0, 0, 2};
-        private static final int[] WINDOW_STYLE_SCROLL_DIRECTION = {3, 3, 3, 3, 3, 3, 1};
-        private static final boolean[] WINDOW_STYLE_WORD_WRAP = {false, false, false, true, true, true, false};
-        private static final int[] PEN_STYLE_FONT_STYLE = {0, 1, 2, 3, 4, 3, 4};
-        private static final int[] PEN_STYLE_EDGE_TYPE = {0, 0, 0, 0, 0, 3, 3};
         private final List<SpannableString> rolledUpCaptions = new ArrayList();
         private final SpannableStringBuilder captionStringBuilder = new SpannableStringBuilder();
 
@@ -600,7 +592,13 @@ public final class Cea708Decoder extends CeaDecoder {
             COLOR_SOLID_BLACK = argbColorFromCeaColor;
             int argbColorFromCeaColor2 = getArgbColorFromCeaColor(0, 0, 0, 3);
             COLOR_TRANSPARENT = argbColorFromCeaColor2;
+            WINDOW_STYLE_JUSTIFICATION = new int[]{0, 0, 0, 0, 0, 2, 0};
+            WINDOW_STYLE_PRINT_DIRECTION = new int[]{0, 0, 0, 0, 0, 0, 2};
+            WINDOW_STYLE_SCROLL_DIRECTION = new int[]{3, 3, 3, 3, 3, 3, 1};
+            WINDOW_STYLE_WORD_WRAP = new boolean[]{false, false, false, true, true, true, false};
             WINDOW_STYLE_FILL = new int[]{argbColorFromCeaColor, argbColorFromCeaColor2, argbColorFromCeaColor, argbColorFromCeaColor, argbColorFromCeaColor2, argbColorFromCeaColor, argbColorFromCeaColor};
+            PEN_STYLE_FONT_STYLE = new int[]{0, 1, 2, 3, 4, 3, 4};
+            PEN_STYLE_EDGE_TYPE = new int[]{0, 0, 0, 0, 0, 3, 3};
             PEN_STYLE_BACKGROUND = new int[]{argbColorFromCeaColor, argbColorFromCeaColor, argbColorFromCeaColor, argbColorFromCeaColor, argbColorFromCeaColor, argbColorFromCeaColor2, argbColorFromCeaColor2};
         }
 
@@ -702,10 +700,9 @@ public final class Cea708Decoder extends CeaDecoder {
                 this.italicsStartPosition = this.captionStringBuilder.length();
             }
             if (this.underlineStartPosition == -1) {
-                if (!z2) {
-                    return;
+                if (z2) {
+                    this.underlineStartPosition = this.captionStringBuilder.length();
                 }
-                this.underlineStartPosition = this.captionStringBuilder.length();
             } else if (z2) {
             } else {
                 this.captionStringBuilder.setSpan(new UnderlineSpan(), this.underlineStartPosition, this.captionStringBuilder.length(), 33);
@@ -791,13 +788,13 @@ public final class Cea708Decoder extends CeaDecoder {
             return new SpannableString(spannableStringBuilder);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:20:0x0065  */
-        /* JADX WARN: Removed duplicated region for block: B:23:0x0091  */
-        /* JADX WARN: Removed duplicated region for block: B:26:0x009e  */
-        /* JADX WARN: Removed duplicated region for block: B:29:0x00ac  */
-        /* JADX WARN: Removed duplicated region for block: B:32:0x00a0  */
-        /* JADX WARN: Removed duplicated region for block: B:36:0x0093  */
-        /* JADX WARN: Removed duplicated region for block: B:40:0x0070  */
+        /* JADX WARN: Removed duplicated region for block: B:23:0x0065  */
+        /* JADX WARN: Removed duplicated region for block: B:24:0x0070  */
+        /* JADX WARN: Removed duplicated region for block: B:27:0x0091  */
+        /* JADX WARN: Removed duplicated region for block: B:28:0x0093  */
+        /* JADX WARN: Removed duplicated region for block: B:34:0x009e  */
+        /* JADX WARN: Removed duplicated region for block: B:35:0x00a0  */
+        /* JADX WARN: Removed duplicated region for block: B:41:0x00ac  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -812,7 +809,6 @@ public final class Cea708Decoder extends CeaDecoder {
                 return null;
             }
             SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
-            boolean z = false;
             for (int i4 = 0; i4 < this.rolledUpCaptions.size(); i4++) {
                 spannableStringBuilder.append((CharSequence) this.rolledUpCaptions.get(i4));
                 spannableStringBuilder.append('\n');
@@ -848,10 +844,7 @@ public final class Cea708Decoder extends CeaDecoder {
                 } else {
                     i3 = i / 3 == 1 ? 1 : 2;
                 }
-                if (this.windowFillColor != COLOR_SOLID_BLACK) {
-                    z = true;
-                }
-                return new Cea708Cue(spannableStringBuilder, alignment2, f4, 0, i2, f3, i3, -3.4028235E38f, z, this.windowFillColor, this.priority);
+                return new Cea708Cue(spannableStringBuilder, alignment2, f4, 0, i2, f3, i3, -3.4028235E38f, this.windowFillColor != COLOR_SOLID_BLACK, this.windowFillColor, this.priority);
             }
             alignment = Layout.Alignment.ALIGN_NORMAL;
             Layout.Alignment alignment22 = alignment;
@@ -864,26 +857,23 @@ public final class Cea708Decoder extends CeaDecoder {
             }
             if (i / 3 != 0) {
             }
-            if (this.windowFillColor != COLOR_SOLID_BLACK) {
-            }
-            return new Cea708Cue(spannableStringBuilder, alignment22, f42, 0, i2, f32, i3, -3.4028235E38f, z, this.windowFillColor, this.priority);
+            return new Cea708Cue(spannableStringBuilder, alignment22, f42, 0, i2, f32, i3, -3.4028235E38f, this.windowFillColor != COLOR_SOLID_BLACK, this.windowFillColor, this.priority);
         }
 
         public static int getArgbColorFromCeaColor(int i, int i2, int i3) {
             return getArgbColorFromCeaColor(i, i2, i3, 0);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:10:0x0025  */
-        /* JADX WARN: Removed duplicated region for block: B:12:0x002b  */
-        /* JADX WARN: Removed duplicated region for block: B:14:0x0031  */
+        /* JADX WARN: Removed duplicated region for block: B:14:0x0025  */
+        /* JADX WARN: Removed duplicated region for block: B:15:0x0028  */
+        /* JADX WARN: Removed duplicated region for block: B:17:0x002b  */
         /* JADX WARN: Removed duplicated region for block: B:18:0x002e  */
-        /* JADX WARN: Removed duplicated region for block: B:19:0x0028  */
+        /* JADX WARN: Removed duplicated region for block: B:20:0x0031  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public static int getArgbColorFromCeaColor(int i, int i2, int i3, int i4) {
             int i5;
-            int i6 = 0;
             Assertions.checkIndex(i, 0, 4);
             Assertions.checkIndex(i2, 0, 4);
             Assertions.checkIndex(i3, 0, 4);
@@ -894,21 +884,10 @@ public final class Cea708Decoder extends CeaDecoder {
                 } else if (i4 == 3) {
                     i5 = 0;
                 }
-                int i7 = i <= 1 ? 255 : 0;
-                int i8 = i2 <= 1 ? 255 : 0;
-                if (i3 > 1) {
-                    i6 = 255;
-                }
-                return Color.argb(i5, i7, i8, i6);
+                return Color.argb(i5, i <= 1 ? 255 : 0, i2 <= 1 ? 255 : 0, i3 > 1 ? 255 : 0);
             }
             i5 = 255;
-            if (i <= 1) {
-            }
-            if (i2 <= 1) {
-            }
-            if (i3 > 1) {
-            }
-            return Color.argb(i5, i7, i8, i6);
+            return Color.argb(i5, i <= 1 ? 255 : 0, i2 <= 1 ? 255 : 0, i3 > 1 ? 255 : 0);
         }
     }
 }

@@ -81,13 +81,12 @@ abstract class s2 extends CountedCompleter implements m3 {
     @Override // j$.util.stream.m3
     public void n(long j) {
         long j2 = this.e;
-        if (j <= j2) {
-            int i = (int) this.d;
-            this.f = i;
-            this.g = i + ((int) j2);
-            return;
+        if (j > j2) {
+            throw new IllegalStateException("size passed to Sink.begin exceeds array length");
         }
-        throw new IllegalStateException("size passed to Sink.begin exceeds array length");
+        int i = (int) this.d;
+        this.f = i;
+        this.g = i + ((int) j2);
     }
 
     @Override // j$.util.stream.m3

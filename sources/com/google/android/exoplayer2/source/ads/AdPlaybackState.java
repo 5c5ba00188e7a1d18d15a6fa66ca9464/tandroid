@@ -92,21 +92,21 @@ public final class AdPlaybackState {
 
     public int getAdGroupIndexAfterPositionUs(long j, long j2) {
         if (j != Long.MIN_VALUE) {
-            if (j2 != -9223372036854775807L && j >= j2) {
-                return -1;
-            }
-            int i = 0;
-            while (true) {
-                long[] jArr = this.adGroupTimesUs;
-                if (i >= jArr.length || jArr[i] == Long.MIN_VALUE || (j < jArr[i] && this.adGroups[i].hasUnplayedAds())) {
-                    break;
+            if (j2 == -9223372036854775807L || j < j2) {
+                int i = 0;
+                while (true) {
+                    long[] jArr = this.adGroupTimesUs;
+                    if (i >= jArr.length || jArr[i] == Long.MIN_VALUE || (j < jArr[i] && this.adGroups[i].hasUnplayedAds())) {
+                        break;
+                    }
+                    i++;
                 }
-                i++;
-            }
-            if (i >= this.adGroupTimesUs.length) {
+                if (i < this.adGroupTimesUs.length) {
+                    return i;
+                }
                 return -1;
             }
-            return i;
+            return -1;
         }
         return -1;
     }

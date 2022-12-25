@@ -121,22 +121,23 @@ public class SearchAdapter extends RecyclerListView.SelectionAdapter {
             this.searchAdapterHelper.queryServerSearch(null, true, this.allowChats, this.allowBots, this.allowSelf, false, this.channelId, this.allowPhoneNumbers, 0, 0);
         }
         notifyDataSetChanged();
-        if (!TextUtils.isEmpty(str)) {
-            Timer timer2 = new Timer();
-            this.searchTimer = timer2;
-            timer2.schedule(new TimerTask() { // from class: org.telegram.ui.Adapters.SearchAdapter.2
-                @Override // java.util.TimerTask, java.lang.Runnable
-                public void run() {
-                    try {
-                        SearchAdapter.this.searchTimer.cancel();
-                        SearchAdapter.this.searchTimer = null;
-                    } catch (Exception e2) {
-                        FileLog.e(e2);
-                    }
-                    SearchAdapter.this.processSearch(str);
-                }
-            }, 200L, 300L);
+        if (TextUtils.isEmpty(str)) {
+            return;
         }
+        Timer timer2 = new Timer();
+        this.searchTimer = timer2;
+        timer2.schedule(new TimerTask() { // from class: org.telegram.ui.Adapters.SearchAdapter.2
+            @Override // java.util.TimerTask, java.lang.Runnable
+            public void run() {
+                try {
+                    SearchAdapter.this.searchTimer.cancel();
+                    SearchAdapter.this.searchTimer = null;
+                } catch (Exception e2) {
+                    FileLog.e(e2);
+                }
+                SearchAdapter.this.processSearch(str);
+            }
+        }, 200L, 300L);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -180,9 +181,7 @@ public class SearchAdapter extends RecyclerListView.SelectionAdapter {
             return;
         }
         String translitString = LocaleController.getInstance().getTranslitString(lowerCase);
-        if (lowerCase.equals(translitString) || translitString.length() == 0) {
-            translitString = null;
-        }
+        translitString = (lowerCase.equals(translitString) || translitString.length() == 0) ? null : null;
         int i4 = (translitString != null ? 1 : 0) + 1;
         String[] strArr3 = new String[i4];
         strArr3[0] = lowerCase;
@@ -224,12 +223,12 @@ public class SearchAdapter extends RecyclerListView.SelectionAdapter {
                     while (i9 < 3) {
                         String str3 = strArr4[i9];
                         if (str3 != null) {
-                            if (!str3.startsWith(str2)) {
+                            if (str3.startsWith(str2)) {
+                                strArr2 = strArr4;
+                            } else {
                                 strArr2 = strArr4;
                                 if (str3.contains(" " + str2)) {
                                 }
-                            } else {
-                                strArr2 = strArr4;
                             }
                             c = 1;
                             break;
@@ -340,10 +339,10 @@ public class SearchAdapter extends RecyclerListView.SelectionAdapter {
         int size3 = this.searchAdapterHelper.getGlobalSearch().size();
         int size4 = this.searchAdapterHelper.getPhoneSearch().size();
         if (i < 0 || i >= size) {
-            if (i > size && i < size + size2 + 1) {
-                return false;
+            if (i <= size || i >= size + size2 + 1) {
+                return (i <= (size + size2) + 1 || i >= ((size + size4) + size2) + 1) && i > ((size + size4) + size2) + 1 && i <= (((size3 + size4) + size) + size2) + 1;
             }
-            return (i <= (size + size2) + 1 || i >= ((size + size4) + size2) + 1) && i > ((size + size4) + size2) + 1 && i <= (((size3 + size4) + size) + size2) + 1;
+            return false;
         }
         return false;
     }
@@ -364,14 +363,14 @@ public class SearchAdapter extends RecyclerListView.SelectionAdapter {
                 }
                 i2 -= size2 + 1;
             }
-            if (i2 >= 0 && i2 < size4) {
-                return this.searchAdapterHelper.getPhoneSearch().get(i2);
-            }
-            int i3 = i2 - size4;
-            if (i3 > 0 && i3 <= size3) {
+            if (i2 < 0 || i2 >= size4) {
+                int i3 = i2 - size4;
+                if (i3 <= 0 || i3 > size3) {
+                    return null;
+                }
                 return this.searchAdapterHelper.getGlobalSearch().get(i3 - 1);
             }
-            return null;
+            return this.searchAdapterHelper.getPhoneSearch().get(i2);
         }
         return this.searchResult.get(i);
     }
@@ -408,7 +407,6 @@ public class SearchAdapter extends RecyclerListView.SelectionAdapter {
         int itemViewType = viewHolder.getItemViewType();
         String str2 = null;
         boolean z2 = false;
-        boolean z3 = true;
         if (itemViewType != 0) {
             if (itemViewType == 1) {
                 GraySectionCell graySectionCell = (GraySectionCell) viewHolder.itemView;
@@ -438,79 +436,75 @@ public class SearchAdapter extends RecyclerListView.SelectionAdapter {
             }
         }
         TLObject tLObject = (TLObject) getItem(i);
-        if (tLObject == null) {
-            return;
-        }
-        long j = 0;
-        if (tLObject instanceof TLRPC$User) {
-            TLRPC$User tLRPC$User = (TLRPC$User) tLObject;
-            str = tLRPC$User.username;
-            j = tLRPC$User.id;
-            z = tLRPC$User.self;
-        } else {
-            if (tLObject instanceof TLRPC$Chat) {
-                TLRPC$Chat tLRPC$Chat = (TLRPC$Chat) tLObject;
-                str = ChatObject.getPublicUsername(tLRPC$Chat);
-                j = tLRPC$Chat.id;
+        if (tLObject != null) {
+            long j = 0;
+            if (tLObject instanceof TLRPC$User) {
+                TLRPC$User tLRPC$User = (TLRPC$User) tLObject;
+                str = tLRPC$User.username;
+                j = tLRPC$User.id;
+                z = tLRPC$User.self;
             } else {
-                str = null;
-            }
-            z = false;
-        }
-        if (i < this.searchResult.size()) {
-            CharSequence charSequence = this.searchResultNames.get(i);
-            if (charSequence != null && str != null && str.length() > 0) {
-                if (charSequence.toString().startsWith("@" + str)) {
-                    spannableStringBuilder = charSequence;
+                if (tLObject instanceof TLRPC$Chat) {
+                    TLRPC$Chat tLRPC$Chat = (TLRPC$Chat) tLObject;
+                    str = ChatObject.getPublicUsername(tLRPC$Chat);
+                    j = tLRPC$Chat.id;
+                } else {
+                    str = null;
                 }
+                z = false;
             }
-            spannableStringBuilder = null;
-            str2 = charSequence;
-        } else if (i <= this.searchResult.size() || str == null) {
-            spannableStringBuilder = null;
-        } else {
-            String lastFoundUsername = this.searchAdapterHelper.getLastFoundUsername();
-            if (lastFoundUsername != null && lastFoundUsername.startsWith("@")) {
-                lastFoundUsername = lastFoundUsername.substring(1);
-            }
-            try {
-                SpannableStringBuilder spannableStringBuilder2 = new SpannableStringBuilder();
-                spannableStringBuilder2.append((CharSequence) "@");
-                spannableStringBuilder2.append((CharSequence) str);
-                if (lastFoundUsername != null && (indexOfIgnoreCase = AndroidUtilities.indexOfIgnoreCase(str, lastFoundUsername)) != -1) {
-                    int length = lastFoundUsername.length();
-                    if (indexOfIgnoreCase == 0) {
-                        length++;
-                    } else {
-                        indexOfIgnoreCase++;
+            if (i < this.searchResult.size()) {
+                CharSequence charSequence = this.searchResultNames.get(i);
+                if (charSequence != null && str != null && str.length() > 0) {
+                    if (charSequence.toString().startsWith("@" + str)) {
+                        spannableStringBuilder = charSequence;
                     }
-                    spannableStringBuilder2.setSpan(new ForegroundColorSpanThemable("windowBackgroundWhiteBlueText4"), indexOfIgnoreCase, length + indexOfIgnoreCase, 33);
                 }
-                spannableStringBuilder = spannableStringBuilder2;
-            } catch (Exception e) {
-                FileLog.e(e);
-                spannableStringBuilder = str;
+                spannableStringBuilder = null;
+                str2 = charSequence;
+            } else if (i <= this.searchResult.size() || str == null) {
+                spannableStringBuilder = null;
+            } else {
+                String lastFoundUsername = this.searchAdapterHelper.getLastFoundUsername();
+                if (lastFoundUsername != null && lastFoundUsername.startsWith("@")) {
+                    lastFoundUsername = lastFoundUsername.substring(1);
+                }
+                try {
+                    SpannableStringBuilder spannableStringBuilder2 = new SpannableStringBuilder();
+                    spannableStringBuilder2.append((CharSequence) "@");
+                    spannableStringBuilder2.append((CharSequence) str);
+                    if (lastFoundUsername != null && (indexOfIgnoreCase = AndroidUtilities.indexOfIgnoreCase(str, lastFoundUsername)) != -1) {
+                        int length = lastFoundUsername.length();
+                        if (indexOfIgnoreCase == 0) {
+                            length++;
+                        } else {
+                            indexOfIgnoreCase++;
+                        }
+                        spannableStringBuilder2.setSpan(new ForegroundColorSpanThemable("windowBackgroundWhiteBlueText4"), indexOfIgnoreCase, length + indexOfIgnoreCase, 33);
+                    }
+                    spannableStringBuilder = spannableStringBuilder2;
+                } catch (Exception e) {
+                    FileLog.e(e);
+                    spannableStringBuilder = str;
+                }
             }
-        }
-        if (this.useUserCell) {
-            UserCell userCell = (UserCell) viewHolder.itemView;
-            userCell.setData(tLObject, str2, spannableStringBuilder, 0);
-            LongSparseArray<?> longSparseArray = this.checkedMap;
-            if (longSparseArray == null) {
+            if (this.useUserCell) {
+                UserCell userCell = (UserCell) viewHolder.itemView;
+                userCell.setData(tLObject, str2, spannableStringBuilder, 0);
+                LongSparseArray<?> longSparseArray = this.checkedMap;
+                if (longSparseArray != null) {
+                    userCell.setChecked(longSparseArray.indexOfKey(j) >= 0, false);
+                    return;
+                }
                 return;
             }
-            if (longSparseArray.indexOfKey(j) < 0) {
-                z3 = false;
+            ProfileSearchCell profileSearchCell2 = (ProfileSearchCell) viewHolder.itemView;
+            profileSearchCell2.setData(tLObject, null, z ? LocaleController.getString("SavedMessages", R.string.SavedMessages) : str2, spannableStringBuilder, false, z);
+            if (i != getItemCount() - 1 && i != this.searchResult.size() - 1) {
+                z2 = true;
             }
-            userCell.setChecked(z3, false);
-            return;
+            profileSearchCell2.useSeparator = z2;
         }
-        ProfileSearchCell profileSearchCell2 = (ProfileSearchCell) viewHolder.itemView;
-        profileSearchCell2.setData(tLObject, null, z ? LocaleController.getString("SavedMessages", R.string.SavedMessages) : str2, spannableStringBuilder, false, z);
-        if (i != getItemCount() - 1 && i != this.searchResult.size() - 1) {
-            z2 = true;
-        }
-        profileSearchCell2.useSeparator = z2;
     }
 
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter

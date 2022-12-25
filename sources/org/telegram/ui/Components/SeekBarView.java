@@ -381,20 +381,19 @@ public class SeekBarView extends FrameLayout {
         }
         int i = (int) ceil;
         int i2 = this.thumbX;
-        if (i2 == i) {
-            return;
+        if (i2 != i) {
+            if (z) {
+                this.transitionThumbX = i2;
+                this.transitionProgress = 0.0f;
+            }
+            this.thumbX = i;
+            if (i < 0) {
+                this.thumbX = 0;
+            } else if (i > getMeasuredWidth() - this.selectorWidth) {
+                this.thumbX = getMeasuredWidth() - this.selectorWidth;
+            }
+            invalidate();
         }
-        if (z) {
-            this.transitionThumbX = i2;
-            this.transitionProgress = 0.0f;
-        }
-        this.thumbX = i;
-        if (i < 0) {
-            this.thumbX = 0;
-        } else if (i > getMeasuredWidth() - this.selectorWidth) {
-            this.thumbX = getMeasuredWidth() - this.selectorWidth;
-        }
-        invalidate();
     }
 
     public void setBufferedProgress(float f) {
@@ -421,10 +420,10 @@ public class SeekBarView extends FrameLayout {
         return this.pressed;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:41:0x01f2  */
-    /* JADX WARN: Removed duplicated region for block: B:47:0x0252  */
-    /* JADX WARN: Removed duplicated region for block: B:50:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:51:0x023a  */
+    /* JADX WARN: Removed duplicated region for block: B:102:0x01f2  */
+    /* JADX WARN: Removed duplicated region for block: B:106:0x023a  */
+    /* JADX WARN: Removed duplicated region for block: B:109:0x0252  */
+    /* JADX WARN: Removed duplicated region for block: B:111:? A[RETURN, SYNTHETIC] */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -452,7 +451,6 @@ public class SeekBarView extends FrameLayout {
             this.rect.set(f2, dp, (this.selectorWidth / 2.0f) + (this.bufferedProgress * (getMeasuredWidth() - this.selectorWidth)), dp2);
             drawProgressBar(canvas, this.rect, this.innerPaint1);
         }
-        float f3 = 6.0f;
         if (this.twoSided) {
             canvas.drawRect((getMeasuredWidth() / 2) - AndroidUtilities.dp(1.0f), (getMeasuredHeight() / 2) - AndroidUtilities.dp(6.0f), (getMeasuredWidth() / 2) + AndroidUtilities.dp(1.0f), (getMeasuredHeight() / 2) + AndroidUtilities.dp(6.0f), this.outerPaint1);
             if (i3 > (getMeasuredWidth() - this.selectorWidth) / 2) {
@@ -471,37 +469,34 @@ public class SeekBarView extends FrameLayout {
             this.hoverDrawable.draw(canvas);
         }
         boolean z2 = false;
-        if (this.pressed) {
-            f3 = 8.0f;
-        }
-        int dp5 = AndroidUtilities.dp(f3);
+        int dp5 = AndroidUtilities.dp(this.pressed ? 8.0f : 6.0f);
         long elapsedRealtime = SystemClock.elapsedRealtime() - this.lastUpdateTime;
         if (elapsedRealtime > 18) {
             elapsedRealtime = 16;
         }
-        float f4 = this.currentRadius;
-        float f5 = dp5;
-        if (f4 != f5) {
-            if (f4 < f5) {
-                float dp6 = f4 + (AndroidUtilities.dp(1.0f) * (((float) elapsedRealtime) / 60.0f));
+        float f3 = this.currentRadius;
+        float f4 = dp5;
+        if (f3 != f4) {
+            if (f3 < f4) {
+                float dp6 = f3 + (AndroidUtilities.dp(1.0f) * (((float) elapsedRealtime) / 60.0f));
                 this.currentRadius = dp6;
-                if (dp6 > f5) {
-                    this.currentRadius = f5;
+                if (dp6 > f4) {
+                    this.currentRadius = f4;
                 }
             } else {
-                float dp7 = f4 - (AndroidUtilities.dp(1.0f) * (((float) elapsedRealtime) / 60.0f));
+                float dp7 = f3 - (AndroidUtilities.dp(1.0f) * (((float) elapsedRealtime) / 60.0f));
                 this.currentRadius = dp7;
-                if (dp7 < f5) {
-                    this.currentRadius = f5;
+                if (dp7 < f4) {
+                    this.currentRadius = f4;
                 }
             }
             z2 = true;
         }
-        float f6 = this.transitionProgress;
-        if (f6 < 1.0f) {
-            float f7 = f6 + (((float) elapsedRealtime) / 225.0f);
-            this.transitionProgress = f7;
-            if (f7 >= 1.0f) {
+        float f5 = this.transitionProgress;
+        if (f5 < 1.0f) {
+            float f6 = f5 + (((float) elapsedRealtime) / 225.0f);
+            this.transitionProgress = f6;
+            if (f6 >= 1.0f) {
                 this.transitionProgress = 1.0f;
             }
             f = this.transitionProgress;
@@ -576,11 +571,11 @@ public class SeekBarView extends FrameLayout {
             this.currentTimestamp = -1;
             this.timestampsAppearing = 0.0f;
             StaticLayout[] staticLayoutArr = this.timestampLabel;
-            if (staticLayoutArr == null) {
+            if (staticLayoutArr != null) {
+                staticLayoutArr[1] = null;
+                staticLayoutArr[0] = null;
                 return;
             }
-            staticLayoutArr[1] = null;
-            staticLayoutArr[0] = null;
             return;
         }
         Spanned spanned = (Spanned) charSequence;
@@ -609,11 +604,10 @@ public class SeekBarView extends FrameLayout {
             this.currentTimestamp = -1;
             this.timestampsAppearing = 0.0f;
             StaticLayout[] staticLayoutArr2 = this.timestampLabel;
-            if (staticLayoutArr2 == null) {
-                return;
+            if (staticLayoutArr2 != null) {
+                staticLayoutArr2[1] = null;
+                staticLayoutArr2[0] = null;
             }
-            staticLayoutArr2[1] = null;
-            staticLayoutArr2[0] = null;
         }
     }
 

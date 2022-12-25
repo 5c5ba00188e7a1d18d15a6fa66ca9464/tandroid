@@ -165,8 +165,6 @@ public class EditTextEmoji extends FrameLayout implements NotificationCenter.Not
         this.editText.setCursorSize(AndroidUtilities.dp(20.0f));
         this.editText.setCursorWidth(1.5f);
         this.editText.setCursorColor(getThemedColor("windowBackgroundWhiteBlackText"));
-        int i2 = 5;
-        float f = 11.0f;
         if (i == 0) {
             this.editText.setGravity((LocaleController.isRTL ? 5 : 3) | 16);
             this.editText.setBackground(null);
@@ -176,7 +174,7 @@ public class EditTextEmoji extends FrameLayout implements NotificationCenter.Not
             this.editText.setPadding(LocaleController.isRTL ? AndroidUtilities.dp(40.0f) : 0, 0, LocaleController.isRTL ? 0 : AndroidUtilities.dp(40.0f), AndroidUtilities.dp(8.0f));
             EditTextCaption editTextCaption4 = this.editText;
             boolean z2 = LocaleController.isRTL;
-            addView(editTextCaption4, LayoutHelper.createFrame(-1, -2.0f, 19, z2 ? 11.0f : 0.0f, 1.0f, z2 ? 0.0f : f, 0.0f));
+            addView(editTextCaption4, LayoutHelper.createFrame(-1, -2.0f, 19, z2 ? 11.0f : 0.0f, 1.0f, z2 ? 0.0f : 11.0f, 0.0f));
         } else {
             this.editText.setGravity(19);
             this.editText.setHintTextColor(getThemedColor("dialogTextHint"));
@@ -195,7 +193,7 @@ public class EditTextEmoji extends FrameLayout implements NotificationCenter.Not
         this.emojiIconDrawable.setColorFilter(new PorterDuffColorFilter(getThemedColor("chat_messagePanelIcons"), PorterDuff.Mode.MULTIPLY));
         if (i == 0) {
             this.emojiIconDrawable.setIcon(R.drawable.smiles_tab_smiles, false);
-            addView(this.emojiButton, LayoutHelper.createFrame(48, 48.0f, (LocaleController.isRTL ? 3 : i2) | 16, 0.0f, 0.0f, 0.0f, 7.0f));
+            addView(this.emojiButton, LayoutHelper.createFrame(48, 48.0f, (LocaleController.isRTL ? 3 : 5) | 16, 0.0f, 0.0f, 0.0f, 7.0f));
         } else {
             this.emojiIconDrawable.setIcon(R.drawable.input_smile, false);
             addView(this.emojiButton, LayoutHelper.createFrame(48, 48.0f, 83, 0.0f, 0.0f, 0.0f, 0.0f));
@@ -216,21 +214,15 @@ public class EditTextEmoji extends FrameLayout implements NotificationCenter.Not
     public /* synthetic */ void lambda$new$0(View view) {
         if (this.emojiButton.isEnabled()) {
             AdjustPanLayoutHelper adjustPanLayoutHelper = this.adjustPanLayoutHelper;
-            if (adjustPanLayoutHelper != null && adjustPanLayoutHelper.animationInProgress()) {
-                return;
-            }
-            if (!isPopupShowing()) {
-                boolean z = true;
-                showPopup(1);
-                EmojiView emojiView = this.emojiView;
-                if (this.editText.length() <= 0) {
-                    z = false;
+            if (adjustPanLayoutHelper == null || !adjustPanLayoutHelper.animationInProgress()) {
+                if (!isPopupShowing()) {
+                    showPopup(1);
+                    this.emojiView.onOpen(this.editText.length() > 0);
+                    this.editText.requestFocus();
+                    return;
                 }
-                emojiView.onOpen(z);
-                this.editText.requestFocus();
-                return;
+                openKeyboardInternal();
             }
-            openKeyboardInternal();
         }
     }
 
@@ -247,12 +239,11 @@ public class EditTextEmoji extends FrameLayout implements NotificationCenter.Not
                 emojiView.invalidateViews();
             }
             EditTextCaption editTextCaption = this.editText;
-            if (editTextCaption == null) {
-                return;
+            if (editTextCaption != null) {
+                int currentTextColor = editTextCaption.getCurrentTextColor();
+                this.editText.setTextColor(-1);
+                this.editText.setTextColor(currentTextColor);
             }
-            int currentTextColor = editTextCaption.getCurrentTextColor();
-            this.editText.setTextColor(-1);
-            this.editText.setTextColor(currentTextColor);
         }
     }
 
@@ -511,14 +502,13 @@ public class EditTextEmoji extends FrameLayout implements NotificationCenter.Not
             }
         }
         SizeNotifierFrameLayout sizeNotifierFrameLayout2 = this.sizeNotifierLayout;
-        if (sizeNotifierFrameLayout2 == null) {
-            return;
+        if (sizeNotifierFrameLayout2 != null) {
+            if (i == 0) {
+                this.emojiPadding = 0;
+            }
+            sizeNotifierFrameLayout2.requestLayout();
+            onWindowSizeChanged();
         }
-        if (i == 0) {
-            this.emojiPadding = 0;
-        }
-        sizeNotifierFrameLayout2.requestLayout();
-        onWindowSizeChanged();
     }
 
     /* JADX INFO: Access modifiers changed from: private */

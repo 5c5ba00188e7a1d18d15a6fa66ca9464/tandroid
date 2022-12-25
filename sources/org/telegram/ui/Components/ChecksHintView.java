@@ -23,14 +23,16 @@ public class ChecksHintView extends FrameLayout {
     private ImageView arrowImageView;
     private View currentView;
     private Runnable hideRunnable;
+    private RLottieImageView[] imageView;
     private ChatMessageCell messageCell;
     private final Theme.ResourcesProvider resourcesProvider;
+    private TextView[] textView;
     private float translationY;
-    private TextView[] textView = new TextView[2];
-    private RLottieImageView[] imageView = new RLottieImageView[2];
 
     public ChecksHintView(Context context, Theme.ResourcesProvider resourcesProvider) {
         super(context);
+        this.textView = new TextView[2];
+        this.imageView = new RLottieImageView[2];
         this.resourcesProvider = resourcesProvider;
         FrameLayout frameLayout = new FrameLayout(context);
         frameLayout.setBackground(Theme.createRoundRectDrawable(AndroidUtilities.dp(6.0f), getThemedColor("chat_gifSaveHintBackground")));

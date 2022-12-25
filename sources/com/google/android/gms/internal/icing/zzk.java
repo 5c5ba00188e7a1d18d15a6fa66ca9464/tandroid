@@ -46,10 +46,9 @@ public final class zzk extends AbstractSafeParcelable {
         } else if (str != null && bArr != null) {
             str2 = "Both content and blobContent set";
         }
-        if (str2 == null) {
-            return;
+        if (str2 != null) {
+            throw new IllegalArgumentException(str2);
         }
-        throw new IllegalArgumentException(str2);
     }
 
     @Override // android.os.Parcelable

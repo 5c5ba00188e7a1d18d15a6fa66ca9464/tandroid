@@ -80,20 +80,20 @@ public class ReactionsEffectOverlay {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:105:0x0405  */
-    /* JADX WARN: Removed duplicated region for block: B:118:0x05cc  */
-    /* JADX WARN: Removed duplicated region for block: B:123:0x0607  */
-    /* JADX WARN: Removed duplicated region for block: B:126:0x062b  */
-    /* JADX WARN: Removed duplicated region for block: B:137:0x053c  */
-    /* JADX WARN: Removed duplicated region for block: B:160:0x03f2  */
-    /* JADX WARN: Removed duplicated region for block: B:161:0x0352  */
-    /* JADX WARN: Removed duplicated region for block: B:41:0x0191  */
-    /* JADX WARN: Removed duplicated region for block: B:45:0x01b7  */
-    /* JADX WARN: Removed duplicated region for block: B:93:0x0342  */
-    /* JADX WARN: Removed duplicated region for block: B:96:0x03dd  */
+    /* JADX WARN: Removed duplicated region for block: B:107:0x0405  */
+    /* JADX WARN: Removed duplicated region for block: B:124:0x053c  */
+    /* JADX WARN: Removed duplicated region for block: B:149:0x05cc  */
+    /* JADX WARN: Removed duplicated region for block: B:154:0x0607  */
+    /* JADX WARN: Removed duplicated region for block: B:157:0x062b  */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x0191  */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x01b7  */
+    /* JADX WARN: Removed duplicated region for block: B:90:0x0342  */
+    /* JADX WARN: Removed duplicated region for block: B:91:0x0352  */
+    /* JADX WARN: Removed duplicated region for block: B:98:0x03dd  */
+    /* JADX WARN: Removed duplicated region for block: B:99:0x03f2  */
     /* JADX WARN: Type inference failed for: r15v10 */
     /* JADX WARN: Type inference failed for: r15v4 */
-    /* JADX WARN: Type inference failed for: r15v5, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r15v5, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r15v6 */
     /* JADX WARN: Type inference failed for: r15v7 */
     /* JADX WARN: Type inference failed for: r15v8 */
@@ -153,10 +153,7 @@ public class ReactionsEffectOverlay {
             if (arrayList2 != null && chatActivity != null && chatActivity.getDialogId() < 0) {
                 int i9 = 0;
                 while (i9 < arrayList2.size()) {
-                    if (!this.reaction.equals(arrayList2.get(i9).reaction) || !arrayList2.get(i9).unread) {
-                        random = random2;
-                        arrayList = arrayList2;
-                    } else {
+                    if (this.reaction.equals(arrayList2.get(i9).reaction) && arrayList2.get(i9).unread) {
                         AvatarDrawable avatarDrawable = new AvatarDrawable();
                         ImageReceiver imageReceiver = new ImageReceiver();
                         arrayList = arrayList2;
@@ -241,6 +238,9 @@ public class ReactionsEffectOverlay {
                             }
                             random = random2;
                         }
+                    } else {
+                        random = random2;
+                        arrayList = arrayList2;
                     }
                     i9++;
                     arrayList2 = arrayList;
@@ -400,13 +400,7 @@ public class ReactionsEffectOverlay {
                             this.windowView.setClipChildren(false);
                         }
                     }
-                    ImageReceiver imageReceiver5 = animationView2.getImageReceiver();
-                    int i18 = r15 == true ? 1 : 0;
-                    int i19 = r15 == true ? 1 : 0;
-                    int i20 = r15 == true ? 1 : 0;
-                    int i21 = r15 == true ? 1 : 0;
-                    int i22 = r15 == true ? 1 : 0;
-                    imageReceiver5.setAutoRepeat(i18);
+                    animationView2.getImageReceiver().setAutoRepeat(r15);
                     animationView2.getImageReceiver().setAllowStartAnimation(r15);
                     if (animationView2.getImageReceiver().getLottieAnimation() != null) {
                         if (i5 == i6) {
@@ -416,14 +410,14 @@ public class ReactionsEffectOverlay {
                             animationView2.getImageReceiver().getLottieAnimation().start();
                         }
                     }
-                    int i23 = i14 - i4;
-                    int i24 = i23 >> 1;
-                    i23 = i5 == 1 ? i24 : i23;
+                    int i18 = i14 - i4;
+                    int i19 = i18 >> 1;
+                    i18 = i5 == 1 ? i19 : i18;
                     frameLayout.addView(animationView2);
                     animationView2.getLayoutParams().width = i4;
                     animationView2.getLayoutParams().height = i4;
-                    ((FrameLayout.LayoutParams) animationView2.getLayoutParams()).topMargin = i24;
-                    ((FrameLayout.LayoutParams) animationView2.getLayoutParams()).leftMargin = i23;
+                    ((FrameLayout.LayoutParams) animationView2.getLayoutParams()).topMargin = i19;
+                    ((FrameLayout.LayoutParams) animationView2.getLayoutParams()).leftMargin = i18;
                     if (i5 != 1) {
                         if (tLRPC$TL_availableReaction != null) {
                             animationView3.getImageReceiver().setImage(ImageLocation.getForDocument(tLRPC$TL_availableReaction.center_icon), "40_40_lastframe", null, "webp", tLRPC$TL_availableReaction, 1);
@@ -431,25 +425,25 @@ public class ReactionsEffectOverlay {
                         frameLayout.addView(animationView3);
                         animationView3.getLayoutParams().width = i4;
                         animationView3.getLayoutParams().height = i4;
-                        ((FrameLayout.LayoutParams) animationView3.getLayoutParams()).topMargin = i24;
-                        ((FrameLayout.LayoutParams) animationView3.getLayoutParams()).leftMargin = i23;
+                        ((FrameLayout.LayoutParams) animationView3.getLayoutParams()).topMargin = i19;
+                        ((FrameLayout.LayoutParams) animationView3.getLayoutParams()).leftMargin = i18;
                     }
                     this.windowView.addView(frameLayout);
                     frameLayout.getLayoutParams().width = i14;
                     frameLayout.getLayoutParams().height = i14;
-                    int i25 = -i24;
-                    ((FrameLayout.LayoutParams) frameLayout.getLayoutParams()).topMargin = i25;
-                    int i26 = -i23;
-                    ((FrameLayout.LayoutParams) frameLayout.getLayoutParams()).leftMargin = i26;
+                    int i20 = -i19;
+                    ((FrameLayout.LayoutParams) frameLayout.getLayoutParams()).topMargin = i20;
+                    int i21 = -i18;
+                    ((FrameLayout.LayoutParams) frameLayout.getLayoutParams()).leftMargin = i21;
                     this.windowView.addView(animationView);
                     animationView.getLayoutParams().width = i14;
                     animationView.getLayoutParams().height = i14;
                     animationView.getLayoutParams().width = i14;
                     animationView.getLayoutParams().height = i14;
-                    ((FrameLayout.LayoutParams) animationView.getLayoutParams()).topMargin = i25;
-                    ((FrameLayout.LayoutParams) animationView.getLayoutParams()).leftMargin = i26;
-                    frameLayout.setPivotX(i23);
-                    frameLayout.setPivotY(i24);
+                    ((FrameLayout.LayoutParams) animationView.getLayoutParams()).topMargin = i20;
+                    ((FrameLayout.LayoutParams) animationView.getLayoutParams()).leftMargin = i21;
+                    frameLayout.setPivotX(i18);
+                    frameLayout.setPivotY(i19);
                 }
                 this.dismissed = true;
                 return;
@@ -480,43 +474,37 @@ public class ReactionsEffectOverlay {
         }
         if (tLRPC$TL_availableReaction == null) {
         }
-        ImageReceiver imageReceiver52 = animationView2.getImageReceiver();
-        int i182 = r15 == true ? 1 : 0;
-        int i192 = r15 == true ? 1 : 0;
-        int i202 = r15 == true ? 1 : 0;
-        int i212 = r15 == true ? 1 : 0;
-        int i222 = r15 == true ? 1 : 0;
-        imageReceiver52.setAutoRepeat(i182);
+        animationView2.getImageReceiver().setAutoRepeat(r15);
         animationView2.getImageReceiver().setAllowStartAnimation(r15);
         if (animationView2.getImageReceiver().getLottieAnimation() != null) {
         }
-        int i232 = i142 - i4;
-        int i242 = i232 >> 1;
+        int i182 = i142 - i4;
+        int i192 = i182 >> 1;
         if (i5 == 1) {
         }
         frameLayout.addView(animationView2);
         animationView2.getLayoutParams().width = i4;
         animationView2.getLayoutParams().height = i4;
-        ((FrameLayout.LayoutParams) animationView2.getLayoutParams()).topMargin = i242;
-        ((FrameLayout.LayoutParams) animationView2.getLayoutParams()).leftMargin = i232;
+        ((FrameLayout.LayoutParams) animationView2.getLayoutParams()).topMargin = i192;
+        ((FrameLayout.LayoutParams) animationView2.getLayoutParams()).leftMargin = i182;
         if (i5 != 1) {
         }
         this.windowView.addView(frameLayout);
         frameLayout.getLayoutParams().width = i142;
         frameLayout.getLayoutParams().height = i142;
-        int i252 = -i242;
-        ((FrameLayout.LayoutParams) frameLayout.getLayoutParams()).topMargin = i252;
-        int i262 = -i232;
-        ((FrameLayout.LayoutParams) frameLayout.getLayoutParams()).leftMargin = i262;
+        int i202 = -i192;
+        ((FrameLayout.LayoutParams) frameLayout.getLayoutParams()).topMargin = i202;
+        int i212 = -i182;
+        ((FrameLayout.LayoutParams) frameLayout.getLayoutParams()).leftMargin = i212;
         this.windowView.addView(animationView);
         animationView.getLayoutParams().width = i142;
         animationView.getLayoutParams().height = i142;
         animationView.getLayoutParams().width = i142;
         animationView.getLayoutParams().height = i142;
-        ((FrameLayout.LayoutParams) animationView.getLayoutParams()).topMargin = i252;
-        ((FrameLayout.LayoutParams) animationView.getLayoutParams()).leftMargin = i262;
-        frameLayout.setPivotX(i232);
-        frameLayout.setPivotY(i242);
+        ((FrameLayout.LayoutParams) animationView.getLayoutParams()).topMargin = i202;
+        ((FrameLayout.LayoutParams) animationView.getLayoutParams()).leftMargin = i212;
+        frameLayout.setPivotX(i182);
+        frameLayout.setPivotY(i192);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -548,14 +536,14 @@ public class ReactionsEffectOverlay {
             this.val$visibleReaction = visibleReaction;
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:122:0x0473  */
-        /* JADX WARN: Removed duplicated region for block: B:131:0x04a2  */
-        /* JADX WARN: Removed duplicated region for block: B:134:0x056b  */
-        /* JADX WARN: Removed duplicated region for block: B:139:0x0578  */
-        /* JADX WARN: Removed duplicated region for block: B:142:0x0596  */
-        /* JADX WARN: Removed duplicated region for block: B:148:0x05a9  */
-        /* JADX WARN: Removed duplicated region for block: B:152:0x058c  */
-        /* JADX WARN: Removed duplicated region for block: B:153:0x04a5  */
+        /* JADX WARN: Removed duplicated region for block: B:174:0x0473  */
+        /* JADX WARN: Removed duplicated region for block: B:182:0x04a2  */
+        /* JADX WARN: Removed duplicated region for block: B:183:0x04a5  */
+        /* JADX WARN: Removed duplicated region for block: B:186:0x056b  */
+        /* JADX WARN: Removed duplicated region for block: B:191:0x0578  */
+        /* JADX WARN: Removed duplicated region for block: B:192:0x058c  */
+        /* JADX WARN: Removed duplicated region for block: B:195:0x0596  */
+        /* JADX WARN: Removed duplicated region for block: B:199:0x05a9  */
         @Override // android.view.ViewGroup, android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -938,10 +926,10 @@ public class ReactionsEffectOverlay {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:21:0x0063, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:24:0x0063, code lost:
         if (r24 != 2) goto L38;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:25:0x006d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:28:0x006d, code lost:
         if (r1.isShowing() == false) goto L38;
      */
     /*
@@ -952,48 +940,47 @@ public class ReactionsEffectOverlay {
             return;
         }
         boolean z = true;
-        if (!MessagesController.getGlobalMainSettings().getBoolean("view_animations", true)) {
-            return;
-        }
-        if (i2 == 2 || i2 == 0) {
-            show(baseFragment, null, chatMessageCell, view, 0.0f, 0.0f, visibleReaction, i, 1);
-        }
-        ReactionsEffectOverlay reactionsEffectOverlay = new ReactionsEffectOverlay(baseFragment.getParentActivity(), baseFragment, reactionsContainerLayout, chatMessageCell, view, f, f2, visibleReaction, i, i2);
-        if (i2 == 1) {
-            currentShortOverlay = reactionsEffectOverlay;
-        } else {
-            currentOverlay = reactionsEffectOverlay;
-        }
-        if (baseFragment instanceof ChatActivity) {
-            ChatActivity chatActivity = (ChatActivity) baseFragment;
-            if (i2 != 0) {
+        if (MessagesController.getGlobalMainSettings().getBoolean("view_animations", true)) {
+            if (i2 == 2 || i2 == 0) {
+                show(baseFragment, null, chatMessageCell, view, 0.0f, 0.0f, visibleReaction, i, 1);
             }
-            ActionBarPopupWindow actionBarPopupWindow = chatActivity.scrimPopupWindow;
-            if (actionBarPopupWindow != null) {
+            ReactionsEffectOverlay reactionsEffectOverlay = new ReactionsEffectOverlay(baseFragment.getParentActivity(), baseFragment, reactionsContainerLayout, chatMessageCell, view, f, f2, visibleReaction, i, i2);
+            if (i2 == 1) {
+                currentShortOverlay = reactionsEffectOverlay;
+            } else {
+                currentOverlay = reactionsEffectOverlay;
             }
+            if (baseFragment instanceof ChatActivity) {
+                ChatActivity chatActivity = (ChatActivity) baseFragment;
+                if (i2 != 0) {
+                }
+                ActionBarPopupWindow actionBarPopupWindow = chatActivity.scrimPopupWindow;
+                if (actionBarPopupWindow != null) {
+                }
+            }
+            z = false;
+            reactionsEffectOverlay.useWindow = z;
+            if (z) {
+                WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+                layoutParams.height = -1;
+                layoutParams.width = -1;
+                layoutParams.type = 1000;
+                layoutParams.flags = 65816;
+                layoutParams.format = -3;
+                WindowManager windowManager = baseFragment.getParentActivity().getWindowManager();
+                reactionsEffectOverlay.windowManager = windowManager;
+                windowManager.addView(reactionsEffectOverlay.windowView, layoutParams);
+            } else {
+                FrameLayout frameLayout = (FrameLayout) baseFragment.getParentActivity().getWindow().getDecorView();
+                reactionsEffectOverlay.decorView = frameLayout;
+                frameLayout.addView(reactionsEffectOverlay.windowView);
+            }
+            chatMessageCell.invalidate();
+            if (chatMessageCell.getCurrentMessagesGroup() == null || chatMessageCell.getParent() == null) {
+                return;
+            }
+            ((View) chatMessageCell.getParent()).invalidate();
         }
-        z = false;
-        reactionsEffectOverlay.useWindow = z;
-        if (z) {
-            WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
-            layoutParams.height = -1;
-            layoutParams.width = -1;
-            layoutParams.type = 1000;
-            layoutParams.flags = 65816;
-            layoutParams.format = -3;
-            WindowManager windowManager = baseFragment.getParentActivity().getWindowManager();
-            reactionsEffectOverlay.windowManager = windowManager;
-            windowManager.addView(reactionsEffectOverlay.windowView, layoutParams);
-        } else {
-            FrameLayout frameLayout = (FrameLayout) baseFragment.getParentActivity().getWindow().getDecorView();
-            reactionsEffectOverlay.decorView = frameLayout;
-            frameLayout.addView(reactionsEffectOverlay.windowView);
-        }
-        chatMessageCell.invalidate();
-        if (chatMessageCell.getCurrentMessagesGroup() == null || chatMessageCell.getParent() == null) {
-            return;
-        }
-        ((View) chatMessageCell.getParent()).invalidate();
     }
 
     public static void startAnimation() {
@@ -1010,10 +997,9 @@ public class ReactionsEffectOverlay {
         }
         startShortAnimation();
         ReactionsEffectOverlay reactionsEffectOverlay2 = currentShortOverlay;
-        if (reactionsEffectOverlay2 == null) {
-            return;
+        if (reactionsEffectOverlay2 != null) {
+            reactionsEffectOverlay2.cell.reactionsLayoutInBubble.animateReaction(reactionsEffectOverlay2.reaction);
         }
-        reactionsEffectOverlay2.cell.reactionsLayoutInBubble.animateReaction(reactionsEffectOverlay2.reaction);
     }
 
     public static void startShortAnimation() {
@@ -1051,11 +1037,11 @@ public class ReactionsEffectOverlay {
         ReactionsEffectOverlay reactionsEffectOverlay = currentOverlay;
         if (reactionsEffectOverlay != null) {
             int i2 = reactionsEffectOverlay.animationType;
-            if (i2 != 2 && i2 != 0) {
-                return false;
+            if (i2 == 2 || i2 == 0) {
+                long j2 = reactionsEffectOverlay.groupId;
+                return ((j2 != 0 && j == j2) || i == reactionsEffectOverlay.messageId) && reactionsEffectOverlay.reaction.equals(visibleReaction);
             }
-            long j2 = reactionsEffectOverlay.groupId;
-            return ((j2 != 0 && j == j2) || i == reactionsEffectOverlay.messageId) && reactionsEffectOverlay.reaction.equals(visibleReaction);
+            return false;
         }
         return false;
     }
@@ -1153,10 +1139,9 @@ public class ReactionsEffectOverlay {
         ReactionsEffectOverlay reactionsEffectOverlay = currentOverlay;
         if (reactionsEffectOverlay != null) {
             reactionsEffectOverlay.lastDrawnToY -= i;
-            if (i == 0) {
-                return;
+            if (i != 0) {
+                reactionsEffectOverlay.wasScrolled = true;
             }
-            reactionsEffectOverlay.wasScrolled = true;
         }
     }
 

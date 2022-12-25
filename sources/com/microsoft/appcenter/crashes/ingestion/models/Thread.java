@@ -63,24 +63,20 @@ public class Thread implements Model {
             return false;
         }
         String str = this.name;
-        if (str == null ? thread.name != null : !str.equals(thread.name)) {
-            return false;
+        if (str == null ? thread.name == null : str.equals(thread.name)) {
+            List<StackFrame> list = this.frames;
+            List<StackFrame> list2 = thread.frames;
+            return list != null ? list.equals(list2) : list2 == null;
         }
-        List<StackFrame> list = this.frames;
-        List<StackFrame> list2 = thread.frames;
-        return list != null ? list.equals(list2) : list2 == null;
+        return false;
     }
 
     public int hashCode() {
         long j = this.id;
         int i = ((int) (j ^ (j >>> 32))) * 31;
         String str = this.name;
-        int i2 = 0;
         int hashCode = (i + (str != null ? str.hashCode() : 0)) * 31;
         List<StackFrame> list = this.frames;
-        if (list != null) {
-            i2 = list.hashCode();
-        }
-        return hashCode + i2;
+        return hashCode + (list != null ? list.hashCode() : 0);
     }
 }

@@ -69,10 +69,9 @@ public class NetworkMonitor {
     }
 
     private static void assertIsTrue(boolean z) {
-        if (z) {
-            return;
+        if (!z) {
+            throw new AssertionError("Expected to be true");
         }
-        throw new AssertionError("Expected to be true");
     }
 
     public void startMonitoring(Context context) {

@@ -20,11 +20,11 @@ public class ClientIdentity extends AbstractSafeParcelable {
         if (obj == this) {
             return true;
         }
-        if (!(obj instanceof ClientIdentity)) {
-            return false;
+        if (obj instanceof ClientIdentity) {
+            ClientIdentity clientIdentity = (ClientIdentity) obj;
+            return clientIdentity.uid == this.uid && Objects.equal(clientIdentity.packageName, this.packageName);
         }
-        ClientIdentity clientIdentity = (ClientIdentity) obj;
-        return clientIdentity.uid == this.uid && Objects.equal(clientIdentity.packageName, this.packageName);
+        return false;
     }
 
     public final int hashCode() {

@@ -56,27 +56,20 @@ public class CrossOutDrawable extends Drawable {
     public void setCrossOut(boolean z, boolean z2) {
         if (this.cross != z) {
             this.cross = z;
-            float f = 0.0f;
             if (!z2) {
-                if (z) {
-                    f = 1.0f;
-                }
-                this.progress = f;
+                this.progress = z ? 1.0f : 0.0f;
             } else {
-                if (!z) {
-                    f = 1.0f;
-                }
-                this.progress = f;
+                this.progress = z ? 0.0f : 1.0f;
             }
             invalidateSelf();
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:10:0x0039  */
-    /* JADX WARN: Removed duplicated region for block: B:13:0x0043  */
-    /* JADX WARN: Removed duplicated region for block: B:16:0x005c  */
-    /* JADX WARN: Removed duplicated region for block: B:19:0x0062  */
-    /* JADX WARN: Removed duplicated region for block: B:25:0x003b  */
+    /* JADX WARN: Removed duplicated region for block: B:17:0x0039  */
+    /* JADX WARN: Removed duplicated region for block: B:18:0x003b  */
+    /* JADX WARN: Removed duplicated region for block: B:21:0x0043  */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x005c  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x0062  */
     @Override // android.graphics.drawable.Drawable
     /*
         Code decompiled incorrectly, please refer to instructions dump.

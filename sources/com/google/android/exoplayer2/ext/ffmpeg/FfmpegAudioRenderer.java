@@ -47,10 +47,10 @@ public final class FfmpegAudioRenderer extends SimpleDecoderAudioRenderer {
     @Override // com.google.android.exoplayer2.audio.SimpleDecoderAudioRenderer
     protected int supportsFormatInternal(DrmSessionManager<ExoMediaCrypto> drmSessionManager, Format format) {
         Assertions.checkNotNull(format.sampleMimeType);
-        if (!FfmpegLibrary.supportsFormat(format.sampleMimeType) || !isOutputSupported(format)) {
-            return 1;
+        if (FfmpegLibrary.supportsFormat(format.sampleMimeType) && isOutputSupported(format)) {
+            return !BaseRenderer.supportsFormatDrm(drmSessionManager, format.drmInitData) ? 2 : 4;
         }
-        return !BaseRenderer.supportsFormatDrm(drmSessionManager, format.drmInitData) ? 2 : 4;
+        return 1;
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
@@ -75,14 +75,14 @@ public final class FfmpegAudioRenderer extends SimpleDecoderAudioRenderer {
     private boolean shouldUseFloatOutput(Format format) {
         int i;
         Assertions.checkNotNull(format.sampleMimeType);
-        if (!this.enableFloatOutput || !supportsOutput(format.channelCount, 4)) {
-            return false;
+        if (this.enableFloatOutput && supportsOutput(format.channelCount, 4)) {
+            String str = format.sampleMimeType;
+            str.hashCode();
+            if (str.equals("audio/ac3")) {
+                return false;
+            }
+            return !str.equals("audio/raw") || (i = format.pcmEncoding) == 536870912 || i == 805306368 || i == 4;
         }
-        String str = format.sampleMimeType;
-        str.hashCode();
-        if (str.equals("audio/ac3")) {
-            return false;
-        }
-        return !str.equals("audio/raw") || (i = format.pcmEncoding) == 536870912 || i == 805306368 || i == 4;
+        return false;
     }
 }

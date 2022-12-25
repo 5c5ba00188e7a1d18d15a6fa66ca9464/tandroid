@@ -140,17 +140,18 @@ public class ShapeDetector {
     }
 
     public void scheduleDetect(boolean z) {
-        if (!this.busy.get()) {
-            if (this.scheduled.get() && !this.shapeDetected && z) {
-                queue.cancelRunnable(this.detect);
-                queue.postRunnable(this.detect, 150L);
-            }
-            if (this.scheduled.get()) {
-                return;
-            }
-            this.scheduled.set(true);
+        if (this.busy.get()) {
+            return;
+        }
+        if (this.scheduled.get() && !this.shapeDetected && z) {
+            queue.cancelRunnable(this.detect);
             queue.postRunnable(this.detect, 150L);
         }
+        if (this.scheduled.get()) {
+            return;
+        }
+        this.scheduled.set(true);
+        queue.postRunnable(this.detect, 150L);
     }
 
     public void append(double d, double d2, boolean z) {

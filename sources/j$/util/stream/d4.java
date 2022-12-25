@@ -3,19 +3,23 @@ package j$.util.stream;
 import java.util.EnumMap;
 import java.util.Map;
 /* JADX INFO: Access modifiers changed from: package-private */
-/* JADX WARN: Init of enum DISTINCT can be incorrect */
-/* JADX WARN: Init of enum ORDERED can be incorrect */
-/* JADX WARN: Init of enum SHORT_CIRCUIT can be incorrect */
-/* JADX WARN: Init of enum SIZED can be incorrect */
-/* JADX WARN: Init of enum SORTED can be incorrect */
+/* JADX WARN: Enum visitor error
+jadx.core.utils.exceptions.JadxRuntimeException: Init of enum DISTINCT uses external variables
+	at jadx.core.dex.visitors.EnumVisitor.createEnumFieldByConstructor(EnumVisitor.java:444)
+	at jadx.core.dex.visitors.EnumVisitor.processEnumFieldByRegister(EnumVisitor.java:391)
+	at jadx.core.dex.visitors.EnumVisitor.extractEnumFieldsFromFilledArray(EnumVisitor.java:320)
+	at jadx.core.dex.visitors.EnumVisitor.extractEnumFieldsFromInsn(EnumVisitor.java:258)
+	at jadx.core.dex.visitors.EnumVisitor.convertToEnum(EnumVisitor.java:151)
+	at jadx.core.dex.visitors.EnumVisitor.visit(EnumVisitor.java:100)
+ */
+/* JADX WARN: Failed to restore enum class, 'enum' modifier and super class removed */
 /* loaded from: classes2.dex */
-public enum d4 {
-    DISTINCT(0, r2),
-    SORTED(1, r5),
-    ORDERED(2, r7),
-    SIZED(3, r11),
-    SHORT_CIRCUIT(12, r13);
-    
+public final class d4 {
+    public static final d4 DISTINCT;
+    public static final d4 ORDERED;
+    public static final d4 SHORT_CIRCUIT;
+    public static final d4 SIZED;
+    public static final d4 SORTED;
     static final int f;
     static final int g;
     static final int h;
@@ -32,6 +36,7 @@ public enum d4 {
     static final int s;
     static final int t;
     static final int u;
+    private static final /* synthetic */ d4[] v;
     private final Map a;
     private final int b;
     private final int c;
@@ -45,11 +50,13 @@ public enum d4 {
         f2.b(c4Var2);
         c4 c4Var3 = c4.OP;
         f2.c(c4Var3);
-        d4 d4Var = DISTINCT;
+        d4 d4Var = new d4("DISTINCT", 0, 0, f2);
+        DISTINCT = d4Var;
         b4 f3 = f(c4Var);
         f3.b(c4Var2);
         f3.c(c4Var3);
-        d4 d4Var2 = SORTED;
+        d4 d4Var2 = new d4("SORTED", 1, 1, f3);
+        SORTED = d4Var2;
         b4 f4 = f(c4Var);
         f4.b(c4Var2);
         f4.c(c4Var3);
@@ -57,13 +64,18 @@ public enum d4 {
         f4.a(c4Var4);
         c4 c4Var5 = c4.UPSTREAM_TERMINAL_OP;
         f4.a(c4Var5);
-        d4 d4Var3 = ORDERED;
+        d4 d4Var3 = new d4("ORDERED", 2, 2, f4);
+        ORDERED = d4Var3;
         b4 f5 = f(c4Var);
         f5.b(c4Var2);
         f5.a(c4Var3);
-        d4 d4Var4 = SIZED;
-        f(c4Var3).b(c4Var4);
-        d4 d4Var5 = SHORT_CIRCUIT;
+        d4 d4Var4 = new d4("SIZED", 3, 3, f5);
+        SIZED = d4Var4;
+        b4 f6 = f(c4Var3);
+        f6.b(c4Var4);
+        d4 d4Var5 = new d4("SHORT_CIRCUIT", 4, 12, f6);
+        SHORT_CIRCUIT = d4Var5;
+        v = new d4[]{d4Var, d4Var2, d4Var3, d4Var4, d4Var5};
         f = b(c4Var);
         int b = b(c4Var2);
         g = b;
@@ -90,7 +102,7 @@ public enum d4 {
         u = d4Var5.c;
     }
 
-    d4(int i2, b4 b4Var) {
+    private d4(String str, int i2, int i3, b4 b4Var) {
         c4[] values;
         for (c4 c4Var : c4.values()) {
             Map map = b4Var.a;
@@ -101,11 +113,11 @@ public enum d4 {
             }
         }
         this.a = b4Var.a;
-        int i3 = i2 * 2;
-        this.b = i3;
-        this.c = 1 << i3;
-        this.d = 2 << i3;
-        this.e = 3 << i3;
+        int i4 = i3 * 2;
+        this.b = i4;
+        this.c = 1 << i4;
+        this.d = 2 << i4;
+        this.e = 3 << i4;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -138,6 +150,14 @@ public enum d4 {
     /* JADX INFO: Access modifiers changed from: package-private */
     public static int g(int i2) {
         return i2 & ((i2 ^ (-1)) >> 1) & j;
+    }
+
+    public static d4 valueOf(String str) {
+        return (d4) Enum.valueOf(d4.class, str);
+    }
+
+    public static d4[] values() {
+        return (d4[]) v.clone();
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

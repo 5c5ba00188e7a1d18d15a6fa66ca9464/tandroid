@@ -35,10 +35,9 @@ public class GooglePlayServicesUtilLight {
         }
         try {
             NotificationManager notificationManager = (NotificationManager) context.getSystemService("notification");
-            if (notificationManager == null) {
-                return;
+            if (notificationManager != null) {
+                notificationManager.cancel(10436);
             }
-            notificationManager.cancel(10436);
         } catch (SecurityException unused) {
         }
     }
@@ -93,10 +92,10 @@ public class GooglePlayServicesUtilLight {
         if (i == 18) {
             return true;
         }
-        if (i != 1) {
-            return false;
+        if (i == 1) {
+            return zza(context, "com.google.android.gms");
         }
-        return zza(context, "com.google.android.gms");
+        return false;
     }
 
     @TargetApi(18)
@@ -159,7 +158,7 @@ public class GooglePlayServicesUtilLight {
                 throw new GooglePlayServicesMissingManifestValueException();
             }
         }
-        boolean z = !DeviceProperties.isWearableWithoutPlayStore(context) && !DeviceProperties.zzb(context);
+        boolean z = (DeviceProperties.isWearableWithoutPlayStore(context) || DeviceProperties.zzb(context)) ? false : true;
         Preconditions.checkArgument(i >= 0);
         String packageName = context.getPackageName();
         PackageManager packageManager = context.getPackageManager();

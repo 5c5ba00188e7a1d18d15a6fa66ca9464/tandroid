@@ -161,28 +161,27 @@ public class VoIPPiPView implements VoIPService.StateListener, NotificationCente
         instance.currentUserTextureView.renderer.init(VideoCapturerDevice.eglBase.getEglBaseContext(), null);
         instance.callingUserTextureView.renderer.init(VideoCapturerDevice.eglBase.getEglBaseContext(), null);
         if (i4 != 0) {
-            if (i4 != 1) {
+            if (i4 == 1) {
+                instance.windowView.setAlpha(0.0f);
+                if (VoIPService.getSharedInstance() != null) {
+                    VoIPService sharedInstance = VoIPService.getSharedInstance();
+                    VoIPPiPView voIPPiPView2 = instance;
+                    sharedInstance.setBackgroundSinks(voIPPiPView2.currentUserTextureView.renderer, voIPPiPView2.callingUserTextureView.renderer);
+                    return;
+                }
                 return;
             }
-            instance.windowView.setAlpha(0.0f);
-            if (VoIPService.getSharedInstance() == null) {
-                return;
-            }
-            VoIPService sharedInstance = VoIPService.getSharedInstance();
-            VoIPPiPView voIPPiPView2 = instance;
-            sharedInstance.setBackgroundSinks(voIPPiPView2.currentUserTextureView.renderer, voIPPiPView2.callingUserTextureView.renderer);
             return;
         }
         instance.windowView.setScaleX(0.5f);
         instance.windowView.setScaleY(0.5f);
         instance.windowView.setAlpha(0.0f);
         instance.windowView.animate().alpha(1.0f).scaleY(1.0f).scaleX(1.0f).start();
-        if (VoIPService.getSharedInstance() == null) {
-            return;
+        if (VoIPService.getSharedInstance() != null) {
+            VoIPService sharedInstance2 = VoIPService.getSharedInstance();
+            VoIPPiPView voIPPiPView3 = instance;
+            sharedInstance2.setSinks(voIPPiPView3.currentUserTextureView.renderer, voIPPiPView3.callingUserTextureView.renderer);
         }
-        VoIPService sharedInstance2 = VoIPService.getSharedInstance();
-        VoIPPiPView voIPPiPView3 = instance;
-        sharedInstance2.setSinks(voIPPiPView3.currentUserTextureView.renderer, voIPPiPView3.callingUserTextureView.renderer);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -352,8 +351,7 @@ public class VoIPPiPView implements VoIPService.StateListener, NotificationCente
         boolean z = context instanceof LaunchActivity;
         if (z && !ApplicationLoader.mainInterfacePaused) {
             VoIPFragment.show((Activity) context, this.currentAccount);
-        } else if (!z) {
-        } else {
+        } else if (z) {
             Intent intent = new Intent(context, LaunchActivity.class);
             intent.setAction("voip");
             context.startActivity(intent);
@@ -415,8 +413,7 @@ public class VoIPPiPView implements VoIPService.StateListener, NotificationCente
         }
         if (!z && this.currentUserIsVideo) {
             sharedInstance.setVideoState(false, 1);
-        } else if (!z || sharedInstance.getVideoState(false) != 1) {
-        } else {
+        } else if (z && sharedInstance.getVideoState(false) == 1) {
             sharedInstance.setVideoState(false, 2);
         }
     }
@@ -425,7 +422,6 @@ public class VoIPPiPView implements VoIPService.StateListener, NotificationCente
         boolean z = this.floatingView.getMeasuredWidth() != 0;
         boolean z2 = this.callingUserIsVideo;
         VoIPService sharedInstance = VoIPService.getSharedInstance();
-        float f = 1.0f;
         if (sharedInstance != null) {
             this.callingUserIsVideo = sharedInstance.getRemoteVideoState() == 2;
             this.currentUserIsVideo = sharedInstance.getVideoState(false) == 2 || sharedInstance.getVideoState(false) == 1;
@@ -434,22 +430,15 @@ public class VoIPPiPView implements VoIPService.StateListener, NotificationCente
             this.currentUserTextureView.setScreenshareMiniProgress(1.0f, false);
         }
         if (!z) {
-            if (!this.callingUserIsVideo) {
-                f = 0.0f;
-            }
-            this.progressToCameraMini = f;
-        } else if (z2 == this.callingUserIsVideo) {
-        } else {
+            this.progressToCameraMini = this.callingUserIsVideo ? 1.0f : 0.0f;
+        } else if (z2 != this.callingUserIsVideo) {
             ValueAnimator valueAnimator = this.animatorToCameraMini;
             if (valueAnimator != null) {
                 valueAnimator.cancel();
             }
             float[] fArr = new float[2];
             fArr[0] = this.progressToCameraMini;
-            if (!this.callingUserIsVideo) {
-                f = 0.0f;
-            }
-            fArr[1] = f;
+            fArr[1] = this.callingUserIsVideo ? 1.0f : 0.0f;
             ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
             this.animatorToCameraMini = ofFloat;
             ofFloat.addUpdateListener(this.animatorToCameraMiniUpdater);
@@ -467,10 +456,9 @@ public class VoIPPiPView implements VoIPService.StateListener, NotificationCente
     public void onPause() {
         if (this.windowLayoutParams.type == 99) {
             VoIPService sharedInstance = VoIPService.getSharedInstance();
-            if (!this.currentUserIsVideo) {
-                return;
+            if (this.currentUserIsVideo) {
+                sharedInstance.setVideoState(false, 1);
             }
-            sharedInstance.setVideoState(false, 1);
         }
     }
 
@@ -540,7 +528,7 @@ public class VoIPPiPView implements VoIPService.StateListener, NotificationCente
             super.dispatchDraw(canvas);
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:13:0x0035, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:15:0x0035, code lost:
             if (r4 != 3) goto L14;
          */
         @Override // android.view.View
@@ -853,10 +841,9 @@ public class VoIPPiPView implements VoIPService.StateListener, NotificationCente
                 VoIPPiPView.expandedInstance.windowView.setAlpha(0.0f);
                 VoIPPiPView.expandedInstance.finishInternal();
                 VoIPPiPView.this.expandedAnimationInProgress = false;
-                if (!z) {
-                    return;
+                if (z) {
+                    AndroidUtilities.runOnUIThread(VoIPPiPView.this.collapseRunnable, 3000L);
                 }
-                AndroidUtilities.runOnUIThread(VoIPPiPView.this.collapseRunnable, 3000L);
             }
         }
 
@@ -864,7 +851,6 @@ public class VoIPPiPView implements VoIPService.StateListener, NotificationCente
             if (VoIPPiPView.expandedInstance == null) {
                 return;
             }
-            float f = 0.0f;
             if (z) {
                 VoIPPiPView.expandedInstance.topShadow.setAlpha(0.0f);
                 VoIPPiPView.expandedInstance.closeIcon.setAlpha(0.0f);
@@ -874,11 +860,7 @@ public class VoIPPiPView implements VoIPService.StateListener, NotificationCente
             CubicBezierInterpolator cubicBezierInterpolator = CubicBezierInterpolator.DEFAULT;
             duration.setInterpolator(cubicBezierInterpolator).start();
             VoIPPiPView.expandedInstance.closeIcon.animate().alpha(z ? 1.0f : 0.0f).setDuration(300L).setInterpolator(cubicBezierInterpolator).start();
-            ViewPropertyAnimator animate = VoIPPiPView.expandedInstance.enlargeIcon.animate();
-            if (z) {
-                f = 1.0f;
-            }
-            animate.alpha(f).setDuration(300L).setInterpolator(cubicBezierInterpolator).start();
+            VoIPPiPView.expandedInstance.enlargeIcon.animate().alpha(z ? 1.0f : 0.0f).setDuration(300L).setInterpolator(cubicBezierInterpolator).start();
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -893,10 +875,9 @@ public class VoIPPiPView implements VoIPService.StateListener, NotificationCente
             }
             voIPPiPView2.currentUserTextureView.renderer.init(eglBase.getEglBaseContext(), null);
             voIPPiPView2.callingUserTextureView.renderer.init(VideoCapturerDevice.eglBase.getEglBaseContext(), null);
-            if (VoIPService.getSharedInstance() == null) {
-                return;
+            if (VoIPService.getSharedInstance() != null) {
+                VoIPService.getSharedInstance().setSinks(voIPPiPView2.currentUserTextureView.renderer, voIPPiPView2.callingUserTextureView.renderer);
             }
-            VoIPService.getSharedInstance().setSinks(voIPPiPView2.currentUserTextureView.renderer, voIPPiPView2.callingUserTextureView.renderer);
         }
     }
 }

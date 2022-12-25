@@ -73,12 +73,12 @@ public abstract class TLRPC$messages_BotResults extends TLObject {
         } else {
             tLRPC$TL_messages_botResults = new TLRPC$TL_messages_botResults();
         }
-        if (tLRPC$TL_messages_botResults != null || !z) {
-            if (tLRPC$TL_messages_botResults != null) {
-                tLRPC$TL_messages_botResults.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_messages_botResults;
+        if (tLRPC$TL_messages_botResults == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in messages_BotResults", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in messages_BotResults", Integer.valueOf(i)));
+        if (tLRPC$TL_messages_botResults != null) {
+            tLRPC$TL_messages_botResults.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_messages_botResults;
     }
 }

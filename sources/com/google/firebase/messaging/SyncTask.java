@@ -84,10 +84,10 @@ public class SyncTask implements Runnable {
             if (this.firebaseMessaging.blockingGetToken() == null) {
                 Log.e("FirebaseMessaging", "Token retrieval failed: null");
                 return false;
-            } else if (!Log.isLoggable("FirebaseMessaging", 3)) {
+            } else if (Log.isLoggable("FirebaseMessaging", 3)) {
+                Log.d("FirebaseMessaging", "Token successfully retrieved");
                 return true;
             } else {
-                Log.d("FirebaseMessaging", "Token successfully retrieved");
                 return true;
             }
         } catch (IOException e) {

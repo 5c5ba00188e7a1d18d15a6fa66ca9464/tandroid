@@ -31,11 +31,11 @@ public class PlayPauseDrawable extends Drawable {
         paint.setColor(-1);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:13:0x0062  */
-    /* JADX WARN: Removed duplicated region for block: B:16:0x009f  */
-    /* JADX WARN: Removed duplicated region for block: B:19:0x00ea  */
-    /* JADX WARN: Removed duplicated region for block: B:23:0x00aa  */
-    /* JADX WARN: Removed duplicated region for block: B:27:0x0066  */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x0062  */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x0066  */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x009f  */
+    /* JADX WARN: Removed duplicated region for block: B:33:0x00aa  */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x00ea  */
     @Override // android.graphics.drawable.Drawable
     /*
         Code decompiled incorrectly, please refer to instructions dump.

@@ -30,12 +30,8 @@ public abstract class TLRPC$ReplyMarkup extends TLObject {
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
                         this.flags = readInt32;
-                        boolean z3 = true;
                         this.single_use = (readInt32 & 2) != 0;
-                        if ((readInt32 & 4) == 0) {
-                            z3 = false;
-                        }
-                        this.selective = z3;
+                        this.selective = (readInt32 & 4) != 0;
                     }
 
                     @Override // org.telegram.tgnet.TLRPC$TL_replyKeyboardForceReply, org.telegram.tgnet.TLObject
@@ -103,12 +99,12 @@ public abstract class TLRPC$ReplyMarkup extends TLObject {
                 tLRPC$TL_replyKeyboardMarkup = null;
                 break;
         }
-        if (tLRPC$TL_replyKeyboardMarkup != null || !z) {
-            if (tLRPC$TL_replyKeyboardMarkup != null) {
-                tLRPC$TL_replyKeyboardMarkup.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_replyKeyboardMarkup;
+        if (tLRPC$TL_replyKeyboardMarkup == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in ReplyMarkup", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in ReplyMarkup", Integer.valueOf(i)));
+        if (tLRPC$TL_replyKeyboardMarkup != null) {
+            tLRPC$TL_replyKeyboardMarkup.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_replyKeyboardMarkup;
     }
 }

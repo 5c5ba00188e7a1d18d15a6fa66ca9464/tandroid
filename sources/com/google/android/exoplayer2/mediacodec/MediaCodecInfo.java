@@ -37,7 +37,7 @@ public final class MediaCodecInfo {
         this.capabilities = codecCapabilities;
         this.passthrough = z;
         boolean z7 = true;
-        this.adaptive = !z5 && codecCapabilities != null && isAdaptive(codecCapabilities);
+        this.adaptive = (z5 || codecCapabilities == null || !isAdaptive(codecCapabilities)) ? false : true;
         if (codecCapabilities != null) {
             isTunneling(codecCapabilities);
         }
@@ -60,37 +60,34 @@ public final class MediaCodecInfo {
 
     public boolean isFormatSupported(Format format) throws MediaCodecUtil.DecoderQueryException {
         int i;
-        boolean z = false;
-        if (!isCodecSupported(format)) {
-            return false;
-        }
-        if (this.isVideo) {
-            int i2 = format.width;
-            if (i2 <= 0 || (i = format.height) <= 0) {
-                return true;
+        if (isCodecSupported(format)) {
+            if (this.isVideo) {
+                int i2 = format.width;
+                if (i2 <= 0 || (i = format.height) <= 0) {
+                    return true;
+                }
+                if (Util.SDK_INT >= 21) {
+                    return isVideoSizeAndRateSupportedV21(i2, i, format.frameRate);
+                }
+                boolean z = i2 * i <= MediaCodecUtil.maxH264DecodableFrameSize();
+                if (!z) {
+                    logNoSupport("legacyFrameSize, " + format.width + "x" + format.height);
+                }
+                return z;
             }
             if (Util.SDK_INT >= 21) {
-                return isVideoSizeAndRateSupportedV21(i2, i, format.frameRate);
+                int i3 = format.sampleRate;
+                if (i3 != -1 && !isAudioSampleRateSupportedV21(i3)) {
+                    return false;
+                }
+                int i4 = format.channelCount;
+                if (i4 != -1 && !isAudioChannelCountSupportedV21(i4)) {
+                    return false;
+                }
             }
-            if (i2 * i <= MediaCodecUtil.maxH264DecodableFrameSize()) {
-                z = true;
-            }
-            if (!z) {
-                logNoSupport("legacyFrameSize, " + format.width + "x" + format.height);
-            }
-            return z;
+            return true;
         }
-        if (Util.SDK_INT >= 21) {
-            int i3 = format.sampleRate;
-            if (i3 != -1 && !isAudioSampleRateSupportedV21(i3)) {
-                return false;
-            }
-            int i4 = format.channelCount;
-            if (i4 != -1 && !isAudioChannelCountSupportedV21(i4)) {
-                return false;
-            }
-        }
-        return true;
+        return false;
     }
 
     public boolean isCodecSupported(Format format) {
@@ -110,16 +107,16 @@ public final class MediaCodecInfo {
         }
         int intValue = ((Integer) codecProfileAndLevel.first).intValue();
         int intValue2 = ((Integer) codecProfileAndLevel.second).intValue();
-        if (!this.isVideo && intValue != 42) {
-            return true;
-        }
-        for (MediaCodecInfo.CodecProfileLevel codecProfileLevel : getProfileLevels()) {
-            if (codecProfileLevel.profile == intValue && codecProfileLevel.level >= intValue2) {
-                return true;
+        if (this.isVideo || intValue == 42) {
+            for (MediaCodecInfo.CodecProfileLevel codecProfileLevel : getProfileLevels()) {
+                if (codecProfileLevel.profile == intValue && codecProfileLevel.level >= intValue2) {
+                    return true;
+                }
             }
+            logNoSupport("codec.profileLevel, " + format.codecs + ", " + mediaMimeType);
+            return false;
         }
-        logNoSupport("codec.profileLevel, " + format.codecs + ", " + mediaMimeType);
-        return false;
+        return true;
     }
 
     public boolean isHdr10PlusOutOfBandMetadataSupported() {
@@ -218,11 +215,11 @@ public final class MediaCodecInfo {
         if (audioCapabilities == null) {
             logNoSupport("channelCount.aCaps");
             return false;
-        } else if (adjustMaxInputChannelCount(this.name, this.mimeType, audioCapabilities.getMaxInputChannelCount()) >= i) {
-            return true;
-        } else {
+        } else if (adjustMaxInputChannelCount(this.name, this.mimeType, audioCapabilities.getMaxInputChannelCount()) < i) {
             logNoSupport("channelCount.support, " + i);
             return false;
+        } else {
+            return true;
         }
     }
 
@@ -294,6 +291,6 @@ public final class MediaCodecInfo {
     }
 
     private static final boolean enableRotatedVerticalResolutionWorkaround(String str) {
-        return !"OMX.MTK.VIDEO.DECODER.HEVC".equals(str) || !"mcv5a".equals(Util.DEVICE);
+        return ("OMX.MTK.VIDEO.DECODER.HEVC".equals(str) && "mcv5a".equals(Util.DEVICE)) ? false : true;
     }
 }

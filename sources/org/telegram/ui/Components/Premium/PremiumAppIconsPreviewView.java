@@ -20,13 +20,14 @@ import org.telegram.ui.LauncherIconController;
 public class PremiumAppIconsPreviewView extends FrameLayout implements PagerHeaderView {
     private AdaptiveIconImageView bottomLeftIcon;
     private AdaptiveIconImageView bottomRightIcon;
-    private List<LauncherIconController.LauncherIcon> icons = new ArrayList();
+    private List<LauncherIconController.LauncherIcon> icons;
     boolean isEmpty;
     private AdaptiveIconImageView topIcon;
 
     public PremiumAppIconsPreviewView(Context context) {
         super(context);
         LauncherIconController.LauncherIcon[] values;
+        this.icons = new ArrayList();
         for (LauncherIconController.LauncherIcon launcherIcon : LauncherIconController.LauncherIcon.values()) {
             if (launcherIcon.premium) {
                 this.icons.add(launcherIcon);
@@ -91,7 +92,6 @@ public class PremiumAppIconsPreviewView extends FrameLayout implements PagerHead
         float interpolation = CubicBezierInterpolator.EASE_IN.getInterpolation(abs);
         this.bottomRightIcon.setTranslationX(((getRight() - this.bottomRightIcon.getRight()) + (this.bottomRightIcon.getWidth() * 1.5f) + AndroidUtilities.dp(32.0f)) * interpolation);
         this.bottomRightIcon.setTranslationY(AndroidUtilities.dp(16.0f) * interpolation);
-        float f2 = 1.0f;
         float clamp = Utilities.clamp(AndroidUtilities.lerp(1.0f, 1.5f, interpolation), 1.0f, 0.0f);
         this.bottomRightIcon.setScaleX(clamp);
         this.bottomRightIcon.setScaleY(clamp);
@@ -106,9 +106,7 @@ public class PremiumAppIconsPreviewView extends FrameLayout implements PagerHead
         float clamp3 = Utilities.clamp(AndroidUtilities.lerp(1.0f, 2.5f, abs), 1.0f, 0.0f);
         this.bottomLeftIcon.setScaleX(clamp3);
         this.bottomLeftIcon.setScaleY(clamp3);
-        if (abs < 0.4f) {
-            f2 = abs / 0.4f;
-        }
+        float f2 = abs < 0.4f ? abs / 0.4f : 1.0f;
         this.bottomRightIcon.particlesScale = f2;
         this.topIcon.particlesScale = f2;
         this.bottomLeftIcon.particlesScale = f2;
@@ -117,12 +115,14 @@ public class PremiumAppIconsPreviewView extends FrameLayout implements PagerHead
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class AdaptiveIconImageView extends AppIconsSelectorCell.AdaptiveIconImageView {
-        StarParticlesView.Drawable drawable = new StarParticlesView.Drawable(20);
-        Paint paint = new Paint(1);
+        StarParticlesView.Drawable drawable;
+        Paint paint;
         float particlesScale;
 
         public AdaptiveIconImageView(PremiumAppIconsPreviewView premiumAppIconsPreviewView, Context context, int i) {
             super(context);
+            this.drawable = new StarParticlesView.Drawable(20);
+            this.paint = new Paint(1);
             StarParticlesView.Drawable drawable = this.drawable;
             drawable.size1 = 12;
             drawable.size2 = 8;

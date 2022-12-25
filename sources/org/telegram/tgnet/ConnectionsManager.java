@@ -73,6 +73,7 @@ public class ConnectionsManager extends BaseController {
     public static final int FileTypeFile = 67108864;
     public static final int FileTypePhoto = 16777216;
     public static final int FileTypeVideo = 33554432;
+    private static final ConnectionsManager[] Instance;
     private static final int KEEP_ALIVE_SECONDS = 30;
     private static final int MAXIMUM_POOL_SIZE;
     public static final int RequestFlagCanCompress = 4;
@@ -88,20 +89,19 @@ public class ConnectionsManager extends BaseController {
     public static final byte USE_IPV4_ONLY = 0;
     public static final byte USE_IPV6_ONLY = 1;
     private static AsyncTask currentTask;
+    private static HashMap<String, ResolvedDomain> dnsCache;
+    private static int lastClassGuid;
     private static long lastDnsRequestTime;
+    private static HashMap<String, ResolveHostByNameTask> resolvingHostnameTasks = new HashMap<>();
     private static final BlockingQueue<Runnable> sPoolWorkQueue;
     private static final ThreadFactory sThreadFactory;
+    private boolean appPaused;
     private int appResumeCount;
+    private int connectionState;
     private boolean forceTryIpV6;
     private boolean isUpdating;
-    private static HashMap<String, ResolveHostByNameTask> resolvingHostnameTasks = new HashMap<>();
-    private static HashMap<String, ResolvedDomain> dnsCache = new HashMap<>();
-    private static int lastClassGuid = 1;
-    private static final ConnectionsManager[] Instance = new ConnectionsManager[4];
-    private long lastPauseTime = System.currentTimeMillis();
-    private boolean appPaused = true;
-    private AtomicInteger lastRequestToken = new AtomicInteger(1);
-    private int connectionState = native_getConnectionState(this.currentAccount);
+    private long lastPauseTime;
+    private AtomicInteger lastRequestToken;
 
     public static native void native_applyDatacenterAddress(int i, int i2, String str, int i3);
 
@@ -184,6 +184,9 @@ public class ConnectionsManager extends BaseController {
         ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(max, i, 30L, TimeUnit.SECONDS, linkedBlockingQueue, threadFactory);
         threadPoolExecutor.allowCoreThreadTimeOut(true);
         DNS_THREAD_POOL_EXECUTOR = threadPoolExecutor;
+        dnsCache = new HashMap<>();
+        lastClassGuid = 1;
+        Instance = new ConnectionsManager[4];
     }
 
     public void setForceTryIpV6(boolean z) {
@@ -233,6 +236,10 @@ public class ConnectionsManager extends BaseController {
         String str4;
         String str5;
         SharedPreferences sharedPreferences;
+        this.lastPauseTime = System.currentTimeMillis();
+        this.appPaused = true;
+        this.lastRequestToken = new AtomicInteger(1);
+        this.connectionState = native_getConnectionState(this.currentAccount);
         File filesDirFixed = ApplicationLoader.getFilesDirFixed();
         if (i != 0) {
             File file = new File(filesDirFixed, "account" + i);
@@ -473,10 +480,10 @@ public class ConnectionsManager extends BaseController {
 
     public int getConnectionState() {
         int i = this.connectionState;
-        if (i != 3 || !this.isUpdating) {
-            return i;
+        if (i == 3 && this.isUpdating) {
+            return 5;
         }
-        return 5;
+        return i;
     }
 
     public void setUserId(long j) {
@@ -631,8 +638,7 @@ public class ConnectionsManager extends BaseController {
                         ConnectionsManager.lambda$onUnparsedMessageReceived$3(i, TLdeserialize);
                     }
                 });
-            } else if (!BuildVars.LOGS_ENABLED) {
-            } else {
+            } else if (BuildVars.LOGS_ENABLED) {
                 FileLog.d(String.format("java received unknown constructor 0x%x", Integer.valueOf(readInt32)));
             }
         } catch (Exception e) {
@@ -747,10 +753,10 @@ public class ConnectionsManager extends BaseController {
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$onRequestNewServerIpAndPort$8(int i, boolean z, int i2) {
         if (currentTask != null || ((i == 0 && Math.abs(lastDnsRequestTime - System.currentTimeMillis()) < 10000) || !z)) {
-            if (!BuildVars.LOGS_ENABLED) {
+            if (BuildVars.LOGS_ENABLED) {
+                FileLog.d("don't start task, current task = " + currentTask + " next task = " + i + " time diff = " + Math.abs(lastDnsRequestTime - System.currentTimeMillis()) + " network = " + ApplicationLoader.isNetworkOnline());
                 return;
             }
-            FileLog.d("don't start task, current task = " + currentTask + " next task = " + i + " time diff = " + Math.abs(lastDnsRequestTime - System.currentTimeMillis()) + " network = " + ApplicationLoader.isNetworkOnline());
             return;
         }
         lastDnsRequestTime = System.currentTimeMillis();
@@ -838,15 +844,14 @@ public class ConnectionsManager extends BaseController {
             NativeByteBuffer wrap = NativeByteBuffer.wrap(j);
             wrap.reused = true;
             final TLRPC$TL_config TLdeserialize = TLRPC$TL_config.TLdeserialize(wrap, wrap.readInt32(true), true);
-            if (TLdeserialize == null) {
-                return;
+            if (TLdeserialize != null) {
+                Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.tgnet.ConnectionsManager$$ExternalSyntheticLambda6
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        ConnectionsManager.lambda$onUpdateConfig$12(i, TLdeserialize);
+                    }
+                });
             }
-            Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.tgnet.ConnectionsManager$$ExternalSyntheticLambda6
-                @Override // java.lang.Runnable
-                public final void run() {
-                    ConnectionsManager.lambda$onUpdateConfig$12(i, TLdeserialize);
-                }
-            });
         } catch (Exception e) {
             FileLog.e(e);
         }
@@ -908,10 +913,9 @@ public class ConnectionsManager extends BaseController {
             return;
         }
         this.isUpdating = z;
-        if (this.connectionState != 3) {
-            return;
+        if (this.connectionState == 3) {
+            AccountInstance.getInstance(this.currentAccount).getNotificationCenter().postNotificationName(NotificationCenter.didUpdateConnectionState, new Object[0]);
         }
-        AccountInstance.getInstance(this.currentAccount).getNotificationCenter().postNotificationName(NotificationCenter.didUpdateConnectionState, new Object[0]);
     }
 
     @SuppressLint({"NewApi"})
@@ -959,10 +963,10 @@ public class ConnectionsManager extends BaseController {
                             if (address2 instanceof Inet6Address) {
                                 z = true;
                             } else if (address2 instanceof Inet4Address) {
-                                if (!address2.getHostAddress().startsWith("192.0.0.")) {
-                                    z3 = true;
-                                } else {
+                                if (address2.getHostAddress().startsWith("192.0.0.")) {
                                     z2 = true;
+                                } else {
+                                    z3 = true;
                                 }
                             }
                         }
@@ -1004,7 +1008,7 @@ public class ConnectionsManager extends BaseController {
         }
 
         /* JADX INFO: Access modifiers changed from: protected */
-        /* JADX WARN: Removed duplicated region for block: B:41:0x00ce A[EXC_TOP_SPLITTER, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:80:0x00ce A[EXC_TOP_SPLITTER, SYNTHETIC] */
         @Override // android.os.AsyncTask
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -1587,8 +1591,7 @@ public class ConnectionsManager extends BaseController {
             if (nativeByteBuffer != null) {
                 int i = this.currentAccount;
                 ConnectionsManager.native_applyDnsConfig(i, nativeByteBuffer.address, AccountInstance.getInstance(i).getUserConfig().getClientPhone(), this.responseDate);
-            } else if (!BuildVars.LOGS_ENABLED) {
-            } else {
+            } else if (BuildVars.LOGS_ENABLED) {
                 FileLog.d("failed to get mozilla txt result");
             }
         }

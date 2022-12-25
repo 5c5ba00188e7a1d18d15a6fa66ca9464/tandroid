@@ -46,7 +46,6 @@ public class NotificationsCheckCell extends FrameLayout {
         this.resourcesProvider = resourcesProvider;
         setWillNotDraw(false);
         this.currentHeight = i2;
-        int i3 = 5;
         if (z) {
             ImageView imageView = new ImageView(context);
             this.moveImageView = imageView;
@@ -67,8 +66,7 @@ public class NotificationsCheckCell extends FrameLayout {
         this.textView.setEllipsize(TextUtils.TruncateAt.END);
         TextView textView2 = this.textView;
         boolean z2 = LocaleController.isRTL;
-        int i4 = (z2 ? 5 : 3) | 48;
-        int i5 = 64;
+        int i3 = (z2 ? 5 : 3) | 48;
         float f4 = 80.0f;
         if (z2) {
             f = 80.0f;
@@ -81,7 +79,7 @@ public class NotificationsCheckCell extends FrameLayout {
         } else {
             f2 = 80.0f;
         }
-        addView(textView2, LayoutHelper.createFrame(-1, -2.0f, i4, f, f5, f2, 0.0f));
+        addView(textView2, LayoutHelper.createFrame(-1, -2.0f, i3, f, f5, f2, 0.0f));
         TextView textView3 = new TextView(context);
         this.valueTextView = textView3;
         textView3.setTextColor(Theme.getColor("windowBackgroundWhiteGrayText2", resourcesProvider));
@@ -94,7 +92,7 @@ public class NotificationsCheckCell extends FrameLayout {
         this.valueTextView.setEllipsize(TextUtils.TruncateAt.END);
         TextView textView4 = this.valueTextView;
         boolean z3 = LocaleController.isRTL;
-        int i6 = (z3 ? 5 : 3) | 48;
+        int i4 = (z3 ? 5 : 3) | 48;
         if (z3) {
             f3 = 80.0f;
         } else {
@@ -102,13 +100,13 @@ public class NotificationsCheckCell extends FrameLayout {
         }
         float f6 = ((this.currentHeight - 70) / 2) + 38;
         if (z3) {
-            f4 = !z ? i : i5;
+            f4 = z ? 64 : i;
         }
-        addView(textView4, LayoutHelper.createFrame(-2, -2.0f, i6, f3, f6, f4, 0.0f));
+        addView(textView4, LayoutHelper.createFrame(-2, -2.0f, i4, f3, f6, f4, 0.0f));
         Switch r3 = new Switch(context, resourcesProvider);
         this.checkBox = r3;
         r3.setColors("switchTrack", "switchTrackChecked", "windowBackgroundWhite", "windowBackgroundWhite");
-        addView(this.checkBox, LayoutHelper.createFrame(37, 40.0f, (LocaleController.isRTL ? 3 : i3) | 16, 21.0f, 0.0f, 21.0f, 0.0f));
+        addView(this.checkBox, LayoutHelper.createFrame(37, 40.0f, (LocaleController.isRTL ? 3 : 5) | 16, 21.0f, 0.0f, 21.0f, 0.0f));
         this.checkBox.setFocusable(false);
     }
 

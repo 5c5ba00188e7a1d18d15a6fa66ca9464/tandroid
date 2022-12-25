@@ -256,13 +256,12 @@ public class BubbleActivity extends BasePermissionsActivity implements INavigati
     @Override // android.app.Activity
     public void onRequestPermissionsResult(int i, String[] strArr, int[] iArr) {
         super.onRequestPermissionsResult(i, strArr, iArr);
-        if (!checkPermissionsResult(i, strArr, iArr)) {
-            return;
+        if (checkPermissionsResult(i, strArr, iArr)) {
+            if (this.actionBarLayout.getFragmentStack().size() != 0) {
+                this.actionBarLayout.getFragmentStack().get(this.actionBarLayout.getFragmentStack().size() - 1).onRequestPermissionsResultFragment(i, strArr, iArr);
+            }
+            VoIPFragment.onRequestPermissionsResult(i, strArr, iArr);
         }
-        if (this.actionBarLayout.getFragmentStack().size() != 0) {
-            this.actionBarLayout.getFragmentStack().get(this.actionBarLayout.getFragmentStack().size() - 1).onRequestPermissionsResultFragment(i, strArr, iArr);
-        }
-        VoIPFragment.onRequestPermissionsResult(i, strArr, iArr);
     }
 
     @Override // android.app.Activity

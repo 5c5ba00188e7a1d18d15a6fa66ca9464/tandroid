@@ -57,20 +57,20 @@ public class WebFile extends TLObject {
     }
 
     public static WebFile createWithWebDocument(TLRPC$WebDocument tLRPC$WebDocument) {
-        if (!(tLRPC$WebDocument instanceof TLRPC$TL_webDocument)) {
-            return null;
+        if (tLRPC$WebDocument instanceof TLRPC$TL_webDocument) {
+            WebFile webFile = new WebFile();
+            TLRPC$TL_webDocument tLRPC$TL_webDocument = (TLRPC$TL_webDocument) tLRPC$WebDocument;
+            TLRPC$TL_inputWebFileLocation tLRPC$TL_inputWebFileLocation = new TLRPC$TL_inputWebFileLocation();
+            webFile.location = tLRPC$TL_inputWebFileLocation;
+            String str = tLRPC$WebDocument.url;
+            webFile.url = str;
+            tLRPC$TL_inputWebFileLocation.url = str;
+            tLRPC$TL_inputWebFileLocation.access_hash = tLRPC$TL_webDocument.access_hash;
+            webFile.size = tLRPC$TL_webDocument.size;
+            webFile.mime_type = tLRPC$TL_webDocument.mime_type;
+            webFile.attributes = tLRPC$TL_webDocument.attributes;
+            return webFile;
         }
-        WebFile webFile = new WebFile();
-        TLRPC$TL_webDocument tLRPC$TL_webDocument = (TLRPC$TL_webDocument) tLRPC$WebDocument;
-        TLRPC$TL_inputWebFileLocation tLRPC$TL_inputWebFileLocation = new TLRPC$TL_inputWebFileLocation();
-        webFile.location = tLRPC$TL_inputWebFileLocation;
-        String str = tLRPC$WebDocument.url;
-        webFile.url = str;
-        tLRPC$TL_inputWebFileLocation.url = str;
-        tLRPC$TL_inputWebFileLocation.access_hash = tLRPC$TL_webDocument.access_hash;
-        webFile.size = tLRPC$TL_webDocument.size;
-        webFile.mime_type = tLRPC$TL_webDocument.mime_type;
-        webFile.attributes = tLRPC$TL_webDocument.attributes;
-        return webFile;
+        return null;
     }
 }

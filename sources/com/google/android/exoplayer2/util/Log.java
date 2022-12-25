@@ -54,10 +54,10 @@ public final class Log {
 
     private static String appendThrowableString(String str, Throwable th) {
         String throwableString = getThrowableString(th);
-        if (!TextUtils.isEmpty(throwableString)) {
-            return str + "\n  " + throwableString.replace("\n", "\n  ") + '\n';
+        if (TextUtils.isEmpty(throwableString)) {
+            return str;
         }
-        return str;
+        return str + "\n  " + throwableString.replace("\n", "\n  ") + '\n';
     }
 
     private static boolean isCausedByUnknownHostException(Throwable th) {

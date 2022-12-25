@@ -19,7 +19,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.URLSpanNoUnderline;
 /* loaded from: classes3.dex */
 public class SettingsSuggestionCell extends LinearLayout {
-    private int currentAccount = UserConfig.selectedAccount;
+    private int currentAccount;
     private int currentType;
     private TextView detailTextView;
     private TextView noButton;
@@ -35,6 +35,7 @@ public class SettingsSuggestionCell extends LinearLayout {
 
     public SettingsSuggestionCell(Context context, Theme.ResourcesProvider resourcesProvider) {
         super(context);
+        this.currentAccount = UserConfig.selectedAccount;
         this.resourcesProvider = resourcesProvider;
         setOrientation(1);
         TextView textView = new TextView(context);
@@ -104,13 +105,13 @@ public class SettingsSuggestionCell extends LinearLayout {
     public void setType(int i) {
         this.currentType = i;
         if (i != 0) {
-            if (i != 1) {
+            if (i == 1) {
+                this.textView.setText(LocaleController.getString("YourPasswordHeader", R.string.YourPasswordHeader));
+                this.detailTextView.setText(LocaleController.getString("YourPasswordRemember", R.string.YourPasswordRemember));
+                this.yesButton.setText(LocaleController.getString("YourPasswordRememberYes", R.string.YourPasswordRememberYes));
+                this.noButton.setText(LocaleController.getString("YourPasswordRememberNo", R.string.YourPasswordRememberNo));
                 return;
             }
-            this.textView.setText(LocaleController.getString("YourPasswordHeader", R.string.YourPasswordHeader));
-            this.detailTextView.setText(LocaleController.getString("YourPasswordRemember", R.string.YourPasswordRemember));
-            this.yesButton.setText(LocaleController.getString("YourPasswordRememberYes", R.string.YourPasswordRememberYes));
-            this.noButton.setText(LocaleController.getString("YourPasswordRememberNo", R.string.YourPasswordRememberNo));
             return;
         }
         TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(UserConfig.getInstance(this.currentAccount).clientUserId));

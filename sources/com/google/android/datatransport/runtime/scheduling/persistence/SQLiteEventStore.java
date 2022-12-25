@@ -170,26 +170,25 @@ public class SQLiteEventStore implements EventStore, SynchronizationGuard, Clien
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ Long lambda$getTransportContextId$2(Cursor cursor) {
-        if (!cursor.moveToNext()) {
-            return null;
+        if (cursor.moveToNext()) {
+            return Long.valueOf(cursor.getLong(0));
         }
-        return Long.valueOf(cursor.getLong(0));
+        return null;
     }
 
     @Override // com.google.android.datatransport.runtime.scheduling.persistence.EventStore
     public void recordFailure(Iterable<PersistedEvent> iterable) {
-        if (!iterable.iterator().hasNext()) {
-            return;
+        if (iterable.iterator().hasNext()) {
+            final String str = "UPDATE events SET num_attempts = num_attempts + 1 WHERE _id in " + toIdList(iterable);
+            inTransaction(new Function() { // from class: com.google.android.datatransport.runtime.scheduling.persistence.SQLiteEventStore$$ExternalSyntheticLambda9
+                @Override // com.google.android.datatransport.runtime.scheduling.persistence.SQLiteEventStore.Function
+                public final Object apply(Object obj) {
+                    Object lambda$recordFailure$4;
+                    lambda$recordFailure$4 = SQLiteEventStore.this.lambda$recordFailure$4(str, r3, (SQLiteDatabase) obj);
+                    return lambda$recordFailure$4;
+                }
+            });
         }
-        final String str = "UPDATE events SET num_attempts = num_attempts + 1 WHERE _id in " + toIdList(iterable);
-        inTransaction(new Function() { // from class: com.google.android.datatransport.runtime.scheduling.persistence.SQLiteEventStore$$ExternalSyntheticLambda9
-            @Override // com.google.android.datatransport.runtime.scheduling.persistence.SQLiteEventStore.Function
-            public final Object apply(Object obj) {
-                Object lambda$recordFailure$4;
-                lambda$recordFailure$4 = SQLiteEventStore.this.lambda$recordFailure$4(str, r3, (SQLiteDatabase) obj);
-                return lambda$recordFailure$4;
-            }
-        });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -218,10 +217,9 @@ public class SQLiteEventStore implements EventStore, SynchronizationGuard, Clien
 
     @Override // com.google.android.datatransport.runtime.scheduling.persistence.EventStore
     public void recordSuccess(Iterable<PersistedEvent> iterable) {
-        if (!iterable.iterator().hasNext()) {
-            return;
+        if (iterable.iterator().hasNext()) {
+            getDb().compileStatement("DELETE FROM events WHERE _id in " + toIdList(iterable)).execute();
         }
-        getDb().compileStatement("DELETE FROM events WHERE _id in " + toIdList(iterable)).execute();
     }
 
     private static String toIdList(Iterable<PersistedEvent> iterable) {
@@ -400,11 +398,8 @@ public class SQLiteEventStore implements EventStore, SynchronizationGuard, Clien
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ Object lambda$loadEvents$14(List list, TransportContext transportContext, Cursor cursor) {
         while (cursor.moveToNext()) {
-            boolean z = false;
             long j = cursor.getLong(0);
-            if (cursor.getInt(7) != 0) {
-                z = true;
-            }
+            boolean z = cursor.getInt(7) != 0;
             EventInternal.Builder uptimeMillis = EventInternal.builder().setTransportName(cursor.getString(1)).setEventMillis(cursor.getLong(2)).setUptimeMillis(cursor.getLong(3));
             if (z) {
                 uptimeMillis.setEncodedPayload(new EncodedPayload(toEncoding(cursor.getString(4)), cursor.getBlob(5)));

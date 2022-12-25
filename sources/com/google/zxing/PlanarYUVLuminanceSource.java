@@ -17,10 +17,9 @@ public final class PlanarYUVLuminanceSource extends LuminanceSource {
         this.dataHeight = i2;
         this.left = i3;
         this.top = i4;
-        if (!z) {
-            return;
+        if (z) {
+            reverseHorizontal(i5, i6);
         }
-        reverseHorizontal(i5, i6);
     }
 
     @Override // com.google.zxing.LuminanceSource

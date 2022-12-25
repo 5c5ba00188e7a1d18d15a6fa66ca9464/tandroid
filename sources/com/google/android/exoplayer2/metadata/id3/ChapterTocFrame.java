@@ -35,9 +35,8 @@ public final class ChapterTocFrame extends Id3Frame {
     ChapterTocFrame(Parcel parcel) {
         super("CTOC");
         this.elementId = (String) Util.castNonNull(parcel.readString());
-        boolean z = true;
         this.isRoot = parcel.readByte() != 0;
-        this.isOrdered = parcel.readByte() == 0 ? false : z;
+        this.isOrdered = parcel.readByte() != 0;
         this.children = (String[]) Util.castNonNull(parcel.createStringArray());
         int readInt = parcel.readInt();
         this.subFrames = new Id3Frame[readInt];

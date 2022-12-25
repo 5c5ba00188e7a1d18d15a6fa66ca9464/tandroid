@@ -29,23 +29,21 @@ public class SmsReceiver extends BroadcastReceiver {
                 return;
             }
             Matcher matcher = Pattern.compile("[0-9\\-]+").matcher(str);
-            if (!matcher.find()) {
-                return;
-            }
-            final String replace = matcher.group(0).replace("-", "");
-            if (replace.length() < 3) {
-                return;
-            }
-            if (string != null) {
-                SharedPreferences.Editor edit = sharedPreferences.edit();
-                edit.putString("sms_hash_code", string + "|" + replace).commit();
-            }
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.SmsReceiver$$ExternalSyntheticLambda0
-                @Override // java.lang.Runnable
-                public final void run() {
-                    SmsReceiver.lambda$onReceive$0(replace);
+            if (matcher.find()) {
+                final String replace = matcher.group(0).replace("-", "");
+                if (replace.length() >= 3) {
+                    if (string != null) {
+                        SharedPreferences.Editor edit = sharedPreferences.edit();
+                        edit.putString("sms_hash_code", string + "|" + replace).commit();
+                    }
+                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.SmsReceiver$$ExternalSyntheticLambda0
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            SmsReceiver.lambda$onReceive$0(replace);
+                        }
+                    });
                 }
-            });
+            }
         } catch (Throwable th) {
             FileLog.e(th);
         }

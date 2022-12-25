@@ -32,14 +32,14 @@ final class AutoValue_BackendRequest extends BackendRequest {
         if (obj == this) {
             return true;
         }
-        if (!(obj instanceof BackendRequest)) {
-            return false;
-        }
-        BackendRequest backendRequest = (BackendRequest) obj;
-        if (this.events.equals(backendRequest.getEvents())) {
-            if (Arrays.equals(this.extras, backendRequest instanceof AutoValue_BackendRequest ? ((AutoValue_BackendRequest) backendRequest).extras : backendRequest.getExtras())) {
-                return true;
+        if (obj instanceof BackendRequest) {
+            BackendRequest backendRequest = (BackendRequest) obj;
+            if (this.events.equals(backendRequest.getEvents())) {
+                if (Arrays.equals(this.extras, backendRequest instanceof AutoValue_BackendRequest ? ((AutoValue_BackendRequest) backendRequest).extras : backendRequest.getExtras())) {
+                    return true;
+                }
             }
+            return false;
         }
         return false;
     }
@@ -71,7 +71,7 @@ final class AutoValue_BackendRequest extends BackendRequest {
         public BackendRequest build() {
             String str = "";
             if (this.events == null) {
-                str = str + " events";
+                str = " events";
             }
             if (!str.isEmpty()) {
                 throw new IllegalStateException("Missing required properties:" + str);

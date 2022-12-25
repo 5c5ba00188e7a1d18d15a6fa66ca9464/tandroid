@@ -45,18 +45,23 @@ import org.telegram.messenger.Utilities;
 /* loaded from: classes.dex */
 public class SimpleExoPlayer extends BasePlayer {
     private final AnalyticsCollector analyticsCollector;
+    private AudioAttributes audioAttributes;
     private final AudioBecomingNoisyManager audioBecomingNoisyManager;
     private final CopyOnWriteArraySet<AudioRendererEventListener> audioDebugListeners;
     private DecoderCounters audioDecoderCounters;
     private final AudioFocusManager audioFocusManager;
     private Format audioFormat;
     private final CopyOnWriteArraySet<AudioListener> audioListeners;
+    private int audioSessionId;
+    private float audioVolume;
     private final BandwidthMeter bandwidthMeter;
     private final ComponentListener componentListener;
+    private List<Cue> currentCues;
     private final Handler eventHandler;
     private boolean hasNotifiedFullWrongThreadWarning;
     private boolean isPriorityTaskManagerRegistered;
     private MediaSource mediaSource;
+    private final CopyOnWriteArraySet<MetadataOutput> metadataOutputs;
     private boolean ownsSurface;
     private final ExoPlayerImpl player;
     private boolean playerReleased;
@@ -66,6 +71,7 @@ public class SimpleExoPlayer extends BasePlayer {
     private int surfaceHeight;
     private SurfaceHolder surfaceHolder;
     private int surfaceWidth;
+    private final CopyOnWriteArraySet<TextOutput> textOutputs;
     private TextureView textureView;
     private final CopyOnWriteArraySet<VideoRendererEventListener> videoDebugListeners;
     private DecoderCounters videoDecoderCounters;
@@ -73,12 +79,6 @@ public class SimpleExoPlayer extends BasePlayer {
     private final CopyOnWriteArraySet<com.google.android.exoplayer2.video.VideoListener> videoListeners;
     private final WakeLockManager wakeLockManager;
     private final WifiLockManager wifiLockManager;
-    private final CopyOnWriteArraySet<TextOutput> textOutputs = new CopyOnWriteArraySet<>();
-    private final CopyOnWriteArraySet<MetadataOutput> metadataOutputs = new CopyOnWriteArraySet<>();
-    private float audioVolume = 1.0f;
-    private int audioSessionId = 0;
-    private AudioAttributes audioAttributes = AudioAttributes.DEFAULT;
-    private List<Cue> currentCues = Collections.emptyList();
 
     @Deprecated
     /* loaded from: classes.dex */
@@ -96,6 +96,8 @@ public class SimpleExoPlayer extends BasePlayer {
         this.videoListeners = copyOnWriteArraySet;
         CopyOnWriteArraySet<AudioListener> copyOnWriteArraySet2 = new CopyOnWriteArraySet<>();
         this.audioListeners = copyOnWriteArraySet2;
+        this.textOutputs = new CopyOnWriteArraySet<>();
+        this.metadataOutputs = new CopyOnWriteArraySet<>();
         CopyOnWriteArraySet<VideoRendererEventListener> copyOnWriteArraySet3 = new CopyOnWriteArraySet<>();
         this.videoDebugListeners = copyOnWriteArraySet3;
         CopyOnWriteArraySet<AudioRendererEventListener> copyOnWriteArraySet4 = new CopyOnWriteArraySet<>();
@@ -104,6 +106,10 @@ public class SimpleExoPlayer extends BasePlayer {
         this.eventHandler = handler;
         Renderer[] createRenderers = renderersFactory.createRenderers(handler, componentListener, componentListener, componentListener, componentListener, drmSessionManager);
         this.renderers = createRenderers;
+        this.audioVolume = 1.0f;
+        this.audioSessionId = 0;
+        this.audioAttributes = AudioAttributes.DEFAULT;
+        this.currentCues = Collections.emptyList();
         ExoPlayerImpl exoPlayerImpl = new ExoPlayerImpl(createRenderers, trackSelector, loadControl, bandwidthMeter, clock, looper);
         this.player = exoPlayerImpl;
         analyticsCollector.setPlayer(exoPlayerImpl);
@@ -130,11 +136,8 @@ public class SimpleExoPlayer extends BasePlayer {
         if (surface != null) {
             clearVideoDecoderOutputBufferRenderer();
         }
-        int i = 0;
         setVideoSurfaceInternal(surface, false);
-        if (surface != null) {
-            i = -1;
-        }
+        int i = surface != null ? -1 : 0;
         maybeNotifySurfaceSizeChanged(i, i);
     }
 

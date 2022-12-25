@@ -129,9 +129,8 @@ public class SQLiteCursor {
     }
 
     void checkRow() throws SQLiteException {
-        if (this.inRow) {
-            return;
+        if (!this.inRow) {
+            throw new SQLiteException("You must call next before");
         }
-        throw new SQLiteException("You must call next before");
     }
 }

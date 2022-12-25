@@ -4,7 +4,7 @@ import androidx.dynamicanimation.animation.FloatPropertyCompat;
 /* loaded from: classes3.dex */
 public class SimpleFloatPropertyCompat<T> extends FloatPropertyCompat<T> {
     private Getter<T> getter;
-    private float multiplier = 1.0f;
+    private float multiplier;
     private Setter<T> setter;
 
     /* loaded from: classes3.dex */
@@ -19,6 +19,7 @@ public class SimpleFloatPropertyCompat<T> extends FloatPropertyCompat<T> {
 
     public SimpleFloatPropertyCompat(String str, Getter<T> getter, Setter<T> setter) {
         super(str);
+        this.multiplier = 1.0f;
         this.getter = getter;
         this.setter = setter;
     }

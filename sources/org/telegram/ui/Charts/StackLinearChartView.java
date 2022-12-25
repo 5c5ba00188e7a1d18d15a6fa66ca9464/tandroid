@@ -14,11 +14,11 @@ import org.telegram.ui.Charts.view_data.StackLinearViewData;
 import org.telegram.ui.Charts.view_data.TransitionParams;
 /* loaded from: classes3.dex */
 public class StackLinearChartView<T extends StackLinearViewData> extends BaseChartView<StackLinearChartData, T> {
+    private float[] mapPoints;
+    private Matrix matrix;
+    Path ovalPath;
     boolean[] skipPoints;
     float[] startFromY;
-    private Matrix matrix = new Matrix();
-    private float[] mapPoints = new float[2];
-    Path ovalPath = new Path();
 
     @Override // org.telegram.ui.Charts.BaseChartView
     public int findMaxValue(int i, int i2) {
@@ -32,6 +32,9 @@ public class StackLinearChartView<T extends StackLinearViewData> extends BaseCha
 
     public StackLinearChartView(Context context) {
         super(context);
+        this.matrix = new Matrix();
+        this.mapPoints = new float[2];
+        this.ovalPath = new Path();
         this.superDraw = true;
         this.useAlphaSignature = true;
         this.drawPointOnSelection = false;
@@ -42,23 +45,23 @@ public class StackLinearChartView<T extends StackLinearViewData> extends BaseCha
         return (T) new StackLinearViewData(line);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:115:0x0474  */
-    /* JADX WARN: Removed duplicated region for block: B:165:0x0444  */
-    /* JADX WARN: Removed duplicated region for block: B:168:0x045e  */
-    /* JADX WARN: Removed duplicated region for block: B:170:0x0468  */
-    /* JADX WARN: Removed duplicated region for block: B:172:0x045a  */
-    /* JADX WARN: Removed duplicated region for block: B:174:0x03fd  */
-    /* JADX WARN: Removed duplicated region for block: B:176:0x03f3  */
-    /* JADX WARN: Removed duplicated region for block: B:188:0x0254  */
-    /* JADX WARN: Removed duplicated region for block: B:190:0x021d  */
-    /* JADX WARN: Removed duplicated region for block: B:191:0x0203  */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x01fd  */
-    /* JADX WARN: Removed duplicated region for block: B:64:0x0214  */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x0251  */
-    /* JADX WARN: Removed duplicated region for block: B:72:0x0261 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:89:0x03a4  */
-    /* JADX WARN: Removed duplicated region for block: B:96:0x03fb  */
-    /* JADX WARN: Removed duplicated region for block: B:99:0x0404 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:113:0x03a4  */
+    /* JADX WARN: Removed duplicated region for block: B:119:0x03f3  */
+    /* JADX WARN: Removed duplicated region for block: B:122:0x03fb  */
+    /* JADX WARN: Removed duplicated region for block: B:123:0x03fd  */
+    /* JADX WARN: Removed duplicated region for block: B:126:0x0404 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:144:0x0444  */
+    /* JADX WARN: Removed duplicated region for block: B:147:0x045a  */
+    /* JADX WARN: Removed duplicated region for block: B:149:0x045e  */
+    /* JADX WARN: Removed duplicated region for block: B:150:0x0468  */
+    /* JADX WARN: Removed duplicated region for block: B:153:0x0474  */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x01fd  */
+    /* JADX WARN: Removed duplicated region for block: B:71:0x0203  */
+    /* JADX WARN: Removed duplicated region for block: B:74:0x0214  */
+    /* JADX WARN: Removed duplicated region for block: B:77:0x021d  */
+    /* JADX WARN: Removed duplicated region for block: B:80:0x0251  */
+    /* JADX WARN: Removed duplicated region for block: B:81:0x0254  */
+    /* JADX WARN: Removed duplicated region for block: B:85:0x0261 A[ADDED_TO_REGION] */
     @Override // org.telegram.ui.Charts.BaseChartView
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -603,20 +606,20 @@ public class StackLinearChartView<T extends StackLinearViewData> extends BaseCha
         float centerX = this.chartArea.centerX();
         float centerY = this.chartArea.centerY() + AndroidUtilities.dp(16.0f);
         if (f < centerX || f2 > centerY) {
-            if (f >= centerX && f2 >= centerY) {
-                return 1;
+            if (f < centerX || f2 < centerY) {
+                return (f >= centerX || f2 < centerY) ? 3 : 2;
             }
-            return (f >= centerX || f2 < centerY) ? 3 : 2;
+            return 1;
         }
         return 0;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:45:0x00e4 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:49:0x00f3  */
-    /* JADX WARN: Removed duplicated region for block: B:52:0x0112 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x015e  */
-    /* JADX WARN: Removed duplicated region for block: B:68:0x014a  */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x0102  */
+    /* JADX WARN: Removed duplicated region for block: B:47:0x00e4 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x00f3  */
+    /* JADX WARN: Removed duplicated region for block: B:52:0x0102  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x0112 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:67:0x014a  */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x015e  */
     @Override // org.telegram.ui.Charts.BaseChartView
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -808,8 +811,8 @@ public class StackLinearChartView<T extends StackLinearViewData> extends BaseCha
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:43:0x0135  */
-    /* JADX WARN: Removed duplicated region for block: B:45:0x0140  */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x0135  */
+    /* JADX WARN: Removed duplicated region for block: B:47:0x0140  */
     @Override // org.telegram.ui.Charts.BaseChartView
     /*
         Code decompiled incorrectly, please refer to instructions dump.

@@ -44,16 +44,12 @@ public final class zzdf extends AbstractSafeParcelable {
         SafeParcelWriter.writeInt(parcel, 1, this.zza);
         SafeParcelWriter.writeParcelable(parcel, 2, this.zzb, i, false);
         zzu zzuVar = this.zzc;
-        IBinder iBinder = null;
         SafeParcelWriter.writeIBinder(parcel, 3, zzuVar == null ? null : zzuVar.asBinder(), false);
         SafeParcelWriter.writeParcelable(parcel, 4, this.zze, i, false);
         com.google.android.gms.location.zzr zzrVar = this.zzd;
         SafeParcelWriter.writeIBinder(parcel, 5, zzrVar == null ? null : zzrVar.asBinder(), false);
         zzk zzkVar = this.zzf;
-        if (zzkVar != null) {
-            iBinder = zzkVar.asBinder();
-        }
-        SafeParcelWriter.writeIBinder(parcel, 6, iBinder, false);
+        SafeParcelWriter.writeIBinder(parcel, 6, zzkVar != null ? zzkVar.asBinder() : null, false);
         SafeParcelWriter.writeString(parcel, 8, this.zzg, false);
         SafeParcelWriter.finishObjectHeader(parcel, beginObjectHeader);
     }

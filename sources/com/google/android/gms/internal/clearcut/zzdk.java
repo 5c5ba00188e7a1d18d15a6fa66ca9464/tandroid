@@ -11,13 +11,13 @@ final class zzdk implements zzdj {
             return 0;
         }
         Iterator it = zzdiVar.entrySet().iterator();
-        if (!it.hasNext()) {
-            return 0;
+        if (it.hasNext()) {
+            Map.Entry entry = (Map.Entry) it.next();
+            entry.getKey();
+            entry.getValue();
+            throw new NoSuchMethodError();
         }
-        Map.Entry entry = (Map.Entry) it.next();
-        entry.getKey();
-        entry.getValue();
-        throw new NoSuchMethodError();
+        return 0;
     }
 
     @Override // com.google.android.gms.internal.clearcut.zzdj

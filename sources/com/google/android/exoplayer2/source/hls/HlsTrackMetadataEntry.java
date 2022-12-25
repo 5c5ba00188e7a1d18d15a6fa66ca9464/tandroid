@@ -95,17 +95,13 @@ public final class HlsTrackMetadataEntry implements Metadata.Entry {
             long j = this.bitrate;
             int i = ((int) (j ^ (j >>> 32))) * 31;
             String str = this.videoGroupId;
-            int i2 = 0;
             int hashCode = (i + (str != null ? str.hashCode() : 0)) * 31;
             String str2 = this.audioGroupId;
             int hashCode2 = (hashCode + (str2 != null ? str2.hashCode() : 0)) * 31;
             String str3 = this.subtitleGroupId;
             int hashCode3 = (hashCode2 + (str3 != null ? str3.hashCode() : 0)) * 31;
             String str4 = this.captionGroupId;
-            if (str4 != null) {
-                i2 = str4.hashCode();
-            }
-            return hashCode3 + i2;
+            return hashCode3 + (str4 != null ? str4.hashCode() : 0);
         }
 
         @Override // android.os.Parcelable
@@ -161,13 +157,9 @@ public final class HlsTrackMetadataEntry implements Metadata.Entry {
 
     public int hashCode() {
         String str = this.groupId;
-        int i = 0;
         int hashCode = (str != null ? str.hashCode() : 0) * 31;
         String str2 = this.name;
-        if (str2 != null) {
-            i = str2.hashCode();
-        }
-        return ((hashCode + i) * 31) + this.variantInfos.hashCode();
+        return ((hashCode + (str2 != null ? str2.hashCode() : 0)) * 31) + this.variantInfos.hashCode();
     }
 
     @Override // android.os.Parcelable

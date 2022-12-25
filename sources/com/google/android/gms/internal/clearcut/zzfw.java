@@ -53,47 +53,47 @@ public final class zzfw implements Cloneable {
         if (obj == this) {
             return true;
         }
-        if (!(obj instanceof zzfw)) {
-            return false;
-        }
-        zzfw zzfwVar = (zzfw) obj;
-        int i = this.mSize;
-        if (i != zzfwVar.mSize) {
-            return false;
-        }
-        int[] iArr = this.zzrn;
-        int[] iArr2 = zzfwVar.zzrn;
-        int i2 = 0;
-        while (true) {
-            if (i2 >= i) {
-                z = true;
-                break;
-            } else if (iArr[i2] != iArr2[i2]) {
-                z = false;
-                break;
-            } else {
-                i2++;
+        if (obj instanceof zzfw) {
+            zzfw zzfwVar = (zzfw) obj;
+            int i = this.mSize;
+            if (i != zzfwVar.mSize) {
+                return false;
             }
-        }
-        if (z) {
-            zzfx[] zzfxVarArr = this.zzro;
-            zzfx[] zzfxVarArr2 = zzfwVar.zzro;
-            int i3 = this.mSize;
-            int i4 = 0;
+            int[] iArr = this.zzrn;
+            int[] iArr2 = zzfwVar.zzrn;
+            int i2 = 0;
             while (true) {
-                if (i4 >= i3) {
-                    z2 = true;
+                if (i2 >= i) {
+                    z = true;
                     break;
-                } else if (!zzfxVarArr[i4].equals(zzfxVarArr2[i4])) {
-                    z2 = false;
+                } else if (iArr[i2] != iArr2[i2]) {
+                    z = false;
                     break;
                 } else {
-                    i4++;
+                    i2++;
                 }
             }
-            if (z2) {
-                return true;
+            if (z) {
+                zzfx[] zzfxVarArr = this.zzro;
+                zzfx[] zzfxVarArr2 = zzfwVar.zzro;
+                int i3 = this.mSize;
+                int i4 = 0;
+                while (true) {
+                    if (i4 >= i3) {
+                        z2 = true;
+                        break;
+                    } else if (!zzfxVarArr[i4].equals(zzfxVarArr2[i4])) {
+                        z2 = false;
+                        break;
+                    } else {
+                        i4++;
+                    }
+                }
+                if (z2) {
+                    return true;
+                }
             }
+            return false;
         }
         return false;
     }

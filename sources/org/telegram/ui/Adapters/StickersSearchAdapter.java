@@ -130,7 +130,7 @@ public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
         /* JADX WARN: Code restructure failed: missing block: B:16:0x0073, code lost:
             if (r5.charAt(r9) <= 57343) goto L17;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:26:0x008d, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:22:0x008d, code lost:
             if (r5.charAt(r9) != 9794) goto L27;
          */
         @Override // java.lang.Runnable
@@ -292,10 +292,9 @@ public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
                     }
                 }
             }
-            if (!z) {
-                return;
+            if (z) {
+                StickersSearchAdapter.this.notifyDataSetChanged();
             }
-            StickersSearchAdapter.this.notifyDataSetChanged();
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -336,26 +335,24 @@ public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
         public /* synthetic */ void lambda$run$3(TLRPC$TL_messages_getStickers tLRPC$TL_messages_getStickers, TLObject tLObject, ArrayList arrayList, LongSparseArray longSparseArray) {
             if (tLRPC$TL_messages_getStickers.emoticon.equals(StickersSearchAdapter.this.searchQuery)) {
                 StickersSearchAdapter.this.reqId2 = 0;
-                if (!(tLObject instanceof TLRPC$TL_messages_stickers)) {
-                    return;
-                }
-                TLRPC$TL_messages_stickers tLRPC$TL_messages_stickers = (TLRPC$TL_messages_stickers) tLObject;
-                int size = arrayList.size();
-                int size2 = tLRPC$TL_messages_stickers.stickers.size();
-                for (int i = 0; i < size2; i++) {
-                    TLRPC$Document tLRPC$Document = tLRPC$TL_messages_stickers.stickers.get(i);
-                    if (longSparseArray.indexOfKey(tLRPC$Document.id) < 0) {
-                        arrayList.add(tLRPC$Document);
+                if (tLObject instanceof TLRPC$TL_messages_stickers) {
+                    TLRPC$TL_messages_stickers tLRPC$TL_messages_stickers = (TLRPC$TL_messages_stickers) tLObject;
+                    int size = arrayList.size();
+                    int size2 = tLRPC$TL_messages_stickers.stickers.size();
+                    for (int i = 0; i < size2; i++) {
+                        TLRPC$Document tLRPC$Document = tLRPC$TL_messages_stickers.stickers.get(i);
+                        if (longSparseArray.indexOfKey(tLRPC$Document.id) < 0) {
+                            arrayList.add(tLRPC$Document);
+                        }
+                    }
+                    if (size != arrayList.size()) {
+                        StickersSearchAdapter.this.emojiStickers.put(arrayList, StickersSearchAdapter.this.searchQuery);
+                        if (size == 0) {
+                            StickersSearchAdapter.this.emojiArrays.add(arrayList);
+                        }
+                        StickersSearchAdapter.this.notifyDataSetChanged();
                     }
                 }
-                if (size == arrayList.size()) {
-                    return;
-                }
-                StickersSearchAdapter.this.emojiStickers.put(arrayList, StickersSearchAdapter.this.searchQuery);
-                if (size == 0) {
-                    StickersSearchAdapter.this.emojiArrays.add(arrayList);
-                }
-                StickersSearchAdapter.this.notifyDataSetChanged();
             }
         }
     }
@@ -406,13 +403,13 @@ public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
             return 4;
         }
         Object obj = this.cache.get(i);
-        if (obj == null) {
-            return 1;
+        if (obj != null) {
+            if (obj instanceof TLRPC$Document) {
+                return 0;
+            }
+            return obj instanceof TLRPC$StickerSetCovered ? 3 : 2;
         }
-        if (obj instanceof TLRPC$Document) {
-            return 0;
-        }
-        return obj instanceof TLRPC$StickerSetCovered ? 3 : 2;
+        return 1;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -503,24 +500,23 @@ public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
         } else {
             StickerSetNameCell stickerSetNameCell = (StickerSetNameCell) viewHolder.itemView;
             Object obj = this.cache.get(i);
-            if (!(obj instanceof TLRPC$TL_messages_stickerSet)) {
-                return;
-            }
-            TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet = (TLRPC$TL_messages_stickerSet) obj;
-            if (!TextUtils.isEmpty(this.searchQuery) && this.localPacksByShortName.containsKey(tLRPC$TL_messages_stickerSet)) {
-                TLRPC$StickerSet tLRPC$StickerSet = tLRPC$TL_messages_stickerSet.set;
-                if (tLRPC$StickerSet != null) {
-                    stickerSetNameCell.setText(tLRPC$StickerSet.title, 0);
+            if (obj instanceof TLRPC$TL_messages_stickerSet) {
+                TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet = (TLRPC$TL_messages_stickerSet) obj;
+                if (!TextUtils.isEmpty(this.searchQuery) && this.localPacksByShortName.containsKey(tLRPC$TL_messages_stickerSet)) {
+                    TLRPC$StickerSet tLRPC$StickerSet = tLRPC$TL_messages_stickerSet.set;
+                    if (tLRPC$StickerSet != null) {
+                        stickerSetNameCell.setText(tLRPC$StickerSet.title, 0);
+                    }
+                    stickerSetNameCell.setUrl(tLRPC$TL_messages_stickerSet.set.short_name, this.searchQuery.length());
+                    return;
                 }
-                stickerSetNameCell.setUrl(tLRPC$TL_messages_stickerSet.set.short_name, this.searchQuery.length());
-                return;
+                Integer num = this.localPacksByName.get(tLRPC$TL_messages_stickerSet);
+                TLRPC$StickerSet tLRPC$StickerSet2 = tLRPC$TL_messages_stickerSet.set;
+                if (tLRPC$StickerSet2 != null && num != null) {
+                    stickerSetNameCell.setText(tLRPC$StickerSet2.title, 0, num.intValue(), !TextUtils.isEmpty(this.searchQuery) ? this.searchQuery.length() : 0);
+                }
+                stickerSetNameCell.setUrl(null, 0);
             }
-            Integer num = this.localPacksByName.get(tLRPC$TL_messages_stickerSet);
-            TLRPC$StickerSet tLRPC$StickerSet2 = tLRPC$TL_messages_stickerSet.set;
-            if (tLRPC$StickerSet2 != null && num != null) {
-                stickerSetNameCell.setText(tLRPC$StickerSet2.title, 0, num.intValue(), !TextUtils.isEmpty(this.searchQuery) ? this.searchQuery.length() : 0);
-            }
-            stickerSetNameCell.setUrl(null, 0);
         }
     }
 
@@ -543,76 +539,76 @@ public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:12:0x003f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:16:0x003f, code lost:
         r1 = 0;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:13:0x0040, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:17:0x0040, code lost:
         r2 = r7.primaryInstallingStickerSets;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:14:0x0044, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:18:0x0044, code lost:
         if (r1 >= r2.length) goto L42;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:16:0x0048, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:20:0x0048, code lost:
         if (r2[r1] != null) goto L17;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:17:0x004e, code lost:
-        r1 = r1 + 1;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:19:0x004a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:21:0x004a, code lost:
         r2[r1] = r8;
         r1 = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:20:0x0052, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:22:0x004e, code lost:
+        r1 = r1 + 1;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:23:0x0051, code lost:
+        r1 = false;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:24:0x0052, code lost:
         if (r1 != false) goto L23;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:21:0x0054, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:25:0x0054, code lost:
         if (r9 == null) goto L23;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:22:0x0056, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:26:0x0056, code lost:
         r9.setAddDrawProgress(true, true);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:23:0x0059, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:27:0x0059, code lost:
         r7.installingStickerSets.put(r8.set.id, r8);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:24:0x0062, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:28:0x0062, code lost:
         if (r9 == null) goto L28;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:25:0x0064, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:29:0x0064, code lost:
         r7.delegate.onStickerSetAdd(r9.getStickerSet(), r1);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:26:0x0098, code lost:
-        return;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:28:0x006e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:30:0x006e, code lost:
         r9 = r7.positionsToSets.size();
         r1 = 0;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:29:0x0075, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:31:0x0075, code lost:
         if (r1 >= r9) goto L40;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:30:0x0077, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:32:0x0077, code lost:
         r2 = r7.positionsToSets.get(r1);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:31:0x007f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:33:0x007f, code lost:
         if (r2 == null) goto L39;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:33:0x008b, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:35:0x008b, code lost:
         if (r2.set.id != r8.set.id) goto L37;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:35:0x008d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:36:0x008d, code lost:
         notifyItemChanged(r1, 0);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:36:?, code lost:
-        return;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:38:0x0095, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:37:0x0095, code lost:
         r1 = r1 + 1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:41:?, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:38:0x0098, code lost:
         return;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:43:0x0051, code lost:
-        r1 = false;
+    /* JADX WARN: Code restructure failed: missing block: B:50:?, code lost:
+        return;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:51:?, code lost:
+        return;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -644,8 +640,7 @@ public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
         MediaDataController mediaDataController = MediaDataController.getInstance(this.currentAccount);
         ArrayList<Long> unreadStickerSets = mediaDataController.getUnreadStickerSets();
         TLRPC$StickerSetCovered tLRPC$StickerSetCovered = (TLRPC$StickerSetCovered) this.cache.get(i);
-        boolean z5 = true;
-        boolean z6 = unreadStickerSets != null && unreadStickerSets.contains(Long.valueOf(tLRPC$StickerSetCovered.set.id));
+        boolean z5 = unreadStickerSets != null && unreadStickerSets.contains(Long.valueOf(tLRPC$StickerSetCovered.set.id));
         int i2 = 0;
         while (true) {
             TLRPC$StickerSetCovered[] tLRPC$StickerSetCoveredArr = this.primaryInstallingStickerSets;
@@ -666,27 +661,27 @@ public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
         }
         int indexOfIgnoreCase = TextUtils.isEmpty(this.searchQuery) ? -1 : AndroidUtilities.indexOfIgnoreCase(tLRPC$StickerSetCovered.set.title, this.searchQuery);
         if (indexOfIgnoreCase >= 0) {
-            featuredStickerSetInfoCell.setStickerSet(tLRPC$StickerSetCovered, z6, z, indexOfIgnoreCase, this.searchQuery.length(), z2);
+            featuredStickerSetInfoCell.setStickerSet(tLRPC$StickerSetCovered, z5, z, indexOfIgnoreCase, this.searchQuery.length(), z2);
         } else {
-            featuredStickerSetInfoCell.setStickerSet(tLRPC$StickerSetCovered, z6, z, 0, 0, z2);
+            featuredStickerSetInfoCell.setStickerSet(tLRPC$StickerSetCovered, z5, z, 0, 0, z2);
             if (!TextUtils.isEmpty(this.searchQuery) && AndroidUtilities.indexOfIgnoreCase(tLRPC$StickerSetCovered.set.short_name, this.searchQuery) == 0) {
                 featuredStickerSetInfoCell.setUrl(tLRPC$StickerSetCovered.set.short_name, this.searchQuery.length());
             }
         }
-        if (z6) {
+        if (z5) {
             mediaDataController.markFeaturedStickersByIdAsRead(false, tLRPC$StickerSetCovered.set.id);
         }
-        boolean z7 = this.installingStickerSets.indexOfKey(tLRPC$StickerSetCovered.set.id) >= 0;
-        boolean z8 = this.removingStickerSets.indexOfKey(tLRPC$StickerSetCovered.set.id) >= 0;
-        if (z7 || z8) {
-            if (z7 && featuredStickerSetInfoCell.isInstalled()) {
+        boolean z6 = this.installingStickerSets.indexOfKey(tLRPC$StickerSetCovered.set.id) >= 0;
+        boolean z7 = this.removingStickerSets.indexOfKey(tLRPC$StickerSetCovered.set.id) >= 0;
+        if (z6 || z7) {
+            if (z6 && featuredStickerSetInfoCell.isInstalled()) {
                 this.installingStickerSets.remove(tLRPC$StickerSetCovered.set.id);
-                z7 = false;
-            } else if (z8 && !featuredStickerSetInfoCell.isInstalled()) {
+                z6 = false;
+            } else if (z7 && !featuredStickerSetInfoCell.isInstalled()) {
                 this.removingStickerSets.remove(tLRPC$StickerSetCovered.set.id);
             }
         }
-        if (z2 || !z7) {
+        if (z2 || !z6) {
             z3 = z;
             z4 = false;
         } else {
@@ -695,10 +690,7 @@ public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
         }
         featuredStickerSetInfoCell.setAddDrawProgress(z4, z3);
         mediaDataController.preloadStickerSetThumb(tLRPC$StickerSetCovered);
-        if (i <= 0) {
-            z5 = false;
-        }
-        featuredStickerSetInfoCell.setNeedDivider(z5);
+        featuredStickerSetInfoCell.setNeedDivider(i > 0);
     }
 
     /* JADX WARN: Multi-variable type inference failed */
@@ -811,7 +803,7 @@ public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
     }
 
     public int getSpanSize(int i) {
-        if (i == this.totalItems || (this.cache.get(i) != null && !(this.cache.get(i) instanceof TLRPC$Document))) {
+        if (i == this.totalItems || !(this.cache.get(i) == null || (this.cache.get(i) instanceof TLRPC$Document))) {
             return this.delegate.getStickersPerRow();
         }
         return 1;

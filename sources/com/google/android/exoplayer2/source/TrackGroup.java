@@ -50,14 +50,13 @@ public final class TrackGroup implements Parcelable {
         int i = 0;
         while (true) {
             Format[] formatArr = this.formats;
-            if (i < formatArr.length) {
-                if (format == formatArr[i]) {
-                    return i;
-                }
-                i++;
-            } else {
+            if (i >= formatArr.length) {
                 return -1;
             }
+            if (format == formatArr[i]) {
+                return i;
+            }
+            i++;
         }
     }
 

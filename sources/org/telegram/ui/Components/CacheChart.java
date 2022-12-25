@@ -27,27 +27,27 @@ public class CacheChart extends View {
     private static Long loadedStart;
     private static final int[] particles;
     private static Long start;
+    private AnimatedTextView.AnimatedTextDrawable bottomText;
+    private RectF chartBounds;
+    private RectF chartInnerBounds;
+    private boolean complete;
     private StarParticlesView.Drawable completeDrawable;
     private AnimatedFloat completeFloat;
+    private LinearGradient completeGradient;
+    private Matrix completeGradientMatrix;
+    private Paint completePaint;
+    private Paint completePaintStroke;
+    private Path completePath;
     private RectF completePathBounds;
+    private boolean loading;
+    private Paint loadingBackgroundPaint;
     public AnimatedFloat loadingFloat;
+    private RectF roundingRect;
+    private Sector[] sectors;
+    private float[] segmentsTmp;
     private float[] tempFloat;
     private int[] tempPercents;
-    private RectF chartBounds = new RectF();
-    private RectF chartInnerBounds = new RectF();
-    private boolean loading = true;
-    private boolean complete = false;
-    private Sector[] sectors = new Sector[9];
-    private float[] segmentsTmp = new float[2];
-    private RectF roundingRect = new RectF();
-    private Paint loadingBackgroundPaint = new Paint(1);
-    private Path completePath = new Path();
-    private Paint completePaintStroke = new Paint(1);
-    private Paint completePaint = new Paint(1);
-    private AnimatedTextView.AnimatedTextDrawable topText = new AnimatedTextView.AnimatedTextDrawable(false, true, true);
-    private AnimatedTextView.AnimatedTextDrawable bottomText = new AnimatedTextView.AnimatedTextDrawable(false, true, true);
-    private LinearGradient completeGradient = new LinearGradient(0.0f, 0.0f, 0.0f, AndroidUtilities.dp(200.0f), new int[]{7263574, -9513642, -12469647, 4307569}, new float[]{0.0f, 0.07f, 0.93f, 1.0f}, Shader.TileMode.CLAMP);
-    private Matrix completeGradientMatrix = new Matrix();
+    private AnimatedTextView.AnimatedTextDrawable topText;
 
     static {
         int i = R.raw.cache_videos;
@@ -71,17 +71,17 @@ public class CacheChart extends View {
         private float lastRounding;
         private float lastThickness;
         private float lastWidth;
+        Paint paint;
         Bitmap particle;
+        Paint particlePaint = new Paint(3);
+        Path path;
+        RectF pathBounds;
         AnimatedTextView.AnimatedTextDrawable text;
         float textAlpha;
         AnimatedFloat textAlphaAnimated;
+        float textScale;
         AnimatedFloat textScaleAnimated;
-        Paint particlePaint = new Paint(3);
-        float textScale = 1.0f;
-        Path path = new Path();
-        Paint paint = new Paint(1);
-        RectF pathBounds = new RectF();
-        Paint uncut = new Paint(1);
+        Paint uncut;
 
         Sector() {
             CubicBezierInterpolator cubicBezierInterpolator = CubicBezierInterpolator.EASE_OUT_QUINT;
@@ -89,6 +89,7 @@ public class CacheChart extends View {
             this.angleSizeAnimated = new AnimatedFloat(CacheChart.this, 650L, cubicBezierInterpolator);
             CubicBezierInterpolator cubicBezierInterpolator2 = CubicBezierInterpolator.EASE_OUT;
             this.textAlphaAnimated = new AnimatedFloat(CacheChart.this, 0L, 150L, cubicBezierInterpolator2);
+            this.textScale = 1.0f;
             this.textScaleAnimated = new AnimatedFloat(CacheChart.this, 0L, 150L, cubicBezierInterpolator2);
             AnimatedTextView.AnimatedTextDrawable animatedTextDrawable = new AnimatedTextView.AnimatedTextDrawable(false, true, true);
             this.text = animatedTextDrawable;
@@ -97,6 +98,10 @@ public class CacheChart extends View {
             this.text.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
             this.text.setTextSize(AndroidUtilities.dp(15.0f));
             this.text.setGravity(17);
+            this.path = new Path();
+            this.paint = new Paint(1);
+            this.pathBounds = new RectF();
+            this.uncut = new Paint(1);
             Paint paint = new Paint(1);
             this.cut = paint;
             paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
@@ -127,7 +132,6 @@ public class CacheChart extends View {
             this.lastWidth = rectF.width();
             float f9 = f - f2;
             float f10 = f + f2;
-            int i = 1;
             boolean z = min2 > 0.0f;
             float f11 = min2 * 2.0f;
             double width3 = rectF.width() - f11;
@@ -135,16 +139,12 @@ public class CacheChart extends View {
             float f12 = (min2 / ((float) (width3 * 3.141592653589793d))) * 360.0f;
             double width4 = rectF2.width() + f11;
             Double.isNaN(width4);
-            float f13 = (min2 / ((float) (width4 * 3.141592653589793d))) * 360.0f;
-            if (f2 > 175.0f) {
-                i = 0;
-            }
-            float f14 = f13 + (i * 0.5f);
+            float f13 = ((min2 / ((float) (width4 * 3.141592653589793d))) * 360.0f) + ((f2 > 175.0f ? 0 : 1) * 0.5f);
             float width5 = (rectF.width() / 2.0f) - min2;
             float width6 = (rectF2.width() / 2.0f) + min2;
             this.path.rewind();
-            float f15 = f10 - f9;
-            if (f15 < 0.5f) {
+            float f14 = f10 - f9;
+            if (f14 < 0.5f) {
                 return;
             }
             if (z) {
@@ -165,23 +165,23 @@ public class CacheChart extends View {
             } else {
                 f4 = width6;
             }
-            this.path.arcTo(rectF, f9 + f12, f15 - (f12 * 2.0f));
+            this.path.arcTo(rectF, f9 + f12, f14 - (f12 * 2.0f));
             if (z) {
                 RectF rectF4 = CacheChart.this.roundingRect;
                 double centerX2 = rectF.centerX();
                 double d4 = width5;
-                float f16 = f10 - f12;
-                double cos2 = Math.cos(CacheChart.toRad(f16));
+                float f15 = f10 - f12;
+                double cos2 = Math.cos(CacheChart.toRad(f15));
                 Double.isNaN(d4);
                 Double.isNaN(centerX2);
                 double d5 = centerX2 + (cos2 * d4);
                 double centerY2 = rectF.centerY();
                 f5 = f9;
-                double sin2 = Math.sin(CacheChart.toRad(f16));
+                double sin2 = Math.sin(CacheChart.toRad(f15));
                 Double.isNaN(d4);
                 Double.isNaN(centerY2);
                 CacheChart.setCircleBounds(rectF4, d5, centerY2 + (d4 * sin2), min2);
-                this.path.arcTo(CacheChart.this.roundingRect, f16, 90.0f);
+                this.path.arcTo(CacheChart.this.roundingRect, f15, 90.0f);
                 RectF rectF5 = CacheChart.this.roundingRect;
                 double centerX3 = rectF2.centerX();
                 double d6 = f4;
@@ -194,11 +194,11 @@ public class CacheChart extends View {
                 Double.isNaN(d6);
                 Double.isNaN(centerY3);
                 CacheChart.setCircleBounds(rectF5, d7, centerY3 + (d6 * sin3), min2);
-                this.path.arcTo(CacheChart.this.roundingRect, (f10 - f14) + 90.0f, 90.0f);
+                this.path.arcTo(CacheChart.this.roundingRect, (f10 - f13) + 90.0f, 90.0f);
             } else {
                 f5 = f9;
             }
-            this.path.arcTo(rectF2, f10 - f14, -(f15 - (f14 * 2.0f)));
+            this.path.arcTo(rectF2, f10 - f13, -(f14 - (f13 * 2.0f)));
             if (z) {
                 RectF rectF6 = CacheChart.this.roundingRect;
                 double centerX4 = rectF2.centerX();
@@ -212,7 +212,7 @@ public class CacheChart extends View {
                 Double.isNaN(d8);
                 Double.isNaN(centerY4);
                 CacheChart.setCircleBounds(rectF6, d9, centerY4 + (d8 * sin4), min2);
-                this.path.arcTo(CacheChart.this.roundingRect, f5 + f14 + 180.0f, 90.0f);
+                this.path.arcTo(CacheChart.this.roundingRect, f5 + f13 + 180.0f, 90.0f);
             }
             this.path.close();
             this.path.computeBounds(this.pathBounds, false);
@@ -328,12 +328,27 @@ public class CacheChart extends View {
 
     public CacheChart(Context context) {
         super(context);
+        this.chartBounds = new RectF();
+        this.chartInnerBounds = new RectF();
+        this.loading = true;
         CubicBezierInterpolator cubicBezierInterpolator = CubicBezierInterpolator.EASE_OUT_QUINT;
         this.loadingFloat = new AnimatedFloat(this, 750L, cubicBezierInterpolator);
+        this.complete = false;
         this.completeFloat = new AnimatedFloat(this, 750L, cubicBezierInterpolator);
+        this.sectors = new Sector[9];
+        this.segmentsTmp = new float[2];
+        this.roundingRect = new RectF();
+        this.loadingBackgroundPaint = new Paint(1);
+        this.completePath = new Path();
+        this.completePaintStroke = new Paint(1);
+        this.completePaint = new Paint(1);
+        this.topText = new AnimatedTextView.AnimatedTextDrawable(false, true, true);
+        this.bottomText = new AnimatedTextView.AnimatedTextDrawable(false, true, true);
         this.loadingBackgroundPaint.setStyle(Paint.Style.STROKE);
         this.loadingBackgroundPaint.setColor(Theme.getColor("listSelectorSDK21"));
         this.completePaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        this.completeGradient = new LinearGradient(0.0f, 0.0f, 0.0f, AndroidUtilities.dp(200.0f), new int[]{7263574, -9513642, -12469647, 4307569}, new float[]{0.0f, 0.07f, 0.93f, 1.0f}, Shader.TileMode.CLAMP);
+        this.completeGradientMatrix = new Matrix();
         this.completePaintStroke.setShader(this.completeGradient);
         this.completePaint.setShader(this.completeGradient);
         this.completePaintStroke.setStyle(Paint.Style.STROKE);
@@ -368,14 +383,12 @@ public class CacheChart extends View {
     public void setSegments(long j, long... jArr) {
         int i;
         long[] jArr2 = jArr;
-        String str = "";
         int i2 = 0;
-        boolean z = true;
         if (jArr2 == null || jArr2.length == 0) {
             this.loading = true;
             this.complete = j == 0;
-            this.topText.setText(str);
-            this.bottomText.setText(str);
+            this.topText.setText("");
+            this.bottomText.setText("");
             int i3 = 0;
             while (true) {
                 Sector[] sectorArr = this.sectors;
@@ -400,12 +413,9 @@ public class CacheChart extends View {
             }
             if (j2 <= 0) {
                 this.loading = true;
-                if (j > 0) {
-                    z = false;
-                }
-                this.complete = z;
-                this.topText.setText(str);
-                this.bottomText.setText(str);
+                this.complete = j <= 0;
+                this.topText.setText("");
+                this.bottomText.setText("");
                 while (true) {
                     Sector[] sectorArr2 = this.sectors;
                     if (i2 < sectorArr2.length) {
@@ -484,16 +494,12 @@ public class CacheChart extends View {
                     i5 = i;
                 }
                 String[] split = AndroidUtilities.formatFileSize(j2).split(" ");
-                String str2 = split.length > 0 ? split[0] : str;
-                if (str2.length() >= 4 && j2 < 1073741824) {
-                    str2 = str2.split("\\.")[0];
+                String str = split.length > 0 ? split[0] : "";
+                if (str.length() >= 4 && j2 < 1073741824) {
+                    str = str.split("\\.")[0];
                 }
-                this.topText.setText(str2);
-                AnimatedTextView.AnimatedTextDrawable animatedTextDrawable = this.bottomText;
-                if (split.length > 1) {
-                    str = split[1];
-                }
-                animatedTextDrawable.setText(str);
+                this.topText.setText(str);
+                this.bottomText.setText(split.length > 1 ? split[1] : "");
                 invalidate();
             }
         }

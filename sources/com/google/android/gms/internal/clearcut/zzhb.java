@@ -38,32 +38,32 @@ public final class zzhb extends zzfu<zzhb> implements Cloneable {
         if (obj == this) {
             return true;
         }
-        if (!(obj instanceof zzhb)) {
-            return false;
-        }
-        zzhb zzhbVar = (zzhb) obj;
-        String str = this.zzbke;
-        if (str == null) {
-            if (zzhbVar.zzbke != null) {
+        if (obj instanceof zzhb) {
+            zzhb zzhbVar = (zzhb) obj;
+            String str = this.zzbke;
+            if (str == null) {
+                if (zzhbVar.zzbke != null) {
+                    return false;
+                }
+            } else if (!str.equals(zzhbVar.zzbke)) {
                 return false;
             }
-        } else if (!str.equals(zzhbVar.zzbke)) {
-            return false;
-        }
-        String str2 = this.value;
-        if (str2 == null) {
-            if (zzhbVar.value != null) {
+            String str2 = this.value;
+            if (str2 == null) {
+                if (zzhbVar.value != null) {
+                    return false;
+                }
+            } else if (!str2.equals(zzhbVar.value)) {
                 return false;
             }
-        } else if (!str2.equals(zzhbVar.value)) {
-            return false;
-        }
-        zzfw zzfwVar = this.zzrj;
-        if (zzfwVar != null && !zzfwVar.isEmpty()) {
+            zzfw zzfwVar = this.zzrj;
+            if (zzfwVar == null || zzfwVar.isEmpty()) {
+                zzfw zzfwVar2 = zzhbVar.zzrj;
+                return zzfwVar2 == null || zzfwVar2.isEmpty();
+            }
             return this.zzrj.equals(zzhbVar.zzrj);
         }
-        zzfw zzfwVar2 = zzhbVar.zzrj;
-        return zzfwVar2 == null || zzfwVar2.isEmpty();
+        return false;
     }
 
     public final int hashCode() {

@@ -34,11 +34,11 @@ public final class FieldDescriptor {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof FieldDescriptor)) {
-            return false;
+        if (obj instanceof FieldDescriptor) {
+            FieldDescriptor fieldDescriptor = (FieldDescriptor) obj;
+            return this.name.equals(fieldDescriptor.name) && this.properties.equals(fieldDescriptor.properties);
         }
-        FieldDescriptor fieldDescriptor = (FieldDescriptor) obj;
-        return this.name.equals(fieldDescriptor.name) && this.properties.equals(fieldDescriptor.properties);
+        return false;
     }
 
     public int hashCode() {

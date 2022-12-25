@@ -17,12 +17,12 @@ public abstract class TLRPC$Reaction extends TLObject {
         } else {
             tLRPC$TL_reactionCustomEmoji = new TLRPC$TL_reactionEmoji();
         }
-        if (tLRPC$TL_reactionCustomEmoji != null || !z) {
-            if (tLRPC$TL_reactionCustomEmoji != null) {
-                tLRPC$TL_reactionCustomEmoji.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_reactionCustomEmoji;
+        if (tLRPC$TL_reactionCustomEmoji == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in Reaction", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in Reaction", Integer.valueOf(i)));
+        if (tLRPC$TL_reactionCustomEmoji != null) {
+            tLRPC$TL_reactionCustomEmoji.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_reactionCustomEmoji;
     }
 }

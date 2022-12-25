@@ -43,7 +43,7 @@ public final class FlacExtractor implements Extractor {
     public FlacExtractor(int i) {
         this.streamMarkerAndInfoBlock = new byte[42];
         this.buffer = new ParsableByteArray(new byte[32768], 0);
-        this.id3MetadataDisabled = (i & 1) == 0 ? false : true;
+        this.id3MetadataDisabled = (i & 1) != 0;
         this.sampleNumberHolder = new FlacFrameReader.SampleNumberHolder();
         this.state = 0;
     }
@@ -88,7 +88,6 @@ public final class FlacExtractor implements Extractor {
 
     @Override // com.google.android.exoplayer2.extractor.Extractor
     public void seek(long j, long j2) {
-        long j3 = 0;
         if (j == 0) {
             this.state = 0;
         } else {
@@ -97,10 +96,7 @@ public final class FlacExtractor implements Extractor {
                 flacBinarySearchSeeker.setSeekTargetUs(j2);
             }
         }
-        if (j2 != 0) {
-            j3 = -1;
-        }
-        this.currentFrameFirstSampleNumber = j3;
+        this.currentFrameFirstSampleNumber = j2 != 0 ? -1L : 0L;
         this.currentFrameBytesWritten = 0;
         this.buffer.reset();
     }
@@ -224,16 +220,12 @@ public final class FlacExtractor implements Extractor {
         if (z) {
             while (position <= parsableByteArray.limit() - this.minFrameSize) {
                 parsableByteArray.setPosition(position);
-                boolean z3 = false;
                 try {
                     z2 = FlacFrameReader.checkAndReadFrameHeader(parsableByteArray, this.flacStreamMetadata, this.frameStartMarker, this.sampleNumberHolder);
                 } catch (IndexOutOfBoundsException unused) {
                     z2 = false;
                 }
-                if (parsableByteArray.getPosition() <= parsableByteArray.limit()) {
-                    z3 = z2;
-                }
-                if (z3) {
+                if (parsableByteArray.getPosition() <= parsableByteArray.limit() ? z2 : false) {
                     parsableByteArray.setPosition(position);
                     return this.sampleNumberHolder.sampleNumber;
                 }

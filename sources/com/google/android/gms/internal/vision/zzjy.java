@@ -68,15 +68,15 @@ final class zzjy extends zzhj<Long> implements zzjl<Long>, zzkw {
 
     @Override // java.util.AbstractList, java.util.List
     public final int indexOf(Object obj) {
-        if (!(obj instanceof Long)) {
-            return -1;
-        }
-        long longValue = ((Long) obj).longValue();
-        int size = size();
-        for (int i = 0; i < size; i++) {
-            if (this.zzb[i] == longValue) {
-                return i;
+        if (obj instanceof Long) {
+            long longValue = ((Long) obj).longValue();
+            int size = size();
+            for (int i = 0; i < size; i++) {
+                if (this.zzb[i] == longValue) {
+                    return i;
+                }
             }
+            return -1;
         }
         return -1;
     }

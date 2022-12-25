@@ -299,14 +299,11 @@ public class SideMenultItemAnimator extends SimpleItemAnimator {
 
     void animateChangeImpl(final ChangeInfo changeInfo) {
         RecyclerView.ViewHolder viewHolder = changeInfo.oldHolder;
-        final View view = null;
-        final View view2 = viewHolder == null ? null : viewHolder.itemView;
+        final View view = viewHolder == null ? null : viewHolder.itemView;
         RecyclerView.ViewHolder viewHolder2 = changeInfo.newHolder;
-        if (viewHolder2 != null) {
-            view = viewHolder2.itemView;
-        }
-        if (view2 != null) {
-            final ViewPropertyAnimator duration = view2.animate().setDuration(getChangeRemoveDuration());
+        final View view2 = viewHolder2 != null ? viewHolder2.itemView : null;
+        if (view != null) {
+            final ViewPropertyAnimator duration = view.animate().setDuration(getChangeRemoveDuration());
             this.mChangeAnimations.add(changeInfo.oldHolder);
             duration.translationX(changeInfo.toX - changeInfo.fromX);
             duration.translationY(changeInfo.toY - changeInfo.fromY);
@@ -319,17 +316,17 @@ public class SideMenultItemAnimator extends SimpleItemAnimator {
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                 public void onAnimationEnd(Animator animator) {
                     duration.setListener(null);
-                    view2.setAlpha(1.0f);
-                    view2.setTranslationX(0.0f);
-                    view2.setTranslationY(0.0f);
+                    view.setAlpha(1.0f);
+                    view.setTranslationX(0.0f);
+                    view.setTranslationY(0.0f);
                     SideMenultItemAnimator.this.dispatchChangeFinished(changeInfo.oldHolder, true);
                     SideMenultItemAnimator.this.mChangeAnimations.remove(changeInfo.oldHolder);
                     SideMenultItemAnimator.this.dispatchFinishedWhenDone();
                 }
             }).start();
         }
-        if (view != null) {
-            final ViewPropertyAnimator animate = view.animate();
+        if (view2 != null) {
+            final ViewPropertyAnimator animate = view2.animate();
             this.mChangeAnimations.add(changeInfo.newHolder);
             animate.translationX(0.0f).translationY(0.0f).setDuration(getChangeAddDuration()).setStartDelay(getChangeDuration() - getChangeAddDuration()).alpha(1.0f).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.SideMenultItemAnimator.5
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -340,9 +337,9 @@ public class SideMenultItemAnimator extends SimpleItemAnimator {
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                 public void onAnimationEnd(Animator animator) {
                     animate.setListener(null);
-                    view.setAlpha(1.0f);
-                    view.setTranslationX(0.0f);
-                    view.setTranslationY(0.0f);
+                    view2.setAlpha(1.0f);
+                    view2.setTranslationX(0.0f);
+                    view2.setTranslationY(0.0f);
                     SideMenultItemAnimator.this.dispatchChangeFinished(changeInfo.newHolder, false);
                     SideMenultItemAnimator.this.mChangeAnimations.remove(changeInfo.newHolder);
                     SideMenultItemAnimator.this.dispatchFinishedWhenDone();
@@ -462,24 +459,24 @@ public class SideMenultItemAnimator extends SimpleItemAnimator {
 
     @Override // androidx.recyclerview.widget.RecyclerView.ItemAnimator
     public boolean isRunning() {
-        return !this.mPendingAdditions.isEmpty() || !this.mPendingChanges.isEmpty() || !this.mPendingMoves.isEmpty() || !this.mPendingRemovals.isEmpty() || !this.mMoveAnimations.isEmpty() || !this.mRemoveAnimations.isEmpty() || !this.mAddAnimations.isEmpty() || !this.mChangeAnimations.isEmpty() || !this.mMovesList.isEmpty() || !this.mAdditionsList.isEmpty() || !this.mChangesList.isEmpty();
+        return (this.mPendingAdditions.isEmpty() && this.mPendingChanges.isEmpty() && this.mPendingMoves.isEmpty() && this.mPendingRemovals.isEmpty() && this.mMoveAnimations.isEmpty() && this.mRemoveAnimations.isEmpty() && this.mAddAnimations.isEmpty() && this.mChangeAnimations.isEmpty() && this.mMovesList.isEmpty() && this.mAdditionsList.isEmpty() && this.mChangesList.isEmpty()) ? false : true;
     }
 
     public boolean isAnimatingChild(View view) {
-        if (!this.shouldClipChildren) {
+        if (this.shouldClipChildren) {
+            int size = this.mRemoveAnimations.size();
+            for (int i = 0; i < size; i++) {
+                if (this.mRemoveAnimations.get(i).itemView == view) {
+                    return true;
+                }
+            }
+            int size2 = this.mAddAnimations.size();
+            for (int i2 = 0; i2 < size2; i2++) {
+                if (this.mAddAnimations.get(i2).itemView == view) {
+                    return true;
+                }
+            }
             return false;
-        }
-        int size = this.mRemoveAnimations.size();
-        for (int i = 0; i < size; i++) {
-            if (this.mRemoveAnimations.get(i).itemView == view) {
-                return true;
-            }
-        }
-        int size2 = this.mAddAnimations.size();
-        for (int i2 = 0; i2 < size2; i2++) {
-            if (this.mAddAnimations.get(i2).itemView == view) {
-                return true;
-            }
         }
         return false;
     }
@@ -490,35 +487,36 @@ public class SideMenultItemAnimator extends SimpleItemAnimator {
 
     public int getAnimationClipTop() {
         int i = 0;
-        if (!this.shouldClipChildren) {
-            return 0;
-        }
-        boolean isEmpty = this.mRemoveAnimations.isEmpty();
-        int i2 = ConnectionsManager.DEFAULT_DATACENTER_ID;
-        if (!isEmpty) {
-            int size = this.mRemoveAnimations.size();
-            while (i < size) {
-                i2 = Math.min(i2, this.mRemoveAnimations.get(i).itemView.getTop());
-                i++;
+        if (this.shouldClipChildren) {
+            boolean isEmpty = this.mRemoveAnimations.isEmpty();
+            int i2 = ConnectionsManager.DEFAULT_DATACENTER_ID;
+            if (!isEmpty) {
+                int size = this.mRemoveAnimations.size();
+                while (i < size) {
+                    i2 = Math.min(i2, this.mRemoveAnimations.get(i).itemView.getTop());
+                    i++;
+                }
+                return i2;
+            } else if (this.mAddAnimations.isEmpty()) {
+                return 0;
+            } else {
+                int size2 = this.mAddAnimations.size();
+                while (i < size2) {
+                    i2 = Math.min(i2, this.mAddAnimations.get(i).itemView.getTop());
+                    i++;
+                }
+                return i2;
             }
-            return i2;
-        } else if (this.mAddAnimations.isEmpty()) {
-            return 0;
-        } else {
-            int size2 = this.mAddAnimations.size();
-            while (i < size2) {
-                i2 = Math.min(i2, this.mAddAnimations.get(i).itemView.getTop());
-                i++;
-            }
-            return i2;
         }
+        return 0;
     }
 
     void dispatchFinishedWhenDone() {
-        if (!isRunning()) {
-            dispatchAnimationsFinished();
-            onAllAnimationsDone();
+        if (isRunning()) {
+            return;
         }
+        dispatchAnimationsFinished();
+        onAllAnimationsDone();
     }
 
     @Override // androidx.recyclerview.widget.RecyclerView.ItemAnimator
@@ -550,49 +548,48 @@ public class SideMenultItemAnimator extends SimpleItemAnimator {
             endChangeAnimationIfNecessary(this.mPendingChanges.get(size4));
         }
         this.mPendingChanges.clear();
-        if (!isRunning()) {
-            return;
-        }
-        for (int size5 = this.mMovesList.size() - 1; size5 >= 0; size5--) {
-            ArrayList<MoveInfo> arrayList = this.mMovesList.get(size5);
-            for (int size6 = arrayList.size() - 1; size6 >= 0; size6--) {
-                MoveInfo moveInfo2 = arrayList.get(size6);
-                View view2 = moveInfo2.holder.itemView;
-                view2.setTranslationY(0.0f);
-                view2.setTranslationX(0.0f);
-                dispatchMoveFinished(moveInfo2.holder);
-                arrayList.remove(size6);
-                if (arrayList.isEmpty()) {
-                    this.mMovesList.remove(arrayList);
+        if (isRunning()) {
+            for (int size5 = this.mMovesList.size() - 1; size5 >= 0; size5--) {
+                ArrayList<MoveInfo> arrayList = this.mMovesList.get(size5);
+                for (int size6 = arrayList.size() - 1; size6 >= 0; size6--) {
+                    MoveInfo moveInfo2 = arrayList.get(size6);
+                    View view2 = moveInfo2.holder.itemView;
+                    view2.setTranslationY(0.0f);
+                    view2.setTranslationX(0.0f);
+                    dispatchMoveFinished(moveInfo2.holder);
+                    arrayList.remove(size6);
+                    if (arrayList.isEmpty()) {
+                        this.mMovesList.remove(arrayList);
+                    }
                 }
             }
-        }
-        for (int size7 = this.mAdditionsList.size() - 1; size7 >= 0; size7--) {
-            ArrayList<RecyclerView.ViewHolder> arrayList2 = this.mAdditionsList.get(size7);
-            for (int size8 = arrayList2.size() - 1; size8 >= 0; size8--) {
-                RecyclerView.ViewHolder viewHolder2 = arrayList2.get(size8);
-                viewHolder2.itemView.setTranslationY(0.0f);
-                dispatchAddFinished(viewHolder2);
-                arrayList2.remove(size8);
-                if (arrayList2.isEmpty()) {
-                    this.mAdditionsList.remove(arrayList2);
+            for (int size7 = this.mAdditionsList.size() - 1; size7 >= 0; size7--) {
+                ArrayList<RecyclerView.ViewHolder> arrayList2 = this.mAdditionsList.get(size7);
+                for (int size8 = arrayList2.size() - 1; size8 >= 0; size8--) {
+                    RecyclerView.ViewHolder viewHolder2 = arrayList2.get(size8);
+                    viewHolder2.itemView.setTranslationY(0.0f);
+                    dispatchAddFinished(viewHolder2);
+                    arrayList2.remove(size8);
+                    if (arrayList2.isEmpty()) {
+                        this.mAdditionsList.remove(arrayList2);
+                    }
                 }
             }
-        }
-        for (int size9 = this.mChangesList.size() - 1; size9 >= 0; size9--) {
-            ArrayList<ChangeInfo> arrayList3 = this.mChangesList.get(size9);
-            for (int size10 = arrayList3.size() - 1; size10 >= 0; size10--) {
-                endChangeAnimationIfNecessary(arrayList3.get(size10));
-                if (arrayList3.isEmpty()) {
-                    this.mChangesList.remove(arrayList3);
+            for (int size9 = this.mChangesList.size() - 1; size9 >= 0; size9--) {
+                ArrayList<ChangeInfo> arrayList3 = this.mChangesList.get(size9);
+                for (int size10 = arrayList3.size() - 1; size10 >= 0; size10--) {
+                    endChangeAnimationIfNecessary(arrayList3.get(size10));
+                    if (arrayList3.isEmpty()) {
+                        this.mChangesList.remove(arrayList3);
+                    }
                 }
             }
+            cancelAll(this.mRemoveAnimations);
+            cancelAll(this.mMoveAnimations);
+            cancelAll(this.mAddAnimations);
+            cancelAll(this.mChangeAnimations);
+            dispatchAnimationsFinished();
         }
-        cancelAll(this.mRemoveAnimations);
-        cancelAll(this.mMoveAnimations);
-        cancelAll(this.mAddAnimations);
-        cancelAll(this.mChangeAnimations);
-        dispatchAnimationsFinished();
     }
 
     void cancelAll(List<RecyclerView.ViewHolder> list) {

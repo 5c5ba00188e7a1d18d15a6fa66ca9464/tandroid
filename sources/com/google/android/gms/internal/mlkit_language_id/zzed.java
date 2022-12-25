@@ -491,13 +491,12 @@ final class zzed implements zzib {
     @Override // com.google.android.gms.internal.mlkit_language_id.zzib
     public final <K, V> void zza(int i, zzfq<K, V> zzfqVar, Map<K, V> map) throws IOException {
         Iterator<Map.Entry<K, V>> it = map.entrySet().iterator();
-        if (!it.hasNext()) {
-            return;
+        if (it.hasNext()) {
+            Map.Entry<K, V> next = it.next();
+            this.zza.zza(i, 2);
+            next.getKey();
+            next.getValue();
+            throw null;
         }
-        Map.Entry<K, V> next = it.next();
-        this.zza.zza(i, 2);
-        next.getKey();
-        next.getValue();
-        throw null;
     }
 }

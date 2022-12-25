@@ -21,7 +21,6 @@ import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewPropertyAnimator;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -80,36 +79,32 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
     private final ChatActivity chatActivity;
     private final RLottieDrawable darkThemeDrawable;
     private final RLottieImageView darkThemeView;
+    private boolean forceDark;
     HintView hintView;
     private boolean isApplyClicked;
     private boolean isLightDarkChangeAnimation;
     private final LinearLayoutManager layoutManager;
+    private final boolean originalIsDark;
     private final EmojiThemes originalTheme;
+    private int prevSelectedPosition;
     private final FlickerLoadingView progressView;
     private final RecyclerListView recyclerView;
     private TextView resetTextView;
     private FrameLayout rootLayout;
+    private final LinearSmoothScroller scroller;
     private ChatThemeItem selectedItem;
     private final ChatActivity.ThemeDelegate themeDelegate;
     private final TextView titleView;
-    private int prevSelectedPosition = -1;
-    private final boolean originalIsDark = Theme.getActiveTheme().isDark();
-    private boolean forceDark = Theme.getActiveTheme().isDark() ^ true;
-    private final LinearSmoothScroller scroller = new LinearSmoothScroller(this, getContext()) { // from class: org.telegram.ui.Components.ChatThemeBottomSheet.2
-        /* JADX INFO: Access modifiers changed from: protected */
-        @Override // androidx.recyclerview.widget.LinearSmoothScroller
-        public int calculateTimeForScrolling(int i) {
-            return super.calculateTimeForScrolling(i) * 6;
-        }
-    };
 
     public ChatThemeBottomSheet(ChatActivity chatActivity, final ChatActivity.ThemeDelegate themeDelegate) {
         super(chatActivity.getParentActivity(), true, themeDelegate);
         int i;
         String str;
+        this.prevSelectedPosition = -1;
         this.chatActivity = chatActivity;
         this.themeDelegate = themeDelegate;
         this.originalTheme = themeDelegate.getCurrentTheme();
+        this.originalIsDark = Theme.getActiveTheme().isDark();
         Adapter adapter = new Adapter(this.currentAccount, themeDelegate, 0);
         this.adapter = adapter;
         setDimBehind(false);
@@ -135,6 +130,7 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
         int i2 = R.raw.sun_outline;
         RLottieDrawable rLottieDrawable = new RLottieDrawable(i2, "" + i2, dp, dp, false, null);
         this.darkThemeDrawable = rLottieDrawable;
+        this.forceDark = Theme.getActiveTheme().isDark() ^ true;
         setForceDark(Theme.getActiveTheme().isDark(), false);
         rLottieDrawable.setAllowDecodeSingleFrame(true);
         rLottieDrawable.setPlayInDirectionOfCustomEndFrame(true);
@@ -160,6 +156,13 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
             }
         });
         this.rootLayout.addView(rLottieImageView, LayoutHelper.createFrame(44, 44.0f, 8388661, 0.0f, -2.0f, 7.0f, 0.0f));
+        this.scroller = new LinearSmoothScroller(this, getContext()) { // from class: org.telegram.ui.Components.ChatThemeBottomSheet.2
+            /* JADX INFO: Access modifiers changed from: protected */
+            @Override // androidx.recyclerview.widget.LinearSmoothScroller
+            public int calculateTimeForScrolling(int i3) {
+                return super.calculateTimeForScrolling(i3) * 6;
+            }
+        };
         RecyclerListView recyclerListView = new RecyclerListView(getContext());
         this.recyclerView = recyclerListView;
         recyclerListView.setAdapter(adapter);
@@ -365,9 +368,10 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
     public void dismiss() {
         NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.emojiLoaded);
         super.dismiss();
-        if (!this.isApplyClicked) {
-            this.themeDelegate.setCurrentTheme(this.originalTheme, true, Boolean.valueOf(this.originalIsDark));
+        if (this.isApplyClicked) {
+            return;
         }
+        this.themeDelegate.setCurrentTheme(this.originalTheme, true, Boolean.valueOf(this.originalIsDark));
     }
 
     public void close() {
@@ -432,12 +436,11 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
                 if (ChatThemeBottomSheet.this.isLightDarkChangeAnimation) {
                     ChatThemeBottomSheet.this.setItemsAnimationProgress(f);
                 }
-                if (f != 1.0f || !this.isAnimationStarted) {
-                    return;
+                if (f == 1.0f && this.isAnimationStarted) {
+                    ChatThemeBottomSheet.this.isLightDarkChangeAnimation = false;
+                    ChatThemeBottomSheet.this.onAnimationEnd();
+                    this.isAnimationStarted = false;
                 }
-                ChatThemeBottomSheet.this.isLightDarkChangeAnimation = false;
-                ChatThemeBottomSheet.this.onAnimationEnd();
-                this.isAnimationStarted = false;
             }
         };
         ArrayList<ThemeDescription> arrayList = new ArrayList<>();
@@ -633,14 +636,9 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
             this.layoutManager.scrollToPositionWithOffset(0, 0);
             z = true;
         }
-        float f = 1.0f;
         this.recyclerView.animate().alpha(1.0f).setDuration(150L).start();
         this.resetTextView.animate().alpha(z ? 1.0f : 0.0f).setDuration(150L).start();
-        ViewPropertyAnimator animate = this.applyTextView.animate();
-        if (z) {
-            f = 0.0f;
-        }
-        animate.alpha(f).setDuration(150L).start();
+        this.applyTextView.animate().alpha(z ? 0.0f : 1.0f).setDuration(150L).start();
         this.progressView.animate().alpha(0.0f).setListener(new HideViewAfterAnimation(this.progressView)).setDuration(150L).start();
     }
 
@@ -653,9 +651,10 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
                 chatThemeItem.themeIndex = this.forceDark ? 1 : 0;
             }
         }
-        if (!this.isLightDarkChangeAnimation) {
-            setItemsAnimationProgress(1.0f);
+        if (this.isLightDarkChangeAnimation) {
+            return;
         }
+        setItemsAnimationProgress(1.0f);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -668,28 +667,23 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
             return;
         }
         this.forceDark = z;
-        int i = 0;
         if (z2) {
             RLottieDrawable rLottieDrawable = this.darkThemeDrawable;
-            if (z) {
-                i = rLottieDrawable.getFramesCount();
-            }
-            rLottieDrawable.setCustomEndFrame(i);
+            rLottieDrawable.setCustomEndFrame(z ? rLottieDrawable.getFramesCount() : 0);
             RLottieImageView rLottieImageView = this.darkThemeView;
-            if (rLottieImageView == null) {
+            if (rLottieImageView != null) {
+                rLottieImageView.playAnimation();
                 return;
             }
-            rLottieImageView.playAnimation();
             return;
         }
         int framesCount = z ? this.darkThemeDrawable.getFramesCount() - 1 : 0;
         this.darkThemeDrawable.setCurrentFrame(framesCount, false, true);
         this.darkThemeDrawable.setCustomEndFrame(framesCount);
         RLottieImageView rLottieImageView2 = this.darkThemeView;
-        if (rLottieImageView2 == null) {
-            return;
+        if (rLottieImageView2 != null) {
+            rLottieImageView2.invalidate();
         }
-        rLottieImageView2.invalidate();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -745,20 +739,13 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
             return false;
         }
         EmojiThemes emojiThemes = this.originalTheme;
-        String str = null;
         String emoticon = emojiThemes != null ? emojiThemes.getEmoticon() : null;
-        String str2 = "❌";
         if (TextUtils.isEmpty(emoticon)) {
-            emoticon = str2;
+            emoticon = "❌";
         }
         EmojiThemes emojiThemes2 = this.selectedItem.chatTheme;
-        if (emojiThemes2 != null) {
-            str = emojiThemes2.getEmoticon();
-        }
-        if (!TextUtils.isEmpty(str)) {
-            str2 = str;
-        }
-        return !Objects.equals(emoticon, str2);
+        String emoticon2 = emojiThemes2 != null ? emojiThemes2.getEmoticon() : null;
+        return !Objects.equals(emoticon, TextUtils.isEmpty(emoticon2) ? "❌" : emoticon2);
     }
 
     @SuppressLint({"NotifyDataSetChanged"})
@@ -793,16 +780,12 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
             }
             ChatThemeItem chatThemeItem = this.items.get(i);
             ChatThemeItem chatThemeItem2 = themeSmallPreviewView.chatThemeItem;
-            boolean z = false;
-            boolean z2 = chatThemeItem2 != null && chatThemeItem2.chatTheme.getEmoticon().equals(chatThemeItem.chatTheme.getEmoticon()) && !DrawerProfileCell.switchingTheme && themeSmallPreviewView.lastThemeIndex == chatThemeItem.themeIndex;
+            boolean z = chatThemeItem2 != null && chatThemeItem2.chatTheme.getEmoticon().equals(chatThemeItem.chatTheme.getEmoticon()) && !DrawerProfileCell.switchingTheme && themeSmallPreviewView.lastThemeIndex == chatThemeItem.themeIndex;
             themeSmallPreviewView.setFocusable(true);
             themeSmallPreviewView.setEnabled(true);
             themeSmallPreviewView.setBackgroundColor(Theme.getColor("dialogBackgroundGray"));
-            themeSmallPreviewView.setItem(chatThemeItem, z2);
-            if (i == this.selectedItemPosition) {
-                z = true;
-            }
-            themeSmallPreviewView.setSelected(z, z2);
+            themeSmallPreviewView.setItem(chatThemeItem, z);
+            themeSmallPreviewView.setSelected(i == this.selectedItemPosition, z);
             if (i == this.selectedItemPosition) {
                 this.selectedViewRef = new WeakReference<>(themeSmallPreviewView);
             }

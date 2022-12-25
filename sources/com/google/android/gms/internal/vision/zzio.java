@@ -42,11 +42,11 @@ public class zzio {
         }
 
         public final boolean equals(Object obj) {
-            if (!(obj instanceof zza)) {
-                return false;
+            if (obj instanceof zza) {
+                zza zzaVar = (zza) obj;
+                return this.zza == zzaVar.zza && this.zzb == zzaVar.zzb;
             }
-            zza zzaVar = (zza) obj;
-            return this.zza == zzaVar.zza && this.zzb == zzaVar.zzb;
+            return false;
         }
     }
 

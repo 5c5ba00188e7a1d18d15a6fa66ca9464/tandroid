@@ -108,17 +108,16 @@ public class ClipRoundedDrawable extends Drawable {
     }
 
     private void updatePath() {
-        if (!this.hasRadius) {
-            return;
+        if (this.hasRadius) {
+            Path path = this.path;
+            if (path == null) {
+                this.path = new Path();
+            } else {
+                path.rewind();
+            }
+            this.tempBounds.set(getBounds());
+            this.path.addRoundRect(this.tempBounds, this.radii, Path.Direction.CW);
         }
-        Path path = this.path;
-        if (path == null) {
-            this.path = new Path();
-        } else {
-            path.rewind();
-        }
-        this.tempBounds.set(getBounds());
-        this.path.addRoundRect(this.tempBounds, this.radii, Path.Direction.CW);
     }
 
     @Override // android.graphics.drawable.Drawable

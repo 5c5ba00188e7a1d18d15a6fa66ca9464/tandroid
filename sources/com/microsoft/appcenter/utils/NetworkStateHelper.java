@@ -123,10 +123,9 @@ public class NetworkStateHelper implements Closeable {
     public void onNetworkLost(Network network) {
         AppCenterLog.debug("AppCenter", "Network " + network + " is lost.");
         Network[] allNetworks = this.mConnectivityManager.getAllNetworks();
-        if (!(allNetworks == null || allNetworks.length == 0 || Arrays.equals(allNetworks, new Network[]{network})) || !this.mConnected.compareAndSet(true, false)) {
-            return;
+        if ((allNetworks == null || allNetworks.length == 0 || Arrays.equals(allNetworks, new Network[]{network})) && this.mConnected.compareAndSet(true, false)) {
+            notifyNetworkStateUpdated(false);
         }
-        notifyNetworkStateUpdated(false);
     }
 
     /* JADX INFO: Access modifiers changed from: private */

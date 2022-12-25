@@ -126,10 +126,9 @@ public class LocationSharingService extends Service implements NotificationCente
         String format = String.format(string, LocaleController.getString("AttachLiveLocation", R.string.AttachLiveLocation), formatPluralString);
         this.builder.setTicker(format);
         this.builder.setContentText(format);
-        if (!z) {
-            return;
+        if (z) {
+            NotificationManagerCompat.from(ApplicationLoader.applicationContext).notify(6, this.builder.build());
         }
-        NotificationManagerCompat.from(ApplicationLoader.applicationContext).notify(6, this.builder.build());
     }
 
     @Override // android.app.Service

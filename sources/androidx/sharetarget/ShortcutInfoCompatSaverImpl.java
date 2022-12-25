@@ -157,15 +157,15 @@ public class ShortcutInfoCompatSaverImpl extends ShortcutInfoCompatSaver<Listena
                 return IconCompat.createWithResource(this.mContext, i);
             }
         }
-        if (!TextUtils.isEmpty(shortcutContainer.mBitmapPath) && (bitmap = (Bitmap) this.mDiskIoService.submit(new Callable<Bitmap>(this) { // from class: androidx.sharetarget.ShortcutInfoCompatSaverImpl.6
+        if (TextUtils.isEmpty(shortcutContainer.mBitmapPath) || (bitmap = (Bitmap) this.mDiskIoService.submit(new Callable<Bitmap>(this) { // from class: androidx.sharetarget.ShortcutInfoCompatSaverImpl.6
             @Override // java.util.concurrent.Callable
             public Bitmap call() {
                 return BitmapFactory.decodeFile(shortcutContainer.mBitmapPath);
             }
-        }).get()) != null) {
-            return IconCompat.createWithBitmap(bitmap);
+        }).get()) == null) {
+            return null;
         }
-        return null;
+        return IconCompat.createWithBitmap(bitmap);
     }
 
     void deleteDanglingBitmaps(List<ShortcutsInfoSerialization.ShortcutContainer> list) {
@@ -279,7 +279,7 @@ public class ShortcutInfoCompatSaverImpl extends ShortcutInfoCompatSaver<Listena
         }, this.mCacheUpdateService);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:8:0x0012, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:9:0x0012, code lost:
         if (r2 != 5) goto L14;
      */
     /*

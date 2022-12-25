@@ -36,18 +36,18 @@ public class Metadata {
             return gcmSenderId;
         }
         String applicationId = firebaseApp.getOptions().getApplicationId();
-        if (!applicationId.startsWith("1:")) {
-            return applicationId;
-        }
-        String[] split = applicationId.split(":");
-        if (split.length < 2) {
-            return null;
-        }
-        String str = split[1];
-        if (!str.isEmpty()) {
+        if (applicationId.startsWith("1:")) {
+            String[] split = applicationId.split(":");
+            if (split.length < 2) {
+                return null;
+            }
+            String str = split[1];
+            if (str.isEmpty()) {
+                return null;
+            }
             return str;
         }
-        return null;
+        return applicationId;
     }
 
     private PackageInfo getPackageInfo(String str) {

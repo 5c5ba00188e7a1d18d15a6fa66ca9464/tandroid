@@ -54,10 +54,10 @@ public final class IcyInfo implements Metadata.Entry {
         if (this == obj) {
             return true;
         }
-        if (obj != null && IcyInfo.class == obj.getClass()) {
-            return Arrays.equals(this.rawMetadata, ((IcyInfo) obj).rawMetadata);
+        if (obj == null || IcyInfo.class != obj.getClass()) {
+            return false;
         }
-        return false;
+        return Arrays.equals(this.rawMetadata, ((IcyInfo) obj).rawMetadata);
     }
 
     public int hashCode() {

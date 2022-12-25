@@ -56,12 +56,14 @@ public class MessageSeenView extends FrameLayout {
     ImageView iconView;
     boolean ignoreLayout;
     boolean isVoice;
+    ArrayList<Long> peerIds;
     SimpleTextView titleView;
-    ArrayList<Long> peerIds = new ArrayList<>();
-    public ArrayList<TLRPC$User> users = new ArrayList<>();
+    public ArrayList<TLRPC$User> users;
 
     public MessageSeenView(Context context, final int i, MessageObject messageObject, final TLRPC$Chat tLRPC$Chat) {
         super(context);
+        this.peerIds = new ArrayList<>();
+        this.users = new ArrayList<>();
         this.currentAccount = i;
         this.isVoice = messageObject.isRoundVideo() || messageObject.isVoice();
         FlickerLoadingView flickerLoadingView = new FlickerLoadingView(context);
@@ -93,13 +95,12 @@ public class MessageSeenView extends FrameLayout {
         this.iconView.setImageDrawable(mutate);
         this.avatarsImageView.setAlpha(0.0f);
         this.titleView.setAlpha(0.0f);
-        long j = 0;
         TLRPC$Peer tLRPC$Peer = messageObject.messageOwner.from_id;
-        final long j2 = tLRPC$Peer != null ? tLRPC$Peer.user_id : j;
+        final long j = tLRPC$Peer != null ? tLRPC$Peer.user_id : 0L;
         ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_messages_getMessageReadParticipants, new RequestDelegate() { // from class: org.telegram.ui.MessageSeenView$$ExternalSyntheticLambda5
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                MessageSeenView.this.lambda$new$5(j2, i, tLRPC$Chat, tLObject, tLRPC$TL_error);
+                MessageSeenView.this.lambda$new$5(j, i, tLRPC$Chat, tLObject, tLRPC$TL_error);
             }
         });
         setBackground(Theme.createRadSelectorDrawable(Theme.getColor("dialogButtonSelector"), 6, 0));
@@ -238,11 +239,8 @@ public class MessageSeenView extends FrameLayout {
         if (view != null && view.getWidth() > 0) {
             i = View.MeasureSpec.makeMeasureSpec(view.getWidth(), 1073741824);
         }
-        boolean z = true;
         this.ignoreLayout = true;
-        if (this.flickerLoadingView.getVisibility() != 0) {
-            z = false;
-        }
+        boolean z = this.flickerLoadingView.getVisibility() == 0;
         this.titleView.setVisibility(8);
         if (z) {
             this.flickerLoadingView.setVisibility(8);
@@ -342,12 +340,13 @@ public class MessageSeenView extends FrameLayout {
 
     /* loaded from: classes3.dex */
     private static class UserCell extends FrameLayout {
-        AvatarDrawable avatarDrawable = new AvatarDrawable();
+        AvatarDrawable avatarDrawable;
         BackupImageView avatarImageView;
         TextView nameView;
 
         public UserCell(Context context) {
             super(context);
+            this.avatarDrawable = new AvatarDrawable();
             BackupImageView backupImageView = new BackupImageView(context);
             this.avatarImageView = backupImageView;
             addView(backupImageView, LayoutHelper.createFrame(32, 32.0f, 16, 13.0f, 0.0f, 0.0f, 0.0f));

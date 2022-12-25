@@ -24,7 +24,7 @@ public class HardwareVideoDecoderFactory extends MediaCodecVideoDecoderFactory {
         }
 
         /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-        /* JADX WARN: Code restructure failed: missing block: B:46:0x004a, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:25:0x004a, code lost:
             if (r3.equals(org.telegram.messenger.MediaController.VIDEO_MIME_TYPE) == false) goto L14;
          */
         @Override // org.webrtc.Predicate
@@ -77,15 +77,15 @@ public class HardwareVideoDecoderFactory extends MediaCodecVideoDecoderFactory {
                     case 0:
                         return globalServerConfig.enable_h265_decoder;
                     case 1:
-                        if (VoIPService.getSharedInstance() != null && VoIPService.getSharedInstance().groupCall != null) {
-                            return false;
+                        if (VoIPService.getSharedInstance() == null || VoIPService.getSharedInstance().groupCall == null) {
+                            return globalServerConfig.enable_h264_decoder;
                         }
-                        return globalServerConfig.enable_h264_decoder;
+                        return false;
                     case 2:
-                        if (VoIPService.getSharedInstance() != null && VoIPService.getSharedInstance().groupCall != null) {
-                            return false;
+                        if (VoIPService.getSharedInstance() == null || VoIPService.getSharedInstance().groupCall == null) {
+                            return globalServerConfig.enable_vp8_decoder;
                         }
-                        return globalServerConfig.enable_vp8_decoder;
+                        return false;
                     case 3:
                         return globalServerConfig.enable_vp9_decoder;
                     default:

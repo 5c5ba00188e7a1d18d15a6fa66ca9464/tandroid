@@ -107,7 +107,6 @@ public class SettingsSearchCell extends FrameLayout {
     public void setTextAndValueAndIcon(CharSequence charSequence, String[] strArr, int i, boolean z) {
         this.textView.setText(charSequence);
         FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) this.textView.getLayoutParams();
-        float f = 16.0f;
         layoutParams.leftMargin = AndroidUtilities.dp(LocaleController.isRTL ? 16.0f : 71.0f);
         layoutParams.rightMargin = AndroidUtilities.dp(LocaleController.isRTL ? 71.0f : 16.0f);
         if (strArr != null) {
@@ -127,10 +126,7 @@ public class SettingsSearchCell extends FrameLayout {
             layoutParams.topMargin = AndroidUtilities.dp(10.0f);
             FrameLayout.LayoutParams layoutParams2 = (FrameLayout.LayoutParams) this.valueTextView.getLayoutParams();
             layoutParams2.leftMargin = AndroidUtilities.dp(LocaleController.isRTL ? 16.0f : 71.0f);
-            if (LocaleController.isRTL) {
-                f = 71.0f;
-            }
-            layoutParams2.rightMargin = AndroidUtilities.dp(f);
+            layoutParams2.rightMargin = AndroidUtilities.dp(LocaleController.isRTL ? 71.0f : 16.0f);
         } else {
             layoutParams.topMargin = AndroidUtilities.dp(21.0f);
             this.valueTextView.setVisibility(8);

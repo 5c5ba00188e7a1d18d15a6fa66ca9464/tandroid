@@ -29,13 +29,13 @@ public class zzcv {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof zzcv)) {
-            return false;
+        if (obj instanceof zzcv) {
+            zzcv zzcvVar = (zzcv) obj;
+            zzdo zzdoVar = this.zzlo;
+            zzdo zzdoVar2 = zzcvVar.zzlo;
+            return (zzdoVar == null && zzdoVar2 == null) ? zzr().equals(zzcvVar.zzr()) : (zzdoVar == null || zzdoVar2 == null) ? zzdoVar != null ? zzdoVar.equals(zzcvVar.zzh(zzdoVar.zzbe())) : zzh(zzdoVar2.zzbe()).equals(zzdoVar2) : zzdoVar.equals(zzdoVar2);
         }
-        zzcv zzcvVar = (zzcv) obj;
-        zzdo zzdoVar = this.zzlo;
-        zzdo zzdoVar2 = zzcvVar.zzlo;
-        return (zzdoVar == null && zzdoVar2 == null) ? zzr().equals(zzcvVar.zzr()) : (zzdoVar == null || zzdoVar2 == null) ? zzdoVar != null ? zzdoVar.equals(zzcvVar.zzh(zzdoVar.zzbe())) : zzh(zzdoVar2.zzbe()).equals(zzdoVar2) : zzdoVar.equals(zzdoVar2);
+        return false;
     }
 
     public int hashCode() {
@@ -46,10 +46,10 @@ public class zzcv {
         if (this.zzlp != null) {
             return this.zzlp.size();
         }
-        if (this.zzlo == null) {
-            return 0;
+        if (this.zzlo != null) {
+            return this.zzlo.zzas();
         }
-        return this.zzlo.zzas();
+        return 0;
     }
 
     public final zzdo zzi(zzdo zzdoVar) {

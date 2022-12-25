@@ -14,10 +14,9 @@ final class zzle {
 
     public static void zza(Class<?> cls) {
         Class<?> cls2;
-        if (zzjb.class.isAssignableFrom(cls) || (cls2 = zza) == null || cls2.isAssignableFrom(cls)) {
-            return;
+        if (!zzjb.class.isAssignableFrom(cls) && (cls2 = zza) != null && !cls2.isAssignableFrom(cls)) {
+            throw new IllegalArgumentException("Message classes must extend GeneratedMessage or GeneratedMessageLite");
         }
-        throw new IllegalArgumentException("Message classes must extend GeneratedMessage or GeneratedMessageLite");
     }
 
     public static void zza(int i, List<Double> list, zzmr zzmrVar, boolean z) throws IOException {
@@ -531,10 +530,10 @@ final class zzle {
     private static zzlu<?, ?> zza(boolean z) {
         try {
             Class<?> zze = zze();
-            if (zze != null) {
-                return (zzlu) zze.getConstructor(Boolean.TYPE).newInstance(Boolean.valueOf(z));
+            if (zze == null) {
+                return null;
             }
-            return null;
+            return (zzlu) zze.getConstructor(Boolean.TYPE).newInstance(Boolean.valueOf(z));
         } catch (Throwable unused) {
             return null;
         }
@@ -572,9 +571,10 @@ final class zzle {
     /* JADX INFO: Access modifiers changed from: package-private */
     public static <T, FT extends zziw<FT>> void zza(zziq<FT> zziqVar, T t, T t2) {
         zziu<FT> zza2 = zziqVar.zza(t2);
-        if (!zza2.zza.isEmpty()) {
-            zziqVar.zzb(t).zza(zza2);
+        if (zza2.zza.isEmpty()) {
+            return;
         }
+        zziqVar.zzb(t).zza(zza2);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

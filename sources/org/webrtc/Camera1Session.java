@@ -20,19 +20,19 @@ public class Camera1Session implements CameraSession {
     private final Context applicationContext;
     private final Camera camera;
     private final int cameraId;
+    private final Handler cameraThreadHandler;
     private final CameraEnumerationAndroid.CaptureFormat captureFormat;
     private final boolean captureToTexture;
     private final long constructionTimeNs;
     private final CameraSession.Events events;
     private boolean firstFrameReported;
     private final Camera.CameraInfo info;
+    private OrientationHelper orientationHelper;
     private SessionState state;
     private final SurfaceTextureHelper surfaceTextureHelper;
     private static final Histogram camera1StartTimeMsHistogram = Histogram.createCounts("WebRTC.Android.Camera1.StartTimeMs", 1, 10000, 50);
     private static final Histogram camera1StopTimeMsHistogram = Histogram.createCounts("WebRTC.Android.Camera1.StopTimeMs", 1, 10000, 50);
     private static final Histogram camera1ResolutionHistogram = Histogram.createEnumeration("WebRTC.Android.Camera1.Resolution", CameraEnumerationAndroid.COMMON_RESOLUTIONS.size());
-    private final Handler cameraThreadHandler = new Handler();
-    private OrientationHelper orientationHelper = new OrientationHelper();
 
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
@@ -114,6 +114,7 @@ public class Camera1Session implements CameraSession {
 
     private Camera1Session(CameraSession.Events events, boolean z, Context context, SurfaceTextureHelper surfaceTextureHelper, int i, Camera camera, Camera.CameraInfo cameraInfo, CameraEnumerationAndroid.CaptureFormat captureFormat, long j) {
         Logging.d(TAG, "Create new camera1 session on camera " + i);
+        this.cameraThreadHandler = new Handler();
         this.events = events;
         this.captureToTexture = z;
         this.applicationContext = context;
@@ -123,6 +124,7 @@ public class Camera1Session implements CameraSession {
         this.info = cameraInfo;
         this.captureFormat = captureFormat;
         this.constructionTimeNs = j;
+        this.orientationHelper = new OrientationHelper();
         surfaceTextureHelper.setTextureSize(captureFormat.width, captureFormat.height);
         startCapturing();
     }
@@ -217,16 +219,11 @@ public class Camera1Session implements CameraSession {
             Logging.d(TAG, "Texture frame captured but camera is no longer running.");
             return;
         }
-        boolean z = true;
         if (!this.firstFrameReported) {
             camera1StartTimeMsHistogram.addSample((int) TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - this.constructionTimeNs));
             this.firstFrameReported = true;
         }
-        TextureBufferImpl textureBufferImpl = (TextureBufferImpl) videoFrame.getBuffer();
-        if (this.info.facing != 1) {
-            z = false;
-        }
-        VideoFrame videoFrame2 = new VideoFrame(CameraSession.-CC.createTextureBufferWithModifiedTransformMatrix(textureBufferImpl, z, 0), getFrameOrientation(), videoFrame.getTimestampNs());
+        VideoFrame videoFrame2 = new VideoFrame(CameraSession.-CC.createTextureBufferWithModifiedTransformMatrix((TextureBufferImpl) videoFrame.getBuffer(), this.info.facing == 1, 0), getFrameOrientation(), videoFrame.getTimestampNs());
         this.events.onFrameCaptured(this, videoFrame2);
         videoFrame2.release();
     }
@@ -298,9 +295,8 @@ public class Camera1Session implements CameraSession {
 
     /* JADX INFO: Access modifiers changed from: private */
     public void checkIsOnCameraThread() {
-        if (Thread.currentThread() == this.cameraThreadHandler.getLooper().getThread()) {
-            return;
+        if (Thread.currentThread() != this.cameraThreadHandler.getLooper().getThread()) {
+            throw new IllegalStateException("Wrong thread");
         }
-        throw new IllegalStateException("Wrong thread");
     }
 }

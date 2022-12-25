@@ -135,7 +135,10 @@ public abstract class zzae<T> {
         boolean z;
         String str2;
         Uri uri2;
-        if (!zza("gms:phenotype:phenotype_flag:debug_bypass_phenotype", false)) {
+        if (zza("gms:phenotype:phenotype_flag:debug_bypass_phenotype", false)) {
+            String valueOf = String.valueOf(this.zzds);
+            Log.w("PhenotypeFlag", valueOf.length() != 0 ? "Bypass reading Phenotype values for flag: ".concat(valueOf) : new String("Bypass reading Phenotype values for flag: "));
+        } else {
             uri = this.zzdr.zzeg;
             if (uri != null) {
                 if (this.zzdw == null) {
@@ -186,9 +189,6 @@ public abstract class zzae<T> {
                     }
                 }
             }
-        } else {
-            String valueOf = String.valueOf(this.zzds);
-            Log.w("PhenotypeFlag", valueOf.length() != 0 ? "Bypass reading Phenotype values for flag: ".concat(valueOf) : new String("Bypass reading Phenotype values for flag: "));
         }
         return null;
     }
@@ -219,14 +219,10 @@ public abstract class zzae<T> {
     private static boolean zzn() {
         if (zzdp == null) {
             Context context = zzh;
-            boolean z = false;
             if (context == null) {
                 return false;
             }
-            if (PermissionChecker.checkCallingOrSelfPermission(context, "com.google.android.providers.gsf.permission.READ_GSERVICES") == 0) {
-                z = true;
-            }
-            zzdp = Boolean.valueOf(z);
+            zzdp = Boolean.valueOf(PermissionChecker.checkCallingOrSelfPermission(context, "com.google.android.providers.gsf.permission.READ_GSERVICES") == 0);
         }
         return zzdp.booleanValue();
     }

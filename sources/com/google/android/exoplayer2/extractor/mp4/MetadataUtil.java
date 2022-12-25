@@ -135,20 +135,19 @@ final class MetadataUtil {
     public static MdtaMetadataEntry parseMdtaMetadataEntryFromIlst(ParsableByteArray parsableByteArray, int i, String str) {
         while (true) {
             int position = parsableByteArray.getPosition();
-            if (position < i) {
-                int readInt = parsableByteArray.readInt();
-                if (parsableByteArray.readInt() == 1684108385) {
-                    int readInt2 = parsableByteArray.readInt();
-                    int readInt3 = parsableByteArray.readInt();
-                    int i2 = readInt - 16;
-                    byte[] bArr = new byte[i2];
-                    parsableByteArray.readBytes(bArr, 0, i2);
-                    return new MdtaMetadataEntry(str, bArr, readInt3, readInt2);
-                }
-                parsableByteArray.setPosition(position + readInt);
-            } else {
+            if (position >= i) {
                 return null;
             }
+            int readInt = parsableByteArray.readInt();
+            if (parsableByteArray.readInt() == 1684108385) {
+                int readInt2 = parsableByteArray.readInt();
+                int readInt3 = parsableByteArray.readInt();
+                int i2 = readInt - 16;
+                byte[] bArr = new byte[i2];
+                parsableByteArray.readBytes(bArr, 0, i2);
+                return new MdtaMetadataEntry(str, bArr, readInt3, readInt2);
+            }
+            parsableByteArray.setPosition(position + readInt);
         }
     }
 
@@ -206,8 +205,8 @@ final class MetadataUtil {
         return null;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:10:0x001c  */
-    /* JADX WARN: Removed duplicated region for block: B:7:0x0014  */
+    /* JADX WARN: Removed duplicated region for block: B:11:0x001c  */
+    /* JADX WARN: Removed duplicated region for block: B:9:0x0014  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

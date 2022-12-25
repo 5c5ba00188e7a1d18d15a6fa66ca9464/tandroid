@@ -7,17 +7,13 @@ public class TLRPC$TL_chat extends TLRPC$Chat {
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
         int readInt32 = abstractSerializedData.readInt32(z);
         this.flags = readInt32;
-        boolean z2 = false;
         this.creator = (readInt32 & 1) != 0;
         this.kicked = (readInt32 & 2) != 0;
         this.left = (readInt32 & 4) != 0;
         this.deactivated = (readInt32 & 32) != 0;
         this.call_active = (8388608 & readInt32) != 0;
         this.call_not_empty = (16777216 & readInt32) != 0;
-        if ((readInt32 & ConnectionsManager.FileTypeVideo) != 0) {
-            z2 = true;
-        }
-        this.noforwards = z2;
+        this.noforwards = (readInt32 & ConnectionsManager.FileTypeVideo) != 0;
         this.id = abstractSerializedData.readInt64(z);
         this.title = abstractSerializedData.readString(z);
         this.photo = TLRPC$ChatPhoto.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);

@@ -12,6 +12,7 @@ import org.telegram.ui.Components.voip.CellFlickerDrawable;
 public class LineProgressView extends View {
     private static DecelerateInterpolator decelerateInterpolator;
     private static Paint progressPaint;
+    private float animatedAlphaValue;
     private float animatedProgressValue;
     private float animationProgressStart;
     private int backColor;
@@ -20,11 +21,12 @@ public class LineProgressView extends View {
     private long currentProgressTime;
     private long lastUpdateTime;
     private int progressColor;
-    private float animatedAlphaValue = 1.0f;
-    private RectF rect = new RectF();
+    private RectF rect;
 
     public LineProgressView(Context context) {
         super(context);
+        this.animatedAlphaValue = 1.0f;
+        this.rect = new RectF();
         if (decelerateInterpolator == null) {
             decelerateInterpolator = new DecelerateInterpolator();
             Paint paint = new Paint(1);
@@ -63,15 +65,14 @@ public class LineProgressView extends View {
             return;
         }
         float f6 = this.animatedAlphaValue;
-        if (f6 == 0.0f) {
-            return;
+        if (f6 != 0.0f) {
+            float f7 = f6 - (((float) j) / 200.0f);
+            this.animatedAlphaValue = f7;
+            if (f7 <= 0.0f) {
+                this.animatedAlphaValue = 0.0f;
+            }
+            invalidate();
         }
-        float f7 = f6 - (((float) j) / 200.0f);
-        this.animatedAlphaValue = f7;
-        if (f7 <= 0.0f) {
-            this.animatedAlphaValue = 0.0f;
-        }
-        invalidate();
     }
 
     public void setProgressColor(int i) {

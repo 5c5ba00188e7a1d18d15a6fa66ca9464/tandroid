@@ -15,12 +15,12 @@ public abstract class TLRPC$messages_FoundStickerSets extends TLObject {
         } else {
             tLRPC$TL_messages_foundStickerSets = new TLRPC$TL_messages_foundStickerSets();
         }
-        if (tLRPC$TL_messages_foundStickerSets != null || !z) {
-            if (tLRPC$TL_messages_foundStickerSets != null) {
-                tLRPC$TL_messages_foundStickerSets.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_messages_foundStickerSets;
+        if (tLRPC$TL_messages_foundStickerSets == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in messages_FoundStickerSets", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in messages_FoundStickerSets", Integer.valueOf(i)));
+        if (tLRPC$TL_messages_foundStickerSets != null) {
+            tLRPC$TL_messages_foundStickerSets.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_messages_foundStickerSets;
     }
 }

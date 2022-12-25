@@ -58,18 +58,19 @@ public final class VoIPPendingCall {
         this.userId = j;
         this.video = z;
         this.accountInstance = accountInstance;
-        if (!onConnectionStateUpdated(false)) {
-            NotificationCenter notificationCenter = NotificationCenter.getInstance(UserConfig.selectedAccount);
-            this.notificationCenter = notificationCenter;
-            notificationCenter.addObserver(notificationCenterDelegate, NotificationCenter.didUpdateConnectionState);
-            Handler handler = new Handler(Looper.myLooper());
-            this.handler = handler;
-            handler.postDelayed(runnable, j2);
+        if (onConnectionStateUpdated(false)) {
+            return;
         }
+        NotificationCenter notificationCenter = NotificationCenter.getInstance(UserConfig.selectedAccount);
+        this.notificationCenter = notificationCenter;
+        notificationCenter.addObserver(notificationCenterDelegate, NotificationCenter.didUpdateConnectionState);
+        Handler handler = new Handler(Looper.myLooper());
+        this.handler = handler;
+        handler.postDelayed(runnable, j2);
     }
 
     private boolean onConnectionStateUpdated(boolean z) {
-        if (this.released || (!z && !isConnected(this.accountInstance) && !isAirplaneMode())) {
+        if (this.released || !(z || isConnected(this.accountInstance) || isAirplaneMode())) {
             return false;
         }
         MessagesController messagesController = this.accountInstance.getMessagesController();
@@ -93,16 +94,17 @@ public final class VoIPPendingCall {
     }
 
     public void release() {
-        if (!this.released) {
-            NotificationCenter notificationCenter = this.notificationCenter;
-            if (notificationCenter != null) {
-                notificationCenter.removeObserver(this.observer, NotificationCenter.didUpdateConnectionState);
-            }
-            Handler handler = this.handler;
-            if (handler != null) {
-                handler.removeCallbacks(this.releaseRunnable);
-            }
-            this.released = true;
+        if (this.released) {
+            return;
         }
+        NotificationCenter notificationCenter = this.notificationCenter;
+        if (notificationCenter != null) {
+            notificationCenter.removeObserver(this.observer, NotificationCenter.didUpdateConnectionState);
+        }
+        Handler handler = this.handler;
+        if (handler != null) {
+            handler.removeCallbacks(this.releaseRunnable);
+        }
+        this.released = true;
     }
 }

@@ -20,11 +20,11 @@ public final class IdentifiedLanguage {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof IdentifiedLanguage)) {
-            return false;
+        if (obj instanceof IdentifiedLanguage) {
+            IdentifiedLanguage identifiedLanguage = (IdentifiedLanguage) obj;
+            return Float.compare(identifiedLanguage.zzb, this.zzb) == 0 && zzh.zza(this.zza, identifiedLanguage.zza);
         }
-        IdentifiedLanguage identifiedLanguage = (IdentifiedLanguage) obj;
-        return Float.compare(identifiedLanguage.zzb, this.zzb) == 0 && zzh.zza(this.zza, identifiedLanguage.zza);
+        return false;
     }
 
     public final int hashCode() {

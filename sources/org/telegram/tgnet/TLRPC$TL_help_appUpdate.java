@@ -43,10 +43,9 @@ public class TLRPC$TL_help_appUpdate extends TLRPC$help_AppUpdate {
         if ((this.flags & 4) != 0) {
             this.url = abstractSerializedData.readString(z);
         }
-        if ((this.flags & 8) == 0) {
-            return;
+        if ((this.flags & 8) != 0) {
+            this.sticker = TLRPC$Document.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
         }
-        this.sticker = TLRPC$Document.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
     }
 
     @Override // org.telegram.tgnet.TLObject

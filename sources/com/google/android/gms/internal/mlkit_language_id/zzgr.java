@@ -2,9 +2,10 @@ package com.google.android.gms.internal.mlkit_language_id;
 
 import java.io.IOException;
 import java.util.List;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
-final class zzgr {
+public final class zzgr {
     private static final Class<?> zza = zzd();
     private static final zzhh<?, ?> zzb = zza(false);
     private static final zzhh<?, ?> zzc = zza(true);
@@ -12,10 +13,9 @@ final class zzgr {
 
     public static void zza(Class<?> cls) {
         Class<?> cls2;
-        if (zzeo.class.isAssignableFrom(cls) || (cls2 = zza) == null || cls2.isAssignableFrom(cls)) {
-            return;
+        if (!zzeo.class.isAssignableFrom(cls) && (cls2 = zza) != null && !cls2.isAssignableFrom(cls)) {
+            throw new IllegalArgumentException("Message classes must extend GeneratedMessage or GeneratedMessageLite");
         }
-        throw new IllegalArgumentException("Message classes must extend GeneratedMessage or GeneratedMessageLite");
     }
 
     public static void zza(int i, List<Double> list, zzib zzibVar, boolean z) throws IOException {
@@ -529,10 +529,10 @@ final class zzgr {
     private static zzhh<?, ?> zza(boolean z) {
         try {
             Class<?> zze = zze();
-            if (zze != null) {
-                return (zzhh) zze.getConstructor(Boolean.TYPE).newInstance(Boolean.valueOf(z));
+            if (zze == null) {
+                return null;
             }
-            return null;
+            return (zzhh) zze.getConstructor(Boolean.TYPE).newInstance(Boolean.valueOf(z));
         } catch (Throwable unused) {
             return null;
         }
@@ -570,9 +570,10 @@ final class zzgr {
     /* JADX INFO: Access modifiers changed from: package-private */
     public static <T, FT extends zzel<FT>> void zza(zzee<FT> zzeeVar, T t, T t2) {
         zzej<FT> zza2 = zzeeVar.zza(t2);
-        if (!zza2.zza.isEmpty()) {
-            zzeeVar.zzb(t).zza(zza2);
+        if (zza2.zza.isEmpty()) {
+            return;
         }
+        zzeeVar.zzb(t).zza(zza2);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

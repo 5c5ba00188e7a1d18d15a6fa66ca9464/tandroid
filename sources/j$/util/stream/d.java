@@ -27,7 +27,7 @@ abstract class d extends f {
         return super.b();
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:29:0x006b, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:28:0x006b, code lost:
         r8 = r7.a();
      */
     @Override // j$.util.stream.f, java.util.concurrent.CountedCompleter
@@ -96,8 +96,7 @@ abstract class d extends f {
     public void g(Object obj) {
         if (!e()) {
             super.g(obj);
-        } else if (obj == null) {
-        } else {
+        } else if (obj != null) {
             this.h.compareAndSet(null, obj);
         }
     }

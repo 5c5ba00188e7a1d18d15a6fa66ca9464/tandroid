@@ -32,7 +32,6 @@ public class TLRPC$TL_peerSettings extends TLObject {
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
         int readInt32 = abstractSerializedData.readInt32(z);
         this.flags = readInt32;
-        boolean z2 = false;
         this.report_spam = (readInt32 & 1) != 0;
         this.add_contact = (readInt32 & 2) != 0;
         this.block_contact = (readInt32 & 4) != 0;
@@ -41,10 +40,7 @@ public class TLRPC$TL_peerSettings extends TLObject {
         this.report_geo = (readInt32 & 32) != 0;
         this.autoarchived = (readInt32 & ConnectionsManager.RequestFlagNeedQuickAck) != 0;
         this.invite_members = (readInt32 & 256) != 0;
-        if ((readInt32 & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0) {
-            z2 = true;
-        }
-        this.request_chat_broadcast = z2;
+        this.request_chat_broadcast = (readInt32 & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0;
         if ((readInt32 & 64) != 0) {
             this.geo_distance = abstractSerializedData.readInt32(z);
         }

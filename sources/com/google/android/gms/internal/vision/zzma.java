@@ -13,7 +13,7 @@ import sun.misc.Unsafe;
 public final class zzma {
     static final boolean zza;
     private static final Unsafe zzb;
-    private static final Class<?> zzc = zzhi.zzb();
+    private static final Class<?> zzc;
     private static final boolean zzd;
     private static final boolean zze;
     private static final zzd zzf;
@@ -430,35 +430,35 @@ public final class zzma {
     }
 
     private static boolean zzd(Class<?> cls) {
-        if (!zzhi.zza()) {
-            return false;
+        if (zzhi.zza()) {
+            try {
+                Class<?> cls2 = zzc;
+                Class<?> cls3 = Boolean.TYPE;
+                cls2.getMethod("peekLong", cls, cls3);
+                cls2.getMethod("pokeLong", cls, Long.TYPE, cls3);
+                Class<?> cls4 = Integer.TYPE;
+                cls2.getMethod("pokeInt", cls, cls4, cls3);
+                cls2.getMethod("peekInt", cls, cls3);
+                cls2.getMethod("pokeByte", cls, Byte.TYPE);
+                cls2.getMethod("peekByte", cls);
+                cls2.getMethod("pokeByteArray", cls, byte[].class, cls4, cls4);
+                cls2.getMethod("peekByteArray", cls, byte[].class, cls4, cls4);
+                return true;
+            } catch (Throwable unused) {
+                return false;
+            }
         }
-        try {
-            Class<?> cls2 = zzc;
-            Class<?> cls3 = Boolean.TYPE;
-            cls2.getMethod("peekLong", cls, cls3);
-            cls2.getMethod("pokeLong", cls, Long.TYPE, cls3);
-            Class<?> cls4 = Integer.TYPE;
-            cls2.getMethod("pokeInt", cls, cls4, cls3);
-            cls2.getMethod("peekInt", cls, cls3);
-            cls2.getMethod("pokeByte", cls, Byte.TYPE);
-            cls2.getMethod("peekByte", cls);
-            cls2.getMethod("pokeByteArray", cls, byte[].class, cls4, cls4);
-            cls2.getMethod("peekByteArray", cls, byte[].class, cls4, cls4);
-            return true;
-        } catch (Throwable unused) {
-            return false;
-        }
+        return false;
     }
 
     private static Field zzf() {
         Field zza2;
         if (!zzhi.zza() || (zza2 = zza(Buffer.class, "effectiveDirectAddress")) == null) {
             Field zza3 = zza(Buffer.class, "address");
-            if (zza3 != null && zza3.getType() == Long.TYPE) {
-                return zza3;
+            if (zza3 == null || zza3.getType() != Long.TYPE) {
+                return null;
             }
-            return null;
+            return zza3;
         }
         return zza2;
     }
@@ -518,6 +518,7 @@ public final class zzma {
     static {
         Unsafe zzc2 = zzc();
         zzb = zzc2;
+        zzc = zzhi.zzb();
         boolean zzd2 = zzd(Long.TYPE);
         zzd = zzd2;
         boolean zzd3 = zzd(Integer.TYPE);

@@ -28,25 +28,27 @@ import org.telegram.ui.Components.RecyclerListView;
 public class BotCommandsMenuView extends View {
     final MenuDrawable backDrawable;
     Drawable backgroundDrawable;
+    boolean drawBackgroundDrawable;
     float expandProgress;
     boolean expanded;
     boolean isOpened;
     boolean isWebView;
     boolean isWebViewOpened;
     int lastSize;
+    private String menuText;
     StaticLayout menuTextLayout;
+    final Paint paint;
+    final RectF rectTmp;
     final TextPaint textPaint;
     RLottieDrawable webViewAnimation;
-    final RectF rectTmp = new RectF();
-    final Paint paint = new Paint(1);
-    private String menuText = LocaleController.getString(R.string.BotsMenuTitle);
-    boolean drawBackgroundDrawable = true;
 
     protected void onTranslationChanged(float f) {
     }
 
     public BotCommandsMenuView(Context context) {
         super(context);
+        this.rectTmp = new RectF();
+        this.paint = new Paint(1);
         TextPaint textPaint = new TextPaint(1);
         this.textPaint = textPaint;
         MenuDrawable menuDrawable = new MenuDrawable() { // from class: org.telegram.ui.Components.BotCommandsMenuView.1
@@ -71,6 +73,8 @@ public class BotCommandsMenuView extends View {
                 BotCommandsMenuView.this.invalidate();
             }
         };
+        this.menuText = LocaleController.getString(R.string.BotsMenuTitle);
+        this.drawBackgroundDrawable = true;
         updateColors();
         menuDrawable.setMiniIcon(true);
         menuDrawable.setRotateToBack(false);
@@ -133,12 +137,12 @@ public class BotCommandsMenuView extends View {
         super.onMeasure(View.MeasureSpec.makeMeasureSpec(dp, 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(32.0f), 1073741824));
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:12:0x0045  */
-    /* JADX WARN: Removed duplicated region for block: B:17:0x0059  */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x00a8  */
-    /* JADX WARN: Removed duplicated region for block: B:25:0x00f3  */
-    /* JADX WARN: Removed duplicated region for block: B:27:0x0119  */
-    /* JADX WARN: Removed duplicated region for block: B:28:0x00d5  */
+    /* JADX WARN: Removed duplicated region for block: B:22:0x0045  */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x0059  */
+    /* JADX WARN: Removed duplicated region for block: B:30:0x00a8  */
+    /* JADX WARN: Removed duplicated region for block: B:33:0x00d5  */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x00f3  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x0119  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -316,20 +320,16 @@ public class BotCommandsMenuView extends View {
         if (this.isOpened != z) {
             this.isOpened = z;
         }
-        int i = 1;
         if (this.isWebView) {
-            if (this.isWebViewOpened == z) {
+            if (this.isWebViewOpened != z) {
+                RLottieDrawable rLottieDrawable = this.webViewAnimation;
+                rLottieDrawable.stop();
+                rLottieDrawable.setPlayInDirectionOfCustomEndFrame(true);
+                rLottieDrawable.setCustomEndFrame(z ? rLottieDrawable.getFramesCount() : 1);
+                rLottieDrawable.start();
+                this.isWebViewOpened = z;
                 return;
             }
-            RLottieDrawable rLottieDrawable = this.webViewAnimation;
-            rLottieDrawable.stop();
-            rLottieDrawable.setPlayInDirectionOfCustomEndFrame(true);
-            if (z) {
-                i = rLottieDrawable.getFramesCount();
-            }
-            rLottieDrawable.setCustomEndFrame(i);
-            rLottieDrawable.start();
-            this.isWebViewOpened = z;
             return;
         }
         this.backDrawable.setRotation(z ? 1.0f : 0.0f, true);

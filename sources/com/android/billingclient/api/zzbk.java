@@ -37,11 +37,11 @@ public final class zzbk {
             } else if (stringArrayList2 == null) {
                 zzb.zzo("BillingClient", String.format("Bundle returned from %s contains null purchases list.", str2));
                 return billingResult;
-            } else if (stringArrayList3 != null) {
-                return zzbc.zzl;
-            } else {
+            } else if (stringArrayList3 == null) {
                 zzb.zzo("BillingClient", String.format("Bundle returned from %s contains null signatures list.", str2));
                 return billingResult;
+            } else {
+                return zzbc.zzl;
             }
         }
     }

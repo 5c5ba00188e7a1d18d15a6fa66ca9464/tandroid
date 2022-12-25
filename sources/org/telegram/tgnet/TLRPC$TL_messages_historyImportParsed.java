@@ -23,12 +23,8 @@ public class TLRPC$TL_messages_historyImportParsed extends TLObject {
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
         int readInt32 = abstractSerializedData.readInt32(z);
         this.flags = readInt32;
-        boolean z2 = false;
         this.pm = (readInt32 & 1) != 0;
-        if ((readInt32 & 2) != 0) {
-            z2 = true;
-        }
-        this.group = z2;
+        this.group = (readInt32 & 2) != 0;
         if ((readInt32 & 4) != 0) {
             this.title = abstractSerializedData.readString(z);
         }

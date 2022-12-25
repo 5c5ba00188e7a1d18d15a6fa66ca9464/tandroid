@@ -14,18 +14,18 @@ final class zzfj extends zzfg {
         } else if (i2 == 1) {
             zzp = zzff.zzp(i, zzfd.zza(bArr, j));
             return zzp;
-        } else if (i2 != 2) {
-            throw new AssertionError();
-        } else {
+        } else if (i2 == 2) {
             zzd = zzff.zzd(i, zzfd.zza(bArr, j), zzfd.zza(bArr, j + 1));
             return zzd;
+        } else {
+            throw new AssertionError();
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:55:0x00b6, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:33:0x0061, code lost:
         return -1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:69:0x0061, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:61:0x00b6, code lost:
         return -1;
      */
     @Override // com.google.android.gms.internal.clearcut.zzfg
@@ -176,15 +176,15 @@ final class zzfj extends zzfg {
                     j3 = j;
                 } else if ((charAt3 >= 55296 && 57343 >= charAt3) || j4 > j5 - 3) {
                     if (j4 > j5 - 4) {
-                        if (55296 <= charAt3 && charAt3 <= 57343 && ((i3 = i4 + 1) == length || !Character.isSurrogatePair(charAt3, charSequence.charAt(i3)))) {
-                            throw new zzfi(i4, length);
+                        if (55296 > charAt3 || charAt3 > 57343 || ((i3 = i4 + 1) != length && Character.isSurrogatePair(charAt3, charSequence.charAt(i3)))) {
+                            StringBuilder sb2 = new StringBuilder(46);
+                            sb2.append("Failed writing ");
+                            sb2.append(charAt3);
+                            sb2.append(" at index ");
+                            sb2.append(j4);
+                            throw new ArrayIndexOutOfBoundsException(sb2.toString());
                         }
-                        StringBuilder sb2 = new StringBuilder(46);
-                        sb2.append("Failed writing ");
-                        sb2.append(charAt3);
-                        sb2.append(" at index ");
-                        sb2.append(j4);
-                        throw new ArrayIndexOutOfBoundsException(sb2.toString());
+                        throw new zzfi(i4, length);
                     }
                     int i5 = i4 + 1;
                     if (i5 != length) {

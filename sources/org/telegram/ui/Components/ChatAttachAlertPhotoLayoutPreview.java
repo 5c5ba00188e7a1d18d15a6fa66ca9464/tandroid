@@ -65,28 +65,28 @@ import org.telegram.ui.PhotoViewer;
 public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAlertLayout {
     private static HashMap<MediaController.PhotoEntry, Boolean> photoRotate = new HashMap<>();
     private ValueAnimator draggingAnimator;
+    private PreviewGroupsView.PreviewGroupCell.MediaCell draggingCell;
+    private float draggingCellFromHeight;
+    private float draggingCellFromWidth;
+    private float draggingCellGroupY;
+    private boolean draggingCellHiding;
+    private float draggingCellLeft;
+    private float draggingCellTop;
+    private float draggingCellTouchX;
+    private float draggingCellTouchY;
     private PreviewGroupsView groupsView;
     public TextView header;
     private ViewPropertyAnimator headerAnimator;
+    private boolean ignoreLayout;
     private boolean isPortrait;
     private LinearLayoutManager layoutManager;
     public RecyclerListView listView;
     private int paddingTop;
     private ChatAttachAlertPhotoLayout photoLayout;
+    private boolean shown;
     private ChatActivity.ThemeDelegate themeDelegate;
     private UndoView undoView;
     private Drawable videoPlayImage;
-    private float draggingCellTouchX = 0.0f;
-    private float draggingCellTouchY = 0.0f;
-    private float draggingCellTop = 0.0f;
-    private float draggingCellLeft = 0.0f;
-    private float draggingCellFromWidth = 0.0f;
-    private float draggingCellFromHeight = 0.0f;
-    private PreviewGroupsView.PreviewGroupCell.MediaCell draggingCell = null;
-    private boolean draggingCellHiding = false;
-    private float draggingCellGroupY = 0.0f;
-    private boolean shown = false;
-    private boolean ignoreLayout = false;
 
     @Override // org.telegram.ui.Components.ChatAttachAlert.AttachAlertLayout
     int needsActionBar() {
@@ -111,6 +111,17 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
 
     public ChatAttachAlertPhotoLayoutPreview(ChatAttachAlert chatAttachAlert, Context context, ChatActivity.ThemeDelegate themeDelegate) {
         super(chatAttachAlert, context, themeDelegate);
+        this.draggingCellTouchX = 0.0f;
+        this.draggingCellTouchY = 0.0f;
+        this.draggingCellTop = 0.0f;
+        this.draggingCellLeft = 0.0f;
+        this.draggingCellFromWidth = 0.0f;
+        this.draggingCellFromHeight = 0.0f;
+        this.draggingCell = null;
+        this.draggingCellHiding = false;
+        this.draggingCellGroupY = 0.0f;
+        this.shown = false;
+        this.ignoreLayout = false;
         android.graphics.Point point = AndroidUtilities.displaySize;
         this.isPortrait = point.y > point.x;
         this.themeDelegate = themeDelegate;
@@ -376,11 +387,11 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
             calculate();
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:55:0x00b1, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:38:0x00b1, code lost:
             if (r1 != 8) goto L50;
          */
-        /* JADX WARN: Removed duplicated region for block: B:68:0x079a  */
-        /* JADX WARN: Removed duplicated region for block: B:81:0x07dd A[LOOP:2: B:80:0x07db->B:81:0x07dd, LOOP_END] */
+        /* JADX WARN: Removed duplicated region for block: B:225:0x079a  */
+        /* JADX WARN: Removed duplicated region for block: B:235:0x07dd A[LOOP:2: B:234:0x07db->B:235:0x07dd, LOOP_END] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -922,9 +933,9 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
         return top;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:11:0x0045  */
-    /* JADX WARN: Removed duplicated region for block: B:14:0x0067  */
-    /* JADX WARN: Removed duplicated region for block: B:8:0x0039  */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x0039  */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x0045  */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x0067  */
     @Override // org.telegram.ui.Components.ChatAttachAlert.AttachAlertLayout
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1064,57 +1075,31 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public class PreviewGroupsView extends ViewGroup {
+        private HashMap<Object, Object> deletedPhotos;
+        private float draggingT;
+        private ArrayList<PreviewGroupCell> groupCells;
         private ChatActionCell hintView;
+        boolean[] lastGroupSeen;
+        private int lastMeasuredHeight;
+        private int paddingBottom;
+        private int paddingTop;
+        GroupingPhotoViewerProvider photoViewerProvider;
         HashMap<Object, Object> photosMap;
         List<Map.Entry<Object, Object>> photosMapKeys;
         ArrayList<Object> photosOrder;
         private float savedDragFromX;
         private float savedDragFromY;
         private float savedDraggingT;
+        private final Runnable scroller;
+        private boolean scrollerStarted;
         HashMap<Object, Object> selectedPhotos;
+        PreviewGroupCell tapGroupCell;
+        PreviewGroupCell.MediaCell tapMediaCell;
+        long tapTime;
+        private final Point tmpPoint;
+        private int undoViewId;
         float viewBottom;
         float viewTop;
-        private ArrayList<PreviewGroupCell> groupCells = new ArrayList<>();
-        private HashMap<Object, Object> deletedPhotos = new HashMap<>();
-        private int paddingTop = AndroidUtilities.dp(16.0f);
-        private int paddingBottom = AndroidUtilities.dp(64.0f);
-        private int lastMeasuredHeight = 0;
-        boolean[] lastGroupSeen = null;
-        long tapTime = 0;
-        PreviewGroupCell tapGroupCell = null;
-        PreviewGroupCell.MediaCell tapMediaCell = null;
-        private float draggingT = 0.0f;
-        private final Point tmpPoint = new Point();
-        private boolean scrollerStarted = false;
-        private final Runnable scroller = new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayoutPreview.PreviewGroupsView.2
-            @Override // java.lang.Runnable
-            public void run() {
-                float dp;
-                if (ChatAttachAlertPhotoLayoutPreview.this.draggingCell == null || ChatAttachAlertPhotoLayoutPreview.this.draggingCellHiding) {
-                    return;
-                }
-                int computeVerticalScrollOffset = ChatAttachAlertPhotoLayoutPreview.this.listView.computeVerticalScrollOffset();
-                boolean z = ChatAttachAlertPhotoLayoutPreview.this.listView.computeVerticalScrollExtent() + computeVerticalScrollOffset >= (PreviewGroupsView.this.measurePureHeight() - PreviewGroupsView.this.paddingBottom) + PreviewGroupsView.this.paddingTop;
-                float max = Math.max(0.0f, (ChatAttachAlertPhotoLayoutPreview.this.draggingCellTouchY - Math.max(0, computeVerticalScrollOffset - ChatAttachAlertPhotoLayoutPreview.this.getListTopPadding())) - AndroidUtilities.dp(52.0f));
-                float max2 = Math.max(0.0f, ((ChatAttachAlertPhotoLayoutPreview.this.listView.getMeasuredHeight() - (ChatAttachAlertPhotoLayoutPreview.this.draggingCellTouchY - computeVerticalScrollOffset)) - ChatAttachAlertPhotoLayoutPreview.this.getListTopPadding()) - AndroidUtilities.dp(84.0f));
-                float dp2 = AndroidUtilities.dp(32.0f);
-                if (max < dp2 && computeVerticalScrollOffset > ChatAttachAlertPhotoLayoutPreview.this.getListTopPadding()) {
-                    dp = (-(1.0f - (max / dp2))) * AndroidUtilities.dp(6.0f);
-                } else {
-                    dp = max2 < dp2 ? AndroidUtilities.dp(6.0f) * (1.0f - (max2 / dp2)) : 0.0f;
-                }
-                int i = (int) dp;
-                if (Math.abs(i) > 0 && ChatAttachAlertPhotoLayoutPreview.this.listView.canScrollVertically(i) && (dp <= 0.0f || !z)) {
-                    ChatAttachAlertPhotoLayoutPreview.access$1416(ChatAttachAlertPhotoLayoutPreview.this, dp);
-                    ChatAttachAlertPhotoLayoutPreview.this.listView.scrollBy(0, i);
-                    PreviewGroupsView.this.invalidate();
-                }
-                PreviewGroupsView.this.scrollerStarted = true;
-                PreviewGroupsView.this.postDelayed(this, 15L);
-            }
-        };
-        GroupingPhotoViewerProvider photoViewerProvider = new GroupingPhotoViewerProvider();
-        private int undoViewId = 0;
 
         @Override // android.view.ViewGroup
         protected boolean drawChild(Canvas canvas, View view, long j) {
@@ -1123,6 +1108,47 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
 
         public PreviewGroupsView(Context context) {
             super(context);
+            this.groupCells = new ArrayList<>();
+            this.deletedPhotos = new HashMap<>();
+            this.paddingTop = AndroidUtilities.dp(16.0f);
+            this.paddingBottom = AndroidUtilities.dp(64.0f);
+            this.lastMeasuredHeight = 0;
+            this.lastGroupSeen = null;
+            this.tapTime = 0L;
+            this.tapGroupCell = null;
+            this.tapMediaCell = null;
+            this.draggingT = 0.0f;
+            this.tmpPoint = new Point();
+            this.scrollerStarted = false;
+            this.scroller = new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayoutPreview.PreviewGroupsView.2
+                @Override // java.lang.Runnable
+                public void run() {
+                    float dp;
+                    if (ChatAttachAlertPhotoLayoutPreview.this.draggingCell == null || ChatAttachAlertPhotoLayoutPreview.this.draggingCellHiding) {
+                        return;
+                    }
+                    int computeVerticalScrollOffset = ChatAttachAlertPhotoLayoutPreview.this.listView.computeVerticalScrollOffset();
+                    boolean z = ChatAttachAlertPhotoLayoutPreview.this.listView.computeVerticalScrollExtent() + computeVerticalScrollOffset >= (PreviewGroupsView.this.measurePureHeight() - PreviewGroupsView.this.paddingBottom) + PreviewGroupsView.this.paddingTop;
+                    float max = Math.max(0.0f, (ChatAttachAlertPhotoLayoutPreview.this.draggingCellTouchY - Math.max(0, computeVerticalScrollOffset - ChatAttachAlertPhotoLayoutPreview.this.getListTopPadding())) - AndroidUtilities.dp(52.0f));
+                    float max2 = Math.max(0.0f, ((ChatAttachAlertPhotoLayoutPreview.this.listView.getMeasuredHeight() - (ChatAttachAlertPhotoLayoutPreview.this.draggingCellTouchY - computeVerticalScrollOffset)) - ChatAttachAlertPhotoLayoutPreview.this.getListTopPadding()) - AndroidUtilities.dp(84.0f));
+                    float dp2 = AndroidUtilities.dp(32.0f);
+                    if (max < dp2 && computeVerticalScrollOffset > ChatAttachAlertPhotoLayoutPreview.this.getListTopPadding()) {
+                        dp = (-(1.0f - (max / dp2))) * AndroidUtilities.dp(6.0f);
+                    } else {
+                        dp = max2 < dp2 ? AndroidUtilities.dp(6.0f) * (1.0f - (max2 / dp2)) : 0.0f;
+                    }
+                    int i = (int) dp;
+                    if (Math.abs(i) > 0 && ChatAttachAlertPhotoLayoutPreview.this.listView.canScrollVertically(i) && (dp <= 0.0f || !z)) {
+                        ChatAttachAlertPhotoLayoutPreview.access$1416(ChatAttachAlertPhotoLayoutPreview.this, dp);
+                        ChatAttachAlertPhotoLayoutPreview.this.listView.scrollBy(0, i);
+                        PreviewGroupsView.this.invalidate();
+                    }
+                    PreviewGroupsView.this.scrollerStarted = true;
+                    PreviewGroupsView.this.postDelayed(this, 15L);
+                }
+            };
+            this.photoViewerProvider = new GroupingPhotoViewerProvider();
+            this.undoViewId = 0;
             new HashMap();
             setWillNotDraw(false);
             ChatActionCell chatActionCell = new ChatActionCell(context, true, ChatAttachAlertPhotoLayoutPreview.this.themeDelegate);
@@ -1680,10 +1706,10 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
             }
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:185:0x0451  */
-        /* JADX WARN: Removed duplicated region for block: B:188:0x04ba  */
-        /* JADX WARN: Removed duplicated region for block: B:90:0x04e2  */
-        /* JADX WARN: Removed duplicated region for block: B:97:0x04f1  */
+        /* JADX WARN: Removed duplicated region for block: B:169:0x0451  */
+        /* JADX WARN: Removed duplicated region for block: B:172:0x04ba  */
+        /* JADX WARN: Removed duplicated region for block: B:176:0x04e2  */
+        /* JADX WARN: Removed duplicated region for block: B:180:0x04f1  */
         @Override // android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -2049,10 +2075,9 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onTouchEvent$4(int i) {
-            if (i != this.undoViewId || !ChatAttachAlertPhotoLayoutPreview.this.undoView.isShown()) {
-                return;
+            if (i == this.undoViewId && ChatAttachAlertPhotoLayoutPreview.this.undoView.isShown()) {
+                ChatAttachAlertPhotoLayoutPreview.this.undoView.hide(true, 1);
             }
-            ChatAttachAlertPhotoLayoutPreview.this.undoView.hide(true, 1);
         }
 
         private void pushToGroup(PreviewGroupCell previewGroupCell, MediaController.PhotoEntry photoEntry, int i) {
@@ -2278,14 +2303,13 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
 
                 /* JADX INFO: Access modifiers changed from: private */
                 public /* synthetic */ void lambda$setImage$0(MediaController.PhotoEntry photoEntry, ImageReceiver imageReceiver, boolean z, boolean z2, boolean z3) {
-                    if (!z || z2 || photoEntry == null || !photoEntry.hasSpoiler || this.blurredImage.getBitmap() != null) {
-                        return;
+                    if (z && !z2 && photoEntry != null && photoEntry.hasSpoiler && this.blurredImage.getBitmap() == null) {
+                        if (this.blurredImage.getBitmap() != null && !this.blurredImage.getBitmap().isRecycled()) {
+                            this.blurredImage.getBitmap().recycle();
+                            this.blurredImage.setImageBitmap((Bitmap) null);
+                        }
+                        this.blurredImage.setImageBitmap(Utilities.stackBlurBitmapWithScaleFactor(imageReceiver.getBitmap(), 5.0f));
                     }
-                    if (this.blurredImage.getBitmap() != null && !this.blurredImage.getBitmap().isRecycled()) {
-                        this.blurredImage.getBitmap().recycle();
-                        this.blurredImage.setImageBitmap((Bitmap) null);
-                    }
-                    this.blurredImage.setImageBitmap(Utilities.stackBlurBitmapWithScaleFactor(imageReceiver.getBitmap(), 5.0f));
                 }
 
                 /* JADX INFO: Access modifiers changed from: private */
@@ -2369,12 +2393,11 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
                         this.fromRect = rectF5;
                         rectF5.set(this.rect);
                     }
-                    if (this.fromRoundRadiuses != null) {
-                        return;
+                    if (this.fromRoundRadiuses == null) {
+                        RectF rectF6 = new RectF();
+                        this.fromRoundRadiuses = rectF6;
+                        rectF6.set(this.roundRadiuses);
                     }
-                    RectF rectF6 = new RectF();
-                    this.fromRoundRadiuses = rectF6;
-                    rectF6.set(this.roundRadiuses);
                 }
 
                 public float getT() {
@@ -2572,7 +2595,7 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
                     return draw(canvas, getT(), z);
                 }
 
-                /* JADX WARN: Removed duplicated region for block: B:36:0x013b  */
+                /* JADX WARN: Removed duplicated region for block: B:43:0x013b  */
                 /*
                     Code decompiled incorrectly, please refer to instructions dump.
                 */

@@ -44,27 +44,19 @@ final class VorbisReader extends StreamReader {
     @Override // com.google.android.exoplayer2.extractor.ogg.StreamReader
     public void onSeekEnd(long j) {
         super.onSeekEnd(j);
-        int i = 0;
         this.seenFirstAudioPacket = j != 0;
         VorbisUtil.VorbisIdHeader vorbisIdHeader = this.vorbisIdHeader;
-        if (vorbisIdHeader != null) {
-            i = vorbisIdHeader.blockSize0;
-        }
-        this.previousPacketBlockSize = i;
+        this.previousPacketBlockSize = vorbisIdHeader != null ? vorbisIdHeader.blockSize0 : 0;
     }
 
     @Override // com.google.android.exoplayer2.extractor.ogg.StreamReader
     protected long preparePayload(ParsableByteArray parsableByteArray) {
         byte[] bArr = parsableByteArray.data;
-        int i = 0;
         if ((bArr[0] & 1) == 1) {
             return -1L;
         }
         int decodeBlockSize = decodeBlockSize(bArr[0], this.vorbisSetup);
-        if (this.seenFirstAudioPacket) {
-            i = (this.previousPacketBlockSize + decodeBlockSize) / 4;
-        }
-        long j = i;
+        long j = this.seenFirstAudioPacket ? (this.previousPacketBlockSize + decodeBlockSize) / 4 : 0;
         appendNumberOfSamples(parsableByteArray, j);
         this.seenFirstAudioPacket = true;
         this.previousPacketBlockSize = decodeBlockSize;

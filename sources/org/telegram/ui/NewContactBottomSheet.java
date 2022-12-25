@@ -58,9 +58,12 @@ import org.telegram.ui.CountrySelectActivity;
 import org.telegram.ui.NewContactBottomSheet;
 /* loaded from: classes3.dex */
 public class NewContactBottomSheet extends BottomSheet implements AdapterView.OnItemSelectedListener {
+    int classGuid;
     private View codeDividerView;
     private AnimatedPhoneNumberEditText codeField;
+    private HashMap<String, List<CountrySelectActivity.Country>> codesMap;
     private LinearLayout contentLayout;
+    private ArrayList<CountrySelectActivity.Country> countriesArray;
     private String countryCodeForHint;
     private TextView countryFlag;
     private int countryState;
@@ -80,13 +83,10 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
     private OutlineEditText lastNameField;
     BaseFragment parentFragment;
     private AnimatedPhoneNumberEditText phoneField;
+    private HashMap<String, List<String>> phoneFormatMap;
     private OutlineTextContainerView phoneOutlineView;
     private RadialProgressView progressView;
     private int wasCountryHintIndex;
-    private ArrayList<CountrySelectActivity.Country> countriesArray = new ArrayList<>();
-    private HashMap<String, List<CountrySelectActivity.Country>> codesMap = new HashMap<>();
-    private HashMap<String, List<String>> phoneFormatMap = new HashMap<>();
-    int classGuid = ConnectionsManager.generateClassGuid();
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ boolean lambda$createView$0(View view, MotionEvent motionEvent) {
@@ -99,16 +99,20 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
 
     public NewContactBottomSheet(BaseFragment baseFragment, Context context) {
         super(context, true);
+        this.countriesArray = new ArrayList<>();
+        this.codesMap = new HashMap<>();
+        this.phoneFormatMap = new HashMap<>();
         this.smoothKeyboardAnimationEnabled = true;
+        this.classGuid = ConnectionsManager.generateClassGuid();
         this.parentFragment = baseFragment;
         setCustomView(createView(getContext()));
         setTitle(LocaleController.getString("NewContactTitle", R.string.NewContactTitle), true);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:59:0x03d0  */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x03f0  */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x03ed A[SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x03ff  */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x03d0  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x03f0  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x03ff  */
+    /* JADX WARN: Removed duplicated region for block: B:79:0x03ed A[SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -436,15 +440,17 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
                     if (list2 != null && !list2.isEmpty() && (list = (List) NewContactBottomSheet.this.phoneFormatMap.get(substring)) != null && !list.isEmpty()) {
                         Iterator it = list.iterator();
                         while (true) {
-                            if (!it.hasNext()) {
-                                break;
-                            } else if (((String) it.next()).replace(" ", "").length() == replaceAll.length() - min) {
-                                NewContactBottomSheet.this.codeField.setText(substring);
-                                NewContactBottomSheet.this.ignoreOnTextChange = true;
-                                NewContactBottomSheet.this.phoneField.setText(replaceAll.substring(min));
-                                NewContactBottomSheet.this.ignoreOnTextChange = false;
-                                afterTextChanged(NewContactBottomSheet.this.phoneField.getText());
-                                NewContactBottomSheet.this.phoneField.setSelection(NewContactBottomSheet.this.phoneField.getText().length(), NewContactBottomSheet.this.phoneField.getText().length());
+                            if (it.hasNext()) {
+                                if (((String) it.next()).replace(" ", "").length() == replaceAll.length() - min) {
+                                    NewContactBottomSheet.this.codeField.setText(substring);
+                                    NewContactBottomSheet.this.ignoreOnTextChange = true;
+                                    NewContactBottomSheet.this.phoneField.setText(replaceAll.substring(min));
+                                    NewContactBottomSheet.this.ignoreOnTextChange = false;
+                                    afterTextChanged(NewContactBottomSheet.this.phoneField.getText());
+                                    NewContactBottomSheet.this.phoneField.setSelection(NewContactBottomSheet.this.phoneField.getText().length(), NewContactBottomSheet.this.phoneField.getText().length());
+                                    break;
+                                }
+                            } else {
                                 break;
                             }
                         }
@@ -670,15 +676,16 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes3.dex */
     public class 1 extends TextView {
-        final NotificationCenter.NotificationCenterDelegate delegate = new NotificationCenter.NotificationCenterDelegate() { // from class: org.telegram.ui.NewContactBottomSheet$1$$ExternalSyntheticLambda0
-            @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
-            public final void didReceivedNotification(int i, int i2, Object[] objArr) {
-                NewContactBottomSheet.1.this.lambda$$0(i, i2, objArr);
-            }
-        };
+        final NotificationCenter.NotificationCenterDelegate delegate;
 
         1(NewContactBottomSheet newContactBottomSheet, Context context) {
             super(context);
+            this.delegate = new NotificationCenter.NotificationCenterDelegate() { // from class: org.telegram.ui.NewContactBottomSheet$1$$ExternalSyntheticLambda0
+                @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
+                public final void didReceivedNotification(int i, int i2, Object[] objArr) {
+                    NewContactBottomSheet.1.this.lambda$$0(i, i2, objArr);
+                }
+            };
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -915,7 +922,7 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
         this.countryFlag.setText(charSequence);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:28:0x008d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:31:0x008d, code lost:
         if (r7 == (-1)) goto L29;
      */
     /*
@@ -925,7 +932,6 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
         int i;
         String str = this.countryCodeForHint;
         String replace = this.phoneField.getText() != null ? this.phoneField.getText().toString().replace(" ", "") : "";
-        String str2 = null;
         if (this.phoneFormatMap.get(str) != null && !this.phoneFormatMap.get(str).isEmpty()) {
             List<String> list = this.phoneFormatMap.get(str);
             int i2 = 0;
@@ -941,27 +947,22 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
             i = -1;
             if (i == -1) {
                 for (int i3 = 0; i3 < list.size(); i3++) {
-                    String str3 = list.get(i3);
-                    if (str3.startsWith("X") || str3.startsWith("0")) {
+                    String str2 = list.get(i3);
+                    if (str2.startsWith("X") || str2.startsWith("0")) {
                         i = i3;
                         break;
                     }
                 }
             }
             i2 = i;
-            if (this.wasCountryHintIndex == i2) {
-                return;
+            if (this.wasCountryHintIndex != i2) {
+                String str3 = this.phoneFormatMap.get(str).get(i2);
+                int selectionStart = this.phoneField.getSelectionStart();
+                int selectionEnd = this.phoneField.getSelectionEnd();
+                this.phoneField.setHintText(str3 != null ? str3.replace('X', '0') : null);
+                this.phoneField.setSelection(selectionStart, selectionEnd);
+                this.wasCountryHintIndex = i2;
             }
-            String str4 = this.phoneFormatMap.get(str).get(i2);
-            int selectionStart = this.phoneField.getSelectionStart();
-            int selectionEnd = this.phoneField.getSelectionEnd();
-            AnimatedPhoneNumberEditText animatedPhoneNumberEditText = this.phoneField;
-            if (str4 != null) {
-                str2 = str4.replace('X', '0');
-            }
-            animatedPhoneNumberEditText.setHintText(str2);
-            this.phoneField.setSelection(selectionStart, selectionEnd);
-            this.wasCountryHintIndex = i2;
         } else if (this.wasCountryHintIndex != -1) {
             int selectionStart2 = this.phoneField.getSelectionStart();
             int selectionEnd2 = this.phoneField.getSelectionEnd();

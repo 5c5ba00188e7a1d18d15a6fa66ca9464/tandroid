@@ -33,7 +33,6 @@ public class BulletSpan implements LeadingMarginSpan {
         int i8;
         if (((Spanned) charSequence).getSpanStart(this) == i6) {
             Paint.Style style = paint.getStyle();
-            int i9 = 0;
             if (this.mWantColor) {
                 i8 = paint.getColor();
                 paint.setColor(this.mColor);
@@ -42,13 +41,10 @@ public class BulletSpan implements LeadingMarginSpan {
             }
             paint.setStyle(Paint.Style.FILL);
             if (layout != null) {
-                if (layout.getLineForOffset(i6) != layout.getLineCount() - 1) {
-                    i9 = (int) layout.getSpacingAdd();
-                }
-                i5 -= i9;
+                i5 -= layout.getLineForOffset(i6) != layout.getLineCount() + (-1) ? (int) layout.getSpacingAdd() : 0;
             }
-            int i10 = this.mBulletRadius;
-            canvas.drawCircle(i + (i2 * i10), (i3 + i5) / 2.0f, i10, paint);
+            int i9 = this.mBulletRadius;
+            canvas.drawCircle(i + (i2 * i9), (i3 + i5) / 2.0f, i9, paint);
             if (this.mWantColor) {
                 paint.setColor(i8);
             }

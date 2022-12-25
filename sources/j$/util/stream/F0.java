@@ -49,16 +49,16 @@ class F0 extends g3 {
                         throw th;
                     }
                 }
-                if (intStream == null) {
+                if (intStream != null) {
+                    intStream.close();
                     return;
                 }
-                intStream.close();
                 return;
             default:
-                if (!((j$.wrappers.U) ((M) this.c).m).b(i)) {
+                if (((j$.wrappers.U) ((M) this.c).m).b(i)) {
+                    this.a.accept(i);
                     return;
                 }
-                this.a.accept(i);
                 return;
         }
     }

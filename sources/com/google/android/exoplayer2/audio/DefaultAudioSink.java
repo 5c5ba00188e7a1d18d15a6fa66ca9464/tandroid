@@ -263,14 +263,13 @@ public final class DefaultAudioSink implements AudioSink {
         int i = 0;
         while (true) {
             AudioProcessor[] audioProcessorArr = this.activeAudioProcessors;
-            if (i < audioProcessorArr.length) {
-                AudioProcessor audioProcessor = audioProcessorArr[i];
-                audioProcessor.flush();
-                this.outputBuffers[i] = audioProcessor.getOutput();
-                i++;
-            } else {
+            if (i >= audioProcessorArr.length) {
                 return;
             }
+            AudioProcessor audioProcessor = audioProcessorArr[i];
+            audioProcessor.flush();
+            this.outputBuffers[i] = audioProcessor.getOutput();
+            i++;
         }
     }
 
@@ -350,70 +349,70 @@ public final class DefaultAudioSink implements AudioSink {
                 play();
             }
         }
-        if (!this.audioTrackPositionTracker.mayHandleBuffer(getWrittenFrames())) {
-            return false;
-        }
-        if (this.inputBuffer == null) {
-            if (!byteBuffer.hasRemaining()) {
-                return true;
-            }
-            Configuration configuration = this.configuration;
-            if (!configuration.isInputPcm && this.framesPerEncodedSample == 0) {
-                int framesPerEncodedSample = getFramesPerEncodedSample(configuration.outputEncoding, byteBuffer);
-                this.framesPerEncodedSample = framesPerEncodedSample;
-                if (framesPerEncodedSample == 0) {
+        if (this.audioTrackPositionTracker.mayHandleBuffer(getWrittenFrames())) {
+            if (this.inputBuffer == null) {
+                if (!byteBuffer.hasRemaining()) {
                     return true;
                 }
-            }
-            if (this.afterDrainPlaybackParameters != null) {
-                if (!drainAudioProcessorsToEndOfStream()) {
-                    return false;
-                }
-                PlaybackParameters playbackParameters = this.afterDrainPlaybackParameters;
-                this.afterDrainPlaybackParameters = null;
-                applyPlaybackParameters(playbackParameters, j);
-            }
-            if (this.startMediaTimeState == 0) {
-                this.startMediaTimeUs = Math.max(0L, j);
-                this.startMediaTimeState = 1;
-            } else {
-                long inputFramesToDurationUs = this.startMediaTimeUs + this.configuration.inputFramesToDurationUs(getSubmittedFrames() - this.trimmingAudioProcessor.getTrimmedFrameCount());
-                if (this.startMediaTimeState == 1 && Math.abs(inputFramesToDurationUs - j) > 200000) {
-                    Log.e("AudioTrack", "Discontinuity detected [expected " + inputFramesToDurationUs + ", got " + j + "]");
-                    this.startMediaTimeState = 2;
-                }
-                if (this.startMediaTimeState == 2) {
-                    long j2 = j - inputFramesToDurationUs;
-                    this.startMediaTimeUs += j2;
-                    this.startMediaTimeState = 1;
-                    AudioSink.Listener listener = this.listener;
-                    if (listener != null && j2 != 0) {
-                        listener.onPositionDiscontinuity();
+                Configuration configuration = this.configuration;
+                if (!configuration.isInputPcm && this.framesPerEncodedSample == 0) {
+                    int framesPerEncodedSample = getFramesPerEncodedSample(configuration.outputEncoding, byteBuffer);
+                    this.framesPerEncodedSample = framesPerEncodedSample;
+                    if (framesPerEncodedSample == 0) {
+                        return true;
                     }
                 }
+                if (this.afterDrainPlaybackParameters != null) {
+                    if (!drainAudioProcessorsToEndOfStream()) {
+                        return false;
+                    }
+                    PlaybackParameters playbackParameters = this.afterDrainPlaybackParameters;
+                    this.afterDrainPlaybackParameters = null;
+                    applyPlaybackParameters(playbackParameters, j);
+                }
+                if (this.startMediaTimeState == 0) {
+                    this.startMediaTimeUs = Math.max(0L, j);
+                    this.startMediaTimeState = 1;
+                } else {
+                    long inputFramesToDurationUs = this.startMediaTimeUs + this.configuration.inputFramesToDurationUs(getSubmittedFrames() - this.trimmingAudioProcessor.getTrimmedFrameCount());
+                    if (this.startMediaTimeState == 1 && Math.abs(inputFramesToDurationUs - j) > 200000) {
+                        Log.e("AudioTrack", "Discontinuity detected [expected " + inputFramesToDurationUs + ", got " + j + "]");
+                        this.startMediaTimeState = 2;
+                    }
+                    if (this.startMediaTimeState == 2) {
+                        long j2 = j - inputFramesToDurationUs;
+                        this.startMediaTimeUs += j2;
+                        this.startMediaTimeState = 1;
+                        AudioSink.Listener listener = this.listener;
+                        if (listener != null && j2 != 0) {
+                            listener.onPositionDiscontinuity();
+                        }
+                    }
+                }
+                if (this.configuration.isInputPcm) {
+                    this.submittedPcmBytes += byteBuffer.remaining();
+                } else {
+                    this.submittedEncodedFrames += this.framesPerEncodedSample;
+                }
+                this.inputBuffer = byteBuffer;
             }
-            if (this.configuration.isInputPcm) {
-                this.submittedPcmBytes += byteBuffer.remaining();
+            if (this.configuration.processingEnabled) {
+                processBuffers(j);
             } else {
-                this.submittedEncodedFrames += this.framesPerEncodedSample;
+                writeBuffer(this.inputBuffer, j);
             }
-            this.inputBuffer = byteBuffer;
+            if (!this.inputBuffer.hasRemaining()) {
+                this.inputBuffer = null;
+                return true;
+            } else if (this.audioTrackPositionTracker.isStalled(getWrittenFrames())) {
+                Log.w("AudioTrack", "Resetting stalled audio track");
+                flush();
+                return true;
+            } else {
+                return false;
+            }
         }
-        if (this.configuration.processingEnabled) {
-            processBuffers(j);
-        } else {
-            writeBuffer(this.inputBuffer, j);
-        }
-        if (!this.inputBuffer.hasRemaining()) {
-            this.inputBuffer = null;
-            return true;
-        } else if (!this.audioTrackPositionTracker.isStalled(getWrittenFrames())) {
-            return false;
-        } else {
-            Log.w("AudioTrack", "Resetting stalled audio track");
-            flush();
-            return true;
-        }
+        return false;
     }
 
     private void processBuffers(long j) throws AudioSink.WriteException {
@@ -448,76 +447,69 @@ public final class DefaultAudioSink implements AudioSink {
     }
 
     private void writeBuffer(ByteBuffer byteBuffer, long j) throws AudioSink.WriteException {
-        if (!byteBuffer.hasRemaining()) {
-            return;
-        }
-        ByteBuffer byteBuffer2 = this.outputBuffer;
-        boolean z = true;
-        int i = 0;
-        if (byteBuffer2 != null) {
-            Assertions.checkArgument(byteBuffer2 == byteBuffer);
-        } else {
-            this.outputBuffer = byteBuffer;
+        if (byteBuffer.hasRemaining()) {
+            ByteBuffer byteBuffer2 = this.outputBuffer;
+            int i = 0;
+            if (byteBuffer2 != null) {
+                Assertions.checkArgument(byteBuffer2 == byteBuffer);
+            } else {
+                this.outputBuffer = byteBuffer;
+                if (Util.SDK_INT < 21) {
+                    int remaining = byteBuffer.remaining();
+                    byte[] bArr = this.preV21OutputBuffer;
+                    if (bArr == null || bArr.length < remaining) {
+                        this.preV21OutputBuffer = new byte[remaining];
+                    }
+                    int position = byteBuffer.position();
+                    byteBuffer.get(this.preV21OutputBuffer, 0, remaining);
+                    byteBuffer.position(position);
+                    this.preV21OutputBufferOffset = 0;
+                }
+            }
+            int remaining2 = byteBuffer.remaining();
             if (Util.SDK_INT < 21) {
-                int remaining = byteBuffer.remaining();
-                byte[] bArr = this.preV21OutputBuffer;
-                if (bArr == null || bArr.length < remaining) {
-                    this.preV21OutputBuffer = new byte[remaining];
+                int availableBufferSize = this.audioTrackPositionTracker.getAvailableBufferSize(this.writtenPcmBytes);
+                if (availableBufferSize > 0) {
+                    i = this.audioTrack.write(this.preV21OutputBuffer, this.preV21OutputBufferOffset, Math.min(remaining2, availableBufferSize));
+                    if (i > 0) {
+                        this.preV21OutputBufferOffset += i;
+                        byteBuffer.position(byteBuffer.position() + i);
+                    }
                 }
-                int position = byteBuffer.position();
-                byteBuffer.get(this.preV21OutputBuffer, 0, remaining);
-                byteBuffer.position(position);
-                this.preV21OutputBufferOffset = 0;
+            } else if (this.tunneling) {
+                Assertions.checkState(j != -9223372036854775807L);
+                i = writeNonBlockingWithAvSyncV21(this.audioTrack, byteBuffer, remaining2, j);
+            } else {
+                i = writeNonBlockingV21(this.audioTrack, byteBuffer, remaining2);
             }
-        }
-        int remaining2 = byteBuffer.remaining();
-        if (Util.SDK_INT < 21) {
-            int availableBufferSize = this.audioTrackPositionTracker.getAvailableBufferSize(this.writtenPcmBytes);
-            if (availableBufferSize > 0) {
-                i = this.audioTrack.write(this.preV21OutputBuffer, this.preV21OutputBufferOffset, Math.min(remaining2, availableBufferSize));
-                if (i > 0) {
-                    this.preV21OutputBufferOffset += i;
-                    byteBuffer.position(byteBuffer.position() + i);
+            this.lastFeedElapsedRealtimeMs = SystemClock.elapsedRealtime();
+            if (i < 0) {
+                throw new AudioSink.WriteException(i);
+            }
+            boolean z = this.configuration.isInputPcm;
+            if (z) {
+                this.writtenPcmBytes += i;
+            }
+            if (i == remaining2) {
+                if (!z) {
+                    this.writtenEncodedFrames += this.framesPerEncodedSample;
                 }
+                this.outputBuffer = null;
             }
-        } else if (this.tunneling) {
-            if (j == -9223372036854775807L) {
-                z = false;
-            }
-            Assertions.checkState(z);
-            i = writeNonBlockingWithAvSyncV21(this.audioTrack, byteBuffer, remaining2, j);
-        } else {
-            i = writeNonBlockingV21(this.audioTrack, byteBuffer, remaining2);
         }
-        this.lastFeedElapsedRealtimeMs = SystemClock.elapsedRealtime();
-        if (i < 0) {
-            throw new AudioSink.WriteException(i);
-        }
-        boolean z2 = this.configuration.isInputPcm;
-        if (z2) {
-            this.writtenPcmBytes += i;
-        }
-        if (i != remaining2) {
-            return;
-        }
-        if (!z2) {
-            this.writtenEncodedFrames += this.framesPerEncodedSample;
-        }
-        this.outputBuffer = null;
     }
 
     @Override // com.google.android.exoplayer2.audio.AudioSink
     public void playToEndOfStream() throws AudioSink.WriteException {
-        if (this.handledEndOfStream || !isInitialized() || !drainAudioProcessorsToEndOfStream()) {
-            return;
+        if (!this.handledEndOfStream && isInitialized() && drainAudioProcessorsToEndOfStream()) {
+            playPendingData();
+            this.handledEndOfStream = true;
         }
-        playPendingData();
-        this.handledEndOfStream = true;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:10:0x0023  */
-    /* JADX WARN: Removed duplicated region for block: B:18:0x003a  */
-    /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:17:0x0034 -> B:7:0x0014). Please submit an issue!!! */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x0023  */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x003a  */
+    /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:19:0x0034 -> B:9:0x0014). Please submit an issue!!! */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -636,11 +628,12 @@ public final class DefaultAudioSink implements AudioSink {
     @Override // com.google.android.exoplayer2.audio.AudioSink
     public void enableTunnelingV21(int i) {
         Assertions.checkState(Util.SDK_INT >= 21);
-        if (!this.tunneling || this.audioSessionId != i) {
-            this.tunneling = true;
-            this.audioSessionId = i;
-            flush();
+        if (this.tunneling && this.audioSessionId == i) {
+            return;
         }
+        this.tunneling = true;
+        this.audioSessionId = i;
+        flush();
     }
 
     @Override // com.google.android.exoplayer2.audio.AudioSink
@@ -661,23 +654,21 @@ public final class DefaultAudioSink implements AudioSink {
     }
 
     private void setVolumeInternal() {
-        if (!isInitialized()) {
-            return;
-        }
-        if (Util.SDK_INT >= 21) {
-            setVolumeInternalV21(this.audioTrack, this.volume);
-        } else {
-            setVolumeInternalV3(this.audioTrack, this.volume);
+        if (isInitialized()) {
+            if (Util.SDK_INT >= 21) {
+                setVolumeInternalV21(this.audioTrack, this.volume);
+            } else {
+                setVolumeInternalV3(this.audioTrack, this.volume);
+            }
         }
     }
 
     @Override // com.google.android.exoplayer2.audio.AudioSink
     public void pause() {
         this.playing = false;
-        if (!isInitialized() || !this.audioTrackPositionTracker.pause()) {
-            return;
+        if (isInitialized() && this.audioTrackPositionTracker.pause()) {
+            this.audioTrack.pause();
         }
-        this.audioTrack.pause();
     }
 
     @Override // com.google.android.exoplayer2.audio.AudioSink
@@ -846,23 +837,23 @@ public final class DefaultAudioSink implements AudioSink {
     /* JADX INFO: Access modifiers changed from: private */
     public static int getMaximumEncodedRateBytesPerSecond(int i) {
         if (i != 5) {
-            if (i == 6) {
-                return 768000;
-            }
-            if (i == 7) {
+            if (i != 6) {
+                if (i != 7) {
+                    if (i != 8) {
+                        if (i != 14) {
+                            if (i != 17) {
+                                if (i == 18) {
+                                    return 768000;
+                                }
+                                throw new IllegalArgumentException();
+                            }
+                            return 336000;
+                        }
+                        return 3062500;
+                    }
+                    return 2250000;
+                }
                 return 192000;
-            }
-            if (i == 8) {
-                return 2250000;
-            }
-            if (i == 14) {
-                return 3062500;
-            }
-            if (i == 17) {
-                return 336000;
-            }
-            if (i != 18) {
-                throw new IllegalArgumentException();
             }
             return 768000;
         }
@@ -872,10 +863,10 @@ public final class DefaultAudioSink implements AudioSink {
     private static int getFramesPerEncodedSample(int i, ByteBuffer byteBuffer) {
         if (i == 14) {
             int findTrueHdSyncframeOffset = Ac3Util.findTrueHdSyncframeOffset(byteBuffer);
-            if (findTrueHdSyncframeOffset != -1) {
-                return Ac3Util.parseTrueHdSyncframeAudioSampleCount(byteBuffer, findTrueHdSyncframeOffset) * 16;
+            if (findTrueHdSyncframeOffset == -1) {
+                return 0;
             }
-            return 0;
+            return Ac3Util.parseTrueHdSyncframeAudioSampleCount(byteBuffer, findTrueHdSyncframeOffset) * 16;
         } else if (i != 17) {
             if (i != 18) {
                 switch (i) {
@@ -948,12 +939,13 @@ public final class DefaultAudioSink implements AudioSink {
     }
 
     private void playPendingData() {
-        if (!this.stoppedAudioTrack) {
-            this.stoppedAudioTrack = true;
-            this.audioTrackPositionTracker.handleEndOfStream(getWrittenFrames());
-            this.audioTrack.stop();
-            this.bytesUntilNextAvSync = 0;
+        if (this.stoppedAudioTrack) {
+            return;
         }
+        this.stoppedAudioTrack = true;
+        this.audioTrackPositionTracker.handleEndOfStream(getWrittenFrames());
+        this.audioTrack.stop();
+        this.bytesUntilNextAvSync = 0;
     }
 
     /* JADX INFO: Access modifiers changed from: private */

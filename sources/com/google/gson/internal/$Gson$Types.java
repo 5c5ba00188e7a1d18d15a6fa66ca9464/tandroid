@@ -45,11 +45,11 @@ public final class $Gson$Types {
         } else if (type instanceof GenericArrayType) {
             return new GenericArrayTypeImpl(((GenericArrayType) type).getGenericComponentType());
         } else {
-            if (!(type instanceof WildcardType)) {
-                return type;
+            if (type instanceof WildcardType) {
+                WildcardType wildcardType = (WildcardType) type;
+                return new WildcardTypeImpl(wildcardType.getUpperBounds(), wildcardType.getLowerBounds());
             }
-            WildcardType wildcardType = (WildcardType) type;
-            return new WildcardTypeImpl(wildcardType.getUpperBounds(), wildcardType.getLowerBounds());
+            return type;
         }
     }
 
@@ -87,30 +87,30 @@ public final class $Gson$Types {
             return type.equals(type2);
         }
         if (type instanceof ParameterizedType) {
-            if (!(type2 instanceof ParameterizedType)) {
-                return false;
+            if (type2 instanceof ParameterizedType) {
+                ParameterizedType parameterizedType = (ParameterizedType) type;
+                ParameterizedType parameterizedType2 = (ParameterizedType) type2;
+                return equal(parameterizedType.getOwnerType(), parameterizedType2.getOwnerType()) && parameterizedType.getRawType().equals(parameterizedType2.getRawType()) && Arrays.equals(parameterizedType.getActualTypeArguments(), parameterizedType2.getActualTypeArguments());
             }
-            ParameterizedType parameterizedType = (ParameterizedType) type;
-            ParameterizedType parameterizedType2 = (ParameterizedType) type2;
-            return equal(parameterizedType.getOwnerType(), parameterizedType2.getOwnerType()) && parameterizedType.getRawType().equals(parameterizedType2.getRawType()) && Arrays.equals(parameterizedType.getActualTypeArguments(), parameterizedType2.getActualTypeArguments());
+            return false;
         } else if (type instanceof GenericArrayType) {
             if (type2 instanceof GenericArrayType) {
                 return equals(((GenericArrayType) type).getGenericComponentType(), ((GenericArrayType) type2).getGenericComponentType());
             }
             return false;
         } else if (type instanceof WildcardType) {
-            if (!(type2 instanceof WildcardType)) {
-                return false;
+            if (type2 instanceof WildcardType) {
+                WildcardType wildcardType = (WildcardType) type;
+                WildcardType wildcardType2 = (WildcardType) type2;
+                return Arrays.equals(wildcardType.getUpperBounds(), wildcardType2.getUpperBounds()) && Arrays.equals(wildcardType.getLowerBounds(), wildcardType2.getLowerBounds());
             }
-            WildcardType wildcardType = (WildcardType) type;
-            WildcardType wildcardType2 = (WildcardType) type2;
-            return Arrays.equals(wildcardType.getUpperBounds(), wildcardType2.getUpperBounds()) && Arrays.equals(wildcardType.getLowerBounds(), wildcardType2.getLowerBounds());
-        } else if (!(type instanceof TypeVariable) || !(type2 instanceof TypeVariable)) {
             return false;
-        } else {
+        } else if ((type instanceof TypeVariable) && (type2 instanceof TypeVariable)) {
             TypeVariable typeVariable = (TypeVariable) type;
             TypeVariable typeVariable2 = (TypeVariable) type2;
             return typeVariable.getGenericDeclaration() == typeVariable2.getGenericDeclaration() && typeVariable.getName().equals(typeVariable2.getName());
+        } else {
+            return false;
         }
     }
 
@@ -184,13 +184,13 @@ public final class $Gson$Types {
         return resolve(type, cls, type2, new HashMap());
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:12:0x00dc, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:59:0x00dc, code lost:
         if (r0 == null) goto L14;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:13:0x00de, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:60:0x00de, code lost:
         r12.put(r0, r11);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:14:0x00e1, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:61:0x00e1, code lost:
         return r11;
      */
     /* JADX WARN: Multi-variable type inference failed */
@@ -301,10 +301,10 @@ public final class $Gson$Types {
             return typeVariable;
         }
         Type genericSupertype = getGenericSupertype(type, cls, declaringClassOf);
-        if (!(genericSupertype instanceof ParameterizedType)) {
-            return typeVariable;
+        if (genericSupertype instanceof ParameterizedType) {
+            return ((ParameterizedType) genericSupertype).getActualTypeArguments()[indexOf(declaringClassOf.getTypeParameters(), typeVariable)];
         }
-        return ((ParameterizedType) genericSupertype).getActualTypeArguments()[indexOf(declaringClassOf.getTypeParameters(), typeVariable)];
+        return typeVariable;
     }
 
     private static int indexOf(Object[] objArr, Object obj) {
@@ -326,7 +326,7 @@ public final class $Gson$Types {
     }
 
     static void checkNotPrimitive(Type type) {
-        $Gson$Preconditions.checkArgument(!(type instanceof Class) || !((Class) type).isPrimitive());
+        $Gson$Preconditions.checkArgument(((type instanceof Class) && ((Class) type).isPrimitive()) ? false : true);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -446,13 +446,12 @@ public final class $Gson$Types {
         private final Type upperBound;
 
         public WildcardTypeImpl(Type[] typeArr, Type[] typeArr2) {
-            boolean z = true;
             $Gson$Preconditions.checkArgument(typeArr2.length <= 1);
             $Gson$Preconditions.checkArgument(typeArr.length == 1);
             if (typeArr2.length == 1) {
                 Objects.requireNonNull(typeArr2[0]);
                 $Gson$Types.checkNotPrimitive(typeArr2[0]);
-                $Gson$Preconditions.checkArgument(typeArr[0] != Object.class ? false : z);
+                $Gson$Preconditions.checkArgument(typeArr[0] == Object.class);
                 this.lowerBound = $Gson$Types.canonicalize(typeArr2[0]);
                 this.upperBound = Object.class;
                 return;

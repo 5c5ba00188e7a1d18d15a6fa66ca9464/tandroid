@@ -48,13 +48,13 @@ public final class WebvttCue extends Cue {
 
         private static int derivePositionAnchor(int i) {
             if (i != 1) {
-                if (i == 3) {
-                    return 2;
-                }
-                if (i == 4) {
+                if (i != 3) {
+                    if (i != 4) {
+                        return i != 5 ? 1 : 2;
+                    }
                     return 0;
                 }
-                return i != 5 ? 1 : 2;
+                return 2;
             }
             return 0;
         }
@@ -160,10 +160,10 @@ public final class WebvttCue extends Cue {
             if (i != 0) {
                 if (i == 1) {
                     return f <= 0.5f ? f * 2.0f : (1.0f - f) * 2.0f;
-                } else if (i != 2) {
-                    throw new IllegalStateException(String.valueOf(i));
-                } else {
+                } else if (i == 2) {
                     return f;
+                } else {
+                    throw new IllegalStateException(String.valueOf(i));
                 }
             }
             return 1.0f - f;

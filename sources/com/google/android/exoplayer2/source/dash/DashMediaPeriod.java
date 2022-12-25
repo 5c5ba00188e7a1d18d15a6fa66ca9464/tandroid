@@ -109,11 +109,7 @@ public final class DashMediaPeriod implements MediaPeriod, SequenceableLoader.Ca
                     EventStream next = it.next();
                     if (next.id().equals(eventSampleStream.eventStreamId())) {
                         boolean z = true;
-                        int periodCount = dashManifest.getPeriodCount() - 1;
-                        if (!dashManifest.dynamic || i != periodCount) {
-                            z = false;
-                        }
-                        eventSampleStream.updateEventStream(next, z);
+                        eventSampleStream.updateEventStream(next, (dashManifest.dynamic && i == dashManifest.getPeriodCount() - 1) ? false : false);
                     }
                 }
             }
@@ -207,11 +203,11 @@ public final class DashMediaPeriod implements MediaPeriod, SequenceableLoader.Ca
 
     @Override // com.google.android.exoplayer2.source.MediaPeriod
     public long readDiscontinuity() {
-        if (!this.notifiedReadingStarted) {
-            this.eventDispatcher.readingStarted();
-            this.notifiedReadingStarted = true;
+        if (this.notifiedReadingStarted) {
             return -9223372036854775807L;
         }
+        this.eventDispatcher.readingStarted();
+        this.notifiedReadingStarted = true;
         return -9223372036854775807L;
     }
 

@@ -38,10 +38,10 @@ public class CustomPropertiesLog extends AbstractLog {
         }
         if (string.equals("number")) {
             Object obj = jSONObject.get("value");
-            if (!(obj instanceof Number)) {
-                throw new JSONException("Invalid value type");
+            if (obj instanceof Number) {
+                return obj;
             }
-            return obj;
+            throw new JSONException("Invalid value type");
         } else if (string.equals("dateTime")) {
             return JSONDateUtils.toDate(jSONObject.getString("value"));
         } else {
@@ -112,12 +112,12 @@ public class CustomPropertiesLog extends AbstractLog {
         if (this == obj) {
             return true;
         }
-        if (obj == null || CustomPropertiesLog.class != obj.getClass() || !super.equals(obj)) {
-            return false;
+        if (obj != null && CustomPropertiesLog.class == obj.getClass() && super.equals(obj)) {
+            Map<String, Object> map = this.properties;
+            Map<String, Object> map2 = ((CustomPropertiesLog) obj).properties;
+            return map != null ? map.equals(map2) : map2 == null;
         }
-        Map<String, Object> map = this.properties;
-        Map<String, Object> map2 = ((CustomPropertiesLog) obj).properties;
-        return map != null ? map.equals(map2) : map2 == null;
+        return false;
     }
 
     @Override // com.microsoft.appcenter.ingestion.models.AbstractLog

@@ -12,24 +12,22 @@ class RefCountDelegate implements RefCounted {
 
     @Override // org.webrtc.RefCounted
     public void retain() {
-        if (this.refCount.incrementAndGet() >= 2) {
-            return;
+        if (this.refCount.incrementAndGet() < 2) {
+            throw new IllegalStateException("retain() called on an object with refcount < 1");
         }
-        throw new IllegalStateException("retain() called on an object with refcount < 1");
     }
 
     @Override // org.webrtc.RefCounted
     public void release() {
         Runnable runnable;
         int decrementAndGet = this.refCount.decrementAndGet();
-        if (decrementAndGet >= 0) {
-            if (decrementAndGet != 0 || (runnable = this.releaseCallback) == null) {
-                return;
-            }
-            runnable.run();
+        if (decrementAndGet < 0) {
+            throw new IllegalStateException("release() called on an object with refcount < 1");
+        }
+        if (decrementAndGet != 0 || (runnable = this.releaseCallback) == null) {
             return;
         }
-        throw new IllegalStateException("release() called on an object with refcount < 1");
+        runnable.run();
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

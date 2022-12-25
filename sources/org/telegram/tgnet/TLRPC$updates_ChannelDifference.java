@@ -114,11 +114,7 @@ public abstract class TLRPC$updates_ChannelDifference extends TLObject {
                 public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                     int readInt32 = abstractSerializedData2.readInt32(z2);
                     this.flags = readInt32;
-                    boolean z3 = true;
-                    if ((readInt32 & 1) == 0) {
-                        z3 = false;
-                    }
-                    this.isFinal = z3;
+                    this.isFinal = (readInt32 & 1) != 0;
                     this.pts = abstractSerializedData2.readInt32(z2);
                     if ((this.flags & 2) != 0) {
                         this.timeout = abstractSerializedData2.readInt32(z2);
@@ -249,12 +245,12 @@ public abstract class TLRPC$updates_ChannelDifference extends TLObject {
                 }
             };
         }
-        if (tLRPC$updates_ChannelDifference != null || !z) {
-            if (tLRPC$updates_ChannelDifference != null) {
-                tLRPC$updates_ChannelDifference.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$updates_ChannelDifference;
+        if (tLRPC$updates_ChannelDifference == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in updates_ChannelDifference", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in updates_ChannelDifference", Integer.valueOf(i)));
+        if (tLRPC$updates_ChannelDifference != null) {
+            tLRPC$updates_ChannelDifference.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$updates_ChannelDifference;
     }
 }

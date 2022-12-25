@@ -427,71 +427,71 @@ public class CameraScanActivity extends BaseFragment {
             @Override // android.view.ViewGroup
             protected boolean drawChild(Canvas canvas, View view, long j) {
                 boolean drawChild = super.drawChild(canvas, view, j);
-                if (!CameraScanActivity.this.isQr() || view != CameraScanActivity.this.cameraView) {
+                if (CameraScanActivity.this.isQr() && view == CameraScanActivity.this.cameraView) {
+                    RectF bounds = CameraScanActivity.this.getBounds();
+                    int height = (int) (view.getHeight() * bounds.centerY());
+                    int width = (int) (((int) (view.getWidth() * bounds.width())) * ((CameraScanActivity.this.qrAppearingValue * 0.5f) + 0.5f));
+                    int height2 = (int) (((int) (view.getHeight() * bounds.height())) * ((CameraScanActivity.this.qrAppearingValue * 0.5f) + 0.5f));
+                    int width2 = ((int) (view.getWidth() * bounds.centerX())) - (width / 2);
+                    int i = height - (height2 / 2);
+                    CameraScanActivity.this.paint.setAlpha((int) ((1.0f - ((1.0f - CameraScanActivity.this.backShadowAlpha) * Math.min(1.0f, CameraScanActivity.this.qrAppearingValue))) * 255.0f));
+                    float f = i;
+                    canvas.drawRect(0.0f, 0.0f, view.getMeasuredWidth(), f, CameraScanActivity.this.paint);
+                    int i2 = i + height2;
+                    float f2 = i2;
+                    canvas.drawRect(0.0f, f2, view.getMeasuredWidth(), view.getMeasuredHeight(), CameraScanActivity.this.paint);
+                    float f3 = width2;
+                    canvas.drawRect(0.0f, f, f3, f2, CameraScanActivity.this.paint);
+                    int i3 = width2 + width;
+                    float f4 = i3;
+                    canvas.drawRect(f4, f, view.getMeasuredWidth(), f2, CameraScanActivity.this.paint);
+                    CameraScanActivity.this.paint.setAlpha((int) (Math.max(0.0f, 1.0f - CameraScanActivity.this.qrAppearingValue) * 255.0f));
+                    canvas.drawRect(f3, f, f4, f2, CameraScanActivity.this.paint);
+                    int lerp = AndroidUtilities.lerp(0, AndroidUtilities.dp(4.0f), Math.min(1.0f, CameraScanActivity.this.qrAppearingValue * 20.0f));
+                    int i4 = lerp / 2;
+                    int lerp2 = AndroidUtilities.lerp(Math.min(width, height2), AndroidUtilities.dp(20.0f), Math.min(1.2f, (float) Math.pow(CameraScanActivity.this.qrAppearingValue, 1.7999999523162842d)));
+                    CameraScanActivity.this.cornerPaint.setAlpha((int) (Math.min(1.0f, CameraScanActivity.this.qrAppearingValue) * 255.0f));
+                    CameraScanActivity.this.path.reset();
+                    int i5 = i + lerp2;
+                    CameraScanActivity.this.path.arcTo(aroundPoint(width2, i5, i4), 0.0f, 180.0f);
+                    float f5 = lerp * 1.5f;
+                    int i6 = (int) (f3 + f5);
+                    int i7 = (int) (f + f5);
+                    int i8 = lerp * 2;
+                    CameraScanActivity.this.path.arcTo(aroundPoint(i6, i7, i8), 180.0f, 90.0f);
+                    int i9 = width2 + lerp2;
+                    CameraScanActivity.this.path.arcTo(aroundPoint(i9, i, i4), 270.0f, 180.0f);
+                    CameraScanActivity.this.path.lineTo(width2 + i4, i + i4);
+                    CameraScanActivity.this.path.arcTo(aroundPoint(i6, i7, lerp), 270.0f, -90.0f);
+                    CameraScanActivity.this.path.close();
+                    canvas.drawPath(CameraScanActivity.this.path, CameraScanActivity.this.cornerPaint);
+                    CameraScanActivity.this.path.reset();
+                    CameraScanActivity.this.path.arcTo(aroundPoint(i3, i5, i4), 180.0f, -180.0f);
+                    int i10 = (int) (f4 - f5);
+                    CameraScanActivity.this.path.arcTo(aroundPoint(i10, i7, i8), 0.0f, -90.0f);
+                    int i11 = i3 - lerp2;
+                    CameraScanActivity.this.path.arcTo(aroundPoint(i11, i, i4), 270.0f, -180.0f);
+                    CameraScanActivity.this.path.arcTo(aroundPoint(i10, i7, lerp), 270.0f, 90.0f);
+                    CameraScanActivity.this.path.close();
+                    canvas.drawPath(CameraScanActivity.this.path, CameraScanActivity.this.cornerPaint);
+                    CameraScanActivity.this.path.reset();
+                    int i12 = i2 - lerp2;
+                    CameraScanActivity.this.path.arcTo(aroundPoint(width2, i12, i4), 0.0f, -180.0f);
+                    int i13 = (int) (f2 - f5);
+                    CameraScanActivity.this.path.arcTo(aroundPoint(i6, i13, i8), 180.0f, -90.0f);
+                    CameraScanActivity.this.path.arcTo(aroundPoint(i9, i2, i4), 90.0f, -180.0f);
+                    CameraScanActivity.this.path.arcTo(aroundPoint(i6, i13, lerp), 90.0f, 90.0f);
+                    CameraScanActivity.this.path.close();
+                    canvas.drawPath(CameraScanActivity.this.path, CameraScanActivity.this.cornerPaint);
+                    CameraScanActivity.this.path.reset();
+                    CameraScanActivity.this.path.arcTo(aroundPoint(i3, i12, i4), 180.0f, 180.0f);
+                    CameraScanActivity.this.path.arcTo(aroundPoint(i10, i13, i8), 0.0f, 90.0f);
+                    CameraScanActivity.this.path.arcTo(aroundPoint(i11, i2, i4), 90.0f, 180.0f);
+                    CameraScanActivity.this.path.arcTo(aroundPoint(i10, i13, lerp), 90.0f, -90.0f);
+                    CameraScanActivity.this.path.close();
+                    canvas.drawPath(CameraScanActivity.this.path, CameraScanActivity.this.cornerPaint);
                     return drawChild;
                 }
-                RectF bounds = CameraScanActivity.this.getBounds();
-                int height = (int) (view.getHeight() * bounds.centerY());
-                int width = (int) (((int) (view.getWidth() * bounds.width())) * ((CameraScanActivity.this.qrAppearingValue * 0.5f) + 0.5f));
-                int height2 = (int) (((int) (view.getHeight() * bounds.height())) * ((CameraScanActivity.this.qrAppearingValue * 0.5f) + 0.5f));
-                int width2 = ((int) (view.getWidth() * bounds.centerX())) - (width / 2);
-                int i = height - (height2 / 2);
-                CameraScanActivity.this.paint.setAlpha((int) ((1.0f - ((1.0f - CameraScanActivity.this.backShadowAlpha) * Math.min(1.0f, CameraScanActivity.this.qrAppearingValue))) * 255.0f));
-                float f = i;
-                canvas.drawRect(0.0f, 0.0f, view.getMeasuredWidth(), f, CameraScanActivity.this.paint);
-                int i2 = i + height2;
-                float f2 = i2;
-                canvas.drawRect(0.0f, f2, view.getMeasuredWidth(), view.getMeasuredHeight(), CameraScanActivity.this.paint);
-                float f3 = width2;
-                canvas.drawRect(0.0f, f, f3, f2, CameraScanActivity.this.paint);
-                int i3 = width2 + width;
-                float f4 = i3;
-                canvas.drawRect(f4, f, view.getMeasuredWidth(), f2, CameraScanActivity.this.paint);
-                CameraScanActivity.this.paint.setAlpha((int) (Math.max(0.0f, 1.0f - CameraScanActivity.this.qrAppearingValue) * 255.0f));
-                canvas.drawRect(f3, f, f4, f2, CameraScanActivity.this.paint);
-                int lerp = AndroidUtilities.lerp(0, AndroidUtilities.dp(4.0f), Math.min(1.0f, CameraScanActivity.this.qrAppearingValue * 20.0f));
-                int i4 = lerp / 2;
-                int lerp2 = AndroidUtilities.lerp(Math.min(width, height2), AndroidUtilities.dp(20.0f), Math.min(1.2f, (float) Math.pow(CameraScanActivity.this.qrAppearingValue, 1.7999999523162842d)));
-                CameraScanActivity.this.cornerPaint.setAlpha((int) (Math.min(1.0f, CameraScanActivity.this.qrAppearingValue) * 255.0f));
-                CameraScanActivity.this.path.reset();
-                int i5 = i + lerp2;
-                CameraScanActivity.this.path.arcTo(aroundPoint(width2, i5, i4), 0.0f, 180.0f);
-                float f5 = lerp * 1.5f;
-                int i6 = (int) (f3 + f5);
-                int i7 = (int) (f + f5);
-                int i8 = lerp * 2;
-                CameraScanActivity.this.path.arcTo(aroundPoint(i6, i7, i8), 180.0f, 90.0f);
-                int i9 = width2 + lerp2;
-                CameraScanActivity.this.path.arcTo(aroundPoint(i9, i, i4), 270.0f, 180.0f);
-                CameraScanActivity.this.path.lineTo(width2 + i4, i + i4);
-                CameraScanActivity.this.path.arcTo(aroundPoint(i6, i7, lerp), 270.0f, -90.0f);
-                CameraScanActivity.this.path.close();
-                canvas.drawPath(CameraScanActivity.this.path, CameraScanActivity.this.cornerPaint);
-                CameraScanActivity.this.path.reset();
-                CameraScanActivity.this.path.arcTo(aroundPoint(i3, i5, i4), 180.0f, -180.0f);
-                int i10 = (int) (f4 - f5);
-                CameraScanActivity.this.path.arcTo(aroundPoint(i10, i7, i8), 0.0f, -90.0f);
-                int i11 = i3 - lerp2;
-                CameraScanActivity.this.path.arcTo(aroundPoint(i11, i, i4), 270.0f, -180.0f);
-                CameraScanActivity.this.path.arcTo(aroundPoint(i10, i7, lerp), 270.0f, 90.0f);
-                CameraScanActivity.this.path.close();
-                canvas.drawPath(CameraScanActivity.this.path, CameraScanActivity.this.cornerPaint);
-                CameraScanActivity.this.path.reset();
-                int i12 = i2 - lerp2;
-                CameraScanActivity.this.path.arcTo(aroundPoint(width2, i12, i4), 0.0f, -180.0f);
-                int i13 = (int) (f2 - f5);
-                CameraScanActivity.this.path.arcTo(aroundPoint(i6, i13, i8), 180.0f, -90.0f);
-                CameraScanActivity.this.path.arcTo(aroundPoint(i9, i2, i4), 90.0f, -180.0f);
-                CameraScanActivity.this.path.arcTo(aroundPoint(i6, i13, lerp), 90.0f, 90.0f);
-                CameraScanActivity.this.path.close();
-                canvas.drawPath(CameraScanActivity.this.path, CameraScanActivity.this.cornerPaint);
-                CameraScanActivity.this.path.reset();
-                CameraScanActivity.this.path.arcTo(aroundPoint(i3, i12, i4), 180.0f, 180.0f);
-                CameraScanActivity.this.path.arcTo(aroundPoint(i10, i13, i8), 0.0f, 90.0f);
-                CameraScanActivity.this.path.arcTo(aroundPoint(i11, i2, i4), 90.0f, 180.0f);
-                CameraScanActivity.this.path.arcTo(aroundPoint(i10, i13, lerp), 90.0f, -90.0f);
-                CameraScanActivity.this.path.close();
-                canvas.drawPath(CameraScanActivity.this.path, CameraScanActivity.this.cornerPaint);
                 return drawChild;
             }
 
@@ -737,18 +737,16 @@ public class CameraScanActivity extends BaseFragment {
                         return;
                     }
                     SendMessagesHelper.SendingMediaInfo sendingMediaInfo = arrayList.get(0);
-                    if (sendingMediaInfo.path == null) {
-                        return;
+                    if (sendingMediaInfo.path != null) {
+                        Point realScreenSize = AndroidUtilities.getRealScreenSize();
+                        QrResult tryReadQr = CameraScanActivity.this.tryReadQr(null, null, 0, 0, 0, ImageLoader.loadBitmap(sendingMediaInfo.path, null, realScreenSize.x, realScreenSize.y, true));
+                        if (tryReadQr != null) {
+                            if (CameraScanActivity.this.delegate != null) {
+                                CameraScanActivity.this.delegate.didFindQr(tryReadQr.text);
+                            }
+                            CameraScanActivity.this.removeSelfFromStack();
+                        }
                     }
-                    Point realScreenSize = AndroidUtilities.getRealScreenSize();
-                    QrResult tryReadQr = CameraScanActivity.this.tryReadQr(null, null, 0, 0, 0, ImageLoader.loadBitmap(sendingMediaInfo.path, null, realScreenSize.x, realScreenSize.y, true));
-                    if (tryReadQr == null) {
-                        return;
-                    }
-                    if (CameraScanActivity.this.delegate != null) {
-                        CameraScanActivity.this.delegate.didFindQr(tryReadQr.text);
-                    }
-                    CameraScanActivity.this.removeSelfFromStack();
                 } catch (Throwable th) {
                     FileLog.e(th);
                 }
@@ -1010,14 +1008,13 @@ public class CameraScanActivity extends BaseFragment {
         try {
             Point realScreenSize = AndroidUtilities.getRealScreenSize();
             QrResult tryReadQr = tryReadQr(null, null, 0, 0, 0, ImageLoader.loadBitmap(null, intent.getData(), realScreenSize.x, realScreenSize.y, true));
-            if (tryReadQr == null) {
-                return;
+            if (tryReadQr != null) {
+                CameraScanActivityDelegate cameraScanActivityDelegate = this.delegate;
+                if (cameraScanActivityDelegate != null) {
+                    cameraScanActivityDelegate.didFindQr(tryReadQr.text);
+                }
+                finishFragment();
             }
-            CameraScanActivityDelegate cameraScanActivityDelegate = this.delegate;
-            if (cameraScanActivityDelegate != null) {
-                cameraScanActivityDelegate.didFindQr(tryReadQr.text);
-            }
-            finishFragment();
         } catch (Throwable th) {
             FileLog.e(th);
         }

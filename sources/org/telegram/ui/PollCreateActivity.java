@@ -157,12 +157,11 @@ public class PollCreateActivity extends BaseFragment {
     }
 
     public PollCreateActivity(ChatActivity chatActivity, Boolean bool) {
-        int i = 1;
         this.parentFragment = chatActivity;
         if (bool != null) {
             boolean booleanValue = bool.booleanValue();
             this.quizPoll = booleanValue;
-            this.quizOnly = !booleanValue ? 2 : i;
+            this.quizOnly = booleanValue ? 1 : 2;
         }
     }
 
@@ -196,10 +195,9 @@ public class PollCreateActivity extends BaseFragment {
             /* JADX INFO: Access modifiers changed from: protected */
             @Override // androidx.recyclerview.widget.RecyclerView
             public void requestChildOnScreen(View view, View view2) {
-                if (!(view instanceof PollEditTextCell)) {
-                    return;
+                if (view instanceof PollEditTextCell) {
+                    super.requestChildOnScreen(view, view2);
                 }
-                super.requestChildOnScreen(view, view2);
             }
 
             @Override // androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup, android.view.ViewParent
@@ -253,10 +251,9 @@ public class PollCreateActivity extends BaseFragment {
         @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
         public void onItemClick(int i) {
             if (i == -1) {
-                if (!PollCreateActivity.this.checkDiscard()) {
-                    return;
+                if (PollCreateActivity.this.checkDiscard()) {
+                    PollCreateActivity.this.finishFragment();
                 }
-                PollCreateActivity.this.finishFragment();
             } else if (i == 1) {
                 if (PollCreateActivity.this.quizPoll && PollCreateActivity.this.doneItem.getAlpha() != 1.0f) {
                     int i2 = 0;
@@ -265,10 +262,10 @@ public class PollCreateActivity extends BaseFragment {
                             i2++;
                         }
                     }
-                    if (i2 > 0) {
+                    if (i2 <= 0) {
+                        PollCreateActivity.this.showQuizHint();
                         return;
                     }
-                    PollCreateActivity.this.showQuizHint();
                     return;
                 }
                 final TLRPC$TL_messageMediaPoll tLRPC$TL_messageMediaPoll = new TLRPC$TL_messageMediaPoll();
@@ -445,15 +442,14 @@ public class PollCreateActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:27:0x009a  */
-    /* JADX WARN: Removed duplicated region for block: B:31:0x009d  */
+    /* JADX WARN: Removed duplicated region for block: B:49:0x009a  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x009d  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void checkDoneButton() {
         int i;
         boolean z;
-        boolean z2 = false;
         if (this.quizPoll) {
             i = 0;
             for (int i2 = 0; i2 < this.answersChecks.length; i2++) {
@@ -483,23 +479,16 @@ public class PollCreateActivity extends BaseFragment {
             }
             if (i4 >= 2 && (!this.quizPoll || i >= 1)) {
                 z = true;
-                ActionBarMenuItem actionBarMenuItem = this.doneItem;
-                if ((this.quizPoll && i == 0) || z) {
-                    z2 = true;
-                }
-                actionBarMenuItem.setEnabled(z2);
+                this.doneItem.setEnabled((this.quizPoll && i == 0) || z);
                 this.doneItem.setAlpha(z ? 1.0f : 0.5f);
             }
         }
         z = false;
-        ActionBarMenuItem actionBarMenuItem2 = this.doneItem;
         if (this.quizPoll) {
-            z2 = true;
-            actionBarMenuItem2.setEnabled(z2);
+            this.doneItem.setEnabled((this.quizPoll && i == 0) || z);
             this.doneItem.setAlpha(z ? 1.0f : 0.5f);
         }
-        z2 = true;
-        actionBarMenuItem2.setEnabled(z2);
+        this.doneItem.setEnabled((this.quizPoll && i == 0) || z);
         this.doneItem.setAlpha(z ? 1.0f : 0.5f);
     }
 
@@ -617,38 +606,37 @@ public class PollCreateActivity extends BaseFragment {
     /* JADX INFO: Access modifiers changed from: private */
     public void setTextLeft(View view, int i) {
         int length;
-        if (!(view instanceof PollEditTextCell)) {
-            return;
-        }
-        PollEditTextCell pollEditTextCell = (PollEditTextCell) view;
-        int i2 = 100;
-        if (i == this.questionRow) {
-            String str = this.questionString;
-            length = 255 - (str != null ? str.length() : 0);
-            i2 = 255;
-        } else if (i == this.solutionRow) {
-            CharSequence charSequence = this.solutionString;
-            length = 200 - (charSequence != null ? charSequence.length() : 0);
-            i2 = 200;
-        } else {
-            int i3 = this.answerStartRow;
-            if (i < i3 || i >= this.answersCount + i3) {
+        if (view instanceof PollEditTextCell) {
+            PollEditTextCell pollEditTextCell = (PollEditTextCell) view;
+            int i2 = 100;
+            if (i == this.questionRow) {
+                String str = this.questionString;
+                length = 255 - (str != null ? str.length() : 0);
+                i2 = 255;
+            } else if (i == this.solutionRow) {
+                CharSequence charSequence = this.solutionString;
+                length = 200 - (charSequence != null ? charSequence.length() : 0);
+                i2 = 200;
+            } else {
+                int i3 = this.answerStartRow;
+                if (i < i3 || i >= this.answersCount + i3) {
+                    return;
+                }
+                int i4 = i - i3;
+                String[] strArr = this.answers;
+                length = 100 - (strArr[i4] != null ? strArr[i4].length() : 0);
+            }
+            float f = i2;
+            if (length <= f - (0.7f * f)) {
+                pollEditTextCell.setText2(String.format("%d", Integer.valueOf(length)));
+                SimpleTextView textView2 = pollEditTextCell.getTextView2();
+                String str2 = length < 0 ? "windowBackgroundWhiteRedText5" : "windowBackgroundWhiteGrayText3";
+                textView2.setTextColor(Theme.getColor(str2));
+                textView2.setTag(str2);
                 return;
             }
-            int i4 = i - i3;
-            String[] strArr = this.answers;
-            length = 100 - (strArr[i4] != null ? strArr[i4].length() : 0);
+            pollEditTextCell.setText2("");
         }
-        float f = i2;
-        if (length <= f - (0.7f * f)) {
-            pollEditTextCell.setText2(String.format("%d", Integer.valueOf(length)));
-            SimpleTextView textView2 = pollEditTextCell.getTextView2();
-            String str2 = length < 0 ? "windowBackgroundWhiteRedText5" : "windowBackgroundWhiteGrayText3";
-            textView2.setTextColor(Theme.getColor(str2));
-            textView2.setTag(str2);
-            return;
-        }
-        pollEditTextCell.setText2("");
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -684,7 +672,6 @@ public class PollCreateActivity extends BaseFragment {
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
             int itemViewType = viewHolder.getItemViewType();
-            boolean z = true;
             if (itemViewType == 0) {
                 HeaderCell headerCell = (HeaderCell) viewHolder.itemView;
                 if (i != PollCreateActivity.this.questionHeaderRow) {
@@ -696,47 +683,28 @@ public class PollCreateActivity extends BaseFragment {
                             headerCell.setText(LocaleController.getString("AnswerOptions", R.string.AnswerOptions));
                             return;
                         }
-                    } else if (i != PollCreateActivity.this.settingsHeaderRow) {
+                    } else if (i == PollCreateActivity.this.settingsHeaderRow) {
+                        headerCell.setText(LocaleController.getString("Settings", R.string.Settings));
                         return;
                     } else {
-                        headerCell.setText(LocaleController.getString("Settings", R.string.Settings));
                         return;
                     }
                 }
                 headerCell.setText(LocaleController.getString("PollQuestion", R.string.PollQuestion));
                 return;
             }
-            boolean z2 = false;
             if (itemViewType == 6) {
                 TextCheckCell textCheckCell = (TextCheckCell) viewHolder.itemView;
-                if (i != PollCreateActivity.this.anonymousRow) {
-                    if (i != PollCreateActivity.this.multipleRow) {
-                        if (i != PollCreateActivity.this.quizRow) {
-                            return;
-                        }
-                        textCheckCell.setTextAndCheck(LocaleController.getString("PollQuiz", R.string.PollQuiz), PollCreateActivity.this.quizPoll, false);
-                        if (PollCreateActivity.this.quizOnly != 0) {
-                            z = false;
-                        }
-                        textCheckCell.setEnabled(z, null);
-                        return;
-                    }
-                    String string = LocaleController.getString("PollMultiple", R.string.PollMultiple);
-                    boolean z3 = PollCreateActivity.this.multipleChoise;
-                    if (PollCreateActivity.this.quizRow != -1) {
-                        z2 = true;
-                    }
-                    textCheckCell.setTextAndCheck(string, z3, z2);
+                if (i == PollCreateActivity.this.anonymousRow) {
+                    textCheckCell.setTextAndCheck(LocaleController.getString("PollAnonymous", R.string.PollAnonymous), PollCreateActivity.this.anonymousPoll, (PollCreateActivity.this.multipleRow == -1 && PollCreateActivity.this.quizRow == -1) ? true : true);
                     textCheckCell.setEnabled(true, null);
-                    return;
+                } else if (i == PollCreateActivity.this.multipleRow) {
+                    textCheckCell.setTextAndCheck(LocaleController.getString("PollMultiple", R.string.PollMultiple), PollCreateActivity.this.multipleChoise, PollCreateActivity.this.quizRow != -1);
+                    textCheckCell.setEnabled(true, null);
+                } else if (i == PollCreateActivity.this.quizRow) {
+                    textCheckCell.setTextAndCheck(LocaleController.getString("PollQuiz", R.string.PollQuiz), PollCreateActivity.this.quizPoll, false);
+                    textCheckCell.setEnabled(PollCreateActivity.this.quizOnly == 0, null);
                 }
-                String string2 = LocaleController.getString("PollAnonymous", R.string.PollAnonymous);
-                boolean z4 = PollCreateActivity.this.anonymousPoll;
-                if (PollCreateActivity.this.multipleRow != -1 || PollCreateActivity.this.quizRow != -1) {
-                    z2 = true;
-                }
-                textCheckCell.setTextAndCheck(string2, z4, z2);
-                textCheckCell.setEnabled(true, null);
             } else if (itemViewType != 2) {
                 if (itemViewType != 3) {
                     return;
@@ -776,28 +744,20 @@ public class PollCreateActivity extends BaseFragment {
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public void onViewAttachedToWindow(RecyclerView.ViewHolder viewHolder) {
             int itemViewType = viewHolder.getItemViewType();
-            CharSequence charSequence = "";
             if (itemViewType == 4) {
                 PollEditTextCell pollEditTextCell = (PollEditTextCell) viewHolder.itemView;
                 pollEditTextCell.setTag(1);
-                if (PollCreateActivity.this.questionString != null) {
-                    charSequence = PollCreateActivity.this.questionString;
-                }
-                pollEditTextCell.setTextAndHint(charSequence, LocaleController.getString("QuestionHint", R.string.QuestionHint), false);
+                pollEditTextCell.setTextAndHint(PollCreateActivity.this.questionString != null ? PollCreateActivity.this.questionString : "", LocaleController.getString("QuestionHint", R.string.QuestionHint), false);
                 pollEditTextCell.setTag(null);
                 PollCreateActivity.this.setTextLeft(viewHolder.itemView, viewHolder.getAdapterPosition());
             } else if (itemViewType != 5) {
-                if (itemViewType != 7) {
-                    return;
+                if (itemViewType == 7) {
+                    PollEditTextCell pollEditTextCell2 = (PollEditTextCell) viewHolder.itemView;
+                    pollEditTextCell2.setTag(1);
+                    pollEditTextCell2.setTextAndHint(PollCreateActivity.this.solutionString != null ? PollCreateActivity.this.solutionString : "", LocaleController.getString("AddAnExplanation", R.string.AddAnExplanation), false);
+                    pollEditTextCell2.setTag(null);
+                    PollCreateActivity.this.setTextLeft(viewHolder.itemView, viewHolder.getAdapterPosition());
                 }
-                PollEditTextCell pollEditTextCell2 = (PollEditTextCell) viewHolder.itemView;
-                pollEditTextCell2.setTag(1);
-                if (PollCreateActivity.this.solutionString != null) {
-                    charSequence = PollCreateActivity.this.solutionString;
-                }
-                pollEditTextCell2.setTextAndHint(charSequence, LocaleController.getString("AddAnExplanation", R.string.AddAnExplanation), false);
-                pollEditTextCell2.setTag(null);
-                PollCreateActivity.this.setTextLeft(viewHolder.itemView, viewHolder.getAdapterPosition());
             } else {
                 int adapterPosition = viewHolder.getAdapterPosition();
                 PollEditTextCell pollEditTextCell3 = (PollEditTextCell) viewHolder.itemView;
@@ -818,11 +778,10 @@ public class PollCreateActivity extends BaseFragment {
         public void onViewDetachedFromWindow(RecyclerView.ViewHolder viewHolder) {
             if (viewHolder.getItemViewType() == 4) {
                 EditTextBoldCursor textView = ((PollEditTextCell) viewHolder.itemView).getTextView();
-                if (!textView.isFocused()) {
-                    return;
+                if (textView.isFocused()) {
+                    textView.clearFocus();
+                    AndroidUtilities.hideKeyboard(textView);
                 }
-                textView.clearFocus();
-                AndroidUtilities.hideKeyboard(textView);
             }
         }
 
@@ -883,14 +842,13 @@ public class PollCreateActivity extends BaseFragment {
                 final PollEditTextCell pollEditTextCell3 = new PollEditTextCell(this.mContext, true, null) { // from class: org.telegram.ui.PollCreateActivity.ListAdapter.2
                     @Override // org.telegram.ui.Cells.PollEditTextCell
                     protected void onActionModeStart(EditTextBoldCursor editTextBoldCursor, ActionMode actionMode) {
-                        if (!editTextBoldCursor.isFocused() || !editTextBoldCursor.hasSelection()) {
-                            return;
+                        if (editTextBoldCursor.isFocused() && editTextBoldCursor.hasSelection()) {
+                            Menu menu = actionMode.getMenu();
+                            if (menu.findItem(16908321) == null) {
+                                return;
+                            }
+                            PollCreateActivity.this.parentFragment.fillActionModeMenu(menu);
                         }
-                        Menu menu = actionMode.getMenu();
-                        if (menu.findItem(16908321) == null) {
-                            return;
-                        }
-                        PollCreateActivity.this.parentFragment.fillActionModeMenu(menu);
                     }
                 };
                 pollEditTextCell3.createErrorTextView();

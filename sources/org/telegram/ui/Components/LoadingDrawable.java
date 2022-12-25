@@ -69,7 +69,6 @@ public class LoadingDrawable extends Drawable {
         this.strokeMatrix = new Matrix();
         this.colorKey1 = "dialogBackground";
         this.colorKey2 = "dialogBackgroundGray";
-        float f = 1.0f;
         this.gradientWidthScale = 1.0f;
         this.speed = 1.0f;
         this.paint = new Paint(1);
@@ -78,7 +77,7 @@ public class LoadingDrawable extends Drawable {
         this.radii = new float[8];
         this.rectF = new RectF();
         this.strokePaint.setStyle(Paint.Style.STROKE);
-        this.strokePaint.setStrokeWidth(AndroidUtilities.density > 2.0f ? 2.0f : f);
+        this.strokePaint.setStrokeWidth(AndroidUtilities.density > 2.0f ? 2.0f : 1.0f);
     }
 
     public void setColors(int i, int i2) {

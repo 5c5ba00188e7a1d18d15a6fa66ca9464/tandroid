@@ -120,11 +120,11 @@ public final class BitMatrix implements Cloneable {
     }
 
     public boolean equals(Object obj) {
-        if (!(obj instanceof BitMatrix)) {
-            return false;
+        if (obj instanceof BitMatrix) {
+            BitMatrix bitMatrix = (BitMatrix) obj;
+            return this.width == bitMatrix.width && this.height == bitMatrix.height && this.rowSize == bitMatrix.rowSize && Arrays.equals(this.bits, bitMatrix.bits);
         }
-        BitMatrix bitMatrix = (BitMatrix) obj;
-        return this.width == bitMatrix.width && this.height == bitMatrix.height && this.rowSize == bitMatrix.rowSize && Arrays.equals(this.bits, bitMatrix.bits);
+        return false;
     }
 
     public int hashCode() {

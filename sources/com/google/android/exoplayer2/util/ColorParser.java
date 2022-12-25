@@ -187,10 +187,10 @@ public final class ColorParser {
             if (replace.length() == 7) {
                 return (-16777216) | parseLong;
             }
-            if (replace.length() != 9) {
-                throw new IllegalArgumentException();
+            if (replace.length() == 9) {
+                return ((parseLong & 255) << 24) | (parseLong >>> 8);
             }
-            return ((parseLong & 255) << 24) | (parseLong >>> 8);
+            throw new IllegalArgumentException();
         }
         if (replace.startsWith("rgba")) {
             Matcher matcher = (z ? RGBA_PATTERN_FLOAT_ALPHA : RGBA_PATTERN_INT_ALPHA).matcher(replace);

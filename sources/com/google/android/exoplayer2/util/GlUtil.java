@@ -14,10 +14,10 @@ public final class GlUtil {
         if (i < 24) {
             return false;
         }
-        if (i < 26 && ("samsung".equals(Util.MANUFACTURER) || "XT1650".equals(Util.MODEL))) {
-            return false;
+        if (i >= 26 || !("samsung".equals(Util.MANUFACTURER) || "XT1650".equals(Util.MODEL))) {
+            return (i >= 26 || context.getPackageManager().hasSystemFeature("android.hardware.vr.high_performance")) && (eglQueryString = EGL14.eglQueryString(EGL14.eglGetDisplay(0), 12373)) != null && eglQueryString.contains("EGL_EXT_protected_content");
         }
-        return (i >= 26 || context.getPackageManager().hasSystemFeature("android.hardware.vr.high_performance")) && (eglQueryString = EGL14.eglQueryString(EGL14.eglGetDisplay(0), 12373)) != null && eglQueryString.contains("EGL_EXT_protected_content");
+        return false;
     }
 
     @TargetApi(17)
@@ -29,11 +29,10 @@ public final class GlUtil {
     public static void checkGlError() {
         while (true) {
             int glGetError = GLES20.glGetError();
-            if (glGetError != 0) {
-                Log.e("GlUtil", "glError " + GLU.gluErrorString(glGetError));
-            } else {
+            if (glGetError == 0) {
                 return;
             }
+            Log.e("GlUtil", "glError " + GLU.gluErrorString(glGetError));
         }
     }
 }

@@ -28,13 +28,9 @@ public abstract class TLRPC$account_Password extends TLObject {
                 public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                     int readInt32 = abstractSerializedData2.readInt32(z2);
                     this.flags = readInt32;
-                    boolean z3 = false;
                     this.has_recovery = (readInt32 & 1) != 0;
                     this.has_secure_values = (readInt32 & 2) != 0;
-                    if ((readInt32 & 4) != 0) {
-                        z3 = true;
-                    }
-                    this.has_password = z3;
+                    this.has_password = (readInt32 & 4) != 0;
                     if ((readInt32 & 4) != 0) {
                         this.current_algo = TLRPC$PasswordKdfAlgo.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                     }
@@ -92,12 +88,12 @@ public abstract class TLRPC$account_Password extends TLObject {
                 }
             };
         }
-        if (tLRPC$TL_account_password != null || !z) {
-            if (tLRPC$TL_account_password != null) {
-                tLRPC$TL_account_password.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_account_password;
+        if (tLRPC$TL_account_password == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in account_Password", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in account_Password", Integer.valueOf(i)));
+        if (tLRPC$TL_account_password != null) {
+            tLRPC$TL_account_password.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_account_password;
     }
 }

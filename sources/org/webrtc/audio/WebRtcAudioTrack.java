@@ -55,11 +55,13 @@ public class WebRtcAudioTrack {
 
     /* loaded from: classes.dex */
     private class AudioTrackThread extends Thread {
-        private volatile boolean keepAlive = true;
-        private LowLatencyAudioBufferManager bufferManager = new LowLatencyAudioBufferManager();
+        private LowLatencyAudioBufferManager bufferManager;
+        private volatile boolean keepAlive;
 
         public AudioTrackThread(String str) {
             super(str);
+            this.keepAlive = true;
+            this.bufferManager = new LowLatencyAudioBufferManager();
         }
 
         @Override // java.lang.Thread, java.lang.Runnable
@@ -281,10 +283,10 @@ public class WebRtcAudioTrack {
     private int GetPlayoutUnderrunCount() {
         if (Build.VERSION.SDK_INT >= 24) {
             AudioTrack audioTrack = this.audioTrack;
-            if (audioTrack == null) {
-                return -1;
+            if (audioTrack != null) {
+                return audioTrack.getUnderrunCount();
             }
-            return audioTrack.getUnderrunCount();
+            return -1;
         }
         return -2;
     }
@@ -379,10 +381,9 @@ public class WebRtcAudioTrack {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static void assertTrue(boolean z) {
-        if (z) {
-            return;
+        if (!z) {
+            throw new AssertionError("Expected condition to be true");
         }
-        throw new AssertionError("Expected condition to be true");
     }
 
     public void setSpeakerMute(boolean z) {

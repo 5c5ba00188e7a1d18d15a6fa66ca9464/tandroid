@@ -27,10 +27,10 @@ public class MetadataExtension implements Model {
         if (this == obj) {
             return true;
         }
-        if (obj != null && MetadataExtension.class == obj.getClass()) {
-            return this.mMetadata.toString().equals(((MetadataExtension) obj).mMetadata.toString());
+        if (obj == null || MetadataExtension.class != obj.getClass()) {
+            return false;
         }
-        return false;
+        return this.mMetadata.toString().equals(((MetadataExtension) obj).mMetadata.toString());
     }
 
     public int hashCode() {

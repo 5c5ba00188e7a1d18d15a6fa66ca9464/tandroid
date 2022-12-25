@@ -30,15 +30,10 @@ final class Sniffer {
         boolean z4 = false;
         while (i2 < i) {
             parsableByteArray.reset(8);
-            byte[] bArr = parsableByteArray.data;
-            int i3 = z3 ? 1 : 0;
-            int i4 = z3 ? 1 : 0;
-            int i5 = z3 ? 1 : 0;
-            int i6 = z3 ? 1 : 0;
-            extractorInput.peekFully(bArr, i3, 8);
+            extractorInput.peekFully(parsableByteArray.data, z3 ? 1 : 0, 8);
             long readUnsignedInt = parsableByteArray.readUnsignedInt();
             int readInt = parsableByteArray.readInt();
-            int i7 = 16;
+            int i3 = 16;
             if (readUnsignedInt == 1) {
                 extractorInput.peekFully(parsableByteArray.data, 8, 8);
                 parsableByteArray.setLimit(16);
@@ -50,13 +45,13 @@ final class Sniffer {
                         readUnsignedInt = 8 + (length2 - extractorInput.getPeekPosition());
                     }
                 }
-                i7 = 8;
+                i3 = 8;
             }
-            long j3 = i7;
+            long j3 = i3;
             if (readUnsignedInt < j3) {
                 return z3;
             }
-            i2 += i7;
+            i2 += i3;
             if (readInt == 1836019574) {
                 i += (int) readUnsignedInt;
                 if (length != -1 && i > length) {
@@ -71,33 +66,33 @@ final class Sniffer {
                 if ((i2 + readUnsignedInt) - j3 >= i) {
                     break;
                 }
-                int i8 = (int) (readUnsignedInt - j3);
-                i2 += i8;
+                int i4 = (int) (readUnsignedInt - j3);
+                i2 += i4;
                 if (readInt == 1718909296) {
-                    if (i8 < 8) {
+                    if (i4 < 8) {
                         return false;
                     }
-                    parsableByteArray.reset(i8);
-                    extractorInput.peekFully(parsableByteArray.data, 0, i8);
-                    int i9 = i8 / 4;
-                    int i10 = 0;
+                    parsableByteArray.reset(i4);
+                    extractorInput.peekFully(parsableByteArray.data, 0, i4);
+                    int i5 = i4 / 4;
+                    int i6 = 0;
                     while (true) {
-                        if (i10 >= i9) {
+                        if (i6 >= i5) {
                             break;
                         }
-                        if (i10 == 1) {
+                        if (i6 == 1) {
                             parsableByteArray.skipBytes(4);
                         } else if (isCompatibleBrand(parsableByteArray.readInt())) {
                             z4 = true;
                             break;
                         }
-                        i10++;
+                        i6++;
                     }
                     if (!z4) {
                         return false;
                     }
-                } else if (i8 != 0) {
-                    extractorInput.advancePeekPosition(i8);
+                } else if (i4 != 0) {
+                    extractorInput.advancePeekPosition(i4);
                 }
                 j2 = -1;
                 length = j4;

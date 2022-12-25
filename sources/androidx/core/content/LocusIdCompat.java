@@ -30,15 +30,15 @@ public final class LocusIdCompat {
         if (this == obj) {
             return true;
         }
-        if (obj == null || LocusIdCompat.class != obj.getClass()) {
-            return false;
-        }
-        LocusIdCompat locusIdCompat = (LocusIdCompat) obj;
-        String str = this.mId;
-        if (str != null) {
+        if (obj != null && LocusIdCompat.class == obj.getClass()) {
+            LocusIdCompat locusIdCompat = (LocusIdCompat) obj;
+            String str = this.mId;
+            if (str == null) {
+                return locusIdCompat.mId == null;
+            }
             return str.equals(locusIdCompat.mId);
         }
-        return locusIdCompat.mId == null;
+        return false;
     }
 
     public String toString() {

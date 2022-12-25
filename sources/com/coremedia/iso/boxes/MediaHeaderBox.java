@@ -22,11 +22,11 @@ public class MediaHeaderBox extends AbstractFullBox {
     private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_7 = null;
     private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_8 = null;
     private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_9 = null;
+    private Date creationTime;
     private long duration;
+    private String language;
+    private Date modificationTime;
     private long timescale;
-    private Date creationTime = new Date();
-    private Date modificationTime = new Date();
-    private String language = "eng";
 
     static {
         ajc$preClinit();
@@ -49,6 +49,9 @@ public class MediaHeaderBox extends AbstractFullBox {
 
     public MediaHeaderBox() {
         super("mdhd");
+        this.creationTime = new Date();
+        this.modificationTime = new Date();
+        this.language = "eng";
     }
 
     public Date getCreationTime() {

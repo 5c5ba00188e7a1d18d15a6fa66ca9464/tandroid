@@ -21,12 +21,14 @@ import org.telegram.tgnet.TLRPC$TL_attachMenuBotIcon;
 /* loaded from: classes3.dex */
 public class AttachBotIntroTopView extends View {
     private Drawable attachDrawable;
+    private Paint backgroundPaint;
     private ImageReceiver imageReceiver;
-    private Paint paint = new Paint(1);
-    private Paint backgroundPaint = new Paint(1);
+    private Paint paint;
 
     public AttachBotIntroTopView(Context context) {
         super(context);
+        this.paint = new Paint(1);
+        this.backgroundPaint = new Paint(1);
         ImageReceiver imageReceiver = new ImageReceiver(this);
         this.imageReceiver = imageReceiver;
         imageReceiver.setAlpha(0.0f);

@@ -24,22 +24,22 @@ public final class ArraySet<E> implements Collection<E>, Set<E> {
             return -1;
         }
         int binarySearch = ContainerHelpers.binarySearch(this.mHashes, i2, i);
-        if (binarySearch < 0 || obj.equals(this.mArray[binarySearch])) {
-            return binarySearch;
-        }
-        int i3 = binarySearch + 1;
-        while (i3 < i2 && this.mHashes[i3] == i) {
-            if (obj.equals(this.mArray[i3])) {
-                return i3;
+        if (binarySearch >= 0 && !obj.equals(this.mArray[binarySearch])) {
+            int i3 = binarySearch + 1;
+            while (i3 < i2 && this.mHashes[i3] == i) {
+                if (obj.equals(this.mArray[i3])) {
+                    return i3;
+                }
+                i3++;
             }
-            i3++;
-        }
-        for (int i4 = binarySearch - 1; i4 >= 0 && this.mHashes[i4] == i; i4--) {
-            if (obj.equals(this.mArray[i4])) {
-                return i4;
+            for (int i4 = binarySearch - 1; i4 >= 0 && this.mHashes[i4] == i; i4--) {
+                if (obj.equals(this.mArray[i4])) {
+                    return i4;
+                }
             }
+            return i3 ^ (-1);
         }
-        return i3 ^ (-1);
+        return binarySearch;
     }
 
     private int indexOfNull() {
@@ -48,22 +48,22 @@ public final class ArraySet<E> implements Collection<E>, Set<E> {
             return -1;
         }
         int binarySearch = ContainerHelpers.binarySearch(this.mHashes, i, 0);
-        if (binarySearch < 0 || this.mArray[binarySearch] == null) {
-            return binarySearch;
-        }
-        int i2 = binarySearch + 1;
-        while (i2 < i && this.mHashes[i2] == 0) {
-            if (this.mArray[i2] == null) {
-                return i2;
+        if (binarySearch >= 0 && this.mArray[binarySearch] != null) {
+            int i2 = binarySearch + 1;
+            while (i2 < i && this.mHashes[i2] == 0) {
+                if (this.mArray[i2] == null) {
+                    return i2;
+                }
+                i2++;
             }
-            i2++;
-        }
-        for (int i3 = binarySearch - 1; i3 >= 0 && this.mHashes[i3] == 0; i3--) {
-            if (this.mArray[i3] == null) {
-                return i3;
+            for (int i3 = binarySearch - 1; i3 >= 0 && this.mHashes[i3] == 0; i3--) {
+                if (this.mArray[i3] == null) {
+                    return i3;
+                }
             }
+            return i2 ^ (-1);
         }
-        return i2 ^ (-1);
+        return binarySearch;
     }
 
     private void allocArrays(int i) {
@@ -252,31 +252,27 @@ public final class ArraySet<E> implements Collection<E>, Set<E> {
             this.mSize = 0;
         } else {
             int[] iArr = this.mHashes;
-            int i3 = 8;
             if (iArr.length > 8 && i2 < iArr.length / 3) {
-                if (i2 > 8) {
-                    i3 = i2 + (i2 >> 1);
-                }
-                allocArrays(i3);
+                allocArrays(i2 > 8 ? i2 + (i2 >> 1) : 8);
                 this.mSize--;
                 if (i > 0) {
                     System.arraycopy(iArr, 0, this.mHashes, 0, i);
                     System.arraycopy(objArr, 0, this.mArray, 0, i);
                 }
-                int i4 = this.mSize;
-                if (i < i4) {
-                    int i5 = i + 1;
-                    System.arraycopy(iArr, i5, this.mHashes, i, i4 - i);
-                    System.arraycopy(objArr, i5, this.mArray, i, this.mSize - i);
+                int i3 = this.mSize;
+                if (i < i3) {
+                    int i4 = i + 1;
+                    System.arraycopy(iArr, i4, this.mHashes, i, i3 - i);
+                    System.arraycopy(objArr, i4, this.mArray, i, this.mSize - i);
                 }
             } else {
-                int i6 = i2 - 1;
-                this.mSize = i6;
-                if (i < i6) {
-                    int i7 = i + 1;
-                    System.arraycopy(iArr, i7, iArr, i, i6 - i);
+                int i5 = i2 - 1;
+                this.mSize = i5;
+                if (i < i5) {
+                    int i6 = i + 1;
+                    System.arraycopy(iArr, i6, iArr, i, i5 - i);
                     Object[] objArr2 = this.mArray;
-                    System.arraycopy(objArr2, i7, objArr2, i, this.mSize - i);
+                    System.arraycopy(objArr2, i6, objArr2, i, this.mSize - i);
                 }
                 this.mArray[this.mSize] = null;
             }

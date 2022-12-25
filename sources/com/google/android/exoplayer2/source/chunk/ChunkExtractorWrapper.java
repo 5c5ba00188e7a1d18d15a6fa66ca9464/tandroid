@@ -114,10 +114,9 @@ public final class ChunkExtractorWrapper implements ExtractorOutput {
             TrackOutput track = trackOutputProvider.track(this.id, this.type);
             this.trackOutput = track;
             Format format = this.sampleFormat;
-            if (format == null) {
-                return;
+            if (format != null) {
+                track.format(format);
             }
-            track.format(format);
         }
 
         @Override // com.google.android.exoplayer2.extractor.TrackOutput

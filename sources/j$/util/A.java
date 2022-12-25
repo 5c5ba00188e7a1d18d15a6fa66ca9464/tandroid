@@ -63,11 +63,11 @@ class A implements n, j$.util.function.f, Iterator {
 
     @Override // j$.util.n, java.util.Iterator, j$.util.Iterator
     public Double next() {
-        if (!N.a) {
-            return Double.valueOf(nextDouble());
+        if (N.a) {
+            N.a(A.class, "{0} calling PrimitiveIterator.OfDouble.nextLong()");
+            throw null;
         }
-        N.a(A.class, "{0} calling PrimitiveIterator.OfDouble.nextLong()");
-        throw null;
+        return Double.valueOf(nextDouble());
     }
 
     @Override // j$.util.n

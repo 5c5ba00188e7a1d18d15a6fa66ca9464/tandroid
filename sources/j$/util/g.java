@@ -38,7 +38,7 @@ public class g implements j$.util.function.f {
 
     public final double c() {
         double d = this.sum + this.a;
-        return (!Double.isNaN(d) || !Double.isInfinite(this.b)) ? d : this.b;
+        return (Double.isNaN(d) && Double.isInfinite(this.b)) ? this.b : d;
     }
 
     @Override // j$.util.function.f

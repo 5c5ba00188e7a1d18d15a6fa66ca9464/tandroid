@@ -55,12 +55,14 @@ public class ReactedHeaderView extends FrameLayout {
     private MessageObject message;
     private BackupImageView reactView;
     private Consumer<List<TLRPC$User>> seenCallback;
+    private List<TLRPC$User> seenUsers;
     private TextView titleView;
-    private List<TLRPC$User> seenUsers = new ArrayList();
-    private List<TLRPC$User> users = new ArrayList();
+    private List<TLRPC$User> users;
 
     public ReactedHeaderView(Context context, int i, MessageObject messageObject, long j) {
         super(context);
+        this.seenUsers = new ArrayList();
+        this.users = new ArrayList();
         this.currentAccount = i;
         this.message = messageObject;
         FlickerLoadingView flickerLoadingView = new FlickerLoadingView(context);
@@ -102,26 +104,27 @@ public class ReactedHeaderView extends FrameLayout {
     @Override // android.view.ViewGroup, android.view.View
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        if (!this.isLoaded) {
-            MessagesController messagesController = MessagesController.getInstance(this.currentAccount);
-            final TLRPC$Chat chat = messagesController.getChat(Long.valueOf(this.message.getChatId()));
-            TLRPC$ChatFull chatFull = messagesController.getChatFull(this.message.getChatId());
-            if (chat != null && this.message.isOutOwner() && this.message.isSent() && !this.message.isEditing() && !this.message.isSending() && !this.message.isSendError() && !this.message.isContentUnread() && !this.message.isUnread() && ConnectionsManager.getInstance(this.currentAccount).getCurrentTime() - this.message.messageOwner.date < 604800 && (ChatObject.isMegagroup(chat) || !ChatObject.isChannel(chat)) && chatFull != null && chatFull.participants_count <= MessagesController.getInstance(this.currentAccount).chatReadMarkSizeThreshold && !(this.message.messageOwner.action instanceof TLRPC$TL_messageActionChatJoinedByRequest)) {
-                TLRPC$TL_messages_getMessageReadParticipants tLRPC$TL_messages_getMessageReadParticipants = new TLRPC$TL_messages_getMessageReadParticipants();
-                tLRPC$TL_messages_getMessageReadParticipants.msg_id = this.message.getId();
-                tLRPC$TL_messages_getMessageReadParticipants.peer = MessagesController.getInstance(this.currentAccount).getInputPeer(this.message.getDialogId());
-                TLRPC$Peer tLRPC$Peer = this.message.messageOwner.from_id;
-                final long j = tLRPC$Peer != null ? tLRPC$Peer.user_id : 0L;
-                ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_getMessageReadParticipants, new RequestDelegate() { // from class: org.telegram.ui.Components.ReactedHeaderView$$ExternalSyntheticLambda5
-                    @Override // org.telegram.tgnet.RequestDelegate
-                    public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                        ReactedHeaderView.this.lambda$onAttachedToWindow$5(j, chat, tLObject, tLRPC$TL_error);
-                    }
-                }, 64);
-                return;
-            }
-            loadReactions();
+        if (this.isLoaded) {
+            return;
         }
+        MessagesController messagesController = MessagesController.getInstance(this.currentAccount);
+        final TLRPC$Chat chat = messagesController.getChat(Long.valueOf(this.message.getChatId()));
+        TLRPC$ChatFull chatFull = messagesController.getChatFull(this.message.getChatId());
+        if ((chat == null || !this.message.isOutOwner() || !this.message.isSent() || this.message.isEditing() || this.message.isSending() || this.message.isSendError() || this.message.isContentUnread() || this.message.isUnread() || ConnectionsManager.getInstance(this.currentAccount).getCurrentTime() - this.message.messageOwner.date >= 604800 || (!ChatObject.isMegagroup(chat) && ChatObject.isChannel(chat)) || chatFull == null || chatFull.participants_count > MessagesController.getInstance(this.currentAccount).chatReadMarkSizeThreshold || (this.message.messageOwner.action instanceof TLRPC$TL_messageActionChatJoinedByRequest)) ? false : true) {
+            TLRPC$TL_messages_getMessageReadParticipants tLRPC$TL_messages_getMessageReadParticipants = new TLRPC$TL_messages_getMessageReadParticipants();
+            tLRPC$TL_messages_getMessageReadParticipants.msg_id = this.message.getId();
+            tLRPC$TL_messages_getMessageReadParticipants.peer = MessagesController.getInstance(this.currentAccount).getInputPeer(this.message.getDialogId());
+            TLRPC$Peer tLRPC$Peer = this.message.messageOwner.from_id;
+            final long j = tLRPC$Peer != null ? tLRPC$Peer.user_id : 0L;
+            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_getMessageReadParticipants, new RequestDelegate() { // from class: org.telegram.ui.Components.ReactedHeaderView$$ExternalSyntheticLambda5
+                @Override // org.telegram.tgnet.RequestDelegate
+                public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+                    ReactedHeaderView.this.lambda$onAttachedToWindow$5(j, chat, tLObject, tLRPC$TL_error);
+                }
+            }, 64);
+            return;
+        }
+        loadReactions();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -343,7 +346,7 @@ public class ReactedHeaderView extends FrameLayout {
         return this.seenUsers;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:22:0x0059  */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x0059  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

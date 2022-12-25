@@ -100,7 +100,7 @@ public class DefaultDrmSessionManager<T extends ExoMediaCrypto> implements DrmSe
         if (str == null || "cenc".equals(str)) {
             return true;
         }
-        return (!"cbc1".equals(str) && !"cbcs".equals(str) && !"cens".equals(str)) || Util.SDK_INT >= 25;
+        return !("cbc1".equals(str) || "cbcs".equals(str) || "cens".equals(str)) || Util.SDK_INT >= 25;
     }
 
     @Override // com.google.android.exoplayer2.drm.DrmSessionManager

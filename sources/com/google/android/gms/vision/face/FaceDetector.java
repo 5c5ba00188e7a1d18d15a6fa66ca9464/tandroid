@@ -32,11 +32,10 @@ public final class FaceDetector extends Detector<Face> {
     public final void release() {
         super.release();
         synchronized (this.zzc) {
-            if (!this.zzd) {
-                return;
+            if (this.zzd) {
+                this.zzb.zzc();
+                this.zzd = false;
             }
-            this.zzb.zzc();
-            this.zzd = false;
         }
     }
 

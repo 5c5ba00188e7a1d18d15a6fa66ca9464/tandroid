@@ -194,10 +194,9 @@ public class PipVideoOverlay {
                 videoProgressView.invalidate();
             }
             FrameLayout frameLayout = this.controlsView;
-            if (frameLayout == null) {
-                return;
+            if (frameLayout != null) {
+                frameLayout.invalidate();
             }
-            frameLayout.invalidate();
         }
     }
 
@@ -226,10 +225,10 @@ public class PipVideoOverlay {
             return photoViewerWebView.getCurrentPosition();
         }
         VideoPlayer videoPlayer = this.photoViewer.getVideoPlayer();
-        if (videoPlayer != null) {
-            return videoPlayer.getCurrentPosition();
+        if (videoPlayer == null) {
+            return 0L;
         }
-        return 0L;
+        return videoPlayer.getCurrentPosition();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -253,10 +252,10 @@ public class PipVideoOverlay {
             return photoViewerWebView.getVideoDuration();
         }
         VideoPlayer videoPlayer = this.photoViewer.getVideoPlayer();
-        if (videoPlayer != null) {
-            return videoPlayer.getDuration();
+        if (videoPlayer == null) {
+            return 0L;
         }
-        return 0L;
+        return videoPlayer.getDuration();
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
@@ -267,10 +266,7 @@ public class PipVideoOverlay {
                 return;
             }
             VideoPlayer videoPlayer = this.photoViewer.getVideoPlayer();
-            boolean z = false;
-            if (this.longClickStartPoint[0] >= getSuggestedWidth() * this.scaleFactor * 0.5f) {
-                z = true;
-            }
+            boolean z = this.longClickStartPoint[0] >= (((float) getSuggestedWidth()) * this.scaleFactor) * 0.5f;
             long currentPosition = getCurrentPosition();
             long duration = getDuration();
             if (currentPosition == -9223372036854775807L || duration < 15000) {
@@ -349,12 +345,8 @@ public class PipVideoOverlay {
     /* JADX INFO: Access modifiers changed from: private */
     public void toggleControls(boolean z) {
         float[] fArr = new float[2];
-        float f = 0.0f;
         fArr[0] = z ? 0.0f : 1.0f;
-        if (z) {
-            f = 1.0f;
-        }
-        fArr[1] = f;
+        fArr[1] = z ? 1.0f : 0.0f;
         ValueAnimator duration = ValueAnimator.ofFloat(fArr).setDuration(200L);
         this.controlsAnimator = duration;
         duration.setInterpolator(CubicBezierInterpolator.DEFAULT);
@@ -1066,42 +1058,35 @@ public class PipVideoOverlay {
             return true;
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:34:0x00b6  */
+        /* JADX WARN: Removed duplicated region for block: B:46:0x00b6  */
         @Override // android.view.GestureDetector.SimpleOnGestureListener, android.view.GestureDetector.OnDoubleTapListener
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public boolean onDoubleTap(MotionEvent motionEvent) {
-            boolean z = false;
+            boolean z;
             if (PipVideoOverlay.this.photoViewer != null && ((PipVideoOverlay.this.photoViewer.getVideoPlayer() != null || PipVideoOverlay.this.photoViewerWebView != null) && !PipVideoOverlay.this.isDismissing && !PipVideoOverlay.this.isVideoCompleted && !PipVideoOverlay.this.isScrolling && !PipVideoOverlay.this.scaleGestureDetector.isInProgress() && PipVideoOverlay.this.canLongClick)) {
                 PipVideoOverlay.this.photoViewer.getVideoPlayer();
                 boolean z2 = motionEvent.getX() >= (((float) PipVideoOverlay.this.getSuggestedWidth()) * PipVideoOverlay.this.scaleFactor) * 0.5f;
                 long currentPosition = PipVideoOverlay.this.getCurrentPosition();
                 long duration = PipVideoOverlay.this.getDuration();
                 if (currentPosition != -9223372036854775807L && duration >= 15000) {
-                    long j = 10000;
-                    long j2 = z2 ? currentPosition + 10000 : currentPosition - 10000;
-                    if (currentPosition != j2) {
-                        if (j2 > duration) {
-                            j2 = duration;
-                        } else if (j2 < 0) {
-                            if (j2 >= -9000) {
-                                z = true;
-                            }
-                            j2 = 0;
+                    long j = z2 ? currentPosition + 10000 : currentPosition - 10000;
+                    if (currentPosition != j) {
+                        if (j > duration) {
+                            j = duration;
+                        } else if (j < 0) {
+                            z = j >= -9000;
+                            j = 0;
                             if (z) {
                                 PipVideoOverlay.this.videoForwardDrawable.setOneShootAnimation(true);
                                 PipVideoOverlay.this.videoForwardDrawable.setLeftSide(!z2);
                                 PipVideoOverlay.this.videoForwardDrawable.addTime(10000L);
-                                PipVideoOverlay.this.seekTo(j2);
-                                PipVideoOverlay pipVideoOverlay = PipVideoOverlay.this;
-                                if (!z2) {
-                                    j = -10000;
-                                }
-                                pipVideoOverlay.onUpdateRewindProgressUiInternal(j, ((float) j2) / ((float) duration), true);
+                                PipVideoOverlay.this.seekTo(j);
+                                PipVideoOverlay.this.onUpdateRewindProgressUiInternal(z2 ? 10000L : -10000L, ((float) j) / ((float) duration), true);
                                 if (!PipVideoOverlay.this.isShowingControls) {
-                                    PipVideoOverlay pipVideoOverlay2 = PipVideoOverlay.this;
-                                    pipVideoOverlay2.toggleControls(pipVideoOverlay2.isShowingControls = true);
+                                    PipVideoOverlay pipVideoOverlay = PipVideoOverlay.this;
+                                    pipVideoOverlay.toggleControls(pipVideoOverlay.isShowingControls = true);
                                     if (!PipVideoOverlay.this.postedDismissControls) {
                                         PipVideoOverlay.this.postedDismissControls = true;
                                         AndroidUtilities.runOnUIThread(PipVideoOverlay.this.dismissControlsCallback, 2500L);
@@ -1213,12 +1198,13 @@ public class PipVideoOverlay {
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onScroll$0(float f, DynamicAnimation dynamicAnimation, boolean z, float f2, float f3) {
-            if (!z) {
-                SpringForce spring = PipVideoOverlay.this.pipXSpring.getSpring();
-                float f4 = f + (PipVideoOverlay.this.pipWidth / 2.0f);
-                int i = AndroidUtilities.displaySize.x;
-                spring.setFinalPosition(f4 >= ((float) i) / 2.0f ? (i - PipVideoOverlay.this.pipWidth) - AndroidUtilities.dp(16.0f) : AndroidUtilities.dp(16.0f));
+            if (z) {
+                return;
             }
+            SpringForce spring = PipVideoOverlay.this.pipXSpring.getSpring();
+            float f4 = f + (PipVideoOverlay.this.pipWidth / 2.0f);
+            int i = AndroidUtilities.displaySize.x;
+            spring.setFinalPosition(f4 >= ((float) i) / 2.0f ? (i - PipVideoOverlay.this.pipWidth) - AndroidUtilities.dp(16.0f) : AndroidUtilities.dp(16.0f));
         }
     }
 
@@ -1244,10 +1230,9 @@ public class PipVideoOverlay {
             return;
         }
         PhotoViewer photoViewer = this.photoViewer;
-        if (photoViewer == null) {
-            return;
+        if (photoViewer != null) {
+            photoViewer.exitFromPip();
         }
-        photoViewer.exitFromPip();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1298,11 +1283,13 @@ public class PipVideoOverlay {
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public final class VideoProgressView extends View {
-        private Paint progressPaint = new Paint();
-        private Paint bufferPaint = new Paint();
+        private Paint bufferPaint;
+        private Paint progressPaint;
 
         public VideoProgressView(Context context) {
             super(context);
+            this.progressPaint = new Paint();
+            this.bufferPaint = new Paint();
             this.progressPaint.setColor(-1);
             this.progressPaint.setStyle(Paint.Style.STROKE);
             this.progressPaint.setStrokeCap(Paint.Cap.ROUND);

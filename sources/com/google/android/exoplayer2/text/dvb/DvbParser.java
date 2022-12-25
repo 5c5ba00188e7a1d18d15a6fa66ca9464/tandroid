@@ -20,12 +20,12 @@ final class DvbParser {
     private static final byte[] defaultMap2To8 = {0, 119, -120, -1};
     private static final byte[] defaultMap4To8 = {0, 17, 34, 51, 68, 85, 102, 119, -120, -103, -86, -69, -52, -35, -18, -1};
     private Bitmap bitmap;
+    private final Canvas canvas;
+    private final ClutDefinition defaultClutDefinition;
+    private final DisplayDefinition defaultDisplayDefinition;
     private final Paint defaultPaint;
     private final Paint fillRegionPaint;
     private final SubtitleService subtitleService;
-    private final Canvas canvas = new Canvas();
-    private final DisplayDefinition defaultDisplayDefinition = new DisplayDefinition(719, 575, 0, 719, 0, 575);
-    private final ClutDefinition defaultClutDefinition = new ClutDefinition(0, generateDefault2BitClutEntries(), generateDefault4BitClutEntries(), generateDefault8BitClutEntries());
 
     private static int getColor(int i, int i2, int i3, int i4) {
         return (i << 24) | (i2 << 16) | (i3 << 8) | i4;
@@ -42,6 +42,9 @@ final class DvbParser {
         paint2.setStyle(Paint.Style.FILL);
         paint2.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OVER));
         paint2.setPathEffect(null);
+        this.canvas = new Canvas();
+        this.defaultDisplayDefinition = new DisplayDefinition(719, 575, 0, 719, 0, 575);
+        this.defaultClutDefinition = new ClutDefinition(0, generateDefault2BitClutEntries(), generateDefault4BitClutEntries(), generateDefault8BitClutEntries());
         this.subtitleService = new SubtitleService(i, i2);
     }
 
@@ -381,13 +384,7 @@ final class DvbParser {
             if (i < 8) {
                 iArr[i] = getColor(255, (i & 1) != 0 ? 255 : 0, (i & 2) != 0 ? 255 : 0, (i & 4) != 0 ? 255 : 0);
             } else {
-                int i2 = 127;
-                int i3 = (i & 1) != 0 ? 127 : 0;
-                int i4 = (i & 2) != 0 ? 127 : 0;
-                if ((i & 4) == 0) {
-                    i2 = 0;
-                }
-                iArr[i] = getColor(255, i3, i4, i2);
+                iArr[i] = getColor(255, (i & 1) != 0 ? 127 : 0, (i & 2) != 0 ? 127 : 0, (i & 4) == 0 ? 0 : 127);
             }
         }
         return iArr;
@@ -397,62 +394,18 @@ final class DvbParser {
         int[] iArr = new int[256];
         iArr[0] = 0;
         for (int i = 0; i < 256; i++) {
-            int i2 = 255;
             if (i < 8) {
-                int i3 = (i & 1) != 0 ? 255 : 0;
-                int i4 = (i & 2) != 0 ? 255 : 0;
-                if ((i & 4) == 0) {
-                    i2 = 0;
-                }
-                iArr[i] = getColor(63, i3, i4, i2);
+                iArr[i] = getColor(63, (i & 1) != 0 ? 255 : 0, (i & 2) != 0 ? 255 : 0, (i & 4) == 0 ? 0 : 255);
             } else {
-                int i5 = i & 136;
-                int i6 = 170;
-                int i7 = 85;
-                if (i5 == 0) {
-                    int i8 = ((i & 1) != 0 ? 85 : 0) + ((i & 16) != 0 ? 170 : 0);
-                    int i9 = ((i & 2) != 0 ? 85 : 0) + ((i & 32) != 0 ? 170 : 0);
-                    if ((i & 4) == 0) {
-                        i7 = 0;
-                    }
-                    if ((i & 64) == 0) {
-                        i6 = 0;
-                    }
-                    iArr[i] = getColor(255, i8, i9, i7 + i6);
-                } else if (i5 != 8) {
-                    int i10 = 43;
-                    if (i5 == 128) {
-                        int i11 = ((i & 1) != 0 ? 43 : 0) + 127 + ((i & 16) != 0 ? 85 : 0);
-                        int i12 = ((i & 2) != 0 ? 43 : 0) + 127 + ((i & 32) != 0 ? 85 : 0);
-                        if ((i & 4) == 0) {
-                            i10 = 0;
-                        }
-                        int i13 = i10 + 127;
-                        if ((i & 64) == 0) {
-                            i7 = 0;
-                        }
-                        iArr[i] = getColor(255, i11, i12, i13 + i7);
-                    } else if (i5 == 136) {
-                        int i14 = ((i & 1) != 0 ? 43 : 0) + ((i & 16) != 0 ? 85 : 0);
-                        int i15 = ((i & 2) != 0 ? 43 : 0) + ((i & 32) != 0 ? 85 : 0);
-                        if ((i & 4) == 0) {
-                            i10 = 0;
-                        }
-                        if ((i & 64) == 0) {
-                            i7 = 0;
-                        }
-                        iArr[i] = getColor(255, i14, i15, i10 + i7);
-                    }
-                } else {
-                    int i16 = ((i & 1) != 0 ? 85 : 0) + ((i & 16) != 0 ? 170 : 0);
-                    int i17 = ((i & 2) != 0 ? 85 : 0) + ((i & 32) != 0 ? 170 : 0);
-                    if ((i & 4) == 0) {
-                        i7 = 0;
-                    }
-                    if ((i & 64) == 0) {
-                        i6 = 0;
-                    }
-                    iArr[i] = getColor(127, i16, i17, i7 + i6);
+                int i2 = i & 136;
+                if (i2 == 0) {
+                    iArr[i] = getColor(255, ((i & 1) != 0 ? 85 : 0) + ((i & 16) != 0 ? 170 : 0), ((i & 2) != 0 ? 85 : 0) + ((i & 32) != 0 ? 170 : 0), ((i & 4) == 0 ? 0 : 85) + ((i & 64) == 0 ? 0 : 170));
+                } else if (i2 == 8) {
+                    iArr[i] = getColor(127, ((i & 1) != 0 ? 85 : 0) + ((i & 16) != 0 ? 170 : 0), ((i & 2) != 0 ? 85 : 0) + ((i & 32) != 0 ? 170 : 0), ((i & 4) == 0 ? 0 : 85) + ((i & 64) == 0 ? 0 : 170));
+                } else if (i2 == 128) {
+                    iArr[i] = getColor(255, ((i & 1) != 0 ? 43 : 0) + 127 + ((i & 16) != 0 ? 85 : 0), ((i & 2) != 0 ? 43 : 0) + 127 + ((i & 32) != 0 ? 85 : 0), ((i & 4) == 0 ? 0 : 43) + 127 + ((i & 64) == 0 ? 0 : 85));
+                } else if (i2 == 136) {
+                    iArr[i] = getColor(255, ((i & 1) != 0 ? 43 : 0) + ((i & 16) != 0 ? 85 : 0), ((i & 2) != 0 ? 43 : 0) + ((i & 32) != 0 ? 85 : 0), ((i & 4) == 0 ? 0 : 43) + ((i & 64) == 0 ? 0 : 85));
                 }
             }
         }
@@ -536,10 +489,10 @@ final class DvbParser {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:13:0x0083 A[LOOP:0: B:2:0x0009->B:13:0x0083, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:14:0x0082 A[SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:7:0x0063 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:9:0x0067  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x0063 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x0067  */
+    /* JADX WARN: Removed duplicated region for block: B:33:0x0083 A[LOOP:0: B:3:0x0009->B:33:0x0083, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x0082 A[SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -621,9 +574,9 @@ final class DvbParser {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:13:0x008e A[LOOP:0: B:2:0x0009->B:13:0x008e, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:14:0x008d A[SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:9:0x0074  */
+    /* JADX WARN: Removed duplicated region for block: B:31:0x0074  */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x008e A[LOOP:0: B:3:0x0009->B:36:0x008e, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:37:0x008d A[SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

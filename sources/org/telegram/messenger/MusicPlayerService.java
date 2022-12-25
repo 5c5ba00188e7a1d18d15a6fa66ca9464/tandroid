@@ -201,13 +201,7 @@ public class MusicPlayerService extends Service implements NotificationCenter.No
         ImageLoader.getHttpFileName(str);
         File httpFilePath = ImageLoader.getHttpFilePath(str, "jpg");
         if (httpFilePath.exists()) {
-            String absolutePath = httpFilePath.getAbsolutePath();
-            float f = 600.0f;
-            float f2 = z ? 600.0f : 100.0f;
-            if (!z) {
-                f = 100.0f;
-            }
-            return ImageLoader.loadBitmap(absolutePath, null, f2, f, false);
+            return ImageLoader.loadBitmap(httpFilePath.getAbsolutePath(), null, z ? 600.0f : 100.0f, z ? 600.0f : 100.0f, false);
         }
         if (z2) {
             this.loadingFilePath = httpFilePath.getAbsolutePath();
@@ -445,21 +439,13 @@ public class MusicPlayerService extends Service implements NotificationCenter.No
                             RemoteControlClient.MetadataEditor editMetadata2 = MusicPlayerService.this.remoteControlClient.editMetadata(false);
                             editMetadata2.putLong(9, MediaController.getInstance().getPlayingMessageObject().audioPlayerDuration * 1000);
                             editMetadata2.apply();
-                            int i20 = 2;
-                            if (Build.VERSION.SDK_INT >= 18) {
-                                RemoteControlClient remoteControlClient = MusicPlayerService.this.remoteControlClient;
-                                if (!MediaController.getInstance().isMessagePaused()) {
-                                    i20 = 3;
-                                }
-                                remoteControlClient.setPlaybackState(i20, Math.max(MediaController.getInstance().getPlayingMessageObject().audioProgressSec * 1000, 100L), MediaController.getInstance().isMessagePaused() ? 0.0f : 1.0f);
+                            if (Build.VERSION.SDK_INT < 18) {
+                                MusicPlayerService.this.remoteControlClient.setPlaybackState(MediaController.getInstance().isMessagePaused() ? 2 : 3);
+                                return;
+                            } else {
+                                MusicPlayerService.this.remoteControlClient.setPlaybackState(MediaController.getInstance().isMessagePaused() ? 2 : 3, Math.max(MediaController.getInstance().getPlayingMessageObject().audioProgressSec * 1000, 100L), MediaController.getInstance().isMessagePaused() ? 0.0f : 1.0f);
                                 return;
                             }
-                            RemoteControlClient remoteControlClient2 = MusicPlayerService.this.remoteControlClient;
-                            if (!MediaController.getInstance().isMessagePaused()) {
-                                i20 = 3;
-                            }
-                            remoteControlClient2.setPlaybackState(i20);
-                            return;
                         }
                         AndroidUtilities.runOnUIThread(this, 500L);
                     }
@@ -492,16 +478,10 @@ public class MusicPlayerService extends Service implements NotificationCenter.No
             return;
         }
         boolean z = !MediaController.getInstance().isMessagePaused();
-        float f = 1.0f;
         if (MediaController.getInstance().isDownloadingCurrentMessage()) {
             this.playbackState.setState(6, 0L, 1.0f).setActions(0L);
         } else {
-            PlaybackState.Builder builder = this.playbackState;
-            int i = z ? 3 : 2;
-            if (!z) {
-                f = 0.0f;
-            }
-            builder.setState(i, j, f).setActions(822L);
+            this.playbackState.setState(z ? 3 : 2, j, z ? 1.0f : 0.0f).setActions(822L);
         }
         this.mediaSession.setPlaybackState(this.playbackState.build());
     }
@@ -561,8 +541,7 @@ public class MusicPlayerService extends Service implements NotificationCenter.No
                 return;
             }
             createNotification(playingMessageObject3, false);
-        } else if (i != NotificationCenter.fileLoaded) {
-        } else {
+        } else if (i == NotificationCenter.fileLoaded) {
             String str4 = (String) objArr[0];
             MessageObject playingMessageObject4 = MediaController.getInstance().getPlayingMessageObject();
             if (playingMessageObject4 == null || (str = this.loadingFilePath) == null || !str.equals(str4)) {

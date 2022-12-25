@@ -41,15 +41,11 @@ public class MessageBackgroundDrawable extends Drawable {
     }
 
     public void setSelected(boolean z, boolean z2) {
-        float f = 1.0f;
         if (this.isSelected == z) {
             if (this.animationInProgress == z2 || z2) {
                 return;
             }
-            if (!z) {
-                f = 0.0f;
-            }
-            this.currentAnimationProgress = f;
+            this.currentAnimationProgress = z ? 1.0f : 0.0f;
             this.animationInProgress = false;
             return;
         }
@@ -58,10 +54,7 @@ public class MessageBackgroundDrawable extends Drawable {
         if (z2) {
             this.lastAnimationTime = SystemClock.elapsedRealtime();
         } else {
-            if (!z) {
-                f = 0.0f;
-            }
-            this.currentAnimationProgress = f;
+            this.currentAnimationProgress = z ? 1.0f : 0.0f;
         }
         calcRadius();
         invalidate();
@@ -71,10 +64,9 @@ public class MessageBackgroundDrawable extends Drawable {
         View view = this.parentView;
         if (view != null) {
             view.invalidate();
-            if (this.parentView.getParent() == null) {
-                return;
+            if (this.parentView.getParent() != null) {
+                ((ViewGroup) this.parentView.getParent()).invalidate();
             }
-            ((ViewGroup) this.parentView.getParent()).invalidate();
         }
     }
 
@@ -136,10 +128,10 @@ public class MessageBackgroundDrawable extends Drawable {
         this.paint.setAlpha(i);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:35:0x0049, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:18:0x0049, code lost:
         if (r6 >= 0.0f) goto L36;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:43:0x0056, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:23:0x0056, code lost:
         if (r6 >= 0.0f) goto L36;
      */
     @Override // android.graphics.drawable.Drawable

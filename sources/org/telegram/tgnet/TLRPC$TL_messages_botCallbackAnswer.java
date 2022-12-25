@@ -26,13 +26,9 @@ public class TLRPC$TL_messages_botCallbackAnswer extends TLObject {
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
         int readInt32 = abstractSerializedData.readInt32(z);
         this.flags = readInt32;
-        boolean z2 = false;
         this.alert = (readInt32 & 2) != 0;
         this.has_url = (readInt32 & 8) != 0;
-        if ((readInt32 & 16) != 0) {
-            z2 = true;
-        }
-        this.native_ui = z2;
+        this.native_ui = (readInt32 & 16) != 0;
         if ((readInt32 & 1) != 0) {
             this.message = abstractSerializedData.readString(z);
         }

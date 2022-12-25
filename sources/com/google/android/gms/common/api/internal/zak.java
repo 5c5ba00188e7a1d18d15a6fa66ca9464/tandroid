@@ -11,10 +11,11 @@ import java.io.PrintWriter;
 /* compiled from: com.google.android.gms:play-services-base@@18.1.0 */
 /* loaded from: classes.dex */
 public final class zak extends zap {
-    private final SparseArray zad = new SparseArray();
+    private final SparseArray zad;
 
     private zak(LifecycleFragment lifecycleFragment) {
         super(lifecycleFragment, GoogleApiAvailability.getInstance());
+        this.zad = new SparseArray();
         this.mLifecycleFragment.addCallback("AutoManageHelper", this);
     }
 
@@ -79,15 +80,13 @@ public final class zak extends zap {
             return;
         }
         zaj zajVar = (zaj) this.zad.get(i);
-        if (zajVar == null) {
-            return;
+        if (zajVar != null) {
+            zae(i);
+            GoogleApiClient.OnConnectionFailedListener onConnectionFailedListener = zajVar.zac;
+            if (onConnectionFailedListener != null) {
+                onConnectionFailedListener.onConnectionFailed(connectionResult);
+            }
         }
-        zae(i);
-        GoogleApiClient.OnConnectionFailedListener onConnectionFailedListener = zajVar.zac;
-        if (onConnectionFailedListener == null) {
-            return;
-        }
-        onConnectionFailedListener.onConnectionFailed(connectionResult);
     }
 
     @Override // com.google.android.gms.common.api.internal.zap
@@ -111,11 +110,10 @@ public final class zak extends zap {
         zaj zajVar = new zaj(this, i, googleApiClient, onConnectionFailedListener);
         googleApiClient.registerConnectionFailedListener(zajVar);
         this.zad.put(i, zajVar);
-        if (!this.zaa || zamVar != null) {
-            return;
+        if (this.zaa && zamVar == null) {
+            Log.d("AutoManageHelper", "connecting ".concat(googleApiClient.toString()));
+            googleApiClient.connect();
         }
-        Log.d("AutoManageHelper", "connecting ".concat(googleApiClient.toString()));
-        googleApiClient.connect();
     }
 
     public final void zae(int i) {

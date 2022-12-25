@@ -36,16 +36,16 @@ public class RtpSender {
 
     public boolean setTrack(MediaStreamTrack mediaStreamTrack, boolean z) {
         checkRtpSenderExists();
-        if (!nativeSetTrack(this.nativeRtpSender, mediaStreamTrack == null ? 0L : mediaStreamTrack.getNativeMediaStreamTrack())) {
-            return false;
+        if (nativeSetTrack(this.nativeRtpSender, mediaStreamTrack == null ? 0L : mediaStreamTrack.getNativeMediaStreamTrack())) {
+            MediaStreamTrack mediaStreamTrack2 = this.cachedTrack;
+            if (mediaStreamTrack2 != null && this.ownsTrack) {
+                mediaStreamTrack2.dispose();
+            }
+            this.cachedTrack = mediaStreamTrack;
+            this.ownsTrack = z;
+            return true;
         }
-        MediaStreamTrack mediaStreamTrack2 = this.cachedTrack;
-        if (mediaStreamTrack2 != null && this.ownsTrack) {
-            mediaStreamTrack2.dispose();
-        }
-        this.cachedTrack = mediaStreamTrack;
-        this.ownsTrack = z;
-        return true;
+        return false;
     }
 
     public MediaStreamTrack track() {
@@ -107,9 +107,8 @@ public class RtpSender {
     }
 
     private void checkRtpSenderExists() {
-        if (this.nativeRtpSender != 0) {
-            return;
+        if (this.nativeRtpSender == 0) {
+            throw new IllegalStateException("RtpSender has been disposed.");
         }
-        throw new IllegalStateException("RtpSender has been disposed.");
     }
 }

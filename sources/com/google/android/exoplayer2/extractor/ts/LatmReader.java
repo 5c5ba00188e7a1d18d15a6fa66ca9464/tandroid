@@ -116,10 +116,10 @@ public final class LatmReader implements ElementaryStreamReader {
                 throw new ParserException();
             }
             parsePayloadMux(parsableBitArray, parsePayloadLengthInfo(parsableBitArray));
-            if (!this.otherDataPresent) {
+            if (this.otherDataPresent) {
+                parsableBitArray.skipBits((int) this.otherDataLenBits);
                 return;
             }
-            parsableBitArray.skipBits((int) this.otherDataLenBits);
             return;
         }
         throw new ParserException();
@@ -172,10 +172,10 @@ public final class LatmReader implements ElementaryStreamReader {
                     } while (readBit);
                 }
             }
-            if (!parsableBitArray.readBit()) {
+            if (parsableBitArray.readBit()) {
+                parsableBitArray.skipBits(8);
                 return;
             }
-            parsableBitArray.skipBits(8);
             return;
         }
         throw new ParserException();

@@ -65,29 +65,28 @@ public class AutoResolveHelper {
     public static void zze(Activity activity, int i, int i2, Intent intent) {
         PendingIntent createPendingResult = activity.createPendingResult(i, intent, 1073741824);
         if (createPendingResult == null) {
-            if (!Log.isLoggable("AutoResolveHelper", 5)) {
+            if (Log.isLoggable("AutoResolveHelper", 5)) {
+                Log.w("AutoResolveHelper", "Null pending result returned when trying to deliver task result!");
                 return;
             }
-            Log.w("AutoResolveHelper", "Null pending result returned when trying to deliver task result!");
             return;
         }
         try {
             createPendingResult.send(i2);
         } catch (PendingIntent.CanceledException e) {
-            if (!Log.isLoggable("AutoResolveHelper", 6)) {
-                return;
+            if (Log.isLoggable("AutoResolveHelper", 6)) {
+                Log.e("AutoResolveHelper", "Exception sending pending result", e);
             }
-            Log.e("AutoResolveHelper", "Exception sending pending result", e);
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public static void zzf(Activity activity, int i, Task task) {
         if (activity.isFinishing()) {
-            if (!Log.isLoggable("AutoResolveHelper", 3)) {
+            if (Log.isLoggable("AutoResolveHelper", 3)) {
+                Log.d("AutoResolveHelper", "Ignoring task result for, Activity is finishing.");
                 return;
             }
-            Log.d("AutoResolveHelper", "Ignoring task result for, Activity is finishing.");
             return;
         }
         Exception exception = task.getException();
@@ -96,10 +95,10 @@ public class AutoResolveHelper {
                 ((ResolvableApiException) exception).startResolutionForResult(activity, i);
                 return;
             } catch (IntentSender.SendIntentException e) {
-                if (!Log.isLoggable("AutoResolveHelper", 6)) {
+                if (Log.isLoggable("AutoResolveHelper", 6)) {
+                    Log.e("AutoResolveHelper", "Error starting pending intent!", e);
                     return;
                 }
-                Log.e("AutoResolveHelper", "Error starting pending intent!", e);
                 return;
             }
         }

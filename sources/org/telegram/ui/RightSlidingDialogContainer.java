@@ -29,11 +29,14 @@ import org.telegram.ui.Components.CubicBezierInterpolator;
 public abstract class RightSlidingDialogContainer extends FrameLayout {
     public static long fragmentDialogId;
     private Paint actionModePaint;
+    private int animationIndex;
+    private int currentAccount;
     ActionBar currentActionBarView;
     BaseFragment currentFragment;
     View currentFragmentFullscreenView;
     View currentFragmentView;
     float currentTop;
+    public boolean enabled;
     public int fragmentViewPadding;
     boolean isOpenned;
     boolean isPaused;
@@ -41,6 +44,7 @@ public abstract class RightSlidingDialogContainer extends FrameLayout {
     private boolean maybeStartTracking;
     INavigationLayout navigationLayout;
     ValueAnimator openAnimator;
+    float openedProgress;
     SpringAnimation replaceAnimation;
     private boolean replaceAnimationInProgress;
     float replaceProgress;
@@ -51,10 +55,6 @@ public abstract class RightSlidingDialogContainer extends FrameLayout {
     private int startedTrackingY;
     float swipeBackX;
     private VelocityTracker velocityTracker;
-    float openedProgress = 0.0f;
-    private int animationIndex = -1;
-    private int currentAccount = UserConfig.selectedAccount;
-    public boolean enabled = true;
 
     /* loaded from: classes3.dex */
     public interface BaseFragmentWithFullscreen {
@@ -75,6 +75,10 @@ public abstract class RightSlidingDialogContainer extends FrameLayout {
 
     public RightSlidingDialogContainer(Context context) {
         super(context);
+        this.openedProgress = 0.0f;
+        this.animationIndex = -1;
+        this.currentAccount = UserConfig.selectedAccount;
+        this.enabled = true;
     }
 
     public void presentFragment(INavigationLayout iNavigationLayout, final BaseFragment baseFragment) {
@@ -82,89 +86,88 @@ public abstract class RightSlidingDialogContainer extends FrameLayout {
             return;
         }
         this.navigationLayout = iNavigationLayout;
-        if (!baseFragment.onFragmentCreate()) {
-            return;
-        }
-        baseFragment.setInPreviewMode(true);
-        baseFragment.setParentLayout(iNavigationLayout);
-        View createView = baseFragment.createView(getContext());
-        baseFragment.onResume();
-        this.currentFragmentView = createView;
-        addView(createView);
-        BaseFragment baseFragment2 = this.currentFragment;
-        if (baseFragment instanceof BaseFragmentWithFullscreen) {
-            View fullscreenView = ((BaseFragmentWithFullscreen) baseFragment).getFullscreenView();
-            this.currentFragmentFullscreenView = fullscreenView;
-            addView(fullscreenView);
-        }
-        this.currentFragment = baseFragment;
-        fragmentDialogId = 0L;
-        if (baseFragment instanceof TopicsFragment) {
-            fragmentDialogId = -((TopicsFragment) baseFragment).chatId;
-        }
-        if (baseFragment.getActionBar() != null) {
-            ActionBar actionBar = baseFragment.getActionBar();
-            this.currentActionBarView = actionBar;
-            addView(actionBar);
-            this.currentActionBarView.listenToBackgroundUpdate(new Runnable() { // from class: org.telegram.ui.RightSlidingDialogContainer$$ExternalSyntheticLambda5
-                @Override // java.lang.Runnable
-                public final void run() {
-                    RightSlidingDialogContainer.this.invalidate();
-                }
-            });
-        }
-        if (baseFragment2 != null) {
-            animateReplace(baseFragment2);
-        } else if (!this.isOpenned) {
-            this.isOpenned = true;
-            if (!SharedConfig.animationsEnabled()) {
-                openAnimationStarted(true);
-                baseFragment.onTransitionAnimationStart(true, false);
-                baseFragment.onTransitionAnimationEnd(true, false);
-                this.openedProgress = 1.0f;
-                updateOpenAnimationProgress();
-                openAnimationFinished();
-                return;
+        if (baseFragment.onFragmentCreate()) {
+            baseFragment.setInPreviewMode(true);
+            baseFragment.setParentLayout(iNavigationLayout);
+            View createView = baseFragment.createView(getContext());
+            baseFragment.onResume();
+            this.currentFragmentView = createView;
+            addView(createView);
+            BaseFragment baseFragment2 = this.currentFragment;
+            if (baseFragment instanceof BaseFragmentWithFullscreen) {
+                View fullscreenView = ((BaseFragmentWithFullscreen) baseFragment).getFullscreenView();
+                this.currentFragmentFullscreenView = fullscreenView;
+                addView(fullscreenView);
             }
-            this.animationIndex = NotificationCenter.getInstance(this.currentAccount).setAnimationInProgress(this.animationIndex, null);
-            this.openAnimator = ValueAnimator.ofFloat(0.0f, 1.0f);
-            this.openedProgress = 0.0f;
-            openAnimationStarted(true);
-            updateOpenAnimationProgress();
-            baseFragment.onTransitionAnimationStart(true, false);
-            this.openAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.RightSlidingDialogContainer$$ExternalSyntheticLambda0
-                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                    RightSlidingDialogContainer.this.lambda$presentFragment$0(valueAnimator);
-                }
-            });
-            this.openAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.RightSlidingDialogContainer.1
-                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                public void onAnimationEnd(Animator animator) {
-                    RightSlidingDialogContainer rightSlidingDialogContainer = RightSlidingDialogContainer.this;
-                    if (rightSlidingDialogContainer.openAnimator == null) {
-                        return;
+            this.currentFragment = baseFragment;
+            fragmentDialogId = 0L;
+            if (baseFragment instanceof TopicsFragment) {
+                fragmentDialogId = -((TopicsFragment) baseFragment).chatId;
+            }
+            if (baseFragment.getActionBar() != null) {
+                ActionBar actionBar = baseFragment.getActionBar();
+                this.currentActionBarView = actionBar;
+                addView(actionBar);
+                this.currentActionBarView.listenToBackgroundUpdate(new Runnable() { // from class: org.telegram.ui.RightSlidingDialogContainer$$ExternalSyntheticLambda5
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        RightSlidingDialogContainer.this.invalidate();
                     }
-                    rightSlidingDialogContainer.openAnimator = null;
-                    NotificationCenter.getInstance(rightSlidingDialogContainer.currentAccount).onAnimationFinish(RightSlidingDialogContainer.this.animationIndex);
+                });
+            }
+            if (baseFragment2 != null) {
+                animateReplace(baseFragment2);
+            } else if (!this.isOpenned) {
+                this.isOpenned = true;
+                if (!SharedConfig.animationsEnabled()) {
+                    openAnimationStarted(true);
+                    baseFragment.onTransitionAnimationStart(true, false);
                     baseFragment.onTransitionAnimationEnd(true, false);
-                    RightSlidingDialogContainer rightSlidingDialogContainer2 = RightSlidingDialogContainer.this;
-                    rightSlidingDialogContainer2.openedProgress = 1.0f;
-                    rightSlidingDialogContainer2.updateOpenAnimationProgress();
-                    RightSlidingDialogContainer.this.openAnimationFinished();
+                    this.openedProgress = 1.0f;
+                    updateOpenAnimationProgress();
+                    openAnimationFinished();
+                    return;
+                }
+                this.animationIndex = NotificationCenter.getInstance(this.currentAccount).setAnimationInProgress(this.animationIndex, null);
+                this.openAnimator = ValueAnimator.ofFloat(0.0f, 1.0f);
+                this.openedProgress = 0.0f;
+                openAnimationStarted(true);
+                updateOpenAnimationProgress();
+                baseFragment.onTransitionAnimationStart(true, false);
+                this.openAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.RightSlidingDialogContainer$$ExternalSyntheticLambda0
+                    @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                    public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                        RightSlidingDialogContainer.this.lambda$presentFragment$0(valueAnimator);
+                    }
+                });
+                this.openAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.RightSlidingDialogContainer.1
+                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                    public void onAnimationEnd(Animator animator) {
+                        RightSlidingDialogContainer rightSlidingDialogContainer = RightSlidingDialogContainer.this;
+                        if (rightSlidingDialogContainer.openAnimator == null) {
+                            return;
+                        }
+                        rightSlidingDialogContainer.openAnimator = null;
+                        NotificationCenter.getInstance(rightSlidingDialogContainer.currentAccount).onAnimationFinish(RightSlidingDialogContainer.this.animationIndex);
+                        baseFragment.onTransitionAnimationEnd(true, false);
+                        RightSlidingDialogContainer rightSlidingDialogContainer2 = RightSlidingDialogContainer.this;
+                        rightSlidingDialogContainer2.openedProgress = 1.0f;
+                        rightSlidingDialogContainer2.updateOpenAnimationProgress();
+                        RightSlidingDialogContainer.this.openAnimationFinished();
+                    }
+                });
+                this.openAnimator.setDuration(250L);
+                this.openAnimator.setInterpolator(CubicBezierInterpolator.DEFAULT);
+                this.openAnimator.setStartDelay(50L);
+                this.openAnimator.start();
+            }
+            baseFragment.setPreviewDelegate(new BaseFragment.PreviewDelegate() { // from class: org.telegram.ui.RightSlidingDialogContainer.2
+                @Override // org.telegram.ui.ActionBar.BaseFragment.PreviewDelegate
+                public void finishFragment() {
+                    RightSlidingDialogContainer.this.finishPreview();
                 }
             });
-            this.openAnimator.setDuration(250L);
-            this.openAnimator.setInterpolator(CubicBezierInterpolator.DEFAULT);
-            this.openAnimator.setStartDelay(50L);
-            this.openAnimator.start();
         }
-        baseFragment.setPreviewDelegate(new BaseFragment.PreviewDelegate() { // from class: org.telegram.ui.RightSlidingDialogContainer.2
-            @Override // org.telegram.ui.ActionBar.BaseFragment.PreviewDelegate
-            public void finishFragment() {
-                RightSlidingDialogContainer.this.finishPreview();
-            }
-        });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -255,14 +258,13 @@ public abstract class RightSlidingDialogContainer extends FrameLayout {
             }
             baseFragment.setPreviewOpenedProgress(1.0f - f);
         }
-        if (baseFragment2 == null) {
-            return;
+        if (baseFragment2 != null) {
+            if (baseFragment2.getFragmentView() != null) {
+                baseFragment2.getFragmentView().setAlpha(1.0f);
+                baseFragment2.getFragmentView().setTranslationX(measuredWidth * (1.0f - f));
+            }
+            baseFragment2.setPreviewReplaceProgress(f);
         }
-        if (baseFragment2.getFragmentView() != null) {
-            baseFragment2.getFragmentView().setAlpha(1.0f);
-            baseFragment2.getFragmentView().setTranslationX(measuredWidth * (1.0f - f));
-        }
-        baseFragment2.setPreviewReplaceProgress(f);
     }
 
     protected void updateOpenAnimationProgress() {
@@ -311,11 +313,10 @@ public abstract class RightSlidingDialogContainer extends FrameLayout {
     }
 
     public void finishPreview() {
-        if (!this.isOpenned) {
-            return;
+        if (this.isOpenned) {
+            openAnimationStarted(false);
+            finishPreviewInernal();
         }
-        openAnimationStarted(false);
-        finishPreviewInernal();
     }
 
     public void finishPreviewInernal() {

@@ -24,35 +24,35 @@ import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
 public class VideoTimelineView extends View {
     private static final Object sync = new Object();
+    private Paint backgroundGrayPaint;
     private AsyncTask<Integer, Integer, Bitmap> currentTask;
     private VideoTimelineViewDelegate delegate;
     private int frameHeight;
     private long frameTimeOffset;
     private int frameWidth;
+    private ArrayList<Bitmap> frames;
     private boolean framesLoaded;
     private int framesToLoad;
     private boolean isRoundFrames;
+    private ArrayList<Bitmap> keyframes;
+    private float maxProgressDiff;
     private MediaMetadataRetriever mediaMetadataRetriever;
+    private float minProgressDiff;
     private Paint paint;
     private Paint paint2;
     private float pressDx;
     private boolean pressedLeft;
     private boolean pressedRight;
     private float progressLeft;
+    private float progressRight;
     private android.graphics.Rect rect1;
     private android.graphics.Rect rect2;
     private Bitmap roundCornerBitmap;
     private int roundCornersSize;
+    Paint thumbPaint;
+    Paint thumbRipplePaint;
     private TimeHintView timeHintView;
     private long videoLength;
-    private float progressRight = 1.0f;
-    private ArrayList<Bitmap> frames = new ArrayList<>();
-    private float maxProgressDiff = 1.0f;
-    private float minProgressDiff = 0.0f;
-    private ArrayList<Bitmap> keyframes = new ArrayList<>();
-    Paint thumbPaint = new Paint(1);
-    Paint thumbRipplePaint = new Paint(1);
-    private Paint backgroundGrayPaint = new Paint();
 
     /* loaded from: classes3.dex */
     public interface VideoTimelineViewDelegate {
@@ -72,12 +72,20 @@ public class VideoTimelineView extends View {
 
     public VideoTimelineView(Context context) {
         super(context);
+        this.progressRight = 1.0f;
+        this.frames = new ArrayList<>();
+        this.maxProgressDiff = 1.0f;
+        this.minProgressDiff = 0.0f;
+        this.keyframes = new ArrayList<>();
+        this.thumbPaint = new Paint(1);
+        this.thumbRipplePaint = new Paint(1);
         Paint paint = new Paint(1);
         this.paint = paint;
         paint.setColor(-1);
         Paint paint2 = new Paint();
         this.paint2 = paint2;
         paint2.setColor(2130706432);
+        this.backgroundGrayPaint = new Paint();
         this.thumbPaint.setColor(-1);
         this.thumbPaint.setStrokeWidth(AndroidUtilities.dpf2(2.0f));
         this.thumbPaint.setStyle(Paint.Style.STROKE);
@@ -330,17 +338,17 @@ public class VideoTimelineView extends View {
                     if (isCancelled()) {
                         return null;
                     }
-                    if (frameAtTime == null) {
-                        return frameAtTime;
+                    if (frameAtTime != null) {
+                        Bitmap createBitmap = Bitmap.createBitmap(VideoTimelineView.this.frameWidth, VideoTimelineView.this.frameHeight, frameAtTime.getConfig());
+                        Canvas canvas = new Canvas(createBitmap);
+                        float max = Math.max(VideoTimelineView.this.frameWidth / frameAtTime.getWidth(), VideoTimelineView.this.frameHeight / frameAtTime.getHeight());
+                        int width = (int) (frameAtTime.getWidth() * max);
+                        int height = (int) (frameAtTime.getHeight() * max);
+                        canvas.drawBitmap(frameAtTime, new android.graphics.Rect(0, 0, frameAtTime.getWidth(), frameAtTime.getHeight()), new android.graphics.Rect((VideoTimelineView.this.frameWidth - width) / 2, (VideoTimelineView.this.frameHeight - height) / 2, width, height), (Paint) null);
+                        frameAtTime.recycle();
+                        return createBitmap;
                     }
-                    Bitmap createBitmap = Bitmap.createBitmap(VideoTimelineView.this.frameWidth, VideoTimelineView.this.frameHeight, frameAtTime.getConfig());
-                    Canvas canvas = new Canvas(createBitmap);
-                    float max = Math.max(VideoTimelineView.this.frameWidth / frameAtTime.getWidth(), VideoTimelineView.this.frameHeight / frameAtTime.getHeight());
-                    int width = (int) (frameAtTime.getWidth() * max);
-                    int height = (int) (frameAtTime.getHeight() * max);
-                    canvas.drawBitmap(frameAtTime, new android.graphics.Rect(0, 0, frameAtTime.getWidth(), frameAtTime.getHeight()), new android.graphics.Rect((VideoTimelineView.this.frameWidth - width) / 2, (VideoTimelineView.this.frameHeight - height) / 2, width, height), (Paint) null);
-                    frameAtTime.recycle();
-                    return createBitmap;
+                    return frameAtTime;
                 } catch (Exception e2) {
                     e = e2;
                     bitmap = frameAtTime;
@@ -352,14 +360,15 @@ public class VideoTimelineView extends View {
             /* JADX INFO: Access modifiers changed from: protected */
             @Override // android.os.AsyncTask
             public void onPostExecute(Bitmap bitmap) {
-                if (!isCancelled()) {
-                    VideoTimelineView.this.frames.add(bitmap);
-                    VideoTimelineView.this.invalidate();
-                    if (this.frameNum < VideoTimelineView.this.framesToLoad) {
-                        VideoTimelineView.this.reloadFrames(this.frameNum + 1);
-                    } else {
-                        VideoTimelineView.this.framesLoaded = true;
-                    }
+                if (isCancelled()) {
+                    return;
+                }
+                VideoTimelineView.this.frames.add(bitmap);
+                VideoTimelineView.this.invalidate();
+                if (this.frameNum < VideoTimelineView.this.framesToLoad) {
+                    VideoTimelineView.this.reloadFrames(this.frameNum + 1);
+                } else {
+                    VideoTimelineView.this.framesLoaded = true;
                 }
             }
         };
@@ -433,36 +442,37 @@ public class VideoTimelineView extends View {
         if (this.frames.isEmpty() && this.currentTask == null) {
             reloadFrames(0);
         }
-        if (!this.frames.isEmpty()) {
-            if (!this.framesLoaded) {
-                canvas.drawRect(0.0f, measuredHeight, getMeasuredWidth(), getMeasuredHeight() - measuredHeight, this.backgroundGrayPaint);
-            }
-            int i = 0;
-            for (int i2 = 0; i2 < this.frames.size(); i2++) {
-                Bitmap bitmap = this.frames.get(i2);
-                if (bitmap != null) {
-                    boolean z = this.isRoundFrames;
-                    int i3 = this.frameWidth;
-                    if (z) {
-                        i3 /= 2;
-                    }
-                    int i4 = i3 * i;
-                    if (z) {
-                        this.rect2.set(i4, measuredHeight, AndroidUtilities.dp(28.0f) + i4, AndroidUtilities.dp(32.0f) + measuredHeight);
-                        canvas.drawBitmap(bitmap, this.rect1, this.rect2, (Paint) null);
-                    } else {
-                        canvas.drawBitmap(bitmap, i4, measuredHeight, (Paint) null);
-                    }
-                }
-                i++;
-            }
-            float f = measuredHeight;
-            canvas.drawRect(0.0f, f, dp, getMeasuredHeight() - measuredHeight, this.paint2);
-            canvas.drawRect(dp2, f, getMeasuredWidth(), getMeasuredHeight() - measuredHeight, this.paint2);
-            canvas.drawLine(dp - AndroidUtilities.dp(4.0f), AndroidUtilities.dp(10.0f) + measuredHeight, dp - AndroidUtilities.dp(4.0f), (getMeasuredHeight() - AndroidUtilities.dp(10.0f)) - measuredHeight, this.thumbPaint);
-            canvas.drawLine(AndroidUtilities.dp(4.0f) + dp2, AndroidUtilities.dp(10.0f) + measuredHeight, dp2 + AndroidUtilities.dp(4.0f), (getMeasuredHeight() - AndroidUtilities.dp(10.0f)) - measuredHeight, this.thumbPaint);
-            drawCorners(canvas, getMeasuredHeight() - (measuredHeight * 2), getMeasuredWidth(), 0, measuredHeight);
+        if (this.frames.isEmpty()) {
+            return;
         }
+        if (!this.framesLoaded) {
+            canvas.drawRect(0.0f, measuredHeight, getMeasuredWidth(), getMeasuredHeight() - measuredHeight, this.backgroundGrayPaint);
+        }
+        int i = 0;
+        for (int i2 = 0; i2 < this.frames.size(); i2++) {
+            Bitmap bitmap = this.frames.get(i2);
+            if (bitmap != null) {
+                boolean z = this.isRoundFrames;
+                int i3 = this.frameWidth;
+                if (z) {
+                    i3 /= 2;
+                }
+                int i4 = i3 * i;
+                if (z) {
+                    this.rect2.set(i4, measuredHeight, AndroidUtilities.dp(28.0f) + i4, AndroidUtilities.dp(32.0f) + measuredHeight);
+                    canvas.drawBitmap(bitmap, this.rect1, this.rect2, (Paint) null);
+                } else {
+                    canvas.drawBitmap(bitmap, i4, measuredHeight, (Paint) null);
+                }
+            }
+            i++;
+        }
+        float f = measuredHeight;
+        canvas.drawRect(0.0f, f, dp, getMeasuredHeight() - measuredHeight, this.paint2);
+        canvas.drawRect(dp2, f, getMeasuredWidth(), getMeasuredHeight() - measuredHeight, this.paint2);
+        canvas.drawLine(dp - AndroidUtilities.dp(4.0f), AndroidUtilities.dp(10.0f) + measuredHeight, dp - AndroidUtilities.dp(4.0f), (getMeasuredHeight() - AndroidUtilities.dp(10.0f)) - measuredHeight, this.thumbPaint);
+        canvas.drawLine(AndroidUtilities.dp(4.0f) + dp2, AndroidUtilities.dp(10.0f) + measuredHeight, dp2 + AndroidUtilities.dp(4.0f), (getMeasuredHeight() - AndroidUtilities.dp(10.0f)) - measuredHeight, this.thumbPaint);
+        drawCorners(canvas, getMeasuredHeight() - (measuredHeight * 2), getMeasuredWidth(), 0, measuredHeight);
     }
 
     private void drawCorners(Canvas canvas, int i, int i2, int i3, int i4) {
@@ -508,20 +518,22 @@ public class VideoTimelineView extends View {
     /* loaded from: classes3.dex */
     public static class TimeHintView extends View {
         private float cx;
+        private long lastTime;
         private float scale;
         private boolean show;
+        private Drawable tooltipBackground;
         private Drawable tooltipBackgroundArrow;
         private StaticLayout tooltipLayout;
         private TextPaint tooltipPaint;
-        private long lastTime = -1;
-        private Drawable tooltipBackground = Theme.createRoundRectDrawable(AndroidUtilities.dp(5.0f), Theme.getColor("chat_gifSaveHintBackground"));
 
         public TimeHintView(Context context) {
             super(context);
             TextPaint textPaint = new TextPaint(1);
             this.tooltipPaint = textPaint;
+            this.lastTime = -1L;
             textPaint.setTextSize(AndroidUtilities.dp(14.0f));
             this.tooltipBackgroundArrow = ContextCompat.getDrawable(context, R.drawable.tooltip_arrow);
+            this.tooltipBackground = Theme.createRoundRectDrawable(AndroidUtilities.dp(5.0f), Theme.getColor("chat_gifSaveHintBackground"));
             updateColors();
             setTime(0);
         }

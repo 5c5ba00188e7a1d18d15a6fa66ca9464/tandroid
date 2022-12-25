@@ -20,7 +20,7 @@ import org.telegram.ui.Components.LayoutHelper;
 public class PhotoAttachCameraCell extends FrameLayout {
     private ImageView backgroundView;
     private ImageView imageView;
-    private int itemSize = AndroidUtilities.dp(0.0f);
+    private int itemSize;
     private final Theme.ResourcesProvider resourcesProvider;
 
     public PhotoAttachCameraCell(Context context, Theme.ResourcesProvider resourcesProvider) {
@@ -36,6 +36,7 @@ public class PhotoAttachCameraCell extends FrameLayout {
         this.imageView.setImageResource(R.drawable.instant_camera);
         addView(this.imageView, LayoutHelper.createFrame(80, 80.0f));
         setFocusable(true);
+        this.itemSize = AndroidUtilities.dp(0.0f);
     }
 
     @Override // android.widget.FrameLayout, android.view.View

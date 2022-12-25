@@ -51,6 +51,7 @@ public class PhotoAttachPhotoCell extends FrameLayout {
     private static Rect rect = new Rect();
     private AnimatorSet animator;
     private AnimatorSet animatorSet;
+    private Paint backgroundPaint;
     private CheckBox2 checkBox;
     private FrameLayout checkFrame;
     private FrameLayout container;
@@ -58,26 +59,25 @@ public class PhotoAttachPhotoCell extends FrameLayout {
     private PhotoAttachPhotoCellDelegate delegate;
     private boolean hasSpoiler;
     private BackupImageView imageView;
+    private float imageViewCrossfadeProgress;
     private Bitmap imageViewCrossfadeSnapshot;
     private boolean isLast;
     private boolean isVertical;
+    private int itemSize;
     private boolean itemSizeChanged;
+    private Path path;
     private MediaController.PhotoEntry photoEntry;
     private boolean pressed;
     private final Theme.ResourcesProvider resourcesProvider;
     private MediaController.SearchImage searchEntry;
+    private SpoilerEffect spoilerEffect;
     private float spoilerMaxRadius;
     private float spoilerRevealProgress;
     private float spoilerRevealX;
     private float spoilerRevealY;
     private FrameLayout videoInfoContainer;
     private TextView videoTextView;
-    private boolean zoomOnSelect = true;
-    private Paint backgroundPaint = new Paint();
-    private SpoilerEffect spoilerEffect = new SpoilerEffect();
-    private Path path = new Path();
-    private float imageViewCrossfadeProgress = 1.0f;
-    private int itemSize = AndroidUtilities.dp(80.0f);
+    private boolean zoomOnSelect;
 
     /* loaded from: classes3.dex */
     public interface PhotoAttachPhotoCellDelegate {
@@ -86,6 +86,11 @@ public class PhotoAttachPhotoCell extends FrameLayout {
 
     public PhotoAttachPhotoCell(Context context, Theme.ResourcesProvider resourcesProvider) {
         super(context);
+        this.zoomOnSelect = true;
+        this.backgroundPaint = new Paint();
+        this.spoilerEffect = new SpoilerEffect();
+        this.path = new Path();
+        this.imageViewCrossfadeProgress = 1.0f;
         this.resourcesProvider = resourcesProvider;
         setWillNotDraw(false);
         FrameLayout frameLayout = new FrameLayout(context);
@@ -187,6 +192,7 @@ public class PhotoAttachPhotoCell extends FrameLayout {
         FrameLayout frameLayout3 = new FrameLayout(context);
         this.checkFrame = frameLayout3;
         addView(frameLayout3, LayoutHelper.createFrame(42, 42.0f, 51, 38.0f, 0.0f, 0.0f, 0.0f));
+        this.itemSize = AndroidUtilities.dp(80.0f);
     }
 
     public void setHasSpoiler(boolean z) {
@@ -247,19 +253,11 @@ public class PhotoAttachPhotoCell extends FrameLayout {
             super.onMeasure(View.MeasureSpec.makeMeasureSpec(this.itemSize, 1073741824), View.MeasureSpec.makeMeasureSpec(this.itemSize + AndroidUtilities.dp(5.0f), 1073741824));
             return;
         }
-        int i3 = 0;
         if (this.isVertical) {
-            int makeMeasureSpec = View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(80.0f), 1073741824);
-            if (!this.isLast) {
-                i3 = 6;
-            }
-            super.onMeasure(makeMeasureSpec, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(i3 + 80), 1073741824));
-            return;
+            super.onMeasure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(80.0f), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp((this.isLast ? 0 : 6) + 80), 1073741824));
+        } else {
+            super.onMeasure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp((this.isLast ? 0 : 6) + 80), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(80.0f), 1073741824));
         }
-        if (!this.isLast) {
-            i3 = 6;
-        }
-        super.onMeasure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(i3 + 80), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(80.0f), 1073741824));
     }
 
     public MediaController.PhotoEntry getPhotoEntry() {
@@ -318,13 +316,8 @@ public class PhotoAttachPhotoCell extends FrameLayout {
             z3 = true;
         }
         this.imageView.getImageReceiver().setVisible(!z3, true);
-        float f = 0.0f;
         this.checkBox.setAlpha(z3 ? 0.0f : 1.0f);
-        FrameLayout frameLayout = this.videoInfoContainer;
-        if (!z3) {
-            f = 1.0f;
-        }
-        frameLayout.setAlpha(f);
+        this.videoInfoContainer.setAlpha(z3 ? 0.0f : 1.0f);
         requestLayout();
         setHasSpoiler(photoEntry.hasSpoiler);
     }
@@ -369,13 +362,8 @@ public class PhotoAttachPhotoCell extends FrameLayout {
         }
         boolean z3 = z && PhotoViewer.isShowingImage(searchImage.getPathToAttach());
         this.imageView.getImageReceiver().setVisible(!z3, true);
-        float f = 0.0f;
         this.checkBox.setAlpha(z3 ? 0.0f : 1.0f);
-        FrameLayout frameLayout = this.videoInfoContainer;
-        if (!z3) {
-            f = 1.0f;
-        }
-        frameLayout.setAlpha(f);
+        this.videoInfoContainer.setAlpha(z3 ? 0.0f : 1.0f);
         requestLayout();
         setHasSpoiler(false);
     }
@@ -392,7 +380,6 @@ public class PhotoAttachPhotoCell extends FrameLayout {
                 animatorSet.cancel();
                 this.animator = null;
             }
-            float f = 0.787f;
             if (z2) {
                 AnimatorSet animatorSet2 = new AnimatorSet();
                 this.animator = animatorSet2;
@@ -405,10 +392,7 @@ public class PhotoAttachPhotoCell extends FrameLayout {
                 FrameLayout frameLayout2 = this.container;
                 Property property2 = View.SCALE_Y;
                 float[] fArr2 = new float[1];
-                if (!z) {
-                    f = 1.0f;
-                }
-                fArr2[0] = f;
+                fArr2[0] = z ? 0.787f : 1.0f;
                 animatorArr[1] = ObjectAnimator.ofFloat(frameLayout2, property2, fArr2);
                 animatorSet2.playTogether(animatorArr);
                 this.animator.setDuration(200L);
@@ -437,11 +421,7 @@ public class PhotoAttachPhotoCell extends FrameLayout {
                 return;
             }
             this.container.setScaleX(z ? 0.787f : 1.0f);
-            FrameLayout frameLayout3 = this.container;
-            if (!z) {
-                f = 1.0f;
-            }
-            frameLayout3.setScaleY(f);
+            this.container.setScaleY(z ? 0.787f : 1.0f);
         }
     }
 
@@ -466,11 +446,10 @@ public class PhotoAttachPhotoCell extends FrameLayout {
     }
 
     public void showCheck(boolean z) {
-        float f = 1.0f;
-        if (!z || this.checkBox.getAlpha() != 1.0f) {
-            if (!z && this.checkBox.getAlpha() == 0.0f) {
-                return;
-            }
+        if (z && this.checkBox.getAlpha() == 1.0f) {
+            return;
+        }
+        if (z || this.checkBox.getAlpha() != 0.0f) {
             AnimatorSet animatorSet = this.animatorSet;
             if (animatorSet != null) {
                 animatorSet.cancel();
@@ -490,10 +469,7 @@ public class PhotoAttachPhotoCell extends FrameLayout {
             CheckBox2 checkBox2 = this.checkBox;
             Property property2 = View.ALPHA;
             float[] fArr2 = new float[1];
-            if (!z) {
-                f = 0.0f;
-            }
-            fArr2[0] = f;
+            fArr2[0] = z ? 1.0f : 0.0f;
             animatorArr[1] = ObjectAnimator.ofFloat(checkBox2, property2, fArr2);
             animatorSet3.playTogether(animatorArr);
             this.animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.PhotoAttachPhotoCell.5
@@ -515,18 +491,13 @@ public class PhotoAttachPhotoCell extends FrameLayout {
         if (animatorSet != null) {
             animatorSet.cancel();
             this.animator = null;
-            float f = 0.787f;
             this.container.setScaleX(this.checkBox.isChecked() ? 0.787f : 1.0f);
-            FrameLayout frameLayout = this.container;
-            if (!this.checkBox.isChecked()) {
-                f = 1.0f;
-            }
-            frameLayout.setScaleY(f);
+            this.container.setScaleY(this.checkBox.isChecked() ? 0.787f : 1.0f);
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:10:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:7:0x0077  */
+    /* JADX WARN: Removed duplicated region for block: B:22:0x0077  */
+    /* JADX WARN: Removed duplicated region for block: B:24:? A[RETURN, SYNTHETIC] */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -565,10 +536,11 @@ public class PhotoAttachPhotoCell extends FrameLayout {
     protected void onDraw(Canvas canvas) {
         MediaController.PhotoEntry photoEntry;
         MediaController.SearchImage searchImage;
-        if (this.checkBox.isChecked() || this.container.getScaleX() != 1.0f || !this.imageView.getImageReceiver().hasNotThumb() || this.imageView.getImageReceiver().getCurrentAlpha() != 1.0f || (((photoEntry = this.photoEntry) != null && PhotoViewer.isShowingImage(photoEntry.path)) || ((searchImage = this.searchEntry) != null && PhotoViewer.isShowingImage(searchImage.getPathToAttach())))) {
-            this.backgroundPaint.setColor(getThemedColor("chat_attachPhotoBackground"));
-            canvas.drawRect(0.0f, 0.0f, this.imageView.getMeasuredWidth(), this.imageView.getMeasuredHeight(), this.backgroundPaint);
+        if (!this.checkBox.isChecked() && this.container.getScaleX() == 1.0f && this.imageView.getImageReceiver().hasNotThumb() && this.imageView.getImageReceiver().getCurrentAlpha() == 1.0f && (((photoEntry = this.photoEntry) == null || !PhotoViewer.isShowingImage(photoEntry.path)) && ((searchImage = this.searchEntry) == null || !PhotoViewer.isShowingImage(searchImage.getPathToAttach())))) {
+            return;
         }
+        this.backgroundPaint.setColor(getThemedColor("chat_attachPhotoBackground"));
+        canvas.drawRect(0.0f, 0.0f, this.imageView.getMeasuredWidth(), this.imageView.getMeasuredHeight(), this.backgroundPaint);
     }
 
     @Override // android.view.View

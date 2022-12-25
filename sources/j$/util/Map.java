@@ -21,10 +21,10 @@ public interface Map<K, V> {
             if (apply != null) {
                 map.put(obj, apply);
                 return apply;
-            } else if (obj2 == null && !map.containsKey(obj)) {
+            } else if (obj2 != null || map.containsKey(obj)) {
+                map.remove(obj);
                 return null;
             } else {
-                map.remove(obj);
                 return null;
             }
         }
@@ -86,11 +86,11 @@ public interface Map<K, V> {
         public static boolean $default$remove(java.util.Map map, Object obj, Object obj2) {
             Object obj3 = map.get(obj);
             if (a.x(obj3, obj2)) {
-                if (obj3 == null && !map.containsKey(obj)) {
-                    return false;
+                if (obj3 != null || map.containsKey(obj)) {
+                    map.remove(obj);
+                    return true;
                 }
-                map.remove(obj);
-                return true;
+                return false;
             }
             return false;
         }
@@ -98,11 +98,11 @@ public interface Map<K, V> {
         public static boolean $default$replace(java.util.Map map, Object obj, Object obj2, Object obj3) {
             Object obj4 = map.get(obj);
             if (a.x(obj4, obj2)) {
-                if (obj4 == null && !map.containsKey(obj)) {
-                    return false;
+                if (obj4 != null || map.containsKey(obj)) {
+                    map.put(obj, obj3);
+                    return true;
                 }
-                map.put(obj, obj3);
-                return true;
+                return false;
             }
             return false;
         }

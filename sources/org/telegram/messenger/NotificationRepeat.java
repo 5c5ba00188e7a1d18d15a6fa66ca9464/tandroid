@@ -14,15 +14,14 @@ public class NotificationRepeat extends IntentService {
             return;
         }
         final int intExtra = intent.getIntExtra("currentAccount", UserConfig.selectedAccount);
-        if (!UserConfig.isValidAccount(intExtra)) {
-            return;
+        if (UserConfig.isValidAccount(intExtra)) {
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.NotificationRepeat$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    NotificationRepeat.lambda$onHandleIntent$0(intExtra);
+                }
+            });
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.NotificationRepeat$$ExternalSyntheticLambda0
-            @Override // java.lang.Runnable
-            public final void run() {
-                NotificationRepeat.lambda$onHandleIntent$0(intExtra);
-            }
-        });
     }
 
     /* JADX INFO: Access modifiers changed from: private */

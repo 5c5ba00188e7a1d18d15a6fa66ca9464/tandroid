@@ -20,12 +20,12 @@ public abstract class TLRPC$NotificationSound extends TLObject {
                 tLRPC$TL_notificationSoundLocal = null;
                 break;
         }
-        if (tLRPC$TL_notificationSoundLocal != null || !z) {
-            if (tLRPC$TL_notificationSoundLocal != null) {
-                tLRPC$TL_notificationSoundLocal.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_notificationSoundLocal;
+        if (tLRPC$TL_notificationSoundLocal == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in NotificationSound", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in NotificationSound", Integer.valueOf(i)));
+        if (tLRPC$TL_notificationSoundLocal != null) {
+            tLRPC$TL_notificationSoundLocal.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_notificationSoundLocal;
     }
 }

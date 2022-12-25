@@ -116,77 +116,76 @@ public class BlurBehindDrawable {
         if (!this.show || this.processingNextFrame) {
             return;
         }
-        if (this.renderingBitmap != null && !this.invalidate) {
-            return;
-        }
-        this.processingNextFrame = true;
-        this.invalidate = false;
-        if (this.blurredBitmapTmp == null) {
-            this.blurredBitmapTmp = new Bitmap[2];
-            this.blurCanvas = new Canvas[2];
-        }
-        for (int i = 0; i < 2; i++) {
-            if (this.blurredBitmapTmp[i] == null || this.parentView.getMeasuredWidth() != this.lastW || this.parentView.getMeasuredHeight() != this.lastH) {
-                int measuredHeight = this.parentView.getMeasuredHeight();
-                int measuredWidth = this.parentView.getMeasuredWidth();
-                int dp = AndroidUtilities.statusBarHeight + AndroidUtilities.dp(200.0f);
-                this.toolbarH = dp;
+        if (this.renderingBitmap == null || this.invalidate) {
+            this.processingNextFrame = true;
+            this.invalidate = false;
+            if (this.blurredBitmapTmp == null) {
+                this.blurredBitmapTmp = new Bitmap[2];
+                this.blurCanvas = new Canvas[2];
+            }
+            for (int i = 0; i < 2; i++) {
+                if (this.blurredBitmapTmp[i] == null || this.parentView.getMeasuredWidth() != this.lastW || this.parentView.getMeasuredHeight() != this.lastH) {
+                    int measuredHeight = this.parentView.getMeasuredHeight();
+                    int measuredWidth = this.parentView.getMeasuredWidth();
+                    int dp = AndroidUtilities.statusBarHeight + AndroidUtilities.dp(200.0f);
+                    this.toolbarH = dp;
+                    if (i == 0) {
+                        measuredHeight = dp;
+                    }
+                    try {
+                        this.blurredBitmapTmp[i] = Bitmap.createBitmap((int) (measuredWidth / 6.0f), (int) (measuredHeight / 6.0f), Bitmap.Config.ARGB_8888);
+                        this.blurCanvas[i] = new Canvas(this.blurredBitmapTmp[i]);
+                    } catch (Exception e) {
+                        FileLog.e(e);
+                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.BlurBehindDrawable$$ExternalSyntheticLambda0
+                            @Override // java.lang.Runnable
+                            public final void run() {
+                                BlurBehindDrawable.this.lambda$draw$0();
+                            }
+                        });
+                        return;
+                    }
+                } else {
+                    this.blurredBitmapTmp[i].eraseColor(0);
+                }
+                if (i == 1) {
+                    this.blurredBitmapTmp[i].eraseColor(getThemedColor("windowBackgroundWhite"));
+                }
+                this.blurCanvas[i].save();
+                this.blurCanvas[i].scale(0.16666667f, 0.16666667f, 0.0f, 0.0f);
+                Drawable background = this.behindView.getBackground();
+                if (background == null) {
+                    background = getBackgroundDrawable();
+                }
+                this.behindView.setTag(67108867, Integer.valueOf(i));
                 if (i == 0) {
-                    measuredHeight = dp;
+                    this.blurCanvas[i].translate(0.0f, -this.panTranslationY);
+                    this.behindView.draw(this.blurCanvas[i]);
                 }
-                try {
-                    this.blurredBitmapTmp[i] = Bitmap.createBitmap((int) (measuredWidth / 6.0f), (int) (measuredHeight / 6.0f), Bitmap.Config.ARGB_8888);
-                    this.blurCanvas[i] = new Canvas(this.blurredBitmapTmp[i]);
-                } catch (Exception e) {
-                    FileLog.e(e);
-                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.BlurBehindDrawable$$ExternalSyntheticLambda0
-                        @Override // java.lang.Runnable
-                        public final void run() {
-                            BlurBehindDrawable.this.lambda$draw$0();
-                        }
-                    });
-                    return;
+                if (background != null && i == 1) {
+                    android.graphics.Rect bounds = background.getBounds();
+                    background.setBounds(0, 0, this.behindView.getMeasuredWidth(), this.behindView.getMeasuredHeight());
+                    background.draw(this.blurCanvas[i]);
+                    background.setBounds(bounds);
+                    this.behindView.draw(this.blurCanvas[i]);
                 }
-            } else {
-                this.blurredBitmapTmp[i].eraseColor(0);
+                this.behindView.setTag(67108867, null);
+                this.blurCanvas[i].restore();
             }
-            if (i == 1) {
-                this.blurredBitmapTmp[i].eraseColor(getThemedColor("windowBackgroundWhite"));
+            this.lastH = this.parentView.getMeasuredHeight();
+            this.lastW = this.parentView.getMeasuredWidth();
+            this.blurBackgroundTask.width = this.parentView.getMeasuredWidth();
+            this.blurBackgroundTask.height = this.parentView.getMeasuredHeight();
+            BlurBackgroundTask blurBackgroundTask = this.blurBackgroundTask;
+            if (blurBackgroundTask.width == 0 || blurBackgroundTask.height == 0) {
+                this.processingNextFrame = false;
+                return;
             }
-            this.blurCanvas[i].save();
-            this.blurCanvas[i].scale(0.16666667f, 0.16666667f, 0.0f, 0.0f);
-            Drawable background = this.behindView.getBackground();
-            if (background == null) {
-                background = getBackgroundDrawable();
+            if (this.queue == null) {
+                this.queue = new DispatchQueue("blur_thread_" + this);
             }
-            this.behindView.setTag(67108867, Integer.valueOf(i));
-            if (i == 0) {
-                this.blurCanvas[i].translate(0.0f, -this.panTranslationY);
-                this.behindView.draw(this.blurCanvas[i]);
-            }
-            if (background != null && i == 1) {
-                android.graphics.Rect bounds = background.getBounds();
-                background.setBounds(0, 0, this.behindView.getMeasuredWidth(), this.behindView.getMeasuredHeight());
-                background.draw(this.blurCanvas[i]);
-                background.setBounds(bounds);
-                this.behindView.draw(this.blurCanvas[i]);
-            }
-            this.behindView.setTag(67108867, null);
-            this.blurCanvas[i].restore();
+            this.queue.postRunnable(this.blurBackgroundTask);
         }
-        this.lastH = this.parentView.getMeasuredHeight();
-        this.lastW = this.parentView.getMeasuredWidth();
-        this.blurBackgroundTask.width = this.parentView.getMeasuredWidth();
-        this.blurBackgroundTask.height = this.parentView.getMeasuredHeight();
-        BlurBackgroundTask blurBackgroundTask = this.blurBackgroundTask;
-        if (blurBackgroundTask.width == 0 || blurBackgroundTask.height == 0) {
-            this.processingNextFrame = false;
-            return;
-        }
-        if (this.queue == null) {
-            this.queue = new DispatchQueue("blur_thread_" + this);
-        }
-        this.queue.postRunnable(this.blurBackgroundTask);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -434,10 +433,9 @@ public class BlurBehindDrawable {
             BlurBehindDrawable.this.backgroundBitmap = bitmapArr;
             BlurBehindDrawable.this.backgroundBitmapCanvas = canvasArr;
             BlurBehindDrawable.this.processingNextFrame = false;
-            if (BlurBehindDrawable.this.parentView == null) {
-                return;
+            if (BlurBehindDrawable.this.parentView != null) {
+                BlurBehindDrawable.this.parentView.invalidate();
             }
-            BlurBehindDrawable.this.parentView.invalidate();
         }
     }
 

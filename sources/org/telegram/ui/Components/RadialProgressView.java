@@ -114,8 +114,8 @@ public class RadialProgressView extends View {
         updateAnimation(j);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:10:0x004c  */
-    /* JADX WARN: Removed duplicated region for block: B:36:0x00f0  */
+    /* JADX WARN: Removed duplicated region for block: B:17:0x004c  */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x00f0  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -223,9 +223,10 @@ public class RadialProgressView extends View {
 
     public void toCircle(boolean z, boolean z2) {
         this.toCircle = z;
-        if (!z2) {
-            this.toCircleProgress = z ? 1.0f : 0.0f;
+        if (z2) {
+            return;
         }
+        this.toCircleProgress = z ? 1.0f : 0.0f;
     }
 
     /* JADX INFO: Access modifiers changed from: protected */

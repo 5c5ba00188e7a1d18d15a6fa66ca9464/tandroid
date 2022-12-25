@@ -44,7 +44,7 @@ public class DefaultDashChunkSource implements DashChunkSource {
     private final DataSource dataSource;
     private final long elapsedRealtimeOffsetMs;
     private IOException fatalError;
-    private long liveEdgeTimeUs = -9223372036854775807L;
+    private long liveEdgeTimeUs;
     private DashManifest manifest;
     private final LoaderErrorThrower manifestLoaderErrorThrower;
     private final int maxSegmentsPerLoad;
@@ -91,6 +91,7 @@ public class DefaultDashChunkSource implements DashChunkSource {
         this.maxSegmentsPerLoad = i3;
         this.playerTrackEmsgHandler = playerTrackEmsgHandler;
         long periodDurationUs = dashManifest.getPeriodDurationUs(i);
+        this.liveEdgeTimeUs = -9223372036854775807L;
         ArrayList<Representation> representations = getRepresentations();
         this.representationHolders = new RepresentationHolder[trackSelection.length()];
         for (int i4 = 0; i4 < this.representationHolders.length; i4++) {
@@ -162,83 +163,77 @@ public class DefaultDashChunkSource implements DashChunkSource {
         long resolveTimeToLiveEdgeUs = resolveTimeToLiveEdgeUs(j);
         long msToUs = C.msToUs(this.manifest.availabilityStartTimeMs) + C.msToUs(this.manifest.getPeriod(this.periodIndex).startMs) + j2;
         PlayerEmsgHandler.PlayerTrackEmsgHandler playerTrackEmsgHandler = this.playerTrackEmsgHandler;
-        if (playerTrackEmsgHandler != null && playerTrackEmsgHandler.maybeRefreshManifestBeforeLoadingNextChunk(msToUs)) {
-            return;
-        }
-        long nowUnixTimeUs = getNowUnixTimeUs();
-        MediaChunk mediaChunk = list.isEmpty() ? null : list.get(list.size() - 1);
-        int length = this.trackSelection.length();
-        MediaChunkIterator[] mediaChunkIteratorArr2 = new MediaChunkIterator[length];
-        int i3 = 0;
-        while (i3 < length) {
-            RepresentationHolder representationHolder = this.representationHolders[i3];
-            if (representationHolder.segmentIndex == null) {
-                mediaChunkIteratorArr2[i3] = MediaChunkIterator.EMPTY;
-                i = i3;
-                i2 = length;
-                mediaChunkIteratorArr = mediaChunkIteratorArr2;
-                j3 = nowUnixTimeUs;
-            } else {
-                long firstAvailableSegmentNum = representationHolder.getFirstAvailableSegmentNum(this.manifest, this.periodIndex, nowUnixTimeUs);
-                long lastAvailableSegmentNum = representationHolder.getLastAvailableSegmentNum(this.manifest, this.periodIndex, nowUnixTimeUs);
-                i = i3;
-                i2 = length;
-                mediaChunkIteratorArr = mediaChunkIteratorArr2;
-                j3 = nowUnixTimeUs;
-                long segmentNum = getSegmentNum(representationHolder, mediaChunk, j2, firstAvailableSegmentNum, lastAvailableSegmentNum);
-                if (segmentNum < firstAvailableSegmentNum) {
-                    mediaChunkIteratorArr[i] = MediaChunkIterator.EMPTY;
+        if (playerTrackEmsgHandler == null || !playerTrackEmsgHandler.maybeRefreshManifestBeforeLoadingNextChunk(msToUs)) {
+            long nowUnixTimeUs = getNowUnixTimeUs();
+            MediaChunk mediaChunk = list.isEmpty() ? null : list.get(list.size() - 1);
+            int length = this.trackSelection.length();
+            MediaChunkIterator[] mediaChunkIteratorArr2 = new MediaChunkIterator[length];
+            int i3 = 0;
+            while (i3 < length) {
+                RepresentationHolder representationHolder = this.representationHolders[i3];
+                if (representationHolder.segmentIndex == null) {
+                    mediaChunkIteratorArr2[i3] = MediaChunkIterator.EMPTY;
+                    i = i3;
+                    i2 = length;
+                    mediaChunkIteratorArr = mediaChunkIteratorArr2;
+                    j3 = nowUnixTimeUs;
                 } else {
-                    mediaChunkIteratorArr[i] = new RepresentationSegmentIterator(representationHolder, segmentNum, lastAvailableSegmentNum);
+                    long firstAvailableSegmentNum = representationHolder.getFirstAvailableSegmentNum(this.manifest, this.periodIndex, nowUnixTimeUs);
+                    long lastAvailableSegmentNum = representationHolder.getLastAvailableSegmentNum(this.manifest, this.periodIndex, nowUnixTimeUs);
+                    i = i3;
+                    i2 = length;
+                    mediaChunkIteratorArr = mediaChunkIteratorArr2;
+                    j3 = nowUnixTimeUs;
+                    long segmentNum = getSegmentNum(representationHolder, mediaChunk, j2, firstAvailableSegmentNum, lastAvailableSegmentNum);
+                    if (segmentNum < firstAvailableSegmentNum) {
+                        mediaChunkIteratorArr[i] = MediaChunkIterator.EMPTY;
+                    } else {
+                        mediaChunkIteratorArr[i] = new RepresentationSegmentIterator(representationHolder, segmentNum, lastAvailableSegmentNum);
+                    }
+                }
+                i3 = i + 1;
+                length = i2;
+                mediaChunkIteratorArr2 = mediaChunkIteratorArr;
+                nowUnixTimeUs = j3;
+            }
+            long j5 = nowUnixTimeUs;
+            this.trackSelection.updateSelectedTrack(j, j4, resolveTimeToLiveEdgeUs, list, mediaChunkIteratorArr2);
+            RepresentationHolder representationHolder2 = this.representationHolders[this.trackSelection.getSelectedIndex()];
+            ChunkExtractorWrapper chunkExtractorWrapper = representationHolder2.extractorWrapper;
+            if (chunkExtractorWrapper != null) {
+                Representation representation = representationHolder2.representation;
+                RangedUri initializationUri = chunkExtractorWrapper.getSampleFormats() == null ? representation.getInitializationUri() : null;
+                RangedUri indexUri = representationHolder2.segmentIndex == null ? representation.getIndexUri() : null;
+                if (initializationUri != null || indexUri != null) {
+                    chunkHolder.chunk = newInitializationChunk(representationHolder2, this.dataSource, this.trackSelection.getSelectedFormat(), this.trackSelection.getSelectionReason(), this.trackSelection.getSelectionData(), initializationUri, indexUri);
+                    return;
                 }
             }
-            i3 = i + 1;
-            length = i2;
-            mediaChunkIteratorArr2 = mediaChunkIteratorArr;
-            nowUnixTimeUs = j3;
-        }
-        long j5 = nowUnixTimeUs;
-        this.trackSelection.updateSelectedTrack(j, j4, resolveTimeToLiveEdgeUs, list, mediaChunkIteratorArr2);
-        RepresentationHolder representationHolder2 = this.representationHolders[this.trackSelection.getSelectedIndex()];
-        ChunkExtractorWrapper chunkExtractorWrapper = representationHolder2.extractorWrapper;
-        if (chunkExtractorWrapper != null) {
-            Representation representation = representationHolder2.representation;
-            RangedUri initializationUri = chunkExtractorWrapper.getSampleFormats() == null ? representation.getInitializationUri() : null;
-            RangedUri indexUri = representationHolder2.segmentIndex == null ? representation.getIndexUri() : null;
-            if (initializationUri != null || indexUri != null) {
-                chunkHolder.chunk = newInitializationChunk(representationHolder2, this.dataSource, this.trackSelection.getSelectedFormat(), this.trackSelection.getSelectionReason(), this.trackSelection.getSelectionData(), initializationUri, indexUri);
+            long j6 = representationHolder2.periodDurationUs;
+            boolean z = j6 != -9223372036854775807L;
+            if (representationHolder2.getSegmentCount() == 0) {
+                chunkHolder.endOfStream = z;
                 return;
             }
-        }
-        long j6 = representationHolder2.periodDurationUs;
-        long j7 = -9223372036854775807L;
-        boolean z = j6 != -9223372036854775807L;
-        if (representationHolder2.getSegmentCount() == 0) {
-            chunkHolder.endOfStream = z;
-            return;
-        }
-        long firstAvailableSegmentNum2 = representationHolder2.getFirstAvailableSegmentNum(this.manifest, this.periodIndex, j5);
-        long lastAvailableSegmentNum2 = representationHolder2.getLastAvailableSegmentNum(this.manifest, this.periodIndex, j5);
-        updateLiveEdgeTimeUs(representationHolder2, lastAvailableSegmentNum2);
-        long segmentNum2 = getSegmentNum(representationHolder2, mediaChunk, j2, firstAvailableSegmentNum2, lastAvailableSegmentNum2);
-        if (segmentNum2 < firstAvailableSegmentNum2) {
-            this.fatalError = new BehindLiveWindowException();
-        } else if (segmentNum2 > lastAvailableSegmentNum2 || (this.missingLastSegment && segmentNum2 >= lastAvailableSegmentNum2)) {
-            chunkHolder.endOfStream = z;
-        } else if (z && representationHolder2.getSegmentStartTimeUs(segmentNum2) >= j6) {
-            chunkHolder.endOfStream = true;
-        } else {
-            int min = (int) Math.min(this.maxSegmentsPerLoad, (lastAvailableSegmentNum2 - segmentNum2) + 1);
-            if (j6 != -9223372036854775807L) {
-                while (min > 1 && representationHolder2.getSegmentStartTimeUs((min + segmentNum2) - 1) >= j6) {
-                    min--;
+            long firstAvailableSegmentNum2 = representationHolder2.getFirstAvailableSegmentNum(this.manifest, this.periodIndex, j5);
+            long lastAvailableSegmentNum2 = representationHolder2.getLastAvailableSegmentNum(this.manifest, this.periodIndex, j5);
+            updateLiveEdgeTimeUs(representationHolder2, lastAvailableSegmentNum2);
+            long segmentNum2 = getSegmentNum(representationHolder2, mediaChunk, j2, firstAvailableSegmentNum2, lastAvailableSegmentNum2);
+            if (segmentNum2 < firstAvailableSegmentNum2) {
+                this.fatalError = new BehindLiveWindowException();
+            } else if (segmentNum2 > lastAvailableSegmentNum2 || (this.missingLastSegment && segmentNum2 >= lastAvailableSegmentNum2)) {
+                chunkHolder.endOfStream = z;
+            } else if (z && representationHolder2.getSegmentStartTimeUs(segmentNum2) >= j6) {
+                chunkHolder.endOfStream = true;
+            } else {
+                int min = (int) Math.min(this.maxSegmentsPerLoad, (lastAvailableSegmentNum2 - segmentNum2) + 1);
+                if (j6 != -9223372036854775807L) {
+                    while (min > 1 && representationHolder2.getSegmentStartTimeUs((min + segmentNum2) - 1) >= j6) {
+                        min--;
+                    }
                 }
+                chunkHolder.chunk = newMediaChunk(representationHolder2, this.dataSource, this.trackType, this.trackSelection.getSelectedFormat(), this.trackSelection.getSelectionReason(), this.trackSelection.getSelectionData(), segmentNum2, min, list.isEmpty() ? j2 : -9223372036854775807L);
             }
-            int i4 = min;
-            if (list.isEmpty()) {
-                j7 = j2;
-            }
-            chunkHolder.chunk = newMediaChunk(representationHolder2, this.dataSource, this.trackType, this.trackSelection.getSelectedFormat(), this.trackSelection.getSelectionReason(), this.trackSelection.getSelectionData(), segmentNum2, i4, j7);
         }
     }
 
@@ -262,24 +257,24 @@ public class DefaultDashChunkSource implements DashChunkSource {
     public boolean onChunkLoadError(Chunk chunk, boolean z, Exception exc, long j) {
         RepresentationHolder representationHolder;
         int segmentCount;
-        if (!z) {
-            return false;
-        }
-        PlayerEmsgHandler.PlayerTrackEmsgHandler playerTrackEmsgHandler = this.playerTrackEmsgHandler;
-        if (playerTrackEmsgHandler != null && playerTrackEmsgHandler.maybeRefreshManifestOnLoadingError(chunk)) {
+        if (z) {
+            PlayerEmsgHandler.PlayerTrackEmsgHandler playerTrackEmsgHandler = this.playerTrackEmsgHandler;
+            if (playerTrackEmsgHandler == null || !playerTrackEmsgHandler.maybeRefreshManifestOnLoadingError(chunk)) {
+                if (!this.manifest.dynamic && (chunk instanceof MediaChunk) && (exc instanceof HttpDataSource.InvalidResponseCodeException) && ((HttpDataSource.InvalidResponseCodeException) exc).responseCode == 404 && (segmentCount = (representationHolder = this.representationHolders[this.trackSelection.indexOf(chunk.trackFormat)]).getSegmentCount()) != -1 && segmentCount != 0) {
+                    if (((MediaChunk) chunk).getNextChunkIndex() > (representationHolder.getFirstSegmentNum() + segmentCount) - 1) {
+                        this.missingLastSegment = true;
+                        return true;
+                    }
+                }
+                if (j != -9223372036854775807L) {
+                    TrackSelection trackSelection = this.trackSelection;
+                    return trackSelection.blacklist(trackSelection.indexOf(chunk.trackFormat), j);
+                }
+                return false;
+            }
             return true;
         }
-        if (!this.manifest.dynamic && (chunk instanceof MediaChunk) && (exc instanceof HttpDataSource.InvalidResponseCodeException) && ((HttpDataSource.InvalidResponseCodeException) exc).responseCode == 404 && (segmentCount = (representationHolder = this.representationHolders[this.trackSelection.indexOf(chunk.trackFormat)]).getSegmentCount()) != -1 && segmentCount != 0) {
-            if (((MediaChunk) chunk).getNextChunkIndex() > (representationHolder.getFirstSegmentNum() + segmentCount) - 1) {
-                this.missingLastSegment = true;
-                return true;
-            }
-        }
-        if (j == -9223372036854775807L) {
-            return false;
-        }
-        TrackSelection trackSelection = this.trackSelection;
-        return trackSelection.blacklist(trackSelection.indexOf(chunk.trackFormat), j);
+        return false;
     }
 
     private long getSegmentNum(RepresentationHolder representationHolder, MediaChunk mediaChunk, long j, long j2, long j3) {

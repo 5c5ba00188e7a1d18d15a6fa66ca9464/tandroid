@@ -47,14 +47,14 @@ public final class AdtsExtractor implements Extractor {
         this.scratchBits = new ParsableBitArray(parsableByteArray.data);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:18:0x0021, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:6:0x0021, code lost:
         r9.resetPeekPosition();
         r3 = r3 + 1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:19:0x002a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:7:0x002a, code lost:
         if ((r3 - r0) < 8192) goto L20;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:22:0x002c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:8:0x002c, code lost:
         return false;
      */
     @Override // com.google.android.exoplayer2.extractor.Extractor

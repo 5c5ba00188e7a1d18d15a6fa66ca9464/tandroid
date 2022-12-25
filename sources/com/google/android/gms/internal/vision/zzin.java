@@ -63,15 +63,15 @@ final class zzin extends zzhj<Double> implements zzjl<Double>, zzkw {
 
     @Override // java.util.AbstractList, java.util.List
     public final int indexOf(Object obj) {
-        if (!(obj instanceof Double)) {
-            return -1;
-        }
-        double doubleValue = ((Double) obj).doubleValue();
-        int size = size();
-        for (int i = 0; i < size; i++) {
-            if (this.zzb[i] == doubleValue) {
-                return i;
+        if (obj instanceof Double) {
+            double doubleValue = ((Double) obj).doubleValue();
+            int size = size();
+            for (int i = 0; i < size; i++) {
+                if (this.zzb[i] == doubleValue) {
+                    return i;
+                }
             }
+            return -1;
         }
         return -1;
     }

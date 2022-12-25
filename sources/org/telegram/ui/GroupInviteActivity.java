@@ -158,8 +158,7 @@ public class GroupInviteActivity extends BaseFragment implements NotificationCen
             } catch (Exception e2) {
                 FileLog.e(e2);
             }
-        } else if (i != this.revokeLinkRow) {
-        } else {
+        } else if (i == this.revokeLinkRow) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
             builder.setMessage(LocaleController.getString("RevokeAlert", R.string.RevokeAlert));
             builder.setTitle(LocaleController.getString("RevokeLink", R.string.RevokeLink));
@@ -183,21 +182,19 @@ public class GroupInviteActivity extends BaseFragment implements NotificationCen
     public void didReceivedNotification(int i, int i2, Object... objArr) {
         if (i == NotificationCenter.chatInfoDidLoad) {
             int intValue = ((Integer) objArr[1]).intValue();
-            if (((TLRPC$ChatFull) objArr[0]).id != this.chatId || intValue != this.classGuid) {
-                return;
+            if (((TLRPC$ChatFull) objArr[0]).id == this.chatId && intValue == this.classGuid) {
+                TLRPC$TL_chatInviteExported exportedInvite = getMessagesController().getExportedInvite(this.chatId);
+                this.invite = exportedInvite;
+                if (exportedInvite == null) {
+                    generateLink(false);
+                    return;
+                }
+                this.loading = false;
+                ListAdapter listAdapter = this.listAdapter;
+                if (listAdapter != null) {
+                    listAdapter.notifyDataSetChanged();
+                }
             }
-            TLRPC$TL_chatInviteExported exportedInvite = getMessagesController().getExportedInvite(this.chatId);
-            this.invite = exportedInvite;
-            if (exportedInvite == null) {
-                generateLink(false);
-                return;
-            }
-            this.loading = false;
-            ListAdapter listAdapter = this.listAdapter;
-            if (listAdapter == null) {
-                return;
-            }
-            listAdapter.notifyDataSetChanged();
         }
     }
 
@@ -300,10 +297,10 @@ public class GroupInviteActivity extends BaseFragment implements NotificationCen
                 TextSettingsCell textSettingsCell = (TextSettingsCell) viewHolder.itemView;
                 if (i != GroupInviteActivity.this.copyLinkRow) {
                     if (i != GroupInviteActivity.this.shareLinkRow) {
-                        if (i != GroupInviteActivity.this.revokeLinkRow) {
+                        if (i == GroupInviteActivity.this.revokeLinkRow) {
+                            textSettingsCell.setText(LocaleController.getString("RevokeLink", R.string.RevokeLink), true);
                             return;
                         }
-                        textSettingsCell.setText(LocaleController.getString("RevokeLink", R.string.RevokeLink), true);
                         return;
                     }
                     textSettingsCell.setText(LocaleController.getString("ShareLink", R.string.ShareLink), false);
@@ -318,16 +315,16 @@ public class GroupInviteActivity extends BaseFragment implements NotificationCen
             } else {
                 TextInfoPrivacyCell textInfoPrivacyCell = (TextInfoPrivacyCell) viewHolder.itemView;
                 if (i != GroupInviteActivity.this.shadowRow) {
-                    if (i != GroupInviteActivity.this.linkInfoRow) {
+                    if (i == GroupInviteActivity.this.linkInfoRow) {
+                        TLRPC$Chat chat = GroupInviteActivity.this.getMessagesController().getChat(Long.valueOf(GroupInviteActivity.this.chatId));
+                        if (ChatObject.isChannel(chat) && !chat.megagroup) {
+                            textInfoPrivacyCell.setText(LocaleController.getString("ChannelLinkInfo", R.string.ChannelLinkInfo));
+                        } else {
+                            textInfoPrivacyCell.setText(LocaleController.getString("LinkInfo", R.string.LinkInfo));
+                        }
+                        textInfoPrivacyCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, R.drawable.greydivider, "windowBackgroundGrayShadow"));
                         return;
                     }
-                    TLRPC$Chat chat = GroupInviteActivity.this.getMessagesController().getChat(Long.valueOf(GroupInviteActivity.this.chatId));
-                    if (ChatObject.isChannel(chat) && !chat.megagroup) {
-                        textInfoPrivacyCell.setText(LocaleController.getString("ChannelLinkInfo", R.string.ChannelLinkInfo));
-                    } else {
-                        textInfoPrivacyCell.setText(LocaleController.getString("LinkInfo", R.string.LinkInfo));
-                    }
-                    textInfoPrivacyCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, R.drawable.greydivider, "windowBackgroundGrayShadow"));
                     return;
                 }
                 textInfoPrivacyCell.setText("");

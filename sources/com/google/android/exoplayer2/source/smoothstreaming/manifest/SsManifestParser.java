@@ -93,45 +93,44 @@ public class SsManifestParser implements ParsingLoadable.Parser<SsManifest> {
             int i = 0;
             while (true) {
                 int eventType = xmlPullParser.getEventType();
-                if (eventType != 1) {
-                    if (eventType == 2) {
-                        String name = xmlPullParser.getName();
-                        if (this.tag.equals(name)) {
-                            parseStartTag(xmlPullParser);
-                            z = true;
-                        } else if (z) {
-                            if (i > 0) {
-                                i++;
-                            } else if (handleChildInline(name)) {
-                                parseStartTag(xmlPullParser);
-                            } else {
-                                ElementParser newChildParser = newChildParser(this, name, this.baseUri);
-                                if (newChildParser == null) {
-                                    i = 1;
-                                } else {
-                                    addChild(newChildParser.parse(xmlPullParser));
-                                }
-                            }
-                        }
-                    } else if (eventType != 3) {
-                        if (eventType == 4 && z && i == 0) {
-                            parseText(xmlPullParser);
-                        }
-                    } else if (!z) {
-                        continue;
-                    } else if (i > 0) {
-                        i--;
-                    } else {
-                        String name2 = xmlPullParser.getName();
-                        parseEndTag(xmlPullParser);
-                        if (!handleChildInline(name2)) {
-                            return build();
-                        }
-                    }
-                    xmlPullParser.next();
-                } else {
+                if (eventType == 1) {
                     return null;
                 }
+                if (eventType == 2) {
+                    String name = xmlPullParser.getName();
+                    if (this.tag.equals(name)) {
+                        parseStartTag(xmlPullParser);
+                        z = true;
+                    } else if (z) {
+                        if (i > 0) {
+                            i++;
+                        } else if (handleChildInline(name)) {
+                            parseStartTag(xmlPullParser);
+                        } else {
+                            ElementParser newChildParser = newChildParser(this, name, this.baseUri);
+                            if (newChildParser == null) {
+                                i = 1;
+                            } else {
+                                addChild(newChildParser.parse(xmlPullParser));
+                            }
+                        }
+                    }
+                } else if (eventType != 3) {
+                    if (eventType == 4 && z && i == 0) {
+                        parseText(xmlPullParser);
+                    }
+                } else if (!z) {
+                    continue;
+                } else if (i > 0) {
+                    i--;
+                } else {
+                    String name2 = xmlPullParser.getName();
+                    parseEndTag(xmlPullParser);
+                    if (!handleChildInline(name2)) {
+                        return build();
+                    }
+                }
+                xmlPullParser.next();
             }
         }
 
@@ -142,10 +141,10 @@ public class SsManifestParser implements ParsingLoadable.Parser<SsManifest> {
             if ("Protection".equals(str)) {
                 return new ProtectionParser(elementParser, str2);
             }
-            if (!"StreamIndex".equals(str)) {
-                return null;
+            if ("StreamIndex".equals(str)) {
+                return new StreamIndexParser(elementParser, str2);
             }
-            return new StreamIndexParser(elementParser, str2);
+            return null;
         }
 
         protected final void putNormalizedAttribute(String str, Object obj) {
@@ -234,15 +233,18 @@ public class SsManifestParser implements ParsingLoadable.Parser<SsManifest> {
         private long duration;
         private long dvrWindowLength;
         private boolean isLive;
+        private int lookAheadCount;
         private int majorVersion;
         private int minorVersion;
+        private SsManifest.ProtectionElement protectionElement;
+        private final List<SsManifest.StreamElement> streamElements;
         private long timescale;
-        private int lookAheadCount = -1;
-        private SsManifest.ProtectionElement protectionElement = null;
-        private final List<SsManifest.StreamElement> streamElements = new LinkedList();
 
         public SmoothStreamingMediaParser(ElementParser elementParser, String str) {
             super(elementParser, str, "SmoothStreamingMedia");
+            this.lookAheadCount = -1;
+            this.protectionElement = null;
+            this.streamElements = new LinkedList();
         }
 
         @Override // com.google.android.exoplayer2.source.smoothstreaming.manifest.SsManifestParser.ElementParser
@@ -261,8 +263,7 @@ public class SsManifestParser implements ParsingLoadable.Parser<SsManifest> {
         public void addChild(Object obj) {
             if (obj instanceof SsManifest.StreamElement) {
                 this.streamElements.add((SsManifest.StreamElement) obj);
-            } else if (!(obj instanceof SsManifest.ProtectionElement)) {
-            } else {
+            } else if (obj instanceof SsManifest.ProtectionElement) {
                 Assertions.checkState(this.protectionElement == null);
                 this.protectionElement = (SsManifest.ProtectionElement) obj;
             }
@@ -370,7 +371,7 @@ public class SsManifestParser implements ParsingLoadable.Parser<SsManifest> {
         private final String baseUri;
         private int displayHeight;
         private int displayWidth;
-        private final List<Format> formats = new LinkedList();
+        private final List<Format> formats;
         private String language;
         private long lastChunkDuration;
         private int maxHeight;
@@ -385,6 +386,7 @@ public class SsManifestParser implements ParsingLoadable.Parser<SsManifest> {
         public StreamIndexParser(ElementParser elementParser, String str) {
             super(elementParser, str, "StreamIndex");
             this.baseUri = str;
+            this.formats = new LinkedList();
         }
 
         @Override // com.google.android.exoplayer2.source.smoothstreaming.manifest.SsManifestParser.ElementParser
@@ -417,17 +419,16 @@ public class SsManifestParser implements ParsingLoadable.Parser<SsManifest> {
             this.startTimes.add(Long.valueOf(parseLong));
             this.lastChunkDuration = parseLong(xmlPullParser, "d", -9223372036854775807L);
             long parseLong2 = parseLong(xmlPullParser, "r", 1L);
-            if (parseLong2 <= 1 || this.lastChunkDuration != -9223372036854775807L) {
-                while (true) {
-                    long j = i;
-                    if (j >= parseLong2) {
-                        return;
-                    }
-                    this.startTimes.add(Long.valueOf((this.lastChunkDuration * j) + parseLong));
-                    i++;
-                }
-            } else {
+            if (parseLong2 > 1 && this.lastChunkDuration == -9223372036854775807L) {
                 throw new ParserException("Repeated chunk with unspecified duration");
+            }
+            while (true) {
+                long j = i;
+                if (j >= parseLong2) {
+                    return;
+                }
+                this.startTimes.add(Long.valueOf((this.lastChunkDuration * j) + parseLong));
+                i++;
             }
         }
 
@@ -574,10 +575,10 @@ public class SsManifestParser implements ParsingLoadable.Parser<SsManifest> {
             if (str.equalsIgnoreCase("dtse")) {
                 return "audio/vnd.dts.hd;profile=lbr";
             }
-            if (!str.equalsIgnoreCase("opus")) {
-                return null;
+            if (str.equalsIgnoreCase("opus")) {
+                return "audio/opus";
             }
-            return "audio/opus";
+            return null;
         }
     }
 }

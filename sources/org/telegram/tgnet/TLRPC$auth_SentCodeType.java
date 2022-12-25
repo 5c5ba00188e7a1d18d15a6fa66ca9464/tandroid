@@ -40,12 +40,8 @@ public abstract class TLRPC$auth_SentCodeType extends TLObject {
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
                         this.flags = readInt32;
-                        boolean z3 = false;
                         this.apple_signin_allowed = (readInt32 & 1) != 0;
-                        if ((readInt32 & 2) != 0) {
-                            z3 = true;
-                        }
-                        this.google_signin_allowed = z3;
+                        this.google_signin_allowed = (readInt32 & 2) != 0;
                     }
 
                     @Override // org.telegram.tgnet.TLObject
@@ -149,12 +145,8 @@ public abstract class TLRPC$auth_SentCodeType extends TLObject {
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
                         this.flags = readInt32;
-                        boolean z3 = false;
                         this.apple_signin_allowed = (readInt32 & 1) != 0;
-                        if ((readInt32 & 2) != 0) {
-                            z3 = true;
-                        }
-                        this.google_signin_allowed = z3;
+                        this.google_signin_allowed = (readInt32 & 2) != 0;
                         this.email_pattern = abstractSerializedData2.readString(z2);
                         this.length = abstractSerializedData2.readInt32(z2);
                         if ((this.flags & 4) != 0) {
@@ -182,12 +174,12 @@ public abstract class TLRPC$auth_SentCodeType extends TLObject {
                 tLRPC$auth_SentCodeType = null;
                 break;
         }
-        if (tLRPC$auth_SentCodeType != null || !z) {
-            if (tLRPC$auth_SentCodeType != null) {
-                tLRPC$auth_SentCodeType.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$auth_SentCodeType;
+        if (tLRPC$auth_SentCodeType == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in auth_SentCodeType", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in auth_SentCodeType", Integer.valueOf(i)));
+        if (tLRPC$auth_SentCodeType != null) {
+            tLRPC$auth_SentCodeType.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$auth_SentCodeType;
     }
 }

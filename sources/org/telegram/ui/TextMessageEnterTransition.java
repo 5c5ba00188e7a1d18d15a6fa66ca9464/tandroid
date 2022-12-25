@@ -96,24 +96,24 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
     private final int currentAccount = UserConfig.selectedAccount;
 
     /* JADX WARN: Can't wrap try/catch for region: R(42:15|(1:17)|18|(3:20|21|(1:24))|30|(3:32|(3:35|(33:38|39|40|(3:150|(1:152)(1:154)|153)(1:43)|44|(1:46)(1:149)|47|(4:50|(2:52|53)(1:55)|54|48)|56|57|(1:59)|60|(1:62)|63|(1:65)|66|(2:68|(1:(2:146|147)(4:70|(1:72)(1:145)|73|(2:76|77)(1:75))))(1:148)|78|(5:82|(3:84|(4:86|(1:88)|89|90)(2:92|93)|91)|94|95|(1:97)(1:98))|99|100|101|(4:103|(1:105)|106|(2:108|(1:110)(1:111)))|112|(1:143)(1:116)|117|(1:119)|120|(1:126)|127|(1:133)|134|(1:141)(2:138|139))(1:37)|33)|155)|156|40|(0)|150|(0)(0)|153|44|(0)(0)|47|(1:48)|56|57|(0)|60|(0)|63|(0)|66|(0)(0)|78|(5:82|(0)|94|95|(0)(0))|99|100|101|(0)|112|(1:114)|143|117|(0)|120|(3:122|124|126)|127|(3:129|131|133)|134|(2:136|141)(1:142)) */
-    /* JADX WARN: Code restructure failed: missing block: B:144:0x04c6, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:118:0x04c6, code lost:
         r24.drawBitmaps = false;
      */
-    /* JADX WARN: Removed duplicated region for block: B:103:0x044a A[Catch: Exception -> 0x04c6, TryCatch #0 {Exception -> 0x04c6, blocks: (B:101:0x0446, B:103:0x044a, B:105:0x046e, B:106:0x048c, B:108:0x0490, B:110:0x049a, B:111:0x04ae), top: B:100:0x0446 }] */
-    /* JADX WARN: Removed duplicated region for block: B:119:0x04de  */
-    /* JADX WARN: Removed duplicated region for block: B:148:0x0363  */
-    /* JADX WARN: Removed duplicated region for block: B:149:0x01e7  */
-    /* JADX WARN: Removed duplicated region for block: B:152:0x0150  */
-    /* JADX WARN: Removed duplicated region for block: B:154:0x018b  */
-    /* JADX WARN: Removed duplicated region for block: B:46:0x01c9  */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x0297  */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x02a9  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x02ce  */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x0318  */
-    /* JADX WARN: Removed duplicated region for block: B:68:0x0335  */
-    /* JADX WARN: Removed duplicated region for block: B:84:0x0380  */
-    /* JADX WARN: Removed duplicated region for block: B:97:0x03cb  */
-    /* JADX WARN: Removed duplicated region for block: B:98:0x0405  */
+    /* JADX WARN: Removed duplicated region for block: B:103:0x03cb  */
+    /* JADX WARN: Removed duplicated region for block: B:104:0x0405  */
+    /* JADX WARN: Removed duplicated region for block: B:108:0x044a A[Catch: Exception -> 0x04c6, TryCatch #0 {Exception -> 0x04c6, blocks: (B:106:0x0446, B:108:0x044a, B:110:0x046e, B:111:0x048c, B:113:0x0490, B:115:0x049a, B:116:0x04ae), top: B:148:0x0446 }] */
+    /* JADX WARN: Removed duplicated region for block: B:127:0x04de  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x0150  */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x018b  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x01c9  */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x01e7  */
+    /* JADX WARN: Removed duplicated region for block: B:60:0x0297  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x02a9  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x02ce  */
+    /* JADX WARN: Removed duplicated region for block: B:72:0x0318  */
+    /* JADX WARN: Removed duplicated region for block: B:75:0x0335  */
+    /* JADX WARN: Removed duplicated region for block: B:86:0x0363  */
+    /* JADX WARN: Removed duplicated region for block: B:93:0x0380  */
     @SuppressLint({"WrongConstant"})
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -368,7 +368,7 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
                             AnimatedEmojiSpan.release((View) null, TextMessageEnterTransition.this.animatedEmojiStack);
                         }
                     });
-                    if (SharedConfig.getDevicePerformanceClass() != 2 || (currentBackgroundDrawable = chatMessageCell.getCurrentBackgroundDrawable(true)) == null) {
+                    if (SharedConfig.getDevicePerformanceClass() == 2 || (currentBackgroundDrawable = chatMessageCell.getCurrentBackgroundDrawable(true)) == null) {
                     }
                     this.fromMessageDrawable = currentBackgroundDrawable.getTransitionDrawable(getThemedColor("chat_messagePanelBackground"));
                     return;
@@ -475,7 +475,7 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
                 AnimatedEmojiSpan.release((View) null, TextMessageEnterTransition.this.animatedEmojiStack);
             }
         });
-        if (SharedConfig.getDevicePerformanceClass() != 2) {
+        if (SharedConfig.getDevicePerformanceClass() == 2) {
         }
     }
 
@@ -497,13 +497,13 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
         return layout.getLineRight(i) == ((float) layout.getWidth()) && layout.getLineLeft(i) != 0.0f;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:159:0x0550  */
-    /* JADX WARN: Removed duplicated region for block: B:160:0x03d3  */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x03c4  */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x040b  */
-    /* JADX WARN: Removed duplicated region for block: B:72:0x047f  */
-    /* JADX WARN: Removed duplicated region for block: B:75:0x04bc  */
-    /* JADX WARN: Removed duplicated region for block: B:78:0x04d2  */
+    /* JADX WARN: Removed duplicated region for block: B:73:0x03c4  */
+    /* JADX WARN: Removed duplicated region for block: B:74:0x03d3  */
+    /* JADX WARN: Removed duplicated region for block: B:77:0x040b  */
+    /* JADX WARN: Removed duplicated region for block: B:80:0x047f  */
+    /* JADX WARN: Removed duplicated region for block: B:83:0x04bc  */
+    /* JADX WARN: Removed duplicated region for block: B:86:0x04d2  */
+    /* JADX WARN: Removed duplicated region for block: B:94:0x0550  */
     @Override // org.telegram.ui.MessageEnterTransitionContainer.Transition
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -583,13 +583,10 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
         float y3 = ((this.drawableFromTop - this.container.getY()) * f21) + (backgroundDrawableTop * f3);
         float y4 = ((this.drawableFromBottom - this.container.getY()) * f21) + ((backgroundDrawableTop + (this.messageView.getBackgroundDrawableBottom() - this.messageView.getBackgroundDrawableTop())) * f3);
         int backgroundDrawableRight = (int) (this.messageView.getBackgroundDrawableRight() + x2 + (AndroidUtilities.dp(4.0f) * f20));
-        Theme.MessageDrawable messageDrawable = null;
-        if (!this.currentMessageObject.isAnimatedEmojiStickers()) {
-            messageDrawable = this.messageView.getCurrentBackgroundDrawable(true);
-        }
-        if (messageDrawable != null) {
+        Theme.MessageDrawable currentBackgroundDrawable = this.currentMessageObject.isAnimatedEmojiStickers() ? null : this.messageView.getCurrentBackgroundDrawable(true);
+        if (currentBackgroundDrawable != null) {
             this.messageView.setBackgroundTopY(this.container.getTop() - this.listView.getTop());
-            Drawable shadowDrawable = messageDrawable.getShadowDrawable();
+            Drawable shadowDrawable = currentBackgroundDrawable.getShadowDrawable();
             f6 = f2;
             if (f6 == 1.0f || (drawable = this.fromMessageDrawable) == null) {
                 f4 = f3;
@@ -607,13 +604,13 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
                 shadowDrawable.draw(canvas);
                 shadowDrawable.setAlpha(255);
             }
-            messageDrawable.setAlpha((int) (f6 * 255.0f));
-            messageDrawable.setBounds((int) backgroundDrawableLeft, (int) y3, backgroundDrawableRight, (int) y4);
-            messageDrawable.setDrawFullBubble(true);
-            messageDrawable.draw(canvas);
+            currentBackgroundDrawable.setAlpha((int) (f6 * 255.0f));
+            currentBackgroundDrawable.setBounds((int) backgroundDrawableLeft, (int) y3, backgroundDrawableRight, (int) y4);
+            currentBackgroundDrawable.setDrawFullBubble(true);
+            currentBackgroundDrawable.draw(canvas);
             z = false;
-            messageDrawable.setDrawFullBubble(false);
-            messageDrawable.setAlpha(255);
+            currentBackgroundDrawable.setDrawFullBubble(false);
+            currentBackgroundDrawable.setAlpha(255);
         } else {
             f4 = f3;
             f5 = f;
@@ -623,7 +620,7 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
         }
         canvas.restore();
         canvas.save();
-        if (messageDrawable != null) {
+        if (currentBackgroundDrawable != null) {
             if (this.currentMessageObject.isOutOwner()) {
                 canvas.clipRect(AndroidUtilities.dp(4.0f) + backgroundDrawableLeft, AndroidUtilities.dp(4.0f) + y3, backgroundDrawableRight - AndroidUtilities.dp(10.0f), y4 - AndroidUtilities.dp(4.0f));
             } else {
@@ -785,30 +782,30 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
             f14 = f36;
         } else {
             boolean z3 = this.crossfade;
-            if (!z3 || !this.changeColor) {
+            if (z3 && this.changeColor) {
+                int color = this.layout.getPaint().getColor();
+                this.layout.getPaint().setColor(ColorUtils.blendARGB(this.fromColor, this.toColor, f6));
+                float f37 = 1.0f - f6;
+                canvas.saveLayerAlpha(0.0f, 0.0f, this.layout.getWidth(), this.layout.getHeight(), (int) (f37 * 255.0f), 31);
+                this.layout.draw(canvas);
+                f13 = f32;
+                f14 = f36;
+                AnimatedEmojiSpan.drawAnimatedEmojis(canvas, this.layout, this.animatedEmojiStack, 0.0f, null, 0.0f, 0.0f, 0.0f, f37);
+                this.layout.getPaint().setColor(color);
+                canvas.restore();
+            } else {
                 f13 = f32;
                 f14 = f36;
                 if (z3) {
-                    float f37 = 1.0f - f6;
-                    canvas.saveLayerAlpha(0.0f, 0.0f, this.layout.getWidth(), this.layout.getHeight(), (int) (f37 * 255.0f), 31);
+                    float f38 = 1.0f - f6;
+                    canvas.saveLayerAlpha(0.0f, 0.0f, this.layout.getWidth(), this.layout.getHeight(), (int) (f38 * 255.0f), 31);
                     this.layout.draw(canvas);
-                    AnimatedEmojiSpan.drawAnimatedEmojis(canvas, this.layout, this.animatedEmojiStack, 0.0f, null, 0.0f, 0.0f, 0.0f, f37);
+                    AnimatedEmojiSpan.drawAnimatedEmojis(canvas, this.layout, this.animatedEmojiStack, 0.0f, null, 0.0f, 0.0f, 0.0f, f38);
                     canvas.restore();
                 } else {
                     this.layout.draw(canvas);
                     AnimatedEmojiSpan.drawAnimatedEmojis(canvas, this.layout, this.animatedEmojiStack, 0.0f, null, 0.0f, 0.0f, 0.0f, 1.0f);
                 }
-            } else {
-                int color = this.layout.getPaint().getColor();
-                this.layout.getPaint().setColor(ColorUtils.blendARGB(this.fromColor, this.toColor, f6));
-                float f38 = 1.0f - f6;
-                canvas.saveLayerAlpha(0.0f, 0.0f, this.layout.getWidth(), this.layout.getHeight(), (int) (f38 * 255.0f), 31);
-                this.layout.draw(canvas);
-                f13 = f32;
-                f14 = f36;
-                AnimatedEmojiSpan.drawAnimatedEmojis(canvas, this.layout, this.animatedEmojiStack, 0.0f, null, 0.0f, 0.0f, 0.0f, f38);
-                this.layout.getPaint().setColor(color);
-                canvas.restore();
             }
         }
         canvas.restore();

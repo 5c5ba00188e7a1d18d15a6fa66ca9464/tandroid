@@ -67,21 +67,21 @@ final class AutoValue_LogEvent extends LogEvent {
         if (obj == this) {
             return true;
         }
-        if (!(obj instanceof LogEvent)) {
-            return false;
-        }
-        LogEvent logEvent = (LogEvent) obj;
-        if (this.eventTimeMs == logEvent.getEventTimeMs() && ((num = this.eventCode) != null ? num.equals(logEvent.getEventCode()) : logEvent.getEventCode() == null) && this.eventUptimeMs == logEvent.getEventUptimeMs()) {
-            if (Arrays.equals(this.sourceExtension, logEvent instanceof AutoValue_LogEvent ? ((AutoValue_LogEvent) logEvent).sourceExtension : logEvent.getSourceExtension()) && ((str = this.sourceExtensionJsonProto3) != null ? str.equals(logEvent.getSourceExtensionJsonProto3()) : logEvent.getSourceExtensionJsonProto3() == null) && this.timezoneOffsetSeconds == logEvent.getTimezoneOffsetSeconds()) {
-                NetworkConnectionInfo networkConnectionInfo = this.networkConnectionInfo;
-                if (networkConnectionInfo == null) {
-                    if (logEvent.getNetworkConnectionInfo() == null) {
+        if (obj instanceof LogEvent) {
+            LogEvent logEvent = (LogEvent) obj;
+            if (this.eventTimeMs == logEvent.getEventTimeMs() && ((num = this.eventCode) != null ? num.equals(logEvent.getEventCode()) : logEvent.getEventCode() == null) && this.eventUptimeMs == logEvent.getEventUptimeMs()) {
+                if (Arrays.equals(this.sourceExtension, logEvent instanceof AutoValue_LogEvent ? ((AutoValue_LogEvent) logEvent).sourceExtension : logEvent.getSourceExtension()) && ((str = this.sourceExtensionJsonProto3) != null ? str.equals(logEvent.getSourceExtensionJsonProto3()) : logEvent.getSourceExtensionJsonProto3() == null) && this.timezoneOffsetSeconds == logEvent.getTimezoneOffsetSeconds()) {
+                    NetworkConnectionInfo networkConnectionInfo = this.networkConnectionInfo;
+                    if (networkConnectionInfo == null) {
+                        if (logEvent.getNetworkConnectionInfo() == null) {
+                            return true;
+                        }
+                    } else if (networkConnectionInfo.equals(logEvent.getNetworkConnectionInfo())) {
                         return true;
                     }
-                } else if (networkConnectionInfo.equals(logEvent.getNetworkConnectionInfo())) {
-                    return true;
                 }
             }
+            return false;
         }
         return false;
     }
@@ -90,19 +90,15 @@ final class AutoValue_LogEvent extends LogEvent {
         long j = this.eventTimeMs;
         int i = (((int) (j ^ (j >>> 32))) ^ 1000003) * 1000003;
         Integer num = this.eventCode;
-        int i2 = 0;
         int hashCode = num == null ? 0 : num.hashCode();
         long j2 = this.eventUptimeMs;
         int hashCode2 = (((((i ^ hashCode) * 1000003) ^ ((int) (j2 ^ (j2 >>> 32)))) * 1000003) ^ Arrays.hashCode(this.sourceExtension)) * 1000003;
         String str = this.sourceExtensionJsonProto3;
         int hashCode3 = str == null ? 0 : str.hashCode();
         long j3 = this.timezoneOffsetSeconds;
-        int i3 = (((hashCode2 ^ hashCode3) * 1000003) ^ ((int) ((j3 >>> 32) ^ j3))) * 1000003;
+        int i2 = (((hashCode2 ^ hashCode3) * 1000003) ^ ((int) ((j3 >>> 32) ^ j3))) * 1000003;
         NetworkConnectionInfo networkConnectionInfo = this.networkConnectionInfo;
-        if (networkConnectionInfo != null) {
-            i2 = networkConnectionInfo.hashCode();
-        }
-        return i3 ^ i2;
+        return i2 ^ (networkConnectionInfo != null ? networkConnectionInfo.hashCode() : 0);
     }
 
     /* loaded from: classes.dex */
@@ -161,7 +157,7 @@ final class AutoValue_LogEvent extends LogEvent {
         public LogEvent build() {
             String str = "";
             if (this.eventTimeMs == null) {
-                str = str + " eventTimeMs";
+                str = " eventTimeMs";
             }
             if (this.eventUptimeMs == null) {
                 str = str + " eventUptimeMs";

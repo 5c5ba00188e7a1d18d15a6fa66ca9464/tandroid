@@ -96,15 +96,12 @@ public final class EventMessage implements Metadata.Entry {
     public int hashCode() {
         if (this.hashCode == 0) {
             String str = this.schemeIdUri;
-            int i = 0;
             int hashCode = (527 + (str != null ? str.hashCode() : 0)) * 31;
             String str2 = this.value;
-            if (str2 != null) {
-                i = str2.hashCode();
-            }
+            int hashCode2 = str2 != null ? str2.hashCode() : 0;
             long j = this.durationMs;
             long j2 = this.id;
-            this.hashCode = ((((((hashCode + i) * 31) + ((int) (j ^ (j >>> 32)))) * 31) + ((int) (j2 ^ (j2 >>> 32)))) * 31) + Arrays.hashCode(this.messageData);
+            this.hashCode = ((((((hashCode + hashCode2) * 31) + ((int) (j ^ (j >>> 32)))) * 31) + ((int) (j2 ^ (j2 >>> 32)))) * 31) + Arrays.hashCode(this.messageData);
         }
         return this.hashCode;
     }

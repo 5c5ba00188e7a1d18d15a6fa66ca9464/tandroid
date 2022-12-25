@@ -20,13 +20,12 @@ public final class q2 extends s2 implements l3 {
     @Override // j$.util.stream.s2, j$.util.stream.m3, j$.util.stream.l3, j$.util.function.q
     public void accept(long j) {
         int i = this.f;
-        if (i < this.g) {
-            long[] jArr = this.h;
-            this.f = i + 1;
-            jArr[i] = j;
-            return;
+        if (i >= this.g) {
+            throw new IndexOutOfBoundsException(Integer.toString(this.f));
         }
-        throw new IndexOutOfBoundsException(Integer.toString(this.f));
+        long[] jArr = this.h;
+        this.f = i + 1;
+        jArr[i] = j;
     }
 
     @Override // j$.util.stream.s2

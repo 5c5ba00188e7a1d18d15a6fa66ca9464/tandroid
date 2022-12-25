@@ -87,7 +87,10 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
     };
     private boolean allReactionsAvailable;
     private boolean allReactionsIsDefault;
+    private List<ReactionsLayoutInBubble.VisibleReaction> allReactionsList;
     private final boolean animationEnabled;
+    private Paint bgPaint;
+    public int bigCircleOffset;
     private float bigCircleRadius;
     ValueAnimator cancelPressedAnimation;
     private float cancelPressedProgress;
@@ -100,14 +103,20 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
     private ReactionsContainerDelegate delegate;
     BaseFragment fragment;
     long lastReactionSentTime;
+    HashSet<View> lastVisibleViews;
+    HashSet<View> lastVisibleViewsTmp;
     private float leftAlpha;
+    private Paint leftShadowPaint;
     private LinearLayoutManager linearLayoutManager;
     private RecyclerView.Adapter listAdapter;
+    private int[] location;
+    private Path mPath;
     private MessageObject messageObject;
     public ReactionHolderView nextRecentReaction;
     private float otherViewsScale;
     FrameLayout premiumLockContainer;
     private PremiumLockIconView premiumLockIconView;
+    private List<TLRPC$TL_availableReaction> premiumLockedReactions;
     private boolean prepareAnimation;
     private float pressedProgress;
     private ReactionsLayoutInBubble.VisibleReaction pressedReaction;
@@ -115,31 +124,22 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
     private float pressedViewScale;
     ValueAnimator pullingDownBackAnimator;
     float pullingLeftOffset;
+    public float radius;
     CustomEmojiReactionsWindow reactionsWindow;
+    public RectF rect;
     public final RecyclerListView recyclerListView;
     Theme.ResourcesProvider resourcesProvider;
     private float rightAlpha;
+    private Paint rightShadowPaint;
     private Paint selectedPaint;
+    HashSet<ReactionsLayoutInBubble.VisibleReaction> selectedReactions;
     private Drawable shadow;
+    private android.graphics.Rect shadowPad;
     boolean skipDraw;
     private float smallCircleRadius;
+    private float transitionProgress;
+    private List<ReactionsLayoutInBubble.VisibleReaction> visibleReactionsList;
     private long waitingLoadingChatId;
-    private Paint bgPaint = new Paint(1);
-    private Paint leftShadowPaint = new Paint(1);
-    private Paint rightShadowPaint = new Paint(1);
-    private float transitionProgress = 1.0f;
-    public RectF rect = new RectF();
-    private Path mPath = new Path();
-    public float radius = AndroidUtilities.dp(72.0f);
-    public int bigCircleOffset = AndroidUtilities.dp(36.0f);
-    private List<ReactionsLayoutInBubble.VisibleReaction> visibleReactionsList = new ArrayList(20);
-    private List<TLRPC$TL_availableReaction> premiumLockedReactions = new ArrayList(10);
-    private List<ReactionsLayoutInBubble.VisibleReaction> allReactionsList = new ArrayList(20);
-    HashSet<ReactionsLayoutInBubble.VisibleReaction> selectedReactions = new HashSet<>();
-    private int[] location = new int[2];
-    private android.graphics.Rect shadowPad = new android.graphics.Rect();
-    HashSet<View> lastVisibleViews = new HashSet<>();
-    HashSet<View> lastVisibleViewsTmp = new HashSet<>();
 
     /* loaded from: classes3.dex */
     public interface ReactionsContainerDelegate {
@@ -149,10 +149,26 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
     public ReactionsContainerLayout(BaseFragment baseFragment, Context context, int i, Theme.ResourcesProvider resourcesProvider) {
         super(context);
         boolean z = true;
+        this.bgPaint = new Paint(1);
+        this.leftShadowPaint = new Paint(1);
+        this.rightShadowPaint = new Paint(1);
+        this.transitionProgress = 1.0f;
+        this.rect = new RectF();
+        this.mPath = new Path();
+        this.radius = AndroidUtilities.dp(72.0f);
         float dp = AndroidUtilities.dp(8.0f);
         this.bigCircleRadius = dp;
         this.smallCircleRadius = dp / 2.0f;
+        this.bigCircleOffset = AndroidUtilities.dp(36.0f);
+        this.visibleReactionsList = new ArrayList(20);
+        this.premiumLockedReactions = new ArrayList(10);
+        this.allReactionsList = new ArrayList(20);
+        this.selectedReactions = new HashSet<>();
+        this.location = new int[2];
+        this.shadowPad = new android.graphics.Rect();
         new ArrayList();
+        this.lastVisibleViews = new HashSet<>();
+        this.lastVisibleViewsTmp = new HashSet<>();
         Paint paint = new Paint(1);
         this.selectedPaint = paint;
         paint.setColor(Theme.getColor("listSelectorSDK21", resourcesProvider));
@@ -166,7 +182,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         reactionHolderView2.touchable = false;
         reactionHolderView2.pressedBackupImageView.setVisibility(8);
         addView(this.nextRecentReaction);
-        this.animationEnabled = (!SharedConfig.animationsEnabled() || SharedConfig.getDevicePerformanceClass() == 0) ? false : z;
+        this.animationEnabled = (!SharedConfig.animationsEnabled() || SharedConfig.getDevicePerformanceClass() == 0) ? false : false;
         this.shadow = ContextCompat.getDrawable(context, R.drawable.reactions_bubble_shadow).mutate();
         android.graphics.Rect rect = this.shadowPad;
         int dp2 = AndroidUtilities.dp(7.0f);
@@ -178,10 +194,10 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         RecyclerListView recyclerListView = new RecyclerListView(context) { // from class: org.telegram.ui.Components.ReactionsContainerLayout.2
             @Override // androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup
             public boolean drawChild(Canvas canvas, View view, long j) {
-                if (ReactionsContainerLayout.this.pressedReaction == null || !(view instanceof ReactionHolderView) || !((ReactionHolderView) view).currentReaction.equals(ReactionsContainerLayout.this.pressedReaction)) {
-                    return super.drawChild(canvas, view, j);
+                if (ReactionsContainerLayout.this.pressedReaction != null && (view instanceof ReactionHolderView) && ((ReactionHolderView) view).currentReaction.equals(ReactionsContainerLayout.this.pressedReaction)) {
+                    return true;
                 }
-                return true;
+                return super.drawChild(canvas, view, j);
             }
 
             @Override // org.telegram.ui.Components.RecyclerListView, android.view.ViewGroup, android.view.View
@@ -203,7 +219,6 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
             @Override // androidx.recyclerview.widget.LinearLayoutManager, androidx.recyclerview.widget.RecyclerView.LayoutManager
             public int scrollHorizontallyBy(int i2, RecyclerView.Recycler recycler, RecyclerView.State state) {
                 int i3;
-                boolean z2 = false;
                 if (i2 < 0) {
                     ReactionsContainerLayout reactionsContainerLayout = ReactionsContainerLayout.this;
                     if (reactionsContainerLayout.pullingLeftOffset != 0.0f) {
@@ -237,18 +252,10 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                         ReactionsContainerLayout.this.pullingDownBackAnimator.cancel();
                     }
                     float pullingLeftProgress2 = ReactionsContainerLayout.this.getPullingLeftProgress();
-                    float f2 = 0.6f;
-                    if (pullingLeftProgress2 > 1.0f) {
-                        f2 = 0.05f;
-                    }
+                    float f2 = pullingLeftProgress2 > 1.0f ? 0.05f : 0.6f;
                     ReactionsContainerLayout reactionsContainerLayout4 = ReactionsContainerLayout.this;
                     reactionsContainerLayout4.pullingLeftOffset += i2 * f2;
-                    float pullingLeftProgress3 = reactionsContainerLayout4.getPullingLeftProgress();
-                    boolean z3 = pullingLeftProgress2 > 1.0f;
-                    if (pullingLeftProgress3 > 1.0f) {
-                        z2 = true;
-                    }
-                    if (z3 != z2) {
+                    if ((pullingLeftProgress2 > 1.0f) != (reactionsContainerLayout4.getPullingLeftProgress() > 1.0f)) {
                         ReactionsContainerLayout.this.recyclerListView.performHapticFeedback(3);
                     }
                     FrameLayout frameLayout2 = ReactionsContainerLayout.this.customReactionsContainer;
@@ -270,16 +277,16 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                         rect2.left = AndroidUtilities.dp(6.0f);
                     }
                     rect2.right = AndroidUtilities.dp(4.0f);
-                    if (childAdapterPosition != ReactionsContainerLayout.this.listAdapter.getItemCount() - 1) {
-                        return;
+                    if (childAdapterPosition == ReactionsContainerLayout.this.listAdapter.getItemCount() - 1) {
+                        if (ReactionsContainerLayout.this.showUnlockPremiumButton() || ReactionsContainerLayout.this.showCustomEmojiReaction()) {
+                            rect2.right = AndroidUtilities.dp(2.0f);
+                            return;
+                        } else {
+                            rect2.right = AndroidUtilities.dp(6.0f);
+                            return;
+                        }
                     }
-                    if (ReactionsContainerLayout.this.showUnlockPremiumButton() || ReactionsContainerLayout.this.showCustomEmojiReaction()) {
-                        rect2.right = AndroidUtilities.dp(2.0f);
-                        return;
-                    } else {
-                        rect2.right = AndroidUtilities.dp(6.0f);
-                        return;
-                    }
+                    return;
                 }
                 rect2.left = 0;
                 rect2.right = 0;
@@ -565,7 +572,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
 
     /* JADX INFO: Access modifiers changed from: private */
     public boolean showUnlockPremiumButton() {
-        return !this.premiumLockedReactions.isEmpty() && !MessagesController.getInstance(this.currentAccount).premiumLocked;
+        return (this.premiumLockedReactions.isEmpty() || MessagesController.getInstance(this.currentAccount).premiumLocked) ? false : true;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1145,15 +1152,13 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
 
         @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
         public void onScrolled(RecyclerView recyclerView, int i, int i2) {
-            boolean z = false;
-            boolean z2 = ReactionsContainerLayout.this.linearLayoutManager.findFirstVisibleItemPosition() != 0;
-            float f = 1.0f;
-            if (z2 != this.leftVisible) {
+            boolean z = ReactionsContainerLayout.this.linearLayoutManager.findFirstVisibleItemPosition() != 0;
+            if (z != this.leftVisible) {
                 ValueAnimator valueAnimator = this.leftAnimator;
                 if (valueAnimator != null) {
                     valueAnimator.cancel();
                 }
-                this.leftAnimator = startAnimator(ReactionsContainerLayout.this.leftAlpha, z2 ? 1.0f : 0.0f, new Consumer() { // from class: org.telegram.ui.Components.ReactionsContainerLayout$LeftRightShadowsListener$$ExternalSyntheticLambda1
+                this.leftAnimator = startAnimator(ReactionsContainerLayout.this.leftAlpha, z ? 1.0f : 0.0f, new Consumer() { // from class: org.telegram.ui.Components.ReactionsContainerLayout$LeftRightShadowsListener$$ExternalSyntheticLambda1
                     @Override // androidx.core.util.Consumer
                     public final void accept(Object obj) {
                         ReactionsContainerLayout.LeftRightShadowsListener.this.lambda$onScrolled$0((Float) obj);
@@ -1164,21 +1169,15 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                         ReactionsContainerLayout.LeftRightShadowsListener.this.lambda$onScrolled$1();
                     }
                 });
-                this.leftVisible = z2;
+                this.leftVisible = z;
             }
-            if (ReactionsContainerLayout.this.linearLayoutManager.findLastVisibleItemPosition() != ReactionsContainerLayout.this.listAdapter.getItemCount() - 1) {
-                z = true;
-            }
-            if (z != this.rightVisible) {
+            boolean z2 = ReactionsContainerLayout.this.linearLayoutManager.findLastVisibleItemPosition() != ReactionsContainerLayout.this.listAdapter.getItemCount() - 1;
+            if (z2 != this.rightVisible) {
                 ValueAnimator valueAnimator2 = this.rightAnimator;
                 if (valueAnimator2 != null) {
                     valueAnimator2.cancel();
                 }
-                float f2 = ReactionsContainerLayout.this.rightAlpha;
-                if (!z) {
-                    f = 0.0f;
-                }
-                this.rightAnimator = startAnimator(f2, f, new Consumer() { // from class: org.telegram.ui.Components.ReactionsContainerLayout$LeftRightShadowsListener$$ExternalSyntheticLambda2
+                this.rightAnimator = startAnimator(ReactionsContainerLayout.this.rightAlpha, z2 ? 1.0f : 0.0f, new Consumer() { // from class: org.telegram.ui.Components.ReactionsContainerLayout$LeftRightShadowsListener$$ExternalSyntheticLambda2
                     @Override // androidx.core.util.Consumer
                     public final void accept(Object obj) {
                         ReactionsContainerLayout.LeftRightShadowsListener.this.lambda$onScrolled$2((Float) obj);
@@ -1189,7 +1188,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                         ReactionsContainerLayout.LeftRightShadowsListener.this.lambda$onScrolled$3();
                     }
                 });
-                this.rightVisible = z;
+                this.rightVisible = z2;
             }
         }
 
@@ -1242,10 +1241,13 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
     /* loaded from: classes3.dex */
     public final class ReactionHolderView extends FrameLayout {
         public ReactionsLayoutInBubble.VisibleReaction currentReaction;
+        public boolean drawSelected;
         public BackupImageView enterImageView;
         public boolean hasEnterAnimation;
         private boolean isEnter;
+        Runnable longPressRunnable;
         public BackupImageView loopImageView;
+        Runnable playRunnable;
         public int position;
         boolean pressed;
         public BackupImageView pressedBackupImageView;
@@ -1253,30 +1255,9 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         float pressedY;
         public boolean selected;
         public boolean shouldSwitchToLoopView;
+        public float sideScale;
         public boolean switchedToLoopView;
-        public float sideScale = 1.0f;
-        public boolean drawSelected = true;
-        Runnable playRunnable = new Runnable() { // from class: org.telegram.ui.Components.ReactionsContainerLayout.ReactionHolderView.1
-            @Override // java.lang.Runnable
-            public void run() {
-                if (ReactionHolderView.this.enterImageView.getImageReceiver().getLottieAnimation() == null || ReactionHolderView.this.enterImageView.getImageReceiver().getLottieAnimation().isRunning() || ReactionHolderView.this.enterImageView.getImageReceiver().getLottieAnimation().isGeneratingCache()) {
-                    return;
-                }
-                ReactionHolderView.this.enterImageView.getImageReceiver().getLottieAnimation().start();
-            }
-        };
-        Runnable longPressRunnable = new Runnable() { // from class: org.telegram.ui.Components.ReactionsContainerLayout.ReactionHolderView.4
-            @Override // java.lang.Runnable
-            public void run() {
-                ReactionHolderView.this.performHapticFeedback(0);
-                ReactionsContainerLayout reactionsContainerLayout = ReactionsContainerLayout.this;
-                reactionsContainerLayout.pressedReactionPosition = reactionsContainerLayout.visibleReactionsList.indexOf(ReactionHolderView.this.currentReaction);
-                ReactionHolderView reactionHolderView = ReactionHolderView.this;
-                ReactionsContainerLayout.this.pressedReaction = reactionHolderView.currentReaction;
-                ReactionsContainerLayout.this.invalidate();
-            }
-        };
-        boolean touchable = true;
+        boolean touchable;
 
         @Override // android.view.View
         public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
@@ -1296,6 +1277,29 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
 
         ReactionHolderView(Context context, boolean z) {
             super(context);
+            this.sideScale = 1.0f;
+            this.drawSelected = true;
+            this.playRunnable = new Runnable() { // from class: org.telegram.ui.Components.ReactionsContainerLayout.ReactionHolderView.1
+                @Override // java.lang.Runnable
+                public void run() {
+                    if (ReactionHolderView.this.enterImageView.getImageReceiver().getLottieAnimation() == null || ReactionHolderView.this.enterImageView.getImageReceiver().getLottieAnimation().isRunning() || ReactionHolderView.this.enterImageView.getImageReceiver().getLottieAnimation().isGeneratingCache()) {
+                        return;
+                    }
+                    ReactionHolderView.this.enterImageView.getImageReceiver().getLottieAnimation().start();
+                }
+            };
+            this.longPressRunnable = new Runnable() { // from class: org.telegram.ui.Components.ReactionsContainerLayout.ReactionHolderView.4
+                @Override // java.lang.Runnable
+                public void run() {
+                    ReactionHolderView.this.performHapticFeedback(0);
+                    ReactionsContainerLayout reactionsContainerLayout = ReactionsContainerLayout.this;
+                    reactionsContainerLayout.pressedReactionPosition = reactionsContainerLayout.visibleReactionsList.indexOf(ReactionHolderView.this.currentReaction);
+                    ReactionHolderView reactionHolderView = ReactionHolderView.this;
+                    ReactionsContainerLayout.this.pressedReaction = reactionHolderView.currentReaction;
+                    ReactionsContainerLayout.this.invalidate();
+                }
+            };
+            this.touchable = true;
             this.enterImageView = new 2(context, ReactionsContainerLayout.this);
             this.loopImageView = new BackupImageView(context);
             this.enterImageView.getImageReceiver().setAutoRepeat(0);
@@ -1552,15 +1556,10 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
             }
             AnimatedEmojiDrawable animatedEmojiDrawable = this.loopImageView.animatedEmojiDrawable;
             if (animatedEmojiDrawable != null && animatedEmojiDrawable.getImageReceiver() != null) {
-                int i = 0;
                 if (this.position == 0) {
                     this.loopImageView.animatedEmojiDrawable.getImageReceiver().setRoundRadius(AndroidUtilities.dp(6.0f), 0, 0, AndroidUtilities.dp(6.0f));
                 } else {
-                    ImageReceiver imageReceiver = this.loopImageView.animatedEmojiDrawable.getImageReceiver();
-                    if (this.selected) {
-                        i = AndroidUtilities.dp(6.0f);
-                    }
-                    imageReceiver.setRoundRadius(i);
+                    this.loopImageView.animatedEmojiDrawable.getImageReceiver().setRoundRadius(this.selected ? AndroidUtilities.dp(6.0f) : 0);
                 }
             }
             super.dispatchDraw(canvas);
@@ -1689,10 +1688,11 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
 
     /* loaded from: classes3.dex */
     private class CustomReactionsContainer extends FrameLayout {
-        Paint backgroundPaint = new Paint(1);
+        Paint backgroundPaint;
 
         public CustomReactionsContainer(Context context) {
             super(context);
+            this.backgroundPaint = new Paint(1);
         }
 
         @Override // android.view.ViewGroup, android.view.View

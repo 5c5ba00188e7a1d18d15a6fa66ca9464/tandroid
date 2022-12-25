@@ -54,12 +54,12 @@ public abstract class TLRPC$messages_SavedGifs extends TLObject {
                 }
             };
         }
-        if (tLRPC$messages_SavedGifs != null || !z) {
-            if (tLRPC$messages_SavedGifs != null) {
-                tLRPC$messages_SavedGifs.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$messages_SavedGifs;
+        if (tLRPC$messages_SavedGifs == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in messages_SavedGifs", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in messages_SavedGifs", Integer.valueOf(i)));
+        if (tLRPC$messages_SavedGifs != null) {
+            tLRPC$messages_SavedGifs.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$messages_SavedGifs;
     }
 }

@@ -228,7 +228,6 @@ public abstract class TLRPC$User extends TLObject {
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
                         this.flags = readInt32;
-                        boolean z3 = false;
                         this.self = (readInt32 & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0;
                         this.contact = (readInt32 & 2048) != 0;
                         this.mutual_contact = (readInt32 & 4096) != 0;
@@ -239,10 +238,7 @@ public abstract class TLRPC$User extends TLObject {
                         this.verified = (131072 & readInt32) != 0;
                         this.restricted = (readInt32 & 262144) != 0;
                         this.min = (1048576 & readInt32) != 0;
-                        if ((readInt32 & 2097152) != 0) {
-                            z3 = true;
-                        }
-                        this.bot_inline_geo = z3;
+                        this.bot_inline_geo = (readInt32 & 2097152) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
                         if ((this.flags & 1) != 0) {
                             this.access_hash = abstractSerializedData2.readInt64(z2);
@@ -403,7 +399,6 @@ public abstract class TLRPC$User extends TLObject {
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
                         this.flags = readInt32;
-                        boolean z3 = false;
                         this.self = (readInt32 & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0;
                         this.contact = (readInt32 & 2048) != 0;
                         this.mutual_contact = (readInt32 & 4096) != 0;
@@ -412,10 +407,7 @@ public abstract class TLRPC$User extends TLObject {
                         this.bot_chat_history = (32768 & readInt32) != 0;
                         this.bot_nochats = (65536 & readInt32) != 0;
                         this.verified = (131072 & readInt32) != 0;
-                        if ((readInt32 & 262144) != 0) {
-                            z3 = true;
-                        }
-                        this.explicit_content = z3;
+                        this.explicit_content = (readInt32 & 262144) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
                         if ((this.flags & 1) != 0) {
                             this.access_hash = abstractSerializedData2.readInt64(z2);
@@ -529,7 +521,6 @@ public abstract class TLRPC$User extends TLObject {
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
                         this.flags = readInt32;
-                        boolean z3 = false;
                         this.self = (readInt32 & ConnectionsManager.RequestFlagDoNotWaitFloodWait) != 0;
                         this.contact = (readInt32 & 2048) != 0;
                         this.mutual_contact = (readInt32 & 4096) != 0;
@@ -542,10 +533,7 @@ public abstract class TLRPC$User extends TLObject {
                         this.min = (1048576 & readInt32) != 0;
                         this.bot_inline_geo = (2097152 & readInt32) != 0;
                         this.support = (8388608 & readInt32) != 0;
-                        if ((readInt32 & ConnectionsManager.FileTypePhoto) != 0) {
-                            z3 = true;
-                        }
-                        this.scam = z3;
+                        this.scam = (readInt32 & ConnectionsManager.FileTypePhoto) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
                         if ((this.flags & 1) != 0) {
                             this.access_hash = abstractSerializedData2.readInt64(z2);
@@ -1056,12 +1044,12 @@ public abstract class TLRPC$User extends TLObject {
                 tLRPC$TL_user = null;
                 break;
         }
-        if (tLRPC$TL_user != null || !z) {
-            if (tLRPC$TL_user != null) {
-                tLRPC$TL_user.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_user;
+        if (tLRPC$TL_user == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in User", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in User", Integer.valueOf(i)));
+        if (tLRPC$TL_user != null) {
+            tLRPC$TL_user.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_user;
     }
 }

@@ -100,7 +100,6 @@ public final class zzid$zzl extends zzeo.zzc<zzid$zzl, zza> {
     @Override // com.google.android.gms.internal.mlkit_language_id.zzeo
     public final Object zza(int i, Object obj, Object obj2) {
         zzgj<zzid$zzl> zzgjVar;
-        int i2 = 1;
         switch (zzic.zza[i - 1]) {
             case 1:
                 return new zzid$zzl();
@@ -129,10 +128,7 @@ public final class zzid$zzl extends zzeo.zzc<zzid$zzl, zza> {
             case 6:
                 return Byte.valueOf(this.zze);
             case 7:
-                if (obj == null) {
-                    i2 = 0;
-                }
-                this.zze = (byte) i2;
+                this.zze = (byte) (obj == null ? 0 : 1);
                 return null;
             default:
                 throw new UnsupportedOperationException();

@@ -69,18 +69,18 @@ public final class zzcb {
     /* JADX WARN: Code restructure failed: missing block: B:18:0x002c, code lost:
         if (r3.equals("com.google.android.gms.maps_dynamite") == false) goto L20;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:19:0x0046, code lost:
-        r2 = zzb(r1, r2);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:21:0x002e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:19:0x002e, code lost:
         android.util.Log.d(com.google.android.gms.maps.internal.zzcb.zza, "Attempting to load maps_dynamite again.");
         r2 = com.google.android.gms.dynamite.DynamiteModule.load(r2, com.google.android.gms.dynamite.DynamiteModule.PREFER_REMOTE, "com.google.android.gms.maps_dynamite").getModuleContext();
      */
-    /* JADX WARN: Code restructure failed: missing block: B:23:0x0040, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:21:0x0040, code lost:
         r3 = move-exception;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:24:0x0041, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:22:0x0041, code lost:
         r2 = zzb(r3, r2);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:23:0x0046, code lost:
+        r2 = zzb(r1, r2);
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

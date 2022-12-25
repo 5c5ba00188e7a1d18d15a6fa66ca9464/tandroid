@@ -98,12 +98,12 @@ public abstract class TLRPC$channels_ChannelParticipants extends TLObject {
                 }
             };
         }
-        if (tLRPC$channels_ChannelParticipants != null || !z) {
-            if (tLRPC$channels_ChannelParticipants != null) {
-                tLRPC$channels_ChannelParticipants.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$channels_ChannelParticipants;
+        if (tLRPC$channels_ChannelParticipants == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in channels_ChannelParticipants", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in channels_ChannelParticipants", Integer.valueOf(i)));
+        if (tLRPC$channels_ChannelParticipants != null) {
+            tLRPC$channels_ChannelParticipants.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$channels_ChannelParticipants;
     }
 }

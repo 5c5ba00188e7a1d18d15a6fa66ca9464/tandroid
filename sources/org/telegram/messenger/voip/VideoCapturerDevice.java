@@ -178,20 +178,20 @@ public class VideoCapturerDevice {
         }
         this.nativePtr = j;
         if ("screen".equals(str)) {
-            if (Build.VERSION.SDK_INT < 21 || this.videoCapturer != null) {
+            if (Build.VERSION.SDK_INT >= 21 && this.videoCapturer == null) {
+                this.videoCapturer = new ScreenCapturerAndroid(mediaProjectionPermissionResultData, new 1());
+                final Point screenCaptureSize = getScreenCaptureSize();
+                this.currentWidth = screenCaptureSize.x;
+                this.currentHeight = screenCaptureSize.y;
+                this.videoCapturerSurfaceTextureHelper = SurfaceTextureHelper.create("ScreenCapturerThread", eglBase.getEglBaseContext());
+                this.handler.post(new Runnable() { // from class: org.telegram.messenger.voip.VideoCapturerDevice$$ExternalSyntheticLambda6
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        VideoCapturerDevice.this.lambda$init$2(screenCaptureSize);
+                    }
+                });
                 return;
             }
-            this.videoCapturer = new ScreenCapturerAndroid(mediaProjectionPermissionResultData, new 1());
-            final Point screenCaptureSize = getScreenCaptureSize();
-            this.currentWidth = screenCaptureSize.x;
-            this.currentHeight = screenCaptureSize.y;
-            this.videoCapturerSurfaceTextureHelper = SurfaceTextureHelper.create("ScreenCapturerThread", eglBase.getEglBaseContext());
-            this.handler.post(new Runnable() { // from class: org.telegram.messenger.voip.VideoCapturerDevice$$ExternalSyntheticLambda6
-                @Override // java.lang.Runnable
-                public final void run() {
-                    VideoCapturerDevice.this.lambda$init$2(screenCaptureSize);
-                }
-            });
             return;
         }
         CameraEnumerator camera2Enumerator = Camera2Enumerator.isSupported(ApplicationLoader.applicationContext) ? new Camera2Enumerator(ApplicationLoader.applicationContext) : new Camera1Enumerator();
@@ -260,10 +260,9 @@ public class VideoCapturerDevice {
             this.videoCapturer.initialize(this.videoCapturerSurfaceTextureHelper, ApplicationLoader.applicationContext, this.nativeCapturerObserver);
             this.videoCapturer.startCapture(point.x, point.y, CAPTURE_FPS);
             WebRtcAudioRecord webRtcAudioRecord = WebRtcAudioRecord.Instance;
-            if (webRtcAudioRecord == null) {
-                return;
+            if (webRtcAudioRecord != null) {
+                webRtcAudioRecord.initDeviceAudioRecord(((ScreenCapturerAndroid) this.videoCapturer).getMediaProjection());
             }
-            webRtcAudioRecord.initDeviceAudioRecord(((ScreenCapturerAndroid) this.videoCapturer).getMediaProjection());
         }
     }
 

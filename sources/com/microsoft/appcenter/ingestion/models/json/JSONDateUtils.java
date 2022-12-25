@@ -20,10 +20,9 @@ public final class JSONDateUtils {
     };
 
     private static void checkNull(Object obj) throws JSONException {
-        if (obj != null) {
-            return;
+        if (obj == null) {
+            throw new JSONException("date cannot be null");
         }
-        throw new JSONException("date cannot be null");
     }
 
     public static String toString(Date date) throws JSONException {

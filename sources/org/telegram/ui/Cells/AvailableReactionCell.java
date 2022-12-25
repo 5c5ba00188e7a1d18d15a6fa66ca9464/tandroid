@@ -82,9 +82,7 @@ public class AvailableReactionCell extends FrameLayout {
         this.react = tLRPC$TL_availableReaction;
         this.textView.setText(tLRPC$TL_availableReaction.title);
         this.imageView.setImage(ImageLocation.getForDocument(tLRPC$TL_availableReaction.activate_animation), "30_30_pcache", "tgs", DocumentObject.getSvgThumb(tLRPC$TL_availableReaction.static_icon, "windowBackgroundGray", 1.0f), tLRPC$TL_availableReaction);
-        if (!this.canLock || !tLRPC$TL_availableReaction.premium || UserConfig.getInstance(i).isPremium()) {
-            z2 = false;
-        }
+        z2 = (this.canLock && tLRPC$TL_availableReaction.premium && !UserConfig.getInstance(i).isPremium()) ? false : false;
         this.locked = z2;
         if (z2) {
             Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.other_lockedfolders2);
@@ -117,10 +115,10 @@ public class AvailableReactionCell extends FrameLayout {
             return r0.isChecked();
         }
         CheckBox2 checkBox2 = this.checkBox;
-        if (checkBox2 == null) {
-            return false;
+        if (checkBox2 != null) {
+            return checkBox2.isChecked();
         }
-        return checkBox2.isChecked();
+        return false;
     }
 
     @Override // android.view.View

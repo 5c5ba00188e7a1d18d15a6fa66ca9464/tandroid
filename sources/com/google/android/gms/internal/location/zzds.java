@@ -21,11 +21,11 @@ public abstract class zzds extends zzdp implements List, RandomAccess {
     public static zzds zzj(Collection collection) {
         if (collection instanceof zzdp) {
             zzds zzd = ((zzdp) collection).zzd();
-            if (!zzd.zzf()) {
-                return zzd;
+            if (zzd.zzf()) {
+                Object[] array = zzd.toArray();
+                return zzi(array, array.length);
             }
-            Object[] array = zzd.toArray();
-            return zzi(array, array.length);
+            return zzd;
         }
         Object[] array2 = collection.toArray();
         int length = array2.length;

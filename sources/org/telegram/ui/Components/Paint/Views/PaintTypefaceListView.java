@@ -14,11 +14,12 @@ import org.telegram.ui.Components.Paint.Views.PaintTextOptionsView;
 import org.telegram.ui.Components.RecyclerListView;
 /* loaded from: classes3.dex */
 public class PaintTypefaceListView extends RecyclerListView {
-    private Path mask = new Path();
+    private Path mask;
     private Consumer<Path> maskProvider;
 
     public PaintTypefaceListView(Context context) {
         super(context);
+        this.mask = new Path();
         setWillNotDraw(false);
         setLayoutManager(new LinearLayoutManager(context));
         setAdapter(new RecyclerListView.SelectionAdapter(this) { // from class: org.telegram.ui.Components.Paint.Views.PaintTypefaceListView.1

@@ -282,8 +282,7 @@ final class DecodedBitStreamParser {
             }
             sb.append(toAlphaNumericChar(readBits2 / 10));
             sb.append(toAlphaNumericChar(readBits2 % 10));
-        } else if (i != 1) {
-        } else {
+        } else if (i == 1) {
             if (bitSource.available() < 4) {
                 throw FormatException.getFormatInstance();
             }

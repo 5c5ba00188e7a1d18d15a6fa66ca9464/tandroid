@@ -74,15 +74,15 @@ public final class zzjd extends zzhj<Integer> implements zzjl<Integer>, zzkw {
 
     @Override // java.util.AbstractList, java.util.List
     public final int indexOf(Object obj) {
-        if (!(obj instanceof Integer)) {
-            return -1;
-        }
-        int intValue = ((Integer) obj).intValue();
-        int size = size();
-        for (int i = 0; i < size; i++) {
-            if (this.zzb[i] == intValue) {
-                return i;
+        if (obj instanceof Integer) {
+            int intValue = ((Integer) obj).intValue();
+            int size = size();
+            for (int i = 0; i < size; i++) {
+                if (this.zzb[i] == intValue) {
+                    return i;
+                }
             }
+            return -1;
         }
         return -1;
     }

@@ -182,12 +182,12 @@ public abstract class TLRPC$messages_SponsoredMessages extends TLObject {
                 }
             };
         }
-        if (tLRPC$messages_SponsoredMessages != null || !z) {
-            if (tLRPC$messages_SponsoredMessages != null) {
-                tLRPC$messages_SponsoredMessages.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$messages_SponsoredMessages;
+        if (tLRPC$messages_SponsoredMessages == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in messages_SponsoredMessages", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in messages_SponsoredMessages", Integer.valueOf(i)));
+        if (tLRPC$messages_SponsoredMessages != null) {
+            tLRPC$messages_SponsoredMessages.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$messages_SponsoredMessages;
     }
 }

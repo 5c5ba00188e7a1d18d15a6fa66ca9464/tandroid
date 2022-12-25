@@ -20,7 +20,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.LetterDrawable;
 /* loaded from: classes3.dex */
 public class ShareTopicCell extends FrameLayout {
-    private int currentAccount = UserConfig.selectedAccount;
+    private int currentAccount;
     private long currentDialog;
     private long currentTopic;
     private BackupImageView imageView;
@@ -29,6 +29,7 @@ public class ShareTopicCell extends FrameLayout {
 
     public ShareTopicCell(Context context, Theme.ResourcesProvider resourcesProvider) {
         super(context);
+        this.currentAccount = UserConfig.selectedAccount;
         this.resourcesProvider = resourcesProvider;
         setWillNotDraw(false);
         BackupImageView backupImageView = new BackupImageView(context);
@@ -54,13 +55,12 @@ public class ShareTopicCell extends FrameLayout {
 
     public void setTopic(TLRPC$Dialog tLRPC$Dialog, TLRPC$TL_forumTopic tLRPC$TL_forumTopic, boolean z, CharSequence charSequence) {
         TLRPC$Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-tLRPC$Dialog.id));
-        String str = "";
         if (charSequence != null) {
             this.nameTextView.setText(charSequence);
         } else if (chat != null) {
             this.nameTextView.setText(tLRPC$TL_forumTopic.title);
         } else {
-            this.nameTextView.setText(str);
+            this.nameTextView.setText("");
         }
         if (tLRPC$TL_forumTopic.icon_emoji_id != 0) {
             this.imageView.setImageDrawable(null);
@@ -70,10 +70,7 @@ public class ShareTopicCell extends FrameLayout {
             ForumBubbleDrawable forumBubbleDrawable = new ForumBubbleDrawable(tLRPC$TL_forumTopic.icon_color);
             LetterDrawable letterDrawable = new LetterDrawable(null, 1);
             String upperCase = tLRPC$TL_forumTopic.title.trim().toUpperCase();
-            if (upperCase.length() >= 1) {
-                str = upperCase.substring(0, 1);
-            }
-            letterDrawable.setTitle(str);
+            letterDrawable.setTitle(upperCase.length() >= 1 ? upperCase.substring(0, 1) : "");
             letterDrawable.scale = 1.8f;
             CombinedDrawable combinedDrawable = new CombinedDrawable(forumBubbleDrawable, letterDrawable, 0, 0);
             combinedDrawable.setFullsize(true);

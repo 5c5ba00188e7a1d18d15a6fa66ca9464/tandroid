@@ -189,29 +189,29 @@ public class VoIPTextureView extends FrameLayout {
             } catch (Throwable unused) {
             }
         }
-        if (!z2) {
-            this.renderer.setScreenRotation(((WindowManager) getContext().getSystemService("window")).getDefaultDisplay().getRotation());
+        if (z2) {
+            return;
         }
+        this.renderer.setScreenRotation(((WindowManager) getContext().getSystemService("window")).getDefaultDisplay().getRotation());
     }
 
     public void setScreenshareMiniProgress(float f, boolean z) {
         float f2;
-        if (!this.screencast) {
-            return;
+        if (this.screencast) {
+            float scaleX = ((View) getParent()).getScaleX();
+            float f3 = 1.0f;
+            this.screencastText.setAlpha(1.0f - f);
+            if (z) {
+                f2 = 0.4f * f;
+            } else {
+                f3 = 1.0f / scaleX;
+                f2 = (0.4f / scaleX) * f;
+            }
+            float f4 = f3 - f2;
+            this.screencastImage.setScaleX(f4);
+            this.screencastImage.setScaleY(f4);
+            this.screencastImage.setTranslationY(AndroidUtilities.dp(60.0f) * f);
         }
-        float scaleX = ((View) getParent()).getScaleX();
-        float f3 = 1.0f;
-        this.screencastText.setAlpha(1.0f - f);
-        if (!z) {
-            f3 = 1.0f / scaleX;
-            f2 = (0.4f / scaleX) * f;
-        } else {
-            f2 = 0.4f * f;
-        }
-        float f4 = f3 - f2;
-        this.screencastImage.setScaleX(f4);
-        this.screencastImage.setScaleY(f4);
-        this.screencastImage.setTranslationY(AndroidUtilities.dp(60.0f) * f);
     }
 
     public void setIsScreencast(boolean z) {
@@ -228,10 +228,9 @@ public class VoIPTextureView extends FrameLayout {
         }
         this.renderer.setVisibility(0);
         TextureView textureView2 = this.blurRenderer;
-        if (textureView2 == null) {
-            return;
+        if (textureView2 != null) {
+            textureView2.setVisibility(0);
         }
-        textureView2.setVisibility(0);
     }
 
     protected void onFirstFrameRendered() {
@@ -250,18 +249,17 @@ public class VoIPTextureView extends FrameLayout {
     @Override // android.view.ViewGroup, android.view.View
     public void dispatchDraw(Canvas canvas) {
         super.dispatchDraw(canvas);
-        if (this.imageView.getVisibility() != 0 || !this.renderer.isFirstFrameRendered()) {
-            return;
+        if (this.imageView.getVisibility() == 0 && this.renderer.isFirstFrameRendered()) {
+            float f = this.stubVisibleProgress - 0.10666667f;
+            this.stubVisibleProgress = f;
+            if (f <= 0.0f) {
+                this.stubVisibleProgress = 0.0f;
+                this.imageView.setVisibility(8);
+                return;
+            }
+            invalidate();
+            this.imageView.setAlpha(this.stubVisibleProgress);
         }
-        float f = this.stubVisibleProgress - 0.10666667f;
-        this.stubVisibleProgress = f;
-        if (f <= 0.0f) {
-            this.stubVisibleProgress = 0.0f;
-            this.imageView.setVisibility(8);
-            return;
-        }
-        invalidate();
-        this.imageView.setAlpha(this.stubVisibleProgress);
     }
 
     public void setRoundCorners(float f) {
@@ -372,11 +370,11 @@ public class VoIPTextureView extends FrameLayout {
         }
         if (this.scaleType == SCALE_TYPE_NONE) {
             TextureView textureView = this.blurRenderer;
-            if (textureView == null) {
+            if (textureView != null) {
+                textureView.setScaleX(this.scaleTextureToFillBlur);
+                this.blurRenderer.setScaleY(this.scaleTextureToFillBlur);
                 return;
             }
-            textureView.setScaleX(this.scaleTextureToFillBlur);
-            this.blurRenderer.setScaleY(this.scaleTextureToFillBlur);
             return;
         }
         if (this.renderer.getMeasuredHeight() == 0 || this.renderer.getMeasuredWidth() == 0 || getMeasuredHeight() == 0 || getMeasuredWidth() == 0) {
@@ -584,8 +582,9 @@ public class VoIPTextureView extends FrameLayout {
     }
 
     public void updateRotation() {
-        if (!this.applyRotation) {
-            ((WindowManager) getContext().getSystemService("window")).getDefaultDisplay();
+        if (this.applyRotation) {
+            return;
         }
+        ((WindowManager) getContext().getSystemService("window")).getDefaultDisplay();
     }
 }

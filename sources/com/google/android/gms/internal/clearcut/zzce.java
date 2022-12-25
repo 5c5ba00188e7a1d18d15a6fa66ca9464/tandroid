@@ -67,27 +67,27 @@ final class zzce extends zzav<Float> implements zzcn<Float> {
     public final boolean addAll(Collection<? extends Float> collection) {
         zzw();
         zzci.checkNotNull(collection);
-        if (!(collection instanceof zzce)) {
-            return super.addAll(collection);
-        }
-        zzce zzceVar = (zzce) collection;
-        int i = zzceVar.size;
-        if (i == 0) {
-            return false;
-        }
-        int i2 = this.size;
-        if (ConnectionsManager.DEFAULT_DATACENTER_ID - i2 < i) {
+        if (collection instanceof zzce) {
+            zzce zzceVar = (zzce) collection;
+            int i = zzceVar.size;
+            if (i == 0) {
+                return false;
+            }
+            int i2 = this.size;
+            if (ConnectionsManager.DEFAULT_DATACENTER_ID - i2 >= i) {
+                int i3 = i2 + i;
+                float[] fArr = this.zzjn;
+                if (i3 > fArr.length) {
+                    this.zzjn = Arrays.copyOf(fArr, i3);
+                }
+                System.arraycopy(zzceVar.zzjn, 0, this.zzjn, this.size, zzceVar.size);
+                this.size = i3;
+                ((AbstractList) this).modCount++;
+                return true;
+            }
             throw new OutOfMemoryError();
         }
-        int i3 = i2 + i;
-        float[] fArr = this.zzjn;
-        if (i3 > fArr.length) {
-            this.zzjn = Arrays.copyOf(fArr, i3);
-        }
-        System.arraycopy(zzceVar.zzjn, 0, this.zzjn, this.size, zzceVar.size);
-        this.size = i3;
-        ((AbstractList) this).modCount++;
-        return true;
+        return super.addAll(collection);
     }
 
     @Override // com.google.android.gms.internal.clearcut.zzav, java.util.AbstractList, java.util.Collection, java.util.List
@@ -95,20 +95,20 @@ final class zzce extends zzav<Float> implements zzcn<Float> {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof zzce)) {
-            return super.equals(obj);
-        }
-        zzce zzceVar = (zzce) obj;
-        if (this.size != zzceVar.size) {
-            return false;
-        }
-        float[] fArr = zzceVar.zzjn;
-        for (int i = 0; i < this.size; i++) {
-            if (this.zzjn[i] != fArr[i]) {
+        if (obj instanceof zzce) {
+            zzce zzceVar = (zzce) obj;
+            if (this.size != zzceVar.size) {
                 return false;
             }
+            float[] fArr = zzceVar.zzjn;
+            for (int i = 0; i < this.size; i++) {
+                if (this.zzjn[i] != fArr[i]) {
+                    return false;
+                }
+            }
+            return true;
         }
-        return true;
+        return super.equals(obj);
     }
 
     @Override // java.util.AbstractList, java.util.List
@@ -159,14 +159,13 @@ final class zzce extends zzav<Float> implements zzcn<Float> {
     @Override // java.util.AbstractList
     protected final void removeRange(int i, int i2) {
         zzw();
-        if (i2 >= i) {
-            float[] fArr = this.zzjn;
-            System.arraycopy(fArr, i2, fArr, i, this.size - i2);
-            this.size -= i2 - i;
-            ((AbstractList) this).modCount++;
-            return;
+        if (i2 < i) {
+            throw new IndexOutOfBoundsException("toIndex < fromIndex");
         }
-        throw new IndexOutOfBoundsException("toIndex < fromIndex");
+        float[] fArr = this.zzjn;
+        System.arraycopy(fArr, i2, fArr, i, this.size - i2);
+        this.size -= i2 - i;
+        ((AbstractList) this).modCount++;
     }
 
     @Override // java.util.AbstractList, java.util.List

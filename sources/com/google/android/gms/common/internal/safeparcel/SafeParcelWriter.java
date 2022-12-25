@@ -23,10 +23,10 @@ public class SafeParcelWriter {
 
     public static void writeBundle(Parcel parcel, int i, Bundle bundle, boolean z) {
         if (bundle == null) {
-            if (!z) {
+            if (z) {
+                zzc(parcel, i, 0);
                 return;
             }
-            zzc(parcel, i, 0);
             return;
         }
         int zza = zza(parcel, i);
@@ -41,10 +41,10 @@ public class SafeParcelWriter {
 
     public static void writeByteArray(Parcel parcel, int i, byte[] bArr, boolean z) {
         if (bArr == null) {
-            if (!z) {
+            if (z) {
+                zzc(parcel, i, 0);
                 return;
             }
-            zzc(parcel, i, 0);
             return;
         }
         int zza = zza(parcel, i);
@@ -54,10 +54,10 @@ public class SafeParcelWriter {
 
     public static void writeByteArrayArray(Parcel parcel, int i, byte[][] bArr, boolean z) {
         if (bArr == null) {
-            if (!z) {
+            if (z) {
+                zzc(parcel, i, 0);
                 return;
             }
-            zzc(parcel, i, 0);
             return;
         }
         int zza = zza(parcel, i);
@@ -82,18 +82,17 @@ public class SafeParcelWriter {
         if (f != null) {
             zzc(parcel, i, 4);
             parcel.writeFloat(f.floatValue());
-        } else if (!z) {
-        } else {
+        } else if (z) {
             zzc(parcel, i, 0);
         }
     }
 
     public static void writeIBinder(Parcel parcel, int i, IBinder iBinder, boolean z) {
         if (iBinder == null) {
-            if (!z) {
+            if (z) {
+                zzc(parcel, i, 0);
                 return;
             }
-            zzc(parcel, i, 0);
             return;
         }
         int zza = zza(parcel, i);
@@ -108,10 +107,10 @@ public class SafeParcelWriter {
 
     public static void writeIntArray(Parcel parcel, int i, int[] iArr, boolean z) {
         if (iArr == null) {
-            if (!z) {
+            if (z) {
+                zzc(parcel, i, 0);
                 return;
             }
-            zzc(parcel, i, 0);
             return;
         }
         int zza = zza(parcel, i);
@@ -121,10 +120,10 @@ public class SafeParcelWriter {
 
     public static void writeIntegerList(Parcel parcel, int i, List<Integer> list, boolean z) {
         if (list == null) {
-            if (!z) {
+            if (z) {
+                zzc(parcel, i, 0);
                 return;
             }
-            zzc(parcel, i, 0);
             return;
         }
         int zza = zza(parcel, i);
@@ -140,8 +139,7 @@ public class SafeParcelWriter {
         if (num != null) {
             zzc(parcel, i, 4);
             parcel.writeInt(num.intValue());
-        } else if (!z) {
-        } else {
+        } else if (z) {
             zzc(parcel, i, 0);
         }
     }
@@ -153,10 +151,10 @@ public class SafeParcelWriter {
 
     public static void writeParcelable(Parcel parcel, int i, Parcelable parcelable, int i2, boolean z) {
         if (parcelable == null) {
-            if (!z) {
+            if (z) {
+                zzc(parcel, i, 0);
                 return;
             }
-            zzc(parcel, i, 0);
             return;
         }
         int zza = zza(parcel, i);
@@ -166,10 +164,10 @@ public class SafeParcelWriter {
 
     public static void writeString(Parcel parcel, int i, String str, boolean z) {
         if (str == null) {
-            if (!z) {
+            if (z) {
+                zzc(parcel, i, 0);
                 return;
             }
-            zzc(parcel, i, 0);
             return;
         }
         int zza = zza(parcel, i);
@@ -179,10 +177,10 @@ public class SafeParcelWriter {
 
     public static void writeStringArray(Parcel parcel, int i, String[] strArr, boolean z) {
         if (strArr == null) {
-            if (!z) {
+            if (z) {
+                zzc(parcel, i, 0);
                 return;
             }
-            zzc(parcel, i, 0);
             return;
         }
         int zza = zza(parcel, i);
@@ -192,10 +190,10 @@ public class SafeParcelWriter {
 
     public static void writeStringList(Parcel parcel, int i, List<String> list, boolean z) {
         if (list == null) {
-            if (!z) {
+            if (z) {
+                zzc(parcel, i, 0);
                 return;
             }
-            zzc(parcel, i, 0);
             return;
         }
         int zza = zza(parcel, i);
@@ -205,10 +203,10 @@ public class SafeParcelWriter {
 
     public static <T extends Parcelable> void writeTypedArray(Parcel parcel, int i, T[] tArr, int i2, boolean z) {
         if (tArr == null) {
-            if (!z) {
+            if (z) {
+                zzc(parcel, i, 0);
                 return;
             }
-            zzc(parcel, i, 0);
             return;
         }
         int zza = zza(parcel, i);
@@ -225,10 +223,10 @@ public class SafeParcelWriter {
 
     public static <T extends Parcelable> void writeTypedList(Parcel parcel, int i, List<T> list, boolean z) {
         if (list == null) {
-            if (!z) {
+            if (z) {
+                zzc(parcel, i, 0);
                 return;
             }
-            zzc(parcel, i, 0);
             return;
         }
         int zza = zza(parcel, i);

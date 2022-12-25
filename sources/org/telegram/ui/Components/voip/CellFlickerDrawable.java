@@ -158,14 +158,13 @@ public class CellFlickerDrawable {
         VoIPTextureView voIPTextureView2 = groupCallMiniTextureView.textureView;
         rectF.set(f3, f4, voIPTextureView.getMeasuredWidth() - voIPTextureView2.currentClipHorizontal, voIPTextureView2.getMeasuredHeight() - groupCallMiniTextureView.textureView.currentClipVertical);
         canvas.drawRect(rectF, this.paint);
-        if (!this.drawFrame) {
-            return;
+        if (this.drawFrame) {
+            if (this.frameInside) {
+                rectF.inset(this.paintOutline.getStrokeWidth() / 2.0f, this.paintOutline.getStrokeWidth() / 2.0f);
+            }
+            float f5 = groupCallMiniTextureView.textureView.roundRadius;
+            canvas.drawRoundRect(rectF, f5, f5, this.paintOutline);
         }
-        if (this.frameInside) {
-            rectF.inset(this.paintOutline.getStrokeWidth() / 2.0f, this.paintOutline.getStrokeWidth() / 2.0f);
-        }
-        float f5 = groupCallMiniTextureView.textureView.roundRadius;
-        canvas.drawRoundRect(rectF, f5, f5, this.paintOutline);
     }
 
     public void setParentWidth(int i) {

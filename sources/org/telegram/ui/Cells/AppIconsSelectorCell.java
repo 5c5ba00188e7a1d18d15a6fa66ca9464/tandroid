@@ -41,12 +41,13 @@ import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.LauncherIconController;
 /* loaded from: classes3.dex */
 public class AppIconsSelectorCell extends RecyclerListView implements NotificationCenter.NotificationCenterDelegate {
-    private List<LauncherIconController.LauncherIcon> availableIcons = new ArrayList();
+    private List<LauncherIconController.LauncherIcon> availableIcons;
     private int currentAccount;
     private LinearLayoutManager linearLayoutManager;
 
     public AppIconsSelectorCell(final Context context, final BaseFragment baseFragment, int i) {
         super(context);
+        this.availableIcons = new ArrayList();
         this.currentAccount = i;
         setPadding(0, AndroidUtilities.dp(12.0f), 0, AndroidUtilities.dp(12.0f));
         setFocusable(false);
@@ -247,21 +248,22 @@ public class AppIconsSelectorCell extends RecyclerListView implements Notificati
         public void setSelected(boolean z, boolean z2) {
             float f = z ? 1.0f : 0.0f;
             float f2 = this.progress;
-            if (f != f2 || !z2) {
-                if (z2) {
-                    ValueAnimator duration = ValueAnimator.ofFloat(f2, f).setDuration(250L);
-                    duration.setInterpolator(Easings.easeInOutQuad);
-                    duration.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Cells.AppIconsSelectorCell$IconHolderView$$ExternalSyntheticLambda0
-                        @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                        public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                            AppIconsSelectorCell.IconHolderView.this.lambda$setSelected$0(valueAnimator);
-                        }
-                    });
-                    duration.start();
-                    return;
-                }
-                setProgress(f);
+            if (f == f2 && z2) {
+                return;
             }
+            if (z2) {
+                ValueAnimator duration = ValueAnimator.ofFloat(f2, f).setDuration(250L);
+                duration.setInterpolator(Easings.easeInOutQuad);
+                duration.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Cells.AppIconsSelectorCell$IconHolderView$$ExternalSyntheticLambda0
+                    @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                    public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                        AppIconsSelectorCell.IconHolderView.this.lambda$setSelected$0(valueAnimator);
+                    }
+                });
+                duration.start();
+                return;
+            }
+            setProgress(f);
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -291,13 +293,16 @@ public class AppIconsSelectorCell extends RecyclerListView implements Notificati
 
     /* loaded from: classes3.dex */
     public static class AdaptiveIconImageView extends ImageView {
+        private int backgroundOuterPadding;
         private Drawable foreground;
-        private Path path = new Path();
-        private int outerPadding = AndroidUtilities.dp(5.0f);
-        private int backgroundOuterPadding = AndroidUtilities.dp(42.0f);
+        private int outerPadding;
+        private Path path;
 
         public AdaptiveIconImageView(Context context) {
             super(context);
+            this.path = new Path();
+            this.outerPadding = AndroidUtilities.dp(5.0f);
+            this.backgroundOuterPadding = AndroidUtilities.dp(42.0f);
         }
 
         public void setForeground(int i) {

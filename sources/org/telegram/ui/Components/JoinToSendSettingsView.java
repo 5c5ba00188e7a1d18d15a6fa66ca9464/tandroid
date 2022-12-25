@@ -17,7 +17,7 @@ import org.telegram.ui.Cells.TextCheckCell;
 import org.telegram.ui.Cells.TextInfoPrivacyCell;
 /* loaded from: classes3.dex */
 public class JoinToSendSettingsView extends LinearLayout {
-    private final int MAXSPEC = View.MeasureSpec.makeMeasureSpec(999999, Integer.MIN_VALUE);
+    private final int MAXSPEC;
     private TLRPC$Chat currentChat;
     public boolean isJoinRequest;
     public boolean isJoinToSend;
@@ -41,6 +41,7 @@ public class JoinToSendSettingsView extends LinearLayout {
         super(context);
         TLRPC$TL_chatAdminRights tLRPC$TL_chatAdminRights;
         TLRPC$TL_chatAdminRights tLRPC$TL_chatAdminRights2;
+        this.MAXSPEC = View.MeasureSpec.makeMeasureSpec(999999, Integer.MIN_VALUE);
         this.currentChat = tLRPC$Chat;
         this.isJoinToSend = tLRPC$Chat.join_to_send;
         this.isJoinRequest = tLRPC$Chat.join_request;
@@ -59,7 +60,6 @@ public class JoinToSendSettingsView extends LinearLayout {
         String string = LocaleController.getString("ChannelSettingsJoinToSend", R.string.ChannelSettingsJoinToSend);
         boolean z2 = this.isJoinToSend;
         textCheckCell2.setTextAndCheck(string, z2, z2);
-        int i = 0;
         this.joinToSendCell.setEnabled(tLRPC$Chat.creator || ((tLRPC$TL_chatAdminRights2 = tLRPC$Chat.admin_rights) != null && tLRPC$TL_chatAdminRights2.ban_users));
         this.joinToSendCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.JoinToSendSettingsView$$ExternalSyntheticLambda1
             @Override // android.view.View.OnClickListener
@@ -73,7 +73,6 @@ public class JoinToSendSettingsView extends LinearLayout {
         this.joinRequestCell = textCheckCell3;
         textCheckCell3.setBackground(Theme.getSelectorDrawable(true));
         this.joinRequestCell.setTextAndCheck(LocaleController.getString("ChannelSettingsJoinRequest", R.string.ChannelSettingsJoinRequest), this.isJoinRequest, false);
-        float f = 0.0f;
         this.joinRequestCell.setPivotY(0.0f);
         TextCheckCell textCheckCell4 = this.joinRequestCell;
         if (!tLRPC$Chat.creator && ((tLRPC$TL_chatAdminRights = tLRPC$Chat.admin_rights) == null || !tLRPC$TL_chatAdminRights.ban_users)) {
@@ -96,8 +95,8 @@ public class JoinToSendSettingsView extends LinearLayout {
         textInfoPrivacyCell2.setText(LocaleController.getString("ChannelSettingsJoinRequestInfo", R.string.ChannelSettingsJoinRequestInfo));
         addView(this.joinRequestInfoCell);
         boolean z3 = this.isJoinToSend;
-        this.toggleValue = z3 ? 1.0f : f;
-        this.joinRequestCell.setVisibility(!z3 ? 8 : i);
+        this.toggleValue = z3 ? 1.0f : 0.0f;
+        this.joinRequestCell.setVisibility(z3 ? 0 : 8);
         updateToggleValue(this.toggleValue);
     }
 
@@ -228,9 +227,10 @@ public class JoinToSendSettingsView extends LinearLayout {
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             public void onAnimationEnd(Animator animator) {
                 JoinToSendSettingsView joinToSendSettingsView = JoinToSendSettingsView.this;
-                if (!joinToSendSettingsView.isJoinToSend) {
-                    joinToSendSettingsView.joinRequestCell.setVisibility(8);
+                if (joinToSendSettingsView.isJoinToSend) {
+                    return;
                 }
+                joinToSendSettingsView.joinRequestCell.setVisibility(8);
             }
         });
         this.joinRequestCell.setVisibility(0);

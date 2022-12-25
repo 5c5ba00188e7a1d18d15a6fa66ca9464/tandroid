@@ -29,11 +29,11 @@ public final class MapTypeAdapterFactory implements TypeAdapterFactory {
     public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> typeToken) {
         Type type = typeToken.getType();
         Class<? super T> rawType = typeToken.getRawType();
-        if (!Map.class.isAssignableFrom(rawType)) {
-            return null;
+        if (Map.class.isAssignableFrom(rawType)) {
+            Type[] mapKeyAndValueTypes = $Gson$Types.getMapKeyAndValueTypes(type, rawType);
+            return new Adapter(gson, mapKeyAndValueTypes[0], getKeyAdapter(gson, mapKeyAndValueTypes[0]), mapKeyAndValueTypes[1], gson.getAdapter(TypeToken.get(mapKeyAndValueTypes[1])), this.constructorConstructor.get(typeToken));
         }
-        Type[] mapKeyAndValueTypes = $Gson$Types.getMapKeyAndValueTypes(type, rawType);
-        return new Adapter(gson, mapKeyAndValueTypes[0], getKeyAdapter(gson, mapKeyAndValueTypes[0]), mapKeyAndValueTypes[1], gson.getAdapter(TypeToken.get(mapKeyAndValueTypes[1])), this.constructorConstructor.get(typeToken));
+        return null;
     }
 
     private TypeAdapter<?> getKeyAdapter(Gson gson, Type type) {
@@ -117,10 +117,10 @@ public final class MapTypeAdapterFactory implements TypeAdapterFactory {
                     return asJsonPrimitive.getAsString();
                 }
                 throw new AssertionError();
-            } else if (!jsonElement.isJsonNull()) {
-                throw new AssertionError();
-            } else {
+            } else if (jsonElement.isJsonNull()) {
                 return "null";
+            } else {
+                throw new AssertionError();
             }
         }
     }

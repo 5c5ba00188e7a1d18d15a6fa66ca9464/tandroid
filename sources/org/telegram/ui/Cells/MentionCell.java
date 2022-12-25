@@ -30,12 +30,13 @@ public class MentionCell extends LinearLayout {
     private Drawable emojiDrawable;
     private BackupImageView imageView;
     private TextView nameTextView;
-    private boolean needsDivider = false;
+    private boolean needsDivider;
     private Theme.ResourcesProvider resourcesProvider;
     private TextView usernameTextView;
 
     public MentionCell(Context context, Theme.ResourcesProvider resourcesProvider) {
         super(context);
+        this.needsDivider = false;
         this.resourcesProvider = resourcesProvider;
         setOrientation(0);
         AvatarDrawable avatarDrawable = new AvatarDrawable();

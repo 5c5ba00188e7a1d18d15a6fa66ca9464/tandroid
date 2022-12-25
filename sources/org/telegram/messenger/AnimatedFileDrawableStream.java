@@ -35,12 +35,16 @@ public class AnimatedFileDrawableStream implements FileLoadOperationStream {
         return this.finishedFilePath;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:35:0x0072 A[Catch: all -> 0x00a4, TRY_ENTER, TryCatch #1 {Exception -> 0x00ac, blocks: (B:18:0x0025, B:20:0x002a, B:22:0x0030, B:25:0x0042, B:27:0x004a, B:29:0x0050, B:33:0x006f, B:34:0x0071, B:39:0x008b, B:41:0x008f, B:42:0x009a, B:50:0x0057, B:35:0x0072, B:46:0x0076, B:47:0x0081, B:37:0x0083, B:38:0x008a), top: B:17:0x0025 }] */
+    /* JADX WARN: Multi-variable type inference failed */
+    /* JADX WARN: Removed duplicated region for block: B:33:0x0072 A[Catch: all -> 0x00a4, TRY_ENTER, TryCatch #1 {Exception -> 0x00ac, blocks: (B:15:0x0025, B:17:0x002a, B:19:0x0030, B:22:0x0042, B:24:0x004a, B:26:0x0050, B:31:0x006f, B:32:0x0071, B:40:0x008b, B:42:0x008f, B:43:0x009a, B:30:0x0057, B:33:0x0072, B:35:0x0076, B:36:0x0081, B:38:0x0083, B:39:0x008a), top: B:63:0x0025 }] */
+    /* JADX WARN: Type inference failed for: r12v3 */
+    /* JADX WARN: Type inference failed for: r12v4, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r12v5 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public int read(int i, int i2) {
-        boolean z;
+        ?? r12;
         synchronized (this.sync) {
             if (this.canceled) {
                 return 0;
@@ -61,24 +65,22 @@ public class AnimatedFileDrawableStream implements FileLoadOperationStream {
                         }
                         if (j4 == j2) {
                             if (!this.loadOperation.isPaused() && this.lastOffset == j3 && !this.preview) {
-                                z = true;
+                                r12 = 1;
                                 synchronized (this.sync) {
                                     if (this.canceled) {
                                         FileLoader.getInstance(this.currentAccount).cancelLoadFile(this.document);
                                         return 0;
                                     }
-                                    int i3 = z ? 1 : 0;
-                                    int i4 = z ? 1 : 0;
-                                    this.countDownLatch = new CountDownLatch(i3);
+                                    this.countDownLatch = new CountDownLatch(r12);
                                 }
                                 if (!this.preview) {
-                                    FileLoader.getInstance(this.currentAccount).setLoadingVideo(this.document, false, z);
+                                    FileLoader.getInstance(this.currentAccount).setLoadingVideo(this.document, false, r12);
                                 }
-                                this.waitingForLoad = z;
+                                this.waitingForLoad = r12;
                                 this.countDownLatch.await();
                                 this.waitingForLoad = false;
                             }
-                            z = true;
+                            r12 = 1;
                             FileLoader.getInstance(this.currentAccount).loadStreamFile(this, this.document, this.location, this.parentObject, j3, this.preview);
                             synchronized (this.sync) {
                             }

@@ -102,21 +102,21 @@ public class CanvasButton {
         int i = this.usingRectCount;
         int i2 = 0;
         if (i <= 1) {
-            if (i != 1) {
+            if (i == 1) {
+                RippleDrawable rippleDrawable = this.selectorDrawable;
+                if (rippleDrawable != null) {
+                    rippleDrawable.setBounds((int) this.drawingRects.get(0).left, (int) this.drawingRects.get(0).top, (int) this.drawingRects.get(0).right, (int) this.drawingRects.get(0).bottom);
+                }
+                if (this.rounded) {
+                    paint.setPathEffect(null);
+                    float min = Math.min(this.drawingRects.get(0).width(), this.drawingRects.get(0).height()) / 2.0f;
+                    canvas.drawRoundRect(this.drawingRects.get(0), min, min, paint);
+                    return;
+                }
+                paint.setPathEffect(this.pathEffect);
+                canvas.drawRoundRect(this.drawingRects.get(0), 0.0f, 0.0f, paint);
                 return;
             }
-            RippleDrawable rippleDrawable = this.selectorDrawable;
-            if (rippleDrawable != null) {
-                rippleDrawable.setBounds((int) this.drawingRects.get(0).left, (int) this.drawingRects.get(0).top, (int) this.drawingRects.get(0).right, (int) this.drawingRects.get(0).bottom);
-            }
-            if (this.rounded) {
-                paint.setPathEffect(null);
-                float min = Math.min(this.drawingRects.get(0).width(), this.drawingRects.get(0).height()) / 2.0f;
-                canvas.drawRoundRect(this.drawingRects.get(0), min, min, paint);
-                return;
-            }
-            paint.setPathEffect(this.pathEffect);
-            canvas.drawRoundRect(this.drawingRects.get(0), 0.0f, 0.0f, paint);
             return;
         }
         if (!this.pathCreated) {

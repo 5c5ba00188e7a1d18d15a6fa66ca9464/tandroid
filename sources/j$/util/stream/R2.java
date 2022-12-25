@@ -60,9 +60,10 @@ class R2 implements S2, l3 {
     @Override // j$.util.stream.S2
     public void h(S2 s2) {
         R2 r2 = (R2) s2;
-        if (!r2.a) {
-            accept(r2.b);
+        if (r2.a) {
+            return;
         }
+        accept(r2.b);
     }
 
     @Override // j$.util.stream.m3

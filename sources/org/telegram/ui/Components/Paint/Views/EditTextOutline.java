@@ -18,21 +18,28 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.Components.EditTextBoldCursor;
 /* loaded from: classes3.dex */
 public class EditTextOutline extends EditTextBoldCursor {
+    private boolean isFrameDirty;
     private RectF[] lines;
     private Bitmap mCache;
+    private Canvas mCanvas;
     private int mFrameColor;
+    private int mStrokeColor;
     private float mStrokeWidth;
-    private Canvas mCanvas = new Canvas();
-    private TextPaint textPaint = new TextPaint(1);
-    private Paint paint = new Paint(1);
-    private Path path = new Path();
-    private int mStrokeColor = 0;
-    private boolean mUpdateCachedBitmap = true;
-    private boolean isFrameDirty = true;
+    private boolean mUpdateCachedBitmap;
+    private Paint paint;
+    private Path path;
+    private TextPaint textPaint;
 
     public EditTextOutline(Context context) {
         super(context);
+        this.mCanvas = new Canvas();
+        this.textPaint = new TextPaint(1);
+        this.paint = new Paint(1);
+        this.path = new Path();
+        this.mStrokeColor = 0;
         setInputType(getInputType() | 131072 | 524288);
+        this.mUpdateCachedBitmap = true;
+        this.isFrameDirty = true;
         this.textPaint.setStyle(Paint.Style.FILL_AND_STROKE);
     }
 
@@ -108,15 +115,15 @@ public class EditTextOutline extends EditTextBoldCursor {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Code restructure failed: missing block: B:93:0x0345, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:89:0x0345, code lost:
         if (r8[r10].width() != 0.0f) goto L94;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:99:0x0369, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:96:0x0369, code lost:
         if (r8[r9].width() != 0.0f) goto L100;
      */
-    /* JADX WARN: Removed duplicated region for block: B:102:0x0377  */
-    /* JADX WARN: Removed duplicated region for block: B:90:0x032d  */
-    /* JADX WARN: Removed duplicated region for block: B:96:0x0353  */
+    /* JADX WARN: Removed duplicated region for block: B:100:0x0377  */
+    /* JADX WARN: Removed duplicated region for block: B:86:0x032d  */
+    /* JADX WARN: Removed duplicated region for block: B:93:0x0353  */
     @Override // org.telegram.ui.Components.EditTextBoldCursor, org.telegram.ui.Components.EditTextEffects, android.widget.TextView, android.view.View
     @SuppressLint({"DrawAllocation"})
     /*

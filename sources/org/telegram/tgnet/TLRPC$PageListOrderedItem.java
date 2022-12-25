@@ -8,12 +8,12 @@ public abstract class TLRPC$PageListOrderedItem extends TLObject {
         } else {
             tLRPC$TL_pageListOrderedItemBlocks = new TLRPC$TL_pageListOrderedItemBlocks();
         }
-        if (tLRPC$TL_pageListOrderedItemBlocks != null || !z) {
-            if (tLRPC$TL_pageListOrderedItemBlocks != null) {
-                tLRPC$TL_pageListOrderedItemBlocks.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_pageListOrderedItemBlocks;
+        if (tLRPC$TL_pageListOrderedItemBlocks == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in PageListOrderedItem", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in PageListOrderedItem", Integer.valueOf(i)));
+        if (tLRPC$TL_pageListOrderedItemBlocks != null) {
+            tLRPC$TL_pageListOrderedItemBlocks.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_pageListOrderedItemBlocks;
     }
 }

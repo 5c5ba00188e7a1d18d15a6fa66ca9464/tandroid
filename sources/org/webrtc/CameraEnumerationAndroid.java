@@ -34,11 +34,11 @@ public class CameraEnumerationAndroid {
             }
 
             public boolean equals(Object obj) {
-                if (!(obj instanceof FramerateRange)) {
-                    return false;
+                if (obj instanceof FramerateRange) {
+                    FramerateRange framerateRange = (FramerateRange) obj;
+                    return this.min == framerateRange.min && this.max == framerateRange.max;
                 }
-                FramerateRange framerateRange = (FramerateRange) obj;
-                return this.min == framerateRange.min && this.max == framerateRange.max;
+                return false;
             }
 
             public int hashCode() {
@@ -74,11 +74,11 @@ public class CameraEnumerationAndroid {
         }
 
         public boolean equals(Object obj) {
-            if (!(obj instanceof CaptureFormat)) {
-                return false;
+            if (obj instanceof CaptureFormat) {
+                CaptureFormat captureFormat = (CaptureFormat) obj;
+                return this.width == captureFormat.width && this.height == captureFormat.height && this.framerate.equals(captureFormat.framerate);
             }
-            CaptureFormat captureFormat = (CaptureFormat) obj;
-            return this.width == captureFormat.width && this.height == captureFormat.height && this.framerate.equals(captureFormat.framerate);
+            return false;
         }
 
         public int hashCode() {

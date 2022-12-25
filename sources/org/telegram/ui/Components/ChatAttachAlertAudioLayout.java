@@ -56,6 +56,7 @@ import org.telegram.ui.Components.ChatAttachAlertAudioLayout;
 import org.telegram.ui.Components.RecyclerListView;
 /* loaded from: classes3.dex */
 public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayout implements NotificationCenter.NotificationCenterDelegate {
+    private ArrayList<MediaController.AudioEntry> audioEntries;
     private View currentEmptyView;
     private float currentPanTranslationProgress;
     private AudioSelectDelegate delegate;
@@ -69,17 +70,16 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
     private ListAdapter listAdapter;
     private RecyclerListView listView;
     private boolean loadingAudio;
+    private int maxSelectedFiles;
     private MessageObject playingAudio;
     private EmptyTextProgressView progressView;
     private SearchAdapter searchAdapter;
     private SearchField searchField;
+    private LongSparseArray<MediaController.AudioEntry> selectedAudios;
+    private ArrayList<MediaController.AudioEntry> selectedAudiosOrder;
     private boolean sendPressed;
     private View shadow;
     private AnimatorSet shadowAnimation;
-    private int maxSelectedFiles = -1;
-    private ArrayList<MediaController.AudioEntry> audioEntries = new ArrayList<>();
-    private ArrayList<MediaController.AudioEntry> selectedAudiosOrder = new ArrayList<>();
-    private LongSparseArray<MediaController.AudioEntry> selectedAudios = new LongSparseArray<>();
 
     /* loaded from: classes3.dex */
     public interface AudioSelectDelegate {
@@ -93,6 +93,10 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
 
     public ChatAttachAlertAudioLayout(ChatAttachAlert chatAttachAlert, Context context, Theme.ResourcesProvider resourcesProvider) {
         super(chatAttachAlert, context, resourcesProvider);
+        this.maxSelectedFiles = -1;
+        this.audioEntries = new ArrayList<>();
+        this.selectedAudiosOrder = new ArrayList<>();
+        this.selectedAudios = new LongSparseArray<>();
         NotificationCenter.getInstance(this.parentAlert.currentAccount).addObserver(this, NotificationCenter.messagePlayingDidReset);
         NotificationCenter.getInstance(this.parentAlert.currentAccount).addObserver(this, NotificationCenter.messagePlayingDidStart);
         NotificationCenter.getInstance(this.parentAlert.currentAccount).addObserver(this, NotificationCenter.messagePlayingPlayStateChanged);
@@ -278,7 +282,6 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
     /* JADX INFO: Access modifiers changed from: private */
     public void updateEmptyView() {
         boolean isEmpty;
-        int i = 8;
         if (this.loadingAudio) {
             this.currentEmptyView = this.progressView;
             this.emptyView.setVisibility(8);
@@ -299,11 +302,7 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
         } else {
             isEmpty = searchAdapter.searchResult.isEmpty();
         }
-        View view = this.currentEmptyView;
-        if (isEmpty) {
-            i = 0;
-        }
-        view.setVisibility(i);
+        this.currentEmptyView.setVisibility(isEmpty ? 0 : 8);
         updateEmptyViewPosition();
     }
 
@@ -493,36 +492,30 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
     }
 
     private void onItemClick(View view) {
-        if (!(view instanceof SharedAudioCell)) {
-            return;
-        }
-        SharedAudioCell sharedAudioCell = (SharedAudioCell) view;
-        MediaController.AudioEntry audioEntry = (MediaController.AudioEntry) sharedAudioCell.getTag();
-        boolean z = false;
-        int i = 1;
-        if (this.selectedAudios.indexOfKey(audioEntry.id) >= 0) {
-            this.selectedAudios.remove(audioEntry.id);
-            this.selectedAudiosOrder.remove(audioEntry);
-            sharedAudioCell.setChecked(false, true);
-        } else {
-            if (this.maxSelectedFiles >= 0) {
-                int size = this.selectedAudios.size();
-                int i2 = this.maxSelectedFiles;
-                if (size >= i2) {
-                    showErrorBox(LocaleController.formatString("PassportUploadMaxReached", R.string.PassportUploadMaxReached, LocaleController.formatPluralString("Files", i2, new Object[0])));
-                    return;
+        if (view instanceof SharedAudioCell) {
+            SharedAudioCell sharedAudioCell = (SharedAudioCell) view;
+            MediaController.AudioEntry audioEntry = (MediaController.AudioEntry) sharedAudioCell.getTag();
+            boolean z = false;
+            if (this.selectedAudios.indexOfKey(audioEntry.id) >= 0) {
+                this.selectedAudios.remove(audioEntry.id);
+                this.selectedAudiosOrder.remove(audioEntry);
+                sharedAudioCell.setChecked(false, true);
+            } else {
+                if (this.maxSelectedFiles >= 0) {
+                    int size = this.selectedAudios.size();
+                    int i = this.maxSelectedFiles;
+                    if (size >= i) {
+                        showErrorBox(LocaleController.formatString("PassportUploadMaxReached", R.string.PassportUploadMaxReached, LocaleController.formatPluralString("Files", i, new Object[0])));
+                        return;
+                    }
                 }
+                this.selectedAudios.put(audioEntry.id, audioEntry);
+                this.selectedAudiosOrder.add(audioEntry);
+                sharedAudioCell.setChecked(true, true);
+                z = true;
             }
-            this.selectedAudios.put(audioEntry.id, audioEntry);
-            this.selectedAudiosOrder.add(audioEntry);
-            sharedAudioCell.setChecked(true, true);
-            z = true;
+            this.parentAlert.updateCountButton(z ? 1 : 2);
         }
-        ChatAttachAlert chatAttachAlert = this.parentAlert;
-        if (!z) {
-            i = 2;
-        }
-        chatAttachAlert.updateCountButton(i);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -694,12 +687,8 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
                 MediaController.AudioEntry audioEntry = (MediaController.AudioEntry) ChatAttachAlertAudioLayout.this.audioEntries.get(i2);
                 SharedAudioCell sharedAudioCell = (SharedAudioCell) viewHolder.itemView;
                 sharedAudioCell.setTag(audioEntry);
-                boolean z = true;
                 sharedAudioCell.setMessageObject(audioEntry.messageObject, i2 != ChatAttachAlertAudioLayout.this.audioEntries.size() - 1);
-                if (ChatAttachAlertAudioLayout.this.selectedAudios.indexOfKey(audioEntry.id) < 0) {
-                    z = false;
-                }
-                sharedAudioCell.setChecked(z, false);
+                sharedAudioCell.setChecked(ChatAttachAlertAudioLayout.this.selectedAudios.indexOfKey(audioEntry.id) >= 0, false);
             }
         }
 
@@ -777,9 +766,7 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
                 return;
             }
             String translitString = LocaleController.getInstance().getTranslitString(lowerCase);
-            if (lowerCase.equals(translitString) || translitString.length() == 0) {
-                translitString = null;
-            }
+            translitString = (lowerCase.equals(translitString) || translitString.length() == 0) ? null : null;
             int i2 = (translitString != null ? 1 : 0) + 1;
             String[] strArr = new String[i2];
             strArr[0] = lowerCase;
@@ -880,12 +867,8 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
                 MediaController.AudioEntry audioEntry = this.searchResult.get(i2);
                 SharedAudioCell sharedAudioCell = (SharedAudioCell) viewHolder.itemView;
                 sharedAudioCell.setTag(audioEntry);
-                boolean z = true;
                 sharedAudioCell.setMessageObject(audioEntry.messageObject, i2 != this.searchResult.size() - 1);
-                if (ChatAttachAlertAudioLayout.this.selectedAudios.indexOfKey(audioEntry.id) < 0) {
-                    z = false;
-                }
-                sharedAudioCell.setChecked(z, false);
+                sharedAudioCell.setChecked(ChatAttachAlertAudioLayout.this.selectedAudios.indexOfKey(audioEntry.id) >= 0, false);
             }
         }
 

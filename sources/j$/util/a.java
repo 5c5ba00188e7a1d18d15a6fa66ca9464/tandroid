@@ -188,36 +188,36 @@ public abstract /* synthetic */ class a {
         if (consumer instanceof j$.util.function.f) {
             return tVar.k((j$.util.function.f) consumer);
         }
-        if (!N.a) {
-            Objects.requireNonNull(consumer);
-            return tVar.k(new m(consumer));
+        if (N.a) {
+            N.a(tVar.getClass(), "{0} calling Spliterator.OfDouble.tryAdvance((DoubleConsumer) action::accept)");
+            throw null;
         }
-        N.a(tVar.getClass(), "{0} calling Spliterator.OfDouble.tryAdvance((DoubleConsumer) action::accept)");
-        throw null;
+        Objects.requireNonNull(consumer);
+        return tVar.k(new m(consumer));
     }
 
     public static boolean k(u.a aVar, Consumer consumer) {
         if (consumer instanceof j$.util.function.l) {
             return aVar.g((j$.util.function.l) consumer);
         }
-        if (!N.a) {
-            Objects.requireNonNull(consumer);
-            return aVar.g(new o(consumer));
+        if (N.a) {
+            N.a(aVar.getClass(), "{0} calling Spliterator.OfInt.tryAdvance((IntConsumer) action::accept)");
+            throw null;
         }
-        N.a(aVar.getClass(), "{0} calling Spliterator.OfInt.tryAdvance((IntConsumer) action::accept)");
-        throw null;
+        Objects.requireNonNull(consumer);
+        return aVar.g(new o(consumer));
     }
 
     public static boolean l(v vVar, Consumer consumer) {
         if (consumer instanceof j$.util.function.q) {
             return vVar.i((j$.util.function.q) consumer);
         }
-        if (!N.a) {
-            Objects.requireNonNull(consumer);
-            return vVar.i(new q(consumer));
+        if (N.a) {
+            N.a(vVar.getClass(), "{0} calling Spliterator.OfLong.tryAdvance((LongConsumer) action::accept)");
+            throw null;
         }
-        N.a(vVar.getClass(), "{0} calling Spliterator.OfLong.tryAdvance((LongConsumer) action::accept)");
-        throw null;
+        Objects.requireNonNull(consumer);
+        return vVar.i(new q(consumer));
     }
 
     public static Object m(java.util.Map map, Object obj, BiFunction biFunction) {

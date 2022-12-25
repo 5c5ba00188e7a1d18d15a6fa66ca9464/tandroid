@@ -24,10 +24,10 @@ final class zzfl extends zzfj {
         } else {
             if ((list instanceof zzgi) && (list instanceof zzew)) {
                 zzew zzewVar = (zzew) list;
-                if (!zzewVar.zza()) {
+                if (zzewVar.zza()) {
+                    zzewVar.b_();
                     return;
                 }
-                zzewVar.b_();
                 return;
             }
             unmodifiableList = Collections.unmodifiableList(list);

@@ -38,13 +38,13 @@ public class LibopusAudioRenderer extends SimpleDecoderAudioRenderer {
     @Override // com.google.android.exoplayer2.audio.SimpleDecoderAudioRenderer
     protected int supportsFormatInternal(DrmSessionManager<ExoMediaCrypto> drmSessionManager, Format format) {
         boolean z = format.drmInitData == null || OpusLibrary.matchesExpectedExoMediaCryptoType(format.exoMediaCryptoType) || (format.exoMediaCryptoType == null && BaseRenderer.supportsFormatDrm(drmSessionManager, format.drmInitData));
-        if (!"audio/opus".equalsIgnoreCase(format.sampleMimeType)) {
-            return 0;
-        }
-        if (!supportsOutput(format.channelCount, 2)) {
+        if ("audio/opus".equalsIgnoreCase(format.sampleMimeType)) {
+            if (supportsOutput(format.channelCount, 2)) {
+                return !z ? 2 : 4;
+            }
             return 1;
         }
-        return !z ? 2 : 4;
+        return 0;
     }
 
     /* JADX INFO: Access modifiers changed from: protected */

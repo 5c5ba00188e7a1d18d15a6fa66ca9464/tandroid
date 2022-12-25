@@ -7,16 +7,12 @@ public class TLRPC$TL_messageService extends TLRPC$Message {
     public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
         int readInt32 = abstractSerializedData.readInt32(z);
         this.flags = readInt32;
-        boolean z2 = true;
         this.out = (readInt32 & 2) != 0;
         this.mentioned = (readInt32 & 16) != 0;
         this.media_unread = (readInt32 & 32) != 0;
         this.silent = (readInt32 & 8192) != 0;
         this.post = (readInt32 & 16384) != 0;
-        if ((readInt32 & 524288) == 0) {
-            z2 = false;
-        }
-        this.legacy = z2;
+        this.legacy = (readInt32 & 524288) != 0;
         this.id = abstractSerializedData.readInt32(z);
         if ((this.flags & 256) != 0) {
             this.from_id = TLRPC$Peer.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);

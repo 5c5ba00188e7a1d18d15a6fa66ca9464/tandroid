@@ -10,14 +10,9 @@ import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes3.dex */
 public class MessageEnterTransitionContainer extends View {
     private final int currentAccount;
+    Runnable hideRunnable;
     private final ViewGroup parent;
-    private ArrayList<Transition> transitions = new ArrayList<>();
-    Runnable hideRunnable = new Runnable() { // from class: org.telegram.ui.MessageEnterTransitionContainer$$ExternalSyntheticLambda0
-        @Override // java.lang.Runnable
-        public final void run() {
-            MessageEnterTransitionContainer.this.lambda$new$0();
-        }
-    };
+    private ArrayList<Transition> transitions;
 
     /* loaded from: classes3.dex */
     public interface Transition {
@@ -31,6 +26,13 @@ public class MessageEnterTransitionContainer extends View {
 
     public MessageEnterTransitionContainer(ViewGroup viewGroup, int i) {
         super(viewGroup.getContext());
+        this.transitions = new ArrayList<>();
+        this.hideRunnable = new Runnable() { // from class: org.telegram.ui.MessageEnterTransitionContainer$$ExternalSyntheticLambda0
+            @Override // java.lang.Runnable
+            public final void run() {
+                MessageEnterTransitionContainer.this.lambda$new$0();
+            }
+        };
         this.parent = viewGroup;
         this.currentAccount = i;
     }

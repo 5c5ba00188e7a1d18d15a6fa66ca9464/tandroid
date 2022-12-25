@@ -10,12 +10,12 @@ public abstract class TLRPC$InputWallPaper extends TLObject {
         } else {
             tLRPC$TL_inputWallPaperNoFile = i != 1913199744 ? null : new TLRPC$TL_inputWallPaperSlug();
         }
-        if (tLRPC$TL_inputWallPaperNoFile != null || !z) {
-            if (tLRPC$TL_inputWallPaperNoFile != null) {
-                tLRPC$TL_inputWallPaperNoFile.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$TL_inputWallPaperNoFile;
+        if (tLRPC$TL_inputWallPaperNoFile == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in InputWallPaper", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in InputWallPaper", Integer.valueOf(i)));
+        if (tLRPC$TL_inputWallPaperNoFile != null) {
+            tLRPC$TL_inputWallPaperNoFile.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$TL_inputWallPaperNoFile;
     }
 }

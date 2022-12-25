@@ -23,7 +23,6 @@ import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.DownloadController;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.ImageLocation;
-import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
@@ -41,15 +40,15 @@ import org.telegram.ui.PhotoViewer;
 /* loaded from: classes3.dex */
 public class SharedPhotoVideoCell extends FrameLayout {
     private Paint backgroundPaint;
+    private int currentAccount;
     private SharedPhotoVideoCellDelegate delegate;
     private boolean ignoreLayout;
+    private int[] indeces;
     private boolean isFirst;
     private int itemsCount;
+    private MessageObject[] messageObjects;
+    private PhotoVideoView[] photoVideoViews;
     private int type;
-    private int currentAccount = UserConfig.selectedAccount;
-    private MessageObject[] messageObjects = new MessageObject[6];
-    private PhotoVideoView[] photoVideoViews = new PhotoVideoView[6];
-    private int[] indeces = new int[6];
 
     /* loaded from: classes3.dex */
     public interface SharedPhotoVideoCellDelegate {
@@ -138,7 +137,6 @@ public class SharedPhotoVideoCell extends FrameLayout {
                 animatorSet.cancel();
                 this.animator = null;
             }
-            float f = 1.0f;
             if (z2) {
                 AnimatorSet animatorSet2 = new AnimatorSet();
                 this.animator = animatorSet2;
@@ -151,10 +149,7 @@ public class SharedPhotoVideoCell extends FrameLayout {
                 FrameLayout frameLayout2 = this.container;
                 Property property2 = View.SCALE_Y;
                 float[] fArr2 = new float[1];
-                if (z) {
-                    f = 0.81f;
-                }
-                fArr2[0] = f;
+                fArr2[0] = z ? 0.81f : 1.0f;
                 animatorArr[1] = ObjectAnimator.ofFloat(frameLayout2, property2, fArr2);
                 animatorSet2.playTogether(animatorArr);
                 this.animator.setDuration(200L);
@@ -179,14 +174,11 @@ public class SharedPhotoVideoCell extends FrameLayout {
                 return;
             }
             this.container.setScaleX(z ? 0.85f : 1.0f);
-            FrameLayout frameLayout3 = this.container;
-            if (z) {
-                f = 0.85f;
-            }
-            frameLayout3.setScaleY(f);
+            this.container.setScaleY(z ? 0.85f : 1.0f);
         }
 
         public void setMessageObject(MessageObject messageObject) {
+            TLRPC$PhotoSize tLRPC$PhotoSize;
             this.currentMessageObject = messageObject;
             this.imageView.getImageReceiver().setVisible(!PhotoViewer.isShowingImage(messageObject), false);
             if (!TextUtils.isEmpty(MessagesController.getRestrictionReason(messageObject.messageOwner.restriction_reason))) {
@@ -194,16 +186,13 @@ public class SharedPhotoVideoCell extends FrameLayout {
                 this.imageView.setImageResource(R.drawable.photo_placeholder_in);
                 return;
             }
-            TLRPC$PhotoSize tLRPC$PhotoSize = null;
             if (messageObject.isVideo()) {
                 this.videoInfoContainer.setVisibility(0);
                 this.videoTextView.setText(AndroidUtilities.formatShortDuration(messageObject.getDuration()));
                 TLRPC$Document document = messageObject.getDocument();
                 TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(document.thumbs, 50);
                 TLRPC$PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(document.thumbs, 320);
-                if (closestPhotoSizeWithSize != closestPhotoSizeWithSize2) {
-                    tLRPC$PhotoSize = closestPhotoSizeWithSize2;
-                }
+                tLRPC$PhotoSize = closestPhotoSizeWithSize != closestPhotoSizeWithSize2 ? closestPhotoSizeWithSize2 : null;
                 if (closestPhotoSizeWithSize != null) {
                     if (messageObject.strippedThumb != null) {
                         this.imageView.setImage(ImageLocation.getForDocument(tLRPC$PhotoSize, document), "100_100", (String) null, messageObject.strippedThumb, messageObject);
@@ -222,32 +211,18 @@ public class SharedPhotoVideoCell extends FrameLayout {
                 TLRPC$PhotoSize closestPhotoSizeWithSize3 = FileLoader.getClosestPhotoSizeWithSize(messageObject.photoThumbs, 50);
                 TLRPC$PhotoSize closestPhotoSizeWithSize4 = FileLoader.getClosestPhotoSizeWithSize(messageObject.photoThumbs, 320, false, closestPhotoSizeWithSize3, false);
                 if (messageObject.mediaExists || DownloadController.getInstance(SharedPhotoVideoCell.this.currentAccount).canDownloadMedia(messageObject)) {
-                    if (closestPhotoSizeWithSize4 != closestPhotoSizeWithSize3) {
-                        tLRPC$PhotoSize = closestPhotoSizeWithSize3;
-                    }
-                    long j = 0;
+                    tLRPC$PhotoSize = closestPhotoSizeWithSize4 != closestPhotoSizeWithSize3 ? closestPhotoSizeWithSize3 : null;
                     if (messageObject.strippedThumb != null) {
-                        ImageReceiver imageReceiver = this.imageView.getImageReceiver();
-                        ImageLocation forObject = ImageLocation.getForObject(closestPhotoSizeWithSize4, messageObject.photoThumbsObject);
-                        BitmapDrawable bitmapDrawable = messageObject.strippedThumb;
-                        if (closestPhotoSizeWithSize4 != null) {
-                            j = closestPhotoSizeWithSize4.size;
-                        }
-                        imageReceiver.setImage(forObject, "100_100", null, null, bitmapDrawable, j, null, messageObject, messageObject.shouldEncryptPhotoOrVideo() ? 2 : 1);
+                        this.imageView.getImageReceiver().setImage(ImageLocation.getForObject(closestPhotoSizeWithSize4, messageObject.photoThumbsObject), "100_100", null, null, messageObject.strippedThumb, closestPhotoSizeWithSize4 != null ? closestPhotoSizeWithSize4.size : 0L, null, messageObject, messageObject.shouldEncryptPhotoOrVideo() ? 2 : 1);
+                        return;
+                    } else {
+                        this.imageView.getImageReceiver().setImage(ImageLocation.getForObject(closestPhotoSizeWithSize4, messageObject.photoThumbsObject), "100_100", ImageLocation.getForObject(tLRPC$PhotoSize, messageObject.photoThumbsObject), "b", closestPhotoSizeWithSize4 != null ? closestPhotoSizeWithSize4.size : 0L, null, messageObject, messageObject.shouldEncryptPhotoOrVideo() ? 2 : 1);
                         return;
                     }
-                    ImageReceiver imageReceiver2 = this.imageView.getImageReceiver();
-                    ImageLocation forObject2 = ImageLocation.getForObject(closestPhotoSizeWithSize4, messageObject.photoThumbsObject);
-                    ImageLocation forObject3 = ImageLocation.getForObject(tLRPC$PhotoSize, messageObject.photoThumbsObject);
-                    if (closestPhotoSizeWithSize4 != null) {
-                        j = closestPhotoSizeWithSize4.size;
-                    }
-                    imageReceiver2.setImage(forObject2, "100_100", forObject3, "b", j, null, messageObject, messageObject.shouldEncryptPhotoOrVideo() ? 2 : 1);
-                    return;
                 }
-                BitmapDrawable bitmapDrawable2 = messageObject.strippedThumb;
-                if (bitmapDrawable2 != null) {
-                    this.imageView.setImage(null, null, null, null, bitmapDrawable2, null, null, 0, messageObject);
+                BitmapDrawable bitmapDrawable = messageObject.strippedThumb;
+                if (bitmapDrawable != null) {
+                    this.imageView.setImage(null, null, null, null, bitmapDrawable, null, null, 0, messageObject);
                     return;
                 } else {
                     this.imageView.setImage(null, null, ImageLocation.getForObject(closestPhotoSizeWithSize3, messageObject.photoThumbsObject), "b", ApplicationLoader.applicationContext.getResources().getDrawable(R.drawable.photo_placeholder_in), null, null, 0, messageObject);
@@ -294,8 +269,12 @@ public class SharedPhotoVideoCell extends FrameLayout {
         super(context);
         Paint paint = new Paint();
         this.backgroundPaint = paint;
+        this.currentAccount = UserConfig.selectedAccount;
         this.type = i;
         paint.setColor(Theme.getColor("sharedMedia_photoPlaceholder"));
+        this.messageObjects = new MessageObject[6];
+        this.photoVideoViews = new PhotoVideoView[6];
+        this.indeces = new int[6];
         for (int i2 = 0; i2 < 6; i2++) {
             this.photoVideoViews[i2] = new PhotoVideoView(context);
             addView(this.photoVideoViews[i2]);
@@ -430,12 +409,11 @@ public class SharedPhotoVideoCell extends FrameLayout {
             itemSize = getItemSize(this.itemsCount);
         }
         this.ignoreLayout = true;
-        int i3 = 0;
-        for (int i4 = 0; i4 < this.itemsCount; i4++) {
-            FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) this.photoVideoViews[i4].getLayoutParams();
+        for (int i3 = 0; i3 < this.itemsCount; i3++) {
+            FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) this.photoVideoViews[i3].getLayoutParams();
             layoutParams.topMargin = this.isFirst ? 0 : AndroidUtilities.dp(2.0f);
-            layoutParams.leftMargin = (AndroidUtilities.dp(2.0f) + itemSize) * i4;
-            if (i4 == this.itemsCount - 1) {
+            layoutParams.leftMargin = (AndroidUtilities.dp(2.0f) + itemSize) * i3;
+            if (i3 == this.itemsCount - 1) {
                 if (AndroidUtilities.isTablet()) {
                     layoutParams.width = AndroidUtilities.dp(490.0f) - ((this.itemsCount - 1) * (AndroidUtilities.dp(2.0f) + itemSize));
                 } else {
@@ -446,13 +424,10 @@ public class SharedPhotoVideoCell extends FrameLayout {
             }
             layoutParams.height = itemSize;
             layoutParams.gravity = 51;
-            this.photoVideoViews[i4].setLayoutParams(layoutParams);
+            this.photoVideoViews[i3].setLayoutParams(layoutParams);
         }
         this.ignoreLayout = false;
-        if (!this.isFirst) {
-            i3 = AndroidUtilities.dp(2.0f);
-        }
-        super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(i3 + itemSize, 1073741824));
+        super.onMeasure(i, View.MeasureSpec.makeMeasureSpec((this.isFirst ? 0 : AndroidUtilities.dp(2.0f)) + itemSize, 1073741824));
     }
 
     public static int getItemSize(int i) {

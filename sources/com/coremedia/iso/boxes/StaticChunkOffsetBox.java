@@ -11,7 +11,7 @@ import org.aspectj.runtime.reflect.Factory;
 public class StaticChunkOffsetBox extends ChunkOffsetBox {
     private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_0 = null;
     private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_1 = null;
-    private long[] chunkOffsets = new long[0];
+    private long[] chunkOffsets;
 
     static {
         ajc$preClinit();
@@ -25,6 +25,7 @@ public class StaticChunkOffsetBox extends ChunkOffsetBox {
 
     public StaticChunkOffsetBox() {
         super("stco");
+        this.chunkOffsets = new long[0];
     }
 
     @Override // com.coremedia.iso.boxes.ChunkOffsetBox

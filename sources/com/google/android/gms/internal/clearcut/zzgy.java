@@ -5,7 +5,7 @@ import java.io.IOException;
 public final class zzgy extends zzfu<zzgy> implements Cloneable {
     private String[] zzbiw;
     private String[] zzbix;
-    private int[] zzbiy = zzgb.zzrx;
+    private int[] zzbiy;
     private long[] zzbiz;
     private long[] zzbja;
 
@@ -13,6 +13,7 @@ public final class zzgy extends zzfu<zzgy> implements Cloneable {
         String[] strArr = zzgb.zzsc;
         this.zzbiw = strArr;
         this.zzbix = strArr;
+        this.zzbiy = zzgb.zzrx;
         long[] jArr = zzgb.zzry;
         this.zzbiz = jArr;
         this.zzbja = jArr;
@@ -56,19 +57,19 @@ public final class zzgy extends zzfu<zzgy> implements Cloneable {
         if (obj == this) {
             return true;
         }
-        if (!(obj instanceof zzgy)) {
+        if (obj instanceof zzgy) {
+            zzgy zzgyVar = (zzgy) obj;
+            if (zzfy.equals(this.zzbiw, zzgyVar.zzbiw) && zzfy.equals(this.zzbix, zzgyVar.zzbix) && zzfy.equals(this.zzbiy, zzgyVar.zzbiy) && zzfy.equals(this.zzbiz, zzgyVar.zzbiz) && zzfy.equals(this.zzbja, zzgyVar.zzbja)) {
+                zzfw zzfwVar = this.zzrj;
+                if (zzfwVar == null || zzfwVar.isEmpty()) {
+                    zzfw zzfwVar2 = zzgyVar.zzrj;
+                    return zzfwVar2 == null || zzfwVar2.isEmpty();
+                }
+                return this.zzrj.equals(zzgyVar.zzrj);
+            }
             return false;
         }
-        zzgy zzgyVar = (zzgy) obj;
-        if (!zzfy.equals(this.zzbiw, zzgyVar.zzbiw) || !zzfy.equals(this.zzbix, zzgyVar.zzbix) || !zzfy.equals(this.zzbiy, zzgyVar.zzbiy) || !zzfy.equals(this.zzbiz, zzgyVar.zzbiz) || !zzfy.equals(this.zzbja, zzgyVar.zzbja)) {
-            return false;
-        }
-        zzfw zzfwVar = this.zzrj;
-        if (zzfwVar != null && !zzfwVar.isEmpty()) {
-            return this.zzrj.equals(zzgyVar.zzrj);
-        }
-        zzfw zzfwVar2 = zzgyVar.zzrj;
-        return zzfwVar2 == null || zzfwVar2.isEmpty();
+        return false;
     }
 
     public final int hashCode() {

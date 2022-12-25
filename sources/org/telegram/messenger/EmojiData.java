@@ -61,21 +61,21 @@ public class EmojiData {
         int i4 = 0;
         while (true) {
             String[] strArr4 = aliasNew;
-            if (i4 < strArr4.length) {
-                emojiAliasMap.put(aliasOld[i4], strArr4[i4]);
-                i4++;
+            if (i4 >= strArr4.length) {
+                break;
             }
+            emojiAliasMap.put(aliasOld[i4], strArr4[i4]);
+            i4++;
         }
         while (true) {
             String[][] strArr5 = dataColored;
-            if (i < strArr5.length) {
-                if (strArr5[i] == null) {
-                    strArr5[i] = data[i];
-                }
-                i++;
-            } else {
+            if (i >= strArr5.length) {
                 return;
             }
+            if (strArr5[i] == null) {
+                strArr5[i] = data[i];
+            }
+            i++;
         }
     }
 

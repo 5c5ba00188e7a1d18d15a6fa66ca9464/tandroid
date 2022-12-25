@@ -49,12 +49,8 @@ public abstract class TLRPC$MessageMedia extends TLObject {
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
                         this.flags = readInt32;
-                        boolean z3 = false;
                         this.shipping_address_requested = (readInt32 & 2) != 0;
-                        if ((readInt32 & 8) != 0) {
-                            z3 = true;
-                        }
-                        this.test = z3;
+                        this.test = (readInt32 & 8) != 0;
                         this.title = abstractSerializedData2.readString(z2);
                         this.description = abstractSerializedData2.readString(z2);
                         if ((this.flags & 1) != 0) {
@@ -417,10 +413,10 @@ public abstract class TLRPC$MessageMedia extends TLObject {
                 tLRPC$MessageMedia = null;
                 break;
         }
-        if (tLRPC$MessageMedia != null || !z) {
-            if (tLRPC$MessageMedia == null) {
-                return tLRPC$MessageMedia;
-            }
+        if (tLRPC$MessageMedia == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in MessageMedia", Integer.valueOf(i)));
+        }
+        if (tLRPC$MessageMedia != null) {
             tLRPC$MessageMedia.readParams(abstractSerializedData, z);
             if (tLRPC$MessageMedia.video_unused != null) {
                 tLRPC$TL_messageMediaDocument = new TLRPC$TL_messageMediaDocument();
@@ -501,6 +497,6 @@ public abstract class TLRPC$MessageMedia extends TLObject {
             }
             return tLRPC$TL_messageMediaDocument;
         }
-        throw new RuntimeException(String.format("can't parse magic %x in MessageMedia", Integer.valueOf(i)));
+        return tLRPC$MessageMedia;
     }
 }

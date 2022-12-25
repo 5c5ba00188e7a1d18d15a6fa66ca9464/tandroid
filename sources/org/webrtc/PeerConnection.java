@@ -352,11 +352,11 @@ public class PeerConnection {
             if (obj == this) {
                 return true;
             }
-            if (!(obj instanceof IceServer)) {
-                return false;
+            if (obj instanceof IceServer) {
+                IceServer iceServer = (IceServer) obj;
+                return this.uri.equals(iceServer.uri) && this.urls.equals(iceServer.urls) && this.username.equals(iceServer.username) && this.password.equals(iceServer.password) && this.tlsCertPolicy.equals(iceServer.tlsCertPolicy) && this.hostname.equals(iceServer.hostname) && this.tlsAlpnProtocols.equals(iceServer.tlsAlpnProtocols) && this.tlsEllipticCurves.equals(iceServer.tlsEllipticCurves);
             }
-            IceServer iceServer = (IceServer) obj;
-            return this.uri.equals(iceServer.uri) && this.urls.equals(iceServer.urls) && this.username.equals(iceServer.username) && this.password.equals(iceServer.password) && this.tlsCertPolicy.equals(iceServer.tlsCertPolicy) && this.hostname.equals(iceServer.hostname) && this.tlsAlpnProtocols.equals(iceServer.tlsAlpnProtocols) && this.tlsEllipticCurves.equals(iceServer.tlsEllipticCurves);
+            return false;
         }
 
         public int hashCode() {
@@ -818,11 +818,11 @@ public class PeerConnection {
     }
 
     public boolean addStream(MediaStream mediaStream) {
-        if (!nativeAddLocalStream(mediaStream.getNativeMediaStream())) {
-            return false;
+        if (nativeAddLocalStream(mediaStream.getNativeMediaStream())) {
+            this.localStreams.add(mediaStream);
+            return true;
         }
-        this.localStreams.add(mediaStream);
-        return true;
+        return false;
     }
 
     public void removeStream(MediaStream mediaStream) {

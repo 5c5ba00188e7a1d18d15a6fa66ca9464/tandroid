@@ -22,12 +22,11 @@ class q extends i3 {
             return;
         }
         Object obj2 = this.c;
-        if (obj2 != null && obj.equals(obj2)) {
-            return;
+        if (obj2 == null || !obj.equals(obj2)) {
+            m3 m3Var2 = this.a;
+            this.c = obj;
+            m3Var2.accept((m3) obj);
         }
-        m3 m3Var2 = this.a;
-        this.c = obj;
-        m3Var2.accept((m3) obj);
     }
 
     @Override // j$.util.stream.i3, j$.util.stream.m3

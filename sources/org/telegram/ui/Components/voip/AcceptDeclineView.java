@@ -32,20 +32,27 @@ import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes.dex */
 public class AcceptDeclineView extends View {
+    private Paint acceptCirclePaint;
     private FabBackgroundDrawable acceptDrawable;
     private StaticLayout acceptLayout;
+    Rect acceptRect;
     private AcceptDeclineAccessibilityNodeProvider accessibilityNodeProvider;
     Drawable arrowDrawable;
     float arrowProgress;
     float bigRadius;
+    private int buttonWidth;
     private Drawable callDrawable;
     private Drawable cancelDrawable;
     boolean captured;
     private FabBackgroundDrawable declineDrawable;
     private StaticLayout declineLayout;
+    Rect declineRect;
+    boolean expandBigRadius;
+    boolean expandSmallRadius;
     Animator leftAnimator;
     boolean leftDrag;
     float leftOffsetX;
+    Paint linePaint;
     Listener listener;
     float maxOffset;
     private StaticLayout retryLayout;
@@ -59,13 +66,6 @@ public class AcceptDeclineView extends View {
     float startX;
     float startY;
     float touchSlop;
-    private Paint acceptCirclePaint = new Paint(1);
-    boolean expandSmallRadius = true;
-    boolean expandBigRadius = true;
-    Rect acceptRect = new Rect();
-    Rect declineRect = new Rect();
-    Paint linePaint = new Paint(1);
-    private int buttonWidth = AndroidUtilities.dp(60.0f);
 
     /* loaded from: classes.dex */
     public interface Listener {
@@ -76,7 +76,14 @@ public class AcceptDeclineView extends View {
 
     public AcceptDeclineView(Context context) {
         super(context);
+        this.acceptCirclePaint = new Paint(1);
+        this.expandSmallRadius = true;
+        this.expandBigRadius = true;
+        this.acceptRect = new Rect();
+        this.declineRect = new Rect();
+        this.linePaint = new Paint(1);
         this.touchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
+        this.buttonWidth = AndroidUtilities.dp(60.0f);
         FabBackgroundDrawable fabBackgroundDrawable = new FabBackgroundDrawable();
         this.acceptDrawable = fabBackgroundDrawable;
         fabBackgroundDrawable.setColor(-12531895);
@@ -128,110 +135,110 @@ public class AcceptDeclineView extends View {
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public boolean onTouchEvent(MotionEvent motionEvent) {
-        if (!isEnabled()) {
+        if (isEnabled()) {
+            int action = motionEvent.getAction();
+            if (action == 0) {
+                this.startX = motionEvent.getX();
+                this.startY = motionEvent.getY();
+                if (this.leftAnimator == null && this.declineRect.contains((int) motionEvent.getX(), (int) motionEvent.getY())) {
+                    this.rippleDrawable = Theme.createSimpleSelectorCircleDrawable(AndroidUtilities.dp(52.0f), 0, -51130);
+                    this.captured = true;
+                    this.leftDrag = true;
+                    setPressed(true);
+                    return true;
+                } else if (this.rightAnimator == null && this.acceptRect.contains((int) motionEvent.getX(), (int) motionEvent.getY())) {
+                    this.rippleDrawable = Theme.createSimpleSelectorCircleDrawable(AndroidUtilities.dp(52.0f), 0, -11677354);
+                    this.captured = true;
+                    this.leftDrag = false;
+                    setPressed(true);
+                    Animator animator = this.rightAnimator;
+                    if (animator != null) {
+                        animator.cancel();
+                    }
+                    return true;
+                }
+            } else {
+                if (action != 1) {
+                    if (action == 2) {
+                        if (this.captured) {
+                            float x = motionEvent.getX() - this.startX;
+                            if (!this.startDrag && Math.abs(x) > this.touchSlop) {
+                                if (!this.retryMod) {
+                                    this.startX = motionEvent.getX();
+                                    this.startDrag = true;
+                                    setPressed(false);
+                                    getParent().requestDisallowInterceptTouchEvent(true);
+                                    x = 0.0f;
+                                } else {
+                                    setPressed(false);
+                                    this.captured = false;
+                                }
+                            }
+                            if (this.startDrag) {
+                                if (this.leftDrag) {
+                                    this.leftOffsetX = x;
+                                    if (x < 0.0f) {
+                                        this.leftOffsetX = 0.0f;
+                                    } else {
+                                        float f = this.maxOffset;
+                                        if (x > f) {
+                                            this.leftOffsetX = f;
+                                            dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), 1, 0.0f, 0.0f, 0));
+                                        }
+                                    }
+                                } else {
+                                    this.rigthOffsetX = x;
+                                    if (x > 0.0f) {
+                                        this.rigthOffsetX = 0.0f;
+                                    } else {
+                                        float f2 = this.maxOffset;
+                                        if (x < (-f2)) {
+                                            this.rigthOffsetX = -f2;
+                                            dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), 1, 0.0f, 0.0f, 0));
+                                        }
+                                    }
+                                }
+                            }
+                            return true;
+                        }
+                    }
+                }
+                float y = motionEvent.getY() - this.startY;
+                if (this.captured) {
+                    if (this.leftDrag) {
+                        ValueAnimator ofFloat = ValueAnimator.ofFloat(this.leftOffsetX, 0.0f);
+                        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.AcceptDeclineView$$ExternalSyntheticLambda0
+                            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                            public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                                AcceptDeclineView.this.lambda$onTouchEvent$0(valueAnimator);
+                            }
+                        });
+                        ofFloat.start();
+                        this.leftAnimator = ofFloat;
+                        if (this.listener != null && ((!this.startDrag && Math.abs(y) < this.touchSlop && !this.screenWasWakeup) || this.leftOffsetX > this.maxOffset * 0.8f)) {
+                            this.listener.onDecline();
+                        }
+                    } else {
+                        ValueAnimator ofFloat2 = ValueAnimator.ofFloat(this.rigthOffsetX, 0.0f);
+                        ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.AcceptDeclineView$$ExternalSyntheticLambda1
+                            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                            public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                                AcceptDeclineView.this.lambda$onTouchEvent$1(valueAnimator);
+                            }
+                        });
+                        ofFloat2.start();
+                        this.rightAnimator = ofFloat2;
+                        if (this.listener != null && ((!this.startDrag && Math.abs(y) < this.touchSlop && !this.screenWasWakeup) || (-this.rigthOffsetX) > this.maxOffset * 0.8f)) {
+                            this.listener.onAccept();
+                        }
+                    }
+                }
+                getParent().requestDisallowInterceptTouchEvent(false);
+                this.captured = false;
+                this.startDrag = false;
+                setPressed(false);
+            }
             return false;
-        }
-        int action = motionEvent.getAction();
-        if (action == 0) {
-            this.startX = motionEvent.getX();
-            this.startY = motionEvent.getY();
-            if (this.leftAnimator == null && this.declineRect.contains((int) motionEvent.getX(), (int) motionEvent.getY())) {
-                this.rippleDrawable = Theme.createSimpleSelectorCircleDrawable(AndroidUtilities.dp(52.0f), 0, -51130);
-                this.captured = true;
-                this.leftDrag = true;
-                setPressed(true);
-                return true;
-            } else if (this.rightAnimator == null && this.acceptRect.contains((int) motionEvent.getX(), (int) motionEvent.getY())) {
-                this.rippleDrawable = Theme.createSimpleSelectorCircleDrawable(AndroidUtilities.dp(52.0f), 0, -11677354);
-                this.captured = true;
-                this.leftDrag = false;
-                setPressed(true);
-                Animator animator = this.rightAnimator;
-                if (animator != null) {
-                    animator.cancel();
-                }
-                return true;
-            }
-        } else {
-            if (action != 1) {
-                if (action == 2) {
-                    if (this.captured) {
-                        float x = motionEvent.getX() - this.startX;
-                        if (!this.startDrag && Math.abs(x) > this.touchSlop) {
-                            if (!this.retryMod) {
-                                this.startX = motionEvent.getX();
-                                this.startDrag = true;
-                                setPressed(false);
-                                getParent().requestDisallowInterceptTouchEvent(true);
-                                x = 0.0f;
-                            } else {
-                                setPressed(false);
-                                this.captured = false;
-                            }
-                        }
-                        if (this.startDrag) {
-                            if (this.leftDrag) {
-                                this.leftOffsetX = x;
-                                if (x < 0.0f) {
-                                    this.leftOffsetX = 0.0f;
-                                } else {
-                                    float f = this.maxOffset;
-                                    if (x > f) {
-                                        this.leftOffsetX = f;
-                                        dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), 1, 0.0f, 0.0f, 0));
-                                    }
-                                }
-                            } else {
-                                this.rigthOffsetX = x;
-                                if (x > 0.0f) {
-                                    this.rigthOffsetX = 0.0f;
-                                } else {
-                                    float f2 = this.maxOffset;
-                                    if (x < (-f2)) {
-                                        this.rigthOffsetX = -f2;
-                                        dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), 1, 0.0f, 0.0f, 0));
-                                    }
-                                }
-                            }
-                        }
-                        return true;
-                    }
-                }
-            }
-            float y = motionEvent.getY() - this.startY;
-            if (this.captured) {
-                if (this.leftDrag) {
-                    ValueAnimator ofFloat = ValueAnimator.ofFloat(this.leftOffsetX, 0.0f);
-                    ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.AcceptDeclineView$$ExternalSyntheticLambda0
-                        @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                        public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                            AcceptDeclineView.this.lambda$onTouchEvent$0(valueAnimator);
-                        }
-                    });
-                    ofFloat.start();
-                    this.leftAnimator = ofFloat;
-                    if (this.listener != null && ((!this.startDrag && Math.abs(y) < this.touchSlop && !this.screenWasWakeup) || this.leftOffsetX > this.maxOffset * 0.8f)) {
-                        this.listener.onDecline();
-                    }
-                } else {
-                    ValueAnimator ofFloat2 = ValueAnimator.ofFloat(this.rigthOffsetX, 0.0f);
-                    ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.AcceptDeclineView$$ExternalSyntheticLambda1
-                        @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                        public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                            AcceptDeclineView.this.lambda$onTouchEvent$1(valueAnimator);
-                        }
-                    });
-                    ofFloat2.start();
-                    this.rightAnimator = ofFloat2;
-                    if (this.listener != null && ((!this.startDrag && Math.abs(y) < this.touchSlop && !this.screenWasWakeup) || (-this.rigthOffsetX) > this.maxOffset * 0.8f)) {
-                        this.listener.onAccept();
-                    }
-                }
-            }
-            getParent().requestDisallowInterceptTouchEvent(false);
-            this.captured = false;
-            this.startDrag = false;
-            setPressed(false);
         }
         return false;
     }
@@ -445,21 +452,21 @@ public class AcceptDeclineView extends View {
                 @Override // org.telegram.ui.Components.voip.AcceptDeclineView.AcceptDeclineAccessibilityNodeProvider
                 protected CharSequence getVirtualViewText(int i) {
                     if (i != 0) {
-                        if (i == 1 && AcceptDeclineView.this.declineLayout != null) {
-                            return AcceptDeclineView.this.declineLayout.getText();
+                        if (i != 1 || AcceptDeclineView.this.declineLayout == null) {
+                            return null;
                         }
-                        return null;
+                        return AcceptDeclineView.this.declineLayout.getText();
                     }
                     AcceptDeclineView acceptDeclineView = AcceptDeclineView.this;
                     if (acceptDeclineView.retryMod) {
-                        if (acceptDeclineView.retryLayout == null) {
-                            return null;
+                        if (acceptDeclineView.retryLayout != null) {
+                            return AcceptDeclineView.this.retryLayout.getText();
                         }
-                        return AcceptDeclineView.this.retryLayout.getText();
-                    } else if (acceptDeclineView.acceptLayout == null) {
                         return null;
-                    } else {
+                    } else if (acceptDeclineView.acceptLayout != null) {
                         return AcceptDeclineView.this.acceptLayout.getText();
+                    } else {
+                        return null;
                     }
                 }
 
@@ -488,8 +495,7 @@ public class AcceptDeclineView extends View {
                     if (listener != null) {
                         if (i == 0) {
                             listener.onAccept();
-                        } else if (i != 1) {
-                        } else {
+                        } else if (i == 1) {
                             listener.onDecline();
                         }
                     }
@@ -563,11 +569,11 @@ public class AcceptDeclineView extends View {
             if (i2 == 64) {
                 sendAccessibilityEventForVirtualView(i, 32768);
                 return false;
-            } else if (i2 != 16) {
-                return false;
-            } else {
+            } else if (i2 == 16) {
                 onVirtualViewClick(i);
                 return true;
+            } else {
+                return false;
             }
         }
 

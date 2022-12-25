@@ -4,10 +4,11 @@ import java.util.Collections;
 import java.util.HashMap;
 /* loaded from: classes.dex */
 public final class zzbt {
-    static final zzbt zzgo = new zzbt(true);
+    static final zzbt zzgo;
 
     static {
         zzam();
+        zzgo = new zzbt(true);
     }
 
     zzbt() {

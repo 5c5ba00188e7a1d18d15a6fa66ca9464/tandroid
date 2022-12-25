@@ -31,24 +31,24 @@ public final class BitSource {
             }
             i3 = i7;
         }
-        if (i <= 0) {
+        if (i > 0) {
+            while (i >= 8) {
+                int i9 = i3 << 8;
+                byte[] bArr2 = this.bytes;
+                int i10 = this.byteOffset;
+                i3 = (bArr2[i10] & 255) | i9;
+                this.byteOffset = i10 + 1;
+                i -= 8;
+            }
+            if (i > 0) {
+                int i11 = 8 - i;
+                int i12 = (i3 << i) | ((((255 >> i11) << i11) & this.bytes[this.byteOffset]) >> i11);
+                this.bitOffset += i;
+                return i12;
+            }
             return i3;
         }
-        while (i >= 8) {
-            int i9 = i3 << 8;
-            byte[] bArr2 = this.bytes;
-            int i10 = this.byteOffset;
-            i3 = (bArr2[i10] & 255) | i9;
-            this.byteOffset = i10 + 1;
-            i -= 8;
-        }
-        if (i <= 0) {
-            return i3;
-        }
-        int i11 = 8 - i;
-        int i12 = (i3 << i) | ((((255 >> i11) << i11) & this.bytes[this.byteOffset]) >> i11);
-        this.bitOffset += i;
-        return i12;
+        return i3;
     }
 
     public int available() {

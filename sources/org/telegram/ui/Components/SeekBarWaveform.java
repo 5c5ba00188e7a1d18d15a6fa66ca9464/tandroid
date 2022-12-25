@@ -179,10 +179,9 @@ public class SeekBarWaveform {
             return;
         }
         int i2 = this.width;
-        if (ceil <= i2) {
-            return;
+        if (ceil > i2) {
+            this.thumbX = i2;
         }
-        this.thumbX = i2;
     }
 
     public boolean isDragging() {
@@ -201,11 +200,11 @@ public class SeekBarWaveform {
             this.heights = calculateHeights((int) (this.width / AndroidUtilities.dpf2(3.0f)));
         }
         if (i3 == i4 || (this.fromWidth == i3 && this.toWidth == i4)) {
-            if (i3 != i4) {
+            if (i3 == i4) {
+                this.toHeights = null;
+                this.fromHeights = null;
                 return;
             }
-            this.toHeights = null;
-            this.fromHeights = null;
             return;
         }
         this.fromWidth = i3;
@@ -404,10 +403,9 @@ public class SeekBarWaveform {
             canvas.drawRect(-pow, 0.0f, (this.width + 5) - pow, this.height, this.loadingPaint);
             canvas.restore();
             View view = this.parentView;
-            if (view == null) {
-                return;
+            if (view != null) {
+                view.invalidate();
             }
-            view.invalidate();
         }
     }
 

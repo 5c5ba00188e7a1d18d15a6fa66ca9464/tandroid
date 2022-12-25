@@ -8,9 +8,9 @@ import android.util.TypedValue;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
 public class HintEditText extends EditTextBoldCursor {
+    protected TextPaint hintPaint;
     private String hintText;
-    protected TextPaint hintPaint = new TextPaint(1);
-    private android.graphics.Rect rect = new android.graphics.Rect();
+    private android.graphics.Rect rect;
 
     protected void onPreDrawHintCharacter(int i, Canvas canvas, float f, float f2) {
     }
@@ -21,6 +21,8 @@ public class HintEditText extends EditTextBoldCursor {
 
     public HintEditText(Context context) {
         super(context);
+        this.hintPaint = new TextPaint(1);
+        this.rect = new android.graphics.Rect();
         this.hintPaint.setColor(Theme.getColor("windowBackgroundWhiteHintText"));
     }
 

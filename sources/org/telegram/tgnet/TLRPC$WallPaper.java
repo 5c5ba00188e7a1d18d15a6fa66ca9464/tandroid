@@ -23,12 +23,8 @@ public abstract class TLRPC$WallPaper extends TLObject {
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
                         this.flags = readInt32;
-                        boolean z3 = true;
                         this.isDefault = (readInt32 & 2) != 0;
-                        if ((readInt32 & 16) == 0) {
-                            z3 = false;
-                        }
-                        this.dark = z3;
+                        this.dark = (readInt32 & 16) != 0;
                         if ((readInt32 & 4) != 0) {
                             this.settings = TLRPC$WallPaperSettings.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
@@ -63,12 +59,8 @@ public abstract class TLRPC$WallPaper extends TLObject {
                         this.id = abstractSerializedData2.readInt64(z2);
                         int readInt32 = abstractSerializedData2.readInt32(z2);
                         this.flags = readInt32;
-                        boolean z3 = false;
                         this.creator = (readInt32 & 1) != 0;
-                        if ((readInt32 & 2) != 0) {
-                            z3 = true;
-                        }
-                        this.isDefault = z3;
+                        this.isDefault = (readInt32 & 2) != 0;
                         this.access_hash = abstractSerializedData2.readInt64(z2);
                         this.slug = abstractSerializedData2.readString(z2);
                         this.document = TLRPC$Document.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
@@ -93,12 +85,12 @@ public abstract class TLRPC$WallPaper extends TLObject {
                 tLRPC$WallPaper = null;
                 break;
         }
-        if (tLRPC$WallPaper != null || !z) {
-            if (tLRPC$WallPaper != null) {
-                tLRPC$WallPaper.readParams(abstractSerializedData, z);
-            }
-            return tLRPC$WallPaper;
+        if (tLRPC$WallPaper == null && z) {
+            throw new RuntimeException(String.format("can't parse magic %x in WallPaper", Integer.valueOf(i)));
         }
-        throw new RuntimeException(String.format("can't parse magic %x in WallPaper", Integer.valueOf(i)));
+        if (tLRPC$WallPaper != null) {
+            tLRPC$WallPaper.readParams(abstractSerializedData, z);
+        }
+        return tLRPC$WallPaper;
     }
 }

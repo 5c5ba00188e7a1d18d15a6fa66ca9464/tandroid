@@ -96,15 +96,14 @@ public class FingerprintController {
     }
 
     public static void checkKeyReady(final boolean z) {
-        if (isKeyReady() || !AndroidUtilities.isKeyguardSecure() || !FingerprintManagerCompat.from(ApplicationLoader.applicationContext).isHardwareDetected() || !FingerprintManagerCompat.from(ApplicationLoader.applicationContext).hasEnrolledFingerprints()) {
-            return;
+        if (!isKeyReady() && AndroidUtilities.isKeyguardSecure() && FingerprintManagerCompat.from(ApplicationLoader.applicationContext).isHardwareDetected() && FingerprintManagerCompat.from(ApplicationLoader.applicationContext).hasEnrolledFingerprints()) {
+            Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FingerprintController$$ExternalSyntheticLambda1
+                @Override // java.lang.Runnable
+                public final void run() {
+                    FingerprintController.generateNewKey(z);
+                }
+            });
         }
-        Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FingerprintController$$ExternalSyntheticLambda1
-            @Override // java.lang.Runnable
-            public final void run() {
-                FingerprintController.generateNewKey(z);
-            }
-        });
     }
 
     public static boolean isKeyReady() {

@@ -22,13 +22,15 @@ public class BackupImageView extends View {
     protected boolean blurAllowed;
     protected ImageReceiver blurImageReceiver;
     protected boolean hasBlur;
+    protected int height;
     protected ImageReceiver imageReceiver;
     ValueAnimator roundRadiusAnimator;
-    protected int width = -1;
-    protected int height = -1;
+    protected int width;
 
     public BackupImageView(Context context) {
         super(context);
+        this.width = -1;
+        this.height = -1;
         ImageReceiver imageReceiver = new ImageReceiver(this);
         this.imageReceiver = imageReceiver;
         imageReceiver.setDelegate(new ImageReceiver.ImageReceiverDelegate() { // from class: org.telegram.ui.Components.BackupImageView$$ExternalSyntheticLambda0
@@ -57,10 +59,9 @@ public class BackupImageView extends View {
             throw new IllegalStateException("You should call setBlurAllowed(...) only when detached!");
         }
         this.blurAllowed = z;
-        if (!z) {
-            return;
+        if (z) {
+            this.blurImageReceiver = new ImageReceiver();
         }
-        this.blurImageReceiver = new ImageReceiver();
     }
 
     public void setHasBlur(boolean z) {
@@ -296,10 +297,9 @@ public class BackupImageView extends View {
             }
         }
         imageReceiver.draw(canvas);
-        if (!this.blurAllowed) {
-            return;
+        if (this.blurAllowed) {
+            this.blurImageReceiver.draw(canvas);
         }
-        this.blurImageReceiver.draw(canvas);
     }
 
     public void setColorFilter(ColorFilter colorFilter) {

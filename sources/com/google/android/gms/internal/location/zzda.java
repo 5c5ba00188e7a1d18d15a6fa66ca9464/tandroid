@@ -19,12 +19,15 @@ import com.google.android.gms.tasks.TaskCompletionSource;
 /* compiled from: com.google.android.gms:play-services-location@@21.0.1 */
 /* loaded from: classes.dex */
 public final class zzda extends GmsClient {
-    private final SimpleArrayMap zzf = new SimpleArrayMap();
-    private final SimpleArrayMap zzg = new SimpleArrayMap();
-    private final SimpleArrayMap zzh = new SimpleArrayMap();
+    private final SimpleArrayMap zzf;
+    private final SimpleArrayMap zzg;
+    private final SimpleArrayMap zzh;
 
     public zzda(Context context, Looper looper, ClientSettings clientSettings, ConnectionCallbacks connectionCallbacks, OnConnectionFailedListener onConnectionFailedListener) {
         super(context, looper, 23, clientSettings, connectionCallbacks, onConnectionFailedListener);
+        this.zzf = new SimpleArrayMap();
+        this.zzg = new SimpleArrayMap();
+        this.zzh = new SimpleArrayMap();
     }
 
     private final boolean zzE(Feature feature) {
@@ -128,8 +131,8 @@ public final class zzda extends GmsClient {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:11:0x0044 A[Catch: all -> 0x0082, TryCatch #0 {, blocks: (B:4:0x001a, B:8:0x0028, B:9:0x003b, B:11:0x0044, B:12:0x0080, B:16:0x0057, B:17:0x002e), top: B:3:0x001a }] */
-    /* JADX WARN: Removed duplicated region for block: B:16:0x0057 A[Catch: all -> 0x0082, TryCatch #0 {, blocks: (B:4:0x001a, B:8:0x0028, B:9:0x003b, B:11:0x0044, B:12:0x0080, B:16:0x0057, B:17:0x002e), top: B:3:0x001a }] */
+    /* JADX WARN: Removed duplicated region for block: B:12:0x0044 A[Catch: all -> 0x0082, TryCatch #0 {, blocks: (B:4:0x001a, B:8:0x0028, B:10:0x003b, B:12:0x0044, B:14:0x0080, B:13:0x0057, B:9:0x002e), top: B:19:0x001a }] */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x0057 A[Catch: all -> 0x0082, TryCatch #0 {, blocks: (B:4:0x001a, B:8:0x0028, B:10:0x003b, B:12:0x0044, B:14:0x0080, B:13:0x0057, B:9:0x002e), top: B:19:0x001a }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

@@ -118,21 +118,18 @@ public class AnimatedNumberLayout {
         int i = 0;
         while (i < max) {
             canvas.save();
-            StaticLayout staticLayout = null;
-            StaticLayout staticLayout2 = i < this.oldLetters.size() ? this.oldLetters.get(i) : null;
-            if (i < this.letters.size()) {
-                staticLayout = this.letters.get(i);
-            }
+            StaticLayout staticLayout = i < this.oldLetters.size() ? this.oldLetters.get(i) : null;
+            StaticLayout staticLayout2 = i < this.letters.size() ? this.letters.get(i) : null;
             float f = this.progress;
             if (f > 0.0f) {
-                if (staticLayout2 != null) {
+                if (staticLayout != null) {
                     float f2 = alpha;
                     this.textPaint.setAlpha((int) (f * f2));
                     canvas.save();
                     canvas.translate(0.0f, (this.progress - 1.0f) * height);
-                    staticLayout2.draw(canvas);
+                    staticLayout.draw(canvas);
                     canvas.restore();
-                    if (staticLayout != null) {
+                    if (staticLayout2 != null) {
                         this.textPaint.setAlpha((int) (f2 * (1.0f - this.progress)));
                         canvas.translate(0.0f, this.progress * height);
                     }
@@ -140,29 +137,29 @@ public class AnimatedNumberLayout {
                     this.textPaint.setAlpha(alpha);
                 }
             } else if (f < 0.0f) {
-                if (staticLayout2 != null) {
+                if (staticLayout != null) {
                     this.textPaint.setAlpha((int) (alpha * (-f)));
                     canvas.save();
                     canvas.translate(0.0f, (this.progress + 1.0f) * height);
-                    staticLayout2.draw(canvas);
+                    staticLayout.draw(canvas);
                     canvas.restore();
                 }
-                if (staticLayout != null) {
-                    if (i == max - 1 || staticLayout2 != null) {
+                if (staticLayout2 != null) {
+                    if (i == max - 1 || staticLayout != null) {
                         this.textPaint.setAlpha((int) (alpha * (this.progress + 1.0f)));
                         canvas.translate(0.0f, this.progress * height);
                     } else {
                         this.textPaint.setAlpha(alpha);
                     }
                 }
-            } else if (staticLayout != null) {
+            } else if (staticLayout2 != null) {
                 this.textPaint.setAlpha(alpha);
             }
-            if (staticLayout != null) {
-                staticLayout.draw(canvas);
+            if (staticLayout2 != null) {
+                staticLayout2.draw(canvas);
             }
             canvas.restore();
-            canvas.translate(staticLayout != null ? staticLayout.getLineWidth(0) : staticLayout2.getLineWidth(0), 0.0f);
+            canvas.translate(staticLayout2 != null ? staticLayout2.getLineWidth(0) : staticLayout.getLineWidth(0), 0.0f);
             i++;
         }
         canvas.restore();

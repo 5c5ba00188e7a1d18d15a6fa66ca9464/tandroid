@@ -121,15 +121,15 @@ public abstract class BaseTrackSelection implements TrackSelection {
         boolean isBlacklisted = isBlacklisted(i, elapsedRealtime);
         int i2 = 0;
         while (i2 < this.length && !isBlacklisted) {
-            isBlacklisted = i2 != i && !isBlacklisted(i2, elapsedRealtime);
+            isBlacklisted = (i2 == i || isBlacklisted(i2, elapsedRealtime)) ? false : true;
             i2++;
         }
-        if (!isBlacklisted) {
-            return false;
+        if (isBlacklisted) {
+            long[] jArr = this.blacklistUntilTimes;
+            jArr[i] = Math.max(jArr[i], Util.addWithOverflowDefault(elapsedRealtime, j, Long.MAX_VALUE));
+            return true;
         }
-        long[] jArr = this.blacklistUntilTimes;
-        jArr[i] = Math.max(jArr[i], Util.addWithOverflowDefault(elapsedRealtime, j, Long.MAX_VALUE));
-        return true;
+        return false;
     }
 
     /* JADX INFO: Access modifiers changed from: protected */

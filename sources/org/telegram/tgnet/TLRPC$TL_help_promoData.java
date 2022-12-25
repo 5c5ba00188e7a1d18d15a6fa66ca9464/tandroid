@@ -53,10 +53,9 @@ public class TLRPC$TL_help_promoData extends TLRPC$help_PromoData {
         if ((this.flags & 2) != 0) {
             this.psa_type = abstractSerializedData.readString(z);
         }
-        if ((this.flags & 4) == 0) {
-            return;
+        if ((this.flags & 4) != 0) {
+            this.psa_message = abstractSerializedData.readString(z);
         }
-        this.psa_message = abstractSerializedData.readString(z);
     }
 
     @Override // org.telegram.tgnet.TLObject

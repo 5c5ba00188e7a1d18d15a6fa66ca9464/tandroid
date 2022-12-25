@@ -88,14 +88,14 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
             xmlPullParser.next();
             long j3 = parseDuration4;
             if (XmlPullParserUtil.isStartTag(xmlPullParser, "BaseURL")) {
-                if (!z) {
-                    str3 = dashManifestParser.parseBaseUrl(xmlPullParser, str3);
-                    z = true;
-                } else {
+                if (z) {
                     str2 = str3;
                     j = j2;
                     str3 = str2;
                     j2 = j;
+                } else {
+                    str3 = dashManifestParser.parseBaseUrl(xmlPullParser, str3);
+                    z = true;
                 }
             } else if (XmlPullParserUtil.isStartTag(xmlPullParser, "ProgramInformation")) {
                 programInformation = parseProgramInformation(xmlPullParser);
@@ -170,11 +170,11 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
         do {
             xmlPullParser.next();
             if (XmlPullParserUtil.isStartTag(xmlPullParser, "BaseURL")) {
-                if (!z) {
+                if (z) {
+                    str2 = str3;
+                } else {
                     str3 = parseBaseUrl(xmlPullParser, str3);
                     z = true;
-                } else {
-                    str2 = str3;
                 }
             } else if (XmlPullParserUtil.isStartTag(xmlPullParser, "AdaptationSet")) {
                 str2 = str3;
@@ -233,7 +233,7 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
         float parseFrameRate = parseFrameRate(xmlPullParser3, -1.0f);
         int parseInt4 = parseInt(xmlPullParser3, "audioSamplingRate", -1);
         String str7 = "lang";
-        String attributeValue3 = xmlPullParser3.getAttributeValue(null, str7);
+        String attributeValue3 = xmlPullParser3.getAttributeValue(null, "lang");
         String attributeValue4 = xmlPullParser3.getAttributeValue(null, "label");
         ArrayList<DrmInitData.SchemeData> arrayList9 = new ArrayList<>();
         ArrayList<Descriptor> arrayList10 = new ArrayList<>();
@@ -466,9 +466,9 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
         return mimeTypeIsRawText(str) ? 3 : -1;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:28:0x0095  */
-    /* JADX WARN: Removed duplicated region for block: B:33:0x00fb  */
-    /* JADX WARN: Removed duplicated region for block: B:37:0x009c  */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x0095  */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x009c  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x00fb  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -478,7 +478,6 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
         UUID uuid2;
         byte[] bArr;
         byte[] bArr2;
-        DrmInitData.SchemeData schemeData = null;
         String attributeValue = xmlPullParser.getAttributeValue(null, "schemeIdUri");
         if (attributeValue != null) {
             String lowerInvariant = Util.toLowerInvariant(attributeValue);
@@ -568,10 +567,7 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
                     bArr2 = bArr2;
                 }
             } while (!XmlPullParserUtil.isEndTag(xmlPullParser, "ContentProtection"));
-            if (uuid != null) {
-                schemeData = new DrmInitData.SchemeData(uuid, bArr, "video/mp4", bArr2);
-            }
-            return Pair.create(str, schemeData);
+            return Pair.create(str, uuid != null ? new DrmInitData.SchemeData(uuid, bArr, "video/mp4", bArr2) : null);
         }
         str = null;
         uuid = null;
@@ -583,17 +579,15 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
             if (!XmlPullParserUtil.isStartTag(xmlPullParser, "ms:laurl")) {
             }
         } while (!XmlPullParserUtil.isEndTag(xmlPullParser, "ContentProtection"));
-        if (uuid != null) {
-        }
-        return Pair.create(str, schemeData);
+        return Pair.create(str, uuid != null ? new DrmInitData.SchemeData(uuid, bArr, "video/mp4", bArr2) : null);
     }
 
     protected void parseAdaptationSetChild(XmlPullParser xmlPullParser) throws XmlPullParserException, IOException {
         maybeSkipTag(xmlPullParser);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:10:0x019f A[LOOP:0: B:2:0x0065->B:10:0x019f, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:11:0x015b A[EDGE_INSN: B:11:0x015b->B:12:0x015b ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x019f A[LOOP:0: B:3:0x0065->B:50:0x019f, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x015b A[EDGE_INSN: B:51:0x015b->B:44:0x015b ?: BREAK  , SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -771,13 +765,9 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
         long j;
         long j2;
         long parseLong = parseLong(xmlPullParser, "timescale", singleSegmentBase != null ? singleSegmentBase.timescale : 1L);
-        long j3 = 0;
         long parseLong2 = parseLong(xmlPullParser, "presentationTimeOffset", singleSegmentBase != null ? singleSegmentBase.presentationTimeOffset : 0L);
-        long j4 = singleSegmentBase != null ? singleSegmentBase.indexStart : 0L;
-        if (singleSegmentBase != null) {
-            j3 = singleSegmentBase.indexLength;
-        }
-        RangedUri rangedUri = null;
+        long j3 = singleSegmentBase != null ? singleSegmentBase.indexStart : 0L;
+        long j4 = singleSegmentBase != null ? singleSegmentBase.indexLength : 0L;
         String attributeValue = xmlPullParser.getAttributeValue(null, "indexRange");
         if (attributeValue != null) {
             String[] split = attributeValue.split("-");
@@ -785,12 +775,10 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
             j = (Long.parseLong(split[1]) - parseLong3) + 1;
             j2 = parseLong3;
         } else {
-            j = j3;
-            j2 = j4;
+            j = j4;
+            j2 = j3;
         }
-        if (singleSegmentBase != null) {
-            rangedUri = singleSegmentBase.initialization;
-        }
+        RangedUri rangedUri = singleSegmentBase != null ? singleSegmentBase.initialization : null;
         do {
             xmlPullParser.next();
             if (XmlPullParserUtil.isStartTag(xmlPullParser, "Initialization")) {
@@ -807,14 +795,10 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
     }
 
     protected SegmentBase.SegmentList parseSegmentList(XmlPullParser xmlPullParser, SegmentBase.SegmentList segmentList, long j) throws XmlPullParserException, IOException {
-        long j2 = 1;
         long parseLong = parseLong(xmlPullParser, "timescale", segmentList != null ? segmentList.timescale : 1L);
         long parseLong2 = parseLong(xmlPullParser, "presentationTimeOffset", segmentList != null ? segmentList.presentationTimeOffset : 0L);
         long parseLong3 = parseLong(xmlPullParser, "duration", segmentList != null ? segmentList.duration : -9223372036854775807L);
-        if (segmentList != null) {
-            j2 = segmentList.startNumber;
-        }
-        long parseLong4 = parseLong(xmlPullParser, "startNumber", j2);
+        long parseLong4 = parseLong(xmlPullParser, "startNumber", segmentList != null ? segmentList.startNumber : 1L);
         List<SegmentBase.SegmentTimelineElement> list = null;
         List<RangedUri> list2 = null;
         RangedUri rangedUri = null;
@@ -852,14 +836,10 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
     }
 
     protected SegmentBase.SegmentTemplate parseSegmentTemplate(XmlPullParser xmlPullParser, SegmentBase.SegmentTemplate segmentTemplate, List<Descriptor> list, long j) throws XmlPullParserException, IOException {
-        long j2 = 1;
         long parseLong = parseLong(xmlPullParser, "timescale", segmentTemplate != null ? segmentTemplate.timescale : 1L);
         long parseLong2 = parseLong(xmlPullParser, "presentationTimeOffset", segmentTemplate != null ? segmentTemplate.presentationTimeOffset : 0L);
         long parseLong3 = parseLong(xmlPullParser, "duration", segmentTemplate != null ? segmentTemplate.duration : -9223372036854775807L);
-        if (segmentTemplate != null) {
-            j2 = segmentTemplate.startNumber;
-        }
-        long parseLong4 = parseLong(xmlPullParser, "startNumber", j2);
+        long parseLong4 = parseLong(xmlPullParser, "startNumber", segmentTemplate != null ? segmentTemplate.startNumber : 1L);
         long parseLastSegmentNumberSupplementalProperty = parseLastSegmentNumberSupplementalProperty(list);
         List<SegmentBase.SegmentTimelineElement> list2 = null;
         UrlTemplate parseUrlTemplate = parseUrlTemplate(xmlPullParser, "media", segmentTemplate != null ? segmentTemplate.mediaTemplate : null);
@@ -1314,16 +1294,15 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
     }
 
     public static void maybeSkipTag(XmlPullParser xmlPullParser) throws IOException, XmlPullParserException {
-        if (!XmlPullParserUtil.isStartTag(xmlPullParser)) {
-            return;
-        }
-        int i = 1;
-        while (i != 0) {
-            xmlPullParser.next();
-            if (XmlPullParserUtil.isStartTag(xmlPullParser)) {
-                i++;
-            } else if (XmlPullParserUtil.isEndTag(xmlPullParser)) {
-                i--;
+        if (XmlPullParserUtil.isStartTag(xmlPullParser)) {
+            int i = 1;
+            while (i != 0) {
+                xmlPullParser.next();
+                if (XmlPullParserUtil.isStartTag(xmlPullParser)) {
+                    i++;
+                } else if (XmlPullParserUtil.isEndTag(xmlPullParser)) {
+                    i--;
+                }
             }
         }
     }
@@ -1461,12 +1440,12 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
         String attributeValue = xmlPullParser.getAttributeValue(null, "frameRate");
         if (attributeValue != null) {
             Matcher matcher = FRAME_RATE_PATTERN.matcher(attributeValue);
-            if (!matcher.matches()) {
-                return f;
+            if (matcher.matches()) {
+                int parseInt = Integer.parseInt(matcher.group(1));
+                String group = matcher.group(2);
+                return !TextUtils.isEmpty(group) ? parseInt / Integer.parseInt(group) : parseInt;
             }
-            int parseInt = Integer.parseInt(matcher.group(1));
-            String group = matcher.group(2);
-            return !TextUtils.isEmpty(group) ? parseInt / Integer.parseInt(group) : parseInt;
+            return f;
         }
         return f;
     }

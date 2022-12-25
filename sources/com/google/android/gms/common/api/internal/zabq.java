@@ -39,6 +39,7 @@ public final class zabq implements GoogleApiClient.ConnectionCallbacks, GoogleAp
     @NotOnlyInitialized
     private final Api.Client zac;
     private final ApiKey zad;
+    private final zaad zae;
     private final int zah;
     private final zact zai;
     private boolean zaj;
@@ -48,7 +49,6 @@ public final class zabq implements GoogleApiClient.ConnectionCallbacks, GoogleAp
     private final List zak = new ArrayList();
     private ConnectionResult zal = null;
     private int zam = 0;
-    private final zaad zae = new zaad();
 
     public zabq(GoogleApiManager googleApiManager, GoogleApi googleApi) {
         Handler handler;
@@ -59,6 +59,7 @@ public final class zabq implements GoogleApiClient.ConnectionCallbacks, GoogleAp
         Api.Client zab = googleApi.zab(handler.getLooper(), this);
         this.zac = zab;
         this.zad = googleApi.getApiKey();
+        this.zae = new zaad();
         this.zah = googleApi.zaa();
         if (!zab.requiresSignIn()) {
             this.zai = null;
@@ -107,12 +108,7 @@ public final class zabq implements GoogleApiClient.ConnectionCallbacks, GoogleAp
         Handler handler;
         handler = this.zaa.zat;
         Preconditions.checkHandlerThread(handler);
-        boolean z2 = false;
-        boolean z3 = status == null;
-        if (exc == null) {
-            z2 = true;
-        }
-        if (z3 == z2) {
+        if ((status == null) == (exc == null)) {
             throw new IllegalArgumentException("Status XOR exception should be null");
         }
         Iterator it = this.zab.iterator();
@@ -325,25 +321,33 @@ public final class zabq implements GoogleApiClient.ConnectionCallbacks, GoogleAp
         Handler handler;
         handler = this.zaa.zat;
         Preconditions.checkHandlerThread(handler);
-        if (!this.zac.isConnected() || this.zag.size() != 0) {
+        if (this.zac.isConnected() && this.zag.size() == 0) {
+            if (!this.zae.zag()) {
+                this.zac.disconnect("Timing out service connection.");
+                return true;
+            }
+            if (z) {
+                zaI();
+            }
             return false;
-        }
-        if (!this.zae.zag()) {
-            this.zac.disconnect("Timing out service connection.");
-            return true;
-        }
-        if (z) {
-            zaI();
         }
         return false;
     }
 
+    public static /* bridge */ /* synthetic */ ApiKey zag(zabq zabqVar) {
+        return zabqVar.zad;
+    }
+
+    public static /* bridge */ /* synthetic */ void zai(zabq zabqVar, Status status) {
+        zabqVar.zaD(status);
+    }
+
     public static /* bridge */ /* synthetic */ void zal(zabq zabqVar, zabs zabsVar) {
         if (zabqVar.zak.contains(zabsVar) && !zabqVar.zaj) {
-            if (!zabqVar.zac.isConnected()) {
-                zabqVar.zao();
-            } else {
+            if (zabqVar.zac.isConnected()) {
                 zabqVar.zaF();
+            } else {
+                zabqVar.zao();
             }
         }
     }
@@ -372,6 +376,10 @@ public final class zabq implements GoogleApiClient.ConnectionCallbacks, GoogleAp
                 zaiVar2.zae(new UnsupportedApiCallException(feature));
             }
         }
+    }
+
+    public static /* bridge */ /* synthetic */ boolean zax(zabq zabqVar, boolean z) {
+        return zabqVar.zaN(false);
     }
 
     @Override // com.google.android.gms.common.api.internal.ConnectionCallbacks

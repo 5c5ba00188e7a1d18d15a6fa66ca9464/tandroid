@@ -23,11 +23,11 @@ public final class CollectionTypeAdapterFactory implements TypeAdapterFactory {
     public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> typeToken) {
         Type type = typeToken.getType();
         Class<? super T> rawType = typeToken.getRawType();
-        if (!Collection.class.isAssignableFrom(rawType)) {
-            return null;
+        if (Collection.class.isAssignableFrom(rawType)) {
+            Type collectionElementType = $Gson$Types.getCollectionElementType(type, rawType);
+            return new Adapter(gson, collectionElementType, gson.getAdapter(TypeToken.get(collectionElementType)), this.constructorConstructor.get(typeToken));
         }
-        Type collectionElementType = $Gson$Types.getCollectionElementType(type, rawType);
-        return new Adapter(gson, collectionElementType, gson.getAdapter(TypeToken.get(collectionElementType)), this.constructorConstructor.get(typeToken));
+        return null;
     }
 
     /* loaded from: classes.dex */

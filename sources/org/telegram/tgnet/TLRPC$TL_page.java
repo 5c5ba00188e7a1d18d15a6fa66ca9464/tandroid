@@ -56,10 +56,9 @@ public class TLRPC$TL_page extends TLRPC$Page {
             }
             this.documents.add(TLdeserialize3);
         }
-        if ((this.flags & 8) == 0) {
-            return;
+        if ((this.flags & 8) != 0) {
+            this.views = abstractSerializedData.readInt32(z);
         }
-        this.views = abstractSerializedData.readInt32(z);
     }
 
     @Override // org.telegram.tgnet.TLObject

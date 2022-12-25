@@ -58,7 +58,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
     private float contrastValue;
     private ImageView curveItem;
     private FrameLayout curveLayout;
-    private RadioButton[] curveRadioButton = new RadioButton[4];
+    private RadioButton[] curveRadioButton;
     private PhotoFilterCurvesControl curvesControl;
     private CurvesToolValue curvesToolValue;
     private TextView doneTextView;
@@ -228,13 +228,14 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:27:0x04cc  */
-    /* JADX WARN: Removed duplicated region for block: B:30:0x04ce  */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x04cc  */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x04ce  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public PhotoFilterView(Context context, VideoEditTextureView videoEditTextureView, Bitmap bitmap, int i, MediaController.SavedFilterState savedFilterState, PaintingOverlay paintingOverlay, int i2, boolean z, Theme.ResourcesProvider resourcesProvider) {
         super(context);
+        this.curveRadioButton = new RadioButton[4];
         this.resourcesProvider = resourcesProvider;
         this.inBubbleMode = context instanceof BubbleActivity;
         this.paintingOverlay = paintingOverlay;
@@ -742,8 +743,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
             this.blurRadialButton.setTextColor(getThemedColor("dialogFloatingButton"));
             this.blurLinearButton.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.msg_blur_linear, 0, 0);
             this.blurLinearButton.setTextColor(-1);
-        } else if (i != 2) {
-        } else {
+        } else if (i == 2) {
             this.blurOffButton.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.msg_blur_off, 0, 0);
             this.blurOffButton.setTextColor(-1);
             this.blurRadialButton.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.msg_blur_radial, 0, 0);
@@ -790,16 +790,14 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
         if (motionEvent.getActionMasked() == 0 || motionEvent.getActionMasked() == 5) {
             TextureView textureView = this.textureView;
             if (textureView instanceof VideoEditTextureView) {
-                if (!((VideoEditTextureView) textureView).containsPoint(motionEvent.getX(), motionEvent.getY())) {
-                    return;
+                if (((VideoEditTextureView) textureView).containsPoint(motionEvent.getX(), motionEvent.getY())) {
+                    setShowOriginal(true);
                 }
-                setShowOriginal(true);
             } else if (motionEvent.getX() < this.textureView.getX() || motionEvent.getY() < this.textureView.getY() || motionEvent.getX() > this.textureView.getX() + this.textureView.getWidth() || motionEvent.getY() > this.textureView.getY() + this.textureView.getHeight()) {
             } else {
                 setShowOriginal(true);
             }
-        } else if (motionEvent.getActionMasked() != 1 && motionEvent.getActionMasked() != 6) {
-        } else {
+        } else if (motionEvent.getActionMasked() == 1 || motionEvent.getActionMasked() == 6) {
             setShowOriginal(false);
         }
     }
@@ -810,10 +808,9 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
         }
         this.showOriginal = z;
         FilterGLThread filterGLThread = this.eglThread;
-        if (filterGLThread == null) {
-            return;
+        if (filterGLThread != null) {
+            filterGLThread.requestRender(false);
         }
-        filterGLThread.requestRender(false);
     }
 
     public void switchMode() {
@@ -833,8 +830,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
                 this.blurControl.setVisibility(0);
             }
             updateSelectedBlurType();
-        } else if (i != 2) {
-        } else {
+        } else if (i == 2) {
             this.recyclerListView.setVisibility(4);
             this.blurLayout.setVisibility(4);
             this.blurControl.setVisibility(4);
@@ -860,15 +856,14 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
             return;
         }
         TextureView textureView = this.textureView;
-        if (!(textureView instanceof VideoEditTextureView)) {
-            return;
-        }
-        VideoEditTextureView videoEditTextureView = (VideoEditTextureView) textureView;
-        MediaController.SavedFilterState savedFilterState = this.lastState;
-        if (savedFilterState == null) {
-            videoEditTextureView.setDelegate(null);
-        } else {
-            this.eglThread.setFilterGLThreadDelegate(FilterShaders.getFilterShadersDelegate(savedFilterState));
+        if (textureView instanceof VideoEditTextureView) {
+            VideoEditTextureView videoEditTextureView = (VideoEditTextureView) textureView;
+            MediaController.SavedFilterState savedFilterState = this.lastState;
+            if (savedFilterState == null) {
+                videoEditTextureView.setDelegate(null);
+            } else {
+                this.eglThread.setFilterGLThreadDelegate(FilterShaders.getFilterShadersDelegate(savedFilterState));
+            }
         }
     }
 
@@ -1228,10 +1223,10 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
                 if (i == PhotoFilterView.this.tintShadowsTool) {
                     photoEditRadioCell.setIconAndTextAndValue(LocaleController.getString("TintShadows", R.string.TintShadows), 0, PhotoFilterView.this.tintShadowsColor);
                     return;
-                } else if (i != PhotoFilterView.this.tintHighlightsTool) {
+                } else if (i == PhotoFilterView.this.tintHighlightsTool) {
+                    photoEditRadioCell.setIconAndTextAndValue(LocaleController.getString("TintHighlights", R.string.TintHighlights), 0, PhotoFilterView.this.tintHighlightsColor);
                     return;
                 } else {
-                    photoEditRadioCell.setIconAndTextAndValue(LocaleController.getString("TintHighlights", R.string.TintHighlights), 0, PhotoFilterView.this.tintHighlightsColor);
                     return;
                 }
             }
@@ -1259,8 +1254,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
                 photoEditToolCell.setIconAndTextAndValue(LocaleController.getString("Sharpen", R.string.Sharpen), PhotoFilterView.this.sharpenValue, 0, 100);
             } else if (i == PhotoFilterView.this.fadeTool) {
                 photoEditToolCell.setIconAndTextAndValue(LocaleController.getString("Fade", R.string.Fade), PhotoFilterView.this.fadeValue, 0, 100);
-            } else if (i != PhotoFilterView.this.softenSkinTool) {
-            } else {
+            } else if (i == PhotoFilterView.this.softenSkinTool) {
                 photoEditToolCell.setIconAndTextAndValue(LocaleController.getString("SoftenSkin", R.string.SoftenSkin), PhotoFilterView.this.softenSkinValue, 0, 100);
             }
         }

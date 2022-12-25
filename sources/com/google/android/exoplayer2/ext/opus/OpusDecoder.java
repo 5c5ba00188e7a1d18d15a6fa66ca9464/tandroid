@@ -148,19 +148,19 @@ final class OpusDecoder extends SimpleDecoder<DecoderInputBuffer, SimpleOutputBu
         byteBuffer2.position(0);
         byteBuffer2.limit(opusDecode);
         int i = opusDecoder.skipSamples;
-        if (i <= 0) {
+        if (i > 0) {
+            int i2 = opusDecoder.channelCount * 2;
+            int i3 = i * i2;
+            if (opusDecode <= i3) {
+                opusDecoder.skipSamples = i - (opusDecode / i2);
+                simpleOutputBuffer.addFlag(Integer.MIN_VALUE);
+                byteBuffer2.position(opusDecode);
+                return null;
+            }
+            opusDecoder.skipSamples = 0;
+            byteBuffer2.position(i3);
             return null;
         }
-        int i2 = opusDecoder.channelCount * 2;
-        int i3 = i * i2;
-        if (opusDecode <= i3) {
-            opusDecoder.skipSamples = i - (opusDecode / i2);
-            simpleOutputBuffer.addFlag(Integer.MIN_VALUE);
-            byteBuffer2.position(opusDecode);
-            return null;
-        }
-        opusDecoder.skipSamples = 0;
-        byteBuffer2.position(i3);
         return null;
     }
 

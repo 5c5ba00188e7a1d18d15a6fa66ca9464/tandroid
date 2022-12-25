@@ -122,10 +122,9 @@ public class MediaStream {
     }
 
     private void checkMediaStreamExists() {
-        if (this.nativeStream != 0) {
-            return;
+        if (this.nativeStream == 0) {
+            throw new IllegalStateException("MediaStream has been disposed.");
         }
-        throw new IllegalStateException("MediaStream has been disposed.");
     }
 
     private static void removeMediaStreamTrack(List<? extends MediaStreamTrack> list, long j) {

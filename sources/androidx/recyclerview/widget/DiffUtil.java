@@ -96,14 +96,14 @@ public class DiffUtil {
         return new DiffResult(callback, arrayList, iArr, iArr2, z);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:14:0x0042, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:17:0x0042, code lost:
         if (r24[r13 - 1] < r24[r13 + r5]) goto L42;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:51:0x00b8, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:45:0x00b8, code lost:
         if (r25[r12 - 1] < r25[r12 + 1]) goto L77;
      */
-    /* JADX WARN: Removed duplicated region for block: B:58:0x00e1 A[LOOP:4: B:54:0x00cd->B:58:0x00e1, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x00ec A[EDGE_INSN: B:59:0x00ec->B:60:0x00ec ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x00e1 A[LOOP:4: B:52:0x00cd->B:56:0x00e1, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:89:0x00ec A[EDGE_INSN: B:89:0x00ec->B:58:0x00ec ?: BREAK  , SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -351,6 +351,7 @@ public class DiffUtil {
         private boolean findMatchingItem(int i, int i2, int i3, boolean z) {
             int i4;
             int i5;
+            int i6;
             if (z) {
                 i2--;
                 i5 = i;
@@ -361,32 +362,27 @@ public class DiffUtil {
             }
             while (i3 >= 0) {
                 Snake snake = this.mSnakes.get(i3);
-                int i6 = snake.x;
-                int i7 = snake.size;
-                int i8 = i6 + i7;
-                int i9 = snake.y + i7;
-                int i10 = 8;
+                int i7 = snake.x;
+                int i8 = snake.size;
+                int i9 = i7 + i8;
+                int i10 = snake.y + i8;
                 if (z) {
-                    for (int i11 = i5 - 1; i11 >= i8; i11--) {
+                    for (int i11 = i5 - 1; i11 >= i9; i11--) {
                         if (this.mCallback.areItemsTheSame(i11, i4)) {
-                            if (!this.mCallback.areContentsTheSame(i11, i4)) {
-                                i10 = 4;
-                            }
+                            i6 = this.mCallback.areContentsTheSame(i11, i4) ? 8 : 4;
                             this.mNewItemStatuses[i4] = (i11 << 5) | 16;
-                            this.mOldItemStatuses[i11] = (i4 << 5) | i10;
+                            this.mOldItemStatuses[i11] = (i4 << 5) | i6;
                             return true;
                         }
                     }
                     continue;
                 } else {
-                    for (int i12 = i2 - 1; i12 >= i9; i12--) {
+                    for (int i12 = i2 - 1; i12 >= i10; i12--) {
                         if (this.mCallback.areItemsTheSame(i4, i12)) {
-                            if (!this.mCallback.areContentsTheSame(i4, i12)) {
-                                i10 = 4;
-                            }
+                            i6 = this.mCallback.areContentsTheSame(i4, i12) ? 8 : 4;
                             int i13 = i - 1;
                             this.mOldItemStatuses[i13] = (i12 << 5) | 16;
-                            this.mNewItemStatuses[i12] = (i13 << 5) | i10;
+                            this.mNewItemStatuses[i12] = (i13 << 5) | i6;
                             return true;
                         }
                     }

@@ -137,17 +137,17 @@ public class StickerCell extends FrameLayout {
 
     public MessageObject.SendAnimationData getSendAnimationData() {
         ImageReceiver imageReceiver = this.imageView.getImageReceiver();
-        if (!imageReceiver.hasNotThumb()) {
-            return null;
+        if (imageReceiver.hasNotThumb()) {
+            MessageObject.SendAnimationData sendAnimationData = new MessageObject.SendAnimationData();
+            int[] iArr = new int[2];
+            this.imageView.getLocationInWindow(iArr);
+            sendAnimationData.x = imageReceiver.getCenterX() + iArr[0];
+            sendAnimationData.y = imageReceiver.getCenterY() + iArr[1];
+            sendAnimationData.width = imageReceiver.getImageWidth();
+            sendAnimationData.height = imageReceiver.getImageHeight();
+            return sendAnimationData;
         }
-        MessageObject.SendAnimationData sendAnimationData = new MessageObject.SendAnimationData();
-        int[] iArr = new int[2];
-        this.imageView.getLocationInWindow(iArr);
-        sendAnimationData.x = imageReceiver.getCenterX() + iArr[0];
-        sendAnimationData.y = imageReceiver.getCenterY() + iArr[1];
-        sendAnimationData.width = imageReceiver.getImageWidth();
-        sendAnimationData.height = imageReceiver.getImageHeight();
-        return sendAnimationData;
+        return null;
     }
 
     @Override // android.view.ViewGroup

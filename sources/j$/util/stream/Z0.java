@@ -42,16 +42,16 @@ class Z0 extends h3 {
                         throw th;
                     }
                 }
-                if (e1Var == null) {
+                if (e1Var != null) {
+                    e1Var.close();
                     return;
                 }
-                e1Var.close();
                 return;
             case 6:
-                if (!((j$.wrappers.i0) ((N) this.c).m).b(j)) {
+                if (((j$.wrappers.i0) ((N) this.c).m).b(j)) {
+                    this.a.accept(j);
                     return;
                 }
-                this.a.accept(j);
                 return;
             default:
                 ((j$.util.function.q) ((N) this.c).m).accept(j);

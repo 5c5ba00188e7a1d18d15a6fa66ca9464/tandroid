@@ -16,7 +16,7 @@ import org.telegram.ui.VoIPFragment;
 /* loaded from: classes.dex */
 public class VoIPWindowView extends FrameLayout {
     Activity activity;
-    private int animationIndex = -1;
+    private int animationIndex;
     boolean finished;
     protected boolean lockOnScreen;
     private int orientationBefore;
@@ -28,23 +28,26 @@ public class VoIPWindowView extends FrameLayout {
 
     public VoIPWindowView(Activity activity, boolean z) {
         super(activity);
+        this.animationIndex = -1;
         this.activity = activity;
         setSystemUiVisibility(1792);
         setFitsSystemWindows(true);
         this.orientationBefore = activity.getRequestedOrientation();
         activity.setRequestedOrientation(1);
-        if (!z) {
-            this.runEnterTransition = true;
+        if (z) {
+            return;
         }
+        this.runEnterTransition = true;
     }
 
     @Override // android.widget.FrameLayout, android.view.View
     protected void onMeasure(int i, int i2) {
         super.onMeasure(i, i2);
-        if (!this.runEnterTransition) {
-            this.runEnterTransition = true;
-            startEnterTransition();
+        if (this.runEnterTransition) {
+            return;
         }
+        this.runEnterTransition = true;
+        startEnterTransition();
     }
 
     @Override // android.view.ViewGroup
@@ -65,7 +68,6 @@ public class VoIPWindowView extends FrameLayout {
             }
             this.velocityTracker.clear();
         } else {
-            float f = 0.0f;
             boolean z = true;
             if (motionEvent.getAction() == 2) {
                 float x = motionEvent.getX() - this.startX;
@@ -76,9 +78,7 @@ public class VoIPWindowView extends FrameLayout {
                     x = 0.0f;
                 }
                 if (this.startDragging) {
-                    if (x >= 0.0f) {
-                        f = x;
-                    }
+                    float f = x >= 0.0f ? x : 0.0f;
                     if (this.velocityTracker == null) {
                         this.velocityTracker = VelocityTracker.obtain();
                     }
@@ -113,43 +113,45 @@ public class VoIPWindowView extends FrameLayout {
     }
 
     public void finish(long j) {
-        if (!this.finished) {
-            this.finished = true;
-            VoIPFragment.clearInstance();
-            if (this.lockOnScreen) {
-                try {
-                    ((WindowManager) this.activity.getSystemService("window")).removeView(this);
-                    return;
-                } catch (Exception unused) {
-                    return;
-                }
+        if (this.finished) {
+            return;
+        }
+        this.finished = true;
+        VoIPFragment.clearInstance();
+        if (this.lockOnScreen) {
+            try {
+                ((WindowManager) this.activity.getSystemService("window")).removeView(this);
+                return;
+            } catch (Exception unused) {
+                return;
             }
-            final int i = UserConfig.selectedAccount;
-            this.animationIndex = NotificationCenter.getInstance(i).setAnimationInProgress(this.animationIndex, null);
-            animate().translationX(getMeasuredWidth()).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.voip.VoIPWindowView.1
-                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                public void onAnimationEnd(Animator animator) {
-                    NotificationCenter.getInstance(i).onAnimationFinish(VoIPWindowView.this.animationIndex);
-                    if (VoIPWindowView.this.getParent() != null) {
-                        VoIPWindowView voIPWindowView = VoIPWindowView.this;
-                        voIPWindowView.activity.setRequestedOrientation(voIPWindowView.orientationBefore);
-                        WindowManager windowManager = (WindowManager) VoIPWindowView.this.activity.getSystemService("window");
-                        VoIPWindowView.this.setVisibility(8);
-                        try {
-                            windowManager.removeView(VoIPWindowView.this);
-                        } catch (Exception unused2) {
-                        }
+        }
+        final int i = UserConfig.selectedAccount;
+        this.animationIndex = NotificationCenter.getInstance(i).setAnimationInProgress(this.animationIndex, null);
+        animate().translationX(getMeasuredWidth()).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.voip.VoIPWindowView.1
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationEnd(Animator animator) {
+                NotificationCenter.getInstance(i).onAnimationFinish(VoIPWindowView.this.animationIndex);
+                if (VoIPWindowView.this.getParent() != null) {
+                    VoIPWindowView voIPWindowView = VoIPWindowView.this;
+                    voIPWindowView.activity.setRequestedOrientation(voIPWindowView.orientationBefore);
+                    WindowManager windowManager = (WindowManager) VoIPWindowView.this.activity.getSystemService("window");
+                    VoIPWindowView.this.setVisibility(8);
+                    try {
+                        windowManager.removeView(VoIPWindowView.this);
+                    } catch (Exception unused2) {
                     }
                 }
-            }).setDuration(j).setInterpolator(CubicBezierInterpolator.DEFAULT).start();
-        }
+            }
+        }).setDuration(j).setInterpolator(CubicBezierInterpolator.DEFAULT).start();
     }
 
     public void startEnterTransition() {
-        if (!this.lockOnScreen) {
-            setTranslationX(getMeasuredWidth());
-            animate().translationX(0.0f).setDuration(150L).setInterpolator(CubicBezierInterpolator.DEFAULT).start();
+        if (this.lockOnScreen) {
+            return;
         }
+        setTranslationX(getMeasuredWidth());
+        animate().translationX(0.0f).setDuration(150L).setInterpolator(CubicBezierInterpolator.DEFAULT).start();
     }
 
     public void setLockOnScreen(boolean z) {
