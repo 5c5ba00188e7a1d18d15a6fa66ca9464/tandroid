@@ -135,25 +135,25 @@ public class DilogCacheBottomSheet extends BottomSheetWithRecyclerListView {
         for (int i = 0; i < 7; i++) {
             if (i == 0) {
                 string = LocaleController.getString("LocalPhotoCache", R.string.LocalPhotoCache);
-                str = "statisticChartLine_blue";
+                str = "statisticChartLine_lightblue";
             } else if (i == 1) {
                 string = LocaleController.getString("LocalVideoCache", R.string.LocalVideoCache);
-                str = "statisticChartLine_golden";
+                str = "statisticChartLine_blue";
             } else if (i == 2) {
                 string = LocaleController.getString("LocalDocumentCache", R.string.LocalDocumentCache);
                 str = "statisticChartLine_green";
             } else if (i == 3) {
                 string = LocaleController.getString("LocalMusicCache", R.string.LocalMusicCache);
-                str = "statisticChartLine_indigo";
+                str = "statisticChartLine_red";
             } else if (i == 4) {
                 string = LocaleController.getString("LocalAudioCache", R.string.LocalAudioCache);
-                str = "statisticChartLine_red";
-            } else if (i == 5) {
-                string = LocaleController.getString("AnimatedStickers", R.string.AnimatedStickers);
                 str = "statisticChartLine_lightgreen";
+            } else if (i == 5) {
+                string = LocaleController.getString("LocalStickersCache", R.string.LocalStickersCache);
+                str = "statisticChartLine_orange";
             } else {
-                string = LocaleController.getString("LocalCache", R.string.LocalCache);
-                str = "statisticChartLine_lightblue";
+                string = LocaleController.getString("LocalMiscellaneousCache", R.string.LocalMiscellaneousCache);
+                str = "statisticChartLine_purple";
             }
             CacheControlActivity.FileEntities fileEntities = dialogFileEntities.entitiesByType.get(i);
             if (fileEntities != null) {

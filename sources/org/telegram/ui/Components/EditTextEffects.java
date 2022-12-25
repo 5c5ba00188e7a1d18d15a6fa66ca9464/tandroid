@@ -16,6 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Stack;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.FileLog;
 import org.telegram.ui.Components.AnimatedEmojiSpan;
 import org.telegram.ui.Components.spoilers.SpoilerEffect;
 import org.telegram.ui.Components.spoilers.SpoilersClickDetector;
@@ -213,30 +214,39 @@ public class EditTextEffects extends EditText {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
+    /* JADX WARN: Code restructure failed: missing block: B:13:0x0047, code lost:
+        r7 = r7 - r6;
+        r3.selStart += r7;
+        r3.selEnd += r7;
+        onSpoilerClicked(r1, r5, r4);
+     */
     @Override // android.widget.TextView
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
         super.onTextChanged(charSequence, i, i2, i3);
         if (!this.suppressOnTextChanged) {
             invalidateEffects();
-            Layout layout = getLayout();
-            if ((charSequence instanceof Spannable) && layout != null) {
-                int lineForOffset = layout.getLineForOffset(i);
-                int primaryHorizontal = (int) layout.getPrimaryHorizontal(i);
-                int lineTop = (int) ((layout.getLineTop(lineForOffset) + layout.getLineBottom(lineForOffset)) / 2.0f);
-                Iterator<SpoilerEffect> it = this.spoilers.iterator();
-                while (true) {
-                    if (!it.hasNext()) {
-                        break;
-                    }
-                    SpoilerEffect next = it.next();
-                    if (next.getBounds().contains(primaryHorizontal, lineTop)) {
-                        int i4 = i3 - i2;
-                        this.selStart += i4;
-                        this.selEnd += i4;
-                        onSpoilerClicked(next, primaryHorizontal, lineTop);
-                        break;
+            try {
+                Layout layout = getLayout();
+                if ((charSequence instanceof Spannable) && layout != null) {
+                    int lineForOffset = layout.getLineForOffset(i);
+                    int primaryHorizontal = (int) layout.getPrimaryHorizontal(i);
+                    int lineTop = (int) ((layout.getLineTop(lineForOffset) + layout.getLineBottom(lineForOffset)) / 2.0f);
+                    Iterator<SpoilerEffect> it = this.spoilers.iterator();
+                    while (true) {
+                        if (!it.hasNext()) {
+                            break;
+                        }
+                        SpoilerEffect next = it.next();
+                        if (next.getBounds().contains(primaryHorizontal, lineTop)) {
+                            break;
+                        }
                     }
                 }
+            } catch (Exception e) {
+                FileLog.e(e);
             }
         }
         updateAnimatedEmoji(true);

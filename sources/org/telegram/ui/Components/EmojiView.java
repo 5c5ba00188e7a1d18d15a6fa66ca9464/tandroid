@@ -124,6 +124,7 @@ import org.telegram.tgnet.TLRPC$TL_messages_searchStickerSets;
 import org.telegram.tgnet.TLRPC$TL_messages_stickerSet;
 import org.telegram.tgnet.TLRPC$TL_messages_stickers;
 import org.telegram.tgnet.TLRPC$TL_stickerSetFullCovered;
+import org.telegram.tgnet.TLRPC$TL_stickerSetNoCovered;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.tgnet.TLRPC$WebDocument;
 import org.telegram.tgnet.TLRPC$messages_BotResults;
@@ -320,7 +321,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
 
     /* loaded from: classes3.dex */
     public static class EmojiPack {
-        public ArrayList<TLRPC$Document> documents;
+        public ArrayList<TLRPC$Document> documents = new ArrayList<>();
         public boolean expanded;
         public boolean featured;
         public boolean free;
@@ -6119,15 +6120,17 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
             if (tLRPC$ChatFull != null && (tLRPC$StickerSet = tLRPC$ChatFull.stickerset) != null && tLRPC$StickerSet.id == ((Long) objArr[0]).longValue()) {
                 updateStickerTabs(false);
             }
-            if (!this.toInstall.containsKey((Long) objArr[0]) || objArr.length < 2) {
-                return;
+            if (this.toInstall.containsKey((Long) objArr[0]) && objArr.length >= 2) {
+                long longValue = ((Long) objArr[0]).longValue();
+                TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet = (TLRPC$TL_messages_stickerSet) objArr[1];
+                if (this.toInstall.get(Long.valueOf(longValue)) != null && tLRPC$TL_messages_stickerSet != null && (remove = this.toInstall.remove(Long.valueOf(longValue))) != null) {
+                    remove.run(tLRPC$TL_messages_stickerSet);
+                }
             }
-            long longValue = ((Long) objArr[0]).longValue();
-            TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet = (TLRPC$TL_messages_stickerSet) objArr[1];
-            if (this.toInstall.get(Long.valueOf(longValue)) == null || tLRPC$TL_messages_stickerSet == null || (remove = this.toInstall.remove(Long.valueOf(longValue))) == null) {
-                return;
+            EmojiGridAdapter emojiGridAdapter2 = this.emojiAdapter;
+            if (emojiGridAdapter2 != null) {
+                emojiGridAdapter2.notifyDataSetChanged(true);
             }
-            remove.run(tLRPC$TL_messages_stickerSet);
         } else if (i == NotificationCenter.emojiLoaded) {
             RecyclerListView recyclerListView = this.stickersGridView;
             if (recyclerListView != null) {
@@ -6167,9 +6170,9 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                 emojiSearchAdapter.search(emojiSearchAdapter.lastSearchEmojiString);
             }
         } else if (i == NotificationCenter.currentUserPremiumStatusChanged) {
-            EmojiGridAdapter emojiGridAdapter2 = this.emojiAdapter;
-            if (emojiGridAdapter2 != null) {
-                emojiGridAdapter2.notifyDataSetChanged();
+            EmojiGridAdapter emojiGridAdapter3 = this.emojiAdapter;
+            if (emojiGridAdapter3 != null) {
+                emojiGridAdapter3.notifyDataSetChanged();
             }
             updateEmojiHeaders();
             updateStickerTabs(false);
@@ -7187,8 +7190,18 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                     TLRPC$StickerSetCovered tLRPC$StickerSetCovered = (TLRPC$StickerSetCovered) EmojiView.this.featuredEmojiSets.get(i4);
                     EmojiPack emojiPack5 = new EmojiPack();
                     emojiPack5.installed = mediaDataController.isStickerPackInstalled(tLRPC$StickerSetCovered.set.id);
-                    emojiPack5.set = tLRPC$StickerSetCovered.set;
-                    emojiPack5.documents = tLRPC$StickerSetCovered instanceof TLRPC$TL_stickerSetFullCovered ? ((TLRPC$TL_stickerSetFullCovered) tLRPC$StickerSetCovered).documents : tLRPC$StickerSetCovered.covers;
+                    TLRPC$StickerSet tLRPC$StickerSet2 = tLRPC$StickerSetCovered.set;
+                    emojiPack5.set = tLRPC$StickerSet2;
+                    if (tLRPC$StickerSetCovered instanceof TLRPC$TL_stickerSetFullCovered) {
+                        emojiPack5.documents = ((TLRPC$TL_stickerSetFullCovered) tLRPC$StickerSetCovered).documents;
+                    } else if (tLRPC$StickerSetCovered instanceof TLRPC$TL_stickerSetNoCovered) {
+                        TLRPC$TL_messages_stickerSet stickerSet = mediaDataController.getStickerSet(MediaDataController.getInputStickerSet(tLRPC$StickerSet2), false);
+                        if (stickerSet != null) {
+                            emojiPack5.documents = stickerSet.documents;
+                        }
+                    } else {
+                        emojiPack5.documents = tLRPC$StickerSetCovered.covers;
+                    }
                     int i5 = 0;
                     while (true) {
                         if (i5 >= emojiPack5.documents.size()) {

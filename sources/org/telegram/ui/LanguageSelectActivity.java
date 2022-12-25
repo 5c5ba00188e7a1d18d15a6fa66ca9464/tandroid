@@ -813,73 +813,83 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
             return new RecyclerListView.Holder(view);
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:29:0x009a, code lost:
-            if (r12 == (r10.this$0.searchResult.size() - 1)) goto L34;
+        /* JADX WARN: Code restructure failed: missing block: B:33:0x00aa, code lost:
+            if (r12 == (r10.this$0.searchResult.size() - 1)) goto L38;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:30:0x009c, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:34:0x00ac, code lost:
             r12 = true;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:31:0x009e, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:35:0x00ae, code lost:
             r12 = false;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:38:0x00d1, code lost:
-            if (r12 == (r10.this$0.unofficialLanguages.size() - 1)) goto L34;
+        /* JADX WARN: Code restructure failed: missing block: B:43:0x00e4, code lost:
+            if (r12 == (r10.this$0.unofficialLanguages.size() - 1)) goto L38;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:44:0x0103, code lost:
-            if (r12 == (r10.this$0.sortedLanguages.size() - 1)) goto L34;
+        /* JADX WARN: Code restructure failed: missing block: B:53:0x0125, code lost:
+            if (r12 == (r10.this$0.sortedLanguages.size() - 1)) goto L38;
          */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
-            LocaleController.LocaleInfo localeInfo;
             boolean z;
             int itemViewType = viewHolder.getItemViewType();
-            if (itemViewType == 0) {
-                boolean z2 = this.search;
-                if (!z2) {
-                    i -= 2;
-                }
-                TextRadioCell textRadioCell = (TextRadioCell) viewHolder.itemView;
-                if (z2) {
-                    localeInfo = (LocaleController.LocaleInfo) LanguageSelectActivity.this.searchResult.get(i);
-                } else if (LanguageSelectActivity.this.unofficialLanguages.isEmpty() || i < 0 || i >= LanguageSelectActivity.this.unofficialLanguages.size()) {
-                    if (!LanguageSelectActivity.this.unofficialLanguages.isEmpty()) {
-                        i -= LanguageSelectActivity.this.unofficialLanguages.size() + 1;
-                    }
-                    localeInfo = (LocaleController.LocaleInfo) LanguageSelectActivity.this.sortedLanguages.get(i);
-                } else {
-                    localeInfo = (LocaleController.LocaleInfo) LanguageSelectActivity.this.unofficialLanguages.get(i);
-                }
-                if (localeInfo.isLocal()) {
-                    textRadioCell.setTextAndValueAndCheck(String.format("%1$s (%2$s)", localeInfo.name, LocaleController.getString("LanguageCustom", R.string.LanguageCustom)), localeInfo.nameEnglish, false, false, !z);
-                } else {
-                    textRadioCell.setTextAndValueAndCheck(localeInfo.name, localeInfo.nameEnglish, false, false, !z);
-                }
-                textRadioCell.setChecked(localeInfo == LocaleController.getInstance().getCurrentLocaleInfo());
-            } else if (itemViewType != 1) {
-                if (itemViewType != 2) {
-                    if (itemViewType != 3) {
+            if (itemViewType != 0) {
+                if (itemViewType != 1) {
+                    if (itemViewType != 2) {
+                        if (itemViewType != 3) {
+                            return;
+                        }
+                        ((HeaderCell) viewHolder.itemView).setText(LocaleController.getString("Language", R.string.Language));
                         return;
                     }
-                    ((HeaderCell) viewHolder.itemView).setText(LocaleController.getString("Language", R.string.Language));
+                    TranslateSettings translateSettings = (TranslateSettings) viewHolder.itemView;
+                    translateSettings.setVisibility(LanguageSelectActivity.this.searching ? 8 : 0);
+                    translateSettings.updateTranslations();
                     return;
                 }
-                TranslateSettings translateSettings = (TranslateSettings) viewHolder.itemView;
-                translateSettings.setVisibility(LanguageSelectActivity.this.searching ? 8 : 0);
-                translateSettings.updateTranslations();
-            } else {
                 if (!this.search) {
                     i--;
                 }
                 ShadowSectionCell shadowSectionCell = (ShadowSectionCell) viewHolder.itemView;
                 if (!LanguageSelectActivity.this.unofficialLanguages.isEmpty() && i == LanguageSelectActivity.this.unofficialLanguages.size()) {
                     shadowSectionCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, R.drawable.greydivider, "windowBackgroundGrayShadow"));
+                    return;
                 } else {
                     shadowSectionCell.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
+                    return;
                 }
             }
+            boolean z2 = this.search;
+            if (!z2) {
+                i -= 2;
+            }
+            TextRadioCell textRadioCell = (TextRadioCell) viewHolder.itemView;
+            LocaleController.LocaleInfo localeInfo = null;
+            if (z2) {
+                if (i >= 0 && i < LanguageSelectActivity.this.searchResult.size()) {
+                    localeInfo = (LocaleController.LocaleInfo) LanguageSelectActivity.this.searchResult.get(i);
+                }
+            } else if (LanguageSelectActivity.this.unofficialLanguages.isEmpty() || i < 0 || i >= LanguageSelectActivity.this.unofficialLanguages.size()) {
+                if (!LanguageSelectActivity.this.unofficialLanguages.isEmpty()) {
+                    i -= LanguageSelectActivity.this.unofficialLanguages.size() + 1;
+                }
+                if (i >= 0 && i < LanguageSelectActivity.this.sortedLanguages.size()) {
+                    localeInfo = (LocaleController.LocaleInfo) LanguageSelectActivity.this.sortedLanguages.get(i);
+                }
+            } else {
+                localeInfo = (LocaleController.LocaleInfo) LanguageSelectActivity.this.unofficialLanguages.get(i);
+            }
+            LocaleController.LocaleInfo localeInfo2 = localeInfo;
+            if (localeInfo2 != null) {
+                if (localeInfo2.isLocal()) {
+                    textRadioCell.setTextAndValueAndCheck(String.format("%1$s (%2$s)", localeInfo2.name, LocaleController.getString("LanguageCustom", R.string.LanguageCustom)), localeInfo2.nameEnglish, false, false, !z);
+                } else {
+                    textRadioCell.setTextAndValueAndCheck(localeInfo2.name, localeInfo2.nameEnglish, false, false, !z);
+                }
+            }
+            textRadioCell.setChecked(localeInfo2 == LocaleController.getInstance().getCurrentLocaleInfo());
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter

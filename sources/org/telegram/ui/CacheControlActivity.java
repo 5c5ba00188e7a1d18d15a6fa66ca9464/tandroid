@@ -287,13 +287,12 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
         } catch (Exception e) {
             FileLog.e(e);
         }
-        System.currentTimeMillis();
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.CacheControlActivity$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
                 CacheControlActivity.this.lambda$onFragmentCreate$0();
             }
-        }, Math.max(1L, 800 - (System.currentTimeMillis() - this.fragmentCreateTime)));
+        }, Math.max(1L, (System.currentTimeMillis() - this.fragmentCreateTime > 25 ? 800L : 0L) - (System.currentTimeMillis() - this.fragmentCreateTime)));
         loadDialogEntities();
     }
 
@@ -734,7 +733,10 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
 
     /* JADX INFO: Access modifiers changed from: private */
     public void cleanupFolders() {
-        this.cacheModel.clearSelection();
+        CacheModel cacheModel = this.cacheModel;
+        if (cacheModel != null) {
+            cacheModel.clearSelection();
+        }
         CachedMediaLayout cachedMediaLayout = this.cachedMediaLayout;
         if (cachedMediaLayout != null) {
             cachedMediaLayout.updateVisibleRows();
@@ -1169,7 +1171,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
             return;
         }
         ItemInner itemInner = this.itemInners.get(i);
-        if (itemInner.viewType == 11) {
+        if (itemInner.viewType == 11 && (view instanceof CheckBoxCell)) {
             int i2 = itemInner.index;
             if (i2 < 0) {
                 this.collapsed = !this.collapsed;
@@ -1752,7 +1754,14 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
             }
             animatedTextDrawable.setText(string);
             this.valueTextView.setText(j <= 0 ? "" : AndroidUtilities.formatFileSize(j));
+            setDisabled(j <= 0);
             this.button.invalidate();
+        }
+
+        public void setDisabled(boolean z) {
+            this.button.animate().cancel();
+            this.button.animate().alpha(z ? 0.65f : 1.0f).start();
+            this.button.setClickable(!z);
         }
     }
 

@@ -5190,7 +5190,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     /* JADX WARN: Type inference failed for: r13v2 */
     /* JADX WARN: Type inference failed for: r13v3, types: [boolean] */
     /* JADX WARN: Type inference failed for: r15v109 */
-    /* JADX WARN: Type inference failed for: r15v94, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r15v94, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r15v95 */
     /* JADX WARN: Type inference failed for: r2v1569 */
     /* JADX WARN: Type inference failed for: r2v556 */
@@ -5199,9 +5199,9 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     /* JADX WARN: Type inference failed for: r3v1093 */
     /* JADX WARN: Type inference failed for: r3v1094 */
     /* JADX WARN: Type inference failed for: r3v25 */
-    /* JADX WARN: Type inference failed for: r3v26, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r3v26, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r3v34 */
-    /* JADX WARN: Type inference failed for: r3v47, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r3v47, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r3v826, types: [org.telegram.tgnet.TLRPC$InputStickerSet] */
     /* JADX WARN: Type inference failed for: r75v0, types: [android.view.View, org.telegram.ui.Cells.ChatMessageCell, android.view.ViewGroup, org.telegram.messenger.DownloadController$FileDownloadProgressListener] */
     /*
@@ -20920,7 +20920,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     /* JADX WARN: Removed duplicated region for block: B:606:0x0935  */
     /* JADX WARN: Type inference failed for: r14v1 */
     /* JADX WARN: Type inference failed for: r14v19 */
-    /* JADX WARN: Type inference failed for: r14v2, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r14v2, types: [int, boolean] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

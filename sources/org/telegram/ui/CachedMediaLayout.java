@@ -21,6 +21,7 @@ import java.util.Objects;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.DialogObject;
 import org.telegram.messenger.FileLoader;
+import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.LocaleController;
@@ -896,7 +897,16 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
     }
 
     /* JADX INFO: Access modifiers changed from: private */
+    /* JADX WARN: Code restructure failed: missing block: B:21:0x00e6, code lost:
+        if (r5 == null) goto L29;
+     */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x00f0  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public void checkMessageObjectForAudio(CacheModel.FileInfo fileInfo, int i) {
+        MediaMetadataRetriever mediaMetadataRetriever;
+        Exception e;
         if (fileInfo.messageObject == null) {
             TLRPC$TL_message tLRPC$TL_message = new TLRPC$TL_message();
             tLRPC$TL_message.out = true;
@@ -935,15 +945,43 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
             TLRPC$TL_documentAttributeAudio tLRPC$TL_documentAttributeAudio = new TLRPC$TL_documentAttributeAudio();
             if (fileInfo.metadata == null) {
                 fileInfo.metadata = new CacheModel.FileInfo.FileMetadata();
-                MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
-                mediaMetadataRetriever.setDataSource(getContext(), Uri.fromFile(fileInfo.file));
-                fileInfo.metadata.title = mediaMetadataRetriever.extractMetadata(7);
-                fileInfo.metadata.author = mediaMetadataRetriever.extractMetadata(2);
-                mediaMetadataRetriever.close();
+                MediaMetadataRetriever mediaMetadataRetriever2 = null;
+                try {
+                    mediaMetadataRetriever = new MediaMetadataRetriever();
+                    try {
+                        try {
+                            mediaMetadataRetriever.setDataSource(getContext(), Uri.fromFile(fileInfo.file));
+                            fileInfo.metadata.title = mediaMetadataRetriever.extractMetadata(7);
+                            fileInfo.metadata.author = mediaMetadataRetriever.extractMetadata(2);
+                        } catch (Exception e2) {
+                            e = e2;
+                            FileLog.e(e);
+                            CacheModel.FileInfo.FileMetadata fileMetadata = fileInfo.metadata;
+                            fileMetadata.title = "";
+                            fileMetadata.author = "";
+                        }
+                    } catch (Throwable th) {
+                        th = th;
+                        mediaMetadataRetriever2 = mediaMetadataRetriever;
+                        if (mediaMetadataRetriever2 != null) {
+                            mediaMetadataRetriever2.release();
+                        }
+                        throw th;
+                    }
+                } catch (Exception e3) {
+                    mediaMetadataRetriever = null;
+                    e = e3;
+                } catch (Throwable th2) {
+                    th = th2;
+                    if (mediaMetadataRetriever2 != null) {
+                    }
+                    throw th;
+                }
+                mediaMetadataRetriever.release();
             }
-            CacheModel.FileInfo.FileMetadata fileMetadata = fileInfo.metadata;
-            tLRPC$TL_documentAttributeAudio.title = fileMetadata.title;
-            tLRPC$TL_documentAttributeAudio.performer = fileMetadata.author;
+            CacheModel.FileInfo.FileMetadata fileMetadata2 = fileInfo.metadata;
+            tLRPC$TL_documentAttributeAudio.title = fileMetadata2.title;
+            tLRPC$TL_documentAttributeAudio.performer = fileMetadata2.author;
             tLRPC$TL_documentAttributeAudio.flags |= 3;
             tLRPC$TL_message.media.document.attributes.add(tLRPC$TL_documentAttributeAudio);
             TLRPC$TL_documentAttributeFilename tLRPC$TL_documentAttributeFilename = new TLRPC$TL_documentAttributeFilename();

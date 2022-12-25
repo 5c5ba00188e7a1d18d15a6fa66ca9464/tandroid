@@ -128,7 +128,9 @@ public class RenderView extends TextureView {
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onSurfaceTextureAvailable$0() {
-            RenderView.this.internal.requestRender();
+            if (RenderView.this.internal != null) {
+                RenderView.this.internal.requestRender();
+            }
         }
 
         @Override // android.view.TextureView.SurfaceTextureListener

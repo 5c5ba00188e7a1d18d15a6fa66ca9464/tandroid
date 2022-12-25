@@ -18119,29 +18119,30 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:217:0x042a, code lost:
-        if (r1 > r4) goto L211;
+    /* JADX WARN: Code restructure failed: missing block: B:219:0x042c, code lost:
+        if (r1 > r4) goto L213;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:223:0x0439, code lost:
-        if (r2 > r4) goto L214;
+    /* JADX WARN: Code restructure failed: missing block: B:225:0x043b, code lost:
+        if (r2 > r4) goto L216;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:232:0x045e, code lost:
-        if (r3 > r4) goto L224;
+    /* JADX WARN: Code restructure failed: missing block: B:234:0x0460, code lost:
+        if (r3 > r4) goto L226;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:238:0x046f, code lost:
-        if (r3 > r4) goto L227;
+    /* JADX WARN: Code restructure failed: missing block: B:240:0x0471, code lost:
+        if (r3 > r4) goto L229;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:288:0x054e, code lost:
-        if (r3 > r4) goto L277;
+    /* JADX WARN: Code restructure failed: missing block: B:290:0x0550, code lost:
+        if (r3 > r4) goto L279;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:294:0x055f, code lost:
-        if (r3 > r4) goto L280;
+    /* JADX WARN: Code restructure failed: missing block: B:296:0x0561, code lost:
+        if (r3 > r4) goto L282;
      */
-    /* JADX WARN: Removed duplicated region for block: B:188:0x0366  */
+    /* JADX WARN: Removed duplicated region for block: B:190:0x0368  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public boolean onTouchEvent(MotionEvent motionEvent) {
+        IPhotoPaintView iPhotoPaintView;
         if (this.currentEditMode == 3 && this.animationStartTime != 0 && (motionEvent.getActionMasked() == 0 || motionEvent.getActionMasked() == 5)) {
             if (motionEvent.getPointerCount() < 2) {
                 return true;
@@ -18277,8 +18278,8 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                 updateMinMax(f6);
                                 this.containerView.invalidate();
                             } else if (motionEvent.getPointerCount() == 1) {
-                                if (this.paintViewTouched == 1) {
-                                    View view2 = this.photoPaintView.getView();
+                                if (this.paintViewTouched == 1 && (iPhotoPaintView = this.photoPaintView) != null) {
+                                    View view2 = iPhotoPaintView.getView();
                                     MotionEvent obtain3 = MotionEvent.obtain(motionEvent);
                                     obtain3.offsetLocation(-view2.getX(), -view2.getY());
                                     this.photoPaintView.onTouch(obtain3);
@@ -18380,9 +18381,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                             hidePressedDrawables();
                             AndroidUtilities.cancelRunOnUIThread(this.longPressRunnable);
                             if (this.paintViewTouched == 1) {
-                                IPhotoPaintView iPhotoPaintView = this.photoPaintView;
-                                if (iPhotoPaintView != null) {
-                                    View view3 = iPhotoPaintView.getView();
+                                IPhotoPaintView iPhotoPaintView2 = this.photoPaintView;
+                                if (iPhotoPaintView2 != null) {
+                                    View view3 = iPhotoPaintView2.getView();
                                     MotionEvent obtain4 = MotionEvent.obtain(motionEvent);
                                     obtain4.offsetLocation(-view3.getX(), -view3.getY());
                                     this.photoPaintView.onTouch(obtain4);

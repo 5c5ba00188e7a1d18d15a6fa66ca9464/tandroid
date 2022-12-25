@@ -115,15 +115,15 @@ public class EditTextOutline extends EditTextBoldCursor {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Code restructure failed: missing block: B:89:0x0345, code lost:
-        if (r8[r10].width() != 0.0f) goto L94;
+    /* JADX WARN: Code restructure failed: missing block: B:92:0x034e, code lost:
+        if (r8[r10].width() != 0.0f) goto L97;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:96:0x0369, code lost:
-        if (r8[r9].width() != 0.0f) goto L100;
+    /* JADX WARN: Code restructure failed: missing block: B:99:0x0372, code lost:
+        if (r8[r9].width() != 0.0f) goto L103;
      */
-    /* JADX WARN: Removed duplicated region for block: B:100:0x0377  */
-    /* JADX WARN: Removed duplicated region for block: B:86:0x032d  */
-    /* JADX WARN: Removed duplicated region for block: B:93:0x0353  */
+    /* JADX WARN: Removed duplicated region for block: B:103:0x0380  */
+    /* JADX WARN: Removed duplicated region for block: B:89:0x0336  */
+    /* JADX WARN: Removed duplicated region for block: B:96:0x035c  */
     @Override // org.telegram.ui.Components.EditTextBoldCursor, org.telegram.ui.Components.EditTextEffects, android.widget.TextView, android.view.View
     @SuppressLint({"DrawAllocation"})
     /*
@@ -148,7 +148,11 @@ public class EditTextOutline extends EditTextBoldCursor {
                 this.textPaint.setTextSize(getTextSize());
                 this.textPaint.setTypeface(getTypeface());
                 this.textPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-                StaticLayout staticLayout = new StaticLayout(text, this.textPaint, measuredWidth, getLayout().getAlignment(), 1.0f, 0.0f, true);
+                Layout.Alignment alignment = Layout.Alignment.ALIGN_NORMAL;
+                if (getLayout() != null) {
+                    alignment = getLayout().getAlignment();
+                }
+                StaticLayout staticLayout = new StaticLayout(text, this.textPaint, measuredWidth, alignment, 1.0f, 0.0f, true);
                 this.mCanvas.save();
                 this.mCanvas.translate(getPaddingLeft(), ((((measuredHeight - getPaddingTop()) - getPaddingBottom()) - staticLayout.getHeight()) / 2.0f) + getPaddingTop());
                 staticLayout.draw(this.mCanvas);
