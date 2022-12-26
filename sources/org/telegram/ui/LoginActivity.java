@@ -1883,6 +1883,7 @@ public class LoginActivity extends BaseFragment {
         private int countryState;
         private CountrySelectActivity.Country currentCountry;
         private boolean ignoreOnPhoneChange;
+        private boolean ignoreOnPhoneChangePaste;
         private boolean ignoreOnTextChange;
         private boolean ignoreSelection;
         private boolean nextPressed;
@@ -1915,6 +1916,7 @@ public class LoginActivity extends BaseFragment {
             this.ignoreSelection = false;
             this.ignoreOnTextChange = false;
             this.ignoreOnPhoneChange = false;
+            this.ignoreOnPhoneChangePaste = false;
             this.nextPressed = false;
             this.confirmedNumber = false;
             this.wasCountryHintIndex = -1;
@@ -2245,13 +2247,14 @@ public class LoginActivity extends BaseFragment {
                 @Override // android.text.TextWatcher
                 public void onTextChanged(CharSequence charSequence, int i4, int i5, int i6) {
                     List list;
-                    if (PhoneView.this.ignoreOnPhoneChange) {
+                    if (PhoneView.this.ignoreOnPhoneChange || PhoneView.this.ignoreOnPhoneChangePaste) {
                         return;
                     }
                     String replaceAll = charSequence.toString().substring(i4, i6 + i4).replaceAll("[^\\d]+", "");
                     if (replaceAll.isEmpty()) {
                         return;
                     }
+                    PhoneView.this.ignoreOnPhoneChangePaste = true;
                     for (int min = Math.min(3, replaceAll.length()); min >= 0; min--) {
                         String substring = replaceAll.substring(0, min);
                         List list2 = (List) PhoneView.this.codesMap.get(substring);
@@ -2274,6 +2277,7 @@ public class LoginActivity extends BaseFragment {
                             }
                         }
                     }
+                    PhoneView.this.ignoreOnPhoneChangePaste = false;
                 }
 
                 @Override // android.text.TextWatcher
@@ -3639,7 +3643,7 @@ public class LoginActivity extends BaseFragment {
             return true;
         }
 
-        static /* synthetic */ int access$8626(LoginActivitySmsView loginActivitySmsView, double d) {
+        static /* synthetic */ int access$8726(LoginActivitySmsView loginActivitySmsView, double d) {
             double d2 = loginActivitySmsView.codeTime;
             Double.isNaN(d2);
             int i = (int) (d2 - d);
@@ -3647,7 +3651,7 @@ public class LoginActivity extends BaseFragment {
             return i;
         }
 
-        static /* synthetic */ int access$9226(LoginActivitySmsView loginActivitySmsView, double d) {
+        static /* synthetic */ int access$9326(LoginActivitySmsView loginActivitySmsView, double d) {
             double d2 = loginActivitySmsView.time;
             Double.isNaN(d2);
             int i = (int) (d2 - d);
@@ -4578,7 +4582,7 @@ public class LoginActivity extends BaseFragment {
                 double d = LoginActivitySmsView.this.lastCodeTime;
                 Double.isNaN(currentTimeMillis);
                 LoginActivitySmsView.this.lastCodeTime = currentTimeMillis;
-                LoginActivitySmsView.access$8626(LoginActivitySmsView.this, currentTimeMillis - d);
+                LoginActivitySmsView.access$8726(LoginActivitySmsView.this, currentTimeMillis - d);
                 if (LoginActivitySmsView.this.codeTime <= 1000) {
                     LoginActivitySmsView.this.setProblemTextVisible(true);
                     LoginActivitySmsView.this.timeText.setVisibility(8);
@@ -4638,7 +4642,7 @@ public class LoginActivity extends BaseFragment {
                 double d = LoginActivitySmsView.this.lastCurrentTime;
                 Double.isNaN(currentTimeMillis);
                 LoginActivitySmsView.this.lastCurrentTime = currentTimeMillis;
-                LoginActivitySmsView.access$9226(LoginActivitySmsView.this, currentTimeMillis - d);
+                LoginActivitySmsView.access$9326(LoginActivitySmsView.this, currentTimeMillis - d);
                 if (LoginActivitySmsView.this.time >= 1000) {
                     int i = (LoginActivitySmsView.this.time / 1000) / 60;
                     int i2 = (LoginActivitySmsView.this.time / 1000) - (i * 60);

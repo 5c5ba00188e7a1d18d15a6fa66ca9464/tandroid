@@ -11,6 +11,7 @@ import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewPropertyAnimator;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -74,6 +75,7 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
     private ContextProgressView editDoneItemProgress;
     private OutlineEditText firstNameField;
     private boolean ignoreOnPhoneChange;
+    private boolean ignoreOnPhoneChangePaste;
     private boolean ignoreOnTextChange;
     private boolean ignoreSelection;
     private String initialFirstName;
@@ -85,6 +87,7 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
     private AnimatedPhoneNumberEditText phoneField;
     private HashMap<String, List<String>> phoneFormatMap;
     private OutlineTextContainerView phoneOutlineView;
+    private TextView plusTextView;
     private RadialProgressView progressView;
     private int wasCountryHintIndex;
 
@@ -109,10 +112,10 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
         setTitle(LocaleController.getString("NewContactTitle", R.string.NewContactTitle), true);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:57:0x03d0  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x03f0  */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x03ff  */
-    /* JADX WARN: Removed duplicated region for block: B:79:0x03ed A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x03ec  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x040c  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x041b  */
+    /* JADX WARN: Removed duplicated region for block: B:79:0x0409 A[SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -198,10 +201,11 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
         frameLayout2.addView(this.countryFlag, LayoutHelper.createFrame(-1, -2, 16));
         linearLayout2.addView(frameLayout2, LayoutHelper.createLinear(42, -1));
         TextView textView = new TextView(context);
+        this.plusTextView = textView;
         textView.setText("+");
-        textView.setTextSize(1, 16.0f);
-        textView.setFocusable(false);
-        linearLayout2.addView(textView, LayoutHelper.createLinear(-2, -2));
+        this.plusTextView.setTextSize(1, 16.0f);
+        this.plusTextView.setFocusable(false);
+        linearLayout2.addView(this.plusTextView, LayoutHelper.createLinear(-2, -2));
         AnimatedPhoneNumberEditText animatedPhoneNumberEditText = new AnimatedPhoneNumberEditText(context) { // from class: org.telegram.ui.NewContactBottomSheet.3
             /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
@@ -211,7 +215,8 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
             }
         };
         this.codeField = animatedPhoneNumberEditText;
-        animatedPhoneNumberEditText.setInputType(3);
+        animatedPhoneNumberEditText.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
+        this.codeField.setInputType(3);
         this.codeField.setCursorSize(AndroidUtilities.dp(20.0f));
         this.codeField.setCursorWidth(1.5f);
         this.codeField.setPadding(AndroidUtilities.dp(10.0f), 0, 0, 0);
@@ -393,7 +398,8 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
             }
         };
         this.phoneField = animatedPhoneNumberEditText2;
-        animatedPhoneNumberEditText2.setInputType(3);
+        animatedPhoneNumberEditText2.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
+        this.phoneField.setInputType(3);
         this.phoneField.setPadding(0, 0, 0, 0);
         this.phoneField.setCursorSize(AndroidUtilities.dp(20.0f));
         this.phoneField.setCursorWidth(1.5f);
@@ -427,13 +433,14 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
             @Override // android.text.TextWatcher
             public void onTextChanged(CharSequence charSequence, int i3, int i4, int i5) {
                 List list;
-                if (NewContactBottomSheet.this.ignoreOnPhoneChange) {
+                if (NewContactBottomSheet.this.ignoreOnPhoneChange || NewContactBottomSheet.this.ignoreOnPhoneChangePaste) {
                     return;
                 }
                 String replaceAll = charSequence.toString().substring(i3, i5 + i3).replaceAll("[^\\d]+", "");
                 if (replaceAll.isEmpty()) {
                     return;
                 }
+                NewContactBottomSheet.this.ignoreOnPhoneChangePaste = true;
                 for (int min = Math.min(3, replaceAll.length()); min >= 0; min--) {
                     String substring = replaceAll.substring(0, min);
                     List list2 = (List) NewContactBottomSheet.this.codesMap.get(substring);
@@ -456,6 +463,7 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
                         }
                     }
                 }
+                NewContactBottomSheet.this.ignoreOnPhoneChangePaste = false;
             }
 
             @Override // android.text.TextWatcher
@@ -647,7 +655,7 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
                 NewContactBottomSheet.this.lambda$createView$7(view);
             }
         });
-        textView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
+        this.plusTextView.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
         this.codeDividerView.setBackgroundColor(Theme.getColor("windowBackgroundWhiteInputField"));
         return scrollView;
     }
@@ -915,10 +923,18 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
     /* JADX INFO: Access modifiers changed from: private */
     public void setCountryButtonText(CharSequence charSequence) {
         if (TextUtils.isEmpty(charSequence)) {
-            this.countryFlag.animate().setInterpolator(CubicBezierInterpolator.DEFAULT).translationY(AndroidUtilities.dp(30.0f)).setDuration(150L);
+            ViewPropertyAnimator animate = this.countryFlag.animate();
+            CubicBezierInterpolator cubicBezierInterpolator = CubicBezierInterpolator.DEFAULT;
+            animate.setInterpolator(cubicBezierInterpolator).translationY(AndroidUtilities.dp(30.0f)).setDuration(150L);
+            this.plusTextView.animate().setInterpolator(cubicBezierInterpolator).translationX(-AndroidUtilities.dp(30.0f)).setDuration(150L);
+            this.codeField.animate().setInterpolator(cubicBezierInterpolator).translationX(-AndroidUtilities.dp(30.0f)).setDuration(150L);
             return;
         }
         this.countryFlag.animate().setInterpolator(AndroidUtilities.overshootInterpolator).translationY(0.0f).setDuration(350L).start();
+        ViewPropertyAnimator animate2 = this.plusTextView.animate();
+        CubicBezierInterpolator cubicBezierInterpolator2 = CubicBezierInterpolator.DEFAULT;
+        animate2.setInterpolator(cubicBezierInterpolator2).translationX(0.0f).setDuration(150L);
+        this.codeField.animate().setInterpolator(cubicBezierInterpolator2).translationX(0.0f).setDuration(150L);
         this.countryFlag.setText(charSequence);
     }
 

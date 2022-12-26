@@ -2308,7 +2308,7 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
                             this.blurredImage.getBitmap().recycle();
                             this.blurredImage.setImageBitmap((Bitmap) null);
                         }
-                        this.blurredImage.setImageBitmap(Utilities.stackBlurBitmapWithScaleFactor(imageReceiver.getBitmap(), 5.0f));
+                        this.blurredImage.setImageBitmap(Utilities.stackBlurBitmapWithScaleFactor(imageReceiver.getBitmap(), 12.0f));
                     }
                 }
 
@@ -2646,7 +2646,7 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
                     if (photoEntry != null && photoEntry.hasSpoiler && !photoEntry.isChatPreviewSpoilerRevealed) {
                         if (!this.wasSpoiler && this.blurredImage.getBitmap() == null && this.image.getBitmap() != null) {
                             this.wasSpoiler = true;
-                            this.blurredImage.setImageBitmap(Utilities.stackBlurBitmapWithScaleFactor(this.image.getBitmap(), 5.0f));
+                            this.blurredImage.setImageBitmap(Utilities.stackBlurBitmapWithScaleFactor(this.image.getBitmap(), 12.0f));
                         } else if (!this.wasSpoiler && this.blurredImage.getBitmap() != null) {
                             c = 1;
                             this.wasSpoiler = true;

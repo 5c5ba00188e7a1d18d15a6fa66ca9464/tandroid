@@ -19,12 +19,20 @@ public abstract class Brush {
         return 0.0f;
     }
 
+    public float getDefaultWeight() {
+        return 0.5f;
+    }
+
     public int getIconRes() {
         return 0;
     }
 
     public float getOverrideAlpha() {
         return 1.0f;
+    }
+
+    public float getPreviewScale() {
+        return 0.4f;
     }
 
     public float getScale() {
@@ -87,6 +95,11 @@ public abstract class Brush {
         }
 
         @Override // org.telegram.ui.Components.Paint.Brush
+        public float getPreviewScale() {
+            return 0.4f;
+        }
+
+        @Override // org.telegram.ui.Components.Paint.Brush
         public float getScale() {
             return 1.5f;
         }
@@ -117,6 +130,11 @@ public abstract class Brush {
         @Override // org.telegram.ui.Components.Paint.Brush
         public float getAlpha() {
             return 0.7f;
+        }
+
+        @Override // org.telegram.ui.Components.Paint.Brush
+        public float getPreviewScale() {
+            return 0.2f;
         }
 
         @Override // org.telegram.ui.Components.Paint.Brush
@@ -175,6 +193,16 @@ public abstract class Brush {
         }
 
         @Override // org.telegram.ui.Components.Paint.Brush
+        public float getDefaultWeight() {
+            return 1.0f;
+        }
+
+        @Override // org.telegram.ui.Components.Paint.Brush
+        public float getPreviewScale() {
+            return 0.35f;
+        }
+
+        @Override // org.telegram.ui.Components.Paint.Brush
         public String getShaderName(int i) {
             if (i != 0) {
                 if (i != 1) {
@@ -204,6 +232,16 @@ public abstract class Brush {
         @Override // org.telegram.ui.Components.Paint.Brush
         public float getAlpha() {
             return 1.0f;
+        }
+
+        @Override // org.telegram.ui.Components.Paint.Brush
+        public float getDefaultWeight() {
+            return 1.0f;
+        }
+
+        @Override // org.telegram.ui.Components.Paint.Brush
+        public float getPreviewScale() {
+            return 0.35f;
         }
 
         @Override // org.telegram.ui.Components.Paint.Brush

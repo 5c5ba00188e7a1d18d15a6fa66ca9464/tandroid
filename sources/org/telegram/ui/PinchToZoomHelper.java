@@ -7,6 +7,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Outline;
 import android.graphics.Paint;
 import android.graphics.Path;
@@ -21,6 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewOutlineProvider;
 import android.widget.FrameLayout;
+import androidx.core.graphics.ColorUtils;
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLoader;
@@ -29,6 +31,7 @@ import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.MediaController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.R;
+import org.telegram.messenger.Utilities;
 import org.telegram.messenger.WebFile;
 import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$Message;
@@ -43,6 +46,7 @@ import org.telegram.ui.Components.AnimatedFileDrawable;
 import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
+import org.telegram.ui.Components.spoilers.SpoilerEffect;
 /* loaded from: classes3.dex */
 public class PinchToZoomHelper {
     Callback callback;
@@ -57,6 +61,7 @@ public class PinchToZoomHelper {
     private final ViewGroup fragmentView;
     private float fullImageHeight;
     private float fullImageWidth;
+    private boolean hasMediaSpoiler;
     private float imageHeight;
     private float imageWidth;
     private float imageX;
@@ -81,6 +86,10 @@ public class PinchToZoomHelper {
     private int pointerId2;
     private float progressToFullView;
     private ImageReceiver fullImage = new ImageReceiver();
+    private ImageReceiver blurImage = new ImageReceiver();
+    private SpoilerEffect mediaSpoilerEffect = new SpoilerEffect();
+    private Path path = new Path();
+    private float[] spoilerRadii = new float[8];
     private float[] clipTopBottom = new float[2];
 
     /* loaded from: classes3.dex */
@@ -144,11 +153,24 @@ public class PinchToZoomHelper {
             imageReceiver2.setCrossfadeAlpha((byte) 2);
             this.fullImage.setCrossfadeWithOldImage(false);
             this.fullImage.onAttachedToWindow();
+            ImageReceiver imageReceiver3 = new ImageReceiver();
+            this.blurImage = imageReceiver3;
+            imageReceiver3.setCrossfadeAlpha((byte) 2);
+            this.blurImage.setCrossfadeWithOldImage(false);
+            this.blurImage.onAttachedToWindow();
         }
         this.inOverlayMode = true;
         this.parentView.addView(this.overlayView);
         this.finishProgress = 1.0f;
         this.progressToFullView = 0.0f;
+        this.hasMediaSpoiler = messageObject.hasMediaSpoilers() && !messageObject.isMediaSpoilersRevealed;
+        if (this.blurImage.getBitmap() != null) {
+            this.blurImage.getBitmap().recycle();
+            this.blurImage.setImageBitmap((Bitmap) null);
+        }
+        if (imageReceiver.getBitmap() != null && !imageReceiver.getBitmap().isRecycled() && this.hasMediaSpoiler) {
+            this.blurImage.setImageBitmap(Utilities.stackBlurBitmapWithScaleFactor(imageReceiver.getBitmap(), 12.0f));
+        }
         setFullImage(messageObject);
         this.imageX = imageReceiver.getImageX();
         this.imageY = imageReceiver.getImageY();
@@ -170,7 +192,7 @@ public class PinchToZoomHelper {
             this.fullImageHeight = (f / bitmapWidth) * f3;
             this.fullImageWidth = f3;
         }
-        if (messageObject != null && messageObject.isVideo() && MediaController.getInstance().isPlayingMessage(messageObject)) {
+        if (messageObject.isVideo() && MediaController.getInstance().isPlayingMessage(messageObject)) {
             this.isHardwareVideo = true;
             MediaController.getInstance().setTextureView(this.overlayView.videoTextureView, this.overlayView.aspectRatioFrameLayout, this.overlayView.videoPlayerContainer, true);
             FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) this.overlayView.videoPlayerContainer.getLayoutParams();
@@ -191,9 +213,9 @@ public class PinchToZoomHelper {
             this.overlayView.videoPlayerContainer.setVisibility(0);
         } else {
             this.isHardwareVideo = false;
-            ImageReceiver imageReceiver3 = new ImageReceiver();
-            this.childImage = imageReceiver3;
-            imageReceiver3.onAttachedToWindow();
+            ImageReceiver imageReceiver4 = new ImageReceiver();
+            this.childImage = imageReceiver4;
+            imageReceiver4.onAttachedToWindow();
             Drawable drawable = imageReceiver.getDrawable();
             this.childImage.setImageBitmap(drawable);
             if (drawable instanceof AnimatedFileDrawable) {
@@ -325,6 +347,12 @@ public class PinchToZoomHelper {
             imageReceiver3.onDetachedFromWindow();
             this.fullImage.clearImage();
             this.fullImage = null;
+        }
+        ImageReceiver imageReceiver4 = this.blurImage;
+        if (imageReceiver4 != null) {
+            imageReceiver4.onDetachedFromWindow();
+            this.blurImage.clearImage();
+            this.blurImage = null;
         }
         this.messageObject = null;
     }
@@ -573,6 +601,44 @@ public class PinchToZoomHelper {
                 float f10 = f3 + top;
                 PinchToZoomHelper pinchToZoomHelper8 = PinchToZoomHelper.this;
                 frameLayout4.setTranslationY(f10 + (pinchToZoomHelper8.pinchTranslationY * f * pinchToZoomHelper8.finishProgress));
+            }
+            if (PinchToZoomHelper.this.hasMediaSpoiler) {
+                PinchToZoomHelper.this.blurImage.setAlpha(PinchToZoomHelper.this.childImage.getAlpha());
+                PinchToZoomHelper.this.blurImage.setRoundRadius(PinchToZoomHelper.this.childImage.getRoundRadius());
+                PinchToZoomHelper.this.blurImage.setImageCoords(PinchToZoomHelper.this.childImage.getImageX(), PinchToZoomHelper.this.childImage.getImageY(), PinchToZoomHelper.this.childImage.getImageWidth(), PinchToZoomHelper.this.childImage.getImageHeight());
+                PinchToZoomHelper.this.blurImage.draw(canvas);
+                int[] roundRadius = PinchToZoomHelper.this.childImage.getRoundRadius();
+                float[] fArr = PinchToZoomHelper.this.spoilerRadii;
+                float[] fArr2 = PinchToZoomHelper.this.spoilerRadii;
+                float f11 = roundRadius[0];
+                fArr2[1] = f11;
+                fArr[0] = f11;
+                float[] fArr3 = PinchToZoomHelper.this.spoilerRadii;
+                float[] fArr4 = PinchToZoomHelper.this.spoilerRadii;
+                float f12 = roundRadius[1];
+                fArr4[3] = f12;
+                fArr3[2] = f12;
+                float[] fArr5 = PinchToZoomHelper.this.spoilerRadii;
+                float[] fArr6 = PinchToZoomHelper.this.spoilerRadii;
+                float f13 = roundRadius[2];
+                fArr6[5] = f13;
+                fArr5[4] = f13;
+                float[] fArr7 = PinchToZoomHelper.this.spoilerRadii;
+                float[] fArr8 = PinchToZoomHelper.this.spoilerRadii;
+                float f14 = roundRadius[3];
+                fArr8[7] = f14;
+                fArr7[6] = f14;
+                RectF rectF = AndroidUtilities.rectTmp;
+                rectF.set(PinchToZoomHelper.this.childImage.getImageX(), PinchToZoomHelper.this.childImage.getImageY(), PinchToZoomHelper.this.childImage.getImageX2(), PinchToZoomHelper.this.childImage.getImageY2());
+                PinchToZoomHelper.this.path.rewind();
+                PinchToZoomHelper.this.path.addRoundRect(rectF, PinchToZoomHelper.this.spoilerRadii, Path.Direction.CW);
+                canvas.save();
+                canvas.clipPath(PinchToZoomHelper.this.path);
+                PinchToZoomHelper.this.mediaSpoilerEffect.setColor(ColorUtils.setAlphaComponent(-1, (int) (Color.alpha(-1) * 0.325f * PinchToZoomHelper.this.childImage.getAlpha())));
+                PinchToZoomHelper.this.mediaSpoilerEffect.setBounds((int) PinchToZoomHelper.this.childImage.getImageX(), (int) PinchToZoomHelper.this.childImage.getImageY(), (int) PinchToZoomHelper.this.childImage.getImageX2(), (int) PinchToZoomHelper.this.childImage.getImageY2());
+                PinchToZoomHelper.this.mediaSpoilerEffect.draw(canvas);
+                canvas.restore();
+                invalidate();
             }
             canvas.restore();
         }

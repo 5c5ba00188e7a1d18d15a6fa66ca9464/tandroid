@@ -798,7 +798,7 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
                 TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(longValue));
                 TLRPC$UserFull userFull = MessagesController.getInstance(this.currentAccount).getUserFull(longValue);
                 if (userFull != null && (tLRPC$Photo = userFull.personal_photo) != null) {
-                    arrayList2.add(tLRPC$Photo);
+                    arrayList2.add(0, tLRPC$Photo);
                     this.customAvatarIndex = 0;
                 }
                 if (user != null && user.self && UserObject.hasFallbackPhoto(userFull)) {

@@ -1644,7 +1644,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
             getMessagesController().processUpdates((TLRPC$Updates) tLObject, false);
             getMessagesController().putChatFull(this.info);
         }
-        if (tLRPC$TL_error != null && !"".equals(tLRPC$TL_error.text)) {
+        if (tLRPC$TL_error != null && !"CHAT_NOT_MODIFIED".equals(tLRPC$TL_error.text)) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatUsersActivity$$ExternalSyntheticLambda10
                 @Override // java.lang.Runnable
                 public final void run() {
@@ -1673,7 +1673,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
             getMessagesController().processUpdates((TLRPC$Updates) tLObject, false);
             getMessagesController().putChatFull(this.info);
         }
-        if (tLRPC$TL_error == null || "".equals(tLRPC$TL_error.text)) {
+        if (tLRPC$TL_error == null || "CHAT_NOT_MODIFIED".equals(tLRPC$TL_error.text)) {
             return;
         }
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatUsersActivity$$ExternalSyntheticLambda11

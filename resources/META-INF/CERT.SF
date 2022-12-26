@@ -1,10 +1,10 @@
 Signature-Version: 1.0
 Created-By: Android Gradle 7.0.3
-SHA-256-Digest-Manifest: QCtZRwDj/A7DnAdjgOUC2S05qewhQMsM/2M4W2C+ZsY=
+SHA-256-Digest-Manifest: 0J7TZWKhNvl9irSd80OVD35ibmRp5/nLVUocgug9LJo=
 X-Android-APK-Signed: 2
 
 Name: AndroidManifest.xml
-SHA-256-Digest: c8b94wvIVR+W5+5Lu8sQIp2P4Dtpr7G3j8JOa7/iT5U=
+SHA-256-Digest: kJE9hFT+d2JoF539B5HpBJJ6GB1Yf2zBJf8zqcDiOpE=
 
 Name: META-INF/androidx.annotation_annotation-experimental.version
 SHA-256-Digest: 1kXi7X+0fkUVZdpJPpZVPjKTkWzOkOQjS1yiM1Loq+s=
@@ -10819,13 +10819,13 @@ Name: builddef.lst
 SHA-256-Digest: nV5pCcT+/FvcW5d37qA0E7yBBIkqNsX7vFJzDLqlDuY=
 
 Name: classes.dex
-SHA-256-Digest: cg0v7xCN2haixpTHKQ3M5Zk3ywSURkPRV43nO+XMlXs=
+SHA-256-Digest: /ECoBbF8si6GpdZAWEjm1JPMbVbLCtYmfl+ifiXBVG0=
 
 Name: classes2.dex
 SHA-256-Digest: HLaY0VgsGfoqIyB1S8LwSQzaE8iKwKj651cVwVxpfxs=
 
 Name: classes3.dex
-SHA-256-Digest: pCNU/fcLbHX59JP7BQ+tTvzZsgvQs3F4kCkivEysWjA=
+SHA-256-Digest: pGsU5VJHvSI+BnbRTmXiJpnPPoT4IDVSy2s8+chCFPw=
 
 Name: com/google/android/search/verification/client/R.java
 SHA-256-Digest: EsMVPn34QVRran564KJSlepygKDiuNN7iY8qEXPZd6k=
@@ -10891,25 +10891,25 @@ Name: lib/arm64-v8a/liblanguage_id_jni.so
 SHA-256-Digest: cJEwzvQ/G/fMDINaeu99xoSAjfFesRofNfevS+/85pU=
 
 Name: lib/arm64-v8a/libtmessages.42.so
-SHA-256-Digest: NEmuB0owMFxBR03EH/v+LzbPiqEciQ6ivJPb/T13rlM=
+SHA-256-Digest: QrD+bKmrHSKVICqe2FVssSYDMrjW7D5WKie1Ffc35dw=
 
 Name: lib/armeabi-v7a/liblanguage_id_jni.so
 SHA-256-Digest: agv5sDivXY7KtXNADWR0KCoc3lO+0rR4GCnVuvJ//ts=
 
 Name: lib/armeabi-v7a/libtmessages.42.so
-SHA-256-Digest: awIXoIZZlI1r9ld/q/J3E1Z52krOY8V9hN50joMGJp8=
+SHA-256-Digest: S+UYSh4PmWn4NyqrRJ+25RMe3YEqLWggFFALZqKnQM8=
 
 Name: lib/x86/liblanguage_id_jni.so
 SHA-256-Digest: SKPDaWbKbnPNCk42D48B0bGJ9tefy68ycSIyB7rWreg=
 
 Name: lib/x86/libtmessages.42.so
-SHA-256-Digest: 9Z8EzRhthFW/ddpG+ladaSZY4mqpVug+/iFNlBmohWo=
+SHA-256-Digest: QXBrbT799ziIV22NMhOsX06DfeorXcOUH3PxPS8ToVM=
 
 Name: lib/x86_64/liblanguage_id_jni.so
 SHA-256-Digest: NuCPlobvjqMklo3NntmvFZbDqboTlxUuc515tg1poVs=
 
 Name: lib/x86_64/libtmessages.42.so
-SHA-256-Digest: SsO+nMWAN0Ft/QIJtfkxM0PKkPvhrzLPPFU8N/pPqL8=
+SHA-256-Digest: SHma+RHPZtHKblsLvB6uMfmope3Cba8mlpAERwiMu+c=
 
 Name: play-services-auth-api-phone.properties
 SHA-256-Digest: /45kuv2EHXDaVmufMqkR9AdyYVMnrYDsZdVKBZPEXbw=
@@ -15701,9 +15701,6 @@ SHA-256-Digest: 66rfLJxGuq07bzNycnwMJ//SwjqEWxDxTbGCxPhbCX8=
 
 Name: res/KXJ.png
 SHA-256-Digest: C+UooCT4kuWqoXeoj0cRSDSWfRSUKvdWN8dRwqLabVk=
-
-Name: res/K_B.glsl
-SHA-256-Digest: Ah0HWTo1oICUwzfP5lWUDgPsl3UIyK87NFJ146yUUx0=
 
 Name: res/KaZ.png
 SHA-256-Digest: D80Gg1YdFmy9xoyUb5VRzkhDHrFxZBOSqM0hNvc8xd8=
@@ -23868,9 +23865,6 @@ SHA-256-Digest: gC01/316Rz/mdiNMHKrByu/TqnWtdceFvUvHs6jKk/Q=
 Name: res/vq-.png
 SHA-256-Digest: PeqSHdJhyNVRmP7sBbi6bFZMcdpg1lAo/mf0I1zRx68=
 
-Name: res/vqE.glsl
-SHA-256-Digest: eYAZHGqWbsEEDQlwR5UqbVpXXn81aLssqUniC6ONf8M=
-
 Name: res/vrD.png
 SHA-256-Digest: KglvOPUKzIMPWxdXT/0DTeHp25kcH6137XefFJT3OuA=
 
@@ -24811,7 +24805,7 @@ Name: res/zyk.png
 SHA-256-Digest: vMLi+FKhhG7qGCJgIq3Wm4YOCaWN754M6vZAvlhXfes=
 
 Name: resources.arsc
-SHA-256-Digest: qnj2Rk6Ib/g0ikP0k6Io0gXW+baZqfsluka2fLZpyN4=
+SHA-256-Digest: bhV0HmfouCICg9TFvMn/IPwtLtcdV4bQHDMwPlULx00=
 
 Name: transport-api.properties
 SHA-256-Digest: rg9AddD1sd6fAR+GAu81u8Hzm/wJMfHnm9vKhV/4Fn4=
