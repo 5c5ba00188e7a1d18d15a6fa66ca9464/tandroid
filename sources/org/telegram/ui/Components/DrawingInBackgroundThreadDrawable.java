@@ -80,22 +80,11 @@ public class DrawingInBackgroundThreadDrawable implements NotificationCenter.Not
             DrawingInBackgroundThreadDrawable.this.bitmapUpdating = false;
             DrawingInBackgroundThreadDrawable.this.onFrameReady();
             DrawingInBackgroundThreadDrawable drawingInBackgroundThreadDrawable = DrawingInBackgroundThreadDrawable.this;
-            if (drawingInBackgroundThreadDrawable.attachedToWindow) {
-                if (drawingInBackgroundThreadDrawable.frameGuid != drawingInBackgroundThreadDrawable.lastFrameId) {
-                    return;
-                }
+            if (!drawingInBackgroundThreadDrawable.attachedToWindow) {
+                drawingInBackgroundThreadDrawable.recycleBitmaps();
+            } else if (drawingInBackgroundThreadDrawable.frameGuid != drawingInBackgroundThreadDrawable.lastFrameId) {
+            } else {
                 DrawingInBackgroundThreadDrawable.this.needSwapBitmaps = true;
-                return;
-            }
-            Bitmap bitmap = drawingInBackgroundThreadDrawable.bitmap;
-            if (bitmap != null) {
-                bitmap.recycle();
-                DrawingInBackgroundThreadDrawable.this.bitmap = null;
-            }
-            Bitmap bitmap2 = DrawingInBackgroundThreadDrawable.this.backgroundBitmap;
-            if (bitmap2 != null) {
-                bitmap2.recycle();
-                DrawingInBackgroundThreadDrawable.this.backgroundBitmap = null;
             }
         }
     };
@@ -192,6 +181,7 @@ public class DrawingInBackgroundThreadDrawable implements NotificationCenter.Not
 
     public void onAttachToWindow() {
         this.attachedToWindow = true;
+        this.error = false;
         int currentHeavyOperationFlags = NotificationCenter.getGlobalInstance().getCurrentHeavyOperationFlags();
         this.currentOpenedLayerFlags = currentHeavyOperationFlags;
         int i = currentHeavyOperationFlags & (this.currentLayerNum ^ (-1));
@@ -205,6 +195,16 @@ public class DrawingInBackgroundThreadDrawable implements NotificationCenter.Not
     }
 
     public void onDetachFromWindow() {
+        if (!this.bitmapUpdating) {
+            recycleBitmaps();
+        }
+        this.attachedToWindow = false;
+        NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.stopAllHeavyOperations);
+        NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.startAllHeavyOperations);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void recycleBitmaps() {
         ArrayList arrayList = new ArrayList();
         Bitmap bitmap = this.bitmap;
         if (bitmap != null) {
@@ -219,9 +219,6 @@ public class DrawingInBackgroundThreadDrawable implements NotificationCenter.Not
         this.backgroundCanvas = null;
         this.bitmapCanvas = null;
         AndroidUtilities.recycleBitmaps(arrayList);
-        this.attachedToWindow = false;
-        NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.stopAllHeavyOperations);
-        NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.startAllHeavyOperations);
     }
 
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate

@@ -454,7 +454,7 @@ public class FilePathDatabase {
             try {
                 sQLitePreparedStatement = this.database.executeFast("REPLACE INTO paths_by_dialog_id VALUES(?, ?, ?, ?)");
                 sQLitePreparedStatement.requery();
-                sQLitePreparedStatement.bindString(1, file.getPath());
+                sQLitePreparedStatement.bindString(1, shield(file.getPath()));
                 sQLitePreparedStatement.bindLong(2, fileMeta.dialogId);
                 sQLitePreparedStatement.bindInteger(3, fileMeta.messageId);
                 sQLitePreparedStatement.bindInteger(4, fileMeta.messageType);
@@ -489,7 +489,7 @@ public class FilePathDatabase {
         try {
             try {
                 SQLiteDatabase sQLiteDatabase = this.database;
-                sQLiteCursor = sQLiteDatabase.queryFinalized("SELECT dialog_id, message_id, message_type FROM paths_by_dialog_id WHERE path = '" + file.getPath() + "'", new Object[0]);
+                sQLiteCursor = sQLiteDatabase.queryFinalized("SELECT dialog_id, message_id, message_type FROM paths_by_dialog_id WHERE path = '" + shield(file.getPath()) + "'", new Object[0]);
                 if (sQLiteCursor.next()) {
                     j = sQLiteCursor.longValue(0);
                     i = sQLiteCursor.intValue(1);
@@ -510,19 +510,23 @@ public class FilePathDatabase {
                     i2 = 0;
                 }
                 sQLiteCursor.dispose();
-            } catch (Exception e2) {
-                e = e2;
-                i = 0;
+            } finally {
+                if (0 != 0) {
+                    sQLiteCursor.dispose();
+                }
             }
-            fileMeta.dialogId = j;
-            fileMeta.messageId = i3;
-            fileMeta.messageType = i2;
-            return fileMeta;
-        } finally {
-            if (sQLiteCursor != null) {
-                sQLiteCursor.dispose();
-            }
+        } catch (Exception e2) {
+            e = e2;
+            i = 0;
         }
+        fileMeta.dialogId = j;
+        fileMeta.messageId = i3;
+        fileMeta.messageType = i2;
+        return fileMeta;
+    }
+
+    private String shield(String str) {
+        return str.replace("'", "").replace("\"", "");
     }
 
     public DispatchQueue getQueue() {
@@ -545,7 +549,7 @@ public class FilePathDatabase {
                 this.database.beginTransaction();
                 for (int i = 0; i < list.size(); i++) {
                     SQLiteDatabase sQLiteDatabase = this.database;
-                    sQLiteDatabase.executeFast("DELETE FROM paths_by_dialog_id WHERE path = '" + ((CacheModel.FileInfo) list.get(i)).file.getPath() + "'").stepThis().dispose();
+                    sQLiteDatabase.executeFast("DELETE FROM paths_by_dialog_id WHERE path = '" + shield(((CacheModel.FileInfo) list.get(i)).file.getPath()) + "'").stepThis().dispose();
                 }
             } catch (Exception e) {
                 FileLog.e(e);

@@ -37,6 +37,7 @@ public class AvatarsDrawable {
     private int overrideSize;
     View parent;
     Random random;
+    private boolean showSavedMessages;
     private boolean transitionInProgress;
     ValueAnimator transitionProgressAnimator;
     boolean updateAfterTransition;
@@ -327,13 +328,13 @@ public class AvatarsDrawable {
             tLRPC$Chat = chat;
         } else if (tLObject instanceof TLRPC$User) {
             TLRPC$User tLRPC$User2 = (TLRPC$User) tLObject;
-            if (tLRPC$User2.self) {
-                this.animatingStates[i].avatarDrawable.setAvatarType(1);
-                this.animatingStates[i].avatarDrawable.setScaleSize(0.6f);
-            } else {
+            if (!tLRPC$User2.self || !this.showSavedMessages) {
                 this.animatingStates[i].avatarDrawable.setAvatarType(0);
                 this.animatingStates[i].avatarDrawable.setScaleSize(1.0f);
                 this.animatingStates[i].avatarDrawable.setInfo(tLRPC$User2);
+            } else {
+                this.animatingStates[i].avatarDrawable.setAvatarType(1);
+                this.animatingStates[i].avatarDrawable.setScaleSize(0.6f);
             }
             this.animatingStates[i].id = tLRPC$User2.id;
             tLRPC$User = tLRPC$User2;
@@ -347,10 +348,10 @@ public class AvatarsDrawable {
         }
         if (tLRPC$User == null) {
             this.animatingStates[i].imageReceiver.setForUserOrChat(tLRPC$Chat, this.animatingStates[i].avatarDrawable);
-        } else if (tLRPC$User.self) {
-            this.animatingStates[i].imageReceiver.setImageBitmap(this.animatingStates[i].avatarDrawable);
-        } else {
+        } else if (!tLRPC$User.self || !this.showSavedMessages) {
             this.animatingStates[i].imageReceiver.setForUserOrChat(tLRPC$User, this.animatingStates[i].avatarDrawable);
+        } else {
+            this.animatingStates[i].imageReceiver.setImageBitmap(this.animatingStates[i].avatarDrawable);
         }
         int i3 = this.currentStyle;
         if (i3 != 4 && i3 != 10) {
@@ -670,5 +671,9 @@ public class AvatarsDrawable {
         for (int i = 0; i < this.animatingStates.length; i++) {
             setObject(0, 0, null);
         }
+    }
+
+    public void setShowSavedMessages(boolean z) {
+        this.showSavedMessages = z;
     }
 }

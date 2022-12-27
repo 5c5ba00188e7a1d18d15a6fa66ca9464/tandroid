@@ -879,10 +879,13 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$3() {
+        TLRPC$Photo tLRPC$Photo;
         this.avatarForRest = null;
         this.avatarForRestPhoto = null;
         TLRPC$UserFull userFull = getMessagesController().getUserFull(getUserConfig().clientUserId);
-        TLRPC$Photo tLRPC$Photo = userFull.fallback_photo;
+        if (userFull == null || (tLRPC$Photo = userFull.fallback_photo) == null) {
+            return;
+        }
         userFull.flags &= -4194305;
         userFull.fallback_photo = null;
         getMessagesStorage().updateUserInfo(userFull, true);

@@ -165,6 +165,10 @@ public class LoadingDrawable extends Drawable {
         this.disappearStart = SystemClock.elapsedRealtime();
     }
 
+    public void resetDisappear() {
+        this.disappearStart = -1L;
+    }
+
     @Override // android.graphics.drawable.Drawable
     public void draw(Canvas canvas) {
         if (isDisappeared()) {

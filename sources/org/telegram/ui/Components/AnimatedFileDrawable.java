@@ -582,22 +582,16 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
         if (!z) {
             seekToMs(this.nativePtr, j, z);
         }
-        if (this.backgroundBitmap == null) {
-            int[] iArr = this.metaData;
-            float f = this.scaleFactor;
-            this.backgroundBitmap = Bitmap.createBitmap((int) (iArr[0] * f), (int) (iArr[1] * f), Bitmap.Config.ARGB_8888);
-        }
+        int[] iArr = this.metaData;
+        float f = this.scaleFactor;
+        Bitmap createBitmap = Bitmap.createBitmap((int) (iArr[0] * f), (int) (iArr[1] * f), Bitmap.Config.ARGB_8888);
         if (z) {
-            long j2 = this.nativePtr;
-            Bitmap bitmap = this.backgroundBitmap;
-            videoFrame = getFrameAtTime(j2, j, bitmap, this.metaData, bitmap.getRowBytes());
+            videoFrame = getFrameAtTime(this.nativePtr, j, createBitmap, this.metaData, createBitmap.getRowBytes());
         } else {
-            long j3 = this.nativePtr;
-            Bitmap bitmap2 = this.backgroundBitmap;
-            videoFrame = getVideoFrame(j3, bitmap2, this.metaData, bitmap2.getRowBytes(), true, 0.0f, 0.0f);
+            videoFrame = getVideoFrame(this.nativePtr, createBitmap, this.metaData, createBitmap.getRowBytes(), true, 0.0f, 0.0f);
         }
         if (videoFrame != 0) {
-            return this.backgroundBitmap;
+            return createBitmap;
         }
         return null;
     }

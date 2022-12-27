@@ -80,6 +80,7 @@ public class RecyclerListView extends RecyclerView {
     private ArrayList<View> headersCache;
     private boolean hiddenByEmptyView;
     private boolean hideIfEmpty;
+    private int highlightPosition;
     private boolean instantClick;
     private boolean interceptedByChild;
     private boolean isChildViewEnabled;
@@ -1689,7 +1690,7 @@ public class RecyclerListView extends RecyclerView {
         checkSection(false);
         IntReturnCallback intReturnCallback = this.pendingHighlightPosition;
         if (intReturnCallback != null) {
-            highlightRowInternal(intReturnCallback, false);
+            highlightRowInternal(intReturnCallback, 700, false);
         }
     }
 
@@ -2023,10 +2024,48 @@ public class RecyclerListView extends RecyclerView {
     }
 
     public void highlightRow(IntReturnCallback intReturnCallback) {
-        highlightRowInternal(intReturnCallback, true);
+        highlightRowInternal(intReturnCallback, 700, true);
     }
 
-    private void highlightRowInternal(IntReturnCallback intReturnCallback, boolean z) {
+    public void highlightRow(IntReturnCallback intReturnCallback, int i) {
+        highlightRowInternal(intReturnCallback, i, true);
+    }
+
+    public void removeHighlightRow() {
+        int i;
+        Runnable runnable = this.removeHighlighSelectionRunnable;
+        if (runnable != null) {
+            AndroidUtilities.cancelRunOnUIThread(runnable);
+            this.removeHighlighSelectionRunnable.run();
+            this.removeHighlighSelectionRunnable = null;
+            this.selectorView = null;
+            return;
+        }
+        this.removeHighlighSelectionRunnable = null;
+        this.pendingHighlightPosition = null;
+        View view = this.selectorView;
+        if (view != null && (i = this.highlightPosition) != -1) {
+            positionSelector(i, view);
+            this.selectorDrawable.setState(new int[0]);
+            invalidateDrawable(this.selectorDrawable);
+            this.selectorView = null;
+            this.highlightPosition = -1;
+            return;
+        }
+        Drawable drawable = this.selectorDrawable;
+        if (drawable != null) {
+            Drawable current = drawable.getCurrent();
+            if (current instanceof TransitionDrawable) {
+                ((TransitionDrawable) current).resetTransition();
+            }
+        }
+        Drawable drawable2 = this.selectorDrawable;
+        if (drawable2 != null && drawable2.isStateful() && this.selectorDrawable.setState(StateSet.NOTHING)) {
+            invalidateDrawable(this.selectorDrawable);
+        }
+    }
+
+    private void highlightRowInternal(IntReturnCallback intReturnCallback, int i, boolean z) {
         Runnable runnable = this.removeHighlighSelectionRunnable;
         if (runnable != null) {
             AndroidUtilities.cancelRunOnUIThread(runnable);
@@ -2040,7 +2079,9 @@ public class RecyclerListView extends RecyclerView {
             }
             return;
         }
-        positionSelector(findViewHolderForAdapterPosition.getLayoutPosition(), findViewHolderForAdapterPosition.itemView);
+        int layoutPosition = findViewHolderForAdapterPosition.getLayoutPosition();
+        this.highlightPosition = layoutPosition;
+        positionSelector(layoutPosition, findViewHolderForAdapterPosition.itemView);
         Drawable drawable = this.selectorDrawable;
         if (drawable != null) {
             Drawable current = drawable.getCurrent();
@@ -2059,14 +2100,16 @@ public class RecyclerListView extends RecyclerView {
         if (drawable2 != null && drawable2.isStateful() && this.selectorDrawable.setState(getDrawableStateForSelector())) {
             invalidateDrawable(this.selectorDrawable);
         }
-        Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Components.RecyclerListView$$ExternalSyntheticLambda0
-            @Override // java.lang.Runnable
-            public final void run() {
-                RecyclerListView.this.lambda$highlightRowInternal$0();
-            }
-        };
-        this.removeHighlighSelectionRunnable = runnable2;
-        AndroidUtilities.runOnUIThread(runnable2, 700L);
+        if (i > 0) {
+            Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Components.RecyclerListView$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    RecyclerListView.this.lambda$highlightRowInternal$0();
+                }
+            };
+            this.removeHighlighSelectionRunnable = runnable2;
+            AndroidUtilities.runOnUIThread(runnable2, i);
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */

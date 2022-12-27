@@ -231,7 +231,8 @@ public class KeepMediaPopupView extends ActionBarPopupWindow.ActionBarPopupWindo
             addView(this.titleView, LayoutHelper.createFrame(0, -2.0f, 19, 19.0f, 0.0f, 19.0f, 0.0f));
             AvatarsImageView avatarsImageView = new AvatarsImageView(context, false);
             this.avatarsImageView = avatarsImageView;
-            avatarsImageView.setStyle(11);
+            avatarsImageView.avatarsDrawable.setShowSavedMessages(true);
+            this.avatarsImageView.setStyle(11);
             this.avatarsImageView.setAvatarsTextSize(AndroidUtilities.dp(22.0f));
             addView(this.avatarsImageView, LayoutHelper.createFrame(56, -1.0f, 21, 0.0f, 0.0f, 4.0f, 0.0f));
             setBackground(Theme.createRadSelectorDrawable(Theme.getColor("listSelectorSDK21"), 0, 4));

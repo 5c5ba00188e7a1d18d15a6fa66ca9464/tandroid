@@ -430,6 +430,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     private int keyboardSize;
     private long lastBufferedPositionCheck;
     private String lastControlFrameDuration;
+    private Bitmap lastFrameBitmap;
     private ImageView lastFrameImageView;
     private Object lastInsets;
     private long lastPhotoSetTime;
@@ -7707,7 +7708,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     return;
                 }
                 try {
-                    this.currentBitmap = textureView.getBitmap();
+                    this.lastFrameBitmap = textureView.getBitmap();
                     ImageView imageView = this.lastFrameImageView;
                     if (imageView != null) {
                         this.aspectRatioFrameLayout.removeView(imageView);
@@ -7715,7 +7716,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     }
                     ImageView imageView2 = new ImageView(this.videoTextureView.getContext());
                     this.lastFrameImageView = imageView2;
-                    imageView2.setBackground(new BitmapDrawable(this.currentBitmap));
+                    imageView2.setBackground(new BitmapDrawable(this.lastFrameBitmap));
                     this.aspectRatioFrameLayout.addView(this.lastFrameImageView);
                     return;
                 } catch (Throwable th) {
@@ -7792,6 +7793,10 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             }
             ((ViewGroup) PhotoViewer.this.lastFrameImageView.getParent()).removeView(PhotoViewer.this.lastFrameImageView);
             PhotoViewer.this.lastFrameImageView = null;
+            if (PhotoViewer.this.lastFrameBitmap != null) {
+                AndroidUtilities.recycleBitmap(PhotoViewer.this.lastFrameBitmap);
+                PhotoViewer.this.lastFrameBitmap = null;
+            }
         }
     }
 

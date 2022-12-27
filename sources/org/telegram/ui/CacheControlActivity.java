@@ -312,28 +312,28 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
         if (cacheChart != null) {
             boolean z = this.calculating;
             if (!z && this.totalSize > 0) {
-                long[] jArr = new long[9];
+                CacheChart.SegmentSize[] segmentSizeArr = new CacheChart.SegmentSize[9];
                 for (int i = 0; i < this.itemInners.size(); i++) {
                     ItemInner itemInner = this.itemInners.get(i);
                     if (itemInner.viewType == 11) {
                         int i2 = itemInner.index;
                         if (i2 < 0) {
-                            if (this.collapsed && this.selected[8]) {
-                                jArr[8] = itemInner.size;
+                            if (this.collapsed) {
+                                segmentSizeArr[8] = CacheChart.SegmentSize.of(itemInner.size, this.selected[8]);
                             }
-                        } else if (this.selected[i2]) {
-                            jArr[i2] = itemInner.size;
+                        } else {
+                            segmentSizeArr[i2] = CacheChart.SegmentSize.of(itemInner.size, this.selected[i2]);
                         }
                     }
                 }
                 if (System.currentTimeMillis() - this.fragmentCreateTime < 80) {
                     this.cacheChart.loadingFloat.set(0.0f, true);
                 }
-                this.cacheChart.setSegments(this.totalSize, jArr);
+                this.cacheChart.setSegments(this.totalSize, segmentSizeArr);
             } else if (z) {
-                cacheChart.setSegments(-1L, new long[0]);
+                cacheChart.setSegments(-1L, new CacheChart.SegmentSize[0]);
             } else {
-                cacheChart.setSegments(0L, new long[0]);
+                cacheChart.setSegments(0L, new CacheChart.SegmentSize[0]);
             }
         }
         ClearCacheButtonInternal clearCacheButtonInternal = this.clearCacheButton;
@@ -1114,6 +1114,11 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
                 }
                 super.dispatchDraw(canvas);
             }
+
+            @Override // org.telegram.ui.Components.RecyclerListView
+            protected boolean allowSelectChildAtPosition(View view) {
+                return view != CacheControlActivity.this.cacheChart;
+            }
         };
         this.listView = recyclerListView;
         recyclerListView.setVerticalScrollBarEnabled(false);
@@ -1181,45 +1186,19 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$12(View view, int i, float f, float f2) {
-        int childAdapterPosition;
         if (getParentActivity() == null) {
             return;
         }
         ItemInner itemInner = this.itemInners.get(i);
         if (itemInner.viewType == 11 && (view instanceof CheckBoxCell)) {
-            int i2 = itemInner.index;
-            if (i2 < 0) {
+            if (itemInner.index < 0) {
                 this.collapsed = !this.collapsed;
                 updateRows();
                 updateChart();
                 return;
-            } else if (this.selected[i2] && sectionsSelected() <= 1) {
-                BotWebViewVibrationEffect.APP_ERROR.vibrate();
-                AndroidUtilities.shakeViewSpring(view, -3.0f);
-                return;
-            } else {
-                boolean[] zArr = this.selected;
-                int i3 = itemInner.index;
-                boolean z = !zArr[i3];
-                zArr[i3] = z;
-                ((CheckBoxCell) view).setChecked(z, true);
-                if (itemInner.pad) {
-                    int i4 = 0;
-                    while (true) {
-                        if (i4 >= this.listView.getChildCount()) {
-                            break;
-                        }
-                        View childAt = this.listView.getChildAt(i4);
-                        if ((childAt instanceof CheckBoxCell) && (childAdapterPosition = this.listView.getChildAdapterPosition(childAt)) >= 0 && childAdapterPosition < this.itemInners.size() && this.itemInners.get(childAdapterPosition).index < 0) {
-                            ((CheckBoxCell) childAt).setChecked(isOtherSelected(), true);
-                            break;
-                        }
-                        i4++;
-                    }
-                }
-                updateChart();
-                return;
             }
+            toggleSection(itemInner, view);
+            return;
         }
         DialogFileEntities dialogFileEntities = itemInner.entities;
         if (dialogFileEntities != null) {
@@ -1231,8 +1210,8 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
             keepMediaPopupView.setParentWindow(createSimplePopup);
             keepMediaPopupView.setCallback(new KeepMediaPopupView.Callback() { // from class: org.telegram.ui.CacheControlActivity$$ExternalSyntheticLambda18
                 @Override // org.telegram.ui.KeepMediaPopupView.Callback
-                public final void onKeepMediaChange(int i5, int i6) {
-                    CacheControlActivity.this.lambda$createView$11(i5, i6);
+                public final void onKeepMediaChange(int i2, int i3) {
+                    CacheControlActivity.this.lambda$createView$11(i2, i3);
                 }
             });
         }
@@ -1707,6 +1686,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
     public class ClearCacheButtonInternal extends ClearCacheButton {
         public ClearCacheButtonInternal(Context context) {
             super(context);
+            ((ViewGroup.MarginLayoutParams) this.button.getLayoutParams()).topMargin = AndroidUtilities.dp(5.0f);
             this.button.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.CacheControlActivity$ClearCacheButtonInternal$$ExternalSyntheticLambda0
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
@@ -1850,6 +1830,55 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
         return true;
     }
 
+    private void toggleSection(ItemInner itemInner, View view) {
+        boolean[] zArr;
+        int i;
+        int childAdapterPosition;
+        int i2 = itemInner.index;
+        if (i2 < 0) {
+            toggleOtherSelected(view);
+        } else if (this.selected[i2] && sectionsSelected() <= 1) {
+            BotWebViewVibrationEffect.APP_ERROR.vibrate();
+            if (view != null) {
+                AndroidUtilities.shakeViewSpring(view, -3.0f);
+            }
+        } else {
+            int i3 = 0;
+            if (view instanceof CheckBoxCell) {
+                boolean[] zArr2 = this.selected;
+                int i4 = itemInner.index;
+                boolean z = !zArr2[i4];
+                zArr2[i4] = z;
+                ((CheckBoxCell) view).setChecked(z, true);
+            } else {
+                this.selected[itemInner.index] = !zArr[i];
+                int indexOf = this.itemInners.indexOf(itemInner);
+                if (indexOf >= 0) {
+                    for (int i5 = 0; i5 < this.listView.getChildCount(); i5++) {
+                        View childAt = this.listView.getChildAt(i5);
+                        if ((childAt instanceof CheckBoxCell) && indexOf == this.listView.getChildAdapterPosition(childAt)) {
+                            ((CheckBoxCell) childAt).setChecked(this.selected[itemInner.index], true);
+                        }
+                    }
+                }
+            }
+            if (itemInner.pad) {
+                while (true) {
+                    if (i3 >= this.listView.getChildCount()) {
+                        break;
+                    }
+                    View childAt2 = this.listView.getChildAt(i3);
+                    if ((childAt2 instanceof CheckBoxCell) && (childAdapterPosition = this.listView.getChildAdapterPosition(childAt2)) >= 0 && childAdapterPosition < this.itemInners.size() && this.itemInners.get(childAdapterPosition).index < 0) {
+                        ((CheckBoxCell) childAt2).setChecked(isOtherSelected(), true);
+                        break;
+                    }
+                    i3++;
+                }
+            }
+            updateChart();
+        }
+    }
+
     /* JADX INFO: Access modifiers changed from: private */
     public void toggleOtherSelected(View view) {
         int i;
@@ -1874,7 +1903,10 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
             }
             if (!z) {
                 BotWebViewVibrationEffect.APP_ERROR.vibrate();
-                AndroidUtilities.shakeViewSpring(view, -3.0f);
+                if (view != null) {
+                    AndroidUtilities.shakeViewSpring(view, -3.0f);
+                    return;
+                }
                 return;
             }
         }
@@ -1949,6 +1981,59 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
             }
         }
 
+        /* loaded from: classes3.dex */
+        class 1 extends CacheChart {
+            /* JADX INFO: Access modifiers changed from: private */
+            public static /* synthetic */ int lambda$onSectionDown$0(int i) {
+                return i;
+            }
+
+            @Override // org.telegram.ui.Components.CacheChart
+            protected void onSectionClick(int i) {
+            }
+
+            1(Context context) {
+                super(context);
+            }
+
+            @Override // org.telegram.ui.Components.CacheChart
+            protected void onSectionDown(int i, boolean z) {
+                if (!z) {
+                    CacheControlActivity.this.listView.removeHighlightRow();
+                    return;
+                }
+                final int i2 = -1;
+                if (i == 8) {
+                    i = -1;
+                }
+                int i3 = 0;
+                while (true) {
+                    if (i3 < CacheControlActivity.this.itemInners.size()) {
+                        ItemInner itemInner = (ItemInner) CacheControlActivity.this.itemInners.get(i3);
+                        if (itemInner != null && itemInner.viewType == 11 && itemInner.index == i) {
+                            i2 = i3;
+                            break;
+                        }
+                        i3++;
+                    } else {
+                        break;
+                    }
+                }
+                if (i2 >= 0) {
+                    CacheControlActivity.this.listView.highlightRow(new RecyclerListView.IntReturnCallback() { // from class: org.telegram.ui.CacheControlActivity$ListAdapter$1$$ExternalSyntheticLambda0
+                        @Override // org.telegram.ui.Components.RecyclerListView.IntReturnCallback
+                        public final int run() {
+                            int lambda$onSectionDown$0;
+                            lambda$onSectionDown$0 = CacheControlActivity.ListAdapter.1.lambda$onSectionDown$0(i2);
+                            return lambda$onSectionDown$0;
+                        }
+                    }, 0);
+                } else {
+                    CacheControlActivity.this.listView.removeHighlightRow();
+                }
+            }
+        }
+
         /* JADX WARN: Multi-variable type inference failed */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
@@ -1998,7 +2083,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
                         frameLayout = textCell;
                         break;
                     case 8:
-                        FrameLayout frameLayout2 = CacheControlActivity.this.cachedMediaLayout = new CachedMediaLayout(this.mContext, CacheControlActivity.this) { // from class: org.telegram.ui.CacheControlActivity.ListAdapter.1
+                        FrameLayout frameLayout2 = CacheControlActivity.this.cachedMediaLayout = new CachedMediaLayout(this.mContext, CacheControlActivity.this) { // from class: org.telegram.ui.CacheControlActivity.ListAdapter.2
                             @Override // org.telegram.ui.CachedMediaLayout, android.widget.FrameLayout, android.view.View
                             protected void onMeasure(int i3, int i4) {
                                 super.onMeasure(i3, View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i4) - (ActionBar.getCurrentActionBarHeight() / 2), 1073741824));
@@ -2014,7 +2099,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
                                 ((BaseFragment) CacheControlActivity.this).actionBar.hideActionMode();
                             }
                         };
-                        CacheControlActivity.this.cachedMediaLayout.setDelegate(new CachedMediaLayout.Delegate() { // from class: org.telegram.ui.CacheControlActivity.ListAdapter.2
+                        CacheControlActivity.this.cachedMediaLayout.setDelegate(new CachedMediaLayout.Delegate() { // from class: org.telegram.ui.CacheControlActivity.ListAdapter.3
                             @Override // org.telegram.ui.CachedMediaLayout.Delegate
                             public /* synthetic */ void dismiss() {
                                 CachedMediaLayout.Delegate.-CC.$default$dismiss(this);
@@ -2062,7 +2147,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
                         frameLayout = frameLayout2;
                         break;
                     case 9:
-                        view = CacheControlActivity.this.cacheChart = new CacheChart(this.mContext);
+                        view = CacheControlActivity.this.cacheChart = new 1(this.mContext);
                         break;
                     case 10:
                         view = CacheControlActivity.this.cacheChartHeader = new CacheChartHeader(this.mContext);

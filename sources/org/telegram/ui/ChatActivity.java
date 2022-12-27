@@ -1116,6 +1116,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         return i;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static /* synthetic */ void access$43100(ChatActivity chatActivity) {
+        chatActivity.resetProgressDialogLoading();
+    }
+
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(DialogInterface dialogInterface) {
         this.postponedScrollIsCanceled = true;
@@ -1145,7 +1150,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         ChatActivityAdapter chatActivityAdapter = this.chatAdapter;
         chatActivityAdapter.isFrozen = true;
         chatActivityAdapter.notifyDataSetChanged(true);
-        getUndoView().showWithAction(this.dialog_id, 81, new Runnable() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda172
+        getUndoView().showWithAction(this.dialog_id, 81, new Runnable() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda173
             @Override // java.lang.Runnable
             public final void run() {
                 ChatActivity.this.lambda$deleteHistory$3(i, i2, z);
@@ -27248,7 +27253,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                                     chatScrimPopupContainerLayout.setMaxHeight(height - i2);
                                                     final int i31 = i2;
                                                     final ReactionsContainerLayout reactionsContainerLayout7 = reactionsContainerLayout3;
-                                                    Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda173
+                                                    Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda174
                                                         @Override // java.lang.Runnable
                                                         public final void run() {
                                                             ChatActivity.this.lambda$createMenu$194(i29, i31, z25, reactionsContainerLayout7);
@@ -27284,7 +27289,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                             chatScrimPopupContainerLayout.setMaxHeight(height - i2);
                                             final int i312 = i2;
                                             final ReactionsContainerLayout reactionsContainerLayout72 = reactionsContainerLayout3;
-                                            Runnable runnable22 = new Runnable() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda173
+                                            Runnable runnable22 = new Runnable() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda174
                                                 @Override // java.lang.Runnable
                                                 public final void run() {
                                                     ChatActivity.this.lambda$createMenu$194(i29, i312, z25, reactionsContainerLayout72);
@@ -33156,11 +33161,47 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         }
                     } else {
                         TLRPC$MessageMedia tLRPC$MessageMedia3 = messageObject.messageOwner.media;
-                        if (tLRPC$MessageMedia3 == null || (tLRPC$WebPage = tLRPC$MessageMedia3.webpage) == null || ChatActivity.this.openLinkInternally(tLRPC$WebPage.url, chatMessageCell, null, messageObject.getId())) {
+                        if (tLRPC$MessageMedia3 == null || (tLRPC$WebPage = tLRPC$MessageMedia3.webpage) == null || ChatActivity.this.openLinkInternally(tLRPC$WebPage.url, chatMessageCell, null, messageObject.getId(), 2)) {
                             return;
                         }
-                        Browser.openUrl(ChatActivity.this.getParentActivity(), messageObject.messageOwner.media.webpage.url);
+                        if (ChatActivity.this.progressDialogCurrent != null) {
+                            ChatActivity.this.progressDialogCurrent.cancel(true);
+                        }
+                        ChatActivity.this.progressDialogCurrent = chatMessageCell.getMessageObject() != null ? new 5(chatMessageCell) : null;
+                        Browser.openUrl(ChatActivity.this.getParentActivity(), Uri.parse(messageObject.messageOwner.media.webpage.url), true, true, ChatActivity.this.progressDialogCurrent);
                     }
+                }
+            }
+
+            /* JADX INFO: Access modifiers changed from: package-private */
+            /* loaded from: classes3.dex */
+            public class 5 extends Browser.Progress {
+                final /* synthetic */ ChatMessageCell val$cell;
+
+                5(ChatMessageCell chatMessageCell) {
+                    this.val$cell = chatMessageCell;
+                }
+
+                @Override // org.telegram.messenger.browser.Browser.Progress
+                public void init() {
+                    ChatActivity.this.progressDialogAtMessageId = this.val$cell.getMessageObject().getId();
+                    ChatActivity.this.progressDialogAtMessageType = 2;
+                    ChatActivity.this.progressDialogLinkSpan = null;
+                    this.val$cell.invalidate();
+                }
+
+                @Override // org.telegram.messenger.browser.Browser.Progress
+                public void end(boolean z) {
+                    if (z) {
+                        return;
+                    }
+                    final ChatActivity chatActivity = ChatActivity.this;
+                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatActivity$ChatActivityAdapter$1$5$$ExternalSyntheticLambda0
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            ChatActivity.access$43100(ChatActivity.this);
+                        }
+                    }, 250L);
                 }
             }
 
@@ -34241,15 +34282,19 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         }
     }
 
+    private boolean openLinkInternally(String str, ChatMessageCell chatMessageCell, CharacterStyle characterStyle, int i) {
+        return openLinkInternally(str, chatMessageCell, characterStyle, i, 1);
+    }
+
     /* JADX INFO: Access modifiers changed from: private */
-    public boolean openLinkInternally(String str, final ChatMessageCell chatMessageCell, final CharacterStyle characterStyle, final int i) {
+    public boolean openLinkInternally(String str, final ChatMessageCell chatMessageCell, final CharacterStyle characterStyle, final int i, final int i2) {
         int parseInt;
-        int i2;
+        int i3;
         if (this.currentChat != null && str != null) {
-            Runnable runnable = (chatMessageCell == null || characterStyle == null) ? null : new Runnable() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda174
+            Runnable runnable = (chatMessageCell == null || (characterStyle == null && i2 == 1)) ? null : new Runnable() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda172
                 @Override // java.lang.Runnable
                 public final void run() {
-                    ChatActivity.this.lambda$openLinkInternally$258(i, characterStyle, chatMessageCell);
+                    ChatActivity.this.lambda$openLinkInternally$258(i, i2, characterStyle, chatMessageCell);
                 }
             };
             if (str.startsWith("tg:privatepost") || str.startsWith("tg://privatepost")) {
@@ -34261,15 +34306,15 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 if (longValue == j && intValue != 0) {
                     if (intValue2 != 0) {
                         openDiscussionMessageChat(j, null, intValue2, 0L, -1, 0, null);
-                        return true;
+                    } else {
+                        this.showScrollToMessageError = true;
+                        if (this.chatMode == 2) {
+                            this.chatActivityDelegate.openReplyMessage(intValue);
+                            finishFragment();
+                        } else {
+                            scrollToMessageId(intValue, i, true, 0, false, 0, runnable);
+                        }
                     }
-                    this.showScrollToMessageError = true;
-                    if (this.chatMode == 2) {
-                        this.chatActivityDelegate.openReplyMessage(intValue);
-                        finishFragment();
-                        return true;
-                    }
-                    scrollToMessageId(intValue, i, true, 0, false, 0, runnable);
                     return true;
                 }
             } else if (ChatObject.getPublicUsername(this.currentChat) != null) {
@@ -34285,13 +34330,13 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         int intValue4 = Utilities.parseInt((CharSequence) parse2.getQueryParameter("comment")).intValue();
                         if (intValue3 == 0 && intValue4 == 0) {
                             if (matcher.group(4) != null) {
-                                i2 = Integer.parseInt(matcher.group(3));
+                                i3 = Integer.parseInt(matcher.group(3));
                                 parseInt = Integer.parseInt(matcher.group(4));
                             } else {
                                 parseInt = Integer.parseInt(matcher.group(3));
-                                i2 = 0;
+                                i3 = 0;
                             }
-                            if (!ChatObject.isForum(this.currentChat) || i2 == getTopicId()) {
+                            if (!ChatObject.isForum(this.currentChat) || i3 == getTopicId()) {
                                 this.showScrollToMessageError = true;
                                 if (this.chatMode == 2) {
                                     this.chatActivityDelegate.openReplyMessage(parseInt);
@@ -34334,9 +34379,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         if (this.chatMode == 2) {
                             this.chatActivityDelegate.openReplyMessage(intValue5);
                             finishFragment();
-                            return true;
+                        } else {
+                            scrollToMessageId(intValue5, i, true, 0, false, 0, runnable);
                         }
-                        scrollToMessageId(intValue5, i, true, 0, false, 0, runnable);
                         return true;
                     }
                     return false;
@@ -34362,9 +34407,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 if (this.chatMode == 2) {
                                     this.chatActivityDelegate.openReplyMessage(parseInt2);
                                     finishFragment();
-                                    return true;
+                                } else {
+                                    scrollToMessageId(parseInt2, i, true, 0, false, 0, runnable);
                                 }
-                                scrollToMessageId(parseInt2, i, true, 0, false, 0, runnable);
                                 return true;
                             }
                             return false;
@@ -34379,9 +34424,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$openLinkInternally$258(int i, CharacterStyle characterStyle, ChatMessageCell chatMessageCell) {
+    public /* synthetic */ void lambda$openLinkInternally$258(int i, int i2, CharacterStyle characterStyle, ChatMessageCell chatMessageCell) {
         this.progressDialogAtMessageId = i;
-        this.progressDialogAtMessageType = 1;
+        this.progressDialogAtMessageType = i2;
         this.progressDialogLinkSpan = characterStyle;
         chatMessageCell.invalidate();
     }
