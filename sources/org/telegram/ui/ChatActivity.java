@@ -16098,8 +16098,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     }
 
     /* JADX WARN: Removed duplicated region for block: B:160:0x0376  */
-    /* JADX WARN: Removed duplicated region for block: B:368:0x07e7  */
-    /* JADX WARN: Removed duplicated region for block: B:391:0x086e  */
+    /* JADX WARN: Removed duplicated region for block: B:368:0x07e9  */
+    /* JADX WARN: Removed duplicated region for block: B:391:0x0870  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -16336,7 +16336,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         } else {
                             this.replyingMessageObject = null;
                         }
-                        this.chatActivityEnterView.setReplyingMessageObject(null);
+                        this.chatActivityEnterView.setReplyingMessageObject(this.replyingMessageObject);
                         updateBottomOverlay();
                     }
                     this.editingMessageObject = null;
@@ -25968,22 +25968,22 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Code restructure failed: missing block: B:353:0x06ba, code lost:
-        if (org.telegram.messenger.Emoji.fullyConsistsOfEmojis(r3) != false) goto L1249;
+        if (org.telegram.messenger.Emoji.fullyConsistsOfEmojis(r3) != false) goto L1251;
      */
     /* JADX WARN: Code restructure failed: missing block: B:591:0x0c1d, code lost:
-        if (r0.edit_messages != false) goto L960;
+        if (r0.edit_messages != false) goto L962;
      */
     /* JADX WARN: Code restructure failed: missing block: B:909:0x1628, code lost:
-        if (r2.isEmpty() == false) goto L693;
+        if (r2.isEmpty() == false) goto L695;
      */
     /* JADX WARN: Code restructure failed: missing block: B:922:0x164d, code lost:
-        if ((r0.available_reactions instanceof org.telegram.tgnet.TLRPC$TL_chatReactionsNone) == false) goto L706;
+        if ((r0.available_reactions instanceof org.telegram.tgnet.TLRPC$TL_chatReactionsNone) == false) goto L708;
      */
     /* JADX WARN: Code restructure failed: missing block: B:925:0x1657, code lost:
-        if (org.telegram.messenger.ChatObject.isChannel(r53.currentChat) == false) goto L706;
+        if (org.telegram.messenger.ChatObject.isChannel(r53.currentChat) == false) goto L708;
      */
     /* JADX WARN: Code restructure failed: missing block: B:927:0x165b, code lost:
-        if (r53.currentUser != null) goto L706;
+        if (r53.currentUser != null) goto L708;
      */
     /* JADX WARN: Code restructure failed: missing block: B:929:0x1661, code lost:
         if (r2.isEmpty() != false) goto L339;
@@ -25992,17 +25992,17 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Removed duplicated region for block: B:1000:0x17e1  */
     /* JADX WARN: Removed duplicated region for block: B:1003:0x17fc  */
     /* JADX WARN: Removed duplicated region for block: B:1026:0x1981  */
-    /* JADX WARN: Removed duplicated region for block: B:1261:0x239d  */
-    /* JADX WARN: Removed duplicated region for block: B:1262:0x23a1  */
-    /* JADX WARN: Removed duplicated region for block: B:1265:0x23bc  */
-    /* JADX WARN: Removed duplicated region for block: B:1268:0x23c3  */
-    /* JADX WARN: Removed duplicated region for block: B:1271:0x23ca  */
+    /* JADX WARN: Removed duplicated region for block: B:1263:0x23a5  */
+    /* JADX WARN: Removed duplicated region for block: B:1264:0x23a9  */
+    /* JADX WARN: Removed duplicated region for block: B:1267:0x23c4  */
+    /* JADX WARN: Removed duplicated region for block: B:1270:0x23cb  */
+    /* JADX WARN: Removed duplicated region for block: B:1273:0x23d2  */
     /* JADX WARN: Removed duplicated region for block: B:167:0x02f3  */
     /* JADX WARN: Removed duplicated region for block: B:177:0x0317  */
     /* JADX WARN: Removed duplicated region for block: B:178:0x0319  */
     /* JADX WARN: Removed duplicated region for block: B:275:0x0502 A[RETURN] */
     /* JADX WARN: Removed duplicated region for block: B:276:0x0503  */
-    /* JADX WARN: Removed duplicated region for block: B:345:0x0692 A[Catch: Exception -> 0x06a8, LOOP:10: B:343:0x068c->B:345:0x0692, LOOP_END, TryCatch #0 {Exception -> 0x06a8, blocks: (B:342:0x0670, B:343:0x068c, B:345:0x0692, B:346:0x06a3), top: B:1275:0x0670 }] */
+    /* JADX WARN: Removed duplicated region for block: B:345:0x0692 A[Catch: Exception -> 0x06a8, LOOP:10: B:343:0x068c->B:345:0x0692, LOOP_END, TryCatch #0 {Exception -> 0x06a8, blocks: (B:342:0x0670, B:343:0x068c, B:345:0x0692, B:346:0x06a3), top: B:1277:0x0670 }] */
     /* JADX WARN: Removed duplicated region for block: B:350:0x06ab  */
     /* JADX WARN: Removed duplicated region for block: B:352:0x06b6  */
     /* JADX WARN: Removed duplicated region for block: B:357:0x06c3  */
@@ -26877,7 +26877,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                                             }
                                                         };
                                                         MessageObject messageObject15 = chatActivity.selectedObject;
-                                                        TLRPC$InputPeer inputPeer = (messageObject15 == null || !messageObject15.isPoll()) ? getMessagesController().getInputPeer(chatActivity.dialog_id) : r23;
+                                                        TLRPC$InputPeer inputPeer = (messageObject15 == null || !(messageObject15.isPoll() || chatActivity.selectedObject.isVoiceTranscriptionOpen())) ? getMessagesController().getInputPeer(chatActivity.dialog_id) : r23;
                                                         if (LanguageDetector.hasSupport()) {
                                                             final String[] strArr = {r23};
                                                             actionBarMenuSubItem6.setVisibility(8);
@@ -29888,6 +29888,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     return;
                 }
             }
+            bundle.putBoolean("historyPreloaded", false);
             addToPulledDialogsMyself();
             ChatActivity chatActivity = new ChatActivity(bundle);
             if (topicKey.topicId != 0) {

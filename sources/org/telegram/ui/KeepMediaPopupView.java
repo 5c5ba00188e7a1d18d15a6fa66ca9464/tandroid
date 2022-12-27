@@ -129,6 +129,7 @@ public class KeepMediaPopupView extends ActionBarPopupWindow.ActionBarPopupWindo
             } else {
                 bundle.putInt("dialogsType", 4);
             }
+            bundle.putBoolean("allowGlobalSearch", false);
             final DialogsActivity dialogsActivity = new DialogsActivity(bundle);
             dialogsActivity.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.KeepMediaPopupView$$ExternalSyntheticLambda2
                 @Override // org.telegram.ui.DialogsActivity.DialogsActivityDelegate

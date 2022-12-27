@@ -231,6 +231,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     private boolean afterSignup;
     private boolean allowBots;
     private boolean allowChannels;
+    private boolean allowGlobalSearch;
     private boolean allowGroups;
     private boolean allowMoving;
     private boolean allowSwipeDuringCurrentTouch;
@@ -2292,6 +2293,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         super(bundle);
         this.initialSearchType = -1;
         this.isFirstTab = true;
+        this.allowGlobalSearch = true;
         this.contactsAlpha = 1.0f;
         this.undoView = new UndoView[2];
         this.scrimViewLocation = new int[2];
@@ -2352,6 +2354,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             this.allowUsers = this.arguments.getBoolean("allowUsers", true);
             this.allowBots = this.arguments.getBoolean("allowBots", true);
             this.closeFragment = this.arguments.getBoolean("closeFragment", true);
+            this.allowGlobalSearch = this.arguments.getBoolean("allowGlobalSearch", true);
         }
         if (this.initialDialogsType == 0) {
             this.askAboutContacts = MessagesController.getGlobalNotificationsSettings().getBoolean("askAboutContacts", true);
@@ -6513,7 +6516,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             ContentView contentView = (ContentView) this.fragmentView;
             ViewPagerFixed.TabsView tabsView = this.searchTabsView;
             if (tabsView == null && !onlyDialogsAdapter) {
-                this.searchTabsView = this.searchViewPager.createTabsView(false);
+                this.searchTabsView = this.searchViewPager.createTabsView(false, 8);
                 if (this.filtersView != null) {
                     i = 0;
                     while (i < contentView.getChildCount()) {
@@ -11820,6 +11823,10 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             return true;
         }
         return super.closeLastFragment();
+    }
+
+    public boolean getAllowGlobalSearch() {
+        return this.allowGlobalSearch;
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment

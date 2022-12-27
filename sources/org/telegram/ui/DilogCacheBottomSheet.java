@@ -220,6 +220,11 @@ public class DilogCacheBottomSheet extends BottomSheetWithRecyclerListView {
                     DilogCacheBottomSheet.this.circleDiagramView.update(true);
                 }
             }
+
+            @Override // org.telegram.ui.CachedMediaLayout.Delegate
+            public void dismiss() {
+                DilogCacheBottomSheet.this.dismiss();
+            }
         });
         NestedSizeNotifierLayout nestedSizeNotifierLayout = this.nestedSizeNotifierLayout;
         if (nestedSizeNotifierLayout != null) {

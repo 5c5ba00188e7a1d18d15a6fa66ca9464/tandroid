@@ -1644,7 +1644,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
                 } else {
                     j = j2;
                 }
-                SendMessagesHelper.getInstance(this.currentAccount).sendMessage((ArrayList<MessageObject>) arrayList, j, false, false, true, 0);
+                SendMessagesHelper.getInstance(this.currentAccount).sendMessage(arrayList, j, false, false, true, 0);
             }
             dialogsActivity.finishFragment();
             return;

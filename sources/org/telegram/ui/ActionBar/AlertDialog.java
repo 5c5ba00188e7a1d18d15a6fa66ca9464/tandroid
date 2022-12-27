@@ -165,8 +165,8 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
         this.blurredBackground = z2;
     }
 
-    private static boolean supportsNativeBlur() {
-        return Build.VERSION.SDK_INT >= 31 && LaunchActivity.systemBlurEnabled;
+    private boolean supportsNativeBlur() {
+        return Build.VERSION.SDK_INT >= 31 && LaunchActivity.systemBlurEnabled && this.progressViewStyle == 0;
     }
 
     public void redPositive() {

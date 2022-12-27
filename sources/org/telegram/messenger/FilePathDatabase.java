@@ -17,12 +17,21 @@ import org.telegram.ui.Storage.CacheModel;
 public class FilePathDatabase {
     private static final String DATABASE_BACKUP_NAME = "file_to_path_backup";
     private static final String DATABASE_NAME = "file_to_path";
-    private static final int LAST_DB_VERSION = 3;
+    private static final int LAST_DB_VERSION = 4;
+    public static final int MESSAGE_TYPE_VIDEO_MESSAGE = 0;
     private File cacheFile;
     private final int currentAccount;
     private SQLiteDatabase database;
     private final DispatchQueue dispatchQueue;
+    private final FileMeta metaTmp = new FileMeta();
     private File shmCacheFile;
+
+    /* loaded from: classes.dex */
+    public static class FileMeta {
+        public long dialogId;
+        public int messageId;
+        public int messageType;
+    }
 
     public FilePathDatabase(int i) {
         this.currentAccount = i;
@@ -59,8 +68,8 @@ public class FilePathDatabase {
             if (z2) {
                 this.database.executeFast("CREATE TABLE paths(document_id INTEGER, dc_id INTEGER, type INTEGER, path TEXT, PRIMARY KEY(document_id, dc_id, type));").stepThis().dispose();
                 this.database.executeFast("CREATE INDEX IF NOT EXISTS path_in_paths ON paths(path);").stepThis().dispose();
-                this.database.executeFast("CREATE TABLE paths_by_dialog_id(path TEXT PRIMARY KEY, dialog_id INTEGER);").stepThis().dispose();
-                this.database.executeFast("PRAGMA user_version = 3").stepThis().dispose();
+                this.database.executeFast("CREATE TABLE paths_by_dialog_id(path TEXT PRIMARY KEY, dialog_id INTEGER, message_id INTEGER, message_type INTEGER);").stepThis().dispose();
+                this.database.executeFast("PRAGMA user_version = 4").stepThis().dispose();
             } else {
                 int intValue = this.database.executeInt("PRAGMA user_version", new Object[0]).intValue();
                 if (BuildVars.LOGS_ENABLED) {
@@ -100,6 +109,12 @@ public class FilePathDatabase {
         if (i == 2) {
             this.database.executeFast("CREATE TABLE paths_by_dialog_id(path TEXT PRIMARY KEY, dialog_id INTEGER);").stepThis().dispose();
             this.database.executeFast("PRAGMA user_version = 3").stepThis().dispose();
+            i = 3;
+        }
+        if (i == 3) {
+            this.database.executeFast("ALTER TABLE paths_by_dialog_id ADD COLUMN message_id INTEGER default 0").stepThis().dispose();
+            this.database.executeFast("ALTER TABLE paths_by_dialog_id ADD COLUMN message_type INTEGER default 0").stepThis().dispose();
+            this.database.executeFast("PRAGMA user_version = 4").stepThis().dispose();
         }
     }
 
@@ -420,27 +435,29 @@ public class FilePathDatabase {
         countDownLatch.countDown();
     }
 
-    public void saveFileDialogId(final File file, final long j) {
-        if (file == null) {
+    public void saveFileDialogId(final File file, final FileMeta fileMeta) {
+        if (file == null || fileMeta == null) {
             return;
         }
         this.dispatchQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FilePathDatabase$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
-                FilePathDatabase.this.lambda$saveFileDialogId$6(file, j);
+                FilePathDatabase.this.lambda$saveFileDialogId$6(file, fileMeta);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$saveFileDialogId$6(File file, long j) {
+    public /* synthetic */ void lambda$saveFileDialogId$6(File file, FileMeta fileMeta) {
         SQLitePreparedStatement sQLitePreparedStatement = null;
         try {
             try {
-                sQLitePreparedStatement = this.database.executeFast("REPLACE INTO paths_by_dialog_id VALUES(?, ?)");
+                sQLitePreparedStatement = this.database.executeFast("REPLACE INTO paths_by_dialog_id VALUES(?, ?, ?, ?)");
                 sQLitePreparedStatement.requery();
                 sQLitePreparedStatement.bindString(1, file.getPath());
-                sQLitePreparedStatement.bindLong(2, j);
+                sQLitePreparedStatement.bindLong(2, fileMeta.dialogId);
+                sQLitePreparedStatement.bindInteger(3, fileMeta.messageId);
+                sQLitePreparedStatement.bindInteger(4, fileMeta.messageType);
                 sQLitePreparedStatement.step();
             } catch (Exception e) {
                 FileLog.e(e);
@@ -457,35 +474,54 @@ public class FilePathDatabase {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:14:0x003d, code lost:
-        if (r2 == null) goto L12;
-     */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
-    public long getFileDialogId(File file) {
-        long j = 0;
-        if (file == null) {
-            return 0L;
-        }
+    public FileMeta getFileDialogId(File file, FileMeta fileMeta) {
+        int i;
+        int i2;
         SQLiteCursor sQLiteCursor = null;
+        if (file == null) {
+            return null;
+        }
+        if (fileMeta == null) {
+            fileMeta = this.metaTmp;
+        }
+        long j = 0;
+        int i3 = 0;
         try {
             try {
                 SQLiteDatabase sQLiteDatabase = this.database;
-                sQLiteCursor = sQLiteDatabase.queryFinalized("SELECT dialog_id FROM paths_by_dialog_id WHERE path = '" + file.getPath() + "'", new Object[0]);
+                sQLiteCursor = sQLiteDatabase.queryFinalized("SELECT dialog_id, message_id, message_type FROM paths_by_dialog_id WHERE path = '" + file.getPath() + "'", new Object[0]);
                 if (sQLiteCursor.next()) {
                     j = sQLiteCursor.longValue(0);
+                    i = sQLiteCursor.intValue(1);
+                    try {
+                        i3 = i;
+                        i2 = sQLiteCursor.intValue(2);
+                    } catch (Exception e) {
+                        e = e;
+                        FileLog.e(e);
+                        i3 = i;
+                        i2 = 0;
+                        fileMeta.dialogId = j;
+                        fileMeta.messageId = i3;
+                        fileMeta.messageType = i2;
+                        return fileMeta;
+                    }
+                } else {
+                    i2 = 0;
                 }
-            } catch (Exception e) {
-                FileLog.e(e);
+                sQLiteCursor.dispose();
+            } catch (Exception e2) {
+                e = e2;
+                i = 0;
             }
-            sQLiteCursor.dispose();
-            return j;
-        } catch (Throwable th) {
+            fileMeta.dialogId = j;
+            fileMeta.messageId = i3;
+            fileMeta.messageType = i2;
+            return fileMeta;
+        } finally {
             if (sQLiteCursor != null) {
                 sQLiteCursor.dispose();
             }
-            throw th;
         }
     }
 
@@ -538,20 +574,24 @@ public class FilePathDatabase {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$lookupFiles$8(ArrayList arrayList, LongSparseArray longSparseArray, CountDownLatch countDownLatch) {
-        for (int i = 0; i < arrayList.size(); i++) {
-            try {
-                long fileDialogId = getFileDialogId(((CacheByChatsController.KeepMediaFile) arrayList.get(i)).file);
-                if (fileDialogId != 0) {
-                    ArrayList arrayList2 = (ArrayList) longSparseArray.get(fileDialogId);
-                    if (arrayList2 == null) {
-                        arrayList2 = new ArrayList();
-                        longSparseArray.put(fileDialogId, arrayList2);
+        try {
+            FileMeta fileMeta = new FileMeta();
+            for (int i = 0; i < arrayList.size(); i++) {
+                FileMeta fileDialogId = getFileDialogId(((CacheByChatsController.KeepMediaFile) arrayList.get(i)).file, fileMeta);
+                if (fileDialogId != null) {
+                    long j = fileDialogId.dialogId;
+                    if (j != 0) {
+                        ArrayList arrayList2 = (ArrayList) longSparseArray.get(j);
+                        if (arrayList2 == null) {
+                            arrayList2 = new ArrayList();
+                            longSparseArray.put(fileDialogId.dialogId, arrayList2);
+                        }
+                        arrayList2.add((CacheByChatsController.KeepMediaFile) arrayList.get(i));
                     }
-                    arrayList2.add((CacheByChatsController.KeepMediaFile) arrayList.get(i));
                 }
-            } catch (Exception e) {
-                FileLog.e(e);
             }
+        } catch (Exception e) {
+            FileLog.e(e);
         }
         countDownLatch.countDown();
     }

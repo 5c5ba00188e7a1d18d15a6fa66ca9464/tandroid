@@ -21622,18 +21622,18 @@ public class MessagesController extends BaseController implements NotificationCe
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:1533:0x0fcf  */
-    /* JADX WARN: Removed duplicated region for block: B:1546:0x1000  */
-    /* JADX WARN: Removed duplicated region for block: B:1554:0x1018  */
-    /* JADX WARN: Removed duplicated region for block: B:1559:0x1034  */
-    /* JADX WARN: Removed duplicated region for block: B:1605:0x1146  */
-    /* JADX WARN: Removed duplicated region for block: B:1607:0x1154  */
-    /* JADX WARN: Removed duplicated region for block: B:1609:0x115a  */
-    /* JADX WARN: Removed duplicated region for block: B:1612:0x1166  */
-    /* JADX WARN: Removed duplicated region for block: B:1616:0x117f A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:1622:0x11a2  */
-    /* JADX WARN: Removed duplicated region for block: B:1625:0x11b8  */
-    /* JADX WARN: Removed duplicated region for block: B:1703:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1537:0x0fd1  */
+    /* JADX WARN: Removed duplicated region for block: B:1550:0x1002  */
+    /* JADX WARN: Removed duplicated region for block: B:1558:0x101a  */
+    /* JADX WARN: Removed duplicated region for block: B:1563:0x1036  */
+    /* JADX WARN: Removed duplicated region for block: B:1609:0x1148  */
+    /* JADX WARN: Removed duplicated region for block: B:1611:0x1156  */
+    /* JADX WARN: Removed duplicated region for block: B:1613:0x115c  */
+    /* JADX WARN: Removed duplicated region for block: B:1616:0x1168  */
+    /* JADX WARN: Removed duplicated region for block: B:1620:0x1181 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:1626:0x11a4  */
+    /* JADX WARN: Removed duplicated region for block: B:1629:0x11ba  */
+    /* JADX WARN: Removed duplicated region for block: B:1707:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -21674,6 +21674,7 @@ public class MessagesController extends BaseController implements NotificationCe
         long j8;
         int i14;
         TLRPC$User tLRPC$User;
+        TLRPC$UserProfilePhoto tLRPC$UserProfilePhoto;
         ArrayList<Long> arrayList10;
         long j9;
         String str;
@@ -21887,9 +21888,9 @@ public class MessagesController extends BaseController implements NotificationCe
                                             }
                                         }
                                         tLRPC$User = null;
-                                        if (tLRPC$User != null) {
+                                        if (tLRPC$User != null && (tLRPC$UserProfilePhoto = tLRPC$User.photo) != null) {
                                             if (user5 != null) {
-                                                user5.photo = tLRPC$User.photo;
+                                                user5.photo = tLRPC$UserProfilePhoto;
                                             }
                                             TLRPC$TL_user tLRPC$TL_user5 = new TLRPC$TL_user();
                                             tLRPC$TL_user5.id = tLRPC$User.id;

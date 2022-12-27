@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
@@ -44,6 +45,7 @@ import org.telegram.messenger.CacheByChatsController;
 import org.telegram.messenger.Emoji;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
+import org.telegram.messenger.FilePathDatabase;
 import org.telegram.messenger.FilesMigrationService;
 import org.telegram.messenger.ImageLoader;
 import org.telegram.messenger.LocaleController;
@@ -490,18 +492,23 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
             if (file2.isDirectory()) {
                 fillDialogsEntitiesRecursive(file2, i, longSparseArray, cacheModel);
             } else if (!file2.getName().equals(".nomedia")) {
-                long fileDialogId = getFileLoader().getFileDatabase().getFileDialogId(file2);
+                FilePathDatabase.FileMeta fileDialogId = getFileLoader().getFileDatabase().getFileDialogId(file2, null);
                 String lowerCase = file2.getName().toLowerCase();
                 int i2 = (lowerCase.endsWith(".mp3") || lowerCase.endsWith(".m4a")) ? 3 : i;
                 CacheModel.FileInfo fileInfo = new CacheModel.FileInfo(file2);
                 fileInfo.type = i2;
-                fileInfo.dialogId = fileDialogId;
+                if (fileDialogId != null) {
+                    fileInfo.dialogId = fileDialogId.dialogId;
+                    fileInfo.messageId = fileDialogId.messageId;
+                    fileInfo.messageType = fileDialogId.messageType;
+                }
                 fileInfo.size = file2.length();
-                if (fileDialogId != 0) {
-                    DialogFileEntities dialogFileEntities = longSparseArray.get(fileDialogId, null);
+                long j = fileInfo.dialogId;
+                if (j != 0) {
+                    DialogFileEntities dialogFileEntities = longSparseArray.get(j, null);
                     if (dialogFileEntities == null) {
-                        dialogFileEntities = new DialogFileEntities(fileDialogId);
-                        longSparseArray.put(fileDialogId, dialogFileEntities);
+                        dialogFileEntities = new DialogFileEntities(fileInfo.dialogId);
+                        longSparseArray.put(fileInfo.dialogId, dialogFileEntities);
                     }
                     dialogFileEntities.addFile(fileInfo, i2);
                 }
@@ -942,7 +949,13 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
         long j2 = this.totalSize;
         boolean z2 = j2 > 0;
         long j3 = this.totalDeviceSize;
-        cacheChartHeader.setData(z2, j3 <= 0 ? 0.0f : ((float) j2) / ((float) j3));
+        float f = 0.0f;
+        float f2 = j3 <= 0 ? 0.0f : ((float) j2) / ((float) j3);
+        long j4 = this.totalDeviceFreeSize;
+        if (j4 > 0 && j3 > 0) {
+            f = ((float) (j3 - j4)) / ((float) j3);
+        }
+        cacheChartHeader.setData(z2, f2, f);
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -1085,7 +1098,9 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
                 }
                 CacheControlActivity cacheControlActivity = CacheControlActivity.this;
                 cacheControlActivity.actionBarShadowAlpha = Utilities.clamp(cacheControlActivity.actionBarShadowAlpha, 1.0f, 0.0f);
-                ((BaseFragment) CacheControlActivity.this).parentLayout.drawHeaderShadow(canvas, (int) (CacheControlActivity.this.actionBarShownT * 255.0f * CacheControlActivity.this.actionBarShadowAlpha), AndroidUtilities.statusBarHeight + ActionBar.getCurrentActionBarHeight());
+                if (((BaseFragment) CacheControlActivity.this).parentLayout != null) {
+                    ((BaseFragment) CacheControlActivity.this).parentLayout.drawHeaderShadow(canvas, (int) (CacheControlActivity.this.actionBarShownT * 255.0f * CacheControlActivity.this.actionBarShadowAlpha), AndroidUtilities.statusBarHeight + ActionBar.getCurrentActionBarHeight());
+                }
             }
         };
         this.nestedSizeNotifierLayout = nestedSizeNotifierLayout;
@@ -1236,7 +1251,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle(LocaleController.getString("ClearCache", R.string.ClearCache));
         builder.setMessage(LocaleController.getString("ClearCacheForChats", R.string.ClearCacheForChats));
-        builder.setPositiveButton(LocaleController.getString("ClearButton", R.string.ClearButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.CacheControlActivity$$ExternalSyntheticLambda2
+        builder.setPositiveButton(LocaleController.getString("Clear", R.string.Clear), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.CacheControlActivity$$ExternalSyntheticLambda2
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
                 CacheControlActivity.this.lambda$clearSelectedFiles$13(dialogInterface, i);
@@ -1510,22 +1525,30 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
         AnimatedFloat percentAnimated;
         Paint percentPaint;
         RectF progressRect;
+        private float[] radii;
+        private Path roundPath;
         TextView[] subtitle;
         AnimatedTextView title;
+        Float usedPercent;
+        AnimatedFloat usedPercentAnimated;
+        Paint usedPercentPaint;
 
         public CacheChartHeader(Context context) {
             super(context);
             this.subtitle = new TextView[3];
             this.progressRect = new RectF();
             this.loadingDrawable = new LoadingDrawable();
-            this.percentAnimated = new AnimatedFloat(this);
-            this.loadingFloat = new AnimatedFloat(this);
+            CubicBezierInterpolator cubicBezierInterpolator = CubicBezierInterpolator.EASE_OUT_QUINT;
+            this.percentAnimated = new AnimatedFloat(this, 450L, cubicBezierInterpolator);
+            this.usedPercentAnimated = new AnimatedFloat(this, 450L, cubicBezierInterpolator);
+            this.loadingFloat = new AnimatedFloat(this, 450L, cubicBezierInterpolator);
             this.loadingBackgroundPaint = new Paint(1);
             this.percentPaint = new Paint(1);
+            this.usedPercentPaint = new Paint(1);
             this.firstSet = true;
             AnimatedTextView animatedTextView = new AnimatedTextView(context);
             this.title = animatedTextView;
-            animatedTextView.setAnimationProperties(0.35f, 0L, 350L, CubicBezierInterpolator.EASE_OUT_QUINT);
+            animatedTextView.setAnimationProperties(0.35f, 0L, 350L, cubicBezierInterpolator);
             this.title.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
             this.title.setTextSize(AndroidUtilities.dp(20.0f));
             this.title.setText(LocaleController.getString("StorageUsage", R.string.StorageUsage));
@@ -1566,7 +1589,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
             this.loadingDrawable.setCallback(this);
         }
 
-        public void setData(boolean z, float f) {
+        public void setData(boolean z, float f, float f2) {
             String string;
             AnimatedTextView animatedTextView = this.title;
             if (z) {
@@ -1589,6 +1612,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
             }
             this.firstSet = false;
             this.percent = Float.valueOf(f);
+            this.usedPercent = Float.valueOf(f2);
             invalidate();
         }
 
@@ -1615,25 +1639,66 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
             AnimatedFloat animatedFloat = this.percentAnimated;
             Float f2 = this.percent;
             float f3 = animatedFloat.set(f2 == null ? 0.0f : f2.floatValue());
+            AnimatedFloat animatedFloat2 = this.usedPercentAnimated;
+            Float f4 = this.usedPercent;
+            float f5 = animatedFloat2.set(f4 == null ? 0.0f : f4.floatValue());
             this.loadingBackgroundPaint.setColor(Theme.getColor("actionBarActionModeDefaultSelector"));
             Paint paint = this.loadingBackgroundPaint;
             paint.setAlpha((int) (paint.getAlpha() * max));
-            canvas.drawRoundRect(this.progressRect, AndroidUtilities.dp(2.0f), AndroidUtilities.dp(2.0f), this.loadingBackgroundPaint);
+            RectF rectF = AndroidUtilities.rectTmp;
+            float f6 = 1.0f - f;
+            float max2 = Math.max(this.progressRect.left + (Math.max(AndroidUtilities.dp(4.0f), this.progressRect.width() * f5) * f6), this.progressRect.left + (Math.max(AndroidUtilities.dp(4.0f), this.progressRect.width() * f3) * f6)) + AndroidUtilities.dp(1.0f);
+            RectF rectF2 = this.progressRect;
+            rectF.set(max2, rectF2.top, rectF2.right, rectF2.bottom);
+            if (rectF.left < rectF.right && rectF.width() > AndroidUtilities.dp(3.0f)) {
+                drawRoundRect(canvas, rectF, AndroidUtilities.dp(AndroidUtilities.lerp(1, 2, f)), AndroidUtilities.dp(2.0f), this.loadingBackgroundPaint);
+            }
             this.loadingDrawable.setBounds(this.progressRect);
             this.loadingDrawable.setAlpha((int) (255.0f * max * f));
             this.loadingDrawable.draw(canvas);
-            this.percentPaint.setColor(Theme.getColor("radioBackgroundChecked"));
-            Paint paint2 = this.percentPaint;
+            this.usedPercentPaint.setColor(Theme.percentSV(Theme.getColor("radioBackgroundChecked"), Theme.getColor("actionBarActionModeDefaultSelector"), 0.922f, 1.8f));
+            Paint paint2 = this.usedPercentPaint;
             paint2.setAlpha((int) (paint2.getAlpha() * max));
-            RectF rectF = AndroidUtilities.rectTmp;
-            RectF rectF2 = this.progressRect;
-            float f4 = rectF2.left;
-            rectF.set(f4, rectF2.top, ((1.0f - f) * Math.max(AndroidUtilities.dp(4.0f), f3 * this.progressRect.width())) + f4, this.progressRect.bottom);
-            canvas.drawRoundRect(rectF, AndroidUtilities.dp(2.0f), AndroidUtilities.dp(2.0f), this.percentPaint);
+            float max3 = this.progressRect.left + (Math.max(AndroidUtilities.dp(4.0f), this.progressRect.width() * f3) * f6) + AndroidUtilities.dp(1.0f);
+            RectF rectF3 = this.progressRect;
+            rectF.set(max3, rectF3.top, rectF3.left + (Math.max(AndroidUtilities.dp(4.0f), this.progressRect.width() * f5) * f6), this.progressRect.bottom);
+            if (rectF.width() > AndroidUtilities.dp(3.0f)) {
+                drawRoundRect(canvas, rectF, AndroidUtilities.dp(1.0f), AndroidUtilities.dp(f5 > 0.97f ? 2.0f : 1.0f), this.usedPercentPaint);
+            }
+            this.percentPaint.setColor(Theme.getColor("radioBackgroundChecked"));
+            Paint paint3 = this.percentPaint;
+            paint3.setAlpha((int) (paint3.getAlpha() * max));
+            RectF rectF4 = this.progressRect;
+            float f7 = rectF4.left;
+            rectF.set(f7, rectF4.top, (f6 * Math.max(AndroidUtilities.dp(4.0f), this.progressRect.width() * f3)) + f7, this.progressRect.bottom);
+            drawRoundRect(canvas, rectF, AndroidUtilities.dp(2.0f), AndroidUtilities.dp(f3 > 0.97f ? 2.0f : 1.0f), this.percentPaint);
             if (f > 0.0f || this.percentAnimated.isInProgress()) {
                 invalidate();
             }
             super.dispatchDraw(canvas);
+        }
+
+        private void drawRoundRect(Canvas canvas, RectF rectF, float f, float f2, Paint paint) {
+            Path path = this.roundPath;
+            if (path == null) {
+                this.roundPath = new Path();
+            } else {
+                path.rewind();
+            }
+            if (this.radii == null) {
+                this.radii = new float[8];
+            }
+            float[] fArr = this.radii;
+            fArr[7] = f;
+            fArr[6] = f;
+            fArr[1] = f;
+            fArr[0] = f;
+            fArr[5] = f2;
+            fArr[4] = f2;
+            fArr[3] = f2;
+            fArr[2] = f2;
+            this.roundPath.addRoundRect(rectF, fArr, Path.Direction.CW);
+            canvas.drawPath(this.roundPath, paint);
         }
     }
 
@@ -1951,6 +2016,11 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
                         };
                         CacheControlActivity.this.cachedMediaLayout.setDelegate(new CachedMediaLayout.Delegate() { // from class: org.telegram.ui.CacheControlActivity.ListAdapter.2
                             @Override // org.telegram.ui.CachedMediaLayout.Delegate
+                            public /* synthetic */ void dismiss() {
+                                CachedMediaLayout.Delegate.-CC.$default$dismiss(this);
+                            }
+
+                            @Override // org.telegram.ui.CachedMediaLayout.Delegate
                             public void onItemSelected(DialogFileEntities dialogFileEntities, CacheModel.FileInfo fileInfo, boolean z) {
                                 if (dialogFileEntities == null) {
                                     if (fileInfo != null) {
@@ -2124,7 +2194,14 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
                 if (CacheControlActivity.this.cacheChartHeader == null || CacheControlActivity.this.calculating) {
                     return;
                 }
-                CacheControlActivity.this.cacheChartHeader.setData(CacheControlActivity.this.totalSize > 0, CacheControlActivity.this.totalDeviceSize <= 0 ? 0.0f : ((float) CacheControlActivity.this.totalSize) / ((float) CacheControlActivity.this.totalDeviceSize));
+                CacheChartHeader cacheChartHeader = CacheControlActivity.this.cacheChartHeader;
+                r3 = CacheControlActivity.this.totalSize > 0;
+                float f = 0.0f;
+                float f2 = CacheControlActivity.this.totalDeviceSize <= 0 ? 0.0f : ((float) CacheControlActivity.this.totalSize) / ((float) CacheControlActivity.this.totalDeviceSize);
+                if (CacheControlActivity.this.totalDeviceFreeSize > 0 && CacheControlActivity.this.totalDeviceSize > 0) {
+                    f = ((float) (CacheControlActivity.this.totalDeviceSize - CacheControlActivity.this.totalDeviceFreeSize)) / ((float) CacheControlActivity.this.totalDeviceSize);
+                }
+                cacheChartHeader.setData(r3, f2, f);
             } else if (itemViewType != 11) {
             } else {
                 final CheckBoxCell checkBoxCell = (CheckBoxCell) viewHolder.itemView;

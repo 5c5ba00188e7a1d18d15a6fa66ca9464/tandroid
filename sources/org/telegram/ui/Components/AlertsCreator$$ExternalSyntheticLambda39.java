@@ -10,6 +10,6 @@ public final /* synthetic */ class AlertsCreator$$ExternalSyntheticLambda39 impl
 
     @Override // android.content.DialogInterface.OnClickListener
     public final void onClick(DialogInterface dialogInterface, int i) {
-        AlertsCreator.lambda$createFreeSpaceDialog$109(dialogInterface, i);
+        AlertsCreator.lambda$createThemeCreateDialog$126(dialogInterface, i);
     }
 }

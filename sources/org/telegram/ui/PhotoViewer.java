@@ -5722,7 +5722,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     if (charSequence != null) {
                         SendMessagesHelper.getInstance(PhotoViewer.this.currentAccount).sendMessage(charSequence.toString(), j, null, null, null, true, null, null, null, true, 0, null, false);
                     }
-                    SendMessagesHelper.getInstance(PhotoViewer.this.currentAccount).sendMessage((ArrayList<MessageObject>) arrayList, j, false, false, true, 0);
+                    SendMessagesHelper.getInstance(PhotoViewer.this.currentAccount).sendMessage(arrayList, j, false, false, true, 0);
                 }
                 dialogsActivity.finishFragment();
                 if (chatActivity != null) {

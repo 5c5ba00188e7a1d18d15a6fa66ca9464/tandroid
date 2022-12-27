@@ -2,6 +2,7 @@ package org.telegram.ui;
 
 import android.animation.ValueAnimator;
 import android.content.ClipData;
+import android.content.ClipDescription;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -249,6 +250,7 @@ public class CodeNumberField extends EditTextBoldCursor {
 
     @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
     public boolean onTouchEvent(MotionEvent motionEvent) {
+        ClipDescription primaryClipDescription;
         if (motionEvent.getAction() == 0) {
             this.pressed = true;
             motionEvent.getX();
@@ -259,10 +261,10 @@ public class CodeNumberField extends EditTextBoldCursor {
             if (motionEvent.getAction() == 1 && this.pressed) {
                 if (isFocused() && codeFieldContainer != null) {
                     ClipboardManager clipboardManager = (ClipboardManager) ContextCompat.getSystemService(getContext(), ClipboardManager.class);
-                    if (clipboardManager == null || clipboardManager.getPrimaryClipDescription() == null) {
+                    if (clipboardManager == null || clipboardManager.getPrimaryClipDescription() == null || (primaryClipDescription = clipboardManager.getPrimaryClipDescription()) == null) {
                         return false;
                     }
-                    clipboardManager.getPrimaryClipDescription().hasMimeType("text/plain");
+                    primaryClipDescription.hasMimeType("text/plain");
                     ClipData.Item itemAt = clipboardManager.getPrimaryClip().getItemAt(0);
                     int i = -1;
                     try {

@@ -3156,11 +3156,13 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         return selectedPhotosOrder.size();
     }
 
+    /* JADX WARN: Code restructure failed: missing block: B:27:0x0086, code lost:
+        if (((org.telegram.ui.ChatActivity) r6).isSecretChat() != false) goto L22;
+     */
     /* JADX WARN: Removed duplicated region for block: B:13:0x0033  */
     /* JADX WARN: Removed duplicated region for block: B:16:0x003e  */
     /* JADX WARN: Removed duplicated region for block: B:17:0x0058  */
     /* JADX WARN: Removed duplicated region for block: B:22:0x0076  */
-    /* JADX WARN: Removed duplicated region for block: B:23:0x0090  */
     @Override // org.telegram.ui.Components.ChatAttachAlert.AttachAlertLayout
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -3185,13 +3187,18 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                     }
                 }
                 if (i != 0) {
-                    this.spoilerItem.setText(LocaleController.getString(R.string.EnablePhotoSpoiler));
-                    this.spoilerItem.setAnimatedIcon(R.raw.photo_spoiler);
-                    this.parentAlert.selectedMenuItem.hideSubItem(2);
+                    ChatAttachAlert chatAttachAlert2 = this.parentAlert;
+                    if (chatAttachAlert2 != null) {
+                        BaseFragment baseFragment = chatAttachAlert2.baseFragment;
+                        if (baseFragment instanceof ChatActivity) {
+                        }
+                    }
+                    this.parentAlert.selectedMenuItem.showSubItem(2);
                     return;
                 }
-                this.parentAlert.selectedMenuItem.showSubItem(2);
-                return;
+                this.spoilerItem.setText(LocaleController.getString(R.string.EnablePhotoSpoiler));
+                this.spoilerItem.setAnimatedIcon(R.raw.photo_spoiler);
+                this.parentAlert.selectedMenuItem.hideSubItem(2);
             }
         }
         this.parentAlert.selectedMenuItem.hideSubItem(0);
@@ -3207,6 +3214,9 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         }
         if (i != 0) {
         }
+        this.spoilerItem.setText(LocaleController.getString(R.string.EnablePhotoSpoiler));
+        this.spoilerItem.setAnimatedIcon(R.raw.photo_spoiler);
+        this.parentAlert.selectedMenuItem.hideSubItem(2);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

@@ -737,12 +737,10 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
             ArrayList arrayList = new ArrayList();
             arrayList.add(this.renderingBitmap);
             arrayList.add(this.nextRenderingBitmap);
-            if (this.renderingBitmap != null) {
-                this.renderingBitmap = null;
-            }
-            if (this.nextRenderingBitmap != null) {
-                this.nextRenderingBitmap = null;
-            }
+            arrayList.add(this.backgroundBitmap);
+            this.renderingBitmap = null;
+            this.nextRenderingBitmap = null;
+            this.backgroundBitmap = null;
             DispatchQueue dispatchQueue = this.decodeQueue;
             if (dispatchQueue != null) {
                 dispatchQueue.recycle();

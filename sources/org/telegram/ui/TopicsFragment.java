@@ -2246,7 +2246,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
             this.searchAnimator.cancel();
         }
         if (this.searchTabsView == null) {
-            ViewPagerFixed.TabsView createTabsView = this.searchContainer.createTabsView(false);
+            ViewPagerFixed.TabsView createTabsView = this.searchContainer.createTabsView(false, 8);
             this.searchTabsView = createTabsView;
             if (this.parentDialogsActivity != null) {
                 createTabsView.setBackgroundColor(getThemedColor("windowBackgroundWhite"));

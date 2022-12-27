@@ -88,7 +88,7 @@ public class FileLoadOperation {
     private byte[] encryptIv;
     private byte[] encryptKey;
     private String ext;
-    private long fileDialogId;
+    private FilePathDatabase.FileMeta fileMetadata;
     private String fileName;
     private RandomAccessFile fileOutputStream;
     private RandomAccessFile filePartsStream;
@@ -242,7 +242,7 @@ public class FileLoadOperation {
         this.state = 0;
         updateParams();
         this.parentObject = obj;
-        this.fileDialogId = FileLoader.getDialogIdFromParent(this.currentAccount, obj);
+        this.fileMetadata = FileLoader.getFileMetadataFromParent(this.currentAccount, obj);
         this.isStream = imageLocation.imageType == 2;
         if (imageLocation.isEncrypted()) {
             TLRPC$InputFileLocation tLRPC$InputFileLocation = new TLRPC$InputFileLocation() { // from class: org.telegram.tgnet.TLRPC$TL_inputEncryptedFileLocation
@@ -465,7 +465,7 @@ public class FileLoadOperation {
         updateParams();
         try {
             this.parentObject = obj;
-            this.fileDialogId = FileLoader.getDialogIdFromParent(this.currentAccount, obj);
+            this.fileMetadata = FileLoader.getFileMetadataFromParent(this.currentAccount, obj);
             if (tLRPC$Document instanceof TLRPC$TL_documentEncrypted) {
                 TLRPC$InputFileLocation tLRPC$InputFileLocation = new TLRPC$InputFileLocation() { // from class: org.telegram.tgnet.TLRPC$TL_inputEncryptedFileLocation
                     public static int constructor = -182231723;
@@ -917,21 +917,21 @@ public class FileLoadOperation {
     /* JADX WARN: Removed duplicated region for block: B:126:0x0409  */
     /* JADX WARN: Removed duplicated region for block: B:221:0x0611  */
     /* JADX WARN: Removed duplicated region for block: B:236:0x063e  */
-    /* JADX WARN: Removed duplicated region for block: B:249:0x06b1  */
-    /* JADX WARN: Removed duplicated region for block: B:252:0x06db  */
-    /* JADX WARN: Removed duplicated region for block: B:265:0x0734  */
-    /* JADX WARN: Removed duplicated region for block: B:272:0x075f  */
-    /* JADX WARN: Removed duplicated region for block: B:278:0x078b  */
-    /* JADX WARN: Removed duplicated region for block: B:283:0x07c8  */
-    /* JADX WARN: Removed duplicated region for block: B:312:0x082c  */
-    /* JADX WARN: Removed duplicated region for block: B:320:0x084f A[Catch: Exception -> 0x0855, TRY_LEAVE, TryCatch #4 {Exception -> 0x0855, blocks: (B:318:0x083e, B:320:0x084f), top: B:354:0x083e }] */
-    /* JADX WARN: Removed duplicated region for block: B:330:0x086f  */
-    /* JADX WARN: Removed duplicated region for block: B:332:0x0873  */
-    /* JADX WARN: Removed duplicated region for block: B:333:0x0880  */
+    /* JADX WARN: Removed duplicated region for block: B:249:0x06ad  */
+    /* JADX WARN: Removed duplicated region for block: B:252:0x06d7  */
+    /* JADX WARN: Removed duplicated region for block: B:265:0x0730  */
+    /* JADX WARN: Removed duplicated region for block: B:272:0x075b  */
+    /* JADX WARN: Removed duplicated region for block: B:278:0x0787  */
+    /* JADX WARN: Removed duplicated region for block: B:283:0x07c4  */
+    /* JADX WARN: Removed duplicated region for block: B:312:0x0828  */
+    /* JADX WARN: Removed duplicated region for block: B:320:0x084b A[Catch: Exception -> 0x0851, TRY_LEAVE, TryCatch #4 {Exception -> 0x0851, blocks: (B:318:0x083a, B:320:0x084b), top: B:354:0x083a }] */
+    /* JADX WARN: Removed duplicated region for block: B:330:0x086b  */
+    /* JADX WARN: Removed duplicated region for block: B:332:0x086f  */
+    /* JADX WARN: Removed duplicated region for block: B:333:0x087c  */
     /* JADX WARN: Removed duplicated region for block: B:370:0x061c A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Type inference failed for: r2v65 */
-    /* JADX WARN: Type inference failed for: r2v68, types: [int, boolean] */
-    /* JADX WARN: Type inference failed for: r2v70 */
+    /* JADX WARN: Type inference failed for: r2v64 */
+    /* JADX WARN: Type inference failed for: r2v67, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r2v69 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1105,7 +1105,7 @@ public class FileLoadOperation {
                         str10 = "rws";
                         if (str9 != null) {
                         }
-                        if (this.fileDialogId != 0) {
+                        if (this.fileMetadata != null) {
                         }
                         if (!this.cacheFileTemp.exists()) {
                         }
@@ -1188,7 +1188,7 @@ public class FileLoadOperation {
                                                         }
                                                         if (str9 != null) {
                                                         }
-                                                        if (this.fileDialogId != 0) {
+                                                        if (this.fileMetadata != null) {
                                                         }
                                                         if (!this.cacheFileTemp.exists()) {
                                                         }
@@ -1223,7 +1223,7 @@ public class FileLoadOperation {
                                                         }
                                                         if (str9 != null) {
                                                         }
-                                                        if (this.fileDialogId != 0) {
+                                                        if (this.fileMetadata != null) {
                                                         }
                                                         if (!this.cacheFileTemp.exists()) {
                                                         }
@@ -1299,7 +1299,7 @@ public class FileLoadOperation {
                                     }
                                     if (str9 != null) {
                                     }
-                                    if (this.fileDialogId != 0) {
+                                    if (this.fileMetadata != null) {
                                     }
                                     if (!this.cacheFileTemp.exists()) {
                                     }
@@ -1312,6 +1312,7 @@ public class FileLoadOperation {
                                     }
                                     j2 = 0;
                                     if (!this.isPreloadVideoOperation) {
+                                        copyNotLoadedRanges();
                                     }
                                     updateProgress();
                                     RandomAccessFile randomAccessFile3222 = new RandomAccessFile(this.cacheFileTemp, str10);
@@ -1372,9 +1373,9 @@ public class FileLoadOperation {
                         FileLog.e(e10);
                     }
                 }
-                if (this.fileDialogId != 0) {
-                    FileLoader.getInstance(this.currentAccount).getFileDatabase().saveFileDialogId(this.cacheFileParts, this.fileDialogId);
-                    FileLoader.getInstance(this.currentAccount).getFileDatabase().saveFileDialogId(this.cacheFileTemp, this.fileDialogId);
+                if (this.fileMetadata != null) {
+                    FileLoader.getInstance(this.currentAccount).getFileDatabase().saveFileDialogId(this.cacheFileParts, this.fileMetadata);
+                    FileLoader.getInstance(this.currentAccount).getFileDatabase().saveFileDialogId(this.cacheFileTemp, this.fileMetadata);
                 }
                 if (!this.cacheFileTemp.exists()) {
                     ArrayList<Range> arrayList2 = this.notLoadedBytesRanges;
@@ -1449,7 +1450,6 @@ public class FileLoadOperation {
                                     FileLog.e(e);
                                 }
                                 if (!this.isPreloadVideoOperation) {
-                                    copyNotLoadedRanges();
                                 }
                                 updateProgress();
                                 RandomAccessFile randomAccessFile32222 = new RandomAccessFile(this.cacheFileTemp, str10);
@@ -1916,7 +1916,7 @@ public class FileLoadOperation {
             if (BuildVars.DEBUG_VERSION) {
                 FileLog.d("finished preloading file to " + this.cacheFileTemp + " loaded " + this.totalPreloadedBytes + " of " + this.totalBytesCount);
             }
-            if (this.fileDialogId != 0) {
+            if (this.fileMetadata != null) {
                 if (this.cacheFileTemp != null) {
                     FileLoader.getInstance(this.currentAccount).getFileDatabase().removeFiles(Collections.singletonList(new CacheModel.FileInfo(this.cacheFileTemp)));
                 }

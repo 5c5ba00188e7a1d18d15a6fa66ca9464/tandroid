@@ -24,6 +24,7 @@ import org.telegram.tgnet.TLRPC$TL_photos_photo;
 import org.telegram.tgnet.TLRPC$TL_photos_uploadProfilePhoto;
 import org.telegram.tgnet.TLRPC$TL_userProfilePhoto;
 import org.telegram.tgnet.TLRPC$User;
+import org.telegram.tgnet.TLRPC$VideoSize;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.INavigationLayout;
 import org.telegram.ui.Components.BulletinFactory;
@@ -40,11 +41,13 @@ public class PhotoUtilities {
         tLRPC$User.photo = tLRPC$TL_userProfilePhoto;
         tLRPC$TL_userProfilePhoto.personal = z;
         tLRPC$TL_userProfilePhoto.photo_id = tLRPC$Photo.id;
+        ArrayList<TLRPC$VideoSize> arrayList2 = tLRPC$Photo.video_sizes;
+        tLRPC$TL_userProfilePhoto.has_video = arrayList2 != null && arrayList2.size() > 0;
         if (closestPhotoSizeWithSize != null) {
-            tLRPC$TL_userProfilePhoto.photo_small = closestPhotoSizeWithSize.location;
+            tLRPC$User.photo.photo_small = closestPhotoSizeWithSize.location;
         }
         if (closestPhotoSizeWithSize2 != null) {
-            tLRPC$TL_userProfilePhoto.photo_big = closestPhotoSizeWithSize2.location;
+            tLRPC$User.photo.photo_big = closestPhotoSizeWithSize2.location;
         }
     }
 

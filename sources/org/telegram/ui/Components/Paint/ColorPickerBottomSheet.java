@@ -302,7 +302,7 @@ public class ColorPickerBottomSheet extends BottomSheet {
             linearLayout.setOrientation(0);
             linearLayout.setGravity(16);
             linearLayout.addView(colorPickerBottomSheet.pipetteView, LayoutHelper.createLinear(28, 28));
-            linearLayout.addView(viewPagerFixed.createTabsView(false), LayoutHelper.createLinear(-1, 40, 1.0f, 16, 12, 0, 12, 0));
+            linearLayout.addView(viewPagerFixed.createTabsView(false, 8), LayoutHelper.createLinear(-1, 40, 1.0f, 16, 12, 0, 12, 0));
             linearLayout.addView(colorPickerBottomSheet.doneView, LayoutHelper.createLinear(28, 28));
             addView(linearLayout, LayoutHelper.createLinear(-1, 48, 14.0f, 0.0f, 14.0f, 0.0f));
         }

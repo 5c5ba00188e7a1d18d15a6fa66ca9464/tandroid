@@ -140,29 +140,38 @@ public class FileLoader extends BaseController {
         return i;
     }
 
-    public static long getDialogIdFromParent(int i, Object obj) {
+    public static FilePathDatabase.FileMeta getFileMetadataFromParent(int i, Object obj) {
         if (obj instanceof String) {
             String str = (String) obj;
             if (str.startsWith("sent_")) {
                 if (sentPattern == null) {
-                    sentPattern = Pattern.compile("sent_.*_.*_([0-9]+)");
+                    sentPattern = Pattern.compile("sent_.*_([0-9]+)_([0-9]+)_([0-9]+)");
                 }
                 try {
                     Matcher matcher = sentPattern.matcher(str);
                     if (matcher.matches()) {
-                        return Long.parseLong(matcher.group(1));
+                        FilePathDatabase.FileMeta fileMeta = new FilePathDatabase.FileMeta();
+                        fileMeta.messageId = Integer.parseInt(matcher.group(1));
+                        fileMeta.dialogId = Long.parseLong(matcher.group(2));
+                        fileMeta.messageType = Integer.parseInt(matcher.group(3));
+                        return fileMeta;
                     }
-                    return 0L;
+                    return null;
                 } catch (Exception e) {
                     FileLog.e(e);
-                    return 0L;
+                    return null;
                 }
             }
-            return 0L;
+            return null;
         } else if (obj instanceof MessageObject) {
-            return ((MessageObject) obj).getDialogId();
+            MessageObject messageObject = (MessageObject) obj;
+            FilePathDatabase.FileMeta fileMeta2 = new FilePathDatabase.FileMeta();
+            fileMeta2.messageId = messageObject.getId();
+            fileMeta2.dialogId = messageObject.getDialogId();
+            fileMeta2.messageType = messageObject.type;
+            return fileMeta2;
         } else {
-            return 0L;
+            return null;
         }
     }
 
@@ -993,9 +1002,9 @@ public class FileLoader extends BaseController {
                                 @Override // org.telegram.messenger.FileLoadOperation.FileLoadOperationDelegate
                                 public void didFinishLoadingFile(FileLoadOperation fileLoadOperation4, File file3) {
                                     if (fileLoadOperation4.isPreloadVideoOperation() || !fileLoadOperation4.isPreloadFinished()) {
-                                        long dialogIdFromParent = FileLoader.getDialogIdFromParent(FileLoader.this.currentAccount, obj);
-                                        if (dialogIdFromParent != 0) {
-                                            FileLoader.this.getFileLoader().getFileDatabase().saveFileDialogId(file3, dialogIdFromParent);
+                                        FilePathDatabase.FileMeta fileMetadataFromParent = FileLoader.getFileMetadataFromParent(FileLoader.this.currentAccount, obj);
+                                        if (fileMetadataFromParent != null) {
+                                            FileLoader.this.getFileLoader().getFileDatabase().saveFileDialogId(file3, fileMetadataFromParent);
                                         }
                                         Object obj3 = obj;
                                         if (obj3 instanceof MessageObject) {
@@ -1074,9 +1083,9 @@ public class FileLoader extends BaseController {
                         @Override // org.telegram.messenger.FileLoadOperation.FileLoadOperationDelegate
                         public void didFinishLoadingFile(FileLoadOperation fileLoadOperation4, File file3) {
                             if (fileLoadOperation4.isPreloadVideoOperation() || !fileLoadOperation4.isPreloadFinished()) {
-                                long dialogIdFromParent = FileLoader.getDialogIdFromParent(FileLoader.this.currentAccount, obj);
-                                if (dialogIdFromParent != 0) {
-                                    FileLoader.this.getFileLoader().getFileDatabase().saveFileDialogId(file3, dialogIdFromParent);
+                                FilePathDatabase.FileMeta fileMetadataFromParent = FileLoader.getFileMetadataFromParent(FileLoader.this.currentAccount, obj);
+                                if (fileMetadataFromParent != null) {
+                                    FileLoader.this.getFileLoader().getFileDatabase().saveFileDialogId(file3, fileMetadataFromParent);
                                 }
                                 Object obj3 = obj;
                                 if (obj3 instanceof MessageObject) {
@@ -1149,9 +1158,9 @@ public class FileLoader extends BaseController {
                     @Override // org.telegram.messenger.FileLoadOperation.FileLoadOperationDelegate
                     public void didFinishLoadingFile(FileLoadOperation fileLoadOperation4, File file3) {
                         if (fileLoadOperation4.isPreloadVideoOperation() || !fileLoadOperation4.isPreloadFinished()) {
-                            long dialogIdFromParent = FileLoader.getDialogIdFromParent(FileLoader.this.currentAccount, obj);
-                            if (dialogIdFromParent != 0) {
-                                FileLoader.this.getFileLoader().getFileDatabase().saveFileDialogId(file3, dialogIdFromParent);
+                            FilePathDatabase.FileMeta fileMetadataFromParent = FileLoader.getFileMetadataFromParent(FileLoader.this.currentAccount, obj);
+                            if (fileMetadataFromParent != null) {
+                                FileLoader.this.getFileLoader().getFileDatabase().saveFileDialogId(file3, fileMetadataFromParent);
                             }
                             Object obj3 = obj;
                             if (obj3 instanceof MessageObject) {

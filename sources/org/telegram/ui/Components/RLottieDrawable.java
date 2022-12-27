@@ -233,7 +233,9 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
     public void recycleResources() {
         ArrayList arrayList = new ArrayList();
         arrayList.add(this.renderingBitmap);
+        arrayList.add(this.backgroundBitmap);
         arrayList.add(this.nextRenderingBitmap);
+        this.nextRenderingBitmap = null;
         this.renderingBitmap = null;
         this.backgroundBitmap = null;
         AndroidUtilities.recycleBitmaps(arrayList);

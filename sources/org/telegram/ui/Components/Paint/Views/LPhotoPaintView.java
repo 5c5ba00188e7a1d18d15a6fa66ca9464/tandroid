@@ -140,6 +140,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
     private ArrayList<PhotoFace> faces;
     private Bitmap facesBitmap;
     private boolean ignoreLayout;
+    private boolean ignoreToolChangeAnimationOnce;
     private float imageHeight;
     private float imageWidth;
     private boolean inBubbleMode;
@@ -427,6 +428,10 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
 
             @Override // org.telegram.ui.Components.Paint.RenderView.RenderViewDelegate
             public void resetBrush() {
+                if (LPhotoPaintView.this.ignoreToolChangeAnimationOnce) {
+                    LPhotoPaintView.this.ignoreToolChangeAnimationOnce = false;
+                    return;
+                }
                 LPhotoPaintView.this.paintToolsView.select(1);
                 LPhotoPaintView.this.onBrushSelected(Brush.BRUSHES_LIST.get(0));
             }
@@ -2398,6 +2403,9 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
             this.weightChooserView.setMinMax(0.05f, 1.0f);
         }
         this.weightChooserView.setDrawCenter(!(brush instanceof Brush.Shape));
+        if (this.renderView.getCurrentBrush() instanceof Brush.Shape) {
+            this.ignoreToolChangeAnimationOnce = true;
+        }
         this.renderView.setBrush(brush);
         this.colorSwatch.brushWeight = this.weightDefaultValueOverride.get();
         setCurrentSwatch(this.colorSwatch, true);
@@ -2517,6 +2525,9 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
             this.bottomLayout.setTranslationY(f - ((AndroidUtilities.dp(40.0f) * f6) * (z ? 1 : -1)));
         }
         this.bottomLayout.invalidate();
+        if (view == this.textOptionsView) {
+            this.overlayLayout.invalidate();
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -2848,6 +2859,9 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onAddButtonPressed$30(Brush.Shape shape, int i) {
+        if (this.renderView.getCurrentBrush() instanceof Brush.Shape) {
+            this.ignoreToolChangeAnimationOnce = true;
+        }
         onBrushSelected(shape);
         this.paintToolsView.animatePlusToIcon(i);
     }
@@ -3284,6 +3298,10 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         if (entityView != null) {
             this.undoStore.unregisterUndo(entityView.getUUID());
         }
+        this.weightChooserView.setValueOverride(this.weightDefaultValueOverride);
+        this.weightChooserView.setShowPreview(true);
+        this.colorSwatch.brushWeight = this.weightDefaultValueOverride.get();
+        setCurrentSwatch(this.colorSwatch, true);
     }
 
     private void registerRemovalUndo(final EntityView entityView) {

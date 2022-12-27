@@ -147,6 +147,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
     private int gigaInfoRow;
     private int hideMembersInfoRow;
     private int hideMembersRow;
+    private boolean hideMembersToggleLoading;
     private LongSparseArray<TLRPC$TL_groupCallParticipant> ignoredUsers;
     private TLRPC$ChatFull info;
     private String initialBannedRights;
@@ -933,8 +934,8 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:329:0x0656 A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:330:0x0657  */
+    /* JADX WARN: Removed duplicated region for block: B:329:0x0658 A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:330:0x0659  */
     /* JADX WARN: Type inference failed for: r21v1 */
     /* JADX WARN: Type inference failed for: r31v0, types: [org.telegram.ui.ActionBar.BaseFragment, org.telegram.ui.ChatUsersActivity] */
     /*
@@ -1091,9 +1092,10 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                 if (tLRPC$ChatFull5 != null && !tLRPC$ChatFull5.participants_hidden && tLRPC$ChatFull5.participants_count < getMessagesController().hiddenMembersGroupSizeMin) {
                     BulletinFactory.of(this).createSimpleBulletin(R.raw.contacts_sync_off, AndroidUtilities.replaceTags(LocaleController.formatPluralString("ChannelHiddenMembersForbidden", getMessagesController().hiddenMembersGroupSizeMin, new Object[0]))).show();
                     return;
-                } else if (this.info == null || !ChatObject.canUserDoAdminAction(this.currentChat, 2) || this.antiSpamToggleLoading) {
+                } else if (this.info == null || !ChatObject.canUserDoAdminAction(this.currentChat, 2) || this.hideMembersToggleLoading) {
                     return;
                 } else {
+                    this.hideMembersToggleLoading = true;
                     final boolean z6 = this.info.participants_hidden;
                     TLRPC$TL_channels_toggleParticipantsHidden tLRPC$TL_channels_toggleParticipantsHidden = new TLRPC$TL_channels_toggleParticipantsHidden();
                     tLRPC$TL_channels_toggleParticipantsHidden.channel = getMessagesController().getInputChannel(this.chatId);
@@ -1673,15 +1675,15 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
             getMessagesController().processUpdates((TLRPC$Updates) tLObject, false);
             getMessagesController().putChatFull(this.info);
         }
-        if (tLRPC$TL_error == null || "CHAT_NOT_MODIFIED".equals(tLRPC$TL_error.text)) {
-            return;
+        if (tLRPC$TL_error != null && !"CHAT_NOT_MODIFIED".equals(tLRPC$TL_error.text)) {
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatUsersActivity$$ExternalSyntheticLambda11
+                @Override // java.lang.Runnable
+                public final void run() {
+                    ChatUsersActivity.this.lambda$createView$2(textCell, z);
+                }
+            });
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatUsersActivity$$ExternalSyntheticLambda11
-            @Override // java.lang.Runnable
-            public final void run() {
-                ChatUsersActivity.this.lambda$createView$2(textCell, z);
-            }
-        });
+        this.hideMembersToggleLoading = false;
     }
 
     /* JADX INFO: Access modifiers changed from: private */

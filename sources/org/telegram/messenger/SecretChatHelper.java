@@ -116,7 +116,7 @@ import org.telegram.tgnet.TLRPC$messages_SentEncryptedMessage;
 import org.telegram.ui.ActionBar.AlertDialog;
 /* loaded from: classes.dex */
 public class SecretChatHelper extends BaseController {
-    public static int CURRENT_SECRET_CHAT_LAYER = 101;
+    public static int CURRENT_SECRET_CHAT_LAYER = 151;
     private static volatile SecretChatHelper[] Instance = new SecretChatHelper[4];
     private SparseArray<TLRPC$EncryptedChat> acceptingChats;
     public ArrayList<TLRPC$Update> delayedEncryptedChatUpdates;

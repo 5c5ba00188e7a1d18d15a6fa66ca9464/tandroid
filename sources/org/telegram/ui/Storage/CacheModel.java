@@ -374,7 +374,9 @@ public class CacheModel {
     public static class FileInfo {
         public long dialogId;
         public final File file;
+        public int messageId;
         public MessageObject messageObject;
+        public int messageType;
         public FileMetadata metadata;
         public long size;
         public int type;
@@ -382,6 +384,7 @@ public class CacheModel {
         /* loaded from: classes.dex */
         public static class FileMetadata {
             public String author;
+            public boolean loading;
             public String title;
         }
 

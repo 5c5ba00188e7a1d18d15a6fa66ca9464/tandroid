@@ -167,16 +167,16 @@ public class ViewPagerFixed extends FrameLayout {
         fillTabs(false);
     }
 
-    public TabsView createTabsView(boolean z) {
-        TabsView tabsView = new TabsView(getContext(), z, this.resourcesProvider) { // from class: org.telegram.ui.Components.ViewPagerFixed.2
+    public TabsView createTabsView(boolean z, int i) {
+        TabsView tabsView = new TabsView(getContext(), z, i, this.resourcesProvider) { // from class: org.telegram.ui.Components.ViewPagerFixed.2
             @Override // org.telegram.ui.Components.ViewPagerFixed.TabsView
-            public void selectTab(int i, int i2, float f) {
-                super.selectTab(i, i2, f);
+            public void selectTab(int i2, int i3, float f) {
+                super.selectTab(i2, i3, f);
                 ViewPagerFixed viewPagerFixed = ViewPagerFixed.this;
                 if (f > 0.5f) {
-                    i = i2;
+                    i2 = i3;
                 }
-                viewPagerFixed.onTabPageSelected(i);
+                viewPagerFixed.onTabPageSelected(i2);
             }
         };
         this.tabsView = tabsView;
@@ -187,12 +187,12 @@ public class ViewPagerFixed extends FrameLayout {
             }
 
             @Override // org.telegram.ui.Components.ViewPagerFixed.TabsView.TabsViewDelegate
-            public void onPageSelected(int i, boolean z2) {
+            public void onPageSelected(int i2, boolean z2) {
                 ViewPagerFixed.this.animatingForward = z2;
                 ViewPagerFixed viewPagerFixed = ViewPagerFixed.this;
-                viewPagerFixed.nextPosition = i;
+                viewPagerFixed.nextPosition = i2;
                 viewPagerFixed.updateViewForIndex(1);
-                ViewPagerFixed.this.onTabPageSelected(i);
+                ViewPagerFixed.this.onTabPageSelected(i2);
                 if (z2) {
                     View[] viewArr = ViewPagerFixed.this.viewPages;
                     viewArr[1].setTranslationX(viewArr[0].getMeasuredWidth());
@@ -1120,7 +1120,7 @@ public class ViewPagerFixed extends FrameLayout {
             }
         }
 
-        public TabsView(Context context, boolean z, Theme.ResourcesProvider resourcesProvider) {
+        public TabsView(Context context, boolean z, int i, Theme.ResourcesProvider resourcesProvider) {
             super(context);
             this.indicatorProgress2 = 1.0f;
             this.textPaint = new TextPaint(1);
@@ -1185,8 +1185,8 @@ public class ViewPagerFixed extends FrameLayout {
             setHorizontalScrollBarEnabled(false);
             RecyclerListView recyclerListView = new RecyclerListView(context) { // from class: org.telegram.ui.Components.ViewPagerFixed.TabsView.2
                 @Override // android.view.ViewGroup
-                public void addView(View view, int i, ViewGroup.LayoutParams layoutParams) {
-                    super.addView(view, i, layoutParams);
+                public void addView(View view, int i2, ViewGroup.LayoutParams layoutParams) {
+                    super.addView(view, i2, layoutParams);
                     if (TabsView.this.isInHiddenMode) {
                         view.setScaleX(0.3f);
                         view.setScaleY(0.3f);
@@ -1223,13 +1223,17 @@ public class ViewPagerFixed extends FrameLayout {
             } else {
                 ((DefaultItemAnimator) recyclerListView.getItemAnimator()).setDelayAnimations(false);
             }
-            this.listView.setSelectorType(8);
-            this.listView.setSelectorRadius(6);
+            this.listView.setSelectorType(i);
+            if (i == 3) {
+                this.listView.setSelectorRadius(0);
+            } else {
+                this.listView.setSelectorRadius(6);
+            }
             this.listView.setSelectorDrawableColor(Theme.getColor(this.selectorColorKey, resourcesProvider));
             RecyclerListView recyclerListView2 = this.listView;
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, 0, false) { // from class: org.telegram.ui.Components.ViewPagerFixed.TabsView.3
                 @Override // androidx.recyclerview.widget.LinearLayoutManager, androidx.recyclerview.widget.RecyclerView.LayoutManager
-                public void smoothScrollToPosition(RecyclerView recyclerView, RecyclerView.State state, int i) {
+                public void smoothScrollToPosition(RecyclerView recyclerView, RecyclerView.State state, int i2) {
                     LinearSmoothScroller linearSmoothScroller = new LinearSmoothScroller(recyclerView.getContext()) { // from class: org.telegram.ui.Components.ViewPagerFixed.TabsView.3.1
                         @Override // androidx.recyclerview.widget.LinearSmoothScroller, androidx.recyclerview.widget.RecyclerView.SmoothScroller
                         protected void onTargetFound(View view, RecyclerView.State state2, RecyclerView.SmoothScroller.Action action) {
@@ -1246,7 +1250,7 @@ public class ViewPagerFixed extends FrameLayout {
                             }
                         }
                     };
-                    linearSmoothScroller.setTargetPosition(i);
+                    linearSmoothScroller.setTargetPosition(i2);
                     startSmoothScroll(linearSmoothScroller);
                 }
 
@@ -1269,23 +1273,23 @@ public class ViewPagerFixed extends FrameLayout {
             this.listView.setAdapter(this.adapter);
             this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListenerExtended() { // from class: org.telegram.ui.Components.ViewPagerFixed$TabsView$$ExternalSyntheticLambda1
                 @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
-                public /* synthetic */ boolean hasDoubleTap(View view, int i) {
-                    return RecyclerListView.OnItemClickListenerExtended.-CC.$default$hasDoubleTap(this, view, i);
+                public /* synthetic */ boolean hasDoubleTap(View view, int i2) {
+                    return RecyclerListView.OnItemClickListenerExtended.-CC.$default$hasDoubleTap(this, view, i2);
                 }
 
                 @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
-                public /* synthetic */ void onDoubleTap(View view, int i, float f, float f2) {
-                    RecyclerListView.OnItemClickListenerExtended.-CC.$default$onDoubleTap(this, view, i, f, f2);
+                public /* synthetic */ void onDoubleTap(View view, int i2, float f, float f2) {
+                    RecyclerListView.OnItemClickListenerExtended.-CC.$default$onDoubleTap(this, view, i2, f, f2);
                 }
 
                 @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
-                public final void onItemClick(View view, int i, float f, float f2) {
-                    ViewPagerFixed.TabsView.this.lambda$new$0(view, i, f, f2);
+                public final void onItemClick(View view, int i2, float f, float f2) {
+                    ViewPagerFixed.TabsView.this.lambda$new$0(view, i2, f, f2);
                 }
             });
             this.listView.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.Components.ViewPagerFixed.TabsView.4
                 @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
-                public void onScrolled(RecyclerView recyclerView, int i, int i2) {
+                public void onScrolled(RecyclerView recyclerView, int i2, int i3) {
                     TabsView.this.invalidate();
                 }
             });

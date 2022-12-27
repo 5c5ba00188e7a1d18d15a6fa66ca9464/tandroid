@@ -1084,7 +1084,7 @@ public class DialogCell extends BaseCell {
         if (this.isTransitionSupport) {
             return;
         }
-        if (this.isDialogCell && this.currentDialogFolderId == 0 && !this.updateHelper.update()) {
+        if (this.isDialogCell && !this.updateHelper.update() && this.currentDialogFolderId == 0) {
             return;
         }
         if (this.useForceThreeLines || SharedConfig.useThreeLinesLayout) {
