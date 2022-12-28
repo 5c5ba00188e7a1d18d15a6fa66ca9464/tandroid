@@ -458,12 +458,13 @@ public class SizeNotifierFrameLayout extends FrameLayout {
 
     /* JADX INFO: Access modifiers changed from: private */
     public void checkSnowflake(Canvas canvas) {
-        if (Theme.canStartHolidayAnimation()) {
-            if (this.snowflakesEffect == null) {
-                this.snowflakesEffect = new SnowflakesEffect(1);
-            }
-            this.snowflakesEffect.onDraw(this.backgroundView, canvas);
+        if (!Theme.canStartHolidayAnimation() || SharedConfig.getLightMode().enabled()) {
+            return;
         }
+        if (this.snowflakesEffect == null) {
+            this.snowflakesEffect = new SnowflakesEffect(1);
+        }
+        this.snowflakesEffect.onDraw(this.backgroundView, canvas);
     }
 
     public void setSkipBackgroundDrawing(boolean z) {

@@ -13,8 +13,10 @@ import android.webkit.WebView;
 import androidx.core.content.pm.ShortcutManagerCompat;
 import java.io.File;
 import java.io.RandomAccessFile;
+import java.io.UnsupportedEncodingException;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -26,6 +28,7 @@ import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.SerializedData;
 import org.telegram.tgnet.TLRPC$TL_help_appUpdate;
 import org.telegram.tgnet.TLRPC$help_AppUpdate;
+import org.telegram.ui.Components.AnimatedEmojiDrawable;
 /* loaded from: classes.dex */
 public class SharedConfig {
     public static final int PASSCODE_TYPE_PASSWORD = 1;
@@ -80,6 +83,7 @@ public class SharedConfig {
     public static long lastUpdateCheckTime = 0;
     public static String lastUpdateVersion = null;
     public static long lastUptimeMillis = 0;
+    public static LightMode lightMode = null;
     public static int lockRecordAudioVideoHint = 0;
     public static boolean loopStickers = false;
     public static int mediaColumnsCount = 0;
@@ -151,6 +155,13 @@ public class SharedConfig {
     public @interface PerformanceClass {
     }
 
+    public static LightMode getLightMode() {
+        if (lightMode == null) {
+            lightMode = new LightMode();
+        }
+        return lightMode;
+    }
+
     static {
         chatBubbles = Build.VERSION.SDK_INT >= 30;
         autoplayGifs = true;
@@ -211,6 +222,31 @@ public class SharedConfig {
             if (str4 == null) {
                 this.secret = "";
             }
+        }
+
+        public String getLink() {
+            StringBuilder sb = new StringBuilder(!TextUtils.isEmpty(this.secret) ? "https://t.me/proxy?" : "https://t.me/socks?");
+            try {
+                sb.append("server=");
+                sb.append(URLEncoder.encode(this.address, "UTF-8"));
+                sb.append("&");
+                sb.append("port=");
+                sb.append(this.port);
+                if (!TextUtils.isEmpty(this.username)) {
+                    sb.append("&user=");
+                    sb.append(URLEncoder.encode(this.username, "UTF-8"));
+                }
+                if (!TextUtils.isEmpty(this.password)) {
+                    sb.append("&pass=");
+                    sb.append(URLEncoder.encode(this.password, "UTF-8"));
+                }
+                if (!TextUtils.isEmpty(this.secret)) {
+                    sb.append("&secret=");
+                    sb.append(URLEncoder.encode(this.secret, "UTF-8"));
+                }
+            } catch (UnsupportedEncodingException unused) {
+            }
+            return sb.toString();
         }
     }
 
@@ -282,8 +318,8 @@ public class SharedConfig {
         return i;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:38:0x016c A[Catch: Exception -> 0x018e, all -> 0x040a, TryCatch #0 {Exception -> 0x018e, blocks: (B:22:0x011d, B:24:0x0125, B:26:0x0135, B:27:0x0149, B:38:0x016c, B:40:0x0170, B:41:0x0172, B:43:0x0176, B:45:0x017c, B:47:0x0182, B:49:0x0186, B:36:0x0166), top: B:89:0x011d, outer: #1 }] */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x0170 A[Catch: Exception -> 0x018e, all -> 0x040a, TryCatch #0 {Exception -> 0x018e, blocks: (B:22:0x011d, B:24:0x0125, B:26:0x0135, B:27:0x0149, B:38:0x016c, B:40:0x0170, B:41:0x0172, B:43:0x0176, B:45:0x017c, B:47:0x0182, B:49:0x0186, B:36:0x0166), top: B:89:0x011d, outer: #1 }] */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x016c A[Catch: Exception -> 0x018e, all -> 0x040d, TryCatch #0 {Exception -> 0x018e, blocks: (B:22:0x011d, B:24:0x0125, B:26:0x0135, B:27:0x0149, B:38:0x016c, B:40:0x0170, B:41:0x0172, B:43:0x0176, B:45:0x017c, B:47:0x0182, B:49:0x0186, B:36:0x0166), top: B:89:0x011d, outer: #3 }] */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x0170 A[Catch: Exception -> 0x018e, all -> 0x040d, TryCatch #0 {Exception -> 0x018e, blocks: (B:22:0x011d, B:24:0x0125, B:26:0x0135, B:27:0x0149, B:38:0x016c, B:40:0x0170, B:41:0x0172, B:43:0x0176, B:45:0x017c, B:47:0x0182, B:49:0x0186, B:36:0x0166), top: B:89:0x011d, outer: #3 }] */
     /* JADX WARN: Removed duplicated region for block: B:67:0x0238  */
     /* JADX WARN: Removed duplicated region for block: B:68:0x023b  */
     /* JADX WARN: Removed duplicated region for block: B:71:0x024b  */
@@ -1532,6 +1568,37 @@ public class SharedConfig {
         private FileInfoInternal(File file) {
             this.file = file;
             this.lastUsageDate = Utilities.getLastUsageFileTime(file.getAbsolutePath());
+        }
+    }
+
+    /* loaded from: classes.dex */
+    public static class LightMode {
+        private boolean enabled;
+
+        LightMode() {
+            loadPreference();
+        }
+
+        public boolean enabled() {
+            return this.enabled;
+        }
+
+        public void toggleMode() {
+            this.enabled = !this.enabled;
+            savePreference();
+            AnimatedEmojiDrawable.lightModeChanged();
+        }
+
+        private void loadPreference() {
+            this.enabled = (MessagesController.getGlobalMainSettings().getInt("light_mode", 0) & 1) != 0;
+        }
+
+        public void savePreference() {
+            MessagesController.getGlobalMainSettings().edit().putInt("light_mode", this.enabled ? 1 : 0).apply();
+        }
+
+        public boolean animatedEmojiEnabled() {
+            return !this.enabled;
         }
     }
 }

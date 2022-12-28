@@ -12,6 +12,6 @@ public final /* synthetic */ class MessagesController$$ExternalSyntheticLambda37
 
     @Override // org.telegram.tgnet.RequestDelegate
     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        MessagesController.lambda$deleteUserPhoto$98(tLObject, tLRPC$TL_error);
+        MessagesController.lambda$markMentionsAsRead$207(tLObject, tLRPC$TL_error);
     }
 }

@@ -55,14 +55,22 @@ import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Dialog;
 import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$InputStickerSet;
+import org.telegram.tgnet.TLRPC$Photo;
 import org.telegram.tgnet.TLRPC$StickerSet;
+import org.telegram.tgnet.TLRPC$StickerSetCovered;
 import org.telegram.tgnet.TLRPC$TL_error;
 import org.telegram.tgnet.TLRPC$TL_forumTopic;
+import org.telegram.tgnet.TLRPC$TL_inputDocument;
+import org.telegram.tgnet.TLRPC$TL_inputPhoto;
 import org.telegram.tgnet.TLRPC$TL_inputStickerSetID;
+import org.telegram.tgnet.TLRPC$TL_inputStickeredMediaDocument;
+import org.telegram.tgnet.TLRPC$TL_inputStickeredMediaPhoto;
+import org.telegram.tgnet.TLRPC$TL_messages_getAttachedStickers;
 import org.telegram.tgnet.TLRPC$TL_messages_installStickerSet;
 import org.telegram.tgnet.TLRPC$TL_messages_stickerSet;
 import org.telegram.tgnet.TLRPC$TL_messages_stickerSetInstallResultArchive;
 import org.telegram.tgnet.TLRPC$TL_stickerPack;
+import org.telegram.tgnet.TLRPC$Vector;
 import org.telegram.ui.ActionBar.ActionBarMenu;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
 import org.telegram.ui.ActionBar.ActionBarMenuSubItem;
@@ -121,14 +129,17 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         emojiPacksAlert.onSubItemClick(i);
     }
 
-    public EmojiPacksAlert(final BaseFragment baseFragment, final Context context, final Theme.ResourcesProvider resourcesProvider, final ArrayList<TLRPC$InputStickerSet> arrayList) {
+    public EmojiPacksAlert(BaseFragment baseFragment, Context context, Theme.ResourcesProvider resourcesProvider, ArrayList<TLRPC$InputStickerSet> arrayList) {
+        this(baseFragment, context, resourcesProvider, arrayList, null);
+    }
+
+    private EmojiPacksAlert(final BaseFragment baseFragment, final Context context, final Theme.ResourcesProvider resourcesProvider, final ArrayList<TLRPC$InputStickerSet> arrayList, TLObject tLObject) {
         super(context, false, resourcesProvider);
         this.shown = false;
         this.loaded = true;
-        arrayList.size();
         this.fragment = baseFragment;
         fixNavigationBar();
-        this.customEmojiPacks = new EmojiPacksLoader(this.currentAccount, arrayList) { // from class: org.telegram.ui.Components.EmojiPacksAlert.1
+        this.customEmojiPacks = new EmojiPacksLoader(this.currentAccount, arrayList, tLObject) { // from class: org.telegram.ui.Components.EmojiPacksAlert.1
             @Override // org.telegram.ui.Components.EmojiPacksAlert.EmojiPacksLoader
             protected void onUpdate() {
                 EmojiPacksAlert.this.updateButton();
@@ -545,7 +556,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         TextView textView2 = new TextView(context);
         this.removeButtonView = textView2;
         textView2.setVisibility(8);
-        this.removeButtonView.setBackground(Theme.createRadSelectorDrawable(268435455 & getThemedColor("dialogTextRed"), 0, 0));
+        this.removeButtonView.setBackground(Theme.createRadSelectorDrawable(getThemedColor("dialogTextRed") & 268435455, 0, 0));
         this.removeButtonView.setTextColor(getThemedColor("dialogTextRed"));
         this.removeButtonView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.removeButtonView.setGravity(17);
@@ -1831,36 +1842,84 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         private int currentAccount;
         public ArrayList<EmojiView.CustomEmoji>[] data;
         public ArrayList<TLRPC$InputStickerSet> inputStickerSets;
+        public TLObject parentObject;
         public ArrayList<TLRPC$TL_messages_stickerSet> stickerSets;
 
         protected void onUpdate() {
             throw null;
         }
 
-        public EmojiPacksLoader(int i, ArrayList<TLRPC$InputStickerSet> arrayList) {
+        public EmojiPacksLoader(int i, ArrayList<TLRPC$InputStickerSet> arrayList, TLObject tLObject) {
             this.currentAccount = i;
-            this.inputStickerSets = arrayList == null ? new ArrayList<>() : arrayList;
+            if (arrayList == null && tLObject == null) {
+                arrayList = new ArrayList<>();
+            }
+            this.inputStickerSets = arrayList;
+            this.parentObject = tLObject;
             init();
         }
 
         private void init() {
+            ArrayList<TLRPC$InputStickerSet> arrayList;
             TLRPC$StickerSet tLRPC$StickerSet;
+            TLObject tLObject = this.parentObject;
+            if (((tLObject instanceof TLRPC$Photo) || (tLObject instanceof TLRPC$Document)) && ((arrayList = this.inputStickerSets) == null || arrayList.isEmpty())) {
+                this.data = new ArrayList[2];
+                putStickerSet(0, null);
+                putStickerSet(1, null);
+                TLRPC$TL_messages_getAttachedStickers tLRPC$TL_messages_getAttachedStickers = new TLRPC$TL_messages_getAttachedStickers();
+                TLObject tLObject2 = this.parentObject;
+                if (tLObject2 instanceof TLRPC$Photo) {
+                    TLRPC$Photo tLRPC$Photo = (TLRPC$Photo) tLObject2;
+                    TLRPC$TL_inputStickeredMediaPhoto tLRPC$TL_inputStickeredMediaPhoto = new TLRPC$TL_inputStickeredMediaPhoto();
+                    TLRPC$TL_inputPhoto tLRPC$TL_inputPhoto = new TLRPC$TL_inputPhoto();
+                    tLRPC$TL_inputStickeredMediaPhoto.id = tLRPC$TL_inputPhoto;
+                    tLRPC$TL_inputPhoto.id = tLRPC$Photo.id;
+                    tLRPC$TL_inputPhoto.access_hash = tLRPC$Photo.access_hash;
+                    byte[] bArr = tLRPC$Photo.file_reference;
+                    tLRPC$TL_inputPhoto.file_reference = bArr;
+                    if (bArr == null) {
+                        tLRPC$TL_inputPhoto.file_reference = new byte[0];
+                    }
+                    tLRPC$TL_messages_getAttachedStickers.media = tLRPC$TL_inputStickeredMediaPhoto;
+                } else if (tLObject2 instanceof TLRPC$Document) {
+                    TLRPC$Document tLRPC$Document = (TLRPC$Document) tLObject2;
+                    TLRPC$TL_inputStickeredMediaDocument tLRPC$TL_inputStickeredMediaDocument = new TLRPC$TL_inputStickeredMediaDocument();
+                    TLRPC$TL_inputDocument tLRPC$TL_inputDocument = new TLRPC$TL_inputDocument();
+                    tLRPC$TL_inputStickeredMediaDocument.id = tLRPC$TL_inputDocument;
+                    tLRPC$TL_inputDocument.id = tLRPC$Document.id;
+                    tLRPC$TL_inputDocument.access_hash = tLRPC$Document.access_hash;
+                    byte[] bArr2 = tLRPC$Document.file_reference;
+                    tLRPC$TL_inputDocument.file_reference = bArr2;
+                    if (bArr2 == null) {
+                        tLRPC$TL_inputDocument.file_reference = new byte[0];
+                    }
+                    tLRPC$TL_messages_getAttachedStickers.media = tLRPC$TL_inputStickeredMediaDocument;
+                }
+                ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_getAttachedStickers, new RequestDelegate() { // from class: org.telegram.ui.Components.EmojiPacksAlert$EmojiPacksLoader$$ExternalSyntheticLambda4
+                    @Override // org.telegram.tgnet.RequestDelegate
+                    public final void run(TLObject tLObject3, TLRPC$TL_error tLRPC$TL_error) {
+                        EmojiPacksAlert.EmojiPacksLoader.this.lambda$init$1(tLObject3, tLRPC$TL_error);
+                    }
+                });
+                return;
+            }
             this.stickerSets = new ArrayList<>(this.inputStickerSets.size());
             this.data = new ArrayList[this.inputStickerSets.size()];
             NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.groupStickersDidLoad);
             final boolean[] zArr = new boolean[1];
             for (int i = 0; i < this.data.length; i++) {
-                TLRPC$TL_messages_stickerSet stickerSet = MediaDataController.getInstance(this.currentAccount).getStickerSet(this.inputStickerSets.get(i), false, new Utilities.Callback() { // from class: org.telegram.ui.Components.EmojiPacksAlert$EmojiPacksLoader$$ExternalSyntheticLambda2
+                TLRPC$TL_messages_stickerSet stickerSet = MediaDataController.getInstance(this.currentAccount).getStickerSet(this.inputStickerSets.get(i), false, new Utilities.Callback() { // from class: org.telegram.ui.Components.EmojiPacksAlert$EmojiPacksLoader$$ExternalSyntheticLambda3
                     @Override // org.telegram.messenger.Utilities.Callback
                     public final void run(Object obj) {
-                        EmojiPacksAlert.EmojiPacksLoader.this.lambda$init$1(zArr, (TLRPC$TL_messages_stickerSet) obj);
+                        EmojiPacksAlert.EmojiPacksLoader.this.lambda$init$3(zArr, (TLRPC$TL_messages_stickerSet) obj);
                     }
                 });
                 if (this.data.length == 1 && stickerSet != null && (tLRPC$StickerSet = stickerSet.set) != null && !tLRPC$StickerSet.emojis) {
-                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.EmojiPacksAlert$EmojiPacksLoader$$ExternalSyntheticLambda1
+                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.EmojiPacksAlert$EmojiPacksLoader$$ExternalSyntheticLambda0
                         @Override // java.lang.Runnable
                         public final void run() {
-                            EmojiPacksAlert.EmojiPacksLoader.this.lambda$init$2();
+                            EmojiPacksAlert.EmojiPacksLoader.this.lambda$init$4();
                         }
                     });
                     new StickersAlert(EmojiPacksAlert.this.getContext(), EmojiPacksAlert.this.fragment, this.inputStickerSets.get(i), null, EmojiPacksAlert.this.fragment instanceof ChatActivity ? ((ChatActivity) EmojiPacksAlert.this.fragment).getChatActivityEnterView() : null, ((BottomSheet) EmojiPacksAlert.this).resourcesProvider).show();
@@ -1869,24 +1928,60 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
                 this.stickerSets.add(stickerSet);
                 putStickerSet(i, stickerSet);
             }
+            onUpdate();
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$init$1(boolean[] zArr, TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet) {
-            if (tLRPC$TL_messages_stickerSet != null || zArr[0]) {
-                return;
-            }
-            zArr[0] = true;
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.EmojiPacksAlert$EmojiPacksLoader$$ExternalSyntheticLambda0
+        public /* synthetic */ void lambda$init$1(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.EmojiPacksAlert$EmojiPacksLoader$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
-                    EmojiPacksAlert.EmojiPacksLoader.this.lambda$init$0();
+                    EmojiPacksAlert.EmojiPacksLoader.this.lambda$init$0(tLRPC$TL_error, tLObject);
                 }
             });
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$init$0() {
+        public /* synthetic */ void lambda$init$0(TLRPC$TL_error tLRPC$TL_error, TLObject tLObject) {
+            TLRPC$StickerSet tLRPC$StickerSet;
+            if (tLRPC$TL_error != null || !(tLObject instanceof TLRPC$Vector)) {
+                EmojiPacksAlert.this.dismiss();
+                if (EmojiPacksAlert.this.fragment == null || EmojiPacksAlert.this.fragment.getParentActivity() == null) {
+                    return;
+                }
+                BulletinFactory.of(EmojiPacksAlert.this.fragment).createErrorBulletin(LocaleController.getString("UnknownError", R.string.UnknownError)).show();
+                return;
+            }
+            TLRPC$Vector tLRPC$Vector = (TLRPC$Vector) tLObject;
+            if (this.inputStickerSets == null) {
+                this.inputStickerSets = new ArrayList<>();
+            }
+            for (int i = 0; i < tLRPC$Vector.objects.size(); i++) {
+                Object obj = tLRPC$Vector.objects.get(i);
+                if ((obj instanceof TLRPC$StickerSetCovered) && (tLRPC$StickerSet = ((TLRPC$StickerSetCovered) obj).set) != null) {
+                    this.inputStickerSets.add(MediaDataController.getInputStickerSet(tLRPC$StickerSet));
+                }
+            }
+            this.parentObject = null;
+            init();
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$init$3(boolean[] zArr, TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet) {
+            if (tLRPC$TL_messages_stickerSet != null || zArr[0]) {
+                return;
+            }
+            zArr[0] = true;
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.EmojiPacksAlert$EmojiPacksLoader$$ExternalSyntheticLambda1
+                @Override // java.lang.Runnable
+                public final void run() {
+                    EmojiPacksAlert.EmojiPacksLoader.this.lambda$init$2();
+                }
+            });
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$init$2() {
             EmojiPacksAlert.this.dismiss();
             if (EmojiPacksAlert.this.fragment == null || EmojiPacksAlert.this.fragment.getParentActivity() == null) {
                 return;
@@ -1895,7 +1990,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$init$2() {
+        public /* synthetic */ void lambda$init$4() {
             EmojiPacksAlert.this.dismiss();
         }
 

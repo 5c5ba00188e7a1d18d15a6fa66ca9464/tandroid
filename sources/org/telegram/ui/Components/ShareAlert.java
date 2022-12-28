@@ -160,6 +160,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
     private boolean searchIsVisible;
     private FillLastGridLayoutManager searchLayoutManager;
     SearchField searchView;
+    private boolean searchWasVisibleBeforeTopics;
     private View selectedCountView;
     protected Map<TLRPC$Dialog, TLRPC$TL_forumTopic> selectedDialogTopics;
     protected LongSparseArray<TLRPC$Dialog> selectedDialogs;
@@ -173,6 +174,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
     private ShareTopicsAdapter shareTopicsAdapter;
     private LinearLayout sharesCountLayout;
     private boolean showSendersName;
+    private SizeNotifierFrameLayout sizeNotifierFrameLayout;
     private SwitchView switchView;
     private TextPaint textPaint;
     private ValueAnimator topBackgroundAnimator;
@@ -611,118 +613,118 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
             private int topOffset;
             private boolean ignoreLayout = false;
             private RectF rect1 = new RectF();
-            AdjustPanLayoutHelper adjustPanLayoutHelper = new AdjustPanLayoutHelper(this) { // from class: org.telegram.ui.Components.ShareAlert.2.1
-                {
-                    2.this = this;
-                }
-
-                @Override // org.telegram.ui.ActionBar.AdjustPanLayoutHelper
-                public void onTransitionStart(boolean z4, int i3) {
-                    super.onTransitionStart(z4, i3);
-                    if (ShareAlert.this.previousScrollOffsetY == ShareAlert.this.scrollOffsetY) {
-                        2.this.fromScrollY = -1;
-                    } else {
-                        2 r5 = 2.this;
-                        r5.fromScrollY = ShareAlert.this.previousScrollOffsetY;
-                        2 r52 = 2.this;
-                        r52.toScrollY = ShareAlert.this.scrollOffsetY;
-                        ShareAlert.this.panTranslationMoveLayout = true;
-                        2 r53 = 2.this;
-                        ShareAlert.this.scrollOffsetY = r53.fromScrollY;
-                    }
-                    if (2.this.topOffset != 2.this.previousTopOffset) {
-                        2.this.fromOffsetTop = 0;
-                        2.this.toOffsetTop = 0;
-                        ShareAlert.this.panTranslationMoveLayout = true;
-                        if (!z4) {
-                            2 r54 = 2.this;
-                            2.access$3420(r54, r54.topOffset - 2.this.previousTopOffset);
-                        } else {
-                            2 r55 = 2.this;
-                            2.access$3412(r55, r55.topOffset - 2.this.previousTopOffset);
-                        }
-                        2 r56 = 2.this;
-                        ShareAlert.this.scrollOffsetY = z4 ? r56.fromScrollY : r56.toScrollY;
-                    } else {
-                        2.this.fromOffsetTop = -1;
-                    }
-                    ShareAlert.this.gridView.setTopGlowOffset((int) (ShareAlert.this.currentPanTranslationY + ShareAlert.this.scrollOffsetY));
-                    ShareAlert.this.frameLayout.setTranslationY(ShareAlert.this.currentPanTranslationY + ShareAlert.this.scrollOffsetY);
-                    ShareAlert.this.searchEmptyView.setTranslationY(ShareAlert.this.currentPanTranslationY + ShareAlert.this.scrollOffsetY);
-                    invalidate();
-                }
-
-                @Override // org.telegram.ui.ActionBar.AdjustPanLayoutHelper
-                public void onTransitionEnd() {
-                    super.onTransitionEnd();
-                    ShareAlert.this.panTranslationMoveLayout = false;
-                    ShareAlert shareAlert = ShareAlert.this;
-                    shareAlert.previousScrollOffsetY = shareAlert.scrollOffsetY;
-                    ShareAlert.this.gridView.setTopGlowOffset(ShareAlert.this.scrollOffsetY);
-                    ShareAlert.this.frameLayout.setTranslationY(ShareAlert.this.scrollOffsetY);
-                    ShareAlert.this.searchEmptyView.setTranslationY(ShareAlert.this.scrollOffsetY);
-                    ShareAlert.this.gridView.setTranslationY(0.0f);
-                    ShareAlert.this.searchGridView.setTranslationY(0.0f);
-                }
-
-                @Override // org.telegram.ui.ActionBar.AdjustPanLayoutHelper
-                public void onPanTranslationUpdate(float f, float f2, boolean z4) {
-                    super.onPanTranslationUpdate(f, f2, z4);
-                    for (int i3 = 0; i3 < ((BottomSheet) ShareAlert.this).containerView.getChildCount(); i3++) {
-                        if (((BottomSheet) ShareAlert.this).containerView.getChildAt(i3) != ShareAlert.this.pickerBottomLayout && ((BottomSheet) ShareAlert.this).containerView.getChildAt(i3) != ShareAlert.this.shadow[1] && ((BottomSheet) ShareAlert.this).containerView.getChildAt(i3) != ShareAlert.this.sharesCountLayout && ((BottomSheet) ShareAlert.this).containerView.getChildAt(i3) != ShareAlert.this.frameLayout2 && ((BottomSheet) ShareAlert.this).containerView.getChildAt(i3) != ShareAlert.this.writeButtonContainer && ((BottomSheet) ShareAlert.this).containerView.getChildAt(i3) != ShareAlert.this.selectedCountView) {
-                            ((BottomSheet) ShareAlert.this).containerView.getChildAt(i3).setTranslationY(f);
-                        }
-                    }
-                    ShareAlert.this.currentPanTranslationY = f;
-                    if (2.this.fromScrollY == -1) {
-                        if (2.this.fromOffsetTop != -1) {
-                            2 r5 = 2.this;
-                            float f3 = 1.0f - f2;
-                            ShareAlert.this.scrollOffsetY = (int) ((r5.fromOffsetTop * f3) + (2.this.toOffsetTop * f2));
-                            if (!z4) {
-                                f3 = f2;
-                            }
-                            if (z4) {
-                                ShareAlert.this.gridView.setTranslationY(ShareAlert.this.currentPanTranslationY - ((2.this.fromOffsetTop - 2.this.toOffsetTop) * f2));
-                            } else {
-                                ShareAlert.this.gridView.setTranslationY(ShareAlert.this.currentPanTranslationY + ((2.this.toOffsetTop - 2.this.fromOffsetTop) * f3));
-                            }
-                        }
-                    } else {
-                        if (!z4) {
-                            f2 = 1.0f - f2;
-                        }
-                        2 r52 = 2.this;
-                        float f4 = 1.0f - f2;
-                        ShareAlert.this.scrollOffsetY = (int) ((r52.fromScrollY * f4) + (2.this.toScrollY * f2));
-                        float f5 = ShareAlert.this.currentPanTranslationY + ((2.this.fromScrollY - 2.this.toScrollY) * f4);
-                        ShareAlert.this.gridView.setTranslationY(f5);
-                        if (z4) {
-                            ShareAlert.this.searchGridView.setTranslationY(f5);
-                        } else {
-                            ShareAlert.this.searchGridView.setTranslationY(f5 + ShareAlert.this.gridView.getPaddingTop());
-                        }
-                    }
-                    ShareAlert.this.gridView.setTopGlowOffset((int) (ShareAlert.this.scrollOffsetY + ShareAlert.this.currentPanTranslationY));
-                    ShareAlert.this.frameLayout.setTranslationY(ShareAlert.this.scrollOffsetY + ShareAlert.this.currentPanTranslationY);
-                    ShareAlert.this.searchEmptyView.setTranslationY(ShareAlert.this.scrollOffsetY + ShareAlert.this.currentPanTranslationY);
-                    ShareAlert.this.frameLayout2.invalidate();
-                    ShareAlert shareAlert = ShareAlert.this;
-                    shareAlert.setCurrentPanTranslationY(shareAlert.currentPanTranslationY);
-                    invalidate();
-                }
-
-                @Override // org.telegram.ui.ActionBar.AdjustPanLayoutHelper
-                protected boolean heightAnimationEnabled() {
-                    if (ShareAlert.this.isDismissed() || !ShareAlert.this.fullyShown) {
-                        return false;
-                    }
-                    return !ShareAlert.this.commentTextView.isPopupVisible();
-                }
-            };
 
             {
                 ShareAlert.this = this;
+                this.adjustPanLayoutHelper = new AdjustPanLayoutHelper(this) { // from class: org.telegram.ui.Components.ShareAlert.2.1
+                    {
+                        2.this = this;
+                    }
+
+                    @Override // org.telegram.ui.ActionBar.AdjustPanLayoutHelper
+                    public void onTransitionStart(boolean z4, int i3) {
+                        super.onTransitionStart(z4, i3);
+                        if (ShareAlert.this.previousScrollOffsetY == ShareAlert.this.scrollOffsetY) {
+                            2.this.fromScrollY = -1;
+                        } else {
+                            2 r5 = 2.this;
+                            r5.fromScrollY = ShareAlert.this.previousScrollOffsetY;
+                            2 r52 = 2.this;
+                            r52.toScrollY = ShareAlert.this.scrollOffsetY;
+                            ShareAlert.this.panTranslationMoveLayout = true;
+                            2 r53 = 2.this;
+                            ShareAlert.this.scrollOffsetY = r53.fromScrollY;
+                        }
+                        if (2.this.topOffset != 2.this.previousTopOffset) {
+                            2.this.fromOffsetTop = 0;
+                            2.this.toOffsetTop = 0;
+                            ShareAlert.this.panTranslationMoveLayout = true;
+                            if (!z4) {
+                                2 r54 = 2.this;
+                                2.access$3420(r54, r54.topOffset - 2.this.previousTopOffset);
+                            } else {
+                                2 r55 = 2.this;
+                                2.access$3412(r55, r55.topOffset - 2.this.previousTopOffset);
+                            }
+                            2 r56 = 2.this;
+                            ShareAlert.this.scrollOffsetY = z4 ? r56.fromScrollY : r56.toScrollY;
+                        } else {
+                            2.this.fromOffsetTop = -1;
+                        }
+                        ShareAlert.this.gridView.setTopGlowOffset((int) (ShareAlert.this.currentPanTranslationY + ShareAlert.this.scrollOffsetY));
+                        ShareAlert.this.frameLayout.setTranslationY(ShareAlert.this.currentPanTranslationY + ShareAlert.this.scrollOffsetY);
+                        ShareAlert.this.searchEmptyView.setTranslationY(ShareAlert.this.currentPanTranslationY + ShareAlert.this.scrollOffsetY);
+                        invalidate();
+                    }
+
+                    @Override // org.telegram.ui.ActionBar.AdjustPanLayoutHelper
+                    public void onTransitionEnd() {
+                        super.onTransitionEnd();
+                        ShareAlert.this.panTranslationMoveLayout = false;
+                        ShareAlert shareAlert = ShareAlert.this;
+                        shareAlert.previousScrollOffsetY = shareAlert.scrollOffsetY;
+                        ShareAlert.this.gridView.setTopGlowOffset(ShareAlert.this.scrollOffsetY);
+                        ShareAlert.this.frameLayout.setTranslationY(ShareAlert.this.scrollOffsetY);
+                        ShareAlert.this.searchEmptyView.setTranslationY(ShareAlert.this.scrollOffsetY);
+                        ShareAlert.this.gridView.setTranslationY(0.0f);
+                        ShareAlert.this.searchGridView.setTranslationY(0.0f);
+                    }
+
+                    @Override // org.telegram.ui.ActionBar.AdjustPanLayoutHelper
+                    public void onPanTranslationUpdate(float f, float f2, boolean z4) {
+                        super.onPanTranslationUpdate(f, f2, z4);
+                        for (int i3 = 0; i3 < ((BottomSheet) ShareAlert.this).containerView.getChildCount(); i3++) {
+                            if (((BottomSheet) ShareAlert.this).containerView.getChildAt(i3) != ShareAlert.this.pickerBottomLayout && ((BottomSheet) ShareAlert.this).containerView.getChildAt(i3) != ShareAlert.this.shadow[1] && ((BottomSheet) ShareAlert.this).containerView.getChildAt(i3) != ShareAlert.this.sharesCountLayout && ((BottomSheet) ShareAlert.this).containerView.getChildAt(i3) != ShareAlert.this.frameLayout2 && ((BottomSheet) ShareAlert.this).containerView.getChildAt(i3) != ShareAlert.this.writeButtonContainer && ((BottomSheet) ShareAlert.this).containerView.getChildAt(i3) != ShareAlert.this.selectedCountView) {
+                                ((BottomSheet) ShareAlert.this).containerView.getChildAt(i3).setTranslationY(f);
+                            }
+                        }
+                        ShareAlert.this.currentPanTranslationY = f;
+                        if (2.this.fromScrollY == -1) {
+                            if (2.this.fromOffsetTop != -1) {
+                                2 r5 = 2.this;
+                                float f3 = 1.0f - f2;
+                                ShareAlert.this.scrollOffsetY = (int) ((r5.fromOffsetTop * f3) + (2.this.toOffsetTop * f2));
+                                if (!z4) {
+                                    f3 = f2;
+                                }
+                                if (z4) {
+                                    ShareAlert.this.gridView.setTranslationY(ShareAlert.this.currentPanTranslationY - ((2.this.fromOffsetTop - 2.this.toOffsetTop) * f2));
+                                } else {
+                                    ShareAlert.this.gridView.setTranslationY(ShareAlert.this.currentPanTranslationY + ((2.this.toOffsetTop - 2.this.fromOffsetTop) * f3));
+                                }
+                            }
+                        } else {
+                            if (!z4) {
+                                f2 = 1.0f - f2;
+                            }
+                            2 r52 = 2.this;
+                            float f4 = 1.0f - f2;
+                            ShareAlert.this.scrollOffsetY = (int) ((r52.fromScrollY * f4) + (2.this.toScrollY * f2));
+                            float f5 = ShareAlert.this.currentPanTranslationY + ((2.this.fromScrollY - 2.this.toScrollY) * f4);
+                            ShareAlert.this.gridView.setTranslationY(f5);
+                            if (z4) {
+                                ShareAlert.this.searchGridView.setTranslationY(f5);
+                            } else {
+                                ShareAlert.this.searchGridView.setTranslationY(f5 + ShareAlert.this.gridView.getPaddingTop());
+                            }
+                        }
+                        ShareAlert.this.gridView.setTopGlowOffset((int) (ShareAlert.this.scrollOffsetY + ShareAlert.this.currentPanTranslationY));
+                        ShareAlert.this.frameLayout.setTranslationY(ShareAlert.this.scrollOffsetY + ShareAlert.this.currentPanTranslationY);
+                        ShareAlert.this.searchEmptyView.setTranslationY(ShareAlert.this.scrollOffsetY + ShareAlert.this.currentPanTranslationY);
+                        ShareAlert.this.frameLayout2.invalidate();
+                        ShareAlert shareAlert = ShareAlert.this;
+                        shareAlert.setCurrentPanTranslationY(shareAlert.currentPanTranslationY);
+                        invalidate();
+                    }
+
+                    @Override // org.telegram.ui.ActionBar.AdjustPanLayoutHelper
+                    protected boolean heightAnimationEnabled() {
+                        if (ShareAlert.this.isDismissed() || !ShareAlert.this.fullyShown) {
+                            return false;
+                        }
+                        return !ShareAlert.this.commentTextView.isPopupVisible();
+                    }
+                };
                 this.lightStatusBar = AndroidUtilities.computePerceivedBrightness(this.getThemedColor(this.darkTheme ? "voipgroup_inviteMembersBackground" : "dialogBackground")) > 0.721f;
             }
 
@@ -1068,6 +1070,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                 canvas.restore();
             }
         };
+        this.sizeNotifierFrameLayout = sizeNotifierFrameLayout;
         this.containerView = sizeNotifierFrameLayout;
         sizeNotifierFrameLayout.setWillNotDraw(false);
         this.containerView.setClipChildren(false);
@@ -1438,17 +1441,17 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
         } else {
             this.shadow[1].setAlpha(0.0f);
         }
-        16 r3 = new 16(context);
-        this.frameLayout2 = r3;
-        r3.setWillNotDraw(false);
+        16 r2 = new 16(context);
+        this.frameLayout2 = r2;
+        r2.setWillNotDraw(false);
         this.frameLayout2.setAlpha(0.0f);
         this.frameLayout2.setVisibility(4);
         this.containerView.addView(this.frameLayout2, LayoutHelper.createFrame(-1, -2, 83));
         this.frameLayout2.setOnTouchListener(ShareAlert$$ExternalSyntheticLambda8.INSTANCE);
-        17 r32 = new 17(context, sizeNotifierFrameLayout, null, 1, true, resourcesProvider);
-        this.commentTextView = r32;
+        17 r22 = new 17(context, this.sizeNotifierFrameLayout, null, 1, true, resourcesProvider);
+        this.commentTextView = r22;
         if (this.darkTheme) {
-            r32.getEditText().setTextColor(getThemedColor("voipgroup_nameText"));
+            r22.getEditText().setTextColor(getThemedColor("voipgroup_nameText"));
             this.commentTextView.getEditText().setCursorColor(getThemedColor("voipgroup_nameText"));
         }
         this.commentTextView.setBackgroundColor(themedColor);
@@ -1609,35 +1612,31 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
     }
 
     public /* synthetic */ void lambda$new$2(View view, int i) {
+        TLRPC$Dialog tLRPC$Dialog;
         TLRPC$TL_forumTopic item = this.shareTopicsAdapter.getItem(i);
-        if (item == null || this.selectedTopicDialog == null) {
+        if (item == null || (tLRPC$Dialog = this.selectedTopicDialog) == null) {
             return;
         }
-        for (int i2 = 0; i2 < this.gridView.getChildCount(); i2++) {
-            View childAt = this.gridView.getChildAt(i2);
+        this.selectedDialogs.put(tLRPC$Dialog.id, tLRPC$Dialog);
+        this.selectedDialogTopics.put(tLRPC$Dialog, item);
+        updateSelectedCount(2);
+        if (this.searchIsVisible || this.searchWasVisibleBeforeTopics) {
+            if (((TLRPC$Dialog) this.listAdapter.dialogsMap.get(tLRPC$Dialog.id)) == null) {
+                this.listAdapter.dialogsMap.put(tLRPC$Dialog.id, tLRPC$Dialog);
+                this.listAdapter.dialogs.add(!this.listAdapter.dialogs.isEmpty(), tLRPC$Dialog);
+            }
+            this.listAdapter.notifyDataSetChanged();
+            this.updateSearchAdapter = false;
+            this.searchView.searchEditText.setText("");
+            checkCurrentList(false);
+        }
+        for (int i2 = 0; i2 < getMainGridView().getChildCount(); i2++) {
+            View childAt = getMainGridView().getChildAt(i2);
             if (childAt instanceof ShareDialogCell) {
                 ShareDialogCell shareDialogCell = (ShareDialogCell) childAt;
-                if (shareDialogCell.getCurrentDialog() == this.selectedTopicDialog.id) {
-                    long currentDialog = shareDialogCell.getCurrentDialog();
-                    TLRPC$Dialog tLRPC$Dialog = (TLRPC$Dialog) this.listAdapter.dialogsMap.get(currentDialog);
-                    this.selectedDialogs.put(currentDialog, tLRPC$Dialog);
-                    this.selectedDialogTopics.put(tLRPC$Dialog, item);
-                    if (shareDialogCell != null) {
-                        shareDialogCell.setTopic(item, true);
-                        shareDialogCell.setChecked(true, true);
-                    }
-                    updateSelectedCount(2);
-                    if (this.searchIsVisible) {
-                        if (((TLRPC$Dialog) this.listAdapter.dialogsMap.get(tLRPC$Dialog.id)) == null) {
-                            this.listAdapter.dialogsMap.put(tLRPC$Dialog.id, tLRPC$Dialog);
-                            this.listAdapter.dialogs.add(1 ^ this.listAdapter.dialogs.isEmpty(), tLRPC$Dialog);
-                        }
-                        this.listAdapter.notifyDataSetChanged();
-                        this.updateSearchAdapter = false;
-                        this.searchView.searchEditText.setText("");
-                        checkCurrentList(false);
-                        this.searchView.hideKeyboard();
-                    }
+                if (shareDialogCell.getCurrentDialog() == this.selectedTopicDialog.id && shareDialogCell != null) {
+                    shareDialogCell.setTopic(item, true);
+                    shareDialogCell.setChecked(true, true);
                 }
             }
         }
@@ -1972,6 +1971,8 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                     ShareAlert shareAlert = ShareAlert.this;
                     shareAlert.topicsBackActionBar.setTitle(MessagesController.getInstance(((BottomSheet) shareAlert).currentAccount).getChat(Long.valueOf(-this.val$dialog.id)).title);
                     ShareAlert.this.topicsBackActionBar.setSubtitle(LocaleController.getString(R.string.SelectTopic));
+                    ShareAlert shareAlert2 = ShareAlert.this;
+                    shareAlert2.searchWasVisibleBeforeTopics = shareAlert2.searchIsVisible;
                     if (ShareAlert.this.topicsAnimation != null) {
                         ShareAlert.this.topicsAnimation.cancel();
                     }
@@ -2040,6 +2041,11 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
         }
         getMainGridView().setVisibility(0);
         this.searchView.setVisibility(0);
+        if (this.searchIsVisible || this.searchWasVisibleBeforeTopics) {
+            this.sizeNotifierFrameLayout.adjustPanLayoutHelper.ignoreOnce();
+            this.searchView.searchEditText.requestFocus();
+            AndroidUtilities.showKeyboard(this.searchView.searchEditText);
+        }
         final int[] iArr = new int[2];
         SpringAnimation springAnimation2 = new SpringAnimation(new FloatValueHolder(1000.0f));
         SpringForce springForce = new SpringForce(0.0f);
@@ -2071,6 +2077,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
         this.shareTopicsAdapter.topics = null;
         this.shareTopicsAdapter.notifyDataSetChanged();
         this.topicsAnimation = null;
+        this.searchWasVisibleBeforeTopics = false;
     }
 
     public void invalidateTopicsAnimation(View view, int[] iArr, float f) {
@@ -2082,14 +2089,14 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
         this.topicsGridView.setScaleX(f3);
         this.topicsGridView.setScaleY(f3);
         this.topicsGridView.setAlpha(f);
-        RecyclerListView recyclerListView = this.searchIsVisible ? this.searchGridView : this.gridView;
-        recyclerListView.setPivotX(view.getX() + (view.getWidth() / 2.0f));
-        recyclerListView.setPivotY(view.getY() + (view.getHeight() / 2.0f));
+        RecyclerListView mainGridView = getMainGridView();
+        mainGridView.setPivotX(view.getX() + (view.getWidth() / 2.0f));
+        mainGridView.setPivotY(view.getY() + (view.getHeight() / 2.0f));
         float f4 = f2 + 1.0f;
-        recyclerListView.setScaleX(f4);
-        recyclerListView.setScaleY(f4);
+        mainGridView.setScaleX(f4);
+        mainGridView.setScaleY(f4);
         float f5 = 1.0f - f;
-        recyclerListView.setAlpha(f5);
+        mainGridView.setAlpha(f5);
         this.searchView.setPivotX(searchField.getWidth() / 2.0f);
         this.searchView.setPivotY(0.0f);
         float f6 = (0.1f * f5) + 0.9f;
@@ -2102,8 +2109,8 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
         this.topicsBackActionBar.setAlpha(f);
         this.topicsGridView.getLocationInWindow(iArr);
         float interpolation = CubicBezierInterpolator.EASE_OUT.getInterpolation(f);
-        for (int i = 0; i < recyclerListView.getChildCount(); i++) {
-            View childAt = recyclerListView.getChildAt(i);
+        for (int i = 0; i < mainGridView.getChildCount(); i++) {
+            View childAt = mainGridView.getChildAt(i);
             if (childAt instanceof ShareDialogCell) {
                 childAt.setTranslationX((childAt.getX() - view.getX()) * 0.5f * interpolation);
                 childAt.setTranslationY((childAt.getY() - view.getY()) * 0.5f * interpolation);
@@ -2129,7 +2136,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
             }
         }
         this.containerView.requestLayout();
-        recyclerListView.invalidate();
+        mainGridView.invalidate();
     }
 
     @Override // org.telegram.ui.ActionBar.BottomSheet
@@ -2497,7 +2504,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
     }
 
     private RecyclerListView getMainGridView() {
-        return this.searchIsVisible ? this.searchGridView : this.gridView;
+        return (this.searchIsVisible || this.searchWasVisibleBeforeTopics) ? this.searchGridView : this.gridView;
     }
 
     public void setDelegate(ShareAlertDelegate shareAlertDelegate) {
@@ -3807,13 +3814,17 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
 
     public void checkCurrentList(boolean z) {
         boolean z2 = true;
-        if (!TextUtils.isEmpty(this.searchView.searchEditText.getText()) || (this.keyboardVisible && this.searchView.searchEditText.hasFocus())) {
+        if (!TextUtils.isEmpty(this.searchView.searchEditText.getText()) || ((this.keyboardVisible && this.searchView.searchEditText.hasFocus()) || this.searchWasVisibleBeforeTopics)) {
             this.updateSearchAdapter = true;
-            AndroidUtilities.updateViewVisibilityAnimated(this.gridView, false, 0.98f, true);
-            AndroidUtilities.updateViewVisibilityAnimated(this.searchGridView, true);
+            if (this.selectedTopicDialog == null) {
+                AndroidUtilities.updateViewVisibilityAnimated(this.gridView, false, 0.98f, true);
+                AndroidUtilities.updateViewVisibilityAnimated(this.searchGridView, true);
+            }
         } else {
-            AndroidUtilities.updateViewVisibilityAnimated(this.gridView, true, 0.98f, true);
-            AndroidUtilities.updateViewVisibilityAnimated(this.searchGridView, false);
+            if (this.selectedTopicDialog == null) {
+                AndroidUtilities.updateViewVisibilityAnimated(this.gridView, true, 0.98f, true);
+                AndroidUtilities.updateViewVisibilityAnimated(this.searchGridView, false);
+            }
             z2 = false;
         }
         if (this.searchIsVisible != z2 || z) {

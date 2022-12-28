@@ -472,6 +472,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     private boolean isCaptionSpoilerPressed;
     public boolean isChat;
     private boolean isCheckPressed;
+    public boolean isForum;
     private boolean isHighlighted;
     private boolean isHighlightedAnimated;
     public boolean isMegagroup;
@@ -23526,31 +23527,31 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         this.currentReplyUserId = 0L;
     }
 
-    /* JADX WARN: Can't wrap try/catch for region: R(28:21|(1:23)|24|(1:526)(2:30|(23:32|33|34|(1:36)(1:(1:494)(1:495))|37|(1:39)(1:492)|40|(7:42|(1:44)|45|(1:47)(3:53|(1:55)(1:57)|56)|48|(1:50)(1:52)|51)|58|59|60|61|62|(3:64|(1:66)|67)(1:487)|68|(1:70)|(1:72)(1:486)|73|(1:75)|76|(1:78)(2:480|(1:482)(2:483|(1:485)))|79|(1:81)))|496|(24:503|(4:516|(1:518)(1:525)|519|(3:521|(1:523)|524))|507|34|(0)(0)|37|(0)(0)|40|(0)|58|59|60|61|62|(0)(0)|68|(0)|(0)(0)|73|(0)|76|(0)(0)|79|(0))(1:502)|33|34|(0)(0)|37|(0)(0)|40|(0)|58|59|60|61|62|(0)(0)|68|(0)|(0)(0)|73|(0)|76|(0)(0)|79|(0)) */
-    /* JADX WARN: Code restructure failed: missing block: B:674:0x03b7, code lost:
+    /* JADX WARN: Can't wrap try/catch for region: R(28:21|(1:23)|24|(1:532)(2:30|(23:32|33|34|(1:36)(1:(1:500)(1:501))|37|(1:39)(1:498)|40|(7:42|(1:44)|45|(1:47)(3:53|(1:55)(1:57)|56)|48|(1:50)(1:52)|51)|58|59|60|61|62|(3:64|(1:66)|67)(1:493)|68|(1:70)|(1:72)(1:492)|73|(1:75)|76|(1:78)(2:486|(1:488)(2:489|(1:491)))|79|(1:81)))|502|(24:509|(4:522|(1:524)(1:531)|525|(3:527|(1:529)|530))|513|34|(0)(0)|37|(0)(0)|40|(0)|58|59|60|61|62|(0)(0)|68|(0)|(0)(0)|73|(0)|76|(0)(0)|79|(0))(1:508)|33|34|(0)(0)|37|(0)(0)|40|(0)|58|59|60|61|62|(0)(0)|68|(0)|(0)(0)|73|(0)|76|(0)(0)|79|(0)) */
+    /* JADX WARN: Code restructure failed: missing block: B:680:0x03b7, code lost:
         r0 = move-exception;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:675:0x03b8, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:681:0x03b8, code lost:
         org.telegram.messenger.FileLog.e(r0);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:830:0x07c1, code lost:
-        if ((r0.action instanceof org.telegram.tgnet.TLRPC$TL_messageActionTopicCreate) == false) goto L462;
+    /* JADX WARN: Code restructure failed: missing block: B:838:0x07c5, code lost:
+        if ((r0.action instanceof org.telegram.tgnet.TLRPC$TL_messageActionTopicCreate) == false) goto L468;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:632:0x01f0  */
-    /* JADX WARN: Removed duplicated region for block: B:633:0x01f3  */
-    /* JADX WARN: Removed duplicated region for block: B:638:0x0216  */
-    /* JADX WARN: Removed duplicated region for block: B:639:0x0219  */
-    /* JADX WARN: Removed duplicated region for block: B:642:0x0224  */
-    /* JADX WARN: Removed duplicated region for block: B:662:0x033d A[Catch: Exception -> 0x03b7, TryCatch #5 {Exception -> 0x03b7, blocks: (B:660:0x031a, B:662:0x033d, B:664:0x0353, B:665:0x0368, B:667:0x0375, B:669:0x0379, B:671:0x0386, B:672:0x03b3, B:666:0x0371), top: B:1094:0x031a }] */
-    /* JADX WARN: Removed duplicated region for block: B:666:0x0371 A[Catch: Exception -> 0x03b7, TryCatch #5 {Exception -> 0x03b7, blocks: (B:660:0x031a, B:662:0x033d, B:664:0x0353, B:665:0x0368, B:667:0x0375, B:669:0x0379, B:671:0x0386, B:672:0x03b3, B:666:0x0371), top: B:1094:0x031a }] */
-    /* JADX WARN: Removed duplicated region for block: B:669:0x0379 A[Catch: Exception -> 0x03b7, TryCatch #5 {Exception -> 0x03b7, blocks: (B:660:0x031a, B:662:0x033d, B:664:0x0353, B:665:0x0368, B:667:0x0375, B:669:0x0379, B:671:0x0386, B:672:0x03b3, B:666:0x0371), top: B:1094:0x031a }] */
-    /* JADX WARN: Removed duplicated region for block: B:671:0x0386 A[Catch: Exception -> 0x03b7, TryCatch #5 {Exception -> 0x03b7, blocks: (B:660:0x031a, B:662:0x033d, B:664:0x0353, B:665:0x0368, B:667:0x0375, B:669:0x0379, B:671:0x0386, B:672:0x03b3, B:666:0x0371), top: B:1094:0x031a }] */
-    /* JADX WARN: Removed duplicated region for block: B:672:0x03b3 A[Catch: Exception -> 0x03b7, TRY_LEAVE, TryCatch #5 {Exception -> 0x03b7, blocks: (B:660:0x031a, B:662:0x033d, B:664:0x0353, B:665:0x0368, B:667:0x0375, B:669:0x0379, B:671:0x0386, B:672:0x03b3, B:666:0x0371), top: B:1094:0x031a }] */
-    /* JADX WARN: Removed duplicated region for block: B:678:0x03bf  */
-    /* JADX WARN: Removed duplicated region for block: B:681:0x03d1  */
-    /* JADX WARN: Removed duplicated region for block: B:682:0x03d8  */
-    /* JADX WARN: Removed duplicated region for block: B:690:0x03fc  */
+    /* JADX WARN: Removed duplicated region for block: B:638:0x01f0  */
+    /* JADX WARN: Removed duplicated region for block: B:639:0x01f3  */
+    /* JADX WARN: Removed duplicated region for block: B:644:0x0216  */
+    /* JADX WARN: Removed duplicated region for block: B:645:0x0219  */
+    /* JADX WARN: Removed duplicated region for block: B:648:0x0224  */
+    /* JADX WARN: Removed duplicated region for block: B:668:0x033d A[Catch: Exception -> 0x03b7, TryCatch #3 {Exception -> 0x03b7, blocks: (B:666:0x031a, B:668:0x033d, B:670:0x0353, B:671:0x0368, B:673:0x0375, B:675:0x0379, B:677:0x0386, B:678:0x03b3, B:672:0x0371), top: B:1102:0x031a }] */
+    /* JADX WARN: Removed duplicated region for block: B:672:0x0371 A[Catch: Exception -> 0x03b7, TryCatch #3 {Exception -> 0x03b7, blocks: (B:666:0x031a, B:668:0x033d, B:670:0x0353, B:671:0x0368, B:673:0x0375, B:675:0x0379, B:677:0x0386, B:678:0x03b3, B:672:0x0371), top: B:1102:0x031a }] */
+    /* JADX WARN: Removed duplicated region for block: B:675:0x0379 A[Catch: Exception -> 0x03b7, TryCatch #3 {Exception -> 0x03b7, blocks: (B:666:0x031a, B:668:0x033d, B:670:0x0353, B:671:0x0368, B:673:0x0375, B:675:0x0379, B:677:0x0386, B:678:0x03b3, B:672:0x0371), top: B:1102:0x031a }] */
+    /* JADX WARN: Removed duplicated region for block: B:677:0x0386 A[Catch: Exception -> 0x03b7, TryCatch #3 {Exception -> 0x03b7, blocks: (B:666:0x031a, B:668:0x033d, B:670:0x0353, B:671:0x0368, B:673:0x0375, B:675:0x0379, B:677:0x0386, B:678:0x03b3, B:672:0x0371), top: B:1102:0x031a }] */
+    /* JADX WARN: Removed duplicated region for block: B:678:0x03b3 A[Catch: Exception -> 0x03b7, TRY_LEAVE, TryCatch #3 {Exception -> 0x03b7, blocks: (B:666:0x031a, B:668:0x033d, B:670:0x0353, B:671:0x0368, B:673:0x0375, B:675:0x0379, B:677:0x0386, B:678:0x03b3, B:672:0x0371), top: B:1102:0x031a }] */
+    /* JADX WARN: Removed duplicated region for block: B:684:0x03bf  */
+    /* JADX WARN: Removed duplicated region for block: B:687:0x03d1  */
+    /* JADX WARN: Removed duplicated region for block: B:688:0x03d8  */
+    /* JADX WARN: Removed duplicated region for block: B:696:0x03fc  */
     /* JADX WARN: Type inference failed for: r4v1 */
     /* JADX WARN: Type inference failed for: r4v149 */
     /* JADX WARN: Type inference failed for: r4v193 */
@@ -23948,7 +23949,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             messageTopicButton.onDetached(this);
             this.topicButton = null;
         }
-        if (((!this.isThreadChat || messageObject.getReplyTopMsgId() != 0) && messageObject.hasValidReplyMessageObject()) || (messageObject.messageOwner.fwd_from != null && messageObject.isDice())) {
+        if (((!this.isThreadChat || messageObject.getReplyTopMsgId() != 0 || this.isForum) && messageObject.hasValidReplyMessageObject()) || (messageObject.messageOwner.fwd_from != null && messageObject.isDice())) {
             MessageObject.GroupedMessagePosition groupedMessagePosition3 = this.currentPosition;
             if (groupedMessagePosition3 == null || groupedMessagePosition3.minY == 0) {
                 if ((!messageObject.isAnyKindOfSticker() && messageObject.type != 5) || messageObject.type == 19) {
@@ -23970,7 +23971,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 } else if (messageObject.type == 5) {
                     maxNameWidth3 += AndroidUtilities.dp(13.0f);
                 }
-                if ((!this.isThreadChat || messageObject.getReplyTopMsgId() != 0) && messageObject.hasValidReplyMessageObject()) {
+                if ((!this.isThreadChat || messageObject.getReplyTopMsgId() != 0 || this.isForum) && messageObject.hasValidReplyMessageObject()) {
                     MessageObject messageObject4 = messageObject.replyMessageObject;
                     this.lastReplyMessage = messageObject4.messageOwner;
                     boolean hasMediaSpoilers = messageObject4.hasMediaSpoilers();
@@ -24103,17 +24104,20 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                     this.replyImageReceiver.setImageBitmap((Drawable) null);
                     this.needReplyImage = false;
                     this.replyPanelIsForward = true;
-                    TLRPC$Peer tLRPC$Peer3 = messageObject.messageOwner.fwd_from.from_id;
-                    if (tLRPC$Peer3 instanceof TLRPC$TL_peerChannel) {
-                        this.currentForwardChannel = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(messageObject.messageOwner.fwd_from.from_id.channel_id));
-                    } else if (tLRPC$Peer3 instanceof TLRPC$TL_peerChat) {
-                        this.currentForwardChannel = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(messageObject.messageOwner.fwd_from.from_id.chat_id));
-                    } else if (tLRPC$Peer3 instanceof TLRPC$TL_peerUser) {
-                        this.currentForwardUser = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(messageObject.messageOwner.fwd_from.from_id.user_id));
-                    }
-                    String str8 = messageObject.messageOwner.fwd_from.from_name;
-                    if (str8 != null) {
-                        this.currentForwardName = str8;
+                    TLRPC$MessageFwdHeader tLRPC$MessageFwdHeader2 = messageObject.messageOwner.fwd_from;
+                    if (tLRPC$MessageFwdHeader2 != null) {
+                        TLRPC$Peer tLRPC$Peer3 = tLRPC$MessageFwdHeader2.from_id;
+                        if (tLRPC$Peer3 instanceof TLRPC$TL_peerChannel) {
+                            this.currentForwardChannel = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(messageObject.messageOwner.fwd_from.from_id.channel_id));
+                        } else if (tLRPC$Peer3 instanceof TLRPC$TL_peerChat) {
+                            this.currentForwardChannel = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(messageObject.messageOwner.fwd_from.from_id.chat_id));
+                        } else if (tLRPC$Peer3 instanceof TLRPC$TL_peerUser) {
+                            this.currentForwardUser = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(messageObject.messageOwner.fwd_from.from_id.user_id));
+                        }
+                        String str8 = messageObject.messageOwner.fwd_from.from_name;
+                        if (str8 != null) {
+                            this.currentForwardName = str8;
+                        }
                     }
                     TLRPC$User tLRPC$User3 = this.currentForwardUser;
                     if (tLRPC$User3 == null && this.currentForwardChannel == null && this.currentForwardName == null) {

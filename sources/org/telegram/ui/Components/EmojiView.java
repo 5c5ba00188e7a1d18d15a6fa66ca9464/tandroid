@@ -3130,12 +3130,12 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                 EmojiGridView.this = r2;
             }
 
-            /* JADX WARN: Code restructure failed: missing block: B:80:0x007e, code lost:
+            /* JADX WARN: Code restructure failed: missing block: B:84:0x0088, code lost:
                 prepareDraw(java.lang.System.currentTimeMillis());
                 drawInUiThread(r9, r14);
                 reset();
              */
-            /* JADX WARN: Code restructure failed: missing block: B:91:?, code lost:
+            /* JADX WARN: Code restructure failed: missing block: B:95:?, code lost:
                 return;
              */
             @Override // org.telegram.ui.Components.DrawingInBackgroundThreadDrawable
@@ -3148,7 +3148,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                     return;
                 }
                 boolean z = true;
-                boolean z2 = arrayList.size() <= 4 || SharedConfig.getDevicePerformanceClass() == 0;
+                boolean z2 = arrayList.size() <= 4 || SharedConfig.getDevicePerformanceClass() == 0 || SharedConfig.getLightMode().enabled();
                 if (!z2) {
                     boolean z3 = EmojiView.this.animateExpandStartTime > 0 && SystemClock.elapsedRealtime() - EmojiView.this.animateExpandStartTime < EmojiGridView.this.animateExpandDuration();
                     for (int i3 = 0; i3 < this.imageViewEmojis.size(); i3++) {

@@ -262,7 +262,7 @@ public class UndoView extends FrameLayout {
 
     private boolean isTooltipAction() {
         int i = this.currentAction;
-        return i == 6 || i == 3 || i == 5 || i == 7 || i == 8 || i == 9 || i == 10 || i == 13 || i == 14 || i == 19 || i == 20 || i == 21 || i == 22 || i == 23 || i == 30 || i == 31 || i == 32 || i == 33 || i == 34 || i == 35 || i == 36 || i == 74 || i == 37 || i == 38 || i == 39 || i == 40 || i == 42 || i == 43 || i == 77 || i == 44 || i == 78 || i == 79 || i == 100 || i == 101 || i == ACTION_RINGTONE_ADDED;
+        return i == 6 || i == 3 || i == 5 || i == 7 || i == 8 || i == 87 || i == 9 || i == 10 || i == 13 || i == 14 || i == 19 || i == 20 || i == 21 || i == 22 || i == 23 || i == 30 || i == 31 || i == 32 || i == 33 || i == 34 || i == 35 || i == 36 || i == 74 || i == 37 || i == 38 || i == 39 || i == 40 || i == 42 || i == 43 || i == 77 || i == 44 || i == 78 || i == 79 || i == 100 || i == 101 || i == ACTION_RINGTONE_ADDED;
     }
 
     private boolean hasSubInfo() {
@@ -369,13 +369,13 @@ public class UndoView extends FrameLayout {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:600:0x173a  */
-    /* JADX WARN: Removed duplicated region for block: B:603:0x175a  */
-    /* JADX WARN: Removed duplicated region for block: B:606:0x1781  */
-    /* JADX WARN: Removed duplicated region for block: B:610:0x17c6  */
-    /* JADX WARN: Removed duplicated region for block: B:641:0x1878  */
-    /* JADX WARN: Removed duplicated region for block: B:667:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Type inference failed for: r2v393, types: [java.lang.CharSequence] */
+    /* JADX WARN: Removed duplicated region for block: B:603:0x174a  */
+    /* JADX WARN: Removed duplicated region for block: B:606:0x176a  */
+    /* JADX WARN: Removed duplicated region for block: B:609:0x1791  */
+    /* JADX WARN: Removed duplicated region for block: B:613:0x17d6  */
+    /* JADX WARN: Removed duplicated region for block: B:644:0x1888  */
+    /* JADX WARN: Removed duplicated region for block: B:670:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Type inference failed for: r2v394, types: [java.lang.CharSequence] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -642,6 +642,9 @@ public class UndoView extends FrameLayout {
                         i4 = R.raw.contact_check;
                     } else if (i == 8) {
                         replaceTags = LocaleController.formatString("NowInContacts", R.string.NowInContacts, UserObject.getFirstName((TLRPC$User) obj));
+                        i4 = R.raw.contact_check;
+                    } else if (i == 87) {
+                        replaceTags = LocaleController.formatString(R.string.ProxyAddedSuccess, new Object[0]);
                         i4 = R.raw.contact_check;
                     } else if (i == 22) {
                         if (!DialogObject.isUserDialog(longValue)) {

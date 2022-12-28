@@ -84,6 +84,7 @@ import org.telegram.tgnet.TLRPC$TL_messages_getStickerSet;
 import org.telegram.tgnet.TLRPC$TL_messages_installStickerSet;
 import org.telegram.tgnet.TLRPC$TL_messages_stickerSet;
 import org.telegram.tgnet.TLRPC$TL_messages_stickerSetInstallResultArchive;
+import org.telegram.tgnet.TLRPC$TL_stickerSetFullCovered;
 import org.telegram.tgnet.TLRPC$TL_stickers_checkShortName;
 import org.telegram.tgnet.TLRPC$TL_stickers_suggestShortName;
 import org.telegram.tgnet.TLRPC$TL_stickers_suggestedShortName;
@@ -2550,6 +2551,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public void notifyDataSetChanged() {
+            ArrayList<TLRPC$Document> arrayList;
             int i;
             int i2;
             if (StickersAlert.this.stickerSetCovereds != null) {
@@ -2565,7 +2567,12 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
                 this.stickersRowCount = 0;
                 for (int i3 = 0; i3 < StickersAlert.this.stickerSetCovereds.size(); i3++) {
                     TLRPC$StickerSetCovered tLRPC$StickerSetCovered = (TLRPC$StickerSetCovered) StickersAlert.this.stickerSetCovereds.get(i3);
-                    if (!tLRPC$StickerSetCovered.covers.isEmpty() || tLRPC$StickerSetCovered.cover != null) {
+                    if (tLRPC$StickerSetCovered instanceof TLRPC$TL_stickerSetFullCovered) {
+                        arrayList = ((TLRPC$TL_stickerSetFullCovered) tLRPC$StickerSetCovered).documents;
+                    } else {
+                        arrayList = tLRPC$StickerSetCovered.covers;
+                    }
+                    if (arrayList != null && (!arrayList.isEmpty() || tLRPC$StickerSetCovered.cover != null)) {
                         double d = this.stickersRowCount;
                         double ceil = Math.ceil(StickersAlert.this.stickerSetCovereds.size() / this.stickersPerRow);
                         Double.isNaN(d);
@@ -2576,10 +2583,10 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
                         this.totalItems = i4 + 1;
                         sparseArray.put(i4, Integer.valueOf(i3));
                         int i5 = this.totalItems / this.stickersPerRow;
-                        if (!tLRPC$StickerSetCovered.covers.isEmpty()) {
-                            i = (int) Math.ceil(tLRPC$StickerSetCovered.covers.size() / this.stickersPerRow);
-                            for (int i6 = 0; i6 < tLRPC$StickerSetCovered.covers.size(); i6++) {
-                                this.cache.put(this.totalItems + i6, tLRPC$StickerSetCovered.covers.get(i6));
+                        if (!arrayList.isEmpty()) {
+                            i = (int) Math.ceil(arrayList.size() / this.stickersPerRow);
+                            for (int i6 = 0; i6 < arrayList.size(); i6++) {
+                                this.cache.put(this.totalItems + i6, arrayList.get(i6));
                             }
                         } else {
                             this.cache.put(this.totalItems, tLRPC$StickerSetCovered.cover);

@@ -1734,8 +1734,8 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:34:0x0052 A[Catch: Exception -> 0x0072, TRY_ENTER, TryCatch #0 {Exception -> 0x0072, blocks: (B:34:0x0052, B:36:0x005c, B:39:0x0061, B:41:0x006e, B:40:0x0065), top: B:46:0x0050 }] */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x0065 A[Catch: Exception -> 0x0072, TryCatch #0 {Exception -> 0x0072, blocks: (B:34:0x0052, B:36:0x005c, B:39:0x0061, B:41:0x006e, B:40:0x0065), top: B:46:0x0050 }] */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x0053 A[Catch: Exception -> 0x0073, TRY_ENTER, TryCatch #0 {Exception -> 0x0073, blocks: (B:34:0x0053, B:36:0x005d, B:39:0x0062, B:41:0x006f, B:40:0x0066), top: B:46:0x0051 }] */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x0066 A[Catch: Exception -> 0x0073, TryCatch #0 {Exception -> 0x0073, blocks: (B:34:0x0053, B:36:0x005d, B:39:0x0062, B:41:0x006f, B:40:0x0066), top: B:46:0x0051 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

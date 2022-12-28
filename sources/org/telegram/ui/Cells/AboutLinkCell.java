@@ -13,6 +13,7 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.text.Layout;
 import android.text.Spannable;
@@ -46,6 +47,7 @@ import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.LinkPath;
 import org.telegram.ui.Components.LinkSpanDrawable;
+import org.telegram.ui.Components.LoadingDrawable;
 import org.telegram.ui.Components.StaticLayoutEx;
 import org.telegram.ui.Components.URLSpanNoUnderline;
 /* loaded from: classes3.dex */
@@ -57,6 +59,8 @@ public class AboutLinkCell extends FrameLayout {
     private FrameLayout bottomShadow;
     private ValueAnimator collapseAnimator;
     private FrameLayout container;
+    private LoadingDrawable currentLoading;
+    private Browser.Progress currentProgress;
     private float expandT;
     private boolean expanded;
     private StaticLayout firstThreeLinesLayout;
@@ -71,6 +75,8 @@ public class AboutLinkCell extends FrameLayout {
     private String oldText;
     private BaseFragment parentFragment;
     private LinkSpanDrawable pressedLink;
+    private Layout pressedLinkLayout;
+    private float pressedLinkYOffset;
     private Theme.ResourcesProvider resourcesProvider;
     private Drawable rippleBackground;
     private boolean shouldExpand;
@@ -86,7 +92,7 @@ public class AboutLinkCell extends FrameLayout {
     protected void didExtend() {
     }
 
-    protected void didPressUrl(String str) {
+    protected void didPressUrl(String str, Browser.Progress progress) {
     }
 
     protected void didResizeEnd() {
@@ -212,6 +218,7 @@ public class AboutLinkCell extends FrameLayout {
                     resetPressedLink();
                     LinkSpanDrawable hitLink = hitLink(x, y);
                     if (hitLink != null) {
+                        this.pressedLinkLayout = this.textLayout;
                         LinkSpanDrawable.LinkCollector linkCollector = this.links;
                         this.pressedLink = hitLink;
                         linkCollector.addLink(hitLink);
@@ -222,7 +229,7 @@ public class AboutLinkCell extends FrameLayout {
                     LinkSpanDrawable linkSpanDrawable = this.pressedLink;
                     if (linkSpanDrawable != null) {
                         try {
-                            onLinkClick((ClickableSpan) linkSpanDrawable.getSpan());
+                            onLinkClick((ClickableSpan) linkSpanDrawable.getSpan(), this.textLayout, this.pressedLinkYOffset);
                         } catch (Exception e) {
                             FileLog.e(e);
                         }
@@ -411,13 +418,15 @@ public class AboutLinkCell extends FrameLayout {
                     AboutLinkCell.this.performHapticFeedback(0, 2);
                 } catch (Exception unused) {
                 }
+                final Layout layout = AboutLinkCell.this.pressedLinkLayout;
+                final float f = AboutLinkCell.this.pressedLinkYOffset;
                 final ClickableSpan clickableSpan = (ClickableSpan) AboutLinkCell.this.pressedLink.getSpan();
                 BottomSheet.Builder builder = new BottomSheet.Builder(AboutLinkCell.this.parentFragment.getParentActivity());
                 builder.setTitle(url);
                 builder.setItems(new CharSequence[]{LocaleController.getString("Open", R.string.Open), LocaleController.getString("Copy", R.string.Copy)}, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Cells.AboutLinkCell$2$$ExternalSyntheticLambda0
                     @Override // android.content.DialogInterface.OnClickListener
                     public final void onClick(DialogInterface dialogInterface, int i) {
-                        AboutLinkCell.2.this.lambda$run$0(clickableSpan, url, dialogInterface, i);
+                        AboutLinkCell.2.this.lambda$run$0(clickableSpan, layout, f, url, dialogInterface, i);
                     }
                 });
                 builder.setOnPreDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Cells.AboutLinkCell$2$$ExternalSyntheticLambda1
@@ -432,9 +441,9 @@ public class AboutLinkCell extends FrameLayout {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$run$0(ClickableSpan clickableSpan, String str, DialogInterface dialogInterface, int i) {
+        public /* synthetic */ void lambda$run$0(ClickableSpan clickableSpan, Layout layout, float f, String str, DialogInterface dialogInterface, int i) {
             if (i == 0) {
-                AboutLinkCell.this.onLinkClick(clickableSpan);
+                AboutLinkCell.this.onLinkClick(clickableSpan, layout, f);
             } else if (i == 1) {
                 AndroidUtilities.addToClipboard(str);
                 if (AndroidUtilities.shouldShowClipboardToast()) {
@@ -512,7 +521,9 @@ public class AboutLinkCell extends FrameLayout {
             int spanStart = spannable.getSpanStart(clickableSpanArr[0]);
             int spanEnd = spannable.getSpanEnd(clickableSpanArr[0]);
             LinkPath obtainNewPath = linkSpanDrawable.obtainNewPath();
-            obtainNewPath.setCurrentLayout(staticLayout, spanStart, i2);
+            float f2 = i2;
+            this.pressedLinkYOffset = f2;
+            obtainNewPath.setCurrentLayout(staticLayout, spanStart, f2);
             staticLayout.getSelectionPath(spanStart, spanEnd, obtainNewPath);
             return linkSpanDrawable;
         } catch (Exception e) {
@@ -522,18 +533,51 @@ public class AboutLinkCell extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public void onLinkClick(ClickableSpan clickableSpan) {
+    public void onLinkClick(final ClickableSpan clickableSpan, final Layout layout, final float f) {
+        Browser.Progress progress = this.currentProgress;
+        Browser.Progress progress2 = null;
+        if (progress != null) {
+            progress.cancel();
+            this.currentProgress = null;
+        }
+        if (layout != null && clickableSpan != null) {
+            progress2 = new Browser.Progress() { // from class: org.telegram.ui.Cells.AboutLinkCell.3
+                LoadingDrawable thisLoading;
+
+                @Override // org.telegram.messenger.browser.Browser.Progress
+                public void init() {
+                    if (AboutLinkCell.this.currentLoading != null) {
+                        AboutLinkCell.this.links.removeLoading(AboutLinkCell.this.currentLoading, true);
+                    }
+                    AboutLinkCell aboutLinkCell = AboutLinkCell.this;
+                    LoadingDrawable makeLoading = LinkSpanDrawable.LinkCollector.makeLoading(layout, clickableSpan, f);
+                    this.thisLoading = makeLoading;
+                    aboutLinkCell.currentLoading = makeLoading;
+                    this.thisLoading.setColors(Theme.multAlpha(Theme.getColor("chat_linkSelectBackground", AboutLinkCell.this.resourcesProvider), 0.8f), Theme.multAlpha(Theme.getColor("chat_linkSelectBackground", AboutLinkCell.this.resourcesProvider), 1.3f), Theme.multAlpha(Theme.getColor("chat_linkSelectBackground", AboutLinkCell.this.resourcesProvider), 1.0f), Theme.multAlpha(Theme.getColor("chat_linkSelectBackground", AboutLinkCell.this.resourcesProvider), 4.0f));
+                    this.thisLoading.strokePaint.setStrokeWidth(AndroidUtilities.dpf2(1.25f));
+                    AboutLinkCell.this.links.addLoading(this.thisLoading);
+                }
+
+                @Override // org.telegram.messenger.browser.Browser.Progress
+                public void end(boolean z) {
+                    if (this.thisLoading != null) {
+                        AboutLinkCell.this.links.removeLoading(this.thisLoading, true);
+                    }
+                }
+            };
+        }
+        this.currentProgress = progress2;
         if (clickableSpan instanceof URLSpanNoUnderline) {
             String url = ((URLSpanNoUnderline) clickableSpan).getURL();
             if (url.startsWith("@") || url.startsWith("#") || url.startsWith("/")) {
-                didPressUrl(url);
+                didPressUrl(url, this.currentProgress);
             }
         } else if (clickableSpan instanceof URLSpan) {
             String url2 = ((URLSpan) clickableSpan).getURL();
             if (AndroidUtilities.shouldShowUrlInAlert(url2)) {
-                AlertsCreator.showOpenUrlAlert(this.parentFragment, url2, true, true);
+                AlertsCreator.showOpenUrlAlert(this.parentFragment, url2, true, true, true, this.currentProgress, null);
             } else {
-                Browser.openUrl(getContext(), url2);
+                Browser.openUrl(getContext(), Uri.parse(url2), true, true, this.currentProgress);
             }
         } else {
             clickableSpan.onClick(this);
@@ -595,7 +639,7 @@ public class AboutLinkCell extends FrameLayout {
                     AboutLinkCell.this.lambda$updateCollapse$1(atomicReference, f, f2, springInterpolator, valueAnimator2);
                 }
             });
-            this.collapseAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.AboutLinkCell.3
+            this.collapseAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.AboutLinkCell.4
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                 public void onAnimationEnd(Animator animator) {
                     AboutLinkCell.this.didResizeEnd();

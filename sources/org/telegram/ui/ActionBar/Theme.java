@@ -88,7 +88,7 @@ import org.telegram.messenger.MediaController;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
-import org.telegram.messenger.MessagesController$$ExternalSyntheticLambda229;
+import org.telegram.messenger.MessagesController$$ExternalSyntheticLambda230;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
@@ -4887,7 +4887,7 @@ public class Theme {
                 themeInfo3 = currentNightTheme;
             }
             applyTheme(themeInfo3, false, false, needSwitchToTheme == 2);
-            AndroidUtilities.runOnUIThread(MessagesController$$ExternalSyntheticLambda229.INSTANCE);
+            AndroidUtilities.runOnUIThread(MessagesController$$ExternalSyntheticLambda230.INSTANCE);
             ambientSensorListener = new SensorEventListener() { // from class: org.telegram.ui.ActionBar.Theme.9
                 @Override // android.hardware.SensorEventListener
                 public void onAccuracyChanged(Sensor sensor, int i7) {
@@ -6093,7 +6093,7 @@ public class Theme {
                 if (isCurrentThemeNight()) {
                     switchNightThemeDelay = 2000;
                     lastDelayUpdateTime = SystemClock.elapsedRealtime();
-                    AndroidUtilities.runOnUIThread(MessagesController$$ExternalSyntheticLambda229.INSTANCE, 2100L);
+                    AndroidUtilities.runOnUIThread(MessagesController$$ExternalSyntheticLambda230.INSTANCE, 2100L);
                 }
             }
             currentTheme = themeInfo;
@@ -6226,7 +6226,7 @@ public class Theme {
                 if (isCurrentThemeNight()) {
                     switchNightThemeDelay = 2000;
                     lastDelayUpdateTime = SystemClock.elapsedRealtime();
-                    AndroidUtilities.runOnUIThread(MessagesController$$ExternalSyntheticLambda229.INSTANCE, 2100L);
+                    AndroidUtilities.runOnUIThread(MessagesController$$ExternalSyntheticLambda230.INSTANCE, 2100L);
                 }
             }
             currentTheme = themeInfo;
@@ -6335,7 +6335,7 @@ public class Theme {
                 if (isCurrentThemeNight()) {
                     switchNightThemeDelay = 2000;
                     lastDelayUpdateTime = SystemClock.elapsedRealtime();
-                    AndroidUtilities.runOnUIThread(MessagesController$$ExternalSyntheticLambda229.INSTANCE, 2100L);
+                    AndroidUtilities.runOnUIThread(MessagesController$$ExternalSyntheticLambda230.INSTANCE, 2100L);
                 }
             }
             currentTheme = themeInfo;
@@ -9787,7 +9787,7 @@ public class Theme {
             drawable = drawable2;
         }
         boolean z2 = drawable instanceof MotionBackgroundDrawable;
-        if ((!z2 || SharedConfig.getDevicePerformanceClass() == 0) ? false : false) {
+        if ((!z2 || SharedConfig.getDevicePerformanceClass() == 0 || SharedConfig.getLightMode().enabled()) ? false : false) {
             Bitmap bitmap = ((MotionBackgroundDrawable) drawable).getBitmap();
             if (serviceBitmap != bitmap) {
                 serviceBitmap = bitmap;

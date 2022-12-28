@@ -10614,7 +10614,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     /* JADX WARN: Removed duplicated region for block: B:223:0x0631  */
     /* JADX WARN: Removed duplicated region for block: B:224:0x0638  */
     /* JADX WARN: Removed duplicated region for block: B:227:0x0648  */
-    /* JADX WARN: Removed duplicated region for block: B:465:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:461:? A[RETURN, SYNTHETIC] */
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -11097,53 +11097,74 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 baseFragment = null;
             }
             int i8 = 1500;
-            if (intValue3 == 0) {
-                TLRPC$Document tLRPC$Document = (TLRPC$Document) objArr[1];
-                int intValue4 = ((Integer) objArr[2]).intValue();
-                StickerSetBulletinLayout stickerSetBulletinLayout = new StickerSetBulletinLayout(this, null, intValue4, tLRPC$Document, null);
-                i8 = (intValue4 == 6 || intValue4 == 7) ? 3500 : 3500;
-                if (baseFragment != null) {
-                    Bulletin.make(baseFragment, stickerSetBulletinLayout, i8).show();
-                } else {
-                    Bulletin.make(container, stickerSetBulletinLayout, i8).show();
-                }
-            } else if (intValue3 == 1) {
-                if (baseFragment != null) {
-                    BulletinFactory.of(baseFragment).createErrorBulletin((String) objArr[1]).show();
-                } else {
-                    BulletinFactory.of(container, null).createErrorBulletin((String) objArr[1]).show();
-                }
-            } else if (intValue3 == 2) {
-                if (((Long) objArr[1]).longValue() > 0) {
-                    i3 = R.string.YourBioChanged;
-                    str = "YourBioChanged";
-                } else {
-                    i3 = R.string.ChannelDescriptionChanged;
-                    str = "CannelDescriptionChanged";
-                }
-                (container != null ? BulletinFactory.of(container, null) : BulletinFactory.of(baseFragment)).createErrorBulletin(LocaleController.getString(str, i3)).show();
-            } else if (intValue3 == 3) {
-                if (((Long) objArr[1]).longValue() > 0) {
-                    i4 = R.string.YourNameChanged;
-                    str2 = "YourNameChanged";
-                } else {
-                    i4 = R.string.ChannelTitleChanged;
-                    str2 = "CannelTitleChanged";
-                }
-                (container != null ? BulletinFactory.of(container, null) : BulletinFactory.of(baseFragment)).createErrorBulletin(LocaleController.getString(str2, i4)).show();
-            } else if (intValue3 == 4) {
-                if (baseFragment != null) {
-                    BulletinFactory.of(baseFragment).createErrorBulletinSubtitle((String) objArr[1], (String) objArr[2], baseFragment.getResourceProvider()).show();
-                } else {
-                    BulletinFactory.of(container, null).createErrorBulletinSubtitle((String) objArr[1], (String) objArr[2], null).show();
-                }
-            } else if (intValue3 == 5) {
-                AppIconBulletinLayout appIconBulletinLayout = new AppIconBulletinLayout(this, (LauncherIconController.LauncherIcon) objArr[1], null);
-                if (baseFragment != null) {
-                    Bulletin.make(baseFragment, appIconBulletinLayout, 1500).show();
-                } else {
-                    Bulletin.make(container, appIconBulletinLayout, 1500).show();
-                }
+            switch (intValue3) {
+                case 0:
+                    TLRPC$Document tLRPC$Document = (TLRPC$Document) objArr[1];
+                    int intValue4 = ((Integer) objArr[2]).intValue();
+                    StickerSetBulletinLayout stickerSetBulletinLayout = new StickerSetBulletinLayout(this, null, intValue4, tLRPC$Document, null);
+                    i8 = (intValue4 == 6 || intValue4 == 7) ? 3500 : 3500;
+                    if (baseFragment != null) {
+                        Bulletin.make(baseFragment, stickerSetBulletinLayout, i8).show();
+                        return;
+                    } else {
+                        Bulletin.make(container, stickerSetBulletinLayout, i8).show();
+                        return;
+                    }
+                case 1:
+                    if (baseFragment != null) {
+                        BulletinFactory.of(baseFragment).createErrorBulletin((String) objArr[1]).show();
+                        return;
+                    } else {
+                        BulletinFactory.of(container, null).createErrorBulletin((String) objArr[1]).show();
+                        return;
+                    }
+                case 2:
+                    if (((Long) objArr[1]).longValue() > 0) {
+                        i3 = R.string.YourBioChanged;
+                        str = "YourBioChanged";
+                    } else {
+                        i3 = R.string.ChannelDescriptionChanged;
+                        str = "CannelDescriptionChanged";
+                    }
+                    (container != null ? BulletinFactory.of(container, null) : BulletinFactory.of(baseFragment)).createErrorBulletin(LocaleController.getString(str, i3)).show();
+                    return;
+                case 3:
+                    if (((Long) objArr[1]).longValue() > 0) {
+                        i4 = R.string.YourNameChanged;
+                        str2 = "YourNameChanged";
+                    } else {
+                        i4 = R.string.ChannelTitleChanged;
+                        str2 = "CannelTitleChanged";
+                    }
+                    (container != null ? BulletinFactory.of(container, null) : BulletinFactory.of(baseFragment)).createErrorBulletin(LocaleController.getString(str2, i4)).show();
+                    return;
+                case 4:
+                    if (baseFragment != null) {
+                        BulletinFactory.of(baseFragment).createErrorBulletinSubtitle((String) objArr[1], (String) objArr[2], baseFragment.getResourceProvider()).show();
+                        return;
+                    } else {
+                        BulletinFactory.of(container, null).createErrorBulletinSubtitle((String) objArr[1], (String) objArr[2], null).show();
+                        return;
+                    }
+                case 5:
+                    AppIconBulletinLayout appIconBulletinLayout = new AppIconBulletinLayout(this, (LauncherIconController.LauncherIcon) objArr[1], null);
+                    if (baseFragment != null) {
+                        Bulletin.make(baseFragment, appIconBulletinLayout, 1500).show();
+                        return;
+                    } else {
+                        Bulletin.make(container, appIconBulletinLayout, 1500).show();
+                        return;
+                    }
+                case 6:
+                    if (baseFragment != null) {
+                        BulletinFactory.of(baseFragment).createSuccessBulletin((String) objArr[1]).show();
+                        return;
+                    } else {
+                        BulletinFactory.of(container, null).createSuccessBulletin((String) objArr[1]).show();
+                        return;
+                    }
+                default:
+                    return;
             }
         } else {
             String[] strArr = null;

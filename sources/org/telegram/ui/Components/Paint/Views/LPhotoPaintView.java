@@ -2372,6 +2372,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
 
     @Override // org.telegram.ui.Components.IPhotoPaintView
     public List<TLRPC$InputDocument> getMasks() {
+        AnimatedEmojiSpan[] animatedEmojiSpanArr;
         int childCount = this.entitiesView.getChildCount();
         ArrayList arrayList = null;
         for (int i = 0; i < childCount; i++) {
@@ -2390,6 +2391,32 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
                     tLRPC$TL_inputDocument.file_reference = new byte[0];
                 }
                 arrayList.add(tLRPC$TL_inputDocument);
+            } else if (childAt instanceof TextPaintView) {
+                CharSequence text = ((TextPaintView) childAt).getText();
+                if ((text instanceof Spanned) && (animatedEmojiSpanArr = (AnimatedEmojiSpan[]) ((Spanned) text).getSpans(0, text.length(), AnimatedEmojiSpan.class)) != null) {
+                    for (AnimatedEmojiSpan animatedEmojiSpan : animatedEmojiSpanArr) {
+                        if (animatedEmojiSpan != null) {
+                            TLRPC$Document tLRPC$Document = animatedEmojiSpan.document;
+                            if (tLRPC$Document == null) {
+                                tLRPC$Document = AnimatedEmojiDrawable.findDocument(this.currentAccount, animatedEmojiSpan.getDocumentId());
+                            }
+                            if (tLRPC$Document != null) {
+                                if (arrayList == null) {
+                                    arrayList = new ArrayList();
+                                }
+                                TLRPC$TL_inputDocument tLRPC$TL_inputDocument2 = new TLRPC$TL_inputDocument();
+                                tLRPC$TL_inputDocument2.id = tLRPC$Document.id;
+                                tLRPC$TL_inputDocument2.access_hash = tLRPC$Document.access_hash;
+                                byte[] bArr2 = tLRPC$Document.file_reference;
+                                tLRPC$TL_inputDocument2.file_reference = bArr2;
+                                if (bArr2 == null) {
+                                    tLRPC$TL_inputDocument2.file_reference = new byte[0];
+                                }
+                                arrayList.add(tLRPC$TL_inputDocument2);
+                            }
+                        }
+                    }
+                }
             }
         }
         return arrayList;

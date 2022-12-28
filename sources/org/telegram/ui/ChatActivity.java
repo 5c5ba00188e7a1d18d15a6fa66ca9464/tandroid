@@ -33332,36 +33332,36 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             }
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:144:0x0251, code lost:
-            if (r5.getSenderId() == r3.getSenderId()) goto L117;
+        /* JADX WARN: Code restructure failed: missing block: B:142:0x0257, code lost:
+            if (r5.getSenderId() == r3.getSenderId()) goto L115;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:145:0x0253, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:143:0x0259, code lost:
             r9 = true;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:162:0x02a5, code lost:
-            if (org.telegram.messenger.MessageObject.getPeerId(r5) == org.telegram.messenger.MessageObject.getPeerId(r3.messageOwner.fwd_from.from_id)) goto L117;
+        /* JADX WARN: Code restructure failed: missing block: B:160:0x02ab, code lost:
+            if (org.telegram.messenger.MessageObject.getPeerId(r5) == org.telegram.messenger.MessageObject.getPeerId(r3.messageOwner.fwd_from.from_id)) goto L115;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:209:0x034c, code lost:
-            if (r4.getSenderId() == r3.getSenderId()) goto L178;
+        /* JADX WARN: Code restructure failed: missing block: B:207:0x0352, code lost:
+            if (r4.getSenderId() == r3.getSenderId()) goto L176;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:210:0x034e, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:208:0x0354, code lost:
             r14 = true;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:227:0x03a0, code lost:
-            if (org.telegram.messenger.MessageObject.getPeerId(r4) == org.telegram.messenger.MessageObject.getPeerId(r3.messageOwner.fwd_from.from_id)) goto L178;
+        /* JADX WARN: Code restructure failed: missing block: B:225:0x03a6, code lost:
+            if (org.telegram.messenger.MessageObject.getPeerId(r4) == org.telegram.messenger.MessageObject.getPeerId(r3.messageOwner.fwd_from.from_id)) goto L176;
          */
-        /* JADX WARN: Removed duplicated region for block: B:103:0x01a6  */
-        /* JADX WARN: Removed duplicated region for block: B:115:0x01ef  */
-        /* JADX WARN: Removed duplicated region for block: B:167:0x02af  */
-        /* JADX WARN: Removed duplicated region for block: B:241:0x03ce  */
-        /* JADX WARN: Removed duplicated region for block: B:243:0x03d1  */
-        /* JADX WARN: Removed duplicated region for block: B:246:0x03e1  */
-        /* JADX WARN: Removed duplicated region for block: B:247:0x03e3  */
-        /* JADX WARN: Removed duplicated region for block: B:256:0x0406  */
-        /* JADX WARN: Removed duplicated region for block: B:259:0x0414  */
-        /* JADX WARN: Removed duplicated region for block: B:83:0x0135  */
-        /* JADX WARN: Removed duplicated region for block: B:84:0x0137  */
-        /* JADX WARN: Removed duplicated region for block: B:87:0x013c  */
+        /* JADX WARN: Removed duplicated region for block: B:101:0x01ac  */
+        /* JADX WARN: Removed duplicated region for block: B:113:0x01f5  */
+        /* JADX WARN: Removed duplicated region for block: B:165:0x02b5  */
+        /* JADX WARN: Removed duplicated region for block: B:239:0x03d4  */
+        /* JADX WARN: Removed duplicated region for block: B:241:0x03d7  */
+        /* JADX WARN: Removed duplicated region for block: B:244:0x03e7  */
+        /* JADX WARN: Removed duplicated region for block: B:245:0x03e9  */
+        /* JADX WARN: Removed duplicated region for block: B:254:0x040c  */
+        /* JADX WARN: Removed duplicated region for block: B:257:0x041a  */
+        /* JADX WARN: Removed duplicated region for block: B:81:0x013b  */
+        /* JADX WARN: Removed duplicated region for block: B:82:0x013d  */
+        /* JADX WARN: Removed duplicated region for block: B:85:0x0142  */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -33384,8 +33384,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             int i4;
             int i5;
             TLRPC$ChatFull tLRPC$ChatFull;
-            ChatActivity chatActivity2;
-            TLRPC$Chat tLRPC$Chat;
             if (i == this.botInfoRow || i == this.botInfoEmptyRow) {
                 BotHelpCell botHelpCell = (BotHelpCell) viewHolder.itemView;
                 if (!UserObject.isReplyUser(ChatActivity.this.currentUser)) {
@@ -33412,16 +33410,17 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 if (view instanceof ChatMessageCell) {
                     final ChatMessageCell chatMessageCell = (ChatMessageCell) view;
                     MessageObject.GroupedMessages validGroupedMessage = ChatActivity.this.getValidGroupedMessage(messageObject);
+                    ChatActivity chatActivity2 = ChatActivity.this;
+                    chatMessageCell.isChat = chatActivity2.currentChat != null || UserObject.isUserSelf(chatActivity2.currentUser) || UserObject.isReplyUser(ChatActivity.this.currentUser);
                     ChatActivity chatActivity3 = ChatActivity.this;
-                    chatMessageCell.isChat = chatActivity3.currentChat != null || UserObject.isUserSelf(chatActivity3.currentUser) || UserObject.isReplyUser(ChatActivity.this.currentUser);
-                    ChatActivity chatActivity4 = ChatActivity.this;
-                    TLRPC$User tLRPC$User = chatActivity4.currentUser;
+                    TLRPC$User tLRPC$User = chatActivity3.currentUser;
                     chatMessageCell.isBot = tLRPC$User != null && tLRPC$User.bot;
-                    chatMessageCell.isMegagroup = ChatObject.isChannel(chatActivity4.currentChat) && ChatActivity.this.currentChat.megagroup;
-                    chatMessageCell.isThreadChat = ChatActivity.this.threadMessageId != 0 || ((tLRPC$Chat = (chatActivity2 = ChatActivity.this).currentChat) != null && tLRPC$Chat.forum && chatActivity2.isTopic);
+                    chatMessageCell.isMegagroup = ChatObject.isChannel(chatActivity3.currentChat) && ChatActivity.this.currentChat.megagroup;
+                    chatMessageCell.isForum = ChatObject.isForum(ChatActivity.this.currentChat);
+                    chatMessageCell.isThreadChat = ChatActivity.this.threadMessageId != 0 || (chatMessageCell.isForum && ChatActivity.this.isTopic);
                     if (ChatActivity.this.chatMode != 1 && ChatObject.isChannel(ChatActivity.this.currentChat)) {
-                        TLRPC$Chat tLRPC$Chat2 = ChatActivity.this.currentChat;
-                        if (tLRPC$Chat2.has_link && !tLRPC$Chat2.megagroup) {
+                        TLRPC$Chat tLRPC$Chat = ChatActivity.this.currentChat;
+                        if (tLRPC$Chat.has_link && !tLRPC$Chat.megagroup) {
                             z = true;
                             chatMessageCell.hasDiscussion = z;
                             chatMessageCell.isPinned = ChatActivity.this.chatMode != 0 && (ChatActivity.this.pinnedMessageObjects.containsKey(Integer.valueOf(messageObject.getId())) || !(validGroupedMessage == null || validGroupedMessage.messages.isEmpty() || !ChatActivity.this.pinnedMessageObjects.containsKey(Integer.valueOf(validGroupedMessage.messages.get(0).getId()))));
@@ -33499,15 +33498,15 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                         }
                                         z3 = false;
                                     } else {
-                                        ChatActivity chatActivity5 = ChatActivity.this;
-                                        if (chatActivity5.currentChat != null) {
+                                        ChatActivity chatActivity4 = ChatActivity.this;
+                                        if (chatActivity4.currentChat != null) {
                                             long fromChatId = messageObject2.getFromChatId();
                                             boolean z7 = fromChatId == messageObject.getFromChatId();
                                             if (z2 || !z7 || fromChatId >= 0 || !ChatActivity.this.currentChat.megagroup) {
                                                 z3 = z7;
                                             }
                                             z3 = false;
-                                        } else if (UserObject.isUserSelf(chatActivity5.currentUser) || UserObject.isReplyUser(ChatActivity.this.currentUser)) {
+                                        } else if (UserObject.isUserSelf(chatActivity4.currentUser) || UserObject.isReplyUser(ChatActivity.this.currentUser)) {
                                             if (!messageObject.isPrivateForward()) {
                                                 if (!messageObject2.isPrivateForward()) {
                                                 }
@@ -33537,15 +33536,15 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                         }
                                         z4 = false;
                                     } else {
-                                        ChatActivity chatActivity6 = ChatActivity.this;
-                                        if (chatActivity6.currentChat != null) {
+                                        ChatActivity chatActivity5 = ChatActivity.this;
+                                        if (chatActivity5.currentChat != null) {
                                             long fromChatId2 = messageObject3.getFromChatId();
                                             boolean z8 = (fromChatId2 != messageObject.getFromChatId() || messageObject.isImportedForward() || messageObject3.isImportedForward()) ? false : true;
                                             if (z5 || !z8 || fromChatId2 >= 0 || !ChatActivity.this.currentChat.megagroup) {
                                                 z4 = z8;
                                             }
                                             z4 = false;
-                                        } else if (UserObject.isUserSelf(chatActivity6.currentUser) || UserObject.isReplyUser(ChatActivity.this.currentUser)) {
+                                        } else if (UserObject.isUserSelf(chatActivity5.currentUser) || UserObject.isReplyUser(ChatActivity.this.currentUser)) {
                                             if (!messageObject.isPrivateForward()) {
                                                 if (!messageObject3.isPrivateForward()) {
                                                 }
