@@ -11,7 +11,6 @@ import android.util.Base64;
 import android.util.SparseArray;
 import android.webkit.WebView;
 import androidx.core.content.pm.ShortcutManagerCompat;
-import com.google.android.exoplayer2.util.Log;
 import java.io.File;
 import java.io.RandomAccessFile;
 import java.lang.annotation.Retention;
@@ -958,7 +957,6 @@ public class SharedConfig {
                 Collections.sort(arrayList3, SharedConfig$$ExternalSyntheticLambda5.INSTANCE);
                 for (int i14 = 0; i14 < arrayList3.size(); i14++) {
                     j5 -= ((FileInfoInternal) arrayList3.get(i14)).file.length();
-                    Log.d("kek", "remove files by size" + ((FileInfoInternal) arrayList3.get(i14)).file.getName());
                     try {
                         ((FileInfoInternal) arrayList3.get(i14)).file.delete();
                     } catch (Exception unused) {
@@ -967,7 +965,6 @@ public class SharedConfig {
                         break;
                     }
                 }
-                Log.d("kek", "total size " + AndroidUtilities.formatFileSize(j5));
             }
         }
         File file3 = new File(file, "acache");

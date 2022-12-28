@@ -105,6 +105,19 @@ public class Utilities {
         }
     }
 
+    public static Bitmap stackBlurBitmapMax(Bitmap bitmap) {
+        int dp = AndroidUtilities.dp(20.0f);
+        int dp2 = (int) ((AndroidUtilities.dp(20.0f) * bitmap.getHeight()) / bitmap.getWidth());
+        Bitmap createBitmap = Bitmap.createBitmap(dp, dp2, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(createBitmap);
+        canvas.save();
+        canvas.scale(createBitmap.getWidth() / bitmap.getWidth(), createBitmap.getHeight() / bitmap.getHeight());
+        canvas.drawBitmap(bitmap, 0.0f, 0.0f, (Paint) null);
+        canvas.restore();
+        stackBlurBitmap(createBitmap, Math.max(10, Math.max(dp, dp2) / ImageReceiver.DEFAULT_CROSSFADE_DURATION));
+        return createBitmap;
+    }
+
     public static Bitmap stackBlurBitmapWithScaleFactor(Bitmap bitmap, float f) {
         int max = (int) Math.max(AndroidUtilities.dp(20.0f), bitmap.getWidth() / f);
         int max2 = (int) Math.max((AndroidUtilities.dp(20.0f) * bitmap.getHeight()) / bitmap.getWidth(), bitmap.getHeight() / f);

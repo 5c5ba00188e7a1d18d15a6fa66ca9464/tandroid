@@ -709,7 +709,7 @@ public class AndroidUtilities {
 
     private static void pruneOverlaps(ArrayList<LinkSpec> arrayList) {
         int i;
-        Collections.sort(arrayList, AndroidUtilities$$ExternalSyntheticLambda14.INSTANCE);
+        Collections.sort(arrayList, AndroidUtilities$$ExternalSyntheticLambda15.INSTANCE);
         int size = arrayList.size();
         int i2 = 0;
         while (i2 < size - 1) {
@@ -3302,14 +3302,14 @@ public class AndroidUtilities {
     }
 
     public static SpannableStringBuilder formatSpannableSimple(String str, CharSequence... charSequenceArr) {
-        return formatSpannable(str, AndroidUtilities$$ExternalSyntheticLambda16.INSTANCE, charSequenceArr);
+        return formatSpannable(str, AndroidUtilities$$ExternalSyntheticLambda17.INSTANCE, charSequenceArr);
     }
 
     public static SpannableStringBuilder formatSpannable(String str, CharSequence... charSequenceArr) {
         if (str.contains("%s")) {
             return formatSpannableSimple(str, charSequenceArr);
         }
-        return formatSpannable(str, AndroidUtilities$$ExternalSyntheticLambda15.INSTANCE, charSequenceArr);
+        return formatSpannable(str, AndroidUtilities$$ExternalSyntheticLambda16.INSTANCE, charSequenceArr);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -4302,7 +4302,7 @@ public class AndroidUtilities {
             Field declaredField = baseFragment.getClass().getDeclaredField("listView");
             declaredField.setAccessible(true);
             final RecyclerListView recyclerListView = (RecyclerListView) declaredField.get(baseFragment);
-            recyclerListView.highlightRow(new RecyclerListView.IntReturnCallback() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda17
+            recyclerListView.highlightRow(new RecyclerListView.IntReturnCallback() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda18
                 @Override // org.telegram.ui.Components.RecyclerListView.IntReturnCallback
                 public final int run() {
                     int lambda$scrollToFragmentRow$15;
@@ -4654,7 +4654,7 @@ public class AndroidUtilities {
     }
 
     /* JADX WARN: Removed duplicated region for block: B:33:0x00ac  */
-    /* JADX WARN: Removed duplicated region for block: B:35:0x00b0  */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x00b0 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -4712,37 +4712,50 @@ public class AndroidUtilities {
             callback.run(null);
             return;
         }
-        Point point = displaySize;
-        int i3 = (int) (point.x / f);
-        int i4 = (int) ((point.y + statusBarHeight) / f);
-        final Bitmap createBitmap = Bitmap.createBitmap(i3, i4, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(createBitmap);
-        float f2 = 1.0f / f;
-        canvas.scale(f2, f2);
-        canvas.drawColor(Theme.getColor("windowBackgroundWhite"));
-        int[] iArr = new int[2];
-        for (int i5 = 0; i5 < list.size(); i5++) {
-            View view = list.get(i5);
-            ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
-            if (layoutParams instanceof WindowManager.LayoutParams) {
-                WindowManager.LayoutParams layoutParams2 = (WindowManager.LayoutParams) layoutParams;
-                if ((layoutParams2.flags & 2) != 0) {
-                    canvas.drawColor(ColorUtils.setAlphaComponent(-16777216, (int) (layoutParams2.dimAmount * 255.0f)));
+        try {
+            Point point = displaySize;
+            int i3 = (int) (point.x / f);
+            int i4 = (int) ((point.y + statusBarHeight) / f);
+            final Bitmap createBitmap = Bitmap.createBitmap(i3, i4, Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(createBitmap);
+            float f2 = 1.0f / f;
+            canvas.scale(f2, f2);
+            canvas.drawColor(Theme.getColor("windowBackgroundWhite"));
+            int[] iArr = new int[2];
+            for (int i5 = 0; i5 < list.size(); i5++) {
+                View view = list.get(i5);
+                ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
+                if (layoutParams instanceof WindowManager.LayoutParams) {
+                    WindowManager.LayoutParams layoutParams2 = (WindowManager.LayoutParams) layoutParams;
+                    if ((layoutParams2.flags & 2) != 0) {
+                        canvas.drawColor(ColorUtils.setAlphaComponent(-16777216, (int) (layoutParams2.dimAmount * 255.0f)));
+                    }
                 }
+                canvas.save();
+                view.getLocationOnScreen(iArr);
+                canvas.translate(iArr[0] / f, iArr[1] / f);
+                try {
+                    view.draw(canvas);
+                } catch (Exception unused) {
+                }
+                canvas.restore();
             }
-            canvas.save();
-            view.getLocationOnScreen(iArr);
-            canvas.translate(iArr[0] / f, iArr[1] / f);
-            view.draw(canvas);
-            canvas.restore();
+            Utilities.stackBlurBitmap(createBitmap, Math.max((int) f, Math.max(i3, i4) / 180));
+            runOnUIThread(new Runnable() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda14
+                @Override // java.lang.Runnable
+                public final void run() {
+                    Utilities.Callback.this.run(createBitmap);
+                }
+            });
+        } catch (Exception e3) {
+            FileLog.e(e3);
+            runOnUIThread(new Runnable() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda13
+                @Override // java.lang.Runnable
+                public final void run() {
+                    Utilities.Callback.this.run(null);
+                }
+            });
         }
-        Utilities.stackBlurBitmap(createBitmap, Math.max((int) f, Math.max(i3, i4) / 180));
-        runOnUIThread(new Runnable() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda13
-            @Override // java.lang.Runnable
-            public final void run() {
-                Utilities.Callback.this.run(createBitmap);
-            }
-        });
     }
 
     public static int[] roundPercents(float[] fArr, int[] iArr) {

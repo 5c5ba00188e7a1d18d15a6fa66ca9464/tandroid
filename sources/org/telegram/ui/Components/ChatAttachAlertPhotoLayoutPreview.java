@@ -2308,7 +2308,7 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
                             this.blurredImage.getBitmap().recycle();
                             this.blurredImage.setImageBitmap((Bitmap) null);
                         }
-                        this.blurredImage.setImageBitmap(Utilities.stackBlurBitmapWithScaleFactor(imageReceiver.getBitmap(), 12.0f));
+                        this.blurredImage.setImageBitmap(Utilities.stackBlurBitmapMax(imageReceiver.getBitmap()));
                     }
                 }
 
@@ -2595,7 +2595,7 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
                     return draw(canvas, getT(), z);
                 }
 
-                /* JADX WARN: Removed duplicated region for block: B:43:0x013b  */
+                /* JADX WARN: Removed duplicated region for block: B:43:0x0139  */
                 /*
                     Code decompiled incorrectly, please refer to instructions dump.
                 */
@@ -2646,7 +2646,7 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
                     if (photoEntry != null && photoEntry.hasSpoiler && !photoEntry.isChatPreviewSpoilerRevealed) {
                         if (!this.wasSpoiler && this.blurredImage.getBitmap() == null && this.image.getBitmap() != null) {
                             this.wasSpoiler = true;
-                            this.blurredImage.setImageBitmap(Utilities.stackBlurBitmapWithScaleFactor(this.image.getBitmap(), 12.0f));
+                            this.blurredImage.setImageBitmap(Utilities.stackBlurBitmapMax(this.image.getBitmap()));
                         } else if (!this.wasSpoiler && this.blurredImage.getBitmap() != null) {
                             c = 1;
                             this.wasSpoiler = true;

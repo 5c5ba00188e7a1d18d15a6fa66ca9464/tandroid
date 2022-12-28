@@ -398,6 +398,7 @@ public class CacheChart extends View {
     @Override // android.view.View
     public boolean dispatchTouchEvent(MotionEvent motionEvent) {
         int i;
+        boolean z;
         float x = motionEvent.getX();
         float y = motionEvent.getY();
         float distance = MathUtils.distance(this.chartBounds.centerX(), this.chartBounds.centerY(), x, y);
@@ -405,7 +406,6 @@ public class CacheChart extends View {
         if (atan2 < 0.0f) {
             atan2 += 360.0f;
         }
-        boolean z = false;
         if (distance > this.chartInnerBounds.width() / 2.0f && distance < (this.chartBounds.width() / 2.0f) + AndroidUtilities.dp(14.0f)) {
             i = 0;
             while (true) {
@@ -423,7 +423,7 @@ public class CacheChart extends View {
         if (motionEvent.getAction() == 0) {
             setSelected(i);
             if (i >= 0) {
-                onSectionDown(i, true);
+                onSectionDown(i, i != -1);
                 if (getParent() != null) {
                     getParent().requestDisallowInterceptTouchEvent(true);
                 }
@@ -431,7 +431,7 @@ public class CacheChart extends View {
             return true;
         }
         if (motionEvent.getAction() == 2) {
-            onSectionDown(i, true);
+            onSectionDown(i, i != -1);
             setSelected(i);
             if (i != -1) {
                 return true;
@@ -439,15 +439,18 @@ public class CacheChart extends View {
         } else if (motionEvent.getAction() == 1) {
             if (i != -1) {
                 onSectionClick(i);
-                onSectionDown(i, false);
                 z = true;
+            } else {
+                z = false;
             }
             setSelected(-1);
+            onSectionDown(i, false);
             if (z) {
                 return true;
             }
         } else if (motionEvent.getAction() == 3) {
             setSelected(-1);
+            onSectionDown(i, false);
         }
         return super.dispatchTouchEvent(motionEvent);
     }

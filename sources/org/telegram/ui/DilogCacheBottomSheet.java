@@ -1,6 +1,7 @@
 package org.telegram.ui;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.drawable.ColorDrawable;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.ActionBar;
+import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.CacheControlActivity;
@@ -175,7 +177,7 @@ public class DilogCacheBottomSheet extends BottomSheetWithRecyclerListView {
                 checkBoxCell.setText(str2, AndroidUtilities.formatFileSize(j), true, true);
                 checkBoxCell.setTextColor(Theme.getColor("dialogTextBlack"));
                 checkBoxCell.setCheckBoxColor(str, "windowBackgroundWhiteGrayIcon", "checkboxCheck");
-                checkBoxCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.DilogCacheBottomSheet$$ExternalSyntheticLambda1
+                checkBoxCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.DilogCacheBottomSheet$$ExternalSyntheticLambda3
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view) {
                         DilogCacheBottomSheet.this.lambda$new$0(cacheModel, view);
@@ -330,10 +332,10 @@ public class DilogCacheBottomSheet extends BottomSheetWithRecyclerListView {
     private void createButton() {
         CacheControlActivity.ClearCacheButton clearCacheButton = new CacheControlActivity.ClearCacheButton(getContext());
         this.button = clearCacheButton;
-        clearCacheButton.button.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.DilogCacheBottomSheet$$ExternalSyntheticLambda0
+        clearCacheButton.button.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.DilogCacheBottomSheet$$ExternalSyntheticLambda2
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
-                DilogCacheBottomSheet.this.lambda$createButton$1(view);
+                DilogCacheBottomSheet.this.lambda$createButton$3(view);
             }
         });
         StorageDiagramView storageDiagramView = this.circleDiagramView;
@@ -343,7 +345,34 @@ public class DilogCacheBottomSheet extends BottomSheetWithRecyclerListView {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createButton$1(View view) {
+    public /* synthetic */ void lambda$createButton$3(View view) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle(LocaleController.getString("ClearCache", R.string.ClearCache));
+        builder.setMessage(LocaleController.getString("ClearCacheForChat", R.string.ClearCacheForChat));
+        builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.DilogCacheBottomSheet$$ExternalSyntheticLambda0
+            @Override // android.content.DialogInterface.OnClickListener
+            public final void onClick(DialogInterface dialogInterface, int i) {
+                DilogCacheBottomSheet.this.lambda$createButton$1(dialogInterface, i);
+            }
+        });
+        builder.setPositiveButton(LocaleController.getString("Clear", R.string.Clear), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.DilogCacheBottomSheet$$ExternalSyntheticLambda1
+            @Override // android.content.DialogInterface.OnClickListener
+            public final void onClick(DialogInterface dialogInterface, int i) {
+                DilogCacheBottomSheet.this.lambda$createButton$2(dialogInterface, i);
+            }
+        });
+        AlertDialog create = builder.create();
+        create.show();
+        create.redPositive();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$createButton$1(DialogInterface dialogInterface, int i) {
+        dismiss();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$createButton$2(DialogInterface dialogInterface, int i) {
         dismiss();
         this.cacheDelegate.cleanupDialogFiles(this.entities, this.clearViewData, this.cacheModel);
     }

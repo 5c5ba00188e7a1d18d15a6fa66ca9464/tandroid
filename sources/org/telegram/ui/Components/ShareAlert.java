@@ -2338,12 +2338,11 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Type inference failed for: r16v2, types: [org.telegram.messenger.SendMessagesHelper] */
+    /* JADX WARN: Type inference failed for: r10v1 */
+    /* JADX WARN: Type inference failed for: r10v2, types: [org.telegram.messenger.MessageObject] */
     /* JADX WARN: Type inference failed for: r1v0 */
     /* JADX WARN: Type inference failed for: r1v16 */
     /* JADX WARN: Type inference failed for: r1v7, types: [boolean] */
-    /* JADX WARN: Type inference failed for: r24v3 */
-    /* JADX WARN: Type inference failed for: r24v4, types: [org.telegram.messenger.MessageObject] */
     /* JADX WARN: Type inference failed for: r28v0, types: [org.telegram.messenger.SendMessagesHelper] */
     /* JADX WARN: Type inference failed for: r33v0 */
     /* JADX WARN: Type inference failed for: r33v1, types: [org.telegram.messenger.MessageObject] */
@@ -2360,6 +2359,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
         int i;
         TLRPC$TL_forumTopic tLRPC$TL_forumTopic;
         ArrayList<Long> arrayList;
+        MessageObject messageObject2;
         long j2;
         int i2;
         ?? r1 = 0;
@@ -2380,18 +2380,23 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                         }
                         long keyAt = this.selectedDialogs.keyAt(i4);
                         TLRPC$TL_forumTopic tLRPC$TL_forumTopic3 = this.selectedDialogTopics.get(this.selectedDialogs.get(keyAt));
-                        MessageObject messageObject2 = tLRPC$TL_forumTopic3 != null ? new MessageObject(this.currentAccount, tLRPC$TL_forumTopic3.topicStartMessage, r1, r1) : tLRPC$TL_forumTopic2;
+                        MessageObject messageObject3 = tLRPC$TL_forumTopic3 != null ? new MessageObject(this.currentAccount, tLRPC$TL_forumTopic3.topicStartMessage, r1, r1) : tLRPC$TL_forumTopic2;
+                        if (messageObject3 != 0) {
+                            messageObject3.isTopicMainMessage = true;
+                        }
                         if (this.frameLayout2.getTag() == null || this.commentTextView.length() <= 0) {
+                            messageObject2 = messageObject3;
                             j2 = keyAt;
                             i2 = i4;
                             arrayList = arrayList2;
                         } else {
                             ?? sendMessagesHelper = SendMessagesHelper.getInstance(this.currentAccount);
                             String charSequence = charSequenceArr[r1] == null ? tLRPC$TL_forumTopic2 : charSequenceArr[r1].toString();
+                            messageObject2 = messageObject3;
                             j2 = keyAt;
                             i2 = i4;
                             arrayList = arrayList2;
-                            sendMessagesHelper.sendMessage(charSequence, keyAt, messageObject2, messageObject2, null, true, entities, null, null, z, 0, null, false);
+                            sendMessagesHelper.sendMessage(charSequence, keyAt, messageObject3, messageObject3, null, true, entities, null, null, z, 0, null, false);
                         }
                         int sendMessage = SendMessagesHelper.getInstance(this.currentAccount).sendMessage(this.sendingMessageObjects, j2, !this.showSendersName, false, z, 0, messageObject2);
                         if (sendMessage != 0) {

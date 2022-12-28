@@ -20,7 +20,7 @@ public abstract class Brush {
     }
 
     public float getDefaultWeight() {
-        return 0.5f;
+        return 0.25f;
     }
 
     public int getIconRes() {
@@ -90,6 +90,11 @@ public abstract class Brush {
         }
 
         @Override // org.telegram.ui.Components.Paint.Brush
+        public float getDefaultWeight() {
+            return 0.5f;
+        }
+
+        @Override // org.telegram.ui.Components.Paint.Brush
         public float getOverrideAlpha() {
             return 0.45f;
         }
@@ -130,6 +135,11 @@ public abstract class Brush {
         @Override // org.telegram.ui.Components.Paint.Brush
         public float getAlpha() {
             return 0.7f;
+        }
+
+        @Override // org.telegram.ui.Components.Paint.Brush
+        public float getDefaultWeight() {
+            return 0.5f;
         }
 
         @Override // org.telegram.ui.Components.Paint.Brush
@@ -174,6 +184,11 @@ public abstract class Brush {
 
     /* loaded from: classes3.dex */
     public static class Arrow extends Brush {
+        @Override // org.telegram.ui.Components.Paint.Brush
+        public float getDefaultWeight() {
+            return 0.25f;
+        }
+
         @Override // org.telegram.ui.Components.Paint.Brush
         public float getSmoothThicknessRate() {
             return 0.25f;

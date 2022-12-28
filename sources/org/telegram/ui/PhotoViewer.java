@@ -1299,9 +1299,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             }
             if (avatarFor != null && (tLRPC$User = avatarFor.fromObject) != null && avatarFor.type == 1 && this.setAvatarFor.self) {
                 if (avatarFor.isVideo) {
-                    this.photoCropView.setSubtitle(LocaleController.formatString("SetSuggestedPhotoTooltip", R.string.SetSuggestedPhotoTooltip, tLRPC$User.first_name));
-                } else {
                     this.photoCropView.setSubtitle(LocaleController.formatString("SetSuggestedVideoTooltip", R.string.SetSuggestedVideoTooltip, tLRPC$User.first_name));
+                } else {
+                    this.photoCropView.setSubtitle(LocaleController.formatString("SetSuggestedPhotoTooltip", R.string.SetSuggestedPhotoTooltip, tLRPC$User.first_name));
                 }
             } else {
                 this.photoCropView.setSubtitle(null);
@@ -7792,11 +7792,14 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 return;
             }
             ((ViewGroup) PhotoViewer.this.lastFrameImageView.getParent()).removeView(PhotoViewer.this.lastFrameImageView);
-            PhotoViewer.this.lastFrameImageView = null;
             if (PhotoViewer.this.lastFrameBitmap != null) {
+                if (PhotoViewer.this.lastFrameImageView != null) {
+                    PhotoViewer.this.lastFrameImageView.setBackground(null);
+                }
                 AndroidUtilities.recycleBitmap(PhotoViewer.this.lastFrameBitmap);
                 PhotoViewer.this.lastFrameBitmap = null;
             }
+            PhotoViewer.this.lastFrameImageView = null;
         }
     }
 

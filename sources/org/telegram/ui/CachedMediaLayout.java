@@ -325,11 +325,11 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
                     }
                 });
                 this.popupWindow = AlertsCreator.createSimplePopup(baseFragment, actionBarPopupWindowLayout, view, (int) f, (int) f2);
-            } else {
-                Delegate delegate = CachedMediaLayout.this.delegate;
-                if (delegate != null) {
-                    delegate.onItemSelected(itemInner.entities, itemInner.file, true);
-                }
+                return true;
+            }
+            Delegate delegate = CachedMediaLayout.this.delegate;
+            if (delegate != null) {
+                delegate.onItemSelected(itemInner.entities, itemInner.file, true);
             }
             return true;
         }
@@ -664,7 +664,7 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
             }
             userCell.dialogFileEntities = dialogFileEntities;
             userCell.getImageView().setRoundRadius(AndroidUtilities.dp(((userOrChat instanceof TLRPC$Chat) && ((TLRPC$Chat) userOrChat).forum) ? 12.0f : 19.0f));
-            userCell.setTextAndValue(dialogPhotoTitle, AndroidUtilities.formatFileSize(dialogFileEntities.totalSize), i < getItemCount() + (-2));
+            userCell.setTextAndValue(dialogPhotoTitle, AndroidUtilities.formatFileSize(dialogFileEntities.totalSize), i < getItemCount() - 1);
             userCell.setChecked(CachedMediaLayout.this.cacheModel.isSelected(dialogFileEntities.dialogId), z);
         }
     }

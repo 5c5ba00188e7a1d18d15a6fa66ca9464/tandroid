@@ -1460,19 +1460,16 @@ public class DownloadController extends BaseController implements NotificationCe
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onDownloadFail$8(MessageObject messageObject, int i) {
         boolean z;
-        int i2 = 0;
-        while (true) {
-            if (i2 >= this.downloadingFiles.size()) {
-                z = false;
-                break;
-            } else if (this.downloadingFiles.get(i2).getDocument().id == messageObject.getDocument().id) {
+        TLRPC$Document document = messageObject.getDocument();
+        for (int i2 = 0; i2 < this.downloadingFiles.size(); i2++) {
+            TLRPC$Document document2 = this.downloadingFiles.get(i2).getDocument();
+            if (document2 == null || (document != null && document2.id == document.id)) {
                 this.downloadingFiles.remove(i2);
                 z = true;
                 break;
-            } else {
-                i2++;
             }
         }
+        z = false;
         if (z) {
             getNotificationCenter().postNotificationName(NotificationCenter.onDownloadingFilesChanged, new Object[0]);
             if (i == 0) {

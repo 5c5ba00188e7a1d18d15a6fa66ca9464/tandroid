@@ -117,7 +117,7 @@ public class SharedPhotoVideoCell2 extends View {
         if (this.blurImageReceiver.getBitmap() != null) {
             this.blurImageReceiver.getBitmap().recycle();
         }
-        this.blurImageReceiver.setImageBitmap(Utilities.stackBlurBitmapWithScaleFactor(this.imageReceiver.getBitmap(), 12.0f));
+        this.blurImageReceiver.setImageBitmap(Utilities.stackBlurBitmapMax(this.imageReceiver.getBitmap()));
     }
 
     public void setStyle(int i) {
@@ -220,7 +220,7 @@ public class SharedPhotoVideoCell2 extends View {
                         this.blurImageReceiver.setImageBitmap((Bitmap) null);
                     }
                     if (this.imageReceiver.getBitmap() != null && this.currentMessageObject.hasMediaSpoilers() && !this.currentMessageObject.isMediaSpoilersRevealed) {
-                        this.blurImageReceiver.setImageBitmap(Utilities.stackBlurBitmapWithScaleFactor(this.imageReceiver.getBitmap(), 12.0f));
+                        this.blurImageReceiver.setImageBitmap(Utilities.stackBlurBitmapMax(this.imageReceiver.getBitmap()));
                     }
                     invalidate();
                 } else if ((MessageObject.getMedia(messageObject.messageOwner) instanceof TLRPC$TL_messageMediaPhoto) && MessageObject.getMedia(messageObject.messageOwner).photo != null && !messageObject.photoThumbs.isEmpty()) {
@@ -258,7 +258,7 @@ public class SharedPhotoVideoCell2 extends View {
                     if (this.blurImageReceiver.getBitmap() != null) {
                     }
                     if (this.imageReceiver.getBitmap() != null) {
-                        this.blurImageReceiver.setImageBitmap(Utilities.stackBlurBitmapWithScaleFactor(this.imageReceiver.getBitmap(), 12.0f));
+                        this.blurImageReceiver.setImageBitmap(Utilities.stackBlurBitmapMax(this.imageReceiver.getBitmap()));
                     }
                     invalidate();
                 }

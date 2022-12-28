@@ -429,7 +429,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         setMessageObject(messageObject, false);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:316:0x0201, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:316:0x0205, code lost:
         continue;
      */
     /*
@@ -490,9 +490,9 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
                 ImageUpdater imageUpdater = MessagesController.getInstance(this.currentAccount).photoSuggestion.get(messageObject.messageOwner.local_id);
                 if (imageUpdater == null || imageUpdater.getCurrentImageProgress() == 1.0f) {
                     this.radialProgress.setProgress(1.0f, !z3);
-                    this.radialProgress.setIcon(4, true, !z3);
+                    this.radialProgress.setIcon(4, !z3, !z3);
                 } else {
-                    this.radialProgress.setIcon(3, true, !z3);
+                    this.radialProgress.setIcon(3, !z3, !z3);
                 }
             } else if (i == 18) {
                 this.imageReceiver.setRoundRadius(0);
