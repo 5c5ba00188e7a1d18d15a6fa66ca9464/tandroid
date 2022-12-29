@@ -83,7 +83,7 @@ public class SharedConfig {
     public static long lastUpdateCheckTime = 0;
     public static String lastUpdateVersion = null;
     public static long lastUptimeMillis = 0;
-    public static LightMode lightMode = null;
+    public static LiteMode liteMode = null;
     public static int lockRecordAudioVideoHint = 0;
     public static boolean loopStickers = false;
     public static int mediaColumnsCount = 0;
@@ -155,11 +155,15 @@ public class SharedConfig {
     public @interface PerformanceClass {
     }
 
-    public static LightMode getLightMode() {
-        if (lightMode == null) {
-            lightMode = new LightMode();
+    public static LiteMode getLiteMode() {
+        if (liteMode == null) {
+            liteMode = new LiteMode();
         }
-        return lightMode;
+        return liteMode;
+    }
+
+    public static boolean loopStickers() {
+        return loopStickers && !getLiteMode().enabled;
     }
 
     static {
@@ -1572,10 +1576,10 @@ public class SharedConfig {
     }
 
     /* loaded from: classes.dex */
-    public static class LightMode {
+    public static class LiteMode {
         private boolean enabled;
 
-        LightMode() {
+        LiteMode() {
             loadPreference();
         }
 

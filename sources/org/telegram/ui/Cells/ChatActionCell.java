@@ -429,7 +429,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         setMessageObject(messageObject, false);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:316:0x0205, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:318:0x0206, code lost:
         continue;
      */
     /*
@@ -447,7 +447,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
             }
             this.accessibilityText = null;
             MessageObject messageObject2 = this.currentMessageObject;
-            boolean z3 = messageObject2 != null && messageObject2.stableId == messageObject.stableId;
+            boolean z3 = messageObject2 == null || messageObject2.stableId != messageObject.stableId;
             this.currentMessageObject = messageObject;
             this.hasReplyMessage = messageObject.replyMessageObject != null;
             DownloadController.getInstance(this.currentAccount).removeLoadingFileObserver(this);
@@ -1162,6 +1162,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
             }
         }
         int i2 = i;
+        drawBackground(canvas, false);
         if (isButtonLayout(messageObject) || (messageObject != null && messageObject.type == 11)) {
             this.imageReceiver.draw(canvas);
             this.radialProgress.setProgressRect(this.imageReceiver.getImageX(), this.imageReceiver.getImageY(), this.imageReceiver.getImageX() + this.imageReceiver.getImageWidth(), this.imageReceiver.getImageY() + this.imageReceiver.getImageHeight());
@@ -1181,7 +1182,6 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
                 this.radialProgress.draw(canvas);
             }
         }
-        drawBackground(canvas, false);
         if (this.textPaint != null && this.textLayout != null) {
             canvas.save();
             canvas.translate(this.textXLeft, this.textY);

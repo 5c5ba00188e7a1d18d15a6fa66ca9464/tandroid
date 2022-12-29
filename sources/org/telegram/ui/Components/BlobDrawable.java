@@ -73,7 +73,7 @@ public class BlobDrawable {
     }
 
     public void update(float f, float f2) {
-        if (SharedConfig.getLightMode().enabled()) {
+        if (SharedConfig.getLiteMode().enabled()) {
             return;
         }
         for (int i = 0; i < this.N; i++) {
@@ -95,7 +95,7 @@ public class BlobDrawable {
     }
 
     public void draw(float f, float f2, Canvas canvas, Paint paint) {
-        if (SharedConfig.getLightMode().enabled()) {
+        if (SharedConfig.getLiteMode().enabled()) {
             return;
         }
         this.path.reset();
@@ -168,7 +168,7 @@ public class BlobDrawable {
 
     public void setValue(float f, boolean z) {
         this.animateToAmplitude = f;
-        if (SharedConfig.getLightMode().enabled()) {
+        if (SharedConfig.getLiteMode().enabled()) {
             return;
         }
         if (z) {

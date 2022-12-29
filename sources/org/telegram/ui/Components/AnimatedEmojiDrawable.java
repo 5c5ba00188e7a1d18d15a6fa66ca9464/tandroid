@@ -604,7 +604,7 @@ public class AnimatedEmojiDrawable extends Drawable {
                         ImageReceiver imageReceiver2 = this.imageReceiver;
                         TLRPC$Document tLRPC$Document = this.document;
                         imageReceiver2.setImage(null, null, imageLocation2, str2, null, null, svgDrawable, tLRPC$Document.size, null, tLRPC$Document, 1);
-                    } else if (SharedConfig.getLightMode().enabled()) {
+                    } else if (SharedConfig.getLiteMode().enabled()) {
                         if ("video/webm".equals(this.document.mime_type)) {
                             TLRPC$Document tLRPC$Document2 = this.document;
                             this.imageReceiver.setImage(null, null, ImageLocation.getForDocument(closestPhotoSizeWithSize, this.document), this.sizedp + "_" + this.sizedp, null, null, svgDrawable, tLRPC$Document2.size, null, tLRPC$Document2, 1);

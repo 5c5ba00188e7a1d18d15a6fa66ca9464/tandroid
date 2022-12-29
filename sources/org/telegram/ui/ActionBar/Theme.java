@@ -9792,7 +9792,7 @@ public class Theme {
             drawable = drawable2;
         }
         boolean z2 = drawable instanceof MotionBackgroundDrawable;
-        if ((!z2 || SharedConfig.getDevicePerformanceClass() == 0 || SharedConfig.getLightMode().enabled()) ? false : false) {
+        if ((!z2 || SharedConfig.getDevicePerformanceClass() == 0 || SharedConfig.getLiteMode().enabled()) ? false : false) {
             Bitmap bitmap = ((MotionBackgroundDrawable) drawable).getBitmap();
             if (serviceBitmap != bitmap) {
                 serviceBitmap = bitmap;

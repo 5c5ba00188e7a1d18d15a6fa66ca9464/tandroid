@@ -165,7 +165,7 @@ public class SvgHelper {
                 setupGradient(str, this.currentResourcesProvider, this.colorAlpha, z);
             }
             float scale = getScale((int) f3, (int) f4);
-            if (this.placeholderGradient[i] != null && gradientWidth > 0.0f && !SharedConfig.getLightMode().enabled()) {
+            if (this.placeholderGradient[i] != null && gradientWidth > 0.0f && !SharedConfig.getLiteMode().enabled()) {
                 if (z) {
                     long j3 = j - lastUpdateTime;
                     j2 = j3 <= 64 ? j3 : 64L;
@@ -322,7 +322,7 @@ public class SvgHelper {
                 this.currentColorKey = str;
                 iArr[z ? 1 : 0] = color;
                 gradientWidth = AndroidUtilities.displaySize.x * 2;
-                if (SharedConfig.getLightMode().enabled()) {
+                if (SharedConfig.getLiteMode().enabled()) {
                     int alphaComponent = ColorUtils.setAlphaComponent(this.currentColor[z ? 1 : 0], 70);
                     if (z) {
                         if (this.backgroundPaint == null) {

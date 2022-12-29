@@ -1941,13 +1941,13 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     /* JADX WARN: Type inference failed for: r3v11 */
     /* JADX WARN: Type inference failed for: r3v14 */
     /* JADX WARN: Type inference failed for: r3v15 */
-    /* JADX WARN: Type inference failed for: r3v2, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r3v2, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r8v13, types: [android.os.Bundle, java.lang.String] */
     /* JADX WARN: Type inference failed for: r8v23 */
     /* JADX WARN: Type inference failed for: r8v39 */
     /* JADX WARN: Type inference failed for: r8v41 */
     /* JADX WARN: Type inference failed for: r8v48 */
-    /* JADX WARN: Type inference failed for: r9v10, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r9v10, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r9v18 */
     /* JADX WARN: Type inference failed for: r9v223 */
     /* JADX WARN: Type inference failed for: r9v225 */

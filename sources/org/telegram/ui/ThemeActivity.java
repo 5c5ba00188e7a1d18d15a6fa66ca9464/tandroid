@@ -1297,9 +1297,9 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                         ((TextCheckCell) view).setChecked(SharedConfig.chatBlurEnabled());
                     }
                 } else if (i == this.lightModeRow) {
-                    SharedConfig.getLightMode().toggleMode();
+                    SharedConfig.getLiteMode().toggleMode();
                     if (view instanceof TextCheckCell) {
-                        ((TextCheckCell) view).setChecked(SharedConfig.getLightMode().enabled());
+                        ((TextCheckCell) view).setChecked(SharedConfig.getLiteMode().enabled());
                     }
                 } else if (i == this.nightThemeRow) {
                     if ((LocaleController.isRTL && f <= AndroidUtilities.dp(76.0f)) || (!LocaleController.isRTL && f >= view.getMeasuredWidth() - AndroidUtilities.dp(76.0f))) {
@@ -2594,7 +2594,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                                         if (i != ThemeActivity.this.directShareRow) {
                                             if (i != ThemeActivity.this.chatBlurRow) {
                                                 if (i == ThemeActivity.this.lightModeRow) {
-                                                    textCheckCell.setTextAndCheck(LocaleController.getString("LightMode", R.string.LightMode), SharedConfig.getLightMode().enabled(), true);
+                                                    textCheckCell.setTextAndCheck(LocaleController.getString("LightMode", R.string.LightMode), SharedConfig.getLiteMode().enabled(), true);
                                                     return;
                                                 }
                                                 return;

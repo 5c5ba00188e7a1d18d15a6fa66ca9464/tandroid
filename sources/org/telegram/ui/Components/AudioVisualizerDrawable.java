@@ -42,7 +42,7 @@ public class AudioVisualizerDrawable {
     }
 
     public void setWaveform(boolean z, boolean z2, float[] fArr) {
-        if (SharedConfig.getLightMode().enabled()) {
+        if (SharedConfig.getLiteMode().enabled()) {
             return;
         }
         int i = 0;
@@ -110,7 +110,7 @@ public class AudioVisualizerDrawable {
     }
 
     public void draw(Canvas canvas, float f, float f2, boolean z, float f3, Theme.ResourcesProvider resourcesProvider) {
-        if (SharedConfig.getLightMode().enabled()) {
+        if (SharedConfig.getLiteMode().enabled()) {
             return;
         }
         if (z) {
@@ -124,7 +124,7 @@ public class AudioVisualizerDrawable {
     }
 
     public void draw(Canvas canvas, float f, float f2) {
-        if (SharedConfig.getLightMode().enabled()) {
+        if (SharedConfig.getLiteMode().enabled()) {
             return;
         }
         for (int i = 0; i < 8; i++) {

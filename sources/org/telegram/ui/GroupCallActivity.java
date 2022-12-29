@@ -5053,20 +5053,18 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
         /* JADX WARN: Removed duplicated region for block: B:162:0x06da  */
         /* JADX WARN: Removed duplicated region for block: B:169:0x07ea  */
         /* JADX WARN: Removed duplicated region for block: B:170:0x07ee  */
-        /* JADX WARN: Removed duplicated region for block: B:173:0x0826  */
-        /* JADX WARN: Removed duplicated region for block: B:174:0x087e  */
-        /* JADX WARN: Removed duplicated region for block: B:177:0x0891  */
-        /* JADX WARN: Removed duplicated region for block: B:180:0x08f3  */
-        /* JADX WARN: Removed duplicated region for block: B:183:0x0921  */
-        /* JADX WARN: Removed duplicated region for block: B:189:0x0943  */
-        /* JADX WARN: Removed duplicated region for block: B:192:0x0950  */
-        /* JADX WARN: Removed duplicated region for block: B:193:0x0953  */
-        /* JADX WARN: Removed duplicated region for block: B:196:0x09b9  */
-        /* JADX WARN: Removed duplicated region for block: B:199:0x09ce A[ADDED_TO_REGION] */
-        /* JADX WARN: Removed duplicated region for block: B:202:0x09d6  */
-        /* JADX WARN: Removed duplicated region for block: B:205:0x0a45 A[ADDED_TO_REGION] */
-        /* JADX WARN: Removed duplicated region for block: B:211:0x0a75  */
-        /* JADX WARN: Removed duplicated region for block: B:217:? A[RETURN, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:179:0x089b  */
+        /* JADX WARN: Removed duplicated region for block: B:182:0x08fd  */
+        /* JADX WARN: Removed duplicated region for block: B:185:0x092b  */
+        /* JADX WARN: Removed duplicated region for block: B:191:0x094d  */
+        /* JADX WARN: Removed duplicated region for block: B:194:0x095a  */
+        /* JADX WARN: Removed duplicated region for block: B:195:0x095d  */
+        /* JADX WARN: Removed duplicated region for block: B:198:0x09c3  */
+        /* JADX WARN: Removed duplicated region for block: B:201:0x09d8 A[ADDED_TO_REGION] */
+        /* JADX WARN: Removed duplicated region for block: B:204:0x09e0  */
+        /* JADX WARN: Removed duplicated region for block: B:207:0x0a4f A[ADDED_TO_REGION] */
+        /* JADX WARN: Removed duplicated region for block: B:213:0x0a7f  */
+        /* JADX WARN: Removed duplicated region for block: B:219:? A[RETURN, SYNTHETIC] */
         /* JADX WARN: Removed duplicated region for block: B:40:0x0155  */
         @Override // android.view.ViewGroup, android.view.View
         @SuppressLint({"DrawAllocation"})
@@ -5325,7 +5323,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                                     float dp5 = !GroupCallActivity.isLandscapeMode ? 0.0f : AndroidUtilities.dp(65.0f) * (1.0f - GroupCallActivity.this.switchToButtonInt2);
                                     float f10 = BlobDrawable.SCALE_BIG_MIN + (BlobDrawable.SCALE_BIG * GroupCallActivity.this.amplitude * f3);
                                     canvas.scale(GroupCallActivity.this.showLightingProgress * f10, f10 * GroupCallActivity.this.showLightingProgress, x2, y2);
-                                    if (i6 != 1) {
+                                    if (i6 != 1 && !SharedConfig.getLiteMode().enabled()) {
                                         float f11 = (BlobDrawable.LIGHT_GRADIENT_SIZE * GroupCallActivity.this.scheduleButtonsScale) + 0.7f;
                                         canvas.save();
                                         canvas.scale(f11, f11, x2, y2);

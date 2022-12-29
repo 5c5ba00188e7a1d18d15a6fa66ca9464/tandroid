@@ -5310,7 +5310,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     /* JADX WARN: Type inference failed for: r13v2 */
     /* JADX WARN: Type inference failed for: r13v3, types: [boolean] */
     /* JADX WARN: Type inference failed for: r15v109 */
-    /* JADX WARN: Type inference failed for: r15v94, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r15v94, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r15v95 */
     /* JADX WARN: Type inference failed for: r2v1569 */
     /* JADX WARN: Type inference failed for: r2v556 */
@@ -5319,9 +5319,9 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     /* JADX WARN: Type inference failed for: r3v1093 */
     /* JADX WARN: Type inference failed for: r3v1094 */
     /* JADX WARN: Type inference failed for: r3v25 */
-    /* JADX WARN: Type inference failed for: r3v26, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r3v26, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r3v34 */
-    /* JADX WARN: Type inference failed for: r3v47, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r3v47, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r3v826, types: [org.telegram.tgnet.TLRPC$InputStickerSet] */
     /* JADX WARN: Type inference failed for: r75v0, types: [android.view.View, org.telegram.ui.Cells.ChatMessageCell, android.view.ViewGroup, org.telegram.messenger.DownloadController$FileDownloadProgressListener] */
     /*
@@ -7601,7 +7601,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                                     i84 = 6;
                                                 }
                                             } else {
-                                                if (loopStickers() || (z60 && !messageObject.isVideoSticker())) {
+                                                if (SharedConfig.loopStickers() || (z60 && !messageObject.isVideoSticker())) {
                                                     format = String.format(Locale.US, "%d_%d", Integer.valueOf(i176), Integer.valueOf(i177));
                                                     this.photoImage.setAutoRepeat(1);
                                                 } else {
@@ -12110,10 +12110,10 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                                                         z21 = false;
                                                                         f3 = 1.0f;
                                                                         boolean isSticker = messageObject.isSticker();
-                                                                        if (!loopStickers() && messageObject.isVideoSticker()) {
+                                                                        if (!SharedConfig.loopStickers() && messageObject.isVideoSticker()) {
                                                                             this.photoImage.animatedFileDrawableRepeatMaxCount = 1;
                                                                         }
-                                                                        if (loopStickers() || (isSticker && !messageObject.isVideoSticker())) {
+                                                                        if (SharedConfig.loopStickers() || (isSticker && !messageObject.isVideoSticker())) {
                                                                             messageObject4 = messageObject;
                                                                             i34 = 3;
                                                                             this.photoImage.setAutoRepeat(1);
@@ -18180,7 +18180,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     }
 
     private boolean loopStickers() {
-        return SharedConfig.loopStickers && !SharedConfig.getLightMode().enabled();
+        return SharedConfig.loopStickers && !SharedConfig.getLiteMode().enabled();
     }
 
     public void highlightCaptionLink(URLSpan uRLSpan) {

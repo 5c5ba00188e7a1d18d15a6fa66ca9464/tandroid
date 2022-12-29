@@ -458,7 +458,7 @@ public class SizeNotifierFrameLayout extends FrameLayout {
 
     /* JADX INFO: Access modifiers changed from: private */
     public void checkSnowflake(Canvas canvas) {
-        if (!Theme.canStartHolidayAnimation() || SharedConfig.getLightMode().enabled()) {
+        if (!Theme.canStartHolidayAnimation() || SharedConfig.getLiteMode().enabled()) {
             return;
         }
         if (this.snowflakesEffect == null) {

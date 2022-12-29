@@ -19843,7 +19843,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
     /* JADX INFO: Access modifiers changed from: private */
     public boolean isSkeletonVisible() {
-        if (this.justCreatedTopic || this.justCreatedChat || this.currentUser != null || !SharedConfig.animationsEnabled() || SharedConfig.getLightMode().enabled()) {
+        if (this.justCreatedTopic || this.justCreatedChat || this.currentUser != null || !SharedConfig.animationsEnabled() || SharedConfig.getLiteMode().enabled()) {
             return false;
         }
         int i = ConnectionsManager.DEFAULT_DATACENTER_ID;
@@ -21474,7 +21474,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Removed duplicated region for block: B:90:0x0175  */
     /* JADX WARN: Removed duplicated region for block: B:93:0x0181  */
     /* JADX WARN: Type inference failed for: r14v4 */
-    /* JADX WARN: Type inference failed for: r14v5, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r14v5, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r14v9 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -28757,7 +28757,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         TLRPC$Document document = messageObject.getDocument();
         boolean isAnimatedEmoji = messageObject.isAnimatedEmoji();
         if (!isAnimatedEmoji) {
-            if (!MessageObject.isAnimatedStickerDocument(document, this.currentEncryptedChat == null || messageObject.isOut()) || SharedConfig.loopStickers) {
+            if (!MessageObject.isAnimatedStickerDocument(document, this.currentEncryptedChat == null || messageObject.isOut()) || SharedConfig.loopStickers()) {
                 return;
             }
         }
@@ -28801,7 +28801,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             setupStickerVibrationAndSound(chatMessageCell);
         }
         if (!messageObject.isAnimatedEmoji()) {
-            if (!MessageObject.isAnimatedStickerDocument(document, this.currentEncryptedChat == null || messageObject.isOut()) || SharedConfig.loopStickers) {
+            if (!MessageObject.isAnimatedStickerDocument(document, this.currentEncryptedChat == null || messageObject.isOut()) || SharedConfig.loopStickers()) {
                 return;
             }
         }

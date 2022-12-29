@@ -435,7 +435,7 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
             if (tLRPC$UserProfilePhoto != null) {
                 ?? r6 = tLRPC$UserProfilePhoto.strippedBitmap;
                 int i = tLRPC$UserProfilePhoto.stripped_thumb != null ? 1 : 0;
-                if (z && MessagesController.getInstance(this.currentAccount).isPremiumUser(tLRPC$User) && tLRPC$User.photo.has_video && !SharedConfig.getLightMode().enabled()) {
+                if (z && MessagesController.getInstance(this.currentAccount).isPremiumUser(tLRPC$User) && tLRPC$User.photo.has_video && !SharedConfig.getLiteMode().enabled()) {
                     TLRPC$UserFull userFull = MessagesController.getInstance(this.currentAccount).getUserFull(tLRPC$User.id);
                     if (userFull == null) {
                         MessagesController.getInstance(this.currentAccount).loadFullUser(tLRPC$User, this.currentGuid, false);

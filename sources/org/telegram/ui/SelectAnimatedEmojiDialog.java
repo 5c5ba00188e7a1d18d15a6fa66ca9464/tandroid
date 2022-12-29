@@ -118,6 +118,7 @@ import org.telegram.ui.Components.Premium.PremiumButtonView;
 import org.telegram.ui.Components.Premium.PremiumFeatureBottomSheet;
 import org.telegram.ui.Components.Premium.PremiumLockIconView;
 import org.telegram.ui.Components.RLottieImageView;
+import org.telegram.ui.Components.Reactions.ReactionsEffectOverlay;
 import org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble;
 import org.telegram.ui.Components.RecyclerAnimationScrollHelper;
 import org.telegram.ui.Components.RecyclerListView;
@@ -1808,7 +1809,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                 }
                 ReactionsLayoutInBubble.VisibleReaction visibleReaction = (ReactionsLayoutInBubble.VisibleReaction) SelectAnimatedEmojiDialog.this.searchResult.get(i);
                 if (imageViewEmoji.imageReceiver == null) {
-                    ImageReceiver imageReceiver = new ImageReceiver();
+                    ImageReceiver imageReceiver = new ImageReceiver(imageViewEmoji);
                     imageViewEmoji.imageReceiver = imageReceiver;
                     imageReceiver.setLayerNum(7);
                     imageViewEmoji.imageReceiver.onAttachedToWindow();
@@ -1823,13 +1824,15 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                     TLRPC$TL_availableReaction tLRPC$TL_availableReaction = MediaDataController.getInstance(SelectAnimatedEmojiDialog.this.currentAccount).getReactionsMap().get(visibleReaction.emojicon);
                     if (tLRPC$TL_availableReaction != null) {
                         SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(tLRPC$TL_availableReaction.activate_animation, "windowBackgroundWhiteGrayIcon", 0.2f);
-                        if (SharedConfig.getLightMode().enabled()) {
+                        if (SharedConfig.getLiteMode().enabled()) {
                             imageViewEmoji.imageReceiver.setImage(ImageLocation.getForDocument(tLRPC$TL_availableReaction.select_animation), "60_60_firstframe", null, null, svgThumb, 0L, "tgs", visibleReaction, 0);
                         } else {
                             imageViewEmoji.imageReceiver.setImage(ImageLocation.getForDocument(tLRPC$TL_availableReaction.select_animation), "60_60_pcache", null, null, svgThumb, 0L, "tgs", visibleReaction, 0);
                         }
+                        MediaDataController.getInstance(SelectAnimatedEmojiDialog.this.currentAccount).preloadImage(imageViewEmoji.preloadEffectImageReceiver, ImageLocation.getForDocument(tLRPC$TL_availableReaction.around_animation), ReactionsEffectOverlay.getFilterForAroundAnimation());
                     } else {
                         imageViewEmoji.imageReceiver.clearImage();
+                        imageViewEmoji.preloadEffectImageReceiver.clearImage();
                     }
                     imageViewEmoji.span = null;
                     imageViewEmoji.document = null;
@@ -1846,6 +1849,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                 imageViewEmoji.span = new AnimatedEmojiSpan(visibleReaction.documentId, (Paint.FontMetricsInt) null);
                 imageViewEmoji.document = null;
                 imageViewEmoji.imageReceiver.clearImage();
+                imageViewEmoji.preloadEffectImageReceiver.clearImage();
                 AnimatedEmojiDrawable animatedEmojiDrawable = (AnimatedEmojiDrawable) SelectAnimatedEmojiDialog.this.emojiSearchGridView.animatedEmojiDrawables.get(imageViewEmoji.span.getDocumentId());
                 if (animatedEmojiDrawable == null) {
                     animatedEmojiDrawable = AnimatedEmojiDrawable.make(SelectAnimatedEmojiDialog.this.currentAccount, SelectAnimatedEmojiDialog.this.getCacheType(), imageViewEmoji.span.getDocumentId());
@@ -1985,12 +1989,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                 textView = imageViewEmoji;
                 if (i == this.VIEW_TYPE_TOPIC_ICON) {
                     imageViewEmoji.isStaticIcon = true;
-                    ImageReceiver imageReceiver = new ImageReceiver(this, imageViewEmoji) { // from class: org.telegram.ui.SelectAnimatedEmojiDialog.Adapter.1
-                        @Override // org.telegram.messenger.ImageReceiver
-                        public boolean draw(Canvas canvas) {
-                            return super.draw(canvas);
-                        }
-                    };
+                    ImageReceiver imageReceiver = new ImageReceiver(imageViewEmoji);
                     imageViewEmoji.imageReceiver = imageReceiver;
                     imageViewEmoji.imageReceiverToDraw = imageReceiver;
                     imageReceiver.setImageBitmap(SelectAnimatedEmojiDialog.this.forumIconDrawable);
@@ -2004,7 +2003,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                 SelectAnimatedEmojiDialog selectAnimatedEmojiDialog3 = SelectAnimatedEmojiDialog.this;
                 textView = new EmojiPackButton(selectAnimatedEmojiDialog3, selectAnimatedEmojiDialog3.getContext());
             } else if (i == this.VIEW_TYPE_HINT) {
-                TextView textView2 = new TextView(this, SelectAnimatedEmojiDialog.this.getContext()) { // from class: org.telegram.ui.SelectAnimatedEmojiDialog.Adapter.2
+                TextView textView2 = new TextView(this, SelectAnimatedEmojiDialog.this.getContext()) { // from class: org.telegram.ui.SelectAnimatedEmojiDialog.Adapter.1
                     @Override // android.widget.TextView, android.view.View
                     protected void onMeasure(int i2, int i3) {
                         super.onMeasure(i2, View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(AndroidUtilities.dp(26.0f)), 1073741824));
@@ -2064,17 +2063,17 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
             return this.VIEW_TYPE_SEARCH;
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:144:0x0493, code lost:
-            if (r21.this$0.selectedDocumentIds.contains(java.lang.Long.valueOf(r2.getDocumentId())) != false) goto L157;
+        /* JADX WARN: Code restructure failed: missing block: B:145:0x04b6, code lost:
+            if (r21.this$0.selectedDocumentIds.contains(java.lang.Long.valueOf(r2.getDocumentId())) != false) goto L158;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:171:0x051a, code lost:
-            if (r21.this$0.selectedDocumentIds.contains(java.lang.Long.valueOf(r2.getDocumentId())) != false) goto L157;
+        /* JADX WARN: Code restructure failed: missing block: B:172:0x053d, code lost:
+            if (r21.this$0.selectedDocumentIds.contains(java.lang.Long.valueOf(r2.getDocumentId())) != false) goto L158;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:196:0x059e, code lost:
-            if (r21.this$0.selectedDocumentIds.contains(java.lang.Long.valueOf(r2.getDocumentId())) != false) goto L157;
+        /* JADX WARN: Code restructure failed: missing block: B:197:0x05c1, code lost:
+            if (r21.this$0.selectedDocumentIds.contains(java.lang.Long.valueOf(r2.getDocumentId())) != false) goto L158;
          */
-        /* JADX WARN: Removed duplicated region for block: B:202:0x05a7  */
-        /* JADX WARN: Removed duplicated region for block: B:206:0x05e8  */
+        /* JADX WARN: Removed duplicated region for block: B:203:0x05ca  */
+        /* JADX WARN: Removed duplicated region for block: B:207:0x060b  */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -2146,13 +2145,15 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                         TLRPC$TL_availableReaction tLRPC$TL_availableReaction = MediaDataController.getInstance(SelectAnimatedEmojiDialog.this.currentAccount).getReactionsMap().get(visibleReaction.emojicon);
                         if (tLRPC$TL_availableReaction != null) {
                             SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(tLRPC$TL_availableReaction.activate_animation, "windowBackgroundWhiteGrayIcon", 0.2f);
-                            if (SharedConfig.getLightMode().enabled()) {
+                            if (SharedConfig.getLiteMode().enabled()) {
                                 imageViewEmoji.imageReceiver.setImage(ImageLocation.getForDocument(tLRPC$TL_availableReaction.select_animation), "60_60_firstframe", null, null, svgThumb, 0L, "tgs", visibleReaction, 0);
                             } else {
                                 imageViewEmoji.imageReceiver.setImage(ImageLocation.getForDocument(tLRPC$TL_availableReaction.select_animation), "60_60_pcache", null, null, svgThumb, 0L, "tgs", visibleReaction, 0);
                             }
+                            MediaDataController.getInstance(SelectAnimatedEmojiDialog.this.currentAccount).preloadImage(imageViewEmoji.preloadEffectImageReceiver, ImageLocation.getForDocument(tLRPC$TL_availableReaction.around_animation), ReactionsEffectOverlay.getFilterForAroundAnimation());
                         } else {
                             imageViewEmoji.imageReceiver.clearImage();
+                            imageViewEmoji.preloadEffectImageReceiver.clearImage();
                         }
                         imageViewEmoji.span = null;
                         imageViewEmoji.document = null;
@@ -2169,6 +2170,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                     imageViewEmoji.span = new AnimatedEmojiSpan(visibleReaction.documentId, (Paint.FontMetricsInt) null);
                     imageViewEmoji.document = null;
                     imageViewEmoji.imageReceiver.clearImage();
+                    imageViewEmoji.preloadEffectImageReceiver.clearImage();
                     Drawable drawable = (Drawable) SelectAnimatedEmojiDialog.this.emojiGridView.animatedEmojiDrawables.get(imageViewEmoji.span.getDocumentId());
                     if (drawable == null) {
                         drawable = AnimatedEmojiDrawable.make(SelectAnimatedEmojiDialog.this.currentAccount, SelectAnimatedEmojiDialog.this.getCacheType(), imageViewEmoji.span.getDocumentId());
@@ -2648,6 +2650,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
         public boolean isStaticIcon;
         public boolean notDraw;
         public int position;
+        public ImageReceiver preloadEffectImageReceiver;
         PremiumLockIconView premiumLockIconView;
         private float pressedProgress;
         public ReactionsLayoutInBubble.VisibleReaction reaction;
@@ -2662,6 +2665,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
             this.empty = false;
             this.notDraw = false;
             this.backgroundThreadDrawHolder = new ImageReceiver.BackgroundThreadDrawHolder[2];
+            this.preloadEffectImageReceiver = new ImageReceiver();
             this.invalidateHolder = new AnimatedEmojiSpan.InvalidateHolder() { // from class: org.telegram.ui.SelectAnimatedEmojiDialog.ImageViewEmoji.1
                 @Override // org.telegram.ui.Components.AnimatedEmojiSpan.InvalidateHolder
                 public void invalidate() {
@@ -2801,6 +2805,12 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
             if (drawable instanceof AnimatedEmojiDrawable) {
                 ((AnimatedEmojiDrawable) drawable).addView(this.invalidateHolder);
             }
+            ImageReceiver imageReceiver = this.imageReceiver;
+            if (imageReceiver != null) {
+                imageReceiver.setParentView((View) getParent());
+                this.imageReceiver.onAttachedToWindow();
+            }
+            this.preloadEffectImageReceiver.onAttachedToWindow();
         }
 
         @Override // android.view.ViewGroup, android.view.View
@@ -2811,6 +2821,11 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
             if (drawable instanceof AnimatedEmojiDrawable) {
                 ((AnimatedEmojiDrawable) drawable).removeView(this.invalidateHolder);
             }
+            ImageReceiver imageReceiver = this.imageReceiver;
+            if (imageReceiver != null) {
+                imageReceiver.onDetachedFromWindow();
+            }
+            this.preloadEffectImageReceiver.onDetachedFromWindow();
         }
 
         public void setDrawable(Drawable drawable) {
@@ -3659,12 +3674,12 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
             public DrawingInBackgroundLine() {
             }
 
-            /* JADX WARN: Code restructure failed: missing block: B:55:0x0120, code lost:
+            /* JADX WARN: Code restructure failed: missing block: B:57:0x012a, code lost:
                 prepareDraw(java.lang.System.currentTimeMillis());
                 drawInUiThread(r12, r17);
                 reset();
              */
-            /* JADX WARN: Code restructure failed: missing block: B:67:?, code lost:
+            /* JADX WARN: Code restructure failed: missing block: B:69:?, code lost:
                 return;
              */
             @Override // org.telegram.ui.Components.DrawingInBackgroundThreadDrawable
@@ -3687,7 +3702,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                     }
                 }
                 boolean z = true;
-                boolean z2 = this.skewAlpha < 1.0f || EmojiListView.this.isAnimating() || this.imageViewEmojis.size() <= 4 || SharedConfig.getDevicePerformanceClass() == 0 || (SelectAnimatedEmojiDialog.this.showAnimator != null && SelectAnimatedEmojiDialog.this.showAnimator.isRunning());
+                boolean z2 = this.skewAlpha < 1.0f || EmojiListView.this.isAnimating() || this.imageViewEmojis.size() <= 4 || SharedConfig.getDevicePerformanceClass() == 0 || (SelectAnimatedEmojiDialog.this.showAnimator != null && SelectAnimatedEmojiDialog.this.showAnimator.isRunning()) || SharedConfig.getLiteMode().enabled();
                 if (!z2) {
                     boolean z3 = SelectAnimatedEmojiDialog.this.animateExpandStartTime > 0 && SystemClock.elapsedRealtime() - SelectAnimatedEmojiDialog.this.animateExpandStartTime < SelectAnimatedEmojiDialog.this.animateExpandDuration();
                     for (int i3 = 0; i3 < this.imageViewEmojis.size(); i3++) {

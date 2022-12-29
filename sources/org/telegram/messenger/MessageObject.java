@@ -7509,7 +7509,7 @@ public class MessageObject {
     }
 
     public static boolean canAutoplayAnimatedSticker(TLRPC$Document tLRPC$Document) {
-        return (isAnimatedStickerDocument(tLRPC$Document, true) || isVideoStickerDocument(tLRPC$Document)) && SharedConfig.getDevicePerformanceClass() != 0;
+        return ((!isAnimatedStickerDocument(tLRPC$Document, true) && !isVideoStickerDocument(tLRPC$Document)) || SharedConfig.getDevicePerformanceClass() == 0 || SharedConfig.getLiteMode().enabled()) ? false : true;
     }
 
     public static boolean isMaskDocument(TLRPC$Document tLRPC$Document) {

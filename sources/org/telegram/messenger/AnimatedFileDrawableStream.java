@@ -38,7 +38,7 @@ public class AnimatedFileDrawableStream implements FileLoadOperationStream {
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Removed duplicated region for block: B:33:0x0072 A[Catch: all -> 0x00a4, TRY_ENTER, TryCatch #1 {Exception -> 0x00ac, blocks: (B:15:0x0025, B:17:0x002a, B:19:0x0030, B:22:0x0042, B:24:0x004a, B:26:0x0050, B:31:0x006f, B:32:0x0071, B:40:0x008b, B:42:0x008f, B:43:0x009a, B:30:0x0057, B:33:0x0072, B:35:0x0076, B:36:0x0081, B:38:0x0083, B:39:0x008a), top: B:63:0x0025 }] */
     /* JADX WARN: Type inference failed for: r12v3 */
-    /* JADX WARN: Type inference failed for: r12v4, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r12v4, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r12v5 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

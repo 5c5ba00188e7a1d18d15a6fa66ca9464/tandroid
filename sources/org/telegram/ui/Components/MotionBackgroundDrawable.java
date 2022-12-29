@@ -279,7 +279,7 @@ public class MotionBackgroundDrawable extends Drawable {
     }
 
     public void switchToNextPosition(boolean z) {
-        if (this.posAnimationProgress < 1.0f || SharedConfig.getLightMode().enabled()) {
+        if (this.posAnimationProgress < 1.0f || SharedConfig.getLiteMode().enabled()) {
             return;
         }
         this.rotatingPreview = false;

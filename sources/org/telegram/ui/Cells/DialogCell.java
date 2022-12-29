@@ -5100,7 +5100,7 @@ public class DialogCell extends BaseCell {
                         Theme.dialogs_onlineCirclePaint.setColor(Theme.getColor("chats_onlineCircle", this.resourcesProvider));
                         canvas2.drawCircle(f40, f41, AndroidUtilities.dp(9.0f) * this.chatCallProgress * progress, Theme.dialogs_onlineCirclePaint);
                         Theme.dialogs_onlineCirclePaint.setColor(Theme.getColor(str3, this.resourcesProvider));
-                        if (SharedConfig.getLightMode().enabled()) {
+                        if (SharedConfig.getLiteMode().enabled()) {
                             this.innerProgress = 0.65f;
                         }
                         int i35 = this.progressStage;
@@ -5163,7 +5163,7 @@ public class DialogCell extends BaseCell {
                             if (this.chatCallProgress >= f3 || progress < f3) {
                                 canvas.restore();
                             }
-                            if (!SharedConfig.getLightMode().enabled()) {
+                            if (!SharedConfig.getLiteMode().enabled()) {
                                 float f45 = this.innerProgress + 0.04f;
                                 this.innerProgress = f45;
                                 if (f45 >= f3) {
@@ -5216,7 +5216,7 @@ public class DialogCell extends BaseCell {
                         if (this.chatCallProgress >= f3) {
                         }
                         canvas.restore();
-                        if (!SharedConfig.getLightMode().enabled()) {
+                        if (!SharedConfig.getLiteMode().enabled()) {
                         }
                         if (!this.hasCall) {
                         }

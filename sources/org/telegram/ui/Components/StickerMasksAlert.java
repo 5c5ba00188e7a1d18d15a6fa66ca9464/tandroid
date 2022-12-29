@@ -985,7 +985,7 @@ public class StickerMasksAlert extends BottomSheet implements NotificationCenter
                 return;
             }
             boolean z = true;
-            boolean z2 = arrayList.size() <= 4 || SharedConfig.getDevicePerformanceClass() == 0;
+            boolean z2 = arrayList.size() <= 4 || SharedConfig.getDevicePerformanceClass() == 0 || SharedConfig.getLiteMode().enabled();
             if (!z2) {
                 for (int i3 = 0; i3 < this.imageViewEmojis.size(); i3++) {
                     ImageViewEmoji imageViewEmoji = this.imageViewEmojis.get(i3);

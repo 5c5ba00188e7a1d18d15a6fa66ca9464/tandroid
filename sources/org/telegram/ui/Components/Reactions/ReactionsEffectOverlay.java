@@ -19,6 +19,7 @@ import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
+import org.telegram.messenger.SharedConfig;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.tgnet.TLRPC$MessagePeerReaction;
@@ -81,25 +82,23 @@ public class ReactionsEffectOverlay {
 
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Removed duplicated region for block: B:107:0x0405  */
-    /* JADX WARN: Removed duplicated region for block: B:124:0x053c  */
-    /* JADX WARN: Removed duplicated region for block: B:149:0x05cc  */
-    /* JADX WARN: Removed duplicated region for block: B:154:0x0607  */
-    /* JADX WARN: Removed duplicated region for block: B:157:0x062b  */
+    /* JADX WARN: Removed duplicated region for block: B:130:0x054c  */
+    /* JADX WARN: Removed duplicated region for block: B:155:0x05dc  */
+    /* JADX WARN: Removed duplicated region for block: B:160:0x0617  */
+    /* JADX WARN: Removed duplicated region for block: B:163:0x063b  */
     /* JADX WARN: Removed duplicated region for block: B:45:0x0191  */
     /* JADX WARN: Removed duplicated region for block: B:46:0x01b7  */
     /* JADX WARN: Removed duplicated region for block: B:90:0x0342  */
     /* JADX WARN: Removed duplicated region for block: B:91:0x0352  */
     /* JADX WARN: Removed duplicated region for block: B:98:0x03dd  */
     /* JADX WARN: Removed duplicated region for block: B:99:0x03f2  */
-    /* JADX WARN: Type inference failed for: r15v10 */
+    /* JADX WARN: Type inference failed for: r15v11 */
+    /* JADX WARN: Type inference failed for: r15v13 */
+    /* JADX WARN: Type inference failed for: r15v14 */
     /* JADX WARN: Type inference failed for: r15v4 */
     /* JADX WARN: Type inference failed for: r15v5, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r15v6 */
     /* JADX WARN: Type inference failed for: r15v7 */
-    /* JADX WARN: Type inference failed for: r15v8 */
-    /* JADX WARN: Type inference failed for: r15v9 */
-    /* JADX WARN: Type inference failed for: r2v30, types: [android.widget.FrameLayout] */
-    /* JADX WARN: Type inference failed for: r4v10, types: [android.widget.FrameLayout, android.view.View] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -113,7 +112,7 @@ public class ReactionsEffectOverlay {
         int sizeForBigReaction;
         int i3;
         int i4;
-        ?? frameLayout;
+        FrameLayout frameLayout;
         AnimationView animationView;
         AnimationView animationView2;
         TLRPC$TL_availableReaction tLRPC$TL_availableReaction;
@@ -122,6 +121,7 @@ public class ReactionsEffectOverlay {
         ?? r15;
         int i7;
         String str;
+        boolean z;
         String str2;
         Random random;
         ArrayList<TLRPC$MessagePeerReaction> arrayList;
@@ -249,7 +249,7 @@ public class ReactionsEffectOverlay {
             }
         }
         ReactionsContainerLayout.ReactionHolderView reactionHolderView = this.holderView;
-        boolean z = (reactionHolderView == null && (f == 0.0f || f2 == 0.0f)) ? false : true;
+        boolean z2 = (reactionHolderView == null && (f == 0.0f || f2 == 0.0f)) ? false : true;
         if (view != null) {
             view.getLocationOnScreen(this.loc);
             int[] iArr = this.loc;
@@ -308,7 +308,7 @@ public class ReactionsEffectOverlay {
                 this.container = frameLayout;
                 int i13 = sizeForBigReaction;
                 int i14 = i3;
-                this.windowView = new 1(context, baseFragment, chatMessageCell, chatActivity, i4, i2, z, f5 / i4, f4, f3, visibleReaction);
+                this.windowView = new 1(context, baseFragment, chatMessageCell, chatActivity, i4, i2, z2, f5 / i4, f4, f3, visibleReaction);
                 animationView = new AnimationView(context);
                 this.effectImageView = animationView;
                 animationView2 = new AnimationView(context);
@@ -321,30 +321,35 @@ public class ReactionsEffectOverlay {
                         i5 = i2;
                         i6 = 2;
                         if (i5 != 2) {
-                            TLRPC$Document tLRPC$Document = i5 == 1 ? tLRPC$TL_availableReaction.around_animation : tLRPC$TL_availableReaction.effect_animation;
-                            if (i5 == 1) {
-                                str2 = getFilterForAroundAnimation();
+                            if ((i5 != 1 || SharedConfig.getLiteMode().enabled()) && i5 != 0) {
+                                z = false;
                             } else {
-                                str2 = i13 + "_" + i13;
+                                TLRPC$Document tLRPC$Document = i5 == 1 ? tLRPC$TL_availableReaction.around_animation : tLRPC$TL_availableReaction.effect_animation;
+                                if (i5 == 1) {
+                                    str2 = getFilterForAroundAnimation();
+                                } else {
+                                    str2 = i13 + "_" + i13;
+                                }
+                                String str3 = str2;
+                                ImageReceiver imageReceiver2 = animationView.getImageReceiver();
+                                StringBuilder sb = new StringBuilder();
+                                int i15 = uniqPrefix;
+                                uniqPrefix = i15 + 1;
+                                sb.append(i15);
+                                sb.append("_");
+                                sb.append(chatMessageCell.getMessageObject().getId());
+                                sb.append("_");
+                                imageReceiver2.setUniqKeyPrefix(sb.toString());
+                                animationView.setImage(ImageLocation.getForDocument(tLRPC$Document), str3, (ImageLocation) null, (String) null, 0, (Object) null);
+                                z = false;
+                                animationView.getImageReceiver().setAutoRepeat(0);
+                                animationView.getImageReceiver().setAllowStartAnimation(false);
                             }
-                            String str3 = str2;
-                            ImageReceiver imageReceiver2 = animationView.getImageReceiver();
-                            StringBuilder sb = new StringBuilder();
-                            int i15 = uniqPrefix;
-                            uniqPrefix = i15 + 1;
-                            sb.append(i15);
-                            sb.append("_");
-                            sb.append(chatMessageCell.getMessageObject().getId());
-                            sb.append("_");
-                            imageReceiver2.setUniqKeyPrefix(sb.toString());
-                            animationView.setImage(ImageLocation.getForDocument(tLRPC$Document), str3, (ImageLocation) null, (String) null, 0, (Object) null);
-                            r15 = 0;
-                            r15 = 0;
-                            animationView.getImageReceiver().setAutoRepeat(0);
-                            animationView.getImageReceiver().setAllowStartAnimation(false);
+                            r15 = z;
                             if (animationView.getImageReceiver().getLottieAnimation() != null) {
-                                animationView.getImageReceiver().getLottieAnimation().setCurrentFrame(0, false);
+                                animationView.getImageReceiver().getLottieAnimation().setCurrentFrame(z ? 1 : 0, z);
                                 animationView.getImageReceiver().getLottieAnimation().start();
+                                r15 = z;
                             }
                         } else {
                             r15 = 0;
@@ -461,7 +466,7 @@ public class ReactionsEffectOverlay {
         this.container = frameLayout;
         int i132 = sizeForBigReaction;
         int i142 = i3;
-        this.windowView = new 1(context, baseFragment, chatMessageCell, chatActivity, i4, i2, z, f5 / i4, f4, f3, visibleReaction);
+        this.windowView = new 1(context, baseFragment, chatMessageCell, chatActivity, i4, i2, z2, f5 / i4, f4, f3, visibleReaction);
         animationView = new AnimationView(context);
         this.effectImageView = animationView;
         animationView2 = new AnimationView(context);

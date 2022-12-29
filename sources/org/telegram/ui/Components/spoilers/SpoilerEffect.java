@@ -369,7 +369,7 @@ public class SpoilerEffect extends Drawable {
         }
         SpoilerEffectBitmapFactory.getInstance().getPaint().setColorFilter(new PorterDuffColorFilter(this.lastColor, PorterDuff.Mode.SRC_IN));
         canvas.drawRect(getBounds().left, getBounds().top, getBounds().right, getBounds().bottom, SpoilerEffectBitmapFactory.getInstance().getPaint());
-        if (SharedConfig.getLightMode().enabled()) {
+        if (SharedConfig.getLiteMode().enabled()) {
             return;
         }
         invalidateSelf();

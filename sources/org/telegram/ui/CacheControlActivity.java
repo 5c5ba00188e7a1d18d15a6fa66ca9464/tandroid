@@ -2199,7 +2199,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
                         slideChooseView2.setBackgroundColor(Theme.getColor("windowBackgroundWhite"));
                         float f = ((int) ((CacheControlActivity.this.totalDeviceSize / 1024) / 1024)) / 1000.0f;
                         final ArrayList arrayList = new ArrayList();
-                        if (f <= 5.0f) {
+                        if (f <= 17.0f) {
                             arrayList.add(2);
                         }
                         if (f > 5.0f) {

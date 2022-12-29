@@ -175,7 +175,7 @@ public class SnowflakesEffect {
 
     public void onDraw(View view, Canvas canvas) {
         Particle particle;
-        if (view == null || canvas == null || SharedConfig.getLightMode().enabled()) {
+        if (view == null || canvas == null || SharedConfig.getLiteMode().enabled()) {
             return;
         }
         int size = this.particles.size();

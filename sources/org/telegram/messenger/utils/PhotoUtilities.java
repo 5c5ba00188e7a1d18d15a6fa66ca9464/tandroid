@@ -189,4 +189,19 @@ public class PhotoUtilities {
         FileLoader.getInstance(i).getPathToAttach(closestPhotoSizeWithSize2, true).renameTo(FileLoader.getInstance(i).getPathToAttach(closestPhotoSizeWithSize4, true));
         ImageLoader.getInstance().replaceImageInCache(closestPhotoSizeWithSize2.location.volume_id + "_" + closestPhotoSizeWithSize2.location.local_id + "@150_150", closestPhotoSizeWithSize4.location.volume_id + "_" + closestPhotoSizeWithSize4.location.local_id + "@150_150", ImageLocation.getForPhoto(closestPhotoSizeWithSize2, tLRPC$Photo), false);
     }
+
+    public static void applyPhotoToUser(TLRPC$PhotoSize tLRPC$PhotoSize, TLRPC$PhotoSize tLRPC$PhotoSize2, boolean z, TLRPC$User tLRPC$User, boolean z2) {
+        tLRPC$User.flags |= 32;
+        TLRPC$TL_userProfilePhoto tLRPC$TL_userProfilePhoto = new TLRPC$TL_userProfilePhoto();
+        tLRPC$User.photo = tLRPC$TL_userProfilePhoto;
+        tLRPC$TL_userProfilePhoto.personal = z2;
+        tLRPC$TL_userProfilePhoto.photo_id = 0L;
+        tLRPC$TL_userProfilePhoto.has_video = z;
+        if (tLRPC$PhotoSize != null) {
+            tLRPC$TL_userProfilePhoto.photo_small = tLRPC$PhotoSize.location;
+        }
+        if (tLRPC$PhotoSize2 != null) {
+            tLRPC$TL_userProfilePhoto.photo_big = tLRPC$PhotoSize2.location;
+        }
+    }
 }

@@ -240,7 +240,6 @@ import org.telegram.ui.Components.AvatarDrawable;
 import org.telegram.ui.Components.Bulletin;
 import org.telegram.ui.Components.ChatThemeBottomSheet;
 import org.telegram.ui.Components.RLottieDrawable;
-import org.telegram.ui.Components.Reactions.ReactionsEffectOverlay;
 import org.telegram.ui.Components.StickerSetBulletinLayout;
 import org.telegram.ui.Components.StickersArchiveAlert;
 import org.telegram.ui.Components.TextStyleSpan;
@@ -1187,7 +1186,7 @@ public class MediaDataController extends BaseController {
     }
 
     public void preloadDefaultReactions() {
-        if (this.reactionsList == null || this.reactionsCacheGenerated) {
+        if (this.reactionsList == null || this.reactionsCacheGenerated || SharedConfig.getLiteMode().enabled()) {
             return;
         }
         this.reactionsCacheGenerated = true;
@@ -1198,10 +1197,7 @@ public class MediaDataController extends BaseController {
             preloadImage(ImageLocation.getForDocument(tLRPC$TL_availableReaction.appear_animation), null);
         }
         for (int i2 = 0; i2 < arrayList.size(); i2++) {
-            TLRPC$TL_availableReaction tLRPC$TL_availableReaction2 = (TLRPC$TL_availableReaction) arrayList.get(i2);
-            ReactionsEffectOverlay.sizeForBigReaction();
-            preloadImage(ImageLocation.getForDocument(tLRPC$TL_availableReaction2.around_animation), ReactionsEffectOverlay.getFilterForAroundAnimation(), true);
-            preloadImage(ImageLocation.getForDocument(tLRPC$TL_availableReaction2.effect_animation), null);
+            preloadImage(ImageLocation.getForDocument(((TLRPC$TL_availableReaction) arrayList.get(i2)).effect_animation), null);
         }
     }
 
@@ -1252,6 +1248,14 @@ public class MediaDataController extends BaseController {
     public static /* synthetic */ void lambda$preloadImage$15(ImageReceiver imageReceiver) {
         imageReceiver.clearImage();
         imageReceiver.setDelegate(null);
+    }
+
+    public void preloadImage(ImageReceiver imageReceiver, ImageLocation imageLocation, String str) {
+        if (SharedConfig.getLiteMode().enabled()) {
+            return;
+        }
+        imageReceiver.setUniqKeyPrefix("preload");
+        imageReceiver.setImage(imageLocation, str, null, null, 0, 11);
     }
 
     private void putReactionsToCache(List<TLRPC$TL_availableReaction> list, final int i, final int i2) {

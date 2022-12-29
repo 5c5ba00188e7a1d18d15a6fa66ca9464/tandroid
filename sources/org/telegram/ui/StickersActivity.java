@@ -1337,7 +1337,7 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
                 }
             } else if (itemViewType == 4) {
                 if (list.contains(0) && i == StickersActivity.this.loopRow) {
-                    ((TextCheckCell) viewHolder.itemView).setChecked(SharedConfig.loopStickers);
+                    ((TextCheckCell) viewHolder.itemView).setChecked(SharedConfig.loopStickers());
                 }
             } else if (itemViewType == 7 && list.contains(4) && i >= StickersActivity.this.featuredStickersStartRow && i <= StickersActivity.this.featuredStickersEndRow) {
                 ((FeaturedStickerSetCell2) viewHolder.itemView).setStickersSet(this.featuredStickerSets.get(i - StickersActivity.this.featuredStickersStartRow), true, false, false, true);

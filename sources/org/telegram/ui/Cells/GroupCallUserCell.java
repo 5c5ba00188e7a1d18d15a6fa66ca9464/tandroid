@@ -1243,7 +1243,7 @@ public class GroupCallUserCell extends FrameLayout {
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public void draw(Canvas canvas, float f, float f2, View view) {
-            if (SharedConfig.getLightMode().enabled()) {
+            if (SharedConfig.getLiteMode().enabled()) {
                 return;
             }
             float f3 = (this.amplitude * 0.4f) + 0.8f;

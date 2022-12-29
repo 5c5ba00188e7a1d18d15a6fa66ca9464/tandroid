@@ -63,6 +63,7 @@ import org.telegram.tgnet.TLRPC$TL_userStatusLastWeek;
 import org.telegram.tgnet.TLRPC$TL_userStatusRecently;
 import org.telegram.tgnet.TLRPC$Updates;
 import org.telegram.tgnet.TLRPC$User;
+import org.telegram.tgnet.TLRPC$UserProfilePhoto;
 import org.telegram.tgnet.TLRPC$UserStatus;
 import org.telegram.tgnet.TLRPC$Vector;
 import org.telegram.tgnet.TLRPC$contacts_Contacts;
@@ -2900,9 +2901,17 @@ public class ContactsController extends BaseController {
             return;
         }
         final TLRPC$Updates tLRPC$Updates = (TLRPC$Updates) tLObject;
+        TLRPC$UserProfilePhoto tLRPC$UserProfilePhoto = tLRPC$User.photo;
+        if (tLRPC$UserProfilePhoto != null && tLRPC$UserProfilePhoto.personal) {
+            for (int i = 0; i < tLRPC$Updates.users.size(); i++) {
+                if (tLRPC$Updates.users.get(i).id == tLRPC$User.id) {
+                    tLRPC$Updates.users.get(i).photo = tLRPC$User.photo;
+                }
+            }
+        }
         getMessagesController().processUpdates(tLRPC$Updates, false);
-        for (int i = 0; i < tLRPC$Updates.users.size(); i++) {
-            final TLRPC$User tLRPC$User2 = tLRPC$Updates.users.get(i);
+        for (int i2 = 0; i2 < tLRPC$Updates.users.size(); i2++) {
+            final TLRPC$User tLRPC$User2 = tLRPC$Updates.users.get(i2);
             if (tLRPC$User2.id == tLRPC$User.id) {
                 Utilities.phoneBookQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.ContactsController$$ExternalSyntheticLambda42
                     @Override // java.lang.Runnable
