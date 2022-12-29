@@ -5,6 +5,7 @@ import android.graphics.Paint;
 import android.view.View;
 import java.util.Random;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.SharedConfig;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
 public class AudioVisualizerDrawable {
@@ -41,6 +42,9 @@ public class AudioVisualizerDrawable {
     }
 
     public void setWaveform(boolean z, boolean z2, float[] fArr) {
+        if (SharedConfig.getLightMode().enabled()) {
+            return;
+        }
         int i = 0;
         if (!z && !z2) {
             while (i < 8) {
@@ -106,6 +110,9 @@ public class AudioVisualizerDrawable {
     }
 
     public void draw(Canvas canvas, float f, float f2, boolean z, float f3, Theme.ResourcesProvider resourcesProvider) {
+        if (SharedConfig.getLightMode().enabled()) {
+            return;
+        }
         if (z) {
             this.p1.setColor(Theme.getColor("chat_outLoader", resourcesProvider));
             this.p1.setAlpha((int) (this.ALPHA * f3));
@@ -117,6 +124,9 @@ public class AudioVisualizerDrawable {
     }
 
     public void draw(Canvas canvas, float f, float f2) {
+        if (SharedConfig.getLightMode().enabled()) {
+            return;
+        }
         for (int i = 0; i < 8; i++) {
             float[] fArr = this.animateTo;
             float f3 = fArr[i];

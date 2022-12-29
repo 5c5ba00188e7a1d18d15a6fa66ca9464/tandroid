@@ -265,8 +265,8 @@ public class TranslateAlert extends Dialog {
         this.buttonShadowView.animate().alpha(canExpand ? 1.0f : 0.0f).setDuration(Math.abs(this.buttonShadowView.getAlpha() - (canExpand ? 1.0f : 0.0f)) * 220.0f).start();
     }
 
-    public TranslateAlert(BaseFragment baseFragment, Context context, String str, String str2, CharSequence charSequence, boolean z, OnLinkPress onLinkPress, Runnable runnable) {
-        this(baseFragment, context, -1, null, -1, str, str2, charSequence, z, onLinkPress, runnable);
+    public TranslateAlert(BaseFragment baseFragment, Context context, int i, String str, String str2, CharSequence charSequence, boolean z, OnLinkPress onLinkPress, Runnable runnable) {
+        this(baseFragment, context, i, null, -1, str, str2, charSequence, z, onLinkPress, runnable);
     }
 
     public TranslateAlert(BaseFragment baseFragment, Context context, int i, TLRPC$InputPeer tLRPC$InputPeer, int i2, String str, String str2, CharSequence charSequence, boolean z, OnLinkPress onLinkPress, Runnable runnable) {
@@ -1238,8 +1238,8 @@ public class TranslateAlert extends Dialog {
         return translateAlert;
     }
 
-    public static TranslateAlert showAlert(Context context, BaseFragment baseFragment, String str, String str2, CharSequence charSequence, boolean z, OnLinkPress onLinkPress, Runnable runnable) {
-        TranslateAlert translateAlert = new TranslateAlert(baseFragment, context, str, str2, charSequence, z, onLinkPress, runnable);
+    public static TranslateAlert showAlert(Context context, BaseFragment baseFragment, int i, String str, String str2, CharSequence charSequence, boolean z, OnLinkPress onLinkPress, Runnable runnable) {
+        TranslateAlert translateAlert = new TranslateAlert(baseFragment, context, i, str, str2, charSequence, z, onLinkPress, runnable);
         if (baseFragment != null) {
             if (baseFragment.getParentActivity() != null) {
                 baseFragment.showDialog(translateAlert);

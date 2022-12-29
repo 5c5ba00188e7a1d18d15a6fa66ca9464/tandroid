@@ -5893,7 +5893,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 }
             } else if (i != 1) {
             } else {
-                TranslateAlert.showAlert(this.fragmentView.getContext(), this, strArr[0], str2, str, false, new TranslateAlert.OnLinkPress() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda50
+                TranslateAlert.showAlert(this.fragmentView.getContext(), this, this.currentAccount, strArr[0], str2, str, false, new TranslateAlert.OnLinkPress() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda50
                     @Override // org.telegram.ui.Components.TranslateAlert.OnLinkPress
                     public final boolean run(URLSpan uRLSpan) {
                         boolean lambda$processOnClickOrPress$25;

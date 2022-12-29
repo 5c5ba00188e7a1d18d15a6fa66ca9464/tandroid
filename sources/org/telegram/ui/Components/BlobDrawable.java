@@ -5,6 +5,7 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
 import java.util.Random;
+import org.telegram.messenger.SharedConfig;
 /* loaded from: classes3.dex */
 public class BlobDrawable {
     public static float AMPLITUDE_SPEED = 0.33f;
@@ -72,6 +73,9 @@ public class BlobDrawable {
     }
 
     public void update(float f, float f2) {
+        if (SharedConfig.getLightMode().enabled()) {
+            return;
+        }
         for (int i = 0; i < this.N; i++) {
             float[] fArr = this.progress;
             float f3 = fArr[i];
@@ -91,6 +95,9 @@ public class BlobDrawable {
     }
 
     public void draw(float f, float f2, Canvas canvas, Paint paint) {
+        if (SharedConfig.getLightMode().enabled()) {
+            return;
+        }
         this.path.reset();
         int i = 0;
         while (true) {
@@ -161,21 +168,26 @@ public class BlobDrawable {
 
     public void setValue(float f, boolean z) {
         this.animateToAmplitude = f;
+        if (SharedConfig.getLightMode().enabled()) {
+            return;
+        }
         if (z) {
-            float f2 = this.amplitude;
-            if (f > f2) {
-                this.animateAmplitudeDiff = (f - f2) / 205.0f;
+            float f2 = this.animateToAmplitude;
+            float f3 = this.amplitude;
+            if (f2 > f3) {
+                this.animateAmplitudeDiff = (f2 - f3) / 205.0f;
                 return;
             } else {
-                this.animateAmplitudeDiff = (f - f2) / 275.0f;
+                this.animateAmplitudeDiff = (f2 - f3) / 275.0f;
                 return;
             }
         }
-        float f3 = this.amplitude;
-        if (f > f3) {
-            this.animateAmplitudeDiff = (f - f3) / 320.0f;
+        float f4 = this.animateToAmplitude;
+        float f5 = this.amplitude;
+        if (f4 > f5) {
+            this.animateAmplitudeDiff = (f4 - f5) / 320.0f;
         } else {
-            this.animateAmplitudeDiff = (f - f3) / 375.0f;
+            this.animateAmplitudeDiff = (f4 - f5) / 375.0f;
         }
     }
 

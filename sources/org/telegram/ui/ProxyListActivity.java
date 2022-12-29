@@ -136,9 +136,8 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
             });
             CheckBox2 checkBox2 = new CheckBox2(context, 21);
             this.checkBox = checkBox2;
-            checkBox2.setColor(null, "windowBackgroundWhite", "checkboxCheck");
-            this.checkBox.setDrawUnchecked(false);
-            this.checkBox.setDrawBackgroundAsArc(3);
+            checkBox2.setColor("radioBackground", "radioBackground", "checkboxCheck");
+            this.checkBox.setDrawBackgroundAsArc(14);
             this.checkBox.setVisibility(8);
             addView(this.checkBox, LayoutHelper.createFrame(24, 24.0f, (LocaleController.isRTL ? 5 : 3) | 16, 16.0f, 0.0f, 8.0f, 0.0f));
             setWillNotDraw(false);
@@ -568,16 +567,21 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
                 }
             } else if (i == 0) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(ProxyListActivity.this.getParentActivity());
-                builder.setMessage(LocaleController.getString("DeleteProxy", R.string.DeleteProxy));
+                builder.setMessage(LocaleController.getString(ProxyListActivity.this.selectedItems.size() > 1 ? R.string.DeleteProxyMultiConfirm : R.string.DeleteProxyConfirm));
                 builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-                builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
-                builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ProxyListActivity$3$$ExternalSyntheticLambda0
+                builder.setTitle(LocaleController.getString(R.string.DeleteProxyTitle));
+                builder.setPositiveButton(LocaleController.getString(R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ProxyListActivity$3$$ExternalSyntheticLambda0
                     @Override // android.content.DialogInterface.OnClickListener
                     public final void onClick(DialogInterface dialogInterface, int i2) {
                         ProxyListActivity.3.this.lambda$onItemClick$0(dialogInterface, i2);
                     }
                 });
-                ProxyListActivity.this.showDialog(builder.create());
+                AlertDialog create = builder.create();
+                ProxyListActivity.this.showDialog(create);
+                TextView textView = (TextView) create.getButton(-1);
+                if (textView != null) {
+                    textView.setTextColor(Theme.getColor("dialogTextRed2"));
+                }
             } else if (i == 1) {
                 StringBuilder sb = new StringBuilder();
                 for (SharedConfig.ProxyInfo proxyInfo : ProxyListActivity.this.selectedItems) {

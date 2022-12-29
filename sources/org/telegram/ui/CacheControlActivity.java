@@ -288,12 +288,13 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
         } catch (Exception e) {
             FileLog.e(e);
         }
+        System.currentTimeMillis();
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.CacheControlActivity$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
                 CacheControlActivity.this.lambda$onFragmentCreate$0();
             }
-        }, Math.max(1L, (System.currentTimeMillis() - this.fragmentCreateTime > 25 ? 800L : 0L) - (System.currentTimeMillis() - this.fragmentCreateTime)));
+        }, Math.max(1L, 800 - (System.currentTimeMillis() - this.fragmentCreateTime)));
         loadDialogEntities();
     }
 
@@ -1605,9 +1606,10 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
         }
 
         private void switchSubtitle(int i) {
-            AndroidUtilities.updateViewShow(this.subtitle[0], i == 0, false, true);
-            AndroidUtilities.updateViewShow(this.subtitle[1], i == 1, false, true);
-            AndroidUtilities.updateViewShow(this.subtitle[2], i == 2, false, true);
+            boolean z = System.currentTimeMillis() - CacheControlActivity.this.fragmentCreateTime > 40;
+            AndroidUtilities.updateViewShow(this.subtitle[0], i == 0, false, -0.5f, z, null);
+            AndroidUtilities.updateViewShow(this.subtitle[1], i == 1, false, -0.5f, z, null);
+            AndroidUtilities.updateViewShow(this.subtitle[2], i == 2, false, -0.5f, z, null);
         }
 
         @Override // android.widget.FrameLayout, android.view.View

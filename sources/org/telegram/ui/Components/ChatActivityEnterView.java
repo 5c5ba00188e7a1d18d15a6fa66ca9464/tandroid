@@ -8295,7 +8295,11 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         }
     }
 
-    public boolean didPressedBotButton(final TLRPC$KeyboardButton tLRPC$KeyboardButton, final MessageObject messageObject, final MessageObject messageObject2) {
+    public boolean didPressedBotButton(TLRPC$KeyboardButton tLRPC$KeyboardButton, MessageObject messageObject, MessageObject messageObject2) {
+        return didPressedBotButton(tLRPC$KeyboardButton, messageObject, messageObject2, null);
+    }
+
+    public boolean didPressedBotButton(final TLRPC$KeyboardButton tLRPC$KeyboardButton, final MessageObject messageObject, final MessageObject messageObject2, Browser.Progress progress) {
         if (tLRPC$KeyboardButton == null || messageObject2 == null) {
             return false;
         }
@@ -8303,9 +8307,9 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             SendMessagesHelper.getInstance(this.currentAccount).sendMessage(tLRPC$KeyboardButton.text, this.dialog_id, messageObject, getThreadMessage(), null, false, null, null, null, true, 0, null, false);
         } else if (tLRPC$KeyboardButton instanceof TLRPC$TL_keyboardButtonUrl) {
             if (Browser.urlMustNotHaveConfirmation(tLRPC$KeyboardButton.url)) {
-                Browser.openUrl(this.parentActivity, tLRPC$KeyboardButton.url);
+                Browser.openUrl(this.parentActivity, Uri.parse(tLRPC$KeyboardButton.url), true, true, progress);
             } else {
-                AlertsCreator.showOpenUrlAlert(this.parentFragment, tLRPC$KeyboardButton.url, false, true, this.resourcesProvider);
+                AlertsCreator.showOpenUrlAlert(this.parentFragment, tLRPC$KeyboardButton.url, false, true, true, progress, this.resourcesProvider);
             }
         } else if (tLRPC$KeyboardButton instanceof TLRPC$TL_keyboardButtonRequestPhone) {
             this.parentFragment.shareMyContact(2, messageObject2);

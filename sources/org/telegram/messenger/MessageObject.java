@@ -8696,6 +8696,17 @@ public class MessageObject {
         return 0;
     }
 
+    public int getReplyTopMsgId(boolean z) {
+        TLRPC$TL_messageReplyHeader tLRPC$TL_messageReplyHeader = this.messageOwner.reply_to;
+        if (tLRPC$TL_messageReplyHeader != null) {
+            if (z && (tLRPC$TL_messageReplyHeader.flags & 2) > 0 && tLRPC$TL_messageReplyHeader.reply_to_top_id == 0) {
+                return 1;
+            }
+            return tLRPC$TL_messageReplyHeader.reply_to_top_id;
+        }
+        return 0;
+    }
+
     public static long getReplyToDialogId(TLRPC$Message tLRPC$Message) {
         TLRPC$TL_messageReplyHeader tLRPC$TL_messageReplyHeader = tLRPC$Message.reply_to;
         if (tLRPC$TL_messageReplyHeader == null) {

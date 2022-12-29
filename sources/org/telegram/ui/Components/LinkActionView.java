@@ -448,6 +448,7 @@ public class LinkActionView extends LinearLayout {
         int i;
         String str;
         Context context = getContext();
+        String string = LocaleController.getString("InviteByQRCode", R.string.InviteByQRCode);
         String str2 = this.link;
         if (this.isChannel) {
             i = R.string.QRCodeLinkHelpChannel;
@@ -456,7 +457,7 @@ public class LinkActionView extends LinearLayout {
             i = R.string.QRCodeLinkHelpGroup;
             str = "QRCodeLinkHelpGroup";
         }
-        QRCodeBottomSheet qRCodeBottomSheet = new QRCodeBottomSheet(context, str2, LocaleController.getString(str, i), false) { // from class: org.telegram.ui.Components.LinkActionView.5
+        QRCodeBottomSheet qRCodeBottomSheet = new QRCodeBottomSheet(context, string, str2, LocaleController.getString(str, i), false) { // from class: org.telegram.ui.Components.LinkActionView.5
             @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface
             public void dismiss() {
                 super.dismiss();

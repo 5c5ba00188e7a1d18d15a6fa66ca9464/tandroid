@@ -4434,22 +4434,22 @@ public class AndroidUtilities {
     }
 
     public static void updateViewShow(View view, boolean z, boolean z2, boolean z3) {
-        updateViewShow(view, z, z2, false, z3, null);
+        updateViewShow(view, z, z2, 0.0f, z3, null);
     }
 
     public static void updateViewShow(View view, boolean z, boolean z2, boolean z3, Runnable runnable) {
-        updateViewShow(view, z, z2, false, z3, runnable);
+        updateViewShow(view, z, z2, 0.0f, z3, runnable);
     }
 
-    public static void updateViewShow(View view, boolean z, boolean z2, boolean z3, boolean z4, Runnable runnable) {
+    public static void updateViewShow(View view, boolean z, boolean z2, float f, boolean z3, Runnable runnable) {
         if (view == null) {
             return;
         }
         if (view.getParent() == null) {
-            z4 = false;
+            z3 = false;
         }
         view.animate().setListener(null).cancel();
-        if (!z4) {
+        if (!z3) {
             view.setVisibility(z ? 0 : 8);
             view.setTag(z ? 1 : null);
             view.setAlpha(1.0f);
@@ -4458,8 +4458,8 @@ public class AndroidUtilities {
                 r3 = 0.0f;
             }
             view.setScaleY(r3);
-            if (z3) {
-                view.setTranslationY(z ? 0.0f : dp(-16.0f));
+            if (f != 0.0f) {
+                view.setTranslationY(z ? 0.0f : dp(-16.0f) * f);
             }
             if (runnable != null) {
                 runnable.run();
@@ -4470,19 +4470,19 @@ public class AndroidUtilities {
                 view.setAlpha(0.0f);
                 view.setScaleX(z2 ? 0.0f : 1.0f);
                 view.setScaleY(z2 ? 0.0f : 1.0f);
-                if (z3) {
-                    view.setTranslationY(dp(-16.0f));
+                if (f != 0.0f) {
+                    view.setTranslationY(dp(-16.0f) * f);
                 }
             }
             ViewPropertyAnimator withEndAction = view.animate().alpha(1.0f).scaleY(1.0f).scaleX(1.0f).setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT).setDuration(340L).withEndAction(runnable);
-            if (z3) {
+            if (f != 0.0f) {
                 withEndAction.translationY(0.0f);
             }
             withEndAction.start();
         } else {
             ViewPropertyAnimator withEndAction2 = view.animate().alpha(0.0f).scaleY(z2 ? 0.0f : 1.0f).scaleX(z2 ? 0.0f : 1.0f).setListener(new HideViewAfterAnimation(view)).setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT).setDuration(340L).withEndAction(runnable);
-            if (z3) {
-                withEndAction2.translationY(dp(-16.0f));
+            if (f != 0.0f) {
+                withEndAction2.translationY(dp(-16.0f) * f);
             }
             withEndAction2.start();
         }

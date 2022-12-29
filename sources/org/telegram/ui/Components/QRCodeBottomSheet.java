@@ -36,10 +36,10 @@ public class QRCodeBottomSheet extends BottomSheet {
     int imageSize;
     Bitmap qrCode;
 
-    public QRCodeBottomSheet(final Context context, final String str, String str2, boolean z) {
+    public QRCodeBottomSheet(final Context context, String str, final String str2, String str3, boolean z) {
         super(context, false);
         fixNavigationBar();
-        setTitle(LocaleController.getString("InviteByQRCode", R.string.InviteByQRCode), true);
+        setTitle(str, true);
         final ImageView imageView = new ImageView(this, context) { // from class: org.telegram.ui.Components.QRCodeBottomSheet.1
             @Override // android.widget.ImageView, android.view.View
             protected void onMeasure(int i, int i2) {
@@ -60,7 +60,7 @@ public class QRCodeBottomSheet extends BottomSheet {
         LinearLayout linearLayout = new LinearLayout(context);
         linearLayout.setOrientation(1);
         linearLayout.setPadding(0, AndroidUtilities.dp(16.0f), 0, 0);
-        Bitmap createQR = createQR(context, str, this.qrCode);
+        Bitmap createQR = createQR(context, str2, this.qrCode);
         this.qrCode = createQR;
         imageView.setImageBitmap(createQR);
         RLottieImageView rLottieImageView = new RLottieImageView(context);
@@ -90,7 +90,7 @@ public class QRCodeBottomSheet extends BottomSheet {
         TextView textView = new TextView(context);
         this.help = textView;
         textView.setTextSize(1, 14.0f);
-        textView.setText(str2);
+        textView.setText(str3);
         textView.setGravity(1);
         linearLayout.addView(textView, LayoutHelper.createFrame(-1, -2.0f, 0, 40.0f, 8.0f, 40.0f, 8.0f));
         TextView textView2 = new TextView(context);
@@ -117,7 +117,7 @@ public class QRCodeBottomSheet extends BottomSheet {
             this.button2TextView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.QRCodeBottomSheet$$ExternalSyntheticLambda0
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
-                    QRCodeBottomSheet.lambda$new$1(str, context, view);
+                    QRCodeBottomSheet.lambda$new$1(str2, context, view);
                 }
             });
             linearLayout.addView(this.button2TextView, LayoutHelper.createLinear(-1, 48, 80, 16, 3, 16, 16));
@@ -136,7 +136,7 @@ public class QRCodeBottomSheet extends BottomSheet {
             intent.setType("image/*");
             intent.putExtra("android.intent.extra.STREAM", bitmapShareUri);
             try {
-                AndroidUtilities.findActivity(context).startActivityForResult(Intent.createChooser(intent, LocaleController.getString("InviteByQRCode", R.string.InviteByQRCode)), 500);
+                AndroidUtilities.findActivity(context).startActivityForResult(Intent.createChooser(intent, getTitleView().getText()), 500);
             } catch (ActivityNotFoundException e) {
                 e.printStackTrace();
             }

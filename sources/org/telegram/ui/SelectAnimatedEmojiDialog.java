@@ -1822,7 +1822,12 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                     imageViewEmoji.isDefaultReaction = true;
                     TLRPC$TL_availableReaction tLRPC$TL_availableReaction = MediaDataController.getInstance(SelectAnimatedEmojiDialog.this.currentAccount).getReactionsMap().get(visibleReaction.emojicon);
                     if (tLRPC$TL_availableReaction != null) {
-                        imageViewEmoji.imageReceiver.setImage(ImageLocation.getForDocument(tLRPC$TL_availableReaction.select_animation), "60_60_pcache", null, null, DocumentObject.getSvgThumb(tLRPC$TL_availableReaction.activate_animation, "windowBackgroundWhiteGrayIcon", 0.2f), 0L, "tgs", visibleReaction, 0);
+                        SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(tLRPC$TL_availableReaction.activate_animation, "windowBackgroundWhiteGrayIcon", 0.2f);
+                        if (SharedConfig.getLightMode().enabled()) {
+                            imageViewEmoji.imageReceiver.setImage(ImageLocation.getForDocument(tLRPC$TL_availableReaction.select_animation), "60_60_firstframe", null, null, svgThumb, 0L, "tgs", visibleReaction, 0);
+                        } else {
+                            imageViewEmoji.imageReceiver.setImage(ImageLocation.getForDocument(tLRPC$TL_availableReaction.select_animation), "60_60_pcache", null, null, svgThumb, 0L, "tgs", visibleReaction, 0);
+                        }
                     } else {
                         imageViewEmoji.imageReceiver.clearImage();
                     }
@@ -2059,17 +2064,17 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
             return this.VIEW_TYPE_SEARCH;
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:141:0x0471, code lost:
-            if (r21.this$0.selectedDocumentIds.contains(java.lang.Long.valueOf(r2.getDocumentId())) != false) goto L154;
+        /* JADX WARN: Code restructure failed: missing block: B:144:0x0493, code lost:
+            if (r21.this$0.selectedDocumentIds.contains(java.lang.Long.valueOf(r2.getDocumentId())) != false) goto L157;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:168:0x04f8, code lost:
-            if (r21.this$0.selectedDocumentIds.contains(java.lang.Long.valueOf(r2.getDocumentId())) != false) goto L154;
+        /* JADX WARN: Code restructure failed: missing block: B:171:0x051a, code lost:
+            if (r21.this$0.selectedDocumentIds.contains(java.lang.Long.valueOf(r2.getDocumentId())) != false) goto L157;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:193:0x057c, code lost:
-            if (r21.this$0.selectedDocumentIds.contains(java.lang.Long.valueOf(r2.getDocumentId())) != false) goto L154;
+        /* JADX WARN: Code restructure failed: missing block: B:196:0x059e, code lost:
+            if (r21.this$0.selectedDocumentIds.contains(java.lang.Long.valueOf(r2.getDocumentId())) != false) goto L157;
          */
-        /* JADX WARN: Removed duplicated region for block: B:199:0x0585  */
-        /* JADX WARN: Removed duplicated region for block: B:203:0x05c6  */
+        /* JADX WARN: Removed duplicated region for block: B:202:0x05a7  */
+        /* JADX WARN: Removed duplicated region for block: B:206:0x05e8  */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -2140,7 +2145,12 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                         imageViewEmoji.isDefaultReaction = true;
                         TLRPC$TL_availableReaction tLRPC$TL_availableReaction = MediaDataController.getInstance(SelectAnimatedEmojiDialog.this.currentAccount).getReactionsMap().get(visibleReaction.emojicon);
                         if (tLRPC$TL_availableReaction != null) {
-                            imageViewEmoji.imageReceiver.setImage(ImageLocation.getForDocument(tLRPC$TL_availableReaction.select_animation), "60_60_pcache", null, null, DocumentObject.getSvgThumb(tLRPC$TL_availableReaction.activate_animation, "windowBackgroundWhiteGrayIcon", 0.2f), 0L, "tgs", visibleReaction, 0);
+                            SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(tLRPC$TL_availableReaction.activate_animation, "windowBackgroundWhiteGrayIcon", 0.2f);
+                            if (SharedConfig.getLightMode().enabled()) {
+                                imageViewEmoji.imageReceiver.setImage(ImageLocation.getForDocument(tLRPC$TL_availableReaction.select_animation), "60_60_firstframe", null, null, svgThumb, 0L, "tgs", visibleReaction, 0);
+                            } else {
+                                imageViewEmoji.imageReceiver.setImage(ImageLocation.getForDocument(tLRPC$TL_availableReaction.select_animation), "60_60_pcache", null, null, svgThumb, 0L, "tgs", visibleReaction, 0);
+                            }
                         } else {
                             imageViewEmoji.imageReceiver.clearImage();
                         }

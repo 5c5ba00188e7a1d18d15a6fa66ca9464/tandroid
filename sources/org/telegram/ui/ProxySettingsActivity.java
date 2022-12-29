@@ -528,7 +528,7 @@ public class ProxySettingsActivity extends BaseFragment {
             if (sb.length() == 0) {
                 return;
             }
-            QRCodeBottomSheet qRCodeBottomSheet = new QRCodeBottomSheet(context, str + sb.toString(), LocaleController.getString("QRCodeLinkHelpProxy", R.string.QRCodeLinkHelpProxy), true);
+            QRCodeBottomSheet qRCodeBottomSheet = new QRCodeBottomSheet(context, LocaleController.getString("ShareQrCode", R.string.ShareQrCode), str + sb.toString(), LocaleController.getString("QRCodeLinkHelpProxy", R.string.QRCodeLinkHelpProxy), true);
             qRCodeBottomSheet.setCenterImage(SvgHelper.getBitmap(RLottieDrawable.readRes(null, R.raw.qr_dog), AndroidUtilities.dp(60.0f), AndroidUtilities.dp(60.0f), false));
             showDialog(qRCodeBottomSheet);
         } catch (Exception unused) {

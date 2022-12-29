@@ -17,6 +17,7 @@ import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.SparseArray;
+import androidx.core.graphics.ColorUtils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -322,17 +323,18 @@ public class SvgHelper {
                 iArr[z ? 1 : 0] = color;
                 gradientWidth = AndroidUtilities.displaySize.x * 2;
                 if (SharedConfig.getLightMode().enabled()) {
+                    int alphaComponent = ColorUtils.setAlphaComponent(this.currentColor[z ? 1 : 0], 70);
                     if (z) {
                         if (this.backgroundPaint == null) {
                             this.backgroundPaint = new Paint(1);
                         }
                         this.backgroundPaint.setShader(null);
-                        this.backgroundPaint.setColor(this.currentColor[z ? 1 : 0]);
+                        this.backgroundPaint.setColor(alphaComponent);
                         return;
                     }
                     for (Paint paint : this.paints.values()) {
                         paint.setShader(null);
-                        paint.setColor(this.currentColor[z ? 1 : 0]);
+                        paint.setColor(alphaComponent);
                     }
                     return;
                 }

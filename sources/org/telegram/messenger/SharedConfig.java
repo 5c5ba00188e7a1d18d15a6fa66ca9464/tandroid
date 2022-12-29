@@ -1590,7 +1590,7 @@ public class SharedConfig {
         }
 
         private void loadPreference() {
-            this.enabled = (MessagesController.getGlobalMainSettings().getInt("light_mode", 0) & 1) != 0;
+            this.enabled = (MessagesController.getGlobalMainSettings().getInt("light_mode", SharedConfig.getDevicePerformanceClass() == 0 ? 1 : 0) & 1) != 0;
         }
 
         public void savePreference() {

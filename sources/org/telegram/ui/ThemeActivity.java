@@ -46,6 +46,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
+import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
@@ -676,14 +677,16 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
             int i51 = i50 + 1;
             this.rowCount = i51;
             this.distanceRow = i50;
-            int i52 = i51 + 1;
-            this.rowCount = i52;
+            this.rowCount = i51 + 1;
             this.settings2Row = i51;
-            int i53 = i52 + 1;
-            this.rowCount = i53;
-            this.lightModeRow = i52;
-            this.rowCount = i53 + 1;
-            this.lightModeTopInfoRow = i53;
+            if (SharedConfig.getDevicePerformanceClass() == 0 || BuildVars.DEBUG_VERSION) {
+                int i52 = this.rowCount;
+                int i53 = i52 + 1;
+                this.rowCount = i53;
+                this.lightModeRow = i52;
+                this.rowCount = i53 + 1;
+                this.lightModeTopInfoRow = i53;
+            }
         } else {
             int i54 = this.rowCount;
             int i55 = i54 + 1;

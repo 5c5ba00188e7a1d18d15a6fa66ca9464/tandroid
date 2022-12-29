@@ -30,6 +30,7 @@ import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.R;
+import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserObject;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.voip.VoIPService;
@@ -1237,11 +1238,14 @@ public class GroupCallUserCell extends FrameLayout {
             }
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:25:0x005d  */
+        /* JADX WARN: Removed duplicated region for block: B:28:0x0068  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public void draw(Canvas canvas, float f, float f2, View view) {
+            if (SharedConfig.getLightMode().enabled()) {
+                return;
+            }
             float f3 = (this.amplitude * 0.4f) + 0.8f;
             if (this.showWaves || this.wavesEnter != 0.0f) {
                 canvas.save();
