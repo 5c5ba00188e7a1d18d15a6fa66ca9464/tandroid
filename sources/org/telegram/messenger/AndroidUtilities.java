@@ -281,10 +281,6 @@ public class AndroidUtilities {
         return i2;
     }
 
-    public static boolean isAccessibilityScreenReaderEnabled() {
-        return false;
-    }
-
     public static boolean isValidWallChar(char c) {
         return c == '-' || c == '~';
     }
@@ -537,7 +533,7 @@ public class AndroidUtilities {
             public final void run() {
                 AndroidUtilities.lambda$recycleBitmaps$1(list);
             }
-        }, 36L);
+        }, Build.VERSION.SDK_INT <= 23 ? 100L : 36L);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -4612,6 +4608,10 @@ public class AndroidUtilities {
         } catch (NumberFormatException unused) {
             return false;
         }
+    }
+
+    public static boolean isAccessibilityScreenReaderEnabled() {
+        return isAccessibilityTouchExplorationEnabled();
     }
 
     public static CharSequence trim(CharSequence charSequence, int[] iArr) {

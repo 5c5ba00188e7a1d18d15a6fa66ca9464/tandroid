@@ -61,6 +61,7 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
     private int callsRow;
     private int connectionsHeaderRow;
     private int currentConnectionState;
+    private int deleteAllRow;
     private ListAdapter listAdapter;
     private RecyclerListView listView;
     private int proxyAddRow;
@@ -78,7 +79,7 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
     private List<SharedConfig.ProxyInfo> proxyList = new ArrayList();
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ boolean lambda$createView$2(View view, MotionEvent motionEvent) {
+    public static /* synthetic */ boolean lambda$createView$3(View view, MotionEvent motionEvent) {
         return true;
     }
 
@@ -390,18 +391,18 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
         this.listView.setLayoutManager(new LinearLayoutManager(context, 1, false));
         ((FrameLayout) this.fragmentView).addView(this.listView, LayoutHelper.createFrame(-1, -1, 51));
         this.listView.setAdapter(this.listAdapter);
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.ProxyListActivity$$ExternalSyntheticLambda4
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.ProxyListActivity$$ExternalSyntheticLambda5
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i) {
-                ProxyListActivity.this.lambda$createView$0(view, i);
+                ProxyListActivity.this.lambda$createView$1(view, i);
             }
         });
-        this.listView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.ProxyListActivity$$ExternalSyntheticLambda5
+        this.listView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.ProxyListActivity$$ExternalSyntheticLambda6
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemLongClickListener
             public final boolean onItemClick(View view, int i) {
-                boolean lambda$createView$1;
-                lambda$createView$1 = ProxyListActivity.this.lambda$createView$1(view, i);
-                return lambda$createView$1;
+                boolean lambda$createView$2;
+                lambda$createView$2 = ProxyListActivity.this.lambda$createView$2(view, i);
+                return lambda$createView$2;
             }
         });
         ActionBarMenu createActionMode = this.actionBar.createActionMode();
@@ -411,7 +412,7 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
         this.selectedCountTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         this.selectedCountTextView.setTextColor(Theme.getColor("actionBarActionModeDefaultIcon"));
         createActionMode.addView(this.selectedCountTextView, LayoutHelper.createLinear(0, -1, 1.0f, 72, 0, 0, 0));
-        this.selectedCountTextView.setOnTouchListener(ProxyListActivity$$ExternalSyntheticLambda0.INSTANCE);
+        this.selectedCountTextView.setOnTouchListener(ProxyListActivity$$ExternalSyntheticLambda1.INSTANCE);
         createActionMode.addItemWithWidth(1, R.drawable.msg_share, AndroidUtilities.dp(54.0f));
         createActionMode.addItemWithWidth(0, R.drawable.msg_delete, AndroidUtilities.dp(54.0f));
         this.actionBar.setActionBarMenuOnItemClick(new 3(context));
@@ -419,7 +420,7 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$0(View view, int i) {
+    public /* synthetic */ void lambda$createView$1(View view, int i) {
         if (i == this.useProxyRow) {
             if (SharedConfig.currentProxy == null) {
                 if (!this.proxyList.isEmpty()) {
@@ -511,11 +512,49 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
             ConnectionsManager.setProxySettings(z3, proxyInfo3.address, proxyInfo3.port, proxyInfo3.username, proxyInfo3.password, proxyInfo3.secret);
         } else if (i == this.proxyAddRow) {
             presentFragment(new ProxySettingsActivity());
+        } else if (i == this.deleteAllRow) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
+            builder.setMessage(LocaleController.getString(R.string.DeleteAllProxiesConfirm));
+            builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+            builder.setTitle(LocaleController.getString(R.string.DeleteProxyTitle));
+            builder.setPositiveButton(LocaleController.getString(R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ProxyListActivity$$ExternalSyntheticLambda0
+                @Override // android.content.DialogInterface.OnClickListener
+                public final void onClick(DialogInterface dialogInterface, int i5) {
+                    ProxyListActivity.this.lambda$createView$0(dialogInterface, i5);
+                }
+            });
+            AlertDialog create = builder.create();
+            showDialog(create);
+            TextView textView = (TextView) create.getButton(-1);
+            if (textView != null) {
+                textView.setTextColor(Theme.getColor("dialogTextRed2"));
+            }
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ boolean lambda$createView$1(View view, int i) {
+    public /* synthetic */ void lambda$createView$0(DialogInterface dialogInterface, int i) {
+        for (SharedConfig.ProxyInfo proxyInfo : this.proxyList) {
+            SharedConfig.deleteProxy(proxyInfo);
+        }
+        this.useProxyForCalls = false;
+        this.useProxySettings = false;
+        NotificationCenter globalInstance = NotificationCenter.getGlobalInstance();
+        int i2 = NotificationCenter.proxySettingsChanged;
+        globalInstance.removeObserver(this, i2);
+        NotificationCenter.getGlobalInstance().postNotificationName(i2, new Object[0]);
+        NotificationCenter.getGlobalInstance().addObserver(this, i2);
+        updateRows(true);
+        ListAdapter listAdapter = this.listAdapter;
+        if (listAdapter != null) {
+            listAdapter.notifyItemChanged(this.useProxyRow, 0);
+            this.listAdapter.notifyItemChanged(this.callsRow, 0);
+            this.listAdapter.clearSelected();
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ boolean lambda$createView$2(View view, int i) {
         if (i < this.proxyStartRow || i >= this.proxyEndRow) {
             return false;
         }
@@ -649,12 +688,12 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
                     this.wasCheckedAllList = true;
                 }
             }
-            Collections.sort(this.proxyList, new Comparator() { // from class: org.telegram.ui.ProxyListActivity$$ExternalSyntheticLambda2
+            Collections.sort(this.proxyList, new Comparator() { // from class: org.telegram.ui.ProxyListActivity$$ExternalSyntheticLambda3
                 @Override // java.util.Comparator
                 public final int compare(Object obj, Object obj2) {
-                    int lambda$updateRows$3;
-                    lambda$updateRows$3 = ProxyListActivity.lambda$updateRows$3(z3, (SharedConfig.ProxyInfo) obj, (SharedConfig.ProxyInfo) obj2);
-                    return lambda$updateRows$3;
+                    int lambda$updateRows$4;
+                    lambda$updateRows$4 = ProxyListActivity.lambda$updateRows$4(z3, (SharedConfig.ProxyInfo) obj, (SharedConfig.ProxyInfo) obj2);
+                    return lambda$updateRows$4;
                 }
             });
         }
@@ -696,6 +735,13 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
                 this.listAdapter.notifyItemRangeRemoved(this.proxyDetailRow + 1, 2);
             }
         }
+        if (this.proxyList.size() >= 10) {
+            int i8 = this.rowCount;
+            this.rowCount = i8 + 1;
+            this.deleteAllRow = i8;
+        } else {
+            this.deleteAllRow = -1;
+        }
         checkProxyList();
         if (!z || (listAdapter = this.listAdapter) == null) {
             return;
@@ -704,7 +750,7 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ int lambda$updateRows$3(boolean z, SharedConfig.ProxyInfo proxyInfo, SharedConfig.ProxyInfo proxyInfo2) {
+    public static /* synthetic */ int lambda$updateRows$4(boolean z, SharedConfig.ProxyInfo proxyInfo, SharedConfig.ProxyInfo proxyInfo2) {
         SharedConfig.ProxyInfo proxyInfo3 = SharedConfig.currentProxy;
         long j = proxyInfo3 == proxyInfo ? -200000L : 0L;
         if (!proxyInfo.available) {
@@ -723,10 +769,10 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
             final SharedConfig.ProxyInfo proxyInfo = this.proxyList.get(i);
             if (!proxyInfo.checking && SystemClock.elapsedRealtime() - proxyInfo.availableCheckTime >= 120000) {
                 proxyInfo.checking = true;
-                proxyInfo.proxyCheckPingId = ConnectionsManager.getInstance(this.currentAccount).checkProxy(proxyInfo.address, proxyInfo.port, proxyInfo.username, proxyInfo.password, proxyInfo.secret, new RequestTimeDelegate() { // from class: org.telegram.ui.ProxyListActivity$$ExternalSyntheticLambda3
+                proxyInfo.proxyCheckPingId = ConnectionsManager.getInstance(this.currentAccount).checkProxy(proxyInfo.address, proxyInfo.port, proxyInfo.username, proxyInfo.password, proxyInfo.secret, new RequestTimeDelegate() { // from class: org.telegram.ui.ProxyListActivity$$ExternalSyntheticLambda4
                     @Override // org.telegram.tgnet.RequestTimeDelegate
                     public final void run(long j) {
-                        ProxyListActivity.lambda$checkProxyList$5(SharedConfig.ProxyInfo.this, j);
+                        ProxyListActivity.lambda$checkProxyList$6(SharedConfig.ProxyInfo.this, j);
                     }
                 });
             }
@@ -734,17 +780,17 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$checkProxyList$5(final SharedConfig.ProxyInfo proxyInfo, final long j) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ProxyListActivity$$ExternalSyntheticLambda1
+    public static /* synthetic */ void lambda$checkProxyList$6(final SharedConfig.ProxyInfo proxyInfo, final long j) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ProxyListActivity$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
-                ProxyListActivity.lambda$checkProxyList$4(SharedConfig.ProxyInfo.this, j);
+                ProxyListActivity.lambda$checkProxyList$5(SharedConfig.ProxyInfo.this, j);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$checkProxyList$4(SharedConfig.ProxyInfo proxyInfo, long j) {
+    public static /* synthetic */ void lambda$checkProxyList$5(SharedConfig.ProxyInfo proxyInfo, long j) {
         proxyInfo.availableCheckTime = SystemClock.elapsedRealtime();
         proxyInfo.checking = false;
         if (j == -1) {
@@ -884,14 +930,20 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
             if (itemViewType == 0) {
                 if (i == ProxyListActivity.this.proxyDetailRow && ProxyListActivity.this.callsRow == -1) {
                     viewHolder.itemView.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, R.drawable.greydivider_bottom, "windowBackgroundGrayShadow"));
+                    return;
                 } else {
                     viewHolder.itemView.setBackgroundDrawable(Theme.getThemedDrawable(this.mContext, R.drawable.greydivider, "windowBackgroundGrayShadow"));
+                    return;
                 }
-            } else if (itemViewType == 1) {
+            }
+            if (itemViewType == 1) {
                 TextSettingsCell textSettingsCell = (TextSettingsCell) viewHolder.itemView;
                 textSettingsCell.setTextColor(Theme.getColor("windowBackgroundWhiteBlackText"));
                 if (i == ProxyListActivity.this.proxyAddRow) {
-                    textSettingsCell.setText(LocaleController.getString("AddProxy", R.string.AddProxy), false);
+                    textSettingsCell.setText(LocaleController.getString("AddProxy", R.string.AddProxy), ProxyListActivity.this.deleteAllRow != -1);
+                } else if (i == ProxyListActivity.this.deleteAllRow) {
+                    textSettingsCell.setTextColor(Theme.getColor("windowBackgroundWhiteRedText4"));
+                    textSettingsCell.setText(LocaleController.getString(R.string.DeleteAllProxies), false);
                 }
             } else if (itemViewType == 2) {
                 HeaderCell headerCell = (HeaderCell) viewHolder.itemView;
@@ -960,7 +1012,7 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
         @Override // org.telegram.ui.Components.RecyclerListView.SelectionAdapter
         public boolean isEnabled(RecyclerView.ViewHolder viewHolder) {
             int adapterPosition = viewHolder.getAdapterPosition();
-            return adapterPosition == ProxyListActivity.this.useProxyRow || adapterPosition == ProxyListActivity.this.callsRow || adapterPosition == ProxyListActivity.this.proxyAddRow || (adapterPosition >= ProxyListActivity.this.proxyStartRow && adapterPosition < ProxyListActivity.this.proxyEndRow);
+            return adapterPosition == ProxyListActivity.this.useProxyRow || adapterPosition == ProxyListActivity.this.callsRow || adapterPosition == ProxyListActivity.this.proxyAddRow || adapterPosition == ProxyListActivity.this.deleteAllRow || (adapterPosition >= ProxyListActivity.this.proxyStartRow && adapterPosition < ProxyListActivity.this.proxyEndRow);
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -1008,6 +1060,9 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
             if (i == ProxyListActivity.this.connectionsHeaderRow) {
                 return -6L;
             }
+            if (i == ProxyListActivity.this.deleteAllRow) {
+                return -8L;
+            }
             if (i < ProxyListActivity.this.proxyStartRow || i >= ProxyListActivity.this.proxyEndRow) {
                 return -7L;
             }
@@ -1019,7 +1074,7 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
             if (i == ProxyListActivity.this.useProxyDetailRow || i == ProxyListActivity.this.proxyDetailRow) {
                 return 0;
             }
-            if (i == ProxyListActivity.this.proxyAddRow) {
+            if (i == ProxyListActivity.this.proxyAddRow || i == ProxyListActivity.this.deleteAllRow) {
                 return 1;
             }
             if (i == ProxyListActivity.this.useProxyRow || i == ProxyListActivity.this.callsRow) {

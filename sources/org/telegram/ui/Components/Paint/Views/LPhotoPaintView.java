@@ -2293,6 +2293,11 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
     }
 
     @Override // org.telegram.ui.Components.IPhotoPaintView
+    public RenderView getRenderView() {
+        return this.renderView;
+    }
+
+    @Override // org.telegram.ui.Components.IPhotoPaintView
     public void setTransform(float f, float f2, float f3, float f4, float f5) {
         View view;
         float f6;
@@ -2508,13 +2513,18 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
             SpringAnimation springAnimation2 = new SpringAnimation(new FloatValueHolder(z ? 0.0f : 1000.0f));
             this.toolsTransformAnimation = springAnimation2;
             springAnimation2.setSpring(new SpringForce().setFinalPosition(z ? 1000.0f : 0.0f).setStiffness(1250.0f).setDampingRatio(1.0f));
-            final boolean z2 = this.keyboardVisible || this.emojiViewVisible;
+            boolean z2 = true;
+            final boolean[] zArr = new boolean[1];
+            if (!this.keyboardVisible && !this.emojiViewVisible) {
+                z2 = false;
+            }
+            zArr[0] = z2;
             final float translationY = this.bottomLayout.getTranslationY();
             final ViewGroup barView = getBarView();
             this.toolsTransformAnimation.addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda27
                 @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationUpdateListener
                 public final void onAnimationUpdate(DynamicAnimation dynamicAnimation, float f, float f2) {
-                    LPhotoPaintView.this.lambda$showColorList$25(barView, z, z2, translationY, dynamicAnimation, f, f2);
+                    LPhotoPaintView.this.lambda$showColorList$25(barView, z, zArr, translationY, dynamicAnimation, f, f2);
                 }
             });
             this.toolsTransformAnimation.addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda25
@@ -2532,7 +2542,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$showColorList$25(View view, boolean z, boolean z2, float f, DynamicAnimation dynamicAnimation, float f2, float f3) {
+    public /* synthetic */ void lambda$showColorList$25(View view, boolean z, boolean[] zArr, float f, DynamicAnimation dynamicAnimation, float f2, float f3) {
         float f4 = f2 / 1000.0f;
         this.toolsTransformProgress = f4;
         float f5 = ((1.0f - f4) * 0.4f) + 0.6f;
@@ -2544,7 +2554,10 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         this.doneButton.setProgress(this.toolsTransformProgress);
         this.cancelButton.setProgress(this.toolsTransformProgress);
         this.tabsLayout.setTranslationY(AndroidUtilities.dp(32.0f) * this.toolsTransformProgress);
-        if (z2) {
+        if (this.adjustPanLayoutHelper.animationInProgress()) {
+            zArr[0] = false;
+        }
+        if (zArr[0]) {
             float f6 = this.toolsTransformProgress;
             if (!z) {
                 f6 = 1.0f - f6;
@@ -3735,7 +3748,8 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         }
         EmojiView emojiView2 = new EmojiView(null, true, false, false, getContext(), false, null, null, this.resourcesProvider);
         this.emojiView = emojiView2;
-        emojiView2.setVisibility(8);
+        emojiView2.allowEmojisForNonPremium(true);
+        this.emojiView.setVisibility(8);
         if (AndroidUtilities.isTablet()) {
             this.emojiView.setForseMultiwindowLayout(true);
         }

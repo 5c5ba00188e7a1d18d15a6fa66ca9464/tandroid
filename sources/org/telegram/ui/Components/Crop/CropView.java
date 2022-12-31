@@ -780,7 +780,11 @@ public class CropView extends FrameLayout implements CropAreaView.AreaViewListen
     public void maximize(boolean z) {
         float currentWidth;
         int currentHeight;
-        final float f = this.state.minimumScale;
+        CropState cropState = this.state;
+        if (cropState == null) {
+            return;
+        }
+        final float f = cropState.minimumScale;
         this.areaView.resetAnimator();
         if (this.state.getOrientation() % 180.0f != 0.0f) {
             currentWidth = getCurrentHeight();
@@ -801,11 +805,11 @@ public class CropView extends FrameLayout implements CropAreaView.AreaViewListen
             final RectF rectF = new RectF();
             final RectF rectF2 = new RectF();
             this.areaView.getCropRect(rectF);
-            CropState cropState = this.state;
-            final float f3 = cropState.x;
-            final float f4 = cropState.y;
-            final float f5 = cropState.scale;
-            final float f6 = cropState.rotation;
+            CropState cropState2 = this.state;
+            final float f3 = cropState2.x;
+            final float f4 = cropState2.y;
+            final float f5 = cropState2.scale;
+            final float f6 = cropState2.rotation;
             ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Crop.CropView$$ExternalSyntheticLambda2
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator) {
@@ -818,12 +822,12 @@ public class CropView extends FrameLayout implements CropAreaView.AreaViewListen
             return;
         }
         this.areaView.setActualRect(this.initialAreaRect);
-        CropState cropState2 = this.state;
-        cropState2.translate(-cropState2.x, -cropState2.y);
         CropState cropState3 = this.state;
-        cropState3.scale(cropState3.minimumScale / cropState3.scale, 0.0f, 0.0f);
+        cropState3.translate(-cropState3.x, -cropState3.y);
         CropState cropState4 = this.state;
-        cropState4.rotate(-cropState4.rotation, 0.0f, 0.0f);
+        cropState4.scale(cropState4.minimumScale / cropState4.scale, 0.0f, 0.0f);
+        CropState cropState5 = this.state;
+        cropState5.rotate(-cropState5.rotation, 0.0f, 0.0f);
         updateMatrix();
         resetRotationStartScale();
     }

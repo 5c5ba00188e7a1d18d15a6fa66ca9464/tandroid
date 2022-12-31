@@ -73,7 +73,7 @@ public class KeepMediaPopupView extends ActionBarPopupWindow.ActionBarPopupWindo
         ExceptionsView exceptionsView = new ExceptionsView(context);
         this.exceptionsView = exceptionsView;
         addView((View) exceptionsView, LayoutHelper.createLinear(-1, 48));
-        this.exceptionsView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.KeepMediaPopupView$$ExternalSyntheticLambda0
+        this.exceptionsView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.KeepMediaPopupView$$ExternalSyntheticLambda1
             @Override // android.view.View.OnClickListener
             public final void onClick(View view2) {
                 KeepMediaPopupView.this.lambda$new$2(baseFragment, view2);
@@ -81,19 +81,10 @@ public class KeepMediaPopupView extends ActionBarPopupWindow.ActionBarPopupWindo
         });
         for (int i = 0; i < this.checkItems.size(); i++) {
             final int i2 = this.checkItems.get(i).type;
-            this.checkItems.get(i).item.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.KeepMediaPopupView.2
+            this.checkItems.get(i).item.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.KeepMediaPopupView$$ExternalSyntheticLambda0
                 @Override // android.view.View.OnClickListener
-                public void onClick(View view2) {
-                    ((ActionBarPopupWindow.ActionBarPopupWindowLayout) KeepMediaPopupView.this).window.dismiss();
-                    KeepMediaPopupView keepMediaPopupView = KeepMediaPopupView.this;
-                    if (keepMediaPopupView.currentType >= 0) {
-                        keepMediaPopupView.cacheByChatsController.setKeepMedia(KeepMediaPopupView.this.currentType, i2);
-                        KeepMediaPopupView keepMediaPopupView2 = KeepMediaPopupView.this;
-                        Callback callback = keepMediaPopupView2.callback;
-                        if (callback != null) {
-                            callback.onKeepMediaChange(keepMediaPopupView2.currentType, i2);
-                        }
-                    }
+                public final void onClick(View view2) {
+                    KeepMediaPopupView.this.lambda$new$3(i2, view2);
                 }
             });
         }
@@ -127,7 +118,7 @@ public class KeepMediaPopupView extends ActionBarPopupWindow.ActionBarPopupWindo
             }
             bundle.putBoolean("allowGlobalSearch", false);
             final DialogsActivity dialogsActivity = new DialogsActivity(bundle);
-            dialogsActivity.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.KeepMediaPopupView$$ExternalSyntheticLambda2
+            dialogsActivity.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.KeepMediaPopupView$$ExternalSyntheticLambda3
                 @Override // org.telegram.ui.DialogsActivity.DialogsActivityDelegate
                 public final void didSelectDialogs(DialogsActivity dialogsActivity2, ArrayList arrayList, CharSequence charSequence, boolean z) {
                     KeepMediaPopupView.this.lambda$new$1(dialogsActivity, dialogsActivity2, arrayList, charSequence, z);
@@ -169,12 +160,31 @@ public class KeepMediaPopupView extends ActionBarPopupWindow.ActionBarPopupWindo
         };
         cacheChatsExceptionsFragment.setExceptions(this.exceptions);
         this.parentFragment.presentFragment(cacheChatsExceptionsFragment);
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.KeepMediaPopupView$$ExternalSyntheticLambda1
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.KeepMediaPopupView$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 CacheChatsExceptionsFragment.this.showPopupFor(keepMediaException);
             }
         }, 150L);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$new$3(int i, View view) {
+        this.window.dismiss();
+        int i2 = this.currentType;
+        if (i2 >= 0) {
+            this.cacheByChatsController.setKeepMedia(i2, i);
+            Callback callback = this.callback;
+            if (callback != null) {
+                callback.onKeepMediaChange(this.currentType, i);
+                return;
+            }
+            return;
+        }
+        Callback callback2 = this.callback;
+        if (callback2 != null) {
+            callback2.onKeepMediaChange(i2, i);
+        }
     }
 
     public void update(int i) {

@@ -676,6 +676,9 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
         if (view instanceof PremiumFeatureCell) {
             PremiumFeatureCell premiumFeatureCell = (PremiumFeatureCell) view;
             sentShowFeaturePreview(this.currentAccount, premiumFeatureCell.data.type);
+            if (this.subscriptionTiers.isEmpty()) {
+                return;
+            }
             showDialog(new PremiumFeatureBottomSheet(this, premiumFeatureCell.data.type, false, this.subscriptionTiers.get(this.selectedTierIndex)));
         }
     }
@@ -894,7 +897,7 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
     public static /* synthetic */ void lambda$buyPremium$5(final BaseFragment baseFragment, Runnable runnable, final TLRPC$TL_payments_assignPlayMarketTransaction tLRPC$TL_payments_assignPlayMarketTransaction, TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         if (tLObject instanceof TLRPC$Updates) {
             baseFragment.getMessagesController().processUpdates((TLRPC$Updates) tLObject, false);
-            runnable.run();
+            AndroidUtilities.runOnUIThread(runnable);
         } else if (tLRPC$TL_error != null) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PremiumPreviewFragment$$ExternalSyntheticLambda8
                 @Override // java.lang.Runnable

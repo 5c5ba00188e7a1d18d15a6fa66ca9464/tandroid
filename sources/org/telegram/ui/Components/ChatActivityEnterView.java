@@ -91,6 +91,7 @@ import org.telegram.messenger.AccountInstance;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.ChatObject;
+import org.telegram.messenger.ContactsController;
 import org.telegram.messenger.DialogObject;
 import org.telegram.messenger.DispatchQueue;
 import org.telegram.messenger.Emoji;
@@ -3483,8 +3484,8 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             }
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:125:0x015f  */
-        /* JADX WARN: Removed duplicated region for block: B:138:0x01af  */
+        /* JADX WARN: Removed duplicated region for block: B:125:0x015b  */
+        /* JADX WARN: Removed duplicated region for block: B:138:0x01ab  */
         @Override // android.text.TextWatcher
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -3507,7 +3508,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                         for (ImageSpan imageSpan : (ImageSpan[]) editable.getSpans(0, editable.length(), ImageSpan.class)) {
                             editable.removeSpan(imageSpan);
                         }
-                        Emoji.replaceEmoji(editable, ChatActivityEnterView.this.messageEditText.getPaint().getFontMetricsInt(), AndroidUtilities.dp(20.0f), false, null, true);
+                        Emoji.replaceEmoji((CharSequence) editable, ChatActivityEnterView.this.messageEditText.getPaint().getFontMetricsInt(), AndroidUtilities.dp(20.0f), false, (int[]) null);
                         this.processChange = false;
                     }
                 }
@@ -7469,7 +7470,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                             }
                         }
                     }
-                    charSequence2 = Emoji.replaceEmoji(new SpannableStringBuilder(spannableStringBuilder), this.messageEditText.getPaint().getFontMetricsInt(), AndroidUtilities.dp(20.0f), false, null, true);
+                    charSequence2 = Emoji.replaceEmoji((CharSequence) new SpannableStringBuilder(spannableStringBuilder), this.messageEditText.getPaint().getFontMetricsInt(), AndroidUtilities.dp(20.0f), false, (int[]) null);
                 }
                 if (this.draftMessage == null && !z3) {
                     this.draftMessage = this.messageEditText.length() > 0 ? this.messageEditText.getText() : null;
@@ -7979,11 +7980,13 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                 TLRPC$Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(tLRPC$Peer.channel_id));
                 if (chat != null) {
                     this.senderSelectView.setAvatar(chat);
+                    this.senderSelectView.setContentDescription(LocaleController.formatString(R.string.AccDescrSendAs, chat.title));
                 }
             } else {
                 TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(tLRPC$Peer.user_id));
                 if (user != null) {
                     this.senderSelectView.setAvatar(user);
+                    this.senderSelectView.setContentDescription(LocaleController.formatString(R.string.AccDescrSendAs, ContactsController.formatName(user.first_name, user.last_name)));
                 }
             }
         }

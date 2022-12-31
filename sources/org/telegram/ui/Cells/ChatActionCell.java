@@ -697,9 +697,9 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         invalidate();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:203:0x0146  */
-    /* JADX WARN: Removed duplicated region for block: B:229:0x01b9  */
-    /* JADX WARN: Removed duplicated region for block: B:231:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:205:0x0143  */
+    /* JADX WARN: Removed duplicated region for block: B:233:0x01bb  */
+    /* JADX WARN: Removed duplicated region for block: B:235:? A[RETURN, SYNTHETIC] */
     @Override // android.view.View
     @SuppressLint({"ClickableViewAccessibility"})
     /*
@@ -707,7 +707,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
     */
     public boolean onTouchEvent(MotionEvent motionEvent) {
         boolean z;
-        int i;
+        StaticLayout staticLayout;
         MessageObject messageObject = this.currentMessageObject;
         if (messageObject == null) {
             return super.onTouchEvent(motionEvent);
@@ -739,37 +739,40 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
                     startCheckLongPress();
                 }
                 if (!z && (motionEvent.getAction() == 0 || (this.pressedLink != null && motionEvent.getAction() == 1))) {
-                    i = this.textX;
-                    if (x >= i) {
-                        int i2 = this.textY;
-                        if (y >= i2 && x <= i + this.textWidth && y <= this.textHeight + i2) {
-                            float f = x - this.textXLeft;
-                            int lineForVertical = this.textLayout.getLineForVertical((int) (y - i2));
-                            int offsetForHorizontal = this.textLayout.getOffsetForHorizontal(lineForVertical, f);
-                            float lineLeft = this.textLayout.getLineLeft(lineForVertical);
-                            if (lineLeft <= f && lineLeft + this.textLayout.getLineWidth(lineForVertical) >= f) {
-                                CharSequence charSequence = messageObject.messageText;
-                                if (charSequence instanceof Spannable) {
-                                    URLSpan[] uRLSpanArr = (URLSpan[]) ((Spannable) charSequence).getSpans(offsetForHorizontal, offsetForHorizontal, URLSpan.class);
-                                    if (uRLSpanArr.length != 0) {
-                                        if (motionEvent.getAction() == 0) {
-                                            this.pressedLink = uRLSpanArr[0];
-                                        } else {
-                                            URLSpan uRLSpan = uRLSpanArr[0];
-                                            URLSpan uRLSpan2 = this.pressedLink;
-                                            if (uRLSpan == uRLSpan2) {
-                                                openLink(uRLSpan2);
+                    staticLayout = this.textLayout;
+                    if (staticLayout != null) {
+                        int i = this.textX;
+                        if (x >= i) {
+                            int i2 = this.textY;
+                            if (y >= i2 && x <= i + this.textWidth && y <= this.textHeight + i2) {
+                                float f = x - this.textXLeft;
+                                int lineForVertical = staticLayout.getLineForVertical((int) (y - i2));
+                                int offsetForHorizontal = this.textLayout.getOffsetForHorizontal(lineForVertical, f);
+                                float lineLeft = this.textLayout.getLineLeft(lineForVertical);
+                                if (lineLeft <= f && lineLeft + this.textLayout.getLineWidth(lineForVertical) >= f) {
+                                    CharSequence charSequence = messageObject.messageText;
+                                    if (charSequence instanceof Spannable) {
+                                        URLSpan[] uRLSpanArr = (URLSpan[]) ((Spannable) charSequence).getSpans(offsetForHorizontal, offsetForHorizontal, URLSpan.class);
+                                        if (uRLSpanArr.length != 0) {
+                                            if (motionEvent.getAction() == 0) {
+                                                this.pressedLink = uRLSpanArr[0];
+                                            } else {
+                                                URLSpan uRLSpan = uRLSpanArr[0];
+                                                URLSpan uRLSpan2 = this.pressedLink;
+                                                if (uRLSpan == uRLSpan2) {
+                                                    openLink(uRLSpan2);
+                                                }
                                             }
+                                            z = z2;
+                                        } else {
+                                            this.pressedLink = null;
                                         }
+                                        z2 = z;
                                         z = z2;
-                                    } else {
-                                        this.pressedLink = null;
                                     }
-                                    z2 = z;
-                                    z = z2;
                                 }
+                                this.pressedLink = null;
                             }
-                            this.pressedLink = null;
                         }
                     }
                     this.pressedLink = null;
@@ -835,8 +838,8 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         }
         z = false;
         if (!z) {
-            i = this.textX;
-            if (x >= i) {
+            staticLayout = this.textLayout;
+            if (staticLayout != null) {
             }
             this.pressedLink = null;
         }

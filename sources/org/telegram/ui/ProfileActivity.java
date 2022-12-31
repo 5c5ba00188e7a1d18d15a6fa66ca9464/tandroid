@@ -3402,13 +3402,14 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onItemClick$11(DialogInterface dialogInterface, int i) {
+            TLRPC$Photo tLRPC$Photo;
             int realPosition = ProfileActivity.this.avatarsViewPager.getRealPosition();
             TLRPC$Photo photo = ProfileActivity.this.avatarsViewPager.getPhoto(realPosition);
-            if (ProfileActivity.this.hasFallbackPhoto && ProfileActivity.this.getUserInfo() != null && ProfileActivity.this.getUserInfo().fallback_photo != null && ProfileActivity.this.getUserInfo().fallback_photo.id == photo.id) {
-                ProfileActivity.this.getUserInfo().fallback_photo = null;
-                ProfileActivity.this.getUserInfo().flags &= -4194305;
-                ProfileActivity.this.getUserInfo().fallback_photo = null;
-                ProfileActivity.this.getMessagesStorage().updateUserInfo(ProfileActivity.this.getUserInfo(), true);
+            TLRPC$UserFull userInfo = ProfileActivity.this.getUserInfo();
+            if (ProfileActivity.this.hasFallbackPhoto && userInfo != null && (tLRPC$Photo = userInfo.fallback_photo) != null && tLRPC$Photo.id == photo.id) {
+                userInfo.fallback_photo = null;
+                userInfo.flags &= -4194305;
+                ProfileActivity.this.getMessagesStorage().updateUserInfo(userInfo, true);
                 ProfileActivity.this.updateProfileData(false);
             }
             if (ProfileActivity.this.avatarsViewPager.getRealCount() == 1) {
@@ -3476,10 +3477,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             return ProfileActivity.this.pinchToZoomHelper.onTouchEvent(motionEvent);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:151:0x054d  */
-        /* JADX WARN: Removed duplicated region for block: B:160:0x058b  */
-        /* JADX WARN: Removed duplicated region for block: B:163:0x0590  */
-        /* JADX WARN: Removed duplicated region for block: B:172:? A[RETURN, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:154:0x055e  */
+        /* JADX WARN: Removed duplicated region for block: B:163:0x059c  */
+        /* JADX WARN: Removed duplicated region for block: B:166:0x05a1  */
+        /* JADX WARN: Removed duplicated region for block: B:175:? A[RETURN, SYNTHETIC] */
         @Override // android.widget.FrameLayout, android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -3702,6 +3703,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     ProfileActivity.this.listView.setBottomGlowOffset(AndroidUtilities.dp(48.0f));
                 }
                 ProfileActivity.this.initialAnimationExtraHeight = measuredWidth - currentActionBarHeight;
+                if (ProfileActivity.this.playProfileAnimation == 0) {
+                    ProfileActivity profileActivity5 = ProfileActivity.this;
+                    profileActivity5.extraHeight = profileActivity5.initialAnimationExtraHeight;
+                }
                 ProfileActivity.this.layoutManager.scrollToPositionWithOffset(0, -currentActionBarHeight);
                 ProfileActivity.this.listView.setPadding(0, measuredWidth, 0, max);
                 measureChildWithMargins(ProfileActivity.this.listView, i, 0, i2, 0);
@@ -11070,7 +11075,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 if (user2 != null && !TextUtils.isEmpty(ProfileActivity.this.vcardPhone)) {
                     string3 = PhoneFormat.getInstance().format("+" + ProfileActivity.this.vcardPhone);
                     str6 = ProfileActivity.this.vcardPhone;
-                } else if (!TextUtils.isEmpty(user2.phone)) {
+                } else if (user2 != null && !TextUtils.isEmpty(user2.phone)) {
                     string3 = PhoneFormat.getInstance().format("+" + user2.phone);
                     str6 = user2.phone;
                 } else {
@@ -13772,9 +13777,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     /* JADX INFO: Access modifiers changed from: private */
     public void checkPhotoDescriptionAlpha() {
         int i = this.playProfileAnimation;
-        if (i == 1 && this.openAnimationInProgress) {
+        if (i == 1 && (!this.fragmentOpened || this.openAnimationInProgress)) {
             this.photoDescriptionProgress = 0.0f;
-        } else if (i == 2 && this.openAnimationInProgress) {
+        } else if (i == 2 && (!this.fragmentOpened || this.openAnimationInProgress)) {
             this.photoDescriptionProgress = this.onlineTextView[1].getAlpha();
         } else if (this.userId == UserConfig.getInstance(this.currentAccount).clientUserId) {
             this.photoDescriptionProgress = this.currentExpandAnimatorValue * (1.0f - this.customAvatarProgress);

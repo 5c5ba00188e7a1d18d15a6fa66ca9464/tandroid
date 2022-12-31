@@ -55,7 +55,7 @@ public class FileLog {
     }
 
     public static void dumpResponseAndRequest(TLObject tLObject, TLObject tLObject2, TLRPC$TL_error tLRPC$TL_error, final long j, final long j2, final int i) {
-        if (BuildVars.DEBUG_PRIVATE_VERSION && BuildVars.LOGS_ENABLED && tLObject != null) {
+        if (BuildVars.DEBUG_PRIVATE_VERSION && BuildVars.LOGS_ENABLED && tLObject != null && SharedConfig.getDevicePerformanceClass() == 0) {
             String simpleName = tLObject.getClass().getSimpleName();
             checkGson();
             if (excludeRequests.contains(simpleName) && tLRPC$TL_error == null) {

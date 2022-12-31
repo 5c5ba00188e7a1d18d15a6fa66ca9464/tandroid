@@ -3760,7 +3760,8 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
 
     @Override // org.telegram.ui.Components.ChatAttachAlert.AttachAlertLayout
     void onOpenAnimationEnd() {
-        checkCamera(true);
+        ChatAttachAlert chatAttachAlert = this.parentAlert;
+        checkCamera(chatAttachAlert != null && (chatAttachAlert.baseFragment instanceof ChatActivity));
     }
 
     @Override // org.telegram.ui.Components.ChatAttachAlert.AttachAlertLayout

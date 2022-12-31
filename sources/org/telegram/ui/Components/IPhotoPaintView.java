@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.telegram.messenger.VideoEditedInfo;
 import org.telegram.tgnet.TLRPC$InputDocument;
+import org.telegram.ui.Components.Paint.RenderView;
 import org.telegram.ui.PhotoViewer;
 /* loaded from: classes3.dex */
 public interface IPhotoPaintView {
@@ -28,6 +29,8 @@ public interface IPhotoPaintView {
     List<TLRPC$InputDocument> getMasks();
 
     float getOffsetTranslationY();
+
+    RenderView getRenderView();
 
     View getView();
 

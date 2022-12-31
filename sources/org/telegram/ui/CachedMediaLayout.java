@@ -821,13 +821,16 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
             CacheModel.FileInfo fileInfo = this.itemInners.get(i).file;
             boolean z = fileInfo == sharedPhotoVideoCell2.getTag();
             sharedPhotoVideoCell2.setTag(fileInfo);
+            int max = (int) Math.max(100.0f, AndroidUtilities.getRealScreenSize().x / AndroidUtilities.density);
             if (fileInfo.type == 1) {
                 ImageReceiver imageReceiver = sharedPhotoVideoCell2.imageReceiver;
-                imageReceiver.setImage(ImageLocation.getForPath("vthumb://0:" + fileInfo.file.getAbsolutePath()), null, this.thumb, null, null, 0);
+                ImageLocation forPath = ImageLocation.getForPath("vthumb://0:" + fileInfo.file.getAbsolutePath());
+                imageReceiver.setImage(forPath, max + "_" + max, this.thumb, null, null, 0);
                 sharedPhotoVideoCell2.setVideoText(AndroidUtilities.formatFileSize(fileInfo.size), true);
             } else {
                 ImageReceiver imageReceiver2 = sharedPhotoVideoCell2.imageReceiver;
-                imageReceiver2.setImage(ImageLocation.getForPath("thumb://0:" + fileInfo.file.getAbsolutePath()), null, this.thumb, null, null, 0);
+                ImageLocation forPath2 = ImageLocation.getForPath("thumb://0:" + fileInfo.file.getAbsolutePath());
+                imageReceiver2.setImage(forPath2, max + "_" + max, this.thumb, null, null, 0);
                 sharedPhotoVideoCell2.setVideoText(AndroidUtilities.formatFileSize(fileInfo.size), false);
             }
             sharedPhotoVideoCell2.setChecked(CachedMediaLayout.this.cacheModel.isSelected(fileInfo), z);

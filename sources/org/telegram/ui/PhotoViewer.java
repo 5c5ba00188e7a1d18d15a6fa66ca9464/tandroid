@@ -15303,6 +15303,8 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         MessageObject messageObject;
         boolean shouldIndexAutoPlayed;
         boolean z3;
+        File pathToAttach;
+        File pathToAttach2;
         boolean z4;
         File file3;
         boolean z5;
@@ -15397,43 +15399,44 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                             return;
                         }
                         ImageLocation imageLocation = this.imagesArrLocationsVideo.get(i3);
-                        File pathToAttach = FileLoader.getInstance(this.currentAccount).getPathToAttach(imageLocation.location, getFileLocationExt(imageLocation), false);
-                        file = FileLoader.getInstance(this.currentAccount).getPathToAttach(imageLocation.location, getFileLocationExt(imageLocation), true);
-                        file2 = pathToAttach;
-                    } else {
-                        if (this.currentSecureDocument != null) {
-                            if (i3 < 0 || i3 >= this.secureDocuments.size()) {
-                                this.photoProgressViews[i].setBackgroundState(-1, z2, true);
-                                return;
-                            }
-                            SecureDocument secureDocument = this.secureDocuments.get(i3);
-                            FileLoader.getInstance(this.currentAccount).getPathToAttach(secureDocument, true);
-                            file2 = FileLoader.getInstance(this.currentAccount).getPathToAttach(secureDocument, false);
-                            file = null;
-                            messageObject = null;
-                        } else if (this.currentPathObject != null) {
-                            file2 = new File(FileLoader.getDirectory(3), this.currentFileNames[i]);
-                            file = new File(FileLoader.getDirectory(4), this.currentFileNames[i]);
-                        } else {
-                            PageBlocksAdapter pageBlocksAdapter = this.pageBlocksAdapter;
-                            if (pageBlocksAdapter != null) {
-                                File file4 = pageBlocksAdapter.getFile(i3);
-                                boolean isVideo = this.pageBlocksAdapter.isVideo(i3);
-                                shouldIndexAutoPlayed = shouldIndexAutoPlayed(i3);
-                                file2 = file4;
-                                z3 = isVideo;
-                                file = null;
-                                messageObject = null;
-                            } else {
-                                file = null;
-                                file2 = null;
-                                messageObject = null;
-                            }
+                        pathToAttach = FileLoader.getInstance(this.currentAccount).getPathToAttach(imageLocation.location, getFileLocationExt(imageLocation), false);
+                        pathToAttach2 = FileLoader.getInstance(this.currentAccount).getPathToAttach(imageLocation.location, getFileLocationExt(imageLocation), true);
+                    } else if (this.currentSecureDocument != null) {
+                        if (i3 < 0 || i3 >= this.secureDocuments.size()) {
+                            this.photoProgressViews[i].setBackgroundState(-1, z2, true);
+                            return;
                         }
+                        SecureDocument secureDocument = this.secureDocuments.get(i3);
+                        pathToAttach = FileLoader.getInstance(this.currentAccount).getPathToAttach(secureDocument, true);
+                        pathToAttach2 = FileLoader.getInstance(this.currentAccount).getPathToAttach(secureDocument, false);
+                    } else if (this.currentPathObject != null) {
+                        file2 = new File(FileLoader.getDirectory(3), this.currentFileNames[i]);
+                        file = new File(FileLoader.getDirectory(4), this.currentFileNames[i]);
+                        messageObject = null;
                         shouldIndexAutoPlayed = false;
                         z4 = false;
                         z3 = false;
+                    } else {
+                        PageBlocksAdapter pageBlocksAdapter = this.pageBlocksAdapter;
+                        if (pageBlocksAdapter != null) {
+                            File file4 = pageBlocksAdapter.getFile(i3);
+                            boolean isVideo = this.pageBlocksAdapter.isVideo(i3);
+                            shouldIndexAutoPlayed = shouldIndexAutoPlayed(i3);
+                            file2 = file4;
+                            z3 = isVideo;
+                            file = null;
+                            messageObject = null;
+                        } else {
+                            file = null;
+                            file2 = null;
+                            messageObject = null;
+                            shouldIndexAutoPlayed = false;
+                            z4 = false;
+                            z3 = false;
+                        }
                     }
+                    file = pathToAttach2;
+                    file2 = pathToAttach;
                     messageObject = null;
                     shouldIndexAutoPlayed = false;
                     z4 = false;
@@ -18674,7 +18677,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         if (r8 == 2) goto L353;
      */
     /* JADX WARN: Code restructure failed: missing block: B:354:0x0860, code lost:
-        if (r9 == (-1)) goto L592;
+        if (r9 == (-1)) goto L596;
      */
     /* JADX WARN: Code restructure failed: missing block: B:360:0x0869, code lost:
         if (r9 == r0) goto L353;
@@ -18723,23 +18726,23 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     /* JADX WARN: Removed duplicated region for block: B:479:0x0a67  */
     /* JADX WARN: Removed duplicated region for block: B:486:0x0a80  */
     /* JADX WARN: Removed duplicated region for block: B:489:0x0a91  */
-    /* JADX WARN: Removed duplicated region for block: B:492:0x0aa8  */
-    /* JADX WARN: Removed duplicated region for block: B:524:0x0b1d  */
-    /* JADX WARN: Removed duplicated region for block: B:527:0x0b24  */
-    /* JADX WARN: Removed duplicated region for block: B:528:0x0b41  */
-    /* JADX WARN: Removed duplicated region for block: B:531:0x0b52  */
-    /* JADX WARN: Removed duplicated region for block: B:535:0x0b5f  */
-    /* JADX WARN: Removed duplicated region for block: B:558:0x0be7  */
-    /* JADX WARN: Removed duplicated region for block: B:560:0x0bed  */
-    /* JADX WARN: Removed duplicated region for block: B:567:0x0c08  */
-    /* JADX WARN: Removed duplicated region for block: B:577:0x0c34  */
-    /* JADX WARN: Removed duplicated region for block: B:604:0x0cf3  */
-    /* JADX WARN: Removed duplicated region for block: B:650:0x0e60  */
-    /* JADX WARN: Removed duplicated region for block: B:655:0x0e73  */
-    /* JADX WARN: Removed duplicated region for block: B:675:0x0ecd  */
-    /* JADX WARN: Removed duplicated region for block: B:678:0x0ed4  */
-    /* JADX WARN: Removed duplicated region for block: B:688:0x0cdf A[EDGE_INSN: B:688:0x0cdf->B:602:0x0cdf ?: BREAK  , SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:693:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:496:0x0abf  */
+    /* JADX WARN: Removed duplicated region for block: B:528:0x0b34  */
+    /* JADX WARN: Removed duplicated region for block: B:531:0x0b3b  */
+    /* JADX WARN: Removed duplicated region for block: B:532:0x0b58  */
+    /* JADX WARN: Removed duplicated region for block: B:535:0x0b69  */
+    /* JADX WARN: Removed duplicated region for block: B:539:0x0b76  */
+    /* JADX WARN: Removed duplicated region for block: B:562:0x0bfe  */
+    /* JADX WARN: Removed duplicated region for block: B:564:0x0c04  */
+    /* JADX WARN: Removed duplicated region for block: B:571:0x0c1f  */
+    /* JADX WARN: Removed duplicated region for block: B:581:0x0c4b  */
+    /* JADX WARN: Removed duplicated region for block: B:608:0x0d0a  */
+    /* JADX WARN: Removed duplicated region for block: B:654:0x0e77  */
+    /* JADX WARN: Removed duplicated region for block: B:659:0x0e8a  */
+    /* JADX WARN: Removed duplicated region for block: B:679:0x0ee4  */
+    /* JADX WARN: Removed duplicated region for block: B:682:0x0eeb  */
+    /* JADX WARN: Removed duplicated region for block: B:692:0x0cf6 A[EDGE_INSN: B:692:0x0cf6->B:606:0x0cf6 ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:697:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
     /* JADX WARN: Type inference failed for: r15v28 */
     /* JADX WARN: Type inference failed for: r15v3 */
     /* JADX WARN: Type inference failed for: r15v31 */
@@ -19277,7 +19280,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                     if (!this.pipAnimationInProgress || (z && ((this.textureUploaded || this.videoSizeSet) && this.videoCrossfadeStarted && this.videoCrossfadeAlpha == 1.0f))) {
                                         f17 = f16;
                                         f18 = f13;
-                                        f19 = f5;
+                                        f19 = f12;
                                         i7 = i5;
                                     } else {
                                         Bitmap bitmap = this.videoFrameBitmap;
@@ -19288,7 +19291,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                             if (f15 < 1.0f) {
                                                 i22 = i45;
                                                 f18 = f13;
-                                                f19 = f5;
+                                                f19 = f12;
                                                 f37 = 1.0f;
                                                 i23 = i44;
                                                 f17 = f16;
@@ -19297,7 +19300,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                                 i22 = i45;
                                                 f17 = f16;
                                                 f18 = f13;
-                                                f19 = f5;
+                                                f19 = f12;
                                                 f37 = 1.0f;
                                                 i23 = i44;
                                             }
@@ -19309,7 +19312,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                         } else {
                                             f17 = f16;
                                             f18 = f13;
-                                            f19 = f5;
+                                            f19 = f12;
                                             this.centerImage.setAlpha(f15);
                                             int bitmapWidth3 = this.centerImage.getBitmapWidth();
                                             int bitmapHeight3 = this.centerImage.getBitmapHeight();
@@ -19393,7 +19396,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                                                     int i53 = (int) ((cropPw + ((1.0f - cropPw) * f28)) * f78);
                                                                     f29 = i15;
                                                                     int i54 = (int) ((cropPh + ((1.0f - cropPh) * f28)) * f29);
-                                                                    f21 = f12;
+                                                                    f21 = f5;
                                                                     f30 = i53;
                                                                     f31 = f72 / f30;
                                                                     f32 = i54;
@@ -19448,7 +19451,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                                                     int i532 = (int) ((cropPw2 + ((1.0f - cropPw2) * f28)) * f782);
                                                                     f29 = i15;
                                                                     int i542 = (int) ((cropPh2 + ((1.0f - cropPh2) * f28)) * f29);
-                                                                    f21 = f12;
+                                                                    f21 = f5;
                                                                     f30 = i532;
                                                                     f31 = f72 / f30;
                                                                     f32 = i542;
@@ -19547,7 +19550,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                                             int i5322 = (int) ((cropPw22 + ((1.0f - cropPw22) * f28)) * f7822);
                                                             f29 = i15;
                                                             int i5422 = (int) ((cropPh22 + ((1.0f - cropPh22) * f28)) * f29);
-                                                            f21 = f12;
+                                                            f21 = f5;
                                                             f30 = i5322;
                                                             f31 = f72 / f30;
                                                             f32 = i5422;
@@ -19585,13 +19588,14 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                                         } else {
                                                             z4 = z2;
                                                             i10 = i48;
-                                                            f21 = f12;
+                                                            f21 = f5;
                                                             i11 = i46;
                                                             i12 = i47;
                                                             f22 = 1.0f;
                                                         }
                                                         if (this.currentEditMode == 3) {
-                                                            this.photoPaintView.setTransform(f9, f21, f19, i11 * f22, i12 * f22);
+                                                            IPhotoPaintView iPhotoPaintView = this.photoPaintView;
+                                                            iPhotoPaintView.setTransform(f9, f19, f21 + ((this.sendPhotoType == 1 ? AndroidUtilities.statusBarHeight / 2.0f : 0.0f) * iPhotoPaintView.getRenderView().getScaleX()), i11 * f22, i12 * f22);
                                                         }
                                                         if (z4) {
                                                             if (this.imagesArrLocals.isEmpty()) {
@@ -19659,7 +19663,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                                             this.videoTextureView.setAlpha(this.videoCrossfadeAlpha * f20);
                                                             TextureView textureView4 = this.videoTextureView;
                                                             if (textureView4 instanceof VideoEditTextureView) {
-                                                                ((VideoEditTextureView) textureView4).setViewRect(((i8 - i13) / 2) + getAdditionX() + f18, ((i5 - i56) / 2) + getAdditionY() + f19 + this.currentPanTranslationY, i13, i56);
+                                                                ((VideoEditTextureView) textureView4).setViewRect(((i8 - i13) / 2) + getAdditionX() + f18, ((i5 - i56) / 2) + getAdditionY() + f21 + this.currentPanTranslationY, i13, i56);
                                                             }
                                                             this.aspectRatioFrameLayout.draw(canvas);
                                                             if (this.videoCrossfadeStarted) {
@@ -19851,11 +19855,11 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                 } else {
                                     i8 = i6;
                                     f18 = f13;
-                                    f21 = f12;
-                                    f19 = f5;
+                                    f19 = f12;
+                                    f21 = f5;
                                     f23 = f15;
                                 }
-                                drawProgress(canvas, f18, f9, f19, f23);
+                                drawProgress(canvas, f18, f9, f21, f23);
                                 imageReceiver = this.sideImage;
                                 if (imageReceiver != this.leftImage) {
                                     if (imageReceiver.hasBitmapImage()) {
@@ -19863,7 +19867,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                         canvas.translate(i8 / 2, i5 / 2);
                                         i25 = i8;
                                         float f87 = i25;
-                                        canvas.translate(((-(((this.scale + 1.0f) * f87) + AndroidUtilities.dp(30.0f))) / 2.0f) + f21, 0.0f);
+                                        canvas.translate(((-(((this.scale + 1.0f) * f87) + AndroidUtilities.dp(30.0f))) / 2.0f) + f19, 0.0f);
                                         int bitmapWidth4 = this.sideImage.getBitmapWidth();
                                         int bitmapHeight4 = this.sideImage.getBitmapHeight();
                                         if (this.leftImageIsVideo || this.leftCropState == null || !this.leftCropTransform.hasViewTransform()) {
@@ -19923,8 +19927,8 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                     }
                                     this.groupedPhotosListView.setMoveProgress(f40 - f39);
                                     canvas.save();
-                                    canvas.translate(f21, f19 / f9);
-                                    f38 = f19;
+                                    canvas.translate(f19, f21 / f9);
+                                    f38 = f21;
                                     canvas.translate((-((i25 * (this.scale + f40)) + AndroidUtilities.dp(30.0f))) / 2.0f, (-f38) / f9);
                                     this.photoProgressViews[2].setScale(1.0f);
                                     this.photoProgressViews[2].setAlpha(1.0f);
@@ -19934,7 +19938,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                     }
                                     canvas.restore();
                                 } else {
-                                    f38 = f19;
+                                    f38 = f21;
                                     if (this.isActionBarVisible) {
                                         this.fullscreenButton[2].setAlpha(0.0f);
                                     }
@@ -20006,7 +20010,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                         }
                         f17 = f16;
                         f18 = f13;
-                        f19 = f5;
+                        f19 = f12;
                         i7 = i5;
                         z2 = false;
                         if (!z) {
@@ -20058,7 +20062,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                             }
                             i14++;
                         }
-                        drawProgress(canvas, f18, f9, f19, f23);
+                        drawProgress(canvas, f18, f9, f21, f23);
                         imageReceiver = this.sideImage;
                         if (imageReceiver != this.leftImage) {
                         }
@@ -20113,7 +20117,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     }
                     f17 = f16;
                     f18 = f13;
-                    f19 = f5;
+                    f19 = f12;
                     i7 = i5;
                     z2 = false;
                     if (!z) {
@@ -20165,7 +20169,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                         }
                         i14++;
                     }
-                    drawProgress(canvas, f18, f9, f19, f23);
+                    drawProgress(canvas, f18, f9, f21, f23);
                     imageReceiver = this.sideImage;
                     if (imageReceiver != this.leftImage) {
                     }
@@ -20225,7 +20229,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             }
             f17 = f16;
             f18 = f13;
-            f19 = f5;
+            f19 = f12;
             i7 = i5;
             z2 = false;
             if (!z) {
@@ -20277,7 +20281,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 }
                 i14++;
             }
-            drawProgress(canvas, f18, f9, f19, f23);
+            drawProgress(canvas, f18, f9, f21, f23);
             imageReceiver = this.sideImage;
             if (imageReceiver != this.leftImage) {
             }

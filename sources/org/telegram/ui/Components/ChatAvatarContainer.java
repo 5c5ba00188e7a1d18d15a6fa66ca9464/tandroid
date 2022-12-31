@@ -90,6 +90,10 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
     private SimpleTextView titleTextLargerCopyView;
     private SimpleTextView titleTextView;
 
+    protected boolean onAvatarClick() {
+        return false;
+    }
+
     public ChatAvatarContainer(Context context, BaseFragment baseFragment, boolean z) {
         this(context, baseFragment, z, null);
     }
@@ -261,6 +265,9 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(View view) {
+        if (onAvatarClick()) {
+            return;
+        }
         openProfile(true);
     }
 
@@ -364,13 +371,17 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         return true;
     }
 
+    public void openProfile(boolean z) {
+        openProfile(z, true);
+    }
+
     /* JADX WARN: Code restructure failed: missing block: B:9:0x001b, code lost:
         if (r7.avatarImageView.getImageReceiver().hasNotThumb() != false) goto L10;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public void openProfile(boolean z) {
+    public void openProfile(boolean z, boolean z2) {
         if (z) {
             if (!AndroidUtilities.isTablet()) {
                 android.graphics.Point point = AndroidUtilities.displaySize;
@@ -400,7 +411,9 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
                 }
                 ProfileActivity profileActivity = new ProfileActivity(bundle, this.sharedMediaPreloader);
                 profileActivity.setChatInfo(this.parentFragment.getCurrentChatInfo());
-                profileActivity.setPlayProfileAnimation(z ? 2 : 1);
+                if (z2) {
+                    profileActivity.setPlayProfileAnimation(z ? 2 : 1);
+                }
                 this.parentFragment.presentFragment(profileActivity);
                 return;
             }
@@ -423,7 +436,9 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         bundle2.putInt("actionBarColor", getThemedColor("actionBarDefault"));
         ProfileActivity profileActivity2 = new ProfileActivity(bundle2, this.sharedMediaPreloader);
         profileActivity2.setUserInfo(this.parentFragment.getCurrentUserInfo());
-        profileActivity2.setPlayProfileAnimation(z ? 2 : 1);
+        if (z2) {
+            profileActivity2.setPlayProfileAnimation(z ? 2 : 1);
+        }
         this.parentFragment.presentFragment(profileActivity2);
     }
 

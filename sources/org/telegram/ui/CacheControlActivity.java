@@ -84,6 +84,7 @@ import org.telegram.ui.Components.CacheChart;
 import org.telegram.ui.Components.CheckBox2;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.FlickerLoadingView;
+import org.telegram.ui.Components.HideViewAfterAnimation;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.ListView.AdapterWithDiffUtils;
 import org.telegram.ui.Components.LoadingDrawable;
@@ -288,13 +289,12 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
         } catch (Exception e) {
             FileLog.e(e);
         }
-        System.currentTimeMillis();
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.CacheControlActivity$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
                 CacheControlActivity.this.lambda$onFragmentCreate$0();
             }
-        }, Math.max(1L, 800 - (System.currentTimeMillis() - this.fragmentCreateTime)));
+        }, Math.max(1L, (System.currentTimeMillis() - this.fragmentCreateTime > 45 ? 600L : 0L) - (System.currentTimeMillis() - this.fragmentCreateTime)));
         loadDialogEntities();
     }
 
@@ -456,6 +456,20 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
         setCacheModel(cacheModel);
         updateRows();
         updateChart();
+        if (this.cacheChartHeader == null || this.calculating || System.currentTimeMillis() - this.fragmentCreateTime <= 120) {
+            return;
+        }
+        CacheChartHeader cacheChartHeader = this.cacheChartHeader;
+        long j = this.totalSize;
+        boolean z2 = j > 0;
+        long j2 = this.totalDeviceSize;
+        float f = 0.0f;
+        float f2 = j2 <= 0 ? 0.0f : ((float) j) / ((float) j2);
+        long j3 = this.totalDeviceFreeSize;
+        if (j3 > 0 && j2 > 0) {
+            f = ((float) (j2 - j3)) / ((float) j2);
+        }
+        cacheChartHeader.setData(z2, f2, f);
     }
 
     private void sort(ArrayList<DialogFileEntities> arrayList) {
@@ -941,21 +955,6 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
         this.cacheRemovedTooltip.showWithAction(0L, 19, null, null);
         MediaDataController.getInstance(this.currentAccount).chekAllMedia(true);
         loadDialogEntities();
-        updateChart();
-        CacheChartHeader cacheChartHeader = this.cacheChartHeader;
-        if (cacheChartHeader == null || this.calculating) {
-            return;
-        }
-        long j2 = this.totalSize;
-        boolean z2 = j2 > 0;
-        long j3 = this.totalDeviceSize;
-        float f = 0.0f;
-        float f2 = j3 <= 0 ? 0.0f : ((float) j2) / ((float) j3);
-        long j4 = this.totalDeviceFreeSize;
-        if (j4 > 0 && j3 > 0) {
-            f = ((float) (j3 - j4)) / ((float) j3);
-        }
-        cacheChartHeader.setData(z2, f2, f);
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -1186,34 +1185,33 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$12(View view, int i, float f, float f2) {
-        if (getParentActivity() == null) {
-            return;
-        }
-        ItemInner itemInner = this.itemInners.get(i);
-        if (itemInner.viewType == 11 && (view instanceof CheckBoxCell)) {
-            if (itemInner.index < 0) {
-                this.collapsed = !this.collapsed;
-                updateRows();
-                updateChart();
+        if (getParentActivity() != null && i >= 0 && i < this.itemInners.size()) {
+            ItemInner itemInner = this.itemInners.get(i);
+            if (itemInner.viewType == 11 && (view instanceof CheckBoxCell)) {
+                if (itemInner.index < 0) {
+                    this.collapsed = !this.collapsed;
+                    updateRows();
+                    updateChart();
+                    return;
+                }
+                toggleSection(itemInner, view);
                 return;
             }
-            toggleSection(itemInner, view);
-            return;
-        }
-        DialogFileEntities dialogFileEntities = itemInner.entities;
-        if (dialogFileEntities != null) {
-            showClearCacheDialog(dialogFileEntities);
-        } else if (itemInner.keepMediaType >= 0) {
-            KeepMediaPopupView keepMediaPopupView = new KeepMediaPopupView(this, view.getContext());
-            ActionBarPopupWindow createSimplePopup = AlertsCreator.createSimplePopup(this, keepMediaPopupView, view, f, f2);
-            keepMediaPopupView.update(this.itemInners.get(i).keepMediaType);
-            keepMediaPopupView.setParentWindow(createSimplePopup);
-            keepMediaPopupView.setCallback(new KeepMediaPopupView.Callback() { // from class: org.telegram.ui.CacheControlActivity$$ExternalSyntheticLambda18
-                @Override // org.telegram.ui.KeepMediaPopupView.Callback
-                public final void onKeepMediaChange(int i2, int i3) {
-                    CacheControlActivity.this.lambda$createView$11(i2, i3);
-                }
-            });
+            DialogFileEntities dialogFileEntities = itemInner.entities;
+            if (dialogFileEntities != null) {
+                showClearCacheDialog(dialogFileEntities);
+            } else if (itemInner.keepMediaType >= 0) {
+                KeepMediaPopupView keepMediaPopupView = new KeepMediaPopupView(this, view.getContext());
+                ActionBarPopupWindow createSimplePopup = AlertsCreator.createSimplePopup(this, keepMediaPopupView, view, f, f2);
+                keepMediaPopupView.update(this.itemInners.get(i).keepMediaType);
+                keepMediaPopupView.setParentWindow(createSimplePopup);
+                keepMediaPopupView.setCallback(new KeepMediaPopupView.Callback() { // from class: org.telegram.ui.CacheControlActivity$$ExternalSyntheticLambda18
+                    @Override // org.telegram.ui.KeepMediaPopupView.Callback
+                    public final void onKeepMediaChange(int i2, int i3) {
+                        CacheControlActivity.this.lambda$createView$11(i2, i3);
+                    }
+                });
+            }
         }
     }
 
@@ -1545,14 +1543,14 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
                 } else if (i == 1) {
                     this.subtitle[i].setAlpha(0.0f);
                     this.subtitle[i].setText(LocaleController.getString("StorageUsageTelegram", R.string.StorageUsageTelegram));
-                    this.subtitle[i].setVisibility(8);
+                    this.subtitle[i].setVisibility(4);
                 } else if (i == 2) {
                     this.subtitle[i].setText(LocaleController.getString("StorageCleared2", R.string.StorageCleared2));
                     this.subtitle[i].setAlpha(0.0f);
-                    this.subtitle[i].setVisibility(8);
+                    this.subtitle[i].setVisibility(4);
                 }
                 this.subtitle[i].setTextColor(Theme.getColor("windowBackgroundWhiteGrayText4"));
-                addView(this.subtitle[i], LayoutHelper.createFrame(-2, -2.0f, 49, 0.0f, i == 2 ? 38.0f : 32.0f, 0.0f, 0.0f));
+                addView(this.subtitle[i], LayoutHelper.createFrame(-2, -2.0f, 17, 0.0f, i == 2 ? 12.0f : -6.0f, 0.0f, 0.0f));
                 i++;
             }
             this.bottomImage = new View(this, context, CacheControlActivity.this) { // from class: org.telegram.ui.CacheControlActivity.CacheChartHeader.1
@@ -1607,9 +1605,55 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
 
         private void switchSubtitle(int i) {
             boolean z = System.currentTimeMillis() - CacheControlActivity.this.fragmentCreateTime > 40;
-            AndroidUtilities.updateViewShow(this.subtitle[0], i == 0, false, -0.5f, z, null);
-            AndroidUtilities.updateViewShow(this.subtitle[1], i == 1, false, -0.5f, z, null);
-            AndroidUtilities.updateViewShow(this.subtitle[2], i == 2, false, -0.5f, z, null);
+            updateViewVisible(this.subtitle[0], i == 0, z);
+            updateViewVisible(this.subtitle[1], i == 1, z);
+            updateViewVisible(this.subtitle[2], i == 2, z);
+        }
+
+        private void updateViewVisible(View view, boolean z, boolean z2) {
+            if (view == null) {
+                return;
+            }
+            if (view.getParent() == null) {
+                z2 = false;
+            }
+            view.animate().setListener(null).cancel();
+            if (!z2) {
+                view.setVisibility(z ? 0 : 4);
+                view.setTag(z ? 1 : null);
+                view.setAlpha(z ? 1.0f : 0.0f);
+                view.setTranslationY(z ? 0.0f : AndroidUtilities.dp(8.0f));
+                invalidate();
+            } else if (z) {
+                if (view.getVisibility() != 0) {
+                    view.setVisibility(0);
+                    view.setAlpha(0.0f);
+                    view.setTranslationY(AndroidUtilities.dp(8.0f));
+                }
+                view.animate().alpha(1.0f).translationY(0.0f).setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT).setDuration(340L).setUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.CacheControlActivity$CacheChartHeader$$ExternalSyntheticLambda1
+                    @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                    public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                        CacheControlActivity.CacheChartHeader.this.lambda$updateViewVisible$0(valueAnimator);
+                    }
+                }).start();
+            } else {
+                view.animate().alpha(0.0f).translationY(AndroidUtilities.dp(8.0f)).setListener(new HideViewAfterAnimation(view)).setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT).setDuration(340L).setUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.CacheControlActivity$CacheChartHeader$$ExternalSyntheticLambda0
+                    @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                    public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                        CacheControlActivity.CacheChartHeader.this.lambda$updateViewVisible$1(valueAnimator);
+                    }
+                }).start();
+            }
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$updateViewVisible$0(ValueAnimator valueAnimator) {
+            invalidate();
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$updateViewVisible$1(ValueAnimator valueAnimator) {
+            invalidate();
         }
 
         @Override // android.widget.FrameLayout, android.view.View
@@ -1625,20 +1669,19 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
             int i5 = 0;
             while (true) {
                 TextView[] textViewArr = this.subtitle;
-                if (i4 < textViewArr.length) {
-                    i5 = Math.max(i5, textViewArr[i4].getMeasuredHeight());
-                    i4++;
-                } else {
+                if (i4 >= textViewArr.length) {
                     setMeasuredDimension(size, dp + i5);
                     this.progressRect.set((size - min) / 2.0f, i3 - AndroidUtilities.dp(30.0f), (size + min) / 2.0f, i3 - AndroidUtilities.dp(26.0f));
                     return;
                 }
+                i5 = Math.max(i5, textViewArr[i4].getMeasuredHeight() - (i4 == 2 ? AndroidUtilities.dp(16.0f) : 0));
+                i4++;
             }
         }
 
         @Override // android.view.ViewGroup, android.view.View
         protected void dispatchDraw(Canvas canvas) {
-            float max = Math.max(this.subtitle[0].getAlpha(), this.subtitle[1].getAlpha());
+            float alpha = 1.0f - this.subtitle[2].getAlpha();
             float f = this.loadingFloat.set(this.percent == null ? 1.0f : 0.0f);
             AnimatedFloat animatedFloat = this.percentAnimated;
             Float f2 = this.percent;
@@ -1648,30 +1691,30 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
             float f5 = animatedFloat2.set(f4 == null ? 0.0f : f4.floatValue());
             this.loadingBackgroundPaint.setColor(Theme.getColor("actionBarActionModeDefaultSelector"));
             Paint paint = this.loadingBackgroundPaint;
-            paint.setAlpha((int) (paint.getAlpha() * max));
+            paint.setAlpha((int) (paint.getAlpha() * alpha));
             RectF rectF = AndroidUtilities.rectTmp;
             float f6 = 1.0f - f;
-            float max2 = Math.max(this.progressRect.left + (Math.max(AndroidUtilities.dp(4.0f), this.progressRect.width() * f5) * f6), this.progressRect.left + (Math.max(AndroidUtilities.dp(4.0f), this.progressRect.width() * f3) * f6)) + AndroidUtilities.dp(1.0f);
+            float max = Math.max(this.progressRect.left + (Math.max(AndroidUtilities.dp(4.0f), this.progressRect.width() * f5) * f6), this.progressRect.left + (Math.max(AndroidUtilities.dp(4.0f), this.progressRect.width() * f3) * f6)) + AndroidUtilities.dp(1.0f);
             RectF rectF2 = this.progressRect;
-            rectF.set(max2, rectF2.top, rectF2.right, rectF2.bottom);
+            rectF.set(max, rectF2.top, rectF2.right, rectF2.bottom);
             if (rectF.left < rectF.right && rectF.width() > AndroidUtilities.dp(3.0f)) {
                 drawRoundRect(canvas, rectF, AndroidUtilities.dp(AndroidUtilities.lerp(1, 2, f)), AndroidUtilities.dp(2.0f), this.loadingBackgroundPaint);
             }
             this.loadingDrawable.setBounds(this.progressRect);
-            this.loadingDrawable.setAlpha((int) (255.0f * max * f));
+            this.loadingDrawable.setAlpha((int) (255.0f * alpha * f));
             this.loadingDrawable.draw(canvas);
             this.usedPercentPaint.setColor(Theme.percentSV(Theme.getColor("radioBackgroundChecked"), Theme.getColor("actionBarActionModeDefaultSelector"), 0.922f, 1.8f));
             Paint paint2 = this.usedPercentPaint;
-            paint2.setAlpha((int) (paint2.getAlpha() * max));
-            float max3 = this.progressRect.left + (Math.max(AndroidUtilities.dp(4.0f), this.progressRect.width() * f3) * f6) + AndroidUtilities.dp(1.0f);
+            paint2.setAlpha((int) (paint2.getAlpha() * alpha));
+            float max2 = this.progressRect.left + (Math.max(AndroidUtilities.dp(4.0f), this.progressRect.width() * f3) * f6) + AndroidUtilities.dp(1.0f);
             RectF rectF3 = this.progressRect;
-            rectF.set(max3, rectF3.top, rectF3.left + (Math.max(AndroidUtilities.dp(4.0f), this.progressRect.width() * f5) * f6), this.progressRect.bottom);
+            rectF.set(max2, rectF3.top, rectF3.left + (Math.max(AndroidUtilities.dp(4.0f), this.progressRect.width() * f5) * f6), this.progressRect.bottom);
             if (rectF.width() > AndroidUtilities.dp(3.0f)) {
                 drawRoundRect(canvas, rectF, AndroidUtilities.dp(1.0f), AndroidUtilities.dp(f5 > 0.97f ? 2.0f : 1.0f), this.usedPercentPaint);
             }
             this.percentPaint.setColor(Theme.getColor("radioBackgroundChecked"));
             Paint paint3 = this.percentPaint;
-            paint3.setAlpha((int) (paint3.getAlpha() * max));
+            paint3.setAlpha((int) (paint3.getAlpha() * alpha));
             RectF rectF4 = this.progressRect;
             float f7 = rectF4.left;
             rectF.set(f7, rectF4.top, (f6 * Math.max(AndroidUtilities.dp(4.0f), this.progressRect.width() * f3)) + f7, this.progressRect.bottom);
@@ -2849,7 +2892,8 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public boolean onBackPressed() {
-        if (!this.cacheModel.selectedFiles.isEmpty()) {
+        CacheModel cacheModel = this.cacheModel;
+        if (cacheModel != null && !cacheModel.selectedFiles.isEmpty()) {
             this.cacheModel.clearSelection();
             CachedMediaLayout cachedMediaLayout = this.cachedMediaLayout;
             if (cachedMediaLayout != null) {

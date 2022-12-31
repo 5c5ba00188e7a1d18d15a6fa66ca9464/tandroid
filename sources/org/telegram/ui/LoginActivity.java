@@ -995,6 +995,8 @@ public class LoginActivity extends BaseFragment {
                         bundle.putString(key, (String) value);
                     } else if (value instanceof Integer) {
                         bundle.putInt(key, ((Integer) value).intValue());
+                    } else if (value instanceof Boolean) {
+                        bundle.putBoolean(key, ((Boolean) value).booleanValue());
                     }
                 } else if (split.length == 2) {
                     Bundle bundle2 = bundle.getBundle(split[0]);
@@ -1006,6 +1008,8 @@ public class LoginActivity extends BaseFragment {
                         bundle2.putString(split[1], (String) value);
                     } else if (value instanceof Integer) {
                         bundle2.putInt(split[1], ((Integer) value).intValue());
+                    } else if (value instanceof Boolean) {
+                        bundle2.putBoolean(split[1], ((Boolean) value).booleanValue());
                     }
                 }
             }
@@ -1036,6 +1040,12 @@ public class LoginActivity extends BaseFragment {
                     editor.putInt(str + "_|_" + str2, ((Integer) obj).intValue());
                 } else {
                     editor.putInt(str2, ((Integer) obj).intValue());
+                }
+            } else if (obj instanceof Boolean) {
+                if (str != null) {
+                    editor.putBoolean(str + "_|_" + str2, ((Boolean) obj).booleanValue());
+                } else {
+                    editor.putBoolean(str2, ((Boolean) obj).booleanValue());
                 }
             } else if (obj instanceof Bundle) {
                 putBundleToEditor((Bundle) obj, editor, str2);
@@ -1883,7 +1893,6 @@ public class LoginActivity extends BaseFragment {
         private int countryState;
         private CountrySelectActivity.Country currentCountry;
         private boolean ignoreOnPhoneChange;
-        private boolean ignoreOnPhoneChangePaste;
         private boolean ignoreOnTextChange;
         private boolean ignoreSelection;
         private boolean nextPressed;
@@ -1916,7 +1925,6 @@ public class LoginActivity extends BaseFragment {
             this.ignoreSelection = false;
             this.ignoreOnTextChange = false;
             this.ignoreOnPhoneChange = false;
-            this.ignoreOnPhoneChangePaste = false;
             this.nextPressed = false;
             this.confirmedNumber = false;
             this.wasCountryHintIndex = -1;
@@ -2229,6 +2237,10 @@ public class LoginActivity extends BaseFragment {
                 private int characterAction = -1;
 
                 @Override // android.text.TextWatcher
+                public void onTextChanged(CharSequence charSequence, int i4, int i5, int i6) {
+                }
+
+                @Override // android.text.TextWatcher
                 public void beforeTextChanged(CharSequence charSequence, int i4, int i5, int i6) {
                     if (i5 == 0 && i6 == 1) {
                         this.characterAction = 1;
@@ -2242,42 +2254,6 @@ public class LoginActivity extends BaseFragment {
                     } else {
                         this.characterAction = -1;
                     }
-                }
-
-                @Override // android.text.TextWatcher
-                public void onTextChanged(CharSequence charSequence, int i4, int i5, int i6) {
-                    List list;
-                    if (PhoneView.this.ignoreOnPhoneChange || PhoneView.this.ignoreOnPhoneChangePaste) {
-                        return;
-                    }
-                    String replaceAll = charSequence.toString().substring(i4, i6 + i4).replaceAll("[^\\d]+", "");
-                    if (replaceAll.isEmpty()) {
-                        return;
-                    }
-                    PhoneView.this.ignoreOnPhoneChangePaste = true;
-                    for (int min = Math.min(3, replaceAll.length()); min >= 0; min--) {
-                        String substring = replaceAll.substring(0, min);
-                        List list2 = (List) PhoneView.this.codesMap.get(substring);
-                        if (list2 != null && !list2.isEmpty() && (list = (List) PhoneView.this.phoneFormatMap.get(substring)) != null && !list.isEmpty()) {
-                            Iterator it = list.iterator();
-                            while (true) {
-                                if (it.hasNext()) {
-                                    if (((String) it.next()).replace(" ", "").length() == replaceAll.length() - min) {
-                                        PhoneView.this.codeField.setText(substring);
-                                        PhoneView.this.ignoreOnTextChange = true;
-                                        PhoneView.this.phoneField.setText(replaceAll.substring(min));
-                                        PhoneView.this.ignoreOnTextChange = false;
-                                        afterTextChanged(PhoneView.this.phoneField.getText());
-                                        PhoneView.this.phoneField.setSelection(PhoneView.this.phoneField.getText().length(), PhoneView.this.phoneField.getText().length());
-                                        break;
-                                    }
-                                } else {
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                    PhoneView.this.ignoreOnPhoneChangePaste = false;
                 }
 
                 @Override // android.text.TextWatcher

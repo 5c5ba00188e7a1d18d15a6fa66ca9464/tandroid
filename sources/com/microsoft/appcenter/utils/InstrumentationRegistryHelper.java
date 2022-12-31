@@ -3,7 +3,7 @@ package com.microsoft.appcenter.utils;
 import android.os.Bundle;
 /* loaded from: classes.dex */
 public class InstrumentationRegistryHelper {
-    private static final String[] LOCATIONS = {"androidx.test.platform.app.InstrumentationRegistry", "androidx.test.InstrumentationRegistry", "android.support.test.InstrumentationRegistry"};
+    private static final String[] LOCATIONS = {"androidx.test.platform.app.InstrumentationRegistry", "androidx.test.InstrumentationRegistry", "androidx.test.InstrumentationRegistry"};
 
     public static Bundle getArguments() throws IllegalStateException {
         Exception e = null;

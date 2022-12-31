@@ -15,6 +15,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.ImageDecoder;
 import android.graphics.Paint;
 import android.graphics.Path;
@@ -42,9 +43,11 @@ import androidx.core.content.FileProvider;
 import androidx.core.content.LocusIdCompat;
 import androidx.core.content.pm.ShortcutInfoCompat;
 import androidx.core.content.pm.ShortcutManagerCompat;
+import androidx.core.graphics.ColorUtils;
 import androidx.core.graphics.drawable.IconCompat;
 import j$.util.function.Consumer;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
@@ -108,6 +111,7 @@ import org.telegram.tgnet.TLRPC$TL_peerNotifySettings;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.tgnet.TLRPC$UserProfilePhoto;
 import org.telegram.ui.BubbleActivity;
+import org.telegram.ui.Components.spoilers.SpoilerEffect;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.PopupNotificationActivity;
 import org.webrtc.MediaStreamTrack;
@@ -146,6 +150,7 @@ public class NotificationsController extends BaseController {
     private long lastSoundPlay;
     private LongSparseArray<Integer> lastWearNotifiedMessageId;
     private String launcherClassName;
+    private SpoilerEffect mediaSpoilerEffect;
     private Runnable notificationDelayRunnable;
     private PowerManager.WakeLock notificationDelayWakelock;
     private String notificationGroup;
@@ -244,6 +249,7 @@ public class NotificationsController extends BaseController {
         this.notifyCheck = false;
         this.lastOnlineFromOtherDevice = 0;
         this.lastBadgeCount = -1;
+        this.mediaSpoilerEffect = new SpoilerEffect();
         this.spoilerChars = new char[]{10252, 10338, 10385, 10280};
         this.notificationId = this.currentAccount + 1;
         StringBuilder sb = new StringBuilder();
@@ -7166,7 +7172,7 @@ public class NotificationsController extends BaseController {
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:117:0x02cc, code lost:
-        if (r1.local_id != 0) goto L483;
+        if (r1.local_id != 0) goto L504;
      */
     /* JADX WARN: Removed duplicated region for block: B:146:0x03ad  */
     /* JADX WARN: Removed duplicated region for block: B:151:0x03c7  */
@@ -7187,28 +7193,34 @@ public class NotificationsController extends BaseController {
     /* JADX WARN: Removed duplicated region for block: B:303:0x072d  */
     /* JADX WARN: Removed duplicated region for block: B:316:0x0767  */
     /* JADX WARN: Removed duplicated region for block: B:356:0x0810  */
-    /* JADX WARN: Removed duplicated region for block: B:392:0x091c  */
-    /* JADX WARN: Removed duplicated region for block: B:400:0x093d  */
-    /* JADX WARN: Removed duplicated region for block: B:408:0x0981  */
-    /* JADX WARN: Removed duplicated region for block: B:417:0x09f3  */
-    /* JADX WARN: Removed duplicated region for block: B:418:0x09fd  */
-    /* JADX WARN: Removed duplicated region for block: B:423:0x0a12  */
-    /* JADX WARN: Removed duplicated region for block: B:426:0x0a31  */
-    /* JADX WARN: Removed duplicated region for block: B:429:0x0a89  */
-    /* JADX WARN: Removed duplicated region for block: B:433:0x0ac4  */
-    /* JADX WARN: Removed duplicated region for block: B:438:0x0aeb  */
-    /* JADX WARN: Removed duplicated region for block: B:439:0x0b0e  */
-    /* JADX WARN: Removed duplicated region for block: B:442:0x0bc2  */
-    /* JADX WARN: Removed duplicated region for block: B:444:0x0bcd  */
-    /* JADX WARN: Removed duplicated region for block: B:446:0x0bd2  */
-    /* JADX WARN: Removed duplicated region for block: B:449:0x0bdc  */
-    /* JADX WARN: Removed duplicated region for block: B:455:0x0bf0  */
-    /* JADX WARN: Removed duplicated region for block: B:457:0x0bf5  */
-    /* JADX WARN: Removed duplicated region for block: B:460:0x0c01  */
-    /* JADX WARN: Removed duplicated region for block: B:466:0x0c10  */
-    /* JADX WARN: Removed duplicated region for block: B:479:0x0c97 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:488:0x0cc9  */
-    /* JADX WARN: Removed duplicated region for block: B:542:0x0569 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:389:0x0903  */
+    /* JADX WARN: Removed duplicated region for block: B:390:0x0906  */
+    /* JADX WARN: Removed duplicated region for block: B:397:0x0932  */
+    /* JADX WARN: Removed duplicated region for block: B:402:0x098c  */
+    /* JADX WARN: Removed duplicated region for block: B:406:0x09bc  */
+    /* JADX WARN: Removed duplicated region for block: B:410:0x09c6  */
+    /* JADX WARN: Removed duplicated region for block: B:418:0x09e7  */
+    /* JADX WARN: Removed duplicated region for block: B:426:0x0a2d  */
+    /* JADX WARN: Removed duplicated region for block: B:435:0x0a9f  */
+    /* JADX WARN: Removed duplicated region for block: B:436:0x0aa9  */
+    /* JADX WARN: Removed duplicated region for block: B:441:0x0abe  */
+    /* JADX WARN: Removed duplicated region for block: B:444:0x0add  */
+    /* JADX WARN: Removed duplicated region for block: B:447:0x0b35  */
+    /* JADX WARN: Removed duplicated region for block: B:451:0x0b70  */
+    /* JADX WARN: Removed duplicated region for block: B:456:0x0b97  */
+    /* JADX WARN: Removed duplicated region for block: B:457:0x0bba  */
+    /* JADX WARN: Removed duplicated region for block: B:460:0x0c6e  */
+    /* JADX WARN: Removed duplicated region for block: B:462:0x0c79  */
+    /* JADX WARN: Removed duplicated region for block: B:464:0x0c7e  */
+    /* JADX WARN: Removed duplicated region for block: B:467:0x0c88  */
+    /* JADX WARN: Removed duplicated region for block: B:473:0x0c9c  */
+    /* JADX WARN: Removed duplicated region for block: B:475:0x0ca1  */
+    /* JADX WARN: Removed duplicated region for block: B:478:0x0cad  */
+    /* JADX WARN: Removed duplicated region for block: B:484:0x0cbc  */
+    /* JADX WARN: Removed duplicated region for block: B:497:0x0d43 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:506:0x0d75  */
+    /* JADX WARN: Removed duplicated region for block: B:556:0x090f A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:564:0x0569 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:91:0x0233  */
     /* JADX WARN: Removed duplicated region for block: B:92:0x023c  */
     @SuppressLint({"InlinedApi"})
@@ -7296,7 +7308,12 @@ public class NotificationsController extends BaseController {
         boolean z9;
         List<NotificationCompat.MessagingStyle.Message> messages;
         Uri uri2;
+        File file3;
+        final File file4;
         final Uri uriForFile;
+        File file5;
+        Bitmap createScaledBitmap;
+        Canvas canvas;
         TLRPC$User user;
         TLRPC$UserProfilePhoto tLRPC$UserProfilePhoto2;
         TLRPC$FileLocation tLRPC$FileLocation3;
@@ -7575,7 +7592,7 @@ public class NotificationsController extends BaseController {
                 } else {
                     str4 = "NotificationHiddenChatName";
                 }
-                File file3 = file;
+                File file6 = file;
                 String str18 = "currentAccount";
                 if (!(z7 || z6) || !z5 || SharedConfig.isWaitingForPasscodeEnter || clientUserId == j5 || UserObject.isReplyUser(j5)) {
                     str6 = "max_id";
@@ -7865,7 +7882,7 @@ public class NotificationsController extends BaseController {
                                                         if (DialogObject.isUserDialog(j5) || z7) {
                                                             j4 = clientUserId;
                                                             strArr = strArr22;
-                                                            file2 = file3;
+                                                            file2 = file6;
                                                         } else {
                                                             long senderId = messageObject4.getSenderId();
                                                             strArr = strArr22;
@@ -7888,36 +7905,80 @@ public class NotificationsController extends BaseController {
                                                         str14 = str11;
                                                     } else {
                                                         File pathToMessage = getFileLoader().getPathToMessage(messageObject4.messageOwner);
-                                                        NotificationCompat.MessagingStyle.Message message = new NotificationCompat.MessagingStyle.Message(str26, messageObject4.messageOwner.date * 1000, person3);
-                                                        String str27 = messageObject4.isSticker() ? "image/webp" : "image/jpeg";
-                                                        if (pathToMessage.exists()) {
+                                                        if (pathToMessage.exists() && messageObject4.hasMediaSpoilers()) {
+                                                            file4 = new File(pathToMessage.getParentFile(), pathToMessage.getName() + ".blur.jpg");
+                                                            if (file4.exists()) {
+                                                                file5 = pathToMessage;
+                                                            } else {
+                                                                try {
+                                                                    Bitmap decodeFile = BitmapFactory.decodeFile(pathToMessage.getAbsolutePath());
+                                                                    Bitmap stackBlurBitmapMax = Utilities.stackBlurBitmapMax(decodeFile);
+                                                                    decodeFile.recycle();
+                                                                    createScaledBitmap = Bitmap.createScaledBitmap(stackBlurBitmapMax, decodeFile.getWidth(), decodeFile.getHeight(), true);
+                                                                    Utilities.stackBlurBitmap(createScaledBitmap, 5);
+                                                                    stackBlurBitmapMax.recycle();
+                                                                    canvas = new Canvas(createScaledBitmap);
+                                                                    notificationsController3.mediaSpoilerEffect.setColor(ColorUtils.setAlphaComponent(-1, (int) (Color.alpha(-1) * 0.325f)));
+                                                                    file5 = pathToMessage;
+                                                                } catch (Exception e) {
+                                                                    e = e;
+                                                                    file5 = pathToMessage;
+                                                                }
+                                                                try {
+                                                                    notificationsController3.mediaSpoilerEffect.setBounds(0, 0, createScaledBitmap.getWidth(), createScaledBitmap.getHeight());
+                                                                    notificationsController3.mediaSpoilerEffect.draw(canvas);
+                                                                    FileOutputStream fileOutputStream = new FileOutputStream(file4);
+                                                                    createScaledBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream);
+                                                                    fileOutputStream.close();
+                                                                    createScaledBitmap.recycle();
+                                                                    file3 = file4;
+                                                                } catch (Exception e2) {
+                                                                    e = e2;
+                                                                    FileLog.e(e);
+                                                                    file3 = file5;
+                                                                    NotificationCompat.MessagingStyle.Message message = new NotificationCompat.MessagingStyle.Message(str26, messageObject4.messageOwner.date * 1000, person3);
+                                                                    String str27 = !messageObject4.isSticker() ? "image/webp" : "image/jpeg";
+                                                                    if (!file3.exists()) {
+                                                                    }
+                                                                    if (uriForFile == null) {
+                                                                    }
+                                                                }
+                                                            }
+                                                            file3 = file5;
+                                                        } else {
+                                                            file3 = pathToMessage;
+                                                            file4 = null;
+                                                        }
+                                                        NotificationCompat.MessagingStyle.Message message2 = new NotificationCompat.MessagingStyle.Message(str26, messageObject4.messageOwner.date * 1000, person3);
+                                                        String str272 = !messageObject4.isSticker() ? "image/webp" : "image/jpeg";
+                                                        if (!file3.exists()) {
                                                             try {
-                                                                uriForFile = FileProvider.getUriForFile(ApplicationLoader.applicationContext, ApplicationLoader.getApplicationId() + ".provider", pathToMessage);
+                                                                uriForFile = FileProvider.getUriForFile(ApplicationLoader.applicationContext, ApplicationLoader.getApplicationId() + ".provider", file3);
                                                                 str14 = str11;
-                                                            } catch (Exception e) {
-                                                                FileLog.e(e);
+                                                            } catch (Exception e3) {
+                                                                FileLog.e(e3);
                                                             }
                                                         } else {
-                                                            if (getFileLoader().isLoadingFile(pathToMessage.getName())) {
+                                                            if (getFileLoader().isLoadingFile(file3.getName())) {
                                                                 Uri.Builder appendPath = new Uri.Builder().scheme("content").authority(NotificationImageProvider.getAuthority()).appendPath("msg_media_raw");
                                                                 StringBuilder sb5 = new StringBuilder();
                                                                 sb5.append(notificationsController3.currentAccount);
                                                                 str14 = str11;
                                                                 sb5.append(str14);
-                                                                uriForFile = appendPath.appendPath(sb5.toString()).appendPath(pathToMessage.getName()).appendQueryParameter("final_path", pathToMessage.getAbsolutePath()).build();
+                                                                uriForFile = appendPath.appendPath(sb5.toString()).appendPath(file3.getName()).appendQueryParameter("final_path", file3.getAbsolutePath()).build();
                                                             }
                                                             str14 = str11;
                                                             uriForFile = null;
                                                         }
-                                                        if (uriForFile != null) {
-                                                            message.setData(str27, uriForFile);
+                                                        if (uriForFile == null) {
+                                                            message2.setData(str272, uriForFile);
                                                             messagingStyle3 = messagingStyle5;
-                                                            messagingStyle3.addMessage(message);
+                                                            messagingStyle3.addMessage(message2);
                                                             ApplicationLoader.applicationContext.grantUriPermission("com.android.systemui", uriForFile, 1);
                                                             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.NotificationsController$$ExternalSyntheticLambda4
                                                                 @Override // java.lang.Runnable
                                                                 public final void run() {
-                                                                    NotificationsController.lambda$showExtraNotifications$34(uriForFile);
+                                                                    NotificationsController.lambda$showExtraNotifications$34(uriForFile, file4);
                                                                 }
                                                             }, 20000L);
                                                             if (!TextUtils.isEmpty(messageObject4.caption)) {
@@ -8332,7 +8393,7 @@ public class NotificationsController extends BaseController {
                 }
                 if (tLRPC$Chat == null) {
                 }
-                File file32 = file;
+                File file62 = file;
                 String str182 = "currentAccount";
                 if (z7) {
                 }
@@ -8488,8 +8549,8 @@ public class NotificationsController extends BaseController {
                 notificationManager.notify(notificationsController4.notificationId, notification3);
                 arrayList = arrayList15;
                 notificationsController = notificationsController4;
-            } catch (SecurityException e2) {
-                FileLog.e(e2);
+            } catch (SecurityException e4) {
+                FileLog.e(e4);
                 arrayList = arrayList15;
                 notificationsController = notificationsController4;
                 resetNotificationSound(builder, j, i, str2, jArr, i2, uri, i3, z, z2, z3, i4);
@@ -8597,8 +8658,11 @@ public class NotificationsController extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showExtraNotifications$34(Uri uri) {
+    public static /* synthetic */ void lambda$showExtraNotifications$34(Uri uri, File file) {
         ApplicationLoader.applicationContext.revokeUriPermission(uri, 1);
+        if (file != null) {
+            file.delete();
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */

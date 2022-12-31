@@ -1414,7 +1414,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
     @Override // org.telegram.ui.Components.RecyclerListView.SelectionAdapter
     public boolean isEnabled(RecyclerView.ViewHolder viewHolder) {
         int itemViewType = viewHolder.getItemViewType();
-        return (itemViewType == 1 || itemViewType == 3) ? false : true;
+        return (itemViewType == 1 || itemViewType == 4) ? false : true;
     }
 
     /* JADX INFO: Access modifiers changed from: private */

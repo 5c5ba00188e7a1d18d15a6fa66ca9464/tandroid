@@ -55,6 +55,10 @@ public class CacheChart extends View {
     private int[] tempPercents;
     private AnimatedTextView.AnimatedTextDrawable topText;
 
+    protected int heightDp() {
+        return 200;
+    }
+
     protected void onSectionClick(int i) {
     }
 
@@ -257,50 +261,50 @@ public class CacheChart extends View {
                 long unused = CacheChart.particlesStart = currentTimeMillis;
             }
             float f11 = ((float) (currentTimeMillis - CacheChart.particlesStart)) / 10000.0f;
-            if (this.particle == null && this.pathBounds.isEmpty()) {
-                return;
-            }
-            int width = this.particle.getWidth();
-            float f12 = 7.0f;
-            int floor = (int) Math.floor((f5 % 360.0f) / 7.0f);
-            int ceil = (int) Math.ceil((f6 % 360.0f) / 7.0f);
-            while (floor <= ceil) {
-                float f13 = floor * f12;
-                double d = 100.0f + f11;
-                Double.isNaN(d);
-                float sin = (float) ((d * (((Math.sin(2000.0f * f13) + 1.0d) * 0.25d) + 1.0d)) % 1.0d);
-                float f14 = width * sqrt;
-                double d2 = f;
-                float f15 = f11;
-                double lerp = AndroidUtilities.lerp(f7 - f14, f8 + f14, sin);
-                double cos = Math.cos(CacheChart.toRad(f13));
-                Double.isNaN(lerp);
-                Double.isNaN(d2);
-                float f16 = (float) (d2 + (cos * lerp));
-                double d3 = f2;
-                double sin2 = Math.sin(CacheChart.toRad(f13));
-                Double.isNaN(lerp);
-                Double.isNaN(d3);
-                float f17 = (float) (d3 + (lerp * sin2));
-                float abs = 0.65f * f10 * ((Math.abs(sin - 0.5f) * (-1.75f)) + 1.0f);
-                double d4 = sin;
-                Double.isNaN(d4);
-                double d5 = d4 * 3.141592653589793d;
-                this.particlePaint.setAlpha((int) (Math.max(0.0f, Math.min(1.0f, abs * ((((float) (Math.sin(d5) - 1.0d)) * 0.25f) + 1.0f) * AndroidUtilities.lerp(1.0f, Math.min(MathUtils.distance(f16, f17, f3, f4) / AndroidUtilities.dpf2(64.0f), 1.0f), f9))) * 255.0f));
-                double sin3 = ((((float) (Math.sin(d5) - 1.0d)) * 0.25f) + 1.0f) * 0.75f;
-                Double.isNaN(sin3);
-                float sin4 = (float) (sin3 * (((Math.sin(f13) + 1.0d) * 0.25d) + 0.800000011920929d));
-                canvas.save();
-                canvas.translate(f16, f17);
-                canvas.scale(sin4, sin4);
-                float f18 = -(width >> 1);
-                canvas.drawBitmap(this.particle, f18, f18, this.particlePaint);
-                canvas.restore();
-                floor++;
-                ceil = ceil;
-                f11 = f15;
-                sqrt = sqrt;
-                f12 = 7.0f;
+            Bitmap bitmap = this.particle;
+            if (bitmap != null) {
+                int width = bitmap.getWidth();
+                float f12 = 7.0f;
+                int floor = (int) Math.floor((f5 % 360.0f) / 7.0f);
+                int ceil = (int) Math.ceil((f6 % 360.0f) / 7.0f);
+                while (floor <= ceil) {
+                    float f13 = floor * f12;
+                    double d = 100.0f + f11;
+                    Double.isNaN(d);
+                    float sin = (float) ((d * (((Math.sin(2000.0f * f13) + 1.0d) * 0.25d) + 1.0d)) % 1.0d);
+                    float f14 = width * sqrt;
+                    double d2 = f;
+                    float f15 = f11;
+                    double lerp = AndroidUtilities.lerp(f7 - f14, f8 + f14, sin);
+                    double cos = Math.cos(CacheChart.toRad(f13));
+                    Double.isNaN(lerp);
+                    Double.isNaN(d2);
+                    float f16 = (float) (d2 + (cos * lerp));
+                    double d3 = f2;
+                    double sin2 = Math.sin(CacheChart.toRad(f13));
+                    Double.isNaN(lerp);
+                    Double.isNaN(d3);
+                    float f17 = (float) (d3 + (lerp * sin2));
+                    float abs = 0.65f * f10 * ((Math.abs(sin - 0.5f) * (-1.75f)) + 1.0f);
+                    double d4 = sin;
+                    Double.isNaN(d4);
+                    double d5 = d4 * 3.141592653589793d;
+                    this.particlePaint.setAlpha((int) (Math.max(0.0f, Math.min(1.0f, abs * ((((float) (Math.sin(d5) - 1.0d)) * 0.25f) + 1.0f) * AndroidUtilities.lerp(1.0f, Math.min(MathUtils.distance(f16, f17, f3, f4) / AndroidUtilities.dpf2(64.0f), 1.0f), f9))) * 255.0f));
+                    double sin3 = ((((float) (Math.sin(d5) - 1.0d)) * 0.25f) + 1.0f) * 0.75f;
+                    Double.isNaN(sin3);
+                    float sin4 = (float) (sin3 * (((Math.sin(f13) + 1.0d) * 0.25d) + 0.800000011920929d));
+                    canvas.save();
+                    canvas.translate(f16, f17);
+                    canvas.scale(sin4, sin4);
+                    float f18 = -(width >> 1);
+                    canvas.drawBitmap(this.particle, f18, f18, this.particlePaint);
+                    canvas.restore();
+                    floor++;
+                    ceil = ceil;
+                    f11 = f15;
+                    sqrt = sqrt;
+                    f12 = 7.0f;
+                }
             }
         }
 
@@ -331,7 +335,7 @@ public class CacheChart extends View {
                 canvas.drawRect(this.rectF, this.paint);
                 f6 = f10;
                 f7 = f9;
-                drawParticles(canvas, this.rectF.centerX(), this.rectF.centerY(), f9, f10, f - f2, f + f2, rectF2.width() / 2.0f, this.rectF.width() / 2.0f, f11, Math.max(0.0f, (f5 / 0.75f) - 0.75f) * f12);
+                drawParticles(canvas, this.rectF.centerX(), this.rectF.centerY(), f9, f10, 0.0f, 359.0f, rectF2.width() / 2.0f, this.rectF.width() / 2.0f, f11, Math.max(0.0f, (f5 / 0.75f) - 0.75f) * f12);
                 canvas.drawCircle(rectF2.centerX(), rectF2.centerY(), rectF2.width() / 2.0f, this.cut);
                 canvas.restore();
             } else {
@@ -857,7 +861,7 @@ public class CacheChart extends View {
     @Override // android.view.View
     protected void onMeasure(int i, int i2) {
         int size = View.MeasureSpec.getSize(i);
-        int dp = AndroidUtilities.dp(200.0f);
+        int dp = AndroidUtilities.dp(heightDp());
         int dp2 = AndroidUtilities.dp(172.0f);
         this.chartBounds.set((size - dp2) / 2.0f, (dp - dp2) / 2.0f, (size + dp2) / 2.0f, (dp2 + dp) / 2.0f);
         this.completeGradientMatrix.reset();

@@ -544,7 +544,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$10(TLRPC$User tLRPC$User) {
         this.avatar = null;
-        sendPhotoChangedRequest(null, null, null, 0.0d, 2);
+        sendPhotoChangedRequest(null, null, null, null, 0.0d, 2);
         TLRPC$User user = getMessagesController().getUser(Long.valueOf(this.user_id));
         user.photo.personal = false;
         TLRPC$UserFull userFull = MessagesController.getInstance(this.currentAccount).getUserFull(this.user_id);
@@ -784,7 +784,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
                 getNotificationCenter().postNotificationName(NotificationCenter.reloadDialogPhotos, new Object[0]);
                 getNotificationCenter().postNotificationName(NotificationCenter.updateInterfaces, Integer.valueOf(MessagesController.UPDATE_MASK_AVATAR));
             }
-            sendPhotoChangedRequest(this.avatar, tLRPC$InputFile, tLRPC$InputFile2, d, this.photoSelectedTypeFinal);
+            sendPhotoChangedRequest(this.avatar, tLRPC$PhotoSize2.location, tLRPC$InputFile, tLRPC$InputFile2, d, this.photoSelectedTypeFinal);
             showAvatarProgress(false, true);
         } else {
             this.avatarImage.setImage(ImageLocation.getForLocal(this.avatar), "50_50", this.avatarDrawable, getMessagesController().getUser(Long.valueOf(this.user_id)));
@@ -863,7 +863,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
         getMessagesController().photoSuggestion.put(tLRPC$TL_messageService.local_id, this.imageUpdater);
     }
 
-    private void sendPhotoChangedRequest(final TLRPC$FileLocation tLRPC$FileLocation, TLRPC$InputFile tLRPC$InputFile, final TLRPC$InputFile tLRPC$InputFile2, double d, final int i) {
+    private void sendPhotoChangedRequest(final TLRPC$FileLocation tLRPC$FileLocation, final TLRPC$FileLocation tLRPC$FileLocation2, TLRPC$InputFile tLRPC$InputFile, final TLRPC$InputFile tLRPC$InputFile2, double d, final int i) {
         TLRPC$TL_photos_uploadContactProfilePhoto tLRPC$TL_photos_uploadContactProfilePhoto = new TLRPC$TL_photos_uploadContactProfilePhoto();
         tLRPC$TL_photos_uploadContactProfilePhoto.user_id = getMessagesController().getInputUser(this.user_id);
         if (tLRPC$InputFile != null) {
@@ -887,23 +887,23 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
         getConnectionsManager().sendRequest(tLRPC$TL_photos_uploadContactProfilePhoto, new RequestDelegate() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda15
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                ContactAddActivity.this.lambda$sendPhotoChangedRequest$16(tLRPC$FileLocation, tLRPC$InputFile2, i, tLObject, tLRPC$TL_error);
+                ContactAddActivity.this.lambda$sendPhotoChangedRequest$16(tLRPC$FileLocation, tLRPC$InputFile2, tLRPC$FileLocation2, i, tLObject, tLRPC$TL_error);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$sendPhotoChangedRequest$16(final TLRPC$FileLocation tLRPC$FileLocation, final TLRPC$InputFile tLRPC$InputFile, final int i, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public /* synthetic */ void lambda$sendPhotoChangedRequest$16(final TLRPC$FileLocation tLRPC$FileLocation, final TLRPC$InputFile tLRPC$InputFile, final TLRPC$FileLocation tLRPC$FileLocation2, final int i, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda10
             @Override // java.lang.Runnable
             public final void run() {
-                ContactAddActivity.this.lambda$sendPhotoChangedRequest$15(tLRPC$FileLocation, tLRPC$InputFile, tLObject, i);
+                ContactAddActivity.this.lambda$sendPhotoChangedRequest$15(tLRPC$FileLocation, tLRPC$InputFile, tLObject, tLRPC$FileLocation2, i);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$sendPhotoChangedRequest$15(TLRPC$FileLocation tLRPC$FileLocation, TLRPC$InputFile tLRPC$InputFile, TLObject tLObject, int i) {
+    public /* synthetic */ void lambda$sendPhotoChangedRequest$15(TLRPC$FileLocation tLRPC$FileLocation, TLRPC$InputFile tLRPC$InputFile, TLObject tLObject, TLRPC$FileLocation tLRPC$FileLocation2, int i) {
         if (this.suggestPhotoMessageFinal != null) {
             return;
         }
@@ -926,8 +926,8 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
                 FileLoader.getInstance(this.currentAccount).getPathToAttach(tLRPC$FileLocation, true).renameTo(FileLoader.getInstance(this.currentAccount).getPathToAttach(closestPhotoSizeWithSize, true));
                 ImageLoader.getInstance().replaceImageInCache(tLRPC$FileLocation.volume_id + "_" + tLRPC$FileLocation.local_id + "@50_50", closestPhotoSizeWithSize.location.volume_id + "_" + closestPhotoSizeWithSize.location.local_id + "@50_50", ImageLocation.getForUser(user, 1), false);
             }
-            if (closestPhotoSizeWithSize2 != null && tLRPC$FileLocation != null) {
-                FileLoader.getInstance(this.currentAccount).getPathToAttach(tLRPC$FileLocation, true).renameTo(FileLoader.getInstance(this.currentAccount).getPathToAttach(closestPhotoSizeWithSize2, true));
+            if (closestPhotoSizeWithSize2 != null && tLRPC$FileLocation2 != null) {
+                FileLoader.getInstance(this.currentAccount).getPathToAttach(tLRPC$FileLocation2, true).renameTo(FileLoader.getInstance(this.currentAccount).getPathToAttach(closestPhotoSizeWithSize2, true));
             }
             PhotoUtilities.applyPhotoToUser(tLRPC$TL_photos_photo.photo, user, true);
             ArrayList<TLRPC$User> arrayList2 = new ArrayList<>();

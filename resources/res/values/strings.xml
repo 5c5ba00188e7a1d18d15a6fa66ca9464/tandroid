@@ -129,6 +129,7 @@
     <string name="AccDescrSearchNext">Next search result</string>
     <string name="AccDescrSearchPrev">Previous search result</string>
     <string name="AccDescrSecretChat">Secret chat</string>
+    <string name="AccDescrSendAs">Send as %1$s</string>
     <string name="AccDescrSendAsPeer">Send as %1$s</string>
     <string name="AccDescrSendAudio_few">Send %1$d audio files</string>
     <string name="AccDescrSendAudio_many">Send %1$d audio files</string>
@@ -1603,6 +1604,8 @@
     <string name="DeleteAllMessagesAlert">Warning! This will **delete all messages** in this chat for **both** participants.</string>
     <string name="DeleteAllMessagesChannelAlert">Warning! This will **delete all messages** in this channel.</string>
     <string name="DeleteAllMessagesSavedAlert">Warning! This will **delete all messages** in this chat.</string>
+    <string name="DeleteAllProxies">Delete All Proxies</string>
+    <string name="DeleteAllProxiesConfirm">Are you sure you want to delete all proxies?</string>
     <string name="DeleteAllRevokedLinkHelp">This will delete all revoked links.</string>
     <string name="DeleteAllRevokedLinks">Delete All Revoked Links</string>
     <string name="DeleteAndExit">Delete and leave group</string>

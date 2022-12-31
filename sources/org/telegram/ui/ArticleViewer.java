@@ -93,6 +93,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.DownloadController;
+import org.telegram.messenger.Emoji;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageLoader;
@@ -2687,8 +2688,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Can't wrap try/catch for region: R(13:51|52|53|(3:57|(3:(2:61|62)(2:64|65)|63|58)|66)|68|69|70|(10:74|75|76|(5:79|(1:81)(1:91)|(3:(1:84)(1:88)|85|86)(2:89|90)|87|77)|92|93|95|96|(7:100|102|103|(5:106|(1:108)(1:118)|(3:(1:111)(1:115)|112|113)(2:116|117)|114|104)|119|120|121)|124)|130|95|96|(8:98|100|102|103|(1:104)|119|120|121)|124) */
-    /* JADX WARN: Removed duplicated region for block: B:142:0x0377 A[Catch: Exception -> 0x03b5, TryCatch #4 {Exception -> 0x03b5, blocks: (B:139:0x0370, B:140:0x0374, B:142:0x0377, B:144:0x038e, B:150:0x03a1, B:152:0x03a9, B:153:0x03b2), top: B:172:0x0370 }] */
+    /* JADX WARN: Can't wrap try/catch for region: R(10:51|(3:52|53|(3:57|(3:(2:61|62)(2:64|65)|63|58)|66))|68|(2:69|70)|(10:74|75|76|(5:79|(1:81)(1:91)|(3:(1:84)(1:88)|85|86)(2:89|90)|87|77)|92|93|94|95|(7:99|101|102|(5:105|(1:107)(1:117)|(3:(1:110)(1:114)|111|112)(2:115|116)|113|103)|118|119|120)|123)|130|94|95|(8:97|99|101|102|(1:103)|118|119|120)|123) */
+    /* JADX WARN: Removed duplicated region for block: B:142:0x037f A[Catch: Exception -> 0x03bd, TryCatch #1 {Exception -> 0x03bd, blocks: (B:139:0x0378, B:140:0x037c, B:142:0x037f, B:144:0x0396, B:150:0x03a9, B:152:0x03b1, B:153:0x03ba), top: B:166:0x0378 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2786,20 +2787,21 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             textPaint = getTextPaint(tLRPC$RichText, tLRPC$RichText, tLRPC$PageBlock);
         }
         TextPaint textPaint9 = textPaint;
+        CharSequence replaceEmoji = Emoji.replaceEmoji(text, textPaint9.getFontMetricsInt(), false, (int[]) null, 1);
         if (i3 != 0) {
             if (tLRPC$PageBlock instanceof TLRPC$TL_pageBlockPullquote) {
-                staticLayout = StaticLayoutEx.createStaticLayout(text, textPaint9, dp, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false, TextUtils.TruncateAt.END, dp, i3);
+                staticLayout = StaticLayoutEx.createStaticLayout(replaceEmoji, textPaint9, dp, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false, TextUtils.TruncateAt.END, dp, i3);
             } else {
-                staticLayout = StaticLayoutEx.createStaticLayout(text, textPaint9, dp, alignment, 1.0f, AndroidUtilities.dp(4.0f), false, TextUtils.TruncateAt.END, dp, i3);
+                staticLayout = StaticLayoutEx.createStaticLayout(replaceEmoji, textPaint9, dp, alignment, 1.0f, AndroidUtilities.dp(4.0f), false, TextUtils.TruncateAt.END, dp, i3);
             }
         } else {
-            if (text.charAt(text.length() - 1) == '\n') {
-                text = text.subSequence(0, text.length() - 1);
+            if (replaceEmoji.charAt(replaceEmoji.length() - 1) == '\n') {
+                replaceEmoji = replaceEmoji.subSequence(0, replaceEmoji.length() - 1);
             }
             if (tLRPC$PageBlock instanceof TLRPC$TL_pageBlockPullquote) {
-                staticLayout = new StaticLayout(text, textPaint9, dp, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
+                staticLayout = new StaticLayout(replaceEmoji, textPaint9, dp, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
             } else {
-                staticLayout = new StaticLayout(text, textPaint9, dp, alignment, 1.0f, AndroidUtilities.dp(4.0f), false);
+                staticLayout = new StaticLayout(replaceEmoji, textPaint9, dp, alignment, 1.0f, AndroidUtilities.dp(4.0f), false);
             }
         }
         if (staticLayout == null) {
@@ -2807,7 +2809,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
         CharSequence text2 = staticLayout.getText();
         if (i2 >= 0 && !this.searchResults.isEmpty() && this.searchText != null) {
-            String lowerCase = text.toString().toLowerCase();
+            String lowerCase = replaceEmoji.toString().toLowerCase();
             int i7 = 0;
             while (true) {
                 int indexOf = lowerCase.indexOf(this.searchText, i7);

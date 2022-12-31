@@ -91,17 +91,17 @@ public class PhotoUtilities {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$setImageAsAvatar$4(final int i, final Runnable runnable, final INavigationLayout iNavigationLayout, final ImageUpdater imageUpdater, final TLRPC$InputFile tLRPC$InputFile, final TLRPC$InputFile tLRPC$InputFile2, final double d, String str, TLRPC$PhotoSize tLRPC$PhotoSize, final TLRPC$PhotoSize tLRPC$PhotoSize2, boolean z) {
+    public static /* synthetic */ void lambda$setImageAsAvatar$4(final int i, final Runnable runnable, final INavigationLayout iNavigationLayout, final ImageUpdater imageUpdater, final TLRPC$InputFile tLRPC$InputFile, final TLRPC$InputFile tLRPC$InputFile2, final double d, String str, final TLRPC$PhotoSize tLRPC$PhotoSize, final TLRPC$PhotoSize tLRPC$PhotoSize2, boolean z) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.utils.PhotoUtilities$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
-                PhotoUtilities.lambda$setImageAsAvatar$3(TLRPC$InputFile.this, tLRPC$InputFile2, d, i, tLRPC$PhotoSize2, runnable, iNavigationLayout, imageUpdater);
+                PhotoUtilities.lambda$setImageAsAvatar$3(TLRPC$InputFile.this, tLRPC$InputFile2, d, i, tLRPC$PhotoSize2, tLRPC$PhotoSize, runnable, iNavigationLayout, imageUpdater);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$setImageAsAvatar$3(TLRPC$InputFile tLRPC$InputFile, TLRPC$InputFile tLRPC$InputFile2, double d, final int i, final TLRPC$PhotoSize tLRPC$PhotoSize, final Runnable runnable, final INavigationLayout iNavigationLayout, ImageUpdater imageUpdater) {
+    public static /* synthetic */ void lambda$setImageAsAvatar$3(TLRPC$InputFile tLRPC$InputFile, TLRPC$InputFile tLRPC$InputFile2, double d, final int i, final TLRPC$PhotoSize tLRPC$PhotoSize, final TLRPC$PhotoSize tLRPC$PhotoSize2, final Runnable runnable, final INavigationLayout iNavigationLayout, ImageUpdater imageUpdater) {
         TLRPC$TL_photos_uploadProfilePhoto tLRPC$TL_photos_uploadProfilePhoto = new TLRPC$TL_photos_uploadProfilePhoto();
         if (tLRPC$InputFile != null) {
             tLRPC$TL_photos_uploadProfilePhoto.file = tLRPC$InputFile;
@@ -117,24 +117,24 @@ public class PhotoUtilities {
         ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_photos_uploadProfilePhoto, new RequestDelegate() { // from class: org.telegram.messenger.utils.PhotoUtilities$$ExternalSyntheticLambda3
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                PhotoUtilities.lambda$setImageAsAvatar$2(i, tLRPC$PhotoSize, runnable, iNavigationLayout, tLObject, tLRPC$TL_error);
+                PhotoUtilities.lambda$setImageAsAvatar$2(i, tLRPC$PhotoSize, tLRPC$PhotoSize2, runnable, iNavigationLayout, tLObject, tLRPC$TL_error);
             }
         });
         imageUpdater.onPause();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$setImageAsAvatar$2(final int i, final TLRPC$PhotoSize tLRPC$PhotoSize, final Runnable runnable, final INavigationLayout iNavigationLayout, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
+    public static /* synthetic */ void lambda$setImageAsAvatar$2(final int i, final TLRPC$PhotoSize tLRPC$PhotoSize, final TLRPC$PhotoSize tLRPC$PhotoSize2, final Runnable runnable, final INavigationLayout iNavigationLayout, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.utils.PhotoUtilities$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
-                PhotoUtilities.lambda$setImageAsAvatar$1(TLObject.this, i, tLRPC$PhotoSize, runnable, iNavigationLayout);
+                PhotoUtilities.lambda$setImageAsAvatar$1(TLObject.this, i, tLRPC$PhotoSize, tLRPC$PhotoSize2, runnable, iNavigationLayout);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$setImageAsAvatar$1(TLObject tLObject, final int i, TLRPC$PhotoSize tLRPC$PhotoSize, Runnable runnable, final INavigationLayout iNavigationLayout) {
+    public static /* synthetic */ void lambda$setImageAsAvatar$1(TLObject tLObject, final int i, TLRPC$PhotoSize tLRPC$PhotoSize, TLRPC$PhotoSize tLRPC$PhotoSize2, Runnable runnable, final INavigationLayout iNavigationLayout) {
         if (tLObject instanceof TLRPC$TL_photos_photo) {
             TLRPC$TL_photos_photo tLRPC$TL_photos_photo = (TLRPC$TL_photos_photo) tLObject;
             MessagesController.getInstance(i).putUsers(tLRPC$TL_photos_photo.users, false);
@@ -149,8 +149,8 @@ public class PhotoUtilities {
                 FileLoader.getInstance(i).getPathToAttach(tLRPC$PhotoSize.location, true).renameTo(FileLoader.getInstance(i).getPathToAttach(closestPhotoSizeWithSize, true));
                 ImageLoader.getInstance().replaceImageInCache(tLRPC$PhotoSize.location.volume_id + "_" + tLRPC$PhotoSize.location.local_id + "@50_50", closestPhotoSizeWithSize.location.volume_id + "_" + closestPhotoSizeWithSize.location.local_id + "@50_50", ImageLocation.getForUser(user, 1), false);
             }
-            if (closestPhotoSizeWithSize2 != null && tLRPC$PhotoSize != null && tLRPC$PhotoSize.location != null) {
-                FileLoader.getInstance(i).getPathToAttach(tLRPC$PhotoSize.location, true).renameTo(FileLoader.getInstance(i).getPathToAttach(closestPhotoSizeWithSize2, true));
+            if (closestPhotoSizeWithSize2 != null && tLRPC$PhotoSize2 != null && tLRPC$PhotoSize2.location != null) {
+                FileLoader.getInstance(i).getPathToAttach(tLRPC$PhotoSize2.location, true).renameTo(FileLoader.getInstance(i).getPathToAttach(closestPhotoSizeWithSize2, true));
             }
             applyPhotoToUser(tLRPC$TL_photos_photo.photo, user, false);
             UserConfig.getInstance(i).setCurrentUser(user);

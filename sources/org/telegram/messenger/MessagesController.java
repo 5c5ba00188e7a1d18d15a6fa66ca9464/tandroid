@@ -7822,7 +7822,6 @@ public class MessagesController extends BaseController implements NotificationCe
             getMessagesStorage().putDialogPhotos(j, tLRPC$photos_Photos, arrayList);
         } else if (tLRPC$photos_Photos == null || tLRPC$photos_Photos.photos.isEmpty()) {
             loadDialogPhotos(j, i, i2, false, i3);
-            return;
         }
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda209
             @Override // java.lang.Runnable

@@ -75,7 +75,6 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
     private ContextProgressView editDoneItemProgress;
     private OutlineEditText firstNameField;
     private boolean ignoreOnPhoneChange;
-    private boolean ignoreOnPhoneChangePaste;
     private boolean ignoreOnTextChange;
     private boolean ignoreSelection;
     private String initialFirstName;
@@ -415,6 +414,10 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
             private int characterAction = -1;
 
             @Override // android.text.TextWatcher
+            public void onTextChanged(CharSequence charSequence, int i3, int i4, int i5) {
+            }
+
+            @Override // android.text.TextWatcher
             public void beforeTextChanged(CharSequence charSequence, int i3, int i4, int i5) {
                 if (i4 == 0 && i5 == 1) {
                     this.characterAction = 1;
@@ -428,42 +431,6 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
                 } else {
                     this.characterAction = -1;
                 }
-            }
-
-            @Override // android.text.TextWatcher
-            public void onTextChanged(CharSequence charSequence, int i3, int i4, int i5) {
-                List list;
-                if (NewContactBottomSheet.this.ignoreOnPhoneChange || NewContactBottomSheet.this.ignoreOnPhoneChangePaste) {
-                    return;
-                }
-                String replaceAll = charSequence.toString().substring(i3, i5 + i3).replaceAll("[^\\d]+", "");
-                if (replaceAll.isEmpty()) {
-                    return;
-                }
-                NewContactBottomSheet.this.ignoreOnPhoneChangePaste = true;
-                for (int min = Math.min(3, replaceAll.length()); min >= 0; min--) {
-                    String substring = replaceAll.substring(0, min);
-                    List list2 = (List) NewContactBottomSheet.this.codesMap.get(substring);
-                    if (list2 != null && !list2.isEmpty() && (list = (List) NewContactBottomSheet.this.phoneFormatMap.get(substring)) != null && !list.isEmpty()) {
-                        Iterator it = list.iterator();
-                        while (true) {
-                            if (it.hasNext()) {
-                                if (((String) it.next()).replace(" ", "").length() == replaceAll.length() - min) {
-                                    NewContactBottomSheet.this.codeField.setText(substring);
-                                    NewContactBottomSheet.this.ignoreOnTextChange = true;
-                                    NewContactBottomSheet.this.phoneField.setText(replaceAll.substring(min));
-                                    NewContactBottomSheet.this.ignoreOnTextChange = false;
-                                    afterTextChanged(NewContactBottomSheet.this.phoneField.getText());
-                                    NewContactBottomSheet.this.phoneField.setSelection(NewContactBottomSheet.this.phoneField.getText().length(), NewContactBottomSheet.this.phoneField.getText().length());
-                                    break;
-                                }
-                            } else {
-                                break;
-                            }
-                        }
-                    }
-                }
-                NewContactBottomSheet.this.ignoreOnPhoneChangePaste = false;
             }
 
             @Override // android.text.TextWatcher

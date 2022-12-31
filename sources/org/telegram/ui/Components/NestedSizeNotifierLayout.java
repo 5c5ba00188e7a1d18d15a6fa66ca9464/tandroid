@@ -141,7 +141,7 @@ public class NestedSizeNotifierLayout extends SizeNotifierFrameLayout implements
     public void setChildLayout(ChildLayout childLayout) {
         if (this.childLayout != childLayout) {
             this.childLayout = childLayout;
-            if (this.attached) {
+            if (this.attached && childLayout != null && childLayout.getListView() != null) {
                 childLayout.getListView().addOnLayoutChangeListener(this);
             }
             updateMaxTop();

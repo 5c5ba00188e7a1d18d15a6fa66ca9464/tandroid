@@ -935,10 +935,10 @@ public class DialogCell extends BaseCell {
     /* JADX WARN: Removed duplicated region for block: B:1212:0x1b20  */
     /* JADX WARN: Removed duplicated region for block: B:1220:0x1b55 A[Catch: Exception -> 0x1ba7, TryCatch #4 {Exception -> 0x1ba7, blocks: (B:1218:0x1b4f, B:1220:0x1b55, B:1222:0x1b59, B:1225:0x1b5e, B:1226:0x1b83), top: B:1381:0x1b4f }] */
     /* JADX WARN: Removed duplicated region for block: B:1238:0x1bc0  */
-    /* JADX WARN: Removed duplicated region for block: B:1307:0x1d7a  */
-    /* JADX WARN: Removed duplicated region for block: B:1356:0x1e4f  */
-    /* JADX WARN: Removed duplicated region for block: B:1367:0x1e8c  */
-    /* JADX WARN: Removed duplicated region for block: B:1368:0x1e94  */
+    /* JADX WARN: Removed duplicated region for block: B:1307:0x1d7c  */
+    /* JADX WARN: Removed duplicated region for block: B:1356:0x1e51  */
+    /* JADX WARN: Removed duplicated region for block: B:1367:0x1e8e  */
+    /* JADX WARN: Removed duplicated region for block: B:1368:0x1e96  */
     /* JADX WARN: Removed duplicated region for block: B:1406:0x161b A[EDGE_INSN: B:1406:0x161b->B:982:0x161b ?: BREAK  , SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:214:0x04da  */
     /* JADX WARN: Removed duplicated region for block: B:274:0x05be  */
@@ -2835,10 +2835,9 @@ public class DialogCell extends BaseCell {
                     if (staticLayout2 != null && staticLayout2.getLineCount() > 0) {
                         float lineLeft = this.nameLayout.getLineLeft(0);
                         double ceil = Math.ceil(this.nameLayout.getLineWidth(0));
-                        int dp25 = this.nameWidth + AndroidUtilities.dp(12.0f);
-                        this.nameWidth = dp25;
+                        this.nameLeft += AndroidUtilities.dp(12.0f);
                         if (this.nameLayoutEllipsizeByGradient) {
-                            ceil = Math.min(dp25, ceil);
+                            ceil = Math.min(this.nameWidth, ceil);
                         }
                         if ((this.dialogMuted || this.drawUnmute) && !this.drawVerified && this.drawScam == 0) {
                             double d = this.nameLeft;
@@ -2846,9 +2845,9 @@ public class DialogCell extends BaseCell {
                             Double.isNaN(d2);
                             Double.isNaN(d);
                             double d3 = d + (d2 - ceil);
-                            double dp26 = AndroidUtilities.dp(6.0f);
-                            Double.isNaN(dp26);
-                            double d4 = d3 - dp26;
+                            double dp25 = AndroidUtilities.dp(6.0f);
+                            Double.isNaN(dp25);
+                            double d4 = d3 - dp25;
                             double intrinsicWidth5 = Theme.dialogs_muteDrawable.getIntrinsicWidth();
                             Double.isNaN(intrinsicWidth5);
                             this.nameMuteLeft = (int) (d4 - intrinsicWidth5);
@@ -2858,9 +2857,9 @@ public class DialogCell extends BaseCell {
                             Double.isNaN(d6);
                             Double.isNaN(d5);
                             double d7 = d5 + (d6 - ceil);
-                            double dp27 = AndroidUtilities.dp(6.0f);
-                            Double.isNaN(dp27);
-                            double d8 = d7 - dp27;
+                            double dp26 = AndroidUtilities.dp(6.0f);
+                            Double.isNaN(dp26);
+                            double d8 = d7 - dp26;
                             double intrinsicWidth6 = Theme.dialogs_verifiedDrawable.getIntrinsicWidth();
                             Double.isNaN(intrinsicWidth6);
                             this.nameMuteLeft = (int) (d8 - intrinsicWidth6);
@@ -2872,18 +2871,18 @@ public class DialogCell extends BaseCell {
                             Double.isNaN(d11);
                             Double.isNaN(d9);
                             double d12 = d9 + ((d10 - ceil) - d11);
-                            double dp28 = AndroidUtilities.dp(24.0f);
-                            Double.isNaN(dp28);
-                            this.nameMuteLeft = (int) (d12 - dp28);
+                            double dp27 = AndroidUtilities.dp(24.0f);
+                            Double.isNaN(dp27);
+                            this.nameMuteLeft = (int) (d12 - dp27);
                         } else if (this.drawScam != 0) {
                             double d13 = this.nameLeft;
                             double d14 = this.nameWidth;
                             Double.isNaN(d14);
                             Double.isNaN(d13);
                             double d15 = d13 + (d14 - ceil);
-                            double dp29 = AndroidUtilities.dp(6.0f);
-                            Double.isNaN(dp29);
-                            double d16 = d15 - dp29;
+                            double dp28 = AndroidUtilities.dp(6.0f);
+                            Double.isNaN(dp28);
+                            double d16 = d15 - dp28;
                             double intrinsicWidth7 = (this.drawScam == 1 ? Theme.dialogs_scamDrawable : Theme.dialogs_fakeDrawable).getIntrinsicWidth();
                             Double.isNaN(intrinsicWidth7);
                             this.nameMuteLeft = (int) (d16 - intrinsicWidth7);

@@ -705,22 +705,22 @@ public class Emoji {
     }
 
     public static CharSequence replaceEmoji(CharSequence charSequence, Paint.FontMetricsInt fontMetricsInt, boolean z) {
-        return replaceEmoji(charSequence, fontMetricsInt, AndroidUtilities.dp(16.0f), z, null);
+        return replaceEmoji(charSequence, fontMetricsInt, AndroidUtilities.dp(16.0f), z, (int[]) null);
     }
 
     public static CharSequence replaceEmoji(CharSequence charSequence, Paint.FontMetricsInt fontMetricsInt, int i, boolean z) {
-        return replaceEmoji(charSequence, fontMetricsInt, i, z, null);
+        return replaceEmoji(charSequence, fontMetricsInt, i, z, (int[]) null);
     }
 
     public static CharSequence replaceEmoji(CharSequence charSequence, Paint.FontMetricsInt fontMetricsInt, int i, boolean z, int[] iArr) {
-        return replaceEmoji(charSequence, fontMetricsInt, i, z, iArr, false);
+        return replaceEmoji(charSequence, fontMetricsInt, z, iArr, 0);
     }
 
-    public static CharSequence replaceEmoji(CharSequence charSequence, Paint.FontMetricsInt fontMetricsInt, int i, boolean z, int[] iArr, boolean z2) {
+    public static CharSequence replaceEmoji(CharSequence charSequence, Paint.FontMetricsInt fontMetricsInt, boolean z, int[] iArr, int i) {
         Spannable newSpannable;
         int i2;
         EmojiSpanRange emojiSpanRange;
-        boolean z3;
+        boolean z2;
         if (SharedConfig.useSystemEmoji || charSequence == null || charSequence.length() == 0) {
             return charSequence;
         }
@@ -745,21 +745,21 @@ public class Emoji {
                 int i4 = 0;
                 while (true) {
                     if (i4 >= animatedEmojiSpanArr.length) {
-                        z3 = false;
+                        z2 = false;
                         break;
                     }
                     AnimatedEmojiSpan animatedEmojiSpan = animatedEmojiSpanArr[i4];
                     if (animatedEmojiSpan != null && newSpannable.getSpanStart(animatedEmojiSpan) == emojiSpanRange.start && newSpannable.getSpanEnd(animatedEmojiSpan) == emojiSpanRange.end) {
-                        z3 = true;
+                        z2 = true;
                         break;
                     }
                     i4++;
                 }
-                i2 = z3 ? i2 + 1 : 0;
+                i2 = z2 ? i2 + 1 : 0;
             }
             EmojiDrawable emojiDrawable = getEmojiDrawable(emojiSpanRange.code);
             if (emojiDrawable != null) {
-                EmojiSpan emojiSpan = new EmojiSpan(emojiDrawable, 0, i, fontMetricsInt);
+                EmojiSpan emojiSpan = new EmojiSpan(emojiDrawable, i, fontMetricsInt);
                 CharSequence charSequence2 = emojiSpanRange.code;
                 emojiSpan.emoji = charSequence2 == null ? null : charSequence2.toString();
                 newSpannable.setSpan(emojiSpan, emojiSpanRange.start, emojiSpanRange.end, 33);
@@ -781,7 +781,7 @@ public class Emoji {
         public float lastDrawY;
         public int size;
 
-        public EmojiSpan(Drawable drawable, int i, int i2, Paint.FontMetricsInt fontMetricsInt) {
+        public EmojiSpan(Drawable drawable, int i, Paint.FontMetricsInt fontMetricsInt) {
             super(drawable, i);
             this.size = AndroidUtilities.dp(20.0f);
             this.fontMetrics = fontMetricsInt;

@@ -128,6 +128,9 @@ public class EntityView extends FrameLayout {
 
     /* JADX INFO: Access modifiers changed from: private */
     public boolean onTouchMove(float f, float f2) {
+        if (getParent() == null) {
+            return false;
+        }
         float scaleX = ((View) getParent()).getScaleX();
         float f3 = (f - this.previousLocationX) / scaleX;
         float f4 = (f2 - this.previousLocationY) / scaleX;

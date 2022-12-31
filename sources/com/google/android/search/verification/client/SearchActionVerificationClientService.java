@@ -14,8 +14,8 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.os.ResultReceiver;
-import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import androidx.core.app.NotificationCompat;
 import com.google.android.search.verification.api.ISearchActionVerificationService;
 /* loaded from: classes.dex */
 public abstract class SearchActionVerificationClientService extends IntentService {
