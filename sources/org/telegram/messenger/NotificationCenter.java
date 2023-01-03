@@ -4,6 +4,7 @@ import android.os.SystemClock;
 import android.util.SparseArray;
 import android.view.View;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -1223,14 +1224,21 @@ public class NotificationCenter {
         ArrayList<NotificationCenterDelegate> arrayList2 = this.observers.get(i);
         if (arrayList2 == null) {
             SparseArray<ArrayList<NotificationCenterDelegate>> sparseArray = this.observers;
-            ArrayList<NotificationCenterDelegate> arrayList3 = new ArrayList<>();
-            sparseArray.put(i, arrayList3);
-            arrayList2 = arrayList3;
+            ArrayList<NotificationCenterDelegate> createArrayForId = createArrayForId(i);
+            sparseArray.put(i, createArrayForId);
+            arrayList2 = createArrayForId;
         }
         if (arrayList2.contains(notificationCenterDelegate)) {
             return;
         }
         arrayList2.add(notificationCenterDelegate);
+    }
+
+    private ArrayList<NotificationCenterDelegate> createArrayForId(int i) {
+        if (i == didReplacedPhotoInMemCache || i == stopAllHeavyOperations || i == startAllHeavyOperations) {
+            return new UniqArrayList();
+        }
+        return new ArrayList<>();
     }
 
     public void removeObserver(NotificationCenterDelegate notificationCenterDelegate, int i) {
@@ -1323,6 +1331,80 @@ public class NotificationCenter {
     public static /* synthetic */ void lambda$listenEmojiLoading$1(View view, int i, int i2, Object[] objArr) {
         if (i == emojiLoaded && view != null && view.isAttachedToWindow()) {
             view.invalidate();
+        }
+    }
+
+    /* loaded from: classes.dex */
+    public class UniqArrayList<T> extends ArrayList<T> {
+        HashSet<T> set;
+
+        private UniqArrayList() {
+            NotificationCenter.this = r1;
+            this.set = new HashSet<>();
+        }
+
+        @Override // java.util.ArrayList, java.util.AbstractList, java.util.AbstractCollection, java.util.Collection, java.util.List
+        public boolean add(T t) {
+            if (this.set.add(t)) {
+                return super.add(t);
+            }
+            return false;
+        }
+
+        @Override // java.util.ArrayList, java.util.AbstractList, java.util.List
+        public void add(int i, T t) {
+            if (this.set.add(t)) {
+                super.add(i, t);
+            }
+        }
+
+        @Override // java.util.ArrayList, java.util.AbstractCollection, java.util.Collection, java.util.List
+        public boolean addAll(Collection<? extends T> collection) {
+            boolean z = false;
+            for (T t : collection) {
+                if (add(t)) {
+                    z = true;
+                }
+            }
+            return z;
+        }
+
+        @Override // java.util.ArrayList, java.util.AbstractList, java.util.List
+        public boolean addAll(int i, Collection<? extends T> collection) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override // java.util.ArrayList, java.util.AbstractList, java.util.List
+        public T remove(int i) {
+            T t = (T) super.remove(i);
+            if (t != null) {
+                this.set.remove(t);
+            }
+            return t;
+        }
+
+        @Override // java.util.ArrayList, java.util.AbstractCollection, java.util.Collection, java.util.List
+        public boolean remove(Object obj) {
+            if (this.set.remove(0)) {
+                return super.remove(obj);
+            }
+            return false;
+        }
+
+        @Override // java.util.ArrayList, java.util.AbstractCollection, java.util.Collection, java.util.List
+        public boolean removeAll(Collection<?> collection) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override // java.util.ArrayList, java.util.AbstractCollection, java.util.Collection, java.util.List
+        public boolean contains(Object obj) {
+            return this.set.contains(obj);
+        }
+
+        @Override // java.util.ArrayList, java.util.AbstractList, java.util.AbstractCollection, java.util.Collection, java.util.List
+        public void clear() {
+            this.set.clear();
+            super.clear();
         }
     }
 }

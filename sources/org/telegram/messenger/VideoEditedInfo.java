@@ -138,6 +138,7 @@ public class VideoEditedInfo {
             this.viewWidth = serializedData.readInt32(false);
             this.viewHeight = serializedData.readInt32(false);
             this.textAlign = serializedData.readInt32(false);
+            this.textTypeface = PaintTypeface.find(serializedData.readString(false));
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -159,6 +160,8 @@ public class VideoEditedInfo {
             serializedData.writeInt32(this.viewWidth);
             serializedData.writeInt32(this.viewHeight);
             serializedData.writeInt32(this.textAlign);
+            PaintTypeface paintTypeface = this.textTypeface;
+            serializedData.writeString(paintTypeface == null ? "" : paintTypeface.getKey());
         }
 
         public MediaEntity copy() {
@@ -182,6 +185,7 @@ public class VideoEditedInfo {
             mediaEntity.textViewX = this.textViewX;
             mediaEntity.textViewY = this.textViewY;
             mediaEntity.textAlign = this.textAlign;
+            mediaEntity.textTypeface = this.textTypeface;
             return mediaEntity;
         }
     }

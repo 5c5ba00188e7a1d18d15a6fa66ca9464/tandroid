@@ -9881,14 +9881,15 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         ChatActivity chatActivity;
         long j;
         ChatActivity chatActivity2;
-        int i;
         boolean z2;
         boolean z3;
         boolean z4;
         boolean z5;
         ArrayList<SendMessagesHelper.SendingMediaInfo> arrayList2;
+        TLRPC$TL_forumTopic findTopic;
         final int currentAccount = dialogsActivity != null ? dialogsActivity.getCurrentAccount() : this.currentAccount;
         final Uri uri = this.exportingChatUri;
+        boolean z6 = false;
         if (uri != null) {
             final ArrayList arrayList3 = this.documentsUrisArray != null ? new ArrayList(this.documentsUrisArray) : null;
             final AlertDialog alertDialog = new AlertDialog(this, 3);
@@ -9903,10 +9904,9 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             } catch (Exception unused) {
             }
         } else {
-            final boolean z6 = dialogsActivity == null || dialogsActivity.notify;
+            final boolean z7 = dialogsActivity == null || dialogsActivity.notify;
             if (arrayList.size() <= 1) {
                 long j2 = arrayList.get(0).dialogId;
-                int i2 = arrayList.get(0).topicId;
                 Bundle bundle = new Bundle();
                 bundle.putBoolean("scrollToTopOnResume", true);
                 if (!AndroidUtilities.isTablet()) {
@@ -9948,8 +9948,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             if (this.videoPath == null && this.photoPathsArray == null && this.documentsPathsArray == null && this.documentsUrisArray == null && this.sendingText != null) {
                 size++;
             }
-            for (int i3 = 0; i3 < arrayList.size(); i3++) {
-                if (AlertsCreator.checkSlowMode(this, this.currentAccount, arrayList.get(i3).dialogId, size > 1)) {
+            for (int i = 0; i < arrayList.size(); i++) {
+                if (AlertsCreator.checkSlowMode(this, this.currentAccount, arrayList.get(i).dialogId, size > 1)) {
                     return;
                 }
             }
@@ -9960,26 +9960,24 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 final ChatActivity chatActivity4 = chatActivity;
                 phonebookShareAlert.setDelegate(new ChatAttachAlertContactsLayout.PhonebookShareAlertDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda106
                     @Override // org.telegram.ui.Components.ChatAttachAlertContactsLayout.PhonebookShareAlertDelegate
-                    public final void didSelectContact(TLRPC$User tLRPC$User, boolean z7, int i4) {
-                        LaunchActivity.this.lambda$didSelectDialogs$93(chatActivity4, arrayList, currentAccount, charSequence, z6, tLRPC$User, z7, i4);
+                    public final void didSelectContact(TLRPC$User tLRPC$User, boolean z8, int i2) {
+                        LaunchActivity.this.lambda$didSelectDialogs$93(chatActivity4, arrayList, currentAccount, charSequence, z7, tLRPC$User, z8, i2);
                     }
                 });
                 ArrayList<BaseFragment> arrayList10 = mainFragmentsStack;
                 arrayList10.get(arrayList10.size() - 1).showDialog(phonebookShareAlert);
             } else {
+                int i2 = 0;
                 String str = null;
-                int i4 = 0;
-                while (i4 < arrayList.size()) {
-                    long j3 = arrayList.get(i4).dialogId;
+                while (i2 < arrayList.size()) {
+                    long j3 = arrayList.get(i2).dialogId;
+                    int i3 = arrayList.get(i2).topicId;
                     AccountInstance accountInstance = AccountInstance.getInstance(UserConfig.selectedAccount);
+                    MessageObject messageObject = (i3 == 0 || (findTopic = accountInstance.getMessagesController().getTopicsController().findTopic(-j3, i3)) == null || findTopic.topicStartMessage == null) ? null : new MessageObject(accountInstance.getCurrentAccount(), findTopic.topicStartMessage, z6, z6);
                     if (chatActivity != null) {
-                        boolean z7 = dialogsActivity == null || this.videoPath != null || ((arrayList2 = this.photoPathsArray) != null && arrayList2.size() > 0);
-                        INavigationLayout iNavigationLayout = this.actionBarLayout;
-                        boolean z8 = dialogsActivity != null;
-                        i = ConnectionsManager.RequestFlagDoNotWaitFloodWait;
                         j = j3;
                         chatActivity2 = chatActivity;
-                        iNavigationLayout.presentFragment(chatActivity, z8, z7, true, false);
+                        this.actionBarLayout.presentFragment(chatActivity, dialogsActivity != null, dialogsActivity == null || this.videoPath != null || ((arrayList2 = this.photoPathsArray) != null && arrayList2.size() > 0), true, false);
                         String str2 = this.videoPath;
                         if (str2 != null) {
                             chatActivity2.openVideoEditor(str2, this.sendingText);
@@ -10006,7 +10004,6 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     } else {
                         j = j3;
                         chatActivity2 = chatActivity;
-                        i = ConnectionsManager.RequestFlagDoNotWaitFloodWait;
                         if (this.videoPath != null) {
                             String str3 = this.sendingText;
                             if (str3 != null && str3.length() <= 1024) {
@@ -10015,22 +10012,22 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                             }
                             ArrayList arrayList12 = new ArrayList();
                             arrayList12.add(this.videoPath);
-                            SendMessagesHelper.prepareSendingDocuments(accountInstance, arrayList12, arrayList12, null, str, null, j, null, null, null, null, z6, 0);
+                            SendMessagesHelper.prepareSendingDocuments(accountInstance, arrayList12, arrayList12, null, str, null, j, messageObject, messageObject, null, null, z7, 0);
                         }
                         z2 = false;
                         z3 = false;
                     }
                     if (this.photoPathsArray != null && !z3) {
                         String str4 = this.sendingText;
-                        if (str4 != null && str4.length() <= i && this.photoPathsArray.size() == 1) {
+                        if (str4 != null && str4.length() <= 1024 && this.photoPathsArray.size() == 1) {
                             this.photoPathsArray.get(0).caption = this.sendingText;
                             this.sendingText = null;
                         }
-                        SendMessagesHelper.prepareSendingMedia(accountInstance, this.photoPathsArray, j, null, null, null, false, false, null, z6, 0, false);
+                        SendMessagesHelper.prepareSendingMedia(accountInstance, this.photoPathsArray, j, messageObject, messageObject, null, false, false, null, z7, 0, false);
                     }
                     if (this.documentsPathsArray != null || this.documentsUrisArray != null) {
                         String str5 = this.sendingText;
-                        if (str5 != null && str5.length() <= i) {
+                        if (str5 != null && str5.length() <= 1024) {
                             ArrayList<String> arrayList13 = this.documentsPathsArray;
                             int size2 = arrayList13 != null ? arrayList13.size() : 0;
                             ArrayList<Uri> arrayList14 = this.documentsUrisArray;
@@ -10039,23 +10036,24 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                 this.sendingText = null;
                             }
                         }
-                        SendMessagesHelper.prepareSendingDocuments(accountInstance, this.documentsPathsArray, this.documentsOriginalPathsArray, this.documentsUrisArray, str, this.documentsMimeType, j, null, null, null, null, z6, 0);
+                        SendMessagesHelper.prepareSendingDocuments(accountInstance, this.documentsPathsArray, this.documentsOriginalPathsArray, this.documentsUrisArray, str, this.documentsMimeType, j, null, null, null, null, z7, 0);
                     }
                     String str6 = this.sendingText;
                     if (str6 != null) {
-                        SendMessagesHelper.prepareSendingText(accountInstance, str6, j, true, 0);
+                        SendMessagesHelper.prepareSendingText(accountInstance, str6, j, i3, z7, 0);
                     }
                     ArrayList<TLRPC$User> arrayList15 = this.contactsToSend;
                     if (arrayList15 != null && !arrayList15.isEmpty()) {
-                        for (int i5 = 0; i5 < this.contactsToSend.size(); i5++) {
-                            SendMessagesHelper.getInstance(currentAccount).sendMessage(this.contactsToSend.get(i5), j, (MessageObject) null, (MessageObject) null, (TLRPC$ReplyMarkup) null, (HashMap<String, String>) null, z6, 0);
+                        for (int i4 = 0; i4 < this.contactsToSend.size(); i4++) {
+                            SendMessagesHelper.getInstance(currentAccount).sendMessage(this.contactsToSend.get(i4), j, messageObject, messageObject, (TLRPC$ReplyMarkup) null, (HashMap<String, String>) null, z7, 0);
                         }
                     }
                     if (!TextUtils.isEmpty(charSequence) && !z2 && !z3) {
-                        SendMessagesHelper.prepareSendingText(accountInstance, charSequence.toString(), j, z6, 0);
+                        SendMessagesHelper.prepareSendingText(accountInstance, charSequence.toString(), j, i3, z7, 0);
                     }
-                    i4++;
+                    i2++;
                     chatActivity = chatActivity2;
+                    z6 = false;
                 }
             }
             ChatActivity chatActivity5 = chatActivity;
@@ -12032,8 +12030,14 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         if (iNavigationLayout != null) {
             iNavigationLayout.onLowMemory();
             if (AndroidUtilities.isTablet()) {
-                this.rightActionBarLayout.onLowMemory();
-                this.layersActionBarLayout.onLowMemory();
+                INavigationLayout iNavigationLayout2 = this.rightActionBarLayout;
+                if (iNavigationLayout2 != null) {
+                    iNavigationLayout2.onLowMemory();
+                }
+                INavigationLayout iNavigationLayout3 = this.layersActionBarLayout;
+                if (iNavigationLayout3 != null) {
+                    iNavigationLayout3.onLowMemory();
+                }
             }
         }
     }

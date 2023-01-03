@@ -26037,22 +26037,22 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Code restructure failed: missing block: B:357:0x06f1, code lost:
-        if (org.telegram.messenger.Emoji.fullyConsistsOfEmojis(r3) != false) goto L1269;
+        if (org.telegram.messenger.Emoji.fullyConsistsOfEmojis(r3) != false) goto L1271;
      */
     /* JADX WARN: Code restructure failed: missing block: B:596:0x0c5b, code lost:
-        if (r0.edit_messages != false) goto L979;
+        if (r0.edit_messages != false) goto L981;
      */
     /* JADX WARN: Code restructure failed: missing block: B:914:0x1666, code lost:
-        if (r2.isEmpty() == false) goto L700;
+        if (r2.isEmpty() == false) goto L702;
      */
     /* JADX WARN: Code restructure failed: missing block: B:927:0x168b, code lost:
-        if ((r0.available_reactions instanceof org.telegram.tgnet.TLRPC$TL_chatReactionsNone) == false) goto L713;
+        if ((r0.available_reactions instanceof org.telegram.tgnet.TLRPC$TL_chatReactionsNone) == false) goto L715;
      */
     /* JADX WARN: Code restructure failed: missing block: B:930:0x1695, code lost:
-        if (org.telegram.messenger.ChatObject.isChannel(r51.currentChat) == false) goto L713;
+        if (org.telegram.messenger.ChatObject.isChannel(r51.currentChat) == false) goto L715;
      */
     /* JADX WARN: Code restructure failed: missing block: B:932:0x1699, code lost:
-        if (r51.currentUser != null) goto L713;
+        if (r51.currentUser != null) goto L715;
      */
     /* JADX WARN: Code restructure failed: missing block: B:934:0x169f, code lost:
         if (r2.isEmpty() != false) goto L341;
@@ -26064,12 +26064,12 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Removed duplicated region for block: B:1005:0x181d  */
     /* JADX WARN: Removed duplicated region for block: B:1008:0x1838  */
     /* JADX WARN: Removed duplicated region for block: B:1031:0x19c5  */
-    /* JADX WARN: Removed duplicated region for block: B:1154:0x2082  */
-    /* JADX WARN: Removed duplicated region for block: B:1155:0x2087  */
-    /* JADX WARN: Removed duplicated region for block: B:1158:0x208e  */
-    /* JADX WARN: Removed duplicated region for block: B:1159:0x2093  */
-    /* JADX WARN: Removed duplicated region for block: B:1162:0x20a6  */
-    /* JADX WARN: Removed duplicated region for block: B:1186:0x2183  */
+    /* JADX WARN: Removed duplicated region for block: B:1156:0x208a  */
+    /* JADX WARN: Removed duplicated region for block: B:1157:0x208f  */
+    /* JADX WARN: Removed duplicated region for block: B:1160:0x2096  */
+    /* JADX WARN: Removed duplicated region for block: B:1161:0x209b  */
+    /* JADX WARN: Removed duplicated region for block: B:1164:0x20ae  */
+    /* JADX WARN: Removed duplicated region for block: B:1188:0x218b  */
     /* JADX WARN: Removed duplicated region for block: B:167:0x02f3  */
     /* JADX WARN: Removed duplicated region for block: B:177:0x0317  */
     /* JADX WARN: Removed duplicated region for block: B:178:0x0319  */
@@ -27352,7 +27352,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                                     }
                                                 };
                                                 MessageObject messageObject22 = chatActivity.selectedObject;
-                                                TLRPC$InputPeer inputPeer = (messageObject22 == null || !(messageObject22.isPoll() || chatActivity.selectedObject.isVoiceTranscriptionOpen())) ? getMessagesController().getInputPeer(chatActivity.dialog_id) : r20;
+                                                TLRPC$InputPeer inputPeer = (messageObject22 == null || !(messageObject22.isPoll() || chatActivity.selectedObject.isVoiceTranscriptionOpen() || chatActivity.selectedObject.isSponsored())) ? getMessagesController().getInputPeer(chatActivity.dialog_id) : r20;
                                                 if (LanguageDetector.hasSupport()) {
                                                     final String[] strArr = {r20};
                                                     actionBarMenuSubItem6.setVisibility(8);

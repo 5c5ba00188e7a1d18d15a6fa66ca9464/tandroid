@@ -45,7 +45,6 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSmoothScrollerCustom;
 import androidx.recyclerview.widget.RecyclerView;
-import com.google.android.exoplayer2.util.Log;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -2224,11 +2223,9 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
     }
 
     private void checkLoading() {
-        boolean isLoading = this.topicsController.isLoading(this.chatId);
-        this.loadingTopics = isLoading;
-        StickerEmptyView stickerEmptyView = this.topicsEmptyView;
-        if (stickerEmptyView != null) {
-            stickerEmptyView.showProgress(isLoading, this.fragmentBeginToShow);
+        this.loadingTopics = this.topicsController.isLoading(this.chatId);
+        if (this.topicsEmptyView != null && this.forumTopics.size() == 0) {
+            this.topicsEmptyView.showProgress(this.loadingTopics, this.fragmentBeginToShow);
         }
         TopicsRecyclerView topicsRecyclerView = this.recyclerListView;
         if (topicsRecyclerView != null) {
@@ -2879,44 +2876,45 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
         }
         this.updateAnimated = false;
         ArrayList<TLRPC$TL_forumTopic> topics = this.topicsController.getTopics(this.chatId);
-        Log.d("kek", "update topic list " + topics.size());
-        int size = this.forumTopics.size();
-        ArrayList<? extends AdapterWithDiffUtils.Item> arrayList = new ArrayList<>(this.forumTopics);
-        this.forumTopics.clear();
-        for (int i = 0; i < topics.size(); i++) {
-            HashSet<Integer> hashSet = this.excludeTopics;
-            if (hashSet == null || !hashSet.contains(Integer.valueOf(topics.get(i).id))) {
-                this.forumTopics.add(new Item(this, 0, topics.get(i)));
+        if (topics != null) {
+            int size = this.forumTopics.size();
+            ArrayList<? extends AdapterWithDiffUtils.Item> arrayList = new ArrayList<>(this.forumTopics);
+            this.forumTopics.clear();
+            for (int i = 0; i < topics.size(); i++) {
+                HashSet<Integer> hashSet = this.excludeTopics;
+                if (hashSet == null || !hashSet.contains(Integer.valueOf(topics.get(i).id))) {
+                    this.forumTopics.add(new Item(this, 0, topics.get(i)));
+                }
             }
-        }
-        if (!this.forumTopics.isEmpty() && !this.topicsController.endIsReached(this.chatId) && this.canShowProgress) {
-            this.forumTopics.add(new Item(this, 1, null));
-        }
-        int size2 = this.forumTopics.size();
-        if (this.fragmentBeginToShow && z2 && size2 > size) {
-            this.itemsEnterAnimator.showItemsAnimated(size + 4);
-            z = false;
-        }
-        this.hiddenCount = 0;
-        for (int i2 = 0; i2 < this.forumTopics.size(); i2++) {
-            Item item = this.forumTopics.get(i2);
-            if (item != null && (tLRPC$TL_forumTopic = item.topic) != null && tLRPC$TL_forumTopic.hidden) {
-                this.hiddenCount++;
+            if (!this.forumTopics.isEmpty() && !this.topicsController.endIsReached(this.chatId) && this.canShowProgress) {
+                this.forumTopics.add(new Item(this, 1, null));
             }
-        }
-        TopicsRecyclerView topicsRecyclerView = this.recyclerListView;
-        if (topicsRecyclerView != null) {
-            if (topicsRecyclerView.getItemAnimator() != (z ? this.itemAnimator : null)) {
-                this.recyclerListView.setItemAnimator(z ? this.itemAnimator : null);
+            int size2 = this.forumTopics.size();
+            if (this.fragmentBeginToShow && z2 && size2 > size) {
+                this.itemsEnterAnimator.showItemsAnimated(size + 4);
+                z = false;
             }
-        }
-        Adapter adapter = this.adapter;
-        if (adapter != null) {
-            adapter.setItems(arrayList, this.forumTopics);
-        }
-        if (this.scrollToTop && (linearLayoutManager = this.layoutManager) != null) {
-            linearLayoutManager.scrollToPosition(0);
-            this.scrollToTop = false;
+            this.hiddenCount = 0;
+            for (int i2 = 0; i2 < this.forumTopics.size(); i2++) {
+                Item item = this.forumTopics.get(i2);
+                if (item != null && (tLRPC$TL_forumTopic = item.topic) != null && tLRPC$TL_forumTopic.hidden) {
+                    this.hiddenCount++;
+                }
+            }
+            TopicsRecyclerView topicsRecyclerView = this.recyclerListView;
+            if (topicsRecyclerView != null) {
+                if (topicsRecyclerView.getItemAnimator() != (z ? this.itemAnimator : null)) {
+                    this.recyclerListView.setItemAnimator(z ? this.itemAnimator : null);
+                }
+            }
+            Adapter adapter = this.adapter;
+            if (adapter != null) {
+                adapter.setItems(arrayList, this.forumTopics);
+            }
+            if ((this.scrollToTop || size == 0) && (linearLayoutManager = this.layoutManager) != null) {
+                linearLayoutManager.scrollToPositionWithOffset(0, 0);
+                this.scrollToTop = false;
+            }
         }
         checkLoading();
         updateTopicsEmptyViewText();

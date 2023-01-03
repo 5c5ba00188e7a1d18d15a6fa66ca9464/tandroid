@@ -1,4 +1,6 @@
 package org.telegram.tgnet;
+
+import org.telegram.messenger.BuildVars;
 /* loaded from: classes.dex */
 public class TLRPC$TL_decryptedMessage extends TLRPC$DecryptedMessage {
     public static int constructor = -1848883596;
@@ -12,7 +14,7 @@ public class TLRPC$TL_decryptedMessage extends TLRPC$DecryptedMessage {
         this.ttl = abstractSerializedData.readInt32(z);
         this.message = abstractSerializedData.readString(z);
         if ((this.flags & 512) != 0) {
-            this.media = TLRPC$DecryptedMessageMedia.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
+            this.media = TLRPC$DecryptedMessageMedia.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z || BuildVars.DEBUG_PRIVATE_VERSION);
         }
         if ((this.flags & ConnectionsManager.RequestFlagNeedQuickAck) != 0) {
             int readInt322 = abstractSerializedData.readInt32(z);
@@ -24,7 +26,7 @@ public class TLRPC$TL_decryptedMessage extends TLRPC$DecryptedMessage {
             }
             int readInt323 = abstractSerializedData.readInt32(z);
             for (int i = 0; i < readInt323; i++) {
-                TLRPC$MessageEntity TLdeserialize = TLRPC$MessageEntity.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
+                TLRPC$MessageEntity TLdeserialize = TLRPC$MessageEntity.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z || BuildVars.DEBUG_PRIVATE_VERSION);
                 if (TLdeserialize == null) {
                     return;
                 }

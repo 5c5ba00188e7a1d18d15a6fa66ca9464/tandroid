@@ -106,6 +106,24 @@ public class PaintTypeface {
         return typefaces;
     }
 
+    public static PaintTypeface find(String str) {
+        if (str != null && !TextUtils.isEmpty(str)) {
+            if (typefaces == null) {
+                get();
+            }
+            if (typefaces == null) {
+                return null;
+            }
+            for (int i = 0; i < typefaces.size(); i++) {
+                PaintTypeface paintTypeface = typefaces.get(i);
+                if (paintTypeface != null && TextUtils.equals(str, paintTypeface.key)) {
+                    return paintTypeface;
+                }
+            }
+        }
+        return null;
+    }
+
     public static boolean fetched(final Runnable runnable) {
         if (typefaces != null || runnable == null) {
             return true;

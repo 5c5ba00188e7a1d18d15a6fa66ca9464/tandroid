@@ -3251,15 +3251,19 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
         if (i == 3) {
             this.currentMediaKey = null;
             this.currentMediaDrawable = null;
+            this.mediaShader = null;
         } else if (i == 2) {
             this.crossfadeKey = null;
             this.crossfadeImage = null;
+            this.crossfadeShader = null;
         } else if (i == 1) {
             this.currentThumbDrawable = null;
             this.currentThumbKey = null;
+            this.thumbShader = null;
         } else {
             this.currentImageDrawable = null;
             this.currentImageKey = null;
+            this.imageShader = null;
         }
     }
 

@@ -149,7 +149,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Adapters.DialogsSearchAdapter;
 /* loaded from: classes.dex */
 public class MessagesStorage extends BaseController {
-    private static final int LAST_DB_VERSION = 110;
+    private static final int LAST_DB_VERSION = 111;
     private int archiveUnreadCount;
     private int[][] bots;
     private File cacheFile;
@@ -502,6 +502,7 @@ public class MessagesStorage extends BaseController {
                 this.database.executeFast("CREATE TABLE stickers_v2(id INTEGER PRIMARY KEY, data BLOB, date INTEGER, hash INTEGER);").stepThis().dispose();
                 this.database.executeFast("CREATE TABLE stickers_featured(id INTEGER PRIMARY KEY, data BLOB, unread BLOB, date INTEGER, hash INTEGER, premium INTEGER, emoji INTEGER);").stepThis().dispose();
                 this.database.executeFast("CREATE TABLE stickers_dice(emoji TEXT PRIMARY KEY, data BLOB, date INTEGER);").stepThis().dispose();
+                this.database.executeFast("CREATE TABLE stickersets(id INTEGER PRIMATE KEY, data BLOB, hash INTEGER);").stepThis().dispose();
                 this.database.executeFast("CREATE TABLE hashtag_recent_v2(id TEXT PRIMARY KEY, date INTEGER);").stepThis().dispose();
                 this.database.executeFast("CREATE TABLE webpage_pending_v2(id INTEGER, mid INTEGER, uid INTEGER, PRIMARY KEY (id, mid, uid));").stepThis().dispose();
                 this.database.executeFast("CREATE TABLE sent_files_v2(uid TEXT, type INTEGER, data BLOB, parent TEXT, PRIMARY KEY (uid, type))").stepThis().dispose();
@@ -557,7 +558,7 @@ public class MessagesStorage extends BaseController {
                 this.database.executeFast("CREATE TABLE media_counts_topics(uid INTEGER, topic_id INTEGER, type INTEGER, count INTEGER, old INTEGER, PRIMARY KEY(uid, topic_id, type))").stepThis().dispose();
                 this.database.executeFast("CREATE TABLE reaction_mentions_topics(message_id INTEGER, state INTEGER, dialog_id INTEGER, topic_id INTEGER, PRIMARY KEY(message_id, dialog_id, topic_id))").stepThis().dispose();
                 this.database.executeFast("CREATE INDEX IF NOT EXISTS reaction_mentions_topics_did ON reaction_mentions_topics(dialog_id, topic_id);").stepThis().dispose();
-                this.database.executeFast("PRAGMA user_version = 110").stepThis().dispose();
+                this.database.executeFast("PRAGMA user_version = 111").stepThis().dispose();
             } else {
                 int intValue = this.database.executeInt("PRAGMA user_version", new Object[0]).intValue();
                 if (BuildVars.LOGS_ENABLED) {
@@ -1465,32 +1466,15 @@ public class MessagesStorage extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Can't wrap try/catch for region: R(3:(4:7|8|(3:10|11|12)(1:14)|13)|4|5) */
-    /* JADX WARN: Code restructure failed: missing block: B:105:0x03a4, code lost:
-        r0 = th;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:106:0x03a5, code lost:
-        r3 = null;
-        r13 = null;
-        r19 = r5;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:107:0x03ab, code lost:
-        r0 = e;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:108:0x03ac, code lost:
-        r3 = null;
-        r13 = null;
-        r19 = r5;
-     */
-    /* JADX WARN: Removed duplicated region for block: B:116:0x03c6  */
-    /* JADX WARN: Removed duplicated region for block: B:118:0x03cb  */
-    /* JADX WARN: Removed duplicated region for block: B:120:0x03d0  */
-    /* JADX WARN: Removed duplicated region for block: B:122:0x03d5  */
-    /* JADX WARN: Removed duplicated region for block: B:129:0x03e6  */
-    /* JADX WARN: Removed duplicated region for block: B:131:0x03eb  */
-    /* JADX WARN: Removed duplicated region for block: B:133:0x03f0  */
-    /* JADX WARN: Removed duplicated region for block: B:135:0x03f5  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x02f4 A[Catch: all -> 0x0312, Exception -> 0x0315, TryCatch #6 {Exception -> 0x0315, blocks: (B:60:0x021b, B:61:0x021e, B:63:0x02f4, B:65:0x0307), top: B:145:0x021b }] */
+    /* JADX WARN: Removed duplicated region for block: B:116:0x03d5  */
+    /* JADX WARN: Removed duplicated region for block: B:118:0x03da  */
+    /* JADX WARN: Removed duplicated region for block: B:120:0x03df  */
+    /* JADX WARN: Removed duplicated region for block: B:122:0x03e4  */
+    /* JADX WARN: Removed duplicated region for block: B:129:0x03f5  */
+    /* JADX WARN: Removed duplicated region for block: B:131:0x03fa  */
+    /* JADX WARN: Removed duplicated region for block: B:133:0x03ff  */
+    /* JADX WARN: Removed duplicated region for block: B:135:0x0404  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x0303 A[Catch: all -> 0x0321, Exception -> 0x0324, TryCatch #0 {all -> 0x0321, blocks: (B:43:0x01f0, B:51:0x0208, B:60:0x022a, B:61:0x022d, B:63:0x0303, B:65:0x0316), top: B:139:0x01f0 }] */
     /* JADX WARN: Type inference failed for: r6v10 */
     /* JADX WARN: Type inference failed for: r6v13 */
     /* JADX WARN: Type inference failed for: r6v2, types: [int, boolean] */
@@ -1504,10 +1488,9 @@ public class MessagesStorage extends BaseController {
         SQLiteDatabase sQLiteDatabase;
         Runnable runnable;
         SQLiteDatabase sQLiteDatabase2;
-        SQLiteCursor sQLiteCursor2;
         ArrayList arrayList;
         int i;
-        SQLiteCursor sQLiteCursor3;
+        SQLiteCursor sQLiteCursor2;
         int i2;
         try {
             ArrayList arrayList2 = new ArrayList();
@@ -1517,6 +1500,7 @@ public class MessagesStorage extends BaseController {
             this.database.executeFast("DELETE FROM attach_menu_bots").stepThis().dispose();
             this.database.executeFast("DELETE FROM animated_emoji").stepThis().dispose();
             this.database.executeFast("DELETE FROM stickers_v2").stepThis().dispose();
+            this.database.executeFast("DELETE FROM stickersets").stepThis().dispose();
             this.database.executeFast("DELETE FROM messages_holes_topics").stepThis().dispose();
             this.database.executeFast("DELETE FROM messages_topics").stepThis().dispose();
             this.database.executeFast("DELETE FROM topics").stepThis().dispose();
@@ -1529,47 +1513,66 @@ public class MessagesStorage extends BaseController {
             SQLiteCursor queryFinalized = this.database.queryFinalized("SELECT did FROM dialogs WHERE 1", new Object[0]);
             while (queryFinalized.next()) {
                 try {
-                    long longValue = queryFinalized.longValue(0);
-                    if (!DialogObject.isEncryptedDialog(longValue)) {
-                        arrayList2.add(Long.valueOf(longValue));
-                    }
-                } catch (Exception e) {
-                    e = e;
-                    sQLiteCursor = queryFinalized;
-                    sQLitePreparedStatement = null;
-                    sQLitePreparedStatement2 = null;
                     try {
-                        FileLog.e(e);
-                        sQLiteDatabase2 = this.database;
-                        if (sQLiteDatabase2 != null) {
+                        long longValue = queryFinalized.longValue(0);
+                        if (!DialogObject.isEncryptedDialog(longValue)) {
+                            arrayList2.add(Long.valueOf(longValue));
                         }
-                        if (sQLitePreparedStatement != null) {
-                        }
-                        if (sQLitePreparedStatement2 != null) {
-                        }
-                        if (sQLiteCursor != null) {
-                        }
-                        runnable = new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda12
-                            @Override // java.lang.Runnable
-                            public final void run() {
-                                MessagesStorage.this.lambda$clearLocalDatabase$36();
+                    } catch (Exception e) {
+                        e = e;
+                        sQLiteCursor = queryFinalized;
+                        sQLitePreparedStatement = null;
+                        sQLitePreparedStatement2 = null;
+                        try {
+                            FileLog.e(e);
+                            sQLiteDatabase2 = this.database;
+                            if (sQLiteDatabase2 != null) {
                             }
-                        };
-                        AndroidUtilities.runOnUIThread(runnable);
-                    } catch (Throwable th) {
-                        th = th;
+                            if (sQLitePreparedStatement != null) {
+                            }
+                            if (sQLitePreparedStatement2 != null) {
+                            }
+                            if (sQLiteCursor != null) {
+                            }
+                            runnable = new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda12
+                                @Override // java.lang.Runnable
+                                public final void run() {
+                                    MessagesStorage.this.lambda$clearLocalDatabase$36();
+                                }
+                            };
+                            AndroidUtilities.runOnUIThread(runnable);
+                        } catch (Throwable th) {
+                            th = th;
+                            sQLiteDatabase = this.database;
+                            if (sQLiteDatabase != null) {
+                            }
+                            if (sQLitePreparedStatement != null) {
+                            }
+                            if (sQLitePreparedStatement2 != null) {
+                            }
+                            if (sQLiteCursor != null) {
+                            }
+                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda12
+                                @Override // java.lang.Runnable
+                                public final void run() {
+                                    MessagesStorage.this.lambda$clearLocalDatabase$36();
+                                }
+                            });
+                            throw th;
+                        }
+                    } catch (Throwable th2) {
+                        th = th2;
+                        sQLiteCursor = queryFinalized;
+                        sQLitePreparedStatement = null;
+                        sQLitePreparedStatement2 = null;
                         sQLiteDatabase = this.database;
                         if (sQLiteDatabase != null) {
-                            sQLiteDatabase.commitTransaction();
                         }
                         if (sQLitePreparedStatement != null) {
-                            sQLitePreparedStatement.dispose();
                         }
                         if (sQLitePreparedStatement2 != null) {
-                            sQLitePreparedStatement2.dispose();
                         }
                         if (sQLiteCursor != null) {
-                            sQLiteCursor.dispose();
                         }
                         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda12
                             @Override // java.lang.Runnable
@@ -1579,27 +1582,16 @@ public class MessagesStorage extends BaseController {
                         });
                         throw th;
                     }
-                } catch (Throwable th2) {
-                    th = th2;
-                    sQLiteCursor = queryFinalized;
+                } catch (Exception e2) {
+                    e = e2;
                     sQLitePreparedStatement = null;
                     sQLitePreparedStatement2 = null;
-                    sQLiteDatabase = this.database;
-                    if (sQLiteDatabase != null) {
-                    }
-                    if (sQLitePreparedStatement != null) {
-                    }
-                    if (sQLitePreparedStatement2 != null) {
-                    }
-                    if (sQLiteCursor != null) {
-                    }
-                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda12
-                        @Override // java.lang.Runnable
-                        public final void run() {
-                            MessagesStorage.this.lambda$clearLocalDatabase$36();
-                        }
-                    });
-                    throw th;
+                    sQLiteCursor = queryFinalized;
+                } catch (Throwable th3) {
+                    th = th3;
+                    sQLitePreparedStatement = null;
+                    sQLitePreparedStatement2 = null;
+                    sQLiteCursor = queryFinalized;
                 }
             }
             queryFinalized.dispose();
@@ -1608,14 +1600,14 @@ public class MessagesStorage extends BaseController {
                 sQLitePreparedStatement2 = this.database.executeFast("REPLACE INTO media_holes_v2 VALUES(?, ?, ?, ?)");
                 try {
                     this.database.beginTransaction();
-                    sQLiteCursor2 = null;
+                    SQLiteCursor sQLiteCursor3 = null;
                     int i4 = 0;
                     while (i4 < arrayList2.size()) {
                         try {
                             Long l = (Long) arrayList2.get(i4);
-                            sQLiteCursor2 = this.database.queryFinalized("SELECT COUNT(mid) FROM messages_v2 WHERE uid = " + l, new Object[i3]);
-                            int intValue = sQLiteCursor2.next() ? sQLiteCursor2.intValue(i3) : 0;
-                            sQLiteCursor2.dispose();
+                            sQLiteCursor3 = this.database.queryFinalized("SELECT COUNT(mid) FROM messages_v2 WHERE uid = " + l, new Object[i3]);
+                            int intValue = sQLiteCursor3.next() ? sQLiteCursor3.intValue(i3) : 0;
+                            sQLiteCursor3.dispose();
                             if (intValue <= 2) {
                                 arrayList = arrayList2;
                                 i = i4;
@@ -1644,80 +1636,84 @@ public class MessagesStorage extends BaseController {
                                                                     try {
                                                                         TLdeserialize.readAttachPath(byteBufferValue, UserConfig.getInstance(this.currentAccount).clientUserId);
                                                                         i5 = i6;
-                                                                    } catch (Exception e2) {
-                                                                        e = e2;
-                                                                        i5 = i6;
-                                                                        try {
-                                                                            FileLog.e(e);
-                                                                            i2 = i5;
-                                                                            queryFinalized3.dispose();
-                                                                            this.database.executeFast("DELETE FROM messages_v2 WHERE uid = " + l + " AND mid != " + longValue2 + " AND mid != " + longValue3).stepThis().dispose();
-                                                                            SQLiteDatabase sQLiteDatabase3 = this.database;
-                                                                            StringBuilder sb = new StringBuilder();
-                                                                            sb.append("DELETE FROM messages_holes WHERE uid = ");
-                                                                            sb.append(l);
-                                                                            sQLiteDatabase3.executeFast(sb.toString()).stepThis().dispose();
-                                                                            this.database.executeFast("DELETE FROM bot_keyboard WHERE uid = " + l).stepThis().dispose();
-                                                                            this.database.executeFast("DELETE FROM media_counts_v2 WHERE uid = " + l).stepThis().dispose();
-                                                                            this.database.executeFast("DELETE FROM media_v4 WHERE uid = " + l).stepThis().dispose();
-                                                                            this.database.executeFast("DELETE FROM media_holes_v2 WHERE uid = " + l).stepThis().dispose();
-                                                                            sQLiteCursor3 = null;
-                                                                            MediaDataController.getInstance(this.currentAccount).clearBotKeyboard(l.longValue(), null);
-                                                                            if (i2 != -1) {
-                                                                            }
+                                                                    } catch (Throwable th4) {
+                                                                        th = th4;
+                                                                        sQLitePreparedStatement = executeFast;
+                                                                        sQLiteDatabase = this.database;
+                                                                        if (sQLiteDatabase != null) {
+                                                                            sQLiteDatabase.commitTransaction();
+                                                                        }
+                                                                        if (sQLitePreparedStatement != null) {
+                                                                            sQLitePreparedStatement.dispose();
+                                                                        }
+                                                                        if (sQLitePreparedStatement2 != null) {
+                                                                            sQLitePreparedStatement2.dispose();
+                                                                        }
+                                                                        if (sQLiteCursor != null) {
                                                                             sQLiteCursor.dispose();
-                                                                            sQLiteCursor2 = sQLiteCursor3;
-                                                                            i4 = i + 1;
-                                                                            arrayList2 = arrayList;
-                                                                            i3 = 0;
-                                                                        } catch (Exception e3) {
-                                                                            e = e3;
-                                                                            sQLitePreparedStatement = executeFast;
-                                                                            FileLog.e(e);
-                                                                            sQLiteDatabase2 = this.database;
-                                                                            if (sQLiteDatabase2 != null) {
-                                                                                sQLiteDatabase2.commitTransaction();
-                                                                            }
-                                                                            if (sQLitePreparedStatement != null) {
-                                                                                sQLitePreparedStatement.dispose();
-                                                                            }
-                                                                            if (sQLitePreparedStatement2 != null) {
-                                                                                sQLitePreparedStatement2.dispose();
-                                                                            }
-                                                                            if (sQLiteCursor != null) {
-                                                                                sQLiteCursor.dispose();
-                                                                            }
-                                                                            runnable = new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda12
-                                                                                @Override // java.lang.Runnable
-                                                                                public final void run() {
-                                                                                    MessagesStorage.this.lambda$clearLocalDatabase$36();
-                                                                                }
-                                                                            };
-                                                                            AndroidUtilities.runOnUIThread(runnable);
                                                                         }
+                                                                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda12
+                                                                            @Override // java.lang.Runnable
+                                                                            public final void run() {
+                                                                                MessagesStorage.this.lambda$clearLocalDatabase$36();
+                                                                            }
+                                                                        });
+                                                                        throw th;
                                                                     }
-                                                                } catch (Throwable th3) {
-                                                                    th = th3;
-                                                                    sQLitePreparedStatement = executeFast;
-                                                                    sQLiteDatabase = this.database;
-                                                                    if (sQLiteDatabase != null) {
-                                                                    }
-                                                                    if (sQLitePreparedStatement != null) {
-                                                                    }
-                                                                    if (sQLitePreparedStatement2 != null) {
-                                                                    }
-                                                                    if (sQLiteCursor != null) {
-                                                                    }
-                                                                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda12
-                                                                        @Override // java.lang.Runnable
-                                                                        public final void run() {
-                                                                            MessagesStorage.this.lambda$clearLocalDatabase$36();
+                                                                } catch (Exception e3) {
+                                                                    e = e3;
+                                                                    i5 = i6;
+                                                                    try {
+                                                                        FileLog.e(e);
+                                                                        i2 = i5;
+                                                                        queryFinalized3.dispose();
+                                                                        this.database.executeFast("DELETE FROM messages_v2 WHERE uid = " + l + " AND mid != " + longValue2 + " AND mid != " + longValue3).stepThis().dispose();
+                                                                        SQLiteDatabase sQLiteDatabase3 = this.database;
+                                                                        StringBuilder sb = new StringBuilder();
+                                                                        sb.append("DELETE FROM messages_holes WHERE uid = ");
+                                                                        sb.append(l);
+                                                                        sQLiteDatabase3.executeFast(sb.toString()).stepThis().dispose();
+                                                                        this.database.executeFast("DELETE FROM bot_keyboard WHERE uid = " + l).stepThis().dispose();
+                                                                        this.database.executeFast("DELETE FROM media_counts_v2 WHERE uid = " + l).stepThis().dispose();
+                                                                        this.database.executeFast("DELETE FROM media_v4 WHERE uid = " + l).stepThis().dispose();
+                                                                        this.database.executeFast("DELETE FROM media_holes_v2 WHERE uid = " + l).stepThis().dispose();
+                                                                        sQLiteCursor2 = null;
+                                                                        MediaDataController.getInstance(this.currentAccount).clearBotKeyboard(l.longValue(), null);
+                                                                        if (i2 != -1) {
                                                                         }
-                                                                    });
-                                                                    throw th;
+                                                                        sQLiteCursor.dispose();
+                                                                        sQLiteCursor3 = sQLiteCursor2;
+                                                                        i4 = i + 1;
+                                                                        arrayList2 = arrayList;
+                                                                        i3 = 0;
+                                                                    } catch (Exception e4) {
+                                                                        e = e4;
+                                                                        sQLitePreparedStatement = executeFast;
+                                                                        FileLog.e(e);
+                                                                        sQLiteDatabase2 = this.database;
+                                                                        if (sQLiteDatabase2 != null) {
+                                                                            sQLiteDatabase2.commitTransaction();
+                                                                        }
+                                                                        if (sQLitePreparedStatement != null) {
+                                                                            sQLitePreparedStatement.dispose();
+                                                                        }
+                                                                        if (sQLitePreparedStatement2 != null) {
+                                                                            sQLitePreparedStatement2.dispose();
+                                                                        }
+                                                                        if (sQLiteCursor != null) {
+                                                                            sQLiteCursor.dispose();
+                                                                        }
+                                                                        runnable = new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda12
+                                                                            @Override // java.lang.Runnable
+                                                                            public final void run() {
+                                                                                MessagesStorage.this.lambda$clearLocalDatabase$36();
+                                                                            }
+                                                                        };
+                                                                        AndroidUtilities.runOnUIThread(runnable);
+                                                                    }
                                                                 }
-                                                            } catch (Exception e4) {
-                                                                e = e4;
+                                                            } catch (Exception e5) {
+                                                                e = e5;
                                                                 i = i4;
                                                                 sQLiteCursor = queryFinalized2;
                                                             }
@@ -1728,8 +1724,8 @@ public class MessagesStorage extends BaseController {
                                                         }
                                                         try {
                                                             byteBufferValue.reuse();
-                                                        } catch (Exception e5) {
-                                                            e = e5;
+                                                        } catch (Exception e6) {
+                                                            e = e6;
                                                             FileLog.e(e);
                                                             i2 = i5;
                                                             queryFinalized3.dispose();
@@ -1743,12 +1739,12 @@ public class MessagesStorage extends BaseController {
                                                             this.database.executeFast("DELETE FROM media_counts_v2 WHERE uid = " + l).stepThis().dispose();
                                                             this.database.executeFast("DELETE FROM media_v4 WHERE uid = " + l).stepThis().dispose();
                                                             this.database.executeFast("DELETE FROM media_holes_v2 WHERE uid = " + l).stepThis().dispose();
-                                                            sQLiteCursor3 = null;
+                                                            sQLiteCursor2 = null;
                                                             MediaDataController.getInstance(this.currentAccount).clearBotKeyboard(l.longValue(), null);
                                                             if (i2 != -1) {
                                                             }
                                                             sQLiteCursor.dispose();
-                                                            sQLiteCursor2 = sQLiteCursor3;
+                                                            sQLiteCursor3 = sQLiteCursor2;
                                                             i4 = i + 1;
                                                             arrayList2 = arrayList;
                                                             i3 = 0;
@@ -1762,8 +1758,8 @@ public class MessagesStorage extends BaseController {
                                                     i4 = i;
                                                     queryFinalized2 = sQLiteCursor;
                                                     r6 = 0;
-                                                } catch (Exception e6) {
-                                                    e = e6;
+                                                } catch (Exception e7) {
+                                                    e = e7;
                                                     arrayList = arrayList2;
                                                     i = i4;
                                                     sQLiteCursor = queryFinalized2;
@@ -1784,7 +1780,7 @@ public class MessagesStorage extends BaseController {
                                             this.database.executeFast("DELETE FROM media_counts_v2 WHERE uid = " + l).stepThis().dispose();
                                             this.database.executeFast("DELETE FROM media_v4 WHERE uid = " + l).stepThis().dispose();
                                             this.database.executeFast("DELETE FROM media_holes_v2 WHERE uid = " + l).stepThis().dispose();
-                                            sQLiteCursor3 = null;
+                                            sQLiteCursor2 = null;
                                             MediaDataController.getInstance(this.currentAccount).clearBotKeyboard(l.longValue(), null);
                                             if (i2 != -1) {
                                                 createFirstHoles(l.longValue(), executeFast, sQLitePreparedStatement2, i2, 0);
@@ -1793,118 +1789,118 @@ public class MessagesStorage extends BaseController {
                                             arrayList = arrayList2;
                                             i = i4;
                                             sQLiteCursor = queryFinalized2;
-                                            sQLiteCursor3 = null;
+                                            sQLiteCursor2 = null;
                                         }
                                         sQLiteCursor.dispose();
-                                        sQLiteCursor2 = sQLiteCursor3;
-                                    } catch (Exception e7) {
-                                        e = e7;
+                                        sQLiteCursor3 = sQLiteCursor2;
+                                    } catch (Exception e8) {
+                                        e = e8;
                                         sQLiteCursor = queryFinalized2;
                                     }
-                                } catch (Throwable th4) {
-                                    th = th4;
+                                } catch (Throwable th5) {
+                                    th = th5;
                                     sQLiteCursor = queryFinalized2;
                                 }
                             }
                             i4 = i + 1;
                             arrayList2 = arrayList;
                             i3 = 0;
-                        } catch (Exception e8) {
-                            e = e8;
+                        } catch (Exception e9) {
+                            e = e9;
                             sQLitePreparedStatement = executeFast;
-                        } catch (Throwable th5) {
-                            th = th5;
+                        } catch (Throwable th6) {
+                            th = th6;
                             sQLitePreparedStatement = executeFast;
                         }
                     }
                     executeFast.dispose();
                     sQLitePreparedStatement2.dispose();
-                } catch (Exception e9) {
-                    e = e9;
+                    try {
+                        this.database.commitTransaction();
+                        this.database.executeFast("PRAGMA journal_size_limit = 0").stepThis().dispose();
+                        this.database.executeFast("VACUUM").stepThis().dispose();
+                        this.database.executeFast("PRAGMA journal_size_limit = -1").stepThis().dispose();
+                        getMessagesController().getTopicsController().databaseCleared();
+                        SQLiteDatabase sQLiteDatabase4 = this.database;
+                        if (sQLiteDatabase4 != null) {
+                            sQLiteDatabase4.commitTransaction();
+                        }
+                        if (sQLiteCursor3 != null) {
+                            sQLiteCursor3.dispose();
+                        }
+                        runnable = new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda12
+                            @Override // java.lang.Runnable
+                            public final void run() {
+                                MessagesStorage.this.lambda$clearLocalDatabase$36();
+                            }
+                        };
+                    } catch (Exception e10) {
+                        e = e10;
+                        sQLitePreparedStatement = null;
+                        sQLitePreparedStatement2 = null;
+                        sQLiteCursor = sQLiteCursor3;
+                        FileLog.e(e);
+                        sQLiteDatabase2 = this.database;
+                        if (sQLiteDatabase2 != null) {
+                        }
+                        if (sQLitePreparedStatement != null) {
+                        }
+                        if (sQLitePreparedStatement2 != null) {
+                        }
+                        if (sQLiteCursor != null) {
+                        }
+                        runnable = new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda12
+                            @Override // java.lang.Runnable
+                            public final void run() {
+                                MessagesStorage.this.lambda$clearLocalDatabase$36();
+                            }
+                        };
+                        AndroidUtilities.runOnUIThread(runnable);
+                    } catch (Throwable th7) {
+                        th = th7;
+                        sQLitePreparedStatement = null;
+                        sQLitePreparedStatement2 = null;
+                        sQLiteCursor = sQLiteCursor3;
+                        sQLiteDatabase = this.database;
+                        if (sQLiteDatabase != null) {
+                        }
+                        if (sQLitePreparedStatement != null) {
+                        }
+                        if (sQLitePreparedStatement2 != null) {
+                        }
+                        if (sQLiteCursor != null) {
+                        }
+                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda12
+                            @Override // java.lang.Runnable
+                            public final void run() {
+                                MessagesStorage.this.lambda$clearLocalDatabase$36();
+                            }
+                        });
+                        throw th;
+                    }
+                } catch (Exception e11) {
+                    e = e11;
                     sQLiteCursor = null;
-                } catch (Throwable th6) {
-                    th = th6;
+                } catch (Throwable th8) {
+                    th = th8;
                     sQLiteCursor = null;
                 }
-                try {
-                    this.database.commitTransaction();
-                    this.database.executeFast("PRAGMA journal_size_limit = 0").stepThis().dispose();
-                    this.database.executeFast("VACUUM").stepThis().dispose();
-                    this.database.executeFast("PRAGMA journal_size_limit = -1").stepThis().dispose();
-                    getMessagesController().getTopicsController().databaseCleared();
-                    SQLiteDatabase sQLiteDatabase4 = this.database;
-                    if (sQLiteDatabase4 != null) {
-                        sQLiteDatabase4.commitTransaction();
-                    }
-                    if (sQLiteCursor2 != null) {
-                        sQLiteCursor2.dispose();
-                    }
-                    runnable = new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda12
-                        @Override // java.lang.Runnable
-                        public final void run() {
-                            MessagesStorage.this.lambda$clearLocalDatabase$36();
-                        }
-                    };
-                } catch (Exception e10) {
-                    e = e10;
-                    sQLitePreparedStatement = null;
-                    sQLitePreparedStatement2 = null;
-                    sQLiteCursor = sQLiteCursor2;
-                    FileLog.e(e);
-                    sQLiteDatabase2 = this.database;
-                    if (sQLiteDatabase2 != null) {
-                    }
-                    if (sQLitePreparedStatement != null) {
-                    }
-                    if (sQLitePreparedStatement2 != null) {
-                    }
-                    if (sQLiteCursor != null) {
-                    }
-                    runnable = new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda12
-                        @Override // java.lang.Runnable
-                        public final void run() {
-                            MessagesStorage.this.lambda$clearLocalDatabase$36();
-                        }
-                    };
-                    AndroidUtilities.runOnUIThread(runnable);
-                } catch (Throwable th7) {
-                    th = th7;
-                    sQLitePreparedStatement = null;
-                    sQLitePreparedStatement2 = null;
-                    sQLiteCursor = sQLiteCursor2;
-                    sQLiteDatabase = this.database;
-                    if (sQLiteDatabase != null) {
-                    }
-                    if (sQLitePreparedStatement != null) {
-                    }
-                    if (sQLitePreparedStatement2 != null) {
-                    }
-                    if (sQLiteCursor != null) {
-                    }
-                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda12
-                        @Override // java.lang.Runnable
-                        public final void run() {
-                            MessagesStorage.this.lambda$clearLocalDatabase$36();
-                        }
-                    });
-                    throw th;
-                }
-            } catch (Exception e11) {
-                e = e11;
+            } catch (Exception e12) {
+                e = e12;
                 sQLitePreparedStatement2 = null;
                 sQLiteCursor = null;
-            } catch (Throwable th8) {
-                th = th8;
+            } catch (Throwable th9) {
+                th = th9;
                 sQLitePreparedStatement2 = null;
                 sQLiteCursor = null;
             }
-        } catch (Exception e12) {
-            e = e12;
+        } catch (Exception e13) {
+            e = e13;
             sQLitePreparedStatement = null;
             sQLitePreparedStatement2 = null;
             sQLiteCursor = null;
-        } catch (Throwable th9) {
-            th = th9;
+        } catch (Throwable th10) {
+            th = th10;
             sQLitePreparedStatement = null;
             sQLitePreparedStatement2 = null;
             sQLiteCursor = null;
@@ -15908,13 +15904,13 @@ public class MessagesStorage extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x0185  */
-    /* JADX WARN: Removed duplicated region for block: B:77:0x024a  */
-    /* JADX WARN: Removed duplicated region for block: B:79:0x024f  */
-    /* JADX WARN: Removed duplicated region for block: B:83:0x0256  */
-    /* JADX WARN: Removed duplicated region for block: B:85:0x025b  */
-    /* JADX WARN: Removed duplicated region for block: B:97:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:98:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:106:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:107:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x01b4  */
+    /* JADX WARN: Removed duplicated region for block: B:86:0x027b  */
+    /* JADX WARN: Removed duplicated region for block: B:88:0x0280  */
+    /* JADX WARN: Removed duplicated region for block: B:92:0x0287  */
+    /* JADX WARN: Removed duplicated region for block: B:94:0x028c  */
     /* renamed from: updateRepliesMaxReadIdInternal */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -15924,7 +15920,7 @@ public class MessagesStorage extends BaseController {
         SQLiteCursor sQLiteCursor;
         SQLiteCursor sQLiteCursor2;
         SQLiteCursor sQLiteCursor3;
-        int i4;
+        final int i4;
         int i5;
         SQLiteCursor queryFinalized;
         TLRPC$MessageReplies tLRPC$MessageReplies;
@@ -16011,17 +16007,15 @@ public class MessagesStorage extends BaseController {
             try {
                 boolean z = queryFinalized2.next() && i2 >= queryFinalized2.intValue(0);
                 queryFinalized2.dispose();
-                this.database.executeFast(String.format(locale, "UPDATE messages_topics SET read_state = read_state | 1 WHERE uid = %d AND topic_id = %d AND mid <= %d AND read_state IN(0,2) AND out = 0", Long.valueOf(j2), Integer.valueOf(i), Integer.valueOf(i2))).stepThis().dispose();
-                this.database.executeFast(String.format(locale, "UPDATE messages_topics SET read_state = read_state | 2 WHERE uid = %d AND topic_id = %d AND mid <= %d AND read_state IN(0,1) AND out = 0", Long.valueOf(j2), Integer.valueOf(i), Integer.valueOf(i2))).stepThis().dispose();
+                this.database.executeFast(String.format(locale, "UPDATE messages_topics SET read_state = read_state | 1 WHERE uid = %d AND topic_id = %d AND mid <= %d AND read_state IN(0, 2) AND out = 0", Long.valueOf(j2), Integer.valueOf(i), Integer.valueOf(i2))).stepThis().dispose();
+                this.database.executeFast(String.format(locale, "UPDATE messages_topics SET read_state = read_state | 2 WHERE uid = %d AND topic_id = %d AND mid <= %d AND read_state IN(0, 1) AND out = 0", Long.valueOf(j2), Integer.valueOf(i), Integer.valueOf(i2))).stepThis().dispose();
                 if (i3 < 0) {
-                    SQLiteCursor queryFinalized3 = this.database.queryFinalized(String.format(locale, "SELECT count(mid) FROM messages_topics WHERE uid = %d AND topic_id = %d AND mid > %d AND read_state IN(0,2) AND out = 0", Long.valueOf(j2), Integer.valueOf(i), Integer.valueOf(i2)), new Object[0]);
-                    i4 = queryFinalized3.next() ? queryFinalized3.intValue(0) : 0;
+                    SQLiteCursor queryFinalized3 = this.database.queryFinalized(String.format(locale, "SELECT count(mid) FROM messages_topics WHERE uid = %d AND topic_id = %d AND mid > %d AND read_state IN(0, 2) AND out = 0", Long.valueOf(j2), Integer.valueOf(i), Integer.valueOf(i2)), new Object[0]);
+                    int intValue = queryFinalized3.next() ? queryFinalized3.intValue(0) : 0;
                     queryFinalized3.dispose();
-                    if (i4 != 0) {
-                        SQLiteCursor queryFinalized4 = this.database.queryFinalized(String.format(locale, "SELECT count(mid) FROM messages_topics WHERE uid = %d AND topic_id = %d AND mid > %d AND read_state < 2 AND out = 0", Long.valueOf(j2), Integer.valueOf(i), Integer.valueOf(i2)), new Object[0]);
-                        int intValue = queryFinalized4.next() ? queryFinalized4.intValue(0) : -1;
-                        queryFinalized4.dispose();
-                        i5 = intValue;
+                    if (intValue == 0) {
+                        i4 = intValue;
+                        i5 = 0;
                         if (z) {
                             return;
                         }
@@ -16033,18 +16027,27 @@ public class MessagesStorage extends BaseController {
                         } else {
                             this.database.executeFast(String.format(Locale.ENGLISH, "UPDATE topics SET max_read_id = %d, unread_count = %d WHERE did = %d AND topic_id = %d", Integer.valueOf(i2), Integer.valueOf(i4), Long.valueOf(j2), Integer.valueOf(i))).stepThis().dispose();
                         }
-                        final int i6 = i4;
-                        final int i7 = i5;
+                        final int i6 = i5;
                         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda76
                             @Override // java.lang.Runnable
                             public final void run() {
-                                MessagesStorage.this.lambda$updateRepliesMaxReadIdInternal$165(j, i, i2, i6, i7);
+                                MessagesStorage.this.lambda$updateRepliesMaxReadIdInternal$165(j, i, i2, i4, i6);
                             }
                         });
                         resetForumBadgeIfNeed(j2);
                         return;
                     }
-                    i5 = 0;
+                    SQLiteCursor queryFinalized4 = this.database.queryFinalized(String.format(locale, "SELECT count(mid) FROM messages_topics WHERE uid = %d AND topic_id = %d AND mid > %d AND read_state IN(0, 1) AND out = 0", Long.valueOf(j2), Integer.valueOf(i), Integer.valueOf(i2)), new Object[0]);
+                    int intValue2 = queryFinalized4.next() ? queryFinalized4.intValue(0) : -1;
+                    queryFinalized4.dispose();
+                    SQLiteCursor queryFinalized5 = this.database.queryFinalized(String.format(locale, "SELECT unread_mentions FROM topics WHERE did = %d AND topic_id = %d", Long.valueOf(j2), Integer.valueOf(i)), new Object[0]);
+                    int intValue3 = queryFinalized5.next() ? queryFinalized5.intValue(0) : 0;
+                    queryFinalized5.dispose();
+                    if (intValue2 > intValue3) {
+                        intValue2 = intValue3;
+                    }
+                    i5 = intValue2;
+                    i4 = intValue;
                     if (z) {
                     }
                 } else {

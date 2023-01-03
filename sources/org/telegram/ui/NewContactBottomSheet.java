@@ -739,7 +739,8 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
     }
 
     private void doOnDone() {
-        if (this.donePressed) {
+        BaseFragment baseFragment;
+        if (this.donePressed || (baseFragment = this.parentFragment) == null || baseFragment.getParentActivity() == null) {
             return;
         }
         if (this.firstNameField.getEditText().length() == 0) {

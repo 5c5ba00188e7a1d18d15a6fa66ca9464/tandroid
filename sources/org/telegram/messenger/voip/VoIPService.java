@@ -1799,8 +1799,8 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
         this.currentGroupModeStreaming = optBoolean;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:69:0x015e  */
-    /* JADX WARN: Removed duplicated region for block: B:74:0x016b  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x0161  */
+    /* JADX WARN: Removed duplicated region for block: B:74:0x016e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

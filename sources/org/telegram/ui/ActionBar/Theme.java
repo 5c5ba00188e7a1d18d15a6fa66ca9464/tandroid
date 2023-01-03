@@ -5126,13 +5126,13 @@ public class Theme {
         return 0;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:19:0x0057, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:19:0x0056, code lost:
         if (r2 <= 31) goto L17;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:21:0x005b, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:21:0x005a, code lost:
         if (r2 == 1) goto L17;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:22:0x005d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:22:0x005c, code lost:
         org.telegram.ui.ActionBar.Theme.dialogs_holidayDrawable = org.telegram.messenger.ApplicationLoader.applicationContext.getResources().getDrawable(org.telegram.messenger.R.drawable.newyear);
         org.telegram.ui.ActionBar.Theme.dialogs_holidayDrawableOffsetX = -org.telegram.messenger.AndroidUtilities.dp(3.0f);
         org.telegram.ui.ActionBar.Theme.dialogs_holidayDrawableOffsetY = -org.telegram.messenger.AndroidUtilities.dp(-7.0f);
@@ -5152,7 +5152,7 @@ public class Theme {
             if (i == 0 && i2 == 1 && i3 <= 23) {
                 canStartHolidayAnimation = true;
             } else {
-                canStartHolidayAnimation = BuildVars.DEBUG_VERSION;
+                canStartHolidayAnimation = false;
             }
             if (dialogs_holidayDrawable == null) {
                 if (i == 11) {

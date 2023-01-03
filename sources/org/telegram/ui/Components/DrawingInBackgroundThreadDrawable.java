@@ -180,6 +180,9 @@ public class DrawingInBackgroundThreadDrawable implements NotificationCenter.Not
     }
 
     public void onAttachToWindow() {
+        if (this.attachedToWindow) {
+            return;
+        }
         this.attachedToWindow = true;
         this.error = false;
         int currentHeavyOperationFlags = NotificationCenter.getGlobalInstance().getCurrentHeavyOperationFlags();
@@ -195,12 +198,14 @@ public class DrawingInBackgroundThreadDrawable implements NotificationCenter.Not
     }
 
     public void onDetachFromWindow() {
-        if (!this.bitmapUpdating) {
-            recycleBitmaps();
+        if (this.attachedToWindow) {
+            if (!this.bitmapUpdating) {
+                recycleBitmaps();
+            }
+            this.attachedToWindow = false;
+            NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.stopAllHeavyOperations);
+            NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.startAllHeavyOperations);
         }
-        this.attachedToWindow = false;
-        NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.stopAllHeavyOperations);
-        NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.startAllHeavyOperations);
     }
 
     /* JADX INFO: Access modifiers changed from: private */

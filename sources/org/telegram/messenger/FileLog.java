@@ -55,31 +55,32 @@ public class FileLog {
     }
 
     public static void dumpResponseAndRequest(TLObject tLObject, TLObject tLObject2, TLRPC$TL_error tLRPC$TL_error, final long j, final long j2, final int i) {
-        if (BuildVars.DEBUG_PRIVATE_VERSION && BuildVars.LOGS_ENABLED && tLObject != null && SharedConfig.getDevicePerformanceClass() == 0) {
-            String simpleName = tLObject.getClass().getSimpleName();
-            checkGson();
-            if (excludeRequests.contains(simpleName) && tLRPC$TL_error == null) {
-                return;
+        if (!BuildVars.DEBUG_PRIVATE_VERSION || !BuildVars.LOGS_ENABLED || tLObject == null || SharedConfig.getDevicePerformanceClass() == 0) {
+            return;
+        }
+        String simpleName = tLObject.getClass().getSimpleName();
+        checkGson();
+        if (excludeRequests.contains(simpleName) && tLRPC$TL_error == null) {
+            return;
+        }
+        try {
+            final String str = "req -> " + simpleName + " : " + gson.toJson(tLObject);
+            String str2 = "null";
+            if (tLObject2 != null) {
+                str2 = "res -> " + tLObject2.getClass().getSimpleName() + " : " + gson.toJson(tLObject2);
+            } else if (tLRPC$TL_error != null) {
+                str2 = "err -> " + TLRPC$TL_error.class.getSimpleName() + " : " + gson.toJson(tLRPC$TL_error);
             }
-            try {
-                final String str = "req -> " + simpleName + " : " + gson.toJson(tLObject);
-                String str2 = "null";
-                if (tLObject2 != null) {
-                    str2 = "res -> " + tLObject2.getClass().getSimpleName() + " : " + gson.toJson(tLObject2);
-                } else if (tLRPC$TL_error != null) {
-                    str2 = "err -> " + TLRPC$TL_error.class.getSimpleName() + " : " + gson.toJson(tLRPC$TL_error);
+            final String str3 = str2;
+            final long currentTimeMillis = System.currentTimeMillis();
+            getInstance().logQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLog$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    FileLog.lambda$dumpResponseAndRequest$0(j, j2, i, currentTimeMillis, str, str3);
                 }
-                final String str3 = str2;
-                final long currentTimeMillis = System.currentTimeMillis();
-                getInstance().logQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLog$$ExternalSyntheticLambda0
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        FileLog.lambda$dumpResponseAndRequest$0(j, j2, i, currentTimeMillis, str, str3);
-                    }
-                });
-            } catch (Throwable th) {
-                e(th);
-            }
+            });
+        } catch (Throwable th) {
+            e(th);
         }
     }
 
@@ -106,6 +107,7 @@ public class FileLog {
     public static void dumpUnparsedMessage(TLObject tLObject, final long j) {
         if (BuildVars.DEBUG_PRIVATE_VERSION && BuildVars.LOGS_ENABLED && tLObject != null) {
             try {
+                checkGson();
                 getInstance().dateFormat.format(System.currentTimeMillis());
                 final String str = "receive message -> " + tLObject.getClass().getSimpleName() + " : " + gson.toJson(tLObject);
                 final long currentTimeMillis = System.currentTimeMillis();

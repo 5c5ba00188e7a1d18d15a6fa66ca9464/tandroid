@@ -1,18 +1,13 @@
 package org.telegram.messenger;
-
-import java.util.Comparator;
-import org.telegram.tgnet.TLRPC$MessageEntity;
 /* loaded from: classes.dex */
-public final /* synthetic */ class MediaDataController$$ExternalSyntheticLambda152 implements Comparator {
+public final /* synthetic */ class MediaDataController$$ExternalSyntheticLambda152 implements Runnable {
     public static final /* synthetic */ MediaDataController$$ExternalSyntheticLambda152 INSTANCE = new MediaDataController$$ExternalSyntheticLambda152();
 
     private /* synthetic */ MediaDataController$$ExternalSyntheticLambda152() {
     }
 
-    @Override // java.util.Comparator
-    public final int compare(Object obj, Object obj2) {
-        int lambda$getTextStyleRuns$161;
-        lambda$getTextStyleRuns$161 = MediaDataController.lambda$getTextStyleRuns$161((TLRPC$MessageEntity) obj, (TLRPC$MessageEntity) obj2);
-        return lambda$getTextStyleRuns$161;
+    @Override // java.lang.Runnable
+    public final void run() {
+        MediaDataController.lambda$cleanup$0();
     }
 }

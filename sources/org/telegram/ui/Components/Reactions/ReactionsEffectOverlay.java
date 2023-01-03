@@ -1060,6 +1060,7 @@ public class ReactionsEffectOverlay {
 
         public AnimationView(Context context) {
             super(context);
+            getImageReceiver().setFileLoadingPriority(3);
         }
 
         /* JADX INFO: Access modifiers changed from: protected */

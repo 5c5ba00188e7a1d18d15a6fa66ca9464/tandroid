@@ -1159,7 +1159,12 @@ public class DatabaseMigrationHelper {
         if (i7 == 109) {
             sQLiteDatabase.executeFast("ALTER TABLE dialogs ADD COLUMN ttl_period INTEGER default 0").stepThis().dispose();
             sQLiteDatabase.executeFast("PRAGMA user_version = 110").stepThis().dispose();
-            return 110;
+            i7 = 110;
+        }
+        if (i7 == 110) {
+            sQLiteDatabase.executeFast("CREATE TABLE stickersets(id INTEGER PRIMATE KEY, data BLOB, hash INTEGER);").stepThis().dispose();
+            sQLiteDatabase.executeFast("PRAGMA user_version = 111").stepThis().dispose();
+            return 111;
         }
         return i7;
     }

@@ -336,9 +336,9 @@ public final class BulletinFactory {
 
     public Bulletin createContainsEmojiBulletin(TLRPC$Document tLRPC$Document, final boolean z, final Utilities.Callback<TLRPC$InputStickerSet> callback) {
         SpannableStringBuilder spannableStringBuilder;
+        LoadingSpan loadingSpan;
         TLRPC$StickerSet tLRPC$StickerSet;
         final TLRPC$InputStickerSet inputStickerSet = MessageObject.getInputStickerSet(tLRPC$Document);
-        LoadingSpan loadingSpan = null;
         if (inputStickerSet == null) {
             return null;
         }
@@ -351,10 +351,11 @@ public final class BulletinFactory {
             }
             int indexOf = spannableStringBuilder.toString().indexOf("<{LOADING}>");
             if (indexOf >= 0) {
-                LoadingSpan loadingSpan2 = new LoadingSpan(null, AndroidUtilities.dp(100.0f));
-                spannableStringBuilder.setSpan(loadingSpan2, indexOf, indexOf + 11, 33);
-                loadingSpan2.setColors(ColorUtils.setAlphaComponent(Theme.getColor("undo_infoColor", this.resourcesProvider), 32), ColorUtils.setAlphaComponent(Theme.getColor("undo_infoColor", this.resourcesProvider), 72));
-                loadingSpan = loadingSpan2;
+                loadingSpan = new LoadingSpan(null, AndroidUtilities.dp(100.0f));
+                spannableStringBuilder.setSpan(loadingSpan, indexOf, indexOf + 11, 33);
+                loadingSpan.setColors(ColorUtils.setAlphaComponent(Theme.getColor("undo_infoColor", this.resourcesProvider), 32), ColorUtils.setAlphaComponent(Theme.getColor("undo_infoColor", this.resourcesProvider), 72));
+            } else {
+                loadingSpan = null;
             }
             final long currentTimeMillis = System.currentTimeMillis();
             final Bulletin show = createEmojiLoadingBulletin(tLRPC$Document, spannableStringBuilder, LocaleController.getString("ViewAction", R.string.ViewAction), new Runnable() { // from class: org.telegram.ui.Components.BulletinFactory$$ExternalSyntheticLambda1
@@ -366,7 +367,7 @@ public final class BulletinFactory {
             if (loadingSpan != null && (show.getLayout() instanceof Bulletin.LoadingLottieLayout)) {
                 loadingSpan.setView(((Bulletin.LoadingLottieLayout) show.getLayout()).textLoadingView);
             }
-            MediaDataController.getInstance(UserConfig.selectedAccount).getStickerSet(inputStickerSet, false, new Utilities.Callback() { // from class: org.telegram.ui.Components.BulletinFactory$$ExternalSyntheticLambda5
+            MediaDataController.getInstance(UserConfig.selectedAccount).getStickerSet(inputStickerSet, null, false, new Utilities.Callback() { // from class: org.telegram.ui.Components.BulletinFactory$$ExternalSyntheticLambda5
                 @Override // org.telegram.messenger.Utilities.Callback
                 public final void run(Object obj) {
                     BulletinFactory.lambda$createContainsEmojiBulletin$2(z, show, currentTimeMillis, (TLRPC$TL_messages_stickerSet) obj);

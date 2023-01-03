@@ -140,6 +140,7 @@ import org.telegram.tgnet.TLRPC$TL_document_layer82;
 import org.telegram.tgnet.TLRPC$TL_error;
 import org.telegram.tgnet.TLRPC$TL_fileLocationUnavailable;
 import org.telegram.tgnet.TLRPC$TL_fileLocation_layer82;
+import org.telegram.tgnet.TLRPC$TL_forumTopic;
 import org.telegram.tgnet.TLRPC$TL_game;
 import org.telegram.tgnet.TLRPC$TL_geoPoint;
 import org.telegram.tgnet.TLRPC$TL_inputCheckPasswordEmpty;
@@ -13063,46 +13064,67 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         return str;
     }
 
+    public static void prepareSendingText(AccountInstance accountInstance, String str, long j, boolean z, int i) {
+        prepareSendingText(accountInstance, str, j, 0, z, i);
+    }
+
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$prepareSendingText$84(final String str, final AccountInstance accountInstance, final long j, final boolean z, final int i) {
+    public static /* synthetic */ void lambda$prepareSendingText$84(final String str, final int i, final AccountInstance accountInstance, final long j, final boolean z, final int i2) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.SendMessagesHelper$$ExternalSyntheticLambda7
             @Override // java.lang.Runnable
             public final void run() {
-                SendMessagesHelper.lambda$prepareSendingText$83(str, accountInstance, j, z, i);
+                SendMessagesHelper.lambda$prepareSendingText$83(str, i, accountInstance, j, z, i2);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$prepareSendingText$85(final String str, final AccountInstance accountInstance, final long j, final boolean z, final int i) {
-        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.SendMessagesHelper$$ExternalSyntheticLambda9
+    public static /* synthetic */ void lambda$prepareSendingText$85(final String str, final int i, final AccountInstance accountInstance, final long j, final boolean z, final int i2) {
+        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.SendMessagesHelper$$ExternalSyntheticLambda8
             @Override // java.lang.Runnable
             public final void run() {
-                SendMessagesHelper.lambda$prepareSendingText$84(str, accountInstance, j, z, i);
+                SendMessagesHelper.lambda$prepareSendingText$84(str, i, accountInstance, j, z, i2);
             }
         });
     }
 
-    public static void prepareSendingText(final AccountInstance accountInstance, final String str, final long j, final boolean z, final int i) {
-        accountInstance.getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.SendMessagesHelper$$ExternalSyntheticLambda8
+    public static void prepareSendingText(final AccountInstance accountInstance, final String str, final long j, final int i, final boolean z, final int i2) {
+        accountInstance.getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.SendMessagesHelper$$ExternalSyntheticLambda9
             @Override // java.lang.Runnable
             public final void run() {
-                SendMessagesHelper.lambda$prepareSendingText$85(str, accountInstance, j, z, i);
+                SendMessagesHelper.lambda$prepareSendingText$85(str, i, accountInstance, j, z, i2);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$prepareSendingText$83(String str, AccountInstance accountInstance, long j, boolean z, int i) {
+    /* JADX WARN: Removed duplicated region for block: B:12:0x0040  */
+    /* JADX WARN: Removed duplicated region for block: B:15:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:13:0x006d -> B:11:0x003e). Please submit an issue!!! */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public static /* synthetic */ void lambda$prepareSendingText$83(String str, int i, AccountInstance accountInstance, long j, boolean z, int i2) {
         String trimmedString = getTrimmedString(str);
-        if (trimmedString.length() != 0) {
-            int ceil = (int) Math.ceil(trimmedString.length() / 4096.0f);
-            int i2 = 0;
-            while (i2 < ceil) {
-                int i3 = i2 * 4096;
-                i2++;
-                accountInstance.getSendMessagesHelper().sendMessage(trimmedString.substring(i3, Math.min(i2 * 4096, trimmedString.length())), j, null, null, null, true, null, null, null, z, i, null, false);
+        if (trimmedString.length() == 0) {
+            return;
+        }
+        int ceil = (int) Math.ceil(trimmedString.length() / 4096.0f);
+        MessageObject messageObject = null;
+        int i3 = 0;
+        if (i != 0) {
+            TLRPC$TL_forumTopic findTopic = accountInstance.getMessagesController().getTopicsController().findTopic(-j, i);
+            if (findTopic != null && findTopic.topicStartMessage != null) {
+                messageObject = new MessageObject(accountInstance.getCurrentAccount(), findTopic.topicStartMessage, false, false);
             }
+            if (i3 < ceil) {
+                return;
+            }
+            int i4 = i3 * 4096;
+            i3++;
+            accountInstance.getSendMessagesHelper().sendMessage(trimmedString.substring(i4, Math.min(i3 * 4096, trimmedString.length())), j, messageObject, messageObject, null, true, null, null, null, z, i2, null, false);
+        }
+        if (i3 < ceil) {
         }
     }
 

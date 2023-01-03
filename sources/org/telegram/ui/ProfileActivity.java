@@ -384,6 +384,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     private boolean firstLayout;
     private boolean fragmentOpened;
     private HintView fwdRestrictedHint;
+    private boolean hasCustomPhoto;
     private boolean hasFallbackPhoto;
     private boolean hasVoiceChatItem;
     private AnimatorSet headerAnimatorSet;
@@ -7434,7 +7435,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         return Theme.getColor("windowBackgroundGray", this.resourcesProvider);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:153:0x04d5  */
+    /* JADX WARN: Removed duplicated region for block: B:156:0x04d8  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -7442,6 +7443,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     public AnimatorSet onCustomTransitionAnimation(boolean z, final Runnable runnable) {
         boolean z2;
         boolean z3;
+        ChatAvatarContainer avatarContainer;
         float f;
         RightSlidingDialogContainer rightSlidingDialogContainer;
         if (this.playProfileAnimation == 0 || !this.allowProfileAnimation || this.isPulledDown || this.disableProfileAnimation) {
@@ -7554,16 +7556,16 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 this.ttlIconView.setAlpha(0.0f);
                 arrayList.add(ObjectAnimator.ofFloat(this.ttlIconView, View.ALPHA, 1.0f));
             }
-            ChatAvatarContainer avatarContainer = this.previousTransitionFragment.getAvatarContainer();
-            if (avatarContainer.getSubtitleTextView().getLeftDrawable() != null || avatarContainer.statusMadeShorter[0]) {
+            ChatActivityInterface chatActivityInterface = this.previousTransitionFragment;
+            if (chatActivityInterface == null || (((avatarContainer = chatActivityInterface.getAvatarContainer()) == null || avatarContainer.getSubtitleTextView().getLeftDrawable() == null) && !avatarContainer.statusMadeShorter[0])) {
+                z3 = false;
+            } else {
                 this.transitionOnlineText = avatarContainer.getSubtitleTextView();
                 this.avatarContainer2.invalidate();
                 this.onlineTextView[0].setAlpha(0.0f);
                 this.onlineTextView[1].setAlpha(0.0f);
                 arrayList.add(ObjectAnimator.ofFloat(this.onlineTextView[1], View.ALPHA, 1.0f));
                 z3 = true;
-            } else {
-                z3 = false;
             }
             if (!z3) {
                 int i3 = 0;
@@ -8543,44 +8545,44 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:242:0x0546, code lost:
-        if (r35.chatInfo.can_view_participants != false) goto L238;
+    /* JADX WARN: Code restructure failed: missing block: B:249:0x0555, code lost:
+        if (r35.chatInfo.can_view_participants != false) goto L245;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:325:0x0770, code lost:
-        if (r35.nameTextView[r15].setText(r2) != false) goto L349;
+    /* JADX WARN: Code restructure failed: missing block: B:332:0x077f, code lost:
+        if (r35.nameTextView[r15].setText(r2) != false) goto L356;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:333:0x079a, code lost:
-        if (r35.nameTextView[r15].setText(r2) != false) goto L349;
+    /* JADX WARN: Code restructure failed: missing block: B:340:0x07a9, code lost:
+        if (r35.nameTextView[r15].setText(r2) != false) goto L356;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:334:0x079c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:341:0x07ab, code lost:
         r14 = true;
      */
-    /* JADX WARN: Removed duplicated region for block: B:124:0x029e  */
-    /* JADX WARN: Removed duplicated region for block: B:125:0x02a3  */
-    /* JADX WARN: Removed duplicated region for block: B:128:0x02aa  */
-    /* JADX WARN: Removed duplicated region for block: B:129:0x02ac  */
+    /* JADX WARN: Removed duplicated region for block: B:131:0x02ad  */
     /* JADX WARN: Removed duplicated region for block: B:132:0x02b2  */
-    /* JADX WARN: Removed duplicated region for block: B:164:0x0356  */
-    /* JADX WARN: Removed duplicated region for block: B:189:0x03b9 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:194:0x03c8  */
-    /* JADX WARN: Removed duplicated region for block: B:199:0x03e4  */
-    /* JADX WARN: Removed duplicated region for block: B:217:0x04ca  */
-    /* JADX WARN: Removed duplicated region for block: B:306:0x0723  */
-    /* JADX WARN: Removed duplicated region for block: B:411:0x0965  */
-    /* JADX WARN: Removed duplicated region for block: B:412:0x0968  */
-    /* JADX WARN: Removed duplicated region for block: B:415:0x0971  */
-    /* JADX WARN: Removed duplicated region for block: B:418:0x0977  */
-    /* JADX WARN: Removed duplicated region for block: B:419:0x0985  */
-    /* JADX WARN: Removed duplicated region for block: B:423:0x09ab  */
-    /* JADX WARN: Removed duplicated region for block: B:426:0x09b3  */
-    /* JADX WARN: Removed duplicated region for block: B:432:0x09bf  */
-    /* JADX WARN: Removed duplicated region for block: B:433:0x09cd  */
-    /* JADX WARN: Removed duplicated region for block: B:436:0x09ed A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:443:0x0a10  */
-    /* JADX WARN: Removed duplicated region for block: B:448:0x0a1d  */
-    /* JADX WARN: Removed duplicated region for block: B:452:0x0a32  */
-    /* JADX WARN: Removed duplicated region for block: B:461:0x0a66  */
-    /* JADX WARN: Removed duplicated region for block: B:477:0x03fc A[ADDED_TO_REGION, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:135:0x02b9  */
+    /* JADX WARN: Removed duplicated region for block: B:136:0x02bb  */
+    /* JADX WARN: Removed duplicated region for block: B:139:0x02c1  */
+    /* JADX WARN: Removed duplicated region for block: B:171:0x0365  */
+    /* JADX WARN: Removed duplicated region for block: B:196:0x03c8 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:201:0x03d7  */
+    /* JADX WARN: Removed duplicated region for block: B:206:0x03f3  */
+    /* JADX WARN: Removed duplicated region for block: B:224:0x04d9  */
+    /* JADX WARN: Removed duplicated region for block: B:313:0x0732  */
+    /* JADX WARN: Removed duplicated region for block: B:418:0x0974  */
+    /* JADX WARN: Removed duplicated region for block: B:419:0x0977  */
+    /* JADX WARN: Removed duplicated region for block: B:422:0x0980  */
+    /* JADX WARN: Removed duplicated region for block: B:425:0x0986  */
+    /* JADX WARN: Removed duplicated region for block: B:426:0x0994  */
+    /* JADX WARN: Removed duplicated region for block: B:430:0x09ba  */
+    /* JADX WARN: Removed duplicated region for block: B:433:0x09c2  */
+    /* JADX WARN: Removed duplicated region for block: B:439:0x09ce  */
+    /* JADX WARN: Removed duplicated region for block: B:440:0x09dc  */
+    /* JADX WARN: Removed duplicated region for block: B:443:0x09fc A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:450:0x0a1f  */
+    /* JADX WARN: Removed duplicated region for block: B:455:0x0a2c  */
+    /* JADX WARN: Removed duplicated region for block: B:459:0x0a41  */
+    /* JADX WARN: Removed duplicated region for block: B:468:0x0a75  */
+    /* JADX WARN: Removed duplicated region for block: B:484:0x040b A[ADDED_TO_REGION, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -8647,6 +8649,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             string = connectionState == 4 ? LocaleController.getString("ConnectingToProxy", R.string.ConnectingToProxy) : null;
         }
         this.hasFallbackPhoto = false;
+        this.hasCustomPhoto = false;
         String str13 = "";
         if (this.userId != 0) {
             final TLRPC$User user = getMessagesController().getUser(Long.valueOf(this.userId));
@@ -8711,6 +8714,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     }
                 }
             }
+            TLRPC$UserProfilePhoto tLRPC$UserProfilePhoto2 = user.photo;
+            this.hasCustomPhoto = tLRPC$UserProfilePhoto2 != null && tLRPC$UserProfilePhoto2.personal;
             try {
                 userName = Emoji.replaceEmoji(userName, this.nameTextView[1].getPaint().getFontMetricsInt(), AndroidUtilities.dp(24.0f), false);
             } catch (Exception unused) {
@@ -8915,8 +8920,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 this.onlineTextView[2].setText(LocaleController.getString("FallbackTooltip", R.string.FallbackTooltip));
                 this.onlineTextView[3].setText(LocaleController.getString("Online", R.string.Online));
             } else {
-                TLRPC$UserProfilePhoto tLRPC$UserProfilePhoto2 = user.photo;
-                if (tLRPC$UserProfilePhoto2 != null && tLRPC$UserProfilePhoto2.personal && tLRPC$UserProfilePhoto2.has_video) {
+                TLRPC$UserProfilePhoto tLRPC$UserProfilePhoto3 = user.photo;
+                if (tLRPC$UserProfilePhoto3 != null && tLRPC$UserProfilePhoto3.personal && tLRPC$UserProfilePhoto3.has_video) {
                     SpannableStringBuilder spannableStringBuilder2 = new SpannableStringBuilder(str13);
                     spannableStringBuilder2.setSpan(new EmptyStubSpan(), 0, str13.length(), 0);
                     spannableStringBuilder2.append((CharSequence) " d ");
@@ -13803,13 +13808,17 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             if (simpleTextViewArr2[2] != null) {
                 simpleTextViewArr2[2].setAlpha(0.0f);
                 this.onlineTextView[3].setAlpha(0.0f);
-                return;
             }
-            return;
-        }
-        SimpleTextView[] simpleTextViewArr3 = this.onlineTextView;
-        if (simpleTextViewArr3[2] != null) {
-            simpleTextViewArr3[2].setAlpha(this.photoDescriptionProgress);
+        } else if (this.hasCustomPhoto) {
+            SimpleTextView[] simpleTextViewArr3 = this.onlineTextView;
+            if (simpleTextViewArr3[2] != null) {
+                simpleTextViewArr3[2].setAlpha(this.photoDescriptionProgress);
+            }
+        } else {
+            SimpleTextView[] simpleTextViewArr4 = this.onlineTextView;
+            if (simpleTextViewArr4[2] != null) {
+                simpleTextViewArr4[2].setAlpha(0.0f);
+            }
         }
     }
 }

@@ -916,7 +916,7 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$buyPremium$6(Runnable runnable, BillingResult billingResult) {
         if (billingResult.getResponseCode() == 0) {
-            runnable.run();
+            AndroidUtilities.runOnUIThread(runnable);
         }
     }
 
